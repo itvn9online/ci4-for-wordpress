@@ -1,0 +1,6 @@
+<url>
+    <loc>%loc%</loc>
+    <lastmod>%lastmod%</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+</url>

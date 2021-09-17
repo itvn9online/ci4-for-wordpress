@@ -41,11 +41,16 @@ $routes->get( CUSTOM_ADMIN_URI, 'Admin/Dashboard::index' );
 // route since we don't have to scan directories.
 $routes->get( '/', 'Home::index' );
 
-// lệnh giải nén các file .zip trong thư mục vendor
-$routes->get( 'vendor-sync-code', 'Layout::vendor_sync' );
-
 //$routes->get( 'users', 'Users::index' );
 //$routes->get( 'guest', 'Guest::index' );
+
+
+// sitemap
+$routes->get( 'sitemap', 'Sitemap::index' );
+$routes->get( 'sitemap.xml', 'Sitemap::index' );
+$routes->get( 'sitemap/(:segment)', 'Sitemap::index/$1' );
+$routes->get( 'sitemap/(:segment)/page/(:num)', 'Sitemap::index/$1/page/$2' );
+
 
 // blog
 $routes->get( 'blogs/(:segment)', 'Blogs::blogs_list/$1' );

@@ -17,7 +17,7 @@ Code chạy database wordpress trên nền tảng CodeIgniter4. Về cơ bản c
 	- Thiết lập các tham số kết nối database `username`, `password`, `database` tại file này: `/app/Config/Database.php`. * nếu chưa có file `/app/Config/Database-sample.php` thì copy file `Database-sample.php` và đổi tên thành `Database.php`.
 	- Truy cập vào phpmyadmin tìm đến bảng `wp_users` và update lại cột `user_login`, `user_email` và `ci_pass` để sử dụng (password update thông qua hàm `md5` của phpmyadmin). Update trực tiếp vào tài khoản có ID = 1 hoặc sao chép từ tài khoản đó ra.
 - Liên kết vào admin: `/ci3-wp-admin`
-- Liên kết tự động giải nén vendor và đồng bộ database nếu chưa được đồng bộ: `/vendor-sync-code` (lưu ý: việc chạy link đồng bộ này là bắt buộc để đảm bảo website có đủ cấu trúc database cũng như các code của phần outsource)
+- Liên kết tự động giải nén vendor và đồng bộ database nếu chưa được đồng bộ: `/sync/vendor_sync` (lưu ý: việc chạy link đồng bộ này là bắt buộc để đảm bảo website có đủ cấu trúc database cũng như các code của phần outsource)
 - Các phần hướng dẫn khác (nếu có) sẽ bổ sung dần dần...
 
 ## Quy tắc đặt tên function:
