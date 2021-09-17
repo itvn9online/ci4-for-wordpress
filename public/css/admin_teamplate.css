@@ -1,0 +1,206 @@
+.pagination a {
+    float: left;
+    text-align: center;
+    line-height: 40px;
+    text-decoration: none;
+    background-color: #fff;
+    /* border: 1px solid #ddd; */
+    border-left-width: 0;
+    color: #444;
+    height: 40px;
+    width: 40px;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+}
+.pagination a:hover {
+    background: #FF3332;
+    border: 1px solid #ddd;
+    border-radius: 100%;
+    color: #fff;
+    height: 40px;
+    width: 40px;
+}
+.pagination strong {
+    float: left;
+    /* padding: 4px 12px; */
+    line-height: 40px;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    color: #fff;
+    font-size: 16px;
+    background: #FF3332;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    border-radius: 100%;
+}
+form#listContactByType {
+    padding-top: 3px;
+    width: 84%;
+    float: left;
+}
+#admin-header {
+    background-color: #2b2927;
+    border-top: 3px solid #f77825;
+    border-bottom: 1px solid #555555;
+    padding: 10px;
+}
+#admin-header * {
+    padding: 0;
+    margin: 0;
+}
+.frm-fixed-btn button[type="submit"] {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    font-weight: bold;
+    font-size: 15px;
+}
+.admin-breadcrumb {
+    display: none;
+}
+.admin-copyright {
+    background: #f2f2f2;
+    padding: 20px 0;
+    border-top: 5px #ccc solid;
+}
+.table-list a {
+    color: blue;
+}
+/* */
+.control-group label {
+    cursor: pointer;
+}
+.control-group label:hover {
+    color: black;
+}
+.controls-checkbox input[type="radio"], .controls-checkbox input[type="checkbox"] {
+    margin-top: -2px;
+}
+.controls-text-note {
+    font-style: italic;
+}
+.click_add_widget_class .fa-check-square {
+    color: green;
+}
+.click_add_widget_class .fa-minus-square {
+    color: gray;
+}
+.control-group-avt {
+    height: 90px;
+    border: 1px #ccc solid;
+    padding: 1px;
+}
+.control-group select {
+    width: auto;
+    min-width: 220px;
+}
+/* */
+.admin-media-attachment {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.admin-media-attachment li {
+    float: left;
+    width: 150px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+.admin-media-attachment .media-attachment-padding {
+    box-shadow: 0 0 10px #ccc;
+    padding: 5px;
+}
+.admin-media-attachment .media-attachment-img {
+    height: 1px;
+    padding-top: 100%;
+    background: center no-repeat;
+    background-size: auto 100%;
+    cursor: pointer;
+}
+.admin-media-attachment .remove-attachment {
+    color: red;
+    border: 1px #fff solid;
+    min-width: 20px;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 3px;
+    background: #fff;
+}
+.admin-media-attachment li:hover .show-if-hover-upload {
+    display: block;
+}
+/* */
+.cur {
+    cursor: pointer;
+}
+body.no-scroll {
+    overflow: hidden;
+}
+.wgr-wp-upload {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.8);
+    padding-top: 30px;
+    z-index: 9999;
+}
+.wgr-wp-upload iframe {
+    background: #fff;
+}
+.eb-control-group {
+    padding: 15px 0 10px 0;
+}
+.eb-control-group label {
+    line-height: 30px;
+}
+.eb-control-group label.right-menu-space {
+    padding-right: 20px;
+}
+.eb-control-group .span12 {}
+.eb-control-group {}
+/* */
+body.ebfixed-top-menu #sidebar {
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    background: black;
+}
+/* */
+.admin-search-form {}
+.admin-search-form button, .admin-search-form input, .admin-search-form select, .admin-search-form a.btn {
+    display: block;
+    width: 95%;
+    padding: 0 .75rem;
+    font-size: 14px;
+    font-weight: 400;
+    height: 28px;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    box-sizing: border-box;
+}
+.admin-search-form input, .admin-search-form select {
+    background-color: #fff;
+    color: #212529;
+}
+.admin-search-form input {}
+.admin-search-form select {}
+.admin-search-form button {
+    width: auto;
+}
+.admin-search-form a.btn {
+    display: inline-block;
+    line-height: 28px;
+    width: auto;
+}

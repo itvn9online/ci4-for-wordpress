@@ -1,0 +1,2 @@
+### Đây là nơi chứa các view riêng của từng theme (nếu có)
+Mặc định, các file view sẽ được đặt tại `/application/views`, bạn cần thay thế file nào thì hãy tạo file đó với tên tương ứng tại thư mục này. File view ở theme sẽ được ưu tiên sử dụng thay vì file view dùng chung.
