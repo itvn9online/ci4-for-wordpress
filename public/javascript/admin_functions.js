@@ -227,6 +227,7 @@ function WGR_load_textediter(for_id, ops) {
         ops['toolbar'] = 'undo redo | formatselect | '
             + 'bold italic backcolor | alignleft aligncenter '
             + 'alignright alignjustify | bullist numlist outdent indent | image | '
+            + 'link | '
             + 'removeformat | help';
     }
 
