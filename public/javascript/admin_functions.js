@@ -218,7 +218,7 @@ function WGR_load_textediter(for_id, ops) {
 	}
 	if (typeof ops['plugins'] == 'undefined') {
 		ops['plugins'] = [
-			'advlist autolink lists link image charmap print preview anchor',
+			'advlist autolink lists link image imagetools charmap print preview anchor',
 			'searchreplace visualblocks code fullscreen',
 			'insertdatetime media table paste code help wordcount'
 		];
@@ -238,9 +238,31 @@ function WGR_load_textediter(for_id, ops) {
 		//menubar: false,
 		plugins: ops['plugins'],
 		//a11y_advanced_options: true,
+		//
 		image_title: true,
 		image_caption: true,
 		image_advtab: true,
+		//imagetools_toolbar: "rotateleft rotateright | flipv fliph | editimage imageoptions",
+		// rel cho thẻ A
+		rel_list: [{
+			title: 'None',
+			value: ''
+		}, {
+			title: 'No Referrer',
+			value: 'noreferrer'
+		}, {
+			title: 'No Follow',
+			value: 'nofollow'
+			/*
+		}, {
+			title: 'No Opener',
+			value: 'noopener'
+			*/
+		}, {
+			title: 'External Link',
+			value: 'external'
+		}],
+		//
 		toolbar: ops['toolbar'],
 		setup: function (ed) {
 			// sự kiện khi khi nhấp đúp chuột
