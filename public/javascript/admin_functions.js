@@ -239,11 +239,13 @@ function WGR_load_textediter(for_id, ops) {
 		plugins: ops['plugins'],
 		//a11y_advanced_options: true,
 		image_title: true,
+		image_caption: true,
+		image_advtab: true,
 		toolbar: ops['toolbar'],
 		setup: function (ed) {
 			// sự kiện khi khi nhấp đúp chuột
 			ed.on('DblClick', function (e) {
-				console.log(e.target.nodeName);
+				//console.log(e.target.nodeName);
 				// nếu là hình ảnh -> mở hộp thoại sửa ảnh
 				if (e.target.nodeName == 'IMG') {
 					tinymce.activeEditor.execCommand('mceImage');
