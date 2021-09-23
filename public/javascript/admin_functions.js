@@ -210,37 +210,53 @@ function click_set_img_for_input(img_id) {
 }
 
 function WGR_load_textediter(for_id, ops) {
-    if (typeof ops == 'undefined') {
-        ops = {};
-    }
-    if (typeof ops['height'] == 'undefined') {
-        ops['height'] = 250;
-    }
-    if (typeof ops['plugins'] == 'undefined') {
-        ops['plugins'] = [
-            'advlist autolink lists link image charmap print preview anchor',
-            'searchreplace visualblocks code fullscreen',
-            'insertdatetime media table paste code help wordcount'
-        ];
-    }
-    if (typeof ops['toolbar'] == 'undefined') {
-        ops['toolbar'] = 'undo redo | formatselect | '
-            + 'bold italic backcolor | alignleft aligncenter '
-            + 'alignright alignjustify | bullist numlist outdent indent | image | '
-            + 'link | '
-            + 'removeformat | help';
-    }
+	if (typeof ops == 'undefined') {
+		ops = {};
+	}
+	if (typeof ops['height'] == 'undefined') {
+		ops['height'] = 250;
+	}
+	if (typeof ops['plugins'] == 'undefined') {
+		ops['plugins'] = [
+			'advlist autolink lists link image charmap print preview anchor',
+			'searchreplace visualblocks code fullscreen',
+			'insertdatetime media table paste code help wordcount'
+		];
+	}
+	if (typeof ops['toolbar'] == 'undefined') {
+		ops['toolbar'] = 'undo redo | formatselect | '
+			+ 'bold italic backcolor | alignleft aligncenter '
+			+ 'alignright alignjustify | bullist numlist outdent indent | image | '
+			+ 'link table | '
+			+ 'removeformat code | help';
+	}
 
-    //
-    tinymce.init({
-        selector: 'textarea' + for_id,
-        height: ops['height'],
-        //menubar: false,
-        plugins: ops['plugins'],
-        toolbar: ops['toolbar'],
-        //content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-    });
+	//
+	tinymce.init({
+		selector: 'textarea' + for_id,
+		height: ops['height'],
+		//menubar: false,
+		plugins: ops['plugins'],
+		//a11y_advanced_options: true,
+		image_title: true,
+		toolbar: ops['toolbar'],
+		setup: function (ed) {
+			// sự kiện khi khi nhấp đúp chuột
+			ed.on('DblClick', function (e) {
+				console.log(e.target.nodeName);
+				// nếu là hình ảnh -> mở hộp thoại sửa ảnh
+				if (e.target.nodeName == 'IMG') {
+					tinymce.activeEditor.execCommand('mceImage');
+				}
+				// nếu là URL -> mở hộp chỉnh sửa URL
+				else if (e.target.nodeName == 'A') {
+					tinymce.activeEditor.execCommand('mceLink');
+				}
+			});
+		},
+		//content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+	});
 
-    //
-    add_and_show_post_avt(for_id, 1, '', 'textediter');
+	//
+	add_and_show_post_avt(for_id, 1, '', 'textediter');
 }
