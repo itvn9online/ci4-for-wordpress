@@ -68,6 +68,16 @@ if ( isset( $_GET[ 'input_type' ] ) ) {
     <div class="lf f30 admin-search-form">
         <form name="frm_admin_search_controller" action="./admin/uploads" method="get">
             <input type="hidden" name="post_type" value="<?php echo $post_type; ?>">
+			<?php
+
+			// thêm các tham số ẩn khi tìm kiếm
+			foreach ( $hiddenSearchForm as $k => $v ) {
+				?>
+			<input type="hidden" name="<?php echo $k; ?>" value="<?php echo $v; ?>">
+			<?php
+			}
+
+			?>
             <br>
             <div class="cf">
                 <div class="lf f70">

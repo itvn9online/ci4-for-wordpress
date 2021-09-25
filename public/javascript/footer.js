@@ -24,7 +24,7 @@ $('a[href="users/logout"], a[href="./users/logout"]').click(function () {
     //
     var base_url = $('base').attr('href') || '';
     if (base_url != '') {
-        a = a.replace(base_url, '');
+        a = a.replace(base_url, '').split('/page/')[0];
         console.log(a);
         $('a[href="' + a + '"], a[href="./' + a + '"]').addClass('active-menu-item');
     }
