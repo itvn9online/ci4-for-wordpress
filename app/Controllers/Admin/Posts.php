@@ -110,7 +110,7 @@ class Posts extends Admin {
         // nếu có lọc theo term_id -> thêm câu lệnh để lọc
         $by_term_id = $this->MY_get( 'term_id', 0 );
         if ( $by_term_id > 0 ) {
-            $where[ 'wp_term_taxonomy.term_id' ] = $_GET[ 'term_id' ];
+            $where[ 'wp_term_taxonomy.term_id' ] = $by_term_id;
             $filter[ 'join' ] = [
                 'wp_term_relationships' => 'wp_term_relationships.object_id = wp_posts.ID',
                 'wp_term_taxonomy' => 'wp_term_relationships.term_taxonomy_id = wp_term_taxonomy.term_taxonomy_id',
