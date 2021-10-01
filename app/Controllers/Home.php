@@ -174,12 +174,12 @@ class Home extends Layout {
         //
         $data_insert = [
             'comment_author_url' => $redirect_to,
-            'comment_author_IP' => $this->request->getIPAddress(),
-            'comment_date' => date( 'Y-m-d H:i:s' ),
+            //'comment_author_IP' => $this->request->getIPAddress(),
+            //'comment_date' => date( 'Y-m-d H:i:s' ),
             'comment_content' => '',
-            'comment_agent' => $_SERVER[ 'HTTP_USER_AGENT' ],
+            //'comment_agent' => $_SERVER[ 'HTTP_USER_AGENT' ],
             'comment_type' => $ops[ 'comment_type' ],
-            'user_id' => 0,
+            //'user_id' => 0,
         ];
         $data_insert[ 'comment_date_gmt' ] = $data_insert[ 'comment_date' ];
         //print_r( $data_insert );
