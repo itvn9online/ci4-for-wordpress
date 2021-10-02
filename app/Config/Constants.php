@@ -87,12 +87,6 @@ defined( 'EXIT__AUTO_MAX' ) || define( 'EXIT__AUTO_MAX', 125 ); // highest autom
  */
 
 /*
- * Thư mục chứa theme hiển thị cho website (tùy theo yêu cầu của khách hàng mà thiết lập giao diện khác nhau)
- */
-define( 'THEMENAME', 'echbayfour' );
-//echo THEMENAME . '<br>' . "\n";
-
-/*
  * tạo đường dẫn admin tránh đường dẫn mặc định. Ví dụ : admin -> nhằm tăng cường bảo mật cho website
  */
 define( 'CUSTOM_ADMIN_URI', 'ci3-wp-admin' );
@@ -116,5 +110,28 @@ define( 'PUBLIC_HTML_PATH', ROOTPATH );
 //echo PUBLIC_HTML_PATH . '<br>' . "\n";
 define( 'PUBLIC_PUBLIC_PATH', PUBLIC_HTML_PATH . 'public/' );
 //die( PUBLIC_PUBLIC_PATH );
+
+
+/*
+ * Thư mục chứa theme hiển thị cho website (tùy theo yêu cầu của khách hàng mà thiết lập giao diện khác nhau)
+ */
+// xác định theme tự động
+foreach ( glob( PUBLIC_PUBLIC_PATH . 'themes/*.theme' ) as $filename ) {
+	$filename = basename( $filename, '.theme' );
+	//echo $filename . '<br>' . "\n";
+	if ( is_dir( PUBLIC_PUBLIC_PATH . 'themes/' . $filename ) ) {
+		define( 'THEMENAME', $filename );
+		break;
+	}
+}
+
+// nếu không có file active theme tự động -> gán mặc định theme echbayfour
+if ( !defined( 'THEMENAME' ) ) {
+	define( 'THEMENAME', 'echbayfour' );
+}
+//echo THEMENAME . '<br>' . "\n";
+
+
+//
 define( 'THEMEPATH', PUBLIC_PUBLIC_PATH . 'themes/' . THEMENAME . '/' );
 //die( THEMEPATH );

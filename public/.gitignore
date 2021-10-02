@@ -5,3 +5,4 @@
 themes/*
 !themes/echbayfour
 !themes/*.md
+!themes/*.theme
