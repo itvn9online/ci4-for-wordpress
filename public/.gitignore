@@ -1,0 +1,7 @@
+
+#-------------------------
+# themes
+#-------------------------
+themes/*
+!themes/echbayfour
+!themes/*.md
