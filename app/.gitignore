@@ -1,0 +1,7 @@
+
+#-------------------------
+# ThirdParty
+#-------------------------
+ThirdParty/*
+!ThirdParty/*.zip
+!ThirdParty/*.gitkeep
