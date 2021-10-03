@@ -60,7 +60,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
             <div class="control-group">
                 <label class="control-label">PHP Code:</label>
                 <div class="controls">
-                    <input type="text" class="span6" onClick="this.select()" value="&lt;?php $this->menu_model->the_menu( '<?php echo $data['post_name']; ?>' ); ?&gt;" readonly />
+                    <input type="text" class="span6" onClick="this.select()" value="&lt;?php $menu_model->the_menu( '<?php echo $data['post_name']; ?>' ); ?&gt;" readonly />
                 </div>
             </div>
             <?php

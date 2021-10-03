@@ -93,7 +93,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 
 if ( $post_type == PostType::MENU ) {
     ?>
-<pre><code>&lt;?php $this->menu_model->the_menu( '%slug%' ); ?&gt;</code></pre>
+<pre><code>&lt;?php $menu_model->the_menu( '%slug%' ); ?&gt;</code></pre>
 <?php
 }
 
