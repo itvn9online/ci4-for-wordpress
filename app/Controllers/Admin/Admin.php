@@ -18,13 +18,17 @@ class Admin extends Layout {
 
         //
         if ( empty( $this->session_data ) ) {
-            redirect()->to( 'login?login_redirect=' . urlencode( base_url( $_SERVER[ 'REQUEST_URI' ] ) ) . '&remove_parameter=' );
+            $redirect_to = DYNAMIC_BASE_URL . 'guest/login?login_redirect=' . urlencode( base_url( $_SERVER[ 'REQUEST_URI' ] ) ) . '&remove_parameter=';
+            //die( $redirect_to );
+            //redirect()->to( $redirect_to );
+            die( header( 'Location: ' . $redirect_to ) );
         }
         //print_r( $this->session_data );
+        //var_dump( $this->session_data );
 
         // nếu không có quyền admin -> báo lỗi nếu đang vào admin
         if ( $this->session_data[ 'userLevel' ] != 1 ) {
-            die( '404 error line:' . __LINE__ );
+            die( '404 error line ' . basename( __FILE__ ) . ':' . __LINE__ );
         }
 
         //
@@ -58,6 +62,9 @@ class Admin extends Layout {
         }
 
         // role này chính là tên controller của admin -> kiểm tra xem có file này không
+        //echo $role . '<br>' . "\n";
+        $role = basename( str_replace( '\\', '/', $role ) );
+        //echo $role . '<br>' . "\n";
         $check_file = __DIR__ . '/' . $role . '.php';
         //echo $check_file . '<br>' . "\n";
         // nếu không tồn tại -> báo lỗi luôn
