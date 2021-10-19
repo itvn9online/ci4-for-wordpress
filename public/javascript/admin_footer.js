@@ -239,6 +239,7 @@ jQuery(document).keydown(function (e) {
 });
 
 
+/*
 setInterval(function () {
     (function (new_scroll_top) {
         if (new_scroll_top > 120) {
@@ -255,6 +256,7 @@ setInterval(function () {
         }
     })(window.scrollY || jQuery(window).scrollTop());
 }, 300);
+*/
 
 
 /**

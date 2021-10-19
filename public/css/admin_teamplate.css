@@ -45,7 +45,14 @@ form#listContactByType {
     background-color: #2b2927;
     border-top: 3px solid #f77825;
     border-bottom: 1px solid #555555;
-    padding: 10px;
+    padding: 0 10px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    display: block;
+    top: 0;
+    z-index: 9;
+    line-height: 30px;
 }
 #admin-header * {
     padding: 0;
