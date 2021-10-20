@@ -6,6 +6,9 @@
 body {
     overflow-x: hidden;
     margin-top: -9px;
+    margin-top: 0;
+    padding-top: 34px;
+    padding-left: 168px;
 }
 a:hover {
     text-decoration: none;
@@ -72,6 +75,13 @@ a:hover {
     position: absolute;
     top: 65px;
     */
+    position: fixed;
+    left: 0;
+    width: 168px;
+    z-index: 9;
+    bottom: 0;
+    background-color: black;
+    top: 34px;
 }
 #sidebar > ul {
     margin: 0px;
@@ -82,16 +92,23 @@ a:hover {
 }
 #sidebar > ul > li {
     list-style-type: none;
-    float: left;
+    /* float: left; */
     display: block;
     margin: 0px;
-    border-right: 1px dotted #6b6b6b;
     position: relative;
+    /*
+    border-right: 1px dotted #6b6b6b;
     padding-top: 10px;
     padding-bottom: 10px;
-    cursor: pointer
+    */
+    cursor: pointer;
+    line-height: 25px;
 }
 #sidebar > ul > li:hover ul {
+    display: block;
+}
+#sidebar > ul > li a {
+    padding: 10px !important;
     display: block;
 }
 #sidebar > ul > li:hover {
@@ -99,6 +116,13 @@ a:hover {
 }
 #sidebar > ul > li.active {
     background-color: green;
+}
+#sidebar > ul > li.active .sub-menu {
+    position: relative;
+    display: block;
+    left: 0;
+    min-width: auto;
+    border-radius: 0;
 }
 #sidebar > ul > li:hover a {
     background: none;
@@ -110,8 +134,8 @@ a:hover {
     z-index: 999;
     position: absolute;
     border-radius: 3px;
-    left: 0px;
-    top: 40px;
+    left: 100%;
+    top: 0;
     background: #2b2b2b;
     min-width: 200px;
 }
@@ -119,25 +143,24 @@ a:hover {
     list-style-type: none;
     margin: 0px;
     font-size: 12px;
-    line-height: 30px;
+    line-height: 20px;
 }
 #sidebar > ul li ul li a {
     display: block;
     padding: 5px 10px;
     color: #fff;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: normal;
+    /* border-radius: 3px; */
 }
 #sidebar > ul li ul li:hover a {
     background-color: #606060;
-    border-radius: 3px;
 }
 #sidebar > ul li span {
     cursor: pointer;
     margin: 0px 2px 0 5px;
-    font-weight: bold;
     color: #fff;
-    font-size: 11px;
+    font-size: 12px;
 }
 #sidebar > ul li a i {
     background-image: url("../img/glyphicons-halflings-white.png");

@@ -84,7 +84,7 @@ try {
 }
 </script>
 </head>
-<body style="margin: 0;padding: 0;">
+<body>
 <div id="admin_custom_alert" onClick="$('#admin_custom_alert').fadeOut();"></div>
 
 <!--Header-part-->

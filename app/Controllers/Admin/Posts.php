@@ -59,7 +59,7 @@ class Posts extends Admin {
 
         // các kiểu điều kiện where
         $where = [
-            'wp_posts.post_status !=' => PostType::DELETED,
+            //'wp_posts.post_status !=' => PostType::DELETED,
             'wp_posts.post_type' => $this->post_type,
             'wp_posts.lang_key' => LanguageCost::lang_key()
         ];
@@ -236,7 +236,7 @@ class Posts extends Admin {
         if ( $this->post_type == PostType::PAGE ) {
             // các kiểu điều kiện where
             $where = [
-                'wp_posts.post_status !=' => PostType::DELETED,
+                //'wp_posts.post_status !=' => PostType::DELETED,
                 'wp_posts.post_type' => $this->post_type,
                 'wp_posts.lang_key' => LanguageCost::lang_key()
             ];
