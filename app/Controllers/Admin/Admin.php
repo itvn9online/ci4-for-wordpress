@@ -96,6 +96,21 @@ class Admin extends Layout {
     */
 
     private function admin_menu() {
-        return AdminMenu::menu_list();
+        $arr = AdminMenu::menu_list();
+        //print_r( $arr );
+
+        // tạo số thứ tự để sắp xếp menu
+        $j = 100;
+        foreach ( $arr as $k => $v ) {
+            $arr[ $k ][ 'order' ] = $j;
+            $j -= 10;
+            if ( $j < 0 ) {
+                break;
+            }
+        }
+        //print_r( $arr );
+
+        //
+        return $arr;
     }
 }

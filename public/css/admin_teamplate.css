@@ -211,3 +211,9 @@ body.ebfixed-top-menu #sidebar {
     line-height: 28px;
     width: auto;
 }
+.order-admin-menu {
+    display: -webkit-flex !important; /* Safari */
+    display: flex !important;
+    flex-direction: column-reverse;
+    flex-wrap: wrap;
+}

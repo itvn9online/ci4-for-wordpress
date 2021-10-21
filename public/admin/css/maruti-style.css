@@ -123,6 +123,11 @@ a:hover {
     left: 0;
     min-width: auto;
     border-radius: 0;
+    border-bottom: 2px #fff solid;
+}
+#sidebar > ul > li .sub-menu li.active {}
+#sidebar > ul > li .sub-menu li.active a {
+    background-color: #2271b1;
 }
 #sidebar > ul > li:hover a {
     background: none;

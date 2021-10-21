@@ -17,9 +17,11 @@ class Users extends Layout {
 	}
 
 	public function index() {
+        /*
 		if ( empty( $this->session_data ) ) {
 			return $this->page404();
 		}
+        */
 
 		//
 		$id = $this->session_data[ 'ID' ];

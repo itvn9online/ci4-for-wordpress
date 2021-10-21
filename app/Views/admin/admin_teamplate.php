@@ -10,6 +10,12 @@ use App\ Libraries\ TaxonomyType;
 use App\ Libraries\ LanguageCost;
 use App\ Libraries\ UsersType;
 
+// nạp thêm file custom dành cho admin (nếu có)
+//echo THEMEPATH . '<br>' . "\n";
+if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
+    include_once THEMEPATH . 'custom/admin/autoload.php';
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -89,70 +95,70 @@ try {
 
 <!--Header-part-->
 <div id="admin-header" class="cf whitecolor awhitecolor">
-	<div class="lf f50"><a href="./<?php echo CUSTOM_ADMIN_URI; ?>"><i class="fa fa-cog"></i> Quản trị hệ thống</a> &nbsp; | &nbsp; <a href="./"><i class="fa fa-home"></i> Về trang chủ</a> &nbsp; | &nbsp; Ngôn ngữ: <?php echo LanguageCost::list( LanguageCost::lang_key() ); ?></div>
-	<div class="lf f50 text-right">Xin Chào: <a title="Thông tin cá nhân" href="./users/profile"><?php echo $session_data['userName'] != '' ? $session_data['userName'] : $session_data['user_login']; ?></a> &nbsp; | &nbsp; <a title="Đăng xuất" onClick="return confirm('Xác nhận đăng xuất khỏi hệ thống');" href="./users/logout"><i class="fa fa-sign-out"></i> <span class="text">Logout</span></a></div>
+    <div class="lf f50"><a href="./<?php echo CUSTOM_ADMIN_URI; ?>"><i class="fa fa-cog"></i> Quản trị hệ thống</a> &nbsp; | &nbsp; <a href="./"><i class="fa fa-home"></i> Về trang chủ</a> &nbsp; | &nbsp; Ngôn ngữ: <?php echo LanguageCost::list( LanguageCost::lang_key() ); ?></div>
+    <div class="lf f50 text-right">Xin Chào: <a title="Thông tin cá nhân" href="./users/profile"><?php echo $session_data['userName'] != '' ? $session_data['userName'] : $session_data['user_login']; ?></a> &nbsp; | &nbsp; <a title="Đăng xuất" onClick="return confirm('Xác nhận đăng xuất khỏi hệ thống');" href="./users/logout"><i class="fa fa-sign-out"></i> <span class="text">Logout</span></a></div>
 </div>
 <!--close-Header-part--> 
 
 <!--top-Header-menu-->
 <div id="sidebar">
-	<ul class="cf">
-		<?php
+    <ul class="cf order-admin-menu">
+        <?php
 
-		// TEST
-		//$session_data[ 'member_type' ] = UsersType::MOD;
-		foreach ( $arr_admin_menu as $k => $v ) {
-			//print_r( $v );
+        // TEST
+        //$session_data[ 'member_type' ] = UsersType::MOD;
+        foreach ( $arr_admin_menu as $k => $v ) {
+            //print_r( $v );
 
-			// chỉ kiểm tra đối với tài khoản không pahir là admin
-			if ( $session_data[ 'member_type' ] != UsersType::ADMIN ) {
-				// không tồn tại role -> bỏ qua
-				if ( !isset( $v[ 'role' ] ) ) {
-					echo '<!-- Admin role not found! -->';
-					continue;
-				}
+            // chỉ kiểm tra đối với tài khoản không pahir là admin
+            if ( $session_data[ 'member_type' ] != UsersType::ADMIN ) {
+                // không tồn tại role -> bỏ qua
+                if ( !isset( $v[ 'role' ] ) ) {
+                    echo '<!-- Admin role not found! -->';
+                    continue;
+                }
 
-				// nếu có role -> kiểm tra quyền truy cập
-				if ( !empty( $v[ 'role' ] ) && !in_array( $session_data[ 'member_type' ], $v[ 'role' ] ) ) {
-					echo '<!-- Permission deny! -->';
-					continue;
-				}
-			}
+                // nếu có role -> kiểm tra quyền truy cập
+                if ( !empty( $v[ 'role' ] ) && !in_array( $session_data[ 'member_type' ], $v[ 'role' ] ) ) {
+                    echo '<!-- Permission deny! -->';
+                    continue;
+                }
+            }
 
-			?>
-		<li><a href="<?php echo $k; ?>"><?php echo $v['name']; ?></a>
-			<?php
+            ?>
+        <li style="order: <?php echo $v['order']; ?>"><a href="<?php echo $k; ?>"><?php echo $v['name']; ?></a>
+            <?php
 
-			if ( !empty( $v[ 'arr' ] ) ) {
-				echo '<ul class="sub-menu">';
-				foreach ( $v[ 'arr' ] as $k_sub => $v_sub ) {
-					?>
-		<li><a href="<?php echo $k_sub; ?>"><?php echo $v_sub['name']; ?></a></li>
-		<?php
-		}
-		echo '</ul>';
-		}
+            if ( !empty( $v[ 'arr' ] ) ) {
+                echo '<ul class="sub-menu">';
+                foreach ( $v[ 'arr' ] as $k_sub => $v_sub ) {
+                    ?>
+        <li><a href="<?php echo $k_sub; ?>"><?php echo $v_sub['name']; ?></a></li>
+        <?php
+        }
+        echo '</ul>';
+        }
 
-		?>
-		</li>
-		<?php
-		}
+        ?>
+        </li>
+        <?php
+        }
 
-		?>
-	</ul>
+        ?>
+    </ul>
 </div>
 <div id="content-header">
-	<div id="breadcrumb">
-		<ul class="cf">
-			<li><a href="./" title="Go to Home" class="tip-bottom"> <i class="fa fa-home"></i> Trang chủ</a></li>
-			<li><a href="./<?php echo CUSTOM_ADMIN_URI; ?>" title="Go to Home" class="tip-bottom"> <i class="fa fa-cog"></i> Quản trị</a></li>
-		</ul>
-	</div>
+    <div id="breadcrumb">
+        <ul class="cf">
+            <li><a href="./" title="Go to Home" class="tip-bottom"> <i class="fa fa-home"></i> Trang chủ</a></li>
+            <li><a href="./<?php echo CUSTOM_ADMIN_URI; ?>" title="Go to Home" class="tip-bottom"> <i class="fa fa-cog"></i> Quản trị</a></li>
+        </ul>
+    </div>
 </div>
 <div id="content">
-	<div class="container-fluid">
-		<div class="row-fluid"> <?php echo $content; ?> </div>
-	</div>
+    <div class="container-fluid">
+        <div class="row-fluid"> <?php echo $content; ?> </div>
+    </div>
 </div>
 <div class="text-center admin-copyright">&copy; <?php echo date('Y'); ?> <a href="https://echbay.com/" target="_blank" rel="nofollow">EchBay.com</a> - All rights reserved. Code using framework <a href="https://codeigniter.com/" target="_blank" rel="nofollow">Codeigniter <?php echo CodeIgniter\CodeIgniter::CI_VERSION; ?></a> - <span class="cur" onClick="$('#target_eb_iframe').attr({'height':250});">Show process</span></div>
 <?php

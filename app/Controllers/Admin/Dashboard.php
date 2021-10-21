@@ -18,8 +18,12 @@ class Dashboard extends Admin {
         $this->auto_create_htaccess_deny();
 
         //
+        $current_dbname = \Config\ Database::connect()->database;
+
+        //
         $this->teamplate_admin[ 'content' ] = view( 'admin/dashboard_view', array(
-            //'topPostHighestView' => $topPostHighestView
+            //'topPostHighestView' => $topPostHighestView,
+            'current_dbname' => $current_dbname,
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
