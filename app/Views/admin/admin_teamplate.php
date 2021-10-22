@@ -10,11 +10,15 @@ use App\ Libraries\ TaxonomyType;
 use App\ Libraries\ LanguageCost;
 use App\ Libraries\ UsersType;
 
-// nạp thêm file custom dành cho admin (nếu có)
+
+/*
+ * nạp thêm file custom dành cho admin (nếu có)
+ */
 //echo THEMEPATH . '<br>' . "\n";
 if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
     include_once THEMEPATH . 'custom/admin/autoload.php';
 }
+
 
 ?>
 <!DOCTYPE html>
@@ -164,6 +168,6 @@ try {
 <?php
 $base_model->add_js( 'javascript/admin_footer.js' );
 ?>
-<iframe id="target_eb_iframe" name="target_eb_iframe" src="about:blank" width="99%" height="1" frameborder="0">AJAX form</iframe>
+<iframe id="target_eb_iframe" name="target_eb_iframe" src="about:blank" width="99%" height="250" frameborder="0">AJAX form</iframe>
 </body>
 </html>
