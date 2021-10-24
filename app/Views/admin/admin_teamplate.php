@@ -40,7 +40,7 @@ if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
 <!-- <link rel="stylesheet" href="admin/css/uniform.css"/> -->
 <link rel="stylesheet" href="admin/css/maruti-media.css" class="skin-color"/>
 <!-- <link rel="stylesheet" href="admin/css/select2.css"/> -->
-<link rel="stylesheet" href="outsource/awesome4/font-awesome.css?v=4.6.3"/>
+<link rel="stylesheet" href="outsource/awesome4/css/font-awesome.min.css?v=4.7"/>
 <!--
 <link rel="stylesheet" href="fonts/fontawesome-free-5.15.1-web/css/fontawesome.min.css" type="text/css" media="all" />
 <link rel="stylesheet" href="fonts/fontawesome-free-5.15.1-web/css/brands.min.css" type="text/css" media="all" />

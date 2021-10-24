@@ -27,7 +27,7 @@ class Admin extends Layout {
         //var_dump( $this->session_data );
 
         // nếu không có quyền admin -> báo lỗi nếu đang vào admin
-        if ( $this->session_data[ 'userLevel' ] != 1 ) {
+        if ( $this->session_data[ 'userLevel' ] != UsersType::ADMIN_LEVEL ) {
             die( '404 error line ' . basename( __FILE__ ) . ':' . __LINE__ );
         }
 

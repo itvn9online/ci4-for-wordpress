@@ -34,7 +34,7 @@ use App\ Libraries\ LanguageCost;
 <link href="<?php echo $seo['canonical']; ?>" rel="canonical" />
 <link href="https://fonts.googleapis.com" rel="preconnect" />
 <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
-<link href="outsource/awesome4/font-awesome.css?v=4.6.3" rel="stylesheet" />
+<link href="outsource/awesome4/css/font-awesome.min.css?v=4.7" rel="stylesheet" />
 <link href="outsource/bootstrap-5.0.2/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <!-- <link href="outsource/flatsome/flatsome.css" rel="stylesheet" type="text/css" /> -->
 <link href="frontend/css/swiper.min.css" rel="stylesheet" type="text/css" />
@@ -144,7 +144,7 @@ if ( !empty( $session_data ) &&
 	//
 	isset( $session_data[ 'userID' ] ) && $session_data[ 'userID' ] > 0 &&
 	//
-	isset( $session_data[ 'userLevel' ] ) && $session_data[ 'userLevel' ] * 1 === 1 ) {
+	isset( $session_data[ 'userLevel' ] ) && $session_data[ 'userLevel' ] > 0 ) {
 	$base_model->add_js( 'javascript/show-edit-btn.js' );
 }
 
