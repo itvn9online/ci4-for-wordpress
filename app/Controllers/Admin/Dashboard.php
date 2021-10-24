@@ -25,12 +25,13 @@ class Dashboard extends Admin {
 
         // tự động tắt chế độ debug sau 7 ngày
         $last_enabled_debug = 0;
+        $auto_disable_debug = 24 * 3600 * 7;
         if ( file_exists( PUBLIC_HTML_PATH . '.env' ) ) {
             $last_enabled_debug = filemtime( PUBLIC_HTML_PATH . '.env' );
             //echo date( 'r', $last_enabled_debug );
 
             //
-            if ( $last_enabled_debug < time() - 24 * 3600 * 7 ) {
+            if ( $last_enabled_debug < time() - $auto_disable_debug ) {
                 //echo 'Auto disable debug via .env';
                 $this->action_disable_env( PUBLIC_HTML_PATH . '.env', PUBLIC_HTML_PATH . '.env-bak' );
             }
@@ -57,6 +58,7 @@ class Dashboard extends Admin {
             'session_data' => $this->session_data,
             'debug_enable' => $this->debug_enable,
             'last_enabled_debug' => $last_enabled_debug,
+            'auto_disable_debug' => $auto_disable_debug,
             'current_dbname' => $current_dbname,
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );

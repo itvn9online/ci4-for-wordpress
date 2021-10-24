@@ -11,11 +11,11 @@ use App\ Libraries\ UsersType;
     //
     if ( phpversion() >= '7.4' ) {
         ?>
-    <span class="greencolor">Xin chúc mừng! Phiên bản php bạn đang sử dụng đang ở mức khuyến nghị của chúng tôi.</span>
+    <span class="greencolor">Xin chúc mừng! Phiên bản php bạn đang sử dụng đang ở mức khuyến nghị của chúng tôi</span>
     <?php
     } else {
         ?>
-    <span class="redcolor">Để tối ưu hiệu suất hệ thống. Vui lòng sử dụng phiên bản PHP <strong>7.4</strong> trở lên.</span>
+    <span class="redcolor">Để tối ưu hiệu suất hệ thống. Vui lòng sử dụng phiên bản PHP <strong>7.4</strong> trở lên</span>
     <?php
     }
 
@@ -44,6 +44,7 @@ if ( $session_data[ 'member_type' ] == UsersType::ADMIN ) {
 
 if ( file_exists( PUBLIC_HTML_PATH . '.env' ) ) {
     ?>
+<p class="orgcolor"><i class="fa fa-lightbulb-o"></i> Chế độ debug sẽ được tự động TẮT vào lúc <strong><?php echo date('r', filemtime( PUBLIC_HTML_PATH . '.env' ) + $auto_disable_debug); ?></strong>.</p>
 <a href="admin/dashboard/disable_env" class="btn btn-danger" target="target_eb_iframe"><i class="fa fa-bug"></i> TẮT chế độ debug</a>
 <?php
 } else {
