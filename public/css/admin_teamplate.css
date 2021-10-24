@@ -60,11 +60,12 @@ form#listContactByType {
 }
 .frm-fixed-btn button[type="submit"] {
     position: fixed;
-    bottom: 20px;
+    top: 50%;
     right: 20px;
     padding: 12px 20px;
     font-weight: bold;
     font-size: 15px;
+    transform: translate(0, -50%);
 }
 .admin-breadcrumb {
     display: none;

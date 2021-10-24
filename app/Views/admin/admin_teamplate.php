@@ -78,6 +78,21 @@ $base_model->add_js( 'javascript/admin_teamplate.js' );
 $base_model->add_js( 'javascript/functions.js' );
 $base_model->add_js( 'javascript/eb.js' );
 
+// đổi nền cho CSS nếu đang ở chế độ debug -> để dễ nhận diện
+if ( $debug_enable === true ) {
+    ?>
+<style>
+#admin-header {
+    background-color: darkviolet;
+    border-top-color: black;
+}
+#sidebar {
+    background-color: darkviolet;
+}
+</style>
+<?php
+}
+
 ?>
 <script>
 try {
