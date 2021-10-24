@@ -32,7 +32,6 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
 <div class="widget-box">
     <div class="widget-content nopadding">
         <form action="" method="post" name="admin_global_form" id="contact-form" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
-            <input type="hidden" name="is_deleted" id="is_deleted" value="0" />
             <input type="hidden" name="is_duplicate" id="is_duplicate" value="0" />
             <div class="rf">
                 <button type="button" onClick="click_duplicate_record();" class="btn btn-warning"><i class="fa fa-copy"></i> Nhân bản</button>
@@ -196,7 +195,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
                 <?php
                 if ( $data[ 'term_id' ] > 0 ) {
                     ?>
-                <button type="button" onClick="click_delete_record();" class="btn btn-danger"><i class="fa fa-trash"></i> XÓA</button>
+                <a href="admin/terms/delete?taxonomy=<?php echo $taxonomy; ?>&id=<?php echo $data[ 'term_id' ]; ?>" onClick="click_a_delete_record();" class="btn btn-danger"><i class="fa fa-trash"></i> XÓA</a>
                 <?php
                 }
                 ?>

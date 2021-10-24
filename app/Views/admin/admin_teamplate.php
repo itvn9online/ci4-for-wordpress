@@ -68,6 +68,7 @@ if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
 <!-- <script src="admin/js/select2.min.js"></script> -->
 <?php
 
+//$base_model->add_css( 'css/flatsome.css' );
 $base_model->add_css( 'css/d.css' );
 //$base_model->add_css( 'css/d2.css' );
 $base_model->add_css( 'css/admin_teamplate.css' );

@@ -304,12 +304,6 @@ class Posts extends Admin {
 
 
     public function update( $id ) {
-        //print_r( $_POST );
-        if ( isset( $_POST[ 'is_deleted' ] ) && $_POST[ 'is_deleted' ] * 1 === 1 ) {
-            $this->delete( $id );
-        }
-
-        //
         $data = $_POST[ 'data' ];
         //print_r( $data );
 
@@ -321,8 +315,10 @@ class Posts extends Admin {
         $this->base_model->alert( 'Cập nhật ' . PostType::list( $this->post_type ) . ' thành công' );
     }
 
-    public function delete( $id ) {
-        $result_id = $this->post_model->update_post( $id, [
+    public function delete() {
+        $id = $this->MY_get( 'id', 0 );
+
+        $this->post_model->update_post( $id, [
             'post_status' => PostType::DELETED
         ], [
             'post_type' => $this->post_type,

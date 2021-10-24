@@ -71,12 +71,12 @@ use App\ Libraries\ UsersType;
                 <?php
                 if ( $data[ 'ID' ] > 0 ) {
                     ?>
-                <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Lưu lại</button>
+                <button type="submit" class="btn btn-success rf"><i class="fa fa-save"></i> Lưu lại</button>
                 <button type="button" onClick="click_delete_record();" class="btn btn-danger"><i class="fa fa-trash"></i> XÓA</button>
                 <?php
                 } else {
                     ?>
-                <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Thêm mới</button>
+                <button type="submit" class="btn btn-success rf"><i class="fa fa-plus"></i> Thêm mới</button>
                 <?php
                 }
                 ?>

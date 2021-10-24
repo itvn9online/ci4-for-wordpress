@@ -74,6 +74,9 @@ form#listContactByType {
     padding: 20px 0;
     border-top: 5px #ccc solid;
 }
+.table-list tr th.text-center, .table-list tr td.text-center {
+    text-align: center;
+}
 .table-list a {
     color: blue;
 }
