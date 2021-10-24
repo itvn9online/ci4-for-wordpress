@@ -7,7 +7,8 @@ class AdminMenu {
         return [
             CUSTOM_ADMIN_URI => [
                 'role' => [],
-                'name' => '<i class="icon icon-home"></i> <span>Tổng quan website</span>',
+                'name' => 'Tổng quan website',
+                'icon' => 'fa fa-home',
                 'arr' => []
             ],
             'admin/posts?post_type=' . PostType::POST => [
@@ -16,19 +17,21 @@ class AdminMenu {
                     UsersType::AUTHOR,
                     UsersType::MOD,
                 ],
-                'name' => '<i class="fa fa-product-hunt"></i> <span>' . PostType::list( PostType::POST ) . '</span>',
+                'name' => PostType::list( PostType::POST ),
+                'icon' => 'fa fa-product-hunt',
                 'arr' => [
                     'admin/posts/add?post_type=' . PostType::POST => [
-                        'name' => '<i class="fa fa-plus"></i> <span>Thêm mới ' . PostType::list( PostType::POST ) . '</span>',
+                        'name' => PostType::list( PostType::POST ),
+                        'icon' => 'fa fa-plus',
                     ],
                     'admin/terms?taxonomy=' . TaxonomyType::POSTS => [
-                        'name' => '<i class="fa fa-caret-right"></i> <span>' . TaxonomyType::list( TaxonomyType::POSTS, true ) . '</span>',
+                        'name' => TaxonomyType::list( TaxonomyType::POSTS, true ),
                     ],
                     'admin/terms?taxonomy=' . TaxonomyType::OPTIONS => [
-                        'name' => '<i class="fa fa-caret-right"></i> <span>' . TaxonomyType::list( TaxonomyType::OPTIONS, true ) . '</span>',
+                        'name' => TaxonomyType::list( TaxonomyType::OPTIONS, true ),
                     ],
                     'admin/terms?taxonomy=' . TaxonomyType::TAGS => [
-                        'name' => '<i class="fa fa-caret-right"></i> <span>' . TaxonomyType::list( TaxonomyType::TAGS, true ) . '</span>',
+                        'name' => TaxonomyType::list( TaxonomyType::TAGS, true ),
                     ],
                 ]
             ],
@@ -37,13 +40,15 @@ class AdminMenu {
                     UsersType::AUTHOR,
                     UsersType::MOD,
                 ],
-                'name' => '<i class="fa fa-picture-o"></i> <span>' . PostType::list( PostType::ADS ) . '</span>',
+                'name' => PostType::list( PostType::ADS ),
+                'icon' => 'fa fa-picture-o',
                 'arr' => [
                     'admin/posts/add?post_type=' . PostType::ADS => [
-                        'name' => '<i class="fa fa-plus"></i> <span>Thêm mới ' . PostType::list( PostType::ADS ) . '</span>',
+                        'name' => PostType::list( PostType::ADS ),
+                        'icon' => 'fa fa-plus',
                     ],
                     'admin/terms?taxonomy=' . TaxonomyType::ADS => [
-                        'name' => '<i class="fa fa-caret-right"></i> <span>' . TaxonomyType::list( TaxonomyType::ADS, true ) . '</span>',
+                        'name' => TaxonomyType::list( TaxonomyType::ADS, true ),
                     ],
                 ]
             ],
@@ -52,16 +57,18 @@ class AdminMenu {
                     UsersType::AUTHOR,
                     UsersType::MOD,
                 ],
-                'name' => '<i class="fa fa-newspaper-o"></i> <span>' . PostType::list( PostType::BLOG ) . '</span>',
+                'name' => PostType::list( PostType::BLOG ),
+                'icon' => 'fa fa-newspaper-o',
                 'arr' => [
                     'admin/posts/add?post_type=' . PostType::BLOG => [
-                        'name' => '<i class="fa fa-plus"></i> <span>Thêm mới ' . PostType::list( PostType::BLOG ) . '</span>',
+                        'name' => PostType::list( PostType::BLOG ),
+                        'icon' => 'fa fa-plus',
                     ],
                     'admin/terms?taxonomy=' . TaxonomyType::BLOGS => [
-                        'name' => '<i class="fa fa-caret-right"></i> <span>' . TaxonomyType::list( TaxonomyType::BLOGS, true ) . '</span>',
+                        'name' => TaxonomyType::list( TaxonomyType::BLOGS, true ),
                     ],
                     'admin/terms?taxonomy=' . TaxonomyType::BLOG_TAGS => [
-                        'name' => '<i class="fa fa-caret-right"></i> <span>' . TaxonomyType::list( TaxonomyType::BLOG_TAGS, true ) . '</span>',
+                        'name' => TaxonomyType::list( TaxonomyType::BLOG_TAGS, true ),
                     ],
                 ]
             ],
@@ -70,10 +77,11 @@ class AdminMenu {
                     UsersType::AUTHOR,
                     UsersType::MOD,
                 ],
-                'name' => '<i class="fa fa-file"></i> <span>' . PostType::list( PostType::PAGE ) . '</span>',
+                'name' => PostType::list( PostType::PAGE ),
+                'icon' => 'fa fa-file',
                 'arr' => [
                     'admin/posts/add?post_type=' . PostType::PAGE => [
-                        'name' => '<i class="fa fa-plus"></i> <span>Thêm mới ' . PostType::list( PostType::PAGE ) . '</span>',
+                        'name' => PostType::list( PostType::PAGE ),
                     ],
                 ]
             ],
@@ -82,7 +90,8 @@ class AdminMenu {
                     UsersType::AUTHOR,
                     UsersType::MOD,
                 ],
-                'name' => '<i class="fa fa-camera"></i> <span>' . PostType::list( PostType::MEDIA ) . '</span>',
+                'name' => PostType::list( PostType::MEDIA ),
+                'icon' => 'fa fa-camera',
                 'arr' => []
             ],
             'admin/comments?comment_type=' . CommentType::CONTACT => [
@@ -90,10 +99,11 @@ class AdminMenu {
                     UsersType::AUTHOR,
                     UsersType::MOD,
                 ],
-                'name' => '<i class="fa fa-comments"></i> <span>' . CommentType::list( CommentType::CONTACT ) . '</span>',
+                'name' => CommentType::list( CommentType::CONTACT ),
+                'icon' => 'fa fa-comments',
                 'arr' => [
                     'admin/comments?comment_type=' . CommentType::COMMENT => [
-                        'name' => '<i class="fa fa-picture-o"></i> <span>' . CommentType::list( CommentType::COMMENT ) . '</span>',
+                        'name' => CommentType::list( CommentType::COMMENT ),
                     ],
                 ]
             ],
@@ -101,52 +111,55 @@ class AdminMenu {
                 'role' => [
                     UsersType::MOD,
                 ],
-                'name' => '<i class="icon icon-th-list"></i> <span>' . PostType::list( PostType::MENU ) . '</span>',
+                'name' => PostType::list( PostType::MENU ),
+                'icon' => 'fa fa-bars',
                 'arr' => []
             ],
             'admin/users' => [
                 'role' => [
                     UsersType::MOD,
                 ],
-                'name' => '<i class="fa fa-users"></i> <span>' . UsersType::list( UsersType::MEMBER ) . '</span>',
+                'name' => UsersType::list( UsersType::MEMBER ),
+                'icon' => 'fa fa-users',
                 'arr' => [
                     'admin/users?member_type=' . UsersType::GUEST => [
-                        'name' => '<i class="fa fa-caret-right"></i> <span>' . UsersType::list( UsersType::GUEST ) . '</span>',
+                        'name' => UsersType::list( UsersType::GUEST ),
                     ],
                     'admin/users?member_type=' . UsersType::MEMBER => [
-                        'name' => '<i class="fa fa-caret-right"></i> <span>' . UsersType::list( UsersType::MEMBER ) . '</span>',
+                        'name' => UsersType::list( UsersType::MEMBER ),
                     ],
                     'admin/users?member_type=' . UsersType::AUTHOR => [
-                        'name' => '<i class="fa fa-caret-right"></i> <span>' . UsersType::list( UsersType::AUTHOR ) . '</span>',
+                        'name' => UsersType::list( UsersType::AUTHOR ),
                     ],
                     'admin/users?member_type=' . UsersType::MOD => [
-                        'name' => '<i class="fa fa-caret-right"></i> <span>' . UsersType::list( UsersType::MOD ) . '</span>',
+                        'name' => UsersType::list( UsersType::MOD ),
                     ],
                     'admin/users?member_type=' . UsersType::ADMIN => [
-                        'name' => '<i class="fa fa-caret-right"></i> <span>' . UsersType::list( UsersType::ADMIN ) . '</span>',
+                        'name' => UsersType::list( UsersType::ADMIN ),
                     ],
                 ]
             ],
             'admin/configs' => [
-                'name' => '<i class="icon icon-cog"></i> <span>Cài đặt</span>',
+                'name' => 'Cài đặt',
+                'icon' => 'fa fa-cog',
                 'arr' => [
                     'admin/configs?config_type=' . ConfigType::CATEGORY => [
-                        'name' => '<i class="fa fa-caret-right"></i> <span>' . ConfigType::list( ConfigType::CATEGORY ) . '</span>',
+                        'name' => ConfigType::list( ConfigType::CATEGORY ),
                     ],
                     'admin/configs?config_type=' . ConfigType::POST => [
-                        'name' => '<i class="fa fa-caret-right"></i> <span>' . ConfigType::list( ConfigType::POST ) . '</span>',
+                        'name' => ConfigType::list( ConfigType::POST ),
                     ],
                     'admin/configs?config_type=' . ConfigType::BLOGS => [
-                        'name' => '<i class="fa fa-caret-right"></i> <span>' . ConfigType::list( ConfigType::BLOGS ) . '</span>',
+                        'name' => ConfigType::list( ConfigType::BLOGS ),
                     ],
                     'admin/configs?config_type=' . ConfigType::BLOG => [
-                        'name' => '<i class="fa fa-caret-right"></i> <span>' . ConfigType::list( ConfigType::BLOG ) . '</span>',
+                        'name' => ConfigType::list( ConfigType::BLOG ),
                     ],
                     'admin/configs?config_type=' . ConfigType::TRANS => [
-                        'name' => '<i class="fa fa-caret-right"></i> <span>' . ConfigType::list( ConfigType::TRANS ) . '</span>',
+                        'name' => ConfigType::list( ConfigType::TRANS ),
                     ],
                     'admin/configs?config_type=' . ConfigType::SMTP => [
-                        'name' => '<i class="fa fa-caret-right"></i> <span>' . ConfigType::list( ConfigType::SMTP ) . '</span>',
+                        'name' => ConfigType::list( ConfigType::SMTP ),
                     ],
                 ]
             ],
