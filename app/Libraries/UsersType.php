@@ -3,7 +3,11 @@
 namespace App\ Libraries;
 
 class UsersType {
-
+//
+    const GUEST_LEVEL = 0;
+    const ADMIN_LEVEL = 1;
+    
+    //
     const GUEST = 'guest';
     const MEMBER = 'member';
     const AUTHOR = 'author';

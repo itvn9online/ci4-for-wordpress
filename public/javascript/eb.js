@@ -326,7 +326,7 @@ var g_func = {
                 }
             }
         }
-        return so_am + str + so_thap_phan;
+        return so_am + str.replace(/\-/gi, '') + so_thap_phan;
 
         //
         //		return num;

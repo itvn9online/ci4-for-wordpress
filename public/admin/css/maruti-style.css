@@ -123,6 +123,11 @@ a:hover {
     left: 0;
     min-width: auto;
     border-radius: 0;
+    border-bottom: 2px #fff solid;
+}
+#sidebar > ul > li .sub-menu li.active {}
+#sidebar > ul > li .sub-menu li.active a {
+    background-color: #2271b1;
 }
 #sidebar > ul > li:hover a {
     background: none;
@@ -1306,17 +1311,26 @@ form {
     border-top: 1px solid #ffffff;
     border-bottom: 1px solid #eeeeee;
     margin-bottom: 0;
+    padding: 10px 0;
+    line-height: 30px;
 }
 .form-horizontal .control-group:last-child {
     border-bottom: 0;
 }
 .form-horizontal .control-label {
-    padding-top: 15px;
+    /*
     width: 180px;
+    */
+    padding-top: 0;
+    padding: 0;
+    margin: 0;
+    line-height: 30px;
 }
 .form-horizontal .controls {
+    /*
     margin-left: 200px;
     padding: 10px 0;
+    */
 }
 .form-horizontal input[type=text], .form-horizontal input[type=password], .form-horizontal textarea {}
 .row-fluid .span20 {

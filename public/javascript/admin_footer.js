@@ -123,6 +123,9 @@ $('.each-to-taxonomy').each(function () {
     }
 });
 
+function click_a_delete_record() {
+    return confirm('Xác nhận xóa bản ghi này?');
+}
 
 function click_delete_record() {
     if ($('#is_deleted').length !== 1) {
@@ -135,6 +138,11 @@ function click_delete_record() {
 
     $('#is_deleted').val(1);
     document.admin_global_form.submit();
+
+    // hủy lệnh nếu code có lỗi
+    setTimeout(function () {
+        $('#is_deleted').val(0);
+    }, 600);
 }
 
 
@@ -149,6 +157,11 @@ function click_duplicate_record() {
 
     $('#is_duplicate').val(1);
     document.admin_global_form.submit();
+
+    // hủy lệnh nếu code có lỗi
+    setTimeout(function () {
+        $('#is_duplicate').val(0);
+    }, 600);
 }
 
 

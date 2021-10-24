@@ -114,7 +114,7 @@ class Menu extends EB_Model {
         $menu_content = str_replace( 'href="#"', 'href="javascript:;"', $menu_content );
 
         //
-        return '<div data-id="' . $data[ 'ID' ] . '" data-type="' . PostType::MENU . '" class="htv-sub-menu ' . $slug . ' ' . $add_class . '">' . $menu_content . '</div>';
+        return '<div data-id="' . $data[ 'ID' ] . '" data-type="' . PostType::MENU . '" class="eb-sub-menu ' . $slug . ' ' . $add_class . '">' . $menu_content . '</div>';
     }
 
     function the_menu( $slug, $add_class = '' ) {

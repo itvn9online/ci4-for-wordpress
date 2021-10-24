@@ -32,11 +32,16 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 <div class="widget-box">
     <div class="widget-content nopadding">
         <form action="" method="post" name="admin_global_form" id="contact-form" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
-            <input type="hidden" name="is_deleted" id="is_deleted" value="0" />
             <input type="hidden" name="is_duplicate" id="is_duplicate" value="0" />
+            <?php
+            if ( $data[ 'ID' ] > 0 ) {
+                ?>
             <div class="rf">
                 <button type="button" onClick="click_duplicate_record();" class="btn btn-warning"><i class="fa fa-copy"></i> Nhân bản</button>
             </div>
+            <?php
+            }
+            ?>
             <div class="control-group">
                 <label class="control-label">Ngôn ngữ</label>
                 <div class="controls" style="padding-top: 15px;">
@@ -279,7 +284,7 @@ $('#quick_add_menu').change(function () {
                 <?php
                 if ( $data[ 'ID' ] > 0 ) {
                     ?>
-                <button type="button" onClick="click_delete_record();" class="btn btn-danger"><i class="fa fa-trash"></i> XÓA</button>
+                <a href="admin/posts/delete?post_type=<?php echo $post_type; ?>&id=<?php echo $data[ 'ID' ]; ?>" onClick="click_a_delete_record();" class="btn btn-danger" target="target_eb_iframe"><i class="fa fa-trash"></i> XÓA</a>
                 <?php
                 }
                 ?>

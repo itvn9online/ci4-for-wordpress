@@ -14,14 +14,14 @@ i.fas, em.fas, i.fa, em.fa {
     height: 0;
     overflow: hidden;
 }
-.htv-sub-menu ul:before, .cf:before, .htv-sub-menu ul:after, .cf:after, .clearfix:before, .clearfix:after {
+.eb-sub-menu ul:before, .cf:before, .eb-sub-menu ul:after, .cf:after, .clearfix:before, .clearfix:after {
     content: "";
     display: table;
 }
-.htv-sub-menu ul:after, .cf:after, .clearfix:after {
+.eb-sub-menu ul:after, .cf:after, .clearfix:after {
     clear: both;
 }
-.htv-sub-menu ul, .cf, .clearfix {
+.eb-sub-menu ul, .cf, .clearfix {
     zoom: 1;
 }
 .rf {

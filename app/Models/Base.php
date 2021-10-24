@@ -788,4 +788,57 @@ class Base {
         //
         return true;
     }
+
+    public function _eb_number_only( $str = '', $re = '/[^0-9]+/' ) {
+        $str = trim( $str );
+        if ( $str == '' ) {
+            return 0;
+        }
+        //	echo $str . ' str number<br>';
+        $a = preg_replace( $re, '', $str );
+        //	echo $a . ' a number<br>';
+        if ( $a == '' ) {
+            $a = 0;
+        } else if ( substr( $str, 0, 1 ) == '-' ) {
+            $a = 0 - $a;
+        } else {
+            $a *= 1;
+        }
+        return $a;
+    }
+    public function _eb_float_only( $str = '', $lam_tron = 0 ) {
+        $str = trim( $str );
+        //	echo $str . ' str float<br>';
+        $a = $this->_eb_number_only( $str, '/[^0-9|\.]+/' );
+        //	echo $a . ' a float<br>';
+
+        // làm tròn hết sang số nguyên
+        if ( $lam_tron == 1 ) {
+            $a = ceil( $a );
+        }
+        // làm tròn phần số nguyên, số thập phân giữ nguyên
+        else if ( $lam_tron == 2 ) {
+            $a = explode( '.', $a );
+            if ( isset( $a[ 1 ] ) ) {
+                $a = ( int )$a[ 0 ] . '.' . $a[ 1 ];
+            } else {
+                $a = ( int )$a[ 0 ];
+            }
+        }
+
+        return $a;
+    }
+    public function un_money_format( $str ) {
+        return $this->_eb_number_only( $str );
+    }
+    public function unmoney_format( $str ) {
+        return $this->_eb_number_only( $str );
+    }
+    public function number_only( $str ) {
+        return $this->_eb_number_only( $str );
+    }
+    public function text_only( $str = '' ) {
+        return $this->_eb_text_only( $str );
+    }
+
 }

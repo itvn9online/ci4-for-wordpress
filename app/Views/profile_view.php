@@ -29,7 +29,7 @@
 						//
 						isset( $session_data[ 'userID' ] ) && $session_data[ 'userID' ] > 0 &&
 						//
-						isset( $session_data[ 'userLevel' ] ) && $session_data[ 'userLevel' ] * 1 === 1 ) {
+						isset( $session_data[ 'userLevel' ] ) && $session_data[ 'userLevel' ] > 0 ) {
 						?>
 					<a href="./<?php echo CUSTOM_ADMIN_URI; ?>">@</a>
 					<?php

@@ -157,11 +157,6 @@ class Terms extends Admin {
 
 
     public function update( $id ) {
-        if ( isset( $_POST[ 'is_deleted' ] ) && $_POST[ 'is_deleted' ] * 1 === 1 ) {
-            $this->delete( $id );
-        }
-
-        //
         $data = $_POST[ 'data' ];
         //print_r( $data );
         //die( __LINE__ );
@@ -172,8 +167,10 @@ class Terms extends Admin {
         $this->base_model->alert( 'Cập nhật ' . TaxonomyType::list( $this->taxonomy, true ) . ' thành công' );
     }
 
-    public function delete( $id ) {
-        $result_id = $this->term_model->update_terms( $id, [
+    public function delete() {
+        $id = $this->MY_get( 'id', 0 );
+
+        $this->term_model->update_terms( $id, [
             'is_deleted' => DeletedStatus::DELETED,
         ] );
 

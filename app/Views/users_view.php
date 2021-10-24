@@ -34,7 +34,7 @@ use App\ Libraries\ LanguageCost;
 <link href="<?php echo $seo['canonical']; ?>" rel="canonical" />
 <link href="https://fonts.googleapis.com" rel="preconnect" />
 <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
-<link href="outsource/awesome4/font-awesome.css?v=4.6.3" rel="stylesheet" />
+<link href="outsource/awesome4/css/font-awesome.min.css?v=4.7" rel="stylesheet" />
 <link href="outsource/bootstrap-5.0.2/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <!-- <link href="outsource/flatsome/flatsome.css" rel="stylesheet" type="text/css" /> -->
 <link href="frontend/css/swiper.min.css" rel="stylesheet" type="text/css" />
@@ -57,10 +57,10 @@ $base_model->add_js( 'themes/' . THEMENAME . '/js/functions.js' );
 
 //print_r( $getconfig );
 if ( !isset( $getconfig->site_max_width ) || empty( $getconfig->site_max_width ) ) {
-	$getconfig->site_max_width = 999;
+    $getconfig->site_max_width = 999;
 }
 if ( !isset( $getconfig->site_full_width ) || empty( $getconfig->site_full_width ) ) {
-	$getconfig->site_full_width = 1666;
+    $getconfig->site_full_width = 1666;
 }
 
 // dùng để css chiều rộng cho before, after của menu nav
@@ -83,7 +83,7 @@ var cf_tester_mode = 1,
 <?php
 
 if ( isset( $getconfig->html_header ) ) {
-	echo $getconfig->html_header;
+    echo $getconfig->html_header;
 }
 
 ?>
@@ -104,13 +104,13 @@ echo $breadcrumb;
  */
 $get_msg_flash = $session->getFlashdata( 'msg' );
 if ( !empty( $get_msg_flash ) ) {
-	?>
+    ?>
 <div class="text-submit-msg greencolor"><?php echo $get_msg_flash; ?></div>
 <?php
 }
 $get_msg_flash = $session->getFlashdata( 'msg_error' );
 if ( !empty( $get_msg_flash ) ) {
-	?>
+    ?>
 <div class="text-submit-msg redcolor"><?php echo $get_msg_flash; ?></div>
 <?php
 }
@@ -124,11 +124,11 @@ $theme_private_view = THEMEPATH . 'views/' . basename( __FILE__, '.php' ) . '.ph
 
 //
 if ( file_exists( $theme_private_view ) ) {
-	include $theme_private_view;
+    include $theme_private_view;
 }
 // không có thì nạp view mặc định
 else {
-	require __DIR__ . '/' . basename( __FILE__, '.php' ) . '-default.php';
+    require __DIR__ . '/' . basename( __FILE__, '.php' ) . '-default.php';
 }
 
 
@@ -141,11 +141,11 @@ $base_model->add_js( 'themes/' . THEMENAME . '/js/d.js' );
 
 // chức năng riêng dành cho admin
 if ( !empty( $session_data ) &&
-	//
-	isset( $session_data[ 'userID' ] ) && $session_data[ 'userID' ] > 0 &&
-	//
-	isset( $session_data[ 'userLevel' ] ) && $session_data[ 'userLevel' ] * 1 === 1 ) {
-	$base_model->add_js( 'javascript/show-edit-btn.js' );
+    //
+    isset( $session_data[ 'userID' ] ) && $session_data[ 'userID' ] > 0 &&
+    //
+    isset( $session_data[ 'userLevel' ] ) && $session_data[ 'userLevel' ] > 0 ) {
+    $base_model->add_js( 'javascript/show-edit-btn.js' );
 }
 
 ?>

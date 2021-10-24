@@ -58,6 +58,9 @@ $user_id = $this->session->userdata( 'admin' )[ 'ID' ];
 // cURL
 $this->base_model->get( 'URL' );
 
+$this->base_model->_eb_number_only( 'fgfsd097834msdgs' );
+$this->base_model->_eb_float_only( 'fgfsd097834msdgs' );
+
 // update dữ liệu
 $this->base_model->update_multiple( 'tbl_user', array(
 	// SET

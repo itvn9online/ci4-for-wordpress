@@ -74,6 +74,9 @@ form#listContactByType {
     padding: 20px 0;
     border-top: 5px #ccc solid;
 }
+.table-list tr th.text-center, .table-list tr td.text-center {
+    text-align: center;
+}
 .table-list a {
     color: blue;
 }
@@ -210,4 +213,10 @@ body.ebfixed-top-menu #sidebar {
     display: inline-block;
     line-height: 28px;
     width: auto;
+}
+.order-admin-menu {
+    display: -webkit-flex !important; /* Safari */
+    display: flex !important;
+    flex-direction: column-reverse;
+    flex-wrap: wrap;
 }

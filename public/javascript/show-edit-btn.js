@@ -4,7 +4,7 @@ $(document).ready(function () {
         'insert-before': 1
     });
 
-    $('.echbay-blog li, .thread-list li, .htv-sub-menu, .global-details-title, .custom-bootstrap-post_type').each(function () {
+    $('.echbay-blog li, .thread-list li, .eb-sub-menu, .global-details-title, .custom-bootstrap-post_type').each(function () {
         var jd = $(this).attr('data-id') || '';
         //console.log(jd);
         var type = $(this).attr('data-type') || '';

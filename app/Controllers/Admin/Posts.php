@@ -94,11 +94,6 @@ class Posts extends Admin {
                 )
             ),
             'or_like' => $where_or_like,
-            'order_by' => array(
-                'wp_posts.menu_order' => 'DESC',
-                'wp_posts.post_date' => 'DESC',
-                //'post_modified' => 'DESC',
-            ),
             // hiển thị mã SQL để check
             //'show_query' => 1,
             // trả về câu query để sử dụng cho mục đích khác
@@ -147,6 +142,11 @@ class Posts extends Admin {
         // select dữ liệu từ 1 bảng bất kỳ
         $filter[ 'offset' ] = $offset;
         $filter[ 'limit' ] = $post_per_page;
+        $filter[ 'order_by' ] = [
+            'wp_posts.menu_order' => 'DESC',
+            'wp_posts.post_date' => 'DESC',
+            //'post_modified' => 'DESC',
+        ];
         $data = $this->base_model->select( '*', 'wp_posts', $where, $filter );
 
         //
@@ -304,12 +304,6 @@ class Posts extends Admin {
 
 
     public function update( $id ) {
-        //print_r( $_POST );
-        if ( isset( $_POST[ 'is_deleted' ] ) && $_POST[ 'is_deleted' ] * 1 === 1 ) {
-            $this->delete( $id );
-        }
-
-        //
         $data = $_POST[ 'data' ];
         //print_r( $data );
 
@@ -321,8 +315,10 @@ class Posts extends Admin {
         $this->base_model->alert( 'Cập nhật ' . PostType::list( $this->post_type ) . ' thành công' );
     }
 
-    public function delete( $id ) {
-        $result_id = $this->post_model->update_post( $id, [
+    public function delete() {
+        $id = $this->MY_get( 'id', 0 );
+
+        $this->post_model->update_post( $id, [
             'post_status' => PostType::DELETED
         ], [
             'post_type' => $this->post_type,
