@@ -163,8 +163,13 @@ a:hover {
 }
 #sidebar > ul li a {
     color: #fff;
-    font-size: 12px;
     line-height: 20px;
+    font-size: 13px;
+    font-weight: bold;
+}
+#sidebar > ul li .sub-menu a {
+    font-weight: normal;
+    font-size: 12px;
 }
 #sidebar > ul li a i {
     background-image: url("../img/glyphicons-halflings-white.png");
