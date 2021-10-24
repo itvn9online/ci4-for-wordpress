@@ -284,7 +284,7 @@ $('#quick_add_menu').change(function () {
                 <?php
                 if ( $data[ 'ID' ] > 0 ) {
                     ?>
-                <a href="admin/posts/delete?post_type=<?php echo $post_type; ?>&id=<?php echo $data[ 'ID' ]; ?>" onClick="click_a_delete_record();" class="btn btn-danger"><i class="fa fa-trash"></i> XÓA</a>
+                <a href="admin/posts/delete?post_type=<?php echo $post_type; ?>&id=<?php echo $data[ 'ID' ]; ?>" onClick="click_a_delete_record();" class="btn btn-danger" target="target_eb_iframe"><i class="fa fa-trash"></i> XÓA</a>
                 <?php
                 }
                 ?>

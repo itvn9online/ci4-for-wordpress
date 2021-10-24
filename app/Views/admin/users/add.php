@@ -23,7 +23,6 @@ use App\ Libraries\ UsersType;
 <div class="widget-box">
     <div class="widget-content nopadding">
         <form action="" method="post" name="admin_global_form" id="contact-form" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
-            <input type="hidden" name="is_deleted" id="is_deleted" value="0" />
             <div class="control-group">
                 <label class="control-label">Tài khoản</label>
                 <div class="controls">
@@ -72,7 +71,7 @@ use App\ Libraries\ UsersType;
                 if ( $data[ 'ID' ] > 0 ) {
                     ?>
                 <button type="submit" class="btn btn-success rf"><i class="fa fa-save"></i> Lưu lại</button>
-                <button type="button" onClick="click_delete_record();" class="btn btn-danger"><i class="fa fa-trash"></i> XÓA</button>
+                <a href="admin/users/delete?id=<?php echo $data[ 'ID' ]; ?>" onClick="click_a_delete_record();" class="btn btn-danger" target="target_eb_iframe"><i class="fa fa-trash"></i> XÓA</a>
                 <?php
                 } else {
                     ?>
