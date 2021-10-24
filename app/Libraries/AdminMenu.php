@@ -7,7 +7,7 @@ class AdminMenu {
         return [
             CUSTOM_ADMIN_URI => [
                 'role' => [],
-                'name' => 'Tổng quan website',
+                'name' => 'Tổng quan',
                 'icon' => 'fa fa-home',
                 'arr' => []
             ],
@@ -82,6 +82,7 @@ class AdminMenu {
                 'arr' => [
                     'admin/posts/add?post_type=' . PostType::PAGE => [
                         'name' => PostType::list( PostType::PAGE ),
+                        'icon' => 'fa fa-plus',
                     ],
                 ]
             ],
@@ -100,10 +101,11 @@ class AdminMenu {
                     UsersType::MOD,
                 ],
                 'name' => CommentType::list( CommentType::CONTACT ),
-                'icon' => 'fa fa-comments',
+                'icon' => 'fa fa-envelope-o',
                 'arr' => [
                     'admin/comments?comment_type=' . CommentType::COMMENT => [
                         'name' => CommentType::list( CommentType::COMMENT ),
+                        'icon' => 'fa fa-comments',
                     ],
                 ]
             ],
