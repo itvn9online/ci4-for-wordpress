@@ -14,6 +14,9 @@ use App\ Libraries\ UsersType;
     }
     ?>
     </strong></p>
+<p>Server IP: <strong><?php echo $_SERVER['SERVER_ADDR']; ?></strong></p>
+<p>Server time: <strong><?php echo date('Y-m-d H:i:s'); ?></strong></p>
+<hr>
 <?php
 
 // hiển thị chức năng bật/ tắt debug đối với admin
@@ -38,7 +41,7 @@ if ( file_exists( PUBLIC_HTML_PATH . '.env' ) ) {
 // nếu debug đang tắt -> hiển thị chức năng bật debug nếu muốn
 else {
     ?>
-<p class="greencolor"><i class="fa fa-check"></i> Chế độ debug đã được tắt. Nguy cơ lỗi bảo mật sẽ được đảm bảo hơn.</p>
+<p class="greencolor"><i class="fa fa-check"></i> Chế độ debug đã được tắt. Nguy cơ lộ diện các vấn đề cần bảo mật sẽ được đảm bảo hơn.</p>
 <?php
 
 if ( file_exists( PUBLIC_HTML_PATH . '.env-bak' ) ) {
