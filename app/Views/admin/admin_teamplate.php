@@ -130,15 +130,27 @@ try {
                 }
             }
 
+            // tạo icon
+            if ( !isset( $v[ 'icon' ] ) || $v[ 'icon' ] == '' ) {
+                $v[ 'icon' ] = 'fa fa-caret-right';
+            }
+            $v[ 'icon' ] = '<i class="' . $v[ 'icon' ] . '"></i>';
+
             ?>
-        <li style="order: <?php echo $v['order']; ?>"><a href="<?php echo $k; ?>"><?php echo $v['name']; ?></a>
+        <li style="order: <?php echo $v['order']; ?>"><a href="<?php echo $k; ?>"><?php echo $v['icon'] . $v['name']; ?></a>
             <?php
 
             if ( !empty( $v[ 'arr' ] ) ) {
                 echo '<ul class="sub-menu">';
                 foreach ( $v[ 'arr' ] as $k_sub => $v_sub ) {
+                    // tạo icon
+                    if ( !isset( $v_sub[ 'icon' ] ) || $v_sub[ 'icon' ] == '' ) {
+                        $v_sub[ 'icon' ] = 'fa fa-caret-right';
+                    }
+                    $v_sub[ 'icon' ] = '<i class="' . $v_sub[ 'icon' ] . '"></i>';
+
                     ?>
-        <li><a href="<?php echo $k_sub; ?>"><?php echo $v_sub['name']; ?></a></li>
+        <li><a href="<?php echo $k_sub; ?>"><?php echo $v_sub['icon'] . $v_sub['name']; ?></a></li>
         <?php
         }
         echo '</ul>';

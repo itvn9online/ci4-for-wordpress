@@ -161,16 +161,17 @@ a:hover {
 #sidebar > ul li ul li:hover a {
     background-color: #606060;
 }
-#sidebar > ul li span {
-    cursor: pointer;
-    margin: 0px 2px 0 5px;
+#sidebar > ul li a {
     color: #fff;
     font-size: 12px;
+    line-height: 20px;
 }
 #sidebar > ul li a i {
     background-image: url("../img/glyphicons-halflings-white.png");
-    margin-top: 4px;
-    vertical-align: top;
+    margin-right: 5px;
+    display: inline-block;
+    min-width: 15px;
+    text-align: center;
 }
 #sidebar > ul li a i.fa {
     background: none;
@@ -214,9 +215,7 @@ a:hover {
     color: #ffffff;
 }
 #user-nav > ul > li > a > i, #sidebar li a i {
-    vertical-align: top;
     background-image: url('../img/glyphicons-halflings-white.png');
-    margin-top: 2px;
 }
 #user-nav > ul > li > a:hover > i, #user-nav > ul > li.open > a > i {
     opacity: 1;
