@@ -918,7 +918,7 @@ var _global_js_eb = {
             op = {};
         }
         if (typeof op.dateFormat == 'undefined') {
-            op.dateFormat = 'yy/mm/dd';
+            op.dateFormat = 'yy-mm-dd';
         }
         jQuery.datepicker.regional.vi = {
             monthNames: ['Th\u00e1ng 1', 'Th\u00e1ng 2', 'Th\u00e1ng 3', 'Th\u00e1ng 4', 'Th\u00e1ng 5', 'Th\u00e1ng 6', 'Th\u00e1ng 7', 'Th\u00e1ng 8', 'Th\u00e1ng 9', 'Th\u00e1ng 10', 'Th\u00e1ng 11', 'Th\u00e1ng 12'],
@@ -966,7 +966,7 @@ var _global_js_eb = {
                             a[0] = a[2];
                             a[2] = b;
 
-                            jQuery(this).val(a.join('/'));
+                            jQuery(this).val(a.join('-'));
                         }
                     }
                     // ngày/ tháng/ năm
@@ -977,7 +977,7 @@ var _global_js_eb = {
                             a[2] = a[0];
                             a[0] = b;
 
-                            jQuery(this).val(a.join('/'));
+                            jQuery(this).val(a.join('-'));
                         }
                     }
                 }

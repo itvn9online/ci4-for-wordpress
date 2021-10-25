@@ -32,9 +32,6 @@ class Admin extends Layout {
         }
 
         //
-        $this->debug_enable = ( ENVIRONMENT !== 'production' );
-
-        //
         $this->teamplate_admin = [];
         $this->teamplate_admin[ 'header' ] = view( 'admin/header_view', array(
             'base_model' => $this->base_model,

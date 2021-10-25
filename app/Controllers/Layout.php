@@ -74,6 +74,9 @@ class Layout extends Sync {
 		$this->session_data = $this->session->get( 'admin' );
 		//print_r( $this->session_data );
 
+        //
+        $this->debug_enable = ( ENVIRONMENT !== 'production' );
+
 		//
 		$this->teamplate = [];
 		if ( $preload_header === true ) {

@@ -339,3 +339,12 @@ function add_active_class_for_sidebar(w) {
         }
     }
 })(window.location.href);
+
+
+/*
+ * Chuyển định dạng select date sang jquery-ui
+ */
+$('input[type="date"]').addClass('ebe-jquery-ui-date').attr({
+    'type': 'text'
+});
+_global_js_eb.select_date('.ebe-jquery-ui-date');

@@ -46,7 +46,9 @@ if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
 <link rel="stylesheet" href="fonts/fontawesome-free-5.15.1-web/css/brands.min.css" type="text/css" media="all" />
 <link rel="stylesheet" href="fonts/fontawesome-free-5.15.1-web/css/solid.min.css" type="text/css" media="all" />
 <link rel="stylesheet" href="fonts/fontawesome-free-5.15.1-web/css/v4-shims.min.css" type="text/css" media="all" />
---> 
+-->
+
+<link rel="stylesheet" href="outsource/jquery-ui/jquery-ui-1.11.2.css?v=4.7"/>
 
 <!--
 <script type="text/javascript" src="outsource/validate/jquery.min.js"></script> 
@@ -54,6 +56,7 @@ if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
 <script type="text/javascript" src="outsource/jquery/jquery-3.6.0.min.js"></script> 
 <script type="text/javascript" src="outsource/jquery/jquery-migrate-3.3.2.min.js"></script> 
 <!-- <script type="text/javascript" src="outsource/jquery/jquery-migrate-1.4.1.min.js"></script> --> 
+<script type="text/javascript" src="outsource/jquery-ui/datepicker.min.js?v=1.12.1"></script> 
 <script type="text/javascript" src="outsource/validate/library.js"></script> 
 <script type="text/javascript" src="outsource/validate/jquery.validate.min.js"></script> 
 <script type="text/javascript" src="outsource/validate/localization/messages_vi.js"></script> 

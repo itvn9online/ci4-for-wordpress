@@ -85,6 +85,8 @@ defined( 'EXIT__AUTO_MAX' ) || define( 'EXIT__AUTO_MAX', 125 ); // highest autom
  * Phần cấu hình thiết lập động để có thể tái sử dụng code cho nhiều website khác nhau mà không cần code lại nhiều
  * Các controller, model... cố gắng viết theo quy tắc exten để có thể tái sử dụng
  */
+define( 'EBE_DATE_FORMAT', 'Y-m-d' );
+define( 'EBE_DATETIME_FORMAT', 'Y-m-d H:i:s' );
 
 /*
  * tạo đường dẫn admin tránh đường dẫn mặc định. Ví dụ : admin -> nhằm tăng cường bảo mật cho website

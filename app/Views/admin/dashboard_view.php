@@ -34,12 +34,15 @@ use App\ Libraries\ UsersType;
 <hr>
 <?php
 
-// hiển thị chức năng bật/ tắt debug đối với admin
+
+/*
+ * hiển thị chức năng bật/ tắt debug đối với admin
+ */
 if ( $session_data[ 'member_type' ] == UsersType::ADMIN ) {
     // nếu debug đang bật -> hiển thị cảnh báo và nút tắt debug
     if ( $debug_enable === true ) {
         ?>
-<p class="redcolor medium"><i class="fa fa-warning"></i> Chế độ debug đang được kích hoạt. Vui lòng tắt nó đi khi website chính thức hoạt động.</p>
+<p class="redcolor medium"><i class="fa fa-warning"></i> Chế độ debug thường được kích hoạt để thu thập thêm thông tin chi tiết về lỗi hoặc lỗi trang web, nhưng có thể chứa thông tin nhạy cảm không có sẵn trên một trang web công khai. Vui lòng chỉ bật debug khi cần sửa lỗi liên quan đến code.</p>
 <?php
 
 if ( file_exists( PUBLIC_HTML_PATH . '.env' ) ) {
@@ -57,7 +60,7 @@ if ( file_exists( PUBLIC_HTML_PATH . '.env' ) ) {
 // nếu debug đang tắt -> hiển thị chức năng bật debug nếu muốn
 else {
     ?>
-<p class="greencolor"><i class="fa fa-check"></i> Chế độ debug đã được tắt. Nguy cơ lộ diện các vấn đề cần bảo mật sẽ được đảm bảo hơn.</p>
+<p class="greencolor"><i class="fa fa-check"></i> Chế độ debug đã được tắt. Giảm thiểu nguy cơ lộ diện các vấn đề nhạy cảm liên quan đến code.</p>
 <?php
 
 if ( file_exists( PUBLIC_HTML_PATH . '.env-bak' ) ) {
