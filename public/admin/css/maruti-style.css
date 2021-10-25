@@ -1336,6 +1336,12 @@ form {
     padding: 10px 0;
     */
 }
+.form-horizontal .controls label.d-inline {
+    margin-bottom: 0;
+}
+.form-horizontal .controls label.d-inline input[type="checkbox"] {
+    margin-top: 0;
+}
 .form-horizontal input[type=text], .form-horizontal input[type=password], .form-horizontal textarea {}
 .row-fluid .span20 {
     width: 97.8%

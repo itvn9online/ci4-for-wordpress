@@ -337,7 +337,7 @@ class Base {
         die( '<script>
         console.log("' . basename( $arr_debug[ 1 ][ 'file' ] ) . ':' . $arr_debug[ 1 ][ 'line' ] . '");
         console.log("function: ' . $arr_debug[ 1 ][ 'function' ] . '");
-        console.log("class: ' . $arr_debug[ 1 ][ 'class' ] . '");
+        console.log("class: ' . basename( str_replace( '\\', '/', $arr_debug[ 1 ][ 'class' ] ) ) . '");
         
         //
 		var m = "' . $m . '";

@@ -8,5 +8,6 @@ namespace App\ Models;
 class EB_Model {
     function __construct() {
         $this->base_model = new\ App\ Models\ Base();
+        //$this->db = \Config\ Database::connect();
     }
 }
