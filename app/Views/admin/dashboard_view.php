@@ -5,7 +5,22 @@ use App\ Libraries\ UsersType;
 ?>
 <p>Website sử dụng giao diện: <strong><?php echo THEMENAME; ?></strong> - được phát triển bởi <a href="https://echbay.com/" target="_blank" rel="nofollow"><strong>EchBay.com</strong></a></p>
 <p>Sử dụng framework <a href="https://codeigniter.com/" target="_blank" rel="nofollow"><strong>Codeigniter <?php echo CodeIgniter\CodeIgniter::CI_VERSION; ?></strong></a> kết hợp với cấu trúc database nền tảng của <a href="https://wordpress.org/" target="_blank" rel="nofollow"><strong>Wordpress</strong></a> nhằm đem lại khả năng tùy biến linh hoạt với tốc độ tối ưu.</p>
-<p>PHP version: <strong><?php echo PHP_VERSION; ?></strong> (Khuyên dùng 7.4++)</p>
+<p>PHP version: <strong><?php echo phpversion(); ?></strong> (
+    <?php
+
+    //
+    if ( phpversion() >= '7.4' ) {
+        ?>
+    <span class="greencolor">Xin chúc mừng! Phiên bản php bạn đang sử dụng đang ở mức khuyến nghị của chúng tôi</span>
+    <?php
+    } else {
+        ?>
+    <span class="redcolor">Để tối ưu hiệu suất hệ thống. Vui lòng sử dụng phiên bản PHP <strong>7.4</strong> trở lên</span>
+    <?php
+    }
+
+    ?>
+    )</p>
 <p>Server software: <strong><?php echo $_SERVER['SERVER_SOFTWARE']; ?></strong></p>
 <p>Database: <strong>
     <?php
@@ -29,6 +44,7 @@ if ( $session_data[ 'member_type' ] == UsersType::ADMIN ) {
 
 if ( file_exists( PUBLIC_HTML_PATH . '.env' ) ) {
     ?>
+<p class="orgcolor"><i class="fa fa-lightbulb-o"></i> Chế độ debug sẽ được tự động TẮT vào lúc <strong><?php echo date('r', filemtime( PUBLIC_HTML_PATH . '.env' ) + $auto_disable_debug); ?></strong>.</p>
 <a href="admin/dashboard/disable_env" class="btn btn-danger" target="target_eb_iframe"><i class="fa fa-bug"></i> TẮT chế độ debug</a>
 <?php
 } else {
