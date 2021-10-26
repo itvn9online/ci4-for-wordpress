@@ -119,14 +119,26 @@ class Dashboard extends Admin {
 
         // backup file env
         $f_backup = PUBLIC_HTML_PATH . '.env-bak';
+
+        // END v2
+        return $this->action_disable_env( $f, $f_backup );
+
+        /*
+         * v1
+         */
         if ( file_exists( $f_backup ) ) {
             // backup lại file backup
             $f_bak_backup = $f_backup . date( 'Ymd' );
             if ( copy( $f_backup, $f_bak_backup ) ) {
-                chmod( $f_bak_backup, 0777 );
+                //echo 'copy: ' . $f_bak_backup . '<br>' . "\n";
+                if ( file_exists( $f_bak_backup ) ) {
+                    //chmod( $f_bak_backup, 0777 );
 
-                //
-                return $this->action_disable_env( $f, $f_backup );
+                    //
+                    return $this->action_disable_env( $f, $f_backup );
+                } else {
+                    $this->base_model->alert( 'LỖI! tồn tại file: ' . basename( $f_backup ), 'error' );
+                }
             } else {
                 $this->base_model->alert( 'LỖI! không backup được file ' . basename( $f_backup ), 'error' );
             }
@@ -138,9 +150,41 @@ class Dashboard extends Admin {
         return true;
     }
     private function action_disable_env( $f, $f_backup, $for_alert = 1 ) {
+        // bakup file .env nếu chưa có
+        if ( !file_exists( $f_backup ) ) {
+            if ( !copy( $f, $f_backup ) ) {
+                if ( $for_alert === 1 ) {
+                    $this->base_model->alert( 'LỖI! không backup được file ' . basename( $f ), 'error' );
+                }
+            } else {
+                chmod( $f_backup, 0777 );
+            }
+            if ( !file_exists( $f_backup ) ) {
+                if ( $for_alert === 1 ) {
+                    $this->base_model->alert( 'LỖI! tồn tại file: ' . basename( $f_backup ), 'error' );
+                }
+            }
+        }
+
+        // xong XÓA file .env
+        if ( unlink( $f ) ) {
+            if ( $for_alert === 1 ) {
+                $this->base_model->alert( '', base_url( CUSTOM_ADMIN_URI ) );
+                //$this->base_model->alert( 'TẮT chế độ debug thành công (LƯU TRỮ file ' . basename( $f ) . ')' );
+            }
+        } else if ( $for_alert === 1 ) {
+            $this->base_model->alert( 'LỖI! Không xóa được file ' . basename( $f ), 'error' );
+        }
+
+        // END v2
+        return true;
+
+        /*
+         * v1
+         */
         // backup file .env
         if ( copy( $f, $f_backup ) ) {
-            chmod( $f_backup, 0777 );
+            //chmod( $f_backup, 0777 );
 
             // xong XÓA
             if ( unlink( $f ) ) {
