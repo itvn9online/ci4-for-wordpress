@@ -80,8 +80,8 @@ class Configs extends Admin {
     }
 
     public function updated( $option_type ) {
-        if ( isset( $_POST[ 'data' ] ) ) {
-            $data = $_POST[ 'data' ];
+        if ( !empty( $this->MY_post( 'data' ) ) ) {
+            $data = $this->MY_post( 'data' );
         } else {
             $data = $_POST;
         }

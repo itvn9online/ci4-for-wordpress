@@ -70,7 +70,7 @@ class Terms extends Admin {
         //
         if ( !empty( $this->MY_post( 'data' ) ) ) {
             // nếu là nhân bản
-            if ( isset( $_POST[ 'is_duplicate' ] ) && $_POST[ 'is_duplicate' ] * 1 === 1 ) {
+            if ( $this->MY_post( 'is_duplicate', 0 ) * 1 === 1 ) {
                 //print_r( $_POST );
                 //die( 'fghs ffs' );
                 // đổi lại tiêu đề để tránh trùng lặp
@@ -141,7 +141,7 @@ class Terms extends Admin {
     }
 
     public function add_new() {
-        $data = $_POST[ 'data' ];
+        $data = $this->MY_post( 'data' );
         //print_r( $data );
         //die( __FILE__ . ':' . __LINE__ );
 
@@ -157,7 +157,7 @@ class Terms extends Admin {
 
 
     public function update( $id ) {
-        $data = $_POST[ 'data' ];
+        $data = $this->MY_post( 'data' );
         //print_r( $data );
         //die( __LINE__ );
 

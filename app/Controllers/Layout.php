@@ -259,12 +259,14 @@ class Layout extends Sync {
 			}
 
 			//
+            /*
 			foreach ( $a as $k => $v ) {
 				if ( !empty( $v ) ) {
 					// xss_clean bị hủy bỏ ở CI4
 					//$a[ $k ] = $this->security->xss_clean( $v );
 				}
 			}
+            */
 		}
 		return $a;
 	}

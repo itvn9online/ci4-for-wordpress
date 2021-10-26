@@ -157,7 +157,7 @@ class Users extends Admin {
     }
 
     public function add_new() {
-        $data = $_POST[ 'data' ];
+        $data = $this->MY_post( 'data' );
         //print_r( $data );
         //die( __FILE__ . ':' . __LINE__ );
 
@@ -172,7 +172,7 @@ class Users extends Admin {
     }
 
     public function update( $id ) {
-        $data = $_POST[ 'data' ];
+        $data = $this->MY_post( 'data' );
         //print_r( $data );
         //die( __LINE__ );
 
