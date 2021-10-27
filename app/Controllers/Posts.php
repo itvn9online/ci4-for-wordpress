@@ -76,8 +76,14 @@ class Posts extends Layout {
             'same_cat_data' => $same_cat_data,
             'seo' => $seo,
             'data' => $data,
-        ) );
-        return view( 'layout_view', $this->teamplate );
+        ), [
+            //'cache' => $this->cache_time,
+            //'cache_name' => $this->cache_name( $file_view ),
+        ] );
+        return view( 'layout_view', $this->teamplate, [
+            //'cache' => $this->cache_time,
+            //'cache_name' => $this->cache_name(),
+        ] );
     }
 
     public function post_details( $id, $slug ) {
