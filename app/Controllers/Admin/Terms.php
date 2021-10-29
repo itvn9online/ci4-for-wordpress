@@ -36,11 +36,19 @@ class Terms extends Admin {
             $by_like = $this->base_model->_eb_non_mark_seo( $by_keyword );
             // tối thiểu từ 3 ký tự trở lên mới kích hoạt tìm kiếm
             if ( strlen( $by_like ) > 2 ) {
-                $where_or_like = [
-                    'wp_terms.term_id' => $by_like,
-                    'wp_terms.slug' => $by_like,
-                    'wp_terms.name' => $by_keyword,
-                ];
+                $is_number = is_numeric( $by_like );
+                // nếu là số -> chỉ tìm theo ID
+                if ( $is_number === true ) {
+                    $where_or_like = [
+                        'wp_terms.term_id' => $by_like,
+                    ];
+                } else {
+                    $where_or_like = [
+                        'wp_terms.term_id' => $by_like,
+                        'wp_terms.slug' => $by_like,
+                        'wp_terms.name' => $by_keyword,
+                    ];
+                }
             }
         }
 
