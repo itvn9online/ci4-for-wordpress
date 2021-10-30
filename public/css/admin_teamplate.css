@@ -221,3 +221,21 @@ body.ebfixed-top-menu #sidebar {
     flex-direction: column-reverse;
     flex-wrap: wrap;
 }
+/* */
+.eb-table th {
+    height: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 13px;
+    color: black;
+}
+.eb-table tbody tr:nth-child(odd) td {
+    background-color: #fff;
+}
+.eb-table tbody tr:nth-child(even) td {
+    background-color: #f0f0f0;
+    color: black;
+}
+.eb-table tr:hover td {
+    background-color: antiquewhite !important;
+}

@@ -13,7 +13,7 @@ $base_model->add_css( 'admin/css/' . $comment_type . '.css' );
 <ul class="admin-breadcrumb">
     <li>Danh sách <?php echo CommentType::list($comment_type); ?> (<?php echo $totalThread; ?>)</li>
 </ul>
-<table class="table table-bordered table-striped with-check table-list">
+<table class="table table-bordered table-striped with-check table-list eb-table">
     <thead>
         <tr>
             <th><input type="checkbox" id="selectall" name="selectall"/></th>

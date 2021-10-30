@@ -47,7 +47,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
     </div>
 </div>
 <br>
-<table class="table table-bordered table-striped with-check table-list">
+<table class="table table-bordered table-striped with-check table-list eb-table">
     <thead>
         <tr>
             <th><input type="checkbox" id="selectall" name="selectall"/></th>
@@ -71,7 +71,12 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
         <tr>
             <td>&nbsp;</td>
             <td><a href="<?php $post_model->admin_permalink( $post_type, $v['ID'] ); ?>"><?php echo $v['post_title']; ?> <i class="fa fa-edit"></i></a></td>
-            <td><?php echo $post_model->show_meta_post($v['post_meta'], 'url_redirect'); ?></td>
+            <td class="text-center"><a href="<?php
+
+            //echo $post_model->show_meta_post( $v[ 'post_meta' ], 'url_redirect' );
+            $post_model->the_permalink( $v );
+
+            ?>"><i class="fa fa-eye"></i></a></td>
             <td><img src="<?php echo $post_model->get_post_thumbnail($v['post_meta']); ?>" height="90" style="height: 90px; width: auto;" /></td>
             <td data-id="<?php echo $post_model->show_meta_post($v['post_meta'], 'post_category'); ?>" data-taxonomy="<?php echo $taxonomy; ?>" data-uri="admin/posts?post_type=<?php echo $post_type; ?>" class="each-to-taxonomy">&nbsp;</td>
             <td><?php echo $v['post_status']; ?></td>
