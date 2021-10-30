@@ -36,9 +36,15 @@ class Home extends Layout {
             'breadcrumb' => '',
             //'cateByLang' => $cateByLang,
             //'serviceByLang' => $serviceByLang,
-        ) );
+        ), [
+            //'cache' => $this->cache_time,
+            //'cache_name' => $this->cache_name( 'home_view' ),
+        ] );
         //print_r( $this->teamplate );
-        return view( 'layout_view', $this->teamplate );
+        return view( 'layout_view', $this->teamplate, [
+            //'cache' => $this->cache_time,
+            //'cache_name' => $this->cache_name(),
+        ] );
     }
 
     function checkurl( $slug_1, $set_page = '', $page_num = 1 ) {
@@ -124,8 +130,14 @@ class Home extends Layout {
             'seo' => $seo,
             'page_template' => $page_template,
             'data' => $data,
-        ) );
-        return view( 'layout_view', $this->teamplate );
+        ), [
+            //'cache' => $this->cache_time,
+            //'cache_name' => $this->cache_name( 'page_view' ),
+        ] );
+        return view( 'layout_view', $this->teamplate, [
+            //'cache' => $this->cache_time,
+            //'cache_name' => $this->cache_name(),
+        ] );
     }
 
     /*

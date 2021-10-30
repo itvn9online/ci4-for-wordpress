@@ -33,7 +33,7 @@ use App\ Libraries\ UsersType;
     </div>
 </div>
 <br>
-<table class="table table-bordered table-striped with-check table-list">
+<table class="table table-bordered table-striped with-check table-list eb-table">
     <thead>
         <tr>
             <th><input type="checkbox" id="selectall" name="selectall"/></th>
