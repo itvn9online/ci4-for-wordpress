@@ -85,6 +85,10 @@ defined( 'EXIT__AUTO_MAX' ) || define( 'EXIT__AUTO_MAX', 125 ); // highest autom
  * Phần cấu hình thiết lập động để có thể tái sử dụng code cho nhiều website khác nhau mà không cần code lại nhiều
  * Các controller, model... cố gắng viết theo quy tắc exten để có thể tái sử dụng
  */
+
+// website của nhà phát triển
+define( 'PARTNER_WEBSITE', 'https://echbay.com/' );
+
 define( 'EBE_DATE_FORMAT', 'Y-m-d' );
 define( 'EBE_DATETIME_FORMAT', 'Y-m-d H:i:s' );
 
@@ -98,9 +102,9 @@ define( 'CUSTOM_ADMIN_URI', 'ci3-wp-admin' );
  */
 $web_protocol = 'http';
 if ( $_SERVER[ 'SERVER_PORT' ] == 443 ||
-	( isset( $_SERVER[ 'HTTPS' ] ) && $_SERVER[ 'HTTPS' ] == 'on' ) ||
-	( isset( $_SERVER[ 'HTTP_X_FORWARDED_PROTO' ] ) && $_SERVER[ 'HTTP_X_FORWARDED_PROTO' ] == 'https' ) ) {
-	$web_protocol = 'https';
+    ( isset( $_SERVER[ 'HTTPS' ] ) && $_SERVER[ 'HTTPS' ] == 'on' ) ||
+    ( isset( $_SERVER[ 'HTTP_X_FORWARDED_PROTO' ] ) && $_SERVER[ 'HTTP_X_FORWARDED_PROTO' ] == 'https' ) ) {
+    $web_protocol = 'https';
 }
 //die( $web_protocol );
 define( 'DYNAMIC_BASE_URL', $web_protocol . '://' . $_SERVER[ 'HTTP_HOST' ] . '/' );
@@ -119,17 +123,17 @@ define( 'PUBLIC_PUBLIC_PATH', PUBLIC_HTML_PATH . 'public/' );
  */
 // xác định theme tự động
 foreach ( glob( PUBLIC_PUBLIC_PATH . 'themes/*.theme' ) as $filename ) {
-	$filename = basename( $filename, '.theme' );
-	//echo $filename . '<br>' . "\n";
-	if ( is_dir( PUBLIC_PUBLIC_PATH . 'themes/' . $filename ) ) {
-		define( 'THEMENAME', $filename );
-		break;
-	}
+    $filename = basename( $filename, '.theme' );
+    //echo $filename . '<br>' . "\n";
+    if ( is_dir( PUBLIC_PUBLIC_PATH . 'themes/' . $filename ) ) {
+        define( 'THEMENAME', $filename );
+        break;
+    }
 }
 
 // nếu không có file active theme tự động -> gán mặc định theme echbayfour
 if ( !defined( 'THEMENAME' ) ) {
-	define( 'THEMENAME', 'echbayfour' );
+    define( 'THEMENAME', 'echbayfour' );
 }
 //echo THEMENAME . '<br>' . "\n";
 
