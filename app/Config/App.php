@@ -152,6 +152,7 @@ class App extends BaseConfig
      * @var string
      */
     public $sessionDriver = 'CodeIgniter\Session\Handlers\FileHandler';
+    //public $sessionDriver = 'CodeIgniter\Session\Handlers\DatabaseHandler';
 
     /**
      * --------------------------------------------------------------------------
@@ -194,6 +195,16 @@ class App extends BaseConfig
      * @var string
      */
     public $sessionSavePath = WRITEPATH . 'session';
+    //public $sessionSavePath = 'ci_sessions';
+    /*
+CREATE TABLE IF NOT EXISTS `ci_sessions` (
+    `id` varchar(128) NOT null,
+    `ip_address` varchar(45) NOT null,
+    `timestamp` timestamp DEFAULT CURRENT_TIMESTAMP NOT null,
+    `data` blob NOT null,
+    KEY `ci_sessions_timestamp` (`timestamp`)
+);
+    */
 
     /**
      * --------------------------------------------------------------------------
