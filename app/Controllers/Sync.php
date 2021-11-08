@@ -18,8 +18,9 @@ class Sync extends Controller {
      * daidq: tự động đồng bộ cấu trúc bảng
      * do cấu trúc bảng của wordpress thiếu 1 số tính năng so với bản CI này nên cần thêm cột để sử dụng
      */
-    private function auto_sync_table_column() {
-        // tạo bảng để lưu session khi cần có thể sử dụng luôn
+
+    // tạo bảng để lưu session khi cần có thể sử dụng luôn
+    private function tbl_sessions() {
         $sql = "CREATE TABLE IF NOT EXISTS `ci_sessions` (
             `id` varchar(128) NOT null,
             `ip_address` varchar(45) NOT null,
@@ -28,8 +29,129 @@ class Sync extends Controller {
             KEY `ci_sessions_timestamp` (`timestamp`)
         )";
         echo 'CREATE TABLE IF NOT EXISTS `ci_sessions` <br>' . "\n";
-        $this->base_model->MY_query( $sql );
 
+        //
+        return $this->base_model->MY_query( $sql );
+    }
+
+    // tạo view cho term để select dữ liệu cho tiện
+    private function view_terms() {
+        // lấy các cột trong bảng term để so sánh cột nào chưa có
+        $wp_terms = $this->base_model->default_data( 'wp_terms' );
+        //print_r( $wp_terms );
+
+        //
+        $wp_term_taxonomy = $this->base_model->default_data( 'wp_term_taxonomy' );
+        //print_r( $wp_term_taxonomy );
+
+        //
+        $arr_term_taxonomy = [];
+        foreach ( $wp_term_taxonomy as $k => $v ) {
+            //echo $k . '<br>' . "\n";
+            if ( isset( $wp_terms[ $k ] ) ) {
+                echo '- - - - - - unset wp_term_taxonomy.' . $k . '<br>' . "\n";
+            } else {
+                $arr_term_taxonomy[] = 't.' . $k;
+            }
+        }
+        //print_r( $arr_term_taxonomy );
+
+        //
+        $sql = $this->base_model->select( 'wp_terms.*,' . implode( ',', $arr_term_taxonomy ), 'wp_terms', array(
+            // các kiểu điều kiện where
+        ), array(
+            'join' => array(
+                'wp_term_taxonomy t' => 'wp_terms.term_id = t.term_id'
+            ),
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            'get_query' => 1,
+            //'offset' => 2,
+            //'limit' => 3
+        ) );
+        //echo $sql . '<br>' . "\n";
+
+        //
+        $sql = "CREATE OR REPLACE VIEW v_terms AS " . $sql;
+        //echo $sql . '<br>' . "\n";
+        echo 'CREATE OR REPLACE VIEW v_terms <br>' . "\n";
+
+        //
+        return $this->base_model->MY_query( $sql );
+    }
+
+    // tạo view cho post để select dữ liệu cho tiện
+    private function view_posts() {
+        // lấy các cột trong bảng term để so sánh cột nào chưa có
+        $wp_posts = $this->base_model->default_data( 'wp_posts' );
+        //print_r( $wp_posts );
+
+        //
+        $wp_term_taxonomy = $this->base_model->default_data( 'wp_term_taxonomy' );
+        //print_r( $wp_term_taxonomy );
+
+        //
+        $arr_term_taxonomy = [];
+        foreach ( $wp_term_taxonomy as $k => $v ) {
+            //echo $k . '<br>' . "\n";
+            if ( isset( $wp_posts[ $k ] ) ) {
+                echo '- - - - - - unset wp_term_taxonomy.' . $k . '<br>' . "\n";
+            } else {
+                $arr_term_taxonomy[] = 't.' . $k;
+            }
+        }
+        //print_r( $arr_term_taxonomy );
+
+        //
+        $wp_term_relationships = $this->base_model->default_data( 'wp_term_relationships' );
+        //print_r( $wp_term_relationships );
+
+        //
+        $arr_term_relationships = [];
+        foreach ( $wp_term_relationships as $k => $v ) {
+            //echo $k . '<br>' . "\n";
+            if ( isset( $wp_term_taxonomy[ $k ] ) ) {
+                echo '- - - - - - unset wp_term_relationships.' . $k . '<br>' . "\n";
+            } else {
+                $arr_term_relationships[] = 'r.' . $k;
+            }
+        }
+        //print_r( $arr_term_relationships );
+
+        //
+        $sql = $this->base_model->select( 'wp_posts.*,' . implode( ',', $arr_term_taxonomy ) . ',' . implode( ',', $arr_term_relationships ), 'wp_posts', array(
+            // các kiểu điều kiện where
+        ), array(
+            'join' => array(
+                'wp_term_relationships r' => 'r.object_id = wp_posts.ID',
+                'wp_term_taxonomy t' => 'r.term_taxonomy_id = t.term_taxonomy_id',
+            ),
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            'get_query' => 1,
+            //'offset' => 2,
+            //'limit' => 3
+        ) );
+        //echo $sql . '<br>' . "\n";
+
+        //
+        //return false;
+
+        //
+        $sql = "CREATE OR REPLACE VIEW v_posts AS " . $sql;
+        //echo $sql . '<br>' . "\n";
+        echo 'CREATE OR REPLACE VIEW v_posts <br>' . "\n";
+
+        //
+        return $this->base_model->MY_query( $sql );
+    }
+
+    private function auto_sync_table_column() {
+        $this->tbl_sessions();
+        $this->view_terms();
+        $this->view_posts();
 
         // các cột khi gặp sẽ thêm cả chức năng add index
         $arr_index_cloumn = [

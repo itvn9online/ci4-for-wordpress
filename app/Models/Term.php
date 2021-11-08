@@ -9,6 +9,18 @@ use App\ Libraries\ TaxonomyType;
 
 //
 class Term extends EB_Model {
+    protected $table = 'wp_terms';
+    protected $primaryKey = 'term_id';
+
+    protected $metaTable = 'wp_termmeta';
+    protected $metaKey = 'meta_id';
+
+    protected $taxTable = 'wp_term_taxonomy';
+    protected $taxKey = 'term_taxonomy_id';
+
+    protected $relaTable = 'wp_term_relationships';
+    protected $relaKey = 'object_id';
+
     function __construct() {
         parent::__construct();
     }
@@ -22,22 +34,18 @@ class Term extends EB_Model {
         //
         $where = [
             // các kiểu điều kiện where
-            //'wp_terms.slug' => $slug,
-            'wp_terms.lang_key' => $ops[ 'lang_key' ],
-            'wp_terms.is_deleted' => DeletedStatus::DEFAULT,
-            'wp_term_taxonomy.taxonomy' => $taxonomy
+            'lang_key' => $ops[ 'lang_key' ],
+            'is_deleted' => DeletedStatus::DEFAULT,
+            'taxonomy' => $taxonomy
         ];
         if ( $slug != '' ) {
-            $where[ 'wp_terms.slug' ] = $slug;
+            $where[ 'slug' ] = $slug;
         }
 
         // select dữ liệu từ 1 bảng bất kỳ
-        $post_cat = $this->base_model->select( '*', 'wp_terms', $where, array(
-            'join' => array(
-                'wp_term_taxonomy' => 'wp_term_taxonomy.term_id = wp_terms.term_id'
-            ),
+        $post_cat = $this->base_model->select( '*', 'v_terms', $where, array(
             'order_by' => array(
-                'wp_terms.term_id' => 'DESC',
+                $this->primaryKey => 'DESC',
             ),
             // hiển thị mã SQL để check
             //'show_query' => 1,
@@ -75,7 +83,7 @@ class Term extends EB_Model {
                 $result_id = $this->insert_terms( [
                     'name' => str_replace( '-', ' ', $slug ),
                     'slug' => $slug,
-                    'wp_terms.lang_key' => $ops[ 'lang_key' ],
+                    'lang_key' => $ops[ 'lang_key' ],
                 ], $taxonomy );
 
                 //
@@ -114,13 +122,13 @@ class Term extends EB_Model {
         //die( __FILE__ . ':' . __LINE__ );
 
         //
-        $result_id = $this->base_model->insert( 'wp_terms', $data, true );
+        $result_id = $this->base_model->insert( $this->table, $data, true );
         //echo $result_id . '<br>' . "\n";
 
         if ( $result_id > 0 ) {
-            $this->base_model->insert( 'wp_term_taxonomy', [
-                'term_taxonomy_id' => $result_id,
-                'term_id' => $result_id,
+            $this->base_model->insert( $this->taxTable, [
+                $this->taxKey => $result_id,
+                $this->primaryKey => $result_id,
                 'taxonomy' => $taxonomy,
                 'description' => 'Auto create nav menu taxonomy',
             ] );
@@ -136,7 +144,7 @@ class Term extends EB_Model {
         return false;
     }
 
-    function update_terms( $term_id, $data, $taxonomy = '', $tbl = 'wp_terms' ) {
+    function update_terms( $term_id, $data, $taxonomy = '' ) {
         if ( isset( $data[ 'slug' ] ) ) {
             if ( $data[ 'slug' ] == '' ) {
                 $data[ 'slug' ] = $data[ 'name' ];
@@ -154,23 +162,23 @@ class Term extends EB_Model {
 
         //
         $where = [
-            'term_id' => $term_id,
+            $this->primaryKey => $term_id,
         ];
         //print_r( $where );
 
         //
-        $this->base_model->update_multiple( $tbl, $data, $where, [
+        $this->base_model->update_multiple( $this->table, $data, $where, [
             'debug_backtrace' => debug_backtrace()[ 1 ][ 'function' ]
         ] );
 
-        // nếu có taxonomy -> update luôn cho bảng wp_term_taxonomy
+        // nếu có taxonomy -> update luôn cho bảng term_taxonomy
         if ( $taxonomy != '' ) {
             $where = [
-                'term_id' => $term_id,
+                $this->primaryKey => $term_id,
                 'taxonomy' => $taxonomy,
             ];
             //print_r( $where );
-            $this->base_model->update_multiple( 'wp_term_taxonomy', $data, $where, [
+            $this->base_model->update_multiple( $this->taxTable, $data, $where, [
                 'debug_backtrace' => debug_backtrace()[ 1 ][ 'function' ]
             ] );
         }
@@ -183,7 +191,7 @@ class Term extends EB_Model {
     }
 
     // thêm post meta
-    function insert_meta_term( $meta_data, $term_id, $tbl = 'wp_termmeta' ) {
+    function insert_meta_term( $meta_data, $term_id ) {
         //print_r( $meta_data );
         if ( !is_array( $meta_data ) || empty( $meta_data ) ) {
             return false;
@@ -192,13 +200,13 @@ class Term extends EB_Model {
         /*
          * v2 -> Xóa hết đi add lại
          */
-        $this->base_model->delete( $tbl, 'term_id', $term_id );
+        $this->base_model->delete( $this->metaTable, $this->primaryKey, $term_id );
 
         // add lại
         foreach ( $meta_data as $k => $v ) {
             if ( $v != '' ) {
-                $this->base_model->insert( $tbl, [
-                    'term_id' => $term_id,
+                $this->base_model->insert( $this->metaTable, [
+                    $this->primaryKey => $term_id,
                     'meta_key' => $k,
                     'meta_value' => $v,
                 ] );
@@ -230,8 +238,8 @@ class Term extends EB_Model {
         // các meta chưa có thì insert
         //print_r( $insert_meta );
         foreach ( $insert_meta as $k => $v ) {
-            $this->base_model->insert( $tbl, [
-                'term_id' => $term_id,
+            $this->base_model->insert( $this->metaTable, [
+                $this->primaryKey => $term_id,
                 'meta_key' => $k,
                 'meta_value' => $v,
             ] );
@@ -240,10 +248,10 @@ class Term extends EB_Model {
         // các meta có rồi thì update
         //print_r( $update_meta );
         foreach ( $update_meta as $k => $v ) {
-            $this->base_model->update_multiple( $tbl, [
+            $this->base_model->update_multiple( $this->metaTable, [
                 'meta_value' => $v,
             ], [
-                'term_id' => $term_id,
+                $this->primaryKey => $term_id,
                 'meta_key' => $k,
             ] );
         }
@@ -256,7 +264,7 @@ class Term extends EB_Model {
     // trả về mảng dữ liệu để json data -> auto select category bằng js cho nhẹ -> lấy quá nhiều dữ liệu dễ bị json lỗi
     function get_json_taxonomy( $taxonomy = 'category', $term_id = 0, $ops = [] ) {
         // cố định loại cột cần lấy
-        $ops[ 'select_col' ] = 'wp_terms.term_id, wp_terms.name';
+        $ops[ 'select_col' ] = $this->primaryKey . ', name';
 
         //
         return json_encode( $this->get_all_taxonomy( $taxonomy, $term_id, $ops ) );
@@ -271,19 +279,19 @@ class Term extends EB_Model {
 
         // các kiểu điều kiện where
         $where = [
-            'wp_term_taxonomy.taxonomy' => $taxonomy,
-            'wp_terms.lang_key' => LanguageCost::lang_key()
+            'taxonomy' => $taxonomy,
+            'lang_key' => LanguageCost::lang_key()
         ];
         $where_or_like = [];
         if ( $term_id > 0 ) {
-            $where[ 'wp_terms.term_id' ] = $term_id;
+            $where[ $this->primaryKey ] = $term_id;
             $ops[ 'limit' ] = 1;
         } else if ( isset( $ops[ 'slug' ] ) && !empty( $ops[ 'slug' ] ) ) {
-            $where[ 'wp_terms.slug' ] = $ops[ 'slug' ];
+            $where[ 'slug' ] = $ops[ 'slug' ];
             $ops[ 'limit' ] = 1;
             $ops[ 'slug_get_child' ] = 1;
         } else {
-            $where[ 'wp_terms.is_deleted' ] = DeletedStatus::DEFAULT;
+            $where[ 'is_deleted' ] = DeletedStatus::DEFAULT;
 
             // tìm kiếm
             if ( isset( $ops[ 'or_like' ] ) && !empty( $ops[ 'or_like' ] ) ) {
@@ -299,11 +307,11 @@ class Term extends EB_Model {
                     }
                 }
                 if ( isset( $ops[ 'parent' ] ) ) {
-                    $where[ 'wp_term_taxonomy.parent' ] = $ops[ 'parent' ];
+                    $where[ 'parent' ] = $ops[ 'parent' ];
                 }
             }
             if ( isset( $ops[ 'lang_key' ] ) ) {
-                $where[ 'wp_terms.lang_key' ] = $ops[ 'lang_key' ];
+                $where[ 'lang_key' ] = $ops[ 'lang_key' ];
             }
         }
 
@@ -324,14 +332,11 @@ class Term extends EB_Model {
         //die( 'dh dgd' );
 
         //
-        $post_cat = $this->base_model->select( $ops[ 'select_col' ], 'wp_terms', $where, array(
+        $post_cat = $this->base_model->select( $ops[ 'select_col' ], 'v_terms', $where, array(
             'or_like' => $where_or_like,
-            'join' => array(
-                'wp_term_taxonomy' => 'wp_term_taxonomy.term_id = wp_terms.term_id'
-            ),
             'order_by' => array(
-                'wp_terms.term_order' => 'DESC',
-                'wp_terms.term_id' => 'DESC',
+                'term_order' => 'DESC',
+                $this->primaryKey => 'DESC',
             ),
             // hiển thị mã SQL để check
             //'show_query' => 1,
@@ -371,7 +376,7 @@ class Term extends EB_Model {
     function get_child_terms( $data, $ops = [] ) {
         //print_r( $data );
         foreach ( $data as $k => $v ) {
-            $ops[ 'parent' ] = $v[ 'term_id' ];
+            $ops[ 'parent' ] = $v[ $this->primaryKey ];
             //print_r( $ops );
 
             //
@@ -386,32 +391,32 @@ class Term extends EB_Model {
         $list = explode( ',', $list );
 
         // xóa các term_relationships cũ
-        $this->base_model->delete( 'wp_term_relationships', 'object_id', $post_id );
+        $this->base_model->delete( $this->relaTable, $this->relaKey, $post_id );
 
         // insert cái mới
         foreach ( $list as $term_id ) {
             $term_id = trim( $term_id );
 
             if ( $term_id != '' && $term_id > 0 ) {
-                $this->base_model->insert( 'wp_term_relationships', [
-                    'object_id' => $post_id,
-                    'term_taxonomy_id' => $term_id,
+                $this->base_model->insert( $this->relaTable, [
+                    $this->relaKey => $post_id,
+                    $this->taxKey => $term_id,
                     'term_order' => $term_order,
                 ] );
             }
         }
     }
 
-    function get_meta_terms( $term_id, $key = '', $tbl = 'wp_termmeta' ) {
+    function get_meta_terms( $term_id, $key = '' ) {
         // lấy theo key cụ thể
         if ( $key != '' ) {
-            $data = $this->base_model - select( '*', $tbl, array(
+            $data = $this->base_model - select( '*', $this->metaTable, array(
                 // các kiểu điều kiện where
-                'term_id' => $term_id,
+                $this->primaryKey => $term_id,
                 'meta_key' => $key,
             ), array(
                 'order_by' => array(
-                    'meta_id' => 'DESC'
+                    $this->metaKey => 'DESC'
                 ),
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
@@ -429,15 +434,15 @@ class Term extends EB_Model {
         }
 
         // lấy toàn bộ meta
-        return $this->base_model->select( '*', $tbl, array(
+        return $this->base_model->select( '*', $this->metaTable, array(
             // các kiểu điều kiện where
-            'term_id' => $term_id
+            $this->primaryKey => $term_id
         ), array(
             'group_by' => array(
                 'meta_key',
             ),
             'order_by' => array(
-                'meta_id' => 'DESC'
+                $this->metaKey => 'DESC'
             ),
             // hiển thị mã SQL để check
             //'show_query' => 1,
@@ -449,8 +454,8 @@ class Term extends EB_Model {
     }
 
     // trả về danh sách meta terms dưới dạng key => value
-    function arr_meta_terms( $term_id, $tbl = 'wp_termmeta' ) {
-        $data = $this->get_meta_terms( $term_id, '', $tbl );
+    function arr_meta_terms( $term_id ) {
+        $data = $this->get_meta_terms( $term_id, '', $this->metaTable );
 
         //
         $meta_data = [];
@@ -463,7 +468,7 @@ class Term extends EB_Model {
     function terms_meta_post( $data ) {
         foreach ( $data as $k => $v ) {
             //print_r( $v );
-            $data[ $k ][ 'term_meta' ] = $this->arr_meta_terms( $v[ 'term_id' ] );
+            $data[ $k ][ 'term_meta' ] = $this->arr_meta_terms( $v[ $this->primaryKey ] );
         }
         //print_r( $data );
 
@@ -552,7 +557,7 @@ class Term extends EB_Model {
                     $node = str_replace( '%' . $key . '%', $val, $node );
                 }
             }
-            $node = str_replace( '%get_admin_permalink%', $this->get_admin_permalink( $v[ 'taxonomy' ], $v[ 'term_id' ] ), $node );
+            $node = str_replace( '%get_admin_permalink%', $this->get_admin_permalink( $v[ 'taxonomy' ], $v[ $this->primaryKey ] ), $node );
 
             //
             $str .= $node;
@@ -579,7 +584,7 @@ class Term extends EB_Model {
             if ( isset( $slider[ 'term_meta' ][ 'taxonomy_auto_slider' ] ) && $slider[ 'term_meta' ][ 'taxonomy_auto_slider' ] == 'on' ) {
                 //echo 'taxonomy_auto_slider';
 
-                $slug = $slider[ 'slug' ] . '-' . $slider[ 'taxonomy' ] . '-' . $slider[ 'term_id' ];
+                $slug = $slider[ 'slug' ] . '-' . $slider[ 'taxonomy' ] . '-' . $slider[ $this->primaryKey ];
                 return $slug;
 
                 /*
@@ -619,10 +624,10 @@ class Term extends EB_Model {
                 $prams = [];
                 //return debug_backtrace()[ 1 ][ 'function' ] . ' $prams is NULL!';
             }
-            // tự tạo theo term_id
+            // tự tạo theo term id
             else if ( is_numeric( $prams ) ) {
                 $prams = [
-                    'term_id' => $prams
+                    $this->primaryKey => $prams
                 ];
             }
             // hoặc slug
@@ -633,8 +638,8 @@ class Term extends EB_Model {
             }
         }
 
-        if ( !isset( $prams[ 'term_id' ] ) ) {
-            $prams[ 'term_id' ] = isset( $ops[ 'term_id' ] ) ? $ops[ 'term_id' ] : 0;
+        if ( !isset( $prams[ $this->primaryKey ] ) ) {
+            $prams[ $this->primaryKey ] = isset( $ops[ $this->primaryKey ] ) ? $ops[ $this->primaryKey ] : 0;
         }
         if ( !isset( $prams[ 'limit' ] ) ) {
             $prams[ 'limit' ] = isset( $ops[ 'limit' ] ) ? $ops[ 'limit' ] : 0;
@@ -658,6 +663,6 @@ class Term extends EB_Model {
         //print_r( $prams );
 
         //
-        return $this->get_all_taxonomy( TaxonomyType::POSTS, $prams[ 'term_id' ], $prams );
+        return $this->get_all_taxonomy( TaxonomyType::POSTS, $prams[ $this->primaryKey ], $prams );
     }
 }

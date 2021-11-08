@@ -29,18 +29,15 @@ class Blogs extends Posts {
         }
 
         // -> kiểm tra theo category
-        $data = $this->base_model->select( 'wp_terms.*', 'wp_terms', array(
+        $data = $this->base_model->select( '*', 'v_terms', array(
             // các kiểu điều kiện where
-            'wp_terms.slug' => $slug,
-            'wp_terms.is_deleted' => DeletedStatus::DEFAULT,
-            'wp_terms.lang_key' => $this->lang_key,
-            'wp_term_taxonomy.taxonomy' => TaxonomyType::BLOGS,
+            'slug' => $slug,
+            'is_deleted' => DeletedStatus::DEFAULT,
+            'lang_key' => $this->lang_key,
+            'taxonomy' => TaxonomyType::BLOGS,
         ), array(
-            'join' => [
-                'wp_term_taxonomy' => 'wp_term_taxonomy.term_id = wp_terms.term_id'
-            ],
             'order_by' => array(
-                'wp_terms.term_id' => 'DESC'
+                'term_id' => 'DESC'
             ),
             // hiển thị mã SQL để check
             //'show_query' => 1,

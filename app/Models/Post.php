@@ -170,15 +170,12 @@ class Post extends EB_Model {
 		// tìm theo slug truyền vào
 		else if ( isset( $post_cat[ 'slug' ] ) && $post_cat[ 'slug' ] != '' ) {
 			// lấy term_id theo slug truyền vào
-			$get_term_id = $this->base_model->select( 'wp_terms.term_id', 'wp_terms', [
-				'wp_terms.slug' => $post_cat[ 'slug' ],
-				'wp_terms.is_deleted' => DeletedStatus::DEFAULT,
-				'wp_term_taxonomy.taxonomy' => $post_cat[ 'taxonomy' ],
+			$get_term_id = $this->base_model->select( 'term_id', 'v_terms', [
+				'slug' => $post_cat[ 'slug' ],
+				'is_deleted' => DeletedStatus::DEFAULT,
+				'taxonomy' => $post_cat[ 'taxonomy' ],
 			], [
 				//'order_by' => $order_by,
-				'join' => [
-					'wp_term_taxonomy' => 'wp_terms.term_id = wp_term_taxonomy.term_taxonomy_id',
-				],
 				//'get_sql' => 1,
 				//'show_query' => 1,
 				//'debug_only' => 1,
@@ -198,7 +195,7 @@ class Post extends EB_Model {
 		//
 		if ( isset( $ops[ 'count_record' ] ) ) {
 			$data = $this->base_model->select( 'COUNT(wp_posts.ID) AS c', 'wp_posts', $where, [
-				'order_by' => $order_by,
+				//'order_by' => $order_by,
 				'join' => [
 					'wp_term_relationships' => 'wp_term_relationships.object_id = wp_posts.ID',
 					'wp_term_taxonomy' => 'wp_term_relationships.term_taxonomy_id = wp_term_taxonomy.term_taxonomy_id',
