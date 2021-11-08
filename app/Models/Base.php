@@ -150,9 +150,33 @@ class Base {
 
         if ( isset( $op[ 'join' ] ) ) {
             foreach ( $op[ 'join' ] as $k => $v ) {
+                $builder->join( $k, $v, 'inner' );
+            }
+        }
+        if ( isset( $op[ 'left_join' ] ) ) {
+            foreach ( $op[ 'left_join' ] as $k => $v ) {
                 $builder->join( $k, $v, 'left' );
             }
         }
+        if ( isset( $op[ 'right_join' ] ) ) {
+            foreach ( $op[ 'right_join' ] as $k => $v ) {
+                $builder->join( $k, $v, 'right' );
+            }
+        }
+        /*
+        if ( isset( $op[ 'full_join' ] ) ) {
+            foreach ( $op[ 'full_join' ] as $k => $v ) {
+                $builder->join( $k, $v, 'full' );
+            }
+        }
+        */
+        /*
+        if ( isset( $op[ 'self_join' ] ) ) {
+            foreach ( $op[ 'self_join' ] as $k => $v ) {
+                $builder->join( $k, $v, 'self' );
+            }
+        }
+        */
         // điều kiện lấy dữ liệu
         foreach ( $where as $k => $v ) {
             if ( $v === NULL ) {
