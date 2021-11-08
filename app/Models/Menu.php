@@ -8,6 +8,9 @@ use App\ Libraries\ LanguageCost;
 use App\ Libraries\ PostType;
 
 class Menu extends EB_Model {
+    protected $table = 'wp_posts';
+    protected $primaryKey = 'ID';
+
     function __construct() {
         parent::__construct();
 
@@ -20,7 +23,7 @@ class Menu extends EB_Model {
         //echo $slug . '<br>' . "\n";
 
         // select dữ liệu từ 1 bảng bất kỳ
-        $sql = $this->base_model->select( '*', $tbl, array(
+        $sql = $this->base_model->select( '*', $this->table, array(
             // các kiểu điều kiện where
             'post_type' => PostType::MENU,
             'post_status' => 'publish',
@@ -28,7 +31,7 @@ class Menu extends EB_Model {
             'lang_key' => $lang
         ), array(
             'order_by' => array(
-                'ID' => 'DESC'
+                $this->primaryKey => 'DESC'
             ),
             // hiển thị mã SQL để check
             //'show_query' => 1,
@@ -54,7 +57,7 @@ class Menu extends EB_Model {
 
                 // nếu không phải ngôn ngữ mặc định -> copy từ ngôn ngữ mặc định qua nếu có
                 if ( $lang != LanguageCost::default_lang() ) {
-                    $sql = $this->base_model->select( '*', $tbl, array(
+                    $sql = $this->base_model->select( '*', $this->table, array(
                         // các kiểu điều kiện where
                         'post_type' => PostType::MENU,
                         'post_status' => 'publish',
@@ -62,7 +65,7 @@ class Menu extends EB_Model {
                         'lang_key' => LanguageCost::default_lang()
                     ), array(
                         'order_by' => array(
-                            'ID' => 'DESC'
+                            $this->primaryKey => 'DESC'
                         ),
                         // hiển thị mã SQL để check
                         //'show_query' => 1,
@@ -85,7 +88,7 @@ class Menu extends EB_Model {
                 //echo $insert_id . '<br>' . "\n";
 
                 if ( $insert_id > 0 ) {
-                    return $this->get_dynamic_menu( $slug, $menu_type, $tbl, false );
+                    return $this->get_dynamic_menu( $slug, $menu_type, $this->table, false );
                 }
             } else {
                 die( 'ERROR auto create new menu #' . PostType::MENU . ':' . basename( __FILE__ ) . ':' . __LINE__ );

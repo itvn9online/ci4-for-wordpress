@@ -3,8 +3,11 @@
 namespace App\ Models;
 
 class Comment extends EB_Model {
-	public $tbl = 'wp_comments';
-	public $metatbl = 'wp_commentmeta';
+    public $table = 'wp_comments';
+    protected $primaryKey = 'comment_ID';
+
+    public $metaTable = 'wp_commentmeta';
+    protected $metaKey = 'meta_id';
 
 	function __construct() {
 		parent::__construct();
@@ -30,10 +33,10 @@ class Comment extends EB_Model {
 		}
 
 		//
-		return $this->base_model->insert( $this->tbl, $data, true );
+		return $this->base_model->insert( $this->table, $data, true );
 	}
 
 	public function insert_meta_comments( $data ) {
-		return $this->base_model->insert( $this->metatbl, $data, true );
+		return $this->base_model->insert( $this->metaTable, $data, true );
 	}
 }

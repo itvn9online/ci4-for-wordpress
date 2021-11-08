@@ -9,32 +9,33 @@ use App\ Libraries\ DeletedStatus;
 
 //
 class Option extends EB_Model {
-    public $tbl = 'wp_options';
+    public $table = 'wp_options';
+    protected $primaryKey = 'option_id';
 
     function __construct() {
         parent::__construct();
     }
 
     public function insert_options( $data ) {
-        return $this->base_model->insert( $this->tbl, $data );
+        return $this->base_model->insert( $this->table, $data );
     }
 
     public function backup_options( $option_type, $lang_key ) {
         // backup dữ liệu cũ
-        $sql = "INSERT INTO `wp_options_deleted` SELECT * FROM `$this->tbl` WHERE option_type = '$option_type' AND lang_key = '$lang_key'";
+        $sql = "INSERT INTO `wp_options_deleted` SELECT * FROM `$this->table` WHERE option_type = '$option_type' AND lang_key = '$lang_key'";
         //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query( $sql );
         echo 'Backup config: ' . $option_type . '<br>' . "\n";
 
         // xong xóa
-        $sql = "DELETE FROM `$this->tbl` WHERE option_type = '$option_type' AND lang_key = '$lang_key'";
+        $sql = "DELETE FROM `$this->table` WHERE option_type = '$option_type' AND lang_key = '$lang_key'";
         //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query( $sql );
         echo 'Delete config: ' . $option_type . '<br>' . "\n";
     }
 
     public function get_lang() {
-        $data = $this->base_model->select( 'option_name, option_value', $this->tbl, array(
+        $data = $this->base_model->select( 'option_name, option_value', $this->table, array(
             // các kiểu điều kiện where
             'is_deleted' => DeletedStatus::DEFAULT,
             'option_type' => ConfigType::TRANS,
@@ -46,7 +47,7 @@ class Option extends EB_Model {
             ),
             */
             'order_by' => array(
-                'option_id' => 'DESC',
+                $this->primaryKey => 'DESC',
             ),
             // hiển thị mã SQL để check
             //'show_query' => 1,
@@ -84,7 +85,7 @@ class Option extends EB_Model {
         }
         //print_r( $config_default );
         //print_r( $arr_in_option_type );
-        $sql = $this->base_model->select( '*', $this->tbl, array(
+        $sql = $this->base_model->select( '*', $this->table, array(
             // các kiểu điều kiện where
             'is_deleted' => DeletedStatus::DEFAULT,
             //'option_type' => ConfigType::CONFIG,
@@ -94,7 +95,7 @@ class Option extends EB_Model {
                 'option_type' => $arr_in_option_type
             ),
             'order_by' => array(
-                'option_id' => 'DESC',
+                $this->primaryKey => 'DESC',
             ),
             // hiển thị mã SQL để check
             //'show_query' => 1,
@@ -118,14 +119,14 @@ class Option extends EB_Model {
 
                     //
                     $data_insert = $v;
-                    $data_insert[ 'option_id' ] = 0;
-                    unset( $data_insert[ 'option_id' ] );
+                    $data_insert[ $this->primaryKey ] = 0;
+                    unset( $data_insert[ $this->primaryKey ] );
                     $data_insert[ 'lang_key' ] = $lang_key;
-                    $data_insert[ 'lang_parent' ] = $v[ 'option_id' ];
+                    $data_insert[ 'lang_parent' ] = $v[ $this->primaryKey ];
                     //print_r( $data_insert );
 
                     //
-                    $this->base_model->insert( $this->tbl, $data_insert );
+                    $this->base_model->insert( $this->table, $data_insert );
                 }
 
                 // xong thì trả về dữ liệu insert nếu có
