@@ -183,18 +183,11 @@ class Post extends EB_Model {
         // tìm theo slug truyền vào
         else if ( isset( $post_cat[ 'slug' ] ) && $post_cat[ 'slug' ] != '' ) {
             // lấy term_id theo slug truyền vào
-            $get_term_id = $this->base_model->select( 'term_id', 'v_terms', [
+            $get_term_id = $this->term_model->get_taxonomy( [
                 'slug' => $post_cat[ 'slug' ],
                 'is_deleted' => DeletedStatus::DEFAULT,
                 'taxonomy' => $post_cat[ 'taxonomy' ],
-            ], [
-                //'order_by' => $order_by,
-                //'get_sql' => 1,
-                //'show_query' => 1,
-                //'debug_only' => 1,
-                //'offset' => $ops[ 'offset' ],
-                'limit' => 1
-            ] );
+            ], 1, 'term_id' );
             //print_r( $get_term_id );
 
             // không có thì trả về lỗi

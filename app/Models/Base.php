@@ -219,24 +219,69 @@ class Base {
         // where_not_in
         if ( isset( $op[ 'where_not_in' ] ) ) {
             foreach ( $op[ 'where_not_in' ] as $k => $v ) {
-                $builder->whereNotIn( $k, $v );
+                if ( !empty( $v ) ) {
+                    $builder->whereNotIn( $k, $v );
+                }
             }
         }
 
         // like
         if ( isset( $op[ 'like' ] ) ) {
             foreach ( $op[ 'like' ] as $k => $v ) {
-                if ( !empty( $v ) ) {
+                $len = strlen( $v );
+                // từ 3 ký tự trở lên sẽ tìm theo dạng '%tu-khoa%'
+                if ( $len > 2 ) {
                     $builder->like( $k, $v );
+                }
+                // từ 3 ký tự trở xuống sẽ tìm theo dạng 'tu-khoa%' -> bắt đầu bằng
+                else if ( $len > 0 ) {
+                    $builder->like( $k, $v, 'after' );
                 }
             }
         }
-
+        // not like
+        if ( isset( $op[ 'not_like' ] ) ) {
+            foreach ( $op[ 'not_like' ] as $k => $v ) {
+                $len = strlen( $v );
+                // từ 3 ký tự trở lên sẽ tìm theo dạng '%tu-khoa%'
+                if ( $len > 2 ) {
+                    $builder->notLike( $k, $v );
+                }
+                // từ 3 ký tự trở xuống sẽ tìm theo dạng 'tu-khoa%' -> bắt đầu bằng
+                else if ( $len > 0 ) {
+                    $builder->notLike( $k, $v, 'after' );
+                }
+            }
+        }
         // or_like
         if ( isset( $op[ 'or_like' ] ) && !empty( $op[ 'or_like' ] ) ) {
             $builder->groupStart();
             foreach ( $op[ 'or_like' ] as $k => $v ) {
-                $builder->orLike( $k, $v );
+                $len = strlen( $v );
+                // từ 3 ký tự trở lên sẽ tìm theo dạng '%tu-khoa%'
+                if ( $len > 2 ) {
+                    $builder->orLike( $k, $v );
+                }
+                // từ 3 ký tự trở xuống sẽ tìm theo dạng 'tu-khoa%' -> bắt đầu bằng
+                else if ( $len > 0 ) {
+                    $builder->orLike( $k, $v, 'after' );
+                }
+            }
+            $builder->groupEnd();
+        }
+        // or_not_like
+        if ( isset( $op[ 'or_not_like' ] ) && !empty( $op[ 'or_not_like' ] ) ) {
+            $builder->groupStart();
+            foreach ( $op[ 'or_not_like' ] as $k => $v ) {
+                $len = strlen( $v );
+                // từ 3 ký tự trở lên sẽ tìm theo dạng '%tu-khoa%'
+                if ( $len > 2 ) {
+                    $builder->orNotLike( $k, $v );
+                }
+                // từ 3 ký tự trở xuống sẽ tìm theo dạng 'tu-khoa%' -> bắt đầu bằng
+                else if ( $len > 0 ) {
+                    $builder->orNotLike( $k, $v, 'after' );
+                }
             }
             $builder->groupEnd();
         }

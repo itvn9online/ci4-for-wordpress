@@ -62,22 +62,12 @@ class Home extends Layout {
         //echo $page_num . ' <br>' . "\n";
 
         // -> kiểm tra theo category
-        $data = $this->base_model->select( '*', 'v_terms', array(
+        $data = $this->term_model->get_taxonomy( array(
             // các kiểu điều kiện where
             'slug' => $slug_1,
             'is_deleted' => DeletedStatus::DEFAULT,
             'lang_key' => $this->lang_key,
             'taxonomy' => TaxonomyType::POSTS,
-        ), array(
-            'order_by' => array(
-                'term_id' => 'DESC'
-            ),
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-            //'offset' => 2,
-            'limit' => 1
         ) );
         //print_r( $data );
 

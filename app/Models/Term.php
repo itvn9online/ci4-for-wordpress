@@ -42,18 +42,8 @@ class Term extends EB_Model {
             $where[ 'slug' ] = $slug;
         }
 
-        // select dữ liệu từ 1 bảng bất kỳ
-        $post_cat = $this->base_model->select( '*', 'v_terms', $where, array(
-            'order_by' => array(
-                $this->primaryKey => 'DESC',
-            ),
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-            //'offset' => 2,
-            'limit' => 1
-        ) );
+        //
+        $post_cat = $this->get_taxonomy( $where );
         //print_r( $post_cat );
 
         // nếu không có -> insert luôn 1 nhóm mới
@@ -373,6 +363,20 @@ class Term extends EB_Model {
         return $post_cat;
     }
 
+    public function get_taxonomy( $where, $limit = 1, $select_col = '*' ) {
+        return $this->base_model->select( $select_col, 'v_terms', $where, array(
+            'order_by' => array(
+                $this->primaryKey => 'DESC'
+            ),
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            //'offset' => 2,
+            'limit' => $limit
+        ) );
+    }
+
     function get_child_terms( $data, $ops = [] ) {
         //print_r( $data );
         foreach ( $data as $k => $v ) {
@@ -466,6 +470,7 @@ class Term extends EB_Model {
     }
 
     function terms_meta_post( $data ) {
+        //print_r( $data );
         foreach ( $data as $k => $v ) {
             //print_r( $v );
             $data[ $k ][ 'term_meta' ] = $this->arr_meta_terms( $v[ $this->primaryKey ] );

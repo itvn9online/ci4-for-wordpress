@@ -40,30 +40,31 @@ class Uploads extends Admin {
         // URL cho phân trang tìm kiếm
         $urlPartPage = 'admin/uploads?post_type=' . $this->post_type;
 
-		// loại bớt các tham số trong URL
-		//print_r( $_GET );
-		$arr_deny_params = [
-			'post_type',
-			's',
-			'page_num',
-		];
-		$hiddenSearchForm = [];
-		foreach ( $_GET as $k => $v ) {
-			if ( in_array( $k, $arr_deny_params ) ) {
-				continue;
-			}
-			$urlPartPage .= '&' . $k . '=' . $v;
-			$hiddenSearchForm[ $k ] = $v;
-		}
+        // loại bớt các tham số trong URL
+        //print_r( $_GET );
+        $arr_deny_params = [
+            'post_type',
+            's',
+            'page_num',
+        ];
+        $hiddenSearchForm = [];
+        foreach ( $_GET as $k => $v ) {
+            if ( in_array( $k, $arr_deny_params ) ) {
+                continue;
+            }
+            $urlPartPage .= '&' . $k . '=' . $v;
+            $hiddenSearchForm[ $k ] = $v;
+        }
 
-		//
+        //
         if ( $by_keyword != '' ) {
             $urlPartPage .= '&s=' . $by_keyword;
 
             //
             $by_like = $this->base_model->_eb_non_mark_seo( $by_keyword );
-            // tối thiểu từ 3 ký tự trở lên mới kích hoạt tìm kiếm
-            if ( strlen( $by_like ) > 2 ) {
+            // tối thiểu từ 1 ký tự trở lên mới kích hoạt tìm kiếm
+            if ( strlen( $by_like ) > 0 ) {
+                //var_dump( strlen( $by_like ) );
                 $where_or_like = [
                     //'ID' => $by_like,
                     'post_name' => $by_like,
@@ -135,7 +136,7 @@ class Uploads extends Admin {
         $this->teamplate_admin[ 'content' ] = view( 'admin/uploads/list', array(
             'by_keyword' => $by_keyword,
             'data' => $data,
-			'hiddenSearchForm' => $hiddenSearchForm,
+            'hiddenSearchForm' => $hiddenSearchForm,
             'pagination' => $pagination,
             'totalThread' => $totalThread,
             //'taxonomy' => $this->taxonomy,

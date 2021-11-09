@@ -74,8 +74,9 @@ class Posts extends Admin {
 
             //
             $by_like = $this->base_model->_eb_non_mark_seo( $by_keyword );
-            // tối thiểu từ 3 ký tự trở lên mới kích hoạt tìm kiếm
-            if ( strlen( $by_like ) > 2 ) {
+            // tối thiểu từ 1 ký tự trở lên mới kích hoạt tìm kiếm
+            if ( strlen( $by_like ) > 0 ) {
+                //var_dump( strlen( $by_like ) );
                 $is_number = is_numeric( $by_like );
                 // nếu là số -> chỉ tìm theo ID
                 if ( $is_number === true ) {
@@ -84,7 +85,7 @@ class Posts extends Admin {
                     ];
                 } else {
                     $where_or_like = [
-                        'ID' => $by_like,
+                        //'ID' => $by_like,
                         'post_name' => $by_like,
                         'post_title' => $by_keyword,
                     ];

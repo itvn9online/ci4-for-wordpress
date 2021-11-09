@@ -111,7 +111,15 @@ $sql = $this->base_model->select( '*', 'tbl_user', array(
 		'username' => 2,
 		'user_id' => 1
 	),
+	'not_like' => array(
+		'username' => 2,
+		'user_id' => 1
+	),
 	'or_like' => array(
+		'username' => 2,
+		'user_id' => 1
+	),
+	'or_not_like' => array(
 		'username' => 2,
 		'user_id' => 1
 	),
