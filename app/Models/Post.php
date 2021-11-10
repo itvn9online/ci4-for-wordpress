@@ -6,6 +6,7 @@ namespace App\ Models;
 use App\ Libraries\ LanguageCost;
 use App\ Libraries\ PostType;
 use App\ Libraries\ TaxonomyType;
+use App\ Libraries\ DeletedStatus;
 
 //
 class Post extends EB_Model {
