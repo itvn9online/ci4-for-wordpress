@@ -255,6 +255,29 @@ var g_func = {
     number_format: function (str) {
         return g_func.formatCurrency(str);
     },
+    formatV2Currency: function (number, decimals, dec_point, thousands_sep) {
+        // Strip all characters but numerical ones.
+        number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+        var n = !isFinite(+number) ? 0 : +number,
+            prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+            sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+            dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+            s = '',
+            toFixedFix = function (n, prec) {
+                var k = Math.pow(10, prec);
+                return '' + Math.round(n * k) / k;
+            };
+        // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+        s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+        if (s[0].length > 3) {
+            s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+        }
+        if ((s[1] || '').length < prec) {
+            s[1] = s[1] || '';
+            s[1] += new Array(prec - s[1].length + 1).join('0');
+        }
+        return s.join(dec);
+    },
     formatCurrency: function (num, dot, num_thap_phan) {
         if (typeof num == 'undefined' || num == '') {
             return 0;
@@ -264,13 +287,52 @@ var g_func = {
         if (typeof dot == 'undefined' || dot == '') {
             dot = ',';
         }
-        //		console.log( dot );
+        //console.log( 'dot: ' + dot );
+        var dec_point = '.';
+        if ( dot != ',' ) {
+            dec_point = ',';
+        }
+        //console.log( 'dec_point: ' + dec_point );
+        if (typeof num_thap_phan == 'undefined' || num_thap_phan == '') {
+            num_thap_phan = 0;
+        }
+        //console.log( 'num_thap_phan: ' + num_thap_phan );
+        
+        /*
+        * v3
+        */
+        return g_func.formatV2Currency(num, num_thap_phan, dec_point, dot);
+        
 
+        //
+        console.log( num );
+        num = jQuery.trim( num );
         num = num.toString().replace(/\s/g, '');
+        
+        /*
+        * sử dụng v2
+        */
+        var so_thap_phan = num.split('.');
+        if (so_thap_phan.length > 1) {
+            num = so_thap_phan[0];
+            if (typeof num_thap_phan == 'number') {
+                so_thap_phan = '.' + so_thap_phan[1].toString().substr(0, num_thap_phan);
+            } else {
+                so_thap_phan = '.' + so_thap_phan[1];
+            }
+        } else {
+            so_thap_phan = '';
+        }
+        return g_func.formatV2Currency(num) + so_thap_phan;
+        
+        /*
+        * v1
+        */
         var str = num,
-            //			re = /^\d+$/,
+            //re = /^\d+$/,
             so_am = '',
             so_thap_phan = '';
+        
         if (num.substr(0, 1) == '-') {
             so_am = '-';
         }
@@ -285,10 +347,10 @@ var g_func = {
         */
         // Nếu không phải tách số theo dấu chấm -> tìm cả số thập phân
         if (dot != '.') {
-            //			console.log( str );
+            //console.log( str );
             str = g_func.float_only(str);
-            //			if ( str != 0 ) {
-            //				console.log( str );
+            //if ( str != 0 ) {
+            //console.log( str );
             so_thap_phan = str.toString().split('.');
             if (so_thap_phan.length > 1) {
                 str = so_thap_phan[0];
@@ -300,24 +362,24 @@ var g_func = {
             } else {
                 so_thap_phan = '';
             }
-            //			}
-            //			console.log( str );
+            //}
+            //console.log( str );
         }
         // Tách theo dấu chấm thì bỏ qua
         else {
-            //			console.log( str );
+            //console.log( str );
             str = g_func.number_only(str);
         }
 
         var len = str.toString().length;
-        //		var len = str.length;
-        //		console.log( len );
+        //var len = str.length;
+        //console.log( len );
         if (len > 3) {
             var new_str = str.toString();
             str = '';
             for (var i = 0; i < new_str.length; i++) {
                 len -= 3;
-                //				console.log( len );
+                //console.log( len );
                 if (len > 0) {
                     str = dot + new_str.substr(len, 3) + str;
                 } else {
@@ -326,10 +388,11 @@ var g_func = {
                 }
             }
         }
+        console.log( str );
         return so_am + str.replace(/\-/gi, '') + so_thap_phan;
 
         //
-        //		return num;
+        //return num;
     },
 
     wh: function () {},
