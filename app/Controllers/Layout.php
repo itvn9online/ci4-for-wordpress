@@ -73,8 +73,6 @@ class Layout extends Sync {
         //print_r( $getconfig );
         $this->getconfig = $getconfig;
 
-        $isMobile = $this->checkDevice( $_SERVER[ 'HTTP_USER_AGENT' ] );
-
         //
         $this->session_data = $this->session->get( 'admin' );
         //print_r( $this->session_data );
@@ -86,31 +84,38 @@ class Layout extends Sync {
         $this->teamplate = [];
         if ( $preload_header === true ) {
             //echo 'preload_header <br>' . "\n";
-
-            //
-            $this->teamplate[ 'header' ] = view( 'header_view', array(
-                'base_model' => $this->base_model,
-                'menu_model' => $this->menu_model,
-                'option_model' => $this->option_model,
-                'post_model' => $this->post_model,
-                'term_model' => $this->term_model,
-                'lang_model' => $this->lang_model,
-
-                'session' => $this->session,
-
-                'getconfig' => $getconfig,
-                'session_data' => $this->session_data,
-                //'menu' => $menu,
-                //'allurl' => $allurl,
-                'isMobile' => $isMobile
-            ), [
-                //'cache' => $this->cache_time,
-            ] );
-
-            $this->teamplate[ 'footer' ] = view( 'footer_view', [
-                //'cache' => $this->cache_time,
-            ] );
+            $this->global_header_footer();
         }
+    }
+
+    // chỉ gọi đến chức năng nạp header, footer khi cần hiển thị
+    public function global_header_footer() {
+        $this->teamplate[ 'header' ] = view( 'header_view', array(
+            'base_model' => $this->base_model,
+            'menu_model' => $this->menu_model,
+            'option_model' => $this->option_model,
+            'post_model' => $this->post_model,
+            'term_model' => $this->term_model,
+            'lang_model' => $this->lang_model,
+
+            'session' => $this->session,
+
+            'getconfig' => $this->getconfig,
+            'session_data' => $this->session_data,
+            //'menu' => $menu,
+            //'allurl' => $allurl,
+            'isMobile' => $this->checkDevice( $_SERVER[ 'HTTP_USER_AGENT' ] )
+        ), [
+            //'cache' => $this->cache_time,
+        ] );
+
+        //
+        $this->teamplate[ 'footer' ] = view( 'footer_view', [
+            //'cache' => $this->cache_time,
+        ] );
+        
+        //
+        return true;
     }
 
     // fake function wp_is_mobile of wordpress
