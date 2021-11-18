@@ -18,6 +18,20 @@ class Posts extends Layout {
         //echo 'post details <br>' . "\n";
 
         //
+        $this->cache_key = 'post' . $id;
+        $cache_value = $this->MY_cache( $this->cache_key );
+        // Will get the cache entry named 'my_foo'
+        //var_dump( $cache_value );
+        // không có cache thì tiếp tục
+        if ( !$cache_value ) {
+            //echo '<!-- no cache -->';
+        }
+        // có thì in ra cache là được
+        else {
+            return $this->show_cache( $cache_value );
+        }
+
+        //
         $data = $this->post_model->select_public_post( $id, [
             //'post_name' => $slug_1,
             'post_type' => $post_type,
@@ -76,14 +90,15 @@ class Posts extends Layout {
             'same_cat_data' => $same_cat_data,
             'seo' => $seo,
             'data' => $data,
-        ), [
-            //'cache' => $this->cache_time,
-            //'cache_name' => $this->cache_name( $file_view ),
-        ] );
-        return view( 'layout_view', $this->teamplate, [
-            //'cache' => $this->cache_time,
-            //'cache_name' => $this->cache_name(),
-        ] );
+        ) );
+        $cache_value = view( 'layout_view', $this->teamplate );
+
+        // Save into the cache for 5 minutes
+        $cache_save = $this->MY_cache( $this->cache_key, $cache_value );
+        //var_dump( $cache_save );
+
+        //
+        return $cache_value;
     }
 
     public function post_details( $id, $slug ) {

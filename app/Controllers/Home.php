@@ -16,6 +16,20 @@ class Home extends Layout {
 
 
     public function index() {
+        $this->cache_key = 'home';
+        $cache_value = $this->MY_cache( $this->cache_key );
+        // Will get the cache entry named 'my_foo'
+        //var_dump( $cache_value );
+        // không có cache thì tiếp tục
+        if ( !$cache_value ) {
+            //echo '<!-- no cache -->';
+        }
+        // có thì in ra cache là được
+        else {
+            return $this->show_cache( $cache_value );
+        }
+
+        //
         //print_r( $this->getconfig );
         $getconfig = $this->getconfig;
 
@@ -36,15 +50,16 @@ class Home extends Layout {
             'breadcrumb' => '',
             //'cateByLang' => $cateByLang,
             //'serviceByLang' => $serviceByLang,
-        ), [
-            //'cache' => $this->cache_time,
-            //'cache_name' => $this->cache_name( 'home_view' ),
-        ] );
+        ) );
         //print_r( $this->teamplate );
-        return view( 'layout_view', $this->teamplate, [
-            //'cache' => $this->cache_time,
-            //'cache_name' => $this->cache_name(),
-        ] );
+        $cache_value = view( 'layout_view', $this->teamplate );
+
+        // Save into the cache for 5 minutes
+        $cache_save = $this->MY_cache( $this->cache_key, $cache_value );
+        //var_dump( $cache_save );
+
+        //
+        return $cache_value;
     }
 
     function checkurl( $slug_1, $set_page = '', $page_num = 1 ) {
@@ -97,6 +112,20 @@ class Home extends Layout {
     function pageDetail( $data ) {
         //print_r( $data );
 
+        //
+        $this->cache_key = 'post' . $data[ 'ID' ];
+        $cache_value = $this->MY_cache( $this->cache_key );
+        // Will get the cache entry named 'my_foo'
+        //var_dump( $cache_value );
+        // không có cache thì tiếp tục
+        if ( !$cache_value ) {
+            //echo '<!-- no cache -->';
+        }
+        // có thì in ra cache là được
+        else {
+            return $this->show_cache( $cache_value );
+        }
+
         // page view mặc định
         $page_template = '';
         // nếu có dùng template riêng -> dùng luôn
@@ -117,14 +146,18 @@ class Home extends Layout {
             'seo' => $seo,
             'page_template' => $page_template,
             'data' => $data,
-        ), [
-            //'cache' => $this->cache_time,
-            //'cache_name' => $this->cache_name( 'page_view' ),
-        ] );
-        return view( 'layout_view', $this->teamplate, [
-            //'cache' => $this->cache_time,
-            //'cache_name' => $this->cache_name(),
-        ] );
+        ) );
+        $cache_value = view( 'layout_view', $this->teamplate );
+
+        // chỉ lưu cache nếu không có page template
+        //if ( $page_template == '' ) {
+        // Save into the cache for 5 minutes
+        $cache_save = $this->MY_cache( $this->cache_key, $cache_value );
+        //}
+        //var_dump( $cache_save );
+
+        //
+        return $cache_value;
     }
 
     /*

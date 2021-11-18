@@ -20,16 +20,11 @@ class Layout extends Sync {
     public $taxonomy_slider = [];
     // danh sách ID nhóm của sản phẩm đang xem -> dùng để tìm các bài cùng nhóm khi xem chi tiết bài viết
     public $posts_parent_list = [];
-    // thời gian cho cache view
-    public $cache_time = 60;
 
     public function __construct( $preload_header = true ) {
         parent::__construct();
 
         //echo base_url('/') . '<br>' . "\n";
-
-        //
-        $this->cache_time = 0;
 
         //$this->base_model = new\ App\ Models\ Base();
         $this->option_model = new\ App\ Models\ Option();
@@ -81,11 +76,52 @@ class Layout extends Sync {
         $this->debug_enable = ( ENVIRONMENT !== 'production' );
 
         //
+        $this->isMobile = '';
         $this->teamplate = [];
         if ( $preload_header === true ) {
             //echo 'preload_header <br>' . "\n";
+            $this->isMobile = $this->checkDevice( $_SERVER[ 'HTTP_USER_AGENT' ] );
+            //var_dump( $this->isMobile );
+
+            //
             $this->global_header_footer();
         }
+
+        //
+        $this->cache_key = '';
+        $this->cache = \Config\ Services::cache();
+    }
+
+    // trả về nội dung từ cache hoặc lưu cache nếu có
+    public function MY_cache( $key, $value = '', $time = 300 ) {
+        // không thực thi cache đối với tài khoản đang đăng nhập
+        if ( !empty( $this->session_data ) ) {
+            return false;
+        }
+
+        // cache riêng cho bản mobile
+        if ( $this->isMobile == true ) {
+            $key .= '-mobile';
+        }
+        //echo $key . '<br>' . "\n";
+
+        // lưu cache nếu có nội dung
+        if ( $value != '' ) {
+            return $this->cache->save( $key, $value, $time );
+        }
+
+        // trả về cache nếu có
+        return $this->cache->get( $key );
+    }
+
+    // hiển thị nội dung từ cache -> thêm 1 số đoạn comment HTML vào
+    public function show_cache( $content ) {
+        echo $content;
+        //echo '<script>console.log("%c in cache: ' . $this->cache_key . '", "color: green;");</script>' . "\n";
+        echo '<!-- Served from: ' . $this->cache_key . ' by ebcache
+Caching using hard disk drive. Recommendations using SSD drive for your website. 
+Compression = gzip -->';
+        return true;
     }
 
     // chỉ gọi đến chức năng nạp header, footer khi cần hiển thị
@@ -104,16 +140,12 @@ class Layout extends Sync {
             'session_data' => $this->session_data,
             //'menu' => $menu,
             //'allurl' => $allurl,
-            'isMobile' => $this->checkDevice( $_SERVER[ 'HTTP_USER_AGENT' ] )
-        ), [
-            //'cache' => $this->cache_time,
-        ] );
+            'isMobile' => $this->isMobile
+        ) );
 
         //
-        $this->teamplate[ 'footer' ] = view( 'footer_view', [
-            //'cache' => $this->cache_time,
-        ] );
-        
+        $this->teamplate[ 'footer' ] = view( 'footer_view' );
+
         //
         return true;
     }
@@ -190,20 +222,28 @@ class Layout extends Sync {
         $this->teamplate[ 'main' ] = view( '404', array(
             'seo' => $this->base_model->default_seo( '404 not found', '404' ),
             'breadcrumb' => '',
-        ), [
-            //'cache' => $this->cache_time,
-            //'cache_name' => $this->cache_name( '404' ),
-        ] );
-        return view( 'layout_view', $this->teamplate, [
-            //'cache' => $this->cache_time,
-            //'cache_name' => $this->cache_name(),
-        ] );
+        ) );
+        return view( 'layout_view', $this->teamplate );
     }
 
     function category( $data, $post_type, $taxonomy, $file_view = 'category_view', $ops = [] ) {
         //$config['base_url'] = $this->term_model->get_the_permalink();
         //$config['per_page'] = 50;
         //$config['uri_segment'] = 3;
+
+        //
+        $this->cache_key = 'taxonomy' . $data[ 'term_id' ];
+        $cache_value = $this->MY_cache( $this->cache_key );
+        // Will get the cache entry named 'my_foo'
+        //var_dump( $cache_value );
+        // không có cache thì tiếp tục
+        if ( !$cache_value ) {
+            //echo '<!-- no cache -->';
+        }
+        // có thì in ra cache là được
+        else {
+            return $this->show_cache( $cache_value );
+        }
 
         if ( !isset( $ops[ 'page_num' ] ) ) {
             $ops[ 'page_num' ] = 1;
@@ -261,14 +301,15 @@ class Layout extends Sync {
             'post_type' => $post_type,
             'getconfig' => $this->getconfig,
             'data' => $data,
-        ), [
-            //'cache' => $this->cache_time,
-            //'cache_name' => $this->cache_name( $file_view ),
-        ] );
-        return view( 'layout_view', $this->teamplate, [
-            //'cache' => $this->cache_time,
-            //'cache_name' => $this->cache_name(),
-        ] );
+        ) );
+        $cache_value = view( 'layout_view', $this->teamplate );
+
+        // Save into the cache for 5 minutes
+        $cache_save = $this->MY_cache( $this->cache_key, $cache_value );
+        //var_dump( $cache_save );
+
+        //
+        return $cache_value;
     }
 
     // hàm lấy dữ liệu đầu vào và xử lý các vấn đề bảo mật nếu có
@@ -502,49 +543,5 @@ class Layout extends Sync {
             break;
         }
         //die( __FILE__ . ':' . __LINE__ );
-    }
-
-    public function cache_name( $sub_name = '' ) {
-        if ( isset( $_SERVER[ 'REQUEST_URI' ] ) ) {
-            $url = $_SERVER[ 'REQUEST_URI' ];
-        } else {
-            $url = $_SERVER[ 'SCRIPT_NAME' ];
-            $url .= ( !empty( $_SERVER[ 'QUERY_STRING' ] ) ) ? '?' . $_SERVER[ 'QUERY_STRING' ] : '';
-        }
-        $url = $sub_name . $url;
-        if ( $url == '/' || $url == '' ) {
-            $url = '-';
-        } else {
-            $arr_cat_social_parameter = array(
-                'fbclid=',
-                'gclid=',
-                'fb_comment_id=',
-                'utm_'
-            );
-            foreach ( $arr_cat_social_parameter as $v ) {
-                $url = explode( '?' . $v, $url );
-                $url = explode( '&' . $v, $url[ 0 ] );
-                $url = $url[ 0 ];
-            }
-            /*
-            $url = explode( '?gclid=', $url );
-            $url = explode( '&gclid', $url[0] );
-            $url = explode( '?utm_', $url[0] );
-            $url = explode( '&utm_', $url[0] );
-            $url = explode( '?fb_comment_id=', $url[0] );
-            $url = explode( '&fb_comment_id', $url[0] );
-            $url = $url[0];
-            */
-
-            //
-            if ( strlen( $url ) > 200 ) {
-                $url = md5( $url );
-            } else {
-                $url = preg_replace( "/\/|\?|\&|\,|\=/", '-', $url );
-            }
-        }
-
-        //
-        return $url;
     }
 }
