@@ -44,14 +44,14 @@ class Admin extends Layout {
         ];
     }
 
-    function index() {
+    public function index() {
         //echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . "\n";
         echo 'Controller index not found! <br>' . "\n";
         die( basename( __FILE__ ) . ':' . __LINE__ );
     }
 
     // chức năng này sẽ kiểm tra quyền truy cập 1 module nào đó theo từng tài khoản -> truyền vào controller class -> role -> xác định theo role
-    function check_permision( $role ) {
+    protected function check_permision( $role ) {
         $session_data = $this->session_data;
         // TEST
         //$session_data[ 'member_type' ] = UsersType::AUTHOR;

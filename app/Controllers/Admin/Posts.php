@@ -298,7 +298,7 @@ class Posts extends Admin {
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
 
-    public function add_new() {
+    protected function add_new() {
         $data = $this->MY_post( 'data' );
         $data[ 'post_type' ] = $this->post_type;
 
@@ -312,7 +312,7 @@ class Posts extends Admin {
     }
 
 
-    public function update( $id ) {
+    protected function update( $id ) {
         $data = $this->MY_post( 'data' );
         //print_r( $data );
 

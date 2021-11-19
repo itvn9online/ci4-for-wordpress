@@ -145,7 +145,7 @@ class Uploads extends Admin {
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
 
-    public function upload( $key = 'upload_image' ) {
+    protected function upload( $key = 'upload_image' ) {
         // gọi tới function upload ảnh thôi
         $list_upload = $this->media_upload( false );
         //die( 'fg dfhdfhfd' );
@@ -231,7 +231,7 @@ class Uploads extends Admin {
         $this->alert( '' );
     }
 
-    public function alert( $m, $url = '' ) {
+    protected function alert( $m, $url = '' ) {
         if ( $url == '' ) {
             $url = base_url( 'admin/uploads' );
             $uri_quick_upload = [];

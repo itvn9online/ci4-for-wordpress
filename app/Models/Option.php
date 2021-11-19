@@ -10,7 +10,7 @@ use App\ Libraries\ DeletedStatus;
 //
 class Option extends EB_Model {
     public $table = 'wp_options';
-    protected $primaryKey = 'option_id';
+    public $primaryKey = 'option_id';
 
     function __construct() {
         parent::__construct();

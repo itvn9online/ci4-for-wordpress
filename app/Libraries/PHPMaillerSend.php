@@ -2,15 +2,15 @@
 
 namespace App\ Libraries;
 
-use PHPMailer\ PHPMailer\ PHPMailer;
-use PHPMailer\ PHPMailer\ Exception;
+//use PHPMailer\ PHPMailer\ PHPMailer;
+//use PHPMailer\ PHPMailer\ Exception;
 
 class PHPMaillerSend {
     public static function get_the_send( $data, $cog = [], $debug = 0 ) {
-        //echo PUBLIC_HTML_PATH . '<br>' . "\n";
-        require_once PUBLIC_HTML_PATH . 'vendor/PHPMailer/src/Exception.php';
-        require_once PUBLIC_HTML_PATH . 'vendor/PHPMailer/src/PHPMailer.php';
-        require_once PUBLIC_HTML_PATH . 'vendor/PHPMailer/src/SMTP.php';
+        //echo APPPATH . '<br>' . "\n";
+        require_once APPPATH . 'ThirdParty/PHPMailer/src/Exception.php';
+        require_once APPPATH . 'ThirdParty/PHPMailer/src/PHPMailer.php';
+        require_once APPPATH . 'ThirdParty/PHPMailer/src/SMTP.php';
 
         //print_r( $data );
         //print_r( $cog );
@@ -41,7 +41,7 @@ class PHPMaillerSend {
         $from_name = $cog[ 'smtp_from_name' ];
 
         //
-        $mail = new PHPMailer();
+        $mail = new\ PHPMailer\ PHPMailer\ PHPMailer();
         $mail->IsSMTP();
         try {
             $mail->CharSet = 'utf-8';

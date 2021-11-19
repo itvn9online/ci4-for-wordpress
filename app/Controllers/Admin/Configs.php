@@ -39,14 +39,14 @@ class Configs extends Admin {
         //print_r( $meta_default );
 
         // select dữ liệu từ 1 bảng bất kỳ
-        $sql = $this->base_model->select( '*', $this->option_model->tbl, array(
+        $sql = $this->base_model->select( '*', $this->option_model->table, array(
             // các kiểu điều kiện where
             'is_deleted' => DeletedStatus::DEFAULT,
             'option_type' => $this->config_type,
-            'lang_key' => $this->lang_key,
+            'lang_key' => $this->lang_key
         ), array(
             'order_by' => array(
-                'option_id' => 'DESC',
+                $this->option_model->primaryKey => 'DESC',
             ),
             // hiển thị mã SQL để check
             //'show_query' => 1,
@@ -79,7 +79,7 @@ class Configs extends Admin {
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
 
-    public function updated( $option_type ) {
+    protected function updated( $option_type ) {
         if ( !empty( $this->MY_post( 'data' ) ) ) {
             $data = $this->MY_post( 'data' );
         } else {

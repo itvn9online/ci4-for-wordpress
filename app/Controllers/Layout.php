@@ -93,7 +93,18 @@ class Layout extends Sync {
     }
 
     // trả về nội dung từ cache hoặc lưu cache nếu có
-    public function MY_cache( $key, $value = '', $time = 300 ) {
+    protected function global_cache( $key, $value = '', $time = 300 ) {
+        // lưu cache nếu có nội dung
+        if ( $value != '' ) {
+            return $this->cache->save( $key, $value, $time );
+        }
+
+        // trả về cache nếu có
+        return $this->cache->get( $key );
+    }
+
+    // kiểm tra session của user, nếu đang đăng nhập thì bỏ qua chế độ cache
+    protected function MY_cache( $key, $value = '', $time = 300 ) {
         // không thực thi cache đối với tài khoản đang đăng nhập
         if ( !empty( $this->session_data ) ) {
             return false;
@@ -105,17 +116,12 @@ class Layout extends Sync {
         }
         //echo $key . '<br>' . "\n";
 
-        // lưu cache nếu có nội dung
-        if ( $value != '' ) {
-            return $this->cache->save( $key, $value, $time );
-        }
-
-        // trả về cache nếu có
-        return $this->cache->get( $key );
+        //
+        return $this->global_cache( $key, $value, $time );
     }
 
     // hiển thị nội dung từ cache -> thêm 1 số đoạn comment HTML vào
-    public function show_cache( $content ) {
+    protected function show_cache( $content ) {
         echo $content;
         //echo '<script>console.log("%c in cache: ' . $this->cache_key . '", "color: green;");</script>' . "\n";
         echo '<!-- Served from: ' . $this->cache_key . ' by ebcache
@@ -125,7 +131,7 @@ Compression = gzip -->';
     }
 
     // chỉ gọi đến chức năng nạp header, footer khi cần hiển thị
-    public function global_header_footer() {
+    protected function global_header_footer() {
         $this->teamplate[ 'header' ] = view( 'header_view', array(
             'base_model' => $this->base_model,
             'menu_model' => $this->menu_model,
@@ -151,7 +157,7 @@ Compression = gzip -->';
     }
 
     // fake function wp_is_mobile of wordpress
-    function WGR_is_mobile() {
+    protected function WGR_is_mobile() {
         if ( empty( $_SERVER[ 'HTTP_USER_AGENT' ] ) ) {
             $is_mobile = false;
         } elseif ( strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Mobile' ) !== false // Many mobile devices (all iPhone, iPad, etc.)
@@ -171,7 +177,7 @@ Compression = gzip -->';
         return $is_mobile;
     }
 
-    public function checkDevice( $useragent ) {
+    protected function checkDevice( $useragent ) {
         /*
          * v2 -> fake wordpress function
          */
@@ -183,7 +189,7 @@ Compression = gzip -->';
         return preg_match( '/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i', $useragent ) || preg_match( '/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i', substr( $useragent, 0, 4 ) );
     }
 
-    function create_breadcrumb( $text, $url = '' ) {
+    protected function create_breadcrumb( $text, $url = '' ) {
         if ( $url != '' ) {
             $this->breadcrumb[] = '<li><a href="' . $url . '">' . $text . '</a></li>';
         } else {
@@ -196,7 +202,7 @@ Compression = gzip -->';
         return false;
     }
 
-    function create_term_breadcrumb( $cats ) {
+    protected function create_term_breadcrumb( $cats ) {
         //print_r( $cats );
         $this->taxonomy_slider[] = $cats;
         $this->posts_parent_list[] = $cats[ 'term_id' ];
@@ -218,7 +224,7 @@ Compression = gzip -->';
         return $this->create_breadcrumb( $cats[ 'name' ], $this->term_model->get_the_permalink( $cats ) );
     }
 
-    function page404() {
+    public function page404() {
         $this->teamplate[ 'main' ] = view( '404', array(
             'seo' => $this->base_model->default_seo( '404 not found', '404' ),
             'breadcrumb' => '',
@@ -226,7 +232,7 @@ Compression = gzip -->';
         return view( 'layout_view', $this->teamplate );
     }
 
-    function category( $data, $post_type, $taxonomy, $file_view = 'category_view', $ops = [] ) {
+    protected function category( $data, $post_type, $taxonomy, $file_view = 'category_view', $ops = [] ) {
         //$config['base_url'] = $this->term_model->get_the_permalink();
         //$config['per_page'] = 50;
         //$config['uri_segment'] = 3;
@@ -337,17 +343,17 @@ Compression = gzip -->';
         }
         return $a;
     }
-    public function MY_get( $key, $default_value = '', $xss_clean = true ) {
+    protected function MY_get( $key, $default_value = '', $xss_clean = true ) {
         return $this->MY_data( $this->request->getGet( $key ), $default_value, $xss_clean );
     }
-    public function MY_post( $key, $default_value = '', $xss_clean = true ) {
+    protected function MY_post( $key, $default_value = '', $xss_clean = true ) {
         return $this->MY_data( $this->request->getPost( $key ), $default_value, $xss_clean );
     }
 
     /*
      * Upload giả lập wordpress
      */
-    public function media_upload( $xss_clean = true ) {
+    protected function media_upload( $xss_clean = true ) {
         require_once PUBLIC_HTML_PATH . 'vendor/functionsResizeImg.php';
 
         //
@@ -517,7 +523,7 @@ Compression = gzip -->';
     }
 
     // tạo path upload
-    public function media_path( $data = [], $path = '' ) {
+    protected function media_path( $data = [], $path = '' ) {
         if ( $path == '' ) {
             $path = PUBLIC_HTML_PATH . PostType::MEDIA_URI;
 
@@ -536,7 +542,7 @@ Compression = gzip -->';
         return $path;
     }
 
-    public function set_validation_error( $errors ) {
+    protected function set_validation_error( $errors ) {
         //print_r( $errors );
         foreach ( $errors as $error ) {
             $this->session->setFlashdata( 'msg_error', $error );

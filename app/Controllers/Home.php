@@ -14,7 +14,6 @@ class Home extends Layout {
         parent::__construct();
     }
 
-
     public function index() {
         $this->cache_key = 'home';
         $cache_value = $this->MY_cache( $this->cache_key );
@@ -62,7 +61,7 @@ class Home extends Layout {
         return $cache_value;
     }
 
-    function checkurl( $slug_1, $set_page = '', $page_num = 1 ) {
+    public function checkurl( $slug_1, $set_page = '', $page_num = 1 ) {
         //$slug_1 = $this->uri->segment( 1 );
         //$slug_2 = $this->uri->segment( 2 );
 
@@ -82,7 +81,7 @@ class Home extends Layout {
             'slug' => $slug_1,
             'is_deleted' => DeletedStatus::DEFAULT,
             'lang_key' => $this->lang_key,
-            'taxonomy' => TaxonomyType::POSTS,
+            'taxonomy' => TaxonomyType::POSTS
         ) );
         //print_r( $data );
 
@@ -109,7 +108,7 @@ class Home extends Layout {
         return $this->page404();
     }
 
-    function pageDetail( $data ) {
+    protected function pageDetail( $data ) {
         //print_r( $data );
 
         //
@@ -163,7 +162,7 @@ class Home extends Layout {
     /*
      * Tạo function dùng chung cho các form thuộc dạng liên hệ
      */
-    public function MY_comment( $ops = [] ) {
+    protected function MY_comment( $ops = [] ) {
         // function này chỉ nhận POST
         //print_r( $_SERVER );
         //print_r( $_POST );

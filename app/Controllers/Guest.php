@@ -74,7 +74,7 @@ class Guest extends Layout {
         return $this->index();
     }
 
-    public function checkaccount() {
+    protected function checkaccount() {
         $username = $this->MY_post( 'username' );
         $password = md5( $this->MY_post( 'password' ) );
 
@@ -145,7 +145,7 @@ class Guest extends Layout {
         return true;
     }
 
-    function register() {
+    public function register() {
         $session_data = $this->session_data;
         $login_redirect = DYNAMIC_BASE_URL;
 
@@ -208,12 +208,12 @@ class Guest extends Layout {
         return view( 'layout_view', $this->teamplate );
     }
 
-    public function check_email_exist() {
+    protected function check_email_exist() {
         $data = $this->MY_post( 'data' );
         return $this->user_model->check_user_exist( $data[ 'email' ] );
     }
 
-    function resetpass() {
+    public function resetpass() {
         /*
         $session_data = $this->session_data;
         $login_redirect = DYNAMIC_BASE_URL;
@@ -251,12 +251,12 @@ class Guest extends Layout {
         return view( 'layout_view', $this->teamplate );
     }
 
-    function check_resetpass() {
+    protected function check_resetpass() {
         $data = $this->MY_post( 'data' );
         return $this->user_model->check_resetpass( $data[ 'email' ] );
     }
 
-    public function seo( $name, $canonical ) {
+    protected function seo( $name, $canonical ) {
         return $this->base_model->default_seo( $name, $canonical );
     }
 

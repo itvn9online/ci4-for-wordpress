@@ -152,7 +152,7 @@ class Terms extends Admin {
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
 
-    public function add_new() {
+    protected function add_new() {
         $data = $this->MY_post( 'data' );
         //print_r( $data );
         //die( __FILE__ . ':' . __LINE__ );
@@ -167,8 +167,7 @@ class Terms extends Admin {
         $this->base_model->alert( 'Lỗi tạo ' . TaxonomyType::list( $this->taxonomy, true ) . ' mới', 'error' );
     }
 
-
-    public function update( $id ) {
+    protected function update( $id ) {
         $data = $this->MY_post( 'data' );
         //print_r( $data );
         //die( __LINE__ );
