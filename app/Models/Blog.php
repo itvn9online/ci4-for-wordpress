@@ -6,7 +6,7 @@
 namespace App\ Models;
 
 class Blog extends Post {
-    function __construct() {
+    public function __construct() {
         parent::__construct();
     }
 }

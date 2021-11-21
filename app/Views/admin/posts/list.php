@@ -16,7 +16,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 </ul>
 <div class="cf admin-search-form">
     <div class="lf f80">
-        <form name="frm_admin_search_controller" action="./admin/posts" method="get">
+        <form name="frm_admin_search_controller" action="./admin/<?php echo $controller_slug; ?>" method="get">
             <input type="hidden" name="post_type" value="<?php echo $post_type; ?>">
             <div class="cf">
                 <div class="lf f20">
@@ -39,7 +39,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
         // menu sẽ được tự động khởi tạo khi dùng hàm để gọi -> không cho add thủ công
         if ( $post_type != PostType::MENU ) {
             ?>
-        <div class="buttons text-right"> <a href="<?php $post_model->admin_permalink( $post_type ); ?>" class="btn btn-success btn-mini"> <i class="fa fa-plus"></i> Thêm mới <?php echo PostType::list($post_type); ?></a> </div>
+        <div class="buttons text-right"> <a href="<?php $post_model->admin_permalink( $post_type, 0, $controller_slug ); ?>" class="btn btn-success btn-mini"> <i class="fa fa-plus"></i> Thêm mới <?php echo PostType::list($post_type); ?></a> </div>
         <?php
         }
 
@@ -78,7 +78,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 
             ?>"><i class="fa fa-eye"></i></a></td>
             <td><img src="<?php echo $post_model->get_post_thumbnail($v['post_meta']); ?>" height="90" style="height: 90px; width: auto;" /></td>
-            <td data-id="<?php echo $post_model->show_meta_post($v['post_meta'], 'post_category'); ?>" data-taxonomy="<?php echo $taxonomy; ?>" data-uri="admin/posts?post_type=<?php echo $post_type; ?>" class="each-to-taxonomy">&nbsp;</td>
+            <td data-id="<?php echo $post_model->show_meta_post($v['post_meta'], 'post_category'); ?>" data-taxonomy="<?php echo $taxonomy; ?>" data-uri="admin/<?php echo $controller_slug; ?>?post_type=<?php echo $post_type; ?>" class="each-to-taxonomy">&nbsp;</td>
             <td><?php echo $v['post_status']; ?></td>
             <td><?php echo $v['pinged']; ?></td>
             <td><?php echo $v['post_date']; ?></td>

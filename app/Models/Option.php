@@ -12,7 +12,7 @@ class Option extends EB_Model {
     public $table = 'wp_options';
     public $primaryKey = 'option_id';
 
-    function __construct() {
+    public function __construct() {
         parent::__construct();
     }
 

@@ -21,7 +21,7 @@ class Term extends EB_Model {
     protected $relaTable = 'wp_term_relationships';
     protected $relaKey = 'object_id';
 
-    function __construct() {
+    public function __construct() {
         parent::__construct();
     }
 

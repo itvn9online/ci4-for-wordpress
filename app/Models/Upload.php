@@ -7,7 +7,7 @@ use App\ Libraries\ PostType;
 
 //
 class Upload extends EB_Model {
-    function __construct() {
+    public function __construct() {
         parent::__construct();
     }
 

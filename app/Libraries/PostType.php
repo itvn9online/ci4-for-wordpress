@@ -31,7 +31,7 @@ class PostType {
     const MEDIA_THUMBNAIL = 'thumbnail';
     const MEDIA_MEDIUM_LARGE = 'medium_large';
 
-    private static $arr = array(
+    protected static $arr = array(
         self::POST => 'Sản phẩm',
         self::ADS => 'Quảng cáo',
         self::BLOG => 'Blog/ Tin tức',
@@ -40,7 +40,12 @@ class PostType {
         self::MEDIA => 'Media',
     );
 
+    public function __construct() {
+        //
+    }
+
     public static function list( $key = '' ) {
+        //echo $key . '<br>' . "\n";
         if ( $key == '' ) {
             return self::$arr;
         }

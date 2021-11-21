@@ -38,7 +38,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
             </div>
             <div class="control-group">
                 <label class="control-label">Ngôn ngữ</label>
-                <div class="controls" style="padding-top: 15px;">
+                <div class="controls">
                     <?php
                     echo LanguageCost::list( $data[ 'lang_key' ] != '' ? $data[ 'lang_key' ] : $lang_key );
                     ?>

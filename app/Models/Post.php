@@ -20,7 +20,7 @@ class Post extends EB_Model {
     public $blog_html_node = '';
     public $getconfig = NULL;
 
-    function __construct() {
+    public function __construct() {
         parent::__construct();
 
         //
@@ -785,8 +785,7 @@ class Post extends EB_Model {
     }
 
     // chỉ trả về link admin của 1 post
-    function get_admin_permalink( $post_type = '', $id = 0 ) {
-        $controller_slug = 'posts';
+    function get_admin_permalink( $post_type = '', $id = 0, $controller_slug = 'posts' ) {
         if ( $post_type == PostType::MENU ) {
             $controller_slug = 'menus';
         }
@@ -798,8 +797,8 @@ class Post extends EB_Model {
     }
 
     // thường dùng trong view -> in ra link admin của 1 post
-    function admin_permalink( $post_type = '', $id = 0 ) {
-        echo $this->get_admin_permalink( $post_type, $id );
+    function admin_permalink( $post_type = '', $id = 0, $controller_slug = 'posts' ) {
+        echo $this->get_admin_permalink( $post_type, $id, $controller_slug );
     }
 
     // trả về url của 1 post

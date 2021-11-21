@@ -9,49 +9,59 @@ use App\ Libraries\ LanguageCost;
 
 //
 class Posts extends Admin {
-    private $post_type = '';
+    protected $post_type = '';
     private $detault_type = '';
 
     // các taxonomy được hỗ trợ -> cái nào trống nghĩa là không hỗ trợ theo post_type tương ứng
-    private $taxonomy = '';
+    protected $taxonomy = '';
     private $tags = '';
     private $options = '';
-    private $controller_slug = 'posts';
 
-    public function __construct() {
+    // tham số dùng để thay đổi URL cho controller nếu muốn
+    protected $controller_slug = 'posts';
+    // tham số dùng để đổi file view khi add hoặc edit bài viết nếu muốn
+    protected $add_edit_view = 'posts';
+
+    /*
+     * for_extends: khi một controller extends lại class này và sử dụng các post type khác thì khai báo nó bằng tru để bỏ qua các điều kiện kiểm tra
+     */
+    public function __construct( $for_extends = false ) {
         parent::__construct();
 
         // kiểm tra quyền truy cập của tài khoản hiện tại
         $this->check_permision( __CLASS__ );
 
-        // lọc bài viết dựa theo post type
-        $this->detault_type = PostType::POST;
-        $this->post_type = $this->MY_get( 'post_type', $this->detault_type );
+        // chỉ kiểm tra các điều kiện này nếu không được chỉ định là extends
+        if ( $for_extends === false ) {
+            // lọc bài viết dựa theo post type
+            $this->detault_type = PostType::POST;
+            $this->post_type = $this->MY_get( 'post_type', $this->detault_type );
 
-        // báo lỗi nếu không xác định được post_type
-        if ( $this->post_type == '' || PostType::list( $this->post_type ) == '' ) {
-            die( 'post_type not register in system!' );
+            // báo lỗi nếu không xác định được post_type
+            if ( $this->post_type == '' || PostType::list( $this->post_type ) == '' ) {
+                die( 'post_type not register in system!' );
+            }
+
+            // -> category tương ứng
+            if ( $this->post_type == PostType::ADS ) {
+                $this->taxonomy = TaxonomyType::ADS;
+            } else if ( $this->post_type == PostType::BLOG ) {
+                $this->taxonomy = TaxonomyType::BLOGS;
+                $this->tags = TaxonomyType::BLOG_TAGS;
+            } else if ( $this->post_type == PostType::MENU ) {
+                // riêng với phần menu, do dùng chung controller với post -> kiểm tra lại permission lần nữa cho chắc
+                $this->check_permision( 'Menus' );
+
+                //$this->taxonomy = TaxonomyType::MENU;
+                $this->controller_slug = 'menus';
+            } else if ( $this->post_type == PostType::PAGE ) {
+                //$this->taxonomy = TaxonomyType::PAGE;
+            } else {
+                $this->taxonomy = TaxonomyType::POSTS;
+                $this->tags = TaxonomyType::TAGS;
+            }
+            $this->options = TaxonomyType::OPTIONS;
         }
-
-        // -> category tương ứng
-        if ( $this->post_type == PostType::ADS ) {
-            $this->taxonomy = TaxonomyType::ADS;
-        } else if ( $this->post_type == PostType::BLOG ) {
-            $this->taxonomy = TaxonomyType::BLOGS;
-            $this->tags = TaxonomyType::BLOG_TAGS;
-        } else if ( $this->post_type == PostType::MENU ) {
-            // riêng với phần menu, do dùng chung controller với post -> kiểm tra lại permission lần nữa cho chắc
-            $this->check_permision( 'Menus' );
-
-            //$this->taxonomy = TaxonomyType::MENU;
-            $this->controller_slug = 'menus';
-        } else if ( $this->post_type == PostType::PAGE ) {
-            //$this->taxonomy = TaxonomyType::PAGE;
-        } else {
-            $this->taxonomy = TaxonomyType::POSTS;
-            $this->tags = TaxonomyType::TAGS;
-        }
-        $this->options = TaxonomyType::OPTIONS;
     }
 
     public function index() {
@@ -68,7 +78,7 @@ class Posts extends Admin {
         $by_keyword = $this->MY_get( 's', '' );
         $where_or_like = [];
         // URL cho phân trang tìm kiếm
-        $urlPartPage = 'admin/posts?post_type=' . $this->post_type;
+        $urlPartPage = 'admin/' . $this->controller_slug . '?post_type=' . $this->post_type;
         if ( $by_keyword != '' ) {
             $urlPartPage .= '&s=' . $by_keyword;
 
@@ -285,7 +295,7 @@ class Posts extends Admin {
 
 
         //
-        $this->teamplate_admin[ 'content' ] = view( 'admin/posts/add', array(
+        $this->teamplate_admin[ 'content' ] = view( 'admin/' . $this->add_edit_view . '/add', array(
             'controller_slug' => $this->controller_slug,
             'lang_key' => LanguageCost::lang_key(),
             'post_cat' => $post_cat,
@@ -306,7 +316,7 @@ class Posts extends Admin {
         $result_id = $this->post_model->insert_post( $data );
 
         if ( $result_id > 0 ) {
-            $this->base_model->alert( '', $this->post_model->get_admin_permalink( $this->post_type, $result_id ) );
+            $this->base_model->alert( '', $this->post_model->get_admin_permalink( $this->post_type, $result_id, $this->controller_slug ) );
         }
         $this->base_model->alert( 'Lỗi tạo ' . PostType::list( $this->post_type ) . ' mới', 'error' );
     }
@@ -333,7 +343,7 @@ class Posts extends Admin {
             'post_type' => $this->post_type,
         ] );
 
-        $this->base_model->alert( '', base_url( 'admin/posts' ) . '?post_type=' . $this->post_type );
+        $this->base_model->alert( '', base_url( 'admin/' . $this->controller_slug ) . '?post_type=' . $this->post_type );
     }
 
 

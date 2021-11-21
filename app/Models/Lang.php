@@ -5,7 +5,7 @@ namespace App\ Models;
 class Lang extends EB_Model {
     public $list = NULL;
 
-    function __construct() {
+    public function __construct() {
         parent::__construct();
 
         $this->option_model = new\ App\ Models\ Option();

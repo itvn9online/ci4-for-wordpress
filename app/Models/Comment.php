@@ -9,7 +9,7 @@ class Comment extends EB_Model {
     public $metaTable = 'wp_commentmeta';
     protected $metaKey = 'meta_id';
 
-	function __construct() {
+	public function __construct() {
 		parent::__construct();
 
 		$this->request = \Config\ Services::request();

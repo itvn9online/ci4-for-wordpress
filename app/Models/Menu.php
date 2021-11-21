@@ -11,7 +11,7 @@ class Menu extends EB_Model {
     protected $table = 'wp_posts';
     protected $primaryKey = 'ID';
 
-    function __construct() {
+    public function __construct() {
         parent::__construct();
 
         $this->post_model = new\ App\ Models\ Post();

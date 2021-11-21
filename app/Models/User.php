@@ -10,7 +10,7 @@ class User extends EB_Model {
     public $table = 'wp_users';
     protected $primaryKey = 'ID';
 
-    function __construct() {
+    public function __construct() {
         parent::__construct();
 
         //
