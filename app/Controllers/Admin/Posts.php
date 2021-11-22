@@ -193,17 +193,28 @@ class Posts extends Admin {
         if ( !empty( $this->MY_post( 'data' ) ) ) {
             // nếu là nhân bản
             if ( $this->MY_post( 'is_duplicate', 0 ) * 1 === 1 ) {
+                //print_r( $_POST );
+                $dup_data = $this->MY_post( 'data' );
+                //print_r( $dup_data );
+
                 // đổi lại tiêu đề để tránh trùng lặp
-                if ( isset( $_POST[ 'data' ][ 'post_title' ] ) ) {
-                    $duplicate_title = explode( '- Duplicate', $_POST[ 'data' ][ 'post_title' ] );
-                    $_POST[ 'data' ][ 'post_title' ] = trim( $duplicate_title[ 0 ] ) . ' - Duplicate ' . date( 'Ymd-His' );
+                if ( isset( $dup_data[ 'post_title' ] ) ) {
+                    $duplicate_title = explode( '- Duplicate', $dup_data[ 'post_title' ] );
+                    $dup_data[ 'post_title' ] = trim( $duplicate_title[ 0 ] ) . ' - Duplicate ' . date( 'Ymd-His' );
 
                     // tạo lại slug
-                    $_POST[ 'data' ][ 'post_name' ] = '';
+                    $dup_data[ 'post_name' ] = '';
                 }
+                //print_r( $dup_data );
 
                 // -> bỏ ID đi
                 $id = 0;
+
+                //
+                //die( __FILE__ . ':' . __LINE__ );
+
+                //
+                return $this->add_new( $dup_data );
             }
 
             // update
@@ -220,7 +231,6 @@ class Posts extends Admin {
             $data = $this->post_model->select_post( $id, [
                 'post_type' => $this->post_type,
             ] );
-
             if ( empty( $data ) ) {
                 die( 'post not found!' );
             }
@@ -308,8 +318,10 @@ class Posts extends Admin {
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
 
-    protected function add_new() {
-        $data = $this->MY_post( 'data' );
+    protected function add_new( $data = NULL ) {
+        if ( $data === NULL ) {
+            $data = $this->MY_post( 'data' );
+        }
         $data[ 'post_type' ] = $this->post_type;
 
         //
@@ -331,6 +343,12 @@ class Posts extends Admin {
             'post_type' => $this->post_type,
         ] );
 
+        // nếu có lỗi thì thông báo lỗi
+        if ( $result_id !== true && is_array( $result_id ) && isset( $result_id[ 'error' ] ) ) {
+            $this->base_model->alert( $result_id[ 'error' ], 'error' );
+        }
+
+        // không thì thông báo thành công
         $this->base_model->alert( 'Cập nhật ' . PostType::list( $this->post_type ) . ' thành công' );
     }
 

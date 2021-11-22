@@ -280,6 +280,50 @@ class Post extends EB_Model {
         //print_r( $data );
         //print_r( $where );
 
+        // nếu đang là xóa bài viết thì bỏ qua việc kiểm tra slug
+        if ( isset( $data[ 'post_status' ] ) && $data[ 'post_status' ] == PostType::DELETED ) {
+            //
+        }
+        // kiểm tra xem có trùng slug không
+        else if ( isset( $data[ 'post_name' ] ) && $data[ 'post_name' ] != '' ) {
+            // post đang cần update
+            $current_slug = $this->base_model->select( '*', 'wp_posts', $where, [
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                //'offset' => 2,
+                'limit' => 1
+            ] );
+            //print_r( $current_slug );
+
+            //
+            if ( !empty( $current_slug ) ) {
+                $check_slug = $this->base_model->select( 'ID', 'wp_posts', [
+                    'post_name' => $data[ 'post_name' ],
+                    'ID !=' => $current_slug[ 'ID' ],
+                    'post_type' => $current_slug[ 'post_type' ],
+                    'post_status !=' => PostType::DELETED,
+                    //'post_status' => $current_slug[ 'post_status' ],
+                ], [
+                    // hiển thị mã SQL để check
+                    //'show_query' => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    //'get_query' => 1,
+                    //'offset' => 2,
+                    'limit' => 1
+                ] );
+                //print_r( $check_slug );
+                if ( !empty( $check_slug ) ) {
+                    return [
+                        'code' => __LINE__,
+                        'error' => 'Slug đã được sử dụng ở post #' . $check_slug[ 'ID' ],
+                    ];
+                }
+                //die( __FILE__ . ':' . __LINE__ );
+            }
+        }
+
         //
         $this->base_model->update_multiple( $this->table, $data, $where, [
             'debug_backtrace' => debug_backtrace()[ 1 ][ 'function' ]
@@ -289,6 +333,9 @@ class Post extends EB_Model {
         if ( isset( $_POST[ 'post_meta' ] ) ) {
             $this->insert_meta_post( $_POST[ 'post_meta' ], $post_id );
         }
+
+        //
+        return true;
     }
 
     // thêm post meta
@@ -813,7 +860,7 @@ class Post extends EB_Model {
         } else if ( $data[ 'post_type' ] == PostType::PAGE ) {
             return DYNAMIC_BASE_URL . $data[ 'post_name' ];
         }
-        return DYNAMIC_BASE_URL . 'p=' . $data[ 'ID' ];
+        return DYNAMIC_BASE_URL . '?p=' . $data[ 'ID' ];
     }
 
     // thường dùng trong view -> in ra link admin của 1 post
