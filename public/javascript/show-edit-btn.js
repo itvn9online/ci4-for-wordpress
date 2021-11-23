@@ -8,13 +8,14 @@ $(document).ready(function () {
         var jd = $(this).attr('data-id') || '';
         //console.log(jd);
         var type = $(this).attr('data-type') || '';
+        var controller = $(this).attr('data-controller') || 'posts';
         //console.log(type);
         var insert_before = $(this).attr('insert-before') || '';
         //console.log(insert_before);
 
         //
         if (jd != '' && type != '') {
-            var url = 'admin/posts/add?post_type=' + type + '&id=' + jd;
+            var url = 'admin/' + controller + '/add?post_type=' + type + '&id=' + jd;
             //console.log(url);
             url = '<a href="' + url + '" target="_blank" rel="nofollow" class="click-goto-edit"><span><i class="fa fa-edit"></i></span></a>';
 

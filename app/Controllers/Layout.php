@@ -160,7 +160,7 @@ Compression = gzip -->';
     protected function WGR_is_mobile() {
         if ( empty( $_SERVER[ 'HTTP_USER_AGENT' ] ) ) {
             $is_mobile = false;
-        } elseif ( strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Mobile' ) !== false // Many mobile devices (all iPhone, iPad, etc.)
+        } else if ( strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Mobile' ) !== false // Many mobile devices (all iPhone, iPad, etc.)
             ||
             strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Android' ) !== false ||
             strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Silk/' ) !== false ||
@@ -549,5 +549,15 @@ Compression = gzip -->';
             break;
         }
         //die( __FILE__ . ':' . __LINE__ );
+    }
+
+    // đồng bộ nội dung về 1 kiểu
+    protected function replace_content( $str ) {
+        $str = str_replace( '../../../public/upload/', 'upload/', $str );
+        $str = str_replace( '/public/upload/', '/upload/', $str );
+        $str = str_replace( base_url() . '/', '', $str );
+
+        //
+        return $str;
     }
 }

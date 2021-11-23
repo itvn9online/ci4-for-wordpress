@@ -14,7 +14,22 @@ class Home extends Layout {
         parent::__construct();
     }
 
+    /*
+     * default page
+     */
     public function index() {
+        // dẫn tới trang post mặc định
+        if ( isset( $_GET[ 'p' ] ) ) {
+            return $this->autoDetails();
+        }
+        // dẫn tới trang chủ
+        return $this->portal();
+    }
+
+    /*
+     * home page
+     */
+    protected function portal() {
         $this->cache_key = 'home';
         $cache_value = $this->MY_cache( $this->cache_key );
         // Will get the cache entry named 'my_foo'
@@ -108,10 +123,68 @@ class Home extends Layout {
         return $this->page404();
     }
 
-    protected function pageDetail( $data ) {
-        //print_r( $data );
+    protected function autoDetails() {
+        $id = $this->MY_get( 'p' );
+        //echo $id . '<br>' . "\n";
 
         //
+        if ( empty( $id ) ) {
+            die( 'ERROR! id? ' . basename( __FILE__ ) . ':' . __LINE__ );
+        }
+
+        //
+        $this->cache_key = 'post' . $id;
+        $cache_value = $this->MY_cache( $this->cache_key );
+        // Will get the cache entry named 'my_foo'
+        //var_dump( $cache_value );
+        // không có cache thì tiếp tục
+        if ( !$cache_value ) {
+            //echo '<!-- no cache -->';
+        }
+        // có thì in ra cache là được
+        else {
+            return $this->show_cache( $cache_value );
+        }
+
+        // lấy post theo ID, không lọc theo post type -> vì nhiều nơi cần dùng đến
+        $data = $this->base_model->select( '*', 'wp_posts', array(
+            // các kiểu điều kiện where
+            'ID' => $id,
+            'post_status' => PostType::PUBLIC
+        ), array(
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            //'offset' => 2,
+            'limit' => 1
+        ) );
+
+        //
+        if ( !empty( $data ) ) {
+            // lấy meta của post này
+            $data[ 'post_meta' ] = $this->post_model->arr_meta_post( $data[ 'ID' ] );
+            //print_r( $data );
+
+            // với các post type mặc định -> dùng page view
+            if ( in_array( $data[ 'post_type' ], [
+                    PostType::POST,
+                    PostType::BLOG,
+                    PostType::PAGE
+                ] ) ) {
+                return $this->pageDetail( $data );
+            }
+            // các custom post type -> dùng view theo post type
+            else {
+                return $this->pageDetail( $data, $data[ 'post_type' ] . '_view' );
+            }
+        }
+
+        //
+        return $this->page404();
+    }
+
+    protected function pageDetail( $data, $file_view = 'page_view' ) {
         $this->cache_key = 'post' . $data[ 'ID' ];
         $cache_value = $this->MY_cache( $this->cache_key );
         // Will get the cache entry named 'my_foo'
@@ -124,6 +197,10 @@ class Home extends Layout {
         else {
             return $this->show_cache( $cache_value );
         }
+
+        //
+        $data[ 'post_content' ] = $this->replace_content( $data[ 'post_content' ] );
+        //print_r( $data );
 
         // page view mặc định
         $page_template = '';
@@ -141,7 +218,7 @@ class Home extends Layout {
             'breadcrumb' => $this->breadcrumb
         ) );
 
-        $this->teamplate[ 'main' ] = view( 'page_view', array(
+        $this->teamplate[ 'main' ] = view( $file_view, array(
             'seo' => $seo,
             'page_template' => $page_template,
             'data' => $data,

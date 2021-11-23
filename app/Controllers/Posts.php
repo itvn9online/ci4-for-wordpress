@@ -40,6 +40,9 @@ class Posts extends Layout {
             //print_r( $data );
             return $this->page404();
         }
+
+        //
+        $data[ 'post_content' ] = $this->replace_content( $data[ 'post_content' ] );
         //print_r( $data );
 
         // lấy thông tin danh mục để tạo breadcrumb
