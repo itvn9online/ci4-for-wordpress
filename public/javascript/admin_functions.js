@@ -126,7 +126,7 @@ function add_and_show_post_avt(for_id, add_img_tag, img_size, input_type) {
     //
     var str = [];
     //str.push(' <input type="button" class="btn btn-info" value="Chọn ảnh" onclick="BrowseServer( \'Images:/\', \'' + for_id.substr(1) + '\' );"/>');
-    str.push(' <input type="button" class="btn btn-info" value="Thêm ảnh" onclick="WgrWp_popup_upload( \'' + for_id.substr(1) + '\', ' + add_img_tag + ', \'' + img_size + '\', \'' + input_type + '\' );"/>');
+    str.push(' <input type="button" class="btn btn-info add-image-' + for_id.replace(/\#|\./gi, '-') + '" value="Thêm ảnh" onclick="WgrWp_popup_upload( \'' + for_id.substr(1) + '\', ' + add_img_tag + ', \'' + img_size + '\', \'' + input_type + '\' );"/>');
 
     //
     $('.for-' + for_id).remove();
@@ -210,77 +210,77 @@ function click_set_img_for_input(img_id) {
 }
 
 function WGR_load_textediter(for_id, ops) {
-	if (typeof ops == 'undefined') {
-		ops = {};
-	}
-	if (typeof ops['height'] == 'undefined') {
-		ops['height'] = 250;
-	}
-	if (typeof ops['plugins'] == 'undefined') {
-		ops['plugins'] = [
-			'advlist autolink lists link image imagetools charmap print preview anchor',
-			'searchreplace visualblocks code fullscreen',
-			'insertdatetime media table paste code help wordcount'
-		];
-	}
-	if (typeof ops['toolbar'] == 'undefined') {
-		ops['toolbar'] = 'undo redo | formatselect | '
-			+ 'bold italic backcolor | alignleft aligncenter '
-			+ 'alignright alignjustify | bullist numlist outdent indent | image | '
-			+ 'link table | '
-			+ 'removeformat code | help';
-	}
+    if (typeof ops == 'undefined') {
+        ops = {};
+    }
+    if (typeof ops['height'] == 'undefined') {
+        ops['height'] = 250;
+    }
+    if (typeof ops['plugins'] == 'undefined') {
+        ops['plugins'] = [
+            'advlist autolink lists link image imagetools charmap print preview anchor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table paste code help wordcount'
+        ];
+    }
+    if (typeof ops['toolbar'] == 'undefined') {
+        ops['toolbar'] = 'undo redo | formatselect | '
+            + 'bold italic backcolor | alignleft aligncenter '
+            + 'alignright alignjustify | bullist numlist outdent indent | image | '
+            + 'link table | '
+            + 'removeformat code | help';
+    }
 
-	//
-	tinymce.init({
-		selector: 'textarea' + for_id,
-		height: ops['height'],
-		//menubar: false,
-		plugins: ops['plugins'],
-		//a11y_advanced_options: true,
-		//
-		image_title: true,
-		image_caption: true,
-		image_advtab: true,
-		//imagetools_toolbar: "rotateleft rotateright | flipv fliph | editimage imageoptions",
-		// rel cho thẻ A
-		rel_list: [{
-			title: 'None',
-			value: ''
-		}, {
-			title: 'No Referrer',
-			value: 'noreferrer'
-		}, {
-			title: 'No Follow',
-			value: 'nofollow'
-			/*
+    //
+    tinymce.init({
+        selector: 'textarea' + for_id,
+        height: ops['height'],
+        //menubar: false,
+        plugins: ops['plugins'],
+        //a11y_advanced_options: true,
+        //
+        image_title: true,
+        image_caption: true,
+        image_advtab: true,
+        //imagetools_toolbar: "rotateleft rotateright | flipv fliph | editimage imageoptions",
+        // rel cho thẻ A
+        rel_list: [{
+            title: 'None',
+            value: ''
+        }, {
+            title: 'No Referrer',
+            value: 'noreferrer'
+        }, {
+            title: 'No Follow',
+            value: 'nofollow'
+            /*
 		}, {
 			title: 'No Opener',
 			value: 'noopener'
 			*/
-		}, {
-			title: 'External Link',
-			value: 'external'
-		}],
-		//
-		toolbar: ops['toolbar'],
-		setup: function (ed) {
-			// sự kiện khi khi nhấp đúp chuột
-			ed.on('DblClick', function (e) {
-				//console.log(e.target.nodeName);
-				// nếu là hình ảnh -> mở hộp thoại sửa ảnh
-				if (e.target.nodeName == 'IMG') {
-					tinymce.activeEditor.execCommand('mceImage');
-				}
-				// nếu là URL -> mở hộp chỉnh sửa URL
-				else if (e.target.nodeName == 'A') {
-					tinymce.activeEditor.execCommand('mceLink');
-				}
-			});
-		},
-		//content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-	});
+        }, {
+            title: 'External Link',
+            value: 'external'
+        }],
+        //
+        toolbar: ops['toolbar'],
+        setup: function (ed) {
+            // sự kiện khi khi nhấp đúp chuột
+            ed.on('DblClick', function (e) {
+                //console.log(e.target.nodeName);
+                // nếu là hình ảnh -> mở hộp thoại sửa ảnh
+                if (e.target.nodeName == 'IMG') {
+                    tinymce.activeEditor.execCommand('mceImage');
+                }
+                // nếu là URL -> mở hộp chỉnh sửa URL
+                else if (e.target.nodeName == 'A') {
+                    tinymce.activeEditor.execCommand('mceLink');
+                }
+            });
+        },
+        //content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+    });
 
-	//
-	add_and_show_post_avt(for_id, 1, '', 'textediter');
+    //
+    add_and_show_post_avt(for_id, 1, '', 'textediter');
 }
