@@ -140,6 +140,13 @@ class Base {
         return $result;
     }
 
+    public function table_exists( $tbl ) {
+        if ( $this->db->tableExists( $tbl ) ) {
+            return true;
+        }
+        return false;
+    }
+
     // tự tạo 1 hàm select riêng, viết kiểu code cũ, mỗi lần select lại phải viết function khác -> mệt
     function select( $select, $from, $where = array(), $op = array() ) {
         //print_r($op);

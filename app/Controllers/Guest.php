@@ -81,9 +81,9 @@ class Guest extends Layout {
         //$result = $this->user_model->login( $username, $password );
         $result = $this->user_model->login( $username, $password );
         if ( empty( $result ) ) {
-            $sql = $this->base_model->select( '*', 'tbl_thanhvien', array(
+            $sql = $this->base_model->select( 'ID', 'wp_users', array(
                 // các kiểu điều kiện where
-                'tv_email' => $username,
+                'user_email' => $username,
             ), array(
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
@@ -95,9 +95,9 @@ class Guest extends Layout {
 
             //
             if ( empty( $sql ) ) {
-                $this->session->setFlashdata( 'msg_error', 'Email đăng nhập không đúng chính xác' );
+                $this->session->setFlashdata( 'msg_error', 'Email đăng nhập không chính xác' );
             } else {
-                $this->session->setFlashdata( 'msg_error', 'Mật khẩu đăng nhập không đúng chính xác' );
+                $this->session->setFlashdata( 'msg_error', 'Mật khẩu đăng nhập không chính xác' );
             }
             return false;
         }
