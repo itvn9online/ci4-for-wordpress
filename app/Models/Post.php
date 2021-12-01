@@ -10,8 +10,11 @@ use App\ Libraries\ DeletedStatus;
 
 //
 class Post extends EB_Model {
-    protected $table = 'wp_posts';
-    protected $primaryKey = 'ID';
+    public $table = 'wp_posts';
+    public $primaryKey = 'ID';
+
+    protected $createdField = 'post_date';
+    protected $updatedField = 'post_modified';
 
     protected $metaTable = 'wp_postmeta';
     protected $metaKey = 'meta_id';
@@ -52,7 +55,7 @@ class Post extends EB_Model {
         $this->session = \Config\ Services::session();
     }
 
-    function insert_post( $data ) {
+    function insert_post( $data, $data_meta = [] ) {
         $session_data = $this->session->get( 'admin' );
         if ( empty( $session_data ) ) {
             $post_author = 0;
@@ -74,7 +77,7 @@ class Post extends EB_Model {
         $default_data[ 'post_modified_gmt' ] = $default_data[ 'post_date' ];
 
         //
-        if ( $data[ 'post_name' ] == '' ) {
+        if ( !isset( $data[ 'post_name' ] ) || $data[ 'post_name' ] == '' ) {
             $data[ 'post_name' ] = $data[ 'post_title' ];
         }
         if ( $data[ 'post_name' ] != '' ) {
@@ -89,10 +92,18 @@ class Post extends EB_Model {
         // insert post
         //print_r( $data );
         $result_id = $this->base_model->insert( $this->table, $data, true );
+        //var_dump( $result_id );
+        //print_r( $result_id );
 
         if ( $result_id > 0 ) {
+            //print_r( $data_meta );
+            //print_r( $_POST );
+            //die( __FILE__ . ':' . __LINE__ );
+
             // insert/ update meta post
-            if ( isset( $_POST[ 'post_meta' ] ) ) {
+            if ( !empty( $data_meta ) ) {
+                $this->insert_meta_post( $data_meta, $result_id );
+            } else if ( isset( $_POST[ 'post_meta' ] ) ) {
                 $this->insert_meta_post( $_POST[ 'post_meta' ], $result_id );
             }
 
@@ -558,7 +569,7 @@ class Post extends EB_Model {
                         //
                         $_POST[ 'post_meta' ] = $data_insert[ 'post_meta' ];
                         echo 'Auto create post: ' . $data_insert[ 'post_title' ] . ' (' . $ops[ 'post_type' ] . ') <br>' . "\n";
-                        $this->insert_post( $data_insert );
+                        $this->insert_post( $data_insert, $_POST[ 'post_meta' ] );
                     }
                 }
                 //die( 'fjg dghsd sgsd' );

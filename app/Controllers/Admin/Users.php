@@ -21,9 +21,12 @@ class Users extends Admin {
     public function index( $url = '' ) {
         $post_per_page = 50;
 
+        //
+        $by_is_deleted = $this->MY_get( 'is_deleted', DeletedStatus::DEFAULT );
+
         // các kiểu điều kiện where
         $where = [
-            'wp_users.is_deleted' => DeletedStatus::DEFAULT,
+            'wp_users.is_deleted' => $by_is_deleted,
         ];
         if ( $this->member_type != '' ) {
             $where[ 'wp_users.member_type' ] = $this->member_type;
@@ -121,6 +124,8 @@ class Users extends Admin {
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/users/list', array(
             'pagination' => $pagination,
+            'by_is_deleted' => $by_is_deleted,
+            'page_num' => $page_num,
             'totalThread' => $totalThread,
             'by_keyword' => $by_keyword,
             'data' => $data,
@@ -201,7 +206,7 @@ class Users extends Admin {
         $this->base_model->alert( 'Cập nhật thông tin thành viên ' . $data[ 'user_email' ] . ' thành công' );
     }
 
-    public function delete() {
+    public function before_delete_restore( $msg, $is_deleted ) {
         $current_user_id = $this->session_data[ 'userID' ];
         if ( empty( $current_user_id ) ) {
             $this->base_model->alert( 'Không xác định được ID của bạn!', 'error' );
@@ -212,15 +217,39 @@ class Users extends Admin {
 
         //
         if ( $current_user_id == $id ) {
-            $this->base_model->alert( 'Không thể tự xóa chính bạn!', 'warning' );
+            $this->base_model->alert( $msg, 'warning' );
         }
 
         //
         $this->user_model->update_member( $id, [
-            'is_deleted' => DeletedStatus::DELETED,
+            'is_deleted' => $is_deleted,
         ] );
 
-        $this->base_model->alert( '', base_url( 'admin/users' ) );
+        //
+        $for_redirect = base_url( 'admin/users' ) . '?member_type=' . $this->member_type;
+
+        //
+        $page_num = $this->MY_get( 'page_num' );
+        if ( $page_num != '' ) {
+            $for_redirect .= '&page_num=' . $page_num;
+        }
+
+        //
+        $is_deleted = $this->MY_get( 'is_deleted' );
+        if ( $is_deleted != '' ) {
+            $for_redirect .= '&is_deleted=' . $is_deleted;
+        }
+
+        //
+        $this->base_model->alert( '', $for_redirect );
+    }
+
+    public function delete() {
+        return $this->before_delete_restore( 'Không thể tự xóa chính bạn!', DeletedStatus::DELETED );
+    }
+
+    public function restore() {
+        return $this->before_delete_restore( 'Không thể tự phục hồi chính bạn!', DeletedStatus::DEFAULT );
     }
 
 }

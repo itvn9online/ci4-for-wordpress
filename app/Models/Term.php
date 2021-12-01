@@ -281,7 +281,11 @@ class Term extends EB_Model {
             $ops[ 'limit' ] = 1;
             $ops[ 'slug_get_child' ] = 1;
         } else {
-            $where[ 'is_deleted' ] = DeletedStatus::DEFAULT;
+            if ( isset( $ops[ 'by_is_deleted' ] ) ) {
+                $where[ 'is_deleted' ] = $ops[ 'by_is_deleted' ];
+            } else {
+                $where[ 'is_deleted' ] = DeletedStatus::DEFAULT;
+            }
 
             // tìm kiếm
             if ( isset( $ops[ 'or_like' ] ) && !empty( $ops[ 'or_like' ] ) ) {
@@ -291,13 +295,15 @@ class Term extends EB_Model {
             }
             //
             else {
-                if ( isset( $ops[ 'get_child' ] ) ) {
-                    if ( !isset( $ops[ 'parent' ] ) ) {
-                        $ops[ 'parent' ] = 0;
+                if ( $where[ 'is_deleted' ] != DeletedStatus::DELETED ) {
+                    if ( isset( $ops[ 'get_child' ] ) ) {
+                        if ( !isset( $ops[ 'parent' ] ) ) {
+                            $ops[ 'parent' ] = 0;
+                        }
                     }
-                }
-                if ( isset( $ops[ 'parent' ] ) ) {
-                    $where[ 'parent' ] = $ops[ 'parent' ];
+                    if ( isset( $ops[ 'parent' ] ) ) {
+                        $where[ 'parent' ] = $ops[ 'parent' ];
+                    }
                 }
             }
             if ( isset( $ops[ 'lang_key' ] ) ) {
@@ -319,7 +325,7 @@ class Term extends EB_Model {
         //print_r( $where );
         //print_r( $ops );
         //print_r( $where_or_like );
-        //die( 'dh dgd' );
+        //die( __FILE__ . ':' . __LINE__ );
 
         //
         $post_cat = $this->base_model->select( $ops[ 'select_col' ], 'v_terms', $where, array(
@@ -335,9 +341,12 @@ class Term extends EB_Model {
             //'offset' => 2,
             'limit' => $ops[ 'limit' ]
         ) );
-        //die( 'fgjh dsdgdghd' );
         //print_r( $post_cat );
-        if ( !empty( $post_cat ) ) {
+        //die( __FILE__ . ':' . __LINE__ );
+        //return $post_cat;
+
+        // daidq (2021-12-01): khi có thêm tham số by_is_deleted mà vẫn lấy term meta thì bị lỗi query -> tạm bỏ
+        if ( !empty( $post_cat ) && !isset( $ops[ 'by_is_deleted' ] ) ) {
             //print_r( $ops );
 
             // lấy meta
@@ -534,7 +543,7 @@ class Term extends EB_Model {
     }
 
     // tạo html trong này -> do trong view không viết được tham số $this để tạo vòng lặp đệ quy
-    function list_html_view( $data, $gach_ngang = '' ) {
+    function list_html_view( $data, $gach_ngang = '', $is_deleted = '' ) {
         $tmp = '<tr>
             <td>&nbsp;</td>
             <td><a href="%get_admin_permalink%">' . $gach_ngang . ' %name% <i class="fa fa-edit"></i></a></td>
@@ -543,7 +552,14 @@ class Term extends EB_Model {
             <td>&nbsp;</td>
             <td>%lang_key%</td>
             <td>%count%</td>
+            <td>%action_link%</td>
         </tr>';
+
+        //
+        $for_redirect = '';
+        if ( $is_deleted != '' ) {
+            $for_redirect .= '&is_deleted=' . $is_deleted;
+        }
 
         //
         $str = '';
@@ -552,6 +568,15 @@ class Term extends EB_Model {
 
             //
             $node = $tmp;
+
+            //
+            $action_link = '<a href="admin/terms/delete?taxonomy=%taxonomy%&id=%term_id%' . $for_redirect . '" onClick="return click_a_delete_record();" target="target_eb_iframe" class="redcolor"><i class="fa fa-trash"></i></a>';
+            if ( $v[ 'is_deleted' ] == DeletedStatus::DELETED ) {
+                $action_link = '<a href="admin/terms/restore?taxonomy=%taxonomy%&id=%term_id%' . $for_redirect . '" onClick="return click_a_restore_record();" target="target_eb_iframe" class="bluecolor"><i class="fa fa-undo"></i></a>';
+            }
+            $node = str_replace( '%action_link%', $action_link, $node );
+
+            //
             foreach ( $v as $key => $val ) {
                 if ( $key == 'term_meta' ) {
                     //print_r( $val );
@@ -569,7 +594,7 @@ class Term extends EB_Model {
 
             //
             if ( isset( $v[ 'child_term' ] ) ) {
-                $str .= $this->list_html_view( $v[ 'child_term' ], $gach_ngang . ' &#8212;' );
+                $str .= $this->list_html_view( $v[ 'child_term' ], $gach_ngang . ' &#8212;', $is_deleted );
             }
         }
 

@@ -505,7 +505,8 @@ Compression = gzip -->';
                         '_wp_attached_file' => $file_uri,
                     ];
                     //print_r( $_POST );
-                    $this->post_model->insert_post( $data_insert );
+                    //die( __FILE__ . ':' . __LINE__ );
+                    $this->post_model->insert_post( $data_insert, $_POST[ 'post_meta' ] );
 
                     //
                     if ( !isset( $arr_result[ $key ] ) ) {

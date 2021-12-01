@@ -195,7 +195,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
                 <?php
                 if ( $data[ 'term_id' ] > 0 ) {
                     ?>
-                <a href="admin/terms/delete?taxonomy=<?php echo $taxonomy; ?>&id=<?php echo $data[ 'term_id' ]; ?>" onClick="click_a_delete_record();" class="btn btn-danger" target="target_eb_iframe"><i class="fa fa-trash"></i> XÓA</a>
+                <a href="admin/terms/delete?taxonomy=<?php echo $taxonomy; ?>&id=<?php echo $data[ 'term_id' ]; ?>" onClick="return click_a_delete_record();" class="btn btn-danger" target="target_eb_iframe"><i class="fa fa-trash"></i> XÓA</a>
                 <?php
                 }
                 ?>

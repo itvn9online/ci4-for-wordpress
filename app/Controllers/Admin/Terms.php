@@ -53,8 +53,13 @@ class Terms extends Admin {
             }
         }
 
+        //
+        $by_is_deleted = $this->MY_get( 'is_deleted', DeletedStatus::DEFAULT );
+
+        //
         $data = $this->term_model->get_all_taxonomy( $this->taxonomy, 0, [
             'or_like' => $where_or_like,
+            'by_is_deleted' => $by_is_deleted,
             'lang_key' => LanguageCost::lang_key(),
             'get_meta' => true,
             'get_child' => true
@@ -65,6 +70,7 @@ class Terms extends Admin {
 
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/terms/list', array(
+            'by_is_deleted' => $by_is_deleted,
             'by_keyword' => $by_keyword,
             'data' => $data,
             'pagination' => '',
@@ -178,14 +184,32 @@ class Terms extends Admin {
         $this->base_model->alert( 'Cập nhật ' . TaxonomyType::list( $this->taxonomy, true ) . ' thành công' );
     }
 
-    public function delete() {
+    public function before_delete_restore( $is_deleted ) {
         $id = $this->MY_get( 'id', 0 );
 
         $this->term_model->update_terms( $id, [
-            'is_deleted' => DeletedStatus::DELETED,
+            'is_deleted' => $is_deleted,
         ] );
 
-        $this->base_model->alert( '', base_url( 'admin/terms' ) . '?taxonomy=' . $this->taxonomy );
+        //
+        $for_redirect = base_url( 'admin/terms' ) . '?taxonomy=' . $this->taxonomy;
+
+        //
+        $is_deleted = $this->MY_get( 'is_deleted' );
+        if ( $is_deleted != '' ) {
+            $for_redirect .= '&is_deleted=' . $is_deleted;
+        }
+
+        //
+        $this->base_model->alert( '', $for_redirect );
+    }
+
+    public function delete() {
+        return $this->before_delete_restore( DeletedStatus::DELETED );
+    }
+
+    public function restore() {
+        return $this->before_delete_restore( DeletedStatus::DEFAULT );
     }
 
 }

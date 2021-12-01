@@ -33,17 +33,18 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
             </div>
         </form>
     </div>
-    <div class="lf f20">
+    <div class="lf f20 text-right">
         <?php
 
         // menu sẽ được tự động khởi tạo khi dùng hàm để gọi -> không cho add thủ công
         if ( $post_type != PostType::MENU ) {
             ?>
-        <div class="buttons text-right"> <a href="<?php $post_model->admin_permalink( $post_type, 0, $controller_slug ); ?>" class="btn btn-success btn-mini"> <i class="fa fa-plus"></i> Thêm mới <?php echo PostType::list($post_type); ?></a> </div>
+        <div class="d-inline"><a href="<?php $post_model->admin_permalink( $post_type, 0, $controller_slug ); ?>" class="btn btn-success btn-mini"> <i class="fa fa-plus"></i> Thêm mới <?php echo PostType::list($post_type); ?></a></div>
         <?php
         }
 
         ?>
+        <div class="d-inline"><a href="admin/<?php echo $controller_slug; ?>?post_type=<?php echo $post_type; ?>&post_status=<?php echo PostType::DELETED; ?>" class="btn btn-mini"> <i class="fa fa-trash"></i> Lưu trữ</a></div>
     </div>
 </div>
 <br>
@@ -61,12 +62,17 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
             <th>STT</th>
             <th>Last Update</th>
             <th>Lang</th>
+            <th>&nbsp;</th>
         </tr>
     </thead>
     <tbody>
         <?php
 
         foreach ( $data as $k => $v ) {
+            //print_r( $v );
+            //continue;
+
+            //
             ?>
         <tr>
             <td>&nbsp;</td>
@@ -77,7 +83,17 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
             $post_model->the_permalink( $v );
 
             ?>"><i class="fa fa-eye"></i></a></td>
-            <td><img src="<?php echo $post_model->get_post_thumbnail($v['post_meta']); ?>" height="90" style="height: 90px; width: auto;" /></td>
+            <td><?php
+            if ( $post_type == PostType::MENU ) {
+                ?>
+                &nbsp;
+                <?php
+                } else {
+                    ?>
+                <img src="<?php echo $post_model->get_post_thumbnail($v['post_meta']); ?>" height="90" style="height: 90px; width: auto;" />
+                <?php
+                }
+                ?></td>
             <td data-id="<?php echo $post_model->show_meta_post($v['post_meta'], 'post_category'); ?>" data-taxonomy="<?php echo $taxonomy; ?>" data-uri="admin/<?php echo $controller_slug; ?>?post_type=<?php echo $post_type; ?>" class="each-to-taxonomy">&nbsp;</td>
             <td><?php echo $v['post_status']; ?></td>
             <td><?php echo $v['pinged']; ?></td>
@@ -85,6 +101,17 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
             <td><?php echo $v['menu_order']; ?></td>
             <td><?php echo $v['post_modified']; ?></td>
             <td><?php echo $v['lang_key']; ?></td>
+            <td class="text-center"><?php
+            if ( $v[ 'post_status' ] != PostType::DELETED ) {
+                ?>
+                <a href="admin/<?php echo $controller_slug; ?>/delete?post_type=<?php echo $post_type; ?>&id=<?php echo $v[ 'ID' ]; ?>&post_status=<?php echo $post_status; ?>&page_num=<?php echo $page_num; ?>" onClick="return click_a_delete_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-trash"></i></a>
+                <?php
+                } else {
+                    ?>
+                <a href="admin/<?php echo $controller_slug; ?>/restore?post_type=<?php echo $post_type; ?>&id=<?php echo $v[ 'ID' ]; ?>&post_status=<?php echo $post_status; ?>&page_num=<?php echo $page_num; ?>" onClick="return click_a_restore_record();" class="bluecolor" target="target_eb_iframe"><i class="fa fa-undo"></i></a>
+                <?php
+                }
+                ?></td>
         </tr>
         <?php
         }

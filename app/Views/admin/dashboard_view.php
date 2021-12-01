@@ -9,13 +9,19 @@ use App\ Libraries\ UsersType;
     <?php
 
     //
-    if ( phpversion() >= '7.4' ) {
-        ?>
-    <span class="greencolor">Xin chúc mừng! Phiên bản php bạn đang sử dụng đang ở mức khuyến nghị của chúng tôi</span>
+    if ( phpversion() >= '7.3' ) {
+        if ( phpversion() >= '7.4' ) {
+            ?>
+    <span class="greencolor">Xin chúc mừng! Phiên bản PHP bạn đang sử dụng đang ở mức khuyến nghị của chúng tôi</span>
     <?php
     } else {
         ?>
-    <span class="redcolor">Để tối ưu hiệu suất hệ thống. Vui lòng sử dụng phiên bản PHP <strong>7.4</strong> trở lên</span>
+    <span class="greencolor">Xin chúc mừng! Phiên bản PHP của bạn tương đối tốt. Tuy nhiên, chúng tôi vẫn khuyến nghị bạn sử dụng phiên bản PHP 7.4 trở lên.</span>
+    <?php
+    }
+    } else {
+        ?>
+    <span class="redcolor">Để tối ưu hiệu suất hệ thống. Vui lòng sử dụng phiên bản PHP <strong>7.3</strong> trở lên</span>
     <?php
     }
 
@@ -78,3 +84,6 @@ if ( file_exists( PUBLIC_HTML_PATH . '.env-bak' ) ) {
 
 //
 //print_r( $_SERVER );
+
+
+

@@ -16,7 +16,7 @@ Code chạy database wordpress trên nền tảng CodeIgniter4. Về cơ bản c
 - Tạo database và import database mẫu từ file database.zip
 	- Thiết lập các tham số kết nối database `username`, `password`, `database` tại file này: `/app/Config/Database.php`. * nếu chưa có file `/app/Config/Database-sample.php` thì copy file `Database-sample.php` và đổi tên thành `Database.php`.
 	- Truy cập vào phpmyadmin tìm đến bảng `wp_users` và update lại cột `user_login`, `user_email` và `ci_pass` để sử dụng (password update thông qua hàm `md5` của phpmyadmin). Update trực tiếp vào tài khoản có ID = 1 hoặc sao chép từ tài khoản đó ra.
-- Liên kết vào admin: `/ci3-wp-admin`
+- Liên kết vào admin: `/ci4-wp-admin`
 - Liên kết tự động giải nén vendor và đồng bộ database nếu chưa được đồng bộ: `/sync/vendor_sync` (lưu ý: việc chạy link đồng bộ này là bắt buộc để đảm bảo website có đủ cấu trúc database cũng như các code của phần outsource)
 - Các phần hướng dẫn khác (nếu có) sẽ bổ sung dần dần...
 
@@ -197,7 +197,7 @@ $post_thumbnail = $this->post_model->get_post_thumbnail( $data );
 #### Menu:
 ##### In ra menu có slug là `slug-of-menu`, gắn vào đó 2 class css là `class-css1` và `class-css2`, nếu menu chưa tồn tại, hệ thống sẽ tự động tạo.
 ```
-$this->menu_model->the_menu( 'slug-of-menu', 'class-css1 class-css2' );
+$menu_model->the_menu( 'slug-of-menu', 'class-css1 class-css2' );
 ```
 
 ----------------------------------------------------------------------------
@@ -213,7 +213,7 @@ $this->post_model->the_ads( 'slug-of-ads-group', 10 );
 #### Website logo:
 ##### In ra logo mobile nếu có, nếu không sẽ in ra logo chính (để trống các tham số phía sau sẽ in ra logo chính).
 ```
-$this->option_model->the_logo( $getconfig, 'logo_mobile', 'logo_mobile_height' );
+$option_model->the_logo( $getconfig, 'logo_mobile', 'logo_mobile_height' );
 ```
 
 ----------------------------------------------------------------------------

@@ -30,13 +30,17 @@ class Upload extends EB_Model {
         }
 
         //
+        $src = '';
+
         // Don't attempt to unserialize data that wasn't serialized going in.
         if ( isset( $data[ 'post_meta' ][ '_wp_attachment_metadata' ] ) && $data[ 'post_meta' ][ '_wp_attachment_metadata' ] != '' ) {
             //if ( is_serialized( $v[ 'post_meta' ][ '_wp_attachment_metadata' ] ) ) {
             $attachment_metadata = unserialize( $data[ 'post_meta' ][ '_wp_attachment_metadata' ] );
             //}
 
+            //
             //print_r( $attachment_metadata );
+            //echo 'size: ' . $size . '<br>' . "\n";
             if ( empty( $attachment_metadata ) ) {
                 return '';
             }
@@ -53,7 +57,7 @@ class Upload extends EB_Model {
                     }
                 }
                 //print_r( $list_media );
-                //die( 'fgh s sf' );
+                //die( __FILE__ . ':' . __LINE__ );
                 return $list_media;
             }
 
@@ -65,7 +69,8 @@ class Upload extends EB_Model {
             $src = $data[ 'post_meta' ][ '_wp_attached_file' ];
         }
         $src = $uri . $src;
-        //echo $src;
+        //echo 'src: ' . $src . '<br>' . "\n";
+        //die( __FILE__ . ':' . __LINE__ );
 
         //
         return $src;

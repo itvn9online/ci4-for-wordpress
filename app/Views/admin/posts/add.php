@@ -118,6 +118,9 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                     <input type="number" class="span3" placeholder="Số thứ tự" name="data[menu_order]" value="<?php echo $data['menu_order']; ?>" />
                 </div>
             </div>
+            <?php
+            if ( !empty( $parent_post ) ) {
+                ?>
             <div class="control-group hide-if-edit-menu">
                 <label class="control-label">Cha</label>
                 <div class="controls">
@@ -135,6 +138,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                 </div>
             </div>
             <?php
+            }
 
             // nạp các meta theo từng loại post
             foreach ( $meta_detault as $k => $v ) {
@@ -284,7 +288,7 @@ $('#quick_add_menu').change(function () {
                 <?php
                 if ( $data[ 'ID' ] > 0 ) {
                     ?>
-                <a href="admin/<?php echo $controller_slug; ?>/delete?post_type=<?php echo $post_type; ?>&id=<?php echo $data[ 'ID' ]; ?>" onClick="click_a_delete_record();" class="btn btn-danger" target="target_eb_iframe"><i class="fa fa-trash"></i> XÓA</a>
+                <a href="admin/<?php echo $controller_slug; ?>/delete?post_type=<?php echo $post_type; ?>&id=<?php echo $data[ 'ID' ]; ?>" onClick="return click_a_delete_record();" class="btn btn-danger" target="target_eb_iframe"><i class="fa fa-trash"></i> XÓA</a>
                 <?php
                 }
                 ?>

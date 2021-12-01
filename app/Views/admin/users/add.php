@@ -71,7 +71,7 @@ use App\ Libraries\ UsersType;
                 if ( $data[ 'ID' ] > 0 ) {
                     ?>
                 <button type="submit" class="btn btn-success rf"><i class="fa fa-save"></i> Lưu lại</button>
-                <a href="admin/users/delete?id=<?php echo $data[ 'ID' ]; ?>" onClick="click_a_delete_record();" class="btn btn-danger" target="target_eb_iframe"><i class="fa fa-trash"></i> XÓA</a>
+                <a href="admin/users/delete?id=<?php echo $data[ 'ID' ]; ?>" onClick="return click_a_delete_record();" class="btn btn-danger" target="target_eb_iframe"><i class="fa fa-trash"></i> XÓA</a>
                 <?php
                 } else {
                     ?>

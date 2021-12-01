@@ -57,10 +57,10 @@ $base_model->add_js( 'themes/' . THEMENAME . '/js/functions.js' );
 
 //print_r( $getconfig );
 if ( !isset( $getconfig->site_max_width ) || empty( $getconfig->site_max_width ) ) {
-	$getconfig->site_max_width = 999;
+    $getconfig->site_max_width = 999;
 }
 if ( !isset( $getconfig->site_full_width ) || empty( $getconfig->site_full_width ) ) {
-	$getconfig->site_full_width = 1666;
+    $getconfig->site_full_width = 1666;
 }
 
 // dùng để css chiều rộng cho before, after của menu nav
@@ -78,12 +78,13 @@ max-width: <?php echo $getconfig->site_full_width . 'px';
 <script>
 var cf_tester_mode = 1,
     pid = 0,
-    global_window_width = jQuery(window).width();
+    global_window_width = jQuery(window).width(),
+    web_link = window.location.protocol + '//' + document.domain + '/';
 </script>
 <?php
 
 if ( isset( $getconfig->html_header ) ) {
-	echo $getconfig->html_header;
+    echo $getconfig->html_header;
 }
 
 ?>
@@ -104,13 +105,13 @@ echo $breadcrumb;
  */
 $get_msg_flash = $session->getFlashdata( 'msg' );
 if ( !empty( $get_msg_flash ) ) {
-	?>
+    ?>
 <div class="text-submit-msg greencolor"><?php echo $get_msg_flash; ?></div>
 <?php
 }
 $get_msg_flash = $session->getFlashdata( 'msg_error' );
 if ( !empty( $get_msg_flash ) ) {
-	?>
+    ?>
 <div class="text-submit-msg redcolor"><?php echo $get_msg_flash; ?></div>
 <?php
 }
@@ -124,11 +125,11 @@ $theme_private_view = THEMEPATH . 'views/' . basename( __FILE__, '.php' ) . '.ph
 
 //
 if ( file_exists( $theme_private_view ) ) {
-	include $theme_private_view;
+    include $theme_private_view;
 }
 // không có thì nạp view mặc định
 else {
-	require __DIR__ . '/' . basename( __FILE__, '.php' ) . '-default.php';
+    require __DIR__ . '/' . basename( __FILE__, '.php' ) . '-default.php';
 }
 
 
@@ -141,13 +142,14 @@ $base_model->add_js( 'themes/' . THEMENAME . '/js/d.js' );
 
 // chức năng riêng dành cho admin
 if ( !empty( $session_data ) &&
-	//
-	isset( $session_data[ 'userID' ] ) && $session_data[ 'userID' ] > 0 &&
-	//
-	isset( $session_data[ 'userLevel' ] ) && $session_data[ 'userLevel' ] > 0 ) {
-	$base_model->add_js( 'javascript/show-edit-btn.js' );
+    //
+    isset( $session_data[ 'userID' ] ) && $session_data[ 'userID' ] > 0 &&
+    //
+    isset( $session_data[ 'userLevel' ] ) && $session_data[ 'userLevel' ] > 0 ) {
+    $base_model->add_js( 'javascript/show-edit-btn.js' );
 }
 
 ?>
+<div id="admin_custom_alert" onClick="$('#admin_custom_alert').fadeOut();"></div>
 </body>
 </html>

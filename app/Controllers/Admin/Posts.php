@@ -103,14 +103,24 @@ class Posts extends Admin {
             }
         }
 
+        //
+        $post_status = $this->MY_get( 'post_status' );
+        if ( $post_status == '' ) {
+            $by_post_status = [
+                PostType::DRAFT,
+                PostType::PUBLIC,
+                PostType::PENDING,
+            ];
+        } else {
+            $by_post_status = [
+                $post_status,
+            ];
+        }
+
         // tổng kết filter
         $filter = [
             'where_in' => array(
-                'wp_posts.post_status' => array(
-                    PostType::DRAFT,
-                    PostType::PUBLIC,
-                    PostType::PENDING,
-                )
+                'wp_posts.post_status' => $by_post_status
             ),
             'or_like' => $where_or_like,
             // hiển thị mã SQL để check
@@ -174,6 +184,8 @@ class Posts extends Admin {
 
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/posts/list', array(
+            'page_num' => $page_num,
+            'post_status' => $post_status,
             'by_keyword' => $by_keyword,
             'by_term_id' => $by_term_id,
             'controller_slug' => $this->controller_slug,
@@ -352,16 +364,40 @@ class Posts extends Admin {
         $this->base_model->alert( 'Cập nhật ' . PostType::list( $this->post_type ) . ' thành công' );
     }
 
-    public function delete() {
+    public function before_delete_restore( $is_deleted ) {
         $id = $this->MY_get( 'id', 0 );
 
         $this->post_model->update_post( $id, [
-            'post_status' => PostType::DELETED
+            'post_status' => $is_deleted
         ], [
             'post_type' => $this->post_type,
         ] );
 
-        $this->base_model->alert( '', base_url( 'admin/' . $this->controller_slug ) . '?post_type=' . $this->post_type );
+        //
+        $for_redirect = base_url( 'admin/' . $this->controller_slug ) . '?post_type=' . $this->post_type;
+
+        //
+        $page_num = $this->MY_get( 'page_num' );
+        if ( $page_num != '' ) {
+            $for_redirect .= '&page_num=' . $page_num;
+        }
+
+        //
+        $post_status = $this->MY_get( 'post_status' );
+        if ( $post_status != '' ) {
+            $for_redirect .= '&post_status=' . $post_status;
+        }
+
+        //
+        $this->base_model->alert( '', $for_redirect );
+    }
+
+    public function delete() {
+        return $this->before_delete_restore( PostType::DELETED );
+    }
+
+    public function restore() {
+        return $this->before_delete_restore( PostType::DRAFT );
     }
 
 

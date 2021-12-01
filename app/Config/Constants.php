@@ -95,7 +95,7 @@ define( 'EBE_DATETIME_FORMAT', 'Y-m-d H:i:s' );
 /*
  * tạo đường dẫn admin tránh đường dẫn mặc định. Ví dụ : admin -> nhằm tăng cường bảo mật cho website
  */
-define( 'CUSTOM_ADMIN_URI', 'ci3-wp-admin' );
+define( 'CUSTOM_ADMIN_URI', 'ci4-wp-admin' );
 
 /*
  * URL động cho website để có thể chạy trên nhiều tên miền khác nhau mà không cần config lại

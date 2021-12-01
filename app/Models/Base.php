@@ -27,6 +27,8 @@ class Base {
         $builder->insert( $data );
         //print_r($this->db->_error_message());die(' bb'); // lỗi sẽ hiển thị ở đây khi không insert đc
         if ( $this->db->affectedRows() ) {
+            //var_dump( $this->db->affectedRows() );
+            //echo $this->db->insertID() . '<br>' . "\n";
             return $this->db->insertID();
         }
         return false;
@@ -420,9 +422,9 @@ class Base {
 		var lnk = "' . $lnk . '";
 		try {
 			if (top != self) {
-				top.HTV_alert(m, lnk);
+				top.WGR_alert(m, lnk);
 			} else {
-				HTV_alert(m, lnk);
+				WGR_alert(m, lnk);
 			}
 		} catch (e) {
 			console.log(\'name: \' + e.name + \'; line: \' + (e.lineNumber || e.line) + \'; script: \' + (e.fileName || e.sourceURL || e.script) + \'; stack: \' + (e.stackTrace || e.stack) + \'; message: \' + e.message);

@@ -1,6 +1,10 @@
 var auto_hide_admin_custom_alert = null;
 
 function HTV_alert(m, lnk) {
+    return WGR_alert(m, lnk);
+}
+
+function WGR_alert(m, lnk) {
     if (typeof m == 'undefined') {
         m = '';
     }
@@ -12,7 +16,7 @@ function HTV_alert(m, lnk) {
 
     //
     if (top != self) {
-        top.HTV_alert(m, lnk);
+        top.WGR_alert(m, lnk);
     } else {
         if (m != '') {
             if ($('#admin_custom_alert').length > 0) {
@@ -34,6 +38,9 @@ function HTV_alert(m, lnk) {
             HTV_redirect(lnk);
         }
     }
+
+    //
+    return false;
 }
 
 function HTV_redirect(l) {

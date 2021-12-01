@@ -2751,8 +2751,9 @@ iframe[name="google_conversion_frame"] {
 /* */
 .click-goto-edit {
     position: relative;
-    display: block;
+    display: block !important;
     padding: 0 !important;
+    border: 0 none !important;
 }
 .click-goto-edit span {
     position: absolute;

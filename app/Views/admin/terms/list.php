@@ -6,6 +6,7 @@ $term_model = new\ App\ Models\ Term();
 
 // Libraries
 use App\ Libraries\ TaxonomyType;
+use App\ Libraries\ DeletedStatus;
 
 // css riêng cho từng post type (nếu có)
 $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
@@ -28,8 +29,9 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
             </div>
         </form>
     </div>
-    <div class="lf f20">
-        <div class="buttons text-right"> <a href="<?php $term_model->admin_permalink( $taxonomy ); ?>" class="btn btn-success btn-mini"> <i class="fa fa-plus"></i> Thêm mới <?php echo TaxonomyType::list($taxonomy, true); ?></a> </div>
+    <div class="lf f20 text-right">
+        <div class="d-inline"> <a href="<?php $term_model->admin_permalink( $taxonomy ); ?>" class="btn btn-success btn-mini"> <i class="fa fa-plus"></i> Thêm mới <?php echo TaxonomyType::list($taxonomy, true); ?></a> </div>
+        <div class="d-inline"><a href="admin/terms?taxonomy=<?php echo $taxonomy; ?>&is_deleted=<?php echo DeletedStatus::DELETED; ?>" class="btn btn-mini"> <i class="fa fa-trash"></i> Lưu trữ</a></div>
     </div>
 </div>
 <br>
@@ -43,12 +45,13 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
             <th>Nội dung</th>
             <th>Ngôn ngữ</th>
             <th>Bài viết</th>
+            <th>&nbsp;</th>
         </tr>
     </thead>
     <tbody>
         <?php
 
-        echo $term_model->list_html_view( $data );
+        echo $term_model->list_html_view( $data, '', $by_is_deleted );
         //$term_model->get_admin_permalink($v['taxonomy'], $v['term_id']);
 
         /*
