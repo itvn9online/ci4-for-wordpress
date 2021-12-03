@@ -23,7 +23,7 @@ if ( $page_template != '' ) {
     $base_model->add_js( THEMEPATH . 'page-templates/' . $page_template . '.js' );
 } else {
     // nạp view riêng của từng theme nếu có
-    $theme_private_view = THEMEPATH . 'views/' . basename( __FILE__, '.php' ) . '.php';
+    $theme_private_view = THEMEPATH . 'views/' . basename( __FILE__ );
     //echo $theme_private_view . '<br>' . "\n";
 
     //
@@ -32,7 +32,7 @@ if ( $page_template != '' ) {
     }
     // không có thì nạp view mặc định
     else {
-        require __DIR__ . '/' . basename( __FILE__, '.php' ) . '-default.php';
+        require __DIR__ . '/default/' . basename( __FILE__ );
     }
 }
 
