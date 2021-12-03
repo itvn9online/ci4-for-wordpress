@@ -238,7 +238,12 @@ Compression = gzip -->';
         //$config['uri_segment'] = 3;
 
         //
-        $this->cache_key = 'taxonomy' . $data[ 'term_id' ];
+        if ( !isset( $ops[ 'page_num' ] ) ) {
+            $ops[ 'page_num' ] = 1;
+        }
+
+        //
+        $this->cache_key = 'taxonomy' . $data[ 'term_id' ] . '-page' . $ops[ 'page_num' ];
         $cache_value = $this->MY_cache( $this->cache_key );
         // Will get the cache entry named 'my_foo'
         //var_dump( $cache_value );
@@ -249,10 +254,6 @@ Compression = gzip -->';
         // có thì in ra cache là được
         else {
             return $this->show_cache( $cache_value );
-        }
-
-        if ( !isset( $ops[ 'page_num' ] ) ) {
-            $ops[ 'page_num' ] = 1;
         }
 
         //
