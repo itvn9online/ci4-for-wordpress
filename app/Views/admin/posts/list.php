@@ -20,7 +20,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
             <input type="hidden" name="post_type" value="<?php echo $post_type; ?>">
             <div class="cf">
                 <div class="lf f20">
-                    <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo PostType::list($post_type); ?>">
+                    <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo PostType::list($post_type); ?>" autofocus>
                 </div>
                 <div class="lf f20 hide-if-no-taxonomy">
                     <select name="term_id" data-select="<?php echo $by_term_id; ?>" data-taxonomy="<?php echo $taxonomy; ?>" onChange="document.frm_admin_search_controller.submit();" class="each-to-taxonomy-group">
@@ -73,10 +73,13 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
             //continue;
 
             //
+            $admin_permalink = $post_model->get_admin_permalink( $post_type, $v[ 'ID' ], $controller_slug );
+
+            //
             ?>
         <tr>
             <td>&nbsp;</td>
-            <td><a href="<?php $post_model->admin_permalink( $post_type, $v['ID'], $controller_slug ); ?>"><?php echo $v['post_title']; ?> <i class="fa fa-edit"></i></a></td>
+            <td><a href="<?php echo $admin_permalink; ?>"><?php echo $v['post_title']; ?> <i class="fa fa-edit"></i></a></td>
             <td class="text-center"><a href="<?php
 
             //echo $post_model->show_meta_post( $v[ 'post_meta' ], 'url_redirect' );
@@ -90,7 +93,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                 <?php
                 } else {
                     ?>
-                <img src="<?php echo $post_model->get_post_thumbnail($v['post_meta']); ?>" height="90" style="height: 90px; width: auto;" />
+                <a href="<?php echo $admin_permalink; ?>"><img src="<?php echo $post_model->get_post_thumbnail($v['post_meta']); ?>" height="90" style="height: 90px; width: auto;" /></a>
                 <?php
                 }
                 ?></td>

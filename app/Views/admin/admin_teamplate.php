@@ -92,11 +92,10 @@ if ( $debug_enable === true ) {
     ?>
 <style>
 #admin-header {
-    background-color: darkviolet;
     border-top-color: black;
 }
-#sidebar {
-    background-color: darkviolet;
+#admin-header, #sidebar {
+    background-color: darkslateblue;
 }
 </style>
 <?php
@@ -124,7 +123,7 @@ try {
 <!--Header-part-->
 <div id="admin-header" class="cf whitecolor awhitecolor">
     <div class="lf f50"><a href="./<?php echo CUSTOM_ADMIN_URI; ?>"><i class="fa fa-cog"></i> Quản trị hệ thống</a> &nbsp; | &nbsp; <a href="./"><i class="fa fa-home"></i> Về trang chủ</a> &nbsp; | &nbsp; Ngôn ngữ: <?php echo LanguageCost::list( LanguageCost::lang_key() ); ?></div>
-    <div class="lf f50 text-right">Xin Chào: <a title="Thông tin cá nhân" href="./users/profile"><?php echo $session_data['userName'] != '' ? $session_data['userName'] : $session_data['user_login']; ?></a> &nbsp; | &nbsp; <a title="Đăng xuất" onClick="return confirm('Xác nhận đăng xuất khỏi hệ thống');" href="./users/logout"><i class="fa fa-sign-out"></i> <span class="text">Logout</span></a></div>
+    <div class="lf f50 text-right">Xin Chào: <a title="Thông tin cá nhân" href="./users/profile"><?php echo $session_data['userName'] != '' ? $session_data['userName'] : $session_data['user_login']; ?></a> &nbsp; | &nbsp; <a title="Đăng xuất" data-bs-toggle="modal" data-bs-target="#logoutModal" href="javascript:;"><i class="fa fa-sign-out"></i> Logout</a></div>
 </div>
 <!--close-Header-part--> 
 
@@ -204,6 +203,24 @@ try {
 <?php
 $base_model->add_js( 'javascript/admin_footer.js' );
 ?>
+<!-- Modal logout -->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutModalLabel">Đăng xuất</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">Xác nhận đăng xuất khỏi hệ thống...</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="./users/logout" class="d-inline">
+                <button type="button" class="btn btn-primary"><i class="fa fa-sign-out"></i> Logout</button>
+                </a> </div>
+        </div>
+    </div>
+</div>
+<!-- END Modal -->
 <iframe id="target_eb_iframe" name="target_eb_iframe" src="about:blank" width="99%" height="250" frameborder="0">AJAX form</iframe>
 </body>
 </html>

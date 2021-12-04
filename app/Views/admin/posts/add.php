@@ -53,7 +53,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
             <div class="control-group">
                 <label class="control-label">Tiêu đề</label>
                 <div class="controls">
-                    <input type="text" class="span6 required" placeholder="Tiêu đề" name="data[post_title]" value="<?php echo $data['post_title']; ?>" aria-required="true" required />
+                    <input type="text" class="span6 required" placeholder="Tiêu đề" name="data[post_title]" value="<?php echo $data['post_title']; ?>" autofocus aria-required="true" required />
                 </div>
             </div>
             <?php
@@ -186,6 +186,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 
                         ?>
                     </select>
+                    &nbsp; <a href="admin/terms/add?taxonomy=<?php echo $taxonomy; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm danh mục mới</a>
                     <?php
                     }
                     // mặc định thì hiển thị bình thường

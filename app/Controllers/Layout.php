@@ -527,7 +527,8 @@ Compression = gzip -->';
     // tạo path upload
     protected function media_path( $data = [], $path = '' ) {
         if ( $path == '' ) {
-            $path = PUBLIC_HTML_PATH . PostType::MEDIA_URI;
+            //$path = PUBLIC_HTML_PATH . PostType::MEDIA_URI;
+            $path = PUBLIC_HTML_PATH . PostType::MEDIA_PATH;
 
         }
         foreach ( $data as $v ) {

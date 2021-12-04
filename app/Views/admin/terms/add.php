@@ -47,7 +47,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
             <div class="control-group">
                 <label class="control-label">Tiêu đề</label>
                 <div class="controls">
-                    <input type="text" class="span6 required" placeholder="Tiêu đề" name="data[name]" value="<?php echo $data['name']; ?>" aria-required="true" required />
+                    <input type="text" class="span6 required" placeholder="Tiêu đề" name="data[name]" value="<?php echo $data['name']; ?>" autofocus aria-required="true" required />
                 </div>
             </div>
             <?php

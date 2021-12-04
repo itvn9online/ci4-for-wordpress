@@ -71,7 +71,27 @@ else {
 
 if ( file_exists( PUBLIC_HTML_PATH . '.env-bak' ) ) {
     ?>
-<a href="admin/dashboard/enable_env" onClick="return confirm('Xin lưu ý! Chỉ bật chế độ debug khi cần thiết!');" class="btn btn-primary" target="target_eb_iframe"><i class="fa fa-bug"></i> BẬT chế độ debug</a>
+<div> 
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#debugModal"> <i class="fa fa-bug"></i> BẬT chế độ debug </button>
+    <!-- Modal -->
+    <div class="modal fade" id="debugModal" tabindex="-1" aria-labelledby="debugModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="debugModalLabel">Xác nhận bật chế độ debug</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">Xin lưu ý! Chỉ bật chế độ debug khi cần thiết!</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="admin/dashboard/enable_env" class="d-inline" target="target_eb_iframe">
+                    <button type="button" class="btn btn-primary"><i class="fa fa-thumbs-o-up"></i> Confirm</button>
+                    </a> </div>
+            </div>
+        </div>
+    </div>
+</div>
 <?php
 } else {
     ?>
@@ -84,6 +104,9 @@ if ( file_exists( PUBLIC_HTML_PATH . '.env-bak' ) ) {
 
 //
 //print_r( $_SERVER );
+
+
+
 
 
 

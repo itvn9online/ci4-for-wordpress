@@ -2,10 +2,9 @@
 
 namespace Config;
 
-use CodeIgniter\Config\BaseConfig;
+use CodeIgniter\ Config\ BaseConfig;
 
-class App extends BaseConfig
-{
+class App extends BaseConfig {
     /**
      * --------------------------------------------------------------------------
      * Base Site URL
@@ -96,7 +95,7 @@ class App extends BaseConfig
      *
      * @var string[]
      */
-    public $supportedLocales = ['en'];
+    public $supportedLocales = [ 'en' ];
 
     /**
      * --------------------------------------------------------------------------
@@ -242,7 +241,8 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
      *
      * @var bool
      */
-    public $sessionRegenerateDestroy = false;
+    //public $sessionRegenerateDestroy = false;
+    public $sessionRegenerateDestroy = true;
 
     /**
      * --------------------------------------------------------------------------

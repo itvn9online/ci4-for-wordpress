@@ -21,7 +21,7 @@ use App\ Libraries\ DeletedStatus;
             <input type="hidden" name="member_type" value="<?php echo $member_type; ?>">
             <div class="cf">
                 <div class="lf f20">
-                    <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $member_type != '' ? UsersType::list($member_type) : ''; ?>">
+                    <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $member_type != '' ? UsersType::list($member_type) : ''; ?>" autofocus>
                 </div>
                 <div class="lf f10">
                     <button type="submit" class="btn-success"><i class="fa fa-search"></i> Tìm kiếm</button>

@@ -83,7 +83,7 @@ if ( isset( $_GET[ 'input_type' ] ) ) {
             <br>
             <div class="cf">
                 <div class="lf f70">
-                    <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo PostType::list($post_type); ?>">
+                    <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo PostType::list($post_type); ?>" autofocus>
                 </div>
                 <div class="lf f30">
                     <button type="submit" class="btn-success"><i class="fa fa-search"></i> Tìm kiếm</button>

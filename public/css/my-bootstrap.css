@@ -4,3 +4,6 @@
 a {
     text-decoration: none;
 }
+.modal-footer a button {
+    margin: 0;
+}

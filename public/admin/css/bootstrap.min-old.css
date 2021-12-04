@@ -748,13 +748,6 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
     outline: 0;
     outline: thin dotted \9;
 }
-input[type="radio"], input[type="checkbox"] {
-    margin: 4px 0 0;
-    margin-top: 1px \9;
-    *margin-top: 0;
-    line-height: normal;
-    cursor: pointer
-}
 input[type="file"], input[type="image"], input[type="submit"], input[type="reset"], input[type="button"], input[type="radio"], input[type="checkbox"] {
     width: auto
 }
