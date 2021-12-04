@@ -30,7 +30,7 @@ if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
 <base href="<?php echo DYNAMIC_BASE_URL; ?>" />
 <link href="<?php echo DYNAMIC_BASE_URL; ?>favicon.png" rel="shortcut icon" type="image/png" />
 <!-- bootstrap -->
-<link rel="stylesheet" href="outsource/bootstrap-5.0.2/css/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" href="outsource/bootstrap-5.1.3/css/bootstrap.min.css" type="text/css" />
 <!-- chưa có thời gian cập nhật bootstrap bản mới -> vẫn ưu tiên dùng bản cũ vậy -->
 <link rel="stylesheet" href="admin/css/bootstrap.min-old.css"/>
 <link rel="stylesheet" href="admin/css/bootstrap-responsive.min.css"/>
@@ -71,8 +71,8 @@ if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
 <script type="text/javascript" src="outsource/jquery/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="outsource/jquery/jquery-ui.css"/>
 <!-- <script src="admin/js/bootstrap.min.js"></script> --> 
-<script src="outsource/bootstrap-5.0.2/js/bootstrap.bundle.min.js"></script> 
-<!-- <script src="outsource/bootstrap-5.0.2/js/bootstrap.min.js"></script> --> 
+<script src="outsource/bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script> 
+<!-- <script src="outsource/bootstrap-5.1.3/js/bootstrap.min.js"></script> --> 
 <script src="outsource/select2/select2.full.js"></script> 
 <!-- <script src="admin/js/select2.min.js"></script> -->
 <?php

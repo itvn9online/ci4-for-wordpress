@@ -35,7 +35,7 @@ use App\ Libraries\ LanguageCost;
 <link href="https://fonts.googleapis.com" rel="preconnect" />
 <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
 <link href="outsource/awesome4/css/font-awesome.min.css?v=4.7" rel="stylesheet" />
-<link href="outsource/bootstrap-5.0.2/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="outsource/bootstrap-5.1.3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <!-- <link href="outsource/flatsome/flatsome.css" rel="stylesheet" type="text/css" /> -->
 <link href="frontend/css/swiper.min.css" rel="stylesheet" type="text/css" />
 <script src="outsource/jquery/jquery-3.6.0.min.js" type="application/javascript"></script> 
