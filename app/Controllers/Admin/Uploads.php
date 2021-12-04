@@ -133,6 +133,9 @@ class Uploads extends Admin {
         //print_r( $data );
 
         //
+        $this->teamplate_admin[ 'body_class' ] = $this->body_class;
+
+        //
         $this->teamplate_admin[ 'content' ] = view( 'admin/uploads/list', array(
             'by_keyword' => $by_keyword,
             'data' => $data,

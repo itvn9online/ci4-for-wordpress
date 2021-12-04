@@ -29,10 +29,14 @@ if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
 <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"/> -->
 <base href="<?php echo DYNAMIC_BASE_URL; ?>" />
 <link href="<?php echo DYNAMIC_BASE_URL; ?>favicon.png" rel="shortcut icon" type="image/png" />
-<link rel="stylesheet" href="admin/css/bootstrap.min.css"/>
+<!-- bootstrap -->
+<link rel="stylesheet" href="outsource/bootstrap-5.0.2/css/bootstrap.min.css" type="text/css" />
+<!-- chưa có thời gian cập nhật bootstrap bản mới -> vẫn ưu tiên dùng bản cũ vậy -->
+<link rel="stylesheet" href="admin/css/bootstrap.min-old.css"/>
 <link rel="stylesheet" href="admin/css/bootstrap-responsive.min.css"/>
-<!-- <link rel="stylesheet" href="outsource/bootstrap-5.0.2/css/bootstrap.min.css" type="text/css" /> -->
+<!-- END bootstrap -->
 <link rel="stylesheet" href="outsource/select2/select2.min.css"/>
+<link rel="stylesheet" href="css/my-bootstrap.css"/>
 <link rel="stylesheet" href="admin/css/fullcalendar.css"/>
 <link rel="stylesheet" href="admin/css/maruti-style.css"/>
 <link rel="stylesheet" href="admin/css/tagify.css"/>
@@ -66,7 +70,9 @@ if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
 <!-- <script type="text/javascript" src="ckfinder/ckfinder.js"></script> --> 
 <script type="text/javascript" src="outsource/jquery/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="outsource/jquery/jquery-ui.css"/>
-<script src="admin/js/bootstrap.min.js"></script> 
+<!-- <script src="admin/js/bootstrap.min.js"></script> --> 
+<script src="outsource/bootstrap-5.0.2/js/bootstrap.bundle.min.js"></script> 
+<!-- <script src="outsource/bootstrap-5.0.2/js/bootstrap.min.js"></script> --> 
 <script src="outsource/select2/select2.full.js"></script> 
 <!-- <script src="admin/js/select2.min.js"></script> -->
 <?php
@@ -113,9 +119,8 @@ try {
 }
 </script>
 </head>
-<body>
+<body class="<?php echo $body_class; ?>">
 <div id="admin_custom_alert" onClick="$('#admin_custom_alert').fadeOut();"></div>
-
 <!--Header-part-->
 <div id="admin-header" class="cf whitecolor awhitecolor">
     <div class="lf f50"><a href="./<?php echo CUSTOM_ADMIN_URI; ?>"><i class="fa fa-cog"></i> Quản trị hệ thống</a> &nbsp; | &nbsp; <a href="./"><i class="fa fa-home"></i> Về trang chủ</a> &nbsp; | &nbsp; Ngôn ngữ: <?php echo LanguageCost::list( LanguageCost::lang_key() ); ?></div>

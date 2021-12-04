@@ -13,6 +13,8 @@ use App\ Libraries\ UsersType;
 class Admin extends Layout {
     //public $user_group_list = array();
 
+    protected $body_class = '';
+
     public function __construct() {
         parent::__construct( false );
 
@@ -32,15 +34,15 @@ class Admin extends Layout {
         }
 
         //
-        $this->teamplate_admin = [];
-        $this->teamplate_admin[ 'header' ] = view( 'admin/header_view', array(
-            'base_model' => $this->base_model,
-            'debug_enable' => $this->debug_enable,
-        ) );
-
         $this->teamplate_admin = [
             'arr_admin_menu' => $this->admin_menu(),
             'session_data' => $this->session_data,
+            'body_class' => $this->body_class,
+            // các biến mà view con cần sử dụng thì cho vào view trung gian này
+            'header' => view( 'admin/header_view', array(
+                'base_model' => $this->base_model,
+                'debug_enable' => $this->debug_enable,
+            ) ),
         ];
     }
 
@@ -52,6 +54,15 @@ class Admin extends Layout {
 
     // chức năng này sẽ kiểm tra quyền truy cập 1 module nào đó theo từng tài khoản -> truyền vào controller class -> role -> xác định theo role
     protected function check_permision( $role ) {
+        // role này chính là tên controller của admin -> kiểm tra xem có file này không
+        //echo $role . '<br>' . "\n";
+        $role = $this->get_class_name( $role );
+        //echo $role . '<br>' . "\n";
+
+        //
+        $this->body_class = strtolower( $role );
+
+        //
         $session_data = $this->session_data;
         // TEST
         //$session_data[ 'member_type' ] = UsersType::AUTHOR;
@@ -62,10 +73,7 @@ class Admin extends Layout {
             return true;
         }
 
-        // role này chính là tên controller của admin -> kiểm tra xem có file này không
-        //echo $role . '<br>' . "\n";
-        $role = basename( str_replace( '\\', '/', $role ) );
-        //echo $role . '<br>' . "\n";
+        //
         $check_file = __DIR__ . '/' . $role . '.php';
         //echo $check_file . '<br>' . "\n";
         // nếu không tồn tại -> báo lỗi luôn
@@ -74,7 +82,7 @@ class Admin extends Layout {
         }
 
         // chuyển role về chữ thường
-        $role = strtolower( $role );
+        $role = $this->body_class;
         //echo $role . '<br>' . "\n";
         if ( !in_array( $role, UsersType::role( $session_data[ 'member_type' ] ) ) ) {
             die( 'Permission ERROR!' );
@@ -113,5 +121,9 @@ class Admin extends Layout {
 
         //
         return $arr;
+    }
+
+    protected function get_class_name( $role ) {
+        return basename( str_replace( '\\', '/', $role ) );
     }
 }

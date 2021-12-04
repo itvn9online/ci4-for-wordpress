@@ -19,11 +19,13 @@ if ( isset( $_GET[ 'quick_upload' ] ) ) {
 <style>
 body {
     background: white;
+    padding-top: 0;
+    padding-left: 0;
 }
 #admin-header, #sidebar, #content-header, .admin-copyright, .hide-if-quick-edit, #target_eb_iframe {
     display: none !important;
 }
-    /*
+/*
 .show-if-quick-upload {
     display: block !important;
 }
