@@ -1,5 +1,7 @@
 # CodeIgniter4 for Wordpress:
 
+## Create website with codeigiter4 and wordpress database
+
 Code chạy database wordpress trên nền tảng CodeIgniter4. Về cơ bản code này viết bằng CodeIgniter4 dựa theo cấu trúc database của Wordpress để cùng một database có thể điều khiển bằng cả Wordpress.
 
 ## Ưu điểm:
