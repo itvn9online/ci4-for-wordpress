@@ -574,7 +574,8 @@ class Post extends EB_Model {
                 }
                 //die( 'fjg dghsd sgsd' );
             }
-            return 'Please add post to category slug#' . $slug;
+            //return '<a href="./admin/posts/add?post_type=' . $ops[ 'post_type' ] . '">Please add post to category slug #' . $slug . '</a>';
+            return 'Please add post to category slug #' . $slug;
         }
 
         //

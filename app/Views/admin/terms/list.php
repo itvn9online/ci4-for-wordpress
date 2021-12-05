@@ -82,7 +82,8 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
 
 if ( $taxonomy == TaxonomyType::ADS ) {
     ?>
-<pre><code>&lt;?php $this->post_model->the_ads( '%slug%' ); ?&gt;</code></pre>
+<pre><code>&lt;?php $post_model = new\ App\ Models\ Post(); ?&gt;</code></pre>
+<pre><code>&lt;?php $post_model->the_ads( '%slug%' ); ?&gt;</code></pre>
 <?php
 }
 
