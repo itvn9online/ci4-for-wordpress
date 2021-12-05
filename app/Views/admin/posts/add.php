@@ -1,12 +1,12 @@
 <?php
 
-//
-//$base_model = new\ App\ Models\ Base();
-$post_model = new\ App\ Models\ Post();
-
 // Libraries
 use App\ Libraries\ PostType;
 use App\ Libraries\ LanguageCost;
+
+//
+//$base_model = new\ App\ Models\ Base();
+$post_model = new\ App\ Models\ Post();
 
 // css riêng cho từng post type (nếu có)
 $base_model->add_css( 'admin/css/' . $post_type . '.css' );

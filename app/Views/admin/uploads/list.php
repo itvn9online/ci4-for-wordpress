@@ -1,10 +1,10 @@
 <?php
 
-//
-$upload_model = new\ App\ Models\ Upload();
-
 // Libraries
 use App\ Libraries\ PostType;
+
+//
+$upload_model = new\ App\ Models\ Upload();
 
 //
 $uri_quick_upload = [];

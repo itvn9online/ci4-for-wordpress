@@ -1,11 +1,11 @@
 <?php
 
 //
-//$base_model = new\ App\ Models\ Base();
-
-//
 use App\ Libraries\ ConfigType;
 use App\ Libraries\ LanguageCost;
+
+//
+//$base_model = new\ App\ Models\ Base();
 
 // css riêng cho từng config (nếu có)
 $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );

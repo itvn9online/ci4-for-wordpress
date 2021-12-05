@@ -1,10 +1,10 @@
 <?php
 
-//
-//$base_model = new\ App\ Models\ Base();
-
 // Libraries
 use App\ Libraries\ CommentType;
+
+//
+//$base_model = new\ App\ Models\ Base();
 
 // css riêng cho từng post type (nếu có)
 $base_model->add_css( 'admin/css/' . $comment_type . '.css' );
