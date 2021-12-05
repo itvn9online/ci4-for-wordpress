@@ -264,8 +264,8 @@ class Sync extends Controller {
         // đồng bộ database
         $this->auto_sync_table_column();
 
-        // đồng bộ vendor CSS, JS -> đặt tên là outsource để tránh trùng lặp khi load file tĩnh ngoài frontend
-        $this->action_vendor_sync( 'public/outsource' );
+        // đồng bộ vendor CSS, JS -> đặt tên là thirdparty để tránh trùng lặp khi load file tĩnh ngoài frontend
+        $this->action_vendor_sync( 'public/thirdparty' );
         // đồng bộ vendor php
         $this->action_vendor_sync( 'vendor' );
         // đồng bộ ThirdParty php (code php của bên thứ 3)

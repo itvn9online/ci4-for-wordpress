@@ -34,12 +34,12 @@ use App\ Libraries\ LanguageCost;
 <link href="<?php echo $seo['canonical']; ?>" rel="canonical" />
 <link href="https://fonts.googleapis.com" rel="preconnect" />
 <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
-<link href="outsource/awesome4/css/font-awesome.min.css?v=4.7" rel="stylesheet" />
-<link href="outsource/bootstrap-5.1.3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-<!-- <link href="outsource/flatsome/flatsome.css" rel="stylesheet" type="text/css" /> -->
+<link href="./thirdparty/awesome4/css/font-awesome.min.css?v=4.7" rel="stylesheet" />
+<link href="./thirdparty/bootstrap-5.1.3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<!-- <link href="./thirdparty/flatsome/flatsome.css" rel="stylesheet" type="text/css" /> -->
 <link href="frontend/css/swiper.min.css" rel="stylesheet" type="text/css" />
-<script src="outsource/jquery/jquery-3.6.0.min.js" type="application/javascript"></script> 
-<script src="outsource/jquery/jquery-migrate-3.3.2.min.js" type="text/javascript"></script> 
+<script src="./thirdparty/jquery/jquery-3.6.0.min.js" type="application/javascript"></script> 
+<script src="./thirdparty/jquery/jquery-migrate-3.3.2.min.js" type="text/javascript"></script> 
 <script src="frontend/js/swiper.min.js" type="application/javascript"></script>
 <?php
 

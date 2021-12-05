@@ -8,7 +8,7 @@ $post_model = new\ App\ Models\ Post();
 <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"> -->
 <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" rel="stylesheet"> -->
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"> -->
-<link rel="stylesheet" href="./outsource/Nestable-master/style.css" />
+<link rel="stylesheet" href="./thirdparty/Nestable-master/style.css" />
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries --> 
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// --> 
 <!--[if lt IE 9]>
@@ -144,8 +144,8 @@ $post_model = new\ App\ Models\ Post();
 $base_model->add_js( 'javascript/add_edit_menu_v2.js' );
 
 ?>
-<script src="./outsource/Nestable-master/jquery.nestable.js"></script> 
-<script src="./outsource/Nestable-master/jquery.nestable++.js"></script>
+<script src="./thirdparty/Nestable-master/jquery.nestable.js"></script> 
+<script src="./thirdparty/Nestable-master/jquery.nestable++.js"></script>
 <?php
 
 $base_model->add_js( 'javascript/add_edit_menu_v2_footer.js' );

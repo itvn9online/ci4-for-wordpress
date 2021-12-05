@@ -30,12 +30,12 @@ if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
 <base href="<?php echo DYNAMIC_BASE_URL; ?>" />
 <link href="<?php echo DYNAMIC_BASE_URL; ?>favicon.png" rel="shortcut icon" type="image/png" />
 <!-- bootstrap -->
-<link rel="stylesheet" href="outsource/bootstrap-5.1.3/css/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" href="./thirdparty/bootstrap-5.1.3/css/bootstrap.min.css" type="text/css" />
 <!-- chưa có thời gian cập nhật bootstrap bản mới -> vẫn ưu tiên dùng bản cũ vậy -->
 <link rel="stylesheet" href="admin/css/bootstrap.min-old.css"/>
 <link rel="stylesheet" href="admin/css/bootstrap-responsive.min.css"/>
 <!-- END bootstrap -->
-<link rel="stylesheet" href="outsource/select2/select2.min.css"/>
+<link rel="stylesheet" href="./thirdparty/select2/select2.min.css"/>
 <link rel="stylesheet" href="css/my-bootstrap.css"/>
 <link rel="stylesheet" href="admin/css/fullcalendar.css"/>
 <link rel="stylesheet" href="admin/css/maruti-style.css"/>
@@ -44,7 +44,7 @@ if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
 <!-- <link rel="stylesheet" href="admin/css/uniform.css"/> -->
 <link rel="stylesheet" href="admin/css/maruti-media.css" class="skin-color"/>
 <!-- <link rel="stylesheet" href="admin/css/select2.css"/> -->
-<link rel="stylesheet" href="outsource/awesome4/css/font-awesome.min.css?v=4.7"/>
+<link rel="stylesheet" href="./thirdparty/awesome4/css/font-awesome.min.css?v=4.7"/>
 <!--
 <link rel="stylesheet" href="fonts/fontawesome-free-5.15.1-web/css/fontawesome.min.css" type="text/css" media="all" />
 <link rel="stylesheet" href="fonts/fontawesome-free-5.15.1-web/css/brands.min.css" type="text/css" media="all" />
@@ -52,28 +52,28 @@ if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
 <link rel="stylesheet" href="fonts/fontawesome-free-5.15.1-web/css/v4-shims.min.css" type="text/css" media="all" />
 -->
 
-<link rel="stylesheet" href="outsource/jquery-ui/jquery-ui-1.11.2.css?v=4.7"/>
+<link rel="stylesheet" href="./thirdparty/jquery-ui/jquery-ui-1.11.2.css?v=4.7"/>
 
 <!--
-<script type="text/javascript" src="outsource/validate/jquery.min.js"></script> 
+<script type="text/javascript" src="./thirdparty/validate/jquery.min.js"></script> 
 --> 
-<script type="text/javascript" src="outsource/jquery/jquery-3.6.0.min.js"></script> 
-<script type="text/javascript" src="outsource/jquery/jquery-migrate-3.3.2.min.js"></script> 
-<!-- <script type="text/javascript" src="outsource/jquery/jquery-migrate-1.4.1.min.js"></script> --> 
-<script type="text/javascript" src="outsource/jquery-ui/datepicker.min.js?v=1.12.1"></script> 
-<script type="text/javascript" src="outsource/validate/library.js"></script> 
-<script type="text/javascript" src="outsource/validate/jquery.validate.min.js"></script> 
-<script type="text/javascript" src="outsource/validate/localization/messages_vi.js"></script> 
+<script type="text/javascript" src="./thirdparty/jquery/jquery-3.6.0.min.js"></script> 
+<script type="text/javascript" src="./thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> 
+<!-- <script type="text/javascript" src="./thirdparty/jquery/jquery-migrate-1.4.1.min.js"></script> --> 
+<script type="text/javascript" src="./thirdparty/jquery-ui/datepicker.min.js?v=1.12.1"></script> 
+<script type="text/javascript" src="./thirdparty/validate/library.js"></script> 
+<script type="text/javascript" src="./thirdparty/validate/jquery.validate.min.js"></script> 
+<script type="text/javascript" src="./thirdparty/validate/localization/messages_vi.js"></script> 
 <!-- <script type="text/javascript" src="ckeditor/ckeditor.js"></script> --> 
-<script type="text/javascript" src="outsource/tinymce/tinymce.min.js"></script> 
+<script type="text/javascript" src="./thirdparty/tinymce/tinymce.min.js"></script> 
 <!-- <script src="https://cdn.ckeditor.com/ckeditor5/28.0.0/classic/ckeditor.js"></script> --> 
 <!-- <script type="text/javascript" src="ckfinder/ckfinder.js"></script> --> 
-<script type="text/javascript" src="outsource/jquery/jquery-ui.min.js"></script>
-<link rel="stylesheet" href="outsource/jquery/jquery-ui.css"/>
+<script type="text/javascript" src="./thirdparty/jquery/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="./thirdparty/jquery/jquery-ui.css"/>
 <!-- <script src="admin/js/bootstrap.min.js"></script> --> 
-<script src="outsource/bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script> 
-<!-- <script src="outsource/bootstrap-5.1.3/js/bootstrap.min.js"></script> --> 
-<script src="outsource/select2/select2.full.js"></script> 
+<script src="./thirdparty/bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script> 
+<!-- <script src="./thirdparty/bootstrap-5.1.3/js/bootstrap.min.js"></script> --> 
+<script src="./thirdparty/select2/select2.full.js"></script> 
 <!-- <script src="admin/js/select2.min.js"></script> -->
 <?php
 
