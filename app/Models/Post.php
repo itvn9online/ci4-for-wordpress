@@ -20,6 +20,7 @@ class Post extends EB_Model {
     protected $metaKey = 'meta_id';
 
     public $product_html_node = '';
+    protected $product_html_tag = 'li';
     public $blog_html_node = '';
     public $getconfig = NULL;
 
@@ -33,7 +34,9 @@ class Post extends EB_Model {
         // tạo block html cho phần sản phẩm
         //echo THEMEPATH . '<br>' . "\n";
         $this->product_html_node = $this->base_model->get_html_tmp( 'thread_node' );
-        $this->product_html_node = '<li data-id="{tmp.ID}" data-type="{tmp.post_type}" data-price="{tmp.trv_num_giamoi}" data-per="{tmp.pt}" data-link="{tmp.p_link}" data-status="{tmp.product_status}" class="hide-if-gia-zero">' . $this->product_html_node . '</li>';
+        if ( $this->product_html_tag == 'li' ) {
+            $this->product_html_node = '<' . $this->product_html_tag . ' data-id="{tmp.ID}" data-type="{tmp.post_type}" data-price="{tmp.trv_num_giamoi}" data-per="{tmp.pt}" data-link="{tmp.p_link}" data-status="{tmp.product_status}" class="hide-if-gia-zero">' . $this->product_html_node . '</' . $this->product_html_tag . '>';
+        }
 
         //
         $this->blog_html_node = $this->base_model->get_html_tmp( 'blogs_node' );

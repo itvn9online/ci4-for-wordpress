@@ -9,7 +9,7 @@
 echo $taxonomy_slider;
 
 // nạp view riêng của từng theme nếu có
-$theme_private_view = THEMEPATH . 'views/' . basename( __FILE__ );
+$theme_private_view = THEMEPATH . 'Views/' . basename( __FILE__ );
 //echo $theme_private_view . '<br>' . "\n";
 
 

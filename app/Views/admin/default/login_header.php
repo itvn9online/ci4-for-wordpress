@@ -1,7 +1,7 @@
 <?php
 
 //
-$theme_private_view = THEMEPATH . 'views/' . basename( __FILE__ );
+$theme_private_view = THEMEPATH . 'Views/' . basename( __FILE__ );
 
 // nhúng file header riêng của theme -> thường dụng khi muốn xóa LOGO WebGiaRe
 if ( file_exists( $theme_private_view ) ) {
