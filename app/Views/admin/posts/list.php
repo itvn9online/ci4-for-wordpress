@@ -15,25 +15,25 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
     <li>Danh sách <?php echo PostType::list($post_type); ?> (<?php echo $totalThread; ?>)</li>
 </ul>
 <div class="cf admin-search-form">
-    <div class="lf f80">
+    <div class="lf f50">
         <form name="frm_admin_search_controller" action="./admin/<?php echo $controller_slug; ?>" method="get">
             <input type="hidden" name="post_type" value="<?php echo $post_type; ?>">
             <div class="cf">
-                <div class="lf f20">
+                <div class="lf f30">
                     <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo PostType::list($post_type); ?>" autofocus>
                 </div>
-                <div class="lf f20 hide-if-no-taxonomy">
+                <div class="lf f30 hide-if-no-taxonomy">
                     <select name="term_id" data-select="<?php echo $by_term_id; ?>" data-taxonomy="<?php echo $taxonomy; ?>" onChange="document.frm_admin_search_controller.submit();" class="each-to-taxonomy-group">
                         <option value="0">- Nhóm <?php echo PostType::list($post_type); ?> -</option>
                     </select>
                 </div>
-                <div class="lf f10">
+                <div class="lf f20">
                     <button type="submit" class="btn-success"><i class="fa fa-search"></i> Tìm kiếm</button>
                 </div>
             </div>
         </form>
     </div>
-    <div class="lf f20 text-right">
+    <div class="lf f50 text-right">
         <?php
 
         // menu sẽ được tự động khởi tạo khi dùng hàm để gọi -> không cho add thủ công

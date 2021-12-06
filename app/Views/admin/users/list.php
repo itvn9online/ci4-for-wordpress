@@ -16,20 +16,20 @@ use App\ Libraries\ DeletedStatus;
     ?>
 </ul>
 <div class="cf admin-search-form">
-    <div class="lf f80">
+    <div class="lf f50">
         <form name="frm_admin_search_controller" action="./admin/users" method="get">
             <input type="hidden" name="member_type" value="<?php echo $member_type; ?>">
             <div class="cf">
-                <div class="lf f20">
+                <div class="lf f30">
                     <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $member_type != '' ? UsersType::list($member_type) : ''; ?>" autofocus>
                 </div>
-                <div class="lf f10">
+                <div class="lf f20">
                     <button type="submit" class="btn-success"><i class="fa fa-search"></i> Tìm kiếm</button>
                 </div>
             </div>
         </form>
     </div>
-    <div class="lf f20 text-right">
+    <div class="lf f50 text-right">
         <div class="d-inline"> <a href="admin/users/add" class="btn btn-success btn-mini"> <i class="fa fa-plus"></i> Thêm mới thành viên</a> </div>
         <div class="d-inline"><a href="admin/users?member_type=<?php echo $member_type; ?>&is_deleted=<?php echo DeletedStatus::DELETED; ?>" class="btn btn-mini"> <i class="fa fa-trash"></i> Lưu trữ</a></div>
     </div>

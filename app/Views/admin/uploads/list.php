@@ -67,7 +67,7 @@ if ( isset( $_GET[ 'input_type' ] ) ) {
     <li>Danh sách <?php echo PostType::list($post_type); ?> (<?php echo $totalThread; ?>)</li>
 </ul>
 <div class="cf">
-    <div class="lf f30 admin-search-form">
+    <div class="lf f50 admin-search-form">
         <form name="frm_admin_search_controller" action="./admin/uploads" method="get">
             <input type="hidden" name="post_type" value="<?php echo $post_type; ?>">
             <?php
@@ -82,16 +82,16 @@ if ( isset( $_GET[ 'input_type' ] ) ) {
             ?>
             <br>
             <div class="cf">
-                <div class="lf f70">
+                <div class="lf f30">
                     <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo PostType::list($post_type); ?>" autofocus>
                 </div>
-                <div class="lf f30">
+                <div class="lf f20">
                     <button type="submit" class="btn-success"><i class="fa fa-search"></i> Tìm kiếm</button>
                 </div>
             </div>
         </form>
     </div>
-    <div class="lf f60 text-center">
+    <div class="lf f50 text-center">
         <label for="upload_image" class="text-center greencolor cur">* Chọn ảnh để upload lên hệ thống (có thể chọn nhiều ảnh cùng lúc)</label>
         <form action="" method="post" name="frm_global_upload" role="form" enctype="multipart/form-data" target="target_eb_iframe">
             <input type="hidden" name="data" value="1" />
