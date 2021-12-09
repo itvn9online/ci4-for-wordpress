@@ -5,6 +5,13 @@ use App\ Libraries\ PostType;
 use App\ Libraries\ LanguageCost;
 
 //
+if ( $debug_enable === true ) {
+    echo '<!-- ';
+    print_r( $data );
+    echo ' -->';
+}
+
+//
 //$base_model = new\ App\ Models\ Base();
 $post_model = new\ App\ Models\ Post();
 
@@ -13,7 +20,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 
 ?>
 <ul class="admin-breadcrumb">
-    <li><a href="admin/<?php echo $controller_slug; ?>?post_type=<?php echo $post_type; ?>">Danh sách <?php echo PostType::list($post_type); ?></a></li>
+    <li><a href="admin/<?php echo $controller_slug; ?>?post_type=<?php echo $post_type; ?>">Danh sách <?php echo $name_type; ?></a></li>
     <li>
         <?php
         if ( $data[ 'ID' ] > 0 ) {
@@ -25,7 +32,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
         Thêm mới
         <?php
         }
-        echo PostType::list( $post_type );
+        echo $name_type . ' <em>' . $data[ 'post_title' ] . '</em>';
         ?>
     </li>
 </ul>

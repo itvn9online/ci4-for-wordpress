@@ -10,6 +10,7 @@ use App\ Libraries\ LanguageCost;
 //
 class Posts extends Admin {
     protected $post_type = '';
+    protected $name_type = '';
     private $detault_type = '';
 
     // các taxonomy được hỗ trợ -> cái nào trống nghĩa là không hỗ trợ theo post_type tương ứng
@@ -36,6 +37,7 @@ class Posts extends Admin {
             // lọc bài viết dựa theo post type
             $this->detault_type = PostType::POST;
             $this->post_type = $this->MY_get( 'post_type', $this->detault_type );
+            $this->name_type = PostType::list( $this->post_type );
 
             // báo lỗi nếu không xác định được post_type
             if ( $this->post_type == '' || PostType::list( $this->post_type ) == '' ) {
@@ -194,6 +196,7 @@ class Posts extends Admin {
             'data' => $data,
             'taxonomy' => $this->taxonomy,
             'post_type' => $this->post_type,
+            'name_type' => $this->name_type,
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
@@ -326,6 +329,7 @@ class Posts extends Admin {
             'meta_detault' => PostType::meta_default( $this->post_type ),
             'taxonomy' => $this->taxonomy,
             'post_type' => $this->post_type,
+            'name_type' => $this->name_type,
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }

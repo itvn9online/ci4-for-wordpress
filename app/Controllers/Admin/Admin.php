@@ -122,8 +122,4 @@ class Admin extends Layout {
         //
         return $arr;
     }
-
-    protected function get_class_name( $role ) {
-        return basename( str_replace( '\\', '/', $role ) );
-    }
 }

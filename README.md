@@ -41,6 +41,24 @@ function the_text ( $prams1, $prams2, $prams3 = '' ) {
 
 ## Một số function thường dùng:
 
+#### Lấy chi tiết một danh mục theo ID:
+```
+$get_data = $this->term_model->get_term_by_id( 1, 'taxonomy' );
+```
+- Trong đó:
+	- Đầu vào là ID của danh mục cần lấy dữ liệu.
+		- Một mảng chứa thông tin chi tiết của danh sẽ được trả về nếu có dữ liệu tương ứng.
+		- Một mảng trống sẽ được trả về nếu không có giá trị nào được tìm thấy.
+
+#### Lấy chi tiết một danh mục theo slug:
+```
+$get_data = $this->term_model->get_term_by_slug( 'ten-danh-muc', 'taxonomy' );
+```
+- Trong đó:
+	- Đầu vào là slug của danh mục cần lấy dữ liệu.
+		- Một mảng chứa thông tin chi tiết của danh sẽ được trả về nếu có dữ liệu tương ứng.
+		- Một mảng trống sẽ được trả về nếu không có giá trị nào được tìm thấy.
+
 #### Function lấy danh sách Sản phẩm theo danh mục:
 ```
 $term_data = [

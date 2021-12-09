@@ -21,6 +21,8 @@ class Term extends EB_Model {
     protected $relaTable = 'wp_term_relationships';
     protected $relaKey = 'object_id';
 
+    //protected $primaryTaxonomy = 'category';
+
     public function __construct() {
         parent::__construct();
     }
@@ -77,9 +79,16 @@ class Term extends EB_Model {
                 ], $taxonomy );
 
                 //
-                return $this->get_cat_post( $slug, $post_type, $taxonomy, false );
-            } else {
+                if ( $result_id > 0 ) {
+                    return $this->get_cat_post( $slug, $post_type, $taxonomy, false );
+                }
+                // nếu tồn tại rồi thì báo đã tồn tại
+                else if ( $result_id < 0 ) {
+                    die( 'EXIST auto create new terms #' . $taxonomy . ':' . basename( __FILE__ ) . ':' . __LINE__ );
+                }
                 die( 'ERROR auto create new terms #' . $taxonomy . ':' . basename( __FILE__ ) . ':' . __LINE__ );
+            } else {
+                die( 'AUTO INSERT new terms has DISABLE #' . $taxonomy . ':' . basename( __FILE__ ) . ':' . __LINE__ );
             }
         }
         //print_r( $post_cat );
@@ -102,6 +111,45 @@ class Term extends EB_Model {
         }
         if ( $data[ 'slug' ] != '' ) {
             $data[ 'slug' ] = $this->base_model->_eb_non_mark_seo( $data[ 'slug' ] );
+            //print_r( $data );
+            //die( __FILE__ . ':' . __LINE__ );
+
+            //
+            //$check_term_exist = $this->get_term_by_id( 1, $taxonomy, false );
+            //print_r( $check_term_exist );
+            /*
+             * xem term này đã có chưa
+             */
+            // mặc định là có rồi
+            $has_slug = true;
+            // chạy vòng lặp để kiểm tra, nếu có rồi thì thêm số vào sau để tránh trùng lặp
+            for ( $i = 0; $i < 10; $i++ ) {
+                $by_slug = $data[ 'slug' ];
+                if ( $i > 0 ) {
+                    $by_slug .= $i;
+                }
+                //echo 'by_slug: ' . $by_slug . '<br>' . "\n";
+                $check_term_exist = $this->get_term_by_slug( $by_slug, $taxonomy, false );
+                //print_r( $check_term_exist );
+                //die( __FILE__ . ':' . __LINE__ );
+
+                // nếu có rồi thì trả về false lỗi
+                if ( empty( $check_term_exist ) ) {
+                    $data[ 'slug' ] = $by_slug;
+
+                    // xác nhận slug này chưa được sử dụng
+                    $has_slug = false;
+
+                    break;
+                }
+            }
+            //var_dump( $has_slug );
+            //print_r( $data );
+            if ( $has_slug === true ) {
+                return -1;
+            }
+            //return false;
+            //die( __FILE__ . ':' . __LINE__ );
         }
         foreach ( $default_data as $k => $v ) {
             if ( !isset( $data[ $k ] ) ) {
@@ -141,6 +189,21 @@ class Term extends EB_Model {
             }
             if ( $data[ 'slug' ] != '' ) {
                 $data[ 'slug' ] = $this->base_model->_eb_non_mark_seo( $data[ 'slug' ] );
+                //print_r( $data );
+
+                // kiểm tra lại slug trước khi update
+                $check_term_exist = $this->get_taxonomy( [
+                    $this->primaryKey . ' !=' => $term_id,
+                    'slug' => $data[ 'slug' ],
+                    'taxonomy' => $taxonomy,
+                ] );
+                //print_r( $check_term_exist );
+                //die( __FILE__ . ':' . __LINE__ );
+
+                //
+                if ( !empty( $check_term_exist ) ) {
+                    return -1;
+                }
             }
         }
         if ( !isset( $data[ 'last_updated' ] ) || $data[ 'last_updated' ] == '' ) {
@@ -491,8 +554,8 @@ class Term extends EB_Model {
     }
 
     // chỉ trả về link admin của 1 term
-    function get_admin_permalink( $taxonomy = '', $id = 0 ) {
-        $url = base_url( 'admin/terms/add' ) . '?taxonomy=' . $taxonomy;
+    function get_admin_permalink( $taxonomy = '', $id = 0, $controller_slug = 'terms' ) {
+        $url = base_url( 'admin/' . $controller_slug . '/add' ) . '?taxonomy=' . $taxonomy;
         if ( $id > 0 ) {
             $url .= '&id=' . $id;
         }
@@ -500,8 +563,8 @@ class Term extends EB_Model {
     }
 
     // thường dùng trong view -> in ra link admin của 1 term
-    function admin_permalink( $taxonomy = '', $id = 0 ) {
-        echo $this->get_admin_permalink( $taxonomy, $id );
+    function admin_permalink( $taxonomy = '', $id = 0, $controller_slug = 'terms' ) {
+        echo $this->get_admin_permalink( $taxonomy, $id, $controller_slug );
     }
 
     // trả về url của 1 term
@@ -543,7 +606,7 @@ class Term extends EB_Model {
     }
 
     // tạo html trong này -> do trong view không viết được tham số $this để tạo vòng lặp đệ quy
-    function list_html_view( $data, $gach_ngang = '', $is_deleted = '' ) {
+    function list_html_view( $data, $gach_ngang = '', $is_deleted = '', $controller_slug = 'terms' ) {
         $tmp = '<tr>
             <td>&nbsp;</td>
             <td><a href="%get_admin_permalink%">' . $gach_ngang . ' %name% <i class="fa fa-edit"></i></a></td>
@@ -570,9 +633,9 @@ class Term extends EB_Model {
             $node = $tmp;
 
             //
-            $action_link = '<a href="admin/terms/delete?taxonomy=%taxonomy%&id=%term_id%' . $for_redirect . '" onClick="return click_a_delete_record();" target="target_eb_iframe" class="redcolor"><i class="fa fa-trash"></i></a>';
+            $action_link = '<a href="admin/' . $controller_slug . '/delete?taxonomy=%taxonomy%&id=%term_id%' . $for_redirect . '" onClick="return click_a_delete_record();" target="target_eb_iframe" class="redcolor"><i class="fa fa-trash"></i></a>';
             if ( $v[ 'is_deleted' ] == DeletedStatus::DELETED ) {
-                $action_link = '<a href="admin/terms/restore?taxonomy=%taxonomy%&id=%term_id%' . $for_redirect . '" onClick="return click_a_restore_record();" target="target_eb_iframe" class="bluecolor"><i class="fa fa-undo"></i></a>';
+                $action_link = '<a href="admin/' . $controller_slug . '/restore?taxonomy=%taxonomy%&id=%term_id%' . $for_redirect . '" onClick="return click_a_restore_record();" target="target_eb_iframe" class="bluecolor"><i class="fa fa-undo"></i></a>';
             }
             $node = str_replace( '%action_link%', $action_link, $node );
 
@@ -587,7 +650,7 @@ class Term extends EB_Model {
                     $node = str_replace( '%' . $key . '%', $val, $node );
                 }
             }
-            $node = str_replace( '%get_admin_permalink%', $this->get_admin_permalink( $v[ 'taxonomy' ], $v[ $this->primaryKey ] ), $node );
+            $node = str_replace( '%get_admin_permalink%', $this->get_admin_permalink( $v[ 'taxonomy' ], $v[ $this->primaryKey ], $controller_slug ), $node );
 
             //
             $str .= $node;
@@ -694,5 +757,39 @@ class Term extends EB_Model {
 
         //
         return $this->get_all_taxonomy( TaxonomyType::POSTS, $prams[ $this->primaryKey ], $prams );
+    }
+
+    // lấy chi tiết 1 term theo ID
+    public function get_term_by_id( $id, $taxonomy = 'category', $get_meta = true ) {
+        $data = $this->get_taxonomy( [
+            $this->primaryKey => $id,
+            'taxonomy' => $taxonomy,
+        ] );
+
+        //
+        if ( $get_meta === true && !empty( $data ) ) {
+            $data = $this->terms_meta_post( [ $data ] );
+            return $data[ 0 ];
+        }
+
+        //
+        return $data;
+    }
+
+    // lấy chi tiết 1 term theo slug
+    public function get_term_by_slug( $slug, $taxonomy = 'category', $get_meta = true ) {
+        $data = $this->get_taxonomy( [
+            'slug' => $slug,
+            'taxonomy' => $taxonomy,
+        ] );
+
+        //
+        if ( $get_meta === true && !empty( $data ) ) {
+            $data = $this->terms_meta_post( [ $data ] );
+            return $data[ 0 ];
+        }
+
+        //
+        return $data;
     }
 }

@@ -17,7 +17,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
 </ul>
 <div class="cf admin-search-form">
     <div class="lf f50">
-        <form name="frm_admin_search_controller" action="./admin/terms" method="get">
+        <form name="frm_admin_search_controller" action="./admin/<?php echo $controller_slug; ?>" method="get">
             <input type="hidden" name="taxonomy" value="<?php echo $taxonomy; ?>">
             <div class="cf">
                 <div class="lf f30">
@@ -30,8 +30,8 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
         </form>
     </div>
     <div class="lf f50 text-right">
-        <div class="d-inline"> <a href="<?php $term_model->admin_permalink( $taxonomy ); ?>" class="btn btn-success btn-mini"> <i class="fa fa-plus"></i> Thêm mới <?php echo TaxonomyType::list($taxonomy, true); ?></a> </div>
-        <div class="d-inline"><a href="admin/terms?taxonomy=<?php echo $taxonomy; ?>&is_deleted=<?php echo DeletedStatus::DELETED; ?>" class="btn btn-mini"> <i class="fa fa-trash"></i> Lưu trữ</a></div>
+        <div class="d-inline"> <a href="<?php $term_model->admin_permalink( $taxonomy, 0, $controller_slug ); ?>" class="btn btn-success btn-mini"> <i class="fa fa-plus"></i> Thêm mới <?php echo TaxonomyType::list($taxonomy, true); ?></a> </div>
+        <div class="d-inline"><a href="admin/<?php echo $controller_slug; ?>?taxonomy=<?php echo $taxonomy; ?>&is_deleted=<?php echo DeletedStatus::DELETED; ?>" class="btn btn-mini"> <i class="fa fa-trash"></i> Lưu trữ</a></div>
     </div>
 </div>
 <br>
@@ -51,7 +51,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
     <tbody>
         <?php
 
-        echo $term_model->list_html_view( $data, '', $by_is_deleted );
+        echo $term_model->list_html_view( $data, '', $by_is_deleted, $controller_slug );
         //$term_model->get_admin_permalink($v['taxonomy'], $v['term_id']);
 
         /*

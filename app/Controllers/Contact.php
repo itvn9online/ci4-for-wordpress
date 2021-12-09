@@ -30,7 +30,7 @@ class Contact extends Home {
         } else {
             $submit = $this->MY_comment( [
                 'redirect_to' => $redirect_to,
-                'comment_type' => __CLASS__
+                'comment_type' => $this->get_class_name( __CLASS__ )
             ] );
 
             //

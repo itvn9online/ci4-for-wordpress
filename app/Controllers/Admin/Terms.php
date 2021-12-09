@@ -9,22 +9,30 @@ use App\ Libraries\ DeletedStatus;
 
 //
 class Terms extends Admin {
-    private $taxonomy = '';
+    protected $taxonomy = '';
     private $default_taxonomy = '';
 
-    public function __construct() {
+    // tham số dùng để thay đổi URL cho controller nếu muốn
+    protected $controller_slug = 'terms';
+    // tham số dùng để đổi file view khi add hoặc edit bài viết nếu muốn
+    protected $add_edit_view = 'terms';
+
+    public function __construct( $for_extends = false ) {
         parent::__construct();
 
         // kiểm tra quyền truy cập của tài khoản hiện tại
         $this->check_permision( __CLASS__ );
 
-        // lọc term dựa theo taxonomy
-        $this->default_taxonomy = TaxonomyType::POSTS;
-        $this->taxonomy = $this->MY_get( 'taxonomy', $this->default_taxonomy );
+        // chỉ kiểm tra các điều kiện này nếu không được chỉ định là extends
+        if ( $for_extends === false ) {
+            // lọc term dựa theo taxonomy
+            $this->default_taxonomy = TaxonomyType::POSTS;
+            $this->taxonomy = $this->MY_get( 'taxonomy', $this->default_taxonomy );
 
-        // báo lỗi nếu không xác định được taxonomy
-        if ( $this->taxonomy == '' || TaxonomyType::list( $this->taxonomy ) == '' ) {
-            die( 'Taxonomy not register in system!' );
+            // báo lỗi nếu không xác định được taxonomy
+            if ( $this->taxonomy == '' || TaxonomyType::list( $this->taxonomy ) == '' ) {
+                die( 'Taxonomy not register in system!' );
+            }
         }
     }
 
@@ -75,6 +83,7 @@ class Terms extends Admin {
             'data' => $data,
             'pagination' => '',
             'taxonomy' => $this->taxonomy,
+            'controller_slug' => $this->controller_slug,
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
@@ -166,9 +175,14 @@ class Terms extends Admin {
         //
         $result_id = $this->term_model->insert_terms( $data, $this->taxonomy );
 
+        //
         if ( $result_id > 0 ) {
             //$this->base_model->alert( '', base_url( 'admin/terms/add' ) . '?id=' . $result_id );
-            $this->base_model->alert( '', $this->term_model->get_admin_permalink( $this->taxonomy, $result_id ) );
+            $this->base_model->alert( '', $this->term_model->get_admin_permalink( $this->taxonomy, $result_id, $this->controller_slug ) );
+        }
+        // nếu tồn tại rồi thì báo đã tồn tại
+        else if ( $result_id < 0 ) {
+            $this->base_model->alert( 'Danh mục đã tồn tại trong hệ thống (' . $this->taxonomy . ')', 'error' );
         }
         $this->base_model->alert( 'Lỗi tạo ' . TaxonomyType::list( $this->taxonomy, true ) . ' mới', 'error' );
     }
@@ -180,7 +194,9 @@ class Terms extends Admin {
 
         //
         $result_id = $this->term_model->update_terms( $id, $data, $this->taxonomy );
-
+        if ( $result_id < 0 ) {
+            $this->base_model->alert( 'ERROR! lỗi cập nhật danh mục... Có thể slug đã được sử dụng', 'error' );
+        }
         $this->base_model->alert( 'Cập nhật ' . TaxonomyType::list( $this->taxonomy, true ) . ' thành công' );
     }
 
@@ -192,7 +208,7 @@ class Terms extends Admin {
         ] );
 
         //
-        $for_redirect = base_url( 'admin/terms' ) . '?taxonomy=' . $this->taxonomy;
+        $for_redirect = base_url( 'admin/' . $this->controller_slug ) . '?taxonomy=' . $this->taxonomy;
 
         //
         $is_deleted = $this->MY_get( 'is_deleted' );

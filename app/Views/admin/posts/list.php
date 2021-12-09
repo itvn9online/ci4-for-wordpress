@@ -12,7 +12,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 
 ?>
 <ul class="admin-breadcrumb">
-    <li>Danh sách <?php echo PostType::list($post_type); ?> (<?php echo $totalThread; ?>)</li>
+    <li>Danh sách <?php echo $name_type; ?> (<?php echo $totalThread; ?>)</li>
 </ul>
 <div class="cf admin-search-form">
     <div class="lf f50">
@@ -20,11 +20,11 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
             <input type="hidden" name="post_type" value="<?php echo $post_type; ?>">
             <div class="cf">
                 <div class="lf f30">
-                    <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo PostType::list($post_type); ?>" autofocus>
+                    <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $name_type; ?>" autofocus>
                 </div>
                 <div class="lf f30 hide-if-no-taxonomy">
                     <select name="term_id" data-select="<?php echo $by_term_id; ?>" data-taxonomy="<?php echo $taxonomy; ?>" onChange="document.frm_admin_search_controller.submit();" class="each-to-taxonomy-group">
-                        <option value="0">- Nhóm <?php echo PostType::list($post_type); ?> -</option>
+                        <option value="0">- Nhóm <?php echo $name_type; ?> -</option>
                     </select>
                 </div>
                 <div class="lf f20">
@@ -39,7 +39,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
         // menu sẽ được tự động khởi tạo khi dùng hàm để gọi -> không cho add thủ công
         if ( $post_type != PostType::MENU ) {
             ?>
-        <div class="d-inline"><a href="<?php $post_model->admin_permalink( $post_type, 0, $controller_slug ); ?>" class="btn btn-success btn-mini"> <i class="fa fa-plus"></i> Thêm mới <?php echo PostType::list($post_type); ?></a></div>
+        <div class="d-inline"><a href="<?php $post_model->admin_permalink( $post_type, 0, $controller_slug ); ?>" class="btn btn-success btn-mini"> <i class="fa fa-plus"></i> Thêm mới <?php echo $name_type; ?></a></div>
         <?php
         }
 

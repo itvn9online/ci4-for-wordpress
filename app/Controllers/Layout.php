@@ -563,4 +563,40 @@ Compression = gzip -->';
         //
         return $str;
     }
+
+    /*
+     * trả về tên của class và loại bỏ phần namespace thừa
+     */
+    protected function get_class_name( $role ) {
+        return basename( str_replace( '\\', '/', $role ) );
+    }
+
+    /*
+     * trả về URL của controller theo định dạng của namespace
+     * đầu vào là __CLASS__
+     * đầu ra sẽ cắt bỏ phần namespace ở đầu, giữ lại phần controller sau -> REUQEST URL
+     */
+    protected function base_class_url( $str ) {
+        // lấy thư mục chứa file hiện tại
+        //echo __DIR__ . '<br>' . "\n";
+        $current_dir = basename( __DIR__ );
+        //echo $current_dir . '<br>' . "\n";
+
+        //
+        //echo $str . '<br>' . "\n";
+        $str = str_replace( '\\', '/', $str );
+        //echo $str . '<br>' . "\n";
+
+        // cắt chuỗi
+        $str = explode( $current_dir . '/', $str );
+        //print_r( $str );
+
+        //
+        if ( isset( $str[ 1 ] ) ) {
+            return strtolower( $str[ 1 ] );
+        }
+
+        //
+        return strtolower( $str[ 0 ] );
+    }
 }

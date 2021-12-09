@@ -56,7 +56,7 @@ class Dashboard extends Admin {
         $this->teamplate_admin[ 'content' ] = view( 'admin/dashboard_view', array(
             //'topPostHighestView' => $topPostHighestView,
             'session_data' => $this->session_data,
-            'debug_enable' => $this->debug_enable,
+            //'debug_enable' => $this->debug_enable,
             'last_enabled_debug' => $last_enabled_debug,
             'auto_disable_debug' => $auto_disable_debug,
             'current_dbname' => $current_dbname,
