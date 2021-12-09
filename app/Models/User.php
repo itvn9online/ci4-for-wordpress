@@ -91,17 +91,48 @@ class User extends EB_Model {
     }
 
     function update_member( $id, $data, $where = [] ) {
-        if ( isset( $data[ 'user_login' ] ) && $data[ 'user_login' ] == '' ) {
-            $data[ 'user_login' ] = $this->check_user_login_exist( $data[ 'user_email' ] );
+        if ( isset( $data[ 'user_login' ] ) ) {
+            if ( $data[ 'user_login' ] == '' ) {
+                if ( isset( $data[ 'user_email' ] ) && $data[ 'user_email' ] != '' ) {
+                    $data[ 'user_login' ] = $this->check_user_login_exist( $data[ 'user_email' ] );
+                } else {
+                    return 'User login is empty!';
+                }
+            } else {
+                // kiểm tra email này đã có ai dùng chưa
+                $check__exist = $this->check_another_user_by( $id, 'user_login', $data[ 'user_login' ] );
+
+                if ( $check__exist !== true ) {
+                    return $check__exist;
+                }
+            }
         }
         if ( !isset( $data[ 'last_updated' ] ) || $data[ 'last_updated' ] == '' ) {
             $data[ 'last_updated' ] = date( 'Y-m-d H:i:s' );
         }
+
         // mã hóa mật khẩu
         if ( isset( $data[ 'ci_pass' ] ) && $data[ 'ci_pass' ] != '' ) {
             $data[ 'ci_pass' ] = md5( $data[ 'ci_pass' ] );
             // tạo mật khẩu cho wordpress
             $data[ 'user_pass' ] = $data[ 'ci_pass' ];
+        }
+
+        // nếu có email
+        if ( isset( $data[ 'user_email' ] ) ) {
+            // email không được để trống
+            if ( $data[ 'user_email' ] != '' ) {
+                // kiểm tra email này đã có ai dùng chưa
+                $check__exist = $this->check_another_user_by( $id, 'user_email', $data[ 'user_email' ] );
+
+                if ( $check__exist !== true ) {
+                    return $check__exist;
+                }
+            }
+            // trống thì return luôn
+            else {
+                return 'User email is empty!';
+            }
         }
 
         //
@@ -113,6 +144,33 @@ class User extends EB_Model {
         $this->base_model->update_multiple( $this->table, $data, $where, [
             'debug_backtrace' => debug_backtrace()[ 1 ][ 'function' ]
         ] );
+
+        //
+        return true;
+    }
+
+    // kiểm tra user có hay chưa theo 1 thuộc tính unique
+    public function check_another_user_by( $id, $key, $val ) {
+        // lấy dữ liệu trong db
+        $check_exist = $this->base_model->select( $this->primaryKey, $this->table, array(
+            // các kiểu điều kiện where
+            $this->primaryKey . ' !=' => $id,
+            $key => $val,
+        ), array(
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            //'offset' => 2,
+            'limit' => 1
+        ) );
+
+        //
+        if ( !empty( $check_exist ) ) {
+            return $key . ' has been using by another user #' . $check_exist[ $this->primaryKey ];
+        }
+        //
+        return true;
     }
 
     public function login( $name, $password, $level = '0' ) {
@@ -150,11 +208,12 @@ class User extends EB_Model {
         }
 
         // select dữ liệu từ 1 bảng bất kỳ
-        $sql = $this->base_model->select( '*', $this->table, array(
+        $sql = $this->base_model->select( $this->primaryKey, $this->table, array(
             // các kiểu điều kiện where
             // mặc định
             $col => $email,
-            'is_deleted' => DeletedStatus::DEFAULT,
+            // kiểm tra email đã được sử dụng rồi hay chưa thì không cần kiểm tra trạng thái XÓA -> vì có thể user này đã bị xóa vĩnh viễn
+            //'is_deleted' => DeletedStatus::DEFAULT,
         ), array(
             // hiển thị mã SQL để check
             //'show_query' => 1,

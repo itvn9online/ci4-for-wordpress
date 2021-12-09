@@ -156,6 +156,15 @@ class Terms extends Admin {
         // lấy danh sách các nhóm để add cho post
         $post_cat = $this->term_model->get_all_taxonomy( $this->taxonomy );
 
+
+        //
+        if ( $this->debug_enable === true ) {
+            echo '<!-- ';
+            print_r( $data );
+            echo ' -->';
+        }
+
+
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/terms/add', array(
             'lang_key' => LanguageCost::lang_key(),

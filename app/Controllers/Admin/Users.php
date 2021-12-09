@@ -16,6 +16,9 @@ class Users extends Admin {
         $this->check_permision( __CLASS__ );
 
         $this->member_type = $this->MY_get( 'member_type' );
+
+        //
+        $this->validation = \Config\ Services::validation();
     }
 
     public function index( $url = '' ) {
@@ -121,6 +124,7 @@ class Users extends Admin {
         $data = $this->base_model->select( '*', 'wp_users', $where, $filter );
         //print_r( $data );
 
+
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/users/list', array(
             'pagination' => $pagination,
@@ -164,13 +168,47 @@ class Users extends Admin {
             if ( empty( $data ) ) {
                 die( 'user not found!' );
             }
+
+            // sửa tài khoản thì không nhập pass
+            $data[ 'ci_pass' ] = '';
         }
         // add
         else {
             $data = $this->base_model->default_data( 'wp_users' );
+
+            // tạo mật khẩu ngẫu nhiên cho user
+            $rand_password = [
+                'A',
+                'B',
+                'C',
+                'D',
+                'E',
+                'F',
+                'G',
+                'H',
+                'I',
+                'J',
+                'K',
+                'L',
+                'M',
+                'N',
+                'O',
+                'U',
+                'P',
+                'Q',
+            ];
+            $data[ 'ci_pass' ] = $rand_password[ rand( 0, count( $rand_password ) - 1 ) ] . '@' . substr( md5( time() ), 0, 10 );
         }
         //print_r( $data );
         //die( 'dgh dfsfs' );
+
+
+        //
+        if ( $this->debug_enable === true ) {
+            echo '<!-- ';
+            print_r( $data );
+            echo ' -->';
+        }
 
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/users/add', array(
@@ -201,9 +239,21 @@ class Users extends Admin {
         //die( __LINE__ );
 
         //
+        $this->validation->reset();
+        $this->validation->setRule( 'user_email', 'Email', 'required|min_length[5]|max_length[255]|valid_email' );
+        if ( !$this->validation->run( $data ) ) {
+            $this->base_model->alert( 'Email không đúng định dạng được hỗ trợ', 'error' );
+        }
+
+        //
         $result_id = $this->user_model->update_member( $id, $data );
 
-        $this->base_model->alert( 'Cập nhật thông tin thành viên ' . $data[ 'user_email' ] . ' thành công' );
+        //
+        if ( $result_id === true ) {
+            $this->base_model->alert( 'Cập nhật thông tin thành viên ' . $data[ 'user_email' ] . ' thành công' );
+        } else {
+            $this->base_model->alert( $result_id, 'error' );
+        }
     }
 
     public function before_delete_restore( $msg, $is_deleted ) {

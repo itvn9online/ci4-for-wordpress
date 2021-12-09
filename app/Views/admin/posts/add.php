@@ -5,13 +5,6 @@ use App\ Libraries\ PostType;
 use App\ Libraries\ LanguageCost;
 
 //
-if ( $debug_enable === true ) {
-    echo '<!-- ';
-    print_r( $data );
-    echo ' -->';
-}
-
-//
 //$base_model = new\ App\ Models\ Base();
 $post_model = new\ App\ Models\ Post();
 

@@ -320,6 +320,14 @@ class Posts extends Admin {
 
 
         //
+        if ( $this->debug_enable === true ) {
+            echo '<!-- ';
+            print_r( $data );
+            echo ' -->';
+        }
+
+
+        //
         $this->teamplate_admin[ 'content' ] = view( 'admin/' . $this->add_edit_view . '/add', array(
             'controller_slug' => $this->controller_slug,
             'lang_key' => LanguageCost::lang_key(),
