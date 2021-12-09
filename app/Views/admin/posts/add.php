@@ -32,7 +32,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
         Thêm mới
         <?php
         }
-        echo $name_type . ' <em>' . $data[ 'post_title' ] . '</em>';
+        echo $name_type . ' ' . $data[ 'post_title' ];
         ?>
     </li>
 </ul>
