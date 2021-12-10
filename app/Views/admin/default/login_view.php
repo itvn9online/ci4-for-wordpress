@@ -1,6 +1,6 @@
 <?php
 
-include __DIR__ . '/login_header.php';
+include APPPATH . 'Views/admin/default/login_header.php';
 
 ?>
 <div id="loginbox">
