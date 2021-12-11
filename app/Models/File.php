@@ -29,7 +29,7 @@ class File {
         }
 
         //
-        if ( defined( 'FTP_HOST' ) ) {
+        if ( defined( 'FTP_HOST' ) && FTP_HOST != '' ) {
             $this->ftp_server = FTP_HOST;
         } else {
             //$this->ftp_server = $_SERVER['HTTP_HOST'];
