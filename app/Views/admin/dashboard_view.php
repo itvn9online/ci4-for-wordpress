@@ -51,9 +51,9 @@ if ( $session_data[ 'member_type' ] == UsersType::ADMIN ) {
 <p class="redcolor medium"><i class="fa fa-warning"></i> Chế độ debug thường được kích hoạt để thu thập thêm thông tin chi tiết về lỗi hoặc lỗi trang web, nhưng có thể chứa thông tin nhạy cảm không có sẵn trên một trang web công khai. Vui lòng chỉ bật debug khi cần sửa lỗi liên quan đến code.</p>
 <?php
 
-if ( file_exists( PUBLIC_HTML_PATH . '.env' ) ) {
+if ( file_exists( $f_env ) ) {
     ?>
-<p class="orgcolor"><i class="fa fa-lightbulb-o"></i> Chế độ debug sẽ được tự động TẮT vào lúc <strong><?php echo date('r', filemtime( PUBLIC_HTML_PATH . '.env' ) + $auto_disable_debug); ?></strong>.</p>
+<p class="orgcolor"><i class="fa fa-lightbulb-o"></i> Chế độ debug sẽ được tự động TẮT vào lúc <strong><?php echo date('r', filemtime( $f_env ) + $auto_disable_debug); ?></strong>.</p>
 <a href="admin/dashboard/disable_env" class="btn btn-danger" target="target_eb_iframe"><i class="fa fa-bug"></i> TẮT chế độ debug</a>
 <?php
 } else {
@@ -69,7 +69,7 @@ else {
 <p class="greencolor"><i class="fa fa-check"></i> Chế độ debug đã được tắt. Giảm thiểu nguy cơ lộ diện các vấn đề nhạy cảm liên quan đến code.</p>
 <?php
 
-if ( file_exists( PUBLIC_HTML_PATH . '.env-bak' ) ) {
+if ( file_exists( $f_backup_env ) ) {
     ?>
 <div> 
     <!-- Button trigger modal -->

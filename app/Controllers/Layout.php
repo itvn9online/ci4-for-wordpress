@@ -7,11 +7,13 @@ namespace App\ Controllers;
 // Libraries
 use App\ Libraries\ LanguageCost;
 use App\ Libraries\ PostType;
+//use App\ Libraries\ FtpAccount;
 
 //
 class Layout extends Sync {
     //public $CI = NULL;
 
+    //
     public $lang_key = '';
     public $breadcrumb = [];
     public $getconfig = NULL;
@@ -598,5 +600,33 @@ Compression = gzip -->';
 
         //
         return strtolower( $str[ 0 ] );
+    }
+
+    /*
+     * Hỗ trợ điều khiển file thông qua FTP account -> do không phải host nào cũng có thể điều khiển file bằng php thuần
+     */
+    protected function MY_unlink( $f ) {
+        if ( @!unlink( $f ) ) {
+            $file_model = new\ App\ Models\ File();
+
+            return $file_model->FTP_unlink( $f );
+        }
+
+        //
+        return true;
+    }
+
+    protected function MY_copy( $from, $to, $file_permission = 0777 ) {
+        if ( @!copy( $from, $to ) ) {
+            $file_model = new\ App\ Models\ File();
+
+            return $file_model->FTP_copy( $from, $to );
+        }
+        if ( $file_permission > 0 ) {
+            chmod( $to, $file_permission );
+        }
+
+        //
+        return true;
     }
 }

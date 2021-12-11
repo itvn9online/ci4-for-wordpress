@@ -10,7 +10,7 @@ class PostType {
     const BLOG = 'blog';
     const PAGE = 'page';
     const MENU = 'nav_menu';
-    // định dạng media từ codeigiter
+    // định dạng media từ codeigniter
     const MEDIA = 'file_upload';
     const MEDIA_URI = 'upload/';
     const MEDIA_PATH = 'public/upload/'; // path upload có thể khác với URI do nó có thể nằm trong thư mục public

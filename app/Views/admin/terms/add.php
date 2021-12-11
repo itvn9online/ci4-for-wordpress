@@ -13,7 +13,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
 
 ?>
 <ul class="admin-breadcrumb">
-    <li><a href="admin/terms?taxonomy=<?php echo $taxonomy; ?>">Danh sách <?php echo TaxonomyType::list($taxonomy, true); ?></a></li>
+    <li><a href="admin/terms?taxonomy=<?php echo $taxonomy; ?>">Danh sách <?php echo $name_type; ?></a></li>
     <li>
         <?php
         if ( $data[ 'term_id' ] > 0 ) {

@@ -174,6 +174,7 @@ class Terms extends Admin {
             'post_cat' => $post_cat,
             'data' => $data,
             'taxonomy' => $this->taxonomy,
+            'name_type' => $this->name_type,
             'meta_detault' => TaxonomyType::meta_default( $this->taxonomy ),
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );

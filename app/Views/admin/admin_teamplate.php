@@ -26,6 +26,8 @@ if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
 <head>
 <title>Quản trị</title>
 <meta charset="UTF-8"/>
+<meta http-equiv="Cache-control" content="public">
+<meta name="robots" content="noindex, nofollow" />
 <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"/> -->
 <base href="<?php echo DYNAMIC_BASE_URL; ?>" />
 <link href="<?php echo DYNAMIC_BASE_URL; ?>favicon.png" rel="shortcut icon" type="image/png" />

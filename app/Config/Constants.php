@@ -141,3 +141,10 @@ if ( !defined( 'THEMENAME' ) ) {
 //
 define( 'THEMEPATH', PUBLIC_PUBLIC_PATH . 'themes/' . THEMENAME . '/' );
 //die( THEMEPATH );
+
+/*
+ * Tài khoản FTP -> dùng để điều khiển file trong trường hợp bị lỗi permission
+ */
+//define( 'FTP_HOST', $_SERVER['SERVER_ADDR'] );
+//define( 'FTP_USER', '' );
+//define( 'FTP_PASS', '' );
