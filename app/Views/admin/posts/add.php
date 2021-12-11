@@ -174,7 +174,8 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 
                     // với 1 số post type có đặc thù riêng -> ví dụ danh mục
                     if ( $k == 'post_category' ) {
-                        ?>
+                        if ( $post_type != PostType::MENU ) {
+                            ?>
                     <select data-select="<?php echo $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" aria-required="true" required>
                         <option value="">[ Chọn <?php echo $v; ?> ]</option>
                         <?php
@@ -188,6 +189,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                     </select>
                     &nbsp; <a href="admin/terms/add?taxonomy=<?php echo $taxonomy; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm danh mục mới</a>
                     <?php
+                    }
                     }
                     // mặc định thì hiển thị bình thường
                     else {

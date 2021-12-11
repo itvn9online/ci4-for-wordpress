@@ -895,6 +895,8 @@ class Post extends EB_Model {
 
         foreach ( $allow_taxonomy as $allow ) {
             $category_list = $this->term_model->get_all_taxonomy( $allow, 0, [
+                'by_is_deleted' => DeletedStatus::DEFAULT,
+                'parent' => 0,
                 //'get_meta' => true,
                 //'get_child' => true
             ] );
@@ -907,6 +909,19 @@ class Post extends EB_Model {
             //
             foreach ( $category_list as $cat_key => $cat_val ) {
                 $arr_result[] = '<option value="' . $this->term_model->get_the_permalink( $cat_val ) . '">' . $cat_val[ 'name' ] . '</option>';
+
+                // lấy các nhóm con thuộc nhóm này
+                $child_list = $this->term_model->get_all_taxonomy( $allow, 0, [
+                    'by_is_deleted' => DeletedStatus::DEFAULT,
+                    'parent' => $cat_val[ 'parent' ],
+                    //'get_meta' => true,
+                    //'get_child' => true
+                ] );
+
+                //
+                foreach ( $child_list as $child_key => $child_val ) {
+                    $arr_result[] = '<option value="' . $this->term_model->get_the_permalink( $child_val ) . '">' . $child_val[ 'name' ] . '</option>';
+                }
             }
         }
 
@@ -929,9 +944,9 @@ class Post extends EB_Model {
             $filter = [
                 'where_in' => array(
                     'post_status' => array(
-                        PostType::DRAFT,
+                        //PostType::DRAFT,
                         PostType::PUBLIC,
-                        PostType::PENDING,
+                        //PostType::PENDING,
                     )
                 ),
                 'order_by' => array(

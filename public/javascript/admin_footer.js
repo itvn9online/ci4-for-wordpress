@@ -131,6 +131,10 @@ function click_a_restore_record() {
     return confirm('Xác nhận phục hồi bản ghi này?');
 }
 
+function click_a_remove_record() {
+    return confirm('Xác nhận XÓA hoàn toàn bản ghi này?');
+}
+
 function click_delete_record() {
     if ($('#is_deleted').length !== 1) {
         console.log('%c ERROR is_deleted.length', 'color: red;');

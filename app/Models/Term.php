@@ -581,7 +581,7 @@ class Term extends EB_Model {
         } else if ( in_array( $data[ 'taxonomy' ], $allow_taxonomy ) ) {
             return DYNAMIC_BASE_URL . $data[ 'taxonomy' ] . '/' . $data[ 'slug' ];
         }
-        return '#';
+        return DYNAMIC_BASE_URL . '?taxonomy=' . $data[ 'taxonomy' ] . '&cat=' . $data[ 'term_id' ] . '&slug=' . $data[ 'slug' ];
     }
     // thường dùng trong view -> in ra link admin của 1 term
     function the_permalink( $data ) {
@@ -610,7 +610,7 @@ class Term extends EB_Model {
         $tmp = '<tr>
             <td>&nbsp;</td>
             <td><a href="%get_admin_permalink%">' . $gach_ngang . ' %name% <i class="fa fa-edit"></i></a></td>
-            <td>%slug%</td>
+            <td>%slug% <a href="%view_url%" target="_blank"><i class="fa fa-eye"></i></a></td>
             <td class="d-none show-if-ads-type">%custom_size%</td>
             <td>&nbsp;</td>
             <td>%lang_key%</td>
@@ -651,6 +651,7 @@ class Term extends EB_Model {
                 }
             }
             $node = str_replace( '%get_admin_permalink%', $this->get_admin_permalink( $v[ 'taxonomy' ], $v[ $this->primaryKey ], $controller_slug ), $node );
+            $node = str_replace( '%view_url%', $this->get_the_permalink( $v ), $node );
 
             //
             $str .= $node;

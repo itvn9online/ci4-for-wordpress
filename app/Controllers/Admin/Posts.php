@@ -404,15 +404,36 @@ class Posts extends Admin {
         $this->base_model->alert( '', $for_redirect );
     }
 
+    // xóa (tạm ẩn) 1 bản ghi
     public function delete() {
         return $this->before_delete_restore( PostType::DELETED );
     }
 
+    // phục hồi 1 bản ghi
     public function restore() {
         return $this->before_delete_restore( PostType::DRAFT );
     }
 
+    // xóa hoàn toàn 1 bản ghi
+    public function remove() {
+        $id = $this->MY_get( 'id', 0 );
 
+        // xem bản ghi này có được đánh dấu là XÓA không
+        $data = $this->base_model->select( '*', $this->post_model->table, [
+            $this->post_model->primaryKey => $id,
+            'post_status' => PostType::DELETED,
+            'post_type' => $this->post_type,
+        ], array(
+            // hiển thị mã SQL để check
+            'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            //'offset' => 2,
+            'limit' => 1
+        ) );
+    }
+
+    //
     private function createdThumbnail( $imagePath ) {
 
         $listSizeThumb = $this->config->item( 'list_thumbnail' );

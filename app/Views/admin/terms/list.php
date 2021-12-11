@@ -13,7 +13,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
 
 ?>
 <ul class="admin-breadcrumb">
-    <li><?php echo TaxonomyType::list($taxonomy, true); ?></li>
+    <li><?php echo $name_type; ?></li>
 </ul>
 <div class="cf admin-search-form">
     <div class="lf f50">
@@ -21,7 +21,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
             <input type="hidden" name="taxonomy" value="<?php echo $taxonomy; ?>">
             <div class="cf">
                 <div class="lf f30">
-                    <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo TaxonomyType::list($taxonomy, true); ?>" autofocus>
+                    <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $name_type; ?>" autofocus>
                 </div>
                 <div class="lf f20">
                     <button type="submit" class="btn-success"><i class="fa fa-search"></i> Tìm kiếm</button>
@@ -30,7 +30,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
         </form>
     </div>
     <div class="lf f50 text-right">
-        <div class="d-inline"> <a href="<?php $term_model->admin_permalink( $taxonomy, 0, $controller_slug ); ?>" class="btn btn-success btn-mini"> <i class="fa fa-plus"></i> Thêm mới <?php echo TaxonomyType::list($taxonomy, true); ?></a> </div>
+        <div class="d-inline"> <a href="<?php $term_model->admin_permalink( $taxonomy, 0, $controller_slug ); ?>" class="btn btn-success btn-mini"> <i class="fa fa-plus"></i> Thêm mới <?php echo $name_type; ?></a> </div>
         <div class="d-inline"><a href="admin/<?php echo $controller_slug; ?>?taxonomy=<?php echo $taxonomy; ?>&is_deleted=<?php echo DeletedStatus::DELETED; ?>" class="btn btn-mini"> <i class="fa fa-trash"></i> Lưu trữ</a></div>
     </div>
 </div>

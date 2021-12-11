@@ -209,9 +209,29 @@ class Home extends Layout {
             $page_template = $data[ 'post_meta' ][ 'page_template' ];
         }
 
+        // nếu có post cha -> lấy cả thông tin post cha
+        $parent_data = [];
+        if ( $data[ 'post_parent' ] > 0 ) {
+            $parent_data = $this->base_model->select( '*', 'wp_posts', array(
+                // các kiểu điều kiện where
+                'ID' => $data[ 'post_parent' ],
+                'post_status' => PostType::PUBLIC
+            ), array(
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                //'offset' => 2,
+                'limit' => 1
+            ) );
+            //print_r( $parent_data );
+            $this->create_breadcrumb( $parent_data[ 'post_title' ], $this->post_model->get_the_permalink( $parent_data ) );
+        }
+
         //
-        $this->create_breadcrumb( $data[ 'post_title' ] );
-        $seo = $this->base_model->seo( $data, $this->post_model->get_the_permalink( $data ) );
+        $post_permalink = $this->post_model->get_the_permalink( $data );
+        $this->create_breadcrumb( $data[ 'post_title' ], $post_permalink );
+        $seo = $this->base_model->seo( $data, $post_permalink );
 
         // -> views
         $this->teamplate[ 'breadcrumb' ] = view( 'breadcrumb_view', array(
@@ -222,6 +242,7 @@ class Home extends Layout {
             'seo' => $seo,
             'page_template' => $page_template,
             'data' => $data,
+            //'parent_data' => $parent_data,
         ) );
         $cache_value = view( 'layout_view', $this->teamplate );
 

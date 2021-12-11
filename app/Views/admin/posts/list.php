@@ -97,7 +97,10 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                 <?php
                 }
                 ?></td>
-            <td data-id="<?php echo $post_model->show_meta_post($v['post_meta'], 'post_category'); ?>" data-taxonomy="<?php echo $taxonomy; ?>" data-uri="admin/<?php echo $controller_slug; ?>?post_type=<?php echo $post_type; ?>" class="each-to-taxonomy">&nbsp;</td>
+            <td data-id="<?php echo $post_model->show_meta_post($v['post_meta'], 'post_category'); ?>"
+                data-taxonomy="<?php echo $taxonomy; ?>"
+                data-uri="admin/<?php echo $controller_slug; ?>?post_type=<?php echo $post_type; ?>"
+                class="each-to-taxonomy">&nbsp;</td>
             <td><?php echo $v['post_status']; ?></td>
             <td><?php echo $v['pinged']; ?></td>
             <td><?php echo $v['post_date']; ?></td>
@@ -111,7 +114,9 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                 <?php
                 } else {
                     ?>
-                <a href="admin/<?php echo $controller_slug; ?>/restore?post_type=<?php echo $post_type; ?>&id=<?php echo $v[ 'ID' ]; ?>&post_status=<?php echo $post_status; ?>&page_num=<?php echo $page_num; ?>" onClick="return click_a_restore_record();" class="bluecolor" target="target_eb_iframe"><i class="fa fa-undo"></i></a>
+                <div class="d-inline"><a href="admin/<?php echo $controller_slug; ?>/restore?post_type=<?php echo $post_type; ?>&id=<?php echo $v[ 'ID' ]; ?>&post_status=<?php echo $post_status; ?>&page_num=<?php echo $page_num; ?>" onClick="return click_a_restore_record();" class="bluecolor" target="target_eb_iframe"><i class="fa fa-undo"></i></a></div>
+                &nbsp;
+                <div class="d-inline"><a href="admin/<?php echo $controller_slug; ?>/remove?post_type=<?php echo $post_type; ?>&id=<?php echo $v[ 'ID' ]; ?>&post_status=<?php echo $post_status; ?>&page_num=<?php echo $page_num; ?>" onClick="return click_a_remove_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-remove"></i></a></div>
                 <?php
                 }
                 ?></td>

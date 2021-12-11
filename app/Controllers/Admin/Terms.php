@@ -10,6 +10,7 @@ use App\ Libraries\ DeletedStatus;
 //
 class Terms extends Admin {
     protected $taxonomy = '';
+    protected $name_type = '';
     private $default_taxonomy = '';
 
     // tham số dùng để thay đổi URL cho controller nếu muốn
@@ -28,6 +29,7 @@ class Terms extends Admin {
             // lọc term dựa theo taxonomy
             $this->default_taxonomy = TaxonomyType::POSTS;
             $this->taxonomy = $this->MY_get( 'taxonomy', $this->default_taxonomy );
+            $this->name_type = TaxonomyType::list($this->taxonomy, true);
 
             // báo lỗi nếu không xác định được taxonomy
             if ( $this->taxonomy == '' || TaxonomyType::list( $this->taxonomy ) == '' ) {
@@ -83,6 +85,7 @@ class Terms extends Admin {
             'data' => $data,
             'pagination' => '',
             'taxonomy' => $this->taxonomy,
+            'name_type' => $this->name_type,
             'controller_slug' => $this->controller_slug,
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
