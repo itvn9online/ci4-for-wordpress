@@ -975,10 +975,12 @@ class Post extends EB_Model {
             $where = [
                 //'post_status !=' => PostType::DELETED,
                 'post_type' => $allow,
+                'post_status' => PostType::PUBLIC,
                 'lang_key' => LanguageCost::lang_key()
             ];
 
             $filter = [
+                /*
                 'where_in' => array(
                     'post_status' => array(
                         //PostType::DRAFT,
@@ -986,6 +988,7 @@ class Post extends EB_Model {
                         //PostType::PENDING,
                     )
                 ),
+                */
                 'order_by' => array(
                     'menu_order' => 'DESC',
                     'post_date' => 'DESC',

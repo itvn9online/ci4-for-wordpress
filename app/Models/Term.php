@@ -333,6 +333,7 @@ class Term extends EB_Model {
         // các kiểu điều kiện where
         $where = [
             'taxonomy' => $taxonomy,
+            //'term_status' => DeletedStatus::TERM_SHOW,
             'lang_key' => LanguageCost::lang_key()
         ];
         $where_or_like = [];
