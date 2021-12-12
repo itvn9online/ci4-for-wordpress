@@ -94,7 +94,7 @@ class Home extends Layout {
         $data = $this->term_model->get_taxonomy( array(
             // các kiểu điều kiện where
             'slug' => $slug_1,
-            'is_deleted' => DeletedStatus::DEFAULT,
+            'is_deleted' => DeletedStatus::FOR_DEFAULT,
             'lang_key' => $this->lang_key,
             'taxonomy' => TaxonomyType::POSTS
         ) );
@@ -146,10 +146,14 @@ class Home extends Layout {
             return $this->show_cache( $cache_value );
         }
 
+        //
+        $post_type = $this->MY_get( 'post_type' );
+
         // lấy post theo ID, không lọc theo post type -> vì nhiều nơi cần dùng đến
         $data = $this->base_model->select( '*', 'wp_posts', array(
             // các kiểu điều kiện where
             'ID' => $id,
+            'post_type' => $post_type,
             'post_status' => PostType::PUBLIC
         ), array(
             // hiển thị mã SQL để check
@@ -159,12 +163,14 @@ class Home extends Layout {
             //'offset' => 2,
             'limit' => 1
         ) );
+        //die( __FILE__ . ':' . __LINE__ );
 
         //
         if ( !empty( $data ) ) {
             // lấy meta của post này
             $data[ 'post_meta' ] = $this->post_model->arr_meta_post( $data[ 'ID' ] );
             //print_r( $data );
+            //die( __FILE__ . ':' . __LINE__ );
 
             // với các post type mặc định -> dùng page view
             if ( in_array( $data[ 'post_type' ], [
@@ -242,7 +248,7 @@ class Home extends Layout {
             'seo' => $seo,
             'page_template' => $page_template,
             'data' => $data,
-            //'parent_data' => $parent_data,
+            'parent_data' => $parent_data,
         ) );
         $cache_value = view( 'layout_view', $this->teamplate );
 

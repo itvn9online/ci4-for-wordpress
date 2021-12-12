@@ -28,7 +28,7 @@ class Comments extends Admin {
 
         // các kiểu điều kiện where
         $where = [
-            'wp_comments.is_deleted' => DeletedStatus::DEFAULT,
+            'wp_comments.is_deleted' => DeletedStatus::FOR_DEFAULT,
             'wp_comments.comment_type' => $this->comment_type,
             'wp_comments.lang_key' => LanguageCost::lang_key()
         ];

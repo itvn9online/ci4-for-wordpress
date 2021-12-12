@@ -200,7 +200,7 @@ class Post extends EB_Model {
             // lấy term_id theo slug truyền vào
             $get_term_id = $this->term_model->get_taxonomy( [
                 'slug' => $post_cat[ 'slug' ],
-                'is_deleted' => DeletedStatus::DEFAULT,
+                'is_deleted' => DeletedStatus::FOR_DEFAULT,
                 'taxonomy' => $post_cat[ 'taxonomy' ],
             ], 1, 'term_id' );
             //print_r( $get_term_id );
@@ -875,7 +875,7 @@ class Post extends EB_Model {
         } else if ( $data[ 'post_type' ] == PostType::PAGE ) {
             return DYNAMIC_BASE_URL . $data[ 'post_name' ];
         }
-        return DYNAMIC_BASE_URL . '?p=' . $data[ 'ID' ];
+        return DYNAMIC_BASE_URL . '?p=' . $data[ 'ID' ] . '&post_type=' . $data[ 'post_type' ] . '&slug=' . $data[ 'post_name' ];
     }
 
     // thường dùng trong view -> in ra link admin của 1 post
@@ -884,18 +884,35 @@ class Post extends EB_Model {
     }
 
     function quick_add_menu() {
-        $arr_result = [];
+        global $arr_custom_taxonomy;
+        global $arr_custom_post_type;
 
+        //
         $allow_taxonomy = [
             TaxonomyType::POSTS,
             TaxonomyType::TAGS,
             TaxonomyType::BLOGS,
             TaxonomyType::BLOG_TAGS,
         ];
+        // thêm custom taxonomy vào phần add menu
+        $arr_custom_name = [];
+        foreach ( $arr_custom_taxonomy as $k => $v ) {
+            if ( !in_array( $k, $allow_taxonomy ) ) {
+                $allow_taxonomy[] = $k;
 
+                // tên của custom taxonomy
+                if ( isset( $v[ 'name' ] ) ) {
+                    $arr_custom_name[ $k ] = $v[ 'name' ];
+                }
+            }
+        }
+        //print_r( $allow_taxonomy );
+
+        //
+        $arr_result = [];
         foreach ( $allow_taxonomy as $allow ) {
             $category_list = $this->term_model->get_all_taxonomy( $allow, 0, [
-                'by_is_deleted' => DeletedStatus::DEFAULT,
+                'by_is_deleted' => DeletedStatus::FOR_DEFAULT,
                 'parent' => 0,
                 //'get_meta' => true,
                 //'get_child' => true
@@ -904,7 +921,13 @@ class Post extends EB_Model {
             if ( empty( $category_list ) ) {
                 continue;
             }
-            $arr_result[] = '<option class="bold" disabled>' . TaxonomyType::list( $allow ) . '</option>';
+
+            //
+            if ( isset( $arr_custom_name[ $allow ] ) ) {
+                $arr_result[] = '<option class="bold" disabled>' . $arr_custom_name[ $allow ] . '</option>';
+            } else {
+                $arr_result[] = '<option class="bold" disabled>' . TaxonomyType::list( $allow ) . '</option>';
+            }
 
             //
             foreach ( $category_list as $cat_key => $cat_val ) {
@@ -912,11 +935,12 @@ class Post extends EB_Model {
 
                 // lấy các nhóm con thuộc nhóm này
                 $child_list = $this->term_model->get_all_taxonomy( $allow, 0, [
-                    'by_is_deleted' => DeletedStatus::DEFAULT,
-                    'parent' => $cat_val[ 'parent' ],
+                    'by_is_deleted' => DeletedStatus::FOR_DEFAULT,
+                    'parent' => $cat_val[ 'term_id' ],
                     //'get_meta' => true,
                     //'get_child' => true
                 ] );
+                //print_r( $child_list );
 
                 //
                 foreach ( $child_list as $child_key => $child_val ) {
@@ -932,6 +956,19 @@ class Post extends EB_Model {
             PostType::POST,
             PostType::BLOG,
         ];
+        // thêm custom post type vào phần add menu
+        $arr_custom_name = [];
+        foreach ( $arr_custom_post_type as $k => $v ) {
+            if ( !in_array( $k, $allow_post_type ) ) {
+                $allow_post_type[] = $k;
+
+                // tên của custom taxonomy
+                if ( isset( $v[ 'name' ] ) ) {
+                    $arr_custom_name[ $k ] = $v[ 'name' ];
+                }
+            }
+        }
+        //print_r( $allow_post_type );
 
         foreach ( $allow_post_type as $allow ) {
             // các kiểu điều kiện where
@@ -968,7 +1005,13 @@ class Post extends EB_Model {
             if ( empty( $page_list ) ) {
                 continue;
             }
-            $arr_result[] = '<option class="bold" disabled>' . PostType::list( $allow ) . '</option>';
+
+            //
+            if ( isset( $arr_custom_name[ $allow ] ) ) {
+                $arr_result[] = '<option class="bold" disabled>' . $arr_custom_name[ $allow ] . '</option>';
+            } else {
+                $arr_result[] = '<option class="bold" disabled>' . PostType::list( $allow ) . '</option>';
+            }
 
             //
             foreach ( $page_list as $post_key => $post_val ) {

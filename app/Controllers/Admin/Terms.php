@@ -29,7 +29,7 @@ class Terms extends Admin {
             // lọc term dựa theo taxonomy
             $this->default_taxonomy = TaxonomyType::POSTS;
             $this->taxonomy = $this->MY_get( 'taxonomy', $this->default_taxonomy );
-            $this->name_type = TaxonomyType::list($this->taxonomy, true);
+            $this->name_type = TaxonomyType::list( $this->taxonomy, true );
 
             // báo lỗi nếu không xác định được taxonomy
             if ( $this->taxonomy == '' || TaxonomyType::list( $this->taxonomy ) == '' ) {
@@ -64,7 +64,7 @@ class Terms extends Admin {
         }
 
         //
-        $by_is_deleted = $this->MY_get( 'is_deleted', DeletedStatus::DEFAULT );
+        $by_is_deleted = $this->MY_get( 'is_deleted', DeletedStatus::FOR_DEFAULT );
 
         //
         $data = $this->term_model->get_all_taxonomy( $this->taxonomy, 0, [
@@ -238,7 +238,11 @@ class Terms extends Admin {
     }
 
     public function restore() {
-        return $this->before_delete_restore( DeletedStatus::DEFAULT );
+        return $this->before_delete_restore( DeletedStatus::FOR_DEFAULT );
+    }
+
+    public function term_status() {
+        $this->base_model->alert( 'Warning! tính năng chờ cập nhật...', 'warning' );
     }
 
 }

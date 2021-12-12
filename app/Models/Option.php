@@ -37,7 +37,7 @@ class Option extends EB_Model {
     public function get_lang() {
         $data = $this->base_model->select( 'option_name, option_value', $this->table, array(
             // các kiểu điều kiện where
-            'is_deleted' => DeletedStatus::DEFAULT,
+            'is_deleted' => DeletedStatus::FOR_DEFAULT,
             'option_type' => ConfigType::TRANS,
             'lang_key' => LanguageCost::lang_key(),
         ), array(
@@ -87,7 +87,7 @@ class Option extends EB_Model {
         //print_r( $arr_in_option_type );
         $sql = $this->base_model->select( '*', $this->table, array(
             // các kiểu điều kiện where
-            'is_deleted' => DeletedStatus::DEFAULT,
+            'is_deleted' => DeletedStatus::FOR_DEFAULT,
             //'option_type' => ConfigType::CONFIG,
             'lang_key' => $lang_key,
         ), array(

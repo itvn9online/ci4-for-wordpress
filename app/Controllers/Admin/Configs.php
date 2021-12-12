@@ -41,7 +41,7 @@ class Configs extends Admin {
         // select dữ liệu từ 1 bảng bất kỳ
         $sql = $this->base_model->select( '*', $this->option_model->table, array(
             // các kiểu điều kiện where
-            'is_deleted' => DeletedStatus::DEFAULT,
+            'is_deleted' => DeletedStatus::FOR_DEFAULT,
             'option_type' => $this->config_type,
             'lang_key' => $this->lang_key
         ), array(

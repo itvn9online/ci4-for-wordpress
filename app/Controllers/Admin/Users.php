@@ -25,7 +25,7 @@ class Users extends Admin {
         $post_per_page = 50;
 
         //
-        $by_is_deleted = $this->MY_get( 'is_deleted', DeletedStatus::DEFAULT );
+        $by_is_deleted = $this->MY_get( 'is_deleted', DeletedStatus::FOR_DEFAULT );
 
         // các kiểu điều kiện where
         $where = [
@@ -299,7 +299,7 @@ class Users extends Admin {
     }
 
     public function restore() {
-        return $this->before_delete_restore( 'Không thể tự phục hồi chính bạn!', DeletedStatus::DEFAULT );
+        return $this->before_delete_restore( 'Không thể tự phục hồi chính bạn!', DeletedStatus::FOR_DEFAULT );
     }
 
 }

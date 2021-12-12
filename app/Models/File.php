@@ -118,7 +118,7 @@ class File {
     }
 
     // WGR_ftp_copy
-    public function FTP_copy( $source, $path ) {
+    public function FTP_copy( $source, $path, $file_permission = 0777 ) {
         $check_dir = $this->root_dir();;
         if ( $check_dir !== true ) {
             echo $check_dir . '<br>' . "\n";
@@ -153,8 +153,13 @@ class File {
         //die( $file_for_ftp );
 
         // copy qua FTP_BINARY thì mới copy ảnh chuẩn được
-        if ( ftp_put( $conn_id, $file_for_ftp, $source, FTP_BINARY )or die( 'ERROR copy file via FTP #' . $path ) ) {
+        if ( ftp_put( $conn_id, $file_for_ftp, $source, FTP_BINARY ) ) {
+            if ( $file_permission > 0 ) {
+                ftp_chmod( $conn_id, $file_permission, $file_for_ftp );
+            }
             return true;
+        } else {
+            echo 'ERROR copy file via FTP #' . $path . ' <br>' . "\n";
         }
 
         //

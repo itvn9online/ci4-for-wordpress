@@ -158,6 +158,7 @@ class Sync extends Controller {
             'lang_key',
             'is_deleted',
             'lang_parent',
+            'term_status',
         ];
         //die( __FILE__ . ':' . __LINE__ );
 
@@ -180,6 +181,7 @@ class Sync extends Controller {
                 'last_updated' => 'DATETIME NOT NULL',
                 'is_deleted' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'0 = hiển thị, 1 = xóa\'',
                 'term_order' => 'INT(10) NOT NULL DEFAULT \'0\' COMMENT \'Sắp xếp vị trí hiển thị, số càng to thì độ ưu tiên càng cao\'',
+                'term_status' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'Trạng thái hiển thị của 1 term. 0 = hiển thị, 1 = ẩn\'',
             ],
             'wp_options' => [
                 'option_type' => 'VARCHAR(55) NULL DEFAULT NULL COMMENT \'Phân loại option dành cho nhiều việc khác nhau\'',

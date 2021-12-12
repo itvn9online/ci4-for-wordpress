@@ -32,7 +32,7 @@ class Blogs extends Posts {
         $data = $this->term_model->get_taxonomy( array(
             // các kiểu điều kiện where
             'slug' => $slug,
-            'is_deleted' => DeletedStatus::DEFAULT,
+            'is_deleted' => DeletedStatus::FOR_DEFAULT,
             'lang_key' => $this->lang_key,
             'taxonomy' => TaxonomyType::BLOGS,
         ) );

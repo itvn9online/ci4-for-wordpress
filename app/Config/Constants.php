@@ -119,6 +119,30 @@ define( 'PUBLIC_PUBLIC_PATH', PUBLIC_HTML_PATH . 'public/' );
 
 
 /*
+ * Danh sách các custom taxonomy mà người dùng đăng ký sẽ được khai báo thêm ở đây
+ */
+$arr_custom_taxonomy = [];
+
+function register_taxonomy( $name, $ops = [] ) {
+    global $arr_custom_taxonomy;
+
+    $arr_custom_taxonomy[ $name ] = $ops;
+}
+
+
+/*
+ * Danh sách các custom post type mà người dùng đăng ký sẽ được khai báo thêm ở đây
+ */
+$arr_custom_post_type = [];
+
+function register_post_type( $name, $ops = [] ) {
+    global $arr_custom_post_type;
+
+    $arr_custom_post_type[ $name ] = $ops;
+}
+
+
+/*
  * Thư mục chứa theme hiển thị cho website (tùy theo yêu cầu của khách hàng mà thiết lập giao diện khác nhau)
  */
 // xác định theme tự động
@@ -141,6 +165,12 @@ if ( !defined( 'THEMENAME' ) ) {
 //
 define( 'THEMEPATH', PUBLIC_PUBLIC_PATH . 'themes/' . THEMENAME . '/' );
 //die( THEMEPATH );
+
+//
+if ( file_exists( THEMEPATH . 'functions.php' ) ) {
+    include THEMEPATH . 'functions.php';
+}
+
 
 /*
  * Tài khoản FTP -> dùng để điều khiển file trong trường hợp bị lỗi permission

@@ -4,7 +4,7 @@ namespace App\ Libraries;
 
 class DeletedStatus {
 
-    const DEFAULT = '0';
+    const FOR_DEFAULT = '0';
     const DELETED = '1';
 
 }

@@ -37,7 +37,7 @@ class Term extends EB_Model {
         $where = [
             // các kiểu điều kiện where
             'lang_key' => $ops[ 'lang_key' ],
-            'is_deleted' => DeletedStatus::DEFAULT,
+            'is_deleted' => DeletedStatus::FOR_DEFAULT,
             'taxonomy' => $taxonomy
         ];
         if ( $slug != '' ) {
@@ -347,7 +347,7 @@ class Term extends EB_Model {
             if ( isset( $ops[ 'by_is_deleted' ] ) ) {
                 $where[ 'is_deleted' ] = $ops[ 'by_is_deleted' ];
             } else {
-                $where[ 'is_deleted' ] = DeletedStatus::DEFAULT;
+                $where[ 'is_deleted' ] = DeletedStatus::FOR_DEFAULT;
             }
 
             // tìm kiếm
@@ -581,7 +581,7 @@ class Term extends EB_Model {
         } else if ( in_array( $data[ 'taxonomy' ], $allow_taxonomy ) ) {
             return DYNAMIC_BASE_URL . $data[ 'taxonomy' ] . '/' . $data[ 'slug' ];
         }
-        return DYNAMIC_BASE_URL . '?taxonomy=' . $data[ 'taxonomy' ] . '&cat=' . $data[ 'term_id' ] . '&slug=' . $data[ 'slug' ];
+        return DYNAMIC_BASE_URL . '?cat=' . $data[ 'term_id' ] . '&taxonomy=' . $data[ 'taxonomy' ] . '&slug=' . $data[ 'slug' ];
     }
     // thường dùng trong view -> in ra link admin của 1 term
     function the_permalink( $data ) {
@@ -615,7 +615,7 @@ class Term extends EB_Model {
             <td>&nbsp;</td>
             <td>%lang_key%</td>
             <td>%count%</td>
-            <td>%action_link%</td>
+            <td class="text-center">%action_link%</td>
         </tr>';
 
         //
@@ -633,9 +633,12 @@ class Term extends EB_Model {
             $node = $tmp;
 
             //
-            $action_link = '<a href="admin/' . $controller_slug . '/delete?taxonomy=%taxonomy%&id=%term_id%' . $for_redirect . '" onClick="return click_a_delete_record();" target="target_eb_iframe" class="redcolor"><i class="fa fa-trash"></i></a>';
             if ( $v[ 'is_deleted' ] == DeletedStatus::DELETED ) {
                 $action_link = '<a href="admin/' . $controller_slug . '/restore?taxonomy=%taxonomy%&id=%term_id%' . $for_redirect . '" onClick="return click_a_restore_record();" target="target_eb_iframe" class="bluecolor"><i class="fa fa-undo"></i></a>';
+            } else {
+                $action_link = '<a href="admin/' . $controller_slug . '/term_status?taxonomy=%taxonomy%&id=%term_id%&current_status=%term_status%' . $for_redirect . '" target="target_eb_iframe" data-status="%term_status%" class="record-status-color"><i class="fa fa-eye"></i></a> &nbsp; ';
+
+                $action_link .= '<a href="admin/' . $controller_slug . '/delete?taxonomy=%taxonomy%&id=%term_id%' . $for_redirect . '" onClick="return click_a_delete_record();" target="target_eb_iframe" class="redcolor"><i class="fa fa-trash"></i></a>';
             }
             $node = str_replace( '%action_link%', $action_link, $node );
 

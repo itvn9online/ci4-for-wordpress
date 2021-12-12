@@ -216,7 +216,7 @@ class User extends EB_Model {
             // mặc định
             $col => $email,
             // kiểm tra email đã được sử dụng rồi hay chưa thì không cần kiểm tra trạng thái XÓA -> vì có thể user này đã bị xóa vĩnh viễn
-            //'is_deleted' => DeletedStatus::DEFAULT,
+            //'is_deleted' => DeletedStatus::FOR_DEFAULT,
         ), array(
             // hiển thị mã SQL để check
             //'show_query' => 1,
