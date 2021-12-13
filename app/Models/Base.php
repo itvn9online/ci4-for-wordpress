@@ -34,6 +34,16 @@ class Base {
         return false;
     }
 
+    // update giá trị cho 1 cột nào đó lên 1 đơn vị. Ví dụ: update lượt xem
+    function update_count( $table, $col, $where_array, $ops = [] ) {
+        $builder = $this->db->table( $table );
+        $builder->set( $col, $col . '+1', false );
+        foreach ( $where_array as $key => $value ) {
+            $builder->where( $key, $value );
+        }
+        $builder->update();
+    }
+
     function update_multiple( $table, $data, $where_array, $ops = [] ) {
         if ( empty( $where_array ) ) {
             if ( isset( $ops[ 'debug_backtrace' ] ) ) {
@@ -67,6 +77,19 @@ class Base {
             die( __FUNCTION__ . ' data update empty ' . $table . ':line:' . __LINE__ );
         }
         $builder->update( $data );
+
+        // in luôn ra query để test
+        /*
+        if ( isset( $op[ 'show_query' ] ) ) {
+            print_r( $this->db->getLastQuery()->getQuery() );
+            echo '<br>' . "\n";
+        }
+
+        // trả về query để sử dụng cho mục đích khác
+        if ( isset( $op[ 'get_query' ] ) ) {
+            return $this->db->getLastQuery()->getQuery();
+        }
+        */
 
         if ( $this->db->affectedRows() > 0 ) {
             return true;
@@ -709,7 +732,7 @@ class Base {
         return $seo;
     }
 
-    // cắt chuối ngắn lại (phải làm phức tạp chút vì cắt tiếng Việt có dấu sẽ bị lỗi nếu cắt đúng chỗ có dấu)
+    // cắt chuỗi ngắn lại (phải làm phức tạp chút vì cắt tiếng Việt có dấu sẽ bị lỗi nếu cắt đúng chỗ có dấu)
     function short_string( $str, $len, $add_more = true ) {
         // sử dụng function mặc định xem như nào, nếu sau lỗi thì bỏ
         return mb_strimwidth( $str, 0, $len, $add_more == true ? '...' : '', 'utf-8' );

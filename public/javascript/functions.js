@@ -143,3 +143,27 @@ function WGR_show_or_hide_to_top() {
         jQuery('body').removeClass('ebfixed-top-menu').removeClass('ebshow-top-scroll');
     }
 }
+
+
+// set prop cho select
+function WGR_set_prop_for_select(for_id) {
+    $(for_id).each(function () {
+        var a = $(this).attr('data-select') || '';
+
+        // nếu có tham số này
+        if (a != '' && !$(this).hasClass('set-selected')) {
+            // select luôn dữ liệu tương ứng -> cắt theo dấu , -> vì có 1 số dữ liệu sẽ là multi select
+            a = a.split(',');
+
+            // select cho option đầu tiên
+            $(this).val(a[0]).addClass('set-selected');
+
+            // các option sau select kiểu prop
+            if (a.length > 1) {
+                for (var i = 0; i < a.length; i++) {
+                    $('option[value="' + a[i] + '"]', this).prop('selected', true);
+                }
+            }
+        }
+    });
+}

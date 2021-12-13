@@ -1,4 +1,7 @@
 //
+//WGR_set_prop_for_select('#content select');
+
+//
 $('.click-mobile-nav').click(function () {
     $('body').toggleClass('mobile-nav-active');
 });

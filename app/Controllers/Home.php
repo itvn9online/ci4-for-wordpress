@@ -6,6 +6,7 @@ namespace App\ Controllers;
 use App\ Libraries\ DeletedStatus;
 use App\ Libraries\ TaxonomyType;
 use App\ Libraries\ PostType;
+use App\ Libraries\ LanguageCost;
 
 //
 class Home extends Layout {
@@ -19,8 +20,12 @@ class Home extends Layout {
      */
     public function index() {
         // dẫn tới trang post mặc định
-        if ( isset( $_GET[ 'p' ] ) ) {
+        if ( isset( $_GET[ 'p' ], $_GET[ 'post_type' ] ) ) {
             return $this->autoDetails();
+        }
+        //
+        else if ( isset( $_GET[ 'cat' ], $_GET[ 'taxonomy' ] ) ) {
+            return $this->autoCategory();
         }
         // dẫn tới trang chủ
         return $this->portal();
@@ -204,9 +209,39 @@ class Home extends Layout {
             return $this->show_cache( $cache_value );
         }
 
+        // update lượt xem
+        $this->post_model->update_views( $data[ $this->post_model->primaryKey ] );
+
         //
         $data[ 'post_content' ] = $this->replace_content( $data[ 'post_content' ] );
         //print_r( $data );
+
+        // lấy thông tin danh mục để tạo breadcrumb
+        $cats = [];
+        if ( isset( $data[ 'post_meta' ][ 'post_category' ] ) ) {
+            $post_category = explode( ',', $data[ 'post_meta' ][ 'post_category' ] );
+            $post_category = $post_category[ 0 ];
+
+            //
+            if ( $post_category > 0 ) {
+                $cats = $this->base_model->select( '*', 'v_terms', [
+                    'term_id' => $post_category,
+                ], [
+                    // hiển thị mã SQL để check
+                    //'show_query' => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    //'get_query' => 1,
+                    //'offset' => 0,
+                    'limit' => 1
+                ] );
+                //print_r( $cats );
+
+                //
+                if ( !empty( $cats ) ) {
+                    $this->create_term_breadcrumb( $cats );
+                }
+            }
+        }
 
         // page view mặc định
         $page_template = '';
@@ -261,6 +296,64 @@ class Home extends Layout {
 
         //
         return $cache_value;
+    }
+
+    protected function autoCategory() {
+        $term_id = $this->MY_get( 'cat' );
+        //echo $term_id . '<br>' . "\n";
+
+        //
+        $taxonomy_type = $this->MY_get( 'taxonomy' );
+        //echo $taxonomy_type . '<br>' . "\n";
+
+        //
+        $page_num = $this->MY_get( 'page_num', 1 );
+        //echo $page_num . '<br>' . "\n";
+
+        //
+        $data = $this->term_model->get_taxonomy( array(
+            // các kiểu điều kiện where
+            'term_id' => $term_id,
+            'is_deleted' => DeletedStatus::FOR_DEFAULT,
+            'lang_key' => $this->lang_key,
+            'taxonomy' => $taxonomy_type
+        ) );
+        //print_r( $data );
+
+        // có -> ưu tiên category
+        if ( !empty( $data ) ) {
+            // xác định post type dựa theo taxonomy type
+            $get_post_type = $this->base_model->select( 'post_type', 'wp_posts', [
+                'wp_posts.post_status' => PostType::PUBLIC,
+                'wp_term_taxonomy.term_id' => $data[ 'term_id' ],
+                'wp_posts.lang_key' => LanguageCost::lang_key()
+            ], [
+                'join' => [
+                    'wp_term_relationships' => 'wp_term_relationships.object_id = wp_posts.ID',
+                    'wp_term_taxonomy' => 'wp_term_relationships.term_taxonomy_id = wp_term_taxonomy.term_taxonomy_id',
+                ],
+                'order_by' => [
+                    'wp_posts.ID' => 'DESC',
+                ],
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                //'offset' => 0,
+                'limit' => 1
+            ] );
+            //print_r( $get_post_type );
+
+            // tìm được post tương ứng thì mới show category ra
+            if ( !empty( $get_post_type ) ) {
+                return $this->category( $data, $get_post_type[ 'post_type' ], $taxonomy_type, 'term_view', [
+                    'page_num' => $page_num,
+                ] );
+            }
+        }
+
+        //
+        return $this->page404();
     }
 
     /*

@@ -37,25 +37,7 @@ if ($('.admin-breadcrumb').length > 0) {
 }
 
 // tự động select khi có dữ liệu
-$('#content select').each(function () {
-    var a = $(this).attr('data-select') || '';
-
-    // nếu có tham số này
-    if (a != '') {
-        // select luôn dữ liệu tương ứng -> cắt theo dấu , -> vì có 1 số dữ liệu sẽ là multi select
-        a = a.split(',');
-
-        // select cho option đầu tiên
-        $(this).val(a[0]);
-
-        // các option sau select kiểu prop
-        if (a.length > 1) {
-            for (var i = 0; i < a.length; i++) {
-                $('option[value="' + a[i] + '"]', this).prop('selected', true);
-            }
-        }
-    }
-});
+WGR_set_prop_for_select('#content select');
 
 // tự động checkbox khi có dữ liệu
 $('#content input[type="checkbox"]').each(function () {

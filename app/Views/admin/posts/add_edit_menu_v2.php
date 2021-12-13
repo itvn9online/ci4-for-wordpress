@@ -2,7 +2,7 @@
 
 //
 //$base_model = new\ App\ Models\ Base();
-$post_model = new\ App\ Models\ Post();
+$post_model = new\ App\ Models\ PostAdmin();
 
 ?>
 <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"> -->

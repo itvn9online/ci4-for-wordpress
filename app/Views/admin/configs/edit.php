@@ -101,7 +101,7 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
 
                         //
                         ?>
-                    <input type="<?php echo $input_type; ?>" class="<?php echo $span10; ?>" placeholder="<?php echo $v; ?>" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>" value="<?php echo $data[$k]; ?>" />
+                    <input type="<?php echo $input_type; ?>" class="<?php echo $span10; ?>" placeholder="<?php echo $v; ?>" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>" value="<?php echo htmlentities( $data[$k], ENT_QUOTES, 'UTF-8' ); ?>" />
                     <?php
                     }
 

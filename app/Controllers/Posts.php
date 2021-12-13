@@ -41,6 +41,9 @@ class Posts extends Layout {
             return $this->page404();
         }
 
+        // update lượt xem
+        $this->post_model->update_views( $data[ $this->post_model->primaryKey ] );
+
         //
         $data[ 'post_content' ] = $this->replace_content( $data[ 'post_content' ] );
         //print_r( $data );
@@ -56,7 +59,9 @@ class Posts extends Layout {
                 $cats = $this->term_model->get_all_taxonomy( $taxonomy, $post_category );
                 //print_r( $cats );
 
-                $this->create_term_breadcrumb( $cats );
+                if ( !empty( $cats ) ) {
+                    $this->create_term_breadcrumb( $cats );
+                }
             }
         }
         //print_r( $this->taxonomy_slider );

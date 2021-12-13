@@ -154,7 +154,7 @@ Sitemap: ' . DYNAMIC_BASE_URL . 'sitemap';
         //die( __FILE__ . ':' . __LINE__ );
 
         //
-        $this->base_model->alert( 'Cập nhật menu thành công #' . $option_type );
+        $this->base_model->alert( 'Cập nhật dữ liệu thành công #' . $option_type );
     }
 
     private function test_mail() {
