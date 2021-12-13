@@ -2,7 +2,7 @@
 
 namespace App\ Models;
 
-class Lang extends EB_Model {
+class Lang extends EbModel {
     public $list = NULL;
 
     public function __construct() {

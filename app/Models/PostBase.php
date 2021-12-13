@@ -9,7 +9,7 @@ use App\ Libraries\ PostType;
 //use App\ Libraries\ DeletedStatus;
 
 //
-class PostBase extends EB_Model {
+class PostBase extends EbModel {
     public $table = 'wp_posts';
     public $primaryKey = 'ID';
 

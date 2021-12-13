@@ -7,8 +7,8 @@ namespace App\ Models;
 
 //use CodeIgniter\ Model;
 
-//class EB_Model extends Model {
-class EB_Model {
+//class EbModel extends Model {
+class EbModel {
     protected $table = '';
     protected $primaryKey = 'ID';
 

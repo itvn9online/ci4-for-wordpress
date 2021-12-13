@@ -8,7 +8,7 @@ use App\ Libraries\ ConfigType;
 use App\ Libraries\ DeletedStatus;
 
 //
-class Option extends EB_Model {
+class Option extends EbModel {
     public $table = 'wp_options';
     public $primaryKey = 'option_id';
 

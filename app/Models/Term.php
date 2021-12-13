@@ -8,18 +8,18 @@ use App\ Libraries\ DeletedStatus;
 use App\ Libraries\ TaxonomyType;
 
 //
-class Term extends EB_Model {
-    protected $table = 'wp_terms';
-    protected $primaryKey = 'term_id';
+class Term extends EbModel {
+    public $table = 'wp_terms';
+    public $primaryKey = 'term_id';
 
-    protected $metaTable = 'wp_termmeta';
-    protected $metaKey = 'meta_id';
+    public $metaTable = 'wp_termmeta';
+    public $metaKey = 'meta_id';
 
-    protected $taxTable = 'wp_term_taxonomy';
-    protected $taxKey = 'term_taxonomy_id';
+    public $taxTable = 'wp_term_taxonomy';
+    public $taxKey = 'term_taxonomy_id';
 
-    protected $relaTable = 'wp_term_relationships';
-    protected $relaKey = 'object_id';
+    public $relaTable = 'wp_term_relationships';
+    public $relaKey = 'object_id';
 
     //protected $primaryTaxonomy = 'category';
 

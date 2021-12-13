@@ -9,7 +9,7 @@ namespace App\ Models;
 //use App\ Libraries\ DeletedStatus;
 
 //
-class Post extends PostBlog {
+class Post extends PostPosts {
     public function __construct() {
         parent::__construct();
     }

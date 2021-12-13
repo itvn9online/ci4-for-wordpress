@@ -7,12 +7,12 @@ use App\ Libraries\ MenuType;
 use App\ Libraries\ LanguageCost;
 use App\ Libraries\ PostType;
 
-class Menu extends EB_Model {
-    protected $table = 'wp_posts';
-    protected $primaryKey = 'ID';
+class Menu extends Post {
+    //protected $table = 'wp_posts';
+    //protected $primaryKey = 'ID';
 
-    protected $createdField = 'post_date';
-    protected $updatedField = 'post_modified';
+    //protected $createdField = 'post_date';
+    //protected $updatedField = 'post_modified';
 
     public function __construct() {
         parent::__construct();

@@ -6,12 +6,12 @@ namespace App\ Models;
 use App\ Libraries\ DeletedStatus;
 
 //
-class User extends EB_Model {
+class User extends EbModel {
     public $table = 'wp_users';
-    protected $primaryKey = 'ID';
+    public $primaryKey = 'ID';
 
-    protected $metaTable = 'wp_usermeta';
-    protected $metaKey = 'umeta_id';
+    public $metaTable = 'wp_usermeta';
+    public $metaKey = 'umeta_id';
 
     public function __construct() {
         parent::__construct();

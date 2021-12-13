@@ -6,8 +6,7 @@
  */
 namespace App\ Models;
 
-//class File extends EB_Model {
-class File {
+class File extends EbModel {
     // vẫn phải khai báo bảng để kết nối vào DB, không thì nó sẽ báo lỗi
     //public $table = 'wp_posts';
     //public $primaryKey = 'ID';

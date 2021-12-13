@@ -6,7 +6,7 @@ namespace App\ Models;
 use App\ Libraries\ PostType;
 
 //
-class Upload extends EB_Model {
+class Upload extends Post {
     public function __construct() {
         parent::__construct();
     }

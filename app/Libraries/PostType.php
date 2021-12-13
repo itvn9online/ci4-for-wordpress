@@ -10,6 +10,7 @@ class PostType {
     const BLOG = 'blog';
     const PAGE = 'page';
     const MENU = 'nav_menu';
+
     // định dạng media từ codeigniter
     const MEDIA = 'file_upload';
     const MEDIA_URI = 'upload/';
@@ -58,15 +59,25 @@ class PostType {
     // trả về các meta mặc định dựa theo từng post_type
     public static function meta_default( $post_type ) {
         $arr = [
-            'post_category' => 'Danh mục',
             'image' => 'Ảnh đại diện',
         ];
+
+        //
+        if ( $post_type == self::POST ||
+            //
+            $post_type == self::ADS ||
+            //
+            $post_type == self::BLOG ) {
+            $arr[ 'post_category' ] = 'Danh mục';
+        }
 
         //
         if ( $post_type == self::ADS ) {
             $arr[ 'url_video' ] = 'URL video';
             $arr[ 'url_redirect' ] = 'Đường dẫn';
-        } else if ( $post_type == self::PAGE ) {
+        }
+        //
+        else if ( $post_type == self::PAGE ) {
             //$arr[ 'second_content' ] = 'Nội dung phụ';
             $arr[ 'post_auto_slider' ] = 'Slider';
             $arr[ 'page_template' ] = 'Giao diện';

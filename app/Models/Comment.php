@@ -2,12 +2,12 @@
 
 namespace App\ Models;
 
-class Comment extends EB_Model {
+class Comment extends EbModel {
     public $table = 'wp_comments';
-    protected $primaryKey = 'comment_ID';
+    public $primaryKey = 'comment_ID';
 
     public $metaTable = 'wp_commentmeta';
-    protected $metaKey = 'meta_id';
+    public $metaKey = 'meta_id';
 
 	public function __construct() {
 		parent::__construct();

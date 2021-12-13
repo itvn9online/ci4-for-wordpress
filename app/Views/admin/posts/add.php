@@ -174,8 +174,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 
                     // với 1 số post type có đặc thù riêng -> ví dụ danh mục
                     if ( $k == 'post_category' ) {
-                        if ( $post_type != PostType::MENU ) {
-                            ?>
+                        ?>
                     <select data-select="<?php echo $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" aria-required="true" required>
                         <option value="">[ Chọn <?php echo $v; ?> ]</option>
                         <?php
@@ -190,14 +189,15 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                     &nbsp; <a href="admin/terms/add?taxonomy=<?php echo $taxonomy; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm danh mục mới</a>
                     <?php
                     }
-                    }
                     // mặc định thì hiển thị bình thường
                     else {
                         if ( $input_type == 'textarea' ) {
                             ?>
                     <textarea style="width:80%;" placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" class="<?php echo PostType::meta_class($k); ?>"><?php echo $post_model->echo_meta_post($data, $k); ?></textarea>
                     <?php
-                    } else if ( $input_type == 'select' ) {
+                    }
+                    //
+                    else if ( $input_type == 'select' ) {
                         // lấy danh sách page template cho page
                         if ( $post_type == PostType::PAGE && $k = 'page_template' ) {
                             $arr_page_template = $base_model->EBE_get_file_in_folder( THEMEPATH . 'page-templates/', '.{php}', 'file' );
@@ -228,7 +228,9 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                         ?>
                     </select>
                     <?php
-                    } else {
+                    }
+                    //
+                    else {
                         ?>
                     <input type="text" class="span10" placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" value="<?php
                             if ( $k == 'image' ) {
