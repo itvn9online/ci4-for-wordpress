@@ -32,7 +32,7 @@ class Menu extends Post {
             'lang_key' => $lang
         ), array(
             'order_by' => array(
-                $this->primaryKey => 'DESC'
+                'ID' => 'DESC'
             ),
             // hiển thị mã SQL để check
             //'show_query' => 1,
@@ -66,7 +66,7 @@ class Menu extends Post {
                         'lang_key' => LanguageCost::default_lang()
                     ), array(
                         'order_by' => array(
-                            $this->primaryKey => 'DESC'
+                            'ID' => 'DESC'
                         ),
                         // hiển thị mã SQL để check
                         //'show_query' => 1,

@@ -210,7 +210,7 @@ class Home extends Layout {
         }
 
         // update lượt xem -> daidq (2021-12-14): chuyển phần update này qua view, ai thích dùng thì kích hoạt cho nó nhẹ
-        //$this->post_model->update_views( $data[ $this->post_model->primaryKey ] );
+        //$this->post_model->update_views( $data[ 'ID' ] );
 
         //
         $data[ 'post_content' ] = $this->replace_content( $data[ 'post_content' ] );

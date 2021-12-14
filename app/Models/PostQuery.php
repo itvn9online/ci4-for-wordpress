@@ -89,7 +89,7 @@ class PostQuery extends PostMeta {
         }
 
         //
-        $where[ $this->primaryKey ] = $post_id;
+        $where[ 'ID' ] = $post_id;
         //print_r( $data );
         //print_r( $where );
 
@@ -154,7 +154,7 @@ class PostQuery extends PostMeta {
 
     function select_post( $post_id, $where = [] ) {
         if ( $post_id > 0 ) {
-            $where[ $this->primaryKey ] = $post_id;
+            $where[ 'ID' ] = $post_id;
         }
         if ( empty( $where ) ) {
             return [];
@@ -172,7 +172,7 @@ class PostQuery extends PostMeta {
 
         // lấy meta của post này
         if ( !empty( $data ) ) {
-            $data[ 'post_meta' ] = $this->arr_meta_post( $data[ $this->primaryKey ] );
+            $data[ 'post_meta' ] = $this->arr_meta_post( $data[ 'ID' ] );
         }
         //print_r( $data );
 
@@ -203,7 +203,7 @@ class PostQuery extends PostMeta {
         if ( empty( $order_by ) ) {
             $order_by = [
                 'menu_order' => 'DESC',
-                $this->primaryKey => 'DESC',
+                'ID' => 'DESC',
             ];
         }
 

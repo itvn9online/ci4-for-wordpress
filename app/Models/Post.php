@@ -24,7 +24,7 @@ class Post extends PostPosts {
         //
         $this->base_model->update_count( $this->table, 'post_viewed', array(
             // WHERE
-            $this->primaryKey => $id,
+            'ID' => $id,
         ), [
             // hiển thị mã SQL để check
             //'show_query' => 1,

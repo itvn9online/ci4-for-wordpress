@@ -26,7 +26,7 @@ class PostSlider extends PostGet {
         if ( isset( $data[ 'post_meta' ][ 'post_auto_slider' ] ) && $data[ 'post_meta' ][ 'post_auto_slider' ] == 'on' ) {
             //echo 'post_auto_slider';
             //print_r( $data );
-            return $this->get_the_ads( $data[ 'post_name' ] . '-' . $data[ 'post_type' ] . '-' . $data[ $this->primaryKey ], 0, [
+            return $this->get_the_ads( $data[ 'post_name' ] . '-' . $data[ 'post_type' ] . '-' . $data[ 'ID' ], 0, [
                 'add_class' => 'taxonomy-auto-slider'
             ] );
         } else {

@@ -47,7 +47,7 @@ class Option extends EbModel {
             ),
             */
             'order_by' => array(
-                $this->primaryKey => 'DESC',
+                'option_id' => 'DESC',
             ),
             // hiển thị mã SQL để check
             //'show_query' => 1,
@@ -95,7 +95,7 @@ class Option extends EbModel {
                 'option_type' => $arr_in_option_type
             ),
             'order_by' => array(
-                $this->primaryKey => 'DESC',
+                'option_id' => 'DESC',
             ),
             // hiển thị mã SQL để check
             //'show_query' => 1,
@@ -119,10 +119,10 @@ class Option extends EbModel {
 
                     //
                     $data_insert = $v;
-                    $data_insert[ $this->primaryKey ] = 0;
-                    unset( $data_insert[ $this->primaryKey ] );
+                    $data_insert[ 'option_id' ] = 0;
+                    unset( $data_insert[ 'option_id' ] );
                     $data_insert[ 'lang_key' ] = $lang_key;
-                    $data_insert[ 'lang_parent' ] = $v[ $this->primaryKey ];
+                    $data_insert[ 'lang_parent' ] = $v[ 'option_id' ];
                     //print_r( $data_insert );
 
                     //

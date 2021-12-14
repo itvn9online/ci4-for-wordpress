@@ -166,7 +166,7 @@ class Term extends EbModel {
         if ( $result_id > 0 ) {
             $this->base_model->insert( $this->taxTable, [
                 $this->taxKey => $result_id,
-                $this->primaryKey => $result_id,
+                'term_id' => $result_id,
                 'taxonomy' => $taxonomy,
                 'description' => 'Auto create nav menu taxonomy',
             ] );
@@ -193,7 +193,7 @@ class Term extends EbModel {
 
                 // kiểm tra lại slug trước khi update
                 $check_term_exist = $this->get_taxonomy( [
-                    $this->primaryKey . ' !=' => $term_id,
+                    'term_id !=' => $term_id,
                     'slug' => $data[ 'slug' ],
                     'taxonomy' => $taxonomy,
                 ] );
@@ -215,7 +215,7 @@ class Term extends EbModel {
 
         //
         $where = [
-            $this->primaryKey => $term_id,
+            'term_id' => $term_id,
         ];
         //print_r( $where );
 
@@ -227,7 +227,7 @@ class Term extends EbModel {
         // nếu có taxonomy -> update luôn cho bảng term_taxonomy
         if ( $taxonomy != '' ) {
             $where = [
-                $this->primaryKey => $term_id,
+                'term_id' => $term_id,
                 'taxonomy' => $taxonomy,
             ];
             //print_r( $where );
@@ -245,13 +245,13 @@ class Term extends EbModel {
 
     // phiên bản xóa xong thêm -> không tối ứu
     function insert_v2_meta_term( $meta_data, $term_id ) {
-        $this->base_model->delete( $this->metaTable, $this->primaryKey, $term_id );
+        $this->base_model->delete( $this->metaTable, 'term_id', $term_id );
 
         // add lại
         foreach ( $meta_data as $k => $v ) {
             if ( $v != '' ) {
                 $this->base_model->insert( $this->metaTable, [
-                    $this->primaryKey => $term_id,
+                    'term_id' => $term_id,
                     'meta_key' => $k,
                     'meta_value' => $v,
                 ] );
@@ -314,7 +314,7 @@ class Term extends EbModel {
         //print_r( $insert_meta );
         foreach ( $insert_meta as $k => $v ) {
             $this->base_model->insert( $this->metaTable, [
-                $this->primaryKey => $term_id,
+                'term_id' => $term_id,
                 'meta_key' => $k,
                 'meta_value' => $v,
             ] );
@@ -326,7 +326,7 @@ class Term extends EbModel {
             $this->base_model->update_multiple( $this->metaTable, [
                 'meta_value' => $v,
             ], [
-                $this->primaryKey => $term_id,
+                'term_id' => $term_id,
                 'meta_key' => $k,
             ] );
         }
@@ -339,7 +339,7 @@ class Term extends EbModel {
     // trả về mảng dữ liệu để json data -> auto select category bằng js cho nhẹ -> lấy quá nhiều dữ liệu dễ bị json lỗi
     function get_json_taxonomy( $taxonomy = 'category', $term_id = 0, $ops = [] ) {
         // cố định loại cột cần lấy
-        $ops[ 'select_col' ] = $this->primaryKey . ', name';
+        $ops[ 'select_col' ] = 'term_id, name';
 
         //
         return json_encode( $this->get_all_taxonomy( $taxonomy, $term_id, $ops ) );
@@ -360,7 +360,7 @@ class Term extends EbModel {
         ];
         $where_or_like = [];
         if ( $term_id > 0 ) {
-            $where[ $this->primaryKey ] = $term_id;
+            $where[ 'term_id' ] = $term_id;
             $ops[ 'limit' ] = 1;
         } else if ( isset( $ops[ 'slug' ] ) && !empty( $ops[ 'slug' ] ) ) {
             $where[ 'slug' ] = $ops[ 'slug' ];
@@ -418,7 +418,7 @@ class Term extends EbModel {
             'or_like' => $where_or_like,
             'order_by' => array(
                 'term_order' => 'DESC',
-                $this->primaryKey => 'DESC',
+                'term_id' => 'DESC',
             ),
             // hiển thị mã SQL để check
             //'show_query' => 1,
@@ -461,7 +461,7 @@ class Term extends EbModel {
     public function get_taxonomy( $where, $limit = 1, $select_col = '*' ) {
         return $this->base_model->select( $select_col, 'v_terms', $where, array(
             'order_by' => array(
-                $this->primaryKey => 'DESC'
+                'term_id' => 'DESC'
             ),
             // hiển thị mã SQL để check
             //'show_query' => 1,
@@ -475,7 +475,7 @@ class Term extends EbModel {
     function get_child_terms( $data, $ops = [] ) {
         //print_r( $data );
         foreach ( $data as $k => $v ) {
-            $ops[ 'parent' ] = $v[ $this->primaryKey ];
+            $ops[ 'parent' ] = $v[ 'term_id' ];
             //print_r( $ops );
 
             //
@@ -511,7 +511,7 @@ class Term extends EbModel {
         if ( $key != '' ) {
             $data = $this->base_model - select( '*', $this->metaTable, array(
                 // các kiểu điều kiện where
-                $this->primaryKey => $term_id,
+                'term_id' => $term_id,
                 'meta_key' => $key,
             ), array(
                 'order_by' => array(
@@ -535,7 +535,7 @@ class Term extends EbModel {
         // lấy toàn bộ meta
         return $this->base_model->select( '*', $this->metaTable, array(
             // các kiểu điều kiện where
-            $this->primaryKey => $term_id
+            'term_id' => $term_id
         ), array(
             'group_by' => array(
                 'meta_key',
@@ -568,7 +568,7 @@ class Term extends EbModel {
         //print_r( $data );
         foreach ( $data as $k => $v ) {
             //print_r( $v );
-            $data[ $k ][ 'term_meta' ] = $this->arr_meta_terms( $v[ $this->primaryKey ] );
+            $data[ $k ][ 'term_meta' ] = $this->arr_meta_terms( $v[ 'term_id' ] );
         }
         //print_r( $data );
 
@@ -676,7 +676,7 @@ class Term extends EbModel {
                     $node = str_replace( '%' . $key . '%', $val, $node );
                 }
             }
-            $node = str_replace( '%get_admin_permalink%', $this->get_admin_permalink( $v[ 'taxonomy' ], $v[ $this->primaryKey ], $controller_slug ), $node );
+            $node = str_replace( '%get_admin_permalink%', $this->get_admin_permalink( $v[ 'taxonomy' ], $v[ 'term_id' ], $controller_slug ), $node );
             $node = str_replace( '%view_url%', $this->get_the_permalink( $v ), $node );
 
             //
@@ -704,7 +704,7 @@ class Term extends EbModel {
             if ( isset( $slider[ 'term_meta' ][ 'taxonomy_auto_slider' ] ) && $slider[ 'term_meta' ][ 'taxonomy_auto_slider' ] == 'on' ) {
                 //echo 'taxonomy_auto_slider';
 
-                $slug = $slider[ 'slug' ] . '-' . $slider[ 'taxonomy' ] . '-' . $slider[ $this->primaryKey ];
+                $slug = $slider[ 'slug' ] . '-' . $slider[ 'taxonomy' ] . '-' . $slider[ 'term_id' ];
                 return $slug;
 
                 /*
@@ -747,7 +747,7 @@ class Term extends EbModel {
             // tự tạo theo term id
             else if ( is_numeric( $prams ) ) {
                 $prams = [
-                    $this->primaryKey => $prams
+                    'term_id' => $prams
                 ];
             }
             // hoặc slug
@@ -758,8 +758,8 @@ class Term extends EbModel {
             }
         }
 
-        if ( !isset( $prams[ $this->primaryKey ] ) ) {
-            $prams[ $this->primaryKey ] = isset( $ops[ $this->primaryKey ] ) ? $ops[ $this->primaryKey ] : 0;
+        if ( !isset( $prams[ 'term_id' ] ) ) {
+            $prams[ 'term_id' ] = isset( $ops[ 'term_id' ] ) ? $ops[ 'term_id' ] : 0;
         }
         if ( !isset( $prams[ 'limit' ] ) ) {
             $prams[ 'limit' ] = isset( $ops[ 'limit' ] ) ? $ops[ 'limit' ] : 0;
@@ -783,13 +783,13 @@ class Term extends EbModel {
         //print_r( $prams );
 
         //
-        return $this->get_all_taxonomy( TaxonomyType::POSTS, $prams[ $this->primaryKey ], $prams );
+        return $this->get_all_taxonomy( TaxonomyType::POSTS, $prams[ 'term_id' ], $prams );
     }
 
     // lấy chi tiết 1 term theo ID
     public function get_term_by_id( $id, $taxonomy = 'category', $get_meta = true ) {
         $data = $this->get_taxonomy( [
-            $this->primaryKey => $id,
+            'term_id' => $id,
             'taxonomy' => $taxonomy,
         ] );
 

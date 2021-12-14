@@ -98,7 +98,7 @@ class User extends UserMeta {
         }
 
         //
-        $where[ $this->primaryKey ] = $id;
+        $where[ 'ID' ] = $id;
         //print_r( $data );
         //print_r( $where );
 

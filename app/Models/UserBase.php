@@ -55,9 +55,9 @@ class UserBase extends EbModel {
     // kiểm tra user có hay chưa theo 1 thuộc tính unique
     public function check_another_user_by( $id, $key, $val ) {
         // lấy dữ liệu trong db
-        $check_exist = $this->base_model->select( $this->primaryKey, $this->table, array(
+        $check_exist = $this->base_model->select( 'ID', $this->table, array(
             // các kiểu điều kiện where
-            $this->primaryKey . ' !=' => $id,
+            'ID !=' => $id,
             $key => $val,
         ), array(
             // hiển thị mã SQL để check
@@ -70,7 +70,7 @@ class UserBase extends EbModel {
 
         //
         if ( !empty( $check_exist ) ) {
-            return $key . ' has been using by another user #' . $check_exist[ $this->primaryKey ];
+            return $key . ' has been using by another user #' . $check_exist[ 'ID' ];
         }
         //
         return true;
@@ -91,7 +91,7 @@ class UserBase extends EbModel {
         $builder->groupEnd();
 
         //
-        $builder->orderBy( $this->primaryKey, 'DESC' );
+        $builder->orderBy( 'ID', 'DESC' );
         $builder->limit( 1, 0 );
 
         $query = $builder->get();
@@ -111,7 +111,7 @@ class UserBase extends EbModel {
         }
 
         // select dữ liệu từ 1 bảng bất kỳ
-        $sql = $this->base_model->select( $this->primaryKey, $this->table, array(
+        $sql = $this->base_model->select( 'ID', $this->table, array(
             // các kiểu điều kiện where
             // mặc định
             $col => $email,

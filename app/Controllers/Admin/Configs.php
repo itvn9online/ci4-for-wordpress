@@ -46,7 +46,7 @@ class Configs extends Admin {
             'lang_key' => $this->lang_key
         ), array(
             'order_by' => array(
-                $this->option_model->primaryKey => 'DESC',
+                'option_id' => 'DESC',
             ),
             // hiển thị mã SQL để check
             //'show_query' => 1,

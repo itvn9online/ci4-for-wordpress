@@ -420,7 +420,7 @@ class Posts extends Admin {
 
         // xem bản ghi này có được đánh dấu là XÓA không
         $data = $this->base_model->select( '*', $this->post_model->table, [
-            $this->post_model->primaryKey => $id,
+            'ID' => $id,
             'post_status' => PostType::DELETED,
             'post_type' => $this->post_type,
         ], array(
