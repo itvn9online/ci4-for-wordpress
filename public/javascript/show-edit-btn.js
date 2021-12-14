@@ -8,7 +8,7 @@ $(document).ready(function () {
         var jd = $(this).attr('data-id') || '';
         //console.log(jd);
         var type = $(this).attr('data-type') || '';
-        var controller = $(this).attr('data-controller') || 'posts';
+        var controller = $(this).attr('data-control') || 'posts';
         //console.log(type);
         var insert_before = $(this).attr('insert-before') || '';
         //console.log(insert_before);

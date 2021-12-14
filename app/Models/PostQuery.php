@@ -62,7 +62,9 @@ class PostQuery extends PostMeta {
             // insert/ update meta post
             if ( !empty( $data_meta ) ) {
                 $this->insert_meta_post( $data_meta, $result_id );
-            } else if ( isset( $_POST[ 'post_meta' ] ) ) {
+            }
+            //
+            else if ( isset( $_POST[ 'post_meta' ] ) ) {
                 $this->insert_meta_post( $_POST[ 'post_meta' ], $result_id );
             }
 
@@ -141,6 +143,7 @@ class PostQuery extends PostMeta {
         ] );
 
         //
+        //print_r( $_POST );
         if ( isset( $_POST[ 'post_meta' ] ) ) {
             $this->insert_meta_post( $_POST[ 'post_meta' ], $post_id );
         }
@@ -480,7 +483,6 @@ class PostQuery extends PostMeta {
 
             // tạo html cho từng node
             $str_node = $this->base_model->tmp_to_html( $tmp_html, $v, [
-
                 'taxonomy_key' => $ops[ 'taxonomy' ],
                 'p_link' => $p_link,
             ] );

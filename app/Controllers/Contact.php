@@ -11,7 +11,7 @@ class Contact extends Home {
     public function put() {
         if ( empty( $this->MY_post( 'data' ) ) ) {
             $this->session->setFlashdata( 'msg_error', 'Phương thức đầu vào không chính xác' );
-            die( redirect()->to( DYNAMIC_BASE_URL ) );
+            return redirect()->to( DYNAMIC_BASE_URL );
         }
 
         // thực hiện validation

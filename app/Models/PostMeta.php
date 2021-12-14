@@ -28,10 +28,10 @@ class PostMeta extends PostBase {
 
     // thêm post meta
     function insert_meta_post( $meta_data, $post_id ) {
-        //print_r( $meta_data );
         if ( !is_array( $meta_data ) || empty( $meta_data ) ) {
             return false;
         }
+        //print_r( $meta_data );
 
         // lấy toàn bộ meta của post này
         $meta_exist = $this->arr_meta_post( $post_id );
@@ -45,13 +45,29 @@ class PostMeta extends PostBase {
             $this->term_model->insert_term_relationships( $post_id, $meta_data[ 'post_category' ] );
         }
 
+        // xem các meta nào không có trong lần update này -> XÓA
+        foreach ( $meta_exist as $k => $v ) {
+            if ( !isset( $meta_data[ $k ] ) ) {
+                //echo 'DELETE ' . $k . ' ' . $v . '<br>' . "\n";
+                
+                //
+                $this->base_model->delete_multiple( $this->metaTable, [
+                    'post_id' => $post_id,
+                    'meta_key' => $k,
+                ] );
+            }
+        }
+
         //
         $insert_meta = [];
         $update_meta = [];
         foreach ( $meta_data as $k => $v ) {
+            // thêm vào mảng update nếu có rồi
             if ( isset( $meta_exist[ $k ] ) ) {
                 $update_meta[ $k ] = $v;
-            } else if ( $v != '' ) {
+            }
+            // thêm vào mảng insert nếu chưa có
+            else if ( $v != '' ) {
                 $insert_meta[ $k ] = $v;
             }
         }

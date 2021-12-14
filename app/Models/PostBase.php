@@ -24,6 +24,9 @@ class PostBase extends EbModel {
     public $blog_html_node = '';
     public $getconfig = NULL;
 
+    public $primary_controller = 'posts';
+    //public $primary_edit_view = 'posts';
+
     public function __construct() {
         parent::__construct();
 
@@ -35,7 +38,7 @@ class PostBase extends EbModel {
         //echo THEMEPATH . '<br>' . "\n";
         $this->product_html_node = $this->base_model->get_html_tmp( 'thread_node' );
         if ( $this->product_html_tag == 'li' ) {
-            $this->product_html_node = '<li data-id="{tmp.ID}" data-type="{tmp.post_type}" data-price="{tmp.trv_num_giamoi}" data-per="{tmp.pt}" data-link="{tmp.p_link}" data-status="{tmp.product_status}" class="hide-if-gia-zero">' . $this->product_html_node . '</li>';
+            $this->product_html_node = '<li data-id="{tmp.ID}" data-control="' . $this->primary_controller . '" data-type="{tmp.post_type}" data-price="{tmp.trv_num_giamoi}" data-per="{tmp.pt}" data-link="{tmp.p_link}" data-status="{tmp.product_status}" class="hide-if-gia-zero">' . $this->product_html_node . '</li>';
         }
 
         //

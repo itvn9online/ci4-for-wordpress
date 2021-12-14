@@ -133,7 +133,41 @@ class Base {
         return FALSE;
     }
 
+    public function delete_multiple( $table, $where, $ops = [] ) {
+        if ( empty( $where ) ) {
+            if ( isset( $ops[ 'debug_backtrace' ] ) ) {
+                echo $ops[ 'debug_backtrace' ] . '<br>' . "\n";
+            }
+            echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . "\n";
+
+            //
+            die( __FUNCTION__ . ' where update empty ' . $table . ':line:' . __LINE__ );
+            return false;
+        }
+
+        //
+        $builder = $this->db->table( $table );
+        foreach ( $where as $k => $v ) {
+            $builder->where( $k, $v );
+        }
+        $builder->delete();
+        if ( $this->db->affectedRows() ) {
+            return true;
+        }
+        if ( !$this->query_error( $this->db->error() ) ) {
+            print_r( $this->db->error() );
+        }
+        return false;
+    }
+
     public function delete( $table, $where, $id ) {
+        return $this->delete_multiple( $table, [
+            $where => $id
+        ], [
+            'debug_backtrace' => debug_backtrace()[ 1 ][ 'function' ]
+        ] );
+
+        //
         $builder = $this->db->table( $table );
         $builder->where( $where, $id );
         $builder->delete();
@@ -220,7 +254,7 @@ class Base {
 
 
         // các thông số tùy chỉnh khác
-        // or_where
+        // or where
         if ( isset( $op[ 'or_where' ] ) && !empty( $op[ 'or_where' ] ) ) {
             //$and_or = array();
             $builder->groupStart();
@@ -248,7 +282,7 @@ class Base {
             }
         }
 
-        // where_not_in
+        // where not in
         if ( isset( $op[ 'where_not_in' ] ) ) {
             foreach ( $op[ 'where_not_in' ] as $k => $v ) {
                 if ( !empty( $v ) ) {

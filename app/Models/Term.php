@@ -243,16 +243,8 @@ class Term extends EbModel {
         }
     }
 
-    // thêm post meta
-    function insert_meta_term( $meta_data, $term_id ) {
-        //print_r( $meta_data );
-        if ( !is_array( $meta_data ) || empty( $meta_data ) ) {
-            return false;
-        }
-
-        /*
-         * v2 -> Xóa hết đi add lại
-         */
+    // phiên bản xóa xong thêm -> không tối ứu
+    function insert_v2_meta_term( $meta_data, $term_id ) {
         $this->base_model->delete( $this->metaTable, $this->primaryKey, $term_id );
 
         // add lại
@@ -268,22 +260,52 @@ class Term extends EbModel {
 
         // done
         return true;
+    }
+
+    // thêm post meta
+    function insert_meta_term( $meta_data, $term_id ) {
+        //print_r( $meta_data );
+        if ( !is_array( $meta_data ) || empty( $meta_data ) ) {
+            return false;
+        }
+
+        /*
+         * v2 -> Xóa hết đi add lại
+         */
+        //return $this->insert_v2_meta_term( $meta_data, $term_id );
 
         /*
          * v1 -> chưa xử lý được các checkbox sau khi bị hủy
+         * daidq (2021-12-14): đã xử lý được phần checkbox
          */
         // lấy toàn bộ meta của post này
         $meta_exist = $this->arr_meta_terms( $term_id );
         //print_r( $meta_exist );
         //die( __FILE__ . ':' . __LINE__ );
 
+        // xem các meta nào không có trong lần update này -> XÓA
+        foreach ( $meta_exist as $k => $v ) {
+            if ( !isset( $meta_data[ $k ] ) ) {
+                //echo 'DELETE ' . $k . ' ' . $v . '<br>' . "\n";
+
+                //
+                $this->base_model->delete_multiple( $this->metaTable, [
+                    'term_id' => $term_id,
+                    'meta_key' => $k,
+                ] );
+            }
+        }
+
         //
         $insert_meta = [];
         $update_meta = [];
         foreach ( $meta_data as $k => $v ) {
+            // thêm vào mảng update nếu có rồi
             if ( isset( $meta_exist[ $k ] ) ) {
                 $update_meta[ $k ] = $v;
-            } else if ( $v != '' ) {
+            }
+            // thêm vào mảng insert nếu chưa có
+            else if ( $v != '' ) {
                 $insert_meta[ $k ] = $v;
             }
         }
