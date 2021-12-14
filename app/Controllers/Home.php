@@ -414,8 +414,15 @@ class Home extends Layout {
         //die( 'dgh dhd hdf' );
 
         //
-        if ( !empty( $this->session_data ) && isset( $this->session_data[ 'ID' ] ) ) {
-            $data_insert[ 'user_id' ] = $this->session_data[ 'ID' ];
+        if ( !empty( $this->session_data ) ) {
+            if ( isset( $this->session_data[ 'ID' ] ) ) {
+                $data_insert[ 'user_id' ] = $this->session_data[ 'ID' ];
+            }
+        }
+
+        //
+        if ( isset( $data[ 'email' ] ) ) {
+            $data_insert[ 'comment_author_email' ] = $data[ 'email' ];
         }
 
         // -> tạo nội dung theo data truyền vào
