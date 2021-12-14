@@ -78,31 +78,33 @@ class Layout extends Sync {
         $this->debug_enable = ( ENVIRONMENT !== 'production' );
 
         //
+        $this->cache_key = '';
+        $this->cache_mobile_key = '';
+        $this->cache = \Config\ Services::cache();
+
+        //
         $this->isMobile = '';
         $this->teamplate = [];
         if ( $preload_header === true ) {
             //echo 'preload_header <br>' . "\n";
-            $this->isMobile = $this->checkDevice( $_SERVER[ 'HTTP_USER_AGENT' ] );
+            //$this->isMobile = $this->checkDevice( $_SERVER[ 'HTTP_USER_AGENT' ] );
+            $this->isMobile = $this->WGR_is_mobile();
             //var_dump( $this->isMobile );
 
             //
             $this->global_header_footer();
         }
-
-        //
-        $this->cache_key = '';
-        $this->cache = \Config\ Services::cache();
     }
 
     // trả về nội dung từ cache hoặc lưu cache nếu có
     protected function global_cache( $key, $value = '', $time = 300 ) {
         // lưu cache nếu có nội dung
         if ( $value != '' ) {
-            return $this->cache->save( $key, $value, $time );
+            return $this->cache->save( $key . $this->cache_mobile_key, $value, $time );
         }
 
         // trả về cache nếu có
-        return $this->cache->get( $key );
+        return $this->cache->get( $key . $this->cache_mobile_key );
     }
 
     // kiểm tra session của user, nếu đang đăng nhập thì bỏ qua chế độ cache
@@ -111,12 +113,6 @@ class Layout extends Sync {
         if ( !empty( $this->session_data ) ) {
             return false;
         }
-
-        // cache riêng cho bản mobile
-        if ( $this->isMobile == true ) {
-            $key .= '-mobile';
-        }
-        //echo $key . '<br>' . "\n";
 
         //
         return $this->global_cache( $key, $value, $time );
@@ -172,6 +168,10 @@ Compression = gzip -->';
             strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'BlackBerry' ) !== false ||
             strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Opera Mini' ) !== false ||
             strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Opera Mobi' ) !== false ) {
+            // thêm key cho bản mobile
+            $this->cache_mobile_key = '---mobile';
+
+            //
             $is_mobile = true;
         } else {
             $is_mobile = false;
