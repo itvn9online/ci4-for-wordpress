@@ -5,7 +5,7 @@ use App\ Libraries\ LanguageCost;
 use App\ Libraries\ PostType;
 
 //
-$post_model = new\ App\ Models\ Post();
+//$post_model = new\ App\ Models\ Post();
 
 ?>
 <div class="w90">

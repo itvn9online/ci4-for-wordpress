@@ -1,14 +1,14 @@
 <?php
 
-//print_r( $session_data );
-
-//$base_model = new\ App\ Models\ Base();
-$term_model = new\ App\ Models\ Term();
-
 // Libraries
 use App\ Libraries\ TaxonomyType;
 use App\ Libraries\ LanguageCost;
 use App\ Libraries\ UsersType;
+
+//print_r( $session_data );
+
+//$base_model = new\ App\ Models\ Base();
+//$term_model = new\ App\ Models\ Term();
 
 
 /*

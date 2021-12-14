@@ -135,6 +135,7 @@ Compression = gzip -->';
     // chỉ gọi đến chức năng nạp header, footer khi cần hiển thị
     protected function global_header_footer() {
         $this->teamplate[ 'header' ] = view( 'header_view', array(
+            // các model dùng chung thì cho vào header để sau sử dụng luôn
             'base_model' => $this->base_model,
             'menu_model' => $this->menu_model,
             'option_model' => $this->option_model,
@@ -142,6 +143,7 @@ Compression = gzip -->';
             'term_model' => $this->term_model,
             'lang_model' => $this->lang_model,
 
+            //
             'session' => $this->session,
 
             'getconfig' => $this->getconfig,

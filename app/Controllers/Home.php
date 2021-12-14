@@ -209,8 +209,8 @@ class Home extends Layout {
             return $this->show_cache( $cache_value );
         }
 
-        // update lượt xem
-        $this->post_model->update_views( $data[ $this->post_model->primaryKey ] );
+        // update lượt xem -> daidq (2021-12-14): chuyển phần update này qua view, ai thích dùng thì kích hoạt cho nó nhẹ
+        //$this->post_model->update_views( $data[ $this->post_model->primaryKey ] );
 
         //
         $data[ 'post_content' ] = $this->replace_content( $data[ 'post_content' ] );

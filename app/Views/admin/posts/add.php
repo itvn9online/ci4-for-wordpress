@@ -6,7 +6,7 @@ use App\ Libraries\ LanguageCost;
 
 //
 //$base_model = new\ App\ Models\ Base();
-$post_model = new\ App\ Models\ PostAdmin();
+//$post_model = new\ App\ Models\ PostAdmin();
 
 // css riêng cho từng post type (nếu có)
 $base_model->add_css( 'admin/css/' . $post_type . '.css' );

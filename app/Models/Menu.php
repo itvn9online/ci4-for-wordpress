@@ -16,8 +16,6 @@ class Menu extends Post {
 
     public function __construct() {
         parent::__construct();
-
-        $this->post_model = new\ App\ Models\ Post();
     }
 
     // chức năng lấy menu để hiển thị, đồng thời tự tạo menu nếu chưa có
@@ -87,7 +85,7 @@ class Menu extends Post {
                     //die( 'df dhdassa' );
                 }
 
-                $insert_id = $this->post_model->insert_post( $data_insert );
+                $insert_id = $this->insert_post( $data_insert );
                 //echo $insert_id . '<br>' . "\n";
 
                 if ( $insert_id > 0 ) {

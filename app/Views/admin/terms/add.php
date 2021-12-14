@@ -6,7 +6,7 @@ use App\ Libraries\ LanguageCost;
 
 //
 //$base_model = new\ App\ Models\ Base();
-$term_model = new\ App\ Models\ Term();
+//$term_model = new\ App\ Models\ Term();
 
 // css riêng cho từng post type (nếu có)
 $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );

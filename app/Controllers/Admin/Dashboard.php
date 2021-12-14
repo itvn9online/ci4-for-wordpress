@@ -27,9 +27,12 @@ class Dashboard extends Admin {
         //
         $current_dbname = \Config\ Database::connect()->database;
 
-        // tự động tắt chế độ debug sau 7 ngày
+        //
         $last_enabled_debug = 0;
+        // tự động tắt chế độ debug sau 7 ngày
         $auto_disable_debug = 24 * 3600 * 7;
+        // tự động tắt chế độ debug sau 4 giờ
+        $auto_disable_debug = 4 * 3600;
         if ( file_exists( $this->f_env ) ) {
             $last_enabled_debug = filemtime( $this->f_env );
             //echo date( 'r', $last_enabled_debug );

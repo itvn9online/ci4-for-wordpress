@@ -34,6 +34,9 @@ class Admin extends Layout {
         }
 
         //
+        $this->post_model = new\ App\ Models\ PostAdmin();
+
+        //
         $this->teamplate_admin = [
             'arr_admin_menu' => $this->admin_menu(),
             'session_data' => $this->session_data,
@@ -41,6 +44,13 @@ class Admin extends Layout {
             // các biến mà view con cần sử dụng thì cho vào view trung gian này
             'header' => view( 'admin/header_view', array(
                 'base_model' => $this->base_model,
+                //'menu_model' => $this->menu_model,
+                //'option_model' => $this->option_model,
+                'post_model' => $this->post_model,
+                'term_model' => $this->term_model,
+                //'lang_model' => $this->lang_model,
+
+                //
                 'debug_enable' => $this->debug_enable,
             ) ),
         ];
