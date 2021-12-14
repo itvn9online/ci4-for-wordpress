@@ -11,7 +11,7 @@ use App\ Libraries\ PostType;
 //
 class PostBase extends EbModel {
     public $table = 'wp_posts';
-    public $primaryKey = 'ID';
+    //public $primaryKey = 'ID';
 
     protected $createdField = 'post_date';
     protected $updatedField = 'post_modified';

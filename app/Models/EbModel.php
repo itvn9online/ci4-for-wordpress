@@ -10,7 +10,7 @@ namespace App\ Models;
 //class EbModel extends Model {
 class EbModel {
     protected $table = '';
-    protected $primaryKey = 'ID';
+    public $primaryKey = 'ID';
 
     protected $useAutoIncrement = true;
 
