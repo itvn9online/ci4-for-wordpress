@@ -87,9 +87,10 @@ class LanguageCost {
                 //print_r( $_GET );
                 $query = [];
                 foreach ( $_GET as $k => $v ) {
-                    if ( $k != 'set_lang' ) {
-                        $query[] = $k . '=' . $v;
+                    if ( $k == 'set_lang' ) {
+                        continue;
                     }
+                    $query[] = $k . '=' . $v;
                 }
                 //print_r( $query );
                 if ( !empty( $query ) ) {

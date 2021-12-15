@@ -13,7 +13,7 @@ class Term extends EbModel {
     public $primaryKey = 'term_id';
 
     public $metaTable = 'wp_termmeta';
-    public $metaKey = 'meta_id';
+    //public $metaKey = 'meta_id';
 
     public $taxTable = 'wp_term_taxonomy';
     public $taxKey = 'term_taxonomy_id';
@@ -515,7 +515,7 @@ class Term extends EbModel {
                 'meta_key' => $key,
             ), array(
                 'order_by' => array(
-                    $this->metaKey => 'DESC'
+                    'meta_id' => 'DESC'
                 ),
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
@@ -541,7 +541,7 @@ class Term extends EbModel {
                 'meta_key',
             ),
             'order_by' => array(
-                $this->metaKey => 'DESC'
+                'meta_id' => 'DESC'
             ),
             // hiển thị mã SQL để check
             //'show_query' => 1,

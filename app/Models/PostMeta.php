@@ -107,7 +107,7 @@ class PostMeta extends PostBase {
                 'meta_key' => $key,
             ), array(
                 'order_by' => array(
-                    $this->metaKey => 'DESC'
+                    'meta_id' => 'DESC'
                 ),
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
@@ -133,7 +133,7 @@ class PostMeta extends PostBase {
                 'meta_key',
             ),
             'order_by' => array(
-                $this->metaKey => 'DESC'
+                'meta_id' => 'DESC'
             ),
             // hiển thị mã SQL để check
             //'show_query' => 1,

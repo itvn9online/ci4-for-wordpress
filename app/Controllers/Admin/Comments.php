@@ -24,6 +24,12 @@ class Comments extends Admin {
     }
 
     public function index() {
+        $comment_id = $this->MY_get( 'comment_id' );
+        if ( $comment_id > 0 ) {
+            return $this->details( $comment_id );
+        }
+
+        //
         $post_per_page = 20;
 
         // các kiểu điều kiện where
@@ -87,6 +93,34 @@ class Comments extends Admin {
         $this->teamplate_admin[ 'content' ] = view( 'admin/comments/list', array(
             'pagination' => $pagination,
             'totalThread' => $totalThread,
+            'data' => $data,
+            'comment_type' => $this->comment_type,
+        ) );
+        return view( 'admin/admin_teamplate', $this->teamplate_admin );
+    }
+
+    // hiển thị chi tiết 1 comment/ liên hệ
+    protected function details( $comment_id ) {
+        //echo $comment_id . '<br>' . "\n";
+
+        //
+        $data = $this->base_model->select( '*', 'wp_comments', [
+            //'is_deleted' => DeletedStatus::DEFAULT,
+            'comment_ID' => $comment_id,
+            'comment_type' => $this->comment_type,
+            //'lang_key' => LanguageCost::lang_key()
+        ], [
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            //'offset' => 0,
+            'limit' => 1
+        ] );
+        //print_r( $data );
+
+        //
+        $this->teamplate_admin[ 'content' ] = view( 'admin/comments/details', array(
             'data' => $data,
             'comment_type' => $this->comment_type,
         ) );

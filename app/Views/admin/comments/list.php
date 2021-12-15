@@ -29,14 +29,16 @@ $base_model->add_css( 'admin/css/' . $comment_type . '.css' );
         <?php
 
         foreach ( $data as $k => $v ) {
-            $v[ 'comment_content' ] = strip_tags( $v[ 'comment_content' ] );
-            $v[ 'comment_content' ] = explode( "\n", $v[ 'comment_content' ] );
-            $v[ 'comment_content' ] = $v[ 'comment_content' ][ 0 ];
+            if ( $v[ 'comment_title' ] == '' ) {
+                $v[ 'comment_title' ] = strip_tags( $v[ 'comment_content' ] );
+                $v[ 'comment_title' ] = explode( "\n", $v[ 'comment_title' ] );
+                $v[ 'comment_title' ] = $v[ 'comment_title' ][ 0 ];
+            }
 
             ?>
         <tr>
             <td>&nbsp;</td>
-            <td><a href="admin/comments?comment_type=<?php echo $comment_type; ?>&comment_ID=<?php echo $v['comment_ID']; ?>"><?php echo $v['comment_content']; ?> <i class="fa fa-edit"></i></a></td>
+            <td><a href="admin/comments?comment_type=<?php echo $comment_type; ?>&comment_id=<?php echo $v['comment_ID']; ?>"><?php echo $v['comment_content']; ?> <i class="fa fa-edit"></i></a></td>
             <td><?php echo $v['comment_author_email']; ?></td>
             <td><?php echo $v['comment_approved']; ?></td>
             <td><?php echo $v['comment_author_IP']; ?></td>

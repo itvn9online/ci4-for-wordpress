@@ -123,12 +123,23 @@ function HTV_menu_slider(for_id, ops, slider_ops) {
 }
 
 
+//
+var current_croll_up_or_down = 0;
+
 function WGR_show_or_hide_to_top() {
     var new_scroll_top = window.scrollY || jQuery(window).scrollTop();
 
     //
     if (new_scroll_top > 120) {
         jQuery('body').addClass('ebfixed-top-menu');
+
+        // xác định hướng cuộn chuột lên hay xuống
+        if (current_croll_up_or_down > new_scroll_top) {
+            jQuery('body').addClass('ebfixed-up-menu').removeClass('ebfixed-down-menu');
+        } else if (current_croll_up_or_down < new_scroll_top) {
+            jQuery('body').addClass('ebfixed-down-menu').removeClass('ebfixed-up-menu');
+        }
+        current_croll_up_or_down = new_scroll_top;
 
         //
         if (new_scroll_top > 500) {
@@ -140,7 +151,7 @@ function WGR_show_or_hide_to_top() {
             jQuery('body').removeClass('ebshow-top-scroll');
         }
     } else {
-        jQuery('body').removeClass('ebfixed-top-menu').removeClass('ebshow-top-scroll');
+        jQuery('body').removeClass('ebfixed-top-menu').removeClass('ebfixed-up-menu').removeClass('ebfixed-down-menu').removeClass('ebshow-top-scroll');
     }
 }
 

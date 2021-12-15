@@ -98,19 +98,21 @@ class Layout extends Sync {
 
     // trả về nội dung từ cache hoặc lưu cache nếu có
     protected function global_cache( $key, $value = '', $time = 300 ) {
+        $key .= $this->cache_mobile_key . '-' . $this->lang_key;
+
         // lưu cache nếu có nội dung
         if ( $value != '' ) {
-            return $this->cache->save( $key . $this->cache_mobile_key, $value, $time );
+            return $this->cache->save( $key, $value, $time );
         }
 
         // trả về cache nếu có
-        return $this->cache->get( $key . $this->cache_mobile_key );
+        return $this->cache->get( $key );
     }
 
     // kiểm tra session của user, nếu đang đăng nhập thì bỏ qua chế độ cache
     protected function MY_cache( $key, $value = '', $time = 300 ) {
         // không thực thi cache đối với tài khoản đang đăng nhập
-        if ( !empty( $this->session_data ) ) {
+        if ( !empty( $this->session_data ) || isset( $_GET[ 'set_lang' ] ) ) {
             return false;
         }
 

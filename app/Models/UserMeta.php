@@ -14,7 +14,7 @@ class UserMeta extends UserBase {
     //
     public function set_user_meta( $key, $user_id, $val ) {
         // kiểm tra xem meta này có chưa
-        $check_meta_exist = $this->get_user_meta( $key, $user_id, $this->metaKey );
+        $check_meta_exist = $this->get_user_meta( $key, $user_id, 'umeta_id' );
 
         // chưa thì insert
         if ( empty( $check_meta_exist ) ) {
@@ -26,13 +26,13 @@ class UserMeta extends UserBase {
         }
         // rồi thì update
         else {
-            $result_id = $check_meta_exist[ $this->metaKey ];
+            $result_id = $check_meta_exist[ 'umeta_id' ];
 
             //
             $this->base_model->update_multiple( $this->metaTable, [
                 'meta_value' => $val,
             ], [
-                $this->metaKey => $result_id,
+                'umeta_id' => $result_id,
             ], [
                 'debug_backtrace' => debug_backtrace()[ 1 ][ 'function' ]
             ] );
@@ -50,7 +50,7 @@ class UserMeta extends UserBase {
             'user_id' => $user_id,
         ), array(
             'order_by' => array(
-                $this->metaKey => 'DESC'
+                'umeta_id' => 'DESC'
             ),
             // hiển thị mã SQL để check
             //'show_query' => 1,
@@ -70,7 +70,7 @@ class UserMeta extends UserBase {
             'meta_value' => $val,
         ), array(
             'order_by' => array(
-                $this->metaKey => 'DESC'
+                'umeta_id' => 'DESC'
             ),
             // hiển thị mã SQL để check
             //'show_query' => 1,

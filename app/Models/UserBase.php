@@ -3,6 +3,7 @@
 namespace App\ Models;
 
 //
+//use App\ Libraries\ UsersType;
 use App\ Libraries\ DeletedStatus;
 
 //
@@ -89,6 +90,10 @@ class UserBase extends EbModel {
         $builder->orWhere( 'user_login', $name );
         $builder->orWhere( 'user_email', $name );
         $builder->groupEnd();
+        
+        //
+        $builder->where( 'is_deleted', DeletedStatus::FOR_DEFAULT );
+        //$builder->where( 'user_status', UsersType::FOR_DEFAULT );
 
         //
         $builder->orderBy( 'ID', 'DESC' );

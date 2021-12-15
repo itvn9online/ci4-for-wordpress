@@ -160,7 +160,8 @@ Sitemap: ' . DYNAMIC_BASE_URL . 'sitemap';
     private function test_mail() {
         //print_r( $this->getconfig );
         if ( !isset( $this->getconfig->smtp_test_email ) || empty( $this->getconfig->smtp_test_email ) ) {
-            die( 'smtp_test_email not found!' );
+            //print_r( $this->getconfig );
+            die( 'Test email is NULL or not found!' );
         }
 
         //

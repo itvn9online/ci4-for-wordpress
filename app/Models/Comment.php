@@ -7,7 +7,7 @@ class Comment extends EbModel {
     public $primaryKey = 'comment_ID';
 
     public $metaTable = 'wp_commentmeta';
-    public $metaKey = 'meta_id';
+    //public $metaKey = 'meta_id';
 
 	public function __construct() {
 		parent::__construct();

@@ -4,6 +4,7 @@ namespace App\ Controllers;
 
 //
 use App\ Libraries\ UsersType;
+use App\ Libraries\ DeletedStatus;
 
 //
 class Guest extends Layout {
@@ -99,6 +100,17 @@ class Guest extends Layout {
             } else {
                 $this->session->setFlashdata( 'msg_error', 'Mật khẩu đăng nhập không chính xác' );
             }
+            return false;
+        }
+
+        //
+        if ( $result[ 'user_status' ] * 1 != UsersType::FOR_DEFAULT * 1 ) {
+            $this->session->setFlashdata( 'msg_error', 'Tài khoản đang bị hạn chế đăng nhập! Vui lòng liên hệ admin.' );
+            return false;
+        }
+        //
+        else if ( $result[ 'is_deleted' ] * 1 != DeletedStatus::FOR_DEFAULT * 1 ) {
+            $this->session->setFlashdata( 'msg_error', 'Tài khoản không tồn tại trong hệ thống! Vui lòng liên hệ admin.' );
             return false;
         }
 

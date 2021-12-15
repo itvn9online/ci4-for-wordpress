@@ -12,6 +12,8 @@ class EbModel {
     protected $table = '';
     public $primaryKey = 'ID';
 
+    public $metaKey = 'meta_id';
+
     protected $useAutoIncrement = true;
 
     protected $returnType = 'array';

@@ -17,7 +17,7 @@ class PostBase extends EbModel {
     protected $updatedField = 'post_modified';
 
     protected $metaTable = 'wp_postmeta';
-    protected $metaKey = 'meta_id';
+    //public $metaKey = 'meta_id';
 
     public $product_html_node = '';
     protected $product_html_tag = 'li';

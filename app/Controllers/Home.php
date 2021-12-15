@@ -421,8 +421,11 @@ class Home extends Layout {
         }
 
         //
-        if ( isset( $data[ 'email' ] ) ) {
+        if ( isset( $data[ 'email' ] ) && !isset( $data[ 'comment_author_email' ] ) ) {
             $data_insert[ 'comment_author_email' ] = $data[ 'email' ];
+        }
+        if ( isset( $data[ 'title' ] ) && !isset( $data[ 'comment_title' ] ) ) {
+            $data_insert[ 'comment_title' ] = $data[ 'title' ];
         }
 
         // -> tạo nội dung theo data truyền vào

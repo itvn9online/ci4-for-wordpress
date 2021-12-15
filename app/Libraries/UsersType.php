@@ -3,16 +3,19 @@
 namespace App\ Libraries;
 
 class UsersType {
-//
+    //
     const GUEST_LEVEL = 0;
     const ADMIN_LEVEL = 1;
-    
+
     //
     const GUEST = 'guest';
     const MEMBER = 'member';
     const AUTHOR = 'author';
     const MOD = 'mod';
     const ADMIN = 'admin';
+
+    // user status
+    const FOR_DEFAULT = '0'; // mặc định là hiển thị
 
     private static $arr = array(
         self::GUEST => 'Khách vãng lai',

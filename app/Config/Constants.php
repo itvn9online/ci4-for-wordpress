@@ -95,7 +95,7 @@ define( 'EBE_DATETIME_FORMAT', 'Y-m-d H:i:s' );
 /*
  * tạo đường dẫn admin tránh đường dẫn mặc định. Ví dụ : admin -> nhằm tăng cường bảo mật cho website
  */
-define( 'CUSTOM_ADMIN_URI', 'ci4-wp-admin' );
+define( 'CUSTOM_ADMIN_URI', 'wgr-wp-admin' );
 
 /*
  * URL động cho website để có thể chạy trên nhiều tên miền khác nhau mà không cần config lại
@@ -146,8 +146,8 @@ function register_post_type( $name, $ops = [] ) {
  * Thư mục chứa theme hiển thị cho website (tùy theo yêu cầu của khách hàng mà thiết lập giao diện khác nhau)
  */
 // xác định theme tự động
-foreach ( glob( PUBLIC_PUBLIC_PATH . 'themes/*.theme' ) as $filename ) {
-    $filename = basename( $filename, '.theme' );
+foreach ( glob( PUBLIC_PUBLIC_PATH . 'themes/*.actived-theme' ) as $filename ) {
+    $filename = basename( $filename, '.actived-theme' );
     //echo $filename . '<br>' . "\n";
     if ( is_dir( PUBLIC_PUBLIC_PATH . 'themes/' . $filename ) ) {
         define( 'THEMENAME', $filename );
@@ -170,11 +170,3 @@ define( 'THEMEPATH', PUBLIC_PUBLIC_PATH . 'themes/' . THEMENAME . '/' );
 if ( file_exists( THEMEPATH . 'functions.php' ) ) {
     include THEMEPATH . 'functions.php';
 }
-
-
-/*
- * Tài khoản FTP -> dùng để điều khiển file trong trường hợp bị lỗi permission
- */
-//define( 'FTP_HOST', $_SERVER['SERVER_ADDR'] );
-//define( 'FTP_USER', '' );
-//define( 'FTP_PASS', '' );
