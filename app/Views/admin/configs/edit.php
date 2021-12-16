@@ -32,10 +32,6 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
                 //
                 ?>
             <br>
-            <div class="w99">
-                <pre><code>&lt;?php $lang_model = new\ App\ Models\ Lang(); ?&gt;</code></pre>
-            </div>
-            <br>
             <div class="redcolor text-center l20">* Bản dịch cho website. Sử dụng bằng cách copy code ở cột bên phải và cho vào view. Hàm <strong>the_text()</strong> sẽ thực thi echo luôn. Nếu chỉ muốn lấy về đoạn text mà không echo, hãy sử dụng: <strong>get_the_text()</strong>.</div>
             <?php
             }

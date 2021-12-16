@@ -71,3 +71,11 @@ var cf_tester_mode = 1,
 if ( isset( $getconfig->html_header ) ) {
     echo $getconfig->html_header;
 }
+
+
+// nạp header riêng của từng theme nếu có
+$theme_private_view = THEMEPATH . 'Views/get_header.php';
+//echo $theme_private_view . '<br>' . "\n";
+if ( file_exists( $theme_private_view ) ) {
+    include $theme_private_view;
+}

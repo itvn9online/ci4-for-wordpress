@@ -339,7 +339,8 @@ class Term extends EbModel {
     // trả về mảng dữ liệu để json data -> auto select category bằng js cho nhẹ -> lấy quá nhiều dữ liệu dễ bị json lỗi
     function get_json_taxonomy( $taxonomy = 'category', $term_id = 0, $ops = [] ) {
         // cố định loại cột cần lấy
-        $ops[ 'select_col' ] = 'term_id, name';
+        $ops[ 'select_col' ] = 'term_id, name, slug, count, parent, taxonomy';
+        //$ops[ 'select_col' ] = '*';
 
         //
         return json_encode( $this->get_all_taxonomy( $taxonomy, $term_id, $ops ) );

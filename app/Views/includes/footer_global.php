@@ -13,5 +13,13 @@ if ( !empty( $session_data ) &&
     $base_model->add_js( 'javascript/show-edit-btn.js' );
 }
 
+
+// nạp header riêng của từng theme nếu có
+$theme_private_view = THEMEPATH . 'Views/get_footer.php';
+//echo $theme_private_view . '<br>' . "\n";
+if ( file_exists( $theme_private_view ) ) {
+    include $theme_private_view;
+}
+
 ?>
 <div id="admin_custom_alert" onClick="$('#admin_custom_alert').fadeOut();"></div>
