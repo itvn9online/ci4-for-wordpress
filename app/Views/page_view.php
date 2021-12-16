@@ -32,7 +32,7 @@ if ( $page_template != '' ) {
     }
     // không có thì nạp view mặc định
     else {
-        require __DIR__ . '/default/' . basename( __FILE__ );
+        include __DIR__ . '/default/' . basename( __FILE__ );
     }
 }
 

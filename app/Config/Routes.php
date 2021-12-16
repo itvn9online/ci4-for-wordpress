@@ -44,6 +44,9 @@ $routes->get( '/', 'Home::index' );
 //$routes->get( 'users', 'Users::index' );
 //$routes->get( 'guest', 'Guest::index' );
 
+//
+$routes->get( 'search', 'Search::index' );
+
 
 // sitemap
 $routes->get( 'sitemap', 'Sitemap::index' );

@@ -253,60 +253,6 @@ body.home .thread-details-tohome {
 .span-search-icon {
     display: none !important;
 }
-.jEBE_slider-thumbnail {
-    text-align: center;
-    margin-top: 5px;
-}
-.jEBE_slider-thumbnail li {
-    display: inline-block;
-    cursor: pointer;
-}
-.jEBE_slider-thumbnail div {
-    background-size: auto 100%;
-    /* background-color: #f2f2f2; */
-    background-position: center;
-    background-repeat: no-repeat;
-    margin: 0 5px 5px 0;
-}
-.jEBE_slider-toCenter {
-    position: relative;
-}
-.jEBE_slider-toLeft, .jEBE_slider-toRight {
-    position: absolute;
-    z-index: 4;
-    cursor: pointer;
-    font-size: 30px;
-}
-.jEBE_slider-toLeft {
-    left: 0;
-}
-.jEBE_slider-toRight {
-    right: 0;
-}
-/*
-.jEBE_slider-toLeft:hover,
-.jEBE_slider-toRight:hover { background: rgba( 255, 255, 255, .1 ); }
-*/
-.jEBE_slider-toLeft i, .jEBE_slider-toRight i {
-    display: inline-block;
-    padding: 0 10px;
-}
-.jEBE_slider-position {
-    position: relative;
-    overflow: hidden;
-}
-.jEBE_slider-position ul {
-    position: absolute;
-    left: 0;
-    -moz-transition: all 0.8s ease;
-    -o-transition: all 0.8s ease;
-    -webkit-transition: all 0.8s ease;
-    transition: all 0.8s ease;
-    margin-left: 0;
-}
-.jEBE_slider-position li {
-    float: left;
-}
 .ebwidget-run-slider {
     overflow: hidden;
     height: 90px;

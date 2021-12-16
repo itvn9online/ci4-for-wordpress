@@ -146,7 +146,7 @@ class Sitemap extends Layout {
             // trả về câu query để sử dụng cho mục đích khác
             //'get_query' => 1,
             //'offset' => 0,
-            //'limit' => $post_per_page;
+            //'limit' => $post_per_page
         ];
 
         //

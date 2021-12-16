@@ -49,7 +49,7 @@ if ( file_exists( $theme_private_view ) ) {
 }
 // không có thì nạp view mặc định
 else {
-    require __DIR__ . '/default/' . basename( __FILE__ );
+    include __DIR__ . '/default/' . basename( __FILE__ );
 }
 
 $base_model->add_js( 'themes/' . THEMENAME . '/js/taxonomy.js' );

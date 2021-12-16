@@ -130,7 +130,7 @@ class Posts extends Admin {
             // trả về câu query để sử dụng cho mục đích khác
             //'get_query' => 1,
             //'offset' => 0,
-            //'limit' => $post_per_page;
+            //'limit' => $post_per_page
         ];
 
         // nếu có lọc theo term_id -> thêm câu lệnh để lọc
@@ -308,7 +308,7 @@ class Posts extends Admin {
                 // trả về câu query để sử dụng cho mục đích khác
                 //'get_query' => 1,
                 //'offset' => 0,
-                //'limit' => $post_per_page;
+                //'limit' => $post_per_page
             ];
             $parent_post = $this->base_model->select( 'wp_posts.ID, wp_posts.post_title', 'wp_posts', $where, $filter );
             //print_r( $parent_post );

@@ -68,7 +68,7 @@ if ( file_exists( $theme_private_view ) ) {
 }
 // không có thì nạp view mặc định
 else {
-    require __DIR__ . '/default/' . basename( __FILE__ );
+    include __DIR__ . '/default/' . basename( __FILE__ );
 }
 
 
