@@ -132,6 +132,9 @@ form#listContactByType {
     background-size: auto 100%;
     cursor: pointer;
 }
+.admin-media-attachment li:hover .media-attachment-img {
+    background-size: contain;
+}
 .admin-media-attachment .remove-attachment {
     color: red;
     border: 1px #fff solid;
@@ -142,7 +145,7 @@ form#listContactByType {
     background: #fff;
 }
 .admin-media-attachment li:hover .show-if-hover-upload {
-    display: block;
+    display: block !important;
 }
 /* */
 .cur {

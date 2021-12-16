@@ -230,10 +230,12 @@ Compression = gzip -->';
         return $this->create_breadcrumb( $cats[ 'name' ], $this->term_model->get_the_permalink( $cats ) );
     }
 
-    public function page404() {
+    public function page404( $msg_404 = '' ) {
         $this->teamplate[ 'main' ] = view( '404', array(
             'seo' => $this->base_model->default_seo( '404 not found', '404' ),
             'breadcrumb' => '',
+            // thông điệp của việc xuất hiện lỗi 404
+            'msg_404' => $msg_404,
         ) );
         return view( 'layout_view', $this->teamplate );
     }

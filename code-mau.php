@@ -58,22 +58,28 @@ $this->base_model->get( 'URL' );
 $this->base_model->_eb_number_only( 'fgfsd097834msdgs' );
 $this->base_model->_eb_float_only( 'fgfsd097834msdgs' );
 
-// update dữ liệu
-$this->base_model->update_multiple( 'tbl_user', array(
+// UPDATE dữ liệu
+$this->base_model->update_multiple( 'tbl_user', [
     // SET
     'is_member' => User_type::GUEST,
-), array(
+], [
     // WHERE
     'is_member' => User_type::GUEST,
-), [
+], [
     // hiển thị mã SQL để check
     'show_query' => 1,
     // trả về câu query để sử dụng cho mục đích khác
     'get_query' => 1,
 ] );
 
+// DELETE dữ liệu
+$this->base_model->delete_multiple( 'tbl_user', [
+    // WHERE
+    'is_member' => User_type::GUEST,
+] );
 
-// select dữ liệu từ 1 bảng bất kỳ
+
+// SELECT dữ liệu từ 1 bảng bất kỳ
 $sql = $this->base_model->select( '*', 'tbl_user', array(
     // các kiểu điều kiện where
     // WHERE AND OR

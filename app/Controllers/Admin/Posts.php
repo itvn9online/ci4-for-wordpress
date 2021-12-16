@@ -376,16 +376,8 @@ class Posts extends Admin {
         $this->base_model->alert( 'Cập nhật ' . PostType::list( $this->post_type ) . ' thành công' );
     }
 
-    public function before_delete_restore( $is_deleted ) {
-        $id = $this->MY_get( 'id', 0 );
-
-        $this->post_model->update_post( $id, [
-            'post_status' => $is_deleted
-        ], [
-            'post_type' => $this->post_type,
-        ] );
-
-        //
+    // chuyển trang sau khi XÓA xong
+    protected function after_delete_restore() {
         $for_redirect = base_url( 'admin/' . $this->controller_slug ) . '?post_type=' . $this->post_type;
 
         //
@@ -403,6 +395,18 @@ class Posts extends Admin {
         //
         $this->base_model->alert( '', $for_redirect );
     }
+    protected function before_delete_restore( $is_deleted ) {
+        $id = $this->MY_get( 'id', 0 );
+
+        $this->post_model->update_post( $id, [
+            'post_status' => $is_deleted
+        ], [
+            'post_type' => $this->post_type,
+        ] );
+
+        //
+        $this->after_delete_restore();
+    }
 
     // xóa (tạm ẩn) 1 bản ghi
     public function delete() {
@@ -415,7 +419,7 @@ class Posts extends Admin {
     }
 
     // xóa hoàn toàn 1 bản ghi
-    public function remove() {
+    protected function before_remove() {
         $id = $this->MY_get( 'id', 0 );
 
         // xem bản ghi này có được đánh dấu là XÓA không
@@ -425,17 +429,51 @@ class Posts extends Admin {
             'post_type' => $this->post_type,
         ], array(
             // hiển thị mã SQL để check
-            'show_query' => 1,
+            //'show_query' => 1,
             // trả về câu query để sử dụng cho mục đích khác
             //'get_query' => 1,
             //'offset' => 2,
             'limit' => 1
         ) );
+
+        //
+        if ( empty( $data ) ) {
+            $this->base_model->alert( 'Không xác định được bản ghi cần XÓA', 'error' );
+        }
+        return $data;
+    }
+    public function remove( $confirm_delete = false ) {
+        $data = $this->before_remove();
+
+        /*
+         * confirm_delete: thường được truyền tới từ custom post type và có nó thì sẽ xác nhận xóa hoàn toàn dữ liệu
+         */
+        if ( $confirm_delete === true ) {
+            // XÓA dữ liệu chính
+            $this->base_model->delete_multiple( $this->post_model->table, [
+                // WHERE
+                'ID' => $data[ 'ID' ],
+            ] );
+
+            // XÓA meta
+            $this->base_model->delete_multiple( $this->post_model->metaTable, [
+                // WHERE
+                'post_id' => $data[ 'ID' ],
+            ] );
+
+            //
+            return $data;
+        }
+
+        // mặc định chỉ hiển thị thông báo thôi
+        //return $data;
+
+        //
+        $this->base_model->alert( 'Chức năng XÓA đang trong giai đoạn thử nghiệm', 'warning' );
     }
 
     //
     private function createdThumbnail( $imagePath ) {
-
         $listSizeThumb = $this->config->item( 'list_thumbnail' );
         $listThumbFolder = $this->config->item( 'thumbnail_folder' );
 

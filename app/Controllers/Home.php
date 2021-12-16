@@ -125,7 +125,7 @@ class Home extends Layout {
         }
 
         //
-        return $this->page404();
+        return $this->page404( 'ERROR ' . strtolower( __FUNCTION__ ) . ':' . __LINE__ . '! Không xác định được danh mục bài viết...' );
     }
 
     protected function autoDetails() {
@@ -192,7 +192,7 @@ class Home extends Layout {
         }
 
         //
-        return $this->page404();
+        return $this->page404( 'ERROR ' . strtolower( __FUNCTION__ ) . ':' . __LINE__ . '! Không xác định được dữ liệu bài viết...' );
     }
 
     protected function pageDetail( $data, $file_view = 'page_view' ) {
@@ -266,7 +266,15 @@ class Home extends Layout {
                 'limit' => 1
             ) );
             //print_r( $parent_data );
-            $this->create_breadcrumb( $parent_data[ 'post_title' ], $this->post_model->get_the_permalink( $parent_data ) );
+
+            //
+            if ( !empty( $parent_data ) ) {
+                $this->create_breadcrumb( $parent_data[ 'post_title' ], $this->post_model->get_the_permalink( $parent_data ) );
+            }
+            // cha bị khóa thì cũng trả về 404 luôn
+            else {
+                return $this->page404( 'ERROR ' . strtolower( __FUNCTION__ ) . ':' . __LINE__ . '! Bài viết bị KHÓA do đang liên kết tới một bài viết khác đã bị KHÓA...' );
+            }
         }
 
         //
@@ -353,7 +361,7 @@ class Home extends Layout {
         }
 
         //
-        return $this->page404();
+        return $this->page404( 'ERROR ' . strtolower( __FUNCTION__ ) . ':' . __LINE__ . '! Không xác định được danh mục bài viết...' );
     }
 
     /*

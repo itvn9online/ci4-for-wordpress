@@ -213,14 +213,8 @@ class Terms extends Admin {
         $this->base_model->alert( 'Cập nhật ' . TaxonomyType::list( $this->taxonomy, true ) . ' thành công' );
     }
 
-    public function before_delete_restore( $is_deleted ) {
-        $id = $this->MY_get( 'id', 0 );
-
-        $this->term_model->update_terms( $id, [
-            'is_deleted' => $is_deleted,
-        ] );
-
-        //
+    // chuyển trang sau khi XÓA xong
+    protected function after_delete_restore() {
         $for_redirect = base_url( 'admin/' . $this->controller_slug ) . '?taxonomy=' . $this->taxonomy;
 
         //
@@ -231,6 +225,16 @@ class Terms extends Admin {
 
         //
         $this->base_model->alert( '', $for_redirect );
+    }
+    protected function before_delete_restore( $is_deleted ) {
+        $id = $this->MY_get( 'id', 0 );
+
+        $this->term_model->update_terms( $id, [
+            'is_deleted' => $is_deleted,
+        ] );
+
+        //
+        $this->after_delete_restore();
     }
 
     public function delete() {

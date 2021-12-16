@@ -17,13 +17,6 @@ class Users extends Layout {
     }
 
     public function index() {
-        /*
-		if ( empty( $this->session_data ) ) {
-			return $this->page404();
-		}
-        */
-
-        //
         $id = $this->session_data[ 'ID' ];
 
         //
@@ -46,7 +39,7 @@ class Users extends Layout {
             'limit' => 1
         ) );
         if ( empty( $data ) ) {
-            die( 'user not found!' );
+            return $this->page404( 'ERROR ' . strtolower( __FUNCTION__ ) . ':' . __LINE__ . '! Không xác định được thông tin thành viên...' );
         }
 
         //

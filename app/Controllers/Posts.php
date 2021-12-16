@@ -38,7 +38,7 @@ class Posts extends Layout {
         ] );
         if ( empty( $data ) ) {
             //print_r( $data );
-            return $this->page404();
+            return $this->page404('ERROR ' . strtolower( __FUNCTION__ ) . ':' . __LINE__ . '! Không xác định được dữ liệu bài viết...');
         }
 
         // update lượt xem -> daidq (2021-12-14): chuyển phần update này qua view, ai thích dùng thì kích hoạt cho nó nhẹ
