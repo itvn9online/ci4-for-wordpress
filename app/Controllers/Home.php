@@ -185,8 +185,10 @@ class Home extends Layout {
                 ] ) ) {
                 return $this->pageDetail( $data );
             }
-            // các custom post type -> dùng view theo post type
-            else {
+            // các custom post type -> dùng view theo post type (ngoại trừ post type ADS)
+            else if ( !in_array( $data[ 'post_type' ], [
+                    PostType::ADS
+                ] ) ) {
                 return $this->pageDetail( $data, $data[ 'post_type' ] . '_view' );
             }
         }

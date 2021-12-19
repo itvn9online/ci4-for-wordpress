@@ -35,4 +35,3 @@ $post_model->the_ads( 'lien-ket-website' );
         </div>
     </div>
 </footer>
-<div id="oi_scroll_top" class="default-bg"><i class="fa fa-chevron-up"></i></div>

@@ -1,3 +1,4 @@
+<div id="oi_scroll_top" class="default-bg"><i class="fa fa-chevron-up"></i></div>
 <?php
 
 //

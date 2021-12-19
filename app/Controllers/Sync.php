@@ -237,6 +237,19 @@ class Sync extends Controller {
     }
 
     /*
+     * unzip file
+     */
+    protected function MY_unzip( $unzip_file, $unzip_dir ) {
+        $zip = new\ ZipArchive();
+        if ( $zip->open( $unzip_file ) === TRUE ) {
+            $zip->extractTo( rtrim( $unzip_dir, '/' ) . '/' );
+            $zip->close();
+            return TRUE;
+        }
+        return false;
+    }
+
+    /*
      * daidq: chức năng này sẽ giải nén các code trong thư mục vendor dể sử dụng nếu chưa có
      */
     private function action_vendor_sync( $dir ) {
@@ -250,12 +263,7 @@ class Sync extends Controller {
 
             // nếu chưa có thư mục -> giải nén
             if ( !is_dir( $check_dir ) ) {
-                $zip = new\ ZipArchive();
-                if ( $zip->open( $filename ) === TRUE ) {
-                    $zip->extractTo( PUBLIC_HTML_PATH . $dir . '/' );
-                    $zip->close();
-
-                    //
+                if ( $this->MY_unzip( $filename, PUBLIC_HTML_PATH . $dir ) === TRUE ) {
                     echo 'DONE! sync code ' . $file . ' <br>' . "\n";
                 } else {
                     echo 'ERROR! sync code ' . $file . ' <br>' . "\n";
