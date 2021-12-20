@@ -8,7 +8,7 @@ class Users extends Layout {
         parent::__construct();
 
         //
-        if ( empty( $this->session_data ) ) {
+        if ( $this->current_user_id <= 0 ) {
             die( 'Permission deny! ' . basename( __FILE__, '.php' ) . ':' . __LINE__ );
         }
 
@@ -17,7 +17,7 @@ class Users extends Layout {
     }
 
     public function index() {
-        $id = $this->session_data[ 'ID' ];
+        $id = $this->current_user_id;
 
         //
         if ( !empty( $this->MY_post( 'data' ) ) ) {
@@ -57,6 +57,18 @@ class Users extends Layout {
 
     private function update( $id ) {
         die( 'update profile' );
+    }
+
+    // duy trì trạng thái đăng nhập
+    public function auto_login() {
+        $this->session->set( 'admin', $this->session->get( 'admin' ) );
+
+        //
+        header( 'Content-type: application/json; charset=utf-8' );
+        die( json_encode( [
+            'code' => __LINE__,
+            'msg' => 'Reset auth login from ' . __FUNCTION__
+        ] ) );
     }
 
     public function logout() {

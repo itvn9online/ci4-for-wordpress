@@ -16,11 +16,10 @@ class Guest extends Layout {
     }
 
     public function index() {
-        $session_data = $this->session_data;
         $login_redirect = DYNAMIC_BASE_URL;
         //die( $login_redirect );
 
-        if ( !empty( $session_data ) && isset( $session_data[ 'userID' ] ) && $session_data[ 'userID' ] > 0 ) {
+        if ( $this->current_user_id > 0 ) {
             return redirect()->to( $login_redirect );
         }
 
@@ -158,10 +157,9 @@ class Guest extends Layout {
     }
 
     public function register() {
-        $session_data = $this->session_data;
         $login_redirect = DYNAMIC_BASE_URL;
 
-        if ( !empty( $session_data ) && isset( $session_data[ 'userID' ] ) && $session_data[ 'userID' ] > 0 ) {
+        if ( $this->current_user_id > 0 ) {
             return redirect()->to( $login_redirect );
         }
 
@@ -226,16 +224,6 @@ class Guest extends Layout {
     }
 
     public function resetpass() {
-        /*
-        $session_data = $this->session_data;
-        $login_redirect = DYNAMIC_BASE_URL;
-
-        if ( !empty( $session_data ) && isset( $session_data[ 'userID' ] ) && $session_data[ 'userID' ] > 0 ) {
-            return redirect( $login_redirect, 'refresh' );
-        }
-        */
-
-        //
         $data = $this->MY_post( 'data' );
         if ( !empty( $data ) && isset( $data[ 'email' ] ) ) {
             //print_r( $data );

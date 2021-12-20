@@ -1,11 +1,6 @@
 //
 //WGR_set_prop_for_select('#content select');
 
-//
-$('.click-mobile-nav').click(function () {
-    $('body').toggleClass('mobile-nav-active');
-});
-
 
 // xóa href cho các thẻ a không sử dụng
 $('a[href="#"], a[href="javascript:;"]').removeAttr('href').attr({
@@ -76,3 +71,25 @@ jQuery('#oi_scroll_top, .oi_scroll_top').click(function () {
         scrollTop: 0
     }, 500);
 });
+
+
+// duy trì trạng thái đăng nhập
+/*
+if (current_user_id > 0) {
+    console.log('Current user ID: ' + current_user_id);
+
+    //
+    setInterval(function () {
+        jQuery.ajax({
+            type: 'GET',
+            url: web_link + 'users/auto_login',
+            dataType: 'json',
+            //crossDomain: true,
+            //data: data,
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    }, 5 * 60 * 1000);
+}
+*/

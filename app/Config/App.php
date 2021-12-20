@@ -228,7 +228,7 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
      *
      * @var int
      */
-    public $sessionTimeToUpdate = 4 * 3600;
+    public $sessionTimeToUpdate = 300;
 
     /**
      * --------------------------------------------------------------------------

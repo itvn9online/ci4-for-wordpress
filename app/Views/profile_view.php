@@ -25,11 +25,7 @@
 					echo $data[ 'user_email' ];
 
 					// chức năng riêng dành cho admin
-					if ( !empty( $session_data ) &&
-						//
-						isset( $session_data[ 'userID' ] ) && $session_data[ 'userID' ] > 0 &&
-						//
-						isset( $session_data[ 'userLevel' ] ) && $session_data[ 'userLevel' ] > 0 ) {
+					if ( $current_user_id > 0 && isset( $session_data[ 'userLevel' ] ) && $session_data[ 'userLevel' ] > 0 ) {
 						?>
 					<a href="./<?php echo CUSTOM_ADMIN_URI; ?>">@</a>
 					<?php

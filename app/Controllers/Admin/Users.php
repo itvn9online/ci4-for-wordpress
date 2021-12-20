@@ -276,8 +276,7 @@ class Users extends Admin {
         $this->base_model->alert( '', $for_redirect );
     }
     protected function before_delete_restore( $msg, $is_deleted ) {
-        $current_user_id = $this->session_data[ 'userID' ];
-        if ( empty( $current_user_id ) ) {
+        if ( $this->current_user_id <= 0 ) {
             $this->base_model->alert( 'Không xác định được ID của bạn!', 'error' );
         }
 
@@ -285,7 +284,7 @@ class Users extends Admin {
         $id = $this->MY_get( 'id', 0 );
 
         //
-        if ( $current_user_id == $id ) {
+        if ( $this->current_user_id == $id ) {
             $this->base_model->alert( $msg, 'warning' );
         }
 

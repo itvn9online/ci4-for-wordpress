@@ -19,7 +19,7 @@ class Admin extends Layout {
         parent::__construct( false );
 
         //
-        if ( empty( $this->session_data ) ) {
+        if ( $this->current_user_id <= 0 ) {
             $redirect_to = DYNAMIC_BASE_URL . 'guest/login?login_redirect=' . urlencode( base_url( $_SERVER[ 'REQUEST_URI' ] ) ) . '&remove_parameter=';
             //die( $redirect_to );
             //redirect()->to( $redirect_to );

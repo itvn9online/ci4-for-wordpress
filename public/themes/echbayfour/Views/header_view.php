@@ -3,7 +3,7 @@
         <?php
 
         // nếu đã đăng nhập -> hiển thị menu profile
-        if ( !empty( $session_data ) && isset( $session_data[ 'userID' ] ) && $session_data[ 'userID' ] > 0 ) {
+        if ( $current_user_id > 0 ) {
             // hiển thị thêm menu cho admin
             if ( isset( $session_data[ 'userLevel' ] ) && $session_data[ 'userLevel' ] > 0 ) {
                 $menu_model->the_menu( 'top-admin-menu', 'top-login-menu' );

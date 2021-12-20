@@ -71,11 +71,23 @@ class Layout extends Sync {
         $this->getconfig = $getconfig;
 
         //
+        $this->current_user_id = 0;
         $this->session_data = $this->session->get( 'admin' );
         //print_r( $this->session_data );
+        if ( !empty( $this->session_data ) && isset( $this->session_data[ 'userID' ] ) && $this->session_data[ 'userID' ] > 0 ) {
+            /*
+             * duy trì trạng thái đăng nhập
+             * -> do phiên đăng nhập nó cứ hết gọi là thường xuyên -> mình cũng cập nhật lại session thường xuyên
+             */
+            $this->session->set( 'admin', $this->session_data );
+
+            //
+            $this->current_user_id = $this->session_data[ 'userID' ];
+        }
 
         //
         $this->debug_enable = ( ENVIRONMENT !== 'production' );
+        //var_dump( $this->debug_enable );
 
         //
         $this->cache_key = '';
@@ -112,7 +124,7 @@ class Layout extends Sync {
     // kiểm tra session của user, nếu đang đăng nhập thì bỏ qua chế độ cache
     protected function MY_cache( $key, $value = '', $time = 300 ) {
         // không thực thi cache đối với tài khoản đang đăng nhập
-        if ( !empty( $this->session_data ) || isset( $_GET[ 'set_lang' ] ) ) {
+        if ( $this->current_user_id > 0 || isset( $_GET[ 'set_lang' ] ) ) {
             return false;
         }
 
@@ -146,6 +158,8 @@ Compression = gzip -->';
 
             'getconfig' => $this->getconfig,
             'session_data' => $this->session_data,
+            'current_user_id' => $this->current_user_id,
+            'debug_enable' => $this->debug_enable,
             //'menu' => $menu,
             //'allurl' => $allurl,
             'isMobile' => $this->isMobile

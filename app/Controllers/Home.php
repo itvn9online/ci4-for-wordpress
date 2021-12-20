@@ -424,10 +424,8 @@ class Home extends Layout {
         //die( 'dgh dhd hdf' );
 
         //
-        if ( !empty( $this->session_data ) ) {
-            if ( isset( $this->session_data[ 'ID' ] ) ) {
-                $data_insert[ 'user_id' ] = $this->session_data[ 'ID' ];
-            }
+        if ( $this->current_user_id > 0 ) {
+            $data_insert[ 'user_id' ] = $this->current_user_id;
         }
 
         //
