@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="#ff2442">
 <meta http-equiv="x-dns-prefetch-control" content="on">
-<link rel="dns-prefetch" href="//www.google-analytics.com" />
+<link rel="dns-prefetch" href="https://www.google-analytics.com/" />
 <meta name="format-detection" content="telephone=no">
 <link href="<?php echo $option_model->get_the_favicon($getconfig); ?>" rel="shortcut icon" type="image/png" />
 <link href="<?php echo $seo['canonical']; ?>" rel="canonical" />
