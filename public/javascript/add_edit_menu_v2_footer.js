@@ -15,3 +15,7 @@ $('.dd').on('change', function () {
 $('#addButton, #editButton, .btn.btn-success').click(function () {
     get_json_code_menu();
 });
+
+$('#editButton').click(function () {
+    document.admin_global_form.submit();
+});

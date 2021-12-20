@@ -273,7 +273,7 @@ class Base {
             //print_r($and_or);
         }
 
-        // where_in
+        // where in
         if ( isset( $op[ 'where_in' ] ) ) {
             foreach ( $op[ 'where_in' ] as $k => $v ) {
                 if ( !empty( $v ) ) {
@@ -305,6 +305,24 @@ class Base {
                 }
             }
         }
+        // like before
+        if ( isset( $op[ 'like_before' ] ) ) {
+            foreach ( $op[ 'like_before' ] as $k => $v ) {
+                if ( $v != '' ) {
+                    // Produces: WHERE `title` LIKE '%match' ESCAPE '!'
+                    $builder->like( $k, $v, 'before' );
+                }
+            }
+        }
+        // like after
+        if ( isset( $op[ 'like_after' ] ) ) {
+            foreach ( $op[ 'like_after' ] as $k => $v ) {
+                if ( $v != '' ) {
+                    // Produces: WHERE `title` LIKE 'match%' ESCAPE '!'
+                    $builder->like( $k, $v, 'after' );
+                }
+            }
+        }
         // not like
         if ( isset( $op[ 'not_like' ] ) ) {
             foreach ( $op[ 'not_like' ] as $k => $v ) {
@@ -319,7 +337,7 @@ class Base {
                 }
             }
         }
-        // or_like
+        // or like
         if ( isset( $op[ 'or_like' ] ) && !empty( $op[ 'or_like' ] ) ) {
             $builder->groupStart();
             foreach ( $op[ 'or_like' ] as $k => $v ) {
@@ -335,7 +353,7 @@ class Base {
             }
             $builder->groupEnd();
         }
-        // or_not_like
+        // or not like
         if ( isset( $op[ 'or_not_like' ] ) && !empty( $op[ 'or_not_like' ] ) ) {
             $builder->groupStart();
             foreach ( $op[ 'or_not_like' ] as $k => $v ) {
@@ -352,14 +370,14 @@ class Base {
             $builder->groupEnd();
         }
 
-        // group_by
+        // group by
         if ( isset( $op[ 'group_by' ] ) ) {
             foreach ( $op[ 'group_by' ] as $k => $v ) {
                 $builder->groupBy( $v );
             }
         }
 
-        // order_by
+        // order by
         if ( isset( $op[ 'order_by' ] ) ) {
             foreach ( $op[ 'order_by' ] as $k => $v ) {
                 $builder->orderBy( $k, $v );
