@@ -135,8 +135,10 @@ class ConfigType {
                 'smtp_secure' => 'Bảo mật',
                 'smtp_host_user' => 'Username',
                 'smtp_host_pass' => 'Password',
+                'smtp_host_show_pass' => 'Password',
                 'smtp_from' => 'From',
                 'smtp_from_name' => 'From name',
+                'smtp_no_reply' => 'No-reply',
                 'smtp_test_email' => 'Test email',
                 'smtp_test_bcc_email' => 'Test BCC email',
                 'smtp_test_cc_email' => 'Test CC email',
@@ -154,7 +156,7 @@ class ConfigType {
     public static function meta_type( $key ) {
         $arr = [
             'smtp_host_port' => 'number',
-            'smtp_host_pass' => 'password',
+            'smtp_host_pass' => 'hidden',
 
             'eb_posts_per_page' => 'number',
             'eb_posts_per_line' => 'select',
@@ -164,6 +166,7 @@ class ConfigType {
             'eb_blogs_per_line' => 'select',
             'eb_blog_per_page' => 'number',
 
+            'smtp_no_reply' => 'checkbox',
             'show_child_category' => 'checkbox',
             'show_child_blogs' => 'checkbox',
             'smtp_secure' => 'select',
@@ -276,9 +279,10 @@ class ConfigType {
             'smtp_host_name' => 'IP hoặc host name của server mail. Gmail SMTP: <strong>smtp.gmail.com</strong>, Pepipost SMTP: <strong>smtp.pepipost.com</strong>',
             'smtp_host_port' => 'Port nếu có. Gmail SSL port: <strong>465</strong>, Gmail TLS port: <strong>587</strong>, Pepipost port <strong>2525</strong>.',
             'smtp_host_user' => 'Email hoặc tài khoản đăng nhập. Khuyên dùng Gmail.',
-            'smtp_host_pass' => 'Mật khẩu ứng dụng Gmail hoặc mật khẩu đăng nhập email thông thường. Nên dùng gmail và mật khẩu ứng dụng để đảm bảo bảo mật.',
+            'smtp_host_show_pass' => 'Mật khẩu ứng dụng Gmail hoặc mật khẩu đăng nhập email thông thường. Nên dùng gmail và mật khẩu ứng dụng để đảm bảo bảo mật.',
             'smtp_from' => 'Email người gửi. Để trống để sử dụng email đăng nhập luôn, hạn chế email gửi vào spam',
             'smtp_from_name' => 'Tên người gửi. Bạn có thể tùy biến tên người gửi tại đây. Ví dụ: Công ty ABC, Nguyên Văn A...',
+            'smtp_no_reply' => 'Khi kích hoạt chế độ này, email reply sẽ được đặt là <strong>noreply@' . $_SERVER[ 'HTTP_HOST' ] . '</strong> để các hệ thống email xác nhận đây là mail không nhận phản hồi.',
             'smtp_test_email' => 'Thiết lập xong cấu hình, bạn có thể nhập thêm email người nhận và <a href="' . base_url( 'admin/configs' ) . '?config_type=smtp&test_mail=1" target="_blank" class="click-check-email-test bluecolor"><strong>bấm vào đây</strong></a> để test email gửi đi.',
             'smtp_test_bbc_email' => 'Thêm email để test chức năng BCC.',
             'smtp_test_cc_email' => 'Thêm email để test chức năng CC.',

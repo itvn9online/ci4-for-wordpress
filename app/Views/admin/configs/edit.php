@@ -42,7 +42,15 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
                 if ( $v != '' ) {
                     $input_type = ConfigType::meta_type( $k );
 
-                    ?>
+                    //
+                    if ( $input_type == 'hidden' ) {
+                        ?>
+            <input type="<?php echo $input_type; ?>" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>" value="<?php echo htmlentities( $data[$k], ENT_QUOTES, 'UTF-8' ); ?>" />
+            <?php
+            continue;
+            }
+
+            ?>
             <div class="control-group eb-control-group cf">
                 <?php
                 if ( $input_type == 'checkbox' ) {
@@ -72,11 +80,13 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
                         ?>
                     <textarea class="span10 required fix-textarea-height" style="height:100px" placeholder="<?php echo $v; ?>" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>"><?php echo $data[$k]; ?></textarea>
                     <?php
-                    } else if ( $input_type == 'select' ) {
+                    }
+                    //
+                    else if ( $input_type == 'select' ) {
                         $select_options = ConfigType::meta_select( $k );
 
                         ?>
-                    <select data-select="<?php echo $data[$k]; ?>" name="data[<?php echo $k; ?>]">
+                    <select data-select="<?php echo $data[$k]; ?>" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>">
                         <?php
 
                         foreach ( $select_options as $option_k => $option_v ) {
@@ -86,7 +96,9 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
                         ?>
                     </select>
                     <?php
-                    } else {
+                    }
+                    //
+                    else {
                         // thay đổi độ rộng của inpurt cho phù hợp
                         $span10 = 'span10';
                         if ( $input_type == 'number' ) {

@@ -78,6 +78,11 @@ class PHPMaillerSend {
             $mail->Password = $host_pass;
 
             //
+            $reply_to = $from;
+            if ( isset( $cog[ 'smtp_no_reply' ] ) && $cog[ 'smtp_no_reply' ] == 'on' ) {
+                $reply_to = 'no-reply@' . $_SERVER[ 'HTTP_HOST' ];
+            }
+            $mail->addReplyTo( $reply_to, $from_name );
             $mail->SetFrom( $from, $from_name );
 
             //
