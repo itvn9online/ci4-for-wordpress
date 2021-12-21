@@ -161,7 +161,10 @@ Sitemap: ' . DYNAMIC_BASE_URL . 'sitemap';
         //print_r( $this->getconfig );
         if ( !isset( $this->getconfig->smtp_test_email ) || empty( $this->getconfig->smtp_test_email ) ) {
             //print_r( $this->getconfig );
-            die( 'Test email is NULL or not found!' );
+            die( json_encode( [
+                'code' => __LINE__,
+                'error' => 'Test email is NULL or not found!'
+            ] ) );
         }
 
         //
@@ -195,10 +198,16 @@ Sitemap: ' . DYNAMIC_BASE_URL . 'sitemap';
         //
         $result = PHPMaillerSend::the_send( $data_send, $this->getconfig, 2 );
         if ( $result === true ) {
-            echo 'Gửi email thành công <br>' . "\n";
+            echo 'Gửi email thành công! from <strong>' . $this->getconfig->smtp_host_user . '</strong> to <strong>' . $data_send[ 'to' ] . '</strong> <br>' . "\n";
+
+            //
+            return true;
         } else {
-            echo 'Gửi email THẤT BẠI <br>' . "\n";
+            echo 'Gửi email THẤT BẠI! from <strong>' . $this->getconfig->smtp_host_user . '</strong> <br>' . "\n";
             print_r( $result );
         }
+
+        //
+        return false;
     }
 }
