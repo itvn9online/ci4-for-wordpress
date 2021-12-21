@@ -1,3 +1,4 @@
+<div id="oi_scroll_top" class="default-bg"><i class="fa fa-chevron-up"></i></div>
 <?php
 
 //
@@ -19,5 +20,4 @@ if ( file_exists( $theme_private_view ) ) {
 }
 
 ?>
-<div id="oi_scroll_top" class="default-bg"><i class="fa fa-chevron-up"></i></div>
 <div id="admin_custom_alert" onClick="$('#admin_custom_alert').fadeOut();"></div>
