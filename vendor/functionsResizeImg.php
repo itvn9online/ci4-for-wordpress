@@ -108,7 +108,41 @@ class WGR_SimpleImage {
 }
 
 
-function WGR_resize_images( $source_file, $dst_file = '', $new_width = 0, $new_height = 0, $width = 0, $height = 0 ) {
+function WGR_resize_images( $source_file, $dst_file = '', $new_width = 0, $new_height = 0, $width = 0, $height = 0, $compression = 80 ) {
+    return EBE_resize_images( $source_file, $dst_file, [
+        'new_width' => $new_width,
+        'new_height' => $new_height,
+        'width' => $width,
+        'height' => $height,
+        'compression' => $compression,
+    ] );
+}
+
+function EBE_default_resize_ops( $key, $ops, $default_value = 0 ) {
+    if ( !isset( $ops[ $key ] ) ) {
+        $ops[ $key ] = $default_value;
+    }
+    return $ops[ $key ];
+}
+
+function EBE_resize_images( $source_file, $dst_file = '', $ops = [] ) {
+    if ( !file_exists( $source_file ) ) {
+        die( __FUNCTION__ . ' source file not found!' );
+    }
+
+    // gán các giá trị mặc định cho việc resize
+    $new_width = EBE_default_resize_ops( 'new_width', $ops );
+    $new_height = EBE_default_resize_ops( 'new_height', $ops );
+    $width = EBE_default_resize_ops( 'width', $ops );
+    $height = EBE_default_resize_ops( 'height', $ops );
+    $compression = EBE_default_resize_ops( 'compression', $ops );
+    if ( $compression > 100 ) {
+        $compression = 100;
+    } else if ( $compression < 50 ) {
+        $compression = 50;
+    }
+
+    //
     $image = new WGR_SimpleImage();
     $image->load( $source_file );
 
@@ -160,6 +194,9 @@ function WGR_resize_images( $source_file, $dst_file = '', $new_width = 0, $new_h
     }
     // còn lại sẽ thực hiện resize
     else {
+        if ( !file_exists( $dst_file ) ) {
+            copy( $source_file, $dst_file )or die( 'ERROR copy for before resize' );
+        }
         //$image->save( $dst_file, '', 100 );
         $image->save( $dst_file );
     }
