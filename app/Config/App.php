@@ -418,7 +418,7 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
      *
      * @var bool
      */
-    public $CSRFRegenerate = true;
+    public $CSRFRegenerate = false;
 
     /**
      * --------------------------------------------------------------------------

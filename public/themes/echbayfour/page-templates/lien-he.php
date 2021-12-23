@@ -41,7 +41,7 @@
                         </div>
                     </div>
                     <form method="post" action="./contact/put" accept-charset="utf-8">
-                        <input type="hidden" name="<?php echo csrf_token(); ?>" value="<?php echo csrf_hash(); ?>" />
+                        <?php echo csrf_field(); ?>
                         <input type="hidden" name="to" value="comments" />
                         <input type="hidden" name="redirect" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
                         <div class="cf eb-contact-form">

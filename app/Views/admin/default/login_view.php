@@ -5,7 +5,7 @@ include APPPATH . 'Views/admin/default/login_header.php';
 ?>
 <div id="loginbox">
     <form action="./guest/login" method="POST" id="loginform" class="form-vertical" accept-charset="utf-8">
-        <input type="hidden" name="<?php echo csrf_token(); ?>" value="<?php echo csrf_hash(); ?>" />
+        <?php echo csrf_field(); ?>
         <input type="hidden" name="login_redirect" value="<?php echo isset($_REQUEST['login_redirect']) ? urldecode($_REQUEST['login_redirect']) : ''; ?>" />
         <div class="control-group normal_text">
             <h3><?php echo $seo['title']; ?></h3>

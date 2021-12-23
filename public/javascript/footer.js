@@ -74,15 +74,14 @@ jQuery('#oi_scroll_top, .oi_scroll_top').click(function () {
 
 
 // duy trì trạng thái đăng nhập
-/*
 if (current_user_id > 0) {
-    console.log('Current user ID: ' + current_user_id);
+    //console.log('Current user ID: ' + current_user_id);
 
     //
-    setInterval(function () {
+    setTimeout(function () {
         jQuery.ajax({
             type: 'GET',
-            url: web_link + 'users/auto_login',
+            url: web_link + 'users/confirm_login',
             dataType: 'json',
             //crossDomain: true,
             //data: data,
@@ -90,6 +89,5 @@ if (current_user_id > 0) {
                 console.log(data);
             }
         });
-    }, 5 * 60 * 1000);
+    }, 30 * 1000);
 }
-*/

@@ -2,7 +2,7 @@
 //require_once __DIR__ . '/Layout.php';
 namespace App\ Controllers;
 
-class Users extends Layout {
+class Users extends Csrf {
 
     public function __construct() {
         parent::__construct();
@@ -60,14 +60,17 @@ class Users extends Layout {
     }
 
     // duy trì trạng thái đăng nhập
-    public function auto_login() {
-        $this->session->set( 'admin', $this->session->get( 'admin' ) );
+    public function confirm_login() {
+        // xóa session admin
+        $this->session->remove( 'admin' );
+        // xong lưu lại phiên mới
+        $this->session->set( 'admin', $this->session_data );
 
         //
         header( 'Content-type: application/json; charset=utf-8' );
         die( json_encode( [
             'code' => __LINE__,
-            'msg' => 'Reset auth login from ' . __FUNCTION__
+            'msg' => 'Confirm user logged from ' . __FUNCTION__
         ] ) );
     }
 
@@ -77,6 +80,10 @@ class Users extends Layout {
         $this->session->destroy();
         //echo base_url( 'login' );
 
+        // xóa cookie lưu ID đăng nhập
+        //delete_cookie( $this->wrg_cookie_login_key );
+
+        //
         return redirect()->to( base_url( 'guest/login' ) );
     }
 }

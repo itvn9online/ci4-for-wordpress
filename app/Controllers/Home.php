@@ -9,7 +9,7 @@ use App\ Libraries\ PostType;
 use App\ Libraries\ LanguageCost;
 
 //
-class Home extends Layout {
+class Home extends Csrf {
 
     public function __construct() {
         parent::__construct();

@@ -7,7 +7,7 @@ use App\ Libraries\ UsersType;
 use App\ Libraries\ DeletedStatus;
 
 //
-class Guest extends Layout {
+class Guest extends Csrf {
     public function __construct() {
         parent::__construct();
 
@@ -43,6 +43,12 @@ class Guest extends Layout {
                 //
                 if ( $this->checkaccount() === true ) {
                     $session_data = $this->session->get( 'admin' );
+
+                    //
+                    if ( function_exists( 'set_cookie' ) ) {
+                        //die( $this->wrg_cookie_login_key );
+                        //set_cookie( $this->wrg_cookie_login_key, $this->session_data[ 'ID' ] . '|' . time() . '|' . md5( $this->wrg_cookie_login_key . $this->session_data[ 'ID' ] ), 3600, '.' . $_SERVER[ 'HTTP_HOST' ], '/' );
+                    }
 
                     //
                     if ( isset( $_REQUEST[ 'login_redirect' ] ) && $_REQUEST[ 'login_redirect' ] != '' ) {
@@ -153,6 +159,8 @@ class Guest extends Layout {
             'userGroup' => $result->user_group,
         ) );
         */
+
+        //
         return true;
     }
 

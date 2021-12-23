@@ -7,7 +7,7 @@ use App\ Libraries\ PostType;
 use App\ Libraries\ TaxonomyType;
 
 //
-class Posts extends Layout {
+class Posts extends Csrf {
     public function __construct() {
         parent::__construct();
     }

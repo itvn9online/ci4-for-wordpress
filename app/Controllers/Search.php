@@ -8,7 +8,7 @@ namespace App\ Controllers;
 use App\ Libraries\ PostType;
 //use App\ Libraries\ LanguageCost;
 
-class Search extends Layout {
+class Search extends Csrf {
     public function __construct() {
         parent::__construct();
 

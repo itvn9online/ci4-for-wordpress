@@ -1,7 +1,9 @@
 <?php
 
+/*
+ * hàm xử lý hình ảnh viết bằng PHP thuần, lấy từ hệ thống webgiare.org sang
+ */
 
-//
 class WGR_SimpleImage {
     var $image;
     var $image_width;
@@ -24,7 +26,7 @@ class WGR_SimpleImage {
         }
     }
 
-    function save( $filename, $image_type = '', $compression = 80, $permissions = null ) {
+    function save( $filename, $image_type = '', $compression = 85, $permissions = null ) {
         if ( $image_type == '' ) {
             $image_type = $this->image_type;
         }
@@ -108,7 +110,7 @@ class WGR_SimpleImage {
 }
 
 
-function WGR_resize_images( $source_file, $dst_file = '', $new_width = 0, $new_height = 0, $width = 0, $height = 0, $compression = 80 ) {
+function WGR_resize_images( $source_file, $dst_file = '', $new_width = 0, $new_height = 0, $width = 0, $height = 0, $compression = 85 ) {
     return EBE_resize_images( $source_file, $dst_file, [
         'new_width' => $new_width,
         'new_height' => $new_height,
@@ -138,71 +140,77 @@ function EBE_resize_images( $source_file, $dst_file = '', $ops = [] ) {
     $compression = EBE_default_resize_ops( 'compression', $ops );
     if ( $compression > 100 ) {
         $compression = 100;
-    } else if ( $compression < 50 ) {
-        $compression = 50;
+    } else if ( $compression <= 0 ) {
+        $compression = -1;
     }
 
-    //
-    $image = new WGR_SimpleImage();
-    $image->load( $source_file );
+    // sử dụng Imagick (nếu có)
+    if ( 1 == 2 && class_exists( 'Imagick' ) ) {
+        // chưa có thời gian code
+    }
+    // sử dụng php thuần
+    else {
+        $image = new WGR_SimpleImage();
+        $image->load( $source_file );
 
-    if ( $new_width == 0 && $new_height == 0 ) {
-        die( 'new size not set for resize: ' . __FUNCTION__ );
-    }
-    if ( $width == 0 ) {
-        $width = $image->getWidth();
-        //echo $width . '<br>' . "\n";
-    }
-    if ( $height == 0 ) {
-        $height = $image->getheight();
-        //echo $height . '<br>' . "\n";
-    }
-    //$a = getimagesize( $source_file );
-    //print_r( $a );
-    //die( 'dh dhdfhd' );
+        if ( $new_width == 0 && $new_height == 0 ) {
+            die( 'new size not set for resize: ' . __FUNCTION__ );
+        }
+        if ( $width == 0 ) {
+            $width = $image->getWidth();
+            //echo $width . '<br>' . "\n";
+        }
+        if ( $height == 0 ) {
+            $height = $image->getheight();
+            //echo $height . '<br>' . "\n";
+        }
+        //$a = getimagesize( $source_file );
+        //print_r( $a );
+        //die( 'dh dhdfhd' );
 
-    //
-    if ( $new_width == $new_height ) {
-        if ( $width > $height ) {
+        //
+        if ( $new_width == $new_height ) {
+            if ( $width > $height ) {
+                $new_height = $image->resizeToWidth( $new_width );
+            } else {
+                $new_width = $image->resizeToHeight( $new_height );
+            }
+            //$image->resize( $new_width, $new_height );
+        } else if ( $new_width > $new_height ) {
             $new_height = $image->resizeToWidth( $new_width );
         } else {
             $new_width = $image->resizeToHeight( $new_height );
         }
-        //$image->resize( $new_width, $new_height );
-    } else if ( $new_width > $new_height ) {
-        $new_height = $image->resizeToWidth( $new_width );
-    } else {
-        $new_width = $image->resizeToHeight( $new_height );
-    }
 
-    //
-    $resize_ext = pathinfo( $source_file, PATHINFO_EXTENSION );
-    if ( $dst_file == '' ) {
-        $dst_file = dirname( $source_file ) . '/' . basename( $source_file, '.' . $resize_ext ) . '-' . $new_width . 'x' . $new_height . '.' . $resize_ext;
-        //echo $dst_file . '<br>' . "\n";
-    }
-
-    // với file .gif cũng không resize -> do lỗi mất frame
-    if ( strtolower( $resize_ext ) == 'gif' ) {
-        copy( $source_file, $dst_file )or die( 'ERROR copy for resize file for .gif' );
-    }
-    // nếu size cần resize mà nhỏ hơn size chính -> copy luôn cho nhanh
-    else if ( $new_width > 0 && $new_width > $width ) {
-        copy( $source_file, $dst_file )or die( 'ERROR copy for resize file with new_width' );
-    } else if ( $new_height > 0 && $new_height > $height ) {
-        copy( $source_file, $dst_file )or die( 'ERROR copy for resize file with new_height' );
-    }
-    // còn lại sẽ thực hiện resize
-    else {
-        if ( !file_exists( $dst_file ) ) {
-            copy( $source_file, $dst_file )or die( 'ERROR copy for before resize' );
+        //
+        $resize_ext = pathinfo( $source_file, PATHINFO_EXTENSION );
+        if ( $dst_file == '' ) {
+            $dst_file = dirname( $source_file ) . '/' . basename( $source_file, '.' . $resize_ext ) . '-' . $new_width . 'x' . $new_height . '.' . $resize_ext;
+            //echo $dst_file . '<br>' . "\n";
         }
-        //$image->save( $dst_file, '', 100 );
-        $image->save( $dst_file );
-    }
-    chmod( $dst_file, 0777 );
 
-    //echo ' <strong>SimpleImage</strong>; ';
+        // với file .gif cũng không resize -> do lỗi mất frame
+        if ( strtolower( $resize_ext ) == 'gif' ) {
+            copy( $source_file, $dst_file )or die( 'ERROR copy for resize file for .gif' );
+        }
+        // nếu size cần resize mà nhỏ hơn size chính -> copy luôn cho nhanh
+        else if ( $new_width > 0 && $new_width > $width ) {
+            copy( $source_file, $dst_file )or die( 'ERROR copy for resize file with new_width' );
+        } else if ( $new_height > 0 && $new_height > $height ) {
+            copy( $source_file, $dst_file )or die( 'ERROR copy for resize file with new_height' );
+        }
+        // còn lại sẽ thực hiện resize
+        else {
+            if ( !file_exists( $dst_file ) ) {
+                copy( $source_file, $dst_file )or die( 'ERROR copy for before resize' );
+            }
+            //$image->save( $dst_file, '', 100 );
+            $image->save( $dst_file );
+        }
+        chmod( $dst_file, 0777 );
+
+        //echo ' <strong>SimpleImage</strong>; ';
+    }
     //echo $new_width . '<br>' . "\n";
     //echo $new_height . '<br>' . "\n";
 

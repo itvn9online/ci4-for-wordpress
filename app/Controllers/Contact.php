@@ -38,11 +38,28 @@ class Contact extends Home {
 
             // thiết lập thông tin người nhận
             $data_send = [
-                'to' => $data[ 'email' ],
-                'to_name' => $data[ 'fullname' ],
+                //'to' => $data[ 'email' ],
+                'to' => $this->getconfig->emailcontact,
+                //'to_name' => $data[ 'fullname' ],
                 'subject' => '(' . $_SERVER[ 'HTTP_HOST' ] . ') ' . $data[ 'title' ],
                 'message' => $submit[ 'message' ],
             ];
+
+            //
+            $bcc_email = [];
+
+            //
+            $send_my_email = $this->MY_post( 'send_my_email' );
+            if ( $send_my_email === 'on' ) {
+                //$data_send[ 'to' ] = $data[ 'email' ];
+                //$data_send[ 'to_name' ] = $data[ 'fullname' ];
+
+                //
+                $bcc_email[] = $data[ 'email' ];
+            }
+
+            //
+            $data_send[ 'bcc_email' ] = $bcc_email;
 
             //
             PHPMaillerSend::the_send( $data_send, $this->getconfig );

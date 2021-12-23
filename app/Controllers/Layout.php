@@ -23,7 +23,10 @@ class Layout extends Sync {
     // danh sách ID nhóm của sản phẩm đang xem -> dùng để tìm các bài cùng nhóm khi xem chi tiết bài viết
     public $posts_parent_list = [];
 
-    public function __construct( $preload_header = true ) {
+    // với 1 số controller, sẽ không nạp cái HTML header vào, nên có thêm tham số này để không nạp header nữa
+    public $preload_header = true;
+
+    public function __construct() {
         parent::__construct();
 
         //echo base_url('/') . '<br>' . "\n";
@@ -48,6 +51,7 @@ class Layout extends Sync {
 
         //
         helper( [
+            //'cookie',
             'url',
             'form',
             'security'
@@ -73,16 +77,24 @@ class Layout extends Sync {
         //
         $this->current_user_id = 0;
         $this->session_data = $this->session->get( 'admin' );
+        // key lưu ID hiện tại của user
+        $this->wrg_cookie_login_key = 'wrg_logged_in_key';
         //print_r( $this->session_data );
         if ( !empty( $this->session_data ) && isset( $this->session_data[ 'userID' ] ) && $this->session_data[ 'userID' ] > 0 ) {
             /*
              * duy trì trạng thái đăng nhập
              * -> do phiên đăng nhập nó cứ hết gọi là thường xuyên -> mình cũng cập nhật lại session thường xuyên
              */
-            $this->session->set( 'admin', $this->session_data );
+            //$this->session->remove( 'admin' );
+            //$this->session->set( 'admin', $this->session_data );
 
             //
             $this->current_user_id = $this->session_data[ 'userID' ];
+        }
+        // thử xem có cookie lưu ID đăng nhập không
+        else {
+            //$check_user_logged = get_cookie( $this->wrg_cookie_login_key );
+            //echo $check_user_logged . '<br>' . "\n";
         }
 
         //
@@ -97,8 +109,8 @@ class Layout extends Sync {
         //
         $this->isMobile = '';
         $this->teamplate = [];
-        if ( $preload_header === true ) {
-            //echo 'preload_header <br>' . "\n";
+        if ( $this->preload_header === true ) {
+            //echo 'preload header <br>' . "\n";
             //$this->isMobile = $this->checkDevice( $_SERVER[ 'HTTP_USER_AGENT' ] );
             $this->isMobile = $this->WGR_is_mobile();
             //var_dump( $this->isMobile );

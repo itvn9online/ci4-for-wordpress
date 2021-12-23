@@ -38,17 +38,21 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
 
             //
             foreach ( $meta_default as $k => $v ) {
+                // chỉ hiển thị các meta có giá trị (được đặt tên)
+                if ( $v == '' ) {
+                    continue;
+                }
 
-                if ( $v != '' ) {
-                    $input_type = ConfigType::meta_type( $k );
+                //
+                $input_type = ConfigType::meta_type( $k );
 
-                    //
-                    if ( $input_type == 'hidden' ) {
-                        ?>
+                //
+                if ( $input_type == 'hidden' ) {
+                    ?>
             <input type="<?php echo $input_type; ?>" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>" value="<?php echo htmlentities( $data[$k], ENT_QUOTES, 'UTF-8' ); ?>" />
             <?php
             continue;
-            }
+            } // END if hidden
 
             ?>
             <div class="control-group eb-control-group cf">
@@ -68,7 +72,8 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
                     ?>
                 </div>
                 <?php
-                } else {
+                } // END if checkbox
+                else {
                     ?>
                 <div class="lf f15">
                     <label for="data_<?php echo $k; ?>" class="text-right right-menu-space"><?php echo $v; ?></label>
@@ -80,8 +85,7 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
                         ?>
                     <textarea class="span10 required fix-textarea-height" style="height:100px" placeholder="<?php echo $v; ?>" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>"><?php echo $data[$k]; ?></textarea>
                     <?php
-                    }
-                    //
+                    } // END if textarea
                     else if ( $input_type == 'select' ) {
                         $select_options = ConfigType::meta_select( $k );
 
@@ -96,8 +100,7 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
                         ?>
                     </select>
                     <?php
-                    }
-                    //
+                    } // END if select
                     else {
                         // thay đổi độ rộng của inpurt cho phù hợp
                         $span10 = 'span10';
@@ -130,9 +133,8 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
                 ?>
             </div>
             <?php
-            }
-            }
-            }
+            } // END else checkbox
+            } // END foreach
 
             ?>
             <div class="form-actions frm-fixed-btn">

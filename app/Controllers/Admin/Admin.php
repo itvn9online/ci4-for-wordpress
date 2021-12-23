@@ -8,6 +8,7 @@ use App\ Controllers\ Layout;
 use App\ Libraries\ AdminMenu;
 use App\ Libraries\ CommentType;
 use App\ Libraries\ UsersType;
+//use App\ Libraries\ MyImage;
 
 //
 class Admin extends Layout {
@@ -15,8 +16,11 @@ class Admin extends Layout {
 
     protected $body_class = '';
 
+    // admin thì không cần nạp header
+    public $preload_header = false;
+
     public function __construct() {
-        parent::__construct( false );
+        parent::__construct();
 
         //
         if ( $this->current_user_id <= 0 ) {
@@ -131,5 +135,13 @@ class Admin extends Layout {
 
         //
         return $arr;
+    }
+
+    public function testCode() {
+        // test chức năng xử lý ảnh của codeigniter 4
+        //MyImage::quality( PUBLIC_PUBLIC_PATH . 'upload/2021/11/002.jpg', PUBLIC_PUBLIC_PATH . 'upload/2021/11/002-test-quality.jpg' );
+        //MyImage::crop( PUBLIC_PUBLIC_PATH . 'upload/2021/11/002.jpg', PUBLIC_PUBLIC_PATH . 'upload/2021/11/002-test-crop.jpg' );
+        //MyImage::resize( PUBLIC_PUBLIC_PATH . 'upload/2021/11/002.jpg', PUBLIC_PUBLIC_PATH . 'upload/2021/11/002-test-resize.jpg', 0, 150 );
+        //MyImage::watermark( PUBLIC_PUBLIC_PATH . 'upload/2021/11/002.jpg', PUBLIC_PUBLIC_PATH . 'upload/2021/11/002-test-watermark.jpg' );
     }
 }
