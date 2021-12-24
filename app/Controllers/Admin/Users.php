@@ -4,6 +4,7 @@ namespace App\ Controllers\ Admin;
 
 // Libraries
 use App\ Libraries\ DeletedStatus;
+use App\ Libraries\ UsersType;
 
 //
 class Users extends Admin {
@@ -78,11 +79,21 @@ class Users extends Admin {
         }
 
         //
+        $order_by = $this->MY_get( 'order_by' );
+        if ( $order_by == 'last_login' ) {
+            $order_by = [
+                'wp_users.last_login' => 'DESC',
+            ];
+        } else {
+            $order_by = [
+                'wp_users.ID' => 'DESC',
+            ];
+        }
+
+        //
         $filter = [
             'or_like' => $where_or_like,
-            'order_by' => array(
-                'wp_users.ID' => 'DESC',
-            ),
+            'order_by' => $order_by,
             // hiển thị mã SQL để check
             //'show_query' => 1,
             // trả về câu query để sử dụng cho mục đích khác
@@ -167,6 +178,21 @@ class Users extends Admin {
 
             if ( empty( $data ) ) {
                 die( 'user not found!' );
+            }
+
+            /*
+             * bảo mật quyền cho tài khoản admin cấp cao
+             */
+            //print_r( $data );
+            // nếu tài khoản đang là admin
+            if ( $data[ 'member_type' ] == UsersType::ADMIN &&
+                // -> chỉ tài khoản admin mới được quyền xem
+                $this->session_data[ 'member_type' ] != UsersType::ADMIN
+            ) {
+                die( json_encode( [
+                    'code' => __LINE__,
+                    'error' => 'ERROR! Permisson deny for view user details!'
+                ] ) );
             }
 
             // sửa tài khoản thì không nhập pass

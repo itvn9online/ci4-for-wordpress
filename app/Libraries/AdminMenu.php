@@ -137,6 +137,9 @@ class AdminMenu {
                         'name' => UsersType::list( UsersType::MOD ),
                     ],
                     'admin/users?member_type=' . UsersType::ADMIN => [
+                        'role' => [
+                            UsersType::ADMIN,
+                        ],
                         'name' => UsersType::list( UsersType::ADMIN ),
                     ],
                 ]

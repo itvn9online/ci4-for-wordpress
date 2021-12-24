@@ -242,3 +242,8 @@ body.ebfixed-top-menu #sidebar {
 .eb-table tr:hover td {
     background-color: antiquewhite !important;
 }
+#post_meta_post_category {
+    width: 60%;
+    max-width: 350px;
+    min-height: 150px;
+}

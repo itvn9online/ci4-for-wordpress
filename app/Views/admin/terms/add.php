@@ -136,7 +136,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
                     ?>
                 <div class="controls controls-checkbox">
                     <label>
-                        <input type="checkbox" name="term_meta[<?php echo $k; ?>]" id="term_meta_<?php echo $k; ?>" value="on" data-value="<?php echo $term_model->echo_meta_term($data, $k); ?>" />
+                        <input type="checkbox" name="term_meta[<?php echo $k; ?>]" id="term_meta_<?php echo $k; ?>" value="on" data-value="<?php $term_model->echo_meta_term($data, $k); ?>" />
                         <?php echo $v; ?></label>
                     <?php
 
@@ -155,13 +155,13 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
                     //
                     if ( $input_type == 'textarea' ) {
                         ?>
-                    <textarea style="width:80%;" placeholder="<?php echo $v; ?>" name="term_meta[<?php echo $k; ?>]" id="term_meta_<?php echo $k; ?>"><?php echo $term_model->echo_meta_term($data, $k); ?></textarea>
+                    <textarea style="width:80%;" placeholder="<?php echo $v; ?>" name="term_meta[<?php echo $k; ?>]" id="term_meta_<?php echo $k; ?>"><?php $term_model->echo_meta_term($data, $k); ?></textarea>
                     <?php
                     } else if ( $input_type == 'select' ) {
                         $select_options = TaxonomyType::meta_select( $k );
 
                         ?>
-                    <select data-select="<?php echo $term_model->echo_meta_term($data, $k); ?>" name="term_meta[<?php echo $k; ?>]">
+                    <select data-select="<?php $term_model->echo_meta_term($data, $k); ?>" name="term_meta[<?php echo $k; ?>]">
                         <?php
 
                         foreach ( $select_options as $option_k => $option_v ) {
@@ -173,7 +173,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
                     <?php
                     } else {
                         ?>
-                    <input type="<?php echo $input_type; ?>" class="span6" placeholder="<?php echo $v; ?>" name="term_meta[<?php echo $k; ?>]" id="term_meta_<?php echo $k; ?>" value="<?php echo $term_model->echo_meta_term($data, $k); ?>" />
+                    <input type="<?php echo $input_type; ?>" class="span6" placeholder="<?php echo $v; ?>" name="term_meta[<?php echo $k; ?>]" id="term_meta_<?php echo $k; ?>" value="<?php $term_model->echo_meta_term($data, $k); ?>" />
                     <?php
                     }
 

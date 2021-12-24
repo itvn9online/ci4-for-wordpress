@@ -196,7 +196,7 @@ class PostMeta extends PostBase {
         echo $this->return_meta_post( $data, $key, $default_value );
     }
 
-    // tương tự show_meta_post -> chỉ khác là sẽ truyền thẳng data post_meta vào luôn
+    // tương tự show meta post -> chỉ khác là sẽ truyền thẳng data post_meta vào luôn
     function echo_meta_post( $data, $key, $default_value = '' ) {
         echo $this->return_meta_post( $data[ 'post_meta' ], $key, $default_value );
     }

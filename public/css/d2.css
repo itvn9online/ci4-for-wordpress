@@ -53,7 +53,7 @@ label, .cur {
     margin: 0 10px;
     padding-bottom: 20px;
 }
-.echbay-blog-marginleft {
+.echbay-blog:not(.text_only) .echbay-blog-marginleft {
     padding-left: 15px;
 }
 .echbay-blog-marginright {

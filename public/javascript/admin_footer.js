@@ -100,7 +100,7 @@ $('.each-to-taxonomy').each(function () {
             }
 
             // in ra
-            $(this).html(str.join(','));
+            $(this).html(str.join(', '));
         }
     }
 });

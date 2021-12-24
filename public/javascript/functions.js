@@ -53,11 +53,14 @@ function WGR_alert(m, lnk) {
                 auto_hide_admin_custom_alert = setTimeout(function () {
                     $('#admin_custom_alert').fadeOut();
                 }, 6000);
+
+                //
+                return true;
             } else {
                 alert(m);
             }
         } else if (lnk != '') {
-            HTV_redirect(lnk);
+            return HTV_redirect(lnk);
         }
     }
 

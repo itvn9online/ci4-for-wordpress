@@ -7,6 +7,12 @@ use App\ Libraries\ UsersType;
 
 //print_r( $session_data );
 
+/*
+ * thêm custom taxonomy
+ */
+global $arr_custom_taxonomy;
+//print_r( $arr_custom_taxonomy );
+
 //$base_model = new\ App\ Models\ Base();
 //$term_model = new\ App\ Models\ Term();
 
@@ -114,6 +120,17 @@ try {
         '<?php echo TaxonomyType::BLOG_TAGS; ?>' : JSON.parse( '<?php $term_model->json_taxonomy( TaxonomyType::BLOG_TAGS ); ?>' ),
         '<?php echo TaxonomyType::OPTIONS; ?>' : JSON.parse( '<?php $term_model->json_taxonomy( TaxonomyType::OPTIONS ); ?>' ),
     };
+    
+    <?php
+    
+    //
+    foreach ($arr_custom_taxonomy as $k => $v) {
+        ?>
+    arr_all_taxonomy['<?php echo $k; ?>'] = JSON.parse( '<?php $term_model->json_taxonomy( $k ); ?>' );
+    <?php
+    }
+    
+    ?>
 } catch ( e ) {
     WGR_show_try_catch_err( e );
     var arr_all_taxonomy = {};
@@ -167,6 +184,18 @@ try {
             if ( !empty( $v[ 'arr' ] ) ) {
                 echo '<ul class="sub-menu">';
                 foreach ( $v[ 'arr' ] as $k_sub => $v_sub ) {
+                    // nếu tồn tại phân quyền ở menu con -> chỉ tài khoản tương ứng mới được xem
+                    if ( $session_data[ 'member_type' ] != UsersType::ADMIN ) {
+                        if ( isset( $v_sub[ 'role' ] ) &&
+                            // phân quyền không trống
+                            !empty( $v_sub[ 'role' ] ) &&
+                            // kiểm tra quyền truy cập
+                            !in_array( $session_data[ 'member_type' ], $v_sub[ 'role' ] ) ) {
+                            echo '<!-- Permission sub deny! -->';
+                            continue;
+                        }
+                    }
+
                     // tạo icon
                     if ( !isset( $v_sub[ 'icon' ] ) || $v_sub[ 'icon' ] == '' ) {
                         $v_sub[ 'icon' ] = 'fa fa-caret-right';

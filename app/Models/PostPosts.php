@@ -15,7 +15,7 @@ class PostPosts extends PostSlider {
     }
 
     // trả về khối HTML của từng sản phẩm trong danh mục
-    function get_the_node( $data, $ops = [] ) {
+    function get_the_node( $data, $ops = [], $default_arr = [] ) {
         //print_r( $data );
         $tmp_html = $this->product_html_node;
         //echo $tmp_html . '<br>' . "\n";
@@ -38,11 +38,11 @@ class PostPosts extends PostSlider {
         }
 
         //
-        return $this->base_model->tmp_to_html( $tmp_html, $data );
+        return $this->base_model->tmp_to_html( $tmp_html, $data, $default_arr );
     }
 
-    function the_node( $data, $ops = [] ) {
-        echo $this->get_the_node( $data, $ops );
+    function the_node( $data, $ops = [], $default_arr = [] ) {
+        echo $this->get_the_node( $data, $ops, $default_arr );
     }
 
     // post

@@ -82,7 +82,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
             <td><a href="<?php echo $admin_permalink; ?>"><?php echo $v['post_title']; ?> <i class="fa fa-edit"></i></a></td>
             <td class="text-center"><a href="<?php
 
-            //echo $post_model->show_meta_post( $v[ 'post_meta' ], 'url_redirect' );
+            //$post_model->show_meta_post( $v[ 'post_meta' ], 'url_redirect' );
             $post_model->the_permalink( $v );
 
             ?>"><i class="fa fa-eye"></i></a></td>
@@ -97,7 +97,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                 <?php
                 }
                 ?></td>
-            <td data-id="<?php echo $post_model->show_meta_post($v['post_meta'], 'post_category'); ?>"
+            <td data-id="<?php $post_model->show_meta_post($v['post_meta'], 'post_category'); ?>"
                 data-taxonomy="<?php echo $taxonomy; ?>"
                 data-uri="admin/<?php echo $controller_slug; ?>?post_type=<?php echo $post_type; ?>"
                 class="each-to-taxonomy">&nbsp;</td>

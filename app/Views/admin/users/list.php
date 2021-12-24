@@ -44,7 +44,7 @@ use App\ Libraries\ DeletedStatus;
             <th>Email</th>
             <th>Tên hiển thị</th>
             <th>Nhóm</th>
-            <th>Đăng nhập cuối</th>
+            <th><a href="admin/users?member_type=<?php echo $member_type; ?>&order_by=last_login">Đăng nhập cuối <i class="fa fa-sort"></i></a></th>
             <th>Ngày đăng ký</th>
             <th>&nbsp;</th>
         </tr>

@@ -299,7 +299,7 @@ body.home .thread-details-tohome {
 }
 #admin_custom_alert div {
     position: fixed;
-    z-index: 99999;
+    z-index: 999999999;
     top: 90px;
     background: green;
     color: #fff;

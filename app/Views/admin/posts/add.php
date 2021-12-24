@@ -150,7 +150,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
             <div class="control-group hide-if-edit-menu post_meta_<?php echo $k; ?>">
                 <div class="controls controls-checkbox">
                     <label>
-                        <input type="checkbox" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" value="on" data-value="<?php echo $post_model->echo_meta_post($data, $k); ?>" />
+                        <input type="checkbox" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" value="on" data-value="<?php $post_model->echo_meta_post($data, $k); ?>" />
                         <?php echo $v; ?></label>
                     <?php
 
@@ -164,7 +164,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 
             //
             continue;
-            }
+            } // END if checkbox
 
             ?>
             <div class="control-group hide-if-edit-menu post_meta_<?php echo $k; ?>">
@@ -175,7 +175,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                     // với 1 số post type có đặc thù riêng -> ví dụ danh mục
                     if ( $k == 'post_category' ) {
                         ?>
-                    <select data-select="<?php echo $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" aria-required="true" required>
+                    <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple aria-required="true" required>
                         <option value="">[ Chọn <?php echo $v; ?> ]</option>
                         <?php
 
@@ -188,15 +188,14 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                     </select>
                     &nbsp; <a href="admin/terms/add?taxonomy=<?php echo $taxonomy; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm danh mục mới</a>
                     <?php
-                    }
+                    } // END if post category
                     // mặc định thì hiển thị bình thường
-                    else {
-                        if ( $input_type == 'textarea' ) {
-                            ?>
-                    <textarea style="width:80%;" placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" class="<?php echo PostType::meta_class($k); ?>"><?php echo $post_model->echo_meta_post($data, $k); ?></textarea>
+                    else if ( $input_type == 'textarea' ) {
+                        ?>
+                    <textarea style="width:80%;" placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" class="<?php echo PostType::meta_class($k); ?>"><?php $post_model->echo_meta_post($data, $k); ?>
+</textarea>
                     <?php
-                    }
-                    //
+                    } // END if post textarea
                     else if ( $input_type == 'select' ) {
                         // lấy danh sách page template cho page
                         if ( $post_type == PostType::PAGE && $k = 'page_template' ) {
@@ -218,7 +217,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                         }
 
                         ?>
-                    <select data-select="<?php echo $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>]">
+                    <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>]">
                         <?php
 
                         foreach ( $select_options as $option_k => $option_v ) {
@@ -228,8 +227,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                         ?>
                     </select>
                     <?php
-                    }
-                    //
+                    } // END if post select
                     else {
                         ?>
                     <input type="text" class="span10" placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" value="<?php
@@ -237,12 +235,11 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                                 echo $post_model->get_post_thumbnail($data['post_meta']);
                             }
                             else {
-                                echo $post_model->echo_meta_post($data, $k);
+                                $post_model->echo_meta_post($data, $k);
                             }
                             ?>" />
                     <?php
-                    }
-                    }
+                    } // END else
 
                     // hiển thị ghi chú nếu có
                     PostType::meta_desc( $k );
@@ -251,7 +248,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                 </div>
             </div>
             <?php
-            } // END auto add post_meta
+            } // END foreach auto add post meta
 
 
             // thêm chức năng add link nhanh cho ADS

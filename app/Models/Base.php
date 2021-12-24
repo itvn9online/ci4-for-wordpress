@@ -665,17 +665,25 @@ class Base {
 
     // chuyển đổi từ mảng php sang html tương ứng
     function tmp_to_html( $tmp_html, $arr, $default_arr = [] ) {
+        // meta
+        $arr_meta = NULL;
+        if ( isset( $arr[ 'post_meta' ] ) && $arr[ 'post_meta' ] !== '' ) {
+            $arr_meta = $arr[ 'post_meta' ];
+            $arr[ 'post_meta' ] = '';
+        } else if ( isset( $arr[ 'term_meta' ] ) && $arr[ 'term_meta' ] !== '' ) {
+            $arr_meta = $arr[ 'term_meta' ];
+            $arr[ 'term_meta' ] = '';
+        }
+
         //print_r( $arr );
         foreach ( $arr as $k => $v ) {
-            // với post meta -> thay dữ liệu trong mảng đó
-            if ( $k == 'post_meta' || $k == 'term_meta' ) {
-                //$tmp_html = $this->tmp_to_html( $tmp_html, $v );
-            }
-            // những cái khác thì replace bình thường
-            else {
-                $tmp_html = str_replace( '{tmp.' . $k . '}', $v, $tmp_html );
-                $tmp_html = str_replace( '%' . $k . '%', $v, $tmp_html );
-            }
+            $tmp_html = str_replace( '{tmp.' . $k . '}', $v, $tmp_html );
+            $tmp_html = str_replace( '%' . $k . '%', $v, $tmp_html );
+        }
+
+        // meta
+        if ( $arr_meta !== NULL ) {
+            $tmp_html = $this->tmp_to_html( $tmp_html, $arr_meta );
         }
 
         // thay các dữ liệu không có key bằng dữ liệu mặc định

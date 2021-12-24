@@ -27,7 +27,7 @@ use App\ Libraries\ UsersType;
             if ( $data[ 'ID' ] > 0 ) {
                 ?>
             <div class="control-group">
-                <label class="control-label">Email</label>
+                <label class="control-label">ID</label>
                 <div class="controls bold redcolor"><?php echo $data['ID']; ?></div>
             </div>
             <div class="control-group">
