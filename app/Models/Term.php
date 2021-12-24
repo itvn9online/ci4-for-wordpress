@@ -165,7 +165,7 @@ class Term extends EbModel {
 
         if ( $result_id > 0 ) {
             $this->base_model->insert( $this->taxTable, [
-                $this->taxKey => $result_id,
+                'term_taxonomy_id' => $result_id,
                 'term_id' => $result_id,
                 'taxonomy' => $taxonomy,
                 'description' => 'Auto create nav menu taxonomy',
@@ -491,7 +491,7 @@ class Term extends EbModel {
         $list = explode( ',', $list );
 
         // xóa các term_relationships cũ
-        $this->base_model->delete( $this->relaTable, $this->relaKey, $post_id );
+        $this->base_model->delete( $this->relaTable, 'object_id', $post_id );
 
         // insert cái mới
         foreach ( $list as $term_id ) {
@@ -499,9 +499,33 @@ class Term extends EbModel {
 
             if ( $term_id != '' && $term_id > 0 ) {
                 $this->base_model->insert( $this->relaTable, [
-                    $this->relaKey => $post_id,
-                    $this->taxKey => $term_id,
+                    'object_id' => $post_id,
+                    'term_taxonomy_id' => $term_id,
                     'term_order' => $term_order,
+                ] );
+
+                // tính tổng bài viết theo từng term
+                $count_port_term = $this->base_model->select( 'COUNT(object_id) AS c', $this->relaTable, array(
+                    // WHERE AND OR
+                    'term_taxonomy_id' => $term_id,
+                ), array(
+                    // hiển thị mã SQL để check
+                    //'show_query' => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    //'get_query' => 1,
+                    //'offset' => 2,
+                    //'limit' => 3
+                ) );
+                //print_r( $count_port_term );
+
+                // cập nhật lại tổng số bài viết cho term
+                $this->base_model->update_multiple( $this->taxTable, [
+                    'count' => $count_port_term[ 0 ][ 'c' ]
+                ], [
+                    'term_taxonomy_id' => $term_id,
+                    'term_id' => $term_id,
+                ], [
+                    'debug_backtrace' => debug_backtrace()[ 1 ][ 'function' ]
                 ] );
             }
         }

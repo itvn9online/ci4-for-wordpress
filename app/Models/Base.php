@@ -389,9 +389,16 @@ class Base {
             $op[ 'offset' ] = 0;
         }
         //print_r($op);
+        /*
         if ( isset( $op[ 'limit' ] ) && $op[ 'limit' ] > 0 ) {
             $builder->limit( $op[ 'limit' ], $op[ 'offset' ] );
         }
+        */
+        // daidq (2021-12-25): để tránh trường hợp select unlimit cho dữ liệu lớn -> đặt mặc định lệnh LIMIT nếu không được chỉ định
+        if ( !isset( $op[ 'limit' ] ) || $op[ 'limit' ] < 1 ) {
+            $op[ 'limit' ] = 500;
+        }
+        $builder->limit( $op[ 'limit' ], $op[ 'offset' ] );
 
         //
         /*
