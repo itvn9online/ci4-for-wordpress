@@ -61,10 +61,14 @@ class Users extends Csrf {
 
     // duy trì trạng thái đăng nhập
     public function confirm_login() {
+        // thử renew thời hạn cho session
+        //$_SESSION[ '__ci_last_regenerate' ] = time();
+        $this->session->set( '__ci_last_regenerate', time() );
+
         // xóa session admin
-        $this->session->remove( 'admin' );
+        //$this->session->remove( 'admin' );
         // xong lưu lại phiên mới
-        $this->session->set( 'admin', $this->session_data );
+        //$this->session->set( 'admin', $this->session_data );
 
         //
         header( 'Content-type: application/json; charset=utf-8' );

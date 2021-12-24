@@ -242,6 +242,10 @@ label, .cur {
 .blogs_node_anhtren_chuduoi.echbay-blog100 .echbay-blog-left, .blogs_node_anhtren_chuduoi.echbay-blog100 .echbay-blog-right {
     width: auto;
 }
+.echbay-blog.text_only .echbay-blog-right {
+    width: auto;
+    float: none;
+}
 /* end flex blog */
 .details-hideif-hethang .details-ankhi-hethang {
     display: none;

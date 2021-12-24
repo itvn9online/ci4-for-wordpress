@@ -161,6 +161,9 @@ class Guest extends Csrf {
         */
 
         //
+        //$_SESSION[ 'WGR_user_logged' ] = $result[ 'ID' ];
+
+        //
         return true;
     }
 

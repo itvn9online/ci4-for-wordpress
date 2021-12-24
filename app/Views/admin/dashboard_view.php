@@ -10,8 +10,30 @@ use App\ Libraries\ UsersType;
 
 
 ?>
-<p>Website sử dụng giao diện: <strong><?php echo THEMENAME; ?></strong> - được phát triển bởi <a href="https://echbay.com/" target="_blank" rel="nofollow"><strong>EchBay.com</strong></a></p>
-<p>Sử dụng framework <a href="https://codeigniter.com/" target="_blank" rel="nofollow"><strong>Codeigniter <?php echo CodeIgniter\CodeIgniter::CI_VERSION; ?></strong></a> kết hợp với cấu trúc database nền tảng của <a href="https://wordpress.org/" target="_blank" rel="nofollow"><strong>Wordpress</strong></a> nhằm đem lại khả năng tùy biến linh hoạt với tốc độ tối ưu.</p>
+<p>Website sử dụng giao diện: <strong><?php echo THEMENAME; ?></strong> - được phát triển bởi <a href="https://echbay.com/" target="_blank" rel="nofollow"><strong>EchBay.com</strong></a>. Cập nhật lần cuối:
+    <?php
+
+    // lấy theo version
+    if ( file_exists( PUBLIC_HTML_PATH . 'VERSION' ) ) {
+        echo date( 'Y-m-d H:i:s', filemtime( PUBLIC_HTML_PATH . 'VERSION' ) ) . ' - Phiên bản: <strong>' . file_get_contents( PUBLIC_HTML_PATH . 'VERSION' ) . '</strong>';
+    }
+    // hoặc lấy theo file layout
+    else {
+        echo date( 'Y-m-d H:i:s', filemtime( APPPATH . 'Controllers/Layout.php' ) );
+    }
+
+    ?>
+</p>
+<p>Sử dụng framework <a href="https://codeigniter.com/" target="_blank" rel="nofollow"><strong>Codeigniter <?php echo CodeIgniter\CodeIgniter::CI_VERSION; ?></strong></a>
+    <?php
+
+    //
+    if ( file_exists( PUBLIC_HTML_PATH . 'system.zip' ) ) {
+        echo '(<em>Cập nhật lần cuối: ' . date( 'Y-m-d H:i:s', filemtime( PUBLIC_HTML_PATH . 'system.zip' ) ) . '</em>)';
+    }
+
+    ?>
+    kết hợp với cấu trúc database nền tảng của <a href="https://wordpress.org/" target="_blank" rel="nofollow"><strong>Wordpress</strong></a> nhằm đem lại khả năng tùy biến linh hoạt với tốc độ tối ưu.</p>
 <p>PHP version: <strong><?php echo phpversion(); ?></strong> (
     <?php
 

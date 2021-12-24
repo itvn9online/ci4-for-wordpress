@@ -87,15 +87,19 @@ class Layout extends Sync {
              */
             //$this->session->remove( 'admin' );
             //$this->session->set( 'admin', $this->session_data );
+            //$_SESSION[ '__ci_last_regenerate' ] = time();
+            $this->session->set( '__ci_last_regenerate', time() );
 
             //
             $this->current_user_id = $this->session_data[ 'userID' ];
         }
         // thử xem có cookie lưu ID đăng nhập không
+        /*
         else {
             //$check_user_logged = get_cookie( $this->wrg_cookie_login_key );
             //echo $check_user_logged . '<br>' . "\n";
         }
+        */
 
         //
         $this->debug_enable = ( ENVIRONMENT !== 'production' );

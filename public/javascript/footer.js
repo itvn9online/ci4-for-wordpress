@@ -74,6 +74,7 @@ jQuery('#oi_scroll_top, .oi_scroll_top').click(function () {
 
 
 // duy trì trạng thái đăng nhập
+/*
 if (current_user_id > 0) {
     //console.log('Current user ID: ' + current_user_id);
 
@@ -91,3 +92,4 @@ if (current_user_id > 0) {
         });
     }, 30 * 1000);
 }
+*/
