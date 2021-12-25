@@ -17,8 +17,8 @@
 <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
 <link href="thirdparty/awesome4/css/font-awesome.min.css?v=4.7" rel="stylesheet" />
 <link href="thirdparty/bootstrap-5.1.3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-<!-- <link href="thirdparty/flatsome/flatsome.css" rel="stylesheet" type="text/css" /> -->
-<!-- <link href="frontend/css/swiper.min.css" rel="stylesheet" type="text/css" /> -->
+<!-- <link href="thirdparty/flatsome/flatsome.css" rel="stylesheet" type="text/css" /> --> 
+<!-- <link href="frontend/css/swiper.min.css" rel="stylesheet" type="text/css" /> --> 
 <script src="thirdparty/jquery/jquery-3.6.0.min.js" type="application/javascript"></script> 
 <script src="thirdparty/jquery/jquery-migrate-3.3.2.min.js" type="text/javascript"></script> 
 <!-- <script src="frontend/js/swiper.min.js" type="application/javascript"></script> -->
@@ -79,4 +79,20 @@ $theme_private_view = THEMEPATH . 'Views/get_header.php';
 //echo $theme_private_view . '<br>' . "\n";
 if ( file_exists( $theme_private_view ) ) {
     include $theme_private_view;
+}
+
+
+// nếu có ID google analytics thì nạp nó
+if ( $getconfig->google_analytics != '' ) {
+    ?>
+<!-- Global site tag (gtag.js) - Google Analytics --> 
+<script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $getconfig->google_analytics; ?>"></script> 
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', '<?php echo $getconfig->google_analytics; ?>');
+</script>
+<?php
 }

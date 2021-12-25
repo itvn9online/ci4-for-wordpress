@@ -86,6 +86,9 @@ class Users extends Admin {
         //
         $order_by = $this->MY_get( 'order_by' );
         if ( $order_by == 'last_login' ) {
+            $urlPartPage .= '&order_by=' . $order_by;
+
+            //
             $order_by = [
                 'wp_users.last_login' => 'DESC',
             ];
