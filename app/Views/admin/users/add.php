@@ -35,7 +35,23 @@ use App\ Libraries\ UsersType;
                 <div class="controls"><?php echo $data['user_registered']; ?></div>
             </div>
             <?php
-            }
+
+            // hiển thị nút login as
+            //print_r( $session_data );
+            if ( isset( $session_data[ 'ID' ] ) &&
+                // ID đang đăng nhập và ID đang xem không được giống nhau
+                $session_data[ 'ID' ] != $data[ 'ID' ] &&
+                // tài khoản phải là admin
+                $session_data[ 'member_type' ] == UsersType::ADMIN ) {
+                ?>
+            <div class="control-group">
+                <label class="control-label">&nbsp;</label>
+                <div class="controls bold"><a href="admin/users/login_as?id=<?php echo $data['ID']; ?>" class="btn btn-info" target="target_eb_iframe">Đăng nhập với tư cách <?php echo $data['user_email']; ?> <i class="fa fa-sign-in"></i></a></div>
+            </div>
+            <?php
+            } // END login as
+
+            } // END ID > 0
             ?>
             <div class="control-group">
                 <label class="control-label">Tài khoản</label>

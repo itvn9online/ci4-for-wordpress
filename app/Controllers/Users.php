@@ -64,20 +64,23 @@ class Users extends Csrf {
         $admin_login_as = $this->MY_session( 'admin_login_as' );
         if ( !empty( $admin_login_as ) ) {
             $this->MY_session( 'admin', $admin_login_as );
-            
-            // xóa session login á
+
+            // xóa session login as
             $this->MY_session( 'admin_login_as', '' );
+
+            //
+            return redirect()->to( base_url( 'users/profile' ) );
         }
         // còn không thì logout thôi
         else {
             session_destroy();
             //$this->session->destroy();
+
+            // xóa cookie lưu ID đăng nhập
+            //delete_cookie( $this->wrg_cookie_login_key );
+
+            //
+            return redirect()->to( base_url( 'guest/login' ) );
         }
-
-        // xóa cookie lưu ID đăng nhập
-        //delete_cookie( $this->wrg_cookie_login_key );
-
-        //
-        return redirect()->to( base_url( 'guest/login' ) );
     }
 }

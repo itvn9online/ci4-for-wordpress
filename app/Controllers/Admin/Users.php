@@ -36,6 +36,11 @@ class Users extends Admin {
             $where[ 'wp_users.member_type' ] = $this->member_type;
         }
 
+        // nếu không phải admin -> không cho xem danh sách admin luôn
+        if ( $this->session_data[ 'member_type' ] != UsersType::ADMIN ) {
+            $where[ 'wp_users.member_type !=' ] = UsersType::ADMIN;
+        }
+
         // tìm kiếm theo từ khóa nhập vào
         $by_keyword = $this->MY_get( 's', '' );
         $where_or_like = [];
@@ -329,6 +334,58 @@ class Users extends Admin {
 
     public function restore() {
         return $this->before_delete_restore( 'Không thể tự phục hồi chính bạn!', DeletedStatus::FOR_DEFAULT );
+    }
+
+    // chức năng đăng nhập vào 1 tài khoản khác
+    public function login_as() {
+        if ( $this->current_user_id <= 0 ) {
+            $this->base_model->alert( 'Không xác định được ID của bạn!', 'error' );
+        }
+
+        //
+        if ( $this->session_data[ 'member_type' ] != UsersType::ADMIN ) {
+            $this->base_model->alert( 'Tài khoản của bạn không có quyền sử dụng chức năng này! ' . __FUNCTION__, 'error' );
+        }
+        $id = $this->MY_get( 'id', 0 );
+
+        //
+        if ( $this->current_user_id == $id ) {
+            $this->base_model->alert( 'Bạn đang đăng nhập vào tài khoản này rồi! ' . __FUNCTION__, 'warning' );
+        }
+
+        // select dữ liệu từ 1 bảng bất kỳ
+        $data = $this->base_model->select( '*', 'wp_users', [
+            'ID' => $id
+        ], array(
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            //'offset' => 2,
+            'limit' => 1
+        ) );
+        //print_r( $data );
+
+        //
+        if ( empty( $data ) ) {
+            $this->base_model->alert( 'Không xác định được tài khoản cần đăng nhập! ' . __FUNCTION__, 'error' );
+        }
+
+        //
+        $data = $this->sync_login_data( $data );
+        //print_r( $data );
+
+        // lưu thông tin đăng nhập cũ
+        $this->MY_session( 'admin_login_as', $this->session_data );
+
+        // lưu thông tin đăng nhập mới
+        $this->MY_session( 'admin', $data );
+
+        //
+        $this->MY_session( 'msg', 'Đăng nhập vào tài khoản thành viên thành công: ' . $data[ 'user_email' ] );
+
+        //
+        $this->base_model->alert( '', base_url( 'users/profile' ) );
     }
 
 }

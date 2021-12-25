@@ -124,25 +124,7 @@ class Guest extends Csrf {
         //
         //print_r( $result );
         //die( __FILE__ . ':' . __LINE__ );
-        $result[ 'user_pass' ] = '';
-        $result[ 'ci_pass' ] = '';
-        // hỗ trợ phiên bản code cũ -> tạo thêm dữ liệu tương ứng
-        $result[ 'userID' ] = $result[ 'ID' ];
-        $result[ 'userName' ] = $result[ 'display_name' ];
-        $result[ 'userEmail' ] = $result[ 'user_email' ];
-        // quyền admin
-        $arr_admin_group = [
-            UsersType::AUTHOR,
-            UsersType::MOD,
-            UsersType::ADMIN,
-        ];
-        if ( in_array( $result[ 'member_type' ], $arr_admin_group ) ) {
-            $result[ 'userLevel' ] = UsersType::ADMIN_LEVEL;
-        } else {
-            $result[ 'userLevel' ] = UsersType::GUEST_LEVEL;
-        }
-        //print_r( $result );
-        //die( __FILE__ . ':' . __LINE__ );
+        $result = $this->sync_login_data( $result );
 
         //
         $result_id = $this->user_model->update_member( $result[ 'ID' ], [

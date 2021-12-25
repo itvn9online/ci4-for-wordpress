@@ -7,6 +7,7 @@ namespace App\ Controllers;
 // Libraries
 use App\ Libraries\ LanguageCost;
 use App\ Libraries\ PostType;
+use App\ Libraries\ UsersType;
 //use App\ Libraries\ FtpAccount;
 
 //
@@ -653,5 +654,31 @@ Compression = gzip -->';
 
         //
         return true;
+    }
+
+    // đồng bộ dữ liệu login của thành viên về 1 định dạng chung
+    protected function sync_login_data( $result ) {
+        $result[ 'user_pass' ] = '';
+        $result[ 'ci_pass' ] = '';
+        // hỗ trợ phiên bản code cũ -> tạo thêm dữ liệu tương ứng
+        $result[ 'userID' ] = $result[ 'ID' ];
+        $result[ 'userName' ] = $result[ 'display_name' ];
+        $result[ 'userEmail' ] = $result[ 'user_email' ];
+        // quyền admin
+        $arr_admin_group = [
+            UsersType::AUTHOR,
+            UsersType::MOD,
+            UsersType::ADMIN,
+        ];
+        if ( in_array( $result[ 'member_type' ], $arr_admin_group ) ) {
+            $result[ 'userLevel' ] = UsersType::ADMIN_LEVEL;
+        } else {
+            $result[ 'userLevel' ] = UsersType::GUEST_LEVEL;
+        }
+        //print_r( $result );
+        //die( __FILE__ . ':' . __LINE__ );
+
+        //
+        return $result;
     }
 }

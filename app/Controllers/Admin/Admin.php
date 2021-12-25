@@ -56,6 +56,7 @@ class Admin extends Layout {
 
                 //
                 'debug_enable' => $this->debug_enable,
+                'session_data' => $this->session_data,
             ) ),
         ];
     }
