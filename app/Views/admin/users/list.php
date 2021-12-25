@@ -44,6 +44,7 @@ use App\ Libraries\ DeletedStatus;
             <th>Email</th>
             <th>Tên hiển thị</th>
             <th>Nhóm</th>
+            <th>Trạng thái đăng nhập</th>
             <th><a href="admin/users?member_type=<?php echo $member_type; ?>&order_by=last_login">Đăng nhập cuối <i class="fa fa-sort"></i></a></th>
             <th>Ngày đăng ký</th>
             <th>&nbsp;</th>
@@ -61,6 +62,7 @@ use App\ Libraries\ DeletedStatus;
             <td><?php echo $v['user_email']; ?></td>
             <td><?php echo $v['display_name']; ?></td>
             <td><a href="admin/users?member_type=<?php echo $v['member_type']; ?>"><?php echo $v['member_type'] != '' ? UsersType::list($v['member_type']) : ''; ?></a></td>
+            <td><?php echo UsersType::listStatus( $v['user_status'] ); ?></td>
             <td><?php echo $v['last_login']; ?></td>
             <td><?php echo $v['user_registered']; ?></td>
             <td class="text-center"><?php

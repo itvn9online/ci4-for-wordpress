@@ -16,6 +16,11 @@ class UsersType {
 
     // user status
     const FOR_DEFAULT = '0'; // mặc định là hiển thị
+    const NO_1H_LOGIN = 1; // khóa 1 giờ
+    const NO_24h_LOGIN = 24; // khóa 24 giờ
+    const NO_WEEK_LOGIN = 168; // khóa 168 giờ = 1 tuần
+    const NO_MONTH_LOGIN = 720; // khóa 720 giờ = 1 tháng
+    const NO_LOGIN = -1; // tài khoản bị khóa chức năng đăng nhập (vĩnh viễn)
 
     private static $arr = array(
         self::GUEST => 'Khách vãng lai',
@@ -31,6 +36,24 @@ class UsersType {
         }
         if ( isset( self::$arr[ $key ] ) ) {
             return self::$arr[ $key ];
+        }
+        return '';
+    }
+
+    public static function listStatus( $key = '' ) {
+        $arr = array(
+            self::FOR_DEFAULT => 'Cho phép đăng nhập',
+            self::NO_1H_LOGIN => 'KHÓA trong 1 giờ',
+            self::NO_24h_LOGIN => 'KHÓA trong 24 giờ',
+            self::NO_WEEK_LOGIN => 'KHÓA 01 tuần',
+            self::NO_MONTH_LOGIN => 'KHÓA 01 tháng',
+            self::NO_LOGIN => 'KHÓA vĩnh viễn',
+        );
+        if ( $key == '' ) {
+            return $arr;
+        }
+        if ( isset( $arr[ $key ] ) ) {
+            return $arr[ $key ];
         }
         return '';
     }

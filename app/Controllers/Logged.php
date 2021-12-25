@@ -20,7 +20,7 @@ class Logged extends Layout {
         }
 
         // thử renew thời hạn cho session
-        $this->MY_session( '__ci_last_regenerate', time() );
+        //$this->MY_session( '__ci_last_regenerate', time() );
 
         //
         sleep( 1 );

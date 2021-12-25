@@ -136,6 +136,9 @@ try {
     WGR_show_try_catch_err( e );
     var arr_all_taxonomy = {};
 }
+
+//
+var web_link = window.location.protocol + '//' + document.domain + '/';
 </script>
 </head>
 <body class="<?php echo $body_class; ?>">

@@ -619,7 +619,7 @@ var g_func = {
 
 // duy trì trạng thái đăng nhập
 function WGR_duy_tri_dang_nhap(max_i) {
-    if (current_user_id <= 0) {
+    if (typeof current_user_id != 'undefined' && current_user_id <= 0) {
         return false;
     }
     if (typeof max_i != 'number') {
@@ -628,7 +628,9 @@ function WGR_duy_tri_dang_nhap(max_i) {
         window.location = window.location.href;
         return false;
     }
-    console.log('Current user ID: ' + current_user_id + ' (max i: ' + max_i + ')');
+    if (typeof current_user_id != 'undefined') {
+        console.log('Current user ID: ' + current_user_id + ' (max i: ' + max_i + ')');
+    }
 
     //
     jQuery.ajax({
@@ -643,7 +645,7 @@ function WGR_duy_tri_dang_nhap(max_i) {
             //
             setTimeout(function () {
                 WGR_duy_tri_dang_nhap(max_i - 1);
-            }, 60 * 1000);
+            }, 5 * 60 * 1000);
         }
     });
 

@@ -110,12 +110,33 @@ class Guest extends Csrf {
             return false;
         }
 
-        //
-        if ( $result[ 'user_status' ] * 1 != UsersType::FOR_DEFAULT * 1 ) {
-            $this->MY_session( 'msg_error', 'Tài khoản đang bị hạn chế đăng nhập! Vui lòng liên hệ admin.' );
+        // tài khoản bị KHÓA
+        $result[ 'user_status' ] *= 1;
+        if ( $result[ 'user_status' ] != UsersType::FOR_DEFAULT * 1 ) {
+            // kiểm tra xem đã đến hạn mở khóa chưa
+            if ( $result[ 'user_status' ] > 0 ) {
+                $auto_unlock = strtotime( $result[ 'last_login' ] ) + ( $result[ 'user_status' ] * 3600 );
+
+                // nếu đã hết hạn bị KHÓA -> tự động mở khóa cho tài khoản
+                if ( $auto_unlock < time() ) {
+                    $this->user_model->update_member( $result[ 'ID' ], [
+                        'user_status' => UsersType::FOR_DEFAULT,
+                    ] );
+
+                    //
+                    $this->MY_session( 'msg', 'Mở khóa tài khoản thành công! Vui lòng đăng nhập lại.' );
+
+                    //
+                    return false;
+                }
+                $auto_unlock = date( 'Y-m-d H:i:s', $auto_unlock );
+            } else {
+                $auto_unlock = '<strong>Không xác định</strong>. Vui lòng liên hệ admin.';
+            }
+            $this->MY_session( 'msg_error', 'Tài khoản đang bị <strong>' . UsersType::listStatus( $result[ 'user_status' ] ) . '</strong>! Thời gian mở khóa: ' . $auto_unlock );
             return false;
         }
-        //
+        // tài khoản bị XÓA
         else if ( $result[ 'is_deleted' ] * 1 != DeletedStatus::FOR_DEFAULT * 1 ) {
             $this->MY_session( 'msg_error', 'Tài khoản không tồn tại trong hệ thống! Vui lòng liên hệ admin.' );
             return false;
@@ -129,6 +150,7 @@ class Guest extends Csrf {
         //
         $result_id = $this->user_model->update_member( $result[ 'ID' ], [
             'last_login' => date( 'Y-m-d H:i:s' ),
+            'user_activation_key' => session_id(),
         ] );
 
         //

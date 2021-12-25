@@ -103,6 +103,20 @@ use App\ Libraries\ UsersType;
                 </div>
             </div>
             <div class="control-group">
+                <label class="control-label">Trạng thái đăng nhập</label>
+                <div class="controls">
+                    <select data-select="<?php echo $data['user_status']; ?>" name="data[user_status]" aria-required="true" required>
+                        <?php
+
+                        foreach ( UsersType::listStatus() as $type_k => $type_v ) {
+                            echo '<option value="' . $type_k . '">' . $type_v . '</option>';
+                        }
+
+                        ?>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
                 <label class="control-label">Website</label>
                 <div class="controls">
                     <input type="text" class="span6 required" placeholder="Website/ Trang cá nhân" name="data[user_url]" value="<?php echo $data['user_url']; ?>" />

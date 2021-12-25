@@ -1266,6 +1266,7 @@ a.eb-btn {
     margin-bottom: 15px;
     display: block;
     box-shadow: 0 0 5px #ccc;
+    background-color: white;
 }
 .text-submit-msg.greencolor {
     border-color: green;
