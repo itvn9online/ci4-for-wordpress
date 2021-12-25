@@ -18,7 +18,7 @@ class UserBase extends EbModel {
         parent::__construct();
 
         //
-        $this->session = \Config\ Services::session();
+        //$this->session = \Config\ Services::session();
     }
 
     /*
@@ -90,7 +90,7 @@ class UserBase extends EbModel {
         $builder->orWhere( 'user_login', $name );
         $builder->orWhere( 'user_email', $name );
         $builder->groupEnd();
-        
+
         //
         $builder->where( 'is_deleted', DeletedStatus::FOR_DEFAULT );
         //$builder->where( 'user_status', UsersType::FOR_DEFAULT );
@@ -134,7 +134,8 @@ class UserBase extends EbModel {
         // có rồi
         if ( !empty( $sql ) ) {
             if ( $set_flash === true ) {
-                $this->session->setFlashdata( 'msg_error', 'Email đã tồn tại !!!' );
+                //$this->session->setFlashdata( 'msg_error', 'Email đã tồn tại !!!' );
+                $this->base_model->MY_session( 'msg_error', 'Email đã tồn tại !!!' );
             }
             // trả về false
             return false;
@@ -147,7 +148,8 @@ class UserBase extends EbModel {
     public function check_resetpass( $email ) {
         // chưa có -> báo lỗi
         if ( $this->check_user_exist( $email ) === true ) {
-            $this->session->setFlashdata( 'msg_error', 'Email không tồn tại !!!' );
+            //$this->session->setFlashdata( 'msg_error', 'Email không tồn tại !!!' );
+            $this->base_model->MY_session( 'msg_error', 'Email không tồn tại !!!' );
             return false;
         }
         // có thì trả về true

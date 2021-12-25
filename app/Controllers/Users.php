@@ -59,30 +59,20 @@ class Users extends Csrf {
         die( 'update profile' );
     }
 
-    // duy trì trạng thái đăng nhập
-    public function confirm_login() {
-        // thử renew thời hạn cho session
-        //$_SESSION[ '__ci_last_regenerate' ] = time();
-        $this->session->set( '__ci_last_regenerate', time() );
-
-        // xóa session admin
-        //$this->session->remove( 'admin' );
-        // xong lưu lại phiên mới
-        //$this->session->set( 'admin', $this->session_data );
-
-        //
-        header( 'Content-type: application/json; charset=utf-8' );
-        die( json_encode( [
-            'code' => __LINE__,
-            'msg' => 'Confirm user logged from ' . __FUNCTION__
-        ] ) );
-    }
-
     public function logout() {
-        //die( __FILE__ . ':' . __LINE__ );
-        //$this->session->remove( 'admin' );
-        $this->session->destroy();
-        //echo base_url( 'login' );
+        // nếu có session login từ admin vào 1 user nào đó -> quay lại session của admin
+        $admin_login_as = $this->MY_session( 'admin_login_as' );
+        if ( !empty( $admin_login_as ) ) {
+            $this->MY_session( 'admin', $admin_login_as );
+            
+            // xóa session login á
+            $this->MY_session( 'admin_login_as', '' );
+        }
+        // còn không thì logout thôi
+        else {
+            session_destroy();
+            //$this->session->destroy();
+        }
 
         // xóa cookie lưu ID đăng nhập
         //delete_cookie( $this->wrg_cookie_login_key );

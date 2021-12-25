@@ -7,7 +7,6 @@ use App\ Libraries\ UsersType;
 
 //print_r( $session_data );
 //print_r( $_SESSION );
-//echo date( 'Y-m-d H:i:s', $_SESSION[ '__ci_last_regenerate' ] );
 
 /*
  * thêm custom taxonomy

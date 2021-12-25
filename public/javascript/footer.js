@@ -74,22 +74,4 @@ jQuery('#oi_scroll_top, .oi_scroll_top').click(function () {
 
 
 // duy trì trạng thái đăng nhập
-/*
-if (current_user_id > 0) {
-    //console.log('Current user ID: ' + current_user_id);
-
-    //
-    setTimeout(function () {
-        jQuery.ajax({
-            type: 'GET',
-            url: web_link + 'users/confirm_login',
-            dataType: 'json',
-            //crossDomain: true,
-            //data: data,
-            success: function (data) {
-                console.log(data);
-            }
-        });
-    }, 30 * 1000);
-}
-*/
+//WGR_duy_tri_dang_nhap();

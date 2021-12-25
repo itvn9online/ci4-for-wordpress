@@ -615,3 +615,38 @@ var g_func = {
         return str;
     }
 };
+
+
+// duy trì trạng thái đăng nhập
+function WGR_duy_tri_dang_nhap(max_i) {
+    if (current_user_id <= 0) {
+        return false;
+    }
+    if (typeof max_i != 'number') {
+        max_i = 15;
+    } else if (max_i < 0) {
+        window.location = window.location.href;
+        return false;
+    }
+    console.log('Current user ID: ' + current_user_id + ' (max i: ' + max_i + ')');
+
+    //
+    jQuery.ajax({
+        type: 'GET',
+        url: web_link + 'logged/confirm_login',
+        dataType: 'json',
+        //crossDomain: true,
+        //data: data,
+        success: function (data) {
+            console.log(data);
+
+            //
+            setTimeout(function () {
+                WGR_duy_tri_dang_nhap(max_i - 1);
+            }, 60 * 1000);
+        }
+    });
+
+    //
+    return true;
+}

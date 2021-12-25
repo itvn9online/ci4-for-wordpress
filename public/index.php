@@ -1,7 +1,11 @@
 <?php
+/*
+ * do session của ci4 đứt liên tục -> sử dụng session mặc định của php vậy
+ */
+session_start();
 
 // Path to the front controller (this file)
-define('FCPATH', __DIR__ . DIRECTORY_SEPARATOR);
+define( 'FCPATH', __DIR__ . DIRECTORY_SEPARATOR );
 
 /*
  *---------------------------------------------------------------
@@ -13,19 +17,19 @@ define('FCPATH', __DIR__ . DIRECTORY_SEPARATOR);
  */
 
 // Ensure the current directory is pointing to the front controller's directory
-chdir(__DIR__);
+chdir( __DIR__ );
 
 // Load our paths config file
 // This is the line that might need to be changed, depending on your folder structure.
 $pathsConfig = FCPATH . '../app/Config/Paths.php';
 // ^^^ Change this if you move your application folder
-require realpath($pathsConfig) ?: $pathsConfig;
+require realpath( $pathsConfig ) ? : $pathsConfig;
 
-$paths = new Config\Paths();
+$paths = new Config\ Paths();
 
 // Location of the framework bootstrap file.
-$bootstrap = rtrim($paths->systemDirectory, '\\/ ') . DIRECTORY_SEPARATOR . 'bootstrap.php';
-$app       = require realpath($bootstrap) ?: $bootstrap;
+$bootstrap = rtrim( $paths->systemDirectory, '\\/ ' ) . DIRECTORY_SEPARATOR . 'bootstrap.php';
+$app = require realpath( $bootstrap ) ? : $bootstrap;
 
 /*
  *---------------------------------------------------------------

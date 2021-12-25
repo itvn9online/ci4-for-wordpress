@@ -46,7 +46,7 @@ class Layout extends Sync {
         //$this->load->model( 'Upload', 'upload_model' );
 
         //
-        $this->session = \Config\ Services::session();
+        //$this->session = \Config\ Services::session();
         $this->request = \Config\ Services::request();
 
         //
@@ -76,30 +76,14 @@ class Layout extends Sync {
 
         //
         $this->current_user_id = 0;
-        $this->session_data = $this->session->get( 'admin' );
-        // key lưu ID hiện tại của user
-        $this->wrg_cookie_login_key = 'wrg_logged_in_key';
+        $this->session_data = $this->MY_session( 'admin' );
         //print_r( $this->session_data );
-        if ( !empty( $this->session_data ) && isset( $this->session_data[ 'userID' ] ) && $this->session_data[ 'userID' ] > 0 ) {
-            /*
-             * duy trì trạng thái đăng nhập
-             * -> do phiên đăng nhập nó cứ hết gọi là thường xuyên -> mình cũng cập nhật lại session thường xuyên
-             */
-            //$this->session->remove( 'admin' );
-            //$this->session->set( 'admin', $this->session_data );
-            //$_SESSION[ '__ci_last_regenerate' ] = time();
-            $this->session->set( '__ci_last_regenerate', time() );
 
-            //
+        // key lưu ID hiện tại của user
+        //$this->wrg_cookie_login_key = 'wrg_logged_in_key';
+        if ( !empty( $this->session_data ) && isset( $this->session_data[ 'userID' ] ) && $this->session_data[ 'userID' ] > 0 ) {
             $this->current_user_id = $this->session_data[ 'userID' ];
         }
-        // thử xem có cookie lưu ID đăng nhập không
-        /*
-        else {
-            //$check_user_logged = get_cookie( $this->wrg_cookie_login_key );
-            //echo $check_user_logged . '<br>' . "\n";
-        }
-        */
 
         //
         $this->debug_enable = ( ENVIRONMENT !== 'production' );
@@ -148,6 +132,11 @@ class Layout extends Sync {
         return $this->global_cache( $key, $value, $time );
     }
 
+    // tự set session, do session của ci4 nó đứt liên tục
+    protected function MY_session( $key, $value = NULL ) {
+        return $this->base_model->MY_session( $key, $value );
+    }
+
     // hiển thị nội dung từ cache -> thêm 1 số đoạn comment HTML vào
     protected function show_cache( $content ) {
         echo $content;
@@ -170,7 +159,7 @@ Compression = gzip -->';
             'lang_model' => $this->lang_model,
 
             //
-            'session' => $this->session,
+            //'session' => $this->session,
 
             'getconfig' => $this->getconfig,
             'session_data' => $this->session_data,
@@ -586,7 +575,7 @@ Compression = gzip -->';
     protected function set_validation_error( $errors ) {
         //print_r( $errors );
         foreach ( $errors as $error ) {
-            $this->session->setFlashdata( 'msg_error', $error );
+            $this->MY_session( 'msg_error', $error );
             break;
         }
         //die( __FILE__ . ':' . __LINE__ );

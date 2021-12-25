@@ -42,18 +42,20 @@ class Guest extends Csrf {
 
                 //
                 if ( $this->checkaccount() === true ) {
-                    $session_data = $this->session->get( 'admin' );
+                    $session_data = $this->MY_session( 'admin' );
 
                     //
+                    /*
                     if ( function_exists( 'set_cookie' ) ) {
                         //die( $this->wrg_cookie_login_key );
                         //set_cookie( $this->wrg_cookie_login_key, $this->session_data[ 'ID' ] . '|' . time() . '|' . md5( $this->wrg_cookie_login_key . $this->session_data[ 'ID' ] ), 3600, '.' . $_SERVER[ 'HTTP_HOST' ], '/' );
                     }
+                    */
 
                     //
                     if ( isset( $_REQUEST[ 'login_redirect' ] ) && $_REQUEST[ 'login_redirect' ] != '' ) {
                         $login_redirect = $_REQUEST[ 'login_redirect' ];
-                    } else if ( isset( $session_data[ 'userLevel' ] ) && $session_data[ 'userLevel' ] > 0 ) {
+                    } else if ( !empty( $session_data ) && isset( $session_data[ 'userLevel' ] ) && $session_data[ 'userLevel' ] > 0 ) {
                         $login_redirect = base_url( CUSTOM_ADMIN_URI );
                     }
                     //die( $login_redirect );
@@ -101,21 +103,21 @@ class Guest extends Csrf {
 
             //
             if ( empty( $sql ) ) {
-                $this->session->setFlashdata( 'msg_error', 'Email đăng nhập không chính xác' );
+                $this->MY_session( 'msg_error', 'Email đăng nhập không chính xác' );
             } else {
-                $this->session->setFlashdata( 'msg_error', 'Mật khẩu đăng nhập không chính xác' );
+                $this->MY_session( 'msg_error', 'Mật khẩu đăng nhập không chính xác' );
             }
             return false;
         }
 
         //
         if ( $result[ 'user_status' ] * 1 != UsersType::FOR_DEFAULT * 1 ) {
-            $this->session->setFlashdata( 'msg_error', 'Tài khoản đang bị hạn chế đăng nhập! Vui lòng liên hệ admin.' );
+            $this->MY_session( 'msg_error', 'Tài khoản đang bị hạn chế đăng nhập! Vui lòng liên hệ admin.' );
             return false;
         }
         //
         else if ( $result[ 'is_deleted' ] * 1 != DeletedStatus::FOR_DEFAULT * 1 ) {
-            $this->session->setFlashdata( 'msg_error', 'Tài khoản không tồn tại trong hệ thống! Vui lòng liên hệ admin.' );
+            $this->MY_session( 'msg_error', 'Tài khoản không tồn tại trong hệ thống! Vui lòng liên hệ admin.' );
             return false;
         }
 
@@ -148,20 +150,10 @@ class Guest extends Csrf {
         ] );
 
         //
-        $this->session->set( 'admin', $result );
-        /*
-        $sess_array = array();
-        $this->session->set_userdata( 'admin', array(
-            'userID' => $result->id,
-            'userName' => $result->username,
-            'userEmail' => $result->email,
-            'userLevel' => $result->level,
-            'userGroup' => $result->user_group,
-        ) );
-        */
+        $this->MY_session( 'admin', $result );
 
         //
-        //$_SESSION[ 'WGR_user_logged' ] = $result[ 'ID' ];
+        //$this->MY_session( 'WGR_user_logged', $result[ 'ID' ] );
 
         //
         return true;
@@ -183,7 +175,7 @@ class Guest extends Csrf {
 
             // mật khẩu xác nhận
             if ( $data[ 'password' ] != $data[ 'password2' ] ) {
-                $this->session->setFlashdata( 'msg_error', 'Mật khẩu xác nhận không chính xác' );
+                $this->MY_session( 'msg_error', 'Mật khẩu xác nhận không chính xác' );
             }
             // lấy lỗi trả về nếu có
             else if ( !$this->validation->run( $data ) ) {
@@ -208,13 +200,13 @@ class Guest extends Csrf {
                 //$insert = $this->base_model->insert( 'tbl_user', $data, true );
                 $insert = $this->user_model->insert_member( $data );
                 if ( $insert > 0 ) {
-                    $this->session->setFlashdata( 'msg', 'Đăng ký thành công' );
+                    $this->MY_session( 'msg', 'Đăng ký thành công' );
                     //header( 'Location:' . base_url( 'signin' ) );
                     return redirect()->to( base_url( 'guest/login' ) );
                 } else if ( $insert === -1 ) {
-                    $this->session->setFlashdata( 'msg_error', 'Email đã được sử dụng' );
+                    $this->MY_session( 'msg_error', 'Email đã được sử dụng' );
                 } else {
-                    $this->session->setFlashdata( 'msg_error', 'Lỗi đăng ký tài khoản' );
+                    $this->MY_session( 'msg_error', 'Lỗi đăng ký tài khoản' );
                 }
             }
         }
@@ -247,7 +239,7 @@ class Guest extends Csrf {
             } else {
                 if ( $this->check_resetpass() === true ) {
                     // daidq -----> tính năng này để sau, đang bận chạy deadline nên vất đây đã
-                    $this->session->setFlashdata( 'msg', 'Gửi email lấy lại mật khẩu thành công' );
+                    $this->MY_session( 'msg', 'Gửi email lấy lại mật khẩu thành công' );
                 }
             }
         }

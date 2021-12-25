@@ -10,7 +10,7 @@ class Contact extends Home {
 
     public function put() {
         if ( empty( $this->MY_post( 'data' ) ) ) {
-            $this->session->setFlashdata( 'msg_error', 'Phương thức đầu vào không chính xác' );
+            $this->MY_session( 'msg_error', 'Phương thức đầu vào không chính xác' );
             return redirect()->to( DYNAMIC_BASE_URL );
         }
 
@@ -26,7 +26,7 @@ class Contact extends Home {
             $redirect_to = DYNAMIC_BASE_URL;
         }
         if ( $this->form_validation->run() == FALSE ) {
-            $this->session->setFlashdata( 'msg_error', 'Vui lòng kiểm tra lại! Dữ liệu đầu vào không chính xác' );
+            $this->MY_session( 'msg_error', 'Vui lòng kiểm tra lại! Dữ liệu đầu vào không chính xác' );
         } else {
             $submit = $this->MY_comment( [
                 'redirect_to' => $redirect_to,

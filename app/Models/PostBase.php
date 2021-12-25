@@ -58,7 +58,7 @@ class PostBase extends EbModel {
         $this->getconfig = $getconfig;
 
         //
-        $this->session = \Config\ Services::session();
+        //$this->session = \Config\ Services::session();
     }
 
     // chỉ trả về link admin của 1 post
