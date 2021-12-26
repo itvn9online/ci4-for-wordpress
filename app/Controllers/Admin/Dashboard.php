@@ -210,6 +210,7 @@ class Dashboard extends Admin {
 
         // giải nén system zip
         if ( $this->MY_unzip( $system_zip, PUBLIC_HTML_PATH ) === TRUE ) {
+            $this->MY_unlink( $system_zip );
             $this->base_model->alert( 'DONE! giải nén system.zip thành công' );
         }
 

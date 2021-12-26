@@ -47,7 +47,7 @@ use App\ Libraries\ UsersType;
     <?php
     } else {
         ?>
-    <span class="greencolor">Xin chúc mừng! Phiên bản PHP của bạn tương đối tốt. Tuy nhiên, chúng tôi vẫn khuyến nghị bạn sử dụng phiên bản PHP 7.4 trở lên.</span>
+    <span class="greencolor">Xin chúc mừng! Phiên bản PHP của bạn tương đối tốt. Tuy nhiên, chúng tôi vẫn khuyến nghị bạn sử dụng phiên bản <strong>PHP 7.4</strong> trở lên.</span>
     <?php
     }
     } else {
@@ -133,6 +133,7 @@ if ( file_exists( $f_backup_env ) ) {
 } // END debug enable
 
 
+if ( file_exists( PUBLIC_HTML_PATH . 'system.zip' ) ) {
 ?>
 <br>
 <br>
@@ -159,8 +160,11 @@ if ( file_exists( $f_backup_env ) ) {
     </div>
 </div>
 <?php
+} // END if file exist system zip
 
 } // END member type ADMIN
+
+
 
 
 
