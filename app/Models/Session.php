@@ -5,8 +5,10 @@ namespace App\ Models;
 //use CodeIgniter\ Model;
 
 class Session {
+    private $key_csrf_hash = 'my_csrf_hash';
+
     public function __construct() {
-        $this->key_csrf_hash = 'my_csrf_hash';
+        //
     }
 
     public function MY_session( $key, $value = NULL ) {
@@ -14,6 +16,12 @@ class Session {
             $_SESSION[ $key ] = $value;
             return true;
         }
+        /*
+        if ( empty( $key ) ) {
+            echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . "\n";
+            die( __FILE__ . ':' . __LINE__ );
+        }
+        */
         return isset( $_SESSION[ $key ] ) ? $_SESSION[ $key ] : '';
     }
 
@@ -23,20 +31,16 @@ class Session {
     public function check_csrf() {
         $csrf_name = csrf_token();
         //echo $csrf_name . '<br>' . "\n";
-        if ( isset( $_REQUEST[ $csrf_name ] ) ) {
-            //print_r( $_REQUEST );
-
-            //
-            $my_csrf_hash = $this->MY_session( $this->key_csrf_hash );
-            if ( $_REQUEST[ $csrf_name ] != $my_csrf_hash ) {
-                die( json_encode( [
-                    'code' => __LINE__,
-                    //'in' => $_REQUEST[ $csrf_name ],
-                    //'out' => $my_csrf_hash,
-                    'error' => 'CSRF Invalid token from your request!'
-                ] ) );
-                //die( __FILE__ . ':' . __LINE__ );
-            }
+        // nếu tồn tại hash
+        if ( isset( $_REQUEST[ $csrf_name ] ) &&
+            // -> kiểm tra khớp dữ liệu
+            $_REQUEST[ $csrf_name ] != $this->MY_session( $this->key_csrf_hash ) ) {
+            die( json_encode( [
+                'code' => __LINE__,
+                //'in' => $_REQUEST[ $csrf_name ],
+                //'out' => $this->MY_session( $this->key_csrf_hash ),
+                'error' => 'CSRF Invalid token from your request!'
+            ] ) );
         }
         //die( __FILE__ . ':' . __LINE__ );
 
@@ -49,7 +53,10 @@ class Session {
         // mỗi phiên -> lưu lại csrf token dưới dạng session
         $this->MY_session( $this->key_csrf_hash, csrf_hash() );
 
-        //
+        // in html
         echo csrf_field();
+
+        //
+        return true;
     }
 }

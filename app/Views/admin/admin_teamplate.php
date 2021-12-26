@@ -234,7 +234,7 @@ var web_link = window.location.protocol + '//' + document.domain + '/';
         <div class="row-fluid"> <?php echo $content; ?> </div>
     </div>
 </div>
-<div class="text-center admin-copyright">&copy; <?php echo date('Y'); ?> <a href="https://echbay.com/" target="_blank" rel="nofollow">EchBay.com</a> - All rights reserved. Code using framework <a href="https://codeigniter.com/" target="_blank" rel="nofollow">Codeigniter <?php echo CodeIgniter\CodeIgniter::CI_VERSION; ?></a> - <span class="cur" onClick="$('#target_eb_iframe').attr({'height':250});">Show process</span></div>
+<div class="text-center admin-copyright">&copy; <?php echo date('Y'); ?> <a href="https://echbay.com/" target="_blank" rel="nofollow">EchBay.com</a> - All rights reserved. Code using framework <a href="https://codeigniter.com/" target="_blank" rel="nofollow">Codeigniter <?php echo \CodeIgniter\CodeIgniter::CI_VERSION; ?></a> - <span class="cur" onClick="$('#target_eb_iframe').attr({'height':250});">Show process</span></div>
 <?php
 $base_model->add_js( 'javascript/admin_footer.js' );
 ?>

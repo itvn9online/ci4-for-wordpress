@@ -5,7 +5,7 @@
 <!-- <link rel="stylesheet" href="./admin/css/maruti-login.css" /> -->
 <div id="loginbox">
     <form action="./users/profile" method="POST" accept-charset="utf-8" class="form-vertical">
-        <?php echo $base_model->csrf_field(); ?>
+        <?php $base_model->csrf_field(); ?>
         <div class="control-group normal_text">
             <h3><?php echo $seo['title']; ?></h3>
         </div>
@@ -68,7 +68,7 @@
     </div>
     <hr />
     <form action="./users/profile" method="POST" accept-charset="utf-8" class="form-vertical">
-        <?php echo $base_model->csrf_field(); ?>
+        <?php $base_model->csrf_field(); ?>
         <div class="control-group normal_text">
             <h3>Đổi mật khẩu đăng nhập</h3>
         </div>

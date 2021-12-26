@@ -188,4 +188,38 @@ class Dashboard extends Admin {
         //
         return true;
     }
+
+    public function unzip_system() {
+        $system_zip = PUBLIC_HTML_PATH . 'system.zip';
+        if ( !file_exists( $system_zip ) ) {
+            $this->base_model->alert( 'Không tồn tại file ' . basename( $system_zip ), 'error' );
+        }
+
+        //
+        $current_ci_version = \CodeIgniter\ CodeIgniter::CI_VERSION;
+        //echo $current_ci_version . '<br>' . "\n";
+
+        // tên thư mục sẽ backup system cũ
+        $to = PUBLIC_HTML_PATH . 'system-' . $current_ci_version;
+        if ( is_dir( $to ) ) {
+            $this->base_model->alert( 'Vui lòng XÓA ' . basename( $to ) . ' backup trước khi tiếp tục', 'error' );
+        }
+
+        // đổi tên thư mục system -> backup
+        rename( PUBLIC_HTML_PATH . 'system', $to );
+
+        // giải nén system zip
+        if ( $this->MY_unzip( $system_zip, PUBLIC_HTML_PATH ) === TRUE ) {
+            $this->base_model->alert( 'DONE! giải nén system.zip thành công' );
+        }
+
+        //
+        //die( __FILE__ . ':' . __LINE__ );
+
+        //
+        $this->base_model->alert( 'LỖI trong quá trình giải nén system.zip', 'error' );
+
+        //
+        return true;
+    }
 }

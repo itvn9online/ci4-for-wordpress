@@ -5,7 +5,7 @@ include APPPATH . 'Views/admin/default/login_header.php';
 ?>
 <div id="loginbox">
     <form id="loginform" class="form-vertical" accept-charset="utf-8" action="./guest/register" method="POST">
-        <?php echo $base_model->csrf_field(); ?>
+        <?php $base_model->csrf_field(); ?>
         <div class="control-group normal_text">
             <h3><?php echo $seo['title']; ?></h3>
         </div>
