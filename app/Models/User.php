@@ -11,7 +11,29 @@ class User extends UserMeta {
         parent::__construct();
     }
 
-    function insert_member( $data ) {
+    private function sync_pass( $data ) {
+        // nếu có pass -> tiến hành đồng bộ pass
+        if ( isset( $data[ 'ci_pass' ] ) ) {
+            // đồng bộ về 1 định dạng pass
+            if ( $data[ 'ci_pass' ] != '' ) {
+                $data[ 'ci_pass' ] = md5( $data[ 'ci_pass' ] );
+                // tạo mật khẩu cho wordpress
+                $data[ 'user_pass' ] = $data[ 'ci_pass' ];
+            }
+            // hoặc bỏ qua việc cập nhật nếu không có dữ liệu
+            else {
+                unset( $data[ 'ci_pass' ] );
+                if ( isset( $data[ 'user_pass' ] ) ) {
+                    unset( $data[ 'user_pass' ] );
+                }
+            }
+        }
+
+        //
+        return $data;
+    }
+
+    public function insert_member( $data ) {
         // các dữ liệu mặc định
         $default_data = [
             'user_registered' => date( 'Y-m-d H:i:s' ),
@@ -28,11 +50,7 @@ class User extends UserMeta {
             $data[ 'user_login' ] = $this->check_user_login_exist( $data[ 'user_email' ] );
         }
         // mã hóa mật khẩu
-        if ( isset( $data[ 'ci_pass' ] ) && $data[ 'ci_pass' ] != '' ) {
-            $data[ 'ci_pass' ] = md5( $data[ 'ci_pass' ] );
-            // tạo mật khẩu cho wordpress
-            $data[ 'user_pass' ] = $data[ 'ci_pass' ];
-        }
+        $data = $this->sync_pass( $data );
 
         //
         foreach ( $default_data as $k => $v ) {
@@ -52,7 +70,7 @@ class User extends UserMeta {
         return false;
     }
 
-    function update_member( $id, $data, $where = [] ) {
+    public function update_member( $id, $data, $where = [] ) {
         if ( isset( $data[ 'user_login' ] ) ) {
             if ( $data[ 'user_login' ] == '' ) {
                 if ( isset( $data[ 'user_email' ] ) && $data[ 'user_email' ] != '' ) {
@@ -74,11 +92,7 @@ class User extends UserMeta {
         }
 
         // mã hóa mật khẩu
-        if ( isset( $data[ 'ci_pass' ] ) && $data[ 'ci_pass' ] != '' ) {
-            $data[ 'ci_pass' ] = md5( $data[ 'ci_pass' ] );
-            // tạo mật khẩu cho wordpress
-            $data[ 'user_pass' ] = $data[ 'ci_pass' ];
-        }
+        $data = $this->sync_pass( $data );
 
         // nếu có email
         if ( isset( $data[ 'user_email' ] ) ) {
