@@ -168,6 +168,13 @@ class AdminMenu {
                     ],
                 ]
             ],
+            'admin/dev' => [
+                'name' => 'Kỹ thuật',
+                'icon' => 'fa fa-bug',
+                'arr' => [
+                    //
+                ]
+            ],
         ];
     }
 }

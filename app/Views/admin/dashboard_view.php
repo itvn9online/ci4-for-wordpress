@@ -17,21 +17,21 @@ use App\ Libraries\ UsersType;
 
     // lấy theo version
     if ( file_exists( PUBLIC_HTML_PATH . 'VERSION' ) ) {
-        echo date( 'Y-m-d H:i:s', filemtime( PUBLIC_HTML_PATH . 'VERSION' ) ) . ' - Phiên bản: <strong>' . file_get_contents( PUBLIC_HTML_PATH . 'VERSION' ) . '</strong>';
+        echo date( EBE_DATETIME_FORMAT, filemtime( PUBLIC_HTML_PATH . 'VERSION' ) ) . ' - Phiên bản: <strong>' . file_get_contents( PUBLIC_HTML_PATH . 'VERSION' ) . '</strong>';
     }
     // hoặc lấy theo file layout
     else {
-        echo date( 'Y-m-d H:i:s', filemtime( APPPATH . 'Controllers/Layout.php' ) );
+        echo date( EBE_DATETIME_FORMAT, filemtime( APPPATH . 'Controllers/Layout.php' ) );
     }
 
     ?>
 </p>
-<p>Sử dụng framework <a href="https://codeigniter.com/" target="_blank" rel="nofollow"><strong>Codeigniter <?php echo \CodeIgniter\CodeIgniter::CI_VERSION; ?></strong></a>
+<p>Nền tảng chính framework <a href="https://codeigniter.com/" target="_blank" rel="nofollow"><strong>Codeigniter <?php echo \CodeIgniter\CodeIgniter::CI_VERSION; ?></strong></a>
     <?php
 
     //
     if ( file_exists( PUBLIC_HTML_PATH . 'system.zip' ) ) {
-        echo '(<em>Cập nhật lần cuối: ' . date( 'Y-m-d H:i:s', filemtime( PUBLIC_HTML_PATH . 'system.zip' ) ) . '</em>)';
+        echo '(<em>Cập nhật lần cuối: ' . date( EBE_DATETIME_FORMAT, filemtime( PUBLIC_HTML_PATH . 'system.zip' ) ) . '</em>)';
     }
 
     ?>
@@ -67,7 +67,7 @@ echo '******' . substr( $current_dbname, 6 );
 ?>
     </strong></p>
 <p>Server IP: <strong><?php echo $_SERVER['SERVER_ADDR']; ?></strong></p>
-<p>Server time: <strong><?php echo date('Y-m-d H:i:s'); ?></strong></p>
+<p>Server time: <strong><?php echo date(EBE_DATETIME_FORMAT); ?></strong></p>
 <hr>
 <?php
 

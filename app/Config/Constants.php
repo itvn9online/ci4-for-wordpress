@@ -166,7 +166,9 @@ if ( !defined( 'THEMENAME' ) ) {
 define( 'THEMEPATH', PUBLIC_PUBLIC_PATH . 'themes/' . THEMENAME . '/' );
 //die( THEMEPATH );
 
-//
+/*
+ * nạp file function của từng theme
+ */
 if ( file_exists( THEMEPATH . 'functions.php' ) ) {
     include THEMEPATH . 'functions.php';
 }

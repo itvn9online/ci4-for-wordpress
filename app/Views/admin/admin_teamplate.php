@@ -87,6 +87,7 @@ if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
 <?php
 
 //$base_model->add_css( 'css/flatsome.css' );
+$base_model->add_css( 'css/flatsome-for-bootrap.css' );
 $base_model->add_css( 'css/d.css' );
 //$base_model->add_css( 'css/d2.css' );
 $base_model->add_css( 'css/admin_teamplate.css' );

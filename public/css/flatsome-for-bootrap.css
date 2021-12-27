@@ -1,0 +1,30 @@
+/*
+* file này sẽ hỗ trợ xử lý 1 chút css từ flatsome, để cho khớp với bootrap mặc định
+*/
+.flatsome {}
+/* */
+.flatsome .row {
+    margin-left: auto;
+    margin-right: auto;
+}
+.flatsome .row {}
+/* */
+.flatsome .col {
+    position: relative;
+    margin: 0;
+    padding: 0 15px 30px;
+    /* width: 100%; */
+}
+.flatsome .row-collapse > .col {
+    padding: 0 !important;
+}
+.flatsome .row-small > .col {
+    padding: 0 9.8px 19.6px;
+    margin-bottom: 0;
+}
+/* */
+/* */
+/* */
+/* */
+/* */
+/* */
