@@ -19,14 +19,11 @@ class Logged extends Layout {
             ] ) );
         }
 
-        // thử renew thời hạn cho session
-        //$this->MY_session( '__ci_last_regenerate', time() );
-
         //
         sleep( 1 );
 
         // xong lưu lại phiên mới
-        $this->MY_session( 'admin', $this->session_data );
+        $this->base_model->set_ses_login( $this->session_data );
 
         //
         //die( json_encode( $this->session_data ) );

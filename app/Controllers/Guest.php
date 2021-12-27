@@ -42,7 +42,7 @@ class Guest extends Csrf {
 
                 //
                 if ( $this->checkaccount() === true ) {
-                    $session_data = $this->MY_session( 'admin' );
+                    $session_data = $this->base_model->get_ses_login();
 
                     //
                     /*
@@ -154,10 +154,7 @@ class Guest extends Csrf {
         ] );
 
         //
-        $this->MY_session( 'admin', $result );
-
-        //
-        //$this->MY_session( 'WGR_user_logged', $result[ 'ID' ] );
+        $this->base_model->set_ses_login( $result );
 
         //
         return true;

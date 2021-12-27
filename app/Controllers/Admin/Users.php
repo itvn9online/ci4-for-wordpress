@@ -382,7 +382,7 @@ class Users extends Admin {
         $this->MY_session( 'admin_login_as', $this->session_data );
 
         // lưu thông tin đăng nhập mới
-        $this->MY_session( 'admin', $data );
+        $this->base_model->set_ses_login( $data );
 
         //
         $this->MY_session( 'msg', 'Đăng nhập vào tài khoản thành viên thành công: ' . $data[ 'user_email' ] );

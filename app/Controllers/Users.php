@@ -63,7 +63,7 @@ class Users extends Csrf {
         // nếu có session login từ admin vào 1 user nào đó -> quay lại session của admin
         $admin_login_as = $this->MY_session( 'admin_login_as' );
         if ( !empty( $admin_login_as ) ) {
-            $this->MY_session( 'admin', $admin_login_as );
+            $this->base_model->set_ses_login( $admin_login_as );
 
             // xóa session login as
             $this->MY_session( 'admin_login_as', '' );

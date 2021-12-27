@@ -5,7 +5,10 @@ namespace App\ Models;
 //use CodeIgniter\ Model;
 
 class Session {
-    private $key_csrf_hash = 'my_csrf_hash';
+    // key dùng lưu session cho các phiên kiểm tra csrf
+    private $key_csrf_hash = '_wgr_csrf_hash';
+    // key lưu phiên đăng nhập của khách
+    private $key_member_login = '_wgr_logged';
 
     public function __construct() {
         //
@@ -58,5 +61,22 @@ class Session {
 
         //
         return true;
+    }
+
+    // set session login -> lưu phiên đăng nhập của người dùng
+    public function set_ses_login( $data ) {
+        return $this->MY_session( $this->key_member_login, $data );
+    }
+    // get session login -> trả về dữ liệu đăng nhập của người dùng
+    public function get_ses_login() {
+        // daidq (2021-12-27): hỗ trợ vài ngày cho các tài khoản sử dụng phiên đăng nhập cũ -> admin
+        $a = $this->MY_session( $this->key_member_login );
+        if ( $a == '' ) {
+            $a = $this->MY_session( 'admin' );
+        }
+        return $a;
+
+        // sau đó chỉ sử dụng thuần phiên mới này thôi
+        return $this->MY_session( $this->key_member_login );
     }
 }

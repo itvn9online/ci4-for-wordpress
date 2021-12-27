@@ -50,7 +50,7 @@ $this->base_model->short_string( 'Nội dung cần cắt', 'độ dài cần c�
 // chuyển chuỗi thành URL tiêu chuẩn (SEO) -> dùng khi cần tạo slug URL hoặc xử lý tên file upload lên host
 $this->base_model->_eb_non_mark_seo( 'Nội dung cần xử lý' );
 
-$user_id = $this->MY_session( 'admin' )[ 'ID' ];
+$user_id = $this->base_model->get_ses_login()[ 'ID' ];
 
 // cURL
 $this->base_model->get( 'URL' );

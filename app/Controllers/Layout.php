@@ -77,7 +77,7 @@ class Layout extends Sync {
 
         //
         $this->current_user_id = 0;
-        $this->session_data = $this->MY_session( 'admin' );
+        $this->session_data = $this->base_model->get_ses_login();
         //print_r( $this->session_data );
 
         // key lưu ID hiện tại của user

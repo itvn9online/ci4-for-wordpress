@@ -16,7 +16,7 @@ class PostQuery extends PostMeta {
 
     function insert_post( $data, $data_meta = [] ) {
         //$session_data = $this->session->get( 'admin' );
-        $session_data = $this->base_model->MY_session( 'admin' );
+        $session_data = $this->base_model->get_ses_login();
         if ( empty( $session_data ) ) {
             $post_author = 0;
         } else {
