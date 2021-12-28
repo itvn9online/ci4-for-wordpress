@@ -69,14 +69,15 @@ class Session {
     }
     // get session login -> trả về dữ liệu đăng nhập của người dùng
     public function get_ses_login() {
-        // daidq (2021-12-27): hỗ trợ vài ngày cho các tài khoản sử dụng phiên đăng nhập cũ -> admin
-        $a = $this->MY_session( $this->key_member_login );
-        if ( $a == '' ) {
-            $a = $this->MY_session( 'admin' );
-        }
-        return $a;
-
-        // sau đó chỉ sử dụng thuần phiên mới này thôi
         return $this->MY_session( $this->key_member_login );
+    }
+
+    // lưu hoặc lấy session báo lỗi
+    public function msg_error_session( $value = NULL ) {
+        return $this->MY_session( 'msg_error', $value );
+    }
+    // lưu hoặc lấy session thông báo
+    public function msg_session( $value = NULL ) {
+        return $this->MY_session( 'msg', $value );
     }
 }

@@ -2,14 +2,14 @@
 namespace App\ Controllers;
 
 //
-use CodeIgniter\ Controller;
+//use CodeIgniter\ Controller;
 
 // Libraries
 //use App\ Libraries\ LanguageCost;
 //use App\ Libraries\ PostType;
 
 //
-class Sync extends Controller {
+class Sync extends BaseController {
     public function __construct() {
         $this->base_model = new\ App\ Models\ Base();
     }
@@ -285,5 +285,93 @@ class Sync extends Controller {
         $this->action_vendor_sync( 'vendor' );
         // đồng bộ ThirdParty php (code php của bên thứ 3)
         $this->action_vendor_sync( 'app/ThirdParty' );
+    }
+
+    // tự set session, do session của ci4 nó đứt liên tục
+    protected function MY_session( $key, $value = NULL ) {
+        return $this->base_model->MY_session( $key, $value );
+    }
+
+    protected function set_validation_error( $errors ) {
+        //print_r( $errors );
+        foreach ( $errors as $error ) {
+            $this->base_model->msg_error_session( $error );
+            break;
+        }
+        //die( __FILE__ . ':' . __LINE__ );
+    }
+
+    // đồng bộ nội dung về 1 kiểu
+    protected function replace_content( $str ) {
+        $str = str_replace( '../../../public/upload/', 'upload/', $str );
+        $str = str_replace( '/public/upload/', '/upload/', $str );
+        $str = str_replace( base_url() . '/', '', $str );
+
+        //
+        return $str;
+    }
+
+    /*
+     * trả về tên của class và loại bỏ phần namespace thừa
+     */
+    protected function get_class_name( $role ) {
+        return basename( str_replace( '\\', '/', $role ) );
+    }
+
+    /*
+     * trả về URL của controller theo định dạng của namespace
+     * đầu vào là __CLASS__
+     * đầu ra sẽ cắt bỏ phần namespace ở đầu, giữ lại phần controller sau -> REUQEST URL
+     */
+    protected function base_class_url( $str ) {
+        // lấy thư mục chứa file hiện tại
+        //echo __DIR__ . '<br>' . "\n";
+        $current_dir = basename( __DIR__ );
+        //echo $current_dir . '<br>' . "\n";
+
+        //
+        //echo $str . '<br>' . "\n";
+        $str = str_replace( '\\', '/', $str );
+        //echo $str . '<br>' . "\n";
+
+        // cắt chuỗi
+        $str = explode( $current_dir . '/', $str );
+        //print_r( $str );
+
+        //
+        if ( isset( $str[ 1 ] ) ) {
+            return strtolower( $str[ 1 ] );
+        }
+
+        //
+        return strtolower( $str[ 0 ] );
+    }
+
+    /*
+     * Hỗ trợ điều khiển file thông qua FTP account -> do không phải host nào cũng có thể điều khiển file bằng php thuần
+     */
+    protected function MY_unlink( $f ) {
+        if ( @!unlink( $f ) ) {
+            $file_model = new\ App\ Models\ File();
+
+            return $file_model->FTP_unlink( $f );
+        }
+
+        //
+        return true;
+    }
+
+    protected function MY_copy( $from, $to, $file_permission = 0777 ) {
+        if ( @!copy( $from, $to ) ) {
+            $file_model = new\ App\ Models\ File();
+
+            return $file_model->FTP_copy( $from, $to );
+        }
+        if ( $file_permission > 0 ) {
+            chmod( $to, $file_permission );
+        }
+
+        //
+        return true;
     }
 }

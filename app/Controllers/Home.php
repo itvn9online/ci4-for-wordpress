@@ -388,7 +388,7 @@ class Home extends Csrf {
 
         //
         if ( empty( $this->MY_post( 'data' ) ) ) {
-            $this->MY_session( 'msg_error', 'Lỗi xác định phương thức nhập liệu' );
+            $this->base_model->msg_error_session( 'Lỗi xác định phương thức nhập liệu' );
             die( redirect( $redirect_to ) );
         }
 
@@ -396,7 +396,7 @@ class Home extends Csrf {
         /*
         $insert_to = $this->MY_post( 'to' );
         if ( empty( $insert_to ) ) {
-            $this->MY_session( 'msg_error', 'Không xác định được đích dữ liệu' );
+            $this->base_model->msg_error_session( 'Không xác định được đích dữ liệu' );
             die( redirect( $redirect_to ) );
         }
         */
@@ -502,7 +502,7 @@ class Home extends Csrf {
         if ( empty( $done_message ) ) {
             $done_message = 'Gửi liên hệ thành công. Chúng tôi sẽ liên hệ lại với bạn sớm nhất có thể.';
         }
-        $this->MY_session( 'msg', $done_message );
+        $this->base_model->msg_session( $done_message );
 
         //
         $data_send = [

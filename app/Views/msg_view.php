@@ -2,17 +2,15 @@
 /*
  * thông điệp lỗi trả về nếu có
  */
-//$get_msg_flash = $session->getFlashdata( 'msg' );
-if ( $base_model->MY_session( 'msg' ) != '' ) {
+if ( $base_model->msg_session() != '' ) {
     ?>
-<div class="text-submit-msg greencolor"><?php echo $base_model->MY_session( 'msg' ); ?></div>
+<div class="text-submit-msg greencolor"><?php echo $base_model->msg_session(); ?></div>
 <?php
-$base_model->MY_session( 'msg', '' );
+$base_model->msg_session( '' );
 }
-//$get_msg_flash = $session->getFlashdata( 'msg_error' );
-if ( $base_model->MY_session( 'msg_error' ) != '' ) {
+if ( $base_model->msg_error_session() != '' ) {
     ?>
-<div class="text-submit-msg redcolor"><?php echo $base_model->MY_session( 'msg_error' ); ?></div>
+<div class="text-submit-msg redcolor"><?php echo $base_model->msg_error_session(); ?></div>
 <?php
-$base_model->MY_session( 'msg_error', '' );
+$base_model->msg_error_session( '' );
 }

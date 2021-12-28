@@ -134,8 +134,7 @@ class UserBase extends EbModel {
         // có rồi
         if ( !empty( $sql ) ) {
             if ( $set_flash === true ) {
-                //$this->session->setFlashdata( 'msg_error', 'Email đã tồn tại !!!' );
-                $this->base_model->MY_session( 'msg_error', 'Email đã tồn tại !!!' );
+                $this->base_model->msg_error_session( 'Email đã tồn tại !!!' );
             }
             // trả về false
             return false;
@@ -148,8 +147,7 @@ class UserBase extends EbModel {
     public function check_resetpass( $email ) {
         // chưa có -> báo lỗi
         if ( $this->check_user_exist( $email ) === true ) {
-            //$this->session->setFlashdata( 'msg_error', 'Email không tồn tại !!!' );
-            $this->base_model->MY_session( 'msg_error', 'Email không tồn tại !!!' );
+            $this->base_model->msg_error_session( 'Email không tồn tại !!!' );
             return false;
         }
         // có thì trả về true

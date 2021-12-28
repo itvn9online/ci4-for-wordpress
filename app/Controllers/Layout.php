@@ -51,12 +51,14 @@ class Layout extends Sync {
         $this->request = \Config\ Services::request();
 
         //
+        /*
         helper( [
             //'cookie',
             'url',
             'form',
             'security'
         ] );
+        */
 
         /*
          * bắt đầu code
@@ -131,11 +133,6 @@ class Layout extends Sync {
 
         //
         return $this->global_cache( $key, $value, $time );
-    }
-
-    // tự set session, do session của ci4 nó đứt liên tục
-    protected function MY_session( $key, $value = NULL ) {
-        return $this->base_model->MY_session( $key, $value );
     }
 
     // hiển thị nội dung từ cache -> thêm 1 số đoạn comment HTML vào
@@ -383,7 +380,7 @@ Compression = gzip -->';
      * Upload giả lập wordpress
      */
     protected function media_upload( $xss_clean = true ) {
-        require_once PUBLIC_HTML_PATH . 'vendor/functionsResizeImg.php';
+        require_once APPPATH . 'ThirdParty/functionsResizeImg.php';
 
         //
         //print_r( $_POST );
@@ -571,89 +568,6 @@ Compression = gzip -->';
 
         //
         return $path;
-    }
-
-    protected function set_validation_error( $errors ) {
-        //print_r( $errors );
-        foreach ( $errors as $error ) {
-            $this->MY_session( 'msg_error', $error );
-            break;
-        }
-        //die( __FILE__ . ':' . __LINE__ );
-    }
-
-    // đồng bộ nội dung về 1 kiểu
-    protected function replace_content( $str ) {
-        $str = str_replace( '../../../public/upload/', 'upload/', $str );
-        $str = str_replace( '/public/upload/', '/upload/', $str );
-        $str = str_replace( base_url() . '/', '', $str );
-
-        //
-        return $str;
-    }
-
-    /*
-     * trả về tên của class và loại bỏ phần namespace thừa
-     */
-    protected function get_class_name( $role ) {
-        return basename( str_replace( '\\', '/', $role ) );
-    }
-
-    /*
-     * trả về URL của controller theo định dạng của namespace
-     * đầu vào là __CLASS__
-     * đầu ra sẽ cắt bỏ phần namespace ở đầu, giữ lại phần controller sau -> REUQEST URL
-     */
-    protected function base_class_url( $str ) {
-        // lấy thư mục chứa file hiện tại
-        //echo __DIR__ . '<br>' . "\n";
-        $current_dir = basename( __DIR__ );
-        //echo $current_dir . '<br>' . "\n";
-
-        //
-        //echo $str . '<br>' . "\n";
-        $str = str_replace( '\\', '/', $str );
-        //echo $str . '<br>' . "\n";
-
-        // cắt chuỗi
-        $str = explode( $current_dir . '/', $str );
-        //print_r( $str );
-
-        //
-        if ( isset( $str[ 1 ] ) ) {
-            return strtolower( $str[ 1 ] );
-        }
-
-        //
-        return strtolower( $str[ 0 ] );
-    }
-
-    /*
-     * Hỗ trợ điều khiển file thông qua FTP account -> do không phải host nào cũng có thể điều khiển file bằng php thuần
-     */
-    protected function MY_unlink( $f ) {
-        if ( @!unlink( $f ) ) {
-            $file_model = new\ App\ Models\ File();
-
-            return $file_model->FTP_unlink( $f );
-        }
-
-        //
-        return true;
-    }
-
-    protected function MY_copy( $from, $to, $file_permission = 0777 ) {
-        if ( @!copy( $from, $to ) ) {
-            $file_model = new\ App\ Models\ File();
-
-            return $file_model->FTP_copy( $from, $to );
-        }
-        if ( $file_permission > 0 ) {
-            chmod( $to, $file_permission );
-        }
-
-        //
-        return true;
     }
 
     // đồng bộ dữ liệu login của thành viên về 1 định dạng chung

@@ -385,7 +385,7 @@ class Users extends Admin {
         $this->base_model->set_ses_login( $data );
 
         //
-        $this->MY_session( 'msg', 'Đăng nhập vào tài khoản thành viên thành công: ' . $data[ 'user_email' ] );
+        $this->base_model->msg_session( 'Đăng nhập vào tài khoản thành viên thành công: ' . $data[ 'user_email' ] );
 
         //
         $this->base_model->alert( '', base_url( 'users/profile' ) );

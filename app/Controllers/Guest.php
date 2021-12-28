@@ -103,9 +103,9 @@ class Guest extends Csrf {
 
             //
             if ( empty( $sql ) ) {
-                $this->MY_session( 'msg_error', 'Email đăng nhập không chính xác' );
+                $this->base_model->msg_error_session( 'Email đăng nhập không chính xác' );
             } else {
-                $this->MY_session( 'msg_error', 'Mật khẩu đăng nhập không chính xác' );
+                $this->base_model->msg_error_session( 'Mật khẩu đăng nhập không chính xác' );
             }
             return false;
         }
@@ -124,7 +124,7 @@ class Guest extends Csrf {
                     ] );
 
                     //
-                    $this->MY_session( 'msg', 'Mở khóa tài khoản thành công! Vui lòng đăng nhập lại.' );
+                    $this->base_model->msg_session( 'Mở khóa tài khoản thành công! Vui lòng đăng nhập lại.' );
 
                     //
                     return false;
@@ -133,12 +133,12 @@ class Guest extends Csrf {
             } else {
                 $auto_unlock = '<strong>Không xác định</strong>. Vui lòng liên hệ admin.';
             }
-            $this->MY_session( 'msg_error', 'Tài khoản đang bị <strong>' . UsersType::listStatus( $result[ 'user_status' ] ) . '</strong>! Thời gian mở khóa: ' . $auto_unlock );
+            $this->base_model->msg_error_session( 'Tài khoản đang bị <strong>' . UsersType::listStatus( $result[ 'user_status' ] ) . '</strong>! Thời gian mở khóa: ' . $auto_unlock );
             return false;
         }
         // tài khoản bị XÓA
         else if ( $result[ 'is_deleted' ] * 1 != DeletedStatus::FOR_DEFAULT * 1 ) {
-            $this->MY_session( 'msg_error', 'Tài khoản không tồn tại trong hệ thống! Vui lòng liên hệ admin.' );
+            $this->base_model->msg_error_session( 'Tài khoản không tồn tại trong hệ thống! Vui lòng liên hệ admin.' );
             return false;
         }
 
@@ -176,7 +176,7 @@ class Guest extends Csrf {
 
             // mật khẩu xác nhận
             if ( $data[ 'password' ] != $data[ 'password2' ] ) {
-                $this->MY_session( 'msg_error', 'Mật khẩu xác nhận không chính xác' );
+                $this->base_model->msg_error_session( 'Mật khẩu xác nhận không chính xác' );
             }
             // lấy lỗi trả về nếu có
             else if ( !$this->validation->run( $data ) ) {
@@ -201,13 +201,13 @@ class Guest extends Csrf {
                 //$insert = $this->base_model->insert( 'tbl_user', $data, true );
                 $insert = $this->user_model->insert_member( $data );
                 if ( $insert > 0 ) {
-                    $this->MY_session( 'msg', 'Đăng ký thành công' );
+                    $this->base_model->msg_session( 'Đăng ký thành công' );
                     //header( 'Location:' . base_url( 'signin' ) );
                     return redirect()->to( base_url( 'guest/login' ) );
                 } else if ( $insert === -1 ) {
-                    $this->MY_session( 'msg_error', 'Email đã được sử dụng' );
+                    $this->base_model->msg_error_session( 'Email đã được sử dụng' );
                 } else {
-                    $this->MY_session( 'msg_error', 'Lỗi đăng ký tài khoản' );
+                    $this->base_model->msg_error_session( 'Lỗi đăng ký tài khoản' );
                 }
             }
         }
@@ -240,7 +240,7 @@ class Guest extends Csrf {
             } else {
                 if ( $this->check_resetpass() === true ) {
                     // daidq -----> tính năng này để sau, đang bận chạy deadline nên vất đây đã
-                    $this->MY_session( 'msg', 'Gửi email lấy lại mật khẩu thành công' );
+                    $this->base_model->msg_session( 'Gửi email lấy lại mật khẩu thành công' );
                 }
             }
         }
