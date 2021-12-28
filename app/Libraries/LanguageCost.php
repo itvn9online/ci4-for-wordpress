@@ -72,6 +72,16 @@ class LanguageCost {
             //echo $lang . '<br>' . "\n";
             if ( isset( self::$arr[ $lang ] ) ) {
                 setcookie( self::CK_LANG_NAME, $lang, time() + ( 86400 * 30 ), "/" ); // 86400 = 1 day * 30 = 1 month
+
+                // nếu có chỉ định redirect tới khu nào đó
+                if ( isset( $_GET[ 'redirect_to' ] ) ) {
+                    $redirect_to = $_GET[ 'redirect_to' ];
+                    echo $redirect_to . '<br>' . "\n";
+                    header( 'location:' . $redirect_to );
+                    die( basename( __FILE__ ) . ':' . __LINE__ );
+                }
+
+                // mặc địh thì redirect về trang chủ
                 //print_r( $_SERVER );
                 $full_url = parse_url( DYNAMIC_BASE_URL . ltrim( $_SERVER[ 'REQUEST_URI' ], '/' ) );
                 //print_r( $full_url );
@@ -98,6 +108,8 @@ class LanguageCost {
                 }
                 //print_r( $full_url );
                 header( 'location:' . $full_url );
+
+                //
                 return $lang;
             }
         }

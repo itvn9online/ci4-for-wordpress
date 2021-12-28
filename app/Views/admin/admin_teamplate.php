@@ -93,10 +93,10 @@ if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
 $base_model->add_css( 'css/flatsome-for-bootrap.css' );
 $base_model->add_css( 'css/d.css' );
 //$base_model->add_css( 'css/d2.css' );
-$base_model->add_css( 'css/admin_teamplate.css' );
+$base_model->add_css( 'admin/css/admin_teamplate.css' );
 
-$base_model->add_js( 'javascript/admin_functions.js' );
-$base_model->add_js( 'javascript/admin_teamplate.js' );
+$base_model->add_js( 'admin/js/admin_functions.js' );
+$base_model->add_js( 'admin/js/admin_teamplate.js' );
 $base_model->add_js( 'javascript/functions.js' );
 $base_model->add_js( 'javascript/eb.js' );
 
@@ -149,7 +149,26 @@ var web_link = window.location.protocol + '//' + document.domain + '/';
 <div id="admin_custom_alert" onClick="$('#admin_custom_alert').fadeOut();"></div>
 <!--Header-part-->
 <div id="admin-header" class="cf whitecolor awhitecolor">
-    <div class="lf f50"><a href="./<?php echo CUSTOM_ADMIN_URI; ?>"><i class="fa fa-cog"></i> Quản trị hệ thống</a> &nbsp; | &nbsp; <a href="./"><i class="fa fa-home"></i> Về trang chủ</a> &nbsp; | &nbsp; Ngôn ngữ: <?php echo LanguageCost::list( LanguageCost::lang_key() ); ?></div>
+    <div class="lf f50">
+        <div class="d-inline"><a href="./<?php echo CUSTOM_ADMIN_URI; ?>"><i class="fa fa-cog"></i> Quản trị hệ thống</a></div>
+        &nbsp; | &nbsp;
+        <div class="d-inline"><a href="./"><i class="fa fa-home"></i> Về trang chủ</a></div>
+        &nbsp; | &nbsp;
+        <div class="d-inline">Ngôn ngữ:
+            <select data-select="<?php echo LanguageCost::lang_key(); ?>" class="admin-change-language">
+                <?php
+
+                // cho phép đổi ngôn ngữ ngay trong admin
+                foreach ( LanguageCost::list() as $k => $v ) {
+                    ?>
+                <option value="<?php echo $k; ?>"><?php echo $v; ?></option>
+                <?php
+                }
+
+                ?>
+            </select>
+        </div>
+    </div>
     <div class="lf f50 text-right">Xin Chào: <a title="Thông tin cá nhân" href="./users/profile"><?php echo $session_data['userName'] != '' ? $session_data['userName'] : $session_data['user_login']; ?></a> &nbsp; | &nbsp; <a title="Đăng xuất" data-bs-toggle="modal" data-bs-target="#logoutModal" href="javascript:;"><i class="fa fa-sign-out"></i> Logout</a></div>
 </div>
 <!--close-Header-part--> 
@@ -240,7 +259,7 @@ var web_link = window.location.protocol + '//' + document.domain + '/';
 </div>
 <div class="text-center admin-copyright">&copy; <?php echo date('Y'); ?> <a href="https://echbay.com/" target="_blank" rel="nofollow">EchBay.com</a> - All rights reserved. Code using framework <a href="https://codeigniter.com/" target="_blank" rel="nofollow">Codeigniter <?php echo \CodeIgniter\CodeIgniter::CI_VERSION; ?></a> - <span class="cur" onClick="$('#target_eb_iframe').attr({'height':250});">Show process</span></div>
 <?php
-$base_model->add_js( 'javascript/admin_footer.js' );
+$base_model->add_js( 'admin/js/admin_footer.js' );
 ?>
 <!-- Modal logout -->
 <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">

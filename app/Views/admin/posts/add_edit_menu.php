@@ -127,4 +127,4 @@
 </div>
 <?php
 
-$this->base_model->add_js( 'javascript/add_edit_menu.js' );
+$this->base_model->add_js( 'admin/js/add_edit_menu.js' );

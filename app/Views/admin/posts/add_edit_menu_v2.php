@@ -141,11 +141,11 @@
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
 <?php
 
-$base_model->add_js( 'javascript/add_edit_menu_v2.js' );
+$base_model->add_js( 'admin/js/add_edit_menu_v2.js' );
 
 ?>
 <script src="./thirdparty/Nestable-master/jquery.nestable.js"></script> 
 <script src="./thirdparty/Nestable-master/jquery.nestable++.js"></script>
 <?php
 
-$base_model->add_js( 'javascript/add_edit_menu_v2_footer.js' );
+$base_model->add_js( 'admin/js/add_edit_menu_v2_footer.js' );

@@ -38,6 +38,7 @@ if ($('.admin-breadcrumb').length > 0) {
 
 // tự động select khi có dữ liệu
 WGR_set_prop_for_select('#content select');
+WGR_set_prop_for_select('select.admin-change-language');
 
 // tự động checkbox khi có dữ liệu
 $('#content input[type="checkbox"]').each(function () {
@@ -344,3 +345,18 @@ _global_js_eb.select_date('.ebe-jquery-ui-date');
  * duy trì đăng nhập đối với tài khoản admin (tầm 4 tiếng -> tương ứng với 1 ca làm việc)
  */
 //WGR_duy_tri_dang_nhap(4 * 60);
+
+
+/*
+ * thay đổi ngôn ngữ trong admin
+ */
+$('.admin-change-language').change(function () {
+    var a = $(this).val() || '';
+
+    //
+    if (a != '') {
+        //console.log(a);
+
+        window.location = web_link + '/?set_lang=' + a + '&redirect_to=' + encodeURIComponent(window.location.href);
+    }
+});

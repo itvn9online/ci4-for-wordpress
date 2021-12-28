@@ -33,7 +33,7 @@ $base_model->add_css( 'themes/' . THEMENAME . '/css/thread_node.css' );
 
 $base_model->add_js( 'javascript/functions.js' );
 $base_model->add_js( 'javascript/eb.js' );
-$base_model->add_js( 'javascript/slider.js' );
+//$base_model->add_js( 'javascript/slider.js' );
 $base_model->add_js( 'themes/' . THEMENAME . '/js/functions.js' );
 
 //print_r( $getconfig );
