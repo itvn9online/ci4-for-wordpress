@@ -35,7 +35,7 @@ class Uploads extends Admin {
         ];
 
         // tìm kiếm theo từ khóa nhập vào
-        $by_keyword = $this->MY_get( 's', '' );
+        $by_keyword = $this->MY_get( 's' );
         $where_or_like = [];
         // URL cho phân trang tìm kiếm
         $urlPartPage = 'admin/uploads?post_type=' . $this->post_type;

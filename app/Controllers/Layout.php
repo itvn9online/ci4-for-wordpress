@@ -346,27 +346,16 @@ Compression = gzip -->';
 
     // hàm lấy dữ liệu đầu vào và xử lý các vấn đề bảo mật nếu có
     private function MY_data( $a, $default_value = '', $xss_clean = true ) {
-        if ( empty( $a ) ) {
+        // với kiểu chuỗi -> so sánh lấy chuỗi trống
+        if ( is_string( $a ) && $a == '' ) {
+            return $default_value;
+        } else if ( is_numeric( $a ) ) {
+            return $a;
+        } else if ( empty( $a ) ) {
             return $default_value;
         }
 
-        if ( $xss_clean === true ) {
-            if ( !is_array( $a ) ) {
-                // xss_clean bị hủy bỏ ở CI4
-                return $a;
-                //return $this->security->xss_clean( $a );
-            }
-
-            //
-            /*
-			foreach ( $a as $k => $v ) {
-				if ( !empty( $v ) ) {
-					// xss_clean bị hủy bỏ ở CI4
-					//$a[ $k ] = $this->security->xss_clean( $v );
-				}
-			}
-            */
-        }
+        //
         return $a;
     }
     protected function MY_get( $key, $default_value = '', $xss_clean = true ) {

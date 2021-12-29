@@ -42,7 +42,7 @@ class Users extends Admin {
         }
 
         // tìm kiếm theo từ khóa nhập vào
-        $by_keyword = $this->MY_get( 's', '' );
+        $by_keyword = $this->MY_get( 's' );
         $where_or_like = [];
         // URL cho phân trang tìm kiếm
         $urlPartPage = 'admin/users?member_type=' . $this->member_type;
@@ -81,6 +81,13 @@ class Users extends Admin {
                     }
                 }
             }
+        }
+
+        // lọc theo trạng thái đăng nhập
+        $by_user_status = $this->MY_get( 'user_status' );
+        if ( $by_user_status != '' && $by_user_status != 'all' ) {
+            $where[ 'wp_users.user_status' ] = $by_user_status;
+            $urlPartPage .= '&user_status=' . $by_user_status;
         }
 
         //
@@ -148,6 +155,7 @@ class Users extends Admin {
         $this->teamplate_admin[ 'content' ] = view( 'admin/users/list', array(
             'pagination' => $pagination,
             'by_is_deleted' => $by_is_deleted,
+            'by_user_status' => $by_user_status,
             'page_num' => $page_num,
             'totalThread' => $totalThread,
             'by_keyword' => $by_keyword,

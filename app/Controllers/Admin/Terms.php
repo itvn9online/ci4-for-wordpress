@@ -40,7 +40,7 @@ class Terms extends Admin {
 
     public function index() {
         // tìm kiếm theo từ khóa nhập vào
-        $by_keyword = $this->MY_get( 's', '' );
+        $by_keyword = $this->MY_get( 's' );
         $where_or_like = [];
         if ( $by_keyword != '' ) {
             $by_like = $this->base_model->_eb_non_mark_seo( $by_keyword );

@@ -23,6 +23,18 @@ use App\ Libraries\ DeletedStatus;
                 <div class="lf f30">
                     <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $member_type != '' ? UsersType::list($member_type) : ''; ?>" autofocus>
                 </div>
+                <div class="lf f30">
+                    <select name="user_status" data-select="<?php echo $by_user_status; ?>" onChange="document.frm_admin_search_controller.submit();">
+                        <option value="all">- Trạng thái đăng nhập -</option>
+                        <?php
+
+                        foreach ( UsersType::listStatus() as $type_k => $type_v ) {
+                            echo '<option value="' . $type_k . '">' . $type_v . '</option>';
+                        }
+
+                        ?>
+                    </select>
+                </div>
                 <div class="lf f20">
                     <button type="submit" class="btn-success"><i class="fa fa-search"></i> Tìm kiếm</button>
                 </div>

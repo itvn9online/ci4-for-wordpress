@@ -12,7 +12,7 @@ include APPPATH . 'Views/admin/default/login_header.php';
         <div class="control-group">
             <div class="controls">
                 <div class="main_input_box"> <span class="add-on greencolor"><i class="fa fa-envelope-o"></i></span>
-                    <input type="email" placeholder="Email" name="data[email]" value="<?php echo set_value('email'); ?>" autofocus aria-required="true" required />
+                    <input type="email" placeholder="Email" name="data[email]" value="" autofocus aria-required="true" required />
                 </div>
             </div>
             <br>
