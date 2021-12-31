@@ -23,8 +23,19 @@ class Guest extends Csrf {
             return redirect()->to( $login_redirect );
         }
 
+        // xem có phải nhập mã captcha không
+        $has_captcha = false;
+        if ( $this->base_model->check_faild_login() > 0 ) {
+            //die( __FILE__ . ':' . __LINE__ );
+            if ( !isset( $_POST[ 'captcha' ] ) || $this->MY_session( 'check_captcha' ) != $_POST[ 'captcha' ] ) {
+                $this->base_model->msg_error_session( 'Mã xác thực không chính xác' );
+                $has_captcha = true;
+            }
+        }
+        //die( __FILE__ . ':' . __LINE__ );
+
         //
-        if ( !empty( $this->MY_post( 'username' ) ) ) {
+        if ( $has_captcha === false && !empty( $this->MY_post( 'username' ) ) ) {
             //print_r( $_POST );
             $this->validation->reset();
             $this->validation->setRules( [
@@ -107,8 +118,16 @@ class Guest extends Csrf {
             } else {
                 $this->base_model->msg_error_session( 'Mật khẩu đăng nhập không chính xác' );
             }
+
+            // thêm số lần đăng nhập sai
+            $this->base_model->push_faild_login();
+
+            //
             return false;
         }
+
+        // reset lại captcha login
+        $this->base_model->reset_faild_login();
 
         // tài khoản bị KHÓA
         $result[ 'user_status' ] *= 1;

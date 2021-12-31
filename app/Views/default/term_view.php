@@ -36,6 +36,7 @@ use App\ Libraries\ PostType;
             'wp_term_taxonomy' => 'wp_term_relationships.term_taxonomy_id = wp_term_taxonomy.term_taxonomy_id',
         ],
         'order_by' => [
+            'wp_posts.post_modified' => 'DESC',
             'wp_posts.ID' => 'DESC',
         ],
         // hiển thị mã SQL để check

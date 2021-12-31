@@ -80,4 +80,38 @@ class Session {
     public function msg_session( $value = NULL ) {
         return $this->MY_session( 'msg', $value );
     }
+
+
+    /*
+     * Chức năng captcha khi đăng nhập sai nhiều lần
+     */
+    // lấy tổng số lần đăng nhập sai
+    public function get_faild_login() {
+        $a = $this->MY_session( 'count_faild_login' );
+        if ( $a == '' ) {
+            $a = 0;
+        } else {
+            $a *= 1;
+        }
+
+        //
+        return $a;
+    }
+    // thêm số lần đăng nhập sai -> mỗi lần đăng nhập sai thì thêm 1 đơn vị
+    public function push_faild_login() {
+        $this->MY_session( 'count_faild_login', $this->get_faild_login() + 1 );
+    }
+    // thêm số lần đăng nhập sai -> mỗi lần đăng nhập sai thì thêm 1 đơn vị
+    public function reset_faild_login() {
+        if ( $this->MY_session( 'count_faild_login' ) != '' ) {
+            $this->MY_session( 'count_faild_login', '' );
+        }
+    }
+    // kiểm tra nếu vượt số lần đăng nhập sai thì trả về true
+    public function check_faild_login() {
+        if ( $this->get_faild_login() >= 3 ) {
+            return 1;
+        }
+        return 0;
+    }
 }

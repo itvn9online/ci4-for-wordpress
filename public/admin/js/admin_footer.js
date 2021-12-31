@@ -345,6 +345,9 @@ _global_js_eb.select_date('.ebe-jquery-ui-date');
  * duy trì đăng nhập đối với tài khoản admin (tầm 4 tiếng -> tương ứng với 1 ca làm việc)
  */
 //WGR_duy_tri_dang_nhap(4 * 60);
+setInterval(function () {
+    document.getElementById('target_eb_iframe').src = web_link + 'admin/admin/admin_logged';
+}, 10 * 60 * 1000);
 
 
 /*

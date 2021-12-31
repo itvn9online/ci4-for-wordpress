@@ -22,6 +22,12 @@ include APPPATH . 'Views/admin/default/login_header.php';
                     <input type="password" placeholder="Mật khẩu" name="password" aria-required="true" required />
                 </div>
             </div>
+            <?php
+
+            // thêm mã xác thực nếu login sai quá nhiều lần
+            include APPPATH . 'Views/admin/default/login_captcha.php';
+
+            ?>
         </div>
         <div class="form-actions cf l35"><a href="./guest/register">Đăng ký</a> | <a href="./guest/resetpass"> Quên mật khẩu?</a> <span class="pull-right">
             <input type="submit" class="btn btn-success" value="<?php echo $seo['title']; ?>" />

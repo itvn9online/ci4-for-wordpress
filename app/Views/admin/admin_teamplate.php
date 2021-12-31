@@ -143,6 +143,7 @@ try {
 
 //
 var web_link = window.location.protocol + '//' + document.domain + '/';
+var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
 </script>
 </head>
 <body class="<?php echo $body_class; ?>">

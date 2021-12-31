@@ -138,6 +138,11 @@ class Admin extends Layout {
         return $arr;
     }
 
+    // reset sesion login -> giữ trạng thái đăng nhập nếu không dùng máy tính mà vẫn bật trình duyệt
+    public function admin_logged() {
+        $this->base_model->alert( 'CẢNH BÁO! Hãy đăng xuất admin khi không sử dụng!', 'warning' );
+    }
+
     public function testCode() {
         // test chức năng xử lý ảnh của codeigniter 4
         //MyImage::quality( PUBLIC_PUBLIC_PATH . 'upload/2021/11/002.jpg', PUBLIC_PUBLIC_PATH . 'upload/2021/11/002-test-quality.jpg' );
