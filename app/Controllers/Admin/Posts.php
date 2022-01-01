@@ -198,6 +198,7 @@ class Posts extends Admin {
             'post_type' => $this->post_type,
             'name_type' => $this->name_type,
         ) );
+        //return $this->teamplate_admin[ 'content' ];
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
 

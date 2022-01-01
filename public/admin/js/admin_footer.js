@@ -55,56 +55,8 @@ $('#content input[type="checkbox"]').each(function () {
     }
 });
 
-// tạo vòng lặp để hiển thị danh sách nhóm từ ID -> làm vậy cho nhẹ web
-function get_taxonomy_name_by_ids(arr, jd) {
-    //console.log(arr);
-
-    if (jd > 0) {
-        for (var i = 0; i < arr.length; i++) {
-            if (arr[i].term_id * 1 == jd) {
-                return arr[i].name;
-            }
-        }
-    }
-
-    //
-    return '';
-}
-
-$('.each-to-taxonomy').each(function () {
-    var a = $(this).attr('data-id') || '';
-    var as = $(this).attr('data-ids') || '';
-    var taxonomy = $(this).attr('data-taxonomy') || '';
-    var uri = $(this).attr('data-uri') || '';
-
-    if (a == '') {
-        a = as;
-    }
-
-    if (a != '' && taxonomy != '') {
-        if (typeof arr_all_taxonomy[taxonomy] != 'undefined') {
-            a = a.split(',');
-            var str = [];
-            for (var i = 0; i < a.length; i++) {
-                if (a[i] != '') {
-                    var taxonomy_name = get_taxonomy_name_by_ids(arr_all_taxonomy[taxonomy], a[i] * 1);
-                    //console.log(taxonomy_name);
-                    if (uri != '') {
-                        taxonomy_name = '<a href="' + uri + '&term_id=' + a[i] + '">' + taxonomy_name + '</a>';
-                        //console.log(taxonomy_name);
-                    }
-
-                    if (taxonomy_name != '') {
-                        str.push(taxonomy_name);
-                    }
-                }
-            }
-
-            // in ra
-            $(this).html(str.join(', '));
-        }
-    }
-});
+//
+action_each_to_taxonomy();
 
 function click_a_delete_record() {
     return confirm('Xác nhận xóa bản ghi này?');

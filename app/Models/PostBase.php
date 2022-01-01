@@ -62,7 +62,7 @@ class PostBase extends EbModel {
     }
 
     // chỉ trả về link admin của 1 post
-    function get_admin_permalink( $post_type = '', $id = 0, $controller_slug = 'posts' ) {
+    public function get_admin_permalink( $post_type = '', $id = 0, $controller_slug = 'posts' ) {
         if ( $post_type == PostType::MENU ) {
             $controller_slug = 'menus';
         }
@@ -74,12 +74,12 @@ class PostBase extends EbModel {
     }
 
     // thường dùng trong view -> in ra link admin của 1 post
-    function admin_permalink( $post_type = '', $id = 0, $controller_slug = 'posts' ) {
+    public function admin_permalink( $post_type = '', $id = 0, $controller_slug = 'posts' ) {
         echo $this->get_admin_permalink( $post_type, $id, $controller_slug );
     }
 
     // trả về url của 1 post
-    function get_the_permalink( $data ) {
+    public function get_the_permalink( $data ) {
         //print_r( $data );
 
         //
@@ -94,7 +94,35 @@ class PostBase extends EbModel {
     }
 
     // thường dùng trong view -> in ra link admin của 1 post
-    function the_permalink( $data ) {
+    public function the_permalink( $data ) {
         echo $this->get_the_permalink( $data );
+    }
+
+    // trả về số thứ tự lớn nhất của 1 post type -> dùng khi muốn đưa 1 bài viết trong 1 post type lên đầu
+    public function max_menu_order( $post_type ) {
+        // lấy chap cuối cùng của truyện để tổng kết
+        $a = $this->base_model->select( 'menu_order', $this->table, array(
+            // WHERE AND OR
+            'post_type' => $post_type,
+        ), array(
+            'order_by' => array(
+                'menu_order' => 'DESC'
+            ),
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            //'offset' => 2,
+            'limit' => 1
+        ) );
+        //print_r( $a );
+        if ( !empty( $a ) ) {
+            return $a[ 'menu_order' ] * 1 + 1;
+        }
+        //print_r( $a );
+        //die( __FILE__ . ':' . __LINE__ );
+
+        //
+        return 0;
     }
 }

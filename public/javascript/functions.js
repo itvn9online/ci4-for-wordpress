@@ -652,3 +652,74 @@ function WGR_duy_tri_dang_nhap(max_i) {
     //
     return true;
 }
+
+// tạo vòng lặp để hiển thị danh sách nhóm từ ID -> làm vậy cho nhẹ web
+function get_taxonomy_data_by_ids(arr, jd) {
+    //console.log(arr);
+
+    if (jd > 0) {
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i].term_id * 1 == jd) {
+                return arr[i];
+            }
+        }
+    }
+
+    //
+    return '';
+}
+
+// hiển thị tên của danh mục bằng javascript -> giảm tải cho server
+function action_each_to_taxonomy() {
+    $('.each-to-taxonomy').each(function () {
+        var a = $(this).attr('data-id') || '';
+        var as = $(this).attr('data-ids') || '';
+        var taxonomy = $(this).attr('data-taxonomy') || '';
+        var uri = $(this).attr('data-uri') || '';
+        // class riêng cho thẻ A nếu có
+        var a_class = $(this).attr('data-class') || '';
+        // giãn cách giữa các thẻ A
+        var a_space = $(this).attr('data-space') || ', ';
+
+        if (a == '') {
+            a = as;
+        }
+
+        if (a != '' && taxonomy != '') {
+            if (typeof arr_all_taxonomy[taxonomy] != 'undefined') {
+                a = a.split(',');
+                var str = [];
+                for (var i = 0; i < a.length; i++) {
+                    if (a[i] != '') {
+                        var taxonomy_data = get_taxonomy_data_by_ids(arr_all_taxonomy[taxonomy], a[i] * 1);
+                        //console.log(taxonomy_data);
+                        var taxonomy_name = taxonomy_data.name;
+                        if (uri != '') {
+                            // thêm term_id nếu không có trong yêu cầu
+                            if (uri.split('%term_id%').length == 1) {
+                                uri += '&term_id=' + a[i];
+                            }
+
+                            // thay thế dữ liệu cho uri
+                            var url = uri;
+                            for (var x in taxonomy_data) {
+                                url = url.replace('%' + x + '%', taxonomy_data[x]);
+                            }
+
+                            //
+                            taxonomy_name = '<a href="' + url + '" class="' + a_class + '">' + taxonomy_name + '</a>';
+                            //console.log(taxonomy_name);
+                        }
+
+                        if (taxonomy_name != '') {
+                            str.push(taxonomy_name);
+                        }
+                    }
+                }
+
+                // in ra
+                $(this).html(str.join(a_space));
+            }
+        }
+    });
+}
