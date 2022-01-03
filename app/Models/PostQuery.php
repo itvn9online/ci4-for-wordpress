@@ -35,6 +35,7 @@ class PostQuery extends PostMeta {
         $default_data[ 'post_date_gmt' ] = $default_data[ 'post_date' ];
         $default_data[ 'post_modified' ] = $default_data[ 'post_date' ];
         $default_data[ 'post_modified_gmt' ] = $default_data[ 'post_date' ];
+        $default_data[ 'time_order' ] = time();
 
         //
         if ( !isset( $data[ 'post_name' ] ) || $data[ 'post_name' ] == '' ) {
