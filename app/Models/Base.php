@@ -385,7 +385,7 @@ class Base extends Session {
         }
 
         // offset -> limit
-        if ( !isset( $op[ 'offset' ] ) ) {
+        if ( !isset( $op[ 'offset' ] ) || $op[ 'offset' ] < 0 ) {
             $op[ 'offset' ] = 0;
         }
         //print_r($op);

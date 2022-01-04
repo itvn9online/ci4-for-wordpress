@@ -233,6 +233,13 @@ function WGR_load_textediter(for_id, ops) {
 
     //
     tinymce.init({
+        /*
+        editor_encoding: "raw",
+        apply_source_formatting: true,
+        encoding: 'html',
+        allow_html_in_named_anchor: true,
+        element_format: 'xhtml',
+        */
         selector: 'textarea' + for_id,
         height: ops['height'],
         //menubar: false,
