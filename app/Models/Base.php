@@ -475,7 +475,7 @@ class Base extends Session {
     }
 
     function add_css( $f, $get_content = false ) {
-        echo $this->get_add_css( $f ) . "\n";
+        echo $this->get_add_css( $f, $get_content ) . "\n";
     }
 
     function get_add_js( $f, $get_content = false ) {
@@ -492,7 +492,7 @@ class Base extends Session {
     }
 
     function add_js( $f, $get_content = false ) {
-        echo $this->get_add_js( $f ) . "\n";
+        echo $this->get_add_js( $f, $get_content ) . "\n";
     }
 
 
