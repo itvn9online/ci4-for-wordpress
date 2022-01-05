@@ -26,6 +26,10 @@ function HTV_alert(m, lnk) {
     return WGR_alert(m, lnk);
 }
 
+function WGR_html_alert(m, lnk) {
+    return WGR_alert(m, lnk);
+}
+
 function WGR_alert(m, lnk) {
     if (typeof m == 'undefined') {
         m = '';
@@ -722,4 +726,22 @@ function action_each_to_taxonomy() {
             }
         }
     });
+}
+
+function click2Copy(element, textShow) {
+    element.focus();
+    element.select();
+    document.execCommand('copy');
+
+    if (typeof textShow != 'undefined' && textShow == true) {
+        try {
+            textShow = element.value;
+            textShow = ' ' + $.trim(textShow);
+        } catch (e) {
+            textShow = ''
+        }
+    } else {
+        textShow = ''
+    }
+    WGR_html_alert('Copied' + textShow);
 }
