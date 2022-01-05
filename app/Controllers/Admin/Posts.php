@@ -352,6 +352,12 @@ class Posts extends Admin {
         //
         $result_id = $this->post_model->insert_post( $data );
 
+        //
+        if ( is_array( $result_id ) && isset( $result_id[ 'error' ] ) ) {
+            $this->base_model->alert( $result_id[ 'error' ], 'error' );
+        }
+
+        //
         if ( $result_id > 0 ) {
             $this->base_model->alert( '', $this->post_model->get_admin_permalink( $this->post_type, $result_id, $this->controller_slug ) );
         }

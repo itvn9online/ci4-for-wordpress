@@ -43,6 +43,28 @@ class PostQuery extends PostMeta {
         }
         if ( $data[ 'post_name' ] != '' ) {
             $data[ 'post_name' ] = $this->base_model->_eb_non_mark_seo( $data[ 'post_name' ] );
+
+            //
+            $check_slug = $this->base_model->select( 'ID', 'wp_posts', [
+                'post_name' => $data[ 'post_name' ],
+                'post_type' => $data[ 'post_type' ],
+                'post_status !=' => PostType::DELETED,
+            ], [
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                //'offset' => 2,
+                'limit' => 1
+            ] );
+            //print_r( $check_slug );
+            if ( !empty( $check_slug ) ) {
+                return [
+                    'code' => __LINE__,
+                    'error' => 'Slug đã được sử dụng ở post #' . $check_slug[ 'ID' ] . ' (' . $data[ 'post_name' ] . ')',
+                ];
+            }
+            //die( __FILE__ . ':' . __LINE__ );
         }
         foreach ( $default_data as $k => $v ) {
             if ( !isset( $data[ $k ] ) ) {
@@ -132,7 +154,7 @@ class PostQuery extends PostMeta {
                 if ( !empty( $check_slug ) ) {
                     return [
                         'code' => __LINE__,
-                        'error' => 'Slug đã được sử dụng ở post #' . $check_slug[ 'ID' ],
+                        'error' => 'Slug đã được sử dụng ở post #' . $check_slug[ 'ID' ] . ' (' . $data[ 'post_name' ] . ')',
                     ];
                 }
                 //die( __FILE__ . ':' . __LINE__ );
