@@ -461,31 +461,37 @@ class Base extends Session {
     }
 
     // nạp CSS, JS để tránh phải bấm Ctrl + F5
-    function get_add_css( $f ) {
+    function get_add_css( $f, $get_content = false ) {
         $f = str_replace( PUBLIC_PUBLIC_PATH, '', $f );
         $f = ltrim( $f, '/' );
         //echo $f . '<br>' . "\n";
         if ( !file_exists( PUBLIC_PUBLIC_PATH . $f ) ) {
             return '<!-- ' . $f . ' not exist! -->';
+        }
+        if ( $get_content === true ) {
+            return '<style>' . file_get_contents( $f, 1 ) . '</style>' . "\n";
         }
         return '<link href="' . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '" rel="stylesheet">';
     }
 
-    function add_css( $f ) {
+    function add_css( $f, $get_content = false ) {
         echo $this->get_add_css( $f ) . "\n";
     }
 
-    function get_add_js( $f ) {
+    function get_add_js( $f, $get_content = false ) {
         $f = str_replace( PUBLIC_PUBLIC_PATH, '', $f );
         $f = ltrim( $f, '/' );
         //echo $f . '<br>' . "\n";
         if ( !file_exists( PUBLIC_PUBLIC_PATH . $f ) ) {
             return '<!-- ' . $f . ' not exist! -->';
         }
+        if ( $get_content === true ) {
+            return '<script type="application/javascript">' . file_get_contents( $f, 1 ) . '</script>';
+        }
         return '<script src="' . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '" type="application/javascript"></script>';
     }
 
-    function add_js( $f ) {
+    function add_js( $f, $get_content = false ) {
         echo $this->get_add_js( $f ) . "\n";
     }
 
