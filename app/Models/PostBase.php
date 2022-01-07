@@ -51,11 +51,18 @@ class PostBase extends EbModel {
         $getconfig = ( object )$getconfig;
         $getconfig->cf_product_size = $this->base_model->get_config( $getconfig, 'cf_product_size', 1 );
         $getconfig->cf_blog_size = $this->base_model->get_config( $getconfig, 'cf_blog_size', '2/3' );
-        if ( empty( $getconfig->cf_blog_description_length ) ) {
+        if ( $getconfig->cf_blog_description_length == '' ) {
             $getconfig->cf_blog_description_length = 250;
         }
         //print_r( $getconfig );
         $this->getconfig = $getconfig;
+
+        // kích thước hình ảnh sẽ sử dụng
+        if ( $getconfig->cf_thumbnail_size == '' ) {
+            $this->cf_thumbnail_size = 'medium';
+        } else {
+            $this->cf_thumbnail_size = $getconfig->cf_thumbnail_size;
+        }
 
         //
         //$this->session = \Config\ Services::session();

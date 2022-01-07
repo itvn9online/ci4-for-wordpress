@@ -93,7 +93,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                 <?php
                 } else {
                     ?>
-                <a href="<?php echo $admin_permalink; ?>"><img src="<?php echo $post_model->get_post_thumbnail($v['post_meta']); ?>" height="90" style="height: 90px; width: auto;" /></a>
+                <a href="<?php echo $admin_permalink; ?>"><img src="<?php echo $post_model->get_list_thumbnail($v['post_meta']); ?>" height="90" style="height: 90px; width: auto;" /></a>
                 <?php
                 }
                 ?></td>

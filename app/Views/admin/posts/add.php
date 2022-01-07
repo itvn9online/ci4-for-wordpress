@@ -230,13 +230,8 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                     } // END if post select
                     else {
                         ?>
-                    <input type="text" class="span10" placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" value="<?php
-                            if ( $k == 'image' ) {
-                                echo $post_model->get_post_thumbnail($data['post_meta']);
-                            }
-                            else {
-                                $post_model->echo_meta_post($data, $k);
-                            }
+                    <input type="<?php echo $input_type; ?>" class="span10" placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" value="<?php
+                            $post_model->echo_meta_post($data, $k);
                             ?>" />
                     <?php
                     } // END else

@@ -59,7 +59,10 @@ class PostType {
     // trả về các meta mặc định dựa theo từng post_type
     public static function meta_default( $post_type ) {
         $arr = [
-            'image' => 'Ảnh đại diện',
+            'image' => 'Ảnh đại diện', // fullsize
+            'image_large' => 'Ảnh đại diện',
+            'image_medium' => 'Ảnh đại diện',
+            'image_thumbnail' => 'Ảnh đại diện',
         ];
 
         //
@@ -106,6 +109,11 @@ class PostType {
             //'second_content' => 'textarea',
             'page_template' => 'select',
             'post_auto_slider' => 'checkbox',
+            //
+            'image_large' => 'hidden',
+            'image_medium' => 'hidden',
+            'image_medium_large' => 'hidden',
+            'image_thumbnail' => 'hidden',
         ];
         if ( isset( $arr[ $key ] ) ) {
             return $arr[ $key ];

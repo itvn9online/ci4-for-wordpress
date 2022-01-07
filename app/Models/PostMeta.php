@@ -45,11 +45,19 @@ class PostMeta extends PostBase {
             $this->term_model->insert_term_relationships( $post_id, $meta_data[ 'post_category' ] );
         }
 
+        // xử lý cho ảnh đại diện -> thêm các size ảnh khác để sau còn tùy ý sử dụng
+        if ( isset( $meta_data[ 'image' ] ) && $meta_data[ 'image' ] != '' ) {
+            $meta_data[ 'image_large' ] = $this->get_img_by_size( $meta_data[ 'image' ], 'large' );
+            $meta_data[ 'image_medium' ] = $this->get_img_by_size( $meta_data[ 'image' ], 'medium' );
+            $meta_data[ 'image_thumbnail' ] = $this->get_img_by_size( $meta_data[ 'image' ], 'thumbnail' );
+            //print_r( $meta_data );
+        }
+
         // xem các meta nào không có trong lần update này -> XÓA
         foreach ( $meta_exist as $k => $v ) {
             if ( !isset( $meta_data[ $k ] ) ) {
                 //echo 'DELETE ' . $k . ' ' . $v . '<br>' . "\n";
-                
+
                 //
                 $this->base_model->delete_multiple( $this->metaTable, [
                     'post_id' => $post_id,
@@ -201,8 +209,49 @@ class PostMeta extends PostBase {
         echo $this->return_meta_post( $data[ 'post_meta' ], $key, $default_value );
     }
 
-    function get_post_thumbnail( $data, $key = 'image', $default_value = 'images/noavatar.png' ) {
-        $result = $this->return_meta_post( $data, $key );
+    // trả về ảnh với kích thước khác -> dựa theo ảnh gốc
+    function get_img_by_size( $result, $file_size ) {
+        // tạo path tuyệt đối để kiểm tra
+        //echo PUBLIC_PUBLIC_PATH . '<br>' . "\n";
+        $check_size = PUBLIC_PUBLIC_PATH . str_replace( DYNAMIC_BASE_URL, '', $result );
+        //echo $check_size . '<br>' . "\n";
+
+        // kiểm tra xem có tồn tại không path tuyệt đối này không
+        if ( file_exists( $check_size ) ) {
+            $file_ext = pathinfo( $check_size, PATHINFO_EXTENSION );
+            //echo $file_ext . '<br>' . "\n";
+
+            // kiểm tra xem có size tương ứng không
+            $check_size = str_replace( '.' . $file_ext, '-' . $file_size . '.' . $file_ext, $result );
+            //echo $check_size . '<br>' . "\n";
+            // có thì tạo URL tương đối để trả về
+            if ( file_exists( $check_size ) ) {
+                $result = str_replace( PUBLIC_PUBLIC_PATH, '', $check_size );
+                //echo $result . '<br>' . "\n";
+            }
+        }
+
+        //
+        return $result;
+    }
+
+    // lấy ảnh thumbnail cho phần danh sách bài viế trong admin -> admin thì không cần ảnh đẹp -> lấy mặc định thumbnail
+    function get_list_thumbnail( $data, $file_size = 'thumbnail' ) {
+        return $this->get_post_image( $data, 'image', 'images/noavatar.png', $file_size );
+    }
+
+    // trả về URL ảnh đại diện của bài viết
+    function get_post_image( $data, $key = 'image', $default_value = 'images/noavatar.png', $file_size = '' ) {
+        // nếu có yêu cầu lấy size ảnh khác thì kiểm tra size đó có tồn tại không
+        if ( $file_size != '' ) {
+            //echo $file_size . '<br>' . "\n";
+            $result = $this->return_meta_post( $data, $key . '_' . $file_size );
+            if ( $result == '' ) {
+                $result = $this->return_meta_post( $data, $key );
+            }
+        } else {
+            $result = $this->return_meta_post( $data, $key );
+        }
         //echo $result . '<br>' . "\n";
 
         // hỗ trợ dữ liệu từ echbaydotcom
@@ -210,11 +259,18 @@ class PostMeta extends PostBase {
             $result = $this->return_meta_post( $data, '_eb_product_avatar' );
             //echo $result . '<br>' . "\n";
         }
+
+        // nếu không tìm được thì trả về dữ liệu trống
         if ( $result == '' ) {
             $result = $default_value;
         }
 
         //
         return $result;
+    }
+
+    // lấy ảnh đại diện cho bài viết
+    function get_post_thumbnail( $data ) {
+        return $this->get_list_thumbnail( $data, $this->cf_thumbnail_size );
     }
 }

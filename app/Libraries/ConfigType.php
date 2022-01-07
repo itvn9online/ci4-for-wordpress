@@ -97,6 +97,7 @@ class ConfigType {
                 'eb_posts_per_page' => 'Số sản phẩm trên mỗi trang',
                 'eb_posts_per_line' => 'Số sản phẩm trên mỗi dòng',
                 'cf_product_size' => 'Tỉ lệ ảnh sản phẩm',
+                'cf_thumbnail_size' => 'Chất lượng hình ảnh',
                 'show_child_category' => 'Hiển thị nhóm sản phẩm con',
             ];
         } else if ( $config_type == self::POST ) {
@@ -157,6 +158,7 @@ class ConfigType {
         $arr = [
             'smtp_host_port' => 'number',
             'smtp_host_pass' => 'hidden',
+            'cf_thumbnail_size' => 'select',
 
             'eb_posts_per_page' => 'number',
             'eb_posts_per_line' => 'select',
@@ -309,6 +311,13 @@ class ConfigType {
 
         //
         $arr = [
+            'cf_thumbnail_size' => [
+                'medium' => 'Thu gọn (khuyên dùng)',
+                'medium_large' => 'Trung bình (medium_large)',
+                'large' => 'Lớn (large)',
+                '' => 'Đầy đủ (bản gốc)',
+                'thumbnail' => 'Hình nhỏ (thumbnail)',
+            ],
             'eb_posts_per_line' => $eb_posts_per_line,
             'eb_blogs_per_line' => $eb_posts_per_line,
             'smtp_secure' => [
