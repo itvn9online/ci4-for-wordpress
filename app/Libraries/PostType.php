@@ -60,9 +60,11 @@ class PostType {
     public static function meta_default( $post_type ) {
         $arr = [
             'image' => 'Ảnh đại diện', // fullsize
-            'image_large' => 'Ảnh đại diện',
-            'image_medium' => 'Ảnh đại diện',
-            'image_thumbnail' => 'Ảnh đại diện',
+            'image_large' => 'Ảnh đại diện (large)',
+            'image_medium_large' => 'Ảnh đại diện (medium large)',
+            'image_medium' => 'Ảnh đại diện (medium)',
+            'image_thumbnail' => 'Ảnh đại diện (thumbnail)',
+            'image_webp' => 'Ảnh đại diện (webp)',
         ];
 
         //
@@ -111,9 +113,10 @@ class PostType {
             'post_auto_slider' => 'checkbox',
             //
             'image_large' => 'hidden',
-            'image_medium' => 'hidden',
             'image_medium_large' => 'hidden',
+            'image_medium' => 'hidden',
             'image_thumbnail' => 'hidden',
+            //'image_webp' => 'hidden',
         ];
         if ( isset( $arr[ $key ] ) ) {
             return $arr[ $key ];

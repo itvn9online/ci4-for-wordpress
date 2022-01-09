@@ -15,6 +15,65 @@ class MyImage {
         //
     }
 
+    // chuyển định dạng ảnh sang webp
+    public static function webpConvert( $source, $desc = '', $quality = -1 ) {
+        if ( !file_exists( $source ) ) {
+            return '';
+        }
+
+        // tạo path webp
+        if ( $desc == '' ) {
+            $desc = $source . '.webp';
+        }
+        //echo $desc . '<br>' . "\n";
+
+        // nếu có rồi thì trả về luôn
+        if ( file_exists( $desc ) ) {
+            return str_replace( PUBLIC_PUBLIC_PATH, '', $desc );
+        }
+
+        // nếu chưa có -> tạo thôi
+        $file_ext = pathinfo( $source, PATHINFO_EXTENSION );
+        //echo $file_ext . '<br>' . "\n";
+
+        //
+        // bắt đầu chuyển đổi sang webp
+        $create_webp = false;
+        if ( $file_ext == 'png' ) {
+            $img = imagecreatefrompng( $source );
+            $create_webp = true;
+        } else if ( $file_ext == 'jpg' || $file_ext == 'jpeg' ) {
+            $img = imagecreatefromjpeg( $source );
+            $create_webp = true;
+        } else if ( $file_ext == 'gif' ) {
+            $img = imagecreatefromgif( $source );
+            $create_webp = true;
+        }
+
+        //
+        if ( $create_webp !== true ) {
+            return '';
+        }
+        //echo 'Create webp<br>' . "\n";
+
+        //
+        imagepalettetotruecolor( $img );
+        imagealphablending( $img, true );
+        imagesavealpha( $img, true );
+        imagewebp( $img, $desc, $quality );
+        imagedestroy( $img );
+        chmod( $desc, 0766 );
+
+        // kiểm tra lại xem có chưa
+        if ( file_exists( $desc ) ) {
+            //echo $desc . '<br>' . "\n";
+            return str_replace( PUBLIC_PUBLIC_PATH, '', $desc );
+        }
+
+        //
+        return '';
+    }
+
     private static function loadLib( $source ) {
         if ( class_exists( 'Imagick' ) ) {
             echo 'with imagick library <br>' . "\n";

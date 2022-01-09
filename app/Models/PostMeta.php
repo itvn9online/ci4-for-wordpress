@@ -48,9 +48,17 @@ class PostMeta extends PostBase {
         // xử lý cho ảnh đại diện -> thêm các size ảnh khác để sau còn tùy ý sử dụng
         if ( isset( $meta_data[ 'image' ] ) && $meta_data[ 'image' ] != '' ) {
             $meta_data[ 'image_large' ] = $this->get_img_by_size( $meta_data[ 'image' ], 'large' );
+            $meta_data[ 'image_medium_large' ] = $this->get_img_by_size( $meta_data[ 'image' ], 'medium_large' );
             $meta_data[ 'image_medium' ] = $this->get_img_by_size( $meta_data[ 'image' ], 'medium' );
             $meta_data[ 'image_thumbnail' ] = $this->get_img_by_size( $meta_data[ 'image' ], 'thumbnail' );
-            //print_r( $meta_data );
+            $meta_data[ 'image_webp' ] = $this->get_img_by_size( $meta_data[ 'image' ], 'medium' );
+
+            // phiên bản webp -> có lệnh riêng để tối ưu
+            $create_webp = \App\ Libraries\ MyImage::webpConvert( PUBLIC_PUBLIC_PATH . $meta_data[ 'image_webp' ] );
+            if ( $create_webp != '' ) {
+                $meta_data[ 'image_webp' ] = $create_webp;
+            }
+            //echo $meta_data[ 'image_webp' ] . '<br>' . "\n";
         }
 
         // xem các meta nào không có trong lần update này -> XÓA

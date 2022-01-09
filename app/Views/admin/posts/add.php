@@ -145,8 +145,18 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                 $input_type = PostType::meta_type( $k );
 
                 //
-                if ( $input_type == 'checkbox' ) {
+                if ( $input_type == 'hidden' ) {
                     ?>
+            <input type="hidden" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" value="<?php $post_model->echo_meta_post($data, $k); ?>" />
+            <?php
+
+            //
+            continue;
+            } // END if hidden type
+
+            //
+            if ( $input_type == 'checkbox' ) {
+                ?>
             <div class="control-group hide-if-edit-menu post_meta_<?php echo $k; ?>">
                 <div class="controls controls-checkbox">
                     <label>
@@ -230,9 +240,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                     } // END if post select
                     else {
                         ?>
-                    <input type="<?php echo $input_type; ?>" class="span10" placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" value="<?php
-                            $post_model->echo_meta_post($data, $k);
-                            ?>" />
+                    <input type="<?php echo $input_type; ?>" class="span10" placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" value="<?php $post_model->echo_meta_post($data, $k); ?>" />
                     <?php
                     } // END else
 

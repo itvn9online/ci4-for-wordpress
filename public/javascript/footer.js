@@ -38,6 +38,11 @@ $('ul li.current-menu-item').addClass('active').parent('ul').parent('li').addCla
 $('ul li.current-menu-parent').addClass('active').parent('ul').parent('li').addClass('current-menu-grand').addClass('active');
 
 
+// nếu trình duyệt không hỗ trợ định dạng webp -> xóa bỏ định dạng webp nếu có
+if (support_format_webp() !== true) {
+    $('.each-to-bgimg').removeAttr('data-webp');
+}
+
 // hiển thị trước hình ảnh cho màn hình đầu tiên
 _global_js_eb.ebBgLazzyLoad();
 _global_js_eb.auto_margin();

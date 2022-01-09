@@ -745,3 +745,16 @@ function click2Copy(element, textShow) {
     }
     WGR_html_alert('Copied' + textShow);
 }
+
+// kiểm tra xem trình duyệt có hỗ trợ định dạng webp không
+function support_format_webp() {
+    var elem = document.createElement('canvas');
+
+    if (!!(elem.getContext && elem.getContext('2d'))) {
+        // was able or not to get WebP representation
+        return elem.toDataURL('image/webp').indexOf('data:image/webp') == 0;
+    } else {
+        // very old browser like IE 8, canvas not supported
+        return false;
+    }
+}

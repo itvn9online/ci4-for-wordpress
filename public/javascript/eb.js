@@ -466,84 +466,20 @@ var _global_js_eb = {
             }
 
             // load trước các ảnh ngoài màn hình, để lát khách kéo xuống có thể xem được luôn
-            //			lazzy_show += 600;
-            //			lazzy_show += 1500;
-            //			lazzy_show += jQuery(window).height()/ 2;
             lazzy_show += height_for_lazzy_load;
-            //			console.log( height_for_lazzy_load );
+            //console.log( height_for_lazzy_load );
 
             //
             jQuery('.' + eb_lazzy_class).each(function () {
                 a = jQuery(this).offset().top || 0;
-                //				a = jQuery(this).attr('data-offset') || jQuery(this).offset().top || 0;
 
                 if (a < lazzy_show) {
-                    var wit = jQuery(this).width() || 300;
-
-                    // v1
-                    /*
-					jQuery(this).css({
-//						opacity: 1,
-//					}).css({
-						'background-image': 'url(\'' + (jQuery(this).attr('data-img') || '') + '\')'
-					});
-					*/
-
-
-                    // v2
-                    var img = jQuery(this).attr('data-img') || '',
-                        img_table = jQuery(this).attr('data-table-img') || img || '',
-                        img_mobile = jQuery(this).attr('data-mobile-img') || img_table || '';
+                    //var wit = jQuery(this).width() || 300;
+                    var img = jQuery(this).attr('data-webp') || jQuery(this).attr('data-img') || '';
 
                     //
-                    if (img == 'speed') {
-                        img = img_mobile;
-                        // sử dụng ảnh cho bản mobile
-                        //						if ( wh < 768 && img_mobile != '' ) {
-                        if (img_mobile != '') {
-                            // mobile
-                            if (wit < 250) {
-                                img += 'm';
-                            }
-                            // table
-                            /*
-                            else if ( wit < 400 ) {
-                            	img += 't';
-                            }
-                            */
-                        }
-                        jQuery(this).addClass(img);
-                    } else if (img != '') {
-                        // sử dụng ảnh cho bản mobile
-                        //						if ( wh < 768 && img_mobile != '' && img.split('.').pop().toLowerCase() != 'png' ) {
-                        //						if ( img_mobile != '' && img.split('.').pop().toLowerCase() != 'png' ) {
-                        //							if ( wit < 250 ) {
-                        if (wh < 550) {
-                            if (wit < 150) {
-                                img = img_mobile;
-                            } else {
-                                img = img_table;
-                            }
-                        } else if (wh < 750) {
-                            img = img_table;
-                        }
-                        /*
-                        else if ( wit < 768 ) {
-                        	img = img_table;
-                        }
-                        */
-                        //						}
-
-                        // sử dụng cdn nếu ảnh trong thư mục upload
-                        //						if ( primary_domain_usage_eb != '' && img.split('/')[0] == 'upload' ) {
-                        //							img = img.replace( 'upload/', '//upload.' +primary_domain_usage_eb+ '.com.vn/' );
-                        //						}
-
-                        //
+                    if (img != '') {
                         jQuery(this).css({
-                            //							opacity: 1,
-                            //						}).css({
-                            //							'background-image': 'url(\'' + _global_js_eb.resize_img( img, jQuery(this).width() ) + '\')'
                             'background-image': 'url(\'' + img + '\')'
                         });
                     }
@@ -551,28 +487,18 @@ var _global_js_eb = {
                     //
                     jQuery(this).removeClass(eb_lazzy_class).addClass('lazyload-img-done');
                 }
-                /*
-                else {
-                	return false;
-                }
-                */
             });
-
 
             //
             jQuery('.' + eb_lazzy_iframe).each(function () {
                 a = jQuery(this).offset().top || 0;
-                //				a = jQuery(this).attr('data-offset') || jQuery(this).offset().top || 0;
-                //				console.log( 'a: ' + a );
-                //				console.log( 'lazzy_show: ' + lazzy_show );
-
                 if (a < lazzy_show) {
                     c = jQuery(this).attr('data-iframe') || '';
-                    //					console.log(c);
+                    //console.log(c);
                     if (c != '') {
-                        //						console.log(c);
+                        //console.log(c);
                         c = unescape(c);
-                        //						console.log(c);
+                        //console.log(c);
                         jQuery(this).html(c);
 
                         //
@@ -584,11 +510,6 @@ var _global_js_eb = {
         } else {
             jQuery('.each-to-bgimg').addClass(eb_lazzy_class);
             jQuery('.url-to-google-map').addClass(eb_lazzy_iframe);
-            /*
-            jQuery('.each-to-bgimg').addClass(eb_lazzy_class).css({
-            	opacity: .2
-            });
-            */
 
             _global_js_eb.ebBgLazzyLoad(jQuery(window).height() * 1.5);
         }
