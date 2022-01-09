@@ -13,9 +13,19 @@
 <meta name="format-detection" content="telephone=no">
 <link href="<?php echo $option_model->get_the_favicon($getconfig); ?>" rel="shortcut icon" type="image/png" />
 <link href="<?php echo $seo['canonical']; ?>" rel="canonical" />
+<!-- -->
 <link href="https://fonts.googleapis.com" rel="preconnect" />
 <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
-<link href="thirdparty/awesome4/css/font-awesome.min.css?v=4.7" rel="stylesheet" />
+<!-- -->
+<?php
+
+// nạp file font theo kiểu inline
+$font_awesome_before = $base_model->get_add_css( 'thirdparty/awesome47/css/font-awesome.before.css', true );
+$font_awesome_before = str_replace( '../fonts/', './thirdparty/awesome47/fonts/', $font_awesome_before );
+echo $font_awesome_before;
+
+?>
+<link href="thirdparty/awesome47/css/font-awesome.min.css?v=4.7" rel="stylesheet" />
 <link href="thirdparty/bootstrap-5.1.3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <!-- <link href="thirdparty/flatsome/flatsome.css" rel="stylesheet" type="text/css" /> --> 
 <!-- <link href="frontend/css/swiper.min.css" rel="stylesheet" type="text/css" /> --> 

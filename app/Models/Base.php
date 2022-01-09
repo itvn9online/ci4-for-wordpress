@@ -478,7 +478,7 @@ class Base extends Session {
         echo $this->get_add_css( $f, $get_content ) . "\n";
     }
 
-    function get_add_js( $f, $get_content = false ) {
+    function get_add_js( $f, $get_content = false, $attr = [] ) {
         $f = str_replace( PUBLIC_PUBLIC_PATH, '', $f );
         $f = ltrim( $f, '/' );
         //echo $f . '<br>' . "\n";
@@ -488,11 +488,12 @@ class Base extends Session {
         if ( $get_content === true ) {
             return '<script type="application/javascript">' . file_get_contents( $f, 1 ) . '</script>';
         }
-        return '<script src="' . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '" type="application/javascript"></script>';
+        //print_r( $attr );
+        return '<script src="' . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '" type="application/javascript" ' . implode( ' ', $attr ) . '></script>';
     }
 
-    function add_js( $f, $get_content = false ) {
-        echo $this->get_add_js( $f, $get_content ) . "\n";
+    function add_js( $f, $get_content = false, $attr = [] ) {
+        echo $this->get_add_js( $f, $get_content, $attr ) . "\n";
     }
 
 

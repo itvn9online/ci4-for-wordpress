@@ -56,16 +56,15 @@ if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
 <!-- <link rel="stylesheet" href="admin/css/uniform.css"/> -->
 <link rel="stylesheet" href="admin/css/maruti-media.css" class="skin-color"/>
 <!-- <link rel="stylesheet" href="admin/css/select2.css"/> -->
-<link rel="stylesheet" href="./thirdparty/awesome4/css/font-awesome.min.css?v=4.7"/>
+<link rel="stylesheet" href="./thirdparty/awesome47/css/font-awesome.before.css?v=4.7"/>
+<link rel="stylesheet" href="./thirdparty/awesome47/css/font-awesome.min.css?v=4.7"/>
 <!--
 <link rel="stylesheet" href="fonts/fontawesome-free-5.15.1-web/css/fontawesome.min.css" type="text/css" media="all" />
 <link rel="stylesheet" href="fonts/fontawesome-free-5.15.1-web/css/brands.min.css" type="text/css" media="all" />
 <link rel="stylesheet" href="fonts/fontawesome-free-5.15.1-web/css/solid.min.css" type="text/css" media="all" />
 <link rel="stylesheet" href="fonts/fontawesome-free-5.15.1-web/css/v4-shims.min.css" type="text/css" media="all" />
 -->
-
 <link rel="stylesheet" href="./thirdparty/jquery-ui/jquery-ui-1.11.2.css?v=4.7"/>
-
 <!--
 <script type="text/javascript" src="./thirdparty/validate/jquery.min.js"></script> 
 --> 
@@ -90,7 +89,7 @@ if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
 <?php
 
 //$base_model->add_css( 'css/flatsome.css' );
-$base_model->add_css( 'css/flatsome-for-bootrap.css' );
+$base_model->add_css( 'css/flatsome-for-bootstrap.css' );
 $base_model->add_css( 'css/d.css' );
 //$base_model->add_css( 'css/d2.css' );
 $base_model->add_css( 'admin/css/admin_teamplate.css' );
@@ -125,22 +124,18 @@ try {
         '<?php echo TaxonomyType::BLOG_TAGS; ?>' : JSON.parse( '<?php $term_model->json_taxonomy( TaxonomyType::BLOG_TAGS ); ?>' ),
         '<?php echo TaxonomyType::OPTIONS; ?>' : JSON.parse( '<?php $term_model->json_taxonomy( TaxonomyType::OPTIONS ); ?>' ),
     };
-    
     <?php
-    
     //
     foreach ($arr_custom_taxonomy as $k => $v) {
         ?>
     arr_all_taxonomy['<?php echo $k; ?>'] = JSON.parse( '<?php $term_model->json_taxonomy( $k ); ?>' );
     <?php
     }
-    
     ?>
 } catch ( e ) {
     WGR_show_try_catch_err( e );
     var arr_all_taxonomy = {};
 }
-
 //
 var web_link = window.location.protocol + '//' + document.domain + '/';
 var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
@@ -173,7 +168,6 @@ var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
     <div class="lf f50 text-right">Xin Chào: <a title="Thông tin cá nhân" href="./users/profile"><?php echo $session_data['userName'] != '' ? $session_data['userName'] : $session_data['user_login']; ?></a> &nbsp; | &nbsp; <a title="Đăng xuất" data-bs-toggle="modal" data-bs-target="#logoutModal" href="javascript:;"><i class="fa fa-sign-out"></i> Logout</a></div>
 </div>
 <!--close-Header-part--> 
-
 <!--top-Header-menu-->
 <div id="sidebar">
     <ul class="cf order-admin-menu">

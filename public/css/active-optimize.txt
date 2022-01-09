@@ -1,0 +1,1 @@
+Nếu tồn tại file này -> sẽ kích hoạt lệnh optimize file CSS hoặc JS trong thư mục tương ứng

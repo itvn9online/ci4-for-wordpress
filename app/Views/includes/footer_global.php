@@ -2,13 +2,21 @@
 <?php
 
 //
-$base_model->add_js( 'thirdparty/bootstrap-5.1.3/js/bootstrap.bundle.min.js' );
-$base_model->add_js( 'javascript/footer.js' );
-$base_model->add_js( 'themes/' . THEMENAME . '/js/d.js' );
+$base_model->add_js( 'thirdparty/bootstrap-5.1.3/js/bootstrap.bundle.min.js', 0, [
+    'defer'
+] );
+$base_model->add_js( 'javascript/footer.js', 0, [
+    'defer'
+] );
+$base_model->add_js( 'themes/' . THEMENAME . '/js/d.js', 0, [
+    'defer'
+] );
 
 // chức năng riêng dành cho admin
 if ( $current_user_id > 0 && isset( $session_data[ 'userLevel' ] ) && $session_data[ 'userLevel' ] > 0 ) {
-    $base_model->add_js( 'admin/js/show-edit-btn.js' );
+    $base_model->add_js( 'admin/js/show-edit-btn.js', 0, [
+        'defer'
+    ] );
 }
 
 

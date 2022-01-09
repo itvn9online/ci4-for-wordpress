@@ -1,10 +1,9 @@
 <?php
-//require_once __DIR__ . '/Admin.php';
 namespace App\ Controllers\ Admin;
 
 use App\ Libraries\ UsersType;
 
-class Dashboard extends Admin {
+class Dashboard extends Optimize {
     public function __construct() {
         parent::__construct();
 
@@ -58,6 +57,9 @@ class Dashboard extends Admin {
             //echo PUBLIC_HTML_PATH . '.env';
         }
         */
+
+        // optimize code
+        $this->optimize_css_js();
 
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/dashboard_view', array(
