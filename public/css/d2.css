@@ -1232,6 +1232,7 @@ a.eb-btn {
 .htv-text-slider .bg-slider {}
 .img-max-width img {
     max-width: 100%;
+    height: auto;
 }
 /* */
 .click-goto-edit {
