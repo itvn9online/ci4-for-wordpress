@@ -75,6 +75,7 @@ class ConfigType {
                 'map' => '',
                 'chat' => '',
                 'google_analytics' => 'Google Analytics ID',
+                'fb_app_id' => 'Facebook App ID',
                 'html_header' => 'HTML đầu trang',
                 'html_body' => 'HTML chân trang',
                 'robots' => 'Robots.txt',

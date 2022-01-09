@@ -1,4 +1,4 @@
-<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, minimum-scale=1, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php echo $seo['title']; ?></title>
 <base href="<?php echo DYNAMIC_BASE_URL; ?>" />
@@ -11,8 +11,48 @@
 <meta http-equiv="x-dns-prefetch-control" content="on">
 <link rel="dns-prefetch" href="https://www.google-analytics.com/" />
 <meta name="format-detection" content="telephone=no">
+<!-- SEO -->
 <link href="<?php echo $option_model->get_the_favicon($getconfig); ?>" rel="shortcut icon" type="image/png" />
 <link href="<?php echo $seo['canonical']; ?>" rel="canonical" />
+<meta name="title" content="<?php echo $seo['title']; ?>" />
+<meta name="keywords" content="<?php echo $seo['keyword']; ?>" />
+<meta name="news_keywords" content="<?php echo $seo['keyword']; ?>" />
+<meta name="description" content="<?php echo $seo['description']; ?>" />
+<meta name="abstract" content="<?php echo $seo['description']; ?>" />
+<meta name="RATING" content="GENERAL" />
+<meta itemprop="name" content="<?php echo $seo['title']; ?>" />
+<meta itemprop="description" content="<?php echo $seo['description']; ?>" />
+<?php
+if ( $getconfig->fb_app_id != '' ) {
+    ?>
+<meta property="fb:app_id" content="<?php echo $getconfig->fb_app_id; ?>" />
+<?php
+}
+?>
+<meta property="og:title" content="<?php echo $seo['title']; ?>" />
+<meta property="og:url" content="<?php echo $seo['canonical']; ?>" />
+<meta property="og:description" content="<?php echo $seo['description']; ?>" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="<?php $option_model->the_config($getconfig, 'name'); ?>" />
+<meta property="og:image" content="<?php
+                                   if ( isset( $seo['og_image'] ) && $seo['og_image'] != '' ) {
+                                       echo $seo['og_image'];
+                                   } else {
+                                       echo base_url() . ltrim( str_replace( base_url(), '', $option_model->get_config($getconfig, 'image') ), '/' );
+                                   }
+                                   ?>" />
+<meta property="og:image:alt" content="<?php
+                                   if ( isset( $seo['og_image_alt'] ) && $seo['og_image_alt'] != '' ) {
+                                       echo $seo['og_image_alt'];
+                                   } else {
+                                       $option_model->the_config($getconfig, 'name');
+                                   }
+                                   ?>" />
+<meta property="og:updated_time" content="<?php echo time(); ?>" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:description" content="<?php echo $seo['description']; ?>" />
+<meta name="twitter:title" content="<?php echo $seo['title']; ?>" />
+<!-- END SEO -->
 <!-- -->
 <link href="https://fonts.googleapis.com" rel="preconnect" />
 <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
