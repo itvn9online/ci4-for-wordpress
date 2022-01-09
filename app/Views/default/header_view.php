@@ -7,7 +7,7 @@
     <div class="mobile-menu">
         <div class="cf default-bg mobile-fixed-menu">
             <div class="lf f25">
-                <button type="button" class="btn-mobile-menu" data-bs-toggle="modal" data-bs-target="#mobileMenuModal"><i class="fa fa-bars"></i></button>
+                <button type="button" class="btn-mobile-menu" data-bs-toggle="modal" data-bs-target="#mobileMenuModal" aria-label="Menu"><i class="fa fa-bars"></i></button>
             </div>
             <div class="lf f50">
                 <?php
@@ -17,7 +17,7 @@
                 ?>
             </div>
             <div class="lf f25 cf">
-                <button type="button" class="btn-mobile-menu rf" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></button>
+                <button type="button" class="btn-mobile-menu rf" data-bs-toggle="modal" data-bs-target="#searchModal" aria-label="Search"><i class="fa fa-search"></i></button>
             </div>
         </div>
     </div>
@@ -38,7 +38,7 @@
                     ?>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Đóng</button>
                 </div>
             </div>
         </div>
@@ -86,7 +86,7 @@
                 </div>
             </div>
             <div class="lf f10 cf">
-                <button type="button" class="btn-mobile-menu rf" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></button>
+                <button type="button" class="btn-mobile-menu rf" data-bs-toggle="modal" data-bs-target="#searchModal" aria-label="Search"><i class="fa fa-search"></i></button>
             </div>
         </div>
     </div>
@@ -109,8 +109,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Tìm kiếm</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Đóng</button>
+                        <button type="submit" class="btn btn-primary" aria-label="Search"><i class="fa fa-search"></i> Tìm kiếm</button>
                     </div>
                 </form>
             </div>
