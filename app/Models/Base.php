@@ -461,7 +461,7 @@ class Base extends Session {
     }
 
     // nạp CSS, JS để tránh phải bấm Ctrl + F5
-    function get_add_css( $f, $get_content = false ) {
+    function get_add_css( $f, $get_content = false, $attr = [] ) {
         $f = str_replace( PUBLIC_PUBLIC_PATH, '', $f );
         $f = ltrim( $f, '/' );
         //echo $f . '<br>' . "\n";
@@ -471,11 +471,11 @@ class Base extends Session {
         if ( $get_content === true ) {
             return '<style>' . file_get_contents( $f, 1 ) . '</style>' . "\n";
         }
-        return '<link href="' . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '" rel="stylesheet">';
+        return '<link href="' . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '" rel="stylesheet" type="text/css" media="all" ' . implode( ' ', $attr ) . '>';
     }
 
-    function add_css( $f, $get_content = false ) {
-        echo $this->get_add_css( $f, $get_content ) . "\n";
+    function add_css( $f, $get_content = false, $attr = [] ) {
+        echo $this->get_add_css( $f, $get_content, $attr ) . "\n";
     }
 
     function get_add_js( $f, $get_content = false, $attr = [] ) {

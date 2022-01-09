@@ -65,8 +65,8 @@ $font_awesome_before = str_replace( '../fonts/', './thirdparty/awesome47/fonts/'
 echo $font_awesome_before;
 
 ?>
-<link href="thirdparty/awesome47/css/font-awesome.min.css?v=4.7" rel="stylesheet" />
-<link href="thirdparty/bootstrap-5.1.3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="thirdparty/awesome47/css/font-awesome.min.css?v=4.7" rel="stylesheet" type="text/css" media="all" />
+<link href="thirdparty/bootstrap-5.1.3/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all" />
 <!-- <link href="thirdparty/flatsome/flatsome.css" rel="stylesheet" type="text/css" /> --> 
 <!-- <link href="frontend/css/swiper.min.css" rel="stylesheet" type="text/css" /> --> 
 <script src="thirdparty/jquery/jquery-3.6.0.min.js" type="application/javascript"></script> 
