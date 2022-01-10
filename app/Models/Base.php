@@ -491,9 +491,15 @@ class Base extends Session {
         //print_r( $attr );
         return '<script src="' . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '" type="application/javascript" ' . implode( ' ', $attr ) . '></script>';
     }
-
+    // thêm 1 file
     function add_js( $f, $get_content = false, $attr = [] ) {
         echo $this->get_add_js( $f, $get_content, $attr ) . "\n";
+    }
+    // thêm nhiều file cùng 1 thuộc tính
+    function adds_js( $fs, $get_content = false, $attr = [] ) {
+        foreach ( $fs as $f ) {
+            echo $this->get_add_js( $f, $get_content, $attr ) . "\n";
+        }
     }
 
 

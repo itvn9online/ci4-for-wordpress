@@ -2,13 +2,11 @@
 <?php
 
 //
-$base_model->add_js( 'thirdparty/bootstrap-5.1.3/js/bootstrap.bundle.min.js', 0, [
-    'defer'
-] );
-$base_model->add_js( 'javascript/footer.js', 0, [
-    'defer'
-] );
-$base_model->add_js( 'themes/' . THEMENAME . '/js/d.js', 0, [
+$base_model->adds_js( [
+    'thirdparty/bootstrap-5.1.3/js/bootstrap.bundle.min.js',
+    'javascript/footer.js',
+    'themes/' . THEMENAME . '/js/d.js'
+], 0, [
     'defer'
 ] );
 
@@ -29,3 +27,9 @@ if ( file_exists( $theme_private_view ) ) {
 
 ?>
 <div id="admin_custom_alert" onClick="$('#admin_custom_alert').fadeOut();"></div>
+<?php
+
+//
+$base_model->add_js( 'javascript/analytics.js', 0, [
+    'defer'
+] );
