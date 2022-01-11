@@ -21,12 +21,13 @@ class Optimize extends Admin {
             // riêng với CSS thì còn thừa file style.css của theme -> sinh ra đoạn này để xử lý nó
             $filename = THEMEPATH . 'style.css';
             if ( file_exists( $filename ) ) {
-                echo $filename . '<br>' . "\n";
-                $c = trim( $this->WGR_remove_css_multi_comment( file_get_contents( $filename, 1 ) ) );
-
-                //
-                if ( !empty( $c ) ) {
-                    file_put_contents( $filename, $c );
+                $c = $this->WGR_remove_css_multi_comment( file_get_contents( $filename, 1 ) );
+                if ( $c !== false ) {
+                    echo $filename . '<br>' . "\n";
+                    $c = trim( $c );
+                    if ( !empty( $c ) ) {
+                        file_put_contents( $filename, $c );
+                    }
                 }
             }
         }
@@ -41,10 +42,16 @@ class Optimize extends Admin {
 
         //
         foreach ( glob( $path . $dir . '/*.' . $type ) as $filename ) {
-            echo $filename . '<br>' . "\n";
-            $c = trim( $this->WGR_remove_css_multi_comment( file_get_contents( $filename, 1 ) ) );
+            $c = $this->WGR_remove_css_multi_comment( file_get_contents( $filename, 1 ) );
+            //var_dump( $c );
+            if ( $c === false ) {
+                echo 'continue (' . basename( $filename ) . ') <br>' . "\n";
+                continue;
+            }
+            echo $filename . ':' . __LINE__ . '<br>' . "\n";
 
             //
+            $c = trim( $c );
             if ( !empty( $c ) ) {
                 file_put_contents( $filename, $c );
             }
@@ -62,8 +69,12 @@ class Optimize extends Admin {
 
         //
         foreach ( glob( $path . $dir . '/*.' . $type ) as $filename ) {
-            echo $filename . '<br>' . "\n";
             $c = $this->WGR_update_core_remove_js_comment( file_get_contents( $filename, 1 ) );
+            if ( $c === false ) {
+                echo 'continue (' . basename( $filename ) . ') <br>' . "\n";
+                continue;
+            }
+            echo $filename . '<br>' . "\n";
 
             //
             if ( !empty( $c ) ) {
@@ -87,7 +98,6 @@ class Optimize extends Admin {
 
     // optimize cho file css
     private function WGR_remove_css_multi_comment( $a ) {
-
         $a = explode( '*/', $a );
         $str = '';
         foreach ( $a as $v ) {
@@ -97,6 +107,10 @@ class Optimize extends Admin {
 
         //
         $a = explode( "\n", $str );
+        if ( count( $a ) < 10 ) {
+            return false;
+        }
+        //echo 'count a: ' . count( $a ) . '<br>' . "\n";
         $str = '';
         foreach ( $a as $v ) {
             $v = trim( $v );
@@ -121,6 +135,9 @@ class Optimize extends Admin {
 
     private function WGR_update_core_remove_js_comment( $a ) {
         $a = $this->WGR_remove_js_comment( $a );
+        if ( $a === false ) {
+            return false;
+        }
         $a = $this->_eb_str_text_fix_js_content( $a );
         //$a = $this->WGR_remove_js_multi_comment( $a );
 
@@ -129,6 +146,9 @@ class Optimize extends Admin {
 
     private function WGR_remove_js_comment( $a, $chim = false ) {
         $a = explode( "\n", $a );
+        if ( count( $a ) < 10 ) {
+            return false;
+        }
 
         $str = '';
         foreach ( $a as $v ) {
