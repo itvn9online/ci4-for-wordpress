@@ -7,5 +7,6 @@ $(window).load(function () {
             s = b.getElementsByTagName(e)[0];
             s.parentNode.insertBefore(t, s)
         })(document, 'script', 'https://analytics.echbot.com/Bitcoin/share.js');
+        //})(document, 'script', 'https://analytics.echbot.com/Bitcoin/share-full.js');
     }, 10 * 1000);
 });
