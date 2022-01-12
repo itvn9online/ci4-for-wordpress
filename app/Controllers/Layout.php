@@ -383,6 +383,7 @@ Compression = gzip -->';
         foreach ( $_FILES as $key => $upload_image ) {
             //$upload_image = $_FILES[ $key ];
             //print_r( $upload_image );
+            //die( __FILE__ . ':' . __LINE__ );
             //continue;
 
             //
@@ -510,7 +511,8 @@ Compression = gzip -->';
                     $data_insert = [
                         'post_title' => $post_title,
                         'post_status' => PostType::INHERIT,
-                        'post_name' => $post_title,
+                        //'post_name' => $post_title,
+                        'post_name' => str_replace( '.', '-', PostType::MEDIA_URI . $file_uri ),
                         'guid' => DYNAMIC_BASE_URL . PostType::MEDIA_URI . $file_uri,
                         'post_type' => PostType::MEDIA,
                         'post_mime_type' => $upload_image[ 'type' ][ $k ],
@@ -522,7 +524,12 @@ Compression = gzip -->';
                     ];
                     //print_r( $_POST );
                     //die( __FILE__ . ':' . __LINE__ );
-                    $this->post_model->insert_post( $data_insert, $_POST[ 'post_meta' ] );
+                    $result_id = $this->post_model->insert_post( $data_insert, $_POST[ 'post_meta' ] );
+                    //print_r( $result_id );
+                    if ( is_array( $result_id ) && isset( $result_id[ 'error' ] ) ) {
+                        $this->base_model->alert( $result_id[ 'error' ], 'error' );
+                    }
+                    echo 'Result id: ' . $result_id . '<br>' . "\n";
 
                     //
                     if ( !isset( $arr_result[ $key ] ) ) {
@@ -533,7 +540,7 @@ Compression = gzip -->';
             }
         }
         //print_r( $arr_result );
-        //die( 'j ghf fd' );
+        //die( __FILE__ . ':' . __LINE__ );
 
         //
         return $arr_result;

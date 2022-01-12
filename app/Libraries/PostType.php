@@ -116,7 +116,7 @@ class PostType {
             'image_medium_large' => 'hidden',
             'image_medium' => 'hidden',
             'image_thumbnail' => 'hidden',
-            //'image_webp' => 'hidden',
+            'image_webp' => 'hidden',
         ];
         if ( isset( $arr[ $key ] ) ) {
             return $arr[ $key ];
