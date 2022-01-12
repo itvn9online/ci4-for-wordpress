@@ -21,7 +21,7 @@ use App\ Libraries\ DeletedStatus;
             <input type="hidden" name="member_type" value="<?php echo $member_type; ?>">
             <div class="cf">
                 <div class="lf f30">
-                    <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $member_type != '' ? UsersType::list($member_type) : ''; ?>" autofocus>
+                    <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $member_type != '' ? UsersType::list($member_type) : ''; ?>" autofocus aria-required="true" required>
                 </div>
                 <div class="lf f30">
                     <select name="user_status" data-select="<?php echo $by_user_status; ?>" onChange="document.frm_admin_search_controller.submit();">

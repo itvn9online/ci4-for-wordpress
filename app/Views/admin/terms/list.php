@@ -21,7 +21,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
             <input type="hidden" name="taxonomy" value="<?php echo $taxonomy; ?>">
             <div class="cf">
                 <div class="lf f30">
-                    <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $name_type; ?>" autofocus>
+                    <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $name_type; ?>" autofocus aria-required="true" required>
                 </div>
                 <div class="lf f20">
                     <button type="submit" class="btn-success"><i class="fa fa-search"></i> Tìm kiếm</button>
