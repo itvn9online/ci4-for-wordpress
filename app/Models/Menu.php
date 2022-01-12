@@ -80,11 +80,10 @@ class Menu extends Post {
                 }
 
                 $insert_id = $this->insert_post( $data_insert );
-                //echo $insert_id . '<br>' . "\n";
-
                 if ( $insert_id > 0 ) {
                     return $this->get_dynamic_menu( $slug, $menu_type, $this->table, false );
                 }
+                //echo $insert_id . '<br>' . "\n";
             } else {
                 die( 'ERROR auto create new menu #' . PostType::MENU . ':' . basename( __FILE__ ) . ':' . __LINE__ );
             }

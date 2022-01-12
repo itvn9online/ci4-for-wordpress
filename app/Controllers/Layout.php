@@ -529,7 +529,7 @@ Compression = gzip -->';
                     if ( is_array( $result_id ) && isset( $result_id[ 'error' ] ) ) {
                         $this->base_model->alert( $result_id[ 'error' ], 'error' );
                     }
-                    echo 'Result id: ' . $result_id . '<br>' . "\n";
+                    //echo 'Result id: ' . $result_id . '<br>' . "\n";
 
                     //
                     if ( !isset( $arr_result[ $key ] ) ) {
