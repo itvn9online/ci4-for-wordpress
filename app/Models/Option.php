@@ -25,13 +25,13 @@ class Option extends EbModel {
         $sql = "INSERT INTO `wp_options_deleted` SELECT * FROM `$this->table` WHERE option_type = '$option_type' AND lang_key = '$lang_key'";
         //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query( $sql );
-        echo 'Backup config: ' . $option_type . '<br>' . "\n";
+        echo 'Backup config: ' . $option_type . '<br>' . PHP_EOL;
 
         // xong xóa
         $sql = "DELETE FROM `$this->table` WHERE option_type = '$option_type' AND lang_key = '$lang_key'";
         //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query( $sql );
-        echo 'Delete config: ' . $option_type . '<br>' . "\n";
+        echo 'Delete config: ' . $option_type . '<br>' . PHP_EOL;
     }
 
     public function get_lang() {

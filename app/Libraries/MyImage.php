@@ -76,12 +76,12 @@ class MyImage {
 
     private static function loadLib( $source ) {
         if ( class_exists( 'Imagick' ) ) {
-            echo 'with imagick library <br>' . "\n";
+            echo 'with imagick library <br>' . PHP_EOL;
             $image = \Config\ Services::image( 'imagick' );
         }
         //
         else {
-            echo 'with gd library <br>' . "\n";
+            echo 'with gd library <br>' . PHP_EOL;
             $image = \Config\ Services::image();
         }
         return $image->withFile( $source );

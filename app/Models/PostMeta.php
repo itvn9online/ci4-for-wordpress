@@ -114,10 +114,33 @@ class PostMeta extends PostBase {
         return true;
     }
 
+    function set_meta_post( $post_id, $key = '', $v = '' ) {
+        // kiểm tra xem meta này có chưa
+        $check_meta_exist = $this->get_meta_post( $post_id, $key );
+
+        // chưa có thì insert
+        if ( $check_meta_exist == '' ) {
+            $this->base_model->insert( $this->metaTable, [
+                'post_id' => $post_id,
+                'meta_key' => $key,
+                'meta_value' => $v,
+            ] );
+        }
+        // có rồi thì update
+        else {
+            $this->base_model->update_multiple( $this->metaTable, [
+                'meta_value' => $v,
+            ], [
+                'post_id' => $post_id,
+                'meta_key' => $key,
+            ] );
+        }
+    }
+
     function get_meta_post( $post_id, $key = '' ) {
         // lấy theo key cụ thể
         if ( $key != '' ) {
-            $data = $this->base_model - select( '*', $this->metaTable, array(
+            $data = $this->base_model->select( '*', $this->metaTable, array(
                 // các kiểu điều kiện where
                 'post_id' => $post_id,
                 'meta_key' => $key,

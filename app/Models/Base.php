@@ -47,9 +47,9 @@ class Base extends Session {
     function update_multiple( $table, $data, $where_array, $ops = [] ) {
         if ( empty( $where_array ) ) {
             if ( isset( $ops[ 'debug_backtrace' ] ) ) {
-                echo $ops[ 'debug_backtrace' ] . '<br>' . "\n";
+                echo $ops[ 'debug_backtrace' ] . '<br>' . PHP_EOL;
             }
-            echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . "\n";
+            echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . PHP_EOL;
 
             //
             die( 'data update empty ' . $table . ':' . __FUNCTION__ . ':line:' . __LINE__ );
@@ -69,9 +69,9 @@ class Base extends Session {
         //print_r( $data );
         if ( empty( $data ) ) {
             if ( isset( $ops[ 'debug_backtrace' ] ) ) {
-                echo $ops[ 'debug_backtrace' ] . '<br>' . "\n";
+                echo $ops[ 'debug_backtrace' ] . '<br>' . PHP_EOL;
             }
-            echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . "\n";
+            echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . PHP_EOL;
 
             //
             die( __FUNCTION__ . ' data update empty ' . $table . ':line:' . __LINE__ );
@@ -82,7 +82,7 @@ class Base extends Session {
         /*
         if ( isset( $op[ 'show_query' ] ) ) {
             print_r( $this->db->getLastQuery()->getQuery() );
-            echo '<br>' . "\n";
+            echo '<br>' . PHP_EOL;
         }
 
         // trả về query để sử dụng cho mục đích khác
@@ -136,9 +136,9 @@ class Base extends Session {
     public function delete_multiple( $table, $where, $ops = [] ) {
         if ( empty( $where ) ) {
             if ( isset( $ops[ 'debug_backtrace' ] ) ) {
-                echo $ops[ 'debug_backtrace' ] . '<br>' . "\n";
+                echo $ops[ 'debug_backtrace' ] . '<br>' . PHP_EOL;
             }
-            echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . "\n";
+            echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . PHP_EOL;
 
             //
             die( __FUNCTION__ . ' where update empty ' . $table . ':line:' . __LINE__ );
@@ -404,7 +404,7 @@ class Base extends Session {
         /*
         if ( isset( $op[ 'get_query' ] ) ) {
             // trên CI3 có thể sử dụng hàm này
-            echo $this->db->get_compiled_select() . '<br>' . "\n";
+            echo $this->db->get_compiled_select() . '<br>' . PHP_EOL;
         }
         */
 
@@ -420,7 +420,7 @@ class Base extends Session {
         // in luôn ra query để test
         if ( isset( $op[ 'show_query' ] ) ) {
             print_r( $this->db->getLastQuery()->getQuery() );
-            echo '<br>' . "\n";
+            echo '<br>' . PHP_EOL;
         }
 
         // trả về query để sử dụng cho mục đích khác
@@ -469,13 +469,13 @@ class Base extends Session {
             return '<!-- ' . $f . ' not exist! -->';
         }
         if ( $get_content === true ) {
-            return '<style>' . file_get_contents( $f, 1 ) . '</style>' . "\n";
+            return '<style>' . file_get_contents( $f, 1 ) . '</style>' . PHP_EOL;
         }
         return '<link href="' . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '" rel="stylesheet" type="text/css" media="all" ' . implode( ' ', $attr ) . '>';
     }
 
     function add_css( $f, $get_content = false, $attr = [] ) {
-        echo $this->get_add_css( $f, $get_content, $attr ) . "\n";
+        echo $this->get_add_css( $f, $get_content, $attr ) . PHP_EOL;
     }
 
     function get_add_js( $f, $get_content = false, $attr = [] ) {
@@ -493,12 +493,12 @@ class Base extends Session {
     }
     // thêm 1 file
     function add_js( $f, $get_content = false, $attr = [] ) {
-        echo $this->get_add_js( $f, $get_content, $attr ) . "\n";
+        echo $this->get_add_js( $f, $get_content, $attr ) . PHP_EOL;
     }
     // thêm nhiều file cùng 1 thuộc tính
     function adds_js( $fs, $get_content = false, $attr = [] ) {
         foreach ( $fs as $f ) {
-            echo $this->get_add_js( $f, $get_content, $attr ) . "\n";
+            echo $this->get_add_js( $f, $get_content, $attr ) . PHP_EOL;
         }
     }
 
@@ -803,6 +803,7 @@ class Base extends Session {
             );
         }
         //$seo[ 'google_analytics' ] = $getconfig->google_analytics;
+        $seo[ 'keyword' ] = $seo[ 'description' ];
         $seo[ 'url' ] = $url;
         $seo[ 'canonical' ] = $url;
         //$seo[ 'index' ] = 1;
@@ -930,7 +931,7 @@ class Base extends Session {
     // tạo file
     function _eb_create_file( $file_, $content_, $ops = [] ) {
         if ( $content_ == '' ) {
-            echo 'ERROR put file: content is NULL<br>' . "\n";
+            echo 'ERROR put file: content is NULL<br>' . PHP_EOL;
             return false;
         }
 

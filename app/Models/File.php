@@ -116,7 +116,7 @@ class File extends EbModel {
     public function FTP_copy( $source, $path, $file_permission = 0777 ) {
         $check_dir = $this->root_dir();;
         if ( $check_dir !== true ) {
-            echo $check_dir . '<br>' . "\n";
+            echo $check_dir . '<br>' . PHP_EOL;
             return false;
         }
         //echo $this->base_dir . '<br>' . "\n";
@@ -131,7 +131,7 @@ class File extends EbModel {
 
         // đăng nhập
         if ( !ftp_login( $conn_id, FTP_USER, FTP_PASS ) ) {
-            echo 'ERROR FTP login false <br>' . "\n";
+            echo 'ERROR FTP login false <br>' . PHP_EOL;
             return false;
         }
 
@@ -141,7 +141,7 @@ class File extends EbModel {
 
         // nếu trong chuỗi file không có root dir -> báo lỗi
         if ( strpos( $file_for_ftp, '/' . $this->base_dir . '/' ) === false ) {
-            echo 'ERROR FTP root dir not found #' . $this->base_dir . '<br>' . "\n";
+            echo 'ERROR FTP root dir not found #' . $this->base_dir . '<br>' . PHP_EOL;
             return false;
         }
         $file_for_ftp = strstr( $file_for_ftp, '/' . $this->base_dir . '/' );
@@ -154,7 +154,7 @@ class File extends EbModel {
             }
             return true;
         } else {
-            echo 'ERROR copy file via FTP #' . $path . ' <br>' . "\n";
+            echo 'ERROR copy file via FTP #' . $path . ' <br>' . PHP_EOL;
         }
 
         //
@@ -165,7 +165,7 @@ class File extends EbModel {
     public function FTP_unlink( $file_ ) {
         $check_dir = $this->root_dir();;
         if ( $check_dir !== true ) {
-            echo $check_dir . '<br>' . "\n";
+            echo $check_dir . '<br>' . PHP_EOL;
             return false;
         }
         //echo $this->base_dir . '<br>' . "\n";
@@ -180,7 +180,7 @@ class File extends EbModel {
 
         // đăng nhập
         if ( !ftp_login( $conn_id, FTP_USER, FTP_PASS ) ) {
-            echo 'ERROR FTP login false <br>' . "\n";
+            echo 'ERROR FTP login false <br>' . PHP_EOL;
             return false;
         }
 

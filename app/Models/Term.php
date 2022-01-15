@@ -71,7 +71,7 @@ class Term extends EbModel {
                 }
 
                 //
-                echo 'Auto create taxonomy: ' . $slug . ' (' . $taxonomy . ') <br>' . "\n";
+                echo 'Auto create taxonomy: ' . $slug . ' (' . $taxonomy . ') <br>' . PHP_EOL;
                 $result_id = $this->insert_terms( [
                     'name' => str_replace( '-', ' ', $slug ),
                     'slug' => $slug,

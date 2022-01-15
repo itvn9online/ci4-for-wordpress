@@ -76,7 +76,7 @@ class LanguageCost {
                 // nếu có chỉ định redirect tới khu nào đó
                 if ( isset( $_GET[ 'redirect_to' ] ) ) {
                     $redirect_to = $_GET[ 'redirect_to' ];
-                    echo $redirect_to . '<br>' . "\n";
+                    echo $redirect_to . '<br>' . PHP_EOL;
                     header( 'location:' . $redirect_to );
                     die( basename( __FILE__ ) . ':' . __LINE__ );
                 }

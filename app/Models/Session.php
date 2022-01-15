@@ -21,7 +21,7 @@ class Session {
         }
         /*
         if ( empty( $key ) ) {
-            echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . "\n";
+            echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . PHP_EOL;
             die( __FILE__ . ':' . __LINE__ );
         }
         */

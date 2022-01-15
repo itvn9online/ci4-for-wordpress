@@ -23,7 +23,7 @@ class Optimize extends Admin {
             if ( file_exists( $filename ) ) {
                 $c = $this->WGR_remove_css_multi_comment( file_get_contents( $filename, 1 ) );
                 if ( $c !== false ) {
-                    echo $filename . '<br>' . "\n";
+                    echo $filename . '<br>' . PHP_EOL;
                     $c = trim( $c );
                     if ( !empty( $c ) ) {
                         file_put_contents( $filename, $c );
@@ -38,17 +38,17 @@ class Optimize extends Admin {
         if ( $this->check_active_optimize( $path . $dir . '/' ) !== true ) {
             return false;
         }
-        echo $path . '<br>' . "\n";
+        echo $path . '<br>' . PHP_EOL;
 
         //
         foreach ( glob( $path . $dir . '/*.' . $type ) as $filename ) {
             $c = $this->WGR_remove_css_multi_comment( file_get_contents( $filename, 1 ) );
             //var_dump( $c );
             if ( $c === false ) {
-                echo 'continue (' . basename( $filename ) . ') <br>' . "\n";
+                echo 'continue (' . basename( $filename ) . ') <br>' . PHP_EOL;
                 continue;
             }
-            echo $filename . ':' . __LINE__ . '<br>' . "\n";
+            echo $filename . ':' . __LINE__ . '<br>' . PHP_EOL;
 
             //
             $c = trim( $c );
@@ -65,16 +65,16 @@ class Optimize extends Admin {
         if ( $this->check_active_optimize( $path . $dir . '/' ) !== true ) {
             return false;
         }
-        echo $path . '<br>' . "\n";
+        echo $path . '<br>' . PHP_EOL;
 
         //
         foreach ( glob( $path . $dir . '/*.' . $type ) as $filename ) {
             $c = $this->WGR_update_core_remove_js_comment( file_get_contents( $filename, 1 ) );
             if ( $c === false ) {
-                echo 'continue (' . basename( $filename ) . ') <br>' . "\n";
+                echo 'continue (' . basename( $filename ) . ') <br>' . PHP_EOL;
                 continue;
             }
-            echo $filename . '<br>' . "\n";
+            echo $filename . '<br>' . PHP_EOL;
 
             //
             if ( !empty( $c ) ) {

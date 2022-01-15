@@ -378,7 +378,7 @@ class PostQuery extends PostMeta {
 
                         //
                         $_POST[ 'post_meta' ] = $data_insert[ 'post_meta' ];
-                        echo 'Auto create post: ' . $data_insert[ 'post_title' ] . ' (' . $ops[ 'post_type' ] . ') <br>' . "\n";
+                        echo 'Auto create post: ' . $data_insert[ 'post_title' ] . ' (' . $ops[ 'post_type' ] . ') <br>' . PHP_EOL;
                         $this->insert_post( $data_insert, $_POST[ 'post_meta' ] );
                     }
                 }
@@ -474,7 +474,7 @@ class PostQuery extends PostMeta {
         } else if ( $instance[ 'hide_description' ] == 'on' && $instance[ 'hide_info' ] == 'on' ) {
             $html_node = 'blogs_node_avt_title';
         }
-        echo '<!-- ' . $html_node . ' --> ' . "\n";
+        echo '<!-- ' . $html_node . ' --> ' . PHP_EOL;
         $tmp_html = $this->base_model->parent_html_tmp( $html_node );
         //echo $tmp_html . '<br>' . "\n";
 
