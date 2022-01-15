@@ -12,9 +12,9 @@ class UserMeta extends UserBase {
     }
 
     //
-    public function set_user_meta( $key, $user_id, $val ) {
+    public function set_user_meta( $user_id, $key, $val ) {
         // kiểm tra xem meta này có chưa
-        $check_meta_exist = $this->get_user_meta( $key, $user_id, 'umeta_id' );
+        $check_meta_exist = $this->get_user_meta( $user_id, $key, 'umeta_id' );
 
         // chưa thì insert
         if ( empty( $check_meta_exist ) ) {
@@ -43,7 +43,7 @@ class UserMeta extends UserBase {
     }
 
     // lấy user meta -> mặc định là theo key
-    public function get_user_meta( $key, $user_id, $select_col = 'meta_value' ) {
+    public function get_user_meta( $user_id, $key, $select_col = 'meta_value' ) {
         return $this->base_model->select( $select_col, $this->metaTable, array(
             // các kiểu điều kiện where
             'meta_key' => $key,
