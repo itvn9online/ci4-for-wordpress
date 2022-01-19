@@ -176,7 +176,7 @@ class PostQuery extends PostMeta {
         return true;
     }
 
-    function select_post( $post_id, $where = [] ) {
+    function select_post( $post_id, $where = [], $select_col = '*' ) {
         if ( $post_id > 0 ) {
             $where[ 'ID' ] = $post_id;
         }
@@ -185,7 +185,7 @@ class PostQuery extends PostMeta {
         }
 
         // select dữ liệu từ 1 bảng bất kỳ
-        $data = $this->base_model->select( '*', $this->table, $where, array(
+        $data = $this->base_model->select( $select_col, $this->table, $where, array(
             // hiển thị mã SQL để check
             //'show_query' => 1,
             // trả về câu query để sử dụng cho mục đích khác

@@ -39,10 +39,17 @@ class Terms extends Admin {
     }
 
     public function index() {
+        $post_per_page = 20;
+
         // tìm kiếm theo từ khóa nhập vào
         $by_keyword = $this->MY_get( 's' );
         $where_or_like = [];
+        // URL cho phân trang tìm kiếm
+        $urlPartPage = 'admin/terms?taxonomy=' . $this->taxonomy;
         if ( $by_keyword != '' ) {
+            $urlPartPage .= '&s=' . $by_keyword;
+
+            //
             $by_like = $this->base_model->_eb_non_mark_seo( $by_keyword );
             // tối thiểu từ 1 ký tự trở lên mới kích hoạt tìm kiếm
             if ( strlen( $by_like ) > 0 ) {
@@ -66,14 +73,54 @@ class Terms extends Admin {
         //
         $by_is_deleted = $this->MY_get( 'is_deleted', DeletedStatus::FOR_DEFAULT );
 
+
         //
-        $data = $this->term_model->get_all_taxonomy( $this->taxonomy, 0, [
+        $filter = [
             'or_like' => $where_or_like,
             'by_is_deleted' => $by_is_deleted,
             'lang_key' => LanguageCost::lang_key(),
-            'get_meta' => true,
-            'get_child' => true
-        ] );
+            'limit' => -1,
+        ];
+
+
+        /*
+         * phân trang
+         */
+        $count_filter = $filter;
+        $count_filter[ 'select_col' ] = 'COUNT(term_id) AS c';
+        $totalThread = $this->term_model->get_all_taxonomy( $this->taxonomy, 0, $count_filter );
+        //print_r( $totalThread );
+        //die( __FILE__ . ':' . __LINE__ );
+        $totalThread = $totalThread[ 0 ][ 'c' ];
+        //print_r( $totalThread );
+        $totalPage = ceil( $totalThread / $post_per_page );
+        if ( $totalPage < 1 ) {
+            $totalPage = 1;
+        }
+        $page_num = $this->MY_get( 'page_num', 1 );
+        //echo $totalPage . '<br>' . "\n";
+        if ( $page_num > $totalPage ) {
+            $page_num = $totalPage;
+        } else if ( $page_num < 1 ) {
+            $page_num = 1;
+        }
+        //echo $totalThread . '<br>' . "\n";
+        //echo $totalPage . '<br>' . "\n";
+        $offset = ( $page_num - 1 ) * $post_per_page;
+        //echo $offset . '<br>' . "\n";
+        //die( __FILE__ . ':' . __LINE__ );
+
+        //
+        $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '&page_num=' );
+
+        //
+        $filter[ 'offset' ] = $offset;
+        $filter[ 'limit' ] = $post_per_page;
+        $filter[ 'get_meta' ] = true;
+        $filter[ 'get_child' ] = true;
+
+        //
+        $data = $this->term_model->get_all_taxonomy( $this->taxonomy, 0, $filter );
         //print_r( $data );
         //$data = $this->term_model->terms_meta_post( $data );
         //print_r( $data );
@@ -83,7 +130,8 @@ class Terms extends Admin {
             'by_is_deleted' => $by_is_deleted,
             'by_keyword' => $by_keyword,
             'data' => $data,
-            'pagination' => '',
+            'pagination' => $pagination,
+            'totalThread' => $totalThread,
             'taxonomy' => $this->taxonomy,
             'name_type' => $this->name_type,
             'controller_slug' => $this->controller_slug,

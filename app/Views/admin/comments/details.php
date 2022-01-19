@@ -1,6 +1,9 @@
 <?php
 
 //
+use App\ Libraries\ CommentType;
+
+//
 //print_r( $data );
 $data[ 'comment_content' ] = nl2br( $data[ 'comment_content' ] );
 

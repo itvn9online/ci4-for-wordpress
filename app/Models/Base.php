@@ -395,10 +395,12 @@ class Base extends Session {
         }
         */
         // daidq (2021-12-25): để tránh trường hợp select unlimit cho dữ liệu lớn -> đặt mặc định lệnh LIMIT nếu không được chỉ định
-        if ( !isset( $op[ 'limit' ] ) || $op[ 'limit' ] < 1 ) {
+        if ( !isset( $op[ 'limit' ] ) || $op[ 'limit' ] === 0 ) {
             $op[ 'limit' ] = 500;
         }
-        $builder->limit( $op[ 'limit' ], $op[ 'offset' ] );
+        if ( $op[ 'limit' ] > 0 ) {
+            $builder->limit( $op[ 'limit' ], $op[ 'offset' ] );
+        }
 
         //
         /*

@@ -369,6 +369,7 @@ class Term extends EbModel {
             $ops[ 'slug_get_child' ] = 1;
         } else {
             if ( isset( $ops[ 'by_is_deleted' ] ) ) {
+                //echo $ops[ 'by_is_deleted' ] . '<br>' . "\n";
                 $where[ 'is_deleted' ] = $ops[ 'by_is_deleted' ];
             } else {
                 $where[ 'is_deleted' ] = DeletedStatus::FOR_DEFAULT;
@@ -382,16 +383,16 @@ class Term extends EbModel {
             }
             //
             else {
-                if ( $where[ 'is_deleted' ] != DeletedStatus::DELETED ) {
-                    if ( isset( $ops[ 'get_child' ] ) ) {
-                        if ( !isset( $ops[ 'parent' ] ) ) {
-                            $ops[ 'parent' ] = 0;
-                        }
-                    }
-                    if ( isset( $ops[ 'parent' ] ) ) {
-                        $where[ 'parent' ] = $ops[ 'parent' ];
+                //if ( $where[ 'is_deleted' ] != DeletedStatus::DELETED ) {
+                if ( isset( $ops[ 'get_child' ] ) ) {
+                    if ( !isset( $ops[ 'parent' ] ) ) {
+                        $ops[ 'parent' ] = 0;
                     }
                 }
+                if ( isset( $ops[ 'parent' ] ) ) {
+                    $where[ 'parent' ] = $ops[ 'parent' ];
+                }
+                //}
             }
             if ( isset( $ops[ 'lang_key' ] ) ) {
                 $where[ 'lang_key' ] = $ops[ 'lang_key' ];
@@ -401,8 +402,13 @@ class Term extends EbModel {
         //
         if ( !isset( $ops[ 'limit' ] ) ) {
             $ops[ 'limit' ] = 500;
+            /*
         } else if ( $ops[ 'limit' ] < 0 ) {
             $ops[ 'limit' ] = 0;
+            */
+        }
+        if ( !isset( $ops[ 'offset' ] ) ) {
+            $ops[ 'offset' ] = 0;
         }
 
         //
@@ -426,6 +432,7 @@ class Term extends EbModel {
             // trả về câu query để sử dụng cho mục đích khác
             //'get_query' => 1,
             //'offset' => 2,
+            'offset' => $ops[ 'offset' ],
             'limit' => $ops[ 'limit' ]
         ) );
         //print_r( $post_cat );
@@ -433,26 +440,32 @@ class Term extends EbModel {
         //return $post_cat;
 
         // daidq (2021-12-01): khi có thêm tham số by_is_deleted mà vẫn lấy term meta thì bị lỗi query -> tạm bỏ
-        if ( !empty( $post_cat ) && !isset( $ops[ 'by_is_deleted' ] ) ) {
+        if ( !empty( $post_cat ) ) {
+            //if ( !isset( $ops[ 'by_is_deleted' ] ) ) {
             //print_r( $ops );
 
             // lấy meta
             if ( $term_id > 0 || isset( $ops[ 'slug_get_child' ] ) ) {
+                //die( ':' . __LINE__ );
                 $post_cat = $this->terms_meta_post( [ $post_cat ] );
 
                 // lấy các nhóm con
                 if ( isset( $ops[ 'get_child' ] ) && $ops[ 'get_child' ] > 0 ) {
+                    //die( ':' . __LINE__ );
                     $post_cat = $this->get_child_terms( $post_cat, $ops );
                 }
                 $post_cat = $post_cat[ 0 ];
             } else if ( isset( $ops[ 'get_meta' ] ) ) {
+                //die( ':' . __LINE__ );
                 $post_cat = $this->terms_meta_post( $post_cat );
 
                 // lấy các nhóm con
                 if ( isset( $ops[ 'get_child' ] ) && $ops[ 'get_child' ] > 0 ) {
+                    //die( ':' . __LINE__ );
                     $post_cat = $this->get_child_terms( $post_cat, $ops );
                 }
             }
+            //}
         }
 
         //
@@ -478,6 +491,7 @@ class Term extends EbModel {
         foreach ( $data as $k => $v ) {
             $ops[ 'parent' ] = $v[ 'term_id' ];
             //print_r( $ops );
+            //continue;
 
             //
             $data[ $k ][ 'child_term' ] = [];

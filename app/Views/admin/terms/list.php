@@ -13,7 +13,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
 
 ?>
 <ul class="admin-breadcrumb">
-    <li><?php echo $name_type; ?></li>
+    <li><?php echo $name_type; ?> (<?php echo $totalThread; ?>)</li>
 </ul>
 <div class="cf admin-search-form">
     <div class="lf f50">
