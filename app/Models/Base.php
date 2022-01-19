@@ -396,6 +396,7 @@ class Base extends Session {
         */
         // daidq (2021-12-25): để tránh trường hợp select unlimit cho dữ liệu lớn -> đặt mặc định lệnh LIMIT nếu không được chỉ định
         if ( !isset( $op[ 'limit' ] ) || $op[ 'limit' ] === 0 ) {
+            //echo 'auto limit <br>' . "\n";
             $op[ 'limit' ] = 500;
         }
         if ( $op[ 'limit' ] > 0 ) {

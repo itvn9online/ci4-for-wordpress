@@ -102,12 +102,16 @@ class AdminMenu {
                 ],
                 'name' => CommentType::list( CommentType::CONTACT ),
                 'icon' => 'fa fa-envelope-o',
-                'arr' => [
-                    'admin/comments?comment_type=' . CommentType::COMMENT => [
-                        'name' => CommentType::list( CommentType::COMMENT ),
-                        'icon' => 'fa fa-comments',
-                    ],
-                ]
+                'arr' => []
+            ],
+            'admin/comments?comment_type=' . CommentType::COMMENT => [
+                'role' => [
+                    UsersType::AUTHOR,
+                    UsersType::MOD,
+                ],
+                'name' => CommentType::list( CommentType::COMMENT ),
+                'icon' => 'fa fa-comment-o',
+                'arr' => []
             ],
             'admin/menus?post_type=' . PostType::MENU => [
                 'role' => [

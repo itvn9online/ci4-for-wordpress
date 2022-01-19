@@ -127,7 +127,7 @@ class Admin extends Layout {
         $j = 100;
         foreach ( $arr as $k => $v ) {
             $arr[ $k ][ 'order' ] = $j;
-            $j -= 10;
+            $j -= 5;
             if ( $j < 0 ) {
                 break;
             }

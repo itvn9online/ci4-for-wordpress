@@ -25,7 +25,7 @@ $data[ 'comment_content' ] = nl2br( $data[ 'comment_content' ] );
                 ?>
             <div class="control-group">
                 <label class="control-label"><?php echo str_replace('_',' ',$k); ?></label>
-                <div class="controls" style="padding-top: 15px;"><?php echo $v; ?></div>
+                <div class="controls"><?php echo $v; ?></div>
             </div>
             <?php
             }

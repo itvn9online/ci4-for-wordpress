@@ -253,6 +253,7 @@ function add_active_class_for_sidebar(w) {
         var a = $(this).attr('href') || '';
         if (a != '') {
             if (w.split(a).length > 1) {
+                console.log(a);
                 $(this).parents('li').addClass('active');
                 has_active = true;
             }
@@ -262,7 +263,46 @@ function add_active_class_for_sidebar(w) {
     //
     return has_active;
 }
+
+function get_last_url_segment(w) {
+    // lấy phần tử cuối cùng trong URL
+    var a = w.split('/');
+    if (a[a.length - 1] == '') {
+        a = a[a.length - 2];
+    } else {
+        a = a[a.length - 1];
+    }
+    a = g_func.non_mark_seo(a);
+    //console.log('last w:', a);
+
+    //
+    return a;
+}
+
+// bắt đâu tạo actived cho admin menu
 (function (w) {
+    // tạo segment cho admin menu
+    $('#sidebar a').each(function () {
+        var a = $(this).attr('href') || '';
+        if (a != '') {
+            $(this).attr({
+                'data-segment': get_last_url_segment(a),
+            });
+        }
+    });
+    // lấy segment hiện tại
+    var last_w = get_last_url_segment(w);
+
+    // so khớp với menu xem có không
+    $('#sidebar a[data-segment="' + last_w + '"]').parents('li').addClass('active');
+
+    // nếu có rồi thì không cần đoạn so khớp đằng sau nữa
+    if ($('#sidebar li.active').length > 0) {
+        console.log('active for admin menu by segment');
+        return false;
+    }
+
+    //
     if (add_active_class_for_sidebar(w) === false) {
         var w2 = w.split('&');
         if (w2.length > 1) {
