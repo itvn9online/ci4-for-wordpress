@@ -146,7 +146,9 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
                     ?>
                 </div>
                 <?php
-                } else {
+                }
+                // END if input type checkbox
+                else {
                     ?>
                 <label for="term_meta_<?php echo $k; ?>" class="control-label"><?php echo $v; ?></label>
                 <div class="controls">
@@ -155,9 +157,12 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
                     //
                     if ( $input_type == 'textarea' ) {
                         ?>
-                    <textarea style="width:80%;" placeholder="<?php echo $v; ?>" name="term_meta[<?php echo $k; ?>]" id="term_meta_<?php echo $k; ?>"><?php $term_model->echo_meta_term($data, $k); ?></textarea>
+                    <textarea style="width:80%;" placeholder="<?php echo $v; ?>" name="term_meta[<?php echo $k; ?>]" id="term_meta_<?php echo $k; ?>"><?php $term_model->echo_meta_term($data, $k); ?>
+</textarea>
                     <?php
-                    } else if ( $input_type == 'select' ) {
+                    }
+                    // END if input type textarea
+                    else if ( $input_type == 'select' ) {
                         $select_options = TaxonomyType::meta_select( $k );
 
                         ?>
@@ -171,7 +176,9 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
                         ?>
                     </select>
                     <?php
-                    } else {
+                    }
+                    // END else if input type select                    
+                    else {
                         ?>
                     <input type="<?php echo $input_type; ?>" class="span6" placeholder="<?php echo $v; ?>" name="term_meta[<?php echo $k; ?>]" id="term_meta_<?php echo $k; ?>" value="<?php $term_model->echo_meta_term($data, $k); ?>" />
                     <?php
@@ -183,7 +190,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
                     ?>
                 </div>
                 <?php
-                }
+                } // END else input type checkbox
                 ?>
             </div>
             <?php

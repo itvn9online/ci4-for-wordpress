@@ -247,3 +247,8 @@ body.ebfixed-top-menu #sidebar {
     max-width: 350px;
     min-height: 150px;
 }
+.control-group.current-selected-support {
+    background: #fc9;
+    background: rgba(255, 204, 152, .33);
+    box-shadow: 0 0 10px 0 #666;
+}

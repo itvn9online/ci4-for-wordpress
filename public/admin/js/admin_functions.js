@@ -126,7 +126,7 @@ function add_and_show_post_avt(for_id, add_img_tag, img_size, input_type) {
     //
     var str = [];
     //str.push(' <input type="button" class="btn btn-info" value="Chọn ảnh" onclick="BrowseServer( \'Images:/\', \'' + for_id.substr(1) + '\' );"/>');
-    str.push(' <input type="button" class="btn btn-info add-image-' + for_id.replace(/\#|\./gi, '-') + '" value="Thêm ảnh" onclick="WgrWp_popup_upload( \'' + for_id.substr(1) + '\', ' + add_img_tag + ', \'' + img_size + '\', \'' + input_type + '\' );"/>');
+    str.push(' <button type="button" class="btn btn-info add-image-' + for_id.replace(/\#|\./gi, '-') + '" onclick="WgrWp_popup_upload( \'' + for_id.substr(1) + '\', ' + add_img_tag + ', \'' + img_size + '\', \'' + input_type + '\' );">Thêm ảnh</button>');
 
     //
     $('.for-' + for_id).remove();

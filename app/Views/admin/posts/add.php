@@ -51,9 +51,9 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">Tiêu đề</label>
+                <label for="data_post_title" class="control-label">Tiêu đề</label>
                 <div class="controls">
-                    <input type="text" class="span6 required" placeholder="Tiêu đề" name="data[post_title]" value="<?php echo $data['post_title']; ?>" autofocus aria-required="true" required />
+                    <input type="text" class="span6 required" placeholder="Tiêu đề" name="data[post_title]" id="data_post_title" value="<?php echo $data['post_title']; ?>" autofocus aria-required="true" required />
                 </div>
             </div>
             <?php
@@ -159,7 +159,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                 ?>
             <div class="control-group hide-if-edit-menu post_meta_<?php echo $k; ?>">
                 <div class="controls controls-checkbox">
-                    <label>
+                    <label for="post_meta_<?php echo $k; ?>">
                         <input type="checkbox" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" value="on" data-value="<?php $post_model->echo_meta_post($data, $k); ?>" />
                         <?php echo $v; ?></label>
                     <?php
@@ -178,7 +178,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 
             ?>
             <div class="control-group hide-if-edit-menu post_meta_<?php echo $k; ?>">
-                <label class="control-label"><?php echo $v; ?></label>
+                <label for="post_meta_<?php echo $k; ?>" class="control-label"><?php echo $v; ?></label>
                 <div class="controls">
                     <?php
 
@@ -258,7 +258,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
             if ( $post_type == PostType::ADS ) {
                 ?>
             <div class="control-group">
-                <label class="control-label">Thêm kết nội bộ</label>
+                <label for="quick_add_menu" class="control-label">Thêm kết nội bộ</label>
                 <div class="controls">
                     <select id="quick_add_menu">
                         <option value="">[ Thêm nhanh Tiên kết ]</option>

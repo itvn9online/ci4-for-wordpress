@@ -61,7 +61,7 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
                     ?>
                 <div class="lf f15">&nbsp;</div>
                 <div class="lf f85 controls-checkbox">
-                    <label>
+                    <label for="data_<?php echo $k; ?>">
                         <input type="checkbox" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>" value="on" data-value="<?php echo $data[$k]; ?>" />
                         <?php echo $v; ?></label>
                     <?php
@@ -129,11 +129,11 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
                     <input type="text" onClick="this.select()" value="&lt;?php $lang_model->the_text( '<?php echo str_replace('lang_','',$k); ?>' ); ?&gt;" class="span11" readonly />
                 </div>
                 <?php
-                }
+                } // END if ConfigType TRANS
+                } // END else checkbox
                 ?>
             </div>
             <?php
-            } // END else checkbox
             } // END foreach
 
             ?>

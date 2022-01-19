@@ -266,7 +266,7 @@ function add_active_class_for_sidebar(w) {
 
 function get_last_url_segment(w) {
     // lấy phần tử cuối cùng trong URL
-    var a = w.split('/');
+    var a = w.split('&support_tab=')[0].split('?support_tab=')[0].split('/');
     if (a[a.length - 1] == '') {
         a = a[a.length - 2];
     } else {
