@@ -193,7 +193,7 @@ class Terms extends Admin {
         }
         // add
         else {
-            $data = $this->base_model->default_data( 'v_terms' );
+            $data = $this->base_model->default_data( 'zzz_v_terms' );
             /*
             $data = $this->base_model->default_data( 'wp_terms', [
                 'wp_term_taxonomy'

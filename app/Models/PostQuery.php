@@ -279,7 +279,7 @@ class PostQuery extends PostMeta {
 
         //
         if ( isset( $ops[ 'count_record' ] ) ) {
-            $data = $this->base_model->select( 'COUNT(ID) AS c', 'v_posts', $where, [
+            $data = $this->base_model->select( 'COUNT(ID) AS c', 'zzz_v_posts', $where, [
                 'or_where' => $arr_or_where,
                 //'order_by' => $order_by,
                 //'get_sql' => 1,
@@ -308,7 +308,7 @@ class PostQuery extends PostMeta {
             }
 
             // lấy danh sách bài viết thuộc nhóm này
-            $data = $this->base_model->select( $ops[ 'select' ], 'v_posts', $where, [
+            $data = $this->base_model->select( $ops[ 'select' ], 'zzz_v_posts', $where, [
                 'or_where' => $arr_or_where,
                 'order_by' => $order_by,
                 //'get_sql' => 1,

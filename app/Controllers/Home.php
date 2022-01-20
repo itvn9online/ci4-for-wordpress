@@ -226,7 +226,7 @@ class Home extends Csrf {
 
             //
             if ( $post_category > 0 ) {
-                $cats = $this->base_model->select( '*', 'v_terms', [
+                $cats = $this->base_model->select( '*', 'zzz_v_terms', [
                     'term_id' => $post_category,
                 ], [
                     // hiển thị mã SQL để check

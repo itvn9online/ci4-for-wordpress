@@ -421,7 +421,7 @@ class Term extends EbModel {
         //die( __FILE__ . ':' . __LINE__ );
 
         //
-        $post_cat = $this->base_model->select( $ops[ 'select_col' ], 'v_terms', $where, array(
+        $post_cat = $this->base_model->select( $ops[ 'select_col' ], 'zzz_v_terms', $where, array(
             'or_like' => $where_or_like,
             'order_by' => array(
                 'term_order' => 'DESC',
@@ -473,7 +473,7 @@ class Term extends EbModel {
     }
 
     public function get_taxonomy( $where, $limit = 1, $select_col = '*' ) {
-        return $this->base_model->select( $select_col, 'v_terms', $where, array(
+        return $this->base_model->select( $select_col, 'zzz_v_terms', $where, array(
             'order_by' => array(
                 'term_id' => 'DESC'
             ),

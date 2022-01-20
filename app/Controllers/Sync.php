@@ -73,9 +73,9 @@ class Sync extends BaseController {
         //echo $sql . '<br>' . "\n";
 
         //
-        $sql = "CREATE OR REPLACE VIEW v_terms AS " . $sql;
+        $sql = "CREATE OR REPLACE VIEW zzz_v_terms AS " . $sql;
         //echo $sql . '<br>' . "\n";
-        echo 'CREATE OR REPLACE VIEW v_terms <br>' . "\n";
+        echo 'CREATE OR REPLACE VIEW zzz_v_terms <br>' . "\n";
 
         //
         return $this->base_model->MY_query( $sql );
@@ -140,9 +140,9 @@ class Sync extends BaseController {
         //return false;
 
         //
-        $sql = "CREATE OR REPLACE VIEW v_posts AS " . $sql;
+        $sql = "CREATE OR REPLACE VIEW zzz_v_posts AS " . $sql;
         //echo $sql . '<br>' . "\n";
-        echo 'CREATE OR REPLACE VIEW v_posts <br>' . "\n";
+        echo 'CREATE OR REPLACE VIEW zzz_v_posts <br>' . "\n";
 
         //
         return $this->base_model->MY_query( $sql );
