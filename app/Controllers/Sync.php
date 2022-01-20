@@ -21,14 +21,14 @@ class Sync extends BaseController {
 
     // tạo bảng để lưu session khi cần có thể sử dụng luôn
     private function tbl_sessions() {
-        $sql = "CREATE TABLE IF NOT EXISTS `ci_sessions` (
+        $sql = "CREATE TABLE IF NOT EXISTS `" . WGR_TABLE_PREFIX . "ci_sessions` (
             `id` varchar(128) NOT null,
             `ip_address` varchar(45) NOT null,
             `timestamp` timestamp DEFAULT CURRENT_TIMESTAMP NOT null,
             `data` blob NOT null,
             KEY `ci_sessions_timestamp` (`timestamp`)
         )";
-        echo 'CREATE TABLE IF NOT EXISTS `ci_sessions` <br>' . "\n";
+        echo 'CREATE TABLE IF NOT EXISTS `' . WGR_TABLE_PREFIX . 'ci_sessions` <br>' . "\n";
 
         //
         return $this->base_model->MY_query( $sql );

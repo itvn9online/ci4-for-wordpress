@@ -90,7 +90,7 @@ defined( 'EXIT__AUTO_MAX' ) || define( 'EXIT__AUTO_MAX', 125 ); // highest autom
  * Tiền tố cho bảng database.
  * Chỉ sử dụng số, ký tự và dấu gạch dưới!
  */
-define( 'WGR_TABLE_PREFIX', '' );
+define( 'WGR_TABLE_PREFIX', 'wp_' );
 define( 'WGR_TERM_VIEW', 'wp_zzz_v_terms' );
 define( 'WGR_POST_VIEW', 'wp_zzz_v_posts' );
 
