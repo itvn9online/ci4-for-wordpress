@@ -9,16 +9,16 @@ use App\ Libraries\ TaxonomyType;
 
 //
 class Term extends EbModel {
-    public $table = WGR_TABLE_PREFIX . 'terms';
+    public $table = 'terms';
     public $primaryKey = 'term_id';
 
-    public $metaTable = WGR_TABLE_PREFIX . 'termmeta';
+    public $metaTable = 'termmeta';
     //public $metaKey = 'meta_id';
 
-    public $taxTable = WGR_TABLE_PREFIX . 'term_taxonomy';
+    public $taxTable = 'term_taxonomy';
     public $taxKey = 'term_taxonomy_id';
 
-    public $relaTable = WGR_TABLE_PREFIX . 'term_relationships';
+    public $relaTable = 'term_relationships';
     public $relaKey = 'object_id';
 
     //protected $primaryTaxonomy = 'category';

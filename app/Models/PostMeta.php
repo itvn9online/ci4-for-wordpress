@@ -5,7 +5,7 @@ namespace App\ Models;
 // Libraries
 //use App\ Libraries\ LanguageCost;
 //use App\ Libraries\ PostType;
-//use App\ Libraries\ TaxonomyType;
+use App\ Libraries\ TaxonomyType;
 //use App\ Libraries\ DeletedStatus;
 
 //
@@ -32,6 +32,7 @@ class PostMeta extends PostBase {
             return false;
         }
         //print_r( $meta_data );
+        //die( __FILE__ . ':' . __LINE__ );
 
         // lấy toàn bộ meta của post này
         $meta_exist = $this->arr_meta_post( $post_id );
@@ -44,6 +45,7 @@ class PostMeta extends PostBase {
                 foreach ( $meta_data[ 'post_category' ] as $v ) {
                     $term_relationships[] = $v;
                 }
+                $meta_data[ 'post_category' ] = implode( ',', $meta_data[ 'post_category' ] );
             } else {
                 $term_relationships[] = $meta_data[ 'post_category' ];
             }
@@ -53,6 +55,7 @@ class PostMeta extends PostBase {
                 foreach ( $meta_data[ 'post_tags' ] as $v ) {
                     $term_relationships[] = $v;
                 }
+                $meta_data[ 'post_tags' ] = implode( ',', $meta_data[ 'post_tags' ] );
             } else {
                 $term_relationships[] = $meta_data[ 'post_tags' ];
             }
@@ -210,13 +213,18 @@ class PostMeta extends PostBase {
         foreach ( $data as $k => $v ) {
             $meta_data[ $v[ 'meta_key' ] ] = $v[ 'meta_value' ];
         }
+        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+        //print_r( $meta_data );
 
         // hỗ trợ kiểu danh mục từ echbaydotcom
         if ( !isset( $meta_data[ 'post_category' ] ) || $meta_data[ 'post_category' ] == '' ) {
-            $sql = $this->base_model->select( 'term_taxonomy_id', WGR_TABLE_PREFIX . 'term_relationships', array(
+            $sql = $this->base_model->select( 'term_relationships.term_taxonomy_id, term_taxonomy.taxonomy', 'term_relationships', array(
                 // các kiểu điều kiện where
                 'object_id' => $post_id
             ), array(
+                'join' => array(
+                    'term_taxonomy' => 'term_taxonomy.term_id = term_relationships.term_taxonomy_id'
+                ),
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
                 // trả về câu query để sử dụng cho mục đích khác
@@ -225,11 +233,21 @@ class PostMeta extends PostBase {
                 //'limit' => 3
             ) );
             //print_r( $sql );
-            $term_relationships = [];
+            $term_relationships = [
+                TaxonomyType::POSTS => [],
+                TaxonomyType::TAGS => [],
+            ];
             foreach ( $sql as $k => $v ) {
-                $term_relationships[] = $v[ 'term_taxonomy_id' ];
+                $term_relationships[ $v[ 'taxonomy' ] ][] = $v[ 'term_taxonomy_id' ];
             }
-            $meta_data[ 'post_category' ] = implode( ',', $term_relationships );
+            //print_r( $term_relationships );
+            //die( __FILE__ . ':' . __LINE__ );
+            foreach ( $term_relationships as $k => $v ) {
+                $meta_data[ 'post_' . $k ] = implode( ',', $v );
+            }
+            //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+            //print_r( $meta_data );
+            //die( __FILE__ . ':' . __LINE__ );
         }
 
         //

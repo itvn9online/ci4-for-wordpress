@@ -71,9 +71,9 @@ class Posts extends Admin {
 
         // các kiểu điều kiện where
         $where = [
-            //WGR_TABLE_PREFIX . 'posts.post_status !=' => PostType::DELETED,
-            WGR_TABLE_PREFIX . 'posts.post_type' => $this->post_type,
-            WGR_TABLE_PREFIX . 'posts.lang_key' => LanguageCost::lang_key()
+            //'posts.post_status !=' => PostType::DELETED,
+            'posts.post_type' => $this->post_type,
+            'posts.lang_key' => LanguageCost::lang_key()
         ];
 
         // tìm kiếm theo từ khóa nhập vào
@@ -122,7 +122,7 @@ class Posts extends Admin {
         // tổng kết filter
         $filter = [
             'where_in' => array(
-                WGR_TABLE_PREFIX . 'posts.post_status' => $by_post_status
+                'posts.post_status' => $by_post_status
             ),
             'or_like' => $where_or_like,
             // hiển thị mã SQL để check
@@ -136,10 +136,10 @@ class Posts extends Admin {
         // nếu có lọc theo term_id -> thêm câu lệnh để lọc
         $by_term_id = $this->MY_get( 'term_id', 0 );
         if ( $by_term_id > 0 ) {
-            $where[ WGR_TABLE_PREFIX . 'term_taxonomy.term_id' ] = $by_term_id;
+            $where[ 'term_taxonomy.term_id' ] = $by_term_id;
             $filter[ 'join' ] = [
-                WGR_TABLE_PREFIX . 'term_relationships' => WGR_TABLE_PREFIX . 'term_relationships.object_id = ' . WGR_TABLE_PREFIX . 'posts.ID',
-                WGR_TABLE_PREFIX . 'term_taxonomy' => WGR_TABLE_PREFIX . 'term_relationships.term_taxonomy_id = ' . WGR_TABLE_PREFIX . 'term_taxonomy.term_taxonomy_id',
+                'term_relationships' => 'term_relationships.object_id = posts.ID',
+                'term_taxonomy' => 'term_relationships.term_taxonomy_id = term_taxonomy.term_taxonomy_id',
             ];
         }
 
@@ -147,7 +147,7 @@ class Posts extends Admin {
         /*
          * phân trang
          */
-        $totalThread = $this->base_model->select( 'COUNT(ID) AS c', WGR_TABLE_PREFIX . 'posts', $where, $filter );
+        $totalThread = $this->base_model->select( 'COUNT(ID) AS c', 'posts', $where, $filter );
         //print_r( $totalThread );
         $totalThread = $totalThread[ 0 ][ 'c' ];
         //print_r( $totalThread );
@@ -174,11 +174,11 @@ class Posts extends Admin {
         $filter[ 'offset' ] = $offset;
         $filter[ 'limit' ] = $post_per_page;
         $filter[ 'order_by' ] = [
-            WGR_TABLE_PREFIX . 'posts.menu_order' => 'DESC',
-            WGR_TABLE_PREFIX . 'posts.post_date' => 'DESC',
+            'posts.menu_order' => 'DESC',
+            'posts.post_date' => 'DESC',
             //'post_modified' => 'DESC',
         ];
-        $data = $this->base_model->select( '*', WGR_TABLE_PREFIX . 'posts', $where, $filter );
+        $data = $this->base_model->select( '*', 'posts', $where, $filter );
 
         //
         $data = $this->post_model->list_meta_post( $data );
@@ -267,7 +267,7 @@ class Posts extends Admin {
         }
         // add
         else {
-            $data = $this->base_model->default_data( WGR_TABLE_PREFIX . 'posts' );
+            $data = $this->base_model->default_data( 'posts' );
             $data[ 'post_meta' ] = [];
         }
         //print_r( $this->session_data );
@@ -282,27 +282,27 @@ class Posts extends Admin {
         if ( $this->post_type == PostType::PAGE ) {
             // các kiểu điều kiện where
             $where = [
-                //WGR_TABLE_PREFIX . 'posts.post_status !=' => PostType::DELETED,
-                WGR_TABLE_PREFIX . 'posts.post_type' => $this->post_type,
-                WGR_TABLE_PREFIX . 'posts.lang_key' => LanguageCost::lang_key()
+                //'posts.post_status !=' => PostType::DELETED,
+                'posts.post_type' => $this->post_type,
+                'posts.lang_key' => LanguageCost::lang_key()
             ];
 
             $filter = [
                 'where_in' => array(
-                    WGR_TABLE_PREFIX . 'posts.post_status' => array(
+                    'posts.post_status' => array(
                         PostType::DRAFT,
                         PostType::PUBLIC,
                         PostType::PENDING,
                     )
                 ),
                 'where_not_in' => array(
-                    WGR_TABLE_PREFIX . 'posts.ID' => array(
+                    'posts.ID' => array(
                         $id
                     )
                 ),
                 'order_by' => array(
-                    WGR_TABLE_PREFIX . 'posts.menu_order' => 'DESC',
-                    WGR_TABLE_PREFIX . 'posts.post_date' => 'DESC',
+                    'posts.menu_order' => 'DESC',
+                    'posts.post_date' => 'DESC',
                     //'post_modified' => 'DESC',
                 ),
                 // hiển thị mã SQL để check
@@ -312,7 +312,7 @@ class Posts extends Admin {
                 //'offset' => 0,
                 //'limit' => $post_per_page
             ];
-            $parent_post = $this->base_model->select( WGR_TABLE_PREFIX . 'posts.ID, ' . WGR_TABLE_PREFIX . 'posts.post_title', WGR_TABLE_PREFIX . 'posts', $where, $filter );
+            $parent_post = $this->base_model->select( 'posts.ID, posts.post_title', 'posts', $where, $filter );
             //print_r( $parent_post );
         }
         // lấy danh sách các nhóm để add cho post

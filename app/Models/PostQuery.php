@@ -45,7 +45,7 @@ class PostQuery extends PostMeta {
             $data[ 'post_name' ] = $this->base_model->_eb_non_mark_seo( $data[ 'post_name' ] );
 
             //
-            $check_slug = $this->base_model->select( 'ID', WGR_TABLE_PREFIX . 'posts', [
+            $check_slug = $this->base_model->select( 'ID', 'posts', [
                 'post_name' => $data[ 'post_name' ],
                 'post_type' => $data[ 'post_type' ],
                 'post_status !=' => PostType::DELETED,
@@ -124,7 +124,7 @@ class PostQuery extends PostMeta {
         // kiểm tra xem có trùng slug không
         else if ( isset( $data[ 'post_name' ] ) && $data[ 'post_name' ] != '' ) {
             // post đang cần update
-            $current_slug = $this->base_model->select( '*', WGR_TABLE_PREFIX . 'posts', $where, [
+            $current_slug = $this->base_model->select( '*', 'posts', $where, [
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
                 // trả về câu query để sử dụng cho mục đích khác
@@ -136,7 +136,7 @@ class PostQuery extends PostMeta {
 
             //
             if ( !empty( $current_slug ) ) {
-                $check_slug = $this->base_model->select( 'ID', WGR_TABLE_PREFIX . 'posts', [
+                $check_slug = $this->base_model->select( 'ID', 'posts', [
                     'post_name' => $data[ 'post_name' ],
                     'ID !=' => $current_slug[ 'ID' ],
                     'post_type' => $current_slug[ 'post_type' ],
@@ -237,11 +237,11 @@ class PostQuery extends PostMeta {
             'post_type' => $post_type,
             'post_status' => 'publish',
             'taxonomy' => $post_cat[ 'taxonomy' ],
-            //'(' . WGR_TABLE_PREFIX . 'term_taxonomy.term_id = ' . $post_cat[ 'term_id' ] . ' OR ' . WGR_TABLE_PREFIX . 'term_taxonomy.parent = ' . $post_cat[ 'term_id' ] . ')' => NULL,
+            //'(term_taxonomy.term_id = ' . $post_cat[ 'term_id' ] . ' OR term_taxonomy.parent = ' . $post_cat[ 'term_id' ] . ')' => NULL,
         ];
         /*
         if ( isset( $post_cat[ 'taxonomy' ] ) && $post_cat[ 'taxonomy' ] != '' ) {
-            $where[ WGR_TABLE_PREFIX . 'term_taxonomy.taxonomy' ] = $post_cat[ 'taxonomy' ];
+            $where[ 'term_taxonomy.taxonomy' ] = $post_cat[ 'taxonomy' ];
         }
         */
 

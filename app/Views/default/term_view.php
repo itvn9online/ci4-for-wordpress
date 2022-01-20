@@ -25,19 +25,19 @@ use App\ Libraries\ PostType;
     //print_r( $data );
 
     //
-    $child_data = $base_model->select( '*', WGR_TABLE_PREFIX . 'posts', [
-        WGR_TABLE_PREFIX . 'posts.post_type' => $post_type,
-        WGR_TABLE_PREFIX . 'posts.post_status' => PostType::PUBLIC,
-        WGR_TABLE_PREFIX . 'term_taxonomy.term_id' => $data[ 'term_id' ],
-        WGR_TABLE_PREFIX . 'posts.lang_key' => LanguageCost::lang_key()
+    $child_data = $base_model->select( '*', 'posts', [
+        'posts.post_type' => $post_type,
+        'posts.post_status' => PostType::PUBLIC,
+        'term_taxonomy.term_id' => $data[ 'term_id' ],
+        'posts.lang_key' => LanguageCost::lang_key()
     ], [
         'join' => [
-            WGR_TABLE_PREFIX . 'term_relationships' => WGR_TABLE_PREFIX . 'term_relationships.object_id = ' . WGR_TABLE_PREFIX . 'posts.ID',
-            WGR_TABLE_PREFIX . 'term_taxonomy' => WGR_TABLE_PREFIX . 'term_relationships.term_taxonomy_id = ' . WGR_TABLE_PREFIX . 'term_taxonomy.term_taxonomy_id',
+            'term_relationships' => 'term_relationships.object_id = posts.ID',
+            'term_taxonomy' => 'term_relationships.term_taxonomy_id = term_taxonomy.term_taxonomy_id',
         ],
         'order_by' => [
-            WGR_TABLE_PREFIX . 'posts.post_modified' => 'DESC',
-            WGR_TABLE_PREFIX . 'posts.ID' => 'DESC',
+            'posts.post_modified' => 'DESC',
+            'posts.ID' => 'DESC',
         ],
         // hiển thị mã SQL để check
         //'show_query' => 1,

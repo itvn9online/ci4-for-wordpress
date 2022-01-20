@@ -13,7 +13,7 @@ class Menu extends Post {
     }
 
     // chức năng lấy menu để hiển thị, đồng thời tự tạo menu nếu chưa có
-    function get_dynamic_menu( $slug, $menu_type, $tbl = WGR_TABLE_PREFIX . 'posts', $auto_install = true ) {
+    function get_dynamic_menu( $slug, $menu_type, $tbl = 'posts', $auto_install = true ) {
         $lang = LanguageCost::lang_key();
         //echo $slug . '<br>' . "\n";
 

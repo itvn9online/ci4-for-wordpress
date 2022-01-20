@@ -195,8 +195,8 @@ class Terms extends Admin {
         else {
             $data = $this->base_model->default_data( WGR_TERM_VIEW );
             /*
-            $data = $this->base_model->default_data( WGR_TABLE_PREFIX . 'terms', [
-                WGR_TABLE_PREFIX . 'term_taxonomy'
+            $data = $this->base_model->default_data( 'terms', [
+                'term_taxonomy'
             ] );
             */
             $data[ 'term_meta' ] = [];

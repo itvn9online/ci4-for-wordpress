@@ -118,17 +118,17 @@ class Sitemap extends Csrf {
     private function get_post_type( $post_type, $page_num = 1, $get_count = false ) {
         // các kiểu điều kiện where
         $where = [
-            WGR_TABLE_PREFIX . 'posts.post_status !=' => PostType::DELETED,
-            WGR_TABLE_PREFIX . 'posts.post_type' => $post_type,
-            WGR_TABLE_PREFIX . 'posts.post_status' => PostType::PUBLIC,
-            //WGR_TABLE_PREFIX . 'posts.lang_key' => LanguageCost::lang_key()
+            'posts.post_status !=' => PostType::DELETED,
+            'posts.post_type' => $post_type,
+            'posts.post_status' => PostType::PUBLIC,
+            //'posts.lang_key' => LanguageCost::lang_key()
         ];
 
         // tổng kết filter
         $filter = [
             /*
             'where_in' => array(
-                WGR_TABLE_PREFIX . 'posts.post_status' => array(
+                'posts.post_status' => array(
                     PostType::DRAFT,
                     PostType::PUBLIC,
                     PostType::PENDING,
@@ -137,8 +137,8 @@ class Sitemap extends Csrf {
             */
             //'or_like' => $where_or_like,
             'order_by' => array(
-                WGR_TABLE_PREFIX . 'posts.menu_order' => 'DESC',
-                WGR_TABLE_PREFIX . 'posts.post_date' => 'DESC',
+                'posts.menu_order' => 'DESC',
+                'posts.post_date' => 'DESC',
                 //'post_modified' => 'DESC',
             ),
             // hiển thị mã SQL để check
@@ -150,7 +150,7 @@ class Sitemap extends Csrf {
         ];
 
         //
-        $totalThread = $this->base_model->select( 'COUNT(ID) AS c', WGR_TABLE_PREFIX . 'posts', $where, $filter );
+        $totalThread = $this->base_model->select( 'COUNT(ID) AS c', 'posts', $where, $filter );
         //print_r( $totalThread );
         $totalThread = $totalThread[ 0 ][ 'c' ];
 
@@ -177,7 +177,7 @@ class Sitemap extends Csrf {
         //
         $filter[ 'offset' ] = $offset;
         $filter[ 'limit' ] = $this->limit_post_get;
-        $data = $this->base_model->select( '*', WGR_TABLE_PREFIX . 'posts', $where, $filter );
+        $data = $this->base_model->select( '*', 'posts', $where, $filter );
         //print_r( $data );
 
         //

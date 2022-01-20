@@ -31,7 +31,7 @@ class Uploads extends Admin {
 
         // các kiểu điều kiện where
         $where = [
-            WGR_TABLE_PREFIX . 'posts.post_status !=' => PostType::DELETED,
+            'posts.post_status !=' => PostType::DELETED,
         ];
 
         // tìm kiếm theo từ khóa nhập vào
@@ -76,16 +76,16 @@ class Uploads extends Admin {
         //
         $filter = [
             'where_in' => array(
-                WGR_TABLE_PREFIX . 'posts.post_type' => array(
+                'posts.post_type' => array(
                     $this->post_type,
                     PostType::WP_MEDIA,
                 )
             ),
             'or_like' => $where_or_like,
             'order_by' => array(
-                //WGR_TABLE_PREFIX . 'posts.menu_order' => 'DESC',
-                WGR_TABLE_PREFIX . 'posts.ID' => 'DESC',
-                //WGR_TABLE_PREFIX . 'posts.post_date' => 'DESC',
+                //'posts.menu_order' => 'DESC',
+                'posts.ID' => 'DESC',
+                //'posts.post_date' => 'DESC',
                 //'post_modified' => 'DESC',
             ),
             // hiển thị mã SQL để check
@@ -100,7 +100,7 @@ class Uploads extends Admin {
         /*
          * phân trang
          */
-        $totalThread = $this->base_model->select( 'COUNT(ID) AS c', WGR_TABLE_PREFIX . 'posts', $where, $filter );
+        $totalThread = $this->base_model->select( 'COUNT(ID) AS c', 'posts', $where, $filter );
         //print_r( $totalThread );
         $totalThread = $totalThread[ 0 ][ 'c' ];
         //print_r( $totalThread );
@@ -126,7 +126,7 @@ class Uploads extends Admin {
         // select dữ liệu từ 1 bảng bất kỳ
         $filter[ 'offset' ] = $offset;
         $filter[ 'limit' ] = $post_per_page;
-        $data = $this->base_model->select( '*', WGR_TABLE_PREFIX . 'posts', $where, $filter );
+        $data = $this->base_model->select( '*', 'posts', $where, $filter );
 
         //
         $data = $this->post_model->list_meta_post( $data );

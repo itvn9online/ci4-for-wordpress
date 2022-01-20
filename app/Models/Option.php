@@ -9,7 +9,7 @@ use App\ Libraries\ DeletedStatus;
 
 //
 class Option extends EbModel {
-    public $table = WGR_TABLE_PREFIX . 'options';
+    public $table = 'options';
     public $primaryKey = 'option_id';
 
     public function __construct() {
@@ -22,7 +22,7 @@ class Option extends EbModel {
 
     public function backup_options( $option_type, $lang_key ) {
         // backup dữ liệu cũ
-        $sql = "INSERT INTO `" . WGR_TABLE_PREFIX . "options_deleted` SELECT * FROM `$this->table` WHERE option_type = '$option_type' AND lang_key = '$lang_key'";
+        $sql = "INSERT INTO `options_deleted` SELECT * FROM `$this->table` WHERE option_type = '$option_type' AND lang_key = '$lang_key'";
         //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query( $sql );
         echo 'Backup config: ' . $option_type . '<br>' . PHP_EOL;
