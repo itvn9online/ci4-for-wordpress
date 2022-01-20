@@ -83,7 +83,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
             //$post_model->show_meta_post( $v[ 'post_meta' ], 'url_redirect' );
             $post_model->the_permalink( $v );
 
-            ?>" target="_blank" class="small"><?php echo $v['post_name']; ?> <i class="fa fa-external-link"></i></a></div></td>
+            ?>" target="_blank" class="small blackcolor"><?php echo $v['post_name']; ?> <i class="fa fa-external-link"></i></a></div></td>
             <td><?php
             if ( $post_type == PostType::MENU ) {
                 ?>
