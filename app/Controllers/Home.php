@@ -155,7 +155,7 @@ class Home extends Csrf {
         $post_type = $this->MY_get( 'post_type' );
 
         // lấy post theo ID, không lọc theo post type -> vì nhiều nơi cần dùng đến
-        $data = $this->base_model->select( '*', 'wp_posts', array(
+        $data = $this->base_model->select( '*', WGR_TABLE_PREFIX . 'posts', array(
             // các kiểu điều kiện where
             'ID' => $id,
             'post_type' => $post_type,
@@ -226,7 +226,7 @@ class Home extends Csrf {
 
             //
             if ( $post_category > 0 ) {
-                $cats = $this->base_model->select( '*', 'zzz_v_terms', [
+                $cats = $this->base_model->select( '*', WGR_TERM_VIEW, [
                     'term_id' => $post_category,
                 ], [
                     // hiển thị mã SQL để check
@@ -255,7 +255,7 @@ class Home extends Csrf {
         // nếu có post cha -> lấy cả thông tin post cha
         $parent_data = [];
         if ( $data[ 'post_parent' ] > 0 ) {
-            $parent_data = $this->base_model->select( '*', 'wp_posts', array(
+            $parent_data = $this->base_model->select( '*', WGR_TABLE_PREFIX . 'posts', array(
                 // các kiểu điều kiện where
                 'ID' => $data[ 'post_parent' ],
                 'post_status' => PostType::PUBLIC
@@ -333,17 +333,17 @@ class Home extends Csrf {
         // có -> ưu tiên category
         if ( !empty( $data ) ) {
             // xác định post type dựa theo taxonomy type
-            $get_post_type = $this->base_model->select( 'post_type', 'wp_posts', [
-                'wp_posts.post_status' => PostType::PUBLIC,
-                'wp_term_taxonomy.term_id' => $data[ 'term_id' ],
-                'wp_posts.lang_key' => LanguageCost::lang_key()
+            $get_post_type = $this->base_model->select( 'post_type', WGR_TABLE_PREFIX . 'posts', [
+                WGR_TABLE_PREFIX . 'posts.post_status' => PostType::PUBLIC,
+                WGR_TABLE_PREFIX . 'term_taxonomy.term_id' => $data[ 'term_id' ],
+                WGR_TABLE_PREFIX . 'posts.lang_key' => LanguageCost::lang_key()
             ], [
                 'join' => [
-                    'wp_term_relationships' => 'wp_term_relationships.object_id = wp_posts.ID',
-                    'wp_term_taxonomy' => 'wp_term_relationships.term_taxonomy_id = wp_term_taxonomy.term_taxonomy_id',
+                    WGR_TABLE_PREFIX . 'term_relationships' => WGR_TABLE_PREFIX . 'term_relationships.object_id = ' . WGR_TABLE_PREFIX . 'posts.ID',
+                    WGR_TABLE_PREFIX . 'term_taxonomy' => WGR_TABLE_PREFIX . 'term_relationships.term_taxonomy_id = ' . WGR_TABLE_PREFIX . 'term_taxonomy.term_taxonomy_id',
                 ],
                 'order_by' => [
-                    'wp_posts.ID' => 'DESC',
+                    WGR_TABLE_PREFIX . 'posts.ID' => 'DESC',
                 ],
                 // hiển thị mã SQL để check
                 //'show_query' => 1,

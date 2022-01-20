@@ -37,12 +37,29 @@ class PostMeta extends PostBase {
         $meta_exist = $this->arr_meta_post( $post_id );
         //print_r( $meta_exist );
 
-        // xử lý riêng đối với post_category
-        if ( isset( $meta_data[ 'post_category' ] ) && gettype( $meta_data[ 'post_category' ] ) == 'array' ) {
-            $meta_data[ 'post_category' ] = implode( ',', $meta_data[ 'post_category' ] );
-        }
+        // xử lý riêng đối với post category và tags
+        $term_relationships = [];
         if ( isset( $meta_data[ 'post_category' ] ) ) {
-            $this->term_model->insert_term_relationships( $post_id, $meta_data[ 'post_category' ] );
+            if ( gettype( $meta_data[ 'post_category' ] ) == 'array' ) {
+                foreach ( $meta_data[ 'post_category' ] as $v ) {
+                    $term_relationships[] = $v;
+                }
+            } else {
+                $term_relationships[] = $meta_data[ 'post_category' ];
+            }
+        }
+        if ( isset( $meta_data[ 'post_tags' ] ) ) {
+            if ( gettype( $meta_data[ 'post_tags' ] ) == 'array' ) {
+                foreach ( $meta_data[ 'post_tags' ] as $v ) {
+                    $term_relationships[] = $v;
+                }
+            } else {
+                $term_relationships[] = $meta_data[ 'post_tags' ];
+            }
+        }
+        if ( !empty( $term_relationships ) ) {
+            $term_relationships = array_unique( $term_relationships );
+            $this->term_model->insert_term_relationships( $post_id, implode( ',', $term_relationships ) );
         }
 
         // xử lý cho ảnh đại diện -> thêm các size ảnh khác để sau còn tùy ý sử dụng
@@ -196,7 +213,7 @@ class PostMeta extends PostBase {
 
         // hỗ trợ kiểu danh mục từ echbaydotcom
         if ( !isset( $meta_data[ 'post_category' ] ) || $meta_data[ 'post_category' ] == '' ) {
-            $sql = $this->base_model->select( 'term_taxonomy_id', 'wp_term_relationships', array(
+            $sql = $this->base_model->select( 'term_taxonomy_id', WGR_TABLE_PREFIX . 'term_relationships', array(
                 // các kiểu điều kiện where
                 'object_id' => $post_id
             ), array(

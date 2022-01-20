@@ -9,16 +9,16 @@ use App\ Libraries\ TaxonomyType;
 
 //
 class Term extends EbModel {
-    public $table = 'wp_terms';
+    public $table = WGR_TABLE_PREFIX . 'terms';
     public $primaryKey = 'term_id';
 
-    public $metaTable = 'wp_termmeta';
+    public $metaTable = WGR_TABLE_PREFIX . 'termmeta';
     //public $metaKey = 'meta_id';
 
-    public $taxTable = 'wp_term_taxonomy';
+    public $taxTable = WGR_TABLE_PREFIX . 'term_taxonomy';
     public $taxKey = 'term_taxonomy_id';
 
-    public $relaTable = 'wp_term_relationships';
+    public $relaTable = WGR_TABLE_PREFIX . 'term_relationships';
     public $relaKey = 'object_id';
 
     //protected $primaryTaxonomy = 'category';
@@ -343,7 +343,7 @@ class Term extends EbModel {
         //$ops[ 'select_col' ] = '*';
 
         //
-        return json_encode( $this->get_all_taxonomy( $taxonomy, $term_id, $ops ) );
+        return str_replace( '\'', '\\\'', json_encode( $this->get_all_taxonomy( $taxonomy, $term_id, $ops ) ) );
     }
 
     function json_taxonomy( $taxonomy = 'category', $term_id = 0, $ops = [] ) {
@@ -421,7 +421,7 @@ class Term extends EbModel {
         //die( __FILE__ . ':' . __LINE__ );
 
         //
-        $post_cat = $this->base_model->select( $ops[ 'select_col' ], 'zzz_v_terms', $where, array(
+        $post_cat = $this->base_model->select( $ops[ 'select_col' ], WGR_TERM_VIEW, $where, array(
             'or_like' => $where_or_like,
             'order_by' => array(
                 'term_order' => 'DESC',
@@ -473,7 +473,7 @@ class Term extends EbModel {
     }
 
     public function get_taxonomy( $where, $limit = 1, $select_col = '*' ) {
-        return $this->base_model->select( $select_col, 'zzz_v_terms', $where, array(
+        return $this->base_model->select( $select_col, WGR_TERM_VIEW, $where, array(
             'order_by' => array(
                 'term_id' => 'DESC'
             ),

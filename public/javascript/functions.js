@@ -670,7 +670,7 @@ function get_taxonomy_data_by_ids(arr, jd) {
     }
 
     //
-    return '';
+    return null;
 }
 
 // hiển thị tên của danh mục bằng javascript -> giảm tải cho server
@@ -680,6 +680,12 @@ function action_each_to_taxonomy() {
         var as = $(this).attr('data-ids') || '';
         var taxonomy = $(this).attr('data-taxonomy') || '';
         var uri = $(this).attr('data-uri') || '';
+        if (uri != '') {
+            // thêm term_id nếu không có trong yêu cầu
+            if (uri.split('%term_id%').length == 1) {
+                uri += '&term_id=%term_id%';
+            }
+        }
         // class riêng cho thẻ A nếu có
         var a_class = $(this).attr('data-class') || '';
         // giãn cách giữa các thẻ A
@@ -697,13 +703,13 @@ function action_each_to_taxonomy() {
                     if (a[i] != '') {
                         var taxonomy_data = get_taxonomy_data_by_ids(arr_all_taxonomy[taxonomy], a[i] * 1);
                         //console.log(taxonomy_data);
+                        if (taxonomy_data === null) {
+                            continue;
+                        }
+
+                        //
                         var taxonomy_name = taxonomy_data.name;
                         if (uri != '') {
-                            // thêm term_id nếu không có trong yêu cầu
-                            if (uri.split('%term_id%').length == 1) {
-                                uri += '&term_id=' + a[i];
-                            }
-
                             // thay thế dữ liệu cho uri
                             var url = uri;
                             for (var x in taxonomy_data) {

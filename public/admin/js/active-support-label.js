@@ -94,5 +94,5 @@ $('#content .control-group label').click(function () {
                 }
             }
         }
-    }, 1200);
+    }, 600);
 })();

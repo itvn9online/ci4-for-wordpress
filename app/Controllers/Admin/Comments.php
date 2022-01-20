@@ -34,14 +34,14 @@ class Comments extends Admin {
 
         // các kiểu điều kiện where
         $where = [
-            'wp_comments.is_deleted' => DeletedStatus::FOR_DEFAULT,
-            'wp_comments.comment_type' => $this->comment_type,
-            'wp_comments.lang_key' => LanguageCost::lang_key()
+            WGR_TABLE_PREFIX . 'comments.is_deleted' => DeletedStatus::FOR_DEFAULT,
+            WGR_TABLE_PREFIX . 'comments.comment_type' => $this->comment_type,
+            WGR_TABLE_PREFIX . 'comments.lang_key' => LanguageCost::lang_key()
         ];
 
         $filter = [
             'order_by' => array(
-                'wp_comments.comment_ID' => 'DESC',
+                WGR_TABLE_PREFIX . 'comments.comment_ID' => 'DESC',
             ),
             // hiển thị mã SQL để check
             //'show_query' => 1,
@@ -55,7 +55,7 @@ class Comments extends Admin {
         /*
          * phân trang
          */
-        $totalThread = $this->base_model->select( 'COUNT(comment_ID) AS c', 'wp_comments', $where, $filter );
+        $totalThread = $this->base_model->select( 'COUNT(comment_ID) AS c', WGR_TABLE_PREFIX . 'comments', $where, $filter );
         //print_r( $totalThread );
         $totalThread = $totalThread[ 0 ][ 'c' ];
         //print_r( $totalThread );
@@ -81,7 +81,7 @@ class Comments extends Admin {
         // select dữ liệu từ 1 bảng bất kỳ
         $filter[ 'offset' ] = $offset;
         $filter[ 'limit' ] = $post_per_page;
-        $data = $this->base_model->select( '*', 'wp_comments', $where, $filter );
+        $data = $this->base_model->select( '*', WGR_TABLE_PREFIX . 'comments', $where, $filter );
         //print_r( $data );
         //die('fj gd sdgsd');
 
@@ -104,7 +104,7 @@ class Comments extends Admin {
         //echo $comment_id . '<br>' . "\n";
 
         //
-        $data = $this->base_model->select( '*', 'wp_comments', [
+        $data = $this->base_model->select( '*', WGR_TABLE_PREFIX . 'comments', [
             //'is_deleted' => DeletedStatus::DEFAULT,
             'comment_ID' => $comment_id,
             'comment_type' => $this->comment_type,

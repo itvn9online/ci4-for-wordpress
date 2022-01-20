@@ -8,10 +8,10 @@ use App\ Libraries\ DeletedStatus;
 
 //
 class UserBase extends EbModel {
-    public $table = 'wp_users';
+    public $table = WGR_TABLE_PREFIX . 'users';
     //public $primaryKey = 'ID';
 
-    public $metaTable = 'wp_usermeta';
+    public $metaTable = WGR_TABLE_PREFIX . 'usermeta';
     public $metaKey = 'umeta_id';
 
     public function __construct() {

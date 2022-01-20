@@ -36,20 +36,25 @@ class Sync extends BaseController {
 
     // tạo view cho term để select dữ liệu cho tiện
     private function view_terms() {
+        // bỏ view cũ -> sử dụng view mới
+        $sql = 'DROP VIEW IF EXISTS v_terms';
+        echo $sql . '<br>' . "\n";
+        $this->base_model->MY_query( $sql );
+
         // lấy các cột trong bảng term để so sánh cột nào chưa có
-        $wp_terms = $this->base_model->default_data( 'wp_terms' );
-        //print_r( $wp_terms );
+        $tbl_terms = $this->base_model->default_data( WGR_TABLE_PREFIX . 'terms' );
+        //print_r( $tbl_terms );
 
         //
-        $wp_term_taxonomy = $this->base_model->default_data( 'wp_term_taxonomy' );
-        //print_r( $wp_term_taxonomy );
+        $tbl_term_taxonomy = $this->base_model->default_data( WGR_TABLE_PREFIX . 'term_taxonomy' );
+        //print_r( $tbl_term_taxonomy );
 
         //
         $arr_term_taxonomy = [];
-        foreach ( $wp_term_taxonomy as $k => $v ) {
+        foreach ( $tbl_term_taxonomy as $k => $v ) {
             //echo $k . '<br>' . "\n";
-            if ( isset( $wp_terms[ $k ] ) ) {
-                echo '- - - - - - unset wp_term_taxonomy.' . $k . '<br>' . "\n";
+            if ( isset( $tbl_terms[ $k ] ) ) {
+                echo '- - - - - - unset term_taxonomy.' . $k . '<br>' . "\n";
             } else {
                 $arr_term_taxonomy[] = 't.' . $k;
             }
@@ -57,11 +62,11 @@ class Sync extends BaseController {
         //print_r( $arr_term_taxonomy );
 
         //
-        $sql = $this->base_model->select( 'wp_terms.*,' . implode( ',', $arr_term_taxonomy ), 'wp_terms', array(
+        $sql = $this->base_model->select( WGR_TABLE_PREFIX . 'terms.*,' . implode( ',', $arr_term_taxonomy ), WGR_TABLE_PREFIX . 'terms', array(
             // các kiểu điều kiện where
         ), array(
             'join' => array(
-                'wp_term_taxonomy t' => 'wp_terms.term_id = t.term_id'
+                WGR_TABLE_PREFIX . 'term_taxonomy t' => WGR_TABLE_PREFIX . 'terms.term_id = t.term_id'
             ),
             // hiển thị mã SQL để check
             //'show_query' => 1,
@@ -73,9 +78,9 @@ class Sync extends BaseController {
         //echo $sql . '<br>' . "\n";
 
         //
-        $sql = "CREATE OR REPLACE VIEW zzz_v_terms AS " . $sql;
+        $sql = "CREATE OR REPLACE VIEW " . WGR_TERM_VIEW . " AS " . $sql;
         //echo $sql . '<br>' . "\n";
-        echo 'CREATE OR REPLACE VIEW zzz_v_terms <br>' . "\n";
+        echo 'CREATE OR REPLACE VIEW ' . WGR_TERM_VIEW . ' <br>' . "\n";
 
         //
         return $this->base_model->MY_query( $sql );
@@ -83,20 +88,25 @@ class Sync extends BaseController {
 
     // tạo view cho post để select dữ liệu cho tiện
     private function view_posts() {
+        // bỏ view cũ -> sử dụng view mới
+        $sql = 'DROP VIEW IF EXISTS v_posts';
+        echo $sql . '<br>' . "\n";
+        $this->base_model->MY_query( $sql );
+
         // lấy các cột trong bảng term để so sánh cột nào chưa có
-        $wp_posts = $this->base_model->default_data( 'wp_posts' );
-        //print_r( $wp_posts );
+        $tbl_posts = $this->base_model->default_data( WGR_TABLE_PREFIX . 'posts' );
+        //print_r( $tbl_posts );
 
         //
-        $wp_term_taxonomy = $this->base_model->default_data( 'wp_term_taxonomy' );
-        //print_r( $wp_term_taxonomy );
+        $tbl_term_taxonomy = $this->base_model->default_data( WGR_TABLE_PREFIX . 'term_taxonomy' );
+        //print_r( $tbl_term_taxonomy );
 
         //
         $arr_term_taxonomy = [];
-        foreach ( $wp_term_taxonomy as $k => $v ) {
+        foreach ( $tbl_term_taxonomy as $k => $v ) {
             //echo $k . '<br>' . "\n";
-            if ( isset( $wp_posts[ $k ] ) ) {
-                echo '- - - - - - unset wp_term_taxonomy.' . $k . '<br>' . "\n";
+            if ( isset( $tbl_posts[ $k ] ) ) {
+                echo '- - - - - - unset term_taxonomy.' . $k . '<br>' . "\n";
             } else {
                 $arr_term_taxonomy[] = 't.' . $k;
             }
@@ -104,15 +114,15 @@ class Sync extends BaseController {
         //print_r( $arr_term_taxonomy );
 
         //
-        $wp_term_relationships = $this->base_model->default_data( 'wp_term_relationships' );
-        //print_r( $wp_term_relationships );
+        $tbl_term_relationships = $this->base_model->default_data( WGR_TABLE_PREFIX . 'term_relationships' );
+        //print_r( $tbl_term_relationships );
 
         //
         $arr_term_relationships = [];
-        foreach ( $wp_term_relationships as $k => $v ) {
+        foreach ( $tbl_term_relationships as $k => $v ) {
             //echo $k . '<br>' . "\n";
-            if ( isset( $wp_term_taxonomy[ $k ] ) ) {
-                echo '- - - - - - unset wp_term_relationships.' . $k . '<br>' . "\n";
+            if ( isset( $tbl_term_taxonomy[ $k ] ) ) {
+                echo '- - - - - - unset term_relationships.' . $k . '<br>' . "\n";
             } else {
                 $arr_term_relationships[] = 'r.' . $k;
             }
@@ -120,12 +130,12 @@ class Sync extends BaseController {
         //print_r( $arr_term_relationships );
 
         //
-        $sql = $this->base_model->select( 'wp_posts.*,' . implode( ',', $arr_term_taxonomy ) . ',' . implode( ',', $arr_term_relationships ), 'wp_posts', array(
+        $sql = $this->base_model->select( WGR_TABLE_PREFIX . 'posts.*,' . implode( ',', $arr_term_taxonomy ) . ',' . implode( ',', $arr_term_relationships ), WGR_TABLE_PREFIX . 'posts', array(
             // các kiểu điều kiện where
         ), array(
             'join' => array(
-                'wp_term_relationships r' => 'r.object_id = wp_posts.ID',
-                'wp_term_taxonomy t' => 'r.term_taxonomy_id = t.term_taxonomy_id',
+                WGR_TABLE_PREFIX . 'term_relationships r' => 'r.object_id = ' . WGR_TABLE_PREFIX . 'posts.ID',
+                WGR_TABLE_PREFIX . 'term_taxonomy t' => 'r.term_taxonomy_id = t.term_taxonomy_id',
             ),
             // hiển thị mã SQL để check
             //'show_query' => 1,
@@ -140,9 +150,9 @@ class Sync extends BaseController {
         //return false;
 
         //
-        $sql = "CREATE OR REPLACE VIEW zzz_v_posts AS " . $sql;
+        $sql = "CREATE OR REPLACE VIEW " . WGR_POST_VIEW . " AS " . $sql;
         //echo $sql . '<br>' . "\n";
-        echo 'CREATE OR REPLACE VIEW zzz_v_posts <br>' . "\n";
+        echo 'CREATE OR REPLACE VIEW ' . WGR_POST_VIEW . ' <br>' . "\n";
 
         //
         return $this->base_model->MY_query( $sql );
@@ -164,21 +174,21 @@ class Sync extends BaseController {
 
         // tự động fixed các cột của bảng nếu chưa có
         $arr_add_cloumn = [
-            'wp_users' => [
+            WGR_TABLE_PREFIX . 'users' => [
                 'ci_pass' => 'VARCHAR(255) NULL COMMENT \'Mật khẩu đăng nhập cho phiên bản CI-wordpress\'',
                 'member_type' => 'VARCHAR(55) NOT NULL COMMENT \'Phân loại thành viên (role)\'',
                 'is_deleted' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'0 = hiển thị, 1 = xóa\'',
                 'last_login' => 'DATETIME NOT NULL',
                 'last_updated' => 'DATETIME NOT NULL',
             ],
-            'wp_posts' => [
+            WGR_TABLE_PREFIX . 'posts' => [
                 'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
                 'lang_parent' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Dùng để xác định với các bản ghi được nhân bản từ ngôn ngữ chính\'',
                 'post_viewed' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Đếm số lượt xem bài viết\'',
                 'child_count' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Đếm số lượt bài viết con của bài này. Thường dùng cho web truyện, chap của truyện\'',
                 'time_order' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Sắp xếp độ ưu tiên của post dựa theo thời gian hiện tại\'',
             ],
-            'wp_terms' => [
+            WGR_TABLE_PREFIX . 'terms' => [
                 'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
                 'lang_parent' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Dùng để xác định với các bản ghi được nhân bản từ ngôn ngữ chính\'',
                 'last_updated' => 'DATETIME NOT NULL',
@@ -187,7 +197,7 @@ class Sync extends BaseController {
                 'term_status' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'Trạng thái hiển thị của 1 term. 0 = hiển thị, 1 = ẩn\'',
                 'term_viewed' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Đếm số lượt xem danh mục\'',
             ],
-            'wp_options' => [
+            WGR_TABLE_PREFIX . 'options' => [
                 'option_type' => 'VARCHAR(55) NULL DEFAULT NULL COMMENT \'Phân loại option dành cho nhiều việc khác nhau\'',
                 'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
                 'lang_parent' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Dùng để xác định với các bản ghi được nhân bản từ ngôn ngữ chính\'',
@@ -195,7 +205,7 @@ class Sync extends BaseController {
                 'is_deleted' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'0 = hiển thị, 1 = xóa\'',
                 'insert_time' => 'BIGINT(20) NULL DEFAULT NULL COMMENT \'Thời gian insert bản ghi, dùng để lọc các dữ liệu insert cùng thời điểm\'',
             ],
-            'wp_comments' => [
+            WGR_TABLE_PREFIX . 'comments' => [
                 // thêm tiêu đề cho phần comment -> do bảng mặc định của wp comment không có cột này
                 'comment_title' => 'VARCHAR(255) NOT NULL DEFAULT \'\'',
                 'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
@@ -204,7 +214,7 @@ class Sync extends BaseController {
                 'time_order' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Sắp xếp độ ưu tiên của post dựa theo thời gian hiện tại\'',
             ],
         ];
-        $arr_add_cloumn[ 'wp_options_deleted' ] = $arr_add_cloumn[ 'wp_options' ];
+        $arr_add_cloumn[ WGR_TABLE_PREFIX . 'options_deleted' ] = $arr_add_cloumn[ WGR_TABLE_PREFIX . 'options' ];
 
         foreach ( $arr_add_cloumn as $k => $v ) {
             $check_table_column = $this->base_model->default_data( $k );

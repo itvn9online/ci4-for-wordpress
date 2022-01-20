@@ -2,6 +2,7 @@
 
 // Libraries
 use App\ Libraries\ PostType;
+use App\ Libraries\ TaxonomyType;
 use App\ Libraries\ LanguageCost;
 
 //
@@ -183,20 +184,27 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                     <?php
 
                     // với 1 số post type có đặc thù riêng -> ví dụ danh mục
-                    if ( $k == 'post_category' ) {
+                    if ( $k == 'post_category' || $k == 'post_tags' ) {
                         ?>
                     <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple aria-required="true" required>
                         <option value="">[ Chọn <?php echo $v; ?> ]</option>
                         <?php
 
-                        foreach ( $post_cat as $cat_k => $cat_v ) {
+                        //
+                        $for_each = $post_cat;
+                        $tax_url = $taxonomy;
+                        if ( $k == 'post_tags' ) {
+                            $for_each = $post_tags;
+                            $tax_url = TaxonomyType::TAGS;
+                        }
+                        foreach ( $for_each as $cat_k => $cat_v ) {
                             //print_r( $cat_v );
                             echo '<option value="' . $cat_v[ 'term_id' ] . '">' . $cat_v[ 'name' ] . '</option>';
                         }
 
                         ?>
                     </select>
-                    &nbsp; <a href="admin/terms/add?taxonomy=<?php echo $taxonomy; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm danh mục mới</a>
+                    &nbsp; <a href="admin/terms/add?taxonomy=<?php echo $tax_url; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm <?php echo $v; ?> mới</a>
                     <?php
                     } // END if post category
                     // mặc định thì hiển thị bình thường

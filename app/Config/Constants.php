@@ -91,6 +91,8 @@ defined( 'EXIT__AUTO_MAX' ) || define( 'EXIT__AUTO_MAX', 125 ); // highest autom
  * Chỉ sử dụng số, ký tự và dấu gạch dưới!
  */
 define( 'WGR_TABLE_PREFIX', 'wp_' );
+define( 'WGR_TERM_VIEW', 'zzz_v_terms' );
+define( 'WGR_POST_VIEW', 'zzz_v_posts' );
 
 // website của nhà phát triển
 define( 'PARTNER_WEBSITE', 'https://echbay.com/' );

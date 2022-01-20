@@ -3,10 +3,10 @@
 namespace App\ Models;
 
 class Comment extends EbModel {
-    public $table = 'wp_comments';
+    public $table = WGR_TABLE_PREFIX . 'comments';
     public $primaryKey = 'comment_ID';
 
-    public $metaTable = 'wp_commentmeta';
+    public $metaTable = WGR_TABLE_PREFIX . 'commentmeta';
     //public $metaKey = 'meta_id';
 
     public function __construct() {

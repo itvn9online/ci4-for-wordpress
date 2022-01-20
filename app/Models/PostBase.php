@@ -10,13 +10,13 @@ use App\ Libraries\ PostType;
 
 //
 class PostBase extends EbModel {
-    public $table = 'wp_posts';
+    public $table = WGR_TABLE_PREFIX . 'posts';
     //public $primaryKey = 'ID';
 
     protected $createdField = 'post_date';
     protected $updatedField = 'post_modified';
 
-    public $metaTable = 'wp_postmeta';
+    public $metaTable = WGR_TABLE_PREFIX . 'postmeta';
     //public $metaKey = 'meta_id';
 
     public $product_html_node = '';

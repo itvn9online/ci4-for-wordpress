@@ -30,15 +30,15 @@ class Users extends Admin {
 
         // các kiểu điều kiện where
         $where = [
-            'wp_users.is_deleted' => $by_is_deleted,
+            WGR_TABLE_PREFIX . 'users.is_deleted' => $by_is_deleted,
         ];
         if ( $this->member_type != '' ) {
-            $where[ 'wp_users.member_type' ] = $this->member_type;
+            $where[ WGR_TABLE_PREFIX . 'users.member_type' ] = $this->member_type;
         }
 
         // nếu không phải admin -> không cho xem danh sách admin luôn
         if ( $this->session_data[ 'member_type' ] != UsersType::ADMIN ) {
-            $where[ 'wp_users.member_type !=' ] = UsersType::ADMIN;
+            $where[ WGR_TABLE_PREFIX . 'users.member_type !=' ] = UsersType::ADMIN;
         }
 
         // tìm kiếm theo từ khóa nhập vào
@@ -86,7 +86,7 @@ class Users extends Admin {
         // lọc theo trạng thái đăng nhập
         $by_user_status = $this->MY_get( 'user_status' );
         if ( $by_user_status != '' && $by_user_status != 'all' ) {
-            $where[ 'wp_users.user_status' ] = $by_user_status;
+            $where[ WGR_TABLE_PREFIX . 'users.user_status' ] = $by_user_status;
             $urlPartPage .= '&user_status=' . $by_user_status;
         }
 
@@ -97,11 +97,11 @@ class Users extends Admin {
 
             //
             $order_by = [
-                'wp_users.last_login' => 'DESC',
+                WGR_TABLE_PREFIX . 'users.last_login' => 'DESC',
             ];
         } else {
             $order_by = [
-                'wp_users.ID' => 'DESC',
+                WGR_TABLE_PREFIX . 'users.ID' => 'DESC',
             ];
         }
 
@@ -121,7 +121,7 @@ class Users extends Admin {
         /*
          * phân trang
          */
-        $totalThread = $this->base_model->select( 'COUNT(ID) AS c', 'wp_users', $where, $filter );
+        $totalThread = $this->base_model->select( 'COUNT(ID) AS c', WGR_TABLE_PREFIX . 'users', $where, $filter );
         //print_r( $totalThread );
         $totalThread = $totalThread[ 0 ][ 'c' ];
         //print_r( $totalThread );
@@ -147,7 +147,7 @@ class Users extends Admin {
         // select dữ liệu từ 1 bảng bất kỳ
         $filter[ 'offset' ] = $offset;
         $filter[ 'limit' ] = $post_per_page;
-        $data = $this->base_model->select( '*', 'wp_users', $where, $filter );
+        $data = $this->base_model->select( '*', WGR_TABLE_PREFIX . 'users', $where, $filter );
         //print_r( $data );
 
 
@@ -181,7 +181,7 @@ class Users extends Admin {
         // edit
         if ( $id != '' ) {
             // select dữ liệu từ 1 bảng bất kỳ
-            $data = $this->base_model->select( '*', 'wp_users', [
+            $data = $this->base_model->select( '*', WGR_TABLE_PREFIX . 'users', [
                 'ID' => $id
             ], array(
                 // hiển thị mã SQL để check
@@ -216,7 +216,7 @@ class Users extends Admin {
         }
         // add
         else {
-            $data = $this->base_model->default_data( 'wp_users' );
+            $data = $this->base_model->default_data( WGR_TABLE_PREFIX . 'users' );
 
             // tạo mật khẩu ngẫu nhiên cho user
             $rand_password = [
@@ -365,7 +365,7 @@ class Users extends Admin {
         }
 
         // select dữ liệu từ 1 bảng bất kỳ
-        $data = $this->base_model->select( '*', 'wp_users', [
+        $data = $this->base_model->select( '*', WGR_TABLE_PREFIX . 'users', [
             'ID' => $id
         ], array(
             // hiển thị mã SQL để check

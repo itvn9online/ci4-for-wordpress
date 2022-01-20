@@ -45,7 +45,7 @@ class PostQuery extends PostMeta {
             $data[ 'post_name' ] = $this->base_model->_eb_non_mark_seo( $data[ 'post_name' ] );
 
             //
-            $check_slug = $this->base_model->select( 'ID', 'wp_posts', [
+            $check_slug = $this->base_model->select( 'ID', WGR_TABLE_PREFIX . 'posts', [
                 'post_name' => $data[ 'post_name' ],
                 'post_type' => $data[ 'post_type' ],
                 'post_status !=' => PostType::DELETED,
@@ -124,7 +124,7 @@ class PostQuery extends PostMeta {
         // kiểm tra xem có trùng slug không
         else if ( isset( $data[ 'post_name' ] ) && $data[ 'post_name' ] != '' ) {
             // post đang cần update
-            $current_slug = $this->base_model->select( '*', 'wp_posts', $where, [
+            $current_slug = $this->base_model->select( '*', WGR_TABLE_PREFIX . 'posts', $where, [
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
                 // trả về câu query để sử dụng cho mục đích khác
@@ -136,7 +136,7 @@ class PostQuery extends PostMeta {
 
             //
             if ( !empty( $current_slug ) ) {
-                $check_slug = $this->base_model->select( 'ID', 'wp_posts', [
+                $check_slug = $this->base_model->select( 'ID', WGR_TABLE_PREFIX . 'posts', [
                     'post_name' => $data[ 'post_name' ],
                     'ID !=' => $current_slug[ 'ID' ],
                     'post_type' => $current_slug[ 'post_type' ],
@@ -237,11 +237,11 @@ class PostQuery extends PostMeta {
             'post_type' => $post_type,
             'post_status' => 'publish',
             'taxonomy' => $post_cat[ 'taxonomy' ],
-            //'(wp_term_taxonomy.term_id = ' . $post_cat[ 'term_id' ] . ' OR wp_term_taxonomy.parent = ' . $post_cat[ 'term_id' ] . ')' => NULL,
+            //'(' . WGR_TABLE_PREFIX . 'term_taxonomy.term_id = ' . $post_cat[ 'term_id' ] . ' OR ' . WGR_TABLE_PREFIX . 'term_taxonomy.parent = ' . $post_cat[ 'term_id' ] . ')' => NULL,
         ];
         /*
         if ( isset( $post_cat[ 'taxonomy' ] ) && $post_cat[ 'taxonomy' ] != '' ) {
-            $where[ 'wp_term_taxonomy.taxonomy' ] = $post_cat[ 'taxonomy' ];
+            $where[ WGR_TABLE_PREFIX . 'term_taxonomy.taxonomy' ] = $post_cat[ 'taxonomy' ];
         }
         */
 
@@ -279,7 +279,7 @@ class PostQuery extends PostMeta {
 
         //
         if ( isset( $ops[ 'count_record' ] ) ) {
-            $data = $this->base_model->select( 'COUNT(ID) AS c', 'zzz_v_posts', $where, [
+            $data = $this->base_model->select( 'COUNT(ID) AS c', WGR_POST_VIEW, $where, [
                 'or_where' => $arr_or_where,
                 //'order_by' => $order_by,
                 //'get_sql' => 1,
@@ -308,7 +308,7 @@ class PostQuery extends PostMeta {
             }
 
             // lấy danh sách bài viết thuộc nhóm này
-            $data = $this->base_model->select( $ops[ 'select' ], 'zzz_v_posts', $where, [
+            $data = $this->base_model->select( $ops[ 'select' ], WGR_POST_VIEW, $where, [
                 'or_where' => $arr_or_where,
                 'order_by' => $order_by,
                 //'get_sql' => 1,

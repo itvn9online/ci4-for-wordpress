@@ -86,7 +86,7 @@ class Posts extends Csrf {
         // nếu có post cha -> lấy cả thông tin post cha
         $parent_data = [];
         if ( $data[ 'post_parent' ] > 0 ) {
-            $parent_data = $this->base_model->select( '*', 'wp_posts', array(
+            $parent_data = $this->base_model->select( '*', WGR_TABLE_PREFIX . 'posts', array(
                 // các kiểu điều kiện where
                 'ID' => $data[ 'post_parent' ],
                 'post_status' => PostType::PUBLIC

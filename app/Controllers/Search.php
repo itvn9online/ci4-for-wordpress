@@ -37,9 +37,9 @@ class Search extends Csrf {
 
             // các kiểu điều kiện where
             $where = [
-                'wp_posts.post_type' => $this->post_type,
-                'wp_posts.post_status' => PostType::PUBLIC,
-                'wp_posts.lang_key' => $this->lang_key
+                WGR_TABLE_PREFIX . 'posts.post_type' => $this->post_type,
+                WGR_TABLE_PREFIX . 'posts.post_status' => PostType::PUBLIC,
+                WGR_TABLE_PREFIX . 'posts.lang_key' => $this->lang_key
             ];
             //print_r( $where );
 
@@ -77,7 +77,7 @@ class Search extends Csrf {
             $filter = [
                 /*
                 'where_in' => array(
-                    'wp_posts.post_type' => array(
+                    WGR_TABLE_PREFIX . 'posts.post_type' => array(
                         PostType::POST,
                         PostType::BLOG,
                         PostType::PAGE,
@@ -86,8 +86,8 @@ class Search extends Csrf {
                 */
                 'or_like' => $where_or_like,
                 'order_by' => array(
-                    'wp_posts.menu_order' => 'DESC',
-                    'wp_posts.post_date' => 'DESC',
+                    WGR_TABLE_PREFIX . 'posts.menu_order' => 'DESC',
+                    WGR_TABLE_PREFIX . 'posts.post_date' => 'DESC',
                     //'post_modified' => 'DESC',
                 ),
                 // hiển thị mã SQL để check
@@ -103,7 +103,7 @@ class Search extends Csrf {
             /*
              * phân trang
              */
-            $totalThread = $this->base_model->select( 'COUNT(ID) AS c', 'wp_posts', $where, $filter );
+            $totalThread = $this->base_model->select( 'COUNT(ID) AS c', WGR_TABLE_PREFIX . 'posts', $where, $filter );
             //print_r( $totalThread );
             $totalThread = $totalThread[ 0 ][ 'c' ];
             //echo $totalThread . '<br>' . "\n";
@@ -133,7 +133,7 @@ class Search extends Csrf {
             //print_r( $filter );
 
             //
-            $data = $this->base_model->select( '*', 'wp_posts', $where, $filter );
+            $data = $this->base_model->select( '*', WGR_TABLE_PREFIX . 'posts', $where, $filter );
 
             //
             $data = $this->post_model->list_meta_post( $data );

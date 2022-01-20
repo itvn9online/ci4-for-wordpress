@@ -28,7 +28,7 @@ class Users extends Csrf {
 
         // edit
         // select dữ liệu từ 1 bảng bất kỳ
-        $data = $this->base_model->select( '*', 'wp_users', [
+        $data = $this->base_model->select( '*', WGR_TABLE_PREFIX . 'users', [
             'ID' => $id
         ], array(
             // hiển thị mã SQL để check

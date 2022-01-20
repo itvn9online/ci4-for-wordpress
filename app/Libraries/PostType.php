@@ -78,6 +78,7 @@ class PostType {
             //
             $post_type == self::BLOG ) {
             $arr[ 'post_category' ] = 'Danh mục';
+            $arr[ 'post_tags' ] = 'Thẻ';
         }
 
         //

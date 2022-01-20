@@ -100,7 +100,7 @@ class Guest extends Csrf {
         //$result = $this->user_model->login( $username, $password );
         $result = $this->user_model->login( $username, $password );
         if ( empty( $result ) ) {
-            $sql = $this->base_model->select( 'ID', 'wp_users', array(
+            $sql = $this->base_model->select( 'ID', WGR_TABLE_PREFIX . 'users', array(
                 // các kiểu điều kiện where
                 'user_email' => $username,
             ), array(
