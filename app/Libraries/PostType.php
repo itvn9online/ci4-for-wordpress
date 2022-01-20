@@ -77,6 +77,7 @@ class PostType {
             $post_type == self::ADS ||
             //
             $post_type == self::BLOG ) {
+            //$arr[ 'post_relationships' ] = 'Danh sách term ID';
             $arr[ 'post_category' ] = 'Danh mục';
             $arr[ 'post_tags' ] = 'Thẻ';
         }
@@ -116,7 +117,9 @@ class PostType {
             //'second_content' => 'textarea',
             'page_template' => 'select',
             'post_auto_slider' => 'checkbox',
-            //
+
+            //'post_relationships' => 'hidden',
+
             'image_large' => 'hidden',
             'image_medium_large' => 'hidden',
             'image_medium' => 'hidden',

@@ -31,11 +31,13 @@ class PostMeta extends PostBase {
         if ( !is_array( $meta_data ) || empty( $meta_data ) ) {
             return false;
         }
+        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $meta_data );
         //die( __FILE__ . ':' . __LINE__ );
 
         // lấy toàn bộ meta của post này
-        $meta_exist = $this->arr_meta_post( $post_id );
+        $meta_exist = $this->arr_meta_post( $post_id, false );
+        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $meta_exist );
 
         // xử lý riêng đối với post category và tags
@@ -62,8 +64,15 @@ class PostMeta extends PostBase {
         }
         if ( !empty( $term_relationships ) ) {
             $term_relationships = array_unique( $term_relationships );
-            $this->term_model->insert_term_relationships( $post_id, implode( ',', $term_relationships ) );
+
+            // gán danh sách term ID vào đây để đỡ phải select nhiều
+            $post_relationships = implode( ',', $term_relationships );
+            //$meta_data[ 'post_relationships' ] = $post_relationships;
+
+            $this->term_model->insert_term_relationships( $post_id, $post_relationships );
         }
+        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+        //print_r( $meta_data );
 
         // xử lý cho ảnh đại diện -> thêm các size ảnh khác để sau còn tùy ý sử dụng
         if ( isset( $meta_data[ 'image' ] ) && $meta_data[ 'image' ] != '' ) {
@@ -109,6 +118,7 @@ class PostMeta extends PostBase {
         }
 
         // các meta chưa có thì insert
+        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $insert_meta );
         foreach ( $insert_meta as $k => $v ) {
             $this->base_model->insert( $this->metaTable, [
@@ -119,6 +129,7 @@ class PostMeta extends PostBase {
         }
 
         // các meta có rồi thì update
+        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $update_meta );
         foreach ( $update_meta as $k => $v ) {
             $this->base_model->update_multiple( $this->metaTable, [
@@ -203,9 +214,12 @@ class PostMeta extends PostBase {
         ) );
     }
 
-    // trả về danh sách meta post dưới dạng key => value
-    function arr_meta_post( $post_id ) {
-        $data = $this->get_meta_post( $post_id, '', $this->metaTable );
+    /*
+     * trả về danh sách meta post dưới dạng key => value
+     * get_relationships: lấy danh sách relationships từ database nếu không có meta -> khi cần check meta exist thì không lấy, để tránh việc post_category luôn tồn tại -> lệnh update được gọi nhưng không update được
+     */
+    function arr_meta_post( $post_id, $get_relationships = true ) {
+        $data = $this->get_meta_post( $post_id );
         //print_r( $data );
 
         //
@@ -217,37 +231,50 @@ class PostMeta extends PostBase {
         //print_r( $meta_data );
 
         // hỗ trợ kiểu danh mục từ echbaydotcom
-        if ( !isset( $meta_data[ 'post_category' ] ) || $meta_data[ 'post_category' ] == '' ) {
-            $sql = $this->base_model->select( 'term_relationships.term_taxonomy_id, term_taxonomy.taxonomy', 'term_relationships', array(
-                // các kiểu điều kiện where
-                'object_id' => $post_id
-            ), array(
-                'join' => array(
-                    'term_taxonomy' => 'term_taxonomy.term_id = term_relationships.term_taxonomy_id'
-                ),
-                // hiển thị mã SQL để check
-                //'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-                //'offset' => 2,
-                //'limit' => 3
-            ) );
-            //print_r( $sql );
-            $term_relationships = [
-                TaxonomyType::POSTS => [],
-                TaxonomyType::TAGS => [],
-            ];
-            foreach ( $sql as $k => $v ) {
-                $term_relationships[ $v[ 'taxonomy' ] ][] = $v[ 'term_taxonomy_id' ];
+        /*
+        if ( !isset( $meta_data[ 'post_category' ] ) ) {
+            echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+        } else if ( empty( $meta_data[ 'post_category' ] ) ) {
+            echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+        }
+        */
+        if ( $get_relationships === true ) {
+            if ( !isset( $meta_data[ 'post_category' ] ) || empty( $meta_data[ 'post_category' ] ) ) {
+                //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+                //print_r( $meta_data );
+
+                //
+                $sql = $this->base_model->select( 'term_relationships.term_taxonomy_id, term_taxonomy.taxonomy', 'term_relationships', array(
+                    // các kiểu điều kiện where
+                    'object_id' => $post_id
+                ), array(
+                    'join' => array(
+                        'term_taxonomy' => 'term_taxonomy.term_id = term_relationships.term_taxonomy_id'
+                    ),
+                    // hiển thị mã SQL để check
+                    //'show_query' => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    //'get_query' => 1,
+                    //'offset' => 2,
+                    //'limit' => 3
+                ) );
+                //print_r( $sql );
+                $term_relationships = [
+                    TaxonomyType::POSTS => [],
+                    TaxonomyType::TAGS => [],
+                ];
+                foreach ( $sql as $k => $v ) {
+                    $term_relationships[ $v[ 'taxonomy' ] ][] = $v[ 'term_taxonomy_id' ];
+                }
+                //print_r( $term_relationships );
+                //die( __FILE__ . ':' . __LINE__ );
+                foreach ( $term_relationships as $k => $v ) {
+                    $meta_data[ 'post_' . $k ] = implode( ',', $v );
+                }
+                //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+                //print_r( $meta_data );
+                //die( __FILE__ . ':' . __LINE__ );
             }
-            //print_r( $term_relationships );
-            //die( __FILE__ . ':' . __LINE__ );
-            foreach ( $term_relationships as $k => $v ) {
-                $meta_data[ 'post_' . $k ] = implode( ',', $v );
-            }
-            //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
-            //print_r( $meta_data );
-            //die( __FILE__ . ':' . __LINE__ );
         }
 
         //

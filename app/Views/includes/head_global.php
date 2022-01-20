@@ -52,7 +52,7 @@ if ( $getconfig->fb_app_id != '' ) {
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:description" content="<?php echo $seo['description']; ?>" />
 <meta name="twitter:title" content="<?php echo $seo['title']; ?>" />
-<!-- END SEO -->
+<!-- END SEO --> 
 <!-- -->
 <link href="https://fonts.googleapis.com" rel="preconnect" />
 <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
@@ -112,10 +112,10 @@ max-width: <?php echo $getconfig->site_full_width . 'px';
 </style>
 <script>
 var cf_tester_mode = '<?php echo $debug_enable === true ? 1 : 0; ?>' * 1,
-    current_user_id='<?php echo $current_user_id; ?>' * 1;
-    pid = 0,
-    global_window_width = jQuery(window).width(),
-    web_link = window.location.protocol + '//' + document.domain + '/';
+current_user_id='<?php echo $current_user_id; ?>' * 1,
+pid = 0,
+global_window_width = jQuery(window).width(),
+web_link = window.location.protocol + '//' + document.domain + '/';
 </script>
 <?php
 
@@ -138,11 +138,10 @@ if ( $getconfig->google_analytics != '' ) {
 <!-- Global site tag (gtag.js) - Google Analytics --> 
 <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $getconfig->google_analytics; ?>"></script> 
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', '<?php echo $getconfig->google_analytics; ?>');
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '<?php echo $getconfig->google_analytics; ?>');
 </script>
 <?php
 }
