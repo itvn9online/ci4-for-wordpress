@@ -95,7 +95,7 @@ class PostBase extends EbModel {
         } else if ( $data[ 'post_type' ] == PostType::BLOG ) {
             return DYNAMIC_BASE_URL . PostType::BLOG . '-' . $data[ 'ID' ] . '/' . $data[ 'post_name' ];
         } else if ( $data[ 'post_type' ] == PostType::PAGE ) {
-            return DYNAMIC_BASE_URL . $data[ 'post_name' ];
+            return DYNAMIC_BASE_URL . PAGE_BASE_URL . $data[ 'post_name' ];
         }
         return DYNAMIC_BASE_URL . '?p=' . $data[ 'ID' ] . '&post_type=' . $data[ 'post_type' ] . '&slug=' . $data[ 'post_name' ];
     }

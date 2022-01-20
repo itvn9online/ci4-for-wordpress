@@ -97,7 +97,10 @@ class Term extends EbModel {
         return $post_cat;
     }
 
-    function insert_terms( $data, $taxonomy ) {
+    /*
+     * return_exist -> trả về ID của term khi gặp trùng lặp slug
+     */
+    function insert_terms( $data, $taxonomy, $return_exist = false ) {
         // các dữ liệu mặc định
         $default_data = [
             'last_updated' => date( 'Y-m-d H:i:s' ),
@@ -129,11 +132,11 @@ class Term extends EbModel {
                     $by_slug .= $i;
                 }
                 //echo 'by_slug: ' . $by_slug . '<br>' . "\n";
-                $check_term_exist = $this->get_term_by_slug( $by_slug, $taxonomy, false );
+                $check_term_exist = $this->get_term_by_slug( $by_slug, $taxonomy, false, 1, 'term_id' );
                 //print_r( $check_term_exist );
                 //die( __FILE__ . ':' . __LINE__ );
 
-                // nếu có rồi thì trả về false lỗi
+                // chưa có thì bỏ qua việc kiểm tra
                 if ( empty( $check_term_exist ) ) {
                     $data[ 'slug' ] = $by_slug;
 
@@ -142,6 +145,11 @@ class Term extends EbModel {
 
                     break;
                 }
+                // nếu có rồi mà có kèm lệnh hủy thì trả về data luôn
+                else if ( $return_exist === true ) {
+                    return $check_term_exist[ 'term_id' ];
+                }
+                // không thì for tiếp để thêm số vào slug -> tránh trùng lặp
             }
             //var_dump( $has_slug );
             //print_r( $data );
@@ -639,7 +647,7 @@ class Term extends EbModel {
             TaxonomyType::BLOG_TAGS,
         ];
         if ( $data[ 'taxonomy' ] == TaxonomyType::POSTS ) {
-            return DYNAMIC_BASE_URL . $data[ 'slug' ];
+            return DYNAMIC_BASE_URL . CATEGORY_BASE_URL . $data[ 'slug' ];
         } else if ( in_array( $data[ 'taxonomy' ], $allow_taxonomy ) ) {
             return DYNAMIC_BASE_URL . $data[ 'taxonomy' ] . '/' . $data[ 'slug' ];
         }
@@ -672,7 +680,7 @@ class Term extends EbModel {
         $tmp = '<tr>
             <td>&nbsp;</td>
             <td><a href="%get_admin_permalink%">' . $gach_ngang . ' %name% <i class="fa fa-edit"></i></a></td>
-            <td>%slug% <a href="%view_url%" target="_blank"><i class="fa fa-eye"></i></a></td>
+            <td><a href="%view_url%" target="_blank">%slug% <i class="fa fa-external-link"></i></a></td>
             <td class="d-none show-if-ads-type">%custom_size%</td>
             <td>&nbsp;</td>
             <td>%lang_key%</td>
@@ -826,11 +834,11 @@ class Term extends EbModel {
     }
 
     // lấy chi tiết 1 term theo ID
-    public function get_term_by_id( $id, $taxonomy = 'category', $get_meta = true ) {
+    public function get_term_by_id( $id, $taxonomy = 'category', $get_meta = true, $limit = 1, $select_col = '*' ) {
         $data = $this->get_taxonomy( [
             'term_id' => $id,
             'taxonomy' => $taxonomy,
-        ] );
+        ], $limit, $select_col );
 
         //
         if ( $get_meta === true && !empty( $data ) ) {
@@ -843,11 +851,11 @@ class Term extends EbModel {
     }
 
     // lấy chi tiết 1 term theo slug
-    public function get_term_by_slug( $slug, $taxonomy = 'category', $get_meta = true ) {
+    public function get_term_by_slug( $slug, $taxonomy = 'category', $get_meta = true, $limit = 1, $select_col = '*' ) {
         $data = $this->get_taxonomy( [
             'slug' => $slug,
             'taxonomy' => $taxonomy,
-        ] );
+        ], $limit, $select_col );
 
         //
         if ( $get_meta === true && !empty( $data ) ) {

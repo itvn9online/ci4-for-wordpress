@@ -173,6 +173,30 @@ if ( file_exists( THEMEPATH . 'functions.php' ) ) {
     include THEMEPATH . 'functions.php';
 }
 
+/*
+ * Tiền tố cho danh mục sản phẩm
+ */
+if ( !defined( 'WGR_CATEGORY_PREFIX' ) ) {
+    define( 'WGR_CATEGORY_PREFIX', 'category' );
+}
+if ( WGR_CATEGORY_PREFIX != '' ) {
+    define( 'CATEGORY_BASE_URL', WGR_CATEGORY_PREFIX . '/' );
+} else {
+    define( 'CATEGORY_BASE_URL', '' );
+}
+
+/*
+ * Tiền tố cho trang tĩnh
+ */
+if ( !defined( 'WGR_PAGES_PREFIX' ) ) {
+    define( 'WGR_PAGES_PREFIX', 'pages' );
+}
+if ( WGR_PAGES_PREFIX != '' ) {
+    define( 'PAGE_BASE_URL', WGR_PAGES_PREFIX . '/' );
+} else {
+    define( 'PAGE_BASE_URL', '' );
+}
+
 /**
  * Tiền tố cho bảng database.
  * Chỉ sử dụng số, ký tự và dấu gạch dưới!

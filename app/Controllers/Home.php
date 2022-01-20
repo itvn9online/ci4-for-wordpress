@@ -81,15 +81,8 @@ class Home extends Csrf {
         return $cache_value;
     }
 
-    public function checkurl( $slug_1, $set_page = '', $page_num = 1 ) {
-        //$slug_1 = $this->uri->segment( 1 );
-        //$slug_2 = $this->uri->segment( 2 );
-
-        //echo $slug_1 . '<br>' . "\n";
-        //echo $slug_2 . '<br>' . "\n";
-
-        //
-        if ( $slug_1 == '' ) {
+    public function checkurl( $slug, $set_page = '', $page_num = 1 ) {
+        if ( $slug == '' ) {
             die( '404 slug error!' );
         }
         //echo $set_page . ' <br>' . "\n";
@@ -98,7 +91,7 @@ class Home extends Csrf {
         // -> kiểm tra theo category
         $data = $this->term_model->get_taxonomy( array(
             // các kiểu điều kiện where
-            'slug' => $slug_1,
+            'slug' => $slug,
             'is_deleted' => DeletedStatus::FOR_DEFAULT,
             'lang_key' => $this->lang_key,
             'taxonomy' => TaxonomyType::POSTS
@@ -115,7 +108,7 @@ class Home extends Csrf {
         else {
             //echo 'check page <br>' . "\n";
             $data = $this->post_model->select_public_post( 0, [
-                'post_name' => $slug_1,
+                'post_name' => $slug,
                 'post_type' => PostType::PAGE,
             ] );
             if ( !empty( $data ) ) {

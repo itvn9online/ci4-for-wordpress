@@ -52,15 +52,12 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
     <thead>
         <tr>
             <th><input type="checkbox" id="selectall" name="selectall"/></th>
+            <th>STT</th>
             <th>Tên bài viết</th>
-            <th>Url</th>
             <th>Ảnh đại diện</th>
             <th>Chuyên mục</th>
             <th>Trạng thái</th>
-            <th>Tin nổi bật</th>
-            <th>Ngày tạo</th>
-            <th>STT</th>
-            <th>Last Update</th>
+            <th colspan="2">Ngày tạo/ Last Update</th>
             <th>Lang</th>
             <th>&nbsp;</th>
         </tr>
@@ -79,13 +76,14 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
             ?>
         <tr>
             <td>&nbsp;</td>
-            <td><a href="<?php echo $admin_permalink; ?>"><?php echo $v['post_title']; ?> <i class="fa fa-edit"></i></a></td>
-            <td class="text-center"><a href="<?php
+            <td><?php echo $v['menu_order']; ?></td>
+            <td><div><a href="<?php echo $admin_permalink; ?>" class="bold"><?php echo $v['post_title']; ?> <i class="fa fa-edit"></i></a></div>
+                <div><a href="<?php
 
             //$post_model->show_meta_post( $v[ 'post_meta' ], 'url_redirect' );
             $post_model->the_permalink( $v );
 
-            ?>"><i class="fa fa-eye"></i></a></td>
+            ?>" target="_blank" class="small"><?php echo $v['post_name']; ?> <i class="fa fa-external-link"></i></a></div></td>
             <td><?php
             if ( $post_type == PostType::MENU ) {
                 ?>
@@ -102,9 +100,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                 data-uri="admin/<?php echo $controller_slug; ?>?post_type=<?php echo $post_type; ?>"
                 class="each-to-taxonomy">&nbsp;</td>
             <td><?php echo $v['post_status']; ?></td>
-            <td><?php echo $v['pinged']; ?></td>
             <td><?php echo $v['post_date']; ?></td>
-            <td><?php echo $v['menu_order']; ?></td>
             <td><?php echo $v['post_modified']; ?></td>
             <td><?php echo $v['lang_key']; ?></td>
             <td class="text-center"><?php

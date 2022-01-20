@@ -63,9 +63,29 @@ $routes->get( 'blog-(:num)/(:segment)', 'Blogs::blog_details/$1/$2' );
 // post
 $routes->get( '(:num)/(:segment)', 'Posts::post_details/$1/$2' );
 
-// auto category or post
-$routes->get( '(:segment)/page/(:num)', 'Home::checkurl/$1/page/$2' );
-$routes->add( '(:segment)', 'Home::checkurl/$1' );
+// category -> có base slug cho category thì dùng loại base fix cứng này
+if ( WGR_CATEGORY_PREFIX != '' ) {
+    $routes->get( WGR_CATEGORY_PREFIX . '/(:segment)', 'Category::category_list/$1' );
+    $routes->get( WGR_CATEGORY_PREFIX . '/(:segment)/page/(:num)', 'Category::category_list/$1/page/$2' );
+}
+// không có thì mới sử dụng loại auto category -> hỗ trợ phân trang
+else {
+    $routes->get( '(:segment)/page/(:num)', 'Category::category_list/$1/page/$2' );
+}
+
+// auto category
+//$routes->get( '(:segment)/page/(:num)', 'Home::checkurl/$1/page/$2' );
+
+// category -> có base slug cho category thì dùng loại base fix cứng này
+if ( WGR_PAGES_PREFIX != '' ) {
+    $routes->add( WGR_PAGES_PREFIX . '/(:segment)', 'Pages::get_page/$1' );
+}
+// auto page
+else {
+    $routes->add( '(:segment)', 'Home::checkurl/$1' );
+}
+
+//
 //$routes->addPlaceholder( 'checkurl', '[0-9a-z]{1}-(:segment)' );
 //$routes->add( '(:checkurl)', 'Home::checkurl/$1' );
 
