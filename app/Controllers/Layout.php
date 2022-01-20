@@ -302,6 +302,11 @@ Compression = gzip -->';
         //print_r( $this->taxonomy_slider );
         $seo = $this->base_model->seo( $data, $this->term_model->get_the_permalink( $data ) );
 
+        // chỉnh lại thông số cho canonical
+        if ( $ops[ 'page_num' ] > 1 ) {
+            $seo[ 'canonical' ] = rtrim( $seo[ 'canonical' ], '/' ) . '/page/' . $ops[ 'page_num' ];
+        }
+
         // lấy danh sách nhóm con xem có không
         //$child_cat = $this->term_model->get_all_taxonomy( $data[ 'taxonomy' ] );
         //print_r( $child_cat );

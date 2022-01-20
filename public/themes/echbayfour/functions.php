@@ -8,6 +8,16 @@
 //define( 'FTP_PASS', '' );
 
 /*
+ * Tiền tố cho danh mục sản phẩm
+ */
+//define( 'WGR_CATEGORY_PREFIX', 'category' );
+
+/*
+ * Tiền tố cho trang tĩnh
+ */
+//define( 'WGR_PAGES_PREFIX', 'pages' );
+
+/*
  * đăng ký taxonomy riêng
  */
 /*

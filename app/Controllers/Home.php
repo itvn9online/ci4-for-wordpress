@@ -100,6 +100,14 @@ class Home extends Csrf {
 
         // có -> ưu tiên category
         if ( !empty( $data ) ) {
+            // vào đây thì bắt buộc phải không có category prefix
+            if ( WGR_CATEGORY_PREFIX != '' ) {
+                // -> có thì chuyển hướng tới link chính ngay
+                return redirect()->to( $this->term_model->get_the_permalink( $data ) );
+                //die( __FILE__ . ':' . __LINE__ );
+            }
+
+            //
             return $this->category( $data, PostType::POST, TaxonomyType::POSTS, 'category_view', [
                 'page_num' => $page_num,
             ] );
@@ -113,6 +121,15 @@ class Home extends Csrf {
             ] );
             if ( !empty( $data ) ) {
                 //print_r( $data );
+
+                // vào đây thì bắt buộc phải không có page prefix
+                if ( WGR_PAGES_PREFIX != '' ) {
+                    // -> có thì chuyển hướng tới link chính ngay
+                    return redirect()->to( $this->post_model->get_the_permalink( $data ) );
+                    //die( __FILE__ . ':' . __LINE__ );
+                }
+
+                //
                 return $this->pageDetail( $data );
             }
         }
