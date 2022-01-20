@@ -21,14 +21,22 @@ class Sync extends BaseController {
 
     // tạo bảng để lưu session khi cần có thể sử dụng luôn
     private function tbl_sessions() {
-        $sql = "CREATE TABLE IF NOT EXISTS `" . WGR_TABLE_PREFIX . "ci_sessions` (
+        // bỏ view cũ -> sử dụng view mới
+        $sql = 'DROP TABLE IF EXISTS ci_sessions';
+        echo $sql . '<br>' . "\n";
+        $this->base_model->MY_query( $sql );
+
+        //
+        $tbl = WGR_TABLE_PREFIX . 'ci_sessions';
+
+        $sql = "CREATE TABLE IF NOT EXISTS `$tbl` (
             `id` varchar(128) NOT null,
             `ip_address` varchar(45) NOT null,
             `timestamp` timestamp DEFAULT CURRENT_TIMESTAMP NOT null,
             `data` blob NOT null,
             KEY `ci_sessions_timestamp` (`timestamp`)
         )";
-        echo 'CREATE TABLE IF NOT EXISTS `' . WGR_TABLE_PREFIX . 'ci_sessions` <br>' . "\n";
+        echo 'CREATE TABLE IF NOT EXISTS `' . $tbl . '` <br>' . "\n\n";
 
         //
         return $this->base_model->MY_query( $sql );
@@ -43,10 +51,16 @@ class Sync extends BaseController {
 
         // lấy các cột trong bảng term để so sánh cột nào chưa có
         $tbl_terms = $this->base_model->default_data( 'terms' );
+        if ( empty( $tbl_terms ) ) {
+            die( basename( __FILE__ . ':' . __LINE__ ) );
+        }
         //print_r( $tbl_terms );
 
         //
         $tbl_term_taxonomy = $this->base_model->default_data( 'term_taxonomy' );
+        if ( empty( $tbl_term_taxonomy ) ) {
+            die( basename( __FILE__ . ':' . __LINE__ ) );
+        }
         //print_r( $tbl_term_taxonomy );
 
         //
@@ -73,14 +87,14 @@ class Sync extends BaseController {
             // trả về câu query để sử dụng cho mục đích khác
             'get_query' => 1,
             //'offset' => 2,
-            //'limit' => 3
+            'limit' => -1
         ) );
         //echo $sql . '<br>' . "\n";
 
         //
         $sql = "CREATE OR REPLACE VIEW " . WGR_TERM_VIEW . " AS " . $sql;
-        //echo $sql . '<br>' . "\n";
-        echo 'CREATE OR REPLACE VIEW ' . WGR_TERM_VIEW . ' <br>' . "\n";
+        echo $sql . '<br>' . "\n";
+        echo 'CREATE OR REPLACE VIEW ' . WGR_TERM_VIEW . ' <br>' . "\n\n";
 
         //
         return $this->base_model->MY_query( $sql );
@@ -95,10 +109,16 @@ class Sync extends BaseController {
 
         // lấy các cột trong bảng term để so sánh cột nào chưa có
         $tbl_posts = $this->base_model->default_data( 'posts' );
+        if ( empty( $tbl_posts ) ) {
+            die( basename( __FILE__ . ':' . __LINE__ ) );
+        }
         //print_r( $tbl_posts );
 
         //
         $tbl_term_taxonomy = $this->base_model->default_data( 'term_taxonomy' );
+        if ( empty( $tbl_term_taxonomy ) ) {
+            die( basename( __FILE__ . ':' . __LINE__ ) );
+        }
         //print_r( $tbl_term_taxonomy );
 
         //
@@ -115,6 +135,9 @@ class Sync extends BaseController {
 
         //
         $tbl_term_relationships = $this->base_model->default_data( 'term_relationships' );
+        if ( empty( $tbl_term_relationships ) ) {
+            die( basename( __FILE__ . ':' . __LINE__ ) );
+        }
         //print_r( $tbl_term_relationships );
 
         //
@@ -142,7 +165,7 @@ class Sync extends BaseController {
             // trả về câu query để sử dụng cho mục đích khác
             'get_query' => 1,
             //'offset' => 2,
-            //'limit' => 3
+            'limit' => -1
         ) );
         //echo $sql . '<br>' . "\n";
 
@@ -151,8 +174,8 @@ class Sync extends BaseController {
 
         //
         $sql = "CREATE OR REPLACE VIEW " . WGR_POST_VIEW . " AS " . $sql;
-        //echo $sql . '<br>' . "\n";
-        echo 'CREATE OR REPLACE VIEW ' . WGR_POST_VIEW . ' <br>' . "\n";
+        echo $sql . '<br>' . "\n";
+        echo 'CREATE OR REPLACE VIEW ' . WGR_POST_VIEW . ' <br>' . "\n\n";
 
         //
         return $this->base_model->MY_query( $sql );
@@ -174,21 +197,21 @@ class Sync extends BaseController {
 
         // tự động fixed các cột của bảng nếu chưa có
         $arr_add_cloumn = [
-            'users' => [
+            WGR_TABLE_PREFIX . 'users' => [
                 'ci_pass' => 'VARCHAR(255) NULL COMMENT \'Mật khẩu đăng nhập cho phiên bản CI-wordpress\'',
                 'member_type' => 'VARCHAR(55) NOT NULL COMMENT \'Phân loại thành viên (role)\'',
                 'is_deleted' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'0 = hiển thị, 1 = xóa\'',
                 'last_login' => 'DATETIME NOT NULL',
                 'last_updated' => 'DATETIME NOT NULL',
             ],
-            'posts' => [
+            WGR_TABLE_PREFIX . 'posts' => [
                 'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
                 'lang_parent' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Dùng để xác định với các bản ghi được nhân bản từ ngôn ngữ chính\'',
                 'post_viewed' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Đếm số lượt xem bài viết\'',
                 'child_count' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Đếm số lượt bài viết con của bài này. Thường dùng cho web truyện, chap của truyện\'',
                 'time_order' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Sắp xếp độ ưu tiên của post dựa theo thời gian hiện tại\'',
             ],
-            'terms' => [
+            WGR_TABLE_PREFIX . 'terms' => [
                 'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
                 'lang_parent' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Dùng để xác định với các bản ghi được nhân bản từ ngôn ngữ chính\'',
                 'last_updated' => 'DATETIME NOT NULL',
@@ -197,7 +220,7 @@ class Sync extends BaseController {
                 'term_status' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'Trạng thái hiển thị của 1 term. 0 = hiển thị, 1 = ẩn\'',
                 'term_viewed' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Đếm số lượt xem danh mục\'',
             ],
-            'options' => [
+            WGR_TABLE_PREFIX . 'options' => [
                 'option_type' => 'VARCHAR(55) NULL DEFAULT NULL COMMENT \'Phân loại option dành cho nhiều việc khác nhau\'',
                 'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
                 'lang_parent' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Dùng để xác định với các bản ghi được nhân bản từ ngôn ngữ chính\'',
@@ -205,7 +228,7 @@ class Sync extends BaseController {
                 'is_deleted' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'0 = hiển thị, 1 = xóa\'',
                 'insert_time' => 'BIGINT(20) NULL DEFAULT NULL COMMENT \'Thời gian insert bản ghi, dùng để lọc các dữ liệu insert cùng thời điểm\'',
             ],
-            'comments' => [
+            WGR_TABLE_PREFIX . 'comments' => [
                 // thêm tiêu đề cho phần comment -> do bảng mặc định của wp comment không có cột này
                 'comment_title' => 'VARCHAR(255) NOT NULL DEFAULT \'\'',
                 'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
@@ -214,11 +237,15 @@ class Sync extends BaseController {
                 'time_order' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Sắp xếp độ ưu tiên của post dựa theo thời gian hiện tại\'',
             ],
         ];
-        $arr_add_cloumn[ 'options_deleted' ] = $arr_add_cloumn[ 'options' ];
+        $arr_add_cloumn[ WGR_TABLE_PREFIX . 'options_deleted' ] = $arr_add_cloumn[ WGR_TABLE_PREFIX . 'options' ];
 
         foreach ( $arr_add_cloumn as $k => $v ) {
             $check_table_column = $this->base_model->default_data( $k );
+            if ( empty( $check_table_column ) ) {
+                die( basename( __FILE__ . ':' . __LINE__ ) );
+            }
             //print_r( $check_table_column );
+            //continue;
 
             //
             $last_key = '';
@@ -236,6 +263,7 @@ class Sync extends BaseController {
                     }
                     $alter_query = "ALTER TABLE `$k` ADD `$col` $alter AFTER `$last_key`" . $add_index;
                     echo $alter_query . '<br>' . "\n";
+                    //die( __FILE__ . ':' . __LINE__ );
                     if ( $this->base_model->MY_query( $alter_query ) ) {
                         echo $col . ' column in database has been sync! <br>' . "\n";
                     } else {
@@ -363,14 +391,11 @@ class Sync extends BaseController {
      * Hỗ trợ điều khiển file thông qua FTP account -> do không phải host nào cũng có thể điều khiển file bằng php thuần
      */
     protected function MY_unlink( $f ) {
-        if ( @!unlink( $f ) ) {
-            $file_model = new\ App\ Models\ File();
-
-            return $file_model->FTP_unlink( $f );
+        if ( @unlink( $f ) ) {
+            return true;
         }
-
-        //
-        return true;
+        $file_model = new\ App\ Models\ File();
+        return $file_model->FTP_unlink( $f );
     }
 
     protected function MY_copy( $from, $to, $file_permission = 0777 ) {

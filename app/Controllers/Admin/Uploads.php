@@ -217,7 +217,7 @@ class Uploads extends Admin {
                 //
                 if ( file_exists( $remove_file ) ) {
                     //echo $remove_file . '<br>' . "\n";
-                    unlink( $remove_file )or die( 'ERROR remove upload file: ' . $v );
+                    $this->MY_unlink( $remove_file )or die( 'ERROR remove upload file: ' . $v );
                 }
             }
             //die( 'delete media' );

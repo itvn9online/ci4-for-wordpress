@@ -23,7 +23,7 @@ class Optimize extends Admin {
             if ( file_exists( $filename ) ) {
                 $c = $this->WGR_remove_css_multi_comment( file_get_contents( $filename, 1 ) );
                 if ( $c !== false ) {
-                    echo $filename . '<br>' . PHP_EOL;
+                    echo $filename . ':' . __FUNCTION__ . ':' . __LINE__ . '<br>' . PHP_EOL;
                     $c = trim( $c );
                     if ( !empty( $c ) ) {
                         file_put_contents( $filename, $c );
@@ -48,7 +48,7 @@ class Optimize extends Admin {
                 echo 'continue (' . basename( $filename ) . ') <br>' . PHP_EOL;
                 continue;
             }
-            echo $filename . ':' . __LINE__ . '<br>' . PHP_EOL;
+            echo $filename . ':' . __FUNCTION__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
             //
             $c = trim( $c );
@@ -74,7 +74,7 @@ class Optimize extends Admin {
                 echo 'continue (' . basename( $filename ) . ') <br>' . PHP_EOL;
                 continue;
             }
-            echo $filename . '<br>' . PHP_EOL;
+            echo $filename . ':' . __FUNCTION__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
             //
             if ( !empty( $c ) ) {
@@ -89,7 +89,7 @@ class Optimize extends Admin {
         $full_path = $path . 'active-optimize.txt';
         if ( file_exists( $full_path ) ) {
             // thử xóa file optimize -> XÓA được thì mới trả về true -> đảm bảo có quyền chỉnh sửa các file trong này
-            if ( unlink( $full_path ) ) {
+            if ( $this->MY_unlink( $full_path ) ) {
                 return true;
             }
         }

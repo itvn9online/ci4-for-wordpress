@@ -86,14 +86,6 @@ defined( 'EXIT__AUTO_MAX' ) || define( 'EXIT__AUTO_MAX', 125 ); // highest autom
  * Các controller, model... cố gắng viết theo quy tắc exten để có thể tái sử dụng
  */
 
-/**
- * Tiền tố cho bảng database.
- * Chỉ sử dụng số, ký tự và dấu gạch dưới!
- */
-define( 'WGR_TABLE_PREFIX', 'wp_' );
-define( 'WGR_TERM_VIEW', 'wp_zzz_v_terms' );
-define( 'WGR_POST_VIEW', 'wp_zzz_v_posts' );
-
 // website của nhà phát triển
 define( 'PARTNER_WEBSITE', 'https://echbay.com/' );
 
@@ -180,3 +172,13 @@ define( 'THEMEPATH', PUBLIC_PUBLIC_PATH . 'themes/' . THEMENAME . '/' );
 if ( file_exists( THEMEPATH . 'functions.php' ) ) {
     include THEMEPATH . 'functions.php';
 }
+
+/**
+ * Tiền tố cho bảng database.
+ * Chỉ sử dụng số, ký tự và dấu gạch dưới!
+ */
+if ( !defined( 'WGR_TABLE_PREFIX' ) ) {
+    define( 'WGR_TABLE_PREFIX', 'wp_' );
+}
+define( 'WGR_TERM_VIEW', WGR_TABLE_PREFIX . 'zzz_v_terms' );
+define( 'WGR_POST_VIEW', WGR_TABLE_PREFIX . 'zzz_v_posts' );
