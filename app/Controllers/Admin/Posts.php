@@ -22,6 +22,8 @@ class Posts extends Admin {
     protected $controller_slug = 'posts';
     // tham số dùng để đổi file view khi add hoặc edit bài viết nếu muốn
     protected $add_edit_view = 'posts';
+    // dùng để chọn xem hiển thị nhóm sản phẩm nào ra ở phần danh mục
+    protected $main_category_key = 'post_category';
 
     /*
      * for_extends: khi một controller extends lại class này và sử dụng các post type khác thì khai báo nó bằng tru để bỏ qua các điều kiện kiểm tra
@@ -67,6 +69,11 @@ class Posts extends Admin {
     }
 
     public function index() {
+        if ( $this->MY_get( 'auto_update_module' ) != '' ) {
+            return $this->action_update_module();
+        }
+
+        //
         $post_per_page = 20;
 
         // các kiểu điều kiện where
@@ -193,6 +200,7 @@ class Posts extends Admin {
             'controller_slug' => $this->controller_slug,
             'pagination' => $pagination,
             'totalThread' => $totalThread,
+            'main_category_key' => $this->main_category_key,
             'data' => $data,
             'taxonomy' => $this->taxonomy,
             'post_type' => $this->post_type,
@@ -204,6 +212,7 @@ class Posts extends Admin {
 
     public function add() {
         $id = $this->MY_get( 'id', 0 );
+        $auto_update_module = $this->MY_get( 'auto_update_module', 0 );
 
         //
         if ( !empty( $this->MY_post( 'data' ) ) ) {
@@ -242,6 +251,7 @@ class Posts extends Admin {
         }
 
         // edit
+        $url_next_post = '';
         if ( $id != '' ) {
             // select dữ liệu từ 1 bảng bất kỳ
             $data = $this->post_model->select_post( $id, [
@@ -263,6 +273,14 @@ class Posts extends Admin {
 
                 //
                 die( header( 'location:' . DYNAMIC_BASE_URL . ltrim( $_SERVER[ 'REQUEST_URI' ], '/' ) ) );
+            }
+
+            // lấy bài tiếp theo để auto next
+            if ( $auto_update_module > 0 ) {
+                //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+
+                //
+                $url_next_post = $this->action_update_module( $id );
             }
         }
         // add
@@ -334,6 +352,8 @@ class Posts extends Admin {
         $this->teamplate_admin[ 'content' ] = view( 'admin/' . $this->add_edit_view . '/add', array(
             'controller_slug' => $this->controller_slug,
             'lang_key' => LanguageCost::lang_key(),
+            'auto_update_module' => $auto_update_module,
+            'url_next_post' => $url_next_post,
             'post_cat' => $post_cat,
             'post_tags' => $post_tags,
             'parent_post' => $parent_post,
@@ -509,4 +529,52 @@ class Posts extends Admin {
         }
     }
 
+    // chức năng tự động cập nhật lại toàn bộ bài viết mỗi khi có cập nhật mới và cần auto submit
+    private function action_update_module( $id = 0 ) {
+        $where = [
+            // các kiểu điều kiện where
+            'post_status' => PostType::PUBLIC,
+            'post_type' => $this->post_type,
+        ];
+        if ( $id > 0 ) {
+            $where[ 'ID <' ] = $id;
+        }
+
+        //
+        $data = $this->base_model->select( '*', $this->post_model->table, $where, array(
+            'order_by' => array(
+                'ID' => 'DESC'
+            ),
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            //'offset' => 2,
+            'limit' => 1
+        ) );
+        //print_r( $data );
+
+        //
+        if ( empty( $data ) ) {
+            if ( $id > 0 ) {
+                return '';
+            }
+            echo __FUNCTION__ . '! All done.';
+            return false;
+        }
+
+        // lấy link sửa bài viết trong admin
+        $admin_permalink = $this->post_model->get_admin_permalink( $data[ 'post_type' ], $data[ 'ID' ], $this->controller_slug );
+        //echo $admin_permalink . '<br>' . "\n";
+
+        // thêm tham số tự động submit
+        $admin_permalink .= '&auto_update_module=1';
+        //echo $admin_permalink . '<br>' . "\n";
+
+        //
+        if ( $id > 0 ) {
+            return $admin_permalink;
+        }
+        return redirect()->to( $admin_permalink );
+    }
 }

@@ -79,4 +79,23 @@ $(document).ready(function () {
 // lần 2 lúc nạp xong hình ảnh
 $(window).load(function () {
     fixed_CLS_for_editer('iframe#Resolution_ifr');
+
+    // tự động submit để cập nhật module mới cho bài viết
+    if (typeof auto_update_module == 'number' && auto_update_module === 1) {
+        setTimeout(function () {
+            console.log('Auto submit...');
+            document.admin_global_form.submit();
+
+            // tự động chuyển sang bài tiếp theo
+            if (url_next_post != '') {
+                console.log('Auto next: ' + url_next_post);
+                setTimeout(function () {
+                    window.location = url_next_post;
+                }, 3000);
+            } else {
+                console.log('%c Không xác định được url tiếp theo...', 'color: red;');
+                WGR_alert('Không xác định được url tiếp theo...', 'error');
+            }
+        }, 3000);
+    }
 });

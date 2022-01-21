@@ -30,6 +30,17 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
         ?>
     </li>
 </ul>
+<?php
+
+// kích hoạt chức năng tự động cập nhật bài viết khi có module gì hot
+if ( $auto_update_module * 1 === 1 ) {
+    //echo $auto_update_module;
+    ?>
+<p class="orgcolor text-center medium">* Kích hoạt chức năng tự động cập nhật bài viết để nhận các tính mới...</p>
+<?php
+}
+
+?>
 <div class="widget-box">
     <div class="widget-content nopadding">
         <form action="" method="post" name="admin_global_form" id="contact-form" onSubmit="return action_before_submit_post();" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
@@ -312,6 +323,8 @@ $('#quick_add_menu').change(function () {
 <script>
 var current_post_type='<?php echo $post_type; ?>';
 var page_post_type='<?php echo PostType::PAGE; ?>';
+var auto_update_module='<?php echo $auto_update_module; ?>' * 1;
+var url_next_post='<?php echo $url_next_post; ?>';
 </script>
 <?php
 

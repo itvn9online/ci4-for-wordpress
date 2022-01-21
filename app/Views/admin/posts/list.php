@@ -44,6 +44,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
         }
 
         ?>
+        <div class="d-inline"><a href="admin/<?php echo $controller_slug; ?>?post_type=<?php echo $post_type; ?>&auto_update_module=1" class="btn btn-info"> <i class="fa fa-bug"></i> Tự động cập nhật</a></div>
         <div class="d-inline"><a href="admin/<?php echo $controller_slug; ?>?post_type=<?php echo $post_type; ?>&post_status=<?php echo PostType::DELETED; ?>" class="btn btn-mini"> <i class="fa fa-trash"></i> Lưu trữ</a></div>
     </div>
 </div>
@@ -95,7 +96,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                 <?php
                 }
                 ?></td>
-            <td data-id="<?php $post_model->show_meta_post($v['post_meta'], 'post_category'); ?>"
+            <td data-id="<?php $post_model->show_meta_post($v['post_meta'], $main_category_key); ?>"
                 data-taxonomy="<?php echo $taxonomy; ?>"
                 data-uri="admin/<?php echo $controller_slug; ?>?post_type=<?php echo $post_type; ?>"
                 class="each-to-taxonomy">&nbsp;</td>
