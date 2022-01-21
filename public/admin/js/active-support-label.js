@@ -2,6 +2,44 @@
  * Chức năng tự động focus và scroll tới label chứa thông tin cần hõ trợ
  */
 
+// thay thế một giá trị nhất định trên URL
+function change_url_tab(parameter, new_value) {
+    if (typeof parameter == 'undefined' || parameter == '') {
+        console.log('parameter not found');
+        return false;
+    }
+
+    // lấy các params hiện tại
+    var current_params = window.location.href.split('?');
+    var new_params = [];
+    if (current_params.length > 1) {
+        current_params = current_params[1].replace(/\&amp\;/gi, '&').split('&');
+
+        //
+        //console.log(current_params);
+        for (var i = 0; i < current_params.length; i++) {
+            if (current_params[i].split('=')[0] != parameter) {
+                new_params.push(current_params[i]);
+            }
+        }
+    }
+    if (typeof new_value != 'undefined' && new_value != '') {
+        new_params.push(parameter + '=' + new_value);
+    }
+    //console.log(new_params);
+
+    //
+    var new_url = window.location.href.split('?')[0];
+    if (new_params.length > 0) {
+        new_url += '?' + new_params.join('&');
+    }
+    //console.log(new_url);
+
+    //
+    window.history.pushState("", document.title, new_url);
+    return true;
+}
+
 //
 var add_class_bg_for_tr_support = false;
 
@@ -66,7 +104,7 @@ $('#content .control-group label').click(function () {
         //console.log(a);
 
         // thay đổi URL để khi xuất hiện params tương ứng thì tự động scroll xuống ID này
-        _global_js_eb.change_url_tab('support_tab', a);
+        change_url_tab('support_tab', a);
     }
 });
 
@@ -76,6 +114,9 @@ $('#content .control-group label').click(function () {
     setTimeout(function () {
         if (add_class_bg_for_tr_support == false) {
             var get_support_tab = window.location.href.split('&support_tab=');
+            if (get_support_tab.length == 1) {
+                get_support_tab = window.location.href.split('?support_tab=');
+            }
             if (get_support_tab.length > 1 && $('.control-group').length > 0) {
                 get_support_tab = get_support_tab[1].split('&')[0].split('#')[0];
                 console.log(get_support_tab);

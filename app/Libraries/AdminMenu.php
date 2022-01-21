@@ -11,7 +11,7 @@ class AdminMenu {
                 'icon' => 'fa fa-home',
                 'arr' => []
             ],
-            'admin/posts?post_type=' . PostType::POST => [
+            'admin/posts' => [
                 // quyền truy cập của loại tài khoản
                 'role' => [
                     UsersType::AUTHOR,
@@ -20,22 +20,22 @@ class AdminMenu {
                 'name' => PostType::list( PostType::POST ),
                 'icon' => 'fa fa-product-hunt',
                 'arr' => [
-                    'admin/posts/add?post_type=' . PostType::POST => [
+                    'admin/posts/add' => [
                         'name' => PostType::list( PostType::POST ),
                         'icon' => 'fa fa-plus',
                     ],
-                    'admin/terms?taxonomy=' . TaxonomyType::POSTS => [
+                    'admin/terms' => [
                         'name' => TaxonomyType::list( TaxonomyType::POSTS, true ),
                     ],
-                    'admin/terms?taxonomy=' . TaxonomyType::OPTIONS => [
+                    'admin/postoptions' => [
                         'name' => TaxonomyType::list( TaxonomyType::OPTIONS, true ),
                     ],
-                    'admin/terms?taxonomy=' . TaxonomyType::TAGS => [
+                    'admin/tags' => [
                         'name' => TaxonomyType::list( TaxonomyType::TAGS, true ),
                     ],
                 ]
             ],
-            'admin/posts?post_type=' . PostType::ADS => [
+            'admin/adss' => [
                 'role' => [
                     UsersType::AUTHOR,
                     UsersType::MOD,
@@ -43,16 +43,16 @@ class AdminMenu {
                 'name' => PostType::list( PostType::ADS ),
                 'icon' => 'fa fa-picture-o',
                 'arr' => [
-                    'admin/posts/add?post_type=' . PostType::ADS => [
+                    'admin/adss/add' => [
                         'name' => PostType::list( PostType::ADS ),
                         'icon' => 'fa fa-plus',
                     ],
-                    'admin/terms?taxonomy=' . TaxonomyType::ADS => [
+                    'admin/adsoptions' => [
                         'name' => TaxonomyType::list( TaxonomyType::ADS, true ),
                     ],
                 ]
             ],
-            'admin/posts?post_type=' . PostType::BLOG => [
+            'admin/blogs' => [
                 'role' => [
                     UsersType::AUTHOR,
                     UsersType::MOD,
@@ -60,19 +60,19 @@ class AdminMenu {
                 'name' => PostType::list( PostType::BLOG ),
                 'icon' => 'fa fa-newspaper-o',
                 'arr' => [
-                    'admin/posts/add?post_type=' . PostType::BLOG => [
+                    'admin/blogs/add' => [
                         'name' => PostType::list( PostType::BLOG ),
                         'icon' => 'fa fa-plus',
                     ],
-                    'admin/terms?taxonomy=' . TaxonomyType::BLOGS => [
+                    'admin/blogcategory' => [
                         'name' => TaxonomyType::list( TaxonomyType::BLOGS, true ),
                     ],
-                    'admin/terms?taxonomy=' . TaxonomyType::BLOG_TAGS => [
+                    'admin/blogtags' => [
                         'name' => TaxonomyType::list( TaxonomyType::BLOG_TAGS, true ),
                     ],
                 ]
             ],
-            'admin/posts?post_type=' . PostType::PAGE => [
+            'admin/pages' => [
                 'role' => [
                     UsersType::AUTHOR,
                     UsersType::MOD,
@@ -80,13 +80,13 @@ class AdminMenu {
                 'name' => PostType::list( PostType::PAGE ),
                 'icon' => 'fa fa-file',
                 'arr' => [
-                    'admin/posts/add?post_type=' . PostType::PAGE => [
+                    'admin/pages/add' => [
                         'name' => PostType::list( PostType::PAGE ),
                         'icon' => 'fa fa-plus',
                     ],
                 ]
             ],
-            'admin/uploads?post_type=' . PostType::MEDIA => [
+            'admin/uploads' => [
                 'role' => [
                     UsersType::AUTHOR,
                     UsersType::MOD,
@@ -95,7 +95,7 @@ class AdminMenu {
                 'icon' => 'fa fa-camera',
                 'arr' => []
             ],
-            'admin/comments?comment_type=' . CommentType::CONTACT => [
+            'admin/contacts' => [
                 'role' => [
                     UsersType::AUTHOR,
                     UsersType::MOD,
@@ -104,7 +104,7 @@ class AdminMenu {
                 'icon' => 'fa fa-envelope-o',
                 'arr' => []
             ],
-            'admin/comments?comment_type=' . CommentType::COMMENT => [
+            'admin/comments' => [
                 'role' => [
                     UsersType::AUTHOR,
                     UsersType::MOD,
@@ -113,7 +113,7 @@ class AdminMenu {
                 'icon' => 'fa fa-comment-o',
                 'arr' => []
             ],
-            'admin/menus?post_type=' . PostType::MENU => [
+            'admin/menus' => [
                 'role' => [
                     UsersType::MOD,
                 ],

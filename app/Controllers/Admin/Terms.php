@@ -1,5 +1,4 @@
 <?php
-//require_once __DIR__ . '/Admin.php';
 namespace App\ Controllers\ Admin;
 
 // Libraries
@@ -9,9 +8,9 @@ use App\ Libraries\ DeletedStatus;
 
 //
 class Terms extends Admin {
-    protected $taxonomy = '';
+    protected $taxonomy = TaxonomyType::POSTS;
     protected $name_type = '';
-    private $default_taxonomy = '';
+    //private $default_taxonomy = '';
 
     // tham số dùng để thay đổi URL cho controller nếu muốn
     protected $controller_slug = 'terms';
@@ -24,15 +23,17 @@ class Terms extends Admin {
         // kiểm tra quyền truy cập của tài khoản hiện tại
         $this->check_permision( __CLASS__ );
 
+        // hỗ trợ lấy theo params truyền vào từ url
+        $this->taxonomy = $this->MY_get( 'taxonomy', $this->taxonomy );
+
         // chỉ kiểm tra các điều kiện này nếu không được chỉ định là extends
         if ( $for_extends === false ) {
             // lọc term dựa theo taxonomy
-            $this->default_taxonomy = TaxonomyType::POSTS;
-            $this->taxonomy = $this->MY_get( 'taxonomy', $this->default_taxonomy );
+            //$this->default_taxonomy = TaxonomyType::POSTS;
             $this->name_type = TaxonomyType::list( $this->taxonomy, true );
 
             // báo lỗi nếu không xác định được taxonomy
-            if ( $this->taxonomy == '' || TaxonomyType::list( $this->taxonomy ) == '' ) {
+            if ( $this->name_type == '' ) {
                 die( 'Taxonomy not register in system!' );
             }
         }
@@ -45,9 +46,10 @@ class Terms extends Admin {
         $by_keyword = $this->MY_get( 's' );
         $where_or_like = [];
         // URL cho phân trang tìm kiếm
-        $urlPartPage = 'admin/terms?taxonomy=' . $this->taxonomy;
+        $urlPartPage = 'admin/' . $this->controller_slug;
+        $urlParams = [];
         if ( $by_keyword != '' ) {
-            $urlPartPage .= '&s=' . $by_keyword;
+            $urlParams[] = 's=' . $by_keyword;
 
             //
             $by_like = $this->base_model->_eb_non_mark_seo( $by_keyword );
@@ -111,7 +113,9 @@ class Terms extends Admin {
         //die( __FILE__ . ':' . __LINE__ );
 
         //
-        $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '&page_num=' );
+        $urlParams[] = 'page_num=';
+        $urlPartPage .= '?' . implode( '&', $urlParams );
+        $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '' );
 
         //
         $filter[ 'offset' ] = $offset;
@@ -224,6 +228,7 @@ class Terms extends Admin {
             'taxonomy' => $this->taxonomy,
             'name_type' => $this->name_type,
             'meta_detault' => TaxonomyType::meta_default( $this->taxonomy ),
+            'controller_slug' => $this->controller_slug,
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
@@ -263,15 +268,19 @@ class Terms extends Admin {
 
     // chuyển trang sau khi XÓA xong
     protected function after_delete_restore() {
-        $for_redirect = base_url( 'admin/' . $this->controller_slug ) . '?taxonomy=' . $this->taxonomy;
+        $for_redirect = base_url( 'admin/' . $this->controller_slug );
+        $urlParams = [];
 
         //
         $is_deleted = $this->MY_get( 'is_deleted' );
         if ( $is_deleted != '' ) {
-            $for_redirect .= '&is_deleted=' . $is_deleted;
+            $urlParams[] = 'is_deleted=' . $is_deleted;
         }
 
         //
+        if ( count( $urlParams ) > 0 ) {
+            $for_redirect .= '?' . implode( '&', $urlParams );
+        }
         $this->base_model->alert( '', $for_redirect );
     }
     protected function before_delete_restore( $is_deleted ) {

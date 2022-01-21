@@ -1,5 +1,4 @@
 <?php
-//require_once __DIR__ . '/Admin.php';
 namespace App\ Controllers\ Admin;
 
 // Libraries
@@ -9,17 +8,27 @@ use App\ Libraries\ LanguageCost;
 
 //
 class Comments extends Admin {
-    public function __construct() {
+    protected $comment_type = CommentType::COMMENT;
+
+    // tham số dùng để thay đổi URL cho controller nếu muốn
+    protected $controller_slug = 'comments';
+
+    public function __construct( $for_extends = false ) {
         parent::__construct();
 
         // kiểm tra quyền truy cập của tài khoản hiện tại
         $this->check_permision( __CLASS__ );
 
-        $this->comment_type = $this->MY_get( 'comment_type', CommentType::CONTACT );
+        // hỗ trợ lấy theo params truyền vào từ url
+        $this->comment_type = $this->MY_get( 'comment_type', $this->comment_type );
 
         // báo lỗi nếu không xác định được taxonomy
-        if ( $this->comment_type == '' || CommentType::list( $this->comment_type ) == '' ) {
-            die( 'comment_type not register in system!' );
+        // chỉ kiểm tra các điều kiện này nếu không được chỉ định là extends
+        if ( $for_extends === false ) {
+            //if ( $this->comment_type == '' || CommentType::list( $this->comment_type ) == '' ) {
+            if ( CommentType::list( $this->comment_type ) == '' ) {
+                die( 'comment type not register in system!' );
+            }
         }
     }
 
@@ -31,6 +40,10 @@ class Comments extends Admin {
 
         //
         $post_per_page = 20;
+
+        // URL cho phân trang tìm kiếm
+        $urlPartPage = 'admin/' . $this->controller_slug;
+        $urlParams = [];
 
         // các kiểu điều kiện where
         $where = [
@@ -75,7 +88,9 @@ class Comments extends Admin {
         $offset = ( $page_num - 1 ) * $post_per_page;
 
         //
-        $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, 'admin/comments?comment_type=' . $this->comment_type, '&page_num=' );
+        $urlParams[] = 'page_num=';
+        $urlPartPage .= '?' . implode( '&', $urlParams );
+        $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '' );
 
 
         // select dữ liệu từ 1 bảng bất kỳ
@@ -95,6 +110,7 @@ class Comments extends Admin {
             'totalThread' => $totalThread,
             'data' => $data,
             'comment_type' => $this->comment_type,
+            'controller_slug' => $this->controller_slug,
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
@@ -123,6 +139,7 @@ class Comments extends Admin {
         $this->teamplate_admin[ 'content' ] = view( 'admin/comments/details', array(
             'data' => $data,
             'comment_type' => $this->comment_type,
+            'controller_slug' => $this->controller_slug,
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }

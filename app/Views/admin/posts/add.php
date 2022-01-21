@@ -14,7 +14,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 
 ?>
 <ul class="admin-breadcrumb">
-    <li><a href="admin/<?php echo $controller_slug; ?>?post_type=<?php echo $post_type; ?>">Danh sách <?php echo $name_type; ?></a></li>
+    <li><a href="admin/<?php echo $controller_slug; ?>">Danh sách <?php echo $name_type; ?></a></li>
     <li>
         <?php
         if ( $data[ 'ID' ] > 0 ) {
@@ -195,29 +195,40 @@ if ( $auto_update_module * 1 === 1 ) {
                     <?php
 
                     // với 1 số post type có đặc thù riêng -> ví dụ danh mục
-                    if ( $k == 'post_category' || $k == 'post_tags' ) {
+                    if ( $k == 'post_category' ) {
                         ?>
                     <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple aria-required="true" required>
                         <option value="">[ Chọn <?php echo $v; ?> ]</option>
                         <?php
 
                         //
-                        $for_each = $post_cat;
-                        $tax_url = $taxonomy;
-                        if ( $k == 'post_tags' ) {
-                            $for_each = $post_tags;
-                            $tax_url = TaxonomyType::TAGS;
-                        }
-                        foreach ( $for_each as $cat_k => $cat_v ) {
+                        foreach ( $post_cat as $cat_k => $cat_v ) {
                             //print_r( $cat_v );
                             echo '<option value="' . $cat_v[ 'term_id' ] . '">' . $cat_v[ 'name' ] . '</option>';
                         }
 
                         ?>
                     </select>
-                    &nbsp; <a href="admin/terms/add?taxonomy=<?php echo $tax_url; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm <?php echo $v; ?> mới</a>
+                    &nbsp; <a href="admin/<?php echo $controller_slug; ?>/add" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm <?php echo $v; ?> mới</a>
                     <?php
                     } // END if post category
+                    else if ( $k == 'post_tags' ) {
+                        ?>
+                    <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>">
+                        <option value="">[ Chọn <?php echo $v; ?> ]</option>
+                        <?php
+
+                        //
+                        foreach ( $post_tags as $cat_k => $cat_v ) {
+                            //print_r( $cat_v );
+                            echo '<option value="' . $cat_v[ 'term_id' ] . '">' . $cat_v[ 'name' ] . '</option>';
+                        }
+
+                        ?>
+                    </select>
+                    &nbsp; <a href="admin/<?php echo $controller_slug; ?>/add" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm <?php echo $v; ?> mới</a>
+                    <?php
+                    } // END if post tags
                     // mặc định thì hiển thị bình thường
                     else if ( $input_type == 'textarea' ) {
                         ?>
@@ -312,7 +323,7 @@ $('#quick_add_menu').change(function () {
                 <?php
                 if ( $data[ 'ID' ] > 0 ) {
                     ?>
-                <a href="admin/<?php echo $controller_slug; ?>/delete?post_type=<?php echo $post_type; ?>&id=<?php echo $data[ 'ID' ]; ?>" onClick="return click_a_delete_record();" class="btn btn-danger" target="target_eb_iframe"><i class="fa fa-trash"></i> XÓA</a>
+                <a href="admin/<?php echo $controller_slug; ?>/delete?id=<?php echo $data[ 'ID' ]; ?>" onClick="return click_a_delete_record();" class="btn btn-danger" target="target_eb_iframe"><i class="fa fa-trash"></i> XÓA</a>
                 <?php
                 }
                 ?>

@@ -46,8 +46,9 @@ class Search extends Csrf {
             // tìm kiếm theo từ khóa nhập vào
             $where_or_like = [];
             // URL cho phân trang tìm kiếm
-            $urlPartPage = [];
-            $urlPartPage[] = 's=' . $by_keyword;
+            $urlPartPage = $this->base_class_url( __CLASS__ );
+            $urlParams = [];
+            $urlParams[] = 's=' . $by_keyword;
 
             //
             $by_like = $this->base_model->_eb_non_mark_seo( $by_keyword );
@@ -68,8 +69,6 @@ class Search extends Csrf {
                     ];
                 }
             }
-            $urlPartPage = $this->base_class_url( __CLASS__ ) . '?' . implode( '&', $urlPartPage );
-            //echo $urlPartPage . '<br>' . "\n";
             //print_r( $where_or_like );
 
 
@@ -123,7 +122,9 @@ class Search extends Csrf {
             $offset = ( $page_num - 1 ) * $post_per_page;
 
             //
-            $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '&page_num=' );
+            $urlParams[] = 'page_num=';
+            $urlPartPage .= '?' . implode( '&', $urlParams );
+            $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '' );
             //echo $pagination . '<br>' . "\n";
 
 

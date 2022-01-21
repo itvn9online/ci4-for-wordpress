@@ -266,12 +266,16 @@ function add_active_class_for_sidebar(w) {
 
 function get_last_url_segment(w) {
     // lấy phần tử cuối cùng trong URL
-    var a = w.split('&support_tab=')[0].split('?support_tab=')[0].split('/');
+    var a = w.split('&support_tab=')[0].split('?support_tab=')[0];
+    a = a.replace(web_link, '');
+    /*
+    a = a.split('/');
     if (a[a.length - 1] == '') {
         a = a[a.length - 2];
     } else {
         a = a[a.length - 1];
     }
+    */
     a = g_func.non_mark_seo(a);
     //console.log('last w:', a);
 

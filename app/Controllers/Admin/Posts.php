@@ -1,5 +1,4 @@
 <?php
-//require_once __DIR__ . '/Admin.php';
 namespace App\ Controllers\ Admin;
 
 // Libraries
@@ -9,14 +8,14 @@ use App\ Libraries\ LanguageCost;
 
 //
 class Posts extends Admin {
-    protected $post_type = '';
+    protected $post_type = PostType::POST;
     protected $name_type = '';
-    private $detault_type = '';
+    //private $detault_type = '';
 
     // các taxonomy được hỗ trợ -> cái nào trống nghĩa là không hỗ trợ theo post_type tương ứng
-    protected $taxonomy = '';
-    private $tags = '';
-    private $options = '';
+    protected $taxonomy = TaxonomyType::POSTS;
+    private $tags = TaxonomyType::TAGS;
+    private $options = TaxonomyType::OPTIONS;
 
     // tham số dùng để thay đổi URL cho controller nếu muốn
     protected $controller_slug = 'posts';
@@ -34,18 +33,22 @@ class Posts extends Admin {
         // kiểm tra quyền truy cập của tài khoản hiện tại
         $this->check_permision( __CLASS__ );
 
+        // hỗ trợ lấy theo params truyền vào từ url
+        $this->post_type = $this->MY_get( 'post_type', $this->post_type );
+
         // chỉ kiểm tra các điều kiện này nếu không được chỉ định là extends
         if ( $for_extends === false ) {
             // lọc bài viết dựa theo post type
-            $this->detault_type = PostType::POST;
-            $this->post_type = $this->MY_get( 'post_type', $this->detault_type );
+            //$this->detault_type = PostType::POST;
             $this->name_type = PostType::list( $this->post_type );
 
             // báo lỗi nếu không xác định được post_type
-            if ( $this->post_type == '' || PostType::list( $this->post_type ) == '' ) {
+            //if ( $this->post_type == '' || PostType::list( $this->post_type ) == '' ) {
+            if ( $this->name_type == '' ) {
                 die( 'post_type not register in system!' );
             }
 
+            /*
             // -> category tương ứng
             if ( $this->post_type == PostType::ADS ) {
                 $this->taxonomy = TaxonomyType::ADS;
@@ -54,7 +57,7 @@ class Posts extends Admin {
                 $this->tags = TaxonomyType::BLOG_TAGS;
             } else if ( $this->post_type == PostType::MENU ) {
                 // riêng với phần menu, do dùng chung controller với post -> kiểm tra lại permission lần nữa cho chắc
-                $this->check_permision( 'Menus' );
+                //$this->check_permision( 'Menus' );
 
                 //$this->taxonomy = TaxonomyType::MENU;
                 $this->controller_slug = 'menus';
@@ -65,6 +68,7 @@ class Posts extends Admin {
                 $this->tags = TaxonomyType::TAGS;
             }
             $this->options = TaxonomyType::OPTIONS;
+            */
         }
     }
 
@@ -87,9 +91,10 @@ class Posts extends Admin {
         $by_keyword = $this->MY_get( 's' );
         $where_or_like = [];
         // URL cho phân trang tìm kiếm
-        $urlPartPage = 'admin/' . $this->controller_slug . '?post_type=' . $this->post_type;
+        $urlPartPage = 'admin/' . $this->controller_slug;
+        $urlParams = [];
         if ( $by_keyword != '' ) {
-            $urlPartPage .= '&s=' . $by_keyword;
+            $urlParams[] = 's=' . $by_keyword;
 
             //
             $by_like = $this->base_model->_eb_non_mark_seo( $by_keyword );
@@ -174,7 +179,9 @@ class Posts extends Admin {
         $offset = ( $page_num - 1 ) * $post_per_page;
 
         //
-        $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '&page_num=' );
+        $urlParams[] = 'page_num=';
+        $urlPartPage .= '?' . implode( '&', $urlParams );
+        $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '' );
 
 
         // select dữ liệu từ 1 bảng bất kỳ
@@ -360,6 +367,7 @@ class Posts extends Admin {
             'data' => $data,
             'meta_detault' => PostType::meta_default( $this->post_type ),
             'taxonomy' => $this->taxonomy,
+            'tags' => $this->tags,
             'post_type' => $this->post_type,
             'name_type' => $this->name_type,
         ) );
@@ -406,21 +414,25 @@ class Posts extends Admin {
 
     // chuyển trang sau khi XÓA xong
     protected function after_delete_restore() {
-        $for_redirect = base_url( 'admin/' . $this->controller_slug ) . '?post_type=' . $this->post_type;
+        $for_redirect = base_url( 'admin/' . $this->controller_slug );
+        $urlParams = [];
 
         //
         $page_num = $this->MY_get( 'page_num' );
         if ( $page_num != '' ) {
-            $for_redirect .= '&page_num=' . $page_num;
+            $urlParams[] = 'page_num=' . $page_num;
         }
 
         //
         $post_status = $this->MY_get( 'post_status' );
         if ( $post_status != '' ) {
-            $for_redirect .= '&post_status=' . $post_status;
+            $urlParams[] = 'post_status=' . $post_status;
         }
 
         //
+        if ( count( $urlParams ) > 0 ) {
+            $for_redirect .= '?' . implode( '&', $urlParams );
+        }
         $this->base_model->alert( '', $for_redirect );
     }
     protected function before_delete_restore( $is_deleted ) {

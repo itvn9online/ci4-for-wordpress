@@ -98,7 +98,7 @@ function WgrWp_popup_upload(insert_to, add_img_tag, img_size, input_type) {
         }
 
         //
-        $('body').append('<div class="hide-if-esc wgr-wp-upload"><iframe id="oi_wgr_wp_upload_iframe" name="oi_wgr_wp_upload_iframe" src="admin/uploads?post_type=file_upload&quick_upload=1&insert_to=' + insert_to + '&add_img_tag=' + add_img_tag + '&img_size=' + img_size + '&input_type=' + input_type + '" width="95%" height="' + ($(window).height() / 100 * 90) + '" frameborder="0">AJAX form</iframe></div>');
+        $('body').append('<div class="hide-if-esc wgr-wp-upload"><iframe id="oi_wgr_wp_upload_iframe" name="oi_wgr_wp_upload_iframe" src="admin/uploads?quick_upload=1&insert_to=' + insert_to + '&add_img_tag=' + add_img_tag + '&img_size=' + img_size + '&input_type=' + input_type + '" width="95%" height="' + ($(window).height() / 100 * 90) + '" frameborder="0">AJAX form</iframe></div>');
     }
 
 

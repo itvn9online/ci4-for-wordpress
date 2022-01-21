@@ -9,7 +9,7 @@ $data[ 'comment_content' ] = nl2br( $data[ 'comment_content' ] );
 
 ?>
 <ul class="admin-breadcrumb">
-    <li><a href="admin/comments?comment_type=<?php echo $comment_type; ?>">Danh sách <?php echo CommentType::list($comment_type); ?></a></li>
+    <li><a href="admin/<?php echo $controller_slug; ?>">Danh sách <?php echo CommentType::list($comment_type); ?></a></li>
     <li>Chi tiết
         <?php
         echo CommentType::list( $comment_type );

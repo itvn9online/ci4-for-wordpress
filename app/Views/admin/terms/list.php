@@ -31,7 +31,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
     </div>
     <div class="lf f50 text-right">
         <div class="d-inline"> <a href="<?php $term_model->admin_permalink( $taxonomy, 0, $controller_slug ); ?>" class="btn btn-success btn-mini"> <i class="fa fa-plus"></i> Thêm mới <?php echo $name_type; ?></a> </div>
-        <div class="d-inline"><a href="admin/<?php echo $controller_slug; ?>?taxonomy=<?php echo $taxonomy; ?>&is_deleted=<?php echo DeletedStatus::DELETED; ?>" class="btn btn-mini"> <i class="fa fa-trash"></i> Lưu trữ</a></div>
+        <div class="d-inline"><a href="admin/<?php echo $controller_slug; ?>?is_deleted=<?php echo DeletedStatus::DELETED; ?>" class="btn btn-mini"> <i class="fa fa-trash"></i> Lưu trữ</a></div>
     </div>
 </div>
 <br>

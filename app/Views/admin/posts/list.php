@@ -44,7 +44,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
         }
 
         ?>
-        <div class="d-inline"><a href="admin/<?php echo $controller_slug; ?>?post_type=<?php echo $post_type; ?>&post_status=<?php echo PostType::DELETED; ?>" class="btn btn-mini"> <i class="fa fa-trash"></i> Lưu trữ</a></div>
+        <div class="d-inline"><a href="admin/<?php echo $controller_slug; ?>?post_status=<?php echo PostType::DELETED; ?>" class="btn btn-mini"> <i class="fa fa-trash"></i> Lưu trữ</a></div>
     </div>
 </div>
 <br>
@@ -97,7 +97,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                 ?></td>
             <td data-id="<?php $post_model->show_meta_post($v['post_meta'], $main_category_key); ?>"
                 data-taxonomy="<?php echo $taxonomy; ?>"
-                data-uri="admin/<?php echo $controller_slug; ?>?post_type=<?php echo $post_type; ?>"
+                data-uri="admin/<?php echo $controller_slug; ?>"
                 class="each-to-taxonomy">&nbsp;</td>
             <td><?php echo $v['post_status']; ?></td>
             <td><?php echo $v['post_date']; ?></td>
@@ -106,13 +106,13 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
             <td class="text-center"><?php
             if ( $v[ 'post_status' ] != PostType::DELETED ) {
                 ?>
-                <a href="admin/<?php echo $controller_slug; ?>/delete?post_type=<?php echo $post_type; ?>&id=<?php echo $v[ 'ID' ]; ?>&post_status=<?php echo $post_status; ?>&page_num=<?php echo $page_num; ?>" onClick="return click_a_delete_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-trash"></i></a>
+                <a href="admin/<?php echo $controller_slug; ?>/delete?id=<?php echo $v[ 'ID' ]; ?>&post_status=<?php echo $post_status; ?>&page_num=<?php echo $page_num; ?>" onClick="return click_a_delete_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-trash"></i></a>
                 <?php
                 } else {
                     ?>
-                <div class="d-inline"><a href="admin/<?php echo $controller_slug; ?>/restore?post_type=<?php echo $post_type; ?>&id=<?php echo $v[ 'ID' ]; ?>&post_status=<?php echo $post_status; ?>&page_num=<?php echo $page_num; ?>" onClick="return click_a_restore_record();" class="bluecolor" target="target_eb_iframe"><i class="fa fa-undo"></i></a></div>
+                <div class="d-inline"><a href="admin/<?php echo $controller_slug; ?>/restore?id=<?php echo $v[ 'ID' ]; ?>&post_status=<?php echo $post_status; ?>&page_num=<?php echo $page_num; ?>" onClick="return click_a_restore_record();" class="bluecolor" target="target_eb_iframe"><i class="fa fa-undo"></i></a></div>
                 &nbsp;
-                <div class="d-inline"><a href="admin/<?php echo $controller_slug; ?>/remove?post_type=<?php echo $post_type; ?>&id=<?php echo $v[ 'ID' ]; ?>&post_status=<?php echo $post_status; ?>&page_num=<?php echo $page_num; ?>" onClick="return click_a_remove_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-remove"></i></a></div>
+                <div class="d-inline"><a href="admin/<?php echo $controller_slug; ?>/remove?id=<?php echo $v[ 'ID' ]; ?>&post_status=<?php echo $post_status; ?>&page_num=<?php echo $page_num; ?>" onClick="return click_a_remove_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-remove"></i></a></div>
                 <?php
                 }
                 ?></td>
@@ -124,7 +124,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
     </tbody>
 </table>
 <div class="public-part-page"> <?php echo $pagination; ?> Trên tổng số <?php echo $totalThread; ?> bản ghi.</div>
-<div class="text-right"><a href="admin/<?php echo $controller_slug; ?>?post_type=<?php echo $post_type; ?>&auto_update_module=1" class="btn btn-info"> <i class="fa fa-bug"></i> Tự động cập nhật</a></div>
+<div class="text-right"><a href="admin/<?php echo $controller_slug; ?>?auto_update_module=1" class="btn btn-info"> <i class="fa fa-bug"></i> Tự động cập nhật</a></div>
 <p class="d-none">* Copy đoạn code bên dưới rồi cho vào nơi cần hiển thị block này ở trong view. Nhớ thay %slug% thành slug thật trong danh sách ở trên.</p>
 <?php
 

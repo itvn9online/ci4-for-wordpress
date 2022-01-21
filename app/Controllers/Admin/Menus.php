@@ -1,13 +1,14 @@
 <?php
-/*
- * Phần menu sử dụng chung controller với post -> thêm controller này mục đích duy nhất là để phân quyền điều khiển
- */
-
-//require_once __DIR__ . '/Posts.php';
 namespace App\ Controllers\ Admin;
+
+// Libraries
+use App\ Libraries\ PostType;
 
 //
 class Menus extends Posts {
+    protected $post_type = PostType::MENU;
+    protected $controller_slug = 'menus';
+
     public function __construct() {
         parent::__construct();
 

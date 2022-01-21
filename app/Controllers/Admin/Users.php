@@ -8,7 +8,7 @@ use App\ Libraries\ UsersType;
 
 //
 class Users extends Admin {
-    private $member_type = '';
+    protected $member_type = '';
 
     public function __construct() {
         parent::__construct();

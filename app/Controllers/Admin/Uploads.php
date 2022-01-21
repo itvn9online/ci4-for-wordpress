@@ -7,16 +7,14 @@ use App\ Libraries\ PostType;
 
 //
 class Uploads extends Admin {
-    private $post_type = '';
+    protected $post_type = PostType::MEDIA;
+    protected $controller_slug = 'uploads';
 
     public function __construct() {
         parent::__construct();
 
         // kiểm tra quyền truy cập của tài khoản hiện tại
         $this->check_permision( __CLASS__ );
-
-        // lọc bài viết dựa theo post type
-        $this->post_type = PostType::MEDIA;
     }
 
     public function index( $url = '' ) {
@@ -38,7 +36,8 @@ class Uploads extends Admin {
         $by_keyword = $this->MY_get( 's' );
         $where_or_like = [];
         // URL cho phân trang tìm kiếm
-        $urlPartPage = 'admin/uploads?post_type=' . $this->post_type;
+        $urlPartPage = 'admin/' . $this->controller_slug;
+        $urlParams = [];
 
         // loại bớt các tham số trong URL
         //print_r( $_GET );
@@ -52,13 +51,13 @@ class Uploads extends Admin {
             if ( in_array( $k, $arr_deny_params ) ) {
                 continue;
             }
-            $urlPartPage .= '&' . $k . '=' . $v;
+            $urlParams[] = $k . '=' . $v;
             $hiddenSearchForm[ $k ] = $v;
         }
 
         //
         if ( $by_keyword != '' ) {
-            $urlPartPage .= '&s=' . $by_keyword;
+            $urlParams[] = 's=' . $by_keyword;
 
             //
             $by_like = $this->base_model->_eb_non_mark_seo( $by_keyword );
@@ -120,7 +119,9 @@ class Uploads extends Admin {
         $offset = ( $page_num - 1 ) * $post_per_page;
 
         //
-        $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '&page_num=' );
+        $urlParams[] = 'page_num=';
+        $urlPartPage .= '?' . implode( '&', $urlParams );
+        $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '' );
 
 
         // select dữ liệu từ 1 bảng bất kỳ

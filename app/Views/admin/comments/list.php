@@ -38,7 +38,7 @@ $base_model->add_css( 'admin/css/' . $comment_type . '.css' );
             ?>
         <tr>
             <td>&nbsp;</td>
-            <td><a href="admin/comments?comment_type=<?php echo $comment_type; ?>&comment_id=<?php echo $v['comment_ID']; ?>"><?php echo $v['comment_title']; ?> <i class="fa fa-edit"></i></a></td>
+            <td><a href="admin/<?php echo $controller_slug; ?>?comment_id=<?php echo $v['comment_ID']; ?>"><?php echo $v['comment_title']; ?> <i class="fa fa-edit"></i></a></td>
             <td><?php echo $v['comment_author_email']; ?></td>
             <td><?php echo $v['comment_approved']; ?></td>
             <td><?php echo $v['comment_author_IP']; ?></td>

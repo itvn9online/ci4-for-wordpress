@@ -13,7 +13,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
 
 ?>
 <ul class="admin-breadcrumb">
-    <li><a href="admin/terms?taxonomy=<?php echo $taxonomy; ?>">Danh sách <?php echo $name_type; ?></a></li>
+    <li><a href="admin/<?php echo $controller_slug; ?>">Danh sách <?php echo $name_type; ?></a></li>
     <li>
         <?php
         if ( $data[ 'term_id' ] > 0 ) {
@@ -202,7 +202,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
                 <?php
                 if ( $data[ 'term_id' ] > 0 ) {
                     ?>
-                <a href="admin/terms/delete?taxonomy=<?php echo $taxonomy; ?>&id=<?php echo $data[ 'term_id' ]; ?>" onClick="return click_a_delete_record();" class="btn btn-danger" target="target_eb_iframe"><i class="fa fa-trash"></i> XÓA</a>
+                <a href="admin/terms/<?php echo $controller_slug; ?>?id=<?php echo $data[ 'term_id' ]; ?>" onClick="return click_a_delete_record();" class="btn btn-danger" target="target_eb_iframe"><i class="fa fa-trash"></i> XÓA</a>
                 <?php
                 }
                 ?>

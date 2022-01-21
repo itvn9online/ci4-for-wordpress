@@ -11,7 +11,7 @@ use App\ Libraries\ PHPMaillerSend;
 //
 class Configs extends Admin {
     //private $lang_key = '';
-    private $config_type = '';
+    protected $config_type = ConfigType::CONFIG;
 
     public function __construct() {
         parent::__construct();
