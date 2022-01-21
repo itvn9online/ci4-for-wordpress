@@ -97,13 +97,15 @@ class Configs extends Admin {
 
         //
         if ( isset( $data[ 'robots' ] ) ) {
-            if ( $data[ 'robots' ] == '' ) {
+            // cập nhật lại robots.txt khi không có nội dung hoặc sai địa chỉ sitemap
+            if ( $data[ 'robots' ] == '' || strpos( $data[ 'robots' ], DYNAMIC_BASE_URL ) === false ) {
                 $data[ 'robots' ] = '
 User-agent: *
 Disallow: /cgi-bin/
 Disallow: /admin/
 Disallow: /manager/
 Disallow: /search?q=*
+Disallow: /search?s=*
 Disallow: *?replytocom
 Disallow: */attachment/*
 Disallow: /images/
