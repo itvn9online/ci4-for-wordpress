@@ -170,13 +170,10 @@ class AdminMenu {
                     'admin/configs?config_type=' . ConfigType::SMTP => [
                         'name' => ConfigType::list( ConfigType::SMTP ),
                     ],
-                ]
-            ],
-            'admin/dev' => [
-                'name' => 'Kỹ thuật',
-                'icon' => 'fa fa-bug',
-                'arr' => [
-                    //
+                    'admin/dev' => [
+                        'name' => 'Kỹ thuật',
+                        'icon' => 'fa fa-bug',
+                    ],
                 ]
             ],
         ];
