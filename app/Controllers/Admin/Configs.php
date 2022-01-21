@@ -117,7 +117,7 @@ Sitemap: ' . DYNAMIC_BASE_URL . 'sitemap';
             //
             //$id = '1';
 
-            $robot = fopen( PUBLIC_PUBLIC_PATH . 'robots.txt', "w" )or die( "Unable to open file!" );
+            $robot = fopen( PUBLIC_PUBLIC_PATH . 'robots.txt', 'w' )or die( 'Unable to open file!' );
             fwrite( $robot, $data[ 'robots' ] );
             fclose( $robot );
         }

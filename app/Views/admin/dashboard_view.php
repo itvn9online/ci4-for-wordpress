@@ -10,6 +10,19 @@ use App\ Libraries\ UsersType;
 //echo mysql_get_server_info();
 //echo session_id() . '<br>' . "\n";
 
+// kiểm tra file robots.txt
+$robots_txt = PUBLIC_PUBLIC_PATH . 'robots.txt';
+if ( file_exists( $robots_txt ) ) {
+    $robots_content = file_get_contents( $robots_txt, 1 );
+
+    if ( strpos( $robots_content, DYNAMIC_BASE_URL ) === false ) {
+        ?>
+<p class="redcolor medium18 text-center"><i class="fa fa-warning"></i> Vui lòng kiểm tra lại độ chuẩn xác của <a href="admin/configs?support_tab=data_robots" target="_blank"><strong class="bluecolor">file robots.txt</strong></a></p>
+<br>
+<?php
+}
+}
+
 
 ?>
 <p>Website sử dụng giao diện: <strong><?php echo THEMENAME; ?></strong> - được phát triển bởi <a href="https://echbay.com/" target="_blank" rel="nofollow"><strong>EchBay.com</strong></a>. Cập nhật lần cuối:
@@ -159,12 +172,10 @@ if ( file_exists( PUBLIC_HTML_PATH . 'system.zip' ) ) {
         </div>
     </div>
 </div>
+<br>
 <?php
 } // END if file exist system zip
 
 } // END member type ADMIN
-
-
-
 
 
