@@ -9,11 +9,13 @@ use App\ Libraries\ PostType;
 //use App\ Libraries\ LanguageCost;
 
 class Search extends Csrf {
+    protected $post_type = PostType::POST;
+
     public function __construct() {
         parent::__construct();
 
         //
-        $this->post_type = $this->MY_get( 'post_type', PostType::POST );
+        $this->post_type = $this->MY_get( 'post_type', $this->post_type );
     }
 
     // tìm kiếm

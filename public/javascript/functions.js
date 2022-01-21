@@ -683,7 +683,12 @@ function action_each_to_taxonomy() {
         if (uri != '') {
             // thêm term_id nếu không có trong yêu cầu
             if (uri.split('%term_id%').length == 1) {
-                uri += '&term_id=%term_id%';
+                if (uri.split('?').length > 1) {
+                    uri += '&';
+                } else {
+                    uri += '?';
+                }
+                uri += 'term_id=%term_id%';
             }
         }
         // class riêng cho thẻ A nếu có
