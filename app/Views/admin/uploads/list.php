@@ -1,7 +1,7 @@
 <?php
 
 // Libraries
-use App\ Libraries\ PostType;
+//use App\ Libraries\ PostType;
 
 //
 $upload_model = new\ App\ Models\ Upload();
@@ -64,12 +64,11 @@ if ( isset( $_GET[ 'input_type' ] ) ) {
 
 ?>
 <ul class="admin-breadcrumb">
-    <li>Danh sách <?php echo PostType::list($post_type); ?> (<?php echo $totalThread; ?>)</li>
+    <li>Danh sách <?php echo $name_type; ?> (<?php echo $totalThread; ?>)</li>
 </ul>
 <div class="cf">
     <div class="lf f50 admin-search-form">
-        <form name="frm_admin_search_controller" action="./admin/uploads" method="get">
-            <input type="hidden" name="post_type" value="<?php echo $post_type; ?>">
+        <form name="frm_admin_search_controller" action="./admin/<?php echo $controller_slug; ?>" method="get">
             <?php
 
             // thêm các tham số ẩn khi tìm kiếm
@@ -83,7 +82,7 @@ if ( isset( $_GET[ 'input_type' ] ) ) {
             <br>
             <div class="cf">
                 <div class="lf f30">
-                    <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo PostType::list($post_type); ?>" autofocus aria-required="true" required>
+                    <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $name_type; ?>" autofocus aria-required="true" required>
                 </div>
                 <div class="lf f20">
                     <button type="submit" class="btn-success"><i class="fa fa-search"></i> Tìm kiếm</button>
@@ -120,7 +119,7 @@ if ( isset( $_GET[ 'input_type' ] ) ) {
     <li>
         <div title="<?php echo $v['post_name']; ?>" class="media-attachment-padding">
             <div class="d-none show-if-hover-upload lf medium18"><strong onClick="return click_set_img_for_input('<?php echo $v['ID']; ?>');" class="greencolor cur"><i class="fa fa-plus"></i></strong></div>
-            <div class="d-none remove-attachment show-if-hover-upload rf medium18"><a href="admin/uploads/delete?id=<?php echo $v['ID'] . '&' . implode('&', $uri_quick_upload); ?>" target="target_eb_iframe" onClick="return confirm('Xác nhận xóa tệp này?');"><i class="fa fa-trash"></i></a></div>
+            <div class="d-none remove-attachment show-if-hover-upload rf medium18"><a href="admin/<?php echo $controller_slug; ?>/delete?id=<?php echo $v['ID'] . '&' . implode('&', $uri_quick_upload); ?>" target="target_eb_iframe" onClick="return confirm('Xác nhận xóa tệp này?');"><i class="fa fa-trash"></i></a></div>
             <div data-id="<?php echo $v['ID']; ?>" data-add_img_tag="<?php echo $add_img_tag; ?>" data-insert="<?php echo $str_insert_to; ?>"
                  data-size="<?php echo $img_size; ?>"
                  data-input_type="<?php echo $input_type; ?>"

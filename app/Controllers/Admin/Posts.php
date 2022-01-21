@@ -43,7 +43,7 @@ class Posts extends Admin {
             $this->name_type = PostType::list( $this->post_type );
 
             // báo lỗi nếu không xác định được post_type
-            //if ( $this->post_type == '' || PostType::list( $this->post_type ) == '' ) {
+            //if ( $this->post_type == '' || $this->name_type == '' ) {
             if ( $this->name_type == '' ) {
                 die( 'post type not register in system!' );
             }
@@ -390,7 +390,7 @@ class Posts extends Admin {
         if ( $result_id > 0 ) {
             $this->base_model->alert( '', $this->post_model->get_admin_permalink( $this->post_type, $result_id, $this->controller_slug ) );
         }
-        $this->base_model->alert( 'Lỗi tạo ' . PostType::list( $this->post_type ) . ' mới', 'error' );
+        $this->base_model->alert( 'Lỗi tạo ' . $this->name_type . ' mới', 'error' );
     }
 
 
@@ -409,7 +409,7 @@ class Posts extends Admin {
         }
 
         // không thì thông báo thành công
-        $this->base_model->alert( 'Cập nhật ' . PostType::list( $this->post_type ) . ' thành công' );
+        $this->base_model->alert( 'Cập nhật ' . $this->name_type . ' thành công' );
     }
 
     // chuyển trang sau khi XÓA xong

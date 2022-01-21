@@ -8,6 +8,7 @@ use App\ Libraries\ PostType;
 //
 class Uploads extends Admin {
     protected $post_type = PostType::MEDIA;
+    protected $name_type = '';
     protected $controller_slug = 'uploads';
 
     public function __construct() {
@@ -145,6 +146,8 @@ class Uploads extends Admin {
             'totalThread' => $totalThread,
             //'taxonomy' => $this->taxonomy,
             'post_type' => $this->post_type,
+            'controller_slug' => $this->controller_slug,
+            'name_type' => PostType::list($this->post_type),
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }

@@ -18,7 +18,6 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
 <div class="cf admin-search-form">
     <div class="lf f50">
         <form name="frm_admin_search_controller" action="./admin/<?php echo $controller_slug; ?>" method="get">
-            <input type="hidden" name="taxonomy" value="<?php echo $taxonomy; ?>">
             <div class="cf">
                 <div class="lf f30">
                     <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $name_type; ?>" autofocus aria-required="true" required>
