@@ -44,7 +44,6 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
         }
 
         ?>
-        <div class="d-inline"><a href="admin/<?php echo $controller_slug; ?>?post_type=<?php echo $post_type; ?>&auto_update_module=1" class="btn btn-info"> <i class="fa fa-bug"></i> Tự động cập nhật</a></div>
         <div class="d-inline"><a href="admin/<?php echo $controller_slug; ?>?post_type=<?php echo $post_type; ?>&post_status=<?php echo PostType::DELETED; ?>" class="btn btn-mini"> <i class="fa fa-trash"></i> Lưu trữ</a></div>
     </div>
 </div>
@@ -125,6 +124,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
     </tbody>
 </table>
 <div class="public-part-page"> <?php echo $pagination; ?> Trên tổng số <?php echo $totalThread; ?> bản ghi.</div>
+<div class="text-right"><a href="admin/<?php echo $controller_slug; ?>?post_type=<?php echo $post_type; ?>&auto_update_module=1" class="btn btn-info"> <i class="fa fa-bug"></i> Tự động cập nhật</a></div>
 <p class="d-none">* Copy đoạn code bên dưới rồi cho vào nơi cần hiển thị block này ở trong view. Nhớ thay %slug% thành slug thật trong danh sách ở trên.</p>
 <?php
 

@@ -38,7 +38,7 @@ class Posts extends Csrf {
         ] );
         if ( empty( $data ) ) {
             //print_r( $data );
-            return $this->page404('ERROR ' . strtolower( __FUNCTION__ ) . ':' . __LINE__ . '! Không xác định được dữ liệu bài viết...');
+            return $this->page404( 'ERROR ' . strtolower( __FUNCTION__ ) . ':' . __LINE__ . '! Không xác định được dữ liệu bài viết...' );
         }
 
         // update lượt xem -> daidq (2021-12-14): chuyển phần update này qua view, ai thích dùng thì kích hoạt cho nó nhẹ
@@ -75,11 +75,71 @@ class Posts extends Csrf {
             $config_key = 'eb_blog_per_page';
         }
         $post_per_page = $this->base_model->get_config( $this->getconfig, $config_key, 5 );
-        if ( $post_per_page > 0 && isset( $data[ 'post_meta' ][ 'post_category' ] ) && $data[ 'post_meta' ][ 'post_category' ] > 0 ) {
+        if ( $post_per_page > 0 &&
+            isset( $data[ 'post_meta' ][ 'post_category' ] ) &&
+            !empty( $data[ 'post_meta' ][ 'post_category' ] ) ) {
+            //print_r( $data[ 'post_meta' ][ 'post_category' ] );
+
+            //
+            /*
             $same_cat_data = $this->post_model->select_list_post( $post_type, [
                 'term_id' => $data[ 'post_meta' ][ 'post_category' ],
                 'taxonomy' => $taxonomy,
             ], $post_per_page );
+            */
+
+            //
+            $arr_where_in = [
+                'term_id' => explode( ',', $data[ 'post_meta' ][ 'post_category' ] )
+            ];
+
+            // lấy 1 bài phía trước
+            $same_cat_data = $this->base_model->select( '*', WGR_POST_VIEW, [
+                'ID >' => $data[ 'ID' ],
+            ], [
+                'where_in' => $arr_where_in,
+                'order_by' => [
+                    'menu_order' => 'ASC',
+                    'ID' => 'ASC',
+                ],
+                //'get_sql' => 1,
+                //'show_query' => 1,
+                //'debug_only' => 1,
+                //'offset' => 0,
+                'limit' => 1
+            ] );
+            if ( !empty( $same_cat_data ) ) {
+                $same_cat_data = $this->post_model->list_meta_post( [ $same_cat_data ] );
+                //print_r( $same_cat_data );
+
+                $post_per_page -= 1;
+            }
+
+            // sau đó là các bài phía sau
+            if ( $post_per_page > 0 ) {
+                $after_cat_data = $this->base_model->select( '*', WGR_POST_VIEW, [
+                    'ID <' => $data[ 'ID' ],
+                ], [
+                    'where_in' => $arr_where_in,
+                    'order_by' => [
+                        'menu_order' => 'DESC',
+                        'ID' => 'DESC',
+                    ],
+                    //'get_sql' => 1,
+                    //'show_query' => 1,
+                    //'debug_only' => 1,
+                    //'offset' => 0,
+                    'limit' => $post_per_page
+                ] );
+                if ( !empty( $after_cat_data ) ) {
+                    $after_cat_data = $this->post_model->list_meta_post( $after_cat_data );
+
+                    // gộp lại
+                    foreach ( $after_cat_data as $after_data ) {
+                        $same_cat_data[] = $after_data;
+                    }
+                }
+            }
             //print_r( $same_cat_data );
         }
 
