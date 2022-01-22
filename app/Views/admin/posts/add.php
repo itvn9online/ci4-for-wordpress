@@ -214,7 +214,7 @@ if ( $auto_update_module * 1 === 1 ) {
                     } // END if post category
                     else if ( $k == 'post_tags' ) {
                         ?>
-                    <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>">
+                    <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple>
                         <option value="">[ Chọn <?php echo $v; ?> ]</option>
                         <?php
 
