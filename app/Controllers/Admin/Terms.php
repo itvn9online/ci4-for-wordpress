@@ -121,8 +121,10 @@ class Terms extends Admin {
         $filter[ 'offset' ] = $offset;
         $filter[ 'limit' ] = $post_per_page;
         // daidq (2021-01-24): tạm thời không cần lấy nhóm cấp 1
-        //$filter[ 'get_meta' ] = true;
-        //$filter[ 'get_child' ] = true;
+        if ( $this->taxonomy == TaxonomyType::ADS ) {
+            $filter[ 'get_meta' ] = true;
+        }
+        $filter[ 'get_child' ] = true;
 
         //
         $data = $this->term_model->get_all_taxonomy( $this->taxonomy, 0, $filter );
@@ -131,14 +133,7 @@ class Terms extends Admin {
         //print_r( $data );
 
         //
-        foreach ( $data as $k => $v ) {
-            $v[ 'get_admin_permalink' ] = $this->term_model->get_admin_permalink( $v[ 'taxonomy' ], $v[ 'term_id' ], $this->controller_slug );
-            $v[ 'view_url' ] = $this->term_model->get_the_permalink( $v );
-            $v[ 'gach_ngang' ] = '';
-
-            //
-            $data[ $k ] = $v;
-        }
+        $data = $this->term_treeview_data( $data );
         //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $data );
 
@@ -154,6 +149,23 @@ class Terms extends Admin {
             'controller_slug' => $this->controller_slug,
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
+    }
+
+    private function term_treeview_data( $data ) {
+        foreach ( $data as $k => $v ) {
+            $v[ 'get_admin_permalink' ] = $this->term_model->get_admin_permalink( $v[ 'taxonomy' ], $v[ 'term_id' ], $this->controller_slug );
+            $v[ 'view_url' ] = $this->term_model->get_the_permalink( $v );
+            $v[ 'gach_ngang' ] = '';
+
+            //
+            if ( count( $v[ 'child_term' ] ) > 0 ) {
+                $v[ 'child_term' ] = $this->term_treeview_data( $v[ 'child_term' ] );
+            }
+
+            //
+            $data[ $k ] = $v;
+        }
+        return $data;
     }
 
     public function add() {
