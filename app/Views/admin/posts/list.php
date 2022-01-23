@@ -11,6 +11,12 @@ use App\ Libraries\ PostType;
 $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 
 ?>
+<script>
+angular.module('myApp', []).controller('myCtrl', function($scope) {
+    $scope.data = <?php echo json_encode($data); ?>;
+});
+</script>
+
 <ul class="admin-breadcrumb">
     <li>Danh sách <?php echo $name_type; ?> (<?php echo $totalThread; ?>)</li>
 </ul>
@@ -61,65 +67,44 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
             <th>&nbsp;</th>
         </tr>
     </thead>
-    <tbody>
-        <?php
-
-        foreach ( $data as $k => $v ) {
-            //print_r( $v );
-            //continue;
-
-            //
-            $admin_permalink = $post_model->get_admin_permalink( $post_type, $v[ 'ID' ], $controller_slug );
-
-            //
-            ?>
-        <tr>
+    <tbody ng-app="myApp" ng-controller="myCtrl"
+           ng-init="post_type='<?php echo $post_type; ?>';
+                    PostType_MENU='<?php echo PostType::MENU; ?>';
+                    taxonomy='<?php echo $taxonomy; ?>';
+                    controller_slug='<?php echo $controller_slug; ?>';
+                    page_num='<?php echo $page_num; ?>';
+                    PostType_DELETED='<?php echo PostType::DELETED; ?>';">
+        <tr ng-repeat="v in data">
             <td>&nbsp;</td>
-            <td><?php echo $v['menu_order']; ?></td>
-            <td><div><a href="<?php echo $admin_permalink; ?>" class="bold"><?php echo $v['post_title']; ?> <i class="fa fa-edit"></i></a></div>
-                <div><a href="<?php
-
-            //$post_model->show_meta_post( $v[ 'post_meta' ], 'url_redirect' );
-            $post_model->the_permalink( $v );
-
-            ?>" target="_blank" class="small blackcolor"><?php echo $v['post_name']; ?> <i class="fa fa-external-link"></i></a></div></td>
-            <td><?php
-            if ( $post_type == PostType::MENU ) {
-                ?>
-                &nbsp;
-                <?php
-                } else {
-                    ?>
-                <a href="<?php echo $admin_permalink; ?>"><img src="<?php echo $post_model->get_list_thumbnail($v['post_meta']); ?>" height="90" style="height: 90px; width: auto;" /></a>
-                <?php
-                }
-                ?></td>
-            <td data-id="<?php $post_model->show_meta_post($v['post_meta'], $main_category_key); ?>"
-                data-taxonomy="<?php echo $taxonomy; ?>"
-                data-uri="admin/<?php echo $controller_slug; ?>"
+            <td>{{v.menu_order}}</td>
+            <td><div><a href="{{v.admin_permalink}}" class="bold">{{v.post_title}} <i class="fa fa-edit"></i></a></div>
+                <div><a href="{{v.the_permalink}}" target="_blank" class="small blackcolor">{{v.post_name}} <i class="fa fa-external-link"></i></a></div></td>
+            <td><div ng-if="post_type == PostType_MENU"> &nbsp; </div>
+                <div ng-if="post_type != PostType_MENU"> <a href="{{v.admin_permalink}}"><img
+                                                                                              ng-src="{{v.thumbnail}}"
+                                                                                              src="images/_blank.png"
+                                                                                              height="90"
+                                                                                              data-class="each-to-img-src"
+                                                                                              style="height: 90px; width: auto;" /></a> </div></td>
+            <td data-id="{{v.main_category_key}}"
+                data-taxonomy="{{taxonomy}}"
+                data-uri="admin/{{controller_slug}}"
                 class="each-to-taxonomy">&nbsp;</td>
-            <td><?php echo $v['post_status']; ?></td>
-            <td><?php echo $v['post_date']; ?></td>
-            <td><?php echo $v['post_modified']; ?></td>
-            <td><?php echo $v['lang_key']; ?></td>
-            <td class="text-center"><?php
-            if ( $v[ 'post_status' ] != PostType::DELETED ) {
-                ?>
-                <a href="admin/<?php echo $controller_slug; ?>/delete?id=<?php echo $v[ 'ID' ]; ?>&post_status=<?php echo $post_status; ?>&page_num=<?php echo $page_num; ?>" onClick="return click_a_delete_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-trash"></i></a>
-                <?php
-                } else {
-                    ?>
-                <div class="d-inline"><a href="admin/<?php echo $controller_slug; ?>/restore?id=<?php echo $v[ 'ID' ]; ?>&post_status=<?php echo $post_status; ?>&page_num=<?php echo $page_num; ?>" onClick="return click_a_restore_record();" class="bluecolor" target="target_eb_iframe"><i class="fa fa-undo"></i></a></div>
-                &nbsp;
-                <div class="d-inline"><a href="admin/<?php echo $controller_slug; ?>/remove?id=<?php echo $v[ 'ID' ]; ?>&post_status=<?php echo $post_status; ?>&page_num=<?php echo $page_num; ?>" onClick="return click_a_remove_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-remove"></i></a></div>
-                <?php
-                }
-                ?></td>
+            <td>{{v.post_status}}</td>
+            <td>{{v.post_date}}</td>
+            <td>{{v.post_modified}}</td>
+            <td>{{v.lang_key}}</td>
+            <td class="text-center"><div>
+                    <div ng-if="v.post_status != PostType_DELETED">
+                        <div><a href="admin/{{controller_slug}}/delete?id={{v.ID}}&post_status={{v.post_status}}&page_num={{page_num}}" onClick="return click_a_delete_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-trash"></i></a> </div>
+                    </div>
+                    <div class="d-inlines" ng-if="v.post_status == PostType_DELETED">
+                        <div class="d-inline"><a href="admin/{{controller_slug}}/restore?id={{v.ID}}&post_status={{v.post_status}}&page_num={{page_num}}" onClick="return click_a_restore_record();" class="bluecolor" target="target_eb_iframe"><i class="fa fa-undo"></i></a></div>
+                        &nbsp;
+                        <div class="d-inline"><a href="admin/{{controller_slug}}/remove?id={{v.ID}}&post_status={{v.post_status}}&page_num={{page_num}}" onClick="return click_a_remove_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-remove"></i></a></div>
+                    </div>
+                </div></td>
         </tr>
-        <?php
-        }
-
-        ?>
     </tbody>
 </table>
 <div class="public-part-page"> <?php echo $pagination; ?> Trên tổng số <?php echo $totalThread; ?> bản ghi.</div>

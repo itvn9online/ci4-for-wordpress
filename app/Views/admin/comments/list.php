@@ -10,6 +10,12 @@ use App\ Libraries\ CommentType;
 $base_model->add_css( 'admin/css/' . $comment_type . '.css' );
 
 ?>
+<script>
+angular.module('myApp', []).controller('myCtrl', function($scope) {
+    $scope.data = <?php echo json_encode($data); ?>;
+});
+</script>
+
 <ul class="admin-breadcrumb">
     <li>Danh sách <?php echo CommentType::list($comment_type); ?> (<?php echo $totalThread; ?>)</li>
 </ul>
@@ -25,30 +31,16 @@ $base_model->add_css( 'admin/css/' . $comment_type . '.css' );
             <th>Lang</th>
         </tr>
     </thead>
-    <tbody>
-        <?php
-
-        foreach ( $data as $k => $v ) {
-            if ( $v[ 'comment_title' ] == '' ) {
-                $v[ 'comment_title' ] = strip_tags( $v[ 'comment_content' ] );
-                $v[ 'comment_title' ] = explode( "\n", $v[ 'comment_title' ] );
-                $v[ 'comment_title' ] = $v[ 'comment_title' ][ 0 ];
-            }
-
-            ?>
-        <tr>
+    <tbody ng-app="myApp" ng-controller="myCtrl" ng-init="controller_slug='<?php echo $controller_slug; ?>';">
+        <tr ng-repeat="v in data">
             <td>&nbsp;</td>
-            <td><a href="admin/<?php echo $controller_slug; ?>?comment_id=<?php echo $v['comment_ID']; ?>"><?php echo $v['comment_title']; ?> <i class="fa fa-edit"></i></a></td>
-            <td><?php echo $v['comment_author_email']; ?></td>
-            <td><?php echo $v['comment_approved']; ?></td>
-            <td><?php echo $v['comment_author_IP']; ?></td>
-            <td><?php echo $v['comment_date']; ?></td>
-            <td><?php echo $v['lang_key']; ?></td>
+            <td><a href="admin/{{controller_slug}}?comment_id={{v.comment_ID}}">{{v.comment_title}} <i class="fa fa-edit"></i></a></td>
+            <td>{{v.comment_author_email}}</td>
+            <td>{{v.comment_approved}}</td>
+            <td>{{v.comment_author_IP}}</td>
+            <td>{{v.comment_date}}</td>
+            <td>{{v.lang_key}}</td>
         </tr>
-        <?php
-        }
-
-        ?>
     </tbody>
 </table>
 <div class="public-part-page"> <?php echo $pagination; ?> Trên tổng số <?php echo $totalThread; ?> bản ghi.</div>

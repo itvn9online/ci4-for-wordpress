@@ -291,3 +291,15 @@ function WGR_load_textediter(for_id, ops) {
     //
     add_and_show_post_avt(for_id, 1, '', 'textediter');
 }
+
+// gán src cho thẻ img từ data-img -> dùng cho angularjs
+function action_data_img_src() {
+    $('.each-to-img-src').each(function () {
+        var a = $(this).attr('data-src') || '';
+        if (a != '') {
+            $(this).attr({
+                'src': a
+            });
+        }
+    });
+}

@@ -472,6 +472,8 @@ class Term extends EbModel {
                     //die( ':' . __LINE__ );
                     $post_cat = $this->get_child_terms( $post_cat, $ops );
                 }
+            } else if ( isset( $ops[ 'get_child' ] ) && $ops[ 'get_child' ] > 0 ) {
+                $post_cat = $this->get_child_terms( $post_cat, $ops );
             }
             //}
         }
@@ -699,7 +701,7 @@ class Term extends EbModel {
         //
         $str = '';
         foreach ( $data as $k => $v ) {
-            //print_r( $v );
+            print_r( $v );
 
             //
             $node = $tmp;
@@ -867,5 +869,27 @@ class Term extends EbModel {
 
         //
         return $data;
+    }
+
+    // vòng lặp đệ quy -> tạo option cho phần select của term
+    public function term_add_child_option( $data, $term_id = 0, $gach_ngang = '' ) {
+        if ( empty( $data ) ) {
+            return false;
+        }
+        //print_r( $data );
+        //return false;
+
+        //
+        foreach ( $data as $v ) {
+            //print_r( $v );
+            //continue;
+            if ( $v[ 'term_id' ] == $term_id || $v[ 'parent' ] == $term_id ) {
+                continue;
+            }
+            echo '<option value="' . $v[ 'term_id' ] . '">' . $gach_ngang . $v[ 'name' ] . '</option>';
+
+            //
+            $this->term_add_child_option( $v[ 'child_term' ], $term_id, $gach_ngang . '&#8212; ' );
+        }
     }
 }

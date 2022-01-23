@@ -98,13 +98,8 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
                         <option value="">[ Chọn Chuyên mục cha ]</option>
                         <?php
 
-                        foreach ( $post_cat as $cat_k => $cat_v ) {
-                            //print_r( $cat_v );
-                            if ( $cat_v[ 'term_id' ] == $data[ 'term_id' ] || $cat_v[ 'parent' ] == $data[ 'term_id' ] ) {
-                                continue;
-                            }
-                            echo '<option value="' . $cat_v[ 'term_id' ] . '">' . $cat_v[ 'name' ] . '</option>';
-                        }
+                        //
+                        $term_model->term_add_child_option( $post_cat, $data[ 'term_id' ] );
 
                         ?>
                     </select>

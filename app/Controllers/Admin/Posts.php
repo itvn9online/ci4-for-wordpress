@@ -198,6 +198,24 @@ class Posts extends Admin {
         $data = $this->post_model->list_meta_post( $data );
         //print_r( $data );
 
+        // xử lý dữ liệu cho angularjs
+        foreach ( $data as $k => $v ) {
+            // không cần hiển thị nội dung
+            $v[ 'post_content' ] = '';
+
+            // lấy 1 số dữ liệu khác gán vào, để angularjs chỉ việc hiển thị
+            $v[ 'admin_permalink' ] = $this->post_model->get_admin_permalink( $this->post_type, $v[ 'ID' ], $this->controller_slug );
+            $v[ 'the_permalink' ] = $this->post_model->get_the_permalink( $v );
+            $v[ 'thumbnail' ] = $this->post_model->get_list_thumbnail( $v[ 'post_meta' ] );
+            $v[ 'main_category_key' ] = $this->post_model->return_meta_post( $v[ 'post_meta' ], $this->main_category_key );
+
+            //
+            //print_r( $v );
+
+            //
+            $data[ $k ] = $v;
+        }
+
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/posts/list', array(
             'page_num' => $page_num,

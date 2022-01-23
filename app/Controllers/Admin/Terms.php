@@ -40,7 +40,7 @@ class Terms extends Admin {
     }
 
     public function index() {
-        $post_per_page = 20;
+        $post_per_page = 25;
 
         // tìm kiếm theo từ khóa nhập vào
         $by_keyword = $this->MY_get( 's' );
@@ -120,13 +120,26 @@ class Terms extends Admin {
         //
         $filter[ 'offset' ] = $offset;
         $filter[ 'limit' ] = $post_per_page;
-        $filter[ 'get_meta' ] = true;
-        $filter[ 'get_child' ] = true;
+        // daidq (2021-01-24): tạm thời không cần lấy nhóm cấp 1
+        //$filter[ 'get_meta' ] = true;
+        //$filter[ 'get_child' ] = true;
 
         //
         $data = $this->term_model->get_all_taxonomy( $this->taxonomy, 0, $filter );
         //print_r( $data );
         //$data = $this->term_model->terms_meta_post( $data );
+        //print_r( $data );
+
+        //
+        foreach ( $data as $k => $v ) {
+            $v[ 'get_admin_permalink' ] = $this->term_model->get_admin_permalink( $v[ 'taxonomy' ], $v[ 'term_id' ], $this->controller_slug );
+            $v[ 'view_url' ] = $this->term_model->get_the_permalink( $v );
+            $v[ 'gach_ngang' ] = '';
+
+            //
+            $data[ $k ] = $v;
+        }
+        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $data );
 
         //
@@ -209,7 +222,11 @@ class Terms extends Admin {
 
 
         // lấy danh sách các nhóm để add cho post
-        $post_cat = $this->term_model->get_all_taxonomy( $this->taxonomy );
+        $post_cat = $this->term_model->get_all_taxonomy( $this->taxonomy, 0, [
+            'get_child' => true
+        ] );
+        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+        //print_r( $post_cat );
 
 
         //

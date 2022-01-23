@@ -5,6 +5,14 @@ use App\ Libraries\ UsersType;
 use App\ Libraries\ DeletedStatus;
 
 ?>
+<script>
+angular.module('myApp', []).controller('myCtrl', function($scope) {
+    $scope.data = <?php echo json_encode($data); ?>;
+    $scope.list = <?php echo json_encode(UsersType::list()); ?>;
+    $scope.listStatus = <?php echo json_encode(UsersType::listStatus()); ?>;
+});
+</script>
+
 <ul class="admin-breadcrumb">
     <li><a href="admin/users">Danh sách thành viên</a> (<?php echo $totalThread; ?>)</li>
     <?php
@@ -62,37 +70,28 @@ use App\ Libraries\ DeletedStatus;
             <th>&nbsp;</th>
         </tr>
     </thead>
-    <tbody>
-        <?php
-
-        foreach ( $data as $v ) {
-            ?>
-        <tr>
+    <tbody ng-app="myApp" ng-controller="myCtrl"
+           ng-init="page_num='<?php echo $page_num; ?>';
+                    DeletedStatus_DELETED='<?php echo DeletedStatus::DELETED; ?>';">
+        <tr ng-repeat="v in data">
             <td>&nbsp;</td>
-            <td><?php echo $v['ID']; ?></td>
-            <td><a href="admin/users/add?id=<?php echo $v['ID']; ?>"><?php echo $v['user_login']; ?></a></td>
-            <td><?php echo $v['user_email']; ?></td>
-            <td><?php echo $v['display_name']; ?></td>
-            <td><a href="admin/users?member_type=<?php echo $v['member_type']; ?>"><?php echo $v['member_type'] != '' ? UsersType::list($v['member_type']) : ''; ?></a></td>
-            <td><?php echo UsersType::listStatus( $v['user_status'] ); ?></td>
-            <td><?php echo $v['last_login']; ?></td>
-            <td><?php echo $v['user_registered']; ?></td>
-            <td class="text-center"><?php
-            if ( $v[ 'is_deleted' ] != DeletedStatus::DELETED ) {
-                ?>
-                <a href="admin/users/delete?id=<?php echo $v[ 'ID' ]; ?>&page_num=<?php echo $page_num; ?>&is_deleted=<?php echo $by_is_deleted; ?>" onClick="return click_a_delete_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-trash"></i></a>
-                <?php
-                } else {
-                    ?>
-                <a href="admin/users/restore?id=<?php echo $v[ 'ID' ]; ?>&page_num=<?php echo $page_num; ?>&is_deleted=<?php echo $by_is_deleted; ?>" onClick="return click_a_restore_record();" class="bluecolor" target="target_eb_iframe"><i class="fa fa-undo"></i></a>
-                <?php
-                }
-                ?></td>
+            <td>{{v.ID}}</td>
+            <td><a href="admin/users/add?id={{v.ID}}">{{v.user_login}}</a></td>
+            <td>{{v.user_email}}</td>
+            <td>{{v.display_name}}</td>
+            <td><a href="admin/users?member_type={{v.member_type}}">{{list[v.member_type]}}</a></td>
+            <td>{{listStatus[v.user_status]}}</td>
+            <td>{{v.last_login}}</td>
+            <td>{{v.user_registered}}</td>
+            <td class="text-center"><div>
+                    <div ng-if="v.is_deleted != DeletedStatus_DELETED">
+                        <div><a href="admin/users/delete?id={{v.ID}}&page_num={{page_num}}&is_deleted=<?php echo $by_is_deleted; ?>" onClick="return click_a_delete_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-trash"></i></a> </div>
+                    </div>
+                    <div ng-if="v.is_deleted == DeletedStatus_DELETED">
+                        <div><a href="admin/users/restore?id={{v.ID}}&page_num={{page_num}}&is_deleted=<?php echo $by_is_deleted; ?>" onClick="return click_a_restore_record();" class="bluecolor" target="target_eb_iframe"><i class="fa fa-undo"></i></a></div>
+                    </div>
+                </div></td>
         </tr>
-        <?php
-        }
-
-        ?>
     </tbody>
 </table>
 <div class="public-part-page"> <?php echo $pagination; ?> Trên tổng số <?php echo $totalThread; ?> bản ghi.</div>

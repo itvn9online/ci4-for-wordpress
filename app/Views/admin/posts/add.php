@@ -120,7 +120,8 @@ if ( $auto_update_module * 1 === 1 ) {
                 <div class="controls">
                     <select data-select="<?php echo $data['post_status']; ?>" name="data[post_status]">
                         <option value="publish">Hiển thị</option>
-                        <option value="draft">Ẩn </option>
+                        <option value="pending">Chờ duyệt</option>
+                        <option value="draft">Bản nháp</option>
                     </select>
                 </div>
             </div>

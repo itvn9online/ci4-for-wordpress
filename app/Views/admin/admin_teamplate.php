@@ -83,6 +83,7 @@ if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
 <link rel="stylesheet" href="./thirdparty/jquery/jquery-ui.css"/>
 <!-- <script src="admin/js/bootstrap.min.js"></script> --> 
 <script src="./thirdparty/bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script> 
+<script src="./thirdparty/angular-1.8.2/angular.min.js"></script> 
 <!-- <script src="./thirdparty/bootstrap-5.1.3/js/bootstrap.min.js"></script> --> 
 <script src="./thirdparty/select2/select2.full.js"></script> 
 <!-- <script src="admin/js/select2.min.js"></script> -->

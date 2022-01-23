@@ -55,9 +55,6 @@ $('#content input[type="checkbox"]').each(function () {
     }
 });
 
-//
-action_each_to_taxonomy();
-
 function click_a_delete_record() {
     return confirm('Xác nhận xóa bản ghi này?');
 }
@@ -185,14 +182,6 @@ function hide_if_esc() {
     //
     return false;
 }
-jQuery(document).keydown(function (e) {
-    //console.log(e.keyCode);
-
-    //
-    if (e.keyCode == 27) {
-        hide_if_esc();
-    }
-});
 
 
 /*
@@ -230,6 +219,17 @@ $(document).ready(function () {
     });
     //$('.colorpicker').colorpicker();
     //$('.datepicker').datepicker();
+
+    //
+    action_each_to_taxonomy();
+    //action_data_img_src();
+}).keydown(function (e) {
+    //console.log(e.keyCode);
+
+    //
+    if (e.keyCode == 27) {
+        hide_if_esc();
+    }
 });
 
 

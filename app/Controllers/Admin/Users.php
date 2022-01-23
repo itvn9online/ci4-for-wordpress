@@ -148,8 +148,9 @@ class Users extends Admin {
         $filter[ 'offset' ] = $offset;
         $filter[ 'limit' ] = $post_per_page;
         $data = $this->base_model->select( '*', 'users', $where, $filter );
-        //print_r( $data );
 
+        //
+        //print_r( $data );
 
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/users/list', array(
@@ -299,7 +300,7 @@ class Users extends Admin {
     }
 
     // chuyển trang sau khi XÓA xong
-    protected function after_delete_restore( $msg, $is_deleted ) {
+    protected function after_delete_restore() {
         $for_redirect = base_url( 'admin/users' ) . '?member_type=' . $this->member_type;
 
         //

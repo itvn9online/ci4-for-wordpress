@@ -12,6 +12,23 @@ use App\ Libraries\ DeletedStatus;
 $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
 
 ?>
+<script>
+angular.module('myApp', []).controller('myCtrl', function($scope) {
+    $scope.data = <?php echo json_encode($data); ?>;
+    
+    //
+    //$scope.template_name = 'list.html';
+    //$scope.name = 'World';
+    $scope.testFunction = function($v) {
+        return $v.term_id;
+    };
+});
+</script>
+<!--
+<script type="text/ng-template" id="list.html">
+<td>Hello, {{name}}!</td>
+</script>
+-->
 <ul class="admin-breadcrumb">
     <li><?php echo $name_type; ?> (<?php echo $totalThread; ?>)</li>
 </ul>
@@ -38,6 +55,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
     <thead>
         <tr>
             <th><input type="checkbox" id="selectall" name="selectall"/></th>
+            <th>ID</th>
             <th>Tên bài viết</th>
             <th>Slug</th>
             <th class="d-none show-if-ads-type">Size</th>
@@ -47,10 +65,33 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
             <th>&nbsp;</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody ng-app="myApp" ng-controller="myCtrl"
+           ng-init="controller_slug='<?php echo $controller_slug; ?>';
+                    DeletedStatus_DELETED='<?php echo DeletedStatus::DELETED; ?>';
+                    for_redirect='<?php echo ($by_is_deleted != '' ? '&is_deleted=' . $by_is_deleted : ''); ?>';">
+        <tr ng-repeat="v in data">
+            <td>&nbsp;</td>
+            <td>{{testFunction(v)}}</td>
+            <td><a href="{{v.get_admin_permalink}}">{{v.gach_ngang + v.name}} <i class="fa fa-edit"></i></a></td>
+            <td><a href="{{v.view_url}}" target="_blank">{{v.slug}} <i class="fa fa-external-link"></i></a></td>
+            <td class="d-none show-if-ads-type">{{v.term_meta.custom_size}}</td>
+            <td>&nbsp;</td>
+            <td>{{v.lang_key}}</td>
+            <td>{{v.count}}</td>
+            <td class="text-center"><div>
+                    <div ng-if="v.is_deleted == DeletedStatus_DELETED">
+                        <div><a href="admin/{{controller_slug}}/restore?id={{v.term_id + for_redirect}}" onClick="return click_a_restore_record();" target="target_eb_iframe" class="bluecolor"><i class="fa fa-undo"></i></a></div>
+                    </div>
+                    <div class="d-inlines" ng-if="v.is_deleted != DeletedStatus_DELETED">
+                        <div><a href="admin/{{controller_slug}}/term_status?id={{v.term_id}}&current_status={{v.term_status + for_redirect}}" target="target_eb_iframe" data-status="{{v.term_status}}" class="record-status-color"><i class="fa fa-eye"></i></a></div>
+                        &nbsp;
+                        <div><a href="admin/{{controller_slug}}/delete?id={{v.term_id + for_redirect}}" onClick="return click_a_delete_record();" target="target_eb_iframe" class="redcolor"><i class="fa fa-trash"></i></a></div>
+                    </div>
+                </div></td>
+        </tr>
         <?php
 
-        echo $term_model->list_html_view( $data, '', $by_is_deleted, $controller_slug );
+        //echo $term_model->list_html_view( $data, '', $by_is_deleted, $controller_slug );
         //$term_model->get_admin_permalink($v['taxonomy'], $v['term_id']);
 
         /*

@@ -39,7 +39,7 @@ class Comments extends Admin {
         }
 
         //
-        $post_per_page = 20;
+        $post_per_page = 50;
 
         // URL cho phân trang tìm kiếm
         $urlPartPage = 'admin/' . $this->controller_slug;
@@ -102,6 +102,17 @@ class Comments extends Admin {
 
         //
         //$data = $this->post_model->list_meta_post( $data );
+        foreach ( $data as $k => $v ) {
+            if ( $v[ 'comment_title' ] == '' ) {
+                $v[ 'comment_title' ] = strip_tags( $v[ 'comment_content' ] );
+                $v[ 'comment_title' ] = explode( "\n", $v[ 'comment_title' ] );
+                $v[ 'comment_title' ] = $v[ 'comment_title' ][ 0 ];
+            }
+
+            //
+            $v[ 'comment_content' ] = '';
+            $data[ $k ] = $v;
+        }
         //print_r( $data );
 
         //

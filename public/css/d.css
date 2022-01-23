@@ -159,7 +159,7 @@ i.fas, em.fas, i.fa, em.fa {
 .dblock, .d-block {
     display: block
 }
-.li-align-center li, .div-align-center div, .dinline, .d-inline, .d-iblock {
+.li-align-center li, .div-align-center div, .dinline, .d-inline, .d-iblock, .d-inlines, .d-inlines * {
     display: inline-block
 }
 /* ads banner */
@@ -314,7 +314,7 @@ body.home .thread-details-tohome {
         left: 50%;
         transform: translate(-50%, 0);
     }
-} 
+}
 /* mobile, table only */
 @media only screen and (max-width:788px) {
     #admin_custom_alert div {
@@ -485,6 +485,9 @@ body.home .thread-details-tohome {
 }
 .public-part-page span.dots {
     border: 0 none;
+}
+div.p {
+    margin: 0 0 10px;
 }
 /* desktop only */
 @media only screen and (min-width:748px) {}
