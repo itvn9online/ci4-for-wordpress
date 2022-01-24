@@ -91,7 +91,8 @@ function WgrWp_popup_upload(insert_to, add_img_tag, img_size, input_type) {
             add_img_tag = 0;
         }
         if (typeof img_size == 'undefined') {
-            img_size = 'full';
+            //img_size = 'full';
+            img_size = 'large';
         }
         if (typeof input_type == 'undefined') {
             input_type = 'text';
@@ -117,7 +118,8 @@ function add_and_show_post_avt(for_id, add_img_tag, img_size, input_type) {
         add_img_tag = 0;
     }
     if (typeof img_size == 'undefined') {
-        img_size = 'full';
+        //img_size = 'full';
+        img_size = 'large';
     }
     if (typeof input_type == 'undefined') {
         input_type = 'text';
@@ -170,11 +172,32 @@ function click_set_img_for_input(img_id) {
         var add_img_tag = img.attr('data-add_img_tag') || '';
         add_img_tag *= 1;
 
-        var data_size = img.attr('data-size') || 'full';
+        //var data_size = img.attr('data-size') || 'full';
+        var data_size = img.attr('data-size') || 'large';
         if (data_size == '') {
-            data_size = 'full';
+            //data_size = 'full';
+            data_size = 'large';
         }
         var data_src = img.attr('data-' + data_size) || '';
+
+        // lấy các thuộc tính của ảnh -> tối ưu SEO
+        var img_attr = [];
+        var data_srcset = img.attr('data-srcset') || '';
+        if (data_srcset != '') {
+            img_attr.push('data-to-srcset="' + data_srcset + '"');
+        }
+        var data_sizes = img.attr('data-sizes') || '';
+        if (data_sizes != '') {
+            img_attr.push('sizes="' + data_sizes + '"');
+        }
+        var data_width = img.attr('data-width') || '';
+        if (data_width != '') {
+            img_attr.push('width="' + data_width + '"');
+        }
+        var data_height = img.attr('data-height') || '';
+        if (data_height != '') {
+            img_attr.push('height="' + data_height + '"');
+        }
 
         if (data_src == '') {
             data_src = img.attr('data-thumbnail') || '';
@@ -185,11 +208,12 @@ function click_set_img_for_input(img_id) {
         }
         var input_type = img.attr('data-input_type') || '';
         //console.log(input_type);
+        // insert ảnh vào text area
         if (input_type == 'textediter') {
             if (data_src.split('//').length == 1) {
                 data_src = $('base').attr('href') + data_src;
             }
-            top.tinymce.get(insert_to).insertContent('<img src="' + data_src + '" class="echbay-push-img" />');
+            top.tinymce.get(insert_to).insertContent('<img src="' + data_src + '"' + img_attr.join(' ') + ' class="echbay-push-img" />');
         } else {
             // thay ảnh hiển thị
             //console.log('.show-img-if-change.for-' + insert_to);

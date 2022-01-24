@@ -316,7 +316,7 @@ a:hover {
 }
 #breadcrumb a {
     display: inline-block;
-    background-image: url('../img/breadcrumb.png');
+    /* background-image: url('../img/breadcrumb.png'); */
     background-position: center right;
     background-repeat: no-repeat;
     color: #666666;

@@ -1,7 +1,7 @@
 <?php
 
 // Libraries
-//use App\ Libraries\ PostType;
+use App\ Libraries\ PostType;
 
 //
 $upload_model = new\ App\ Models\ Upload();
@@ -115,20 +115,60 @@ if ( isset( $_GET[ 'input_type' ] ) ) {
         //$all_src = json_encode( $all_src );
         //print_r( $all_src );
 
+        // xác định url cho ảnh
+        if ( $data[ 'post_type' ] == PostType::WP_MEDIA ) {
+            $short_uri = PostType::WP_MEDIA_URI;
+        } else {
+            $short_uri = PostType::MEDIA_URI;
+        }
+
+        //
+        $attachment_metadata = unserialize( $v[ 'post_meta' ][ '_wp_attachment_metadata' ] );
+        //print_r( $attachment_metadata );
+        $data_srcset = [
+            $short_uri . $attachment_metadata[ 'file' ] . ' ' . $attachment_metadata[ 'width' ] . 'w'
+        ];
+
+        //
+        $data_width = '';
+        $data_height = '';
+        foreach ( $attachment_metadata[ 'sizes' ] as $k_sizes => $sizes ) {
+            //echo $k_sizes . '<br>' . "\n";
+            //print_r( $sizes );
+
+            //
+            if ( $k_sizes == 'large' ) {
+                $data_width = $sizes[ 'width' ];
+                $data_height = $sizes[ 'height' ];
+            }
+
+            //
+            $data_srcset[] = $short_uri . $sizes[ 'file' ] . ' ' . $sizes[ 'width' ] . 'w';
+        }
+        //print_r( $data_srcset );
+
         ?>
     <li>
         <div title="<?php echo $v['post_name']; ?>" class="media-attachment-padding">
             <div class="d-none show-if-hover-upload lf medium18"><strong onClick="return click_set_img_for_input('<?php echo $v['ID']; ?>');" class="greencolor cur"><i class="fa fa-plus"></i></strong></div>
             <div class="d-none remove-attachment show-if-hover-upload rf medium18"><a href="admin/<?php echo $controller_slug; ?>/delete?id=<?php echo $v['ID'] . '&' . implode('&', $uri_quick_upload); ?>" target="target_eb_iframe" onClick="return confirm('Xác nhận xóa tệp này?');"><i class="fa fa-trash"></i></a></div>
-            <div data-id="<?php echo $v['ID']; ?>" data-add_img_tag="<?php echo $add_img_tag; ?>" data-insert="<?php echo $str_insert_to; ?>"
+            <div data-id="<?php echo $v['ID']; ?>"
+                 data-add_img_tag="<?php echo $add_img_tag; ?>"
+                 data-insert="<?php echo $str_insert_to; ?>"
                  data-size="<?php echo $img_size; ?>"
+                 data-width="<?php echo $data_width; ?>"
+                 data-height="<?php echo $data_height; ?>"
                  data-input_type="<?php echo $input_type; ?>"
                  <?php
         foreach ($all_src as $size_name => $file) {
-            echo ' data-' . $size_name . '="' . $file . '"';
+            echo ' data-' . $size_name . '="' . $file . '"' . "\n";
         }
         ?>
-                 onDblClick="return click_set_img_for_input('<?php echo $v['ID']; ?>');" class="media-attachment-img" style="background-image: url('<?php echo $src; ?>');">&nbsp;</div>
+                 data-srcset="<?php echo implode(', ', $data_srcset); ?>"
+                 data-sizes="(max-width: <?php echo $attachment_metadata['width']; ?>px) 100vw, <?php echo $attachment_metadata['width']; ?>px"
+                 onDblClick="return click_set_img_for_input('<?php echo $v['ID']; ?>');"
+                 class="media-attachment-img"
+                 style="background-image: url('<?php echo $src; ?>');">&nbsp;</div>
         </div>
     </li>
     <?php
