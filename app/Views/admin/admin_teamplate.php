@@ -175,66 +175,51 @@ var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
 
         // TEST
         //$session_data[ 'member_type' ] = UsersType::MOD;
-        foreach ( $arr_admin_menu as $k => $v ) {
-            //print_r( $v );
+        //$session_data[ 'member_type' ] = UsersType::AUTHOR;
+        //$session_data[ 'member_type' ] = UsersType::MEMBER;
+        //$session_data[ 'member_type' ] = UsersType::GUEST;
 
-            // chỉ kiểm tra đối với tài khoản không pahir là admin
-            if ( $session_data[ 'member_type' ] != UsersType::ADMIN ) {
+        // chạy vòng lặp kiểm tra phân quyền nếu không phải admin
+        if ( $session_data[ 'member_type' ] != UsersType::ADMIN ) {
+            foreach ( $arr_admin_menu as $k => $v ) {
+                //print_r( $v );
+
                 // không tồn tại role -> bỏ qua
                 if ( !isset( $v[ 'role' ] ) ) {
                     echo '<!-- Admin role not found! -->';
+                    $arr_admin_menu[ $k ] = null;
                     continue;
                 }
 
                 // nếu có role -> kiểm tra quyền truy cập
                 if ( !empty( $v[ 'role' ] ) && !in_array( $session_data[ 'member_type' ], $v[ 'role' ] ) ) {
                     echo '<!-- Permission deny! -->';
+                    $arr_admin_menu[ $k ] = null;
                     continue;
                 }
-            }
 
-            // tạo icon
-            if ( !isset( $v[ 'icon' ] ) || $v[ 'icon' ] == '' ) {
-                $v[ 'icon' ] = 'fa fa-caret-right';
-            }
-            $v[ 'icon' ] = '<i class="' . $v[ 'icon' ] . '"></i>';
-
-            ?>
-        <li style="order: <?php echo $v['order']; ?>"><a href="<?php echo $k; ?>"><?php echo $v['icon'] . $v['name']; ?></a>
-            <?php
-
-            if ( !empty( $v[ 'arr' ] ) ) {
-                echo '<ul class="sub-menu">';
+                //
                 foreach ( $v[ 'arr' ] as $k_sub => $v_sub ) {
-                    // nếu tồn tại phân quyền ở menu con -> chỉ tài khoản tương ứng mới được xem
-                    if ( $session_data[ 'member_type' ] != UsersType::ADMIN ) {
-                        if ( isset( $v_sub[ 'role' ] ) &&
-                            // phân quyền không trống
-                            !empty( $v_sub[ 'role' ] ) &&
-                            // kiểm tra quyền truy cập
-                            !in_array( $session_data[ 'member_type' ], $v_sub[ 'role' ] ) ) {
-                            echo '<!-- Permission sub deny! -->';
-                            continue;
-                        }
+                    //print_r( $v_sub );
+
+                    //
+                    if ( isset( $v_sub[ 'role' ] ) &&
+                        // phân quyền không trống
+                        !empty( $v_sub[ 'role' ] ) &&
+                        // kiểm tra quyền truy cập
+                        !in_array( $session_data[ 'member_type' ], $v_sub[ 'role' ] ) ) {
+                        echo '<!-- Permission sub deny! -->';
+                        $v[ 'arr' ] = null;
+                        $arr_admin_menu[ $k ] = $v;
+                        continue;
                     }
+                }
 
-                    // tạo icon
-                    if ( !isset( $v_sub[ 'icon' ] ) || $v_sub[ 'icon' ] == '' ) {
-                        $v_sub[ 'icon' ] = 'fa fa-caret-right';
-                    }
-                    $v_sub[ 'icon' ] = '<i class="' . $v_sub[ 'icon' ] . '"></i>';
-
-                    ?>
-        <li><a href="<?php echo $k_sub; ?>"><?php echo $v_sub['icon'] . $v_sub['name']; ?></a></li>
-        <?php
+                //
+                //echo $v[ 'name' ] . '<br>' . "\n";
+            }
         }
-        echo '</ul>';
-        }
-
-        ?>
-        </li>
-        <?php
-        }
+        //print_r( $arr_admin_menu );
 
         ?>
     </ul>
@@ -253,6 +238,9 @@ var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
     </div>
 </div>
 <div class="text-center admin-copyright">&copy; <?php echo date('Y'); ?> <a href="https://echbay.com/" target="_blank" rel="nofollow">EchBay.com</a> - All rights reserved. Code using framework <a href="https://codeigniter.com/" target="_blank" rel="nofollow">Codeigniter <?php echo \CodeIgniter\CodeIgniter::CI_VERSION; ?></a> - <span class="cur" onClick="$('#target_eb_iframe').attr({'height':250});">Show process</span></div>
+<script>
+var arr_admin_menu = <?php echo json_encode($arr_admin_menu); ?>;
+</script>
 <?php
 $base_model->add_js( 'admin/js/admin_footer.js' );
 $base_model->add_js( 'admin/js/active-support-label.js' );

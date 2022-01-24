@@ -7,6 +7,53 @@ $('#sidebar a').each(function () {
 console.log(aaaaaaaa);
 */
 
+//
+(function (arr) {
+    var str = '';
+    for (var x in arr) {
+        if (arr[x] === null) {
+            continue;
+        }
+
+        // tạo icon
+        if (typeof arr[x].icon == 'undefined' || arr[x].icon == '') {
+            arr[x].icon = 'fa fa-caret-right';
+        }
+        arr[x].icon = '<i class="' + arr[x].icon + '"></i>';
+
+        //
+        str += '<li style="order: ' + arr[x].order + '"><a href="' + x + '">' + arr[x].icon + arr[x].name + '</a>';
+
+        //
+        //console.log(arr[x]);
+        if (arr[x].arr !== null) {
+            str += '<ul class="sub-menu">';
+
+            //
+            var v_sub = arr[x].arr;
+            for (var k_sub in v_sub) {
+                // tạo icon
+                if (typeof v_sub[k_sub].icon == 'undefined' || v_sub[k_sub].icon == '') {
+                    v_sub[k_sub].icon = 'fa fa-caret-right';
+                }
+                v_sub[k_sub].icon = '<i class="' + v_sub[k_sub].icon + '"></i>';
+
+                //
+                str += '<li><a href="' + k_sub + '">' + v_sub[k_sub].icon + v_sub[k_sub].name + '</a></li>';
+            }
+
+            //
+            str += '</ul>';
+        }
+
+        //
+        str += '</li>';
+    }
+
+    //
+    $('#sidebar ul').html(str);
+})(arr_admin_menu);
+
 // chỉnh lại chiều cao cho textediter nếu có
 $('.auto-ckeditor').each(function () {
     var h = $(this).attr('data-height') || '';
