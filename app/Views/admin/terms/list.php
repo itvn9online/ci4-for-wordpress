@@ -20,13 +20,6 @@ var controller_slug = '<?php echo $controller_slug; ?>';
 //
 angular.module('myApp', []).controller('myCtrl', function($scope) {
     $scope.data = term_data;
-    
-    //
-    //$scope.template_name = 'list.html';
-    //$scope.name = 'World';
-    $scope.testFunction = function($v) {
-        return $v.term_id;
-    };
 });
 </script>
 
@@ -75,7 +68,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
             <td>{{v.term_id}}</td>
             <td><a href="{{v.get_admin_permalink}}">{{v.gach_ngang}}{{v.name}} <i class="fa fa-edit"></i></a></td>
             <td><a href="{{v.view_url}}" target="_blank">{{v.slug}} <i class="fa fa-external-link"></i></a></td>
-            <td class="d-none show-if-ads-type">{{v.term_meta.custom_size}}</td>
+            <td class="d-none show-if-ads-type">{{v.term_meta['custom_size']}}</td>
             <td>&nbsp;</td>
             <td>{{v.lang_key}}</td>
             <td>{{v.count}}</td>

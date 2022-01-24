@@ -11,12 +11,6 @@ use App\ Libraries\ PostType;
 $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 
 ?>
-<script>
-angular.module('myApp', []).controller('myCtrl', function($scope) {
-    $scope.data = <?php echo json_encode($data); ?>;
-});
-</script>
-
 <ul class="admin-breadcrumb">
     <li>Danh sách <?php echo $name_type; ?> (<?php echo $totalThread; ?>)</li>
 </ul>
@@ -110,6 +104,11 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
 <div class="public-part-page"> <?php echo $pagination; ?> Trên tổng số <?php echo $totalThread; ?> bản ghi.</div>
 <div class="text-right"><a href="admin/<?php echo $controller_slug; ?>?auto_update_module=1" class="btn btn-info"> <i class="fa fa-refresh"></i> Đồng bộ lại dữ liệu theo tiêu chuẩn chung</a></div>
 <p class="d-none">* Copy đoạn code bên dưới rồi cho vào nơi cần hiển thị block này ở trong view. Nhớ thay %slug% thành slug thật trong danh sách ở trên.</p>
+<script>
+angular.module('myApp', []).controller('myCtrl', function ($scope) {
+    $scope.data = <?php echo json_encode($data); ?>;
+});
+</script>
 <?php
 
 if ( $post_type == PostType::MENU ) {

@@ -1,4 +1,6 @@
-// tạo select box các nhóm dữ liệu cho khung tìm kiếm
+/*
+ * tạo select box các nhóm dữ liệu cho khung tìm kiếm
+ */
 (function () {
     //console.log(a);
 
