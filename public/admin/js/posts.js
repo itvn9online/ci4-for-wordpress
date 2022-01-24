@@ -77,7 +77,7 @@ $(document).ready(function () {
 });
 
 // lần 2 lúc nạp xong hình ảnh
-$(window).load(function () {
+$(window).on('load', function () {
     fixed_CLS_for_editer('iframe#Resolution_ifr');
 
     // tự động submit để cập nhật module mới cho bài viết

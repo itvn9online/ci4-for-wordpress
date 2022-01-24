@@ -69,7 +69,7 @@ if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
 <script type="text/javascript" src="./thirdparty/validate/jquery.min.js"></script> 
 --> 
 <script type="text/javascript" src="./thirdparty/jquery/jquery-3.6.0.min.js"></script> 
-<script type="text/javascript" src="./thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> 
+<!-- <script type="text/javascript" src="./thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> -->
 <!-- <script type="text/javascript" src="./thirdparty/jquery/jquery-migrate-1.4.1.min.js"></script> --> 
 <script type="text/javascript" src="./thirdparty/jquery-ui/datepicker.min.js?v=1.12.1"></script> 
 <script type="text/javascript" src="./thirdparty/validate/library.js"></script> 

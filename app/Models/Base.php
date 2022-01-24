@@ -464,7 +464,7 @@ class Base extends Session {
     }
 
     // nạp CSS, JS để tránh phải bấm Ctrl + F5
-    function get_add_css( $f, $get_content = false, $attr = [] ) {
+    function get_add_css( $f, $get_content = false, $attr = [], $preload = false ) {
         $f = str_replace( PUBLIC_PUBLIC_PATH, '', $f );
         $f = ltrim( $f, '/' );
         //echo $f . '<br>' . "\n";
@@ -474,11 +474,20 @@ class Base extends Session {
         if ( $get_content === true ) {
             return '<style>' . file_get_contents( $f, 1 ) . '</style>' . PHP_EOL;
         }
-        return '<link rel="stylesheet" type="text/css" media="all" href="' . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '"' . implode( ' ', $attr ) . '>';
+        if ( $preload == true ) {
+            $rel = 'rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"';
+        } else {
+            $rel = 'rel="stylesheet" type="text/css" media="all"';
+        }
+        return '<link ' . $rel . ' href="' . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '"' . implode( ' ', $attr ) . ' />';
     }
-
-    function add_css( $f, $get_content = false, $attr = [] ) {
-        echo $this->get_add_css( $f, $get_content, $attr ) . PHP_EOL;
+    // chế độ nạp css thông thường
+    function add_css( $f, $get_content = false, $attr = [], $preload = false ) {
+        echo $this->get_add_css( $f, $get_content, $attr, $preload ) . PHP_EOL;
+    }
+    // chế độ nạp trước css
+    function preload_css( $f ) {
+        echo $this->get_add_css( $f, false, [], true ) . PHP_EOL;
     }
 
     function get_add_js( $f, $get_content = false, $attr = [] ) {
@@ -492,7 +501,7 @@ class Base extends Session {
             return '<script type="text/javascript">' . file_get_contents( $f, 1 ) . '</script>';
         }
         //print_r( $attr );
-        return '<script type="text/javascript" src="' . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '" ' . implode( ' ', $attr ) . '></script>';
+        return '<script type="text/javascript" src="' . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '"' . implode( ' ', $attr ) . '></script>';
     }
     // thêm 1 file
     function add_js( $f, $get_content = false, $attr = [] ) {

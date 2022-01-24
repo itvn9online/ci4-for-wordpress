@@ -1,4 +1,4 @@
-$(window).load(function () {
+jQuery(window).on('load', function () {
     setTimeout(function () {
         (function (b, e, v, t, s) {
             t = b.createElement(e);
