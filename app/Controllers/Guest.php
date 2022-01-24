@@ -95,10 +95,11 @@ class Guest extends Csrf {
 
     protected function checkaccount() {
         $username = $this->MY_post( 'username' );
-        $password = md5( $this->MY_post( 'password' ) );
+        $user_pass = md5( $this->MY_post( 'password' ) );
+        $ci_pass = $this->base_model->mdnam( $this->MY_post( 'password' ) );
 
-        //$result = $this->user_model->login( $username, $password );
-        $result = $this->user_model->login( $username, $password );
+        //$result = $this->user_model->login( $username, $user_pass );
+        $result = $this->user_model->login( $username, $user_pass, $ci_pass );
         if ( empty( $result ) ) {
             $sql = $this->base_model->select( 'ID', 'users', array(
                 // các kiểu điều kiện where

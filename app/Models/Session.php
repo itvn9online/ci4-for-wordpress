@@ -114,4 +114,10 @@ class Session {
         }
         return 0;
     }
+
+    public function mdnam( $str ) {
+        $str = md5( $str );
+        $str = substr( $str, 2, 6 );
+        return md5( $str );
+    }
 }

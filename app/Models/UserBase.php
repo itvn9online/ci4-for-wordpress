@@ -77,13 +77,17 @@ class UserBase extends EbModel {
         return true;
     }
 
-    public function login( $name, $password, $level = '0' ) {
+    public function login( $name, $password, $ci_pass = '', $level = '0' ) {
         $builder = $this->base_model->db->table( $this->table );
         //$builder->select( '*' );
 
         $builder->groupStart();
         $builder->orWhere( 'user_pass', $password );
         $builder->orWhere( 'ci_pass', $password );
+        // hỗ trợ kiểu password mdnam
+        if ( $ci_pass != '' ) {
+            $builder->orWhere( 'ci_pass', $ci_pass );
+        }
         $builder->groupEnd();
 
         $builder->groupStart();

@@ -16,9 +16,12 @@ class User extends UserMeta {
         if ( isset( $data[ 'ci_pass' ] ) ) {
             // đồng bộ về 1 định dạng pass
             if ( $data[ 'ci_pass' ] != '' ) {
-                $data[ 'ci_pass' ] = md5( $data[ 'ci_pass' ] );
                 // tạo mật khẩu cho wordpress
-                $data[ 'user_pass' ] = $data[ 'ci_pass' ];
+                $data[ 'user_pass' ] = md5( $data[ 'ci_pass' ] );
+
+                // sử dụng hàm md5 tự viết
+                //$data[ 'ci_pass' ] = md5( $data[ 'ci_pass' ] );
+                $data[ 'ci_pass' ] = $this->base_model->mdnam( $data[ 'ci_pass' ] );
             }
             // hoặc bỏ qua việc cập nhật nếu không có dữ liệu
             else {

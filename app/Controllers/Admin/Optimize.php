@@ -6,6 +6,37 @@ class Optimize extends Admin {
         parent::__construct();
     }
 
+    // sử dụng khi cần nén lại các file tĩnh bằng cách thủ công
+    public function index() {
+        // tính năng này không hoạt động trên localhost
+        if ( strpos( $_SERVER[ 'HTTP_HOST' ], 'localhost' ) === false ) {
+            // tạo các file txt xác nhận quá trình optimize
+            $c = 'Nếu tồn tại file này -> sẽ kích hoạt lệnh optimize file CSS hoặc JS trong thư mục tương ứng';
+            $f = 'active-optimize.txt';
+
+            //
+            $this->base_model->_eb_create_file( PUBLIC_PUBLIC_PATH . 'css/' . $f, $c, [
+                'set_permission' => 0777,
+            ] );
+            $this->base_model->_eb_create_file( PUBLIC_PUBLIC_PATH . 'javascript/' . $f, $c, [
+                'set_permission' => 0777,
+            ] );
+            $this->base_model->_eb_create_file( THEMEPATH . 'css/' . $f, $c, [
+                'set_permission' => 0777,
+            ] );
+            $this->base_model->_eb_create_file( THEMEPATH . 'js/' . $f, $c, [
+                'set_permission' => 0777,
+            ] );
+
+            // bắt đầu optimize
+            $this->optimize_css_js();
+        }
+
+        //
+        $this->teamplate_admin[ 'content' ] = view( 'admin/optimize_view', [] );
+        return view( 'admin/admin_teamplate', $this->teamplate_admin );
+    }
+
     protected function optimize_css_js() {
         // tính năng này không hoạt động trên localhost
         if ( strpos( $_SERVER[ 'HTTP_HOST' ], 'localhost' ) !== false ) {

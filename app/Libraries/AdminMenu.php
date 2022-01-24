@@ -191,6 +191,10 @@ class AdminMenu {
                         'name' => 'Kỹ thuật',
                         'icon' => 'fa fa-bug',
                     ],
+                    'admin/optimize' => [
+                        'name' => 'Optimize code',
+                        'icon' => 'fa fa-code',
+                    ],
                 ]
             ],
         ];
