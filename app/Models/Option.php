@@ -20,18 +20,34 @@ class Option extends EbModel {
         return $this->base_model->insert( $this->table, $data );
     }
 
-    public function backup_options( $option_type, $lang_key ) {
-        // backup dữ liệu cũ
-        $sql = "INSERT INTO `" . WGR_TABLE_PREFIX . "options_deleted` SELECT * FROM `" . WGR_TABLE_PREFIX . $this->table . "` WHERE option_type = '$option_type' AND lang_key = '$lang_key'";
-        //echo $sql . '<br>' . "\n";
-        $this->base_model->MY_query( $sql );
-        echo 'Backup config: ' . $option_type . '<br>' . PHP_EOL;
+    public function backup_options( $option_type, $lang_key, $arr_meta_key ) {
+        foreach ( $arr_meta_key as $k => $option_name ) {
+            $where = [
+                "option_type = '$option_type'",
+                "option_name = '$option_name'",
+                "lang_key = '$lang_key'",
+            ];
+            $where = implode( ' AND ', $where );
 
-        // xong xóa
-        $sql = "DELETE FROM `" . WGR_TABLE_PREFIX . $this->table . "` WHERE option_type = '$option_type' AND lang_key = '$lang_key'";
-        //echo $sql . '<br>' . "\n";
-        $this->base_model->MY_query( $sql );
-        echo 'Delete config: ' . $option_type . '<br>' . PHP_EOL;
+            // backup dữ liệu cũ
+            $sql = "INSERT INTO `" . WGR_TABLE_PREFIX . "options_deleted`
+            SELECT *
+            FROM
+                `" . WGR_TABLE_PREFIX . $this->table . "`
+            WHERE
+                $where";
+            //echo $sql . '<br>' . "\n";
+            $this->base_model->MY_query( $sql );
+            echo 'Backup config: ' . $option_name . ':' . $option_type . '<br>' . PHP_EOL;
+
+            // xong xóa
+            $sql = "DELETE FROM `" . WGR_TABLE_PREFIX . $this->table . "`
+            WHERE
+                $where";
+            //echo $sql . '<br>' . "\n";
+            $this->base_model->MY_query( $sql );
+            echo 'Delete config: ' . $option_name . ':' . $option_type . '<br>' . PHP_EOL;
+        }
     }
 
     public function get_lang() {

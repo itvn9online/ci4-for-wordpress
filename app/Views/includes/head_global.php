@@ -65,15 +65,21 @@ $font_awesome_before = str_replace( '../fonts/', './thirdparty/awesome47/fonts/'
 echo $font_awesome_before;
 
 ?>
-<link href="thirdparty/awesome47/css/font-awesome.min.css?v=4.7" rel="stylesheet" type="text/css" media="all" />
-<link href="thirdparty/bootstrap-5.1.3/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all" />
-<!-- <link href="thirdparty/flatsome/flatsome.css" rel="stylesheet" type="text/css" /> --> 
-<!-- <link href="frontend/css/swiper.min.css" rel="stylesheet" type="text/css" /> --> 
-<script src="thirdparty/jquery/jquery-3.6.0.min.js" type="application/javascript"></script> 
-<script src="thirdparty/jquery/jquery-migrate-3.3.2.min.js" type="text/javascript"></script> 
-<!-- <script src="frontend/js/swiper.min.js" type="application/javascript"></script> -->
+<link rel="stylesheet" type="text/css" media="all" href="thirdparty/awesome47/css/font-awesome.min.css?v=4.7" />
+<link rel="stylesheet" type="text/css" media="all" href="thirdparty/bootstrap-5.1.3/css/bootstrap.min.css" />
+<!-- <link rel="stylesheet" type="text/css" media="all" href="thirdparty/flatsome/flatsome.css" /> --> 
+<!-- <link rel="stylesheet" type="text/css" media="all" href="frontend/css/swiper.min.css" /> --> 
+<script type="text/javascript" src="thirdparty/jquery/jquery-3.6.0.min.js"></script> 
+<script type="text/javascript" src="thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> 
+<!-- <script type="text/javascript" src="frontend/js/swiper.min.js"></script> -->
 <?php
+if ( isset( $getconfig->enable_angular_js ) && $getconfig->enable_angular_js == 'on' ) {
+    ?>
+<script type="text/javascript" src="./thirdparty/angular-1.8.2/angular.min.js"></script>
+<?php
+}
 
+//
 $base_model->add_css( 'css/d.css' );
 $base_model->add_css( 'css/d2.css' );
 $base_model->add_css( 'css/flatsome.css' );

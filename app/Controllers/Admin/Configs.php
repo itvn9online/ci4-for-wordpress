@@ -80,6 +80,24 @@ class Configs extends Admin {
     }
 
     protected function updated( $option_type ) {
+        $list_field_has_change = $this->MY_post( 'list_field_has_change' );
+        if ( empty( $list_field_has_change ) ) {
+            $this->base_model->alert( 'Không xác định được dữ liệu cần thay đổi #' . $option_type, 'warning' );
+        }
+        //echo $list_field_has_change . '<br>' . "\n";
+        $list_field_has_change = json_decode( $list_field_has_change );
+        //print_r( $list_field_has_change );
+        if ( empty( $list_field_has_change ) ) {
+            $this->base_model->alert( 'Không có thay đổi nào được chỉ định #' . $option_type, 'warning' );
+        }
+
+        $arr_meta_key = [];
+        foreach ( $list_field_has_change as $k => $v ) {
+            $arr_meta_key[] = $k;
+        }
+        //print_r( $arr_meta_key );
+
+        //
         if ( !empty( $this->MY_post( 'data' ) ) ) {
             $data = $this->MY_post( 'data' );
         } else {
@@ -125,16 +143,22 @@ Sitemap: ' . DYNAMIC_BASE_URL . 'sitemap';
         }
 
         //
-        $this->option_model->backup_options( $option_type, $this->lang_key );
+        $this->option_model->backup_options( $option_type, $this->lang_key, $arr_meta_key );
 
         //
-        $meta_default = ConfigType::meta_default( $this->config_type );
+        //$meta_default = ConfigType::meta_default( $this->config_type );
         //print_r( $meta_default );
 
         // sau đó insert cái mới
         $last_updated = date( 'Y-m-d H:i:s' );
         $insert_time = date( 'YmdHis' );
         foreach ( $data as $k => $v ) {
+            // có tác động thì mới update -> tác động thì sẽ có tên trong danh sách update
+            if ( !in_array( $k, $arr_meta_key ) ) {
+                continue;
+            }
+
+            // có giá trị thì mới update
             $v = trim( $v );
             if ( $v == '' ) {
                 continue;
@@ -154,6 +178,9 @@ Sitemap: ' . DYNAMIC_BASE_URL . 'sitemap';
             ] );
         }
         //die( __FILE__ . ':' . __LINE__ );
+        
+        // xác nhận việc update đã xong
+        echo '<script>top.done_field_has_change();</script>';
 
         //
         $this->base_model->alert( 'Cập nhật dữ liệu thành công #' . $option_type );

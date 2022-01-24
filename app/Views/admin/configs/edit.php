@@ -18,8 +18,11 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
     <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
         <h5>Cài đặt <?php echo ConfigType::list( $config_type ); ?></h5>
     </div>
-    <div class="widget-content nopadding">
+    <div class="widget-content nopadding config-main">
         <form action="" method="post" name="admin_global_form" id="contact-form" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
+            <div class="d-none">
+                <textarea id="list_field_has_change" name="list_field_has_change" placeholder="Các input, textarea, select... nào có thay đổi thì mới thực hiện lưu dữ liệu."></textarea>
+            </div>
             <div class="control-group">
                 <div class="text-center l35">Ngôn ngữ: <strong><?php echo LanguageCost::list( $lang_key ); ?></strong> </div>
             </div>

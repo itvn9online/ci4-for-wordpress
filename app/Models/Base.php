@@ -474,7 +474,7 @@ class Base extends Session {
         if ( $get_content === true ) {
             return '<style>' . file_get_contents( $f, 1 ) . '</style>' . PHP_EOL;
         }
-        return '<link href="' . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '" rel="stylesheet" type="text/css" media="all" ' . implode( ' ', $attr ) . '>';
+        return '<link rel="stylesheet" type="text/css" media="all" href="' . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '"' . implode( ' ', $attr ) . '>';
     }
 
     function add_css( $f, $get_content = false, $attr = [] ) {
@@ -489,10 +489,10 @@ class Base extends Session {
             return '<!-- ' . $f . ' not exist! -->';
         }
         if ( $get_content === true ) {
-            return '<script type="application/javascript">' . file_get_contents( $f, 1 ) . '</script>';
+            return '<script type="text/javascript">' . file_get_contents( $f, 1 ) . '</script>';
         }
         //print_r( $attr );
-        return '<script src="' . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '" type="application/javascript" ' . implode( ' ', $attr ) . '></script>';
+        return '<script type="text/javascript" src="' . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '" ' . implode( ' ', $attr ) . '></script>';
     }
     // thêm 1 file
     function add_js( $f, $get_content = false, $attr = [] ) {
