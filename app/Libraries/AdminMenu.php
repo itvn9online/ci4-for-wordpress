@@ -131,7 +131,7 @@ class AdminMenu {
                 'role' => [
                     UsersType::MOD,
                 ],
-                'name' => UsersType::list( UsersType::MEMBER ),
+                'name' => UsersType::ALL,
                 'icon' => 'fa fa-users',
                 'arr' => [
                     'admin/users?member_type=' . UsersType::GUEST => [

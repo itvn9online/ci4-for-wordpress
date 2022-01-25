@@ -41,15 +41,17 @@ class Terms extends Admin {
 
     public function index() {
         $post_per_page = 25;
+        // URL cho các action dùng chung
+        $for_action = '';
+        // URL cho phân trang
+        $urlPartPage = 'admin/' . $this->controller_slug . '?part_type=' . $this->taxonomy;
 
         // tìm kiếm theo từ khóa nhập vào
         $by_keyword = $this->MY_get( 's' );
         $where_or_like = [];
-        // URL cho phân trang tìm kiếm
-        $urlPartPage = 'admin/' . $this->controller_slug;
-        $urlParams = [];
         if ( $by_keyword != '' ) {
-            $urlParams[] = 's=' . $by_keyword;
+            $urlPartPage .= '&s=' . $by_keyword;
+            $for_action .= '&s=' . $by_keyword;
 
             //
             $by_like = $this->base_model->_eb_non_mark_seo( $by_keyword );
@@ -74,7 +76,10 @@ class Terms extends Admin {
 
         //
         $by_is_deleted = $this->MY_get( 'is_deleted', DeletedStatus::FOR_DEFAULT );
-
+        if ( $by_is_deleted > 0 ) {
+            $urlPartPage .= '&is_deleted=' . $by_is_deleted;
+            $for_action .= '&is_deleted=' . $by_is_deleted;
+        }
 
         //
         $filter = [
@@ -106,6 +111,7 @@ class Terms extends Admin {
         } else if ( $page_num < 1 ) {
             $page_num = 1;
         }
+        $for_action .= $page_num > 1 ? '&page_num=' . $page_num : '';
         //echo $totalThread . '<br>' . "\n";
         //echo $totalPage . '<br>' . "\n";
         $offset = ( $page_num - 1 ) * $post_per_page;
@@ -113,9 +119,7 @@ class Terms extends Admin {
         //die( __FILE__ . ':' . __LINE__ );
 
         //
-        $urlParams[] = 'page_num=';
-        $urlPartPage .= '?' . implode( '&', $urlParams );
-        $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '' );
+        $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '&page_num=' );
 
         //
         $filter[ 'offset' ] = $offset;
@@ -139,7 +143,7 @@ class Terms extends Admin {
 
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/terms/list', array(
-            'by_is_deleted' => $by_is_deleted,
+            'for_action' => $for_action,
             'by_keyword' => $by_keyword,
             'data' => $data,
             'pagination' => $pagination,
@@ -312,14 +316,21 @@ class Terms extends Admin {
         }
         $this->base_model->alert( '', $for_redirect );
     }
+    protected function done_delete_restore( $id ) {
+        die( '<script>top.done_delete_restore(' . $id . ');</script>' );
+    }
     protected function before_delete_restore( $is_deleted ) {
         $id = $this->MY_get( 'id', 0 );
 
-        $this->term_model->update_terms( $id, [
+        $update = $this->term_model->update_terms( $id, [
             'is_deleted' => $is_deleted,
         ] );
 
-        //
+        // nếu update thành công -> gửi lệnh javascript để ẩn bài viết bằng javascript
+        if ( $update === true ) {
+            return $this->done_delete_restore( $id );
+        }
+        // không thì nạp lại cả trang để kiểm tra cho chắc chắn
         $this->after_delete_restore();
     }
 

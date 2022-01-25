@@ -228,7 +228,7 @@ class Term extends EbModel {
         //print_r( $where );
 
         //
-        $this->base_model->update_multiple( $this->table, $data, $where, [
+        $result_update = $this->base_model->update_multiple( $this->table, $data, $where, [
             'debug_backtrace' => debug_backtrace()[ 1 ][ 'function' ]
         ] );
 
@@ -249,6 +249,9 @@ class Term extends EbModel {
         if ( isset( $_POST[ 'term_meta' ] ) ) {
             $this->insert_meta_term( $_POST[ 'term_meta' ], $term_id );
         }
+
+        //
+        return $result_update;
     }
 
     // phiên bản xóa xong thêm -> không tối ứu

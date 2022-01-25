@@ -9,6 +9,7 @@ use App\ Libraries\ UsersType;
 //
 class Users extends Admin {
     protected $member_type = '';
+    protected $member_name = UsersType::ALL;
 
     public function __construct() {
         parent::__construct();
@@ -17,6 +18,10 @@ class Users extends Admin {
         $this->check_permision( __CLASS__ );
 
         $this->member_type = $this->MY_get( 'member_type' );
+        //echo $this->member_type . '<br>' . "\n";
+        if ( $this->member_type != '' ) {
+            $this->member_name = UsersType::list( $this->member_type );
+        }
 
         //
         $this->validation = \Config\ Services::validation();
@@ -24,9 +29,17 @@ class Users extends Admin {
 
     public function index( $url = '' ) {
         $post_per_page = 50;
+        // URL cho các action dùng chung
+        $for_action = '';
+        // URL cho phân trang
+        $urlPartPage = 'admin/users?member_type=' . $this->member_type;
 
         //
         $by_is_deleted = $this->MY_get( 'is_deleted', DeletedStatus::FOR_DEFAULT );
+        if ( $by_is_deleted > 0 ) {
+            $urlPartPage .= '&is_deleted=' . $by_is_deleted;
+            $for_action .= '&is_deleted=' . $by_is_deleted;
+        }
 
         // các kiểu điều kiện where
         $where = [
@@ -44,10 +57,9 @@ class Users extends Admin {
         // tìm kiếm theo từ khóa nhập vào
         $by_keyword = $this->MY_get( 's' );
         $where_or_like = [];
-        // URL cho phân trang tìm kiếm
-        $urlPartPage = 'admin/users?member_type=' . $this->member_type;
         if ( $by_keyword != '' ) {
             $urlPartPage .= '&s=' . $by_keyword;
+            $for_action .= '&s=' . $by_keyword;
 
             //
             $by_like = $this->base_model->_eb_non_mark_seo( $by_keyword );
@@ -88,12 +100,14 @@ class Users extends Admin {
         if ( $by_user_status != '' && $by_user_status != 'all' ) {
             $where[ 'users.user_status' ] = $by_user_status;
             $urlPartPage .= '&user_status=' . $by_user_status;
+            $for_action .= '&user_status=' . $by_user_status;
         }
 
         //
         $order_by = $this->MY_get( 'order_by' );
         if ( $order_by == 'last_login' ) {
             $urlPartPage .= '&order_by=' . $order_by;
+            $for_action .= '&order_by=' . $order_by;
 
             //
             $order_by = [
@@ -136,6 +150,7 @@ class Users extends Admin {
         } else if ( $page_num < 1 ) {
             $page_num = 1;
         }
+        $for_action .= $page_num > 1 ? '&page_num=' . $page_num : '';
         //echo $totalThread . '<br>' . "\n";
         //echo $totalPage . '<br>' . "\n";
         $offset = ( $page_num - 1 ) * $post_per_page;
@@ -155,13 +170,15 @@ class Users extends Admin {
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/users/list', array(
             'pagination' => $pagination,
-            'by_is_deleted' => $by_is_deleted,
+            //'by_is_deleted' => $by_is_deleted,
+            'for_action' => $for_action,
             'by_user_status' => $by_user_status,
-            'page_num' => $page_num,
+            //'page_num' => $page_num,
             'totalThread' => $totalThread,
             'by_keyword' => $by_keyword,
             'data' => $data,
             'member_type' => $this->member_type,
+            'member_name' => $this->member_name,
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
@@ -318,6 +335,9 @@ class Users extends Admin {
         //
         $this->base_model->alert( '', $for_redirect );
     }
+    protected function done_delete_restore( $id ) {
+        die( '<script>top.done_delete_restore(' . $id . ');</script>' );
+    }
     protected function before_delete_restore( $msg, $is_deleted ) {
         if ( $this->current_user_id <= 0 ) {
             $this->base_model->alert( 'Không xác định được ID của bạn!', 'error' );
@@ -332,11 +352,15 @@ class Users extends Admin {
         }
 
         //
-        $this->user_model->update_member( $id, [
+        $update = $this->user_model->update_member( $id, [
             'is_deleted' => $is_deleted,
         ] );
 
-        //
+        // nếu update thành công -> gửi lệnh javascript để ẩn bài viết bằng javascript
+        if ( $update === true ) {
+            return $this->done_delete_restore( $id );
+        }
+        // không thì nạp lại cả trang để kiểm tra cho chắc chắn
         $this->after_delete_restore();
     }
 

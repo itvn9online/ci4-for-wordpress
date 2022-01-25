@@ -1,3 +1,10 @@
+/*
+ * sau khi XÓA sản phẩm thành công thì xử lý ẩn bản ghi bằng javascript
+ */
+function done_delete_restore(id) {
+    $('#admin_main_list tr[data-id="' + id + '"]').fadeOut();
+}
+
 // do sử dụng aguilarjs đang không tạo được dnah mục theo dạng đệ quy -> tự viết function riêng vậy
 function term_tree_view(data, tmp, gach_ngang) {
     if (data.length <= 0) {
@@ -22,7 +29,7 @@ function term_tree_view(data, tmp, gach_ngang) {
             for (var j = 0; j < 10; j++) {
                 str = str.replace('{{v.gach_ngang}}', gach_ngang);
                 str = str.replace('{{controller_slug}}', controller_slug);
-                str = str.replace('{{for_redirect}}', for_redirect);
+                str = str.replace('{{for_action}}', for_action);
             }
 
             //
@@ -59,7 +66,7 @@ function before_tree_view(tmp, max_i) {
     }
 
     // chờ khi aguilar nạp xong html thì mới nạp tree view
-    if ($('#term_list_tmp tr.ng-scope').length == 0) {
+    if ($('#admin_main_list tr.ng-scope').length == 0) {
         setTimeout(function () {
             before_tree_view(tmp, max_i - 1);
         }, 100);
@@ -79,7 +86,7 @@ function before_tree_view(tmp, max_i) {
     }
 
     //
-    var tmp = $('#term_list_tmp tr:first').html() || '';
+    var tmp = $('#admin_main_list tr:first').html() || '';
     if (tmp == '') {
         return false;
     }

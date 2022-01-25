@@ -8,6 +8,7 @@ class UsersType {
     const ADMIN_LEVEL = 1;
 
     //
+    const ALL = 'Tài khoản';
     const GUEST = 'guest';
     const MEMBER = 'member';
     const AUTHOR = 'author';

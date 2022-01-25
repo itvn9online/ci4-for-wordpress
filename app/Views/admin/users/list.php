@@ -10,6 +10,8 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
     $scope.data = <?php echo json_encode($data); ?>;
     $scope.list = <?php echo json_encode(UsersType::list()); ?>;
     $scope.listStatus = <?php echo json_encode(UsersType::listStatus()); ?>;
+    $scope.for_action = '<?php echo $for_action; ?>';
+    $scope.DeletedStatus_DELETED = '<?php echo DeletedStatus::DELETED; ?>';
 });
 </script>
 
@@ -18,7 +20,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
     <?php
     if ( $member_type != '' ) {
         ?>
-    <li><?php echo UsersType::list($member_type); ?></li>
+    <li><?php echo $member_name; ?></li>
     <?php
     }
     ?>
@@ -29,7 +31,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
             <input type="hidden" name="member_type" value="<?php echo $member_type; ?>">
             <div class="cf">
                 <div class="lf f30">
-                    <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $member_type != '' ? UsersType::list($member_type) : ''; ?>" autofocus aria-required="true" required>
+                    <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $member_name; ?>" autofocus aria-required="true" required>
                 </div>
                 <div class="lf f30">
                     <select name="user_status" data-select="<?php echo $by_user_status; ?>" onChange="document.frm_admin_search_controller.submit();">
@@ -70,10 +72,8 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
             <th>&nbsp;</th>
         </tr>
     </thead>
-    <tbody ng-app="myApp" ng-controller="myCtrl"
-           ng-init="page_num='<?php echo $page_num; ?>';
-                    DeletedStatus_DELETED='<?php echo DeletedStatus::DELETED; ?>';">
-        <tr ng-repeat="v in data">
+    <tbody id="admin_main_list" ng-app="myApp" ng-controller="myCtrl">
+        <tr data-id="{{v.ID}}" ng-repeat="v in data">
             <td>&nbsp;</td>
             <td>{{v.ID}}</td>
             <td><a href="admin/users/add?id={{v.ID}}">{{v.user_login}}</a></td>
@@ -85,10 +85,10 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
             <td>{{v.user_registered}}</td>
             <td class="text-center"><div>
                     <div ng-if="v.is_deleted != DeletedStatus_DELETED">
-                        <div><a href="admin/users/delete?id={{v.ID}}&page_num={{page_num}}&is_deleted=<?php echo $by_is_deleted; ?>" onClick="return click_a_delete_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-trash"></i></a> </div>
+                        <div><a href="admin/users/delete?id={{v.ID + for_action}}" onClick="return click_a_delete_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-trash"></i></a> </div>
                     </div>
                     <div ng-if="v.is_deleted == DeletedStatus_DELETED">
-                        <div><a href="admin/users/restore?id={{v.ID}}&page_num={{page_num}}&is_deleted=<?php echo $by_is_deleted; ?>" onClick="return click_a_restore_record();" class="bluecolor" target="target_eb_iframe"><i class="fa fa-undo"></i></a></div>
+                        <div><a href="admin/users/restore?id={{v.ID + for_action}}" onClick="return click_a_restore_record();" class="bluecolor" target="target_eb_iframe"><i class="fa fa-undo"></i></a></div>
                     </div>
                 </div></td>
         </tr>
@@ -96,3 +96,6 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
 </table>
 <div class="public-part-page"> <?php echo $pagination; ?> Trên tổng số <?php echo $totalThread; ?> bản ghi.</div>
 <p class="d-none">* Copy đoạn code bên dưới rồi cho vào nơi cần hiển thị block này ở trong view. Nhớ thay %slug% thành slug thật trong danh sách ở trên.</p>
+<?php
+
+$base_model->add_js( 'admin/js/users.js' );

@@ -162,7 +162,7 @@ class PostQuery extends PostMeta {
         }
 
         //
-        $this->base_model->update_multiple( $this->table, $data, $where, [
+        $result_update = $this->base_model->update_multiple( $this->table, $data, $where, [
             'debug_backtrace' => debug_backtrace()[ 1 ][ 'function' ]
         ] );
 
@@ -173,7 +173,7 @@ class PostQuery extends PostMeta {
         }
 
         //
-        return true;
+        return $result_update;
     }
 
     function select_post( $post_id, $where = [], $select_col = '*' ) {

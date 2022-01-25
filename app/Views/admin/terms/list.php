@@ -14,12 +14,15 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
 ?>
 <script>
 var term_data = <?php echo json_encode($data); ?>;
-var for_redirect = '<?php echo ($by_is_deleted != '' ? '&is_deleted=' . $by_is_deleted : ''); ?>'
+var for_action = '<?php echo $for_action; ?>';
 var controller_slug = '<?php echo $controller_slug; ?>';
 
 //
 angular.module('myApp', []).controller('myCtrl', function($scope) {
     $scope.data = term_data;
+    $scope.controller_slug = controller_slug;
+    $scope.for_action = for_action;
+    $scope.DeletedStatus_DELETED = '<?php echo DeletedStatus::DELETED; ?>';
 });
 </script>
 
@@ -59,10 +62,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
             <th>&nbsp;</th>
         </tr>
     </thead>
-    <tbody id="term_list_tmp" ng-app="myApp" ng-controller="myCtrl"
-           ng-init="controller_slug=controller_slug;
-                    DeletedStatus_DELETED='<?php echo DeletedStatus::DELETED; ?>';
-                    for_redirect=for_redirect;">
+    <tbody id="admin_main_list" ng-app="myApp" ng-controller="myCtrl">
         <tr data-id="{{v.term_id}}" class="each-to-child-term" ng-repeat="v in data">
             <td>&nbsp;</td>
             <td>{{v.term_id}}</td>
@@ -74,12 +74,12 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
             <td>{{v.count}}</td>
             <td class="text-center"><div>
                     <div ng-if="v.is_deleted == DeletedStatus_DELETED">
-                        <div><a href="admin/{{controller_slug}}/restore?id={{v.term_id}}{{for_redirect}}" onClick="return click_a_restore_record();" target="target_eb_iframe" class="bluecolor"><i class="fa fa-undo"></i></a></div>
+                        <div><a href="admin/{{controller_slug}}/restore?id={{v.term_id}}{{for_action}}" onClick="return click_a_restore_record();" target="target_eb_iframe" class="bluecolor"><i class="fa fa-undo"></i></a></div>
                     </div>
                     <div class="d-inlines" ng-if="v.is_deleted != DeletedStatus_DELETED">
-                        <div><a href="admin/{{controller_slug}}/term_status?id={{v.term_id}}&current_status={{v.term_status}}{{for_redirect}}" target="target_eb_iframe" data-status="{{v.term_status}}" class="record-status-color"><i class="fa fa-eye"></i></a></div>
+                        <div><a href="admin/{{controller_slug}}/term_status?id={{v.term_id}}&current_status={{v.term_status}}{{for_action}}" target="target_eb_iframe" data-status="{{v.term_status}}" class="record-status-color"><i class="fa fa-eye"></i></a></div>
                         &nbsp;
-                        <div><a href="admin/{{controller_slug}}/delete?id={{v.term_id}}{{for_redirect}}" onClick="return click_a_delete_record();" target="target_eb_iframe" class="redcolor"><i class="fa fa-trash"></i></a></div>
+                        <div><a href="admin/{{controller_slug}}/delete?id={{v.term_id}}{{for_action}}" onClick="return click_a_delete_record();" target="target_eb_iframe" class="redcolor"><i class="fa fa-trash"></i></a></div>
                     </div>
                 </div></td>
         </tr>
@@ -101,6 +101,6 @@ if ( $taxonomy == TaxonomyType::ADS ) {
 <?php
 }
 
-// css riêng cho từng post type (nếu có)
+// js riêng cho từng post type (nếu có)
 $base_model->add_js( 'admin/js/terms.js' );
 $base_model->add_js( 'admin/js/' . $taxonomy . '.js' );

@@ -61,14 +61,8 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
             <th>&nbsp;</th>
         </tr>
     </thead>
-    <tbody ng-app="myApp" ng-controller="myCtrl"
-           ng-init="post_type='<?php echo $post_type; ?>';
-                    PostType_MENU='<?php echo PostType::MENU; ?>';
-                    taxonomy='<?php echo $taxonomy; ?>';
-                    controller_slug='<?php echo $controller_slug; ?>';
-                    page_num='<?php echo $page_num; ?>';
-                    PostType_DELETED='<?php echo PostType::DELETED; ?>';">
-        <tr ng-repeat="v in data">
+    <tbody id="admin_main_list" ng-app="myApp" ng-controller="myCtrl">
+        <tr data-id="{{v.ID}}" ng-repeat="v in data">
             <td>&nbsp;</td>
             <td>{{v.menu_order}}</td>
             <td><div><a href="{{v.admin_permalink}}" class="bold">{{v.post_title}} <i class="fa fa-edit"></i></a></div>
@@ -90,12 +84,12 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
             <td>{{v.lang_key}}</td>
             <td class="text-center"><div>
                     <div ng-if="v.post_status != PostType_DELETED">
-                        <div><a href="admin/{{controller_slug}}/delete?id={{v.ID}}&post_status={{v.post_status}}&page_num={{page_num}}" onClick="return click_a_delete_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-trash"></i></a> </div>
+                        <div><a href="admin/{{controller_slug}}/delete?id={{v.ID + for_action}}" onClick="return click_a_delete_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-trash"></i></a> </div>
                     </div>
                     <div class="d-inlines" ng-if="v.post_status == PostType_DELETED">
-                        <div class="d-inline"><a href="admin/{{controller_slug}}/restore?id={{v.ID}}&post_status={{v.post_status}}&page_num={{page_num}}" onClick="return click_a_restore_record();" class="bluecolor" target="target_eb_iframe"><i class="fa fa-undo"></i></a></div>
+                        <div class="d-inline"><a href="admin/{{controller_slug}}/restore?id={{v.ID + for_action}}" onClick="return click_a_restore_record();" class="bluecolor" target="target_eb_iframe"><i class="fa fa-undo"></i></a></div>
                         &nbsp;
-                        <div class="d-inline"><a href="admin/{{controller_slug}}/remove?id={{v.ID}}&post_status={{v.post_status}}&page_num={{page_num}}" onClick="return click_a_remove_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-remove"></i></a></div>
+                        <div class="d-inline"><a href="admin/{{controller_slug}}/remove?id={{v.ID + for_action}}" onClick="return click_a_remove_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-remove"></i></a></div>
                     </div>
                 </div></td>
         </tr>
@@ -107,6 +101,12 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 <script>
 angular.module('myApp', []).controller('myCtrl', function ($scope) {
     $scope.data = <?php echo json_encode($data); ?>;
+    $scope.post_type = '<?php echo $post_type; ?>';
+    $scope.PostType_MENU = '<?php echo PostType::MENU; ?>';
+    $scope.taxonomy = '<?php echo $taxonomy; ?>';
+    $scope.controller_slug = '<?php echo $controller_slug; ?>';
+    $scope.for_action = '<?php echo $for_action; ?>';
+    $scope.PostType_DELETED = '<?php echo PostType::DELETED; ?>';
 });
 </script>
 <?php

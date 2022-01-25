@@ -9,6 +9,7 @@ use App\ Libraries\ LanguageCost;
 //
 class Comments extends Admin {
     protected $comment_type = CommentType::COMMENT;
+    protected $comment_name = '';
 
     // tham số dùng để thay đổi URL cho controller nếu muốn
     protected $controller_slug = 'comments';
@@ -21,12 +22,13 @@ class Comments extends Admin {
 
         // hỗ trợ lấy theo params truyền vào từ url
         $this->comment_type = $this->MY_get( 'comment_type', $this->comment_type );
+        $this->comment_name = CommentType::list( $this->comment_type );
 
         // báo lỗi nếu không xác định được taxonomy
         // chỉ kiểm tra các điều kiện này nếu không được chỉ định là extends
         if ( $for_extends === false ) {
             //if ( $this->comment_type == '' || CommentType::list( $this->comment_type ) == '' ) {
-            if ( CommentType::list( $this->comment_type ) == '' ) {
+            if ( $this->comment_name == '' ) {
                 die( 'comment type not register in system!' );
             }
         }
@@ -40,14 +42,28 @@ class Comments extends Admin {
 
         //
         $post_per_page = 50;
+        // URL cho các action dùng chung
+        $for_action = '';
+        // URL cho phân trang
+        $urlPartPage = 'admin/' . $this->controller_slug . '?part_type=' . $this->comment_type;
 
-        // URL cho phân trang tìm kiếm
-        $urlPartPage = 'admin/' . $this->controller_slug;
-        $urlParams = [];
+        //
+        $by_is_deleted = $this->MY_get( 'is_deleted', DeletedStatus::FOR_DEFAULT );
+        if ( $by_is_deleted > 0 ) {
+            $urlPartPage .= '&is_deleted=' . $by_is_deleted;
+            $for_action .= '&is_deleted=' . $by_is_deleted;
+        }
+
+        // tìm kiếm theo từ khóa nhập vào
+        $by_keyword = $this->MY_get( 's' );
+        if ( $by_keyword != '' ) {
+            $urlPartPage .= '&s=' . $by_keyword;
+            $for_action .= '&s=' . $by_keyword;
+        }
 
         // các kiểu điều kiện where
         $where = [
-            'comments.is_deleted' => DeletedStatus::FOR_DEFAULT,
+            'comments.is_deleted' => $by_is_deleted,
             'comments.comment_type' => $this->comment_type,
             'comments.lang_key' => LanguageCost::lang_key()
         ];
@@ -83,14 +99,13 @@ class Comments extends Admin {
         } else if ( $page_num < 1 ) {
             $page_num = 1;
         }
+        $for_action .= $page_num > 1 ? '&page_num=' . $page_num : '';
         //echo $totalThread . '<br>' . "\n";
         //echo $totalPage . '<br>' . "\n";
         $offset = ( $page_num - 1 ) * $post_per_page;
 
         //
-        $urlParams[] = 'page_num=';
-        $urlPartPage .= '?' . implode( '&', $urlParams );
-        $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '' );
+        $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '&page_num=' );
 
 
         // select dữ liệu từ 1 bảng bất kỳ
@@ -119,8 +134,12 @@ class Comments extends Admin {
         $this->teamplate_admin[ 'content' ] = view( 'admin/comments/list', array(
             'pagination' => $pagination,
             'totalThread' => $totalThread,
+            //'page_num' => $page_num,
+            'for_action' => $for_action,
+            'by_keyword' => $by_keyword,
             'data' => $data,
             'comment_type' => $this->comment_type,
+            'comment_name' => $this->comment_name,
             'controller_slug' => $this->controller_slug,
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );

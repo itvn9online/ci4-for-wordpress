@@ -79,6 +79,10 @@ class Posts extends Admin {
 
         //
         $post_per_page = 20;
+        // URL cho các action dùng chung
+        $for_action = '';
+        // URL cho phân trang
+        $urlPartPage = 'admin/' . $this->controller_slug . '?part_type=' . $this->post_type;
 
         // các kiểu điều kiện where
         $where = [
@@ -90,11 +94,9 @@ class Posts extends Admin {
         // tìm kiếm theo từ khóa nhập vào
         $by_keyword = $this->MY_get( 's' );
         $where_or_like = [];
-        // URL cho phân trang tìm kiếm
-        $urlPartPage = 'admin/' . $this->controller_slug;
-        $urlParams = [];
         if ( $by_keyword != '' ) {
-            $urlParams[] = 's=' . $by_keyword;
+            $urlPartPage .= '&s=' . $by_keyword;
+            $for_action .= '&s=' . $by_keyword;
 
             //
             $by_like = $this->base_model->_eb_non_mark_seo( $by_keyword );
@@ -126,6 +128,9 @@ class Posts extends Admin {
                 PostType::PENDING,
             ];
         } else {
+            $urlPartPage .= '&post_status=' . $post_status;
+            $for_action .= '&post_status=' . $post_status;
+
             $by_post_status = [
                 $post_status,
             ];
@@ -148,7 +153,11 @@ class Posts extends Admin {
         // nếu có lọc theo term_id -> thêm câu lệnh để lọc
         $by_term_id = $this->MY_get( 'term_id', 0 );
         if ( $by_term_id > 0 ) {
+            $urlPartPage .= '&term_id=' . $by_term_id;
+            $for_action .= '&term_id=' . $by_term_id;
+
             $where[ 'term_taxonomy.term_id' ] = $by_term_id;
+
             $filter[ 'join' ] = [
                 'term_relationships' => 'term_relationships.object_id = posts.ID',
                 'term_taxonomy' => 'term_relationships.term_taxonomy_id = term_taxonomy.term_taxonomy_id',
@@ -174,14 +183,13 @@ class Posts extends Admin {
         } else if ( $page_num < 1 ) {
             $page_num = 1;
         }
+        $for_action .= $page_num > 1 ? '&page_num=' . $page_num : '';
         //echo $totalThread . '<br>' . "\n";
         //echo $totalPage . '<br>' . "\n";
         $offset = ( $page_num - 1 ) * $post_per_page;
 
         //
-        $urlParams[] = 'page_num=';
-        $urlPartPage .= '?' . implode( '&', $urlParams );
-        $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '' );
+        $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '&page_num=' );
 
 
         // select dữ liệu từ 1 bảng bất kỳ
@@ -218,7 +226,7 @@ class Posts extends Admin {
 
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/posts/list', array(
-            'page_num' => $page_num,
+            'for_action' => $for_action,
             'post_status' => $post_status,
             'by_keyword' => $by_keyword,
             'by_term_id' => $by_term_id,
@@ -451,19 +459,28 @@ class Posts extends Admin {
         if ( count( $urlParams ) > 0 ) {
             $for_redirect .= '?' . implode( '&', $urlParams );
         }
-        $this->base_model->alert( '', $for_redirect );
+        return $this->base_model->alert( '', $for_redirect );
+    }
+    protected function done_delete_restore( $id ) {
+        die( '<script>top.done_delete_restore(' . $id . ');</script>' );
     }
     protected function before_delete_restore( $is_deleted ) {
         $id = $this->MY_get( 'id', 0 );
 
-        $this->post_model->update_post( $id, [
+        $update = $this->post_model->update_post( $id, [
             'post_status' => $is_deleted
         ], [
             'post_type' => $this->post_type,
         ] );
+        //print_r( $update );
+        //die( __FILE__ . ':' . __LINE__ );
 
-        //
-        $this->after_delete_restore();
+        // nếu update thành công -> gửi lệnh javascript để ẩn bài viết bằng javascript
+        if ( $update === true ) {
+            return $this->done_delete_restore( $id );
+        }
+        // không thì nạp lại cả trang để kiểm tra cho chắc chắn
+        return $this->after_delete_restore();
     }
 
     // xóa (tạm ẩn) 1 bản ghi
