@@ -82,7 +82,7 @@ a:hover {
     bottom: 0;
     background-color: black;
     top: 34px;
-    overflow-y: auto;
+    /* overflow-y: auto; */
 }
 #sidebar > ul {
     margin: 0px;

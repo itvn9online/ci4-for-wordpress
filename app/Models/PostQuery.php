@@ -502,7 +502,7 @@ class PostQuery extends PostMeta {
                 $v[ 'post_excerpt' ] = nl2br( $v[ 'post_excerpt' ] );
             }
             if ( $instance[ 'text_view_details' ] != '' ) {
-                $v[ 'post_excerpt' ] .= '<div class="widget-blog-more details-blog-more"><a href="%p_link%">' . $instance[ 'text_view_details' ] . '</a></div>';
+                $v[ 'post_excerpt' ] .= '<div class="widget-blog-more details-blog-more"><a href="{{p_link}}">' . $instance[ 'text_view_details' ] . '</a></div>';
             }
 
             // tạo html cho từng node
@@ -534,15 +534,15 @@ class PostQuery extends PostMeta {
         $tmp_html = $this->base_model->parent_html_tmp( 'widget_echbay_blog' );
         $html = $this->base_model->tmp_to_html( $tmp_html, $post_cat, [
             'content' => $html,
-            'cf_blog_size' => '%custom_size%',
+            'cf_blog_size' => '{{custom_size}}',
             'blog_link_option' => $blog_link_option,
-            'widget_title' => $instance[ 'hide_widget_title' ] == 'on' ? '' : '<%dynamic_tag% data-type="' . $post_cat[ 'taxonomy' ] . '" data-id="' . $post_cat[ 'term_id' ] . '" class="echbay-widget-title"><a href="%custom_cat_link%">' . $post_cat[ 'name' ] . '</a></%dynamic_tag%> %widget_description%',
+            'widget_title' => $instance[ 'hide_widget_title' ] == 'on' ? '' : '<{{dynamic_tag}} data-type="' . $post_cat[ 'taxonomy' ] . '" data-id="' . $post_cat[ 'term_id' ] . '" class="echbay-widget-title"><a href="{{custom_cat_link}}">' . $post_cat[ 'name' ] . '</a></{{dynamic_tag}}> {{widget_description}}',
             /*
             'max_width' => $max_width,
             'num_line' => $num_line,
             'post_cloumn' => $post_cloumn,
             */
-            'more_link' => $instance[ 'text_view_more' ] != '' ? '<div class="widget-blog-more"><a href="%custom_cat_link%">' . $instance[ 'text_view_more' ] . '</a></div>' : '',
+            'more_link' => $instance[ 'text_view_more' ] != '' ? '<div class="widget-blog-more"><a href="{{custom_cat_link}}">' . $instance[ 'text_view_more' ] . '</a></div>' : '',
             'str_sub_cat' => '',
         ] );
 

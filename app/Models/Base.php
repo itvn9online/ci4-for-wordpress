@@ -709,8 +709,10 @@ class Base extends Session {
 
         //print_r( $arr );
         foreach ( $arr as $k => $v ) {
-            $tmp_html = str_replace( '{tmp.' . $k . '}', $v, $tmp_html );
-            $tmp_html = str_replace( '%' . $k . '%', $v, $tmp_html );
+            // sử dụng chung mẫu template với angular js
+            $tmp_html = str_replace( '{{' . $k . '}}', $v, $tmp_html );
+            //$tmp_html = str_replace( '{tmp.' . $k . '}', $v, $tmp_html );
+            //$tmp_html = str_replace( '%' . $k . '%', $v, $tmp_html );
         }
 
         // meta
@@ -720,8 +722,9 @@ class Base extends Session {
 
         // thay các dữ liệu không có key bằng dữ liệu mặc định
         foreach ( $default_arr as $k => $v ) {
-            $tmp_html = str_replace( '{tmp.' . $k . '}', $v, $tmp_html );
-            $tmp_html = str_replace( '%' . $k . '%', $v, $tmp_html );
+            $tmp_html = str_replace( '{{' . $k . '}}', $v, $tmp_html );
+            //$tmp_html = str_replace( '{tmp.' . $k . '}', $v, $tmp_html );
+            //$tmp_html = str_replace( '%' . $k . '%', $v, $tmp_html );
         }
 
         //

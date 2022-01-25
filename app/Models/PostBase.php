@@ -38,7 +38,7 @@ class PostBase extends EbModel {
         //echo THEMEPATH . '<br>' . "\n";
         $this->product_html_node = $this->base_model->get_html_tmp( 'thread_node' );
         if ( $this->product_html_tag == 'li' ) {
-            $this->product_html_node = '<li data-id="{tmp.ID}" data-control="' . $this->primary_controller . '" data-type="{tmp.post_type}" data-price="{tmp.trv_num_giamoi}" data-per="{tmp.pt}" data-link="{tmp.p_link}" data-status="{tmp.product_status}" class="hide-if-gia-zero">' . $this->product_html_node . '</li>';
+            $this->product_html_node = '<li data-id="{{ID}}" data-control="' . $this->primary_controller . '" data-type="{{post_type}}" data-price="{{trv_num_giamoi}}" data-per="{{pt}}" data-link="{{p_link}}" data-status="{{product_status}}" class="hide-if-gia-zero">' . $this->product_html_node . '</li>';
         }
 
         //
