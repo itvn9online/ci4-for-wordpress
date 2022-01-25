@@ -161,6 +161,17 @@ class Comments extends Admin {
         //
         //$data = $this->post_model->list_meta_post( $data );
         foreach ( $data as $k => $v ) {
+            // TEST
+            /*
+            if ( $v[ 'comment_slug' ] == '' ) {
+                $this->comment_model->update_comments( $v[ 'comment_ID' ], [
+                    'comment_title' => $v[ 'comment_title' ],
+                    //'comment_content' => $v[ 'comment_content' ],
+                ] );
+            }
+            */
+
+            //
             $v[ 'comment_content' ] = '';
             $data[ $k ] = $v;
         }

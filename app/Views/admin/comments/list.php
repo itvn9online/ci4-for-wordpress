@@ -57,7 +57,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
     <tbody id="admin_main_list" ng-app="myApp" ng-controller="myCtrl">
         <tr ng-repeat="v in data">
             <td>&nbsp;</td>
-            <td><a href="admin/{{controller_slug}}?comment_id={{v.comment_ID}}">{{v.comment_title}} <i class="fa fa-edit"></i></a></td>
+            <td><a href="admin/{{controller_slug}}?comment_id={{v.comment_ID}}">{{v.comment_title}} <i class="fa fa-edit"></i></a> {{v.comment_slug}}</td>
             <td>{{v.comment_author_email}}</td>
             <td>{{v.comment_approved}}</td>
             <td>{{v.comment_author_IP}}</td>

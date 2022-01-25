@@ -17,19 +17,19 @@ class Comment extends EbModel {
 
     private function sync_comment_data( $data ) {
         if ( !isset( $data[ 'comment_title' ] ) || $data[ 'comment_title' ] == '' ) {
-            if ( $data[ 'comment_content' ] != '' ) {
+            if ( isset( $data[ 'comment_content' ] ) && $data[ 'comment_content' ] != '' ) {
                 $data[ 'comment_title' ] = strip_tags( $data[ 'comment_content' ] );
                 $data[ 'comment_title' ] = explode( "\n", $data[ 'comment_title' ] );
                 $data[ 'comment_title' ] = trim( $data[ 'comment_title' ][ 0 ] );
-
-                //
-                if ( $data[ 'comment_title' ] != '' ) {
-                    $data[ 'comment_title' ] = $this->base_model->short_string( $data[ 'comment_title' ], 110 );
-
-                    //
-                    $data[ 'comment_slug' ] = $this->base_model->_eb_non_mark_seo( $data[ 'comment_title' ] );
-                }
             }
+        }
+
+        //
+        if ( isset( $data[ 'comment_title' ] ) && $data[ 'comment_title' ] != '' ) {
+            $data[ 'comment_title' ] = $this->base_model->short_string( $data[ 'comment_title' ], 110 );
+
+            //
+            $data[ 'comment_slug' ] = $this->base_model->_eb_non_mark_seo( $data[ 'comment_title' ] );
         }
 
         //
@@ -41,6 +41,7 @@ class Comment extends EbModel {
             //'comment_author_url' => $redirect_to,
             'comment_author_IP' => $this->request->getIPAddress(),
             'comment_date' => date( 'Y-m-d H:i:s' ),
+            'comment_title' => '',
             'comment_content' => '',
             'comment_agent' => $_SERVER[ 'HTTP_USER_AGENT' ],
             //'comment_type' => $ops[ 'comment_type' ],
@@ -85,10 +86,12 @@ class Comment extends EbModel {
     }
 
     public function update_comments( $comment_ID, $data, $where = [] ) {
-        $where[ 'ID' ] = $comment_ID;
+        $where[ 'comment_ID' ] = $comment_ID;
 
         //
         $data = $this->sync_comment_data( $data );
+        //print_r( $data );
+        //return false;
 
         //
         $result_update = $this->base_model->update_multiple( $this->table, $data, $where, [
