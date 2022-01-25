@@ -66,7 +66,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
             <td>&nbsp;</td>
             <td>{{v.menu_order}}</td>
             <td><div><a href="{{v.admin_permalink}}" class="bold">{{v.post_title}} <i class="fa fa-edit"></i></a></div>
-                <div><a href="{{v.the_permalink}}" target="_blank" class="small blackcolor">{{v.post_name}} <i class="fa fa-external-link"></i></a></div></td>
+                <div ng-class="post_type == PostType_MENU ? 'd-none' : ''"><a href="{{v.the_permalink}}" target="_blank" class="small blackcolor">{{v.post_name}} <i class="fa fa-external-link"></i></a></div></td>
             <td><div ng-if="post_type == PostType_MENU"> &nbsp; </div>
                 <div ng-if="post_type != PostType_MENU"> <a href="{{v.admin_permalink}}"><img
                                                                                               ng-src="{{v.thumbnail}}"
