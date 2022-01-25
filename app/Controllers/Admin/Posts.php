@@ -84,6 +84,12 @@ class Posts extends Admin {
         // URL cho phân trang
         $urlPartPage = 'admin/' . $this->controller_slug . '?part_type=' . $this->post_type;
 
+        //
+        $by_keyword = $this->MY_get( 's' );
+        $post_status = $this->MY_get( 'post_status' );
+        $by_term_id = $this->MY_get( 'term_id', 0 );
+        $page_num = $this->MY_get( 'page_num', 1 );
+
         // các kiểu điều kiện where
         $where = [
             //'posts.post_status !=' => PostType::DELETED,
@@ -92,7 +98,6 @@ class Posts extends Admin {
         ];
 
         // tìm kiếm theo từ khóa nhập vào
-        $by_keyword = $this->MY_get( 's' );
         $where_or_like = [];
         if ( $by_keyword != '' ) {
             $urlPartPage .= '&s=' . $by_keyword;
@@ -108,10 +113,11 @@ class Posts extends Admin {
                 if ( $is_number === true ) {
                     $where_or_like = [
                         'ID' => $by_like,
+                        //'post_author' => $by_like,
+                        //'post_parent' => $by_like,
                     ];
                 } else {
                     $where_or_like = [
-                        //'ID' => $by_like,
                         'post_name' => $by_like,
                         'post_title' => $by_keyword,
                     ];
@@ -120,7 +126,6 @@ class Posts extends Admin {
         }
 
         //
-        $post_status = $this->MY_get( 'post_status' );
         if ( $post_status == '' ) {
             $by_post_status = [
                 PostType::DRAFT,
@@ -151,7 +156,6 @@ class Posts extends Admin {
         ];
 
         // nếu có lọc theo term_id -> thêm câu lệnh để lọc
-        $by_term_id = $this->MY_get( 'term_id', 0 );
         if ( $by_term_id > 0 ) {
             $urlPartPage .= '&term_id=' . $by_term_id;
             $for_action .= '&term_id=' . $by_term_id;
@@ -176,7 +180,6 @@ class Posts extends Admin {
         if ( $totalPage < 1 ) {
             $totalPage = 1;
         }
-        $page_num = $this->MY_get( 'page_num', 1 );
         //echo $totalPage . '<br>' . "\n";
         if ( $page_num > $totalPage ) {
             $page_num = $totalPage;
@@ -372,14 +375,12 @@ class Posts extends Admin {
             $post_tags = $this->term_model->get_all_taxonomy( $this->tags );
         }
 
-
         //
         if ( $this->debug_enable === true ) {
             echo '<!-- ';
             print_r( $data );
             echo ' -->';
         }
-
 
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/' . $this->add_edit_view . '/add', array(

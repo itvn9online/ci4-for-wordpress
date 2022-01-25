@@ -230,7 +230,8 @@ class Sync extends BaseController {
             ],
             WGR_TABLE_PREFIX . 'comments' => [
                 // thêm tiêu đề cho phần comment -> do bảng mặc định của wp comment không có cột này
-                'comment_title' => 'VARCHAR(255) NOT NULL DEFAULT \'\'',
+                'comment_title' => 'VARCHAR(255) NOT NULL DEFAULT \'Thêm tiêu đề để tiện cho việc hiển thị\'',
+                'comment_slug' => 'VARCHAR(255) NOT NULL DEFAULT \'Thêm phần slug để tiện cho quá trình tìm kiếm\'',
                 'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
                 'lang_parent' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Dùng để xác định với các bản ghi được nhân bản từ ngôn ngữ chính\'',
                 'is_deleted' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'0 = hiển thị, 1 = xóa\'',

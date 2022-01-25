@@ -49,13 +49,15 @@ class Comments extends Admin {
 
         //
         $by_is_deleted = $this->MY_get( 'is_deleted', DeletedStatus::FOR_DEFAULT );
+        $by_keyword = $this->MY_get( 's' );
+
+        //
         if ( $by_is_deleted > 0 ) {
             $urlPartPage .= '&is_deleted=' . $by_is_deleted;
             $for_action .= '&is_deleted=' . $by_is_deleted;
         }
 
         // tìm kiếm theo từ khóa nhập vào
-        $by_keyword = $this->MY_get( 's' );
         if ( $by_keyword != '' ) {
             $urlPartPage .= '&s=' . $by_keyword;
             $for_action .= '&s=' . $by_keyword;
@@ -68,7 +70,48 @@ class Comments extends Admin {
             'comments.lang_key' => LanguageCost::lang_key()
         ];
 
+        // tìm kiếm theo từ khóa nhập vào
+        $where_or_like = [];
+        if ( $by_keyword != '' ) {
+            $urlPartPage .= '&s=' . $by_keyword;
+            $for_action .= '&s=' . $by_keyword;
+
+            //
+            $by_like = $this->base_model->_eb_non_mark_seo( $by_keyword );
+            // tối thiểu từ 1 ký tự trở lên mới kích hoạt tìm kiếm
+            if ( strlen( $by_like ) > 0 ) {
+                //var_dump( strlen( $by_like ) );
+                $is_number = is_numeric( $by_like );
+                // nếu là số -> chỉ tìm theo ID
+                if ( $is_number === true ) {
+                    $where_or_like = [
+                        'comment_ID' => $by_like,
+                        //'comment_post_ID' => $by_like,
+                        //'comment_parent' => $by_like,
+                        //'user_id' => $by_like,
+                    ];
+                } else {
+                    $is_email = strpos( $by_keyword, '@' );
+                    // nếu có @ -> tìm theo email
+                    if ( $is_email !== false ) {
+                        $where_or_like = [
+                            'comment_author_email' => explode( '@', $by_keyword )[ 0 ],
+                        ];
+                    }
+                    // còn lại thì có gì tìm hết
+                    else {
+                        $where_or_like = [
+                            //'ID' => $by_like,
+                            'comment_slug' => $by_like,
+                            'comment_title' => $by_keyword,
+                        ];
+                    }
+                }
+            }
+        }
+
         $filter = [
+            'or_like' => $where_or_like,
             'order_by' => array(
                 'comments.comment_ID' => 'DESC',
             ),
@@ -118,13 +161,6 @@ class Comments extends Admin {
         //
         //$data = $this->post_model->list_meta_post( $data );
         foreach ( $data as $k => $v ) {
-            if ( $v[ 'comment_title' ] == '' ) {
-                $v[ 'comment_title' ] = strip_tags( $v[ 'comment_content' ] );
-                $v[ 'comment_title' ] = explode( "\n", $v[ 'comment_title' ] );
-                $v[ 'comment_title' ] = $v[ 'comment_title' ][ 0 ];
-            }
-
-            //
             $v[ 'comment_content' ] = '';
             $data[ $k ] = $v;
         }
@@ -164,6 +200,13 @@ class Comments extends Admin {
             'limit' => 1
         ] );
         //print_r( $data );
+
+        //
+        if ( $this->debug_enable === true ) {
+            echo '<!-- ';
+            print_r( $data );
+            echo ' -->';
+        }
 
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/comments/details', array(

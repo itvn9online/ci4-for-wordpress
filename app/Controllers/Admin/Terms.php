@@ -46,8 +46,18 @@ class Terms extends Admin {
         // URL cho phân trang
         $urlPartPage = 'admin/' . $this->controller_slug . '?part_type=' . $this->taxonomy;
 
-        // tìm kiếm theo từ khóa nhập vào
+        //
         $by_keyword = $this->MY_get( 's' );
+        $by_is_deleted = $this->MY_get( 'is_deleted', DeletedStatus::FOR_DEFAULT );
+        $page_num = $this->MY_get( 'page_num', 1 );
+
+        //
+        if ( $by_is_deleted > 0 ) {
+            $urlPartPage .= '&is_deleted=' . $by_is_deleted;
+            $for_action .= '&is_deleted=' . $by_is_deleted;
+        }
+
+        // tìm kiếm theo từ khóa nhập vào
         $where_or_like = [];
         if ( $by_keyword != '' ) {
             $urlPartPage .= '&s=' . $by_keyword;
@@ -63,22 +73,15 @@ class Terms extends Admin {
                 if ( $is_number === true ) {
                     $where_or_like = [
                         'term_id' => $by_like,
+                        //'parent' => $by_like,
                     ];
                 } else {
                     $where_or_like = [
-                        //'term_id' => $by_like,
                         'slug' => $by_like,
                         'name' => $by_keyword,
                     ];
                 }
             }
-        }
-
-        //
-        $by_is_deleted = $this->MY_get( 'is_deleted', DeletedStatus::FOR_DEFAULT );
-        if ( $by_is_deleted > 0 ) {
-            $urlPartPage .= '&is_deleted=' . $by_is_deleted;
-            $for_action .= '&is_deleted=' . $by_is_deleted;
         }
 
         //
@@ -104,7 +107,6 @@ class Terms extends Admin {
         if ( $totalPage < 1 ) {
             $totalPage = 1;
         }
-        $page_num = $this->MY_get( 'page_num', 1 );
         //echo $totalPage . '<br>' . "\n";
         if ( $page_num > $totalPage ) {
             $page_num = $totalPage;

@@ -34,8 +34,14 @@ class Users extends Admin {
         // URL cho phân trang
         $urlPartPage = 'admin/users?member_type=' . $this->member_type;
 
-        //
+        // GET
         $by_is_deleted = $this->MY_get( 'is_deleted', DeletedStatus::FOR_DEFAULT );
+        $by_keyword = $this->MY_get( 's' );
+        $by_user_status = $this->MY_get( 'user_status' );
+        $order_by = $this->MY_get( 'order_by' );
+        $page_num = $this->MY_get( 'page_num', 1 );
+
+        //
         if ( $by_is_deleted > 0 ) {
             $urlPartPage .= '&is_deleted=' . $by_is_deleted;
             $for_action .= '&is_deleted=' . $by_is_deleted;
@@ -55,7 +61,6 @@ class Users extends Admin {
         }
 
         // tìm kiếm theo từ khóa nhập vào
-        $by_keyword = $this->MY_get( 's' );
         $where_or_like = [];
         if ( $by_keyword != '' ) {
             $urlPartPage .= '&s=' . $by_keyword;
@@ -83,7 +88,6 @@ class Users extends Admin {
                     // còn lại thì có gì tìm hết
                     else {
                         $where_or_like = [
-                            //'ID' => $by_like,
                             'user_login' => $by_like,
                             'user_email' => $by_keyword,
                             //'display_name' => $by_like,
@@ -96,15 +100,14 @@ class Users extends Admin {
         }
 
         // lọc theo trạng thái đăng nhập
-        $by_user_status = $this->MY_get( 'user_status' );
         if ( $by_user_status != '' && $by_user_status != 'all' ) {
             $where[ 'users.user_status' ] = $by_user_status;
+
             $urlPartPage .= '&user_status=' . $by_user_status;
             $for_action .= '&user_status=' . $by_user_status;
         }
 
         //
-        $order_by = $this->MY_get( 'order_by' );
         if ( $order_by == 'last_login' ) {
             $urlPartPage .= '&order_by=' . $order_by;
             $for_action .= '&order_by=' . $order_by;
@@ -143,7 +146,6 @@ class Users extends Admin {
         if ( $totalPage < 1 ) {
             $totalPage = 1;
         }
-        $page_num = $this->MY_get( 'page_num', 1 );
         //echo $totalPage . '<br>' . "\n";
         if ( $page_num > $totalPage ) {
             $page_num = $totalPage;

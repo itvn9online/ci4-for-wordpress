@@ -15,6 +15,27 @@ class Comment extends EbModel {
         $this->request = \Config\ Services::request();
     }
 
+    private function sync_comment_data( $data ) {
+        if ( !isset( $data[ 'comment_title' ] ) || $data[ 'comment_title' ] == '' ) {
+            if ( $data[ 'comment_content' ] != '' ) {
+                $data[ 'comment_title' ] = strip_tags( $data[ 'comment_content' ] );
+                $data[ 'comment_title' ] = explode( "\n", $data[ 'comment_title' ] );
+                $data[ 'comment_title' ] = trim( $data[ 'comment_title' ][ 0 ] );
+
+                //
+                if ( $data[ 'comment_title' ] != '' ) {
+                    $data[ 'comment_title' ] = $this->base_model->short_string( $data[ 'comment_title' ], 110 );
+
+                    //
+                    $data[ 'comment_slug' ] = $this->base_model->_eb_non_mark_seo( $data[ 'comment_title' ] );
+                }
+            }
+        }
+
+        //
+        return $data;
+    }
+
     public function insert_comments( $data ) {
         $data_default = [
             //'comment_author_url' => $redirect_to,
@@ -32,6 +53,9 @@ class Comment extends EbModel {
                 $data[ $k ] = $v;
             }
         }
+
+        //
+        $data = $this->sync_comment_data( $data );
 
         //
         $result_id = $this->base_model->insert( $this->table, $data, true );
@@ -58,6 +82,21 @@ class Comment extends EbModel {
                 ] );
             }
         }
+    }
+
+    public function update_comments( $comment_ID, $data, $where = [] ) {
+        $where[ 'ID' ] = $comment_ID;
+
+        //
+        $data = $this->sync_comment_data( $data );
+
+        //
+        $result_update = $this->base_model->update_multiple( $this->table, $data, $where, [
+            'debug_backtrace' => debug_backtrace()[ 1 ][ 'function' ]
+        ] );
+
+        //
+        return $result_update;
     }
 
     public function insert_meta_comments( $data ) {
