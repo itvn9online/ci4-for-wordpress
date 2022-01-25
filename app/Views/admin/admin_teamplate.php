@@ -69,7 +69,7 @@ if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
 <script type="text/javascript" src="./thirdparty/validate/jquery.min.js"></script> 
 --> 
 <script type="text/javascript" src="./thirdparty/jquery/jquery-3.6.0.min.js"></script> 
-<!-- <script type="text/javascript" src="./thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> -->
+<!-- <script type="text/javascript" src="./thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> --> 
 <!-- <script type="text/javascript" src="./thirdparty/jquery/jquery-migrate-1.4.1.min.js"></script> --> 
 <script type="text/javascript" src="./thirdparty/jquery-ui/datepicker.min.js?v=1.12.1"></script> 
 <script type="text/javascript" src="./thirdparty/validate/library.js"></script> 
@@ -169,70 +169,72 @@ var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
 </div>
 <!--close-Header-part--> 
 <!--top-Header-menu-->
-<div id="sidebar">
-    <ul class="cf order-admin-menu">
-        <?php
+<div id="adminmenumain">
+    <div id="sidebar">
+        <ul class="cf order-admin-menu">
+            <?php
 
-        // TEST
-        //$session_data[ 'member_type' ] = UsersType::MOD;
-        //$session_data[ 'member_type' ] = UsersType::AUTHOR;
-        //$session_data[ 'member_type' ] = UsersType::MEMBER;
-        //$session_data[ 'member_type' ] = UsersType::GUEST;
+            // TEST
+            //$session_data[ 'member_type' ] = UsersType::MOD;
+            //$session_data[ 'member_type' ] = UsersType::AUTHOR;
+            //$session_data[ 'member_type' ] = UsersType::MEMBER;
+            //$session_data[ 'member_type' ] = UsersType::GUEST;
 
-        // chạy vòng lặp kiểm tra phân quyền nếu không phải admin
-        if ( $session_data[ 'member_type' ] != UsersType::ADMIN ) {
-            foreach ( $arr_admin_menu as $k => $v ) {
-                //print_r( $v );
+            // chạy vòng lặp kiểm tra phân quyền nếu không phải admin
+            if ( $session_data[ 'member_type' ] != UsersType::ADMIN ) {
+                foreach ( $arr_admin_menu as $k => $v ) {
+                    //print_r( $v );
 
-                // không tồn tại role -> bỏ qua
-                if ( !isset( $v[ 'role' ] ) ) {
-                    echo '<!-- Admin role not found! -->';
-                    $arr_admin_menu[ $k ] = null;
-                    continue;
-                }
-
-                // nếu có role -> kiểm tra quyền truy cập
-                if ( !empty( $v[ 'role' ] ) && !in_array( $session_data[ 'member_type' ], $v[ 'role' ] ) ) {
-                    echo '<!-- Permission deny! -->';
-                    $arr_admin_menu[ $k ] = null;
-                    continue;
-                }
-
-                //
-                foreach ( $v[ 'arr' ] as $k_sub => $v_sub ) {
-                    //print_r( $v_sub );
-
-                    //
-                    if ( isset( $v_sub[ 'role' ] ) &&
-                        // phân quyền không trống
-                        !empty( $v_sub[ 'role' ] ) &&
-                        // kiểm tra quyền truy cập
-                        !in_array( $session_data[ 'member_type' ], $v_sub[ 'role' ] ) ) {
-                        echo '<!-- Permission sub deny! -->';
-                        $v[ 'arr' ] = null;
-                        $arr_admin_menu[ $k ] = $v;
+                    // không tồn tại role -> bỏ qua
+                    if ( !isset( $v[ 'role' ] ) ) {
+                        echo '<!-- Admin role not found! -->';
+                        $arr_admin_menu[ $k ] = null;
                         continue;
                     }
+
+                    // nếu có role -> kiểm tra quyền truy cập
+                    if ( !empty( $v[ 'role' ] ) && !in_array( $session_data[ 'member_type' ], $v[ 'role' ] ) ) {
+                        echo '<!-- Permission deny! -->';
+                        $arr_admin_menu[ $k ] = null;
+                        continue;
+                    }
+
+                    //
+                    foreach ( $v[ 'arr' ] as $k_sub => $v_sub ) {
+                        //print_r( $v_sub );
+
+                        //
+                        if ( isset( $v_sub[ 'role' ] ) &&
+                            // phân quyền không trống
+                            !empty( $v_sub[ 'role' ] ) &&
+                            // kiểm tra quyền truy cập
+                            !in_array( $session_data[ 'member_type' ], $v_sub[ 'role' ] ) ) {
+                            echo '<!-- Permission sub deny! -->';
+                            $v[ 'arr' ] = null;
+                            $arr_admin_menu[ $k ] = $v;
+                            continue;
+                        }
+                    }
+
+                    //
+                    //echo $v[ 'name' ] . '<br>' . "\n";
                 }
-
-                //
-                //echo $v[ 'name' ] . '<br>' . "\n";
             }
-        }
-        //print_r( $arr_admin_menu );
+            //print_r( $arr_admin_menu );
 
-        ?>
-    </ul>
-</div>
-<div id="content-header">
-    <div id="breadcrumb">
-        <ul class="cf">
-            <li><a href="./" title="Go to Home" class="tip-bottom"> <i class="fa fa-home"></i> Trang chủ</a></li>
-            <li><a href="./<?php echo CUSTOM_ADMIN_URI; ?>" title="Go to Home" class="tip-bottom"> <i class="fa fa-cog"></i> Quản trị</a></li>
+            ?>
         </ul>
     </div>
 </div>
 <div id="content">
+    <div id="content-header">
+        <div id="breadcrumb">
+            <ul class="cf">
+                <li><a href="./" title="Go to Home" class="tip-bottom"> <i class="fa fa-home"></i> Trang chủ</a></li>
+                <li><a href="./<?php echo CUSTOM_ADMIN_URI; ?>" title="Go to Home" class="tip-bottom"> <i class="fa fa-cog"></i> Quản trị</a></li>
+            </ul>
+        </div>
+    </div>
     <div class="container-fluid">
         <div class="row-fluid"> <?php echo $content; ?> </div>
     </div>
