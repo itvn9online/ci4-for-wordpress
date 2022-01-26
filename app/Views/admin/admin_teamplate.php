@@ -118,17 +118,19 @@ if ( $debug_enable === true ) {
 <script>
 var arr_all_taxonomy = {};
 try {
-    arr_all_taxonomy['<?php echo TaxonomyType::POSTS; ?>'] = JSON.parse('<?php $term_model->json_taxonomy( TaxonomyType::POSTS ); ?>');
-    arr_all_taxonomy['<?php echo TaxonomyType::TAGS; ?>'] = JSON.parse('<?php $term_model->json_taxonomy( TaxonomyType::TAGS ); ?>');
-    arr_all_taxonomy['<?php echo TaxonomyType::ADS; ?>'] = JSON.parse('<?php $term_model->json_taxonomy( TaxonomyType::ADS ); ?>');
-    arr_all_taxonomy['<?php echo TaxonomyType::BLOGS; ?>'] = JSON.parse('<?php $term_model->json_taxonomy( TaxonomyType::BLOGS ); ?>');
-    arr_all_taxonomy['<?php echo TaxonomyType::BLOG_TAGS; ?>'] = JSON.parse('<?php $term_model->json_taxonomy( TaxonomyType::BLOG_TAGS ); ?>');
-    arr_all_taxonomy['<?php echo TaxonomyType::OPTIONS; ?>'] = JSON.parse('<?php $term_model->json_taxonomy( TaxonomyType::OPTIONS ); ?>');
+    var arr_all_taxonomy = {
+        '<?php echo TaxonomyType::POSTS; ?>':<?php $term_model->json_taxonomy( TaxonomyType::POSTS ); ?>,
+        '<?php echo TaxonomyType::TAGS; ?>':<?php $term_model->json_taxonomy( TaxonomyType::TAGS ); ?>,
+        '<?php echo TaxonomyType::ADS; ?>':<?php $term_model->json_taxonomy( TaxonomyType::ADS ); ?>,
+        '<?php echo TaxonomyType::BLOGS; ?>':<?php $term_model->json_taxonomy( TaxonomyType::BLOGS ); ?>,
+        '<?php echo TaxonomyType::BLOG_TAGS; ?>':<?php $term_model->json_taxonomy( TaxonomyType::BLOG_TAGS ); ?>,
+        '<?php echo TaxonomyType::OPTIONS; ?>':<?php $term_model->json_taxonomy( TaxonomyType::OPTIONS ); ?>
+    };
     <?php
     //
     foreach ($arr_custom_taxonomy as $k => $v) {
         ?>
-    arr_all_taxonomy['<?php echo $k; ?>'] = JSON.parse( '<?php $term_model->json_taxonomy( $k ); ?>' );
+    arr_all_taxonomy['<?php echo $k; ?>'] = <?php $term_model->json_taxonomy( $k ); ?>;
     <?php
     }
     ?>

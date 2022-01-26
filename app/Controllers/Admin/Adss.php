@@ -9,6 +9,8 @@ use App\ Libraries\ TaxonomyType;
 class Adss extends Posts {
     protected $post_type = PostType::ADS;
     protected $taxonomy = TaxonomyType::ADS;
+    protected $tags = '';
+
     protected $controller_slug = 'adss';
 
     //

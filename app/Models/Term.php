@@ -184,6 +184,9 @@ class Term extends EbModel {
                 $this->insert_meta_term( $_POST[ 'term_meta' ], $result_id );
             }
 
+            // xóa cache
+            $this->delete_cache_taxonomy( $taxonomy );
+
             //
             return $result_id;
         }
@@ -242,6 +245,9 @@ class Term extends EbModel {
             $this->base_model->update_multiple( $this->taxTable, $data, $where, [
                 'debug_backtrace' => debug_backtrace()[ 1 ][ 'function' ]
             ] );
+
+            // xóa cache
+            $this->delete_cache_taxonomy( $taxonomy );
         }
         //die( __FILE__ . ':' . __LINE__ );
 
@@ -348,27 +354,74 @@ class Term extends EbModel {
     }
 
     // trả về mảng dữ liệu để json data -> auto select category bằng js cho nhẹ -> lấy quá nhiều dữ liệu dễ bị json lỗi
-    function get_json_taxonomy( $taxonomy = 'category', $term_id = 0, $ops = [] ) {
+    public function get_json_taxonomy( $taxonomy = 'category', $term_id = 0, $ops = [], $in_cache = '' ) {
+        // nếu không có cache key -> kiểm tra điều kiện tạo key
+        if ( $in_cache == '' ) {
+            if ( $term_id === 0 && empty( $ops ) ) {
+                $in_cache = $taxonomy;
+            }
+        }
+
         // cố định loại cột cần lấy
         $ops[ 'select_col' ] = 'term_id, name, slug, count, parent, taxonomy';
         //$ops[ 'select_col' ] = '*';
 
         //
-        return str_replace( '\'', '\\\'', json_encode( $this->get_all_taxonomy( $taxonomy, $term_id, $ops ) ) );
+        return str_replace( '\'', '\\\'', json_encode( $this->get_all_taxonomy( $taxonomy, $term_id, $ops, $in_cache ) ) );
     }
 
-    function json_taxonomy( $taxonomy = 'category', $term_id = 0, $ops = [] ) {
-        echo $this->get_json_taxonomy( $taxonomy, $term_id, $ops );
+    function json_taxonomy( $taxonomy = 'category', $term_id = 0, $ops = [], $in_cache = '' ) {
+        echo $this->get_json_taxonomy( $taxonomy, $term_id, $ops, $in_cache );
     }
 
-    function get_all_taxonomy( $taxonomy = 'category', $term_id = 0, $ops = [] ) {
+    function delete_cache_taxonomy( $taxonomy, $in_cache = '' ) {
+        if ( $in_cache == '' ) {
+            $in_cache = $taxonomy;
+        }
+        return $this->get_all_taxonomy( $taxonomy, 0, NULL, $in_cache, true );
+    }
+
+    function get_all_taxonomy( $taxonomy = 'category', $term_id = 0, $ops = [], $in_cache = '', $clear_cache = false, $time = 3600 ) {
         //print_r( $ops );
+
+        // nếu không có cache key -> kiểm tra điều kiện tạo key
+        if ( $in_cache == '' ) {
+            if ( $term_id === 0 && empty( $ops ) ) {
+                $in_cache = $taxonomy;
+            }
+        }
+
+        //
+        $lang_key = LanguageCost::lang_key();
+        if ( $in_cache != '' ) {
+            $in_cache = __FUNCTION__ . '-' . $in_cache . '-' . $lang_key;
+            //echo $in_cache . '<br>' . "\n";
+
+            //
+            $cache = \Config\ Services::cache();
+
+            // xóa cache nếu có yêu cầu
+            if ( $clear_cache === true ) {
+                $cache->delete( $in_cache );
+                return false;
+            }
+
+            //
+            $cache_value = $cache->get( $in_cache );
+            //print_r( $cache_value );
+            //var_dump( $cache_value );
+
+            // không có cache thì tiếp tục
+            if ( $cache_value ) {
+                return $cache_value;
+            }
+        }
 
         // các kiểu điều kiện where
         $where = [
             'taxonomy' => $taxonomy,
             //'term_status' => DeletedStatus::TERM_SHOW,
-            'lang_key' => LanguageCost::lang_key()
+            'lang_key' => $lang_key
         ];
         $where_or_like = [];
         if ( $term_id > 0 ) {
@@ -479,6 +532,11 @@ class Term extends EbModel {
                 $post_cat = $this->get_child_terms( $post_cat, $ops );
             }
             //}
+        }
+
+        //
+        if ( $in_cache != '' ) {
+            $cache->save( $in_cache, $post_cat, $time );
         }
 
         //

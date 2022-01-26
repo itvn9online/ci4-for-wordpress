@@ -14,8 +14,8 @@ class Posts extends Admin {
 
     // các taxonomy được hỗ trợ -> cái nào trống nghĩa là không hỗ trợ theo post_type tương ứng
     protected $taxonomy = TaxonomyType::POSTS;
-    private $tags = TaxonomyType::TAGS;
-    private $options = TaxonomyType::OPTIONS;
+    protected $tags = TaxonomyType::TAGS;
+    protected $options = TaxonomyType::OPTIONS;
 
     // tham số dùng để thay đổi URL cho controller nếu muốn
     protected $controller_slug = 'posts';
@@ -372,7 +372,9 @@ class Posts extends Admin {
         // lấy danh sách các nhóm để add cho post
         else {
             $post_cat = $this->term_model->get_all_taxonomy( $this->taxonomy );
-            $post_tags = $this->term_model->get_all_taxonomy( $this->tags );
+            if ( $this->tags != '' ) {
+                $post_tags = $this->term_model->get_all_taxonomy( $this->tags );
+            }
         }
 
         //

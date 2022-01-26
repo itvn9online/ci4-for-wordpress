@@ -197,6 +197,9 @@ if ( $auto_update_module * 1 === 1 ) {
 
                     // với 1 số post type có đặc thù riêng -> ví dụ danh mục
                     if ( $k == 'post_category' ) {
+                        if ( $taxonomy == '' ) {
+                            continue;
+                        }
                         ?>
                     <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple aria-required="true" required>
                         <option value="">[ Chọn <?php echo $v; ?> ]</option>
@@ -210,10 +213,13 @@ if ( $auto_update_module * 1 === 1 ) {
 
                         ?>
                     </select>
-                    &nbsp; <a href="admin/<?php echo $controller_slug; ?>/add" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm <?php echo $v; ?> mới</a>
+                    &nbsp; <a href="admin/terms/add/?taxonomy=<?php echo $taxonomy; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm <?php echo $v; ?> mới</a>
                     <?php
                     } // END if post category
                     else if ( $k == 'post_tags' ) {
+                        if ( $tags == '' ) {
+                            continue;
+                        }
                         ?>
                     <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple>
                         <option value="">[ Chọn <?php echo $v; ?> ]</option>
@@ -227,7 +233,7 @@ if ( $auto_update_module * 1 === 1 ) {
 
                         ?>
                     </select>
-                    &nbsp; <a href="admin/<?php echo $controller_slug; ?>/add" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm <?php echo $v; ?> mới</a>
+                    &nbsp; <a href="admin/terms/add/?taxonomy=<?php echo $tags; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm <?php echo $v; ?> mới</a>
                     <?php
                     } // END if post tags
                     // mặc định thì hiển thị bình thường
