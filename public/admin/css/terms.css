@@ -1,0 +1,6 @@
+.hide-if-trash[data-deleted="1"], .show-if-trash[data-deleted="0"] {
+    display: none;
+}
+.hide-if-trash[data-deleted="0"] {
+    display: block;
+}

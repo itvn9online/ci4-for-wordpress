@@ -28,8 +28,6 @@ function term_tree_view(data, tmp, gach_ngang) {
             //
             for (var j = 0; j < 10; j++) {
                 str = str.replace('{{v.gach_ngang}}', gach_ngang);
-                str = str.replace('{{controller_slug}}', controller_slug);
-                str = str.replace('{{for_action}}', for_action);
             }
 
             //
@@ -77,7 +75,7 @@ function before_tree_view(tmp, max_i) {
 
     //
     term_tree_view(term_data, tmp);
-    $('.this-child-term div[ng-if]').remove();
+    //$('.this-child-term div[ng-if]').remove();
 }
 
 (function () {
@@ -89,6 +87,11 @@ function before_tree_view(tmp, max_i) {
     var tmp = $('#admin_main_list tr:first').html() || '';
     if (tmp == '') {
         return false;
+    }
+    for (var i = 0; i < 10; i++) {
+        tmp = tmp.replace('{{DeletedStatus_DELETED}}', DeletedStatus_DELETED);
+        tmp = tmp.replace('{{for_action}}', for_action);
+        tmp = tmp.replace('{{controller_slug}}', controller_slug);
     }
     tmp = '<tr data-id="{{v.term_id}}" class="each-to-child-term this-child-term">' + tmp + '</tr>';
     //console.log(tmp);

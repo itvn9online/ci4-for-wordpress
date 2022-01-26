@@ -9,23 +9,10 @@ use App\ Libraries\ DeletedStatus;
 //$term_model = new\ App\ Models\ Term();
 
 // css riêng cho từng post type (nếu có)
+$base_model->add_css( 'admin/css/terms.css' );
 $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
 
 ?>
-<script>
-var term_data = <?php echo json_encode($data); ?>;
-var for_action = '<?php echo $for_action; ?>';
-var controller_slug = '<?php echo $controller_slug; ?>';
-
-//
-angular.module('myApp', []).controller('myCtrl', function($scope) {
-    $scope.data = term_data;
-    $scope.controller_slug = controller_slug;
-    $scope.for_action = for_action;
-    $scope.DeletedStatus_DELETED = '<?php echo DeletedStatus::DELETED; ?>';
-});
-</script>
-
 <ul class="admin-breadcrumb">
     <li><?php echo $name_type; ?> (<?php echo $totalThread; ?>)</li>
 </ul>
@@ -73,10 +60,10 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
             <td>{{v.lang_key}}</td>
             <td>{{v.count}}</td>
             <td class="text-center"><div>
-                    <div ng-if="v.is_deleted == DeletedStatus_DELETED">
+                    <div data-deleted="{{v.is_deleted}}" class="show-if-trash" ng-if="v.is_deleted == DeletedStatus_DELETED">
                         <div><a href="admin/{{controller_slug}}/restore?id={{v.term_id}}{{for_action}}" onClick="return click_a_restore_record();" target="target_eb_iframe" class="bluecolor"><i class="fa fa-undo"></i></a></div>
                     </div>
-                    <div class="d-inlines" ng-if="v.is_deleted != DeletedStatus_DELETED">
+                    <div data-deleted="{{v.is_deleted}}" class="d-inlines hide-if-trash" ng-if="v.is_deleted != DeletedStatus_DELETED">
                         <div><a href="admin/{{controller_slug}}/term_status?id={{v.term_id}}&current_status={{v.term_status}}{{for_action}}" target="target_eb_iframe" data-status="{{v.term_status}}" class="record-status-color"><i class="fa fa-eye"></i></a></div>
                         &nbsp;
                         <div><a href="admin/{{controller_slug}}/delete?id={{v.term_id}}{{for_action}}" onClick="return click_a_delete_record();" target="target_eb_iframe" class="redcolor"><i class="fa fa-trash"></i></a></div>
@@ -93,6 +80,20 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
 </table>
 <div class="public-part-page"> <?php echo $pagination; ?> </div>
 <p class="d-none">* Copy đoạn code bên dưới rồi cho vào nơi cần hiển thị block này ở trong view. Nhớ thay %slug% thành slug thật trong danh sách ở trên.</p>
+<script>
+var term_data = <?php echo json_encode($data); ?>;
+var for_action = '<?php echo $for_action; ?>';
+var controller_slug = '<?php echo $controller_slug; ?>';
+var DeletedStatus_DELETED = '<?php echo DeletedStatus::DELETED; ?>';
+
+//
+angular.module('myApp', []).controller('myCtrl', function($scope) {
+    $scope.data = term_data;
+    $scope.controller_slug = controller_slug;
+    $scope.for_action = for_action;
+    $scope.DeletedStatus_DELETED = DeletedStatus_DELETED;
+});
+</script>
 <?php
 
 if ( $taxonomy == TaxonomyType::ADS ) {

@@ -98,135 +98,9 @@ $('#content input[type="checkbox"]').each(function () {
     }
 });
 
-function click_a_delete_record() {
-    return confirm('Xác nhận xóa bản ghi này?');
-}
-
-function click_a_restore_record() {
-    return true;
-    //return confirm('Xác nhận phục hồi bản ghi này?');
-}
-
-function click_a_remove_record() {
-    return confirm('Xác nhận XÓA hoàn toàn bản ghi này?');
-}
-
-function click_delete_record() {
-    if ($('#is_deleted').length !== 1) {
-        console.log('%c ERROR is_deleted.length', 'color: red;');
-    }
-
-    if (click_a_delete_record() === false) {
-        return false;
-    }
-
-    $('#is_deleted').val(1);
-    document.admin_global_form.submit();
-
-    // hủy lệnh nếu code có lỗi
-    setTimeout(function () {
-        $('#is_deleted').val(0);
-    }, 600);
-}
-
-
-function click_duplicate_record() {
-    if ($('#is_duplicate').length !== 1) {
-        console.log('%c ERROR is_duplicate.length', 'color: red;');
-    }
-
-    if (confirm('Bạn thực sự muốn nhân bản bản ghi này?') === false) {
-        return false;
-    }
-
-    $('#is_duplicate').val(1);
-    document.admin_global_form.submit();
-
-    // hủy lệnh nếu code có lỗi
-    setTimeout(function () {
-        $('#is_duplicate').val(0);
-    }, 600);
-}
-
-
-// phần thiết lập thông số của size -> chỉnh về 1 định dạng
-function convert_size_to_one_format() {
-    jQuery('#post_meta_custom_size, #term_meta_custom_size, #data_cf_product_size, #data_cf_blog_size, #term_meta_taxonomy_custom_post_size, #data_main_banner_size, #data_second_banner_size').off('change').change(function () {
-        var a = jQuery(this).val() || '';
-        a = jQuery.trim(a);
-        if (a != '') {
-            // kích thước dùng chung
-            if (a.split('%').length == 3) {
-                //
-            } else {
-                a = a.replace(/\s/g, '');
-
-                // kích thước tự động thì cũng bỏ qua luôn
-                if (a == 'auto' || a == 'full') {
-                    //
-                } else {
-                    // nếu có dấu x -> chuyển về định dạng của Cao/ Rộng
-                    if (a.split('x').length > 1) {
-                        a = a.split('x');
-
-                        if (a[0] == a[1]) {
-                            a = 1;
-                        } else {
-                            a = a[1] + '/' + a[0];
-                        }
-                    }
-                    a = a.toString().replace(/[^0-9\/]/g, '');
-                }
-            }
-
-            jQuery(this).val(a);
-        }
-    }).off('blur').blur(function () {
-        jQuery(this).change();
-    });
-
-
-    jQuery('.fixed-width-for-config').off('change').change(function () {
-        var a = jQuery(this).val() || '';
-        if (a != '') {
-            a = a.replace(/\s/g, '');
-
-            if (a != '') {
-                a = a * 1;
-
-                // nếu giá trị nhập vào nhỏ hơn 10 -> tính toán tự động số sản phẩm trên hàng theo kích thước tiêu chuẩn
-                if (a < 10) {
-                    // lấy kích thước tiêu chuẩn
-                    var b = jQuery(this).attr('data-width') || '';
-                    if (b != '') {
-                        // tính toán
-                        jQuery(this).val(Math.ceil(b / a) - 5);
-                    }
-                }
-            }
-        }
-    }).off('blur').blur(function () {
-        jQuery(this).change();
-    });
-}
+//
 convert_size_to_one_format();
-
 fix_textarea_height();
-
-
-function hide_if_esc() {
-    if (top != self) {
-        return top.hide_if_esc();
-    }
-
-    //
-    $('.hide-if-esc').hide();
-    $('body').removeClass('no-scroll');
-
-    //
-    return false;
-}
-
 
 /*
 setInterval(function () {
@@ -246,90 +120,6 @@ setInterval(function () {
     })(window.scrollY || jQuery(window).scrollTop());
 }, 300);
 */
-
-
-/**
- * Unicorn Admin Template
- * Diablo9983 -> diablo9983@gmail.com
- **/
-$(document).ready(function () {
-
-    //$('input[type=checkbox],input[type=radio],input[type=file]').uniform();
-
-    $('select').each(function () {
-        if ($('option', this).length > 10) {
-            $(this).select2();
-        }
-    });
-    //$('.colorpicker').colorpicker();
-    //$('.datepicker').datepicker();
-
-    //
-    action_each_to_taxonomy();
-    //action_data_img_src();
-
-    // tự động select khi có dữ liệu
-    WGR_set_prop_for_select('#content select');
-    WGR_set_prop_for_select('select.admin-change-language');
-}).keydown(function (e) {
-    //console.log(e.keyCode);
-
-    //
-    if (e.keyCode == 27) {
-        hide_if_esc();
-    }
-});
-
-
-/*
- * tạo menu select cho admin
- */
-function add_active_class_for_sidebar(w) {
-    w = $.trim(w);
-    if (w == '') {
-        return false;
-    }
-    console.log(w);
-    if (w.substr(w.length - 1) == '&') {
-        w = w.substr(0, w.length - 1);
-        console.log(w);
-    }
-
-    //
-    var has_active = false;
-    $('#sidebar a').each(function () {
-        var a = $(this).attr('href') || '';
-        if (a != '') {
-            if (w.split(a).length > 1) {
-                console.log(a);
-                $(this).parents('li').addClass('active');
-                has_active = true;
-            }
-        }
-    });
-
-    //
-    return has_active;
-}
-
-function get_last_url_segment(w) {
-    // lấy phần tử cuối cùng trong URL
-    var a = w.split('&support_tab=')[0].split('?support_tab=')[0];
-    a = a.replace(web_link, '');
-    /*
-    a = a.split('/');
-    if (a[a.length - 1] == '') {
-        a = a[a.length - 2];
-    } else {
-        a = a[a.length - 1];
-    }
-    */
-    a = g_func.non_mark_seo(a);
-    //console.log('last w:', a);
-
-    //
-    return a;
-}
 
 // bắt đâu tạo actived cho admin menu
 (function (w) {
@@ -405,5 +195,36 @@ $('.admin-change-language').change(function () {
         //console.log(a);
 
         window.location = web_link + '/?set_lang=' + a + '&redirect_to=' + encodeURIComponent(window.location.href);
+    }
+});
+
+
+//
+$(document).ready(function () {
+    // tự động select khi có dữ liệu
+    WGR_set_prop_for_select('#content select');
+    WGR_set_prop_for_select('select.admin-change-language');
+
+    //
+    //$('input[type=checkbox],input[type=radio],input[type=file]').uniform();
+
+    // kích hoạt select2 khi lượng option đủ lớn
+    $('select').each(function () {
+        if ($('option', this).length > 10) {
+            $(this).select2();
+        }
+    });
+    //$('.colorpicker').colorpicker();
+    //$('.datepicker').datepicker();
+
+    //
+    action_each_to_taxonomy();
+    //action_data_img_src();
+}).keydown(function (e) {
+    //console.log(e.keyCode);
+
+    //
+    if (e.keyCode == 27) {
+        hide_if_esc();
     }
 });
