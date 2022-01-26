@@ -17,7 +17,19 @@ class PostAdmin extends Post {
     /*
      * Tạo danh sách link để thêm menu trong admin cho tiện
      */
-    function quick_add_menu() {
+    function quick_add_menu( $limit = 500, $time = 3600 ) {
+        // cache
+        $cache = \Config\ Services::cache();
+        $lang_key = LanguageCost::lang_key();
+        $in_cache = __FUNCTION__ . '-' . $lang_key;
+
+        //
+        $cache_value = $cache->get( $in_cache );
+        if ( $cache_value ) {
+            return $cache_value;
+        }
+
+        //
         global $arr_custom_taxonomy;
         global $arr_custom_post_type;
 
@@ -50,22 +62,38 @@ class PostAdmin extends Post {
                 'parent' => 0,
                 //'get_meta' => true,
                 //'get_child' => true
+                'limit' => $limit
             ] );
             //print_r( $category_list );
+            //die( __FILE__ . ':' . __LINE__ );
             if ( empty( $category_list ) ) {
                 continue;
             }
 
             //
             if ( isset( $arr_custom_name[ $allow ] ) ) {
-                $arr_result[] = '<option class="bold" disabled>' . $arr_custom_name[ $allow ] . '</option>';
+                //$arr_result[] = '<option class="bold" disabled>' . $arr_custom_name[ $allow ] . '</option>';
+                $arr_result[] = [
+                    'class' => 'medium',
+                    'selectable' => true,
+                    'text' => $arr_custom_name[ $allow ],
+                ];
             } else {
-                $arr_result[] = '<option class="bold" disabled>' . TaxonomyType::list( $allow ) . '</option>';
+                //$arr_result[] = '<option class="bold" disabled>' . TaxonomyType::list( $allow ) . '</option>';
+                $arr_result[] = [
+                    'class' => 'medium',
+                    'selectable' => true,
+                    'text' => TaxonomyType::list( $allow ),
+                ];
             }
 
             //
             foreach ( $category_list as $cat_key => $cat_val ) {
-                $arr_result[] = '<option value="' . $this->term_model->get_the_permalink( $cat_val ) . '">' . $cat_val[ 'name' ] . '</option>';
+                //$arr_result[] = '<option value="' . $this->term_model->get_the_permalink( $cat_val ) . '">' . $cat_val[ 'name' ] . '</option>';
+                $arr_result[] = [
+                    'value' => $this->term_model->get_the_permalink( $cat_val ),
+                    'text' => $cat_val[ 'name' ],
+                ];
 
                 // lấy các nhóm con thuộc nhóm này
                 $child_list = $this->term_model->get_all_taxonomy( $allow, 0, [
@@ -73,14 +101,21 @@ class PostAdmin extends Post {
                     'parent' => $cat_val[ 'term_id' ],
                     //'get_meta' => true,
                     //'get_child' => true
+                    'limit' => $limit
                 ] );
                 //print_r( $child_list );
 
                 //
                 foreach ( $child_list as $child_key => $child_val ) {
-                    $arr_result[] = '<option value="' . $this->term_model->get_the_permalink( $child_val ) . '">' . $child_val[ 'name' ] . '</option>';
+                    //$arr_result[] = '<option value="' . $this->term_model->get_the_permalink( $child_val ) . '">' . $child_val[ 'name' ] . '</option>';
+                    $arr_result[] = [
+                        'value' => $this->term_model->get_the_permalink( $child_val ),
+                        'text' => $child_val[ 'name' ],
+                    ];
                 }
             }
+            //print_r( $arr_result );
+            //die( __FILE__ . ':' . __LINE__ );
         }
 
 
@@ -110,7 +145,7 @@ class PostAdmin extends Post {
                 //'post_status !=' => PostType::DELETED,
                 'post_type' => $allow,
                 'post_status' => PostType::PUBLIC,
-                'lang_key' => LanguageCost::lang_key()
+                'lang_key' => $lang_key
             ];
 
             $filter = [
@@ -133,7 +168,7 @@ class PostAdmin extends Post {
                 // trả về câu query để sử dụng cho mục đích khác
                 //'get_query' => 1,
                 'offset' => 0,
-                'limit' => 50
+                'limit' => $limit
             ];
             $page_list = $this->base_model->select( '*', $this->table, $where, $filter );
             //print_r( $page_list );
@@ -145,26 +180,60 @@ class PostAdmin extends Post {
 
             //
             if ( isset( $arr_custom_name[ $allow ] ) ) {
-                $arr_result[] = '<option class="bold" disabled>' . $arr_custom_name[ $allow ] . '</option>';
+                //$arr_result[] = '<option class="bold" disabled>' . $arr_custom_name[ $allow ] . '</option>';
+                $arr_result[] = [
+                    'class' => 'medium',
+                    'selectable' => true,
+                    'text' => $arr_custom_name[ $allow ],
+                ];
             } else {
-                $arr_result[] = '<option class="bold" disabled>' . PostType::list( $allow ) . '</option>';
+                //$arr_result[] = '<option class="bold" disabled>' . PostType::list( $allow ) . '</option>';
+                $arr_result[] = [
+                    'class' => 'medium',
+                    'selectable' => true,
+                    'text' => PostType::list( $allow ),
+                ];
             }
 
             //
             foreach ( $page_list as $post_key => $post_val ) {
-                $arr_result[] = '<option value="' . $this->get_the_permalink( $post_val ) . '">' . $post_val[ 'post_title' ] . '</option>';
+                //$arr_result[] = '<option value="' . $this->get_the_permalink( $post_val ) . '">' . $post_val[ 'post_title' ] . '</option>';
+                $arr_result[] = [
+                    'value' => $this->get_the_permalink( $post_val ),
+                    'text' => $post_val[ 'post_title' ],
+                ];
             }
         }
 
         //
-        $arr_result[] = '<option class="bold" disabled>Menu hệ thống</option>';
-        $arr_result[] = '<option value="./' . CUSTOM_ADMIN_URI . '">Quản trị hệ thống</option>';
-        $arr_result[] = '<option value="./guest/login">Đăng nhập</option>';
-        $arr_result[] = '<option value="./guest/register">Đăng ký</option>';
-        $arr_result[] = '<option value="./guest/resetpass">Quên mật khẩu</option>';
-        $arr_result[] = '<option value="./users/profile">Tài khoản</option>';
-        $arr_result[] = '<option value="./users/logout">Đăng xuất</option>';
-        //$arr_result[] = '<option value="./users/changepass">Đổi mật khẩu</option>';
+        //$arr_result[] = '<option class="bold" disabled>Menu hệ thống</option>';
+        $arr_system_menu = [
+            './' . CUSTOM_ADMIN_URI . '' => 'Quản trị hệ thống',
+            './guest/login' => 'Đăng nhập',
+            './guest/register' => 'Đăng ký',
+            './guest/resetpass' => 'Quên mật khẩu',
+            './users/profile' => 'Tài khoản',
+            './users/logout' => 'Đăng xuất',
+            //'./users/changepass' => 'Đổi mật khẩu',
+        ];
+
+        //
+        $arr_result[] = [
+            'class' => 'medium',
+            'selectable' => true,
+            'text' => 'Menu hệ thống',
+        ];
+        foreach ( $arr_system_menu as $k => $v ) {
+            $arr_result[] = [
+                'value' => $k,
+                'text' => $v,
+            ];
+        }
+        //print_r( $arr_result );
+        //die( __FILE__ . ':' . __LINE__ );
+
+        //
+        $cache->save( $in_cache, $arr_result, $time );
 
         //
         return $arr_result;

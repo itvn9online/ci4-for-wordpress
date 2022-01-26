@@ -12,6 +12,9 @@ use App\ Libraries\ LanguageCost;
 // css riêng cho từng post type (nếu có)
 $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 
+//
+$quick_menu_list = [];
+
 ?>
 <ul class="admin-breadcrumb">
     <li><a href="admin/<?php echo $controller_slug; ?>">Danh sách <?php echo $name_type; ?></a></li>
@@ -41,7 +44,7 @@ if ( $auto_update_module * 1 === 1 ) {
 }
 
 ?>
-<div class="widget-box">
+<div class="widget-box" ng-app="myApp" ng-controller="myCtrl">
     <div class="widget-content nopadding">
         <form action="" method="post" name="admin_global_form" id="contact-form" onSubmit="return action_before_submit_post();" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
             <input type="hidden" name="is_duplicate" id="is_duplicate" value="0" />
@@ -119,9 +122,7 @@ if ( $auto_update_module * 1 === 1 ) {
                 <label class="control-label">Trạng thái</label>
                 <div class="controls">
                     <select data-select="<?php echo $data['post_status']; ?>" name="data[post_status]">
-                        <option value="publish">Hiển thị</option>
-                        <option value="pending">Chờ duyệt</option>
-                        <option value="draft">Bản nháp</option>
+                        <option ng-repeat="(k, v) in post_status" value="{{k}}">{{v}}</option>
                     </select>
                 </div>
             </div>
@@ -139,14 +140,7 @@ if ( $auto_update_module * 1 === 1 ) {
                 <div class="controls">
                     <select data-select="<?php echo $data['post_parent']; ?>" name="data[post_parent]">
                         <option value="">[ Không chọn cha ]</option>
-                        <?php
-
-                        foreach ( $parent_post as $cat_k => $cat_v ) {
-                            //print_r( $cat_v );
-                            echo '<option value="' . $cat_v[ 'ID' ] . '">' . $cat_v[ 'post_title' ] . '</option>';
-                        }
-
-                        ?>
+                        <option ng-repeat="v in parent_post" value="{{v.ID}}">{{v.post_title}}</option>
                     </select>
                 </div>
             </div>
@@ -197,41 +191,19 @@ if ( $auto_update_module * 1 === 1 ) {
 
                     // với 1 số post type có đặc thù riêng -> ví dụ danh mục
                     if ( $k == 'post_category' ) {
-                        if ( $taxonomy == '' ) {
-                            continue;
-                        }
                         ?>
                     <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple aria-required="true" required>
                         <option value="">[ Chọn <?php echo $v; ?> ]</option>
-                        <?php
-
-                        //
-                        foreach ( $post_cat as $cat_k => $cat_v ) {
-                            //print_r( $cat_v );
-                            echo '<option value="' . $cat_v[ 'term_id' ] . '">' . $cat_v[ 'name' ] . '</option>';
-                        }
-
-                        ?>
+                        <option ng-repeat="v in post_cat" data-parent="{{v.parent}}" value="{{v.term_id}}">{{v.name}}</option>
                     </select>
                     &nbsp; <a href="admin/terms/add/?taxonomy=<?php echo $taxonomy; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm <?php echo $v; ?> mới</a>
                     <?php
                     } // END if post category
                     else if ( $k == 'post_tags' ) {
-                        if ( $tags == '' ) {
-                            continue;
-                        }
                         ?>
                     <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple>
                         <option value="">[ Chọn <?php echo $v; ?> ]</option>
-                        <?php
-
-                        //
-                        foreach ( $post_tags as $cat_k => $cat_v ) {
-                            //print_r( $cat_v );
-                            echo '<option value="' . $cat_v[ 'term_id' ] . '">' . $cat_v[ 'name' ] . '</option>';
-                        }
-
-                        ?>
+                        <option ng-repeat="v in post_tags" data-parent="{{v.parent}}" value="{{v.term_id}}">{{v.name}}</option>
                     </select>
                     &nbsp; <a href="admin/terms/add/?taxonomy=<?php echo $tags; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm <?php echo $v; ?> mới</a>
                     <?php
@@ -303,22 +275,11 @@ if ( $auto_update_module * 1 === 1 ) {
 
                         $quick_menu_list = $post_model->quick_add_menu();
                         //print_r( $quick_menu_list );
-                        echo implode( '', $quick_menu_list );
+                        //echo implode( '', $quick_menu_list );
 
                         ?>
+                        <option ng-repeat="v in quick_menu_list" ng-value="v.value" ng-disabled="v.selectable" ng-class="v.class">{{v.text}}</option>
                     </select>
-                    <script>
-$('#quick_add_menu').change(function () {
-    var v = $('#quick_add_menu').val() || '';
-    if (v != '') {
-        var base_url = $('base ').attr('href') || '';
-        if (base_url != '') {
-            v = v.replace(base_url, './');
-        }
-    }
-    $('#post_meta_url_redirect').val(v).focus();
-});
-                    </script> 
                 </div>
             </div>
             <?php
@@ -343,6 +304,19 @@ var current_post_type='<?php echo $post_type; ?>';
 var page_post_type='<?php echo PostType::PAGE; ?>';
 var auto_update_module='<?php echo $auto_update_module; ?>' * 1;
 var url_next_post='<?php echo $url_next_post; ?>';
+</script> 
+<script>
+angular.module('myApp', []).controller('myCtrl', function ($scope) {
+    $scope.post_cat = <?php echo json_encode($post_cat); ?>;
+    $scope.post_tags = <?php echo json_encode($post_tags); ?>;
+    $scope.parent_post = <?php echo json_encode($parent_post); ?>;
+    $scope.post_status = {
+        'publish' : 'Hiển thị',
+        'pending' : 'Chờ duyệt',
+        'draft' : 'Bản nháp',
+    };
+    $scope.quick_menu_list = <?php echo json_encode($quick_menu_list); ?>;
+});
 </script>
 <?php
 
