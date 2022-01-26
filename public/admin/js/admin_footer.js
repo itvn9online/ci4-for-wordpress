@@ -83,10 +83,6 @@ if ($('.admin-breadcrumb').length > 0) {
     })($('#breadcrumb li:last-child a').html() || $('#breadcrumb li:last-child ').html());
 }
 
-// tự động select khi có dữ liệu
-WGR_set_prop_for_select('#content select');
-WGR_set_prop_for_select('select.admin-change-language');
-
 // tự động checkbox khi có dữ liệu
 $('#content input[type="checkbox"]').each(function () {
     var a = $(this).attr('data-value') || '';
@@ -271,6 +267,10 @@ $(document).ready(function () {
     //
     action_each_to_taxonomy();
     //action_data_img_src();
+
+    // tự động select khi có dữ liệu
+    WGR_set_prop_for_select('#content select');
+    WGR_set_prop_for_select('select.admin-change-language');
 }).keydown(function (e) {
     //console.log(e.keyCode);
 
