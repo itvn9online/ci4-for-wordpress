@@ -215,8 +215,8 @@ var set_parent = '<?php echo $set_parent; ?>';
 
 //
 angular.module('myApp', []).controller('myCtrl', function ($scope) {
-    $scope.category = typeof arr_all_taxonomy[set_parent] == 'undefined' ? [] : arr_all_taxonomy[set_parent];
-    $scope.data_term_id = <?php echo $data[ 'term_id' ]; ?>;
+    $scope.category = (typeof arr_all_taxonomy[set_parent] == 'undefined') ? [] : arr_all_taxonomy[set_parent];
+    $scope.data_term_id = <?php echo ($data[ 'term_id' ] != '' ? $data[ 'term_id' ] : 0); ?>;
 });
 </script>
 <?php
