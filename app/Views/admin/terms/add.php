@@ -91,6 +91,10 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
                     <textarea id="Resolution" rows="30" data-height="550" class="ckeditor auto-ckeditor" placeholder="Nhập thông tin chi tiết..." name="data[description]"><?php echo $data['description']; ?></textarea>
                 </div>
             </div>
+            <?php
+            // cho phép xác định cha con với danh mục
+            if ( !empty( $post_cat ) ) {
+                ?>
             <div class="control-group">
                 <label class="control-label">Chuyên mục cha</label>
                 <div class="controls">
@@ -105,6 +109,9 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
                     </select>
                 </div>
             </div>
+            <?php
+            }
+            ?>
             <div class="control-group">
                 <label class="control-label">Số thứ tự:</label>
                 <div class="controls">

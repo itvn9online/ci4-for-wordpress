@@ -239,10 +239,16 @@ class Terms extends Admin {
         //print_r( $data );
 
 
-        // lấy danh sách các nhóm để add cho post
-        $post_cat = $this->term_model->get_all_taxonomy( $this->taxonomy, 0, [
-            'get_child' => true
-        ] );
+        // lấy danh sách các nhóm để tạo cha con
+        $post_cat = [];
+        if ( in_array( $this->taxonomy, [
+                TaxonomyType::POSTS,
+                TaxonomyType::BLOGS,
+            ] ) ) {
+            $post_cat = $this->term_model->get_all_taxonomy( $this->taxonomy, 0, [
+                'get_child' => true
+            ] );
+        }
         //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $post_cat );
 

@@ -402,8 +402,7 @@ class Term extends EbModel {
 
             // xóa cache nếu có yêu cầu
             if ( $clear_cache === true ) {
-                $cache->delete( $in_cache );
-                return false;
+                return $cache->delete( $in_cache );
             }
 
             //

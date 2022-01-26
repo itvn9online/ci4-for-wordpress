@@ -17,11 +17,16 @@ class PostAdmin extends Post {
     /*
      * Tạo danh sách link để thêm menu trong admin cho tiện
      */
-    function quick_add_menu( $limit = 500, $time = 3600 ) {
+    function quick_add_menu( $limit = 500, $clear_cache = false, $time = 3600 ) {
         // cache
         $cache = \Config\ Services::cache();
         $lang_key = LanguageCost::lang_key();
         $in_cache = __FUNCTION__ . '-' . $lang_key;
+
+        // xóa cache nếu có yêu cầu
+        if ( $clear_cache === true ) {
+            return $cache->delete( $in_cache );
+        }
 
         //
         $cache_value = $cache->get( $in_cache );
