@@ -92,7 +92,7 @@ class ConfigType {
                 'site_full_width' => 'Chiều rộng tối đa',
                 'main_banner_size' => 'Kích thước banner chính',
                 'second_banner_size' => 'Kích thước banner phụ',
-                'enable_angular_js' => 'Sử dụng AngularJS',
+                //'enable_angular_js' => 'Sử dụng AngularJS',
             ];
         } else if ( $config_type == self::CATEGORY ) {
             $arr = [
@@ -170,7 +170,7 @@ class ConfigType {
             'eb_blogs_per_line' => 'select',
             'eb_blog_per_page' => 'number',
 
-            'enable_angular_js' => 'checkbox',
+            //'enable_angular_js' => 'checkbox',
 
             'smtp_no_reply' => 'checkbox',
             'show_child_category' => 'checkbox',
@@ -231,7 +231,7 @@ class ConfigType {
     // description của từng meta nếu có
     public static function meta_desc( $key ) {
         $arr = [
-            'enable_angular_js' => 'Khi chế độ này được kích hoạt, thư viện Angular JS sẽ được nhúng vào frontend để sử dụng',
+            //'enable_angular_js' => 'Khi chế độ này được kích hoạt, thư viện Angular JS sẽ được nhúng vào frontend để sử dụng',
             'show_child_category' => 'Khi chế độ này được kích hoạt, và khi truy cập vào danh mục sản phẩm, nếu trong danh mục đó có các nhóm con thì các nhóm con sẽ được hiển thị thay vì hiển thị trực tiếp danh sách sản phẩm',
             'show_child_blogs' => 'Khi chế độ này được kích hoạt, và khi truy cập vào danh mục tin tức, nếu trong danh mục đó có các nhóm con thì các nhóm con sẽ được hiển thị thay vì hiển thị trực tiếp danh sách tin tức',
             'eb_post_per_page' => 'Khi số này lớn hơn 0, trong trang chi tiết bài viết sẽ lấy các bài cùng nhóm với bài hiện tại để giới thiệu',

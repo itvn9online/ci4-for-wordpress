@@ -25,12 +25,24 @@ if ( file_exists( $robots_txt ) ) {
 }
 
 ?>
-<div ng-app>
-    <div ng-init="robots_txt=<?php echo $robots_exist; ?>;">
-        <div ng-if="robots_txt > 0 && robots_txt > 1">
-            <p class="redcolor medium18 text-center"><i class="fa fa-warning"></i> Vui lòng kiểm tra lại độ chuẩn xác của <a href="admin/configs?support_tab=data_robots" target="_blank"><strong class="bluecolor">file robots.txt</strong></a></p>
-            <br>
-        </div>
+<script>
+angular.module('myApp', []).controller('myCtrl', function($scope) {
+    $scope.robots_txt = <?php echo $robots_exist; ?>;
+    $scope.phpversion = '<?php echo phpversion(); ?>'.replace('.', '').split('.')[0];
+    $scope.current_dbname = '<?php echo $current_dbname; ?>';
+    $scope.current_protocol = '<?php echo DYNAMIC_BASE_URL; ?>'.split('//')[0];
+    $scope.current_www = '<?php echo DYNAMIC_BASE_URL; ?>'.split('.')[0].split('//')[1];
+    $scope.debug_enable = <?php echo ($debug_enable === true ? 1 : 0); ?>;
+    $scope.exists_f_env = <?php echo (file_exists( $f_env ) ? 1 : 0); ?>;
+    $scope.exists_f_backup_env = <?php echo (file_exists( $f_backup_env ) ? 1 : 0); ?>;
+    $scope.system_zip = <?php echo (file_exists( PUBLIC_HTML_PATH . 'system.zip' ) ? 1 : 0); ?>;
+});
+</script>
+
+<div ng-app="myApp" ng-controller="myCtrl">
+    <div ng-if="robots_txt > 0 && robots_txt > 1">
+        <p class="redcolor medium18 text-center"><i class="fa fa-warning"></i> Vui lòng kiểm tra lại độ chuẩn xác của <a href="admin/configs?support_tab=data_robots" target="_blank"><strong class="bluecolor">file robots.txt</strong></a></p>
+        <br>
     </div>
     <p>Website sử dụng giao diện: <strong><?php echo THEMENAME; ?></strong> - được phát triển bởi <a href="https://echbay.com/" target="_blank" rel="nofollow"><strong>EchBay.com</strong></a>. Cập nhật lần cuối:
         <?php
@@ -56,33 +68,27 @@ if ( file_exists( $robots_txt ) ) {
 
         ?>
         kết hợp với cấu trúc database nền tảng của <a href="https://wordpress.org/" target="_blank" rel="nofollow"><strong>Wordpress</strong></a> nhằm đem lại khả năng tùy biến linh hoạt với tốc độ tối ưu.</p>
-    <div class="p">PHP version: <strong><?php echo phpversion(); ?></strong> (
-        <div class="d-inlines" ng-init="phpversion='<?php echo phpversion(); ?>'.replace('.', '').split('.')[0];">
-            <div ng-if="phpversion >= 73">
-                <div ng-if="phpversion >= 74">
-                    <div class="greencolor">Xin chúc mừng! Phiên bản PHP{{phpversion}} bạn đang sử dụng đang ở mức khuyến nghị của chúng tôi</div>
-                </div>
-                <div ng-if="phpversion < 74">
-                    <div class="bluecolor">Xin chúc mừng! Phiên bản PHP{{phpversion}} của bạn tương đối tốt. Tuy nhiên, chúng tôi vẫn khuyến nghị bạn sử dụng phiên bản <strong>PHP 7.4</strong> trở lên.</div>
-                </div>
+    <div class="p d-inlines">PHP version: <strong><?php echo phpversion(); ?></strong> (
+        <div ng-if="phpversion >= 73">
+            <div ng-if="phpversion >= 74">
+                <div class="greencolor">Xin chúc mừng! Phiên bản PHP{{phpversion}} bạn đang sử dụng đang ở mức khuyến nghị của chúng tôi</div>
             </div>
-            <div ng-if="phpversion < 73">
-                <div class="redcolor">Để tối ưu hiệu suất hệ thống! Vui lòng sử dụng phiên bản PHP <strong>7.3</strong> trở lên. Khuyên dùng: PHP <strong>7.4</strong></div>
+            <div ng-if="phpversion < 74">
+                <div class="bluecolor">Xin chúc mừng! Phiên bản PHP{{phpversion}} của bạn tương đối tốt. Tuy nhiên, chúng tôi vẫn khuyến nghị bạn sử dụng phiên bản <strong>PHP 7.4</strong> trở lên.</div>
             </div>
+        </div>
+        <div ng-if="phpversion < 73">
+            <div class="redcolor">Để tối ưu hiệu suất hệ thống! Vui lòng sử dụng phiên bản PHP <strong>7.3</strong> trở lên. Khuyên dùng: PHP <strong>7.4</strong></div>
         </div>
         )</div>
     <p>Server software: <strong><?php echo $_SERVER['SERVER_SOFTWARE']; ?></strong></p>
-    <div class="p">Database:
-        <div class="d-inlines" ng-init="current_dbname='<?php echo $current_dbname; ?>';">
-            <div ng-if="current_dbname != ''"> <strong><?php echo '******' . substr( $current_dbname, 6 ); ?></strong> </div>
-        </div>
-    </div>
+    <div class="p">Database: <span ng-if="current_dbname != ''"> <strong><?php echo '******' . substr( $current_dbname, 6 ); ?></strong> </span> </div>
     <p>Server IP: <strong><?php echo $_SERVER['SERVER_ADDR']; ?></strong></p>
     <p>Server time: <strong><?php echo date(EBE_DATETIME_FORMAT); ?></strong></p>
     <!-- -->
-    <div class="p redcolor medium" ng-init="current_protocol='<?php echo DYNAMIC_BASE_URL; ?>'.split('//')[0];" ng-class="current_protocol != 'https:' ? '' : 'd-none'"><i class="fa fa-warning"></i> Kết nối hiện tại <strong>{{current_protocol}}</strong> không phải là kết nối đáng tin cậy. Khuyến khích sử dụng kết nối thông qua SSL.</div>
+    <div class="p redcolor medium" ng-class="current_protocol != 'https:' ? '' : 'd-none'"><i class="fa fa-warning"></i> Kết nối hiện tại <strong>{{current_protocol}}</strong> không phải là kết nối đáng tin cậy. Khuyến khích sử dụng kết nối thông qua SSL.</div>
     <!-- -->
-    <div class="p orgcolor medium" ng-init="current_www='<?php echo DYNAMIC_BASE_URL; ?>'.split('.')[0].split('//')[1];" ng-class="current_www == 'www' ? '' : 'd-none'"><i class="fa fa-warning"></i> Khuyên dùng kết nối qua định dang tên miền <strong>non-www</strong> để tránh việc chồng chéo dữ liệu. Kiểu kết nối hiện tại: <strong>{{current_www}}</strong>.</div>
+    <div class="p orgcolor medium" ng-class="current_www == 'www' ? '' : 'd-none'"><i class="fa fa-warning"></i> Khuyên dùng kết nối qua định dang tên miền <strong>non-www</strong> để tránh việc chồng chéo dữ liệu. Kiểu kết nối hiện tại: <strong>{{current_www}}</strong>.</div>
     <hr>
     <?php
 
@@ -92,9 +98,7 @@ if ( file_exists( $robots_txt ) ) {
 if ( $session_data[ 'member_type' ] == UsersType::ADMIN ) {
     ?>
     <!-- DEBUG -->
-    <div ng-init="debug_enable=<?php echo ($debug_enable === true ? 1 : 0); ?>;
-                  exists_f_env=<?php echo (file_exists( $f_env ) ? 1 : 0); ?>;
-                  exists_f_backup_env=<?php echo (file_exists( $f_backup_env ) ? 1 : 0); ?>;">
+    <div>
         <div ng-if="debug_enable > 0">
             <p class="redcolor medium"><i class="fa fa-warning"></i> Chế độ debug thường được kích hoạt để thu thập thêm thông tin chi tiết về lỗi hoặc lỗi trang web, nhưng có thể chứa thông tin nhạy cảm không có sẵn trên một trang web công khai.<br>
                 Vui lòng chỉ bật debug khi cần sửa lỗi liên quan đến code.</p>
@@ -137,34 +141,31 @@ if ( $session_data[ 'member_type' ] == UsersType::ADMIN ) {
     <br>
     <br>
     <!-- UPDATE CORE -->
-    <div ng-init="system_zip=<?php echo (file_exists( PUBLIC_HTML_PATH . 'system.zip' ) ? 1 : 0); ?>;">
-        <div ng-if="system_zip > 0">
-            <p class="bluecolor"><i class="fa fa-cloud-upload"></i> Update system. Dùng khi cần cập nhật bản mới cho Codeigniter 4. File <strong>system.zip</strong> sẽ được update lên <strong>public_html</strong>, và hàm này sẽ hỗ trợ việc giải nén file ra. Thư mục system cũ sẽ được backup vào: <strong>system-<?php echo \CodeIgniter\CodeIgniter::CI_VERSION; ?></strong>.</p>
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#unzipSystemModal"> <i class="fa fa-file-archive-o"></i> Unzip <strong>system.zip</strong> </button>
-            <!-- Modal -->
-            <div class="modal fade" id="unzipSystemModal" tabindex="-1" aria-labelledby="unzipSystemModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="unzipSystemModalLabel">Xác nhận cập nhật system</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">Xin lưu ý! chức năng chỉ dành cho kỹ thuật viên! Vui lòng không sử dụng nếu bạn không có khả năng bảo hành lỗi code.</div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <a href="admin/dashboard/unzip_system" target="target_eb_iframe">
-                            <button type="button" class="btn btn-danger"><i class="fa fa-file-archive-o"></i> Unzip <strong>system.zip</strong></button>
-                            </a> </div>
+    <div ng-if="system_zip > 0">
+        <p class="bluecolor"><i class="fa fa-cloud-upload"></i> Update system. Dùng khi cần cập nhật bản mới cho Codeigniter 4. File <strong>system.zip</strong> sẽ được update lên <strong>public_html</strong>, và hàm này sẽ hỗ trợ việc giải nén file ra. Thư mục system cũ sẽ được backup vào: <strong>system-<?php echo \CodeIgniter\CodeIgniter::CI_VERSION; ?></strong>.</p>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#unzipSystemModal"> <i class="fa fa-file-archive-o"></i> Unzip <strong>system.zip</strong> </button>
+        <!-- Modal -->
+        <div class="modal fade" id="unzipSystemModal" tabindex="-1" aria-labelledby="unzipSystemModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="unzipSystemModalLabel">Xác nhận cập nhật system</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+                    <div class="modal-body">Xin lưu ý! chức năng chỉ dành cho kỹ thuật viên! Vui lòng không sử dụng nếu bạn không có khả năng bảo hành lỗi code.</div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <a href="admin/dashboard/unzip_system" target="target_eb_iframe">
+                        <button type="button" class="btn btn-danger"><i class="fa fa-file-archive-o"></i> Unzip <strong>system.zip</strong></button>
+                        </a> </div>
                 </div>
             </div>
-            <br>
-            <br>
         </div>
+        <br>
+        <br>
     </div>
     <?php
 } // END member type ADMIN
-
 ?>
 </div>

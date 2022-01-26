@@ -77,11 +77,6 @@ echo $font_awesome_before;
 --> 
 <!-- <script type="text/javascript" src="frontend/js/swiper.min.js"></script> -->
 <?php
-if ( isset( $getconfig->enable_angular_js ) && $getconfig->enable_angular_js == 'on' ) {
-    ?>
-<script src="./thirdparty/angular-1.8.2/angular.min.js" type="text/javascript"></script>
-<?php
-}
 
 //
 $base_model->add_css( 'css/d.css' );

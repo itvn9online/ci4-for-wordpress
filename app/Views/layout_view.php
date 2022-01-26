@@ -28,7 +28,6 @@ require __DIR__ . '/includes/head_global.php';
 
 ?>
 </head>
-
 <body class="<?php echo $seo['body_class']; ?>">
 <?php
 

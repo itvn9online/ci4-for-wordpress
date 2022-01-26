@@ -27,6 +27,9 @@ class Layout extends Sync {
     // với 1 số controller, sẽ không nạp cái HTML header vào, nên có thêm tham số này để không nạp header nữa
     public $preload_header = true;
 
+    // controller nào bật cái này thì sẽ import thư viện angular js cho nó
+    //public $enable_angular_js = false;
+
     public function __construct() {
         parent::__construct();
 
@@ -171,6 +174,9 @@ Compression = gzip -->';
 
         //
         $this->teamplate[ 'footer' ] = view( 'footer_view' );
+
+        //
+        //$this->teamplate[ 'enable_angular_js' ] = $this->enable_angular_js;
 
         //
         return true;

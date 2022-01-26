@@ -82,8 +82,8 @@ if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
 <script type="text/javascript" src="./thirdparty/jquery/jquery-ui.min.js"></script>
 <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/jquery/jquery-ui.css"/>
 <!-- <script type="text/javascript" src="admin/js/bootstrap.min.js"></script> --> 
-<script type="text/javascript" src="./thirdparty/bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script> 
-<script type="text/javascript" src="./thirdparty/angular-1.8.2/angular.min.js"></script> 
+<script type="text/javascript" src="./thirdparty/bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="./thirdparty/angular-1.8.2/angular.min.js"></script>
 <!-- <script type="text/javascript" src="./thirdparty/bootstrap-5.1.3/js/bootstrap.min.js"></script> --> 
 <script type="text/javascript" src="./thirdparty/select2/select2.full.js"></script> 
 <!-- <script type="text/javascript" src="admin/js/select2.min.js"></script> -->
