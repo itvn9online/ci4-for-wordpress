@@ -29,7 +29,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
         ?>
     </li>
 </ul>
-<div class="widget-box">
+<div class="widget-box" ng-app="myApp" ng-controller="myCtrl">
     <div class="widget-content nopadding">
         <form action="" method="post" name="admin_global_form" id="contact-form" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
             <input type="hidden" name="is_duplicate" id="is_duplicate" value="0" />
@@ -93,19 +93,14 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
             </div>
             <?php
             // cho phép xác định cha con với danh mục
-            if ( !empty( $post_cat ) ) {
+            if ( $set_parent != '' ) {
                 ?>
             <div class="control-group">
                 <label class="control-label">Chuyên mục cha</label>
                 <div class="controls">
                     <select data-select="<?php echo $data['parent']; ?>" name="data[parent]">
                         <option value="">[ Chọn Chuyên mục cha ]</option>
-                        <?php
-
-                        //
-                        $term_model->term_add_child_option( $post_cat, $data[ 'term_id' ] );
-
-                        ?>
+                        <option ng-repeat="v in category" ng-disabled="data_term_id == v.term_id ? true : false" value="{{v.term_id}}">{{v.name}}</option>
                     </select>
                 </div>
             </div>
@@ -214,6 +209,15 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
 </div>
 <script>
 WGR_widget_add_custom_style_to_field();
+
+//
+var set_parent = '<?php echo $set_parent; ?>';
+
+//
+angular.module('myApp', []).controller('myCtrl', function ($scope) {
+    $scope.category = typeof arr_all_taxonomy[set_parent] == 'undefined' ? [] : arr_all_taxonomy[set_parent];
+    $scope.data_term_id = <?php echo $data[ 'term_id' ]; ?>;
+});
 </script>
 <?php
 

@@ -240,17 +240,21 @@ class Terms extends Admin {
 
 
         // lấy danh sách các nhóm để tạo cha con
-        $post_cat = [];
+        $set_parent = '';
         if ( in_array( $this->taxonomy, [
                 TaxonomyType::POSTS,
                 TaxonomyType::BLOGS,
             ] ) ) {
-            $post_cat = $this->term_model->get_all_taxonomy( $this->taxonomy, 0, [
-                'get_child' => true
-            ] );
+            $set_parent = $this->taxonomy;
+        } else {
+            global $arr_custom_taxonomy;
+            //print_r( $arr_custom_taxonomy );
+
+            //
+            if ( isset( $arr_custom_taxonomy[ $this->taxonomy ] ) && isset( $arr_custom_taxonomy[ $this->taxonomy ][ 'set_parent' ] ) ) {
+                $set_parent = $this->taxonomy;
+            }
         }
-        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
-        //print_r( $post_cat );
 
 
         //
@@ -264,7 +268,7 @@ class Terms extends Admin {
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/terms/add', array(
             'lang_key' => LanguageCost::lang_key(),
-            'post_cat' => $post_cat,
+            'set_parent' => $set_parent,
             'data' => $data,
             'taxonomy' => $this->taxonomy,
             'name_type' => $this->name_type,

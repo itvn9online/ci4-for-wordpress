@@ -304,8 +304,8 @@ var current_post_type='<?php echo $post_type; ?>';
 var page_post_type='<?php echo PostType::PAGE; ?>';
 var auto_update_module='<?php echo $auto_update_module; ?>' * 1;
 var url_next_post='<?php echo $url_next_post; ?>';
-</script> 
-<script>
+
+//
 angular.module('myApp', []).controller('myCtrl', function ($scope) {
     $scope.post_cat = <?php echo json_encode($post_cat); ?>;
     $scope.post_tags = <?php echo json_encode($post_tags); ?>;
