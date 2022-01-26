@@ -381,9 +381,6 @@ Compression = gzip -->';
      * Upload giả lập wordpress
      */
     protected function media_upload( $xss_clean = true ) {
-        require_once APPPATH . 'ThirdParty/functionsResizeImg.php';
-
-        //
         //print_r( $_POST );
         //print_r( $_FILES );
 
@@ -405,15 +402,7 @@ Compression = gzip -->';
                 date( 'm' ),
             ], $upload_root );
             //echo $upload_path . '<br>' . "\n";
-
-            //
-            $arr_list_size = PostType::media_size();
-            // chỉ resize file ảnh
-            $arr_allow_resize = [
-                'png',
-                'jpg',
-                'jpeg'
-            ];
+            //die( __FILE__ . ':' . __LINE__ );
 
             //
             foreach ( $upload_name as $k => $v ) {
@@ -435,118 +424,22 @@ Compression = gzip -->';
                         }
                     }
                 }
-                //die( $file_path );
                 //echo $file_path . '<br>' . "\n";
+                //die( __FILE__ . ':' . __LINE__ );
 
                 //
                 if ( move_uploaded_file( $upload_image[ 'tmp_name' ][ $k ], $file_path ) ) {
-                    //echo $file_path . '<br>' . "\n";
-
-                    // bảo mật file, lỗi thì xóa luôn file này đi
-                    /*
-                    if ( $this->security->xss_clean( $file_path, TRUE ) === FALSE ) {
-                        unlink( $file_path );
-                        die( 'ERROR! xss file upload' );
-                    }
-                    */
-                    //unlink( $file_path );
-                    //continue;
-
-                    //
-                    //echo 'upload ok: ' . $v . '<br>' . "\n";
-
-                    $file_uri = str_replace( $upload_root, '', $file_path );
-                    //echo $file_uri . '<br>' . "\n";
-
-                    //
-                    $post_title = basename( $file_path, '.' . $file_ext );
-
-                    // giả lập dữ liệu giống wordpress
-                    $arr_after_sizes = [];
-                    foreach ( $arr_list_size as $size_name => $size ) {
-                        $resize_path = dirname( $file_path ) . '/' . $post_title . '-' . $size_name . '.' . $file_ext;
-                        //echo $resize_path . '<br>' . "\n";
-
-                        /*
-                         * Sử dụng class tự viết hoặc tham kháo thư viện của CI3
-                         * https://codeigniter.com/userguide3/libraries/image_lib.html
-                         */
-                        // chỉ resize với các file được chỉ định (thường là file ảnh)
-                        if ( in_array( strtolower( $file_ext ), $arr_allow_resize ) ) {
-                            $resize_img = WGR_resize_images( $file_path, $resize_path, $size );
-                        }
-                        // các file khác không cần resize
-                        else {
-                            $resize_img = [
-                                'file' => basename( $file_path ),
-                            ];
-                        }
-                        $resize_img[ 'mime-type' ] = $upload_image[ 'type' ][ $k ];
-                        //print_r( $resize_img );
-
-                        //
-                        $arr_after_sizes[ $size_name ] = $resize_img;
-                    }
-                    //print_r( $arr_after_sizes );
-
-                    //
-                    $get_file_info = getimagesize( $file_path );
-                    //print_r( $get_file_info );
-                    $arr_metadata = [
-                        'width' => $get_file_info[ 0 ],
-                        'height' => $get_file_info[ 1 ],
-                        'file' => $file_uri,
-                        'sizes' => $arr_after_sizes,
-                        'image_meta' => [
-                            'aperture' => 0,
-                            'credit' => '',
-                            'camera' => '',
-                            'caption' => '',
-                            'created_timestamp' => time(),
-                            'copyright' => '',
-                            'focal_length' => 0,
-                            'iso' => 0,
-                            'shutter_speed' => 0,
-                            'title' => '',
-                            'orientation' => 0,
-                            'keywords' => [],
-                        ]
-                    ];
-                    //print_r( $arr_metadata );
-                    $str_metadata = serialize( $arr_metadata );
-                    //echo $str_metadata . '<br>' . "\n";
-                    //$test = unserialize( $str_metadata );
-                    //print_r( $test );
-
-                    //
-                    $data_insert = [
-                        'post_title' => $post_title,
-                        'post_status' => PostType::INHERIT,
-                        //'post_name' => $post_title,
-                        'post_name' => str_replace( '.', '-', PostType::MEDIA_URI . $file_uri ),
-                        'guid' => DYNAMIC_BASE_URL . PostType::MEDIA_URI . $file_uri,
-                        'post_type' => PostType::MEDIA,
-                        'post_mime_type' => $upload_image[ 'type' ][ $k ],
-                    ];
-                    //print_r( $data_insert );
-                    $_POST[ 'post_meta' ] = [
-                        '_wp_attachment_metadata' => $str_metadata,
-                        '_wp_attached_file' => $file_uri,
-                    ];
-                    //print_r( $_POST );
-                    //die( __FILE__ . ':' . __LINE__ );
-                    $result_id = $this->post_model->insert_post( $data_insert, $_POST[ 'post_meta' ] );
-                    //print_r( $result_id );
-                    if ( is_array( $result_id ) && isset( $result_id[ 'error' ] ) ) {
-                        $this->base_model->alert( $result_id[ 'error' ], 'error' );
-                    }
-                    //echo 'Result id: ' . $result_id . '<br>' . "\n";
-
-                    //
                     if ( !isset( $arr_result[ $key ] ) ) {
                         $arr_result[ $key ] = [];
                     }
-                    $arr_result[ $key ][] = PostType::MEDIA_URI . $file_uri;
+
+                    //
+                    $file_uri = $this->media_attachment_metadata( $file_path, $file_ext, $upload_path, $upload_image[ 'type' ][ $k ], $upload_root );
+
+                    //
+                    if ( $file_uri !== false ) {
+                        $arr_result[ $key ][] = $file_uri;
+                    }
                 }
             }
         }
@@ -555,6 +448,153 @@ Compression = gzip -->';
 
         //
         return $arr_result;
+    }
+
+    // tạo thumbnail cho hình ảnh dựa theo path
+    protected function media_attachment_metadata( $file_path, $file_ext = '', $upload_path = '', $mime_type = '', $upload_root = '' ) {
+        if ( !file_exists( $file_path ) ) {
+            return false;
+        }
+        require_once APPPATH . 'ThirdParty/functionsResizeImg.php';
+        //echo $file_path . '<br>' . "\n";
+
+        // bảo mật file, lỗi thì xóa luôn file này đi
+        /*
+        if ( $this->security->xss_clean( $file_path, TRUE ) === FALSE ) {
+            unlink( $file_path );
+            die( 'ERROR! xss file upload' );
+        }
+        */
+        //unlink( $file_path );
+        //continue;
+
+        //
+        //echo 'upload ok: ' . $v . '<br>' . "\n";
+
+        //
+        if ( $upload_root == '' ) {
+            $upload_root = PUBLIC_HTML_PATH . PostType::MEDIA_PATH;
+        }
+        //echo $upload_root . '<br>' . "\n";
+        if ( $upload_path == '' ) {
+            $upload_path = dirname( $file_path ) . '/';
+        }
+        //echo $upload_path . '<br>' . "\n";
+
+        //
+        $file_uri = str_replace( $upload_root, '', $file_path );
+        //echo $file_uri . '<br>' . "\n";
+
+        //
+        if ( $file_ext == '' ) {
+            $file_ext = pathinfo( $file_path, PATHINFO_EXTENSION );
+        }
+        //echo $file_ext . '<br>' . "\n";
+
+        //
+        if ( $mime_type == '' ) {
+            $mime_type = mime_content_type( $file_path );
+        }
+        //echo $mime_type . '<br>' . "\n";
+
+        //
+        $post_title = basename( $file_path, '.' . $file_ext );
+        //echo $post_title . '<br>' . "\n";
+
+        //
+        $arr_list_size = PostType::media_size();
+        // chỉ resize file ảnh
+        $arr_allow_resize = [
+            'png',
+            'jpg',
+            'jpeg'
+        ];
+
+        // giả lập dữ liệu giống wordpress
+        $arr_after_sizes = [];
+        foreach ( $arr_list_size as $size_name => $size ) {
+            $resize_path = $upload_path . $post_title . '-' . $size_name . '.' . $file_ext;
+            //echo $resize_path . '<br>' . "\n";
+            //die( __FILE__ . ':' . __LINE__ );
+            //continue;
+
+            /*
+             * Sử dụng class tự viết hoặc tham kháo thư viện của CI3
+             * https://codeigniter.com/userguide3/libraries/image_lib.html
+             */
+            // chỉ resize với các file được chỉ định (thường là file ảnh)
+            if ( in_array( strtolower( $file_ext ), $arr_allow_resize ) ) {
+                $resize_img = WGR_resize_images( $file_path, $resize_path, $size );
+            }
+            // các file khác không cần resize
+            else {
+                $resize_img = [
+                    'file' => basename( $file_path ),
+                ];
+            }
+            $resize_img[ 'mime-type' ] = $mime_type;
+            //print_r( $resize_img );
+
+            //
+            $arr_after_sizes[ $size_name ] = $resize_img;
+        }
+        //print_r( $arr_after_sizes );
+
+        //
+        $get_file_info = getimagesize( $file_path );
+        //print_r( $get_file_info );
+        $arr_metadata = [
+            'width' => $get_file_info[ 0 ],
+            'height' => $get_file_info[ 1 ],
+            'file' => $file_uri,
+            'sizes' => $arr_after_sizes,
+            'image_meta' => [
+                'aperture' => 0,
+                'credit' => '',
+                'camera' => '',
+                'caption' => '',
+                'created_timestamp' => time(),
+                'copyright' => '',
+                'focal_length' => 0,
+                'iso' => 0,
+                'shutter_speed' => 0,
+                'title' => '',
+                'orientation' => 0,
+                'keywords' => [],
+            ]
+        ];
+        //print_r( $arr_metadata );
+        $str_metadata = serialize( $arr_metadata );
+        //echo $str_metadata . '<br>' . "\n";
+        //$test = unserialize( $str_metadata );
+        //print_r( $test );
+
+        //
+        $data_insert = [
+            'post_title' => $post_title,
+            'post_status' => PostType::INHERIT,
+            //'post_name' => $post_title,
+            'post_name' => str_replace( '.', '-', PostType::MEDIA_URI . $file_uri ),
+            'guid' => DYNAMIC_BASE_URL . PostType::MEDIA_URI . $file_uri,
+            'post_type' => PostType::MEDIA,
+            'post_mime_type' => $mime_type,
+        ];
+        //print_r( $data_insert );
+        $_POST[ 'post_meta' ] = [
+            '_wp_attachment_metadata' => $str_metadata,
+            '_wp_attached_file' => $file_uri,
+        ];
+        //print_r( $_POST );
+        //die( __FILE__ . ':' . __LINE__ );
+        $result_id = $this->post_model->insert_post( $data_insert, $_POST[ 'post_meta' ] );
+        //print_r( $result_id );
+        if ( is_array( $result_id ) && isset( $result_id[ 'error' ] ) ) {
+            $this->base_model->alert( $result_id[ 'error' ], 'error' );
+        }
+        //echo 'Result id: ' . $result_id . '<br>' . "\n";
+
+        //
+        return PostType::MEDIA_URI . $file_uri;
     }
 
     // tạo path upload

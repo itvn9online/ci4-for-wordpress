@@ -62,6 +62,13 @@ if ( isset( $_GET[ 'input_type' ] ) ) {
     $input_type = $_GET[ 'input_type' ];
 }
 
+//
+if ( !empty( $uri_quick_upload ) ) {
+    $uri_quick_upload = '&' . implode( '&', $uri_quick_upload );
+} else {
+    $uri_quick_upload = '';
+}
+
 ?>
 <ul class="admin-breadcrumb">
     <li>Danh sách <?php echo $name_type; ?> (<?php echo $totalThread; ?>)</li>
@@ -151,7 +158,7 @@ if ( isset( $_GET[ 'input_type' ] ) ) {
     <li>
         <div title="<?php echo $v['post_name']; ?>" class="media-attachment-padding">
             <div class="d-none show-if-hover-upload lf medium18"><strong onClick="return click_set_img_for_input('<?php echo $v['ID']; ?>');" class="greencolor cur"><i class="fa fa-plus"></i></strong></div>
-            <div class="d-none remove-attachment show-if-hover-upload rf medium18"><a href="admin/<?php echo $controller_slug; ?>/delete?id=<?php echo $v['ID'] . '&' . implode('&', $uri_quick_upload); ?>" target="target_eb_iframe" onClick="return confirm('Xác nhận xóa tệp này?');"><i class="fa fa-trash"></i></a></div>
+            <div class="d-none remove-attachment show-if-hover-upload rf medium18"><a href="admin/<?php echo $controller_slug; ?>/delete?id=<?php echo $v['ID'] . $uri_quick_upload; ?>" target="target_eb_iframe" onClick="return confirm('Xác nhận xóa tệp này?');"><i class="fa fa-trash"></i></a></div>
             <div data-id="<?php echo $v['ID']; ?>"
                  data-add_img_tag="<?php echo $add_img_tag; ?>"
                  data-insert="<?php echo $str_insert_to; ?>"
@@ -177,8 +184,7 @@ if ( isset( $_GET[ 'input_type' ] ) ) {
     ?>
 </ul>
 <div class="public-part-page"> <?php echo $pagination; ?> Trên tổng số <?php echo $totalThread; ?> bản ghi.</div>
-<script>
-$('#upload_image').change(function () {
-    document.frm_global_upload.submit();
-});
-</script>
+<?php
+
+//
+$base_model->add_js( 'admin/js/uploads.js' );
