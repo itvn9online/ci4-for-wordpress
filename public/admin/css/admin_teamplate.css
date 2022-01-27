@@ -252,3 +252,11 @@ body.ebfixed-top-menu #sidebar {
     background: rgba(255, 204, 152, .33);
     box-shadow: 0 0 10px 0 #666;
 }
+/*
+#admin_main_list tr {
+    opacity: 0.1;
+}
+#admin_main_list tr.repeated {
+    opacity: 1;
+}
+*/
