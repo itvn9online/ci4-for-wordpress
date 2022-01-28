@@ -5,7 +5,7 @@ function done_delete_restore(id) {
     $('#admin_main_list tr[data-id="' + id + '"]').fadeOut();
 }
 
-// do sử dụng aguilarjs đang không tạo được dnah mục theo dạng đệ quy -> tự viết function riêng vậy
+// do sử dụng aguilarjs đang không tạo được danh mục theo dạng đệ quy -> tự viết function riêng vậy
 function term_tree_view(data, tmp, gach_ngang) {
     if (data.length <= 0) {
         return false;
