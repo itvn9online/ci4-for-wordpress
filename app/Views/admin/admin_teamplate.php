@@ -22,9 +22,11 @@ global $arr_custom_taxonomy;
  * nạp thêm file custom dành cho admin (nếu có)
  */
 //echo THEMEPATH . '<br>' . "\n";
+/*
 if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
     include_once THEMEPATH . 'custom/admin/autoload.php';
 }
+*/
 
 
 ?>
@@ -187,7 +189,7 @@ var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
                 foreach ( $arr_admin_menu as $k => $v ) {
                     //print_r( $v );
 
-                    // không tồn tại role -> bỏ qua
+                    // không tồn tại role -> quyền admin -> bỏ qua
                     if ( !isset( $v[ 'role' ] ) ) {
                         echo '<!-- Admin role not found! -->';
                         $arr_admin_menu[ $k ] = null;

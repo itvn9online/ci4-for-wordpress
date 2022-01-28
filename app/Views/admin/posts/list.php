@@ -67,20 +67,19 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
             <td>{{v.menu_order}}</td>
             <td><div><a href="{{v.admin_permalink}}" class="bold">{{v.post_title}} <i class="fa fa-edit"></i></a></div>
                 <div ng-class="post_type == PostType_MENU ? 'd-none' : ''"><a href="{{v.the_permalink}}" target="_blank" class="small blackcolor">{{v.post_name}} <i class="fa fa-external-link"></i></a></div></td>
-            <td><div ng-if="post_type == PostType_MENU"> &nbsp; </div>
-                <div ng-if="post_type != PostType_MENU"> <a href="{{v.admin_permalink}}"><img
-                                                                                              ng-src="{{v.thumbnail}}"
-                                                                                              src="images/_blank.png"
-                                                                                              height="90"
-                                                                                              data-class="each-to-img-src"
-                                                                                              style="height: 90px; width: auto;" /></a> </div></td>
+            <td><div ng-class="post_type == PostType_MENU ? 'd-none' : ''" class="img-max-width"> <a href="{{v.admin_permalink}}"><img
+                          ng-src="{{v.thumbnail}}"
+                          src="images/_blank.png"
+                          height="90"
+                          data-class="each-to-img-src"
+                          style="height: 90px; width: auto;" /></a> </div></td>
             <td data-id="{{v.main_category_key}}"
                 data-taxonomy="{{taxonomy}}"
                 data-uri="admin/{{controller_slug}}"
                 class="each-to-taxonomy">&nbsp;</td>
             <td>{{v.post_status}}</td>
-            <td>{{v.post_date}}</td>
-            <td>{{v.post_modified}}</td>
+            <td>{{v.post_date.substr(0, 16)}}</td>
+            <td>{{v.post_modified.substr(0, 16)}}</td>
             <td>{{v.lang_key}}</td>
             <td class="text-center"><div>
                     <div ng-if="v.post_status != PostType_DELETED">

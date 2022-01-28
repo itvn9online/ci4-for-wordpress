@@ -61,7 +61,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
             <td>{{v.comment_author_email}}</td>
             <td>{{v.comment_approved}}</td>
             <td>{{v.comment_author_IP}}</td>
-            <td>{{v.comment_date}}</td>
+            <td>{{v.comment_date.substr(0, 16)}}</td>
             <td>{{v.lang_key}}</td>
             <td class="text-center"><div>
                     <div ng-if="v.is_deleted != DeletedStatus_DELETED">

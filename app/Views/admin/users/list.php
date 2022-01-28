@@ -81,8 +81,8 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
             <td>{{v.display_name}}</td>
             <td><a href="admin/users?member_type={{v.member_type}}">{{list[v.member_type]}}</a></td>
             <td>{{listStatus[v.user_status]}}</td>
-            <td>{{v.last_login}}</td>
-            <td>{{v.user_registered}}</td>
+            <td>{{v.last_login.substr(0, 16)}}</td>
+            <td>{{v.user_registered.substr(0, 16)}}</td>
             <td class="text-center"><div>
                     <div ng-if="v.is_deleted != DeletedStatus_DELETED">
                         <div><a href="admin/users/delete?id={{v.ID + for_action}}" onClick="return click_a_delete_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-trash"></i></a> </div>

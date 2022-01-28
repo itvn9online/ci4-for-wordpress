@@ -134,6 +134,13 @@ class Admin extends Layout {
         }
         //print_r( $arr );
 
+        // thêm custom menu nếu có
+        if ( function_exists( 'register_admin_menu' ) ) {
+            foreach ( register_admin_menu() as $k => $v ) {
+                $arr[ $k ] = $v;
+            }
+        }
+
         //
         return $arr;
     }
