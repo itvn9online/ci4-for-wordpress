@@ -39,9 +39,11 @@ class Base extends Session {
             //var_dump( $this->db->affectedRows() );
             //echo $this->db->insertID() . '<br>' . "\n";
             return $this->db->insertID();
+            /*
         } else {
             print_r( $this->db->error() );
             print_r( $this->db->_error_message() );
+            */
         }
         return false;
     }

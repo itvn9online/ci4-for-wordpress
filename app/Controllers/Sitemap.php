@@ -33,6 +33,8 @@ class Sitemap extends Csrf {
     }
 
     public function index( $post_type = '', $page_page = '', $page_num = 1 ) {
+        global $arr_custom_post_type;
+        //print_r( $arr_custom_post_type );
         //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
 
         //
@@ -62,6 +64,17 @@ class Sitemap extends Csrf {
             PostType::BLOG,
             PostType::PAGE,
         ];
+        //print_r( $arr_post_type );
+
+        // lấy custom post type
+        foreach ( $arr_custom_post_type as $k => $v ) {
+            $arr_post_type[] = $k;
+        }
+        //print_r( $arr_post_type );
+        $arr_post_type = array_unique( $arr_post_type );
+        //print_r( $arr_post_type );
+
+        // ->
         foreach ( $arr_post_type as $post_type ) {
             $totalThread = $this->get_post_type( $post_type, 0, true );
             if ( $totalThread > 0 ) {
@@ -80,6 +93,10 @@ class Sitemap extends Csrf {
     }
 
     private function sitemap_tags() {
+        global $arr_custom_taxonomy;
+        //print_r( $arr_custom_taxonomy );
+
+        //
         $get_list_sitemap = '';
 
         // home
@@ -94,6 +111,17 @@ class Sitemap extends Csrf {
             TaxonomyType::POSTS,
             TaxonomyType::BLOGS,
         ];
+        //print_r( $arr_taxonomy_type );
+
+        // lấy custom post type
+        foreach ( $arr_custom_taxonomy as $k => $v ) {
+            $arr_taxonomy_type[] = $k;
+        }
+        //print_r( $arr_taxonomy_type );
+        $arr_taxonomy_type = array_unique( $arr_taxonomy_type );
+        //print_r( $arr_taxonomy_type );
+
+        // ->
         foreach ( $arr_taxonomy_type as $taxonomy_type ) {
             $data = $this->term_model->get_all_taxonomy( $taxonomy_type, 0, [
                 //'or_like' => $where_or_like,
@@ -118,7 +146,7 @@ class Sitemap extends Csrf {
     private function get_post_type( $post_type, $page_num = 1, $get_count = false ) {
         // các kiểu điều kiện where
         $where = [
-            'posts.post_status !=' => PostType::DELETED,
+            //'posts.post_status !=' => PostType::DELETED,
             'posts.post_type' => $post_type,
             'posts.post_status' => PostType::PUBLIC,
             //'posts.lang_key' => LanguageCost::lang_key()
@@ -186,6 +214,7 @@ class Sitemap extends Csrf {
 
     private function by_post_type( $post_type, $page_num = 1 ) {
         $data = $this->get_post_type( $post_type, $page_num );
+        //print_r( $data );
 
         //
         $get_list_sitemap = '';

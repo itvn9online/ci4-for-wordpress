@@ -93,6 +93,10 @@ class PostQuery extends PostMeta {
             else if ( isset( $_POST[ 'post_meta' ] ) ) {
                 $this->insert_meta_post( $_POST[ 'post_meta' ], $result_id );
             }
+            /*
+        } else {
+            $this->base_model->insert( $this->table, $data, true, 'getQuery' );
+            */
         }
         return $result_id;
     }
