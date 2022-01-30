@@ -35,7 +35,8 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
     $scope.debug_enable = <?php echo ($debug_enable === true ? 1 : 0); ?>;
     $scope.exists_f_env = <?php echo (file_exists( $f_env ) ? 1 : 0); ?>;
     $scope.exists_f_backup_env = <?php echo (file_exists( $f_backup_env ) ? 1 : 0); ?>;
-    $scope.system_zip = <?php echo (file_exists( PUBLIC_HTML_PATH . 'system.zip' ) ? 1 : 0); ?>;
+    $scope.system_zip = <?php echo (file_exists( PUBLIC_HTML_PATH . 'system.zip') ? 1 : 0); ?>;
+    $scope.imagick_exist = <?php echo (class_exists( 'Imagick' ) ? 1 : 0); ?>;
 });
 </script>
 
@@ -85,6 +86,10 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
     <div class="p">Database: <span ng-if="current_dbname != ''"> <strong><?php echo '******' . substr( $current_dbname, 6 ); ?></strong> </span> </div>
     <p>Server IP: <strong><?php echo $_SERVER['SERVER_ADDR']; ?></strong></p>
     <p>Server time: <strong><?php echo date(EBE_DATETIME_FORMAT); ?></strong></p>
+    <div class="p d-inlines">Imagick:
+        <div ng-if="imagick_exist > 0" class="greencolor">Xin chức mừng, <strong>Imagick</strong> đã được cài đặt! Các chức năng xử lý hình ảnh sẽ hoạt động ổn định hơn.</div>
+        <div ng-if="imagick_exist <= 0" class="orgcolor">Vui lòng cài đăt thêm <strong>Imagick</strong> để các chức năng xử lý hình ảnh hoạt động ổn định hơn.</div>
+    </div>
     <!-- -->
     <div class="p redcolor medium" ng-class="current_protocol != 'https:' ? '' : 'd-none'"><i class="fa fa-warning"></i> Kết nối hiện tại <strong>{{current_protocol}}</strong> không phải là kết nối đáng tin cậy. Khuyến khích sử dụng kết nối thông qua SSL.</div>
     <!-- -->
@@ -92,11 +97,11 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
     <hr>
     <?php
 
-/*
-* hiển thị chức năng bật/ tắt debug đối với admin
-*/
-if ( $session_data[ 'member_type' ] == UsersType::ADMIN ) {
-    ?>
+    /*
+     * hiển thị chức năng bật/ tắt debug đối với admin
+     */
+    if ( $session_data[ 'member_type' ] == UsersType::ADMIN ) {
+        ?>
     <!-- DEBUG -->
     <div>
         <div ng-if="debug_enable > 0">
@@ -166,6 +171,6 @@ if ( $session_data[ 'member_type' ] == UsersType::ADMIN ) {
         <br>
     </div>
     <?php
-} // END member type ADMIN
-?>
+    } // END member type ADMIN
+    ?>
 </div>

@@ -230,6 +230,7 @@ class Posts extends Admin {
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/posts/list', array(
             'for_action' => $for_action,
+            'by_post_status' => $by_post_status,
             'post_status' => $post_status,
             'by_keyword' => $by_keyword,
             'by_term_id' => $by_term_id,

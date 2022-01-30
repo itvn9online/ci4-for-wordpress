@@ -137,7 +137,16 @@ class Admin extends Layout {
         // thêm custom menu nếu có
         if ( function_exists( 'register_admin_menu' ) ) {
             foreach ( register_admin_menu() as $k => $v ) {
-                $arr[ $k ] = $v;
+                // nếu menu đã tồn tại -> gộp vào menu đó
+                if ( isset( $arr[ $k ] ) ) {
+                    foreach ( $v[ 'arr' ] as $k2 => $v2 ) {
+                        $arr[ $k ][ 'arr' ][ $k2 ] = $v2;
+                    }
+                }
+                // nếu không -> tạo mới luôn
+                else {
+                    $arr[ $k ] = $v;
+                }
             }
         }
 

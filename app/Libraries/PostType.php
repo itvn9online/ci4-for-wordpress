@@ -45,6 +45,16 @@ class PostType {
         self::MEDIA => 'Media',
     );
 
+    public static function arrStatus() {
+        return array(
+            self::PUBLIC => 'Hiển thị',
+            self::DRAFT => 'Bản nháp',
+            self::PENDING => 'Chờ duyệt',
+            self::DELETED => 'XÓA',
+            //self::INHERIT => '',
+        );
+    }
+
     public function __construct() {
         //
     }

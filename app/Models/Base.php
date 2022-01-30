@@ -892,7 +892,7 @@ class Base extends Session {
             if ( $TotalPage <= $show_page ) {
                 for ( $i = 1; $i <= $TotalPage; $i++ ) {
                     if ( $i == $Page ) {
-                        $str_page .= '<span class="current">' . $i . '</span>';
+                        $str_page .= '<span data-page="' . $i . '" class="current">' . $i . '</span>';
                     } else {
                         $str_page .= '<a rel="nofollow" href="' . $strLinkPager . $i . '">' . $i . '</a>';
                     }
@@ -900,7 +900,7 @@ class Base extends Session {
             } else {
                 for ( $i = 1; $i <= $show_page; $i++ ) {
                     if ( $i == $Page ) {
-                        $str_page .= '<span class="current">' . $i . '</span>';
+                        $str_page .= '<span data-page="' . $i . '" class="current">' . $i . '</span>';
                     } else {
                         $str_page .= '<a rel="nofollow" href="' . $strLinkPager . $i . '">' . $i . '</a>';
                     }
@@ -915,7 +915,7 @@ class Base extends Session {
             for ( $i; $i < $Page; $i++ ) {
                 $str_page .= '<a rel="nofollow" href="' . $strLinkPager . $i . '">' . $i . '</a>';
             }
-            $str_page .= '<span class="current">' . $i . '</span>';
+            $str_page .= '<span data-page="' . $i . '" class="current">' . $i . '</span>';
             $i++;
             $_Page = $Page + $chiadoi;
             if ( $_Page > $TotalPage ) {

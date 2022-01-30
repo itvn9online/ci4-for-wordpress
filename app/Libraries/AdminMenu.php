@@ -99,7 +99,12 @@ class AdminMenu {
                 ],
                 'name' => PostType::list( PostType::MEDIA ),
                 'icon' => 'fa fa-camera',
-                'arr' => []
+                'arr' => [
+                    'admin/uploads/optimize' => [
+                        'name' => 'Optimize image',
+                        'icon' => 'fa fa-file-archive-o',
+                    ],
+                ]
             ],
             'admin/contacts' => [
                 'role' => [

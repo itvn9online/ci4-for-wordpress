@@ -381,6 +381,8 @@ Compression = gzip -->';
      * Upload giả lập wordpress
      */
     protected function media_upload( $xss_clean = true ) {
+        require_once APPPATH . 'ThirdParty/functionsResizeImg.php';
+        $image = new WGR_SimpleImage();
         //print_r( $_POST );
         //print_r( $_FILES );
 
@@ -434,11 +436,17 @@ Compression = gzip -->';
                     }
 
                     //
-                    $file_uri = $this->media_attachment_metadata( $file_path, $file_ext, $upload_path, $upload_image[ 'type' ][ $k ], $upload_root );
+                    if ( file_exists( $file_path ) ) {
+                        // optimize
+                        $image->optimize( $file_path );
 
-                    //
-                    if ( $file_uri !== false ) {
-                        $arr_result[ $key ][] = $file_uri;
+                        //
+                        $metadata = $this->media_attachment_metadata( $file_path, $file_ext, $upload_path, $upload_image[ 'type' ][ $k ], $upload_root );
+
+                        //
+                        if ( $metadata !== false ) {
+                            $arr_result[ $key ][] = $metadata[ 'file_uri' ];
+                        }
                     }
                 }
             }
@@ -451,7 +459,7 @@ Compression = gzip -->';
     }
 
     // tạo thumbnail cho hình ảnh dựa theo path
-    protected function media_attachment_metadata( $file_path, $file_ext = '', $upload_path = '', $mime_type = '', $upload_root = '' ) {
+    protected function media_attachment_metadata( $file_path, $file_ext = '', $upload_path = '', $mime_type = '', $upload_root = '', $post_parent = 0 ) {
         if ( !file_exists( $file_path ) ) {
             return false;
         }
@@ -539,6 +547,7 @@ Compression = gzip -->';
             $arr_after_sizes[ $size_name ] = $resize_img;
         }
         //print_r( $arr_after_sizes );
+        //die( __FILE__ . ':' . __LINE__ );
 
         //
         $get_file_info = getimagesize( $file_path );
@@ -546,6 +555,7 @@ Compression = gzip -->';
         $arr_metadata = [
             'width' => $get_file_info[ 0 ],
             'height' => $get_file_info[ 1 ],
+            'file_size' => filesize( $file_path ),
             'file' => $file_uri,
             'sizes' => $arr_after_sizes,
             'image_meta' => [
@@ -578,6 +588,7 @@ Compression = gzip -->';
             'guid' => DYNAMIC_BASE_URL . PostType::MEDIA_URI . $file_uri,
             'post_type' => PostType::MEDIA,
             'post_mime_type' => $mime_type,
+            'post_parent' => $post_parent,
         ];
         //print_r( $data_insert );
         $_POST[ 'post_meta' ] = [
@@ -586,7 +597,7 @@ Compression = gzip -->';
         ];
         //print_r( $_POST );
         //die( __FILE__ . ':' . __LINE__ );
-        $result_id = $this->post_model->insert_post( $data_insert, $_POST[ 'post_meta' ] );
+        $result_id = $this->post_model->insert_post( $data_insert, $_POST[ 'post_meta' ], false );
         //print_r( $result_id );
         if ( is_array( $result_id ) && isset( $result_id[ 'error' ] ) ) {
             $this->base_model->alert( $result_id[ 'error' ], 'error' );
@@ -594,7 +605,12 @@ Compression = gzip -->';
         //echo 'Result id: ' . $result_id . '<br>' . "\n";
 
         //
-        return PostType::MEDIA_URI . $file_uri;
+        return [
+            'file_uri' => PostType::MEDIA_URI . $file_uri,
+            'metadata' => $arr_metadata,
+            'data' => $data_insert,
+            'meta' => $_POST[ 'post_meta' ],
+        ];
     }
 
     // tạo path upload

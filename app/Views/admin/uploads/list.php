@@ -109,6 +109,8 @@ if ( !empty( $uri_quick_upload ) ) {
 <ul class="cf admin-media-attachment">
     <?php
 
+    //
+    //print_r( $data );
     foreach ( $data as $k => $v ) {
         //print_r( $v );
         $src = $upload_model->get_thumbnail( $v );
@@ -123,7 +125,7 @@ if ( !empty( $uri_quick_upload ) ) {
         //print_r( $all_src );
 
         // xác định url cho ảnh
-        if ( $data[ 'post_type' ] == PostType::WP_MEDIA ) {
+        if ( $v[ 'post_type' ] == PostType::WP_MEDIA ) {
             $short_uri = PostType::WP_MEDIA_URI;
         } else {
             $short_uri = PostType::MEDIA_URI;
@@ -155,7 +157,7 @@ if ( !empty( $uri_quick_upload ) ) {
         //print_r( $data_srcset );
 
         ?>
-    <li>
+    <li data-id="<?php echo $v['ID']; ?>">
         <div title="<?php echo $v['post_name']; ?>" class="media-attachment-padding">
             <div class="d-none show-if-hover-upload lf medium18"><strong onClick="return click_set_img_for_input('<?php echo $v['ID']; ?>');" class="greencolor cur"><i class="fa fa-plus"></i></strong></div>
             <div class="d-none remove-attachment show-if-hover-upload rf medium18"><a href="admin/<?php echo $controller_slug; ?>/delete?id=<?php echo $v['ID'] . $uri_quick_upload; ?>" target="target_eb_iframe" onClick="return confirm('Xác nhận xóa tệp này?');"><i class="fa fa-trash"></i></a></div>

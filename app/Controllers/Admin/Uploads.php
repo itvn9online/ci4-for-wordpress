@@ -30,7 +30,7 @@ class Uploads extends Admin {
 
         // các kiểu điều kiện where
         $where = [
-            'posts.post_status !=' => PostType::DELETED,
+            'post_status !=' => PostType::DELETED,
         ];
 
         // tìm kiếm theo từ khóa nhập vào
@@ -76,16 +76,16 @@ class Uploads extends Admin {
         //
         $filter = [
             'where_in' => array(
-                'posts.post_type' => array(
+                'post_type' => array(
                     $this->post_type,
                     PostType::WP_MEDIA,
                 )
             ),
             'or_like' => $where_or_like,
             'order_by' => array(
-                //'posts.menu_order' => 'DESC',
-                'posts.ID' => 'DESC',
-                //'posts.post_date' => 'DESC',
+                //'menu_order' => 'DESC',
+                'ID' => 'DESC',
+                //'post_date' => 'DESC',
                 //'post_modified' => 'DESC',
             ),
             // hiển thị mã SQL để check
@@ -147,7 +147,7 @@ class Uploads extends Admin {
             //'taxonomy' => $this->taxonomy,
             'post_type' => $this->post_type,
             'controller_slug' => $this->controller_slug,
-            'name_type' => PostType::list($this->post_type),
+            'name_type' => PostType::list( $this->post_type ),
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
@@ -177,6 +177,7 @@ class Uploads extends Admin {
                 'post_type' => PostType::WP_MEDIA,
             ] );
         }
+        $update = false;
         if ( !empty( $data ) ) {
             //print_r( $data );
 
@@ -227,7 +228,7 @@ class Uploads extends Admin {
             //die( 'delete media' );
 
             //
-            $result_id = $this->post_model->update_post( $data[ 'ID' ], [
+            $update = $this->post_model->update_post( $data[ 'ID' ], [
                 'post_status' => PostType::DELETED
             ], [
                 'post_type' => $data[ 'post_type' ],
@@ -235,7 +236,13 @@ class Uploads extends Admin {
         }
 
         //
+        if ( $update === true ) {
+            $this->done_delete_restore( $id );
+        }
         $this->alert( '' );
+    }
+    protected function done_delete_restore( $id ) {
+        die( '<script>top.done_delete_restore(' . $id . ');</script>' );
     }
 
     protected function alert( $m, $url = '' ) {
@@ -247,12 +254,101 @@ class Uploads extends Admin {
                     $uri_quick_upload[] = $k . '=' . $v;
                 }
             }
-            $url .= '?' . implode( '&', $uri_quick_upload );
+            if ( !empty( $uri_quick_upload ) ) {
+                $url .= '?' . implode( '&', $uri_quick_upload );
+            }
             //die( $url );
         }
 
         //
         //$this->base_model->alert( '', $url );
         die( '<script>parent.window.location = "' . $url . '";</script>' );
+    }
+
+    // tối ưu hóa ảnh -> nhiều quả ảnh up lên nhưng quá nặng -> cần tối ưu hóa lại chút
+    public function optimize() {
+        $post_per_page = 50;
+
+        // các kiểu điều kiện where
+        $where = [
+            //'post_parent' => 688, // TEST
+            'post_status !=' => PostType::DELETED,
+        ];
+
+        // URL cho phân trang tìm kiếm
+        $urlPartPage = 'admin/' . $this->controller_slug . '/optimize';
+
+        //
+        $filter = [
+            'where_in' => array(
+                'post_type' => array(
+                    $this->post_type,
+                    PostType::WP_MEDIA,
+                )
+            ),
+            'order_by' => array(
+                //'menu_order' => 'DESC',
+                'ID' => 'DESC',
+                //'post_date' => 'DESC',
+                //'post_modified' => 'DESC',
+            ),
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            //'offset' => 0,
+            //'limit' => $post_per_page
+        ];
+
+
+        /*
+         * phân trang
+         */
+        $totalThread = $this->base_model->select( 'COUNT(ID) AS c', 'posts', $where, $filter );
+        //print_r( $totalThread );
+        $totalThread = $totalThread[ 0 ][ 'c' ];
+        //print_r( $totalThread );
+        $totalPage = ceil( $totalThread / $post_per_page );
+        if ( $totalPage < 1 ) {
+            $totalPage = 1;
+        }
+        $page_num = $this->MY_get( 'page_num', 1 );
+        //echo $totalPage . '<br>' . "\n";
+        if ( $page_num > $totalPage ) {
+            $page_num = $totalPage;
+        } else if ( $page_num < 1 ) {
+            $page_num = 1;
+        }
+        //echo $totalThread . '<br>' . "\n";
+        //echo $totalPage . '<br>' . "\n";
+        $offset = ( $page_num - 1 ) * $post_per_page;
+
+        //
+        $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '?page_num=' );
+
+
+        // select dữ liệu từ 1 bảng bất kỳ
+        $filter[ 'offset' ] = $offset;
+        $filter[ 'limit' ] = $post_per_page;
+        $data = $this->base_model->select( '*', 'posts', $where, $filter );
+
+        //
+        $data = $this->post_model->list_meta_post( $data );
+        //print_r( $data );
+
+        //
+        $this->teamplate_admin[ 'body_class' ] = $this->body_class;
+
+        //
+        $this->teamplate_admin[ 'content' ] = view( 'admin/uploads/optimize', array(
+            'data' => $data,
+            'pagination' => $pagination,
+            'totalThread' => $totalThread,
+            //'taxonomy' => $this->taxonomy,
+            'post_type' => $this->post_type,
+            'controller_slug' => $this->controller_slug,
+            'name_type' => PostType::list( $this->post_type ),
+        ) );
+        return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
 }

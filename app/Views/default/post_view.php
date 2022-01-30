@@ -4,7 +4,7 @@
 //$option_model = new\ App\ Models\ Option();
 
 // update lượt xem
-//$this->post_model->update_views( $data[ 'ID' ] );
+//$post_model->update_views( $data[ 'ID' ] );
 
 ?>
 <div class="global-page-module w90">
