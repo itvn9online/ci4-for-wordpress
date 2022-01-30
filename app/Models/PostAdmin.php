@@ -30,7 +30,7 @@ class PostAdmin extends Post {
 
         //
         $cache_value = $cache->get( $in_cache );
-        if ( $cache_value ) {
+        if ( $cache_value !== NULL ) {
             return $cache_value;
         }
 

@@ -171,7 +171,7 @@ class Term extends EbModel {
         $result_id = $this->base_model->insert( $this->table, $data, true );
         //echo $result_id . '<br>' . "\n";
 
-        if ( $result_id > 0 ) {
+        if ( $result_id !== false ) {
             $this->base_model->insert( $this->taxTable, [
                 'term_taxonomy_id' => $result_id,
                 'term_id' => $result_id,
@@ -186,11 +186,8 @@ class Term extends EbModel {
 
             // xóa cache
             $this->delete_cache_taxonomy( $taxonomy );
-
-            //
-            return $result_id;
         }
-        return false;
+        return $result_id;
     }
 
     function update_terms( $term_id, $data, $taxonomy = '' ) {
@@ -405,14 +402,26 @@ class Term extends EbModel {
                 return $cache->delete( $in_cache );
             }
 
+            // TEST
+            /*
+            print_r( $cache->get( 'dfhfhdsfasffssf' ) );
+            var_dump( $cache->get( 'dfhfhdsfasffssf' ) );
+            $cache->save( 'dfhfhdsfasffssf', time(), 5 );
+            echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+            */
+
             //
             $cache_value = $cache->get( $in_cache );
             //print_r( $cache_value );
             //var_dump( $cache_value );
 
-            // không có cache thì tiếp tục
-            if ( $cache_value ) {
+            // có cache thì trả về
+            if ( $cache_value !== NULL ) {
                 return $cache_value;
+                /*
+            } else {
+                print_r( $cache_value );
+                */
             }
         }
 
@@ -564,9 +573,44 @@ class Term extends EbModel {
             //continue;
 
             //
-            $data[ $k ][ 'child_term' ] = [];
-            $data[ $k ][ 'child_term' ] = $this->get_all_taxonomy( $v[ 'taxonomy' ], 0, $ops );
+            $child_term = [];
+            // nếu tham số child count chưa được cập nhật -> lấy từ database và cập nhật lại
+            if ( $v[ 'child_count' ] === NULL ) {
+                $child_term = $this->get_all_taxonomy( $v[ 'taxonomy' ], 0, $ops );
+
+                //
+                $this->base_model->update_multiple( $this->table, [
+                    'child_count' => count( $child_term ),
+                ], [
+                    'term_id' => $v[ 'term_id' ],
+                ] );
+
+                // thông báo kiểu dữ liệu trả về
+                $data[ $k ][ 'child_count' ] = 'query';
+            } else {
+                // nếu có nhóm con -> mới gọi lệnh lấy nhóm con
+                if ( $v[ 'child_count' ] > 0 ) {
+                    $child_term = $this->get_all_taxonomy( $v[ 'taxonomy' ], 0, $ops );
+
+                    // cập nhật lại tổng số nhóm nếu có sai số
+                    if ( count( $child_term ) != $v[ 'child_count' ] ) {
+                        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+
+                        //
+                        $this->base_model->update_multiple( $this->table, [
+                            'child_count' => count( $child_term ),
+                        ], [
+                            'term_id' => $v[ 'term_id' ],
+                        ] );
+                    }
+                }
+
+                // thông báo kiểu dữ liệu trả về
+                $data[ $k ][ 'child_count' ] = 'cache';
+            }
+            $data[ $k ][ 'child_term' ] = $child_term;
         }
+        //print_r( $data );
         return $data;
     }
 
@@ -677,7 +721,30 @@ class Term extends EbModel {
         //print_r( $data );
         foreach ( $data as $k => $v ) {
             //print_r( $v );
-            $data[ $k ][ 'term_meta' ] = $this->arr_meta_terms( $v[ 'term_id' ] );
+
+            // nếu không có dữ liệu của term meta
+            if ( $v[ 'term_meta_data' ] === NULL ) {
+                $term_meta_data = $this->arr_meta_terms( $v[ 'term_id' ] );
+                //print_r( $term_meta_data );
+                //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+
+                //
+                $this->base_model->update_multiple( $this->table, [
+                    'term_meta_data' => json_encode( $term_meta_data ),
+                ], [
+                    'term_id' => $v[ 'term_id' ],
+                ] );
+
+                // thông báo kiểu dữ liệu trả về
+                $data[ $k ][ 'term_meta_data' ] = 'query';
+            } else {
+                $term_meta_data = ( array )json_decode( $v[ 'term_meta_data' ] );
+                //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+
+                // thông báo kiểu dữ liệu trả về
+                $data[ $k ][ 'term_meta_data' ] = 'cache';
+            }
+            $data[ $k ][ 'term_meta' ] = $term_meta_data;
         }
         //print_r( $data );
 

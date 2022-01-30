@@ -39,12 +39,8 @@ class Home extends Csrf {
         $cache_value = $this->MY_cache( $this->cache_key );
         // Will get the cache entry named 'my_foo'
         //var_dump( $cache_value );
-        // không có cache thì tiếp tục
-        if ( !$cache_value ) {
-            //echo '<!-- no cache -->';
-        }
         // có thì in ra cache là được
-        else {
+        if ( $cache_value !== NULL ) {
             return $this->show_cache( $cache_value );
         }
 
@@ -152,12 +148,8 @@ class Home extends Csrf {
         $cache_value = $this->MY_cache( $this->cache_key );
         // Will get the cache entry named 'my_foo'
         //var_dump( $cache_value );
-        // không có cache thì tiếp tục
-        if ( !$cache_value ) {
-            //echo '<!-- no cache -->';
-        }
         // có thì in ra cache là được
-        else {
+        if ( $cache_value !== NULL ) {
             return $this->show_cache( $cache_value );
         }
 
@@ -183,7 +175,8 @@ class Home extends Csrf {
         //
         if ( !empty( $data ) ) {
             // lấy meta của post này
-            $data[ 'post_meta' ] = $this->post_model->arr_meta_post( $data[ 'ID' ] );
+            //$data[ 'post_meta' ] = $this->post_model->arr_meta_post( $data[ 'ID' ] );
+            $data = $this->post_model->the_meta_post( $data );
             //print_r( $data );
             //die( __FILE__ . ':' . __LINE__ );
 
@@ -212,12 +205,8 @@ class Home extends Csrf {
         $cache_value = $this->MY_cache( $this->cache_key );
         // Will get the cache entry named 'my_foo'
         //var_dump( $cache_value );
-        // không có cache thì tiếp tục
-        if ( !$cache_value ) {
-            //echo '<!-- no cache -->';
-        }
         // có thì in ra cache là được
-        else {
+        if ( $cache_value !== NULL ) {
             return $this->show_cache( $cache_value );
         }
 

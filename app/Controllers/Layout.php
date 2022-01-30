@@ -279,12 +279,8 @@ Compression = gzip -->';
         $cache_value = $this->MY_cache( $this->cache_key );
         // Will get the cache entry named 'my_foo'
         //var_dump( $cache_value );
-        // không có cache thì tiếp tục
-        if ( !$cache_value ) {
-            //echo '<!-- no cache -->';
-        }
         // có thì in ra cache là được
-        else {
+        if ( $cache_value !== NULL ) {
             return $this->show_cache( $cache_value );
         }
 

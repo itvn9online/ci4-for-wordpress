@@ -15,15 +15,45 @@ class PostMeta extends PostBase {
     }
 
     // lấy về danh sách meta post cho toàn bộ data được truyền vào
-    function list_meta_post( $data ) {
+    function list_meta_post( $data, $return_list = true ) {
         foreach ( $data as $k => $v ) {
             //print_r( $v );
-            $data[ $k ][ 'post_meta' ] = $this->arr_meta_post( $v[ 'ID' ] );
+            //var_dump( $v[ 'post_meta_data' ] );
+
+            // nếu không có dữ liệu của post meta
+            //if ( empty( $v[ 'post_meta_data' ] ) ) {
+            if ( $v[ 'post_meta_data' ] === NULL ) {
+                $post_meta_data = $this->arr_meta_post( $v[ 'ID' ] );
+                //print_r( $post_meta_data );
+                //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+
+                //
+                $this->base_model->update_multiple( $this->table, [
+                    'post_meta_data' => json_encode( $post_meta_data ),
+                ], [
+                    'ID' => $v[ 'ID' ],
+                ] );
+
+                // thông báo kiểu dữ liệu trả về
+                $data[ $k ][ 'post_meta_data' ] = 'query';
+            } else {
+                $post_meta_data = ( array )json_decode( $v[ 'post_meta_data' ] );
+                //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+
+                // thông báo kiểu dữ liệu trả về
+                $data[ $k ][ 'post_meta_data' ] = 'cache';
+            }
+            $data[ $k ][ 'post_meta' ] = $post_meta_data;
         }
         //print_r( $data );
 
         //
         return $data;
+    }
+
+    // trả về bản ghi số 0 -> thường dùng khi lấy meta của 1 post
+    public function the_meta_post( $data ) {
+        return $this->list_meta_post( [ $data ] )[ 0 ];
     }
 
     // thêm post meta
@@ -139,6 +169,13 @@ class PostMeta extends PostBase {
                 'meta_key' => $k,
             ] );
         }
+
+        // cập nhật post meta vào cột của post để đỡ phải query nhiều
+        $this->base_model->update_multiple( $this->table, [
+            'post_meta_data' => json_encode( $meta_data ),
+        ], [
+            'ID' => $post_id,
+        ] );
 
         //
         //die( __FILE__ . ':' . __LINE__ );

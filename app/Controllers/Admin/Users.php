@@ -287,10 +287,10 @@ class Users extends Admin {
 
         //
         $result_id = $this->user_model->insert_member( $data );
-        if ( $result_id > 0 ) {
-            $this->base_model->alert( '', base_url( 'admin/users/add' ) . '?id=' . $result_id );
-        } else if ( $insert === -1 ) {
+        if ( $result_id < 0 ) {
             $this->base_model->alert( 'Email đã được sử dụng', 'error' );
+        } else if ( $result_id !== false ) {
+            $this->base_model->alert( '', base_url( 'admin/users/add' ) . '?id=' . $result_id );
         }
         $this->base_model->alert( 'Lỗi thêm mới thành viên', 'error' );
     }

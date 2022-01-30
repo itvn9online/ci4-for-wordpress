@@ -220,12 +220,12 @@ class Guest extends Csrf {
                 //
                 //$insert = $this->base_model->insert( 'tbl_user', $data, true );
                 $insert = $this->user_model->insert_member( $data );
-                if ( $insert > 0 ) {
+                if ( $insert < 0 ) {
+                    $this->base_model->msg_error_session( 'Email đã được sử dụng' );
+                } else if ( $insert !== false ) {
                     $this->base_model->msg_session( 'Đăng ký thành công' );
                     //header( 'Location:' . base_url( 'signin' ) );
                     return redirect()->to( base_url( 'guest/login' ) );
-                } else if ( $insert === -1 ) {
-                    $this->base_model->msg_error_session( 'Email đã được sử dụng' );
                 } else {
                     $this->base_model->msg_error_session( 'Lỗi đăng ký tài khoản' );
                 }

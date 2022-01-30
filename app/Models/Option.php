@@ -79,15 +79,36 @@ class Option extends EbModel {
         return $data;
     }
 
-    var $cache_config = [];
+    //var $cache_config = [];
 
-    function list_config( $lang_key = '', $get_sql = false, $repeat = true ) {
+    function list_config( $lang_key = '', $get_sql = false, $repeat = true, $clear_cache = false ) {
         if ( $lang_key == '' ) {
             $lang_key = LanguageCost::lang_key();
         }
+        $in_cache = __FUNCTION__ . '-' . $lang_key;
+
+        //
+        $cache = \Config\ Services::cache();
+
+        // xóa cache nếu có yêu cầu
+        if ( $clear_cache === true ) {
+            return $cache->delete( $in_cache );
+        }
+
+        //
+        $cache_value = $cache->get( $in_cache );
+
+        // có cache thì trả về
+        if ( $cache_value !== NULL ) {
+            //print_r( $cache_value );
+            return $cache_value;
+        }
+
+        /*
         if ( isset( $this->cache_config[ $lang_key ] ) ) {
             return $this->cache_config[ $lang_key ];
         }
+        */
 
         //
         $arr_option_type = ConfigType::list();
@@ -169,7 +190,10 @@ class Option extends EbModel {
         }
 
         //
-        $this->cache_config[ $lang_key ] = $getconfig;
+        //$this->cache_config[ $lang_key ] = $getconfig;
+        $cache->save( $in_cache, $getconfig, 3600 );
+
+        //
         return $getconfig;
     }
 

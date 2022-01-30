@@ -62,7 +62,7 @@ class Comment extends EbModel {
         $result_id = $this->base_model->insert( $this->table, $data, true );
 
         //
-        if ( $result_id > 0 ) {
+        if ( $result_id !== false ) {
             // tính lại tổng số comment cho bài viết
             if ( isset( $data[ 'comment_post_ID' ] ) && $data[ 'comment_post_ID' ] > 0 ) {
                 //
@@ -83,6 +83,7 @@ class Comment extends EbModel {
                 ] );
             }
         }
+        return $result_id;
     }
 
     public function update_comments( $comment_ID, $data, $where = [] ) {

@@ -67,10 +67,8 @@ class User extends UserMeta {
         //die( 'fj sfssf sf' );
         $result_id = $this->base_model->insert( $this->table, $data, true );
 
-        if ( $result_id > 0 ) {
-            return $result_id;
-        }
-        return false;
+        //
+        return $result_id;
     }
 
     public function update_member( $id, $data, $where = [] ) {

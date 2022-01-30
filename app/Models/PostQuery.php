@@ -80,7 +80,7 @@ class PostQuery extends PostMeta {
         //var_dump( $result_id );
         //print_r( $result_id );
 
-        if ( $result_id > 0 ) {
+        if ( $result_id !== false ) {
             //print_r( $data_meta );
             //print_r( $_POST );
             //die( __FILE__ . ':' . __LINE__ );
@@ -93,11 +93,8 @@ class PostQuery extends PostMeta {
             else if ( isset( $_POST[ 'post_meta' ] ) ) {
                 $this->insert_meta_post( $_POST[ 'post_meta' ], $result_id );
             }
-
-            //
-            return $result_id;
         }
-        return false;
+        return $result_id;
     }
 
     function update_post( $post_id, $data, $where = [] ) {
@@ -198,7 +195,8 @@ class PostQuery extends PostMeta {
 
         // lấy meta của post này
         if ( !empty( $data ) ) {
-            $data[ 'post_meta' ] = $this->arr_meta_post( $data[ 'ID' ] );
+            //$data[ 'post_meta' ] = $this->arr_meta_post( $data[ 'ID' ] );
+            $data = $this->the_meta_post( $data );
         }
         //print_r( $data );
 

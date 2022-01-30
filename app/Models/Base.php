@@ -12,24 +12,36 @@ class Base extends Session {
     public $default_post_type = 'post';
     public $default_taxonomy = 'category';
 
-    function insert( $table, $data, $remove_col = false ) {
+    function insert( $table, $data, $remove_col = false, $queryType = '' ) {
         if ( $remove_col === true ) {
             $data = $this->removeInvalidField( $data, $table );
 
             //
             if ( empty( $data ) ) {
-                die( 'data insert empty ' . $table . ':' . __FUNCTION__ . ':line:' . __LINE__ );
+                die( 'data insert empty ' . $table . ':' . basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ );
             }
         }
 
         //
         $builder = $this->db->table( $table );
-        $builder->insert( $data );
-        //print_r($this->db->_error_message());die(' bb'); // lỗi sẽ hiển thị ở đây khi không insert đc
+        if ( $queryType == 'ignore' ) {
+            $builder->ignore( true )->insert( $data );
+        } else if ( $queryType == 'getQuery' ) {
+            echo $builder->set( $data )->getCompiledInsert();
+            return false;
+        } else if ( $queryType == 'replace' ) {
+            $builder->replace( $data );
+        } else {
+            $builder->insert( $data );
+        }
+        //die(' bb'); // lỗi sẽ hiển thị ở đây khi không insert đc
         if ( $this->db->affectedRows() ) {
             //var_dump( $this->db->affectedRows() );
             //echo $this->db->insertID() . '<br>' . "\n";
             return $this->db->insertID();
+        } else {
+            print_r( $this->db->error() );
+            print_r( $this->db->_error_message() );
         }
         return false;
     }
@@ -110,27 +122,26 @@ class Base extends Session {
     }
 
     function removeInvalidField( $items, $tbl_name, $disableFields = array() ) {
-        if ( is_array( $items ) ) {
-            $column_name = $this->db->getFieldNames( $tbl_name ); // list ra những cột có trong table
-            //print_r( $column_name );
-            //die( __FILE__ . ':' . __LINE__ );
-
-            foreach ( $items as $key => $value ) { //lặp lại cột lấy giá trị mà người dùng đẩy lên table: $item = array('newstitle'=>'tin tuc hom nay', 'slug'=>'tin-tuc-hom-nay'...)
-                if ( !in_array( $key, $column_name ) ) { // kiểm tra xem những giá trị trường đẩy lên có trùng với cột trong table ở csdl k
-                    unset( $items[ $key ] ); // nếu không trùng thì loại bỏ những cột mà người dùng đẩy lên
-                    //echo $key. ' does not match removeInvalidField<br> ';
-                }
-            }
-            // remove disallow fields
-            foreach ( $disableFields as $key => $value ) { //kiểm tra những field nào không đc phép cập nhật thì loại bỏ
-                if ( in_array( $value, $column_name ) ) { // kiểm tra nếu tồn tại những cột được disable
-                    unset( $items[ $value ] ); // nếu tồn tại những cột đã disable thì sẽ remove.
-                }
-            }
-
-            return $items;
+        if ( !is_array( $items ) ) {
+            return [];
         }
-        return FALSE;
+        $column_name = $this->db->getFieldNames( $tbl_name ); // list ra những cột có trong table
+        //print_r( $column_name );
+        //die( __FILE__ . ':' . __LINE__ );
+
+        foreach ( $items as $key => $value ) { //lặp lại cột lấy giá trị mà người dùng đẩy lên table: $item = array('newstitle'=>'tin tuc hom nay', 'slug'=>'tin-tuc-hom-nay'...)
+            if ( !in_array( $key, $column_name ) ) { // kiểm tra xem những giá trị trường đẩy lên có trùng với cột trong table ở csdl k
+                unset( $items[ $key ] ); // nếu không trùng thì loại bỏ những cột mà người dùng đẩy lên
+            }
+        }
+        // remove disallow fields
+        foreach ( $disableFields as $key => $value ) { //kiểm tra những field nào không đc phép cập nhật thì loại bỏ
+            if ( in_array( $value, $column_name ) ) { // kiểm tra nếu tồn tại những cột được disable
+                unset( $items[ $value ] ); // nếu tồn tại những cột đã disable thì sẽ remove.
+            }
+        }
+
+        return $items;
     }
 
     public function delete_multiple( $table, $where, $ops = [] ) {

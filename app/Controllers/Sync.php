@@ -210,6 +210,7 @@ class Sync extends BaseController {
                 'post_viewed' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Đếm số lượt xem bài viết\'',
                 'child_count' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Đếm số lượt bài viết con của bài này. Thường dùng cho web truyện, chap của truyện\'',
                 'time_order' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Sắp xếp độ ưu tiên của post dựa theo thời gian hiện tại\'',
+                'post_meta_data' => 'LONGTEXT NULL COMMENT \'Lưu các post meta vào đây để đỡ phải query nhiều\'',
             ],
             WGR_TABLE_PREFIX . 'terms' => [
                 'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
@@ -219,6 +220,8 @@ class Sync extends BaseController {
                 'term_order' => 'INT(10) NOT NULL DEFAULT \'0\' COMMENT \'Sắp xếp vị trí hiển thị, số càng to thì độ ưu tiên càng cao\'',
                 'term_status' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'Trạng thái hiển thị của 1 term. 0 = hiển thị, 1 = ẩn\'',
                 'term_viewed' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Đếm số lượt xem danh mục\'',
+                'term_meta_data' => 'LONGTEXT NULL COMMENT \'Lưu các post meta vào đây để đỡ phải query nhiều\'',
+                'child_count' => 'BIGINT(20) NULL COMMENT \'Tính tổng số nhóm con để gọi lệnh lấy nhóm con nếu không NULL\'',
             ],
             WGR_TABLE_PREFIX . 'options' => [
                 'option_type' => 'VARCHAR(55) NULL DEFAULT NULL COMMENT \'Phân loại option dành cho nhiều việc khác nhau\'',
