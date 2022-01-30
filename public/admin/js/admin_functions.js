@@ -87,7 +87,7 @@ function WgrWp_popup_upload(insert_to, add_img_tag, img_size, input_type) {
         current_textediter_insert_to = insert_to;
 
         //
-        if (typeof add_img_tag == 'undefined') {
+        if (typeof add_img_tag == 'undefined' || add_img_tag == '') {
             add_img_tag = 0;
         }
         if (typeof img_size == 'undefined') {
