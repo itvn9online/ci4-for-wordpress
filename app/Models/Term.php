@@ -421,6 +421,7 @@ class Term extends EbModel {
                 /*
             } else {
                 print_r( $cache_value );
+                var_dump( $cache_value );
                 */
             }
         }

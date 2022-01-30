@@ -43,6 +43,7 @@ class Home extends Csrf {
         if ( $cache_value !== NULL ) {
             return $this->show_cache( $cache_value );
         }
+        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
 
         //
         //print_r( $this->getconfig );

@@ -131,7 +131,7 @@ class Layout extends Sync {
     protected function MY_cache( $key, $value = '', $time = 300 ) {
         // không thực thi cache đối với tài khoản đang đăng nhập
         if ( $this->current_user_id > 0 || isset( $_GET[ 'set_lang' ] ) ) {
-            return false;
+            return NULL;
         }
 
         //
