@@ -7,6 +7,9 @@
         //
         console.log('current page:', current_page);
         current_page++;
+        if (current_page > totalPage) {
+            return false;
+        }
         setTimeout(function () {
             window.location = web_link + 'admin/uploads/optimize?page_num=' + current_page;
         }, 5000);

@@ -10,12 +10,20 @@ $min_active_optimize = 250000;
 <ul class="admin-breadcrumb">
     <li>Danh sách Tối ưu hóa hình ảnh (<?php echo $totalThread; ?>)</li>
 </ul>
-<p>Chức năng tối ưu hóa hình ảnh vượt quá <strong><?php echo ($min_active_optimize/ 1000); ?></strong>kb</p>
+<p class="medium">Chức năng tối ưu hóa hình ảnh vượt quá <strong><?php echo ($min_active_optimize/ 1000); ?></strong>kb</p>
+<div class="public-part-page"> <?php echo $pagination; ?> Trên tổng số <?php echo $totalThread; ?> bản ghi (<?php echo $totalPage; ?> trang).</div>
 <?php
 
 //
+if ( class_exists( 'Imagick' ) ) {
+    ?>
+<p class="medium grrencolor"><strong>Imagick</strong> enable</p>
+<?php
+}
+
+//
 require_once APPPATH . 'ThirdParty/functionsResizeImg.php';
-$image = new WGR_SimpleImage();
+$image = new\ App\ ThirdParty\ WGR_SimpleImage();
 
 //
 //print_r( $data );
@@ -107,7 +115,9 @@ foreach ( $data as $k => $v ) {
 }
 
 ?>
-<div class="public-part-page"> <?php echo $pagination; ?> Trên tổng số <?php echo $totalThread; ?> bản ghi.</div>
+<script>
+var totalPage = <?php echo $totalPage; ?>;
+</script>
 <?php
 
 // js riêng cho từng post type (nếu có)

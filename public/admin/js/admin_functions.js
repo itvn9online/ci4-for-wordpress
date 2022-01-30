@@ -114,7 +114,7 @@ function add_and_show_post_avt(for_id, add_img_tag, img_size, input_type) {
         console.log(for_id + ' not found! (length != 1)');
         return false;
     }
-    if (typeof add_img_tag == 'undefined') {
+    if (typeof add_img_tag == 'undefined' || add_img_tag == '') {
         add_img_tag = 0;
     }
     if (typeof img_size == 'undefined') {

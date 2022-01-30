@@ -382,7 +382,7 @@ Compression = gzip -->';
      */
     protected function media_upload( $xss_clean = true ) {
         require_once APPPATH . 'ThirdParty/functionsResizeImg.php';
-        $image = new WGR_SimpleImage();
+        $image = new\ App\ ThirdParty\ WGR_SimpleImage();
         //print_r( $_POST );
         //print_r( $_FILES );
 
@@ -464,6 +464,7 @@ Compression = gzip -->';
             return false;
         }
         require_once APPPATH . 'ThirdParty/functionsResizeImg.php';
+        $image = new\ App\ ThirdParty\ WGR_SimpleImage();
         //echo $file_path . '<br>' . "\n";
 
         // bảo mật file, lỗi thì xóa luôn file này đi
@@ -532,7 +533,7 @@ Compression = gzip -->';
              */
             // chỉ resize với các file được chỉ định (thường là file ảnh)
             if ( in_array( strtolower( $file_ext ), $arr_allow_resize ) ) {
-                $resize_img = WGR_resize_images( $file_path, $resize_path, $size );
+                $resize_img = $image->WGR_resize_images( $file_path, $resize_path, $size );
             }
             // các file khác không cần resize
             else {

@@ -344,7 +344,7 @@ class Uploads extends Admin {
             'data' => $data,
             'pagination' => $pagination,
             'totalThread' => $totalThread,
-            //'taxonomy' => $this->taxonomy,
+            'totalPage' => $totalPage,
             'post_type' => $this->post_type,
             'controller_slug' => $this->controller_slug,
             'name_type' => PostType::list( $this->post_type ),
