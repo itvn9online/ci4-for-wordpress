@@ -88,9 +88,10 @@
 
                                 $quick_menu_list = $post_model->quick_add_menu();
                                 //print_r( $quick_menu_list );
-                                echo implode( '', $quick_menu_list );
+                                //echo implode( '', $quick_menu_list );
 
                                 ?>
+                                <option ng-repeat="v in quick_menu_list" ng-value="v.value" ng-disabled="v.selectable" ng-class="v.class">{{v.text}}</option>
                             </select>
                         </div>
                     </div>

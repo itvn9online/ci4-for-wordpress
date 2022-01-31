@@ -305,6 +305,14 @@ if ( $auto_update_module * 1 === 1 ) {
             </div>
         </form>
     </div>
+    <?php
+
+    if ( $post_type == PostType::MENU ) {
+        //require __DIR__ . '/add_edit_menu.php';
+        require __DIR__ . '/add_edit_menu_v2.php';
+    }
+
+    ?>
 </div>
 <script>
 var current_post_type='<?php echo $post_type; ?>';
@@ -330,10 +338,5 @@ angular.module('myApp', []).controller('myCtrl', function ($scope) {
 $base_model->add_js( 'admin/js/posts.js' );
 // css riêng cho từng post type (nếu có)
 $base_model->add_js( 'admin/js/' . $post_type . '.js' );
-
-if ( $post_type == PostType::MENU ) {
-    //require __DIR__ . '/add_edit_menu.php';
-    require __DIR__ . '/add_edit_menu_v2.php';
-}
 
 //$base_model->add_js( 'admin/js/maruti.form_common.js' );

@@ -3,5 +3,6 @@
 # ThirdParty
 #-------------------------
 ThirdParty/*
+!ThirdParty/*.php
 !ThirdParty/*.zip
 !ThirdParty/*.gitkeep
