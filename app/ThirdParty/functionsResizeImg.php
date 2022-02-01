@@ -122,7 +122,7 @@ class WGR_SimpleImage {
             /*
              * https://phpimagick.com/Imagick/setCompressionQuality?quality=85&image_path=Lorikeet
              */
-            //echo 'Imagick - ' . mime_content_type( $source_file ) . ' - ' . IMAGETYPE_JPEG . ' - ' . $this->image_type . ' - ' . Imagick::COMPRESSION_JPEG . ' <br>' . "\n";
+            //echo 'Imagick - ' . mime_content_type( $source_file ) . ' - ' . IMAGETYPE_JPEG . ' - ' . $this->image_type . ' - ' . \Imagick::COMPRESSION_JPEG . ' <br>' . "\n";
 
             //
             $image = new\ Imagick( $source_file );
@@ -139,9 +139,8 @@ class WGR_SimpleImage {
             $image->destroy();
         } else {
             // https://codeigniter4.github.io/userguide/libraries/images.html#image-quality
-            $image = \Config\ Services::image()->withFile( $source_file )
-                // processing methods
-                ->save( $dst_file, $compression );
+            $image = \Config\ Services::image()->withFile( $source_file );
+            $image->save( $dst_file, $compression );
 
             // sử dụng php thuần
             /*
@@ -284,11 +283,10 @@ class WGR_SimpleImage {
                 // giải phóng bộ nhớ luôn và ngay
                 $this->destroy();
 
+                // sau đó sử dụng thư viện của codeigniter để save
                 // https://codeigniter4.github.io/userguide/libraries/images.html#resizing-images
-                $image = \Config\ Services::image();
-                $image->withFile( $source_file )->resize( $new_width, $new_height )
-                    // processing methods
-                    ->save( $dst_file );
+                $image = \Config\ Services::image()->withFile( $source_file );
+                $image->resize( $new_width, $new_height )->save( $dst_file );
             }
         }
         chmod( $dst_file, 0777 );
