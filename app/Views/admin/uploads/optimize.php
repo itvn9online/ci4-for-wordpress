@@ -2,10 +2,9 @@
 
 // Libraries
 use App\ Libraries\ PostType;
+use App\ ThirdParty\ WGRSimpleImage;
 
 //
-//require_once APPPATH . 'ThirdParty/functionsResizeImg.php';
-use App\ ThirdParty\ WGRSimpleImage;
 $image = new\ App\ ThirdParty\ WGRSimpleImage();
 
 //
