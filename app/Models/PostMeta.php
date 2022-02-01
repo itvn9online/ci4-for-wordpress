@@ -15,7 +15,7 @@ class PostMeta extends PostBase {
     }
 
     // lấy về danh sách meta post cho toàn bộ data được truyền vào
-    function list_meta_post( $data, $return_list = true ) {
+    function list_meta_post( $data ) {
         foreach ( $data as $k => $v ) {
             //print_r( $v );
             //var_dump( $v[ 'post_meta_data' ] );

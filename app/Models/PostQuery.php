@@ -200,6 +200,8 @@ class PostQuery extends PostMeta {
         // lấy meta của post này
         if ( !empty( $data ) ) {
             //$data[ 'post_meta' ] = $this->arr_meta_post( $data[ 'ID' ] );
+            // trong trang chi tiết -> lấy trực tiếp từ meta -> đỡ lỗi
+            //$data[ 'post_meta_data' ] = NULL;
             $data = $this->the_meta_post( $data );
         }
         //print_r( $data );
