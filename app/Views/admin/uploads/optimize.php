@@ -4,6 +4,11 @@
 use App\ Libraries\ PostType;
 
 //
+//require_once APPPATH . 'ThirdParty/functionsResizeImg.php';
+use App\ ThirdParty\ WGRSimpleImage;
+$image = new\ App\ ThirdParty\ WGRSimpleImage();
+
+//
 $min_active_optimize = 250000;
 
 ?>
@@ -20,10 +25,6 @@ if ( class_exists( 'Imagick' ) ) {
 <p class="medium grrencolor"><strong>Imagick</strong> enable</p>
 <?php
 }
-
-//
-require_once APPPATH . 'ThirdParty/functionsResizeImg.php';
-$image = new\ App\ ThirdParty\ WGR_SimpleImage();
 
 //
 //print_r( $data );

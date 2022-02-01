@@ -377,8 +377,8 @@ Compression = gzip -->';
      * Upload giả lập wordpress
      */
     protected function media_upload( $xss_clean = true ) {
-        require_once APPPATH . 'ThirdParty/functionsResizeImg.php';
-        $image = new\ App\ ThirdParty\ WGR_SimpleImage();
+        require_once APPPATH . 'ThirdParty/WGRSimpleImage.php';
+        $image = new\ App\ ThirdParty\ WGRSimpleImage();
         //print_r( $_POST );
         //print_r( $_FILES );
 
@@ -459,8 +459,8 @@ Compression = gzip -->';
         if ( !file_exists( $file_path ) ) {
             return false;
         }
-        require_once APPPATH . 'ThirdParty/functionsResizeImg.php';
-        $image = new\ App\ ThirdParty\ WGR_SimpleImage();
+        require_once APPPATH . 'ThirdParty/WGRSimpleImage.php';
+        $image = new\ App\ ThirdParty\ WGRSimpleImage();
         //echo $file_path . '<br>' . "\n";
 
         // bảo mật file, lỗi thì xóa luôn file này đi

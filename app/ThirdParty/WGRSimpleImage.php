@@ -5,7 +5,7 @@ namespace App\ ThirdParty;
  * hàm xử lý hình ảnh viết bằng PHP thuần, lấy từ hệ thống webgiare.org sang
  */
 
-class WGR_SimpleImage {
+class WGRSimpleImage {
     var $image;
     var $image_width;
     var $image_height;
