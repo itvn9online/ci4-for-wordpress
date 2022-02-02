@@ -124,6 +124,7 @@ form#listContactByType {
 .admin-media-attachment .media-attachment-padding {
     box-shadow: 0 0 10px #ccc;
     padding: 5px;
+    position: relative;
 }
 .admin-media-attachment .media-attachment-img {
     height: 1px;
@@ -146,6 +147,17 @@ form#listContactByType {
 }
 .admin-media-attachment li:hover .show-if-hover-upload {
     display: block !important;
+}
+.show-attachment-title {
+    position: absolute;
+    border: 1px #ccc solid;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 5px 10px;
+    border-radius: 5px;
+    left: 50%;
+    box-shadow: 0 0 10px #ccc;
+    transform: translate(-50%, 0);
+    z-index: 99;
 }
 /* */
 .cur {

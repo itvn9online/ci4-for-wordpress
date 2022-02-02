@@ -9,10 +9,34 @@ namespace App\ Libraries;
 
 class MyImage {
     //
-    const NEN = 85; // mức độ nén ảnh
+    const NEN = 75; // mức độ nén ảnh
 
     public function __construct() {
         //
+    }
+
+    private static function loadLib( $source ) {
+        /*
+        if ( class_exists( 'Imagick' ) ) {
+            echo 'with imagick library <br>' . PHP_EOL;
+            $image = \Config\ Services::image( 'imagick' );
+        }
+        //
+        else {
+            echo 'with gd library <br>' . PHP_EOL;
+            */
+        $image = \Config\ Services::image();
+        //}
+        return $image->withFile( $source );
+    }
+
+    private static function fixCom( $compression ) {
+        if ( $compression > 100 ) {
+            $compression = 100;
+        } else if ( $compression <= 0 ) {
+            $compression = self::NEN;
+        }
+        return $compression;
     }
 
     // chuyển định dạng ảnh sang webp
@@ -74,28 +98,6 @@ class MyImage {
         return '';
     }
 
-    private static function loadLib( $source ) {
-        if ( class_exists( 'Imagick' ) ) {
-            echo 'with imagick library <br>' . PHP_EOL;
-            $image = \Config\ Services::image( 'imagick' );
-        }
-        //
-        else {
-            echo 'with gd library <br>' . PHP_EOL;
-            $image = \Config\ Services::image();
-        }
-        return $image->withFile( $source );
-    }
-
-    private static function fixCom( $compression ) {
-        if ( $compression > 100 ) {
-            $compression = 100;
-        } else if ( $compression <= 0 ) {
-            $compression = self::NEN;
-        }
-        return $compression;
-    }
-
     /*
      * https://codeigniter4.github.io/userguide/libraries/images.html#image-quality
      * save() can take an additional parameter $quality to alter the resulting image quality. Values range from 0 to 100 with 90 being the framework default. This parameter only applies to JPEG images and will be ignored otherwise:
@@ -112,18 +114,44 @@ class MyImage {
         if ( $desc == '' ) {
             $desc = $source;
         }
-
-        //
-        $image = self::loadLib( $source );
         $compression = self::fixCom( $compression );
 
-        // If you are only interested in changing the image quality without doing any processing. You will need to include the image resource or you will end up with an exact copy:
-        if ( $withResource !== false ) {
-            $image->withResource();
-        }
+        // sử dụng Imagick (nếu có)
+        if ( class_exists( 'Imagick' ) ) {
+            /*
+             * https://phpimagick.com/Imagick/setCompressionQuality?quality=85&image_path=Lorikeet
+             */
+            //echo 'Imagick - ' . mime_content_type( $source ) . ' - ' . IMAGETYPE_JPEG . ' - ' . $this->image_type . ' - ' . \Imagick::COMPRESSION_JPEG . ' <br>' . "\n";
 
-        // processing methods
-        $image->save( $desc, $compression );
+            //
+            $image = new\ Imagick( $source );
+            if ( mime_content_type( $source ) == 'image/jpeg' ) {
+                $image->setImageFormat( 'jpg' );
+                $image->setImageCompression( \Imagick::COMPRESSION_JPEG );
+                $image->setImageCompressionQuality( $compression );
+            } else {
+                $image->setImageCompression( \Imagick::COMPRESSION_UNDEFINED );
+                $image->optimizeImageLayers();
+            }
+            $image->stripImage();
+            $image->writeImages( $desc, true );
+            $image->destroy();
+        } else {
+            // https://codeigniter4.github.io/userguide/libraries/images.html#image-quality
+            $image = \Config\ Services::image()->withFile( $source );
+
+            // If you are only interested in changing the image quality without doing any processing. You will need to include the image resource or you will end up with an exact copy:
+            if ( $withResource !== false ) {
+                $image->withResource();
+            }
+
+            //
+            $image->save( $desc, $compression );
+        }
+    }
+
+    public static function optimize( $source, $desc = '', $compression = 0, $withResource = false ) {
+        return self::quality( $source, $desc, $compression, $withResource );
     }
 
     /*
@@ -180,28 +208,61 @@ class MyImage {
         }
 
         //
-        $image = self::loadLib( $source );
-        $compression = self::fixCom( $compression );
+        $resize_ext = pathinfo( $source, PATHINFO_EXTENSION );
+
+        // với file gif -> hiện chỉ có thể copy
+        if ( strtolower( $resize_ext ) == 'gif' ) {
+            copy( $source, $desc )or die( 'ERROR copy for resize file for .gif' );
+        }
+        // các file ảnh khác có thể resize
+        else {
+            $compression = self::fixCom( $compression );
+
+            //
+            $get_file_info = getimagesize( $source );
+            // nếu size cần resize mà nhỏ hơn size chính -> copy luôn cho nhanh
+            if ( $width > $get_file_info[ 0 ] ) {
+                copy( $source, $desc )or die( 'ERROR copy for resize file with new width' );
+
+                // optimize file sau mỗi lần copy
+                $new_quality = self::quality( $desc, $desc, $compression );
+            }
+            // còn lại sẽ thực hiện resize
+            else {
+                $image = self::loadLib( $source );
+
+                //
+                $maintainRatio = false;
+                $masterDim = 'auto';
+                // resize theo chiều rộng -> chiều cao sẽ tính toán theo tỉ lệ mới của chiều rộng
+                if ( $height <= 0 ) {
+                    $maintainRatio = true;
+                    $masterDim = 'width';
+                }
+                // resize theo chiều cao -> chiều rộng sẽ tính toán theo tỉ lệ mới của chiều cao
+                else if ( $width <= 0 ) {
+                    $maintainRatio = true;
+                    $masterDim = 'height';
+                }
+
+                //
+                $image->resize( $width, $height, $maintainRatio, $masterDim );
+
+                // processing methods
+                $image->save( $desc, $compression );
+            }
+        }
+        chmod( $desc, 0777 );
 
         //
-        $maintainRatio = false;
-        $masterDim = 'auto';
-        // resize theo chiều rộng -> chiều cao sẽ tính toán theo tỉ lệ mới của chiều rộng
-        if ( $height <= 0 ) {
-            $maintainRatio = true;
-            $masterDim = 'width';
-        }
-        // resize theo chiều cao -> chiều rộng sẽ tính toán theo tỉ lệ mới của chiều cao
-        else if ( $width <= 0 ) {
-            $maintainRatio = true;
-            $masterDim = 'height';
-        }
-
-        //
-        $image->resize( $width, $height, $maintainRatio, $masterDim );
-
-        // processing methods
-        $image->save( $desc, $compression );
+        clearstatcache();
+        $get_file_info = getimagesize( $desc );
+        return [
+            'file' => basename( $desc ),
+            'file_size' => filesize( $desc ),
+            'width' => $get_file_info[ 0 ],
+            'height' => $get_file_info[ 1 ],
+        ];
     }
 
     /*

@@ -158,7 +158,7 @@ if ( !empty( $uri_quick_upload ) ) {
 
         ?>
     <li data-id="<?php echo $v['ID']; ?>">
-        <div title="<?php echo $v['post_name']; ?>" class="media-attachment-padding">
+        <div data-title="<?php echo $v['post_name']; ?>" class="media-attachment-padding">
             <div class="d-none show-if-hover-upload lf medium18"><strong onClick="return click_set_img_for_input('<?php echo $v['ID']; ?>');" class="greencolor cur"><i class="fa fa-plus"></i></strong></div>
             <div class="d-none remove-attachment show-if-hover-upload rf medium18"><a href="admin/<?php echo $controller_slug; ?>/delete?id=<?php echo $v['ID'] . $uri_quick_upload; ?>" target="target_eb_iframe" onClick="return confirm('Xác nhận xóa tệp này?');"><i class="fa fa-trash"></i></a></div>
             <div data-id="<?php echo $v['ID']; ?>"
@@ -178,6 +178,7 @@ if ( !empty( $uri_quick_upload ) ) {
                  onDblClick="return click_set_img_for_input('<?php echo $v['ID']; ?>');"
                  class="media-attachment-img"
                  style="background-image: url('<?php echo $src; ?>');">&nbsp;</div>
+            <div class="d-none show-if-hover-upload show-attachment-title"><?php echo $v['post_name']; ?></div>
         </div>
     </li>
     <?php

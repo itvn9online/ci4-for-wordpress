@@ -377,8 +377,6 @@ Compression = gzip -->';
      * Upload giả lập wordpress
      */
     protected function media_upload( $xss_clean = true ) {
-        require_once APPPATH . 'ThirdParty/WGRSimpleImage.php';
-        $image = new\ App\ ThirdParty\ WGRSimpleImage();
         //print_r( $_POST );
         //print_r( $_FILES );
 
@@ -433,11 +431,13 @@ Compression = gzip -->';
 
                     //
                     if ( file_exists( $file_path ) ) {
-                        // optimize
-                        $image->optimize( $file_path );
+                        chmod( $file_path, 0777 );
 
                         //
                         $metadata = $this->media_attachment_metadata( $file_path, $file_ext, $upload_path, $upload_image[ 'type' ][ $k ], $upload_root );
+
+                        // optimize file gốc
+                        $new_quality = \App\ Libraries\ MyImage::quality( $file_path );
 
                         //
                         if ( $metadata !== false ) {
@@ -459,8 +459,6 @@ Compression = gzip -->';
         if ( !file_exists( $file_path ) ) {
             return false;
         }
-        require_once APPPATH . 'ThirdParty/WGRSimpleImage.php';
-        $image = new\ App\ ThirdParty\ WGRSimpleImage();
         //echo $file_path . '<br>' . "\n";
 
         // bảo mật file, lỗi thì xóa luôn file này đi
@@ -529,7 +527,7 @@ Compression = gzip -->';
              */
             // chỉ resize với các file được chỉ định (thường là file ảnh)
             if ( in_array( strtolower( $file_ext ), $arr_allow_resize ) ) {
-                $resize_img = $image->WGR_resize_images( $file_path, $resize_path, $size );
+                $resize_img = \App\ Libraries\ MyImage::resize( $file_path, $resize_path, $size );
             }
             // các file khác không cần resize
             else {
@@ -594,7 +592,7 @@ Compression = gzip -->';
         ];
         //print_r( $_POST );
         //die( __FILE__ . ':' . __LINE__ );
-        $result_id = $this->post_model->insert_post( $data_insert, $_POST[ 'post_meta' ], false );
+        $result_id = $this->post_model->insert_post( $data_insert, $_POST[ 'post_meta' ] );
         //print_r( $result_id );
         if ( is_array( $result_id ) && isset( $result_id[ 'error' ] ) ) {
             $this->base_model->alert( $result_id[ 'error' ], 'error' );
