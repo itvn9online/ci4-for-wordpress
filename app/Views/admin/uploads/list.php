@@ -101,7 +101,7 @@ if ( !empty( $uri_quick_upload ) ) {
         <label for="upload_image" class="text-center greencolor cur">* Chọn ảnh để upload lên hệ thống (có thể chọn nhiều ảnh cùng lúc)</label>
         <form action="" method="post" name="frm_global_upload" role="form" enctype="multipart/form-data" target="target_eb_iframe">
             <input type="hidden" name="data" value="1" />
-            <input type="file" name="upload_image[]" id="upload_image" accept="image/*" multiple />
+            <input type="file" name="upload_image[]" id="upload_image" accept="image/*,video/*,audio/*,application/*,text/*" multiple />
         </form>
     </div>
 </div>
@@ -111,6 +111,7 @@ if ( !empty( $uri_quick_upload ) ) {
 
     //
     //print_r( $data );
+    //die( __FILE__ . ':' . __LINE__ );
     foreach ( $data as $k => $v ) {
         //print_r( $v );
         $src = $upload_model->get_thumbnail( $v );
@@ -134,9 +135,14 @@ if ( !empty( $uri_quick_upload ) ) {
         //
         $attachment_metadata = unserialize( $v[ 'post_meta' ][ '_wp_attachment_metadata' ] );
         //print_r( $attachment_metadata );
-        $data_srcset = [
-            $short_uri . $attachment_metadata[ 'file' ] . ' ' . $attachment_metadata[ 'width' ] . 'w'
-        ];
+        //continue;
+        if ( $attachment_metadata[ 'width' ] > 0 ) {
+            $data_srcset = [
+                $short_uri . $attachment_metadata[ 'file' ] . ' ' . $attachment_metadata[ 'width' ] . 'w'
+            ];
+        } else {
+            $data_srcset = [];
+        }
 
         //
         $data_width = '';
@@ -144,15 +150,18 @@ if ( !empty( $uri_quick_upload ) ) {
         foreach ( $attachment_metadata[ 'sizes' ] as $k_sizes => $sizes ) {
             //echo $k_sizes . '<br>' . "\n";
             //print_r( $sizes );
+            //continue;
 
             //
-            if ( $k_sizes == 'large' ) {
-                $data_width = $sizes[ 'width' ];
-                $data_height = $sizes[ 'height' ];
+            if ( isset( $sizes[ 'width' ] ) ) {
+                if ( $k_sizes == 'large' ) {
+                    $data_width = $sizes[ 'width' ];
+                    $data_height = $sizes[ 'height' ];
+                }
+
+                //
+                $data_srcset[] = $short_uri . $sizes[ 'file' ] . ' ' . $sizes[ 'width' ] . 'w';
             }
-
-            //
-            $data_srcset[] = $short_uri . $sizes[ 'file' ] . ' ' . $sizes[ 'width' ] . 'w';
         }
         //print_r( $data_srcset );
 

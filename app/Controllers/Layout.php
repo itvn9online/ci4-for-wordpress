@@ -376,12 +376,20 @@ Compression = gzip -->';
     /*
      * Upload giả lập wordpress
      */
-    protected function media_upload( $xss_clean = true ) {
+    protected function media_upload( $xss_clean = true, $allow_upload = [] ) {
         //print_r( $_POST );
         //print_r( $_FILES );
 
         // mảng trả về danh sách file đã upload
         $arr_result = [];
+
+        // 1 số định dạng file không cho phép upload trực tiếp
+        $arr_block_upload = [
+            'php',
+            'exe',
+            'py',
+            'sh'
+        ];
 
         // chạy vòng lặp và up tất cả các file được chọn
         foreach ( $_FILES as $key => $upload_image ) {
@@ -409,6 +417,18 @@ Compression = gzip -->';
                 //
                 $file_ext = pathinfo( $v, PATHINFO_EXTENSION );
                 //echo $file_ext . '<br>' . "\n";
+                $file_ext = strtolower( $file_ext );
+
+                // nếu có kiểm duyệt định dạng file -> chỉ các file trong này mới được upload
+                if ( !empty( $allow_upload ) && !in_array( $file_ext, $allow_upload ) ) {
+                    continue;
+                }
+                // nếu không, sẽ chặn các định dạng file có khả năng thực thi lệnh từ server
+                else if ( in_array( $file_ext, $arr_block_upload ) ) {
+                    continue;
+                }
+
+                //
                 $file_path = $upload_path . $v;
                 // đổi tên file nếu file đã tồn tại
                 if ( file_exists( $file_path ) ) {
@@ -437,7 +457,9 @@ Compression = gzip -->';
                         $metadata = $this->media_attachment_metadata( $file_path, $file_ext, $upload_path, $upload_image[ 'type' ][ $k ], $upload_root );
 
                         // optimize file gốc
-                        $new_quality = \App\ Libraries\ MyImage::quality( $file_path );
+                        if ( $metadata[ 'is_image' ] === true ) {
+                            $new_quality = \App\ Libraries\ MyImage::quality( $file_path );
+                        }
 
                         //
                         if ( $metadata !== false ) {
@@ -492,6 +514,7 @@ Compression = gzip -->';
         if ( $file_ext == '' ) {
             $file_ext = pathinfo( $file_path, PATHINFO_EXTENSION );
         }
+        $file_ext = strtolower( $file_ext );
         //echo $file_ext . '<br>' . "\n";
 
         //
@@ -512,9 +535,23 @@ Compression = gzip -->';
             'jpg',
             'jpeg'
         ];
+        $arr_allow_gif = [
+            'gif'
+        ];
 
         // giả lập dữ liệu giống wordpress
         $arr_after_sizes = [];
+        $is_image = false;
+        if ( in_array( $file_ext, $arr_allow_resize ) || in_array( $file_ext, $arr_allow_gif ) ) {
+            $get_file_info = getimagesize( $file_path );
+            $is_image = true;
+        } else {
+            $get_file_info = [
+                0,
+                0
+            ];
+        }
+        $file_size = filesize( $file_path );
         foreach ( $arr_list_size as $size_name => $size ) {
             $resize_path = $upload_path . $post_title . '-' . $size_name . '.' . $file_ext;
             //echo $resize_path . '<br>' . "\n";
@@ -526,12 +563,26 @@ Compression = gzip -->';
              * https://codeigniter.com/userguide3/libraries/image_lib.html
              */
             // chỉ resize với các file được chỉ định (thường là file ảnh)
-            if ( in_array( strtolower( $file_ext ), $arr_allow_resize ) ) {
+            if ( in_array( $file_ext, $arr_allow_resize ) ) {
                 $resize_img = \App\ Libraries\ MyImage::resize( $file_path, $resize_path, $size );
             }
+            //
+            /*
+            else if ( in_array( $file_ext, $arr_allow_gif ) ) {
+                $resize_img = [
+                    'width' => $get_file_info[ 0 ],
+                    'height' => $get_file_info[ 1 ],
+                    'file_size' => $file_size,
+                    'file' => basename( $file_path ),
+                ];
+            }
+            */
             // các file khác không cần resize
             else {
                 $resize_img = [
+                    'width' => $get_file_info[ 0 ],
+                    'height' => $get_file_info[ 1 ],
+                    'file_size' => $file_size,
                     'file' => basename( $file_path ),
                 ];
             }
@@ -545,12 +596,11 @@ Compression = gzip -->';
         //die( __FILE__ . ':' . __LINE__ );
 
         //
-        $get_file_info = getimagesize( $file_path );
         //print_r( $get_file_info );
         $arr_metadata = [
             'width' => $get_file_info[ 0 ],
             'height' => $get_file_info[ 1 ],
-            'file_size' => filesize( $file_path ),
+            'file_size' => $file_size,
             'file' => $file_uri,
             'sizes' => $arr_after_sizes,
             'image_meta' => [
@@ -597,11 +647,13 @@ Compression = gzip -->';
         if ( is_array( $result_id ) && isset( $result_id[ 'error' ] ) ) {
             $this->base_model->alert( $result_id[ 'error' ], 'error' );
         }
+        //die( __FILE__ . ':' . __LINE__ );
         //echo 'Result id: ' . $result_id . '<br>' . "\n";
 
         //
         return [
             'file_uri' => PostType::MEDIA_URI . $file_uri,
+            'is_image' => $is_image,
             'metadata' => $arr_metadata,
             'data' => $data_insert,
             'meta' => $_POST[ 'post_meta' ],
