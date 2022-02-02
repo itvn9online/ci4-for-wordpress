@@ -380,6 +380,14 @@ Compression = gzip -->';
         //print_r( $_POST );
         //print_r( $_FILES );
 
+        //
+        $upload_root = PUBLIC_HTML_PATH . PostType::MEDIA_PATH;
+        $upload_path = $this->media_path( [
+            date( 'Y' ),
+            date( 'm' ),
+        ], $upload_root );
+        //echo $upload_path . '<br>' . "\n";
+
         // mảng trả về danh sách file đã upload
         $arr_result = [];
 
@@ -391,73 +399,111 @@ Compression = gzip -->';
             'sh'
         ];
 
-        // chạy vòng lặp và up tất cả các file được chọn
-        foreach ( $_FILES as $key => $upload_image ) {
-            //$upload_image = $_FILES[ $key ];
-            //print_r( $upload_image );
-            //die( __FILE__ . ':' . __LINE__ );
-            //continue;
+        //
+        if ( $imagefile = $this->request->getFiles() ) {
+            //print_r( $imagefile );
 
-            //
-            $upload_name = $upload_image[ 'name' ];
-            $upload_root = PUBLIC_HTML_PATH . PostType::MEDIA_PATH;
-            $upload_path = $this->media_path( [
-                date( 'Y' ),
-                date( 'm' ),
-            ], $upload_root );
-            //echo $upload_path . '<br>' . "\n";
-            //die( __FILE__ . ':' . __LINE__ );
-
-            //
-            foreach ( $upload_name as $k => $v ) {
-                $v = $this->base_model->_eb_non_mark_seo( $v );
-                $v = sanitize_filename( $v );
-                //echo $v . '<br>' . "\n";
+            // chạy vòng lặp để lấy các key upload -> xác định tên input tự động
+            foreach ( $_FILES as $key => $upload_image ) {
+                //echo $key . '<br>' . "\n";
 
                 //
-                $file_ext = pathinfo( $v, PATHINFO_EXTENSION );
-                //echo $file_ext . '<br>' . "\n";
-                $file_ext = strtolower( $file_ext );
+                foreach ( $imagefile[ $key ] as $file ) {
+                    //print_r( $file );
+                    if ( $file->isValid() && !$file->hasMoved() ) {
+                        $file_name = $file->getName();
+                        //echo $file_name . '<br>' . "\n";
+                        $file_name = $this->base_model->_eb_non_mark_seo( $file_name );
+                        $file_name = sanitize_filename( $file_name );
+                        //echo $file_name . '<br>' . "\n";
 
-                // nếu có kiểm duyệt định dạng file -> chỉ các file trong này mới được upload
-                if ( !empty( $allow_upload ) && !in_array( $file_ext, $allow_upload ) ) {
-                    continue;
-                }
-                // nếu không, sẽ chặn các định dạng file có khả năng thực thi lệnh từ server
-                else if ( in_array( $file_ext, $arr_block_upload ) ) {
-                    continue;
-                }
+                        //
+                        $file_ext = $file->guessExtension();
+                        //echo $file_ext . '<br>' . "\n";
+                        $file_ext = strtolower( $file_ext );
+                        //echo $file_ext . '<br>' . "\n";
 
-                //
-                $file_path = $upload_path . $v;
-                // đổi tên file nếu file đã tồn tại
-                if ( file_exists( $file_path ) ) {
-                    for ( $i = 1; $i < 100; $i++ ) {
-                        $file_new_name = $this->base_model->_eb_non_mark_seo( basename( $v, '.' . $file_ext ) ) . '_' . $i . '.' . $file_ext;
-                        $file_path = $upload_path . $file_new_name;
-                        if ( !file_exists( $file_path ) ) {
-                            break;
+                        //
+                        $file_path = $upload_path . $file_name;
+                        // đổi tên file nếu file đã tồn tại
+                        if ( file_exists( $file_path ) ) {
+                            for ( $i = 1; $i < 100; $i++ ) {
+                                $file_new_name = basename( $file_name, '.' . $file_ext ) . '_' . $i . '.' . $file_ext;
+                                $file_path = $upload_path . $file_new_name;
+                                if ( !file_exists( $file_path ) ) {
+                                    $file_name = basename( $file_path );
+                                    break;
+                                }
+                            }
                         }
-                    }
-                }
-                //echo $file_path . '<br>' . "\n";
-                //die( __FILE__ . ':' . __LINE__ );
+                        //echo $file_path . '<br>' . "\n";
 
-                //
-                if ( move_uploaded_file( $upload_image[ 'tmp_name' ][ $k ], $file_path ) ) {
-                    if ( !isset( $arr_result[ $key ] ) ) {
-                        $arr_result[ $key ] = [];
-                    }
+                        // kiểm tra định dạng file
+                        $mime_type = $file->getMimeType();
+                        //echo $mime_type . '<br>' . "\n";
+                        //continue;
 
-                    //
-                    if ( file_exists( $file_path ) ) {
+                        // nếu không phải file ảnh
+                        $is_image = true;
+                        if ( strtolower( explode( '/', $mime_type )[ 0 ] ) != 'image' ) {
+                            $is_image = false;
+
+                            // thêm vào tệp mở rộng để không cho truy cập file trực tiếp
+                            $file_other_ext = 'other-ext';
+                            $file_new_path = $file_path . '.' . $file_other_ext;
+                            //echo $file_new_path . '<br>' . "\n";
+                            if ( file_exists( $file_new_path ) ) {
+                                for ( $i = 1; $i < 100; $i++ ) {
+                                    $file_new_path = $file_path . '.' . $file_other_ext . '_' . $i;
+                                    //echo $file_new_path . '<br>' . "\n";
+                                    if ( !file_exists( $file_new_path ) ) {
+                                        $file_path = $file_new_path;
+                                        break;
+                                    }
+                                }
+                            } else {
+                                $file_path = $file_new_path;
+                            }
+                            //echo $file_path . '<br>' . "\n";
+                            $file_name = basename( $file_path );
+                            //echo $file_name . '<br>' . "\n";
+                            //die( __FILE__ . ':' . __LINE__ );
+                        }
+
+                        //
+                        //$originalName = $file->getClientName();
+                        //echo $originalName . '<br>' . "\n";
+
+                        // nếu có kiểm duyệt định dạng file -> chỉ các file trong này mới được upload
+                        if ( !empty( $allow_upload ) && !in_array( $file_ext, $allow_upload ) ) {
+                            continue;
+                        }
+                        /*
+                        // nếu không, sẽ chặn các định dạng file có khả năng thực thi lệnh từ server
+                        else if ( in_array( $file_ext, $arr_block_upload ) ) {
+                            continue;
+                        }
+                        */
+
+                        //
+                        $file->move( $upload_path, $file_name );
+
+                        //
+                        if ( !file_exists( $file_path ) ) {
+                            continue;
+                        }
                         chmod( $file_path, 0777 );
 
                         //
-                        $metadata = $this->media_attachment_metadata( $file_path, $file_ext, $upload_path, $upload_image[ 'type' ][ $k ], $upload_root );
+                        if ( !isset( $arr_result[ $key ] ) ) {
+                            $arr_result[ $key ] = [];
+                        }
+
+                        //
+                        $metadata = $this->media_attachment_metadata( $file_path, $file_ext, $upload_path, $mime_type, $upload_root );
 
                         // optimize file gốc
-                        if ( $metadata[ 'is_image' ] === true ) {
+                        if ( $is_image === true ) {
                             $new_quality = \App\ Libraries\ MyImage::quality( $file_path );
                         }
 
@@ -465,9 +511,12 @@ Compression = gzip -->';
                         if ( $metadata !== false ) {
                             $arr_result[ $key ][] = $metadata[ 'file_uri' ];
                         }
+                    } else {
+                        throw new\ RuntimeException( $file->getErrorString() . '(' . $file->getError() . ')' );
                     }
                 }
             }
+            //die( __FILE__ . ':' . __LINE__ );
         }
         //print_r( $arr_result );
         //die( __FILE__ . ':' . __LINE__ );
@@ -523,6 +572,12 @@ Compression = gzip -->';
         }
         //echo $mime_type . '<br>' . "\n";
 
+        // nếu không phải file ảnh
+        $is_image = true;
+        if ( strtolower( explode( '/', $mime_type )[ 0 ] ) != 'image' ) {
+            $is_image = false;
+        }
+
         //
         $post_title = basename( $file_path, '.' . $file_ext );
         //echo $post_title . '<br>' . "\n";
@@ -535,16 +590,11 @@ Compression = gzip -->';
             'jpg',
             'jpeg'
         ];
-        $arr_allow_gif = [
-            'gif'
-        ];
 
         // giả lập dữ liệu giống wordpress
         $arr_after_sizes = [];
-        $is_image = false;
-        if ( in_array( $file_ext, $arr_allow_resize ) || in_array( $file_ext, $arr_allow_gif ) ) {
+        if ( $is_image == true ) {
             $get_file_info = getimagesize( $file_path );
-            $is_image = true;
         } else {
             $get_file_info = [
                 0,
@@ -566,17 +616,6 @@ Compression = gzip -->';
             if ( in_array( $file_ext, $arr_allow_resize ) ) {
                 $resize_img = \App\ Libraries\ MyImage::resize( $file_path, $resize_path, $size );
             }
-            //
-            /*
-            else if ( in_array( $file_ext, $arr_allow_gif ) ) {
-                $resize_img = [
-                    'width' => $get_file_info[ 0 ],
-                    'height' => $get_file_info[ 1 ],
-                    'file_size' => $file_size,
-                    'file' => basename( $file_path ),
-                ];
-            }
-            */
             // các file khác không cần resize
             else {
                 $resize_img = [

@@ -114,53 +114,71 @@ if ( !empty( $uri_quick_upload ) ) {
     //die( __FILE__ . ':' . __LINE__ );
     foreach ( $data as $k => $v ) {
         //print_r( $v );
-        $src = $upload_model->get_thumbnail( $v );
-        //echo 'src: ' . $src . '<br>' . "\n";
-        //continue;
-
-        if ( $str_insert_to != '' ) {
-            $all_src = $upload_model->get_all_media( $v );
-        }
-        $all_src[ 'thumbnail' ] = $src;
-        //$all_src = json_encode( $all_src );
-        //print_r( $all_src );
-
-        // xác định url cho ảnh
-        if ( $v[ 'post_type' ] == PostType::WP_MEDIA ) {
-            $short_uri = PostType::WP_MEDIA_URI;
-        } else {
-            $short_uri = PostType::MEDIA_URI;
-        }
 
         //
-        $attachment_metadata = unserialize( $v[ 'post_meta' ][ '_wp_attachment_metadata' ] );
-        //print_r( $attachment_metadata );
-        //continue;
-        if ( $attachment_metadata[ 'width' ] > 0 ) {
-            $data_srcset = [
-                $short_uri . $attachment_metadata[ 'file' ] . ' ' . $attachment_metadata[ 'width' ] . 'w'
-            ];
-        } else {
-            $data_srcset = [];
-        }
-
-        //
+        $all_src = [];
+        $data_srcset = [];
         $data_width = '';
         $data_height = '';
-        foreach ( $attachment_metadata[ 'sizes' ] as $k_sizes => $sizes ) {
-            //echo $k_sizes . '<br>' . "\n";
-            //print_r( $sizes );
+
+        // với định dạng khác -> chưa xử lý
+        if ( strtolower( explode( '/', $v[ 'post_mime_type' ] )[ 0 ] ) != 'image' ) {
+            $background_image = '';
+            $attachment_metadata = [
+                'width' => 0,
+            ];
+        }
+        // xử lý riêng với hình ảnh
+        else {
+            $src = $upload_model->get_thumbnail( $v );
+            //echo 'src: ' . $src . '<br>' . "\n";
             //continue;
 
             //
-            if ( isset( $sizes[ 'width' ] ) ) {
-                if ( $k_sizes == 'large' ) {
-                    $data_width = $sizes[ 'width' ];
-                    $data_height = $sizes[ 'height' ];
-                }
+            $background_image = 'background-image: url(\'' . $src . '\');';
+
+            //
+            if ( $str_insert_to != '' ) {
+                $all_src = $upload_model->get_all_media( $v );
+            }
+            $all_src[ 'thumbnail' ] = $src;
+            //print_r( $all_src );
+            //$all_src = json_encode( $all_src );
+            //print_r( $all_src );
+
+            // xác định url cho ảnh
+            if ( $v[ 'post_type' ] == PostType::WP_MEDIA ) {
+                $short_uri = PostType::WP_MEDIA_URI;
+            } else {
+                $short_uri = PostType::MEDIA_URI;
+            }
+
+            //
+            $attachment_metadata = unserialize( $v[ 'post_meta' ][ '_wp_attachment_metadata' ] );
+            //print_r( $attachment_metadata );
+            //continue;
+            if ( $attachment_metadata[ 'width' ] > 0 ) {
+                $data_srcset = [
+                    $short_uri . $attachment_metadata[ 'file' ] . ' ' . $attachment_metadata[ 'width' ] . 'w'
+                ];
+            }
+
+            //
+            foreach ( $attachment_metadata[ 'sizes' ] as $k_sizes => $sizes ) {
+                //echo $k_sizes . '<br>' . "\n";
+                //print_r( $sizes );
+                //continue;
 
                 //
-                $data_srcset[] = $short_uri . $sizes[ 'file' ] . ' ' . $sizes[ 'width' ] . 'w';
+                if ( isset( $sizes[ 'width' ] ) ) {
+                    if ( $k_sizes == 'large' ) {
+                        $data_width = $sizes[ 'width' ];
+                        $data_height = $sizes[ 'height' ];
+                    }
+
+                    //
+                    $data_srcset[] = $short_uri . $sizes[ 'file' ] . ' ' . $sizes[ 'width' ] . 'w';
+                }
             }
         }
         //print_r( $data_srcset );
@@ -177,6 +195,7 @@ if ( !empty( $uri_quick_upload ) ) {
                  data-width="<?php echo $data_width; ?>"
                  data-height="<?php echo $data_height; ?>"
                  data-input_type="<?php echo $input_type; ?>"
+                 data-mime_type="<?php echo $v['post_mime_type']; ?>"
                  <?php
         foreach ($all_src as $size_name => $file) {
             echo ' data-' . $size_name . '="' . $file . '"' . "\n";
@@ -186,7 +205,7 @@ if ( !empty( $uri_quick_upload ) ) {
                  data-sizes="(max-width: <?php echo $attachment_metadata['width']; ?>px) 100vw, <?php echo $attachment_metadata['width']; ?>px"
                  onDblClick="return click_set_img_for_input('<?php echo $v['ID']; ?>');"
                  class="media-attachment-img"
-                 style="background-image: url('<?php echo $src; ?>');">&nbsp;</div>
+                 style="<?php echo $background_image; ?>">&nbsp;</div>
             <div class="d-none show-if-hover-upload show-attachment-title"><?php echo $v['post_name']; ?></div>
         </div>
     </li>
