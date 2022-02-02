@@ -376,12 +376,72 @@ Compression = gzip -->';
     /*
      * Upload giả lập wordpress
      */
+    protected function deny_visit_upload( $upload_root = '', $remove_file = false ) {
+        if ( $upload_root == '' ) {
+            $upload_root = PUBLIC_HTML_PATH . PostType::MEDIA_PATH;
+        }
+
+        //
+        $htaccess_file = $upload_root . '.htaccess';
+        //die($htaccess_file);
+        //echo $htaccess_file . '<br>' . "\n";
+
+        // cập nhật lại nội dung file htaccess
+        if ( $remove_file === true && file_exists( $htaccess_file ) ) {
+            unlink( $htaccess_file );
+        }
+
+        //
+        if ( !file_exists( $htaccess_file ) ) {
+            $filew = fopen( $htaccess_file, 'x+' );
+            chmod( $htaccess_file, 0644 );
+            fclose( $filew );
+
+            // nội dung chặn mọi truy cập tới các file trong này
+            file_put_contents( $htaccess_file, trim( '
+
+#
+Order allow,deny
+Deny from all 
+Allow from 127.0.0.1
+
+# Allow access to files with extensions -> in apache
+<FilesMatch "\.(jpg|jpeg|png|gif|pdf|txt|bmp)$">
+Order allow,deny
+Allow from all
+</FilesMatch>
+
+# too many redirect if not image -> in apache, openlitespeed
+<IfModule mod_rewrite.c>
+RewriteCond %{REQUEST_URI} !^.*\.(jpg|jpeg|png|gif|pdf|txt|bmp)$
+RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
+</IfModule>
+
+# too many redirect for all extensions -> in apache, openlitespeed
+# RewriteRule ^(.*) ' . DYNAMIC_BASE_URL . '$1 [F]
+
+#
+
+' ) );
+        }
+        //die( __FILE__ . ':' . __LINE__ );
+
+        //
+        return $htaccess_file;
+    }
+
     protected function media_upload( $xss_clean = true, $allow_upload = [] ) {
         //print_r( $_POST );
         //print_r( $_FILES );
 
         //
         $upload_root = PUBLIC_HTML_PATH . PostType::MEDIA_PATH;
+        //echo $upload_root . '<br>' . "\n";
+
+        //
+        $this->deny_visit_upload( $upload_root );
+
+        //
         $upload_path = $this->media_path( [
             date( 'Y' ),
             date( 'm' ),
@@ -449,7 +509,7 @@ Compression = gzip -->';
                             $is_image = false;
 
                             // thêm vào tệp mở rộng để không cho truy cập file trực tiếp
-                            $file_other_ext = 'other-ext';
+                            $file_other_ext = 'daidq-ext';
                             $file_new_path = $file_path . '.' . $file_other_ext;
                             //echo $file_new_path . '<br>' . "\n";
                             if ( file_exists( $file_new_path ) ) {

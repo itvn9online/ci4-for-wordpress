@@ -27,6 +27,12 @@ class Configs extends Admin {
 
     public function index() {
         if ( !empty( $this->MY_post( 'data' ) ) ) {
+            if ( $this->config_type == ConfigType::CONFIG ) {
+                echo $this->deny_visit_upload( '', true ) . '<br>' . "\n";
+                $this->auto_create_htaccess_deny( true );
+            }
+
+            //
             $this->updated( $this->config_type );
         }
 

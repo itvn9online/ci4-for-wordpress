@@ -154,6 +154,64 @@ class Admin extends Layout {
         return $arr;
     }
 
+    // kiểm tra và tạo file htaccess chặn truy cập ở các thư mục không phải public
+    protected function auto_create_htaccess_deny( $remove_file = false ) {
+        // các thư mục được phép truy cập
+        $arr_allow_dir = [
+            // thư mục upload ảnh
+            'upload',
+            // thư mục chứa các file tĩnh để người dùng sử dụng
+            'public',
+            // hướng dẫn sử dụng của codeigniter
+            'user_guide',
+            // thư mục chứa file design của từng website
+            'design',
+        ];
+
+        //
+        foreach ( glob( PUBLIC_HTML_PATH . '*' ) as $filename ) {
+            // chỉ kiểm tra đối với thư mục
+            if ( is_dir( $filename ) ) {
+                //echo $filename . '<br>' . "\n";
+                //echo basename( $filename ) . '<br>' . "\n";
+                $f = $filename . '/.htaccess';
+
+                // không xử lý file htaccess trong các thư mục được nêu tên
+                if ( !in_array( basename( $filename ), $arr_allow_dir ) ) {
+                    // cập nhật lại nội dung file htaccess
+                    if ( $remove_file === true && file_exists( $f ) ) {
+                        unlink( $f );
+                    }
+
+                    //
+                    if ( !file_exists( $f ) ) {
+                        echo $f . '<br>' . "\n";
+
+                        //
+                        $this->base_model->_eb_create_file( $f, trim( '
+
+<IfModule authz_core_module>
+	Require all denied
+</IfModule>
+<IfModule !authz_core_module>
+	Deny from all
+</IfModule>
+
+# too many redirect for all extensions -> in apache, openlitespeed
+RewriteRule ^(.*) ' . DYNAMIC_BASE_URL . '$1 [F]
+
+#
+
+' ), [
+                            'set_permission' => 0644,
+                        ] );
+                    }
+                }
+            }
+            //include $filename;
+        }
+    }
+
     // reset sesion login -> giữ trạng thái đăng nhập nếu không dùng máy tính mà vẫn bật trình duyệt
     public function admin_logged() {
         $this->base_model->alert( 'CẢNH BÁO! Hãy đăng xuất admin khi không sử dụng!', 'warning' );
