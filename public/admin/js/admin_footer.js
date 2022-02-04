@@ -187,6 +187,13 @@ setInterval(function () {
 /*
  * thay đổi ngôn ngữ trong admin
  */
+(function () {
+    var str = '';
+    for (var x in arr_lang_list) {
+        str += '<option value="' + x + '">' + arr_lang_list.x + '</option>';
+    }
+    $('.admin-change-language').html(str);
+})();
 $('.admin-change-language').change(function () {
     var a = $(this).val() || '';
 

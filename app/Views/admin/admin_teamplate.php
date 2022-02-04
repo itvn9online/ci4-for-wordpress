@@ -29,6 +29,54 @@ if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
 */
 
 
+// TEST
+//$session_data[ 'member_type' ] = UsersType::MOD;
+//$session_data[ 'member_type' ] = UsersType::AUTHOR;
+//$session_data[ 'member_type' ] = UsersType::MEMBER;
+//$session_data[ 'member_type' ] = UsersType::GUEST;
+
+// chạy vòng lặp kiểm tra phân quyền nếu không phải admin
+if ( $session_data[ 'member_type' ] != UsersType::ADMIN ) {
+    foreach ( $arr_admin_menu as $k => $v ) {
+        //print_r( $v );
+
+        // không tồn tại role -> quyền admin -> bỏ qua
+        if ( !isset( $v[ 'role' ] ) ) {
+            echo '<!-- Admin role not found! -->';
+            $arr_admin_menu[ $k ] = null;
+            continue;
+        }
+
+        // nếu có role -> kiểm tra quyền truy cập
+        if ( !empty( $v[ 'role' ] ) && !in_array( $session_data[ 'member_type' ], $v[ 'role' ] ) ) {
+            echo '<!-- Permission deny! -->';
+            $arr_admin_menu[ $k ] = null;
+            continue;
+        }
+
+        //
+        foreach ( $v[ 'arr' ] as $k_sub => $v_sub ) {
+            //print_r( $v_sub );
+
+            //
+            if ( isset( $v_sub[ 'role' ] ) &&
+                // phân quyền không trống
+                !empty( $v_sub[ 'role' ] ) &&
+                // kiểm tra quyền truy cập
+                !in_array( $session_data[ 'member_type' ], $v_sub[ 'role' ] ) ) {
+                echo '<!-- Permission sub deny! -->';
+                $v[ 'arr' ] = null;
+                $arr_admin_menu[ $k ] = $v;
+                continue;
+            }
+        }
+
+        //
+        //echo $v[ 'name' ] . '<br>' . "\n";
+    }
+}
+//print_r( $arr_admin_menu );
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -84,8 +132,8 @@ if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
 <script type="text/javascript" src="./thirdparty/jquery/jquery-ui.min.js"></script>
 <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/jquery/jquery-ui.css"/>
 <!-- <script type="text/javascript" src="admin/js/bootstrap.min.js"></script> --> 
-<script type="text/javascript" src="./thirdparty/bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript" src="./thirdparty/angular-1.8.2/angular.min.js"></script>
+<script type="text/javascript" src="./thirdparty/bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script> 
+<script type="text/javascript" src="./thirdparty/angular-1.8.2/angular.min.js"></script> 
 <!-- <script type="text/javascript" src="./thirdparty/bootstrap-5.1.3/js/bootstrap.min.js"></script> --> 
 <script type="text/javascript" src="./thirdparty/select2/select2.full.js"></script> 
 <!-- <script type="text/javascript" src="admin/js/select2.min.js"></script> -->
@@ -141,6 +189,8 @@ try {
     //arr_all_taxonomy = {};
 }
 //
+var arr_admin_menu = <?php echo json_encode($arr_admin_menu); ?>;
+var arr_lang_list = <?php echo json_encode(LanguageCost::list()); ?>;
 var web_link = window.location.protocol + '//' + document.domain + '/';
 var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
 </script>
@@ -156,77 +206,16 @@ var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
         &nbsp; | &nbsp;
         <div class="d-inline">Ngôn ngữ:
             <select data-select="<?php echo LanguageCost::lang_key(); ?>" class="admin-change-language">
-                <?php
-
-                // cho phép đổi ngôn ngữ ngay trong admin
-                foreach ( LanguageCost::list() as $k => $v ) {
-                    ?>
-                <option value="<?php echo $k; ?>"><?php echo $v; ?></option>
-                <?php
-                }
-
-                ?>
             </select>
         </div>
     </div>
-    <div class="lf f50 text-right">Xin Chào: <a title="Thông tin cá nhân" href="./users/profile"><?php echo $session_data['userName'] != '' ? $session_data['userName'] : $session_data['user_login']; ?></a> &nbsp; | &nbsp; <a title="Đăng xuất" data-bs-toggle="modal" data-bs-target="#logoutModal" href="javascript:;"><i class="fa fa-sign-out"></i> Logout</a></div>
+    <div class="lf f50 text-right">Xin Chào: <a title="Thông tin cá nhân" href="./users/profile"><?php echo ($session_data['userName'] != '' ? $session_data['userName'] : $session_data['user_login']); ?></a> &nbsp; | &nbsp; <a title="Đăng xuất" data-bs-toggle="modal" data-bs-target="#logoutModal" href="javascript:;"><i class="fa fa-sign-out"></i> Logout</a></div>
 </div>
 <!--close-Header-part--> 
 <!--top-Header-menu-->
 <div id="adminmenumain">
     <div id="sidebar">
         <ul class="cf order-admin-menu">
-            <?php
-
-            // TEST
-            //$session_data[ 'member_type' ] = UsersType::MOD;
-            //$session_data[ 'member_type' ] = UsersType::AUTHOR;
-            //$session_data[ 'member_type' ] = UsersType::MEMBER;
-            //$session_data[ 'member_type' ] = UsersType::GUEST;
-
-            // chạy vòng lặp kiểm tra phân quyền nếu không phải admin
-            if ( $session_data[ 'member_type' ] != UsersType::ADMIN ) {
-                foreach ( $arr_admin_menu as $k => $v ) {
-                    //print_r( $v );
-
-                    // không tồn tại role -> quyền admin -> bỏ qua
-                    if ( !isset( $v[ 'role' ] ) ) {
-                        echo '<!-- Admin role not found! -->';
-                        $arr_admin_menu[ $k ] = null;
-                        continue;
-                    }
-
-                    // nếu có role -> kiểm tra quyền truy cập
-                    if ( !empty( $v[ 'role' ] ) && !in_array( $session_data[ 'member_type' ], $v[ 'role' ] ) ) {
-                        echo '<!-- Permission deny! -->';
-                        $arr_admin_menu[ $k ] = null;
-                        continue;
-                    }
-
-                    //
-                    foreach ( $v[ 'arr' ] as $k_sub => $v_sub ) {
-                        //print_r( $v_sub );
-
-                        //
-                        if ( isset( $v_sub[ 'role' ] ) &&
-                            // phân quyền không trống
-                            !empty( $v_sub[ 'role' ] ) &&
-                            // kiểm tra quyền truy cập
-                            !in_array( $session_data[ 'member_type' ], $v_sub[ 'role' ] ) ) {
-                            echo '<!-- Permission sub deny! -->';
-                            $v[ 'arr' ] = null;
-                            $arr_admin_menu[ $k ] = $v;
-                            continue;
-                        }
-                    }
-
-                    //
-                    //echo $v[ 'name' ] . '<br>' . "\n";
-                }
-            }
-            //print_r( $arr_admin_menu );
-
-            ?>
         </ul>
     </div>
 </div>
@@ -244,12 +233,11 @@ var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
     </div>
 </div>
 <div class="text-center admin-copyright">&copy; <?php echo date('Y'); ?> <a href="https://echbay.com/" target="_blank" rel="nofollow">EchBay.com</a> - All rights reserved. Code using framework <a href="https://codeigniter.com/" target="_blank" rel="nofollow">Codeigniter <?php echo \CodeIgniter\CodeIgniter::CI_VERSION; ?></a> - <span class="cur" onClick="$('#target_eb_iframe').attr({'height':250});">Show process</span></div>
-<script>
-var arr_admin_menu = <?php echo json_encode($arr_admin_menu); ?>;
-</script>
 <?php
+
 $base_model->add_js( 'admin/js/admin_footer.js' );
 $base_model->add_js( 'admin/js/active-support-label.js' );
+
 ?>
 <!-- Modal logout -->
 <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">

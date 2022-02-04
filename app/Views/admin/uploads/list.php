@@ -120,6 +120,9 @@ if ( !empty( $uri_quick_upload ) ) {
         $data_srcset = [];
         $data_width = '';
         $data_height = '';
+        $src = $upload_model->get_thumbnail( $v );
+        //echo 'src: ' . $src . '<br>' . "\n";
+        //continue;
 
         // với định dạng khác -> chưa xử lý
         if ( strtolower( explode( '/', $v[ 'post_mime_type' ] )[ 0 ] ) != 'image' ) {
@@ -130,18 +133,12 @@ if ( !empty( $uri_quick_upload ) ) {
         }
         // xử lý riêng với hình ảnh
         else {
-            $src = $upload_model->get_thumbnail( $v );
-            //echo 'src: ' . $src . '<br>' . "\n";
-            //continue;
-
-            //
             $background_image = 'background-image: url(\'' . $src . '\');';
 
             //
             if ( $str_insert_to != '' ) {
                 $all_src = $upload_model->get_all_media( $v );
             }
-            $all_src[ 'thumbnail' ] = $src;
             //print_r( $all_src );
             //$all_src = json_encode( $all_src );
             //print_r( $all_src );
@@ -181,6 +178,7 @@ if ( !empty( $uri_quick_upload ) ) {
                 }
             }
         }
+        $all_src[ 'thumbnail' ] = $src;
         //print_r( $data_srcset );
 
         ?>

@@ -26,12 +26,21 @@ if ( file_exists( $robots_txt ) ) {
 
 ?>
 <script>
+var current_full_domain = sessionStorage.getItem('WGR-current-full-domain');
+var current_protocol = web_link;
+var current_www = web_link;
+if (current_full_domain !== null) {
+    current_protocol = current_full_domain;
+    current_www = current_full_domain;
+}
+
+//
 angular.module('myApp', []).controller('myCtrl', function($scope) {
     $scope.robots_txt = <?php echo $robots_exist; ?>;
     $scope.phpversion = '<?php echo phpversion(); ?>'.replace('.', '').split('.')[0];
     $scope.current_dbname = '<?php echo $current_dbname; ?>';
-    $scope.current_protocol = '<?php echo DYNAMIC_BASE_URL; ?>'.split('//')[0];
-    $scope.current_www = '<?php echo DYNAMIC_BASE_URL; ?>'.split('.')[0].split('//')[1];
+    $scope.current_protocol = current_protocol.split('//')[0];
+    $scope.current_www = current_www.split('.')[0].split('//')[1];
     $scope.debug_enable = <?php echo ($debug_enable === true ? 1 : 0); ?>;
     $scope.exists_f_env = <?php echo (file_exists( $f_env ) ? 1 : 0); ?>;
     $scope.exists_f_backup_env = <?php echo (file_exists( $f_backup_env ) ? 1 : 0); ?>;
@@ -174,3 +183,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
     } // END member type ADMIN
     ?>
 </div>
+<?php
+
+//
+$base_model->add_js( 'admin/js/dashboard.js' );
