@@ -2,7 +2,7 @@
 
 // Libraries
 use App\ Libraries\ PostType;
-use App\ Libraries\ TaxonomyType;
+//use App\ Libraries\ TaxonomyType;
 use App\ Libraries\ LanguageCost;
 
 //

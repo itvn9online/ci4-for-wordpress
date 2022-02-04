@@ -25,7 +25,7 @@ class Posts extends Admin {
     protected $main_category_key = 'post_category';
 
     /*
-     * for_extends: khi một controller extends lại class này và sử dụng các post type khác thì khai báo nó bằng tru để bỏ qua các điều kiện kiểm tra
+     * for_extends: khi một controller extends lại class này và sử dụng các post type khác thì khai báo nó bằng true để bỏ qua các điều kiện kiểm tra
      */
     public function __construct( $for_extends = false ) {
         parent::__construct();

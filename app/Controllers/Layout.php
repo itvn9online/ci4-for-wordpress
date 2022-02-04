@@ -417,9 +417,6 @@ RewriteCond %{REQUEST_URI} !^.*\.(jpg|jpeg|png|gif|pdf|txt|bmp)$
 RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
 </IfModule>
 
-# too many redirect for all extensions -> in apache, openlitespeed
-# RewriteRule ^(.*) ' . DYNAMIC_BASE_URL . '$1 [F]
-
 #
 
 ' ) );

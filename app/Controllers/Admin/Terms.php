@@ -266,7 +266,7 @@ class Terms extends Admin {
 
 
         //
-        $this->teamplate_admin[ 'content' ] = view( 'admin/terms/add', array(
+        $this->teamplate_admin[ 'content' ] = view( 'admin/' . $this->add_edit_view . '/add', array(
             'lang_key' => LanguageCost::lang_key(),
             'set_parent' => $set_parent,
             'data' => $data,
