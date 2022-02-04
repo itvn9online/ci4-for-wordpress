@@ -970,7 +970,7 @@ class Base extends Session {
 
         //
         if ( !isset( $ops[ 'set_permission' ] ) ) {
-            $ops[ 'set_permission' ] = 0777;
+            $ops[ 'set_permission' ] = 0766;
         }
 
         //
@@ -980,19 +980,33 @@ class Base extends Session {
 
         //
         if ( !file_exists( $file_ ) ) {
-            $filew = fopen( $file_, 'x+' );
-            // nhớ set 777 cho file
-            chmod( $file_, $ops[ 'set_permission' ] );
+            $filew = @fopen( $file_, 'x+' );
+            if ( !$filew ) {
+                // thử tạo bằng ftp
+                if ( $ops[ 'ftp' ] === 1 ) {
+                    $file_model = new\ App\ Models\ File();
+                    return $file_model->create_file( $file_, $content_, $ops );
+                }
+            } else {
+                // nhớ set 777 cho file
+                chmod( $file_, $ops[ 'set_permission' ] );
+            }
             fclose( $filew );
         }
 
         //
         if ( $ops[ 'add_line' ] != '' ) {
-            file_put_contents( $file_, $content_, FILE_APPEND );
+            if ( @!file_put_contents( $file_, $content_, FILE_APPEND ) ) {
+                $file_model = new\ App\ Models\ File();
+                return $file_model->create_file( $file_, $content_, $ops );
+            }
         }
         //
         else {
-            file_put_contents( $file_, $content_ );
+            if ( @!file_put_contents( $file_, $content_ ) ) {
+                $file_model = new\ App\ Models\ File();
+                return $file_model->create_file( $file_, $content_, $ops );
+            }
         }
 
         //

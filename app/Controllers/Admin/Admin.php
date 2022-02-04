@@ -176,7 +176,7 @@ class Admin extends Ajax {
                 if ( !in_array( basename( $filename ), $arr_allow_dir ) ) {
                     // cập nhật lại nội dung file htaccess
                     if ( $remove_file === true && file_exists( $f ) ) {
-                        unlink( $f );
+                        $this->MY_unlink( $f );
                     }
 
                     //
@@ -199,7 +199,9 @@ RewriteRule ^(.*) ' . DYNAMIC_BASE_URL . '$1 [F]
 #
 
 ' ), [
-                            'set_permission' => 0644,
+                            //'set_permission' => 0644,
+                            'set_permission' => 0711,
+                            'ftp' => 1,
                         ] );
                     }
                 }

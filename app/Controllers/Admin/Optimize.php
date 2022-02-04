@@ -16,16 +16,16 @@ class Optimize extends Admin {
 
             //
             $this->base_model->_eb_create_file( PUBLIC_PUBLIC_PATH . 'css/' . $f, $c, [
-                'set_permission' => 0777,
+                'set_permission' => 0766,
             ] );
             $this->base_model->_eb_create_file( PUBLIC_PUBLIC_PATH . 'javascript/' . $f, $c, [
-                'set_permission' => 0777,
+                'set_permission' => 0766,
             ] );
             $this->base_model->_eb_create_file( THEMEPATH . 'css/' . $f, $c, [
-                'set_permission' => 0777,
+                'set_permission' => 0766,
             ] );
             $this->base_model->_eb_create_file( THEMEPATH . 'js/' . $f, $c, [
-                'set_permission' => 0777,
+                'set_permission' => 0766,
             ] );
 
             // bắt đầu optimize
@@ -57,7 +57,7 @@ class Optimize extends Admin {
                     echo $filename . ':' . __FUNCTION__ . ':' . __LINE__ . '<br>' . PHP_EOL;
                     $c = trim( $c );
                     if ( !empty( $c ) ) {
-                        file_put_contents( $filename, $c );
+                        $this->base_model->_eb_create_file( $filename, $c, [ 'ftp' => 1 ] );
                     }
                 }
             }
@@ -84,7 +84,7 @@ class Optimize extends Admin {
             //
             $c = trim( $c );
             if ( !empty( $c ) ) {
-                file_put_contents( $filename, $c );
+                $this->base_model->_eb_create_file( $filename, $c, [ 'ftp' => 1 ] );
             }
         }
 
@@ -109,7 +109,7 @@ class Optimize extends Admin {
 
             //
             if ( !empty( $c ) ) {
-                file_put_contents( $filename, $c );
+                $this->base_model->_eb_create_file( $filename, $c, [ 'ftp' => 1 ] );
             }
         }
     }

@@ -389,17 +389,13 @@ class Layout extends Sync {
 
         // cập nhật lại nội dung file htaccess
         if ( $remove_file === true && file_exists( $htaccess_file ) ) {
-            unlink( $htaccess_file );
+            $this->MY_unlink( $htaccess_file );
         }
 
         //
         if ( !file_exists( $htaccess_file ) ) {
-            $filew = fopen( $htaccess_file, 'x+' );
-            chmod( $htaccess_file, 0644 );
-            fclose( $filew );
-
             // nội dung chặn mọi truy cập tới các file trong này
-            file_put_contents( $htaccess_file, trim( '
+            $this->base_model->_eb_create_file( $htaccess_file, trim( '
 
 #
 Order allow,deny
@@ -420,7 +416,11 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
 
 #
 
-' ) );
+' ), [
+                //'set_permission' => 0644,
+                'set_permission' => 0711,
+                'ftp' => 1,
+            ] );
         }
         //die( __FILE__ . ':' . __LINE__ );
 
@@ -546,7 +546,7 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
                         if ( !file_exists( $file_path ) ) {
                             continue;
                         }
-                        chmod( $file_path, 0777 );
+                        chmod( $file_path, 0766 );
 
                         //
                         if ( !isset( $arr_result[ $key ] ) ) {
@@ -765,8 +765,8 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
             //echo $path . '<br>' . "\n";
 
             if ( !is_dir( $path ) ) {
-                mkdir( $path, 0777 )or die( 'ERROR create dir (' . basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ . ')! ' . $path );
-                chmod( $path, 0777 );
+                mkdir( $path, 0766 )or die( 'ERROR create dir (' . basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ . ')! ' . $path );
+                chmod( $path, 0766 );
             }
         }
 

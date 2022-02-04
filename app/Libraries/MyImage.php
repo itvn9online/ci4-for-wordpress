@@ -252,7 +252,7 @@ class MyImage {
                 $image->save( $desc, $compression );
             }
         }
-        chmod( $desc, 0777 );
+        chmod( $desc, 0766 );
 
         //
         clearstatcache();

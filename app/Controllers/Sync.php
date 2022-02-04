@@ -395,17 +395,16 @@ class Sync extends BaseController {
      * Hỗ trợ điều khiển file thông qua FTP account -> do không phải host nào cũng có thể điều khiển file bằng php thuần
      */
     protected function MY_unlink( $f ) {
-        if ( @unlink( $f ) ) {
-            return true;
+        if ( @!unlink( $f ) ) {
+            $file_model = new\ App\ Models\ File();
+            return $file_model->FTP_unlink( $f );
         }
-        $file_model = new\ App\ Models\ File();
-        return $file_model->FTP_unlink( $f );
+        return true;
     }
 
-    protected function MY_copy( $from, $to, $file_permission = 0777 ) {
+    protected function MY_copy( $from, $to, $file_permission = 0766 ) {
         if ( @!copy( $from, $to ) ) {
             $file_model = new\ App\ Models\ File();
-
             return $file_model->FTP_copy( $from, $to );
         }
         if ( $file_permission > 0 ) {
