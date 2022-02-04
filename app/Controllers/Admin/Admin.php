@@ -1,8 +1,7 @@
 <?php
-//require_once 'application/controllers/Layout.php';
 namespace App\ Controllers\ Admin;
 
-use App\ Controllers\ Layout;
+use App\ Controllers\ Ajax;
 
 // Libraries
 use App\ Libraries\ AdminMenu;
@@ -11,13 +10,10 @@ use App\ Libraries\ UsersType;
 //use App\ Libraries\ MyImage;
 
 //
-class Admin extends Layout {
+class Admin extends Ajax {
     //public $user_group_list = array();
 
     protected $body_class = '';
-
-    // admin thì không cần nạp header
-    public $preload_header = false;
 
     public function __construct() {
         parent::__construct();

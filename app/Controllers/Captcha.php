@@ -2,10 +2,7 @@
 namespace App\ Controllers;
 
 //
-class Captcha extends Layout {
-    // với 1 số controller, sẽ không nạp cái HTML header vào, nên có thêm tham số này để không nạp header nữa
-    public $preload_header = false;
-
+class Captcha extends Ajax {
     public function __construct() {
         parent::__construct();
     }

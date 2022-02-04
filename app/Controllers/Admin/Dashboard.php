@@ -18,6 +18,7 @@ class Dashboard extends Optimize {
     public function index() {
         echo '<!-- ' . "\n";
         $this->vendor_sync();
+        $this->unzip_ci4_for_wordpress();
         echo ' -->';
 
         //
@@ -150,6 +151,20 @@ class Dashboard extends Optimize {
         return true;
     }
 
+    private function unzip_ci4_for_wordpress() {
+        $file_zip = PUBLIC_HTML_PATH . 'ci4-for-wordpress.zip';
+
+        //
+        if ( file_exists( $file_zip ) ) {
+            echo $file_zip . '<br>' . "\n";
+
+            //
+            if ( $this->MY_unzip( $file_zip, PUBLIC_HTML_PATH ) === TRUE ) {
+                $this->MY_unlink( $file_zip );
+            }
+        }
+    }
+
     public function unzip_system() {
         $system_zip = PUBLIC_HTML_PATH . 'system.zip';
         if ( !file_exists( $system_zip ) ) {
@@ -163,7 +178,8 @@ class Dashboard extends Optimize {
         // tên thư mục sẽ backup system cũ
         $to = PUBLIC_HTML_PATH . 'system-' . $current_ci_version;
         if ( is_dir( $to ) ) {
-            $this->base_model->alert( 'Vui lòng XÓA ' . basename( $to ) . ' backup trước khi tiếp tục', 'error' );
+            $to .= '-' . date( 'Ymd-His' );
+            //$this->base_model->alert( 'Vui lòng XÓA ' . basename( $to ) . ' backup trước khi tiếp tục', 'error' );
         }
 
         // đổi tên thư mục system -> backup
@@ -172,7 +188,8 @@ class Dashboard extends Optimize {
         // giải nén system zip
         if ( $this->MY_unzip( $system_zip, PUBLIC_HTML_PATH ) === TRUE ) {
             $this->MY_unlink( $system_zip );
-            $this->base_model->alert( 'DONE! giải nén system.zip thành công' );
+            //$this->base_model->alert( 'DONE! giải nén system.zip thành công' );
+            die( '<script>top.done_unzip_system();</script>' );
         }
 
         //

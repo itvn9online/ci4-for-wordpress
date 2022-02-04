@@ -190,7 +190,7 @@ setInterval(function () {
 (function () {
     var str = '';
     for (var x in arr_lang_list) {
-        str += '<option value="' + x + '">' + arr_lang_list.x + '</option>';
+        str += '<option value="' + x + '">' + arr_lang_list[x] + '</option>';
     }
     $('.admin-change-language').html(str);
 })();

@@ -1,11 +1,7 @@
 <?php
-//require_once __DIR__ . '/Layout.php';
 namespace App\ Controllers;
 
-class Logged extends Layout {
-    // chức năng này không cần nạp header
-    public $preload_header = false;
-
+class Logged extends Ajax {
     public function __construct() {
         parent::__construct();
     }

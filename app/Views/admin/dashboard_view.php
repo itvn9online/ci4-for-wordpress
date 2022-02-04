@@ -155,7 +155,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
     <br>
     <br>
     <!-- UPDATE CORE -->
-    <div ng-if="system_zip > 0">
+    <div ng-if="system_zip > 0" class="hide-after-unzip-system">
         <p class="bluecolor"><i class="fa fa-cloud-upload"></i> Update system. Dùng khi cần cập nhật bản mới cho Codeigniter 4. File <strong>system.zip</strong> sẽ được update lên <strong>public_html</strong>, và hàm này sẽ hỗ trợ việc giải nén file ra. Thư mục system cũ sẽ được backup vào: <strong>system-<?php echo \CodeIgniter\CodeIgniter::CI_VERSION; ?></strong>.</p>
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#unzipSystemModal"> <i class="fa fa-file-archive-o"></i> Unzip <strong>system.zip</strong> </button>

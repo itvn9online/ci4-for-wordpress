@@ -1,5 +1,4 @@
 <?php
-//require_once __DIR__ . '/Layout.php';
 namespace App\ Controllers;
 
 //
