@@ -144,7 +144,7 @@ dwsync.xml
 
 # file backup
 *.bak
-ci4-for-wordpress.zip
+/ci4-for-wordpress.zip
 
 # file lien quan den thong tin rieng cua website
 database.php
