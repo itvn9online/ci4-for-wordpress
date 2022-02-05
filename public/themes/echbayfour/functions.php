@@ -4,6 +4,7 @@
  * Tài khoản FTP -> dùng để điều khiển file trong trường hợp bị lỗi permission
  */
 //define( 'FTP_HOST', $_SERVER[ 'SERVER_ADDR' ] );
+//define( 'FTP_HOST', '127.0.0.1' );
 //define( 'FTP_USER', '' );
 //define( 'FTP_PASS', '' );
 

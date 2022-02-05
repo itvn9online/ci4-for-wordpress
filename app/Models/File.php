@@ -28,7 +28,8 @@ class File extends EbModel {
             $this->ftp_server = FTP_HOST;
         } else {
             //$this->ftp_server = $_SERVER['HTTP_HOST'];
-            $this->ftp_server = $_SERVER[ 'SERVER_ADDR' ];
+            //$this->ftp_server = $_SERVER[ 'SERVER_ADDR' ];
+            $this->ftp_server = '127.0.0.1';
         }
         //echo $this->ftp_server . '<br>' . "\n";
 
