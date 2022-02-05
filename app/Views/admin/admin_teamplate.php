@@ -77,6 +77,11 @@ if ( $session_data[ 'member_type' ] != UsersType::ADMIN ) {
 }
 //print_r( $arr_admin_menu );
 
+// đổi nền cho CSS nếu đang ở chế độ debug -> để dễ nhận diện
+if ( $debug_enable === true ) {
+    $body_class .= ' body-debug_enable';
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -139,30 +144,20 @@ if ( $session_data[ 'member_type' ] != UsersType::ADMIN ) {
 <!-- <script type="text/javascript" src="admin/js/select2.min.js"></script> -->
 <?php
 
-//$base_model->add_css( 'css/flatsome.css' );
-$base_model->add_css( 'css/flatsome-for-bootstrap.css' );
-$base_model->add_css( 'css/d.css' );
-//$base_model->add_css( 'css/d2.css' );
-$base_model->add_css( 'admin/css/admin_teamplate.css' );
+$base_model->adds_css( [
+    //'css/flatsome.css',
+    'css/flatsome-for-bootstrap.css',
+    'css/d.css',
+    //'css/d2.css',
+    'admin/css/admin_teamplate.css',
+] );
 
-$base_model->add_js( 'admin/js/admin_functions.js' );
-$base_model->add_js( 'admin/js/admin_teamplate.js' );
-$base_model->add_js( 'javascript/functions.js' );
-$base_model->add_js( 'javascript/eb.js' );
-
-// đổi nền cho CSS nếu đang ở chế độ debug -> để dễ nhận diện
-if ( $debug_enable === true ) {
-    ?>
-<style>
-#admin-header {
-    border-top-color: black;
-}
-#admin-header, #sidebar {
-    background-color: darkslateblue;
-}
-</style>
-<?php
-}
+$base_model->adds_js( [
+    'admin/js/admin_functions.js',
+    'admin/js/admin_teamplate.js',
+    'javascript/functions.js',
+    'javascript/eb.js'
+] );
 
 ?>
 <script>
@@ -232,11 +227,13 @@ var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
         <div class="row-fluid"> <?php echo $content; ?> </div>
     </div>
 </div>
-<div class="text-center admin-copyright">&copy; <?php echo date('Y'); ?> <a href="https://echbay.com/" target="_blank" rel="nofollow">EchBay.com</a> - All rights reserved. Code using framework <a href="https://codeigniter.com/" target="_blank" rel="nofollow">Codeigniter <?php echo \CodeIgniter\CodeIgniter::CI_VERSION; ?></a> - <span class="cur" onClick="$('#target_eb_iframe').attr({'height':250});">Show process</span></div>
+<div class="text-center admin-copyright">&copy; <?php echo date('Y'); ?> <a href="https://echbay.com/" target="_blank" rel="nofollow">EchBay.com</a> - All rights reserved. Code using framework <a href="https://codeigniter.com/" target="_blank" rel="nofollow">Codeigniter <?php echo \CodeIgniter\CodeIgniter::CI_VERSION; ?></a> - <span class="cur" onClick="$('#target_eb_iframe').addClass('show-target-echbay');">Show process</span></div>
 <?php
 
-$base_model->add_js( 'admin/js/admin_footer.js' );
-$base_model->add_js( 'admin/js/active-support-label.js' );
+$base_model->adds_js( [
+    'admin/js/admin_footer.js',
+    'admin/js/active-support-label.js',
+] );
 
 ?>
 <!-- Modal logout -->

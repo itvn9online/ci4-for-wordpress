@@ -4,7 +4,7 @@ namespace App\ Models;
 
 // Libraries
 //use App\ Libraries\ LanguageCost;
-//use App\ Libraries\ PostType;
+use App\ Libraries\ PostType;
 use App\ Libraries\ TaxonomyType;
 //use App\ Libraries\ DeletedStatus;
 
@@ -106,11 +106,16 @@ class PostMeta extends PostBase {
 
         // xử lý cho ảnh đại diện -> thêm các size ảnh khác để sau còn tùy ý sử dụng
         if ( isset( $meta_data[ 'image' ] ) && $meta_data[ 'image' ] != '' ) {
-            $meta_data[ 'image_large' ] = $this->get_img_by_size( $meta_data[ 'image' ], 'large' );
-            $meta_data[ 'image_medium_large' ] = $this->get_img_by_size( $meta_data[ 'image' ], 'medium_large' );
-            $meta_data[ 'image_medium' ] = $this->get_img_by_size( $meta_data[ 'image' ], 'medium' );
-            $meta_data[ 'image_thumbnail' ] = $this->get_img_by_size( $meta_data[ 'image' ], 'thumbnail' );
-            $meta_data[ 'image_webp' ] = $this->get_img_by_size( $meta_data[ 'image' ], 'medium' );
+            $origin_size = $meta_data[ 'image' ];
+            $file_ext = pathinfo( $origin_size, PATHINFO_EXTENSION );
+            foreach ( PostType::media_size() as $k => $v ) {
+                $origin_size = str_replace( '-' . $k . '.' . $file_ext, '.' . $file_ext, $origin_size );
+            }
+            $meta_data[ 'image_large' ] = $this->get_img_by_size( $origin_size, 'large', $file_ext );
+            $meta_data[ 'image_medium_large' ] = $this->get_img_by_size( $origin_size, 'medium_large', $file_ext );
+            $meta_data[ 'image_medium' ] = $this->get_img_by_size( $origin_size, 'medium', $file_ext );
+            $meta_data[ 'image_thumbnail' ] = $this->get_img_by_size( $origin_size, 'thumbnail', $file_ext );
+            $meta_data[ 'image_webp' ] = $meta_data[ 'image_medium' ];
 
             // phiên bản webp -> có lệnh riêng để tối ưu
             $create_webp = \App\ Libraries\ MyImage::webpConvert( PUBLIC_PUBLIC_PATH . $meta_data[ 'image_webp' ] );
@@ -340,24 +345,26 @@ class PostMeta extends PostBase {
     }
 
     // trả về ảnh với kích thước khác -> dựa theo ảnh gốc
-    function get_img_by_size( $result, $file_size ) {
+    function get_img_by_size( $result, $file_size, $file_ext = '' ) {
         // tạo path tuyệt đối để kiểm tra
         //echo PUBLIC_PUBLIC_PATH . '<br>' . "\n";
         $check_size = PUBLIC_PUBLIC_PATH . str_replace( DYNAMIC_BASE_URL, '', $result );
-        //echo $check_size . '<br>' . "\n";
+        //echo $check_size . ':' . __LINE__ . '<br>' . "\n";
 
         // kiểm tra xem có tồn tại không path tuyệt đối này không
         if ( file_exists( $check_size ) ) {
-            $file_ext = pathinfo( $check_size, PATHINFO_EXTENSION );
-            //echo $file_ext . '<br>' . "\n";
+            if ( $file_ext == '' ) {
+                $file_ext = pathinfo( $check_size, PATHINFO_EXTENSION );
+                //echo $file_ext . ':' . __LINE__ . '<br>' . "\n";
+            }
 
             // kiểm tra xem có size tương ứng không
             $check_size = str_replace( '.' . $file_ext, '-' . $file_size . '.' . $file_ext, $result );
-            //echo $check_size . '<br>' . "\n";
+            //echo $check_size . ':' . __LINE__ . '<br>' . "\n";
             // có thì tạo URL tương đối để trả về
             if ( file_exists( $check_size ) ) {
                 $result = str_replace( PUBLIC_PUBLIC_PATH, '', $check_size );
-                //echo $result . '<br>' . "\n";
+                echo $result . ':' . __LINE__ . '<br>' . "\n";
             }
         }
 

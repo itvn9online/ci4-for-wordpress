@@ -272,3 +272,21 @@ body.ebfixed-top-menu #sidebar {
     opacity: 1;
 }
 */
+#target_eb_iframe {
+    position: absolute;
+    top: -800px;
+    left: -999px;
+}
+#target_eb_iframe.show-target-echbay {
+    position: inherit;
+    position: unset;
+    top: auto;
+    left: auto;
+}
+/* */
+body.body-debug_enable #admin-header {
+    border-top-color: black;
+}
+body.body-debug_enable #admin-header, body.body-debug_enable #sidebar {
+    background-color: darkslateblue;
+}

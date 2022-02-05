@@ -460,12 +460,6 @@ a.eb-btn {
     top: -800px;
     left: -999px;
 }
-#target_eb_iframe.show-target-echbay {
-    position: inherit;
-    top: 0;
-    left: 0;
-    margin-left: 15%;
-}
 .global-a-posi, .global-position-relative {
     position: relative;
 }

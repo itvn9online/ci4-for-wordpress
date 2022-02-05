@@ -498,6 +498,12 @@ class Base extends Session {
     function add_css( $f, $get_content = false, $attr = [], $preload = false ) {
         echo $this->get_add_css( $f, $get_content, $attr, $preload ) . PHP_EOL;
     }
+    // thêm nhiều file cùng 1 thuộc tính
+    function adds_css( $fs, $get_content = false, $attr = [], $preload = false ) {
+        foreach ( $fs as $f ) {
+            echo $this->get_add_css( $f, $get_content, $attr, $preload ) . PHP_EOL;
+        }
+    }
     // chế độ nạp trước css
     function preload_css( $f ) {
         echo $this->get_add_css( $f, false, [], true ) . PHP_EOL;
