@@ -11,7 +11,7 @@ if (current_full_domain === null) {
             console.log(data);
 
             //
-            sessionStorage.setItem('WGR-current-full-domain', data.base_url);
+            sessionStorage.setItem('WGR-current-full-domain', data.http_response);
         }
     });
 }
