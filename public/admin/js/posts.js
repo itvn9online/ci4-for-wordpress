@@ -93,8 +93,7 @@ $(window).on('load', function () {
                     window.location = url_next_post;
                 }, 3000);
             } else {
-                console.log('%c Không xác định được url tiếp theo...', 'color: red;');
-                WGR_alert('Không xác định được url tiếp theo...', 'error');
+                $('.show-if-end-function').removeClass('orgcolor').addClass('redcolor').text('Không xác định được url tiếp theo...');
             }
         }, 3000);
     }

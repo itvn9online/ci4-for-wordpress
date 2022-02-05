@@ -39,7 +39,7 @@ $quick_menu_list = [];
 if ( $auto_update_module * 1 === 1 ) {
     //echo $auto_update_module;
     ?>
-<p class="orgcolor text-center medium">* Kích hoạt chức năng tự động cập nhật bài viết để nhận các tính mới...</p>
+<p class="orgcolor text-center medium show-if-end-function">* Kích hoạt chức năng tự động cập nhật bài viết để nhận các tính mới...</p>
 <?php
 }
 
