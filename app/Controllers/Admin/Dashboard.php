@@ -18,7 +18,7 @@ class Dashboard extends Optimize {
     public function index() {
         echo '<!-- ' . "\n";
         $this->vendor_sync();
-        $this->unzip_ci4_for_wordpress();
+        //$this->unzip_ci4_for_wordpress();
         echo ' -->';
 
         //
@@ -200,5 +200,111 @@ class Dashboard extends Optimize {
 
         //
         return true;
+    }
+
+    private function unzip_code() {
+        //die( PUBLIC_HTML_PATH );
+
+        // 1 số định dạng file không cho phép upload trực tiếp
+        $allow_upload = [
+            'zip'
+        ];
+
+        //
+        $upload_path = PUBLIC_HTML_PATH;
+        //echo $upload_path . '<br>' . "\n";
+
+        //
+        if ( $zipfile = $this->request->getFiles() ) {
+            //print_r( $zipfile );
+
+            //
+            $file = $zipfile[ 'upload_code' ];
+            //print_r( $file );
+
+            //
+            if ( $file->isValid() && !$file->hasMoved() ) {
+                $file_name = $file->getName();
+                //echo $file_name . '<br>' . "\n";
+                $file_name = $this->base_model->_eb_non_mark_seo( $file_name );
+                $file_name = sanitize_filename( $file_name );
+                //echo $file_name . '<br>' . "\n";
+
+                //
+                $file_ext = $file->guessExtension();
+                //echo $file_ext . '<br>' . "\n";
+                $file_ext = strtolower( $file_ext );
+                //echo $file_ext . '<br>' . "\n";
+
+                //
+                $file_path = $upload_path . $file_name;
+                //echo $file_path . '<br>' . "\n";
+
+                // kiểm tra định dạng file
+                $mime_type = $file->getMimeType();
+                //echo $mime_type . '<br>' . "\n";
+
+                // nếu có kiểm duyệt định dạng file -> chỉ các file trong này mới được upload
+                if ( !in_array( $file_ext, $allow_upload ) ) {
+                    $this->base_model->alert( 'Định dạng file chưa được hỗ trợ! Hiện chỉ hỗ trợ định dạng .ZIP', 'error' );
+                }
+                //die( __FILE__ . ':' . __LINE__ );
+
+                // xóa các file zip cũ đi
+                foreach ( glob( $upload_path . '*.zip' ) as $filename ) {
+                    //echo $filename . '<br>' . "\n";
+
+                    //
+                    if ( is_file( $filename ) ) {
+                        if ( !$this->MY_unlink( $filename ) ) {
+                            $this->base_model->alert( 'Không xóa được file ZIP cũ trước khi upload file mới', 'error' );
+                        }
+                    }
+                }
+
+                //
+                $file->move( $upload_path, $file_name, true );
+
+                //
+                if ( !file_exists( $file_path ) ) {
+                    $this->base_model->alert( 'Upload thất bại! Không xác định được file sau khi upload', 'error' );
+                }
+                chmod( $file_path, DEFAULT_FILE_PERMISSION );
+
+                // giải nén sau khi upload
+                $filename = '';
+                if ( $this->MY_unzip( $file_path, $upload_path ) === TRUE ) {
+                    foreach ( glob( $upload_path . '*.zip' ) as $filename ) {
+                        //echo $filename . '<br>' . "\n";
+
+                        //
+                        if ( is_file( $filename ) ) {
+                            if ( !$this->MY_unlink( $filename ) ) {
+                                $this->base_model->alert( 'Không xóa được file ZIP sau khi giải nén code', 'error' );
+                            }
+                        }
+                    }
+                }
+            } else {
+                throw new\ RuntimeException( $file->getErrorString() . '(' . $file->getError() . ')' );
+            }
+        }
+
+        //
+        //die( __FILE__ . ':' . __LINE__ );
+        die( '<script>top.done_submit_update_code();</script>' );
+    }
+
+    // chức năng upload file code zip lên host và giải nén -> update code
+    public function update_code() {
+        if ( !empty( $this->MY_post( 'data' ) ) ) {
+            $this->unzip_code();
+        }
+
+        //
+        $this->teamplate_admin[ 'content' ] = view( 'admin/update_view', array(
+            //
+        ) );
+        return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
 }

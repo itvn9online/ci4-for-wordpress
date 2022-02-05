@@ -192,9 +192,15 @@ class AdminMenu {
                         'name' => ConfigType::list( ConfigType::SMTP ),
                         'icon' => 'fa fa-envelope',
                     ],
-                    'admin/dev' => [
-                        'name' => 'Kỹ thuật',
-                        'icon' => 'fa fa-bug',
+                ]
+            ],
+            'admin/dev' => [
+                'name' => 'Kỹ thuật',
+                'icon' => 'fa fa-bug',
+                'arr' => [
+                    'admin/dashboard/update_code' => [
+                        'name' => 'Update code',
+                        'icon' => 'fa fa-upload',
                     ],
                     'admin/optimize' => [
                         'name' => 'Optimize code',

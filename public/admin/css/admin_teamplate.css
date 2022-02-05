@@ -277,7 +277,7 @@ body.ebfixed-top-menu #sidebar {
     top: -800px;
     left: -999px;
 }
-#target_eb_iframe.show-target-echbay {
+body.body-debug_enable #target_eb_iframe, #target_eb_iframe.show-target-echbay {
     position: inherit;
     position: unset;
     top: auto;
