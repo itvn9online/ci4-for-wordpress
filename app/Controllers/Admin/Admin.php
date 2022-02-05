@@ -200,7 +200,7 @@ RewriteRule ^(.*) ' . DYNAMIC_BASE_URL . '$1 [F]
 
 ' ), [
                             //'set_permission' => 0644,
-                            'set_permission' => 0766,
+                            'set_permission' => 0777,
                             'ftp' => 1,
                         ] );
                     }

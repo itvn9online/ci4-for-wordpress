@@ -16,16 +16,16 @@ class Optimize extends Admin {
 
             //
             $this->base_model->_eb_create_file( PUBLIC_PUBLIC_PATH . 'css/' . $f, $c, [
-                'set_permission' => 0766,
+                'set_permission' => 0777,
             ] );
             $this->base_model->_eb_create_file( PUBLIC_PUBLIC_PATH . 'javascript/' . $f, $c, [
-                'set_permission' => 0766,
+                'set_permission' => 0777,
             ] );
             $this->base_model->_eb_create_file( THEMEPATH . 'css/' . $f, $c, [
-                'set_permission' => 0766,
+                'set_permission' => 0777,
             ] );
             $this->base_model->_eb_create_file( THEMEPATH . 'js/' . $f, $c, [
-                'set_permission' => 0766,
+                'set_permission' => 0777,
             ] );
 
             // bắt đầu optimize

@@ -86,7 +86,7 @@ class MyImage {
         imagesavealpha( $img, true );
         imagewebp( $img, $desc, $quality );
         imagedestroy( $img );
-        chmod( $desc, 0766 );
+        chmod( $desc, 0777 );
 
         // kiểm tra lại xem có chưa
         if ( file_exists( $desc ) ) {
@@ -252,7 +252,7 @@ class MyImage {
                 $image->save( $desc, $compression );
             }
         }
-        chmod( $desc, 0766 );
+        chmod( $desc, 0777 );
 
         //
         clearstatcache();

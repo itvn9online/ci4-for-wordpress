@@ -104,7 +104,7 @@ class File extends EbModel {
     }
 
     // WGR_ftp_copy
-    public function FTP_copy( $source, $path, $file_permission = 0766 ) {
+    public function FTP_copy( $source, $path, $file_permission = 0777 ) {
         $check_dir = $this->root_dir();;
         if ( $check_dir !== true ) {
             echo $check_dir . '<br>' . PHP_EOL;

@@ -402,7 +402,7 @@ class Sync extends BaseController {
         return true;
     }
 
-    protected function MY_copy( $from, $to, $file_permission = 0766 ) {
+    protected function MY_copy( $from, $to, $file_permission = 0777 ) {
         if ( @!copy( $from, $to ) ) {
             $file_model = new\ App\ Models\ File();
             return $file_model->FTP_copy( $from, $to );
