@@ -99,7 +99,7 @@ class Dashboard extends Optimize {
                     $this->base_model->alert( 'LỖI! không backup được file ' . basename( $f ), 'error' );
                 }
             } else {
-                chmod( $f_backup, 0777 );
+                chmod( $f_backup, DEFAULT_FILE_PERMISSION );
             }
             if ( !file_exists( $f_backup ) ) {
                 if ( $for_alert === 1 ) {

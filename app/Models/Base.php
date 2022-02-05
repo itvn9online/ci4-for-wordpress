@@ -976,7 +976,7 @@ class Base extends Session {
 
         //
         if ( !isset( $ops[ 'set_permission' ] ) ) {
-            $ops[ 'set_permission' ] = 0777;
+            $ops[ 'set_permission' ] = DEFAULT_FILE_PERMISSION;
         }
 
         //

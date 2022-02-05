@@ -417,8 +417,7 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
 #
 
 ' ), [
-                //'set_permission' => 0644,
-                'set_permission' => 0777,
+                'set_permission' => 0644,
                 'ftp' => 1,
             ] );
         }
@@ -546,7 +545,7 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
                         if ( !file_exists( $file_path ) ) {
                             continue;
                         }
-                        chmod( $file_path, 0777 );
+                        chmod( $file_path, DEFAULT_FILE_PERMISSION );
 
                         //
                         if ( !isset( $arr_result[ $key ] ) ) {
@@ -765,8 +764,8 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
             //echo $path . '<br>' . "\n";
 
             if ( !is_dir( $path ) ) {
-                mkdir( $path, 0777 )or die( 'ERROR create dir (' . basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ . ')! ' . $path );
-                chmod( $path, 0777 );
+                mkdir( $path, DEFAULT_DIR_PERMISSION )or die( 'ERROR create dir (' . basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ . ')! ' . $path );
+                chmod( $path, DEFAULT_DIR_PERMISSION );
             }
         }
 
