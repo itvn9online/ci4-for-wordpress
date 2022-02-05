@@ -1,3 +1,4 @@
+//
 function done_submit_update_code() {
     document.frm_global_upload.reset();
 

@@ -27,13 +27,7 @@ class Configs extends Admin {
 
     public function index() {
         if ( !empty( $this->MY_post( 'data' ) ) ) {
-            if ( $this->config_type == ConfigType::CONFIG ) {
-                echo $this->deny_visit_upload( '', true ) . '<br>' . "\n";
-                $this->auto_create_htaccess_deny( true );
-            }
-
-            //
-            $this->updated( $this->config_type );
+            return $this->updated( $this->config_type );
         }
 
         if ( isset( $_GET[ 'test_mail' ] ) ) {
@@ -86,6 +80,19 @@ class Configs extends Admin {
     }
 
     protected function updated( $option_type ) {
+        if ( !empty( $this->MY_post( 'data' ) ) ) {
+            $data = $this->MY_post( 'data' );
+        } else {
+            $data = $_POST;
+        }
+        //print_r( $data );
+
+        //
+        if ( $option_type == ConfigType::CONFIG ) {
+            echo $this->deny_visit_upload( '', true, isset( $data[ 'enable_hotlink_protection' ] ) ? true : false ) . '<br>' . "\n";
+            $this->auto_create_htaccess_deny( true );
+        }
+
         $list_field_has_change = $this->MY_post( 'list_field_has_change' );
         if ( empty( $list_field_has_change ) ) {
             $this->base_model->alert( 'Không xác định được dữ liệu cần thay đổi #' . $option_type, 'warning' );
@@ -104,11 +111,6 @@ class Configs extends Admin {
         //print_r( $arr_meta_key );
 
         //
-        if ( !empty( $this->MY_post( 'data' ) ) ) {
-            $data = $this->MY_post( 'data' );
-        } else {
-            $data = $_POST;
-        }
         if ( !empty( $data[ 'list_slide' ] ) ) {
             $data[ 'list_slide' ] = implode( ';', $data[ 'list_slide' ] );
         } else {

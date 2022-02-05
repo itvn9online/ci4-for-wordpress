@@ -93,6 +93,7 @@ class ConfigType {
                 'main_banner_size' => 'Kích thước banner chính',
                 'second_banner_size' => 'Kích thước banner phụ',
                 //'enable_angular_js' => 'Sử dụng AngularJS',
+                'enable_hotlink_protection' => 'HotLink protection',
             ];
         } else if ( $config_type == self::CATEGORY ) {
             $arr = [
@@ -172,6 +173,7 @@ class ConfigType {
 
             //'enable_angular_js' => 'checkbox',
 
+            'enable_hotlink_protection' => 'checkbox',
             'smtp_no_reply' => 'checkbox',
             'show_child_category' => 'checkbox',
             'show_child_blogs' => 'checkbox',
@@ -293,6 +295,8 @@ class ConfigType {
             'smtp_test_email' => 'Thiết lập xong cấu hình, bạn có thể nhập thêm email người nhận và <a href="' . base_url( 'admin/configs' ) . '?config_type=smtp&test_mail=1" target="_blank" class="click-check-email-test bluecolor"><strong>bấm vào đây</strong></a> để test email gửi đi.',
             'smtp_test_bbc_email' => 'Thêm email để test chức năng BCC.',
             'smtp_test_cc_email' => 'Thêm email để test chức năng CC.',
+            
+            'enable_hotlink_protection' => 'Chặn các website khác truy cập trực tiếp vào file ảnh trên host này.',
         ];
         if ( isset( $arr[ $key ] ) && $arr[ $key ] != '' ) {
             echo '<p class="controls-text-note">' . $arr[ $key ] . '</p>';

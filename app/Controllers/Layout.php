@@ -377,7 +377,7 @@ class Layout extends Sync {
     /*
      * Upload giả lập wordpress
      */
-    protected function deny_visit_upload( $upload_root = '', $remove_file = false ) {
+    protected function deny_visit_upload( $upload_root = '', $remove_file = false, $hotlink_protection = false ) {
         if ( $upload_root == '' ) {
             $upload_root = PUBLIC_HTML_PATH . PostType::MEDIA_PATH;
         }
@@ -394,6 +394,21 @@ class Layout extends Sync {
 
         //
         if ( !file_exists( $htaccess_file ) ) {
+            $str_hotlink_protection = '';
+            if ( $hotlink_protection === true ) {
+                $str_hotlink_protection = '
+
+# chan truy cap vao hinh anh tu cac ten mien khac
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?' . $_SERVER[ 'HTTP_HOST' ] . ' [NC]
+RewriteRule \.(' . $this->htaccess_allow . ')$ - [F]
+</IfModule>
+
+';
+            }
+
             // nội dung chặn mọi truy cập tới các file trong này
             $this->base_model->_eb_create_file( $htaccess_file, trim( '
 
@@ -413,6 +428,8 @@ Allow from all
 RewriteCond %{REQUEST_URI} !^.*\.(' . $this->htaccess_allow . ')$
 RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
 </IfModule>
+
+' . $str_hotlink_protection . '
 
 #
 
