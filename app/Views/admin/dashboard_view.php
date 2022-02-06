@@ -58,8 +58,8 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
         <?php
 
         // lấy theo version
-        if ( file_exists( PUBLIC_HTML_PATH . 'VERSION' ) ) {
-            echo date( EBE_DATETIME_FORMAT, filemtime( PUBLIC_HTML_PATH . 'VERSION' ) ) . ' - Phiên bản: <strong>' . file_get_contents( PUBLIC_HTML_PATH . 'VERSION' ) . '</strong>';
+        if ( file_exists( APPPATH . 'VERSION' ) ) {
+            echo date( EBE_DATETIME_FORMAT, filemtime( APPPATH . 'VERSION' ) ) . ' - Phiên bản: <strong>' . file_get_contents( APPPATH . 'VERSION' ) . '</strong>';
         }
         // hoặc lấy theo file layout
         else {
