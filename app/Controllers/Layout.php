@@ -477,15 +477,15 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
         ];
 
         //
-        if ( $imagefile = $this->request->getFiles() ) {
-            //print_r( $imagefile );
+        if ( $upload_files = $this->request->getFiles() ) {
+            //print_r( $upload_files );
 
             // chạy vòng lặp để lấy các key upload -> xác định tên input tự động
             foreach ( $_FILES as $key => $upload_image ) {
                 //echo $key . '<br>' . "\n";
 
                 //
-                foreach ( $imagefile[ $key ] as $file ) {
+                foreach ( $upload_files[ $key ] as $file ) {
                     //print_r( $file );
                     if ( $file->isValid() && !$file->hasMoved() ) {
                         $file_name = $file->getName();
