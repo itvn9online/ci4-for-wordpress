@@ -77,7 +77,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
             <td>&nbsp;</td>
             <td>{{v.ID}}</td>
             <td><a href="admin/users/add?id={{v.ID}}">{{v.user_login}}</a></td>
-            <td>{{v.user_email}}</td>
+            <td><a href="admin/users/add?id={{v.ID}}">{{v.user_email}}</a></td>
             <td>{{v.display_name}}</td>
             <td><a href="admin/users?member_type={{v.member_type}}">{{list[v.member_type]}}</a></td>
             <td>{{listStatus[v.user_status]}}</td>

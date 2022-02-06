@@ -24,13 +24,15 @@ class UserBase extends EbModel {
     /*
      * Chức năng này sẽ tạo ra user dựa theo email đăng ký
      */
-    function check_user_login_exist( $user_login, $i = 0 ) {
+    function generate_user_login( $user_login ) {
         $user_login = explode( '@', $user_login );
         $user_login = trim( $user_login[ 0 ] );
         if ( $user_login == '' ) {
             die( 'user_login is NULL' );
         }
-        //
+    }
+
+    function check_user_login_exist( $user_login, $i = 0 ) {
         $new_user_login = $i > 0 ? $user_login . $i : $user_login;
 
         //

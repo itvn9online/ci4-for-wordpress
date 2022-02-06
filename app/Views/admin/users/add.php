@@ -56,18 +56,11 @@ use App\ Libraries\ UsersType;
             <div class="control-group">
                 <label class="control-label">Tài khoản</label>
                 <div class="controls bold bluecolor">
-                    <?php
-
-                    //
+                    <input type="text" class="span3" placeholder="Tài khoản" name="data[user_login]" id="data_user_login" value="<?php echo $data[ 'user_login' ]; ?>" onDblClick="$('#data_user_login').removeAttr('readonly');" aria-required="true" required <?php
                     if ( $data[ 'user_login' ] != '' ) {
-                        echo $data[ 'user_login' ];
-                    } else {
-                        ?>
-                    <input type="text" class="span6" placeholder="Tài khoản" value="" aria-required="true" required />
-                    <?php
+                        echo ' readonly';
                     }
-
-                    ?>
+                           ?> />
                 </div>
             </div>
             <div class="control-group">

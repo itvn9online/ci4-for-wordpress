@@ -50,8 +50,9 @@ class User extends UserMeta {
 
         //
         if ( !isset( $data[ 'user_login' ] ) || $data[ 'user_login' ] == '' ) {
-            $data[ 'user_login' ] = $this->check_user_login_exist( $data[ 'user_email' ] );
+            $data[ 'user_login' ] = $this->generate_user_login( $data[ 'user_email' ] );
         }
+        $data[ 'user_login' ] = $this->check_user_login_exist( $data[ 'user_login' ] );
         // mã hóa mật khẩu
         $data = $this->sync_pass( $data );
 
@@ -75,7 +76,8 @@ class User extends UserMeta {
         if ( isset( $data[ 'user_login' ] ) ) {
             if ( $data[ 'user_login' ] == '' ) {
                 if ( isset( $data[ 'user_email' ] ) && $data[ 'user_email' ] != '' ) {
-                    $data[ 'user_login' ] = $this->check_user_login_exist( $data[ 'user_email' ] );
+                    $data[ 'user_login' ] = $this->generate_user_login( $data[ 'user_email' ] );
+                    $data[ 'user_login' ] = $this->check_user_login_exist( $data[ 'user_login' ] );
                 } else {
                     return 'User login is empty!';
                 }

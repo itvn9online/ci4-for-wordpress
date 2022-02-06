@@ -190,6 +190,9 @@ class Layout extends Sync {
 
     // fake function wp_is_mobile of wordpress
     protected function WGR_is_mobile() {
+        $a = $_SERVER[ 'HTTP_USER_AGENT' ];
+
+        //
         if ( empty( $_SERVER[ 'HTTP_USER_AGENT' ] ) ) {
             $is_mobile = false;
         } else if ( strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Mobile' ) !== false // Many mobile devices (all iPhone, iPad, etc.)
