@@ -9,3 +9,63 @@
     --default2-color: red;
     --sub-color: red
 }
+/* */
+.top-bg {
+    background-color: #000;
+}
+.top-bg .eb-sub-menu, .top-bg .eb-sub-menu * {
+    display: inline-block;
+}
+.top-bg .eb-sub-menu a {
+    padding: 5px 10px;
+    color: white;
+}
+.top-bg .eb-sub-menu a:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+/* */
+.main-nav-menu {}
+.main-nav-menu ul {
+    margin: 0;
+}
+.main-nav-menu li {
+    float: left;
+    margin: 0;
+}
+.main-nav-menu a {
+    display: block;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 16px;
+    padding: 5px 10px;
+    color: black;
+}
+.main-nav-menu a:hover {
+    background: rgba(0, 0, 0, .2);
+}
+.main-nav-menu .sub-menu {
+    display: none;
+    position: absolute;
+    min-width: 220px;
+    z-index: 9;
+    background: #fff;
+}
+.main-nav-menu li:hover .sub-menu {
+    display: block;
+}
+.main-nav-menu .sub-menu li {
+    float: none;
+}
+.main-nav-menu .sub-menu a {
+    font-weight: normal;
+    text-transform: none;
+    font-size: 14px;
+}
+.main-nav-menu .sub-menu .sub-menu {
+    display: none !important;
+}
+/* */
+/* */
+/* */
+/* */
+/* */

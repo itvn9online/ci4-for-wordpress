@@ -19,7 +19,7 @@ if (current_full_domain === null) {
 function done_unzip_system() {
     WGR_alert('DONE! giải nén system zip thành công');
 
-    $('#unzipSystemModal button.btn-close').trigger('click');
+    $('#unzipSystemModal').modal('hide');
 
     $('.hide-after-unzip-system').fadeOut();
 }

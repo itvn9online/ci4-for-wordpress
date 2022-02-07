@@ -16,6 +16,9 @@ $(document).ready(function () {
         //
         if (jd != '' && type != '') {
             var url = 'admin/' + controller + '/add?id=' + jd;
+            if (type != '') {
+                url += '&post_type=' + type;
+            }
             //console.log(url);
             url = '<a href="' + url + '" target="_blank" rel="nofollow" class="click-goto-edit"><span><i class="fa fa-edit"></i></span></a>';
 
@@ -37,7 +40,10 @@ $(document).ready(function () {
 
         //
         if (jd != '' && type != '') {
-            var url = 'admin/' + controller + '/add?taxonomy=' + type + '&id=' + jd;
+            var url = 'admin/' + controller + '/add?id=' + jd;
+            if (type != '') {
+                url += '&taxonomy=' + type;
+            }
             //console.log(url);
 
             $(this).prepend('<a href="' + url + '" target="_blank" rel="nofollow" class="click-goto-edit"><span><i class="fa fa-edit"></i></span></a>');

@@ -520,7 +520,7 @@ class Base extends Session {
             return '<script type="text/javascript">' . file_get_contents( $f, 1 ) . '</script>';
         }
         //print_r( $attr );
-        return '<script type="text/javascript" src="' . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '"' . implode( ' ', $attr ) . '></script>';
+        return '<script type="text/javascript" src="' . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '" ' . implode( ' ', $attr ) . '></script>';
     }
     // thêm 1 file
     function add_js( $f, $get_content = false, $attr = [] ) {
