@@ -111,6 +111,15 @@ class MyImage {
         }
 
         //
+        $mime_type = mime_content_type( $source );
+        // 1 số định dạng file không sử dụng quality được
+        if ( in_array( $mime_type, [
+                'image/webp'
+            ] ) ) {
+            return false;
+        }
+
+        //
         if ( $desc == '' ) {
             $desc = $source;
         }
@@ -121,11 +130,11 @@ class MyImage {
             /*
              * https://phpimagick.com/Imagick/setCompressionQuality?quality=85&image_path=Lorikeet
              */
-            //echo 'Imagick - ' . mime_content_type( $source ) . ' - ' . IMAGETYPE_JPEG . ' - ' . $this->image_type . ' - ' . \Imagick::COMPRESSION_JPEG . ' <br>' . "\n";
+            //echo 'Imagick - ' . $mime_type . ' - ' . IMAGETYPE_JPEG . ' - ' . $this->image_type . ' - ' . \Imagick::COMPRESSION_JPEG . ' <br>' . "\n";
 
             //
             $image = new\ Imagick( $source );
-            if ( mime_content_type( $source ) == 'image/jpeg' ) {
+            if ( $mime_type == 'image/jpeg' ) {
                 $image->setImageFormat( 'jpg' );
                 $image->setImageCompression( \Imagick::COMPRESSION_JPEG );
                 $image->setImageCompressionQuality( $compression );

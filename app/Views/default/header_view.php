@@ -49,7 +49,7 @@
     else {
         ?>
     <div class="top-bg">
-        <div class="w90 text-right bold">
+        <div class="w90 text-right bold cf">
             <?php
 
             // nếu đã đăng nhập -> hiển thị menu profile
@@ -65,7 +65,7 @@
                 $menu_model->the_menu( 'top-login-menu' );
             }
 
-            $menu_model->the_menu( 'top-lang-menu' );
+            //$menu_model->the_menu( 'top-lang-menu' );
 
             ?>
         </div>

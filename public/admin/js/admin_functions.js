@@ -227,7 +227,7 @@ function click_set_img_for_input(img_id) {
             if (add_img_tag === 1) {
                 data_src = '<img src="' + data_src + '" />';
             }
-            top.$('#' + insert_to).val(data_src);
+            top.$('#' + insert_to).val(data_src).trigger('focus');
         }
     }
     hide_if_esc();

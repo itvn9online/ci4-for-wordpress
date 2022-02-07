@@ -494,19 +494,33 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
                         $file_name = sanitize_filename( $file_name );
                         //echo $file_name . '<br>' . "\n";
 
+                        // kiểm tra định dạng file
+                        $mime_type = $file->getMimeType();
+                        //echo $mime_type . '<br>' . "\n";
+                        //continue;
+
                         //
                         $file_ext = $file->guessExtension();
                         //echo $file_ext . '<br>' . "\n";
+                        if ( empty( $file_ext ) ) {
+                            die( json_encode( [
+                                'code' => __LINE__,
+                                'error' => 'Định dạng file chưa được hỗ trợ ' . $mime_type
+                            ] ) );
+                            //$file_ext = basename( $mime_type );
+                        }
                         $file_ext = strtolower( $file_ext );
                         //echo $file_ext . '<br>' . "\n";
 
                         //
                         $file_path = $upload_path . $file_name;
+                        //echo $file_path . '<br>' . "\n";
                         // đổi tên file nếu file đã tồn tại
                         if ( file_exists( $file_path ) ) {
                             for ( $i = 1; $i < 100; $i++ ) {
                                 $file_new_name = basename( $file_name, '.' . $file_ext ) . '_' . $i . '.' . $file_ext;
                                 $file_path = $upload_path . $file_new_name;
+                                //echo $file_path . '<br>' . "\n";
                                 if ( !file_exists( $file_path ) ) {
                                     $file_name = basename( $file_path );
                                     break;
@@ -514,11 +528,6 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
                             }
                         }
                         //echo $file_path . '<br>' . "\n";
-
-                        // kiểm tra định dạng file
-                        $mime_type = $file->getMimeType();
-                        //echo $mime_type . '<br>' . "\n";
-                        //continue;
 
                         // nếu không phải file ảnh
                         $is_image = true;
@@ -546,6 +555,7 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
                             //echo $file_name . '<br>' . "\n";
                             //die( __FILE__ . ':' . __LINE__ );
                         }
+                        //echo $file_path . '<br>' . "\n";
 
                         // nếu có kiểm duyệt định dạng file -> chỉ các file trong này mới được upload
                         if ( !empty( $allow_upload ) && !in_array( $file_ext, $allow_upload ) ) {
@@ -659,6 +669,7 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
         $arr_list_size = PostType::media_size();
         // chỉ resize file ảnh
         $arr_allow_resize = [
+            'bmp',
             'png',
             'jpg',
             'jpeg'
@@ -674,7 +685,10 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
                 0
             ];
         }
+        //print_r( $get_file_info );
         $file_size = filesize( $file_path );
+        //echo $file_size . '<br>' . "\n";
+        //die( __FILE__ . ':' . __LINE__ );
         foreach ( $arr_list_size as $size_name => $size ) {
             $resize_path = $upload_path . $post_title . '-' . $size_name . '.' . $file_ext;
             //echo $resize_path . '<br>' . "\n";
