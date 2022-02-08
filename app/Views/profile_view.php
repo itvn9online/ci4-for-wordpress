@@ -1,5 +1,5 @@
 <div id="loginbox">
-    <form action="./users/profile" method="POST" accept-charset="utf-8" class="form-vertical">
+    <form name="profile_form" class="form-vertical" accept-charset="utf-8" action="./users/profile" method="post" target="target_eb_iframe">
         <?php $base_model->csrf_field(); ?>
         <div class="control-group normal_text">
             <h3><?php echo $seo['title']; ?></h3>
@@ -62,7 +62,7 @@
         </div>
     </div>
     <hr />
-    <form action="./users/profile" method="POST" accept-charset="utf-8" class="form-vertical">
+    <form name="pasword_form" class="form-vertical" accept-charset="utf-8" action="./users/profile" method="post" target="target_eb_iframe">
         <?php $base_model->csrf_field(); ?>
         <div class="control-group normal_text">
             <h3>Đổi mật khẩu đăng nhập</h3>
@@ -85,3 +85,6 @@
     </form>
 </div>
 <br>
+<?php
+
+$base_model->add_js( 'javascript/user-profile.js' );

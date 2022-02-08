@@ -1075,7 +1075,7 @@ class Base extends Session {
     public function msg_error_session( $value = NULL, $alert = false ) {
         // alert = error || warning
         if ( $alert !== false ) {
-            $this->alert( $error, $alert );
+            $this->alert( $value, $alert );
         }
         return $this->MY_session( 'msg_error', $value );
     }
@@ -1083,7 +1083,7 @@ class Base extends Session {
     public function msg_session( $value = NULL, $alert = false ) {
         // alert = error || warning
         if ( $alert !== false ) {
-            $this->alert( $error, $alert );
+            $this->alert( $value, $alert );
         }
         return $this->MY_session( 'msg', $value );
     }

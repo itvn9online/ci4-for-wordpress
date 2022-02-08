@@ -5,9 +5,7 @@ $theme_private_view = THEMEPATH . 'Views/' . basename( __FILE__ );
 
 //
 $base_model->add_css( 'css/maruti-login.css' );
-$base_model->add_js( 'javascript/maruti-login.js', 0, [
-    'defer'
-] );
+$base_model->add_js( 'javascript/maruti-login.js' );
 
 // nhúng file header riêng của theme -> thường dụng khi muốn xóa LOGO WebGiaRe
 if ( file_exists( $theme_private_view ) ) {

@@ -3,6 +3,7 @@
 
 //
 $base_model->adds_js( [
+    'javascript/functions_footer.js',
     'thirdparty/bootstrap-5.1.3/js/bootstrap.bundle.min.js',
     'javascript/footer.js',
     'themes/' . THEMENAME . '/js/d.js'

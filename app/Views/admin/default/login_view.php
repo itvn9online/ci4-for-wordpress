@@ -4,7 +4,7 @@ include APPPATH . 'Views/admin/default/login_header.php';
 
 ?>
 <div id="loginbox">
-    <form id="loginform" name="loginform" class="form-vertical" accept-charset="utf-8" action="./guest/login" method="method="post" target="target_eb_iframe">
+    <form id="loginform" name="loginform" class="form-vertical" accept-charset="utf-8" action="./guest/login" method="post" target="target_eb_iframe">
         <?php $base_model->csrf_field(); ?>
         <input type="hidden" name="login_redirect" value="<?php echo isset($_REQUEST['login_redirect']) ? urldecode($_REQUEST['login_redirect']) : ''; ?>" />
         <div class="control-group normal_text">

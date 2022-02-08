@@ -55,7 +55,7 @@ class Users extends Csrf {
     }
 
     private function update( $id ) {
-        die( 'update profile' );
+        $this->base_model->alert( 'TEST code', 'warning' );
     }
 
     public function logout() {

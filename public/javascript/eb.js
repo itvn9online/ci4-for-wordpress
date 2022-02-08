@@ -869,12 +869,22 @@ var _global_js_eb = {
 
     // thêm mã xác nhận mỗi khi submit form
     wgr_nonce: function (form_name) {
-        if (jQuery('form[name="' + form_name + '"] input[name="__wgr_request_from"]').length == 0) {
-            jQuery('form[name="' + form_name + '"]').append('<input type="hidden" name="__wgr_request_from" value="' + window.location.href + '" />');
+        var a = jQuery('form[name="' + form_name + '"]');
+        if (a.length == 0) {
+            return false;
         }
 
+        // xác định nới request tới
+        if (jQuery('form[name="' + form_name + '"] input[name="__wgr_request_from"]').length == 0) {
+            a.append('<input type="hidden" name="__wgr_request_from" value="' + window.location.href + '" />');
+        }
+        // thời gian truy cập form
         if (jQuery('form[name="' + form_name + '"] input[name="__wgr_nonce"]').length == 0) {
-            jQuery('form[name="' + form_name + '"]').append('<input type="hidden" name="__wgr_nonce" value="' + Math.ceil(Date.now() / 1000) + '" />');
+            a.append('<input type="hidden" name="__wgr_nonce" value="' + Math.ceil(Date.now() / 1000) + '" />');
+        }
+        // thêm tham số xác định target của form để đưa ra phương thức xử lý code phù hợp
+        if (jQuery('form[name="' + form_name + '"] input[name="__wgr_target"]').length == 0) {
+            a.append('<input type="hidden" name="__wgr_target" value="' + (a.attr('target') || '') + '" />');
         }
 
         return true;

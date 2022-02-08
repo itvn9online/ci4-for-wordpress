@@ -13,9 +13,13 @@ class Guest extends Csrf {
         //
         $this->validation = \Config\ Services::validation();
 
+        //
+        //echo $_SERVER[ 'REQUEST_METHOD' ] . '<br>' . "\n";
         // quá trình submit bắt buộc phải có các tham số sau -> chống tắt javascript
         if ( $_SERVER[ 'REQUEST_METHOD' ] == 'POST' ) {
+            //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
             if ( !isset( $_POST[ '__wgr_request_from' ] ) || !isset( $_POST[ '__wgr_nonce' ] ) ) {
+                //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
                 // chuyển tham số này thành true -> dùng chung với captcha
                 $this->has_captcha = true;
             }
@@ -27,53 +31,60 @@ class Guest extends Csrf {
         //die( $login_redirect );
 
         if ( $this->current_user_id > 0 ) {
-            return redirect()->to( $login_redirect );
+            return $this->done_action_login( $login_redirect );
         }
-
-        // xem có phải nhập mã captcha không -> khi đăng nhập sai quá nhiều lần -> bắt buộc phải nhập captcha
-        if ( $this->base_model->check_faild_login() > 0 ) {
-            //die( __FILE__ . ':' . __LINE__ );
-            $this->check_required_captcha();
-        }
-        //die( __FILE__ . ':' . __LINE__ );
 
         //
-        if ( $this->has_captcha === false && !empty( $this->MY_post( 'username' ) ) ) {
-            //print_r( $_POST );
-            $this->validation->reset();
-            $this->validation->setRules( [
-                'username' => 'required',
-                'password' => 'required|min_length[6]',
-            ] );
-            //$this->validation->setRule( 'username', 'Tài khoản', 'required' );
-            //$this->validation->setRule( 'password', 'Mật khẩu', 'required' );
+        if ( !empty( $this->MY_post( 'username' ) ) ) {
+            $this->wgr_target();
+
+            // xem có phải nhập mã captcha không -> khi đăng nhập sai quá nhiều lần -> bắt buộc phải nhập captcha
+            if ( $this->base_model->check_faild_login() > 0 ) {
+                //die( __FILE__ . ':' . __LINE__ );
+                $this->check_required_captcha();
+            }
+            //die( __FILE__ . ':' . __LINE__ );
 
             //
-            if ( !$this->validation->run( $_POST ) ) {
-                $this->set_validation_error( $this->validation->getErrors(), 'error' );
-            } else {
-                //die( __FILE__ . ':' . __LINE__ );
+            if ( $this->has_captcha === false ) {
+                //print_r( $_POST );
+                $this->validation->reset();
+                $this->validation->setRules( [
+                    'username' => 'required',
+                    'password' => 'required|min_length[6]',
+                ] );
+                //$this->validation->setRule( 'username', 'Tài khoản', 'required' );
+                //$this->validation->setRule( 'password', 'Mật khẩu', 'required' );
 
                 //
-                if ( $this->checkaccount() === true ) {
-                    $session_data = $this->base_model->get_ses_login();
+                if ( !$this->validation->run( $_POST ) ) {
+                    $this->set_validation_error( $this->validation->getErrors(), $this->form_target );
+                } else {
+                    //die( __FILE__ . ':' . __LINE__ );
 
                     //
-                    /*
-                    if ( function_exists( 'set_cookie' ) ) {
-                        //die( $this->wrg_cookie_login_key );
-                        //set_cookie( $this->wrg_cookie_login_key, $this->session_data[ 'ID' ] . '|' . time() . '|' . md5( $this->wrg_cookie_login_key . $this->session_data[ 'ID' ] ), 3600, '.' . $_SERVER[ 'HTTP_HOST' ], '/' );
-                    }
-                    */
+                    if ( $this->checkaccount() === true ) {
+                        $session_data = $this->base_model->get_ses_login();
 
-                    //
-                    if ( isset( $_REQUEST[ 'login_redirect' ] ) && $_REQUEST[ 'login_redirect' ] != '' ) {
-                        $login_redirect = $_REQUEST[ 'login_redirect' ];
-                    } else if ( !empty( $session_data ) && isset( $session_data[ 'userLevel' ] ) && $session_data[ 'userLevel' ] > 0 ) {
-                        $login_redirect = base_url( CUSTOM_ADMIN_URI );
+                        //
+                        /*
+                        if ( function_exists( 'set_cookie' ) ) {
+                            //die( $this->wrg_cookie_login_key );
+                            //set_cookie( $this->wrg_cookie_login_key, $this->session_data[ 'ID' ] . '|' . time() . '|' . md5( $this->wrg_cookie_login_key . $this->session_data[ 'ID' ] ), 3600, '.' . $_SERVER[ 'HTTP_HOST' ], '/' );
+                        }
+                        */
+
+                        //
+                        if ( isset( $_REQUEST[ 'login_redirect' ] ) && $_REQUEST[ 'login_redirect' ] != '' ) {
+                            $login_redirect = $_REQUEST[ 'login_redirect' ];
+                        } else if ( !empty( $session_data ) && isset( $session_data[ 'userLevel' ] ) && $session_data[ 'userLevel' ] > 0 ) {
+                            $login_redirect = base_url( CUSTOM_ADMIN_URI );
+                        }
+                        //die( $login_redirect );
+
+                        //
+                        return $this->done_action_login( $login_redirect );
                     }
-                    //die( $login_redirect );
-                    return redirect()->to( $login_redirect );
                 }
             }
         }
@@ -116,15 +127,15 @@ class Guest extends Csrf {
                 'limit' => 1
             ) );
 
-            //
-            if ( empty( $sql ) ) {
-                $this->base_model->msg_error_session( 'Email đăng nhập không chính xác' );
-            } else {
-                $this->base_model->msg_error_session( 'Mật khẩu đăng nhập không chính xác' );
-            }
-
             // thêm số lần đăng nhập sai
             $this->base_model->push_faild_login();
+
+            //
+            if ( empty( $sql ) ) {
+                $this->base_model->msg_error_session( 'Email đăng nhập không chính xác', $this->form_target );
+            } else {
+                $this->base_model->msg_error_session( 'Mật khẩu đăng nhập không chính xác', $this->form_target );
+            }
 
             //
             return false;
@@ -149,19 +160,18 @@ class Guest extends Csrf {
                     //
                     $this->base_model->msg_session( 'Mở khóa tài khoản thành công! Vui lòng đăng nhập lại.' );
 
-                    //
-                    return false;
+                    return $this->done_action_login();
                 }
                 $auto_unlock = date( 'Y-m-d H:i:s', $auto_unlock );
             } else {
                 $auto_unlock = '<strong>Không xác định</strong>. Vui lòng liên hệ admin.';
             }
-            $this->base_model->msg_error_session( 'Tài khoản đang bị <strong>' . UsersType::listStatus( $result[ 'user_status' ] ) . '</strong>! Thời gian mở khóa: ' . $auto_unlock );
+            $this->base_model->msg_error_session( 'Tài khoản đang bị <strong>' . UsersType::listStatus( $result[ 'user_status' ] ) . '</strong>! Thời gian mở khóa: ' . $auto_unlock, $this->form_target );
             return false;
         }
         // tài khoản bị XÓA
         else if ( $result[ 'is_deleted' ] * 1 != DeletedStatus::FOR_DEFAULT * 1 ) {
-            $this->base_model->msg_error_session( 'Tài khoản không tồn tại trong hệ thống! Vui lòng liên hệ admin.' );
+            $this->base_model->msg_error_session( 'Tài khoản không tồn tại trong hệ thống! Vui lòng liên hệ admin.', $this->form_target );
             return false;
         }
 
@@ -187,28 +197,31 @@ class Guest extends Csrf {
         $login_redirect = DYNAMIC_BASE_URL;
 
         if ( $this->current_user_id > 0 ) {
-            return redirect()->to( $login_redirect );
+            return $this->done_action_login( $login_redirect );
         }
 
         //
         $data = $this->MY_post( 'data' );
         if ( !empty( $data ) && isset( $data[ 'email' ] ) ) {
+            $this->wgr_target();
+
             // đăng ký tài khoản bắt buộc phải có captcha
             $this->check_required_captcha();
 
             //
             if ( $this->has_captcha === false ) {
+                $this->validation->reset();
                 $this->validation->setRule( 'email', 'Email', 'required|min_length[5]|max_length[255]|valid_email' );
                 $this->validation->setRule( 'password', 'Mật khẩu', 'required|min_length[5]|max_length[255]' );
-                $this->validation->setRule( 'password2', 'Mật khẩu xác nhận', 'required|min_length[5]|max_length[255]' );
+                //$this->validation->setRule( 'password2', 'Mật khẩu xác nhận', 'required|min_length[5]|max_length[255]' );
 
                 // mật khẩu xác nhận
                 if ( $data[ 'password' ] != $data[ 'password2' ] ) {
-                    $this->base_model->msg_error_session( 'Mật khẩu xác nhận không chính xác' );
+                    $this->base_model->msg_error_session( 'Mật khẩu xác nhận không chính xác', $this->form_target );
                 }
                 // lấy lỗi trả về nếu có
                 else if ( !$this->validation->run( $data ) ) {
-                    $this->set_validation_error( $this->validation->getErrors(), 'error' );
+                    $this->set_validation_error( $this->validation->getErrors(), $this->form_target );
                 }
                 // tiến hành đăng ký tài khoản
                 else {
@@ -229,13 +242,13 @@ class Guest extends Csrf {
                     //$insert = $this->base_model->insert( 'tbl_user', $data, true );
                     $insert = $this->user_model->insert_member( $data );
                     if ( $insert < 0 ) {
-                        $this->base_model->msg_error_session( 'Email đã được sử dụng' );
+                        $this->base_model->msg_error_session( 'Email đã được sử dụng', $this->form_target );
                     } else if ( $insert !== false ) {
-                        $this->base_model->msg_session( 'Đăng ký thành công' );
-                        //header( 'Location:' . base_url( 'signin' ) );
-                        return redirect()->to( base_url( 'guest/login' ) );
+                        $this->base_model->msg_session( 'Đăng ký tài khoản thành công!' );
+
+                        return $this->done_action_login( base_url( 'guest/login' ) );
                     } else {
-                        $this->base_model->msg_error_session( 'Lỗi đăng ký tài khoản' );
+                        $this->base_model->msg_error_session( 'Lỗi đăng ký tài khoản', $this->form_target );
                     }
                 }
             }
@@ -259,25 +272,25 @@ class Guest extends Csrf {
     public function resetpass() {
         $data = $this->MY_post( 'data' );
         if ( !empty( $data ) && isset( $data[ 'email' ] ) ) {
-            // lấy lại pass thì không cần thiết phải có captcha -> nếu web nào dùng thì tự nhúng view captcha vào -> ở đây sẽ so khớp đầu vào
-            if ( isset( $_POST[ 'captcha' ] ) && $this->MY_session( 'check_captcha' ) != $this->MY_post( 'captcha' ) ) {
-                $this->base_model->msg_error_session( 'Mã xác thực không chính xác' );
-                $this->has_captcha = true;
-            }
+            $this->wgr_target();
+            $this->checking_captcha();
 
             //
             if ( $this->has_captcha === false ) {
                 //print_r( $data );
                 //die( __FILE__ . ':' . __LINE__ );
+                $this->validation->reset();
                 $this->validation->setRule( 'email', 'Email', 'required|min_length[5]|max_length[255]|valid_email' );
 
                 //
                 if ( !$this->validation->run( $data ) ) {
-                    $this->set_validation_error( $this->validation->getErrors(), 'error' );
+                    $this->set_validation_error( $this->validation->getErrors(), $this->form_target );
                 } else {
                     if ( $this->check_resetpass() === true ) {
                         // daidq -----> tính năng này để sau, đang bận chạy deadline nên vất đây đã
                         $this->base_model->msg_session( 'Gửi email lấy lại mật khẩu thành công' );
+
+                        return $this->done_action_login();
                     }
                 }
             }

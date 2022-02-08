@@ -40,7 +40,7 @@
                             </div>
                         </div>
                     </div>
-                    <form method="post" action="./contact/put" accept-charset="utf-8">
+                    <form name="contact_form" accept-charset="utf-8" action="./contact/put" method="post" target="target_eb_iframe">
                         <?php $base_model->csrf_field(); ?>
                         <input type="hidden" name="to" value="comments" />
                         <input type="hidden" name="redirect" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />

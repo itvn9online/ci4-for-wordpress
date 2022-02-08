@@ -9,32 +9,49 @@ class Contact extends Home {
     }
 
     public function put() {
-        if ( empty( $this->MY_post( 'data' ) ) ) {
-            $this->base_model->msg_error_session( 'Phương thức đầu vào không chính xác' );
-            return redirect()->to( DYNAMIC_BASE_URL );
+        $this->wgr_target();
+
+        //
+        $data = $this->MY_post( 'data' );
+        if ( empty( $data ) ) {
+            $this->base_model->msg_error_session( 'Phương thức đầu vào không chính xác', $this->form_target );
+            //return redirect()->to( DYNAMIC_BASE_URL );
+            return $this->done_action_login();
         }
 
         // thực hiện validation
+        /*
         $this->form_validation->set_rules( 'data[fullname]', 'fullname', 'required|xss_clean|min_length[5]|max_length[255]' );
         $this->form_validation->set_rules( 'data[email]', 'email', 'required|xss_clean|min_length[5]|max_length[255]|valid_email' );
         $this->form_validation->set_rules( 'data[title]', 'title', 'required|xss_clean|min_length[5]|max_length[255]' );
         $this->form_validation->set_rules( 'data[content]', 'content', 'required|xss_clean|min_length[5]' );
+        */
+        $this->validation->reset();
+        $this->validation->setRules( [
+            'fullname' => 'required|min_length[5]|max_length[255]',
+            'email' => 'required|min_length[5]|max_length[255]|valid_email',
+            'title' => 'required|min_length[5]|max_length[255]',
+            'content' => 'required|min_length[5]',
+        ] );
 
         //
         $redirect_to = DYNAMIC_BASE_URL . ltrim( $this->MY_post( 'redirect' ), '/' );
         if ( empty( $redirect_to ) ) {
             $redirect_to = DYNAMIC_BASE_URL;
         }
+
+        //
+        /*
         if ( $this->form_validation->run() == FALSE ) {
-            $this->base_model->msg_error_session( 'Vui lòng kiểm tra lại! Dữ liệu đầu vào không chính xác' );
+            $this->base_model->msg_error_session( 'Vui lòng kiểm tra lại! Dữ liệu đầu vào không chính xác', $this->form_target );
+            */
+        if ( !$this->validation->run( $data ) ) {
+            $this->set_validation_error( $this->validation->getErrors(), $this->form_target );
         } else {
             $submit = $this->MY_comment( [
                 'redirect_to' => $redirect_to,
                 'comment_type' => strtolower( $this->get_class_name( __CLASS__ ) )
             ] );
-
-            //
-            $data = $this->MY_post( 'data' );
 
             // thiết lập thông tin người nhận
             $data_send = [
@@ -66,6 +83,7 @@ class Contact extends Home {
         }
 
         //
-        die( redirect( $redirect_to ) );
+        //die( redirect( $redirect_to ) );
+        return $this->done_action_login( $redirect_to );
     }
 }
