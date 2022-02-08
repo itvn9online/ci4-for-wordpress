@@ -9,6 +9,8 @@ class Session {
     private $key_csrf_hash = '_wgr_csrf_hash';
     // key lưu phiên đăng nhập của khách
     private $key_member_login = '_wgr_logged';
+    // khi số lần đăng nhập sai vượt qua con số này thì sẽ kích hoạt captcha
+    private $max_login_faild = 3;
 
     public function __construct() {
         //
@@ -72,16 +74,6 @@ class Session {
         return $this->MY_session( $this->key_member_login );
     }
 
-    // lưu hoặc lấy session báo lỗi
-    public function msg_error_session( $value = NULL ) {
-        return $this->MY_session( 'msg_error', $value );
-    }
-    // lưu hoặc lấy session thông báo
-    public function msg_session( $value = NULL ) {
-        return $this->MY_session( 'msg', $value );
-    }
-
-
     /*
      * Chức năng captcha khi đăng nhập sai nhiều lần
      */
@@ -101,15 +93,15 @@ class Session {
     public function push_faild_login() {
         $this->MY_session( 'count_faild_login', $this->get_faild_login() + 1 );
     }
-    // thêm số lần đăng nhập sai -> mỗi lần đăng nhập sai thì thêm 1 đơn vị
+    // reset lại số lần nhập sai pass nếu trước đó đã nhập đúng captcha
     public function reset_faild_login() {
         if ( $this->MY_session( 'count_faild_login' ) != '' ) {
             $this->MY_session( 'count_faild_login', '' );
         }
     }
-    // kiểm tra nếu vượt số lần đăng nhập sai thì trả về true
+    // kiểm tra nếu vượt số lần đăng nhập sai thì trả về 1 số > 0
     public function check_faild_login() {
-        if ( $this->get_faild_login() >= 3 ) {
+        if ( $this->get_faild_login() >= $this->max_login_faild ) {
             return 1;
         }
         return 0;

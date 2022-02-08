@@ -860,7 +860,7 @@ var _global_js_eb = {
      * Nạp iframe để submit
      */
     add_primari_iframe: function () {
-        if (dog('target_eb_iframe') == null) {
+        if (document.getElementById('target_eb_iframe') == null) {
             jQuery('body').append('<iframe id="target_eb_iframe" name="target_eb_iframe" src="about:blank" width="750" height="600">AJAX form</iframe>');
         }
 
@@ -874,9 +874,7 @@ var _global_js_eb = {
         }
 
         if (jQuery('form[name="' + form_name + '"] input[name="__wgr_nonce"]').length == 0) {
-            if (typeof date_time == 'number') {
-                jQuery('form[name="' + form_name + '"]').append('<input type="hidden" name="__wgr_nonce" value="' + date_time + '" />');
-            }
+            jQuery('form[name="' + form_name + '"]').append('<input type="hidden" name="__wgr_nonce" value="' + Math.ceil(Date.now() / 1000) + '" />');
         }
 
         return true;

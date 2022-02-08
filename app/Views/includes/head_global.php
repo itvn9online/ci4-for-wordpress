@@ -81,15 +81,19 @@ echo $font_awesome_before;
 //
 $base_model->add_css( 'css/d.css' );
 $base_model->preload_css( 'css/d2.css' );
-$base_model->add_css( 'css/flatsome.css' );
-$base_model->add_css( 'css/thread_list.css' );
-$base_model->add_css( 'themes/' . THEMENAME . '/style.css' );
-$base_model->add_css( 'themes/' . THEMENAME . '/css/thread_node.css' );
+$base_model->adds_css( [
+    'css/flatsome.css',
+    'css/thread_list.css',
+    'themes/' . THEMENAME . '/style.css',
+    'themes/' . THEMENAME . '/css/thread_node.css',
+] );
 
-$base_model->add_js( 'javascript/functions.js' );
-$base_model->add_js( 'javascript/eb.js' );
-//$base_model->add_js( 'javascript/slider.js' );
-$base_model->add_js( 'themes/' . THEMENAME . '/js/functions.js' );
+$base_model->adds_js( [
+    'javascript/functions.js',
+    'javascript/eb.js',
+    //'javascript/slider.js',
+    'themes/' . THEMENAME . '/js/functions.js',
+] );
 
 //print_r( $getconfig );
 if ( !isset( $getconfig->site_max_width ) || empty( $getconfig->site_max_width ) ) {

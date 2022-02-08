@@ -1,8 +1,8 @@
 <?php
-
-// đăng nhập sai quá 3 lần thì hiển thị thêm captcha
-if ( $base_model->check_faild_login() > 0 ) {
-    ?>
+/*
+ * thêm captcha vào form bất kỳ -> có có POST captcha là sẽ có lệnh so khớp POST captcha với session captcha
+ */
+?>
 <br>
 <div class="row row-collapse">
     <div class="col medium-3 small-3 large-3">
@@ -19,5 +19,3 @@ if ( $base_model->check_faild_login() > 0 ) {
         </div>
     </div>
 </div>
-<?php
-}

@@ -4,7 +4,7 @@ include APPPATH . 'Views/admin/default/login_header.php';
 
 ?>
 <div id="loginbox">
-    <form action="./guest/login" method="POST" id="loginform" class="form-vertical" accept-charset="utf-8">
+    <form id="loginform" name="loginform" class="form-vertical" accept-charset="utf-8" action="./guest/login" method="method="post" target="target_eb_iframe">
         <?php $base_model->csrf_field(); ?>
         <input type="hidden" name="login_redirect" value="<?php echo isset($_REQUEST['login_redirect']) ? urldecode($_REQUEST['login_redirect']) : ''; ?>" />
         <div class="control-group normal_text">
@@ -24,8 +24,10 @@ include APPPATH . 'Views/admin/default/login_header.php';
             </div>
             <?php
 
-            // thêm mã xác thực nếu login sai quá nhiều lần
-            include APPPATH . 'Views/admin/default/login_captcha.php';
+            // đăng nhập sai quá nhiều lần thì hiển thị thêm captcha để bắt xác thực
+            if ( $base_model->check_faild_login() > 0 ) {
+                include APPPATH . 'Views/admin/default/login_captcha.php';
+            }
 
             ?>
         </div>

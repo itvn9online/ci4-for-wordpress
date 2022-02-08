@@ -1,8 +1,3 @@
-<!--
-<link rel="stylesheet" href="./admin/css/bootstrap.min.css" />
-<link rel="stylesheet" href="./admin/css/bootstrap-responsive.min.css" />
--->
-<!-- <link rel="stylesheet" href="./admin/css/maruti-login.css" /> -->
 <div id="loginbox">
     <form action="./users/profile" method="POST" accept-charset="utf-8" class="form-vertical">
         <?php $base_model->csrf_field(); ?>

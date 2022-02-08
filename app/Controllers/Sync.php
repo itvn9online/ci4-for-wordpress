@@ -336,9 +336,13 @@ class Sync extends BaseController {
         return $this->base_model->MY_session( $key, $value );
     }
 
-    protected function set_validation_error( $errors ) {
+    protected function set_validation_error( $errors, $alert = false ) {
         //print_r( $errors );
         foreach ( $errors as $error ) {
+            // alert = error || warning
+            if ( $alert !== false ) {
+                $this->base_model->alert( $error, $alert );
+            }
             $this->base_model->msg_error_session( $error );
             break;
         }

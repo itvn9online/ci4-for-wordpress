@@ -1071,4 +1071,20 @@ class Base extends Session {
         return $this->_eb_text_only( $str );
     }
 
+    // lưu hoặc lấy session báo lỗi
+    public function msg_error_session( $value = NULL, $alert = false ) {
+        // alert = error || warning
+        if ( $alert !== false ) {
+            $this->alert( $error, $alert );
+        }
+        return $this->MY_session( 'msg_error', $value );
+    }
+    // lưu hoặc lấy session thông báo
+    public function msg_session( $value = NULL, $alert = false ) {
+        // alert = error || warning
+        if ( $alert !== false ) {
+            $this->alert( $error, $alert );
+        }
+        return $this->MY_session( 'msg', $value );
+    }
 }

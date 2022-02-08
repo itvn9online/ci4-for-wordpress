@@ -4,7 +4,7 @@ include APPPATH . 'Views/admin/default/login_header.php';
 
 ?>
 <div id="loginbox">
-    <form id="loginform" class="form-vertical" accept-charset="utf-8" action="./guest/resetpass" method="POST">
+    <form id="loginform" name="loginform" class="form-vertical" accept-charset="utf-8" action="./guest/resetpass" method="post" target="target_eb_iframe">
         <?php $base_model->csrf_field(); ?>
         <div class="control-group normal_text">
             <h3><?php echo $seo['title']; ?></h3>
@@ -15,6 +15,12 @@ include APPPATH . 'Views/admin/default/login_header.php';
                     <input type="email" placeholder="Email" name="data[email]" value="" autofocus aria-required="true" required />
                 </div>
             </div>
+            <?php
+
+            // web nào cần mở xác thực captcha cho phần reset pass thì include file này
+            //include APPPATH . 'Views/admin/default/login_captcha.php';
+
+            ?>
         </div>
         <div class="form-actions cf l35"><a href="./guest/login">Đăng nhập</a> | <a href="./guest/register">Đăng ký</a> <span class="pull-right">
             <input type="submit" class="btn btn-success" value="<?php echo $seo['title']; ?>" />

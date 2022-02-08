@@ -4,7 +4,7 @@ include APPPATH . 'Views/admin/default/login_header.php';
 
 ?>
 <div id="loginbox">
-    <form id="loginform" class="form-vertical" accept-charset="utf-8" action="./guest/register" method="POST">
+    <form id="loginform" name="loginform" class="form-vertical" accept-charset="utf-8" action="./guest/register" method="method="post" target="target_eb_iframe">
         <?php $base_model->csrf_field(); ?>
         <div class="control-group normal_text">
             <h3><?php echo $seo['title']; ?></h3>
@@ -27,6 +27,12 @@ include APPPATH . 'Views/admin/default/login_header.php';
                     <input type="password" placeholder="Nhắc lại mật khẩu" name="data[password2]" maxlength="255" aria-required="true" required />
                 </div>
             </div>
+            <?php
+
+            // thêm mã xác thực cho quá trình đăng ký tài khoản
+            include APPPATH . 'Views/admin/default/login_captcha.php';
+
+            ?>
         </div>
         <div class="form-actions cf l35"><a href="./guest/login">Đăng nhập</a> | <a href="./guest/resetpass">Quên mật khẩu?</a> <span class="pull-right">
             <input type="submit" class="btn btn-success" value="<?php echo $seo['title']; ?>" />
