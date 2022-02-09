@@ -7,8 +7,8 @@
 namespace App\ Models;
 
 class File extends EbModel {
-    private $base_dir = '';
-    private $ftp_server = '';
+    public $base_dir = '';
+    public $ftp_server = '';
 
     public function __construct() {
         parent::__construct();
@@ -17,9 +17,9 @@ class File extends EbModel {
     }
 
     // EBE_check_ftp_account
-    private function get_server() {
+    public function get_server() {
         if ( !defined( 'FTP_USER' ) || !defined( 'FTP_PASS' ) ) {
-            //echo 'ERROR FTP: FTP USER or FTP PASS not found<br>' . "\n";
+            //echo 'ERROR FTP: FTP USER or FTP PASS not found<br>' . PHP_EOL;
             return false;
         }
 
@@ -31,13 +31,13 @@ class File extends EbModel {
             //$this->ftp_server = $_SERVER[ 'SERVER_ADDR' ];
             $this->ftp_server = '127.0.0.1';
         }
-        //echo $this->ftp_server . '<br>' . "\n";
+        //echo $this->ftp_server . '<br>' . PHP_EOL;
 
         return true;
     }
 
     // EBE_get_ftp_root_dir
-    private function root_dir() {
+    public function root_dir() {
         if ( $this->base_dir != '' ) {
             return true;
         }
@@ -65,7 +65,7 @@ class File extends EbModel {
 
         // Tạo một file bằng hàm của PHP thường -> không dùng FTP
         if ( !file_exists( $cache_for_ftp ) ) {
-            echo $cache_for_ftp . '<br>' . "\n";
+            echo $cache_for_ftp . '<br>' . PHP_EOL;
             $this->base_model->_eb_create_file( $cache_for_ftp, date( 'r' ) );
         }
         //die( $cache_for_ftp );
@@ -75,7 +75,7 @@ class File extends EbModel {
         $ftp_dir_root = '';
         //	print_r( $a );
         foreach ( $a as $v ) {
-            //echo $v . "\n";
+            //echo $v . PHP_EOL;
             if ( $ftp_dir_root == '' && $v != '' ) {
                 $file_test = strstr( $cache_for_ftp, '/' . $v . '/' );
                 //echo $file_test . " - \n";
@@ -106,13 +106,13 @@ class File extends EbModel {
 
     // WGR_ftp_copy
     public function FTP_copy( $source, $path, $file_permission = DEFAULT_FILE_PERMISSION ) {
-        $check_dir = $this->root_dir();;
+        $check_dir = $this->root_dir();
         if ( $check_dir !== true ) {
             echo $check_dir . '<br>' . PHP_EOL;
             return false;
         }
-        //echo $this->base_dir . '<br>' . "\n";
-        //echo $this->ftp_server . '<br>' . "\n";
+        //echo $this->base_dir . '<br>' . PHP_EOL;
+        //echo $this->ftp_server . '<br>' . PHP_EOL;
         //die( __FILE__ . ':' . __LINE__ );
 
         /*
@@ -149,19 +149,22 @@ class File extends EbModel {
             echo 'ERROR copy file via FTP #' . $path . ' <br>' . PHP_EOL;
         }
 
+        // close the connection
+        ftp_close( $conn_id );
+
         //
         return false;
     }
 
     // EBE_ftp_remove_file
     public function FTP_unlink( $file_ ) {
-        $check_dir = $this->root_dir();;
+        $check_dir = $this->root_dir();
         if ( $check_dir !== true ) {
             echo $check_dir . '<br>' . PHP_EOL;
             return false;
         }
-        //echo $this->base_dir . '<br>' . "\n";
-        //echo $this->ftp_server . '<br>' . "\n";
+        //echo $this->base_dir . '<br>' . PHP_EOL;
+        //echo $this->ftp_server . '<br>' . PHP_EOL;
         //die( __FILE__ . ':' . __LINE__ );
 
         /*
@@ -201,13 +204,13 @@ class File extends EbModel {
         }
 
         //
-        $check_dir = $this->root_dir();;
+        $check_dir = $this->root_dir();
         if ( $check_dir !== true ) {
             echo $check_dir . '<br>' . PHP_EOL;
             return false;
         }
-        //echo $this->base_dir . '<br>' . "\n";
-        //echo $this->ftp_server . '<br>' . "\n";
+        //echo $this->base_dir . '<br>' . PHP_EOL;
+        //echo $this->ftp_server . '<br>' . PHP_EOL;
         //die( __FILE__ . ':' . __LINE__ );
 
         /*
@@ -227,7 +230,7 @@ class File extends EbModel {
         if ( $this->base_dir != '' ) {
             // nếu trong chuỗi file không có root dir -> báo lỗi
             if ( strpos( $file_, '/' . $this->base_dir . '/' ) === false ) {
-                echo 'ERROR FTP root dir not found #' . $this->base_dir . '<br>' . "\n";
+                echo 'ERROR FTP root dir not found #' . $this->base_dir . '<br>' . PHP_EOL;
                 return false;
             }
 
@@ -238,7 +241,7 @@ class File extends EbModel {
         //
         $local_filename = $this->create_cache_for_ftp( $content_ );
         if ( !file_exists( $local_filename ) ) {
-            echo 'ERROR FTP local_filename not create!<br>' . "\n";
+            echo 'ERROR FTP local_filename not create!<br>' . PHP_EOL;
             return false;
         }
 
@@ -266,11 +269,63 @@ class File extends EbModel {
         return $result;
     }
 
+    public function create_dir( $dir_, $ops = [] ) {
+        $check_dir = $this->root_dir();
+        if ( $check_dir !== true ) {
+            echo $check_dir . '<br>' . PHP_EOL;
+            return false;
+        }
+        //echo $this->base_dir . '<br>' . PHP_EOL;
+        //echo $this->ftp_server . '<br>' . PHP_EOL;
+        //die( __FILE__ . ':' . __LINE__ );
+
+        /*
+         * các khâu kết nối và kiểm tra đã diễn ra ở bước root dir -> sau đây chỉ việc sử dụng
+         */
+        // tạo kết nối
+        $conn_id = ftp_connect( $this->ftp_server );
+
+        // đăng nhập
+        if ( !ftp_login( $conn_id, FTP_USER, FTP_PASS ) ) {
+            echo 'ERROR FTP login false <br>' . PHP_EOL;
+            return false;
+        }
+
+        //
+        $dir_for_ftp = $dir_;
+        if ( $this->base_dir != '' ) {
+            // nếu trong chuỗi file không có root dir -> báo lỗi
+            if ( strpos( $dir_, '/' . $this->base_dir . '/' ) === false ) {
+                echo 'ERROR FTP root dir not found #' . $this->base_dir . '<br>' . PHP_EOL;
+                return false;
+            }
+
+            $dir_for_ftp = strstr( $dir_, '/' . $this->base_dir . '/' );
+        }
+        //die( $dir_for_ftp );
+
+        //
+        if ( !ftp_mkdir( $conn_id, $dir_for_ftp ) ) {
+            echo 'ERROR FTP create dir! <br>' . PHP_EOL;
+            return false;
+        }
+        if ( !isset( $ops[ 'set_permission' ] ) ) {
+            $ops[ 'set_permission' ] = 0755;
+        }
+        ftp_chmod( $conn_id, $ops[ 'set_permission' ], $dir_for_ftp );
+
+        // close the connection
+        ftp_close( $conn_id );
+
+        //
+        return true;
+    }
+
     private function create_cache_for_ftp( $content_ = '' ) {
         $f = WRITEPATH . 'cache_for_ftp.txt';
 
         if ( $content_ != '' ) {
-            echo $f . '<br>' . "\n";
+            echo $f . '<br>' . PHP_EOL;
             $this->base_model->_eb_create_file( $f, $content_ );
         }
         return $f;
