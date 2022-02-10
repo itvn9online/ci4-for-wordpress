@@ -259,7 +259,8 @@ class Base extends Session {
         // điều kiện lấy dữ liệu
         foreach ( $where as $k => $v ) {
             if ( $v === NULL ) {
-                $builder->where( $k, NULL, FALSE );
+                //$builder->where( $k, NULL, FALSE );
+                $builder->where( $k );
             } else {
                 $builder->where( $k, $v );
             }

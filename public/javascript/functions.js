@@ -199,10 +199,8 @@ function WGR_set_prop_for_select(for_id) {
             $(this).val(a[0]).addClass('set-selected');
 
             // các option sau select kiểu prop
-            if (a.length > 1) {
-                for (var i = 0; i < a.length; i++) {
-                    $('option[value="' + a[i] + '"]', this).prop('selected', true);
-                }
+            for (var i = 0; i < a.length; i++) {
+                $('option[value="' + a[i] + '"]', this).prop('selected', true).addClass('bold').addClass('gray2bg');
             }
         }
     });

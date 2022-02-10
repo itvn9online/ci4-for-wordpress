@@ -142,6 +142,17 @@ class PostMeta extends PostBase {
         $insert_meta = [];
         $update_meta = [];
         foreach ( $meta_data as $k => $v ) {
+            //print_r( $v );
+            if ( is_array( $v ) ) {
+                if ( !empty( $v ) ) {
+                    $v = implode( ',', $v );
+                } else {
+                    $v = '';
+                }
+                $meta_data[ $k ] = $v;
+            }
+            //echo $v . '<br>' . "\n";
+
             // thêm vào mảng update nếu có rồi
             if ( isset( $meta_exist[ $k ] ) ) {
                 $update_meta[ $k ] = $v;

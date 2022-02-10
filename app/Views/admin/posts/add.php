@@ -222,7 +222,12 @@ if ( $auto_update_module * 1 === 1 ) {
 </textarea>
                     <?php
                     } // END if post textarea
-                    else if ( $input_type == 'select' ) {
+                    else if ( $input_type == 'select' || $input_type == 'select_multiple' ) {
+                        $select_multiple = '';
+                        if ( $input_type == 'select_multiple' ) {
+                            $select_multiple = 'multiple';
+                        }
+
                         // lấy danh sách page template cho page
                         if ( $post_type == PostType::PAGE && $k = 'page_template' ) {
                             $arr_page_template = $base_model->EBE_get_file_in_folder( THEMEPATH . 'page-templates/', '.{php}', 'file' );
@@ -243,7 +248,7 @@ if ( $auto_update_module * 1 === 1 ) {
                         }
 
                         ?>
-                    <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>]">
+                    <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>]<?php echo $meta_multiple; ?>" <?php echo $select_multiple; ?>>
                         <?php
 
                         foreach ( $select_options as $option_k => $option_v ) {
