@@ -361,9 +361,11 @@ class Dashboard extends Optimize {
     // chức năng upload file code zip lên host và giải nén -> update code
     public function download_code() {
         // kiểm tra phiên bản code xem có khác nhau không
+        /*
         if ( file_get_contents( APPPATH . 'VERSION', 1 ) == file_get_contents( 'https://raw.githubusercontent.com/itvn9online/ci4-for-wordpress/main/app/VERSION', 1 ) ) {
             $this->base_model->alert( 'Download thất bại! Phiên bản của bạn đang là bản mới nhất', 'warning' );
         }
+        */
 
         //
         $upload_path = PUBLIC_HTML_PATH;
@@ -394,7 +396,7 @@ class Dashboard extends Optimize {
 
         //
         $file_model = new\ App\ Models\ File();
-        if ( $download_file->download_file( $file_path, $this->link_download_github ) === true ) {
+        if ( $file_model->download_file( $file_path, $this->link_download_github ) === true ) {
             chmod( $file_path, DEFAULT_FILE_PERMISSION );
 
             // giải nén sau khi upload
