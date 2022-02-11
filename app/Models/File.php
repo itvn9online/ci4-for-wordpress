@@ -330,4 +330,23 @@ class File extends EbModel {
         }
         return $f;
     }
+
+    public function download_file( $file_path, $url ) {
+        if ( @!file_put_contents( $file_path, file_get_contents( $url ) ) ) {
+        //if ( @!copy( $url, $file_path ) ) {
+            $ch = curl_init( $url );
+            $fp = fopen( $file_path, 'wb' );
+            curl_setopt( $ch, CURLOPT_FILE, $fp );
+            curl_setopt( $ch, CURLOPT_HEADER, 0 );
+            curl_exec( $ch );
+            curl_close( $ch );
+            fclose( $fp );
+        }
+
+        //
+        if ( file_exists( $file_path ) ) {
+            return true;
+        }
+        return false;
+    }
 }

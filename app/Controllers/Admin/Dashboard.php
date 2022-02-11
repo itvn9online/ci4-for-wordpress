@@ -8,6 +8,8 @@ class Dashboard extends Optimize {
     private $dir_re_cache = [];
     // danh sách các file copy từ cache sang thư mục code
     private $file_re_cache = [];
+    // link download code từ github
+    private $link_download_github = 'https://github.com/itvn9online/ci4-for-wordpress/blob/main/ci4-for-wordpress.zip?raw=true';
 
     public function __construct() {
         parent::__construct();
@@ -273,16 +275,7 @@ class Dashboard extends Optimize {
                 //die( __FILE__ . ':' . __LINE__ );
 
                 // xóa các file zip cũ đi
-                foreach ( glob( $upload_path . '*.zip' ) as $filename ) {
-                    //echo $filename . '<br>' . "\n";
-
-                    //
-                    if ( is_file( $filename ) ) {
-                        if ( !$this->MY_unlink( $filename ) ) {
-                            $this->base_model->alert( 'Không xóa được file ZIP cũ trước khi upload file mới', 'error' );
-                        }
-                    }
-                }
+                $this->cleanup_zip( $upload_path, 'Không xóa được file ZIP cũ trước khi upload file mới' );
 
                 //
                 $file->move( $upload_path, $file_name, true );
@@ -294,110 +287,7 @@ class Dashboard extends Optimize {
                 chmod( $file_path, DEFAULT_FILE_PERMISSION );
 
                 // giải nén sau khi upload
-                $filename = '';
-                if ( $this->MY_unzip( $file_path, $upload_path ) === TRUE ) {
-                    foreach ( glob( $upload_path . '*.zip' ) as $filename ) {
-                        //echo $filename . '<br>' . "\n";
-
-                        //
-                        if ( is_file( $filename ) ) {
-                            if ( !$this->MY_unlink( $filename ) ) {
-                                $this->base_model->alert( 'Không xóa được file ZIP sau khi giải nén code', 'error' );
-                            }
-                        }
-                    }
-
-                    // nếu là giải nén trong cache -> copy file sang thư mục public
-                    if ( $upload_to_cache === true ) {
-                        //die( $upload_path );
-
-                        //
-                        $file_model = new\ App\ Models\ File();
-
-                        /*
-                         * copy file
-                         */
-                        $this->file_re_cache = [];
-                        $this->unzip_from_cache( $upload_path );
-
-                        /*
-                         * xóa thư mục sau khi update file thành công
-                         */
-                        $this->dir_re_cache = [];
-                        $this->rmdir_from_cache( $upload_path );
-
-                        // tạo thư mục nếu chưa có -> tạo trước khi lật ngược mảng
-                        foreach ( $this->dir_re_cache as $dir ) {
-                            $dir = str_replace( $upload_path, PUBLIC_HTML_PATH, $dir );
-
-                            //
-                            if ( !is_dir( $dir ) ) {
-                                echo 'Create dir: ' . $dir . '<br>' . "\n";
-                                $file_model->create_dir( $dir );
-                            }
-                        }
-
-                        // tạo kết nối qua FTP
-                        $check_dir = $file_model->root_dir();
-                        $has_ftp = false;
-                        if ( $check_dir === true ) {
-                            echo 'ftp server: ' . $file_model->ftp_server . '<br>' . "\n";
-                            echo 'base dir: ' . $file_model->base_dir . '<br>' . "\n";
-
-                            // tạo kết nối
-                            $conn_id = ftp_connect( $file_model->ftp_server );
-
-                            // đăng nhập
-                            if ( $file_model->base_dir != '' ) {
-                                if ( ftp_login( $conn_id, FTP_USER, FTP_PASS ) ) {
-                                    $has_ftp = true;
-                                }
-                            }
-                        } else {
-                            echo 'FTP ERROR! ' . $check_dir . '<br>' . PHP_EOL;
-                        }
-
-                        // chuyển file
-                        foreach ( $this->file_re_cache as $file ) {
-                            echo $file . '<br>' . "\n";
-
-                            //
-                            $to = str_replace( $upload_path, PUBLIC_HTML_PATH, $file );
-                            if ( $has_ftp === true ) {
-                                // nếu trong chuỗi file không có root dir -> báo lỗi
-                                if ( strpos( $to, '/' . $file_model->base_dir . '/' ) !== false ) {
-                                    $to = strstr( $to, '/' . $file_model->base_dir . '/' );
-                                }
-
-                                //
-                                if ( ftp_put( $conn_id, $to, $file, FTP_BINARY ) ) {
-                                    echo '<em>' . $to . '</em><br>' . "\n";
-                                } else {
-                                    echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . "\n";
-                                }
-                            } else {
-                                echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . "\n";
-                            }
-
-                            // xong thì xóa luôn file
-                            unlink( $file );
-                        }
-
-                        // close the connection
-                        if ( $check_dir === true ) {
-                            ftp_close( $conn_id );
-                        }
-
-                        //
-                        //print_r( $this->dir_re_cache );
-                        $this->dir_re_cache = array_reverse( $this->dir_re_cache );
-                        //print_r( $this->dir_re_cache );
-                        foreach ( $this->dir_re_cache as $dir ) {
-                            echo $dir . '<br>' . "\n";
-                            rmdir( $dir );
-                        }
-                    }
-                }
+                $this->after_unzip_code();
             } else {
                 throw new\ RuntimeException( $file->getErrorString() . '(' . $file->getError() . ')' );
             }
@@ -406,6 +296,20 @@ class Dashboard extends Optimize {
         //
         //die( __FILE__ . ':' . __LINE__ );
         die( '<script>top.done_submit_update_code();</script>' );
+    }
+
+    // xóa file zip sau khi xử lý code
+    private function cleanup_zip( $upload_path, $msg ) {
+        foreach ( glob( $upload_path . '*.zip' ) as $filename ) {
+            //echo $filename . '<br>' . "\n";
+
+            //
+            if ( is_file( $filename ) ) {
+                if ( !$this->MY_unlink( $filename ) ) {
+                    $this->base_model->alert( $msg, 'error' );
+                }
+            }
+        }
     }
 
     private function rmdir_from_cache( $upload_path ) {
@@ -454,6 +358,146 @@ class Dashboard extends Optimize {
     }
 
     // chức năng upload file code zip lên host và giải nén -> update code
+    public function download_code() {
+        $upload_path = PUBLIC_HTML_PATH;
+        //echo $upload_path . '<br>' . "\n";
+
+        // với 1 số host, chỉ upload được vào thư mục có permission 777 -> cache
+        $upload_to_cache = false;
+        if ( @!file_put_contents( $upload_path . 'test_permission.txt', time() ) ) {
+            $upload_to_cache = true;
+
+            $upload_path = WRITEPATH . 'updates/';
+
+            // tạo thư mục nếu chưa có
+            if ( !is_dir( $upload_path ) ) {
+                mkdir( $upload_path, DEFAULT_DIR_PERMISSION )or die( 'ERROR create dir (' . basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ . ')! ' . $upload_path );
+                chmod( $upload_path, DEFAULT_DIR_PERMISSION );
+            }
+        } else {
+            unlink( $upload_path . 'test_permission.txt' );
+        }
+
+        //
+        $this->cleanup_zip( $upload_path, 'Không xóa được file ZIP cũ trước khi upload file mới' );
+        //die( $upload_path );
+
+        //
+        $file_path = $upload_path . explode( '?', basename( $this->link_download_github ) )[ 0 ];
+
+        //
+        $file_model = new\ App\ Models\ File();
+        if ( $download_file->download_file( $file_path, $this->link_download_github ) === true ) {
+            chmod( $file_path, DEFAULT_FILE_PERMISSION );
+
+            // giải nén sau khi upload
+            $this->after_unzip_code( $file_path, $file_path );
+        } else {
+            $this->base_model->alert( 'Upload thất bại! Không xác định được file sau khi upload', 'error' );
+        }
+        die( $file_path );
+    }
+
+    // giải nén sau khi upload
+    private function after_unzip_code( $file_path, $file_path, $upload_to_cache ) {
+        $filename = '';
+        if ( $this->MY_unzip( $file_path, $upload_path ) === TRUE ) {
+            $this->cleanup_zip( $upload_path, 'Không xóa được file ZIP sau khi giải nén code' );
+
+            // nếu là giải nén trong cache -> copy file sang thư mục public
+            if ( $upload_to_cache === true ) {
+                //die( $upload_path );
+
+                //
+                $file_model = new\ App\ Models\ File();
+
+                /*
+                 * copy file
+                 */
+                $this->file_re_cache = [];
+                $this->unzip_from_cache( $upload_path );
+
+                /*
+                 * xóa thư mục sau khi update file thành công
+                 */
+                $this->dir_re_cache = [];
+                $this->rmdir_from_cache( $upload_path );
+
+                // tạo thư mục nếu chưa có -> tạo trước khi lật ngược mảng
+                foreach ( $this->dir_re_cache as $dir ) {
+                    $dir = str_replace( $upload_path, PUBLIC_HTML_PATH, $dir );
+
+                    //
+                    if ( !is_dir( $dir ) ) {
+                        echo 'Create dir: ' . $dir . '<br>' . "\n";
+                        $file_model->create_dir( $dir );
+                    }
+                }
+
+                // tạo kết nối qua FTP
+                $check_dir = $file_model->root_dir();
+                $has_ftp = false;
+                if ( $check_dir === true ) {
+                    echo 'ftp server: ' . $file_model->ftp_server . '<br>' . "\n";
+                    echo 'base dir: ' . $file_model->base_dir . '<br>' . "\n";
+
+                    // tạo kết nối
+                    $conn_id = ftp_connect( $file_model->ftp_server );
+
+                    // đăng nhập
+                    if ( $file_model->base_dir != '' ) {
+                        if ( ftp_login( $conn_id, FTP_USER, FTP_PASS ) ) {
+                            $has_ftp = true;
+                        }
+                    }
+                } else {
+                    echo 'FTP ERROR! ' . $check_dir . '<br>' . PHP_EOL;
+                }
+
+                // chuyển file
+                foreach ( $this->file_re_cache as $file ) {
+                    echo $file . '<br>' . "\n";
+
+                    //
+                    $to = str_replace( $upload_path, PUBLIC_HTML_PATH, $file );
+                    if ( $has_ftp === true ) {
+                        // nếu trong chuỗi file không có root dir -> báo lỗi
+                        if ( strpos( $to, '/' . $file_model->base_dir . '/' ) !== false ) {
+                            $to = strstr( $to, '/' . $file_model->base_dir . '/' );
+                        }
+
+                        //
+                        if ( ftp_put( $conn_id, $to, $file, FTP_BINARY ) ) {
+                            echo '<em>' . $to . '</em><br>' . "\n";
+                        } else {
+                            echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . "\n";
+                        }
+                    } else {
+                        echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . "\n";
+                    }
+
+                    // xong thì xóa luôn file
+                    unlink( $file );
+                }
+
+                // close the connection
+                if ( $check_dir === true ) {
+                    ftp_close( $conn_id );
+                }
+
+                //
+                //print_r( $this->dir_re_cache );
+                $this->dir_re_cache = array_reverse( $this->dir_re_cache );
+                //print_r( $this->dir_re_cache );
+                foreach ( $this->dir_re_cache as $dir ) {
+                    echo $dir . '<br>' . "\n";
+                    rmdir( $dir );
+                }
+            }
+        }
+    }
+
+    // chức năng upload file code zip lên host và giải nén -> update code
     public function update_code() {
         if ( !empty( $this->MY_post( 'data' ) ) ) {
             $this->unzip_code();
@@ -461,7 +505,7 @@ class Dashboard extends Optimize {
 
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/update_view', array(
-            //
+            'link_download_github' => $this->link_download_github
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
