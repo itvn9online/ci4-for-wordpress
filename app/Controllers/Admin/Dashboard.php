@@ -287,7 +287,7 @@ class Dashboard extends Optimize {
                 chmod( $file_path, DEFAULT_FILE_PERMISSION );
 
                 // giải nén sau khi upload
-                $this->after_unzip_code();
+                $this->after_unzip_code( $file_path, $file_path, $upload_to_cache );
             } else {
                 throw new\ RuntimeException( $file->getErrorString() . '(' . $file->getError() . ')' );
             }
@@ -391,7 +391,7 @@ class Dashboard extends Optimize {
             chmod( $file_path, DEFAULT_FILE_PERMISSION );
 
             // giải nén sau khi upload
-            $this->after_unzip_code( $file_path, $file_path );
+            $this->after_unzip_code( $file_path, $file_path, $upload_to_cache );
         } else {
             $this->base_model->alert( 'Upload thất bại! Không xác định được file sau khi upload', 'error' );
         }
