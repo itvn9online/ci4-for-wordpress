@@ -327,6 +327,7 @@ class Dashboard extends Optimize {
             }
         }
     }
+
     private function unzip_from_cache( $upload_path ) {
         //die( $upload_path );
 
@@ -401,7 +402,11 @@ class Dashboard extends Optimize {
         } else {
             $this->base_model->alert( 'Upload thất bại! Không xác định được file sau khi upload', 'error' );
         }
-        die( $file_path );
+        //die( $file_path );
+
+        //
+        //die( __FILE__ . ':' . __LINE__ );
+        die( '<script>top.done_submit_update_code();</script>' );
     }
 
     // giải nén sau khi upload

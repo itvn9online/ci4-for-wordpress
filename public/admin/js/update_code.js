@@ -13,3 +13,10 @@ function auto_submit_update_code() {
     });
     document.frm_global_upload.submit();
 }
+
+function before_start_download_in_github() {
+    $('body').css({
+        'opacity': 0.1
+    });
+    return true;
+}
