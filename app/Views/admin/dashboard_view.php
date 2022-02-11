@@ -59,7 +59,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
 
         // lấy theo version
         if ( file_exists( APPPATH . 'VERSION' ) ) {
-            echo date( EBE_DATETIME_FORMAT, filemtime( APPPATH . 'VERSION' ) ) . ' - Phiên bản: <strong>' . file_get_contents( APPPATH . 'VERSION' ) . '</strong>';
+            echo date( EBE_DATETIME_FORMAT, filemtime( APPPATH . 'VERSION' ) ) . ' - Phiên bản: <strong>' . file_get_contents( APPPATH . 'VERSION', 1 ) . '</strong>';
         }
         // hoặc lấy theo file layout
         else {
@@ -187,3 +187,4 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
 
 //
 $base_model->add_js( 'admin/js/dashboard.js' );
+
