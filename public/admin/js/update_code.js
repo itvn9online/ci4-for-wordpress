@@ -15,6 +15,12 @@ function auto_submit_update_code() {
 }
 
 function before_start_download_in_github() {
+    if ($('#confirm_is_coder').is(':checked') == false) {
+        $('#confirm_is_coder').parent('p').addClass('redcolor').addClass('bold').addClass('medium18');
+        return false;
+    }
+
+    //
     $('body').css({
         'opacity': 0.1
     });
