@@ -665,6 +665,16 @@ function get_taxonomy_data_by_ids(arr, jd) {
                 return arr[i];
             }
         }
+
+        // thử tìm trong các nhóm con
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i].child_term.length > 0) {
+                var taxonomy_data = get_taxonomy_data_by_ids(arr[i].child_term, jd);
+                if (taxonomy_data !== null) {
+                    return taxonomy_data;
+                }
+            }
+        }
     }
 
     //

@@ -160,23 +160,32 @@ $base_model->adds_js( [
     'javascript/eb.js'
 ] );
 
+// danh sách các taxonomy cố định
+$arr_all_taxonomy = [
+    TaxonomyType::POSTS,
+    TaxonomyType::TAGS,
+    TaxonomyType::ADS,
+    TaxonomyType::BLOGS,
+    TaxonomyType::BLOG_TAGS,
+    TaxonomyType::OPTIONS,
+];
+
 ?>
 <script>
 var arr_all_taxonomy = {};
 try {
-    var arr_all_taxonomy = {
-        '<?php echo TaxonomyType::POSTS; ?>':<?php $term_model->json_taxonomy( TaxonomyType::POSTS ); ?>,
-        '<?php echo TaxonomyType::TAGS; ?>':<?php $term_model->json_taxonomy( TaxonomyType::TAGS ); ?>,
-        '<?php echo TaxonomyType::ADS; ?>':<?php $term_model->json_taxonomy( TaxonomyType::ADS ); ?>,
-        '<?php echo TaxonomyType::BLOGS; ?>':<?php $term_model->json_taxonomy( TaxonomyType::BLOGS ); ?>,
-        '<?php echo TaxonomyType::BLOG_TAGS; ?>':<?php $term_model->json_taxonomy( TaxonomyType::BLOG_TAGS ); ?>,
-        '<?php echo TaxonomyType::OPTIONS; ?>':<?php $term_model->json_taxonomy( TaxonomyType::OPTIONS ); ?>
-    };
     <?php
+    //
+    foreach ($arr_all_taxonomy as $v) {
+        ?>
+    arr_all_taxonomy['<?php echo $v; ?>'] = <?php $term_model->json_taxonomy( $v, 0, [ 'get_child' => 1 ], $v . '_get_child' ); ?>;
+    <?php
+    }
+    
     //
     foreach ($arr_custom_taxonomy as $k => $v) {
         ?>
-    arr_all_taxonomy['<?php echo $k; ?>'] = <?php $term_model->json_taxonomy( $k ); ?>;
+    arr_all_taxonomy['<?php echo $k; ?>'] = <?php $term_model->json_taxonomy( $k, 0, [ 'get_child' => 1 ], $k . '_get_child' ); ?>;
     <?php
     }
     ?>

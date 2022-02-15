@@ -358,9 +358,10 @@ class Term extends EbModel {
                 $in_cache = $taxonomy;
             }
         }
+        //echo 'in_cache: ' . $in_cache . '<br>' . "\n";
 
         // cố định loại cột cần lấy
-        $ops[ 'select_col' ] = 'term_id, name, slug, count, parent, taxonomy';
+        $ops[ 'select_col' ] = 'term_id, name, slug, count, parent, taxonomy, child_count, child_last_count';
         //$ops[ 'select_col' ] = '*';
 
         //
@@ -417,6 +418,7 @@ class Term extends EbModel {
 
             // có cache thì trả về
             if ( $cache_value !== NULL ) {
+                //print_r( $cache_value );
                 return $cache_value;
                 /*
             } else {
@@ -538,6 +540,7 @@ class Term extends EbModel {
                     $post_cat = $this->get_child_terms( $post_cat, $ops );
                 }
             } else if ( isset( $ops[ 'get_child' ] ) && $ops[ 'get_child' ] > 0 ) {
+                //die( ':' . __LINE__ );
                 $post_cat = $this->get_child_terms( $post_cat, $ops );
             }
             //}
@@ -567,27 +570,41 @@ class Term extends EbModel {
     }
 
     function get_child_terms( $data, $ops = [] ) {
+        $current_time = time();
+
         //print_r( $data );
         foreach ( $data as $k => $v ) {
             $ops[ 'parent' ] = $v[ 'term_id' ];
             //print_r( $ops );
+            //print_r( $v );
             //continue;
 
             //
             $child_term = [];
+            $child_update_count = false;
             // nếu tham số child count chưa được cập nhật -> lấy từ database và cập nhật lại
             if ( $v[ 'child_count' ] === NULL ) {
+                $child_update_count = 'query';
+            }
+            // hoặc làn cuối cập nhật cách đây đủ lâu
+            else if ( $current_time - $v[ 'child_last_count' ] > 3600 ) {
+                $child_update_count = 'timeout';
+            }
+
+            //
+            if ( $child_update_count !== false ) {
                 $child_term = $this->get_all_taxonomy( $v[ 'taxonomy' ], 0, $ops );
 
                 //
                 $this->base_model->update_multiple( $this->table, [
                     'child_count' => count( $child_term ),
+                    'child_last_count' => $current_time,
                 ], [
                     'term_id' => $v[ 'term_id' ],
                 ] );
 
                 // thông báo kiểu dữ liệu trả về
-                $data[ $k ][ 'child_count' ] = 'query';
+                $data[ $k ][ 'child_count' ] = $child_update_count;
             } else {
                 // nếu có nhóm con -> mới gọi lệnh lấy nhóm con
                 if ( $v[ 'child_count' ] > 0 ) {

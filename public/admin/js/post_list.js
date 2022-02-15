@@ -21,15 +21,7 @@ function done_delete_restore(id) {
         var a = $(this).attr('data-taxonomy') || '';
         //console.log(a);
         if (a != '' && typeof arr_all_taxonomy[a] != 'undefined') {
-            var arr = arr_all_taxonomy[a];
-            //console.log(arr);
-
-            //
-            var str = '';
-            for (var i = 0; i < arr.length; i++) {
-                str += '<option value="' + arr[i].term_id + '">' + arr[i].name + '</option>';
-            }
-            $(this).append(str);
+            $(this).append(create_term_select_option(arr_all_taxonomy[a]));
         } else {
             $(this).parent('.hide-if-no-taxonomy').hide();
         }

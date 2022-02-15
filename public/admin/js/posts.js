@@ -98,3 +98,14 @@ $(window).on('load', function () {
         }, 3000);
     }
 });
+
+
+/*
+ * tạo các option con cho phần select chuyên mục cha
+ */
+if ($('#post_meta_post_category').length > 0) {
+    $('#post_meta_post_category').append(create_term_select_option(post_cat));
+}
+if ($('#post_meta_post_tags').length > 0) {
+    $('#post_meta_post_tags').append(create_term_select_option(post_tags));
+}

@@ -98,9 +98,8 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
             <div class="control-group">
                 <label class="control-label">Chuyên mục cha</label>
                 <div class="controls">
-                    <select data-select="<?php echo $data['parent']; ?>" name="data[parent]">
-                        <option value="">[ Chọn Chuyên mục cha ]</option>
-                        <option ng-repeat="v in category" ng-disabled="data_term_id == v.term_id ? true : false" value="{{v.term_id}}">{{v.name}}</option>
+                    <select data-select="<?php echo $data['parent']; ?>" name="data[parent]" id="data_parent">
+                        <option value="0">[ Chọn Chuyên mục cha ]</option>
                     </select>
                 </div>
             </div>
@@ -212,14 +211,17 @@ WGR_widget_add_custom_style_to_field();
 
 //
 var set_parent = '<?php echo $set_parent; ?>';
+var arr_list_category = (typeof arr_all_taxonomy[set_parent] == 'undefined') ? [] : arr_all_taxonomy[set_parent];
+var data_term_id = <?php echo ($data[ 'term_id' ] != '' ? $data[ 'term_id' ] : 0); ?>;
 
 //
 angular.module('myApp', []).controller('myCtrl', function ($scope) {
-    $scope.category = (typeof arr_all_taxonomy[set_parent] == 'undefined') ? [] : arr_all_taxonomy[set_parent];
-    $scope.data_term_id = <?php echo ($data[ 'term_id' ] != '' ? $data[ 'term_id' ] : 0); ?>;
+    //$scope.category = arr_list_category;
+    $scope.data_term_id = data_term_id;
 });
 </script>
 <?php
 
 // css riêng cho từng post type (nếu có)
+$base_model->add_js( 'admin/js/term_add.js' );
 $base_model->add_js( 'admin/js/' . $taxonomy . '.js' );

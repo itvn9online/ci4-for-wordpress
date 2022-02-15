@@ -501,3 +501,29 @@ function hide_if_esc() {
     //
     return false;
 }
+
+
+// tạo danh sách option cho các select term
+function create_term_select_option(arr, space) {
+    //console.log(arr);
+
+    //
+    if (typeof space == 'undefined') {
+        space = '';
+    }
+
+    //
+    var str = '';
+    for (var i = 0; i < arr.length; i++) {
+        str += '<option value="' + arr[i].term_id + '">' + space + arr[i].name + '</option>';
+
+        //
+        if (arr[i].child_term.length > 0) {
+            str += create_term_select_option(arr[i].child_term, '&#160 &#160 ' + space);
+        }
+    }
+    //console.log(str);
+
+    //
+    return str;
+}

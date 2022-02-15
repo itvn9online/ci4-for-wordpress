@@ -372,9 +372,9 @@ class Posts extends Admin {
         }
         // lấy danh sách các nhóm để add cho post
         else {
-            $post_cat = $this->term_model->get_all_taxonomy( $this->taxonomy );
+            $post_cat = $this->term_model->get_all_taxonomy( $this->taxonomy, 0, [ 'get_child' => 1 ], $this->taxonomy . '_get_child' );
             if ( $this->tags != '' ) {
-                $post_tags = $this->term_model->get_all_taxonomy( $this->tags );
+                $post_tags = $this->term_model->get_all_taxonomy( $this->tags, 0, [ 'get_child' => 1 ], $this->tags . '_get_child' );
             }
         }
 

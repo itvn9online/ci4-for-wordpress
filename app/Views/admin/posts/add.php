@@ -201,7 +201,6 @@ if ( $auto_update_module * 1 === 1 ) {
                         ?>
                     <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple aria-required="true" required>
                         <option value="">[ Chọn <?php echo $v; ?> ]</option>
-                        <option ng-repeat="v in post_cat" data-parent="{{v.parent}}" value="{{v.term_id}}">{{v.name}}</option>
                     </select>
                     &nbsp; <a href="admin/terms/add/?taxonomy=<?php echo $taxonomy; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm <?php echo $v; ?> mới</a>
                     <?php
@@ -210,7 +209,6 @@ if ( $auto_update_module * 1 === 1 ) {
                         ?>
                     <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple>
                         <option value="">[ Chọn <?php echo $v; ?> ]</option>
-                        <option ng-repeat="v in post_tags" data-parent="{{v.parent}}" value="{{v.term_id}}">{{v.name}}</option>
                     </select>
                     &nbsp; <a href="admin/terms/add/?taxonomy=<?php echo $tags; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm <?php echo $v; ?> mới</a>
                     <?php
@@ -324,11 +322,13 @@ var current_post_type='<?php echo $post_type; ?>';
 var page_post_type='<?php echo PostType::PAGE; ?>';
 var auto_update_module='<?php echo $auto_update_module; ?>' * 1;
 var url_next_post='<?php echo $url_next_post; ?>';
+var post_cat = <?php echo json_encode($post_cat); ?>;
+var post_tags = <?php echo json_encode($post_tags); ?>;
 
 //
 angular.module('myApp', []).controller('myCtrl', function ($scope) {
-    $scope.post_cat = <?php echo json_encode($post_cat); ?>;
-    $scope.post_tags = <?php echo json_encode($post_tags); ?>;
+    $scope.post_cat = post_cat;
+    $scope.post_tags = post_tags;
     $scope.parent_post = <?php echo json_encode($parent_post); ?>;
     $scope.post_status = {
         'publish' : 'Hiển thị',

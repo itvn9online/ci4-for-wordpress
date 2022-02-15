@@ -130,7 +130,7 @@ class Terms extends Admin {
         if ( $this->taxonomy == TaxonomyType::ADS ) {
             $filter[ 'get_meta' ] = true;
         }
-        $filter[ 'get_child' ] = true;
+        $filter[ 'get_child' ] = 1;
 
         //
         $data = $this->term_model->get_all_taxonomy( $this->taxonomy, 0, $filter );
@@ -246,7 +246,9 @@ class Terms extends Admin {
                 TaxonomyType::BLOGS,
             ] ) ) {
             $set_parent = $this->taxonomy;
-        } else {
+        }
+        // với custom taxonomy -> kiểm tra xem có tham số set cha con không
+        else {
             global $arr_custom_taxonomy;
             //print_r( $arr_custom_taxonomy );
 
