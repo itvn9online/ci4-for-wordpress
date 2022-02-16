@@ -201,6 +201,9 @@ class Sync extends BaseController {
                 'ci_pass' => 'VARCHAR(255) NULL COMMENT \'Mật khẩu đăng nhập cho phiên bản CI-wordpress\'',
                 'member_type' => 'VARCHAR(55) NOT NULL COMMENT \'Phân loại thành viên (role)\'',
                 'is_deleted' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'0 = hiển thị, 1 = xóa\'',
+                'parent_id' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'ID của tài khoản cha nếu có\'',
+                'town_id' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'ID của quận huyện\'',
+                'city_id' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'ID của tỉnh thành phố\'',
                 'last_login' => 'DATETIME NOT NULL',
                 'last_updated' => 'DATETIME NOT NULL',
             ],
@@ -243,8 +246,38 @@ class Sync extends BaseController {
                 'time_order' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Sắp xếp độ ưu tiên của post dựa theo thời gian hiện tại\'',
             ],
         ];
+
+        /*
+         * bảng dữ liệu riêng của từng theme
+         */
+        $private_theme_db = THEMEPATH . 'Database_Migrations.php';
+        //echo $private_theme_db . '<br>' . "\n";
+        if ( file_exists( $private_theme_db ) ) {
+            include $private_theme_db;
+
+            //
+            //print_r( $arr_custom_alter_database );
+            foreach ( $arr_custom_alter_database as $k => $v ) {
+                //echo $k . '<br>' . "\n";
+                //print_r( $v );
+                if ( !isset( $arr_add_cloumn[ $k ] ) ) {
+                    $arr_add_cloumn[ $k ] = [];
+                }
+
+                //
+                foreach ( $v as $k2 => $v2 ) {
+                    //echo $k2 . '<br>' . "\n";
+                    $arr_add_cloumn[ $k ][ $k2 ] = $v2;
+                }
+            }
+            //print_r( $arr_add_cloumn );
+            //die( __FILE__ . ':' . __LINE__ );
+        }
+
+        //
         $arr_add_cloumn[ WGR_TABLE_PREFIX . 'options_deleted' ] = $arr_add_cloumn[ WGR_TABLE_PREFIX . 'options' ];
 
+        //
         foreach ( $arr_add_cloumn as $k => $v ) {
             $check_table_column = $this->base_model->default_data( $k );
             if ( empty( $check_table_column ) ) {

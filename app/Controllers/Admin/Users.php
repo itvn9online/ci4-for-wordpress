@@ -9,7 +9,15 @@ use App\ Libraries\ UsersType;
 //
 class Users extends Admin {
     protected $member_type = '';
-    protected $member_name = UsersType::ALL;
+    protected $arr_members_type = NULL;
+    protected $member_name = '';
+
+    // tham số dùng để thay đổi URL cho controller nếu muốn
+    protected $controller_slug = 'users';
+    // tham số dùng để đổi file view khi add hoặc edit bài viết nếu muốn
+    protected $add_edit_view = 'users';
+    // tham số dùng để thay đổi view của trang danh sách thành viên
+    protected $custom_list_view = 'users';
 
     public function __construct() {
         parent::__construct();
@@ -17,22 +25,33 @@ class Users extends Admin {
         // kiểm tra quyền truy cập của tài khoản hiện tại
         $this->check_permision( __CLASS__ );
 
-        $this->member_type = $this->MY_get( 'member_type' );
+        $this->member_type = $this->MY_get( 'member_type', $this->member_type );
         //echo $this->member_type . '<br>' . "\n";
-        if ( $this->member_type != '' ) {
+        if ( $this->member_type == '' ) {
+            $this->member_name = UsersType::ALL;
+        } else if ( $this->member_name == '' ) {
             $this->member_name = UsersType::list( $this->member_type );
+            if ( $this->member_name == '' ) {
+                $this->member_name = UsersType::ALL;
+            }
+        }
+
+        //
+        //print_r( $this->arr_members_type );
+        if ( $this->arr_members_type === NULL ) {
+            $this->arr_members_type = UsersType::list();
         }
 
         //
         $this->validation = \Config\ Services::validation();
     }
 
-    public function index( $url = '' ) {
+    public function index() {
         $post_per_page = 50;
         // URL cho các action dùng chung
         $for_action = '';
         // URL cho phân trang
-        $urlPartPage = 'admin/users?member_type=' . $this->member_type;
+        $urlPartPage = 'admin/' . $this->controller_slug . '?member_type=' . $this->member_type;
 
         // GET
         $by_is_deleted = $this->MY_get( 'is_deleted', DeletedStatus::FOR_DEFAULT );
@@ -71,16 +90,14 @@ class Users extends Admin {
             // tối thiểu từ 1 ký tự trở lên mới kích hoạt tìm kiếm
             if ( strlen( $by_like ) > 0 ) {
                 //var_dump( strlen( $by_like ) );
-                $is_number = is_numeric( $by_like );
                 // nếu là số -> chỉ tìm theo ID
-                if ( $is_number === true ) {
+                if ( is_numeric( $by_like ) === true ) {
                     $where_or_like = [
                         'ID' => $by_like,
                     ];
                 } else {
-                    $is_email = strpos( $by_keyword, '@' );
                     // nếu có @ -> tìm theo email
-                    if ( $is_email !== false ) {
+                    if ( strpos( $by_keyword, '@' ) !== false ) {
                         $where_or_like = [
                             'user_email' => explode( '@', $by_keyword )[ 0 ],
                         ];
@@ -96,6 +113,18 @@ class Users extends Admin {
                         ];
                     }
                 }
+            }
+        }
+
+        // lọc theo tên cột truyền vào
+        $col_filter = $this->MY_get( 'col_filter', [] );
+        //print_r( $col_filter );
+        foreach ( $col_filter as $k => $v ) {
+            if ( !empty( $v ) ) {
+                $where[ 'users.' . $k ] = $v;
+
+                $urlPartPage .= '&col_filter[' . $k . ']=' . $v;
+                $for_action .= '&col_filter[' . $k . ']=' . $v;
             }
         }
 
@@ -170,7 +199,7 @@ class Users extends Admin {
         //print_r( $data );
 
         //
-        $this->teamplate_admin[ 'content' ] = view( 'admin/users/list', array(
+        $this->teamplate_admin[ 'content' ] = view( 'admin/' . $this->custom_list_view . '/list', array(
             'pagination' => $pagination,
             //'by_is_deleted' => $by_is_deleted,
             'for_action' => $for_action,
@@ -179,8 +208,10 @@ class Users extends Admin {
             'totalThread' => $totalThread,
             'by_keyword' => $by_keyword,
             'data' => $data,
+            'controller_slug' => $this->controller_slug,
             'member_type' => $this->member_type,
             'member_name' => $this->member_name,
+            'arr_members_type' => $this->arr_members_type,
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
@@ -273,9 +304,12 @@ class Users extends Admin {
         }
 
         //
-        $this->teamplate_admin[ 'content' ] = view( 'admin/users/add', array(
+        $this->teamplate_admin[ 'content' ] = view( 'admin/' . $this->add_edit_view . '/add', array(
             'data' => $data,
+            'controller_slug' => $this->controller_slug,
             'member_type' => $this->member_type,
+            'member_name' => $this->member_name,
+            'arr_members_type' => $this->arr_members_type,
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
@@ -290,7 +324,7 @@ class Users extends Admin {
         if ( $result_id < 0 ) {
             $this->base_model->alert( 'Email đã được sử dụng', 'error' );
         } else if ( $result_id !== false ) {
-            $this->base_model->alert( '', base_url( 'admin/users/add' ) . '?id=' . $result_id );
+            $this->base_model->alert( '', base_url( 'admin/' . $this->add_edit_view . '/add' ) . '?id=' . $result_id );
         }
         $this->base_model->alert( 'Lỗi thêm mới thành viên', 'error' );
     }
@@ -320,7 +354,7 @@ class Users extends Admin {
 
     // chuyển trang sau khi XÓA xong
     protected function after_delete_restore() {
-        $for_redirect = base_url( 'admin/users' ) . '?member_type=' . $this->member_type;
+        $for_redirect = base_url( 'admin/' . $this->controller_slug ) . '?member_type=' . $this->member_type;
 
         //
         $page_num = $this->MY_get( 'page_num' );

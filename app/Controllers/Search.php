@@ -56,9 +56,8 @@ class Search extends Csrf {
             // tối thiểu từ 3 ký tự trở lên mới kích hoạt tìm kiếm
             if ( strlen( $by_like ) > 0 ) {
                 //var_dump( strlen( $by_like ) );
-                $is_number = is_numeric( $by_like );
                 // nếu là số -> chỉ tìm theo ID
-                if ( $is_number === true ) {
+                if ( is_numeric( $by_like ) === true ) {
                     $where_or_like = [
                         'ID' => $by_like,
                     ];

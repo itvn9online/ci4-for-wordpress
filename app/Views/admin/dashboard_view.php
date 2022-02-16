@@ -187,4 +187,3 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
 
 //
 $base_model->add_js( 'admin/js/dashboard.js' );
-

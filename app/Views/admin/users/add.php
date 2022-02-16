@@ -5,7 +5,7 @@ use App\ Libraries\ UsersType;
 
 ?>
 <ul class="admin-breadcrumb">
-    <li><a href="admin/users">Danh sách thành viên</a></li>
+    <li><a href="admin/<?php echo $controller_slug; ?>">Danh sách <?php echo $member_name; ?></a></li>
     <li>
         <?php
         if ( $data[ 'ID' ] > 0 ) {
@@ -17,8 +17,11 @@ use App\ Libraries\ UsersType;
         Thêm mới
         <?php
         }
+
+        //
+        echo $member_name;
         ?>
-        thành viên </li>
+    </li>
 </ul>
 <div class="widget-box">
     <div class="widget-content nopadding">
@@ -46,7 +49,7 @@ use App\ Libraries\ UsersType;
                 ?>
             <div class="control-group">
                 <label class="control-label">&nbsp;</label>
-                <div class="controls bold"><a href="admin/users/login_as?id=<?php echo $data['ID']; ?>" class="btn btn-info" target="target_eb_iframe">Đăng nhập với tư cách <?php echo $data['user_email']; ?> <i class="fa fa-sign-in"></i></a></div>
+                <div class="controls bold"><a href="admin/<?php echo $controller_slug; ?>/login_as?id=<?php echo $data['ID']; ?>" class="btn btn-info" target="target_eb_iframe">Đăng nhập với tư cách <?php echo $data['user_email']; ?> <i class="fa fa-sign-in"></i></a></div>
             </div>
             <?php
             } // END login as
@@ -82,12 +85,12 @@ use App\ Libraries\ UsersType;
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">Nhóm thành viên</label>
+                <label class="control-label">Nhóm <?php echo $member_name; ?></label>
                 <div class="controls">
                     <select data-select="<?php echo $data['member_type']; ?>" name="data[member_type]" aria-required="true" required>
                         <?php
 
-                        foreach ( UsersType::list() as $type_k => $type_v ) {
+                        foreach ( $arr_members_type as $type_k => $type_v ) {
                             echo '<option value="' . $type_k . '">' . $type_v . '</option>';
                         }
 
@@ -119,7 +122,7 @@ use App\ Libraries\ UsersType;
                 <label class="control-label">Thay đổi mật khẩu</label>
                 <div class="controls">
                     <input type="text" class="span6" placeholder="Mật khẩu" name="data[ci_pass]" value="<?php echo $data[ 'ci_pass' ]; ?>" onfocus="$('.redcolor-if-pass-focus').addClass('redcolor');" onblur="$('.redcolor-if-pass-focus').removeClass('redcolor');" />
-                    <p class="redcolor-if-pass-focus">* Chỉ nhập mật khẩu khi bạn cần đổi mật khẩu cho thành viên.</p>
+                    <p class="redcolor-if-pass-focus">* Chỉ nhập mật khẩu khi bạn cần đổi mật khẩu cho <?php echo $member_name; ?>.</p>
                 </div>
             </div>
             <div class="form-actions frm-fixed-btn">
@@ -127,7 +130,7 @@ use App\ Libraries\ UsersType;
                 if ( $data[ 'ID' ] > 0 ) {
                     ?>
                 <button type="submit" class="btn btn-success rf"><i class="fa fa-save"></i> Lưu lại</button>
-                <a href="admin/users/delete?id=<?php echo $data[ 'ID' ]; ?>" onClick="return click_a_delete_record();" class="btn btn-danger" target="target_eb_iframe"><i class="fa fa-trash"></i> XÓA</a>
+                <a href="admin/<?php echo $controller_slug; ?>/delete?id=<?php echo $data[ 'ID' ]; ?>" onClick="return click_a_delete_record();" class="btn btn-danger" target="target_eb_iframe"><i class="fa fa-trash"></i> XÓA</a>
                 <?php
                 } else {
                     ?>
@@ -139,3 +142,7 @@ use App\ Libraries\ UsersType;
         </form>
     </div>
 </div>
+<?php
+
+//
+$base_model->add_js( 'admin/js/' . $member_type . '_add.js' );

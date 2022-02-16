@@ -172,12 +172,14 @@ class Term extends EbModel {
         //echo $result_id . '<br>' . "\n";
 
         if ( $result_id !== false ) {
-            $this->base_model->insert( $this->taxTable, [
-                'term_taxonomy_id' => $result_id,
-                'term_id' => $result_id,
-                'taxonomy' => $taxonomy,
-                'description' => 'Auto create nav menu taxonomy',
-            ] );
+            $data_insert = $data;
+            $data_insert[ 'term_taxonomy_id' ] = $result_id;
+            $data_insert[ 'term_id' ] = $result_id;
+            $data_insert[ 'taxonomy' ] = $taxonomy;
+            $data_insert[ 'description' ] = 'Auto create nav menu taxonomy';
+
+            //
+            $this->base_model->insert( $this->taxTable, $data_insert, true );
 
             // insert/ update meta post
             if ( isset( $_POST[ 'term_meta' ] ) ) {
@@ -218,8 +220,28 @@ class Term extends EbModel {
             $data[ 'last_updated' ] = date( 'Y-m-d H:i:s' );
         }
 
+        // tính tổng số term con của term đang được cập nhật
+        $child_term = $this->base_model->select( 'COUNT(term_id) AS c', WGR_TERM_VIEW, array(
+            'parent' => $term_id,
+            'taxonomy' => $taxonomy,
+            'is_deleted' => DeletedStatus::FOR_DEFAULT,
+        ), array(
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            //'offset' => 2,
+            //'limit' => 3
+        ) );
+        //print_r( $child_term );
+
+        //
+        $data[ 'child_count' ] = $child_term[ 0 ][ 'c' ];
+        $data[ 'child_last_count' ] = time();
+
         //
         //print_r( $data );
+        //die( __FILE__ . ':' . __LINE__ );
 
         //
         $where = [
@@ -617,6 +639,7 @@ class Term extends EbModel {
                         //
                         $this->base_model->update_multiple( $this->table, [
                             'child_count' => count( $child_term ),
+                            'child_last_count' => $current_time,
                         ], [
                             'term_id' => $v[ 'term_id' ],
                         ] );
@@ -1004,6 +1027,7 @@ class Term extends EbModel {
         $data = $this->get_taxonomy( [
             'slug' => $slug,
             'taxonomy' => $taxonomy,
+            'is_deleted' => DeletedStatus::FOR_DEFAULT,
         ], $limit, $select_col );
 
         //

@@ -36,7 +36,7 @@ class User extends UserMeta {
         return $data;
     }
 
-    public function insert_member( $data ) {
+    public function insert_member( $data, $check_exist = true ) {
         // các dữ liệu mặc định
         $default_data = [
             'user_registered' => date( 'Y-m-d H:i:s' ),
@@ -44,13 +44,16 @@ class User extends UserMeta {
         $default_data[ 'last_updated' ] = $default_data[ 'user_registered' ];
 
         // kiểm tra email đã được sử dụng chưa
-        if ( $this->check_user_exist( $data[ 'user_email' ] ) === false ) {
+        if ( $check_exist === true && $this->check_user_exist( $data[ 'user_email' ] ) === false ) {
             return -1;
         }
 
         //
         if ( !isset( $data[ 'user_login' ] ) || $data[ 'user_login' ] == '' ) {
+            //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+            //echo $data[ 'user_email' ] . '<br>' . "\n";
             $data[ 'user_login' ] = $this->generate_user_login( $data[ 'user_email' ] );
+            //echo $data[ 'user_login' ] . '<br>' . "\n";
         }
         $data[ 'user_login' ] = $this->check_user_login_exist( $data[ 'user_login' ] );
         // mã hóa mật khẩu
@@ -63,9 +66,8 @@ class User extends UserMeta {
             }
         }
 
-        // insert post
+        // insert
         //print_r( $data );
-        //die( 'fj sfssf sf' );
         $result_id = $this->base_model->insert( $this->table, $data, true );
 
         //

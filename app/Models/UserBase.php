@@ -30,6 +30,7 @@ class UserBase extends EbModel {
         if ( $user_login == '' ) {
             die( 'user_login is NULL' );
         }
+        return $user_login;
     }
 
     function check_user_login_exist( $user_login, $i = 0 ) {
@@ -83,6 +84,7 @@ class UserBase extends EbModel {
         $builder = $this->base_model->db->table( $this->table );
         //$builder->select( '*' );
 
+        // so khớp password
         $builder->groupStart();
         $builder->orWhere( 'user_pass', $password );
         $builder->orWhere( 'ci_pass', $password );
@@ -92,9 +94,20 @@ class UserBase extends EbModel {
         }
         $builder->groupEnd();
 
+        //
         $builder->groupStart();
-        $builder->orWhere( 'user_login', $name );
-        $builder->orWhere( 'user_email', $name );
+        // so khớp email
+        if ( strpos( $name, '@' ) !== false ) {
+            $builder->orWhere( 'user_email', $name );
+        }
+        // so khớp username
+        else {
+            $builder->orWhere( 'user_login', $name );
+        }
+        // so khớp với ID -> hỗ trợ dùng ID để đăng nhập
+        if ( is_numeric( $name ) === true ) {
+            $builder->orWhere( 'user_login', $name * 1 );
+        }
         $builder->groupEnd();
 
         //

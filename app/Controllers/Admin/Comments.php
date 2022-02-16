@@ -81,9 +81,8 @@ class Comments extends Admin {
             // tối thiểu từ 1 ký tự trở lên mới kích hoạt tìm kiếm
             if ( strlen( $by_like ) > 0 ) {
                 //var_dump( strlen( $by_like ) );
-                $is_number = is_numeric( $by_like );
                 // nếu là số -> chỉ tìm theo ID
-                if ( $is_number === true ) {
+                if ( is_numeric( $by_like ) === true ) {
                     $where_or_like = [
                         'comment_ID' => $by_like,
                         //'comment_post_ID' => $by_like,
@@ -91,9 +90,8 @@ class Comments extends Admin {
                         //'user_id' => $by_like,
                     ];
                 } else {
-                    $is_email = strpos( $by_keyword, '@' );
                     // nếu có @ -> tìm theo email
-                    if ( $is_email !== false ) {
+                    if ( strpos( $by_keyword, '@' ) !== false ) {
                         $where_or_like = [
                             'comment_author_email' => explode( '@', $by_keyword )[ 0 ],
                         ];

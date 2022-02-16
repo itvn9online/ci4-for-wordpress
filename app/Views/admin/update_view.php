@@ -1,3 +1,6 @@
+<ul class="admin-breadcrumb">
+    <li>Update code</li>
+</ul>
 <h3>Chức năng dùng để update code dưới dạng file .ZIP</h3>
 <p class="medium bluecolor">Chọn file code có đuôi .zip (được cung cấp bởi bên code) sau đó upload lên host, hệ thống sẽ thực hiện giải nén và cập nhật code cho website</p>
 <div>
