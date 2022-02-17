@@ -152,7 +152,8 @@ function check_term_parent_by_id(parent_id) {
 // hiển thị các term chưa bị null
 function term_not_null_tree_view(tmp, gach_ngang) {
     if (typeof gach_ngang == 'undefined') {
-        gach_ngang = '';
+        // các nhóm ở đây không phải nhóm cấp 1 -> nên để ít nhất 1 gạch ngang
+        gach_ngang = '&#8212; ';
     }
     //console.log('gach ngang:', gach_ngang);
     //console.log('term_data:', term_data);
