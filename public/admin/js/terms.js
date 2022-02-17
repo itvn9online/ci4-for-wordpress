@@ -163,10 +163,11 @@ function term_not_null_tree_view(tmp, gach_ngang) {
         if (term_data[i] === null) {
             continue;
         }
-        console.log(term_data[i]);
+        //console.log(term_data[i]);
 
         // thử xem nhóm này có đang là nhóm con của nhóm nào trong đây không
         var j = check_term_parent_by_id(term_data[i].parent);
+        // tìm thấy cha thì in nhóm cha trước rồi mới in nhóm con
         if (j !== false) {
             $('#admin_main_list').append(tmp_to_term_html(term_data[j], tmp, gach_ngang));
 
@@ -174,6 +175,13 @@ function term_not_null_tree_view(tmp, gach_ngang) {
             term_v2_tree_view(tmp, term_data[j].term_id, gach_ngang + '&#8212; ');
 
             term_data[j] = null;
+        }
+        // không thấy cha thì in trực tiếp nó ra thôi
+        else {
+            $('#admin_main_list').append(tmp_to_term_html(term_data[i], tmp, gach_ngang));
+
+            // nạp nhóm con luôn và ngay
+            term_v2_tree_view(tmp, term_data[i].term_id, gach_ngang + '&#8212; ');
         }
 
         //
@@ -230,8 +238,9 @@ function before_tree_view(tmp, max_i) {
      * phiên bản sử dụng js thuần
      */
     term_v2_tree_view(tmp);
-    console.log('term data:', term_data);
+    //console.log('term data:', term_data);
 
-    // chạy rà soát lại những nhóm chưa được xác định
+    // chạy rà soát lại những nhóm chưa được xác định -> not null
     term_not_null_tree_view(tmp);
+    //console.log('term data:', term_data);
 })();
