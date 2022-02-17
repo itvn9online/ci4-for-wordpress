@@ -208,6 +208,7 @@ class Users extends Admin {
             'totalThread' => $totalThread,
             'by_keyword' => $by_keyword,
             'data' => $data,
+            'col_filter' => $col_filter,
             'controller_slug' => $this->controller_slug,
             'member_type' => $this->member_type,
             'member_name' => $this->member_name,

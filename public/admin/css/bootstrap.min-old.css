@@ -1240,7 +1240,7 @@ table {
     line-height: 20px;
     text-align: left;
     vertical-align: top;
-    border-top: 1px solid #ddd
+    /* border-top: 1px solid #ddd; */
 }
 .table th {
     font-weight: bold
@@ -1258,7 +1258,9 @@ table {
     padding: 4px 5px
 }
 .table-bordered {
-    border: 1px solid #ddd;
+    /* border: 1px solid #ddd; */
+    border-top: 1px solid #ddd;
+    border-right: 1px solid #ddd;
     border-collapse: separate;
     *border-collapse: collapse;
     border-left: 0;
@@ -1267,7 +1269,9 @@ table {
     border-radius: 4px
 }
 .table-bordered th, .table-bordered td {
-    border-left: 1px solid #ddd
+    border: 0 none;
+    border-bottom: 1px solid #ddd;
+    border-left: 1px solid #ddd;
 }
 .table-bordered caption + thead tr:first-child th, .table-bordered caption + tbody tr:first-child th, .table-bordered caption + tbody tr:first-child td, .table-bordered colgroup + thead tr:first-child th, .table-bordered colgroup + tbody tr:first-child th, .table-bordered colgroup + tbody tr:first-child td, .table-bordered thead:first-child tr:first-child th, .table-bordered tbody:first-child tr:first-child th, .table-bordered tbody:first-child tr:first-child td {
     border-top: 0

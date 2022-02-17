@@ -36,6 +36,9 @@ class User extends UserMeta {
         return $data;
     }
 
+    /*
+     * check_exist: mặc định sẽ check 1 số dữ liệu xem đã được dùng rồi hay chưa
+     */
     public function insert_member( $data, $check_exist = true ) {
         // các dữ liệu mặc định
         $default_data = [
@@ -74,7 +77,10 @@ class User extends UserMeta {
         return $result_id;
     }
 
-    public function update_member( $id, $data, $where = [] ) {
+    /*
+     * check_exist: mặc định sẽ check 1 số dữ liệu xem đã được dùng rồi hay chưa
+     */
+    public function update_member( $id, $data, $where = [], $check_exist = true ) {
         if ( isset( $data[ 'user_login' ] ) ) {
             if ( $data[ 'user_login' ] == '' ) {
                 if ( isset( $data[ 'user_email' ] ) && $data[ 'user_email' ] != '' ) {
@@ -100,7 +106,7 @@ class User extends UserMeta {
         $data = $this->sync_pass( $data );
 
         // nếu có email
-        if ( isset( $data[ 'user_email' ] ) ) {
+        if ( $check_exist === true && isset( $data[ 'user_email' ] ) ) {
             // email không được để trống
             if ( $data[ 'user_email' ] != '' ) {
                 // kiểm tra email này đã có ai dùng chưa

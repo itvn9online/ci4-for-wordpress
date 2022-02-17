@@ -290,3 +290,6 @@ body.body-debug_enable #admin-header {
 body.body-debug_enable #admin-header, body.body-debug_enable #sidebar {
     background-color: darkslateblue;
 }
+.row .row {
+    margin-left: 0;
+}
