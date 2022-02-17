@@ -522,4 +522,34 @@ class Dashboard extends Optimize {
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
+
+    // chức năng upload file code zip lên host và giải nén -> update code
+    public function cleanup_cache() {
+        if ( !empty( $this->MY_post( 'data' ) ) ) {
+            $has_cache = false;
+            foreach ( glob( WRITEPATH . 'cache/*' ) as $filename ) {
+                echo $filename . '<br>' . "\n";
+                $has_cache = true;
+
+                //
+                if ( is_file( $filename ) ) {
+                    if ( !$this->MY_unlink( $filename ) ) {
+                        $this->base_model->alert( 'Lỗi xóa file cache ' . basename( $filename ), 'error' );
+                    }
+                }
+            }
+
+            //
+            if ( $has_cache === true ) {
+                $this->base_model->alert( 'Toàn bộ file cache đã được xóa' );
+            } else {
+                $this->base_model->alert( 'Thư mục cache trống!', 'warning' );
+            }
+            die( __FILE__ . ':' . __LINE__ );
+        }
+
+        //
+        $this->teamplate_admin[ 'content' ] = view( 'admin/cleanup_view', array() );
+        return view( 'admin/admin_teamplate', $this->teamplate_admin );
+    }
 }

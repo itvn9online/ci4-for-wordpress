@@ -202,6 +202,10 @@ class AdminMenu {
                         'name' => 'Update code',
                         'icon' => 'fa fa-upload',
                     ],
+                    'admin/dashboard/cleanup_cache' => [
+                        'name' => 'Dọn dẹp website',
+                        'icon' => 'fa fa-magic',
+                    ],
                     'admin/optimize' => [
                         'name' => 'Optimize code',
                         'icon' => 'fa fa-code',
