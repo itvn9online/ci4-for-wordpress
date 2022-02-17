@@ -129,7 +129,7 @@ class Terms extends Admin {
         if ( $this->taxonomy == TaxonomyType::ADS ) {
             $filter[ 'get_meta' ] = true;
         }
-        $filter[ 'get_child' ] = 1;
+        //$filter[ 'get_child' ] = 1;
 
         //
         $data = $this->term_model->get_all_taxonomy( $this->taxonomy, 0, $filter );
@@ -162,10 +162,12 @@ class Terms extends Admin {
             $v[ 'view_url' ] = $this->term_model->get_the_permalink( $v );
             $v[ 'gach_ngang' ] = '';
 
-            //
+            // phiên bản dùng angular js -> có sử dụng child_term
+            /*
             if ( count( $v[ 'child_term' ] ) > 0 ) {
                 $v[ 'child_term' ] = $this->term_treeview_data( $v[ 'child_term' ] );
             }
+            */
 
             //
             $data[ $k ] = $v;

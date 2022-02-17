@@ -49,8 +49,8 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
             <th>&nbsp;</th>
         </tr>
     </thead>
-    <tbody id="admin_main_list" ng-app="myApp" ng-controller="myCtrl">
-        <tr data-id="{{v.term_id}}" class="each-to-child-term" ng-repeat="v in data">
+    <tbody id="admin_main_list" ng-XOA-app="myApp" ng-XOA-controller="myCtrl">
+        <tr data-id="{{v.term_id}}" class="each-to-child-term" ng-XOA-repeat="v in data">
             <td>&nbsp;</td>
             <td>{{v.term_id}}</td>
             <td><a href="{{v.get_admin_permalink}}">{{v.gach_ngang}}{{v.name}} <i class="fa fa-edit"></i></a></td>
@@ -60,10 +60,10 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
             <td>{{v.lang_key}}</td>
             <td>{{v.count}}</td>
             <td class="text-center"><div>
-                    <div data-deleted="{{v.is_deleted}}" class="show-if-trash" ng-if="v.is_deleted == DeletedStatus_DELETED">
+                    <div data-deleted="{{v.is_deleted}}" class="show-if-trash" ng-XOA-if="v.is_deleted == DeletedStatus_DELETED">
                         <div><a href="admin/{{controller_slug}}/restore?id={{v.term_id}}{{for_action}}" onClick="return click_a_restore_record();" target="target_eb_iframe" class="bluecolor"><i class="fa fa-undo"></i></a></div>
                     </div>
-                    <div data-deleted="{{v.is_deleted}}" class="d-inlines hide-if-trash" ng-if="v.is_deleted != DeletedStatus_DELETED">
+                    <div data-deleted="{{v.is_deleted}}" class="d-inlines hide-if-trash" ng-XOA-if="v.is_deleted != DeletedStatus_DELETED">
                         <div><a href="admin/{{controller_slug}}/term_status?id={{v.term_id}}&current_status={{v.term_status}}{{for_action}}" target="target_eb_iframe" data-status="{{v.term_status}}" class="record-status-color"><i class="fa fa-eye"></i></a></div>
                         &nbsp;
                         <div><a href="admin/{{controller_slug}}/delete?id={{v.term_id}}{{for_action}}" onClick="return click_a_delete_record();" target="target_eb_iframe" class="redcolor"><i class="fa fa-trash"></i></a></div>
