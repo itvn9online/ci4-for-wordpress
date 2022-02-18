@@ -329,14 +329,26 @@ class Home extends Csrf {
         ) );
         //print_r( $data );
 
-        // có -> ưu tiên category
+        // có -> lấy bài viết trong nhóm
         if ( !empty( $data ) ) {
-            // xác định post type dựa theo taxonomy type
-            $get_post_type = $this->base_model->select( 'post_type', 'posts', [
+            // xem nhóm này có nhóm con không
+            $child_data = $this->term_model->get_taxonomy( array(
+                // các kiểu điều kiện where
+                'parent' => $term_id,
+                'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                'lang_key' => $this->lang_key,
+                'taxonomy' => $taxonomy_type
+            ), 10, 'term_id' );
+            //print_r( $child_data );
+
+            //
+            $where = [
                 'posts.post_status' => PostType::PUBLIC,
-                'term_taxonomy.term_id' => $data[ 'term_id' ],
                 'posts.lang_key' => LanguageCost::lang_key()
-            ], [
+            ];
+
+            //
+            $filter = [
                 'join' => [
                     'term_relationships' => 'term_relationships.object_id = posts.ID',
                     'term_taxonomy' => 'term_relationships.term_taxonomy_id = term_taxonomy.term_taxonomy_id',
@@ -350,7 +362,31 @@ class Home extends Csrf {
                 //'get_query' => 1,
                 //'offset' => 0,
                 'limit' => 1
-            ] );
+            ];
+
+            // nếu không có cha -> chỉ cần lấy theo ID nhóm hiện tại là được
+            if ( empty( $child_data ) ) {
+                $where[ 'term_taxonomy.term_id' ] = $data[ 'term_id' ];
+            }
+            // nếu có -> lấy theo cả cha và con
+            else {
+                $where_in = [];
+                foreach ( $child_data as $v ) {
+                    $where_in[] = $v[ 'term_id' ];
+                }
+
+                //
+                $filter[ 'where_in' ] = [
+                    'term_taxonomy.term_id' => $where_in
+                ];
+
+                //
+                $data[ 'where_in' ] = $where_in;
+            }
+            //print_r( $data );
+
+            // xác định post type dựa theo taxonomy type
+            $get_post_type = $this->base_model->select( 'post_type', 'posts', $where, $filter );
             //print_r( $get_post_type );
 
             // tìm được post tương ứng thì mới show category ra

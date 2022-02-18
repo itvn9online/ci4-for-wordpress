@@ -114,6 +114,7 @@ class PostQuery extends PostMeta {
             $data[ 'post_modified' ] = date( 'Y-m-d H:i:s' );
             $data[ 'post_modified_gmt' ] = $data[ 'post_modified' ];
         }
+        //$data[ 'time_order' ] = time();
 
         //
         $where[ 'ID' ] = $post_id;

@@ -21,31 +21,56 @@ use App\ Libraries\ PostType;
 
     //
     //echo $taxonomy_post_size . '<br>' . "\n";
-
     //print_r( $data );
 
     //
-    $child_data = $base_model->select( '*', 'posts', [
+    $where = [
         'posts.post_type' => $post_type,
         'posts.post_status' => PostType::PUBLIC,
-        'term_taxonomy.term_id' => $data[ 'term_id' ],
         'posts.lang_key' => LanguageCost::lang_key()
-    ], [
+    ];
+
+    //
+    $filter = [
         'join' => [
             'term_relationships' => 'term_relationships.object_id = posts.ID',
             'term_taxonomy' => 'term_relationships.term_taxonomy_id = term_taxonomy.term_taxonomy_id',
         ],
         'order_by' => [
-            'posts.post_modified' => 'DESC',
+            //'posts.post_modified' => 'DESC',
+            'posts.menu_order' => 'DESC',
             'posts.ID' => 'DESC',
         ],
         // hiển thị mã SQL để check
         //'show_query' => 1,
         // trả về câu query để sử dụng cho mục đích khác
         //'get_query' => 1,
+        'group_by' => array(
+            'posts.ID',
+        ),
         'offset' => $offset,
         'limit' => $post_per_page
-    ] );
+    ];
+
+    // nếu không có cha -> chỉ cần lấy theo ID nhóm hiện tại là được
+    if ( empty( $data[ 'child_term' ] ) ) {
+        $where[ 'term_taxonomy.term_id' ] = $data[ 'term_id' ];
+    }
+    // nếu có -> lấy theo cả cha và con
+    else {
+        $where_in = [];
+        foreach ( $data[ 'child_term' ] as $v ) {
+            $where_in[] = $v[ 'term_id' ];
+        }
+
+        //
+        $filter[ 'where_in' ] = [
+            'term_taxonomy.term_id' => $where_in
+        ];
+    }
+
+    //
+    $child_data = $base_model->select( '*', 'posts', $where, $filter );
     //print_r( $child_data );
 
     if ( !empty( $child_data ) ) {

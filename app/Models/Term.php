@@ -114,6 +114,7 @@ class Term extends EbModel {
         }
         if ( $data[ 'slug' ] != '' ) {
             $data[ 'slug' ] = $this->base_model->_eb_non_mark_seo( $data[ 'slug' ] );
+            $data[ 'slug' ] = str_replace( '.', '-', $data[ 'slug' ] );
             //print_r( $data );
             //die( __FILE__ . ':' . __LINE__ );
 
@@ -199,6 +200,7 @@ class Term extends EbModel {
             }
             if ( $data[ 'slug' ] != '' ) {
                 $data[ 'slug' ] = $this->base_model->_eb_non_mark_seo( $data[ 'slug' ] );
+                $data[ 'slug' ] = str_replace( '.', '-', $data[ 'slug' ] );
                 //print_r( $data );
 
                 // kiểm tra lại slug trước khi update
@@ -519,6 +521,7 @@ class Term extends EbModel {
 
         //
         $post_cat = $this->base_model->select( $ops[ 'select_col' ], WGR_TERM_VIEW, $where, array(
+            //'where_in' => isset( $ops[ 'where_in' ] ) ? $ops[ 'where_in' ] : [],
             'or_like' => $where_or_like,
             'order_by' => array(
                 'term_order' => 'DESC',

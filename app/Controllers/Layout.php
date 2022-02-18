@@ -268,7 +268,7 @@ class Layout extends Sync {
         return view( 'layout_view', $this->teamplate );
     }
 
-    protected function category( $data, $post_type, $taxonomy, $file_view = 'category_view', $ops = [] ) {
+    protected function category( $input, $post_type, $taxonomy, $file_view = 'category_view', $ops = [] ) {
         //$config['base_url'] = $this->term_model->get_the_permalink();
         //$config['per_page'] = 50;
         //$config['uri_segment'] = 3;
@@ -279,7 +279,7 @@ class Layout extends Sync {
         }
 
         //
-        $this->cache_key = 'taxonomy' . $data[ 'term_id' ] . '-page' . $ops[ 'page_num' ];
+        $this->cache_key = 'taxonomy' . $input[ 'term_id' ] . '-page' . $ops[ 'page_num' ];
         $cache_value = $this->MY_cache( $this->cache_key );
         // Will get the cache entry named 'my_foo'
         //var_dump( $cache_value );
@@ -290,10 +290,22 @@ class Layout extends Sync {
 
         //
         //echo 'this category <br>' . "\n";
-        //print_r( $data );
-        $data = $this->term_model->get_all_taxonomy( $taxonomy, $data[ 'term_id' ], [
-            'parent' => $data[ 'term_id' ]
+
+        //
+        //print_r( $input );
+        $data = $input;
+        $data = $this->term_model->terms_meta_post( [ $data ] );
+        $data = $data[ 0 ];
+
+        // đầu vào (input) chính là data rồi -> không cần gọi lại
+        /*
+        $data = $this->term_model->get_all_taxonomy( $taxonomy, $input[ 'term_id' ], [
+            'parent' => $input[ 'term_id' ],
+            //'where_in' => isset( $input[ 'where_in' ] ) ? $input[ 'where_in' ] : NULL
         ] );
+        */
+
+        //
         //print_r( $data );
         $data = $this->term_model->get_child_terms( [ $data ], [] );
         //print_r( $data );
@@ -335,6 +347,8 @@ class Layout extends Sync {
             'breadcrumb' => $this->breadcrumb
         ) );
 
+        //
+        //echo $file_view . '<br>' . "\n";
         $this->teamplate[ 'main' ] = view( $file_view, array(
             //'post_per_page' => $post_per_page,
             'taxonomy_post_size' => $this->taxonomy_post_size,
