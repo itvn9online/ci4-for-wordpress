@@ -259,6 +259,13 @@ class Layout extends Sync {
     }
 
     public function page404( $msg_404 = '' ) {
+        /*
+         * trả về lỗi 404
+         */
+        $pcol = ( isset( $_SERVER[ 'SERVER_PROTOCOL' ] ) ? $_SERVER[ 'SERVER_PROTOCOL' ] : 'HTTP/1.0' );
+        $this->response->setStatusCode( 404, $pcol . ' 404 Not Found' );
+
+        //
         $this->teamplate[ 'main' ] = view( '404', array(
             'seo' => $this->base_model->default_seo( '404 not found', '404' ),
             'breadcrumb' => '',

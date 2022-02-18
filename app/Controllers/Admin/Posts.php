@@ -308,7 +308,7 @@ class Posts extends Admin {
                 ] );
 
                 //
-                die( header( 'location:' . DYNAMIC_BASE_URL . ltrim( $_SERVER[ 'REQUEST_URI' ], '/' ) ) );
+                die( header( 'Location:' . DYNAMIC_BASE_URL . ltrim( $_SERVER[ 'REQUEST_URI' ], '/' ) ) );
             }
 
             // lấy bài tiếp theo để auto next
