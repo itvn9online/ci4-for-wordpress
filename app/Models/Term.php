@@ -228,6 +228,7 @@ class Term extends EbModel {
             'taxonomy' => $taxonomy,
             'is_deleted' => DeletedStatus::FOR_DEFAULT,
         ), array(
+            'selectCount' => 'term_id',
             // hiển thị mã SQL để check
             //'show_query' => 1,
             // trả về câu query để sử dụng cho mục đích khác
@@ -238,7 +239,8 @@ class Term extends EbModel {
         //print_r( $child_term );
 
         //
-        $data[ 'child_count' ] = $child_term[ 0 ][ 'c' ];
+        //$data[ 'child_count' ] = $child_term[ 0 ][ 'c' ];
+        $data[ 'child_count' ] = $child_term[ 0 ][ 'term_id' ];
         $data[ 'child_last_count' ] = time();
 
         //
@@ -681,6 +683,7 @@ class Term extends EbModel {
                     // WHERE AND OR
                     'term_taxonomy_id' => $term_id,
                 ), array(
+                    'selectCount' => 'object_id',
                     // hiển thị mã SQL để check
                     //'show_query' => 1,
                     // trả về câu query để sử dụng cho mục đích khác
@@ -692,7 +695,8 @@ class Term extends EbModel {
 
                 // cập nhật lại tổng số bài viết cho term
                 $this->base_model->update_multiple( $this->taxTable, [
-                    'count' => $count_port_term[ 0 ][ 'c' ]
+                    //'count' => $count_port_term[ 0 ][ 'c' ]
+                    'count' => $count_port_term[ 0 ][ 'object_id' ]
                 ], [
                     'term_taxonomy_id' => $term_id,
                     'term_id' => $term_id,

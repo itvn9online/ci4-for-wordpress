@@ -225,7 +225,15 @@ class Base extends Session {
 
         //
         $builder = $this->db->table( $from );
-        $builder->select( $select );
+        // lấy tổng số bản ghi
+        if ( isset( $op[ 'selectCount' ] ) ) {
+            $builder->selectCount( $op[ 'selectCount' ] );
+            $op[ 'limit' ] = -1;
+        }
+        // select thông thường
+        else {
+            $builder->select( $select );
+        }
 
         if ( isset( $op[ 'join' ] ) ) {
             foreach ( $op[ 'join' ] as $k => $v ) {

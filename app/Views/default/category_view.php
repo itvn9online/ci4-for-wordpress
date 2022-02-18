@@ -2,6 +2,7 @@
 
 //
 //$option_model = new\ App\ Models\ Option();
+//echo $taxonomy_post_size . '<br>' . "\n";
 
 ?>
 <div class="w90">
@@ -16,31 +17,32 @@
     <?php
 
     //
-    //echo $taxonomy_post_size . '<br>' . "\n";
+    foreach ( $data[ 'child_term' ] as $key => $val ) {
+        //echo '<!-- ';
+        //print_r( $val );
+        //echo ' -->';
 
-    if ( isset( $getconfig->show_child_category ) && $getconfig->show_child_category == 'on' &&
-        //
-        isset( $data[ 'child_term' ] ) && !empty( $data[ 'child_term' ] ) ) {
-        foreach ( $data[ 'child_term' ] as $key => $val ) {
-            //echo '<!-- ';
-            //print_r( $val );
-            //echo ' -->';
+        /*
+        $child_data = $post_model->get_posts_by( $val, [
+            'limit' => 4,
+        ] );
+        */
+        $child_data = $post_model->post_category( $post_type, $val, [
+            //'offset' => $offset,
+            'limit' => 4,
+        ] );
+        if ( empty( $child_data ) ) {
+            continue;
+        }
+        $taxonomy_child_custom_post_size = '';
+        if ( isset( $val[ 'term_meta' ][ 'taxonomy_custom_post_size' ] ) && $val[ 'term_meta' ][ 'taxonomy_custom_post_size' ] != '' ) {
+            $taxonomy_child_custom_post_size = $val[ 'term_meta' ][ 'taxonomy_custom_post_size' ];
+        }
+        //echo '<!-- ';
+        //print_r( $child_data );
+        //echo ' -->';
 
-            $child_data = $post_model->get_posts_by( $val, [
-                'limit' => 4,
-            ] );
-            if ( empty( $child_data ) ) {
-                continue;
-            }
-            $taxonomy_child_custom_post_size = '';
-            if ( isset( $val[ 'term_meta' ][ 'taxonomy_custom_post_size' ] ) && $val[ 'term_meta' ][ 'taxonomy_custom_post_size' ] != '' ) {
-                $taxonomy_child_custom_post_size = $val[ 'term_meta' ][ 'taxonomy_custom_post_size' ];
-            }
-            //echo '<!-- ';
-            //print_r( $child_data );
-            //echo ' -->';
-
-            ?>
+        ?>
     <div class="category-child-block">
         <div>
             <h2 class="global-module-title"><a href="<?php $term_model->the_permalink($val); ?>"><?php echo $val[ 'name' ]; ?></a></h2>
@@ -66,50 +68,6 @@
     </div>
     <?php
 
-    }
-    }
-    // 
-    else {
-        //print_r( $data );
-
-        //
-        $child_data = $post_model->get_posts_by( $data, [
-            'limit' => $post_per_page,
-            'offset' => $offset,
-        ] );
-        if ( !empty( $child_data ) ) {
-
-            //
-            ?>
-    <ul id="category_main" class="fix-li-wit thread-list main-thread-list cf <?php $option_model->posts_in_line( $getconfig ); ?>">
-        <?php
-
-        foreach ( $child_data as $child_key => $child_val ) {
-            //echo '<!-- ';
-            //print_r( $child_val );
-            //echo ' -->';
-
-            //
-            $post_model->the_node( $child_val, [
-                'taxonomy_post_size' => $taxonomy_post_size,
-            ] );
-        }
-
-        ?>
-    </ul>
-    <div class="public-part-page">
-        <?php
-
-        echo $public_part_page;
-
-        ?>
-    </div>
-    <?php
-    }
-    // không có sản phẩm nào -> báo không có
-    else {
-        //
-    }
     }
 
     ?>

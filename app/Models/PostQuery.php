@@ -287,6 +287,7 @@ class PostQuery extends PostMeta {
         //
         if ( isset( $ops[ 'count_record' ] ) ) {
             $data = $this->base_model->select( 'COUNT(ID) AS c', WGR_POST_VIEW, $where, [
+                'selectCount' => 'ID',
                 'or_where' => $arr_or_where,
                 //'order_by' => $order_by,
                 //'get_sql' => 1,
@@ -297,7 +298,8 @@ class PostQuery extends PostMeta {
             ] );
             //print_r( $data );
 
-            return $data[ 0 ][ 'c' ];
+            //return $data[ 0 ][ 'c' ];
+            return $data[ 0 ][ 'ID' ];
         } else {
             // nếu có chỉ định chỉ lấy các cột cần thiết
             if ( isset( $ops[ 'select' ] ) ) {

@@ -1,9 +1,11 @@
 <?php
-
-
 /*
  * file view dành cho các term khác, ngoài các term mặc định được hỗ trợ
  */
+
+//
+use App\ Libraries\ LanguageCost;
+use App\ Libraries\ PostType;
 
 
 //
@@ -15,12 +17,10 @@
 //print_r( $data );
 //print_r( $getconfig );
 
-// tự động tạo slider nếu có
-echo $taxonomy_slider;
-
-// nạp view riêng của từng theme nếu có
-$theme_private_view = THEMEPATH . 'Views/' . basename( __FILE__ );
-//echo $theme_private_view . '<br>' . "\n";
+// tự động tạo slider nếu có (và chưa được gọi ra)
+if ( !defined( 'IN_CATEGORY_VIEW' ) ) {
+    echo $taxonomy_slider;
+}
 
 
 /*
@@ -30,7 +30,9 @@ $post_per_page = $base_model->get_config( $getconfig, 'eb_posts_per_page', 20 );
 //echo $post_per_page . '<br>' . "\n";
 
 //
-$totalThread = $post_model->count_posts_by( $data );
+$totalThread = $post_model->post_category( $post_type, $data, [], true );
+//echo $totalThread . '<br>' . "\n";
+//$totalThread = $post_model->count_posts_by( $data );
 //echo $totalThread . '<br>' . "\n";
 $totalPage = ceil( $totalThread / $post_per_page );
 if ( $totalPage < 1 ) {
@@ -49,6 +51,26 @@ $offset = ( $ops[ 'page_num' ] - 1 ) * $post_per_page;
 $public_part_page = $base_model->EBE_pagination( $ops[ 'page_num' ], $totalPage, $term_model->get_the_permalink( $data ) );
 
 
+/*
+ * chuẩn bị dữ liệu để hiển thị ra
+ */
+//echo $taxonomy_post_size . '<br>' . "\n";
+//print_r( $data );
+
+//
+$child_data = $post_model->post_category( $post_type, $data, [
+    'offset' => $offset,
+    'limit' => $post_per_page
+] );
+//print_r( $child_data );
+
+
+/*
+ * nạp view riêng của từng theme nếu có
+ */
+$theme_private_view = THEMEPATH . 'Views/' . basename( __FILE__ );
+//echo $theme_private_view . '<br>' . "\n";
+
 //
 if ( file_exists( $theme_private_view ) ) {
     include $theme_private_view;
@@ -58,4 +80,7 @@ else {
     include __DIR__ . '/default/' . basename( __FILE__ );
 }
 
-$base_model->add_js( 'themes/' . THEMENAME . '/js/taxonomy.js' );
+//
+if ( !defined( 'IN_CATEGORY_VIEW' ) ) {
+    $base_model->add_js( 'themes/' . THEMENAME . '/js/taxonomy.js' );
+}

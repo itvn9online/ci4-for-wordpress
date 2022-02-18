@@ -3,7 +3,7 @@
 namespace App\ Models;
 
 // Libraries
-//use App\ Libraries\ LanguageCost;
+use App\ Libraries\ LanguageCost;
 use App\ Libraries\ PostType;
 use App\ Libraries\ TaxonomyType;
 //use App\ Libraries\ DeletedStatus;
@@ -191,5 +191,74 @@ class PostPosts extends PostSlider {
 
         //
         return $this->get_posts( $prams, $ops );
+    }
+
+    // trả về dữ liệu cho phần post category
+    public function post_category( $post_type, $data, $ops = [], $countData = false ) {
+        $where = [
+            'posts.post_type' => $post_type,
+            'posts.post_status' => PostType::PUBLIC,
+            'posts.lang_key' => LanguageCost::lang_key()
+        ];
+
+        //
+        $filter = [
+            'join' => [
+                'term_relationships' => 'term_relationships.object_id = posts.ID',
+                'term_taxonomy' => 'term_relationships.term_taxonomy_id = term_taxonomy.term_taxonomy_id',
+            ],
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            'group_by' => array(
+                'posts.ID',
+            ),
+            //'offset' => $offset,
+            //'limit' => $post_per_page
+        ];
+
+        //
+        foreach ( $ops as $k => $v ) {
+            $filter[ $k ] = $v;
+        }
+
+        // nếu không có cha -> chỉ cần lấy theo ID nhóm hiện tại là được
+        if ( empty( $data[ 'child_term' ] ) ) {
+            $where[ 'term_taxonomy.term_id' ] = $data[ 'term_id' ];
+        }
+        // nếu có -> lấy theo cả cha và con
+        else {
+            $where_in = [];
+            foreach ( $data[ 'child_term' ] as $v ) {
+                $where_in[] = $v[ 'term_id' ];
+            }
+
+            //
+            $filter[ 'where_in' ] = [
+                'term_taxonomy.term_id' => $where_in
+            ];
+        }
+
+        //
+        if ( $countData === true ) {
+            $filter[ 'selectCount' ] = 'posts.ID';
+
+            $c = $this->base_model->select( '*', 'posts', $where, $filter );
+            //print_r( $c );
+            //die( __FILE__ . ':' . __LINE__ );
+
+            return $c[ 0 ][ 'ID' ];
+        }
+
+        //
+        $filter[ 'order_by' ] = [
+            //'posts.post_modified' => 'DESC',
+            'posts.menu_order' => 'DESC',
+            'posts.ID' => 'DESC',
+        ];
+
+        //
+        return $this->base_model->select( '*', 'posts', $where, $filter );
     }
 }

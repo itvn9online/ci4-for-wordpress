@@ -68,8 +68,11 @@ class Comment extends EbModel {
                 //
                 $comment_count = $this->base_model->select( 'COUNT(comment_ID) AS c', $this->table, array(
                     'comment_post_ID' => $data[ 'comment_post_ID' ],
-                ) );
-                $comment_count = $comment_count[ 0 ][ 'c' ];
+                ), [
+                    'selectCount' => 'comment_ID',
+                ] );
+                //$comment_count = $comment_count[ 0 ][ 'c' ];
+                $comment_count = $comment_count[ 0 ][ 'comment_ID' ];
 
                 // update
                 $post_model = new\ App\ Models\ Post();
