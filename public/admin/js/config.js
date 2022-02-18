@@ -33,10 +33,13 @@ function done_field_has_change() {
 }
 
 // bắt ở nhiều sự kiện khác nhau -> vì có thể có sự kiện bị hủy bỏ ở giai đoạn khác
-$('.config-main input, .config-main select, .config-main textarea').focus(function () {
+$('.config-main input, .config-main select, .config-main textarea').change(function () {
     get_field_has_change($(this).attr('name') || '');
 }).blur(function () {
+    get_field_has_change($(this).attr('name') || '');
+}).focus(function () {
     get_field_has_change($(this).attr('name') || '');
 }).click(function () {
     get_field_has_change($(this).attr('name') || '');
 });
+

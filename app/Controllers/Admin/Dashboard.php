@@ -9,7 +9,8 @@ class Dashboard extends Optimize {
     // danh sách các file copy từ cache sang thư mục code
     private $file_re_cache = [];
     // link download code từ github
-    private $link_download_github = 'https://github.com/itvn9online/ci4-for-wordpress/blob/main/ci4-for-wordpress.zip?raw=true';
+    //private $link_download_github = 'https://github.com/itvn9online/ci4-for-wordpress/blob/main/ci4-for-wordpress.zip?raw=true';
+    private $link_download_github = 'https://github.com/itvn9online/ci4-for-wordpress/archive/refs/heads/main.zip';
 
     public function __construct() {
         parent::__construct();
@@ -368,12 +369,14 @@ class Dashboard extends Optimize {
         */
 
         //
-        $upload_path = PUBLIC_HTML_PATH;
+        //$upload_path = PUBLIC_HTML_PATH;
         //echo $upload_path . '<br>' . "\n";
 
         // với 1 số host, chỉ upload được vào thư mục có permission 777 -> cache
+        /*
         $upload_to_cache = false;
         if ( @!file_put_contents( $upload_path . 'test_permission.txt', time() ) ) {
+        */
             $upload_to_cache = true;
 
             $upload_path = WRITEPATH . 'updates/';
@@ -383,9 +386,11 @@ class Dashboard extends Optimize {
                 mkdir( $upload_path, DEFAULT_DIR_PERMISSION )or die( 'ERROR create dir (' . basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ . ')! ' . $upload_path );
                 chmod( $upload_path, DEFAULT_DIR_PERMISSION );
             }
+        /*
         } else {
             unlink( $upload_path . 'test_permission.txt' );
         }
+        */
 
         //
         $this->cleanup_zip( $upload_path, 'Không xóa được file ZIP cũ trước khi upload file mới' );
@@ -393,6 +398,7 @@ class Dashboard extends Optimize {
 
         //
         $file_path = $upload_path . explode( '?', basename( $this->link_download_github ) )[ 0 ];
+        //die( $file_path );
 
         //
         $file_model = new\ App\ Models\ File();
@@ -415,7 +421,8 @@ class Dashboard extends Optimize {
     private function after_unzip_code( $file_path, $upload_path, $upload_to_cache ) {
         $filename = '';
         if ( $this->MY_unzip( $file_path, $upload_path ) === TRUE ) {
-            $this->cleanup_zip( $upload_path, 'Không xóa được file ZIP sau khi giải nén code' );
+            //$this->cleanup_zip( $upload_path, 'Không xóa được file ZIP sau khi giải nén code' );
+            die( __FILE__ . ':' . __LINE__ );
 
             // nếu là giải nén trong cache -> copy file sang thư mục public
             if ( $upload_to_cache === true ) {

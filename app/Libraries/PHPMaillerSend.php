@@ -26,11 +26,21 @@ class PHPMaillerSend {
 
         // -> config
         $host_name = $cog[ 'smtp_host_name' ];
+        if ( $host_name == '' ) {
+            return 'Host?';
+        }
         //echo $host_name . '<br>' . "\n";
         $host_port = $cog[ 'smtp_host_port' ];
         //echo $host_port . '<br>' . "\n";
         $host_user = $cog[ 'smtp_host_user' ];
+        if ( $host_user == '' ) {
+            return 'User?';
+        }
         $host_pass = $cog[ 'smtp_host_pass' ];
+        //if ( $debug > 0 )echo $host_pass . '<br>' . "\n";
+        if ( $host_pass == '' ) {
+            return 'Pass?';
+        }
         if ( !isset( $cog[ 'smtp_from' ] ) || $cog[ 'smtp_from' ] == '' ) {
             $cog[ 'smtp_from' ] = $host_user;
         }
@@ -125,8 +135,8 @@ class PHPMaillerSend {
         return $m;
     }
 
-    public static function the_send( $data, $cog = [] ) {
-        $result = self::get_the_send( $data, ( array )$cog );
+    public static function the_send( $data, $cog = [], $debug = 0 ) {
+        $result = self::get_the_send( $data, ( array )$cog, $debug );
         if ( $result === true ) {
             return true;
         }

@@ -2,11 +2,11 @@
  * luôn xóa phần pass email -> không cho hiển thị
  */
 $('#data_smtp_host_show_pass').change(function () {
-    $('#data_smtp_host_pass').val($(this).val());
+    $('#data_smtp_host_pass').val($(this).val()).trigger('blur');
 }).focus(function () {
     $(this).val($('#data_smtp_host_pass').val() || '');
 }).blur(function () {
-    $('#data_smtp_host_pass').val($(this).val());
+    $('#data_smtp_host_pass').val($(this).val()).trigger('blur');
     $(this).val('');
 });
 
