@@ -700,8 +700,17 @@ class Dashboard extends Optimize {
         }
 
         //
+        $app_deleted_exist = false;
+        foreach ( $this->cleanup_deleted_code as $dir ) {
+            if ( is_dir( $dir ) ) {
+                $app_deleted_exist = true;
+                break;
+            }
+        }
+
+        //
         $this->teamplate_admin[ 'content' ] = view( 'admin/update_view', array(
-            'app_deleted_exist' => is_dir( $this->app_deleted_dir ) || is_dir( $this->public_deleted_dir ) ? true : false,
+            'app_deleted_exist' => $app_deleted_exist,
             'link_download_github' => $this->link_download_github
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
@@ -867,6 +876,20 @@ class Dashboard extends Optimize {
     }
 
     public function restore_code() {
+        //
+        $app_deleted_exist = false;
+        foreach ( $this->cleanup_deleted_code as $dir ) {
+            if ( is_dir( dir ) ) {
+                $app_deleted_exist = true;
+                break;
+            }
+        }
+
+        //
+        if ( $app_deleted_exist !== true ) {
+            $this->base_model->alert( 'Khôn tồn tại thư mục deleted', 'error' );
+        }
+
         // xóa code trong thư mục app hiện tại
         $this->cleanup_deleted_dir( [
             $this->app_dir,
