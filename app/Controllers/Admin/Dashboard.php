@@ -323,7 +323,7 @@ class Dashboard extends Optimize {
 
     // xóa file zip sau khi xử lý code
     private function cleanup_zip( $upload_path, $msg ) {
-        foreach ( glob( $upload_path . '*.zip' ) as $filename ) {
+        foreach ( glob( rtrim( $upload_path, '/' ) . '*.zip', GLOB_BRACE ) as $filename ) {
             //echo $filename . '<br>' . "\n";
 
             //
@@ -336,10 +336,12 @@ class Dashboard extends Optimize {
     }
 
     private function rmdir_from_cache( $upload_path ) {
+        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
         //die( $upload_path );
+        //echo $upload_path . '<br>' . "\n";
 
         // xử lý các file đặc biệt -> ví dụ: .git
-        foreach ( glob( $upload_path . '.*' ) as $filename ) {
+        foreach ( glob( rtrim( $upload_path, '/' ) . '/.*' ) as $filename ) {
             if ( is_dir( $filename ) ) {
                 //echo $filename . '<br>' . "\n";
                 $check_dot = basename( $filename );
@@ -354,7 +356,6 @@ class Dashboard extends Optimize {
                 $this->dir_re_cache[] = $filename;
 
                 //
-                $filename = rtrim( $filename, '/' ) . '/';
                 //echo $filename . '<br>' . "\n";
 
                 //
@@ -363,12 +364,9 @@ class Dashboard extends Optimize {
         }
 
         // xử lý các thư mục thông thường
-        foreach ( glob( $upload_path . '*' ) as $filename ) {
+        foreach ( glob( rtrim( $upload_path, '/' ) . '/*' ) as $filename ) {
             if ( is_dir( $filename ) ) {
                 $this->dir_re_cache[] = $filename;
-
-                //
-                $filename = rtrim( $filename, '/' ) . '/';
                 //echo $filename . '<br>' . "\n";
 
                 //
@@ -381,7 +379,7 @@ class Dashboard extends Optimize {
         //die( $upload_path );
 
         // xử lý các file đặc biệt -> ví dụ: .htaccess
-        foreach ( glob( $upload_path . '.*' ) as $filename ) {
+        foreach ( glob( rtrim( $upload_path, '/' ) . '/.*', GLOB_BRACE ) as $filename ) {
             if ( is_file( $filename ) ) {
                 //echo $filename . '<br>' . "\n";
                 //unlink( $filename );
@@ -399,15 +397,12 @@ class Dashboard extends Optimize {
                 //echo $check_dot . '<br>' . "\n";
 
                 //
-                $filename = rtrim( $filename, '/' ) . '/';
-
-                //
                 $this->get_all_file_in_folder( $filename );
             }
         }
 
         // xử lý các file thông thường
-        foreach ( glob( $upload_path . '*' ) as $filename ) {
+        foreach ( glob( rtrim( $upload_path, '/' ) . '/*', GLOB_BRACE ) as $filename ) {
             if ( is_file( $filename ) ) {
                 //echo $filename . '<br>' . "\n";
                 //unlink( $filename );
@@ -415,7 +410,6 @@ class Dashboard extends Optimize {
                 //
                 $this->file_re_cache[] = $filename;
             } else if ( is_dir( $filename ) ) {
-                $filename = rtrim( $filename, '/' ) . '/';
                 //echo $filename . '<br>' . "\n";
                 $this->get_all_file_in_folder( $filename );
             }
@@ -755,13 +749,23 @@ class Dashboard extends Optimize {
     }
 
     private function cleanup_deleted_dir( $dirs, $upload_via_ftp ) {
+        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+        //print_r( $dirs );
+        //die( __FILE__ . ':' . __LINE__ );
+
         // lấy danh sách file và thư mục để XÓA
         $this->file_re_cache = [];
+        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+        //print_r( $this->file_re_cache );
         $this->dir_re_cache = [];
+        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+        //print_r( $this->dir_re_cache );
         foreach ( $dirs as $v ) {
             if ( !is_dir( $v ) ) {
                 continue;
             }
+            //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+            //echo $v . '<br>' . "\n";
 
             // file
             $this->get_all_file_in_folder( $v );
@@ -770,10 +774,14 @@ class Dashboard extends Optimize {
             $this->dir_re_cache[] = $v;
             $this->rmdir_from_cache( $v );
         }
+        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $this->file_re_cache );
+        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $this->dir_re_cache );
         $this->dir_re_cache = array_reverse( $this->dir_re_cache );
+        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $this->dir_re_cache );
+        //die( __FILE__ . ':' . __LINE__ );
 
         // xóa bằng php thường
         if ( $upload_via_ftp !== true ) {
