@@ -5,6 +5,10 @@ function done_submit_update_code() {
     });
     document.frm_global_upload.reset();
     WGR_alert('Update và giải nén code thành công');
+
+    //
+    $('#confirm_is_coder').prop('checked', false);
+    $('#confirm_is_super_coder').prop('checked', false);
 }
 
 function auto_submit_update_code() {
