@@ -333,7 +333,7 @@ class Sync extends BaseController {
      * daidq: chức năng này sẽ giải nén các code trong thư mục vendor dể sử dụng nếu chưa có
      */
     private function action_vendor_sync( $dir ) {
-        foreach ( glob( PUBLIC_HTML_PATH . $dir . '/*.zip' ) as $filename ) {
+        foreach ( glob( PUBLIC_HTML_PATH . rtrim( $dir, '/' ) . '/*.zip' ) as $filename ) {
             //echo $filename . '<br>' . "\n";
 
             //

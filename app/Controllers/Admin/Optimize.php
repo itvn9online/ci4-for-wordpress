@@ -76,7 +76,7 @@ class Optimize extends Admin {
         echo $path . '<br>' . PHP_EOL;
 
         //
-        foreach ( glob( $path . $dir . '/*.' . $type ) as $filename ) {
+        foreach ( glob( $path . rtrim( $dir, '/' ) . '/*.' . $type ) as $filename ) {
             $c = $this->WGR_remove_css_multi_comment( file_get_contents( $filename, 1 ) );
             //var_dump( $c );
             if ( $c === false ) {
@@ -103,7 +103,7 @@ class Optimize extends Admin {
         echo $path . '<br>' . PHP_EOL;
 
         //
-        foreach ( glob( $path . $dir . '/*.' . $type ) as $filename ) {
+        foreach ( glob( $path . rtrim( $dir, '/' ) . '/*.' . $type ) as $filename ) {
             $c = $this->WGR_update_core_remove_js_comment( file_get_contents( $filename, 1 ) );
             if ( $c === false ) {
                 echo 'continue (' . basename( $filename ) . ') <br>' . PHP_EOL;

@@ -323,8 +323,9 @@ class Dashboard extends Optimize {
 
     // xóa file zip sau khi xử lý code
     private function cleanup_zip( $upload_path, $msg ) {
-        foreach ( glob( rtrim( $upload_path, '/' ) . '*.zip' ) as $filename ) {
-            //echo $filename . '<br>' . "\n";
+        echo $upload_path . '<br>' . "\n";
+        foreach ( glob( rtrim( $upload_path, '/' ) . '/*.zip' ) as $filename ) {
+            echo $filename . '<br>' . "\n";
 
             //
             if ( is_file( $filename ) ) {
