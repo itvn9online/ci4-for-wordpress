@@ -320,6 +320,10 @@ class Sync extends BaseController {
      * unzip file
      */
     protected function MY_unzip( $file, $dir ) {
+        echo $file . '<br>' . "\n";
+        echo $dir . '<br>' . "\n";
+
+        //
         $zip = new\ ZipArchive();
         if ( $zip->open( $file ) === TRUE ) {
             $zip->extractTo( rtrim( $dir, '/' ) . '/' );
@@ -340,12 +344,15 @@ class Sync extends BaseController {
             unlink( PUBLIC_HTML_PATH . 'test_permission.txt' );
         }
         //var_dump( $upload_via_ftp );
+        //die( __FILE__ . ':' . __LINE__ );
+        //return false;
 
         //
         $dir = rtrim( $dir, '/' );
         // nếu phải xử lý file thông qua ftp
         if ( $upload_via_ftp === true ) {
             //echo PUBLIC_HTML_PATH . $dir . '<br>' . "\n";
+            //die( __FILE__ . ':' . __LINE__ );
 
             // chuyển thư mục về 777 để có thể unzip
             $file_model = new\ App\ Models\ File();

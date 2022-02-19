@@ -26,7 +26,7 @@ class Dashboard extends Optimize {
         $this->app_dir = PUBLIC_HTML_PATH . 'app';
         $this->app_deleted_dir = $this->app_dir . '-deleted';
         //die( $this->app_deleted_dir );
-        $this->public_dir = PUBLIC_HTML_PATH . 'public';
+        $this->public_dir = PUBLIC_HTML_PATH . 'public/themes';
         $this->public_deleted_dir = $this->public_dir . '-deleted';
         //die( $this->public_deleted_dir );
 
