@@ -427,7 +427,7 @@ class Dashboard extends Optimize {
     }
 
     // chức năng upload file code zip lên host và giải nén -> update code
-    public function download_code( $reset_code = true ) {
+    public function download_code( $reset_code = false ) {
         // kiểm tra phiên bản code xem có khác nhau không
         /*
         if ( file_get_contents( APPPATH . 'VERSION', 1 ) == file_get_contents( 'https://raw.githubusercontent.com/itvn9online/ci4-for-wordpress/main/app/VERSION', 1 ) ) {
