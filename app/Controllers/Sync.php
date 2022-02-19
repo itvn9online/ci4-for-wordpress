@@ -319,10 +319,10 @@ class Sync extends BaseController {
     /*
      * unzip file
      */
-    protected function MY_unzip( $unzip_file, $unzip_dir ) {
+    protected function MY_unzip( $file, $dir ) {
         $zip = new\ ZipArchive();
-        if ( $zip->open( $unzip_file ) === TRUE ) {
-            $zip->extractTo( rtrim( $unzip_dir, '/' ) . '/' );
+        if ( $zip->open( $file ) === TRUE ) {
+            $zip->extractTo( rtrim( $dir, '/' ) . '/' );
             $zip->close();
             return TRUE;
         }
@@ -333,8 +333,30 @@ class Sync extends BaseController {
      * daidq: chức năng này sẽ giải nén các code trong thư mục vendor dể sử dụng nếu chưa có
      */
     private function action_vendor_sync( $dir ) {
-        foreach ( glob( PUBLIC_HTML_PATH . rtrim( $dir, '/' ) . '/*.zip' ) as $filename ) {
+        $upload_via_ftp = false;
+        if ( @!file_put_contents( PUBLIC_HTML_PATH . 'test_permission.txt', time() ) ) {
+            $upload_via_ftp = true;
+        } else {
+            unlink( PUBLIC_HTML_PATH . 'test_permission.txt' );
+        }
+        //var_dump( $upload_via_ftp );
+
+        //
+        $dir = rtrim( $dir, '/' );
+        // nếu phải xử lý file thông qua ftp
+        if ( $upload_via_ftp === true ) {
+            //echo PUBLIC_HTML_PATH . $dir . '<br>' . "\n";
+
+            // chuyển thư mục về 777 để có thể unzip
+            $file_model = new\ App\ Models\ File();
+            $file_model->FTP_chmod( PUBLIC_HTML_PATH . $dir, 0777 );
+        }
+        //die( __FILE__ . ':' . __LINE__ );
+
+        //
+        foreach ( glob( PUBLIC_HTML_PATH . $dir . '/*.zip' ) as $filename ) {
             //echo $filename . '<br>' . "\n";
+            //continue;
 
             //
             $file = basename( $filename, '.zip' );
