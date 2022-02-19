@@ -31,11 +31,11 @@ function before_start_download_in_github() {
 // chức năng reset code -> yêu cầu xác nhận 2 lần
 function before_start_reset_in_github() {
     if (before_start_download_in_github() !== true) {
-        $('body').css({
-            'opacity': 1
-        });
         return false;
     }
+    $('body').css({
+        'opacity': 1
+    });
 
     //
     if ($('#confirm_is_super_coder').is(':checked') == false) {
