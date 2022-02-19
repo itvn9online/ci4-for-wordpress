@@ -182,7 +182,7 @@ class File extends EbModel {
 
         //
         $file_for_ftp = $path;
-        //	echo $file_for_ftp . '<br>';
+        //echo $file_for_ftp . '<br>';
 
         // nếu trong chuỗi file không có root dir -> báo lỗi
         if ( strpos( $file_for_ftp, '/' . $this->base_dir . '/' ) === false ) {
@@ -191,6 +191,9 @@ class File extends EbModel {
         }
         $file_for_ftp = strstr( $file_for_ftp, '/' . $this->base_dir . '/' );
         //die( $file_for_ftp );
+        //echo $file_for_ftp . '<br>';
+        $source = strstr( $source, '/' . $this->base_dir . '/' );
+        //echo $source . '<br>';
 
         // copy qua FTP_BINARY thì mới copy ảnh chuẩn được
         if ( ftp_rename( $conn_id, $source, $file_for_ftp ) ) {
