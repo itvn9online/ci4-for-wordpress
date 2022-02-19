@@ -323,7 +323,7 @@ class Dashboard extends Optimize {
 
     // xóa file zip sau khi xử lý code
     private function cleanup_zip( $upload_path, $msg ) {
-        foreach ( glob( rtrim( $upload_path, '/' ) . '*.zip', GLOB_BRACE ) as $filename ) {
+        foreach ( glob( rtrim( $upload_path, '/' ) . '*.zip' ) as $filename ) {
             //echo $filename . '<br>' . "\n";
 
             //
@@ -379,7 +379,7 @@ class Dashboard extends Optimize {
         //die( $upload_path );
 
         // xử lý các file đặc biệt -> ví dụ: .htaccess
-        foreach ( glob( rtrim( $upload_path, '/' ) . '/.*', GLOB_BRACE ) as $filename ) {
+        foreach ( glob( rtrim( $upload_path, '/' ) . '/.*' ) as $filename ) {
             if ( is_file( $filename ) ) {
                 //echo $filename . '<br>' . "\n";
                 //unlink( $filename );
@@ -402,7 +402,7 @@ class Dashboard extends Optimize {
         }
 
         // xử lý các file thông thường
-        foreach ( glob( rtrim( $upload_path, '/' ) . '/*', GLOB_BRACE ) as $filename ) {
+        foreach ( glob( rtrim( $upload_path, '/' ) . '/*' ) as $filename ) {
             if ( is_file( $filename ) ) {
                 //echo $filename . '<br>' . "\n";
                 //unlink( $filename );
