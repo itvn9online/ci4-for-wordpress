@@ -314,6 +314,32 @@ class Dashboard extends Optimize {
 
     private function rmdir_from_cache( $upload_path ) {
         //die( $upload_path );
+
+        // xử lý các file đặc biệt -> ví dụ: .git
+        foreach ( glob( $upload_path . '.*' ) as $filename ) {
+            if ( is_dir( $filename ) ) {
+                echo $filename . '<br>' . "\n";
+                $check_dot = basename( $filename );
+
+                //
+                if ( $check_dot == '.' || $check_dot == '..' ) {
+                    continue;
+                }
+                echo $check_dot . '<br>' . "\n";
+
+                //
+                $this->dir_re_cache[] = $filename;
+
+                //
+                $filename = rtrim( $filename, '/' ) . '/';
+                //echo $filename . '<br>' . "\n";
+
+                //
+                $this->rmdir_from_cache( $filename );
+            }
+        }
+
+        // xử lý các thư mục thông thường
         foreach ( glob( $upload_path . '*' ) as $filename ) {
             if ( is_dir( $filename ) ) {
                 $this->dir_re_cache[] = $filename;
