@@ -329,7 +329,7 @@ class Dashboard extends Optimize {
         }
     }
 
-    private function copy_from_cache( $upload_path ) {
+    private function get_all_file_in_folder( $upload_path ) {
         //die( $upload_path );
 
         // xử lý các file đặc biệt -> ví dụ: .htaccess
@@ -354,7 +354,7 @@ class Dashboard extends Optimize {
             } else if ( is_dir( $filename ) ) {
                 $filename = rtrim( $filename, '/' ) . '/';
                 //echo $filename . '<br>' . "\n";
-                $this->copy_from_cache( $filename );
+                $this->get_all_file_in_folder( $filename );
             }
         }
     }
@@ -447,10 +447,10 @@ class Dashboard extends Optimize {
                 $this->file_re_cache = [];
                 // chỉ update các file trong thư mục chỉ định
                 if ( $main_zip === true ) {
-                    $this->copy_from_cache( $upload_path . 'app/' );
-                    $this->copy_from_cache( $upload_path . 'public/' );
+                    $this->get_all_file_in_folder( $upload_path . 'app/' );
+                    $this->get_all_file_in_folder( $upload_path . 'public/' );
                 } else {
-                    $this->copy_from_cache( $upload_path );
+                    $this->get_all_file_in_folder( $upload_path );
                 }
 
                 // lấy danh sách các thư mục để lát còn XÓA
@@ -561,7 +561,7 @@ class Dashboard extends Optimize {
                  */
                 if ( $main_zip === true ) {
                     $this->file_re_cache = [];
-                    $this->copy_from_cache( $upload_path );
+                    $this->get_all_file_in_folder( $upload_path );
                     //print_r( $this->file_re_cache );
 
                     // xóa file -> thì mới xóa được thư mục
