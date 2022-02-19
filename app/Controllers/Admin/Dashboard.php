@@ -426,6 +426,11 @@ class Dashboard extends Optimize {
         }
     }
 
+    // chức năng download code từ github nhưng kèm tính năng xóa code cũ -> nạp code mới hoàn toàn
+    public function reset_code() {
+        return $this->download_code( true );
+    }
+
     // chức năng upload file code zip lên host và giải nén -> update code
     public function download_code( $reset_code = false ) {
         // kiểm tra phiên bản code xem có khác nhau không
