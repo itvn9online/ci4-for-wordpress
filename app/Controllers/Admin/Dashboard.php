@@ -756,7 +756,7 @@ class Dashboard extends Optimize {
             $this->get_all_file_in_folder( $v );
 
             // dir
-            //$this->dir_re_cache[] = $v;
+            $this->dir_re_cache[] = $v;
             $this->rmdir_from_cache( $v );
         }
         //print_r( $this->file_re_cache );
