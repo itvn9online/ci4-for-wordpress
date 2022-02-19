@@ -253,7 +253,7 @@ class Dashboard extends Optimize {
             }
         }
         //die( $upload_path );
-        echo $upload_path . '<br>' . "\n";
+        echo $upload_path . ':' . basename( __FILE__ ) . ':' . __LINE__ . '<br>' . "\n";
 
         //
         if ( $zipfile = $this->request->getFiles() ) {
@@ -325,9 +325,9 @@ class Dashboard extends Optimize {
 
     // xóa file zip sau khi xử lý code
     private function cleanup_zip( $upload_path, $msg ) {
-        echo $upload_path . '<br>' . "\n";
+        echo $upload_path . ':' . basename( __FILE__ ) . ':' . __LINE__ . '<br>' . "\n";
         foreach ( glob( rtrim( $upload_path, '/' ) . '/*.zip' ) as $filename ) {
-            echo $filename . '<br>' . "\n";
+            echo $filename . ':' . basename( __FILE__ ) . ':' . __LINE__ . '<br>' . "\n";
 
             //
             if ( is_file( $filename ) ) {
@@ -835,10 +835,11 @@ class Dashboard extends Optimize {
                 if ( !file_exists( $file ) ) {
                     continue;
                 }
-                echo $file . '<br>' . "\n";
+                echo $file . ':' . basename( __FILE__ ) . ':' . __LINE__ . '<br>' . "\n";
+                //continue;
 
                 //
-                $to = str_replace( $upload_path, PUBLIC_HTML_PATH, $file );
+                $to = $file;
                 if ( $has_ftp === true ) {
                     // nếu trong chuỗi file không có root dir -> báo lỗi
                     if ( strpos( $to, '/' . $file_model->base_dir . '/' ) !== false ) {
@@ -861,10 +862,11 @@ class Dashboard extends Optimize {
                 if ( !is_dir( $dir ) ) {
                     continue;
                 }
-                echo $dir . '<br>' . "\n";
+                echo $dir . ':' . basename( __FILE__ ) . ':' . __LINE__ . '<br>' . "\n";
+                //continue;
 
                 //
-                $to = str_replace( $upload_path, PUBLIC_HTML_PATH, $dir );
+                $to = $dir;
                 if ( $has_ftp === true ) {
                     // nếu trong chuỗi dir không có root dir -> báo lỗi
                     if ( strpos( $to, '/' . $file_model->base_dir . '/' ) !== false ) {
