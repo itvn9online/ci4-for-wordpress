@@ -308,6 +308,13 @@ class Dashboard extends Optimize {
 
                 // giải nén sau khi upload
                 $this->after_unzip_code( $file_path, $upload_path, $upload_via_ftp );
+
+                /*
+                 * dọn dẹp code dư thừa sau khi giải nén (nếu tồn tại thư mục này)
+                 */
+                if ( is_dir( $this->app_deleted_dir ) || is_dir( $this->public_deleted_dir ) ) {
+                    $this->cleanup_deleted_dir( $this->cleanup_deleted_code, $upload_via_ftp );
+                }
             } else {
                 throw new\ RuntimeException( $file->getErrorString() . '(' . $file->getError() . ')' );
             }
@@ -490,8 +497,8 @@ class Dashboard extends Optimize {
                     }
                     // tạo mặc định
                     else {
-                        $this->mk_dir( $this->app_dir, basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ );
-                        $this->mk_dir( $this->public_dir, basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ );
+                        $this->mk_dir( $this->app_dir, basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__, 0755 );
+                        $this->mk_dir( $this->public_dir, basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__, 0755 );
                     }
 
                     // không copy được file config thì restore code lại
@@ -730,9 +737,9 @@ class Dashboard extends Optimize {
     }
 
     // tạo thư mục
-    private function mk_dir( $dir, $msg ) {
-        mkdir( $dir, DEFAULT_DIR_PERMISSION )or die( 'ERROR create dir (' . $msg . ')! ' . $dir );
-        chmod( $dir, DEFAULT_DIR_PERMISSION );
+    private function mk_dir( $dir, $msg, $permision = DEFAULT_DIR_PERMISSION ) {
+        mkdir( $dir, $permision )or die( 'ERROR create dir (' . $msg . ')! ' . $dir );
+        chmod( $dir, $permision );
     }
 
     private function cleanup_deleted_dir( $dirs, $upload_via_ftp ) {
@@ -740,7 +747,15 @@ class Dashboard extends Optimize {
         $this->file_re_cache = [];
         $this->dir_re_cache = [];
         foreach ( $dirs as $v ) {
+            if ( !is_dir( $v ) ) {
+                continue;
+            }
+
+            // file
             $this->get_all_file_in_folder( $v );
+
+            // dir
+            $this->dir_re_cache[] = $v;
             $this->rmdir_from_cache( $v );
         }
         //print_r( $this->file_re_cache );
@@ -834,17 +849,6 @@ class Dashboard extends Optimize {
             // close the connection
             if ( $check_dir === true ) {
                 ftp_close( $conn_id );
-            }
-        }
-    }
-
-    private function aaaaaaaaa() {
-        if ( file_exists( $this->config_deleted_file ) ) {
-            if ( copy( $this->config_deleted_file, $this->config_file ) ) {
-                print_r( $this->cleanup_deleted_code );
-
-                // xóa thư mua deleted
-                $this->cleanup_deleted_dir( $this->cleanup_deleted_code, $upload_via_ftp );
             }
         }
     }
