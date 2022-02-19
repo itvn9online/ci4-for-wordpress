@@ -318,14 +318,14 @@ class Dashboard extends Optimize {
         // xử lý các file đặc biệt -> ví dụ: .git
         foreach ( glob( $upload_path . '.*' ) as $filename ) {
             if ( is_dir( $filename ) ) {
-                echo $filename . '<br>' . "\n";
+                //echo $filename . '<br>' . "\n";
                 $check_dot = basename( $filename );
 
                 // không lấy các thư mục đặc biệt
                 if ( $check_dot == '.' || $check_dot == '..' ) {
                     continue;
                 }
-                echo $check_dot . '<br>' . "\n";
+                //echo $check_dot . '<br>' . "\n";
 
                 //
                 $this->dir_re_cache[] = $filename;
@@ -365,6 +365,21 @@ class Dashboard extends Optimize {
 
                 //
                 $this->file_re_cache[] = $filename;
+            } else if ( is_dir( $filename ) ) {
+                //echo $filename . '<br>' . "\n";
+                $check_dot = basename( $filename );
+
+                // không lấy các thư mục đặc biệt
+                if ( $check_dot == '.' || $check_dot == '..' ) {
+                    continue;
+                }
+                //echo $check_dot . '<br>' . "\n";
+
+                //
+                $filename = rtrim( $filename, '/' ) . '/';
+
+                //
+                $this->get_all_file_in_folder( $filename );
             }
         }
 
