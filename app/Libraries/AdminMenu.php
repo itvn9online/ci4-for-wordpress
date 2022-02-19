@@ -198,10 +198,6 @@ class AdminMenu {
                 'name' => 'Kỹ thuật',
                 'icon' => 'fa fa-bug',
                 'arr' => [
-                    'admin/dashboard/update_code' => [
-                        'name' => 'Update code',
-                        'icon' => 'fa fa-upload',
-                    ],
                     'admin/dashboard/cleanup_cache' => [
                         'name' => 'Dọn dẹp website',
                         'icon' => 'fa fa-magic',
@@ -209,6 +205,10 @@ class AdminMenu {
                     'admin/optimize' => [
                         'name' => 'Optimize code',
                         'icon' => 'fa fa-code',
+                    ],
+                    'admin/dashboard/update_code' => [
+                        'name' => 'Update code',
+                        'icon' => 'fa fa-upload',
                     ],
                 ]
             ],
