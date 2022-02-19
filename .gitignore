@@ -141,6 +141,7 @@ outsource/*
 ## dreamweaver auto push
 /_notes/
 dwsync.xml
+ci4-for-wordpress.zip
 
 # file backup
 *.bak
