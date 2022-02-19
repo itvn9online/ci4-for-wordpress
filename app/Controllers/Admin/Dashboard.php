@@ -486,7 +486,7 @@ class Dashboard extends Optimize {
 
                 //
                 if ( is_dir( $this->app_deleted_dir ) ) {
-                    echo 'DIR EXIST! ' . $this->app_deleted_dir . '<br>' . "\n";
+                    die( 'DIR EXIST! ' . $this->app_deleted_dir );
                 } else {
                     if ( !$this->MY_rename( $this->app_dir, $this->app_deleted_dir ) ) {
                         die( 'ERROR rename! ' . $this->app_dir );
