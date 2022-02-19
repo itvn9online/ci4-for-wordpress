@@ -53,3 +53,7 @@ function before_start_reset_in_github() {
     });
     return true;
 }
+
+function done_submit_restore_code() {
+    $('#restoreModal').modal('hide')
+}

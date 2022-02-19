@@ -34,10 +34,42 @@
             <input type="checkbox" id="confirm_is_super_coder" />
             XÓA toàn bộ code cũ và thay thế bằng phiên bản code mới nhất từ <strong>github</strong>!</p>
         <a href="admin/dashboard/reset_code" target="target_eb_iframe" onClick="return before_start_reset_in_github();">
-        <button type="button" class="btn btn-danger whitecolor"><i class="fa fa-refresh"></i> Tiến hành download và reset code</button>
+        <button type="button" class="btn btn-danger"><i class="fa fa-refresh"></i> Tiến hành download và reset code</button>
         </a></div>
 </div>
 <?php
+
+// phục hồi lại thư code từ thư mục app deleted nếu quá trình update code có lỗi
+if ( $app_deleted_exist === true ) {
+    ?>
+<br>
+<br>
+<div> 
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#restoreModal"> <i class="fa fa-undo"></i> Phục hồi lại code trước khi update </button>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="restoreModal" tabindex="-1" aria-labelledby="restoreModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="restoreModalLabel">Xác nhận restore code!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">Dùng khi muốn sử dụng lại code trước khi update!</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="admin/dashboard/restore_code" class="d-inline" target="target_eb_iframe">
+                <button type="button" class="btn btn-primary"><i class="fa fa-undo"></i> Confirm</button>
+                </a> </div>
+        </div>
+    </div>
+</div>
+<?php
+}
+
+//
+//var_dump( $app_deleted_exist );
 
 //
 $base_model->add_js( 'admin/js/update_code.js' );

@@ -243,18 +243,14 @@ class Dashboard extends Optimize {
         //echo $upload_path . '<br>' . "\n";
 
         // với 1 số host, chỉ upload được vào thư mục có permission 777 -> cache
-        $upload_via_ftp = false;
-        if ( @!file_put_contents( $upload_path . 'test_permission.txt', time() ) ) {
-            $upload_via_ftp = true;
-
+        $upload_via_ftp = $this->using_via_ftp();
+        if ( $upload_via_ftp === true ) {
             $upload_path = WRITEPATH . 'updates/';
 
             // tạo thư mục nếu chưa có
             if ( !is_dir( $upload_path ) ) {
                 $this->mk_dir( $upload_path, basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ );
             }
-        } else {
-            unlink( $upload_path . 'test_permission.txt' );
         }
         //die( $upload_path );
 
@@ -448,12 +444,7 @@ class Dashboard extends Optimize {
         $from_main_github = true;
 
         // với 1 số host, chỉ upload được vào thư mục có permission 777 -> cache
-        $upload_via_ftp = false;
-        if ( @!file_put_contents( $upload_path . 'test_permission.txt', time() ) ) {
-            $upload_via_ftp = true;
-        } else {
-            unlink( $upload_path . 'test_permission.txt' );
-        }
+        $upload_via_ftp = $this->using_via_ftp();
 
         //
         if ( $from_main_github === true || $upload_via_ftp === true ) {
@@ -710,6 +701,7 @@ class Dashboard extends Optimize {
 
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/update_view', array(
+            'app_deleted_exist' => is_dir( $this->app_deleted_dir ) || is_dir( $this->public_deleted_dir ) ? true : false,
             'link_download_github' => $this->link_download_github
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
@@ -872,5 +864,34 @@ class Dashboard extends Optimize {
                 ftp_close( $conn_id );
             }
         }
+    }
+
+    public function restore_code() {
+        // xóa code trong thư mục app hiện tại
+        $this->cleanup_deleted_dir( [
+            $this->app_dir,
+            $this->public_dir,
+        ], $this->using_via_ftp() );
+
+        // đổi lại tên thư mục
+        if ( !$this->MY_rename( $this->app_deleted_dir, $this->app_dir ) ) {
+            die( 'ERROR rename! ' . $this->app_deleted_dir );
+        }
+        if ( !$this->MY_rename( $this->public_deleted_dir, $this->public_dir ) ) {
+            die( 'ERROR rename! ' . $this->public_deleted_dir );
+        }
+
+        //die(__FILE__.':'.__LINE__);
+        die( '<script>top.done_submit_restore_code();</script>' );
+    }
+
+    // kiểm tra xem có put file bằng php được hay phải dùng ftp
+    private function using_via_ftp() {
+        if ( @!file_put_contents( $upload_path . 'test_permission.txt', time() ) ) {
+            return true;
+        } else {
+            unlink( $upload_path . 'test_permission.txt' );
+        }
+        return false;
     }
 }
