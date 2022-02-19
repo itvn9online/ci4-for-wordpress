@@ -45,6 +45,7 @@ class File extends EbModel {
         // xác định server kết nối
         if ( $this->ftp_server == '' ) {
             if ( $this->get_server() === false ) {
+                echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . PHP_EOL;
                 return 'FTP host not found';
             }
         }

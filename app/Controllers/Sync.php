@@ -442,6 +442,8 @@ class Sync extends BaseController {
     }
 
     protected function MY_copy( $from, $to, $file_permission = DEFAULT_FILE_PERMISSION ) {
+        //echo $from . '<br>' . "\n";
+        //echo $to . '<br>' . "\n";
         if ( @!copy( $from, $to ) ) {
             $file_model = new\ App\ Models\ File();
             return $file_model->FTP_copy( $from, $to );
@@ -455,7 +457,10 @@ class Sync extends BaseController {
     }
 
     protected function MY_rename( $from, $to ) {
+        //echo $from . '<br>' . "\n";
+        //echo $to . '<br>' . "\n";
         if ( @!rename( $from, $to ) ) {
+            //die( __FILE__ . ':' . __LINE__ );
             $file_model = new\ App\ Models\ File();
             return $file_model->FTP_rename( $from, $to );
         }

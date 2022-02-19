@@ -506,14 +506,6 @@ class Dashboard extends Optimize {
                         $this->mk_dir( $this->public_dir, basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__, 0755 );
                     }
 
-                    // không copy được file config thì restore code lại
-                    if ( file_exists( $this->config_deleted_file ) ) {
-                        if ( !$this->MY_copy( $this->config_deleted_file, $this->config_file ) ) {
-                            $this->MY_rename( $this->app_deleted_dir, $this->app_dir );
-                            $this->MY_rename( $this->public_deleted_dir, $this->public_dir );
-                        }
-                    }
-
                     //
                     //die( __FILE__ . ':' . __LINE__ );
                 }
@@ -521,6 +513,15 @@ class Dashboard extends Optimize {
 
             // giải nén sau khi upload
             $this->after_unzip_code( $file_path, $upload_path, $upload_via_ftp, $from_main_github );
+
+            // nếu tồn tại file config -> copy nó sang thư mục chính
+            if ( file_exists( $this->config_deleted_file ) && !file_exists( $this->config_file ) ) {
+                // không copy được file config thì restore code lại
+                if ( !$this->MY_copy( $this->config_deleted_file, $this->config_file ) ) {
+                    $this->MY_rename( $this->app_deleted_dir, $this->app_dir );
+                    $this->MY_rename( $this->public_deleted_dir, $this->public_dir );
+                }
+            }
         } else {
             $this->base_model->alert( 'Download thất bại! Không xác định được file sau khi download', 'error' );
         }
