@@ -700,20 +700,22 @@ class Dashboard extends Optimize {
         }
 
         //
-        $app_deleted_exist = false;
-        foreach ( $this->cleanup_deleted_code as $dir ) {
-            if ( is_dir( $dir ) ) {
-                $app_deleted_exist = true;
-                break;
-            }
-        }
-
-        //
         $this->teamplate_admin[ 'content' ] = view( 'admin/update_view', array(
-            'app_deleted_exist' => $app_deleted_exist,
+            'app_deleted_exist' => $this->check_deleted_exist(),
             'link_download_github' => $this->link_download_github
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
+    }
+
+    private function check_deleted_exist() {
+        $result = false;
+        foreach ( $this->cleanup_deleted_code as $dir ) {
+            if ( is_dir( $dir ) ) {
+                $result = true;
+                break;
+            }
+        }
+        return $result;
     }
 
     // chức năng upload file code zip lên host và giải nén -> update code
@@ -876,17 +878,7 @@ class Dashboard extends Optimize {
     }
 
     public function restore_code() {
-        //
-        $app_deleted_exist = false;
-        foreach ( $this->cleanup_deleted_code as $dir ) {
-            if ( is_dir( dir ) ) {
-                $app_deleted_exist = true;
-                break;
-            }
-        }
-
-        //
-        if ( $app_deleted_exist !== true ) {
+        if ( $this->check_deleted_exist() !== true ) {
             $this->base_model->alert( 'Khôn tồn tại thư mục deleted', 'error' );
         }
 
