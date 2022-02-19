@@ -156,6 +156,55 @@ class File extends EbModel {
         return false;
     }
 
+    //
+    public function MY_rename( $source, $path ) {
+        $check_dir = $this->root_dir();
+        if ( $check_dir !== true ) {
+            echo $check_dir . '<br>' . PHP_EOL;
+            return false;
+        }
+        //echo $this->base_dir . '<br>' . PHP_EOL;
+        //echo $this->ftp_server . '<br>' . PHP_EOL;
+        //die( __FILE__ . ':' . __LINE__ );
+
+        /*
+         * các khâu kết nối và kiểm tra đã diễn ra ở bước root dir -> sau đây chỉ việc sử dụng
+         */
+        // tạo kết nối
+        $conn_id = ftp_connect( $this->ftp_server );
+
+        // đăng nhập
+        if ( !ftp_login( $conn_id, FTP_USER, FTP_PASS ) ) {
+            echo 'ERROR FTP login false <br>' . PHP_EOL;
+            return false;
+        }
+
+        //
+        $file_for_ftp = $path;
+        //	echo $file_for_ftp . '<br>';
+
+        // nếu trong chuỗi file không có root dir -> báo lỗi
+        if ( strpos( $file_for_ftp, '/' . $this->base_dir . '/' ) === false ) {
+            echo 'ERROR FTP root dir not found #' . $this->base_dir . '<br>' . PHP_EOL;
+            return false;
+        }
+        $file_for_ftp = strstr( $file_for_ftp, '/' . $this->base_dir . '/' );
+        //die( $file_for_ftp );
+
+        // copy qua FTP_BINARY thì mới copy ảnh chuẩn được
+        if ( ftp_rename( $conn_id, $source, $file_for_ftp ) ) {
+            return true;
+        } else {
+            echo 'ERROR copy file via FTP #' . $path . ' <br>' . PHP_EOL;
+        }
+
+        // close the connection
+        ftp_close( $conn_id );
+
+        //
+        return false;
+    }
+
     // EBE_ftp_remove_file
     public function FTP_unlink( $file_ ) {
         $check_dir = $this->root_dir();
@@ -333,7 +382,7 @@ class File extends EbModel {
 
     public function download_file( $file_path, $url ) {
         if ( @!file_put_contents( $file_path, file_get_contents( $url ) ) ) {
-        //if ( @!copy( $url, $file_path ) ) {
+            //if ( @!copy( $url, $file_path ) ) {
             $ch = curl_init( $url );
             $fp = fopen( $file_path, 'wb' );
             curl_setopt( $ch, CURLOPT_FILE, $fp );

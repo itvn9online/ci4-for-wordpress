@@ -21,6 +21,26 @@ class Dashboard extends Optimize {
         //
         $this->f_env = PUBLIC_HTML_PATH . '.env';
         $this->f_backup_env = PUBLIC_HTML_PATH . 'writable/.env-bak';
+
+        //
+        $this->app_dir = PUBLIC_HTML_PATH . 'app';
+        $this->app_deleted_dir = $this->app_dir . '-deleted';
+        //die( $this->app_deleted_dir );
+        $this->public_dir = PUBLIC_HTML_PATH . 'public';
+        $this->public_deleted_dir = $this->public_dir . '-deleted';
+        //die( $this->public_deleted_dir );
+
+        //
+        $this->cleanup_deleted_code = [
+            $this->app_deleted_dir,
+            $this->public_deleted_dir,
+        ];
+
+        //
+        $this->config_deleted_file = $this->app_deleted_dir . '/Config/Database.php';
+        //echo $this->config_deleted_file . '<br>' . "\n";
+        $this->config_file = str_replace( $this->app_deleted_dir, $this->app_dir, $this->config_deleted_file );
+        //echo $this->config_file . '<br>' . "\n";
     }
 
     public function index() {
@@ -449,49 +469,37 @@ class Dashboard extends Optimize {
             /*
              * Khi có tham số reset code -> đổi tên thư mục app, public để upload code từ đầu
              */
-            $cleanup_deleted_code = false;
             if ( $reset_code === true ) {
-                $app_dir = PUBLIC_HTML_PATH . 'app';
-                $app_deleted_dir = $app_dir . '-deleted';
-                //die( $app_deleted_dir );
-                $public_dir = PUBLIC_HTML_PATH . 'public';
-                $public_deleted_dir = $public_dir . '-deleted';
-                //die( $public_deleted_dir );
+                //echo $this->app_deleted_dir . '<br>' . "\n";
 
                 //
-                if ( is_dir( $app_deleted_dir ) ) {
-                    echo 'DIR EXIST! ' . $app_deleted_dir . '<br>' . "\n";
+                if ( is_dir( $this->app_deleted_dir ) ) {
+                    echo 'DIR EXIST! ' . $this->app_deleted_dir . '<br>' . "\n";
                 } else {
-                    if ( !rename( $app_dir, $app_deleted_dir ) ) {
-                        die( 'ERROR rename! ' . $app_dir );
+                    if ( !$this->MY_rename( $this->app_dir, $this->app_deleted_dir ) ) {
+                        die( 'ERROR rename! ' . $this->app_dir );
                     }
-                    if ( !rename( $public_dir, $public_deleted_dir ) ) {
-                        die( 'ERROR rename! ' . $public_dir );
+                    if ( !$this->MY_rename( $this->public_dir, $this->public_deleted_dir ) ) {
+                        die( 'ERROR rename! ' . $this->public_dir );
                     }
 
                     // tạo thư mục thông qua FTP
                     if ( $upload_via_ftp === true ) {
-                        $file_model->create_dir( $app_dir );
-                        $file_model->create_dir( $public_dir );
+                        $file_model->create_dir( $this->app_dir );
+                        $file_model->create_dir( $this->public_dir );
                     }
                     // tạo mặc định
                     else {
-                        $this->mk_dir( $app_dir, basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ );
-                        $this->mk_dir( $public_dir, basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ );
+                        $this->mk_dir( $this->app_dir, basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ );
+                        $this->mk_dir( $this->public_dir, basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ );
                     }
 
-                    //
-                    $config_deleted_file = $app_deleted_dir . '/Config/Database.php';
-                    echo $config_deleted_file . '<br>' . "\n";
-                    $config_file = str_replace( $app_deleted_dir, $app_dir, $config_deleted_file );
-                    echo $config_file . '<br>' . "\n";
-
-                    // copy lại file config
-                    if ( file_exists( $config_deleted_file ) ) {
-                        $cleanup_deleted_code = [
-                            $app_deleted_dir,
-                            $public_deleted_dir,
-                        ];
+                    // không copy được file config thì restore code lại
+                    if ( file_exists( $this->config_deleted_file ) ) {
+                        if ( !$this->MY_copy( $this->config_deleted_file, $this->config_file ) ) {
+                            $this->MY_rename( $this->app_deleted_dir, $this->app_dir );
+                            $this->MY_rename( $this->public_deleted_dir, $this->public_dir );
+                        }
                     }
 
                     //
@@ -501,16 +509,6 @@ class Dashboard extends Optimize {
 
             // giải nén sau khi upload
             $this->after_unzip_code( $file_path, $upload_path, $upload_via_ftp, $from_main_github );
-
-            //
-            if ( $cleanup_deleted_code !== false ) {
-                if ( copy( $config_deleted_file, $config_file ) ) {
-                    print_r( $cleanup_deleted_code );
-
-                    // xóa thư mua deleted
-                    $this->cleanup_deleted_dir( $cleanup_deleted_code, $upload_via_ftp );
-                }
-            }
         } else {
             $this->base_model->alert( 'Download thất bại! Không xác định được file sau khi download', 'error' );
         }
@@ -836,6 +834,17 @@ class Dashboard extends Optimize {
             // close the connection
             if ( $check_dir === true ) {
                 ftp_close( $conn_id );
+            }
+        }
+    }
+
+    private function aaaaaaaaa() {
+        if ( file_exists( $this->config_deleted_file ) ) {
+            if ( copy( $this->config_deleted_file, $this->config_file ) ) {
+                print_r( $this->cleanup_deleted_code );
+
+                // xóa thư mua deleted
+                $this->cleanup_deleted_dir( $this->cleanup_deleted_code, $upload_via_ftp );
             }
         }
     }

@@ -453,4 +453,14 @@ class Sync extends BaseController {
         //
         return true;
     }
+
+    protected function MY_rename( $from, $to ) {
+        if ( @!rename( $from, $to ) ) {
+            $file_model = new\ App\ Models\ File();
+            return $file_model->FTP_rename( $from, $to );
+        }
+
+        //
+        return true;
+    }
 }
