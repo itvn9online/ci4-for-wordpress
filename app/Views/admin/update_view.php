@@ -34,7 +34,7 @@
             <input type="checkbox" id="confirm_is_super_coder" />
             XÓA toàn bộ code cũ và thay thế bằng phiên bản code mới nhất từ <strong>github</strong>!</p>
         <a href="admin/dashboard/reset_code" target="target_eb_iframe" onClick="return before_start_reset_in_github();">
-        <button type="button" class="btn btn-secondary blackcolor"><i class="fa fa-refresh"></i> Tiến hành download và reset code</button>
+        <button type="button" class="btn btn-danger whitecolor"><i class="fa fa-refresh"></i> Tiến hành download và reset code</button>
         </a></div>
 </div>
 <?php
