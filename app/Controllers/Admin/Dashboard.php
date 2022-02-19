@@ -607,9 +607,12 @@ class Dashboard extends Optimize {
                         $to = str_replace( $upload_path, PUBLIC_HTML_PATH, $file );
                         echo $to . '<br>' . "\n";
 
-                        // xong thì xóa luôn file
-                        if ( copy( $file, $to ) ) {
-                            unlink( $file );
+                        // đổi tên file -> tương đương với copy và unlink
+                        if ( !rename( $file, $to ) ) {
+                            // không được thì thử copy xong xóa
+                            if ( copy( $file, $to ) ) {
+                                unlink( $file );
+                            }
                         }
                     }
                 }
