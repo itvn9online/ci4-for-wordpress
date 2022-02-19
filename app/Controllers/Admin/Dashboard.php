@@ -775,12 +775,18 @@ class Dashboard extends Optimize {
         // xóa bằng php thường
         if ( $upload_via_ftp !== true ) {
             foreach ( $this->file_re_cache as $file ) {
+                if ( !file_exists( $file ) ) {
+                    continue;
+                }
                 echo $file . '<br>' . "\n";
                 unlink( $file );
             }
 
             //
             foreach ( $this->dir_re_cache as $dir ) {
+                if ( !is_dir( $dir ) ) {
+                    continue;
+                }
                 echo $dir . '<br>' . "\n";
                 rmdir( $dir );
             }
@@ -809,8 +815,11 @@ class Dashboard extends Optimize {
                 echo 'FTP ERROR! ' . $check_dir . '<br>' . PHP_EOL;
             }
 
-            // chuyển file
+            // XÓA file
             foreach ( $this->file_re_cache as $file ) {
+                if ( !file_exists( $file ) ) {
+                    continue;
+                }
                 echo $file . '<br>' . "\n";
 
                 //
@@ -832,14 +841,17 @@ class Dashboard extends Optimize {
                 }
             }
 
-            // chuyển file
-            foreach ( $this->dir_re_cache as $file ) {
-                echo $file . '<br>' . "\n";
+            // XÓA thư mục
+            foreach ( $this->dir_re_cache as $dir ) {
+                if ( !is_dir( $dir ) ) {
+                    continue;
+                }
+                echo $dir . '<br>' . "\n";
 
                 //
-                $to = str_replace( $upload_path, PUBLIC_HTML_PATH, $file );
+                $to = str_replace( $upload_path, PUBLIC_HTML_PATH, $dir );
                 if ( $has_ftp === true ) {
-                    // nếu trong chuỗi file không có root dir -> báo lỗi
+                    // nếu trong chuỗi dir không có root dir -> báo lỗi
                     if ( strpos( $to, '/' . $file_model->base_dir . '/' ) !== false ) {
                         $to = strstr( $to, '/' . $file_model->base_dir . '/' );
                     }
