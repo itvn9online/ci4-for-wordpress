@@ -713,18 +713,89 @@ class Dashboard extends Optimize {
         if ( $upload_via_ftp !== true ) {
             foreach ( $this->file_re_cache as $file ) {
                 echo $file . '<br>' . "\n";
-                //unlink( $file );
+                unlink( $file );
             }
 
             //
             foreach ( $this->dir_re_cache as $dir ) {
                 echo $dir . '<br>' . "\n";
-                //rmdir( $dir );
+                rmdir( $dir );
             }
         }
         // xóa thông qua ftp
         else {
+            $file_model = new\ App\ Models\ File();
+
             //
+            $check_dir = $file_model->root_dir();
+            $has_ftp = false;
+            if ( $check_dir === true ) {
+                echo 'ftp server: ' . $file_model->ftp_server . '<br>' . "\n";
+                echo 'base dir: ' . $file_model->base_dir . '<br>' . "\n";
+
+                // tạo kết nối
+                $conn_id = ftp_connect( $file_model->ftp_server );
+
+                // đăng nhập
+                if ( $file_model->base_dir != '' ) {
+                    if ( ftp_login( $conn_id, FTP_USER, FTP_PASS ) ) {
+                        $has_ftp = true;
+                    }
+                }
+            } else {
+                echo 'FTP ERROR! ' . $check_dir . '<br>' . PHP_EOL;
+            }
+
+            // chuyển file
+            foreach ( $this->file_re_cache as $file ) {
+                echo $file . '<br>' . "\n";
+
+                //
+                $to = str_replace( $upload_path, PUBLIC_HTML_PATH, $file );
+                if ( $has_ftp === true ) {
+                    // nếu trong chuỗi file không có root dir -> báo lỗi
+                    if ( strpos( $to, '/' . $file_model->base_dir . '/' ) !== false ) {
+                        $to = strstr( $to, '/' . $file_model->base_dir . '/' );
+                    }
+
+                    //
+                    if ( ftp_delete( $conn_id, $to ) ) {
+                        echo '<em>' . $to . '</em><br>' . "\n";
+                    } else {
+                        echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . "\n";
+                    }
+                } else {
+                    echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . "\n";
+                }
+            }
+
+            // chuyển file
+            foreach ( $this->dir_re_cache as $file ) {
+                echo $file . '<br>' . "\n";
+
+                //
+                $to = str_replace( $upload_path, PUBLIC_HTML_PATH, $file );
+                if ( $has_ftp === true ) {
+                    // nếu trong chuỗi file không có root dir -> báo lỗi
+                    if ( strpos( $to, '/' . $file_model->base_dir . '/' ) !== false ) {
+                        $to = strstr( $to, '/' . $file_model->base_dir . '/' );
+                    }
+
+                    //
+                    if ( ftp_rmdir( $conn_id, $to ) ) {
+                        echo '<em>' . $to . '</em><br>' . "\n";
+                    } else {
+                        echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . "\n";
+                    }
+                } else {
+                    echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . "\n";
+                }
+            }
+
+            // close the connection
+            if ( $check_dir === true ) {
+                ftp_close( $conn_id );
+            }
         }
     }
 }
