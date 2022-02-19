@@ -100,7 +100,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
         <div ng-if="imagick_exist <= 0" class="orgcolor">Vui lòng cài đăt thêm <strong>Imagick</strong> để các chức năng xử lý hình ảnh hoạt động ổn định hơn.</div>
     </div>
     <!-- -->
-    <div class="p redcolor medium" ng-class="current_protocol != 'https:' ? '' : 'd-none'"><i class="fa fa-warning"></i> Kết nối hiện tại <strong>{{current_protocol}}</strong> không phải là kết nối đáng tin cậy. Khuyến khích sử dụng kết nối thông qua SSL.</div>
+    <div class="p redcolor medium" ng-class="current_protocol != 'https:' ? '' : 'd-none'"><i class="fa fa-warning"></i> Kết nối hiện tại <strong>{{current_protocol}}</strong> chưa hỗ trợ redirect sang <strong>https</strong>. Vui lòng kích hoạt và sử dụng redirect <strong>https</strong> để giúp website bảo mật và nhanh hơn.</div>
     <!-- -->
     <div class="p orgcolor medium" ng-class="current_www == 'www' ? '' : 'd-none'"><i class="fa fa-warning"></i> Khuyên dùng kết nối qua định dang tên miền <strong>non-www</strong> để tránh việc chồng chéo dữ liệu. Kiểu kết nối hiện tại: <strong>{{current_www}}</strong>.</div>
     <hr>
