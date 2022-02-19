@@ -321,7 +321,7 @@ class Dashboard extends Optimize {
                 echo $filename . '<br>' . "\n";
                 $check_dot = basename( $filename );
 
-                //
+                // không lấy các thư mục đặc biệt
                 if ( $check_dot == '.' || $check_dot == '..' ) {
                     continue;
                 }
