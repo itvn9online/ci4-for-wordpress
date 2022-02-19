@@ -158,7 +158,7 @@ class File extends EbModel {
     }
 
     //
-    public function MY_rename( $source, $path ) {
+    public function FTP_rename( $source, $path ) {
         $check_dir = $this->root_dir();
         if ( $check_dir !== true ) {
             echo $check_dir . '<br>' . PHP_EOL;

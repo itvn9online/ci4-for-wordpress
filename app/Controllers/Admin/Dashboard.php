@@ -253,6 +253,7 @@ class Dashboard extends Optimize {
             }
         }
         //die( $upload_path );
+        echo $upload_path . '<br>' . "\n";
 
         //
         if ( $zipfile = $this->request->getFiles() ) {
@@ -301,6 +302,7 @@ class Dashboard extends Optimize {
                     $this->base_model->alert( 'Upload thất bại! Không xác định được file sau khi upload', 'error' );
                 }
                 chmod( $file_path, DEFAULT_FILE_PERMISSION );
+                //die( __FILE__ . ':' . __LINE__ );
 
                 // giải nén sau khi upload
                 $this->after_unzip_code( $file_path, $upload_path, $upload_via_ftp );
