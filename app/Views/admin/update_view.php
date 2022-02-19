@@ -22,14 +22,14 @@
 <p class="medium bluecolor">Code sẽ được tải từ link <em><?php echo $link_download_github; ?></em> và tiến hành giải nén như thông thường.</p>
 <p class="medium redcolor"><i class="fa fa-warning"></i> Lưu ý! việc update code yêu cầu kỹ năng xử lý code để đề phòng trường hợp update lỗi thì vẫn có thể khôi phục hoạt động của website.</p>
 <div class="cf">
-    <div class="lf f50">
+    <div class="lf f45">
         <p class="medium blackcolor">
             <input type="checkbox" id="confirm_is_coder" />
             Xác nhận bạn có khả năng xử lý code trong trường hợp lỗi.</p>
         <a href="admin/dashboard/download_code" target="target_eb_iframe" onClick="return before_start_download_in_github();">
         <button type="button" class="btn btn-warning blackcolor"><i class="fa fa-download"></i> Tiến hành download và giải nén code</button>
         </a></div>
-    <div class="lf f50">
+    <div class="lf f55">
         <p class="medium blackcolor">
             <input type="checkbox" id="confirm_is_super_coder" />
             XÓA toàn bộ code cũ và thay thế bằng phiên bản code mới nhất từ <strong>github</strong>!</p>
