@@ -231,8 +231,7 @@ class Dashboard extends Optimize {
 
             // tạo thư mục nếu chưa có
             if ( !is_dir( $upload_path ) ) {
-                mkdir( $upload_path, DEFAULT_DIR_PERMISSION )or die( 'ERROR create dir (' . basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ . ')! ' . $upload_path );
-                chmod( $upload_path, DEFAULT_DIR_PERMISSION );
+                $this->mk_dir( $upload_path, basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ );
             }
         } else {
             unlink( $upload_path . 'test_permission.txt' );
@@ -360,7 +359,7 @@ class Dashboard extends Optimize {
     }
 
     // chức năng upload file code zip lên host và giải nén -> update code
-    public function download_code() {
+    public function download_code( $reset_code = true ) {
         // kiểm tra phiên bản code xem có khác nhau không
         /*
         if ( file_get_contents( APPPATH . 'VERSION', 1 ) == file_get_contents( 'https://raw.githubusercontent.com/itvn9online/ci4-for-wordpress/main/app/VERSION', 1 ) ) {
@@ -373,7 +372,7 @@ class Dashboard extends Optimize {
         //echo $upload_path . '<br>' . "\n";
 
         // chức năng download file main zip từ github
-        $from_main__github = true;
+        $from_main_github = true;
 
         // với 1 số host, chỉ upload được vào thư mục có permission 777 -> cache
         $upload_via_ftp = false;
@@ -384,13 +383,12 @@ class Dashboard extends Optimize {
         }
 
         //
-        if ( $from_main__github === true || $upload_via_ftp === true ) {
+        if ( $from_main_github === true || $upload_via_ftp === true ) {
             $upload_path = WRITEPATH . 'updates/';
 
             // tạo thư mục nếu chưa có
             if ( !is_dir( $upload_path ) ) {
-                mkdir( $upload_path, DEFAULT_DIR_PERMISSION )or die( 'ERROR create dir (' . basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ . ')! ' . $upload_path );
-                chmod( $upload_path, DEFAULT_DIR_PERMISSION );
+                $this->mk_dir( $upload_path, basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ );
             }
         }
 
@@ -407,10 +405,73 @@ class Dashboard extends Optimize {
         if ( $file_model->download_file( $file_path, $this->link_download_github ) === true ) {
             chmod( $file_path, DEFAULT_FILE_PERMISSION );
 
+            /*
+             * Khi có tham số reset code -> đổi tên thư mục app, public để upload code từ đầu
+             */
+            $cleanup_deleted_code = false;
+            if ( $reset_code === true ) {
+                $app_dir = PUBLIC_HTML_PATH . 'app';
+                $app_deleted_dir = $app_dir . '-deleted';
+                //die( $app_deleted_dir );
+                $public_dir = PUBLIC_HTML_PATH . 'public';
+                $public_deleted_dir = $public_dir . '-deleted';
+                //die( $public_deleted_dir );
+
+                //
+                if ( is_dir( $app_deleted_dir ) ) {
+                    echo 'DIR EXIST! ' . $app_deleted_dir . '<br>' . "\n";
+                } else {
+                    if ( !rename( $app_dir, $app_deleted_dir ) ) {
+                        die( 'ERROR rename! ' . $app_dir );
+                    }
+                    if ( !rename( $public_dir, $public_deleted_dir ) ) {
+                        die( 'ERROR rename! ' . $public_dir );
+                    }
+
+                    // tạo thư mục thông qua FTP
+                    if ( $upload_via_ftp === true ) {
+                        $file_model->create_dir( $app_dir );
+                        $file_model->create_dir( $public_dir );
+                    }
+                    // tạo mặc định
+                    else {
+                        $this->mk_dir( $app_dir, basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ );
+                        $this->mk_dir( $public_dir, basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ );
+                    }
+
+                    //
+                    $config_deleted_file = $app_deleted_dir . '/Config/Database.php';
+                    echo $config_deleted_file . '<br>' . "\n";
+                    $config_file = str_replace( $app_deleted_dir, $app_dir, $config_deleted_file );
+                    echo $config_file . '<br>' . "\n";
+
+                    // copy lại file config
+                    if ( file_exists( $config_deleted_file ) ) {
+                        $cleanup_deleted_code = [
+                            $app_deleted_dir,
+                            $public_deleted_dir,
+                        ];
+                    }
+
+                    //
+                    //die( __FILE__ . ':' . __LINE__ );
+                }
+            }
+
             // giải nén sau khi upload
-            $this->after_unzip_code( $file_path, $upload_path, $upload_via_ftp, $from_main__github );
+            $this->after_unzip_code( $file_path, $upload_path, $upload_via_ftp, $from_main_github );
+
+            //
+            if ( $cleanup_deleted_code !== false ) {
+                if ( copy( $config_deleted_file, $config_file ) ) {
+                    print_r( $cleanup_deleted_code );
+
+                    // xóa thư mua deleted
+                    $this->cleanup_deleted_dir( $cleanup_deleted_code, $upload_via_ftp );
+                }
+            }
         } else {
-            $this->base_model->alert( 'Upload thất bại! Không xác định được file sau khi upload', 'error' );
+            $this->base_model->alert( 'Download thất bại! Không xác định được file sau khi download', 'error' );
         }
         //die( $file_path );
 
@@ -477,8 +538,7 @@ class Dashboard extends Optimize {
                         }
                         // tạo mặc định
                         else {
-                            mkdir( $dir, DEFAULT_DIR_PERMISSION )or die( 'ERROR create dir (' . basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ . ')! ' . $dir );
-                            chmod( $dir, DEFAULT_DIR_PERMISSION );
+                            $this->mk_dir( $dir, basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ );
                         }
                     }
                 }
@@ -628,5 +688,43 @@ class Dashboard extends Optimize {
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/cleanup_view', array() );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
+    }
+
+    // tạo thư mục
+    private function mk_dir( $dir, $msg ) {
+        mkdir( $dir, DEFAULT_DIR_PERMISSION )or die( 'ERROR create dir (' . $msg . ')! ' . $dir );
+        chmod( $dir, DEFAULT_DIR_PERMISSION );
+    }
+
+    private function cleanup_deleted_dir( $dirs, $upload_via_ftp ) {
+        // lấy danh sách file và thư mục để XÓA
+        $this->file_re_cache = [];
+        $this->dir_re_cache = [];
+        foreach ( $dirs as $v ) {
+            $this->get_all_file_in_folder( $v );
+            $this->rmdir_from_cache( $v );
+        }
+        //print_r( $this->file_re_cache );
+        //print_r( $this->dir_re_cache );
+        $this->dir_re_cache = array_reverse( $this->dir_re_cache );
+        //print_r( $this->dir_re_cache );
+
+        // xóa bằng php thường
+        if ( $upload_via_ftp !== true ) {
+            foreach ( $this->file_re_cache as $file ) {
+                echo $file . '<br>' . "\n";
+                //unlink( $file );
+            }
+
+            //
+            foreach ( $this->dir_re_cache as $dir ) {
+                echo $dir . '<br>' . "\n";
+                //rmdir( $dir );
+            }
+        }
+        // xóa thông qua ftp
+        else {
+            //
+        }
     }
 }
