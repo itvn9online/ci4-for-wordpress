@@ -243,7 +243,7 @@ class Dashboard extends Optimize {
         //echo $upload_path . '<br>' . "\n";
 
         // với 1 số host, chỉ upload được vào thư mục có permission 777 -> cache
-        $upload_via_ftp = $this->using_via_ftp();
+        $upload_via_ftp = $this->using_via_ftp( $upload_path );
         if ( $upload_via_ftp === true ) {
             $upload_path = WRITEPATH . 'updates/';
 
@@ -444,7 +444,7 @@ class Dashboard extends Optimize {
         $from_main_github = true;
 
         // với 1 số host, chỉ upload được vào thư mục có permission 777 -> cache
-        $upload_via_ftp = $this->using_via_ftp();
+        $upload_via_ftp = $this->using_via_ftp( $upload_path );
 
         //
         if ( $from_main_github === true || $upload_via_ftp === true ) {
@@ -901,7 +901,7 @@ class Dashboard extends Optimize {
     }
 
     // kiểm tra xem có put file bằng php được hay phải dùng ftp
-    private function using_via_ftp() {
+    private function using_via_ftp( $upload_path = PUBLIC_HTML_PATH ) {
         if ( @!file_put_contents( $upload_path . 'test_permission.txt', time() ) ) {
             return true;
         } else {
