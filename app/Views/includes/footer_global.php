@@ -31,6 +31,8 @@ if ( file_exists( $theme_private_view ) ) {
 <?php
 
 //
+/*
 $base_model->add_js( 'javascript/analytics.js', 0, [
     'defer'
 ] );
+*/
