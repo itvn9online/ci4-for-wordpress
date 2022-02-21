@@ -105,24 +105,32 @@ class PostMeta extends PostBase {
         //print_r( $meta_data );
 
         // xử lý cho ảnh đại diện -> thêm các size ảnh khác để sau còn tùy ý sử dụng
-        if ( isset( $meta_data[ 'image' ] ) && $meta_data[ 'image' ] != '' ) {
-            $origin_size = $meta_data[ 'image' ];
-            $file_ext = pathinfo( $origin_size, PATHINFO_EXTENSION );
-            foreach ( PostType::media_size() as $k => $v ) {
-                $origin_size = str_replace( '-' . $k . '.' . $file_ext, '.' . $file_ext, $origin_size );
-            }
-            $meta_data[ 'image_large' ] = $this->get_img_by_size( $origin_size, 'large', $file_ext );
-            $meta_data[ 'image_medium_large' ] = $this->get_img_by_size( $origin_size, 'medium_large', $file_ext );
-            $meta_data[ 'image_medium' ] = $this->get_img_by_size( $origin_size, 'medium', $file_ext );
-            $meta_data[ 'image_thumbnail' ] = $this->get_img_by_size( $origin_size, 'thumbnail', $file_ext );
-            $meta_data[ 'image_webp' ] = $meta_data[ 'image_medium' ];
+        if ( isset( $meta_data[ 'image' ] ) ) {
+            if ( $meta_data[ 'image' ] != '' ) {
+                $origin_size = $meta_data[ 'image' ];
+                $file_ext = pathinfo( $origin_size, PATHINFO_EXTENSION );
+                foreach ( PostType::media_size() as $k => $v ) {
+                    $origin_size = str_replace( '-' . $k . '.' . $file_ext, '.' . $file_ext, $origin_size );
+                }
+                $meta_data[ 'image_large' ] = $this->get_img_by_size( $origin_size, 'large', $file_ext );
+                $meta_data[ 'image_medium_large' ] = $this->get_img_by_size( $origin_size, 'medium_large', $file_ext );
+                $meta_data[ 'image_medium' ] = $this->get_img_by_size( $origin_size, 'medium', $file_ext );
+                $meta_data[ 'image_thumbnail' ] = $this->get_img_by_size( $origin_size, 'thumbnail', $file_ext );
+                $meta_data[ 'image_webp' ] = $meta_data[ 'image_medium' ];
 
-            // phiên bản webp -> có lệnh riêng để tối ưu
-            $create_webp = \App\ Libraries\ MyImage::webpConvert( PUBLIC_PUBLIC_PATH . $meta_data[ 'image_webp' ] );
-            if ( $create_webp != '' ) {
-                $meta_data[ 'image_webp' ] = $create_webp;
+                // phiên bản webp -> có lệnh riêng để tối ưu
+                $create_webp = \App\ Libraries\ MyImage::webpConvert( PUBLIC_PUBLIC_PATH . $meta_data[ 'image_webp' ] );
+                if ( $create_webp != '' ) {
+                    $meta_data[ 'image_webp' ] = $create_webp;
+                }
+                //echo $meta_data[ 'image_webp' ] . '<br>' . "\n";
+            } else {
+                $meta_data[ 'image_large' ] = '';
+                $meta_data[ 'image_medium_large' ] = '';
+                $meta_data[ 'image_medium' ] = '';
+                $meta_data[ 'image_thumbnail' ] = '';
+                $meta_data[ 'image_webp' ] = '';
             }
-            //echo $meta_data[ 'image_webp' ] . '<br>' . "\n";
         }
 
         // xem các meta nào không có trong lần update này -> XÓA
