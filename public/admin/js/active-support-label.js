@@ -54,7 +54,7 @@ var add_class_bg_for_tr_support = false;
     $(arr.join(',')).each(function () {
         var get_for = $(this).parent('.controls').parent('.control-group').find('label');
         var check_for = get_for.attr('for') || '';
-        console.log(check_for);
+        //console.log(check_for);
 
         // chưa có thì mới tạo
         if (check_for == '') {
