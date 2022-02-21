@@ -58,8 +58,16 @@ $this->base_model->get( 'URL' );
 $this->base_model->_eb_number_only( 'fgfsd097834msdgs' );
 $this->base_model->_eb_float_only( 'fgfsd097834msdgs' );
 
+
 // INSERT
-$this->base_model->insert( $this->table, $data, true );
+$result_id = $this->base_model->insert( $this->table, $data, true );
+//var_dump( $result_id );
+//print_r( $result_id );
+
+if ( $result_id !== false ) {
+    //
+}
+
 
 // UPDATE dữ liệu
 $this->base_model->update_multiple( 'tbl_user', [

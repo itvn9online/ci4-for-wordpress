@@ -349,76 +349,45 @@ var _global_js_eb = {
         });
     },
 
-    select_date: function (id, op) {
-        if (typeof op == 'undefined') {
+    // chỉ lấy ngày tháng
+    datepicker: function (id, op) {
+        _global_js_eb.datetimepicker(id, {
+            timepicker: false,
+            format: 'Y-m-d'
+        });
+    },
+
+    // chỉ lấy giờ
+    timepicker: function (id, op) {
+        _global_js_eb.datetimepicker(id, {
+            datepicker: false,
+            format: 'H:i'
+        });
+    },
+
+    // lấy ngày tháng và giờ
+    datetimepicker: function (id, op) {
+        if (typeof op != 'object') {
             op = {};
         }
-        if (typeof op.dateFormat == 'undefined') {
-            op.dateFormat = 'yy-mm-dd';
-        }
-        jQuery.datepicker.regional.vi = {
-            monthNames: ['Th\u00e1ng 1', 'Th\u00e1ng 2', 'Th\u00e1ng 3', 'Th\u00e1ng 4', 'Th\u00e1ng 5', 'Th\u00e1ng 6', 'Th\u00e1ng 7', 'Th\u00e1ng 8', 'Th\u00e1ng 9', 'Th\u00e1ng 10', 'Th\u00e1ng 11', 'Th\u00e1ng 12'],
-            monthNamesShort: ['Th1', 'Th2', 'Th3', 'Th4', 'Th5', 'Th6', 'Th7', 'Th8', 'Th9', 'Th10', 'Th11', 'Th12'],
-            dayNames: ['Chủ Nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'],
-            dayNamesShort: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
-            dayNamesMin: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7']
-        };
-        jQuery.datepicker.setDefaults(jQuery.datepicker.regional.vi);
 
         //
-        jQuery(id).attr({
-            'date-format': op['dateFormat']
-        }).change(function () {
-            var a = jQuery(this).val() || '',
-                df = jQuery(this).attr('date-format') || '',
-                b = '';
-            a = jQuery.trim(a);
-            //			console.log(a);
-            //			console.log(df);
-
-            // kiểm tra và chuyển về 1 định dạng
-            if (a != '' && a.length == 10 && df != '') {
-                a = a.replace(/\-|\s/g, '/').split('/');
-                if (df.split('/').length > 1) {
-                    jQuery(this).val(a.join('/'));
-                } else if (df.split('-').length > 1) {
-                    jQuery(this).val(a.join('-'));
-                } else if (df.split(' ').length > 1) {
-                    jQuery(this).val(a.join(' '));
-                }
-
-                //
-                df = df.toLowerCase().replace(/\-|\s/g, '/').split('/');
-                //				console.log(a);
-                //				console.log(df);
-
-                //
-                if (df.length == 3) {
-                    // định dạng năm/ tháng/ ngày
-                    if (df[0] == 'yy' || df[0] == 'yyyy') {
-                        // nếu mảng đầu tiên không phải là năm -> bỏ luốn
-                        if (a[0].toString().length != 4 && a[2].toString().length == 4) {
-                            b = a[0];
-                            a[0] = a[2];
-                            a[2] = b;
-
-                            jQuery(this).val(a.join('-'));
-                        }
-                    }
-                    // ngày/ tháng/ năm
-                    else if (df[2] == 'yy' || df[2] == 'yyyy') {
-                        // nếu mảng cuối không phải là năm -> bỏ luốn
-                        if (a[2].toString().length != 4 && a[0].toString().length == 4) {
-                            b = a[2];
-                            a[2] = a[0];
-                            a[0] = b;
-
-                            jQuery(this).val(a.join('-'));
-                        }
-                    }
-                }
+        var default_op = {
+            lang: $('html').attr('lang') || 'vi',
+            timepicker: true,
+            formatTime: 'H:i',
+            //format: 'd-m-Y H:i:s'
+            format: 'Y-m-d H:i:s'
+        };
+        for (var x in default_op) {
+            if (typeof op[x] == 'undefined') {
+                op[x] = default_op[x];
             }
-        }).datepicker(op);
+        }
+        //console.log('op:', op);
+
+        //
+        $(id).datetimepicker(op);
     },
 
     _log_click_ref: function () {},

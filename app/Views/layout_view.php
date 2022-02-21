@@ -12,7 +12,7 @@ use App\ Libraries\ LanguageCost;
 <html lang="<?php
             $html_lang = LanguageCost::lang_key();
             if ( $html_lang =='vn'||$html_lang== '' ) {
-                $html_lang='vi';
+                $html_lang = 'vi';
             }
             echo $html_lang;
             ?>" class="no-js no-svg" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">

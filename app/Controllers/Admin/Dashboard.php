@@ -22,25 +22,33 @@ class Dashboard extends Optimize {
         $this->f_env = PUBLIC_HTML_PATH . '.env';
         $this->f_backup_env = PUBLIC_HTML_PATH . 'writable/.env-bak';
 
-        //
+        /*
+         * các thư mục khi reset code sẽ có thể xóa bỏ để thay thế mà không ảnh hưởng đến website
+         */
+        // thư mục app
         $this->app_dir = PUBLIC_HTML_PATH . 'app';
         $this->app_deleted_dir = $this->app_dir . '-deleted';
         //die( $this->app_deleted_dir );
+        // thư mục themes
         $this->public_dir = PUBLIC_HTML_PATH . 'public/themes';
         $this->public_deleted_dir = $this->public_dir . '-deleted';
         //die( $this->public_deleted_dir );
 
-        //
+        // list các thư mục sẽ xóa code vào đây để dùng cho tiện
         $this->cleanup_deleted_code = [
             $this->app_deleted_dir,
             $this->public_deleted_dir,
         ];
 
-        //
+        // tham số dùng để copy lại file config -> bắt buộc phải có thì mới chạy được web
         $this->config_deleted_file = $this->app_deleted_dir . '/Config/Database.php';
         //echo $this->config_deleted_file . '<br>' . "\n";
         $this->config_file = str_replace( $this->app_deleted_dir, $this->app_dir, $this->config_deleted_file );
         //echo $this->config_file . '<br>' . "\n";
+
+        //
+        //echo THEMEPATH . '<br>' . "\n";
+        //echo basename( THEMEPATH ) . '<br>' . "\n";
     }
 
     public function index() {
@@ -698,16 +706,35 @@ class Dashboard extends Optimize {
         }
 
         //
+        /*
+        $theme_deleted_exist = false;
+        if ( basename( THEMEPATH ) != 'echbayfour' ) {
+            $theme_deleted_exist = $this->check_deleted_exist( [
+                dirname( $this->public_deleted_dir ) . '/' . basename( THEMEPATH ),
+            ] );
+        }
+        */
+
+        //
         $this->teamplate_admin[ 'content' ] = view( 'admin/update_view', array(
+            // xác định các thư mục deleted code có tồn tại không
             'app_deleted_exist' => $this->check_deleted_exist(),
+            // xác định xem thư mục theme cũ có tồn tại không
+            //'theme_deleted_exist' => $theme_deleted_exist,
             'link_download_github' => $this->link_download_github
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
 
-    private function check_deleted_exist() {
+    private function check_deleted_exist( $arr = NULL ) {
+        //
+        if ( $arr === NULL ) {
+            $arr = $this->cleanup_deleted_code;
+        }
+
+        //
         $result = false;
-        foreach ( $this->cleanup_deleted_code as $dir ) {
+        foreach ( $arr as $dir ) {
             if ( is_dir( $dir ) ) {
                 $result = true;
                 break;

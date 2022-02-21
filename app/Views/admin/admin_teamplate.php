@@ -84,7 +84,13 @@ if ( $debug_enable === true ) {
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php
+            $html_lang = LanguageCost::lang_key();
+            if ( $html_lang =='vn'||$html_lang== '' ) {
+                $html_lang = 'vi';
+            }
+            echo $html_lang;
+            ?>">
 <head>
 <title>Quản trị</title>
 <meta charset="UTF-8"/>
@@ -99,48 +105,55 @@ if ( $debug_enable === true ) {
 <!-- bootstrap -->
 <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/bootstrap-5.1.3/css/bootstrap.min.css" />
 <!-- chưa có thời gian cập nhật bootstrap bản mới -> vẫn ưu tiên dùng bản cũ vậy -->
-<link rel="stylesheet" type="text/css" media="all" href="admin/css/bootstrap.min-old.css"/>
-<link rel="stylesheet" type="text/css" media="all" href="admin/css/bootstrap-responsive.min.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="admin/css/bootstrap.min-old.css" />
+<link rel="stylesheet" type="text/css" media="all" href="admin/css/bootstrap-responsive.min.css" />
 <!-- END bootstrap -->
-<link rel="stylesheet" type="text/css" media="all" href="./thirdparty/select2/select2.min.css"/>
-<link rel="stylesheet" type="text/css" media="all" href="css/my-bootstrap.css"/>
-<link rel="stylesheet" type="text/css" media="all" href="admin/css/fullcalendar.css"/>
-<link rel="stylesheet" type="text/css" media="all" href="admin/css/maruti-style.css"/>
-<link rel="stylesheet" type="text/css" media="all" href="admin/css/tagify.css"/>
-<link rel="stylesheet" type="text/css" media="all" href="admin/css/base.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="./thirdparty/select2/select2.min.css" />
+<link rel="stylesheet" type="text/css" media="all" href="css/my-bootstrap.css" />
+<link rel="stylesheet" type="text/css" media="all" href="admin/css/fullcalendar.css" />
+<link rel="stylesheet" type="text/css" media="all" href="admin/css/maruti-style.css" />
+<link rel="stylesheet" type="text/css" media="all" href="admin/css/tagify.css" />
+<link rel="stylesheet" type="text/css" media="all" href="admin/css/base.css" />
 <!-- <link rel="stylesheet" type="text/css" media="all" href="admin/css/uniform.css"/> -->
-<link rel="stylesheet" type="text/css" media="all" href="admin/css/maruti-media.css" class="skin-color"/>
+<link rel="stylesheet" type="text/css" media="all" href="admin/css/maruti-media.css" class="skin-color" />
 <!-- <link rel="stylesheet" type="text/css" media="all" href="admin/css/select2.css"/> -->
-<link rel="stylesheet" type="text/css" media="all" href="./thirdparty/awesome47/css/font-awesome.before.css?v=4.7"/>
-<link rel="stylesheet" type="text/css" media="all" href="./thirdparty/awesome47/css/font-awesome.min.css?v=4.7"/>
+<link rel="stylesheet" type="text/css" media="all" href="./thirdparty/awesome47/css/font-awesome.before.css?v=4.7" />
+<link rel="stylesheet" type="text/css" media="all" href="./thirdparty/awesome47/css/font-awesome.min.css?v=4.7" />
 <!--
 <link rel="stylesheet" type="text/css" media="all" href="fonts/fontawesome-free-5.15.1-web/css/fontawesome.min.css" />
 <link rel="stylesheet" type="text/css" media="all" href="fonts/fontawesome-free-5.15.1-web/css/brands.min.css" />
 <link rel="stylesheet" type="text/css" media="all" href="fonts/fontawesome-free-5.15.1-web/css/solid.min.css" />
 <link rel="stylesheet" type="text/css" media="all" href="fonts/fontawesome-free-5.15.1-web/css/v4-shims.min.css" />
 -->
-<link rel="stylesheet" type="text/css" media="all" href="./thirdparty/jquery-ui/jquery-ui-1.11.2.css?v=4.7"/>
 <!--
-<script type="text/javascript" src="./thirdparty/validate/jquery.min.js"></script> 
---> 
-<script type="text/javascript" src="./thirdparty/jquery/jquery-3.6.0.min.js"></script> 
-<!-- <script type="text/javascript" src="./thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> --> 
-<!-- <script type="text/javascript" src="./thirdparty/jquery/jquery-migrate-1.4.1.min.js"></script> --> 
-<script type="text/javascript" src="./thirdparty/jquery-ui/datepicker.min.js?v=1.12.1"></script> 
-<script type="text/javascript" src="./thirdparty/validate/library.js"></script> 
-<script type="text/javascript" src="./thirdparty/validate/jquery.validate.min.js"></script> 
-<script type="text/javascript" src="./thirdparty/validate/localization/messages_vi.js"></script> 
-<!-- <script type="text/javascript" src="ckeditor/ckeditor.js"></script> --> 
-<script type="text/javascript" src="./thirdparty/tinymce/tinymce.min.js"></script> 
-<!-- <script type="text/javascript" src="https://cdn.ckeditor.com/ckeditor5/28.0.0/classic/ckeditor.js"></script> --> 
-<!-- <script type="text/javascript" src="ckfinder/ckfinder.js"></script> --> 
+<script type="text/javascript" src="./thirdparty/validate/jquery.min.js"></script>
+-->
+<script type="text/javascript" src="./thirdparty/jquery/jquery-3.6.0.min.js"></script>
+<!-- <script type="text/javascript" src="./thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> -->
+<!-- <script type="text/javascript" src="./thirdparty/jquery/jquery-migrate-1.4.1.min.js"></script> -->
+<!-- datepicker -->
+<!-- <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/jquery-ui/jquery-ui-1.11.2.css?v=4.7"/> -->
+<link rel="stylesheet" type="text/css" media="all" href="./thirdparty/datetimepicker-2.3.6/jquery.datetimepicker.css"/>
+<!-- <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/datetimepicker-2.3.7/build/jquery.datetimepicker.min.css"/> -->
+<!-- -->
+<!-- <script type="text/javascript" src="./thirdparty/jquery-ui/datepicker.min.js?v=1.12.1"></script> -->
+<script type="text/javascript" src="./thirdparty/datetimepicker-2.3.6/jquery.datetimepicker.js"></script>
+<!-- <script type="text/javascript" src="./thirdparty/datetimepicker-2.3.7/build/jquery.datetimepicker.min.js"></script> -->
+<!-- END datepicker -->
+<script type="text/javascript" src="./thirdparty/validate/library.js"></script>
+<script type="text/javascript" src="./thirdparty/validate/jquery.validate.min.js"></script>
+<script type="text/javascript" src="./thirdparty/validate/localization/messages_vi.js"></script>
+<!-- <script type="text/javascript" src="ckeditor/ckeditor.js"></script> -->
+<script type="text/javascript" src="./thirdparty/tinymce/tinymce.min.js"></script>
+<!-- <script type="text/javascript" src="https://cdn.ckeditor.com/ckeditor5/28.0.0/classic/ckeditor.js"></script> -->
+<!-- <script type="text/javascript" src="ckfinder/ckfinder.js"></script> -->
 <script type="text/javascript" src="./thirdparty/jquery/jquery-ui.min.js"></script>
 <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/jquery/jquery-ui.css"/>
-<!-- <script type="text/javascript" src="admin/js/bootstrap.min.js"></script> --> 
-<script type="text/javascript" src="./thirdparty/bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script> 
-<script type="text/javascript" src="./thirdparty/angular-1.8.2/angular.min.js"></script> 
-<!-- <script type="text/javascript" src="./thirdparty/bootstrap-5.1.3/js/bootstrap.min.js"></script> --> 
-<script type="text/javascript" src="./thirdparty/select2/select2.full.js"></script> 
+<!-- <script type="text/javascript" src="admin/js/bootstrap.min.js"></script> -->
+<script type="text/javascript" src="./thirdparty/bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="./thirdparty/angular-1.8.2/angular.min.js"></script>
+<!-- <script type="text/javascript" src="./thirdparty/bootstrap-5.1.3/js/bootstrap.min.js"></script> -->
+<script type="text/javascript" src="./thirdparty/select2/select2.full.js"></script>
 <!-- <script type="text/javascript" src="admin/js/select2.min.js"></script> -->
 <?php
 

@@ -151,8 +151,10 @@ class Option extends EbModel {
         if ( empty( $sql ) && $lang_key != LanguageCost::default_lang() ) {
             $sql = $this->list_config( LanguageCost::default_lang(), true );
             if ( !empty( $sql ) ) {
+                //print_r( $sql );
                 foreach ( $sql as $v ) {
                     //print_r( $v );
+                    //die( __FILE__ . ':' . __LINE__ );
 
                     //
                     $data_insert = $v;
@@ -171,7 +173,7 @@ class Option extends EbModel {
                     return $this->list_config( $lang_key, false, false );
                 }
             }
-            //die( 'fhj s gs' );
+            //die( __FILE__ . ':' . __LINE__ );
         }
 
         //
