@@ -24,6 +24,7 @@ class Admin extends Ajax {
 
             //
             die( header( 'Location: ' . $redirect_to ) );
+            //return redirect()->to( $redirect_to );
         }
         //print_r( $this->session_data );
         //var_dump( $this->session_data );

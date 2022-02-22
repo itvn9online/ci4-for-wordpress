@@ -309,6 +309,7 @@ class Posts extends Admin {
 
                 //
                 die( header( 'Location:' . DYNAMIC_BASE_URL . ltrim( $_SERVER[ 'REQUEST_URI' ], '/' ) ) );
+                //return redirect()->to( DYNAMIC_BASE_URL . ltrim( $_SERVER[ 'REQUEST_URI' ], '/' ) );
             }
 
             // lấy bài tiếp theo để auto next
