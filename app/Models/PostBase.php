@@ -129,7 +129,7 @@ class PostBase extends EbModel {
             return $a[ 'menu_order' ] * 1 + 1;
         }
         //print_r( $a );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         return 0;

@@ -52,14 +52,14 @@ class Sync extends BaseController {
         // lấy các cột trong bảng term để so sánh cột nào chưa có
         $tbl_terms = $this->base_model->default_data( 'terms' );
         if ( empty( $tbl_terms ) ) {
-            die( basename( __FILE__ . ':' . __LINE__ ) );
+            die( __CLASS__ . ':' . __LINE__ );
         }
         //print_r( $tbl_terms );
 
         //
         $tbl_term_taxonomy = $this->base_model->default_data( 'term_taxonomy' );
         if ( empty( $tbl_term_taxonomy ) ) {
-            die( basename( __FILE__ . ':' . __LINE__ ) );
+            die( __CLASS__ . ':' . __LINE__ );
         }
         //print_r( $tbl_term_taxonomy );
 
@@ -110,14 +110,14 @@ class Sync extends BaseController {
         // lấy các cột trong bảng term để so sánh cột nào chưa có
         $tbl_posts = $this->base_model->default_data( 'posts' );
         if ( empty( $tbl_posts ) ) {
-            die( basename( __FILE__ . ':' . __LINE__ ) );
+            die( __CLASS__ . ':' . __LINE__ );
         }
         //print_r( $tbl_posts );
 
         //
         $tbl_term_taxonomy = $this->base_model->default_data( 'term_taxonomy' );
         if ( empty( $tbl_term_taxonomy ) ) {
-            die( basename( __FILE__ . ':' . __LINE__ ) );
+            die( __CLASS__ . ':' . __LINE__ );
         }
         //print_r( $tbl_term_taxonomy );
 
@@ -136,7 +136,7 @@ class Sync extends BaseController {
         //
         $tbl_term_relationships = $this->base_model->default_data( 'term_relationships' );
         if ( empty( $tbl_term_relationships ) ) {
-            die( basename( __FILE__ . ':' . __LINE__ ) );
+            die( __CLASS__ . ':' . __LINE__ );
         }
         //print_r( $tbl_term_relationships );
 
@@ -193,7 +193,7 @@ class Sync extends BaseController {
             'lang_parent',
             'term_status',
         ];
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         // tự động fixed các cột của bảng nếu chưa có
         $arr_add_cloumn = [
@@ -271,7 +271,7 @@ class Sync extends BaseController {
                 }
             }
             //print_r( $arr_add_cloumn );
-            //die( __FILE__ . ':' . __LINE__ );
+            //die( __CLASS__ . ':' . __LINE__ );
         }
 
         //
@@ -281,7 +281,7 @@ class Sync extends BaseController {
         foreach ( $arr_add_cloumn as $k => $v ) {
             $check_table_column = $this->base_model->default_data( $k );
             if ( empty( $check_table_column ) ) {
-                die( basename( __FILE__ . ':' . __LINE__ ) );
+                die( __CLASS__ . ':' . __LINE__ );
             }
             //print_r( $check_table_column );
             //continue;
@@ -302,7 +302,7 @@ class Sync extends BaseController {
                     }
                     $alter_query = "ALTER TABLE `$k` ADD `$col` $alter AFTER `$last_key`" . $add_index;
                     echo $alter_query . '<br>' . "\n";
-                    //die( __FILE__ . ':' . __LINE__ );
+                    //die( __CLASS__ . ':' . __LINE__ );
                     if ( $this->base_model->MY_query( $alter_query ) ) {
                         echo $col . ' column in database has been sync! <br>' . "\n";
                     } else {
@@ -344,7 +344,7 @@ class Sync extends BaseController {
             unlink( PUBLIC_HTML_PATH . 'test_permission.txt' );
         }
         //var_dump( $upload_via_ftp );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
         //return false;
 
         //
@@ -352,13 +352,13 @@ class Sync extends BaseController {
         // nếu phải xử lý file thông qua ftp
         if ( $upload_via_ftp === true ) {
             //echo PUBLIC_HTML_PATH . $dir . '<br>' . "\n";
-            //die( __FILE__ . ':' . __LINE__ );
+            //die( __CLASS__ . ':' . __LINE__ );
 
             // chuyển thư mục về 777 để có thể unzip
             $file_model = new\ App\ Models\ File();
             $file_model->FTP_chmod( PUBLIC_HTML_PATH . $dir, 0777 );
         }
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         foreach ( glob( PUBLIC_HTML_PATH . $dir . '/*.zip' ) as $filename ) {
@@ -410,7 +410,7 @@ class Sync extends BaseController {
             $this->base_model->msg_error_session( $error );
             break;
         }
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
     }
 
     // đồng bộ nội dung về 1 kiểu
@@ -489,7 +489,7 @@ class Sync extends BaseController {
         //echo $from . '<br>' . "\n";
         //echo $to . '<br>' . "\n";
         if ( @!rename( $from, $to ) ) {
-            //die( __FILE__ . ':' . __LINE__ );
+            //die( __CLASS__ . ':' . __LINE__ );
             $file_model = new\ App\ Models\ File();
             return $file_model->FTP_rename( $from, $to );
         }

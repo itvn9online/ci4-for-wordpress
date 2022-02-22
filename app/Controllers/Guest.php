@@ -17,9 +17,9 @@ class Guest extends Csrf {
         //echo $_SERVER[ 'REQUEST_METHOD' ] . '<br>' . "\n";
         // quá trình submit bắt buộc phải có các tham số sau -> chống tắt javascript
         if ( $_SERVER[ 'REQUEST_METHOD' ] == 'POST' ) {
-            //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+            //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             if ( !isset( $_POST[ '__wgr_request_from' ] ) || !isset( $_POST[ '__wgr_nonce' ] ) ) {
-                //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+                //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                 // chuyển tham số này thành true -> dùng chung với captcha
                 $this->has_captcha = true;
             }
@@ -40,10 +40,10 @@ class Guest extends Csrf {
 
             // xem có phải nhập mã captcha không -> khi đăng nhập sai quá nhiều lần -> bắt buộc phải nhập captcha
             if ( $this->base_model->check_faild_login() > 0 ) {
-                //die( __FILE__ . ':' . __LINE__ );
+                //die( __CLASS__ . ':' . __LINE__ );
                 $this->check_required_captcha();
             }
-            //die( __FILE__ . ':' . __LINE__ );
+            //die( __CLASS__ . ':' . __LINE__ );
 
             //
             if ( $this->has_captcha === false ) {
@@ -60,7 +60,7 @@ class Guest extends Csrf {
                 if ( !$this->validation->run( $_POST ) ) {
                     $this->set_validation_error( $this->validation->getErrors(), $this->form_target );
                 } else {
-                    //die( __FILE__ . ':' . __LINE__ );
+                    //die( __CLASS__ . ':' . __LINE__ );
 
                     //
                     if ( $this->checkaccount() === true ) {
@@ -177,7 +177,7 @@ class Guest extends Csrf {
 
         //
         //print_r( $result );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
         $result = $this->sync_login_data( $result );
 
         //
@@ -278,7 +278,7 @@ class Guest extends Csrf {
             //
             if ( $this->has_captcha === false ) {
                 //print_r( $data );
-                //die( __FILE__ . ':' . __LINE__ );
+                //die( __CLASS__ . ':' . __LINE__ );
                 $this->validation->reset();
                 $this->validation->setRule( 'email', 'Email', 'required|min_length[5]|max_length[255]|valid_email' );
 

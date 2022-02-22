@@ -183,20 +183,20 @@ label, .cur {
     margin: 0;
 }
 /* */
-.blogs_node_chi_anh .echbay-blog-left {
+.echbay-blog.chi_anh .echbay-blog-left, .blogs_node_chi_anh .echbay-blog-left {
     width: 100%;
     float: none;
 }
-.blogs_node_chi_anh .echbay-blog-right {
+.echbay-blog.chi_anh .echbay-blog-right, .blogs_node_chi_anh .echbay-blog-right {
     display: none;
 }
-.blogs_node_chi_anh li {
+.echbay-blog.chi_anh li, .blogs_node_chi_anh li {
     margin: 0;
 }
-.blogs_node_chi_anh .echbay-blog-padding {
+.echbay-blog.chi_anh .echbay-blog-padding, .blogs_node_chi_anh .echbay-blog-padding {
     padding: 0;
 }
-.noborder .thread-list-avt, .noborder .echbay-blog-avt, .blogs_node_chi_anh .echbay-blog-avt {
+.noborder .thread-list-avt, .noborder .echbay-blog-avt, .echbay-blog.chi_anh .echbay-blog-avt, .blogs_node_chi_anh .echbay-blog-avt {
     border: 0 none;
 }
 /* */

@@ -272,7 +272,7 @@ class Posts extends Admin {
                 $id = 0;
 
                 //
-                //die( __FILE__ . ':' . __LINE__ );
+                //die( __CLASS__ . ':' . __LINE__ );
 
                 //
                 return $this->add_new( $dup_data );
@@ -313,7 +313,7 @@ class Posts extends Admin {
 
             // lấy bài tiếp theo để auto next
             if ( $auto_update_module > 0 ) {
-                //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+                //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                 //
                 $url_next_post = $this->action_update_module( $id );
@@ -476,7 +476,7 @@ class Posts extends Admin {
             'post_type' => $this->post_type,
         ] );
         //print_r( $update );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         // nếu update thành công -> gửi lệnh javascript để ẩn bài viết bằng javascript
         if ( $update === true ) {

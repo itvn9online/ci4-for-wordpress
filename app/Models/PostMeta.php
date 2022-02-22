@@ -25,7 +25,7 @@ class PostMeta extends PostBase {
             if ( $v[ 'post_meta_data' ] === NULL ) {
                 $post_meta_data = $this->arr_meta_post( $v[ 'ID' ] );
                 //print_r( $post_meta_data );
-                //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+                //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                 //
                 $this->base_model->update_multiple( $this->table, [
@@ -38,7 +38,7 @@ class PostMeta extends PostBase {
                 $data[ $k ][ 'post_meta_data' ] = 'query';
             } else {
                 $post_meta_data = ( array )json_decode( $v[ 'post_meta_data' ] );
-                //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+                //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                 // thông báo kiểu dữ liệu trả về
                 $data[ $k ][ 'post_meta_data' ] = 'cache';
@@ -61,13 +61,13 @@ class PostMeta extends PostBase {
         if ( !is_array( $meta_data ) || empty( $meta_data ) ) {
             return false;
         }
-        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $meta_data );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         // lấy toàn bộ meta của post này
         $meta_exist = $this->arr_meta_post( $post_id, false );
-        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $meta_exist );
 
         // xử lý riêng đối với post category và tags
@@ -101,7 +101,7 @@ class PostMeta extends PostBase {
 
             $this->term_model->insert_term_relationships( $post_id, $post_relationships );
         }
-        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $meta_data );
 
         // xử lý cho ảnh đại diện -> thêm các size ảnh khác để sau còn tùy ý sử dụng
@@ -172,7 +172,7 @@ class PostMeta extends PostBase {
         }
 
         // các meta chưa có thì insert
-        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $insert_meta );
         foreach ( $insert_meta as $k => $v ) {
             $this->base_model->insert( $this->metaTable, [
@@ -183,7 +183,7 @@ class PostMeta extends PostBase {
         }
 
         // các meta có rồi thì update
-        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $update_meta );
         foreach ( $update_meta as $k => $v ) {
             $this->base_model->update_multiple( $this->metaTable, [
@@ -202,7 +202,7 @@ class PostMeta extends PostBase {
         ] );
 
         //
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
         return true;
     }
 
@@ -288,20 +288,20 @@ class PostMeta extends PostBase {
         foreach ( $data as $k => $v ) {
             $meta_data[ $v[ 'meta_key' ] ] = $v[ 'meta_value' ];
         }
-        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $meta_data );
 
         // hỗ trợ kiểu danh mục từ echbaydotcom
         /*
         if ( !isset( $meta_data[ 'post_category' ] ) ) {
-            echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+            echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         } else if ( empty( $meta_data[ 'post_category' ] ) ) {
-            echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+            echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         }
         */
         if ( $get_relationships === true ) {
             if ( !isset( $meta_data[ 'post_category' ] ) || empty( $meta_data[ 'post_category' ] ) ) {
-                //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+                //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                 //print_r( $meta_data );
 
                 //
@@ -328,13 +328,13 @@ class PostMeta extends PostBase {
                     $term_relationships[ $v[ 'taxonomy' ] ][] = $v[ 'term_taxonomy_id' ];
                 }
                 //print_r( $term_relationships );
-                //die( __FILE__ . ':' . __LINE__ );
+                //die( __CLASS__ . ':' . __LINE__ );
                 foreach ( $term_relationships as $k => $v ) {
                     $meta_data[ 'post_' . $k ] = implode( ',', $v );
                 }
-                //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+                //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                 //print_r( $meta_data );
-                //die( __FILE__ . ':' . __LINE__ );
+                //die( __CLASS__ . ':' . __LINE__ );
             }
         }
 

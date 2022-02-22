@@ -42,7 +42,7 @@ class Home extends Csrf {
         if ( $cache_value !== NULL ) {
             return $this->show_cache( $cache_value );
         }
-        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
         //
         //print_r( $this->getconfig );
@@ -100,7 +100,7 @@ class Home extends Csrf {
             if ( WGR_CATEGORY_PREFIX != '' ) {
                 // -> có thì chuyển hướng tới link chính ngay
                 return redirect()->to( $this->term_model->get_the_permalink( $data ) );
-                //die( __FILE__ . ':' . __LINE__ );
+                //die( __CLASS__ . ':' . __LINE__ );
             }
 
             //
@@ -122,7 +122,7 @@ class Home extends Csrf {
                 if ( WGR_PAGES_PREFIX != '' ) {
                     // -> có thì chuyển hướng tới link chính ngay
                     return redirect()->to( $this->post_model->get_the_permalink( $data ) );
-                    //die( __FILE__ . ':' . __LINE__ );
+                    //die( __CLASS__ . ':' . __LINE__ );
                 }
 
                 //
@@ -170,7 +170,7 @@ class Home extends Csrf {
             //'offset' => 2,
             'limit' => 1
         ) );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         if ( !empty( $data ) ) {
@@ -178,7 +178,7 @@ class Home extends Csrf {
             //$data[ 'post_meta' ] = $this->post_model->arr_meta_post( $data[ 'ID' ] );
             $data = $this->post_model->the_meta_post( $data );
             //print_r( $data );
-            //die( __FILE__ . ':' . __LINE__ );
+            //die( __CLASS__ . ':' . __LINE__ );
 
             // với các post type mặc định -> dùng page view
             if ( in_array( $data[ 'post_type' ], [

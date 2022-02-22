@@ -189,7 +189,7 @@ class Uploads extends Admin {
             }
             $secondes_path = PUBLIC_HTML_PATH . $secondes_path;
             //echo $secondes_path . '<br>' . "\n";
-            //die( __FILE__ . ':' . __LINE__ );
+            //die( __CLASS__ . ':' . __LINE__ );
 
             //
             $delete_file = [];

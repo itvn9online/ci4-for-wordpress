@@ -57,7 +57,7 @@ class Upload extends Post {
                     }
                 }
                 //print_r( $list_media );
-                //die( __FILE__ . ':' . __LINE__ );
+                //die( __CLASS__ . ':' . __LINE__ );
                 return $list_media;
             }
 
@@ -70,7 +70,7 @@ class Upload extends Post {
         }
         $src = $uri . $src;
         //echo 'src: ' . $src . '<br>' . "\n";
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         return $src;

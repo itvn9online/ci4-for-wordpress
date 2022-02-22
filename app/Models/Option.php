@@ -142,7 +142,7 @@ class Option extends EbModel {
             //'limit' => 1
         ) );
         //print_r( $sql );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
         if ( $get_sql === true ) {
             return $sql;
         }
@@ -154,7 +154,7 @@ class Option extends EbModel {
                 //print_r( $sql );
                 foreach ( $sql as $v ) {
                     //print_r( $v );
-                    //die( __FILE__ . ':' . __LINE__ );
+                    //die( __CLASS__ . ':' . __LINE__ );
 
                     //
                     $data_insert = $v;
@@ -173,7 +173,7 @@ class Option extends EbModel {
                     return $this->list_config( $lang_key, false, false );
                 }
             }
-            //die( __FILE__ . ':' . __LINE__ );
+            //die( __CLASS__ . ':' . __LINE__ );
         }
 
         //

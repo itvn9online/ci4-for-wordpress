@@ -116,7 +116,7 @@ class Term extends EbModel {
             $data[ 'slug' ] = $this->base_model->_eb_non_mark_seo( $data[ 'slug' ] );
             $data[ 'slug' ] = str_replace( '.', '-', $data[ 'slug' ] );
             //print_r( $data );
-            //die( __FILE__ . ':' . __LINE__ );
+            //die( __CLASS__ . ':' . __LINE__ );
 
             //
             //$check_term_exist = $this->get_term_by_id( 1, $taxonomy, false );
@@ -135,7 +135,7 @@ class Term extends EbModel {
                 //echo 'by_slug: ' . $by_slug . '<br>' . "\n";
                 $check_term_exist = $this->get_term_by_slug( $by_slug, $taxonomy, false, 1, 'term_id' );
                 //print_r( $check_term_exist );
-                //die( __FILE__ . ':' . __LINE__ );
+                //die( __CLASS__ . ':' . __LINE__ );
 
                 // chưa có thì bỏ qua việc kiểm tra
                 if ( empty( $check_term_exist ) ) {
@@ -158,7 +158,7 @@ class Term extends EbModel {
                 return -1;
             }
             //return false;
-            //die( __FILE__ . ':' . __LINE__ );
+            //die( __CLASS__ . ':' . __LINE__ );
         }
         foreach ( $default_data as $k => $v ) {
             if ( !isset( $data[ $k ] ) ) {
@@ -166,7 +166,7 @@ class Term extends EbModel {
             }
         }
         //print_r( $data );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         $result_id = $this->base_model->insert( $this->table, $data, true );
@@ -210,7 +210,7 @@ class Term extends EbModel {
                     'taxonomy' => $taxonomy,
                 ] );
                 //print_r( $check_term_exist );
-                //die( __FILE__ . ':' . __LINE__ );
+                //die( __CLASS__ . ':' . __LINE__ );
 
                 //
                 if ( !empty( $check_term_exist ) ) {
@@ -245,7 +245,7 @@ class Term extends EbModel {
 
         //
         //print_r( $data );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         $where = [
@@ -272,7 +272,7 @@ class Term extends EbModel {
             // xóa cache
             $this->delete_cache_taxonomy( $taxonomy );
         }
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         if ( isset( $_POST[ 'term_meta' ] ) ) {
@@ -321,7 +321,7 @@ class Term extends EbModel {
         // lấy toàn bộ meta của post này
         $meta_exist = $this->arr_meta_terms( $term_id );
         //print_r( $meta_exist );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         // xem các meta nào không có trong lần update này -> XÓA
         foreach ( $meta_exist as $k => $v ) {
@@ -371,8 +371,15 @@ class Term extends EbModel {
             ] );
         }
 
+        // cập nhật post meta vào cột của post để đỡ phải query nhiều
+        $this->base_model->update_multiple( $this->table, [
+            'term_meta_data' => json_encode( $meta_data ),
+        ], [
+            'term_id' => $term_id,
+        ] );
+
         //
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
         return true;
     }
 
@@ -434,7 +441,7 @@ class Term extends EbModel {
             print_r( $cache->get( 'dfhfhdsfasffssf' ) );
             var_dump( $cache->get( 'dfhfhdsfasffssf' ) );
             $cache->save( 'dfhfhdsfasffssf', time(), 5 );
-            echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+            echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             */
 
             //
@@ -519,7 +526,7 @@ class Term extends EbModel {
         //print_r( $where );
         //print_r( $ops );
         //print_r( $where_or_like );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         $post_cat = $this->base_model->select( $ops[ 'select_col' ], WGR_TERM_VIEW, $where, array(
@@ -538,7 +545,7 @@ class Term extends EbModel {
             'limit' => $ops[ 'limit' ]
         ) );
         //print_r( $post_cat );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
         //return $post_cat;
 
         // daidq (2021-12-01): khi có thêm tham số by_is_deleted mà vẫn lấy term meta thì bị lỗi query -> tạm bỏ
@@ -548,26 +555,28 @@ class Term extends EbModel {
 
             // lấy meta
             if ( $term_id > 0 || isset( $ops[ 'slug_get_child' ] ) ) {
-                //die( ':' . __LINE__ );
+                //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+                //print_r( $post_cat );
                 $post_cat = $this->terms_meta_post( [ $post_cat ] );
+                //print_r( $post_cat );
 
                 // lấy các nhóm con
                 if ( isset( $ops[ 'get_child' ] ) && $ops[ 'get_child' ] > 0 ) {
-                    //die( ':' . __LINE__ );
+                    die( __CLASS__ . ':' . __LINE__ );
                     $post_cat = $this->get_child_terms( $post_cat, $ops );
                 }
                 $post_cat = $post_cat[ 0 ];
             } else if ( isset( $ops[ 'get_meta' ] ) ) {
-                //die( ':' . __LINE__ );
+                //die( __CLASS__ . ':' . __LINE__ );
                 $post_cat = $this->terms_meta_post( $post_cat );
 
                 // lấy các nhóm con
                 if ( isset( $ops[ 'get_child' ] ) && $ops[ 'get_child' ] > 0 ) {
-                    //die( ':' . __LINE__ );
+                    //die( __CLASS__ . ':' . __LINE__ );
                     $post_cat = $this->get_child_terms( $post_cat, $ops );
                 }
             } else if ( isset( $ops[ 'get_child' ] ) && $ops[ 'get_child' ] > 0 ) {
-                //die( ':' . __LINE__ );
+                //die( __CLASS__ . ':' . __LINE__ );
                 $post_cat = $this->get_child_terms( $post_cat, $ops );
             }
             //}
@@ -639,7 +648,7 @@ class Term extends EbModel {
 
                     // cập nhật lại tổng số nhóm nếu có sai số
                     if ( count( $child_term ) != $v[ 'child_count' ] ) {
-                        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+                        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                         //
                         $this->base_model->update_multiple( $this->table, [
@@ -774,7 +783,7 @@ class Term extends EbModel {
             if ( $v[ 'term_meta_data' ] === NULL ) {
                 $term_meta_data = $this->arr_meta_terms( $v[ 'term_id' ] );
                 //print_r( $term_meta_data );
-                //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+                //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                 //
                 $this->base_model->update_multiple( $this->table, [
@@ -787,7 +796,7 @@ class Term extends EbModel {
                 $data[ $k ][ 'term_meta_data' ] = 'query';
             } else {
                 $term_meta_data = ( array )json_decode( $v[ 'term_meta_data' ] );
-                //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+                //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                 // thông báo kiểu dữ liệu trả về
                 $data[ $k ][ 'term_meta_data' ] = 'cache';

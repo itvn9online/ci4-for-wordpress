@@ -140,7 +140,7 @@ class Search extends Csrf {
             $data = $this->post_model->list_meta_post( $data );
             //print_r( $data );
         }
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         $seo = $this->base_model->default_seo( trim( 'Tìm kiếm ' . $by_keyword ), base_url() );

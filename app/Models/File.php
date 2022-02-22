@@ -114,7 +114,7 @@ class File extends EbModel {
         }
         //echo $this->base_dir . '<br>' . PHP_EOL;
         //echo $this->ftp_server . '<br>' . PHP_EOL;
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         /*
          * các khâu kết nối và kiểm tra đã diễn ra ở bước root dir -> sau đây chỉ việc sử dụng
@@ -166,7 +166,7 @@ class File extends EbModel {
         }
         //echo $this->base_dir . '<br>' . PHP_EOL;
         //echo $this->ftp_server . '<br>' . PHP_EOL;
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         /*
          * các khâu kết nối và kiểm tra đã diễn ra ở bước root dir -> sau đây chỉ việc sử dụng
@@ -218,7 +218,7 @@ class File extends EbModel {
         }
         //echo $this->base_dir . '<br>' . PHP_EOL;
         //echo $this->ftp_server . '<br>' . PHP_EOL;
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         /*
          * các khâu kết nối và kiểm tra đã diễn ra ở bước root dir -> sau đây chỉ việc sử dụng
@@ -259,7 +259,7 @@ class File extends EbModel {
         }
         //echo $this->base_dir . '<br>' . PHP_EOL;
         //echo $this->ftp_server . '<br>' . PHP_EOL;
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         /*
          * các khâu kết nối và kiểm tra đã diễn ra ở bước root dir -> sau đây chỉ việc sử dụng
@@ -313,7 +313,7 @@ class File extends EbModel {
         }
         //echo $this->base_dir . '<br>' . PHP_EOL;
         //echo $this->ftp_server . '<br>' . PHP_EOL;
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         /*
          * các khâu kết nối và kiểm tra đã diễn ra ở bước root dir -> sau đây chỉ việc sử dụng
@@ -379,7 +379,7 @@ class File extends EbModel {
         }
         //echo $this->base_dir . '<br>' . PHP_EOL;
         //echo $this->ftp_server . '<br>' . PHP_EOL;
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         /*
          * các khâu kết nối và kiểm tra đã diễn ra ở bước root dir -> sau đây chỉ việc sử dụng

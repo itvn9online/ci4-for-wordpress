@@ -70,7 +70,7 @@ class PostAdmin extends Post {
                 'limit' => $limit
             ] );
             //print_r( $category_list );
-            //die( __FILE__ . ':' . __LINE__ );
+            //die( __CLASS__ . ':' . __LINE__ );
             if ( empty( $category_list ) ) {
                 continue;
             }
@@ -120,7 +120,7 @@ class PostAdmin extends Post {
                 }
             }
             //print_r( $arr_result );
-            //die( __FILE__ . ':' . __LINE__ );
+            //die( __CLASS__ . ':' . __LINE__ );
         }
 
 
@@ -235,7 +235,7 @@ class PostAdmin extends Post {
             ];
         }
         //print_r( $arr_result );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         $cache->save( $in_cache, $arr_result, $time );

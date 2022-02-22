@@ -33,7 +33,7 @@ class Sitemap extends Csrf {
     public function index( $post_type = '', $page_page = '', $page_num = 1 ) {
         global $arr_custom_post_type;
         //print_r( $arr_custom_post_type );
-        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
         //
         $this->WGR_echo_sitemap_css();
@@ -270,7 +270,7 @@ class Sitemap extends Csrf {
     //
     private function WGR_echo_sitemap_css() {
         header( "Content-type: text/xml" );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         echo $this->tmp( file_get_contents( __DIR__ . '/sitemap/css.xml', 1 ), [
             'base_url' => DYNAMIC_BASE_URL,

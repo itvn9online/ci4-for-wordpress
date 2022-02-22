@@ -24,7 +24,7 @@ class Session {
         /*
         if ( empty( $key ) ) {
             echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . PHP_EOL;
-            die( __FILE__ . ':' . __LINE__ );
+            die( __CLASS__ . ':' . __LINE__ );
         }
         */
         return isset( $_SESSION[ $key ] ) ? $_SESSION[ $key ] : '';
@@ -47,7 +47,7 @@ class Session {
                 'error' => 'CSRF Invalid token from your request!'
             ] ) );
         }
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         return true;

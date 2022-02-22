@@ -462,7 +462,7 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
                 'ftp' => 1,
             ] );
         }
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         return $htaccess_file;
@@ -574,7 +574,7 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
                             //echo $file_path . '<br>' . "\n";
                             $file_name = basename( $file_path );
                             //echo $file_name . '<br>' . "\n";
-                            //die( __FILE__ . ':' . __LINE__ );
+                            //die( __CLASS__ . ':' . __LINE__ );
                         }
                         //echo $file_path . '<br>' . "\n";
 
@@ -620,10 +620,10 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
                     }
                 }
             }
-            //die( __FILE__ . ':' . __LINE__ );
+            //die( __CLASS__ . ':' . __LINE__ );
         }
         //print_r( $arr_result );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         return $arr_result;
@@ -709,11 +709,11 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
         //print_r( $get_file_info );
         $file_size = filesize( $file_path );
         //echo $file_size . '<br>' . "\n";
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
         foreach ( $arr_list_size as $size_name => $size ) {
             $resize_path = $upload_path . $post_title . '-' . $size_name . '.' . $file_ext;
             //echo $resize_path . '<br>' . "\n";
-            //die( __FILE__ . ':' . __LINE__ );
+            //die( __CLASS__ . ':' . __LINE__ );
             //continue;
 
             /*
@@ -740,7 +740,7 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
             $arr_after_sizes[ $size_name ] = $resize_img;
         }
         //print_r( $arr_after_sizes );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         //print_r( $get_file_info );
@@ -788,13 +788,13 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
             '_wp_attached_file' => $file_uri,
         ];
         //print_r( $_POST );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
         $result_id = $this->post_model->insert_post( $data_insert, $_POST[ 'post_meta' ] );
         //print_r( $result_id );
         if ( is_array( $result_id ) && isset( $result_id[ 'error' ] ) ) {
             $this->base_model->alert( $result_id[ 'error' ], 'error' );
         }
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
         //echo 'Result id: ' . $result_id . '<br>' . "\n";
 
         //
@@ -848,7 +848,7 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
             $result[ 'userLevel' ] = UsersType::GUEST_LEVEL;
         }
         //print_r( $result );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         return $result;

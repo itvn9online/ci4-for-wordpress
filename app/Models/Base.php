@@ -129,7 +129,7 @@ class Base extends Session {
         }
         $column_name = $this->db->getFieldNames( $tbl_name ); // list ra những cột có trong table
         //print_r( $column_name );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         foreach ( $items as $key => $value ) { //lặp lại cột lấy giá trị mà người dùng đẩy lên table: $item = array('newstitle'=>'tin tuc hom nay', 'slug'=>'tin-tuc-hom-nay'...)
             if ( !in_array( $key, $column_name ) ) { // kiểm tra xem những giá trị trường đẩy lên có trùng với cột trong table ở csdl k

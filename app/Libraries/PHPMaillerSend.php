@@ -14,7 +14,7 @@ class PHPMaillerSend {
 
         //print_r( $data );
         //print_r( $cog );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         // -> data
         $to = $data[ 'to' ];

@@ -122,7 +122,7 @@ class UserBase extends EbModel {
         //print_r( $this->base_model->db->getLastQuery()->getQuery() );
         $a = $query->getResultArray();
         //print_r( $a );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
         if ( !empty( $a ) ) {
             return $a[ 0 ];
         }

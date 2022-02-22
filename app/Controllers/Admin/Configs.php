@@ -119,7 +119,7 @@ class Configs extends Admin {
         //$data[ 'min_price' ] = str_replace( ',', '', $data[ 'min_price' ] );
         //$data[ 'max_price' ] = str_replace( ',', '', $data[ 'max_price' ] );
         //print_r( $data );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         if ( isset( $data[ 'robots' ] ) ) {
@@ -190,7 +190,7 @@ Sitemap: ' . DYNAMIC_BASE_URL . 'sitemap';
                 'insert_time' => $insert_time,
             ] );
         }
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         // reset cache
         $this->option_model->list_config( $this->lang_key, 0, 0, true );
@@ -238,7 +238,7 @@ Sitemap: ' . DYNAMIC_BASE_URL . 'sitemap';
             ];
         }
         //print_r( $data_send );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         $result = PHPMaillerSend::the_send( $data_send, $this->getconfig, 2 );

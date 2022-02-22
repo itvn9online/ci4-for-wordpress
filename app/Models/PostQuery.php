@@ -65,7 +65,7 @@ class PostQuery extends PostMeta {
                         'error' => 'Slug đã được sử dụng ở post #' . $check_slug[ 'ID' ] . ' (' . $data[ 'post_name' ] . ')',
                     ];
                 }
-                //die( __FILE__ . ':' . __LINE__ );
+                //die( __CLASS__ . ':' . __LINE__ );
             }
         }
         foreach ( $default_data as $k => $v ) {
@@ -83,7 +83,7 @@ class PostQuery extends PostMeta {
         if ( $result_id !== false ) {
             //print_r( $data_meta );
             //print_r( $_POST );
-            //die( __FILE__ . ':' . __LINE__ );
+            //die( __CLASS__ . ':' . __LINE__ );
 
             // insert/ update meta post
             if ( !empty( $data_meta ) ) {
@@ -161,7 +161,7 @@ class PostQuery extends PostMeta {
                         'error' => 'Slug đã được sử dụng ở post #' . $check_slug[ 'ID' ] . ' (' . $data[ 'post_name' ] . ')',
                     ];
                 }
-                //die( __FILE__ . ':' . __LINE__ );
+                //die( __CLASS__ . ':' . __LINE__ );
             }
         }
 
@@ -360,7 +360,7 @@ class PostQuery extends PostMeta {
         // trả về dữ liệu
         $get_data = $this->get_auto_post( $slug, $ops[ 'post_type' ], $ops[ 'taxonomy' ], $ops[ 'limit' ] );
         //print_r( $get_data );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
         if ( !isset( $get_data[ 'posts' ] ) || empty( $get_data[ 'posts' ] ) ) {
             // nếu có tham số cho phép nhân bản dữ liệu cho các ngôn ngữ khác
             if ( isset( $ops[ 'auto_clone' ] ) && $ops[ 'auto_clone' ] === 1 && LanguageCost::lang_key() != LanguageCost::default_lang() ) {
@@ -488,9 +488,11 @@ class PostQuery extends PostMeta {
         //echo $tmp_html . '<br>' . "\n";
 
         // tạo css chỉnh cột
+        //print_r( $instance );
         if ( $instance[ 'post_cloumn' ] != '' ) {
             $instance[ 'post_cloumn' ] = 'blogs_node_' . $instance[ 'post_cloumn' ];
         }
+        //print_r( $instance );
 
         // do hàm select có chỉnh sửa với limit -> ở đây phải thao tác ngược lại
         if ( $ops[ 'limit' ] == 1 ) {
@@ -535,6 +537,8 @@ class PostQuery extends PostMeta {
             $blog_link_option .= ' target="_blank"';
             //$widget_title_option .= ' target="_blank"';
         }
+        //print_r( $instance );
+        //print_r( $post_cat );
         //$max_width = '';
         //$num_line = '';
         //$post_cloumn = '';

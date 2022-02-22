@@ -53,7 +53,7 @@ class User extends UserMeta {
 
         //
         if ( !isset( $data[ 'user_login' ] ) || $data[ 'user_login' ] == '' ) {
-            //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+            //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             //echo $data[ 'user_email' ] . '<br>' . "\n";
             $data[ 'user_login' ] = $this->generate_user_login( $data[ 'user_email' ] );
             //echo $data[ 'user_login' ] . '<br>' . "\n";

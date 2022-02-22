@@ -99,7 +99,7 @@ class Terms extends Admin {
         $count_filter[ 'select_col' ] = 'COUNT(term_id) AS c';
         $totalThread = $this->term_model->get_all_taxonomy( $this->taxonomy, 0, $count_filter );
         //print_r( $totalThread );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
         $totalThread = $totalThread[ 0 ][ 'c' ];
         //print_r( $totalThread );
         $totalPage = ceil( $totalThread / $post_per_page );
@@ -117,7 +117,7 @@ class Terms extends Admin {
         //echo $totalPage . '<br>' . "\n";
         $offset = ( $page_num - 1 ) * $post_per_page;
         //echo $offset . '<br>' . "\n";
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '&page_num=' );
@@ -139,7 +139,7 @@ class Terms extends Admin {
 
         //
         $data = $this->term_treeview_data( $data );
-        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $data );
 
         //
@@ -208,7 +208,9 @@ class Terms extends Admin {
         // edit
         if ( $id != '' ) {
             // select dữ liệu từ 1 bảng bất kỳ
-            $data = $this->term_model->get_all_taxonomy( $this->taxonomy, $id );
+            $data = $this->term_model->get_all_taxonomy( $this->taxonomy, $id, [
+                'get_meta' => 1
+            ] );
 
             if ( empty( $data ) ) {
                 die( 'term not found!' );
@@ -284,7 +286,7 @@ class Terms extends Admin {
     protected function add_new() {
         $data = $this->MY_post( 'data' );
         //print_r( $data );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         $result_id = $this->term_model->insert_terms( $data, $this->taxonomy );

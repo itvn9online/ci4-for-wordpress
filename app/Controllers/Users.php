@@ -21,7 +21,7 @@ class Users extends Csrf {
         //
         if ( !empty( $this->MY_post( 'data' ) ) ) {
             //print_r( $this->MY_post( 'data' ) );
-            //die( __FILE__ . ':' . __LINE__ );
+            //die( __CLASS__ . ':' . __LINE__ );
             return $this->update( $id );
         }
 

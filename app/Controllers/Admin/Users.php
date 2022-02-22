@@ -318,7 +318,7 @@ class Users extends Admin {
     protected function add_new() {
         $data = $this->MY_post( 'data' );
         //print_r( $data );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         $result_id = $this->user_model->insert_member( $data );

@@ -229,7 +229,7 @@ class Dashboard extends Optimize {
         }
 
         //
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         $this->base_model->alert( 'LỖI trong quá trình giải nén system.zip', 'error' );
@@ -297,7 +297,7 @@ class Dashboard extends Optimize {
                 if ( !in_array( $file_ext, $allow_upload ) ) {
                     $this->base_model->alert( 'Định dạng file chưa được hỗ trợ! Hiện chỉ hỗ trợ định dạng .ZIP', 'error' );
                 }
-                //die( __FILE__ . ':' . __LINE__ );
+                //die( __CLASS__ . ':' . __LINE__ );
 
                 // xóa các file zip cũ đi
                 $this->cleanup_zip( $upload_path, 'Không xóa được file ZIP cũ trước khi upload file mới' );
@@ -310,7 +310,7 @@ class Dashboard extends Optimize {
                     $this->base_model->alert( 'Upload thất bại! Không xác định được file sau khi upload', 'error' );
                 }
                 chmod( $file_path, DEFAULT_FILE_PERMISSION );
-                //die( __FILE__ . ':' . __LINE__ );
+                //die( __CLASS__ . ':' . __LINE__ );
 
                 // giải nén sau khi upload
                 $this->after_unzip_code( $file_path, $upload_path, $upload_via_ftp );
@@ -327,7 +327,7 @@ class Dashboard extends Optimize {
         }
 
         //
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
         die( '<script>top.done_submit_update_code();</script>' );
     }
 
@@ -347,7 +347,7 @@ class Dashboard extends Optimize {
     }
 
     private function rmdir_from_cache( $upload_path ) {
-        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         //die( $upload_path );
         //echo $upload_path . '<br>' . "\n";
 
@@ -503,7 +503,7 @@ class Dashboard extends Optimize {
                     }
 
                     //
-                    //die( __FILE__ . ':' . __LINE__ );
+                    //die( __CLASS__ . ':' . __LINE__ );
                 }
             }
 
@@ -524,7 +524,7 @@ class Dashboard extends Optimize {
         //die( $file_path );
 
         //
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
         die( '<script>top.done_submit_update_code();</script>' );
     }
 
@@ -538,7 +538,7 @@ class Dashboard extends Optimize {
             $this->cleanup_zip( $upload_path, 'Không xóa được file ZIP sau khi giải nén code' );
             //echo $upload_path . '<br>' . "\n";
             //var_dump( $upload_via_ftp );
-            //die( __FILE__ . ':' . __LINE__ );
+            //die( __CLASS__ . ':' . __LINE__ );
 
             // nếu là giải nén trong cache -> copy file sang thư mục public
             if ( $main_zip === true || $upload_via_ftp === true ) {
@@ -765,7 +765,7 @@ class Dashboard extends Optimize {
             } else {
                 $this->base_model->alert( 'Thư mục cache trống!', 'warning' );
             }
-            die( __FILE__ . ':' . __LINE__ );
+            die( __CLASS__ . ':' . __LINE__ );
         }
 
         //
@@ -780,22 +780,22 @@ class Dashboard extends Optimize {
     }
 
     private function cleanup_deleted_dir( $dirs, $upload_via_ftp ) {
-        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $dirs );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         // lấy danh sách file và thư mục để XÓA
         $this->file_re_cache = [];
-        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $this->file_re_cache );
         $this->dir_re_cache = [];
-        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $this->dir_re_cache );
         foreach ( $dirs as $v ) {
             if ( !is_dir( $v ) ) {
                 continue;
             }
-            //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+            //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             //echo $v . '<br>' . "\n";
 
             // file
@@ -805,14 +805,14 @@ class Dashboard extends Optimize {
             $this->dir_re_cache[] = $v;
             $this->rmdir_from_cache( $v );
         }
-        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $this->file_re_cache );
-        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $this->dir_re_cache );
         $this->dir_re_cache = array_reverse( $this->dir_re_cache );
-        //echo __FILE__ . ':' . __LINE__ . '<br>' . "\n";
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $this->dir_re_cache );
-        //die( __FILE__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         // xóa bằng php thường
         if ( $upload_via_ftp !== true ) {

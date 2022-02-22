@@ -246,7 +246,7 @@ class PostPosts extends PostSlider {
 
             $c = $this->base_model->select( '*', 'posts', $where, $filter );
             //print_r( $c );
-            //die( __FILE__ . ':' . __LINE__ );
+            //die( __CLASS__ . ':' . __LINE__ );
 
             return $c[ 0 ][ 'ID' ];
         }
