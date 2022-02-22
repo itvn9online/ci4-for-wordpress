@@ -138,7 +138,7 @@ ThirdParty/*
 outsource/*
 !outsource/*.zip
 
-## dreamweaver auto push
+# dreamweaver auto push
 /_notes/
 dwsync.xml
 ci4-for-wordpress.zip
