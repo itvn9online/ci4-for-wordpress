@@ -8,6 +8,7 @@ class Optimize extends Admin {
 
     // sử dụng khi cần nén lại các file tĩnh bằng cách thủ công
     public function index() {
+        $data = '';
         // tính năng này không hoạt động trên localhost
         if ( strpos( $_SERVER[ 'HTTP_HOST' ], 'localhost' ) === false ) {
             // tạo các file txt xác nhận quá trình optimize
@@ -31,13 +32,26 @@ class Optimize extends Admin {
                 'set_permission' => DEFAULT_FILE_PERMISSION,
                 'ftp' => 1,
             ] );
+            $this->base_model->_eb_create_file( APPPATH . 'Views/' . $f, $c, [
+                'set_permission' => DEFAULT_FILE_PERMISSION,
+                'ftp' => 1,
+            ] );
+            $this->base_model->_eb_create_file( THEMEPATH . 'Views/' . $f, $c, [
+                'set_permission' => DEFAULT_FILE_PERMISSION,
+                'ftp' => 1,
+            ] );
 
             // bắt đầu optimize
+            ob_start();
             $this->optimize_css_js();
+            $data = ob_get_contents();
+            ob_end_clean();
         }
 
         //
-        $this->teamplate_admin[ 'content' ] = view( 'admin/optimize_view', [] );
+        $this->teamplate_admin[ 'content' ] = view( 'admin/optimize_view', [
+            'data' => $data
+        ] );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
 
@@ -58,7 +72,7 @@ class Optimize extends Admin {
             if ( file_exists( $filename ) ) {
                 $c = $this->WGR_remove_css_multi_comment( file_get_contents( $filename, 1 ) );
                 if ( $c !== false ) {
-                    echo $filename . ':' . __FUNCTION__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                    echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
                     $c = trim( $c );
                     if ( !empty( $c ) ) {
                         $this->base_model->_eb_create_file( $filename, $c, [ 'ftp' => 1 ] );
@@ -67,23 +81,75 @@ class Optimize extends Admin {
             }
         }
         $this->optimize_action_js( THEMEPATH );
+
+        // optimize phần view -> optimize HTML
+        $this->optimize_action_views( APPPATH );
+        $this->optimize_action_views( THEMEPATH );
+    }
+
+    private function optimize_action_views( $path, $dir = 'Views', $check_active = true ) {
+        $path = $path . rtrim( $dir, '/' );
+        //echo $path . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+        if ( $this->check_active_optimize( $path . '/' ) !== true ) {
+            if ( $check_active === true ) {
+                return false;
+            }
+        }
+        echo '<strong>' . $path . '</strong>:<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+
+        // optimize file php
+        foreach ( glob( $path . '/*.php' ) as $filename ) {
+            echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+
+            //
+            $c = $this->WGR_update_core_remove_php_multi_comment( $this->WGR_update_core_remove_php_comment( file_get_contents( $filename, 1 ) ) );
+            if ( $c != '' ) {
+                $c .= PHP_EOL;
+                //$c .= ' ';
+            }
+            $this->base_model->_eb_create_file( $filename, $c, [ 'ftp' => 1 ] );
+        }
+
+        // optimize file html
+        foreach ( glob( $path . '/*.html' ) as $filename ) {
+            echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+
+            //
+            $c = $this->WGR_update_core_remove_html_comment( file_get_contents( $filename, 1 ) );
+            $this->base_model->_eb_create_file( $filename, $c, [ 'ftp' => 1 ] );
+        }
+
+        // optimize các thư mục con
+        foreach ( glob( $path . '/*' ) as $filename ) {
+            if ( is_dir( $filename ) ) {
+                $this->optimize_action_views( $filename, '', false );
+            }
+        }
     }
 
     private function optimize_action_css( $path, $dir = 'css', $type = 'css' ) {
-        if ( $this->check_active_optimize( $path . $dir . '/' ) !== true ) {
+        $path = $path . rtrim( $dir, '/' );
+        //echo $path . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+        if ( $this->check_active_optimize( $path . '/' ) !== true ) {
             return false;
         }
-        echo $path . '<br>' . PHP_EOL;
+        echo '<strong>' . $path . '</strong>:<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
 
         //
-        foreach ( glob( $path . rtrim( $dir, '/' ) . '/*.' . $type ) as $filename ) {
-            $c = $this->WGR_remove_css_multi_comment( file_get_contents( $filename, 1 ) );
+        foreach ( glob( $path . '/*.' . $type ) as $filename ) {
+            $c = file_get_contents( $filename, 1 );
+            // nếu file không có nội dung gì thì xóa luôn file đí -> tối ưu cho frontend đỡ phải nạp
+            if ( trim( $c ) == false ) {
+                $this->MY_unlink( $filename );
+                continue;
+            }
+            $c = $this->WGR_remove_css_multi_comment( $c );
             //var_dump( $c );
             if ( $c === false ) {
                 echo 'continue (' . basename( $filename ) . ') <br>' . PHP_EOL;
                 continue;
             }
-            echo $filename . ':' . __FUNCTION__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
 
             //
             $c = trim( $c );
@@ -97,19 +163,27 @@ class Optimize extends Admin {
     }
 
     private function optimize_action_js( $path, $dir = 'js', $type = 'js' ) {
-        if ( $this->check_active_optimize( $path . $dir . '/' ) !== true ) {
+        $path = $path . rtrim( $dir, '/' );
+        //echo $path . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+        if ( $this->check_active_optimize( $path . '/' ) !== true ) {
             return false;
         }
-        echo $path . '<br>' . PHP_EOL;
+        echo '<strong>' . $path . '</strong>:<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
 
         //
-        foreach ( glob( $path . rtrim( $dir, '/' ) . '/*.' . $type ) as $filename ) {
-            $c = $this->WGR_update_core_remove_js_comment( file_get_contents( $filename, 1 ) );
+        foreach ( glob( $path . '/*.' . $type ) as $filename ) {
+            $c = file_get_contents( $filename, 1 );
+            // nếu file không có nội dung gì thì xóa luôn file đí -> tối ưu cho frontend đỡ phải nạp
+            if ( trim( $c ) == false ) {
+                $this->MY_unlink( $filename );
+                continue;
+            }
+            $c = $this->WGR_update_core_remove_js_comment( $c );
             if ( $c === false ) {
                 echo 'continue (' . basename( $filename ) . ') <br>' . PHP_EOL;
                 continue;
             }
-            echo $filename . ':' . __FUNCTION__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
 
             //
             if ( !empty( $c ) ) {
@@ -120,8 +194,9 @@ class Optimize extends Admin {
 
     // kiểm tra xem có sự tồn tại của file kích hoạt chế độ optimize không
     private function check_active_optimize( $path ) {
-        //echo $path . 'active-optimize.txt <br>' . "\n";
+        //echo '<strong>' . $path . '</strong>:<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
         $full_path = $path . 'active-optimize.txt';
+        //echo $full_path . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
         if ( file_exists( $full_path ) ) {
             // thử xóa file optimize -> XÓA được thì mới trả về true -> đảm bảo có quyền chỉnh sửa các file trong này
             if ( $this->MY_unlink( $full_path ) ) {
@@ -416,5 +491,97 @@ class Optimize extends Admin {
             'Ỹ' => '\u1ef8',
             'Ỵ' => '\u1ef4'
         );
+    }
+
+    private function WGR_update_core_remove_html_comment( $a ) {
+        $a = explode( "\n", $a );
+
+        $str = '';
+        foreach ( $a as $v ) {
+            $v = trim( $v );
+
+            if ( $v == '' ) {
+                continue;
+            }
+
+            // loại bỏ các comment html đơn giản
+            /*
+			if ( substr( $v, 0, 4 ) == '<!--' && substr( $v, -3 ) == '-->' ) {
+			}
+			else {
+	            $str .= $v . "\n";
+			}
+			*/
+
+            $str .= $v . ' ';
+            if ( strpos( $v, '//' ) !== false ) {
+                $str .= "\n";
+            }
+        }
+
+        //
+        return trim( $str );
+        //	return trim( $str );
+    }
+
+    private function WGR_update_core_remove_php_comment( $a ) {
+        $a = explode( "\n", $a );
+
+        $str = '';
+        foreach ( $a as $v ) {
+            $v = trim( $v );
+
+            // loại bỏ các dòng comment đơn
+            if ( $v == '' || substr( $v, 0, 2 ) == '//' || substr( $v, 0, 2 ) == '# ' ) {
+                continue;
+            }
+
+            // loại bỏ comment php nếu nó nằm trên 1 dòng
+            //			if ( substr( $v, 0, 2 ) == '/*' && substr( $v, -2 ) == '*/' ) {
+            //			}
+            // trong code php có sẽ code html -> loại bỏ như html luôn
+            /*
+            else if ( substr( $v, 0, 4 ) == '<!--' && substr( $v, -3 ) == '-->' ) {
+            }
+            else {
+            	*/
+            $str .= $v . ' ' . "\n";
+            //			}
+        }
+
+        //	return trim( WGR_remove_js_multi_comment( $str ) );
+        return trim( $str );
+    }
+
+    private function WGR_update_core_remove_php_multi_comment( $fileStr ) {
+        // https://stackoverflow.com/questions/503871/best-way-to-automatically-remove-comments-from-php-code
+        $str = '';
+
+        //
+        $commentTokens = array( T_COMMENT );
+        if ( defined( 'T_DOC_COMMENT' ) ) {
+            $commentTokens[] = T_DOC_COMMENT; // PHP 5
+        }
+        if ( defined( 'T_ML_COMMENT' ) ) {
+            $commentTokens[] = T_ML_COMMENT; // PHP 4
+        }
+
+        //
+        $tokens = token_get_all( $fileStr );
+
+        //
+        foreach ( $tokens as $token ) {
+            if ( is_array( $token ) ) {
+                if ( in_array( $token[ 0 ], $commentTokens ) ) {
+                    continue;
+                }
+
+                $token = $token[ 1 ];
+            }
+
+            $str .= $token;
+        }
+
+        return trim( $str );
     }
 }

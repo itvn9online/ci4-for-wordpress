@@ -106,7 +106,7 @@ class MyImage {
         if ( !file_exists( $source ) ) {
             return [
                 'code' => __LINE__,
-                'error' => __FUNCTION__ . ': File not exist'
+                'error' => __CLASS__ . ': File not exist'
             ];
         }
 
@@ -171,7 +171,7 @@ class MyImage {
         if ( !file_exists( $source ) ) {
             return [
                 'code' => __LINE__,
-                'error' => __FUNCTION__ . ': File not exist'
+                'error' => __CLASS__ . ': File not exist'
             ];
         }
 
@@ -199,7 +199,7 @@ class MyImage {
         if ( !file_exists( $source ) ) {
             return [
                 'code' => __LINE__,
-                'error' => __FUNCTION__ . ': File not exist'
+                'error' => __CLASS__ . ': File not exist'
             ];
         }
 
@@ -207,7 +207,7 @@ class MyImage {
         if ( $width <= 0 && $height <= 0 ) {
             return [
                 'code' => __LINE__,
-                'error' => __FUNCTION__ . ': width AND height not set number value'
+                'error' => __CLASS__ . ': width AND height not set number value'
             ];
         }
 
@@ -282,7 +282,7 @@ class MyImage {
         if ( !file_exists( $source ) ) {
             return [
                 'code' => __LINE__,
-                'error' => __FUNCTION__ . ': File not exist'
+                'error' => __CLASS__ . ': File not exist'
             ];
         }
 

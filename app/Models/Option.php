@@ -266,7 +266,7 @@ class Option extends EbModel {
         }
 
         //
-        echo '<a href="./" class="web-logo" style="background-image: url(\'' . $this->get_the_logo( $cog, $key ) . '\'); height: ' . $height . 'px;">&nbsp;</a>';
+        echo '<a href="./" class="web-logo" aria-label="Home" style="background-image: url(\'' . $this->get_the_logo( $cog, $key ) . '\'); height: ' . $height . 'px;">&nbsp;</a>';
     }
 
     function get_config( $config, $key, $default_value = '' ) {

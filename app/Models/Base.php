@@ -18,7 +18,7 @@ class Base extends Session {
 
             //
             if ( empty( $data ) ) {
-                die( 'data insert empty ' . $table . ':' . basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ );
+                die( 'data insert empty ' . $table . ':' . __CLASS__ . ':' . __LINE__ );
             }
         }
 
@@ -66,7 +66,7 @@ class Base extends Session {
             echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . PHP_EOL;
 
             //
-            die( 'data update empty ' . $table . ':' . __FUNCTION__ . ':line:' . __LINE__ );
+            die( 'data update empty ' . $table . ':' . __CLASS__ . ':line:' . __LINE__ );
         }
         //print_r( $where_array );
 
@@ -518,7 +518,13 @@ class Base extends Session {
         echo $this->get_add_css( $f, false, [], true ) . PHP_EOL;
     }
 
-    function get_add_js( $f, $get_content = false, $attr = [] ) {
+    function preloads_css( $fs ) {
+        foreach ( $fs as $f ) {
+            echo $this->get_add_css( $f, false, [], true ) . PHP_EOL;
+        }
+    }
+
+    function get_add_js( $f, $get_content = false, $attr = [], $preload = false ) {
         $f = str_replace( PUBLIC_PUBLIC_PATH, '', $f );
         $f = ltrim( $f, '/' );
         //echo $f . '<br>' . "\n";
@@ -528,17 +534,30 @@ class Base extends Session {
         if ( $get_content === true ) {
             return '<script type="text/javascript">' . file_get_contents( $f, 1 ) . '</script>';
         }
+        if ( $preload == true ) {
+            return '<link rel="preload" as="script" href="' . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '">';
+        }
         //print_r( $attr );
         return '<script type="text/javascript" src="' . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '" ' . implode( ' ', $attr ) . '></script>';
     }
     // thêm 1 file
-    function add_js( $f, $get_content = false, $attr = [] ) {
+    function add_js( $f, $get_content = false, $attr = [], $preload = false ) {
         echo $this->get_add_js( $f, $get_content, $attr ) . PHP_EOL;
     }
     // thêm nhiều file cùng 1 thuộc tính
-    function adds_js( $fs, $get_content = false, $attr = [] ) {
+    function adds_js( $fs, $get_content = false, $attr = [], $preload = false ) {
         foreach ( $fs as $f ) {
             echo $this->get_add_js( $f, $get_content, $attr ) . PHP_EOL;
+        }
+    }
+    // chế độ nạp trước css
+    function preload_js( $f ) {
+        echo $this->get_add_js( $f, false, [], true ) . PHP_EOL;
+    }
+
+    function preloads_js( $fs ) {
+        foreach ( $fs as $f ) {
+            echo $this->get_add_js( $f, false, [], true ) . PHP_EOL;
         }
     }
 
@@ -757,30 +776,6 @@ class Base extends Session {
 
         //
         return $tmp_html;
-    }
-
-    // daidq -> dữ liệu của bảng options -> đã chuyển sang options model -> ở base model sau này sẽ xóa đi
-    function get_the_logo( $cog, $key = 'logo' ) {
-        //if ( !isset( $cog->$key ) || $cog->$key == '' ) {
-        if ( $cog->$key == '' ) {
-            $cog->$key = $cog->logo;
-        }
-        return $cog->$key;
-    }
-
-    function the_logo( $cog, $key = 'logo', $logo_height = 'logo_main_height' ) {
-        //if ( !isset( $cog->$logo_height ) || $cog->$logo_height == '' ) {
-        if ( $cog->$logo_height == '' ) {
-            $logo_height = 'logo_main_height';
-        }
-        if ( isset( $cog->$logo_height ) ) {
-            $height = $cog->$logo_height;
-        } else {
-            $height = 90;
-        }
-
-        //
-        echo '<a href="./" class="web-logo" style="background-image: url(\'' . $this->get_the_logo( $cog, $key ) . '\'); height: ' . $height . 'px;">&nbsp;</a>';
     }
 
     function EBE_get_file_in_folder( $dir, $file_type = '', $type = '', $get_basename = false ) {

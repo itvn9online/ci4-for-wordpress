@@ -257,7 +257,7 @@ class Dashboard extends Optimize {
 
             // tạo thư mục nếu chưa có
             if ( !is_dir( $upload_path ) ) {
-                $this->mk_dir( $upload_path, basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ );
+                $this->mk_dir( $upload_path, __CLASS__ . ':' . __LINE__ );
             }
         }
         //die( $upload_path );
@@ -457,7 +457,7 @@ class Dashboard extends Optimize {
 
             // tạo thư mục nếu chưa có
             if ( !is_dir( $upload_path ) ) {
-                $this->mk_dir( $upload_path, basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ );
+                $this->mk_dir( $upload_path, __CLASS__ . ':' . __LINE__ );
             }
         }
 
@@ -498,8 +498,8 @@ class Dashboard extends Optimize {
                     }
                     // tạo mặc định
                     else {
-                        $this->mk_dir( $this->app_dir, basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__, 0755 );
-                        $this->mk_dir( $this->public_dir, basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__, 0755 );
+                        $this->mk_dir( $this->app_dir, __CLASS__ . ':' . __LINE__, 0755 );
+                        $this->mk_dir( $this->public_dir, __CLASS__ . ':' . __LINE__, 0755 );
                     }
 
                     //
@@ -586,7 +586,7 @@ class Dashboard extends Optimize {
                         }
                         // tạo mặc định
                         else {
-                            $this->mk_dir( $dir, basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ );
+                            $this->mk_dir( $dir, __CLASS__ . ':' . __LINE__ );
                         }
                     }
                 }

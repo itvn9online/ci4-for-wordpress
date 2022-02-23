@@ -4,4 +4,7 @@
 <?php
 
 //
-echo basename( __FILE__ ) . '<br>' . "\n";
+echo '<strong>' . basename( __FILE__ ) . '</strong><br>' . "\n";
+
+//
+echo $data;

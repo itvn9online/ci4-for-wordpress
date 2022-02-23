@@ -70,17 +70,17 @@ echo $font_awesome_before;
 <!-- <link rel="stylesheet" type="text/css" media="all" href="thirdparty/flatsome/flatsome.css" /> --> 
 <!-- <link rel="stylesheet" type="text/css" media="all" href="frontend/css/swiper.min.css" /> --> 
 <script type="text/javascript" src="thirdparty/jquery/jquery-3.6.0.min.js"></script> 
-<!--
-<script type="text/javascript" src="thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> 
-<link rel="preload" as="script" onload="this.onload=null;this.type='text/javascript'" href="thirdparty/jquery/jquery-3.6.0.min.js">
-<link rel="preload" as="script" onload="this.onload=null;this.type='text/javascript'" href="thirdparty/jquery/jquery-migrate-3.3.2.min.js">
---> 
+<!-- <script type="text/javascript" src="thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> --> 
+<!-- <link rel="preload" as="script" href="thirdparty/jquery/jquery-3.6.0.min.js"> --> 
+<!-- <link rel="preload" as="script" onload="this.onload=null;this.type='text/javascript'" href="thirdparty/jquery/jquery-migrate-3.3.2.min.js"> --> 
 <!-- <script type="text/javascript" src="frontend/js/swiper.min.js"></script> -->
 <?php
 
 //
-$base_model->add_css( 'css/d.css' );
-$base_model->preload_css( 'css/d2.css' );
+$base_model->preloads_css( [
+    'css/d.css',
+    'css/d2.css',
+] );
 $base_model->adds_css( [
     'css/flatsome.css',
     'css/thread_list.css',
@@ -120,11 +120,7 @@ max-width: <?php echo $getconfig->site_full_width . 'px';
 }
 </style>
 <script>
-var cf_tester_mode = '<?php echo $debug_enable === true ? 1 : 0; ?>' * 1,
-current_user_id='<?php echo $current_user_id; ?>' * 1,
-pid = 0,
-global_window_width = jQuery(window).width(),
-web_link = window.location.protocol + '//' + document.domain + '/';
+var cf_tester_mode = '<?php echo $debug_enable === true ? 1 : 0; ?>' * 1,current_user_id='<?php echo $current_user_id; ?>' * 1,pid = 0,global_window_width = jQuery(window).width(),web_link = window.location.protocol + '//' + document.domain + '/';
 </script>
 <?php
 

@@ -819,7 +819,7 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
             //echo $path . '<br>' . "\n";
 
             if ( !is_dir( $path ) ) {
-                mkdir( $path, DEFAULT_DIR_PERMISSION )or die( 'ERROR create dir (' . basename( __FILE__ ) . ':' . __FUNCTION__ . ':' . __LINE__ . ')! ' . $path );
+                mkdir( $path, DEFAULT_DIR_PERMISSION )or die( 'ERROR create dir (' . __CLASS__ . ':' . __LINE__ . ')! ' . $path );
                 chmod( $path, DEFAULT_DIR_PERMISSION );
             }
         }

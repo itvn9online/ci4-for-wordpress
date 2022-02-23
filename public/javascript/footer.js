@@ -4,7 +4,7 @@
 
 // xóa href cho các thẻ a không sử dụng
 $('a[href="#"], a[href="javascript:;"]').removeAttr('href').attr({
-    'rel': 'noreferrer'
+    'rel': 'noreferrer noopener'
 });
 
 // khi bấm nút đăng xuất
