@@ -103,7 +103,7 @@ class Term extends EbModel {
     function insert_terms( $data, $taxonomy, $return_exist = false ) {
         // các dữ liệu mặc định
         $default_data = [
-            'last_updated' => date( 'Y-m-d H:i:s' ),
+            'last_updated' => date( EBE_DATETIME_FORMAT ),
             'lang_key' => LanguageCost::lang_key(),
         ];
         //print_r( $default_data );
@@ -219,7 +219,7 @@ class Term extends EbModel {
             }
         }
         if ( !isset( $data[ 'last_updated' ] ) || $data[ 'last_updated' ] == '' ) {
-            $data[ 'last_updated' ] = date( 'Y-m-d H:i:s' );
+            $data[ 'last_updated' ] = date( EBE_DATETIME_FORMAT );
         }
 
         // tính tổng số term con của term đang được cập nhật

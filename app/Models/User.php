@@ -42,7 +42,7 @@ class User extends UserMeta {
     public function insert_member( $data, $check_exist = true ) {
         // các dữ liệu mặc định
         $default_data = [
-            'user_registered' => date( 'Y-m-d H:i:s' ),
+            'user_registered' => date( EBE_DATETIME_FORMAT ),
         ];
         $default_data[ 'last_updated' ] = $default_data[ 'user_registered' ];
 
@@ -99,7 +99,7 @@ class User extends UserMeta {
             }
         }
         if ( !isset( $data[ 'last_updated' ] ) || $data[ 'last_updated' ] == '' ) {
-            $data[ 'last_updated' ] = date( 'Y-m-d H:i:s' );
+            $data[ 'last_updated' ] = date( EBE_DATETIME_FORMAT );
         }
 
         // mã hóa mật khẩu

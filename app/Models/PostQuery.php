@@ -26,7 +26,7 @@ class PostQuery extends PostMeta {
         // các dữ liệu mặc định
         $default_data = [
             'post_author' => $post_author,
-            'post_date' => date( 'Y-m-d H:i:s' ),
+            'post_date' => date( EBE_DATETIME_FORMAT ),
             'lang_key' => LanguageCost::lang_key(),
         ];
         if ( empty( $default_data[ 'post_author' ] ) ) {
@@ -111,7 +111,7 @@ class PostQuery extends PostMeta {
             }
         }
         if ( !isset( $data[ 'post_modified' ] ) || $data[ 'post_modified' ] == '' ) {
-            $data[ 'post_modified' ] = date( 'Y-m-d H:i:s' );
+            $data[ 'post_modified' ] = date( EBE_DATETIME_FORMAT );
             $data[ 'post_modified_gmt' ] = $data[ 'post_modified' ];
         }
         //$data[ 'time_order' ] = time();

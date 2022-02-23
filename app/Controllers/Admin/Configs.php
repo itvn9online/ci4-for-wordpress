@@ -163,7 +163,7 @@ Sitemap: ' . DYNAMIC_BASE_URL . 'sitemap';
         //print_r( $meta_default );
 
         // sau đó insert cái mới
-        $last_updated = date( 'Y-m-d H:i:s' );
+        $last_updated = date( EBE_DATETIME_FORMAT );
         $insert_time = date( 'YmdHis' );
         foreach ( $data as $k => $v ) {
             // có tác động thì mới update -> tác động thì sẽ có tên trong danh sách update

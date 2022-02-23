@@ -40,7 +40,7 @@ class Comment extends EbModel {
         $data_default = [
             //'comment_author_url' => $redirect_to,
             'comment_author_IP' => $this->request->getIPAddress(),
-            'comment_date' => date( 'Y-m-d H:i:s' ),
+            'comment_date' => date( EBE_DATETIME_FORMAT ),
             'comment_title' => '',
             'comment_content' => '',
             'comment_agent' => $_SERVER[ 'HTTP_USER_AGENT' ],

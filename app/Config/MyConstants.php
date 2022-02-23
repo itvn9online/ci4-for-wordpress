@@ -10,13 +10,13 @@
 // website của nhà phát triển
 define( 'PARTNER_WEBSITE', 'https://echbay.com/' );
 
-define( 'EBE_DATE_FORMAT', 'Y-m-d' );
-define( 'EBE_DATETIME_FORMAT', 'Y-m-d H:i:s' );
+defined( 'EBE_DATE_FORMAT' ) || define( 'EBE_DATE_FORMAT', 'Y-m-d' );
+defined( 'EBE_DATETIME_FORMAT' ) || define( 'EBE_DATETIME_FORMAT', 'Y-m-d H:i:s' );
 
 /*
  * tạo đường dẫn admin tránh đường dẫn mặc định. Ví dụ : admin -> nhằm tăng cường bảo mật cho website
  */
-define( 'CUSTOM_ADMIN_URI', 'wgr-wp-admin' );
+defined( 'CUSTOM_ADMIN_URI' ) || define( 'CUSTOM_ADMIN_URI', 'wgr-wp-admin' );
 
 /*
  * URL động cho website để có thể chạy trên nhiều tên miền khác nhau mà không cần config lại

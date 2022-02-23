@@ -162,7 +162,7 @@ class Guest extends Csrf {
 
                     return $this->done_action_login();
                 }
-                $auto_unlock = date( 'Y-m-d H:i:s', $auto_unlock );
+                $auto_unlock = date( EBE_DATETIME_FORMAT, $auto_unlock );
             } else {
                 $auto_unlock = '<strong>Không xác định</strong>. Vui lòng liên hệ admin.';
             }
@@ -182,7 +182,7 @@ class Guest extends Csrf {
 
         //
         $result_id = $this->user_model->update_member( $result[ 'ID' ], [
-            'last_login' => date( 'Y-m-d H:i:s' ),
+            'last_login' => date( EBE_DATETIME_FORMAT ),
             'user_activation_key' => session_id(),
         ] );
 
@@ -234,7 +234,7 @@ class Guest extends Csrf {
                     //$data[ 'status' ] = '1';
                     //$data[ 'accept_mail' ] = 0;
                     //$data[ 'avatar' ] = base_url( 'frontend/images/icon-user-not-login.png' );
-                    //$data[ 'created' ] = date( 'Y-m-d H:i:s' );
+                    //$data[ 'created' ] = date( EBE_DATETIME_FORMAT );
                     //print_r( $data );
                     //die( 'register' );
 
