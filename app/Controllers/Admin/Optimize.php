@@ -503,19 +503,18 @@ class Optimize extends Admin {
             if ( $v == '' ) {
                 continue;
             }
-
             // loại bỏ các comment html đơn giản
-            /*
-			if ( substr( $v, 0, 4 ) == '<!--' && substr( $v, -3 ) == '-->' ) {
-			}
-			else {
-	            $str .= $v . "\n";
-			}
-			*/
+            //echo substr( $v, 0, 4 ) . '<br>' . "\n";
+            //echo substr( $v, -3 ) . '<br>' . "\n";
+            if ( substr( $v, 0, 4 ) == '<!--' && substr( $v, -3 ) == '-->' ) {
+                continue;
+            }
 
-            $str .= $v . ' ';
+            $str .= $v;
             if ( strpos( $v, '//' ) !== false ) {
                 $str .= "\n";
+            } else {
+                $str .= ' ';
             }
         }
 
@@ -540,13 +539,12 @@ class Optimize extends Admin {
             //			if ( substr( $v, 0, 2 ) == '/*' && substr( $v, -2 ) == '*/' ) {
             //			}
             // trong code php có sẽ code html -> loại bỏ như html luôn
-            /*
-            else if ( substr( $v, 0, 4 ) == '<!--' && substr( $v, -3 ) == '-->' ) {
+            if ( substr( $v, 0, 4 ) == '<!--' && substr( $v, -3 ) == '-->' ) {
+                continue;
             }
-            else {
-            	*/
-            $str .= $v . ' ' . "\n";
-            //			}
+
+            //
+            $str .= $v . "\n";
         }
 
         //	return trim( WGR_remove_js_multi_comment( $str ) );
