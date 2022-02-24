@@ -215,6 +215,7 @@ function before_tree_view(tmp, max_i) {
 
 (function () {
     if (term_data.length <= 0) {
+        $('#admin_main_list').text('');
         return false;
     }
 
