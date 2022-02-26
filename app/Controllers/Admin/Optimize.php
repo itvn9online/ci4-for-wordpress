@@ -252,9 +252,16 @@ class Optimize extends Admin {
             'darkblue' => '00008b',
             'green' => '008000',
             'darkgreen' => '006400',
+            'orange' => 'ffa500',
+            'darkorange' => 'ff8c00',
         ];
         foreach ( $arr_colorname_to_code as $k => $v ) {
             $str = str_replace( ':' . $k . '}', ':#' . $v . '}', $str );
+            $str = str_replace( ':' . $k . ';', ':#' . $v . ';', $str );
+            
+            // !important
+            $str = str_replace( ':' . $k . ' !', ':#' . $v . ' !', $str );
+            $str = str_replace( ':' . $k . '!', ':#' . $v . '!', $str );
         }
 
         //
