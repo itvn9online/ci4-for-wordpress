@@ -241,6 +241,22 @@ class Optimize extends Admin {
         $str = str_replace( ': ', ':', $str );
         $str = str_replace( '} .', '}.', $str );
 
+        // chuyển đổi tên màu sang mã màu
+        $arr_colorname_to_code = [
+            'transparent' => '00000000',
+            'red' => 'ff0000',
+            'darkred' => '8b0000',
+            'black' => '000000',
+            'white' => 'ffffff',
+            'blue' => '0000ff',
+            'darkblue' => '00008b',
+            'green' => '008000',
+            'darkgreen' => '006400',
+        ];
+        foreach ( $arr_colorname_to_code as $k => $v ) {
+            $str = str_replace( ':' . $k . '}', ':#' . $v . '}', $str );
+        }
+
         //
         return $str;
     }
