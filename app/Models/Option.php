@@ -50,7 +50,7 @@ class Option extends EbModel {
         }
     }
 
-    public function get_lang( $using_cache = true, $time = 3600 ) {
+    public function get_lang( $using_cache = true, $time = MEDIUM_CACHE_TIMEOUT ) {
         $lang_key = LanguageCost::lang_key();
 
         //
@@ -213,7 +213,7 @@ class Option extends EbModel {
 
         //
         //$this->cache_config[ $lang_key ] = $getconfig;
-        $this->MY_cache( $in_cache, $getconfig, 3600 );
+        $this->MY_cache( $in_cache, $getconfig, MEDIUM_CACHE_TIMEOUT );
 
         //
         return $getconfig;

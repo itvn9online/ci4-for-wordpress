@@ -222,8 +222,10 @@ if ( $auto_update_module * 1 === 1 ) {
                     } // END if post textarea
                     else if ( $input_type == 'select' || $input_type == 'select_multiple' ) {
                         $select_multiple = '';
+                        $meta_multiple = '';
                         if ( $input_type == 'select_multiple' ) {
                             $select_multiple = 'multiple';
+                            $meta_multiple = '[]';
                         }
 
                         // lấy danh sách page template cho page

@@ -412,7 +412,7 @@ class Term extends EbModel {
         return $this->get_all_taxonomy( $taxonomy, 0, NULL, $in_cache, true );
     }
 
-    function get_all_taxonomy( $taxonomy = 'category', $term_id = 0, $ops = [], $in_cache = '', $clear_cache = false, $time = DEFAULT_CACHE_TIMEOUT ) {
+    function get_all_taxonomy( $taxonomy = 'category', $term_id = 0, $ops = [], $in_cache = '', $clear_cache = false, $time = MINI_CACHE_TIMEOUT ) {
         //print_r( $ops );
 
         // nếu không có cache key -> kiểm tra điều kiện tạo key

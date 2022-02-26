@@ -135,7 +135,7 @@ class PostPosts extends PostSlider {
         return $this->get_posts( $prams, $ops );
     }
 
-    function get_the_ads( $slug, $limit = 0, $ops = [], $using_cache = true, $time = 3600 ) {
+    function get_the_ads( $slug, $limit = 0, $ops = [], $using_cache = true, $time = MEDIUM_CACHE_TIMEOUT ) {
         $in_cache = '';
         if ( $using_cache === true ) {
             $in_cache = __FUNCTION__ . '-' . $slug . '-' . LanguageCost::lang_key();
@@ -169,7 +169,7 @@ class PostPosts extends PostSlider {
         return $data;
     }
 
-    function the_ads( $slug, $limit = 0, $ops = [], $using_cache = true, $time = 3600 ) {
+    function the_ads( $slug, $limit = 0, $ops = [], $using_cache = true, $time = MEDIUM_CACHE_TIMEOUT ) {
         echo $this->get_the_ads( $slug, $limit, $ops, $using_cache, $time );
     }
 

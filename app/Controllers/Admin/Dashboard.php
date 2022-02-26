@@ -66,7 +66,7 @@ class Dashboard extends Optimize {
         //
         $last_enabled_debug = 0;
         // tự động tắt chế độ debug sau 7 ngày
-        $auto_disable_debug = 24 * 3600 * 7;
+        $auto_disable_debug = WEEK;
         // tự động tắt chế độ debug sau 4 giờ
         $auto_disable_debug = 4 * 3600;
         if ( file_exists( $this->f_env ) ) {
@@ -741,36 +741,6 @@ class Dashboard extends Optimize {
             }
         }
         return $result;
-    }
-
-    // chức năng upload file code zip lên host và giải nén -> update code
-    public function cleanup_cache() {
-        if ( !empty( $this->MY_post( 'data' ) ) ) {
-            $has_cache = false;
-            foreach ( glob( WRITEPATH . 'cache/*' ) as $filename ) {
-                echo $filename . '<br>' . "\n";
-                $has_cache = true;
-
-                //
-                if ( is_file( $filename ) ) {
-                    if ( !$this->MY_unlink( $filename ) ) {
-                        $this->base_model->alert( 'Lỗi xóa file cache ' . basename( $filename ), 'error' );
-                    }
-                }
-            }
-
-            //
-            if ( $has_cache === true ) {
-                $this->base_model->alert( 'Toàn bộ file cache đã được xóa' );
-            } else {
-                $this->base_model->alert( 'Thư mục cache trống!', 'warning' );
-            }
-            die( __CLASS__ . ':' . __LINE__ );
-        }
-
-        //
-        $this->teamplate_admin[ 'content' ] = view( 'admin/cleanup_view', array() );
-        return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
 
     // tạo thư mục

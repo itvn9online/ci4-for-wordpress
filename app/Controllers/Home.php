@@ -34,8 +34,8 @@ class Home extends Csrf {
      * home page
      */
     protected function portal() {
-        $this->cache_key = 'home';
-        $cache_value = $this->MY_cache( $this->cache_key );
+        $cache_key = 'home';
+        $cache_value = $this->MY_cache( $cache_key );
         // Will get the cache entry named 'my_foo'
         //var_dump( $cache_value );
         // có thì in ra cache là được
@@ -70,7 +70,7 @@ class Home extends Csrf {
         $cache_value = view( 'layout_view', $this->teamplate );
 
         // Save into the cache for 5 minutes
-        $cache_save = $this->MY_cache( $this->cache_key, $cache_value );
+        $cache_save = $this->MY_cache( $cache_key, $cache_value );
         //var_dump( $cache_save );
 
         //
@@ -144,8 +144,8 @@ class Home extends Csrf {
         }
 
         //
-        $this->cache_key = 'post' . $id;
-        $cache_value = $this->MY_cache( $this->cache_key );
+        $cache_key = 'post-' . $id . '-';
+        $cache_value = $this->MY_cache( $cache_key );
         // Will get the cache entry named 'my_foo'
         //var_dump( $cache_value );
         // có thì in ra cache là được
@@ -157,7 +157,7 @@ class Home extends Csrf {
         $post_type = $this->MY_get( 'post_type' );
 
         //
-        $in_cache = __FUNCTION__ . '-' . $id . '-' . $this->lang_key;
+        $in_cache = $cache_key . __FUNCTION__ . '-' . $this->lang_key;
         $data = $this->cache->get( $in_cache );
         if ( $data === NULL ) {
             // lấy post theo ID, không lọc theo post type -> vì nhiều nơi cần dùng đến
@@ -209,8 +209,8 @@ class Home extends Csrf {
     }
 
     protected function pageDetail( $data, $file_view = 'page_view' ) {
-        $this->cache_key = 'post' . $data[ 'ID' ];
-        $cache_value = $this->MY_cache( $this->cache_key );
+        $cache_key = 'post-' . $data[ 'ID' ] . '-';
+        $cache_value = $this->MY_cache( $cache_key );
         // Will get the cache entry named 'my_foo'
         //var_dump( $cache_value );
         // có thì in ra cache là được
@@ -233,7 +233,7 @@ class Home extends Csrf {
 
             //
             if ( $post_category > 0 ) {
-                $in_cache = __FUNCTION__ . '-' . $post_category . '-' . $this->lang_key;
+                $in_cache = 'term-' . $post_category . '-' . __FUNCTION__ . '-' . $this->lang_key;
                 $cats = $this->cache->get( $in_cache );
                 if ( $cats === NULL ) {
                     $cats = $this->base_model->select( '*', WGR_TERM_VIEW, [
@@ -314,7 +314,7 @@ class Home extends Csrf {
         // chỉ lưu cache nếu không có page template
         //if ( $page_template == '' ) {
         // Save into the cache for 5 minutes
-        $cache_save = $this->MY_cache( $this->cache_key, $cache_value );
+        $cache_save = $this->MY_cache( $cache_key, $cache_value );
         //}
         //var_dump( $cache_save );
 
@@ -335,15 +335,15 @@ class Home extends Csrf {
         //echo $page_num . '<br>' . "\n";
 
         //
-        $this->cache_key = 'taxonomy' . $term_id . '-page' . $page_num;
-        $cache_value = $this->MY_cache( $this->cache_key );
+        $cache_key = 'term-' . $term_id . '-page' . $page_num;
+        $cache_value = $this->MY_cache( $cache_key );
         // có thì in ra cache là được
         if ( $cache_value !== NULL ) {
             return $this->show_cache( $cache_value );
         }
 
         //
-        $in_cache = __FUNCTION__ . '-' . $term_id . '-' . $this->lang_key;
+        $in_cache = 'term-' . $term_id . '-' . __FUNCTION__ . '-' . $this->lang_key;
         $data = $this->cache->get( $in_cache );
         if ( $data === NULL ) {
             $data = $this->term_model->get_taxonomy( array(
@@ -362,7 +362,7 @@ class Home extends Csrf {
         // có -> lấy bài viết trong nhóm
         if ( !empty( $data ) ) {
             // xem nhóm này có nhóm con không
-            $in_cache = __FUNCTION__ . '-parent' . $term_id . '-' . $this->lang_key;
+            $in_cache = 'term-' . $term_id . '-' . __FUNCTION__ . '-parent-' . $this->lang_key;
             $child_data = $this->cache->get( $in_cache );
             if ( $child_data === NULL ) {
                 $child_data = $this->term_model->get_taxonomy( array(
@@ -430,13 +430,13 @@ class Home extends Csrf {
             if ( !empty( $get_post_type ) ) {
                 return $this->category( $data, $get_post_type[ 'post_type' ], $taxonomy_type, 'term_view', [
                     'page_num' => $page_num,
-                    'cache_key' => $this->cache_key,
+                    'cache_key' => $cache_key,
                 ] );
             }
         }
 
         //
-        return $this->page404( 'ERROR ' . strtolower( __FUNCTION__ ) . ':' . __LINE__ . '! Không xác định được danh mục bài viết...', $this->cache_key );
+        return $this->page404( 'ERROR ' . strtolower( __FUNCTION__ ) . ':' . __LINE__ . '! Không xác định được danh mục bài viết...', $cache_key );
     }
 
     /*

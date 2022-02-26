@@ -119,7 +119,7 @@ class Layout extends Sync {
     }
 
     // trả về nội dung từ cache hoặc lưu cache nếu có
-    protected function global_cache( $key, $value = '', $time = DEFAULT_CACHE_TIMEOUT ) {
+    protected function global_cache( $key, $value = '', $time = MINI_CACHE_TIMEOUT ) {
         $key .= $this->cache_mobile_key . '-' . $this->lang_key;
 
         // lưu cache nếu có nội dung
@@ -132,7 +132,7 @@ class Layout extends Sync {
     }
 
     // kiểm tra session của user, nếu đang đăng nhập thì bỏ qua chế độ cache
-    protected function MY_cache( $key, $value = '', $time = DEFAULT_CACHE_TIMEOUT ) {
+    protected function MY_cache( $key, $value = '', $time = MINI_CACHE_TIMEOUT ) {
         // không thực thi cache đối với tài khoản đang đăng nhập
         if ( $this->current_user_id > 0 || isset( $_GET[ 'set_lang' ] ) ) {
             return NULL;

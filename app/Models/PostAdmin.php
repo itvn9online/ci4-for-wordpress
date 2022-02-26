@@ -17,7 +17,7 @@ class PostAdmin extends Post {
     /*
      * Tạo danh sách link để thêm menu trong admin cho tiện
      */
-    function quick_add_menu( $limit = 500, $clear_cache = false, $time = DEFAULT_CACHE_TIMEOUT ) {
+    function quick_add_menu( $limit = 500, $clear_cache = false, $time = MINI_CACHE_TIMEOUT ) {
         // cache
         $lang_key = LanguageCost::lang_key();
         $in_cache = __FUNCTION__ . '-' . $lang_key;

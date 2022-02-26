@@ -314,6 +314,11 @@ class Terms extends Admin {
         if ( $result_id < 0 ) {
             $this->base_model->alert( 'ERROR! lỗi cập nhật danh mục... Có thể slug đã được sử dụng', 'error' );
         }
+
+        // dọn dẹp cache liên quan đến post này -> reset cache
+        $this->cleanup_cache( 'term-' . $id . '-' );
+
+        //
         $this->base_model->alert( 'Cập nhật ' . TaxonomyType::list( $this->taxonomy, true ) . ' thành công' );
     }
 

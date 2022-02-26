@@ -438,6 +438,19 @@ class Posts extends Admin {
             $this->base_model->alert( $result_id[ 'error' ], 'error' );
         }
 
+        // dọn dẹp cache liên quan đến post này -> reset cache
+        $this->cleanup_cache( 'post-' . $id . '-' );
+        //
+        if ( isset( $data[ 'post_title' ] ) ) {
+            if ( $this->post_type == PostType::MENU ) {
+                $post_name = $this->base_model->_eb_non_mark_seo( $data[ 'post_title' ] );
+                //echo $post_name . '<br>' . "\n";
+                $this->cleanup_cache( 'get_the_menu-' . $post_name );
+            } else if ( $this->post_type == PostType::PAGE ) {
+                $this->cleanup_cache( 'get_page-' . $data[ 'post_name' ] );
+            }
+        }
+
         // không thì thông báo thành công
         $this->base_model->alert( 'Cập nhật ' . $this->name_type . ' thành công' );
     }

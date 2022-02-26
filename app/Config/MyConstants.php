@@ -97,7 +97,8 @@ defined( 'DEFAULT_FILE_PERMISSION' ) || define( 'DEFAULT_FILE_PERMISSION', 0777 
 defined( 'DEFAULT_DIR_PERMISSION' ) || define( 'DEFAULT_DIR_PERMISSION', 0777 );
 
 // thời gian cache mặc định
-defined( 'DEFAULT_CACHE_TIMEOUT' ) || define( 'DEFAULT_CACHE_TIMEOUT', 300 );
+defined( 'MINI_CACHE_TIMEOUT' ) || define( 'MINI_CACHE_TIMEOUT', 300 );
+defined( 'MEDIUM_CACHE_TIMEOUT' ) || define( 'MEDIUM_CACHE_TIMEOUT', HOUR );
 
 /*
  * Tiền tố cho danh mục sản phẩm

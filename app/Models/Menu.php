@@ -96,7 +96,7 @@ class Menu extends Post {
         return $sql;
     }
 
-    function get_the_menu( $slug, $add_class = '', $using_cache = true, $time = 3600 ) {
+    function get_the_menu( $slug, $add_class = '', $using_cache = true, $time = MEDIUM_CACHE_TIMEOUT ) {
         //echo MenuType::MENU . '<br>' . "\n";
 
         //
@@ -138,7 +138,7 @@ class Menu extends Post {
         return $str;
     }
 
-    function the_menu( $slug, $add_class = '', $using_cache = true, $time = 3600 ) {
+    function the_menu( $slug, $add_class = '', $using_cache = true, $time = MEDIUM_CACHE_TIMEOUT ) {
         echo $this->get_the_menu( $slug, $add_class, $using_cache, $time );
     }
 
