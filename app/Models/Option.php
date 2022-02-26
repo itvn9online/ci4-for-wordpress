@@ -50,12 +50,32 @@ class Option extends EbModel {
         }
     }
 
-    public function get_lang() {
+    public function get_lang( $using_cache = true, $time = 3600 ) {
+        $lang_key = LanguageCost::lang_key();
+
+        //
+        $in_cache = '';
+        if ( $using_cache === true ) {
+            $in_cache = __FUNCTION__ . '-' . $lang_key;
+        }
+
+        //
+        if ( $in_cache != '' ) {
+            $cache_value = $this->MY_cache( $in_cache );
+
+            // có cache thì trả về
+            if ( $cache_value !== NULL ) {
+                //print_r( $cache_value );
+                return $cache_value;
+            }
+        }
+
+        //
         $data = $this->base_model->select( 'option_name, option_value', $this->table, array(
             // các kiểu điều kiện where
             'is_deleted' => DeletedStatus::FOR_DEFAULT,
             'option_type' => ConfigType::TRANS,
-            'lang_key' => LanguageCost::lang_key(),
+            'lang_key' => $lang_key,
         ), array(
             /*
             'where_in' => array(
@@ -76,6 +96,9 @@ class Option extends EbModel {
         //die( 'fj fgjfg' );
 
         //
+        if ( $in_cache != '' ) {
+            $this->MY_cache( $in_cache, $data, $time );
+        }
         return $data;
     }
 
@@ -87,16 +110,13 @@ class Option extends EbModel {
         }
         $in_cache = __FUNCTION__ . '-' . $lang_key;
 
-        //
-        $cache = \Config\ Services::cache();
-
         // xóa cache nếu có yêu cầu
         if ( $clear_cache === true ) {
-            return $cache->delete( $in_cache );
+            return $this->cache->delete( $in_cache );
         }
 
         //
-        $cache_value = $cache->get( $in_cache );
+        $cache_value = $this->MY_cache( $in_cache );
 
         // có cache thì trả về
         if ( $cache_value !== NULL ) {
@@ -193,7 +213,7 @@ class Option extends EbModel {
 
         //
         //$this->cache_config[ $lang_key ] = $getconfig;
-        $cache->save( $in_cache, $getconfig, 3600 );
+        $this->MY_cache( $in_cache, $getconfig, 3600 );
 
         //
         return $getconfig;

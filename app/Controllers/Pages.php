@@ -17,10 +17,17 @@ class Pages extends Home {
         //echo $slug . '<br>' . "\n";
 
         //
-        $data = $this->post_model->select_public_post( 0, [
-            'post_name' => $slug,
-            'post_type' => PostType::PAGE,
-        ] );
+        $in_cache = __FUNCTION__ . '-' . $slug . '-' . $this->lang_key;
+        $data = $this->cache->get( $in_cache );
+        if ( $data === NULL ) {
+            $data = $this->post_model->select_public_post( 0, [
+                'post_name' => $slug,
+                'post_type' => PostType::PAGE,
+            ] );
+
+            //
+            $this->cache->save( $in_cache, $data, 300 );
+        }
 
         //
         if ( !empty( $data ) ) {

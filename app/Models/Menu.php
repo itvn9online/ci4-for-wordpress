@@ -96,9 +96,27 @@ class Menu extends Post {
         return $sql;
     }
 
-    function get_the_menu( $slug, $add_class = '' ) {
+    function get_the_menu( $slug, $add_class = '', $using_cache = true, $time = 3600 ) {
         //echo MenuType::MENU . '<br>' . "\n";
 
+        //
+        $in_cache = '';
+        if ( $using_cache === true ) {
+            $in_cache = __FUNCTION__ . '-' . $slug . '-' . LanguageCost::lang_key();
+        }
+
+        //
+        if ( $in_cache != '' ) {
+            $cache_value = $this->MY_cache( $in_cache );
+
+            // có cache thì trả về
+            if ( $cache_value !== NULL ) {
+                //print_r( $cache_value );
+                return $cache_value;
+            }
+        }
+
+        //
         $data = $this->get_dynamic_menu( $slug, MenuType::MENU );
         //print_r( $data );
 
@@ -111,11 +129,17 @@ class Menu extends Post {
         $menu_content = str_replace( 'href="#"', 'href="javascript:;"', $menu_content );
 
         //
-        return '<div data-id="' . $data[ 'ID' ] . '" data-type="' . PostType::MENU . '" class="eb-sub-menu ' . $slug . ' ' . $add_class . '">' . $menu_content . '</div>';
+        $str = '<div data-id="' . $data[ 'ID' ] . '" data-type="' . PostType::MENU . '" class="eb-sub-menu ' . $slug . ' ' . $add_class . '">' . $menu_content . '</div>';
+
+        //
+        if ( $in_cache != '' ) {
+            $this->MY_cache( $in_cache, $str, $time );
+        }
+        return $str;
     }
 
-    function the_menu( $slug, $add_class = '' ) {
-        echo $this->get_the_menu( $slug, $add_class );
+    function the_menu( $slug, $add_class = '', $using_cache = true, $time = 3600 ) {
+        echo $this->get_the_menu( $slug, $add_class, $using_cache, $time );
     }
 
 

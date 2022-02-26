@@ -33,5 +33,17 @@ class EbModel {
     public function __construct() {
         $this->base_model = new\ App\ Models\ Base();
         //$this->db = \Config\ Database::connect();
+        $this->cache = \Config\ Services::cache();
+    }
+
+    // cache bên model là cache select database -> chỉ kiểm tra theo key truyền vào -> không kiểm tra theo session login
+    public function MY_cache( $key, $value = '', $time = DEFAULT_CACHE_TIMEOUT ) {
+        // lưu cache nếu có nội dung
+        if ( $value != '' ) {
+            return $this->cache->save( $key, $value, $time );
+        }
+
+        // trả về cache nếu có
+        return $this->cache->get( $key );
     }
 }

@@ -412,7 +412,7 @@ class Term extends EbModel {
         return $this->get_all_taxonomy( $taxonomy, 0, NULL, $in_cache, true );
     }
 
-    function get_all_taxonomy( $taxonomy = 'category', $term_id = 0, $ops = [], $in_cache = '', $clear_cache = false, $time = 600 ) {
+    function get_all_taxonomy( $taxonomy = 'category', $term_id = 0, $ops = [], $in_cache = '', $clear_cache = false, $time = DEFAULT_CACHE_TIMEOUT ) {
         //print_r( $ops );
 
         // nếu không có cache key -> kiểm tra điều kiện tạo key
@@ -428,24 +428,21 @@ class Term extends EbModel {
             $in_cache = __FUNCTION__ . '-' . $in_cache . '-' . $lang_key;
             //echo $in_cache . '<br>' . "\n";
 
-            //
-            $cache = \Config\ Services::cache();
-
             // xóa cache nếu có yêu cầu
             if ( $clear_cache === true ) {
-                return $cache->delete( $in_cache );
+                return $this->cache->delete( $in_cache );
             }
 
             // TEST
             /*
-            print_r( $cache->get( 'dfhfhdsfasffssf' ) );
-            var_dump( $cache->get( 'dfhfhdsfasffssf' ) );
-            $cache->save( 'dfhfhdsfasffssf', time(), 5 );
+            print_r( $this->MY_cache( 'dfhfhdsfasffssf' ) );
+            var_dump( $this->MY_cache( 'dfhfhdsfasffssf' ) );
+            $this->MY_cache( 'dfhfhdsfasffssf', time(), 5 );
             echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             */
 
             //
-            $cache_value = $cache->get( $in_cache );
+            $cache_value = $this->MY_cache( $in_cache );
             //print_r( $cache_value );
             //var_dump( $cache_value );
 
@@ -584,7 +581,7 @@ class Term extends EbModel {
 
         //
         if ( $in_cache != '' ) {
-            $cache->save( $in_cache, $post_cat, $time );
+            $this->MY_cache( $in_cache, $post_cat, $time );
         }
 
         //

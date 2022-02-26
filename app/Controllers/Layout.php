@@ -5,7 +5,7 @@ namespace App\ Controllers;
 //use CodeIgniter\ Controller;
 
 // Libraries
-use App\ Libraries\ LanguageCost;
+//use App\ Libraries\ LanguageCost;
 use App\ Libraries\ PostType;
 use App\ Libraries\ UsersType;
 //use App\ Libraries\ FtpAccount;
@@ -70,7 +70,8 @@ class Layout extends Sync {
          * bắt đầu code
          */
         // xác định ngôn ngữ hiện tại
-        $this->lang_key = LanguageCost::set_lang();
+        $this->lang_key = $this->base_model->set_lang();
+        //$this->lang_key = LanguageCost::set_lang();
         //$this->lang_key = LanguageCost::lang_key();
         //echo $this->lang_key . '<br>' . "\n";
 
@@ -118,7 +119,7 @@ class Layout extends Sync {
     }
 
     // trả về nội dung từ cache hoặc lưu cache nếu có
-    protected function global_cache( $key, $value = '', $time = 300 ) {
+    protected function global_cache( $key, $value = '', $time = DEFAULT_CACHE_TIMEOUT ) {
         $key .= $this->cache_mobile_key . '-' . $this->lang_key;
 
         // lưu cache nếu có nội dung
@@ -131,7 +132,7 @@ class Layout extends Sync {
     }
 
     // kiểm tra session của user, nếu đang đăng nhập thì bỏ qua chế độ cache
-    protected function MY_cache( $key, $value = '', $time = 300 ) {
+    protected function MY_cache( $key, $value = '', $time = DEFAULT_CACHE_TIMEOUT ) {
         // không thực thi cache đối với tài khoản đang đăng nhập
         if ( $this->current_user_id > 0 || isset( $_GET[ 'set_lang' ] ) ) {
             return NULL;
@@ -248,7 +249,14 @@ class Layout extends Sync {
 
         //
         if ( $cats[ 'parent' ] > 0 ) {
-            $parent_cats = $this->term_model->get_all_taxonomy( $cats[ 'taxonomy' ], $cats[ 'parent' ] );
+            $in_cache = __FUNCTION__ . '-' . $cats[ 'parent' ] . '-' . $cats[ 'taxonomy' ] . '-' . $this->lang_key;
+            $parent_cats = $this->cache->get( $in_cache );
+            if ( $parent_cats === NULL ) {
+                $parent_cats = $this->term_model->get_all_taxonomy( $cats[ 'taxonomy' ], $cats[ 'parent' ] );
+
+                //
+                $this->cache->save( $in_cache, $parent_cats, 300 );
+            }
             //print_r( $parent_cats );
 
             $this->create_term_breadcrumb( $parent_cats );
@@ -258,7 +266,7 @@ class Layout extends Sync {
         return $this->create_breadcrumb( $cats[ 'name' ], $this->term_model->get_the_permalink( $cats ) );
     }
 
-    public function page404( $msg_404 = '' ) {
+    public function page404( $msg_404 = '', $in_cache = '' ) {
         /*
          * trả về lỗi 404
          */
@@ -272,7 +280,18 @@ class Layout extends Sync {
             // thông điệp của việc xuất hiện lỗi 404
             'msg_404' => $msg_404,
         ) );
-        return view( 'layout_view', $this->teamplate );
+        $cache_value = view( 'layout_view', $this->teamplate );
+
+        // daidq (2022-02-26): không lưu cache ở trang 404 vì còn cho nó set header 404 -> tối ưu SEO
+        /*
+        if ( $in_cache != '' ) {
+            $cache_save = $this->MY_cache( $in_cache, $cache_value );
+        }
+        */
+        //var_dump( $cache_save );
+
+        //
+        return $cache_value;
     }
 
     protected function category( $input, $post_type, $taxonomy, $file_view = 'category_view', $ops = [] ) {
@@ -286,7 +305,11 @@ class Layout extends Sync {
         }
 
         //
-        $this->cache_key = 'taxonomy' . $input[ 'term_id' ] . '-page' . $ops[ 'page_num' ];
+        if ( !isset( $ops[ 'cache_key' ] ) ) {
+            $this->cache_key = 'taxonomy' . $input[ 'term_id' ] . '-page' . $ops[ 'page_num' ];
+        } else {
+            $this->cache_key = $ops[ 'cache_key' ];
+        }
         $cache_value = $this->MY_cache( $this->cache_key );
         // Will get the cache entry named 'my_foo'
         //var_dump( $cache_value );

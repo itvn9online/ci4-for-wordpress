@@ -135,7 +135,24 @@ class PostPosts extends PostSlider {
         return $this->get_posts( $prams, $ops );
     }
 
-    function get_the_ads( $slug, $limit = 0, $ops = [] ) {
+    function get_the_ads( $slug, $limit = 0, $ops = [], $using_cache = true, $time = 3600 ) {
+        $in_cache = '';
+        if ( $using_cache === true ) {
+            $in_cache = __FUNCTION__ . '-' . $slug . '-' . LanguageCost::lang_key();
+        }
+
+        //
+        if ( $in_cache != '' ) {
+            $cache_value = $this->MY_cache( $in_cache );
+
+            // có cache thì trả về
+            if ( $cache_value !== NULL ) {
+                //print_r( $cache_value );
+                return $cache_value;
+            }
+        }
+
+        //
         $ops[ 'post_type' ] = PostType::ADS;
         $ops[ 'taxonomy' ] = TaxonomyType::ADS;
         $ops[ 'limit' ] = $limit;
@@ -143,11 +160,17 @@ class PostPosts extends PostSlider {
         $ops[ 'auto_clone' ] = 1;
 
         //
-        return $this->echbay_blog( $slug, $ops );
+        $data = $this->echbay_blog( $slug, $ops );
+
+        //
+        if ( $in_cache != '' ) {
+            $this->MY_cache( $in_cache, $data, $time );
+        }
+        return $data;
     }
 
-    function the_ads( $slug, $limit = 0, $ops = [] ) {
-        echo $this->get_the_ads( $slug, $limit, $ops );
+    function the_ads( $slug, $limit = 0, $ops = [], $using_cache = true, $time = 3600 ) {
+        echo $this->get_the_ads( $slug, $limit, $ops, $using_cache, $time );
     }
 
     // ads

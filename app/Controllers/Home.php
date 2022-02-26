@@ -156,21 +156,29 @@ class Home extends Csrf {
         //
         $post_type = $this->MY_get( 'post_type' );
 
-        // lấy post theo ID, không lọc theo post type -> vì nhiều nơi cần dùng đến
-        $data = $this->base_model->select( '*', 'posts', array(
-            // các kiểu điều kiện where
-            'ID' => $id,
-            'post_type' => $post_type,
-            'post_status' => PostType::PUBLIC
-        ), array(
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-            //'offset' => 2,
-            'limit' => 1
-        ) );
-        //die( __CLASS__ . ':' . __LINE__ );
+        //
+        $in_cache = __FUNCTION__ . '-' . $id . '-' . $this->lang_key;
+        $data = $this->cache->get( $in_cache );
+        if ( $data === NULL ) {
+            // lấy post theo ID, không lọc theo post type -> vì nhiều nơi cần dùng đến
+            $data = $this->base_model->select( '*', 'posts', array(
+                // các kiểu điều kiện where
+                'ID' => $id,
+                'post_type' => $post_type,
+                'post_status' => PostType::PUBLIC
+            ), array(
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                //'offset' => 2,
+                'limit' => 1
+            ) );
+            //die( __CLASS__ . ':' . __LINE__ );
+
+            //
+            $this->cache->save( $in_cache, $data, 300 );
+        }
 
         //
         if ( !empty( $data ) ) {
@@ -225,16 +233,23 @@ class Home extends Csrf {
 
             //
             if ( $post_category > 0 ) {
-                $cats = $this->base_model->select( '*', WGR_TERM_VIEW, [
-                    'term_id' => $post_category,
-                ], [
-                    // hiển thị mã SQL để check
-                    //'show_query' => 1,
-                    // trả về câu query để sử dụng cho mục đích khác
-                    //'get_query' => 1,
-                    //'offset' => 0,
-                    'limit' => 1
-                ] );
+                $in_cache = __FUNCTION__ . '-' . $post_category . '-' . $this->lang_key;
+                $cats = $this->cache->get( $in_cache );
+                if ( $cats === NULL ) {
+                    $cats = $this->base_model->select( '*', WGR_TERM_VIEW, [
+                        'term_id' => $post_category,
+                    ], [
+                        // hiển thị mã SQL để check
+                        //'show_query' => 1,
+                        // trả về câu query để sử dụng cho mục đích khác
+                        //'get_query' => 1,
+                        //'offset' => 0,
+                        'limit' => 1
+                    ] );
+
+                    //
+                    $this->cache->save( $in_cache, $cats, 300 );
+                }
                 //print_r( $cats );
 
                 //
@@ -320,31 +335,53 @@ class Home extends Csrf {
         //echo $page_num . '<br>' . "\n";
 
         //
-        $data = $this->term_model->get_taxonomy( array(
-            // các kiểu điều kiện where
-            'term_id' => $term_id,
-            'is_deleted' => DeletedStatus::FOR_DEFAULT,
-            'lang_key' => $this->lang_key,
-            'taxonomy' => $taxonomy_type
-        ) );
+        $this->cache_key = 'taxonomy' . $term_id . '-page' . $page_num;
+        $cache_value = $this->MY_cache( $this->cache_key );
+        // có thì in ra cache là được
+        if ( $cache_value !== NULL ) {
+            return $this->show_cache( $cache_value );
+        }
+
+        //
+        $in_cache = __FUNCTION__ . '-' . $term_id . '-' . $this->lang_key;
+        $data = $this->cache->get( $in_cache );
+        if ( $data === NULL ) {
+            $data = $this->term_model->get_taxonomy( array(
+                // các kiểu điều kiện where
+                'term_id' => $term_id,
+                'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                'lang_key' => $this->lang_key,
+                'taxonomy' => $taxonomy_type
+            ) );
+
+            //
+            $this->cache->save( $in_cache, $data, 300 );
+        }
         //print_r( $data );
 
         // có -> lấy bài viết trong nhóm
         if ( !empty( $data ) ) {
             // xem nhóm này có nhóm con không
-            $child_data = $this->term_model->get_taxonomy( array(
-                // các kiểu điều kiện where
-                'parent' => $term_id,
-                'is_deleted' => DeletedStatus::FOR_DEFAULT,
-                'lang_key' => $this->lang_key,
-                'taxonomy' => $taxonomy_type
-            ), 10, 'term_id' );
+            $in_cache = __FUNCTION__ . '-parent' . $term_id . '-' . $this->lang_key;
+            $child_data = $this->cache->get( $in_cache );
+            if ( $child_data === NULL ) {
+                $child_data = $this->term_model->get_taxonomy( array(
+                    // các kiểu điều kiện where
+                    'parent' => $term_id,
+                    'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                    'lang_key' => $this->lang_key,
+                    'taxonomy' => $taxonomy_type
+                ), 10, 'term_id' );
+
+                //
+                $this->cache->save( $in_cache, $child_data, 300 );
+            }
             //print_r( $child_data );
 
             //
             $where = [
                 'posts.post_status' => PostType::PUBLIC,
-                'posts.lang_key' => LanguageCost::lang_key()
+                'posts.lang_key' => $this->lang_key
             ];
 
             //
@@ -393,12 +430,13 @@ class Home extends Csrf {
             if ( !empty( $get_post_type ) ) {
                 return $this->category( $data, $get_post_type[ 'post_type' ], $taxonomy_type, 'term_view', [
                     'page_num' => $page_num,
+                    'cache_key' => $this->cache_key,
                 ] );
             }
         }
 
         //
-        return $this->page404( 'ERROR ' . strtolower( __FUNCTION__ ) . ':' . __LINE__ . '! Không xác định được danh mục bài viết...' );
+        return $this->page404( 'ERROR ' . strtolower( __FUNCTION__ ) . ':' . __LINE__ . '! Không xác định được danh mục bài viết...', $this->cache_key );
     }
 
     /*

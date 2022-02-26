@@ -2,6 +2,9 @@
 
 namespace App\ Models;
 
+// Libraries
+use App\ Libraries\ LanguageCost;
+
 //use CodeIgniter\ Model;
 
 class Session {
@@ -111,5 +114,9 @@ class Session {
         $str = md5( $str );
         $str = substr( $str, 2, 6 );
         return md5( $str );
+    }
+
+    public function set_lang() {
+        return LanguageCost::set_lang();
     }
 }

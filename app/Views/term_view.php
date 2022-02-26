@@ -58,10 +58,18 @@ $public_part_page = $base_model->EBE_pagination( $ops[ 'page_num' ], $totalPage,
 //print_r( $data );
 
 //
-$child_data = $post_model->post_category( $post_type, $data, [
-    'offset' => $offset,
-    'limit' => $post_per_page
-] );
+$cache = \Config\ Services::cache();
+$in_cache = 'term_view-' . $data[ 'term_id' ] . '-' . $offset . '-' . $post_per_page . '-' . LanguageCost::lang_key();
+$child_data = $cache->get( $in_cache );
+if ( $child_data === NULL ) {
+    $child_data = $post_model->post_category( $post_type, $data, [
+        'offset' => $offset,
+        'limit' => $post_per_page
+    ] );
+
+    //
+    $cache->save( $in_cache, $child_data, 300 );
+}
 //print_r( $child_data );
 
 

@@ -123,7 +123,7 @@ class Sitemap extends Csrf {
         foreach ( $arr_taxonomy_type as $taxonomy_type ) {
             $data = $this->term_model->get_all_taxonomy( $taxonomy_type, 0, [
                 //'or_like' => $where_or_like,
-                //'lang_key' => LanguageCost::lang_key(),
+                //'lang_key' => $this->lang_key,
                 //'get_meta' => true,
                 //'get_child' => true
             ] );
@@ -147,7 +147,7 @@ class Sitemap extends Csrf {
             //'posts.post_status !=' => PostType::DELETED,
             'posts.post_type' => $post_type,
             'posts.post_status' => PostType::PUBLIC,
-            //'posts.lang_key' => LanguageCost::lang_key()
+            //'posts.lang_key' => $this->lang_key
         ];
 
         // tổng kết filter

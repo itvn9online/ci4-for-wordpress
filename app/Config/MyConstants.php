@@ -96,6 +96,9 @@ if ( file_exists( THEMEPATH . 'functions.php' ) ) {
 defined( 'DEFAULT_FILE_PERMISSION' ) || define( 'DEFAULT_FILE_PERMISSION', 0777 );
 defined( 'DEFAULT_DIR_PERMISSION' ) || define( 'DEFAULT_DIR_PERMISSION', 0777 );
 
+// thời gian cache mặc định
+defined( 'DEFAULT_CACHE_TIMEOUT' ) || define( 'DEFAULT_CACHE_TIMEOUT', 300 );
+
 /*
  * Tiền tố cho danh mục sản phẩm
  */

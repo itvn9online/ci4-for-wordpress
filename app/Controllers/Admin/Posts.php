@@ -94,7 +94,7 @@ class Posts extends Admin {
         $where = [
             //'posts.post_status !=' => PostType::DELETED,
             'posts.post_type' => $this->post_type,
-            'posts.lang_key' => LanguageCost::lang_key()
+            'posts.lang_key' => $this->lang_key
         ];
 
         // tìm kiếm theo từ khóa nhập vào
@@ -339,7 +339,7 @@ class Posts extends Admin {
             $where = [
                 //'posts.post_status !=' => PostType::DELETED,
                 'posts.post_type' => $this->post_type,
-                'posts.lang_key' => LanguageCost::lang_key()
+                'posts.lang_key' => $this->lang_key
             ];
 
             $filter = [
@@ -388,7 +388,7 @@ class Posts extends Admin {
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/' . $this->add_edit_view . '/add', array(
             'controller_slug' => $this->controller_slug,
-            'lang_key' => LanguageCost::lang_key(),
+            'lang_key' => $this->lang_key,
             'auto_update_module' => $auto_update_module,
             'url_next_post' => $url_next_post,
             'post_cat' => $post_cat,

@@ -67,7 +67,7 @@ class Comments extends Admin {
         $where = [
             'comments.is_deleted' => $by_is_deleted,
             'comments.comment_type' => $this->comment_type,
-            'comments.lang_key' => LanguageCost::lang_key()
+            'comments.lang_key' => $this->lang_key
         ];
 
         // tìm kiếm theo từ khóa nhập vào
@@ -199,7 +199,7 @@ class Comments extends Admin {
             //'is_deleted' => DeletedStatus::DEFAULT,
             'comment_ID' => $comment_id,
             'comment_type' => $this->comment_type,
-            //'lang_key' => LanguageCost::lang_key()
+            //'lang_key' => $this->lang_key
         ], [
             // hiển thị mã SQL để check
             //'show_query' => 1,

@@ -21,7 +21,7 @@ class Configs extends Admin {
         $this->check_permision( __CLASS__ );
 
         //
-        $this->lang_key = LanguageCost::lang_key();
+        $this->lang_key = $this->lang_key;
         $this->config_type = $this->MY_get( 'config_type', ConfigType::CONFIG );
     }
 
