@@ -6,11 +6,12 @@ use App\ Libraries\ DeletedStatus;
 
 ?>
 <script>
-var col_filter = <?php echo json_encode($col_filter); ?>
+var col_filter = <?php echo json_encode($col_filter); ?>;
+var scope_data = <?php echo json_encode($data); ?>;
 
 //
 angular.module('myApp', []).controller('myCtrl', function($scope) {
-    $scope.data = <?php echo json_encode($data); ?>;
+    $scope.data = scope_data;
     $scope.list = <?php echo json_encode($arr_members_type); ?>;
     $scope.listStatus = <?php echo json_encode(UsersType::listStatus()); ?>;
     $scope.for_action = '<?php echo $for_action; ?>';

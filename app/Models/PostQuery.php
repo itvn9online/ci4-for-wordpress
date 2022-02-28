@@ -43,6 +43,7 @@ class PostQuery extends PostMeta {
         }
         if ( $data[ 'post_name' ] != '' ) {
             $data[ 'post_name' ] = $this->base_model->_eb_non_mark_seo( $data[ 'post_name' ] );
+            $data[ 'post_name' ] = str_replace( '.', '-', $data[ 'post_name' ] );
 
             //
             if ( $check_slug === true ) {
@@ -108,6 +109,7 @@ class PostQuery extends PostMeta {
             }
             if ( $data[ 'post_name' ] != '' ) {
                 $data[ 'post_name' ] = $this->base_model->_eb_non_mark_seo( $data[ 'post_name' ] );
+                $data[ 'post_name' ] = str_replace( '.', '-', $data[ 'post_name' ] );
             }
         }
         if ( !isset( $data[ 'post_modified' ] ) || $data[ 'post_modified' ] == '' ) {

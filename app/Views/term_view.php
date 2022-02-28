@@ -59,7 +59,7 @@ $public_part_page = $base_model->EBE_pagination( $ops[ 'page_num' ], $totalPage,
 
 //
 $cache = \Config\ Services::cache();
-$in_cache = 'term_view-' . $data[ 'term_id' ] . '-' . $offset . '-' . $post_per_page . '-' . LanguageCost::lang_key();
+$in_cache = 'term-' . $data[ 'term_id' ] . '-view-' . $offset . '-' . $post_per_page . '-' . LanguageCost::lang_key();
 $child_data = $cache->get( $in_cache );
 if ( $child_data === NULL ) {
     $child_data = $post_model->post_category( $post_type, $data, [
