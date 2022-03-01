@@ -101,7 +101,7 @@ $(window).on('load', function () {
 
 
 /*
- * tạo các option con cho phần select chuyên mục cha
+ * tạo các option con cho phần select Danh mục cha
  */
 if ($('#post_meta_post_category').length > 0) {
     $('#post_meta_post_category').append(create_term_select_option(post_cat));

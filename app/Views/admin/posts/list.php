@@ -23,7 +23,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                 </div>
                 <div class="lf f25 hide-if-no-taxonomy">
                     <select name="term_id" data-select="<?php echo $by_term_id; ?>" data-taxonomy="<?php echo $taxonomy; ?>" onChange="document.frm_admin_search_controller.submit();" class="each-to-taxonomy-group">
-                        <option value="0">- Nhóm <?php echo $name_type; ?> -</option>
+                        <option value="0">- Danh mục <?php echo $name_type; ?> -</option>
                     </select>
                 </div>
                 <div class="lf f25">
@@ -67,9 +67,9 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
         <tr>
             <th><input type="checkbox" id="selectall" name="selectall"/></th>
             <th>STT</th>
-            <th>Tên bài viết</th>
+            <th>Tiêu đề <?php echo $name_type; ?></th>
             <th>Ảnh đại diện</th>
-            <th>Chuyên mục</th>
+            <th>Danh mục</th>
             <th>Trạng thái</th>
             <th colspan="2">Ngày tạo/ Last Update</th>
             <th>Lang</th>

@@ -96,10 +96,10 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
             if ( $set_parent != '' ) {
                 ?>
             <div class="control-group">
-                <label class="control-label">Chuyên mục cha</label>
+                <label class="control-label">Danh mục cha</label>
                 <div class="controls">
                     <select data-select="<?php echo $data['parent']; ?>" name="data[parent]" id="data_parent">
-                        <option value="0">[ Chọn Chuyên mục cha ]</option>
+                        <option value="0">[ Chọn Danh mục cha ]</option>
                     </select>
                 </div>
             </div>

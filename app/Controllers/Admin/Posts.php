@@ -21,6 +21,8 @@ class Posts extends Admin {
     protected $controller_slug = 'posts';
     // tham số dùng để đổi file view khi add hoặc edit bài viết nếu muốn
     protected $add_edit_view = 'posts';
+    // tham số dùng để đổi file view khi xem danh sách bài viết nếu muốn
+    protected $add_list_view = 'posts';
     // dùng để chọn xem hiển thị nhóm sản phẩm nào ra ở phần danh mục
     protected $main_category_key = 'post_category';
 
@@ -227,7 +229,7 @@ class Posts extends Admin {
         }
 
         //
-        $this->teamplate_admin[ 'content' ] = view( 'admin/posts/list', array(
+        $this->teamplate_admin[ 'content' ] = view( 'admin/' . $this->add_list_view . '/list', array(
             'for_action' => $for_action,
             'by_post_status' => $by_post_status,
             'post_status' => $post_status,
@@ -244,6 +246,10 @@ class Posts extends Admin {
         ) );
         //return $this->teamplate_admin[ 'content' ];
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
+    }
+
+    public function lists() {
+        return $this->index();
     }
 
     public function add() {

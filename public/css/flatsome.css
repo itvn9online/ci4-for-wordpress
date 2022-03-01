@@ -942,3 +942,8 @@
         overflow: hidden
     }
 }
+.align-equal > .col {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}

@@ -14,9 +14,9 @@ class TaxonomyType {
     //const PAGE = 'page_taxonomy';
 
     private static $arr = array(
-        self::POSTS => 'Chuyên mục',
+        self::POSTS => 'Danh mục',
         self::TAGS => 'Thẻ',
-        self::ADS => 'Nhóm quảng cáo',
+        self::ADS => 'Danh mục quảng cáo',
         self::BLOGS => 'Danh mục tin',
         self::BLOG_TAGS => 'Thẻ Blog/ Tin tức',
         self::OPTIONS => 'Thông số khác',
@@ -29,7 +29,7 @@ class TaxonomyType {
             return self::$arr;
         }
         if ( isset( self::$arr[ $key ] ) ) {
-            // lấy thêm định danh cho chuyên mục (nếu có)
+            // lấy thêm định danh cho Danh mục (nếu có)
             $get_first_name = '';
             /*
             if ( $first_name == true ) {
@@ -42,7 +42,7 @@ class TaxonomyType {
     }
 
     private static $arr_name = array(
-        self::POSTS => 'Chuyên mục',
+        self::POSTS => 'Danh mục',
         self::TAGS => 'Danh sách',
         //self::ADS => 'Danh mục',
         //self::BLOGS => 'Danh mục',
@@ -134,7 +134,7 @@ class TaxonomyType {
             'custom_style' => file_get_contents( dirname( __DIR__ ) . '/Views/html/custom_style.html', 1 ),
             'custom_id' => '* Tương tự như CSS -> gán ID để xử lý cho tiện.',
             'rel_xfn' => '<strong>rel</strong>: noreferrer, nofollow...',
-            'text_view_more' => 'Nhập nội dung cho nút xem thêm (chuyên mục), khi trường này có dữ liệu, nút xem thêm sẽ xuất hiện trong widget',
+            'text_view_more' => 'Nhập nội dung cho nút xem thêm (Danh mục), khi trường này có dữ liệu, nút xem thêm sẽ xuất hiện trong widget',
             'text_view_details' => 'Nhập nội dung cho nút xem chi tiết bài viết, khi trường này có dữ liệu, nút xem chi tiết sẽ xuất hiện, liên kết của nó chính là liên kết của bài viết hoặc link gắn ngoài của bài viết',
             'taxonomy_custom_post_size' => 'Mặc định, tỉ lệ ảnh sẽ được dùng theo cấu hình chung của hệ thống. Trường hợp cần cấu hình riêng cho từng danh mục thì bạn có thể thiết lập tại đây. Ví dụ: 4/3',
             'taxonomy_auto_slider' => 'Khi chế độ này được kích hoạt, một slider sẽ tự động được khởi tạo, sau đó bạn chỉ việc thêm ảnh cho slider để nó có thể hoạt động',

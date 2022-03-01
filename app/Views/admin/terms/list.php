@@ -40,7 +40,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
         <tr>
             <th><input type="checkbox" id="selectall" name="selectall"/></th>
             <th>ID</th>
-            <th>Tên bài viết</th>
+            <th>Tiêu đề <?php echo $name_type; ?></th>
             <th>Slug</th>
             <th class="d-none show-if-ads-type">Size</th>
             <th>Nội dung</th>
