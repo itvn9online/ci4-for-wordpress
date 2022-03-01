@@ -17,7 +17,7 @@ class UsersType {
 
     // user status
     const FOR_DEFAULT = '0'; // mặc định là hiển thị
-    const NO_1H_LOGIN = 1; // khóa 1 giờ
+    const NO_1H_LOGIN = '1'; // khóa 1 giờ
     const NO_24h_LOGIN = 24; // khóa 24 giờ
     const NO_WEEK_LOGIN = 168; // khóa 168 giờ = 1 tuần
     const NO_MONTH_LOGIN = 720; // khóa 720 giờ = 1 tháng
