@@ -30,15 +30,10 @@ if ( $current_user_id > 0 ) {
     //echo WRITEPATH . '<br>' . "\n";
     //echo PATH_LAST_LOGGED . '<br>' . "\n";
 
-    // mỗi lần truy cập thì nhập luôn cái key hiện tại vào file
-    if ( !is_dir( PATH_LAST_LOGGED ) ) {
-        mkdir( PATH_LAST_LOGGED, 0777 );
-        chmod( PATH_LAST_LOGGED, 0777 );
-    }
-
     // lưu session id của người dùng vào file, nếu máy khác truy cập thì báo luôn là đăng đăng nhập nơi khác
     file_put_contents( PATH_LAST_LOGGED . $current_user_id, json_encode( [
         'key' => session_id(),
+        't' => time(),
         'agent' => $_SERVER[ 'HTTP_USER_AGENT' ],
         'ip' => $_SERVER[ 'REMOTE_ADDR' ],
     ] ) );
