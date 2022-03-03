@@ -360,7 +360,7 @@ class Home extends Csrf {
         //print_r( $data );
 
         // có -> lấy bài viết trong nhóm
-        if ( !empty( $data ) ) {
+        if ( !empty( $data ) && $data[ 'count' ] > 0 ) {
             // xem nhóm này có nhóm con không
             $in_cache = 'term-' . $term_id . '-' . __FUNCTION__ . '-parent-' . $this->lang_key;
             $child_data = $this->cache->get( $in_cache );
@@ -433,6 +433,16 @@ class Home extends Csrf {
                     'cache_key' => $cache_key,
                 ] );
             }
+
+            // cập nhật lại tổng số bài viết cho term - để sau nếu có tính năng lấy theo nhóm thì nó sẽ không xuất hiện nữa
+            $this->base_model->update_multiple( $this->term_model->taxTable, [
+                'count' => 0
+            ], [
+                'term_taxonomy_id' => $term_id,
+                'term_id' => $term_id,
+            ], [
+                'debug_backtrace' => debug_backtrace()[ 1 ][ 'function' ]
+            ] );
         }
 
         //

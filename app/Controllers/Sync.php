@@ -12,6 +12,9 @@ namespace App\ Controllers;
 class Sync extends BaseController {
     public function __construct() {
         $this->base_model = new\ App\ Models\ Base();
+
+        //
+        $this->cache = \Config\ Services::cache();
     }
 
     /*
@@ -182,6 +185,16 @@ class Sync extends BaseController {
     }
 
     private function auto_sync_table_column() {
+        /*
+         * db không cần update liên tục, nếu cần thì clear cache để tái sử dụng
+        */
+        $has_update = $this->cache->get( __FUNCTION__ );
+        if ( $has_update !== NULL ) {
+            echo __FUNCTION__ . ' not RUN by cache ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+            return false;
+        }
+
+        //
         $this->tbl_sessions();
         $this->view_terms();
         $this->view_posts();
@@ -227,6 +240,11 @@ class Sync extends BaseController {
                 'term_meta_data' => 'LONGTEXT NULL COMMENT \'Lưu các post meta vào đây để đỡ phải query nhiều\'',
                 'child_count' => 'BIGINT(20) NULL COMMENT \'Tính tổng số nhóm con để gọi lệnh lấy nhóm con nếu không NULL\'',
                 'child_last_count' => 'BIGINT(20) NULL COMMENT \'Thời gian cập nhật child_count lần trước\'',
+                'term_type' => 'VARCHAR(55) NULL COMMENT \'Dùng để phân loại term, tương tự category nhưng ít dùng hơn nhiều\'',
+            ],
+            WGR_TABLE_PREFIX . 'term_taxonomy' => [
+                // term level -> dùng để lọc các nhóm theo cấp độ cho nó nhanh -> ví dụ khi cần lấy tất cả các nhóm cấp 1, 2, 3
+                'term_level' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'Level của nhóm, tính theo cấp độ của nhóm cha +1\'',
             ],
             WGR_TABLE_PREFIX . 'options' => [
                 'option_type' => 'VARCHAR(55) NULL DEFAULT NULL COMMENT \'Phân loại option dành cho nhiều việc khác nhau\'',
@@ -314,6 +332,31 @@ class Sync extends BaseController {
                 }
             }
         }
+
+
+        /*
+         * một số lệnh thay đổi dữ liệu thủ công
+         */
+        $arr_update_db = [
+            'UPDATE `' . WGR_TABLE_PREFIX . 'term_taxonomy` SET `term_level` = 0 WHERE `parent` = 0',
+            'UPDATE `' . WGR_TABLE_PREFIX . 'term_taxonomy` SET `term_level` = 1 WHERE `parent` IN (SELECT `term_id` FROM `' . WGR_TABLE_PREFIX . 'term_taxonomy` WHERE `parent` = 0)',
+        ];
+        for ( $i = 1; $i < 10; $i++ ) {
+            $arr_update_db[] = 'UPDATE `' . WGR_TABLE_PREFIX . 'term_taxonomy` SET `term_level` = ' . ( $i + 1 ) . ' WHERE `parent` IN (SELECT `term_id` FROM `' . WGR_TABLE_PREFIX . 'term_taxonomy` WHERE term_level = ' . $i . ')';
+        }
+        foreach ( $arr_update_db as $v ) {
+            echo $v . '<br>' . "\n";
+
+            //
+            if ( $this->base_model->MY_query( $v ) ) {
+                echo 'OK! RUN query... <br>' . "\n";
+            } else {
+                echo 'Query failed! Please re-check query <br>' . "\n";
+            }
+        }
+
+        //
+        $this->cache->save( __FUNCTION__, time(), MEDIUM_CACHE_TIMEOUT );
     }
 
     /*

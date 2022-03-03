@@ -179,11 +179,12 @@ class Guest extends Csrf {
         //print_r( $result );
         //die( __CLASS__ . ':' . __LINE__ );
         $result = $this->sync_login_data( $result );
+        $result[ 'user_activation_key' ] = session_id();
 
         //
         $result_id = $this->user_model->update_member( $result[ 'ID' ], [
             'last_login' => date( EBE_DATETIME_FORMAT ),
-            'user_activation_key' => session_id(),
+            'user_activation_key' => $result[ 'user_activation_key' ],
         ] );
 
         //

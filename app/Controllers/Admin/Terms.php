@@ -32,9 +32,33 @@ class Terms extends Admin {
             //$this->default_taxonomy = TaxonomyType::POSTS;
             $this->name_type = TaxonomyType::list( $this->taxonomy, true );
 
-            // báo lỗi nếu không xác định được taxonomy
+            // nếu không xác định được taxonomy
             if ( $this->name_type == '' ) {
-                die( 'Taxonomy not register in system!' );
+                global $arr_custom_taxonomy;
+                //print_r( $arr_custom_taxonomy );
+
+                // thử xem có phải custom taxonomy không
+                if ( isset( $arr_custom_taxonomy[ $this->taxonomy ] ) ) {
+                    // xem có slug không
+                    if ( isset( $arr_custom_taxonomy[ $this->taxonomy ][ 'slug' ] ) &&
+                        // nếu có
+                        $arr_custom_taxonomy[ $this->taxonomy ][ 'slug' ] != '' &&
+                        // mà khác nhau
+                        $arr_custom_taxonomy[ $this->taxonomy ][ 'slug' ] != $this->controller_slug ) {
+
+                        // tạo link redirect
+                        $redirect_to = str_replace( '/admin/' . $this->controller_slug, '/admin/' . $arr_custom_taxonomy[ $this->taxonomy ][ 'slug' ], $_SERVER[ 'REQUEST_URI' ] );
+                        $redirect_to = rtrim( DYNAMIC_BASE_URL, '/' ) . $redirect_to;
+                        //die( $redirect_to );
+
+                        // và redirect tới đúng link
+                        die( header( 'Location: ' . $redirect_to ) );
+                    }
+                    //die( $this->taxonomy );
+                }
+
+                // không xác định được thì báo lỗi
+                die( 'Taxonomy not register in system! ' . $this->taxonomy );
             }
         }
     }

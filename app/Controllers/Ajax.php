@@ -32,6 +32,9 @@ class Ajax extends Layout {
         return $http_response;
     }
     public function check_ssl() {
+        header( 'Content-type: application/json; charset=utf-8' );
+
+        //
         $test_url = DYNAMIC_BASE_URL . 'ajax/the_base_url';
         // bỏ https
         $test_url = str_replace( 'https://', 'http://', $test_url );
@@ -66,5 +69,19 @@ class Ajax extends Layout {
     }
     public function the_base_url() {
         die( DYNAMIC_BASE_URL );
+    }
+
+    public function multi_login() {
+        header( 'Content-type: application/json; charset=utf-8' );
+
+        //
+        //die( json_encode( $_GET ) );
+        //echo PATH_LAST_LOGGED . '<br>' . "\n";
+
+        // trả về key đã lưu của người dùng trong file
+        die( json_encode( [
+            //'key' => PATH_LAST_LOGGED . $this->current_user_id,
+            'hash' => $this->current_user_id > 0 ? file_get_contents( PATH_LAST_LOGGED . $this->current_user_id, 1 ) : ''
+        ] ) );
     }
 }

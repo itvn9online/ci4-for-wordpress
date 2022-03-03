@@ -102,7 +102,6 @@ class Layout extends Sync {
         //
         $this->cache_key = '';
         $this->cache_mobile_key = '';
-        $this->cache = \Config\ Services::cache();
 
         //
         $this->isMobile = '';

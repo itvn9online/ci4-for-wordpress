@@ -94,6 +94,7 @@ class ConfigType {
                 'second_banner_size' => 'Kích thước banner phụ',
                 //'enable_angular_js' => 'Sử dụng AngularJS',
                 'enable_hotlink_protection' => 'HotLink protection',
+                'enable_device_protection' => 'Device logged protection',
             ];
         } else if ( $config_type == self::CATEGORY ) {
             $arr = [
@@ -174,6 +175,7 @@ class ConfigType {
             //'enable_angular_js' => 'checkbox',
 
             'enable_hotlink_protection' => 'checkbox',
+            'enable_device_protection' => 'checkbox',
             'smtp_no_reply' => 'checkbox',
             'show_child_category' => 'checkbox',
             'show_child_blogs' => 'checkbox',
@@ -297,6 +299,7 @@ class ConfigType {
             'smtp_test_cc_email' => 'Thêm email để test chức năng CC.',
             
             'enable_hotlink_protection' => 'Chặn các website khác truy cập trực tiếp vào file ảnh trên host này.',
+            'enable_device_protection' => 'Chặn đăng nhập trên nhiều thiết bị trong cùng một thời điểm. Nếu phát hiện, sẽ đưa ra popup cảnh báo cho người dùng.',
         ];
         if ( isset( $arr[ $key ] ) && $arr[ $key ] != '' ) {
             echo '<p class="controls-text-note">' . $arr[ $key ] . '</p>';

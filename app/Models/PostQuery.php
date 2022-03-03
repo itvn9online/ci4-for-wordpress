@@ -166,6 +166,18 @@ class PostQuery extends PostMeta {
                 //die( __CLASS__ . ':' . __LINE__ );
             }
         }
+        //
+        //print_r( $data );
+        foreach ( $data as $k => $v ) {
+            if ( is_array( $v ) ) {
+                $v = implode( ',', $v );
+                $v = ltrim( $v, ',' );
+                $v = ltrim( $v, '0,' );
+                $data[ $k ] = $v;
+            }
+        }
+        //print_r( $data );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         $result_update = $this->base_model->update_multiple( $this->table, $data, $where, [

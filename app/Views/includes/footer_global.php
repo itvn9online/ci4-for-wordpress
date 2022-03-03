@@ -36,3 +36,10 @@ $base_model->add_js( 'javascript/analytics.js', 0, [
     'defer'
 ] );
 */
+
+
+//
+//print_r( $getconfig );
+if ( $getconfig->enable_device_protection == 'on' ) {
+    require __DIR__ . '/device_protection.php';
+}

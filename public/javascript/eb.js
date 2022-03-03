@@ -605,7 +605,7 @@ var _global_js_eb = {
     ga_event_track: function (eventCategory, eventAction, eventLabel, ops, max_for) {
 
         // không track đối với người dùng đã đăng nhập
-        if (isLogin > 0 && WGR_check_option_on(cf_disable_tracking)) {
+        if (current_user_id > 0 && WGR_check_option_on(cf_disable_tracking)) {
             console.log('ga_event_track disable by user login');
             return false;
         }
@@ -725,7 +725,7 @@ var _global_js_eb = {
         }
 
         // không track đối với người dùng đã đăng nhập
-        if (isLogin > 0 && WGR_check_option_on(cf_disable_tracking)) {
+        if (current_user_id > 0 && WGR_check_option_on(cf_disable_tracking)) {
             console.log('fb_track disable by user login');
             return false;
         }
@@ -811,8 +811,8 @@ var _global_js_eb = {
             eventAction = 'staff';
             if (typeof mtv_id != 'undefined') {
                 eventAction += mtv_id;
-            } else if (typeof isLogin != 'undefined') {
-                eventAction += isLogin;
+            } else if (typeof current_user_id != 'undefined') {
+                eventAction += current_user_id;
             }
         }
 

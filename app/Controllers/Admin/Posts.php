@@ -27,6 +27,12 @@ class Posts extends Admin {
     protected $main_category_key = 'post_category';
 
     /*
+     * khi update hoặc insert sẽ kiểm tra xem các dữ liệu trong này có không, nếu có không sẽ gán mặc định
+     * vì các checkbox khi bỏ chọn tất cả sẽ không xuất hiện trong post -> không được update
+     */
+    protected $default_post_data = [];
+
+    /*
      * for_extends: khi một controller extends lại class này và sử dụng các post type khác thì khai báo nó bằng true để bỏ qua các điều kiện kiểm tra
      */
     public function __construct( $for_extends = false ) {
@@ -417,6 +423,13 @@ class Posts extends Admin {
         $data[ 'post_type' ] = $this->post_type;
 
         //
+        foreach ( $this->default_post_data as $k => $v ) {
+            if ( !isset( $data[ $k ] ) ) {
+                $data[ $k ] = $v;
+            }
+        }
+
+        //
         $result_id = $this->post_model->insert_post( $data );
         if ( is_array( $result_id ) && isset( $result_id[ 'error' ] ) ) {
             $this->base_model->alert( $result_id[ 'error' ], 'error' );
@@ -433,6 +446,13 @@ class Posts extends Admin {
     protected function update( $id ) {
         $data = $this->MY_post( 'data' );
         //print_r( $data );
+
+        //
+        foreach ( $this->default_post_data as $k => $v ) {
+            if ( !isset( $data[ $k ] ) ) {
+                $data[ $k ] = $v;
+            }
+        }
 
         //
         $result_id = $this->post_model->update_post( $id, $data, [

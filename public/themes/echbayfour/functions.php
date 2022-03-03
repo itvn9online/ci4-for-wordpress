@@ -51,6 +51,7 @@ function register_admin_menu() {
 register_taxonomy( 'custom_taxonomy', [
     'name' => 'Custom name',
     'set_parent' => true,
+    'slug' => '',
 ] );
 */
 

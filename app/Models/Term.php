@@ -245,13 +245,67 @@ class Term extends EbModel {
 
         //
         //print_r( $data );
+        // cập nhật quan hệ cha con
+        if ( isset( $data[ 'parent' ] ) ) {
+            // mặc định level của nó là 0
+            $data[ 'term_level' ] = 0;
+
+            // nếu nhóm này có cha
+            if ( $data[ 'parent' ] * 1 > 0 ) {
+                // -> lấy level của cha
+                $parent_level = $this->base_model->select( 'term_level', $this->taxTable, array(
+                    'term_id' => $term_id,
+                ), array(
+                    // hiển thị mã SQL để check
+                    //'show_query' => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    //'get_query' => 1,
+                    //'offset' => 2,
+                    'limit' => 1
+                ) );
+                //print_r( $parent_level );
+
+                //
+                if ( !empty( $parent_level ) ) {
+                    $data[ 'term_level' ] = $parent_level[ 'term_level' ];
+                }
+            }
+
+            // đặt các nhóm con của nó lên 1 level
+            $this->base_model->update_multiple( $this->taxTable, [
+                'term_level' => $data[ 'term_level' ] + 1
+            ], [
+                'parent' => $term_id,
+            ], [
+                'debug_backtrace' => debug_backtrace()[ 1 ][ 'function' ]
+            ] );
+        }
+        //print_r( $data );
         //die( __CLASS__ . ':' . __LINE__ );
+
+
+        //
+        $count_post_term = $this->base_model->select( 'COUNT(object_id) AS c', $this->relaTable, array(
+            // WHERE AND OR
+            'term_taxonomy_id' => $term_id,
+        ), array(
+            'selectCount' => 'object_id',
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            //'offset' => 2,
+            //'limit' => 3
+        ) );
+        //print_r( $count_post_term );
+        $data[ 'count' ] = $count_post_term[ 0 ][ 'object_id' ];
 
         //
         $where = [
             'term_id' => $term_id,
         ];
         //print_r( $where );
+
 
         //
         $result_update = $this->base_model->update_multiple( $this->table, $data, $where, [
@@ -394,7 +448,7 @@ class Term extends EbModel {
         //echo 'in_cache: ' . $in_cache . '<br>' . "\n";
 
         // cố định loại cột cần lấy
-        $ops[ 'select_col' ] = 'term_id, name, slug, count, parent, taxonomy, child_count, child_last_count';
+        $ops[ 'select_col' ] = 'term_id, name, slug, term_group, count, parent, taxonomy, child_count, child_last_count';
         //$ops[ 'select_col' ] = '*';
 
         //
@@ -685,7 +739,7 @@ class Term extends EbModel {
                 ] );
 
                 // tính tổng bài viết theo từng term
-                $count_port_term = $this->base_model->select( 'COUNT(object_id) AS c', $this->relaTable, array(
+                $count_post_term = $this->base_model->select( 'COUNT(object_id) AS c', $this->relaTable, array(
                     // WHERE AND OR
                     'term_taxonomy_id' => $term_id,
                 ), array(
@@ -697,12 +751,12 @@ class Term extends EbModel {
                     //'offset' => 2,
                     //'limit' => 3
                 ) );
-                //print_r( $count_port_term );
+                //print_r( $count_post_term );
 
                 // cập nhật lại tổng số bài viết cho term
                 $this->base_model->update_multiple( $this->taxTable, [
-                    //'count' => $count_port_term[ 0 ][ 'c' ]
-                    'count' => $count_port_term[ 0 ][ 'object_id' ]
+                    //'count' => $count_post_term[ 0 ][ 'c' ]
+                    'count' => $count_post_term[ 0 ][ 'object_id' ]
                 ], [
                     'term_taxonomy_id' => $term_id,
                     'term_id' => $term_id,
