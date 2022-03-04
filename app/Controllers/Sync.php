@@ -194,17 +194,17 @@ class Sync extends BaseController {
             return false;
         }
 
-        //
-        $this->tbl_sessions();
-        $this->view_terms();
-        $this->view_posts();
-
         // các cột khi gặp sẽ thêm cả chức năng add index
         $arr_index_cloumn = [
             'lang_key',
             'is_deleted',
             'lang_parent',
             'term_status',
+            'parent_id',
+            'town_id',
+            'city_id',
+            'term_type',
+            'term_level',
         ];
         //die( __CLASS__ . ':' . __LINE__ );
 
@@ -332,6 +332,11 @@ class Sync extends BaseController {
                 }
             }
         }
+
+        //
+        $this->tbl_sessions();
+        $this->view_terms();
+        $this->view_posts();
 
         //
         $this->cache->save( __FUNCTION__, time(), MEDIUM_CACHE_TIMEOUT );
