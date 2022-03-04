@@ -24,20 +24,8 @@
 
 //
 if ( $current_user_id > 0 ) {
-    // lưu user_activation_key của người dùng vào cache để kiểm tra key, nếu có sự khác biệt thì có nghĩa là người dùng đang đặt nhập nơi khác
-    //print_r( $session_data );
-    //echo session_id() . '<br>' . "\n";
-    //echo WRITEPATH . '<br>' . "\n";
-    //echo PATH_LAST_LOGGED . '<br>' . "\n";
-
-    // lưu session id của người dùng vào file, nếu máy khác truy cập thì báo luôn là đăng đăng nhập nơi khác
-    file_put_contents( PATH_LAST_LOGGED . $current_user_id, json_encode( [
-        'key' => session_id(),
-        't' => time(),
-        'agent' => $_SERVER[ 'HTTP_USER_AGENT' ],
-        'ip' => $_SERVER[ 'REMOTE_ADDR' ],
-    ] ) );
-
+    // lưu session id của người dùng vào file
+    $base_model->set_logged( $current_user_id );
 
     // nạp js cảnh báo đăng nhập
     $base_model->add_js( 'javascript/device_protection.js', 0, [

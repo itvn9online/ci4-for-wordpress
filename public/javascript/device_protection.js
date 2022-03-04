@@ -1,6 +1,8 @@
 /*
  * kiểm tra xem người dùng có đăng nhập trên nhiều thiết bị không
  */
+var timeout_device_protection = 30;
+
 function get_user_logged_key() {
     jQuery.ajax({
         type: 'GET',
@@ -11,6 +13,9 @@ function get_user_logged_key() {
         //data: data,
         success: function (data) {
             //console.log(data);
+
+            // bình thường thì để 30s kiểm tra 1 lần
+            timeout_device_protection = 30;
 
             // không có hash
             if (typeof data.hash == 'undefined') {
@@ -30,13 +35,16 @@ function get_user_logged_key() {
                     //
                     //WGR_alert('Vui lòng không đăng nhập trên nhiều thiết bị!', 'error');
                     $('#warningLoggedModal').modal('show');
+
+                    // khi có nghi ngờ -> rút ngắn thời gian kiểm tra lại
+                    timeout_device_protection = 5;
                 }
             }
 
             //
             setTimeout(function () {
                 get_user_logged_key();
-            }, 10 * 1000);
+            }, timeout_device_protection * 1000);
         }
     });
 }

@@ -119,4 +119,17 @@ class Session {
     public function set_lang() {
         return LanguageCost::set_lang();
     }
+
+    // lưu session id của người dùng vào file, nếu máy khác truy cập thì báo luôn là đăng đăng nhập nơi khác
+    public function set_logged( $id ) {
+        //echo PATH_LAST_LOGGED . '<br>' . "\n";
+
+        //
+        file_put_contents( PATH_LAST_LOGGED . $id, json_encode( [
+            'key' => session_id(),
+            't' => time(),
+            'agent' => $_SERVER[ 'HTTP_USER_AGENT' ],
+            'ip' => $_SERVER[ 'REMOTE_ADDR' ],
+        ] ) );
+    }
 }

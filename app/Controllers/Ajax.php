@@ -78,11 +78,18 @@ class Ajax extends Layout {
         //die( json_encode( $_GET ) );
         //echo PATH_LAST_LOGGED . '<br>' . "\n";
 
+        // lấy nội dung file cũ
+        $result = $this->current_user_id > 0 ? file_get_contents( PATH_LAST_LOGGED . $this->current_user_id, 1 ) : '';
+
+        // lưu session id của người dùng vào file
+        $this->base_model->set_logged( $this->current_user_id );
+
+
         // trả về key đã lưu của người dùng trong file
         die( json_encode( [
             //'key' => PATH_LAST_LOGGED . $this->current_user_id,
             't' => time(),
-            'hash' => $this->current_user_id > 0 ? file_get_contents( PATH_LAST_LOGGED . $this->current_user_id, 1 ) : ''
+            'hash' => $result
         ] ) );
     }
 }
