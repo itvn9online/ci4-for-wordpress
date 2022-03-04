@@ -456,8 +456,12 @@ class Base extends Session {
 
         //print_r( $query );
         //print_r( $this->db->_error_message() );
+        if ( isset( $op[ 'getNumRows' ] ) ) {
+            return $query->getNumRows();
+        } else {
+            $a = $query->getResultArray();
+        }
         //if ( $builder->countAllResults() > 0 ) {
-        $a = $query->getResultArray();
         //print_r( $a );
 
         // nếu chỉ lấy 1 kết quả -> trả về luôn mảng số 0

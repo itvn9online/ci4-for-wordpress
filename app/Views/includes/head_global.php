@@ -59,20 +59,41 @@ if ( $getconfig->fb_app_id != '' ) {
 <!-- -->
 <?php
 
+
 // nạp file font theo kiểu inline
 $font_awesome_before = $base_model->get_add_css( 'thirdparty/awesome47/css/font-awesome.before.css', true );
 $font_awesome_before = str_replace( '../fonts/', './thirdparty/awesome47/fonts/', $font_awesome_before );
 echo $font_awesome_before;
 
+
+// nạp phiên bản bootstrap phù hợp
+$arr_preload_bootstrap = [
+    'thirdparty/awesome47/css/font-awesome.min.css?v=4.7',
+
+    // bản full
+    'thirdparty/bootstrap-5.1.3/css/bootstrap.min.css',
+    //'thirdparty/bootstrap-5.1.3/css/bootstrap.rtl.min.css',
+
+    // các module đơn lẻ
+    //'thirdparty/bootstrap-5.1.3/css/bootstrap-grid.min.css',
+    //'thirdparty/bootstrap-5.1.3/css/bootstrap-grid.rtl.min.css',
+    //'thirdparty/bootstrap-5.1.3/css/bootstrap-reboot.min.css',
+    //'thirdparty/bootstrap-5.1.3/css/bootstrap-reboot.rtl.min.css',
+    //'thirdparty/bootstrap-5.1.3/css/bootstrap-utilities.min.css',
+    //'thirdparty/bootstrap-5.1.3/css/bootstrap-utilities.rtl.min.css',
+];
+
+foreach ( $arr_preload_bootstrap as $v ) {
+    ?>
+<link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="<?php echo $v; ?>" />
+<?php
+}
+
 ?>
-<link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="thirdparty/awesome47/css/font-awesome.min.css?v=4.7" />
-<link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="thirdparty/bootstrap-5.1.3/css/bootstrap.min.css" />
 <!-- <link rel="stylesheet" type="text/css" media="all" href="thirdparty/flatsome/flatsome.css" /> --> 
 <!-- <link rel="stylesheet" type="text/css" media="all" href="frontend/css/swiper.min.css" /> --> 
 <script type="text/javascript" src="thirdparty/jquery/jquery-3.6.0.min.js"></script> 
 <!-- <script type="text/javascript" src="thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> --> 
-<!-- <link rel="preload" as="script" href="thirdparty/jquery/jquery-3.6.0.min.js"> --> 
-<!-- <link rel="preload" as="script" onload="this.onload=null;this.type='text/javascript'" href="thirdparty/jquery/jquery-migrate-3.3.2.min.js"> --> 
 <!-- <script type="text/javascript" src="frontend/js/swiper.min.js"></script> -->
 <?php
 

@@ -28,6 +28,12 @@ class Sitemap extends Csrf {
         //$time_for_relload_sitemap = 3 * 3600;
 
         $this->web_link = DYNAMIC_BASE_URL;
+
+        // các post type sử dụng status inherit
+        $this->arr_media_status = [
+            PostType::MEDIA,
+            PostType::WP_MEDIA,
+        ];
     }
 
     public function index( $post_type = '', $page_page = '', $page_num = 1 ) {
@@ -43,9 +49,16 @@ class Sitemap extends Csrf {
         //echo $page_page . '<br>' . "\n";
         //echo $page_num . '<br>' . "\n";
         if ( !empty( $post_type ) ) {
+            // sitemap cho danh mục
             if ( $post_type == 'tags' ) {
                 return $this->sitemap_tags();
-            } else {
+            }
+            // sitemap cho hình ảnh
+            else if ( in_array( $post_type, $this->arr_media_status ) ) {
+                return $this->media_sitemap( $post_type, $page_num );
+            }
+            // sitemap cho phần bài viết
+            else {
                 return $this->by_post_type( $post_type, $page_num );
             }
         }
@@ -56,7 +69,10 @@ class Sitemap extends Csrf {
         // manual -> chuẩn hơn trong trường hợp không có bài viết tương ứng thì sitemap không được kích hoạt
         $get_list_sitemap .= $this->WGR_echo_sitemap_node( $this->web_link . 'sitemap/tags', $this->sitemap_current_time );
 
-        //
+
+        /*
+         * sitemap cho phần bài viết
+         */
         $arr_post_type = [
             PostType::POST,
             PostType::BLOG,
@@ -75,13 +91,44 @@ class Sitemap extends Csrf {
         // ->
         foreach ( $arr_post_type as $post_type ) {
             $totalThread = $this->get_post_type( $post_type, 0, true );
-            if ( $totalThread > 0 ) {
-                $get_list_sitemap .= $this->WGR_echo_sitemap_node( $this->web_link . 'sitemap/' . $post_type, $this->sitemap_current_time );
-
-                // phân trang cho sitemap (lấy từ trang 2 trở đi)
-                $get_list_sitemap .= $this->WGR_sitemap_part_page( $totalThread, 'sitemap/' . $post_type );
+            if ( $totalThread <= 0 ) {
+                continue;
             }
+
+            //
+            $get_list_sitemap .= $this->WGR_echo_sitemap_node( $this->web_link . 'sitemap/' . $post_type, $this->sitemap_current_time );
+
+            // phân trang cho sitemap (lấy từ trang 2 trở đi)
+            $get_list_sitemap .= $this->WGR_sitemap_part_page( $totalThread, 'sitemap/' . $post_type );
         }
+
+
+        /*
+         * sitemap cho phần media
+         */
+        $arr_post_type = [
+            PostType::MEDIA,
+            PostType::WP_MEDIA,
+        ];
+        //print_r( $arr_post_type );
+
+        // ->
+        foreach ( $arr_post_type as $post_type ) {
+            $totalThread = $this->media_total( $post_type );
+            //echo $totalThread . '<br>' . "\n";
+
+            //
+            if ( $totalThread <= 0 ) {
+                continue;
+            }
+
+            //
+            $get_list_sitemap .= $this->WGR_echo_sitemap_node( $this->web_link . 'sitemap/' . $post_type, $this->sitemap_current_time );
+
+            // phân trang cho sitemap (lấy từ trang 2 trở đi)
+            $get_list_sitemap .= $this->WGR_sitemap_part_page( $totalThread, 'sitemap/' . $post_type );
+        }
+
 
         //
         echo $this->tmp( file_get_contents( __DIR__ . '/sitemap/sitemapindex.xml', 1 ), [
@@ -146,6 +193,7 @@ class Sitemap extends Csrf {
         $where = [
             //'posts.post_status !=' => PostType::DELETED,
             'posts.post_type' => $post_type,
+            //'posts.post_status' => in_array( $post_type, $this->arr_media_status ) ? PostType::INHERIT : PostType::PUBLIC,
             'posts.post_status' => PostType::PUBLIC,
             //'posts.lang_key' => $this->lang_key
         ];
@@ -222,7 +270,7 @@ class Sitemap extends Csrf {
                 0.5,
                 date( $this->sitemap_date_format, strtotime( $v[ 'post_modified' ] ) ),
                 array(
-                    'get_images' => $v[ 'ID' ]
+                    'get_images' => $v[ 'ID' ],
                 )
             );
         }
@@ -241,6 +289,7 @@ class Sitemap extends Csrf {
     private function WGR_echo_sitemap_url_node( $loc, $priority, $lastmod, $op = array() ) {
         return $this->tmp( file_get_contents( __DIR__ . '/sitemap/url.xml', 1 ), [
             'loc' => $loc,
+            'priority' => $priority,
             'lastmod' => $lastmod,
         ] );
     }
@@ -290,5 +339,159 @@ class Sitemap extends Csrf {
             $html = str_replace( '%' . $k . '%', $v, $html );
         }
         return $html;
+    }
+
+    private function media_total( $post_type ) {
+        return $this->base_model->select( 'ID', 'posts', [
+            'post_type' => $post_type,
+            'post_parent >' => 0,
+            'post_status' => PostType::INHERIT,
+        ], [
+            /*
+            'group_by' => array(
+                'post_parent',
+            ),
+            */
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            'getNumRows' => 1,
+            //'offset' => 0,
+            'limit' => -1
+        ] );
+    }
+
+    private function media_sitemap( $post_type, $page_num ) {
+        $get_list_sitemap = '';
+
+        //
+        $totalThread = $this->media_total( $post_type );
+        //print_r( $totalThread );
+
+        //
+        if ( $totalThread > 0 ) {
+            $totalPage = ceil( $totalThread / $this->limit_post_get );
+            if ( $totalPage < 1 ) {
+                $totalPage = 1;
+            }
+            //echo $totalPage . '<br>' . "\n";
+            if ( $page_num > $totalPage ) {
+                $page_num = $totalPage;
+            } else if ( $page_num < 1 ) {
+                $page_num = 1;
+            }
+            //echo $totalThread . '<br>' . "\n";
+            //echo $totalPage . '<br>' . "\n";
+            $offset = ( $page_num - 1 ) * $this->limit_post_get;
+            //echo $offset . '<br>' . "\n";
+
+            //
+            $data = $this->base_model->select( 'post_title, post_type, post_parent, guid, post_meta_data', 'posts', [
+                'post_type' => $post_type,
+                'post_parent >' => 0,
+                'post_status' => PostType::INHERIT,
+            ], [
+                /*
+                'group_by' => array(
+                    'post_parent',
+                ),
+                */
+                'order_by' => array(
+                    'post_parent' => 'ASC',
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                //'getNumRows' => 1,
+                'offset' => $offset,
+                'limit' => $this->limit_post_get
+                //'limit' => 50
+            ] );
+            //print_r( $data );
+
+            //
+            $parent_data = NULL;
+            $parent_id = 0;
+            $get_list_img_sitemap = '';
+            foreach ( $data as $v ) {
+                //print_r( $v );
+
+                // lấy thông tin bài viết
+                if ( $v[ 'post_parent' ] != $parent_id ) {
+                    if ( !empty( $parent_data ) ) {
+                        $get_list_sitemap .= '
+<url>
+<loc><![CDATA[' . $this->post_model->get_the_permalink( $parent_data ) . ']]></loc>' . $get_list_img_sitemap . '
+</url>';
+
+                        //
+                        $get_list_img_sitemap = '';
+                    }
+
+                    //
+                    $parent_data = $this->base_model->select( 'ID, post_name, post_type, post_name', 'posts', [
+                        'ID' => $v[ 'post_parent' ],
+                        'post_status' => PostType::PUBLIC,
+                    ], [
+                        /*
+                        'group_by' => array(
+                            'post_parent',
+                        ),
+                        */
+                        /*
+                        'order_by' => array(
+                            'post_parent' => 'ASC',
+                        ),
+                        */
+                        // hiển thị mã SQL để check
+                        //'show_query' => 1,
+                        // trả về câu query để sử dụng cho mục đích khác
+                        //'get_query' => 1,
+                        //'getNumRows' => 1,
+                        //'offset' => $offset,
+                        'limit' => 1
+                    ] );
+                    //print_r( $parent_data );
+                }
+                $parent_id = $v[ 'post_parent' ];
+
+                //
+                $post_meta_data = json_decode( $v[ 'post_meta_data' ] );
+                //print_r( $post_meta_data );
+
+                //
+                if ( $v[ 'post_type' ] == PostType::WP_MEDIA ) {
+                    $v[ 'guid' ] = PostType::WP_MEDIA_URI . $post_meta_data->_wp_attached_file;
+                } else {
+                    $v[ 'guid' ] = PostType::MEDIA_URI . $post_meta_data->_wp_attached_file;
+                }
+
+                //
+                $get_list_img_sitemap .= '
+<image:image>
+	<image:loc><![CDATA[' . DYNAMIC_BASE_URL . $v[ 'guid' ] . ']]></image:loc>
+	<image:title><![CDATA[' . $v[ 'post_title' ] . ']]></image:title>
+</image:image>';
+            }
+
+            // bổ sung dữ liệu của vòng lặp cuối nếu nó chưa được xử lý
+            if ( $get_list_img_sitemap != '' && !empty( $parent_data ) ) {
+                $get_list_sitemap .= '
+<url>
+<loc><![CDATA[' . $this->post_model->get_the_permalink( $parent_data ) . ']]></loc>' . $get_list_img_sitemap . '
+</url>';
+            }
+        }
+
+        //
+        echo '
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+' . $get_list_sitemap . '
+</urlset>';
+
+        //
+        exit();
     }
 }

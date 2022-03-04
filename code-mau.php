@@ -153,6 +153,8 @@ $sql = $this->base_model->select( '*', 'tbl_user', array(
     'show_query' => 1,
     // trả về câu query để sử dụng cho mục đích khác
     'get_query' => 1,
+    // trả về tổng số bản ghi -> tương tự mysql num row
+    'getNumRows' => 1,
     'offset' => 2,
     'limit' => 3
 ) );
