@@ -1,10 +1,13 @@
 //
-function done_submit_update_code() {
+function done_submit_update_code(file_name) {
     $('body').css({
         'opacity': 1
     });
     document.frm_global_upload.reset();
-    WGR_alert('Update và giải nén code thành công');
+    if (typeof file_name != 'undefined' && file_name != '') {
+        file_name = ' (' + file_name + ')';
+    }
+    WGR_alert('Update và giải nén code thành công' + file_name);
 
     //
     $('#confirm_is_coder').prop('checked', false);

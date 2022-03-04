@@ -264,6 +264,7 @@ class Dashboard extends Optimize {
         echo $upload_path . ':' . basename( __FILE__ ) . ':' . __LINE__ . '<br>' . "\n";
 
         //
+        $file_path = '';
         if ( $zipfile = $this->request->getFiles() ) {
             //print_r( $zipfile );
 
@@ -328,7 +329,7 @@ class Dashboard extends Optimize {
 
         //
         //die( __CLASS__ . ':' . __LINE__ );
-        die( '<script>top.done_submit_update_code();</script>' );
+        die( '<script>top.done_submit_update_code("' . basename( $file_path ) . '");</script>' );
     }
 
     // xóa file zip sau khi xử lý code
@@ -525,7 +526,7 @@ class Dashboard extends Optimize {
 
         //
         //die( __CLASS__ . ':' . __LINE__ );
-        die( '<script>top.done_submit_update_code();</script>' );
+        die( '<script>top.done_submit_update_code("' . basename( $file_path ) . '");</script>' );
     }
 
     /*

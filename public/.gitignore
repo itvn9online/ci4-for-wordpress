@@ -9,3 +9,6 @@ themes/*
 !themes/echbayfour
 !themes/*.md
 !themes/*.theme
+
+# backup
+thirdparty-bak/*

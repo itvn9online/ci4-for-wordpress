@@ -421,15 +421,16 @@ class Sitemap extends Csrf {
             foreach ( $data as $v ) {
                 //print_r( $v );
 
-                // lấy thông tin bài viết
+                // lấy thông tin bài viết mỗi khi ID có sự thay đổi
                 if ( $v[ 'post_parent' ] != $parent_id ) {
+                    // gán dữ liệu của vòng lặp cũ nếu có
                     if ( !empty( $parent_data ) ) {
                         $get_list_sitemap .= '
 <url>
 <loc><![CDATA[' . $this->post_model->get_the_permalink( $parent_data ) . ']]></loc>' . $get_list_img_sitemap . '
 </url>';
 
-                        //
+                        // reset list ảnh
                         $get_list_img_sitemap = '';
                     }
 
@@ -464,14 +465,14 @@ class Sitemap extends Csrf {
                 $post_meta_data = json_decode( $v[ 'post_meta_data' ] );
                 //print_r( $post_meta_data );
 
-                //
+                // URL ảnh
                 if ( $v[ 'post_type' ] == PostType::WP_MEDIA ) {
                     $v[ 'guid' ] = PostType::WP_MEDIA_URI . $post_meta_data->_wp_attached_file;
                 } else {
                     $v[ 'guid' ] = PostType::MEDIA_URI . $post_meta_data->_wp_attached_file;
                 }
 
-                //
+                // danh sách ảnh
                 $get_list_img_sitemap .= '
 <image:image>
 	<image:loc><![CDATA[' . DYNAMIC_BASE_URL . $v[ 'guid' ] . ']]></image:loc>
