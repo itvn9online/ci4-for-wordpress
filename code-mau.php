@@ -149,6 +149,8 @@ $sql = $this->base_model->select( '*', 'tbl_user', array(
         'username' => 'ASC',
         'user_id' => 'DESC'
     ),
+    // trả về COUNT(column_name) AS column_name
+    'selectCount' => 'ID',
     // hiển thị mã SQL để check
     'show_query' => 1,
     // trả về câu query để sử dụng cho mục đích khác

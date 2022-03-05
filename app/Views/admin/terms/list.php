@@ -45,7 +45,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
             <th class="d-none show-if-ads-type">Size</th>
             <th>Nội dung</th>
             <th>Ngôn ngữ</th>
-            <th>Bài viết</th>
+            <th>Tổng</th>
             <th>&nbsp;</th>
         </tr>
     </thead>
