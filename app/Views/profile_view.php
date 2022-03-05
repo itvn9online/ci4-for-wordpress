@@ -34,7 +34,7 @@
                 <div class="col-4 l40">Họ và tên</div>
                 <div class="col-8">
                     <div class="form-control">
-                        <input type="text" placeholder="Họ và tên" name="data[display_name]" value="<?php echo $data['display_name']; ?>">
+                        <input type="text" placeholder="Họ và tên" name="data[display_name]" value="<?php echo $data['display_name']; ?>" aria-required="true" required>
                     </div>
                 </div>
             </div>
@@ -73,7 +73,7 @@
                 <div class="col-4 l40">Thay đổi mật khẩu</div>
                 <div class="col-8">
                     <div class="form-control">
-                        <input type="text" placeholder="Thay đổi mật khẩu" name="data[ci_pass]" value="" onfocus="$('.redcolor-if-pass-focus').addClass('redcolor');" onblur="$('.redcolor-if-pass-focus').removeClass('redcolor');">
+                        <input type="text" placeholder="Thay đổi mật khẩu" name="data[ci_pass]" value="" onfocus="$('.redcolor-if-pass-focus').addClass('redcolor');" onblur="$('.redcolor-if-pass-focus').removeClass('redcolor');" aria-required="true" required>
                     </div>
                 </div>
             </div>

@@ -49,5 +49,7 @@ function get_user_logged_key() {
     });
 }
 if (current_user_id > 0) {
-    get_user_logged_key();
+    setTimeout(function () {
+        get_user_logged_key();
+    }, 5 * 1000);
 }

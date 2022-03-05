@@ -55,7 +55,48 @@ class Users extends Csrf {
     }
 
     private function update( $id ) {
-        $this->base_model->alert( 'TEST code', 'warning' );
+        $data = $this->MY_post( 'data' );
+        //print_r( $data );
+        if ( isset( $data[ 'ci_pass' ] ) ) {
+            if ( empty( $data[ 'ci_pass' ] ) ) {
+                $this->base_model->alert( 'Không xác định được mật khẩu cần thay đổi', 'warning' );
+            }
+
+            // cập nhật mật khẩu mới cho user
+            $this->user_model->update_member( $id, [
+                'ci_pass' => $data[ 'ci_pass' ],
+            ] );
+
+            //
+            $this->base_model->alert( 'Cập nhật mật khẩu mới thành công' );
+        }
+
+        // danh sách các cột được phép update
+        $allow_update = [
+            'display_name',
+            'user_nicename',
+        ];
+
+        //
+        $data_update = [];
+        foreach ( $data as $k => $v ) {
+            if ( !in_array( $k, $allow_update ) ) {
+                continue;
+            }
+            $data_update[ $k ] = $v;
+        }
+        //print_r( $data_update );
+
+        //
+        if ( empty( $data_update ) ) {
+            $this->base_model->alert( 'Không xác định được thông tin cần thay đổi', 'warning' );
+        }
+
+        // cập nhật thông tin mới cho user
+        $this->user_model->update_member( $id, $data_update );
+
+        //
+        $this->base_model->alert( 'Cập nhật thông tin tài khoản thành công' );
     }
 
     public function logout() {

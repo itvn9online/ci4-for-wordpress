@@ -8,6 +8,9 @@
 //define( 'FTP_USER', '' );
 //define( 'FTP_PASS', '' );
 
+// chuỗi sẽ thêm vào khi sử dụng hàm mdnam -> md5 -> tăng độ bảo mật cho chuỗi
+//define( 'CUSTOM_MD5_HASH_CODE', '' );
+
 /*
  * Tiền tố cho danh mục sản phẩm
  */

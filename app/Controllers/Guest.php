@@ -4,6 +4,7 @@ namespace App\ Controllers;
 //
 use App\ Libraries\ UsersType;
 use App\ Libraries\ DeletedStatus;
+use App\ Libraries\ PHPMaillerSend;
 
 //
 class Guest extends Csrf {
@@ -294,8 +295,61 @@ class Guest extends Csrf {
                     $this->set_validation_error( $this->validation->getErrors(), $this->form_target );
                 } else {
                     if ( $this->check_resetpass() === true ) {
-                        // daidq -----> tính năng này để sau, đang bận chạy deadline nên vất đây đã
-                        $this->base_model->msg_session( 'Gửi email lấy lại mật khẩu thành công' );
+                        // sử dụng cache để không cho người dùng gửi email liên tục
+                        $cache = \Config\ Services::cache();
+                        $in_cache = __FUNCTION__ . $this->base_model->_eb_non_mark_seo( $data[ 'email' ] );
+                        //die( $in_cache );
+                        if ( $cache->get( $in_cache ) === NULL ) {
+                            /*
+                             * link reset pass
+                             */
+                            $data_reset = [
+                                'e' => $data[ 'email' ],
+                                // hạn sử dụng của link
+                                't' => time() + 3600,
+                            ];
+
+                            // token
+                            $data_reset[ 'token' ] = $this->base_model->mdnam( $data_reset[ 'e' ] . $data_reset[ 't' ], CUSTOM_MD5_HASH_CODE );
+
+                            //
+                            //print_r( $data_reset );
+                            $link_reset_pass = [];
+                            foreach ( $data_reset as $k => $v ) {
+                                $link_reset_pass[] = $k . '=' . $v;
+                            }
+                            $link_reset_pass = base_url( 'guest/confirm_reset_password' ) . '?' . implode( '&', $link_reset_pass );
+                            //echo $link_reset_pass . '<br>' . "\n";
+                            //echo base_url() . '<br>' . "\n";
+
+
+                            // thiết lập thông tin người nhận
+                            $data_send = [
+                                'to' => $data[ 'email' ],
+                                'subject' => '(' . $_SERVER[ 'HTTP_HOST' ] . ') Khởi tạo lại mật khẩu đăng nhập',
+                                'message' => $this->base_model->tmp_to_html(
+                                    $this->base_model->get_html_tmp( 'reset_password_confirm', '', 'Views/mail_template/' ), [
+                                        'base_url' => base_url(),
+                                        'email' => $data[ 'email' ],
+                                        'link_reset_pass' => $link_reset_pass,
+                                    ]
+                                ),
+                            ];
+                            //print_r( $data_send );
+                            //die( __CLASS__ . ':' . __LINE__ );
+
+                            //
+                            if ( PHPMaillerSend::the_send( $data_send, $this->getconfig ) === true ) {
+                                $this->base_model->msg_session( 'Gửi email lấy lại mật khẩu thành công! Vui lòng kiểm tra email và làm theo hướng dẫn để tiếp tục.' );
+
+                                //
+                                $cache->save( $in_cache, time(), 60 );
+                            } else {
+                                $this->base_model->msg_error_session( 'Gửi email lấy lại mật khẩu THẤT BẠI! Vui lòng liên hệ với quản trị website.' );
+                            }
+                        } else {
+                            $this->base_model->msg_session( 'Vui lòng kiểm tra email và làm theo hướng dẫn để tiếp tục.' );
+                        }
 
                         return $this->done_action_login();
                     }
@@ -320,5 +374,89 @@ class Guest extends Csrf {
 
     protected function seo( $name, $canonical ) {
         return $this->base_model->default_seo( $name, $canonical );
+    }
+
+    public function confirm_reset_password() {
+        //print_r( $_GET );
+
+        //
+        $email = $this->MY_get( 'e', '' );
+        $expire = $this->MY_get( 't', 0 );
+        $token = $this->MY_get( 'token', '' );
+
+        // các tham số không thể thiếu -> thiếu là bỏ qua luôn
+        if ( $email == '' || $expire <= 0 || $token == '' ) {
+            $this->base_model->msg_error_session( 'Dữ liệu đầu vào không chính xác!' );
+        } else {
+            $user_id = $this->user_model->check_user_exist( $email );
+
+            //
+            if ( $user_id === false ) {
+                $this->base_model->msg_error_session( 'Email ' . $email . ' không tồn tại trong hệ thống!' );
+            } else {
+                // sử dụng cache để kiểm soát không cho dùng link liên tục
+                $cache = \Config\ Services::cache();
+                $in_cache = __FUNCTION__ . $user_id;
+                //die( $in_cache );
+                if ( $cache->get( $in_cache ) === NULL ) {
+                    // kiểm tra độ khớp của dữ liệu
+                    if ( $expire < time() ) {
+                        $this->base_model->msg_error_session( 'Liên kết đã hết hạn sử dụng!' );
+                    }
+                    // mã xác nhận -> token
+                    else if ( $this->base_model->mdnam( $email . $expire, CUSTOM_MD5_HASH_CODE ) != $token ) {
+                        $this->base_model->msg_error_session( 'Mã xác nhận không chính xác!' );
+                    }
+                    // đúng thì tiến hành reset password
+                    else {
+                        $random_password = substr( $this->base_model->mdnam( time() ), 0, 12 );
+                        //echo $random_password . '<br>' . "\n";
+
+                        // thiết lập thông tin người nhận
+                        $data_send = [
+                            'to' => $email,
+                            'subject' => '(' . $_SERVER[ 'HTTP_HOST' ] . ') Mật khẩu đăng nhập mới',
+                            'message' => $this->base_model->tmp_to_html(
+                                $this->base_model->get_html_tmp( 'reset_password', '', 'Views/mail_template/' ), [
+                                    'base_url' => base_url( 'guest/login' ),
+                                    'email' => $email,
+                                    'ip' => $this->request->getIPAddress(),
+                                    'random_password' => $random_password,
+                                    'agent' => $_SERVER[ 'HTTP_USER_AGENT' ],
+                                    'date_send' => date( 'r' ),
+                                ]
+                            ),
+                        ];
+                        //print_r( $data_send );
+                        //die( __CLASS__ . ':' . __LINE__ );
+
+                        // gửi email thông báo
+                        if ( PHPMaillerSend::the_send( $data_send, $this->getconfig ) === true ) {
+                            $this->base_model->msg_session( 'Mật khẩu mới đã được thiết lập! Vui lòng kiểm tra email ' . $email . ' để lấy mật khẩu đăng nhập mới.' );
+
+                            // cập nhật mật khẩu mới cho user
+                            $this->user_model->update_member( $user_id, [
+                                'ci_pass' => $random_password,
+                            ] );
+
+                            // không cho thao tác liên tục
+                            $cache->save( $in_cache, time(), 300 );
+                        } else {
+                            $this->base_model->msg_error_session( 'Gửi email cung cấp mật khẩu mới THẤT BẠI! Vui lòng liên hệ với quản trị website.' );
+                        }
+                    }
+                } else {
+                    $this->base_model->msg_session( 'Vui lòng kiểm tra email ' . $email . ' để lấy mật khẩu đăng nhập mới.' );
+                }
+            }
+        }
+
+        // dùng chung view với trang đăng nhập
+        $this->teamplate[ 'main' ] = view( 'admin/login_view', array(
+            'seo' => $this->seo( 'Khởi tạo lại mật khẩu', __FUNCTION__ ),
+            'breadcrumb' => '',
+        ) );
+        //print_r( $this->teamplate );
+        return view( 'layout_view', $this->teamplate );
     }
 }

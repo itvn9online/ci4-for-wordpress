@@ -14,8 +14,8 @@
                 <p>Trình duyệt: <strong class="show-logged-agent"></strong></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"><i class="fa fa-remove"></i> Bỏ qua</button>
-                <button type="button" class="btn btn-primary"><i class="fa fa-check"></i> Đã hiểu</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa fa-remove"></i> Bỏ qua</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal"><i class="fa fa-check"></i> Tôi đã hiểu</button>
             </div>
         </div>
     </div>

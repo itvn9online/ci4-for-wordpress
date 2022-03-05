@@ -26,6 +26,9 @@ class Uploads extends Admin {
         }
 
         //
+        $this->sync_no_parent();
+
+        //
         $post_per_page = 50;
 
         // các kiểu điều kiện where
@@ -350,5 +353,28 @@ class Uploads extends Admin {
             'name_type' => PostType::list( $this->post_type ),
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
+    }
+
+    // tìm cha cho các ảnh không có parent
+    private function sync_no_parent() {
+        // daidq (2022-03-05): chưa có site để test nên tính năng này đang tạm dừng
+        return false;
+        
+        //
+        $data = $this->base_model->select( '*', 'posts', [
+            'post_type' => $this->post_type,
+            'post_parent' => 0,
+            'post_status' => PostType::INHERIT,
+        ], [
+            // hiển thị mã SQL để check
+            'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            //'getNumRows' => 1,
+            'offset' => $offset,
+            'limit' => 5
+        ] );
+        //print_r( $data );
+        //die( __CLASS__ . ':' . __LINE__ );
     }
 }

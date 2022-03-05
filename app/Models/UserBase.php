@@ -149,23 +149,25 @@ class UserBase extends EbModel {
             //'offset' => 2,
             'limit' => 1
         ) );
+        //print_r( $sql );
 
         // có rồi
         if ( !empty( $sql ) ) {
             if ( $set_flash === true ) {
                 $this->base_model->msg_error_session( 'Email đã tồn tại !!!' );
             }
-            // trả về false
-            return false;
+            // trả về ID nếu có
+            return $sql[ 'ID' ];
         }
+        //print_r( $sql );
 
-        // chưa có -> true
-        return true;
+        // chưa có -> false
+        return false;
     }
 
     public function check_resetpass( $email ) {
         // chưa có -> báo lỗi
-        if ( $this->check_user_exist( $email ) === true ) {
+        if ( $this->check_user_exist( $email ) === false ) {
             $this->base_model->msg_error_session( 'Email không tồn tại !!!' );
             return false;
         }

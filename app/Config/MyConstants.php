@@ -92,6 +92,9 @@ if ( file_exists( THEMEPATH . 'functions.php' ) ) {
     include THEMEPATH . 'functions.php';
 }
 
+// chuỗi sẽ thêm vào khi sử dụng hàm mdnam -> md5
+defined( 'CUSTOM_MD5_HASH_CODE' ) || define( 'CUSTOM_MD5_HASH_CODE', $_SERVER[ 'HTTP_HOST' ] );
+
 // permission mặc định khi up file, tạo thư mục
 defined( 'DEFAULT_FILE_PERMISSION' ) || define( 'DEFAULT_FILE_PERMISSION', 0777 );
 defined( 'DEFAULT_DIR_PERMISSION' ) || define( 'DEFAULT_DIR_PERMISSION', 0777 );
