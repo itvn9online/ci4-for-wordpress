@@ -641,6 +641,18 @@ function WGR_duy_tri_dang_nhap(max_i) {
         dataType: 'json',
         //crossDomain: true,
         //data: data,
+        timeout: 33 * 1000,
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+            if (typeof jqXHR.responseText != 'undefined') {
+                console.log(jqXHR.responseText);
+            }
+            console.log(errorThrown);
+            console.log(textStatus);
+            if (textStatus === 'timeout') {
+                //
+            }
+        },
         success: function (data) {
             console.log(data);
 
@@ -682,7 +694,91 @@ function get_taxonomy_data_by_ids(arr, jd) {
 }
 
 // hiển thị tên của danh mục bằng javascript -> giảm tải cho server
+var taxonomy_ids_unique = [];
+
+// lấy thông tin các taxonomy đang hiện hoạt trên trang
 function action_each_to_taxonomy() {
+    // daidq (2022-03-06): thử cách nạp các nhóm được hiển thị trên trang hiện tại -> cách này nạp ít dữ liệu mà độ chuẩn xác lại cao
+    // lấy các ID có 
+    $('.each-to-taxonomy').each(function () {
+        var a = $(this).attr('data-id') || '';
+        var as = $(this).attr('data-ids') || '';
+        var taxonomy = $(this).attr('data-taxonomy') || '';
+
+        if (a == '') {
+            a = as;
+        }
+
+        if (a != '' && taxonomy != '') {
+            a = a.split(',');
+            var str = [];
+            for (var i = 0; i < a.length; i++) {
+                if (a[i] != '') {
+                    a *= 1;
+                    if (a > 0) {
+                        var has_add = false;
+                        for (var j = 0; j < taxonomy_ids_unique.length; j++) {
+                            if (a == taxonomy_ids_unique[j]) {
+                                has_add = true;
+                                break;
+                            }
+                        }
+                        if (has_add === false) {
+                            taxonomy_ids_unique.push(a);
+                        }
+                    }
+                }
+            }
+        }
+        //console.log(a);
+    });
+    //console.log(taxonomy_ids_unique);
+
+    // chạy ajax nạp dữ liệu của taxonomy
+    jQuery.ajax({
+        type: 'POST',
+        // lấy base URL từ link http thường (không phải https) -> để xem nó có redirect về https không
+        url: web_link + 'ajax/get_taxonomy_by_ids',
+        dataType: 'json',
+        //crossDomain: true,
+        data: {
+            ids: taxonomy_ids_unique.join(',')
+        },
+        timeout: 33 * 1000,
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+            if (typeof jqXHR.responseText != 'undefined') {
+                console.log(jqXHR.responseText);
+            }
+            console.log(errorThrown);
+            console.log(textStatus);
+            if (textStatus === 'timeout') {
+                //
+            }
+        },
+        success: function (data) {
+            //console.log(data);
+
+            // nạp xong thì gán dữ liệu cho mảng arr_all_taxonomy
+            arr_all_taxonomy = {};
+            for (var i = 0; i < data.length; i++) {
+                if (typeof arr_all_taxonomy[data[i].taxonomy] == 'undefined') {
+                    arr_all_taxonomy[data[i].taxonomy] = [];
+                }
+
+                //
+                arr_all_taxonomy[data[i].taxonomy].push(data[i]);
+            }
+            //console.log(arr_all_taxonomy);
+
+            //
+            after_each_to_taxonomy();
+        }
+    });
+}
+
+// hiển thị tên danh mục sau khi nạp xong
+function after_each_to_taxonomy() {
     $('.each-to-taxonomy').each(function () {
         var a = $(this).attr('data-id') || '';
         var as = $(this).attr('data-ids') || '';

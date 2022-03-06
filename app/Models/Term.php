@@ -8,21 +8,7 @@ use App\ Libraries\ DeletedStatus;
 use App\ Libraries\ TaxonomyType;
 
 //
-class Term extends EbModel {
-    public $table = 'terms';
-    public $primaryKey = 'term_id';
-
-    public $metaTable = 'termmeta';
-    //public $metaKey = 'meta_id';
-
-    public $taxTable = 'term_taxonomy';
-    public $taxKey = 'term_taxonomy_id';
-
-    public $relaTable = 'term_relationships';
-    public $relaKey = 'object_id';
-
-    //protected $primaryTaxonomy = 'category';
-
+class Term extends TermBase {
     public function __construct() {
         parent::__construct();
     }
@@ -657,6 +643,10 @@ class Term extends EbModel {
     }
 
     function get_child_terms( $data, $ops = [] ) {
+        // đồng bộ lại tổng số nhóm con cho các danh mục trước đã
+        $this->sync_term_child_count();
+
+        //
         $current_time = time();
 
         //print_r( $data );
@@ -673,7 +663,7 @@ class Term extends EbModel {
             if ( $v[ 'child_count' ] === NULL ) {
                 $child_update_count = 'query';
             }
-            // hoặc làn cuối cập nhật cách đây đủ lâu
+            // hoặc lần cuối cập nhật cách đây đủ lâu
             else if ( $current_time - $v[ 'child_last_count' ] > 3600 ) {
                 $child_update_count = 'timeout';
             }
@@ -767,99 +757,6 @@ class Term extends EbModel {
         }
     }
 
-    function get_meta_terms( $term_id, $key = '' ) {
-        // lấy theo key cụ thể
-        if ( $key != '' ) {
-            $data = $this->base_model - select( '*', $this->metaTable, array(
-                // các kiểu điều kiện where
-                'term_id' => $term_id,
-                'meta_key' => $key,
-            ), array(
-                'order_by' => array(
-                    'meta_id' => 'DESC'
-                ),
-                // hiển thị mã SQL để check
-                //'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-                //'offset' => 2,
-                'limit' => 1
-            ) );
-
-            //
-            if ( empty( $data ) ) {
-                return '';
-            }
-            return $data[ 'meta_value' ];
-        }
-
-        // lấy toàn bộ meta
-        return $this->base_model->select( '*', $this->metaTable, array(
-            // các kiểu điều kiện where
-            'term_id' => $term_id
-        ), array(
-            'group_by' => array(
-                'meta_key',
-            ),
-            'order_by' => array(
-                'meta_id' => 'DESC'
-            ),
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-            //'offset' => 2,
-            //'limit' => 3
-        ) );
-    }
-
-    // trả về danh sách meta terms dưới dạng key => value
-    function arr_meta_terms( $term_id ) {
-        $data = $this->get_meta_terms( $term_id, '', $this->metaTable );
-
-        //
-        $meta_data = [];
-        foreach ( $data as $k => $v ) {
-            $meta_data[ $v[ 'meta_key' ] ] = $v[ 'meta_value' ];
-        }
-        return $meta_data;
-    }
-
-    function terms_meta_post( $data ) {
-        //print_r( $data );
-        foreach ( $data as $k => $v ) {
-            //print_r( $v );
-
-            // nếu không có dữ liệu của term meta
-            if ( $v[ 'term_meta_data' ] === NULL ) {
-                $term_meta_data = $this->arr_meta_terms( $v[ 'term_id' ] );
-                //print_r( $term_meta_data );
-                //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
-
-                //
-                $this->base_model->update_multiple( $this->table, [
-                    'term_meta_data' => json_encode( $term_meta_data ),
-                ], [
-                    'term_id' => $v[ 'term_id' ],
-                ] );
-
-                // thông báo kiểu dữ liệu trả về
-                $data[ $k ][ 'term_meta_data' ] = 'query';
-            } else {
-                $term_meta_data = ( array )json_decode( $v[ 'term_meta_data' ] );
-                //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
-
-                // thông báo kiểu dữ liệu trả về
-                $data[ $k ][ 'term_meta_data' ] = 'cache';
-            }
-            $data[ $k ][ 'term_meta' ] = $term_meta_data;
-        }
-        //print_r( $data );
-
-        //
-        return $data;
-    }
-
     // chỉ trả về link admin của 1 term
     function get_admin_permalink( $taxonomy = '', $id = 0, $controller_slug = 'terms' ) {
         //$url = base_url( 'admin/' . $controller_slug . '/add' ) . '?taxonomy=' . $taxonomy;
@@ -895,23 +792,6 @@ class Term extends EbModel {
     // thường dùng trong view -> in ra link admin của 1 term
     function the_permalink( $data ) {
         echo $this->get_the_permalink( $data );
-    }
-
-    // hàm này sẽ kiểm tra xem có meta tương ứng của post không, có thì in ra luôn
-    function return_meta_term( $data, $key, $default_value = '' ) {
-        if ( isset( $data[ $key ] ) ) {
-            return $data[ $key ];
-        } else if ( isset( $data[ 'term_meta' ] ) ) {
-            return $this->return_meta_term( $data[ 'term_meta' ], $key );
-        }
-
-        //
-        return $default_value;
-    }
-
-    //
-    function echo_meta_term( $data, $key, $default_value = '' ) {
-        echo $this->return_meta_term( $data[ 'term_meta' ], $key, $default_value );
     }
 
     // tạo html trong này -> do trong view không viết được tham số $this để tạo vòng lặp đệ quy
@@ -1107,25 +987,86 @@ class Term extends EbModel {
         return $data;
     }
 
-    // vòng lặp đệ quy -> tạo option cho phần select của term
-    public function term_add_child_option( $data, $term_id = 0, $gach_ngang = '' ) {
-        if ( empty( $data ) ) {
+    /*
+     * đồng bộ các tổng số nhóm con cho các danh mục
+     */
+    public function sync_term_child_count() {
+        //echo __FUNCTION__ . '<br>' . "\n";
+        $cache_value = $this->base_model->MY_cache( __FUNCTION__ );
+        if ( $cache_value !== NULL ) {
+            //print_r( $cache_value );
             return false;
         }
-        //print_r( $data );
-        //return false;
 
         //
+        $current_time = time();
+
+        // reset tất cả về 0 đã
+        $this->base_model->update_multiple( 'terms', [
+            'child_count' => 0,
+            'child_last_count' => $current_time,
+        ], [
+            'is_deleted' => DeletedStatus::FOR_DEFAULT,
+        ], [
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+        ] );
+
+        // -> lấy tất cả các nhóm có nhóm con
+        $data = $this->base_model->select( 'parent', 'term_taxonomy', array(
+            // các kiểu điều kiện where
+            'parent >' => 0,
+            //'is_deleted' => DeletedStatus::FOR_DEFAULT,
+        ), array(
+            'group_by' => array(
+                'parent',
+            ),
+            // trả về COUNT(column_name) AS column_name
+            //'selectCount' => 'ID',
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            // trả về tổng số bản ghi -> tương tự mysql num row
+            //'getNumRows' => 1,
+            //'offset' => 2,
+            'limit' => -1
+        ) );
+        //print_r( $data );
+
+        // chạy vòng lặp để tính tổng số nhóm con của tất cả các nhóm này
         foreach ( $data as $v ) {
             //print_r( $v );
-            //continue;
-            if ( $v[ 'term_id' ] == $term_id || $v[ 'parent' ] == $term_id ) {
-                continue;
-            }
-            echo '<option value="' . $v[ 'term_id' ] . '">' . $gach_ngang . $v[ 'name' ] . '</option>';
 
             //
-            $this->term_add_child_option( $v[ 'child_term' ], $term_id, $gach_ngang . '&#8212; ' );
+            $child_count = $this->base_model->select( 'term_id', 'term_taxonomy', array(
+                // các kiểu điều kiện where
+                'parent' => $v[ 'parent' ],
+            ), array(
+                // trả về COUNT(column_name) AS column_name
+                'selectCount' => 'term_id',
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 2,
+                //'limit' => -1
+            ) );
+            //print_r( $child_count );
+            //echo $child_count[ 0 ][ 'term_id' ] . '<br>' . "\n";
+
+            //
+            $this->base_model->update_multiple( 'terms', [
+                'child_count' => $child_count[ 0 ][ 'term_id' ],
+                'child_last_count' => $current_time,
+            ], [
+                'term_id' => $v[ 'parent' ],
+            ] );
         }
+
+        //
+        $this->base_model->MY_cache( __FUNCTION__, time(), MINI_CACHE_TIMEOUT );
     }
 }

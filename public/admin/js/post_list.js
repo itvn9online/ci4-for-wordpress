@@ -12,18 +12,36 @@ function done_delete_restore(id) {
     //console.log(a);
 
     //
-    if ($('.each-to-taxonomy-group').length == 0) {
+    if ($('.each-to-group-taxonomy').length == 0) {
         return false;
     }
 
     //
-    $('.each-to-taxonomy-group').each(function () {
+    $('.each-to-group-taxonomy').each(function () {
         var a = $(this).attr('data-taxonomy') || '';
-        //console.log(a);
-        if (a != '' && typeof arr_all_taxonomy[a] != 'undefined') {
-            $(this).append(create_term_select_option(arr_all_taxonomy[a]));
-        } else {
-            $(this).parent('.hide-if-no-taxonomy').hide();
+        var jd = $(this).attr('id') || '';
+        if (jd == '') {
+            jd = '_' + Math.random().toString(32).replace('.', '_');
+            //console.log(jd);
+
+            //
+            $(this).attr({
+                id: jd
+            });
         }
+        //console.log(a);
+
+        // chạy ajax nạp dữ liệu của taxonomy
+        load_term_select_option(a, jd, function (data, jd) {
+            if (data.length > 0) {
+                // tạo select
+                $('#' + jd).append(create_term_select_option(data)).removeClass('set-selected');
+
+                // tạo lại selected
+                WGR_set_prop_for_select('#' + jd);
+            } else {
+                $('#' + jd).parent('.hide-if-no-taxonomy').hide();
+            }
+        });
     });
 })();

@@ -503,8 +503,49 @@ function hide_if_esc() {
 }
 
 
+//
+function load_term_select_option(a, jd, _callBack) {
+    jQuery.ajax({
+        type: 'POST',
+        // lấy base URL từ link http thường (không phải https) -> để xem nó có redirect về https không
+        url: web_link + 'ajax/get_taxonomy_by_taxonomy',
+        dataType: 'json',
+        //crossDomain: true,
+        data: {
+            taxonomy: a,
+            //jd: jd,
+        },
+        timeout: 33 * 1000,
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+            if (typeof jqXHR.responseText != 'undefined') {
+                console.log(jqXHR.responseText);
+            }
+            console.log(errorThrown);
+            console.log(textStatus);
+            if (textStatus === 'timeout') {
+                //
+            }
+        },
+        success: function (data) {
+            //console.log(data);
+            //console.log(data.length);
+
+            //
+            if (typeof data.error != 'undefined') {
+                console.log('%c ' + data.error, 'color: red;');
+            } else if (typeof _callBack == 'function') {
+                _callBack(data, jd);
+            } else {
+                console.log(data);
+            }
+        }
+    });
+}
+
 // tạo danh sách option cho các select term
 function create_term_select_option(arr, space) {
+    //console.log('Call in: ' + arguments.callee.caller.name.toString());
     //console.log(arr);
 
     //

@@ -22,12 +22,12 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                     <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $name_type; ?>" autofocus aria-required="true" required>
                 </div>
                 <div class="lf f25 hide-if-no-taxonomy">
-                    <select name="term_id" data-select="<?php echo $by_term_id; ?>" data-taxonomy="<?php echo $taxonomy; ?>" onChange="document.frm_admin_search_controller.submit();" class="each-to-taxonomy-group">
+                    <select name="term_id" data-select="<?php echo $by_term_id; ?>" data-taxonomy="<?php echo $taxonomy; ?>" onChange="document.frm_admin_search_controller.submit();" class="each-to-group-taxonomy">
                         <option value="0">- Danh mục <?php echo $name_type; ?> -</option>
                     </select>
                 </div>
                 <div class="lf f25">
-                    <select name="post_status" data-select="<?php echo $post_status; ?>" onChange="document.frm_admin_search_controller.submit();" class="each-to-taxonomy-group2">
+                    <select name="post_status" data-select="<?php echo $post_status; ?>" onChange="document.frm_admin_search_controller.submit();">
                         <option value="">- Trạng thái <?php echo $name_type; ?> -</option>
                         <?php
 

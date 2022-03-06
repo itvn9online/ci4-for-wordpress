@@ -173,40 +173,9 @@ $base_model->adds_js( [
     'javascript/eb.js'
 ] );
 
-// danh sách các taxonomy cố định
-$arr_all_taxonomy = [
-    TaxonomyType::POSTS,
-    TaxonomyType::TAGS,
-    TaxonomyType::ADS,
-    TaxonomyType::BLOGS,
-    TaxonomyType::BLOG_TAGS,
-    TaxonomyType::OPTIONS,
-];
-
 ?>
 <script>
-var arr_all_taxonomy = {};
-try {
-    <?php
-    //
-    foreach ($arr_all_taxonomy as $v) {
-        ?>
-    arr_all_taxonomy['<?php echo $v; ?>'] = <?php $term_model->json_taxonomy( $v, 0, [ 'get_child' => 1 ], $v . '_get_child' ); ?>;
-    <?php
-    }
-    
-    //
-    foreach ($arr_custom_taxonomy as $k => $v) {
-        ?>
-    arr_all_taxonomy['<?php echo $k; ?>'] = <?php $term_model->json_taxonomy( $k, 0, [ 'get_child' => 1 ], $k . '_get_child' ); ?>;
-    <?php
-    }
-    ?>
-} catch ( e ) {
-    WGR_show_try_catch_err( e );
-    //arr_all_taxonomy = {};
-}
-//
+var arr_all_taxonomy = null;
 var arr_admin_menu = <?php echo json_encode($arr_admin_menu); ?>;
 var arr_lang_list = <?php echo json_encode(LanguageCost::list()); ?>;
 var web_link = window.location.protocol + '//' + document.domain + '/';

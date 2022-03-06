@@ -103,9 +103,21 @@ $(window).on('load', function () {
 /*
  * tạo các option con cho phần select Danh mục cha
  */
-if ($('#post_meta_post_category').length > 0) {
-    $('#post_meta_post_category').append(create_term_select_option(post_cat));
+if ($('#post_meta_post_category').length > 0 && typeof post_cat != 'undefined' && post_cat != '') {
+    // chạy ajax nạp dữ liệu của taxonomy
+    load_term_select_option(post_cat, 'post_meta_post_category', function (data, jd) {
+        $('#post_meta_post_category').append(create_term_select_option(data)).removeClass('set-selected');
+
+        // tạo lại selected
+        WGR_set_prop_for_select('#post_meta_post_category');
+    });
 }
-if ($('#post_meta_post_tags').length > 0) {
-    $('#post_meta_post_tags').append(create_term_select_option(post_tags));
+if ($('#post_meta_post_tags').length > 0 && typeof post_tags != 'undefined' && post_tags != '') {
+    // chạy ajax nạp dữ liệu của taxonomy
+    load_term_select_option(post_tags, 'post_meta_post_tags', function (data, jd) {
+        $('#post_meta_post_tags').append(create_term_select_option(data)).removeClass('set-selected');
+
+        // tạo lại selected
+        WGR_set_prop_for_select('#post_meta_post_tags');
+    });
 }

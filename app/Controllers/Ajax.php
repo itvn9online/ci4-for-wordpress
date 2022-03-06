@@ -5,6 +5,8 @@ class Ajax extends Layout {
     // chức năng này không cần nạp header
     public $preload_header = false;
 
+    protected $select_term_col = 'term_id, name, slug, term_group, count, parent, taxonomy, child_count, child_last_count';
+
     public function __construct() {
         parent::__construct();
     }
@@ -91,5 +93,58 @@ class Ajax extends Layout {
             't' => time(),
             'hash' => $result
         ] ) );
+    }
+
+    public function get_taxonomy_by_ids() {
+        header( 'Content-type: application/json; charset=utf-8' );
+
+        //
+        $ids = $this->MY_post( 'ids', '' );
+        if ( empty( $ids ) ) {
+            die( json_encode( [
+                'code' => __LINE__,
+                'error' => 'EMPTY ids'
+            ] ) );
+        }
+
+        //
+        $data = $this->base_model->select( $this->select_term_col, WGR_TERM_VIEW, array(
+            // WHERE AND OR
+            //'is_member' => User_type::GUEST,
+        ), array(
+            'where_in' => array(
+                'term_id' => explode( ',', $ids )
+            ),
+            // trả về COUNT(column_name) AS column_name
+            //'selectCount' => 'ID',
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            // trả về tổng số bản ghi -> tương tự mysql num row
+            //'getNumRows' => 1,
+            //'offset' => 2,
+            'limit' => -1
+        ) );
+
+        //
+        die( json_encode( $data ) );
+    }
+
+    public function get_taxonomy_by_taxonomy() {
+        header( 'Content-type: application/json; charset=utf-8' );
+
+        //
+        $taxonomy = $this->MY_post( 'taxonomy', '' );
+        if ( empty( $taxonomy ) ) {
+            die( json_encode( [
+                'code' => __LINE__,
+                'error' => 'EMPTY taxonomy'
+            ] ) );
+        }
+
+        //
+        //die( json_encode( $_POST ) );
+        die( $this->term_model->json_taxonomy( $taxonomy, 0, [ 'get_child' => 1 ], $taxonomy . '_get_child' ) );
     }
 }

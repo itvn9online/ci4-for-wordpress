@@ -342,8 +342,8 @@ class Posts extends Admin {
 
 
         //
-        $post_cat = [];
-        $post_tags = [];
+        $post_cat = '';
+        $post_tags = '';
         $parent_post = [];
         // lấy danh sách các trang để chọn bài cha
         if ( $this->post_type == PostType::PAGE ) {
@@ -384,9 +384,11 @@ class Posts extends Admin {
         }
         // lấy danh sách các nhóm để add cho post
         else {
-            $post_cat = $this->term_model->get_all_taxonomy( $this->taxonomy, 0, [ 'get_child' => 1 ], $this->taxonomy . '_get_child' );
+            //$post_cat = $this->term_model->get_all_taxonomy( $this->taxonomy, 0, [ 'get_child' => 1 ], $this->taxonomy . '_get_child' );
+            $post_cat = $this->taxonomy;
             if ( $this->tags != '' ) {
-                $post_tags = $this->term_model->get_all_taxonomy( $this->tags, 0, [ 'get_child' => 1 ], $this->tags . '_get_child' );
+                //$post_tags = $this->term_model->get_all_taxonomy( $this->tags, 0, [ 'get_child' => 1 ], $this->tags . '_get_child' );
+                $post_tags = $this->tags;
             }
         }
 

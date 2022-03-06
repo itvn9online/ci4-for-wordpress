@@ -211,12 +211,10 @@ WGR_widget_add_custom_style_to_field();
 
 //
 var set_parent = '<?php echo $set_parent; ?>';
-var arr_list_category = (typeof arr_all_taxonomy[set_parent] == 'undefined') ? [] : arr_all_taxonomy[set_parent];
 var data_term_id = <?php echo ($data[ 'term_id' ] != '' ? $data[ 'term_id' ] : 0); ?>;
 
 //
 angular.module('myApp', []).controller('myCtrl', function ($scope) {
-    //$scope.category = arr_list_category;
     $scope.data_term_id = data_term_id;
 });
 </script>

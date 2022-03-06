@@ -6,7 +6,7 @@ namespace App\ Controllers;
 
 // Libraries
 //use App\ Libraries\ LanguageCost;
-//use App\ Libraries\ PostType;
+use App\ Libraries\ DeletedStatus;
 
 //
 class Sync extends BaseController {
@@ -23,23 +23,24 @@ class Sync extends BaseController {
      */
 
     // tạo bảng để lưu session khi cần có thể sử dụng luôn
-    private function tbl_sessions() {
-        // bỏ view cũ -> sử dụng view mới
-        $sql = 'DROP TABLE IF EXISTS ci_sessions';
-        echo $sql . '<br>' . "\n";
-        $this->base_model->MY_query( $sql );
+    private function tbl_sessions( $tbl = 'ci_sessions' ) {
+        $table = WGR_TABLE_PREFIX . $tbl;
+
+        // xem bảng này có chưa -> có rồi thì thôi
+        if ( $this->base_model->table_exists( $table ) ) {
+            echo 'TABLE exist ' . $table . '<br>' . "\n";
+            return false;
+        }
 
         //
-        $tbl = WGR_TABLE_PREFIX . 'ci_sessions';
-
-        $sql = "CREATE TABLE IF NOT EXISTS `$tbl` (
+        $sql = "CREATE TABLE IF NOT EXISTS `$table` (
             `id` varchar(128) NOT null,
             `ip_address` varchar(45) NOT null,
             `timestamp` timestamp DEFAULT CURRENT_TIMESTAMP NOT null,
             `data` blob NOT null,
             KEY `ci_sessions_timestamp` (`timestamp`)
         )";
-        echo 'CREATE TABLE IF NOT EXISTS `' . $tbl . '` <br>' . "\n\n";
+        echo 'CREATE TABLE IF NOT EXISTS `' . $table . '` <br>' . "\n\n";
 
         //
         return $this->base_model->MY_query( $sql );
@@ -47,11 +48,6 @@ class Sync extends BaseController {
 
     // tạo view cho term để select dữ liệu cho tiện
     private function view_terms() {
-        // bỏ view cũ -> sử dụng view mới
-        $sql = 'DROP VIEW IF EXISTS v_terms';
-        echo $sql . '<br>' . "\n";
-        $this->base_model->MY_query( $sql );
-
         // lấy các cột trong bảng term để so sánh cột nào chưa có
         $tbl_terms = $this->base_model->default_data( 'terms' );
         if ( empty( $tbl_terms ) ) {
@@ -92,7 +88,6 @@ class Sync extends BaseController {
             //'offset' => 2,
             'limit' => -1
         ) );
-        //echo $sql . '<br>' . "\n";
 
         //
         $sql = "CREATE OR REPLACE VIEW " . WGR_TERM_VIEW . " AS " . $sql;
@@ -100,16 +95,12 @@ class Sync extends BaseController {
         echo 'CREATE OR REPLACE VIEW ' . WGR_TERM_VIEW . ' <br>' . "\n\n";
 
         //
+        //die( __CLASS__ . ':' . __LINE__ );
         return $this->base_model->MY_query( $sql );
     }
 
     // tạo view cho post để select dữ liệu cho tiện
     private function view_posts() {
-        // bỏ view cũ -> sử dụng view mới
-        $sql = 'DROP VIEW IF EXISTS v_posts';
-        echo $sql . '<br>' . "\n";
-        $this->base_model->MY_query( $sql );
-
         // lấy các cột trong bảng term để so sánh cột nào chưa có
         $tbl_posts = $this->base_model->default_data( 'posts' );
         if ( empty( $tbl_posts ) ) {
@@ -288,12 +279,11 @@ class Sync extends BaseController {
                     $arr_add_cloumn[ $k ][ $k2 ] = $v2;
                 }
             }
-            //print_r( $arr_add_cloumn );
-            //die( __CLASS__ . ':' . __LINE__ );
         }
 
         //
         $arr_add_cloumn[ WGR_TABLE_PREFIX . 'options_deleted' ] = $arr_add_cloumn[ WGR_TABLE_PREFIX . 'options' ];
+        //print_r( $arr_add_cloumn );
 
         //
         foreach ( $arr_add_cloumn as $k => $v ) {
@@ -320,6 +310,7 @@ class Sync extends BaseController {
                     }
                     $alter_query = "ALTER TABLE `$k` ADD `$col` $alter AFTER `$last_key`" . $add_index;
                     echo $alter_query . '<br>' . "\n";
+                    //continue;
                     //die( __CLASS__ . ':' . __LINE__ );
                     if ( $this->base_model->MY_query( $alter_query ) ) {
                         echo $col . ' column in database has been sync! <br>' . "\n";
@@ -332,13 +323,18 @@ class Sync extends BaseController {
                 }
             }
         }
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         $this->tbl_sessions();
+        // kiểm tra và tạo view
         $this->view_terms();
         $this->view_posts();
+        // cập nhật lại tổng số nhóm con cho phân term
+        $this->term_model->sync_term_child_count();
 
         //
+        //die( __CLASS__ . ':' . __LINE__ );
         $this->base_model->MY_cache( __FUNCTION__, time(), MEDIUM_CACHE_TIMEOUT );
     }
 
