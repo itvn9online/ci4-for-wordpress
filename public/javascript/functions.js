@@ -733,6 +733,11 @@ function action_each_to_taxonomy() {
         //console.log(a);
     });
     //console.log(taxonomy_ids_unique);
+    // nếu không có ID nào cẩn xử lý thì bỏ qua đoạn sau luôn
+    if (taxonomy_ids_unique.length == 0) {
+        //after_each_to_taxonomy();
+        return false;
+    }
 
     // chạy ajax nạp dữ liệu của taxonomy
     jQuery.ajax({
