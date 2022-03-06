@@ -714,17 +714,17 @@ function action_each_to_taxonomy() {
             var str = [];
             for (var i = 0; i < a.length; i++) {
                 if (a[i] != '') {
-                    a *= 1;
-                    if (a > 0) {
+                    a[i] *= 1;
+                    if (a[i] > 0) {
                         var has_add = false;
                         for (var j = 0; j < taxonomy_ids_unique.length; j++) {
-                            if (a == taxonomy_ids_unique[j]) {
+                            if (a[i] == taxonomy_ids_unique[j]) {
                                 has_add = true;
                                 break;
                             }
                         }
                         if (has_add === false) {
-                            taxonomy_ids_unique.push(a);
+                            taxonomy_ids_unique.push(a[i]);
                         }
                     }
                 }
