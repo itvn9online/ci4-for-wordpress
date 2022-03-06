@@ -504,7 +504,37 @@ function hide_if_esc() {
 
 
 //
-function load_term_select_option(a, jd, _callBack) {
+var loading_term_select_option = {};
+
+function load_term_select_option(a, jd, _callBack, max_i) {
+    //console.log(a);
+    //console.log(arr_all_taxonomy);
+
+    // nếu term này được nạp rồi thì chờ đợi
+    if (typeof loading_term_select_option[a] != 'undefined') {
+        if (typeof max_i != 'number') {
+            max_i = 100;
+        } else if (max_i < 0) {
+            console.log('%c max_i in load_term_select_option', 'color: red;');
+            return false;
+        }
+
+        //
+        if (typeof arr_all_taxonomy[a] != 'undefined') {
+            console.log('%c using arr_all_taxonomy', 'color: blue;');
+            _callBack(arr_all_taxonomy[a], jd);
+            return false;
+        }
+
+        //
+        setTimeout(function () {
+            return load_term_select_option(a, jd, _callBack, max_i - 1);
+        }, 500);
+        return false;
+    }
+    loading_term_select_option[a] = true;
+
+    //
     jQuery.ajax({
         type: 'POST',
         // lấy base URL từ link http thường (không phải https) -> để xem nó có redirect về https không
@@ -534,10 +564,16 @@ function load_term_select_option(a, jd, _callBack) {
             //
             if (typeof data.error != 'undefined') {
                 console.log('%c ' + data.error, 'color: red;');
-            } else if (typeof _callBack == 'function') {
-                _callBack(data, jd);
             } else {
-                console.log(data);
+                arr_all_taxonomy[a] = data;
+
+                //
+                if (typeof _callBack == 'function') {
+                    _callBack(data, jd);
+                } else {
+                    console.log(data);
+                }
+                //console.log('arr_all_taxonomy:', arr_all_taxonomy);
             }
         }
     });

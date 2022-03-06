@@ -760,16 +760,17 @@ function action_each_to_taxonomy() {
             //console.log(data);
 
             // nạp xong thì gán dữ liệu cho mảng arr_all_taxonomy
-            arr_all_taxonomy = {};
-            for (var i = 0; i < data.length; i++) {
-                if (typeof arr_all_taxonomy[data[i].taxonomy] == 'undefined') {
-                    arr_all_taxonomy[data[i].taxonomy] = [];
-                }
+            if (data.length > 0) {
+                for (var i = 0; i < data.length; i++) {
+                    if (typeof arr_all_taxonomy[data[i].taxonomy] == 'undefined') {
+                        arr_all_taxonomy[data[i].taxonomy] = [];
+                    }
 
-                //
-                arr_all_taxonomy[data[i].taxonomy].push(data[i]);
+                    //
+                    arr_all_taxonomy[data[i].taxonomy].push(data[i]);
+                }
+                //console.log('arr_all_taxonomy:', arr_all_taxonomy);
             }
-            //console.log(arr_all_taxonomy);
 
             //
             after_each_to_taxonomy();
