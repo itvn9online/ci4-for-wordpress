@@ -61,7 +61,7 @@ class Option extends EbModel {
 
         //
         if ( $in_cache != '' ) {
-            $cache_value = $this->MY_cache( $in_cache );
+            $cache_value = $this->base_model->MY_cache( $in_cache );
 
             // có cache thì trả về
             if ( $cache_value !== NULL ) {
@@ -97,7 +97,7 @@ class Option extends EbModel {
 
         //
         if ( $in_cache != '' ) {
-            $this->MY_cache( $in_cache, $data, $time );
+            $this->base_model->MY_cache( $in_cache, $data, $time );
         }
         return $data;
     }
@@ -112,11 +112,12 @@ class Option extends EbModel {
 
         // xóa cache nếu có yêu cầu
         if ( $clear_cache === true ) {
-            return $this->cache->delete( $in_cache );
+            //var_dump( $clear_cache );
+            return $this->base_model->cache->delete( $in_cache );
         }
 
         //
-        $cache_value = $this->MY_cache( $in_cache );
+        $cache_value = $this->base_model->MY_cache( $in_cache );
 
         // có cache thì trả về
         if ( $cache_value !== NULL ) {
@@ -213,7 +214,7 @@ class Option extends EbModel {
 
         //
         //$this->cache_config[ $lang_key ] = $getconfig;
-        $this->MY_cache( $in_cache, $getconfig, MEDIUM_CACHE_TIMEOUT );
+        $this->base_model->MY_cache( $in_cache, $getconfig, MEDIUM_CACHE_TIMEOUT );
 
         //
         return $getconfig;

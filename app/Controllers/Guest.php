@@ -296,10 +296,9 @@ class Guest extends Csrf {
                 } else {
                     if ( $this->check_resetpass() === true ) {
                         // sử dụng cache để không cho người dùng gửi email liên tục
-                        $cache = \Config\ Services::cache();
                         $in_cache = __FUNCTION__ . $this->base_model->_eb_non_mark_seo( $data[ 'email' ] );
                         //die( $in_cache );
-                        if ( $cache->get( $in_cache ) === NULL ) {
+                        if ( $this->base_model->MY_cache( $in_cache ) === NULL ) {
                             /*
                              * link reset pass
                              */
@@ -343,7 +342,7 @@ class Guest extends Csrf {
                                 $this->base_model->msg_session( 'Gửi email lấy lại mật khẩu thành công! Vui lòng kiểm tra email và làm theo hướng dẫn để tiếp tục.' );
 
                                 //
-                                $cache->save( $in_cache, time(), 60 );
+                                $this->base_model->MY_cache( $in_cache, time(), 60 );
                             } else {
                                 $this->base_model->msg_error_session( 'Gửi email lấy lại mật khẩu THẤT BẠI! Vui lòng liên hệ với quản trị website.' );
                             }
@@ -395,10 +394,9 @@ class Guest extends Csrf {
                 $this->base_model->msg_error_session( 'Email ' . $email . ' không tồn tại trong hệ thống!' );
             } else {
                 // sử dụng cache để kiểm soát không cho dùng link liên tục
-                $cache = \Config\ Services::cache();
                 $in_cache = __FUNCTION__ . $user_id;
                 //die( $in_cache );
-                if ( $cache->get( $in_cache ) === NULL ) {
+                if ( $this->base_model->MY_cache( $in_cache ) === NULL ) {
                     // kiểm tra độ khớp của dữ liệu
                     if ( $expire < time() ) {
                         $this->base_model->msg_error_session( 'Liên kết đã hết hạn sử dụng!' );
@@ -440,7 +438,7 @@ class Guest extends Csrf {
                             ] );
 
                             // không cho thao tác liên tục
-                            $cache->save( $in_cache, time(), 300 );
+                            $this->base_model->MY_cache( $in_cache, time(), 300 );
                         } else {
                             $this->base_model->msg_error_session( 'Gửi email cung cấp mật khẩu mới THẤT BẠI! Vui lòng liên hệ với quản trị website.' );
                         }

@@ -484,19 +484,19 @@ class Term extends EbModel {
 
             // xóa cache nếu có yêu cầu
             if ( $clear_cache === true ) {
-                return $this->cache->delete( $in_cache );
+                return $this->base_model->cache->delete( $in_cache );
             }
 
             // TEST
             /*
-            print_r( $this->MY_cache( 'dfhfhdsfasffssf' ) );
-            var_dump( $this->MY_cache( 'dfhfhdsfasffssf' ) );
-            $this->MY_cache( 'dfhfhdsfasffssf', time(), 5 );
+            print_r( $this->base_model->MY_cache( 'dfhfhdsfasffssf' ) );
+            var_dump( $this->base_model->MY_cache( 'dfhfhdsfasffssf' ) );
+            $this->base_model->MY_cache( 'dfhfhdsfasffssf', time(), 5 );
             echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             */
 
             //
-            $cache_value = $this->MY_cache( $in_cache );
+            $cache_value = $this->base_model->MY_cache( $in_cache );
             //print_r( $cache_value );
             //var_dump( $cache_value );
 
@@ -635,7 +635,7 @@ class Term extends EbModel {
 
         //
         if ( $in_cache != '' ) {
-            $this->MY_cache( $in_cache, $post_cat, $time );
+            $this->base_model->MY_cache( $in_cache, $post_cat, $time );
         }
 
         //

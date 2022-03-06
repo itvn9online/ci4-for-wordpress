@@ -27,6 +27,8 @@ class Layout extends Sync {
     // với 1 số controller, sẽ không nạp cái HTML header vào, nên có thêm tham số này để không nạp header nữa
     public $preload_header = true;
 
+    public $current_user_id = 0;
+
     // controller nào bật cái này thì sẽ import thư viện angular js cho nó
     //public $enable_angular_js = false;
 
@@ -85,7 +87,6 @@ class Layout extends Sync {
         $this->getconfig = $getconfig;
 
         //
-        $this->current_user_id = 0;
         $this->session_data = $this->base_model->get_ses_login();
         //print_r( $this->session_data );
 
@@ -121,13 +122,8 @@ class Layout extends Sync {
     protected function global_cache( $key, $value = '', $time = MINI_CACHE_TIMEOUT ) {
         $key .= $this->cache_mobile_key . '-' . $this->lang_key;
 
-        // lưu cache nếu có nội dung
-        if ( $value != '' ) {
-            return $this->cache->save( $key, $value, $time );
-        }
-
-        // trả về cache nếu có
-        return $this->cache->get( $key );
+        //
+        return $this->base_model->MY_cache( $key, $value, $time );
     }
 
     // kiểm tra session của user, nếu đang đăng nhập thì bỏ qua chế độ cache
@@ -249,12 +245,12 @@ class Layout extends Sync {
         //
         if ( $cats[ 'parent' ] > 0 ) {
             $in_cache = __FUNCTION__ . '-' . $cats[ 'parent' ] . '-' . $cats[ 'taxonomy' ] . '-' . $this->lang_key;
-            $parent_cats = $this->cache->get( $in_cache );
+            $parent_cats = $this->base_model->MY_cache( $in_cache );
             if ( $parent_cats === NULL ) {
                 $parent_cats = $this->term_model->get_all_taxonomy( $cats[ 'taxonomy' ], $cats[ 'parent' ] );
 
                 //
-                $this->cache->save( $in_cache, $parent_cats, 300 );
+                $this->base_model->MY_cache( $in_cache, $parent_cats, 300 );
             }
             //print_r( $parent_cats );
 

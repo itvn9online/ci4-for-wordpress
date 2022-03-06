@@ -6,6 +6,8 @@ namespace App\ Models;
 
 class Base extends Session {
     public function __construct() {
+        parent::__construct();
+
         $this->db = \Config\ Database::connect();
     }
 

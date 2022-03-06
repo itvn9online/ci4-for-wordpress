@@ -2,6 +2,7 @@
 namespace App\ Controllers;
 
 class Users extends Csrf {
+    protected $controller_name = 'Cá nhân';
 
     public function __construct() {
         parent::__construct();
@@ -13,6 +14,9 @@ class Users extends Csrf {
 
         //
         $this->validation = \Config\ Services::validation();
+
+        //
+        $this->breadcrumb[] = '<li><a href="users/profile">' . $this->controller_name . '</a></li>';
     }
 
     public function index() {
@@ -51,6 +55,11 @@ class Users extends Csrf {
         return view( 'users_view', $this->teamplate );
     }
     public function profile() {
+        $this->teamplate[ 'breadcrumb' ] = view( 'breadcrumb_view', array(
+            'breadcrumb' => $this->breadcrumb
+        ) );
+
+        //
         return $this->index();
     }
 

@@ -15,8 +15,10 @@ class Session {
     // khi số lần đăng nhập sai vượt qua con số này thì sẽ kích hoạt captcha
     private $max_login_faild = 3;
 
+    public $cache = NULL;
+
     public function __construct() {
-        //
+        $this->cache = \Config\ Services::cache();
     }
 
     public function MY_session( $key, $value = NULL ) {
@@ -132,5 +134,16 @@ class Session {
             'agent' => $_SERVER[ 'HTTP_USER_AGENT' ],
             'ip' => $_SERVER[ 'REMOTE_ADDR' ],
         ] ) );
+    }
+
+    // cache bên model là cache select database -> chỉ kiểm tra theo key truyền vào -> không kiểm tra theo session login
+    public function MY_cache( $key, $value = '', $time = MINI_CACHE_TIMEOUT ) {
+        // lưu cache nếu có nội dung
+        if ( $value != '' ) {
+            return $this->cache->save( $key, $value, $time );
+        }
+
+        // trả về cache nếu có
+        return $this->cache->get( $key );
     }
 }

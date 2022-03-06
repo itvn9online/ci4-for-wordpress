@@ -14,7 +14,7 @@ class Sync extends BaseController {
         $this->base_model = new\ App\ Models\ Base();
 
         //
-        $this->cache = \Config\ Services::cache();
+        //$this->cache = \Config\ Services::cache();
     }
 
     /*
@@ -188,7 +188,7 @@ class Sync extends BaseController {
         /*
          * db không cần update liên tục, nếu cần thì clear cache để tái sử dụng
          */
-        $has_update = $this->cache->get( __FUNCTION__ );
+        $has_update = $this->base_model->MY_cache( __FUNCTION__ );
         if ( $has_update !== NULL ) {
             echo __FUNCTION__ . ' not RUN by cache ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             return false;
@@ -339,7 +339,7 @@ class Sync extends BaseController {
         $this->view_posts();
 
         //
-        $this->cache->save( __FUNCTION__, time(), MEDIUM_CACHE_TIMEOUT );
+        $this->base_model->MY_cache( __FUNCTION__, time(), MEDIUM_CACHE_TIMEOUT );
     }
 
     /*

@@ -158,7 +158,7 @@ class Home extends Csrf {
 
         //
         $in_cache = $cache_key . __FUNCTION__ . '-' . $this->lang_key;
-        $data = $this->cache->get( $in_cache );
+        $data = $this->base_model->MY_cache( $in_cache );
         if ( $data === NULL ) {
             // lấy post theo ID, không lọc theo post type -> vì nhiều nơi cần dùng đến
             $data = $this->base_model->select( '*', 'posts', array(
@@ -177,7 +177,7 @@ class Home extends Csrf {
             //die( __CLASS__ . ':' . __LINE__ );
 
             //
-            $this->cache->save( $in_cache, $data, 300 );
+            $this->base_model->MY_cache( $in_cache, $data, 300 );
         }
 
         //
@@ -234,7 +234,7 @@ class Home extends Csrf {
             //
             if ( $post_category > 0 ) {
                 $in_cache = 'term-' . $post_category . '-' . __FUNCTION__ . '-' . $this->lang_key;
-                $cats = $this->cache->get( $in_cache );
+                $cats = $this->base_model->MY_cache( $in_cache );
                 if ( $cats === NULL ) {
                     $cats = $this->base_model->select( '*', WGR_TERM_VIEW, [
                         'term_id' => $post_category,
@@ -248,7 +248,7 @@ class Home extends Csrf {
                     ] );
 
                     //
-                    $this->cache->save( $in_cache, $cats, 300 );
+                    $this->base_model->MY_cache( $in_cache, $cats, 300 );
                 }
                 //print_r( $cats );
 
@@ -344,7 +344,7 @@ class Home extends Csrf {
 
         //
         $in_cache = 'term-' . $term_id . '-' . __FUNCTION__ . '-' . $this->lang_key;
-        $data = $this->cache->get( $in_cache );
+        $data = $this->base_model->MY_cache( $in_cache );
         if ( $data === NULL ) {
             $data = $this->term_model->get_taxonomy( array(
                 // các kiểu điều kiện where
@@ -355,7 +355,7 @@ class Home extends Csrf {
             ) );
 
             //
-            $this->cache->save( $in_cache, $data, 300 );
+            $this->base_model->MY_cache( $in_cache, $data, 300 );
         }
         //print_r( $data );
 
@@ -363,7 +363,7 @@ class Home extends Csrf {
         if ( !empty( $data ) && $data[ 'count' ] > 0 ) {
             // xem nhóm này có nhóm con không
             $in_cache = 'term-' . $term_id . '-' . __FUNCTION__ . '-parent-' . $this->lang_key;
-            $child_data = $this->cache->get( $in_cache );
+            $child_data = $this->base_model->MY_cache( $in_cache );
             if ( $child_data === NULL ) {
                 $child_data = $this->term_model->get_taxonomy( array(
                     // các kiểu điều kiện where
@@ -374,7 +374,7 @@ class Home extends Csrf {
                 ), 10, 'term_id' );
 
                 //
-                $this->cache->save( $in_cache, $child_data, 300 );
+                $this->base_model->MY_cache( $in_cache, $child_data, 300 );
             }
             //print_r( $child_data );
 

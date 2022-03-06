@@ -24,11 +24,11 @@ class PostAdmin extends Post {
 
         // xóa cache nếu có yêu cầu
         if ( $clear_cache === true ) {
-            return $this->cache->delete( $in_cache );
+            return $this->base_model->cache->delete( $in_cache );
         }
 
         //
-        $cache_value = $this->MY_cache( $in_cache );
+        $cache_value = $this->base_model->MY_cache( $in_cache );
         if ( $cache_value !== NULL ) {
             return $cache_value;
         }
@@ -237,7 +237,7 @@ class PostAdmin extends Post {
         //die( __CLASS__ . ':' . __LINE__ );
 
         //
-        $this->MY_cache( $in_cache, $arr_result, $time );
+        $this->base_model->MY_cache( $in_cache, $arr_result, $time );
 
         //
         return $arr_result;
