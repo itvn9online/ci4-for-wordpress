@@ -455,6 +455,9 @@ class Term extends TermBase {
     function get_all_taxonomy( $taxonomy = 'category', $term_id = 0, $ops = [], $in_cache = '', $clear_cache = false, $time = MINI_CACHE_TIMEOUT ) {
         //print_r( $ops );
 
+        // đồng bộ lại tổng số nhóm con cho các danh mục trước đã
+        $this->sync_term_child_count();
+
         // nếu không có cache key -> kiểm tra điều kiện tạo key
         if ( $in_cache == '' ) {
             if ( $term_id === 0 && empty( $ops ) ) {
@@ -643,10 +646,6 @@ class Term extends TermBase {
     }
 
     function get_child_terms( $data, $ops = [] ) {
-        // đồng bộ lại tổng số nhóm con cho các danh mục trước đã
-        $this->sync_term_child_count();
-
-        //
         $current_time = time();
 
         //print_r( $data );

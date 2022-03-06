@@ -3,6 +3,11 @@
 use App\ Libraries\ UsersType;
 
 
+// daidq (2022-03-07): test khi sử dụng redis cache -> fail
+//$redis = new\ Redis();
+//$redis->connect( '127.0.0.1', 6379 );
+//echo $redis->ping();
+
 //
 //print_r( $_SERVER );
 //print_r( $_SESSION );
@@ -46,6 +51,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
     $scope.exists_f_backup_env = <?php echo (file_exists( $f_backup_env ) ? 1 : 0); ?>;
     $scope.system_zip = <?php echo (file_exists( PUBLIC_HTML_PATH . 'system.zip') ? 1 : 0); ?>;
     $scope.imagick_exist = <?php echo (class_exists( 'Imagick' ) ? 1 : 0); ?>;
+    $scope.memcached_exist = <?php echo (class_exists( 'Memcached' ) ? 1 : 0); ?>;
 });
 </script>
 
@@ -78,7 +84,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
 
         ?>
         kết hợp với cấu trúc database nền tảng của <a href="https://wordpress.org/" target="_blank" rel="nofollow"><strong>Wordpress</strong></a> nhằm đem lại khả năng tùy biến linh hoạt với tốc độ tối ưu.</p>
-    <div class="p d-inlines">PHP version: <strong><?php echo phpversion(); ?></strong> (
+    <div class="p d-block d-inlines">PHP version: <strong><?php echo phpversion(); ?></strong> (
         <div ng-if="phpversion >= 73">
             <div ng-if="phpversion >= 74">
                 <div class="greencolor">Xin chúc mừng! Phiên bản PHP{{phpversion}} bạn đang sử dụng đang ở mức khuyến nghị của chúng tôi</div>
@@ -95,9 +101,13 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
     <div class="p">Database: <span ng-if="current_dbname != ''"> <strong><?php echo '******' . substr( $current_dbname, 6 ); ?></strong> </span> </div>
     <p>Server IP: <strong><?php echo $_SERVER['SERVER_ADDR']; ?></strong></p>
     <p>Server time: <strong><?php echo date(EBE_DATETIME_FORMAT); ?></strong></p>
-    <div class="p d-inlines">Imagick:
+    <div class="p d-block d-inlines">Imagick:
         <div ng-if="imagick_exist > 0" class="greencolor">Xin chức mừng, <strong>Imagick</strong> đã được cài đặt! Các chức năng xử lý hình ảnh sẽ hoạt động ổn định hơn.</div>
         <div ng-if="imagick_exist <= 0" class="orgcolor">Vui lòng cài đăt thêm <strong>Imagick</strong> để các chức năng xử lý hình ảnh hoạt động ổn định hơn.</div>
+    </div>
+    <div class="p d-block d-inlines">Memcached:
+        <div ng-if="memcached_exist > 0" class="greencolor">Xin chức mừng, <strong>Memcached</strong> đã được cài đặt! Nếu chưa config cho cache sử dụng <strong>Memcached</strong> thì hãy thử chuyển đổi sang sử dụng Memcached để tối ưu tốc độ website.</div>
+        <div ng-if="memcached_exist <= 0" class="orgcolor">Nếu bạn đang sử dụng VPS với lượng RAM đủ lớn, hãy cài đặt thêm <strong>Memcached</strong> và config cho cache sử dụng Memcached <em>hoặc</em> hosting có hỗ trợ extension <strong>Memcached</strong> thì hãy kích hoạt nó lên để tốc độ website đạt mức tốt hơn so với mặc định là sử dụng cache qua ổ cứng.</div>
     </div>
     <!-- -->
     <div class="p redcolor medium" ng-class="current_protocol != 'https:' ? '' : 'd-none'"><i class="fa fa-warning"></i> Kết nối hiện tại <strong>{{current_protocol}}</strong> chưa hỗ trợ redirect sang <strong>https</strong>. Vui lòng kích hoạt và sử dụng redirect <strong>https</strong> để giúp website bảo mật và nhanh hơn.</div>
