@@ -1020,7 +1020,7 @@ class Term extends TermBase {
             ] );
         }
 
-        //
-        $this->base_model->MY_cache( __FUNCTION__, time(), MINI_CACHE_TIMEOUT );
+        // chế độ check last count đang để là 3600s -> cái reset tổng này để 1800 -> nó sẽ luôn được reset trước -> nhẹ web
+        $this->base_model->MY_cache( __FUNCTION__, time(), 1800 );
     }
 }
