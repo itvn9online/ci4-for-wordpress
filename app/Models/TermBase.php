@@ -153,4 +153,45 @@ class TermBase extends EbModel {
     function echo_meta_term( $data, $key, $default_value = '' ) {
         echo $this->return_meta_term( $data[ 'term_meta' ], $key, $default_value );
     }
+
+    // đồng bộ tham số đầu vào
+    public function sync_term_parms( $prams, $ops ) {
+        // nếu đầu vào không phải array
+        if ( !is_array( $prams ) ) {
+            if ( empty( $prams ) ) {
+                $prams = [];
+                //return debug_backtrace()[ 1 ][ 'function' ] . ' $prams is NULL!';
+            }
+            // tự tạo theo term id
+            else if ( is_numeric( $prams ) ) {
+                $prams = [
+                    'term_id' => $prams
+                ];
+            }
+            // hoặc slug
+            else if ( is_string( $prams ) ) {
+                $prams = [
+                    'slug' => $prams
+                ];
+            }
+        }
+
+        if ( !isset( $prams[ 'term_id' ] ) ) {
+            $prams[ 'term_id' ] = isset( $ops[ 'term_id' ] ) ? $ops[ 'term_id' ] : 0;
+        }
+        if ( !isset( $prams[ 'limit' ] ) ) {
+            $prams[ 'limit' ] = isset( $ops[ 'limit' ] ) ? $ops[ 'limit' ] : 0;
+        }
+        if ( !isset( $prams[ 'offset' ] ) ) {
+            $prams[ 'offset' ] = isset( $ops[ 'offset' ] ) ? $ops[ 'offset' ] : 0;
+        }
+        if ( !isset( $prams[ 'order_by' ] ) ) {
+            $prams[ 'order_by' ] = isset( $ops[ 'order_by' ] ) ? $ops[ 'order_by' ] : [];
+        }
+        //print_r( $prams );
+        //die( 'hkj dfsdfgsdgsdgs' );
+
+        //
+        return $prams;
+    }
 }
