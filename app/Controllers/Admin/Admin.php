@@ -223,7 +223,7 @@ RewriteRule ^(.*) ' . DYNAMIC_BASE_URL . '$1 [F]
                         'memcached',
                         'wincache',
                     ] ) ) {
-                    // có thể cân đối giữa việc XÓA toàn bộ hoặc retunr false luôn
+                    // có thể cân đối giữa việc XÓA toàn bộ hoặc return false luôn
                     //$has_cache = $this->base_model->cache->clean();
                     return false;
                 } else {

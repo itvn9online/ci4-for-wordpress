@@ -619,15 +619,15 @@ class Optimize extends Admin {
             return false;
         }
 
-        //
-        if ( $time < MEDIUM_CACHE_TIMEOUT ) {
-            $time = MEDIUM_CACHE_TIMEOUT;
-        }
-        //echo $time . '<br>' . "\n";
-
-        // phương pháp này chỉ áp dụng cho file
+        // phương pháp này chỉ áp dụng cho file cache
         if ( MY_CACHE_HANDLER == 'file' ) {
-            foreach ( glob( WRITEPATH . 'cache/' . $for . '*' ) as $filename ) {
+            if ( $time < MEDIUM_CACHE_TIMEOUT ) {
+                $time = MEDIUM_CACHE_TIMEOUT;
+            }
+            //echo $time . '<br>' . "\n";
+
+            //
+            foreach ( glob( WRITEPATH . 'cache/*' ) as $filename ) {
                 //echo $filename . '<br>' . "\n";
 
                 // xem file được tạo lâu rồi thì xóa nó đi
