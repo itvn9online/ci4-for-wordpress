@@ -24,6 +24,9 @@ function auto_submit_update_code() {
         return false;
     }
 
+    //
+    //fullPath = fullPath.split('.')[0];
+
     // kiểm tra file upload phải đúng với tên theme hiện tại hoặc file code chính là: ci4-for-wordpress
     if (fullPath.split(themeName).length === 1 && fullPath.split('ci4-for-wordpress').length === 1) {
         WGR_alert('Theme này chỉ hỗ trợ upload file trùng tên với theme là: ' + themeName, 'warning');
