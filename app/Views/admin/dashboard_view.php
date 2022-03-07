@@ -52,29 +52,33 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
     $scope.system_zip = <?php echo (file_exists( PUBLIC_HTML_PATH . 'system.zip') ? 1 : 0); ?>;
     $scope.imagick_exist = <?php echo (class_exists( 'Imagick' ) ? 1 : 0); ?>;
     $scope.memcached_exist = <?php echo (class_exists( 'Memcached' ) ? 1 : 0); ?>;
+    $scope.last_ci4_update = <?php echo (file_exists( APPPATH . 'VERSION' ) ? filemtime( APPPATH . 'VERSION' ) : filemtime( APPPATH . 'Controllers/Layout.php' )); ?>;
+    $scope.calculate_ci4_update = function (last_time) {
+        var current_time = Math.ceil(Date.now()/ 1000);
+        var one_day = 24 * 3600;
+        var cal_day = current_time - last_time;
+        cal_day = cal_day/ one_day;
+        return cal_day.toFixed(1) * 1;
+    };
 });
 </script>
 
-<div ng-app="myApp" ng-controller="myCtrl">
+<div ng-app="myApp" ng-controller="myCtrl" class="medium">
     <div ng-if="robots_txt > 0 && robots_txt > 1">
         <p class="redcolor medium18 text-center"><i class="fa fa-warning"></i> Vui lòng kiểm tra lại độ chuẩn xác của <a href="admin/configs?support_tab=data_robots" target="_blank"><strong class="bluecolor">file robots.txt</strong></a></p>
         <br>
     </div>
-    <p>Website sử dụng giao diện: <strong><?php echo THEMENAME; ?></strong> - được phát triển bởi <a href="https://echbay.com/" target="_blank" rel="nofollow"><strong>EchBay.com</strong></a>. Cập nhật lần cuối:
+    <p>Website sử dụng giao diện: <strong><?php echo THEMENAME; ?></strong> - được phát triển bởi <a href="https://echbay.com/" target="_blank" rel="nofollow"><strong>EchBay.com</strong></a>. Cập nhật lần cuối: <strong>{{last_ci4_update*1000 | date:'yyyy-MM-dd HH:mm'}}</strong> (<em><strong>{{calculate_ci4_update(last_ci4_update)}}</strong> ngày trước</em>)
         <?php
 
         // lấy theo version
         if ( file_exists( APPPATH . 'VERSION' ) ) {
-            echo date( EBE_DATETIME_FORMAT, filemtime( APPPATH . 'VERSION' ) ) . ' - Phiên bản: <strong>' . file_get_contents( APPPATH . 'VERSION', 1 ) . '</strong>';
-        }
-        // hoặc lấy theo file layout
-        else {
-            echo date( EBE_DATETIME_FORMAT, filemtime( APPPATH . 'Controllers/Layout.php' ) );
+            echo ' - Phiên bản: <strong>' . file_get_contents( APPPATH . 'VERSION', 1 ) . '</strong>';
         }
 
         ?>
     </p>
-    <p>Nền tảng chính framework <a href="https://codeigniter.com/" target="_blank" rel="nofollow"><strong>Codeigniter <?php echo \CodeIgniter\CodeIgniter::CI_VERSION; ?></strong></a>
+    <p>Nền tảng chính framework <a href="https://codeigniter.com/download/" target="_blank" rel="nofollow"><strong>Codeigniter <?php echo \CodeIgniter\CodeIgniter::CI_VERSION; ?></strong></a>
         <?php
 
         //
@@ -83,7 +87,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
         }
 
         ?>
-        kết hợp với cấu trúc database nền tảng của <a href="https://wordpress.org/" target="_blank" rel="nofollow"><strong>Wordpress</strong></a> nhằm đem lại khả năng tùy biến linh hoạt với tốc độ tối ưu.</p>
+        kết hợp với cấu trúc database nền tảng của <a href="https://wordpress.org/download/" target="_blank" rel="nofollow"><strong>Wordpress</strong></a> nhằm đem lại khả năng tùy biến linh hoạt với tốc độ tối ưu.</p>
     <div class="p d-block d-inlines">PHP version: <strong><?php echo phpversion(); ?></strong> (
         <div ng-if="phpversion >= 73">
             <div ng-if="phpversion >= 74">
