@@ -71,5 +71,10 @@ if ( $app_deleted_exist === true ) {
 //
 //var_dump( $app_deleted_exist );
 
+?>
+<script>
+var themeName = '<?php echo THEMENAME; ?>'
+</script>
+<?php
 //
 $base_model->add_js( 'admin/js/update_code.js' );
