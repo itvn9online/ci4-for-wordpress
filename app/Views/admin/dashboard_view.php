@@ -125,7 +125,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
         <!-- khuyên dùng redis -->
         <div class="p d-inlines">Redis:
             <div ng-if="cache_handler == 'redis'" class="greencolor">Website của bạn đang sử dụng <strong>redis</strong> làm bộ nhớ đệm, đây là phương thức cache khá tốt mà chúng tôi khuyên dùng.</div>
-            <div ng-if="cache_handler != 'redis'" ng-class="cache_handler == 'file' ? 'orgcolor' : ''">Website của bạn đang sử dụng <strong>{{cache_handler}}</strong> làm bộ nhớ đệm. Nếu có thể, hay sử dụng <strong>redis</strong> sẽ giúp cải thiện hiệu suất website.</div>
+            <div ng-if="cache_handler != 'redis'" ng-class="cache_handler == 'file' ? 'orgcolor' : ''">Website của bạn đang sử dụng <strong>{{cache_handler}}</strong> làm bộ nhớ đệm. Nếu có thể, hay sử dụng <strong class="bluecolor">redis</strong> sẽ giúp cải thiện hiệu suất website.</div>
         </div>
         <!-- không thì Memcached cũng quá ok -->
         <div class="p d-inlines">Memcached:
