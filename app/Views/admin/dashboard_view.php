@@ -92,7 +92,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
 
         ?>
         kết hợp với cấu trúc database nền tảng của <a href="https://wordpress.org/download/" target="_blank" rel="nofollow"><strong>Wordpress</strong></a> nhằm đem lại khả năng tùy biến linh hoạt với tốc độ tối ưu.</p>
-    <div class="p d-block d-inlines">PHP version: <strong><?php echo phpversion(); ?></strong> (
+    <div class="p d-inlines">PHP version: <strong><?php echo phpversion(); ?></strong> (
         <div ng-if="phpversion >= 73">
             <div ng-if="phpversion >= 74">
                 <div class="greencolor">Xin chúc mừng! Phiên bản PHP{{phpversion}} bạn đang sử dụng đang ở mức khuyến nghị của chúng tôi</div>
@@ -111,22 +111,24 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
     <p>Server time: <strong><?php echo date(EBE_DATETIME_FORMAT); ?></strong></p>
     <br>
     <h4>Một số khuyến nghị cho website của bạn hoạt động tốt hơn:</h4>
-    <div class="p d-block d-inlines">Imagick:
+    <div class="p d-inlines">Imagick:
         <div ng-if="imagick_exist > 0" class="greencolor">Xin chức mừng, <strong>Imagick</strong> đã được cài đặt! Các chức năng xử lý hình ảnh sẽ hoạt động ổn định hơn.</div>
         <div ng-if="imagick_exist <= 0" class="orgcolor">Vui lòng cài đăt thêm <strong>Imagick</strong> để các chức năng xử lý hình ảnh hoạt động ổn định hơn.</div>
     </div>
-    <div class="p d-block d-inlines">Cache (<strong><?php echo MY_CACHE_HANDLER; ?></strong> handler):
-        <div ng-if="cache_actived > 0" class="greencolor">Xin chức mừng! Website của bạn vận hành thông qua <strong>Cache</strong>, điều này giúp tăng hiệu suất của website lên rất nhiều.</div>
+    <div class="p d-inlines">Cache (<strong><?php echo MY_CACHE_HANDLER; ?></strong> handler):
+        <div ng-if="cache_actived > 0" class="greencolor">Xin chức mừng! Website của bạn vận hành thông qua <strong>Cache</strong>, điều này giúp tăng hiệu suất của website lên rất nhiều.
+            <div>Bạn có thể <a href="admin/dashboard/cleanup_cache" class="btn btn-primary btn-mini">vào đây</a> và dọn dẹp cache để website nhận dữ liệu mới nhất.</div>
+        </div>
         <div ng-if="cache_actived <= 0" class="orgcolor">Vui lòng kiểm tra và sử dụng <strong>Cache</strong> để tăng hiệu suất cho website của bạn.</div>
     </div>
     <div ng-if="cache_actived > 0"> 
         <!-- khuyên dùng redis -->
-        <div class="p d-block d-inlines">Redis:
+        <div class="p d-inlines">Redis:
             <div ng-if="cache_handler == 'redis'" class="greencolor">Website của bạn đang sử dụng <strong>redis</strong> làm bộ nhớ đệm, đây là phương thức cache khá tốt mà chúng tôi khuyên dùng.</div>
             <div ng-if="cache_handler != 'redis'" ng-class="cache_handler == 'file' ? 'orgcolor' : ''">Website của bạn đang sử dụng <strong>{{cache_handler}}</strong> làm bộ nhớ đệm. Nếu có thể, hay sử dụng <strong>redis</strong> sẽ giúp cải thiện hiệu suất website.</div>
         </div>
         <!-- không thì Memcached cũng quá ok -->
-        <div class="p d-block d-inlines">Memcached:
+        <div class="p d-inlines">Memcached:
             <div ng-if="memcached_exist > 0" class="greencolor">Xin chức mừng, <strong>Memcached</strong> đã được cài đặt!
                 <div ng-if="cache_handler == 'memcached'" class="greencolor">Và Website của bạn đang sử dụng <strong>memcached</strong> làm bộ nhớ đệm.</div>
                 <div ng-if="cache_handler == 'file'" class="greencolor">Nếu bạn đang sử dụng hosting hoặc RAM của VPS từ 2GB trở lên thì hãy chỉnh tham số <strong>MY_CACHE_HANDLER</strong> thành <strong>memcached</strong>.</div>

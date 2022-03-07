@@ -159,7 +159,7 @@ i.fas, em.fas, i.fa, em.fa {
 .dblock, .d-block {
     display: block
 }
-.li-align-center li, .div-align-center div, .dinline, .d-inline, .d-iblock, .d-inlines, .d-inlines * {
+.li-align-center li, .div-align-center div, .dinline, .d-inline, .d-iblock, .d-inlines * {
     display: inline-block
 }
 /* ads banner */
