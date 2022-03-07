@@ -210,6 +210,10 @@ class AdminMenu {
                         'name' => 'Update code',
                         'icon' => 'fa fa-upload',
                     ],
+                    'admin/dev/php_info' => [
+                        'name' => 'PHP info',
+                        'icon' => 'fa fa-info-circle',
+                    ],
                 ]
             ],
         ];

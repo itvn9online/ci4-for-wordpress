@@ -1,5 +1,5 @@
 <ul class="admin-breadcrumb">
-    <li><a href="admin/users">Thông tin server</a></li>
+    <li>Thông tin server</li>
 </ul>
 <!-- -->
 <div class="flatsome">

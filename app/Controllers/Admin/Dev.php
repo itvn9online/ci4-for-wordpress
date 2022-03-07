@@ -69,4 +69,13 @@ class Dev extends Admin {
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
+
+    // hiển thị thông tin php để check
+    public function php_info() {
+        $this->teamplate_admin[ 'content' ] = view( 'admin/dev/php_info', array() );
+        return view( 'admin/admin_teamplate', $this->teamplate_admin );
+    }
+    public function php2_info() {
+        die( phpinfo() );
+    }
 }

@@ -3,10 +3,11 @@
 use App\ Libraries\ UsersType;
 
 
-// daidq (2022-03-07): test khi sử dụng redis cache -> fail
-//$redis = new\ Redis();
-//$redis->connect( '127.0.0.1', 6379 );
-//echo $redis->ping();
+// TEST xem cache có chạy hay không -> gọi đến cache được gọi trong dashboard để xem có NULL hay không
+$check_cache_active = $base_model->MY_cache( 'auto_sync_table_column' );
+//echo $check_cache_active . '<br>' . "\n";
+//echo $base_model->cache->deleteMatching( 'auto_sync_table_column*' ) . '<br>' . "\n";
+
 
 //
 //print_r( $_SERVER );
@@ -51,6 +52,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
     $scope.exists_f_backup_env = <?php echo (file_exists( $f_backup_env ) ? 1 : 0); ?>;
     $scope.system_zip = <?php echo (file_exists( PUBLIC_HTML_PATH . 'system.zip') ? 1 : 0); ?>;
     $scope.imagick_exist = <?php echo (class_exists( 'Imagick' ) ? 1 : 0); ?>;
+    $scope.cache_actived = <?php echo ($check_cache_active !== NULL ? 1 : 0); ?>;
     $scope.memcached_exist = <?php echo (class_exists( 'Memcached' ) ? 1 : 0); ?>;
     $scope.cache_handler = '<?php echo MY_CACHE_HANDLER; ?>';
     $scope.last_ci4_update = <?php echo (file_exists( APPPATH . 'VERSION' ) ? filemtime( APPPATH . 'VERSION' ) : filemtime( APPPATH . 'Controllers/Layout.php' )); ?>;
@@ -69,6 +71,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
         <p class="redcolor medium18 text-center"><i class="fa fa-warning"></i> Vui lòng kiểm tra lại độ chuẩn xác của <a href="admin/configs?support_tab=data_robots" target="_blank"><strong class="bluecolor">file robots.txt</strong></a></p>
         <br>
     </div>
+    <h4>Tổng quan:</h4>
     <p>Website sử dụng giao diện: <strong><?php echo THEMENAME; ?></strong> - được phát triển bởi <a href="https://echbay.com/" target="_blank" rel="nofollow"><strong>EchBay.com</strong></a>. Cập nhật lần cuối: <strong>{{last_ci4_update*1000 | date:'yyyy-MM-dd HH:mm'}}</strong> (<em><strong>{{calculate_ci4_update(last_ci4_update)}}</strong> ngày trước</em>)
         <?php
 
@@ -106,16 +109,32 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
     <div class="p">Database: <span ng-if="current_dbname != ''"> <strong><?php echo '******' . substr( $current_dbname, 6 ); ?></strong> </span> </div>
     <p>Server IP: <strong><?php echo $_SERVER['SERVER_ADDR']; ?></strong></p>
     <p>Server time: <strong><?php echo date(EBE_DATETIME_FORMAT); ?></strong></p>
+    <br>
+    <h4>Một số khuyến nghị cho website của bạn hoạt động tốt hơn:</h4>
     <div class="p d-block d-inlines">Imagick:
         <div ng-if="imagick_exist > 0" class="greencolor">Xin chức mừng, <strong>Imagick</strong> đã được cài đặt! Các chức năng xử lý hình ảnh sẽ hoạt động ổn định hơn.</div>
         <div ng-if="imagick_exist <= 0" class="orgcolor">Vui lòng cài đăt thêm <strong>Imagick</strong> để các chức năng xử lý hình ảnh hoạt động ổn định hơn.</div>
     </div>
-    <div class="p d-block d-inlines">Memcached:
-        <div ng-if="memcached_exist > 0" class="greencolor">Xin chức mừng, <strong>Memcached</strong> đã được cài đặt! 
-            <div ng-if="cache_handler == 'memcached'" class="greencolor">Và Website của bạn đang sử dụng <strong>memcached</strong> làm bộ nhớ đệm.</div>
-            <div ng-if="cache_handler != 'memcached'" class="greencolor">Nếu bạn đang sử dụng hosting hoặc RAM của VPS từ 2GB trở lên thì hãy chỉnh tham số <strong>MY_CACHE_HANDLER</strong> thành <strong>memcached</strong>.</div>
+    <div class="p d-block d-inlines">Cache (<strong><?php echo MY_CACHE_HANDLER; ?></strong> handler):
+        <div ng-if="cache_actived > 0" class="greencolor">Xin chức mừng! Website của bạn vận hành thông qua <strong>Cache</strong>, điều này giúp tăng hiệu suất của website lên rất nhiều.</div>
+        <div ng-if="cache_actived <= 0" class="orgcolor">Vui lòng kiểm tra và sử dụng <strong>Cache</strong> để tăng hiệu suất cho website của bạn.</div>
+    </div>
+    <div ng-if="cache_actived > 0"> 
+        <!-- khuyên dùng redis -->
+        <div class="p d-block d-inlines">Redis:
+            <div ng-if="cache_handler == 'redis'" class="greencolor">Website của bạn đang sử dụng <strong>redis</strong> làm bộ nhớ đệm, đây là phương thức cache khá tốt mà chúng tôi khuyên dùng.</div>
+            <div ng-if="cache_handler != 'redis'" ng-class="cache_handler == 'file' ? 'orgcolor' : ''">Website của bạn đang sử dụng <strong>{{cache_handler}}</strong> làm bộ nhớ đệm. Nếu có thể, hay sử dụng <strong>redis</strong> sẽ giúp cải thiện hiệu suất website.</div>
         </div>
-        <div ng-if="memcached_exist <= 0" class="orgcolor">Nếu bạn đang sử dụng VPS với lượng RAM đủ lớn, hãy cài đặt thêm <strong>Memcached</strong> và config cho cache sử dụng Memcached <em>hoặc</em> hosting có hỗ trợ extension <strong>Memcached</strong> thì hãy kích hoạt nó lên để tốc độ website đạt mức tốt hơn so với mặc định là sử dụng cache qua ổ cứng.</div>
+        <!-- không thì Memcached cũng quá ok -->
+        <div class="p d-block d-inlines">Memcached:
+            <div ng-if="memcached_exist > 0" class="greencolor">Xin chức mừng, <strong>Memcached</strong> đã được cài đặt!
+                <div ng-if="cache_handler == 'memcached'" class="greencolor">Và Website của bạn đang sử dụng <strong>memcached</strong> làm bộ nhớ đệm.</div>
+                <div ng-if="cache_handler == 'file'" class="greencolor">Nếu bạn đang sử dụng hosting hoặc RAM của VPS từ 2GB trở lên thì hãy chỉnh tham số <strong>MY_CACHE_HANDLER</strong> thành <strong>memcached</strong>.</div>
+            </div>
+            <div ng-if="cache_handler == 'file' && memcached_exist <= 0" class="orgcolor">Nếu bạn đang sử dụng VPS với lượng RAM đủ lớn, hãy cài đặt thêm <strong>Memcached</strong> và config cho cache sử dụng Memcached <em>hoặc</em>
+                <div>hosting có hỗ trợ extension <strong>Memcached</strong> thì hãy kích hoạt nó lên để tốc độ website đạt mức tốt hơn so với mặc định là sử dụng cache qua ổ cứng.</div>
+            </div>
+        </div>
     </div>
     <!-- -->
     <div class="p redcolor medium" ng-class="current_protocol != 'https:' ? '' : 'd-none'"><i class="fa fa-warning"></i> Kết nối hiện tại <strong>{{current_protocol}}</strong> chưa hỗ trợ redirect sang <strong>https</strong>. Vui lòng kích hoạt và sử dụng redirect <strong>https</strong> để giúp website bảo mật và nhanh hơn.</div>

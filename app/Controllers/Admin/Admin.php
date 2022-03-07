@@ -229,6 +229,7 @@ RewriteRule ^(.*) ' . DYNAMIC_BASE_URL . '$1 [F]
                 } else {
                     $has_cache = $this->base_model->cache->deleteMatching( $for . '*' );
                 }
+                echo 'Using cache deleteMatching `' . $for . '` --- Total clear: ' . $has_cache . '<br>' . "\n";
                 //var_dump( $has_cache );
                 //die( $for );
             }
