@@ -946,10 +946,10 @@ class Term extends TermBase {
      */
     public function sync_term_child_count() {
         //echo __FUNCTION__ . '<br>' . "\n";
-        $cache_value = $this->base_model->MY_cache( __FUNCTION__ );
-        if ( $cache_value !== NULL ) {
-            //print_r( $cache_value );
-            return false;
+        $last_run = $this->base_model->MY_cache( __FUNCTION__ );
+        if ( $last_run !== NULL ) {
+            //print_r( $last_run );
+            return $last_run;
         }
 
         //
@@ -1022,5 +1022,8 @@ class Term extends TermBase {
 
         // chế độ check last count đang để là 3600s -> cái reset tổng này để 1800 -> nó sẽ luôn được reset trước -> nhẹ web
         $this->base_model->MY_cache( __FUNCTION__, time(), 1800 );
+        
+        //
+        return true;
     }
 }

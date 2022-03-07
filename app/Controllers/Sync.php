@@ -179,9 +179,9 @@ class Sync extends BaseController {
         /*
          * db không cần update liên tục, nếu cần thì clear cache để tái sử dụng
          */
-        $has_update = $this->base_model->MY_cache( __FUNCTION__ );
-        if ( $has_update !== NULL ) {
-            echo __FUNCTION__ . ' not RUN by cache ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        $last_run = $this->base_model->MY_cache( __FUNCTION__ );
+        if ( $last_run !== NULL ) {
+            echo __FUNCTION__ . ' RUN ' . ( time() - $last_run ) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             return false;
         }
 
@@ -331,7 +331,10 @@ class Sync extends BaseController {
         $this->view_terms();
         $this->view_posts();
         // cập nhật lại tổng số nhóm con cho phân term
-        $this->term_model->sync_term_child_count();
+        $last_run = $this->term_model->sync_term_child_count();
+        if ( $last_run !== true ) {
+            echo __FUNCTION__ . ' RUN ' . ( time() - $last_run ) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        }
 
         //
         //die( __CLASS__ . ':' . __LINE__ );

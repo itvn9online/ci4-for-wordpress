@@ -610,9 +610,9 @@ class Optimize extends Admin {
 
     // xóa các file cache cũ để dọn bớt file cho thư mục
     protected function cleanup_old_cache( $time = MEDIUM_CACHE_TIMEOUT ) {
-        $has_cleanup = $this->base_model->MY_cache( __FUNCTION__ );
-        if ( $has_cleanup !== NULL ) {
-            echo __FUNCTION__ . ' not RUN by cache ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        $last_run = $this->base_model->MY_cache( __FUNCTION__ );
+        if ( $last_run !== NULL ) {
+            echo __FUNCTION__ . ' RUN ' . ( time() - $last_run ) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             return false;
         }
 
