@@ -143,7 +143,11 @@ class Layout extends Sync {
 
         //
         echo '<!-- Served from: ' . $this->cache_key . ' by ebcache' . PHP_EOL;
-        echo 'Caching using hard disk drive. Recommendations using SSD drive for your website.' . PHP_EOL;
+        if ( MY_CACHE_HANDLER == 'file' ) {
+            echo 'Caching using hard disk drive. Recommendations using SSD drive for your website.' . PHP_EOL;
+        } else {
+            echo 'How wonderful! Caching using ' . MY_CACHE_HANDLER . ' handler.' . PHP_EOL;
+        }
         echo 'Compression = gzip -->';
 
         //

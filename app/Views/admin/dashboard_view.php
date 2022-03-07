@@ -52,6 +52,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
     $scope.system_zip = <?php echo (file_exists( PUBLIC_HTML_PATH . 'system.zip') ? 1 : 0); ?>;
     $scope.imagick_exist = <?php echo (class_exists( 'Imagick' ) ? 1 : 0); ?>;
     $scope.memcached_exist = <?php echo (class_exists( 'Memcached' ) ? 1 : 0); ?>;
+    $scope.cache_handler = '<?php echo MY_CACHE_HANDLER; ?>';
     $scope.last_ci4_update = <?php echo (file_exists( APPPATH . 'VERSION' ) ? filemtime( APPPATH . 'VERSION' ) : filemtime( APPPATH . 'Controllers/Layout.php' )); ?>;
     $scope.calculate_ci4_update = function (last_time) {
         var current_time = Math.ceil(Date.now()/ 1000);
@@ -110,7 +111,10 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
         <div ng-if="imagick_exist <= 0" class="orgcolor">Vui lòng cài đăt thêm <strong>Imagick</strong> để các chức năng xử lý hình ảnh hoạt động ổn định hơn.</div>
     </div>
     <div class="p d-block d-inlines">Memcached:
-        <div ng-if="memcached_exist > 0" class="greencolor">Xin chức mừng, <strong>Memcached</strong> đã được cài đặt! Nếu chưa config cho cache sử dụng <strong>Memcached</strong> thì hãy thử chuyển đổi sang sử dụng Memcached để tối ưu tốc độ website.</div>
+        <div ng-if="memcached_exist > 0" class="greencolor">Xin chức mừng, <strong>Memcached</strong> đã được cài đặt! 
+            <div ng-if="cache_handler == 'memcached'" class="greencolor">Và Website của bạn đang sử dụng <strong>memcached</strong> làm bộ nhớ đệm.</div>
+            <div ng-if="cache_handler != 'memcached'" class="greencolor">Nếu bạn đang sử dụng hosting hoặc RAM của VPS từ 2GB trở lên thì hãy chỉnh tham số <strong>MY_CACHE_HANDLER</strong> thành <strong>memcached</strong>.</div>
+        </div>
         <div ng-if="memcached_exist <= 0" class="orgcolor">Nếu bạn đang sử dụng VPS với lượng RAM đủ lớn, hãy cài đặt thêm <strong>Memcached</strong> và config cho cache sử dụng Memcached <em>hoặc</em> hosting có hỗ trợ extension <strong>Memcached</strong> thì hãy kích hoạt nó lên để tốc độ website đạt mức tốt hơn so với mặc định là sử dụng cache qua ổ cứng.</div>
     </div>
     <!-- -->

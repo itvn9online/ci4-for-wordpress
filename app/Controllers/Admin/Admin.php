@@ -213,18 +213,47 @@ RewriteRule ^(.*) ' . DYNAMIC_BASE_URL . '$1 [F]
     // chức năng upload file code zip lên host và giải nén -> update code
     public function cleanup_cache( $for = '' ) {
         if ( !empty( $this->MY_post( 'data' ) ) ) {
-            $has_cache = false;
-            foreach ( glob( WRITEPATH . 'cache/' . $for . '*' ) as $filename ) {
-                echo $filename . '<br>' . "\n";
-                $has_cache = true;
+            /*
+             * ưu tiên sử dụng cleanup mặc định của codeigniter
+             */
+            // xóa theo key truyền vào -> dùng khi update post, term, config...
+            if ( $for != '' ) {
+                // 1 số phương thức không áp dụng được kiểu xóa này do không có key 
+                if ( in_array( MY_CACHE_HANDLER, [
+                        'memcached',
+                        'wincache',
+                    ] ) ) {
+                    // có thể cân đối giữa việc XÓA toàn bộ hoặc retunr false luôn
+                    //$has_cache = $this->base_model->cache->clean();
+                    return false;
+                } else {
+                    $has_cache = $this->base_model->cache->deleteMatching( $for . '*' );
+                }
+                //var_dump( $has_cache );
+                //die( $for );
+            }
+            // xóa toàn bộ cache
+            else {
+                //var_dump( $this->base_model->cache->getCacheInfo() );
+                //die( __CLASS__ . ':' . __LINE__ );
+                $has_cache = $this->base_model->cache->clean();
+            }
 
-                //
-                if ( is_file( $filename ) ) {
-                    if ( !$this->MY_unlink( $filename ) ) {
-                        $this->base_model->alert( 'Lỗi xóa file cache ' . basename( $filename ), 'error' );
+            // nếu lỗi -> thử phương thức xóa từng file
+            if ( $has_cache === false && MY_CACHE_HANDLER == 'file' ) {
+                foreach ( glob( WRITEPATH . 'cache/' . $for . '*' ) as $filename ) {
+                    echo $filename . '<br>' . "\n";
+                    $has_cache = true;
+
+                    //
+                    if ( is_file( $filename ) ) {
+                        if ( !$this->MY_unlink( $filename ) ) {
+                            $this->base_model->alert( 'Lỗi xóa file cache ' . basename( $filename ), 'error' );
+                        }
                     }
                 }
             }
+            //var_dump( $has_cache );
 
             // nếu có giá trị của for -> thường là gọi từ admin lúc update -> không alert
             if ( $for != '' ) {

@@ -11,6 +11,9 @@
 // chuỗi sẽ thêm vào khi sử dụng hàm mdnam -> md5 -> tăng độ bảo mật cho chuỗi
 //define( 'CUSTOM_MD5_HASH_CODE', '' );
 
+// kiểu sử dụng cache, độ ưu tiên: redis -> memcached -> file
+//define( 'MY_CACHE_HANDLER', 'redis|memcached|file' );
+
 /*
  * Tiền tố cho danh mục sản phẩm
  */

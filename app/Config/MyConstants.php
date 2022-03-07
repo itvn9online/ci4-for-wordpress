@@ -92,6 +92,9 @@ if ( file_exists( THEMEPATH . 'functions.php' ) ) {
     include THEMEPATH . 'functions.php';
 }
 
+// kiểu sử dụng cache
+defined( 'MY_CACHE_HANDLER' ) || define( 'MY_CACHE_HANDLER', 'file' );
+
 // chuỗi sẽ thêm vào khi sử dụng hàm mdnam -> md5
 defined( 'CUSTOM_MD5_HASH_CODE' ) || define( 'CUSTOM_MD5_HASH_CODE', $_SERVER[ 'HTTP_HOST' ] );
 
