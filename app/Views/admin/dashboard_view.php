@@ -63,7 +63,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
 });
 </script>
 
-<div ng-app="myApp" ng-controller="myCtrl" class="medium">
+<div ng-app="myApp" ng-controller="myCtrl" class="s14">
     <div ng-if="robots_txt > 0 && robots_txt > 1">
         <p class="redcolor medium18 text-center"><i class="fa fa-warning"></i> Vui lòng kiểm tra lại độ chuẩn xác của <a href="admin/configs?support_tab=data_robots" target="_blank"><strong class="bluecolor">file robots.txt</strong></a></p>
         <br>
