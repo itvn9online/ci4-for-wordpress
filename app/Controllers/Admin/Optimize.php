@@ -258,7 +258,7 @@ class Optimize extends Admin {
         foreach ( $arr_colorname_to_code as $k => $v ) {
             $str = str_replace( ':' . $k . '}', ':#' . $v . '}', $str );
             $str = str_replace( ':' . $k . ';', ':#' . $v . ';', $str );
-            
+
             // !important
             $str = str_replace( ':' . $k . ' !', ':#' . $v . ' !', $str );
             $str = str_replace( ':' . $k . '!', ':#' . $v . '!', $str );
@@ -606,5 +606,39 @@ class Optimize extends Admin {
         }
 
         return trim( $str );
+    }
+
+    // xóa các file cache cũ để dọn bớt file cho thư mục
+    protected function cleanup_old_cache( $time = MEDIUM_CACHE_TIMEOUT ) {
+        $has_cleanup = $this->base_model->MY_cache( __FUNCTION__ );
+        if ( $has_cleanup !== NULL ) {
+            echo __FUNCTION__ . ' not RUN by cache ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+            return false;
+        }
+
+        //
+        if ( $time < MEDIUM_CACHE_TIMEOUT ) {
+            $time = MEDIUM_CACHE_TIMEOUT;
+        }
+        //echo $time . '<br>' . "\n";
+        $current_time = time();
+
+        //
+        foreach ( glob( WRITEPATH . 'cache/' . $for . '*' ) as $filename ) {
+            //echo $filename . '<br>' . "\n";
+
+            // xem file được tạo lâu rồi thì xóa nó đi
+            if ( is_file( $filename ) && time() - filemtime( $filename ) > $time ) {
+                //echo $filename . ' (' . date( 'r', filemtime( $filename ) ) . ')' . '<br>' . "\n";
+
+                // không xóa được file thì break luôn -> file 0777 mà không xóa được 1 file thì các file khác cũng vậy
+                if ( !$this->MY_unlink( $filename ) ) {
+                    break;
+                }
+            }
+        }
+
+        // và không cần xóa liên tục
+        $this->base_model->MY_cache( __FUNCTION__, time(), $time );
     }
 }
