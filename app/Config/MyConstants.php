@@ -92,6 +92,9 @@ if ( file_exists( THEMEPATH . 'functions.php' ) ) {
     include THEMEPATH . 'functions.php';
 }
 
+// khi cần chuyển các file tĩnh sang url khác để giảm tải cho server chính thì dùng chức năng này
+defined( 'CDN_BASE_URL' ) || define( 'CDN_BASE_URL', '' );
+
 // kiểu sử dụng cache
 defined( 'MY_CACHE_HANDLER' ) || define( 'MY_CACHE_HANDLER', 'file' );
 

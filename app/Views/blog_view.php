@@ -21,4 +21,6 @@ else {
     include __DIR__ . '/default/' . basename( __FILE__ );
 }
 
-$base_model->add_js( 'themes/' . THEMENAME . '/js/blog_details.js' );
+$base_model->add_js( 'themes/' . THEMENAME . '/js/blog_details.js', [
+    'cdn' => CDN_BASE_URL,
+] );

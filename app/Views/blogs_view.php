@@ -59,4 +59,6 @@ else {
     include __DIR__ . '/default/' . basename( __FILE__ );
 }
 
-$base_model->add_js( 'themes/' . THEMENAME . '/js/blogs_list.js' );
+$base_model->add_js( 'themes/' . THEMENAME . '/js/blogs_list.js', [
+    'cdn' => CDN_BASE_URL,
+] );

@@ -492,78 +492,111 @@ class Base extends Session {
     }
 
     // nạp CSS, JS để tránh phải bấm Ctrl + F5
-    function get_add_css( $f, $get_content = false, $attr = [], $preload = false ) {
+    function get_add_css( $f, $ops = [], $attr = [] ) {
+        //print_r( $ops );
         $f = str_replace( PUBLIC_PUBLIC_PATH, '', $f );
         $f = ltrim( $f, '/' );
         //echo $f . '<br>' . "\n";
+
         if ( !file_exists( PUBLIC_PUBLIC_PATH . $f ) ) {
             return '<!-- ' . $f . ' not exist! -->';
         }
-        if ( $get_content === true ) {
+
+        //
+        if ( isset( $ops[ 'get_content' ] ) ) {
             return '<style>' . file_get_contents( $f, 1 ) . '</style>' . PHP_EOL;
         }
-        if ( $preload == true ) {
+
+        // xem có chạy qua CDN không -> có thì nó sẽ giảm tải cho server
+        if ( !isset( $ops[ 'cdn' ] ) ) {
+            $ops[ 'cdn' ] = '';
+        }
+
+        //
+        if ( isset( $ops[ 'preload' ] ) ) {
             $rel = 'rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"';
         } else {
             $rel = 'rel="stylesheet" type="text/css" media="all"';
         }
-        return '<link ' . $rel . ' href="' . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '"' . implode( ' ', $attr ) . ' />';
+        return '<link ' . $rel . ' href="' . $ops[ 'cdn' ] . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '"' . implode( ' ', $attr ) . ' />';
     }
     // chế độ nạp css thông thường
-    function add_css( $f, $get_content = false, $attr = [], $preload = false ) {
-        echo $this->get_add_css( $f, $get_content, $attr, $preload ) . PHP_EOL;
+    function add_css( $f, $ops = [], $attr = [] ) {
+        echo $this->get_add_css( $f, $ops, $attr ) . PHP_EOL;
     }
     // thêm nhiều file cùng 1 thuộc tính
-    function adds_css( $fs, $get_content = false, $attr = [], $preload = false ) {
+    function adds_css( $fs, $ops = [], $attr = [] ) {
         foreach ( $fs as $f ) {
-            echo $this->get_add_css( $f, $get_content, $attr, $preload ) . PHP_EOL;
+            echo $this->get_add_css( $f, $ops, $attr ) . PHP_EOL;
         }
     }
     // chế độ nạp trước css
-    function preload_css( $f ) {
-        echo $this->get_add_css( $f, false, [], true ) . PHP_EOL;
+    function preload_css( $f, $ops = [] ) {
+        $ops[ 'preload' ] = 1;
+
+        //
+        echo $this->get_add_css( $f, $ops ) . PHP_EOL;
     }
 
-    function preloads_css( $fs ) {
+    function preloads_css( $fs, $ops = [] ) {
+        $ops[ 'preload' ] = 1;
+
+        //
         foreach ( $fs as $f ) {
-            echo $this->get_add_css( $f, false, [], true ) . PHP_EOL;
+            echo $this->get_add_css( $f, $ops ) . PHP_EOL;
         }
     }
 
-    function get_add_js( $f, $get_content = false, $attr = [], $preload = false ) {
+    function get_add_js( $f, $ops = [], $attr = [] ) {
+        //print_r( $ops );
         $f = str_replace( PUBLIC_PUBLIC_PATH, '', $f );
         $f = ltrim( $f, '/' );
         //echo $f . '<br>' . "\n";
         if ( !file_exists( PUBLIC_PUBLIC_PATH . $f ) ) {
             return '<!-- ' . $f . ' not exist! -->';
         }
-        if ( $get_content === true ) {
+
+        //
+        if ( isset( $ops[ 'get_content' ] ) ) {
             return '<script type="text/javascript">' . file_get_contents( $f, 1 ) . '</script>';
         }
-        if ( $preload == true ) {
-            return '<link rel="preload" as="script" href="' . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '">';
+
+        // xem có chạy qua CDN không -> có thì nó sẽ giảm tải cho server
+        if ( !isset( $ops[ 'cdn' ] ) ) {
+            $ops[ 'cdn' ] = '';
+        }
+
+        //
+        if ( isset( $ops[ 'preload' ] ) ) {
+            return '<link rel="preload" as="script" href="' . $ops[ 'cdn' ] . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '">';
         }
         //print_r( $attr );
-        return '<script type="text/javascript" src="' . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '" ' . implode( ' ', $attr ) . '></script>';
+        return '<script type="text/javascript" src="' . $ops[ 'cdn' ] . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '" ' . implode( ' ', $attr ) . '></script>';
     }
     // thêm 1 file
-    function add_js( $f, $get_content = false, $attr = [], $preload = false ) {
-        echo $this->get_add_js( $f, $get_content, $attr ) . PHP_EOL;
+    function add_js( $f, $ops = [], $attr = [] ) {
+        echo $this->get_add_js( $f, $ops, $attr ) . PHP_EOL;
     }
     // thêm nhiều file cùng 1 thuộc tính
-    function adds_js( $fs, $get_content = false, $attr = [], $preload = false ) {
+    function adds_js( $fs, $ops = [], $attr = [] ) {
         foreach ( $fs as $f ) {
-            echo $this->get_add_js( $f, $get_content, $attr ) . PHP_EOL;
+            echo $this->get_add_js( $f, $ops, $attr ) . PHP_EOL;
         }
     }
     // chế độ nạp trước css
-    function preload_js( $f ) {
-        echo $this->get_add_js( $f, false, [], true ) . PHP_EOL;
+    function preload_js( $f, $ops = [] ) {
+        $ops[ 'preload' ] = 1;
+
+        //
+        echo $this->get_add_js( $f, $ops ) . PHP_EOL;
     }
 
-    function preloads_js( $fs ) {
+    function preloads_js( $fs, $ops = [] ) {
+        $ops[ 'preload' ] = 1;
+
+        //
         foreach ( $fs as $f ) {
-            echo $this->get_add_js( $f, false, [], true ) . PHP_EOL;
+            echo $this->get_add_js( $f, $ops ) . PHP_EOL;
         }
     }
 

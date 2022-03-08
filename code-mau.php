@@ -5,16 +5,32 @@ die( 'no money no love' );
 ?>
 <!-- các file CSS chuyển từ PHP sang sẽ cho vào đây -->
 <?php
-$this->base_model->add_css( 'public/css/ten_file.css' );
+$this->base_model->add_css( 'public/css/ten_file.css', [
+    'get_content' => 1,
+    'preload' => 1,
+    'cdn' => CDN_BASE_URL,
+] );
 // lấy mã CSS trả về thay vì echo luôn
-$this->base_model->get_add_css( 'public/css/ten_file.css' );
+$this->base_model->get_add_css( 'public/css/ten_file.css', [
+    'get_content' => 1,
+    'preload' => 1,
+    'cdn' => CDN_BASE_URL,
+] );
 ?>
 
 <!-- các file JS chuyển từ PHP sang sẽ cho vào đây -->
 <?php
-$this->base_model->add_js( 'public/javascript/ten_file.js' );
+$this->base_model->add_js( 'public/javascript/ten_file.js', [
+    'get_content' => 1,
+    'preload' => 1,
+    'cdn' => CDN_BASE_URL,
+] );
 // lấy mã JS trả về thay vì echo luôn
-$this->base_model->get_add_js( 'public/javascript/ten_file.js' );
+$this->base_model->get_add_js( 'public/javascript/ten_file.js', [
+    'get_content' => 1,
+    'preload' => 1,
+    'cdn' => CDN_BASE_URL,
+] );
 
 
 // bộ câu lệnh git dùng để đồng bộ code từ máy này sang máy khác, đỡ bị xung đột

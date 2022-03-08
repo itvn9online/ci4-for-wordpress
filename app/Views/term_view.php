@@ -89,5 +89,7 @@ else {
 
 //
 if ( !defined( 'IN_CATEGORY_VIEW' ) ) {
-    $base_model->add_js( 'themes/' . THEMENAME . '/js/taxonomy.js' );
+    $base_model->add_js( 'themes/' . THEMENAME . '/js/taxonomy.js', [
+        'cdn' => CDN_BASE_URL,
+    ] );
 }

@@ -43,7 +43,6 @@ class Layout extends Sync {
         //$this->base_model = new\ App\ Models\ Base();
         $this->option_model = new\ App\ Models\ Option();
         $this->lang_model = new\ App\ Models\ Lang();
-        $this->term_model = new\ App\ Models\ Term();
         $this->post_model = new\ App\ Models\ Post();
         $this->menu_model = new\ App\ Models\ Menu();
         $this->user_model = new\ App\ Models\ User();

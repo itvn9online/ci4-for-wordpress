@@ -9,13 +9,17 @@ $base_model->adds_js( [
     'thirdparty/bootstrap-5.1.3/js/bootstrap.min.js',
     'javascript/footer.js',
     'themes/' . THEMENAME . '/js/d.js'
-], 0, [
+], [
+    'cdn' => CDN_BASE_URL,
+], [
     'defer'
 ] );
 
 // chức năng riêng dành cho admin
 if ( $current_user_id > 0 && isset( $session_data[ 'userLevel' ] ) && $session_data[ 'userLevel' ] > 0 ) {
-    $base_model->add_js( 'admin/js/show-edit-btn.js', 0, [
+    $base_model->add_js( 'admin/js/show-edit-btn.js', [
+        'cdn' => CDN_BASE_URL,
+    ], [
         'defer'
     ] );
 }
@@ -34,7 +38,7 @@ if ( file_exists( $theme_private_view ) ) {
 
 //
 /*
-$base_model->add_js( 'javascript/analytics.js', 0, [
+$base_model->add_js( 'javascript/analytics.js', [], [
     'defer'
 ] );
 */

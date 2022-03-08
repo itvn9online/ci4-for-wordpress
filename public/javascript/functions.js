@@ -695,6 +695,8 @@ function get_taxonomy_data_by_ids(arr, jd) {
 
 // hiển thị tên của danh mục bằng javascript -> giảm tải cho server
 var taxonomy_ids_unique = [];
+// mảng chứa thông tin của term để hiển thị
+var arr_ajax_taxonomy = {};
 
 // lấy thông tin các taxonomy đang hiện hoạt trên trang
 function action_each_to_taxonomy() {
@@ -764,17 +766,17 @@ function action_each_to_taxonomy() {
         success: function (data) {
             //console.log(data);
 
-            // nạp xong thì gán dữ liệu cho mảng arr_all_taxonomy
+            // nạp xong thì gán dữ liệu cho mảng arr_ajax_taxonomy
             if (data.length > 0) {
                 for (var i = 0; i < data.length; i++) {
-                    if (typeof arr_all_taxonomy[data[i].taxonomy] == 'undefined') {
-                        arr_all_taxonomy[data[i].taxonomy] = [];
+                    if (typeof arr_ajax_taxonomy[data[i].taxonomy] == 'undefined') {
+                        arr_ajax_taxonomy[data[i].taxonomy] = [];
                     }
 
                     //
-                    arr_all_taxonomy[data[i].taxonomy].push(data[i]);
+                    arr_ajax_taxonomy[data[i].taxonomy].push(data[i]);
                 }
-                //console.log('arr_all_taxonomy:', arr_all_taxonomy);
+                //console.log('arr_ajax_taxonomy:', arr_ajax_taxonomy);
             }
 
             //
@@ -811,12 +813,12 @@ function after_each_to_taxonomy() {
         }
 
         if (a != '' && taxonomy != '') {
-            if (typeof arr_all_taxonomy[taxonomy] != 'undefined') {
+            if (typeof arr_ajax_taxonomy[taxonomy] != 'undefined') {
                 a = a.split(',');
                 var str = [];
                 for (var i = 0; i < a.length; i++) {
                     if (a[i] != '') {
-                        var taxonomy_data = get_taxonomy_data_by_ids(arr_all_taxonomy[taxonomy], a[i] * 1);
+                        var taxonomy_data = get_taxonomy_data_by_ids(arr_ajax_taxonomy[taxonomy], a[i] * 1);
                         //console.log(taxonomy_data);
                         if (taxonomy_data === null) {
                             continue;

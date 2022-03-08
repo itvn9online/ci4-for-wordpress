@@ -505,6 +505,7 @@ function hide_if_esc() {
 
 //
 var loading_term_select_option = {};
+var arr_all_taxonomy = {};
 
 function load_term_select_option(a, jd, _callBack, max_i) {
     //console.log(a);

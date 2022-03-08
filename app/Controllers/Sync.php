@@ -12,9 +12,22 @@ use App\ Libraries\ DeletedStatus;
 class Sync extends BaseController {
     public function __construct() {
         $this->base_model = new\ App\ Models\ Base();
+        $this->term_model = new\ App\ Models\ Term();
 
         //
         //$this->cache = \Config\ Services::cache();
+    }
+
+    public function vendor_sync() {
+        // đồng bộ database
+        $this->auto_sync_table_column();
+
+        // đồng bộ vendor CSS, JS -> đặt tên là thirdparty để tránh trùng lặp khi load file tĩnh ngoài frontend
+        $this->action_vendor_sync( 'public/thirdparty' );
+        // đồng bộ vendor php
+        $this->action_vendor_sync( 'vendor' );
+        // đồng bộ ThirdParty php (code php của bên thứ 3)
+        $this->action_vendor_sync( 'app/ThirdParty' );
     }
 
     /*
@@ -406,18 +419,6 @@ class Sync extends BaseController {
                 echo $file . ' has been sync <br>' . "\n";
             }
         }
-    }
-
-    public function vendor_sync() {
-        // đồng bộ database
-        $this->auto_sync_table_column();
-
-        // đồng bộ vendor CSS, JS -> đặt tên là thirdparty để tránh trùng lặp khi load file tĩnh ngoài frontend
-        $this->action_vendor_sync( 'public/thirdparty' );
-        // đồng bộ vendor php
-        $this->action_vendor_sync( 'vendor' );
-        // đồng bộ ThirdParty php (code php của bên thứ 3)
-        $this->action_vendor_sync( 'app/ThirdParty' );
     }
 
     // tự set session, do session của ci4 nó đứt liên tục

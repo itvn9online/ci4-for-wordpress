@@ -175,7 +175,6 @@ $base_model->adds_js( [
 
 ?>
 <script>
-var arr_all_taxonomy = {};
 var arr_admin_menu = <?php echo json_encode($arr_admin_menu); ?>;
 var arr_lang_list = <?php echo json_encode(LanguageCost::list()); ?>;
 var web_link = window.location.protocol + '//' + document.domain + '/';

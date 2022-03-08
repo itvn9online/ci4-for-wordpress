@@ -14,6 +14,9 @@
 // kiểu sử dụng cache, độ ưu tiên: redis -> memcached -> file
 //define( 'MY_CACHE_HANDLER', 'redis|memcached|file' );
 
+// khi cần chuyển các file tĩnh sang url khác để giảm tải cho server chính thì dùng chức năng này
+//define( 'CDN_BASE_URL', '' );
+
 /*
  * Tiền tố cho danh mục sản phẩm
  */

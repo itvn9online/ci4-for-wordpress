@@ -2,7 +2,9 @@
 
 //$base_model = new\ App\ Models\ Base();
 
-$base_model->add_css( 'css/404.css' );
+$base_model->add_css( 'css/404.css', [
+    'cdn' => CDN_BASE_URL,
+] );
 
 ?>
 <div class="text-center error-page">

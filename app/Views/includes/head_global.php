@@ -61,17 +61,19 @@ if ( $getconfig->fb_app_id != '' ) {
 
 
 // nạp file font theo kiểu inline
-$font_awesome_before = $base_model->get_add_css( 'thirdparty/awesome47/css/font-awesome.before.css', true );
-$font_awesome_before = str_replace( '../fonts/', './thirdparty/awesome47/fonts/', $font_awesome_before );
+$font_awesome_before = $base_model->get_add_css( 'thirdparty/awesome47/css/font-awesome.before.css', [
+    'get_content' => 1
+] );
+$font_awesome_before = str_replace( '../fonts/', 'thirdparty/awesome47/fonts/', $font_awesome_before );
 echo $font_awesome_before;
 
 
 // nạp phiên bản bootstrap phù hợp
 $arr_preload_bootstrap = [
-    'thirdparty/awesome47/css/font-awesome.min.css?v=4.7',
+    CDN_BASE_URL . 'thirdparty/awesome47/css/font-awesome.min.css?v=4.7',
 
     // bản full
-    'thirdparty/bootstrap-5.1.3/css/bootstrap.min.css',
+    CDN_BASE_URL . 'thirdparty/bootstrap-5.1.3/css/bootstrap.min.css',
     //'thirdparty/bootstrap-5.1.3/css/bootstrap.rtl.min.css',
 
     // các module đơn lẻ
@@ -92,7 +94,7 @@ foreach ( $arr_preload_bootstrap as $v ) {
 ?>
 <!-- <link rel="stylesheet" type="text/css" media="all" href="thirdparty/flatsome/flatsome.css" /> --> 
 <!-- <link rel="stylesheet" type="text/css" media="all" href="frontend/css/swiper.min.css" /> --> 
-<script type="text/javascript" src="thirdparty/jquery/jquery-3.6.0.min.js"></script> 
+<script type="text/javascript" src="<?php echo CDN_BASE_URL; ?>thirdparty/jquery/jquery-3.6.0.min.js"></script> 
 <!-- <script type="text/javascript" src="thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> --> 
 <!-- <script type="text/javascript" src="frontend/js/swiper.min.js"></script> -->
 <?php
@@ -101,12 +103,16 @@ foreach ( $arr_preload_bootstrap as $v ) {
 $base_model->preloads_css( [
     'css/d.css',
     'css/d2.css',
+], [
+    'cdn' => CDN_BASE_URL,
 ] );
 $base_model->adds_css( [
     'css/flatsome.css',
     'css/thread_list.css',
     'themes/' . THEMENAME . '/style.css',
     'themes/' . THEMENAME . '/css/thread_node.css',
+], [
+    'cdn' => CDN_BASE_URL,
 ] );
 
 $base_model->adds_js( [
@@ -114,6 +120,8 @@ $base_model->adds_js( [
     'javascript/eb.js',
     //'javascript/slider.js',
     'themes/' . THEMENAME . '/js/functions.js',
+], [
+    'cdn' => CDN_BASE_URL,
 ] );
 
 //print_r( $getconfig );
