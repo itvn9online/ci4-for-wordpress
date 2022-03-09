@@ -19,18 +19,6 @@ defined( 'EBE_DATETIME_FORMAT' ) || define( 'EBE_DATETIME_FORMAT', 'Y-m-d H:i:s'
 defined( 'CUSTOM_ADMIN_URI' ) || define( 'CUSTOM_ADMIN_URI', 'wgr-wp-admin' );
 
 /*
- * URL động cho website để có thể chạy trên nhiều tên miền khác nhau mà không cần config lại
- */
-$web_protocol = 'http';
-if ( $_SERVER[ 'SERVER_PORT' ] == 443 ||
-    ( isset( $_SERVER[ 'HTTPS' ] ) && $_SERVER[ 'HTTPS' ] == 'on' ) ||
-    ( isset( $_SERVER[ 'HTTP_X_FORWARDED_PROTO' ] ) && $_SERVER[ 'HTTP_X_FORWARDED_PROTO' ] == 'https' ) ) {
-    $web_protocol = 'https';
-}
-//die( $web_protocol );
-define( 'DYNAMIC_BASE_URL', $web_protocol . '://' . $_SERVER[ 'HTTP_HOST' ] . '/' );
-
-/*
  * Các tham số khác, rất ít khi thay đổi
  */
 define( 'PUBLIC_HTML_PATH', ROOTPATH );
@@ -91,6 +79,15 @@ define( 'THEMEPATH', PUBLIC_PUBLIC_PATH . 'themes/' . THEMENAME . '/' );
 if ( file_exists( THEMEPATH . 'functions.php' ) ) {
     include THEMEPATH . 'functions.php';
 }
+
+/*
+ * URL động cho website để có thể chạy trên nhiều tên miền khác nhau mà không cần config lại
+ */
+// tinh chỉnh protocol theo ý thích -> mặc định là https
+defined( 'BASE_PROTOCOL' ) || define( 'BASE_PROTOCOL', 'https' );
+// -> url động cho website
+define( 'DYNAMIC_BASE_URL', BASE_PROTOCOL . '://' . $_SERVER[ 'HTTP_HOST' ] . '/' );
+//die( DYNAMIC_BASE_URL );
 
 // khi cần chuyển các file tĩnh sang url khác để giảm tải cho server chính thì dùng chức năng này
 defined( 'CDN_BASE_URL' ) || define( 'CDN_BASE_URL', '' );

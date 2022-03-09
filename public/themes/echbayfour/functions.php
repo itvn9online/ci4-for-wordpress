@@ -8,6 +8,9 @@
 //define( 'FTP_USER', '' );
 //define( 'FTP_PASS', '' );
 
+// tinh chỉnh protocol theo ý thích -> mặc định là https
+//define( 'BASE_PROTOCOL', 'http' );
+
 // chuỗi sẽ thêm vào khi sử dụng hàm mdnam -> md5 -> tăng độ bảo mật cho chuỗi
 //define( 'CUSTOM_MD5_HASH_CODE', '' );
 
