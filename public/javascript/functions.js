@@ -680,11 +680,13 @@ function get_taxonomy_data_by_ids(arr, jd) {
 
         // thử tìm trong các nhóm con
         for (var i = 0; i < arr.length; i++) {
-            if (arr[i].child_term.length > 0) {
-                var taxonomy_data = get_taxonomy_data_by_ids(arr[i].child_term, jd);
-                if (taxonomy_data !== null) {
-                    return taxonomy_data;
-                }
+            if (typeof arr[i].child_term == 'undefined' || arr[i].child_term.length <= 0) {
+                continue;
+            }
+
+            var taxonomy_data = get_taxonomy_data_by_ids(arr[i].child_term, jd);
+            if (taxonomy_data !== null) {
+                return taxonomy_data;
             }
         }
     }
