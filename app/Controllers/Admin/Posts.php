@@ -470,11 +470,14 @@ class Posts extends Admin {
         $this->cleanup_cache( 'post-' . $id . '-' );
         //
         if ( isset( $data[ 'post_title' ] ) ) {
+            // bổ sung thêm xóa cache với menu
             if ( $this->post_type == PostType::MENU ) {
                 $post_name = $this->base_model->_eb_non_mark_seo( $data[ 'post_title' ] );
                 //echo $post_name . '<br>' . "\n";
                 $this->cleanup_cache( 'get_the_menu-' . $post_name );
-            } else if ( $this->post_type == PostType::PAGE ) {
+            }
+            // hoặc page
+            else if ( $this->post_type == PostType::PAGE ) {
                 $this->cleanup_cache( 'get_page-' . $data[ 'post_name' ] );
             }
         }

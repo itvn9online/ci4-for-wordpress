@@ -77,6 +77,7 @@
         </div>
         <div class="lf f50 menu-edit-input">
             <div class="left-menu-space">
+                <!-- ADD menu -->
                 <form class="form-inline" onSubmit="return get_json_code_menu(this);" id="menu-add">
                     <h3>Thêm menu</h3>
                     <div>
@@ -108,9 +109,11 @@
                         </div>
                     </div>
                     <div>
-                        <button class="btn btn-info" id="addButton"><i class="fa fa-plus"></i> Thêm mới</button>
+                        <button type="submit" class="btn btn-info" id="addButton"><i class="fa fa-plus"></i> Thêm mới</button>
                     </div>
                 </form>
+                <!-- ADD menu END -->
+                <!-- EDIT menu -->
                 <form class="hide-if-edit-menu" onSubmit="return get_json_code_menu(this);" id="menu-editor">
                     <h3>Chỉnh sửa: <span id="currentEditName"></span></h3>
                     <div class="form-group">
@@ -124,9 +127,10 @@
                         </div>
                     </div>
                     <div>
-                        <button class="btn btn-info" id="editButton"><i class="fa fa-save"></i> Cập nhật</button>
+                        <button type="submit" class="btn btn-info" id="editButton"><i class="fa fa-save"></i> Cập nhật</button>
                     </div>
                 </form>
+                <!-- EDIT menu END -->
             </div>
         </div>
     </div>

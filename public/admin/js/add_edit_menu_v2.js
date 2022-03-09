@@ -69,6 +69,7 @@ function create_html_menu_editer(max_i) {
         }, 200);
         return false;
     }
+    console.log('Call in: ' + arguments.callee.caller.name.toString());
 
     //
     var a = $('#json-output').val() || '';
@@ -83,7 +84,7 @@ function create_html_menu_editer(max_i) {
         //
         if (a !== null) {
             var str = create_ul_menu_editer(a);
-            console.log(str);
+            //console.log(str);
 
             //
             jQuery(insert_to).contents().find('body').html(str);
@@ -95,22 +96,33 @@ function create_html_menu_editer(max_i) {
 }
 
 function get_json_code_menu(obj) {
-    var arr = $('#json-output').val();
-    //console.log(arr);
-
-    $('#data_post_excerpt').val(arr);
-
-    //setTimeout(function () {
-    create_html_menu_editer();
-    //}, 200);
+    console.log('Call in: ' + arguments.callee.caller.name.toString());
 
     //
-    if (typeof obj != 'undefined' && typeof obj.id != 'undefined') {
-        //console.log(obj.id);
-        setTimeout(function () {
-            $('#' + obj.id + ' input[type="text"]').val('');
-        }, 600);
-    }
+    setTimeout(function () {
+        var arr = $('#json-output').val();
+        //console.log(arr);
+
+        //
+        $('#data_post_excerpt').val(arr);
+
+        //setTimeout(function () {
+        create_html_menu_editer();
+        //}, 200);
+
+        //
+        if (typeof obj != 'undefined' && typeof obj.id != 'undefined') {
+            //console.log(obj.id);
+            // xóa chữ trong các input của form tương ứng được truyền vào
+            setTimeout(function () {
+                $('#' + obj.id + ' input[type="text"]').val('');
+
+                // tự động cập nhật menu
+                console.log('Auto submit in ' + ($(this).attr('id') || ''));
+                document.admin_global_form.submit();
+            }, 200);
+        }
+    }, 200);
 
     return true;
 }
