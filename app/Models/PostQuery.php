@@ -75,8 +75,19 @@ class PostQuery extends PostMeta {
             }
         }
 
+        //
+        foreach ( $data as $k => $v ) {
+            if ( is_array( $v ) ) {
+                $v = implode( ',', $v );
+                $v = ltrim( $v, ',' );
+                $v = ltrim( $v, '0,' );
+                $data[ $k ] = $v;
+            }
+        }
+
         // insert post
         //print_r( $data );
+        //die( __CLASS__ . ':' . __LINE__ );
         $result_id = $this->base_model->insert( $this->table, $data, true );
         //var_dump( $result_id );
         //print_r( $result_id );

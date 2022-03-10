@@ -283,15 +283,25 @@ class Base extends Session {
             //$and_or = array();
             $builder->groupStart();
             foreach ( $op[ 'or_where' ] as $k => $v ) {
-                //$and_or[] = $k . ' = ' . $v;
-                /*
-                if ( $k == 0 ) {
-                	$this->db->where( $k, $v );
+                // nếu v là 1 mảng -> đây là kiểu WHERE OR lồng nhau
+                if ( is_array( $v ) ) {
+                    if ( !empty( $v ) ) {
+                        //$builder->orGroupStart();
+                        $builder->groupStart();
+                        foreach ( $v as $k2 => $v2 ) {
+                            if ( $v2 === NULL ) {
+                                $builder->orWhere( $k2 );
+                            } else {
+                                $builder->orWhere( $k2, $v2 );
+                            }
+                        }
+                        $builder->groupEnd();
+                    }
                 }
+                // còn không thì WHERE OR bình thường
                 else {
-                */
-                $builder->orWhere( $k, $v );
-                //}
+                    $builder->orWhere( $k, $v );
+                }
             }
             $builder->groupEnd();
             //print_r($and_or);

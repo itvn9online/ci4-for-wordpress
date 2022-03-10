@@ -118,9 +118,13 @@ $sql = $this->base_model->select( '*', 'tbl_user', array(
     'date_check_in <= ' => 10,
     'is_member' => User_type::MEMBER,
     'is_member' => User_type::GUEST,
+    'FIND_IN_SET(\'string_to_find\', column_name)' => NULL,
 ), array(
     'or_where' => array(
-        'username' => 2,
+        'username' => 2, [
+            'username' => 3,
+            'FIND_IN_SET(\'string_to_find\', column_name)' => NULL,
+        ],
         'user_id' => 1
     ),
     'where_in' => array(
@@ -166,14 +170,14 @@ $sql = $this->base_model->select( '*', 'tbl_user', array(
         'user_id' => 'DESC'
     ),
     // trả về COUNT(column_name) AS column_name
-    'selectCount' => 'ID',
+    //'selectCount' => 'ID',
     // hiển thị mã SQL để check
     'show_query' => 1,
     // trả về câu query để sử dụng cho mục đích khác
-    'get_query' => 1,
+    //'get_query' => 1,
     // trả về tổng số bản ghi -> tương tự mysql num row
-    'getNumRows' => 1,
-    'offset' => 2,
+    //'getNumRows' => 1,
+    //'offset' => 0,
     'limit' => 3
 ) );
 

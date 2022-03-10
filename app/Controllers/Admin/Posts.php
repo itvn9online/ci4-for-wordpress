@@ -432,6 +432,8 @@ class Posts extends Admin {
         }
 
         //
+        //print_r( $data );
+        //die( __CLASS__ . ':' . __LINE__ );
         $result_id = $this->post_model->insert_post( $data );
         if ( is_array( $result_id ) && isset( $result_id[ 'error' ] ) ) {
             $this->base_model->alert( $result_id[ 'error' ], 'error' );
