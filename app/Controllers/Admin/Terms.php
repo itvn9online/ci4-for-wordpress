@@ -73,7 +73,6 @@ class Terms extends Admin {
         //
         $by_keyword = $this->MY_get( 's' );
         $by_is_deleted = $this->MY_get( 'is_deleted', DeletedStatus::FOR_DEFAULT );
-        $page_num = $this->MY_get( 'page_num', 1 );
 
         //
         if ( $by_is_deleted > 0 ) {
@@ -126,44 +125,52 @@ class Terms extends Admin {
         //die( __CLASS__ . ':' . __LINE__ );
         $totalThread = $totalThread[ 0 ][ 'c' ];
         //print_r( $totalThread );
-        $totalPage = ceil( $totalThread / $post_per_page );
-        if ( $totalPage < 1 ) {
-            $totalPage = 1;
+
+        if ( $totalThread > 0 ) {
+            $page_num = $this->MY_get( 'page_num', 1 );
+
+            $totalPage = ceil( $totalThread / $post_per_page );
+            if ( $totalPage < 1 ) {
+                $totalPage = 1;
+            }
+            //echo $totalPage . '<br>' . "\n";
+            if ( $page_num > $totalPage ) {
+                $page_num = $totalPage;
+            } else if ( $page_num < 1 ) {
+                $page_num = 1;
+            }
+            $for_action .= $page_num > 1 ? '&page_num=' . $page_num : '';
+            //echo $totalThread . '<br>' . "\n";
+            //echo $totalPage . '<br>' . "\n";
+            $offset = ( $page_num - 1 ) * $post_per_page;
+            //echo $offset . '<br>' . "\n";
+            //die( __CLASS__ . ':' . __LINE__ );
+
+            //
+            $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '&page_num=' );
+
+            //
+            $filter[ 'offset' ] = $offset;
+            $filter[ 'limit' ] = $post_per_page;
+            // daidq (2021-01-24): tạm thời không cần lấy nhóm cấp 1
+            if ( $this->taxonomy == TaxonomyType::ADS ) {
+                $filter[ 'get_meta' ] = true;
+            }
+            //$filter[ 'get_child' ] = 1;
+
+            //
+            $data = $this->term_model->get_all_taxonomy( $this->taxonomy, 0, $filter );
+            //print_r( $data );
+            //$data = $this->term_model->terms_meta_post( $data );
+            //print_r( $data );
+
+            //
+            $data = $this->term_treeview_data( $data );
+            //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        } else {
+            $data = [];
+            $pagination = '';
         }
-        //echo $totalPage . '<br>' . "\n";
-        if ( $page_num > $totalPage ) {
-            $page_num = $totalPage;
-        } else if ( $page_num < 1 ) {
-            $page_num = 1;
-        }
-        $for_action .= $page_num > 1 ? '&page_num=' . $page_num : '';
-        //echo $totalThread . '<br>' . "\n";
-        //echo $totalPage . '<br>' . "\n";
-        $offset = ( $page_num - 1 ) * $post_per_page;
-        //echo $offset . '<br>' . "\n";
-        //die( __CLASS__ . ':' . __LINE__ );
-
-        //
-        $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '&page_num=' );
-
-        //
-        $filter[ 'offset' ] = $offset;
-        $filter[ 'limit' ] = $post_per_page;
-        // daidq (2021-01-24): tạm thời không cần lấy nhóm cấp 1
-        if ( $this->taxonomy == TaxonomyType::ADS ) {
-            $filter[ 'get_meta' ] = true;
-        }
-        //$filter[ 'get_child' ] = 1;
-
-        //
-        $data = $this->term_model->get_all_taxonomy( $this->taxonomy, 0, $filter );
-        //print_r( $data );
-        //$data = $this->term_model->terms_meta_post( $data );
-        //print_r( $data );
-
-        //
-        $data = $this->term_treeview_data( $data );
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $data );
 
         //

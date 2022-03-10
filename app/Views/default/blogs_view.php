@@ -20,14 +20,15 @@
     //print_r( $data );
 
     //
-    $child_data = $post_model->get_blogs_by( $data, [
-        'limit' => $post_per_page,
-        'offset' => $offset
-    ] );
-    if ( !empty( $child_data ) ) {
+    if ( $totalThread > 0 ) {
+        $child_data = $post_model->get_blogs_by( $data, [
+            'limit' => $post_per_page,
+            'offset' => $offset
+        ] );
+        if ( !empty( $child_data ) ) {
 
-        //
-        ?>
+            //
+            ?>
     <ul id="category_main" class="fix-li-wit echbay-blog echbay-blogmain cf <?php $option_model->blogs_in_line( $getconfig ); ?>">
         <?php
 
@@ -54,6 +55,7 @@
         ?>
     </div>
     <?php
+    }
     }
     // không có sản phẩm nào -> báo không có
     else {

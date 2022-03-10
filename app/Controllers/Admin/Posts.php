@@ -96,7 +96,6 @@ class Posts extends Admin {
         $by_keyword = $this->MY_get( 's' );
         $post_status = $this->MY_get( 'post_status' );
         $by_term_id = $this->MY_get( 'term_id', 0 );
-        $page_num = $this->MY_get( 'page_num', 1 );
 
         // các kiểu điều kiện where
         $where = [
@@ -183,55 +182,64 @@ class Posts extends Admin {
         //print_r( $totalThread );
         $totalThread = $totalThread[ 0 ][ 'c' ];
         //print_r( $totalThread );
-        $totalPage = ceil( $totalThread / $post_per_page );
-        if ( $totalPage < 1 ) {
-            $totalPage = 1;
-        }
-        //echo $totalPage . '<br>' . "\n";
-        if ( $page_num > $totalPage ) {
-            $page_num = $totalPage;
-        } else if ( $page_num < 1 ) {
-            $page_num = 1;
-        }
-        $for_action .= $page_num > 1 ? '&page_num=' . $page_num : '';
-        //echo $totalThread . '<br>' . "\n";
-        //echo $totalPage . '<br>' . "\n";
-        $offset = ( $page_num - 1 ) * $post_per_page;
 
         //
-        $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '&page_num=' );
+        if ( $totalThread > 0 ) {
+            $page_num = $this->MY_get( 'page_num', 1 );
 
-
-        // select dữ liệu từ 1 bảng bất kỳ
-        $filter[ 'offset' ] = $offset;
-        $filter[ 'limit' ] = $post_per_page;
-        $filter[ 'order_by' ] = [
-            'posts.menu_order' => 'DESC',
-            'posts.post_date' => 'DESC',
-            //'post_modified' => 'DESC',
-        ];
-        $data = $this->base_model->select( '*', 'posts', $where, $filter );
-
-        //
-        $data = $this->post_model->list_meta_post( $data );
-        //print_r( $data );
-
-        // xử lý dữ liệu cho angularjs
-        foreach ( $data as $k => $v ) {
-            // không cần hiển thị nội dung
-            $v[ 'post_content' ] = '';
-
-            // lấy 1 số dữ liệu khác gán vào, để angularjs chỉ việc hiển thị
-            $v[ 'admin_permalink' ] = $this->post_model->get_admin_permalink( $this->post_type, $v[ 'ID' ], $this->controller_slug );
-            $v[ 'the_permalink' ] = $this->post_model->get_the_permalink( $v );
-            $v[ 'thumbnail' ] = $this->post_model->get_list_thumbnail( $v[ 'post_meta' ] );
-            $v[ 'main_category_key' ] = $this->post_model->return_meta_post( $v[ 'post_meta' ], $this->main_category_key );
+            $totalPage = ceil( $totalThread / $post_per_page );
+            if ( $totalPage < 1 ) {
+                $totalPage = 1;
+            }
+            //echo $totalPage . '<br>' . "\n";
+            if ( $page_num > $totalPage ) {
+                $page_num = $totalPage;
+            } else if ( $page_num < 1 ) {
+                $page_num = 1;
+            }
+            $for_action .= $page_num > 1 ? '&page_num=' . $page_num : '';
+            //echo $totalThread . '<br>' . "\n";
+            //echo $totalPage . '<br>' . "\n";
+            $offset = ( $page_num - 1 ) * $post_per_page;
 
             //
-            //print_r( $v );
+            $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '&page_num=' );
+
+
+            // select dữ liệu từ 1 bảng bất kỳ
+            $filter[ 'offset' ] = $offset;
+            $filter[ 'limit' ] = $post_per_page;
+            $filter[ 'order_by' ] = [
+                'posts.menu_order' => 'DESC',
+                'posts.post_date' => 'DESC',
+                //'post_modified' => 'DESC',
+            ];
+            $data = $this->base_model->select( '*', 'posts', $where, $filter );
 
             //
-            $data[ $k ] = $v;
+            $data = $this->post_model->list_meta_post( $data );
+            //print_r( $data );
+
+            // xử lý dữ liệu cho angularjs
+            foreach ( $data as $k => $v ) {
+                // không cần hiển thị nội dung
+                $v[ 'post_content' ] = '';
+
+                // lấy 1 số dữ liệu khác gán vào, để angularjs chỉ việc hiển thị
+                $v[ 'admin_permalink' ] = $this->post_model->get_admin_permalink( $this->post_type, $v[ 'ID' ], $this->controller_slug );
+                $v[ 'the_permalink' ] = $this->post_model->get_the_permalink( $v );
+                $v[ 'thumbnail' ] = $this->post_model->get_list_thumbnail( $v[ 'post_meta' ] );
+                $v[ 'main_category_key' ] = $this->post_model->return_meta_post( $v[ 'post_meta' ], $this->main_category_key );
+
+                //
+                //print_r( $v );
+
+                //
+                $data[ $k ] = $v;
+            }
+        } else {
+            $data = [];
+            $pagination = '';
         }
 
         //

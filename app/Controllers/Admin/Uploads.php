@@ -107,35 +107,41 @@ class Uploads extends Admin {
         //print_r( $totalThread );
         $totalThread = $totalThread[ 0 ][ 'c' ];
         //print_r( $totalThread );
-        $totalPage = ceil( $totalThread / $post_per_page );
-        if ( $totalPage < 1 ) {
-            $totalPage = 1;
+
+        if ( $totalThread > 0 ) {
+            $totalPage = ceil( $totalThread / $post_per_page );
+            if ( $totalPage < 1 ) {
+                $totalPage = 1;
+            }
+            $page_num = $this->MY_get( 'page_num', 1 );
+            //echo $totalPage . '<br>' . "\n";
+            if ( $page_num > $totalPage ) {
+                $page_num = $totalPage;
+            } else if ( $page_num < 1 ) {
+                $page_num = 1;
+            }
+            //echo $totalThread . '<br>' . "\n";
+            //echo $totalPage . '<br>' . "\n";
+            $offset = ( $page_num - 1 ) * $post_per_page;
+
+            //
+            $urlParams[] = 'page_num=';
+            $urlPartPage .= '?' . implode( '&', $urlParams );
+            $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '' );
+
+
+            // select dữ liệu từ 1 bảng bất kỳ
+            $filter[ 'offset' ] = $offset;
+            $filter[ 'limit' ] = $post_per_page;
+            $data = $this->base_model->select( '*', 'posts', $where, $filter );
+
+            //
+            $data = $this->post_model->list_meta_post( $data );
+            //print_r( $data );
+        } else {
+            $data = [];
+            $pagination = '';
         }
-        $page_num = $this->MY_get( 'page_num', 1 );
-        //echo $totalPage . '<br>' . "\n";
-        if ( $page_num > $totalPage ) {
-            $page_num = $totalPage;
-        } else if ( $page_num < 1 ) {
-            $page_num = 1;
-        }
-        //echo $totalThread . '<br>' . "\n";
-        //echo $totalPage . '<br>' . "\n";
-        $offset = ( $page_num - 1 ) * $post_per_page;
-
-        //
-        $urlParams[] = 'page_num=';
-        $urlPartPage .= '?' . implode( '&', $urlParams );
-        $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '' );
-
-
-        // select dữ liệu từ 1 bảng bất kỳ
-        $filter[ 'offset' ] = $offset;
-        $filter[ 'limit' ] = $post_per_page;
-        $data = $this->base_model->select( '*', 'posts', $where, $filter );
-
-        //
-        $data = $this->post_model->list_meta_post( $data );
-        //print_r( $data );
 
         //
         $this->teamplate_admin[ 'body_class' ] = $this->body_class;
@@ -311,33 +317,39 @@ class Uploads extends Admin {
         //print_r( $totalThread );
         $totalThread = $totalThread[ 0 ][ 'c' ];
         //print_r( $totalThread );
-        $totalPage = ceil( $totalThread / $post_per_page );
-        if ( $totalPage < 1 ) {
-            $totalPage = 1;
+
+        if ( $totalThread > 0 ) {
+            $totalPage = ceil( $totalThread / $post_per_page );
+            if ( $totalPage < 1 ) {
+                $totalPage = 1;
+            }
+            $page_num = $this->MY_get( 'page_num', 1 );
+            //echo $totalPage . '<br>' . "\n";
+            if ( $page_num > $totalPage ) {
+                $page_num = $totalPage;
+            } else if ( $page_num < 1 ) {
+                $page_num = 1;
+            }
+            //echo $totalThread . '<br>' . "\n";
+            //echo $totalPage . '<br>' . "\n";
+            $offset = ( $page_num - 1 ) * $post_per_page;
+
+            //
+            $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '?page_num=' );
+
+
+            // select dữ liệu từ 1 bảng bất kỳ
+            $filter[ 'offset' ] = $offset;
+            $filter[ 'limit' ] = $post_per_page;
+            $data = $this->base_model->select( '*', 'posts', $where, $filter );
+
+            //
+            $data = $this->post_model->list_meta_post( $data );
+            //print_r( $data );
+        } else {
+            $data = [];
+            $pagination = '';
         }
-        $page_num = $this->MY_get( 'page_num', 1 );
-        //echo $totalPage . '<br>' . "\n";
-        if ( $page_num > $totalPage ) {
-            $page_num = $totalPage;
-        } else if ( $page_num < 1 ) {
-            $page_num = 1;
-        }
-        //echo $totalThread . '<br>' . "\n";
-        //echo $totalPage . '<br>' . "\n";
-        $offset = ( $page_num - 1 ) * $post_per_page;
-
-        //
-        $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '?page_num=' );
-
-
-        // select dữ liệu từ 1 bảng bất kỳ
-        $filter[ 'offset' ] = $offset;
-        $filter[ 'limit' ] = $post_per_page;
-        $data = $this->base_model->select( '*', 'posts', $where, $filter );
-
-        //
-        $data = $this->post_model->list_meta_post( $data );
-        //print_r( $data );
 
         //
         $this->teamplate_admin[ 'body_class' ] = $this->body_class;
@@ -359,7 +371,7 @@ class Uploads extends Admin {
     private function sync_no_parent() {
         // daidq (2022-03-05): chưa có site để test nên tính năng này đang tạm dừng
         return false;
-        
+
         //
         $data = $this->base_model->select( '*', 'posts', [
             'post_type' => $this->post_type,

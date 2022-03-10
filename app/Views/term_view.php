@@ -34,42 +34,48 @@ $totalThread = $post_model->post_category( $post_type, $data, [], true );
 //echo $totalThread . '<br>' . "\n";
 //$totalThread = $post_model->count_posts_by( $data );
 //echo $totalThread . '<br>' . "\n";
-$totalPage = ceil( $totalThread / $post_per_page );
-if ( $totalPage < 1 ) {
-    $totalPage = 1;
-}
-//echo $totalPage . '<br>' . "\n";
-if ( $ops[ 'page_num' ] > $totalPage ) {
-    $ops[ 'page_num' ] = $totalPage;
-} else if ( $ops[ 'page_num' ] < 1 ) {
-    $ops[ 'page_num' ] = 1;
-}
-//echo $totalThread . '<br>' . "\n";
-//echo $totalPage . '<br>' . "\n";
-$offset = ( $ops[ 'page_num' ] - 1 ) * $post_per_page;
 
-$public_part_page = $base_model->EBE_pagination( $ops[ 'page_num' ], $totalPage, $term_model->get_the_permalink( $data ) );
+if ( $totalThread > 0 ) {
+    $totalPage = ceil( $totalThread / $post_per_page );
+    if ( $totalPage < 1 ) {
+        $totalPage = 1;
+    }
+    //echo $totalPage . '<br>' . "\n";
+    if ( $ops[ 'page_num' ] > $totalPage ) {
+        $ops[ 'page_num' ] = $totalPage;
+    } else if ( $ops[ 'page_num' ] < 1 ) {
+        $ops[ 'page_num' ] = 1;
+    }
+    //echo $totalThread . '<br>' . "\n";
+    //echo $totalPage . '<br>' . "\n";
+    $offset = ( $ops[ 'page_num' ] - 1 ) * $post_per_page;
+
+    $public_part_page = $base_model->EBE_pagination( $ops[ 'page_num' ], $totalPage, $term_model->get_the_permalink( $data ) );
 
 
-/*
- * chuẩn bị dữ liệu để hiển thị ra
- */
-//echo $taxonomy_post_size . '<br>' . "\n";
-//print_r( $data );
-
-//
-$in_cache = 'term-' . $data[ 'term_id' ] . '-view-' . $offset . '-' . $post_per_page . '-' . LanguageCost::lang_key();
-$child_data = $base_model->MY_cache( $in_cache );
-if ( $child_data === NULL ) {
-    $child_data = $post_model->post_category( $post_type, $data, [
-        'offset' => $offset,
-        'limit' => $post_per_page
-    ] );
+    /*
+     * chuẩn bị dữ liệu để hiển thị ra
+     */
+    //echo $taxonomy_post_size . '<br>' . "\n";
+    //print_r( $data );
 
     //
-    $base_model->MY_cache( $in_cache, $child_data, 300 );
+    $in_cache = 'term-' . $data[ 'term_id' ] . '-view-' . $offset . '-' . $post_per_page . '-' . LanguageCost::lang_key();
+    $child_data = $base_model->MY_cache( $in_cache );
+    if ( $child_data === NULL ) {
+        $child_data = $post_model->post_category( $post_type, $data, [
+            'offset' => $offset,
+            'limit' => $post_per_page
+        ] );
+
+        //
+        $base_model->MY_cache( $in_cache, $child_data, 300 );
+    }
+    //print_r( $child_data );
+} else {
+    $public_part_page = '';
+    $child_data = [];
 }
-//print_r( $child_data );
 
 
 /*

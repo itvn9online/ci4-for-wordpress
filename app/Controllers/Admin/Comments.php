@@ -129,51 +129,58 @@ class Comments extends Admin {
         //print_r( $totalThread );
         $totalThread = $totalThread[ 0 ][ 'c' ];
         //print_r( $totalThread );
-        $totalPage = ceil( $totalThread / $post_per_page );
-        if ( $totalPage < 1 ) {
-            $totalPage = 1;
-        }
-        $page_num = $this->MY_get( 'page_num', 1 );
-        //echo $totalPage . '<br>' . "\n";
-        if ( $page_num > $totalPage ) {
-            $page_num = $totalPage;
-        } else if ( $page_num < 1 ) {
-            $page_num = 1;
-        }
-        $for_action .= $page_num > 1 ? '&page_num=' . $page_num : '';
-        //echo $totalThread . '<br>' . "\n";
-        //echo $totalPage . '<br>' . "\n";
-        $offset = ( $page_num - 1 ) * $post_per_page;
 
         //
-        $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '&page_num=' );
-
-
-        // select dữ liệu từ 1 bảng bất kỳ
-        $filter[ 'offset' ] = $offset;
-        $filter[ 'limit' ] = $post_per_page;
-        $data = $this->base_model->select( '*', 'comments', $where, $filter );
-        //print_r( $data );
-        //die('fj gd sdgsd');
-
-        //
-        //$data = $this->post_model->list_meta_post( $data );
-        foreach ( $data as $k => $v ) {
-            // TEST
-            /*
-            if ( $v[ 'comment_slug' ] == '' ) {
-                $this->comment_model->update_comments( $v[ 'comment_ID' ], [
-                    'comment_title' => $v[ 'comment_title' ],
-                    //'comment_content' => $v[ 'comment_content' ],
-                ] );
+        if ( $totalThread > 0 ) {
+            $totalPage = ceil( $totalThread / $post_per_page );
+            if ( $totalPage < 1 ) {
+                $totalPage = 1;
             }
-            */
+            $page_num = $this->MY_get( 'page_num', 1 );
+            //echo $totalPage . '<br>' . "\n";
+            if ( $page_num > $totalPage ) {
+                $page_num = $totalPage;
+            } else if ( $page_num < 1 ) {
+                $page_num = 1;
+            }
+            $for_action .= $page_num > 1 ? '&page_num=' . $page_num : '';
+            //echo $totalThread . '<br>' . "\n";
+            //echo $totalPage . '<br>' . "\n";
+            $offset = ( $page_num - 1 ) * $post_per_page;
 
             //
-            $v[ 'comment_content' ] = '';
-            $data[ $k ] = $v;
+            $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '&page_num=' );
+
+
+            // select dữ liệu từ 1 bảng bất kỳ
+            $filter[ 'offset' ] = $offset;
+            $filter[ 'limit' ] = $post_per_page;
+            $data = $this->base_model->select( '*', 'comments', $where, $filter );
+            //print_r( $data );
+            //die('fj gd sdgsd');
+
+            //
+            //$data = $this->post_model->list_meta_post( $data );
+            foreach ( $data as $k => $v ) {
+                // TEST
+                /*
+                if ( $v[ 'comment_slug' ] == '' ) {
+                    $this->comment_model->update_comments( $v[ 'comment_ID' ], [
+                        'comment_title' => $v[ 'comment_title' ],
+                        //'comment_content' => $v[ 'comment_content' ],
+                    ] );
+                }
+                */
+
+                //
+                $v[ 'comment_content' ] = '';
+                $data[ $k ] = $v;
+            }
+            //print_r( $data );
+        } else {
+            $data = [];
+            $pagination = '';
         }
-        //print_r( $data );
 
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/comments/list', array(

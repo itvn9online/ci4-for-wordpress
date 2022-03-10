@@ -58,7 +58,6 @@ class Users extends Admin {
         $by_keyword = $this->MY_get( 's' );
         $by_user_status = $this->MY_get( 'user_status' );
         $order_by = $this->MY_get( 'order_by' );
-        $page_num = $this->MY_get( 'page_num', 1 );
 
         //
         if ( $by_is_deleted > 0 ) {
@@ -171,32 +170,40 @@ class Users extends Admin {
         //print_r( $totalThread );
         $totalThread = $totalThread[ 0 ][ 'c' ];
         //print_r( $totalThread );
-        $totalPage = ceil( $totalThread / $post_per_page );
-        if ( $totalPage < 1 ) {
-            $totalPage = 1;
+
+        if ( $totalThread > 0 ) {
+            $page_num = $this->MY_get( 'page_num', 1 );
+
+            $totalPage = ceil( $totalThread / $post_per_page );
+            if ( $totalPage < 1 ) {
+                $totalPage = 1;
+            }
+            //echo $totalPage . '<br>' . "\n";
+            if ( $page_num > $totalPage ) {
+                $page_num = $totalPage;
+            } else if ( $page_num < 1 ) {
+                $page_num = 1;
+            }
+            $for_action .= $page_num > 1 ? '&page_num=' . $page_num : '';
+            //echo $totalThread . '<br>' . "\n";
+            //echo $totalPage . '<br>' . "\n";
+            $offset = ( $page_num - 1 ) * $post_per_page;
+
+            //
+            $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '&page_num=' );
+
+
+            // select dữ liệu từ 1 bảng bất kỳ
+            $filter[ 'offset' ] = $offset;
+            $filter[ 'limit' ] = $post_per_page;
+            $data = $this->base_model->select( '*', 'users', $where, $filter );
+
+            //
+            //print_r( $data );
+        } else {
+            $data = [];
+            $pagination = '';
         }
-        //echo $totalPage . '<br>' . "\n";
-        if ( $page_num > $totalPage ) {
-            $page_num = $totalPage;
-        } else if ( $page_num < 1 ) {
-            $page_num = 1;
-        }
-        $for_action .= $page_num > 1 ? '&page_num=' . $page_num : '';
-        //echo $totalThread . '<br>' . "\n";
-        //echo $totalPage . '<br>' . "\n";
-        $offset = ( $page_num - 1 ) * $post_per_page;
-
-        //
-        $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '&page_num=' );
-
-
-        // select dữ liệu từ 1 bảng bất kỳ
-        $filter[ 'offset' ] = $offset;
-        $filter[ 'limit' ] = $post_per_page;
-        $data = $this->base_model->select( '*', 'users', $where, $filter );
-
-        //
-        //print_r( $data );
 
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/' . $this->custom_list_view . '/list', array(
