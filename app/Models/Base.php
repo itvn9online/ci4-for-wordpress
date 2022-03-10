@@ -999,7 +999,7 @@ class Base extends Session {
             'description' => $name,
             'keyword' => $name,
             'name' => $name,
-            'body_class' => $canonical,
+            'body_class' => str_replace( '/', '-', $canonical ),
             'canonical' => base_url( '/' . $canonical ),
             //'google_analytics' => $getconfig->google_analytics,
         );
