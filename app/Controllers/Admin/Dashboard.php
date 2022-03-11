@@ -55,7 +55,7 @@ class Dashboard extends Optimize {
         echo '<!-- ' . "\n";
         $this->vendor_sync();
         //$this->unzip_ci4_for_wordpress();
-        $this->cleanup_old_cache( 6 * 3600 );
+        $this->cleanup_old_cache( 24 * 3600 );
         echo ' -->';
 
         //
