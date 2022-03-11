@@ -9,6 +9,8 @@ use App\ Libraries\ TaxonomyType;
 
 //
 class Term extends TermBase {
+    protected $time_update_last_count = 12 * 3600;
+
     public function __construct() {
         parent::__construct();
     }
@@ -663,7 +665,7 @@ class Term extends TermBase {
                 $child_update_count = 'query';
             }
             // hoặc lần cuối cập nhật cách đây đủ lâu
-            else if ( $current_time - $v[ 'child_last_count' ] > 3600 ) {
+            else if ( $current_time - $v[ 'child_last_count' ] > $this->time_update_last_count ) {
                 $child_update_count = 'timeout';
             }
 
@@ -956,7 +958,7 @@ class Term extends TermBase {
          * chức năng này chạy lâu hơn bình thường -> tạo cache luôn và ngay để tránh việc người sau vào lại thực thi cùng
          * cái này cứ để giãn cách xa 1 chút, tầm nửa ngày đến vài ngày làm 1 lần cũng được
          */
-        $this->base_model->MY_cache( __FUNCTION__, time(), 12 * 3600 );
+        $this->base_model->MY_cache( __FUNCTION__, time(), $this->time_update_last_count - rand( 333, 999 ) );
 
         //
         $current_time = time();
@@ -1018,12 +1020,14 @@ class Term extends TermBase {
             //echo $child_count[ 0 ][ 'term_id' ] . '<br>' . "\n";
 
             //
-            $this->base_model->update_multiple( 'terms', [
-                'child_count' => $child_count[ 0 ][ 'term_id' ],
-                'child_last_count' => $current_time,
-            ], [
-                'term_id' => $v[ 'parent' ],
-            ] );
+            if ( $child_count[ 0 ][ 'term_id' ] > 0 ) {
+                $this->base_model->update_multiple( 'terms', [
+                    'child_count' => $child_count[ 0 ][ 'term_id' ],
+                    //'child_last_count' => $current_time,
+                ], [
+                    'term_id' => $v[ 'parent' ],
+                ] );
+            }
         }
 
         //
