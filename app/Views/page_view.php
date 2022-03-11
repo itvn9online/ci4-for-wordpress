@@ -26,6 +26,8 @@ if ( $page_template != '' ) {
     // nạp js riêng nếu có
     $base_model->add_js( THEMEPATH . 'page-templates/' . $page_template . '.js', [
         'cdn' => CDN_BASE_URL,
+    ], [
+        'defer'
     ] );
 } else {
     // nạp view riêng của từng theme nếu có
@@ -45,4 +47,6 @@ if ( $page_template != '' ) {
 // nạp js dùng chung
 $base_model->add_js( 'themes/' . THEMENAME . '/js/page.js', [
     'cdn' => CDN_BASE_URL,
+], [
+    'defer'
 ] );

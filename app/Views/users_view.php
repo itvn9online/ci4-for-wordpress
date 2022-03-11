@@ -42,7 +42,7 @@ echo $breadcrumb;
 /*
  * thông điệp lỗi trả về nếu có
  */
-include __DIR__ . '/msg_view.php';
+include __DIR__ . '/includes/msg_view.php';
 
 
 /*

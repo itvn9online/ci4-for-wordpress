@@ -21,6 +21,8 @@ if ( file_exists( $theme_private_view ) ) {
     // nạp file js cho từng search post type (nếu có)
     $base_model->add_js( 'themes/' . THEMENAME . '/js/search-' . $post_type . '.js', [
         'cdn' => CDN_BASE_URL,
+    ], [
+        'defer'
     ] );
 }
 //
@@ -36,6 +38,8 @@ else {
         // nạp file js cho từng search post type (nếu có)
         $base_model->add_js( 'themes/' . THEMENAME . '/js/search-' . $post_type . '.js', [
             'cdn' => CDN_BASE_URL,
+        ], [
+            'defer'
         ] );
     }
     // không có thì mới chuyển sảng view mặc định (loại dùng chung cho toàn bộ post type)
@@ -58,4 +62,6 @@ else {
 // nạp file js dùng chung cho search (nếu có)
 $base_model->add_js( 'themes/' . THEMENAME . '/js/search.js', [
     'cdn' => CDN_BASE_URL,
+], [
+    'defer'
 ] );

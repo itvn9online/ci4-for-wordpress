@@ -24,12 +24,16 @@ $this->base_model->add_js( 'public/javascript/ten_file.js', [
     'get_content' => 1,
     'preload' => 1,
     'cdn' => CDN_BASE_URL,
+], [
+    'defer'
 ] );
 // lấy mã JS trả về thay vì echo luôn
 $this->base_model->get_add_js( 'public/javascript/ten_file.js', [
     'get_content' => 1,
     'preload' => 1,
     'cdn' => CDN_BASE_URL,
+], [
+    'defer'
 ] );
 
 

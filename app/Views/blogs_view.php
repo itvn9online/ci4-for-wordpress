@@ -66,4 +66,6 @@ else {
 
 $base_model->add_js( 'themes/' . THEMENAME . '/js/blogs_list.js', [
     'cdn' => CDN_BASE_URL,
+], [
+    'defer'
 ] );

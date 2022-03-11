@@ -89,4 +89,6 @@
 
 $base_model->add_js( 'javascript/user-profile.js', [
     'cdn' => CDN_BASE_URL,
+], [
+    'defer'
 ] );

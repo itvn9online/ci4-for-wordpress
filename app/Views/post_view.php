@@ -23,4 +23,6 @@ else {
 
 $base_model->add_js( 'themes/' . THEMENAME . '/js/post.js', [
     'cdn' => CDN_BASE_URL,
+], [
+    'defer'
 ] );
