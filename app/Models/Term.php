@@ -952,6 +952,12 @@ class Term extends TermBase {
             return $last_run;
         }
 
+        /*
+         * chức năng này chạy lâu hơn bình thường -> tạo cache luôn và ngay để tránh việc người sau vào lại thực thi cùng
+         * cái này cứ để giãn cách xa 1 chút, tầm nửa ngày đến vài ngày làm 1 lần cũng được
+         */
+        $this->base_model->MY_cache( __FUNCTION__, time(), 12 * 3600 );
+
         //
         $current_time = time();
 
@@ -1020,9 +1026,6 @@ class Term extends TermBase {
             ] );
         }
 
-        // cái này cứ để giãn cách xa 1 chút, tầm nửa ngày đến vài ngày làm 1 lần cũng được
-        $this->base_model->MY_cache( __FUNCTION__, time(), 12 * 3600 );
-        
         //
         return true;
     }
