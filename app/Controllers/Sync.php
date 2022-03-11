@@ -60,7 +60,16 @@ class Sync extends BaseController {
     }
 
     // tạo view cho term để select dữ liệu cho tiện
-    private function view_terms() {
+    private function view_terms( $has_table_change = false ) {
+        // nếu không xác định được sự thay đổi của bảng
+        if ( $has_table_change === false ) {
+            // kiểm tra xem có view này chưa
+            if ( $this->base_model->table_exists( WGR_TERM_VIEW ) ) {
+                echo 'TABLE exist ' . WGR_TERM_VIEW . '<br>' . "\n";
+                return false;
+            }
+        }
+
         // lấy các cột trong bảng term để so sánh cột nào chưa có
         $tbl_terms = $this->base_model->default_data( 'terms' );
         if ( empty( $tbl_terms ) ) {
@@ -113,7 +122,16 @@ class Sync extends BaseController {
     }
 
     // tạo view cho post để select dữ liệu cho tiện
-    private function view_posts() {
+    private function view_posts( $has_table_change ) {
+        // nếu không xác định được sự thay đổi của bảng
+        if ( $has_table_change === false ) {
+            // kiểm tra xem có view này chưa
+            if ( $this->base_model->table_exists( WGR_POST_VIEW ) ) {
+                echo 'TABLE exist ' . WGR_POST_VIEW . '<br>' . "\n";
+                return false;
+            }
+        }
+
         // lấy các cột trong bảng term để so sánh cột nào chưa có
         $tbl_posts = $this->base_model->default_data( 'posts' );
         if ( empty( $tbl_posts ) ) {
@@ -299,6 +317,7 @@ class Sync extends BaseController {
         //print_r( $arr_add_cloumn );
 
         //
+        $has_table_change = false;
         foreach ( $arr_add_cloumn as $k => $v ) {
             $check_table_column = $this->base_model->default_data( $k );
             if ( empty( $check_table_column ) ) {
@@ -327,6 +346,9 @@ class Sync extends BaseController {
                     //die( __CLASS__ . ':' . __LINE__ );
                     if ( $this->base_model->MY_query( $alter_query ) ) {
                         echo $col . ' column in database has been sync! <br>' . "\n";
+
+                        //
+                        $has_table_change = true;
                     } else {
                         echo 'Query failed! Please re-check query <br>' . "\n";
                     }
@@ -340,13 +362,13 @@ class Sync extends BaseController {
 
         //
         $this->tbl_sessions();
-        // kiểm tra và tạo view
-        $this->view_terms();
-        $this->view_posts();
+        // kiểm tra và tạo view nếu bảng có sự thay đổi
+        $this->view_terms( $has_table_change );
+        $this->view_posts( $has_table_change );
         // cập nhật lại tổng số nhóm con cho phân term
         $last_run = $this->term_model->sync_term_child_count();
         if ( $last_run !== true ) {
-            echo __FUNCTION__ . ' RUN ' . ( time() - $last_run ) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+            echo 'sync_term_child_count RUN ' . ( time() - $last_run ) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         }
 
         //
