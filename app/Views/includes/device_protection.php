@@ -9,8 +9,9 @@
             <div class="modal-body medium">
                 <p class="redcolor">Vui lòng không đăng nhập trên nhiều thiết bị hoặc nhiều trình duyệt khác nhau!</p>
                 <p>Lịch sử đăng nhập của bạn đã được lưu lại để kiểm tra. Trong một số trường hợp! Nếu phát hiện hành vi gian lận, chúng tôi sẽ tiến hành khóa tài khoản của bạn.</p>
-                <p>IP của bạn: <strong><?php echo $_SERVER[ 'REMOTE_ADDR' ]; ?></strong></p>
-                <p>IP nghi vấn: <strong class="show-logged-ip"></strong></p>
+                <p>IP của bạn: <strong class="greencolor"><?php echo $_SERVER[ 'REMOTE_ADDR' ]; ?></strong></p>
+                <p>IP nghi vấn: <strong class="show-logged-ip redcolor"></strong></p>
+                <p>Thiết bị: <strong class="show-logged-device"></strong></p>
                 <p>Trình duyệt: <strong class="show-logged-agent"></strong></p>
             </div>
             <div class="modal-footer">
@@ -25,7 +26,7 @@
 //
 if ( $current_user_id > 0 ) {
     // lưu session id của người dùng vào file
-    $base_model->set_logged( $current_user_id );
+    $base_model->set_logged( $current_user_id, $isMobile );
 
     // nạp js cảnh báo đăng nhập
     $base_model->add_js( 'javascript/device_protection.js', [

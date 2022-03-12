@@ -14,7 +14,6 @@ $check_cache_active = $base_model->MY_cache( 'auto_sync_table_column' );
 //print_r( $_SESSION );
 //echo mysqli_get_client_info();
 //echo mysql_get_server_info();
-//echo session_id() . '<br>' . "\n";
 
 // kiểm tra file robots.txt
 $robots_txt = PUBLIC_PUBLIC_PATH . 'robots.txt';

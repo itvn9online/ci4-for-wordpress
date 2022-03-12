@@ -39,10 +39,11 @@ function get_user_logged_key() {
                 //console.log(data);
 
                 //
-                if (typeof data.hash.key != 'undefined' && data.hash.key != '' && data.hash.key != session_id) {
+                if (typeof data.hash.key != 'undefined' && data.hash.key != '' && data.hash.key != $('body').attr('data-session')) {
                     //
                     $('.show-logged-ip').text(data.hash.ip);
                     $('.show-logged-agent').text(data.hash.agent);
+                    $('.show-logged-device').text(data.hash.mobile === true ? 'Điện thoại' : 'Máy tính');
 
                     //
                     //WGR_alert('Vui lòng không đăng nhập trên nhiều thiết bị!', 'error');

@@ -28,7 +28,7 @@ require __DIR__ . '/includes/head_global.php';
 
 ?>
 </head>
-<body class="<?php echo $seo['body_class']; ?>">
+<body data-session="<?php echo session_id(); ?>" class="<?php echo $seo['body_class']; ?>">
 <?php
 
 //
