@@ -192,16 +192,16 @@ class Layout extends Sync {
         $a = $_SERVER[ 'HTTP_USER_AGENT' ];
 
         //
-        if ( empty( $_SERVER[ 'HTTP_USER_AGENT' ] ) ) {
+        if ( empty( $a ) ) {
             $is_mobile = false;
-        } else if ( strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Mobile' ) !== false // Many mobile devices (all iPhone, iPad, etc.)
+        } else if ( strpos( $a, 'Mobile' ) !== false // Many mobile devices (all iPhone, iPad, etc.)
             ||
-            strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Android' ) !== false ||
-            strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Silk/' ) !== false ||
-            strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Kindle' ) !== false ||
-            strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'BlackBerry' ) !== false ||
-            strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Opera Mini' ) !== false ||
-            strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Opera Mobi' ) !== false ) {
+            strpos( $a, 'Android' ) !== false ||
+            strpos( $a, 'Silk/' ) !== false ||
+            strpos( $a, 'Kindle' ) !== false ||
+            strpos( $a, 'BlackBerry' ) !== false ||
+            strpos( $a, 'Opera Mini' ) !== false ||
+            strpos( $a, 'Opera Mobi' ) !== false ) {
             // thêm key cho bản mobile
             $this->cache_mobile_key = '---mobile';
 

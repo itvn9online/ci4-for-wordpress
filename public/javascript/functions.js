@@ -865,3 +865,21 @@ function support_format_webp() {
         return false;
     }
 }
+
+function WGR_is_mobile(a) {
+    if (typeof a == 'undefined' || a == '') {
+        a = navigator.userAgent;
+    }
+
+    //
+    if (a.split('Mobile').length > 1 // Many mobile devices (all iPhone, iPad, etc.)
+        || a.split('Android').length > 1
+        || a.split('Silk/').length > 1
+        || a.split('Kindle').length > 1
+        || a.split('BlackBerry').length > 1
+        || a.split('Opera Mini').length > 1
+        || a.split('Opera Mobi').length > 1) {
+        return true;
+    }
+    return false;
+}

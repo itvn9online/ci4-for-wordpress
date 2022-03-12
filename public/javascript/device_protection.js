@@ -43,7 +43,7 @@ function get_user_logged_key() {
                     //
                     $('.show-logged-ip').text(data.hash.ip);
                     $('.show-logged-agent').text(data.hash.agent);
-                    $('.show-logged-device').text(data.hash.mobile === true ? 'Điện thoại' : 'Máy tính');
+                    $('.show-logged-device').html(WGR_is_mobile(data.hash.agent) === false ? '<i class="fa fa-desktop"></i>' : '<i class="fa fa-mobile"></i>');
 
                     //
                     //WGR_alert('Vui lòng không đăng nhập trên nhiều thiết bị!', 'error');

@@ -124,7 +124,7 @@ class Session {
     }
 
     // lưu session id của người dùng vào file, nếu máy khác truy cập thì báo luôn là đăng đăng nhập nơi khác
-    public function set_logged( $id, $isMobile ) {
+    public function set_logged( $id ) {
         //echo PATH_LAST_LOGGED . '<br>' . "\n";
 
         //
@@ -133,7 +133,6 @@ class Session {
             't' => time(),
             'agent' => $_SERVER[ 'HTTP_USER_AGENT' ],
             'ip' => $_SERVER[ 'REMOTE_ADDR' ],
-            'mobile' => $isMobile,
         ] ) );
     }
 

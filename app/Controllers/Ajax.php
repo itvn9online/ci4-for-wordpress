@@ -84,7 +84,7 @@ class Ajax extends Layout {
         $result = $this->current_user_id > 0 ? file_get_contents( PATH_LAST_LOGGED . $this->current_user_id, 1 ) : '';
 
         // lưu session id của người dùng vào file
-        $this->base_model->set_logged( $this->current_user_id, $this->isMobile );
+        $this->base_model->set_logged( $this->current_user_id );
 
 
         // trả về key đã lưu của người dùng trong file
