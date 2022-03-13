@@ -130,6 +130,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
                 <div ng-if="redis_exist == ''">Nếu có thể, hãy sử dụng <strong class="bluecolor">Redis</strong> sẽ giúp cải thiện hiệu suất website. <a href="admin/dev/php_info" class="btn btn-primary btn-mini">Vào đây</a> để xem hosting này có hỗ trợ redis không.</div>
             </div>
         </div>
+        <!-- END redis -->
         <!-- không thì Memcached cũng quá ok -->
         <div class="p d-inlines">Memcached:
             <div ng-if="memcached_exist > 0" class="greencolor">Xin chúc mừng, <strong>Memcached</strong> đã được cài đặt!
@@ -146,6 +147,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
                 </div>
             </div>
         </div>
+        <!-- END Memcached -->
     </div>
     <!-- -->
     <div class="p redcolor medium" ng-class="current_protocol != 'https:' ? '' : 'd-none'"><i class="fa fa-warning"></i> Kết nối hiện tại <strong>{{current_protocol}}</strong> chưa hỗ trợ redirect sang <strong>https</strong>. Vui lòng kích hoạt và sử dụng redirect <strong>https</strong> để giúp website bảo mật và nhanh hơn.</div>
