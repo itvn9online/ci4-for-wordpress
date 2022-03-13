@@ -125,15 +125,16 @@ class Session {
 
     // lưu session id của người dùng vào file, nếu máy khác truy cập thì báo luôn là đăng đăng nhập nơi khác
     public function set_logged( $id ) {
-        //echo PATH_LAST_LOGGED . '<br>' . "\n";
-
-        //
-        file_put_contents( PATH_LAST_LOGGED . $id, json_encode( [
+        return $this->MY_cache( 'user-' . $id . '-logged', [
             'key' => session_id(),
             't' => time(),
             'agent' => $_SERVER[ 'HTTP_USER_AGENT' ],
             'ip' => $_SERVER[ 'REMOTE_ADDR' ],
-        ] ) );
+        ] );
+    }
+    // trả về thông tin phiên đăng nhập của người dùng
+    public function get_logged( $id ) {
+        return $this->MY_cache( 'user-' . $id . '-logged' );
     }
 
     // cache bên model là cache select database -> chỉ kiểm tra theo key truyền vào -> không kiểm tra theo session login

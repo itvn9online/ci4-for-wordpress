@@ -188,12 +188,6 @@ class Guest extends Csrf {
             'user_activation_key' => $result[ 'user_activation_key' ],
         ] );
 
-        // tạo thư mục lưu file logged nếu chưa có
-        if ( !is_dir( PATH_LAST_LOGGED ) ) {
-            mkdir( PATH_LAST_LOGGED, 0777 );
-            chmod( PATH_LAST_LOGGED, 0777 );
-        }
-
         //
         $this->base_model->set_ses_login( $result );
 

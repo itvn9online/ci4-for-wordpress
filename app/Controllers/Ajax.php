@@ -73,15 +73,14 @@ class Ajax extends Layout {
         die( DYNAMIC_BASE_URL );
     }
 
-    public function multi_login() {
+    public function multi_loged() {
         header( 'Content-type: application/json; charset=utf-8' );
 
         //
         //die( json_encode( $_GET ) );
-        //echo PATH_LAST_LOGGED . '<br>' . "\n";
 
-        // lấy nội dung file cũ
-        $result = $this->current_user_id > 0 ? file_get_contents( PATH_LAST_LOGGED . $this->current_user_id, 1 ) : '';
+        // lấy nội dung đăng nhập cũ trước khi lưu phiên mới
+        $result = $this->base_model->get_logged( $this->current_user_id );
 
         // lưu session id của người dùng vào file
         $this->base_model->set_logged( $this->current_user_id );
@@ -89,7 +88,6 @@ class Ajax extends Layout {
 
         // trả về key đã lưu của người dùng trong file
         die( json_encode( [
-            //'key' => PATH_LAST_LOGGED . $this->current_user_id,
             't' => time(),
             'hash' => $result
         ] ) );

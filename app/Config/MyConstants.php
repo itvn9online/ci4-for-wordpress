@@ -107,12 +107,6 @@ defined( 'MINI_CACHE_TIMEOUT' ) || define( 'MINI_CACHE_TIMEOUT', 300 );
 defined( 'MEDIUM_CACHE_TIMEOUT' ) || define( 'MEDIUM_CACHE_TIMEOUT', HOUR );
 
 /*
- * thư mực lưu user key của người dùng để xem có đăng nhập nhiều nơi không
- */
-define( 'PATH_LAST_LOGGED', WRITEPATH . 'key_logged/' );
-//echo PATH_LAST_LOGGED . '<br>' . "\n";
-
-/*
  * Tiền tố cho danh mục sản phẩm
  */
 defined( 'WGR_CATEGORY_PREFIX' ) || define( 'WGR_CATEGORY_PREFIX', 'category' );
