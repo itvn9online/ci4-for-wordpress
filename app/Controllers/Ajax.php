@@ -74,10 +74,10 @@ class Ajax extends Layout {
         //die( json_encode( $_GET ) );
 
         // lấy nội dung đăng nhập cũ trước khi lưu phiên mới
-        $result = $this->base_model->get_logged( $this->current_user_id );
+        $result = $this->user_model->get_logged( $this->current_user_id );
 
         // lưu session id của người dùng vào file
-        $this->base_model->set_logged( $this->current_user_id );
+        $this->user_model->set_logged( $this->current_user_id );
 
 
         // trả về key đã lưu của người dùng trong file

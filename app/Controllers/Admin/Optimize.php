@@ -613,7 +613,7 @@ class Optimize extends Admin {
         $current_time = time();
 
         //
-        $last_run = $this->base_model->MY_cache( __FUNCTION__ );
+        $last_run = $this->base_model->scache( __FUNCTION__ );
         if ( $last_run !== NULL ) {
             echo __FUNCTION__ . ' RUN ' . ( $current_time - $last_run ) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             return false;
@@ -643,6 +643,6 @@ class Optimize extends Admin {
         }
 
         // và không cần xóa liên tục
-        $this->base_model->MY_cache( __FUNCTION__, $current_time, $time );
+        $this->base_model->scache( __FUNCTION__, $current_time, $time );
     }
 }

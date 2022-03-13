@@ -292,7 +292,7 @@ class Guest extends Csrf {
                         // sử dụng cache để không cho người dùng gửi email liên tục
                         $in_cache = __FUNCTION__ . $this->base_model->_eb_non_mark_seo( $data[ 'email' ] );
                         //die( $in_cache );
-                        if ( $this->base_model->MY_cache( $in_cache ) === NULL ) {
+                        if ( $this->base_model->scache( $in_cache ) === NULL ) {
                             /*
                              * link reset pass
                              */
@@ -336,7 +336,7 @@ class Guest extends Csrf {
                                 $this->base_model->msg_session( 'Gửi email lấy lại mật khẩu thành công! Vui lòng kiểm tra email và làm theo hướng dẫn để tiếp tục.' );
 
                                 //
-                                $this->base_model->MY_cache( $in_cache, time(), 60 );
+                                $this->base_model->scache( $in_cache, time(), 60 );
                             } else {
                                 $this->base_model->msg_error_session( 'Gửi email lấy lại mật khẩu THẤT BẠI! Vui lòng liên hệ với quản trị website.' );
                             }
@@ -388,9 +388,9 @@ class Guest extends Csrf {
                 $this->base_model->msg_error_session( 'Email ' . $email . ' không tồn tại trong hệ thống!' );
             } else {
                 // sử dụng cache để kiểm soát không cho dùng link liên tục
-                $in_cache = __FUNCTION__ . $user_id;
+                $in_cache = __FUNCTION__;
                 //die( $in_cache );
-                if ( $this->base_model->MY_cache( $in_cache ) === NULL ) {
+                if ( $this->user_model->the_cache( $user_id, $in_cache ) === NULL ) {
                     // kiểm tra độ khớp của dữ liệu
                     if ( $expire < time() ) {
                         $this->base_model->msg_error_session( 'Liên kết đã hết hạn sử dụng!' );
@@ -432,7 +432,7 @@ class Guest extends Csrf {
                             ] );
 
                             // không cho thao tác liên tục
-                            $this->base_model->MY_cache( $in_cache, time(), 300 );
+                            $this->user_model->the_cache( $user_id, $in_cache, time() );
                         } else {
                             $this->base_model->msg_error_session( 'Gửi email cung cấp mật khẩu mới THẤT BẠI! Vui lòng liên hệ với quản trị website.' );
                         }

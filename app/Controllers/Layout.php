@@ -122,7 +122,7 @@ class Layout extends Sync {
         $key .= $this->cache_mobile_key . '-' . $this->lang_key;
 
         //
-        return $this->base_model->MY_cache( $key, $value, $time );
+        return $this->base_model->scache( $key, $value, $time );
     }
 
     // kiểm tra session của user, nếu đang đăng nhập thì bỏ qua chế độ cache
@@ -164,6 +164,7 @@ class Layout extends Sync {
             'post_model' => $this->post_model,
             'term_model' => $this->term_model,
             'lang_model' => $this->lang_model,
+            'user_model' => $this->user_model,
 
             //
             //'session' => $this->session,
@@ -247,13 +248,13 @@ class Layout extends Sync {
 
         //
         if ( $cats[ 'parent' ] > 0 ) {
-            $in_cache = __FUNCTION__ . '-' . $cats[ 'parent' ] . '-' . $cats[ 'taxonomy' ] . '-' . $this->lang_key;
-            $parent_cats = $this->base_model->MY_cache( $in_cache );
+            $in_cache = __FUNCTION__;
+            $parent_cats = $this->term_model->the_cache( $cats[ 'parent' ], $in_cache );
             if ( $parent_cats === NULL ) {
                 $parent_cats = $this->term_model->get_all_taxonomy( $cats[ 'taxonomy' ], $cats[ 'parent' ] );
 
                 //
-                $this->base_model->MY_cache( $in_cache, $parent_cats, 300 );
+                $this->term_model->the_cache( $cats[ 'parent' ], $in_cache, $parent_cats );
             }
             //print_r( $parent_cats );
 
@@ -304,7 +305,7 @@ class Layout extends Sync {
 
         //
         if ( !isset( $ops[ 'cache_key' ] ) ) {
-            $this->cache_key = 'taxonomy' . $input[ 'term_id' ] . '-page' . $ops[ 'page_num' ];
+            $this->cache_key = $this->term_model->key_cache( $input[ 'term_id' ] ) . 'page' . $ops[ 'page_num' ];
         } else {
             $this->cache_key = $ops[ 'cache_key' ];
         }
@@ -886,5 +887,27 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
             header( $v, false );
         }
         die( json_encode( $arr ) );
+    }
+
+    /*
+     * chức năng xóa cache theo key truyền vào
+     * clean_all: một số phương thức không áp dụng được kiểu xóa theo key -> admin có thể xóa all
+     */
+    protected function clean_math_cache( $for, $clean_all = false ) {
+        // 1 số phương thức không áp dụng được kiểu xóa này do không có key 
+        if ( in_array( MY_CACHE_HANDLER, [
+                'memcached',
+                'wincache',
+            ] ) ) {
+            // có thể cân đối giữa việc XÓA toàn bộ hoặc return false luôn
+            if ( $clean_all === true ) {
+                $has_cache = $this->base_model->cache->clean();
+            } else {
+                return NULL;
+            }
+        } else {
+            $has_cache = $this->base_model->cache->deleteMatching( $for . '*' );
+        }
+        return $has_cache;
     }
 }

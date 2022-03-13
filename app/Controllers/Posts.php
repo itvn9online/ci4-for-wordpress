@@ -17,7 +17,7 @@ class Posts extends Csrf {
         //echo 'post details <br>' . "\n";
 
         //
-        $this->cache_key = 'post' . $id;
+        $this->cache_key = $this->post_model->key_cache( $id );
         $cache_value = $this->MY_cache( $this->cache_key );
         // Will get the cache entry named 'my_foo'
         //var_dump( $cache_value );

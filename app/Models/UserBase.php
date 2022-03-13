@@ -174,4 +174,27 @@ class UserBase extends EbModel {
         // có thì trả về true
         return true;
     }
+
+    // lưu session id của người dùng vào file, nếu máy khác truy cập thì báo luôn là đăng đăng nhập nơi khác
+    public function set_logged( $id ) {
+        return $this->base_model->scache( $this->key_cache( $id ) . 'logged', [
+            'key' => session_id(),
+            't' => time(),
+            'agent' => $_SERVER[ 'HTTP_USER_AGENT' ],
+            'ip' => $_SERVER[ 'REMOTE_ADDR' ],
+        ] );
+    }
+    // trả về thông tin phiên đăng nhập của người dùng
+    public function get_logged( $id ) {
+        return $this->base_model->scache( $this->key_cache( $id ) . 'logged' );
+    }
+
+    // trả về key cho user cache
+    public function key_cache( $id ) {
+        return 'user-' . $id . '-';
+    }
+    // cache cho phần user -> gán key theo mẫu thống nhất để sau còn xóa cache cho dễ
+    public function the_cache( $id, $key, $value = '', $time = MINI_CACHE_TIMEOUT ) {
+        return $this->base_model->scache( $this->key_cache( $id ) . $key, $value, $time );
+    }
 }

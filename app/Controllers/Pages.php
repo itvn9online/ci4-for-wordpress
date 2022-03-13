@@ -17,8 +17,8 @@ class Pages extends Home {
         //echo $slug . '<br>' . "\n";
 
         //
-        $in_cache = __FUNCTION__ . '-' . $slug . '-' . $this->lang_key;
-        $data = $this->base_model->MY_cache( $in_cache );
+        $in_cache = __FUNCTION__ . '-' . $slug;
+        $data = $this->base_model->scache( $in_cache );
         if ( $data === NULL ) {
             $data = $this->post_model->select_public_post( 0, [
                 'post_name' => $slug,
@@ -26,7 +26,7 @@ class Pages extends Home {
             ] );
 
             //
-            $this->base_model->MY_cache( $in_cache, $data, 300 );
+            $this->base_model->scache( $in_cache, $data, 300 );
         }
 
         //

@@ -144,7 +144,7 @@ class Home extends Csrf {
         }
 
         //
-        $cache_key = 'post-' . $id . '-';
+        $cache_key = $this->post_model->key_cache( $id );
         $cache_value = $this->MY_cache( $cache_key );
         // Will get the cache entry named 'my_foo'
         //var_dump( $cache_value );
@@ -157,8 +157,8 @@ class Home extends Csrf {
         $post_type = $this->MY_get( 'post_type' );
 
         //
-        $in_cache = $cache_key . __FUNCTION__ . '-' . $this->lang_key;
-        $data = $this->base_model->MY_cache( $in_cache );
+        $in_cache = __FUNCTION__;
+        $data = $this->post_model->the_cache( $id, $in_cache );
         if ( $data === NULL ) {
             // lấy post theo ID, không lọc theo post type -> vì nhiều nơi cần dùng đến
             $data = $this->base_model->select( '*', 'posts', array(
@@ -186,7 +186,7 @@ class Home extends Csrf {
             }
 
             //
-            $this->base_model->MY_cache( $in_cache, $data, 300 );
+            $this->post_model->the_cache( $id, $in_cache, $data );
         }
 
         //
@@ -212,7 +212,7 @@ class Home extends Csrf {
     }
 
     protected function pageDetail( $data, $file_view = 'page_view' ) {
-        $cache_key = 'post-' . $data[ 'ID' ] . '-';
+        $cache_key = $this->post_model->key_cache( $data[ 'ID' ] );
         $cache_value = $this->MY_cache( $cache_key );
         // Will get the cache entry named 'my_foo'
         //var_dump( $cache_value );
@@ -236,8 +236,8 @@ class Home extends Csrf {
 
             //
             if ( $post_category > 0 ) {
-                $in_cache = 'term-' . $post_category . '-' . __FUNCTION__ . '-' . $this->lang_key;
-                $cats = $this->base_model->MY_cache( $in_cache );
+                $in_cache = __FUNCTION__;
+                $cats = $this->term_model->the_cache( $post_category, $in_cache );
                 if ( $cats === NULL ) {
                     $cats = $this->base_model->select( '*', WGR_TERM_VIEW, [
                         'term_id' => $post_category,
@@ -251,7 +251,7 @@ class Home extends Csrf {
                     ] );
 
                     //
-                    $this->base_model->MY_cache( $in_cache, $cats, 300 );
+                    $this->term_model->the_cache( $post_category, $in_cache, $cats );
                 }
                 //print_r( $cats );
 
@@ -338,7 +338,7 @@ class Home extends Csrf {
         //echo $page_num . '<br>' . "\n";
 
         //
-        $cache_key = 'term-' . $term_id . '-page' . $page_num;
+        $cache_key = $this->term_model->key_cache( $term_id ) . 'page' . $page_num;
         $cache_value = $this->MY_cache( $cache_key );
         // có thì in ra cache là được
         if ( $cache_value !== NULL ) {
@@ -346,8 +346,8 @@ class Home extends Csrf {
         }
 
         //
-        $in_cache = 'term-' . $term_id . '-' . __FUNCTION__ . '-' . $this->lang_key;
-        $data = $this->base_model->MY_cache( $in_cache );
+        $in_cache = __FUNCTION__;
+        $data = $this->term_model->the_cache( $term_id, $in_cache );
         if ( $data === NULL ) {
             $data = $this->term_model->get_taxonomy( array(
                 // các kiểu điều kiện where
@@ -358,15 +358,15 @@ class Home extends Csrf {
             ) );
 
             //
-            $this->base_model->MY_cache( $in_cache, $data, 300 );
+            $this->term_model->the_cache( $term_id, $in_cache, $data );
         }
         //print_r( $data );
 
         // có -> lấy bài viết trong nhóm
         if ( !empty( $data ) && $data[ 'count' ] > 0 ) {
             // xem nhóm này có nhóm con không
-            $in_cache = 'term-' . $term_id . '-' . __FUNCTION__ . '-parent-' . $this->lang_key;
-            $child_data = $this->base_model->MY_cache( $in_cache );
+            $in_cache = __FUNCTION__ . '-parent';
+            $child_data = $this->term_model->the_cache( $term_id, $in_cache );
             if ( $child_data === NULL ) {
                 $child_data = $this->term_model->get_taxonomy( array(
                     // các kiểu điều kiện where
@@ -377,7 +377,7 @@ class Home extends Csrf {
                 ), 10, 'term_id' );
 
                 //
-                $this->base_model->MY_cache( $in_cache, $child_data, 300 );
+                $this->term_model->the_cache( $term_id, $in_cache, $child_data );
             }
             //print_r( $child_data );
 

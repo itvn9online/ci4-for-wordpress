@@ -18,7 +18,7 @@ class Dev extends Admin {
         /*
          * db không cần update liên tục, nếu cần thì clear cache để tái sử dụng
          */
-        $has_update = $this->base_model->MY_cache( __FUNCTION__ );
+        $has_update = $this->base_model->scache( __FUNCTION__ );
         if ( $has_update === NULL ) {
             /*
              * một số lệnh thay đổi dữ liệu thủ công
@@ -58,7 +58,7 @@ class Dev extends Admin {
             }
 
             //
-            $this->base_model->MY_cache( __FUNCTION__, time(), MEDIUM_CACHE_TIMEOUT );
+            $this->base_model->scache( __FUNCTION__, time(), MEDIUM_CACHE_TIMEOUT );
         }
 
 

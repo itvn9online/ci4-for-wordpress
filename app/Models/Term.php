@@ -478,16 +478,8 @@ class Term extends TermBase {
                 return $this->base_model->cache->delete( $in_cache );
             }
 
-            // TEST
-            /*
-            print_r( $this->base_model->MY_cache( 'dfhfhdsfasffssf' ) );
-            var_dump( $this->base_model->MY_cache( 'dfhfhdsfasffssf' ) );
-            $this->base_model->MY_cache( 'dfhfhdsfasffssf', time(), 5 );
-            echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
-            */
-
             //
-            $cache_value = $this->base_model->MY_cache( $in_cache );
+            $cache_value = $this->base_model->scache( $in_cache );
             //print_r( $cache_value );
             //var_dump( $cache_value );
 
@@ -626,7 +618,7 @@ class Term extends TermBase {
 
         //
         if ( $in_cache != '' ) {
-            $this->base_model->MY_cache( $in_cache, $post_cat, $time );
+            $this->base_model->scache( $in_cache, $post_cat, $time );
         }
 
         //
@@ -948,7 +940,7 @@ class Term extends TermBase {
      */
     public function sync_term_child_count() {
         //echo __FUNCTION__ . '<br>' . "\n";
-        $last_run = $this->base_model->MY_cache( __FUNCTION__ );
+        $last_run = $this->base_model->scache( __FUNCTION__ );
         if ( $last_run !== NULL ) {
             //print_r( $last_run );
             return $last_run;
@@ -958,7 +950,7 @@ class Term extends TermBase {
          * chức năng này chạy lâu hơn bình thường -> tạo cache luôn và ngay để tránh việc người sau vào lại thực thi cùng
          * cái này cứ để giãn cách xa 1 chút, tầm nửa ngày đến vài ngày làm 1 lần cũng được
          */
-        $this->base_model->MY_cache( __FUNCTION__, time(), $this->time_update_last_count - rand( 333, 999 ) );
+        $this->base_model->scache( __FUNCTION__, time(), $this->time_update_last_count - rand( 333, 999 ) );
 
         //
         $current_time = time();

@@ -210,24 +210,21 @@ RewriteRule ^(.*) ' . DYNAMIC_BASE_URL . '$1 [F]
         }
     }
 
-    // chức năng upload file code zip lên host và giải nén -> update code
-    public function cleanup_cache( $for = '' ) {
+    /*
+     * chức năng xóa cache theo key truyền vào
+     * clean_all: một số phương thức không áp dụng được kiểu xóa theo key -> admin có thể xóa all
+     */
+    public function cleanup_cache( $for = '', $clean_all = false ) {
         if ( !empty( $this->MY_post( 'data' ) ) ) {
             /*
              * ưu tiên sử dụng cleanup mặc định của codeigniter
              */
             // xóa theo key truyền vào -> dùng khi update post, term, config...
             if ( $for != '' ) {
+                $has_cache = $this->clean_math_cache( $for, $clean_all );
                 // 1 số phương thức không áp dụng được kiểu xóa này do không có key 
-                if ( in_array( MY_CACHE_HANDLER, [
-                        'memcached',
-                        'wincache',
-                    ] ) ) {
-                    // có thể cân đối giữa việc XÓA toàn bộ hoặc return false luôn
-                    //$has_cache = $this->base_model->cache->clean();
+                if ( $has_cache === NULL ) {
                     return false;
-                } else {
-                    $has_cache = $this->base_model->cache->deleteMatching( $for . '*' );
                 }
                 echo 'Using cache deleteMatching `' . $for . '` --- Total clear: ' . $has_cache . '<br>' . "\n";
                 //var_dump( $has_cache );

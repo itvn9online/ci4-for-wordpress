@@ -194,4 +194,13 @@ class TermBase extends EbModel {
         //
         return $prams;
     }
+
+    // trả về key cho term cache
+    public function key_cache( $id ) {
+        return 'term-' . $id . '-';
+    }
+    // cache cho phần term -> gán key theo mẫu thống nhất để sau còn xóa cache cho dễ
+    public function the_cache( $id, $key, $value = '', $time = MINI_CACHE_TIMEOUT ) {
+        return $this->base_model->scache( $this->key_cache( $id ) . $key, $value, $time );
+    }
 }

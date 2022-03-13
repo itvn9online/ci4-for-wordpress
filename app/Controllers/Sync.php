@@ -210,7 +210,7 @@ class Sync extends BaseController {
         /*
          * db không cần update liên tục, nếu cần thì clear cache để tái sử dụng
          */
-        $last_run = $this->base_model->MY_cache( __FUNCTION__ );
+        $last_run = $this->base_model->scache( __FUNCTION__ );
         if ( $last_run !== NULL ) {
             echo __FUNCTION__ . ' RUN ' . ( time() - $last_run ) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             return false;
@@ -373,7 +373,7 @@ class Sync extends BaseController {
 
         //
         //die( __CLASS__ . ':' . __LINE__ );
-        $this->base_model->MY_cache( __FUNCTION__, time(), MEDIUM_CACHE_TIMEOUT );
+        $this->base_model->scache( __FUNCTION__, time(), MEDIUM_CACHE_TIMEOUT );
     }
 
     /*

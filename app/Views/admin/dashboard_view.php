@@ -4,7 +4,7 @@ use App\ Libraries\ UsersType;
 
 
 // TEST xem cache có chạy hay không -> gọi đến cache được gọi trong dashboard để xem có NULL hay không
-$check_cache_active = $base_model->MY_cache( 'auto_sync_table_column' );
+$check_cache_active = $base_model->scache( 'auto_sync_table_column' );
 //echo $check_cache_active . '<br>' . "\n";
 //echo $base_model->cache->deleteMatching( 'auto_sync_table_column*' ) . '<br>' . "\n";
 

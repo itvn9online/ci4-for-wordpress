@@ -4,8 +4,8 @@
  */
 
 //
-use App\ Libraries\ LanguageCost;
-use App\ Libraries\ PostType;
+//use App\ Libraries\ LanguageCost;
+//use App\ Libraries\ PostType;
 
 
 //
@@ -60,8 +60,8 @@ if ( $totalThread > 0 ) {
     //print_r( $data );
 
     //
-    $in_cache = 'term-' . $data[ 'term_id' ] . '-view-' . $offset . '-' . $post_per_page . '-' . LanguageCost::lang_key();
-    $child_data = $base_model->MY_cache( $in_cache );
+    $in_cache = 'view-' . $offset . '-' . $post_per_page;
+    $child_data = $term_model->the_cache( $data[ 'term_id' ], $in_cache );
     if ( $child_data === NULL ) {
         $child_data = $post_model->post_category( $post_type, $data, [
             'offset' => $offset,
@@ -69,7 +69,7 @@ if ( $totalThread > 0 ) {
         ] );
 
         //
-        $base_model->MY_cache( $in_cache, $child_data, 300 );
+        $term_model->the_cache( $data[ 'term_id' ], $in_cache, $child_data );
     }
     //print_r( $child_data );
 } else {

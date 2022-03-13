@@ -107,7 +107,7 @@ class Menu extends Post {
 
         //
         if ( $in_cache != '' ) {
-            $cache_value = $this->base_model->MY_cache( $in_cache );
+            $cache_value = $this->base_model->scache( $in_cache );
 
             // có cache thì trả về
             if ( $cache_value !== NULL ) {
@@ -133,7 +133,7 @@ class Menu extends Post {
 
         //
         if ( $in_cache != '' ) {
-            $this->base_model->MY_cache( $in_cache, $str, $time );
+            $this->base_model->scache( $in_cache, $str, $time );
         }
         return $str;
     }

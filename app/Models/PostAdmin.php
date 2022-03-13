@@ -28,7 +28,7 @@ class PostAdmin extends Post {
         }
 
         //
-        $cache_value = $this->base_model->MY_cache( $in_cache );
+        $cache_value = $this->base_model->scache( $in_cache );
         if ( $cache_value !== NULL ) {
             return $cache_value;
         }
@@ -237,7 +237,7 @@ class PostAdmin extends Post {
         //die( __CLASS__ . ':' . __LINE__ );
 
         //
-        $this->base_model->MY_cache( $in_cache, $arr_result, $time );
+        $this->base_model->scache( $in_cache, $arr_result, $time );
 
         //
         return $arr_result;

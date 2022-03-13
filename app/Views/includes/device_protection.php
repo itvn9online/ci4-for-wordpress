@@ -26,7 +26,7 @@
 //
 if ( $current_user_id > 0 ) {
     // lưu session id của người dùng vào file
-    $base_model->set_logged( $current_user_id );
+    $user_model->set_logged( $current_user_id );
 
     // nạp js cảnh báo đăng nhập
     $base_model->add_js( 'javascript/device_protection.js', [

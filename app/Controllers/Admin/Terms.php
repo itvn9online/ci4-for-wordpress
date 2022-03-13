@@ -347,7 +347,7 @@ class Terms extends Admin {
         }
 
         // dọn dẹp cache liên quan đến post này -> reset cache
-        $this->cleanup_cache( 'term-' . $id . '-' );
+        $this->cleanup_cache( $this->term_model->key_cache( $id ) );
 
         //
         $this->base_model->alert( 'Cập nhật ' . TaxonomyType::list( $this->taxonomy, true ) . ' thành công' );
