@@ -161,10 +161,10 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
         </div>
         <!-- END Memcached --> 
         <!-- securityheaders -->
-        <p><strong>Security headers:</strong> <a href="https://securityheaders.com/?q={{base_url}}&followRedirects=on" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-shield"></i> vào đây</a> để kiểm tra độ bảo mật cho header của website của bạn. Tối thiểu nên ở mức điểm <button type="button" class="btn btn-warning">B</button> khuyến nghị điểm <button type="button" class="btn btn-success">A</button>.</p>
+        <p><strong>Security headers:</strong> <a href="https://securityheaders.com/?q={{base_url}}&followRedirects=on" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-shield"></i> vào đây</a> để kiểm tra độ bảo mật thông qua header trên website của bạn. Tối thiểu nên ở mức điểm <button type="button" class="btn btn-warning">B</button> khuyến nghị điểm <button type="button" class="btn btn-success">A</button></p>
         <!-- END securityheaders --> 
         <!-- pagespeed -->
-        <p><strong>Page speed:</strong> <a href="https://pagespeed.web.dev/report?url={{base_url}}" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-flash"></i> vào đây</a> để kiểm tra độ tốc độ website của bạn và độ thân tối ứu SEO (Search Engine Optimization). Tối thiểu nên ở mức điểm <button type="button" class="btn btn-warning">80</button> khuyến nghị điểm <button type="button" class="btn btn-success">90</button>.</p>
+        <p><strong>Page speed:</strong> <a href="https://pagespeed.web.dev/report?url={{base_url}}" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-flash"></i> vào đây</a> để kiểm tra độ tốc độ website của bạn và độ thân tối ứu SEO (Search Engine Optimization). Tối thiểu nên ở mức điểm <button type="button" class="btn btn-warning">80</button> khuyến nghị điểm <button type="button" class="btn btn-success">90</button></p>
         <!-- END pagespeed --> 
     </div>
     <!-- -->
