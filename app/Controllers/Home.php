@@ -177,17 +177,20 @@ class Home extends Csrf {
             //die( __CLASS__ . ':' . __LINE__ );
 
             //
+            if ( !empty( $data ) ) {
+                // lấy meta của post này
+                //$data[ 'post_meta' ] = $this->post_model->arr_meta_post( $data[ 'ID' ] );
+                $data = $this->post_model->the_meta_post( $data );
+                //print_r( $data );
+                //die( __CLASS__ . ':' . __LINE__ );
+            }
+
+            //
             $this->base_model->MY_cache( $in_cache, $data, 300 );
         }
 
         //
         if ( !empty( $data ) ) {
-            // lấy meta của post này
-            //$data[ 'post_meta' ] = $this->post_model->arr_meta_post( $data[ 'ID' ] );
-            $data = $this->post_model->the_meta_post( $data );
-            //print_r( $data );
-            //die( __CLASS__ . ':' . __LINE__ );
-
             // với các post type mặc định -> dùng page view
             if ( in_array( $data[ 'post_type' ], [
                     PostType::POST,

@@ -34,9 +34,6 @@ class Ajax extends Layout {
         return $http_response;
     }
     public function check_ssl() {
-        header( 'Content-type: application/json; charset=utf-8' );
-
-        //
         $test_url = DYNAMIC_BASE_URL . 'ajax/the_base_url';
         // bỏ https
         $test_url = str_replace( 'https://', 'http://', $test_url );
@@ -52,7 +49,7 @@ class Ajax extends Layout {
         //$client = \Config\ Services::curlrequest();
 
         // rồi lấy url xem nó có tự redirect về url chuẩn mình mong muốn không
-        die( json_encode( [
+        $this->result_json_type( [
             'http_url' => $test_url,
             'http_response' => $this->check_via_curl( $test_url ),
             'www_url' => $www_url,
@@ -67,16 +64,13 @@ class Ajax extends Layout {
                 'protocols' => [ 'http', 'https' ] // Restrict redirects to one or more protocols
             ] ),
             */
-        ] ) );
+        ] );
     }
     public function the_base_url() {
         die( DYNAMIC_BASE_URL );
     }
 
     public function multi_loged() {
-        header( 'Content-type: application/json; charset=utf-8' );
-
-        //
         //die( json_encode( $_GET ) );
 
         // lấy nội dung đăng nhập cũ trước khi lưu phiên mới
@@ -87,10 +81,10 @@ class Ajax extends Layout {
 
 
         // trả về key đã lưu của người dùng trong file
-        die( json_encode( [
+        $this->result_json_type( [
             't' => time(),
             'hash' => $result
-        ] ) );
+        ] );
     }
 
     public function get_taxonomy_by_ids() {

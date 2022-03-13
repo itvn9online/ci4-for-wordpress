@@ -189,15 +189,13 @@ class Search extends Csrf {
         //
         //print_r( $data );
 
-
         // định dạng json
-        header( 'Content-type: application/json; charset=utf-8' );
-        header( 'Access-Control-Allow-Origin: *' );
-        header( 'Cache-Control: no-store, no-cache, must-revalidate, max-age=0' );
-        header( 'Cache-Control: post-check=0, pre-check=0', false );
-        header( 'Pragma: no-cache' );
-
-        //
-        echo json_encode( $data );
+        $this->result_json_type( $data, [
+            'Access-Control-Allow-Origin: *',
+            'Cache-Control: no-store, no-cache, must-revalidate, max-age=0',
+            'Pragma: no-cache',
+        ], [
+            'Cache-Control: post-check=0, pre-check=0',
+        ] );
     }
 }

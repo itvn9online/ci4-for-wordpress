@@ -874,4 +874,17 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
         //
         return $result;
     }
+
+    protected function result_json_type( $arr, $headers = [], $too_headers = [] ) {
+        header( 'Content-type: application/json; charset=utf-8' );
+        // header mặc định, ghi đè header trước đó
+        foreach ( $headers as $v ) {
+            header( $v );
+        }
+        // header không ghi đè -> 2 header trùng tên nhưng khác giá trị
+        foreach ( $too_headers as $v ) {
+            header( $v, false );
+        }
+        die( json_encode( $arr ) );
+    }
 }

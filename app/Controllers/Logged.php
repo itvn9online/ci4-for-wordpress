@@ -25,10 +25,9 @@ class Logged extends Ajax {
         //die( json_encode( $this->session_data ) );
 
         //
-        header( 'Content-type: application/json; charset=utf-8' );
-        die( json_encode( [
+        $this->result_json_type( [
             'code' => __LINE__,
             'msg' => 'Confirm user logged from ' . __FUNCTION__
-        ] ) );
+        ] );
     }
 }
