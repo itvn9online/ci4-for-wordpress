@@ -117,7 +117,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
     </div>
     <div class="p d-inlines">Cache (<strong><?php echo MY_CACHE_HANDLER; ?></strong> handler):
         <div ng-if="cache_actived > 0" class="greencolor">Xin chúc mừng! Website của bạn vận hành thông qua <strong>Cache</strong>, điều này giúp tăng hiệu suất của website lên rất nhiều.
-            <div>Bạn có thể <a href="admin/dashboard/cleanup_cache" class="btn btn-primary btn-mini">vào đây</a> và dọn dẹp cache để website nhận dữ liệu mới nhất.</div>
+            <div>Bạn có thể <a href="admin/dashboard/cleanup_cache" class="btn btn-primary btn-mini"><i class="fa fa-magic"></i> vào đây</a> và dọn dẹp cache để website nhận dữ liệu mới nhất.</div>
         </div>
         <div ng-if="cache_actived <= 0" class="orgcolor">Vui lòng kiểm tra và sử dụng <strong>Cache</strong> để tăng hiệu suất cho website của bạn.</div>
     </div>
@@ -136,8 +136,14 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
                 <div ng-if="cache_handler == 'memcached'" class="greencolor">Và Website của bạn đang sử dụng <strong>memcached</strong> làm bộ nhớ đệm.</div>
                 <div ng-if="cache_handler == 'file'" class="greencolor">Nếu bạn đang sử dụng hosting hoặc RAM của VPS từ 2GB trở lên thì hãy chỉnh tham số <strong>MY_CACHE_HANDLER</strong> thành <strong>memcached</strong>.</div>
             </div>
-            <div ng-if="cache_handler == 'file' && memcached_exist <= 0" class="orgcolor">Nếu bạn đang sử dụng VPS với lượng RAM đủ lớn, hãy cài đặt thêm <strong>Memcached</strong> và config cho cache sử dụng Memcached <em>hoặc</em>
-                <div>hosting có hỗ trợ extension <strong>Memcached</strong> thì hãy kích hoạt nó lên để tốc độ website đạt mức tốt hơn so với mặc định là sử dụng cache qua ổ cứng.</div>
+            <div ng-if="memcached_exist <= 0">
+                <div ng-if="cache_handler == 'file'" class="orgcolor">Nếu bạn đang sử dụng VPS với lượng RAM đủ lớn, hãy cài đặt thêm <strong>Memcached</strong> và config cho cache sử dụng Memcached <em>hoặc</em>
+                    <div>hosting có hỗ trợ extension <strong>Memcached</strong> thì hãy kích hoạt nó lên để tốc độ website đạt mức tốt hơn so với mặc định là sử dụng cache qua ổ cứng.</div>
+                </div>
+                <div ng-if="cache_handler != 'file'">
+                    <div ng-if="cache_handler == 'memcached'" class="orgcolor">Bạn đang kích hoạt cache qua memcached, nhưng hiện tại <strong>memcached</strong> không khả dụng trên hosting của bạn.</div>
+                    <div ng-if="cache_handler != 'memcached'"><!-- không cần thông báo gì ở đây nữa --></div>
+                </div>
             </div>
         </div>
     </div>
@@ -169,8 +175,10 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
         <div ng-if="debug_enable <= 0">
             <p class="greencolor"><i class="fa fa-check"></i> Chế độ debug đã được tắt. Giảm thiểu nguy cơ lộ diện các vấn đề nhạy cảm liên quan đến code.</p>
             <div ng-if="exists_f_backup_env > 0"> 
-                <!-- Button trigger modal -->
+                <!-- Button trigger modal --> 
+                Khi cần kiểm tra lỗi website, hãy
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#debugModal"> <i class="fa fa-bug"></i> BẬT chế độ debug </button>
+                tại đây! 
                 <!-- Modal -->
                 <div class="modal fade" id="debugModal" tabindex="-1" aria-labelledby="debugModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -229,6 +237,3 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
 
 //
 $base_model->add_js( 'admin/js/dashboard.js' );
-
-
-
