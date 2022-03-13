@@ -41,6 +41,7 @@ if (current_full_domain !== null) {
 
 //
 angular.module('myApp', []).controller('myCtrl', function($scope) {
+    $scope.base_url = '<?php echo urlencode( base_url() ); ?>';
     $scope.ci_version = '<?php echo \CodeIgniter\CodeIgniter::CI_VERSION; ?>'; // phiên bản CI hiện tại
     $scope.ci_last_version = 419; // phiên bản CI mới nhất -> đổi màu để dễ nhận biết có bản mới hơn
     $scope.robots_txt = <?php echo $robots_exist; ?>;
@@ -122,7 +123,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
     <p>Server time: <strong><?php echo date(EBE_DATETIME_FORMAT); ?></strong></p>
     <br>
     <h4>Một số khuyến nghị cho website của bạn hoạt động tốt hơn:</h4>
-    <div class="p d-inlines">Imagick:
+    <div class="p d-inlines"><strong>Imagick:</strong>
         <div ng-if="imagick_exist > 0" class="greencolor">Xin chúc mừng, <strong>Imagick</strong> đã được cài đặt! Các chức năng xử lý hình ảnh sẽ hoạt động ổn định hơn.</div>
         <div ng-if="imagick_exist <= 0" class="orgcolor">Vui lòng cài đăt thêm <strong>Imagick</strong> để các chức năng xử lý hình ảnh hoạt động ổn định hơn.</div>
     </div>
@@ -134,16 +135,16 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
     </div>
     <div ng-if="cache_actived > 0"> 
         <!-- khuyên dùng redis -->
-        <div class="p d-inlines">Redis:
+        <div class="p d-inlines"><strong>Redis:</strong>
             <div ng-if="cache_handler == 'redis'" class="greencolor">Website của bạn đang sử dụng <strong>redis</strong> làm bộ nhớ đệm, đây là phương thức cache khá tốt mà chúng tôi khuyên dùng.</div>
             <div ng-if="cache_handler != 'redis'" ng-class="cache_handler == 'file' ? 'orgcolor' : ''">Website của bạn đang sử dụng <strong>{{cache_handler}}</strong> làm bộ nhớ đệm.
                 <div ng-if="redis_exist != ''" class="greencolor"><strong>Redis</strong> hiện khả dụng trên hosting của bạn, hãy cân nhắc việc kích hoạt nó cho website này.</div>
-                <div ng-if="redis_exist == ''">Nếu có thể, hãy sử dụng <strong class="bluecolor">Redis</strong> sẽ giúp cải thiện hiệu suất website. <a href="admin/dev/php_info" class="btn btn-primary btn-mini">Vào đây</a> để xem hosting này có hỗ trợ redis không.</div>
+                <div ng-if="redis_exist == ''">Nếu có thể, hãy sử dụng <strong class="bluecolor">Redis</strong> sẽ giúp cải thiện hiệu suất website. <a href="admin/dev/php_info" class="btn btn-primary btn-mini"><i class="fa fa-search"></i> Vào đây</a> để xem hosting này có hỗ trợ redis không.</div>
             </div>
         </div>
         <!-- END redis --> 
         <!-- không thì Memcached cũng quá ok -->
-        <div class="p d-inlines">Memcached:
+        <div class="p d-inlines"><strong>Memcached:</strong>
             <div ng-if="memcached_exist > 0" class="greencolor">Xin chúc mừng, <strong>Memcached</strong> đã được cài đặt!
                 <div ng-if="cache_handler == 'memcached'" class="greencolor">Và Website của bạn đang sử dụng <strong>memcached</strong> làm bộ nhớ đệm.</div>
                 <div ng-if="cache_handler == 'file'" class="greencolor">Nếu bạn đang sử dụng hosting hoặc RAM của VPS từ 2GB trở lên thì hãy chỉnh tham số <strong>MY_CACHE_HANDLER</strong> thành <strong>memcached</strong>.</div>
@@ -159,6 +160,12 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
             </div>
         </div>
         <!-- END Memcached --> 
+        <!-- securityheaders -->
+        <p><strong>Security headers:</strong> <a href="https://securityheaders.com/?q={{base_url}}&followRedirects=on" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-shield"></i> vào đây</a> để kiểm tra độ bảo mật cho header của website của bạn. Tối thiểu nên ở mức điểm <button type="button" class="btn btn-warning">B</button> khuyến nghị điểm <button type="button" class="btn btn-success">A</button>.</p>
+        <!-- END securityheaders --> 
+        <!-- pagespeed -->
+        <p><strong>Page speed:</strong> <a href="https://pagespeed.web.dev/report?url={{base_url}}" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-flash"></i> vào đây</a> để kiểm tra độ tốc độ website của bạn và độ thân tối ứu SEO (Search Engine Optimization). Tối thiểu nên ở mức điểm <button type="button" class="btn btn-warning">80</button> khuyến nghị điểm <button type="button" class="btn btn-success">90</button>.</p>
+        <!-- END pagespeed --> 
     </div>
     <!-- -->
     <div class="p redcolor medium" ng-class="current_protocol != 'https:' ? '' : 'd-none'"><i class="fa fa-warning"></i> Kết nối hiện tại <strong>{{current_protocol}}</strong> chưa hỗ trợ redirect sang <strong>https</strong>. Vui lòng kích hoạt và sử dụng redirect <strong>https</strong> để giúp website bảo mật và nhanh hơn.</div>
