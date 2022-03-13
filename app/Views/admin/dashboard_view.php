@@ -41,6 +41,8 @@ if (current_full_domain !== null) {
 
 //
 angular.module('myApp', []).controller('myCtrl', function($scope) {
+    $scope.ci_version = '<?php echo \CodeIgniter\CodeIgniter::CI_VERSION; ?>'; // phiên bản CI hiện tại
+    $scope.ci_last_version = 419; // phiên bản CI mới nhất -> đổi màu để dễ nhận biết có bản mới hơn
     $scope.robots_txt = <?php echo $robots_exist; ?>;
     $scope.phpversion = '<?php echo phpversion(); ?>'.replace('.', '').split('.')[0];
     $scope.current_dbname = '<?php echo $current_dbname; ?>';
@@ -63,6 +65,12 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
         cal_day = cal_day/ one_day;
         return cal_day.toFixed(1) * 1;
     };
+    $scope.warning_ci_version = function (a, b) {
+        if (a.replace(/\./gi, '') * 1 < b) {
+            return 'orgcolor';
+        }
+        return '';
+    };
 });
 </script>
 
@@ -82,7 +90,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
 
         ?>
     </p>
-    <p>Nền tảng chính framework <a href="https://codeigniter.com/download/" target="_blank" rel="nofollow"><strong>Codeigniter <?php echo \CodeIgniter\CodeIgniter::CI_VERSION; ?></strong></a>
+    <p>Nền tảng chính framework <a href="https://codeigniter.com/download/" target="_blank" rel="nofollow"><strong ng-class="warning_ci_version(ci_version, ci_last_version)">Codeigniter {{ci_version}}</strong></a>
         <?php
 
         //
@@ -130,7 +138,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
                 <div ng-if="redis_exist == ''">Nếu có thể, hãy sử dụng <strong class="bluecolor">Redis</strong> sẽ giúp cải thiện hiệu suất website. <a href="admin/dev/php_info" class="btn btn-primary btn-mini">Vào đây</a> để xem hosting này có hỗ trợ redis không.</div>
             </div>
         </div>
-        <!-- END redis -->
+        <!-- END redis --> 
         <!-- không thì Memcached cũng quá ok -->
         <div class="p d-inlines">Memcached:
             <div ng-if="memcached_exist > 0" class="greencolor">Xin chúc mừng, <strong>Memcached</strong> đã được cài đặt!
@@ -147,7 +155,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
                 </div>
             </div>
         </div>
-        <!-- END Memcached -->
+        <!-- END Memcached --> 
     </div>
     <!-- -->
     <div class="p redcolor medium" ng-class="current_protocol != 'https:' ? '' : 'd-none'"><i class="fa fa-warning"></i> Kết nối hiện tại <strong>{{current_protocol}}</strong> chưa hỗ trợ redirect sang <strong>https</strong>. Vui lòng kích hoạt và sử dụng redirect <strong>https</strong> để giúp website bảo mật và nhanh hơn.</div>
@@ -208,7 +216,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
     <br>
     <!-- UPDATE CORE -->
     <div ng-if="system_zip > 0" class="hide-after-unzip-system">
-        <p class="bluecolor"><i class="fa fa-cloud-upload"></i> Update system. Dùng khi cần cập nhật bản mới cho Codeigniter 4. File <strong>system.zip</strong> sẽ được update lên <strong>public_html</strong>, và hàm này sẽ hỗ trợ việc giải nén file ra. Thư mục system cũ sẽ được backup vào: <strong>system-<?php echo \CodeIgniter\CodeIgniter::CI_VERSION; ?></strong>.</p>
+        <p class="bluecolor"><i class="fa fa-cloud-upload"></i> Update system. Dùng khi cần cập nhật bản mới cho Codeigniter 4. File <strong>system.zip</strong> sẽ được update lên <strong>public_html</strong>, và hàm này sẽ hỗ trợ việc giải nén file ra. Thư mục system cũ sẽ được backup vào: <strong>system-{{ci_version}}</strong>.</p>
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#unzipSystemModal"> <i class="fa fa-file-archive-o"></i> Unzip <strong>system.zip</strong> </button>
         <!-- Modal -->
