@@ -84,7 +84,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                 data-taxonomy="{{taxonomy}}"
                 data-uri="admin/{{controller_slug}}"
                 class="each-to-taxonomy">&nbsp;</td>
-                <td>{{v.post_status}}</td>
+                <td class="post_status post_status-{{v.post_status}}">{{PostType_arrStatus[v.post_status]}}</td>
                 <td>{{v.post_date.substr(0, 16)}}</td>
                 <td>{{v.post_modified.substr(0, 16)}}</td>
                 <td>{{v.lang_key}}</td>

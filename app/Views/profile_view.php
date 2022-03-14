@@ -5,7 +5,7 @@
             <h3><?php echo $seo['title']; ?></h3>
         </div>
         <br>
-        <div>
+        <div class="s14">
             <div class="row">
                 <div class="col-4">Tài khoản</div>
                 <div class="col-8"><?php echo $data['user_login']; ?></div>
@@ -34,7 +34,16 @@
                 <div class="col-4 l40">Họ và tên</div>
                 <div class="col-8">
                     <div class="form-control">
-                        <input type="text" placeholder="Họ và tên" name="data[display_name]" value="<?php echo $data['display_name']; ?>" aria-required="true" required>
+                        <input type="text" placeholder="Họ và tên đệm" name="data[display_name]" value="<?php echo $data['display_name']; ?>" aria-required="true" required>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-4 l40">Tên rút gọn</div>
+                <div class="col-8">
+                    <div class="form-control">
+                        <input type="text" placeholder="Tên rút gọn" name="data[user_nicename]" value="<?php echo $data['user_nicename']; ?>" aria-required="true" required>
                     </div>
                 </div>
             </div>
@@ -68,7 +77,7 @@
             <h3>Đổi mật khẩu đăng nhập</h3>
         </div>
         <br>
-        <div>
+        <div class="s14">
             <div class="row">
                 <div class="col-4 l40">Thay đổi mật khẩu</div>
                 <div class="col-8">

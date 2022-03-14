@@ -3,8 +3,6 @@
 namespace App\ Models;
 
 class Lang extends EbModel {
-    public $list = NULL;
-
     public function __construct() {
         parent::__construct();
 
@@ -18,22 +16,25 @@ class Lang extends EbModel {
      * $after_text: đoạn chữ đính kèm phía sau dữ liệu trả về
      */
     public function get_the_text( $key, $before_text = '', $after_text = '' ) {
-        if ( $this->list === NULL ) {
+        global $this_cache_lang;
+
+        //
+        if ( $this_cache_lang === NULL ) {
             $data = $this->option_model->get_lang();
 
             //
-            $this->list = [];
+            $this_cache_lang = [];
             foreach ( $data as $v ) {
-                $this->list[ $v[ 'option_name' ] ] = $v[ 'option_value' ];
+                $this_cache_lang[ $v[ 'option_name' ] ] = $v[ 'option_value' ];
             }
         }
-        //print_r( $this->list );
+        //print_r( $this_cache_lang );
 
         //
         $key = 'lang_' . $key;
         //echo $key . '<br>' . "\n";
-        if ( isset( $this->list[ $key ] ) ) {
-            return $before_text . $this->list[ $key ] . $after_text;
+        if ( isset( $this_cache_lang[ $key ] ) ) {
+            return $before_text . $this_cache_lang[ $key ] . $after_text;
         }
         return '';
     }

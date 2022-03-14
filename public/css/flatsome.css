@@ -947,3 +947,11 @@
     display: -ms-flexbox;
     display: flex;
 }
+.align-middle {
+    -webkit-box-align: center !important;
+    -ms-flex-align: center !important;
+    align-items: center !important;
+    -ms-flex-item-align: center !important;
+    align-self: center !important;
+    vertical-align: middle !important;
+}

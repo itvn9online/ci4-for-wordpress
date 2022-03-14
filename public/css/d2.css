@@ -20,10 +20,10 @@ a {
     text-decoration: none
 }
 .default-bg {
-    background-color: #ff4400;
+    background-color: var(--default-bg);
 }
 .default-2bg {
-    background-color: #555;
+    background-color: var(--default2-bg);
 }
 .default-bg, .default-bg a {
     color: #fff;

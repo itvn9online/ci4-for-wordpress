@@ -192,8 +192,8 @@ Sitemap: ' . DYNAMIC_BASE_URL . 'sitemap';
         }
         //die( __CLASS__ . ':' . __LINE__ );
 
-        // reset cache
-        $this->option_model->list_config( $this->lang_key, 0, 0, true );
+        // dọn dẹp cache liên quan đến config này -> reset cache
+        $this->cleanup_cache( $this->option_model->key_cache( $option_type ) );
 
         // xác nhận việc update đã xong
         echo '<script>top.done_field_has_change();</script>';

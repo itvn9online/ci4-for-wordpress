@@ -3,48 +3,8 @@
 
     // mobile
     if ( $isMobile == true ) {
-        ?>
-    <div class="mobile-menu">
-        <div class="cf default-bg mobile-fixed-menu">
-            <div class="lf f25">
-                <button type="button" class="btn-mobile-menu" data-bs-toggle="modal" data-bs-target="#mobileMenuModal" aria-label="Menu"><i class="fa fa-bars"></i></button>
-            </div>
-            <div class="lf f50">
-                <?php
-
-                $option_model->the_logo( $getconfig, 'logo_mobile', 'logo_mobile_height' );
-
-                ?>
-            </div>
-            <div class="lf f25 cf">
-                <button type="button" class="btn-mobile-menu rf" data-bs-toggle="modal" data-bs-target="#searchModal" aria-label="Search"><i class="fa fa-search"></i></button>
-            </div>
-        </div>
-    </div>
-    <!-- mobile menu Modal -->
-    <div class="modal fade" id="mobileMenuModal" tabindex="-1" aria-labelledby="mobileMenuModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="mobileMenuModalLabel"><i class="fa fa-bars"></i> Menu</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body mobile-show-menu">
-                    <?php
-
-                    //
-                    $menu_model->the_menu( 'top-nav-menu', 'mobile-nav-menu' );
-
-                    ?>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Đóng</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <?php
-    } // END mobile
+        include APPPATH . 'Views/includes/header_mobile1.php';
+    }
     // desktop
     else {
         ?>
@@ -88,27 +48,8 @@
     <?php
     } // END desktop
 
+    //
+    include APPPATH . 'Views/includes/header_search.php';
+
     ?>
-    <!-- search Modal -->
-    <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <form method="get" action="search">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="searchModalLabel"><i class="fa fa-search"></i> Tìm kiếm</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <input type="search" name="s" class="form-control" value="" placeholder="Tìm kiếm" onClick="this.select();" aria-required="true" required>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Đóng</button>
-                        <button type="submit" class="btn btn-primary" aria-label="Search"><i class="fa fa-search"></i> Tìm kiếm</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 </header>

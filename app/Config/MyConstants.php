@@ -28,6 +28,13 @@ define( 'PUBLIC_PUBLIC_PATH', PUBLIC_HTML_PATH . 'public/' );
 
 
 /*
+ * lưu giá trị của config vào biến này, nếu hàm sau có gọi lại thì tái sử dụng luôn
+ */
+$this_cache_config = NULL;
+$this_cache_lang = NULL;
+
+
+/*
  * Danh sách các custom taxonomy mà người dùng đăng ký sẽ được khai báo thêm ở đây
  */
 $arr_custom_taxonomy = [];
@@ -105,6 +112,7 @@ defined( 'DEFAULT_DIR_PERMISSION' ) || define( 'DEFAULT_DIR_PERMISSION', 0777 );
 // thời gian cache mặc định
 defined( 'MINI_CACHE_TIMEOUT' ) || define( 'MINI_CACHE_TIMEOUT', 300 );
 defined( 'MEDIUM_CACHE_TIMEOUT' ) || define( 'MEDIUM_CACHE_TIMEOUT', HOUR );
+defined( 'BIG_CACHE_TIMEOUT' ) || define( 'BIG_CACHE_TIMEOUT', 21600 ); // 6 giờ
 
 /*
  * Tiền tố cho danh mục sản phẩm

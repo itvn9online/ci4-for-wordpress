@@ -71,6 +71,8 @@ class Base extends Session {
             die( 'data update empty ' . $table . ':' . __CLASS__ . ':line:' . __LINE__ );
         }
         //print_r( $where_array );
+        //print_r( $ops );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         $builder = $this->db->table( $table );
@@ -78,6 +80,15 @@ class Base extends Session {
         //
         foreach ( $where_array as $key => $value ) {
             $builder->where( $key, $value );
+        }
+
+        //
+        if ( isset( $ops[ 'where_in' ] ) ) {
+            foreach ( $ops[ 'where_in' ] as $k => $v ) {
+                if ( !empty( $v ) ) {
+                    $builder->whereIn( $k, $v );
+                }
+            }
         }
 
         //print_r( $data );

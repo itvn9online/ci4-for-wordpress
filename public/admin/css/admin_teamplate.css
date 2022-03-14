@@ -297,3 +297,18 @@ body.body-debug_enable #admin-header, body.body-debug_enable #sidebar {
 .row .row {
     margin-left: 0;
 }
+/* */
+#admin_main_list .post_status {}
+.post_status-publish {
+    color: green !important;
+}
+.post_status-pending {
+    color: black !important;
+    font-weight: bold;
+}
+.post_status-draft {
+    color: orange !important;
+}
+.post_status-trash {
+    color: red !important;
+}

@@ -41,6 +41,7 @@ if (current_full_domain !== null) {
 
 //
 angular.module('myApp', []).controller('myCtrl', function($scope) {
+    $scope.Date_now = Date.now();
     $scope.base_url = '<?php echo urlencode( base_url() ); ?>';
     $scope.ci_version = '<?php echo \CodeIgniter\CodeIgniter::CI_VERSION; ?>'; // phiên bản CI hiện tại
     $scope.ci_last_version = 419; // phiên bản CI mới nhất -> đổi màu để dễ nhận biết có bản mới hơn
@@ -121,6 +122,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
     <div class="p">Database: <span ng-if="current_dbname != ''"> <strong><?php echo '******' . substr( $current_dbname, 6 ); ?></strong> </span> </div>
     <p>Server IP: <strong><?php echo $_SERVER['SERVER_ADDR']; ?></strong></p>
     <p>Server time: <strong><?php echo date(EBE_DATETIME_FORMAT); ?></strong></p>
+    <p>Client time: <strong>{{ Date_now | date:'yyyy-MM-dd HH:mm:ss' }}</strong></p>
     <br>
     <h4>Một số khuyến nghị cho website của bạn hoạt động tốt hơn:</h4>
     <div class="p d-inlines"><strong>Imagick:</strong>

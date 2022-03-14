@@ -97,6 +97,13 @@ $this->base_model->update_multiple( 'tbl_user', [
     // WHERE
     'is_member' => User_type::GUEST,
 ], [
+    'where_in' => array(
+        'user_id' => array(
+            1,
+            2,
+            3
+        )
+    ),
     // hiển thị mã SQL để check
     'show_query' => 1,
     // trả về câu query để sử dụng cho mục đích khác

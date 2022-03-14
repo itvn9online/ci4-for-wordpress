@@ -50,108 +50,30 @@ class Option extends EbModel {
         }
     }
 
-    public function get_lang( $using_cache = true, $time = MEDIUM_CACHE_TIMEOUT ) {
-        $lang_key = LanguageCost::lang_key();
-
-        //
-        $in_cache = '';
-        if ( $using_cache === true ) {
-            $in_cache = __FUNCTION__ . '-' . $lang_key;
-        }
-
-        //
-        if ( $in_cache != '' ) {
-            $cache_value = $this->base_model->scache( $in_cache );
-
-            // có cache thì trả về
-            if ( $cache_value !== NULL ) {
-                //print_r( $cache_value );
-                return $cache_value;
-            }
-        }
-
-        //
-        $data = $this->base_model->select( 'option_name, option_value', $this->table, array(
-            // các kiểu điều kiện where
-            'is_deleted' => DeletedStatus::FOR_DEFAULT,
-            'option_type' => ConfigType::TRANS,
-            'lang_key' => $lang_key,
-        ), array(
-            /*
-            'where_in' => array(
-                'option_type' => $arr_in_option_type
-            ),
-            */
-            'order_by' => array(
-                'option_id' => 'DESC',
-            ),
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-            //'offset' => 2,
-            //'limit' => 1
-        ) );
-        //print_r( $data );
-        //die( 'fj fgjfg' );
-
-        //
-        if ( $in_cache != '' ) {
-            $this->base_model->scache( $in_cache, $data, $time );
-        }
-        return $data;
+    public function get_lang() {
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        return $this->get_config_by_type( ConfigType::TRANS, LanguageCost::lang_key() );
     }
 
-    //var $cache_config = [];
-
-    function list_config( $lang_key = '', $get_sql = false, $repeat = true, $clear_cache = false ) {
-        if ( $lang_key == '' ) {
-            $lang_key = LanguageCost::lang_key();
-        }
+    public function get_config_by_type( $option_type, $lang_key, $time = BIG_CACHE_TIMEOUT, $repeat = true ) {
         $in_cache = __FUNCTION__ . '-' . $lang_key;
 
-        // xóa cache nếu có yêu cầu
-        if ( $clear_cache === true ) {
-            //var_dump( $clear_cache );
-            return $this->base_model->cache->delete( $in_cache );
-        }
-
         //
-        $cache_value = $this->base_model->scache( $in_cache );
+        $data = $this->the_cache( $option_type, $in_cache );
 
         // có cache thì trả về
-        if ( $cache_value !== NULL ) {
-            //print_r( $cache_value );
-            return $cache_value;
+        if ( $data !== NULL ) {
+            //print_r( $data );
+            return $data;
         }
-
-        /*
-        if ( isset( $this->cache_config[ $lang_key ] ) ) {
-            return $this->cache_config[ $lang_key ];
-        }
-        */
 
         //
-        $arr_option_type = ConfigType::list();
-        unset( $arr_option_type[ ConfigType::TRANS ] );
-        //print_r( $arr_option_type );
-        $arr_in_option_type = [];
-        $config_default = [];
-        foreach ( $arr_option_type as $k => $v ) {
-            $arr_in_option_type[] = $k;
-            $config_default[] = ConfigType::meta_default( $k );
-        }
-        //print_r( $config_default );
-        //print_r( $arr_in_option_type );
-        $sql = $this->base_model->select( '*', $this->table, array(
+        $data = $this->base_model->select( '*', $this->table, array(
             // các kiểu điều kiện where
             'is_deleted' => DeletedStatus::FOR_DEFAULT,
-            //'option_type' => ConfigType::CONFIG,
+            'option_type' => $option_type,
             'lang_key' => $lang_key,
         ), array(
-            'where_in' => array(
-                'option_type' => $arr_in_option_type
-            ),
             'order_by' => array(
                 'option_id' => 'DESC',
             ),
@@ -160,20 +82,20 @@ class Option extends EbModel {
             // trả về câu query để sử dụng cho mục đích khác
             //'get_query' => 1,
             //'offset' => 2,
-            //'limit' => 1
+            'limit' => -1
         ) );
-        //print_r( $sql );
-        //die( __CLASS__ . ':' . __LINE__ );
-        if ( $get_sql === true ) {
-            return $sql;
-        }
+        //print_r( $data );
 
         // nếu không phải ngôn ngữ mặc định -> copy từ ngôn ngữ mặc định qua nếu có
-        if ( empty( $sql ) && $lang_key != LanguageCost::default_lang() ) {
-            $sql = $this->list_config( LanguageCost::default_lang(), true );
-            if ( !empty( $sql ) ) {
-                //print_r( $sql );
-                foreach ( $sql as $v ) {
+        if ( empty( $data ) && $lang_key != LanguageCost::default_lang() ) {
+            //die( __CLASS__ . ':' . __LINE__ );
+            // lấy từ ngôn ngữ mặc định
+            $data = $this->get_config_by_type( $option_type, LanguageCost::default_lang() );
+            // nếu có dữ liệu
+            if ( !empty( $data ) ) {
+                //print_r( $data );
+                // chạy vòng lặp insret dữ liệu sang ngôn ngữ hiện tại
+                foreach ( $data as $v ) {
                     //print_r( $v );
                     //die( __CLASS__ . ':' . __LINE__ );
 
@@ -188,36 +110,71 @@ class Option extends EbModel {
                     //
                     $this->base_model->insert( $this->table, $data_insert );
                 }
-
-                // xong thì trả về dữ liệu insert nếu có
-                if ( $repeat === true ) {
-                    return $this->list_config( $lang_key, false, false );
-                }
             }
             //die( __CLASS__ . ':' . __LINE__ );
         }
 
         //
-        $getconfig = [];
-        foreach ( $sql as $v ) {
-            $getconfig[ $v[ 'option_name' ] ] = $v[ 'option_value' ];
+        $this->the_cache( $option_type, $in_cache, $data, $time );
+
+        //
+        return $data;
+    }
+
+    function list_config( $lang_key = '' ) {
+        global $this_cache_config;
+        if ( $this_cache_config !== NULL ) {
+            return $this_cache_config;
         }
+
+        //
+        if ( $lang_key == '' ) {
+            $lang_key = LanguageCost::lang_key();
+        }
+
+        //
+        $arr_option_type = [
+            ConfigType::CONFIG,
+            ConfigType::CATEGORY,
+            ConfigType::POST,
+            ConfigType::BLOGS,
+            ConfigType::BLOG,
+        ];
+        //print_r( $arr_option_type );
+
+        //
+        $this_cache_config = [];
+        foreach ( $arr_option_type as $option_type ) {
+            $data = $this->get_config_by_type( $option_type, $lang_key );
+
+            //
+            foreach ( $data as $v ) {
+                $this_cache_config[ $v[ 'option_name' ] ] = $v[ 'option_value' ];
+            }
+        }
+        //print_r( $this_cache_config );
+
+        //
+        $config_default = [];
+        foreach ( $arr_option_type as $v ) {
+            $config_default[] = ConfigType::meta_default( $v );
+        }
+        //print_r( $config_default );
+
         // gán giá trị mặc định cho các mảng dữ liệu chưa có
         foreach ( $config_default as $v ) {
             //print_r( $v );
             foreach ( $v as $k2 => $v2 ) {
-                if ( !isset( $getconfig[ $k2 ] ) ) {
-                    $getconfig[ $k2 ] = '';
+                if ( !isset( $this_cache_config[ $k2 ] ) ) {
+                    $this_cache_config[ $k2 ] = '';
                 }
             }
         }
+        //print_r( $this_cache_config );
 
         //
-        //$this->cache_config[ $lang_key ] = $getconfig;
-        $this->base_model->scache( $in_cache, $getconfig, MEDIUM_CACHE_TIMEOUT );
-
-        //
-        return $getconfig;
+        //die( __CLASS__ . ':' . __LINE__ );
+        return $this_cache_config;
     }
 
     // trả về class css cho việc hiển thị số sản phẩm trên mỗi dòng
@@ -301,5 +258,14 @@ class Option extends EbModel {
 
     function the_config( $config, $key, $default_value = '' ) {
         echo $this->get_config( $config, $key, $default_value );
+    }
+
+    // trả về key cho option cache
+    public function key_cache( $config_type ) {
+        return 'option-' . $config_type . '-';
+    }
+    // cache cho phần option -> gán key theo mẫu thống nhất để sau còn xóa cache cho dễ
+    public function the_cache( $config_type, $key, $value = '', $time = MINI_CACHE_TIMEOUT ) {
+        return $this->base_model->scache( $this->key_cache( $config_type ) . $key, $value, $time );
     }
 }

@@ -78,12 +78,10 @@ class Layout extends Sync {
 
         //$allurl = 'https://' . $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'REQUEST_URI' ];
 
-        $getconfig = $this->option_model->list_config();
-        //print_r( $getconfig );
-
-        $getconfig = ( object )$getconfig;
-        //print_r( $getconfig );
-        $this->getconfig = $getconfig;
+        $this->getconfig = $this->option_model->list_config();
+        //print_r( $this->getconfig );
+        $this->getconfig = ( object )$this->getconfig;
+        //print_r( $this->getconfig );
 
         //
         $this->session_data = $this->base_model->get_ses_login();

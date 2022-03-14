@@ -38,6 +38,7 @@ class BaseController extends Controller {
     protected $helpers = [
         //'cookie',
         'url',
+        //'date',
         // chức năng này dùng để tạo form, có sẵn csrf hoặc set_value cho form -> hiếm khi dùng
         //'form',
         // -> sanitize_filename...
