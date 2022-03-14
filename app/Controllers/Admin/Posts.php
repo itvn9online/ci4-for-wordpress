@@ -211,7 +211,8 @@ class Posts extends Admin {
             $filter[ 'limit' ] = $post_per_page;
             $filter[ 'order_by' ] = [
                 'posts.menu_order' => 'DESC',
-                'posts.post_date' => 'DESC',
+                'posts.ID' => 'DESC',
+                //'posts.post_date' => 'DESC',
                 //'post_modified' => 'DESC',
             ];
             $data = $this->base_model->select( '*', 'posts', $where, $filter );
