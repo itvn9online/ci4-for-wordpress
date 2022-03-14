@@ -49,6 +49,8 @@ _global_js_eb.auto_margin();
 
 // khi document đã load xong
 jQuery(document).ready(function () {
+    action_each_to_taxonomy();
+
     // chiều cao của document đủ lớn
     /*
     if (jQuery(document).height() > jQuery(window).height() * 1.5) {
@@ -62,6 +64,9 @@ jQuery(document).ready(function () {
     if (height_for_lazzy_load == 0) {
         height_for_lazzy_load = jQuery(window).height();
     }
+
+    //
+    each_to_page_part();
 });
 
 //

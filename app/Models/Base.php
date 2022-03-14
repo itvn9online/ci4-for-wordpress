@@ -959,58 +959,7 @@ class Base extends Session {
     }
 
     function EBE_pagination( $Page, $TotalPage, $strLinkPager, $sub_part = '/page/' ) {
-        return $this->EBE_part_page( $Page, $TotalPage, $strLinkPager, $sub_part );
-    }
-
-    function EBE_part_page( $Page, $TotalPage, $strLinkPager, $sub_part = '/page/' ) {
-        if ( $TotalPage <= 1 ) {
-            return '';
-        }
-
-        $strLinkPager = rtrim( $strLinkPager, '/' ) . $sub_part;
-        //echo $strLinkPager . '<br>' . "\n";
-        $show_page = 8;
-        $str_page = '';
-        if ( $Page <= $show_page ) {
-            if ( $TotalPage <= $show_page ) {
-                for ( $i = 1; $i <= $TotalPage; $i++ ) {
-                    if ( $i == $Page ) {
-                        $str_page .= '<span data-page="' . $i . '" class="current">' . $i . '</span>';
-                    } else {
-                        $str_page .= '<a rel="nofollow" href="' . $strLinkPager . $i . '">' . $i . '</a>';
-                    }
-                }
-            } else {
-                for ( $i = 1; $i <= $show_page; $i++ ) {
-                    if ( $i == $Page ) {
-                        $str_page .= '<span data-page="' . $i . '" class="current">' . $i . '</span>';
-                    } else {
-                        $str_page .= '<a rel="nofollow" href="' . $strLinkPager . $i . '">' . $i . '</a>';
-                    }
-                }
-                $str_page .= ' ... <a rel="nofollow" href="' . $strLinkPager . $i . '">&gt;</a>';
-            }
-        } else {
-            $chiadoi = $show_page / 2;
-            $i = $Page - ( $chiadoi + 1 );
-            $str_page = '<a rel="nofollow" href="' . $strLinkPager . $i . '">&lt;&lt;</a> <a rel="nofollow" href="' . $strLinkPager . '1">1</a> ... ';
-            $i++;
-            for ( $i; $i < $Page; $i++ ) {
-                $str_page .= '<a rel="nofollow" href="' . $strLinkPager . $i . '">' . $i . '</a>';
-            }
-            $str_page .= '<span data-page="' . $i . '" class="current">' . $i . '</span>';
-            $i++;
-            $_Page = $Page + $chiadoi;
-            if ( $_Page > $TotalPage ) {
-                $_Page = $TotalPage;
-            }
-            for ( $i; $i < $_Page; $i++ ) {
-                $str_page .= '<a rel="nofollow" href="' . $strLinkPager . $i . '">' . $i . '</a>';
-            }
-            $str_page .= ' ... <a rel="nofollow" href="' . $strLinkPager . $TotalPage . '">' . $TotalPage . '</a> <a href="' . $strLinkPager . $i . '" rel="nofollow">&gt;&gt;</a>';
-        }
-
-        return $str_page;
+        return '<div data-page="' . $Page . '" data-total="' . $TotalPage . '" data-url="' . $strLinkPager . '" data-params="' . $sub_part . '" class="each-to-page-part"></div>';
     }
 
     public function default_seo( $name, $canonical ) {

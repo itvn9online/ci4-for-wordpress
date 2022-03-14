@@ -342,6 +342,7 @@ $(document).ready(function () {
 
     //
     action_each_to_taxonomy();
+    each_to_page_part();
     //action_data_img_src();
 }).keydown(function (e) {
     //console.log(e.keyCode);
