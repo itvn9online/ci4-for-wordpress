@@ -953,8 +953,14 @@ class Term extends TermBase {
         $this->base_model->scache( __FUNCTION__, time(), $this->time_update_last_count - rand( 333, 999 ) );
 
         //
+        $the_view = WGR_TABLE_PREFIX . 'zzz_update_count';
+
+        //
         $current_time = time();
 
+        /*
+         * tính tổng số nhóm con trong 1 nhóm
+         */
         // reset tất cả về 0 đã
         $this->base_model->update_multiple( 'terms', [
             'child_count' => 0,
@@ -965,62 +971,100 @@ class Term extends TermBase {
             // hiển thị mã SQL để check
             //'show_query' => 1,
         ] );
+        //return false;
 
-        // -> lấy tất cả các nhóm có nhóm con
-        $data = $this->base_model->select( 'parent', 'term_taxonomy', array(
-            // các kiểu điều kiện where
-            'parent >' => 0,
-            //'is_deleted' => DeletedStatus::FOR_DEFAULT,
-        ), array(
-            'group_by' => array(
-                'parent',
-            ),
-            // trả về COUNT(column_name) AS column_name
-            //'selectCount' => 'ID',
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-            // trả về tổng số bản ghi -> tương tự mysql num row
-            //'getNumRows' => 1,
-            //'offset' => 2,
-            'limit' => -1
-        ) );
-        //print_r( $data );
+        /*
+         * tạo 1 view trung gian để update tính tổng số nhóm con trong 1 nhóm
+         */
+        $sql = "CREATE OR REPLACE VIEW $the_view AS
+        SELECT parent, COUNT(term_id) AS c
+        FROM
+            `" . WGR_TABLE_PREFIX . "term_taxonomy`
+        WHERE
+            parent > 0
+        GROUP BY
+            parent";
+        echo $sql . '<br>' . "\n";
+        $this->base_model->MY_query( $sql );
 
-        // chạy vòng lặp để tính tổng số nhóm con của tất cả các nhóm này
-        foreach ( $data as $v ) {
-            //print_r( $v );
+        // update count cho các parent trong view
+        $sql = "UPDATE " . WGR_TABLE_PREFIX . "terms
+        INNER JOIN
+            $the_view ON $the_view.parent = " . WGR_TABLE_PREFIX . "terms.term_id
+        SET
+            " . WGR_TABLE_PREFIX . "terms.child_count = $the_view.c
+        WHERE
+            is_deleted = " . DeletedStatus::FOR_DEFAULT;
+        echo $sql . '<br>' . "\n";
+        $this->base_model->MY_query( $sql );
 
-            //
-            $child_count = $this->base_model->select( 'term_id', 'term_taxonomy', array(
-                // các kiểu điều kiện where
-                'parent' => $v[ 'parent' ],
-            ), array(
-                // trả về COUNT(column_name) AS column_name
-                'selectCount' => 'term_id',
-                // hiển thị mã SQL để check
-                //'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-                // trả về tổng số bản ghi -> tương tự mysql num row
-                //'getNumRows' => 1,
-                //'offset' => 2,
-                //'limit' => -1
-            ) );
-            //print_r( $child_count );
-            //echo $child_count[ 0 ][ 'term_id' ] . '<br>' . "\n";
 
-            //
-            if ( $child_count[ 0 ][ 'term_id' ] > 0 ) {
-                $this->base_model->update_multiple( 'terms', [
-                    'child_count' => $child_count[ 0 ][ 'term_id' ],
-                    //'child_last_count' => $current_time,
-                ], [
-                    'term_id' => $v[ 'parent' ],
-                ] );
-            }
-        }
+        /*
+         * tính tổng số bài viết trong 1 nhóm
+         */
+        // reset tất cả về 0 đã
+        $this->base_model->update_multiple( 'term_taxonomy', [
+            'count' => 0
+        ], [
+            'count >' => 0
+        ] );
+        //return false;
+
+        /*
+         * tạo 1 view trung gian để update tính tổng số bài viết trong 1 nhóm
+         */
+        $sql = "CREATE OR REPLACE VIEW $the_view AS
+        SELECT term_taxonomy_id, COUNT(object_id) AS c
+        FROM
+            " . WGR_TABLE_PREFIX . "term_relationships
+        GROUP BY
+            term_taxonomy_id";
+        echo $sql . '<br>' . "\n";
+        $this->base_model->MY_query( $sql );
+
+        // update count cho các parent trong view
+        $sql = "UPDATE " . WGR_TABLE_PREFIX . "term_taxonomy
+        INNER JOIN
+            $the_view ON $the_view.term_taxonomy_id = " . WGR_TABLE_PREFIX . "term_taxonomy.term_id
+        SET
+            " . WGR_TABLE_PREFIX . "term_taxonomy.count = $the_view.c";
+        echo $sql . '<br>' . "\n";
+        $this->base_model->MY_query( $sql );
+
+
+        /*
+         * tạo view để tính tổng số bài trong nhóm con, sau đó update cho nhóm cha -> tăng xác suất xuất hiện của nhóm cha
+         */
+        $sql = "CREATE OR REPLACE VIEW $the_view AS
+        SELECT parent, SUM(count) AS t
+        FROM
+            " . WGR_TABLE_PREFIX . "term_taxonomy
+        WHERE
+            parent > 0
+        GROUP BY
+            parent";
+        echo $sql . '<br>' . "\n";
+        $this->base_model->MY_query( $sql );
+
+        // update count cho các parent trong view
+        $sql = "UPDATE " . WGR_TABLE_PREFIX . "term_taxonomy
+        INNER JOIN
+            $the_view ON $the_view.parent = " . WGR_TABLE_PREFIX . "term_taxonomy.term_id
+        SET
+            " . WGR_TABLE_PREFIX . "term_taxonomy.count = " . WGR_TABLE_PREFIX . "term_taxonomy.count+$the_view.t";
+        echo $sql . '<br>' . "\n";
+        $this->base_model->MY_query( $sql );
+
+        // TEST
+        //return false;
+
+
+        /*
+         * xong thì xóa luôn view này đi
+         */
+        $sql = "DROP VIEW IF EXISTS $the_view";
+        echo $sql . '<br>' . "\n";
+        $this->base_model->MY_query( $sql );
 
         //
         return true;
