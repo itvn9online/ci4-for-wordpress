@@ -22,3 +22,21 @@ $('.click-check-email-test').click(function () {
     }
     return true;
 });
+
+//
+$('#data_smtp_secure').change(function () {
+    var a = $(this).val() || '';
+    if (a == 'ssl') {
+        $('#data_smtp_host_port').val(465).trigger('change');
+    } else if (a == 'tls') {
+        $('#data_smtp_host_port').val(587).trigger('change');
+    }
+});
+
+//
+$('#data_smtp_host_user').change(function () {
+    var a = $(this).val() || '';
+    if (a.split('@gmail.').length > 1) {
+        $('#data_smtp_host_name').val('smtp.gmail.com').trigger('change');
+    }
+});

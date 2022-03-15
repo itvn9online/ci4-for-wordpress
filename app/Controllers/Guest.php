@@ -319,7 +319,7 @@ class Guest extends Csrf {
                             // thiết lập thông tin người nhận
                             $data_send = [
                                 'to' => $data[ 'email' ],
-                                'subject' => '(' . $_SERVER[ 'HTTP_HOST' ] . ') Khởi tạo lại mật khẩu đăng nhập',
+                                'subject' => 'Khởi tạo lại mật khẩu đăng nhập',
                                 'message' => $this->base_model->tmp_to_html(
                                     $this->base_model->get_html_tmp( 'reset_password_confirm', '', 'Views/mail_template/' ), [
                                         'base_url' => base_url(),
@@ -332,7 +332,7 @@ class Guest extends Csrf {
                             //die( __CLASS__ . ':' . __LINE__ );
 
                             //
-                            if ( PHPMaillerSend::the_send( $data_send, $this->getconfig ) === true ) {
+                            if ( PHPMaillerSend::the_send( $data_send, $this->option_model->get_smtp() ) === true ) {
                                 $this->base_model->msg_session( 'Gửi email lấy lại mật khẩu thành công! Vui lòng kiểm tra email và làm theo hướng dẫn để tiếp tục.' );
 
                                 //
@@ -407,7 +407,7 @@ class Guest extends Csrf {
                         // thiết lập thông tin người nhận
                         $data_send = [
                             'to' => $email,
-                            'subject' => '(' . $_SERVER[ 'HTTP_HOST' ] . ') Mật khẩu đăng nhập mới',
+                            'subject' => 'Mật khẩu đăng nhập mới',
                             'message' => $this->base_model->tmp_to_html(
                                 $this->base_model->get_html_tmp( 'reset_password', '', 'Views/mail_template/' ), [
                                     'base_url' => base_url( 'guest/login' ),
@@ -423,7 +423,7 @@ class Guest extends Csrf {
                         //die( __CLASS__ . ':' . __LINE__ );
 
                         // gửi email thông báo
-                        if ( PHPMaillerSend::the_send( $data_send, $this->getconfig ) === true ) {
+                        if ( PHPMaillerSend::the_send( $data_send, $this->option_model->get_smtp() ) === true ) {
                             $this->base_model->msg_session( 'Mật khẩu mới đã được thiết lập! Vui lòng kiểm tra email ' . $email . ' để lấy mật khẩu đăng nhập mới.' );
 
                             // cập nhật mật khẩu mới cho user

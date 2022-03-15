@@ -1,5 +1,8 @@
 <?php
-require_once __DIR__ . '/Home.php';
+namespace App\ Controllers;
+
+//
+use App\ Libraries\ PHPMaillerSend;
 
 class Contact extends Home {
     public function __construct() {
@@ -48,6 +51,8 @@ class Contact extends Home {
         if ( !$this->validation->run( $data ) ) {
             $this->set_validation_error( $this->validation->getErrors(), $this->form_target );
         } else {
+            $smtp_config = $this->option_model->get_smtp();
+
             $submit = $this->MY_comment( [
                 'redirect_to' => $redirect_to,
                 'comment_type' => strtolower( $this->get_class_name( __CLASS__ ) )
@@ -56,9 +61,9 @@ class Contact extends Home {
             // thiết lập thông tin người nhận
             $data_send = [
                 //'to' => $data[ 'email' ],
-                'to' => $this->getconfig->emailcontact,
+                'to' => $smtp_config->emailcontact,
                 //'to_name' => $data[ 'fullname' ],
-                'subject' => '(' . $_SERVER[ 'HTTP_HOST' ] . ') ' . $data[ 'title' ],
+                'subject' => $data[ 'title' ],
                 'message' => $submit[ 'message' ],
             ];
 
@@ -79,7 +84,7 @@ class Contact extends Home {
             $data_send[ 'bcc_email' ] = $bcc_email;
 
             //
-            PHPMaillerSend::the_send( $data_send, $this->getconfig );
+            PHPMaillerSend::the_send( $data_send, $smtp_config );
         }
 
         //

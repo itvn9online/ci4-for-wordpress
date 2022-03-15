@@ -134,13 +134,13 @@ class ConfigType {
             }
         } else if ( $config_type == self::SMTP ) {
             $arr = [
-                'smtp_host_name' => 'Hostname',
-                'smtp_host_port' => 'Port',
                 // Công nghệ bảo mật
-                'smtp_secure' => 'Bảo mật',
                 'smtp_host_user' => 'Username',
                 'smtp_host_pass' => 'Password',
                 'smtp_host_show_pass' => 'Password',
+                'smtp_host_name' => 'Hostname',
+                'smtp_secure' => 'Bảo mật',
+                'smtp_host_port' => 'Port',
                 'smtp_from' => 'From',
                 'smtp_from_name' => 'From name',
                 'smtp_no_reply' => 'No-reply',

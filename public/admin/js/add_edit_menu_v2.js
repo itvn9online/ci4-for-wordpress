@@ -69,7 +69,11 @@ function create_html_menu_editer(max_i) {
         }, 200);
         return false;
     }
-    console.log('Call in: ' + arguments.callee.caller.name.toString());
+    try {
+        console.log('Call in: ' + arguments.callee.caller.name.toString());
+    } catch (e) {
+        //
+    }
 
     //
     var a = $('#json-output').val() || '';
@@ -96,7 +100,11 @@ function create_html_menu_editer(max_i) {
 }
 
 function get_json_code_menu(obj) {
-    console.log('Call in: ' + arguments.callee.caller.name.toString());
+    try {
+        console.log('Call in: ' + arguments.callee.caller.name.toString());
+    } catch (e) {
+        //
+    }
 
     //
     setTimeout(function () {

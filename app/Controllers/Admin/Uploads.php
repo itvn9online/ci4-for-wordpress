@@ -1,5 +1,4 @@
 <?php
-//require_once __DIR__ . '/Admin.php';
 namespace App\ Controllers\ Admin;
 
 // Libraries

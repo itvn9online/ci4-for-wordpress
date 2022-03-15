@@ -1,5 +1,4 @@
 <?php
-//require_once __DIR__ . '/Admin.php';
 namespace App\ Controllers\ Admin;
 
 // Libraries
@@ -203,9 +202,11 @@ Sitemap: ' . DYNAMIC_BASE_URL . 'sitemap';
     }
 
     private function test_mail() {
-        //print_r( $this->getconfig );
-        if ( !isset( $this->getconfig->smtp_test_email ) || empty( $this->getconfig->smtp_test_email ) ) {
-            //print_r( $this->getconfig );
+        $smtp_config = $this->option_model->get_smtp();
+        //print_r( $smtp_config );
+        //die( __CLASS__ . ':' . __LINE__ );
+        if ( !isset( $smtp_config->smtp_test_email ) || empty( $smtp_config->smtp_test_email ) ) {
+            //print_r( $smtp_config );
             die( json_encode( [
                 'code' => __LINE__,
                 'error' => 'Test email is NULL or not found!'
@@ -214,7 +215,7 @@ Sitemap: ' . DYNAMIC_BASE_URL . 'sitemap';
 
         //
         $data_send = [
-            'to' => $this->getconfig->smtp_test_email,
+            'to' => $smtp_config->smtp_test_email,
             'to_name' => 'Dao Quoc Dai',
             /*
             'bcc_email' => [
@@ -225,30 +226,39 @@ Sitemap: ' . DYNAMIC_BASE_URL . 'sitemap';
             ],
             */
             'subject' => 'Test email ' . date( 'r' ),
-            'message' => $_SERVER[ 'HTTP_HOST' ] . ' ' . date( 'r' ),
+            'message' => implode( '<br>', [
+                'Domain: ' . $_SERVER[ 'HTTP_HOST' ],
+                'Request: ' . $_SERVER[ 'REQUEST_URI' ],
+                'Method: ' . $_SERVER[ 'REQUEST_METHOD' ],
+                'Time: ' . date( 'r' ),
+                'IP: ' . $this->request->getIPAddress(),
+                'Browser: ' . $_SERVER[ 'HTTP_USER_AGENT' ],
+                'Server: ' . $_SERVER[ 'SERVER_ADDR' ],
+                'Session: ' . session_id(),
+            ] ),
         ];
-        if ( isset( $this->getconfig->smtp_test_bcc_email ) && !empty( $this->getconfig->smtp_test_bcc_email ) ) {
+        if ( isset( $smtp_config->smtp_test_bcc_email ) && !empty( $smtp_config->smtp_test_bcc_email ) ) {
             $data_send[ 'bcc_email' ] = [
-                $this->getconfig->smtp_test_bcc_email
+                $smtp_config->smtp_test_bcc_email
             ];
         }
-        if ( isset( $this->getconfig->smtp_test_cc_email ) && !empty( $this->getconfig->smtp_test_cc_email ) ) {
+        if ( isset( $smtp_config->smtp_test_cc_email ) && !empty( $smtp_config->smtp_test_cc_email ) ) {
             $data_send[ 'cc_email' ] = [
-                $this->getconfig->smtp_test_cc_email
+                $smtp_config->smtp_test_cc_email
             ];
         }
         //print_r( $data_send );
         //die( __CLASS__ . ':' . __LINE__ );
 
         //
-        $result = PHPMaillerSend::the_send( $data_send, $this->getconfig, 2 );
+        $result = PHPMaillerSend::the_send( $data_send, $smtp_config, 2 );
         if ( $result === true ) {
-            echo 'Gửi email thành công! from <strong>' . $this->getconfig->smtp_host_user . '</strong> to <strong>' . $data_send[ 'to' ] . '</strong> <br>' . "\n";
+            echo 'Gửi email thành công! from <strong>' . $smtp_config->smtp_host_user . '</strong> to <strong>' . $data_send[ 'to' ] . '</strong> <br>' . "\n";
 
             //
             return true;
         } else {
-            echo 'Gửi email THẤT BẠI! from <strong>' . $this->getconfig->smtp_host_user . '</strong> <br>' . "\n";
+            echo 'Gửi email THẤT BẠI! from <strong>' . $smtp_config->smtp_host_user . '</strong> <br>' . "\n";
             print_r( $result );
         }
 

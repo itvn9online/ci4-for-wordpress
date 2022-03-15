@@ -50,9 +50,24 @@ class Option extends EbModel {
         }
     }
 
-    public function get_lang() {
+    public function gets_config( $option_type, $lang_key ) {
         //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
-        return $this->get_config_by_type( ConfigType::TRANS, LanguageCost::lang_key() );
+        $data = $this->get_config_by_type( $option_type, $lang_key );
+
+        //
+        $result = [];
+        foreach ( $data as $v ) {
+            $result[ $v[ 'option_name' ] ] = $v[ 'option_value' ];
+        }
+        return $result;
+    }
+
+    public function get_lang() {
+        return $this->gets_config( ConfigType::TRANS, LanguageCost::lang_key() );
+    }
+
+    public function get_smtp() {
+        return ( object )$this->gets_config( ConfigType::SMTP, LanguageCost::lang_key() );
     }
 
     public function get_config_by_type( $option_type, $lang_key, $time = BIG_CACHE_TIMEOUT, $repeat = true ) {

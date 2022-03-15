@@ -21,7 +21,7 @@ class PHPMaillerSend {
         $to_name = isset( $data[ 'to_name' ] ) ? $data[ 'to_name' ] : $data[ 'to' ];
         $bcc_email = isset( $data[ 'bcc_email' ] ) ? $data[ 'bcc_email' ] : [];
         $cc_email = isset( $data[ 'cc_email' ] ) ? $data[ 'cc_email' ] : [];
-        $subject = $data[ 'subject' ];
+        $subject = '[' . $_SERVER[ 'HTTP_HOST' ] . '] ' . $data[ 'subject' ];
         $message = $data[ 'message' ];
 
         // -> config

@@ -20,13 +20,7 @@ class Lang extends EbModel {
 
         //
         if ( $this_cache_lang === NULL ) {
-            $data = $this->option_model->get_lang();
-
-            //
-            $this_cache_lang = [];
-            foreach ( $data as $v ) {
-                $this_cache_lang[ $v[ 'option_name' ] ] = $v[ 'option_value' ];
-            }
+            $this_cache_lang = $this->option_model->get_lang();
         }
         //print_r( $this_cache_lang );
 
