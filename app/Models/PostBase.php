@@ -92,6 +92,9 @@ class PostBase extends EbModel {
         //print_r( $data );
 
         //
+        //return DYNAMIC_BASE_URL . $data[ 'post_type' ] . '/' . $data[ 'ID' ] . '/' . $data[ 'post_name' ] . '.html';
+
+        //
         if ( $data[ 'post_type' ] == PostType::POST ) {
             return DYNAMIC_BASE_URL . $data[ 'ID' ] . '/' . $data[ 'post_name' ];
         } else if ( $data[ 'post_type' ] == PostType::BLOG ) {
@@ -99,7 +102,8 @@ class PostBase extends EbModel {
         } else if ( $data[ 'post_type' ] == PostType::PAGE ) {
             return DYNAMIC_BASE_URL . PAGE_BASE_URL . $data[ 'post_name' ];
         }
-        return DYNAMIC_BASE_URL . '?p=' . $data[ 'ID' ] . '&post_type=' . $data[ 'post_type' ] . '&slug=' . $data[ 'post_name' ];
+        //return DYNAMIC_BASE_URL . '?p=' . $data[ 'ID' ] . '&post_type=' . $data[ 'post_type' ] . '&slug=' . $data[ 'post_name' ];
+        return DYNAMIC_BASE_URL . 'p/' . $data[ 'post_type' ] . '/' . $data[ 'ID' ] . '/' . $data[ 'post_name' ] . '.html';
     }
 
     // thường dùng trong view -> in ra link admin của 1 post

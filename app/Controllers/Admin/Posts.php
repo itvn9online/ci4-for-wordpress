@@ -210,7 +210,7 @@ class Posts extends Admin {
             $filter[ 'offset' ] = $offset;
             $filter[ 'limit' ] = $post_per_page;
             $filter[ 'order_by' ] = [
-                'posts.menu_order' => 'DESC',
+                //'posts.menu_order' => 'DESC',
                 'posts.ID' => 'DESC',
                 //'posts.post_date' => 'DESC',
                 //'post_modified' => 'DESC',

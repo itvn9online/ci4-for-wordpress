@@ -538,8 +538,7 @@ function load_term_select_option(a, jd, _callBack, max_i) {
     //
     jQuery.ajax({
         type: 'POST',
-        // lấy base URL từ link http thường (không phải https) -> để xem nó có redirect về https không
-        url: web_link + 'ajax/get_taxonomy_by_taxonomy',
+        url: 'admin/ajax/get_taxonomy_by_taxonomy',
         dataType: 'json',
         //crossDomain: true,
         data: {

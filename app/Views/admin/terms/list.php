@@ -46,6 +46,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
             <th>Nội dung</th>
             <th>Ngôn ngữ</th>
             <th>Tổng</th>
+            <th>STT</th>
             <th>&nbsp;</th>
         </tr>
     </thead>
@@ -59,6 +60,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
             <td>&nbsp;</td>
             <td>{{v.lang_key}}</td>
             <td>{{v.count}}</td>
+            <td><input type="number" data-id="{{v.term_id}}" value="{{v.term_order}}" size="5" class="form-control s change-update-term_order" /></td>
             <td class="text-center"><div>
                     <div data-deleted="{{v.is_deleted}}" class="show-if-trash" ng-XOA-if="v.is_deleted == DeletedStatus_DELETED">
                         <div><a href="admin/{{controller_slug}}/restore?id={{v.term_id}}{{for_action}}" onClick="return click_a_restore_record();" target="target_eb_iframe" class="bluecolor"><i class="fa fa-undo"></i></a></div>

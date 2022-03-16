@@ -35,6 +35,13 @@ if ( WGR_PAGES_PREFIX != '' ) {
     $routes->add( WGR_PAGES_PREFIX . '/(:segment)', 'Pages::get_page/$1' );
 }
 
+// custom post type
+$routes->get( 'p/(:segment)/(:num)/(:segment)', 'P::custom_post_type/$1/$2/$3' );
+
+// custom taxonomy
+$routes->get( 'c/(:segment)/(:num)/(:segment)', 'C::custom_taxonomy/$1/$2/$3' );
+$routes->get( 'c/(:segment)/(:num)/(:segment)/page/(:num)', 'C::custom_taxonomy/$1/$2/$3/page/$4' );
+
 // category -> có base slug cho category thì dùng loại base fix cứng này
 if ( WGR_CATEGORY_PREFIX != '' ) {
     $routes->get( WGR_CATEGORY_PREFIX . '/(:segment)', 'Category::category_list/$1' );

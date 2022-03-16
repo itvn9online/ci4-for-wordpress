@@ -11,7 +11,12 @@ class Posts extends Csrf {
         parent::__construct();
     }
 
-    public function index( $id, $slug, $post_type, $taxonomy, $file_view = 'post_view' ) {
+    public function index( $post_type, $id, $slug ) {
+        die( __CLASS__ . ':' . __LINE__ );
+        //return $this->index( $id, $slug, PostType::POST, TaxonomyType::POSTS );
+    }
+
+    public function post_details( $id, $slug, $post_type, $taxonomy, $file_view = 'post_view' ) {
         //echo $id . ' <br>' . "\n";
         //echo $slug . ' <br>' . "\n";
         //echo 'post details <br>' . "\n";
@@ -182,9 +187,5 @@ class Posts extends Csrf {
 
         //
         return $cache_value;
-    }
-
-    public function post_details( $id, $slug ) {
-        return $this->index( $id, $slug, PostType::POST, TaxonomyType::POSTS );
     }
 }

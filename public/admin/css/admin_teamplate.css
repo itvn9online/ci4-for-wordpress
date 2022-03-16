@@ -258,6 +258,13 @@ body.ebfixed-top-menu #sidebar {
 .eb-table tr:hover td {
     background-color: antiquewhite !important;
 }
+.eb-table input[type="number"] {
+    padding: 12px 0 12px 10px;
+    margin-bottom: 0;
+}
+.eb-table input[type="number"].s {
+    max-width: 50px;
+}
 #post_meta_post_category {
     width: 60%;
     max-width: 350px;

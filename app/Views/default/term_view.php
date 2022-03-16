@@ -36,6 +36,7 @@
 
         ?>
     </ul>
+    <br>
     <div class="public-part-page">
         <?php
 

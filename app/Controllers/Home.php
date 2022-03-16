@@ -135,11 +135,14 @@ class Home extends Csrf {
     }
 
     protected function autoDetails() {
-        $id = $this->MY_get( 'p' );
+        return $this->showPostDetails( $this->MY_get( 'p', 0 ), $this->MY_get( 'post_type', '' ) );
+    }
+    protected function showPostDetails( $id, $post_type ) {
         //echo $id . '<br>' . "\n";
+        //echo $post_type . '<br>' . "\n";
 
         //
-        if ( empty( $id ) ) {
+        if ( !is_numeric( $id ) || $id <= 0 ) {
             die( 'ERROR! id? ' . basename( __FILE__ ) . ':' . __LINE__ );
         }
 
@@ -152,9 +155,6 @@ class Home extends Csrf {
         if ( $cache_value !== NULL ) {
             return $this->show_cache( $cache_value );
         }
-
-        //
-        $post_type = $this->MY_get( 'post_type' );
 
         //
         $in_cache = __FUNCTION__;
@@ -338,6 +338,11 @@ class Home extends Csrf {
         //echo $page_num . '<br>' . "\n";
 
         //
+        return $this->showCategory( $term_id, $taxonomy_type, $page_num );
+    }
+
+    //
+    protected function showCategory( $term_id, $taxonomy_type, $page_num = 1 ) {
         $cache_key = $this->term_model->key_cache( $term_id ) . 'page' . $page_num;
         $cache_value = $this->MY_cache( $cache_key );
         // có thì in ra cache là được

@@ -6,6 +6,7 @@ namespace App\ Models;
 use App\ Libraries\ LanguageCost;
 use App\ Libraries\ DeletedStatus;
 use App\ Libraries\ TaxonomyType;
+use App\ Libraries\ PostType;
 
 //
 class Term extends TermBase {
@@ -780,7 +781,8 @@ class Term extends TermBase {
         } else if ( in_array( $data[ 'taxonomy' ], $allow_taxonomy ) ) {
             return DYNAMIC_BASE_URL . $data[ 'taxonomy' ] . '/' . $data[ 'slug' ];
         }
-        return DYNAMIC_BASE_URL . '?cat=' . $data[ 'term_id' ] . '&taxonomy=' . $data[ 'taxonomy' ] . '&slug=' . $data[ 'slug' ];
+        //return DYNAMIC_BASE_URL . '?cat=' . $data[ 'term_id' ] . '&taxonomy=' . $data[ 'taxonomy' ] . '&slug=' . $data[ 'slug' ];
+        return DYNAMIC_BASE_URL . 'c/' . $data[ 'taxonomy' ] . '/' . $data[ 'term_id' ] . '/' . $data[ 'slug' ];
     }
     // thường dùng trong view -> in ra link admin của 1 term
     function the_permalink( $data ) {
@@ -945,6 +947,8 @@ class Term extends TermBase {
             //print_r( $last_run );
             return $last_run;
         }
+        // lúc cần xem lỗi trên html thì mở dòng này để còn hiển thị html
+        //echo ' -->';
 
         /*
          * chức năng này chạy lâu hơn bình thường -> tạo cache luôn và ngay để tránh việc người sau vào lại thực thi cùng
@@ -1008,6 +1012,24 @@ class Term extends TermBase {
         ], [
             'count >' => 0
         ] );
+
+        // đặt các relationships về XÓA
+        $sql = "UPDATE " . WGR_TABLE_PREFIX . "term_relationships
+        SET
+            is_deleted = " . DeletedStatus::DELETED;
+        echo $sql . '<br>' . "\n";
+        $this->base_model->MY_query( $sql );
+
+        // đặt trạng thái public các các relationships của post đang public
+        $sql = "UPDATE " . WGR_TABLE_PREFIX . "term_relationships
+        INNER JOIN
+            " . WGR_TABLE_PREFIX . "posts ON  " . WGR_TABLE_PREFIX . "posts.ID = " . WGR_TABLE_PREFIX . "term_relationships.object_id
+        SET
+            " . WGR_TABLE_PREFIX . "term_relationships.is_deleted = " . DeletedStatus::FOR_DEFAULT . "
+        WHERE
+            " . WGR_TABLE_PREFIX . "posts.post_status = '" . PostType::PUBLIC . "'";
+        echo $sql . '<br>' . "\n";
+        $this->base_model->MY_query( $sql );
         //return false;
 
         /*
@@ -1017,6 +1039,8 @@ class Term extends TermBase {
         SELECT term_taxonomy_id, COUNT(object_id) AS c
         FROM
             " . WGR_TABLE_PREFIX . "term_relationships
+        WHERE
+            is_deleted = " . DeletedStatus::FOR_DEFAULT . "
         GROUP BY
             term_taxonomy_id";
         echo $sql . '<br>' . "\n";

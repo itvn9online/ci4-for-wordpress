@@ -15,6 +15,7 @@
 
 //
 //print_r( $data );
+//print_r( $ops );
 //print_r( $getconfig );
 
 // tự động tạo slider nếu có (và chưa được gọi ra)
@@ -27,10 +28,12 @@ if ( !defined( 'IN_CATEGORY_VIEW' ) ) {
  * Chuẩn bị dữ liệu để phân trang
  */
 $post_per_page = $base_model->get_config( $getconfig, 'eb_posts_per_page', 20 );
+//$post_per_page = 2;
 //echo $post_per_page . '<br>' . "\n";
 
 //
-$totalThread = $post_model->post_category( $post_type, $data, [], true );
+//$totalThread = $post_model->post_category( $post_type, $data, [], true );
+$totalThread = $data[ 'count' ];
 //echo $totalThread . '<br>' . "\n";
 //$totalThread = $post_model->count_posts_by( $data );
 //echo $totalThread . '<br>' . "\n";

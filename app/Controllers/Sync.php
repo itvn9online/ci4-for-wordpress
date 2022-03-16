@@ -268,6 +268,9 @@ class Sync extends BaseController {
                 // term level -> dùng để lọc các nhóm theo cấp độ cho nó nhanh -> ví dụ khi cần lấy tất cả các nhóm cấp 1, 2, 3
                 'term_level' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'Level của nhóm, tính theo cấp độ của nhóm cha +1\'',
             ],
+            WGR_TABLE_PREFIX . 'term_relationships' => [
+                'is_deleted' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'0 = hiển thị, 1 = xóa. Trạng thái này được lấy định kỳ dựa theo trạng thái của post\'',
+            ],
             WGR_TABLE_PREFIX . 'options' => [
                 'option_type' => 'VARCHAR(55) NULL DEFAULT NULL COMMENT \'Phân loại option dành cho nhiều việc khác nhau\'',
                 'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',

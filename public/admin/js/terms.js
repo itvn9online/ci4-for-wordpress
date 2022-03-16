@@ -248,3 +248,61 @@ function before_tree_view(tmp, max_i) {
     term_not_null_tree_view(tmp);
     //console.log('term data:', term_data);
 })();
+
+
+/*
+ * thay đổi số thứ tự của term
+ */
+$('.change-update-term_order').change(function () {
+    var a = $(this).attr('data-id') || '';
+    if (a != '') {
+        var v = $(this).val();
+        v *= 1;
+        if (v <= 0) {
+            v = 0;
+        }
+
+        //
+        jQuery.ajax({
+            type: 'POST',
+            url: web_link + 'ajax/get_taxonomy_by_taxonomy',
+            dataType: 'json',
+            //crossDomain: true,
+            data: {
+                taxonomy: a,
+                //jd: jd,
+            },
+            timeout: 33 * 1000,
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                if (typeof jqXHR.responseText != 'undefined') {
+                    console.log(jqXHR.responseText);
+                }
+                console.log(errorThrown);
+                console.log(textStatus);
+                if (textStatus === 'timeout') {
+                    //
+                }
+            },
+            success: function (data) {
+                //console.log(data);
+                //console.log(data.length);
+
+                //
+                if (typeof data.error != 'undefined') {
+                    console.log('%c ' + data.error, 'color: red;');
+                } else {
+                    arr_all_taxonomy[a] = data;
+
+                    //
+                    if (typeof _callBack == 'function') {
+                        _callBack(data, jd);
+                    } else {
+                        console.log(data);
+                    }
+                    //console.log('arr_all_taxonomy:', arr_all_taxonomy);
+                }
+            }
+        });
+    }
+});

@@ -637,7 +637,7 @@ function WGR_duy_tri_dang_nhap(max_i) {
     //
     jQuery.ajax({
         type: 'GET',
-        url: web_link + 'logged/confirm_login',
+        url: 'logged/confirm_login',
         dataType: 'json',
         //crossDomain: true,
         //data: data,
@@ -746,8 +746,7 @@ function action_each_to_taxonomy() {
     // chạy ajax nạp dữ liệu của taxonomy
     jQuery.ajax({
         type: 'POST',
-        // lấy base URL từ link http thường (không phải https) -> để xem nó có redirect về https không
-        url: web_link + 'ajax/get_taxonomy_by_ids',
+        url: 'ajax/get_taxonomy_by_ids',
         dataType: 'json',
         //crossDomain: true,
         data: {
