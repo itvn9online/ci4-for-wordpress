@@ -612,13 +612,17 @@ function create_term_select_option(arr, space) {
 var arr_check_checked_all = [];
 
 function get_check_checked_all_value() {
+    $('.input-checkbox-control').parents('tr').removeClass('redcolor');
+
+    //
     arr_check_checked_all = [];
     $('.input-checkbox-control').each(function () {
         if ($(this).is(':checked')) {
             arr_check_checked_all.push($(this).val());
+            $(this).parents('tr').addClass('redcolor');
         }
     });
-    console.log(arr_check_checked_all);
+    //console.log(arr_check_checked_all);
 
     //
     if (arr_check_checked_all.length > 0) {

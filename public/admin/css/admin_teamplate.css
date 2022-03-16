@@ -322,7 +322,7 @@ body.body-debug_enable #admin-header, body.body-debug_enable #sidebar {
 /* */
 .quick-edit-form {
     padding: 10px 5px;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(100, 100, 100, 0.9);
     /* border-radius: 0 0 5px 5px; */
     display: none;
     position: absolute;
@@ -330,14 +330,14 @@ body.body-debug_enable #admin-header, body.body-debug_enable #sidebar {
     left: 0;
     right: 0;
     z-index: 99;
+    border-bottom: 1px #666 solid;
+    box-shadow: 0 5px 10px #ccc;
 }
 .quick-edit-form .row {
     margin-left: 0;
-    /*
-    width: 95%;
-    max-width: 1366px;
+    width: 99%;
+    /* max-width: 1366px; */
     margin: 0 auto;
-    */
 }
 .quick-edit-form button {
     margin-bottom: 0;
