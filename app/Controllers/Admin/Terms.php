@@ -178,6 +178,7 @@ class Terms extends Admin {
             'for_action' => $for_action,
             'by_keyword' => $by_keyword,
             'data' => $data,
+            'by_is_deleted' => $by_is_deleted,
             'pagination' => $pagination,
             'totalThread' => $totalThread,
             'taxonomy' => $this->taxonomy,
@@ -394,6 +395,56 @@ class Terms extends Admin {
 
     public function restore() {
         return $this->before_delete_restore( DeletedStatus::FOR_DEFAULT );
+    }
+
+    //
+    public function before_all_delete_restore( $is_deleted ) {
+        $ids = $this->MY_post( 'ids', '' );
+        if ( empty( $ids ) ) {
+            $this->result_json_type( [
+                'code' => __LINE__,
+                'error' => 'ids not found!',
+            ] );
+        }
+
+        //
+        $ids = explode( ',', $ids );
+        if ( count( $ids ) <= 0 ) {
+            $this->result_json_type( [
+                'code' => __LINE__,
+                'error' => 'ids EMPTY!',
+            ] );
+        }
+
+        //
+        $result = $this->base_model->update_multiple( 'terms', [
+            // SET
+            'is_deleted' => $is_deleted
+        ], [
+            'is_deleted !=' => $is_deleted
+        ], [
+            'where_in' => array(
+                'term_id' => $ids
+            ),
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+        ] );
+        $this->result_json_type( [
+            'code' => __LINE__,
+            'result' => $result,
+        ] );
+    }
+
+    // chức năng xóa nhiều tài khoản 1 lúc
+    public function delete_all() {
+        return $this->before_all_delete_restore( DeletedStatus::DELETED );
+    }
+
+    // chức năng xóa nhiều tài khoản 1 lúc
+    public function restore_all() {
+        return $this->before_all_delete_restore( DeletedStatus::FOR_DEFAULT );
     }
 
     public function term_status() {

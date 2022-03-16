@@ -90,7 +90,7 @@ if ( $result_id !== false ) {
 
 
 // UPDATE dữ liệu
-$this->base_model->update_multiple( 'tbl_user', [
+$this->base_model->update_multiple( 'users', [
     // SET
     'is_member' => User_type::GUEST,
 ], [
@@ -98,7 +98,7 @@ $this->base_model->update_multiple( 'tbl_user', [
     'is_member' => User_type::GUEST,
 ], [
     'where_in' => array(
-        'user_id' => array(
+        'ID' => array(
             1,
             2,
             3

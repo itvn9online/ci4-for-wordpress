@@ -207,7 +207,7 @@ class Users extends Admin {
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/' . $this->custom_list_view . '/list', array(
             'pagination' => $pagination,
-            //'by_is_deleted' => $by_is_deleted,
+            'by_is_deleted' => $by_is_deleted,
             'for_action' => $for_action,
             'by_user_status' => $by_user_status,
             //'page_num' => $page_num,
@@ -413,6 +413,60 @@ class Users extends Admin {
 
     public function restore() {
         return $this->before_delete_restore( 'Không thể tự phục hồi chính bạn!', DeletedStatus::FOR_DEFAULT );
+    }
+
+    //
+    public function before_all_delete_restore( $is_deleted, $where = [] ) {
+        $ids = $this->MY_post( 'ids', '' );
+        if ( empty( $ids ) ) {
+            $this->result_json_type( [
+                'code' => __LINE__,
+                'error' => 'ids not found!',
+            ] );
+        }
+
+        //
+        $ids = explode( ',', $ids );
+        if ( count( $ids ) <= 0 ) {
+            $this->result_json_type( [
+                'code' => __LINE__,
+                'error' => 'ids EMPTY!',
+            ] );
+        }
+
+        //
+        $where[ 'is_deleted !=' ] = $is_deleted;
+        //die( json_encode( $where ) );
+
+        //
+        $result = $this->base_model->update_multiple( 'users', [
+            // SET
+            'is_deleted' => $is_deleted,
+        ], $where, [
+            'where_in' => array(
+                'ID' => $ids
+            ),
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+        ] );
+        $this->result_json_type( [
+            'code' => __LINE__,
+            'result' => $result,
+        ] );
+    }
+
+    // chức năng xóa nhiều tài khoản 1 lúc
+    public function delete_all() {
+        return $this->before_all_delete_restore( DeletedStatus::DELETED, [
+            'ID !=' => $this->current_user_id
+        ] );
+    }
+
+    // chức năng xóa nhiều tài khoản 1 lúc
+    public function restore_all() {
+        return $this->before_all_delete_restore( DeletedStatus::FOR_DEFAULT );
     }
 
     // chức năng đăng nhập vào 1 tài khoản khác

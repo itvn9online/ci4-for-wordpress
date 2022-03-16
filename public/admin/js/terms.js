@@ -5,6 +5,58 @@ function done_delete_restore(id) {
     $('#admin_main_list tr[data-id="' + id + '"]').fadeOut();
 }
 
+//
+function action_delete_restore_checked_term(method_control, method_name) {
+    if (confirm('Xác nhận ' + method_name + ' các bản ghi đã chọn!') !== true) {
+        return false;
+    }
+    //console.log(arr_check_checked_all);
+
+    //
+    jQuery.ajax({
+        type: 'POST',
+        url: 'admin/terms/' + method_control,
+        dataType: 'json',
+        data: {
+            ids: arr_check_checked_all.join(','),
+        },
+        success: function (data) {
+            if (typeof data.error != 'undefined') {
+                WGR_alert(data.error + ' - Code: ' + data.code, 'error');
+            } else if (typeof data.result != 'undefined') {
+                if (data.result === true) {
+                    WGR_alert(method_name + ' các bản ghi đã chọn thành công');
+
+                    //
+                    for (var i = 0; i < arr_check_checked_all.length; i++) {
+                        // bỏ check cho các checkbox
+                        $('.input-checkbox-control[value="' + arr_check_checked_all[i] + '"]').hide().remove();
+                        // xóa luôn TR đi
+                        $('#admin_main_list tr[data-id="' + arr_check_checked_all[i] + '"]').hide().remove();
+                    }
+                    //arr_check_checked_all = [];
+                    $('.input-checkbox-all').prop('checked', false);
+                    get_check_checked_all_value();
+                } else {
+                    WGR_alert('Có lỗi trong quá trình ' + method_name + ' bản ghi', 'warning');
+                    console.log(data);
+                }
+            } else {
+                console.log(data);
+            }
+        }
+    });
+}
+
+function click_delete_checked_term() {
+    action_delete_restore_checked_term('delete_all', 'XÓA');
+}
+
+//
+function click_restore_checked_term() {
+    action_delete_restore_checked_term('restore_all', 'Khôi phục');
+}
+
 // do sử dụng aguilarjs đang không tạo được danh mục theo dạng đệ quy -> tự viết function riêng vậy
 function term_tree_view(data, tmp, gach_ngang) {
     if (data.length <= 0) {
@@ -253,7 +305,9 @@ function before_tree_view(tmp, max_i) {
 /*
  * thay đổi số thứ tự của term
  */
-$('.change-update-term_order').change(function () {
+$('.change-update-term_order').attr({
+    type: 'number'
+}).change(function () {
     var a = $(this).attr('data-id') || '';
     if (a != '') {
         var v = $(this).val();
@@ -263,46 +317,18 @@ $('.change-update-term_order').change(function () {
         }
 
         //
+        /*
         jQuery.ajax({
             type: 'POST',
             url: web_link + 'ajax/get_taxonomy_by_taxonomy',
             dataType: 'json',
-            //crossDomain: true,
             data: {
                 taxonomy: a,
-                //jd: jd,
-            },
-            timeout: 33 * 1000,
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log(jqXHR);
-                if (typeof jqXHR.responseText != 'undefined') {
-                    console.log(jqXHR.responseText);
-                }
-                console.log(errorThrown);
-                console.log(textStatus);
-                if (textStatus === 'timeout') {
-                    //
-                }
             },
             success: function (data) {
-                //console.log(data);
-                //console.log(data.length);
-
-                //
-                if (typeof data.error != 'undefined') {
-                    console.log('%c ' + data.error, 'color: red;');
-                } else {
-                    arr_all_taxonomy[a] = data;
-
-                    //
-                    if (typeof _callBack == 'function') {
-                        _callBack(data, jd);
-                    } else {
-                        console.log(data);
-                    }
-                    //console.log('arr_all_taxonomy:', arr_all_taxonomy);
-                }
+                console.log(data);
             }
         });
+        */
     }
 });

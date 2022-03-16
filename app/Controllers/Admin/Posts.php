@@ -523,11 +523,11 @@ class Posts extends Admin {
     protected function done_delete_restore( $id ) {
         die( '<script>top.done_delete_restore(' . $id . ');</script>' );
     }
-    protected function before_delete_restore( $is_deleted ) {
+    protected function before_delete_restore( $post_status ) {
         $id = $this->MY_get( 'id', 0 );
 
         $update = $this->post_model->update_post( $id, [
-            'post_status' => $is_deleted
+            'post_status' => $post_status
         ], [
             'post_type' => $this->post_type,
         ] );
@@ -604,6 +604,56 @@ class Posts extends Admin {
 
         //
         $this->base_model->alert( 'Chức năng XÓA đang trong giai đoạn thử nghiệm', 'warning' );
+    }
+
+    //
+    public function before_all_delete_restore( $post_status ) {
+        $ids = $this->MY_post( 'ids', '' );
+        if ( empty( $ids ) ) {
+            $this->result_json_type( [
+                'code' => __LINE__,
+                'error' => 'ids not found!',
+            ] );
+        }
+
+        //
+        $ids = explode( ',', $ids );
+        if ( count( $ids ) <= 0 ) {
+            $this->result_json_type( [
+                'code' => __LINE__,
+                'error' => 'ids EMPTY!',
+            ] );
+        }
+
+        //
+        $result = $this->base_model->update_multiple( 'posts', [
+            // SET
+            'post_status' => $post_status
+        ], [
+            'post_status !=' => $post_status
+        ], [
+            'where_in' => array(
+                'ID' => $ids
+            ),
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+        ] );
+        $this->result_json_type( [
+            'code' => __LINE__,
+            'result' => $result,
+        ] );
+    }
+
+    // chức năng xóa nhiều tài khoản 1 lúc
+    public function delete_all() {
+        return $this->before_all_delete_restore( PostType::DELETED );
+    }
+
+    // chức năng xóa nhiều tài khoản 1 lúc
+    public function restore_all() {
+        return $this->before_all_delete_restore( PostType::DRAFT );
     }
 
     //

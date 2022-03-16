@@ -223,6 +223,7 @@ class Sync extends BaseController {
             'lang_parent',
             'term_status',
             'parent_id',
+            'parent',
             'district_id',
             'province_id',
             'term_type',

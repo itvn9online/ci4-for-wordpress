@@ -604,3 +604,41 @@ function create_term_select_option(arr, space) {
     //
     return str;
 }
+
+
+/*
+ * chức năng select all user và chỉnh sửa nhanh
+ */
+var arr_check_checked_all = [];
+
+function get_check_checked_all_value() {
+    arr_check_checked_all = [];
+    $('.input-checkbox-control').each(function () {
+        if ($(this).is(':checked')) {
+            arr_check_checked_all.push($(this).val());
+        }
+    });
+    console.log(arr_check_checked_all);
+
+    //
+    if (arr_check_checked_all.length > 0) {
+        $('.quick-edit-form').fadeIn();
+    } else {
+        $('.quick-edit-form').fadeOut();
+    }
+}
+
+//
+function action_for_check_checked_all() {
+    $('.input-checkbox-all').change(function () {
+        // checked cho tất cả select liên quan
+        $('.input-checkbox-control').prop('checked', $(this).is(':checked'));
+        get_check_checked_all_value();
+    });
+    //$('.input-checkbox-all').prop('checked', true).trigger('change');
+
+    // select từng input
+    $('.input-checkbox-control').change(function () {
+        get_check_checked_all_value();
+    });
+}

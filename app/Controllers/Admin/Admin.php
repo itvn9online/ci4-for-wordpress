@@ -13,6 +13,9 @@ use App\ Libraries\ UsersType;
 class Admin extends Ajax {
     //public $user_group_list = array();
 
+    // với 1 số controller, sẽ không nạp cái HTML header vào, nên có thêm tham số này để không nạp header nữa
+    public $preload_header = true;
+
     protected $body_class = '';
 
     public function __construct() {
@@ -38,24 +41,28 @@ class Admin extends Ajax {
         $this->post_model = new\ App\ Models\ PostAdmin();
 
         //
-        $this->teamplate_admin = [
-            'arr_admin_menu' => $this->admin_menu(),
-            'session_data' => $this->session_data,
-            'body_class' => $this->body_class,
-            // các biến mà view con cần sử dụng thì cho vào view trung gian này
-            'header' => view( 'admin/header_view', array(
-                'base_model' => $this->base_model,
-                //'menu_model' => $this->menu_model,
-                //'option_model' => $this->option_model,
-                'post_model' => $this->post_model,
-                'term_model' => $this->term_model,
-                //'lang_model' => $this->lang_model,
-
-                //
-                'debug_enable' => $this->debug_enable,
+        if ( $this->preload_header === true && $_SERVER[ 'REQUEST_METHOD' ] == 'GET' ) {
+            $this->teamplate_admin = [
+                'arr_admin_menu' => $this->admin_menu(),
                 'session_data' => $this->session_data,
-            ) ),
-        ];
+                'body_class' => $this->body_class,
+                // các biến mà view con cần sử dụng thì cho vào view trung gian này
+                'header' => view( 'admin/header_view', array(
+                    'base_model' => $this->base_model,
+                    //'menu_model' => $this->menu_model,
+                    //'option_model' => $this->option_model,
+                    'post_model' => $this->post_model,
+                    'term_model' => $this->term_model,
+                    //'lang_model' => $this->lang_model,
+
+                    //
+                    'debug_enable' => $this->debug_enable,
+                    'session_data' => $this->session_data,
+                ) ),
+            ];
+        } else {
+            $this->teamplate_admin = [];
+        }
     }
 
     public function index() {

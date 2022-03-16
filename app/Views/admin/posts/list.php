@@ -23,12 +23,12 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                         <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $name_type; ?>" autofocus aria-required="true" required>
                     </div>
                     <div class="lf f25 hide-if-no-taxonomy">
-                        <select name="term_id" data-select="<?php echo $by_term_id; ?>" data-taxonomy="<?php echo $taxonomy; ?>" onChange="document.frm_admin_search_controller.submit();" class="each-to-group-taxonomy">
+                        <select name="term_id" data-select="<?php echo $by_term_id; ?>" data-taxonomy="{{taxonomy}}" onChange="document.frm_admin_search_controller.submit();" class="each-to-group-taxonomy">
                             <option value="0">- Danh mục <?php echo $name_type; ?> -</option>
                         </select>
                     </div>
                     <div class="lf f25">
-                        <select name="post_status" data-select="<?php echo $post_status; ?>" onChange="document.frm_admin_search_controller.submit();">
+                        <select name="post_status" data-select="{{post_status}}" onChange="document.frm_admin_search_controller.submit();">
                             <option value="">- Trạng thái <?php echo $name_type; ?> -</option>
                             <option value="{{k}}" ng-repeat="(k, v) in PostType_arrStatus">{{v}}</option>
                         </select>
@@ -42,22 +42,23 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
         <div class="lf f38 text-right">
             <?php
 
-            // menu sẽ được tự động khởi tạo khi dùng hàm để gọi -> không cho add thủ công
-            if ( $post_type != PostType::MENU ) {
-                ?>
-            <div class="d-inline"><a href="<?php $post_model->admin_permalink( $post_type, 0, $controller_slug ); ?>" class="btn btn-success btn-mini"> <i class="fa fa-plus"></i> Thêm mới <?php echo $name_type; ?></a></div>
-            <?php
-            }
+            //
+            include __DIR__ . '/list_right_button.php';
 
             ?>
-            <div class="d-inline"><a href="admin/<?php echo $controller_slug; ?>?post_status=<?php echo PostType::DELETED; ?>" class="btn btn-mini"> <i class="fa fa-trash"></i> Lưu trữ</a></div>
         </div>
     </div>
     <br>
+    <?php
+
+    //
+    include __DIR__ . '/list_select_all.php';
+
+    ?>
     <table class="table table-bordered table-striped with-check table-list eb-table">
         <thead>
             <tr>
-                <th><input type="checkbox" id="selectall" name="selectall"/></th>
+                <th><input type="checkbox" class="input-checkbox-all" /></th>
                 <th>STT</th>
                 <th>Tiêu đề <?php echo $name_type; ?></th>
                 <th>Ảnh đại diện</th>
@@ -70,7 +71,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
         </thead>
         <tbody id="admin_main_list">
             <tr data-id="{{v.ID}}" ng-repeat="v in data">
-                <td>&nbsp;</td>
+                <td class="text-center"><input type="checkbox" value="{{v.ID}}" class="input-checkbox-control" /></td>
                 <td>{{v.menu_order}}</td>
                 <td><div><a href="{{v.admin_permalink}}" class="bold">{{v.post_title}} <i class="fa fa-edit"></i></a></div>
                     <div ng-class="post_type == PostType_MENU ? 'd-none' : ''"><a href="{{v.the_permalink}}" target="_blank" class="small blackcolor">{{v.post_name}} <i class="fa fa-external-link"></i></a></div></td>
@@ -107,6 +108,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 angular.module('myApp', []).controller('myCtrl', function ($scope) {
     $scope.data = <?php echo json_encode($data); ?>;
     $scope.post_type = '<?php echo $post_type; ?>';
+    $scope.post_status = '<?php echo $post_status; ?>';
     $scope.PostType_MENU = '<?php echo PostType::MENU; ?>';
     $scope.taxonomy = '<?php echo $taxonomy; ?>';
     $scope.controller_slug = '<?php echo $controller_slug; ?>';
