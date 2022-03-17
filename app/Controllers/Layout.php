@@ -875,6 +875,10 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
     }
 
     protected function result_json_type( $arr, $headers = [], $too_headers = [] ) {
+        // reset lại view -> tránh in ra phần html nếu lỡ nạp
+        $this->teamplate = [];
+
+        //
         header( 'Content-type: application/json; charset=utf-8' );
         // header mặc định, ghi đè header trước đó
         foreach ( $headers as $v ) {
@@ -885,27 +889,5 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
             header( $v, false );
         }
         die( json_encode( $arr ) );
-    }
-
-    /*
-     * chức năng xóa cache theo key truyền vào
-     * clean_all: một số phương thức không áp dụng được kiểu xóa theo key -> admin có thể xóa all
-     */
-    protected function clean_math_cache( $for, $clean_all = false ) {
-        // 1 số phương thức không áp dụng được kiểu xóa này do không có key 
-        if ( in_array( MY_CACHE_HANDLER, [
-                'memcached',
-                'wincache',
-            ] ) ) {
-            // có thể cân đối giữa việc XÓA toàn bộ hoặc return false luôn
-            if ( $clean_all === true ) {
-                $has_cache = $this->base_model->cache->clean();
-            } else {
-                return NULL;
-            }
-        } else {
-            $has_cache = $this->base_model->cache->deleteMatching( $for . '*' );
-        }
-        return $has_cache;
     }
 }

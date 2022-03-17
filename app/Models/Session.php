@@ -133,4 +133,30 @@ class Session {
         // trả về cache nếu có
         return $this->cache->get( $key );
     }
+
+    /*
+     * delete cache
+     * chức năng xóa cache theo key truyền vào
+     * clean_all: một số phương thức không áp dụng được kiểu xóa theo key -> admin có thể xóa all
+     */
+    public function dcache( $for = '', $clean_all = false ) {
+        // lưu có key -> xóa theo key truyền vào
+        if ( $for != '' ) {
+            // 1 số phương thức không áp dụng được kiểu xóa này do không có key 
+            if ( in_array( MY_CACHE_HANDLER, [
+                    'memcached',
+                    'wincache',
+                ] ) ) {
+                // có thể cân đối giữa việc XÓA toàn bộ hoặc return false luôn
+                if ( $clean_all !== true ) {
+                    return NULL;
+                }
+            } else {
+                return $this->cache->deleteMatching( $for . '*' );
+            }
+        }
+
+        // mặc định là xóa hết
+        return $this->cache->clean();
+    }
 }

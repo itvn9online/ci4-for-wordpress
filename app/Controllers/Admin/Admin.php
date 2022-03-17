@@ -228,12 +228,12 @@ RewriteRule ^(.*) ' . DYNAMIC_BASE_URL . '$1 [F]
              */
             // xóa theo key truyền vào -> dùng khi update post, term, config...
             if ( $for != '' ) {
-                $has_cache = $this->clean_math_cache( $for, $clean_all );
+                $has_cache = $this->base_model->dcache( $for, $clean_all );
                 // 1 số phương thức không áp dụng được kiểu xóa này do không có key 
                 if ( $has_cache === NULL ) {
                     return false;
                 }
-                echo 'Using cache deleteMatching `' . $for . '` --- Total clear: ' . $has_cache . '<br>' . "\n";
+                echo 'Using cache delete Matching `' . $for . '` --- Total clear: ' . $has_cache . '<br>' . "\n";
                 //var_dump( $has_cache );
                 //die( $for );
             }
@@ -241,7 +241,7 @@ RewriteRule ^(.*) ' . DYNAMIC_BASE_URL . '$1 [F]
             else {
                 //var_dump( $this->base_model->cache->getCacheInfo() );
                 //die( __CLASS__ . ':' . __LINE__ );
-                $has_cache = $this->base_model->cache->clean();
+                $has_cache = $this->base_model->dcache();
             }
 
             // nếu lỗi -> thử phương thức xóa từng file

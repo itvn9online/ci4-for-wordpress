@@ -1094,8 +1094,8 @@ class Term extends TermBase {
         /*
          * dọn dẹp các cache liên quan đến term để nếu trước đó nó dính thì sau nó còn nạp lại luôn
          */
-        $has_cache = $this->base_model->cache->deleteMatching( 'get_all_taxonomy-*' );
-        $has_cache = $this->base_model->cache->deleteMatching( 'term-*' );
+        $has_cache = $this->base_model->dcache( 'get_all_taxonomy-' );
+        $has_cache = $this->base_model->dcache( 'term-' );
 
 
         //
