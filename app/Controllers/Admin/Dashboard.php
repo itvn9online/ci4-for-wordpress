@@ -892,7 +892,7 @@ class Dashboard extends Optimize {
 
     public function restore_code() {
         if ( $this->check_deleted_exist() !== true ) {
-            $this->base_model->alert( 'Khôn tồn tại thư mục deleted', 'error' );
+            $this->base_model->alert( 'Không tồn tại thư mục deleted', 'error' );
         }
 
         // xóa code trong thư mục app hiện tại
@@ -921,5 +921,19 @@ class Dashboard extends Optimize {
             unlink( $upload_path . 'test_permission.txt' );
         }
         return false;
+    }
+
+    public function cleanup_matching_cache() {
+        $data = $this->MY_post( 'data', '' );
+
+        if ( empty( $data ) || strlen( $data ) < 4 ) {
+            $this->base_model->alert( 'Từ khóa khớp dữ liệu quá ngắn', 'error' );
+        }
+
+        //
+        $this->cleanup_cache( $data . '-' );
+
+        //
+        $this->base_model->alert( 'Xóa cache theo key thành công. Matching: ' . $data );
     }
 }

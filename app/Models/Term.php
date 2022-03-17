@@ -988,7 +988,7 @@ class Term extends TermBase {
             parent > 0
         GROUP BY
             parent";
-        echo $sql . '<br>' . "\n";
+        //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query( $sql );
 
         // update count cho các parent trong view
@@ -999,7 +999,7 @@ class Term extends TermBase {
             " . WGR_TABLE_PREFIX . "terms.child_count = $the_view.c
         WHERE
             is_deleted = " . DeletedStatus::FOR_DEFAULT;
-        echo $sql . '<br>' . "\n";
+        //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query( $sql );
 
 
@@ -1017,7 +1017,7 @@ class Term extends TermBase {
         $sql = "UPDATE " . WGR_TABLE_PREFIX . "term_relationships
         SET
             is_deleted = " . DeletedStatus::DELETED;
-        echo $sql . '<br>' . "\n";
+        //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query( $sql );
 
         // đặt trạng thái public các các relationships của post đang public
@@ -1028,7 +1028,7 @@ class Term extends TermBase {
             " . WGR_TABLE_PREFIX . "term_relationships.is_deleted = " . DeletedStatus::FOR_DEFAULT . "
         WHERE
             " . WGR_TABLE_PREFIX . "posts.post_status = '" . PostType::PUBLIC . "'";
-        echo $sql . '<br>' . "\n";
+        //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query( $sql );
         //return false;
 
@@ -1043,7 +1043,7 @@ class Term extends TermBase {
             is_deleted = " . DeletedStatus::FOR_DEFAULT . "
         GROUP BY
             term_taxonomy_id";
-        echo $sql . '<br>' . "\n";
+        //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query( $sql );
 
         // update count cho các parent trong view
@@ -1052,7 +1052,7 @@ class Term extends TermBase {
             $the_view ON $the_view.term_taxonomy_id = " . WGR_TABLE_PREFIX . "term_taxonomy.term_id
         SET
             " . WGR_TABLE_PREFIX . "term_taxonomy.count = $the_view.c";
-        echo $sql . '<br>' . "\n";
+        //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query( $sql );
 
 
@@ -1067,7 +1067,7 @@ class Term extends TermBase {
             parent > 0
         GROUP BY
             parent";
-        echo $sql . '<br>' . "\n";
+        //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query( $sql );
 
         // update count cho các parent trong view
@@ -1076,7 +1076,7 @@ class Term extends TermBase {
             $the_view ON $the_view.parent = " . WGR_TABLE_PREFIX . "term_taxonomy.term_id
         SET
             " . WGR_TABLE_PREFIX . "term_taxonomy.count = " . WGR_TABLE_PREFIX . "term_taxonomy.count+$the_view.t";
-        echo $sql . '<br>' . "\n";
+        //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query( $sql );
 
         // TEST
@@ -1087,7 +1087,7 @@ class Term extends TermBase {
          * xong thì xóa luôn view này đi
          */
         $sql = "DROP VIEW IF EXISTS $the_view";
-        echo $sql . '<br>' . "\n";
+        //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query( $sql );
 
         //

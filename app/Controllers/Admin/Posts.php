@@ -493,7 +493,7 @@ class Posts extends Admin {
             }
         }
 
-        // không thì thông báo thành công
+        //
         $this->base_model->alert( 'Cập nhật ' . $this->name_type . ' thành công' );
     }
 
