@@ -1090,6 +1090,14 @@ class Term extends TermBase {
         //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query( $sql );
 
+
+        /*
+         * dọn dẹp các cache liên quan đến term để nếu trước đó nó dính thì sau nó còn nạp lại luôn
+         */
+        $has_cache = $this->base_model->cache->deleteMatching( 'get_all_taxonomy-*' );
+        $has_cache = $this->base_model->cache->deleteMatching( 'term-*' );
+
+
         //
         return true;
     }

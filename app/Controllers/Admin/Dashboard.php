@@ -932,6 +932,10 @@ class Dashboard extends Optimize {
 
         //
         $this->cleanup_cache( $data . '-' );
+        // xóa thêm đối với term
+        if ( $data == 'term' ) {
+            $this->cleanup_cache( 'get_all_taxonomy-' );
+        }
 
         //
         $this->base_model->alert( 'Xóa cache theo key thành công. Matching: ' . $data );
