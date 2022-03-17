@@ -961,3 +961,32 @@ function each_to_page_part() {
     });
     $('.each-to-page-part').before('<!-- div.each-to-page-part -->').remove();
 }
+
+// tạo menu tự động dựa theo danh mục đang có
+function create_menu_by_taxonomy(arr) {
+    if (arr.length <= 0) {
+        return '';
+    }
+    //console.log(arr);
+
+    //
+    var str = '';
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i].count * 1 <= 0) {
+            continue;
+        }
+
+        //
+        var sub_menu = create_menu_by_taxonomy(arr[i].child_term);
+        if (sub_menu != '') {
+            sub_menu = '<ul class="sub-menu">' + sub_menu + '</ul>';
+        }
+
+        //
+        str += '<li><a href="' + web_link + 'c/' + arr[i].taxonomy + '/' + arr[i].term_id + '/' + arr[i].slug + '">' + arr[i].name + '</a>' + sub_menu + '</li>';
+    }
+    //console.log(str);
+
+    //
+    return str;
+}
