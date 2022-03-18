@@ -10,7 +10,7 @@ use App\ Libraries\ PostType;
 
 //
 class Term extends TermBase {
-    protected $time_update_last_count = 12 * 3600;
+    public $time_update_last_count = 4 * 3600;
 
     public function __construct() {
         parent::__construct();

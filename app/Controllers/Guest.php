@@ -32,6 +32,12 @@ class Guest extends Csrf {
         //die( $login_redirect );
 
         if ( $this->current_user_id > 0 ) {
+            //var_dump( $this->form_target );
+            //die( __CLASS__ . ':' . __LINE__ );
+            if ( !empty( $this->MY_post( 'username' ) ) ) {
+                $this->wgr_target();
+                $this->base_model->alert( 'Bạn đang đăng nhập bằng tài khoản khác rồi!', $this->form_target );
+            }
             return $this->done_action_login( $login_redirect );
         }
 
