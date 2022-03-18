@@ -61,16 +61,16 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
         </thead>
         <tbody id="admin_main_list">
             <tr data-id="{{v.term_id}}" class="each-to-child-term" ng-XOA-repeat="v in data">
-                <td class="text-center"><input type="checkbox" value="{{v.term_id}}" class="input-checkbox-control" /></td>
+                <td width="50" class="text-center"><input type="checkbox" value="{{v.term_id}}" class="input-checkbox-control" /></td>
                 <td>{{v.term_id}}</td>
                 <td><a href="{{v.get_admin_permalink}}">{{v.gach_ngang}}{{v.name}} <i class="fa fa-edit"></i></a></td>
                 <td><a href="{{v.view_url}}" target="_blank">{{v.slug}} <i class="fa fa-external-link"></i></a></td>
                 <td class="d-none show-if-ads-type">{{v.term_meta['custom_size']}}</td>
                 <td>&nbsp;</td>
-                <td>{{v.lang_key}}</td>
-                <td>{{v.count}}</td>
-                <td><input type="text" data-id="{{v.term_id}}" value="{{v.term_order}}" size="5" class="form-control s change-update-term_order" /></td>
-                <td class="text-center"><div>
+                <td width="90">{{v.lang_key}}</td>
+                <td width="90">{{v.count}}</td>
+                <td width="60"><input type="text" data-id="{{v.term_id}}" value="{{v.term_order}}" size="5" class="form-control s change-update-term_order" /></td>
+                <td width="110" class="text-center"><div>
                         <div data-deleted="{{v.is_deleted}}" class="show-if-trash" ng-XOA-if="v.is_deleted == DeletedStatus_DELETED">
                             <div><a href="admin/{{controller_slug}}/restore?id={{v.term_id}}{{for_action}}" onClick="return click_a_restore_record();" target="target_eb_iframe" class="bluecolor"><i class="fa fa-undo"></i></a></div>
                         </div>

@@ -59,20 +59,19 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
         <thead>
             <tr>
                 <th><input type="checkbox" class="input-checkbox-all" /></th>
-                <th>STT</th>
                 <th>Tiêu đề <?php echo $name_type; ?></th>
                 <th>Ảnh đại diện</th>
                 <th>Danh mục</th>
                 <th>Trạng thái</th>
                 <th colspan="2">Ngày tạo/ Last Update</th>
                 <th>Lang</th>
+                <th>STT</th>
                 <th>&nbsp;</th>
             </tr>
         </thead>
         <tbody id="admin_main_list">
             <tr data-id="{{v.ID}}" ng-repeat="v in data">
-                <td class="text-center"><input type="checkbox" value="{{v.ID}}" class="input-checkbox-control" /></td>
-                <td>{{v.menu_order}}</td>
+                <td width="50" class="text-center"><input type="checkbox" value="{{v.ID}}" class="input-checkbox-control" /></td>
                 <td><div><a href="{{v.admin_permalink}}" class="bold">{{v.post_title}} <i class="fa fa-edit"></i></a></div>
                     <div ng-class="post_type == PostType_MENU ? 'd-none' : ''"><a href="{{v.the_permalink}}" target="_blank" class="small blackcolor">{{v.post_name}} <i class="fa fa-external-link"></i></a></div></td>
                 <td><div ng-class="post_type == PostType_MENU ? 'd-none' : ''" class="img-max-width"> <a href="{{v.admin_permalink}}"><img
@@ -88,8 +87,9 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                 <td class="post_status post_status-{{v.post_status}}">{{PostType_arrStatus[v.post_status]}}</td>
                 <td>{{v.post_date.substr(0, 16)}}</td>
                 <td>{{v.post_modified.substr(0, 16)}}</td>
-                <td>{{v.lang_key}}</td>
-                <td class="text-center"><div>
+                <td width="90">{{v.lang_key}}</td>
+                <td width="60"><input type="text" data-id="{{v.ID}}" value="{{v.menu_order}}" size="5" class="form-control s change-update-menu_order" /></td>
+                <td width="90" class="text-center"><div>
                         <div ng-if="v.post_status != PostType_DELETED">
                             <div><a href="admin/{{controller_slug}}/delete?id={{v.ID + for_action}}" onClick="return click_a_delete_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-trash"></i></a> </div>
                         </div>
