@@ -32,7 +32,6 @@ $post_per_page = $base_model->get_config( $getconfig, 'eb_posts_per_page', 20 );
 //echo $post_per_page . '<br>' . "\n";
 
 //
-//$totalThread = $post_model->post_category( $post_type, $data, [], true );
 $totalThread = $data[ 'count' ];
 //echo $totalThread . '<br>' . "\n";
 //$totalThread = $post_model->count_posts_by( $data );

@@ -158,7 +158,7 @@ class Posts extends Admin {
             // trả về câu query để sử dụng cho mục đích khác
             //'get_query' => 1,
             //'offset' => 0,
-            //'limit' => $post_per_page
+            'limit' => -1
         ];
 
         // nếu có lọc theo term_id -> thêm câu lệnh để lọc
@@ -173,6 +173,8 @@ class Posts extends Admin {
                 'term_taxonomy' => 'term_relationships.term_taxonomy_id = term_taxonomy.term_taxonomy_id',
             ];
         }
+        //print_r( $where );
+        //print_r( $filter );
 
 
         /*

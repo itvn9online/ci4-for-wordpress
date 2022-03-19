@@ -18,6 +18,9 @@ class Home extends Csrf {
      * default page
      */
     public function index() {
+        // đồng bộ lại tổng số nhóm con cho các danh mục trước đã
+        $this->term_model->sync_term_child_count();
+
         // dẫn tới trang post mặc định
         if ( isset( $_GET[ 'p' ], $_GET[ 'post_type' ] ) ) {
             return $this->autoDetails();

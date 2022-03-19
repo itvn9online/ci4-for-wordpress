@@ -118,13 +118,7 @@ class Terms extends Admin {
         /*
          * phân trang
          */
-        $count_filter = $filter;
-        $count_filter[ 'select_col' ] = 'COUNT(term_id) AS c';
-        $totalThread = $this->term_model->get_all_taxonomy( $this->taxonomy, 0, $count_filter );
-        //print_r( $totalThread );
-        //die( __CLASS__ . ':' . __LINE__ );
-        $totalThread = $totalThread[ 0 ][ 'c' ];
-        //print_r( $totalThread );
+        $totalThread = $this->term_model->count_all_taxonomy( $this->taxonomy, 0, $filter );
 
         if ( $totalThread > 0 ) {
             $page_num = $this->MY_get( 'page_num', 1 );

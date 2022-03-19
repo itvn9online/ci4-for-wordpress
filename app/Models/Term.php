@@ -444,22 +444,37 @@ class Term extends TermBase {
         return str_replace( '\'', '\\\'', json_encode( $this->get_all_taxonomy( $taxonomy, $term_id, $ops, $in_cache ) ) );
     }
 
-    function json_taxonomy( $taxonomy = 'category', $term_id = 0, $ops = [], $in_cache = '' ) {
+    public function json_taxonomy( $taxonomy = 'category', $term_id = 0, $ops = [], $in_cache = '' ) {
         echo $this->get_json_taxonomy( $taxonomy, $term_id, $ops, $in_cache );
     }
 
-    function delete_cache_taxonomy( $taxonomy, $in_cache = '' ) {
+    public function delete_cache_taxonomy( $taxonomy, $in_cache = '' ) {
         if ( $in_cache == '' ) {
             $in_cache = $taxonomy;
         }
         return $this->get_all_taxonomy( $taxonomy, 0, NULL, $in_cache, true );
     }
 
-    function get_all_taxonomy( $taxonomy = 'category', $term_id = 0, $ops = [], $in_cache = '', $clear_cache = false, $time = MINI_CACHE_TIMEOUT ) {
-        //print_r( $ops );
+    /*
+     * trả về tổng số bản ghi của term theo điều kiện truyền vào
+     */
+    public function count_all_taxonomy( $taxonomy = 'category', $term_id = 0, $ops = [] ) {
+        // cố định tham số count data
+        $ops[ 'select_col' ] = 'COUNT(term_id) AS c';
+        // đặt tham số như này để bỏ qua chế độ order by
+        $ops[ 'order_by' ] = [];
+        $ops[ 'result_count' ] = __FUNCTION__;
 
-        // đồng bộ lại tổng số nhóm con cho các danh mục trước đã
-        $this->sync_term_child_count();
+        //
+        $result = $this->get_all_taxonomy( $taxonomy, $term_id, $ops );
+        //print_r( $result );
+
+        //
+        return $result[ 0 ][ 'c' ];
+    }
+
+    public function get_all_taxonomy( $taxonomy = 'category', $term_id = 0, $ops = [], $in_cache = '', $clear_cache = false, $time = MINI_CACHE_TIMEOUT ) {
+        //print_r( $ops );
 
         // nếu không có cache key -> kiểm tra điều kiện tạo key
         if ( $in_cache == '' ) {
@@ -558,6 +573,12 @@ class Term extends TermBase {
         if ( !isset( $ops[ 'select_col' ] ) ) {
             $ops[ 'select_col' ] = '*';
         }
+        if ( !isset( $ops[ 'result_count' ] ) ) {
+            $ops[ 'order_by' ] = [
+                'term_order' => 'DESC',
+                'term_id' => 'DESC',
+            ];
+        }
         //print_r( $where );
         //print_r( $ops );
         //print_r( $where_or_like );
@@ -567,10 +588,7 @@ class Term extends TermBase {
         $post_cat = $this->base_model->select( $ops[ 'select_col' ], WGR_TERM_VIEW, $where, array(
             //'where_in' => isset( $ops[ 'where_in' ] ) ? $ops[ 'where_in' ] : [],
             'or_like' => $where_or_like,
-            'order_by' => array(
-                'term_order' => 'DESC',
-                'term_id' => 'DESC',
-            ),
+            'order_by' => $ops[ 'order_by' ],
             // hiển thị mã SQL để check
             //'show_query' => 1,
             // trả về câu query để sử dụng cho mục đích khác
@@ -581,7 +599,11 @@ class Term extends TermBase {
         ) );
         //print_r( $post_cat );
         //die( __CLASS__ . ':' . __LINE__ );
-        //return $post_cat;
+
+        // có result count -> lấy tổng số bản ghi -> trả về luôn -> không cần chạy đoạn code sau
+        if ( isset( $ops[ 'result_count' ] ) ) {
+            return $post_cat;
+        }
 
         // daidq (2021-12-01): khi có thêm tham số by_is_deleted mà vẫn lấy term meta thì bị lỗi query -> tạm bỏ
         if ( !empty( $post_cat ) ) {
@@ -664,11 +686,14 @@ class Term extends TermBase {
 
             //
             if ( $child_update_count !== false ) {
-                $child_term = $this->get_all_taxonomy( $v[ 'taxonomy' ], 0, $ops );
+                $child_count = $this->count_all_taxonomy( $v[ 'taxonomy' ], 0, $ops );
+                if ( $child_count > 0 ) {
+                    $child_term = $this->get_all_taxonomy( $v[ 'taxonomy' ], 0, $ops );
+                }
 
                 //
                 $this->base_model->update_multiple( $this->table, [
-                    'child_count' => count( $child_term ),
+                    'child_count' => $child_count,
                     'child_last_count' => $current_time,
                 ], [
                     'term_id' => $v[ 'term_id' ],
@@ -679,15 +704,18 @@ class Term extends TermBase {
             } else {
                 // nếu có nhóm con -> mới gọi lệnh lấy nhóm con
                 if ( $v[ 'child_count' ] > 0 ) {
-                    $child_term = $this->get_all_taxonomy( $v[ 'taxonomy' ], 0, $ops );
+                    $child_count = $this->count_all_taxonomy( $v[ 'taxonomy' ], 0, $ops );
+                    if ( $child_count > 0 ) {
+                        $child_term = $this->get_all_taxonomy( $v[ 'taxonomy' ], 0, $ops );
+                    }
 
                     // cập nhật lại tổng số nhóm nếu có sai số
-                    if ( count( $child_term ) != $v[ 'child_count' ] ) {
+                    if ( $child_count != $v[ 'child_count' ] ) {
                         //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                         //
                         $this->base_model->update_multiple( $this->table, [
-                            'child_count' => count( $child_term ),
+                            'child_count' => $child_count,
                             'child_last_count' => $current_time,
                         ], [
                             'term_id' => $v[ 'term_id' ],

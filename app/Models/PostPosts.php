@@ -217,7 +217,7 @@ class PostPosts extends PostSlider {
     }
 
     // trả về dữ liệu cho phần post category
-    public function post_category( $post_type, $data, $ops = [], $countData = false ) {
+    public function post_category( $post_type, $data, $ops = [] ) {
         $where = [
             'posts.post_type' => $post_type,
             'posts.post_status' => PostType::PUBLIC,
@@ -261,17 +261,6 @@ class PostPosts extends PostSlider {
             $filter[ 'where_in' ] = [
                 'term_taxonomy.term_id' => $where_in
             ];
-        }
-
-        //
-        if ( $countData === true ) {
-            $filter[ 'selectCount' ] = 'posts.ID';
-
-            $c = $this->base_model->select( '*', 'posts', $where, $filter );
-            //print_r( $c );
-            //die( __CLASS__ . ':' . __LINE__ );
-
-            return $c[ 0 ][ 'ID' ];
         }
 
         //

@@ -152,13 +152,13 @@ class Users extends Admin {
         //
         $filter = [
             'or_like' => $where_or_like,
-            'order_by' => $order_by,
+            //'order_by' => $order_by,
             // hiển thị mã SQL để check
             //'show_query' => 1,
             // trả về câu query để sử dụng cho mục đích khác
             //'get_query' => 1,
             //'offset' => 0,
-            //'limit' => $post_per_page
+            'limit' => -1
         ];
 
 
@@ -193,6 +193,7 @@ class Users extends Admin {
 
 
             // select dữ liệu từ 1 bảng bất kỳ
+            $filter[ 'order_by' ] = $order_by;
             $filter[ 'offset' ] = $offset;
             $filter[ 'limit' ] = $post_per_page;
             $data = $this->base_model->select( '*', 'users', $where, $filter );
