@@ -36,7 +36,7 @@ if ( WGR_PAGES_PREFIX != '' ) {
 }
 
 // custom post type
-$routes->get( 'p/(:segment)/(:num)/(:segment)', 'P::custom_post_type/$1/$2/$3' );
+$routes->match( [ 'get', 'post' ], 'p/(:segment)/(:num)/(:segment)', 'P::custom_post_type/$1/$2/$3' );
 
 // custom taxonomy
 $routes->get( 'c/(:segment)/(:num)/(:segment)', 'C::custom_taxonomy/$1/$2/$3' );
