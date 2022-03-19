@@ -7,16 +7,19 @@ use App\ Libraries\ TaxonomyType;
 
 //
 class Posts extends Csrf {
+    protected $post_type = PostType::POST;
+    protected $taxonomy = TaxonomyType::POSTS;
+    protected $file_view = 'post_view';
+
     public function __construct() {
         parent::__construct();
     }
 
-    public function index( $post_type, $id, $slug ) {
-        die( __CLASS__ . ':' . __LINE__ );
-        //return $this->index( $id, $slug, PostType::POST, TaxonomyType::POSTS );
+    public function index( $id, $slug = '' ) {
+        return $this->post_details( $id, $slug );
     }
 
-    public function post_details( $id, $slug, $post_type, $taxonomy, $file_view = 'post_view' ) {
+    public function post_details( $id, $slug = '' ) {
         //echo $id . ' <br>' . "\n";
         //echo $slug . ' <br>' . "\n";
         //echo 'post details <br>' . "\n";
@@ -34,7 +37,7 @@ class Posts extends Csrf {
         //
         $data = $this->post_model->select_public_post( $id, [
             //'post_name' => $slug_1,
-            'post_type' => $post_type,
+            'post_type' => $this->post_type,
         ] );
         if ( empty( $data ) ) {
             //print_r( $data );
@@ -56,7 +59,7 @@ class Posts extends Csrf {
 
             //
             if ( $post_category > 0 ) {
-                $cats = $this->term_model->get_all_taxonomy( $taxonomy, $post_category );
+                $cats = $this->term_model->get_all_taxonomy( $this->taxonomy, $post_category );
                 //print_r( $cats );
 
                 if ( !empty( $cats ) ) {
@@ -71,7 +74,7 @@ class Posts extends Csrf {
         // tìm các bài cùng nhóm
         $same_cat_data = [];
         $config_key = 'eb_post_per_page';
-        if ( $post_type == PostType::BLOG ) {
+        if ( $this->post_type == PostType::BLOG ) {
             $config_key = 'eb_blog_per_page';
         }
         $post_per_page = $this->base_model->get_config( $this->getconfig, $config_key, 5 );
@@ -82,9 +85,9 @@ class Posts extends Csrf {
 
             //
             /*
-            $same_cat_data = $this->post_model->select_list_post( $post_type, [
+            $same_cat_data = $this->post_model->select_list_post( $this->post_type, [
                 'term_id' => $data[ 'post_meta' ][ 'post_category' ],
-                'taxonomy' => $taxonomy,
+                'taxonomy' => $this->taxonomy,
             ], $post_per_page );
             */
 
@@ -172,7 +175,7 @@ class Posts extends Csrf {
             'breadcrumb' => $this->breadcrumb
         ) );
 
-        $this->teamplate[ 'main' ] = view( $file_view, array(
+        $this->teamplate[ 'main' ] = view( $this->file_view, array(
             'taxonomy_slider' => $this->taxonomy_slider,
             'taxonomy_post_size' => $this->taxonomy_post_size,
             'same_cat_data' => $same_cat_data,

@@ -8,12 +8,16 @@ use App\ Libraries\ PostType;
 
 //
 class Blogs extends Posts {
+    protected $post_type = PostType::BLOG;
+    protected $taxonomy = TaxonomyType::BLOGS;
+    protected $file_view = 'blog_view';
+
     public function __construct() {
         parent::__construct();
     }
 
     public function blog_details( $id, $slug ) {
-        return $this->index( $id, $slug, PostType::BLOG, TaxonomyType::BLOGS, 'blog_view' );
+        return $this->index( $id, $slug );
     }
 
     public function blogs_list( $slug, $set_page = '', $page_num = 1 ) {
@@ -33,13 +37,13 @@ class Blogs extends Posts {
             'slug' => $slug,
             'is_deleted' => DeletedStatus::FOR_DEFAULT,
             'lang_key' => $this->lang_key,
-            'taxonomy' => TaxonomyType::BLOGS,
+            'taxonomy' => $this->taxonomy,
         ) );
         //print_r( $data );
 
         // có -> ưu tiên category
         if ( !empty( $data ) ) {
-            return $this->category( $data, PostType::BLOG, TaxonomyType::BLOGS, 'blogs_view', [
+            return $this->category( $data, PostType::BLOG, $this->taxonomy, 'blogs_view', [
                 'page_num' => $page_num,
             ] );
         }
