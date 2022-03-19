@@ -489,6 +489,13 @@ body.home .thread-details-tohome {
 div.p {
     margin: 0 0 10px;
 }
+span.taxonomy-count {}
+span.taxonomy-count:before {
+    content: "(";
+}
+span.taxonomy-count:after {
+    content: ")";
+}
 /* desktop only */
 @media only screen and (min-width:748px) {}
 /* mobile, table only */

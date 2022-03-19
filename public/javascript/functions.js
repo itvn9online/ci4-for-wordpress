@@ -977,13 +977,14 @@ function create_menu_by_taxonomy(arr) {
         }
 
         //
-        var sub_menu = create_menu_by_taxonomy(arr[i].child_term);
-        if (sub_menu != '') {
-            sub_menu = '<ul class="sub-menu">' + sub_menu + '</ul>';
+        var sub_menu = '';
+        //console.log(typeof arr[i].child_term);
+        if (typeof arr[i].child_term != 'undefined' && arr[i].child_term.length > 0) {
+            sub_menu = '<ul class="sub-menu">' + create_menu_by_taxonomy(arr[i].child_term) + '</ul>';
         }
 
         //
-        str += '<li><a href="' + web_link + 'c/' + arr[i].taxonomy + '/' + arr[i].term_id + '/' + arr[i].slug + '">' + arr[i].name + '</a>' + sub_menu + '</li>';
+        str += '<li><a href="' + web_link + 'c/' + arr[i].taxonomy + '/' + arr[i].term_id + '/' + arr[i].slug + '">' + arr[i].name + ' <span class="taxonomy-count">' + arr[i].count + '</span></a>' + sub_menu + '</li>';
     }
     //console.log(str);
 
