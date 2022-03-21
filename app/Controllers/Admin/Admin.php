@@ -268,6 +268,9 @@ RewriteRule ^(.*) ' . DYNAMIC_BASE_URL . '$1 [F]
             //
             if ( $has_cache === true ) {
                 $this->base_model->alert( 'Toàn bộ file cache đã được xóa' );
+
+                // đồng bộ lại tổng số nhóm con cho các danh mục trước đã
+                echo $this->term_model->sync_term_child_count();
             } else {
                 $this->base_model->alert( 'Thư mục cache trống!', 'warning' );
             }

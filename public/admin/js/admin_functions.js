@@ -440,53 +440,42 @@ function convert_size_to_one_format() {
 }
 
 /*
- * tạo menu select cho admin
+ * tạo menu actived cho admin
  */
-function add_active_class_for_sidebar(w) {
-    w = $.trim(w);
-    if (w == '') {
-        return false;
-    }
-    console.log(w);
-    if (w.substr(w.length - 1) == '&') {
+function remove_last_url_segment(w) {
+    //console.log(w);
+    if (w.substr(w.length - 1) == '/') {
         w = w.substr(0, w.length - 1);
-        console.log(w);
+        //console.log(w);
     }
-
-    //
-    var has_active = false;
-    $('#sidebar a').each(function () {
-        var a = $(this).attr('href') || '';
-        if (a != '') {
-            if (w.split(a).length > 1) {
-                console.log(a);
-                $(this).parents('li').addClass('active');
-                has_active = true;
-            }
-        }
-    });
-
-    //
-    return has_active;
+    w = w.split('/');
+    //console.log(w);
+    if (w.length > 1) {
+        //console.log(w);
+        w[w.length - 1] = '';
+        //console.log(w);
+        return w.join('/');
+    }
+    return '';
 }
 
-function get_last_url_segment(w) {
-    // lấy phần tử cuối cùng trong URL
-    var a = w.split('&support_tab=')[0].split('?support_tab=')[0];
-    a = a.replace(web_link, '');
-    /*
-    a = a.split('/');
-    if (a[a.length - 1] == '') {
-        a = a[a.length - 2];
-    } else {
-        a = a[a.length - 1];
-    }
-    */
-    a = g_func.non_mark_seo(a);
-    //console.log('last w:', a);
+function get_last_url_segment(a) {
+    return g_func.non_mark_seo(a);
+}
+
+// thêm class active cho menu -> nếu có thì trả về true
+function set_last_url_segment(last_w) {
+    console.log(last_w);
 
     //
-    return a;
+    $('#sidebar a[data-segment="' + last_w + '"]').parents('li').addClass('active');
+
+    // nếu có rồi thì không cần đoạn so khớp đằng sau nữa
+    if ($('#sidebar li.active').length > 0) {
+        console.log('active for admin menu by segment:', last_w);
+        return true;
+    }
+    return false;
 }
 
 function hide_if_esc() {

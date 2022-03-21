@@ -102,7 +102,8 @@ class Menu extends Post {
         //
         $in_cache = '';
         if ( $using_cache === true ) {
-            $in_cache = __FUNCTION__ . '-' . $slug . '-' . LanguageCost::lang_key();
+            $in_cache = str_replace( ' ', '-', $add_class );
+            $in_cache = __FUNCTION__ . '-' . $slug . '-' . $in_cache . '-' . LanguageCost::lang_key();
         }
 
         //

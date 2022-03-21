@@ -699,6 +699,8 @@ function get_taxonomy_data_by_ids(arr, jd) {
 var taxonomy_ids_unique = [];
 // mảng chứa thông tin của term để hiển thị
 var arr_ajax_taxonomy = {};
+// khi tiến trình nạp dữ liệu qua ajax hoàn tất thì đổi nó thành true -> để các tiến trình khác dễ nắm bắt
+var ready_load_ajax_taxonomy = false;
 
 // lấy thông tin các taxonomy đang hiện hoạt trên trang
 function action_each_to_taxonomy() {
@@ -782,6 +784,7 @@ function action_each_to_taxonomy() {
 
             //
             after_each_to_taxonomy();
+            ready_load_ajax_taxonomy = true;
         }
     });
 }
@@ -822,6 +825,7 @@ function after_each_to_taxonomy() {
                         var taxonomy_data = get_taxonomy_data_by_ids(arr_ajax_taxonomy[taxonomy], a[i] * 1);
                         //console.log(taxonomy_data);
                         if (taxonomy_data === null) {
+                            str.push('#' + a[i]);
                             continue;
                         }
 
@@ -850,6 +854,7 @@ function after_each_to_taxonomy() {
             }
         }
     });
+    $('.each-to-taxonomy').removeClass('each-to-taxonomy').addClass('each-to-taxonomy-done');
 }
 
 // kiểm tra xem trình duyệt có hỗ trợ định dạng webp không

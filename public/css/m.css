@@ -1,3 +1,26 @@
-/*
-* mobile
-*/
+/* mobile, table only */
+@media only screen and (max-width:788px) {
+    .mobile-show-menu .top-login-menu {
+        margin-top: 20px;
+        text-align: center;
+    }
+    .mobile-show-menu .top-login-menu ul {}
+    .mobile-show-menu .top-login-menu li {
+        display: inline-block;
+    }
+    .mobile-show-menu .top-login-menu a {
+        display: inline-block;
+        border: 1px #ccc solid;
+        padding: 5px 10px;
+        border-radius: 5px;
+        margin: 0 5px;
+        color: #000;
+    }
+    .mobile-show-menu .top-login-menu .sub-menu {
+        display: none;
+    }
+}
+/* medium size */
+@media only screen and (max-width:588px) {}
+/* mobile only */
+@media only screen and (max-width:395px) {}

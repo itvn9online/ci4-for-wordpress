@@ -115,6 +115,19 @@ $base_model->adds_css( [
     'cdn' => CDN_BASE_URL,
 ] );
 
+//
+// mobile
+if ( $isMobile == true ) {
+    $base_model->adds_css( [
+        'css/m.css',
+        'themes/' . THEMENAME . '/css/m.css',
+    ], [
+        'cdn' => CDN_BASE_URL,
+    ] );
+}
+
+
+//
 $base_model->adds_js( [
     'javascript/functions.js',
     'javascript/eb.js',

@@ -102,65 +102,45 @@ $('#content input[type="checkbox"]').each(function () {
 convert_size_to_one_format();
 fix_textarea_height();
 
-/*
-setInterval(function () {
-    (function (new_scroll_top) {
-        if (new_scroll_top > 120) {
-            jQuery('body').addClass('ebfixed-top-menu');
-
-            //
-            if (new_scroll_top > 500) {
-                jQuery('body').addClass('ebshow-top-scroll');
-            } else {
-                jQuery('body').removeClass('ebshow-top-scroll');
-            }
-        } else {
-            jQuery('body').removeClass('ebfixed-top-menu').removeClass('ebshow-top-scroll');
-        }
-    })(window.scrollY || jQuery(window).scrollTop());
-}, 300);
-*/
-
 // bắt đâu tạo actived cho admin menu
 (function (w) {
+    console.log(w);
+    w = w.replace(web_link, '');
+    w = w.split('&support_tab=')[0].split('?support_tab=')[0];
+    console.log(w);
+
     // tạo segment cho admin menu
     $('#sidebar a').each(function () {
         var a = $(this).attr('href') || '';
         if (a != '') {
+            //console.log(a);
+            a = a.replace(web_link, '');
+            //console.log(a);
             $(this).attr({
                 'data-segment': get_last_url_segment(a),
             });
         }
     });
-    // lấy segment hiện tại
-    var last_w = get_last_url_segment(w);
 
     // so khớp với menu xem có không
-    $('#sidebar a[data-segment="' + last_w + '"]').parents('li').addClass('active');
-
-    // nếu có rồi thì không cần đoạn so khớp đằng sau nữa
-    if ($('#sidebar li.active').length > 0) {
-        console.log('active for admin menu by segment');
+    if (set_last_url_segment(get_last_url_segment(w)) === true) {
+        return false;
+    }
+    // thử bỏ dấu ? nếu có
+    w = w.split('?')[0];
+    if (set_last_url_segment(get_last_url_segment(w)) === true) {
         return false;
     }
 
-    //
-    if (add_active_class_for_sidebar(w) === false) {
-        var w2 = w.split('&');
-        if (w2.length > 1) {
-            w2[w2.length - 1] = '';
-            w2 = w2.join('&');
-        } else {
-            w2 = w2[0];
+    // cắt bớt đi để so khớp tiếp
+    for (var i = 0; i < 10; i++) {
+        w = remove_last_url_segment(w);
+        console.log(w);
+        if (w == '' || w == 'admin') {
+            break;
         }
-
-        //
-        if (add_active_class_for_sidebar(w2) === false) {
-            if (w2.split('/add?').length > 1) {
-                if (add_active_class_for_sidebar(w2.replace('/add?', '/?')) === false) {
-                    add_active_class_for_sidebar(w2.replace('/add?', '?'))
-                }
-            }
+        if (set_last_url_segment(get_last_url_segment(w)) === true) {
+            break;
         }
     }
 })(window.location.href);
