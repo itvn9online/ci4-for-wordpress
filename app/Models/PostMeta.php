@@ -57,7 +57,7 @@ class PostMeta extends PostBase {
     }
 
     // thêm post meta
-    function insert_meta_post( $meta_data, $post_id ) {
+    function insert_meta_post( $meta_data, $post_id, $clear_meta = true ) {
         if ( !is_array( $meta_data ) || empty( $meta_data ) ) {
             return false;
         }
@@ -134,15 +134,17 @@ class PostMeta extends PostBase {
         }
 
         // xem các meta nào không có trong lần update này -> XÓA
-        foreach ( $meta_exist as $k => $v ) {
-            if ( !isset( $meta_data[ $k ] ) ) {
-                //echo 'DELETE ' . $k . ' ' . $v . '<br>' . "\n";
+        if ( $clear_meta === true ) {
+            foreach ( $meta_exist as $k => $v ) {
+                if ( !isset( $meta_data[ $k ] ) ) {
+                    //echo 'DELETE ' . $k . ' ' . $v . '<br>' . "\n";
 
-                //
-                $this->base_model->delete_multiple( $this->metaTable, [
-                    'post_id' => $post_id,
-                    'meta_key' => $k,
-                ] );
+                    //
+                    $this->base_model->delete_multiple( $this->metaTable, [
+                        'post_id' => $post_id,
+                        'meta_key' => $k,
+                    ] );
+                }
             }
         }
 

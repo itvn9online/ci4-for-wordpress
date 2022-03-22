@@ -28,6 +28,9 @@ class Guest extends Csrf {
     }
 
     public function index() {
+        return $this->login();
+    }
+    public function login() {
         $login_redirect = DYNAMIC_BASE_URL;
         //die( $login_redirect );
 
@@ -109,9 +112,6 @@ class Guest extends Csrf {
         ) );
         //print_r( $this->teamplate );
         return view( 'layout_view', $this->teamplate );
-    }
-    public function login() {
-        return $this->index();
     }
 
     protected function checkaccount() {
@@ -372,6 +372,7 @@ class Guest extends Csrf {
     }
 
     protected function seo( $name, $canonical ) {
+        //echo $canonical . '<br>' . "\n";
         return $this->base_model->default_seo( $name, $canonical );
     }
 

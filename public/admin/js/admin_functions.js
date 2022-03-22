@@ -635,3 +635,43 @@ function action_for_check_checked_all() {
         get_check_checked_all_value();
     });
 }
+
+// khi thay đổi checkbox trong form submit
+// -> thì bổ sung hoặc xóa 1 input hidden tương ứng -> do checkbox uncheck không nhận giá trị khi submit
+function for_admin_global_checkbox(max_i) {
+    if (typeof max_i != 'number') {
+        max_i = 100;
+    } else if (max_i < 0) {
+        return false;
+    }
+
+    //
+    if ($('form#admin_global_form input[type="checkbox"]').length == 0) {
+        setTimeout(function () {
+            for_admin_global_checkbox(max_i - 1);
+        }, 100);
+        return false;
+    }
+
+    //
+    setTimeout(function () {
+        $('form#admin_global_form input[type="checkbox"]').change(function () {
+            var a = $(this).attr('name') || '';
+            //console.log(a);
+
+            // chỉ xử lý với các checkbox của data chính
+            if (a.split('data[').length > 1) {
+                // xử lý phần tên -> bỏ giá trị kiểu mảng đi
+                var default_a = a.split(']')[0];
+                default_a = default_a.replace('data[', '');
+                default_a = 'data[default_post_data][' + default_a + ']';
+                //console.log(default_a);
+                if ($('form#admin_global_form input.remove-if-checkbox-checked[name="' + default_a + '"]').length == 0) {
+                    console.log('add hidden input:', default_a);
+                    // -> thêm 1 input hidden để xóa giá trị lúc submit
+                    $('form#admin_global_form').prepend('<input type="text" name="' + default_a + '" value="" class="remove-if-checkbox-checked" />');
+                }
+            }
+        });
+    }, 2000);
+}

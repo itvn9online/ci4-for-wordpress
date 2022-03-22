@@ -11,7 +11,7 @@ function click2Copy(element, textShow) {
     element.select();
     document.execCommand('copy');
 
-    if (typeof textShow != 'undefined' && textShow == true) {
+    if (typeof textShow != 'undefined' && textShow === true) {
         try {
             textShow = element.value;
             textShow = ' ' + $.trim(textShow);

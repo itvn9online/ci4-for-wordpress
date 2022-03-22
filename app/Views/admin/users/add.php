@@ -25,7 +25,7 @@ use App\ Libraries\ UsersType;
 </ul>
 <div class="widget-box">
     <div class="widget-content nopadding">
-        <form action="" method="post" name="admin_global_form" id="contact-form" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
+        <form action="" method="post" name="admin_global_form" id="admin_global_form" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
             <?php
             if ( $data[ 'ID' ] > 0 ) {
                 ?>

@@ -19,7 +19,7 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
         <h5>Cài đặt <?php echo ConfigType::list( $config_type ); ?></h5>
     </div>
     <div class="widget-content nopadding config-main">
-        <form action="" method="post" name="admin_global_form" id="contact-form" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
+        <form action="" method="post" name="admin_global_form" id="admin_global_form" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
             <div class="d-none">
                 <textarea id="list_field_has_change" name="list_field_has_change" placeholder="Các input, textarea, select... nào có thay đổi thì mới thực hiện lưu dữ liệu."></textarea>
             </div>
@@ -129,7 +129,7 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
                     //
                     ?>
                 <div class="lf f35">
-                    <input type="text" onClick="this.select()" value="&lt;?php $lang_model->the_text( '<?php echo str_replace('lang_','',$k); ?>' ); ?&gt;" class="span11" readonly />
+                    <input type="text" onDblClick="click2Copy(this);" value="&lt;?php $lang_model->the_text( '<?php echo str_replace('lang_','',$k); ?>' ); ?&gt;" class="span11" readonly />
                 </div>
                 <?php
                 } // END if ConfigType TRANS

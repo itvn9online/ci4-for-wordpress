@@ -346,7 +346,7 @@ class Term extends TermBase {
     }
 
     // thêm post meta
-    function insert_meta_term( $meta_data, $term_id ) {
+    function insert_meta_term( $meta_data, $term_id, $clear_meta = true ) {
         //print_r( $meta_data );
         if ( !is_array( $meta_data ) || empty( $meta_data ) ) {
             return false;
@@ -367,15 +367,17 @@ class Term extends TermBase {
         //die( __CLASS__ . ':' . __LINE__ );
 
         // xem các meta nào không có trong lần update này -> XÓA
-        foreach ( $meta_exist as $k => $v ) {
-            if ( !isset( $meta_data[ $k ] ) ) {
-                //echo 'DELETE ' . $k . ' ' . $v . '<br>' . "\n";
+        if ( $clear_meta === true ) {
+            foreach ( $meta_exist as $k => $v ) {
+                if ( !isset( $meta_data[ $k ] ) ) {
+                    //echo 'DELETE ' . $k . ' ' . $v . '<br>' . "\n";
 
-                //
-                $this->base_model->delete_multiple( $this->metaTable, [
-                    'term_id' => $term_id,
-                    'meta_key' => $k,
-                ] );
+                    //
+                    $this->base_model->delete_multiple( $this->metaTable, [
+                        'term_id' => $term_id,
+                        'meta_key' => $k,
+                    ] );
+                }
             }
         }
 

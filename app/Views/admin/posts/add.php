@@ -46,7 +46,7 @@ if ( $auto_update_module * 1 === 1 ) {
 ?>
 <div class="widget-box" ng-app="myApp" ng-controller="myCtrl">
     <div class="widget-content nopadding">
-        <form action="" method="post" name="admin_global_form" id="contact-form" onSubmit="return action_before_submit_post();" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
+        <form action="" method="post" name="admin_global_form" id="admin_global_form" onSubmit="return action_before_submit_post();" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
             <input type="hidden" name="is_duplicate" id="is_duplicate" value="0" />
             <?php
             if ( $data[ 'ID' ] > 0 ) {
@@ -341,6 +341,7 @@ angular.module('myApp', []).controller('myCtrl', function ($scope) {
 <?php
 
 $base_model->add_js( 'admin/js/posts.js' );
+$base_model->add_js( 'admin/js/posts_add.js' );
 // css riêng cho từng post type (nếu có)
 $base_model->add_js( 'admin/js/' . $post_type . '.js' );
 

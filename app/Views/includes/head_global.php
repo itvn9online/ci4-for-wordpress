@@ -2,13 +2,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php echo $seo['title']; ?></title>
 <base href="<?php echo DYNAMIC_BASE_URL; ?>" />
-<meta http-equiv="Cache-control" content="public">
-<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+<!-- <meta http-equiv="Cache-control" content="public"> -->
+<!-- <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" /> -->
 <meta name="theme-color" content="#ff2442">
 <meta name="msapplication-navbutton-color" content="#ff2442">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="#ff2442">
-<meta http-equiv="x-dns-prefetch-control" content="on">
+<!-- <meta http-equiv="x-dns-prefetch-control" content="on"> -->
 <link rel="dns-prefetch" href="https://www.google-analytics.com/" />
 <meta name="format-detection" content="telephone=no">
 <!-- SEO -->
@@ -94,9 +94,9 @@ foreach ( $arr_preload_bootstrap as $v ) {
 ?>
 <!-- <link rel="stylesheet" type="text/css" media="all" href="thirdparty/flatsome/flatsome.css" /> --> 
 <!-- <link rel="stylesheet" type="text/css" media="all" href="frontend/css/swiper.min.css" /> --> 
-<script type="text/javascript" src="<?php echo CDN_BASE_URL; ?>thirdparty/jquery/jquery-3.6.0.min.js"></script> 
-<!-- <script type="text/javascript" src="thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> --> 
-<!-- <script type="text/javascript" src="frontend/js/swiper.min.js"></script> -->
+<script src="<?php echo CDN_BASE_URL; ?>thirdparty/jquery/jquery-3.6.0.min.js"></script> 
+<!-- <script src="thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> --> 
+<!-- <script src="frontend/js/swiper.min.js"></script> -->
 <?php
 
 //

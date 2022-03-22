@@ -436,13 +436,6 @@ class Posts extends Admin {
         $data[ 'post_type' ] = $this->post_type;
 
         //
-        foreach ( $this->default_post_data as $k => $v ) {
-            if ( !isset( $data[ $k ] ) ) {
-                $data[ $k ] = $v;
-            }
-        }
-
-        //
         //print_r( $data );
         //die( __CLASS__ . ':' . __LINE__ );
         $result_id = $this->post_model->insert_post( $data );
@@ -457,12 +450,20 @@ class Posts extends Admin {
         $this->base_model->alert( 'Lỗi tạo ' . $this->name_type . ' mới', 'error' );
     }
 
-
     protected function update( $id ) {
         $data = $this->MY_post( 'data' );
         //print_r( $data );
+        //print_r( $_POST );
 
-        //
+        // nhận dữ liệu default từ javascript khởi tạo và truyền vào trong quá trình submit
+        if ( isset( $data[ 'default_post_data' ] ) ) {
+            foreach ( $data[ 'default_post_data' ] as $k => $v ) {
+                if ( !isset( $this->default_post_data[ $k ] ) ) {
+                    $this->default_post_data[ $k ] = '';
+                }
+            }
+        }
+        print_r( $this->default_post_data );
         foreach ( $this->default_post_data as $k => $v ) {
             if ( !isset( $data[ $k ] ) ) {
                 $data[ $k ] = $v;
@@ -492,6 +493,14 @@ class Posts extends Admin {
             // hoặc page
             else if ( $this->post_type == PostType::PAGE ) {
                 $this->cleanup_cache( 'get_page-' . $data[ 'post_name' ] );
+            }
+        }
+
+        // xóa cache cho term liên quan
+        if ( isset( $_POST[ 'post_meta' ] ) && isset( $_POST[ 'post_meta' ][ 'post_category' ] ) ) {
+            foreach ( $_POST[ 'post_meta' ][ 'post_category' ] as $v ) {
+                //echo $v . '<br>' . "\n";
+                $this->cleanup_cache( $this->term_model->key_cache( $v ) );
             }
         }
 

@@ -31,7 +31,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
 </ul>
 <div class="widget-box" ng-app="myApp" ng-controller="myCtrl">
     <div class="widget-content nopadding">
-        <form action="" method="post" name="admin_global_form" id="contact-form" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
+        <form action="" method="post" name="admin_global_form" id="admin_global_form" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
             <input type="hidden" name="is_duplicate" id="is_duplicate" value="0" />
             <div class="rf">
                 <button type="button" onClick="click_duplicate_record();" class="btn btn-warning"><i class="fa fa-copy"></i> Nhân bản</button>
