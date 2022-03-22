@@ -44,7 +44,7 @@ if ( $auto_update_module * 1 === 1 ) {
 }
 
 ?>
-<div class="widget-box" ng-app="myApp" ng-controller="myCtrl">
+<div class="widget-box ng-main-content" ng-app="myApp" ng-controller="myCtrl">
     <div class="widget-content nopadding">
         <form action="" method="post" name="admin_global_form" id="admin_global_form" onSubmit="return action_before_submit_post();" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
             <input type="hidden" name="is_duplicate" id="is_duplicate" value="0" />
@@ -336,6 +336,9 @@ angular.module('myApp', []).controller('myCtrl', function ($scope) {
         'draft' : 'Bản nháp',
     };
     $scope.quick_menu_list = <?php echo json_encode($quick_menu_list); ?>;
+    angular.element(document).ready(function () {
+        $('.ng-main-content').addClass('loaded');
+    });
 });
 </script>
 <?php

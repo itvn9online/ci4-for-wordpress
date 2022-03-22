@@ -18,6 +18,9 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
     $scope.for_action = '<?php echo $for_action; ?>';
     $scope.DeletedStatus_DELETED = '<?php echo DeletedStatus::DELETED; ?>';
     $scope.by_is_deleted = '<?php echo $by_is_deleted; ?>';
+    angular.element(document).ready(function () {
+        $('.ng-main-content').addClass('loaded');
+    });
 });
 </script>
 
@@ -31,7 +34,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
     }
     ?>
 </ul>
-<div ng-app="myApp" ng-controller="myCtrl">
+<div ng-app="myApp" ng-controller="myCtrl" class="ng-main-content">
     <div class="cf admin-search-form">
         <div class="lf f50">
             <form name="frm_admin_search_controller" action="./admin/<?php echo $controller_slug; ?>" method="get">

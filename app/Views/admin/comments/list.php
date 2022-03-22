@@ -17,6 +17,9 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
     $scope.for_action = '<?php echo $for_action; ?>';
     $scope.controller_slug = '<?php echo $controller_slug; ?>';
     $scope.DeletedStatus_DELETED = '<?php echo DeletedStatus::DELETED; ?>';
+    angular.element(document).ready(function () {
+        $('.ng-main-content').addClass('loaded');
+    });
 });
 </script>
 
@@ -54,7 +57,7 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
             <th>&nbsp;</th>
         </tr>
     </thead>
-    <tbody id="admin_main_list" ng-app="myApp" ng-controller="myCtrl">
+    <tbody id="admin_main_list" ng-app="myApp" ng-controller="myCtrl" class="ng-main-content">
         <tr ng-repeat="v in data">
             <td>&nbsp;</td>
             <td><a href="admin/{{controller_slug}}?comment_id={{v.comment_ID}}">{{v.comment_title}} <i class="fa fa-edit"></i></a> {{v.comment_slug}}</td>

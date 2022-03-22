@@ -16,7 +16,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
 <ul class="admin-breadcrumb">
     <li><?php echo $name_type; ?> (<?php echo $totalThread; ?>)</li>
 </ul>
-<div ng-app="myApp" ng-controller="myCtrl">
+<div ng-app="myApp" ng-controller="myCtrl" class="ng-main-content">
     <div class="cf admin-search-form">
         <div class="lf f50">
             <form name="frm_admin_search_controller" action="./admin/<?php echo $controller_slug; ?>" method="get">
@@ -118,5 +118,8 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
     $scope.controller_slug = controller_slug;
     $scope.for_action = for_action;
     $scope.DeletedStatus_DELETED = DeletedStatus_DELETED;
+    angular.element(document).ready(function () {
+        $('.ng-main-content').addClass('loaded');
+    });
 });
 </script>
