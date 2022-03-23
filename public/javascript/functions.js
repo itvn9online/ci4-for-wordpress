@@ -989,7 +989,7 @@ function create_menu_by_taxonomy(arr) {
         }
 
         //
-        str += '<li><a href="' + web_link + 'c/' + arr[i].taxonomy + '/' + arr[i].term_id + '/' + arr[i].slug + '">' + arr[i].name + ' <span class="taxonomy-count">' + arr[i].count + '</span></a>' + sub_menu + '</li>';
+        str += '<li><a href="' + web_link + 'c/' + arr[i].taxonomy + '/' + arr[i].term_id + '/' + arr[i].slug + '" dtaa-id="' + arr[i].term_id + '">' + arr[i].name + ' <span class="taxonomy-count">' + arr[i].count + '</span></a>' + sub_menu + '</li>';
     }
     //console.log(str);
 

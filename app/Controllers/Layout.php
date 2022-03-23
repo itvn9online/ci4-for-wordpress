@@ -28,6 +28,8 @@ class Layout extends Sync {
     public $preload_header = true;
 
     public $current_user_id = 0;
+    //public $current_pid = 0;
+    //public $current_tid = 0;
 
     // controller nào bật cái này thì sẽ import thư viện angular js cho nó
     //public $enable_angular_js = false;
