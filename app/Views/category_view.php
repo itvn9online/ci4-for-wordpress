@@ -45,6 +45,7 @@ else {
     include __DIR__ . '/term_view.php';
 }
 
+//
 $base_model->add_js( 'themes/' . THEMENAME . '/js/taxonomy.js', [
     'cdn' => CDN_BASE_URL,
 ], [

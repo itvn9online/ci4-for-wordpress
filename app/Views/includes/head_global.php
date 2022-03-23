@@ -162,7 +162,7 @@ max-width: <?php echo $getconfig->site_full_width . 'px';
 }
 </style>
 <script>
-var cf_tester_mode = <?php echo ($debug_enable === true) ? 1 : 0; ?>,current_user_id=<?php echo $current_user_id; ?>,pid = 0,cid = 0,global_window_width = jQuery(window).width(),web_link = window.location.protocol + '//' + document.domain + '/';
+var cf_tester_mode=<?php echo ($debug_enable === true) ? 1 : 0; ?>,current_user_id=<?php echo $current_user_id; ?>,pid=<?php echo $current_pid; ?>,cid=<?php echo $current_tid; ?>,global_window_width=jQuery(window).width(),web_link=window.location.protocol + '//' + document.domain + '/';
 </script>
 <?php
 

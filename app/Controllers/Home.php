@@ -303,7 +303,7 @@ class Home extends Csrf {
         $post_permalink = $this->post_model->get_the_permalink( $data );
         $this->create_breadcrumb( $data[ 'post_title' ], $post_permalink );
         $seo = $this->base_model->seo( $data, $post_permalink );
-        //$this->current_pid = $data[ 'ID' ];
+        $this->current_pid = $data[ 'ID' ];
 
         // -> views
         $this->teamplate[ 'breadcrumb' ] = view( 'breadcrumb_view', array(
@@ -314,7 +314,7 @@ class Home extends Csrf {
             'seo' => $seo,
             'page_template' => $page_template,
             'data' => $data,
-            //'current_pid' => $this->current_pid,
+            'current_pid' => $this->current_pid,
             'parent_data' => $parent_data,
         ) );
         $cache_value = view( 'layout_view', $this->teamplate );

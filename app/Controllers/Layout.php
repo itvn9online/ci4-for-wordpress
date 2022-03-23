@@ -28,8 +28,8 @@ class Layout extends Sync {
     public $preload_header = true;
 
     public $current_user_id = 0;
-    //public $current_pid = 0;
-    //public $current_tid = 0;
+    public $current_pid = 0;
+    public $current_tid = 0;
 
     // controller nào bật cái này thì sẽ import thư viện angular js cho nó
     //public $enable_angular_js = false;
@@ -172,6 +172,8 @@ class Layout extends Sync {
             'getconfig' => $this->getconfig,
             'session_data' => $this->session_data,
             'current_user_id' => $this->current_user_id,
+            'current_tid' => $this->current_tid,
+            'current_pid' => $this->current_pid,
             'debug_enable' => $this->debug_enable,
             //'menu' => $menu,
             //'allurl' => $allurl,
@@ -375,6 +377,7 @@ class Layout extends Sync {
         $this->teamplate[ 'breadcrumb' ] = view( 'breadcrumb_view', array(
             'breadcrumb' => $this->breadcrumb
         ) );
+        $this->current_tid = $data[ 'term_id' ];
 
         //
         //echo $file_view . '<br>' . "\n";
@@ -388,6 +391,7 @@ class Layout extends Sync {
             'post_type' => $post_type,
             'getconfig' => $this->getconfig,
             'data' => $data,
+            'current_tid' => $this->current_tid,
         ) );
         $cache_value = view( 'layout_view', $this->teamplate );
 
