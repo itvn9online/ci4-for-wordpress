@@ -118,7 +118,7 @@ $this->base_model->delete_multiple( 'tbl_user', [
 
 
 // SELECT dữ liệu từ 1 bảng bất kỳ
-$sql = $this->base_model->select( '*', 'tbl_user', array(
+$data = $this->base_model->select( '*', 'tbl_user', array(
     // các kiểu điều kiện where
     // WHERE AND OR
     "(aaaaaaaaaa = 1 OR bbbbbbb = 2)" => NULL,
