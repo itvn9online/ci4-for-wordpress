@@ -2,7 +2,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php echo $seo['title']; ?></title>
 <base href="<?php echo DYNAMIC_BASE_URL; ?>" />
-<!-- <meta http-equiv="Cache-control" content="public"> -->
+<!-- <meta http-equiv="Cache-control" content="public"> --> 
 <!-- <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" /> -->
 <meta name="theme-color" content="#ff2442">
 <meta name="msapplication-navbutton-color" content="#ff2442">
@@ -10,6 +10,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#ff2442">
 <!-- <meta http-equiv="x-dns-prefetch-control" content="on"> -->
 <link rel="dns-prefetch" href="https://www.google-analytics.com/" />
+<link rel="dns-prefetch" href="https://connect.facebook.net/" />
+<link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
+<link rel="dns-prefetch" href="//s.w.org" />
 <meta name="format-detection" content="telephone=no">
 <!-- SEO -->
 <link href="<?php echo $option_model->get_the_favicon($getconfig); ?>" rel="shortcut icon" type="image/png" />
@@ -23,6 +26,14 @@
 <meta itemprop="name" content="<?php echo $seo['title']; ?>" />
 <meta itemprop="description" content="<?php echo $seo['description']; ?>" />
 <?php
+//
+if ( CDN_BASE_URL != '' ) {
+    ?>
+<link rel="dns-prefetch" href="<?php echo CDN_BASE_URL; ?>" />
+<?php
+}
+
+//
 if ( $getconfig->fb_app_id != '' ) {
     ?>
 <meta property="fb:app_id" content="<?php echo $getconfig->fb_app_id; ?>" />

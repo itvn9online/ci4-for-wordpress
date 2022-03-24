@@ -55,7 +55,7 @@ class Contact extends Home {
 
             $submit = $this->MY_comment( [
                 'redirect_to' => $redirect_to,
-                'comment_type' => strtolower( $this->get_class_name( __CLASS__ ) )
+                'comment_type' => $this->getClassName( __CLASS__ )
             ] );
 
             // thiết lập thông tin người nhận

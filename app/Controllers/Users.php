@@ -20,6 +20,9 @@ class Users extends Csrf {
     }
 
     public function index() {
+        return $this->profile();
+    }
+    public function profile() {
         $id = $this->current_user_id;
 
         //
@@ -46,21 +49,18 @@ class Users extends Csrf {
         }
 
         //
-        $this->teamplate[ 'main' ] = view( 'profile_view', array(
-            'seo' => $this->base_model->default_seo( 'Thông tin tài khoản', __FUNCTION__ ),
-            'breadcrumb' => '',
-            'data' => $data,
-            'session_data' => $this->session_data,
-        ) );
-        return view( 'users_view', $this->teamplate );
-    }
-    public function profile() {
         $this->teamplate[ 'breadcrumb' ] = view( 'breadcrumb_view', array(
             'breadcrumb' => $this->breadcrumb
         ) );
 
         //
-        return $this->index();
+        $this->teamplate[ 'main' ] = view( 'profile_view', array(
+            'seo' => $this->base_model->default_seo( 'Thông tin tài khoản', $this->getClassName( __CLASS__ ) . '/' . __FUNCTION__ ),
+            'breadcrumb' => '',
+            'data' => $data,
+            'session_data' => $this->session_data,
+        ) );
+        return view( 'users_view', $this->teamplate );
     }
 
     private function update( $id ) {

@@ -373,7 +373,7 @@ class Guest extends Csrf {
 
     protected function seo( $name, $canonical ) {
         //echo $canonical . '<br>' . "\n";
-        return $this->base_model->default_seo( $name, $canonical );
+        return $this->base_model->default_seo( $name, $this->getClassName( __CLASS__ ) . '/' . $canonical );
     }
 
     public function confirm_reset_password() {

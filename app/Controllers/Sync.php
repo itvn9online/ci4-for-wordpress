@@ -481,6 +481,9 @@ class Sync extends BaseController {
     protected function get_class_name( $role ) {
         return basename( str_replace( '\\', '/', $role ) );
     }
+    protected function getClassName( $role ) {
+        return strtolower( $this->get_class_name( $role ) );
+    }
 
     /*
      * trả về URL của controller theo định dạng của namespace
