@@ -48,6 +48,15 @@
                 </div>
             </div>
             <br>
+            <div class="row">
+                <div class="col-4 l40">Ngày sinh</div>
+                <div class="col-8">
+                    <div class="form-control">
+                        <input type="date" placeholder="Ngày sinh" name="data[user_birthday]" value="<?php echo $data['user_birthday']; ?>">
+                    </div>
+                </div>
+            </div>
+            <br>
         </div>
         <div class="form-actions text-center">
             <input type="submit" class="btn btn-success" value="Cập nhật" />
@@ -96,7 +105,10 @@
 <br>
 <?php
 
-$base_model->add_js( 'javascript/user-profile.js', [
+$base_model->adds_js( [
+    'javascript/user-profile.js',
+    'javascript/datetimepicker.js',
+], [
     'cdn' => CDN_BASE_URL,
 ], [
     'defer'

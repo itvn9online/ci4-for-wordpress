@@ -349,47 +349,6 @@ var _global_js_eb = {
         });
     },
 
-    // chỉ lấy ngày tháng
-    datepicker: function (id, op) {
-        _global_js_eb.datetimepicker(id, {
-            timepicker: false,
-            format: 'Y-m-d'
-        });
-    },
-
-    // chỉ lấy giờ
-    timepicker: function (id, op) {
-        _global_js_eb.datetimepicker(id, {
-            datepicker: false,
-            format: 'H:i'
-        });
-    },
-
-    // lấy ngày tháng và giờ
-    datetimepicker: function (id, op) {
-        if (typeof op != 'object') {
-            op = {};
-        }
-
-        //
-        var default_op = {
-            lang: $('html').attr('lang') || 'vi',
-            timepicker: true,
-            formatTime: 'H:i',
-            //format: 'd-m-Y H:i:s'
-            format: 'Y-m-d H:i:s'
-        };
-        for (var x in default_op) {
-            if (typeof op[x] == 'undefined') {
-                op[x] = default_op[x];
-            }
-        }
-        //console.log('op:', op);
-
-        //
-        $(id).datetimepicker(op);
-    },
-
     _log_click_ref: function () {},
 
     ebBgLazzyLoadOffset: function (i) {

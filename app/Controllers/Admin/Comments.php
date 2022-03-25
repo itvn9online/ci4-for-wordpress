@@ -84,7 +84,7 @@ class Comments extends Admin {
                 // nếu là số -> chỉ tìm theo ID
                 if ( is_numeric( $by_like ) === true ) {
                     $where_or_like = [
-                        'comment_ID' => $by_like,
+                        'comment_ID' => $by_like * 1,
                         //'comment_post_ID' => $by_like,
                         //'comment_parent' => $by_like,
                         //'user_id' => $by_like,

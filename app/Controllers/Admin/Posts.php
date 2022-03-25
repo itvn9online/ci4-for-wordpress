@@ -118,7 +118,7 @@ class Posts extends Admin {
                 // nếu là số -> chỉ tìm theo ID
                 if ( is_numeric( $by_like ) === true ) {
                     $where_or_like = [
-                        'ID' => $by_like,
+                        'ID' => $by_like * 1,
                         //'post_author' => $by_like,
                         //'post_parent' => $by_like,
                     ];

@@ -94,7 +94,7 @@ class Terms extends Admin {
                 // nếu là số -> chỉ tìm theo ID
                 if ( is_numeric( $by_like ) === true ) {
                     $where_or_like = [
-                        'term_id' => $by_like,
+                        'term_id' => $by_like * 1,
                         //'parent' => $by_like,
                     ];
                 } else {

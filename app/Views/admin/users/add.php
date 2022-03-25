@@ -85,6 +85,12 @@ use App\ Libraries\ UsersType;
                 </div>
             </div>
             <div class="control-group">
+                <label class="control-label">Ngày sinh</label>
+                <div class="controls">
+                    <input type="date" class="span3 required" placeholder="Ngày sinh" name="data[user_birthday]" value="<?php echo $data['user_birthday']; ?>" />
+                </div>
+            </div>
+            <div class="control-group">
                 <label class="control-label">Nhóm <?php echo $member_name; ?></label>
                 <div class="controls">
                     <select data-select="<?php echo $data['member_type']; ?>" name="data[member_type]" aria-required="true" required>

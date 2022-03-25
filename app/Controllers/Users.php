@@ -4,6 +4,14 @@ namespace App\ Controllers;
 class Users extends Csrf {
     protected $controller_name = 'Cá nhân';
 
+    // danh sách các cột user được phép update
+    protected $allow_update = [
+        'display_name',
+        'user_nicename',
+        'user_birthday',
+    ];
+
+    //
     public function __construct() {
         parent::__construct();
 
@@ -80,16 +88,10 @@ class Users extends Csrf {
             $this->base_model->alert( 'Cập nhật mật khẩu mới thành công' );
         }
 
-        // danh sách các cột được phép update
-        $allow_update = [
-            'display_name',
-            'user_nicename',
-        ];
-
         //
         $data_update = [];
         foreach ( $data as $k => $v ) {
-            if ( !in_array( $k, $allow_update ) ) {
+            if ( !in_array( $k, $this->allow_update ) ) {
                 continue;
             }
             $data_update[ $k ] = $v;

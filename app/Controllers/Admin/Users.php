@@ -91,7 +91,7 @@ class Users extends Admin {
                 // nếu là số -> chỉ tìm theo ID
                 if ( is_numeric( $by_like ) === true ) {
                     $where_or_like = [
-                        'ID' => $by_like,
+                        'ID' => $by_like * 1,
                     ];
                 } else {
                     // nếu có @ -> tìm theo email

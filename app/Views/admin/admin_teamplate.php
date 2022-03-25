@@ -129,15 +129,6 @@ if ( $debug_enable === true ) {
 <script src="./thirdparty/jquery/jquery-3.6.0.min.js"></script> 
 <!-- <script src="./thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> --> 
 <!-- <script src="./thirdparty/jquery/jquery-migrate-1.4.1.min.js"></script> --> 
-<!-- datepicker --> 
-<!-- <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/jquery-ui/jquery-ui-1.11.2.css?v=4.7"/> -->
-<link rel="stylesheet" type="text/css" media="all" href="./thirdparty/datetimepicker-2.3.6/jquery.datetimepicker.css"/>
-<!-- <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/datetimepicker-2.3.7/build/jquery.datetimepicker.min.css"/> --> 
-<!-- --> 
-<!-- <script src="./thirdparty/jquery-ui/datepicker.min.js?v=1.12.1"></script> --> 
-<script src="./thirdparty/datetimepicker-2.3.6/jquery.datetimepicker.js"></script> 
-<!-- <script src="./thirdparty/datetimepicker-2.3.7/build/jquery.datetimepicker.min.js"></script> --> 
-<!-- END datepicker --> 
 <script src="./thirdparty/validate/library.js"></script> 
 <script src="./thirdparty/validate/jquery.validate.min.js"></script> 
 <script src="./thirdparty/validate/localization/messages_vi.js"></script> 
@@ -222,6 +213,7 @@ var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
 $base_model->adds_js( [
     'admin/js/admin_footer.js',
     'admin/js/active-support-label.js',
+    'javascript/datetimepicker.js',
 ] );
 
 ?>
