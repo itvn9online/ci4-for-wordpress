@@ -1,7 +1,7 @@
 // phân trang sử dụng javascript
 function EBE_part_page(Page, TotalPage, strLinkPager, sub_part) {
     if (TotalPage <= 1) {
-        return '';
+        return 'Đang hiển thị trang <span data-page="' + Page + '" class="current">' + Page + '</span> ';
     }
     if (typeof sub_part == 'undefined') {
         sub_part = '/page/';
