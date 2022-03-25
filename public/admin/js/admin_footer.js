@@ -197,7 +197,6 @@ $(document).ready(function () {
 
     //
     action_each_to_taxonomy();
-    each_to_page_part();
     //action_data_img_src();
     action_for_check_checked_all();
 }).keydown(function (e) {

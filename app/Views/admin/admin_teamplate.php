@@ -214,6 +214,7 @@ $base_model->adds_js( [
     'admin/js/admin_footer.js',
     'admin/js/active-support-label.js',
     'javascript/datetimepicker.js',
+    'javascript/pagination.js',
 ] );
 
 ?>

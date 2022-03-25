@@ -477,6 +477,7 @@ body.home .thread-details-tohome {
     margin: 0 5px;
     border-radius: 3px;
     color: #333;
+    padding: 0 1px;
 }
 .public-part-page span.current {
     background: #333;

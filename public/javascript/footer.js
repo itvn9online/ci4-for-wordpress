@@ -64,9 +64,6 @@ jQuery(document).ready(function () {
     if (height_for_lazzy_load == 0) {
         height_for_lazzy_load = jQuery(window).height();
     }
-
-    //
-    each_to_page_part();
 });
 
 //
