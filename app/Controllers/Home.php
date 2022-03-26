@@ -151,6 +151,7 @@ class Home extends Csrf {
 
         //
         $cache_key = $this->post_model->key_cache( $id );
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         $cache_value = $this->MY_cache( $cache_key );
         // Will get the cache entry named 'my_foo'
         //var_dump( $cache_value );
@@ -158,6 +159,7 @@ class Home extends Csrf {
         if ( $cache_value !== NULL ) {
             return $this->show_cache( $cache_value );
         }
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
         //
         $in_cache = __FUNCTION__;
@@ -177,6 +179,7 @@ class Home extends Csrf {
                 //'offset' => 2,
                 'limit' => 1
             ) );
+            //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             //die( __CLASS__ . ':' . __LINE__ );
 
             //
@@ -191,6 +194,7 @@ class Home extends Csrf {
             //
             $this->post_model->the_cache( $id, $in_cache, $data );
         }
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
         //
         if ( !empty( $data ) ) {
@@ -209,6 +213,7 @@ class Home extends Csrf {
                 return $this->pageDetail( $data, $data[ 'post_type' ] . '_view' );
             }
         }
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
         //
         return $this->page404( 'ERROR ' . strtolower( __FUNCTION__ ) . ':' . __LINE__ . '! Không xác định được dữ liệu bài viết...' );
