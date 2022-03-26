@@ -16,12 +16,12 @@ function EBE_part_page(Page, TotalPage, strLinkPager, sub_part) {
     //console.log(strLinkPager);
     var show_page = 8;
     var chia_doi = Math.ceil(show_page / 2);
-    var str_page = '';
+    //var str_page = '';
     var current_page = ' <span data-page="' + Page + '" class="current">' + Page + '</span> ';
 
     //
     Page *= 1;
-    var prev_1_page = Page - 1;
+    //var prev_1_page = Page - 1;
 
     // lấy các trang trước
     var prev_page = '';

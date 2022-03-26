@@ -1,0 +1,4 @@
+/* khi có quyền admin thì cho phép hiển thị thanh debug */
+#toolbarContainer {
+    display: block !important;
+}

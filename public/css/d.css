@@ -455,6 +455,9 @@ body.home .thread-details-tohome {
 .upper {
     text-transform: uppercase;
 }
+#toolbarContainer {
+    display: none !important;
+}
 .show-if-javascript, .home-count-subcat, .blog-count-subcat, .display_none, .d-none, .dnone, .custom-width-global-sidebar {
     display: none;
 }
