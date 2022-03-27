@@ -243,6 +243,7 @@ class Sync extends BaseController {
                 'last_login' => 'DATETIME NOT NULL',
                 'last_updated' => 'DATETIME NOT NULL',
                 'user_birthday' => 'DATE NULL COMMENT \'Sinh nhật của thành viên\'',
+                'user_phone' => 'VARCHAR(55) NULL COMMENT \'Điện thoại liên hệ\'',
             ],
             WGR_TABLE_PREFIX . 'posts' => [
                 'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',

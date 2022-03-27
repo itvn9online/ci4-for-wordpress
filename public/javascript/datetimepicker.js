@@ -134,7 +134,8 @@ function create_dynamic_datepicker(type) {
             }
         } else {
             $(this).addClass('ebe-jquery-ui-' + type).attr({
-                'type': 'text'
+                'type': 'text',
+                'autocomplete': 'off',
             });
         }
     });

@@ -9,6 +9,7 @@ class Users extends Csrf {
         'display_name',
         'user_nicename',
         'user_birthday',
+        'user_phone',
     ];
 
     //
@@ -78,6 +79,15 @@ class Users extends Csrf {
             if ( empty( $data[ 'ci_pass' ] ) ) {
                 $this->base_model->alert( 'Không xác định được mật khẩu cần thay đổi', 'warning' );
             }
+            $this->wgr_target();
+
+            //
+            $this->validation->reset();
+            $this->validation->setRule( 'ci_pass', 'Mật khẩu', 'required|min_length[5]|max_length[255]' );
+            if ( !$this->validation->run( $data ) ) {
+                $this->set_validation_error( $this->validation->getErrors(), $this->form_target );
+                //die( __CLASS__ . ':' . __LINE__ );
+            }
 
             // cập nhật mật khẩu mới cho user
             $this->user_model->update_member( $id, [
@@ -105,6 +115,18 @@ class Users extends Csrf {
 
         // cập nhật thông tin mới cho user
         $this->user_model->update_member( $id, $data_update );
+
+        /*
+         * lưu thông tin đăng nhập mới vào session
+         */
+        //print_r( $this->session_data );
+        foreach ( $data as $k => $v ) {
+            $this->session_data[ $k ] = $v;
+        }
+        //print_r( $this->session_data );
+        $data = $this->sync_login_data( $this->session_data );
+        //print_r( $data );
+        $this->base_model->set_ses_login( $data );
 
         //
         $this->base_model->alert( 'Cập nhật thông tin tài khoản thành công' );

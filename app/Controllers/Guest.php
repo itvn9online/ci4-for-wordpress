@@ -74,6 +74,7 @@ class Guest extends Csrf {
 
                     //
                     if ( $this->checkaccount() === true ) {
+                        // lấy dữ liệu đăng nhập của người dùng
                         $session_data = $this->base_model->get_ses_login();
 
                         //
@@ -305,7 +306,7 @@ class Guest extends Csrf {
                             $data_reset = [
                                 'e' => $data[ 'email' ],
                                 // hạn sử dụng của link
-                                't' => time() + 3600,
+                                't' => time() + 600,
                             ];
 
                             // token
@@ -400,7 +401,7 @@ class Guest extends Csrf {
                 if ( $this->user_model->the_cache( $user_id, $in_cache ) === NULL ) {
                     // kiểm tra độ khớp của dữ liệu
                     if ( $expire < time() ) {
-                        $this->base_model->msg_error_session( 'Liên kết đã hết hạn sử dụng!' );
+                        $this->base_model->msg_error_session( 'Liên kết đã hết hạn sử dụng! Hãy gửi yêu cầu cung cấp liên kết mới.' );
                     }
                     // mã xác nhận -> token
                     else if ( $this->base_model->mdnam( $email . $expire, CUSTOM_MD5_HASH_CODE ) != $token ) {
@@ -408,41 +409,50 @@ class Guest extends Csrf {
                     }
                     // đúng thì tiến hành reset password
                     else {
-                        $random_password = substr( $this->base_model->mdnam( time() ), 0, 12 );
-                        //echo $random_password . '<br>' . "\n";
+                        /*
+                         * v2: đăng nhập và chuyển đến form đổi pass
+                         */
+                        $data = $this->base_model->select( '*', $this->user_model->table, array(
+                            // các kiểu điều kiện where
+                            // mặc định
+                            'ID' => $user_id,
+                            // kiểm tra email đã được sử dụng rồi hay chưa thì không cần kiểm tra trạng thái XÓA -> vì có thể user này đã bị xóa vĩnh viễn
+                            'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                        ), array(
+                            'order_by' => [
+                                'ID' => 'ASC'
+                            ],
+                            // hiển thị mã SQL để check
+                            //'show_query' => 1,
+                            // trả về câu query để sử dụng cho mục đích khác
+                            //'get_query' => 1,
+                            //'offset' => 2,
+                            'limit' => 1
+                        ) );
+                        //print_r( $data );
 
-                        // thiết lập thông tin người nhận
-                        $data_send = [
-                            'to' => $email,
-                            'subject' => 'Mật khẩu đăng nhập mới',
-                            'message' => $this->base_model->tmp_to_html(
-                                $this->base_model->get_html_tmp( 'reset_password', '', 'Views/mail_template/' ), [
-                                    'base_url' => base_url( 'guest/login' ),
-                                    'email' => $email,
-                                    'ip' => $this->request->getIPAddress(),
-                                    'random_password' => $random_password,
-                                    'agent' => $_SERVER[ 'HTTP_USER_AGENT' ],
-                                    'date_send' => date( 'r' ),
-                                ]
-                            ),
-                        ];
-                        //print_r( $data_send );
-                        //die( __CLASS__ . ':' . __LINE__ );
-
-                        // gửi email thông báo
-                        if ( PHPMaillerSend::the_send( $data_send, $this->option_model->get_smtp() ) === true ) {
-                            $this->base_model->msg_session( 'Mật khẩu mới đã được thiết lập! Vui lòng kiểm tra email ' . $email . ' để lấy mật khẩu đăng nhập mới.' );
-
-                            // cập nhật mật khẩu mới cho user
-                            $this->user_model->update_member( $user_id, [
-                                'ci_pass' => $random_password,
-                            ] );
-
-                            // không cho thao tác liên tục
-                            $this->user_model->the_cache( $user_id, $in_cache, time() );
+                        //
+                        if ( empty( $data ) ) {
+                            $this->base_model->msg_error_session( 'Không xác định được thông tin tài khoản của bạn!' );
                         } else {
-                            $this->base_model->msg_error_session( 'Gửi email cung cấp mật khẩu mới THẤT BẠI! Vui lòng liên hệ với quản trị website.' );
+                            $data = $this->sync_login_data( $data );
+                            //print_r( $data );
+
+                            // lưu thông tin đăng nhập tự động cho khách
+                            $this->base_model->set_ses_login( $data );
+
+                            //
+                            $this->base_model->msg_session( 'Xác thực và đăng nhập tự động thành công. Hãy cập nhật mật khẩu mới để sử dụng.' );
+
+                            //
+                            return $this->done_action_login( base_url( 'users/profile#data_ci_pass' ) );
                         }
+
+
+                        /*
+                         * v1: tự đổi sang pass mới
+                         */
+                        //$this->change_random_password();
                     }
                 } else {
                     $this->base_model->msg_session( 'Vui lòng kiểm tra email ' . $email . ' để lấy mật khẩu đăng nhập mới.' );
@@ -457,5 +467,43 @@ class Guest extends Csrf {
         ) );
         //print_r( $this->teamplate );
         return view( 'layout_view', $this->teamplate );
+    }
+
+    private function change_random_password() {
+        $random_password = substr( $this->base_model->mdnam( time() ), 0, 12 );
+        //echo $random_password . '<br>' . "\n";
+
+        // thiết lập thông tin người nhận
+        $data_send = [
+            'to' => $email,
+            'subject' => 'Mật khẩu đăng nhập mới',
+            'message' => $this->base_model->tmp_to_html(
+                $this->base_model->get_html_tmp( 'reset_password', '', 'Views/mail_template/' ), [
+                    'base_url' => base_url( 'guest/login' ),
+                    'email' => $email,
+                    'ip' => $this->request->getIPAddress(),
+                    'random_password' => $random_password,
+                    'agent' => $_SERVER[ 'HTTP_USER_AGENT' ],
+                    'date_send' => date( 'r' ),
+                ]
+            ),
+        ];
+        //print_r( $data_send );
+        //die( __CLASS__ . ':' . __LINE__ );
+
+        // gửi email thông báo
+        if ( PHPMaillerSend::the_send( $data_send, $this->option_model->get_smtp() ) === true ) {
+            $this->base_model->msg_session( 'Mật khẩu mới đã được thiết lập! Vui lòng kiểm tra email ' . $email . ' để lấy mật khẩu đăng nhập mới.' );
+
+            // cập nhật mật khẩu mới cho user
+            $this->user_model->update_member( $user_id, [
+                'ci_pass' => $random_password,
+            ] );
+
+            // không cho thao tác liên tục
+            $this->user_model->the_cache( $user_id, $in_cache, time() );
+        } else {
+            $this->base_model->msg_error_session( 'Gửi email cung cấp mật khẩu mới THẤT BẠI! Vui lòng liên hệ với quản trị website.' );
+        }
     }
 }

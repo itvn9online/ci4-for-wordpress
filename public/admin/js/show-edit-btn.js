@@ -4,6 +4,12 @@ $(document).ready(function () {
         'insert-before': 1
     });
 
+    // chỉnh controller trước khi tạo link
+    $('.eb-sub-menu').attr({
+        'data-control': 'menus'
+    });
+
+    //
     $('.echbay-blog li, .thread-list li, .eb-sub-menu, .global-details-title, .custom-bootstrap-post_type').each(function () {
         var jd = $(this).attr('data-id') || '';
         //console.log(jd);
