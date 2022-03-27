@@ -1,16 +1,23 @@
-<div class="row">
-    <div class="col medium-3 small-12 large-3">
+<div class="row global-profile-main">
+    <?php
+
+    //
+    if ( $isMobile == true ) {
+        // nạp menu tổng (bản mobile)
+        include __DIR__ . '/users_mobile_menu.php';
+    } else {
+        ?>
+    <div class="col medium-3 small-12 large-3 global-profile-menu">
         <?php
-
-        // menu mặc định
-        include APPPATH . 'Views/includes/user_menu.php';
-
-        //
-        $menu_model->the_menu( 'user-profile-menu' );
-
+        // nạp menu tổng
+        include __DIR__ . '/users_menu.php';
         ?>
     </div>
-    <div class="col small-12 medium-9 large-9">
+    <?php
+    }
+
+    ?>
+    <div class="col small-12 medium-9 large-9 global-profile-content">
         <?php
 
         echo $main;

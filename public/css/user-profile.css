@@ -1,0 +1,23 @@
+.global-profile-main {}
+/* ================================== reponsive ================================== */
+/* desktop only */
+@media only screen and (min-width:748px) {}
+/* mobile, table only */
+@media only screen and (max-width:788px) {}
+/* medium size */
+@media only screen and (max-width:588px) {
+    .global-profile-main {}
+    .global-profile-main {}
+    .global-profile-main {}
+    .global-profile_view {}
+    .global-profile_view .row .large-4 {
+        padding-bottom: 2px;
+    }
+    .global-profile_view .row .large-8 {
+        padding-bottom: 15px;
+    }
+    .global-profile_view {}
+    .global-profile_view {}
+}
+/* mobile only */
+@media only screen and (max-width:395px) {}

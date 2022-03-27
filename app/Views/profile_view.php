@@ -1,4 +1,4 @@
-<div id="loginbox" class="s14">
+<div id="loginbox" class="s14 global-profile_view">
     <form name="profile_form" class="form-vertical" accept-charset="utf-8" action="./users/profile" method="post" target="target_eb_iframe">
         <?php $base_model->csrf_field(); ?>
         <div class="control-group normal_text">

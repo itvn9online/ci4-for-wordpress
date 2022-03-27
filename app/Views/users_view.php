@@ -25,6 +25,10 @@ use App\ Libraries\ LanguageCost;
  */
 require __DIR__ . '/includes/head_global.php';
 
+//
+$base_model->add_css( 'css/user-profile.css', [
+    'cdn' => CDN_BASE_URL,
+] );
 
 ?>
 </head>
