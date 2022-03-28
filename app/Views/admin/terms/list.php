@@ -22,6 +22,13 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
             <form name="frm_admin_search_controller" action="./admin/<?php echo $controller_slug; ?>" method="get">
                 <div class="cf">
                     <div class="lf f30">
+                        <?php
+                        if ( $by_is_deleted > 0 ) {
+                            ?>
+                        <input type="hidden" name="is_deleted" value="<?php echo $by_is_deleted; ?>">
+                        <?php
+                        }
+                        ?>
                         <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $name_type; ?>" autofocus aria-required="true" required>
                     </div>
                     <div class="lf f20">

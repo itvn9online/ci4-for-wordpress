@@ -41,6 +41,13 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
                 <input type="hidden" name="member_type" value="<?php echo $member_type; ?>">
                 <div class="cf">
                     <div class="lf f30">
+                        <?php
+                        if ( $by_is_deleted > 0 ) {
+                            ?>
+                        <input type="hidden" name="is_deleted" value="<?php echo $by_is_deleted; ?>">
+                        <?php
+                        }
+                        ?>
                         <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $member_name; ?>" autofocus aria-required="true" required>
                     </div>
                     <div class="lf f30">

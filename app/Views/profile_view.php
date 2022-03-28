@@ -10,7 +10,7 @@
                 <div class="col medium-4 small-12 large-4">Tài khoản</div>
                 <div class="col medium-8 small-12 large-8"><?php echo $data['user_login']; ?></div>
             </div>
-            <div class="row">
+            <div id="data-user_email" class="row">
                 <div class="col medium-4 small-12 large-4">Email</div>
                 <div class="col medium-8 small-12 large-8">
                     <?php

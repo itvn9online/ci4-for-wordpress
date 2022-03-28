@@ -189,6 +189,7 @@ class Comments extends Admin {
             //'page_num' => $page_num,
             'for_action' => $for_action,
             'by_keyword' => $by_keyword,
+            'by_is_deleted' => $by_is_deleted,
             'data' => $data,
             'comment_type' => $this->comment_type,
             'comment_name' => $this->comment_name,
