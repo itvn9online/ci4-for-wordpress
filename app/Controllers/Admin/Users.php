@@ -4,6 +4,7 @@ namespace App\ Controllers\ Admin;
 // Libraries
 use App\ Libraries\ DeletedStatus;
 use App\ Libraries\ UsersType;
+use App\ Language\ Translate;
 
 //
 class Users extends Admin {
@@ -344,9 +345,20 @@ class Users extends Admin {
 
         //
         $this->validation->reset();
-        $this->validation->setRule( 'user_email', 'Email', 'required|min_length[5]|max_length[255]|valid_email' );
+        $this->validation->setRules( [
+            'user_email' => [
+                'label' => 'Email',
+                'rules' => 'required|min_length[5]|max_length[255]|valid_email',
+                'errors' => [
+                    'required' => Translate::REQUIRED,
+                    'min_length' => Translate::MIN_LENGTH,
+                    'max_length' => Translate::MAX_LENGTH,
+                    'valid_email' => Translate::VALID_EMAIL,
+                ],
+            ]
+        ] );
         if ( !$this->validation->run( $data ) ) {
-            $this->base_model->alert( 'Email không đúng định dạng được hỗ trợ', 'error' );
+            $this->set_validation_error( $this->validation->getErrors(), 'error' );
         }
 
         //

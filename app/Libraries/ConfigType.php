@@ -95,6 +95,7 @@ class ConfigType {
                 //'enable_angular_js' => 'Sử dụng AngularJS',
                 'enable_hotlink_protection' => 'HotLink protection',
                 'enable_device_protection' => 'Device logged protection',
+                'disable_register_member' => 'Dừng đăng ký tài khoản mới',
             ];
         } else if ( $config_type == self::CATEGORY ) {
             $arr = [
@@ -176,6 +177,7 @@ class ConfigType {
 
             'enable_hotlink_protection' => 'checkbox',
             'enable_device_protection' => 'checkbox',
+            'disable_register_member' => 'checkbox',
             'smtp_no_reply' => 'checkbox',
             'show_child_category' => 'checkbox',
             'show_child_blogs' => 'checkbox',
@@ -300,6 +302,7 @@ class ConfigType {
             
             'enable_hotlink_protection' => 'Chặn các website khác truy cập trực tiếp vào file ảnh trên host này.',
             'enable_device_protection' => 'Chặn đăng nhập trên nhiều thiết bị trong cùng một thời điểm. Nếu phát hiện, sẽ đưa ra popup cảnh báo cho người dùng.',
+            'disable_register_member' => 'Khi muốn dừng việc đăng ký tài khoản trên website thì bật chức năng này lên (admin vẫn có thể tạo tài khoản từ trang admin).',
         ];
         if ( isset( $arr[ $key ] ) && $arr[ $key ] != '' ) {
             echo '<p class="controls-text-note">' . $arr[ $key ] . '</p>';

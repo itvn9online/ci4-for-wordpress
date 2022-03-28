@@ -1,6 +1,10 @@
 <?php
 namespace App\ Controllers;
 
+//
+use App\ Language\ Translate;
+
+//
 class Users extends Csrf {
     protected $controller_name = 'Cá nhân';
 
@@ -83,7 +87,17 @@ class Users extends Csrf {
 
             //
             $this->validation->reset();
-            $this->validation->setRule( 'ci_pass', 'Mật khẩu', 'required|min_length[5]|max_length[255]' );
+            $this->validation->setRules( [
+                'ci_pass' => [
+                    'label' => Translate::PASSWORD,
+                    'rules' => 'required|min_length[5]|max_length[255]',
+                    'errors' => [
+                        'required' => Translate::REQUIRED,
+                        'min_length' => Translate::MIN_LENGTH,
+                        'max_length' => Translate::MAX_LENGTH,
+                    ],
+                ]
+            ] );
             if ( !$this->validation->run( $data ) ) {
                 $this->set_validation_error( $this->validation->getErrors(), $this->form_target );
                 //die( __CLASS__ . ':' . __LINE__ );

@@ -22,7 +22,16 @@ include APPPATH . 'Views/admin/default/login_header.php';
 
             ?>
         </div>
-        <div class="form-actions cf l35"><a href="./guest/login">Đăng nhập</a> | <a href="./guest/register">Đăng ký</a> <span class="pull-right">
+        <div class="form-actions cf l35"> <a href="./guest/login">Đăng nhập</a>
+            <?php
+            // chỉ hiển thị link đăng ký khi được phép
+            if ( !isset( $getconfig->disable_register_member ) || $getconfig->disable_register_member != 'on' ) {
+                ?>
+            | <a href="./guest/register">Đăng ký</a>
+            <?php
+            }
+            ?>
+            <span class="pull-right">
             <input type="submit" class="btn btn-success" value="<?php echo $seo['title']; ?>" />
             </span> </div>
     </form>

@@ -41,7 +41,16 @@ if ( isset( $_REQUEST[ 'login_redirect' ] ) ) {
 
             ?>
         </div>
-        <div class="form-actions cf l35"><a href="./guest/register">Đăng ký</a> | <a href="./guest/resetpass"> Quên mật khẩu?</a> <span class="pull-right">
+        <div class="form-actions cf l35">
+            <?php
+            // chỉ hiển thị link đăng ký khi được phép
+            if ( !isset( $getconfig->disable_register_member ) || $getconfig->disable_register_member != 'on' ) {
+                ?>
+            <a href="./guest/register">Đăng ký</a> |
+            <?php
+            }
+            ?>
+            <a href="./guest/resetpass"> Quên mật khẩu?</a> <span class="pull-right">
             <input type="submit" class="btn btn-success" value="<?php echo $seo['title']; ?>" />
             </span> </div>
     </form>

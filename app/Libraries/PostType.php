@@ -3,7 +3,7 @@
 namespace App\ Libraries;
 
 //
-use App\ Language\ admin\ Translate;
+use App\ Language\ admin\ AdminTranslate;
 
 //
 class PostType {
@@ -37,7 +37,7 @@ class PostType {
     const MEDIA_MEDIUM_LARGE = 'medium_large';
 
     protected static $arr = array(
-        self::POST => Translate::POST,
+        self::POST => AdminTranslate::POST,
         self::ADS => 'Quảng cáo',
         self::BLOG => 'Blog/ Tin tức',
         self::PAGE => 'Trang tĩnh',

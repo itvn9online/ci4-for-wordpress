@@ -23,18 +23,44 @@ class Contact extends Home {
         }
 
         // thực hiện validation
-        /*
-        $this->form_validation->set_rules( 'data[fullname]', 'fullname', 'required|xss_clean|min_length[5]|max_length[255]' );
-        $this->form_validation->set_rules( 'data[email]', 'email', 'required|xss_clean|min_length[5]|max_length[255]|valid_email' );
-        $this->form_validation->set_rules( 'data[title]', 'title', 'required|xss_clean|min_length[5]|max_length[255]' );
-        $this->form_validation->set_rules( 'data[content]', 'content', 'required|xss_clean|min_length[5]' );
-        */
         $this->validation->reset();
         $this->validation->setRules( [
-            'fullname' => 'required|min_length[5]|max_length[255]',
-            'email' => 'required|min_length[5]|max_length[255]|valid_email',
-            'title' => 'required|min_length[5]|max_length[255]',
-            'content' => 'required|min_length[5]',
+            'fullname' => [
+                'label' => Translate::FULLNAME,
+                'rules' => 'required|min_length[5]|max_length[255]',
+                'errors' => [
+                    'required' => Translate::REQUIRED,
+                    'min_length' => Translate::MIN_LENGTH,
+                    'max_length' => Translate::MAX_LENGTH,
+                ],
+            ],
+            'email' => [
+                'label' => 'Email',
+                'rules' => 'required|min_length[5]|max_length[255]|valid_email',
+                'errors' => [
+                    'required' => Translate::REQUIRED,
+                    'min_length' => Translate::MIN_LENGTH,
+                    'max_length' => Translate::MAX_LENGTH,
+                    'valid_email' => Translate::VALID_EMAIL,
+                ],
+            ],
+            'title' => [
+                'label' => Translate::TITLE,
+                'rules' => 'required|min_length[6]|max_length[255]',
+                'errors' => [
+                    'required' => Translate::REQUIRED,
+                    'min_length' => Translate::MIN_LENGTH,
+                    'max_length' => Translate::MAX_LENGTH,
+                ],
+            ],
+            'content' => [
+                'label' => Translate::CONTENT,
+                'rules' => 'required|min_length[6]',
+                'errors' => [
+                    'required' => Translate::REQUIRED,
+                    'min_length' => Translate::MIN_LENGTH,
+                ],
+            ]
         ] );
 
         //

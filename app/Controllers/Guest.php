@@ -5,6 +5,7 @@ namespace App\ Controllers;
 use App\ Libraries\ UsersType;
 use App\ Libraries\ DeletedStatus;
 use App\ Libraries\ PHPMaillerSend;
+use App\ Language\ Translate;
 
 //
 class Guest extends Csrf {
@@ -60,11 +61,22 @@ class Guest extends Csrf {
                 //print_r( $_POST );
                 $this->validation->reset();
                 $this->validation->setRules( [
-                    'username' => 'required',
-                    'password' => 'required|min_length[6]',
+                    'username' => [
+                        'label' => Translate::USERNAME,
+                        'rules' => 'required',
+                        'errors' => [
+                            'required' => Translate::REQUIRED,
+                        ],
+                    ],
+                    'password' => [
+                        'label' => Translate::PASSWORD,
+                        'rules' => 'required|min_length[6]',
+                        'errors' => [
+                            'required' => Translate::REQUIRED,
+                            'min_length' => Translate::MIN_LENGTH,
+                        ],
+                    ]
                 ] );
-                //$this->validation->setRule( 'username', 'Tài khoản', 'required' );
-                //$this->validation->setRule( 'password', 'Mật khẩu', 'required' );
 
                 //
                 if ( !$this->validation->run( $_POST ) ) {
@@ -140,7 +152,11 @@ class Guest extends Csrf {
 
             //
             if ( empty( $sql ) ) {
-                $this->base_model->msg_error_session( 'Email đăng nhập không chính xác', $this->form_target );
+                if ( strpos( $username, '@' ) !== false ) {
+                    $this->base_model->msg_error_session( 'Email đăng nhập không chính xác', $this->form_target );
+                } else {
+                    $this->base_model->msg_error_session( 'Tài khoản đăng nhập không chính xác', $this->form_target );
+                }
             } else {
                 $this->base_model->msg_error_session( 'Mật khẩu đăng nhập không chính xác', $this->form_target );
             }
@@ -203,6 +219,19 @@ class Guest extends Csrf {
     }
 
     public function register() {
+        //print_r( $this->getconfig );
+        // nếu website không cho đăng ký thành viên thì hiển thị view thông báo tương ứng
+        if ( isset( $this->getconfig->disable_register_member ) && $this->getconfig->disable_register_member == 'on' ) {
+            $this->teamplate[ 'main' ] = view( 'admin/register_disable_view', array(
+                'seo' => $this->seo( 'Website tạm dừng việc đăng ký tài khoản mới', __FUNCTION__ ),
+                'breadcrumb' => '',
+                //'cateByLang' => $cateByLang,
+                //'serviceByLang' => $serviceByLang,
+            ) );
+            return view( 'layout_view', $this->teamplate );
+        }
+
+        //
         $login_redirect = DYNAMIC_BASE_URL;
 
         if ( $this->current_user_id > 0 ) {
@@ -220,9 +249,27 @@ class Guest extends Csrf {
             //
             if ( $this->has_captcha === false ) {
                 $this->validation->reset();
-                $this->validation->setRule( 'email', 'Email', 'required|min_length[5]|max_length[255]|valid_email' );
-                $this->validation->setRule( 'password', 'Mật khẩu', 'required|min_length[5]|max_length[255]' );
-                //$this->validation->setRule( 'password2', 'Mật khẩu xác nhận', 'required|min_length[5]|max_length[255]' );
+                $this->validation->setRules( [
+                    'email' => [
+                        'label' => 'Email',
+                        'rules' => 'required|min_length[5]|max_length[255]|valid_email',
+                        'errors' => [
+                            'required' => Translate::REQUIRED,
+                            'min_length' => Translate::MIN_LENGTH,
+                            'max_length' => Translate::MAX_LENGTH,
+                            'valid_email' => Translate::VALID_EMAIL,
+                        ],
+                    ],
+                    'password' => [
+                        'label' => 'Mật khẩu',
+                        'rules' => 'required|min_length[5]|max_length[255]',
+                        'errors' => [
+                            'required' => Translate::REQUIRED,
+                            'min_length' => Translate::MIN_LENGTH,
+                            'max_length' => Translate::MAX_LENGTH,
+                        ],
+                    ]
+                ] );
 
                 // mật khẩu xác nhận
                 if ( $data[ 'password' ] != $data[ 'password2' ] ) {
@@ -265,7 +312,7 @@ class Guest extends Csrf {
 
         //
         $this->teamplate[ 'main' ] = view( 'admin/register_view', array(
-            'seo' => $this->seo( 'Đăng ký', __FUNCTION__ ),
+            'seo' => $this->seo( 'Đăng ký tài khoản mới', __FUNCTION__ ),
             'breadcrumb' => '',
             //'cateByLang' => $cateByLang,
             //'serviceByLang' => $serviceByLang,
@@ -289,7 +336,18 @@ class Guest extends Csrf {
                 //print_r( $data );
                 //die( __CLASS__ . ':' . __LINE__ );
                 $this->validation->reset();
-                $this->validation->setRule( 'email', 'Email', 'required|min_length[5]|max_length[255]|valid_email' );
+                $this->validation->setRules( [
+                    'email' => [
+                        'label' => 'Email',
+                        'rules' => 'required|min_length[5]|max_length[255]|valid_email',
+                        'errors' => [
+                            'required' => Translate::REQUIRED,
+                            'min_length' => Translate::MIN_LENGTH,
+                            'max_length' => Translate::MAX_LENGTH,
+                            'valid_email' => Translate::VALID_EMAIL,
+                        ],
+                    ]
+                ] );
 
                 //
                 if ( !$this->validation->run( $data ) ) {
