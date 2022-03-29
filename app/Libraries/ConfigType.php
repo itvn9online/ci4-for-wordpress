@@ -124,7 +124,7 @@ class ConfigType {
         } else if ( $config_type == self::TRANS ) {
             $arr_tmp = [];
             $arr_tmp[ 'main_slider_slug' ] = 'Slug slider chính';
-            for ( $i = 0; $i < 10; $i++ ) {
+            for ( $i = 0; $i < 36; $i++ ) {
                 $arr_tmp[ 'custom_text' . $i ] = 'Custom text ' . $i;
             }
 
