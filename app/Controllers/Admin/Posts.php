@@ -199,7 +199,7 @@ class Posts extends Admin {
             } else if ( $page_num < 1 ) {
                 $page_num = 1;
             }
-            $for_action .= $page_num > 1 ? '&page_num=' . $page_num : '';
+            $for_action .= ( $page_num > 1 ? '&page_num=' . $page_num : '' );
             //echo $totalThread . '<br>' . "\n";
             //echo $totalPage . '<br>' . "\n";
             $offset = ( $page_num - 1 ) * $post_per_page;
