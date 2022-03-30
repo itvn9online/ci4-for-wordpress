@@ -163,7 +163,11 @@ if ( !isset( $getconfig->site_full_width ) || empty( $getconfig->site_full_width
 max-width: <?php echo ( $getconfig->site_max_width + 30 ) . 'px';
 ?>;
 }
-.w90, .w99 {
+.row.row-small {
+max-width: <?php echo ( $getconfig->site_max_width + 19 ) . 'px';
+?>;
+}
+.row.row-collapse, .w90, .w99 {
 max-width: <?php echo $getconfig->site_max_width . 'px';
 ?>;
 }

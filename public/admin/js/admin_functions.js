@@ -669,7 +669,7 @@ function for_admin_global_checkbox(max_i) {
                 if ($('form#admin_global_form input.remove-if-checkbox-checked[name="' + default_a + '"]').length == 0) {
                     console.log('add hidden input:', default_a);
                     // -> thêm 1 input hidden để xóa giá trị lúc submit
-                    $('form#admin_global_form').prepend('<input type="text" name="' + default_a + '" value="" class="remove-if-checkbox-checked" />');
+                    $('form#admin_global_form').prepend('<input type="hidden" name="' + default_a + '" value="" class="remove-if-checkbox-checked" />');
                 }
             }
         });

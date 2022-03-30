@@ -199,7 +199,7 @@ if ( $auto_update_module * 1 === 1 ) {
                     // với 1 số post type có đặc thù riêng -> ví dụ danh mục
                     if ( $k == 'post_category' ) {
                         ?>
-                    <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple aria-required="true" required>
+                    <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple>
                         <option value="">[ Chọn <?php echo $v; ?> ]</option>
                     </select>
                     &nbsp; <a href="admin/terms/add/?taxonomy=<?php echo $taxonomy; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm <?php echo $v; ?> mới</a>
