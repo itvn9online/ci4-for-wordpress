@@ -61,7 +61,7 @@ var _global_js_eb = {
                     wit = jQuery(this).attr('data-width') || jQuery(this).attr('width') || 560,
                     no_resize = jQuery(this).attr('data-no-resize') || 0;
                 if (no_resize * 1 != 1) {
-                    if (WGR_check_option_on(cf_tester_mode)) console.log(a);
+                    if (WGR_check_option_on(WGR_config.cf_tester_mode)) console.log(a);
 
                     if (wit > max_width) {
                         wit = max_width - 1;
@@ -201,7 +201,7 @@ var _global_js_eb = {
                     var no_resize = jQuery(this).attr('data-no-resize') || 0;
 
                     if (no_resize * 1 != 1) {
-                        if (WGR_check_option_on(cf_tester_mode)) console.log(a);
+                        if (WGR_check_option_on(WGR_config.cf_tester_mode)) console.log(a);
 
                         // chỉ xử lý với video youtube
                         if (a.split('youtube.com/').length > 1) {
@@ -564,7 +564,7 @@ var _global_js_eb = {
     ga_event_track: function (eventCategory, eventAction, eventLabel, ops, max_for) {
 
         // không track đối với người dùng đã đăng nhập
-        if (current_user_id > 0 && WGR_check_option_on(cf_disable_tracking)) {
+        if (WGR_config.current_user_id > 0 && WGR_check_option_on(cf_disable_tracking)) {
             console.log('ga_event_track disable by user login');
             return false;
         }
@@ -684,7 +684,7 @@ var _global_js_eb = {
         }
 
         // không track đối với người dùng đã đăng nhập
-        if (current_user_id > 0 && WGR_check_option_on(cf_disable_tracking)) {
+        if (WGR_config.current_user_id > 0 && WGR_check_option_on(cf_disable_tracking)) {
             console.log('fb_track disable by user login');
             return false;
         }
@@ -770,8 +770,8 @@ var _global_js_eb = {
             eventAction = 'staff';
             if (typeof mtv_id != 'undefined') {
                 eventAction += mtv_id;
-            } else if (typeof current_user_id != 'undefined') {
-                eventAction += current_user_id;
+            } else if (typeof WGR_config.current_user_id != 'undefined') {
+                eventAction += WGR_config.current_user_id;
             }
         }
 

@@ -17,7 +17,7 @@ var timeout_device_protection = 30;
 
         // nếu người dùng chưa close modal thì thôi không cần kiểm tra -> vì có close mới tiếp tục được
         if ($('#warningLoggedModal').hasClass('show')) {
-            if (cf_tester_mode === 1) console.log(Math.random());
+            if (WGR_check_option_on(WGR_config.cf_tester_mode)) console.log(Math.random());
             setTimeout(function () {
                 _run();
             }, min_time * 1000);
@@ -45,7 +45,7 @@ var timeout_device_protection = 30;
                 }
             },
             success: function (data) {
-                if (cf_tester_mode === 1) console.log(data);
+                if (WGR_check_option_on(WGR_config.cf_tester_mode)) console.log(data);
 
                 // bình thường thì để 30s kiểm tra 1 lần
                 timeout_device_protection = max_time;
@@ -88,7 +88,7 @@ var timeout_device_protection = 30;
     };
 
     //
-    if (current_user_id > 0) {
+    if (WGR_config.current_user_id > 0) {
         setTimeout(function () {
             _run();
         }, 5 * 1000);

@@ -14,7 +14,7 @@ class Admin extends Ajax {
     //public $user_group_list = array();
 
     // với 1 số controller, sẽ không nạp cái HTML header vào, nên có thêm tham số này để không nạp header nữa
-    public $preload_header = true;
+    public $preload_admin_header = true;
 
     protected $body_class = '';
 
@@ -41,7 +41,7 @@ class Admin extends Ajax {
         $this->post_model = new\ App\ Models\ PostAdmin();
 
         //
-        if ( $this->preload_header === true && $_SERVER[ 'REQUEST_METHOD' ] == 'GET' ) {
+        if ( $this->preload_admin_header === true && $_SERVER[ 'REQUEST_METHOD' ] == 'GET' ) {
             $this->teamplate_admin = [
                 'arr_admin_menu' => $this->admin_menu(),
                 'session_data' => $this->session_data,

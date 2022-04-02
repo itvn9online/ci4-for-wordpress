@@ -124,6 +124,9 @@ class ConfigType {
         } else if ( $config_type == self::TRANS ) {
             $arr_tmp = [];
             $arr_tmp[ 'main_slider_slug' ] = 'Slug slider chính';
+            $arr_tmp[ 'copy_right_first' ] = 'Bản quyền (trước)';
+            $arr_tmp[ 'copy_right_last' ] = 'Bản quyền (sau)';
+            $arr_tmp[ 'powered_by_echbay' ] = 'Cung cấp bởi';
             for ( $i = 0; $i < 36; $i++ ) {
                 $arr_tmp[ 'custom_text' . $i ] = 'Custom text ' . $i;
             }
@@ -299,7 +302,7 @@ class ConfigType {
             'smtp_test_email' => 'Thiết lập xong cấu hình, bạn có thể nhập thêm email người nhận và <a href="' . base_url( 'admin/configs' ) . '?config_type=smtp&test_mail=1" target="_blank" class="click-check-email-test bluecolor"><strong>bấm vào đây</strong></a> để test email gửi đi.',
             'smtp_test_bbc_email' => 'Thêm email để test chức năng BCC.',
             'smtp_test_cc_email' => 'Thêm email để test chức năng CC.',
-            
+
             'enable_hotlink_protection' => 'Chặn các website khác truy cập trực tiếp vào file ảnh trên host này.',
             'enable_device_protection' => 'Chặn đăng nhập trên nhiều thiết bị trong cùng một thời điểm. Nếu phát hiện, sẽ đưa ra popup cảnh báo cho người dùng.',
             'disable_register_member' => 'Khi muốn dừng việc đăng ký tài khoản trên website thì bật chức năng này lên (admin vẫn có thể tạo tài khoản từ trang admin).',
@@ -347,6 +350,25 @@ class ConfigType {
 
         //
         return [];
+    }
+
+    public static function placeholder( $key = '', $default_value = '' ) {
+        $arr = [
+            'copy_right_first' => 'Bản quyền &copy; ',
+            'copy_right_last' => ' - Toàn bộ phiên bản.',
+            'powered_by_echbay' => ' Cung cấp bởi EchBay.com',
+        ];
+        //echo $k . '<br>' . "\n";
+        //echo $default_value . '<br>' . "\n";
+
+        //
+        if ( $key != '' ) {
+            if ( isset( $arr[ $key ] ) ) {
+                return $arr[ $key ];
+            }
+            return $default_value;
+        }
+        return $arr;
     }
 
 }

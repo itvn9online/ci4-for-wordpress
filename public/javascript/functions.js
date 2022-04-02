@@ -21,6 +21,8 @@ var bg_load = 'Loading...',
     arr_ti_le_global = {};
 
 var auto_hide_admin_custom_alert = null;
+var global_window_width = jQuery(window).width(),
+    web_link = window.location.protocol + '//' + document.domain + '/';
 
 function HTV_alert(m, lnk) {
     return WGR_alert(m, lnk);
@@ -324,7 +326,7 @@ var g_func = {
 
 
         //
-        if (WGR_check_option_on(cf_tester_mode)) console.log('Set cookie: ' + name + ' with value: ' + value + ' for domain: ' + cdomain + ' time: ' + seconds + ' (' + days + ' day)');
+        if (WGR_check_option_on(WGR_config.cf_tester_mode)) console.log('Set cookie: ' + name + ' with value: ' + value + ' for domain: ' + cdomain + ' time: ' + seconds + ' (' + days + ' day)');
     },
     getc: function (name) {
         var nameEQ = encodeURIComponent(name) + "=",
@@ -559,10 +561,7 @@ var g_func = {
 
 
     mb_v2: function () {
-        if (screen.width < 775 || jQuery(window).width() < 775) {
-            return true;
-        }
-        return false;
+        return WGR_is_mobile();
     },
     mb: function (a) {
         return g_func.mb_v2();
@@ -621,7 +620,7 @@ var g_func = {
 
 // duy trì trạng thái đăng nhập
 function WGR_duy_tri_dang_nhap(max_i) {
-    if (typeof current_user_id != 'undefined' && current_user_id <= 0) {
+    if (typeof WGR_config.current_user_id != 'undefined' && WGR_config.current_user_id <= 0) {
         return false;
     }
     if (typeof max_i != 'number') {
@@ -630,8 +629,8 @@ function WGR_duy_tri_dang_nhap(max_i) {
         window.location = window.location.href;
         return false;
     }
-    if (typeof current_user_id != 'undefined') {
-        console.log('Current user ID: ' + current_user_id + ' (max i: ' + max_i + ')');
+    if (typeof WGR_config.current_user_id != 'undefined') {
+        console.log('Current user ID: ' + WGR_config.current_user_id + ' (max i: ' + max_i + ')');
     }
 
     //
@@ -873,6 +872,11 @@ function support_format_webp() {
 }
 
 function WGR_is_mobile(a) {
+    if (screen.width < 775 || jQuery(window).width() < 775) {
+        return true;
+    }
+
+    //
     if (typeof a == 'undefined' || a == '') {
         a = navigator.userAgent;
     }
@@ -891,11 +895,16 @@ function WGR_is_mobile(a) {
 }
 
 // tạo menu tự động dựa theo danh mục đang có
-function create_menu_by_taxonomy(arr) {
+function create_menu_by_taxonomy(arr, li_class) {
     if (arr.length <= 0) {
         return '';
     }
     //console.log(arr);
+
+    //
+    if (typeof li_class == 'undefined' || li_class == '') {
+        li_class = 'parent-menu';
+    }
 
     //
     var str = '';
@@ -908,14 +917,48 @@ function create_menu_by_taxonomy(arr) {
         var sub_menu = '';
         //console.log(typeof arr[i].child_term);
         if (typeof arr[i].child_term != 'undefined' && arr[i].child_term.length > 0) {
-            sub_menu = '<ul class="sub-menu">' + create_menu_by_taxonomy(arr[i].child_term) + '</ul>';
+            sub_menu = '<ul class="sub-menu">' + create_menu_by_taxonomy(arr[i].child_term, 'childs-menu') + '</ul>';
         }
 
         //
-        str += '<li><a href="' + web_link + 'c/' + arr[i].taxonomy + '/' + arr[i].term_id + '/' + arr[i].slug + '" dtaa-id="' + arr[i].term_id + '">' + arr[i].name + ' <span class="taxonomy-count">' + arr[i].count + '</span></a>' + sub_menu + '</li>';
+        str += '<li data-id="' + arr[i].term_id + '" class="' + li_class + '"><a href="' + web_link + 'c/' + arr[i].taxonomy + '/' + arr[i].term_id + '/' + arr[i].slug + '" data-id="' + arr[i].term_id + '">' + arr[i].name + ' <span class="taxonomy-count">' + arr[i].count + '</span></a>' + sub_menu + '</li>';
     }
     //console.log(str);
 
     //
     return str;
+}
+
+function WGR_check_option_on(a) {
+    if (a * 1 > 0) {
+        return true;
+    }
+    return false;
+}
+
+// chờ vuejs nạp xong để khởi tạo nội dung
+function WGR_vuejs(app_id, obj, max_i) {
+    if (typeof max_i != 'number') {
+        max_i = 100;
+    } else if (max_i < 0) {
+        console.log('%c Max loaded Vuejs', 'color: red');
+        return false;
+    }
+
+    //
+    if (typeof Vue != 'function') {
+        setTimeout(function () {
+            WGR_vuejs(app_id, obj, max_i - 1);
+        }, 100);
+        return false;
+    }
+
+    //
+    new Vue({
+        el: app_id,
+        data: obj,
+        mounted: function () {
+            $(app_id + '.ng-main-content').addClass('loaded');
+        },
+    });
 }

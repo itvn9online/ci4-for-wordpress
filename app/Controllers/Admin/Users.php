@@ -119,7 +119,7 @@ class Users extends Admin {
         $col_filter = $this->MY_get( 'col_filter', [] );
         //print_r( $col_filter );
         foreach ( $col_filter as $k => $v ) {
-            if ( !empty( $v ) ) {
+            if ( $v != '' ) {
                 $where[ 'users.' . $k ] = $v;
 
                 $urlPartPage .= '&col_filter[' . $k . ']=' . $v;

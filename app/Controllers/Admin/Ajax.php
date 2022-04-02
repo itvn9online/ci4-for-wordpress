@@ -3,7 +3,7 @@ namespace App\ Controllers\ Admin;
 
 class Ajax extends Admin {
     // chức năng này không cần nạp header
-    public $preload_header = false;
+    public $preload_admin_header = false;
 
     public function __construct() {
         parent::__construct();
