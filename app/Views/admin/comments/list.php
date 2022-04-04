@@ -11,18 +11,6 @@ use App\ Libraries\ DeletedStatus;
 $base_model->add_css( 'admin/css/' . $comment_type . '.css' );
 
 ?>
-<script>
-angular.module('myApp', []).controller('myCtrl', function($scope) {
-    $scope.data = <?php echo json_encode($data); ?>;
-    $scope.for_action = '<?php echo $for_action; ?>';
-    $scope.controller_slug = '<?php echo $controller_slug; ?>';
-    $scope.DeletedStatus_DELETED = '<?php echo DeletedStatus::DELETED; ?>';
-    angular.element(document).ready(function () {
-        $('.ng-main-content').addClass('loaded');
-    });
-});
-</script>
-
 <ul class="admin-breadcrumb">
     <li>Danh sách <?php echo $comment_name; ?> (<?php echo $totalThread; ?>)</li>
 </ul>
@@ -64,21 +52,21 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
             <th>&nbsp;</th>
         </tr>
     </thead>
-    <tbody id="admin_main_list" ng-app="myApp" ng-controller="myCtrl" class="ng-main-content">
-        <tr ng-repeat="v in data">
+    <tbody id="admin_main_list" class="ng-main-content">
+        <tr v-for="v in data">
             <td>&nbsp;</td>
-            <td><a href="admin/{{controller_slug}}?comment_id={{v.comment_ID}}">{{v.comment_title}} <i class="fa fa-edit"></i></a> {{v.comment_slug}}</td>
+            <td><a :href="'admin/' + controller_slug + '?comment_id=' + v.comment_ID">{{v.comment_title}} <i class="fa fa-edit"></i></a> {{v.comment_slug}}</td>
             <td>{{v.comment_author_email}}</td>
             <td>{{v.comment_approved}}</td>
             <td>{{v.comment_author_IP}}</td>
             <td>{{v.comment_date.substr(0, 16)}}</td>
             <td>{{v.lang_key}}</td>
             <td class="text-center"><div>
-                    <div ng-if="v.is_deleted != DeletedStatus_DELETED">
-                        <div><a href="admin/{{controller_slug}}/delete?id={{v.comment_ID + for_action}}" onClick="return click_a_delete_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-trash"></i></a> </div>
+                    <div v-if="v.is_deleted != DeletedStatus_DELETED">
+                        <div><a :href="'admin/' + controller_slug + '/delete?id=' + v.comment_ID + for_action" onClick="return click_a_delete_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-trash"></i></a> </div>
                     </div>
-                    <div ng-if="v.is_deleted == DeletedStatus_DELETED">
-                        <div><a href="admin/{{controller_slug}}/restore?id={{v.comment_ID + for_action}}" onClick="return click_a_restore_record();" class="bluecolor" target="target_eb_iframe"><i class="fa fa-undo"></i></a></div>
+                    <div v-if="v.is_deleted == DeletedStatus_DELETED">
+                        <div><a :href="'admin/' + controller_slug + '/restore?id=' + v.comment_ID + for_action" onClick="return click_a_restore_record();" class="bluecolor" target="target_eb_iframe"><i class="fa fa-undo"></i></a></div>
                     </div>
                 </div></td>
         </tr>
@@ -86,6 +74,14 @@ angular.module('myApp', []).controller('myCtrl', function($scope) {
 </table>
 <div class="public-part-page"> <?php echo $pagination; ?> Trên tổng số <?php echo $totalThread; ?> bản ghi.</div>
 <p class="d-none">* Copy đoạn code bên dưới rồi cho vào nơi cần hiển thị block này ở trong view. Nhớ thay %slug% thành slug thật trong danh sách ở trên.</p>
+<script>
+WGR_vuejs('#admin_main_list', {
+    data: <?php echo json_encode($data); ?>,
+    for_action: '<?php echo $for_action; ?>',
+    controller_slug: '<?php echo $controller_slug; ?>',
+    DeletedStatus_DELETED: '<?php echo DeletedStatus::DELETED; ?>',
+});
+</script>
 <?php
 
 // js riêng cho từng comments type (nếu có)

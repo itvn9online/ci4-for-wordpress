@@ -108,11 +108,11 @@ WGR_vuejs('#app', {
     member_type: '<?php echo $member_type; ?>',
     controller_slug: '<?php echo $controller_slug; ?>',
     data: scope_data,
-    list: <?php echo json_encode($arr_members_type); ?>,
-    UsersType_listStatus: <?php echo json_encode(UsersType::listStatus()); ?>,
     for_action: '<?php echo $for_action; ?>',
     DeletedStatus_DELETED: '<?php echo DeletedStatus::DELETED; ?>',
     by_is_deleted: '<?php echo $by_is_deleted; ?>',
+    list: <?php echo json_encode($arr_members_type); ?>,
+    UsersType_listStatus: <?php echo json_encode(UsersType::listStatus()); ?>,
 });
 </script>
 <?php

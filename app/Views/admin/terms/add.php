@@ -29,7 +29,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
         ?>
     </li>
 </ul>
-<div class="widget-box ng-main-content" ng-app="myApp" ng-controller="myCtrl">
+<div class="widget-box">
     <div class="widget-content nopadding">
         <form action="" method="post" name="admin_global_form" id="admin_global_form" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
             <input type="hidden" name="is_duplicate" id="is_duplicate" value="0" />
@@ -212,14 +212,6 @@ WGR_widget_add_custom_style_to_field();
 //
 var set_parent = '<?php echo $set_parent; ?>';
 var data_term_id = <?php echo ($data[ 'term_id' ] != '' ? $data[ 'term_id' ] : 0); ?>;
-
-//
-angular.module('myApp', []).controller('myCtrl', function ($scope) {
-    $scope.data_term_id = data_term_id;
-    angular.element(document).ready(function () {
-        $('.ng-main-content').addClass('loaded');
-    });
-});
 </script>
 <?php
 

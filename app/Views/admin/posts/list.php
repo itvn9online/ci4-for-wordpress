@@ -14,7 +14,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 <ul class="admin-breadcrumb">
     <li>Danh sách <?php echo $name_type; ?> (<?php echo $totalThread; ?>)</li>
 </ul>
-<div ng-app="myApp" ng-controller="myCtrl" class="ng-main-content">
+<div id="app" class="ng-main-content">
     <div class="cf admin-search-form">
         <div class="lf f62">
             <form name="frm_admin_search_controller" action="./admin/<?php echo $controller_slug; ?>" method="get">
@@ -23,14 +23,14 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                         <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $name_type; ?>" autofocus aria-required="true" required>
                     </div>
                     <div class="lf f25 hide-if-no-taxonomy">
-                        <select name="term_id" data-select="<?php echo $by_term_id; ?>" data-taxonomy="{{taxonomy}}" onChange="document.frm_admin_search_controller.submit();" class="each-to-group-taxonomy">
+                        <select name="term_id" data-select="<?php echo $by_term_id; ?>" :data-taxonomy="taxonomy" onChange="document.frm_admin_search_controller.submit();" class="each-to-group-taxonomy">
                             <option value="0">- Danh mục <?php echo $name_type; ?> -</option>
                         </select>
                     </div>
                     <div class="lf f25">
-                        <select name="post_status" data-select="{{post_status}}" onChange="document.frm_admin_search_controller.submit();">
+                        <select name="post_status" :data-select="post_status" onChange="document.frm_admin_search_controller.submit();">
                             <option value="">- Trạng thái <?php echo $name_type; ?> -</option>
-                            <option value="{{k}}" ng-repeat="(k, v) in PostType_arrStatus">{{v}}</option>
+                            <option :value="k" v-for="(v, k) in PostType_arrStatus">{{v}}</option>
                         </select>
                     </div>
                     <div class="lf f25">
@@ -70,33 +70,32 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
             </tr>
         </thead>
         <tbody id="admin_main_list">
-            <tr data-id="{{v.ID}}" ng-repeat="v in data">
-                <td width="50" class="text-center"><input type="checkbox" value="{{v.ID}}" class="input-checkbox-control" /></td>
-                <td><div><a href="{{v.admin_permalink}}" class="bold">{{v.post_title}} <i class="fa fa-edit"></i></a></div>
-                    <div ng-class="post_type == PostType_MENU ? 'd-none' : ''"><a href="{{v.the_permalink}}" target="_blank" class="small blackcolor">{{v.post_name}} <i class="fa fa-external-link"></i></a></div></td>
-                <td><div ng-class="post_type == PostType_MENU ? 'd-none' : ''" class="img-max-width"> <a href="{{v.admin_permalink}}"><img
-                          ng-src="{{v.thumbnail}}"
-                          src="images/_blank.png"
+            <tr :data-id="v.ID" v-for="v in data">
+                <td width="50" class="text-center"><input type="checkbox" :value="v.ID" class="input-checkbox-control" /></td>
+                <td><div><a :href="v.admin_permalink" class="bold">{{v.post_title}} <i class="fa fa-edit"></i></a></div>
+                    <div :class="post_type == PostType_MENU ? 'd-none' : ''"><a :href="v.the_permalink" target="_blank" class="small blackcolor">{{v.post_name}} <i class="fa fa-external-link"></i></a></div></td>
+                <td><div :class="post_type == PostType_MENU ? 'd-none' : ''" class="img-max-width"> <a :href="v.admin_permalink"><img
+                          :src="v.thumbnail"
                           height="90"
                           data-class="each-to-img-src"
                           style="height: 90px; width: auto;" /></a> </div></td>
-                <td data-id="{{v.main_category_key}}"
-                data-taxonomy="{{taxonomy}}"
-                data-uri="admin/{{controller_slug}}"
+                <td :data-id="v.main_category_key"
+                :data-taxonomy="taxonomy"
+                :data-uri="'admin/' + controller_slug"
                 class="each-to-taxonomy">&nbsp;</td>
-                <td class="post_status post_status-{{v.post_status}}">{{PostType_arrStatus[v.post_status]}}</td>
+                <td :class="'post_status post_status-' + v.post_status">{{PostType_arrStatus[v.post_status]}}</td>
                 <td>{{v.post_date.substr(0, 16)}}</td>
                 <td>{{v.post_modified.substr(0, 16)}}</td>
                 <td width="90">{{v.lang_key}}</td>
-                <td width="60"><input type="text" data-id="{{v.ID}}" value="{{v.menu_order}}" size="5" class="form-control s change-update-menu_order" /></td>
+                <td width="60"><input type="text" :data-id="v.ID" :value="v.menu_order" size="5" class="form-control s change-update-menu_order" /></td>
                 <td width="90" class="text-center"><div>
-                        <div ng-if="v.post_status != PostType_DELETED">
-                            <div><a href="admin/{{controller_slug}}/delete?id={{v.ID + for_action}}" onClick="return click_a_delete_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-trash"></i></a> </div>
+                        <div v-if="v.post_status != PostType_DELETED">
+                            <div><a :href="'admin/' + controller_slug + '/delete?id=' + v.ID + for_action" onClick="return click_a_delete_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-trash"></i></a> </div>
                         </div>
-                        <div class="d-inlines" ng-if="v.post_status == PostType_DELETED">
-                            <div class="d-inline"><a href="admin/{{controller_slug}}/restore?id={{v.ID + for_action}}" onClick="return click_a_restore_record();" class="bluecolor" target="target_eb_iframe"><i class="fa fa-undo"></i></a></div>
+                        <div class="d-inlines" v-if="v.post_status == PostType_DELETED">
+                            <div class="d-inline"><a href="'admin/' + controller_slug + '/restore?id=' + v.ID + for_action" onClick="return click_a_restore_record();" class="bluecolor" target="target_eb_iframe"><i class="fa fa-undo"></i></a></div>
                             &nbsp;
-                            <div class="d-inline"><a href="admin/{{controller_slug}}/remove?id={{v.ID + for_action}}" onClick="return click_a_remove_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-remove"></i></a></div>
+                            <div class="d-inline"><a href="'admin/' + controller_slug + '/remove?id=' + v.ID + for_action" onClick="return click_a_remove_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-remove"></i></a></div>
                         </div>
                     </div></td>
             </tr>
@@ -105,19 +104,16 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 </div>
 <div class="public-part-page"> <?php echo $pagination; ?> Trên tổng số <?php echo $totalThread; ?> bản ghi.</div>
 <script>
-angular.module('myApp', []).controller('myCtrl', function ($scope) {
-    $scope.data = <?php echo json_encode($data); ?>;
-    $scope.post_type = '<?php echo $post_type; ?>';
-    $scope.post_status = '<?php echo $post_status; ?>';
-    $scope.PostType_MENU = '<?php echo PostType::MENU; ?>';
-    $scope.taxonomy = '<?php echo $taxonomy; ?>';
-    $scope.controller_slug = '<?php echo $controller_slug; ?>';
-    $scope.for_action = '<?php echo $for_action; ?>';
-    $scope.PostType_DELETED = '<?php echo PostType::DELETED; ?>';
-    $scope.PostType_arrStatus = <?php echo json_encode(PostType::arrStatus()); ?>;
-    angular.element(document).ready(function () {
-        $('.ng-main-content').addClass('loaded');
-    });
+WGR_vuejs('#app', {
+    data: <?php echo json_encode($data); ?>,
+    post_type: '<?php echo $post_type; ?>',
+    post_status: '<?php echo $post_status; ?>',
+    PostType_MENU: '<?php echo PostType::MENU; ?>',
+    taxonomy: '<?php echo $taxonomy; ?>',
+    controller_slug: '<?php echo $controller_slug; ?>',
+    for_action: '<?php echo $for_action; ?>',
+    PostType_DELETED: '<?php echo PostType::DELETED; ?>',
+    PostType_arrStatus: <?php echo json_encode(PostType::arrStatus()); ?>,
 });
 </script>
 <?php
