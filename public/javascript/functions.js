@@ -980,6 +980,11 @@ function WGR_vuejs(app_id, obj, _callBack, max_i) {
             if (typeof _callBack == 'function') {
                 _callBack();
             }
+
+            //
+            if (taxonomy_ids_unique.length == 0) {
+                action_each_to_taxonomy();
+            }
         },
     });
 }
