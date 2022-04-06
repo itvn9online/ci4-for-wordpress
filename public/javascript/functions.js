@@ -966,6 +966,9 @@ function WGR_vuejs(app_id, obj, _callBack, max_i) {
     obj.time = function (t) {
         return (new Date(t - tzoffset)).toISOString().split('.')[0].split('T')[1];
     };
+    obj.number_format = function (n) {
+        return (new Intl.NumberFormat().format(n));
+    };
 
     //
     //console.log(obj);
