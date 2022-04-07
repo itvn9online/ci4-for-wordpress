@@ -18,16 +18,16 @@ class Sync extends BaseController {
         //$this->cache = \Config\ Services::cache();
     }
 
-    public function vendor_sync() {
+    public function vendor_sync( $check_thirdparty_exist = true ) {
         // đồng bộ database
         $this->auto_sync_table_column();
 
         // đồng bộ vendor CSS, JS -> đặt tên là thirdparty để tránh trùng lặp khi load file tĩnh ngoài frontend
-        $this->action_vendor_sync( 'public/thirdparty' );
+        $this->action_vendor_sync( 'public/thirdparty', $check_thirdparty_exist );
         // đồng bộ vendor php
-        $this->action_vendor_sync( 'vendor' );
+        $this->action_vendor_sync( 'vendor', $check_thirdparty_exist );
         // đồng bộ ThirdParty php (code php của bên thứ 3)
-        $this->action_vendor_sync( 'app/ThirdParty' );
+        $this->action_vendor_sync( 'app/ThirdParty', $check_thirdparty_exist );
     }
 
     /*
@@ -402,7 +402,7 @@ class Sync extends BaseController {
     /*
      * daidq: chức năng này sẽ giải nén các code trong thư mục vendor dể sử dụng nếu chưa có
      */
-    private function action_vendor_sync( $dir ) {
+    private function action_vendor_sync( $dir, $check_thirdparty_exist = true ) {
         $upload_via_ftp = false;
         if ( @!file_put_contents( PUBLIC_HTML_PATH . 'test_permission.txt', time() ) ) {
             $upload_via_ftp = true;
@@ -437,7 +437,7 @@ class Sync extends BaseController {
             //echo $check_dir . '<br>' . "\n";
 
             // nếu chưa có thư mục -> giải nén
-            if ( !is_dir( $check_dir ) ) {
+            if ( $check_thirdparty_exist === false || !is_dir( $check_dir ) ) {
                 if ( $this->MY_unzip( $filename, PUBLIC_HTML_PATH . $dir ) === TRUE ) {
                     echo 'DONE! sync code ' . $file . ' <br>' . "\n";
                 } else {

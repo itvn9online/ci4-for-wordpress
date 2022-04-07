@@ -940,4 +940,8 @@ class Dashboard extends Optimize {
         //
         $this->base_model->alert( 'Xóa cache theo key thành công. Matching: ' . $data );
     }
+
+    public function unzip_thirdparty() {
+        return $this->vendor_sync( false );
+    }
 }

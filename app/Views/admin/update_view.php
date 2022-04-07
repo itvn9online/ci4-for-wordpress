@@ -72,6 +72,20 @@ if ( $app_deleted_exist === true ) {
 //var_dump( $app_deleted_exist );
 
 ?>
+<br>
+<br>
+<br>
+<h3>Giải nén lại toàn bộ thirdparty code</h3>
+<p class="medium bluecolor">Chức năng này sẽ tiến hành unzip lại toàn bộ file .zip trong thư mục thirdparty, do điều kiện mặc định là nếu thư mục tương ứng tồn tại thì không giải nén nên khi cần update thirdparty code là không update được</p>
+<div>
+    <form action="./admin/dashboard/unzip_thirdparty" method="post" name="frm_global_upload" role="form" enctype="multipart/form-data" target="target_eb_iframe">
+        <input type="hidden" name="data" value="1" />
+        <div>
+            <button type="submit" class="btn btn-success"><i class="fa fa-file-archive-o"></i> Unzip thirdparty code</button>
+        </div>
+    </form>
+</div>
+<!-- --> 
 <script>
 var themeName = '<?php echo THEMENAME; ?>'
 </script>
