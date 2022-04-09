@@ -537,9 +537,41 @@ class Posts extends Admin {
     protected function before_delete_restore( $post_status ) {
         $id = $this->MY_get( 'id', 0 );
 
-        $update = $this->post_model->update_post( $id, [
+        //
+        $data = [
             'post_status' => $post_status
-        ], [
+        ];
+        //print_r( $data );
+        //die( __CLASS__ . ':' . __LINE__ );
+
+        // tiêu đề gắn thêm khi post bị xóa
+        $post_trash_title = '___' . PostType::DELETED;
+
+        //
+        if ( $post_status == PostType::DELETED ) {
+            $check_slug = $this->base_model->select( 'post_name', 'posts', [
+                'ID' => $id,
+                'post_status !=' => $post_status,
+            ], [
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                //'offset' => 2,
+                'limit' => 1
+            ] );
+            //print_r( $check_slug );
+            //var_dump( strpos( $check_slug[ 'post_name' ], '___' . $post_status ) );
+            if ( !empty( $check_slug ) && $check_slug[ 'post_name' ] != '' &&
+                strpos( $check_slug[ 'post_name' ], $post_trash_title ) === false ) {
+                $data[ 'post_name' ] = $this->base_model->_eb_non_mark_seo( $check_slug[ 'post_name' ] );
+                $data[ 'post_name' ] .= $post_trash_title;
+            }
+        }
+        //print_r( $data );
+        //die( __CLASS__ . ':' . __LINE__ );
+
+        $update = $this->post_model->update_post( $id, $data, [
             'post_type' => $this->post_type,
         ] );
         //print_r( $update );
