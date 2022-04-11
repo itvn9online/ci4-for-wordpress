@@ -20,7 +20,7 @@ class Sync extends BaseController {
 
     public function vendor_sync( $check_thirdparty_exist = true ) {
         // đồng bộ database
-        $this->auto_sync_table_column();
+        $this->auto_sync_table_column( $check_thirdparty_exist );
 
         // đồng bộ vendor CSS, JS -> đặt tên là thirdparty để tránh trùng lặp khi load file tĩnh ngoài frontend
         $this->action_vendor_sync( 'public/thirdparty', $check_thirdparty_exist );
@@ -206,12 +206,12 @@ class Sync extends BaseController {
         return $this->base_model->MY_query( $sql );
     }
 
-    private function auto_sync_table_column() {
+    private function auto_sync_table_column( $check_thirdparty_exist = true ) {
         /*
          * db không cần update liên tục, nếu cần thì clear cache để tái sử dụng
          */
         $last_run = $this->base_model->scache( __FUNCTION__ );
-        if ( $last_run !== NULL ) {
+        if ( $check_thirdparty_exist === true && $last_run !== NULL ) {
             echo __FUNCTION__ . ' RUN ' . ( time() - $last_run ) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             return false;
         }
@@ -263,6 +263,7 @@ class Sync extends BaseController {
                 'term_status' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'Trạng thái hiển thị của 1 term. 0 = hiển thị, 1 = ẩn\'',
                 'term_viewed' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Đếm số lượt xem danh mục\'',
                 'term_meta_data' => 'LONGTEXT NULL COMMENT \'Lưu các post meta vào đây để đỡ phải query nhiều\'',
+                'term_ids' => 'VARCHAR(255) NULL COMMENT \'Danh sách ID của các nhóm con, dùng để tạo quert cho nhanh\'',
                 'child_count' => 'BIGINT(20) NULL COMMENT \'Tính tổng số nhóm con để gọi lệnh lấy nhóm con nếu không NULL\'',
                 'child_last_count' => 'BIGINT(20) NULL COMMENT \'Thời gian cập nhật child_count lần trước\'',
                 'term_type' => 'VARCHAR(55) NULL COMMENT \'Dùng để phân loại term, tương tự category nhưng ít dùng hơn nhiều\'',

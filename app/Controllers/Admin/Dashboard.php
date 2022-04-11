@@ -328,6 +328,12 @@ class Dashboard extends Optimize {
             }
         }
 
+        // đồng bộ lại thirdparty và database
+        ///echo basename( $file_path ) . '<br>';
+        if ( strpos( basename( $file_path ), 'ci4-for-wordpress' ) !== false ) {
+            $this->vendor_sync( false );
+        }
+
         //
         //die( __CLASS__ . ':' . __LINE__ );
         die( '<script>top.done_submit_update_code("' . basename( $file_path ) . '");</script>' );

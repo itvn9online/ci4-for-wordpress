@@ -81,6 +81,10 @@ class Posts extends Admin {
     }
 
     public function index() {
+        return $this->lists();
+    }
+
+    public function lists() {
         if ( $this->MY_get( 'auto_update_module' ) != '' ) {
             return $this->action_update_module();
         }
@@ -163,10 +167,40 @@ class Posts extends Admin {
 
         // nếu có lọc theo term_id -> thêm câu lệnh để lọc
         if ( $by_term_id > 0 ) {
+            // lấy các nhóm con của nhóm này
+            $ids = $this->base_model->select( 'GROUP_CONCAT(DISTINCT term_id SEPARATOR \',\') AS ids', 'term_taxonomy', array(
+                // các kiểu điều kiện where
+                'parent' => $by_term_id,
+            ), array(
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => -1
+            ) );
+            //print_r( $ids );
+            $ids = $ids[ 0 ][ 'ids' ];
+
+            //
+            if ( $ids != '' ) {
+                $ids = str_replace( ' ', '', $ids );
+                $ids = explode( ',', $ids );
+                $ids[] = $by_term_id;
+                //print_r( $ids );
+
+                //
+                $filter[ 'where_in' ][ 'term_taxonomy.term_id' ] = $ids;
+            } else {
+                $where[ 'term_taxonomy.term_id' ] = $by_term_id;
+            }
+
             $urlPartPage .= '&term_id=' . $by_term_id;
             $for_action .= '&term_id=' . $by_term_id;
-
-            $where[ 'term_taxonomy.term_id' ] = $by_term_id;
 
             $filter[ 'join' ] = [
                 'term_relationships' => 'term_relationships.object_id = posts.ID',
@@ -263,10 +297,6 @@ class Posts extends Admin {
         ) );
         //return $this->teamplate_admin[ 'content' ];
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
-    }
-
-    public function lists() {
-        return $this->index();
     }
 
     public function add() {

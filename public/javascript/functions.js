@@ -957,14 +957,20 @@ function WGR_vuejs(app_id, obj, _callBack, max_i) {
     // -> xác định giờ theo múi giờ hiện tại của user
     var tzoffset = (new Date()).getTimezoneOffset() * 60000; // offset in milliseconds
     //console.log('tzoffset:', tzoffset);
-    obj.datetime = function (t) {
-        return (new Date(t - tzoffset)).toISOString().split('.')[0].replace('T', ' ');
+    obj.datetime = function (t, len) {
+        if (typeof len != 'number') {
+            len = 19;
+        }
+        return (new Date(t - tzoffset)).toISOString().split('.')[0].replace('T', ' ').substr(0, len);
     };
     obj.date = function (t) {
         return (new Date(t - tzoffset)).toISOString().split('T')[0];
     };
-    obj.time = function (t) {
-        return (new Date(t - tzoffset)).toISOString().split('.')[0].split('T')[1];
+    obj.time = function (t, len) {
+        if (typeof len != 'number') {
+            len = 8;
+        }
+        return (new Date(t - tzoffset)).toISOString().split('.')[0].split('T')[1].substr(0, len);
     };
     obj.number_format = function (n) {
         return (new Intl.NumberFormat().format(n));
