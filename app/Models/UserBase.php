@@ -194,7 +194,8 @@ class UserBase extends EbModel {
         return 'user-' . $id . '-';
     }
     // cache cho phần user -> gán key theo mẫu thống nhất để sau còn xóa cache cho dễ
-    public function the_cache( $id, $key, $value = '', $time = MINI_CACHE_TIMEOUT ) {
+    public function the_cache( $id, $key, $value = '', $time = MEDIUM_CACHE_TIMEOUT ) {
+        //echo $this->key_cache( $id ) . $key . '<br>' . "\n";
         return $this->base_model->scache( $this->key_cache( $id ) . $key, $value, $time );
     }
 }

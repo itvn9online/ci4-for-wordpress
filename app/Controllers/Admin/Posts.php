@@ -493,7 +493,7 @@ class Posts extends Admin {
                 }
             }
         }
-        print_r( $this->default_post_data );
+        //print_r( $this->default_post_data );
         foreach ( $this->default_post_data as $k => $v ) {
             if ( !isset( $data[ $k ] ) ) {
                 $data[ $k ] = $v;

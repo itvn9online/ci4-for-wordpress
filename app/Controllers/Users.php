@@ -147,6 +147,11 @@ class Users extends Csrf {
     }
 
     public function logout() {
+        // xóa cache theo user để các chức năng liên quan đến user có thể tái sử dụng
+        $has_cache = $this->base_model->dcache( $this->user_model->key_cache( $this->current_user_id ) );
+        //echo 'Using cache delete Matching Total clear: ' . $has_cache . '<br>' . "\n";
+        //die( __CLASS__ . ':' . __LINE__ );
+
         // nếu có session login từ admin vào 1 user nào đó -> quay lại session của admin
         $admin_login_as = $this->MY_session( 'admin_login_as' );
         if ( !empty( $admin_login_as ) ) {
@@ -160,12 +165,6 @@ class Users extends Csrf {
         }
         // còn không thì logout thôi
         else {
-            // xóa cache theo user để các chức năng liên quan đến user có thể tái sử dụng
-            $has_cache = $this->base_model->dcache( $this->user_model->key_cache( $this->current_user_id ) );
-            //echo 'Using cache delete Matching Total clear: ' . $has_cache . '<br>' . "\n";
-            //die( __CLASS__ . ':' . __LINE__ );
-
-            //
             session_destroy();
             //$this->session->destroy();
 

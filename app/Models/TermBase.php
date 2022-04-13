@@ -200,7 +200,7 @@ class TermBase extends EbModel {
         return 'term-' . $id . '-';
     }
     // cache cho phần term -> gán key theo mẫu thống nhất để sau còn xóa cache cho dễ
-    public function the_cache( $id, $key, $value = '', $time = MINI_CACHE_TIMEOUT ) {
+    public function the_cache( $id, $key, $value = '', $time = MEDIUM_CACHE_TIMEOUT ) {
         return $this->base_model->scache( $this->key_cache( $id ) . $key, $value, $time );
     }
 }
