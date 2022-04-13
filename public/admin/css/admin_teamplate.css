@@ -44,14 +44,14 @@ form#listContactByType {
 #admin-header {
     background-color: #2b2927;
     border-top: 3px solid #f77825;
-    border-bottom: 1px solid #555555;
+    border-bottom: 1px solid #555;
     padding: 0 10px;
     position: fixed;
     left: 0;
     right: 0;
     display: block;
     top: 0;
-    z-index: 9;
+    z-index: 10;
     line-height: 30px;
 }
 #admin-header * {
@@ -201,6 +201,13 @@ body.ebfixed-top-menu #sidebar {
     top: 0;
     z-index: 999;
     background: black;
+}
+body.ebfixed-down-menu.sidebar-hover.sidebar-height #sidebar {
+    padding-bottom: 10px;
+}
+body.ebfixed-down-menu.sidebar-hover.sidebar-height #sidebar, body.ebfixed-down-menu.sidebar-hover.sidebar-height #sidebar > ul li ul {
+    top: auto;
+    bottom: 0;
 }
 /* */
 .admin-search-form {}

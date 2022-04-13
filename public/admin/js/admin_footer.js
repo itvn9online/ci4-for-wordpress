@@ -54,6 +54,13 @@ console.log(aaaaaaaa);
     $('#sidebar ul').html(str);
 })(arr_admin_menu);
 
+// khi di chuột vào menu admin -> thêm class để xác định người dùng đang di chuột
+$('#sidebar').hover(function () {
+    $('body').addClass('sidebar-hover');
+}, function () {
+    $('body').removeClass('sidebar-hover');
+});
+
 // chỉnh lại chiều cao cho textediter nếu có
 $('.auto-ckeditor').each(function () {
     var h = $(this).attr('data-height') || '';
@@ -177,6 +184,25 @@ $('.admin-change-language').change(function () {
 });
 
 
+// xác định scroll để xem người dùng đang cuộn chuột lên hay xuống
+setInterval(function () {
+    (function (new_scroll_top) {
+        // xác định hướng cuộn chuột lên hay xuống
+        if (current_croll_up_or_down > new_scroll_top) {
+            jQuery('body').addClass('ebfixed-up-menu').removeClass('ebfixed-down-menu');
+        } else if (current_croll_up_or_down < new_scroll_top) {
+            jQuery('body').addClass('ebfixed-down-menu').removeClass('ebfixed-up-menu');
+        }
+        current_croll_up_or_down = new_scroll_top;
+    })(window.scrollY || jQuery(window).scrollTop());
+}, 200);
+
+
+// xác định chiều cao của admin menu và window
+var current_admin_window_height = $(window).height();
+var current_admin_menu_height = $('#sidebar .order-admin-menu').height();
+
+
 //
 $(document).ready(function () {
     // tự động select khi có dữ liệu
@@ -199,11 +225,30 @@ $(document).ready(function () {
     action_each_to_taxonomy();
     //action_data_img_src();
     action_for_check_checked_all();
+
+    // nếu chiều cao menu admin > window thì thêm class xác nhận
+    current_admin_window_height = $(window).height();
+    current_admin_menu_height = $('#sidebar .order-admin-menu').height();
+    if (current_admin_menu_height > current_admin_window_height) {
+        $('body').addClass('sidebar-height');
+    }
 }).keydown(function (e) {
     //console.log(e.keyCode);
 
     //
     if (e.keyCode == 27) {
         hide_if_esc();
+    }
+});
+
+
+// khi người dùng thay đổi kích thước window thì xác nhận lại chiều cao
+$(window).resize(function () {
+    current_admin_window_height = $(window).height();
+    current_admin_menu_height = $('#sidebar .order-admin-menu').height();
+    if (current_admin_menu_height > current_admin_window_height) {
+        $('body').addClass('sidebar-height');
+    } else {
+        $('body').removeClass('sidebar-height');
     }
 });
