@@ -1,4 +1,4 @@
-<header id="webgiare__top">
+<header id="wgr__top">
     <?php
 
     //

@@ -1,4 +1,4 @@
-<footer id="webgiare__footer">
+<footer id="wgr__footer">
     <?php
 
     //$option_model = new\ App\ Models\ Option();
