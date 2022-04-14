@@ -58,7 +58,9 @@ function datetimepicker_onClose(input_name, input_id, type) {
         val *= 1;
         //console.log('val:', val);
         if (val > 0) {
-            new_date = new Date(val * 1000).toISOString();
+            var tzoffset = (new Date()).getTimezoneOffset() * 60000; // offset in milliseconds
+            //tzoffset = 0;
+            new_date = new Date(val * 1000 - tzoffset).toISOString();
             //console.log('new date:', new_date);
 
             // lấy ngày tháng năm và giờ
@@ -90,14 +92,30 @@ function datetimepicker_onClose(input_name, input_id, type) {
             //var d = new Date(s1[2], s1[1] - 1, s1[0], s2[0], s2[1], s2[2]);
             //$('#' + input_id).val(Math.ceil(d.getTime() / 1000));
 
+            // -> xác định giờ theo múi giờ hiện tại của user
+            var tzoffset = 0;
+            //tzoffset = (new Date()).getTimezoneOffset() * 60000; // offset in milliseconds
+            console.log('tzoffset:', tzoffset);
+            var time_stamp = 0;
+
             // định dạng ngày giờ theo chuẩn quốc tế
             if (a.length == 10) {
                 // chuyển ngày sang timestamp
-                $('#' + input_id).val(Math.ceil(Date.parse(a + ' 00:00:00') / 1000));
+                time_stamp = Date.parse(a + ' 00:00:00');
             } else {
                 // chuyển ngày giờ sang timestamp
-                $('#' + input_id).val(Math.ceil(Date.parse(a) / 1000));
+                time_stamp = Date.parse(a);
             }
+            time_stamp *= 1;
+            console.log('time_stamp:', time_stamp);
+            if (tzoffset !== 0) {
+                time_stamp += tzoffset;
+                console.log('time_stamp:', time_stamp);
+            }
+            $('#' + input_id).val(Math.ceil(time_stamp / 1000));
+
+            //
+            console.log('Test date:', new Date($('#' + input_id).val() * 1000).toISOString());
         }
     });
 }
@@ -188,7 +206,8 @@ function EBE_load_datetimepicker(max_i) {
             timepicker: true,
             formatTime: 'H:i',
             //format: 'd-m-Y H:i:s'
-            format: 'Y-m-d H:i:s'
+            format: 'Y-m-d H:i:s',
+            //showTimezone: true,
         };
         for (var x in default_op) {
             if (typeof op[x] == 'undefined') {

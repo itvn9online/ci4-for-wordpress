@@ -31,6 +31,8 @@ class Posts extends Admin {
      * vì các checkbox khi bỏ chọn tất cả sẽ không xuất hiện trong post -> không được update
      */
     protected $default_post_data = [];
+    // các cột được liệt kê trong này sẽ được chuyển đổi từ datetime sang timestamp -> do plugin tạo thời gian nó lấy theo múi giờ hiện tại của người dùng -> lên server phải convert về múi giờ của server
+    protected $timestamp_post_data = [];
 
     /*
      * for_extends: khi một controller extends lại class này và sử dụng các post type khác thì khai báo nó bằng true để bỏ qua các điều kiện kiểm tra
@@ -499,6 +501,18 @@ class Posts extends Admin {
                 $data[ $k ] = $v;
             }
         }
+
+        // convert datetime to timestamp
+        //print_r( $data );
+        //print_r( $this->timestamp_post_data );
+        foreach ( $this->timestamp_post_data as $k => $v ) {
+            //echo $k . '<br>' . "\n";
+            //echo $data[ $k ] . '<br>' . "\n";
+            if ( isset( $data[ $k ] ) && $data[ $k ] != '' ) {
+                $data[ $k ] = strtotime( $data[ $k ] );
+            }
+        }
+        //print_r( $data );
 
         //
         $result_id = $this->post_model->update_post( $id, $data, [
