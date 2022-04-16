@@ -11,6 +11,7 @@ use App\ Libraries\ PHPMaillerSend;
 class Configs extends Admin {
     //private $lang_key = '';
     protected $config_type = ConfigType::CONFIG;
+    protected $view_edit = 'edit';
 
     public function __construct() {
         parent::__construct();
@@ -21,7 +22,7 @@ class Configs extends Admin {
 
         //
         $this->lang_key = $this->lang_key;
-        $this->config_type = $this->MY_get( 'config_type', ConfigType::CONFIG );
+        $this->config_type = $this->MY_get( 'config_type', $this->config_type );
     }
 
     public function index() {
@@ -68,7 +69,7 @@ class Configs extends Admin {
             }
         }
 
-        $this->teamplate_admin[ 'content' ] = view( 'admin/configs/edit', array(
+        $this->teamplate_admin[ 'content' ] = view( 'admin/configs/' . $this->view_edit, array(
             'lang_key' => $this->lang_key,
             'config_type' => $this->config_type,
             'meta_default' => $meta_default,
@@ -227,6 +228,7 @@ Sitemap: ' . DYNAMIC_BASE_URL . 'sitemap';
             */
             'subject' => 'Test email ' . date( 'r' ),
             'message' => implode( '<br>', [
+                'PHPMailer version: ' . file_get_contents( APPPATH . 'ThirdParty/PHPMailer/VERSION', 1 ),
                 'Domain: ' . $_SERVER[ 'HTTP_HOST' ],
                 'Request: ' . $_SERVER[ 'REQUEST_URI' ],
                 'Method: ' . $_SERVER[ 'REQUEST_METHOD' ],
@@ -251,7 +253,16 @@ Sitemap: ' . DYNAMIC_BASE_URL . 'sitemap';
         //die( __CLASS__ . ':' . __LINE__ );
 
         //
-        $result = PHPMaillerSend::the_send( $data_send, $smtp_config, 2 );
+        echo 'PHPMailer version: ' . file_get_contents( APPPATH . 'ThirdParty/PHPMailer/VERSION', 1 ) . '<br>' . "\n";
+        echo 'Username/ Email: ' . $smtp_config->smtp_host_user . '<br>' . "\n";
+        echo 'Password: ' . substr( $smtp_config->smtp_host_pass, 0, 6 ) . '******<br>' . "\n";
+        echo 'Hostname: ' . $smtp_config->smtp_host_name . '<br>' . "\n";
+        echo 'Secure: ' . $smtp_config->smtp_secure . '<br>' . "\n";
+        echo 'Port: ' . $smtp_config->smtp_host_port . '<br>' . "\n";
+        echo '<hr>' . "\n";
+
+        //
+        $result = PHPMaillerSend::the_send( $data_send, $smtp_config, PHPMaillerSend::DEBUG_2 );
         if ( $result === true ) {
             echo 'Gửi email thành công! from <strong>' . $smtp_config->smtp_host_user . '</strong> to <strong>' . $data_send[ 'to' ] . '</strong> <br>' . "\n";
 

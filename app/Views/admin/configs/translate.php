@@ -7,6 +7,7 @@ use App\ Libraries\ LanguageCost;
 //
 //$base_model = new\ App\ Models\ Base();
 
+//
 //print_r( $data );
 
 // css riêng cho từng config (nếu có)
@@ -28,26 +29,9 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
             <div class="control-group">
                 <div class="text-center l35">Ngôn ngữ: <strong><?php echo LanguageCost::list( $lang_key ); ?></strong> </div>
             </div>
+            <br>
+            <div class="redcolor text-center l20">* Bản dịch cho website. Sử dụng bằng cách copy code ở cột bên phải và cho vào view. Hàm <strong>the_text()</strong> sẽ thực thi echo luôn. Nếu chỉ muốn lấy về đoạn text mà không echo, hãy sử dụng: <strong>get_the_text()</strong>.</div>
             <?php
-
-            //
-            if ( $config_type == ConfigType::SMTP ) {
-                ?>
-            <div class="control-group eb-control-group cf">
-                <div class="lf f15">
-                    <label class="text-right right-menu-space">PHPMailer version</label>
-                </div>
-                <div class="lf f50">
-                    <div class="bold s15">
-                        <?php
-                        echo file_get_contents( APPPATH . 'ThirdParty/PHPMailer/VERSION', 1 );
-                        ?>
-                    </div>
-                    <p class="controls-text-note">Kiểm tra và tải phiên bản mới nhất <a href="https://github.com/PHPMailer/PHPMailer/releases" target="_blank" rel="noreferrer" class="bold bluecolor">tại đây</a>.</p>
-                </div>
-            </div>
-            <?php
-            }
 
             //
             foreach ( $meta_default as $k => $v ) {
@@ -134,6 +118,9 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
 
                     ?>
                 </div>
+                <div class="lf f35">
+                    <input type="text" onDblClick="click2Copy(this);" value="&lt;?php $lang_model->the_text( '<?php echo str_replace('lang_','',$k); ?>' ); ?&gt;" class="span11" readonly />
+                </div>
                 <?php
                 } // END else checkbox
                 ?>
@@ -148,14 +135,6 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
         </form>
     </div>
 </div>
-<!--
-<link rel="stylesheet" href="admin/css/colorpicker.css"/>
-<link rel="stylesheet" href="admin/css/uniform.css"/>
-<script src="admin/js/menu-edit.js"></script> 
-<script src="admin/js/select2.min.js"></script> 
-<script src="admin/js/maruti.form_common.js"></script> 
-<script src="admin/js/bootstrap-colorpicker.js"></script>
--->
 <?php
 
 $base_model->add_js( 'admin/js/config.js' );

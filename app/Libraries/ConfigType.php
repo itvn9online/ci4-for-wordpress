@@ -139,10 +139,10 @@ class ConfigType {
         } else if ( $config_type == self::SMTP ) {
             $arr = [
                 // Công nghệ bảo mật
-                'smtp_host_user' => 'Username',
-                'smtp_host_pass' => 'Password',
-                'smtp_host_show_pass' => 'Password',
-                'smtp_host_name' => 'Hostname',
+                'smtp_host_user' => 'Email hoặc Username',
+                'smtp_host_pass' => 'Mật khẩu',
+                'smtp_host_show_pass' => 'Mật khẩu',
+                'smtp_host_name' => 'IP hoặc Hostname',
                 'smtp_secure' => 'Bảo mật',
                 'smtp_host_port' => 'Port',
                 'smtp_from' => 'From',
@@ -151,6 +151,13 @@ class ConfigType {
                 'smtp_test_email' => 'Test email',
                 'smtp_test_bcc_email' => 'Test BCC email',
                 'smtp_test_cc_email' => 'Test CC email',
+                // cấu hình dự phòng
+                'smtp2_host_user' => 'Email hoặc Username',
+                'smtp2_host_pass' => 'Mật khẩu',
+                'smtp2_host_show_pass' => 'Mật khẩu',
+                'smtp2_host_name' => 'IP hoặc Hostname',
+                'smtp2_secure' => 'Bảo mật',
+                'smtp2_host_port' => 'Port',
             ];
         } else {
             $arr = [];
@@ -165,7 +172,12 @@ class ConfigType {
     public static function meta_type( $key ) {
         $arr = [
             'smtp_host_port' => 'number',
+            'smtp2_host_port' => 'number',
             'smtp_host_pass' => 'hidden',
+            'smtp2_host_pass' => 'hidden',
+            'smtp_secure' => 'select',
+            'smtp2_secure' => 'select',
+
             'cf_thumbnail_size' => 'select',
 
             'eb_posts_per_page' => 'number',
@@ -184,7 +196,6 @@ class ConfigType {
             'smtp_no_reply' => 'checkbox',
             'show_child_category' => 'checkbox',
             'show_child_blogs' => 'checkbox',
-            'smtp_secure' => 'select',
             'description' => '',
             'logo' => '',
             'logo_main_height' => 'number',
@@ -299,9 +310,10 @@ class ConfigType {
             'smtp_from' => 'Email người gửi. Để trống để sử dụng email đăng nhập luôn, hạn chế email gửi vào spam',
             'smtp_from_name' => 'Tên người gửi. Bạn có thể tùy biến tên người gửi tại đây. Ví dụ: Công ty ABC, Nguyên Văn A...',
             'smtp_no_reply' => 'Khi kích hoạt chế độ này, email reply sẽ được đặt là <strong>noreply@' . $_SERVER[ 'HTTP_HOST' ] . '</strong> để các hệ thống email xác nhận đây là mail không nhận phản hồi.',
-            'smtp_test_email' => 'Thiết lập xong cấu hình, bạn có thể nhập thêm email người nhận và <a href="' . base_url( 'admin/configs' ) . '?config_type=smtp&test_mail=1" target="_blank" class="click-check-email-test bluecolor"><strong>bấm vào đây</strong></a> để test email gửi đi.',
-            'smtp_test_bbc_email' => 'Thêm email để test chức năng BCC.',
+            'smtp_test_email' => 'Thiết lập xong cấu hình, bạn có thể nhập thêm email người nhận và <a href="' . base_url( 'admin/smtps' ) . '?test_mail=1" target="_blank" class="click-check-email-test bluecolor"><strong>bấm vào đây</strong></a> để test email gửi đi.',
+            'smtp_test_bcc_email' => 'Thêm email để test chức năng BCC.',
             'smtp_test_cc_email' => 'Thêm email để test chức năng CC.',
+            'smtp2_host_user' => 'Cấu hình mail dự phòng, khi mail chính có vấn đề thì mail này sẽ được kích hoạt để dùng tạm',
 
             'enable_hotlink_protection' => 'Chặn các website khác truy cập trực tiếp vào file ảnh trên host này.',
             'enable_device_protection' => 'Chặn đăng nhập trên nhiều thiết bị trong cùng một thời điểm. Nếu phát hiện, sẽ đưa ra popup cảnh báo cho người dùng.',
@@ -344,6 +356,7 @@ class ConfigType {
                 'tls' => 'TLS (port 587)',
             ],
         ];
+        $arr[ 'smtp2_secure' ] = $arr[ 'smtp_secure' ];
         if ( isset( $arr[ $key ] ) ) {
             return $arr[ $key ];
         }

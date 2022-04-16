@@ -1,4 +1,4 @@
-#data_smtp_host_show_pass {
+#data_smtp_host_show_pass, #data_smtp2_host_show_pass {
     color: #ccc;
     font-size: 10px;
 }

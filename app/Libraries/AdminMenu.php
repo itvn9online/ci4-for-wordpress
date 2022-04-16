@@ -184,11 +184,11 @@ class AdminMenu {
                         'name' => ConfigType::list( ConfigType::BLOG ),
                         //'icon' => 'fa fa-asterisk',
                     ],
-                    'admin/configs?config_type=' . ConfigType::TRANS => [
+                    'admin/translates' => [
                         'name' => ConfigType::list( ConfigType::TRANS ),
                         'icon' => 'fa fa-globe',
                     ],
-                    'admin/configs?config_type=' . ConfigType::SMTP => [
+                    'admin/smtps' => [
                         'name' => ConfigType::list( ConfigType::SMTP ),
                         'icon' => 'fa fa-envelope',
                     ],

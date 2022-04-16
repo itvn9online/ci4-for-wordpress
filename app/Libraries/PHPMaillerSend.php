@@ -6,7 +6,11 @@ namespace App\ Libraries;
 //use PHPMailer\ PHPMailer\ Exception;
 
 class PHPMaillerSend {
-    public static function get_the_send( $data, $cog = [], $debug = 0 ) {
+    const DEBUG_0 = 0;
+    const DEBUG_1 = 1;
+    const DEBUG_2 = 2;
+
+    public static function get_the_send( $data, $cog = [], $debug = 0, $resend = true ) {
         //echo APPPATH . '<br>' . "\n";
         require_once APPPATH . 'ThirdParty/PHPMailer/src/Exception.php';
         require_once APPPATH . 'ThirdParty/PHPMailer/src/PHPMailer.php';
@@ -123,6 +127,31 @@ class PHPMaillerSend {
 
             //
             if ( !$mail->Send() ) {
+                // gửi bằng email dự phòng nếu có
+                if ( $resend === true && $cog[ 'smtp2_host_user' ] != '' && $cog[ 'smtp2_host_pass' ] != '' ) {
+                    $cog[ 'smtp_host_user' ] = $cog[ 'smtp2_host_user' ];
+                    $cog[ 'smtp_host_pass' ] = $cog[ 'smtp2_host_pass' ];
+                    $cog[ 'smtp_host_name' ] = $cog[ 'smtp2_host_name' ];
+                    $cog[ 'smtp_secure' ] = $cog[ 'smtp2_secure' ];
+                    $cog[ 'smtp_host_port' ] = $cog[ 'smtp2_host_port' ];
+
+                    //
+                    if ( $debug > 0 ) {
+                        print_r( $mail->ErrorInfo );
+                        echo '<hr>' . "\n";
+                        echo 'Username/ Email: ' . $cog[ 'smtp_host_user' ] . '<br>' . "\n";
+                        echo 'Password: ' . substr( $cog[ 'smtp_host_pass' ], 0, 6 ) . '******<br>' . "\n";
+                        echo 'Hostname: ' . $cog[ 'smtp_host_name' ] . '<br>' . "\n";
+                        echo 'Secure: ' . $cog[ 'smtp_secure' ] . '<br>' . "\n";
+                        echo 'Port: ' . $cog[ 'smtp_host_port' ] . '<br>' . "\n";
+                        echo '<hr>' . "\n";
+                    }
+
+                    //
+                    return self::get_the_send( $data, $cog, $debug, false );
+                }
+
+                //
                 $m = $mail->ErrorInfo;
             } else {
                 return true;
