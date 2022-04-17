@@ -192,6 +192,11 @@ class Layout extends Sync {
 
     // fake function wp_is_mobile of wordpress
     protected function WGR_is_mobile() {
+        if ( !isset( $_SERVER[ 'HTTP_USER_AGENT' ] ) ) {
+            return false;
+        }
+
+        //
         $a = $_SERVER[ 'HTTP_USER_AGENT' ];
 
         //

@@ -14,6 +14,7 @@ $check_cache_active = $base_model->scache( 'auto_sync_table_column' );
 //print_r( $_SESSION );
 //echo mysqli_get_client_info();
 //echo mysql_get_server_info();
+//print_r( opcache_get_status() );
 
 // kiểm tra file robots.txt
 $robots_txt = PUBLIC_PUBLIC_PATH . 'robots.txt';
@@ -80,6 +81,12 @@ if ( file_exists( $robots_txt ) ) {
         <div v-if="imagick_exist > 0" class="greencolor">Xin chúc mừng, <strong>Imagick</strong> đã được cài đặt! Các chức năng xử lý hình ảnh sẽ hoạt động ổn định hơn.</div>
         <div v-if="imagick_exist <= 0" class="orgcolor">Vui lòng cài đăt thêm <strong>Imagick</strong> để các chức năng xử lý hình ảnh hoạt động ổn định hơn.</div>
     </div>
+    <!-- OPCache -->
+    <div class="p d-inlines"><strong>OPCache:</strong>
+        <div v-if="opcache_exist > 0" class="greencolor"> Xin chúc mừng, <strong>OPCache</strong> đã được cài đặt! </div>
+        <div v-if="opcache_exist <= 0" class="orgcolor"> Nên bổ sung thêm OPCache sẽ giúp tăng đáng kể hiệu suất website của bạn. </div>
+    </div>
+    <!-- END OPCache -->
     <div class="p d-inlines">Cache (<strong><?php echo MY_CACHE_HANDLER; ?></strong> handler):
         <div v-if="cache_actived > 0" class="greencolor">Xin chúc mừng! Website của bạn vận hành thông qua <strong>Cache</strong>, điều này giúp tăng hiệu suất của website lên rất nhiều.
             <div>Bạn có thể <a href="admin/dashboard/cleanup_cache" class="btn btn-primary btn-mini"><i class="fa fa-magic"></i> vào đây</a> và dọn dẹp cache để website nhận dữ liệu mới nhất.</div>
@@ -243,6 +250,7 @@ WGR_vuejs('#app', {
     memcached_exist: <?php echo (class_exists( 'Memcached' ) ? 1 : 0); ?>,
     redis_exist: '<?php echo phpversion( 'redis' ); ?>',
     cache_handler: '<?php echo MY_CACHE_HANDLER; ?>',
+    opcache_exist: <?php echo (is_array(opcache_get_status()) ? 1 : 0); ?>,
     last_ci4_update: <?php echo (file_exists( APPPATH . 'VERSION' ) ? filemtime( APPPATH . 'VERSION' ) : filemtime( APPPATH . 'Controllers/Layout.php' )); ?>,
     calculate_ci4_update: function (last_time) {
         var current_time = Math.ceil(Date.now()/ 1000);
