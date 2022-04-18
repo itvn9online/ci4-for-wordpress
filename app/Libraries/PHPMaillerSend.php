@@ -45,10 +45,13 @@ class PHPMaillerSend {
         if ( $host_pass == '' ) {
             return 'Pass?';
         }
+        $from = $host_user;
+        /* daidq (2022-04-18): bỏ qua tham số smtp_from -> do from phải cùng domain với host_user
         if ( !isset( $cog[ 'smtp_from' ] ) || $cog[ 'smtp_from' ] == '' ) {
             $cog[ 'smtp_from' ] = $host_user;
         }
         $from = $cog[ 'smtp_from' ];
+        */
         if ( !isset( $cog[ 'smtp_from_name' ] ) || $cog[ 'smtp_from_name' ] == '' ) {
             $cog[ 'smtp_from_name' ] = $_SERVER[ 'HTTP_HOST' ];
         }
