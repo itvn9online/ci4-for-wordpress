@@ -343,6 +343,17 @@ class Terms extends Admin {
 
         // dọn dẹp cache liên quan đến post này -> reset cache
         $this->cleanup_cache( $this->term_model->key_cache( $id ) );
+        //echo $this->taxonomy . '<br>' . "\n";
+        // xóa cache cho riêng phần ads
+        if ( $this->taxonomy == TaxonomyType::ADS ) {
+            $data[ 'slug' ] = $data[ 'name' ];
+            $data[ 'slug' ] = $this->base_model->_eb_non_mark_seo( $data[ 'slug' ] );
+            $data[ 'slug' ] = str_replace( '.', '-', $data[ 'slug' ] );
+
+            //
+            //print_r( $data );
+            $this->cleanup_cache( $data[ 'slug' ] );
+        }
 
         //
         $this->base_model->alert( 'Cập nhật ' . TaxonomyType::list( $this->taxonomy, true ) . ' thành công' );

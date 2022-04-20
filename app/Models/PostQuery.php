@@ -582,6 +582,9 @@ class PostQuery extends PostMeta {
 
         // thay thế HTML cho khối term
         $tmp_html = $this->base_model->parent_html_tmp( 'widget_echbay_blog' );
+        // ưu tiên các giá trị trong instance
+        $tmp_html = $this->base_model->tmp_to_html( $tmp_html, $instance );
+        // sau đó mới đến custom
         $html = $this->base_model->tmp_to_html( $tmp_html, $post_cat, [
             'content' => $html,
             'cf_blog_size' => '{{custom_size}}',

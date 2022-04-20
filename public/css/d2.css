@@ -1278,6 +1278,11 @@ a.eb-btn {
     outline: none;
 }
 /* */
+.echbay-blog.anhtren_chuduoi {}
+.echbay-blog.anhtren_chuduoi .echbay-blog-left, .echbay-blog.anhtren_chuduoi .echbay-blog-right {
+    float: none;
+    width: 100%;
+}
 /* desktop only */
 @media only screen and (min-width:748px) {}
 /* mobile, table only */

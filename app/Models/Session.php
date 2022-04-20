@@ -152,7 +152,7 @@ class Session {
                     return NULL;
                 }
             } else {
-                return $this->cache->deleteMatching( $for . '*' );
+                return $this->cache->deleteMatching( '*' . $for . '*' );
             }
         }
 

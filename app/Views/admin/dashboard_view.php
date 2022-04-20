@@ -81,12 +81,12 @@ if ( file_exists( $robots_txt ) ) {
         <div v-if="imagick_exist > 0" class="greencolor">Xin chúc mừng, <strong>Imagick</strong> đã được cài đặt! Các chức năng xử lý hình ảnh sẽ hoạt động ổn định hơn.</div>
         <div v-if="imagick_exist <= 0" class="orgcolor">Vui lòng cài đăt thêm <strong>Imagick</strong> để các chức năng xử lý hình ảnh hoạt động ổn định hơn.</div>
     </div>
-    <!-- OPCache -->
-    <div class="p d-inlines"><strong>OPCache:</strong>
-        <div v-if="opcache_exist > 0" class="greencolor"> Xin chúc mừng, <strong>OPCache</strong> đã được cài đặt! </div>
-        <div v-if="opcache_exist <= 0" class="orgcolor"> Nên bổ sung thêm OPCache sẽ giúp tăng đáng kể hiệu suất website của bạn. </div>
+    <!-- OPcache -->
+    <div class="p d-inlines"><strong>OPcache:</strong>
+        <div v-if="opcache_exist > 0" class="greencolor"> Xin chúc mừng, <strong>OPcache</strong> đã được cài đặt! </div>
+        <div v-if="opcache_exist <= 0" class="orgcolor"> Nên bổ sung thêm OPcache sẽ giúp tăng đáng kể hiệu suất website của bạn. </div>
     </div>
-    <!-- END OPCache -->
+    <!-- END OPcache -->
     <div class="p d-inlines">Cache (<strong><?php echo MY_CACHE_HANDLER; ?></strong> handler):
         <div v-if="cache_actived > 0" class="greencolor">Xin chúc mừng! Website của bạn vận hành thông qua <strong>Cache</strong>, điều này giúp tăng hiệu suất của website lên rất nhiều.
             <div>Bạn có thể <a href="admin/dashboard/cleanup_cache" class="btn btn-primary btn-mini"><i class="fa fa-magic"></i> vào đây</a> và dọn dẹp cache để website nhận dữ liệu mới nhất.</div>
