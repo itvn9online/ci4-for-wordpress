@@ -207,7 +207,7 @@ class Terms extends Admin {
         //
         if ( !empty( $this->MY_post( 'data' ) ) ) {
             // nếu là nhân bản
-            if ( $this->MY_post( 'is_duplicate', 0 ) * 1 === 1 ) {
+            if ( $this->MY_post( 'is_duplicate', 0 ) * 1 > 0 ) {
                 //print_r( $_POST );
                 //die( 'fghs ffs' );
                 // đổi lại tiêu đề để tránh trùng lặp
@@ -454,6 +454,80 @@ class Terms extends Admin {
 
     public function term_status() {
         $this->base_model->alert( 'Warning! tính năng chờ cập nhật...', 'warning' );
+    }
+
+    // xóa hoàn toàn 1 bản ghi
+    protected function before_remove() {
+        $id = $this->MY_get( 'id', 0 );
+        //die( $id );
+
+        // xem bản ghi này có được đánh dấu là XÓA không
+        $data = $this->base_model->select( '*', WGR_TERM_VIEW, [
+            'term_id' => $id,
+            'is_deleted' => DeletedStatus::DELETED,
+            'taxonomy' => $this->taxonomy,
+        ], array(
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            //'offset' => 2,
+            'limit' => 1
+        ) );
+
+        //
+        if ( empty( $data ) ) {
+            $this->base_model->alert( 'Không xác định được bản ghi cần XÓA', 'error' );
+        }
+        return $data;
+    }
+    public function remove( $confirm_delete = false ) {
+        /*
+         * confirm_delete: thường được truyền tới từ custom taxonomy và có nó thì sẽ xác nhận xóa hoàn toàn dữ liệu
+         */
+        if ( ALLOW_USING_MYSQL_DELETE === true || $confirm_delete === true ) {
+            $data = $this->before_remove();
+            print_r( $data );
+            die( __CLASS__ . ':' . __LINE__ );
+
+            // XÓA dữ liệu chính
+            $this->base_model->delete_multiple( $this->term_model->table, [
+                // WHERE
+                'term_id' => $data[ 'term_id' ],
+            ] );
+
+            // XÓA meta
+            $this->base_model->delete_multiple( $this->term_model->metaTable, [
+                // WHERE
+                'term_id' => $data[ 'term_id' ],
+            ] );
+
+            // XÓA relationships
+            $this->base_model->delete_multiple( $this->term_model->relaTable, [
+                // WHERE
+                'term_taxonomy_id' => $data[ 'term_id' ],
+            ] );
+
+            // XÓA term taxonomy
+            $this->base_model->delete_multiple( $this->term_model->taxTable, [
+                // WHERE
+                'term_id' => $data[ 'term_id' ],
+            ] );
+
+            //
+            if ( ALLOW_USING_MYSQL_DELETE === true ) {
+                die( '<script>top.done_delete_restore(' . $data[ 'term_id' ] . ');</script>' );
+            }
+
+            //
+            return $data;
+        }
+
+        // mặc định thì chỉ là chuyển về trang thái remove để ẩn khỏi admin
+        return $this->before_delete_restore( DeletedStatus::REMOVED );
+
+        //
+        //$this->base_model->alert( 'Chức năng XÓA đang trong giai đoạn thử nghiệm. ALLOW_USING_MYSQL_DELETE = ' . ALLOW_USING_MYSQL_DELETE, 'warning' );
     }
 
 }

@@ -170,7 +170,7 @@ class Home extends Csrf {
                 // các kiểu điều kiện where
                 'ID' => $id,
                 'post_type' => $post_type,
-                'post_status' => PostType::PUBLIC
+                'post_status' => PostType::PUBLICITY
             ), array(
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
@@ -220,6 +220,12 @@ class Home extends Csrf {
     }
 
     protected function pageDetail( $data, $file_view = 'page_view' ) {
+        // kiểm tra quyền truy cập chi tiết 1 post
+        if ( $this->post_permission( $data ) !== true ) {
+            return $this->page404( $this->post_permission( $data ) );
+        }
+
+        //
         $cache_key = $this->post_model->key_cache( $data[ 'ID' ] );
         $cache_value = $this->MY_cache( $cache_key );
         // Will get the cache entry named 'my_foo'
@@ -283,7 +289,7 @@ class Home extends Csrf {
             $parent_data = $this->base_model->select( '*', 'posts', array(
                 // các kiểu điều kiện where
                 'ID' => $data[ 'post_parent' ],
-                'post_status' => PostType::PUBLIC
+                'post_status' => PostType::PUBLICITY
             ), array(
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
@@ -398,7 +404,7 @@ class Home extends Csrf {
 
             //
             $where = [
-                'posts.post_status' => PostType::PUBLIC,
+                'posts.post_status' => PostType::PUBLICITY,
                 'posts.lang_key' => $this->lang_key
             ];
 

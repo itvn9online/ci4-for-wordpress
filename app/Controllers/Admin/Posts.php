@@ -141,7 +141,7 @@ class Posts extends Admin {
         if ( $post_status == '' ) {
             $by_post_status = [
                 PostType::DRAFT,
-                PostType::PUBLIC,
+                PostType::PUBLICITY,
                 PostType::PENDING,
             ];
         } else {
@@ -307,10 +307,17 @@ class Posts extends Admin {
 
         //
         if ( !empty( $this->MY_post( 'data' ) ) ) {
+            //die( __CLASS__ . ':' . __LINE__ );
             // nếu là nhân bản
-            if ( $this->MY_post( 'is_duplicate', 0 ) * 1 === 1 ) {
+            if ( $this->MY_post( 'is_duplicate', 0 ) * 1 > 0 ) {
                 //print_r( $_POST );
-                $dup_data = $this->MY_post( 'data' );
+                //$dup_data = $this->MY_post( 'data' );
+                //print_r( $dup_data );
+
+                // select dữ liệu từ 1 bảng bất kỳ
+                $dup_data = $this->post_model->select_post( $id, [
+                    'post_type' => $this->post_type,
+                ] );
                 //print_r( $dup_data );
 
                 // đổi lại tiêu đề để tránh trùng lặp
@@ -321,6 +328,10 @@ class Posts extends Admin {
                     // tạo lại slug
                     $dup_data[ 'post_name' ] = '';
                 }
+                $dup_data[ 'ID' ] = 0;
+                unset( $dup_data[ 'ID' ] );
+
+                //
                 //print_r( $dup_data );
 
                 // -> bỏ ID đi
@@ -401,7 +412,7 @@ class Posts extends Admin {
                 'where_in' => array(
                     'posts.post_status' => array(
                         PostType::DRAFT,
-                        PostType::PUBLIC,
+                        PostType::PUBLICITY,
                         PostType::PENDING,
                     )
                 ),
@@ -453,6 +464,7 @@ class Posts extends Admin {
             'parent_post' => $parent_post,
             'data' => $data,
             'meta_detault' => PostType::meta_default( $this->post_type ),
+            'post_arr_status' => PostType::arrStatus(),
             'taxonomy' => $this->taxonomy,
             'tags' => $this->tags,
             'post_type' => $this->post_type,
@@ -664,12 +676,12 @@ class Posts extends Admin {
         return $data;
     }
     public function remove( $confirm_delete = false ) {
-        $data = $this->before_remove();
-
         /*
          * confirm_delete: thường được truyền tới từ custom post type và có nó thì sẽ xác nhận xóa hoàn toàn dữ liệu
          */
-        if ( $confirm_delete === true ) {
+        if ( ALLOW_USING_MYSQL_DELETE === true || $confirm_delete === true ) {
+            $data = $this->before_remove();
+
             // XÓA dữ liệu chính
             $this->base_model->delete_multiple( $this->post_model->table, [
                 // WHERE
@@ -682,15 +694,26 @@ class Posts extends Admin {
                 'post_id' => $data[ 'ID' ],
             ] );
 
+            // XÓA relationships
+            $this->base_model->delete_multiple( $this->term_model->relaTable, [
+                // WHERE
+                'object_id' => $data[ 'ID' ],
+            ] );
+
+            //
+            if ( ALLOW_USING_MYSQL_DELETE === true ) {
+                die( '<script>top.done_delete_restore(' . $data[ 'ID' ] . ');</script>' );
+            }
+
             //
             return $data;
         }
 
-        // mặc định chỉ hiển thị thông báo thôi
-        //return $data;
+        // mặc định thì chỉ là chuyển về trang thái remove để ẩn khỏi admin
+        return $this->before_delete_restore( PostType::REMOVED );
 
         //
-        $this->base_model->alert( 'Chức năng XÓA đang trong giai đoạn thử nghiệm', 'warning' );
+        //$this->base_model->alert( 'Chức năng XÓA đang trong giai đoạn thử nghiệm. ALLOW_USING_MYSQL_DELETE = ' . ALLOW_USING_MYSQL_DELETE, 'warning' );
     }
 
     //
@@ -776,7 +799,7 @@ class Posts extends Admin {
     private function action_update_module( $id = 0 ) {
         $where = [
             // các kiểu điều kiện where
-            'post_status' => PostType::PUBLIC,
+            'post_status' => PostType::PUBLICITY,
             'post_type' => $this->post_type,
         ];
         if ( $id > 0 ) {

@@ -42,15 +42,18 @@ class Session {
         $csrf_name = csrf_token();
         //echo $csrf_name . '<br>' . "\n";
         // nếu tồn tại hash
-        if ( isset( $_REQUEST[ $csrf_name ] ) &&
+        if ( isset( $_REQUEST[ $csrf_name ] ) ) {
+            $hash = $this->MY_session( $this->key_csrf_hash );
             // -> kiểm tra khớp dữ liệu
-            $_REQUEST[ $csrf_name ] != $this->MY_session( $this->key_csrf_hash ) ) {
-            die( json_encode( [
-                'code' => __LINE__,
-                //'in' => $_REQUEST[ $csrf_name ],
-                //'out' => $this->MY_session( $this->key_csrf_hash ),
-                'error' => 'CSRF Invalid token from your request!'
-            ] ) );
+            if ( $hash != '' && $_REQUEST[ $csrf_name ] != $hash ) {
+                print_r( $_SESSION );
+                die( json_encode( [
+                    'code' => __LINE__,
+                    'in' => $_REQUEST[ $csrf_name ],
+                    'out' => $this->MY_session( $this->key_csrf_hash ),
+                    'error' => 'CSRF Invalid token from your request!'
+                ] ) );
+            }
         }
         //die( __CLASS__ . ':' . __LINE__ );
 

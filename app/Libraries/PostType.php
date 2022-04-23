@@ -24,11 +24,14 @@ class PostType {
     const WP_MEDIA_URI = 'wp/wp-content/uploads/';
 
     // post_status
-    const PUBLIC = 'publish';
-    const DELETED = 'trash';
-    const DRAFT = 'draft';
+    //const PUBLIC = 'publish'; // daidq (2022-04-24): bỏ chữ sẽ bỏ tham số PUBLIC do trùng với mặc định của PHP
+    const PUBLICITY = 'publish';
+    const PRIVATELY = 'private'; // riêng tư -> chỉ dành cho tài khoản đã đăng nhập
     const PENDING = 'pending';
+    const DRAFT = 'draft';
+    const DELETED = 'trash';
     const INHERIT = 'inherit';
+    const REMOVED = 'remove'; // ẩn hoàn toàn khỏi hệ thống admin
 
     // các loại thumbnail của media
     const MEDIA_MEDIUM = 'medium';
@@ -47,9 +50,10 @@ class PostType {
 
     public static function arrStatus() {
         return array(
-            self::PUBLIC => 'Hiển thị',
-            self::DRAFT => 'Bản nháp',
+            self::PUBLICITY => 'Hiển thị',
+            self::PRIVATELY => 'Riêng tư',
             self::PENDING => 'Chờ duyệt',
+            self::DRAFT => 'Bản nháp',
             self::DELETED => 'XÓA',
             //self::INHERIT => '',
         );

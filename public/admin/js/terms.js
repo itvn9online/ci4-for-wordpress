@@ -274,6 +274,7 @@ function before_tree_view(tmp, max_i) {
 
     //
     var tmp = $('#admin_main_list tr:first').html() || '';
+    $('#admin_main_list').text('');
     if (tmp == '') {
         return false;
     }

@@ -20,6 +20,9 @@
 // khi cần chuyển các file tĩnh sang url khác để giảm tải cho server chính thì dùng chức năng này
 //define( 'CDN_BASE_URL', '' );
 
+// Mặc định không cho xóa hoàn toàn dữ liệu trong mysql, nếu bạn muốn xóa hẳn thì có thể kích hoạt tính năng này.
+//define( 'ALLOW_USING_MYSQL_DELETE', true );
+
 /*
  * Tiền tố cho danh mục sản phẩm
  */

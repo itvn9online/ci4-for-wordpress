@@ -513,7 +513,7 @@ class Guest extends Csrf {
                         //$this->change_random_password();
                     }
                 } else {
-                    $this->base_model->msg_session( 'Vui lòng kiểm tra email ' . $email . ' để lấy mật khẩu đăng nhập mới.' );
+                    $this->base_model->msg_session( 'Vui lòng kiểm tra email ' . $email . ' để liên kết khởi tạo mật khẩu mới.' );
                 }
             }
         }
@@ -563,5 +563,104 @@ class Guest extends Csrf {
         } else {
             $this->base_model->msg_error_session( 'Gửi email cung cấp mật khẩu mới THẤT BẠI! Vui lòng liên hệ với quản trị website.' );
         }
+    }
+
+    public function confirm_change_email() {
+        //print_r( $_GET );
+        //die( __CLASS__ . ':' . __LINE__ );
+
+        //
+        $email = $this->MY_get( 'e', '' );
+        $old_email = $this->MY_get( 'oe', '' );
+        $expire = $this->MY_get( 't', 0 );
+        $token = $this->MY_get( 'token', '' );
+
+        // các tham số không thể thiếu -> thiếu là bỏ qua luôn
+        if ( $email == '' || $old_email == '' || $expire <= 0 || $token == '' ) {
+            $this->base_model->msg_error_session( 'Dữ liệu đầu vào không chính xác!' );
+        } else {
+            $user_id = $this->user_model->check_user_exist( $old_email );
+
+            //
+            if ( $user_id === false ) {
+                $this->base_model->msg_error_session( 'Email ' . $old_email . ' không tồn tại trong hệ thống!' );
+            } else {
+                // sử dụng cache để kiểm soát không cho dùng link liên tục
+                $in_cache = __FUNCTION__;
+                //die( $in_cache );
+                if ( $this->user_model->the_cache( $user_id, $in_cache ) === NULL ) {
+                    // kiểm tra độ khớp của dữ liệu
+                    if ( $expire < time() ) {
+                        $this->base_model->msg_error_session( 'Liên kết đã hết hạn sử dụng! Hãy gửi yêu cầu cung cấp liên kết mới.' );
+                    }
+                    // mã xác nhận -> token
+                    else if ( $this->base_model->mdnam( $email . $old_email . $expire, CUSTOM_MD5_HASH_CODE ) != $token ) {
+                        $this->base_model->msg_error_session( 'Mã xác nhận không chính xác!' );
+                    }
+                    // đúng thì tiến hành thay đổi email
+                    else {
+                        //print_r( $_GET );
+
+                        // cập nhật email mới
+                        $this->user_model->update_member( $user_id, [
+                            'user_email' => $email,
+                        ] );
+
+                        // select lại dữ liệu
+                        $data = $this->base_model->select( '*', $this->user_model->table, array(
+                            // các kiểu điều kiện where
+                            // mặc định
+                            'ID' => $user_id,
+                            // kiểm tra email đã được sử dụng rồi hay chưa thì không cần kiểm tra trạng thái XÓA -> vì có thể user này đã bị xóa vĩnh viễn
+                            'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                        ), array(
+                            'order_by' => [
+                                'ID' => 'ASC'
+                            ],
+                            // hiển thị mã SQL để check
+                            //'show_query' => 1,
+                            // trả về câu query để sử dụng cho mục đích khác
+                            //'get_query' => 1,
+                            //'offset' => 2,
+                            'limit' => 1
+                        ) );
+                        //print_r( $data );
+
+                        //
+                        if ( empty( $data ) ) {
+                            $this->base_model->msg_error_session( 'Không xác định được thông tin tài khoản của bạn!' );
+                        } else {
+                            $data = $this->sync_login_data( $data );
+                            //print_r( $data );
+
+                            // lưu thông tin đăng nhập tự động cho khách
+                            $this->base_model->set_ses_login( $data );
+
+                            //
+                            $this->base_model->msg_session( 'Thay đổi email đăng nhập thành công.' );
+
+                            //
+                            return $this->done_action_login( base_url( 'users/profile' ) );
+                        }
+
+                        //
+                        //die( __CLASS__ . ':' . __LINE__ );
+                    }
+                } else {
+                    $this->base_model->msg_session( 'Vui lòng kiểm tra email ' . $email . ' để lấy mật khẩu đăng nhập mới.' );
+                }
+            }
+        }
+        if ( $this->current_user_id > 0 ) {
+            return $this->done_action_login( base_url( 'users/profile' ) );
+        }
+
+        // dùng chung view với trang đăng nhập
+        $this->teamplate[ 'main' ] = view( 'admin/login_view', array(
+            'seo' => $this->seo( 'Thay đổi email đăng nhập', __FUNCTION__ ),
+            'breadcrumb' => '',
+        ) );
+        //print_r( $this->teamplate );
+        return view( 'layout_view', $this->teamplate );
     }
 }

@@ -41,7 +41,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
             <div class="d-inline"> <a href="<?php $term_model->admin_permalink( $taxonomy, 0, $controller_slug ); ?>" class="btn btn-success btn-mini"> <i class="fa fa-plus"></i> Thêm mới <?php echo $name_type; ?></a> </div>
             <!-- -->
             <div v-if="by_is_deleted == DeletedStatus_DELETED" class="d-inline"><a :href="'admin/' + controller_slug" class="btn btn-primary btn-mini"> <i class="fa fa-list"></i> Quay lại</a></div>
-            <div v-if="by_is_deleted != DeletedStatus_DELETED" class="d-inline"><a href="'admin/' + controller_slug + '?is_deleted=' + DeletedStatus_DELETED" class="btn btn-mini"> <i class="fa fa-trash"></i> Lưu trữ</a></div>
+            <div v-if="by_is_deleted != DeletedStatus_DELETED" class="d-inline"><a :href="'admin/' + controller_slug + '?is_deleted=' + DeletedStatus_DELETED" class="btn btn-mini"> <i class="fa fa-trash"></i> Lưu trữ</a></div>
         </div>
     </div>
     <br>
@@ -79,7 +79,8 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
                 <td width="60"><input type="text" data-id="{{v.term_id}}" value="{{v.term_order}}" size="5" class="form-control s change-update-term_order" /></td>
                 <td width="110" class="text-center"><div>
                         <div data-deleted="{{v.is_deleted}}" class="show-if-trash">
-                            <div><a href="admin/{{controller_slug}}/restore?id={{v.term_id}}{{for_action}}" onClick="return click_a_restore_record();" target="target_eb_iframe" class="bluecolor"><i class="fa fa-undo"></i></a></div>
+                            <div class="d-inline"><a href="admin/{{controller_slug}}/restore?id={{v.term_id}}{{for_action}}" onClick="return click_a_restore_record();" target="target_eb_iframe" class="bluecolor"><i class="fa fa-undo"></i></a></div>
+                            <div class="d-inline"><a href="admin/{{controller_slug}}/remove?id={{v.term_id}}{{for_action}}" onClick="return click_a_remove_record();" target="target_eb_iframe" class="redcolor"><i class="fa fa-remove"></i></a></div>
                         </div>
                         <div data-deleted="{{v.is_deleted}}" class="d-inlines hide-if-trash">
                             <div><a href="admin/{{controller_slug}}/term_status?id={{v.term_id}}&current_status={{v.term_status}}{{for_action}}" target="target_eb_iframe" data-status="{{v.term_status}}" class="record-status-color"><i class="fa fa-eye"></i></a></div>

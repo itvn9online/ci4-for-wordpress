@@ -76,7 +76,7 @@ use App\ Libraries\ DeletedStatus;
         </thead>
         <tbody>
             <tr v-for="v in data" :data-id="v.ID">
-                <td class="text-center"><input type="checkbox" value="{{v.ID}}" class="input-checkbox-control" /></td>
+                <td class="text-center"><input type="checkbox" :value="v.ID" class="input-checkbox-control" /></td>
                 <td><a :href="'admin/' + controller_slug + '/add?id=' + v.ID">{{v.ID}}</a></td>
                 <td><a :href="'admin/' + controller_slug + '/add?id=' + v.ID">{{v.user_login}}</a></td>
                 <td><a :href="'admin/' + controller_slug + '/add?id=' + v.ID">{{v.user_email}}</a></td>

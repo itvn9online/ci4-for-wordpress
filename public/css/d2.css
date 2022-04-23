@@ -412,6 +412,9 @@ a.eb-btn {
 .top-padding-menu40, .padding-top-menu40, .top-space-menu40, .top-menu-space40 {
     padding-top: 40px;
 }
+.top-padding-menu10, .padding-top-menu10, .top-space-menu10, .top-menu-space10 {
+    padding-top: 10px;
+}
 .right-padding-menu10, .padding-right-menu10, .right-space-menu10, .right-menu-space10 {
     padding-right: 10px;
 }

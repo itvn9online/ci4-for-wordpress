@@ -1057,7 +1057,7 @@ class Term extends TermBase {
         SET
             " . WGR_TABLE_PREFIX . "term_relationships.is_deleted = " . DeletedStatus::FOR_DEFAULT . "
         WHERE
-            " . WGR_TABLE_PREFIX . "posts.post_status = '" . PostType::PUBLIC . "'";
+            " . WGR_TABLE_PREFIX . "posts.post_status = '" . PostType::PUBLICITY . "'";
         //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query( $sql );
         //return false;

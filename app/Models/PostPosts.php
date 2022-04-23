@@ -220,7 +220,7 @@ class PostPosts extends PostSlider {
     public function post_category( $post_type, $data, $ops = [] ) {
         $where = [
             'posts.post_type' => $post_type,
-            'posts.post_status' => PostType::PUBLIC,
+            'posts.post_status' => PostType::PUBLICITY,
             'posts.lang_key' => LanguageCost::lang_key()
         ];
 

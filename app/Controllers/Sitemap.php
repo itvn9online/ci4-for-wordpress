@@ -196,8 +196,8 @@ class Sitemap extends Csrf {
         $where = [
             //'posts.post_status !=' => PostType::DELETED,
             'posts.post_type' => $post_type,
-            //'posts.post_status' => in_array( $post_type, $this->arr_media_status ) ? PostType::INHERIT : PostType::PUBLIC,
-            'posts.post_status' => PostType::PUBLIC,
+            //'posts.post_status' => in_array( $post_type, $this->arr_media_status ) ? PostType::INHERIT : PostType::PUBLICITY,
+            'posts.post_status' => PostType::PUBLICITY,
             //'posts.lang_key' => $this->lang_key
         ];
 
@@ -207,7 +207,7 @@ class Sitemap extends Csrf {
             'where_in' => array(
                 'posts.post_status' => array(
                     PostType::DRAFT,
-                    PostType::PUBLIC,
+                    PostType::PUBLICITY,
                     PostType::PENDING,
                 )
             ),
@@ -437,7 +437,7 @@ class Sitemap extends Csrf {
                     //
                     $parent_data = $this->base_model->select( 'ID, post_name, post_type, post_name', 'posts', [
                         'ID' => $v[ 'post_parent' ],
-                        'post_status' => PostType::PUBLIC,
+                        'post_status' => PostType::PUBLICITY,
                     ], [
                         /*
                         'group_by' => array(

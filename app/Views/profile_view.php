@@ -9,24 +9,32 @@
             <div class="s14">
                 <div class="row">
                     <div class="col medium-4 small-12 large-4">Tài khoản</div>
-                    <div class="col medium-8 small-12 large-8"><?php echo $data['user_login']; ?></div>
-                </div>
-                <div id="data-user_email" class="row">
-                    <div class="col medium-4 small-12 large-4">Email</div>
                     <div class="col medium-8 small-12 large-8">
                         <?php
-
-                        //
-                        echo $data[ 'user_email' ];
+                        echo $data[ 'user_login' ];
 
                         // chức năng riêng dành cho admin
-                        if ( $current_user_id > 0 && isset( $session_data[ 'userLevel' ] ) && $session_data[ 'userLevel' ] > 0 ) {
+                        if ( isset( $session_data[ 'userLevel' ] ) && $session_data[ 'userLevel' ] > 0 ) {
                             ?>
                         <a href="./<?php echo CUSTOM_ADMIN_URI; ?>">@</a>
                         <?php
                         }
-
                         ?>
+                    </div>
+                </div>
+                <div id="data-user_email">
+                    <div class="row change-user_email">
+                        <div class="col medium-4 small-12 large-4">Email</div>
+                        <div class="col medium-8 small-12 large-8"><?php echo $data['user_email']; ?> - <em class="cur bluecolor click-change-email">Thay đổi email <i class="fa fa-edit"></i></em></div>
+                    </div>
+                    <div class="row changed-user_email d-none">
+                        <div class="col medium-4 small-12 large-4 l40">Email (bắt buộc)</div>
+                        <div class="col medium-8 small-12 large-8">
+                            <div class="form-control">
+                                <input type="email" placeholder="Email" name="data[user_email]" id="data_user_email" value="<?php echo $data['user_email']; ?>" disabled readonly aria-required="true" required>
+                            </div>
+                            <div class="top-menu-space10">Nếu bạn thay đổi email, chúng tôi sẽ gửi một email xác nhận đến địa chỉ email cũ. <strong>Email mới sẽ không được kích hoạt cho đến khi bạn xác nhận thay đổi</strong> - <em class="cur bluecolor cancel-change-email">Hủy bỏ <i class="fa fa-remove"></i></em></div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">

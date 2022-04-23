@@ -901,4 +901,27 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
         }
         die( json_encode( $arr ) );
     }
+
+    // kiểm tra quyền truy cập chi tiết 1 post
+    protected function post_permission( $data ) {
+        //print_r( $this->session_data );
+
+        // nếu bài viết ở chế độ riêng tư
+        if ( $data[ 'post_status' ] == PostType::PRIVATELY ) {
+            // -> chỉ đăng nhập mới có thể xem
+            if ( $this->current_user_id <= 0 ) {
+                return 'WARNING ' . strtolower( __FUNCTION__ ) . ':' . __LINE__ . '! Bạn không có quyền xem nội dung này...';
+            }
+        }
+        // nếu bài này không phải dạng public
+        else if ( $data[ 'post_status' ] != PostType::PUBLICITY ) {
+            // kiểm tra xem nếu không phải admin thì không cho xem
+            if ( empty( $this->session_data ) || !isset( $this->session_data[ 'userLevel' ] ) || $this->session_data[ 'userLevel' ] <= 0 ) {
+                return 'ERROR ' . strtolower( __FUNCTION__ ) . ':' . __LINE__ . '! Không xác định được dữ liệu bài viết...';
+            }
+        }
+
+        //
+        return true;
+    }
 }

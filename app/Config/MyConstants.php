@@ -114,6 +114,9 @@ defined( 'MINI_CACHE_TIMEOUT' ) || define( 'MINI_CACHE_TIMEOUT', 300 );
 defined( 'MEDIUM_CACHE_TIMEOUT' ) || define( 'MEDIUM_CACHE_TIMEOUT', HOUR );
 defined( 'BIG_CACHE_TIMEOUT' ) || define( 'BIG_CACHE_TIMEOUT', 21600 ); // 6 giờ
 
+// cho phép sử dụng lệnh DELETE trong mysql
+defined( 'ALLOW_USING_MYSQL_DELETE' ) || define( 'ALLOW_USING_MYSQL_DELETE', false );
+
 /*
  * Tiền tố cho danh mục sản phẩm
  */

@@ -3,6 +3,7 @@ namespace App\ Controllers;
 
 //
 use App\ Language\ Translate;
+use App\ Libraries\ PHPMaillerSend;
 
 //
 class Users extends Csrf {
@@ -10,6 +11,7 @@ class Users extends Csrf {
 
     // danh sách các cột user được phép update
     protected $allow_update = [
+        'user_email',
         'display_name',
         'user_nicename',
         'user_birthday',
@@ -79,6 +81,7 @@ class Users extends Csrf {
     private function update( $id ) {
         $data = $this->MY_post( 'data' );
         //print_r( $data );
+        //die( __CLASS__ . ':' . __LINE__ );
         if ( isset( $data[ 'ci_pass' ] ) ) {
             if ( empty( $data[ 'ci_pass' ] ) ) {
                 $this->base_model->alert( 'Không xác định được mật khẩu cần thay đổi', 'warning' );
@@ -110,6 +113,115 @@ class Users extends Csrf {
 
             //
             $this->base_model->alert( 'Cập nhật mật khẩu mới thành công' );
+        }
+
+        // kiểm tra xem người dùng có thay đổi email không
+        if ( isset( $data[ 'user_email' ] ) ) {
+            $change_email = false;
+
+            //
+            $this->validation->reset();
+            $this->validation->setRules( [
+                'user_email' => [
+                    'label' => 'Email',
+                    'rules' => 'required|min_length[5]|max_length[255]|valid_email',
+                    'errors' => [
+                        'required' => Translate::REQUIRED,
+                        'min_length' => Translate::MIN_LENGTH,
+                        'max_length' => Translate::MAX_LENGTH,
+                        'valid_email' => Translate::VALID_EMAIL,
+                    ],
+                ],
+            ] );
+            //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+            //print_r( $this->session_data );
+
+            // kiểm tra định dạng email
+            if ( $this->validation->run( $data ) ) {
+                //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+
+                // nếu email có sự thay đổi thì mới update
+                if ( $this->session_data[ 'user_email' ] != $data[ 'user_email' ] ) {
+                    //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+
+                    // xem email mới đã được sử dụng chưa
+                    $user_id = $this->user_model->check_user_exist( $data[ 'user_email' ] );
+                    //var_dump( $this->current_user_id );
+                    //var_dump( $user_id );
+
+                    // được sử dụng thì báo lỗi luôn
+                    if ( $user_id !== false ) {
+                        // ID tài khoản giống nhau
+                        if ( $user_id != $this->current_user_id ) {
+                            $this->base_model->alert( 'Email ' . $data[ 'user_email' ] . ' đã được sử dụng!', 'error' );
+                        }
+                    }
+                    // chưa sử dụng thì mới cho đổi
+                    else {
+                        $change_email = true;
+                    }
+                    //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+
+                    // nếu email cũ là dạng email tự động tạo -> trùng với tên miền hiện tại thì cho đổi luôn
+                    // còn không -> sẽ tiến hành gửi email xác thực
+                    if ( $change_email === true && strpos( $this->session_data[ 'user_email' ], '@' . $_SERVER[ 'HTTP_HOST' ] ) === false ) {
+                        // tạo link để xác thực việc thay đổi email
+                        $data_reset = [
+                            'e' => $data[ 'user_email' ],
+                            'oe' => $this->session_data[ 'user_email' ],
+                            // hạn sử dụng của link
+                            't' => time() + 3600,
+                        ];
+
+                        // token
+                        $data_reset[ 'token' ] = $this->base_model->mdnam( $data_reset[ 'e' ] . $data_reset[ 'oe' ] . $data_reset[ 't' ], CUSTOM_MD5_HASH_CODE );
+
+                        //
+                        //print_r( $data_reset );
+                        $link_change_email = [];
+                        foreach ( $data_reset as $k => $v ) {
+                            $link_change_email[] = $k . '=' . $v;
+                        }
+                        $link_change_email = base_url( 'guest/confirm_change_email' ) . '?' . implode( '&', $link_change_email );
+                        //echo $link_change_email . '<br>' . "\n";
+
+                        //
+                        //print_r( $this->session_data );
+                        //echo $this->session_data[ 'user_email' ];
+
+
+                        // thiết lập thông tin người nhận
+                        $data_send = [
+                            'to' => $this->session_data[ 'user_email' ],
+                            'subject' => 'Xác nhận thay đổi email',
+                            'message' => $this->base_model->tmp_to_html(
+                                $this->base_model->get_html_tmp( 'change_email_confirm', '', 'Views/mail_template/' ), [
+                                    'base_url' => base_url(),
+                                    'email' => $data[ 'user_email' ],
+                                    'old_email' => $this->session_data[ 'user_email' ],
+                                    'link_change_email' => $link_change_email,
+                                ]
+                            ),
+                        ];
+                        //print_r( $data_send );
+                        //die( __CLASS__ . ':' . __LINE__ );
+
+                        //
+                        if ( PHPMaillerSend::the_send( $data_send, $this->option_model->get_smtp() ) === true ) {
+                            $this->base_model->alert( 'Vui lòng kiểm tra email ' . $data_send[ 'to' ] . ' và làm theo hướng dẫn để xác thực việc thay đổi email.' );
+                        }
+                        $this->base_model->alert( 'Gửi email xác thực THẤT BẠI! Vui lòng liên hệ với quản trị website.', 'error' );
+                    }
+                }
+            }
+
+            // bỏ qua việc cập nhật email nếu không đạt các điều kiện
+            //var_dump( $change_email );
+            if ( $change_email === false ) {
+                unset( $data[ 'user_email' ] );
+            }
+            //print_r( $data );
+            //die( __CLASS__ . ':' . __LINE__ );
         }
 
         //

@@ -148,7 +148,7 @@ class PostAdmin extends Post {
             $where = [
                 //'post_status !=' => PostType::DELETED,
                 'post_type' => $allow,
-                'post_status' => PostType::PUBLIC,
+                'post_status' => PostType::PUBLICITY,
                 'lang_key' => $lang_key
             ];
 
@@ -157,7 +157,7 @@ class PostAdmin extends Post {
                 'where_in' => array(
                     'post_status' => array(
                         //PostType::DRAFT,
-                        PostType::PUBLIC,
+                        PostType::PUBLICITY,
                         //PostType::PENDING,
                     )
                 ),

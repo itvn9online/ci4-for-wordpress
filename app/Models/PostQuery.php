@@ -217,7 +217,7 @@ class PostQuery extends PostMeta {
         return $result_update;
     }
 
-    function select_post( $post_id, $where = [], $select_col = '*' ) {
+    function select_post( $post_id, $where = [], $filter = [], $select_col = '*' ) {
         if ( $post_id > 0 ) {
             $where[ 'ID' ] = $post_id;
         }
@@ -225,15 +225,21 @@ class PostQuery extends PostMeta {
             return [];
         }
 
-        // select dữ liệu từ 1 bảng bất kỳ
-        $data = $this->base_model->select( $select_col, $this->table, $where, array(
+        //
+        $default_filter = [
             // hiển thị mã SQL để check
             //'show_query' => 1,
             // trả về câu query để sử dụng cho mục đích khác
             //'get_query' => 1,
             //'offset' => 2,
             'limit' => 1
-        ) );
+        ];
+        foreach ( $filter as $k => $v ) {
+            $default_filter[ $k ] = $v;
+        }
+
+        // select dữ liệu từ 1 bảng bất kỳ
+        $data = $this->base_model->select( $select_col, $this->table, $where, $default_filter );
 
         // lấy meta của post này
         if ( !empty( $data ) ) {
@@ -250,11 +256,22 @@ class PostQuery extends PostMeta {
 
     function select_public_post( $post_id, $where = [] ) {
         // các tham số bắt buộc
-        $where[ 'post_status' ] = PostType::PUBLIC;
+        //$where[ 'post_status' ] = PostType::PUBLICITY;
         $where[ 'lang_key' ] = LanguageCost::lang_key();
 
         //
-        return $this->select_post( $post_id, $where );
+        return $this->select_post( $post_id, $where, [
+            'where_in' => array(
+                'post_status' => array(
+                    // ai cũng có thể xem
+                    PostType::PUBLICITY,
+                    // người dùng đã đăng nhập
+                    PostType::PRIVATELY,
+                    // cho admin xem trước
+                    PostType::DRAFT,
+                )
+            ),
+        ] );
     }
 
     // trả về danh sách post theo term_id

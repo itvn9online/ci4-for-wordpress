@@ -330,12 +330,7 @@ var post_tags = '<?php echo $post_tags; ?>';
 //
 angular.module('myApp', []).controller('myCtrl', function ($scope) {
     $scope.parent_post = <?php echo json_encode($parent_post); ?>;
-    $scope.post_status = {
-        '<?php echo PostType::PUBLIC; ?>' : 'Hiển thị',
-        '<?php echo PostType::PENDING; ?>' : 'Chờ duyệt',
-        '<?php echo PostType::DRAFT; ?>' : 'Bản nháp',
-        '<?php echo PostType::DELETED; ?>' : 'XÓA',
-    };
+    $scope.post_status = <?php echo json_encode($post_arr_status); ?>;
     $scope.quick_menu_list = <?php echo json_encode($quick_menu_list); ?>;
     angular.element(document).ready(function () {
         $('.ng-main-content').addClass('loaded');

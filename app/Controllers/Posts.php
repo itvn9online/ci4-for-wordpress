@@ -44,6 +44,11 @@ class Posts extends Csrf {
             return $this->page404( 'ERROR ' . strtolower( __FUNCTION__ ) . ':' . __LINE__ . '! Không xác định được dữ liệu bài viết...' );
         }
 
+        // kiểm tra quyền truy cập chi tiết 1 post
+        if ( $this->post_permission( $data ) !== true ) {
+            return $this->page404( $this->post_permission( $data ) );
+        }
+
         // update lượt xem -> daidq (2021-12-14): chuyển phần update này qua view, ai thích dùng thì kích hoạt cho nó nhẹ
         //$this->post_model->update_views( $data[ 'ID' ] );
 
@@ -152,7 +157,7 @@ class Posts extends Csrf {
             $parent_data = $this->base_model->select( '*', 'posts', array(
                 // các kiểu điều kiện where
                 'ID' => $data[ 'post_parent' ],
-                'post_status' => PostType::PUBLIC
+                'post_status' => PostType::PUBLICITY
             ), array(
                 // hiển thị mã SQL để check
                 //'show_query' => 1,

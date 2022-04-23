@@ -39,7 +39,7 @@ class Search extends Csrf {
             // các kiểu điều kiện where
             $where = [
                 'posts.post_type' => $this->post_type,
-                'posts.post_status' => PostType::PUBLIC,
+                'posts.post_status' => PostType::PUBLICITY,
                 'posts.lang_key' => $this->lang_key
             ];
             //print_r( $where );

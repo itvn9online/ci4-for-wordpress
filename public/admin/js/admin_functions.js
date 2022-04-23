@@ -362,7 +362,8 @@ function click_delete_record() {
 
 function click_duplicate_record() {
     if ($('#is_duplicate').length !== 1) {
-        console.log('%c ERROR is_duplicate.length', 'color: red;');
+        WGR_alert('ERROR is_duplicate.length', 'warning');
+        return false;
     }
 
     if (confirm('Bạn thực sự muốn nhân bản bản ghi này?') === false) {
