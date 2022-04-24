@@ -77,17 +77,9 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
                 <td width="90">{{v.lang_key}}</td>
                 <td width="90">{{v.count}}</td>
                 <td width="60"><input type="text" data-id="{{v.term_id}}" value="{{v.term_order}}" size="5" class="form-control s change-update-term_order" /></td>
-                <td width="110" class="text-center"><div>
-                        <div data-deleted="{{v.is_deleted}}" class="show-if-trash">
-                            <div class="d-inline"><a href="admin/{{controller_slug}}/restore?id={{v.term_id}}{{for_action}}" onClick="return click_a_restore_record();" target="target_eb_iframe" class="bluecolor"><i class="fa fa-undo"></i></a></div>
-                            <div class="d-inline"><a href="admin/{{controller_slug}}/remove?id={{v.term_id}}{{for_action}}" onClick="return click_a_remove_record();" target="target_eb_iframe" class="redcolor"><i class="fa fa-remove"></i></a></div>
-                        </div>
-                        <div data-deleted="{{v.is_deleted}}" class="d-inlines hide-if-trash">
-                            <div><a href="admin/{{controller_slug}}/term_status?id={{v.term_id}}&current_status={{v.term_status}}{{for_action}}" target="target_eb_iframe" data-status="{{v.term_status}}" class="record-status-color"><i class="fa fa-eye"></i></a></div>
-                            &nbsp;
-                            <div><a href="admin/{{controller_slug}}/delete?id={{v.term_id}}{{for_action}}" onClick="return click_a_delete_record();" target="target_eb_iframe" class="redcolor"><i class="fa fa-trash"></i></a></div>
-                        </div>
-                    </div></td>
+                <td width="90" class="text-center"><?php
+                require __DIR__ . '/list_action.php';
+                ?></td>
             </tr>
             <?php
 

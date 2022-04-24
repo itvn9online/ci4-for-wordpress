@@ -49,12 +49,15 @@ function action_delete_restore_checked_term(method_control, method_name) {
 }
 
 function click_delete_checked_term() {
-    action_delete_restore_checked_term('delete_all', 'XÓA');
+    action_delete_restore_checked_term('delete_all', 'Lưu trữ');
 }
 
-//
 function click_restore_checked_term() {
     action_delete_restore_checked_term('restore_all', 'Khôi phục');
+}
+
+function click_remove_checked_term() {
+    action_delete_restore_checked_term('remove_all', 'XÓA');
 }
 
 // do sử dụng aguilarjs đang không tạo được danh mục theo dạng đệ quy -> tự viết function riêng vậy
@@ -262,7 +265,7 @@ function before_tree_view(tmp, max_i) {
 
     //
     term_tree_view(term_data, tmp);
-    //$('.this-child-term div[ng-if]').remove();
+    //$('.this-child-term div[v-if]').remove();
 }
 
 (function () {

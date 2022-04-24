@@ -85,14 +85,9 @@ use App\ Libraries\ DeletedStatus;
                 <td>{{UsersType_listStatus[v.user_status]}}</td>
                 <td>{{v.last_login.substr(0, 16)}}</td>
                 <td>{{v.user_registered.substr(0, 16)}}</td>
-                <td class="text-center"><div>
-                        <div v-if="v.is_deleted != DeletedStatus_DELETED">
-                            <div><a :href="'admin/' + controller_slug + '/delete?id=' + v.ID + for_action" onClick="return click_a_delete_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-trash"></i></a> </div>
-                        </div>
-                        <div v-if="v.is_deleted == DeletedStatus_DELETED">
-                            <div><a :href="'admin/' + controller_slug + '/restore?id=' + v.ID + for_action" onClick="return click_a_restore_record();" class="bluecolor" target="target_eb_iframe"><i class="fa fa-undo"></i></a></div>
-                        </div>
-                    </div></td>
+                <td width="90" class="text-center"><?php
+                require __DIR__ . '/list_action.php';
+                ?></td>
             </tr>
         </tbody>
     </table>

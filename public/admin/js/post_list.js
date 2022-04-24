@@ -49,12 +49,15 @@ function action_delete_restore_checked_post(method_control, method_name) {
 }
 
 function click_delete_checked_post() {
-    action_delete_restore_checked_post('delete_all', 'XÓA');
+    action_delete_restore_checked_post('delete_all', 'Lưu trữ');
 }
 
-//
 function click_restore_checked_post() {
     action_delete_restore_checked_post('restore_all', 'Khôi phục');
+}
+
+function click_remove_checked_post() {
+    action_delete_restore_checked_post('remove_all', 'XÓA');
 }
 
 /*

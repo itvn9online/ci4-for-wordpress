@@ -49,10 +49,13 @@ function action_delete_restore_checked_user(method_control, method_name) {
 }
 
 function click_delete_checked_user() {
-    action_delete_restore_checked_user('delete_all', 'XÓA');
+    action_delete_restore_checked_user('delete_all', 'Lưu trữ');
 }
 
-//
 function click_restore_checked_user() {
     action_delete_restore_checked_user('restore_all', 'Khôi phục');
+}
+
+function click_remove_checked_user() {
+    action_delete_restore_checked_user('remove_all', 'XÓA');
 }

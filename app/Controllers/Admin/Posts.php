@@ -756,14 +756,19 @@ class Posts extends Admin {
         ] );
     }
 
-    // chức năng xóa nhiều tài khoản 1 lúc
+    // chức năng xóa nhiều bản ghi 1 lúc
     public function delete_all() {
         return $this->before_all_delete_restore( PostType::DELETED );
     }
 
-    // chức năng xóa nhiều tài khoản 1 lúc
+    // chức năng restore nhiều bản ghi 1 lúc
     public function restore_all() {
         return $this->before_all_delete_restore( PostType::DRAFT );
+    }
+
+    // chức năng remove nhiều bản ghi 1 lúc
+    public function remove_all() {
+        return $this->before_all_delete_restore( PostType::REMOVED );
     }
 
     //

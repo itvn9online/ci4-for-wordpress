@@ -421,11 +421,15 @@ class Users extends Admin {
     }
 
     public function delete() {
-        return $this->before_delete_restore( 'Không thể tự xóa chính bạn!', DeletedStatus::DELETED );
+        return $this->before_delete_restore( 'Không thể tự Lưu trữ chính bạn!', DeletedStatus::DELETED );
     }
 
     public function restore() {
-        return $this->before_delete_restore( 'Không thể tự phục hồi chính bạn!', DeletedStatus::FOR_DEFAULT );
+        return $this->before_delete_restore( 'Không thể tự Phục hồi chính bạn!', DeletedStatus::FOR_DEFAULT );
+    }
+
+    public function remove() {
+        return $this->before_delete_restore( 'Không thể tự XÓA chính bạn!', DeletedStatus::REMOVED );
     }
 
     //
@@ -470,16 +474,21 @@ class Users extends Admin {
         ] );
     }
 
-    // chức năng xóa nhiều tài khoản 1 lúc
+    // chức năng xóa nhiều bản ghi 1 lúc
     public function delete_all() {
         return $this->before_all_delete_restore( DeletedStatus::DELETED, [
             'ID !=' => $this->current_user_id
         ] );
     }
 
-    // chức năng xóa nhiều tài khoản 1 lúc
+    // chức năng restore nhiều bản ghi 1 lúc
     public function restore_all() {
         return $this->before_all_delete_restore( DeletedStatus::FOR_DEFAULT );
+    }
+
+    // chức năng remove nhiều bản ghi 1 lúc
+    public function remove_all() {
+        return $this->before_all_delete_restore( DeletedStatus::REMOVED );
     }
 
     // chức năng đăng nhập vào 1 tài khoản khác
