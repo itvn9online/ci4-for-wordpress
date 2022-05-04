@@ -189,8 +189,10 @@ class Posts extends Csrf {
         ) );
         $cache_value = view( 'layout_view', $this->teamplate );
 
-        // Save into the cache for 5 minutes
-        $cache_save = $this->MY_cache( $this->cache_key, $cache_value );
+        // Save cache -> không lưu cache khi có session thông báo riêng
+        if ( $this->base_model->msg_session() == '' && $this->base_model->msg_error_session() == '' ) {
+            $cache_save = $this->MY_cache( $this->cache_key, $cache_value . '<!-- Served from: ' . __FUNCTION__ . ' -->' );
+        }
         //var_dump( $cache_save );
 
         //

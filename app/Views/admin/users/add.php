@@ -69,25 +69,25 @@ use App\ Libraries\ UsersType;
             <div class="control-group">
                 <label class="control-label">Email</label>
                 <div class="controls">
-                    <input type="email" class="span6 required" placeholder="Email" name="data[user_email]" value="<?php echo $data['user_email']; ?>" aria-required="true" required />
+                    <input type="email" class="span6" placeholder="Email" name="data[user_email]" value="<?php echo $data['user_email']; ?>" aria-required="true" required />
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Họ và tên</label>
                 <div class="controls">
-                    <input type="text" class="span6 required" placeholder="Họ và tên" name="data[display_name]" value="<?php echo $data['display_name']; ?>" />
+                    <input type="text" class="span6" placeholder="Họ và tên" name="data[display_name]" value="<?php echo $data['display_name']; ?>" />
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Tên rút gọn</label>
                 <div class="controls">
-                    <input type="text" class="span6 required" placeholder="Tên rút gọn" name="data[user_nicename]" value="<?php echo $data['user_nicename']; ?>" />
+                    <input type="text" class="span3" placeholder="Tên rút gọn" name="data[user_nicename]" value="<?php echo $data['user_nicename']; ?>" />
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Ngày sinh</label>
                 <div class="controls">
-                    <input type="date" class="span3 required" placeholder="Ngày sinh" name="data[user_birthday]" value="<?php echo $data['user_birthday']; ?>" />
+                    <input type="date" class="span3" placeholder="Ngày sinh" name="data[user_birthday]" value="<?php echo $data['user_birthday']; ?>" />
                 </div>
             </div>
             <div class="control-group">
@@ -121,13 +121,21 @@ use App\ Libraries\ UsersType;
             <div class="control-group">
                 <label class="control-label">Website</label>
                 <div class="controls">
-                    <input type="text" class="span6 required" placeholder="Website/ Trang cá nhân" name="data[user_url]" value="<?php echo $data['user_url']; ?>" />
+                    <input type="text" class="span6" placeholder="Website/ Trang cá nhân" name="data[user_url]" value="<?php echo $data['user_url']; ?>" />
                 </div>
             </div>
             <div class="control-group">
+                <label class="control-label">Điện thoại</label>
+                <div class="controls">
+                    <input type="text" class="span3" placeholder="Điện thoại" name="data[user_phone]" value="<?php echo $data['user_phone']; ?>" />
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="control-group">
                 <label class="control-label">Thay đổi mật khẩu</label>
                 <div class="controls">
-                    <input type="text" class="span6" placeholder="Mật khẩu" name="data[ci_pass]" value="<?php echo $data[ 'ci_pass' ]; ?>" onfocus="$('.redcolor-if-pass-focus').addClass('redcolor');" onblur="$('.redcolor-if-pass-focus').removeClass('redcolor');" />
+                    <input type="text" class="span3" placeholder="Mật khẩu" name="data[ci_pass]" value="<?php echo $data[ 'ci_pass' ]; ?>" onfocus="$('.redcolor-if-pass-focus').addClass('redcolor');" onblur="$('.redcolor-if-pass-focus').removeClass('redcolor');" />
                     <p class="redcolor-if-pass-focus">* Chỉ nhập mật khẩu khi bạn cần đổi mật khẩu cho <?php echo $member_name; ?>.</p>
                 </div>
             </div>

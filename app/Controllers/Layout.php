@@ -141,7 +141,7 @@ class Layout extends Sync {
         echo $content;
 
         //
-        echo '<!-- Served from: ' . $this->cache_key . ' by ebcache' . PHP_EOL;
+        echo '<!-- Cached by ebcache' . PHP_EOL;
         if ( MY_CACHE_HANDLER == 'file' ) {
             echo 'Caching using hard disk drive. Recommendations using SSD drive for your website.' . PHP_EOL;
         } else {
@@ -290,8 +290,11 @@ class Layout extends Sync {
 
         // daidq (2022-02-26): không lưu cache ở trang 404 vì còn cho nó set header 404 -> tối ưu SEO
         /*
-        if ( $in_cache != '' ) {
-            $cache_save = $this->MY_cache( $in_cache, $cache_value );
+        // Save cache -> không lưu cache khi có session thông báo riêng
+        if ( $this->base_model->msg_session() == '' && $this->base_model->msg_error_session() == '' ) {
+            if ( $in_cache != '' ) {
+                $cache_save = $this->MY_cache( $in_cache, $cache_value . '<!-- Served from: ' . __FUNCTION__ . ' -->' );
+            }
         }
         */
         //var_dump( $cache_save );
@@ -400,8 +403,10 @@ class Layout extends Sync {
         ) );
         $cache_value = view( 'layout_view', $this->teamplate );
 
-        // Save into the cache for 5 minutes
-        $cache_save = $this->MY_cache( $this->cache_key, $cache_value );
+        // Save cache -> không lưu cache khi có session thông báo riêng
+        if ( $this->base_model->msg_session() == '' && $this->base_model->msg_error_session() == '' ) {
+            $cache_save = $this->MY_cache( $this->cache_key, $cache_value . '<!-- Served from: ' . __FUNCTION__ . ' -->' );
+        }
         //var_dump( $cache_save );
 
         //

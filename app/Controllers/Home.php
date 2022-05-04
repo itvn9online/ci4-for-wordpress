@@ -72,8 +72,10 @@ class Home extends Csrf {
         //print_r( $this->teamplate );
         $cache_value = view( 'layout_view', $this->teamplate );
 
-        // Save into the cache for 5 minutes
-        $cache_save = $this->MY_cache( $cache_key, $cache_value );
+        // Save cache -> không lưu cache khi có session thông báo riêng
+        if ( $this->base_model->msg_session() == '' && $this->base_model->msg_error_session() == '' ) {
+            $cache_save = $this->MY_cache( $cache_key, $cache_value . '<!-- Served from: ' . __FUNCTION__ . ' -->' );
+        }
         //var_dump( $cache_save );
 
         //
@@ -332,8 +334,10 @@ class Home extends Csrf {
 
         // chỉ lưu cache nếu không có page template
         //if ( $page_template == '' ) {
-        // Save into the cache for 5 minutes
-        $cache_save = $this->MY_cache( $cache_key, $cache_value );
+        // Save cache -> không lưu cache khi có session thông báo riêng
+        if ( $this->base_model->msg_session() == '' && $this->base_model->msg_error_session() == '' ) {
+            $cache_save = $this->MY_cache( $cache_key, $cache_value . '<!-- Served from: ' . __FUNCTION__ . ' -->' );
+        }
         //}
         //var_dump( $cache_save );
 
