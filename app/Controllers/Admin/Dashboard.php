@@ -948,6 +948,7 @@ class Dashboard extends Optimize {
     }
 
     public function unzip_thirdparty() {
-        return $this->vendor_sync( false );
+        $this->vendor_sync( false );
+        $this->base_model->alert( 'Đồng bộ lại Code bên thứ 3 và Database thành công!' );
     }
 }
