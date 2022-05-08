@@ -146,7 +146,10 @@ var _global_js_eb = {
                     }
 
                     //
-                    jQuery(fix_for, this).width((100 / w) + '%');
+                    //jQuery(fix_for, this).width((100 / w) + '%');
+                    jQuery(fix_for, this).css({
+                        'width': ((100 / w).toFixed(6) * 1).toString() + '%'
+                    });
                 }
             });
 
