@@ -42,7 +42,7 @@ class Home extends Csrf {
         // Will get the cache entry named 'my_foo'
         //var_dump( $cache_value );
         // có thì in ra cache là được
-        if ( $cache_value !== NULL ) {
+        if ( $_SERVER[ 'REQUEST_METHOD' ] == 'GET' && $cache_value !== NULL ) {
             return $this->show_cache( $cache_value );
         }
         //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
@@ -70,12 +70,15 @@ class Home extends Csrf {
             //'serviceByLang' => $serviceByLang,
         ) );
         //print_r( $this->teamplate );
+
+        // nếu có flash session -> trả về view luôn
+        if ( $this->hasFlashSession() === true ) {
+            return view( 'layout_view', $this->teamplate );
+        }
+        // còn không sẽ tiến hành lưu cache
         $cache_value = view( 'layout_view', $this->teamplate );
 
-        // Save cache -> không lưu cache khi có session thông báo riêng
-        if ( $this->base_model->msg_session() == '' && $this->base_model->msg_error_session() == '' ) {
-            $cache_save = $this->MY_cache( $cache_key, $cache_value . '<!-- Served from: ' . __FUNCTION__ . ' -->' );
-        }
+        $cache_save = $this->MY_cache( $cache_key, $cache_value . '<!-- Served from: ' . __FUNCTION__ . ' -->' );
         //var_dump( $cache_save );
 
         //
@@ -233,7 +236,7 @@ class Home extends Csrf {
         // Will get the cache entry named 'my_foo'
         //var_dump( $cache_value );
         // có thì in ra cache là được
-        if ( $cache_value !== NULL ) {
+        if ( $_SERVER[ 'REQUEST_METHOD' ] == 'GET' && $cache_value !== NULL ) {
             return $this->show_cache( $cache_value );
         }
 
@@ -330,16 +333,19 @@ class Home extends Csrf {
             'current_pid' => $this->current_pid,
             'parent_data' => $parent_data,
         ) );
+
+        // nếu có flash session -> trả về view luôn
+        if ( $this->hasFlashSession() === true ) {
+            return view( 'layout_view', $this->teamplate );
+        }
+        // còn không sẽ tiến hành lưu cache
         $cache_value = view( 'layout_view', $this->teamplate );
 
         // chỉ lưu cache nếu không có page template
         //if ( $page_template == '' ) {
-        // Save cache -> không lưu cache khi có session thông báo riêng
-        if ( $this->base_model->msg_session() == '' && $this->base_model->msg_error_session() == '' ) {
-            $cache_save = $this->MY_cache( $cache_key, $cache_value . '<!-- Served from: ' . __FUNCTION__ . ' -->' );
-        }
-        //}
+        $cache_save = $this->MY_cache( $cache_key, $cache_value . '<!-- Served from: ' . __FUNCTION__ . ' -->' );
         //var_dump( $cache_save );
+        //}
 
         //
         return $cache_value;

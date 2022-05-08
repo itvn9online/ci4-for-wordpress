@@ -286,21 +286,7 @@ class Layout extends Sync {
             // thông điệp của việc xuất hiện lỗi 404
             'msg_404' => $msg_404,
         ) );
-        $cache_value = view( 'layout_view', $this->teamplate );
-
-        // daidq (2022-02-26): không lưu cache ở trang 404 vì còn cho nó set header 404 -> tối ưu SEO
-        /*
-        // Save cache -> không lưu cache khi có session thông báo riêng
-        if ( $this->base_model->msg_session() == '' && $this->base_model->msg_error_session() == '' ) {
-            if ( $in_cache != '' ) {
-                $cache_save = $this->MY_cache( $in_cache, $cache_value . '<!-- Served from: ' . __FUNCTION__ . ' -->' );
-            }
-        }
-        */
-        //var_dump( $cache_save );
-
-        //
-        return $cache_value;
+        return view( 'layout_view', $this->teamplate );
     }
 
     protected function category( $input, $post_type, $taxonomy, $file_view = 'category_view', $ops = [] ) {
@@ -323,7 +309,7 @@ class Layout extends Sync {
         // Will get the cache entry named 'my_foo'
         //var_dump( $cache_value );
         // có thì in ra cache là được
-        if ( $cache_value !== NULL ) {
+        if ( $_SERVER[ 'REQUEST_METHOD' ] == 'GET' && $cache_value !== NULL ) {
             return $this->show_cache( $cache_value );
         }
 
@@ -401,12 +387,15 @@ class Layout extends Sync {
             'data' => $data,
             'current_tid' => $this->current_tid,
         ) );
+
+        // nếu có flash session -> trả về view luôn
+        if ( $this->hasFlashSession() === true ) {
+            return view( 'layout_view', $this->teamplate );
+        }
+        // còn không sẽ tiến hành lưu cache
         $cache_value = view( 'layout_view', $this->teamplate );
 
-        // Save cache -> không lưu cache khi có session thông báo riêng
-        if ( $this->base_model->msg_session() == '' && $this->base_model->msg_error_session() == '' ) {
-            $cache_save = $this->MY_cache( $this->cache_key, $cache_value . '<!-- Served from: ' . __FUNCTION__ . ' -->' );
-        }
+        $cache_save = $this->MY_cache( $this->cache_key, $cache_value . '<!-- Served from: ' . __FUNCTION__ . ' -->' );
         //var_dump( $cache_save );
 
         //
@@ -928,5 +917,17 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
 
         //
         return true;
+    }
+
+    protected function hasFlashSession() {
+        // không cache nếu phương thức tuyền vào không phải là get
+        if ( $_SERVER[ 'REQUEST_METHOD' ] != 'GET' ) {
+            return true;
+        }
+        // Save cache -> không lưu cache khi có session thông báo riêng
+        else if ( $this->base_model->msg_session() != '' || $this->base_model->msg_error_session() != '' ) {
+            return true;
+        }
+        return false;
     }
 }
