@@ -30,7 +30,8 @@ class Posts extends Csrf {
         // Will get the cache entry named 'my_foo'
         //var_dump( $cache_value );
         // có thì in ra cache là được
-        if ( $_SERVER[ 'REQUEST_METHOD' ] == 'GET' && $cache_value !== NULL ) {
+        //if ( $_SERVER[ 'REQUEST_METHOD' ] == 'GET' && $cache_value !== NULL ) {
+        if ( $this->hasFlashSession() === false && $cache_value !== NULL ) {
             return $this->show_cache( $cache_value );
         }
 
