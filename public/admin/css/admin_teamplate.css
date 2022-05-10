@@ -137,6 +137,14 @@ form#listContactByType {
     background-size: auto 100%;
     cursor: pointer;
 }
+.admin-media-attachment .media-attachment-img[data-mime_type="video/mp4"] {
+    background-image: url("../../images/media/video.png") !important;
+    background-size: auto;
+}
+.admin-media-attachment .media-attachment-img[data-mime_type="audio/mpeg"] {
+    background-image: url("../../images/media/audio.png") !important;
+    background-size: auto;
+}
 .admin-media-attachment li:hover .media-attachment-img {
     background-size: contain;
 }

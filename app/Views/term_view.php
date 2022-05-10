@@ -88,11 +88,11 @@ $theme_private_view = THEMEPATH . 'Views/' . basename( __FILE__ );
 
 //
 if ( file_exists( $theme_private_view ) ) {
-    include $theme_private_view;
+    include_once $theme_private_view;
 }
 // không có thì nạp view mặc định
 else {
-    include __DIR__ . '/default/' . basename( __FILE__ );
+    include_once __DIR__ . '/default/' . basename( __FILE__ );
 }
 
 //

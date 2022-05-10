@@ -577,30 +577,41 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
                         //echo $file_path . '<br>' . "\n";
 
                         // nếu không phải file ảnh
+                        $check_mime_type = strtolower( explode( '/', $mime_type )[ 0 ] );
                         $is_image = true;
-                        if ( strtolower( explode( '/', $mime_type )[ 0 ] ) != 'image' ) {
+                        if ( $check_mime_type != 'image' ) {
                             $is_image = false;
-
-                            // thêm vào tệp mở rộng để không cho truy cập file trực tiếp
-                            $file_other_ext = 'daidq-ext';
-                            $file_new_path = $file_path . '.' . $file_other_ext;
-                            //echo $file_new_path . '<br>' . "\n";
-                            if ( file_exists( $file_new_path ) ) {
-                                for ( $i = 1; $i < 100; $i++ ) {
-                                    $file_new_path = $file_path . '.' . $file_other_ext . '_' . $i;
-                                    //echo $file_new_path . '<br>' . "\n";
-                                    if ( !file_exists( $file_new_path ) ) {
-                                        $file_path = $file_new_path;
-                                        break;
-                                    }
-                                }
-                            } else {
-                                $file_path = $file_new_path;
+                            $media_mime_type = [
+                                'audio',
+                                'video',
+                            ];
+                            // hỗ trợ up video, audio
+                            if ( in_array( $check_mime_type, $media_mime_type ) ) {
+                                //
                             }
-                            //echo $file_path . '<br>' . "\n";
-                            $file_name = basename( $file_path );
-                            //echo $file_name . '<br>' . "\n";
-                            //die( __CLASS__ . ':' . __LINE__ );
+                            // các file khác chưa xác định thì cứ gọi là bỏ qua đã
+                            else {
+                                // thêm vào tệp mở rộng để không cho truy cập file trực tiếp
+                                $file_other_ext = 'daidq-ext';
+                                $file_new_path = $file_path . '.' . $file_other_ext;
+                                //echo $file_new_path . '<br>' . "\n";
+                                if ( file_exists( $file_new_path ) ) {
+                                    for ( $i = 1; $i < 100; $i++ ) {
+                                        $file_new_path = $file_path . '.' . $file_other_ext . '_' . $i;
+                                        //echo $file_new_path . '<br>' . "\n";
+                                        if ( !file_exists( $file_new_path ) ) {
+                                            $file_path = $file_new_path;
+                                            break;
+                                        }
+                                    }
+                                } else {
+                                    $file_path = $file_new_path;
+                                }
+                                //echo $file_path . '<br>' . "\n";
+                                $file_name = basename( $file_path );
+                                //echo $file_name . '<br>' . "\n";
+                                //die( __CLASS__ . ':' . __LINE__ );
+                            }
                         }
                         //echo $file_path . '<br>' . "\n";
 

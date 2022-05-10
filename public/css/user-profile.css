@@ -1,4 +1,11 @@
 .global-profile-main {}
+#click-chose-CD img {
+    background: url("../images/noavatar.png") center no-repeat;
+    background-size: contain;
+    display: block;
+    margin-bottom: 10px;
+    border: 1px #ccc solid;
+}
 /* ================================== reponsive ================================== */
 /* desktop only */
 @media only screen and (min-width:748px) {}

@@ -148,14 +148,28 @@ function add_and_show_post_avt(for_id, add_img_tag, img_size, input_type) {
 
 function click_set_img_for_input(img_id) {
     var img = $('.media-attachment-img[data-id="' + img_id + '"]');
-    insert_to = img.attr('data-insert') || '';
+    var insert_to = img.attr('data-insert') || '';
 
     //
     if (insert_to == '') {
         return false;
     }
-
     //console.log(insert_to);
+    var mime_type = img.attr('data-mime_type') || '';
+    var file_type = '';
+    var file_ext = '';
+    //console.log(file_type);
+    if (mime_type != '') {
+        file_type = mime_type.split('/');
+        if (file_type.length > 1) {
+            file_ext = file_type[1];
+        } else {
+            file_ext = file_type[0];
+        }
+        file_type = file_type[0];
+    }
+    //console.log(file_type);
+
     /*
     if (top.$('#' + insert_to).length === 1) {
         insert_to = '#' + insert_to;
@@ -213,7 +227,23 @@ function click_set_img_for_input(img_id) {
             if (data_src.split('//').length == 1) {
                 data_src = $('base').attr('href') + data_src;
             }
-            top.tinymce.get(insert_to).insertContent('<img src="' + data_src + '"' + img_attr.join(' ') + ' class="echbay-push-img" />');
+            data_src = data_src.replace('.daidq-ext', '');
+
+            //
+            var return_html = '';
+            // nếu là video thì nhúng video
+            if (file_type == 'video') {
+                return_html = '<video controls width="560" height="315"><source src="' + data_src + '" type="' + mime_type + '">Your browser does not support the video tag.</video>';
+            }
+            // audio thì nhúng audio
+            else if (file_type == 'audio') {
+                return_html = '<audio controls><source src="' + data_src + '" type="' + mime_type + '">Your browser does not support the audio element.</audio>';
+            }
+            // mặc định thì trả về ảnh
+            else {
+                return_html = '<img src="' + data_src + '"' + img_attr.join(' ') + ' class="echbay-push-img" />';
+            }
+            top.tinymce.get(insert_to).insertContent(return_html);
         } else {
             // thay ảnh hiển thị
             //console.log('.show-img-if-change.for-' + insert_to);
@@ -242,7 +272,7 @@ function WGR_load_textediter(for_id, ops) {
     }
     if (typeof ops['plugins'] == 'undefined') {
         ops['plugins'] = [
-            'advlist autolink lists link image imagetools charmap print preview anchor',
+            'advlist autolink lists link image imagetools media charmap print preview anchor',
             'searchreplace visualblocks code fullscreen',
             'insertdatetime media table paste code help wordcount'
         ];
@@ -250,7 +280,7 @@ function WGR_load_textediter(for_id, ops) {
     if (typeof ops['toolbar'] == 'undefined') {
         ops['toolbar'] = 'undo redo | formatselect | '
             + 'bold italic backcolor | alignleft aligncenter '
-            + 'alignright alignjustify | bullist numlist outdent indent | image | '
+            + 'alignright alignjustify | bullist numlist outdent indent | image media | '
             + 'link table | '
             + 'removeformat code | help';
     }
@@ -298,10 +328,16 @@ function WGR_load_textediter(for_id, ops) {
         setup: function (ed) {
             // sự kiện khi khi nhấp đúp chuột
             ed.on('DblClick', function (e) {
-                //console.log(e.target.nodeName);
+                //console.log('Double click event:', e.target);
+                console.log('Double click event:', e.target.nodeName);
+                //console.log('Double click event:', e.target.getAttribute('data-mce-object'));
                 // nếu là hình ảnh -> mở hộp thoại sửa ảnh
                 if (e.target.nodeName == 'IMG') {
-                    tinymce.activeEditor.execCommand('mceImage');
+                    if (e.target.getAttribute('data-mce-object') == 'video') {
+                        tinymce.activeEditor.execCommand('mceMedia');
+                    } else {
+                        tinymce.activeEditor.execCommand('mceImage');
+                    }
                 }
                 // nếu là URL -> mở hộp chỉnh sửa URL
                 else if (e.target.nodeName == 'A') {

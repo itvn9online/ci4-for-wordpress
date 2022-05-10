@@ -4,6 +4,7 @@ namespace App\ Controllers;
 //
 use App\ Language\ Translate;
 use App\ Libraries\ PHPMaillerSend;
+use App\ Libraries\ PostType;
 
 //
 class Users extends Csrf {
@@ -16,6 +17,7 @@ class Users extends Csrf {
         'user_nicename',
         'user_birthday',
         'user_phone',
+        'avatar',
     ];
 
     //
@@ -82,6 +84,8 @@ class Users extends Csrf {
         $data = $this->MY_post( 'data' );
         //print_r( $data );
         //die( __CLASS__ . ':' . __LINE__ );
+
+        //
         if ( isset( $data[ 'ci_pass' ] ) ) {
             if ( empty( $data[ 'ci_pass' ] ) ) {
                 $this->base_model->alert( 'Không xác định được mật khẩu cần thay đổi', 'warning' );
@@ -114,6 +118,66 @@ class Users extends Csrf {
             //
             $this->base_model->alert( 'Cập nhật mật khẩu mới thành công' );
         }
+
+
+        /*
+         * upload ảnh đại diện nếu có
+         */
+        if ( !empty( $_FILES ) && isset( $_FILES[ 'avatar' ] ) ) {
+            //print_r( $_FILES );
+            $upload_files = $this->request->getFiles();
+            //print_r( $upload_files );
+            $file = $upload_files[ 'avatar' ];
+            //print_r( $file );
+            if ( $file->isValid() && !$file->hasMoved() ) {
+                // 1 số định dạng file không cho phép upload trực tiếp
+                $allow_upload = [
+                    'jpg',
+                    'jpeg',
+                    'png'
+                ];
+
+                $file_ext = $file->guessExtension();
+                //echo $file_ext . '<br>' . "\n";
+                $file_ext = strtolower( $file_ext );
+                //echo $file_ext . '<br>' . "\n";
+
+                // nếu có kiểm duyệt định dạng file -> chỉ các file trong này mới được upload
+                if ( !in_array( $file_ext, $allow_upload ) ) {
+                    $this->base_model->alert( 'Định dạng ' . strtoupper( $file_ext ) . ' chưa được hỗ trợ! Hiện chỉ hỗ trợ định dạng JPG hoặc PNG', 'error' );
+                }
+
+                //
+                $upload_path = $this->get_path_upload( $this->current_user_id );
+                //echo $upload_path . '<br>' . "\n";
+
+                //
+                $file_name = 'avatar' . '.' . $file_ext;
+                //echo $file_name . '<br>' . "\n";
+
+                //
+                $file_path = $upload_path . $file_name;
+                //echo $file_path . '<br>' . "\n";
+
+                //
+                $file->move( $upload_path, $file_name, true );
+
+                //
+                if ( !file_exists( $file_path ) ) {
+                    $this->base_model->alert( 'Upload thất bại! Không xác định được file sau khi upload', 'error' );
+                }
+                chmod( $file_path, DEFAULT_FILE_PERMISSION );
+
+                //
+                $data[ 'avatar' ] = str_replace( PUBLIC_PUBLIC_PATH, '', $file_path ) . '?v=' . time();
+                //print_r( $data );
+
+                //
+                //die( __CLASS__ . ':' . __LINE__ );
+            }
+            //die( __CLASS__ . ':' . __LINE__ );
+        }
+
 
         // kiểm tra xem người dùng có thay đổi email không
         if ( isset( $data[ 'user_email' ] ) ) {
@@ -228,6 +292,7 @@ class Users extends Csrf {
         $data_update = [];
         foreach ( $data as $k => $v ) {
             if ( !in_array( $k, $this->allow_update ) ) {
+                echo $k . ' not in allow_update... <br>' . "'n'";
                 continue;
             }
             $data_update[ $k ] = $v;
@@ -286,5 +351,24 @@ class Users extends Csrf {
             //
             return redirect()->to( base_url( 'guest/login' ) );
         }
+    }
+
+    protected function get_path_upload( $id ) {
+        $upload_root = PUBLIC_HTML_PATH . PostType::MEDIA_PATH;
+        //echo $upload_root . '<br>' . "\n";
+
+        //
+        $this->deny_visit_upload( $upload_root );
+
+        //
+        $upload_path = $this->media_path( [
+            'profile',
+            $id,
+        ], $upload_root );
+        //echo $upload_path . '<br>' . "\n";
+        //die( __CLASS__ . ':' . __LINE__ );
+
+        //
+        return $upload_path;
     }
 }
