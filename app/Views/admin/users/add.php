@@ -139,6 +139,7 @@ $base_model->add_css( 'admin/css/user_add.css' );
                             <select data-select="<?php echo $data['member_type']; ?>" name="data[member_type]" aria-required="true" required>
                                 <?php
 
+                                //
                                 foreach ( $arr_members_type as $type_k => $type_v ) {
                                     echo '<option value="' . $type_k . '">' . $type_v . '</option>';
                                 }
@@ -153,6 +154,7 @@ $base_model->add_css( 'admin/css/user_add.css' );
                             <select data-select="<?php echo $data['user_status']; ?>" name="data[user_status]" id="data_user_status" aria-required="true" required>
                                 <?php
 
+                                //
                                 foreach ( UsersType::listStatus() as $type_k => $type_v ) {
                                     echo '<option value="' . $type_k . '">' . $type_v . '</option>';
                                 }
