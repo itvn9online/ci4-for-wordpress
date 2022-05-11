@@ -108,6 +108,7 @@ $base_model->add_css( 'admin/css/user_add.css' );
                             </div>
                             <div class="show-if-change-password d-none">
                                 <input type="text" class="span4" placeholder="Mật khẩu" name="data[ci_pass]" id="data_ci_pass" value="<?php echo $data[ 'ci_pass' ]; ?>" />
+                                <button type="button" onClick="return random_input_change_user_password();" class="btn btn-info"><i class="fa fa-refresh"></i> Tạo mật khẩu ngẫu nhiên</button>
                                 <button type="button" onClick="return submit_input_change_user_password();" class="btn btn-primary"><i class="fa fa-save"></i> Cập nhật</button>
                                 <button type="button" onClick="return close_input_change_user_password();" class="btn btn-danger"><i class="fa fa-backward"></i> Hủy bỏ</button>
                                 <p class="redcolor-if-pass-focus">* Chỉ nhập mật khẩu khi bạn cần đổi mật khẩu cho <?php echo $member_name; ?>.</p>

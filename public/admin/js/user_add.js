@@ -20,6 +20,12 @@ function submit_input_change_user_password() {
     }
 }
 
+function random_input_change_user_password() {
+    var a = Math.random().toString(32).split('.')[1].substr(0, 8);
+    var b = Math.random().toString(32).split('.')[1].substr(0, 9);
+    $('#data_ci_pass').val(a + '@' + b);
+}
+
 //
 $('#data_ci_pass').focus(function () {
     $('.redcolor-if-pass-focus').addClass('redcolor');
