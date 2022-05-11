@@ -143,8 +143,30 @@ class Admin extends Ajax {
             foreach ( register_admin_menu() as $k => $v ) {
                 // nếu menu đã tồn tại -> gộp vào menu đó
                 if ( isset( $arr[ $k ] ) ) {
-                    foreach ( $v[ 'arr' ] as $k2 => $v2 ) {
-                        $arr[ $k ][ 'arr' ][ $k2 ] = $v2;
+                    if ( empty( $v ) ) {
+                        $arr[ $k ] = NULL;
+                    } else {
+                        //print_r( $v );
+                        // nếu có tham số arr_replace -> thay toàn bộ menu cũ bằng menu mới
+                        if ( isset( $v[ 'arr_replace' ] ) ) {
+                            $v[ 'arr' ] = $v[ 'arr_replace' ];
+                            $v[ 'arr_replace' ] = NULL;
+                            $arr[ $k ] = $v;
+                        }
+                        // mặc định thì bổ sung menu (nếu có)
+                        else if ( isset( $v[ 'arr' ] ) ) {
+                            foreach ( $v[ 'arr' ] as $k2 => $v2 ) {
+                                $arr[ $k ][ 'arr' ][ $k2 ] = $v2;
+                            }
+                        }
+
+                        // thay thế các giá trị khác cho menu. Ví dụ: phân quyền
+                        foreach ( $v as $k2 => $v2 ) {
+                            if ( $k2 == 'arr' ) {
+                                continue;
+                            }
+                            $arr[ $k ][ $k2 ] = $v2;
+                        }
                     }
                 }
                 // nếu không -> tạo mới luôn
@@ -153,6 +175,7 @@ class Admin extends Ajax {
                 }
             }
         }
+        //print_r( $arr );
 
         //
         return $arr;

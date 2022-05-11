@@ -103,10 +103,11 @@ class UserBase extends EbModel {
         // so khớp username
         else {
             $builder->orWhere( 'user_login', $name );
+            $builder->orWhere( 'user_phone', $name );
         }
         // so khớp với ID -> hỗ trợ dùng ID để đăng nhập
         if ( is_numeric( $name ) === true ) {
-            $builder->orWhere( 'user_login', $name * 1 );
+            $builder->orWhere( 'ID', $name * 1 );
         }
         $builder->groupEnd();
 

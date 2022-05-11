@@ -712,3 +712,73 @@ function for_admin_global_checkbox(max_i) {
         });
     }, 2000);
 }
+
+/*
+ * sau khi XÓA sản phẩm thành công thì xử lý ẩn bản ghi bằng javascript
+ */
+function done_delete_restore(id, redirect_to) {
+    if ($('#admin_main_list tr[data-id="' + id + '"]').length > 0) {
+        $('#admin_main_list tr[data-id="' + id + '"]').fadeOut();
+    } else if ($('#admin_main_list li[data-id="' + id + '"]').length > 0) {
+        $('#admin_main_list li[data-id="' + id + '"]').fadeOut();
+    } else if (typeof redirect_to != 'undefined' && redirect_to != '') {
+        window.location = redirect_to;
+    }
+}
+
+/*
+ * chức năng XÓA, RESTORE... nhiều bản ghi 1 lúc
+ */
+function action_delete_restore_checked(method_control, method_name, controller_slug) {
+    if (confirm('Xác nhận ' + method_name + ' các bản ghi đã chọn!') !== true) {
+        return false;
+    }
+    //console.log(arr_check_checked_all);
+
+    //
+    jQuery.ajax({
+        type: 'POST',
+        url: 'admin/' + controller_slug + '/' + method_control,
+        dataType: 'json',
+        data: {
+            ids: arr_check_checked_all.join(','),
+        },
+        success: function (data) {
+            console.log(data);
+            if (typeof data.error != 'undefined') {
+                WGR_alert(data.error + ' - Code: ' + data.code, 'error');
+            } else if (typeof data.result != 'undefined') {
+                if (data.result === true) {
+                    WGR_alert(method_name + ' các bản ghi đã chọn thành công');
+                    console.log(arr_check_checked_all);
+
+                    //
+                    for (var i = 0; i < arr_check_checked_all.length; i++) {
+                        // bỏ check cho các checkbox
+                        $('.input-checkbox-control[value="' + arr_check_checked_all[i] + '"]').hide().remove();
+                        // xóa luôn TR đi
+                        $('#admin_main_list tr[data-id="' + arr_check_checked_all[i] + '"]').hide().remove();
+                    }
+                    //arr_check_checked_all = [];
+                    $('.input-checkbox-all').prop('checked', false);
+                    get_check_checked_all_value();
+                } else {
+                    WGR_alert('Có lỗi trong quá trình ' + method_name + ' bản ghi', 'warning');
+                    console.log(data);
+                }
+            }
+        }
+    });
+}
+
+function click_delete_checked(controller_slug) {
+    action_delete_restore_checked('delete_all', 'Lưu trữ', controller_slug);
+}
+
+function click_restore_checked(controller_slug) {
+    action_delete_restore_checked('restore_all', 'Khôi phục', controller_slug);
+}
+
+function click_remove_checked(controller_slug) {
+    action_delete_restore_checked('remove_all', 'XÓA', controller_slug);
+}

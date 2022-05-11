@@ -109,7 +109,7 @@ if ( !empty( $uri_quick_upload ) ) {
     </div>
 </div>
 <br>
-<ul class="cf admin-media-attachment">
+<ul id="admin_main_list" class="cf admin-media-attachment">
     <?php
 
     //
@@ -196,6 +196,7 @@ if ( !empty( $uri_quick_upload ) ) {
                  data-width="<?php echo $data_width; ?>"
                  data-height="<?php echo $data_height; ?>"
                  data-input_type="<?php echo $input_type; ?>"
+                 data-mime="<?php echo explode('/', $v['post_mime_type'])[0]; ?>"
                  data-mime_type="<?php echo $v['post_mime_type']; ?>"
                  <?php
         foreach ($all_src as $size_name => $file) {

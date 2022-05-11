@@ -2,11 +2,11 @@
     <div class="row">
         <div class="col">
             <div v-if="by_is_deleted == DeletedStatus_DELETED">
-                <button type="button" onClick="return click_restore_checked_term();" class="btn btn-info"><i class="fa fa-refresh"></i> Phục hồi</button>
-                <button type="button" onClick="return click_remove_checked_term();" class="btn btn-danger"><i class="fa fa-remove"></i> XÓA</button>
+                <button type="button" onClick="return click_restore_checked('terms');" class="btn btn-info"><i class="fa fa-refresh"></i> Phục hồi</button>
+                <button type="button" onClick="return click_remove_checked('terms');" class="btn btn-danger"><i class="fa fa-remove"></i> XÓA</button>
             </div>
             <div v-if="by_is_deleted != DeletedStatus_DELETED">
-                <button type="button" onClick="return click_delete_checked_term();" class="btn btn-danger"><i class="fa fa-trash"></i> Lưu trữ</button>
+                <button type="button" onClick="return click_delete_checked('terms');" class="btn btn-danger"><i class="fa fa-trash"></i> Lưu trữ</button>
             </div>
         </div>
     </div>

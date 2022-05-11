@@ -137,11 +137,11 @@ form#listContactByType {
     background-size: auto 100%;
     cursor: pointer;
 }
-.admin-media-attachment .media-attachment-img[data-mime_type="video/mp4"] {
+.admin-media-attachment .media-attachment-img[data-mime="video"] {
     background-image: url("../../images/media/video.png") !important;
     background-size: auto;
 }
-.admin-media-attachment .media-attachment-img[data-mime_type="audio/mpeg"] {
+.admin-media-attachment .media-attachment-img[data-mime="audio"] {
     background-image: url("../../images/media/audio.png") !important;
     background-size: auto;
 }
@@ -166,10 +166,10 @@ form#listContactByType {
     background: rgba(255, 255, 255, 0.8);
     padding: 5px 10px;
     border-radius: 5px;
-    left: 50%;
+    left: 0;
     box-shadow: 0 0 10px #ccc;
-    transform: translate(-50%, 0);
     z-index: 99;
+    width: 100%;
 }
 /* */
 .cur {

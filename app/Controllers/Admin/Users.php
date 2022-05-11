@@ -392,7 +392,7 @@ class Users extends Admin {
         $this->base_model->alert( '', $for_redirect );
     }
     protected function done_delete_restore( $id ) {
-        die( '<script>top.done_delete_restore(' . $id . ');</script>' );
+        die( '<script>top.done_delete_restore(' . $id . ', "' . base_url( 'admin/users' ) . '");</script>' );
     }
     protected function before_delete_restore( $msg, $is_deleted ) {
         if ( $this->current_user_id <= 0 ) {
@@ -443,8 +443,8 @@ class Users extends Admin {
         }
 
         //
-        $ids = explode( ',', $ids );
-        if ( count( $ids ) <= 0 ) {
+        $arr_ids = explode( ',', $ids );
+        if ( count( $arr_ids ) <= 0 ) {
             $this->result_json_type( [
                 'code' => __LINE__,
                 'error' => 'ids EMPTY!',
@@ -461,7 +461,7 @@ class Users extends Admin {
             'is_deleted' => $is_deleted,
         ], $where, [
             'where_in' => array(
-                'ID' => $ids
+                'ID' => $arr_ids
             ),
             // hiển thị mã SQL để check
             //'show_query' => 1,
@@ -471,6 +471,7 @@ class Users extends Admin {
         $this->result_json_type( [
             'code' => __LINE__,
             'result' => $result,
+            //'ids' => $ids,
         ] );
     }
 
