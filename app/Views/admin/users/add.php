@@ -128,12 +128,6 @@ $base_model->add_css( 'admin/css/user_add.css' );
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label">Ảnh đại diện</label>
-                        <div class="controls">
-                            <div class="user-bg-avatar" :style="[data.avatar != '' ? {'background-image': 'url(' + data.avatar + ')'} : '']">&nbsp;</div>
-                        </div>
-                    </div>
-                    <div class="control-group">
                         <label class="control-label">Nhóm <?php echo $member_name; ?></label>
                         <div class="controls">
                             <select data-select="<?php echo $data['member_type']; ?>" name="data[member_type]" aria-required="true" required>
@@ -161,6 +155,12 @@ $base_model->add_css( 'admin/css/user_add.css' );
 
                                 ?>
                             </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Ảnh đại diện</label>
+                        <div class="controls">
+                            <div class="user-bg-avatar" :style="[data.avatar != '' ? {'background-image': 'url(' + data.avatar + ')'} : '']">&nbsp;</div>
                         </div>
                     </div>
                     <br>
