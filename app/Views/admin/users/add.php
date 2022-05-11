@@ -29,8 +29,8 @@ $base_model->add_css( 'admin/css/user_add.css' );
 <div id="app" class="widget-box">
     <div class="widget-content nopadding">
         <form action="" method="post" name="admin_global_form" id="admin_global_form" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
-            <div class="row left-menu-space">
-                <div class="col col-8">
+            <div class="row left-menu-space main-user-add">
+                <div class="col col-8 left-user-add">
                     <?php
                     if ( $data[ 'ID' ] > 0 ) {
                         ?>
@@ -97,6 +97,7 @@ $base_model->add_css( 'admin/css/user_add.css' );
                             <input type="text" class="span4" placeholder="Điện thoại" name="data[user_phone]" value="<?php echo $data['user_phone']; ?>" />
                         </div>
                     </div>
+                    <div class="end-user-add"></div>
                     <br>
                     <br>
                     <div class="control-group">
@@ -114,7 +115,7 @@ $base_model->add_css( 'admin/css/user_add.css' );
                         </div>
                     </div>
                 </div>
-                <div class="col col-4">
+                <div class="col col-4 right-user-add">
                     <div class="control-group">
                         <label class="control-label">Tài khoản</label>
                         <div class="controls bold bluecolor">

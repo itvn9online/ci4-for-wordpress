@@ -160,6 +160,7 @@ $base_model->adds_js( [
     'admin/js/admin_teamplate.js',
     'javascript/functions.js',
     'javascript/functions_footer.js',
+    'themes/' . THEMENAME . '/js/functions.js',
     'javascript/eb.js'
 ] );
 
