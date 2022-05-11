@@ -11,13 +11,17 @@ function close_input_change_user_password() {
 }
 
 function submit_input_change_user_password() {
-    var a = $('#data_ci_pass').val() || '';
-    if (a.length >= 6) {
-        document.admin_global_form.submit();
-    } else {
-        WGR_alert('Mật khẩu tối thiểu phải từ 6 ký tự trở lên', 'error');
-        $('#data_ci_pass').focus();
+    if (confirm('Xác nhận thay đổi mật khẩu đăng nhập cho tài khoản này!') === true) {
+        var a = $('#data_ci_pass').val() || '';
+        if (a.length >= 6) {
+            document.admin_global_form.submit();
+        } else {
+            WGR_alert('Mật khẩu tối thiểu phải từ 6 ký tự trở lên', 'error');
+            $('#data_ci_pass').focus();
+        }
+        return true;
     }
+    return false;
 }
 
 function random_input_change_user_password() {
