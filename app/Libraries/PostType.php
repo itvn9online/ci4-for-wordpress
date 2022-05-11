@@ -14,6 +14,7 @@ class PostType {
     const BLOG = 'blog';
     const PAGE = 'page';
     const MENU = 'nav_menu';
+    const ORDER = 'shop_order';
 
     // định dạng media từ codeigniter
     const MEDIA = 'file_upload';
