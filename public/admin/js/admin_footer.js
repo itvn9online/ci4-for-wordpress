@@ -205,6 +205,29 @@ var current_admin_menu_height = $('#sidebar .order-admin-menu').height();
 
 //
 $(document).ready(function () {
+    /*
+     * chức năng clone HTML từ các khối thuộc dạng custom -> cho vào khối dùng chung
+     * dùng khi cần hiển thị thêm dữ liệu đối với các loại dữ liệu khác nhau mà vẫn muốn tái sử dụng code mẫu
+     */
+    $('.move-custom-code-to').each(function () {
+        var data_to = $(this).attr('data-to') || '';
+        if (data_to != '') {
+            var str = $(this).html() || '';
+            $(this).text('').addClass('move-custom-code-done');
+
+            //
+            var type_move = $(this).attr('data-type') || '';
+            if (type_move == 'before') {
+                $(data_to).before(str);
+            } else {
+                $(data_to).append(str);
+            }
+            console.log('Move custom code to: ' + data_to + ' with type:', type_move);
+        } else {
+            console.log('%c move-custom-code-to[data-to] not found!', 'color: darkviolet;');
+        }
+    });
+
     // tự động select khi có dữ liệu
     WGR_set_prop_for_select('#content select');
     WGR_set_prop_for_select('select.admin-change-language');
