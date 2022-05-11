@@ -588,7 +588,7 @@ class Posts extends Admin {
         return $this->base_model->alert( '', $for_redirect );
     }
     protected function done_delete_restore( $id ) {
-        die( '<script>top.done_delete_restore(' . $id . ');</script>' );
+        die( '<script>top.done_delete_restore(' . $id . ', "' . base_url( 'admin/' . $this->controller_slug ) . '");</script>' );
     }
     protected function before_delete_restore( $post_status ) {
         $id = $this->MY_get( 'id', 0 );
@@ -702,7 +702,7 @@ class Posts extends Admin {
 
             //
             if ( ALLOW_USING_MYSQL_DELETE === true ) {
-                die( '<script>top.done_delete_restore(' . $data[ 'ID' ] . ');</script>' );
+                die( '<script>top.done_delete_restore(' . $data[ 'ID' ] . ', "' . base_url( 'admin/' . $this->controller_slug ) . '");</script>' );
             }
 
             //

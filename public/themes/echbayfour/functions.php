@@ -8,6 +8,10 @@
 //define( 'FTP_USER', '' );
 //define( 'FTP_PASS', '' );
 
+//
+//define( 'PARTNER_WEBSITE', 'https://' . $_SERVER[ 'HTTP_HOST' ] . '/' );
+//define( 'PARTNER_BRAND_NAME', strtoupper( $_SERVER[ 'HTTP_HOST' ] ) );
+
 // tinh chỉnh protocol theo ý thích -> mặc định là https
 //define( 'BASE_PROTOCOL', 'http' );
 

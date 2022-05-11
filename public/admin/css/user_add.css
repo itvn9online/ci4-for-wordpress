@@ -1,0 +1,5 @@
+.user-bg-avatar {
+    background: url("../../images/profile.jpg") left no-repeat;
+    background-size: auto 100%;
+    height: 150px;
+}

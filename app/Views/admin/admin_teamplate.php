@@ -208,7 +208,7 @@ var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
         <div class="row-fluid"> <?php echo $content; ?> </div>
     </div>
 </div>
-<div class="text-center admin-copyright">&copy; <?php echo date('Y'); ?> <a href="https://echbay.com/" target="_blank" rel="nofollow">EchBay.com</a> - All rights reserved. Code using framework <a href="https://codeigniter.com/" target="_blank" rel="nofollow">Codeigniter <?php echo \CodeIgniter\CodeIgniter::CI_VERSION; ?></a> - <span class="cur" onClick="$('#target_eb_iframe').addClass('show-target-echbay');">Show process</span></div>
+<div class="text-center admin-copyright">&copy; <?php echo date('Y'); ?> <a href="<?php echo PARTNER_WEBSITE; ?>" target="_blank" rel="nofollow"><?php echo PARTNER_BRAND_NAME; ?></a> - All rights reserved. Code using framework <a href="https://codeigniter.com/" target="_blank" rel="nofollow">Codeigniter <?php echo \CodeIgniter\CodeIgniter::CI_VERSION; ?></a> - <span class="cur" onClick="$('#target_eb_iframe').addClass('show-target-echbay');">Show process</span></div>
 <?php
 
 $base_model->adds_js( [

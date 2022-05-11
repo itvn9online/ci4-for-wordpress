@@ -7,9 +7,6 @@
  * Các controller, model... cố gắng viết theo quy tắc exten để có thể tái sử dụng
  */
 
-// website của nhà phát triển
-define( 'PARTNER_WEBSITE', 'https://echbay.com/' );
-
 defined( 'EBE_DATE_FORMAT' ) || define( 'EBE_DATE_FORMAT', 'Y-m-d' );
 defined( 'EBE_DATETIME_FORMAT' ) || define( 'EBE_DATETIME_FORMAT', 'Y-m-d H:i:s' );
 
@@ -86,6 +83,10 @@ define( 'THEMEPATH', PUBLIC_PUBLIC_PATH . 'themes/' . THEMENAME . '/' );
 if ( file_exists( THEMEPATH . 'functions.php' ) ) {
     include THEMEPATH . 'functions.php';
 }
+
+// website của nhà phát triển
+defined( 'PARTNER_WEBSITE' ) || define( 'PARTNER_WEBSITE', 'https://echbay.com/' );
+defined( 'PARTNER_BRAND_NAME' ) || define( 'PARTNER_BRAND_NAME', 'EchBay.com' );
 
 /*
  * URL động cho website để có thể chạy trên nhiều tên miền khác nhau mà không cần config lại

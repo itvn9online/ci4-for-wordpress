@@ -160,7 +160,7 @@ class AdminMenu {
                             UsersType::ADMIN,
                         ],
                         'name' => UsersType::list( UsersType::ADMIN ),
-                        'icon' => 'fa fa-lock',
+                        'icon' => 'fa fa-diamond',
                     ],
                 ]
             ],

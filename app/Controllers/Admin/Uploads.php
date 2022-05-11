@@ -250,7 +250,7 @@ class Uploads extends Admin {
         $this->alert( '' );
     }
     protected function done_delete_restore( $id ) {
-        die( '<script>top.done_delete_restore(' . $id . ');</script>' );
+        die( '<script>top.done_delete_restore(' . $id . ', "' . base_url( 'admin/' . $this->controller_slug ) . '");</script>' );
     }
 
     protected function alert( $m, $url = '' ) {

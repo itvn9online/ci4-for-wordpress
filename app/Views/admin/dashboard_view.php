@@ -37,7 +37,7 @@ if ( file_exists( $robots_txt ) ) {
         <br>
     </div>
     <h4>Tổng quan:</h4>
-    <p>Website sử dụng giao diện: <strong><?php echo THEMENAME; ?></strong> - được phát triển bởi <a href="https://echbay.com/" target="_blank" rel="nofollow"><strong>EchBay.com</strong></a>. Cập nhật lần cuối: <strong>{{ datetime(last_ci4_update*1000) }}</strong> (<em><strong>{{calculate_ci4_update(last_ci4_update)}}</strong> ngày trước</em>)
+    <p>Website sử dụng giao diện: <strong><?php echo THEMENAME; ?></strong> - được phát triển bởi <a href="<?php echo PARTNER_WEBSITE; ?>" target="_blank" rel="nofollow"><strong><?php echo PARTNER_BRAND_NAME; ?></strong></a>. Cập nhật lần cuối: <strong>{{ datetime(last_ci4_update*1000) }}</strong> (<em><strong>{{calculate_ci4_update(last_ci4_update)}}</strong> ngày trước</em>)
         <?php
 
         // lấy theo version

@@ -369,7 +369,7 @@ class ConfigType {
         $arr = [
             'copy_right_first' => 'Bản quyền &copy; ',
             'copy_right_last' => ' - Toàn bộ phiên bản.',
-            'powered_by_echbay' => ' Cung cấp bởi EchBay.com',
+            'powered_by_echbay' => ' Cung cấp bởi ' . PARTNER_BRAND_NAME,
         ];
         //echo $k . '<br>' . "\n";
         //echo $default_value . '<br>' . "\n";

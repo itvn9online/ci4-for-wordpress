@@ -377,7 +377,7 @@ class Terms extends Admin {
         $this->base_model->alert( '', $for_redirect );
     }
     protected function done_delete_restore( $id ) {
-        die( '<script>top.done_delete_restore(' . $id . ');</script>' );
+        die( '<script>top.done_delete_restore(' . $id . ', "' . base_url( 'admin/' . $this->controller_slug ) . '");</script>' );
     }
     protected function before_delete_restore( $is_deleted ) {
         $id = $this->MY_get( 'id', 0 );
@@ -521,7 +521,7 @@ class Terms extends Admin {
 
             //
             if ( ALLOW_USING_MYSQL_DELETE === true ) {
-                die( '<script>top.done_delete_restore(' . $data[ 'term_id' ] . ');</script>' );
+                die( '<script>top.done_delete_restore(' . $data[ 'term_id' ] . ', "' . base_url( 'admin/' . $this->controller_slug ) . '");</script>' );
             }
 
             //

@@ -341,24 +341,40 @@ class Users extends Admin {
     protected function update( $id ) {
         $data = $this->MY_post( 'data' );
         //print_r( $data );
-        //die( __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
 
-        //
-        $this->validation->reset();
-        $this->validation->setRules( [
-            'user_email' => [
-                'label' => 'Email',
-                'rules' => 'required|min_length[5]|max_length[255]|valid_email',
-                'errors' => [
-                    'required' => Translate::REQUIRED,
-                    'min_length' => Translate::MIN_LENGTH,
-                    'max_length' => Translate::MAX_LENGTH,
-                    'valid_email' => Translate::VALID_EMAIL,
-                ],
-            ]
-        ] );
-        if ( !$this->validation->run( $data ) ) {
-            $this->set_validation_error( $this->validation->getErrors(), 'error' );
+        // nếu có mật khẩu -> đổi riêng mật khẩu
+        $is_change_pass = false;
+        if ( isset( $data[ 'ci_pass' ] ) && strlen( $data[ 'ci_pass' ] ) >= 6 ) {
+            $is_change_pass = true;
+            $data = [
+                'ci_pass' => $data[ 'ci_pass' ]
+            ];
+            //print_r( $data );
+            //die( __CLASS__ . ':' . __LINE__ );
+        }
+        // các thông tin khác thì cập nhật bình thường
+        else {
+            if ( isset( $data[ 'user_email' ] ) ) {
+                $this->validation->reset();
+                $this->validation->setRules( [
+                    'user_email' => [
+                        'label' => 'Email',
+                        'rules' => 'required|min_length[5]|max_length[255]|valid_email',
+                        'errors' => [
+                            'required' => Translate::REQUIRED,
+                            'min_length' => Translate::MIN_LENGTH,
+                            'max_length' => Translate::MAX_LENGTH,
+                            'valid_email' => Translate::VALID_EMAIL,
+                        ],
+                    ]
+                ] );
+                if ( !$this->validation->run( $data ) ) {
+                    $this->set_validation_error( $this->validation->getErrors(), 'error' );
+                }
+            } else {
+                $data[ 'user_email' ] = '';
+            }
         }
 
         //
@@ -366,7 +382,12 @@ class Users extends Admin {
 
         //
         if ( $result_id === true ) {
-            $this->base_model->alert( 'Cập nhật thông tin thành viên ' . $data[ 'user_email' ] . ' thành công' );
+            if ( $is_change_pass === true ) {
+                echo '<script>top.close_input_change_user_password();</script>';
+                $this->base_model->alert( 'Thay đổi mật khẩu cho ' . $this->member_name . ' thành công' );
+            } else {
+                $this->base_model->alert( 'Cập nhật thông tin thành viên ' . $data[ 'user_email' ] . ' thành công' );
+            }
         } else {
             $this->base_model->alert( $result_id, 'error' );
         }
@@ -392,7 +413,7 @@ class Users extends Admin {
         $this->base_model->alert( '', $for_redirect );
     }
     protected function done_delete_restore( $id ) {
-        die( '<script>top.done_delete_restore(' . $id . ', "' . base_url( 'admin/users' ) . '");</script>' );
+        die( '<script>top.done_delete_restore(' . $id . ', "' . base_url( 'admin/' . $this->controller_slug ) . '");</script>' );
     }
     protected function before_delete_restore( $msg, $is_deleted ) {
         if ( $this->current_user_id <= 0 ) {
