@@ -114,6 +114,7 @@ $base_model->add_css( 'admin/css/user_add.css' );
                             </div>
                         </div>
                     </div>
+                    <br>
                 </div>
                 <div class="col col-4 right-user-add">
                     <div class="control-group">
@@ -161,7 +162,7 @@ $base_model->add_css( 'admin/css/user_add.css' );
                         </div>
                     </div>
                     <br>
-                    <div class="form-actions-xoa frm-fixed-btn-xoa cf">
+                    <div class="form-actions-xoa frm-fixed-btn cf">
                         <?php
                         if ( $data[ 'ID' ] > 0 ) {
                             ?>
