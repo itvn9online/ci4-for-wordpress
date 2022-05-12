@@ -997,3 +997,24 @@ function WGR_vuejs(app_id, obj, _callBack, max_i) {
         },
     });
 }
+
+function move_custom_code_to() {
+    $('.move-custom-code-to').each(function () {
+        var data_to = $(this).attr('data-to') || '';
+        if (data_to != '') {
+            var str = $(this).html() || '';
+            $(this).text('').addClass('move-custom-code-done');
+
+            //
+            var type_move = $(this).attr('data-type') || '';
+            if (type_move == 'before') {
+                $(data_to).before(str);
+            } else {
+                $(data_to).append(str);
+            }
+            console.log('Move custom code to: ' + data_to + ' with type:', type_move);
+        } else {
+            console.log('%c move-custom-code-to[data-to] not found!', 'color: darkviolet;');
+        }
+    });
+}

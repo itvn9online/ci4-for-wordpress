@@ -49,6 +49,7 @@ _global_js_eb.auto_margin();
 
 // khi document đã load xong
 jQuery(document).ready(function () {
+    move_custom_code_to();
     action_each_to_taxonomy();
 
     // chiều cao của document đủ lớn
