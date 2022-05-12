@@ -85,3 +85,16 @@ function done_submit_restore_code() {
     $('#restoreModal').modal('hide');
     window.location = window.location.href;
 }
+
+function before_unzip_thirdparty() {
+    $('body').css({
+        'opacity': 0.1
+    });
+    return true;
+}
+
+function after_unzip_thirdparty() {
+    $('body').css({
+        'opacity': 1
+    });
+}
