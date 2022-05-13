@@ -72,7 +72,8 @@ if ( file_exists( $robots_txt ) ) {
         )</div>
     <p>Server software: <strong><?php echo $_SERVER['SERVER_SOFTWARE']; ?></strong></p>
     <div class="p">Database: <span v-if="current_dbname != ''"> <strong><?php echo '******' . substr( $current_dbname, 6 ); ?></strong> </span> </div>
-    <p>Server IP: <strong><?php echo $_SERVER['SERVER_ADDR']; ?></strong></p>
+    <p>Server IP: <a href="https://www.iplocation.net/ip-lookup?query=<?php echo $_SERVER['SERVER_ADDR']; ?>" target="_blank" rel="nofollow" class="bold"><?php echo $_SERVER['SERVER_ADDR']; ?></a></p>
+    <p>Your IP: <a href="https://www.iplocation.net/ip-lookup?query=<?php echo $_SERVER['REMOTE_ADDR']; ?>" target="_blank" rel="nofollow" class="bold greencolor"><?php echo $_SERVER['REMOTE_ADDR']; ?></a></p>
     <p>Server time: <strong><?php echo date(EBE_DATETIME_FORMAT); ?></strong></p>
     <p>Client time: <strong>{{ datetime(Date_now) }}</strong></p>
     <br>
@@ -271,3 +272,4 @@ WGR_vuejs('#app', {
 
 //
 $base_model->add_js( 'admin/js/dashboard.js' );
+

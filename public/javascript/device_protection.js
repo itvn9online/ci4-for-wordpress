@@ -66,7 +66,9 @@ var timeout_device_protection = 30;
                     //
                     if (typeof data.hash.key != 'undefined' && data.hash.key != '' && data.hash.key != $('body').attr('data-session')) {
                         //
-                        $('.show-logged-ip').text(data.hash.ip);
+                        $('.show-logged-ip').text(data.hash.ip).attr({
+                            href: 'https://www.iplocation.net/ip-lookup?query=' + data.hash.ip
+                        });
                         $('.show-logged-agent').text(data.hash.agent);
                         $('.show-logged-device').html(WGR_is_mobile(data.hash.agent) === false ? '<i class="fa fa-desktop"></i>' : '<i class="fa fa-mobile"></i>');
 

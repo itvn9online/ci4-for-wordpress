@@ -30,6 +30,39 @@ function random_input_change_user_password() {
     $('#data_ci_pass').val(a + '@' + b);
 }
 
+function before_submit_user_add() {
+    var a = $('#data_user_email').val() || '';
+    if (a != '' && a.split('@').length == 1) {
+        $('#data_user_email').val(a + '@' + document.domain)
+    }
+    return true;
+}
+
+//
+$('#data_user_email').change(function () {
+    var a = $(this).val();
+    if (a != '') {
+        a = $.trim(a);
+        a = a.toLowerCase();
+        $(this).val(a);
+
+        if ($('#data_user_login').val() == '') {
+            $('#data_user_login').val($.trim(a.split('@')[0]));
+        }
+    }
+}).keydown(function (e) {
+    //console.log(e.keyCode);
+    if (e.keyCode == 13) {
+        var a = $(this).val() || '';
+        if (a != '' && a.split('@').length == 1) {
+            WGR_alert('Email không đúng định dạng được hỗ trợ', 'warning');
+            setTimeout(function () {
+                $('#data_user_email').val(a + '@' + document.domain)
+            }, 200);
+        }
+    }
+});
+
 //
 $('#data_ci_pass').focus(function () {
     $('.redcolor-if-pass-focus').addClass('redcolor');

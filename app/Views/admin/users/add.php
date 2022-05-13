@@ -4,7 +4,10 @@
 use App\ Libraries\ UsersType;
 
 //
-$base_model->add_css( 'admin/css/user_add.css' );
+$base_model->adds_css( [
+    'admin/css/user_add.css',
+    'admin/css/' . $member_type . '_add.css',
+] );
 
 ?>
 <ul class="admin-breadcrumb">
@@ -28,7 +31,7 @@ $base_model->add_css( 'admin/css/user_add.css' );
 </ul>
 <div id="app" class="widget-box">
     <div class="widget-content nopadding">
-        <form action="" method="post" name="admin_global_form" id="admin_global_form" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
+        <form action="" method="post" name="admin_global_form" id="admin_global_form" accept-charset="utf-8" onSubmit="return before_submit_user_add();" class="form-horizontal" target="target_eb_iframe">
             <div class="row left-menu-space main-user-add">
                 <div class="col col-8 left-user-add">
                     <?php
@@ -64,7 +67,7 @@ $base_model->add_css( 'admin/css/user_add.css' );
                     <div class="control-group">
                         <label class="control-label">Email</label>
                         <div class="controls">
-                            <input type="email" class="span6" placeholder="Email" name="data[user_email]" value="<?php echo $data['user_email']; ?>" aria-required="true" required />
+                            <input type="email" class="span6" placeholder="Email" name="data[user_email]" id="data_user_email" value="<?php echo $data['user_email']; ?>" aria-required="true" required />
                         </div>
                     </div>
                     <div class="control-group">
@@ -98,6 +101,18 @@ $base_model->add_css( 'admin/css/user_add.css' );
                         </div>
                     </div>
                     <div class="end-user-add"></div>
+                    <?php
+                    if ( $data[ 'ci_pass' ] != '' ) {
+                        ?>
+                    <div class="control-group">
+                        <label class="control-label">Mật khẩu đăng nhập</label>
+                        <div class="controls">
+                            <input type="text" class="span4" placeholder="Mật khẩu" name="data[ci_pass]" id="data_ci_pass" value="<?php echo $data[ 'ci_pass' ]; ?>" />
+                        </div>
+                    </div>
+                    <?php
+                    } else {
+                        ?>
                     <br>
                     <br>
                     <div class="control-group">
@@ -115,6 +130,9 @@ $base_model->add_css( 'admin/css/user_add.css' );
                             </div>
                         </div>
                     </div>
+                    <?php
+                    }
+                    ?>
                     <br>
                 </div>
                 <div class="col col-4 right-user-add">
@@ -190,8 +208,8 @@ $base_model->add_css( 'admin/css/user_add.css' );
 </div>
 <script>
 var user_data = <?php echo json_encode($data); ?>;
-</script> 
-<script>
+
+//
 WGR_vuejs('#app', {
     data: user_data,
 });
