@@ -635,7 +635,7 @@ class Posts extends Admin {
 
         // nếu update thành công -> gửi lệnh javascript để ẩn bài viết bằng javascript
         if ( $update === true ) {
-            if ( $is_deleted == PostType::REMOVED && ALLOW_USING_MYSQL_DELETE === true ) {
+            if ( $post_status == PostType::REMOVED && ALLOW_USING_MYSQL_DELETE === true ) {
                 return $update;
             }
             return $this->done_delete_restore( $id );
@@ -679,40 +679,6 @@ class Posts extends Admin {
         return $data;
     }
     public function remove( $confirm_delete = false ) {
-        /*
-         * confirm_delete: thường được truyền tới từ custom post type và có nó thì sẽ xác nhận xóa hoàn toàn dữ liệu
-         */
-        //if ( ALLOW_USING_MYSQL_DELETE === true || $confirm_delete === true ) {
-        if ( 1 === 2 ) {
-            $data = $this->before_remove();
-
-            // XÓA dữ liệu chính
-            $this->base_model->delete_multiple( $this->post_model->table, [
-                // WHERE
-                'ID' => $data[ 'ID' ],
-            ] );
-
-            // XÓA meta
-            $this->base_model->delete_multiple( $this->post_model->metaTable, [
-                // WHERE
-                'post_id' => $data[ 'ID' ],
-            ] );
-
-            // XÓA relationships
-            $this->base_model->delete_multiple( $this->term_model->relaTable, [
-                // WHERE
-                'object_id' => $data[ 'ID' ],
-            ] );
-
-            //
-            if ( ALLOW_USING_MYSQL_DELETE === true ) {
-                die( '<script>top.done_delete_restore(' . $data[ 'ID' ] . ', "' . base_url( 'admin/' . $this->controller_slug ) . '");</script>' );
-            }
-
-            //
-            return $data;
-        }
-
         // mặc định thì chỉ là chuyển về trang thái remove để ẩn khỏi admin
         $result = $this->before_delete_restore( PostType::REMOVED );
 
@@ -784,7 +750,7 @@ class Posts extends Admin {
         }
 
         //
-        $result = $this->base_model->update_multiple( 'posts', [
+        $update = $this->base_model->update_multiple( 'posts', [
             // SET
             'post_status' => $post_status
         ], [
@@ -798,9 +764,16 @@ class Posts extends Admin {
             // trả về câu query để sử dụng cho mục đích khác
             //'get_query' => 1,
         ] );
+
+        // nếu update thành công -> gửi lệnh javascript để ẩn bài viết bằng javascript
+        if ( $update === true && $post_status == PostType::REMOVED && ALLOW_USING_MYSQL_DELETE === true ) {
+            return $update;
+        }
+
+        //
         $this->result_json_type( [
             'code' => __LINE__,
-            'result' => $result,
+            'result' => $update,
         ] );
     }
 

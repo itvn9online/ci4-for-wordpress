@@ -537,7 +537,7 @@ class Users extends Admin {
             //'get_query' => 1,
         ] );
 
-        // nếu update thành công -> gửi lệnh javascript để ẩn bài viết bằng javascript
+        // riêng với lệnh remove -> kiểm tra nếu remove hoàn toàn thì xử lý riêng
         if ( $update === true && $is_deleted == DeletedStatus::REMOVED && ALLOW_USING_MYSQL_DELETE === true ) {
             return $update;
         }

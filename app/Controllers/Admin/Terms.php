@@ -388,6 +388,9 @@ class Terms extends Admin {
 
         // nếu update thành công -> gửi lệnh javascript để ẩn bài viết bằng javascript
         if ( $update === true ) {
+            if ( $is_deleted == DeletedStatus::REMOVED && ALLOW_USING_MYSQL_DELETE === true ) {
+                return $update;
+            }
             return $this->done_delete_restore( $id );
         }
         // không thì nạp lại cả trang để kiểm tra cho chắc chắn
@@ -400,6 +403,18 @@ class Terms extends Admin {
 
     public function restore() {
         return $this->before_delete_restore( DeletedStatus::FOR_DEFAULT );
+    }
+    public function remove( $confirm_delete = false ) {
+        // mặc định thì chỉ là chuyển về trang thái remove để ẩn khỏi admin
+        $result = $this->before_delete_restore( DeletedStatus::REMOVED );
+
+        // nếu có thuộc tính cho phép xóa hoàn toàn dữ liệu thì tiến hành xóa
+        if ( ALLOW_USING_MYSQL_DELETE === true && $this->delete_remove() === true ) {
+            return $this->done_delete_restore( $this->MY_get( 'id', 0 ) );
+        }
+
+        //
+        return $result;
     }
 
     //
@@ -422,7 +437,7 @@ class Terms extends Admin {
         }
 
         //
-        $result = $this->base_model->update_multiple( 'terms', [
+        $update = $this->base_model->update_multiple( 'terms', [
             // SET
             'is_deleted' => $is_deleted
         ], [
@@ -436,9 +451,16 @@ class Terms extends Admin {
             // trả về câu query để sử dụng cho mục đích khác
             //'get_query' => 1,
         ] );
+
+        // riêng với lệnh remove -> kiểm tra nếu remove hoàn toàn thì xử lý riêng
+        if ( $update === true && $is_deleted == DeletedStatus::REMOVED && ALLOW_USING_MYSQL_DELETE === true ) {
+            return $update;
+        }
+
+        //
         $this->result_json_type( [
             'code' => __LINE__,
-            'result' => $result,
+            'result' => $update,
         ] );
     }
 
@@ -454,85 +476,68 @@ class Terms extends Admin {
 
     // chức năng remove nhiều bản ghi 1 lúc
     public function remove_all() {
-        return $this->before_all_delete_restore( DeletedStatus::REMOVED );
+        $result = $this->before_all_delete_restore( DeletedStatus::REMOVED );
+
+        // nếu có thuộc tính cho phép xóa hoàn toàn dữ liệu thì tiến hành xóa
+        if ( ALLOW_USING_MYSQL_DELETE === true ) {
+            $result = $this->delete_remove();
+        }
+
+        //
+        $this->result_json_type( [
+            'code' => __LINE__,
+            'result' => $result,
+            //'ids' => $ids,
+        ] );
     }
 
     public function term_status() {
         $this->base_model->alert( 'Warning! tính năng chờ cập nhật...', 'warning' );
     }
 
-    // xóa hoàn toàn 1 bản ghi
-    protected function before_remove() {
-        $id = $this->MY_get( 'id', 0 );
-        //die( $id );
+    // xóa hoàn toàn dữ liệu
+    protected function delete_remove() {
+        //die( __CLASS__ . ':' . __LINE__ );
 
-        // xem bản ghi này có được đánh dấu là XÓA không
-        $data = $this->base_model->select( '*', WGR_TERM_VIEW, [
-            'term_id' => $id,
-            'is_deleted' => DeletedStatus::DELETED,
-            'taxonomy' => $this->taxonomy,
-        ], array(
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-            //'offset' => 2,
-            'limit' => 1
-        ) );
+        // XÓA term taxonomy
+        $result = $this->base_model->delete_multiple( $this->term_model->taxTable, [
+            // WHERE
+            't2.is_deleted' => DeletedStatus::REMOVED,
+        ], [
+            'join' => array(
+                $this->term_model->table . ' AS t2' => $this->term_model->taxTable . '.term_id = t2.term_id'
+            ),
+        ] );
 
-        //
-        if ( empty( $data ) ) {
-            $this->base_model->alert( 'Không xác định được bản ghi cần XÓA', 'error' );
-        }
-        return $data;
-    }
-    public function remove( $confirm_delete = false ) {
-        /*
-         * confirm_delete: thường được truyền tới từ custom taxonomy và có nó thì sẽ xác nhận xóa hoàn toàn dữ liệu
-         */
-        if ( ALLOW_USING_MYSQL_DELETE === true || $confirm_delete === true ) {
-            $data = $this->before_remove();
-            print_r( $data );
-            die( __CLASS__ . ':' . __LINE__ );
+        // XÓA relationships
+        $this->base_model->delete_multiple( $this->term_model->relaTable, [
+            // WHERE
+            't2.is_deleted' => DeletedStatus::REMOVED,
+        ], [
+            'join' => array(
+                $this->term_model->table . ' AS t2' => $this->term_model->relaTable . '.term_taxonomy_id = t2.term_id'
+            ),
+        ] );
 
-            // XÓA dữ liệu chính
+        // XÓA meta
+        $this->base_model->delete_multiple( $this->term_model->metaTable, [
+            // WHERE
+            't2.is_deleted' => DeletedStatus::REMOVED,
+        ], [
+            'join' => array(
+                $this->term_model->table . ' AS t2' => $this->term_model->metaTable . '.term_id = t2.term_id'
+            ),
+        ] );
+
+        // XÓA dữ liệu chính
+        if ( $result == true ) {
             $this->base_model->delete_multiple( $this->term_model->table, [
                 // WHERE
-                'term_id' => $data[ 'term_id' ],
+                'is_deleted' => DeletedStatus::REMOVED,
             ] );
-
-            // XÓA meta
-            $this->base_model->delete_multiple( $this->term_model->metaTable, [
-                // WHERE
-                'term_id' => $data[ 'term_id' ],
-            ] );
-
-            // XÓA relationships
-            $this->base_model->delete_multiple( $this->term_model->relaTable, [
-                // WHERE
-                'term_taxonomy_id' => $data[ 'term_id' ],
-            ] );
-
-            // XÓA term taxonomy
-            $this->base_model->delete_multiple( $this->term_model->taxTable, [
-                // WHERE
-                'term_id' => $data[ 'term_id' ],
-            ] );
-
-            //
-            if ( ALLOW_USING_MYSQL_DELETE === true ) {
-                die( '<script>top.done_delete_restore(' . $data[ 'term_id' ] . ', "' . base_url( 'admin/' . $this->controller_slug ) . '");</script>' );
-            }
-
-            //
-            return $data;
         }
 
-        // mặc định thì chỉ là chuyển về trang thái remove để ẩn khỏi admin
-        return $this->before_delete_restore( DeletedStatus::REMOVED );
-
         //
-        //$this->base_model->alert( 'Chức năng XÓA đang trong giai đoạn thử nghiệm. ALLOW_USING_MYSQL_DELETE = ' . ALLOW_USING_MYSQL_DELETE, 'warning' );
+        return $result;
     }
-
 }
