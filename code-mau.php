@@ -114,6 +114,18 @@ $this->base_model->update_multiple( 'users', [
 $this->base_model->delete_multiple( 'tbl_user', [
     // WHERE
     'is_member' => User_type::GUEST,
+], [
+    'join' => array(
+        'tbl1' => 'tbl_0.id = tbl1.id',
+        'tbl2' => 'tbl_0.id = tbl2.id'
+    ),
+    'where_in' => array(
+        'user_id' => array(
+            1,
+            2,
+            3
+        )
+    )
 ] );
 
 

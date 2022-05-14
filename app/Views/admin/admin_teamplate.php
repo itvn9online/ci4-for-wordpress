@@ -166,6 +166,7 @@ $base_model->adds_js( [
 
 ?>
 <script>
+var ALLOW_USING_MYSQL_DELETE = <?php echo (ALLOW_USING_MYSQL_DELETE ? 'true' : 'false'); ?>;
 var arr_admin_menu = <?php echo json_encode($arr_admin_menu); ?>;
 var arr_lang_list = <?php echo json_encode(LanguageCost::list()); ?>;
 var web_link = window.location.protocol + '//' + document.domain + '/';
@@ -206,7 +207,19 @@ var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
         </div>
     </div>
     <div class="container-fluid">
-        <div class="row-fluid"> <?php echo $content; ?> </div>
+        <div class="row-fluid">
+            <?php
+
+            /*
+             * thông điệp lỗi trả về nếu có
+             */
+            include dirname( __DIR__ ) . '/includes/msg_view.php';
+
+            //
+            echo $content;
+
+            ?>
+        </div>
     </div>
 </div>
 <div class="text-center admin-copyright">&copy; <?php echo date('Y'); ?> <a href="<?php echo PARTNER_WEBSITE; ?>" target="_blank" rel="nofollow"><?php echo PARTNER_BRAND_NAME; ?></a> - All rights reserved. Code using framework <a href="https://codeigniter.com/" target="_blank" rel="nofollow">Codeigniter <?php echo \CodeIgniter\CodeIgniter::CI_VERSION; ?></a> - <span class="cur" onClick="$('#target_eb_iframe').addClass('show-target-echbay');">Show process</span></div>

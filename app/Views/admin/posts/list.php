@@ -98,6 +98,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 <div class="public-part-page"> <?php echo $pagination; ?> Trên tổng số <?php echo $totalThread; ?> bản ghi.</div>
 <script>
 WGR_vuejs('#app', {
+    ALLOW_USING_MYSQL_DELETE: ALLOW_USING_MYSQL_DELETE,
     data: <?php echo json_encode($data); ?>,
     post_type: '<?php echo $post_type; ?>',
     post_status: '<?php echo $post_status; ?>',

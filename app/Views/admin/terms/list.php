@@ -113,6 +113,7 @@ $base_model->add_js( 'admin/js/' . $taxonomy . '.js' );
 ?>
 <script>
 WGR_vuejs('#app', {
+    ALLOW_USING_MYSQL_DELETE: ALLOW_USING_MYSQL_DELETE,
     data: term_data,
     by_is_deleted: '<?php echo $by_is_deleted; ?>',
     controller_slug: controller_slug,

@@ -30,11 +30,29 @@ function random_input_change_user_password() {
     $('#data_ci_pass').val(a + '@' + b);
 }
 
-function before_submit_user_add() {
+function check_user_email_before_add() {
+    // tạo email theo họ tên -> dành cho trường hợp không có email
+
     var a = $('#data_user_email').val() || '';
+    if (a == '') {
+        var b = $('#data_display_name').val() || '';
+        if (b != '') {
+            b = g_func.non_mark_seo(b);
+            b = b.replace(/\-/g, '');
+            if (b != '') {
+                a = b;
+                $('#data_user_email').val(a).change();
+            }
+        }
+    }
     if (a != '' && a.split('@').length == 1) {
         $('#data_user_email').val(a + '@' + document.domain)
     }
+    return true;
+}
+
+function before_submit_user_add() {
+    check_user_email_before_add();
     return true;
 }
 

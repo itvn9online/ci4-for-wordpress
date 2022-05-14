@@ -93,6 +93,8 @@ class Users extends Admin {
                 if ( is_numeric( $by_like ) === true ) {
                     $where_or_like = [
                         'ID' => $by_like * 1,
+                        'user_login' => $by_like,
+                        'user_phone' => $by_like,
                     ];
                 } else {
                     // nếu có @ -> tìm theo email
@@ -104,7 +106,7 @@ class Users extends Admin {
                     // còn lại thì có gì tìm hết
                     else {
                         $where_or_like = [
-                            'user_login' => $by_like,
+                            //'user_login' => $by_like,
                             'user_email' => $by_keyword,
                             //'display_name' => $by_like,
                             'user_url' => $by_like,
@@ -194,6 +196,7 @@ class Users extends Admin {
 
 
             // select dữ liệu từ 1 bảng bất kỳ
+            //$filter[ 'show_query' ] = 1;
             $filter[ 'order_by' ] = $order_by;
             $filter[ 'offset' ] = $offset;
             $filter[ 'limit' ] = $post_per_page;
@@ -218,6 +221,7 @@ class Users extends Admin {
             'data' => $data,
             'col_filter' => $col_filter,
             'controller_slug' => $this->controller_slug,
+            'custom_list_view' => $this->custom_list_view,
             'member_type' => $this->member_type,
             'member_name' => $this->member_name,
             'arr_members_type' => $this->arr_members_type,
@@ -325,15 +329,22 @@ class Users extends Admin {
 
     protected function add_new() {
         $data = $this->MY_post( 'data' );
+        //echo $this->controller_slug . '<br>' . "\n";
+        //echo $this->member_type . '<br>' . "\n";
+        //print_r( $data );
+        if ( $data[ 'member_type' ] == '' ) {
+            $data[ 'member_type' ] = $this->member_type;
+        }
         //print_r( $data );
         //die( __CLASS__ . ':' . __LINE__ );
 
         //
         $result_id = $this->user_model->insert_member( $data );
         if ( $result_id < 0 ) {
-            $this->base_model->alert( 'Email đã được sử dụng', 'error' );
+            $this->base_model->alert( 'Email đã được sử dụng ' . $data[ 'user_email' ], 'error' );
         } else if ( $result_id !== false ) {
-            $this->base_model->alert( '', base_url( 'admin/' . $this->add_edit_view . '/add' ) . '?id=' . $result_id );
+            $this->base_model->msg_session( 'Thêm mới ' . $this->member_name . ' thành công' );
+            $this->base_model->alert( '', base_url( 'admin/' . $this->controller_slug . '/add' ) . '?id=' . $result_id );
         }
         $this->base_model->alert( 'Lỗi thêm mới thành viên', 'error' );
     }
@@ -424,7 +435,7 @@ class Users extends Admin {
         $id = $this->MY_get( 'id', 0 );
 
         //
-        if ( $this->current_user_id == $id ) {
+        if ( $is_deleted != DeletedStatus::FOR_DEFAULT && $this->current_user_id == $id ) {
             $this->base_model->alert( $msg, 'warning' );
         }
 
@@ -435,6 +446,9 @@ class Users extends Admin {
 
         // nếu update thành công -> gửi lệnh javascript để ẩn bài viết bằng javascript
         if ( $update === true ) {
+            if ( $is_deleted == DeletedStatus::REMOVED && ALLOW_USING_MYSQL_DELETE === true ) {
+                return $update;
+            }
             return $this->done_delete_restore( $id );
         }
         // không thì nạp lại cả trang để kiểm tra cho chắc chắn
@@ -449,11 +463,120 @@ class Users extends Admin {
         return $this->before_delete_restore( 'Không thể tự Phục hồi chính bạn!', DeletedStatus::FOR_DEFAULT );
     }
 
+    // xóa hoàn toàn 1 bản ghi
+    protected function before_remove() {
+        $id = $this->MY_get( 'id', 0 );
+
+        // xem bản ghi này có được đánh dấu là XÓA không
+        $data = $this->base_model->select( '*', $this->user_model->table, [
+            'ID' => $id,
+            'is_deleted' => DeletedStatus::DELETED,
+        ], array(
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            //'offset' => 2,
+            'limit' => 1
+        ) );
+
+        //
+        if ( empty( $data ) ) {
+            $this->base_model->alert( 'Không xác định được bản ghi cần XÓA', 'error' );
+        }
+        return $data;
+    }
     public function remove() {
-        return $this->before_delete_restore( 'Không thể tự XÓA chính bạn!', DeletedStatus::REMOVED );
+        // nếu có thuộc tính cho phép xóa hoàn toàn dữ liệu thì tiến hành xóa
+        if ( 1 === 2 && ALLOW_USING_MYSQL_DELETE === true ) {
+            $data = $this->before_remove();
+            //print_r( $data );
+            //die( __CLASS__ . ':' . __LINE__ );
+
+            // XÓA dữ liệu chính
+            $this->base_model->delete_multiple( $this->user_model->table, [
+                // WHERE
+                'ID' => $data[ 'ID' ],
+            ] );
+
+            // XÓA meta
+            $this->base_model->delete_multiple( $this->user_model->metaTable, [
+                // WHERE
+                'user_id' => $data[ 'ID' ],
+            ] );
+
+            //
+            if ( ALLOW_USING_MYSQL_DELETE === true ) {
+                die( '<script>top.done_delete_restore(' . $data[ 'ID' ] . ', "' . base_url( 'admin/' . $this->controller_slug ) . '");</script>' );
+            }
+
+            //
+            return $data;
+        }
+
+        //
+        $result = $this->before_delete_restore( 'Không thể tự XÓA chính bạn!', DeletedStatus::REMOVED );
+
+        // nếu có thuộc tính cho phép xóa hoàn toàn dữ liệu thì tiến hành xóa
+        if ( ALLOW_USING_MYSQL_DELETE === true ) {
+            if ( $this->delete_remove() === true ) {
+                return $this->done_delete_restore( $this->MY_get( 'id', 0 ) );
+            }
+        }
+
+        //
+        return $result;
+    }
+
+    // xóa hoàn toàn dữ liệu
+    protected function delete_remove() {
+        //die( __CLASS__ . ':' . __LINE__ );
+        // XÓA meta
+        $result = $this->base_model->delete_multiple( $this->user_model->metaTable, [
+            // WHERE
+            't2.is_deleted' => DeletedStatus::REMOVED,
+        ], [
+            'join' => array(
+                $this->user_model->table . ' AS t2' => $this->user_model->metaTable . '.user_id = t2.ID'
+            ),
+        ] );
+        //var_dump( $result );
+        //die( __CLASS__ . ':' . __LINE__ );
+
+        // XÓA dữ liệu chính
+        if ( $result == true ) {
+            $this->base_model->delete_multiple( $this->user_model->table, [
+                // WHERE
+                'is_deleted' => DeletedStatus::REMOVED,
+            ] );
+        }
+
+        //
+        return $result;
     }
 
     //
+    protected function ids_all_delete_restore() {
+        $ids = $this->MY_post( 'ids', '' );
+        if ( empty( $ids ) ) {
+            $this->result_json_type( [
+                'code' => __LINE__,
+                'error' => 'ids not found!',
+            ] );
+        }
+
+        //
+        $arr_ids = explode( ',', $ids );
+        if ( count( $arr_ids ) <= 0 ) {
+            $this->result_json_type( [
+                'code' => __LINE__,
+                'error' => 'ids EMPTY!',
+            ] );
+        }
+
+        //
+        return $arr_ids;
+    }
     public function before_all_delete_restore( $is_deleted, $where = [] ) {
         $ids = $this->MY_post( 'ids', '' );
         if ( empty( $ids ) ) {
@@ -476,8 +599,7 @@ class Users extends Admin {
         $where[ 'is_deleted !=' ] = $is_deleted;
         //die( json_encode( $where ) );
 
-        //
-        $result = $this->base_model->update_multiple( 'users', [
+        $update = $this->base_model->update_multiple( 'users', [
             // SET
             'is_deleted' => $is_deleted,
         ], $where, [
@@ -489,9 +611,18 @@ class Users extends Admin {
             // trả về câu query để sử dụng cho mục đích khác
             //'get_query' => 1,
         ] );
+
+        // nếu update thành công -> gửi lệnh javascript để ẩn bài viết bằng javascript
+        if ( $update === true ) {
+            if ( $is_deleted == DeletedStatus::REMOVED && ALLOW_USING_MYSQL_DELETE === true ) {
+                return $update;
+            }
+        }
+
+        //
         $this->result_json_type( [
             'code' => __LINE__,
-            'result' => $result,
+            'result' => $update,
             //'ids' => $ids,
         ] );
     }
@@ -510,7 +641,57 @@ class Users extends Admin {
 
     // chức năng remove nhiều bản ghi 1 lúc
     public function remove_all() {
-        return $this->before_all_delete_restore( DeletedStatus::REMOVED );
+        // nếu có thuộc tính cho phép xóa hoàn toàn dữ liệu thì tiến hành xóa
+        if ( 1 === 2 && ALLOW_USING_MYSQL_DELETE === true ) {
+            $arr_ids = $this->ids_all_delete_restore();
+            //print_r( $arr_ids );
+
+            //die( __CLASS__ . ':' . __LINE__ );
+            // XÓA dữ liệu chính
+            $result = $this->base_model->delete_multiple( $this->user_model->table, [
+                // WHERE
+                // -> chỉ xóa các bản ghi được đánh dấu là XÓA
+                'is_deleted' => DeletedStatus::DELETED,
+            ], [
+                'where_in' => array(
+                    'ID' => $arr_ids
+                ),
+            ] );
+            //var_dump( $result );
+            //die( __CLASS__ . ':' . __LINE__ );
+
+            // XÓA meta
+            if ( $result == true ) {
+                $this->base_model->delete_multiple( $this->user_model->metaTable, [], [
+                    'where_in' => array(
+                        'user_id' => $arr_ids
+                    ),
+                ] );
+                //var_dump( $result );
+            }
+
+            //
+            $this->result_json_type( [
+                'code' => __LINE__,
+                'result' => $result,
+                //'ids' => $ids,
+            ] );
+        }
+
+        //
+        $result = $this->before_all_delete_restore( DeletedStatus::REMOVED );
+
+        // nếu có thuộc tính cho phép xóa hoàn toàn dữ liệu thì tiến hành xóa
+        if ( ALLOW_USING_MYSQL_DELETE === true ) {
+            $this->result_json_type( [
+                'code' => __LINE__,
+                'result' => $this->delete_remove(),
+                //'ids' => $ids,
+            ] );
+        }
+
+        //
+        return $result;
     }
 
     // chức năng đăng nhập vào 1 tài khoản khác

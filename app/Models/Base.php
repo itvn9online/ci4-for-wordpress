@@ -159,10 +159,32 @@ class Base extends Session {
         return $items;
     }
 
-    public function delete_multiple( $table, $where, $ops = [] ) {
-        if ( empty( $where ) ) {
-            if ( isset( $ops[ 'debug_backtrace' ] ) ) {
-                echo $ops[ 'debug_backtrace' ] . '<br>' . PHP_EOL;
+    public function delete_multiple( $table, $where, $op = [] ) {
+        $has_where = false;
+
+        //
+        $builder = $this->db->table( $table );
+        foreach ( $where as $k => $v ) {
+            $builder->where( $k, $v );
+            $has_where = true;
+        }
+
+        // where in
+        if ( isset( $op[ 'where_in' ] ) ) {
+            //print_r( $op[ 'where_in' ] );
+            //die( __CLASS__ . ':' . __LINE__ );
+            foreach ( $op[ 'where_in' ] as $k => $v ) {
+                if ( !empty( $v ) ) {
+                    $builder->whereIn( $k, $v );
+                    $has_where = true;
+                }
+            }
+        }
+
+        //
+        if ( $has_where !== true ) {
+            if ( isset( $op[ 'debug_backtrace' ] ) ) {
+                echo $op[ 'debug_backtrace' ] . '<br>' . PHP_EOL;
             }
             echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . PHP_EOL;
 
@@ -172,10 +194,23 @@ class Base extends Session {
         }
 
         //
-        $builder = $this->db->table( $table );
-        foreach ( $where as $k => $v ) {
-            $builder->where( $k, $v );
+        if ( isset( $op[ 'join' ] ) ) {
+            foreach ( $op[ 'join' ] as $k => $v ) {
+                $builder->join( $k, $v, 'inner' );
+            }
         }
+        if ( isset( $op[ 'left_join' ] ) ) {
+            foreach ( $op[ 'left_join' ] as $k => $v ) {
+                $builder->join( $k, $v, 'left' );
+            }
+        }
+        if ( isset( $op[ 'right_join' ] ) ) {
+            foreach ( $op[ 'right_join' ] as $k => $v ) {
+                $builder->join( $k, $v, 'right' );
+            }
+        }
+
+        //
         $builder->delete();
         if ( $this->db->affectedRows() ) {
             return true;

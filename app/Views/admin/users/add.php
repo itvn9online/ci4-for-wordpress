@@ -73,7 +73,7 @@ $base_model->adds_css( [
                     <div class="control-group">
                         <label class="control-label">Họ và tên</label>
                         <div class="controls">
-                            <input type="text" class="span6" placeholder="Họ và tên" name="data[display_name]" value="<?php echo $data['display_name']; ?>" />
+                            <input type="text" class="span6" placeholder="Họ và tên" name="data[display_name]" id="data_display_name" value="<?php echo $data['display_name']; ?>" />
                         </div>
                     </div>
                     <div class="control-group">
@@ -91,7 +91,7 @@ $base_model->adds_css( [
                     <div class="control-group">
                         <label class="control-label">Website/ Facebook</label>
                         <div class="controls">
-                            <input type="text" class="span6" placeholder="Website/ Trang cá nhân" name="data[user_url]" value="<?php echo $data['user_url']; ?>" />
+                            <input type="text" class="span6" placeholder="Website/ Trang cá nhân" name="data[user_url]" id="data_user_url" value="<?php echo $data['user_url']; ?>" />
                         </div>
                     </div>
                     <div class="control-group">
@@ -149,7 +149,8 @@ $base_model->adds_css( [
                     <div class="control-group">
                         <label class="control-label">Nhóm <?php echo $member_name; ?></label>
                         <div class="controls">
-                            <select data-select="<?php echo $data['member_type']; ?>" name="data[member_type]" aria-required="true" required>
+                            <select data-select="<?php echo $data['member_type']; ?>" name="data[member_type]">
+                                <option value="">[ Chọn nhóm <?php echo $member_name; ?> ]</option>
                                 <?php
 
                                 //
@@ -196,7 +197,7 @@ $base_model->adds_css( [
                         <?php
                         } else {
                             ?>
-                        <button type="submit" class="btn btn-success rf"><i class="fa fa-plus"></i> Thêm mới</button>
+                        <button type="submit" onClick="return check_user_email_before_add();" class="btn btn-success rf"><i class="fa fa-plus"></i> Thêm mới</button>
                         <?php
                         }
                         ?>

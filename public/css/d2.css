@@ -1254,27 +1254,6 @@ a.eb-btn {
     font-size: 10pt;
 }
 /* */
-.text-submit-msg {
-    text-align: center;
-    border: 1px #ccc solid;
-    padding: 10px;
-    border-radius: 5px;
-    max-width: 666px;
-    margin: 10px auto;
-    margin-bottom: 15px;
-    box-shadow: 0 0 5px #ccc;
-    background-color: white;
-    display: table;
-}
-.text-submit-msg.greencolor {
-    border-color: green;
-    box-shadow: 0 0 5px green;
-}
-.text-submit-msg.redcolor {
-    border-color: red;
-    box-shadow: 0 0 5px red;
-}
-/* */
 .form-control input, .form-control button {
     width: 100%;
     border: 0 none;
