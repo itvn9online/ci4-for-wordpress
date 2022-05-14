@@ -463,29 +463,6 @@ class Users extends Admin {
         return $this->before_delete_restore( 'Không thể tự Phục hồi chính bạn!', DeletedStatus::FOR_DEFAULT );
     }
 
-    // xóa hoàn toàn 1 bản ghi
-    protected function before_remove() {
-        $id = $this->MY_get( 'id', 0 );
-
-        // xem bản ghi này có được đánh dấu là XÓA không
-        $data = $this->base_model->select( '*', $this->user_model->table, [
-            'ID' => $id,
-            'is_deleted' => DeletedStatus::DELETED,
-        ], array(
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-            //'offset' => 2,
-            'limit' => 1
-        ) );
-
-        //
-        if ( empty( $data ) ) {
-            $this->base_model->alert( 'Không xác định được bản ghi cần XÓA', 'error' );
-        }
-        return $data;
-    }
     public function remove() {
         $result = $this->before_delete_restore( 'Không thể tự XÓA chính bạn!', DeletedStatus::REMOVED );
 
@@ -525,28 +502,6 @@ class Users extends Admin {
         return $result;
     }
 
-    //
-    protected function ids_all_delete_restore() {
-        $ids = $this->MY_post( 'ids', '' );
-        if ( empty( $ids ) ) {
-            $this->result_json_type( [
-                'code' => __LINE__,
-                'error' => 'ids not found!',
-            ] );
-        }
-
-        //
-        $arr_ids = explode( ',', $ids );
-        if ( count( $arr_ids ) <= 0 ) {
-            $this->result_json_type( [
-                'code' => __LINE__,
-                'error' => 'ids EMPTY!',
-            ] );
-        }
-
-        //
-        return $arr_ids;
-    }
     public function before_all_delete_restore( $is_deleted, $where = [] ) {
         $ids = $this->MY_post( 'ids', '' );
         if ( empty( $ids ) ) {
