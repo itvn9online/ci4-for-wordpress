@@ -487,41 +487,11 @@ class Users extends Admin {
         return $data;
     }
     public function remove() {
-        // nếu có thuộc tính cho phép xóa hoàn toàn dữ liệu thì tiến hành xóa
-        if ( 1 === 2 && ALLOW_USING_MYSQL_DELETE === true ) {
-            $data = $this->before_remove();
-            //print_r( $data );
-            //die( __CLASS__ . ':' . __LINE__ );
-
-            // XÓA dữ liệu chính
-            $this->base_model->delete_multiple( $this->user_model->table, [
-                // WHERE
-                'ID' => $data[ 'ID' ],
-            ] );
-
-            // XÓA meta
-            $this->base_model->delete_multiple( $this->user_model->metaTable, [
-                // WHERE
-                'user_id' => $data[ 'ID' ],
-            ] );
-
-            //
-            if ( ALLOW_USING_MYSQL_DELETE === true ) {
-                die( '<script>top.done_delete_restore(' . $data[ 'ID' ] . ', "' . base_url( 'admin/' . $this->controller_slug ) . '");</script>' );
-            }
-
-            //
-            return $data;
-        }
-
-        //
         $result = $this->before_delete_restore( 'Không thể tự XÓA chính bạn!', DeletedStatus::REMOVED );
 
         // nếu có thuộc tính cho phép xóa hoàn toàn dữ liệu thì tiến hành xóa
-        if ( ALLOW_USING_MYSQL_DELETE === true ) {
-            if ( $this->delete_remove() === true ) {
-                return $this->done_delete_restore( $this->MY_get( 'id', 0 ) );
-            }
+        if ( ALLOW_USING_MYSQL_DELETE === true && $this->delete_remove() === true ) {
+            return $this->done_delete_restore( $this->MY_get( 'id', 0 ) );
         }
 
         //
@@ -613,10 +583,8 @@ class Users extends Admin {
         ] );
 
         // nếu update thành công -> gửi lệnh javascript để ẩn bài viết bằng javascript
-        if ( $update === true ) {
-            if ( $is_deleted == DeletedStatus::REMOVED && ALLOW_USING_MYSQL_DELETE === true ) {
-                return $update;
-            }
+        if ( $update === true && $is_deleted == DeletedStatus::REMOVED && ALLOW_USING_MYSQL_DELETE === true ) {
+            return $update;
         }
 
         //
@@ -641,57 +609,19 @@ class Users extends Admin {
 
     // chức năng remove nhiều bản ghi 1 lúc
     public function remove_all() {
-        // nếu có thuộc tính cho phép xóa hoàn toàn dữ liệu thì tiến hành xóa
-        if ( 1 === 2 && ALLOW_USING_MYSQL_DELETE === true ) {
-            $arr_ids = $this->ids_all_delete_restore();
-            //print_r( $arr_ids );
-
-            //die( __CLASS__ . ':' . __LINE__ );
-            // XÓA dữ liệu chính
-            $result = $this->base_model->delete_multiple( $this->user_model->table, [
-                // WHERE
-                // -> chỉ xóa các bản ghi được đánh dấu là XÓA
-                'is_deleted' => DeletedStatus::DELETED,
-            ], [
-                'where_in' => array(
-                    'ID' => $arr_ids
-                ),
-            ] );
-            //var_dump( $result );
-            //die( __CLASS__ . ':' . __LINE__ );
-
-            // XÓA meta
-            if ( $result == true ) {
-                $this->base_model->delete_multiple( $this->user_model->metaTable, [], [
-                    'where_in' => array(
-                        'user_id' => $arr_ids
-                    ),
-                ] );
-                //var_dump( $result );
-            }
-
-            //
-            $this->result_json_type( [
-                'code' => __LINE__,
-                'result' => $result,
-                //'ids' => $ids,
-            ] );
-        }
-
-        //
         $result = $this->before_all_delete_restore( DeletedStatus::REMOVED );
 
         // nếu có thuộc tính cho phép xóa hoàn toàn dữ liệu thì tiến hành xóa
         if ( ALLOW_USING_MYSQL_DELETE === true ) {
-            $this->result_json_type( [
-                'code' => __LINE__,
-                'result' => $this->delete_remove(),
-                //'ids' => $ids,
-            ] );
+            $result = $this->delete_remove();
         }
 
         //
-        return $result;
+        $this->result_json_type( [
+            'code' => __LINE__,
+            'result' => $result,
+            //'ids' => $ids,
+        ] );
     }
 
     // chức năng đăng nhập vào 1 tài khoản khác
