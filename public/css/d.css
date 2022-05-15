@@ -321,6 +321,7 @@ body.home .thread-details-tohome {
         left: 10%;
         right: 10%;
         text-align: center;
+        top: 10px;
     }
 }
 /* medium size */

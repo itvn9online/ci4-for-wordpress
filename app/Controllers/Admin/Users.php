@@ -383,12 +383,15 @@ class Users extends Admin {
                 if ( !$this->validation->run( $data ) ) {
                     $this->set_validation_error( $this->validation->getErrors(), 'error' );
                 }
+                /*
             } else {
                 $data[ 'user_email' ] = '';
+                */
             }
         }
 
         //
+        //print_r( $data );
         $result_id = $this->user_model->update_member( $id, $data );
 
         //
@@ -397,7 +400,17 @@ class Users extends Admin {
                 echo '<script>top.close_input_change_user_password();</script>';
                 $this->base_model->alert( 'Thay đổi mật khẩu cho ' . $this->member_name . ' thành công' );
             } else {
-                $this->base_model->alert( 'Cập nhật thông tin thành viên ' . $data[ 'user_email' ] . ' thành công' );
+                if ( !isset( $data[ 'user_email' ] ) ) {
+                    $data[ 'user_email' ] = '';
+                }
+                $msg_session = 'Cập nhật thông tin ' . $this->member_name . ' ' . $data[ 'user_email' ] . ' thành công';
+
+                // nếu có tham số này khi submit -> nạp lại trang sau khi update thành công
+                if ( !empty( $this->MY_post( 'reload_page' ) ) ) {
+                    $this->base_model->msg_session( $msg_session );
+                    $this->base_model->alert( '', base_url( 'admin/' . $this->controller_slug . '/add' ) . '?id=' . $id );
+                }
+                $this->base_model->alert( $msg_session );
             }
         } else {
             $this->base_model->alert( $result_id, 'error' );

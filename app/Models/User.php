@@ -118,6 +118,8 @@ class User extends UserMeta {
             }
             // trống thì return luôn
             else {
+                //print_r( $data );
+                //die( __CLASS__ . ':' . __LINE__ );
                 return 'User email is empty!';
             }
         }

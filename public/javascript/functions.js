@@ -1009,6 +1009,8 @@ function move_custom_code_to() {
             var type_move = $(this).attr('data-type') || '';
             if (type_move == 'before') {
                 $(data_to).before(str);
+            } else if (type_move == 'after') {
+                $(data_to).after(str);
             } else {
                 $(data_to).append(str);
             }

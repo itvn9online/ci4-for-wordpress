@@ -75,9 +75,12 @@ jQuery(window).resize(function () {
 
 //
 jQuery('#oi_scroll_top, .oi_scroll_top').click(function () {
+    window.scroll(0, 0);
+    /*
     jQuery('body,html').animate({
         scrollTop: 0
     }, 500);
+    */
 });
 
 

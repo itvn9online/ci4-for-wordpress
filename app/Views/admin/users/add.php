@@ -34,6 +34,7 @@ $base_model->adds_css( [
         <form action="" method="post" name="admin_global_form" id="admin_global_form" accept-charset="utf-8" onSubmit="return before_submit_user_add();" class="form-horizontal" target="target_eb_iframe">
             <div class="row left-menu-space main-user-add">
                 <div class="col col-8 left-user-add">
+                    <div class="begin-user-add"></div>
                     <?php
                     if ( $data[ 'ID' ] > 0 ) {
                         ?>
