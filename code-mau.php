@@ -130,7 +130,7 @@ $this->base_model->delete_multiple( 'tbl_user', [
 
 
 // SELECT dữ liệu từ 1 bảng bất kỳ
-$data = $this->base_model->select( '*', 'tbl_user', array(
+$data = $this->base_model->select( '*', 'users', array(
     // các kiểu điều kiện where
     // WHERE AND OR
     "(aaaaaaaaaa = 1 OR bbbbbbb = 2)" => NULL,
@@ -192,12 +192,12 @@ $data = $this->base_model->select( '*', 'tbl_user', array(
         'username' => 'ASC',
         'user_id' => 'DESC'
     ),
-    // trả về COUNT(column_name) AS column_name
-    //'selectCount' => 'ID',
     // hiển thị mã SQL để check
     'show_query' => 1,
     // trả về câu query để sử dụng cho mục đích khác
     //'get_query' => 1,
+    // trả về COUNT(column_name) AS column_name
+    //'selectCount' => 'ID',
     // trả về tổng số bản ghi -> tương tự mysql num row
     //'getNumRows' => 1,
     //'offset' => 0,
