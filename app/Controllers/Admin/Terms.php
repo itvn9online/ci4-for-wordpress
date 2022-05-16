@@ -64,6 +64,9 @@ class Terms extends Admin {
     }
 
     public function index() {
+        return $this->lists();
+    }
+    public function lists( $where = [] ) {
         $post_per_page = 25;
         // URL cho các action dùng chung
         $for_action = '';

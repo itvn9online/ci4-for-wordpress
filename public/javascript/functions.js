@@ -1003,7 +1003,7 @@ function move_custom_code_to() {
         var data_to = $(this).attr('data-to') || '';
         if (data_to != '') {
             var str = $(this).html() || '';
-            $(this).text('').addClass('move-custom-code-done');
+            $(this).text('');
 
             //
             var type_move = $(this).attr('data-type') || '';
@@ -1018,5 +1018,5 @@ function move_custom_code_to() {
         } else {
             console.log('%c move-custom-code-to[data-to] not found!', 'color: darkviolet;');
         }
-    });
+    }).addClass('move-custom-code-done').removeClass('move-custom-code-to');
 }

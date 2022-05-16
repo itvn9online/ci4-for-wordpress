@@ -58,7 +58,7 @@ $base_model->adds_css( [
                         ?>
                     <div class="control-group">
                         <label class="control-label">&nbsp;</label>
-                        <div class="controls bold"><a href="admin/<?php echo $controller_slug; ?>/login_as?id=<?php echo $data['ID']; ?>" class="btn btn-info" target="target_eb_iframe">Đăng nhập với tư cách <?php echo $data['user_email']; ?> <i class="fa fa-sign-in"></i></a></div>
+                        <div class="controls bold"><a href="admin/<?php echo $controller_slug; ?>/login_as?id=<?php echo $data['ID']; ?>" class="btn btn-info admin-login-as" target="target_eb_iframe">Đăng nhập với tư cách <?php echo $data['user_email']; ?> <i class="fa fa-sign-in"></i></a></div>
                     </div>
                     <?php
                     } // END login as

@@ -37,7 +37,7 @@ use App\ Libraries\ DeletedStatus;
                             <option v-for="(v, k) in UsersType_listStatus" :value="k">{{v}}</option>
                         </select>
                     </div>
-                    <div class="lf f20">
+                    <div class="lf f15">
                         <button type="submit" class="btn-success"><i class="fa fa-search"></i> Tìm kiếm</button>
                     </div>
                 </div>

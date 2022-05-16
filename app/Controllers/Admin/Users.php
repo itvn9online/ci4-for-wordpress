@@ -47,6 +47,17 @@ class Users extends Admin {
     }
 
     public function index() {
+        return $this->lists();
+    }
+    /*
+     * tham số where: dùng khi muốn thêm điều kiện where từ các controller được extends
+     * tham số where_or_like: dùng khi muốn thêm điều kiện tìm kiếm dữ liệu từ các controller được extends
+     */
+    public function lists( $where = [], $where_or_like = [] ) {
+        //print_r( $where );
+        //print_r( $where_or_like );
+
+        //
         $post_per_page = 50;
         // URL cho các action dùng chung
         $for_action = '';
@@ -66,9 +77,7 @@ class Users extends Admin {
         }
 
         // các kiểu điều kiện where
-        $where = [
-            'users.is_deleted' => $by_is_deleted,
-        ];
+        $where[ 'users.is_deleted' ] = $by_is_deleted;
         if ( $this->member_type != '' ) {
             $where[ 'users.member_type' ] = $this->member_type;
         }
@@ -79,7 +88,6 @@ class Users extends Admin {
         }
 
         // tìm kiếm theo từ khóa nhập vào
-        $where_or_like = [];
         if ( $by_keyword != '' ) {
             $urlPartPage .= '&s=' . $by_keyword;
             $for_action .= '&s=' . $by_keyword;
@@ -91,27 +99,21 @@ class Users extends Admin {
                 //var_dump( strlen( $by_like ) );
                 // nếu là số -> chỉ tìm theo ID
                 if ( is_numeric( $by_like ) === true ) {
-                    $where_or_like = [
-                        'ID' => $by_like * 1,
-                        'user_login' => $by_like,
-                        'user_phone' => $by_like,
-                    ];
+                    $where_or_like[ 'ID' ] = $by_like * 1;
+                    $where_or_like[ 'user_login' ] = $by_like;
+                    $where_or_like[ 'user_phone' ] = $by_like;
                 } else {
                     // nếu có @ -> tìm theo email
                     if ( strpos( $by_keyword, '@' ) !== false ) {
-                        $where_or_like = [
-                            'user_email' => explode( '@', $by_keyword )[ 0 ],
-                        ];
+                        $where_or_like[ 'user_phone' ] = explode( '@', $by_keyword )[ 0 ];
                     }
                     // còn lại thì có gì tìm hết
                     else {
-                        $where_or_like = [
-                            //'user_login' => $by_like,
-                            'user_email' => $by_keyword,
-                            //'display_name' => $by_like,
-                            'user_url' => $by_like,
-                            'display_name' => $by_keyword,
-                        ];
+                        //$where_or_like[ 'user_login' ] = $by_like;
+                        $where_or_like[ 'user_email' ] = $by_keyword;
+                        //$where_or_like[ 'display_name' ] = $by_like;
+                        $where_or_like[ 'user_url' ] = $by_like;
+                        $where_or_like[ 'display_name' ] = $by_keyword;
                     }
                 }
             }

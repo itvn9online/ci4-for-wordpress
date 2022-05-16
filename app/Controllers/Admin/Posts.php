@@ -85,8 +85,7 @@ class Posts extends Admin {
     public function index() {
         return $this->lists();
     }
-
-    public function lists() {
+    public function lists( $where = [] ) {
         if ( $this->MY_get( 'auto_update_module' ) != '' ) {
             return $this->action_update_module();
         }
@@ -104,11 +103,9 @@ class Posts extends Admin {
         $by_term_id = $this->MY_get( 'term_id', 0 );
 
         // các kiểu điều kiện where
-        $where = [
-            //'posts.post_status !=' => PostType::DELETED,
-            'posts.post_type' => $this->post_type,
-            'posts.lang_key' => $this->lang_key
-        ];
+        //$where[ 'posts.post_status !=' ] = PostType::DELETED;
+        $where[ 'posts.post_type' ] = $this->post_type;
+        $where[ 'posts.lang_key' ] = $this->lang_key;
 
         // tìm kiếm theo từ khóa nhập vào
         $where_or_like = [];

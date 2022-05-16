@@ -32,7 +32,6 @@ function random_input_change_user_password() {
 
 function check_user_email_before_add() {
     // tạo email theo họ tên -> dành cho trường hợp không có email
-
     var a = $('#data_user_email').val() || '';
     if (a == '') {
         var b = $('#data_display_name').val() || '';
@@ -65,7 +64,7 @@ $('#data_user_email').change(function () {
         $(this).val(a);
 
         if ($('#data_user_login').val() == '') {
-            $('#data_user_login').val($.trim(a.split('@')[0]));
+            $('#data_user_login').val(g_func.non_mark_seo($.trim(a.split('@')[0])));
         }
     }
 }).keydown(function (e) {
