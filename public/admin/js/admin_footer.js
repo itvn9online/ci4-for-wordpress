@@ -238,6 +238,14 @@ $(document).ready(function () {
     if (current_admin_menu_height > current_admin_window_height) {
         $('body').addClass('sidebar-height');
     }
+
+    //
+    $('.text-submit-msg').click(function () {
+        $('.text-submit-msg').fadeOut();
+    });
+    setTimeout(function () {
+        $('.text-submit-msg').fadeOut();
+    }, 30 * 1000);
 }).keydown(function (e) {
     //console.log(e.keyCode);
 

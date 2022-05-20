@@ -366,3 +366,9 @@ body.body-debug_enable #admin-header, body.body-debug_enable #sidebar {
 .left-menu-space {
     padding-left: 20px;
 }
+.text-submit-msg {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    cursor: pointer;
+}
