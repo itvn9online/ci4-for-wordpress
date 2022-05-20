@@ -98,7 +98,7 @@ $base_model->adds_css( [
                     <div class="control-group">
                         <label class="control-label">Điện thoại</label>
                         <div class="controls">
-                            <input type="text" class="span4" placeholder="Điện thoại" name="data[user_phone]" value="<?php echo $data['user_phone']; ?>" />
+                            <input type="text" class="span4" placeholder="Điện thoại" name="data[user_phone]" id="data_user_phone" value="<?php echo $data['user_phone']; ?>" />
                         </div>
                     </div>
                     <div class="end-user-add"></div>

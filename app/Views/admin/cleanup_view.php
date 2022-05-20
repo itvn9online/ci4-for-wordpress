@@ -2,7 +2,7 @@
     <li>Dọn dẹp website</li>
 </ul>
 <h3>Chức năng này sẽ dọn dẹp cache trên website, nạp lại dữ liệu mới nhất cho web:</h3>
-<p>Nơi lưu <strong>file</strong> cache: <?php echo WRITEPATH . 'cache/'; ?></p>
+<p>Nơi lưu <strong>file</strong> cache: <?php echo WRITE_CACHE_PATH; ?></p>
 <div>
     <form action="admin/dashboard/cleanup_matching_cache" method="post" role="form" enctype="multipart/form-data" target="target_eb_iframe">
         <input type="hidden" name="data" value="post" />

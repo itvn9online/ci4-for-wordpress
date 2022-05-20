@@ -110,6 +110,14 @@ defined( 'CUSTOM_MD5_HASH_CODE' ) || define( 'CUSTOM_MD5_HASH_CODE', $_SERVER[ '
 defined( 'DEFAULT_FILE_PERMISSION' ) || define( 'DEFAULT_FILE_PERMISSION', 0777 );
 defined( 'DEFAULT_DIR_PERMISSION' ) || define( 'DEFAULT_DIR_PERMISSION', 0777 );
 
+// thư mục lưu cache theo từng tên miền -> code thêm cho các web sử dụng domain pointer
+define( 'WRITE_CACHE_PATH', WRITEPATH . 'cache/' . $_SERVER[ 'HTTP_HOST' ] . '/' );
+//die( WRITE_CACHE_PATH );
+if ( !is_dir( WRITE_CACHE_PATH ) ) {
+    mkdir( WRITE_CACHE_PATH, DEFAULT_DIR_PERMISSION )or die( 'ERROR create cache dir' );
+    chmod( WRITE_CACHE_PATH, DEFAULT_DIR_PERMISSION );
+}
+
 // thời gian cache mặc định
 defined( 'MINI_CACHE_TIMEOUT' ) || define( 'MINI_CACHE_TIMEOUT', 300 );
 defined( 'MEDIUM_CACHE_TIMEOUT' ) || define( 'MEDIUM_CACHE_TIMEOUT', HOUR );

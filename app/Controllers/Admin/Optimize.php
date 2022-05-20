@@ -627,7 +627,7 @@ class Optimize extends Admin {
             //echo $time . '<br>' . "\n";
 
             //
-            foreach ( glob( WRITEPATH . 'cache/*' ) as $filename ) {
+            foreach ( glob( WRITE_CACHE_PATH . '*' ) as $filename ) {
                 //echo $filename . '<br>' . "\n";
 
                 // xem file được tạo lâu rồi thì xóa nó đi

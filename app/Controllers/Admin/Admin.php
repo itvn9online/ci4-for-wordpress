@@ -269,7 +269,7 @@ RewriteRule ^(.*) ' . DYNAMIC_BASE_URL . '$1 [F]
 
             // nếu lỗi -> thử phương thức xóa từng file
             if ( $has_cache === false && MY_CACHE_HANDLER == 'file' ) {
-                foreach ( glob( WRITEPATH . 'cache/' . $for . '*' ) as $filename ) {
+                foreach ( glob( WRITE_CACHE_PATH . $for . '*' ) as $filename ) {
                     echo $filename . '<br>' . "\n";
                     $has_cache = true;
 
