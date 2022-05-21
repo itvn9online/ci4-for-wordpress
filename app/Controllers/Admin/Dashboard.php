@@ -100,9 +100,14 @@ class Dashboard extends Optimize {
         $this->optimize_css_js();
 
         //
+        $client_ip = $this->request->getIPAddress();
+        //$client_ip = ( isset( $_SERVER[ 'HTTP_X_REAL_IP' ] ) ) ? $_SERVER[ 'HTTP_X_REAL_IP' ] : $_SERVER[ 'REMOTE_ADDR' ];
+
+        //
         $this->teamplate_admin[ 'content' ] = view( 'admin/dashboard_view', array(
             //'topPostHighestView' => $topPostHighestView,
             'session_data' => $this->session_data,
+            'request_ip' => $client_ip,
             //'debug_enable' => $this->debug_enable,
             'last_enabled_debug' => $last_enabled_debug,
             'auto_disable_debug' => $auto_disable_debug,
