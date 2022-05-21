@@ -4,6 +4,10 @@
 use App\ Libraries\ UsersType;
 use App\ Libraries\ DeletedStatus;
 
+//
+$base_model->add_css( 'admin/css/users_list.css' );
+$base_model->add_js( 'admin/js/users_functions.js' );
+
 ?>
 <ul class="admin-breadcrumb">
     <li><a href="admin/<?php echo $controller_slug; ?>">Danh sách <?php echo $member_name; ?></a> (<?php echo $totalThread; ?>)</li>
@@ -67,6 +71,7 @@ use App\ Libraries\ DeletedStatus;
 </div>
 <div class="public-part-page"> <?php echo $pagination; ?> Trên tổng số <?php echo $totalThread; ?> bản ghi.</div>
 <script>
+var controller_slug = '<?php echo $controller_slug; ?>';
 var col_filter = <?php echo json_encode($col_filter); ?>;
 var scope_data = <?php echo json_encode($data); ?>;
 
@@ -75,17 +80,20 @@ WGR_vuejs('#app', {
     ALLOW_USING_MYSQL_DELETE: ALLOW_USING_MYSQL_DELETE,
     member_name: '<?php echo $member_name; ?>',
     member_type: '<?php echo $member_type; ?>',
-    controller_slug: '<?php echo $controller_slug; ?>',
+    controller_slug: controller_slug,
     data: scope_data,
     for_action: '<?php echo $for_action; ?>',
     DeletedStatus_DELETED: '<?php echo DeletedStatus::DELETED; ?>',
     by_is_deleted: '<?php echo $by_is_deleted; ?>',
     list: <?php echo json_encode($arr_members_type); ?>,
     UsersType_listStatus: <?php echo json_encode(UsersType::listStatus()); ?>,
+}, function () {
+    action_change_user_status();
 });
 </script>
 <?php
 
 //
 $base_model->add_js( 'admin/js/users.js' );
+$base_model->add_js( 'admin/js/users_list.js' );
 $base_model->add_js( 'admin/js/' . $member_type . '.js' );

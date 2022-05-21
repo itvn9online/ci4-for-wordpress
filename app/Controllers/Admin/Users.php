@@ -646,4 +646,56 @@ class Users extends Admin {
         $this->base_model->alert( '', base_url( 'users/profile' ) );
     }
 
+    public function quick_status() {
+        $user_id = $this->MY_post( 'user_id' );
+        if ( empty( $user_id ) ) {
+            $this->result_json_type( [
+                'in' => __CLASS__,
+                'code' => __LINE__,
+                'error' => 'EMPTY user id!'
+            ] );
+        }
+
+        //
+        $user_status = $this->MY_post( 'user_status', '' );
+        if ( $user_status == '' || UsersType::list( $user_status ) ) {
+            $this->result_json_type( [
+                'in' => __CLASS__,
+                'code' => __LINE__,
+                'error' => 'EMPTY user status!'
+            ] );
+        }
+        if ( $user_status * 1 < 0 ) {
+            $user_status = UsersType::FOR_DEFAULT;
+        } else {
+            // nếu là KHÓA -> không cho KHÓA chính tài khoản hiện tại
+            if ( $this->current_user_id * 1 === $user_id * 1 ) {
+                $this->result_json_type( [
+                    'in' => __CLASS__,
+                    'code' => __LINE__,
+                    'error' => 'Không thể tự KHÓA chính bạn!'
+                ] );
+            }
+            $user_status = UsersType::NO_LOGIN;
+        }
+        //$this->result_json_type( [ $user_status ] ); // TEST
+
+        //
+        $this->base_model->update_multiple( 'users', [
+            'user_status' => $user_status
+        ], [
+            // WHERE
+            'ID' => $user_id,
+            'member_type' => $this->member_type
+        ] );
+
+        //
+        //$this->result_json_type( $_POST ); // TEST
+        $this->result_json_type( [
+            'ok' => $user_id,
+            'member_name' => $this->member_name,
+            'user_status' => $user_status,
+        ] );
+    }
+
 }
