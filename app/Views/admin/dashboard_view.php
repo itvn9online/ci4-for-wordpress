@@ -134,7 +134,13 @@ if ( file_exists( $robots_txt ) ) {
             khuyến nghị điểm
             <button type="button" class="btn btn-success">90</button>
         </p>
-        <!-- END pagespeed --> 
+        <!-- END pagespeed -->
+        <!-- Open Graph Facebook -->
+        <p><strong>Open Graph Facebook:</strong> <a :href="'https://developers.facebook.com/tools/debug/?q=' + base_url" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-flash"></i> vào đây</a> để phân tích dữ liệu có cấu trúc đối với Facebook.</p>
+        <!-- END Open Graph Facebook -->
+        <!-- Open Graph Zalo -->
+        <p><strong>Open Graph Zalo:</strong> <a :href="'https://developers.zalo.me/tools/debug-sharing?q=' + base_url" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-flash"></i> vào đây</a> để phân tích dữ liệu có cấu trúc đối với Zalo.</p>
+        <!-- END Open Graph Zalo -->
     </div>
     <!-- -->
     <div class="p redcolor medium" :class="current_protocol != 'https:' ? '' : 'd-none'"><i class="fa fa-warning"></i> Kết nối hiện tại <strong>{{current_protocol}}</strong> chưa hỗ trợ redirect sang <strong>https</strong>. Vui lòng kích hoạt và sử dụng redirect <strong>https</strong> để giúp website bảo mật và nhanh hơn.</div>

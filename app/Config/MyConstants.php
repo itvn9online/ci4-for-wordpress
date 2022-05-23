@@ -111,7 +111,7 @@ defined( 'DEFAULT_FILE_PERMISSION' ) || define( 'DEFAULT_FILE_PERMISSION', 0777 
 defined( 'DEFAULT_DIR_PERMISSION' ) || define( 'DEFAULT_DIR_PERMISSION', 0777 );
 
 // thư mục lưu cache theo từng tên miền -> code thêm cho các web sử dụng domain pointer
-define( 'WRITE_CACHE_PATH', WRITEPATH . 'cache/' . $_SERVER[ 'HTTP_HOST' ] . '/' );
+define( 'WRITE_CACHE_PATH', WRITEPATH . 'cache/' . explode( ':', $_SERVER[ 'HTTP_HOST' ] )[ 0 ] . '/' );
 //die( WRITE_CACHE_PATH );
 if ( !is_dir( WRITE_CACHE_PATH ) ) {
     mkdir( WRITE_CACHE_PATH, DEFAULT_DIR_PERMISSION )or die( 'ERROR create cache dir' );
