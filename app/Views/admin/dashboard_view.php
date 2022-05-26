@@ -136,10 +136,10 @@ if ( file_exists( $robots_txt ) ) {
         </p>
         <!-- END pagespeed -->
         <!-- Open Graph Facebook -->
-        <p><strong>Open Graph Facebook:</strong> <a :href="'https://developers.facebook.com/tools/debug/?q=' + base_url" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-flash"></i> vào đây</a> để phân tích dữ liệu có cấu trúc đối với Facebook.</p>
+        <p><strong>Open Graph Facebook:</strong> <a :href="'https://developers.facebook.com/tools/debug/?q=' + base_url" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-bug"></i> vào đây</a> để phân tích dữ liệu có cấu trúc đối với Facebook.</p>
         <!-- END Open Graph Facebook -->
         <!-- Open Graph Zalo -->
-        <p><strong>Open Graph Zalo:</strong> <a :href="'https://developers.zalo.me/tools/debug-sharing?q=' + base_url" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-flash"></i> vào đây</a> để phân tích dữ liệu có cấu trúc đối với Zalo.</p>
+        <p><strong>Open Graph Zalo:</strong> <a :href="'https://developers.zalo.me/tools/debug-sharing?q=' + base_url" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-bug"></i> vào đây</a> để phân tích dữ liệu có cấu trúc đối với Zalo.</p>
         <!-- END Open Graph Zalo -->
     </div>
     <!-- -->
