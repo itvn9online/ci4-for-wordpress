@@ -25,7 +25,7 @@ use App\ Libraries\ UsersType;
             <td><a :href="'admin/' + controller_slug + '/add?id=' + v.ID">{{v.ID}}</a></td>
             <td><a :href="'admin/' + controller_slug + '/add?id=' + v.ID">{{v.user_login}}</a></td>
             <td><a :href="'admin/' + controller_slug + '/add?id=' + v.ID">{{v.user_email}}</a></td>
-            <td>{{v.display_name}} ({{v.user_nicename}})</td>
+            <td>{{v.display_name}}<span v-if="v.user_nicename != ''"> ({{v.user_nicename}})</span></td>
             <td><a :href="'admin/' + controller_slug + '?member_type=' + v.member_type">{{list[v.member_type]}}</a></td>
             <td>{{v.last_login.substr(0, 16)}}</td>
             <td>{{v.user_registered.substr(0, 16)}}</td>

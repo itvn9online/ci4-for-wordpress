@@ -266,7 +266,7 @@ var _global_js_eb = {
             if (new_size == 'auto') {
                 var img = jQuery(this).attr('data-img') || '';
                 if (img != '') {
-                    jQuery(this).after('<div class="echbay-blog-avt auto-size"><img src="' + img + '" width="' + a + '" /></div>').remove();
+                    jQuery(this).after('<div class="eb-blog-avt auto-size"><img src="' + img + '" width="' + a + '" /></div>').remove();
                 }
             } else if (new_size == 'full') {
                 a = jQuery(window).height();

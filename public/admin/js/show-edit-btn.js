@@ -10,7 +10,7 @@ $(document).ready(function () {
     });
 
     //
-    $('.echbay-blog li, .thread-list li, .eb-sub-menu, .global-details-title, .custom-bootstrap-post_type').each(function () {
+    $('.eb-blog li, .thread-list li, .eb-sub-menu, .global-details-title, .custom-bootstrap-post_type').each(function () {
         var jd = $(this).attr('data-id') || '';
         //console.log(jd);
         var type = $(this).attr('data-type') || '';

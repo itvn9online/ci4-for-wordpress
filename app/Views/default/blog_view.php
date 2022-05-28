@@ -31,7 +31,7 @@
                     <div class="other-post-title global-module-title">Bài viết tương tự</div>
                 </div>
                 <br>
-                <ul id="blog_same_cat" class="fix-li-wit echbay-blog other-echbay-blog cf <?php $option_model->blogs_in_line( $getconfig ); ?>">
+                <ul id="blog_same_cat" class="fix-li-wit eb-blog other-eb-blog cf <?php $option_model->blogs_in_line( $getconfig ); ?>">
                     <?php
 
                     foreach ( $same_cat_data as $child_key => $child_val ) {

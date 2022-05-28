@@ -29,7 +29,7 @@
 
             //
             ?>
-    <ul id="category_main" class="fix-li-wit echbay-blog echbay-blogmain cf <?php $option_model->blogs_in_line( $getconfig ); ?>">
+    <ul id="category_main" class="fix-li-wit eb-blog eb-blogmain cf <?php $option_model->blogs_in_line( $getconfig ); ?>">
         <?php
 
         foreach ( $child_data as $child_key => $child_val ) {
