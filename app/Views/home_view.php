@@ -13,10 +13,9 @@ else {
     include __DIR__ . '/default/' . basename( __FILE__ );
 }
 
-/*
-$this->base_model->add_js( 'themes/' . THEMENAME . '/js/home.js', [
+//
+$base_model->add_js( 'themes/' . THEMENAME . '/js/home.js', [
     'cdn' => CDN_BASE_URL,
 ], [
     'defer'
 ] );
-*/
