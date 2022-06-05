@@ -51,6 +51,8 @@ class ConfigType {
                 'description' => 'Meta Description',
                 'logo' => 'Logo chính',
                 'logo_main_height' => 'Chiều cao logo',
+                'logo_width_img' => 'Chiều rộng thật của logo',
+                'logo_height_img' => 'Chiều cao thật của logo',
                 'web_favicon' => 'Web favicon',
                 'logofooter' => 'Logo footer',
                 'logo_footer_height' => 'Chiều cao logo (footer)',

@@ -88,9 +88,30 @@ class Configs extends Admin {
         //print_r( $data );
 
         //
+        $arr_meta_key = [];
+
+        //
         if ( $option_type == ConfigType::CONFIG ) {
             echo $this->deny_visit_upload( '', true, isset( $data[ 'enable_hotlink_protection' ] ) ? true : false ) . '<br>' . "\n";
             $this->auto_create_htaccess_deny( true );
+
+            //
+            $data[ 'logo_width_img' ] = 0;
+            $data[ 'logo_height_img' ] = 0;
+            //echo PUBLIC_PUBLIC_PATH . $data[ 'logo' ] . '<br>' . "\n";
+            if ( isset( $data[ 'logo' ] ) && $data[ 'logo' ] != '' && file_exists( PUBLIC_PUBLIC_PATH . $data[ 'logo' ] ) ) {
+                $logo_data = getimagesize( PUBLIC_PUBLIC_PATH . $data[ 'logo' ] );
+
+                //
+                $data[ 'logo_width_img' ] = $logo_data[ 0 ];
+                $data[ 'logo_height_img' ] = $logo_data[ 1 ];
+            }
+            $arr_meta_key[] = 'logo_width_img';
+            $arr_meta_key[] = 'logo_height_img';
+            //print_r( $data );
+
+            //
+            //die( __CLASS__ . ':' . __LINE__ );
         }
 
         $list_field_has_change = $this->MY_post( 'list_field_has_change' );
@@ -104,7 +125,6 @@ class Configs extends Admin {
             $this->base_model->alert( 'Không có thay đổi nào được chỉ định #' . $option_type, 'warning' );
         }
 
-        $arr_meta_key = [];
         foreach ( $list_field_has_change as $k => $v ) {
             $arr_meta_key[] = $k;
         }

@@ -30,6 +30,7 @@ class Layout extends Sync {
     public $current_user_id = 0;
     public $current_pid = 0;
     public $current_tid = 0;
+    public $breadcrumb_position = 1;
 
     // controller nào bật cái này thì sẽ import thư viện angular js cho nó
     //public $enable_angular_js = false;
@@ -84,6 +85,29 @@ class Layout extends Sync {
         //print_r( $this->getconfig );
         $this->getconfig = ( object )$this->getconfig;
         //print_r( $this->getconfig );
+
+        // tạo thông tin nhà xuất bản (publisher) cho phần dữ liệu có cấu trúc
+        $itemprop_cache_logo = WRITEPATH . 'itemprop-logo.txt';
+        $itemprop_cache_author = WRITEPATH . 'itemprop-author.txt';
+        if ( !file_exists( $itemprop_cache_logo ) || time() - filemtime( $itemprop_cache_logo ) > HOUR ) {
+            // logo
+            $structured_data = file_get_contents( APPPATH . 'Views/structured-data/itemprop-logo.html' );
+            $structured_data = str_replace( '{{web_quot_title}}', str_replace( '"', '', $this->getconfig->name ), $structured_data );
+            $structured_data = str_replace( '{{trv_img}}', DYNAMIC_BASE_URL . $this->getconfig->logo, $structured_data );
+            $structured_data = str_replace( '{{trv_width_img}}', $this->getconfig->logo_height_img, $structured_data );
+            $structured_data = str_replace( '{{trv_height_img}}', $this->getconfig->logo_width_img, $structured_data );
+
+            //
+            file_put_contents( $itemprop_cache_logo, $structured_data );
+            touch( $itemprop_cache_logo, time() );
+
+            // author
+            $structured_data = file_get_contents( APPPATH . 'Views/structured-data/itemprop-author.html' );
+            $structured_data = str_replace( '{{author_quot_title}}', str_replace( '"', '', $this->getconfig->name ), $structured_data );
+
+            //
+            file_put_contents( $itemprop_cache_author, $structured_data );
+        }
 
         //
         $this->session_data = $this->base_model->get_ses_login();
@@ -232,7 +256,10 @@ class Layout extends Sync {
 
     protected function create_breadcrumb( $text, $url = '' ) {
         if ( $url != '' ) {
-            $this->breadcrumb[] = '<li><a href="' . $url . '">' . $text . '</a></li>';
+            $this->breadcrumb_position++;
+
+            //
+            $this->breadcrumb[] = '<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"><a href="' . $url . '" itemprop="item" title="' . str_replace( '"', '', $text ) . '"><span itemprop="name">' . $text . '</span></a><meta itemprop="position" content="' . $this->breadcrumb_position . '"></li>';
         } else {
             $this->breadcrumb[] = '<li>' . $text . '</li>';
 
@@ -941,5 +968,43 @@ RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
             return true;
         }
         return false;
+    }
+
+    protected function structuredData( $data, $f ) {
+        $data[ 'name' ] = $this->getconfig->name;
+        $data[ 'logo' ] = DYNAMIC_BASE_URL . $this->getconfig->logo;
+        $data[ 'logo_height_img' ] = $this->getconfig->logo_height_img;
+        $data[ 'logo_width_img' ] = $this->getconfig->logo_width_img;
+
+        //
+        $data[ 'post_img' ] = '';
+        $data[ 'trv_width_img' ] = 0;
+        $data[ 'trv_height_img' ] = 0;
+        //$data[ 'trv_img' ] = $this->post_model->get_list_thumbnail( $data, 'large' );
+        $data[ 'trv_img' ] = $this->post_model->get_post_thumbnail( $data );
+        if ( $data[ 'trv_img' ] != '' && file_exists( PUBLIC_PUBLIC_PATH . $data[ 'trv_img' ] ) ) {
+            $logo_data = getimagesize( PUBLIC_PUBLIC_PATH . $data[ 'trv_img' ] );
+
+            //
+            $data[ 'post_img' ] = DYNAMIC_BASE_URL . $data[ 'trv_img' ];
+            $data[ 'trv_width_img' ] = $logo_data[ 0 ];
+            $data[ 'trv_height_img' ] = $logo_data[ 1 ];
+        }
+
+        //
+        $data[ 'p_link' ] = $this->post_model->get_the_permalink( $data );
+
+        //
+        //print_r( $data );
+
+        //
+        $html = file_get_contents( APPPATH . 'Views/structured-data/' . $f );
+        foreach ( $data as $k => $v ) {
+            if ( is_array( $v ) ) {
+                continue;
+            }
+            $html = str_replace( '{{' . $k . '}}', str_replace( '"', '', $v ), $html );
+        }
+        return $html;
     }
 }

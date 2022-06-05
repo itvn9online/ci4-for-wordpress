@@ -394,12 +394,12 @@ class PostMeta extends PostBase {
     }
 
     // lấy ảnh thumbnail cho phần danh sách bài viế trong admin -> admin thì không cần ảnh đẹp -> lấy mặc định thumbnail
-    function get_list_thumbnail( $data, $file_size = 'thumbnail' ) {
+    public function get_list_thumbnail( $data, $file_size = 'thumbnail' ) {
         return $this->get_post_image( $data, 'image', 'images/noavatar.png', $file_size );
     }
 
     // trả về URL ảnh đại diện của bài viết
-    function get_post_image( $data, $key = 'image', $default_value = 'images/noavatar.png', $file_size = '' ) {
+    public function get_post_image( $data, $key = 'image', $default_value = 'images/noavatar.png', $file_size = '' ) {
         // nếu có yêu cầu lấy size ảnh khác thì kiểm tra size đó có tồn tại không
         if ( $file_size != '' ) {
             //echo $file_size . '<br>' . "\n";
@@ -428,7 +428,7 @@ class PostMeta extends PostBase {
     }
 
     // lấy ảnh đại diện cho bài viết
-    function get_post_thumbnail( $data ) {
+    public function get_post_thumbnail( $data ) {
         return $this->get_list_thumbnail( $data, $this->cf_thumbnail_size );
     }
 }

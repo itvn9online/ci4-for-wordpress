@@ -37,6 +37,28 @@ class PostPosts extends PostSlider {
             $data[ 'post_excerpt' ] = strip_tags( $data[ 'post_content' ] );
             $data[ 'post_excerpt' ] = $this->base_model->short_string( $data[ 'post_excerpt' ], 168 );
         }
+        $data[ 'post_quot_title' ] = str_replace( '"', '', $data[ 'post_title' ] );
+
+        //
+        $itemprop_logo = '';
+        $itemprop_author = '';
+        $itemprop_image = '';
+        if ( $data[ 'trv_img' ] != '' && file_exists( PUBLIC_PUBLIC_PATH . $data[ 'trv_img' ] ) ) {
+            $itemprop_logo = $this->itempropLogoHtmlNode;
+            $itemprop_author = $this->itempropAuthorHtmlNode;
+            $itemprop_image = $this->itempropImageHtmlNode;
+
+            //
+            $logo_data = getimagesize( PUBLIC_PUBLIC_PATH . $data[ 'trv_img' ] );
+
+            //
+            $itemprop_image = str_replace( '{{trv_img}}', DYNAMIC_BASE_URL . $data[ 'trv_img' ], $itemprop_image );
+            $itemprop_image = str_replace( '{{trv_width_img}}', $logo_data[ 0 ], $itemprop_image );
+            $itemprop_image = str_replace( '{{trv_height_img}}', $logo_data[ 1 ], $itemprop_image );
+        }
+        $data[ 'itemprop_logo' ] = $itemprop_logo;
+        $data[ 'itemprop_author' ] = $itemprop_author;
+        $data[ 'itemprop_image' ] = $itemprop_image;
 
         //
         return $this->base_model->tmp_to_html( $tmp_html, $data, $default_arr );

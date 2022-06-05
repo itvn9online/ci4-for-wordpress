@@ -176,10 +176,13 @@ class Posts extends Csrf {
         $this->create_breadcrumb( $data[ 'post_title' ], $post_permalink );
         $seo = $this->base_model->seo( $data, $post_permalink );
 
+        //
+        $structured_data = $this->structuredData( $data, 'Article.html' );
+
         // -> views
         $this->teamplate[ 'breadcrumb' ] = view( 'breadcrumb_view', array(
             'breadcrumb' => $this->breadcrumb
-        ) );
+        ) ) . $structured_data;
 
         $this->teamplate[ 'main' ] = view( $this->file_view, array(
             'taxonomy_slider' => $this->taxonomy_slider,

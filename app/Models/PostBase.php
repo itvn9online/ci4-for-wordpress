@@ -20,6 +20,9 @@ class PostBase extends EbModel {
     //public $metaKey = 'meta_id';
 
     public $product_html_node = '';
+    public $itempropLogoHtmlNode = '';
+    public $itempropImageHtmlNode = '';
+    public $itempropAuthorHtmlNode = '';
     protected $product_html_tag = 'li';
     public $blog_html_node = '';
     public $getconfig = NULL;
@@ -34,15 +37,33 @@ class PostBase extends EbModel {
         $this->option_model = new\ App\ Models\ Option();
         $this->term_model = new\ App\ Models\ Term();
 
+        //
+        if ( file_exists( WRITEPATH . 'itemprop-logo.txt' ) ) {
+            $this->itempropLogoHtmlNode = file_get_contents( WRITEPATH . 'itemprop-logo.txt' );
+        }
+        if ( file_exists( WRITEPATH . 'itemprop-author.txt' ) ) {
+            $this->itempropAuthorHtmlNode = file_get_contents( WRITEPATH . 'itemprop-author.txt' );
+        }
+        $this->itempropImageHtmlNode = file_get_contents( APPPATH . 'Views/structured-data/itemprop-image.html' );
+
+        //
+        $structured_data = file_get_contents( APPPATH . 'Views/structured-data/NewsArticle.html' );
+        $structured_data = str_replace( '{{product_html_tag}}', $this->product_html_tag, $structured_data );
+        $structured_data = str_replace( '{{primary_controller}}', $this->primary_controller, $structured_data );
+
         // tạo block html cho phần sản phẩm
         //echo THEMEPATH . '<br>' . "\n";
         $this->product_html_node = $this->base_model->get_html_tmp( 'thread_node' );
+        /*
         if ( $this->product_html_tag == 'li' ) {
-            $this->product_html_node = '<li data-id="{{ID}}" data-control="' . $this->primary_controller . '" data-type="{{post_type}}" data-price="{{trv_num_giamoi}}" data-per="{{pt}}" data-link="{{p_link}}" data-status="{{product_status}}" class="hide-if-gia-zero">' . $this->product_html_node . '</li>';
+            $this->product_html_node = '<li data-id="{{ID}}" data-control="' . $this->primary_controller . '" data-type="{{post_type}}" data-price="{{trv_num_giamoi}}" data-per="{{pt}}" data-link="{{p_link}}" data-status="{{product_status}}" class="hide-if-gia-zero" itemscope="" itemtype="http://schema.org/NewsArticle">' . $this->product_html_node . '</li>';
         }
+        */
+        $this->product_html_node = str_replace( '{{product_html_node}}', $this->product_html_node, $structured_data );
 
         //
         $this->blog_html_node = $this->base_model->get_html_tmp( 'blogs_node' );
+        $this->blog_html_node = str_replace( '{{blog_html_node}}', $this->blog_html_node, $structured_data );
 
 
         //
