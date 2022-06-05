@@ -3,12 +3,14 @@ namespace App\ Controllers;
 
 //
 use App\ Libraries\ PHPMaillerSend;
+use App\ Language\ Translate;
 
 class Contact extends Home {
     public function __construct() {
         parent::__construct();
         //$this->load->helper( 'translate' );
         //$this->load->helper( 'form' );
+        $this->validation = \Config\ Services::validation();
     }
 
     public function put() {

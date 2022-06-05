@@ -16,7 +16,7 @@ ul {
     list-style: none
 }
 a {
-    color: #1264aa;
+    color: var(--a-color);
     text-decoration: none
 }
 .default-bg {

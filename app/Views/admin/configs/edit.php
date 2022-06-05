@@ -85,7 +85,26 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
                     ?>
                 </div>
                 <?php
-                } // END if checkbox
+                }
+                // END if checkbox
+                else if ( $input_type == 'color' ) {
+                    ?>
+                <div class="lf f15">
+                    <label for="data_<?php echo $k; ?>" class="text-right right-menu-space"><?php echo $v; ?></label>
+                </div>
+                <div class="lf f85">
+                    <input type="color" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>" value="<?php echo $data[$k]; ?>" placeholder="<?php echo ConfigType::defaultColor($k); ?>" class="span2 auto-reset-site-color" />
+                    - <a href="javascript:;" data-set="data_<?php echo $k; ?>" class="bluecolor click-to-set-site-color">Nhập mã màu</a> - <a href="javascript:;" data-set="data_<?php echo $k; ?>" class="bluecolor click-to-reset-site-color">Mặc định</a>
+                    <?php
+
+                    // hiển thị ghi chú nếu có
+                    ConfigType::meta_desc( $k );
+
+                    ?>
+                </div>
+                <?php
+                }
+                // END if color
                 else {
                     ?>
                 <div class="lf f15">
@@ -98,7 +117,8 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
                         ?>
                     <textarea class="span10 required fix-textarea-height" style="height:100px" placeholder="<?php echo $v; ?>" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>"><?php echo $data[$k]; ?></textarea>
                     <?php
-                    } // END if textarea
+                    }
+                    // END if textarea
                     else if ( $input_type == 'select' ) {
                         $select_options = ConfigType::meta_select( $k );
 
@@ -113,7 +133,8 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
                         ?>
                     </select>
                     <?php
-                    } // END if select
+                    }
+                    // END if select
                     else {
                         // thay đổi độ rộng của inpurt cho phù hợp
                         $span10 = 'span10';

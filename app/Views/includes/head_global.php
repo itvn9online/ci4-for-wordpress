@@ -4,10 +4,10 @@
 <base href="<?php echo DYNAMIC_BASE_URL; ?>" />
 <!-- <meta http-equiv="Cache-control" content="public"> --> 
 <!-- <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" /> -->
-<meta name="theme-color" content="#ff2442">
-<meta name="msapplication-navbutton-color" content="#ff2442">
+<meta name="theme-color" content="<?php echo $getconfig->default_bg; ?>">
+<meta name="msapplication-navbutton-color" content="<?php echo $getconfig->default_bg; ?>">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#ff2442">
+<meta name="apple-mobile-web-app-status-bar-style" content="<?php echo $getconfig->default_bg; ?>">
 <!-- <meta http-equiv="x-dns-prefetch-control" content="on"> -->
 <link rel="dns-prefetch" href="https://www.google-analytics.com/" />
 <link rel="dns-prefetch" href="https://connect.facebook.net/" />
@@ -79,7 +79,7 @@ $font_awesome_before = str_replace( '../fonts/', 'thirdparty/awesome47/fonts/', 
 echo $font_awesome_before;
 
 
-// nạp phiên bản bootstrap phù hợp
+// nạp một số css ở dạng preload
 $arr_preload_bootstrap = [
     CDN_BASE_URL . 'thirdparty/awesome47/css/font-awesome.min.css?v=4.7',
 
@@ -108,6 +108,14 @@ foreach ( $arr_preload_bootstrap as $v ) {
 <script src="<?php echo CDN_BASE_URL; ?>thirdparty/jquery/jquery-3.6.0.min.js"></script> 
 <!-- <script src="thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> --> 
 <!-- <script src="frontend/js/swiper.min.js"></script> -->
+<style>
+:root {
+--default-bg: <?php echo $getconfig->default_bg; ?>;
+--sub-bg: <?php echo $getconfig->sub_bg; ?>;
+--default-color: <?php echo $getconfig->default_color; ?>;
+--a-color: <?php echo $getconfig->a_color; ?>;
+}
+</style>
 <?php
 
 //
@@ -158,7 +166,7 @@ if ( !isset( $getconfig->site_full_width ) || empty( $getconfig->site_full_width
 
 //
 $WGR_config = [
-    'cf_tester_mode' => ($debug_enable === true) ? 1 : 0,
+    'cf_tester_mode' => ( $debug_enable === true ) ? 1 : 0,
     'current_user_id' => $current_user_id * 1,
     'pid' => $current_pid,
     'cid' => $current_tid,

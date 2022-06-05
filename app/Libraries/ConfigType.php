@@ -37,6 +37,11 @@ class ConfigType {
     public static function meta_default( $config_type ) {
         if ( $config_type == self::CONFIG ) {
             $arr = [
+                'default_bg' => 'Màu nền mặc định',
+                'sub_bg' => 'Màu nền thứ cấp',
+                'default_color' => 'Màu chữ mặc định',
+                'a_color' => 'Màu liên kết',
+
                 'name' => 'Tên website',
                 'company_name' => 'Tên công ty',
                 'h1' => 'Thẻ H1',
@@ -171,6 +176,11 @@ class ConfigType {
     // trả về định dạng của từng post type (nếu có) -> mặc định type = text
     public static function meta_type( $key ) {
         $arr = [
+            'default_bg' => 'color',
+            'sub_bg' => 'color',
+            'default_color' => 'color',
+            'a_color' => 'color',
+
             'smtp_host_port' => 'number',
             'smtp2_host_port' => 'number',
             'smtp_host_pass' => 'hidden',
@@ -251,6 +261,11 @@ class ConfigType {
     // description của từng meta nếu có
     public static function meta_desc( $key ) {
         $arr = [
+            'default_bg' => 'Là màu nền đặc trưng cho các menu, nút bấm trên toàn bộ website.',
+            'sub_bg' => 'Màu nền cho các module khác, tạo sự khác biệt với màu nền chính ở trên.',
+            'default_color' => 'Màu mặc định cho mọi font chữ trên website nếu module đó không được thiết lập màu riêng.',
+            //'a_color' => 'Màu chữ của các liên kết.',
+
             //'enable_angular_js' => 'Khi chế độ này được kích hoạt, thư viện Angular JS sẽ được nhúng vào frontend để sử dụng',
             'show_child_category' => 'Khi chế độ này được kích hoạt, và khi truy cập vào danh mục sản phẩm, nếu trong danh mục đó có các nhóm con thì các nhóm con sẽ được hiển thị thay vì hiển thị trực tiếp danh sách sản phẩm',
             'show_child_blogs' => 'Khi chế độ này được kích hoạt, và khi truy cập vào danh mục tin tức, nếu trong danh mục đó có các nhóm con thì các nhóm con sẽ được hiển thị thay vì hiển thị trực tiếp danh sách tin tức',
@@ -322,6 +337,20 @@ class ConfigType {
         if ( isset( $arr[ $key ] ) && $arr[ $key ] != '' ) {
             echo '<p class="controls-text-note">' . $arr[ $key ] . '</p>';
         }
+    }
+
+    // description của từng meta nếu có
+    public static function defaultColor( $key ) {
+        $arr = [
+            'default_bg' => '#145c00',
+            'sub_bg' => '#c20000',
+            //'default_color' => '',
+            'a_color' => '#0d6efd',
+        ];
+        if ( isset( $arr[ $key ] ) && $arr[ $key ] != '' ) {
+            return $arr[ $key ];
+        }
+        return '#000000';
     }
 
     // mảng chứa giá trị của các select

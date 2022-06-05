@@ -20,7 +20,7 @@ $this->base_model->get_add_css( 'public/css/ten_file.css', [
 
 <!-- các file JS chuyển từ PHP sang sẽ cho vào đây -->
 <?php
-$this->base_model->add_js( 'public/javascript/ten_file.js', [
+$this->base_model->add_js( 'javascript/ten_file.js', [
     'get_content' => 1,
     'preload' => 1,
     'cdn' => CDN_BASE_URL,
@@ -28,7 +28,7 @@ $this->base_model->add_js( 'public/javascript/ten_file.js', [
     'defer'
 ] );
 // lấy mã JS trả về thay vì echo luôn
-$this->base_model->get_add_js( 'public/javascript/ten_file.js', [
+$this->base_model->get_add_js( 'javascript/ten_file.js', [
     'get_content' => 1,
     'preload' => 1,
     'cdn' => CDN_BASE_URL,
