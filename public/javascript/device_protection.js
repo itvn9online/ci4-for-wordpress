@@ -28,7 +28,7 @@ var timeout_device_protection = 30;
         jQuery.ajax({
             type: 'GET',
             // link TEST
-            url: 'ajax/multi_loged',
+            url: 'ajaxs/multi_loged',
             dataType: 'json',
             //crossDomain: true,
             //data: data,

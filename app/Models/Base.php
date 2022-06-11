@@ -928,7 +928,7 @@ class Base extends Session {
         } else {
             $seo = array(
                 'title' => $data[ 'post_title' ],
-                'description' => $data[ 'post_excerpt' ] != '' ? $data[ 'post_excerpt' ] : $data[ 'post_title' ],
+                'description' => $data[ 'post_excerpt' ] != '' ? strip_tags( $data[ 'post_excerpt' ] ) : $data[ 'post_title' ],
                 //'keyword' => $pageDetail[ 0 ][ 'keyword' ],
                 //'name' => $pageDetail[ 0 ][ 'name' ],
                 'post_id' => $data[ 'ID' ],

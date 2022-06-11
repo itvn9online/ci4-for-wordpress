@@ -364,7 +364,7 @@ var g_func = {
         if (typeof str == 'undefined' || str == '') {
             return '';
         }
-        str = str.toString().replace(/[^a-zA-Z]/g, '');
+        str = str.toString().replace(/[^a-zA-Z\s]/g, '');
 
         if (str == '') {
             return '';
@@ -749,7 +749,7 @@ function action_each_to_taxonomy() {
     // chạy ajax nạp dữ liệu của taxonomy
     jQuery.ajax({
         type: 'POST',
-        url: 'ajax/get_taxonomy_by_ids',
+        url: 'ajaxs/get_taxonomy_by_ids',
         dataType: 'json',
         //crossDomain: true,
         data: {

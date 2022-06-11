@@ -564,7 +564,7 @@ function load_term_select_option(a, jd, _callBack, max_i) {
     //
     jQuery.ajax({
         type: 'POST',
-        url: 'admin/ajax/get_taxonomy_by_taxonomy',
+        url: 'admin/asjaxs/get_taxonomy_by_taxonomy',
         dataType: 'json',
         //crossDomain: true,
         data: {

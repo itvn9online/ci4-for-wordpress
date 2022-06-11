@@ -1,7 +1,7 @@
 <?php
 namespace App\ Controllers;
 
-class Ajax extends Layout {
+class Ajaxs extends Layout {
     // chức năng này không cần nạp header
     public $preload_header = false;
 

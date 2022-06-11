@@ -1,7 +1,12 @@
 <?php
+/*
+ * AJAX -> Asynchronous Javascript and XML
+ * ajax trong admin thì thêm chữ s trong Asynchronous để phân biệt với ajax public
+ */
+
 namespace App\ Controllers\ Admin;
 
-class Ajax extends Admin {
+class Asjaxs extends Admin {
     // chức năng này không cần nạp header
     public $preload_admin_header = false;
 
@@ -32,7 +37,7 @@ class Ajax extends Admin {
         return $http_response;
     }
     public function check_ssl() {
-        $test_url = DYNAMIC_BASE_URL . 'ajax/the_base_url';
+        $test_url = DYNAMIC_BASE_URL . 'ajaxs/the_base_url';
         // bỏ https
         $test_url = str_replace( 'https://', 'http://', $test_url );
         // bỏ www.
@@ -52,7 +57,7 @@ class Ajax extends Admin {
             'http_response' => $this->check_via_curl( $test_url ),
             'www_url' => $www_url,
             'www_response' => $this->check_via_curl( $www_url ),
-            //'base_url' => file_get_contents( $test_url . 'admin/ajax/the_base_url', 1 ),
+            //'base_url' => file_get_contents( $test_url . 'admin/asjaxs/the_base_url', 1 ),
             /*
             'base_url' => $client->request( 'GET', $test_url, [
                 'allow_redirects' => true,

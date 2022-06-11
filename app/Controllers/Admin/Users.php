@@ -193,6 +193,9 @@ class Users extends Admin {
             //echo $totalPage . '<br>' . "\n";
             $offset = ( $page_num - 1 ) * $post_per_page;
 
+            // chạy vòng lặp gán nốt các thông số khác trên url vào phân trang
+            $urlPartPage = $this->base_model->auto_add_params( $urlPartPage );
+
             //
             $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '&page_num=' );
 

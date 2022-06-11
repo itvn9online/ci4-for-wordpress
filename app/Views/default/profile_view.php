@@ -52,18 +52,18 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col medium-4 small-12 large-4 l40">Họ và tên</div>
+                    <div class="col medium-4 small-12 large-4 l40">Họ và tên đệm</div>
                     <div class="col medium-8 small-12 large-8">
                         <div class="form-control">
-                            <input type="text" placeholder="Họ và tên đệm" name="data[display_name]" value="<?php echo $data['display_name']; ?>" aria-required="true" required>
+                            <input type="text" placeholder="Họ và tên đệm" name="data[display_name]" id="data_display_name" value="<?php echo $data['display_name']; ?>" aria-required="true" required>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col medium-4 small-12 large-4 l40">Tên rút gọn</div>
+                    <div class="col medium-4 small-12 large-4 l40">Tên gọi</div>
                     <div class="col medium-8 small-12 large-8">
                         <div class="form-control">
-                            <input type="text" placeholder="Tên rút gọn" name="data[user_nicename]" value="<?php echo $data['user_nicename']; ?>" aria-required="true" required>
+                            <input type="text" placeholder="Tên gọi" name="data[user_nicename]" value="<?php echo $data['user_nicename']; ?>" aria-required="true" required>
                         </div>
                     </div>
                 </div>

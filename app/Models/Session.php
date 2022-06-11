@@ -162,4 +162,18 @@ class Session {
         // mặc định là xóa hết
         return $this->cache->clean();
     }
+
+    // chạy vòng lặp gán nốt các thông số khác trên url vào phân trang
+    public function auto_add_params( $uri ) {
+        foreach ( $_GET as $k => $v ) {
+            // tham số phân trang thì bỏ qua -> sẽ được add lại trong hàm phân trang
+            if ( $k == 'page_num' ) {
+                continue;
+            }
+            if ( strpos( $uri, $k . '=' ) === false ) {
+                $uri .= '&' . $k . '=' . $v;
+            }
+        }
+        return $uri;
+    }
 }

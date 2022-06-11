@@ -3,7 +3,7 @@ if (current_full_domain === null) {
     jQuery.ajax({
         type: 'GET',
         // lấy base URL từ link http thường (không phải https) -> để xem nó có redirect về https không
-        url: 'admin/ajax/check_ssl',
+        url: 'admin/asjaxs/check_ssl',
         dataType: 'json',
         //crossDomain: true,
         //data: data,

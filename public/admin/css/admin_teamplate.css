@@ -1,6 +1,5 @@
 .pagination a {
     float: left;
-    text-align: center;
     line-height: 40px;
     text-decoration: none;
     background-color: #fff;
@@ -366,9 +365,14 @@ body.body-debug_enable #admin-header, body.body-debug_enable #sidebar {
 .left-menu-space {
     padding-left: 20px;
 }
+.right-menu-space {
+    padding-right: 20px;
+}
 .text-submit-msg {
     position: absolute;
     left: 50%;
     transform: translate(-50%, 0);
     cursor: pointer;
+    background: rgba(255, 255, 255, 0.9);
+    z-index: 99;
 }

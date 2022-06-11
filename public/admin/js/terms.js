@@ -262,7 +262,7 @@ $('.change-update-term_order').attr({
         /*
         jQuery.ajax({
             type: 'POST',
-            url: web_link + 'ajax/get_taxonomy_by_taxonomy',
+            url: web_link + 'ajaxs/get_taxonomy_by_taxonomy',
             dataType: 'json',
             data: {
                 taxonomy: a,

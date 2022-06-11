@@ -1,7 +1,7 @@
 <?php
 namespace App\ Controllers\ Admin;
 
-use App\ Controllers\ Ajax;
+use App\ Controllers\ Ajaxs;
 
 // Libraries
 use App\ Libraries\ AdminMenu;
@@ -10,7 +10,7 @@ use App\ Libraries\ UsersType;
 //use App\ Libraries\ MyImage;
 
 //
-class Admin extends Ajax {
+class Admin extends Ajaxs {
     //public $user_group_list = array();
 
     // với 1 số controller, sẽ không nạp cái HTML header vào, nên có thêm tham số này để không nạp header nữa
