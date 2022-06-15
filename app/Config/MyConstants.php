@@ -110,8 +110,21 @@ defined( 'CUSTOM_MD5_HASH_CODE' ) || define( 'CUSTOM_MD5_HASH_CODE', $_SERVER[ '
 defined( 'DEFAULT_FILE_PERMISSION' ) || define( 'DEFAULT_FILE_PERMISSION', 0777 );
 defined( 'DEFAULT_DIR_PERMISSION' ) || define( 'DEFAULT_DIR_PERMISSION', 0777 );
 
-// thư mục lưu cache theo từng tên miền -> code thêm cho các web sử dụng domain pointer
-define( 'WRITE_CACHE_PATH', WRITEPATH . 'cache/' . explode( ':', $_SERVER[ 'HTTP_HOST' ] )[ 0 ] . '/' );
+// với cache file -> thư mục lưu cache theo từng tên miền -> code thêm cho các web sử dụng domain pointer
+if ( MY_CACHE_HANDLER == 'file' ) {
+    define( 'WRITE_CACHE_PATH', WRITEPATH . 'cache/' . explode( ':', $_SERVER[ 'HTTP_HOST' ] )[ 0 ] . '/' );
+
+    //
+    define( 'CACHE_HOST_PREFIX', '' );
+}
+// với các thể loại cache khác -> sử dụng prefix -> do nó lưu vào ram thì không phân định theo path được
+else {
+    define( 'WRITE_CACHE_PATH', WRITEPATH . 'cache/' );
+
+    // tạo key theo host để làm prefix
+    define( 'CACHE_HOST_PREFIX', str_replace( '.', '', explode( ':', $_SERVER[ 'HTTP_HOST' ] )[ 0 ] ) );
+}
+//die( CACHE_HOST_PREFIX );
 //die( WRITE_CACHE_PATH );
 if ( !is_dir( WRITE_CACHE_PATH ) ) {
     mkdir( WRITE_CACHE_PATH, DEFAULT_DIR_PERMISSION )or die( 'ERROR create cache dir' );

@@ -80,7 +80,7 @@ class Cache extends BaseConfig
      *
      * @var string
      */
-    public $prefix = '';
+    public $prefix = CACHE_HOST_PREFIX;
 
     /**
      * --------------------------------------------------------------------------
