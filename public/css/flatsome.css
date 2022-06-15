@@ -6,6 +6,9 @@
 .container-width, .full-width .ubermenu-nav, .container, .row {
     max-width: 1080px;
 }
+.row-full-width {
+    max-width: 100% !important;
+}
 .row.row-collapse {}
 .row-collapse {
     padding: 0;
