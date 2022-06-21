@@ -73,7 +73,8 @@ class Optimize extends Admin {
 
         // css, js của từng theme
         if ( $this->optimize_action_css( THEMEPATH ) === true ) {
-            $this->optimize_action_css( THEMEPATH, 'page-templates' );
+            // ưu tiên optimize javascript -> do optimize css trước thì file xác nhận optimize sẽ bị xóa mất
+            //$this->optimize_action_css( THEMEPATH, 'page-templates' );
 
             // riêng với CSS thì còn thừa file style.css của theme -> sinh ra đoạn này để xử lý nó
             $filename = THEMEPATH . 'style.css';
