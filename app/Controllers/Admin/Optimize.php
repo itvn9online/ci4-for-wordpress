@@ -87,7 +87,7 @@ class Optimize extends Admin {
             }
         }
         $this->optimize_action_js( THEMEPATH );
-        $this->optimize_action_js( THEMEPATH . 'page-templates/' );
+        $this->optimize_action_js( THEMEPATH, 'page-templates' );
 
         // optimize phần view -> optimize HTML
         $this->optimize_action_views( APPPATH );
