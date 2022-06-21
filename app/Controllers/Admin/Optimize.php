@@ -33,6 +33,10 @@ class Optimize extends Admin {
                 'set_permission' => DEFAULT_FILE_PERMISSION,
                 'ftp' => 1,
             ] );
+            $this->base_model->_eb_create_file( THEMEPATH . 'page-templates/' . $f, $c, [
+                'set_permission' => DEFAULT_FILE_PERMISSION,
+                'ftp' => 1,
+            ] );
             // optimize phần view -> nếu muốn optimize thủ công thì mở comment đoạn sau, còn không chỉ optimize khi update code
             $this->base_model->_eb_create_file( APPPATH . 'Views/' . $f, $c, [
                 'set_permission' => DEFAULT_FILE_PERMISSION,
@@ -83,6 +87,7 @@ class Optimize extends Admin {
             }
         }
         $this->optimize_action_js( THEMEPATH );
+        $this->optimize_action_js( THEMEPATH . 'page-templates/' );
 
         // optimize phần view -> optimize HTML
         $this->optimize_action_views( APPPATH );
