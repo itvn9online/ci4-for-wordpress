@@ -2,6 +2,9 @@
 namespace App\ Controllers\ Admin;
 
 class Optimize extends Admin {
+    private $f_active_optimize = 'active-optimize.txt';
+    private $c_active_optimize = 'Nếu tồn tại file này -> sẽ kích hoạt lệnh optimize file CSS hoặc JS trong thư mục tương ứng';
+
     public function __construct() {
         parent::__construct();
     }
@@ -12,8 +15,8 @@ class Optimize extends Admin {
         // tính năng này không hoạt động trên localhost
         if ( strpos( $_SERVER[ 'HTTP_HOST' ], 'localhost' ) === false ) {
             // tạo các file txt xác nhận quá trình optimize
-            $c = 'Nếu tồn tại file này -> sẽ kích hoạt lệnh optimize file CSS hoặc JS trong thư mục tương ứng';
-            $f = 'active-optimize.txt';
+            $c = $this->c_active_optimize;
+            $f = $this->f_active_optimize;
 
             // basse code
             $this->base_model->_eb_create_file( PUBLIC_PUBLIC_PATH . 'css/' . $f, $c, [
@@ -73,8 +76,13 @@ class Optimize extends Admin {
 
         // css, js của từng theme
         if ( $this->optimize_action_css( THEMEPATH ) === true ) {
-            // ưu tiên optimize javascript -> do optimize css trước thì file xác nhận optimize sẽ bị xóa mất
-            //$this->optimize_action_css( THEMEPATH, 'page-templates' );
+            //
+            $this->optimize_action_css( THEMEPATH, 'page-templates' );
+            // tạo lại file xác nhận để lát javascript còn có cái mà dùng
+            $this->base_model->_eb_create_file( THEMEPATH . 'page-templates/' . $this->f_active_optimize, $this->c_active_optimize, [
+                'set_permission' => DEFAULT_FILE_PERMISSION,
+                'ftp' => 1,
+            ] );
 
             // riêng với CSS thì còn thừa file style.css của theme -> sinh ra đoạn này để xử lý nó
             $filename = THEMEPATH . 'style.css';
@@ -205,7 +213,7 @@ class Optimize extends Admin {
     // kiểm tra xem có sự tồn tại của file kích hoạt chế độ optimize không
     private function check_active_optimize( $path ) {
         //echo '<strong>' . $path . '</strong>:<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
-        $full_path = $path . 'active-optimize.txt';
+        $full_path = $path . $this->f_active_optimize;
         //echo $full_path . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
         if ( file_exists( $full_path ) ) {
             // thử xóa file optimize -> XÓA được thì mới trả về true -> đảm bảo có quyền chỉnh sửa các file trong này
