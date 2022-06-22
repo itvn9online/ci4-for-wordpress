@@ -76,14 +76,6 @@ class Optimize extends Admin {
 
         // css, js của từng theme
         if ( $this->optimize_action_css( THEMEPATH ) === true ) {
-            //
-            $this->optimize_action_css( THEMEPATH, 'page-templates' );
-            // tạo lại file xác nhận để lát javascript còn có cái mà dùng
-            $this->base_model->_eb_create_file( THEMEPATH . 'page-templates/' . $this->f_active_optimize, $this->c_active_optimize, [
-                'set_permission' => DEFAULT_FILE_PERMISSION,
-                'ftp' => 1,
-            ] );
-
             // riêng với CSS thì còn thừa file style.css của theme -> sinh ra đoạn này để xử lý nó
             $filename = THEMEPATH . 'style.css';
             if ( file_exists( $filename ) ) {
@@ -98,7 +90,18 @@ class Optimize extends Admin {
             }
         }
         $this->optimize_action_js( THEMEPATH );
-        $this->optimize_action_js( THEMEPATH, 'page-templates' );
+
+        //
+        if ( $this->optimize_action_js( THEMEPATH, 'page-templates' ) === true ) {
+            // tạo lại file xác nhận để css còn có cái mà dùng
+            $this->base_model->_eb_create_file( THEMEPATH . 'page-templates/' . $this->f_active_optimize, $this->c_active_optimize, [
+                'set_permission' => DEFAULT_FILE_PERMISSION,
+                'ftp' => 1,
+            ] );
+
+            //
+            $this->optimize_action_css( THEMEPATH, 'page-templates' );
+        }
 
         // optimize phần view -> optimize HTML
         $this->optimize_action_views( APPPATH );
@@ -208,6 +211,9 @@ class Optimize extends Admin {
                 $this->base_model->_eb_create_file( $filename, $c, [ 'ftp' => 1 ] );
             }
         }
+
+        //
+        return true;
     }
 
     // kiểm tra xem có sự tồn tại của file kích hoạt chế độ optimize không
