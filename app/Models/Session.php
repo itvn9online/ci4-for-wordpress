@@ -171,7 +171,13 @@ class Session {
                 continue;
             }
             if ( strpos( $uri, $k . '=' ) === false ) {
-                $uri .= '&' . $k . '=' . $v;
+                if ( is_array( $v ) ) {
+                    foreach ( $v as $k2 => $v2 ) {
+                        $uri .= '&' . $k . '[' . $k2 . ']=' . $v2;
+                    }
+                } else {
+                    $uri .= '&' . $k . '=' . $v;
+                }
             }
         }
         return $uri;
