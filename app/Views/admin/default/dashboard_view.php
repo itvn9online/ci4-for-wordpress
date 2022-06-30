@@ -242,7 +242,7 @@ WGR_vuejs('#app', {
     Date_now: Date.now(),
     base_url: '<?php echo urlencode( base_url() ); ?>',
     ci_version: '<?php echo \CodeIgniter\CodeIgniter::CI_VERSION; ?>', // phiên bản CI hiện tại
-    ci_last_version: 419, // phiên bản CI mới nhất -> đổi màu để dễ nhận biết có bản mới hơn
+    ci_last_version: 421, // phiên bản CI mới nhất -> đổi màu để dễ nhận biết có bản mới hơn
     robots_txt: <?php echo $robots_exist; ?>,
     phpversion: '<?php echo phpversion(); ?>'.replace('.', '').split('.')[0],
     current_dbname: '<?php echo $current_dbname; ?>',
