@@ -2,7 +2,7 @@
 
 // admin
 // tạo đường dẫn admin tránh đường dẫn mặc định
-$routes->get( CUSTOM_ADMIN_URI, 'Admin/Dashboard::index' );
+$routes->get( CUSTOM_ADMIN_URI, 'Admin\Dashboard::index' );
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
