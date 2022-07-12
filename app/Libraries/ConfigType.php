@@ -266,7 +266,7 @@ class ConfigType {
         foreach ( self::textArea() as $k => $v ) {
             $arr[ $k ] = 'textarea';
         }
-        print_r( $arr );
+        //print_r( $arr );
         if ( isset( $arr[ $key ] ) ) {
             return $arr[ $key ];
         }
