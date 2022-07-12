@@ -33,6 +33,14 @@ class ConfigType {
         return '';
     }
 
+    private static function textArea() {
+        $arr_tmp = [];
+        for ( $i = 0; $i < 10; $i++ ) {
+            $arr_tmp[ 'custom_textarea' . $i ] = 'Custom textarea ' . $i;
+        }
+        return $arr_tmp;
+    }
+
     // trả về các meta mặc định dựa theo từng post_type
     public static function meta_default( $config_type ) {
         if ( $config_type == self::CONFIG ) {
@@ -136,6 +144,9 @@ class ConfigType {
             $arr_tmp[ 'powered_by_echbay' ] = 'Cung cấp bởi';
             for ( $i = 0; $i < 36; $i++ ) {
                 $arr_tmp[ 'custom_text' . $i ] = 'Custom text ' . $i;
+            }
+            foreach ( self::textArea() as $k => $v ) {
+                $arr_tmp[ $k ] = $v;
             }
 
             // thêm prefix vào đầu mỗi key
@@ -252,6 +263,10 @@ class ConfigType {
             'site_max_width' => 'number',
             'site_full_width' => 'number',
         ];
+        foreach ( self::textArea() as $k => $v ) {
+            $arr[ $k ] = 'textarea';
+        }
+        print_r( $arr );
         if ( isset( $arr[ $key ] ) ) {
             return $arr[ $key ];
         }
