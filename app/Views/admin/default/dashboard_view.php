@@ -34,6 +34,7 @@ if ( file_exists( $robots_txt ) ) {
 <div id="app" class="s14 ng-main-content">
     <div v-if="robots_txt > 0 && robots_txt > 1">
         <p class="redcolor medium18 text-center"><i class="fa fa-warning"></i> Vui lòng kiểm tra lại độ chuẩn xác của <a href="admin/configs?support_tab=data_robots" target="_blank"><strong class="bluecolor">file robots.txt</strong></a></p>
+        <p class="text-center"><a href="<?php echo DYNAMIC_BASE_URL; ?>robots.txt" class="bluecolor" target="_blank"><?php echo DYNAMIC_BASE_URL; ?>robots.txt</a></p>
         <br>
     </div>
     <h4>Tổng quan:</h4>
