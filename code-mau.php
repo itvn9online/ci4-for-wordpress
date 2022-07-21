@@ -111,7 +111,7 @@ $this->base_model->update_multiple( 'users', [
 ] );
 
 // DELETE dữ liệu
-$this->base_model->delete_multiple( 'tbl_user', [
+$this->base_model->delete_multiple( 'users', [
     // WHERE
     'is_member' => User_type::GUEST,
 ], [
@@ -135,7 +135,7 @@ $data = $this->base_model->select( '*', 'users', array(
     // WHERE AND OR
     "(aaaaaaaaaa = 1 OR bbbbbbb = 2)" => NULL,
     // WHERE IN
-    "user_id IN (SELECT user_id FROM tbl_rem WHERE chapter_id = " . $chapter_id . ")" => NULL,
+    "user_id IN (SELECT user_id FROM tbl_0 WHERE select_id = " . $chapter_id . ")" => NULL,
     // mặc định
     'date_check_in >= ' => 1,
     'date_check_in <= ' => 10,

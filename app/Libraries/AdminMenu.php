@@ -38,6 +38,20 @@ class AdminMenu {
                     ],
                 ]
             ],
+            'admin/oders' => [
+                'role' => [
+                    UsersType::AUTHOR,
+                    UsersType::MOD,
+                ],
+                'name' => 'Đơn hàng',
+                'icon' => 'fa fa-shopping-bag',
+                'arr' => [
+                    'admin/oders/add' => [
+                        'name' => 'Thêm đơn hàng',
+                        'icon' => 'fa fa-plus',
+                    ],
+                ]
+            ],
             'admin/adss' => [
                 'role' => [
                     UsersType::AUTHOR,
@@ -191,6 +205,10 @@ class AdminMenu {
                     'admin/smtps' => [
                         'name' => ConfigType::list( ConfigType::SMTP ),
                         'icon' => 'fa fa-envelope',
+                    ],
+                    'admin/checkouts' => [
+                        'name' => ConfigType::list( ConfigType::CHECKOUT ),
+                        'icon' => 'fa fa-dollar',
                     ],
                 ]
             ],

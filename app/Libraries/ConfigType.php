@@ -12,6 +12,7 @@ class ConfigType {
     const BLOG = 'blog';
     const TRANS = 'translate';
     const SMTP = 'smtp';
+    const CHECKOUT = 'checkout';
 
     private static $arr = array(
         self::CONFIG => 'Cấu hình',
@@ -21,6 +22,7 @@ class ConfigType {
         self::BLOG => 'Chi tiết Blog/ Tin tức',
         self::TRANS => 'Bản dịch',
         self::SMTP => 'Cấu hình gửi mail',
+        self::CHECKOUT => 'Thanh toán',
     );
 
     public static function list( $key = '' ) {
@@ -177,6 +179,20 @@ class ConfigType {
                 'smtp2_secure' => 'Bảo mật',
                 'smtp2_host_port' => 'Port',
             ];
+        } else if ( $config_type == self::CHECKOUT ) {
+            $arr = [
+                // Số tiền mặc định -> dùng cho các website dịch vụ đồng giá
+                'min_product_price' => 'Giá trị tối thiểu của đơn hàng',
+                'bank_number' => 'Số tài khoản',
+                'bank_card_name' => 'Chủ tài khoản',
+                'bank_bin_code' => 'ID ngân hàng',
+                'bank_logo' => 'Logo ngân hàng',
+                'bank_swift_code' => 'Mã số ngân hàng',
+                'bank_name' => 'Tên ngân hàng',
+                'bank_short_name' => 'Tên rút gọn ngân hàng',
+                'bank_code' => 'Mã ngân hàng',
+                'autobank_token' => 'Autobank webhook token',
+            ];
         } else {
             $arr = [];
         }
@@ -193,6 +209,15 @@ class ConfigType {
             'sub_bg' => 'color',
             'default_color' => 'color',
             'a_color' => 'color',
+
+            'min_product_price' => 'number',
+            'bank_number' => 'number',
+            'bank_bin_code' => 'select',
+            'bank_logo' => 'hidden',
+            'bank_swift_code' => 'hidden',
+            'bank_name' => 'hidden',
+            'bank_short_name' => 'hidden',
+            'bank_code' => 'hidden',
 
             'smtp_host_port' => 'number',
             'smtp2_host_port' => 'number',
@@ -350,6 +375,10 @@ class ConfigType {
             'enable_hotlink_protection' => 'Chặn các website khác truy cập trực tiếp vào file ảnh trên host này.',
             'enable_device_protection' => 'Chặn đăng nhập trên nhiều thiết bị trong cùng một thời điểm. Nếu phát hiện, sẽ đưa ra popup cảnh báo cho người dùng.',
             'disable_register_member' => 'Khi muốn dừng việc đăng ký tài khoản trên website thì bật chức năng này lên (admin vẫn có thể tạo tài khoản từ trang admin).',
+
+            'min_product_price' => 'Số tiền tối thiểu mà khách phải thanh toán cho mỗi đơn hàng.',
+            'bank_card_name' => 'Lưu ý: viết HOA không dấu',
+            'autobank_token' => 'Tham số dùng để tăng độ bảo mật cho Webhook tự động xác thực quá trình thanh toán.',
         ];
         if ( isset( $arr[ $key ] ) && $arr[ $key ] != '' ) {
             echo '<p class="controls-text-note">' . $arr[ $key ] . '</p>';
@@ -401,6 +430,9 @@ class ConfigType {
                 'ssl' => 'SSL (port 465)',
                 'tls' => 'TLS (port 587)',
             ],
+            'bank_bin_code' => [
+                '' => '[ Chọn ngân hàng ]'
+            ]
         ];
         $arr[ 'smtp2_secure' ] = $arr[ 'smtp_secure' ];
         if ( isset( $arr[ $key ] ) ) {

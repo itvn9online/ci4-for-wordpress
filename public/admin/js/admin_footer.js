@@ -220,8 +220,9 @@ $(document).ready(function () {
 
     // kích hoạt select2 khi lượng option đủ lớn
     $('select').each(function () {
-        if ($('option', this).length > 10) {
+        if ($('option', this).length > 10 && !$(this).hasClass('has-select2')) {
             $(this).select2();
+            $(this).addClass('has-select2');
         }
     });
     //$('.colorpicker').colorpicker();

@@ -281,6 +281,7 @@ class Guest extends Csrf {
                 }
                 // tiến hành đăng ký tài khoản
                 else {
+                    $data[ 'email' ] = strtolower( $data[ 'email' ] );
                     $data[ 'user_email' ] = $data[ 'email' ];
                     $data[ 'ci_pass' ] = $data[ 'password' ];
                     $data[ 'member_type' ] = UsersType::GUEST;
