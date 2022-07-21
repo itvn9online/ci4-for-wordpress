@@ -34,6 +34,14 @@ if ( CDN_BASE_URL != '' ) {
 }
 
 //
+//print_r( $getconfig );
+if ( $getconfig->blog_public == 'on' ) {
+    ?>
+<meta name="robots" content="noindex, nofollow" />
+<?php
+}
+
+//
 if ( $getconfig->fb_app_id != '' ) {
     ?>
 <meta property="fb:app_id" content="<?php echo $getconfig->fb_app_id; ?>" />
@@ -110,10 +118,14 @@ foreach ( $arr_preload_bootstrap as $v ) {
 <!-- <script src="frontend/js/swiper.min.js"></script> -->
 <style>
 :root {
---default-bg: <?php echo $getconfig->default_bg; ?>;
---sub-bg: <?php echo $getconfig->sub_bg; ?>;
---default-color: <?php echo $getconfig->default_color; ?>;
---a-color: <?php echo $getconfig->a_color; ?>;
+--default-bg: <?php echo $getconfig->default_bg;
+?>;
+--sub-bg: <?php echo $getconfig->sub_bg;
+?>;
+--default-color: <?php echo $getconfig->default_color;
+?>;
+--a-color: <?php echo $getconfig->a_color;
+?>;
 }
 </style>
 <?php

@@ -142,7 +142,12 @@ class Configs extends Admin {
         //die( __CLASS__ . ':' . __LINE__ );
 
         //
-        if ( isset( $data[ 'robots' ] ) ) {
+        if ( isset( $data[ 'blog_public' ] ) && $data[ 'blog_public' ] == 'on' ) {
+            $this->base_model->_eb_create_file( PUBLIC_PUBLIC_PATH . 'robots.txt', trim( 'User-agent: *
+Disallow: /' ), [ 'ftp' => 1 ] );
+        }
+        //
+        else if ( isset( $data[ 'robots' ] ) ) {
             // cập nhật lại robots.txt khi không có nội dung hoặc sai địa chỉ sitemap
             if ( $data[ 'robots' ] == '' || strpos( $data[ 'robots' ], DYNAMIC_BASE_URL ) === false ) {
                 $data[ 'robots' ] = '
