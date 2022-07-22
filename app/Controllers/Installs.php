@@ -12,7 +12,7 @@ class Installs extends Sync {
     }
 
     public function index() {
-        $f = PUBLIC_HTML_PATH . 'sync.txt';
+        $f = APPPATH . 'sync.txt';
 
         // chỉ khi tồn tại file sync thì mới sync
         if ( file_exists( $f ) ) {

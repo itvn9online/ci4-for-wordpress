@@ -30,9 +30,11 @@ class Sync extends BaseController {
         $this->action_vendor_sync( 'app/ThirdParty', $check_thirdparty_exist );
 
         //
-        $f = PUBLIC_HTML_PATH . 'sync.txt';
-        if ( file_exists( $f ) ) {
-            unlink( $f );
+        if ( strpos( $_SERVER[ 'HTTP_HOST' ], 'localhost' ) === false ) {
+            $f = APPPATH . 'sync.txt';
+            if ( file_exists( $f ) ) {
+                unlink( $f );
+            }
         }
     }
 
@@ -400,7 +402,7 @@ class Sync extends BaseController {
         //
         $zip = new\ ZipArchive();
         if ( $zip->open( $file ) === TRUE ) {
-            $zip->extractTo( rtrim( $dir, '/' ) . '/' );
+            $zip->extractTo( rtrim( $dir, '/' ) );
             $zip->close();
             return TRUE;
         }
