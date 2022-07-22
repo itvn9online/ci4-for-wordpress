@@ -1,0 +1,24 @@
+<?php
+namespace App\ Controllers;
+
+/*
+ * mục đích duy nhất của controller này là để đồng bộ dữ liệu thôi
+ */
+
+//
+class Installs extends Sync {
+    public function __construct() {
+        parent::__construct();
+    }
+
+    public function index() {
+        $f = PUBLIC_HTML_PATH . 'sync.txt';
+
+        // chỉ khi tồn tại file sync thì mới sync
+        if ( file_exists( $f ) ) {
+            $this->vendor_sync();
+        } else {
+            echo 'WARNING! code #' . __LINE__ . '<br>' . "\n";
+        }
+    }
+}

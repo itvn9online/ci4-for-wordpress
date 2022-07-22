@@ -28,6 +28,12 @@ class Sync extends BaseController {
         $this->action_vendor_sync( 'vendor', $check_thirdparty_exist );
         // đồng bộ ThirdParty php (code php của bên thứ 3)
         $this->action_vendor_sync( 'app/ThirdParty', $check_thirdparty_exist );
+
+        //
+        $f = PUBLIC_HTML_PATH . 'sync.txt';
+        if ( file_exists( $f ) ) {
+            unlink( $f );
+        }
     }
 
     /*

@@ -1,5 +1,8 @@
 <?php
 
+// install
+$routes->get( '/install', 'Installs::index' );
+
 // admin
 // tạo đường dẫn admin tránh đường dẫn mặc định
 $routes->get( CUSTOM_ADMIN_URI, 'Admin\Dashboard::index' );
