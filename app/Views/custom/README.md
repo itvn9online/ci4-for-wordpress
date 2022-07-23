@@ -8,6 +8,6 @@ Thư mục chứa các view riêng của từng website, khi có file view trong
 - /app/Views/html
 
 #### Trường hợp không muốn ghi đè kiểu custom:
-- Copy file trong thư mục `/app/Views/default` bỏ ra thư mục `/app/Views` rồi code như bình thường thôi. Cách này bỏ qua được cái bước if else để include nhưng có thể sẽ mất đi một số tính năng mặc định hay ho của bản gốc.
+- Copy file trong thư mục `/app/Views/default` bỏ ra thư mục `/app/Views` rồi code như bình thường thôi. Cách này bỏ qua được cái bước `if else` để include file view nhưng có thể sẽ mất đi một số tính năng mặc định hay ho của bản gốc.
 
 > Lưu ý: nên tạo một project khác, mỗi khi update code thì up code ở bản gốc trước, sau đó mới update code ở project nhánh để thực hiện ghi đè file code riêng.
