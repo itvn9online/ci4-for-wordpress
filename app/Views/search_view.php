@@ -11,7 +11,7 @@
  * thử xem có file search riêng theo từng post type không
  */
 // -> ưu tiên trong theme riêng trước
-$theme_private_view = APPPATH . 'Views/custom/' . $post_type . '-' . basename( __FILE__ );
+$theme_private_view = VIEWS_CUSTOM_PATH . 'default/' . $post_type . '-' . basename( __FILE__ );
 //echo $theme_private_view . '<br>' . "\n";
 
 //
@@ -45,7 +45,7 @@ else {
     // không có thì mới chuyển sảng view mặc định (loại dùng chung cho toàn bộ post type)
     else {
         // nạp view riêng của từng theme nếu có
-        $theme_private_view = APPPATH . 'Views/custom/' . basename( __FILE__ );
+        $theme_private_view = VIEWS_CUSTOM_PATH . 'default/' . basename( __FILE__ );
         //echo $theme_private_view . '<br>' . "\n";
 
         //
@@ -54,7 +54,7 @@ else {
         }
         // không có thì nạp view mặc định
         else {
-            include __DIR__ . '/default/' . basename( __FILE__ );
+            include VIEWS_PATH . 'default/' . basename( __FILE__ );
         }
     }
 }

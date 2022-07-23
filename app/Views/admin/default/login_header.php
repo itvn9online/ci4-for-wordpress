@@ -1,7 +1,7 @@
 <?php
 
 //
-$theme_private_view = APPPATH . 'Views/custom/' . basename( __FILE__ );
+$theme_private_view = VIEWS_CUSTOM_PATH . 'default/' . basename( __FILE__ );
 
 //
 $base_model->add_css( 'css/maruti-login.css' );

@@ -43,7 +43,7 @@ var flatsomeVars = {
 $base_model->add_js( 'javascript/flatsome.js', [
     //'get_content' => 1,
     //'preload' => 1,
-    //'cdn' => CDN_BASE_URL,
+    'cdn' => CDN_BASE_URL,
 ], [
     'defer'
 ] );

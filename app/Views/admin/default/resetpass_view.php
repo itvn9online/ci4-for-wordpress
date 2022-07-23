@@ -1,6 +1,6 @@
 <?php
 
-include APPPATH . 'Views/admin/default/login_header.php';
+include VIEWS_PATH . 'admin/default/login_header.php';
 
 ?>
 <div id="loginbox">
@@ -18,7 +18,7 @@ include APPPATH . 'Views/admin/default/login_header.php';
             <?php
 
             // web nào cần mở xác thực captcha cho phần reset pass thì include file này
-            include APPPATH . 'Views/admin/default/login_captcha.php';
+            include VIEWS_PATH . 'admin/default/login_captcha.php';
 
             ?>
         </div>

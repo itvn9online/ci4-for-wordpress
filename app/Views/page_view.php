@@ -31,7 +31,7 @@ if ( $page_template != '' ) {
     ] );
 } else {
     // nạp view riêng của từng theme nếu có
-    $theme_private_view = APPPATH . 'Views/custom/' . basename( __FILE__ );
+    $theme_private_view = VIEWS_CUSTOM_PATH . 'default/' . basename( __FILE__ );
     //echo $theme_private_view . '<br>' . "\n";
 
     //
@@ -40,7 +40,7 @@ if ( $page_template != '' ) {
     }
     // không có thì nạp view mặc định
     else {
-        include __DIR__ . '/default/' . basename( __FILE__ );
+        include VIEWS_PATH . 'default/' . basename( __FILE__ );
     }
 }
 

@@ -1,7 +1,7 @@
 <?php
 
 //
-include APPPATH . 'Views/admin/default/login_header.php';
+include VIEWS_PATH . 'admin/default/login_header.php';
 
 ?>
 <div id="loginbox">
@@ -31,7 +31,7 @@ include APPPATH . 'Views/admin/default/login_header.php';
             <?php
 
             // thêm mã xác thực cho quá trình đăng ký tài khoản
-            include APPPATH . 'Views/admin/default/login_captcha.php';
+            include VIEWS_PATH . 'admin/default/login_captcha.php';
 
             ?>
         </div>

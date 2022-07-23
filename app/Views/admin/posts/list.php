@@ -113,7 +113,7 @@ WGR_vuejs('#app', {
 <?php
 
 //
-include APPPATH . 'Views/admin/posts/sync_modal.php';
+include VIEWS_PATH . 'admin/posts/sync_modal.php';
 
 //
 if ( $post_type == PostType::MENU ) {

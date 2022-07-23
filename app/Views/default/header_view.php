@@ -2,7 +2,7 @@
 
 // mobile
 if ( $isMobile == true ) {
-    include APPPATH . 'Views/includes/header_mobile1.php';
+    include VIEWS_PATH . 'includes/header_mobile1.php';
 }
 // desktop
 else {
@@ -48,4 +48,4 @@ else {
 } // END desktop
 
 //
-include APPPATH . 'Views/includes/header_search.php';
+include VIEWS_PATH . 'includes/header_search.php';

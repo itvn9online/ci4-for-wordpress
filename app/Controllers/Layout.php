@@ -91,7 +91,7 @@ class Layout extends Sync {
         $itemprop_cache_author = WRITEPATH . 'itemprop-author.txt';
         if ( !file_exists( $itemprop_cache_logo ) || time() - filemtime( $itemprop_cache_logo ) > HOUR ) {
             // logo
-            $structured_data = file_get_contents( APPPATH . 'Views/html/structured-data/itemprop-logo.html' );
+            $structured_data = file_get_contents( VIEWS_PATH . 'html/structured-data/itemprop-logo.html' );
             $structured_data = str_replace( '{{web_quot_title}}', str_replace( '"', '', $this->getconfig->name ), $structured_data );
             $structured_data = str_replace( '{{trv_img}}', DYNAMIC_BASE_URL . $this->getconfig->logo, $structured_data );
             $structured_data = str_replace( '{{trv_width_img}}', $this->getconfig->logo_height_img, $structured_data );
@@ -102,7 +102,7 @@ class Layout extends Sync {
             touch( $itemprop_cache_logo, time() );
 
             // author
-            $structured_data = file_get_contents( APPPATH . 'Views/html/structured-data/itemprop-author.html' );
+            $structured_data = file_get_contents( VIEWS_PATH . 'html/structured-data/itemprop-author.html' );
             $structured_data = str_replace( '{{author_quot_title}}', str_replace( '"', '', $this->getconfig->name ), $structured_data );
 
             //
@@ -977,7 +977,7 @@ class Layout extends Sync {
         //print_r( $data );
 
         //
-        $html = file_get_contents( APPPATH . 'Views/html/structured-data/' . $f );
+        $html = file_get_contents( VIEWS_PATH . 'html/structured-data/' . $f );
         foreach ( $data as $k => $v ) {
             if ( is_array( $v ) ) {
                 continue;

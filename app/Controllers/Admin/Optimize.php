@@ -41,11 +41,7 @@ class Optimize extends Admin {
                 'ftp' => 1,
             ] );
             // optimize phần view -> nếu muốn optimize thủ công thì mở comment đoạn sau, còn không chỉ optimize khi update code
-            $this->base_model->_eb_create_file( APPPATH . 'Views/' . $f, $c, [
-                'set_permission' => DEFAULT_FILE_PERMISSION,
-                'ftp' => 1,
-            ] );
-            $this->base_model->_eb_create_file( APPPATH . 'Views/custom/' . $f, $c, [
+            $this->base_model->_eb_create_file( VIEWS_PATH . $f, $c, [
                 'set_permission' => DEFAULT_FILE_PERMISSION,
                 'ftp' => 1,
             ] );

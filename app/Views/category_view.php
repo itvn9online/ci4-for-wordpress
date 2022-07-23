@@ -24,7 +24,7 @@ if ( isset( $getconfig->show_child_category ) &&
     /*
      * nạp view riêng của từng theme nếu có
      */
-    $theme_private_view = APPPATH . 'Views/custom/' . basename( __FILE__ );
+    $theme_private_view = VIEWS_CUSTOM_PATH . 'default/' . basename( __FILE__ );
     //echo $theme_private_view . '<br>' . "\n";
 
     //
@@ -33,7 +33,7 @@ if ( isset( $getconfig->show_child_category ) &&
     }
     // không có thì nạp view mặc định
     else {
-        include __DIR__ . '/default/' . basename( __FILE__ );
+        include VIEWS_PATH . 'default/' . basename( __FILE__ );
     }
 }
 // chế độ hiển thì trực tiếp bài viết của nhóm hiện tại

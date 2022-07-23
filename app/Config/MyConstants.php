@@ -23,6 +23,10 @@ define( 'PUBLIC_HTML_PATH', ROOTPATH );
 define( 'PUBLIC_PUBLIC_PATH', PUBLIC_HTML_PATH . 'public/' );
 //die( PUBLIC_PUBLIC_PATH );
 
+//
+define( 'VIEWS_PATH', APPPATH . 'Views/' );
+define( 'VIEWS_CUSTOM_PATH', VIEWS_PATH . 'custom/' );
+
 
 /*
  * lưu giá trị của config vào biến này, nếu hàm sau có gọi lại thì tái sử dụng luôn
