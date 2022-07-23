@@ -3,7 +3,7 @@ Thư mục chứa các view riêng của từng website, khi có file view trong
 
 #### Các thư mục hỗ trợ ghi đè
 - /app/Views/admin
--- /app/Views/admin/default
+	- /app/Views/admin/default
 - /app/Views/default
 - /app/Views/html
 
