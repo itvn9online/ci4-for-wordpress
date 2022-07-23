@@ -1,7 +1,7 @@
 <div class="text-center">
     <?php
 
-    //
+    // lấy logo website trong config
     $option_model->the_logo( $getconfig );
 
     // nếu đã đăng nhập -> hiển thị menu profile
