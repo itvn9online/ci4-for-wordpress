@@ -9,4 +9,4 @@ Thư mục chứa các view riêng của từng website, khi có file view trong
 #### Trường hợp không muốn ghi đè kiểu custom:
 - Copy file trong thư mục `/app/Views/default` bỏ ra thư mục `/app/Views` rồi code như bình thường thôi.
 
-* Lưu ý: nên tạo một project khác, mỗi khi update code thì up code ở bản gốc trước, sau đó mới update code ở project nhánh để thực hiện ghi đè file code riêng.
+> Lưu ý: nên tạo một project khác, mỗi khi update code thì up code ở bản gốc trước, sau đó mới update code ở project nhánh để thực hiện ghi đè file code riêng.
