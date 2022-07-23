@@ -31,7 +31,7 @@ if ( $page_template != '' ) {
     ] );
 } else {
     // nạp view riêng của từng theme nếu có
-    $theme_private_view = THEMEPATH . 'Views/' . basename( __FILE__ );
+    $theme_private_view = APPPATH . 'Views/custom/' . basename( __FILE__ );
     //echo $theme_private_view . '<br>' . "\n";
 
     //

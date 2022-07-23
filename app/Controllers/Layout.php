@@ -471,46 +471,24 @@ class Layout extends Sync {
 
         //
         if ( !file_exists( $htaccess_file ) ) {
-            $str_hotlink_protection = '';
+            // tạo hotlink protection nếu có yêu cầu
+            $hotlink_protection = '';
             if ( $hotlink_protection === true ) {
-                $str_hotlink_protection = '
-
-# chan truy cap vao hinh anh tu cac ten mien khac
-<IfModule mod_rewrite.c>
-RewriteEngine on
-RewriteCond %{HTTP_REFERER} !^$
-RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?' . $_SERVER[ 'HTTP_HOST' ] . ' [NC]
-RewriteRule \.(' . $this->htaccess_allow . ')$ - [F]
-</IfModule>
-
-';
+                $hotlink_protection = $this->helpersTmpFile( 'hotlink_protection', [
+                    'http_host' => $_SERVER[ 'HTTP_HOST' ],
+                    'htaccess_allow' => $this->htaccess_allow,
+                ] );
             }
 
+            // tạo file htaccess chỉ cho phép truy cập tới 1 số file được chỉ định
+            $htaccess_allow_deny = $this->helpersTmpFile( 'htaccess_allow_deny', [
+                'htaccess_allow' => $this->htaccess_allow,
+                'base_url' => DYNAMIC_BASE_URL,
+                'hotlink_protection' => $hotlink_protection,
+            ] );
+
             // nội dung chặn mọi truy cập tới các file trong này
-            $this->base_model->_eb_create_file( $htaccess_file, trim( '
-
-#
-Order allow,deny
-Deny from all 
-Allow from 127.0.0.1
-
-# Allow access to files with extensions -> in apache
-<FilesMatch "\.(' . $this->htaccess_allow . ')$">
-Order allow,deny
-Allow from all
-</FilesMatch>
-
-# too many redirect if not image -> in apache, openlitespeed
-<IfModule mod_rewrite.c>
-RewriteCond %{REQUEST_URI} !^.*\.(' . $this->htaccess_allow . ')$
-RewriteRule ^(\.*) ' . DYNAMIC_BASE_URL . '$1 [F]
-</IfModule>
-
-' . $str_hotlink_protection . '
-
-#
-
-' ), [
+            $this->base_model->_eb_create_file( $htaccess_file, $htaccess_allow_deny, [
                 'set_permission' => 0644,
                 'ftp' => 1,
             ] );

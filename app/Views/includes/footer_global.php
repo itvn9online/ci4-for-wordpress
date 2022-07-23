@@ -33,7 +33,7 @@ if ( $current_user_id > 0 && isset( $session_data[ 'userLevel' ] ) && $session_d
 
 
 // nạp header riêng của từng theme nếu có
-$theme_private_view = THEMEPATH . 'Views/get_footer.php';
+$theme_private_view = APPPATH . 'Views/custom/get_footer.php';
 //echo $theme_private_view . '<br>' . "\n";
 if ( file_exists( $theme_private_view ) ) {
     include $theme_private_view;

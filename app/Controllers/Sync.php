@@ -564,4 +564,9 @@ class Sync extends BaseController {
         //
         return true;
     }
+
+    // lấy nội dung file mẫu trong /app/Helpers và gắn tham số cho nó để tạo file tương ứng
+    protected function helpersTmpFile( $fname, $data = [] ) {
+        return $this->base_model->tmp_to_html( file_get_contents( APPPATH . 'Helpers/' . $fname . '.txt' ), $data );
+    }
 }

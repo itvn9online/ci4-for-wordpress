@@ -6,7 +6,7 @@ $(document).ready(function () {
      */
     jQuery.ajax({
         type: 'GET',
-        url: 'javascript/banks-vietqr.json',
+        url: 'libraries/banks-vietqr.json',
         dataType: 'json',
         //crossDomain: true,
         timeout: 33 * 1000,

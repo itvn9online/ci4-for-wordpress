@@ -1,0 +1,18 @@
+#
+Order allow,deny
+Deny from all 
+Allow from 127.0.0.1
+
+# Allow access to files with extensions -> in apache
+<FilesMatch "\.({{htaccess_allow}})$">
+Order allow,deny
+Allow from all
+</FilesMatch>
+
+# too many redirect if not image -> in apache, openlitespeed
+<IfModule mod_rewrite.c>
+RewriteCond %{REQUEST_URI} !^.*\.({{htaccess_allow}})$
+RewriteRule ^(\.*) {base_url}$1 [F]
+</IfModule>
+
+{{hotlink_protection}}

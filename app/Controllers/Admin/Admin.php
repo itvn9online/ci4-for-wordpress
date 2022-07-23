@@ -215,21 +215,12 @@ class Admin extends Ajaxs {
                         echo $f . '<br>' . "\n";
 
                         //
-                        $this->base_model->_eb_create_file( $f, trim( '
+                        $htaccess_deny_all = $this->helpersTmpFile( 'htaccess_deny_all', [
+                            'base_url' => DYNAMIC_BASE_URL,
+                        ] );
 
-<IfModule authz_core_module>
-	Require all denied
-</IfModule>
-<IfModule !authz_core_module>
-	Deny from all
-</IfModule>
-
-# too many redirect for all extensions -> in apache, openlitespeed
-RewriteRule ^(.*) ' . DYNAMIC_BASE_URL . '$1 [F]
-
-#
-
-' ), [
+                        //
+                        $this->base_model->_eb_create_file( $f, $htaccess_deny_all, [
                             'set_permission' => 0644,
                             'ftp' => 1,
                         ] );

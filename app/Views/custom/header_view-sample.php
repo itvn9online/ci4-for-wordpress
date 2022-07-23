@@ -1,6 +1,9 @@
 <div class="text-center">
     <?php
 
+    //
+    $option_model->the_logo( $getconfig );
+
     // nếu đã đăng nhập -> hiển thị menu profile
     if ( $current_user_id > 0 ) {
         // hiển thị thêm menu cho admin

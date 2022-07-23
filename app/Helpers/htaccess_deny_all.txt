@@ -1,0 +1,10 @@
+# chan moi truy cap toi thu muc nay
+<IfModule authz_core_module>
+	Require all denied
+</IfModule>
+<IfModule !authz_core_module>
+	Deny from all
+</IfModule>
+
+# too many redirect for all extensions -> in apache, openlitespeed
+RewriteRule ^(.*) {{base_url}}$1 [F]

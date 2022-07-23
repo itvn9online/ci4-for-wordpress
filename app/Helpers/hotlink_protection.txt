@@ -1,0 +1,7 @@
+# chan truy cap vao hinh anh tu cac ten mien khac
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?{{http_host}} [NC]
+RewriteRule \.({{htaccess_allow}})$ - [F]
+</IfModule>

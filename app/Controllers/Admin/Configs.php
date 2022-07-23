@@ -143,29 +143,17 @@ class Configs extends Admin {
 
         //
         if ( isset( $data[ 'blog_public' ] ) && $data[ 'blog_public' ] == 'on' ) {
-            $this->base_model->_eb_create_file( PUBLIC_PUBLIC_PATH . 'robots.txt', trim( 'User-agent: *
-Disallow: /' ), [ 'ftp' => 1 ] );
+            $this->base_model->_eb_create_file( PUBLIC_PUBLIC_PATH . 'robots.txt', $this->helpersTmpFile( 'robots_disallow_all' ), [ 'ftp' => 1 ] );
         }
         //
         else if ( isset( $data[ 'robots' ] ) ) {
             // cập nhật lại robots.txt khi không có nội dung hoặc sai địa chỉ sitemap
             if ( $data[ 'robots' ] == '' || strpos( $data[ 'robots' ], DYNAMIC_BASE_URL ) === false ) {
-                $data[ 'robots' ] = '
-User-agent: *
-Disallow: /cgi-bin/
-Disallow: /admin/
-Disallow: /manager/
-Disallow: /search?q=*
-Disallow: /search?s=*
-Disallow: *?replytocom
-Disallow: */attachment/*
-Disallow: /images/
-
-Allow: /*.js$
-Allow: /*.css$
-Sitemap: ' . DYNAMIC_BASE_URL . 'sitemap';
+                $data[ 'robots' ] = $this->helpersTmpFile( 'robots_default', [
+                    'base_url' => DYNAMIC_BASE_URL,
+                ] );
             }
-            $data[ 'robots' ] = trim( $data[ 'robots' ] );
+            //$data[ 'robots' ] = trim( $data[ 'robots' ] );
 
             //
             //$id = '1';

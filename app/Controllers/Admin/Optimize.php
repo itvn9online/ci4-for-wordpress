@@ -45,7 +45,7 @@ class Optimize extends Admin {
                 'set_permission' => DEFAULT_FILE_PERMISSION,
                 'ftp' => 1,
             ] );
-            $this->base_model->_eb_create_file( THEMEPATH . 'Views/' . $f, $c, [
+            $this->base_model->_eb_create_file( APPPATH . 'Views/custom/' . $f, $c, [
                 'set_permission' => DEFAULT_FILE_PERMISSION,
                 'ftp' => 1,
             ] );

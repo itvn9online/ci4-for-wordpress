@@ -80,7 +80,7 @@ if ( $auto_update_module * 1 === 1 ) {
             <div class="control-group">
                 <label class="control-label">PHP Code:</label>
                 <div class="controls">
-                    <input type="text" class="span6" onClick="this.select()" value="&lt;?php $menu_model->the_menu( '<?php echo $data['post_name']; ?>' ); ?&gt;" readonly />
+                    <input type="text" class="span6" onClick="this.select()" onDblClick="click2Copy(this);" value="&lt;?php $menu_model->the_menu( '<?php echo $data['post_name']; ?>' ); ?&gt;" readonly />
                 </div>
             </div>
             <?php

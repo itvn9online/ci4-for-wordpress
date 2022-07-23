@@ -18,7 +18,7 @@ class Csrf extends Layout {
 
     // các trường hợp có captcha thì so khớp, không thì thôi
     protected function checking_captcha( $msg = 'Mã xác thực không chính xác' ) {
-        if ( $_SERVER[ 'REQUEST_METHOD' ] == 'POST' && isset( $_POST[ 'captcha' ] ) && $this->MY_session( 'check_captcha' ) != $this->MY_post( 'captcha' ) ) {
+        if ( $_SERVER[ 'REQUEST_METHOD' ] != 'GET' && isset( $_REQUEST[ 'captcha' ] ) && $this->MY_session( 'check_captcha' ) != $this->MY_post( 'captcha' ) ) {
             $this->base_model->msg_error_session( $msg, $this->form_target );
             $this->has_captcha = true;
         }
@@ -27,7 +27,7 @@ class Csrf extends Layout {
     // các trường hợp bắt buộc phải có captcha
     protected function check_required_captcha( $msg = 'Mã xác thực không chính xác' ) {
         // với các trường hợp cần dùng đến captcha nhưng không có
-        if ( $_SERVER[ 'REQUEST_METHOD' ] == 'POST' && $this->MY_session( 'check_captcha' ) != $this->MY_post( 'captcha' ) ) {
+        if ( $_SERVER[ 'REQUEST_METHOD' ] != 'GET' && $this->MY_session( 'check_captcha' ) != $this->MY_post( 'captcha' ) ) {
             $this->base_model->msg_error_session( $msg, $this->form_target );
 
             // -> chuyển tham số này thành true -> các lệnh sau đó sẽ dừng thực thi
