@@ -92,8 +92,12 @@ class Configs extends Admin {
 
         //
         if ( $option_type == ConfigType::CONFIG ) {
+            // chỉ cho phép một số định dạng file được truy cập trong thư mục upload
             echo $this->deny_visit_upload( '', true, isset( $data[ 'enable_hotlink_protection' ] ) ? true : false ) . '<br>' . "\n";
             $this->auto_create_htaccess_deny( true );
+
+            // chỉ cho phép một số định dạng file được truy cập trong thư mục themes
+            echo $this->deny_visit_upload( PUBLIC_PUBLIC_PATH . 'themes', true, false ) . '<br>' . "\n";
 
             //
             $data[ 'logo_width_img' ] = 0;

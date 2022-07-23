@@ -44,10 +44,10 @@ class PostBase extends EbModel {
         if ( file_exists( WRITEPATH . 'itemprop-author.txt' ) ) {
             $this->itempropAuthorHtmlNode = file_get_contents( WRITEPATH . 'itemprop-author.txt' );
         }
-        $this->itempropImageHtmlNode = file_get_contents( APPPATH . 'Views/structured-data/itemprop-image.html' );
+        $this->itempropImageHtmlNode = file_get_contents( APPPATH . 'Views/html/structured-data/itemprop-image.html' );
 
         //
-        $structured_data = file_get_contents( APPPATH . 'Views/structured-data/NewsArticle.html' );
+        $structured_data = file_get_contents( APPPATH . 'Views/html/structured-data/NewsArticle.html' );
         $structured_data = str_replace( '{{product_html_tag}}', $this->product_html_tag, $structured_data );
         $structured_data = str_replace( '{{primary_controller}}', $this->primary_controller, $structured_data );
 

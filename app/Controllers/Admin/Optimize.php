@@ -105,7 +105,6 @@ class Optimize extends Admin {
 
         // optimize phần view -> optimize HTML
         $this->optimize_action_views( APPPATH );
-        $this->optimize_action_views( THEMEPATH );
     }
 
     private function optimize_action_views( $path, $dir = 'Views', $check_active = true ) {

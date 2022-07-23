@@ -387,7 +387,7 @@ class Guest extends Csrf {
                                 'to' => $data[ 'email' ],
                                 'subject' => 'Khởi tạo lại mật khẩu đăng nhập',
                                 'message' => $this->base_model->tmp_to_html(
-                                    $this->base_model->get_html_tmp( 'reset_password_confirm', '', 'Views/mail_template/' ), [
+                                    $this->base_model->get_html_tmp( 'reset_password_confirm', '', 'Views/html/mail-template/' ), [
                                         'base_url' => base_url(),
                                         'email' => $data[ 'email' ],
                                         'link_reset_pass' => $link_reset_pass,
@@ -537,7 +537,7 @@ class Guest extends Csrf {
             'to' => $email,
             'subject' => 'Mật khẩu đăng nhập mới',
             'message' => $this->base_model->tmp_to_html(
-                $this->base_model->get_html_tmp( 'reset_password', '', 'Views/mail_template/' ), [
+                $this->base_model->get_html_tmp( 'reset_password', '', 'Views/html/mail-template/' ), [
                     'base_url' => base_url( 'guest/login' ),
                     'email' => $email,
                     'ip' => $this->request->getIPAddress(),
