@@ -152,7 +152,7 @@ class Configs extends Admin {
         //die( __CLASS__ . ':' . __LINE__ );
 
         //
-        if ( isset( $data[ 'blog_public' ] ) && $data[ 'blog_public' ] == 'on' ) {
+        if ( isset( $data[ 'blog_private' ] ) && $data[ 'blog_private' ] == 'on' ) {
             $this->base_model->_eb_create_file( PUBLIC_PUBLIC_PATH . 'robots.txt', $this->helpersTmpFile( 'robots_disallow_all' ), [ 'ftp' => 1 ] );
         }
         //
@@ -162,6 +162,10 @@ class Configs extends Admin {
                 $data[ 'robots' ] = $this->helpersTmpFile( 'robots_default', [
                     'base_url' => DYNAMIC_BASE_URL,
                 ] );
+                //echo nl2br( $data[ 'robots' ] );
+
+                //
+                $arr_meta_key[] = 'robots';
             }
             //$data[ 'robots' ] = trim( $data[ 'robots' ] );
 
@@ -177,6 +181,7 @@ class Configs extends Admin {
             //
             $this->base_model->_eb_create_file( PUBLIC_PUBLIC_PATH . 'robots.txt', $data[ 'robots' ], [ 'ftp' => 1 ] );
         }
+        //print_r( $data );
 
         //
         $this->option_model->backup_options( $option_type, $this->lang_key, $arr_meta_key );

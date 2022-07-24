@@ -35,7 +35,7 @@ if ( CDN_BASE_URL != '' ) {
 
 //
 //print_r( $getconfig );
-if ( $getconfig->blog_public == 'on' ) {
+if ( $getconfig->blog_private == 'on' ) {
     ?>
 <meta name="robots" content="noindex, nofollow" />
 <?php

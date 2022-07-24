@@ -99,7 +99,7 @@ class ConfigType {
                 'enable_hotlink_protection' => 'HotLink protection',
                 'enable_device_protection' => 'Device logged protection',
                 'disable_register_member' => 'Dừng đăng ký tài khoản mới',
-                'blog_public' => 'Ngăn chặn các công cụ tìm kiếm đánh chỉ mục website này',
+                'blog_private' => 'Ngăn chặn các công cụ tìm kiếm đánh chỉ mục website này',
             ];
         } else if ( $config_type == self::DISPLAY ) {
             $arr = [
@@ -253,7 +253,7 @@ class ConfigType {
             'enable_hotlink_protection' => 'checkbox',
             'enable_device_protection' => 'checkbox',
             'disable_register_member' => 'checkbox',
-            'blog_public' => 'checkbox',
+            'blog_private' => 'checkbox',
             'smtp_no_reply' => 'checkbox',
             'show_child_category' => 'checkbox',
             'show_child_blogs' => 'checkbox',
@@ -389,7 +389,7 @@ class ConfigType {
             'enable_hotlink_protection' => 'Chặn các website khác truy cập trực tiếp vào file ảnh trên host này.',
             'enable_device_protection' => 'Chặn đăng nhập trên nhiều thiết bị trong cùng một thời điểm. Nếu phát hiện, sẽ đưa ra popup cảnh báo cho người dùng.',
             'disable_register_member' => 'Khi muốn dừng việc đăng ký tài khoản trên website thì bật chức năng này lên (admin vẫn có thể tạo tài khoản từ trang admin).',
-            'blog_public' => 'Việc tuân thủ yêu cầu này hoàn toàn phụ thuộc vào các công cụ tìm kiếm.',
+            'blog_private' => 'Việc tuân thủ yêu cầu này hoàn toàn phụ thuộc vào các công cụ tìm kiếm.',
 
             'min_product_price' => 'Số tiền tối thiểu mà khách phải thanh toán cho mỗi đơn hàng.',
             'bank_card_name' => 'Lưu ý: viết HOA không dấu',
