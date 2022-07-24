@@ -150,7 +150,7 @@ $base_model->adds_css( [
                     <div class="control-group">
                         <label class="control-label">Nhóm <?php echo $member_name; ?></label>
                         <div class="controls">
-                            <select data-select="<?php echo $data['member_type']; ?>" name="data[member_type]">
+                            <select data-select="<?php echo $data['member_type']; ?>" name="data[member_type]" class="span5">
                                 <option value="">[ Chọn nhóm <?php echo $member_name; ?> ]</option>
                                 <?php
 
@@ -166,7 +166,7 @@ $base_model->adds_css( [
                     <div class="control-group">
                         <label class="control-label">Trạng thái đăng nhập</label>
                         <div class="controls">
-                            <select data-select="<?php echo $data['user_status']; ?>" name="data[user_status]" id="data_user_status" aria-required="true" required>
+                            <select data-select="<?php echo $data['user_status']; ?>" name="data[user_status]" id="data_user_status" aria-required="true" required class="span5">
                                 <?php
 
                                 //

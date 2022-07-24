@@ -98,7 +98,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
             <div class="control-group">
                 <label class="control-label">Danh mục cha</label>
                 <div class="controls">
-                    <select data-select="<?php echo $data['parent']; ?>" name="data[parent]" id="data_parent">
+                    <select data-select="<?php echo $data['parent']; ?>" name="data[parent]" id="data_parent" class="span5">
                         <option value="0">[ Chọn Danh mục cha ]</option>
                     </select>
                 </div>
@@ -162,7 +162,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
                         $select_options = TaxonomyType::meta_select( $k );
 
                         ?>
-                    <select data-select="<?php $term_model->echo_meta_term($data, $k); ?>" name="term_meta[<?php echo $k; ?>]">
+                    <select data-select="<?php $term_model->echo_meta_term($data, $k); ?>" name="term_meta[<?php echo $k; ?>]" class="span5">
                         <?php
 
                         foreach ( $select_options as $option_k => $option_v ) {

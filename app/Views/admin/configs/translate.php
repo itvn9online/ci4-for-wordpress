@@ -87,7 +87,7 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
                         $select_options = ConfigType::meta_select( $lang_k );
 
                         ?>
-                    <select data-select="<?php echo $data[$k]; ?>" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>">
+                    <select data-select="<?php echo $data[$k]; ?>" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>" class="span5">
                         <?php
 
                         foreach ( $select_options as $option_k => $option_v ) {
@@ -139,8 +139,16 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
 
 //
 $base_model->add_js( 'admin/js/config_function.js' );
-$base_model->add_js( 'admin/js/config.js' );
-$base_model->add_js( 'admin/js/config_' . $config_type . '.js' );
+
+//
+$base_model->adds_js( [
+    'admin/js/config.js',
+    'admin/js/config_' . $config_type . '.js',
+], [
+    //'cdn' => CDN_BASE_URL,
+], [
+    'defer'
+] );
 
 ?>
 <script>

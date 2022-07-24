@@ -209,7 +209,7 @@ var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
         </div>
     </div>
     <div class="container-fluid">
-        <div id="for_vue" class="row-fluid">
+        <div class="row-fluid">
             <?php
 
             /*
@@ -218,9 +218,12 @@ var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
             include dirname( __DIR__ ) . '/includes/msg_view.php';
 
             //
-            echo $content;
-
             ?>
+            <div id="for_vue">
+                <?php
+                echo $content;
+                ?>
+            </div>
         </div>
     </div>
 </div>

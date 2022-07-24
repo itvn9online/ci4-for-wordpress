@@ -191,7 +191,20 @@ class Option extends EbModel {
                 }
             }
         }
+
+        // chuẩn hóa dữ liệu để tránh lỗi
         //print_r( $this_cache_config );
+        $default_config_value = [
+            'site_max_width' => 1024,
+            'site_full_width' => 1920,
+        ];
+        foreach ( $default_config_value as $k => $v ) {
+            if ( empty( $this_cache_config[ $k ] ) ) {
+                $this_cache_config[ $k ] = $v;
+            }
+        }
+        //print_r( $this_cache_config );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         $this->the_cache( __FUNCTION__, $lang_key, $this_cache_config, $time );

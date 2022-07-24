@@ -121,7 +121,7 @@ if ( $auto_update_module * 1 === 1 ) {
             <div class="control-group">
                 <label class="control-label">Trạng thái</label>
                 <div class="controls">
-                    <select data-select="<?php echo $data['post_status']; ?>" name="data[post_status]">
+                    <select data-select="<?php echo $data['post_status']; ?>" name="data[post_status]" class="span5">
                         <option ng-repeat="(k, v) in post_status" value="{{k}}">{{v}}</option>
                     </select>
                 </div>
@@ -138,7 +138,7 @@ if ( $auto_update_module * 1 === 1 ) {
             <div class="control-group hide-if-edit-menu">
                 <label class="control-label">Cha</label>
                 <div class="controls">
-                    <select data-select="<?php echo $data['post_parent']; ?>" name="data[post_parent]">
+                    <select data-select="<?php echo $data['post_parent']; ?>" name="data[post_parent]" class="span5">
                         <option value="">[ Không chọn cha ]</option>
                         <option ng-repeat="v in parent_post" value="{{v.ID}}">{{v.post_title}}</option>
                     </select>

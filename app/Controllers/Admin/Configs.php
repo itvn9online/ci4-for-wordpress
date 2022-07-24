@@ -181,10 +181,6 @@ class Configs extends Admin {
         //
         $this->option_model->backup_options( $option_type, $this->lang_key, $arr_meta_key );
 
-        //
-        //$meta_default = ConfigType::meta_default( $this->config_type );
-        //print_r( $meta_default );
-
         // sau đó insert cái mới
         $last_updated = date( EBE_DATETIME_FORMAT );
         $insert_time = date( 'YmdHis' );
@@ -215,7 +211,32 @@ class Configs extends Admin {
         }
         //die( __CLASS__ . ':' . __LINE__ );
 
+        // chạy vòng lặp xóa các dữ liệu dư thừa -> không có trong config
+        $meta_default = ConfigType::meta_default( $this->config_type );
+        //print_r( $meta_default );
+        $remove_not_in = [];
+        foreach ( $meta_default as $k => $v ) {
+            $remove_not_in[] = $k;
+        }
+        //print_r( $remove_not_in );
+
+        // DELETE dữ liệu
+        if ( !empty( $remove_not_in ) ) {
+            $this->base_model->delete_multiple( $this->option_model->table, [
+                // WHERE
+                'option_type' => $this->config_type,
+            ], [
+                'where_not_in' => array(
+                    'option_name' => $remove_not_in
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+            ] );
+        }
+
+
         // dọn dẹp cache liên quan đến config này -> reset cache
+        $this->cleanup_cache( $this->option_model->key_cache( 'list_config' ) );
         $this->cleanup_cache( $this->option_model->key_cache( $option_type ) );
 
         // xác nhận việc update đã xong

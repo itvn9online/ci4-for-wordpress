@@ -61,15 +61,7 @@ class Base extends Session {
     }
 
     function update_multiple( $table, $data, $where_array, $ops = [] ) {
-        if ( empty( $where_array ) ) {
-            if ( isset( $ops[ 'debug_backtrace' ] ) ) {
-                echo $ops[ 'debug_backtrace' ] . '<br>' . PHP_EOL;
-            }
-            echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . PHP_EOL;
-
-            //
-            die( 'data update empty ' . $table . ':' . __CLASS__ . ':line:' . __LINE__ );
-        }
+        $has_where = false;
         //print_r( $where_array );
         //print_r( $ops );
         //die( __CLASS__ . ':' . __LINE__ );
@@ -80,6 +72,7 @@ class Base extends Session {
         //
         foreach ( $where_array as $key => $value ) {
             $builder->where( $key, $value );
+            $has_where = true;
         }
 
         //
@@ -87,8 +80,30 @@ class Base extends Session {
             foreach ( $ops[ 'where_in' ] as $k => $v ) {
                 if ( !empty( $v ) ) {
                     $builder->whereIn( $k, $v );
+                    $has_where = true;
                 }
             }
+        }
+
+        // where not in
+        if ( isset( $op[ 'where_not_in' ] ) ) {
+            foreach ( $op[ 'where_not_in' ] as $k => $v ) {
+                if ( !empty( $v ) ) {
+                    $builder->whereNotIn( $k, $v );
+                    $has_where = true;
+                }
+            }
+        }
+
+        //
+        if ( $has_where !== true ) {
+            if ( isset( $ops[ 'debug_backtrace' ] ) ) {
+                echo $ops[ 'debug_backtrace' ] . '<br>' . PHP_EOL;
+            }
+            echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . PHP_EOL;
+
+            //
+            die( 'data update empty ' . $table . ':' . __CLASS__ . ':line:' . __LINE__ );
         }
 
         //print_r( $data );
@@ -106,7 +121,6 @@ class Base extends Session {
         $builder->update( $data );
 
         // in luôn ra query để test
-        /*
         if ( isset( $op[ 'show_query' ] ) ) {
             print_r( $this->db->getLastQuery()->getQuery() );
             echo '<br>' . PHP_EOL;
@@ -116,13 +130,15 @@ class Base extends Session {
         if ( isset( $op[ 'get_query' ] ) ) {
             return $this->db->getLastQuery()->getQuery();
         }
-        */
 
-        if ( $this->db->affectedRows() > 0 ) {
-            return true;
-        }
+        //
         if ( !$this->query_error( $this->db->error() ) ) {
             print_r( $this->db->error() );
+        }
+
+        //
+        if ( $this->db->affectedRows() > 0 ) {
+            return true;
         }
         return false;
     }
@@ -181,6 +197,16 @@ class Base extends Session {
             }
         }
 
+        // where not in
+        if ( isset( $op[ 'where_not_in' ] ) ) {
+            foreach ( $op[ 'where_not_in' ] as $k => $v ) {
+                if ( !empty( $v ) ) {
+                    $builder->whereNotIn( $k, $v );
+                    $has_where = true;
+                }
+            }
+        }
+
         //
         if ( $has_where !== true ) {
             if ( isset( $op[ 'debug_backtrace' ] ) ) {
@@ -212,11 +238,26 @@ class Base extends Session {
 
         //
         $builder->delete();
-        if ( $this->db->affectedRows() ) {
-            return true;
+
+        // in luôn ra query để test
+        if ( isset( $op[ 'show_query' ] ) ) {
+            print_r( $this->db->getLastQuery()->getQuery() );
+            echo '<br>' . PHP_EOL;
         }
+
+        // trả về query để sử dụng cho mục đích khác
+        if ( isset( $op[ 'get_query' ] ) ) {
+            return $this->db->getLastQuery()->getQuery();
+        }
+
+        //
         if ( !$this->query_error( $this->db->error() ) ) {
             print_r( $this->db->error() );
+        }
+
+        //
+        if ( $this->db->affectedRows() ) {
+            return true;
         }
         return false;
     }
@@ -482,14 +523,6 @@ class Base extends Session {
         if ( $op[ 'limit' ] > 0 ) {
             $builder->limit( $op[ 'limit' ], $op[ 'offset' ] );
         }
-
-        //
-        /*
-        if ( isset( $op[ 'get_query' ] ) ) {
-            // trên CI3 có thể sử dụng hàm này
-            echo $this->db->get_compiled_select() . '<br>' . PHP_EOL;
-        }
-        */
 
         // trả về kết quả
         $a = array();

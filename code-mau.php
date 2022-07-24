@@ -104,6 +104,13 @@ $this->base_model->update_multiple( 'users', [
             3
         )
     ),
+    'where_not_in' => array(
+        'user_id' => array(
+            1,
+            2,
+            3
+        )
+    ),
     // hiển thị mã SQL để check
     'show_query' => 1,
     // trả về câu query để sử dụng cho mục đích khác
@@ -125,7 +132,18 @@ $this->base_model->delete_multiple( 'users', [
             2,
             3
         )
-    )
+    ),
+    'where_not_in' => array(
+        'user_id' => array(
+            1,
+            2,
+            3
+        )
+    ),
+    // hiển thị mã SQL để check
+    'show_query' => 1,
+    // trả về câu query để sử dụng cho mục đích khác
+    'get_query' => 1,
 ] );
 
 

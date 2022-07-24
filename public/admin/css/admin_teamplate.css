@@ -260,6 +260,21 @@ body.ebfixed-down-menu.sidebar-hover.sidebar-height #sidebar, body.ebfixed-down-
     top: auto;
     bottom: 0;
 }
+#sidebar > ul li ul {
+    border-radius: 0 5px 5px 0;
+}
+#sidebar > ul li .sub-menu li:first-child a {
+    border-top-right-radius: 5px;
+}
+#sidebar > ul li .sub-menu li:last-child a {
+    border-bottom-right-radius: 5px;
+}
+#sidebar > ul li ul li:hover a {
+    background: rgba(0, 0, 0, 0.5);
+}
+#sidebar > ul > li .sub-menu li.active a {
+    background-color: #2271b1;
+}
 /* */
 .admin-search-form {}
 .admin-search-form button, .admin-search-form input, .admin-search-form select, .admin-search-form a.btn {
