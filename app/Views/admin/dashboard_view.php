@@ -10,5 +10,5 @@ if ( file_exists( $theme_private_view ) ) {
 }
 // không có thì nạp view mặc định
 else {
-    include VIEWS_PATH . 'default/' . basename( __FILE__ );
+    include VIEWS_PATH . 'admin/default/' . basename( __FILE__ );
 }

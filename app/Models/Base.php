@@ -805,7 +805,7 @@ class Base extends Session {
     }
 
     // trả về nội dung HTML mẫu
-    function get_html_tmp( $file_name, $path = '', $sub_path = 'Views/html/', $file_type = '.html' ) {
+    function get_html_tmp( $file_name, $path = '', $sub_path = 'html/', $file_type = '.html' ) {
         //echo PUBLIC_HTML_PATH . '<br>' . "\n";
         //echo APPPATH . '<br>' . "\n";
         //echo PUBLIC_HTML_PATH . APPPATH . '<br>' . "\n";
@@ -817,10 +817,13 @@ class Base extends Session {
         // nếu không
         else {
             // ưu tiên file trong child-theme
-            $f = THEMEPATH . $sub_path . $file_name . $file_type;
+            $f = VIEWS_CUSTOM_PATH . $sub_path . $file_name . $file_type;
             // nếu không có -> dùng trong theme mặc định
             if ( !file_exists( $f ) ) {
-                $f = APPPATH . $sub_path . $file_name . $file_type;
+                $f = VIEWS_PATH . $sub_path . $file_name . $file_type;
+            } else {
+                // return ở đây mục đích là để tiết kiệm 1 pha if else phía sau =))
+                return file_get_contents( $f, 1 );
             }
         }
         if ( !file_exists( $f ) ) {
@@ -830,11 +833,11 @@ class Base extends Session {
     }
     // trả về mẫu HTML ở theme cha
     function parent_html_tmp( $file_name ) {
-        return $this->get_html_tmp( $file_name, APPPATH );
+        return $this->get_html_tmp( $file_name, VIEWS_PATH );
     }
     // trả về mẫu HTML ở theme con
-    function child_html_tmp( $file_name ) {
-        return $this->get_html_tmp( $file_name, THEMEPATH );
+    function custom_html_tmp( $file_name ) {
+        return $this->get_html_tmp( $file_name, VIEWS_CUSTOM_PATH );
     }
 
     // chuyển đổi từ mảng php sang html tương ứng

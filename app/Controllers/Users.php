@@ -259,7 +259,7 @@ class Users extends Csrf {
                             'to' => $this->session_data[ 'user_email' ],
                             'subject' => 'Xác nhận thay đổi email',
                             'message' => $this->base_model->tmp_to_html(
-                                $this->base_model->get_html_tmp( 'change_email_confirm', '', 'Views/html/mail-template/' ), [
+                                $this->base_model->get_html_tmp( 'change_email_confirm', '', 'html/mail-template/' ), [
                                     'base_url' => base_url(),
                                     'email' => $data[ 'user_email' ],
                                     'old_email' => $this->session_data[ 'user_email' ],

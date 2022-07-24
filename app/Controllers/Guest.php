@@ -111,8 +111,6 @@ class Guest extends Csrf {
                 }
             }
         }
-        //echo 'dfgd fg';
-        //return view( 'admin/login_view' );
 
         //
         $this->teamplate[ 'main' ] = view( 'admin/login_view', array(
@@ -120,6 +118,7 @@ class Guest extends Csrf {
 
             'seo' => $this->seo( 'Đăng nhập', __FUNCTION__ ),
             'breadcrumb' => '',
+            'login_redirect' => $this->loginRedirect(),
             //'cateByLang' => $cateByLang,
             //'serviceByLang' => $serviceByLang,
         ) );
@@ -387,7 +386,7 @@ class Guest extends Csrf {
                                 'to' => $data[ 'email' ],
                                 'subject' => 'Khởi tạo lại mật khẩu đăng nhập',
                                 'message' => $this->base_model->tmp_to_html(
-                                    $this->base_model->get_html_tmp( 'reset_password_confirm', '', 'Views/html/mail-template/' ), [
+                                    $this->base_model->get_html_tmp( 'reset_password_confirm', '', 'html/mail-template/' ), [
                                         'base_url' => base_url(),
                                         'email' => $data[ 'email' ],
                                         'link_reset_pass' => $link_reset_pass,
@@ -523,6 +522,7 @@ class Guest extends Csrf {
         $this->teamplate[ 'main' ] = view( 'admin/login_view', array(
             'seo' => $this->seo( 'Khởi tạo lại mật khẩu', __FUNCTION__ ),
             'breadcrumb' => '',
+            'login_redirect' => $this->loginRedirect(),
         ) );
         //print_r( $this->teamplate );
         return view( 'layout_view', $this->teamplate );
@@ -537,7 +537,7 @@ class Guest extends Csrf {
             'to' => $email,
             'subject' => 'Mật khẩu đăng nhập mới',
             'message' => $this->base_model->tmp_to_html(
-                $this->base_model->get_html_tmp( 'reset_password', '', 'Views/html/mail-template/' ), [
+                $this->base_model->get_html_tmp( 'reset_password', '', 'html/mail-template/' ), [
                     'base_url' => base_url( 'guest/login' ),
                     'email' => $email,
                     'ip' => $this->request->getIPAddress(),
@@ -660,8 +660,21 @@ class Guest extends Csrf {
         $this->teamplate[ 'main' ] = view( 'admin/login_view', array(
             'seo' => $this->seo( 'Thay đổi email đăng nhập', __FUNCTION__ ),
             'breadcrumb' => '',
+            'login_redirect' => $this->loginRedirect(),
         ) );
         //print_r( $this->teamplate );
         return view( 'layout_view', $this->teamplate );
+    }
+
+    protected function loginRedirect() {
+        $login_redirect = '';
+        if ( isset( $_REQUEST[ 'login_redirect' ] ) ) {
+            $login_redirect = urldecode( $_REQUEST[ 'login_redirect' ] );
+        } else if ( isset( $_SERVER[ 'HTTP_REFERER' ] ) &&
+            $_SERVER[ 'HTTP_REFERER' ] &&
+            strpos( $_SERVER[ 'HTTP_REFERER' ], $_SERVER[ 'HTTP_HOST' ] ) !== false ) {
+            $login_redirect = urldecode( $_SERVER[ 'HTTP_REFERER' ] );
+        }
+        return $login_redirect;
     }
 }

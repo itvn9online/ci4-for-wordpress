@@ -1,16 +1,7 @@
 <?php
 
-include VIEWS_PATH . 'admin/default/login_header.php';
-
 //
-$login_redirect = '';
-if ( isset( $_REQUEST[ 'login_redirect' ] ) ) {
-    $login_redirect = urldecode( $_REQUEST[ 'login_redirect' ] );
-} else if ( isset( $_SERVER[ 'HTTP_REFERER' ] ) &&
-    $_SERVER[ 'HTTP_REFERER' ] &&
-    strpos( $_SERVER[ 'HTTP_REFERER' ], $_SERVER[ 'HTTP_HOST' ] ) !== false ) {
-    $login_redirect = urldecode( $_SERVER[ 'HTTP_REFERER' ] );
-}
+include VIEWS_PATH . 'admin/default/login_header.php';
 
 ?>
 <div id="loginbox">

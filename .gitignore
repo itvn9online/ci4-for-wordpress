@@ -142,6 +142,7 @@ outsource/*
 /_notes/
 dwsync.xml
 ci4-for-wordpress.zip
+app.zip
 
 # file backup
 *.bak
