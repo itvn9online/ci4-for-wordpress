@@ -1010,15 +1010,28 @@ class Term extends TermBase {
         /*
          * tạo 1 view trung gian để update tính tổng số nhóm con trong 1 nhóm
          */
-        $sql = "CREATE OR REPLACE VIEW $the_view AS
-        SELECT parent, COUNT(term_id) AS c
-        FROM
-            `" . WGR_TABLE_PREFIX . "term_taxonomy`
-        WHERE
-            parent > 0
-        GROUP BY
-            parent";
+        // -> dùng CI query builder để tạo query -> tránh sql injection
+        $sql = $this->base_model->select( 'parent, COUNT(term_id) AS c', 'term_taxonomy', array(
+            // các kiểu điều kiện where
+            'parent > ' => 0,
+        ), array(
+            'group_by' => array(
+                'parent',
+            ),
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            'get_query' => 1,
+            // trả về COUNT(column_name) AS column_name
+            //'selectCount' => 'ID',
+            // trả về tổng số bản ghi -> tương tự mysql num row
+            //'getNumRows' => 1,
+            //'offset' => 0,
+            'limit' => -1
+        ) );
+        $sql = "CREATE OR REPLACE VIEW $the_view AS $sql";
         //echo $sql . '<br>' . "\n";
+        //die( __CLASS__ . ':' . __LINE__ );
         $this->base_model->MY_query( $sql );
 
         // update count cho các parent trong view
@@ -1051,6 +1064,26 @@ class Term extends TermBase {
         $this->base_model->MY_query( $sql );
 
         // đặt trạng thái public các các relationships của post đang public
+        /*
+        // trong builder CI4 lệnh UPDATE chưa hỗ trợ lệnh join
+        $this->base_model->update_multiple( 'term_relationships', [
+            // SET
+            'term_relationships.is_deleted' => DeletedStatus::FOR_DEFAULT,
+        ], [
+            // WHERE
+            'posts.post_status' => PostType::PUBLICITY,
+        ], [
+            'join' => array(
+                'posts' => 'posts.ID = term_relationships.object_id'
+            ),
+            // hiển thị mã SQL để check
+            'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
+            'no_remove_field' => 1
+        ] );
+        */
         $sql = "UPDATE " . WGR_TABLE_PREFIX . "term_relationships
         INNER JOIN
             " . WGR_TABLE_PREFIX . "posts ON  " . WGR_TABLE_PREFIX . "posts.ID = " . WGR_TABLE_PREFIX . "term_relationships.object_id
@@ -1065,14 +1098,26 @@ class Term extends TermBase {
         /*
          * tạo 1 view trung gian để update tính tổng số bài viết trong 1 nhóm
          */
-        $sql = "CREATE OR REPLACE VIEW $the_view AS
-        SELECT term_taxonomy_id, COUNT(object_id) AS c
-        FROM
-            " . WGR_TABLE_PREFIX . "term_relationships
-        WHERE
-            is_deleted = " . DeletedStatus::FOR_DEFAULT . "
-        GROUP BY
-            term_taxonomy_id";
+        // -> dùng CI query builder để tạo query -> tránh sql injection
+        $sql = $this->base_model->select( 'term_taxonomy_id, COUNT(object_id) AS c', 'term_relationships', array(
+            // các kiểu điều kiện where
+            'is_deleted' => DeletedStatus::FOR_DEFAULT,
+        ), array(
+            'group_by' => array(
+                'term_taxonomy_id',
+            ),
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            'get_query' => 1,
+            // trả về COUNT(column_name) AS column_name
+            //'selectCount' => 'ID',
+            // trả về tổng số bản ghi -> tương tự mysql num row
+            //'getNumRows' => 1,
+            //'offset' => 0,
+            'limit' => -1
+        ) );
+        $sql = "CREATE OR REPLACE VIEW $the_view AS $sql";
         //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query( $sql );
 
@@ -1089,14 +1134,26 @@ class Term extends TermBase {
         /*
          * tạo view để tính tổng số bài trong nhóm con, sau đó update cho nhóm cha -> tăng xác suất xuất hiện của nhóm cha
          */
-        $sql = "CREATE OR REPLACE VIEW $the_view AS
-        SELECT parent, SUM(count) AS t
-        FROM
-            " . WGR_TABLE_PREFIX . "term_taxonomy
-        WHERE
-            parent > 0
-        GROUP BY
-            parent";
+        // -> dùng CI query builder để tạo query -> tránh sql injection
+        $sql = $this->base_model->select( 'parent, SUM(count) AS t', 'term_taxonomy', array(
+            // các kiểu điều kiện where
+            'parent > ' => 0,
+        ), array(
+            'group_by' => array(
+                'parent',
+            ),
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            'get_query' => 1,
+            // trả về COUNT(column_name) AS column_name
+            //'selectCount' => 'ID',
+            // trả về tổng số bản ghi -> tương tự mysql num row
+            //'getNumRows' => 1,
+            //'offset' => 0,
+            'limit' => -1
+        ) );
+        $sql = "CREATE OR REPLACE VIEW $the_view AS $sql";
         //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query( $sql );
 

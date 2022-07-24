@@ -41,7 +41,7 @@ class ConfigType {
 
     private static function textArea() {
         $arr_tmp = [];
-        for ( $i = 0; $i < 10; $i++ ) {
+        for ( $i = 0; $i < NUMBER_TRANS_TEXTAREA; $i++ ) {
             $arr_tmp[ 'custom_textarea' . $i ] = 'Custom textarea ' . $i;
         }
         return $arr_tmp;
@@ -156,7 +156,7 @@ class ConfigType {
             $arr_tmp[ 'copy_right_first' ] = 'Bản quyền (trước)';
             $arr_tmp[ 'copy_right_last' ] = 'Bản quyền (sau)';
             $arr_tmp[ 'powered_by_echbay' ] = 'Cung cấp bởi';
-            for ( $i = 0; $i < 36; $i++ ) {
+            for ( $i = 0; $i < NUMBER_TRANS_INPUT; $i++ ) {
                 $arr_tmp[ 'custom_text' . $i ] = 'Custom text ' . $i;
             }
             foreach ( self::textArea() as $k => $v ) {

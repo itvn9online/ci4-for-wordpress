@@ -23,29 +23,45 @@ class Option extends EbModel {
     public function backup_options( $option_type, $lang_key, $arr_meta_key ) {
         foreach ( $arr_meta_key as $k => $option_name ) {
             $where = [
-                "option_type = '$option_type'",
-                "option_name = '$option_name'",
-                "lang_key = '$lang_key'",
+                'option_type' => $option_type,
+                'option_name' => $option_name,
+                'lang_key' => $lang_key,
             ];
-            $where = implode( ' AND ', $where );
 
-            // backup dữ liệu cũ
-            $sql = "INSERT INTO `" . WGR_TABLE_PREFIX . "options_deleted`
-            SELECT *
-            FROM
-                `" . WGR_TABLE_PREFIX . $this->table . "`
-            WHERE
-                $where";
+            /*
+             * backup dữ liệu cũ
+             */
+            // -> dùng CI query builder để tạo query -> tránh sql injection
+            $sql = $this->base_model->select( '*', $this->table, $where, array(
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => -1
+            ) );
             //echo $sql . '<br>' . "\n";
+            //die( __CLASS__ . ':' . __LINE__ );
+            
+            // -> câu SQL để thực thi trực tiếp
+            $sql = "INSERT INTO `" . WGR_TABLE_PREFIX . "options_deleted` $sql";
+            //echo $sql . '<br>' . "\n";
+            //die( __CLASS__ . ':' . __LINE__ );
             $this->base_model->MY_query( $sql );
             echo 'Backup config: ' . $option_name . ':' . $option_type . '<br>' . PHP_EOL;
 
-            // xong xóa
-            $sql = "DELETE FROM `" . WGR_TABLE_PREFIX . $this->table . "`
-            WHERE
-                $where";
-            //echo $sql . '<br>' . "\n";
-            $this->base_model->MY_query( $sql );
+            // xong XÓA
+            $this->base_model->delete_multiple( $this->table, $where, [
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+            ] );
+            //die( __CLASS__ . ':' . __LINE__ );
             echo 'Delete config: ' . $option_name . ':' . $option_type . '<br>' . PHP_EOL;
         }
     }

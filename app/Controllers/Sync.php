@@ -104,7 +104,7 @@ class Sync extends BaseController {
         }
         //print_r( $arr_term_taxonomy );
 
-        //
+        // -> dùng CI query builder để tạo query -> tránh sql injection
         $sql = $this->base_model->select( 'terms.*,' . implode( ',', $arr_term_taxonomy ), 'terms', array(
             // các kiểu điều kiện where
         ), array(
@@ -185,7 +185,7 @@ class Sync extends BaseController {
         }
         //print_r( $arr_term_relationships );
 
-        //
+        // -> dùng CI query builder để tạo query -> tránh sql injection
         $sql = $this->base_model->select( 'posts.*,' . implode( ',', $arr_term_taxonomy ) . ',' . implode( ',', $arr_term_relationships ), 'posts', array(
             // các kiểu điều kiện where
         ), array(

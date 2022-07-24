@@ -27,6 +27,16 @@ define( 'PUBLIC_PUBLIC_PATH', PUBLIC_HTML_PATH . 'public/' );
 define( 'VIEWS_PATH', APPPATH . 'Views/' );
 define( 'VIEWS_CUSTOM_PATH', VIEWS_PATH . 'custom/' );
 
+// Số lượng bản dịch dạng input -> website nào cần dùng nhiều tăng số lượng trong file functions lên
+defined( 'NUMBER_TRANS_INPUT' ) || define( 'NUMBER_TRANS_INPUT', 20 );
+// Số lượng bản dịch dạng textarea -> website nào cần dùng nhiều tăng số lượng trong file functions lên
+defined( 'NUMBER_TRANS_TEXTAREA' ) || define( 'NUMBER_TRANS_TEXTAREA', 10 );
+// khi cần thay label cho trang /admin/translates để dễ hiểu hơn thì thêm các thông số vào đây
+defined( 'TRANS_TRANS_LABEL' ) || define( 'TRANS_TRANS_LABEL', [
+    'custom_text0' => 'Bản dịch số 0',
+    'custom_textarea0' => 'Bản dịch số 0',
+] );
+
 
 /*
  * lưu giá trị của config vào biến này, nếu hàm sau có gọi lại thì tái sử dụng luôn

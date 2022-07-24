@@ -135,6 +135,9 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
         </form>
     </div>
 </div>
+<script>
+var arr_trans_label = <?php echo json_encode(TRANS_TRANS_LABEL); ?>;
+</script>
 <?php
 
 //

@@ -27,6 +27,19 @@
 // Mặc định không cho xóa hoàn toàn dữ liệu trong mysql, nếu bạn muốn xóa hẳn thì có thể kích hoạt tính năng này.
 //define( 'ALLOW_USING_MYSQL_DELETE', true );
 
+// Số lượng bản dịch dạng input -> website nào cần dùng nhiều tăng số lượng trong file functions lên
+//define( 'NUMBER_TRANS_INPUT', 20 );
+// Số lượng bản dịch dạng textarea -> website nào cần dùng nhiều tăng số lượng trong file functions lên
+//define( 'NUMBER_TRANS_TEXTAREA', 10 );
+/*
+// khi cần thay label cho trang /admin/translates để dễ hiểu hơn thì thêm các thông số vào đây
+define( 'TRANS_TRANS_LABEL', [
+    'custom_text0' => 'Bản dịch số 0',
+    'custom_textarea0' => 'Bản dịch số 0',
+] );
+*/
+
+
 /*
  * Tiền tố cho danh mục sản phẩm
  */

@@ -86,8 +86,8 @@ class Base extends Session {
         }
 
         // where not in
-        if ( isset( $op[ 'where_not_in' ] ) ) {
-            foreach ( $op[ 'where_not_in' ] as $k => $v ) {
+        if ( isset( $ops[ 'where_not_in' ] ) ) {
+            foreach ( $ops[ 'where_not_in' ] as $k => $v ) {
                 if ( !empty( $v ) ) {
                     $builder->whereNotIn( $k, $v );
                     $has_where = true;
@@ -107,7 +107,9 @@ class Base extends Session {
         }
 
         //print_r( $data );
-        $data = $this->removeInvalidField( $data, $table );
+        if ( !isset( $ops[ 'no_remove_field' ] ) ) {
+            $data = $this->removeInvalidField( $data, $table );
+        }
         //print_r( $data );
         if ( empty( $data ) ) {
             if ( isset( $ops[ 'debug_backtrace' ] ) ) {
@@ -118,16 +120,37 @@ class Base extends Session {
             //
             die( __FUNCTION__ . ' data update empty ' . $table . ':line:' . __LINE__ );
         }
+
+        //
+        /*
+        if ( isset( $ops[ 'join' ] ) ) {
+            foreach ( $ops[ 'join' ] as $k => $v ) {
+                $builder->join( $k, $v, 'inner' );
+            }
+        }
+        if ( isset( $ops[ 'left_join' ] ) ) {
+            foreach ( $ops[ 'left_join' ] as $k => $v ) {
+                $builder->join( $k, $v, 'left' );
+            }
+        }
+        if ( isset( $ops[ 'right_join' ] ) ) {
+            foreach ( $ops[ 'right_join' ] as $k => $v ) {
+                $builder->join( $k, $v, 'right' );
+            }
+        }
+        */
+
+        //
         $builder->update( $data );
 
         // in luôn ra query để test
-        if ( isset( $op[ 'show_query' ] ) ) {
+        if ( isset( $ops[ 'show_query' ] ) ) {
             print_r( $this->db->getLastQuery()->getQuery() );
             echo '<br>' . PHP_EOL;
         }
 
         // trả về query để sử dụng cho mục đích khác
-        if ( isset( $op[ 'get_query' ] ) ) {
+        if ( isset( $ops[ 'get_query' ] ) ) {
             return $this->db->getLastQuery()->getQuery();
         }
 
@@ -175,7 +198,7 @@ class Base extends Session {
         return $items;
     }
 
-    public function delete_multiple( $table, $where, $op = [] ) {
+    public function delete_multiple( $table, $where, $ops = [] ) {
         $has_where = false;
 
         //
@@ -186,10 +209,10 @@ class Base extends Session {
         }
 
         // where in
-        if ( isset( $op[ 'where_in' ] ) ) {
-            //print_r( $op[ 'where_in' ] );
+        if ( isset( $ops[ 'where_in' ] ) ) {
+            //print_r( $ops[ 'where_in' ] );
             //die( __CLASS__ . ':' . __LINE__ );
-            foreach ( $op[ 'where_in' ] as $k => $v ) {
+            foreach ( $ops[ 'where_in' ] as $k => $v ) {
                 if ( !empty( $v ) ) {
                     $builder->whereIn( $k, $v );
                     $has_where = true;
@@ -198,8 +221,8 @@ class Base extends Session {
         }
 
         // where not in
-        if ( isset( $op[ 'where_not_in' ] ) ) {
-            foreach ( $op[ 'where_not_in' ] as $k => $v ) {
+        if ( isset( $ops[ 'where_not_in' ] ) ) {
+            foreach ( $ops[ 'where_not_in' ] as $k => $v ) {
                 if ( !empty( $v ) ) {
                     $builder->whereNotIn( $k, $v );
                     $has_where = true;
@@ -209,8 +232,8 @@ class Base extends Session {
 
         //
         if ( $has_where !== true ) {
-            if ( isset( $op[ 'debug_backtrace' ] ) ) {
-                echo $op[ 'debug_backtrace' ] . '<br>' . PHP_EOL;
+            if ( isset( $ops[ 'debug_backtrace' ] ) ) {
+                echo $ops[ 'debug_backtrace' ] . '<br>' . PHP_EOL;
             }
             echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . PHP_EOL;
 
@@ -220,18 +243,18 @@ class Base extends Session {
         }
 
         //
-        if ( isset( $op[ 'join' ] ) ) {
-            foreach ( $op[ 'join' ] as $k => $v ) {
+        if ( isset( $ops[ 'join' ] ) ) {
+            foreach ( $ops[ 'join' ] as $k => $v ) {
                 $builder->join( $k, $v, 'inner' );
             }
         }
-        if ( isset( $op[ 'left_join' ] ) ) {
-            foreach ( $op[ 'left_join' ] as $k => $v ) {
+        if ( isset( $ops[ 'left_join' ] ) ) {
+            foreach ( $ops[ 'left_join' ] as $k => $v ) {
                 $builder->join( $k, $v, 'left' );
             }
         }
-        if ( isset( $op[ 'right_join' ] ) ) {
-            foreach ( $op[ 'right_join' ] as $k => $v ) {
+        if ( isset( $ops[ 'right_join' ] ) ) {
+            foreach ( $ops[ 'right_join' ] as $k => $v ) {
                 $builder->join( $k, $v, 'right' );
             }
         }
@@ -240,13 +263,13 @@ class Base extends Session {
         $builder->delete();
 
         // in luôn ra query để test
-        if ( isset( $op[ 'show_query' ] ) ) {
+        if ( isset( $ops[ 'show_query' ] ) ) {
             print_r( $this->db->getLastQuery()->getQuery() );
             echo '<br>' . PHP_EOL;
         }
 
         // trả về query để sử dụng cho mục đích khác
-        if ( isset( $op[ 'get_query' ] ) ) {
+        if ( isset( $ops[ 'get_query' ] ) ) {
             return $this->db->getLastQuery()->getQuery();
         }
 
@@ -309,46 +332,46 @@ class Base extends Session {
     }
 
     // tự tạo 1 hàm select riêng, viết kiểu code cũ, mỗi lần select lại phải viết function khác -> mệt
-    function select( $select, $from, $where = array(), $op = array() ) {
-        //print_r($op);
+    function select( $select, $from, $where = array(), $ops = array() ) {
+        //print_r($ops);
 
         //
         $builder = $this->db->table( $from );
         // lấy tổng số bản ghi
-        if ( isset( $op[ 'selectCount' ] ) ) {
-            $builder->selectCount( $op[ 'selectCount' ] );
-            $op[ 'limit' ] = -1;
+        if ( isset( $ops[ 'selectCount' ] ) ) {
+            $builder->selectCount( $ops[ 'selectCount' ] );
+            $ops[ 'limit' ] = -1;
         }
         // select thông thường
         else {
             $builder->select( $select );
         }
 
-        if ( isset( $op[ 'join' ] ) ) {
-            foreach ( $op[ 'join' ] as $k => $v ) {
+        if ( isset( $ops[ 'join' ] ) ) {
+            foreach ( $ops[ 'join' ] as $k => $v ) {
                 $builder->join( $k, $v, 'inner' );
             }
         }
-        if ( isset( $op[ 'left_join' ] ) ) {
-            foreach ( $op[ 'left_join' ] as $k => $v ) {
+        if ( isset( $ops[ 'left_join' ] ) ) {
+            foreach ( $ops[ 'left_join' ] as $k => $v ) {
                 $builder->join( $k, $v, 'left' );
             }
         }
-        if ( isset( $op[ 'right_join' ] ) ) {
-            foreach ( $op[ 'right_join' ] as $k => $v ) {
+        if ( isset( $ops[ 'right_join' ] ) ) {
+            foreach ( $ops[ 'right_join' ] as $k => $v ) {
                 $builder->join( $k, $v, 'right' );
             }
         }
         /*
-        if ( isset( $op[ 'full_join' ] ) ) {
-            foreach ( $op[ 'full_join' ] as $k => $v ) {
+        if ( isset( $ops[ 'full_join' ] ) ) {
+            foreach ( $ops[ 'full_join' ] as $k => $v ) {
                 $builder->join( $k, $v, 'full' );
             }
         }
         */
         /*
-        if ( isset( $op[ 'self_join' ] ) ) {
-            foreach ( $op[ 'self_join' ] as $k => $v ) {
+        if ( isset( $ops[ 'self_join' ] ) ) {
+            foreach ( $ops[ 'self_join' ] as $k => $v ) {
                 $builder->join( $k, $v, 'self' );
             }
         }
@@ -366,10 +389,10 @@ class Base extends Session {
 
         // các thông số tùy chỉnh khác
         // or where
-        if ( isset( $op[ 'or_where' ] ) && !empty( $op[ 'or_where' ] ) ) {
+        if ( isset( $ops[ 'or_where' ] ) && !empty( $ops[ 'or_where' ] ) ) {
             //$and_or = array();
             $builder->groupStart();
-            foreach ( $op[ 'or_where' ] as $k => $v ) {
+            foreach ( $ops[ 'or_where' ] as $k => $v ) {
                 // nếu v là 1 mảng -> đây là kiểu WHERE OR lồng nhau
                 if ( is_array( $v ) ) {
                     if ( !empty( $v ) ) {
@@ -395,8 +418,8 @@ class Base extends Session {
         }
 
         // where in
-        if ( isset( $op[ 'where_in' ] ) ) {
-            foreach ( $op[ 'where_in' ] as $k => $v ) {
+        if ( isset( $ops[ 'where_in' ] ) ) {
+            foreach ( $ops[ 'where_in' ] as $k => $v ) {
                 if ( !empty( $v ) ) {
                     $builder->whereIn( $k, $v );
                 }
@@ -404,8 +427,8 @@ class Base extends Session {
         }
 
         // where not in
-        if ( isset( $op[ 'where_not_in' ] ) ) {
-            foreach ( $op[ 'where_not_in' ] as $k => $v ) {
+        if ( isset( $ops[ 'where_not_in' ] ) ) {
+            foreach ( $ops[ 'where_not_in' ] as $k => $v ) {
                 if ( !empty( $v ) ) {
                     $builder->whereNotIn( $k, $v );
                 }
@@ -413,8 +436,8 @@ class Base extends Session {
         }
 
         // like
-        if ( isset( $op[ 'like' ] ) ) {
-            foreach ( $op[ 'like' ] as $k => $v ) {
+        if ( isset( $ops[ 'like' ] ) ) {
+            foreach ( $ops[ 'like' ] as $k => $v ) {
                 $len = strlen( $v );
                 // từ 3 ký tự trở lên sẽ tìm theo dạng '%tu-khoa%'
                 if ( $len > 2 ) {
@@ -427,8 +450,8 @@ class Base extends Session {
             }
         }
         // like before
-        if ( isset( $op[ 'like_before' ] ) ) {
-            foreach ( $op[ 'like_before' ] as $k => $v ) {
+        if ( isset( $ops[ 'like_before' ] ) ) {
+            foreach ( $ops[ 'like_before' ] as $k => $v ) {
                 if ( $v != '' ) {
                     // Produces: WHERE `title` LIKE '%match' ESCAPE '!'
                     $builder->like( $k, $v, 'before' );
@@ -436,8 +459,8 @@ class Base extends Session {
             }
         }
         // like after
-        if ( isset( $op[ 'like_after' ] ) ) {
-            foreach ( $op[ 'like_after' ] as $k => $v ) {
+        if ( isset( $ops[ 'like_after' ] ) ) {
+            foreach ( $ops[ 'like_after' ] as $k => $v ) {
                 if ( $v != '' ) {
                     // Produces: WHERE `title` LIKE 'match%' ESCAPE '!'
                     $builder->like( $k, $v, 'after' );
@@ -445,8 +468,8 @@ class Base extends Session {
             }
         }
         // not like
-        if ( isset( $op[ 'not_like' ] ) ) {
-            foreach ( $op[ 'not_like' ] as $k => $v ) {
+        if ( isset( $ops[ 'not_like' ] ) ) {
+            foreach ( $ops[ 'not_like' ] as $k => $v ) {
                 $len = strlen( $v );
                 // từ 3 ký tự trở lên sẽ tìm theo dạng '%tu-khoa%'
                 if ( $len > 2 ) {
@@ -459,9 +482,9 @@ class Base extends Session {
             }
         }
         // or like
-        if ( isset( $op[ 'or_like' ] ) && !empty( $op[ 'or_like' ] ) ) {
+        if ( isset( $ops[ 'or_like' ] ) && !empty( $ops[ 'or_like' ] ) ) {
             $builder->groupStart();
-            foreach ( $op[ 'or_like' ] as $k => $v ) {
+            foreach ( $ops[ 'or_like' ] as $k => $v ) {
                 $len = strlen( $v );
                 // từ 3 ký tự trở lên sẽ tìm theo dạng '%tu-khoa%'
                 if ( $len > 2 ) {
@@ -475,9 +498,9 @@ class Base extends Session {
             $builder->groupEnd();
         }
         // or not like
-        if ( isset( $op[ 'or_not_like' ] ) && !empty( $op[ 'or_not_like' ] ) ) {
+        if ( isset( $ops[ 'or_not_like' ] ) && !empty( $ops[ 'or_not_like' ] ) ) {
             $builder->groupStart();
-            foreach ( $op[ 'or_not_like' ] as $k => $v ) {
+            foreach ( $ops[ 'or_not_like' ] as $k => $v ) {
                 $len = strlen( $v );
                 // từ 3 ký tự trở lên sẽ tìm theo dạng '%tu-khoa%'
                 if ( $len > 2 ) {
@@ -492,36 +515,36 @@ class Base extends Session {
         }
 
         // group by
-        if ( isset( $op[ 'group_by' ] ) ) {
-            foreach ( $op[ 'group_by' ] as $k => $v ) {
+        if ( isset( $ops[ 'group_by' ] ) ) {
+            foreach ( $ops[ 'group_by' ] as $k => $v ) {
                 $builder->groupBy( $v );
             }
         }
 
         // order by
-        if ( isset( $op[ 'order_by' ] ) ) {
-            foreach ( $op[ 'order_by' ] as $k => $v ) {
+        if ( isset( $ops[ 'order_by' ] ) ) {
+            foreach ( $ops[ 'order_by' ] as $k => $v ) {
                 $builder->orderBy( $k, $v );
             }
         }
 
         // offset -> limit
-        if ( !isset( $op[ 'offset' ] ) || $op[ 'offset' ] < 0 ) {
-            $op[ 'offset' ] = 0;
+        if ( !isset( $ops[ 'offset' ] ) || $ops[ 'offset' ] < 0 ) {
+            $ops[ 'offset' ] = 0;
         }
         //print_r($op);
         /*
-        if ( isset( $op[ 'limit' ] ) && $op[ 'limit' ] > 0 ) {
-            $builder->limit( $op[ 'limit' ], $op[ 'offset' ] );
+        if ( isset( $ops[ 'limit' ] ) && $ops[ 'limit' ] > 0 ) {
+            $builder->limit( $ops[ 'limit' ], $ops[ 'offset' ] );
         }
         */
         // daidq (2021-12-25): để tránh trường hợp select unlimit cho dữ liệu lớn -> đặt mặc định lệnh LIMIT nếu không được chỉ định
-        if ( !isset( $op[ 'limit' ] ) || $op[ 'limit' ] === 0 ) {
+        if ( !isset( $ops[ 'limit' ] ) || $ops[ 'limit' ] === 0 ) {
             //echo 'auto limit <br>' . "\n";
-            $op[ 'limit' ] = 500;
+            $ops[ 'limit' ] = 500;
         }
-        if ( $op[ 'limit' ] > 0 ) {
-            $builder->limit( $op[ 'limit' ], $op[ 'offset' ] );
+        if ( $ops[ 'limit' ] > 0 ) {
+            $builder->limit( $ops[ 'limit' ], $ops[ 'offset' ] );
         }
 
         // trả về kết quả
@@ -534,20 +557,20 @@ class Base extends Session {
         }
 
         // in luôn ra query để test
-        if ( isset( $op[ 'show_query' ] ) ) {
+        if ( isset( $ops[ 'show_query' ] ) ) {
             print_r( $this->db->getLastQuery()->getQuery() );
             echo '<br>' . PHP_EOL;
         }
 
         // trả về query để sử dụng cho mục đích khác
-        if ( isset( $op[ 'get_query' ] ) ) {
+        if ( isset( $ops[ 'get_query' ] ) ) {
             return $this->db->getLastQuery()->getQuery();
         }
 
 
         //print_r( $query );
         //print_r( $this->db->_error_message() );
-        if ( isset( $op[ 'getNumRows' ] ) ) {
+        if ( isset( $ops[ 'getNumRows' ] ) ) {
             return $query->getNumRows();
         } else {
             $a = $query->getResultArray();
@@ -556,8 +579,8 @@ class Base extends Session {
         //print_r( $a );
 
         // nếu chỉ lấy 1 kết quả -> trả về luôn mảng số 0
-        if ( isset( $op[ 'limit' ] ) && $op[ 'limit' ] === 1 && !empty( $a ) ) {
-            //echo $op[ 'limit' ] . '<br>' . "\n";
+        if ( isset( $ops[ 'limit' ] ) && $ops[ 'limit' ] === 1 && !empty( $a ) ) {
+            //echo $ops[ 'limit' ] . '<br>' . "\n";
             //echo $builder->countAllResults() . '<br>' . "\n";
             //print_r( $a );
             //print_r( $a[ 0 ] );

@@ -97,6 +97,13 @@ $this->base_model->update_multiple( 'users', [
     // WHERE
     'is_member' => User_type::GUEST,
 ], [
+    // trong builder CI4 lệnh UPDATE chưa hỗ trợ lệnh join
+    /*
+    'join' => array(
+        'tbl1' => 'tbl_0.id = tbl1.id',
+        'tbl2' => 'tbl_0.id = tbl2.id'
+    ),
+    */
     'where_in' => array(
         'ID' => array(
             1,
@@ -115,6 +122,8 @@ $this->base_model->update_multiple( 'users', [
     'show_query' => 1,
     // trả về câu query để sử dụng cho mục đích khác
     'get_query' => 1,
+    // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
+    //'no_remove_field' => 1
 ] );
 
 // DELETE dữ liệu
