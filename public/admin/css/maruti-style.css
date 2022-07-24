@@ -67,23 +67,6 @@ a:hover {
     opacity: 0.9;
 }
 /* Top user navigation */
-#sidebar {
-    width: 100%;
-    background: none;
-    clear: both;
-    /*
-    position: absolute;
-    top: 65px;
-    */
-    position: fixed;
-    left: 0;
-    width: 168px;
-    z-index: 9;
-    bottom: 0;
-    background-color: black;
-    top: 34px;
-    /* overflow-y: auto; */
-}
 #sidebar > ul {
     margin: 0px;
     padding: 0px;

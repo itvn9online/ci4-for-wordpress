@@ -10,6 +10,8 @@ console.log(aaaaaaaa);
 //
 (function (arr) {
     var str = '';
+    var cl = '';
+    var i = 0;
     for (var x in arr) {
         if (arr[x] === null) {
             continue;
@@ -22,14 +24,19 @@ console.log(aaaaaaaa);
         arr[x].icon = '<i class="' + arr[x].icon + '"></i>';
 
         //
-        str += '<li style="order: ' + arr[x].order + '"><a href="' + x + '">' + arr[x].icon + arr[x].name + '</a>';
+        cl = '';
+        // từ menu thứ 5 trở đi thì cho hiển thị sub-menu theo chiều ngược lại
+        if (i > 5) {
+            cl = 'last-sidebar-li';
+        }
+
+        //
+        str += '<li class="' + cl + '" style="order: ' + arr[x].order + '"><a href="' + x + '">' + arr[x].icon + arr[x].name + '</a>';
 
         //
         //console.log(arr[x]);
         if (arr[x].arr !== null) {
-            str += '<ul class="sub-menu">';
-
-            //
+            var str_sub = '';
             var v_sub = arr[x].arr;
             for (var k_sub in v_sub) {
                 // tạo icon
@@ -39,15 +46,20 @@ console.log(aaaaaaaa);
                 v_sub[k_sub].icon = '<i class="' + v_sub[k_sub].icon + '"></i>';
 
                 //
-                str += '<li><a href="' + k_sub + '">' + v_sub[k_sub].icon + v_sub[k_sub].name + '</a></li>';
+                str_sub += '<li><a href="' + k_sub + '">' + v_sub[k_sub].icon + v_sub[k_sub].name + '</a></li>';
             }
 
             //
-            str += '</ul>';
+            if (str_sub != '') {
+                str += '<ul class="sub-menu">' + str_sub + '</ul>';
+            }
         }
 
         //
         str += '</li>';
+
+        //
+        i++;
     }
 
     //
@@ -55,11 +67,13 @@ console.log(aaaaaaaa);
 })(arr_admin_menu);
 
 // khi di chuột vào menu admin -> thêm class để xác định người dùng đang di chuột
+/*
 $('#sidebar').hover(function () {
     $('body').addClass('sidebar-hover');
 }, function () {
     $('body').removeClass('sidebar-hover');
 });
+*/
 
 // chỉnh lại chiều cao cho textediter nếu có
 $('.auto-ckeditor').each(function () {
@@ -234,11 +248,13 @@ $(document).ready(function () {
     action_for_check_checked_all();
 
     // nếu chiều cao menu admin > window thì thêm class xác nhận
+    /*
     current_admin_window_height = $(window).height();
     current_admin_menu_height = $('#sidebar .order-admin-menu').height();
     if (current_admin_menu_height > current_admin_window_height) {
         $('body').addClass('sidebar-height');
     }
+    */
 
     //
     $('.text-submit-msg').click(function () {
@@ -259,6 +275,7 @@ $(document).ready(function () {
 
 // khi người dùng thay đổi kích thước window thì xác nhận lại chiều cao
 $(window).resize(function () {
+    /*
     current_admin_window_height = $(window).height();
     current_admin_menu_height = $('#sidebar .order-admin-menu').height();
     if (current_admin_menu_height > current_admin_window_height) {
@@ -266,4 +283,5 @@ $(window).resize(function () {
     } else {
         $('body').removeClass('sidebar-height');
     }
+    */
 });

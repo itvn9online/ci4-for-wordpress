@@ -203,6 +203,45 @@ body.no-scroll {
 .eb-control-group .span12 {}
 .eb-control-group {}
 /* */
+#adminmenumain {
+    position: fixed;
+    left: 0;
+    z-index: 9;
+    bottom: 0;
+    top: 34px;
+    /* border: 1px #f00 solid; */
+    width: 168px;
+}
+#adminmenumain:hover {
+    width: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+#adminmenumain::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.3);
+    background-color: #f2f2f2;
+}
+#adminmenumain::-webkit-scrollbar {
+    width: 1px;
+    background-color: #f2f2f2;
+}
+#adminmenumain::-webkit-scrollbar-thumb {
+    background-color: #f2f2f2;
+}
+#sidebar {
+    position: absolute;
+    top: 0;
+    /* bottom: 0; */
+    left: 0;
+    background: none;
+    clear: both;
+    width: 100%;
+    max-width: 168px;
+    background-color: black;
+    min-height: 100%;
+    padding-bottom: 50px;
+}
+/*
 body.ebfixed-top-menu #sidebar {
     position: fixed;
     top: 0;
@@ -213,6 +252,11 @@ body.ebfixed-down-menu.sidebar-hover.sidebar-height #sidebar {
     padding-bottom: 10px;
 }
 body.ebfixed-down-menu.sidebar-hover.sidebar-height #sidebar, body.ebfixed-down-menu.sidebar-hover.sidebar-height #sidebar > ul li ul {
+    top: auto;
+    bottom: 0;
+}
+*/
+#sidebar li.last-sidebar-li .sub-menu {
     top: auto;
     bottom: 0;
 }
