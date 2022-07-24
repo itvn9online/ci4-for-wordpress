@@ -212,21 +212,21 @@ body.no-scroll {
     /* border: 1px #f00 solid; */
     width: 168px;
 }
-#adminmenumain:hover {
+body.sidebar-hover #adminmenumain {
     width: 400px;
     overflow-y: auto;
     overflow-x: hidden;
 }
 #adminmenumain::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.3);
-    background-color: #f2f2f2;
+    -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.01);
+    background-color: transparent;
 }
 #adminmenumain::-webkit-scrollbar {
     width: 1px;
-    background-color: #f2f2f2;
+    background-color: transparent;
 }
 #adminmenumain::-webkit-scrollbar-thumb {
-    background-color: #f2f2f2;
+    background-color: transparent;
 }
 #sidebar {
     position: absolute;

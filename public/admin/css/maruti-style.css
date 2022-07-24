@@ -154,6 +154,7 @@ a:hover {
 #sidebar > ul li .sub-menu a {
     font-weight: normal;
     font-size: 12px;
+    padding-right: 0 !important;
 }
 #sidebar > ul li a i {
     background-image: url("../img/glyphicons-halflings-white.png");
@@ -1631,7 +1632,7 @@ form {
     #sidebar > ul > li:hover ul {
         display: block;
     }
-    #sidebar, #sidebar > ul {
+    #sidebar > ul {
         width: 43px;
         display: block;
         position: absolute;

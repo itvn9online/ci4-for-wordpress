@@ -67,13 +67,11 @@ console.log(aaaaaaaa);
 })(arr_admin_menu);
 
 // khi di chuột vào menu admin -> thêm class để xác định người dùng đang di chuột
-/*
 $('#sidebar').hover(function () {
     $('body').addClass('sidebar-hover');
 }, function () {
     $('body').removeClass('sidebar-hover');
 });
-*/
 
 // chỉnh lại chiều cao cho textediter nếu có
 $('.auto-ckeditor').each(function () {
