@@ -327,7 +327,7 @@ var url_next_post='<?php echo $url_next_post; ?>';
 var post_cat = '<?php echo $post_cat; ?>';
 var post_tags = '<?php echo $post_tags; ?>';
 
-//
+// do phần menu chưa xử lý được bằng vue-js nên vẫn phải dùng angular
 angular.module('myApp', []).controller('myCtrl', function ($scope) {
     $scope.parent_post = <?php echo json_encode($parent_post); ?>;
     $scope.post_status = <?php echo json_encode($post_arr_status); ?>;
@@ -345,4 +345,3 @@ $base_model->add_js( 'admin/js/posts_add.js' );
 $base_model->add_js( 'admin/js/' . $post_type . '.js' );
 
 //$base_model->add_js( 'admin/js/maruti.form_common.js' );
-

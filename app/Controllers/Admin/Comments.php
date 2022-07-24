@@ -185,15 +185,18 @@ class Comments extends Admin {
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/comments/list', array(
             'pagination' => $pagination,
-            'totalThread' => $totalThread,
             //'page_num' => $page_num,
             'for_action' => $for_action,
-            'by_keyword' => $by_keyword,
-            'by_is_deleted' => $by_is_deleted,
             'data' => $data,
             'comment_type' => $this->comment_type,
-            'comment_name' => $this->comment_name,
             'controller_slug' => $this->controller_slug,
+            'DeletedStatus_DELETED' => DeletedStatus::DELETED,
+            'vue_data' => [
+                'comment_name' => $this->comment_name,
+                'totalThread' => $totalThread,
+                'by_keyword' => $by_keyword,
+                'by_is_deleted' => $by_is_deleted,
+            ],
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
@@ -228,8 +231,10 @@ class Comments extends Admin {
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/comments/details', array(
             'data' => $data,
-            'comment_type' => $this->comment_type,
-            'controller_slug' => $this->controller_slug,
+            'vue_data' => [
+                'controller_slug' => $this->controller_slug,
+                'comment_name' => $this->comment_name,
+            ],
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }

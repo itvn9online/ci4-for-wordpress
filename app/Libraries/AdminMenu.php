@@ -179,16 +179,24 @@ class AdminMenu {
                 ]
             ],
             'admin/configs' => [
-                'name' => 'Cài đặt',
+                'name' => 'Cài đặt chung',
                 'icon' => 'fa fa-cogs',
                 'arr' => [
+                    'admin/displays' => [
+                        'name' => ConfigType::list( ConfigType::DISPLAY ),
+                        'icon' => 'fa fa-desktop',
+                    ],
+                    'admin/socials' => [
+                        'name' => ConfigType::list( ConfigType::SOCIAL ),
+                        'icon' => 'fa fa-facebook',
+                    ],
                     'admin/configs?config_type=' . ConfigType::CATEGORY => [
                         'name' => ConfigType::list( ConfigType::CATEGORY ),
                         'icon' => 'fa fa-cog',
                     ],
                     'admin/configs?config_type=' . ConfigType::POST => [
                         'name' => ConfigType::list( ConfigType::POST ),
-                        //'icon' => 'fa fa-asterisk',
+                        'icon' => 'fa fa-product-hunt',
                     ],
                     'admin/configs?config_type=' . ConfigType::BLOGS => [
                         'name' => ConfigType::list( ConfigType::BLOGS ),
@@ -196,7 +204,7 @@ class AdminMenu {
                     ],
                     'admin/configs?config_type=' . ConfigType::BLOG => [
                         'name' => ConfigType::list( ConfigType::BLOG ),
-                        //'icon' => 'fa fa-asterisk',
+                        'icon' => 'fa fa-newspaper-o',
                     ],
                     'admin/translates' => [
                         'name' => ConfigType::list( ConfigType::TRANS ),

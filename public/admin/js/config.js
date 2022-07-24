@@ -1,37 +1,3 @@
-// thêm chức năng add ảnh cho form
-add_and_show_post_avt('#data_logo');
-add_and_show_post_avt('#data_web_favicon');
-add_and_show_post_avt('#data_logofooter');
-add_and_show_post_avt('#data_logo_mobile');
-add_and_show_post_avt('#data_image');
-
-/*
- * lấy các input có sự kiện change -> để tránh việc update tùm lum
- */
-var list_field_has_change = {};
-
-function get_field_has_change(a) {
-    //console.log(a);
-
-    // chỉ thực thi với phần data
-    if (a != '' && a.split('data[').length > 1) {
-        a = a.replace('data[', '').split(']')[0];
-        //console.log(a);
-
-        // đủ điều kiện thì xác thực cho phép update
-        if (typeof list_field_has_change[a] == 'undefined') {
-            //console.log(a);
-            list_field_has_change[a] = 1;
-            $('#list_field_has_change').val(JSON.stringify(list_field_has_change));
-        }
-    }
-}
-
-function done_field_has_change() {
-    $('#list_field_has_change').val('');
-    list_field_has_change = {};
-}
-
 // bắt ở nhiều sự kiện khác nhau -> vì có thể có sự kiện bị hủy bỏ ở giai đoạn khác
 $('.config-main input, .config-main select, .config-main textarea').change(function () {
     get_field_has_change($(this).attr('name') || '');
@@ -43,3 +9,70 @@ $('.config-main input, .config-main select, .config-main textarea').change(funct
     get_field_has_change($(this).attr('name') || '');
 });
 
+
+// Hiệu ứng khi click vào thay đổi màu sắc
+$('.click-to-set-site-color').click(function () {
+    var a = $(this).attr('data-set') || '';
+
+    if (a == '') {
+        WGR_alert('Color picker not found', 'error');
+        return false;
+    }
+
+    var b = $('input#' + a).val() || $('input#' + a).attr('placeholder') || '';
+    var n = prompt('Color code #:', b);
+    //	console.log(n);
+
+    // cho về mã hiện tại nếu người dùng hủy hoặc không nhập màu
+    if (n == null || n == '') {
+        n = b;
+    }
+    n = g_func.trim(n.replace(/\s/g, ''));
+    if (n == '') {
+        n = b;
+    }
+
+    // bỏ dấu # ở đầu đi để định dạng lại
+    if (n.substr(0, 1) == '#') {
+        n = n.substr(1);
+    }
+
+    // tự chuyển thành mã 6 màu nếu mã màu nhập vào là 3
+    if (n.length == 3) {
+        n = n.substr(0, 1) + n.substr(0, 1) + n.substr(1, 1) + n.substr(1, 1) + n.substr(2, 1) + n.substr(2, 1);
+    }
+
+    // đến đây, mã màu bắt buộc phải là 6 ký tự
+    if (n.length != 6) {
+        WGR_alert('Color code with 6 character', 'error');
+        return false;
+    }
+
+    // done
+    $('input#' + a).val('#' + n).trigger('change');
+});
+
+// reset màu về mặc định
+$('.click-to-reset-site-color').click(function () {
+    var a = $(this).attr('data-set') || '';
+
+    if (a == '') {
+        WGR_alert('Color picker not found', 'error');
+        return false;
+    }
+
+    var b = $('input#' + a).attr('placeholder') || '';
+    if (b != '') {
+        $('input#' + a).val(b).trigger('change');
+    }
+});
+
+//
+$('.auto-reset-site-color').each(function () {
+    //console.log($(this).val());
+    //console.log($(this).attr('value'));
+    if ($(this).val() == '' || $(this).attr('value') == '') {
+        //$(this).trigger('click');
+        $(this).val($(this).attr('placeholder')).trigger('change');
+    }
+});

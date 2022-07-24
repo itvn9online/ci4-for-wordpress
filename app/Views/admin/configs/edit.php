@@ -2,10 +2,6 @@
 
 //
 use App\ Libraries\ ConfigType;
-use App\ Libraries\ LanguageCost;
-
-//
-//$base_model = new\ App\ Models\ Base();
 
 //print_r( $data );
 
@@ -13,12 +9,12 @@ use App\ Libraries\ LanguageCost;
 $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
 
 ?>
-<ul class="admin-breadcrumb">
-    <li>Cài đặt <?php echo ConfigType::list( $config_type ); ?></li>
-</ul>
-<div class="widget-box <?php echo $config_type; ?>">
+<div id="app" :class="vue_data.config_type" class="widget-box">
+    <ul class="admin-breadcrumb">
+        <li>Cài đặt {{vue_data.config_name}}</li>
+    </ul>
     <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
-        <h5>Cài đặt <?php echo ConfigType::list( $config_type ); ?></h5>
+        <h5>Cài đặt {{vue_data.config_name}}</h5>
     </div>
     <div class="widget-content nopadding config-main">
         <form action="" method="post" name="admin_global_form" id="admin_global_form" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
@@ -26,7 +22,7 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
                 <textarea id="list_field_has_change" name="list_field_has_change" placeholder="Các input, textarea, select... nào có thay đổi thì mới thực hiện lưu dữ liệu."></textarea>
             </div>
             <div class="control-group">
-                <div class="text-center l35">Ngôn ngữ: <strong><?php echo LanguageCost::list( $lang_key ); ?></strong> </div>
+                <div class="text-center l35">Ngôn ngữ: <strong>{{vue_data.lang_name}}</strong> </div>
             </div>
             <?php
 
@@ -183,5 +179,15 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
 -->
 <?php
 
+//
+$base_model->add_js( 'admin/js/config_function.js' );
 $base_model->add_js( 'admin/js/config.js' );
 $base_model->add_js( 'admin/js/config_' . $config_type . '.js' );
+
+?>
+<script>
+var vue_data = <?php echo json_encode($vue_data); ?>;
+WGR_vuejs('#for_vue', {
+    vue_data: vue_data,
+});
+</script> 

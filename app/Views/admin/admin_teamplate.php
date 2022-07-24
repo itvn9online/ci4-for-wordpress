@@ -153,6 +153,8 @@ $base_model->adds_css( [
     'css/d.css',
     //'css/d2.css',
     'admin/css/admin_teamplate.css',
+    // admin thì luôn show debug bar rồi
+    'admin/css/show-debug-bar.css',
 ] );
 
 $base_model->adds_js( [
@@ -207,7 +209,7 @@ var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
         </div>
     </div>
     <div class="container-fluid">
-        <div class="row-fluid">
+        <div id="for_vue" class="row-fluid">
             <?php
 
             /*

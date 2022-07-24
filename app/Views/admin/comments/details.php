@@ -1,36 +1,27 @@
 <?php
 
 //
-use App\ Libraries\ CommentType;
-
-//
 //print_r( $data );
 $data[ 'comment_content' ] = nl2br( $data[ 'comment_content' ] );
 
 ?>
 <ul class="admin-breadcrumb">
-    <li><a href="admin/<?php echo $controller_slug; ?>">Danh sách <?php echo CommentType::list($comment_type); ?></a></li>
-    <li>Chi tiết
-        <?php
-        echo CommentType::list( $comment_type );
-        ?>
-    </li>
+    <li><a :href="'admin/' + vue_data.controller_slug">Danh sách {{vue_data.comment_name}}</a></li>
+    <li>Chi tiết {{vue_data.comment_name}}</li>
 </ul>
 <div class="widget-box">
     <div class="widget-content nopadding">
         <div class="form-horizontal">
-            <?php
-
-            foreach ( $data as $k => $v ) {
-                ?>
-            <div class="control-group">
-                <label class="control-label"><?php echo str_replace('_',' ',$k); ?></label>
-                <div class="controls"><?php echo $v; ?></div>
+            <div v-for="(v, k) in data" class="control-group">
+                <label class="control-label">{{k.replace(/\_/gi, ' ')}}</label>
+                <div class="controls">{{v}}</div>
             </div>
-            <?php
-            }
-
-            ?>
         </div>
     </div>
 </div>
+<script>
+WGR_vuejs('#for_vue', {
+    data: <?php echo json_encode($data); ?>,
+    vue_data: <?php echo json_encode($vue_data); ?>,
+});
+</script> 

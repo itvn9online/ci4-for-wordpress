@@ -983,7 +983,7 @@ function WGR_vuejs(app_id, obj, _callBack, max_i) {
         el: app_id,
         data: obj,
         mounted: function () {
-            $(app_id + '.ng-main-content').addClass('loaded');
+            $(app_id + '.ng-main-content, ' + app_id + ' .ng-main-content').addClass('loaded');
 
             //
             if (typeof _callBack == 'function') {

@@ -114,6 +114,7 @@ function add_and_show_post_avt(for_id, add_img_tag, img_size, input_type) {
         console.log(for_id + ' not found! (length != 1)');
         return false;
     }
+    console.log(Math.random());
     if (typeof add_img_tag == 'undefined' || add_img_tag == '') {
         add_img_tag = 0;
     }
@@ -142,8 +143,8 @@ function add_and_show_post_avt(for_id, add_img_tag, img_size, input_type) {
     }
 
     //
+    console.log('Add button image for:', for_id);
     $(for_id).after(str.join(' '));
-
 }
 
 function click_set_img_for_input(img_id) {

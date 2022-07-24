@@ -157,6 +157,8 @@ class Option extends EbModel {
         //
         $arr_option_type = [
             ConfigType::CONFIG,
+            ConfigType::DISPLAY,
+            ConfigType::SOCIAL,
             ConfigType::CATEGORY,
             ConfigType::POST,
             ConfigType::BLOGS,
