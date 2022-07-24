@@ -42,15 +42,17 @@ class Lang extends EbModel {
     }
 
     // trả về thông tin bản quyền phần mềm theo tiêu chuẩn
-    public function get_echbay_license( $getconfig ) {
-        return '<div class="global-footer-copyright">' . $this->get_the_text( 'copy_right_first', ConfigType::placeholder( 'copy_right_first' ) ) . date( 'Y' ) . ' ' .
-        $getconfig->name .
-        $this->get_the_text( 'copy_right_last', ConfigType::placeholder( 'copy_right_last' ) ) .
-        '<span class="powered-by-echbay">' . $this->get_the_text( 'powered_by_echbay', ConfigType::placeholder( 'powered_by_echbay' ) ) .
-        '</span></div>';
+    public function get_web_license( $getconfig ) {
+        return $this->base_model->tmp_to_html( file_get_contents( APPPATH . 'Helpers/footer_copyright.html' ), [
+            'copy_right_first' => $this->get_the_text( 'copy_right_first', ConfigType::placeholder( 'copy_right_first' ) ),
+            'year' => date( 'Y' ),
+            'name' => $getconfig->name,
+            'copy_right_last' => $this->get_the_text( 'copy_right_last', ConfigType::placeholder( 'copy_right_last' ) ),
+            'powered_by_echbay' => $this->get_the_text( 'powered_by_echbay', ConfigType::placeholder( 'powered_by_echbay' ) ),
+        ] );
     }
 
-    public function the_echbay_license( $getconfig ) {
-        echo $this->get_echbay_license( $getconfig );
+    public function the_web_license( $getconfig ) {
+        echo $this->get_web_license( $getconfig );
     }
 }

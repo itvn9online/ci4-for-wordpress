@@ -22,7 +22,7 @@ a {
 .default-bg {
     background-color: var(--default-bg);
 }
-.default-2bg {
+.default2-bg {
     background-color: var(--default2-bg);
 }
 .default-bg, .default-bg a {

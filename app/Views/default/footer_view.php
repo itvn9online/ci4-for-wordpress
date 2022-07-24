@@ -1,21 +1,19 @@
 <?php
 
 //
-$post_model->the_ads( 'doi-tac-tieu-bieu' );
+//$post_model->the_ads( 'doi-tac-tieu-bieu' );
 
 //
-$post_model->the_ads( 'lien-ket-website' );
+//$post_model->the_ads( 'lien-ket-website' );
 
 ?>
-<footer class="w96">
-    <div class="w90">
-        <div class="cf footer-container">
-            <div class="lf f20 fullsize-if-mobile">
+<section class="default-bg footer-section">
+    <div class="row row-collapse">
+        <div class="col medium-3 small-12 large-3">
+            <div class="col-inner">
                 <?php
                 $option_model->the_logo( $getconfig, 'logofooter', 'logo_footer_height' );
                 ?>
-            </div>
-            <div class="lf f80 fullsize-if-mobile">
                 <div class="footer-info">
                     <div class="footer-company">
                         <?php
@@ -30,8 +28,49 @@ $post_model->the_ads( 'lien-ket-website' );
                     <div class="footer-phone">SĐT: <?php echo $getconfig->phone; ?> &nbsp; | &nbsp; Fax: <?php echo $getconfig->fax; ?> </div>
                     <div class="footer-website">Website: <?php echo $getconfig->website; ?> </div>
                 </div>
-                <div class="whitecolor text-right center-if-mobile">Copyright &copy; <?php echo $getconfig->name . ' ' .date('Y'); ?> </div>
+            </div>
+        </div>
+        <div class="col medium-3 small-12 large-3">
+            <div class="col-inner">
+                <h4 class="footer-title upper bold">
+                    <?php $lang_model->the_text( 'custom_text0' ); ?>
+                </h4>
+                <?php
+                $menu_model->the_menu( 'footer2-menu' );
+                ?>
+            </div>
+        </div>
+        <div class="col medium-3 small-12 large-3">
+            <div class="col-inner">
+                <h4 class="footer-title upper bold">
+                    <?php $lang_model->the_text( 'custom_text1' ); ?>
+                </h4>
+                <?php
+                $menu_model->the_menu( 'footer3-menu' );
+                ?>
+            </div>
+        </div>
+        <div class="col medium-3 small-12 large-3">
+            <div class="col-inner">
+                <h4 class="footer-title upper bold">
+                    <?php $lang_model->the_text( 'custom_text2' ); ?>
+                </h4>
+                <div>
+                    <?php $lang_model->the_text( 'custom_text3' ); ?>
+                </div>
+                <br>
+                <h4 class="footer-title bold">
+                    <?php $lang_model->the_text( 'custom_text4' ); ?>
+                </h4>
+                <?php
+                $menu_model->the_menu( 'footer4-menu' );
+                ?>
             </div>
         </div>
     </div>
-</footer>
+</section>
+<section class="default2-bg footer2-section">
+    <div class="text-center center-if-mobile">
+        <?php $lang_model->the_web_license( $getconfig ); ?>
+    </div>
+</section>

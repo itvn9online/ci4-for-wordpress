@@ -394,6 +394,8 @@ class ConfigType {
             'min_product_price' => 'Số tiền tối thiểu mà khách phải thanh toán cho mỗi đơn hàng.',
             'bank_card_name' => 'Lưu ý: viết HOA không dấu',
             'autobank_token' => 'Tham số dùng để tăng độ bảo mật cho Webhook tự động xác thực quá trình thanh toán.',
+
+            'powered_by_echbay' => 'Sử dụng lệnh <strong>$lang_model->the_web_license( $getconfig );</strong> để hiển thị thông điệp bản quyền mặc định.',
         ];
         if ( isset( $arr[ $key ] ) && $arr[ $key ] != '' ) {
             echo '<p class="controls-text-note">' . $arr[ $key ] . '</p>';

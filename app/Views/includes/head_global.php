@@ -116,19 +116,15 @@ foreach ( $arr_preload_bootstrap as $v ) {
 <script src="<?php echo CDN_BASE_URL; ?>thirdparty/jquery/jquery-3.6.0.min.js"></script> 
 <!-- <script src="thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> --> 
 <!-- <script src="frontend/js/swiper.min.js"></script> -->
-<style>
-:root {
---default-bg: <?php echo $getconfig->default_bg;
-?>;
---sub-bg: <?php echo $getconfig->sub_bg;
-?>;
---default-color: <?php echo $getconfig->default_color;
-?>;
---a-color: <?php echo $getconfig->a_color;
-?>;
-}
-</style>
 <?php
+
+// in ra mã màu dạng global để tiện thay đổi
+echo $base_model->tmp_to_html( file_get_contents( APPPATH . 'Helpers/root_color.txt' ), [
+    'default_bg' => $getconfig->default_bg,
+    'sub_bg' => $getconfig->sub_bg,
+    'default_color' => $getconfig->default_color,
+    'a_color' => $getconfig->a_color,
+] );
 
 //
 $base_model->preloads_css( [
@@ -146,7 +142,7 @@ $base_model->adds_css( [
     'cdn' => CDN_BASE_URL,
 ] );
 
-//
+
 // mobile
 if ( $isMobile == true ) {
     $base_model->adds_css( [
@@ -156,6 +152,15 @@ if ( $isMobile == true ) {
         'cdn' => CDN_BASE_URL,
     ] );
 }
+
+
+// xác định kích thước khung web dựa theo config
+echo $base_model->tmp_to_html( file_get_contents( APPPATH . 'Helpers/custom_css.txt' ), [
+    'site_max_width30' => $getconfig->site_max_width + 30,
+    'site_max_width19' => $getconfig->site_max_width + 19,
+    'site_max_width' => $getconfig->site_max_width,
+    'site_full_width' => $getconfig->site_full_width,
+] );
 
 
 //
@@ -176,26 +181,7 @@ $WGR_config = [
     'cid' => $current_tid,
 ];
 
-// dùng để css chiều rộng cho before, after của menu nav
 ?>
-<style>
-.row {
-max-width: <?php echo ( $getconfig->site_max_width + 30 ) . 'px';
-?>;
-}
-.row.row-small {
-max-width: <?php echo ( $getconfig->site_max_width + 19 ) . 'px';
-?>;
-}
-.row.row-collapse, .w90, .w99 {
-max-width: <?php echo $getconfig->site_max_width . 'px';
-?>;
-}
-.w96 {
-max-width: <?php echo $getconfig->site_full_width . 'px';
-?>;
-}
-</style>
 <script>
 var WGR_config=<?php echo json_encode($WGR_config); ?>;
 </script>
@@ -219,14 +205,7 @@ else {
 
 // nếu có ID google analytics thì nạp nó
 if ( $getconfig->google_analytics != '' ) {
-    ?>
-<!-- Global site tag (gtag.js) - Google Analytics --> 
-<script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $getconfig->google_analytics; ?>"></script> 
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', '<?php echo $getconfig->google_analytics; ?>');
-</script>
-<?php
+    echo $base_model->tmp_to_html( file_get_contents( APPPATH . 'Helpers/google_analytics.txt' ), [
+        'google_analytics' => $getconfig->google_analytics,
+    ] );
 }
