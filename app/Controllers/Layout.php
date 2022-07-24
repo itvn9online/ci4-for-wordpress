@@ -463,7 +463,7 @@ class Layout extends Sync {
         //
         $htaccess_file = $upload_root . '.htaccess';
         //die($htaccess_file);
-        echo $htaccess_file . '<br>' . "\n";
+        //echo $htaccess_file . '<br>' . "\n";
 
         // cập nhật lại nội dung file htaccess
         if ( $remove_file === true && file_exists( $htaccess_file ) ) {

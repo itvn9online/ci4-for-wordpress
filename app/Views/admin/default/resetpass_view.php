@@ -25,7 +25,7 @@ include VIEWS_PATH . 'admin/default/login_header.php';
         <div class="form-actions cf l35"> <a href="./guest/login">Đăng nhập</a>
             <?php
             // chỉ hiển thị link đăng ký khi được phép
-            if ( !isset( $getconfig->disable_register_member ) || $getconfig->disable_register_member != 'on' ) {
+            if ( $getconfig->disable_register_member != 'on' ) {
                 ?>
             | <a href="./guest/register">Đăng ký</a>
             <?php

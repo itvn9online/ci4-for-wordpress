@@ -16,8 +16,7 @@ echo $taxonomy_slider;
 /*
  * chế độ hiển thị nhóm con trong nhóm cha
  */
-if ( isset( $getconfig->show_child_category ) &&
-    $getconfig->show_child_category == 'on' &&
+if ( $getconfig->show_child_category == 'on' &&
     isset( $data[ 'child_term' ] ) &&
     !empty( $data[ 'child_term' ] )
 ) {

@@ -168,14 +168,6 @@ $base_model->adds_js( [
     'cdn' => CDN_BASE_URL,
 ] );
 
-//print_r( $getconfig );
-if ( !isset( $getconfig->site_max_width ) || empty( $getconfig->site_max_width ) ) {
-    $getconfig->site_max_width = 999;
-}
-if ( !isset( $getconfig->site_full_width ) || empty( $getconfig->site_full_width ) ) {
-    $getconfig->site_full_width = 1666;
-}
-
 //
 $WGR_config = [
     'cf_tester_mode' => ( $debug_enable === true ) ? 1 : 0,
@@ -210,9 +202,7 @@ var WGR_config=<?php echo json_encode($WGR_config); ?>;
 <?php
 
 //
-if ( isset( $getconfig->html_header ) ) {
-    echo $getconfig->html_header;
-}
+echo $getconfig->html_header;
 
 
 // nạp header riêng của từng theme nếu có

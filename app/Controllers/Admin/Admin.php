@@ -212,7 +212,7 @@ class Admin extends Ajaxs {
 
                     //
                     if ( !file_exists( $f ) ) {
-                        echo $f . '<br>' . "\n";
+                        //echo $f . '<br>' . "\n";
 
                         //
                         $htaccess_deny_all = $this->helpersTmpFile( 'htaccess_deny_all', [

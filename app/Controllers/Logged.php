@@ -1,7 +1,7 @@
 <?php
 namespace App\ Controllers;
 
-class Logged extends Ajax {
+class Logged extends Ajaxs {
     public function __construct() {
         parent::__construct();
     }

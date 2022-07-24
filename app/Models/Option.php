@@ -136,7 +136,7 @@ class Option extends EbModel {
         return $data;
     }
 
-    function list_config( $lang_key = '' ) {
+    function list_config( $lang_key = '', $time = BIG_CACHE_TIMEOUT ) {
         global $this_cache_config;
         if ( $this_cache_config !== NULL ) {
             return $this_cache_config;
@@ -145,6 +145,13 @@ class Option extends EbModel {
         //
         if ( $lang_key == '' ) {
             $lang_key = LanguageCost::lang_key();
+        }
+
+        // ưu tiên trong cache trước
+        $this_cache_config = $this->the_cache( __FUNCTION__, $lang_key );
+        // có cache thì trả về
+        if ( $this_cache_config !== NULL ) {
+            return $this_cache_config;
         }
 
         //
@@ -160,10 +167,7 @@ class Option extends EbModel {
         //
         $this_cache_config = [];
         foreach ( $arr_option_type as $option_type ) {
-            $data = $this->get_config_by_type( $option_type, $lang_key );
-
-            //
-            foreach ( $data as $v ) {
+            foreach ( $this->get_config_by_type( $option_type, $lang_key ) as $v ) {
                 $this_cache_config[ $v[ 'option_name' ] ] = $v[ 'option_value' ];
             }
         }
@@ -186,6 +190,9 @@ class Option extends EbModel {
             }
         }
         //print_r( $this_cache_config );
+
+        //
+        $this->the_cache( __FUNCTION__, $lang_key, $this_cache_config, $time );
 
         //
         //die( __CLASS__ . ':' . __LINE__ );

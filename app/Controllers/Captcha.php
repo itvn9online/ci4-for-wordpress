@@ -2,7 +2,7 @@
 namespace App\ Controllers;
 
 //
-class Captcha extends Ajax {
+class Captcha extends Ajaxs {
     public function __construct() {
         parent::__construct();
     }
