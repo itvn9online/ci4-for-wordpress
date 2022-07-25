@@ -256,11 +256,11 @@ body.ebfixed-down-menu.sidebar-hover.sidebar-height #sidebar, body.ebfixed-down-
     bottom: 0;
 }
 */
-#sidebar li.middle-sidebar-li .sub-menu {
+#sidebar li.middle-sidebar-li:not(.active) .sub-menu {
     top: 50%;
     transform: translate(0, -50%);
 }
-#sidebar li.last-sidebar-li .sub-menu {
+#sidebar li.last-sidebar-li:not(.active) .sub-menu {
     top: auto;
     bottom: 0;
 }
