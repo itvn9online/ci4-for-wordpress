@@ -117,19 +117,22 @@ define( 'DYNAMIC_BASE_URL', BASE_PROTOCOL . '://' . $_SERVER[ 'HTTP_HOST' ] . '/
 // khi cần chuyển các file tĩnh sang url khác để giảm tải cho server chính thì dùng chức năng này
 defined( 'CDN_BASE_URL' ) || define( 'CDN_BASE_URL', '' );
 
-// kiểu sử dụng cache
-defined( 'MY_CACHE_HANDLER' ) || define( 'MY_CACHE_HANDLER', 'file' );
-
-// chuỗi sẽ thêm vào khi sử dụng hàm mdnam -> md5
-defined( 'CUSTOM_MD5_HASH_CODE' ) || define( 'CUSTOM_MD5_HASH_CODE', $_SERVER[ 'HTTP_HOST' ] );
-
 // permission mặc định khi up file, tạo thư mục
 defined( 'DEFAULT_FILE_PERMISSION' ) || define( 'DEFAULT_FILE_PERMISSION', 0777 );
 defined( 'DEFAULT_DIR_PERMISSION' ) || define( 'DEFAULT_DIR_PERMISSION', 0777 );
 
+// kiểu sử dụng cache -> mặc định là file
+defined( 'MY_CACHE_HANDLER' ) || define( 'MY_CACHE_HANDLER', 'file' );
+
+// đồng bộ http host về 1 chuỗi chung
+define( 'HTTP_SYNC_HOST', str_replace( 'www.', '', str_replace( '.', '', explode( ':', $_SERVER[ 'HTTP_HOST' ] )[ 0 ] ) ) );
+
+// chuỗi sẽ thêm vào khi sử dụng hàm mdnam -> md5
+defined( 'CUSTOM_MD5_HASH_CODE' ) || define( 'CUSTOM_MD5_HASH_CODE', HTTP_SYNC_HOST );
+
 // với cache file -> thư mục lưu cache theo từng tên miền -> code thêm cho các web sử dụng domain pointer
 if ( MY_CACHE_HANDLER == 'file' ) {
-    define( 'WRITE_CACHE_PATH', WRITEPATH . 'cache/' . explode( ':', $_SERVER[ 'HTTP_HOST' ] )[ 0 ] . '/' );
+    define( 'WRITE_CACHE_PATH', WRITEPATH . 'cache/' . HTTP_SYNC_HOST . '/' );
 
     //
     define( 'CACHE_HOST_PREFIX', '' );
@@ -139,7 +142,7 @@ else {
     define( 'WRITE_CACHE_PATH', WRITEPATH . 'cache/' );
 
     // tạo key theo host để làm prefix
-    define( 'CACHE_HOST_PREFIX', str_replace( '.', '', explode( ':', $_SERVER[ 'HTTP_HOST' ] )[ 0 ] ) );
+    define( 'CACHE_HOST_PREFIX', HTTP_SYNC_HOST );
 }
 //die( CACHE_HOST_PREFIX );
 //die( WRITE_CACHE_PATH );
