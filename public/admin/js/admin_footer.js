@@ -11,7 +11,6 @@ console.log(aaaaaaaa);
 (function (arr) {
     var str = '';
     var cl = '';
-    var i = 0;
     for (var x in arr) {
         if (arr[x] === null) {
             continue;
@@ -25,9 +24,11 @@ console.log(aaaaaaaa);
 
         //
         cl = '';
-        // từ menu thứ 5 trở đi thì cho hiển thị sub-menu theo chiều ngược lại
-        if (i > 5) {
+        // chỉnh lại css cho các menu dưới chân admin
+        if (arr[x].order * 1 < 50) {
             cl = 'last-sidebar-li';
+        } else if (arr[x].order * 1 < 70) {
+            cl = 'middle-sidebar-li';
         }
 
         //
@@ -57,9 +58,6 @@ console.log(aaaaaaaa);
 
         //
         str += '</li>';
-
-        //
-        i++;
     }
 
     //
