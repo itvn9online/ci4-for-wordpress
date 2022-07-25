@@ -618,7 +618,7 @@ class PostQuery extends PostMeta {
         ] );
 
         //
-        //$html = HtmlTemplate::render( $html, $instance );
+        $html = HtmlTemplate::render( $html, $instance );
         // thay các size dùng chung
         $html = HtmlTemplate::render( $html, [
             'main_banner_size' => $this->base_model->get_config( $this->getconfig, 'main_banner_size' ),
