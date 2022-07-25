@@ -29,7 +29,7 @@ class Comments extends Admin {
         if ( $for_extends === false ) {
             //if ( $this->comment_type == '' || CommentType::list( $this->comment_type ) == '' ) {
             if ( $this->comment_name == '' ) {
-                die( 'comment type not register in system!' );
+                die( 'Comment type not register in system: ' . $this->comment_type );
             }
         }
     }

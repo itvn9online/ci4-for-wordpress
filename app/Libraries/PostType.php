@@ -40,6 +40,10 @@ class PostType {
     const MEDIA_THUMBNAIL = 'thumbnail';
     const MEDIA_MEDIUM_LARGE = 'medium_large';
 
+    public function __construct() {
+        //
+    }
+
     protected static $arr = array(
         self::POST => AdminTranslate::POST,
         self::ADS => 'Quảng cáo',
@@ -47,6 +51,7 @@ class PostType {
         self::PAGE => 'Trang tĩnh',
         self::MENU => 'Menu',
         self::MEDIA => 'Media',
+        self::ORDER => 'Đơn hàng',
     );
 
     public static function arrStatus() {
@@ -58,10 +63,6 @@ class PostType {
             self::DELETED => 'XÓA',
             //self::INHERIT => '',
         );
-    }
-
-    public function __construct() {
-        //
     }
 
     public static function list( $key = '' ) {

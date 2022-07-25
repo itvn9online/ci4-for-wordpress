@@ -58,7 +58,7 @@ class Terms extends Admin {
                 }
 
                 // không xác định được thì báo lỗi
-                die( 'Taxonomy not register in system! ' . $this->taxonomy );
+                die( 'Taxonomy not register in system: ' . $this->taxonomy );
             }
         }
     }

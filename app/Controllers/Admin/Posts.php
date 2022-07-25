@@ -55,7 +55,7 @@ class Posts extends Admin {
             // báo lỗi nếu không xác định được post_type
             //if ( $this->post_type == '' || $this->name_type == '' ) {
             if ( $this->name_type == '' ) {
-                die( 'post type (' . $this->post_type . ') not register in system!' );
+                die( 'Post type not register in system: ' . $this->post_type );
             }
 
             /*
