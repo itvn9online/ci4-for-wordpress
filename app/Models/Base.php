@@ -14,7 +14,7 @@ class Base extends Csdl {
     }
 
     // nạp CSS, JS để tránh phải bấm Ctrl + F5
-    function get_add_css( $f, $ops = [], $attr = [] ) {
+    public function get_add_css( $f, $ops = [], $attr = [] ) {
         //print_r( $ops );
         $f = str_replace( PUBLIC_PUBLIC_PATH, '', $f );
         $f = ltrim( $f, '/' );
@@ -43,24 +43,24 @@ class Base extends Csdl {
         return '<link ' . $rel . ' href="' . $ops[ 'cdn' ] . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '"' . implode( ' ', $attr ) . ' />';
     }
     // chế độ nạp css thông thường
-    function add_css( $f, $ops = [], $attr = [] ) {
+    public function add_css( $f, $ops = [], $attr = [] ) {
         echo $this->get_add_css( $f, $ops, $attr ) . PHP_EOL;
     }
     // thêm nhiều file cùng 1 thuộc tính
-    function adds_css( $fs, $ops = [], $attr = [] ) {
+    public function adds_css( $fs, $ops = [], $attr = [] ) {
         foreach ( $fs as $f ) {
             echo $this->get_add_css( $f, $ops, $attr ) . PHP_EOL;
         }
     }
     // chế độ nạp trước css
-    function preload_css( $f, $ops = [] ) {
+    public function preload_css( $f, $ops = [] ) {
         $ops[ 'preload' ] = 1;
 
         //
         echo $this->get_add_css( $f, $ops ) . PHP_EOL;
     }
 
-    function preloads_css( $fs, $ops = [] ) {
+    public function preloads_css( $fs, $ops = [] ) {
         $ops[ 'preload' ] = 1;
 
         //
@@ -69,7 +69,7 @@ class Base extends Csdl {
         }
     }
 
-    function get_add_js( $f, $ops = [], $attr = [] ) {
+    public function get_add_js( $f, $ops = [], $attr = [] ) {
         //print_r( $ops );
         $f = str_replace( PUBLIC_PUBLIC_PATH, '', $f );
         $f = ltrim( $f, '/' );
@@ -96,24 +96,24 @@ class Base extends Csdl {
         return '<script src="' . $ops[ 'cdn' ] . $f . '?v=' . filemtime( PUBLIC_PUBLIC_PATH . $f ) . '" ' . implode( ' ', $attr ) . '></script>';
     }
     // thêm 1 file
-    function add_js( $f, $ops = [], $attr = [] ) {
+    public function add_js( $f, $ops = [], $attr = [] ) {
         echo $this->get_add_js( $f, $ops, $attr ) . PHP_EOL;
     }
     // thêm nhiều file cùng 1 thuộc tính
-    function adds_js( $fs, $ops = [], $attr = [] ) {
+    public function adds_js( $fs, $ops = [], $attr = [] ) {
         foreach ( $fs as $f ) {
             echo $this->get_add_js( $f, $ops, $attr ) . PHP_EOL;
         }
     }
     // chế độ nạp trước css
-    function preload_js( $f, $ops = [] ) {
+    public function preload_js( $f, $ops = [] ) {
         $ops[ 'preload' ] = 1;
 
         //
         echo $this->get_add_js( $f, $ops ) . PHP_EOL;
     }
 
-    function preloads_js( $fs, $ops = [] ) {
+    public function preloads_js( $fs, $ops = [] ) {
         $ops[ 'preload' ] = 1;
 
         //
@@ -122,7 +122,7 @@ class Base extends Csdl {
         }
     }
 
-    function alert( $m, $lnk = '' ) {
+    public function alert( $m, $lnk = '' ) {
         $arr_debug = debug_backtrace();
         //print_r($arr_debug);
 
@@ -159,7 +159,7 @@ class Base extends Csdl {
     }
 
     //
-    function _eb_non_mark_seo_v2( $str ) {
+    public function _eb_non_mark_seo_v2( $str ) {
         // Chuyển đổi toàn bộ chuỗi sang chữ thường
         if ( function_exists( 'mb_convert_case' ) ) {
             $str = mb_convert_case( trim( $str ), MB_CASE_LOWER, "UTF-8" );
@@ -191,7 +191,7 @@ class Base extends Csdl {
         return $str;
     }
 
-    function _eb_non_mark_seo_v1( $str ) {
+    public function _eb_non_mark_seo_v1( $str ) {
         $str = $this->_eb_non_mark( trim( $str ) );
 
         //
@@ -217,7 +217,7 @@ class Base extends Csdl {
         return $str;
     }
 
-    function _eb_non_mark_seo( $str ) {
+    public function _eb_non_mark_seo( $str ) {
         //$str = _eb_non_mark_seo_v1( $str );
         $str = $this->_eb_non_mark_seo_v2( $str );
 
@@ -237,7 +237,7 @@ class Base extends Csdl {
         //	return strtolower($str);
     }
 
-    function _eb_non_mark( $str ) {
+    public function _eb_non_mark( $str ) {
         $unicode = array(
             'a' => array( 'á', 'à', 'ả', 'ã', 'ạ', 'ă', 'ắ', 'ặ', 'ằ', 'ẳ', 'ẵ', 'â', 'ấ', 'ầ', 'ẩ', 'ẫ', 'ậ' ),
             'A' => array( 'Á', 'À', 'Ả', 'Ã', 'Ạ', 'Ă', 'Ắ', 'Ặ', 'Ằ', 'Ẳ', 'Ẵ', 'Â', 'Ấ', 'Ầ', 'Ẩ', 'Ẫ', 'Ậ' ),
@@ -262,7 +262,7 @@ class Base extends Csdl {
         return $str;
     }
 
-    function _eb_text_only( $str = '' ) {
+    public function _eb_text_only( $str = '' ) {
         if ( $str == '' ) {
             return '';
         }
@@ -270,7 +270,7 @@ class Base extends Csdl {
     }
 
     // trả về nội dung HTML mẫu
-    function get_html_tmp( $file_name, $path = '', $sub_path = 'html/', $file_type = '.html' ) {
+    public function get_html_tmp( $file_name, $path = '', $sub_path = 'html/', $file_type = '.html' ) {
         //echo PUBLIC_HTML_PATH . '<br>' . "\n";
         //echo APPPATH . '<br>' . "\n";
         //echo PUBLIC_HTML_PATH . APPPATH . '<br>' . "\n";
@@ -297,16 +297,16 @@ class Base extends Csdl {
         return file_get_contents( $f, 1 );
     }
     // trả về mẫu HTML ở theme cha
-    function parent_html_tmp( $file_name ) {
+    public function parent_html_tmp( $file_name ) {
         return $this->get_html_tmp( $file_name, VIEWS_PATH );
     }
     // trả về mẫu HTML ở theme con
-    function custom_html_tmp( $file_name ) {
+    public function custom_html_tmp( $file_name ) {
         return $this->get_html_tmp( $file_name, VIEWS_CUSTOM_PATH );
     }
 
     // chuyển đổi từ mảng php sang html tương ứng
-    function tmp_to_html( $tmp_html, $arr, $default_arr = [] ) {
+    public function tmp_to_html( $tmp_html, $arr, $default_arr = [] ) {
         // meta
         $arr_meta = NULL;
         if ( isset( $arr[ 'post_meta' ] ) && $arr[ 'post_meta' ] !== '' ) {
@@ -332,7 +332,7 @@ class Base extends Csdl {
         return $tmp_html;
     }
 
-    function EBE_get_file_in_folder( $dir, $file_type = '', $type = '', $get_basename = false ) {
+    public function EBE_get_file_in_folder( $dir, $file_type = '', $type = '', $get_basename = false ) {
         /*
          * chuẩn hóa đầu vào
          */
@@ -373,7 +373,7 @@ class Base extends Csdl {
         return $arr;
     }
 
-    function seo( $data, $url ) {
+    public function seo( $data, $url ) {
         //print_r( $data );
         if ( isset( $data[ 'term_id' ] ) ) {
             $seo = array(
@@ -406,12 +406,12 @@ class Base extends Csdl {
     }
 
     // cắt chuỗi ngắn lại (phải làm phức tạp chút vì cắt tiếng Việt có dấu sẽ bị lỗi nếu cắt đúng chỗ có dấu)
-    function short_string( $str, $len, $add_more = true ) {
+    public function short_string( $str, $len, $add_more = true ) {
         // sử dụng function mặc định xem như nào, nếu sau lỗi thì bỏ
         return mb_strimwidth( $str, 0, $len, $add_more == true ? '...' : '', 'utf-8' );
     }
 
-    function short_string_v1( $str, $len, $add_more = true ) {
+    public function short_string_v1( $str, $len, $add_more = true ) {
         if ( strlen( $str ) < $len ) {
             return $str;
         }
@@ -439,7 +439,7 @@ class Base extends Csdl {
         return trim( $str );
     }
 
-    function get_config( $config, $key, $default_value = '' ) {
+    public function get_config( $config, $key, $default_value = '' ) {
         //print_r( $config );
         //if ( isset( $config->$key ) ) {
         if ( $config->$key != '' ) {
@@ -448,11 +448,11 @@ class Base extends Csdl {
         return $default_value;
     }
 
-    function the_config( $config, $key, $default_value = '' ) {
+    public function the_config( $config, $key, $default_value = '' ) {
         echo $this->get_config( $config, $key, $default_value );
     }
 
-    function EBE_pagination( $Page, $TotalPage, $strLinkPager, $sub_part = '/page/' ) {
+    public function EBE_pagination( $Page, $TotalPage, $strLinkPager, $sub_part = '/page/' ) {
         return '<div data-page="' . $Page . '" data-total="' . $TotalPage . '" data-url="' . $strLinkPager . '" data-params="' . $sub_part . '" class="each-to-page-part"></div>';
     }
 
@@ -470,7 +470,7 @@ class Base extends Csdl {
     }
 
     // tạo file
-    function _eb_create_file( $file_, $content_, $ops = [] ) {
+    public function _eb_create_file( $file_, $content_, $ops = [] ) {
         if ( $content_ == '' ) {
             echo 'ERROR put file: content is NULL<br>' . PHP_EOL;
             return false;
