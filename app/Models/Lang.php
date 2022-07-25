@@ -4,6 +4,7 @@ namespace App\ Models;
 
 //
 use App\ Libraries\ ConfigType;
+use App\ Helpers\ HtmlTemplate;
 
 //
 class Lang extends EbModel {
@@ -43,7 +44,7 @@ class Lang extends EbModel {
 
     // trả về thông tin bản quyền phần mềm theo tiêu chuẩn
     public function get_web_license( $getconfig ) {
-        return $this->base_model->tmp_to_html( file_get_contents( APPPATH . 'Helpers/footer_copyright.html' ), [
+        return HtmlTemplate::html( 'footer_copyright.html', [
             'copy_right_first' => $this->get_the_text( 'copy_right_first', ConfigType::placeholder( 'copy_right_first' ) ),
             'year' => date( 'Y' ),
             'name' => $getconfig->name,

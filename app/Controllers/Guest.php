@@ -6,6 +6,7 @@ use App\ Libraries\ UsersType;
 use App\ Libraries\ DeletedStatus;
 use App\ Libraries\ PHPMaillerSend;
 use App\ Language\ Translate;
+use App\ Helpers\ HtmlTemplate;
 
 //
 class Guest extends Csrf {
@@ -385,7 +386,7 @@ class Guest extends Csrf {
                             $data_send = [
                                 'to' => $data[ 'email' ],
                                 'subject' => 'Khởi tạo lại mật khẩu đăng nhập',
-                                'message' => $this->base_model->tmp_to_html(
+                                'message' => HtmlTemplate::render(
                                     $this->base_model->get_html_tmp( 'reset_password_confirm', '', 'html/mail-template/' ), [
                                         'base_url' => base_url(),
                                         'email' => $data[ 'email' ],
@@ -536,7 +537,7 @@ class Guest extends Csrf {
         $data_send = [
             'to' => $email,
             'subject' => 'Mật khẩu đăng nhập mới',
-            'message' => $this->base_model->tmp_to_html(
+            'message' => HtmlTemplate::render(
                 $this->base_model->get_html_tmp( 'reset_password', '', 'html/mail-template/' ), [
                     'base_url' => base_url( 'guest/login' ),
                     'email' => $email,

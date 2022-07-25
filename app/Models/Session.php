@@ -1,5 +1,7 @@
 <?php
-
+/*
+ * file này chủ yếu xử lý các vấn đề liên quan đến session
+ */
 namespace App\ Models;
 
 // Libraries

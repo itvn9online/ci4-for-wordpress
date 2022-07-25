@@ -7,6 +7,7 @@ use App\ Libraries\ LanguageCost;
 use App\ Libraries\ PostType;
 use App\ Libraries\ TaxonomyType;
 use App\ Libraries\ DeletedStatus;
+use App\ Helpers\ HtmlTemplate;
 
 //
 class PostQuery extends PostMeta {
@@ -575,7 +576,7 @@ class PostQuery extends PostMeta {
                 'taxonomy_key' => $ops[ 'taxonomy' ],
                 'p_link' => $p_link,
             ] );
-            $str_node = $this->base_model->tmp_to_html( $str_node, $v[ 'post_meta' ] );
+            $str_node = HtmlTemplate::render( $str_node, $v[ 'post_meta' ] );
 
             //
             $html .= $str_node;
@@ -600,7 +601,7 @@ class PostQuery extends PostMeta {
         // thay thế HTML cho khối term
         $tmp_html = $this->base_model->parent_html_tmp( 'widget_echbay_blog' );
         // ưu tiên các giá trị trong instance
-        $tmp_html = $this->base_model->tmp_to_html( $tmp_html, $instance );
+        $tmp_html = HtmlTemplate::render( $tmp_html, $instance );
         // sau đó mới đến custom
         $html = $this->base_model->tmp_to_html( $tmp_html, $post_cat, [
             'content' => $html,
@@ -617,9 +618,9 @@ class PostQuery extends PostMeta {
         ] );
 
         //
-        $html = $this->base_model->tmp_to_html( $html, $instance );
+        //$html = HtmlTemplate::render( $html, $instance );
         // thay các size dùng chung
-        $html = $this->base_model->tmp_to_html( $html, [
+        $html = HtmlTemplate::render( $html, [
             'main_banner_size' => $this->base_model->get_config( $this->getconfig, 'main_banner_size' ),
             'second_banner_size' => $this->base_model->get_config( $this->getconfig, 'second_banner_size' ),
         ] );

@@ -5,6 +5,7 @@ namespace App\ Controllers;
 use App\ Language\ Translate;
 use App\ Libraries\ PHPMaillerSend;
 use App\ Libraries\ PostType;
+use App\ Helpers\ HtmlTemplate;
 
 //
 class Users extends Csrf {
@@ -258,7 +259,7 @@ class Users extends Csrf {
                         $data_send = [
                             'to' => $this->session_data[ 'user_email' ],
                             'subject' => 'Xác nhận thay đổi email',
-                            'message' => $this->base_model->tmp_to_html(
+                            'message' => HtmlTemplate::render(
                                 $this->base_model->get_html_tmp( 'change_email_confirm', '', 'html/mail-template/' ), [
                                     'base_url' => base_url(),
                                     'email' => $data[ 'user_email' ],

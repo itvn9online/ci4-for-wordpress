@@ -1,3 +1,9 @@
+<?php
+
+//
+use App\ Helpers\ HtmlTemplate;
+
+?>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php echo $seo['title']; ?></title>
@@ -119,7 +125,7 @@ foreach ( $arr_preload_bootstrap as $v ) {
 <?php
 
 // in ra mã màu dạng global để tiện thay đổi
-echo $base_model->tmp_to_html( file_get_contents( APPPATH . 'Helpers/root_color.txt' ), [
+echo HtmlTemplate::html( 'root_color.txt', [
     'default_bg' => $getconfig->default_bg,
     'sub_bg' => $getconfig->sub_bg,
     'default_color' => $getconfig->default_color,
@@ -155,7 +161,7 @@ if ( $isMobile == true ) {
 
 
 // xác định kích thước khung web dựa theo config
-echo $base_model->tmp_to_html( file_get_contents( APPPATH . 'Helpers/custom_css.txt' ), [
+echo HtmlTemplate::html( 'custom_css.txt', [
     'site_max_width30' => $getconfig->site_max_width + 30,
     'site_max_width19' => $getconfig->site_max_width + 19,
     'site_max_width' => $getconfig->site_max_width,
@@ -205,7 +211,7 @@ else {
 
 // nếu có ID google analytics thì nạp nó
 if ( $getconfig->google_analytics != '' ) {
-    echo $base_model->tmp_to_html( file_get_contents( APPPATH . 'Helpers/google_analytics.txt' ), [
+    echo HtmlTemplate::html( 'google_analytics.txt', [
         'google_analytics' => $getconfig->google_analytics,
     ] );
 }
