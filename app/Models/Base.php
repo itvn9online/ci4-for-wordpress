@@ -1,7 +1,7 @@
 <?php
 /*
-* file này chủ yếu xử lý các vấn đề chung chung, chẳng biết gọi tên chính xác là gì -> hổ lốn
-*/
+ * file này chủ yếu xử lý các vấn đề chung chung, chẳng biết gọi tên chính xác là gì -> hổ lốn
+ */
 namespace App\ Models;
 
 //
@@ -122,40 +122,20 @@ class Base extends Csdl {
         }
     }
 
+    // -> trả về alert của javascript
     public function alert( $m, $lnk = '' ) {
         $arr_debug = debug_backtrace();
         //print_r($arr_debug);
 
-        die( '<script>
-        console.log("' . basename( $arr_debug[ 1 ][ 'file' ] ) . ':' . $arr_debug[ 1 ][ 'line' ] . '");
-        console.log("function: ' . $arr_debug[ 1 ][ 'function' ] . '");
-        console.log("class: ' . basename( str_replace( '\\', '/', $arr_debug[ 1 ][ 'class' ] ) ) . '");
-        
         //
-		var m = "' . $m . '";
-		var lnk = "' . $lnk . '";
-		try {
-			if (top != self) {
-				top.WGR_alert(m, lnk);
-			} else {
-				WGR_alert(m, lnk);
-			}
-		} catch (e) {
-			console.log(\'name: \' + e.name + \'; line: \' + (e.lineNumber || e.line) + \'; script: \' + (e.fileName || e.sourceURL || e.script) + \'; stack: \' + (e.stackTrace || e.stack) + \'; message: \' + e.message);
-			if ( m != "" ) {
-				alert(m);
-			}
-			
-			//
-			if (typeof lnk != \'undefined\' && lnk != \'\') {
-				if (top != self) {
-					top.window.location = lnk;
-				} else {
-					window.location = lnk;
-				}
-			}
-		}
-		</script>' );
+        die( HtmlTemplate::html( 'wgr_alert.html', [
+            'file' => basename( $arr_debug[ 1 ][ 'file' ] ),
+            'line' => $arr_debug[ 1 ][ 'line' ],
+            'function' => $arr_debug[ 1 ][ 'function' ],
+            'class' => basename( str_replace( '\\', '/', $arr_debug[ 1 ][ 'class' ] ) ),
+            'm' => $m,
+            'lnk' => $lnk,
+        ] ) );
     }
 
     //

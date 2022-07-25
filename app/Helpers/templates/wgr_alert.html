@@ -1,0 +1,30 @@
+<script>
+console.log("{{file}}:{{line}}");
+console.log("function: {{function}}");
+console.log("class: {{class}}");
+
+//
+var m = "{{m}}";
+var lnk = "{{lnk}}";
+try {
+    if (top != self) {
+        top.WGR_alert(m, lnk);
+    } else {
+        WGR_alert(m, lnk);
+    }
+} catch (e) {
+    console.log('name: ' + e.name + '; line: ' + (e.lineNumber || e.line) + '; script: ' + (e.fileName || e.sourceURL || e.script) + '; stack: ' + (e.stackTrace || e.stack) + '; message: ' + e.message);
+    if (m != "") {
+        alert(m);
+    }
+
+    //
+    if (typeof lnk != 'undefined' && lnk != '') {
+        if (top != self) {
+            top.window.location = lnk;
+        } else {
+            window.location = lnk;
+        }
+    }
+}
+</script>
