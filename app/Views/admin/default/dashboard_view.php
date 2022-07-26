@@ -1,40 +1,7 @@
-<?php
-
-use App\ Libraries\ UsersType;
-
-
-// TEST xem cache có chạy hay không -> gọi đến cache được gọi trong dashboard để xem có NULL hay không
-$check_cache_active = $base_model->scache( 'auto_sync_table_column' );
-//echo $check_cache_active . '<br>' . "\n";
-//echo $base_model->dcache( 'auto_sync_table_column' ) . '<br>' . "\n";
-
-
-//
-//print_r( $_SERVER );
-//print_r( $_SESSION );
-//echo mysqli_get_client_info();
-//echo mysql_get_server_info();
-//print_r( opcache_get_status() );
-
-// kiểm tra file robots.txt
-$robots_txt = PUBLIC_PUBLIC_PATH . 'robots.txt';
-// mặc định là không có file robots
-$robots_exist = 0;
-if ( file_exists( $robots_txt ) ) {
-    // có thì mới bắt đầu kiểm tra
-    $robots_exist = 1;
-
-    // nếu không xác định được nội dung cần thiết trong robot txt -> cảnh báo
-    if ( strpos( file_get_contents( $robots_txt, 1 ), DYNAMIC_BASE_URL ) === false ) {
-        $robots_exist = 2;
-    }
-}
-
-?>
 <div id="app" class="s14 ng-main-content">
-    <div v-if="robots_txt > 0 && robots_txt > 1">
-        <p class="redcolor medium18 text-center"><i class="fa fa-warning"></i> Vui lòng kiểm tra lại độ chuẩn xác của <a href="admin/configs?support_tab=data_robots" target="_blank"><strong class="bluecolor">file robots.txt</strong></a></p>
-        <p class="text-center"><a href="<?php echo DYNAMIC_BASE_URL; ?>robots.txt" class="bluecolor" target="_blank"><?php echo DYNAMIC_BASE_URL; ?>robots.txt</a></p>
+    <div v-if="robots_exist > 1">
+        <p class="redcolor medium18 text-center"><i class="fa fa-warning"></i> Vui lòng kiểm tra lại độ chuẩn xác của <a href="admin/configs?support_tab=data_robots" target="_blank"><strong class="bluecolor">file robots.txt <i class="fa fa-edit"></i></strong></a></p>
+        <p class="text-center"><a :href="base_url + 'robots.txt'" class="bluecolor" target="_blank">{{base_url}}robots.txt</a></p>
         <br>
     </div>
     <h4>Tổng quan:</h4>
@@ -77,6 +44,7 @@ if ( file_exists( $robots_txt ) ) {
     <p>Your IP: <a href="https://www.iplocation.net/ip-lookup?query=<?php echo $request_ip; ?>" target="_blank" rel="nofollow" class="bold greencolor"><?php echo $request_ip; ?></a></p>
     <p>Server time: <strong><?php echo date(EBE_DATETIME_FORMAT); ?></strong></p>
     <p>Client time: <strong>{{ datetime(Date_now) }}</strong></p>
+    <p>Client OS: <strong>{{ client_os }}</strong></p>
     <br>
     <h4>Một số khuyến nghị cho website của bạn hoạt động tốt hơn:</h4>
     <div class="p d-inlines"><strong>Imagick:</strong>
@@ -89,7 +57,7 @@ if ( file_exists( $robots_txt ) ) {
         <div v-if="opcache_exist <= 0" class="orgcolor"> Nên bổ sung thêm OPcache sẽ giúp tăng đáng kể hiệu suất website của bạn. </div>
     </div>
     <!-- END OPcache -->
-    <div class="p d-inlines">Cache (<strong><?php echo MY_CACHE_HANDLER; ?></strong> handler):
+    <div class="p d-inlines">Cache (<strong>{{cache_handler}}</strong> handler):
         <div v-if="cache_actived > 0" class="greencolor">Xin chúc mừng! Website của bạn vận hành thông qua <strong>Cache</strong>, điều này giúp tăng hiệu suất của website lên rất nhiều.
             <div>Bạn có thể <a href="admin/dashboard/cleanup_cache" class="btn btn-primary btn-mini"><i class="fa fa-magic"></i> vào đây</a> và dọn dẹp cache để website nhận dữ liệu mới nhất.</div>
         </div>
@@ -123,25 +91,25 @@ if ( file_exists( $robots_txt ) ) {
         </div>
         <!-- END Memcached --> 
         <!-- securityheaders -->
-        <p><strong>Security headers:</strong> <a :href="'https://securityheaders.com/?q=' + base_url + '&followRedirects=on'" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-shield"></i> vào đây</a> để kiểm tra độ bảo mật thông qua header trên website của bạn. Tối thiểu nên ở mức điểm
+        <p><strong>Security headers:</strong> <a :href="'https://securityheaders.com/?q=' + encode_url + '&followRedirects=on'" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-shield"></i> vào đây</a> để kiểm tra độ bảo mật thông qua header trên website của bạn. Tối thiểu nên ở mức điểm
             <button type="button" class="btn btn-warning">B</button>
             khuyến nghị điểm
             <button type="button" class="btn btn-success">A</button>
         </p>
         <!-- END securityheaders --> 
         <!-- pagespeed -->
-        <p><strong>Page speed:</strong> <a :href="'https://pagespeed.web.dev/report?url=' + base_url" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-flash"></i> vào đây</a> để phân tích tốc độ website của bạn và độ thân thiện với các công cụ tìm kiếm (tối ưu SEO). Tối thiểu nên ở mức điểm
+        <p><strong>Page speed:</strong> <a :href="'https://pagespeed.web.dev/report?url=' + encode_url" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-flash"></i> vào đây</a> để phân tích tốc độ website của bạn và độ thân thiện với các công cụ tìm kiếm (tối ưu SEO). Tối thiểu nên ở mức điểm
             <button type="button" class="btn btn-warning">80</button>
             khuyến nghị điểm
             <button type="button" class="btn btn-success">90</button>
         </p>
-        <!-- END pagespeed -->
+        <!-- END pagespeed --> 
         <!-- Open Graph Facebook -->
-        <p><strong>Open Graph Facebook:</strong> <a :href="'https://developers.facebook.com/tools/debug/?q=' + base_url" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-bug"></i> vào đây</a> để phân tích dữ liệu có cấu trúc đối với Facebook.</p>
-        <!-- END Open Graph Facebook -->
+        <p><strong>Open Graph Facebook:</strong> <a :href="'https://developers.facebook.com/tools/debug/?q=' + encode_url" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-bug"></i> vào đây</a> để phân tích dữ liệu có cấu trúc đối với Facebook.</p>
+        <!-- END Open Graph Facebook --> 
         <!-- Open Graph Zalo -->
-        <p><strong>Open Graph Zalo:</strong> <a :href="'https://developers.zalo.me/tools/debug-sharing?q=' + base_url" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-bug"></i> vào đây</a> để phân tích dữ liệu có cấu trúc đối với Zalo.</p>
-        <!-- END Open Graph Zalo -->
+        <p><strong>Open Graph Zalo:</strong> <a :href="'https://developers.zalo.me/tools/debug-sharing?q=' + encode_url" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-bug"></i> vào đây</a> để phân tích dữ liệu có cấu trúc đối với Zalo.</p>
+        <!-- END Open Graph Zalo --> 
     </div>
     <!-- -->
     <div class="p redcolor medium" :class="current_protocol != 'https:' ? '' : 'd-none'"><i class="fa fa-warning"></i> Kết nối hiện tại <strong>{{current_protocol}}</strong> chưa hỗ trợ redirect sang <strong>https</strong>. Vui lòng kích hoạt và sử dụng redirect <strong>https</strong> để giúp website bảo mật và nhanh hơn.</div>
@@ -153,7 +121,7 @@ if ( file_exists( $robots_txt ) ) {
     /*
      * hiển thị chức năng bật/ tắt debug đối với admin
      */
-    if ( $session_data[ 'member_type' ] == UsersType::ADMIN ) {
+    if ( $session_data[ 'member_type' ] == $user_type['admin'] ) {
         ?>
     <!-- DEBUG -->
     <div>
@@ -229,54 +197,36 @@ if ( file_exists( $robots_txt ) ) {
     } // END member type ADMIN
     ?>
 </div>
-<script>
-var current_full_domain = sessionStorage.getItem('WGR-current-full-domain');
-var current_protocol = web_link;
-var current_www = web_link;
-if (current_full_domain !== null) {
-    current_protocol = current_full_domain;
-    current_www = current_full_domain;
-}
+<?php
 
 //
-WGR_vuejs('#app', {
-    Date_now: Date.now(),
-    base_url: '<?php echo urlencode( base_url() ); ?>',
-    ci_version: '<?php echo \CodeIgniter\CodeIgniter::CI_VERSION; ?>', // phiên bản CI hiện tại
-    ci_last_version: 421, // phiên bản CI mới nhất -> đổi màu để dễ nhận biết có bản mới hơn
-    robots_txt: <?php echo $robots_exist; ?>,
-    phpversion: '<?php echo phpversion(); ?>'.replace('.', '').split('.')[0],
-    current_dbname: '<?php echo $current_dbname; ?>',
-    current_protocol: current_protocol.split('//')[0],
-    current_www: current_www.split('.')[0].split('//')[1],
-    debug_enable: <?php echo ($debug_enable === true ? 1 : 0); ?>,
-    exists_f_env: <?php echo (file_exists( $f_env ) ? 1 : 0); ?>,
-    exists_f_backup_env: <?php echo (file_exists( $f_backup_env ) ? 1 : 0); ?>,
-    system_zip: <?php echo (file_exists( PUBLIC_HTML_PATH . 'system.zip') ? 1 : 0); ?>,
-    imagick_exist: <?php echo (class_exists( 'Imagick' ) ? 1 : 0); ?>,
-    cache_actived: <?php echo ($check_cache_active !== NULL ? 1 : 0); ?>,
-    memcached_exist: <?php echo (class_exists( 'Memcached' ) ? 1 : 0); ?>,
-    redis_exist: '<?php echo phpversion( 'redis' ); ?>',
-    cache_handler: '<?php echo MY_CACHE_HANDLER; ?>',
-    opcache_exist: <?php echo (is_array(opcache_get_status()) ? 1 : 0); ?>,
-    last_ci4_update: <?php echo (file_exists( APPPATH . 'VERSION' ) ? filemtime( APPPATH . 'VERSION' ) : filemtime( APPPATH . 'Controllers/Layout.php' )); ?>,
-    calculate_ci4_update: function (last_time) {
-        var current_time = Math.ceil(Date.now()/ 1000);
-        var one_day = 24 * 3600;
-        var cal_day = current_time - last_time;
-        cal_day = cal_day/ one_day;
-        return cal_day.toFixed(1) * 1;
-    },
-    warning_ci_version: function (a, b) {
-        if (a.replace(/\./gi, '') * 1 < b) {
-            return 'orgcolor';
-        }
-        return 'greencolor';
-    },
-});
+$vue_data = [
+    'base_url' => DYNAMIC_BASE_URL,
+    'ci_version' => \CodeIgniter\ CodeIgniter::CI_VERSION, // phiên bản CI hiện tại
+    'ci_last_version' => 421, // phiên bản CI mới nhất -> đổi màu để dễ nhận biết có bản mới hơn
+    'robots_exist' => $robots_exist,
+    'phpversion' => phpversion(),
+    'current_dbname' => $current_dbname,
+    'debug_enable' => ( $debug_enable === true ? 1 : 0 ),
+    'exists_f_env' => ( file_exists( $f_env ) ? 1 : 0 ),
+    'exists_f_backup_env' => ( file_exists( $f_backup_env ) ? 1 : 0 ),
+    'system_zip' => ( file_exists( PUBLIC_HTML_PATH . 'system.zip' ) ? 1 : 0 ),
+    'imagick_exist' => ( class_exists( 'Imagick' ) ? 1 : 0 ),
+    'cache_actived' => ( $check_cache_active !== NULL ? 1 : 0 ),
+    'memcached_exist' => ( class_exists( 'Memcached' ) ? 1 : 0 ),
+    'redis_exist' => phpversion( 'redis' ),
+    'cache_handler' => MY_CACHE_HANDLER,
+    'opcache_exist' => ( is_array( opcache_get_status() ) ? 1 : 0 ),
+    'last_ci4_update' => ( file_exists( APPPATH . 'VERSION' ) ? filemtime( APPPATH . 'VERSION' ) : filemtime( APPPATH . 'Controllers/Layout.php' ) ),
+];
+
+?>
+<script>
+var vue_data = <?php echo json_encode($vue_data); ?>;
 </script>
 <?php
 
 //
 $base_model->add_js( 'admin/js/dashboard.js' );
+
 

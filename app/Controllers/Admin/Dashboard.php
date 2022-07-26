@@ -103,6 +103,34 @@ class Dashboard extends Optimize {
         $client_ip = $this->request->getIPAddress();
         //$client_ip = ( isset( $_SERVER[ 'HTTP_X_REAL_IP' ] ) ) ? $_SERVER[ 'HTTP_X_REAL_IP' ] : $_SERVER[ 'REMOTE_ADDR' ];
 
+
+        // TEST xem cache có chạy hay không -> gọi đến cache được gọi trong dashboard để xem có NULL hay không
+        $check_cache_active = $this->base_model->scache( 'auto_sync_table_column' );
+        //echo $check_cache_active . '<br>' . "\n";
+        //echo $base_model->dcache( 'auto_sync_table_column' ) . '<br>' . "\n";
+
+
+        // kiểm tra file robots.txt
+        $robots_txt = PUBLIC_PUBLIC_PATH . 'robots.txt';
+        // mặc định là không có file robots
+        $robots_exist = 0;
+        if ( file_exists( $robots_txt ) ) {
+            // có thì mới bắt đầu kiểm tra
+            $robots_exist = 1;
+
+            // nếu không xác định được nội dung cần thiết trong robot txt -> cảnh báo
+            if ( strpos( file_get_contents( $robots_txt, 1 ), DYNAMIC_BASE_URL ) === false ) {
+                $robots_exist = 2;
+            }
+        }
+
+        //
+        //print_r( $_SERVER );
+        //print_r( $_SESSION );
+        //echo mysqli_get_client_info();
+        //echo mysql_get_server_info();
+        //print_r( opcache_get_status() );
+
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/dashboard_view', array(
             //'topPostHighestView' => $topPostHighestView,
@@ -114,6 +142,11 @@ class Dashboard extends Optimize {
             'current_dbname' => $current_dbname,
             'f_env' => $this->f_env,
             'f_backup_env' => $this->f_backup_env,
+            'robots_exist' => $robots_exist,
+            'check_cache_active' => $check_cache_active,
+            'user_type' => [
+                'admin' => UsersType::ADMIN,
+            ],
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }

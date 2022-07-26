@@ -206,6 +206,7 @@ class Layout extends Sync {
 
         //
         $this->teamplate[ 'footer' ] = view( 'footer_view' );
+        $this->teamplate[ 'html_lang' ] = $this->lang_key;
 
         //
         //$this->teamplate[ 'enable_angular_js' ] = $this->enable_angular_js;

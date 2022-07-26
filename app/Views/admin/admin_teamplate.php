@@ -1,9 +1,9 @@
 <?php
 
 // Libraries
-use App\ Libraries\ TaxonomyType;
-use App\ Libraries\ LanguageCost;
-use App\ Libraries\ UsersType;
+//use App\ Libraries\ TaxonomyType;
+//use App\ Libraries\ LanguageCost;
+//use App\ Libraries\ UsersType;
 
 //print_r( $session_data );
 //print_r( $_SESSION );
@@ -36,7 +36,7 @@ if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
 //$session_data[ 'member_type' ] = UsersType::GUEST;
 
 // chạy vòng lặp kiểm tra phân quyền nếu không phải admin
-if ( $session_data[ 'member_type' ] != UsersType::ADMIN ) {
+if ( $session_data[ 'member_type' ] != $is_admin ) {
     foreach ( $arr_admin_menu as $k => $v ) {
         //print_r( $v );
 
@@ -85,11 +85,8 @@ if ( $debug_enable === true ) {
 ?>
 <!DOCTYPE html>
 <html lang="<?php
-            $html_lang = LanguageCost::lang_key();
-            if ( $html_lang =='vn'||$html_lang== '' ) {
-                $html_lang = 'vi';
-            }
-            echo $html_lang;
+            //$html_lang = LanguageCost::lang_key();
+            echo ( ( $html_lang =='vn' || $html_lang== '' ) ? 'vi' : $html_lang);
             ?>">
 <head>
 <title>Quản trị</title>
@@ -170,7 +167,7 @@ $base_model->adds_js( [
 <script>
 var ALLOW_USING_MYSQL_DELETE = <?php echo (ALLOW_USING_MYSQL_DELETE ? 'true' : 'false'); ?>;
 var arr_admin_menu = <?php echo json_encode($arr_admin_menu); ?>;
-var arr_lang_list = <?php echo json_encode(LanguageCost::list()); ?>;
+var arr_lang_list = <?php echo json_encode($arr_lang_list); ?>;
 var web_link = window.location.protocol + '//' + document.domain + '/';
 var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
 </script>
@@ -185,7 +182,7 @@ var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
         <div class="d-inline"><a href="./"><i class="fa fa-home"></i> Về trang chủ</a></div>
         &nbsp; | &nbsp;
         <div class="d-inline">Ngôn ngữ:
-            <select data-select="<?php echo LanguageCost::lang_key(); ?>" class="admin-change-language">
+            <select data-select="<?php echo $html_lang; ?>" class="admin-change-language">
             </select>
         </div>
     </div>

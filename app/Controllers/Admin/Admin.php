@@ -1,9 +1,11 @@
 <?php
 namespace App\ Controllers\ Admin;
 
+//
 use App\ Controllers\ Ajaxs;
 
 // Libraries
+use App\ Libraries\ LanguageCost;
 use App\ Libraries\ AdminMenu;
 use App\ Libraries\ CommentType;
 use App\ Libraries\ UsersType;
@@ -43,6 +45,9 @@ class Admin extends Ajaxs {
         //
         if ( $this->preload_admin_header === true && $_SERVER[ 'REQUEST_METHOD' ] == 'GET' ) {
             $this->teamplate_admin = [
+                'is_admin' => UsersType::ADMIN,
+                'html_lang' => $this->lang_key,
+                'arr_lang_list' => LanguageCost::list(),
                 'arr_admin_menu' => $this->admin_menu(),
                 'session_data' => $this->session_data,
                 'body_class' => $this->body_class,
