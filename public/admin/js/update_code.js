@@ -83,6 +83,7 @@ function before_start_reset_in_github() {
 
 function done_submit_restore_code() {
     $('#restoreModal').modal('hide');
+    $('#cleanupModal').modal('hide');
     window.location = window.location.href;
 }
 

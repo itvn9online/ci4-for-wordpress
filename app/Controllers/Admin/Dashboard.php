@@ -939,10 +939,10 @@ class Dashboard extends Optimize {
             $this->base_model->alert( 'Không tồn tại thư mục deleted', 'error' );
         }
 
-        // đổi lại tên thư mục
+        // tìm các thư mục deleted
         foreach ( $this->dir_list as $v ) {
             $v_deleted = $v . '-deleted';
-            // nếu không có thư mục delete -> bỏ qua
+            // nếu không có thư mục deleted -> bỏ qua
             if ( !is_dir( $v_deleted ) ) {
                 echo 'DIR NOT EXIST! ' . $v_deleted . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                 continue;
@@ -955,9 +955,35 @@ class Dashboard extends Optimize {
                 ], $this->using_via_ftp() );
             }
 
-            //
+            // đổi tên thư mục delete
             if ( !$this->MY_rename( $v_deleted, $v ) ) {
                 die( 'ERROR rename! ' . $v_deleted . ':' . __CLASS__ . ':' . __LINE__ );
+            }
+        }
+
+        //die(__FILE__.':'.__LINE__);
+        die( '<script>top.done_submit_restore_code();</script>' );
+    }
+
+    // xóa code trong thư mục deleted nếu chắc chắn không còn lỗi
+    public function cleanup_code() {
+        if ( $this->check_deleted_exist() !== true ) {
+            $this->base_model->alert( 'Không tồn tại thư mục deleted', 'error' );
+        }
+
+        // tìm các thư mục deleted
+        foreach ( $this->dir_deleted_list as $v ) {
+            // nếu không có thư mục deleted -> bỏ qua
+            if ( !is_dir( $v ) ) {
+                echo 'DIR NOT EXIST! ' . $v . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+                continue;
+            }
+
+            // xóa code trong thư mục
+            if ( is_dir( $v ) ) {
+                $this->cleanup_deleted_dir( [
+                    $v,
+                ], $this->using_via_ftp() );
             }
         }
 

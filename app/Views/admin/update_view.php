@@ -47,6 +47,7 @@ if ( $app_deleted_exist === true ) {
 <div> 
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#restoreModal"> <i class="fa fa-undo"></i> Phục hồi lại code trước khi update </button>
+    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#cleanupModal"> <i class="fa fa-magic"></i> Dọn dẹp code sau khi khi update </button>
 </div>
 <!-- Modal -->
 <div class="modal fade" id="restoreModal" tabindex="-1" aria-labelledby="restoreModalLabel" aria-hidden="true">
@@ -60,6 +61,22 @@ if ( $app_deleted_exist === true ) {
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <a href="admin/dashboard/restore_code" class="d-inline" target="target_eb_iframe">
+                <button type="button" class="btn btn-primary"><i class="fa fa-undo"></i> Confirm</button>
+                </a> </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="cleanupModal" tabindex="-1" aria-labelledby="cleanupModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cleanupModalLabel">Xác nhận dọn dẹp code!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">Dùng khi muốn dọn dẹp code sau khi update! (xóa các thư mục -deleted)</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="admin/dashboard/cleanup_code" class="d-inline" target="target_eb_iframe">
                 <button type="button" class="btn btn-primary"><i class="fa fa-undo"></i> Confirm</button>
                 </a> </div>
         </div>
