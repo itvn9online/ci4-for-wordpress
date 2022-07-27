@@ -19,7 +19,7 @@
 <br>
 <br>
 <h3>Chức năng update code trực tiếp từ github</h3>
-<p class="medium bluecolor">Code sẽ được tải từ link <em><?php echo $link_download_github; ?></em> và tiến hành giải nén như thông thường.</p>
+<p class="medium bluecolor">Code sẽ được tải từ link <a href="<?php echo $link_download_github; ?>" target="_blank" rel="nofollow"><em><?php echo $link_download_github; ?></em></a> và tiến hành giải nén như thông thường.</p>
 <p class="medium redcolor"><i class="fa fa-warning"></i> Lưu ý! việc update code yêu cầu kỹ năng xử lý code để đề phòng trường hợp update lỗi thì vẫn có thể khôi phục hoạt động của website.</p>
 <div class="cf">
     <div class="lf f45">
@@ -32,7 +32,7 @@
     <div class="lf f55">
         <p class="medium blackcolor">
             <input type="checkbox" id="confirm_is_super_coder" />
-            XÓA toàn bộ code cũ và thay thế bằng phiên bản code mới nhất từ <strong>github</strong>!</p>
+            XÓA toàn bộ code cũ và thay thế bằng phiên bản code mới nhất từ <a href="https://github.com/itvn9online/ci4-for-wordpress" target="_blank" rel="nofollow" class="bold">github</a>!</p>
         <a href="admin/dashboard/reset_code" target="target_eb_iframe" onClick="return before_start_reset_in_github();">
         <button type="button" class="btn btn-danger"><i class="fa fa-refresh"></i> Tiến hành download và reset code</button>
         </a></div>
@@ -93,7 +93,7 @@ if ( $app_deleted_exist === true ) {
 <br>
 <br>
 <h3>Giải nén lại toàn bộ thirdparty code</h3>
-<p class="medium bluecolor">Chức năng này sẽ tiến hành unzip lại toàn bộ file .zip trong thư mục thirdparty, do điều kiện mặc định là nếu thư mục tương ứng tồn tại thì không giải nén nên khi cần update thirdparty code là không update được</p>
+<p class="medium bluecolor">Chức năng này sẽ tiến hành unzip lại toàn bộ file .zip trong thư mục <strong>thirdparty</strong> và <strong>vendor</strong>, do điều kiện mặc định là nếu thư mục tương ứng tồn tại thì không giải nén nên khi cần update thirdparty code là không update được</p>
 <div>
     <form action="./admin/dashboard/unzip_thirdparty" method="post" onSubmit="return before_unzip_thirdparty();" target="target_eb_iframe">
         <input type="hidden" name="data" value="1" />
