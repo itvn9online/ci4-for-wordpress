@@ -114,7 +114,7 @@ class Guest extends Csrf {
         }
 
         //
-        $this->teamplate[ 'main' ] = view( 'admin/login_view', array(
+        $this->teamplate[ 'main' ] = view( 'login_view', array(
             //'option_model' => $this->option_model,
 
             'seo' => $this->seo( 'Đăng nhập', __FUNCTION__ ),
@@ -222,7 +222,7 @@ class Guest extends Csrf {
         //print_r( $this->getconfig );
         // nếu website không cho đăng ký thành viên thì hiển thị view thông báo tương ứng
         if ( isset( $this->getconfig->disable_register_member ) && $this->getconfig->disable_register_member == 'on' ) {
-            $this->teamplate[ 'main' ] = view( 'admin/register_disable_view', array(
+            $this->teamplate[ 'main' ] = view( 'register_disable_view', array(
                 'seo' => $this->seo( 'Website tạm dừng việc đăng ký tài khoản mới', __FUNCTION__ ),
                 'breadcrumb' => '',
                 //'cateByLang' => $cateByLang,
@@ -312,7 +312,7 @@ class Guest extends Csrf {
         }
 
         //
-        $this->teamplate[ 'main' ] = view( 'admin/register_view', array(
+        $this->teamplate[ 'main' ] = view( 'register_view', array(
             'seo' => $this->seo( 'Đăng ký tài khoản mới', __FUNCTION__ ),
             'breadcrumb' => '',
             //'cateByLang' => $cateByLang,
@@ -417,7 +417,7 @@ class Guest extends Csrf {
         }
 
         //
-        $this->teamplate[ 'main' ] = view( 'admin/resetpass_view', array(
+        $this->teamplate[ 'main' ] = view( 'resetpass_view', array(
             'seo' => $this->seo( 'Lấy lại mật khẩu', __FUNCTION__ ),
             'breadcrumb' => '',
             //'cateByLang' => $cateByLang,
@@ -520,7 +520,7 @@ class Guest extends Csrf {
         }
 
         // dùng chung view với trang đăng nhập
-        $this->teamplate[ 'main' ] = view( 'admin/login_view', array(
+        $this->teamplate[ 'main' ] = view( 'login_view', array(
             'seo' => $this->seo( 'Khởi tạo lại mật khẩu', __FUNCTION__ ),
             'breadcrumb' => '',
             'login_redirect' => $this->loginRedirect(),
@@ -658,7 +658,7 @@ class Guest extends Csrf {
         }
 
         // dùng chung view với trang đăng nhập
-        $this->teamplate[ 'main' ] = view( 'admin/login_view', array(
+        $this->teamplate[ 'main' ] = view( 'login_view', array(
             'seo' => $this->seo( 'Thay đổi email đăng nhập', __FUNCTION__ ),
             'breadcrumb' => '',
             'login_redirect' => $this->loginRedirect(),
