@@ -29,10 +29,10 @@ if ( file_exists( $theme_private_view ) ) {
 else {
     // thử tìm file search riêng (dạng dùng chung)
     $search_type_view = __DIR__ . '/' . $post_type . '-' . basename( __FILE__ );
-    //echo $search_type_view . '<br>' . "\n";
 
     // có thì ưu tiên dùng
     if ( file_exists( $search_type_view ) ) {
+        //echo $search_type_view . '<br>' . "\n";
         include $search_type_view;
 
         // nạp file js cho từng search post type (nếu có)
