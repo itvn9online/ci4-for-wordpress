@@ -570,7 +570,7 @@ class Dashboard extends Optimize {
             if ( file_exists( $this->config_deleted_file ) && !file_exists( $this->config_file ) ) {
                 // không copy được file config thì restore code lại
                 if ( !$this->MY_copy( $this->config_deleted_file, $this->config_file ) ) {
-                    $this->MY_rename( $this->app_deleted_dir, $this->app_dir );
+                    $this->restore_code();
                 }
             }
         } else {
@@ -776,6 +776,7 @@ class Dashboard extends Optimize {
         if ( $arr === NULL ) {
             $arr = $this->dir_deleted_list;
         }
+        //print_r( $arr );
 
         //
         $result = false;
@@ -950,7 +951,7 @@ class Dashboard extends Optimize {
             // xóa code trong thư mục
             if ( is_dir( $v ) ) {
                 $this->cleanup_deleted_dir( [
-                    $this->app_dir,
+                    $v,
                 ], $this->using_via_ftp() );
             }
 
