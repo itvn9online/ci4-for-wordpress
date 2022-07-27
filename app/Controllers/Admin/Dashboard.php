@@ -513,7 +513,7 @@ class Dashboard extends Optimize {
                 $this->mk_dir( $upload_path, __CLASS__ . ':' . __LINE__ );
             }
         }
-        echo 'upload path:' . $upload_path . '<br>' . "\n";
+        echo 'upload path:' . $upload_path . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
         //
         $this->cleanup_zip( $upload_path, 'Không xóa được file ZIP cũ trước khi upload file mới' );
@@ -535,19 +535,19 @@ class Dashboard extends Optimize {
                 foreach ( $this->dir_list as $v ) {
                     // nếu không có thư mục gốc -> bỏ qua
                     if ( !is_dir( $v ) ) {
-                        echo 'DIR NOT EXIST! ' . $v . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+                        echo 'DIR NOT EXIST! ' . $v . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                         continue;
                     }
 
                     // nếu có thư mục delete -> dừng lại tiến trình
                     $v_deleted = $v . '-deleted';
                     if ( is_dir( $v_deleted ) ) {
-                        die( 'DIR EXIST! ' . $v_deleted . ':' . __CLASS__ . ':' . __LINE__ );
+                        die( 'DIR EXIST! ' . $v_deleted . ' --- ' . __CLASS__ . ':' . __LINE__ );
                     }
 
                     //
                     if ( !$this->MY_rename( $v, $v_deleted ) ) {
-                        die( 'ERROR rename! ' . $v . ':' . __CLASS__ . ':' . __LINE__ );
+                        die( 'ERROR rename! ' . $v . ' --- ' . __CLASS__ . ':' . __LINE__ );
                     }
                 }
 
@@ -594,7 +594,7 @@ class Dashboard extends Optimize {
     private function after_unzip_code( $file_path, $upload_path, $upload_via_ftp, $main_zip = false ) {
         $filename = '';
         if ( $this->MY_unzip( $file_path, $upload_path ) === TRUE ) {
-            echo 'upload path:' . $upload_path . '<br>' . "\n";
+            echo 'upload path:' . $upload_path . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
             //
             $this->cleanup_zip( $upload_path, 'Không xóa được file ZIP sau khi giải nén code' );
@@ -610,7 +610,7 @@ class Dashboard extends Optimize {
                     $upload_path .= 'ci4-for-wordpress-main/';
                 }
                 //die( $upload_path );
-                echo 'upload path:' . $upload_path . '<br>' . "\n";
+                echo 'upload path:' . $upload_path . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                 //
                 $file_model = new\ App\ Models\ File();
@@ -640,7 +640,7 @@ class Dashboard extends Optimize {
 
                     //
                     if ( !is_dir( $dir ) ) {
-                        echo 'Create dir: ' . $dir . '<br>' . "\n";
+                        echo 'Create dir: ' . $dir . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                         //continue;
 
                         // tạo thư mục thông qua FTP
@@ -664,7 +664,7 @@ class Dashboard extends Optimize {
 
                         //
                         $to = str_replace( $upload_path, PUBLIC_HTML_PATH, $file );
-                        echo 'to: ' . $to . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+                        echo 'to: ' . $to . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                         // đổi tên file -> tương đương với copy và unlink
                         if ( !rename( $file, $to ) ) {
@@ -704,7 +704,7 @@ class Dashboard extends Optimize {
 
                         //
                         $to = str_replace( $upload_path, PUBLIC_HTML_PATH, $file );
-                        echo 'to: ' . $to . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+                        echo 'to: ' . $to . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                         if ( $has_ftp === true ) {
                             // nếu trong chuỗi file không có root dir -> báo lỗi
                             if ( strpos( $to, '/' . $file_model->base_dir . '/' ) !== false ) {
