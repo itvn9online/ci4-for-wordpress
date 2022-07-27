@@ -8,6 +8,9 @@ class Captcha extends Ajaxs {
     }
 
     public function three( $len = 3, $width = 50 ) {
+        header( 'Content-Type: image/png' );
+
+        //
         $rand = md5( time() );
         $rand = substr( $rand, 3, $len );
         $this->MY_session( 'check_captcha', $rand );
@@ -25,12 +28,12 @@ class Captcha extends Ajaxs {
         imagerectangle( $image, 0, 0, $width, $height, $black );
 
         //
-        header( 'Content-Type: image/png' );
         imagepng( $image );
         imagedestroy( $image );
 
         //
-        return false;
+        exit();
+        //return false;
     }
 
     public function six() {
