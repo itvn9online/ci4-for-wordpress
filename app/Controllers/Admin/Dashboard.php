@@ -534,19 +534,19 @@ class Dashboard extends Optimize {
                 foreach ( $this->dir_list as $v ) {
                     // nếu không có thư mục gốc -> bỏ qua
                     if ( !is_dir( $v ) ) {
-                        echo 'DIR NOT EXIST! ' . $v . '<br>' . "\n";
+                        echo 'DIR NOT EXIST! ' . $v . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                         continue;
                     }
 
                     // nếu có thư mục delete -> dừng lại tiến trình
                     $v_deleted = $v . '-deleted';
                     if ( !is_dir( $v_deleted ) ) {
-                        die( 'DIR EXIST! ' . $v_deleted );
+                        die( 'DIR EXIST! ' . $v_deleted . ':' . __CLASS__ . ':' . __LINE__ );
                     }
 
                     //
                     if ( !$this->MY_rename( $v, $v_deleted ) ) {
-                        die( 'ERROR rename! ' . $v );
+                        die( 'ERROR rename! ' . $v . ':' . __CLASS__ . ':' . __LINE__ );
                     }
                 }
 
@@ -944,7 +944,7 @@ class Dashboard extends Optimize {
             $v_deleted = $v . '-deleted';
             // nếu không có thư mục delete -> bỏ qua
             if ( !is_dir( $v_deleted ) ) {
-                echo 'DIR NOT EXIST! ' . $v_deleted . '<br>' . "\n";
+                echo 'DIR NOT EXIST! ' . $v_deleted . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                 continue;
             }
 
@@ -957,7 +957,7 @@ class Dashboard extends Optimize {
 
             //
             if ( !$this->MY_rename( $v_deleted, $v ) ) {
-                die( 'ERROR rename! ' . $v_deleted );
+                die( 'ERROR rename! ' . $v_deleted . ':' . __CLASS__ . ':' . __LINE__ );
             }
         }
 
