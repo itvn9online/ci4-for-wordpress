@@ -25,20 +25,29 @@ class Dashboard extends Optimize {
         /*
          * các thư mục khi reset code sẽ có thể xóa bỏ để thay thế mà không ảnh hưởng đến website
          */
+        $arrs_dir_list = [
+            'app',
+            'public/admin',
+            'public/css',
+            'public/images',
+            'public/javascript',
+            'public/libraries',
+            'public/themes/echbayfour',
+            'public/thirdparty',
+        ];
+
+        // -> tạo thư mục gốc và thư mục sau khi XÓA
+        $this->dir_list = [];
+        $this->dir_deleted_list = [];
+        foreach ( $arrs_dir_list as $v ) {
+            $this->dir_list[] = PUBLIC_HTML_PATH . $v;
+            $this->dir_deleted_list[] = PUBLIC_HTML_PATH . $v . '-deleted';
+        }
+
         // thư mục app
         $this->app_dir = PUBLIC_HTML_PATH . 'app';
         $this->app_deleted_dir = $this->app_dir . '-deleted';
         //die( $this->app_deleted_dir );
-        // thư mục themes
-        $this->public_dir = PUBLIC_HTML_PATH . 'public/themes';
-        $this->public_deleted_dir = $this->public_dir . '-deleted';
-        //die( $this->public_deleted_dir );
-
-        // list các thư mục sẽ xóa code vào đây để dùng cho tiện
-        $this->cleanup_deleted_code = [
-            $this->app_deleted_dir,
-            //$this->public_deleted_dir,
-        ];
 
         // tham số dùng để copy lại file config -> bắt buộc phải có thì mới chạy được web
         $this->config_deleted_file = $this->app_deleted_dir . '/Config/Database.php';
@@ -358,10 +367,7 @@ class Dashboard extends Optimize {
                 /*
                  * dọn dẹp code dư thừa sau khi giải nén (nếu tồn tại thư mục này)
                  */
-                //if ( is_dir( $this->app_deleted_dir ) || is_dir( $this->public_deleted_dir ) ) {
-                if ( is_dir( $this->app_deleted_dir ) ) {
-                    $this->cleanup_deleted_dir( $this->cleanup_deleted_code, $upload_via_ftp );
-                }
+                $this->cleanup_deleted_dir( $this->dir_deleted_list, $upload_via_ftp );
             } else {
                 throw new\ RuntimeException( $file->getErrorString() . '(' . $file->getError() . ')' );
             }
@@ -525,35 +531,36 @@ class Dashboard extends Optimize {
              * Khi có tham số reset code -> đổi tên thư mục app, public để upload code từ đầu
              */
             if ( $reset_code === true ) {
-                //echo $this->app_deleted_dir . '<br>' . "\n";
+                foreach ( $this->dir_list as $v ) {
+                    // nếu không có thư mục gốc -> bỏ qua
+                    if ( !is_dir( $v ) ) {
+                        echo 'DIR NOT EXIST! ' . $v . '<br>' . "\n";
+                        continue;
+                    }
 
-                //
-                if ( is_dir( $this->app_deleted_dir ) ) {
-                    die( 'DIR EXIST! ' . $this->app_deleted_dir );
-                } else {
-                    if ( !$this->MY_rename( $this->app_dir, $this->app_deleted_dir ) ) {
-                        die( 'ERROR rename! ' . $this->app_dir );
-                    }
-                    /*
-                    if ( !$this->MY_rename( $this->public_dir, $this->public_deleted_dir ) ) {
-                        die( 'ERROR rename! ' . $this->public_dir );
-                    }
-                    */
-
-                    // tạo thư mục thông qua FTP
-                    if ( $upload_via_ftp === true ) {
-                        $file_model->create_dir( $this->app_dir );
-                        //$file_model->create_dir( $this->public_dir );
-                    }
-                    // tạo mặc định
-                    else {
-                        $this->mk_dir( $this->app_dir, __CLASS__ . ':' . __LINE__, 0755 );
-                        //$this->mk_dir( $this->public_dir, __CLASS__ . ':' . __LINE__, 0755 );
+                    // nếu có thư mục delete -> dừng lại tiến trình
+                    $v_deleted = $v . '-deleted';
+                    if ( !is_dir( $v_deleted ) ) {
+                        die( 'DIR EXIST! ' . $v_deleted );
                     }
 
                     //
-                    //die( __CLASS__ . ':' . __LINE__ );
+                    if ( !$this->MY_rename( $v, $v_deleted ) ) {
+                        die( 'ERROR rename! ' . $v );
+                    }
                 }
+
+                // tạo thư mục thông qua FTP
+                if ( $upload_via_ftp === true ) {
+                    $file_model->create_dir( $this->app_dir );
+                }
+                // tạo mặc định
+                else {
+                    $this->mk_dir( $this->app_dir, __CLASS__ . ':' . __LINE__, 0755 );
+                }
+
+                //
+                //die( __CLASS__ . ':' . __LINE__ );
             }
 
             // giải nén sau khi upload
@@ -564,7 +571,6 @@ class Dashboard extends Optimize {
                 // không copy được file config thì restore code lại
                 if ( !$this->MY_copy( $this->config_deleted_file, $this->config_file ) ) {
                     $this->MY_rename( $this->app_deleted_dir, $this->app_dir );
-                    //$this->MY_rename( $this->public_deleted_dir, $this->public_dir );
                 }
             }
         } else {
@@ -755,16 +761,6 @@ class Dashboard extends Optimize {
         }
 
         //
-        /*
-        $theme_deleted_exist = false;
-        if ( basename( THEMEPATH ) != 'echbayfour' ) {
-            $theme_deleted_exist = $this->check_deleted_exist( [
-                dirname( $this->public_deleted_dir ) . '/' . basename( THEMEPATH ),
-            ] );
-        }
-        */
-
-        //
         $this->teamplate_admin[ 'content' ] = view( 'admin/update_view', array(
             // xác định các thư mục deleted code có tồn tại không
             'app_deleted_exist' => $this->check_deleted_exist(),
@@ -778,7 +774,7 @@ class Dashboard extends Optimize {
     private function check_deleted_exist( $arr = NULL ) {
         //
         if ( $arr === NULL ) {
-            $arr = $this->cleanup_deleted_code;
+            $arr = $this->dir_deleted_list;
         }
 
         //
@@ -942,21 +938,27 @@ class Dashboard extends Optimize {
             $this->base_model->alert( 'Không tồn tại thư mục deleted', 'error' );
         }
 
-        // xóa code trong thư mục app hiện tại
-        $this->cleanup_deleted_dir( [
-            $this->app_dir,
-            //$this->public_dir,
-        ], $this->using_via_ftp() );
-
         // đổi lại tên thư mục
-        if ( !$this->MY_rename( $this->app_deleted_dir, $this->app_dir ) ) {
-            die( 'ERROR rename! ' . $this->app_deleted_dir );
+        foreach ( $this->dir_list as $v ) {
+            $v_deleted = $v . '-deleted';
+            // nếu không có thư mục delete -> bỏ qua
+            if ( !is_dir( $v_deleted ) ) {
+                echo 'DIR NOT EXIST! ' . $v_deleted . '<br>' . "\n";
+                continue;
+            }
+
+            // xóa code trong thư mục
+            if ( is_dir( $v ) ) {
+                $this->cleanup_deleted_dir( [
+                    $this->app_dir,
+                ], $this->using_via_ftp() );
+            }
+
+            //
+            if ( !$this->MY_rename( $v_deleted, $v ) ) {
+                die( 'ERROR rename! ' . $v_deleted );
+            }
         }
-        /*
-        if ( !$this->MY_rename( $this->public_deleted_dir, $this->public_dir ) ) {
-            die( 'ERROR rename! ' . $this->public_deleted_dir );
-        }
-        */
 
         //die(__FILE__.':'.__LINE__);
         die( '<script>top.done_submit_restore_code();</script>' );
