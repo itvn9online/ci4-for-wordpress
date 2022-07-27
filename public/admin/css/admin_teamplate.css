@@ -420,7 +420,7 @@ body.body-debug_enable #admin-header, body.body-debug_enable #sidebar {
     margin-bottom: 0;
 }
 .ng-main-content {
-    opacity: 0.01;
+    opacity: 0.1;
 }
 .ng-main-content.loaded {
     opacity: 1;
