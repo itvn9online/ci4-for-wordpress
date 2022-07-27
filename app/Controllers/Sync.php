@@ -397,8 +397,8 @@ class Sync extends BaseController {
      * unzip file
      */
     protected function MY_unzip( $file, $dir ) {
-        echo $file . '<br>' . "\n";
-        echo $dir . '<br>' . "\n";
+        echo $file . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        echo $dir . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
         //
         $zip = new\ ZipArchive();
