@@ -660,11 +660,11 @@ class Dashboard extends Optimize {
                 if ( $upload_via_ftp !== true ) {
                     // chuyển file
                     foreach ( $this->file_re_cache as $file ) {
-                        echo $file . '<br>' . "\n";
+                        echo 'from: ' . $file . '<br>' . "\n";
 
                         //
                         $to = str_replace( $upload_path, PUBLIC_HTML_PATH, $file );
-                        echo $to . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+                        echo 'to: ' . $to . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                         // đổi tên file -> tương đương với copy và unlink
                         if ( !rename( $file, $to ) ) {
@@ -700,11 +700,11 @@ class Dashboard extends Optimize {
 
                     // chuyển file
                     foreach ( $this->file_re_cache as $file ) {
-                        echo $file . '<br>' . "\n";
+                        echo 'from: ' . $file . '<br>' . "\n";
 
                         //
                         $to = str_replace( $upload_path, PUBLIC_HTML_PATH, $file );
-                        echo $to . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+                        echo 'to: ' . $to . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                         if ( $has_ftp === true ) {
                             // nếu trong chuỗi file không có root dir -> báo lỗi
                             if ( strpos( $to, '/' . $file_model->base_dir . '/' ) !== false ) {
