@@ -652,11 +652,11 @@ class Dashboard extends Optimize {
                 if ( $upload_via_ftp !== true ) {
                     // chuyển file
                     foreach ( $this->file_re_cache as $file ) {
-                        echo $file . '<br>' . "\n";
+                        echo $file . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                         //
                         $to = str_replace( $upload_path, PUBLIC_HTML_PATH, $file );
-                        echo $to . '<br>' . "\n";
+                        echo $to . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                         // đổi tên file -> tương đương với copy và unlink
                         if ( !rename( $file, $to ) ) {
