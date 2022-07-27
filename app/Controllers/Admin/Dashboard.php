@@ -45,14 +45,14 @@ class Dashboard extends Optimize {
         }
 
         // thư mục app
-        $this->app_dir = PUBLIC_HTML_PATH . 'app';
-        $this->app_deleted_dir = $this->app_dir . '-deleted';
+        //$this->app_dir = PUBLIC_HTML_PATH . 'app';
+        //$this->app_deleted_dir = $this->app_dir . '-deleted';
         //die( $this->app_deleted_dir );
 
         // tham số dùng để copy lại file config -> bắt buộc phải có thì mới chạy được web
-        $this->config_deleted_file = $this->app_deleted_dir . '/Config/Database.php';
+        $this->config_deleted_file = PUBLIC_HTML_PATH . 'app-deleted/Config/Database.php';
         //echo $this->config_deleted_file . '<br>' . "\n";
-        $this->config_file = str_replace( $this->app_deleted_dir, $this->app_dir, $this->config_deleted_file );
+        $this->config_file = PUBLIC_HTML_PATH . 'app/Config/Database.php';
         //echo $this->config_file . '<br>' . "\n";
 
         //
@@ -367,7 +367,7 @@ class Dashboard extends Optimize {
                 /*
                  * dọn dẹp code dư thừa sau khi giải nén (nếu tồn tại thư mục này)
                  */
-                $this->cleanup_deleted_dir( $this->dir_deleted_list, $upload_via_ftp );
+                //$this->cleanup_deleted_dir( $this->dir_deleted_list, $upload_via_ftp );
             } else {
                 throw new\ RuntimeException( $file->getErrorString() . '(' . $file->getError() . ')' );
             }
@@ -552,6 +552,7 @@ class Dashboard extends Optimize {
                 }
 
                 // tạo thư mục thông qua FTP
+                /*
                 if ( $upload_via_ftp === true ) {
                     $file_model->create_dir( $this->app_dir );
                 }
@@ -559,6 +560,7 @@ class Dashboard extends Optimize {
                 else {
                     $this->mk_dir( $this->app_dir, __CLASS__ . ':' . __LINE__, 0755 );
                 }
+                */
 
                 //
                 //die( __CLASS__ . ':' . __LINE__ );
