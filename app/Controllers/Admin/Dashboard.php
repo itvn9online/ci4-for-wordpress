@@ -513,6 +513,7 @@ class Dashboard extends Optimize {
                 $this->mk_dir( $upload_path, __CLASS__ . ':' . __LINE__ );
             }
         }
+        echo 'upload path:' . $upload_path . '<br>' . "\n";
 
         //
         $this->cleanup_zip( $upload_path, 'Không xóa được file ZIP cũ trước khi upload file mới' );
@@ -699,6 +700,7 @@ class Dashboard extends Optimize {
 
                         //
                         $to = str_replace( $upload_path, PUBLIC_HTML_PATH, $file );
+                        echo $to . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                         if ( $has_ftp === true ) {
                             // nếu trong chuỗi file không có root dir -> báo lỗi
                             if ( strpos( $to, '/' . $file_model->base_dir . '/' ) !== false ) {
