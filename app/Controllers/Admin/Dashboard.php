@@ -37,7 +37,7 @@ class Dashboard extends Optimize {
         // list các thư mục sẽ xóa code vào đây để dùng cho tiện
         $this->cleanup_deleted_code = [
             $this->app_deleted_dir,
-            $this->public_deleted_dir,
+            //$this->public_deleted_dir,
         ];
 
         // tham số dùng để copy lại file config -> bắt buộc phải có thì mới chạy được web
@@ -358,7 +358,8 @@ class Dashboard extends Optimize {
                 /*
                  * dọn dẹp code dư thừa sau khi giải nén (nếu tồn tại thư mục này)
                  */
-                if ( is_dir( $this->app_deleted_dir ) || is_dir( $this->public_deleted_dir ) ) {
+                //if ( is_dir( $this->app_deleted_dir ) || is_dir( $this->public_deleted_dir ) ) {
+                if ( is_dir( $this->app_deleted_dir ) ) {
                     $this->cleanup_deleted_dir( $this->cleanup_deleted_code, $upload_via_ftp );
                 }
             } else {
@@ -533,19 +534,21 @@ class Dashboard extends Optimize {
                     if ( !$this->MY_rename( $this->app_dir, $this->app_deleted_dir ) ) {
                         die( 'ERROR rename! ' . $this->app_dir );
                     }
+                    /*
                     if ( !$this->MY_rename( $this->public_dir, $this->public_deleted_dir ) ) {
                         die( 'ERROR rename! ' . $this->public_dir );
                     }
+                    */
 
                     // tạo thư mục thông qua FTP
                     if ( $upload_via_ftp === true ) {
                         $file_model->create_dir( $this->app_dir );
-                        $file_model->create_dir( $this->public_dir );
+                        //$file_model->create_dir( $this->public_dir );
                     }
                     // tạo mặc định
                     else {
                         $this->mk_dir( $this->app_dir, __CLASS__ . ':' . __LINE__, 0755 );
-                        $this->mk_dir( $this->public_dir, __CLASS__ . ':' . __LINE__, 0755 );
+                        //$this->mk_dir( $this->public_dir, __CLASS__ . ':' . __LINE__, 0755 );
                     }
 
                     //
@@ -561,7 +564,7 @@ class Dashboard extends Optimize {
                 // không copy được file config thì restore code lại
                 if ( !$this->MY_copy( $this->config_deleted_file, $this->config_file ) ) {
                     $this->MY_rename( $this->app_deleted_dir, $this->app_dir );
-                    $this->MY_rename( $this->public_deleted_dir, $this->public_dir );
+                    //$this->MY_rename( $this->public_deleted_dir, $this->public_dir );
                 }
             }
         } else {
@@ -942,16 +945,18 @@ class Dashboard extends Optimize {
         // xóa code trong thư mục app hiện tại
         $this->cleanup_deleted_dir( [
             $this->app_dir,
-            $this->public_dir,
+            //$this->public_dir,
         ], $this->using_via_ftp() );
 
         // đổi lại tên thư mục
         if ( !$this->MY_rename( $this->app_deleted_dir, $this->app_dir ) ) {
             die( 'ERROR rename! ' . $this->app_deleted_dir );
         }
+        /*
         if ( !$this->MY_rename( $this->public_deleted_dir, $this->public_dir ) ) {
             die( 'ERROR rename! ' . $this->public_deleted_dir );
         }
+        */
 
         //die(__FILE__.':'.__LINE__);
         die( '<script>top.done_submit_restore_code();</script>' );
