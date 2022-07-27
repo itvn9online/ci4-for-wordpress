@@ -572,10 +572,10 @@ class Dashboard extends Optimize {
                 if ( !$this->MY_copy( $this->config_deleted_file, $this->config_file ) ) {
                     $this->restore_code();
                 }
-                
-                // xử lý luôn vendor
-                $this->vendor_sync( false );
             }
+
+            // đồng bộ lại thirdparty và database
+            $this->vendor_sync( false );
         } else {
             $this->base_model->alert( 'Download thất bại! Không xác định được file sau khi download', 'error' );
         }
