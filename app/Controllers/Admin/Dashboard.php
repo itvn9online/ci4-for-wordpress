@@ -594,6 +594,9 @@ class Dashboard extends Optimize {
     private function after_unzip_code( $file_path, $upload_path, $upload_via_ftp, $main_zip = false ) {
         $filename = '';
         if ( $this->MY_unzip( $file_path, $upload_path ) === TRUE ) {
+            echo 'upload path:' . $upload_path . '<br>' . "\n";
+
+            //
             $this->cleanup_zip( $upload_path, 'Không xóa được file ZIP sau khi giải nén code' );
             //echo $upload_path . '<br>' . "\n";
             //var_dump( $upload_via_ftp );
@@ -607,6 +610,7 @@ class Dashboard extends Optimize {
                     $upload_path .= 'ci4-for-wordpress-main/';
                 }
                 //die( $upload_path );
+                echo 'upload path:' . $upload_path . '<br>' . "\n";
 
                 //
                 $file_model = new\ App\ Models\ File();
