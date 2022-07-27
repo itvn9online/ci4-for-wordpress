@@ -34,9 +34,9 @@ if ( $current_user_id > 0 && isset( $session_data[ 'userLevel' ] ) && $session_d
 
 // nạp header riêng của từng theme nếu có
 $theme_default_view = VIEWS_PATH . 'default/get_footer.php';
-echo $theme_default_view . '<br>' . "\n";
+//echo $theme_default_view . '<br>' . "\n";
 $theme_private_view = str_replace( VIEWS_PATH, VIEWS_CUSTOM_PATH, $theme_default_view );
-echo $theme_private_view . '<br>' . "\n";
+//echo $theme_private_view . '<br>' . "\n";
 
 //
 if ( file_exists( $theme_private_view ) ) {

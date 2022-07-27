@@ -1,7 +1,7 @@
 <?php
 
 //
-include VIEWS_PATH . 'admin/default/login_header.php';
+include VIEWS_PATH . 'default/login_header.php';
 
 ?>
 <div id="loginbox">
@@ -27,7 +27,7 @@ include VIEWS_PATH . 'admin/default/login_header.php';
 
             // đăng nhập sai quá nhiều lần thì hiển thị thêm captcha để bắt xác thực
             if ( $base_model->check_faild_login() > 0 ) {
-                include VIEWS_PATH . 'admin/default/login_captcha.php';
+                include VIEWS_PATH . 'default/login_captcha.php';
             }
 
             ?>
