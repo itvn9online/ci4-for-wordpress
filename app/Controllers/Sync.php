@@ -34,7 +34,7 @@ class Sync extends BaseController {
         if ( strpos( $_SERVER[ 'HTTP_HOST' ], 'localhost' ) === false ) {
             $f = APPPATH . 'sync.txt';
             if ( file_exists( $f ) ) {
-                unlink( $f );
+                $this->MY_unlink( $f );
             }
         }
     }
