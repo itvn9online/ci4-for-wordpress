@@ -540,7 +540,7 @@ class Dashboard extends Optimize {
 
                     // nếu có thư mục delete -> dừng lại tiến trình
                     $v_deleted = $v . '-deleted';
-                    if ( !is_dir( $v_deleted ) ) {
+                    if ( is_dir( $v_deleted ) ) {
                         die( 'DIR EXIST! ' . $v_deleted . ':' . __CLASS__ . ':' . __LINE__ );
                     }
 
