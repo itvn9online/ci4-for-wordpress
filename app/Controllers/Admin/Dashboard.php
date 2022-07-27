@@ -741,7 +741,7 @@ class Dashboard extends Optimize {
 
                     // xóa file -> thì mới xóa được thư mục
                     foreach ( $this->file_re_cache as $file ) {
-                        echo 'un-link: ' . $file . '<br>' . "\n";
+                        echo 'un-link: ' . $file . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                         unlink( $file );
                     }
 
@@ -756,7 +756,7 @@ class Dashboard extends Optimize {
                 $this->dir_re_cache = array_reverse( $this->dir_re_cache );
                 //print_r( $this->dir_re_cache );
                 foreach ( $this->dir_re_cache as $dir ) {
-                    echo 'rm dir: ' . $dir . '<br>' . "\n";
+                    echo 'rm dir: ' . $dir . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                     rmdir( $dir );
                 }
             }
