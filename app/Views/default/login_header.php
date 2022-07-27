@@ -5,9 +5,7 @@ $base_model->add_css( 'css/maruti-login.css' );
 $base_model->add_js( 'javascript/maruti-login.js' );
 
 //
-$theme_default_view = VIEWS_PATH . 'default/' . basename( __FILE__ );
-//echo $theme_default_view . '<br>' . "\n";
-$theme_private_view = str_replace( VIEWS_PATH, VIEWS_CUSTOM_PATH, $theme_default_view );
+$theme_private_view = str_replace( VIEWS_PATH, VIEWS_CUSTOM_PATH, __FILE__ );
 //echo $theme_private_view . '<br>' . "\n";
 
 //
