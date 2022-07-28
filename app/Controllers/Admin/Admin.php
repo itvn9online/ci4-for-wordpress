@@ -58,7 +58,7 @@ class Admin extends Ajaxs {
                     //'option_model' => $this->option_model,
                     'post_model' => $this->post_model,
                     'term_model' => $this->term_model,
-                    //'lang_model' => $this->lang_model,
+                    'lang_model' => $this->lang_model,
 
                     //
                     'debug_enable' => $this->debug_enable,

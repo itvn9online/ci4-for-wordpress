@@ -10,14 +10,6 @@
  * Các controller, model... cố gắng viết theo quy tắc exten để có thể tái sử dụng
  */
 
-defined( 'EBE_DATE_FORMAT' ) || define( 'EBE_DATE_FORMAT', 'Y-m-d' );
-defined( 'EBE_DATETIME_FORMAT' ) || define( 'EBE_DATETIME_FORMAT', 'Y-m-d H:i:s' );
-
-/*
- * tạo đường dẫn admin tránh đường dẫn mặc định. Ví dụ : admin -> nhằm tăng cường bảo mật cho website
- */
-defined( 'CUSTOM_ADMIN_URI' ) || define( 'CUSTOM_ADMIN_URI', 'wgr-wp-admin' );
-
 /*
  * Các tham số khác, rất ít khi thay đổi
  */
@@ -29,16 +21,6 @@ define( 'PUBLIC_PUBLIC_PATH', PUBLIC_HTML_PATH . 'public/' );
 //
 define( 'VIEWS_PATH', APPPATH . 'Views/' );
 define( 'VIEWS_CUSTOM_PATH', VIEWS_PATH . 'custom/' );
-
-// Số lượng bản dịch dạng input -> website nào cần dùng nhiều tăng số lượng trong file functions lên
-defined( 'NUMBER_TRANS_INPUT' ) || define( 'NUMBER_TRANS_INPUT', 20 );
-// Số lượng bản dịch dạng textarea -> website nào cần dùng nhiều tăng số lượng trong file functions lên
-defined( 'NUMBER_TRANS_TEXTAREA' ) || define( 'NUMBER_TRANS_TEXTAREA', 10 );
-// khi cần thay label cho trang /admin/translates để dễ hiểu hơn thì thêm các thông số vào đây
-defined( 'TRANS_TRANS_LABEL' ) || define( 'TRANS_TRANS_LABEL', [
-    'custom_text0' => 'Bản dịch số 0',
-    'custom_textarea0' => 'Bản dịch số 0',
-] );
 
 
 /*
@@ -100,6 +82,25 @@ define( 'THEMEPATH', PUBLIC_PUBLIC_PATH . 'themes/' . THEMENAME . '/' );
 if ( file_exists( THEMEPATH . 'functions.php' ) ) {
     include THEMEPATH . 'functions.php';
 }
+
+// Số lượng bản dịch dạng input -> website nào cần dùng nhiều tăng số lượng trong file functions lên
+defined( 'NUMBER_TRANS_INPUT' ) || define( 'NUMBER_TRANS_INPUT', 20 );
+// Số lượng bản dịch dạng textarea -> website nào cần dùng nhiều tăng số lượng trong file functions lên
+defined( 'NUMBER_TRANS_TEXTAREA' ) || define( 'NUMBER_TRANS_TEXTAREA', 10 );
+// khi cần thay label cho trang /admin/translates để dễ hiểu hơn thì thêm các thông số vào đây
+defined( 'TRANS_TRANS_LABEL' ) || define( 'TRANS_TRANS_LABEL', [
+    'custom_text0' => 'Bản dịch số 0',
+    'custom_textarea0' => 'Bản dịch số 0',
+] );
+
+//
+defined( 'EBE_DATE_FORMAT' ) || define( 'EBE_DATE_FORMAT', 'Y-m-d' );
+defined( 'EBE_DATETIME_FORMAT' ) || define( 'EBE_DATETIME_FORMAT', 'Y-m-d H:i:s' );
+
+/*
+ * tạo đường dẫn admin tránh đường dẫn mặc định. Ví dụ : admin -> nhằm tăng cường bảo mật cho website
+ */
+defined( 'CUSTOM_ADMIN_URI' ) || define( 'CUSTOM_ADMIN_URI', 'wgr-wp-admin' );
 
 // website của nhà phát triển
 defined( 'PARTNER_WEBSITE' ) || define( 'PARTNER_WEBSITE', 'https://echbay.com/' );
