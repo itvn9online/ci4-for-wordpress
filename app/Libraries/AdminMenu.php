@@ -45,12 +45,7 @@ class AdminMenu {
                 ],
                 'name' => 'Đơn hàng',
                 'icon' => 'fa fa-shopping-bag',
-                'arr' => [
-                    'admin/oders/add' => [
-                        'name' => 'Thêm đơn hàng',
-                        'icon' => 'fa fa-plus',
-                    ],
-                ]
+                'arr' => []
             ],
             'admin/adss' => [
                 'role' => [
