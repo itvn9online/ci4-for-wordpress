@@ -1,7 +1,5 @@
 <?php
 
-//$base_model = new\ App\ Models\ Base();
-
 $base_model->add_css( 'css/404.css', [
     'cdn' => CDN_BASE_URL,
 ] );

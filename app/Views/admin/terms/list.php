@@ -2,11 +2,6 @@
 
 // Libraries
 use App\ Libraries\ TaxonomyType;
-use App\ Libraries\ DeletedStatus;
-
-//
-//$base_model = new\ App\ Models\ Base();
-//$term_model = new\ App\ Models\ Term();
 
 // css riêng cho từng post type (nếu có)
 $base_model->add_css( 'admin/css/terms.css' );
@@ -96,7 +91,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
 var term_data = <?php echo json_encode($data); ?>;
 var for_action = '<?php echo $for_action; ?>';
 var controller_slug = '<?php echo $controller_slug; ?>';
-var DeletedStatus_DELETED = '<?php echo DeletedStatus::DELETED; ?>';
+var DeletedStatus_DELETED = '<?php echo $DeletedStatus_DELETED; ?>';
 </script>
 <?php
 

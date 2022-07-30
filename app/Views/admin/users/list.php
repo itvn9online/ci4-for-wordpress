@@ -2,7 +2,6 @@
 
 // Libraries
 use App\ Libraries\ UsersType;
-use App\ Libraries\ DeletedStatus;
 
 //
 $base_model->add_css( 'admin/css/users_list.css' );
@@ -83,7 +82,7 @@ WGR_vuejs('#app', {
     controller_slug: controller_slug,
     data: scope_data,
     for_action: '<?php echo $for_action; ?>',
-    DeletedStatus_DELETED: '<?php echo DeletedStatus::DELETED; ?>',
+    DeletedStatus_DELETED: '<?php echo $DeletedStatus_DELETED; ?>',
     by_is_deleted: '<?php echo $by_is_deleted; ?>',
     list: <?php echo json_encode($arr_members_type); ?>,
     UsersType_listStatus: <?php echo json_encode(UsersType::listStatus()); ?>,

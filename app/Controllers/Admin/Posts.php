@@ -463,6 +463,7 @@ class Posts extends Admin {
             'post_tags' => $post_tags,
             'parent_post' => $parent_post,
             'data' => $data,
+            'post_lang' => LanguageCost::list( $data[ 'lang_key' ] != '' ? $data[ 'lang_key' ] : '' ),
             'meta_detault' => PostType::meta_default( $this->post_type ),
             'post_arr_status' => PostType::arrStatus(),
             'taxonomy' => $this->taxonomy,

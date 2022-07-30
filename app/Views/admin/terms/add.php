@@ -2,11 +2,6 @@
 
 // Libraries
 use App\ Libraries\ TaxonomyType;
-use App\ Libraries\ LanguageCost;
-
-//
-//$base_model = new\ App\ Models\ Base();
-//$term_model = new\ App\ Models\ Term();
 
 // css riêng cho từng post type (nếu có)
 $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
@@ -25,7 +20,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
         Thêm mới
         <?php
         }
-        echo TaxonomyType::list( $taxonomy, true );
+        echo $name_type;
         ?>
     </li>
 </ul>
@@ -40,7 +35,7 @@ $base_model->add_css( 'admin/css/' . $taxonomy . '.css' );
                 <label class="control-label">Ngôn ngữ</label>
                 <div class="controls">
                     <?php
-                    echo LanguageCost::list( $data[ 'lang_key' ] != '' ? $data[ 'lang_key' ] : $lang_key );
+                    echo $term_lang;
                     ?>
                 </div>
             </div>

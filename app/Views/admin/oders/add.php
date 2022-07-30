@@ -2,12 +2,6 @@
 
 // Libraries
 use App\ Libraries\ PostType;
-//use App\ Libraries\ TaxonomyType;
-use App\ Libraries\ LanguageCost;
-
-//
-//$base_model = new\ App\ Models\ Base();
-//$post_model = new\ App\ Models\ PostAdmin();
 
 // css riêng cho từng post type (nếu có)
 $base_model->add_css( 'admin/css/' . $post_type . '.css' );
@@ -61,7 +55,7 @@ if ( $auto_update_module * 1 === 1 ) {
                 <label class="control-label">Ngôn ngữ</label>
                 <div class="controls">
                     <?php
-                    echo LanguageCost::list( $data[ 'lang_key' ] != '' ? $data[ 'lang_key' ] : $lang_key );
+                    echo $post_lang;
                     ?>
                 </div>
             </div>
@@ -73,22 +67,8 @@ if ( $auto_update_module * 1 === 1 ) {
             </div>
             <?php
 
-            // các mục không cho sửa slug -> vì sửa xong sẽ làm lệnh lấy tin tự động hoạt động sai
-            if ( $post_type == PostType::MENU ) {
-                if ( $data[ 'post_name' ] != '' ) {
-                    ?>
-            <div class="control-group">
-                <label class="control-label">PHP Code:</label>
-                <div class="controls">
-                    <input type="text" class="span6" onClick="this.select()" onDblClick="click2Copy(this);" value="&lt;?php $menu_model->the_menu( '<?php echo $data['post_name']; ?>' ); ?&gt;" readonly />
-                </div>
-            </div>
-            <?php
-            }
-            }
             // các mục khác cho hiển thị slug để sửa
-            else {
-                ?>
+            ?>
             <div class="control-group">
                 <label class="control-label">Slug</label>
                 <div class="controls">
@@ -102,14 +82,10 @@ if ( $auto_update_module * 1 === 1 ) {
                     ?>
                 </div>
             </div>
-            <?php
-            }
-
-            ?>
             <div class="control-group hide-if-edit-menu">
                 <label class="control-label">Nội dung</label>
                 <div class="controls" style="width:80%;">
-                    <textarea id="Resolution" rows="30" data-height="<?php echo $post_type == PostType::ADS ? '250' : '550'; ?>" class="ckeditor auto-ckeditor" placeholder="Nhập thông tin chi tiết..." name="data[post_content]"><?php echo $data['post_content']; ?></textarea>
+                    <textarea id="Resolution" rows="30" data-height="550" class="ckeditor auto-ckeditor" placeholder="Nhập thông tin chi tiết..." name="data[post_content]"><?php echo $data['post_content']; ?></textarea>
                 </div>
             </div>
             <div class="control-group hide-if-edit-menu">
@@ -228,24 +204,8 @@ if ( $auto_update_module * 1 === 1 ) {
                             $meta_multiple = '[]';
                         }
 
-                        // lấy danh sách page template cho page
-                        if ( $post_type == PostType::PAGE && $k = 'page_template' ) {
-                            $arr_page_template = $base_model->EBE_get_file_in_folder( THEMEPATH . 'page-templates/', '.{php}', 'file' );
-                            //print_r( $arr_page_template );
-
-                            //
-                            $select_options = array(
-                                '' => '[ Mặc định ]'
-                            );
-                            foreach ( $arr_page_template as $tmp_k => $tmp_v ) {
-                                $tmp_v = basename( $tmp_v, '.php' );
-                                $select_options[ $tmp_v ] = str_replace( '-', ' ', $tmp_v );
-                            }
-
-                            //
-                        } else {
-                            $select_options = PostType::meta_select( $k );
-                        }
+                        //
+                        $select_options = PostType::meta_select( $k );
 
                         ?>
                     <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>]<?php echo $meta_multiple; ?>" <?php echo $select_multiple; ?>>
@@ -273,29 +233,6 @@ if ( $auto_update_module * 1 === 1 ) {
             </div>
             <?php
             } // END foreach auto add post meta
-
-
-            // thêm chức năng add link nhanh cho ADS
-            if ( $post_type == PostType::ADS ) {
-                ?>
-            <div class="control-group">
-                <label for="quick_add_menu" class="control-label">Thêm kết nội bộ</label>
-                <div class="controls">
-                    <select id="quick_add_menu">
-                        <option value="">[ Thêm nhanh Tiên kết ]</option>
-                        <?php
-
-                        $quick_menu_list = $post_model->quick_add_menu();
-                        //print_r( $quick_menu_list );
-                        //echo implode( '', $quick_menu_list );
-
-                        ?>
-                        <option ng-repeat="v in quick_menu_list" ng-value="v.value" ng-disabled="v.selectable" ng-class="v.class">{{v.text}}</option>
-                    </select>
-                </div>
-            </div>
-            <?php
-            }
 
             ?>
             <div class="form-actions frm-fixed-btn">

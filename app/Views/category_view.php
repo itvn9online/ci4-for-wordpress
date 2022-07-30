@@ -1,11 +1,6 @@
 <?php
 
 //
-//$base_model = new\ App\ Models\ Base();
-//$post_model = new\ App\ Models\ Post();
-//$term_model = new\ App\ Models\ Term();
-
-//
 //print_r( $data );
 //print_r( $getconfig );
 

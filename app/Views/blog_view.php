@@ -1,10 +1,5 @@
 <?php
 
-//
-//$base_model = new\ App\ Models\ Base();
-//$post_model = new\ App\ Models\ Post();
-//$lang_model = new\ App\ Models\ Lang();
-
 // tự động tạo slider nếu có
 $post_model->the_slider( $data, $taxonomy_slider, $lang_model->get_the_text( 'main_slider_slug' ) );
 

@@ -1,13 +1,3 @@
-<?php
-
-//$base_model = new\ App\ Models\ Base();
-//$option_model = new\ App\ Models\ Option();
-
-//use App\ Libraries\ LanguageCost;
-//echo LanguageCost::lang_key();
-//die( __FILE__ . ':' . __LINE__ );
-
-?>
 <!doctype html>
 <html lang="<?php
             //$html_lang = LanguageCost::lang_key();

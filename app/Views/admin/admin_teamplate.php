@@ -14,9 +14,6 @@
 global $arr_custom_taxonomy;
 //print_r( $arr_custom_taxonomy );
 
-//$base_model = new\ App\ Models\ Base();
-//$term_model = new\ App\ Models\ Term();
-
 
 /*
  * nạp thêm file custom dành cho admin (nếu có)

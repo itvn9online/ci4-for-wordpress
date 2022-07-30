@@ -181,6 +181,7 @@ class Terms extends Admin {
             'taxonomy' => $this->taxonomy,
             'name_type' => $this->name_type,
             'controller_slug' => $this->controller_slug,
+            'DeletedStatus_DELETED' => DeletedStatus::DELETED,
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
@@ -305,6 +306,7 @@ class Terms extends Admin {
             'lang_key' => $this->lang_key,
             'set_parent' => $set_parent,
             'data' => $data,
+            'term_lang' => LanguageCost::list( $data[ 'lang_key' ] != '' ? $data[ 'lang_key' ] : '' ),
             'taxonomy' => $this->taxonomy,
             'name_type' => $this->name_type,
             'meta_detault' => TaxonomyType::meta_default( $this->taxonomy ),
@@ -330,7 +332,7 @@ class Terms extends Admin {
         else if ( $result_id < 0 ) {
             $this->base_model->alert( 'Danh mục đã tồn tại trong hệ thống (' . $this->taxonomy . ')', 'error' );
         }
-        $this->base_model->alert( 'Lỗi tạo ' . TaxonomyType::list( $this->taxonomy, true ) . ' mới', 'error' );
+        $this->base_model->alert( 'Lỗi tạo ' . $this->name_type . ' mới', 'error' );
     }
 
     protected function update( $id ) {
@@ -359,7 +361,7 @@ class Terms extends Admin {
         }
 
         //
-        $this->base_model->alert( 'Cập nhật ' . TaxonomyType::list( $this->taxonomy, true ) . ' thành công' );
+        $this->base_model->alert( 'Cập nhật ' . $this->name_type . ' thành công' );
     }
 
     // chuyển trang sau khi XÓA xong
