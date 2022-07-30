@@ -439,3 +439,4 @@ body.body-debug_enable #admin-header, body.body-debug_enable #sidebar {
     background: rgba(255, 255, 255, 0.9);
     z-index: 99;
 }
+#for_vue .row .col-inner {}

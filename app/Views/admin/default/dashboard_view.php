@@ -38,14 +38,35 @@
             <div class="redcolor">Để tối ưu hiệu suất hệ thống! Vui lòng sử dụng phiên bản PHP <strong>7.3</strong> trở lên. Khuyên dùng: PHP <strong>7.4</strong></div>
         </div>
         )</div>
-    <p>Server software: <strong><?php echo $_SERVER['SERVER_SOFTWARE']; ?></strong></p>
-    <div class="p">Database: <span v-if="current_dbname != ''"> <strong><?php echo '******' . substr( $current_dbname, 6 ); ?></strong> </span> </div>
-    <p>Server IP: <a href="https://www.iplocation.net/ip-lookup?query=<?php echo $_SERVER['SERVER_ADDR']; ?>" target="_blank" rel="nofollow" class="bold"><?php echo $_SERVER['SERVER_ADDR']; ?></a></p>
-    <p>Your IP: <a href="https://www.iplocation.net/ip-lookup?query=<?php echo $request_ip; ?>" target="_blank" rel="nofollow" class="bold greencolor"><?php echo $request_ip; ?></a></p>
-    <p>Server time: <strong><?php echo date(EBE_DATETIME_FORMAT); ?></strong></p>
-    <p>Client time: <strong>{{ datetime(Date_now) }}</strong></p>
-    <p>Client OS: <strong>{{ client_os }}</strong></p>
-    <br>
+    <div class="left-menu-space">
+        <div class="row">
+            <div class="col col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                <div class="p">Database: <span v-if="current_dbname != ''"> <strong>******<?php echo substr( $current_dbname, 6 ); ?></strong> </span></div>
+            </div>
+            <div class="col col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                <div class="p">Server software: <strong><?php echo $_SERVER['SERVER_SOFTWARE']; ?></strong></div>
+            </div>
+            <div class="col col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                <div class="p">Client OS: <strong>{{ client_os }}</strong></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                <div class="p">Server IP: <a href="https://www.iplocation.net/ip-lookup?query=<?php echo $_SERVER['SERVER_ADDR']; ?>" target="_blank" rel="nofollow" class="bold"><?php echo $_SERVER['SERVER_ADDR']; ?></a></div>
+            </div>
+            <div class="col col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                <div class="p">Your IP: <a href="https://www.iplocation.net/ip-lookup?query=<?php echo $request_ip; ?>" target="_blank" rel="nofollow" class="bold greencolor"><?php echo $request_ip; ?></a></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                <div class="p">Server time: <strong><?php echo date(EBE_DATETIME_FORMAT); ?></strong></div>
+            </div>
+            <div class="col col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                <div class="p">Client time: <strong>{{ datetime(Date_now) }}</strong></div>
+            </div>
+        </div>
+    </div>
     <h4>Một số khuyến nghị cho website của bạn hoạt động tốt hơn:</h4>
     <div class="p d-inlines"><strong>Imagick:</strong>
         <div v-if="imagick_exist > 0" class="greencolor">Xin chúc mừng, <strong>Imagick</strong> đã được cài đặt! Các chức năng xử lý hình ảnh sẽ hoạt động ổn định hơn.</div>
@@ -121,7 +142,7 @@
     /*
      * hiển thị chức năng bật/ tắt debug đối với admin
      */
-    if ( $session_data[ 'member_type' ] == $user_type['admin'] ) {
+    if ( $session_data[ 'member_type' ] == $user_type[ 'admin' ] ) {
         ?>
     <!-- DEBUG -->
     <div>
@@ -228,5 +249,3 @@ var vue_data = <?php echo json_encode($vue_data); ?>;
 
 //
 $base_model->add_js( 'admin/js/dashboard.js' );
-
-
