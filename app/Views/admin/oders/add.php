@@ -27,7 +27,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 <?php
 
 // kích hoạt chức năng tự động cập nhật bài viết khi có module gì hot
-if ( $auto_update_module * 1 === 1 ) {
+if ( $auto_update_module > 0 ) {
     //echo $auto_update_module;
     ?>
 <p class="orgcolor text-center medium show-if-end-function">* Kích hoạt chức năng tự động cập nhật bài viết để nhận các tính mới...</p>
@@ -178,7 +178,7 @@ if ( $auto_update_module * 1 === 1 ) {
 </div>
 <script>
 var current_post_type='<?php echo $post_type; ?>';
-var auto_update_module='<?php echo $auto_update_module; ?>' * 1;
+var auto_update_module='<?php echo $auto_update_module; ?>';
 var url_next_post='<?php echo $url_next_post; ?>';
 //var post_cat = '<?php echo $post_cat; ?>';
 //var post_tags = '<?php echo $post_tags; ?>';

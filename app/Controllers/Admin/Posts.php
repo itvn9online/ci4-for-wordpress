@@ -86,7 +86,7 @@ class Posts extends Admin {
         return $this->lists();
     }
     public function lists( $where = [] ) {
-        if ( $this->MY_get( 'auto_update_module' ) != '' ) {
+        if ( !empty( $this->MY_get( 'auto_update_module', 0 ) ) ) {
             return $this->action_update_module();
         }
 
