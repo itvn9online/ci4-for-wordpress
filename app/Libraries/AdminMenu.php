@@ -148,19 +148,19 @@ class AdminMenu {
                 'name' => UsersType::ALL,
                 'icon' => 'fa fa-users',
                 'arr' => [
-                    'admin/users?member_type=' . UsersType::GUEST => [
+                    'admin/guests' => [
                         'name' => UsersType::list( UsersType::GUEST ),
                         'icon' => 'fa fa-question-circle-o',
                     ],
-                    'admin/users?member_type=' . UsersType::MEMBER => [
+                    'admin/members' => [
                         'name' => UsersType::list( UsersType::MEMBER ),
                         'icon' => 'fa fa-user',
                     ],
-                    'admin/users?member_type=' . UsersType::AUTHOR => [
+                    'admin/authors' => [
                         'name' => UsersType::list( UsersType::AUTHOR ),
                         'icon' => 'fa fa-magic',
                     ],
-                    'admin/users?member_type=' . UsersType::MOD => [
+                    'admin/mods' => [
                         'name' => UsersType::list( UsersType::MOD ),
                         'icon' => 'fa fa-modx',
                     ],

@@ -53,6 +53,8 @@ class Admin extends Ajaxs {
                 'body_class' => $this->body_class,
                 // các biến mà view con cần sử dụng thì cho vào view trung gian này
                 'header' => view( 'admin/header_view', array(
+                    'admin_root_views' => VIEWS_PATH . 'admin/',
+                    'admin_default_views' => VIEWS_PATH . 'admin/default/',
                     'base_model' => $this->base_model,
                     //'menu_model' => $this->menu_model,
                     //'option_model' => $this->option_model,

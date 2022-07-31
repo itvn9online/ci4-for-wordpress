@@ -25,13 +25,17 @@ class Users extends Admin {
         // kiểm tra quyền truy cập của tài khoản hiện tại
         $this->check_permision( __CLASS__ );
 
-        $this->member_type = $this->MY_get( 'member_type', $this->member_type );
-        //echo $this->member_type . '<br>' . "\n";
+        //
         if ( $this->member_type == '' ) {
-            $this->member_name = UsersType::ALL;
-        } else if ( $this->member_name == '' ) {
-            $this->member_name = UsersType::list( $this->member_type );
-            if ( $this->member_name == '' ) {
+            $this->member_type = $this->MY_get( 'member_type', '' );
+        }
+        //echo $this->member_type . '<br>' . "\n";
+
+        //
+        if ( $this->member_name == '' ) {
+            if ( $this->member_type != '' ) {
+                $this->member_name = UsersType::list( $this->member_type );
+            } else {
                 $this->member_name = UsersType::ALL;
             }
         }

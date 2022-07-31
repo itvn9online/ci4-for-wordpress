@@ -60,8 +60,10 @@ $base_model->add_js( 'admin/js/users_functions.js' );
 
     //
     include __DIR__ . '/list_select_all.php';
-    if ( file_exists( dirname( __DIR__ ) . '/' . $list_view_path . '/list_table.php' ) ) {
-        include dirname( __DIR__ ) . '/' . $list_view_path . '/list_table.php';
+
+    //
+    if ( file_exists( $admin_root_views . $list_view_path . '/list_table.php' ) ) {
+        include $admin_root_views . $list_view_path . '/list_table.php';
     } else {
         include __DIR__ . '/list_table.php';
     }

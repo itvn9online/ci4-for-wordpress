@@ -64,9 +64,9 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                     <div>({{v.post_modified.substr(0, 16)}})</div></td>
                 <td>{{PostType_arrStatus[v.post_status]}}</td>
                 <td><a :href="v.admin_permalink">{{v.post_title}} <i class="fa fa-edit"></i></a></td>
-                <td><div><strong>{{v.post_author}}</strong></div>
-                    <div>Điện thoại</div>
-                    <div>Địa chỉ</div></td>
+                <td><div><i class="fa fa-envelope"></i> <a :href="'admin/users/add?id=' + v.post_author">{{v.post_author}}</a></div>
+                    <div><i class="fa fa-phone"></i></div>
+                    <div><i class="fa fa-home"></i></div></td>
                 <td width="90" class="text-center"><?php
                 include VIEWS_PATH . 'admin/posts/list_action.php';
                 ?></td>
