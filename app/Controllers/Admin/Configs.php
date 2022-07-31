@@ -10,7 +10,7 @@ use App\ Libraries\ PHPMaillerSend;
 //
 class Configs extends Admin {
     //private $lang_key = '';
-    protected $config_type = ConfigType::CONFIG;
+    protected $config_type = '';
     protected $view_edit = 'edit';
 
     public function __construct() {
@@ -22,7 +22,11 @@ class Configs extends Admin {
 
         //
         $this->lang_key = $this->lang_key;
-        $this->config_type = $this->MY_get( 'config_type', $this->config_type );
+
+        // hỗ trợ lấy theo params truyền vào từ url
+        if ( $this->config_type == '' ) {
+            $this->config_type = $this->MY_get( 'config_type', ConfigType::CONFIG );
+        }
     }
 
     public function index() {

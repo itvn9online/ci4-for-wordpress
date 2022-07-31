@@ -9,8 +9,8 @@ use App\ Language\ Translate;
 //
 class Users extends Admin {
     protected $member_type = '';
-    protected $arr_members_type = NULL;
     protected $member_name = '';
+    protected $arr_members_type = NULL;
 
     // tham số dùng để thay đổi URL cho controller nếu muốn
     protected $controller_slug = 'users';

@@ -8,7 +8,7 @@ use App\ Libraries\ LanguageCost;
 
 //
 class Posts extends Admin {
-    protected $post_type = PostType::POST;
+    protected $post_type = '';
     protected $name_type = '';
     //private $detault_type = '';
 
@@ -44,7 +44,9 @@ class Posts extends Admin {
         $this->check_permision( __CLASS__ );
 
         // hỗ trợ lấy theo params truyền vào từ url
-        $this->post_type = $this->MY_get( 'post_type', $this->post_type );
+        if ( $this->post_type == '' ) {
+            $this->post_type = $this->MY_get( 'post_type', PostType::POST );
+        }
 
         // chỉ kiểm tra các điều kiện này nếu không được chỉ định là extends
         if ( $for_extends === false ) {
@@ -57,28 +59,6 @@ class Posts extends Admin {
             if ( $this->name_type == '' ) {
                 die( 'Post type not register in system: ' . $this->post_type );
             }
-
-            /*
-            // -> category tương ứng
-            if ( $this->post_type == PostType::ADS ) {
-                $this->taxonomy = TaxonomyType::ADS;
-            } else if ( $this->post_type == PostType::BLOG ) {
-                $this->taxonomy = TaxonomyType::BLOGS;
-                $this->tags = TaxonomyType::BLOG_TAGS;
-            } else if ( $this->post_type == PostType::MENU ) {
-                // riêng với phần menu, do dùng chung controller với post -> kiểm tra lại permission lần nữa cho chắc
-                //$this->check_permision( 'Menus' );
-
-                //$this->taxonomy = TaxonomyType::MENU;
-                $this->controller_slug = 'menus';
-            } else if ( $this->post_type == PostType::PAGE ) {
-                //$this->taxonomy = TaxonomyType::PAGE;
-            } else {
-                $this->taxonomy = TaxonomyType::POSTS;
-                $this->tags = TaxonomyType::TAGS;
-            }
-            $this->options = TaxonomyType::OPTIONS;
-            */
         }
     }
 

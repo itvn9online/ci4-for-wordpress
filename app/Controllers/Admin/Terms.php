@@ -8,7 +8,7 @@ use App\ Libraries\ DeletedStatus;
 
 //
 class Terms extends Admin {
-    protected $taxonomy = TaxonomyType::POSTS;
+    protected $taxonomy = '';
     protected $name_type = '';
     //private $default_taxonomy = '';
 
@@ -24,7 +24,9 @@ class Terms extends Admin {
         $this->check_permision( __CLASS__ );
 
         // hỗ trợ lấy theo params truyền vào từ url
-        $this->taxonomy = $this->MY_get( 'taxonomy', $this->taxonomy );
+        if ( $this->taxonomy == '' ) {
+            $this->taxonomy = $this->MY_get( 'taxonomy', TaxonomyType::POSTS );
+        }
 
         // chỉ kiểm tra các điều kiện này nếu không được chỉ định là extends
         if ( $for_extends === false ) {

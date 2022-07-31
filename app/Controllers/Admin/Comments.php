@@ -8,7 +8,7 @@ use App\ Libraries\ LanguageCost;
 
 //
 class Comments extends Admin {
-    protected $comment_type = CommentType::COMMENT;
+    protected $comment_type = '';
     protected $comment_name = '';
 
     // tham số dùng để thay đổi URL cho controller nếu muốn
@@ -21,7 +21,9 @@ class Comments extends Admin {
         $this->check_permision( __CLASS__ );
 
         // hỗ trợ lấy theo params truyền vào từ url
-        $this->comment_type = $this->MY_get( 'comment_type', $this->comment_type );
+        if ( $this->comment_type == '' ) {
+            $this->comment_type = $this->MY_get( 'comment_type', CommentType::COMMENT );
+        }
         $this->comment_name = CommentType::list( $this->comment_type );
 
         // báo lỗi nếu không xác định được taxonomy
