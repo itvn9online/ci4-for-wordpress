@@ -58,13 +58,13 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
             </tr>
         </thead>
         <tbody id="admin_main_list">
-            <tr :data-id="v.ID" v-for="v in data">
+            <tr :data-id="v.ID" v-for="v in data" :class="v.post_status">
                 <td width="50" class="text-center"><input type="checkbox" :value="v.ID" class="input-checkbox-control" /></td>
-                <td><div>{{v.post_name}}</div>
+                <td><div><a :href="v.admin_permalink">{{v.post_name}} <i class="fa fa-edit"></i></a></div>
                     <div>({{v.post_modified.substr(0, 16)}})</div></td>
-                <td :class="'post_status post_status-' + v.post_status">{{PostType_arrStatus[v.post_status]}}</td>
-                <td><a :href="v.admin_permalink" class="bold">{{v.post_title}} <i class="fa fa-edit"></i></a></td>
-                <td><div>Thành viên</div>
+                <td>{{PostType_arrStatus[v.post_status]}}</td>
+                <td><a :href="v.admin_permalink">{{v.post_title}} <i class="fa fa-edit"></i></a></td>
+                <td><div><strong>{{v.post_author}}</strong></div>
                     <div>Điện thoại</div>
                     <div>Địa chỉ</div></td>
                 <td width="90" class="text-center"><?php

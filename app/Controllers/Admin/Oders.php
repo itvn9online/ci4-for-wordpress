@@ -2,11 +2,11 @@
 namespace App\ Controllers\ Admin;
 
 // Libraries
-use App\ Libraries\ PostType;
+use App\ Libraries\ OrderType;
 
 //
 class Oders extends Posts {
-    protected $post_type = PostType::ORDER;
+    protected $post_type = OrderType::ORDER;
 
     // tham số dùng để thay đổi URL cho controller nếu muốn
     protected $controller_slug = 'oders';

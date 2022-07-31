@@ -6,9 +6,6 @@ use App\ Libraries\ PostType;
 // css riêng cho từng post type (nếu có)
 $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 
-//
-$quick_menu_list = [];
-
 ?>
 <ul class="admin-breadcrumb">
     <li><a href="admin/<?php echo $controller_slug; ?>">Danh sách <?php echo $name_type; ?></a></li>
@@ -41,54 +38,13 @@ if ( $auto_update_module * 1 === 1 ) {
 <div class="widget-box ng-main-content" ng-app="myApp" ng-controller="myCtrl">
     <div class="widget-content nopadding">
         <form action="" method="post" name="admin_global_form" id="admin_global_form" onSubmit="return action_before_submit_post();" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
-            <input type="hidden" name="is_duplicate" id="is_duplicate" value="0" />
-            <?php
-            if ( $data[ 'ID' ] > 0 ) {
-                ?>
-            <div class="rf">
-                <button type="button" onClick="click_duplicate_record();" class="btn btn-warning"><i class="fa fa-copy"></i> Nhân bản</button>
-            </div>
-            <?php
-            }
-            ?>
-            <div class="control-group">
-                <label class="control-label">Ngôn ngữ</label>
-                <div class="controls">
-                    <?php
-                    echo $post_lang;
-                    ?>
-                </div>
-            </div>
             <div class="control-group">
                 <label for="data_post_title" class="control-label">Tiêu đề</label>
                 <div class="controls">
                     <input type="text" class="span6 required" placeholder="Tiêu đề" name="data[post_title]" id="data_post_title" value="<?php echo $data['post_title']; ?>" autofocus aria-required="true" required />
                 </div>
             </div>
-            <?php
-
-            // các mục khác cho hiển thị slug để sửa
-            ?>
             <div class="control-group">
-                <label class="control-label">Slug</label>
-                <div class="controls">
-                    <input type="text" title="Bấm đúp chuột để chỉnh sửa đường dẫn" class="span6" name="data[post_name]" id="data_post_name" onDblClick="$('#data_post_name').removeAttr('readonly');" value="<?php echo $data['post_name']; ?>" readonly />
-                    <?php
-                    if ( $data[ 'ID' ] > 0 ) {
-                        ?>
-                    <a href="<?php $post_model->the_permalink($data); ?>" class="bluecolor">Xem <i class="fa fa-eye"></i></a>
-                    <?php
-                    }
-                    ?>
-                </div>
-            </div>
-            <div class="control-group hide-if-edit-menu">
-                <label class="control-label">Nội dung</label>
-                <div class="controls" style="width:80%;">
-                    <textarea id="Resolution" rows="30" data-height="550" class="ckeditor auto-ckeditor" placeholder="Nhập thông tin chi tiết..." name="data[post_content]"><?php echo $data['post_content']; ?></textarea>
-                </div>
-            </div>
-            <div class="control-group hide-if-edit-menu">
                 <label class="control-label">Mô tả</label>
                 <div class="controls" style="width:80%;">
                     <textarea placeholder="Tóm tắt" name="data[post_excerpt]" id="data_post_excerpt" class="span30 fix-textarea-height"><?php echo $data['post_excerpt']; ?></textarea>
@@ -102,29 +58,23 @@ if ( $auto_update_module * 1 === 1 ) {
                     </select>
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label">Số thứ tự</label>
-                <div class="controls">
-                    <input type="number" class="span3" placeholder="Số thứ tự" name="data[menu_order]" value="<?php echo $data['menu_order']; ?>" />
-                </div>
-            </div>
             <?php
-            if ( !empty( $parent_post ) ) {
-                ?>
-            <div class="control-group hide-if-edit-menu">
-                <label class="control-label">Cha</label>
-                <div class="controls">
-                    <select data-select="<?php echo $data['post_parent']; ?>" name="data[post_parent]" class="span5">
-                        <option value="">[ Không chọn cha ]</option>
-                        <option ng-repeat="v in parent_post" value="{{v.ID}}">{{v.post_title}}</option>
-                    </select>
-                </div>
-            </div>
-            <?php
-            }
 
             // nạp các meta theo từng loại post
             foreach ( $meta_detault as $k => $v ) {
+                // đơn hàng thì không dùng ảnh đại diện
+                if ( in_array( $k, [
+                        'image',
+                        'image_large',
+                        'image_medium_large',
+                        'image_medium',
+                        'image_thumbnail',
+                        'image_webp',
+                    ] ) ) {
+                    continue;
+                }
+
+                //
                 $input_type = PostType::meta_type( $k );
 
                 //
@@ -140,7 +90,7 @@ if ( $auto_update_module * 1 === 1 ) {
             //
             if ( $input_type == 'checkbox' ) {
                 ?>
-            <div class="control-group hide-if-edit-menu post_meta_<?php echo $k; ?>">
+            <div class="control-group post_meta_<?php echo $k; ?>">
                 <div class="controls controls-checkbox">
                     <label for="post_meta_<?php echo $k; ?>">
                         <input type="checkbox" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" value="on" data-value="<?php $post_model->echo_meta_post($data, $k); ?>" />
@@ -159,38 +109,14 @@ if ( $auto_update_module * 1 === 1 ) {
             continue;
             } // END if checkbox
 
-            //
-            if ( $k == 'post_category' && $taxonomy == '' ) {
-                continue;
-            } else if ( $k == 'post_tags' && $tags == '' ) {
-                continue;
-            }
-
             ?>
-            <div class="control-group hide-if-edit-menu post_meta_<?php echo $k; ?>">
+            <div class="control-group post_meta_<?php echo $k; ?>">
                 <label for="post_meta_<?php echo $k; ?>" class="control-label"><?php echo $v; ?></label>
                 <div class="controls">
                     <?php
 
-                    // với 1 số post type có đặc thù riêng -> ví dụ danh mục
-                    if ( $k == 'post_category' ) {
-                        ?>
-                    <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple>
-                        <option value="">[ Chọn <?php echo $v; ?> ]</option>
-                    </select>
-                    &nbsp; <a href="admin/terms/add/?taxonomy=<?php echo $taxonomy; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm <?php echo $v; ?> mới</a>
-                    <?php
-                    } // END if post category
-                    else if ( $k == 'post_tags' ) {
-                        ?>
-                    <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple>
-                        <option value="">[ Chọn <?php echo $v; ?> ]</option>
-                    </select>
-                    &nbsp; <a href="admin/terms/add/?taxonomy=<?php echo $tags; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm <?php echo $v; ?> mới</a>
-                    <?php
-                    } // END if post tags
                     // mặc định thì hiển thị bình thường
-                    else if ( $input_type == 'textarea' ) {
+                    if ( $input_type == 'textarea' ) {
                         ?>
                     <textarea style="width:80%;" placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" class="<?php echo PostType::meta_class($k); ?>"><?php $post_model->echo_meta_post($data, $k); ?>
 </textarea>
@@ -258,9 +184,9 @@ var post_tags = '<?php echo $post_tags; ?>';
 
 // do phần menu chưa xử lý được bằng vue-js nên vẫn phải dùng angular
 angular.module('myApp', []).controller('myCtrl', function ($scope) {
-    $scope.parent_post = <?php echo json_encode($parent_post); ?>;
+    $scope.parent_post = [];
     $scope.post_status = <?php echo json_encode($post_arr_status); ?>;
-    $scope.quick_menu_list = <?php echo json_encode($quick_menu_list); ?>;
+    $scope.quick_menu_list = [];
     angular.element(document).ready(function () {
         $('.ng-main-content').addClass('loaded');
     });

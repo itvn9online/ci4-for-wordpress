@@ -140,6 +140,7 @@ class Posts extends Admin {
                 PostType::DRAFT,
                 PostType::PUBLICITY,
                 PostType::PENDING,
+                PostType::PRIVATELY,
             ];
         } else {
             $urlPartPage .= '&post_status=' . $post_status;
@@ -263,6 +264,7 @@ class Posts extends Admin {
             foreach ( $data as $k => $v ) {
                 // không cần hiển thị nội dung
                 $v[ 'post_content' ] = '';
+                $v[ 'post_excerpt' ] = '';
 
                 // lấy 1 số dữ liệu khác gán vào, để angularjs chỉ việc hiển thị
                 $v[ 'admin_permalink' ] = $this->post_model->get_admin_permalink( $this->post_type, $v[ 'ID' ], $this->controller_slug );
