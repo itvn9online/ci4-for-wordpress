@@ -6,9 +6,6 @@ use App\ Libraries\ PostType;
 // css riêng cho từng post type (nếu có)
 $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 
-//
-$quick_menu_list = [];
-
 ?>
 <ul class="admin-breadcrumb">
     <li><a href="admin/<?php echo $controller_slug; ?>">Danh sách <?php echo $name_type; ?></a></li>
@@ -38,7 +35,7 @@ if ( $auto_update_module * 1 === 1 ) {
 }
 
 ?>
-<div class="widget-box ng-main-content" ng-app="myApp" ng-controller="myCtrl">
+<div class="widget-box ng-main-content" id="myApp">
     <div class="widget-content nopadding">
         <form action="" method="post" name="admin_global_form" id="admin_global_form" onSubmit="return action_before_submit_post();" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
             <input type="hidden" name="is_duplicate" id="is_duplicate" value="0" />
@@ -65,24 +62,6 @@ if ( $auto_update_module * 1 === 1 ) {
                     <input type="text" class="span6 required" placeholder="Tiêu đề" name="data[post_title]" id="data_post_title" value="<?php echo $data['post_title']; ?>" autofocus aria-required="true" required />
                 </div>
             </div>
-            <?php
-
-            // các mục không cho sửa slug -> vì sửa xong sẽ làm lệnh lấy tin tự động hoạt động sai
-            if ( $post_type == PostType::MENU ) {
-                if ( $data[ 'post_name' ] != '' ) {
-                    ?>
-            <div class="control-group">
-                <label class="control-label">PHP Code:</label>
-                <div class="controls">
-                    <input type="text" class="span6" onClick="this.select()" onDblClick="click2Copy(this);" value="&lt;?php $menu_model->the_menu( '<?php echo $data['post_name']; ?>' ); ?&gt;" readonly />
-                </div>
-            </div>
-            <?php
-            }
-            }
-            // các mục khác cho hiển thị slug để sửa
-            else {
-                ?>
             <div class="control-group">
                 <label class="control-label">Slug</label>
                 <div class="controls">
@@ -96,17 +75,13 @@ if ( $auto_update_module * 1 === 1 ) {
                     ?>
                 </div>
             </div>
-            <?php
-            }
-
-            ?>
-            <div class="control-group hide-if-edit-menu">
+            <div class="control-group">
                 <label class="control-label">Nội dung</label>
                 <div class="controls" style="width:80%;">
                     <textarea id="Resolution" rows="30" data-height="<?php echo $post_type == PostType::ADS ? '250' : '550'; ?>" class="ckeditor auto-ckeditor" placeholder="Nhập thông tin chi tiết..." name="data[post_content]"><?php echo $data['post_content']; ?></textarea>
                 </div>
             </div>
-            <div class="control-group hide-if-edit-menu">
+            <div class="control-group">
                 <label class="control-label">Mô tả</label>
                 <div class="controls" style="width:80%;">
                     <textarea placeholder="Tóm tắt" name="data[post_excerpt]" id="data_post_excerpt" class="span30 fix-textarea-height"><?php echo $data['post_excerpt']; ?></textarea>
@@ -116,7 +91,7 @@ if ( $auto_update_module * 1 === 1 ) {
                 <label class="control-label">Trạng thái</label>
                 <div class="controls">
                     <select data-select="<?php echo $data['post_status']; ?>" name="data[post_status]" class="span5">
-                        <option ng-repeat="(k, v) in post_status" value="{{k}}">{{v}}</option>
+                        <option :value="k" v-for="(v, k) in post_status">{{v}}</option>
                     </select>
                 </div>
             </div>
@@ -129,12 +104,12 @@ if ( $auto_update_module * 1 === 1 ) {
             <?php
             if ( !empty( $parent_post ) ) {
                 ?>
-            <div class="control-group hide-if-edit-menu">
+            <div class="control-group">
                 <label class="control-label">Cha</label>
                 <div class="controls">
                     <select data-select="<?php echo $data['post_parent']; ?>" name="data[post_parent]" class="span5">
                         <option value="">[ Không chọn cha ]</option>
-                        <option ng-repeat="v in parent_post" value="{{v.ID}}">{{v.post_title}}</option>
+                        <option :value="v.ID" v-for="v in parent_post">{{v.post_title}}</option>
                     </select>
                 </div>
             </div>
@@ -143,6 +118,14 @@ if ( $auto_update_module * 1 === 1 ) {
 
             // nạp các meta theo từng loại post
             foreach ( $meta_detault as $k => $v ) {
+                //
+                if ( $k == 'post_category' && $taxonomy == '' ) {
+                    continue;
+                } else if ( $k == 'post_tags' && $tags == '' ) {
+                    continue;
+                }
+
+                //
                 $input_type = PostType::meta_type( $k );
 
                 //
@@ -158,7 +141,7 @@ if ( $auto_update_module * 1 === 1 ) {
             //
             if ( $input_type == 'checkbox' ) {
                 ?>
-            <div class="control-group hide-if-edit-menu post_meta_<?php echo $k; ?>">
+            <div class="control-group post_meta_<?php echo $k; ?>">
                 <div class="controls controls-checkbox">
                     <label for="post_meta_<?php echo $k; ?>">
                         <input type="checkbox" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" value="on" data-value="<?php $post_model->echo_meta_post($data, $k); ?>" />
@@ -177,15 +160,8 @@ if ( $auto_update_module * 1 === 1 ) {
             continue;
             } // END if checkbox
 
-            //
-            if ( $k == 'post_category' && $taxonomy == '' ) {
-                continue;
-            } else if ( $k == 'post_tags' && $tags == '' ) {
-                continue;
-            }
-
             ?>
-            <div class="control-group hide-if-edit-menu post_meta_<?php echo $k; ?>">
+            <div class="control-group post_meta_<?php echo $k; ?>">
                 <label for="post_meta_<?php echo $k; ?>" class="control-label"><?php echo $v; ?></label>
                 <div class="controls">
                     <?php
@@ -284,7 +260,7 @@ if ( $auto_update_module * 1 === 1 ) {
                         //echo implode( '', $quick_menu_list );
 
                         ?>
-                        <option ng-repeat="v in quick_menu_list" ng-value="v.value" ng-disabled="v.selectable" ng-class="v.class">{{v.text}}</option>
+                        <option :value="v.value" v-for="v in quick_menu_list" :class="v.class" :disabled="v.selectable">{{v.text}}</option>
                     </select>
                 </div>
             </div>
@@ -304,14 +280,6 @@ if ( $auto_update_module * 1 === 1 ) {
             </div>
         </form>
     </div>
-    <?php
-
-    if ( $post_type == PostType::MENU ) {
-        //require __DIR__ . '/add_edit_menu.php';
-        require __DIR__ . '/add_edit_menu_v2.php';
-    }
-
-    ?>
 </div>
 <script>
 var current_post_type='<?php echo $post_type; ?>';
@@ -322,13 +290,10 @@ var post_cat = '<?php echo $post_cat; ?>';
 var post_tags = '<?php echo $post_tags; ?>';
 
 // do phần menu chưa xử lý được bằng vue-js nên vẫn phải dùng angular
-angular.module('myApp', []).controller('myCtrl', function ($scope) {
-    $scope.parent_post = <?php echo json_encode($parent_post); ?>;
-    $scope.post_status = <?php echo json_encode($post_arr_status); ?>;
-    $scope.quick_menu_list = <?php echo json_encode($quick_menu_list); ?>;
-    angular.element(document).ready(function () {
-        $('.ng-main-content').addClass('loaded');
-    });
+WGR_vuejs('#myApp', {
+    parent_post: <?php echo json_encode($parent_post); ?>,
+    post_status: <?php echo json_encode($post_arr_status); ?>,
+    quick_menu_list: <?php echo json_encode($quick_menu_list); ?>,
 });
 </script>
 <?php

@@ -20,9 +20,9 @@ class Posts extends Admin {
     // tham số dùng để thay đổi URL cho controller nếu muốn
     protected $controller_slug = 'posts';
     // tham số dùng để đổi file view khi add hoặc edit bài viết nếu muốn
-    protected $add_edit_view = 'posts';
+    protected $add_view_path = 'posts';
     // tham số dùng để đổi file view khi xem danh sách bài viết nếu muốn
-    protected $add_list_view = 'posts';
+    protected $list_view_path = 'posts';
     // dùng để chọn xem hiển thị nhóm sản phẩm nào ra ở phần danh mục
     protected $main_category_key = 'post_category';
 
@@ -284,7 +284,7 @@ class Posts extends Admin {
         }
 
         //
-        $this->teamplate_admin[ 'content' ] = view( 'admin/' . $this->add_list_view . '/list', array(
+        $this->teamplate_admin[ 'content' ] = view( 'admin/' . $this->list_view_path . '/list', array(
             'for_action' => $for_action,
             'by_post_status' => $by_post_status,
             'post_status' => $post_status,
@@ -456,7 +456,7 @@ class Posts extends Admin {
         }
 
         //
-        $this->teamplate_admin[ 'content' ] = view( 'admin/' . $this->add_edit_view . '/add', array(
+        $this->teamplate_admin[ 'content' ] = view( 'admin/' . $this->add_view_path . '/add', array(
             'controller_slug' => $this->controller_slug,
             'lang_key' => $this->lang_key,
             'auto_update_module' => $auto_update_module,
@@ -464,6 +464,7 @@ class Posts extends Admin {
             'post_cat' => $post_cat,
             'post_tags' => $post_tags,
             'parent_post' => $parent_post,
+            'quick_menu_list' => [],
             'data' => $data,
             'post_lang' => LanguageCost::list( $data[ 'lang_key' ] != '' ? $data[ 'lang_key' ] : '' ),
             'meta_detault' => PostType::meta_default( $this->post_type ),

@@ -7,8 +7,15 @@ use App\ Libraries\ PostType;
 //
 class Menus extends Posts {
     protected $post_type = PostType::MENU;
-    protected $controller_slug = 'menus';
 
+    // tham số dùng để thay đổi URL cho controller nếu muốn
+    protected $controller_slug = 'menus';
+    // tham số dùng để đổi file view khi add hoặc edit bài viết nếu muốn
+    protected $add_view_path = 'menus';
+    // tham số dùng để đổi file view khi xem danh sách bài viết nếu muốn
+    //protected $list_view_path = 'menus';
+
+    //
     public function __construct() {
         parent::__construct();
 

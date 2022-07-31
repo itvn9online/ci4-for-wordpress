@@ -15,7 +15,7 @@ class Terms extends Admin {
     // tham số dùng để thay đổi URL cho controller nếu muốn
     protected $controller_slug = 'terms';
     // tham số dùng để đổi file view khi add hoặc edit bài viết nếu muốn
-    protected $add_edit_view = 'terms';
+    protected $add_view_path = 'terms';
 
     public function __construct( $for_extends = false ) {
         parent::__construct();
@@ -302,7 +302,7 @@ class Terms extends Admin {
 
 
         //
-        $this->teamplate_admin[ 'content' ] = view( 'admin/' . $this->add_edit_view . '/add', array(
+        $this->teamplate_admin[ 'content' ] = view( 'admin/' . $this->add_view_path . '/add', array(
             'lang_key' => $this->lang_key,
             'set_parent' => $set_parent,
             'data' => $data,

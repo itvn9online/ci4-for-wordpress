@@ -15,9 +15,9 @@ class Users extends Admin {
     // tham số dùng để thay đổi URL cho controller nếu muốn
     protected $controller_slug = 'users';
     // tham số dùng để đổi file view khi add hoặc edit bài viết nếu muốn
-    protected $add_edit_view = 'users';
+    protected $add_view_path = 'users';
     // tham số dùng để thay đổi view của trang danh sách thành viên
-    protected $custom_list_view = 'users';
+    protected $list_view_path = 'users';
 
     public function __construct() {
         parent::__construct();
@@ -215,7 +215,7 @@ class Users extends Admin {
         }
 
         //
-        $this->teamplate_admin[ 'content' ] = view( 'admin/' . $this->custom_list_view . '/list', array(
+        $this->teamplate_admin[ 'content' ] = view( 'admin/' . $this->list_view_path . '/list', array(
             'pagination' => $pagination,
             'by_is_deleted' => $by_is_deleted,
             'for_action' => $for_action,
@@ -226,7 +226,7 @@ class Users extends Admin {
             'data' => $data,
             'col_filter' => $col_filter,
             'controller_slug' => $this->controller_slug,
-            'custom_list_view' => $this->custom_list_view,
+            'list_view_path' => $this->list_view_path,
             'member_type' => $this->member_type,
             'member_name' => $this->member_name,
             'arr_members_type' => $this->arr_members_type,
@@ -323,7 +323,7 @@ class Users extends Admin {
         }
 
         //
-        $this->teamplate_admin[ 'content' ] = view( 'admin/' . $this->add_edit_view . '/add', array(
+        $this->teamplate_admin[ 'content' ] = view( 'admin/' . $this->add_view_path . '/add', array(
             'data' => $data,
             'controller_slug' => $this->controller_slug,
             'member_type' => $this->member_type,

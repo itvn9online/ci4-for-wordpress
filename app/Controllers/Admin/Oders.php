@@ -11,9 +11,9 @@ class Oders extends Posts {
     // tham số dùng để thay đổi URL cho controller nếu muốn
     protected $controller_slug = 'oders';
     // tham số dùng để đổi file view khi add hoặc edit bài viết nếu muốn
-    protected $add_edit_view = 'oders';
+    protected $add_view_path = 'oders';
     // tham số dùng để đổi file view khi xem danh sách bài viết nếu muốn
-    protected $add_list_view = 'oders';
+    protected $list_view_path = 'oders';
 
     //
     public function __construct() {
