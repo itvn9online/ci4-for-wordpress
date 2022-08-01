@@ -6,6 +6,9 @@ use App\ Libraries\ OrderType;
 // css riêng cho từng post type (nếu có)
 $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 
+//
+print_r( $data );
+
 ?>
 <ul class="admin-breadcrumb">
     <li><a href="admin/<?php echo $controller_slug; ?>">Danh sách <?php echo $name_type; ?></a></li>

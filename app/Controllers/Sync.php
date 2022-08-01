@@ -376,6 +376,17 @@ class Sync extends BaseController {
             }
         }
         //die( __CLASS__ . ':' . __LINE__ );
+        
+        // bảng post_title wordpress mặc định nó là TEXT -> chuyển về VARCHAR
+        /*
+        $alter_query = "ALTER TABLE `" . WGR_TABLE_PREFIX . "posts` CHANGE `post_title` `post_title` VARCHAR(255) NOT NULL;";
+        echo $alter_query . '<br>' . "\n";
+        if ( $this->base_model->MY_query( $alter_query ) ) {
+            echo WGR_TABLE_PREFIX . 'posts - post_title column in database has been sync! <br>' . "\n";
+        } else {
+            echo 'Query failed! Please re-check query <br>' . "\n";
+        }
+        */
 
         //
         $this->tbl_sessions();

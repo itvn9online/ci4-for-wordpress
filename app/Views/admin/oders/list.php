@@ -50,7 +50,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
         <thead>
             <tr>
                 <th><input type="checkbox" class="input-checkbox-all" /></th>
-                <th>Mã HĐ/ Ngày gửi</th>
+                <th>ID/ Mã hóa đơn/ Ngày gửi</th>
                 <th>Trạng thái</th>
                 <th>Tiêu đề <?php echo $name_type; ?></th>
                 <th>Thành viên/ Điện thoại/ Địa chỉ</th>
@@ -60,11 +60,13 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
         <tbody id="admin_main_list">
             <tr :data-id="v.ID" v-for="v in data" :class="v.post_status">
                 <td width="50" class="text-center"><input type="checkbox" :value="v.ID" class="input-checkbox-control" /></td>
-                <td><div><a :href="v.admin_permalink">{{v.post_name}} <i class="fa fa-edit"></i></a></div>
+                <td class="text-center"><div>#{{v.ID}}</div>
+                    <div><a :href="v.admin_permalink">{{v.post_name}} <i class="fa fa-edit"></i></a></div>
                     <div>({{v.post_modified.substr(0, 16)}})</div></td>
                 <td>{{PostType_arrStatus[v.post_status]}}</td>
-                <td><a :href="v.admin_permalink">{{v.post_title}} <i class="fa fa-edit"></i></a></td>
-                <td><div><i class="fa fa-envelope"></i> <a :href="'admin/users/add?id=' + v.post_author">{{v.post_author}}</a></div>
+                <td><div><a :href="v.admin_permalink">{{v.post_title}} <i class="fa fa-edit"></i></a></div>
+                    <div><span class="ebe-currency">{{ number_format(v.post_parent) }}</span></div></td>
+                <td><div><i class="fa fa-envelope"></i> <a :href="'admin/users/add?id=' + v.post_author" :data-id="v.post_author" class="each-to-email">{{v.post_author}}</a></div>
                     <div><i class="fa fa-phone"></i></div>
                     <div><i class="fa fa-home"></i></div></td>
                 <td width="90" class="text-center"><?php

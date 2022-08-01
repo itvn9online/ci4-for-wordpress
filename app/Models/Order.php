@@ -15,14 +15,22 @@ class Order extends Post {
     }
 
     public function insert_order( $data_insert ) {
+        //$data_insert[ 'guid' ] = ''; // danh sách IDs sản phẩm
+        //$data_insert[ 'post_excerpt' ] = ''; // danh sách sản phẩm dạng json
+        //$data_insert[ 'post_parent' ] = ''; // tổng giá trị giỏ hàng
         $data_insert[ 'post_status' ] = OrderType::PENDING;
         $data_insert[ 'post_type' ] = $this->post_type;
 
-        //
+        // tự động tạo mã đơn hàng nếu chưa có
         if ( !isset( $data_insert[ 'post_name' ] ) || $data_insert[ 'post_name' ] == '' ) {
             if ( isset( $data_insert[ 'post_author' ] ) && $data_insert[ 'post_author' ] > 0 ) {
-                $data_insert[ 'post_name' ] = $data_insert[ 'post_author' ] . '-' . date( 'YmdHis' );
+                $data_insert[ 'post_name' ] = $data_insert[ 'post_author' ] . '-' . date( 'YmdHi' );
             }
+        }
+
+        //
+        if ( isset( $data_insert[ 'post_excerpt' ] ) && is_array( $data_insert[ 'post_excerpt' ] ) ) {
+            $data_insert[ 'post_excerpt' ] = json_encode( $data_insert[ 'post_excerpt' ] );
         }
 
         //
