@@ -1,9 +1,3 @@
-<?php
-
-//
-use App\ Libraries\ UsersType;
-
-?>
 <table class="table table-bordered table-striped with-check table-list eb-table">
     <thead>
         <tr>
@@ -30,8 +24,8 @@ use App\ Libraries\ UsersType;
             <td>{{v.last_login.substr(0, 16)}}</td>
             <td>{{v.user_registered.substr(0, 16)}}</td>
             <!-- <td>{{UsersType_listStatus[v.user_status]}}</td> -->
-            <td :title="UsersType_listStatus[v.user_status]" :data-id="v.ID" :data-status="v.user_status" class="text-center medium d-inlines click-change-user-status"><div :data-id="v.ID" data-status="<?php echo UsersType::NO_LOGIN; ?>" class="cur"><i class="fa fa-toggle-off"></i></div>
-                <div :data-id="v.ID" data-status="<?php echo UsersType::FOR_DEFAULT; ?>" class="cur greencolor"><i class="fa fa-toggle-on"></i></div></td>
+            <td :title="UsersType_listStatus[v.user_status]" :data-id="v.ID" :data-status="v.user_status" class="text-center medium d-inlines click-change-user-status"><div :data-id="v.ID" :data-status="UsersType_NO_LOGIN" class="cur"><i class="fa fa-toggle-off"></i></div>
+                <div :data-id="v.ID" :data-status="UsersType_FOR_DEFAULT" class="cur greencolor"><i class="fa fa-toggle-on"></i></div></td>
             <td width="90" class="text-center"><?php
             include dirname( __DIR__ ) . '/users/list_action.php';
             ?></td>

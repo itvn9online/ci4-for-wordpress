@@ -240,6 +240,7 @@ $(document).ready(function () {
 
     //
     action_each_to_taxonomy();
+    action_each_to_email();
     //action_data_img_src();
     action_for_check_checked_all();
 

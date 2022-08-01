@@ -855,7 +855,7 @@ function after_each_to_taxonomy() {
             }
         }
     });
-    $('.each-to-taxonomy').removeClass('each-to-taxonomy').addClass('each-to-taxonomy-done');
+    $('.each-to-taxonomy').addClass('each-to-taxonomy-done').removeClass('each-to-taxonomy');
 }
 
 // kiểm tra xem trình duyệt có hỗ trợ định dạng webp không

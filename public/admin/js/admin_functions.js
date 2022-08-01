@@ -783,3 +783,54 @@ function click_restore_checked(controller_slug) {
 function click_remove_checked(controller_slug) {
     action_delete_restore_checked('remove_all', 'XÓA', controller_slug);
 }
+
+// từ ID -> địa chỉ email
+function action_each_to_email() {
+    var ids = [];
+
+    // lấy các ID có 
+    $('.each-to-email').each(function () {
+        var a = $(this).attr('data-id') || '';
+
+        if (a != '') {
+            ids.push(a);
+        }
+        //console.log(a);
+    });
+    // nếu không có ID nào cẩn xử lý thì bỏ qua đoạn sau luôn
+    if (ids.length == 0) {
+        return false;
+    }
+
+    // chạy ajax nạp dữ liệu của taxonomy
+    jQuery.ajax({
+        type: 'POST',
+        url: 'admin/asjaxs/get_users_by_ids',
+        dataType: 'json',
+        //crossDomain: true,
+        data: {
+            ids: ids.join(',')
+        },
+        timeout: 33 * 1000,
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+            if (typeof jqXHR.responseText != 'undefined') {
+                console.log(jqXHR.responseText);
+            }
+            console.log(errorThrown);
+            console.log(textStatus);
+            if (textStatus === 'timeout') {
+                //
+            }
+        },
+        success: function (data) {
+            //console.log(data);
+
+            //
+            for (var i = 0; i < data.length; i++) {
+                $('.each-to-email[data-id="' + data[i].ID + '"]').html(data[i].user_email);
+            }
+            $('.each-to-email').addClass('each-to-email-done').removeClass('each-to-email');
+        }
+    });
+}

@@ -8,9 +8,11 @@ use App\ Libraries\ LanguageCost;
 
 //
 class Posts extends Admin {
+    public $table = 'posts';
     protected $post_type = '';
     protected $name_type = '';
     //private $detault_type = '';
+    protected $post_arr_status = [];
 
     // các taxonomy được hỗ trợ -> cái nào trống nghĩa là không hỗ trợ theo post_type tương ứng
     protected $taxonomy = TaxonomyType::POSTS;
@@ -60,6 +62,10 @@ class Posts extends Admin {
                 die( 'Post type not register in system: ' . $this->post_type );
             }
         }
+
+        //
+        $this->post_arr_status = PostType::arrStatus();
+        //print_r( $this->post_arr_status );
     }
 
     public function index() {
@@ -278,6 +284,7 @@ class Posts extends Admin {
             'taxonomy' => $this->taxonomy,
             'post_type' => $this->post_type,
             'name_type' => $this->name_type,
+            'post_arr_status' => $this->post_arr_status,
         ) );
         //return $this->teamplate_admin[ 'content' ];
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
@@ -448,7 +455,7 @@ class Posts extends Admin {
             'data' => $data,
             'post_lang' => LanguageCost::list( $data[ 'lang_key' ] != '' ? $data[ 'lang_key' ] : '' ),
             'meta_detault' => PostType::meta_default( $this->post_type ),
-            'post_arr_status' => PostType::arrStatus(),
+            'post_arr_status' => $this->post_arr_status,
             'taxonomy' => $this->taxonomy,
             'tags' => $this->tags,
             'post_type' => $this->post_type,

@@ -48,7 +48,7 @@ class PostQuery extends PostMeta {
 
             //
             if ( $check_slug === true ) {
-                $check_slug = $this->base_model->select( 'ID, post_type', 'posts', [
+                $check_slug = $this->base_model->select( 'ID, post_type', $this->table, [
                     'post_name' => $data[ 'post_name' ],
                     'post_type' => $data[ 'post_type' ],
                     'post_status !=' => PostType::DELETED,
@@ -154,7 +154,7 @@ class PostQuery extends PostMeta {
         // kiểm tra xem có trùng slug không
         else if ( isset( $data[ 'post_name' ] ) && $data[ 'post_name' ] != '' ) {
             // post đang cần update
-            $current_slug = $this->base_model->select( '*', 'posts', $where, [
+            $current_slug = $this->base_model->select( '*', $this->table, $where, [
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
                 // trả về câu query để sử dụng cho mục đích khác
@@ -166,7 +166,7 @@ class PostQuery extends PostMeta {
 
             //
             if ( !empty( $current_slug ) ) {
-                $check_slug = $this->base_model->select( 'ID, post_type', 'posts', [
+                $check_slug = $this->base_model->select( 'ID, post_type', $this->table, [
                     'post_name' => $data[ 'post_name' ],
                     'ID !=' => $current_slug[ 'ID' ],
                     'post_type' => $current_slug[ 'post_type' ],

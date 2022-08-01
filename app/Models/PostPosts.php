@@ -293,6 +293,6 @@ class PostPosts extends PostSlider {
         ];
 
         //
-        return $this->base_model->select( '*', 'posts', $where, $filter );
+        return $this->base_model->select( '*', $this->table, $where, $filter );
     }
 }

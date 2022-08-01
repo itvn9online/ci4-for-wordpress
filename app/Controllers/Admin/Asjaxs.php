@@ -86,4 +86,45 @@ class Asjaxs extends Admin {
         //die( json_encode( $_POST ) );
         die( $this->term_model->json_taxonomy( $taxonomy, 0, [ 'get_child' => 1 ], $taxonomy . '_get_child' ) );
     }
+
+    public function get_users_by_ids() {
+        header( 'Content-type: application/json; charset=utf-8' );
+
+        //
+        $ids = $this->MY_post( 'ids', '' );
+        if ( empty( $ids ) ) {
+            die( json_encode( [
+                'code' => __LINE__,
+                'error' => 'EMPTY ids'
+            ] ) );
+        }
+
+        //
+        //die( json_encode( $_POST ) );
+
+        // SELECT dữ liệu từ 1 bảng bất kỳ
+        $data = $this->base_model->select( 'ID, user_email', 'users', array(
+            // các kiểu điều kiện where
+        ), array(
+            'where_in' => array(
+                'ID' => explode( ',', $ids )
+            ),
+            'group_by' => array(
+                'ID',
+            ),
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            // trả về COUNT(column_name) AS column_name
+            //'selectCount' => 'ID',
+            // trả về tổng số bản ghi -> tương tự mysql num row
+            //'getNumRows' => 1,
+            //'offset' => 0,
+            'limit' => -1
+        ) );
+
+        //
+        die( json_encode( $data ) );
+    }
 }

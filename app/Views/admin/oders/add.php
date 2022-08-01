@@ -7,7 +7,7 @@ use App\ Libraries\ OrderType;
 $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 
 //
-print_r( $data );
+//print_r( $data );
 
 ?>
 <ul class="admin-breadcrumb">
@@ -60,6 +60,10 @@ if ( $auto_update_module > 0 ) {
                         <option :value="k" v-for="(v, k) in post_status">{{v}}</option>
                     </select>
                 </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Thành viên</label>
+                <div class="controls"><a href="admin/users/add?id=<?php echo $data['post_author']; ?>" data-id="<?php echo $data['post_author']; ?>" class="each-to-email" target="_blank"><?php echo $data['post_author']; ?></a> </div>
             </div>
             <?php
 

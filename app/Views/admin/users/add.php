@@ -223,3 +223,13 @@ $base_model->adds_js( [
     'admin/js/user_add.js',
     'admin/js/' . $member_type . '_add.js',
 ] );
+
+
+/*
+ * nạp thêm custom view nếu có
+ */
+$theme_private_view = str_replace( VIEWS_PATH, VIEWS_CUSTOM_PATH, __FILE__ );
+//echo $theme_private_view . '<br>' . "\n";
+if ( file_exists( $theme_private_view ) ) {
+    include $theme_private_view;
+}

@@ -38,7 +38,7 @@ class AdminMenu {
                     ],
                 ]
             ],
-            'admin/oders' => [
+            'admin/orders' => [
                 'role' => [
                     UsersType::AUTHOR,
                     UsersType::MOD,

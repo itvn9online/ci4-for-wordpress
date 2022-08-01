@@ -440,3 +440,28 @@ body.body-debug_enable #admin-header, body.body-debug_enable #sidebar {
     z-index: 99;
 }
 #for_vue .row .col-inner {}
+.admin-order-table {}
+.admin-order-table tr td:first-child {
+    border-left-width: 5px;
+}
+.admin-order-table tr.pending td {
+    font-weight: bold;
+}
+.admin-order-table tr.pending td:first-child {
+    border-left-color: #333;
+}
+.admin-order-table tr.private td {
+    color: green !important;
+}
+.admin-order-table tr.private td:first-child {
+    border-left-color: green;
+}
+.admin-order-table tr.trash td {
+    text-decoration: line-through;
+}
+.admin-order-table tr.trash td, .admin-order-table tr.trash td a {
+    color: gray !important;
+}
+.admin-order-table tr.trash td:first-child {
+    border-left-color: gray;
+}

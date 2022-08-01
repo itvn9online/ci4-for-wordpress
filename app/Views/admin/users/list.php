@@ -62,8 +62,11 @@ $base_model->add_js( 'admin/js/users_functions.js' );
     include __DIR__ . '/list_select_all.php';
 
     //
-    if ( file_exists( $admin_root_views . $list_view_path . '/list_table.php' ) ) {
-        include $admin_root_views . $list_view_path . '/list_table.php';
+    $theme_private_view = $admin_root_views . $list_view_path . '/list_table.php';
+    //echo $theme_private_view . '<br>' . "\n";
+    //echo __DIR__ . '/list_table.php' . '<br>' . "\n";
+    if ( file_exists( $theme_private_view ) ) {
+        include $theme_private_view;
     } else {
         include __DIR__ . '/list_table.php';
     }
@@ -86,6 +89,8 @@ WGR_vuejs('#app', {
     for_action: '<?php echo $for_action; ?>',
     DeletedStatus_DELETED: '<?php echo $DeletedStatus_DELETED; ?>',
     by_is_deleted: '<?php echo $by_is_deleted; ?>',
+    UsersType_NO_LOGIN: <?php echo UsersType::NO_LOGIN; ?>,
+    UsersType_FOR_DEFAULT: <?php echo UsersType::FOR_DEFAULT; ?>,
     list: <?php echo json_encode($arr_members_type); ?>,
     UsersType_listStatus: <?php echo json_encode(UsersType::listStatus()); ?>,
 }, function () {

@@ -7,6 +7,7 @@ use App\ Libraries\ OrderType;
 
 //
 class Order extends Post {
+    public $table = 'orders';
     public $post_type = OrderType::ORDER;
 
     //
@@ -41,7 +42,7 @@ class Order extends Post {
         $where[ 'post_type' ] = $this->post_type;
 
         //
-        return $this->base_model->select( '*', 'posts', $where, $filter );
+        return $this->base_model->select( '*', $this->table, $where, $filter );
     }
 
     public function update_order( $data, $where = [], $filter = [] ) {
