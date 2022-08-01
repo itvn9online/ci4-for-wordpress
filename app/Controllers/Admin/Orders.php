@@ -6,9 +6,10 @@ use App\ Libraries\ OrderType;
 
 //
 class Orders extends Posts {
-    public $table = 'orders';
     protected $post_type = OrderType::ORDER;
 
+    // tham số dùng để thay đổi bảng cần gọi dữ liệu
+    public $table = 'orders';
     // tham số dùng để thay đổi URL cho controller nếu muốn
     protected $controller_slug = 'orders';
     // tham số dùng để đổi file view khi add hoặc edit bài viết nếu muốn

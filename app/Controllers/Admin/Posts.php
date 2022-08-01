@@ -8,7 +8,6 @@ use App\ Libraries\ LanguageCost;
 
 //
 class Posts extends Admin {
-    public $table = 'posts';
     protected $post_type = '';
     protected $name_type = '';
     //private $detault_type = '';
@@ -19,6 +18,8 @@ class Posts extends Admin {
     protected $tags = TaxonomyType::TAGS;
     protected $options = TaxonomyType::OPTIONS;
 
+    // tham số dùng để thay đổi bảng cần gọi dữ liệu
+    public $table = 'posts';
     // tham số dùng để thay đổi URL cho controller nếu muốn
     protected $controller_slug = 'posts';
     // tham số dùng để đổi file view khi add hoặc edit bài viết nếu muốn
@@ -89,9 +90,9 @@ class Posts extends Admin {
         $by_term_id = $this->MY_get( 'term_id', 0 );
 
         // các kiểu điều kiện where
-        //$where[ 'posts.post_status !=' ] = PostType::DELETED;
-        $where[ 'posts.post_type' ] = $this->post_type;
-        $where[ 'posts.lang_key' ] = $this->lang_key;
+        //$where[ $this->table . '.post_status !=' ] = PostType::DELETED;
+        $where[ $this->table . '.post_type' ] = $this->post_type;
+        $where[ $this->table . '.lang_key' ] = $this->lang_key;
 
         // tìm kiếm theo từ khóa nhập vào
         $where_or_like = [];
@@ -140,7 +141,7 @@ class Posts extends Admin {
         // tổng kết filter
         $filter = [
             'where_in' => array(
-                'posts.post_status' => $by_post_status
+                $this->table . '.post_status' => $by_post_status
             ),
             'or_like' => $where_or_like,
             // hiển thị mã SQL để check
@@ -189,7 +190,7 @@ class Posts extends Admin {
             $for_action .= '&term_id=' . $by_term_id;
 
             $filter[ 'join' ] = [
-                'term_relationships' => 'term_relationships.object_id = posts.ID',
+                'term_relationships' => 'term_relationships.object_id = ' . $this->table . '.ID',
                 'term_taxonomy' => 'term_relationships.term_taxonomy_id = term_taxonomy.term_taxonomy_id',
             ];
         }
@@ -200,7 +201,7 @@ class Posts extends Admin {
         /*
          * phân trang
          */
-        $totalThread = $this->base_model->select( 'COUNT(ID) AS c', 'posts', $where, $filter );
+        $totalThread = $this->base_model->select( 'COUNT(ID) AS c', $this->table, $where, $filter );
         //print_r( $totalThread );
         $totalThread = $totalThread[ 0 ][ 'c' ];
         //print_r( $totalThread );
@@ -235,12 +236,12 @@ class Posts extends Admin {
             $filter[ 'offset' ] = $offset;
             $filter[ 'limit' ] = $post_per_page;
             $filter[ 'order_by' ] = [
-                //'posts.menu_order' => 'DESC',
-                'posts.ID' => 'DESC',
-                //'posts.post_date' => 'DESC',
+                //$this->table . '.menu_order' => 'DESC',
+                $this->table . '.ID' => 'DESC',
+                //$this->table . '.post_date' => 'DESC',
                 //'post_modified' => 'DESC',
             ];
-            $data = $this->base_model->select( '*', 'posts', $where, $filter );
+            $data = $this->base_model->select( '*', $this->table, $where, $filter );
 
             //
             $data = $this->post_model->list_meta_post( $data );
@@ -377,7 +378,7 @@ class Posts extends Admin {
         }
         // add
         else {
-            $data = $this->base_model->default_data( 'posts' );
+            $data = $this->base_model->default_data( $this->table );
             $data[ 'post_meta' ] = [];
         }
         //print_r( $this->session_data );
@@ -392,27 +393,27 @@ class Posts extends Admin {
         if ( $this->post_type == PostType::PAGE ) {
             // các kiểu điều kiện where
             $where = [
-                //'posts.post_status !=' => PostType::DELETED,
-                'posts.post_type' => $this->post_type,
-                'posts.lang_key' => $this->lang_key
+                //$this->table . '.post_status !=' => PostType::DELETED,
+                $this->table . '.post_type' => $this->post_type,
+                $this->table . '.lang_key' => $this->lang_key
             ];
 
             $filter = [
                 'where_in' => array(
-                    'posts.post_status' => array(
+                    $this->table . '.post_status' => array(
                         PostType::DRAFT,
                         PostType::PUBLICITY,
                         PostType::PENDING,
                     )
                 ),
                 'where_not_in' => array(
-                    'posts.ID' => array(
+                    $this->table . '.ID' => array(
                         $id
                     )
                 ),
                 'order_by' => array(
-                    'posts.menu_order' => 'DESC',
-                    'posts.post_date' => 'DESC',
+                    $this->table . '.menu_order' => 'DESC',
+                    $this->table . '.post_date' => 'DESC',
                     //'post_modified' => 'DESC',
                 ),
                 // hiển thị mã SQL để check
@@ -422,7 +423,7 @@ class Posts extends Admin {
                 //'offset' => 0,
                 //'limit' => $post_per_page
             ];
-            $parent_post = $this->base_model->select( 'posts.ID, posts.post_title', 'posts', $where, $filter );
+            $parent_post = $this->base_model->select( $this->table . '.ID, ' . $this->table . '.post_title', $this->table, $where, $filter );
             //print_r( $parent_post );
         }
         // lấy danh sách các nhóm để add cho post
@@ -596,7 +597,7 @@ class Posts extends Admin {
 
         //
         if ( $post_status == PostType::DELETED ) {
-            $check_slug = $this->base_model->select( 'post_name', 'posts', [
+            $check_slug = $this->base_model->select( 'post_name', $this->table, [
                 'ID' => $id,
                 'post_status !=' => $post_status,
             ], [
@@ -741,7 +742,7 @@ class Posts extends Admin {
         }
 
         //
-        $update = $this->base_model->update_multiple( 'posts', [
+        $update = $this->base_model->update_multiple( $this->table, [
             // SET
             'post_status' => $post_status
         ], [
