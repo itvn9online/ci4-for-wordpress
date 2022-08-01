@@ -10,6 +10,7 @@ class Orders extends Posts {
 
     // tham số dùng để thay đổi bảng cần gọi dữ liệu
     public $table = 'orders';
+    public $metaTable = 'ordermeta';
     // tham số dùng để thay đổi URL cho controller nếu muốn
     protected $controller_slug = 'orders';
     // tham số dùng để đổi file view khi add hoặc edit bài viết nếu muốn

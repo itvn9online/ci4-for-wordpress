@@ -8,6 +8,7 @@ use App\ Libraries\ OrderType;
 //
 class Order extends Post {
     public $table = 'orders';
+    public $metaTable = 'ordermeta';
     public $post_type = OrderType::ORDER;
 
     //

@@ -20,6 +20,7 @@ class Posts extends Admin {
 
     // tham số dùng để thay đổi bảng cần gọi dữ liệu
     public $table = 'posts';
+    public $metaTable = 'postmeta';
     // tham số dùng để thay đổi URL cho controller nếu muốn
     protected $controller_slug = 'posts';
     // tham số dùng để đổi file view khi add hoặc edit bài viết nếu muốn
@@ -67,6 +68,10 @@ class Posts extends Admin {
         //
         $this->post_arr_status = PostType::arrStatus();
         //print_r( $this->post_arr_status );
+
+        // chỉnh lại bảng select của model
+        $this->post_model->table = $this->table;
+        $this->post_model->metaTable = $this->metaTable;
     }
 
     public function index() {
