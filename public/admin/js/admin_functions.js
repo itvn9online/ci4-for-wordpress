@@ -834,3 +834,10 @@ function action_each_to_email() {
         }
     });
 }
+
+function WGR_body_opacity(val) {
+    $('body').css({
+        opacity: (typeof val != 'number' ? 1 : val)
+    });
+    return true;
+}

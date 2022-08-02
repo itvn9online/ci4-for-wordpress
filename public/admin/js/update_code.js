@@ -1,8 +1,6 @@
 //
 function done_submit_update_code(file_name) {
-    $('body').css({
-        'opacity': 1
-    });
+    WGR_body_opacity();
     document.frm_global_upload.reset();
     if (typeof file_name != 'undefined' && file_name != '') {
         file_name = ' (' + file_name + ')';
@@ -38,9 +36,7 @@ function auto_submit_update_code() {
     }
 
     //
-    $('body').css({
-        'opacity': 0.1
-    });
+    WGR_body_opacity(0.1);
     document.frm_global_upload.submit();
     return true;
 }
@@ -53,9 +49,7 @@ function before_start_download_in_github() {
     }
 
     //
-    $('body').css({
-        'opacity': 0.1
-    });
+    WGR_body_opacity(0.1);
     return true;
 }
 
@@ -64,9 +58,7 @@ function before_start_reset_in_github() {
     if (before_start_download_in_github() !== true) {
         return false;
     }
-    $('body').css({
-        'opacity': 1
-    });
+    WGR_body_opacity(1);
 
     //
     if ($('#confirm_is_super_coder').is(':checked') == false) {
@@ -75,9 +67,7 @@ function before_start_reset_in_github() {
     }
 
     //
-    $('body').css({
-        'opacity': 0.1
-    });
+    WGR_body_opacity(0.1);
     return true;
 }
 
@@ -87,14 +77,9 @@ function done_submit_restore_code() {
 }
 
 function before_unzip_thirdparty() {
-    $('body').css({
-        'opacity': 0.1
-    });
-    return true;
+    return WGR_body_opacity(0.1);
 }
 
 function after_unzip_thirdparty() {
-    $('body').css({
-        'opacity': 1
-    });
+    return WGR_body_opacity();
 }
