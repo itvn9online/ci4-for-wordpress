@@ -6,33 +6,8 @@ use App\ Libraries\ PostType;
 // css riêng cho từng post type (nếu có)
 $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 
-?>
-<ul class="admin-breadcrumb">
-    <li><a href="admin/<?php echo $controller_slug; ?>">Danh sách <?php echo $name_type; ?></a></li>
-    <li>
-        <?php
-        if ( $data[ 'ID' ] > 0 ) {
-            ?>
-        Chỉnh sửa
-        <?php
-        } else {
-            ?>
-        Thêm mới
-        <?php
-        }
-        echo $name_type . ' ' . $data[ 'post_title' ];
-        ?>
-    </li>
-</ul>
-<?php
-
-// kích hoạt chức năng tự động cập nhật bài viết khi có module gì hot
-if ( $auto_update_module > 0 ) {
-    //echo $auto_update_module;
-    ?>
-<p class="orgcolor text-center medium show-if-end-function">* Kích hoạt chức năng tự động cập nhật bài viết để nhận các tính mới...</p>
-<?php
-}
+//
+include $admin_root_views . 'posts/add_breadcrumb.php';
 
 ?>
 <div class="widget-box ng-main-content" ng-app="myApp" ng-controller="myCtrl">
@@ -85,12 +60,6 @@ if ( $auto_update_module > 0 ) {
                     <select data-select="<?php echo $data['post_status']; ?>" name="data[post_status]" class="span5">
                         <option ng-repeat="(k, v) in post_status" value="{{k}}">{{v}}</option>
                     </select>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">Số thứ tự</label>
-                <div class="controls">
-                    <input type="number" class="span3" placeholder="Số thứ tự" name="data[menu_order]" value="<?php echo $data['menu_order']; ?>" />
                 </div>
             </div>
             <?php
@@ -197,17 +166,10 @@ if ( $auto_update_module > 0 ) {
             <?php
             } // END foreach auto add post meta
 
+            //
+            include $admin_root_views . 'posts/add_submit.php';
+
             ?>
-            <div class="form-actions frm-fixed-btn">
-                <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Lưu lại</button>
-                <?php
-                if ( $data[ 'ID' ] > 0 ) {
-                    ?>
-                <a href="admin/<?php echo $controller_slug; ?>/delete?id=<?php echo $data[ 'ID' ]; ?>" onClick="return click_a_delete_record();" class="btn btn-danger" target="target_eb_iframe"><i class="fa fa-trash"></i> XÓA</a>
-                <?php
-                }
-                ?>
-            </div>
         </form>
     </div>
     <?php
@@ -240,5 +202,3 @@ $base_model->add_js( 'admin/js/posts.js' );
 $base_model->add_js( 'admin/js/posts_add.js' );
 // css riêng cho từng post type (nếu có)
 $base_model->add_js( 'admin/js/' . $post_type . '.js' );
-
-//$base_model->add_js( 'admin/js/maruti.form_common.js' );

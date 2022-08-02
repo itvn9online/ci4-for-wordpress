@@ -14,6 +14,7 @@ class PostType {
     const BLOG = 'blog';
     const PAGE = 'page';
     const MENU = 'nav_menu';
+    const HTML_MENU = 'html_menu'; // kiểu menu soạn thảo trực tiếp trong khung nội dung của post
     const ORDER = 'shop_order';
 
     // định dạng media từ codeigniter
@@ -50,6 +51,7 @@ class PostType {
         self::BLOG => 'Blog/ Tin tức',
         self::PAGE => 'Trang tĩnh',
         self::MENU => 'Menu',
+        self::HTML_MENU => 'HTML Menu',
         self::MEDIA => 'Media',
         self::ORDER => 'Đơn hàng',
     );

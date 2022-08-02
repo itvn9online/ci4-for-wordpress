@@ -169,14 +169,6 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
         </form>
     </div>
 </div>
-<!--
-<link rel="stylesheet" href="admin/css/colorpicker.css"/>
-<link rel="stylesheet" href="admin/css/uniform.css"/>
-<script src="admin/js/menu-edit.js"></script> 
-<script src="admin/js/select2.min.js"></script> 
-<script src="admin/js/maruti.form_common.js"></script> 
-<script src="admin/js/bootstrap-colorpicker.js"></script>
--->
 <?php
 
 //

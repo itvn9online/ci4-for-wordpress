@@ -14,6 +14,7 @@ class Menus extends Posts {
     protected $add_view_path = 'menus';
     // tham số dùng để đổi file view khi xem danh sách bài viết nếu muốn
     //protected $list_view_path = 'menus';
+    protected $list_table_path = 'menus';
 
     //
     public function __construct() {

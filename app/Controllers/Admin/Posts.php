@@ -27,6 +27,7 @@ class Posts extends Admin {
     protected $add_view_path = 'posts';
     // tham số dùng để đổi file view khi xem danh sách bài viết nếu muốn
     protected $list_view_path = 'posts';
+    protected $list_table_path = '';
     // dùng để chọn xem hiển thị nhóm sản phẩm nào ra ở phần danh mục
     protected $main_category_key = 'post_category';
 
@@ -291,6 +292,8 @@ class Posts extends Admin {
             'post_type' => $this->post_type,
             'name_type' => $this->name_type,
             'post_arr_status' => $this->post_arr_status,
+            //'list_view_path' => $this->list_view_path,
+            'list_table_path' => $this->list_table_path,
         ) );
         //return $this->teamplate_admin[ 'content' ];
         return view( 'admin/admin_teamplate', $this->teamplate_admin );

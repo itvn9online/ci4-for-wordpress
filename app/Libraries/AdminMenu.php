@@ -139,7 +139,12 @@ class AdminMenu {
                 ],
                 'name' => PostType::list( PostType::MENU ),
                 'icon' => 'fa fa-bars',
-                'arr' => []
+                'arr' => [
+                    'admin/htmlmenus' => [
+                        'name' => PostType::list( PostType::HTML_MENU ),
+                        'icon' => 'fa fa-code',
+                    ],
+                ]
             ],
             'admin/users' => [
                 'role' => [

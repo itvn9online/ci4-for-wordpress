@@ -34,7 +34,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
             <?php
 
             //
-            include VIEWS_PATH . 'admin/posts/list_right_button.php';
+            include $admin_root_views . 'posts/list_right_button.php';
 
             ?>
         </div>
@@ -43,7 +43,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
     <?php
 
     //
-    include VIEWS_PATH . 'admin/posts/list_select_all.php';
+    include $admin_root_views . 'posts/list_select_all.php';
 
     ?>
     <table class="table table-bordered table-striped with-check table-list eb-table admin-order-table">
@@ -70,7 +70,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
                     <div><i class="fa fa-phone"></i></div>
                     <div><i class="fa fa-home"></i></div></td>
                 <td width="90" class="text-center"><?php
-                include VIEWS_PATH . 'admin/posts/list_action.php';
+                include $admin_root_views . 'posts/list_action.php';
                 ?></td>
             </tr>
         </tbody>
@@ -92,7 +92,7 @@ WGR_vuejs('#app', {
 <?php
 
 //
-include VIEWS_PATH . 'admin/posts/sync_modal.php';
+include $admin_root_views . 'posts/sync_modal.php';
 
 // css riêng cho từng post type (nếu có)
 $base_model->add_js( 'admin/js/post_list.js' );
