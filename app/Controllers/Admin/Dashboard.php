@@ -542,12 +542,12 @@ class Dashboard extends Optimize {
                     // nếu có thư mục delete -> dừng lại tiến trình
                     $v_deleted = $v . '-deleted';
                     if ( is_dir( $v_deleted ) ) {
-                        die( 'DIR EXIST! ' . $v_deleted . ' --- ' . __CLASS__ . ':' . __LINE__ );
+                        $this->base_model->alert( 'DIR EXIST! ' . $v_deleted . ' --- ' . __CLASS__ . ':' . __LINE__, 'error' );
                     }
 
                     //
                     if ( !$this->MY_rename( $v, $v_deleted ) ) {
-                        die( 'ERROR rename! ' . $v . ' --- ' . __CLASS__ . ':' . __LINE__ );
+                        $this->base_model->alert( 'ERROR rename! ' . $v . ' --- ' . __CLASS__ . ':' . __LINE__, 'error' );
                     }
                 }
 
