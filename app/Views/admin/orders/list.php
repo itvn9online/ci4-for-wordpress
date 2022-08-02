@@ -4,6 +4,7 @@
 use App\ Libraries\ OrderType;
 
 // css riêng cho từng post type (nếu có)
+$base_model->add_css( 'admin/css/posts_list.css' );
 $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 
 ?>
@@ -80,7 +81,6 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 <script>
 WGR_vuejs('#app', {
     controller_slug: '<?php echo $controller_slug; ?>',
-    PostType_MENU: '<?php echo OrderType::MENU; ?>',
     post_type: '<?php echo $post_type; ?>',
     post_status: '<?php echo $post_status; ?>',
     for_action: '<?php echo $for_action; ?>',

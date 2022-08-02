@@ -4,6 +4,7 @@
 use App\ Libraries\ PostType;
 
 // css riêng cho từng post type (nếu có)
+$base_model->add_css( 'admin/css/posts_list.css' );
 $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 
 ?>
@@ -67,7 +68,6 @@ WGR_vuejs('#app', {
     ALLOW_USING_MYSQL_DELETE: ALLOW_USING_MYSQL_DELETE,
     post_type: '<?php echo $post_type; ?>',
     post_status: '<?php echo $post_status; ?>',
-    PostType_MENU: '<?php echo PostType::MENU; ?>',
     taxonomy: '<?php echo $taxonomy; ?>',
     controller_slug: '<?php echo $controller_slug; ?>',
     for_action: '<?php echo $for_action; ?>',

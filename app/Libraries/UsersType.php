@@ -81,6 +81,7 @@ class UsersType {
 
         // biên tập viên -> cho thêm quyền điều khiển thành viên
         if ( $key == self::MOD ) {
+            $arr[] = 'Htmlmenus';
             $arr[] = 'Menus';
             $arr[] = 'Users';
         }
