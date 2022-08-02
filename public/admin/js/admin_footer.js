@@ -64,7 +64,9 @@ console.log(aaaaaaaa);
 
     //
     $('#sidebar ul').html(str);
+    // nếu số lượng menu đủ nhiều
     if (count_menu > 9) {
+        // kích hoạt chế độ menu tinh chỉnh menu dưới chân trang
         $('#sidebar .order-admin-menu').addClass('smart-admin-menu');
     }
 })(arr_admin_menu);
