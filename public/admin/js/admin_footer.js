@@ -11,10 +11,12 @@ console.log(aaaaaaaa);
 (function (arr) {
     var str = '';
     var cl = '';
+    var count_menu = 1;
     for (var x in arr) {
         if (arr[x] === null) {
             continue;
         }
+        count_menu++;
 
         // tạo icon
         if (typeof arr[x].icon == 'undefined' || arr[x].icon == '') {
@@ -62,6 +64,9 @@ console.log(aaaaaaaa);
 
     //
     $('#sidebar ul').html(str);
+    if (count_menu > 9) {
+        $('#sidebar .order-admin-menu').addClass('smart-admin-menu');
+    }
 })(arr_admin_menu);
 
 // khi di chuột vào menu admin -> thêm class để xác định người dùng đang di chuột
