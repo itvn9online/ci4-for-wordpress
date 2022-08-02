@@ -48,6 +48,7 @@ class Layout extends Sync {
         $this->lang_model = new\ App\ Models\ Lang();
         $this->post_model = new\ App\ Models\ Post();
         $this->menu_model = new\ App\ Models\ Menu();
+        $this->htmlmenu_model = new\ App\ Models\ Htmlmenu();
         $this->user_model = new\ App\ Models\ User();
         $this->comment_model = new\ App\ Models\ Comment();
 
@@ -184,6 +185,7 @@ class Layout extends Sync {
             // các model dùng chung thì cho vào header để sau sử dụng luôn
             'base_model' => $this->base_model,
             'menu_model' => $this->menu_model,
+            'htmlmenu_model' => $this->htmlmenu_model,
             'option_model' => $this->option_model,
             'post_model' => $this->post_model,
             'term_model' => $this->term_model,

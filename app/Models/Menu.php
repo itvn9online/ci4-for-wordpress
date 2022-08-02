@@ -8,6 +8,8 @@ use App\ Libraries\ LanguageCost;
 use App\ Libraries\ PostType;
 
 class Menu extends Post {
+    protected $post_type = PostType::MENU;
+
     public function __construct() {
         parent::__construct();
     }
@@ -20,8 +22,8 @@ class Menu extends Post {
         // select dữ liệu từ 1 bảng bất kỳ
         $sql = $this->base_model->select( '*', $this->table, array(
             // các kiểu điều kiện where
-            'post_type' => PostType::MENU,
-            'post_status' => 'publish',
+            'post_type' => $this->post_type,
+            'post_status' => PostType::PUBLICITY,
             'post_name' => $slug,
             'lang_key' => $lang
         ), array(
@@ -43,8 +45,8 @@ class Menu extends Post {
                 $data_insert = [
                     'post_title' => str_replace( '-', ' ', $slug ),
                     'post_name' => $slug,
-                    'post_type' => PostType::MENU,
-                    'post_status' => 'publish',
+                    'post_type' => $this->post_type,
+                    'post_status' => PostType::PUBLICITY,
                     'lang_key' => $lang,
                     'post_content' => '<ul><li>Menu mẫu #' . $slug . '</li></ul>'
                 ];
@@ -54,8 +56,8 @@ class Menu extends Post {
                 if ( $lang != LanguageCost::default_lang() ) {
                     $sql = $this->base_model->select( '*', $this->table, array(
                         // các kiểu điều kiện where
-                        'post_type' => PostType::MENU,
-                        'post_status' => 'publish',
+                        'post_type' => $this->post_type,
+                        'post_status' => PostType::PUBLICITY,
                         'post_name' => $slug,
                         'lang_key' => LanguageCost::default_lang()
                     ), array(
@@ -85,7 +87,7 @@ class Menu extends Post {
                 }
                 //echo $insert_id . '<br>' . "\n";
             } else {
-                die( 'ERROR auto create new menu #' . PostType::MENU . ':' . basename( __FILE__ ) . ':' . __LINE__ );
+                die( 'ERROR auto create new menu #' . $this->post_type . ':' . basename( __FILE__ ) . ':' . __LINE__ );
             }
 
             //
@@ -130,7 +132,7 @@ class Menu extends Post {
         $menu_content = str_replace( 'href="#"', 'href="javascript:;"', $menu_content );
 
         //
-        $str = '<div data-id="' . $data[ 'ID' ] . '" data-type="' . PostType::MENU . '" class="eb-sub-menu ' . $slug . ' ' . $add_class . '">' . $menu_content . '</div>';
+        $str = '<div data-id="' . $data[ 'ID' ] . '" data-type="' . $this->post_type . '" class="eb-sub-menu ' . $slug . ' ' . $add_class . '">' . $menu_content . '</div>';
 
         //
         if ( $in_cache != '' ) {

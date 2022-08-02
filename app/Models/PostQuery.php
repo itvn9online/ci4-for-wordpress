@@ -297,7 +297,7 @@ class PostQuery extends PostMeta {
         //
         $where = [
             'post_type' => $post_type,
-            'post_status' => 'publish',
+            'post_status' => PostType::PUBLICITY,
             'taxonomy' => $post_cat[ 'taxonomy' ],
             //'(term_taxonomy.term_id = ' . $post_cat[ 'term_id' ] . ' OR term_taxonomy.parent = ' . $post_cat[ 'term_id' ] . ')' => NULL,
         ];

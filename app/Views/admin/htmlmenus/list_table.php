@@ -14,7 +14,7 @@
         <tr :data-id="v.ID" v-for="v in data">
             <td width="50" class="text-center"><input type="checkbox" :value="v.ID" class="input-checkbox-control" /></td>
             <td><a :href="v.admin_permalink" class="bold">{{v.post_title}} <i class="fa fa-edit"></i></a></td>
-            <td><input type="text" class="span12" onClick="this.select()" onDblClick="click2Copy(this);" :value="'&lt;?php $menu_model->the_html_menu(\'' + v.post_name + '\'); ?&gt;'" readonly /></td>
+            <td><input type="text" class="span12" onClick="this.select()" onDblClick="click2Copy(this);" :value="'&lt;?php $htmlmenu_model->the_menu(\'' + v.post_name + '\'); ?&gt;'" readonly /></td>
             <td :class="'post_status post_status-' + v.post_status">{{PostType_arrStatus[v.post_status]}}</td>
             <td>{{v.post_date.substr(0, 16)}}</td>
             <td>{{v.post_modified.substr(0, 16)}}</td>
@@ -26,5 +26,5 @@
     </tbody>
 </table>
 <div>
-    <pre><code>&lt;?php $menu_model->the_html_menu( '%slug%' ); ?&gt;</code></pre>
+    <pre><code>&lt;?php $htmlmenu_model->the_menu( '%slug%' ); ?&gt;</code></pre>
 </div>
