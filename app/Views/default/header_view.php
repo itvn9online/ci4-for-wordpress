@@ -9,7 +9,7 @@ else {
     ?>
 <section class="default-bg top-section medium">
     <div class="row row-collapse">
-        <div class="col medium-12 small-12 large-12 text-right">
+        <div class="col small-12 medium-12 large-12 text-right">
             <div class="col-inner">
                 <?php
 

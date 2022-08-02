@@ -1207,6 +1207,14 @@ a.eb-btn {
     float: none;
     width: 100%;
 }
+/* */
+.btn-small {
+    line-height: 1;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    min-height: auto;
+    font-size: 14px;
+}
 /* desktop only */
 @media only screen and (min-width:748px) {}
 /* mobile, table only */

@@ -1,10 +1,10 @@
 <div class="row row-collapse align-middle mobile-menu default-bg mobile-fixed-menu">
-    <div class="col medium-3 small-3 large-3">
+    <div class="col small-3 medium-3 large-3">
         <div class="col-inner text-center">
             <button type="button" class="btn btn-light btn-mobile-menu" data-bs-toggle="modal" data-bs-target="#mobileMenuModal" aria-label="Menu"><i class="fa fa-bars"></i></button>
         </div>
     </div>
-    <div class="col medium-6 small-6 large-6">
+    <div class="col small-6 medium-6 large-6">
         <div class="col-inner">
             <?php
 
@@ -13,7 +13,7 @@
             ?>
         </div>
     </div>
-    <div class="col medium-3 small-3 large-3">
+    <div class="col small-3 medium-3 large-3">
         <div class="col-inner text-center">
             <button type="button" class="btn btn-light btn-mobile-menu" data-bs-toggle="modal" data-bs-target="#searchModal" aria-label="Search"><i class="fa fa-search"></i></button>
         </div>

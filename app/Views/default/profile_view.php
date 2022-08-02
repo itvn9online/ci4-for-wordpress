@@ -8,8 +8,8 @@
             <br>
             <div class="s14 main-profile">
                 <div class="row">
-                    <div class="col medium-4 small-12 large-4">Tài khoản</div>
-                    <div class="col medium-8 small-12 large-8">
+                    <div class="col small-12 medium-4 large-4">Tài khoản</div>
+                    <div class="col small-12 medium-8 large-8">
                         <?php
                         echo $data[ 'user_login' ];
 
@@ -24,12 +24,12 @@
                 </div>
                 <div id="data-user_email">
                     <div class="row change-user_email">
-                        <div class="col medium-4 small-12 large-4">Email</div>
-                        <div class="col medium-8 small-12 large-8"><?php echo $data['user_email']; ?> - <em class="cur bluecolor click-change-email">Thay đổi email <i class="fa fa-edit"></i></em></div>
+                        <div class="col small-12 medium-4 large-4">Email</div>
+                        <div class="col small-12 medium-8 large-8"><?php echo $data['user_email']; ?> - <em class="cur bluecolor click-change-email">Thay đổi email <i class="fa fa-edit"></i></em></div>
                     </div>
                     <div class="row changed-user_email d-none">
-                        <div class="col medium-4 small-12 large-4 l40">Email (bắt buộc)</div>
-                        <div class="col medium-8 small-12 large-8">
+                        <div class="col small-12 medium-4 large-4 l40">Email (bắt buộc)</div>
+                        <div class="col small-12 medium-8 large-8">
                             <div class="form-control">
                                 <input type="email" placeholder="Email" name="data[user_email]" id="data_user_email" value="<?php echo $data['user_email']; ?>" disabled readonly aria-required="true" required>
                             </div>
@@ -38,8 +38,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col medium-4 small-12 large-4 l40">Ảnh đại diện</div>
-                    <div class="col medium-8 small-12 large-8">
+                    <div class="col small-12 medium-4 large-4 l40">Ảnh đại diện</div>
+                    <div class="col small-12 medium-8 large-8">
                         <label for="file-input-cd" id="click-chose-CD"> <img src="images/_blank.png" height="150"
                                                                              <?php
                                                                              if ($data[ 'avatar' ] != '') {
@@ -52,32 +52,32 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col medium-4 small-12 large-4 l40">Họ và tên đệm</div>
-                    <div class="col medium-8 small-12 large-8">
+                    <div class="col small-12 medium-4 large-4 l40">Họ và tên đệm</div>
+                    <div class="col small-12 medium-8 large-8">
                         <div class="form-control">
                             <input type="text" placeholder="Họ và tên đệm" name="data[display_name]" id="data_display_name" value="<?php echo $data['display_name']; ?>" aria-required="true" required>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col medium-4 small-12 large-4 l40">Tên gọi</div>
-                    <div class="col medium-8 small-12 large-8">
+                    <div class="col small-12 medium-4 large-4 l40">Tên gọi</div>
+                    <div class="col small-12 medium-8 large-8">
                         <div class="form-control">
                             <input type="text" placeholder="Tên gọi" name="data[user_nicename]" value="<?php echo $data['user_nicename']; ?>" aria-required="true" required>
                         </div>
                     </div>
                 </div>
                 <div class="row data-user_birthday">
-                    <div class="col medium-4 small-12 large-4 l40">Ngày sinh</div>
-                    <div class="col medium-8 small-12 large-8">
+                    <div class="col small-12 medium-4 large-4 l40">Ngày sinh</div>
+                    <div class="col small-12 medium-8 large-8">
                         <div class="form-control">
                             <input type="date" placeholder="Ngày sinh" name="data[user_birthday]" value="<?php echo $data['user_birthday']; ?>">
                         </div>
                     </div>
                 </div>
                 <div class="row data-user_phone">
-                    <div class="col medium-4 small-12 large-4 l40">Điện thoại liên hệ</div>
-                    <div class="col medium-8 small-12 large-8">
+                    <div class="col small-12 medium-4 large-4 l40">Điện thoại liên hệ</div>
+                    <div class="col small-12 medium-8 large-8">
                         <div class="form-control">
                             <input type="text" placeholder="Điện thoại liên hệ" name="data[user_phone]" value="<?php echo $data['user_phone']; ?>">
                         </div>
@@ -99,8 +99,8 @@
             <br>
             <div class="s14">
                 <div class="row">
-                    <div class="col medium-4 small-12 large-4 l40">Thay đổi mật khẩu</div>
-                    <div class="col medium-8 small-12 large-8">
+                    <div class="col small-12 medium-4 large-4 l40">Thay đổi mật khẩu</div>
+                    <div class="col small-12 medium-8 large-8">
                         <div class="form-control">
                             <input type="text" placeholder="Thay đổi mật khẩu" name="data[ci_pass]" id="data_ci_pass" value="" onfocus="$('.redcolor-if-pass-focus').addClass('redcolor');" onblur="$('.redcolor-if-pass-focus').removeClass('redcolor');" aria-required="true" required autocomplete="off">
                         </div>
@@ -116,16 +116,16 @@
     </div>
     <div>
         <div class="row">
-            <div class="col medium-4 small-12 large-4">Ngày đăng ký</div>
-            <div class="col medium-8 small-12 large-8"><?php echo $data['user_registered']; ?></div>
+            <div class="col small-12 medium-4 large-4">Ngày đăng ký</div>
+            <div class="col small-12 medium-8 large-8"><?php echo $data['user_registered']; ?></div>
         </div>
         <div class="row">
-            <div class="col medium-4 small-12 large-4">Đăng nhập cuối</div>
-            <div class="col medium-8 small-12 large-8"><?php echo $data['last_login']; ?></div>
+            <div class="col small-12 medium-4 large-4">Đăng nhập cuối</div>
+            <div class="col small-12 medium-8 large-8"><?php echo $data['last_login']; ?></div>
         </div>
         <div class="row">
-            <div class="col medium-4 small-12 large-4">Cập nhật cuối</div>
-            <div class="col medium-8 small-12 large-8"><?php echo $data['last_updated']; ?></div>
+            <div class="col small-12 medium-4 large-4">Cập nhật cuối</div>
+            <div class="col small-12 medium-8 large-8"><?php echo $data['last_updated']; ?></div>
         </div>
     </div>
 </div>

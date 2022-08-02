@@ -7,7 +7,7 @@
         include __DIR__ . '/users_mobile_menu.php';
     } else {
         ?>
-    <div class="col medium-3 small-12 large-3 global-profile-menu">
+    <div class="col small-12 medium-3 large-3 global-profile-menu">
         <?php
         // nạp menu tổng
         include __DIR__ . '/users_menu.php';
