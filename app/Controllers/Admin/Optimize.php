@@ -553,11 +553,14 @@ class Optimize extends Admin {
             }
 
             $str .= $v;
+            $str .= "\n";
+            /*
             if ( strpos( $v, '//' ) !== false ) {
                 $str .= "\n";
             } else {
                 $str .= ' ';
             }
+            */
         }
 
         //
@@ -586,7 +589,15 @@ class Optimize extends Admin {
             }
 
             //
-            $str .= $v . "\n";
+            $str .= $v;
+            $str .= "\n";
+            /*
+            if ( strpos( $v, '//' ) !== false ) {
+                $str .= "\n";
+            } else {
+                $str .= ' ';
+            }
+            */
         }
 
         //	return trim( WGR_remove_js_multi_comment( $str ) );
