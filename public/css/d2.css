@@ -406,39 +406,6 @@ a.eb-btn {
     content: "|";
     margin: 0 12px;
 }
-.top-padding-menu, .padding-top-menu, .top-space-menu, .top-menu-space {
-    padding-top: 20px;
-}
-.top-padding-menu40, .padding-top-menu40, .top-space-menu40, .top-menu-space40 {
-    padding-top: 40px;
-}
-.top-padding-menu10, .padding-top-menu10, .top-space-menu10, .top-menu-space10 {
-    padding-top: 10px;
-}
-.right-padding-menu10, .padding-right-menu10, .right-space-menu10, .right-menu-space10 {
-    padding-right: 10px;
-}
-.right-padding-menu, .padding-right-menu, .right-space-menu, .right-menu-space {
-    padding-right: 25px;
-}
-.right-padding-menu40, .padding-right-menu40, .right-space-menu40, .right-menu-space40 {
-    padding-right: 40px;
-}
-.bottom-padding-menu, .padding-bottom-menu, .bottom-space-menu, .bottom-menu-space {
-    padding-bottom: 20px;
-}
-.bottom-padding-menu40, .padding-bottom-menu40, .bottom-space-menu40, .bottom-menu-space40 {
-    padding-bottom: 40px;
-}
-.left-padding-menu10, .padding-left-menu10, .left-space-menu10, .left-menu-space10 {
-    padding-left: 10px;
-}
-.left-padding-menu, .padding-left-menu, .left-space-menu, .left-menu-space {
-    padding-left: 25px;
-}
-.left-padding-menu40, .padding-left-menu40, .left-space-menu40, .left-menu-space40 {
-    padding-left: 40px;
-}
 .table-list {
     background: #fff;
     border-top: 1px #ccc solid;

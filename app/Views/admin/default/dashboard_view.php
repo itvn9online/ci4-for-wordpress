@@ -38,32 +38,39 @@
             <div class="redcolor">Để tối ưu hiệu suất hệ thống! Vui lòng sử dụng phiên bản PHP <strong>7.3</strong> trở lên. Khuyên dùng: PHP <strong>7.4</strong></div>
         </div>
         )</div>
-    <div class="left-menu-space">
+    <div class="left5-padding">
         <div class="row">
-            <div class="col col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                <div class="p">Database: <span v-if="current_dbname != ''"> <strong>******<?php echo substr( $current_dbname, 6 ); ?></strong> </span></div>
+            <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <div class="row">
+                    <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="p">Server software: <strong><?php echo $_SERVER['SERVER_SOFTWARE']; ?></strong></div>
+                    </div>
+                    <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="p">Database: <span v-if="current_dbname != ''"> <strong>******<?php echo substr( $current_dbname, 6 ); ?></strong> </span></div>
+                    </div>
+                    <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="p">Server OS: <strong><?php echo PHP_OS; ?></strong></div>
+                    </div>
+                    <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="p">Client OS: <strong>{{ client_os }}</strong></div>
+                    </div>
+                    <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="p">Server IP: <a href="https://www.iplocation.net/ip-lookup?query=<?php echo $_SERVER['SERVER_ADDR']; ?>" target="_blank" rel="nofollow" class="bold"><?php echo $_SERVER['SERVER_ADDR']; ?></a></div>
+                    </div>
+                    <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="p">Server time: <strong><?php echo date(EBE_DATETIME_FORMAT); ?></strong></div>
+                    </div>
+                </div>
             </div>
-            <div class="col col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                <div class="p">Server software: <strong><?php echo $_SERVER['SERVER_SOFTWARE']; ?></strong></div>
-            </div>
-            <div class="col col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                <div class="p">Client OS: <strong>{{ client_os }}</strong></div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                <div class="p">Server IP: <a href="https://www.iplocation.net/ip-lookup?query=<?php echo $_SERVER['SERVER_ADDR']; ?>" target="_blank" rel="nofollow" class="bold"><?php echo $_SERVER['SERVER_ADDR']; ?></a></div>
-            </div>
-            <div class="col col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                <div class="p">Your IP: <a href="https://www.iplocation.net/ip-lookup?query=<?php echo $request_ip; ?>" target="_blank" rel="nofollow" class="bold greencolor"><?php echo $request_ip; ?></a></div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                <div class="p">Server time: <strong><?php echo date(EBE_DATETIME_FORMAT); ?></strong></div>
-            </div>
-            <div class="col col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                <div class="p">Client time: <strong>{{ datetime(Date_now) }}</strong></div>
+            <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <div class="row">
+                    <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="p">Client IP: <a href="https://www.iplocation.net/ip-lookup?query=<?php echo $request_ip; ?>" target="_blank" rel="nofollow" class="bold greencolor"><?php echo $request_ip; ?></a></div>
+                    </div>
+                    <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="p">Client time: <strong>{{ datetime(Date_now) }}</strong></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -219,6 +226,9 @@
     ?>
 </div>
 <?php
+
+//
+//var_dump( PHP_OS );
 
 //
 $vue_data = [

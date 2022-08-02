@@ -425,12 +425,6 @@ body.body-debug_enable #admin-header, body.body-debug_enable #sidebar {
 .ng-main-content.loaded {
     opacity: 1;
 }
-.left-menu-space {
-    padding-left: 20px;
-}
-.right-menu-space {
-    padding-right: 20px;
-}
 .text-submit-msg {
     position: absolute;
     left: 50%;
