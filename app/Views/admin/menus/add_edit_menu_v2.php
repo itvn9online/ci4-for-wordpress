@@ -110,7 +110,7 @@
                 </form>
                 <!-- ADD menu END -->
                 <!-- EDIT menu -->
-                <form class="hide-if-edit-menu" onSubmit="return get_json_code_menu(this);" id="menu-editor">
+                <form class="hide-if-edit-menu" onSubmit="return get_json_edit_menu(this);" id="menu-editor">
                     <h3>Chỉnh sửa: <span id="currentEditName"></span></h3>
                     <div class="form-group">
                         <label for="addInputName">Tên menu</label>
@@ -119,7 +119,7 @@
                     <div>
                         <div class="form-group">
                             <label for="addInputSlug">Đường dẫn</label>
-                            <input type="text" class="form-control" id="editInputSlug" placeholder="item-slug">
+                            <input type="text" class="form-control" id="editInputSlug" placeholder="Item slug">
                         </div>
                     </div>
                     <div>

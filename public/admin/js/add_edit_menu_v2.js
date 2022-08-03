@@ -115,6 +115,22 @@ function get_json_add_menu(obj) {
     return get_json_code_menu(obj);
 }
 
+function get_json_edit_menu(obj) {
+    try {
+        console.log('Call in: ' + arguments.callee.caller.name.toString());
+    } catch (e) {
+        //
+    }
+
+    //
+    if ($.trim($('#editInputSlug').val() || '') == '') {
+        $('#editInputSlug').val('#');
+    }
+
+    //
+    return get_json_code_menu(obj);
+}
+
 function get_json_code_menu(obj) {
     setTimeout(function () {
         var arr = $('#json-output').val();
