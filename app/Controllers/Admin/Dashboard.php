@@ -774,14 +774,56 @@ class Dashboard extends Optimize {
         }
 
         //
+        $arr_list_thirdparty = $this->get_list_thirdparty( [
+            'public/thirdparty',
+            'vendor',
+            'app/ThirdParty',
+        ] );
+        //print_r( $arr_list_thirdparty );
+
+        //
+        $arr_download_thirdparty = [
+            'https://v2.vuejs.org/v2/guide/installation.html',
+            'https://jquery.com/download/',
+            'https://getbootstrap.com/docs/5.0/getting-started/download/',
+            'https://jqueryui.com/download/',
+            'https://www.tiny.cloud/get-tiny/',
+            'https://github.com/PHPMailer/PHPMailer/releases',
+            'https://icons.getbootstrap.com/',
+            'https://github.com/select2/select2',
+            'https://fontawesome.com/v4/icons/',
+            'https://plugins.jquery.com/datetimepicker/',
+            'https://angularjs.org/',
+        ];
+
+        //
         $this->teamplate_admin[ 'content' ] = view( 'admin/update_view', array(
             // xác định các thư mục deleted code có tồn tại không
             'app_deleted_exist' => $this->check_deleted_exist(),
             // xác định xem thư mục theme cũ có tồn tại không
             //'theme_deleted_exist' => $theme_deleted_exist,
-            'link_download_github' => $this->link_download_github
+            'link_download_github' => $this->link_download_github,
+            'arr_list_thirdparty' => $arr_list_thirdparty,
+            'arr_download_thirdparty' => $arr_download_thirdparty,
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
+    }
+
+    private function get_list_thirdparty( $dirs ) {
+        $arr = [];
+
+        //
+        foreach ( $dirs as $dir ) {
+            foreach ( glob( PUBLIC_HTML_PATH . $dir . '/*.zip' ) as $filename ) {
+                //echo $filename . '<br>' . "\n";
+
+                //
+                $arr[] = $dir . '/' . basename( $filename );
+            }
+        }
+
+        //
+        return $arr;
     }
 
     private function check_deleted_exist( $arr = NULL ) {

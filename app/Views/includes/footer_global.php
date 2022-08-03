@@ -5,8 +5,8 @@
 $base_model->adds_js( [
     'javascript/functions_footer.js',
     // https://getbootstrap.com/docs/4.0/getting-started/contents/
-    //'thirdparty/bootstrap-5.1.3/js/bootstrap.bundle.min.js', // bao gồm cả Popper -> ít dùng -> khi nào dùng thì include vào sau
-    'thirdparty/bootstrap-5.1.3/js/bootstrap.min.js',
+    //'thirdparty/bootstrap-5.0.2/js/bootstrap.bundle.min.js', // bao gồm cả Popper -> ít dùng -> khi nào dùng thì include vào sau
+    'thirdparty/bootstrap-5.0.2/js/bootstrap.min.js',
     'javascript/footer.js',
     'javascript/pagination.js',
     'themes/' . THEMENAME . '/js/d.js'

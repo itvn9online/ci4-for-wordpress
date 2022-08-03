@@ -102,6 +102,32 @@ if ( $app_deleted_exist === true ) {
         </div>
     </form>
 </div>
+<br>
+<br>
+<br>
+<h3>Phần mềm bên thứ 3</h3>
+<p class="medium bluecolor">Nhằm mục đích giúp cho code không được quá lỗi thời, có thể ảnh hưởng tới các vấn đề về bảo mật, thi thoảng hãy kiểm tra và cập nhật phần mềm bên thứ 3.</p>
+<h4>Danh sách phần mềm bên thứ 3 đang được sử dụng trong website này:</h4>
+<ol>
+    <?php
+    foreach ( $arr_list_thirdparty as $v ) {
+        ?>
+    <li><?php echo $v; ?></li>
+    <?php
+    }
+    ?>
+</ol>
+<h4>Liên kết để kiểm tra và download phiên bản mới (nếu có):</h4>
+<p class="medium orgcolor">* Các phần mềm có độ ưu tiên cập nhật giảm dần, càng xuống dưới thì mức độ cần để ý càng giảm. Một số phần mềm không có trong danh sách thường do phần mềm đó đã dừng phát triển quá lâu và coder chưa có thời gian để tìm ra phần mềm thay thế.</p>
+<ol>
+    <?php
+    foreach ( $arr_download_thirdparty as $v ) {
+        ?>
+    <li><a href="<?php echo $v; ?>" target="_blank" rel="nofollow"><?php echo $v; ?></a></li>
+    <?php
+    }
+    ?>
+</ol>
 <!-- --> 
 <script>
 var themeName = '<?php echo THEMENAME; ?>'
