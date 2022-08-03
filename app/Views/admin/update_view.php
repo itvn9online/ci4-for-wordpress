@@ -77,7 +77,7 @@ if ( $app_deleted_exist === true ) {
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <a href="admin/dashboard/cleanup_code" class="d-inline" target="target_eb_iframe">
-                <button type="button" class="btn btn-primary"><i class="fa fa-undo"></i> Confirm</button>
+                <button type="button" class="btn btn-primary"><i class="fa fa-magic"></i> Confirm</button>
                 </a> </div>
         </div>
     </div>
