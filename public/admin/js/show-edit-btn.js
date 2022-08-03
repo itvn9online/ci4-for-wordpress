@@ -5,8 +5,11 @@ $(document).ready(function () {
     });
 
     // chỉnh controller trước khi tạo link
-    $('.eb-sub-menu').attr({
+    $('.eb-sub-menu[data-type="nav_menu"]').attr({
         'data-control': 'menus'
+    });
+    $('.eb-sub-menu[data-type="html_menu"]').attr({
+        'data-control': 'htmlmenus'
     });
 
     //
