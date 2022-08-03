@@ -10,10 +10,10 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 include $admin_root_views . 'posts/add_breadcrumb.php';
 
 ?>
-<p class="medium blackcolor"><span class="redcolor">*</span> Chức năng tạo menu bằng công cụ hỗ trợ riêng. Công cụ này sẽ khởi tạo mã HTML thông qua kéo thả.</p>
-<div class="widget-box ng-main-content" ng-app="myApp" ng-controller="myCtrl">
+<p class="medium blackcolor"><span class="redcolor">*</span> Chức năng tạo menu bằng trình soạn thảo HTML. Nội dung trong khung soạn thảo sẽ được in trực tiếp ra HTML mà không cần qua công cụ hỗ trợ biên soạn.</p>
+<div class="widget-box ng-main-content" id="myApp">
     <div class="widget-content nopadding">
-        <form action="" method="post" name="admin_global_form" id="admin_global_form" onSubmit="return action_before_submit_post();" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
+        <form action="" method="post" name="admin_global_form" id="admin_global_form" onSubmit="return action_before_submit_html_menu();" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
             <div class="control-group">
                 <label class="control-label">Ngôn ngữ</label>
                 <div class="controls">
@@ -36,14 +36,14 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
             <div class="control-group">
                 <label class="control-label">PHP Code:</label>
                 <div class="controls">
-                    <input type="text" class="span6" onClick="this.select()" onDblClick="click2Copy(this);" value="&lt;?php $menu_model->the_menu( '<?php echo $data['post_name']; ?>' ); ?&gt;" readonly />
+                    <input type="text" class="span6" onClick="this.select()" onDblClick="click2Copy(this);" value="&lt;?php $htmlmenu_model->the_menu( '<?php echo $data['post_name']; ?>' ); ?&gt;" readonly />
                 </div>
             </div>
             <?php
             }
 
             ?>
-            <div class="control-group hide-if-edit-menu">
+            <div class="control-group">
                 <label class="control-label">Nội dung</label>
                 <div class="controls" style="width:80%;">
                     <textarea id="Resolution" rows="30" data-height="550" class="ckeditor auto-ckeditor" placeholder="Nhập thông tin chi tiết..." name="data[post_content]"><?php echo $data['post_content']; ?></textarea>
@@ -53,7 +53,7 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
                 <label class="control-label">Trạng thái</label>
                 <div class="controls">
                     <select data-select="<?php echo $data['post_status']; ?>" name="data[post_status]" class="span5">
-                        <option ng-repeat="(k, v) in post_status" value="{{k}}">{{v}}</option>
+                        <option :value="k" v-for="(v, k) in post_status">{{v}}</option>
                     </select>
                 </div>
             </div>
@@ -91,7 +91,7 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
             //
             if ( $input_type == 'checkbox' ) {
                 ?>
-            <div class="control-group hide-if-edit-menu post_meta_<?php echo $k; ?>">
+            <div class="control-group post_meta_<?php echo $k; ?>">
                 <div class="controls controls-checkbox">
                     <label for="post_meta_<?php echo $k; ?>">
                         <input type="checkbox" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" value="on" data-value="<?php $post_model->echo_meta_post($data, $k); ?>" />
@@ -111,7 +111,7 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
             } // END if checkbox
 
             ?>
-            <div class="control-group hide-if-edit-menu post_meta_<?php echo $k; ?>">
+            <div class="control-group post_meta_<?php echo $k; ?>">
                 <label for="post_meta_<?php echo $k; ?>" class="control-label"><?php echo $v; ?></label>
                 <div class="controls">
                     <?php
@@ -167,13 +167,6 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
             ?>
         </form>
     </div>
-    <?php
-
-    //
-    //require __DIR__ . '/add_edit_menu.php';
-    require __DIR__ . '/add_edit_menu_v2.php';
-
-    ?>
 </div>
 <script>
 var current_post_type='<?php echo $post_type; ?>';
@@ -183,12 +176,8 @@ var url_next_post='<?php echo $url_next_post; ?>';
 //var post_tags = '<?php echo $post_tags; ?>';
 
 // do phần menu chưa xử lý được bằng vue-js nên vẫn phải dùng angular
-angular.module('myApp', []).controller('myCtrl', function ($scope) {
-    $scope.post_status = <?php echo json_encode($post_arr_status); ?>;
-    $scope.quick_menu_list = <?php echo json_encode($quick_menu_list); ?>;
-    angular.element(document).ready(function () {
-        $('.ng-main-content').addClass('loaded');
-    });
+WGR_vuejs('#myApp', {
+    post_status: <?php echo json_encode($post_arr_status); ?>,
 });
 </script>
 <?php

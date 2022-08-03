@@ -11,7 +11,7 @@ class Htmlmenus extends Posts {
     // tham số dùng để thay đổi URL cho controller nếu muốn
     protected $controller_slug = 'htmlmenus';
     // tham số dùng để đổi file view khi add hoặc edit bài viết nếu muốn
-    //protected $add_view_path = 'menus';
+    protected $add_view_path = 'htmlmenus';
     // tham số dùng để đổi file view khi xem danh sách bài viết nếu muốn
     //protected $list_view_path = 'menus';
     protected $list_table_path = 'htmlmenus';

@@ -541,7 +541,7 @@ class Posts extends Admin {
         //
         if ( isset( $data[ 'post_title' ] ) ) {
             // bổ sung thêm xóa cache với menu
-            if ( $this->post_type == PostType::MENU ) {
+            if ( $this->post_type == PostType::MENU || $this->post_type == PostType::HTML_MENU ) {
                 $post_name = $this->base_model->_eb_non_mark_seo( $data[ 'post_title' ] );
                 //echo $post_name . '<br>' . "\n";
                 $this->cleanup_cache( 'get_the_menu-' . $post_name );
