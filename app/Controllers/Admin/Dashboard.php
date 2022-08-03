@@ -783,16 +783,17 @@ class Dashboard extends Optimize {
 
         //
         $arr_download_thirdparty = [
+            //'https://github.com/vuejs/vue/releases',
             'https://v2.vuejs.org/v2/guide/installation.html',
+            'https://github.com/PHPMailer/PHPMailer/releases',
             'https://jquery.com/download/',
             'https://getbootstrap.com/docs/5.0/getting-started/download/',
-            'https://jqueryui.com/download/',
-            'https://www.tiny.cloud/get-tiny/',
-            'https://github.com/PHPMailer/PHPMailer/releases',
             'https://icons.getbootstrap.com/',
-            'https://github.com/select2/select2',
+            'https://www.tiny.cloud/get-tiny/',
             'https://fontawesome.com/v4/icons/',
             'https://plugins.jquery.com/datetimepicker/',
+            'https://github.com/select2/select2',
+            'https://jqueryui.com/download/',
             'https://angularjs.org/',
         ];
 
