@@ -119,6 +119,14 @@ class Configs extends Admin {
                 //
                 $data[ 'logo_width_img' ] = $logo_data[ 0 ];
                 $data[ 'logo_height_img' ] = $logo_data[ 1 ];
+
+                //
+                if ( !isset( $data[ 'logo_main_height' ] ) || empty( $data[ 'logo_main_height' ] ) ) {
+                    $data[ 'logo_main_height' ] = $data[ 'logo_height_img' ];
+                    echo '<script>top.set_configs_value("#data_logo_main_height", ' . $data[ 'logo_main_height' ] . ');</script>';
+                }
+                echo '<script>top.set_configs_value("#data_logo_width_img", ' . $data[ 'logo_width_img' ] . ');</script>';
+                echo '<script>top.set_configs_value("#data_logo_height_img", ' . $data[ 'logo_height_img' ] . ');</script>';
             }
             $arr_meta_key[] = 'logo_width_img';
             $arr_meta_key[] = 'logo_height_img';
