@@ -365,7 +365,7 @@ body.ebfixed-down-menu.sidebar-hover.sidebar-height #sidebar, body.ebfixed-down-
     top: -800px;
     left: -999px;
 }
-body.body-debug_enable #target_eb_iframe, #target_eb_iframe.show-target-echbay {
+body.body-debug_enable #target_eb_iframe, #target_eb_iframe.show-target-eb {
     position: inherit;
     position: unset;
     top: auto;

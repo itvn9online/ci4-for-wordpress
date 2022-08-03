@@ -477,7 +477,7 @@ class PostQuery extends PostMeta {
             $instance[ 'custom_cat_link' ] = 'javascript:;';
         }
         if ( $instance[ 'widget_description' ] != '' ) {
-            $instance[ 'widget_description' ] = '<div class="echbay-widget-blogs-desc">' . nl2br( $instance[ 'widget_description' ] ) . '</div>';
+            $instance[ 'widget_description' ] = '<div class="eb-widget-blogs-desc">' . nl2br( $instance[ 'widget_description' ] ) . '</div>';
         }
         if ( $instance[ 'dynamic_tag' ] == '' ) {
             $instance[ 'dynamic_tag' ] = 'div';
@@ -599,7 +599,7 @@ class PostQuery extends PostMeta {
         //$post_cloumn = '';
 
         // thay thế HTML cho khối term
-        $tmp_html = $this->base_model->parent_html_tmp( 'widget_echbay_blog' );
+        $tmp_html = $this->base_model->parent_html_tmp( 'widget_eb_blog' );
         // ưu tiên các giá trị trong instance
         $tmp_html = HtmlTemplate::render( $tmp_html, $instance );
         // sau đó mới đến custom
@@ -607,7 +607,7 @@ class PostQuery extends PostMeta {
             'content' => $html,
             'cf_blog_size' => '{{custom_size}}',
             'blog_link_option' => $blog_link_option,
-            'widget_title' => $instance[ 'hide_widget_title' ] == 'on' ? '' : '<{{dynamic_tag}} data-type="' . $post_cat[ 'taxonomy' ] . '" data-id="' . $post_cat[ 'term_id' ] . '" class="echbay-widget-title"><a href="{{custom_cat_link}}">' . $post_cat[ 'name' ] . '</a></{{dynamic_tag}}> {{widget_description}}',
+            'widget_title' => $instance[ 'hide_widget_title' ] == 'on' ? '' : '<{{dynamic_tag}} data-type="' . $post_cat[ 'taxonomy' ] . '" data-id="' . $post_cat[ 'term_id' ] . '" class="eb-widget-title"><a href="{{custom_cat_link}}">' . $post_cat[ 'name' ] . '</a></{{dynamic_tag}}> {{widget_description}}',
             /*
             'max_width' => $max_width,
             'num_line' => $num_line,

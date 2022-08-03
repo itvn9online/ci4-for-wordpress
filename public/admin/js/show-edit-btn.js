@@ -40,7 +40,7 @@ $(document).ready(function () {
     });
 
     // term
-    $('.global-taxonomy-title, .echbay-widget-title, .custom-bootstrap-taxonomy').each(function () {
+    $('.global-taxonomy-title, .eb-widget-title, .custom-bootstrap-taxonomy').each(function () {
         var jd = $(this).attr('data-id') || '';
         //console.log(jd);
         var type = $(this).attr('data-type') || '';

@@ -242,7 +242,7 @@ function click_set_img_for_input(img_id) {
             }
             // mặc định thì trả về ảnh
             else {
-                return_html = '<img src="' + data_src + '"' + img_attr.join(' ') + ' class="echbay-push-img" />';
+                return_html = '<img src="' + data_src + '"' + img_attr.join(' ') + ' class="eb-push-img" />';
             }
             top.tinymce.get(insert_to).insertContent(return_html);
         } else {
