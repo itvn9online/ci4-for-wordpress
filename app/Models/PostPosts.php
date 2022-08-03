@@ -241,15 +241,15 @@ class PostPosts extends PostSlider {
     // trả về dữ liệu cho phần post category
     public function post_category( $post_type, $data, $ops = [] ) {
         $where = [
-            'posts.post_type' => $post_type,
-            'posts.post_status' => PostType::PUBLICITY,
-            'posts.lang_key' => LanguageCost::lang_key()
+            $this->table . '.post_type' => $post_type,
+            $this->table . '.post_status' => PostType::PUBLICITY,
+            $this->table . '.lang_key' => LanguageCost::lang_key()
         ];
 
         //
         $filter = [
             'join' => [
-                'term_relationships' => 'term_relationships.object_id = posts.ID',
+                'term_relationships' => 'term_relationships.object_id = ' . $this->table . '.ID',
                 'term_taxonomy' => 'term_relationships.term_taxonomy_id = term_taxonomy.term_taxonomy_id',
             ],
             // hiển thị mã SQL để check
@@ -257,7 +257,7 @@ class PostPosts extends PostSlider {
             // trả về câu query để sử dụng cho mục đích khác
             //'get_query' => 1,
             'group_by' => array(
-                'posts.ID',
+                $this->table . '.ID',
             ),
             //'offset' => $offset,
             //'limit' => $post_per_page
@@ -287,9 +287,9 @@ class PostPosts extends PostSlider {
 
         //
         $filter[ 'order_by' ] = [
-            //'posts.post_modified' => 'DESC',
-            'posts.menu_order' => 'DESC',
-            'posts.ID' => 'DESC',
+            //$this->table . '.post_modified' => 'DESC',
+            $this->table . '.menu_order' => 'DESC',
+            $this->table . '.ID' => 'DESC',
         ];
 
         //
