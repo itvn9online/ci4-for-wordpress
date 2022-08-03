@@ -49,6 +49,12 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
                     <textarea id="Resolution" rows="30" data-height="550" class="ckeditor auto-ckeditor" placeholder="Nhập thông tin chi tiết..." name="data[post_content]"><?php echo $data['post_content']; ?></textarea>
                 </div>
             </div>
+            <div class="control-group hide-if-edit-menu">
+                <label class="control-label">Mô tả</label>
+                <div class="controls" style="width:80%;">
+                    <textarea placeholder="Tóm tắt" name="data[post_excerpt]" id="data_post_excerpt" class="span30 fix-textarea-height"><?php echo $data['post_excerpt']; ?></textarea>
+                </div>
+            </div>
             <div class="control-group">
                 <label class="control-label">Trạng thái</label>
                 <div class="controls">

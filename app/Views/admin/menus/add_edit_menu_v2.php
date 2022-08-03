@@ -101,7 +101,7 @@
                     <div>
                         <div class="form-group">
                             <label for="addInputSlug">Đường dẫn</label>
-                            <input type="text" class="form-control" id="addInputSlug" placeholder="item-slug" required>
+                            <input type="text" class="form-control" id="addInputSlug" placeholder="Item slug">
                         </div>
                     </div>
                     <div>
