@@ -588,6 +588,18 @@ span.taxonomy-count:after {
 .left40-padding, .left-padding-menu40, .padding-left-menu40, .left-space-menu40, .left-menu-space40 {
     padding-left: 40px;
 }
+/* */ ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    font-style: italic;
+    font-size: 90%;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    font-style: italic;
+    font-size: 90%;
+}
+::-ms-input-placeholder { /* Microsoft Edge */
+    font-style: italic;
+    font-size: 90%;
+}
 /* desktop only */
 @media only screen and (min-width:748px) {}
 /* mobile, table only */
