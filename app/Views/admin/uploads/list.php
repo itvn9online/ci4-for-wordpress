@@ -22,7 +22,7 @@ body {
     padding-top: 0;
     padding-left: 0;
 }
-#admin-header, #sidebar, #content-header, .admin-copyright, .hide-if-quick-edit, #target_eb_iframe {
+#admin-header, #adminmenumain, #sidebar, #content-header, .admin-copyright, .hide-if-quick-edit, #target_eb_iframe {
     display: none !important;
 }
 /*

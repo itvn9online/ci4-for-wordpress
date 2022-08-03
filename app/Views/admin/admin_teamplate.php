@@ -127,7 +127,7 @@ if ( $debug_enable === true ) {
 <script src="./thirdparty/validate/jquery.validate.min.js"></script> 
 <script src="./thirdparty/validate/localization/messages_vi.js"></script> 
 <!-- <script src="ckeditor/ckeditor.js"></script> --> 
-<script src="./thirdparty/tinymce-6.1.2/tinymce.min.js"></script> 
+<script src="./thirdparty/tinymce-4.9.11/tinymce.min.js"></script> 
 <!-- <script src="https://cdn.ckeditor.com/ckeditor5/28.0.0/classic/ckeditor.js"></script> --> 
 <!-- <script src="ckfinder/ckfinder.js"></script> --> 
 <script src="./thirdparty/jquery-3.6.0/jquery-ui.min.js"></script>
