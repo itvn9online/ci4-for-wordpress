@@ -198,9 +198,15 @@ echo $getconfig->html_header;
 
 
 // nạp header riêng của từng theme (tương tự function get_header bên wordpress)
-$theme_default_view = VIEWS_PATH . 'default/get_header.php';
+$theme_private_view = VIEWS_CUSTOM_PATH . 'get_header.php';
 // nạp file kiểm tra private view
-include VIEWS_PATH . 'private_view.php';
+//echo $theme_private_view;
+if ( file_exists( $theme_private_view ) ) {
+    if ( $debug_enable === true )echo '<div class="wgr-view-path bold">' . str_replace( PUBLIC_HTML_PATH, '', $theme_private_view ) . '</div>';
+
+    //
+    include $theme_private_view;
+}
 
 
 // nếu có ID google analytics thì nạp nó
