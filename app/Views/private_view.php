@@ -21,7 +21,7 @@ if ( file_exists( $theme_private_view ) ) {
 }
 // không có thì nạp view mặc định
 else {
-    //if ( $debug_enable === true )echo '<div class="wgr-view-path">' . str_replace( PUBLIC_HTML_PATH, '', $theme_default_view ) . '</div>';
+    if ( $debug_enable === true )echo '<div class="wgr-view-path">' . str_replace( PUBLIC_HTML_PATH, '', $theme_default_view ) . '</div>';
 
     //
     include $theme_default_view;
