@@ -8,7 +8,9 @@
 
 // -> private view
 $theme_private_view = str_replace( VIEWS_PATH, VIEWS_CUSTOM_PATH, $theme_default_view );
-if ( $debug_enable === true )echo $theme_default_view . '<br>' . "\n" . $theme_private_view . '<br>' . "\n";
+
+//
+if ( $debug_enable === true )echo str_replace( PUBLIC_HTML_PATH, '', $theme_default_view ) . '<br>' . "\n" . str_replace( PUBLIC_HTML_PATH, '', $theme_private_view ) . '<br>' . "\n";
 
 //
 if ( file_exists( $theme_private_view ) ) {
