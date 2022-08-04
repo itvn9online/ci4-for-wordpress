@@ -266,10 +266,9 @@ class Base extends Csdl {
             // nếu không có -> dùng trong theme mặc định
             if ( !file_exists( $f ) ) {
                 $f = VIEWS_PATH . $sub_path . $file_name . $file_type;
-            } else {
-                // return ở đây mục đích là để tiết kiệm 1 pha if else phía sau =))
-                return file_get_contents( $f, 1 );
             }
+            // file mặc định bắt buộc phải có -> return ở đây mục đích là để tiết kiệm 1 pha if else phía sau =))
+            return file_get_contents( $f, 1 );
         }
         if ( !file_exists( $f ) ) {
             return 'File HTML tmp not exist #' . $file_name . $file_type;
