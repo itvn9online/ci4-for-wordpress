@@ -14,7 +14,7 @@ $theme_private_view = str_replace( VIEWS_PATH, VIEWS_CUSTOM_PATH, $theme_default
 
 //
 if ( file_exists( $theme_private_view ) ) {
-    if ( $debug_enable === true )echo str_replace( PUBLIC_HTML_PATH, '', $theme_private_view ) . '<br>' . "\n";
+    if ( $debug_enable === true )echo '<strong>' . str_replace( PUBLIC_HTML_PATH, '', $theme_private_view ) . '</strong><br>' . "\n";
 
     //
     include $theme_private_view;
