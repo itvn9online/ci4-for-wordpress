@@ -18,9 +18,11 @@ define( 'PUBLIC_HTML_PATH', ROOTPATH );
 define( 'PUBLIC_PUBLIC_PATH', PUBLIC_HTML_PATH . 'public/' );
 //die( PUBLIC_PUBLIC_PATH );
 
-//
+// view mặc định của framework
 define( 'VIEWS_PATH', APPPATH . 'Views/' );
-define( 'VIEWS_CUSTOM_PATH', VIEWS_PATH . 'custom/' );
+// view riêng của từng theme nếu có thì view này sẽ được ưu tiên sử dụng
+define( 'VIEWS_CUSTOM_PATH', ROOTPATH . 'custom/Views/' );
+//die( VIEWS_CUSTOM_PATH );
 
 
 /*

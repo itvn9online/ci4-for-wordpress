@@ -5,19 +5,10 @@ $post_model->the_slider( $data, $taxonomy_slider, $lang_model->get_the_text( 'ma
 
 // nạp view riêng của từng theme nếu có
 $theme_default_view = VIEWS_PATH . 'default/' . basename( __FILE__ );
-$theme_private_view = str_replace( VIEWS_PATH, VIEWS_CUSTOM_PATH, $theme_default_view );
+// nạp file kiểm tra private view
+include VIEWS_PATH . 'private_view.php';
 
 //
-if ( file_exists( $theme_private_view ) ) {
-    //echo $theme_private_view . '<br>' . "\n";
-    include $theme_private_view;
-}
-// không có thì nạp view mặc định
-else {
-    //echo $theme_default_view . '<br>' . "\n";
-    include $theme_default_view;
-}
-
 $base_model->add_js( 'themes/' . THEMENAME . '/js/post.js', [
     'cdn' => CDN_BASE_URL,
 ], [

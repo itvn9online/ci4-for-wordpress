@@ -6,10 +6,10 @@ $base_model->add_js( 'javascript/maruti-login.js' );
 
 //
 $theme_private_view = str_replace( VIEWS_PATH, VIEWS_CUSTOM_PATH, __FILE__ );
+//echo $theme_private_view . '<br>' . "\n";
 
 //
 if ( file_exists( $theme_private_view ) ) {
-    //echo $theme_private_view . '<br>' . "\n";
     include $theme_private_view;
 }
 // không có thì nạp view mặc định
