@@ -105,7 +105,6 @@ class Optimize extends Admin {
     }
 
     private function optimize_action_views( $path, $check_active = true ) {
-        $path = $path . rtrim( $dir, '/' );
         //echo $path . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
         if ( $this->check_active_optimize( $path . '/' ) !== true ) {
             if ( $check_active === true ) {

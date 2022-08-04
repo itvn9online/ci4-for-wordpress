@@ -2,12 +2,13 @@
 /*
  * file này được include vào từng view sau đó nó sẽ kiểm tra có view riêng của từng theme không
  */
+//var_dump( $debug_enable );
+
 // default view -> được truyền vào từ parent include
-echo $theme_default_view . '<br>' . "\n";
 
 // -> private view
 $theme_private_view = str_replace( VIEWS_PATH, VIEWS_CUSTOM_PATH, $theme_default_view );
-echo $theme_private_view . '<br>' . "\n";
+if ( $debug_enable === true )echo $theme_default_view . '<br>' . "\n" . $theme_private_view . '<br>' . "\n";
 
 //
 if ( file_exists( $theme_private_view ) ) {

@@ -1,3 +1,12 @@
+<?php
+
+//
+$Vue_version = '{{Vue.version}}';
+if ( $debug_enable === true ) {
+    $Vue_version = 'Development Version';
+}
+
+?>
 <div id="app" class="s14 ng-main-content">
     <div v-if="robots_exist > 1">
         <p class="redcolor medium18 text-center"><i class="fa fa-warning"></i> Vui lòng kiểm tra lại độ chuẩn xác của <a href="admin/configs?support_tab=data_robots" target="_blank"><strong class="bluecolor">file robots.txt <i class="fa fa-edit"></i></strong></a></p>
@@ -58,7 +67,7 @@
                         <div class="p">Server software: <strong><?php echo $_SERVER['SERVER_SOFTWARE']; ?></strong></div>
                     </div>
                     <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                        <div class="p">VueJS version: <a href="https://v2.vuejs.org/v2/guide/installation.html" target="_blank" rel="nofollow" class="bold bluecolor">{{Vue.version}}</a></div>
+                        <div class="p">VueJS version: <a href="https://v2.vuejs.org/v2/guide/installation.html" target="_blank" rel="nofollow" class="bold bluecolor"> <?php echo $Vue_version; ?> </a></div>
                     </div>
                 </div>
             </div>
@@ -262,4 +271,11 @@ var vue_data = <?php echo json_encode($vue_data); ?>;
 
 //
 $base_model->add_js( 'admin/js/dashboard.js' );
+
+
+
+
+
+
+
 
