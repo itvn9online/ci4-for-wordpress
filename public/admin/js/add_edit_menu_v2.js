@@ -108,7 +108,8 @@ function get_json_add_menu(obj) {
 
     //
     if ($.trim($('#addInputSlug').val() || '') == '') {
-        $('#addInputSlug').val('#');
+        $('#addInputSlug').val('#').trigger('change');
+        return false;
     }
 
     //
@@ -124,7 +125,8 @@ function get_json_edit_menu(obj) {
 
     //
     if ($.trim($('#editInputSlug').val() || '') == '') {
-        $('#editInputSlug').val('#');
+        $('#editInputSlug').val('#').trigger('change');
+        return false;
     }
 
     //

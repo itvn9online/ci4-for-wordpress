@@ -792,6 +792,7 @@ class Dashboard extends Optimize {
             'https://www.tiny.cloud/get-tiny/',
             'https://fontawesome.com/v4/icons/',
             'https://plugins.jquery.com/datetimepicker/',
+            'https://github.com/itvn9online/Nestable',
             'https://github.com/select2/select2',
             'https://jqueryui.com/download/',
             'https://angularjs.org/',
