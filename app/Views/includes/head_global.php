@@ -197,8 +197,10 @@ var WGR_config=<?php echo json_encode($WGR_config); ?>;
 echo $getconfig->html_header;
 
 
-// nạp footer riêng của từng theme (tương tự function get_footer bên wordpress)
-include VIEWS_PATH . 'default/get_header.php';
+// nạp header riêng của từng theme (tương tự function get_header bên wordpress)
+$theme_default_view = VIEWS_PATH . 'default/get_header.php';
+// nạp file kiểm tra private view
+include VIEWS_PATH . 'private_view.php';
 
 
 // nếu có ID google analytics thì nạp nó

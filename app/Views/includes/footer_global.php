@@ -33,7 +33,9 @@ if ( $current_user_id > 0 && isset( $session_data[ 'userLevel' ] ) && $session_d
 
 
 // nạp footer riêng của từng theme (tương tự function get_footer bên wordpress)
-include VIEWS_PATH . 'default/get_footer.php';
+$theme_default_view = VIEWS_PATH . 'default/get_footer.php';
+// nạp file kiểm tra private view
+include VIEWS_PATH . 'private_view.php';
 
 
 ?>

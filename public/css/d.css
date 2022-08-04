@@ -605,7 +605,7 @@ span.taxonomy-count:after {
     display: none;
     background-color: #FDC894;
     color: #434343;
-    padding: 3px 2px;
+    padding: 0 2px;
     font-size: 11px;
     border-top: 1px #f2f2f2 solid;
 }
