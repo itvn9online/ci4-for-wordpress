@@ -15,17 +15,6 @@ global $arr_custom_taxonomy;
 //print_r( $arr_custom_taxonomy );
 
 
-/*
- * nạp thêm file custom dành cho admin (nếu có)
- */
-//echo THEMEPATH . '<br>' . "\n";
-/*
-if ( file_exists( THEMEPATH . 'custom/admin/autoload.php' ) ) {
-    include_once THEMEPATH . 'custom/admin/autoload.php';
-}
-*/
-
-
 // TEST
 //$session_data[ 'member_type' ] = UsersType::MOD;
 //$session_data[ 'member_type' ] = UsersType::AUTHOR;
