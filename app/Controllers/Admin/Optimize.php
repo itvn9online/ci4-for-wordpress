@@ -100,10 +100,11 @@ class Optimize extends Admin {
         }
 
         // optimize phần view -> optimize HTML
-        $this->optimize_action_views( APPPATH );
+        $this->optimize_action_views( VIEWS_PATH );
+        $this->optimize_action_views( VIEWS_CUSTOM_PATH );
     }
 
-    private function optimize_action_views( $path, $dir = 'Views', $check_active = true ) {
+    private function optimize_action_views( $path, $check_active = true ) {
         $path = $path . rtrim( $dir, '/' );
         //echo $path . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
         if ( $this->check_active_optimize( $path . '/' ) !== true ) {
@@ -138,7 +139,7 @@ class Optimize extends Admin {
         // optimize các thư mục con
         foreach ( glob( $path . '/*' ) as $filename ) {
             if ( is_dir( $filename ) ) {
-                $this->optimize_action_views( $filename, '', false );
+                $this->optimize_action_views( $filename, false );
             }
         }
     }
