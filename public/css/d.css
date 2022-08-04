@@ -456,9 +456,6 @@ body.home .thread-details-tohome {
 .upper {
     text-transform: uppercase;
 }
-#toolbarContainer {
-    display: none !important;
-}
 .show-if-javascript, .home-count-subcat, .blog-count-subcat, .display_none, .d-none, .dnone, .custom-width-global-sidebar {
     display: none;
 }
@@ -599,6 +596,18 @@ span.taxonomy-count:after {
 ::-ms-input-placeholder { /* Microsoft Edge */
     font-style: italic;
     font-size: 90%;
+}
+/* */
+#toolbarContainer {
+    display: none !important;
+}
+.wgr-view-path {
+    display: none;
+    background-color: #FDC894;
+    color: #434343;
+    padding: 3px 2px;
+    font-size: 11px;
+    border-top: 1px #f2f2f2 solid;
 }
 /* desktop only */
 @media only screen and (min-width:748px) {}
