@@ -50,6 +50,6 @@ class Order extends Post {
         $where[ 'post_type' ] = $this->post_type;
 
         //
-        return $this->base_model->update_multiple( $data, $where, $filter );
+        return $this->base_model->update_multiple( $this->table, $data, $where, $filter );
     }
 }
