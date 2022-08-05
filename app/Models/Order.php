@@ -26,7 +26,7 @@ class Order extends Post {
         // tự động tạo mã đơn hàng nếu chưa có
         if ( !isset( $data_insert[ 'post_name' ] ) || $data_insert[ 'post_name' ] == '' ) {
             if ( isset( $data_insert[ 'post_author' ] ) && $data_insert[ 'post_author' ] > 0 ) {
-                $data_insert[ 'post_name' ] = $data_insert[ 'post_author' ] . '-' . date( 'YmdHi' );
+                $data_insert[ 'post_name' ] = $data_insert[ 'post_author' ] . 'EB' . date( 'ymdHi' );
             }
         }
 
