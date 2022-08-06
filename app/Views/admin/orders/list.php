@@ -51,7 +51,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
         <thead>
             <tr>
                 <th><input type="checkbox" class="input-checkbox-all" /></th>
-                <th>ID/ Mã hóa đơn/ Ngày gửi</th>
+                <th>ID/ Mã hóa đơn/ Ngày cập nhật</th>
                 <th>Trạng thái</th>
                 <th>Tiêu đề <?php echo $name_type; ?></th>
                 <th>Thành viên/ Điện thoại/ Địa chỉ</th>

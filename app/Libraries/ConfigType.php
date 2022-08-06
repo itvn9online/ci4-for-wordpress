@@ -392,7 +392,8 @@ class ConfigType {
 
             'min_product_price' => 'Số tiền tối thiểu mà khách phải thanh toán cho mỗi đơn hàng.',
             'bank_card_name' => 'Lưu ý: viết HOA không dấu',
-            'autobank_token' => 'Tham số dùng để tăng độ bảo mật cho Webhook tự động xác thực quá trình thanh toán.',
+            'autobank_token' => 'Tham số dùng để tăng độ bảo mật cho WebHook tự động xác thực quá trình thanh toán.',
+            'bank_bin_code' => 'Chức năng tự động xác nhận tiền vào thông qua WebHook của https://casso.vn/ - Ưu tiên sử dụng tài khoản ngân hàng <strong>VietinBank</strong>.',
 
             'powered_by_echbay' => 'Sử dụng lệnh <strong>$lang_model->the_web_license( $getconfig );</strong> để hiển thị thông điệp bản quyền mặc định.',
         ];
