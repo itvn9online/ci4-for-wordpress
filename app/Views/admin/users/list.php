@@ -92,7 +92,7 @@ WGR_vuejs('#app', {
     UsersType_NO_LOGIN: <?php echo UsersType::NO_LOGIN; ?>,
     UsersType_FOR_DEFAULT: <?php echo UsersType::FOR_DEFAULT; ?>,
     list: <?php echo json_encode($arr_members_type); ?>,
-    UsersType_listStatus: <?php echo json_encode(UsersType::listStatus()); ?>,
+    UsersType_listStatus: <?php echo json_encode(UsersType::statusList()); ?>,
 }, function () {
     action_change_user_status();
 });

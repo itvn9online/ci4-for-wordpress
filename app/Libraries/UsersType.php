@@ -31,7 +31,7 @@ class UsersType {
         self::ADMIN => 'Quản trị',
     );
 
-    public static function list( $key = '' ) {
+    public static function typeList( $key = '' ) {
         if ( $key == '' ) {
             return self::$arr;
         }
@@ -41,7 +41,7 @@ class UsersType {
         return '';
     }
 
-    public static function listStatus( $key = '' ) {
+    public static function statusList( $key = '' ) {
         $arr = array(
             self::FOR_DEFAULT => 'Cho phép đăng nhập',
             self::NO_1H_LOGIN => 'KHÓA trong 1 giờ',

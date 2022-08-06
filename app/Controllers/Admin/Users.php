@@ -34,7 +34,7 @@ class Users extends Admin {
         //
         if ( $this->member_name == '' ) {
             if ( $this->member_type != '' ) {
-                $this->member_name = UsersType::list( $this->member_type );
+                $this->member_name = UsersType::typeList( $this->member_type );
             } else {
                 $this->member_name = UsersType::ALL;
             }
@@ -43,7 +43,7 @@ class Users extends Admin {
         //
         //print_r( $this->arr_members_type );
         if ( $this->arr_members_type === NULL ) {
-            $this->arr_members_type = UsersType::list();
+            $this->arr_members_type = UsersType::typeList();
         }
 
         //
@@ -347,6 +347,9 @@ class Users extends Admin {
         }
         //print_r( $data );
         //die( __CLASS__ . ':' . __LINE__ );
+        if ( isset( $data[ 'user_email' ] ) ) {
+            $data[ 'user_email' ] = strtolower( $data[ 'user_email' ] );
+        }
 
         //
         $result_id = $this->user_model->insert_member( $data );
@@ -393,6 +396,7 @@ class Users extends Admin {
                 if ( !$this->validation->run( $data ) ) {
                     $this->set_validation_error( $this->validation->getErrors(), 'error' );
                 }
+                $data[ 'user_email' ] = strtolower( $data[ 'user_email' ] );
                 /*
             } else {
                 $data[ 'user_email' ] = '';
@@ -666,7 +670,7 @@ class Users extends Admin {
 
         //
         $user_status = $this->MY_post( 'user_status', '' );
-        if ( $user_status == '' || UsersType::list( $user_status ) ) {
+        if ( $user_status == '' || UsersType::typeList( $user_status ) ) {
             $this->result_json_type( [
                 'in' => __CLASS__,
                 'code' => __LINE__,

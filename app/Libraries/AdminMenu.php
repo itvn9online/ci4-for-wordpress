@@ -154,26 +154,26 @@ class AdminMenu {
                 'icon' => 'fa fa-users',
                 'arr' => [
                     'admin/guests' => [
-                        'name' => UsersType::list( UsersType::GUEST ),
+                        'name' => UsersType::typeList( UsersType::GUEST ),
                         'icon' => 'fa fa-question-circle-o',
                     ],
                     'admin/members' => [
-                        'name' => UsersType::list( UsersType::MEMBER ),
+                        'name' => UsersType::typeList( UsersType::MEMBER ),
                         'icon' => 'fa fa-user',
                     ],
                     'admin/authors' => [
-                        'name' => UsersType::list( UsersType::AUTHOR ),
+                        'name' => UsersType::typeList( UsersType::AUTHOR ),
                         'icon' => 'fa fa-magic',
                     ],
                     'admin/mods' => [
-                        'name' => UsersType::list( UsersType::MOD ),
+                        'name' => UsersType::typeList( UsersType::MOD ),
                         'icon' => 'fa fa-modx',
                     ],
                     'admin/users?member_type=' . UsersType::ADMIN => [
                         'role' => [
                             UsersType::ADMIN,
                         ],
-                        'name' => UsersType::list( UsersType::ADMIN ),
+                        'name' => UsersType::typeList( UsersType::ADMIN ),
                         'icon' => 'fa fa-diamond',
                     ],
                 ]

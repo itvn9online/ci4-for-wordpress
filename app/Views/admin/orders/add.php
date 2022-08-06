@@ -17,28 +17,44 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
     <div class="widget-content nopadding">
         <form action="" method="post" name="admin_global_form" id="admin_global_form" onSubmit="return action_before_submit_post();" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
             <div class="control-group">
+                <label for="data_post_title" class="control-label">ID</label>
+                <div class="controls"><?php echo $data['ID']; ?></div>
+            </div>
+            <div class="control-group">
+                <label for="data_post_title" class="control-label">Mã hóa đơn</label>
+                <div class="controls upper"><?php echo $data['post_name']; ?></div>
+            </div>
+            <div class="control-group">
                 <label for="data_post_title" class="control-label">Tiêu đề</label>
                 <div class="controls">
                     <input type="text" class="span6 required" placeholder="Tiêu đề" name="data[post_title]" id="data_post_title" value="<?php echo $data['post_title']; ?>" autofocus aria-required="true" required />
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">Mô tả</label>
+                <label class="control-label">Nội dung</label>
                 <div class="controls" style="width:80%;">
-                    <textarea placeholder="Tóm tắt" name="data[post_excerpt]" id="data_post_excerpt" class="span30 fix-textarea-height"><?php echo $data['post_excerpt']; ?></textarea>
+                    <textarea placeholder="Nội dung" name="data[post_content]" id="data_post_content" class="span30 fix-textarea-height"><?php echo $data['post_content']; ?></textarea>
                 </div>
+            </div>
+            <div class="control-group">
+                <label for="data_post_title" class="control-label">Tổng tiền</label>
+                <div class="controls bold"><?php echo number_format($data['post_parent']); ?> VNĐ</div>
+            </div>
+            <div class="control-group">
+                <label for="data_post_title" class="control-label">Hạn sử dụng</label>
+                <div class="controls"><?php echo $data['comment_count']; ?> (tháng)</div>
             </div>
             <div class="control-group">
                 <label class="control-label">Trạng thái</label>
                 <div class="controls">
-                    <select data-select="<?php echo $data['post_status']; ?>" name="data[post_status]" class="span5">
+                    <select data-select="<?php echo $data['post_status']; ?>" name="data[post_status]" class="span3">
                         <option :value="k" v-for="(v, k) in post_status">{{v}}</option>
                     </select>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Thành viên</label>
-                <div class="controls"><a href="admin/users/add?id=<?php echo $data['post_author']; ?>" data-id="<?php echo $data['post_author']; ?>" class="each-to-email" target="_blank"><?php echo $data['post_author']; ?></a> </div>
+                <div class="controls"><a href="admin/users/add?id=<?php echo $data['post_author']; ?>" data-id="<?php echo $data['post_author']; ?>" class="each-to-email bluecolor" target="_blank"><?php echo $data['post_author']; ?></a> </div>
             </div>
             <?php
 
@@ -143,6 +159,31 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
             </div>
             <?php
             } // END foreach auto add post meta
+
+            ?>
+            <div class="control-group">
+                <label for="data_post_title" class="control-label">Ngày tạo</label>
+                <div class="controls"><?php echo $data['post_date']; ?></div>
+            </div>
+            <div class="control-group">
+                <label for="data_post_title" class="control-label">Ngày cập nhật</label>
+                <div class="controls"><?php echo $data['post_modified']; ?></div>
+            </div>
+            <div class="control-group">
+                <label for="data_post_title" class="control-label">ID Sản phẩm</label>
+                <div class="controls"><?php echo $data['guid']; ?></div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Thông tin Sản phẩm</label>
+                <div class="controls">
+                    <pre><code><?php echo $data['post_excerpt']; ?></code></pre>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="data_post_title" class="control-label">Dữ liệu thanh toán</label>
+                <div class="controls"><?php echo $data['pinged']; ?></div>
+            </div>
+            <?php
 
             //
             include $admin_root_views . 'posts/add_submit.php';

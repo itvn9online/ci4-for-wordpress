@@ -190,7 +190,7 @@ class Guest extends Csrf {
             } else {
                 $auto_unlock = '<strong>Không xác định</strong>. Vui lòng liên hệ admin.';
             }
-            $this->base_model->msg_error_session( 'Tài khoản đang bị <strong>' . UsersType::listStatus( $result[ 'user_status' ] ) . '</strong>! Thời gian mở khóa: ' . $auto_unlock, $this->form_target );
+            $this->base_model->msg_error_session( 'Tài khoản đang bị <strong>' . UsersType::statusList( $result[ 'user_status' ] ) . '</strong>! Thời gian mở khóa: ' . $auto_unlock, $this->form_target );
             return false;
         }
         // tài khoản bị XÓA

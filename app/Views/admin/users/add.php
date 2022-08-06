@@ -170,7 +170,7 @@ $base_model->adds_css( [
                                 <?php
 
                                 //
-                                foreach ( UsersType::listStatus() as $type_k => $type_v ) {
+                                foreach ( UsersType::statusList() as $type_k => $type_v ) {
                                     echo '<option value="' . $type_k . '">' . $type_v . '</option>';
                                 }
 

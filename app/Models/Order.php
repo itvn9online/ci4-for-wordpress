@@ -20,6 +20,8 @@ class Order extends Post {
         //$data_insert[ 'guid' ] = ''; // danh sách IDs sản phẩm
         //$data_insert[ 'post_excerpt' ] = ''; // danh sách sản phẩm dạng json
         //$data_insert[ 'post_parent' ] = ''; // tổng giá trị giỏ hàng
+        //$data_insert[ 'comment_count' ] = ''; // hạn sử dụng/ thời gian bảo hành
+        //$data_insert[ 'pinged' ] = ''; // thông tin phản hồi từ các bên thanh toán trung gian
         $data_insert[ 'post_status' ] = OrderType::PENDING;
         $data_insert[ 'post_type' ] = $this->post_type;
 
