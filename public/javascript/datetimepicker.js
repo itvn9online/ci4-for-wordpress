@@ -6,7 +6,7 @@ if (typeof datetimepicker_loaded == 'undefined') {
         var s1 = document.createElement("script"),
             s0 = document.getElementsByTagName("script")[0];
         s1.async = true;
-        s1.src = web_link + 'thirdparty/datetimepicker-2.3.6/jquery.datetimepicker.js';
+        s1.src = web_link + 'thirdparty/datetimepicker/jquery.datetimepicker.js';
         //s1.src = web_link + 'thirdparty/datetimepicker-2.3.7/build/jquery.datetimepicker.min.js';
         //s1.charset = 'UTF-8';
         //s1.setAttribute('crossorigin', '*');
@@ -24,7 +24,7 @@ if (typeof datetimepicker_loaded == 'undefined') {
         // set the attributes for link element 
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        link.href = web_link + 'thirdparty/datetimepicker-2.3.6/jquery.datetimepicker.css';
+        link.href = web_link + 'thirdparty/datetimepicker/jquery.datetimepicker.css';
         //link.href = web_link + 'thirdparty/datetimepicker-2.3.7/build/jquery.datetimepicker.min.css';
 
         // Append link element to HTML head

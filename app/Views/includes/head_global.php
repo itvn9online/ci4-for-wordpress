@@ -98,16 +98,16 @@ $arr_preload_bootstrap = [
     CDN_BASE_URL . 'thirdparty/awesome47/css/font-awesome.min.css?v=4.7',
 
     // bản full
-    CDN_BASE_URL . 'thirdparty/bootstrap-5.0.2/css/bootstrap.min.css',
-    //'thirdparty/bootstrap-5.0.2/css/bootstrap.rtl.min.css',
+    CDN_BASE_URL . 'thirdparty/bootstrap/css/bootstrap.min.css',
+    //'thirdparty/bootstrap/css/bootstrap.rtl.min.css',
 
     // các module đơn lẻ
-    //'thirdparty/bootstrap-5.0.2/css/bootstrap-grid.min.css',
-    //'thirdparty/bootstrap-5.0.2/css/bootstrap-grid.rtl.min.css',
-    //'thirdparty/bootstrap-5.0.2/css/bootstrap-reboot.min.css',
-    //'thirdparty/bootstrap-5.0.2/css/bootstrap-reboot.rtl.min.css',
-    //'thirdparty/bootstrap-5.0.2/css/bootstrap-utilities.min.css',
-    //'thirdparty/bootstrap-5.0.2/css/bootstrap-utilities.rtl.min.css',
+    //'thirdparty/bootstrap/css/bootstrap-grid.min.css',
+    //'thirdparty/bootstrap/css/bootstrap-grid.rtl.min.css',
+    //'thirdparty/bootstrap/css/bootstrap-reboot.min.css',
+    //'thirdparty/bootstrap/css/bootstrap-reboot.rtl.min.css',
+    //'thirdparty/bootstrap/css/bootstrap-utilities.min.css',
+    //'thirdparty/bootstrap/css/bootstrap-utilities.rtl.min.css',
 ];
 
 foreach ( $arr_preload_bootstrap as $v ) {
@@ -119,8 +119,8 @@ foreach ( $arr_preload_bootstrap as $v ) {
 ?>
 <!-- <link rel="stylesheet" type="text/css" media="all" href="thirdparty/flatsome/flatsome.css" /> --> 
 <!-- <link rel="stylesheet" type="text/css" media="all" href="frontend/css/swiper.min.css" /> --> 
-<script src="<?php echo CDN_BASE_URL; ?>thirdparty/jquery-3.6.0/jquery-3.6.0.min.js"></script> 
-<!-- <script src="thirdparty/jquery-3.6.0/jquery-migrate-3.3.2.min.js"></script> --> 
+<script src="<?php echo CDN_BASE_URL; ?>thirdparty/jquery/jquery-3.6.0.min.js"></script> 
+<!-- <script src="thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> --> 
 <!-- <script src="frontend/js/swiper.min.js"></script> -->
 <?php
 

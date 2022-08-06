@@ -86,7 +86,7 @@ if ( $debug_enable === true ) {
 <base href="<?php echo DYNAMIC_BASE_URL; ?>" />
 <link href="<?php echo DYNAMIC_BASE_URL; ?>favicon.png" rel="shortcut icon" type="image/png" />
 <!-- bootstrap -->
-<link rel="stylesheet" type="text/css" media="all" href="./thirdparty/bootstrap-5.0.2/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" media="all" href="./thirdparty/bootstrap/css/bootstrap.min.css" />
 <!-- chưa có thời gian cập nhật bootstrap bản mới -> vẫn ưu tiên dùng bản cũ vậy -->
 <link rel="stylesheet" type="text/css" media="all" href="admin/css/bootstrap.min-old.css" />
 <link rel="stylesheet" type="text/css" media="all" href="admin/css/bootstrap-responsive.min.css" />
@@ -109,23 +109,23 @@ if ( $debug_enable === true ) {
 <link rel="stylesheet" type="text/css" media="all" href="fonts/fontawesome-free-5.15.1-web/css/v4-shims.min.css" />
 --> 
 <!-- <script src="./thirdparty/validate/jquery.min.js"></script> --> 
-<script src="./thirdparty/jquery-3.6.0/jquery-3.6.0.min.js"></script> 
-<!-- <script src="./thirdparty/jquery-3.6.0/jquery-migrate-3.3.2.min.js"></script> --> 
-<!-- <script src="./thirdparty/jquery-3.6.0/jquery-migrate-1.4.1.min.js"></script> --> 
+<script src="./thirdparty/jquery/jquery-3.6.0.min.js"></script> 
+<!-- <script src="./thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> --> 
+<!-- <script src="./thirdparty/jquery/jquery-migrate-1.4.1.min.js"></script> --> 
 <script src="./thirdparty/validate/library.js"></script> 
 <script src="./thirdparty/validate/jquery.validate.min.js"></script> 
 <script src="./thirdparty/validate/localization/messages_vi.js"></script> 
 <!-- <script src="ckeditor/ckeditor.js"></script> --> 
-<script src="./thirdparty/tinymce-4.9.11/tinymce.min.js"></script> 
+<script src="./thirdparty/tinymce/tinymce.min.js"></script> 
 <!-- <script src="https://cdn.ckeditor.com/ckeditor5/28.0.0/classic/ckeditor.js"></script> --> 
 <!-- <script src="ckfinder/ckfinder.js"></script> --> 
-<script src="./thirdparty/jquery-ui-1.13.2/jquery-ui.min.js"></script>
-<link rel="stylesheet" type="text/css" media="all" href="./thirdparty/jquery-ui-1.13.2/jquery-ui.min.css"/>
+<script src="./thirdparty/jquery-ui/jquery-ui.min.js"></script>
+<link rel="stylesheet" type="text/css" media="all" href="./thirdparty/jquery-ui/jquery-ui.min.css"/>
 <!-- <script src="admin/js/bootstrap.min.js"></script> --> 
-<script src="./thirdparty/bootstrap-5.0.2/js/bootstrap.bundle.min.js"></script> 
-<script src="./thirdparty/angular-1.8.2/angular.min.js"></script> 
-<script src="./thirdparty/vuejs-2.7.8/vue<?php echo ($debug_enable !== true ? '.min' : ''); ?>.js"></script> 
-<!-- <script src="./thirdparty/bootstrap-5.0.2/js/bootstrap.min.js"></script> --> 
+<script src="./thirdparty/bootstrap/js/bootstrap.bundle.min.js"></script> 
+<script src="./thirdparty/angular/angular.min.js"></script> 
+<script src="./thirdparty/vuejs/vue<?php echo ($debug_enable !== true ? '.min' : ''); ?>.js"></script> 
+<!-- <script src="./thirdparty/bootstrap/js/bootstrap.min.js"></script> --> 
 <script src="./thirdparty/select2/select2.full.js"></script> 
 <!-- <script src="admin/js/select2.min.js"></script> -->
 <?php
