@@ -83,11 +83,11 @@ class PostAdmin extends Post {
                     'text' => $arr_custom_name[ $allow ],
                 ];
             } else {
-                //$arr_result[] = '<option class="bold" disabled>' . TaxonomyType::list( $allow ) . '</option>';
+                //$arr_result[] = '<option class="bold" disabled>' . TaxonomyType::typeList( $allow ) . '</option>';
                 $arr_result[] = [
                     'class' => 'medium',
                     'selectable' => true,
-                    'text' => TaxonomyType::list( $allow ),
+                    'text' => TaxonomyType::typeList( $allow ),
                 ];
             }
 
@@ -191,11 +191,11 @@ class PostAdmin extends Post {
                     'text' => $arr_custom_name[ $allow ],
                 ];
             } else {
-                //$arr_result[] = '<option class="bold" disabled>' . PostType::list( $allow ) . '</option>';
+                //$arr_result[] = '<option class="bold" disabled>' . PostType::typeList( $allow ) . '</option>';
                 $arr_result[] = [
                     'class' => 'medium',
                     'selectable' => true,
-                    'text' => PostType::list( $allow ),
+                    'text' => PostType::typeList( $allow ),
                 ];
             }
 

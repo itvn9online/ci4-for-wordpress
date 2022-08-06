@@ -57,7 +57,7 @@ class Posts extends Admin {
         if ( $for_extends === false ) {
             // lọc bài viết dựa theo post type
             //$this->detault_type = PostType::POST;
-            $this->name_type = PostType::list( $this->post_type );
+            $this->name_type = PostType::typeList( $this->post_type );
 
             // báo lỗi nếu không xác định được post_type
             //if ( $this->post_type == '' || $this->name_type == '' ) {
@@ -462,7 +462,7 @@ class Posts extends Admin {
             'parent_post' => $parent_post,
             'quick_menu_list' => [],
             'data' => $data,
-            'post_lang' => LanguageCost::list( $data[ 'lang_key' ] != '' ? $data[ 'lang_key' ] : '' ),
+            'post_lang' => LanguageCost::typeList( $data[ 'lang_key' ] != '' ? $data[ 'lang_key' ] : '' ),
             'meta_detault' => PostType::meta_default( $this->post_type ),
             'post_arr_status' => $this->post_arr_status,
             'taxonomy' => $this->taxonomy,

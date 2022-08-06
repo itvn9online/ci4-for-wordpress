@@ -47,7 +47,7 @@ class Admin extends Ajaxs {
             $this->teamplate_admin = [
                 'is_admin' => UsersType::ADMIN,
                 'html_lang' => $this->lang_key,
-                'arr_lang_list' => LanguageCost::list(),
+                'arr_lang_list' => LanguageCost::typeList(),
                 'arr_admin_menu' => $this->admin_menu(),
                 'session_data' => $this->session_data,
                 'body_class' => $this->body_class,

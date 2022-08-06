@@ -29,7 +29,7 @@ class ConfigType {
         self::CHECKOUT => 'Thanh toán',
     );
 
-    public static function list( $key = '' ) {
+    public static function typeList( $key = '' ) {
         if ( $key == '' ) {
             return self::$arr;
         }

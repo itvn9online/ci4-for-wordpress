@@ -13,7 +13,7 @@ class CommentType {
         self::COMMENT => 'Bình luận',
     );
 
-    public static function list( $key = '' ) {
+    public static function typeList( $key = '' ) {
         if ( $key == '' ) {
             return self::$arr;
         }

@@ -46,7 +46,7 @@ class LanguageCost {
         self::ENGLISH => 'English'
     );
 
-    public static function list( $key = '' ) {
+    public static function typeList( $key = '' ) {
         if ( $key == '' ) {
             return self::$arr;
         }

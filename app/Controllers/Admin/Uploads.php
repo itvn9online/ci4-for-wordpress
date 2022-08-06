@@ -155,7 +155,7 @@ class Uploads extends Admin {
             //'taxonomy' => $this->taxonomy,
             'post_type' => $this->post_type,
             'controller_slug' => $this->controller_slug,
-            'name_type' => PostType::list( $this->post_type ),
+            'name_type' => PostType::typeList( $this->post_type ),
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }
@@ -361,7 +361,7 @@ class Uploads extends Admin {
             'totalPage' => $totalPage,
             'post_type' => $this->post_type,
             'controller_slug' => $this->controller_slug,
-            'name_type' => PostType::list( $this->post_type ),
+            'name_type' => PostType::typeList( $this->post_type ),
         ) );
         return view( 'admin/admin_teamplate', $this->teamplate_admin );
     }

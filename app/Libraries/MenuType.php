@@ -16,7 +16,7 @@ class MenuType {
         self::SLIDER => 'Slider'
     );
 
-    public static function list( $key = '' ) {
+    public static function typeList( $key = '' ) {
         if ( $key == '' ) {
             return self::$arr;
         }

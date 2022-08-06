@@ -67,7 +67,7 @@ class PostType {
         );
     }
 
-    public static function list( $key = '' ) {
+    public static function typeList( $key = '' ) {
         //echo $key . '<br>' . "\n";
         if ( $key == '' ) {
             return self::$arr;

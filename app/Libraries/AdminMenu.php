@@ -17,23 +17,23 @@ class AdminMenu {
                     UsersType::AUTHOR,
                     UsersType::MOD,
                 ],
-                'name' => PostType::list( PostType::POST ),
+                'name' => PostType::typeList( PostType::POST ),
                 'icon' => 'fa fa-product-hunt',
                 'arr' => [
                     'admin/posts/add' => [
-                        'name' => PostType::list( PostType::POST ),
+                        'name' => PostType::typeList( PostType::POST ),
                         'icon' => 'fa fa-plus',
                     ],
                     'admin/terms' => [
-                        'name' => TaxonomyType::list( TaxonomyType::POSTS, true ),
+                        'name' => TaxonomyType::typeList( TaxonomyType::POSTS, true ),
                         'icon' => 'fa fa-cubes',
                     ],
                     'admin/postoptions' => [
-                        'name' => TaxonomyType::list( TaxonomyType::OPTIONS, true ),
+                        'name' => TaxonomyType::typeList( TaxonomyType::OPTIONS, true ),
                         'icon' => 'fa fa-filter',
                     ],
                     'admin/tags' => [
-                        'name' => TaxonomyType::list( TaxonomyType::TAGS, true ),
+                        'name' => TaxonomyType::typeList( TaxonomyType::TAGS, true ),
                         'icon' => 'fa fa-tag',
                     ],
                 ]
@@ -52,15 +52,15 @@ class AdminMenu {
                     UsersType::AUTHOR,
                     UsersType::MOD,
                 ],
-                'name' => PostType::list( PostType::ADS ),
+                'name' => PostType::typeList( PostType::ADS ),
                 'icon' => 'fa fa-picture-o',
                 'arr' => [
                     'admin/adss/add' => [
-                        'name' => PostType::list( PostType::ADS ),
+                        'name' => PostType::typeList( PostType::ADS ),
                         'icon' => 'fa fa-plus',
                     ],
                     'admin/adsoptions' => [
-                        'name' => TaxonomyType::list( TaxonomyType::ADS, true ),
+                        'name' => TaxonomyType::typeList( TaxonomyType::ADS, true ),
                         'icon' => 'fa fa-cubes',
                     ],
                 ]
@@ -70,19 +70,19 @@ class AdminMenu {
                     UsersType::AUTHOR,
                     UsersType::MOD,
                 ],
-                'name' => PostType::list( PostType::BLOG ),
+                'name' => PostType::typeList( PostType::BLOG ),
                 'icon' => 'fa fa-newspaper-o',
                 'arr' => [
                     'admin/blogs/add' => [
-                        'name' => PostType::list( PostType::BLOG ),
+                        'name' => PostType::typeList( PostType::BLOG ),
                         'icon' => 'fa fa-plus',
                     ],
                     'admin/blogcategory' => [
-                        'name' => TaxonomyType::list( TaxonomyType::BLOGS, true ),
+                        'name' => TaxonomyType::typeList( TaxonomyType::BLOGS, true ),
                         'icon' => 'fa fa-cubes',
                     ],
                     'admin/blogtags' => [
-                        'name' => TaxonomyType::list( TaxonomyType::BLOG_TAGS, true ),
+                        'name' => TaxonomyType::typeList( TaxonomyType::BLOG_TAGS, true ),
                         'icon' => 'fa fa-tag',
                     ],
                 ]
@@ -92,11 +92,11 @@ class AdminMenu {
                     UsersType::AUTHOR,
                     UsersType::MOD,
                 ],
-                'name' => PostType::list( PostType::PAGE ),
+                'name' => PostType::typeList( PostType::PAGE ),
                 'icon' => 'fa fa-file',
                 'arr' => [
                     'admin/pages/add' => [
-                        'name' => PostType::list( PostType::PAGE ),
+                        'name' => PostType::typeList( PostType::PAGE ),
                         'icon' => 'fa fa-plus',
                     ],
                 ]
@@ -106,7 +106,7 @@ class AdminMenu {
                     UsersType::AUTHOR,
                     UsersType::MOD,
                 ],
-                'name' => PostType::list( PostType::MEDIA ),
+                'name' => PostType::typeList( PostType::MEDIA ),
                 'icon' => 'fa fa-camera',
                 'arr' => [
                     'admin/uploads/optimize' => [
@@ -120,7 +120,7 @@ class AdminMenu {
                     UsersType::AUTHOR,
                     UsersType::MOD,
                 ],
-                'name' => CommentType::list( CommentType::CONTACT ),
+                'name' => CommentType::typeList( CommentType::CONTACT ),
                 'icon' => 'fa fa-envelope-o',
                 'arr' => []
             ],
@@ -129,7 +129,7 @@ class AdminMenu {
                     UsersType::AUTHOR,
                     UsersType::MOD,
                 ],
-                'name' => CommentType::list( CommentType::COMMENT ),
+                'name' => CommentType::typeList( CommentType::COMMENT ),
                 'icon' => 'fa fa-comment-o',
                 'arr' => []
             ],
@@ -137,11 +137,11 @@ class AdminMenu {
                 'role' => [
                     UsersType::MOD,
                 ],
-                'name' => PostType::list( PostType::MENU ),
+                'name' => PostType::typeList( PostType::MENU ),
                 'icon' => 'fa fa-bars',
                 'arr' => [
                     'admin/htmlmenus' => [
-                        'name' => PostType::list( PostType::HTML_MENU ),
+                        'name' => PostType::typeList( PostType::HTML_MENU ),
                         'icon' => 'fa fa-code',
                     ],
                 ]
@@ -183,39 +183,39 @@ class AdminMenu {
                 'icon' => 'fa fa-cogs',
                 'arr' => [
                     'admin/displays' => [
-                        'name' => ConfigType::list( ConfigType::DISPLAY ),
+                        'name' => ConfigType::typeList( ConfigType::DISPLAY ),
                         'icon' => 'fa fa-desktop',
                     ],
                     'admin/socials' => [
-                        'name' => ConfigType::list( ConfigType::SOCIAL ),
+                        'name' => ConfigType::typeList( ConfigType::SOCIAL ),
                         'icon' => 'fa fa-facebook',
                     ],
                     'admin/configs?config_type=' . ConfigType::CATEGORY => [
-                        'name' => ConfigType::list( ConfigType::CATEGORY ),
+                        'name' => ConfigType::typeList( ConfigType::CATEGORY ),
                         'icon' => 'fa fa-cog',
                     ],
                     'admin/configs?config_type=' . ConfigType::POST => [
-                        'name' => ConfigType::list( ConfigType::POST ),
+                        'name' => ConfigType::typeList( ConfigType::POST ),
                         'icon' => 'fa fa-product-hunt',
                     ],
                     'admin/configs?config_type=' . ConfigType::BLOGS => [
-                        'name' => ConfigType::list( ConfigType::BLOGS ),
+                        'name' => ConfigType::typeList( ConfigType::BLOGS ),
                         'icon' => 'fa fa-cog',
                     ],
                     'admin/configs?config_type=' . ConfigType::BLOG => [
-                        'name' => ConfigType::list( ConfigType::BLOG ),
+                        'name' => ConfigType::typeList( ConfigType::BLOG ),
                         'icon' => 'fa fa-newspaper-o',
                     ],
                     'admin/translates' => [
-                        'name' => ConfigType::list( ConfigType::TRANS ),
+                        'name' => ConfigType::typeList( ConfigType::TRANS ),
                         'icon' => 'fa fa-globe',
                     ],
                     'admin/smtps' => [
-                        'name' => ConfigType::list( ConfigType::SMTP ),
+                        'name' => ConfigType::typeList( ConfigType::SMTP ),
                         'icon' => 'fa fa-envelope',
                     ],
                     'admin/checkouts' => [
-                        'name' => ConfigType::list( ConfigType::CHECKOUT ),
+                        'name' => ConfigType::typeList( ConfigType::CHECKOUT ),
                         'icon' => 'fa fa-dollar',
                     ],
                 ]

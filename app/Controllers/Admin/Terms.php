@@ -32,7 +32,7 @@ class Terms extends Admin {
         if ( $for_extends === false ) {
             // lọc term dựa theo taxonomy
             //$this->default_taxonomy = TaxonomyType::POSTS;
-            $this->name_type = TaxonomyType::list( $this->taxonomy, true );
+            $this->name_type = TaxonomyType::typeList( $this->taxonomy, true );
 
             // nếu không xác định được taxonomy
             if ( $this->name_type == '' ) {
@@ -308,7 +308,7 @@ class Terms extends Admin {
             'lang_key' => $this->lang_key,
             'set_parent' => $set_parent,
             'data' => $data,
-            'term_lang' => LanguageCost::list( $data[ 'lang_key' ] != '' ? $data[ 'lang_key' ] : '' ),
+            'term_lang' => LanguageCost::typeList( $data[ 'lang_key' ] != '' ? $data[ 'lang_key' ] : '' ),
             'taxonomy' => $this->taxonomy,
             'name_type' => $this->name_type,
             'meta_detault' => TaxonomyType::meta_default( $this->taxonomy ),

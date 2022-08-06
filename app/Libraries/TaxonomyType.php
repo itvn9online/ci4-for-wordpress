@@ -24,7 +24,7 @@ class TaxonomyType {
         //self::PAGE => 'Trang tĩnh',
     );
 
-    public static function list( $key = '', $first_name = false ) {
+    public static function typeList( $key = '', $first_name = false ) {
         if ( $key == '' ) {
             return self::$arr;
         }
@@ -33,7 +33,7 @@ class TaxonomyType {
             $get_first_name = '';
             /*
             if ( $first_name == true ) {
-                $get_first_name = self::list_name( $key );
+                $get_first_name = self::nameList( $key );
             }
             */
             return $get_first_name . self::$arr[ $key ];
@@ -52,7 +52,7 @@ class TaxonomyType {
         //self::PAGE => 'Trang tĩnh',
     );
 
-    public static function list_name( $key = '' ) {
+    public static function nameList( $key = '' ) {
         if ( $key == '' ) {
             return self::$arr_name;
         }

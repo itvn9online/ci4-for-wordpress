@@ -80,9 +80,9 @@ class Configs extends Admin {
             'data' => $value,
             'vue_data' => [
                 'lang_key' => $this->lang_key,
-                'lang_name' => LanguageCost::list( $this->lang_key ),
+                'lang_name' => LanguageCost::typeList( $this->lang_key ),
                 'config_type' => $this->config_type,
-                'config_name' => ConfigType::list( $this->config_type ),
+                'config_name' => ConfigType::typeList( $this->config_type ),
             ],
             'value' => ( object )$value,
         ) );

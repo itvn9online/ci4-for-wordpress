@@ -24,12 +24,12 @@ class Comments extends Admin {
         if ( $this->comment_type == '' ) {
             $this->comment_type = $this->MY_get( 'comment_type', CommentType::COMMENT );
         }
-        $this->comment_name = CommentType::list( $this->comment_type );
+        $this->comment_name = CommentType::typeList( $this->comment_type );
 
         // báo lỗi nếu không xác định được taxonomy
         // chỉ kiểm tra các điều kiện này nếu không được chỉ định là extends
         if ( $for_extends === false ) {
-            //if ( $this->comment_type == '' || CommentType::list( $this->comment_type ) == '' ) {
+            //if ( $this->comment_type == '' || CommentType::typeList( $this->comment_type ) == '' ) {
             if ( $this->comment_name == '' ) {
                 die( 'Comment type not register in system: ' . $this->comment_type );
             }
