@@ -179,6 +179,15 @@ $base_model->adds_js( [
     'cdn' => CDN_BASE_URL,
 ] );
 
+// nạp thư viện vuejs nếu có yêu cầu
+if ( $getconfig->enable_vue_js == 'on' ) {
+    $base_model->add_js( 'thirdparty/vuejs/vue.min.js', [
+        'cdn' => CDN_BASE_URL,
+    ], [
+        'defer'
+    ] );
+}
+
 //
 $WGR_config = [
     'cf_tester_mode' => ( $debug_enable === true ) ? 1 : 0,
@@ -195,7 +204,6 @@ var WGR_config=<?php echo json_encode($WGR_config); ?>;
 
 //
 echo $getconfig->html_header;
-
 
 // nạp header riêng của từng theme (tương tự function get_header bên wordpress)
 $theme_private_view = VIEWS_CUSTOM_PATH . 'get_header.php';

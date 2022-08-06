@@ -95,7 +95,7 @@ class ConfigType {
                 //'Paypal_password' => '',
                 //'Paypal_signature' => '',
                 //'list_slide' => '',
-                //'enable_angular_js' => 'Sử dụng AngularJS',
+                'enable_vue_js' => 'Sử dụng VueJS',
                 'enable_hotlink_protection' => 'HotLink protection',
                 'enable_device_protection' => 'Device logged protection',
                 'disable_register_member' => 'Dừng đăng ký tài khoản mới',
@@ -248,8 +248,7 @@ class ConfigType {
             'eb_blogs_per_line' => 'select',
             'eb_blog_per_page' => 'number',
 
-            //'enable_angular_js' => 'checkbox',
-
+            'enable_vue_js' => 'checkbox',
             'enable_hotlink_protection' => 'checkbox',
             'enable_device_protection' => 'checkbox',
             'disable_register_member' => 'checkbox',
@@ -321,7 +320,7 @@ class ConfigType {
             'default_color' => 'Màu mặc định cho mọi font chữ trên website nếu module đó không được thiết lập màu riêng.',
             //'a_color' => 'Màu chữ của các liên kết.',
 
-            //'enable_angular_js' => 'Khi chế độ này được kích hoạt, thư viện Angular JS sẽ được nhúng vào frontend để sử dụng',
+            'enable_vue_js' => 'Khi chế độ này được kích hoạt, thư viện VueJS sẽ được nhúng vào frontend để sử dụng',
             'show_child_category' => 'Khi chế độ này được kích hoạt, và khi truy cập vào danh mục sản phẩm, nếu trong danh mục đó có các nhóm con thì các nhóm con sẽ được hiển thị thay vì hiển thị trực tiếp danh sách sản phẩm',
             'show_child_blogs' => 'Khi chế độ này được kích hoạt, và khi truy cập vào danh mục tin tức, nếu trong danh mục đó có các nhóm con thì các nhóm con sẽ được hiển thị thay vì hiển thị trực tiếp danh sách tin tức',
             'eb_post_per_page' => 'Khi số này lớn hơn 0, trong trang chi tiết bài viết sẽ lấy các bài cùng nhóm với bài hiện tại để giới thiệu',

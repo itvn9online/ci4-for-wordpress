@@ -32,9 +32,6 @@ class Layout extends Sync {
     public $current_tid = 0;
     public $breadcrumb_position = 1;
 
-    // controller nào bật cái này thì sẽ import thư viện angular js cho nó
-    //public $enable_angular_js = false;
-
     // các định dạng file được phép truy cập trong thư mục upload
     protected $htaccess_allow = 'css|js|map|htm?l|xml|json|webmanifest|tff|eot|woff?|gif|jpe?g|tiff?|png|webp|bmp|ico|svg';
 
@@ -209,9 +206,6 @@ class Layout extends Sync {
         //
         $this->teamplate[ 'footer' ] = view( 'footer_view' );
         $this->teamplate[ 'html_lang' ] = $this->lang_key;
-
-        //
-        //$this->teamplate[ 'enable_angular_js' ] = $this->enable_angular_js;
 
         //
         return true;
