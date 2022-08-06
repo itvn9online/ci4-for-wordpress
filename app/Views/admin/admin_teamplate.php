@@ -119,8 +119,8 @@ if ( $debug_enable === true ) {
 <script src="./thirdparty/tinymce-4.9.11/tinymce.min.js"></script> 
 <!-- <script src="https://cdn.ckeditor.com/ckeditor5/28.0.0/classic/ckeditor.js"></script> --> 
 <!-- <script src="ckfinder/ckfinder.js"></script> --> 
-<script src="./thirdparty/jquery-3.6.0/jquery-ui.min.js"></script>
-<link rel="stylesheet" type="text/css" media="all" href="./thirdparty/jquery-3.6.0/jquery-ui.css"/>
+<script src="./thirdparty/jquery-ui-1.13.2/jquery-ui.min.js"></script>
+<link rel="stylesheet" type="text/css" media="all" href="./thirdparty/jquery-ui-1.13.2/jquery-ui.min.css"/>
 <!-- <script src="admin/js/bootstrap.min.js"></script> --> 
 <script src="./thirdparty/bootstrap-5.0.2/js/bootstrap.bundle.min.js"></script> 
 <script src="./thirdparty/angular-1.8.2/angular.min.js"></script> 
