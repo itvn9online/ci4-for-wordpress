@@ -46,10 +46,11 @@ class Order extends Post {
         return $this->base_model->select( '*', $this->table, $where, $filter );
     }
 
-    public function update_order( $data, $where = [], $filter = [] ) {
+    public function update_order( $order_id, $data, $where = [] ) {
         $where[ 'post_type' ] = $this->post_type;
 
         //
-        return $this->base_model->update_multiple( $this->table, $data, $where, $filter );
+        //return $this->base_model->update_multiple( $this->table, $data, $where, $filter );
+        return parent::update_post( $order_id, $data, $where );
     }
 }

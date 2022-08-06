@@ -114,7 +114,7 @@ class PostQuery extends PostMeta {
         return $result_id;
     }
 
-    function update_post( $post_id, $data, $where = [] ) {
+    public function update_post( $post_id, $data, $where = [] ) {
         // tiêu đề gắn thêm khi post bị xóa
         $post_trash_title = '___' . PostType::DELETED;
 
