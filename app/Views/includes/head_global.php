@@ -17,8 +17,8 @@ use App\ Helpers\ HtmlTemplate;
 <!-- <meta http-equiv="x-dns-prefetch-control" content="on"> -->
 <link rel="dns-prefetch" href="https://www.google-analytics.com/" />
 <link rel="dns-prefetch" href="https://connect.facebook.net/" />
-<link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
-<link rel="dns-prefetch" href="//s.w.org" />
+<link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+<link rel="dns-prefetch" href="https://s.w.org" />
 <meta name="format-detection" content="telephone=no">
 <!-- SEO -->
 <link href="<?php echo $option_model->get_the_favicon($getconfig); ?>" rel="shortcut icon" type="image/png" />
