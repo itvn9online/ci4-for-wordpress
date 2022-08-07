@@ -149,6 +149,7 @@ app.zip
 
 # file lien quan den thong tin rieng cua website
 database.php
+Database.php
 
 # khong push system cua ci
 /system/
