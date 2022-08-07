@@ -359,6 +359,13 @@ class Dashboard extends Optimize {
                     $this->base_model->alert( 'Upload thất bại! Không xác định được file sau khi upload', 'error' );
                 }
                 chmod( $file_path, DEFAULT_FILE_PERMISSION );
+
+                // nếu là update system của Codeigniter thì sử dụng chức năng unzip riêng
+                //echo $file_name . '<br>' . "\n";
+                if ( basename( $file_name ) == 'system.zip' ) {
+                    return $this->unzip_system();
+                    //die( __CLASS__ . ':' . __LINE__ );
+                }
                 //die( __CLASS__ . ':' . __LINE__ );
 
                 // giải nén sau khi upload

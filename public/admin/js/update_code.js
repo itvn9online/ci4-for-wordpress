@@ -83,3 +83,7 @@ function before_unzip_thirdparty() {
 function after_unzip_thirdparty() {
     return WGR_body_opacity();
 }
+
+function done_unzip_system() {
+    done_submit_restore_code();
+}
