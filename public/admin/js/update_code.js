@@ -85,5 +85,5 @@ function after_unzip_thirdparty() {
 }
 
 function done_unzip_system() {
-    done_submit_restore_code();
+    return done_submit_restore_code();
 }
