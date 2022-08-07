@@ -7,7 +7,7 @@ $routes = Services::routes();
 
 // Load the system's routing file first, so that the app and ENVIRONMENT
 // can override as needed.
-if ( is_file( SYSTEMPATH . 'Config/Routes.php' ) ) {
+if (is_file(SYSTEMPATH . 'Config/Routes.php')) {
     require SYSTEMPATH . 'Config/Routes.php';
 }
 
@@ -16,16 +16,16 @@ if ( is_file( SYSTEMPATH . 'Config/Routes.php' ) ) {
  * Router Setup
  * --------------------------------------------------------------------
  */
-$routes->setDefaultNamespace( 'App\Controllers' );
-$routes->setDefaultController( 'Home' );
-$routes->setDefaultMethod( 'index' );
-$routes->setTranslateURIDashes( false );
+$routes->setDefaultNamespace('App\Controllers');
+$routes->setDefaultController('Home');
+$routes->setDefaultMethod('index');
+$routes->setTranslateURIDashes(false);
 $routes->set404Override();
 // The Auto Routing (Legacy) is very dangerous. It is easy to create vulnerable apps
 // where controller filters or CSRF protection are bypassed.
 // If you don't want to define all routes, please use the Auto Routing (Improved).
 // Set `$autoRoutesImproved` to true in `app/Config/Feature.php` and set the following to true.
-$routes->setAutoRoute( true );
+$routes->setAutoRoute(true);
 
 /*
  * --------------------------------------------------------------------
@@ -33,12 +33,9 @@ $routes->setAutoRoute( true );
  * --------------------------------------------------------------------
  */
 
-//die( __FILE__ . ':' . __LINE__ );
-
-//
+// We get a performance increase by specifying the default
+// route since we don't have to scan directories.
 $routes->setPrioritize();
-
-
 // include file kiểu này để mỗi lần update code thì check git nó tiện
 require_once __DIR__ . '/MyRoutes.php';
 
@@ -55,6 +52,6 @@ require_once __DIR__ . '/MyRoutes.php';
  * You will have access to the $routes object within that file without
  * needing to reload it.
  */
-if ( is_file( APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php' ) ) {
+if (is_file(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
     require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
 }
