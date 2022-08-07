@@ -246,7 +246,7 @@ if ( $debug_enable === true ) {
 $vue_data = [
     'base_url' => DYNAMIC_BASE_URL,
     'ci_version' => \CodeIgniter\ CodeIgniter::CI_VERSION, // phiên bản CI hiện tại
-    'ci_last_version' => 421, // phiên bản CI mới nhất -> đổi màu để dễ nhận biết có bản mới hơn
+    'ci_last_version' => 423, // phiên bản CI mới nhất -> đổi màu để dễ nhận biết có bản mới hơn
     'robots_exist' => $robots_exist,
     'phpversion' => phpversion(),
     'current_dbname' => $current_dbname,
