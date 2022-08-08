@@ -791,18 +791,19 @@ class Dashboard extends Optimize {
         //
         $arr_download_thirdparty = [
             //'https://github.com/vuejs/vue/releases',
-            'https://v2.vuejs.org/v2/guide/installation.html',
-            'https://github.com/PHPMailer/PHPMailer/releases',
-            'https://jquery.com/download/',
-            'https://getbootstrap.com/docs/5.0/getting-started/download/',
-            'https://icons.getbootstrap.com/',
-            'https://www.tiny.cloud/get-tiny/',
-            'https://fontawesome.com/v4/icons/',
-            'https://plugins.jquery.com/datetimepicker/',
-            'https://github.com/itvn9online/Nestable',
-            'https://github.com/select2/select2',
-            'https://jqueryui.com/download/',
-            'https://angularjs.org/',
+            'https://v2.vuejs.org/v2/guide/installation.html?current_version=2.7.8',
+            'https://github.com/PHPMailer/PHPMailer/releases?current_version=6.6.3',
+            'https://jquery.com/download/?current_version=3.6.0',
+            'https://getbootstrap.com/docs/5.0/getting-started/download/?current_version=5.0.2',
+            'https://icons.getbootstrap.com/?current_version=1.9.0',
+            'https://www.tiny.cloud/get-tiny/?current_version=4.9.11',
+            'https://fontawesome.com/v4/icons/?current_version=4.7.0',
+            'https://plugins.jquery.com/datetimepicker/?current_version=2.3.6',
+            'https://github.com/select2/select2?current_version=4.0.6',
+            'https://jqueryui.com/download/?current_version=1.13.2',
+            'https://github.com/jquery-validation/jquery-validation/releases?current_version=1.9.0',
+            'https://angularjs.org/?current_version=1.8.2',
+            'https://github.com/itvn9online/Nestable?current_version=2',
         ];
 
         //
