@@ -81,7 +81,7 @@ var scope_data = <?php echo json_encode($data); ?>;
 
 //
 WGR_vuejs('#app', {
-    ALLOW_USING_MYSQL_DELETE: ALLOW_USING_MYSQL_DELETE,
+    allow_mysql_delete: allow_mysql_delete,
     member_name: '<?php echo $member_name; ?>',
     member_type: '<?php echo $member_type; ?>',
     controller_slug: controller_slug,

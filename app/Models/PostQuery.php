@@ -16,22 +16,20 @@ class PostQuery extends PostMeta {
     }
 
     function insert_post( $data, $data_meta = [], $check_slug = true ) {
-        //$session_data = $this->session->get( 'admin' );
-        $session_data = $this->base_model->get_ses_login();
-        if ( empty( $session_data ) ) {
-            $post_author = 0;
-        } else {
-            $post_author = $session_data[ 'userID' ];
-        }
-
         // các dữ liệu mặc định
         $default_data = [
-            'post_author' => $post_author,
             'post_date' => date( EBE_DATETIME_FORMAT ),
             'lang_key' => LanguageCost::lang_key(),
         ];
-        if ( empty( $default_data[ 'post_author' ] ) ) {
-            $default_data[ 'post_author' ] = 1;
+        // gán thông ID tác giả nếu chưa có
+        if ( !isset( $data[ 'post_author' ] ) || empty( $data[ 'post_author' ] ) ) {
+            //$session_data = $this->session->get( 'admin' );
+            $session_data = $this->base_model->get_ses_login();
+            if ( empty( $session_data ) || empty( $session_data[ 'userID' ] ) ) {
+                $data[ 'post_author' ] = 1;
+            } else {
+                $data[ 'post_author' ] = $session_data[ 'userID' ];
+            }
         }
         $default_data[ 'post_date_gmt' ] = $default_data[ 'post_date' ];
         $default_data[ 'post_modified' ] = $default_data[ 'post_date' ];
@@ -114,7 +112,7 @@ class PostQuery extends PostMeta {
         return $result_id;
     }
 
-    public function update_post( $post_id, $data, $where = [] ) {
+    public function update_post( $post_id, $data, $where = [], $data_meta = [] ) {
         // tiêu đề gắn thêm khi post bị xóa
         $post_trash_title = '___' . PostType::DELETED;
 
@@ -210,7 +208,9 @@ class PostQuery extends PostMeta {
 
         //
         //print_r( $_POST );
-        if ( isset( $_POST[ 'post_meta' ] ) ) {
+        if ( !empty( $data_meta ) ) {
+            $this->insert_meta_post( $data_meta, $post_id );
+        } else if ( isset( $_POST[ 'post_meta' ] ) ) {
             $this->insert_meta_post( $_POST[ 'post_meta' ], $post_id );
         }
 

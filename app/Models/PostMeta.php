@@ -116,12 +116,20 @@ class PostMeta extends PostBase {
                 $meta_data[ 'image_medium_large' ] = $this->get_img_by_size( $origin_size, 'medium_large', $file_ext );
                 $meta_data[ 'image_medium' ] = $this->get_img_by_size( $origin_size, 'medium', $file_ext );
                 $meta_data[ 'image_thumbnail' ] = $this->get_img_by_size( $origin_size, 'thumbnail', $file_ext );
-                $meta_data[ 'image_webp' ] = $meta_data[ 'image_medium' ];
 
-                // phiên bản webp -> có lệnh riêng để tối ưu
-                $create_webp = \App\ Libraries\ MyImage::webpConvert( PUBLIC_PUBLIC_PATH . $meta_data[ 'image_webp' ] );
-                if ( $create_webp != '' ) {
-                    $meta_data[ 'image_webp' ] = $create_webp;
+                // nếu có ảnh webp được truyền vào theo tham số có sẵn -> dùng luôn
+                if ( isset( $meta_data[ 'image_has_webp' ] ) && $meta_data[ 'image_has_webp' ] != '' ) {
+                    $meta_data[ 'image_webp' ] = $meta_data[ 'image_has_webp' ];
+                }
+                // không thì kiểm tra và tạo mới nếu chưa có
+                else {
+                    // phiên bản webp -> có lệnh riêng để tối ưu
+                    $create_webp = \App\ Libraries\ MyImage::webpConvert( PUBLIC_PUBLIC_PATH . $meta_data[ 'image_medium' ] );
+                    if ( $create_webp != '' ) {
+                        $meta_data[ 'image_webp' ] = $create_webp;
+                    } else if ( $meta_data[ 'image_webp' ] == '' ) {
+                        $meta_data[ 'image_webp' ] = $meta_data[ 'image_medium' ];
+                    }
                 }
                 //echo $meta_data[ 'image_webp' ] . '<br>' . "\n";
             } else {

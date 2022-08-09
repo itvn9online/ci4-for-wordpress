@@ -151,7 +151,7 @@ $base_model->adds_js( [
 
 ?>
 <script>
-var ALLOW_USING_MYSQL_DELETE = <?php echo (ALLOW_USING_MYSQL_DELETE ? 'true' : 'false'); ?>;
+var allow_mysql_delete = <?php echo (ALLOW_USING_MYSQL_DELETE ? 'true' : 'false'); ?>;
 var arr_admin_menu = <?php echo json_encode($arr_admin_menu); ?>;
 var arr_lang_list = <?php echo json_encode($arr_lang_list); ?>;
 var web_link = window.location.protocol + '//' + document.domain + '/';

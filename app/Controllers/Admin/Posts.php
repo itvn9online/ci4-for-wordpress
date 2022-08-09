@@ -679,51 +679,14 @@ class Posts extends Admin {
         return $data;
     }
     public function remove( $confirm_delete = false ) {
-        // mặc định thì chỉ là chuyển về trang thái remove để ẩn khỏi admin
-        $result = $this->before_delete_restore( PostType::REMOVED );
-
         // nếu có thuộc tính cho phép xóa hoàn toàn dữ liệu thì tiến hành xóa
-        if ( ALLOW_USING_MYSQL_DELETE === true && $this->delete_remove() === true ) {
+        if ( ALLOW_USING_MYSQL_DELETE === true ) {
+            $this->delete_remove( $this->MY_get( 'id', 0 ) );
             return $this->done_delete_restore( $this->MY_get( 'id', 0 ) );
         }
-
-        //
-        return $result;
-    }
-
-    // xóa hoàn toàn dữ liệu
-    protected function delete_remove() {
-        //die( __CLASS__ . ':' . __LINE__ );
-        // XÓA relationships
-        $result = $this->base_model->delete_multiple( $this->term_model->relaTable, [
-            // WHERE
-            't2.post_status' => PostType::REMOVED,
-        ], [
-            'join' => array(
-                $this->post_model->table . ' AS t2' => $this->term_model->relaTable . '.object_id = t2.ID'
-            ),
-        ] );
-        //var_dump( $result );
-        //die( __CLASS__ . ':' . __LINE__ );
-
-        // XÓA dữ liệu chính
-        if ( $result == true ) {
-            $result = $this->base_model->delete_multiple( $this->post_model->metaTable, [
-                // WHERE
-                't2.post_status' => PostType::REMOVED,
-            ], [
-                'join' => array(
-                    $this->post_model->table . ' AS t2' => $this->post_model->metaTable . '.post_id = t2.ID'
-                ),
-            ] );
-
-            //
-            if ( $result == true ) {
-                $this->base_model->delete_multiple( $this->post_model->table, [
-                    // WHERE
-                    'post_status' => PostType::REMOVED,
-                ] );
-            }
+        // mặc định thì chỉ là chuyển về trang thái remove để ẩn khỏi admin
+        else {
+            $result = $this->before_delete_restore( PostType::REMOVED );
         }
 
         //
@@ -731,7 +694,7 @@ class Posts extends Admin {
     }
 
     //
-    public function before_all_delete_restore( $post_status ) {
+    protected function get_ids() {
         $ids = $this->MY_post( 'ids', '' );
         if ( empty( $ids ) ) {
             $this->result_json_type( [
@@ -748,6 +711,81 @@ class Posts extends Admin {
                 'error' => 'ids EMPTY!',
             ] );
         }
+        //print_r( $ids );
+
+        //
+        return $ids;
+    }
+
+    // xóa hoàn toàn dữ liệu
+    protected function delete_remove( $id = 0 ) {
+        if ( $id > 0 ) {
+            $ids = [ $id ];
+        } else {
+            $ids = $this->get_ids();
+        }
+
+        //die( __CLASS__ . ':' . __LINE__ );
+        // XÓA relationships
+        $result = $this->base_model->delete_multiple( $this->term_model->relaTable, [
+            // WHERE
+            //'t2.post_status' => PostType::REMOVED,
+        ], [
+            /*
+            'left_join' => array(
+                $this->post_model->table . ' AS t2' => $this->term_model->relaTable . '.object_id = t2.ID'
+            ),
+            */
+            'where_in' => array(
+                'object_id' => $ids
+            ),
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+        ] );
+        //die( __CLASS__ . ':' . __LINE__ );
+
+        // XÓA dữ liệu chính
+        $result = $this->base_model->delete_multiple( $this->post_model->metaTable, [
+            // WHERE
+            //'t2.post_status' => PostType::REMOVED,
+        ], [
+            /*
+            'left_join' => array(
+                $this->post_model->table . ' AS t2' => $this->post_model->metaTable . '.post_id = t2.ID'
+            ),
+            */
+            'where_in' => array(
+                'post_id' => $ids
+            ),
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+        ] );
+
+        //
+        $this->base_model->delete_multiple( $this->post_model->table, [
+            // WHERE
+            //'post_status' => PostType::REMOVED,
+        ], [
+            'where_in' => array(
+                'ID' => $ids
+            ),
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+        ] );
+
+        //
+        return $result;
+    }
+
+    //
+    public function before_all_delete_restore( $post_status ) {
+        $ids = $this->get_ids();
 
         //
         $update = $this->base_model->update_multiple( $this->table, [
@@ -789,11 +827,11 @@ class Posts extends Admin {
 
     // chức năng remove nhiều bản ghi 1 lúc
     public function remove_all() {
-        $result = $this->before_all_delete_restore( PostType::REMOVED );
-
         // nếu có thuộc tính cho phép xóa hoàn toàn dữ liệu thì tiến hành xóa
         if ( ALLOW_USING_MYSQL_DELETE === true ) {
             $result = $this->delete_remove();
+        } else {
+            $result = $this->before_all_delete_restore( PostType::REMOVED );
         }
 
         //

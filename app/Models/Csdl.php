@@ -1,7 +1,7 @@
 <?php
 /*
-* file này chủ yếu xử lý các vấn đề liên quan đến database
-*/
+ * file này chủ yếu xử lý các vấn đề liên quan đến database
+ */
 namespace App\ Models;
 
 //
@@ -12,7 +12,7 @@ use App\ Helpers\ HtmlTemplate;
 class Csdl extends Session {
     public $default_post_type = 'post';
     public $default_taxonomy = 'category';
-    
+
     public function __construct() {
         parent::__construct();
 
@@ -204,6 +204,8 @@ class Csdl extends Session {
     }
 
     public function delete_multiple( $table, $where, $ops = [] ) {
+        //print_r( $ops );
+        //die( __CLASS__ . ':' . __LINE__ );
         $has_where = false;
 
         //
