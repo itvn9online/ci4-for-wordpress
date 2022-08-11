@@ -87,6 +87,7 @@ class PostType {
             'image_medium' => 'Ảnh đại diện (medium)',
             'image_thumbnail' => 'Ảnh đại diện (thumbnail)',
             'image_webp' => 'Ảnh đại diện (webp)',
+            'meta_description' => 'Meta description',
         ];
 
         //

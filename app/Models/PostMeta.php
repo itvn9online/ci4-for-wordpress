@@ -120,6 +120,7 @@ class PostMeta extends PostBase {
                 // nếu có ảnh webp được truyền vào theo tham số có sẵn -> dùng luôn
                 if ( isset( $meta_data[ 'image_has_webp' ] ) && $meta_data[ 'image_has_webp' ] != '' ) {
                     $meta_data[ 'image_webp' ] = $meta_data[ 'image_has_webp' ];
+                    unset( $meta_data[ 'image_has_webp' ] );
                 }
                 // không thì kiểm tra và tạo mới nếu chưa có
                 else {

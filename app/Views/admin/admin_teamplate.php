@@ -172,7 +172,11 @@ var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
             </select>
         </div>
     </div>
-    <div class="lf f50 text-right">Xin Chào: <a title="Thông tin cá nhân" href="./users/profile"><?php echo ($session_data['userName'] != '' ? $session_data['userName'] : $session_data['user_login']); ?></a> &nbsp; | &nbsp; <a title="Đăng xuất" data-bs-toggle="modal" data-bs-target="#logoutModal" href="javascript:;"><i class="fa fa-sign-out"></i> Logout</a></div>
+    <div class="lf f50 text-right">Xin Chào: <a title="Thông tin cá nhân" href="./users/profile">
+        <?php
+        echo( $session_data[ 'display_name' ] != '' ? $session_data[ 'display_name' ] : $session_data[ 'user_login' ] );
+        ?>
+        </a> &nbsp; | &nbsp; <a title="Đăng xuất" data-bs-toggle="modal" data-bs-target="#logoutModal" href="javascript:;"><i class="fa fa-sign-out"></i> Logout</a></div>
 </div>
 <!--close-Header-part--> 
 <!--top-Header-menu-->

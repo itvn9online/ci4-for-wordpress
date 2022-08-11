@@ -89,7 +89,7 @@ class Term extends TermBase {
     /*
      * return_exist -> trả về ID của term khi gặp trùng lặp slug
      */
-    function insert_terms( $data, $taxonomy, $return_exist = false ) {
+    public function insert_terms( $data, $taxonomy, $return_exist = false ) {
         // các dữ liệu mặc định
         $default_data = [
             'last_updated' => date( EBE_DATETIME_FORMAT ),

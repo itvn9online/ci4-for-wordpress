@@ -366,12 +366,19 @@ class Base extends Csdl {
         } else {
             $seo = array(
                 'title' => $data[ 'post_title' ],
-                'description' => $data[ 'post_excerpt' ] != '' ? strip_tags( $data[ 'post_excerpt' ] ) : $data[ 'post_title' ],
+                'description' => $data[ 'post_title' ],
                 //'keyword' => $pageDetail[ 0 ][ 'keyword' ],
                 //'name' => $pageDetail[ 0 ][ 'name' ],
                 'post_id' => $data[ 'ID' ],
                 'body_class' => 'post ' . $data[ 'post_type' ] . '-post',
             );
+
+            //
+            if ( isset( $data[ 'post_meta' ][ 'meta_description' ] ) && $data[ 'post_meta' ][ 'meta_description' ] != '' ) {
+                $seo[ 'description' ] = $data[ 'post_meta' ][ 'meta_description' ];
+            } else if ( $data[ 'post_excerpt' ] != '' ) {
+                $seo[ 'description' ] = strip_tags( $data[ 'post_excerpt' ] );
+            }
         }
         //$seo[ 'google_analytics' ] = $getconfig->google_analytics;
         $seo[ 'keyword' ] = $seo[ 'description' ];

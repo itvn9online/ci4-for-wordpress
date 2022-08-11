@@ -89,7 +89,7 @@ if ( $result_id !== false ) {
 }
 
 
-// UPDATE dữ liệu
+// UPDATE
 $this->base_model->update_multiple( 'users', [
     // SET
     'is_member' => User_type::GUEST,
@@ -126,37 +126,8 @@ $this->base_model->update_multiple( 'users', [
     //'no_remove_field' => 1
 ] );
 
-// DELETE dữ liệu
-$this->base_model->delete_multiple( 'users', [
-    // WHERE
-    'is_member' => User_type::GUEST,
-], [
-    'join' => array(
-        'tbl1' => 'tbl_0.id = tbl1.id',
-        'tbl2' => 'tbl_0.id = tbl2.id'
-    ),
-    'where_in' => array(
-        'user_id' => array(
-            1,
-            2,
-            3
-        )
-    ),
-    'where_not_in' => array(
-        'user_id' => array(
-            1,
-            2,
-            3
-        )
-    ),
-    // hiển thị mã SQL để check
-    'show_query' => 1,
-    // trả về câu query để sử dụng cho mục đích khác
-    'get_query' => 1,
-] );
 
-
-// SELECT dữ liệu từ 1 bảng bất kỳ
+// SELECT
 $data = $this->base_model->select( '*', 'users', array(
     // các kiểu điều kiện where
     // WHERE AND OR
@@ -230,6 +201,35 @@ $data = $this->base_model->select( '*', 'users', array(
     //'offset' => 0,
     'limit' => 3
 ) );
+
+// DELETE
+$this->base_model->delete_multiple( 'users', [
+    // WHERE
+    'is_member' => User_type::GUEST,
+], [
+    'join' => array(
+        'tbl1' => 'tbl_0.id = tbl1.id',
+        'tbl2' => 'tbl_0.id = tbl2.id'
+    ),
+    'where_in' => array(
+        'user_id' => array(
+            1,
+            2,
+            3
+        )
+    ),
+    'where_not_in' => array(
+        'user_id' => array(
+            1,
+            2,
+            3
+        )
+    ),
+    // hiển thị mã SQL để check
+    'show_query' => 1,
+    // trả về câu query để sử dụng cho mục đích khác
+    'get_query' => 1,
+] );
 
 
 // khai báo URL tùy chỉnh trong application/config/routes.php

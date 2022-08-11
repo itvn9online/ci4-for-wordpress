@@ -6,7 +6,7 @@
             <th>Ảnh đại diện</th>
             <th>Danh mục</th>
             <th>Trạng thái</th>
-            <th colspan="2">Ngày tạo/ Last Update</th>
+            <th colspan="2">Ngày tạo/ <a :href="'admin/' + controller_slug + '?order_by=post_modified'">Last Update</a></th>
             <th>Lang</th>
             <th>STT</th>
             <th>&nbsp;</th>

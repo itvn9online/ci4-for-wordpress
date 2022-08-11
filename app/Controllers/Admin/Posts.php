@@ -241,9 +241,12 @@ class Posts extends Admin {
             // select dữ liệu từ 1 bảng bất kỳ
             $filter[ 'offset' ] = $offset;
             $filter[ 'limit' ] = $post_per_page;
+
+            //
+            $order_by = $this->MY_get( 'order_by', 'ID' );
             $filter[ 'order_by' ] = [
                 //$this->table . '.menu_order' => 'DESC',
-                $this->table . '.ID' => 'DESC',
+                $this->table . '.' . $order_by => 'DESC',
                 //$this->table . '.post_date' => 'DESC',
                 //'post_modified' => 'DESC',
             ];
