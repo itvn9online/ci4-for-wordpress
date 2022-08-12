@@ -353,7 +353,7 @@ class Sitemap extends Csrf {
             }
 
             //
-            $this->base_model->scache( __FUNCTION__, time(), 24 * 3600 );
+            $this->base_model->scache( __FUNCTION__, time(), 3600 );
         }
 
         //
