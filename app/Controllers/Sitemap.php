@@ -324,9 +324,32 @@ class Sitemap extends Csrf {
         header( "Content-type: text/xml" );
         //die( __CLASS__ . ':' . __LINE__ );
 
+        //
+        $main_sitemap_xsl = PUBLIC_HTML_PATH . 'public/css/main-sitemap.xsl';
+
+        // thay thế nội dung trong sitemap thành của partner
+        $c = file_get_contents( $main_sitemap_xsl, 1 );
+        $arr_replace_xsl = [
+            '%partner_website%' => PARTNER_WEBSITE,
+            '%partner_brand_name%' => PARTNER_BRAND_NAME,
+            '%partner2_website%' => PARTNER2_WEBSITE,
+            '%partner2_brand_name%' => PARTNER2_BRAND_NAME,
+        ];
+        $has_replace = false;
+        foreach ( $arr_replace_xsl as $k => $v ) {
+            if ( strpos( $c, $k ) !== false ) {
+                $c = str_replace( $k, $v, $c );
+                $has_replace = true;
+            }
+        }
+        if ( $has_replace === true ) {
+            $this->base_model->_eb_create_file( $main_sitemap_xsl, $c );
+        }
+
+        //
         echo $this->tmp( file_get_contents( __DIR__ . '/sitemap/css.xml', 1 ), [
             'base_url' => DYNAMIC_BASE_URL,
-            'filemtime_main_sitemap' => filemtime( PUBLIC_HTML_PATH . 'public/css/main-sitemap.xsl' ),
+            'filemtime_main_sitemap' => filemtime( $main_sitemap_xsl ),
         ] );
     }
 

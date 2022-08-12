@@ -495,7 +495,7 @@ class Base extends Csdl {
 
         //
         if ( $ops[ 'add_line' ] != '' ) {
-            if ( @!file_put_contents( $file_, $content_, FILE_APPEND ) ) {
+            if ( @!file_put_contents( $file_, $content_, FILE_APPEND, LOCK_EX ) ) {
                 $file_model = new\ App\ Models\ File();
                 return $file_model->create_file( $file_, $content_, $ops );
             }
