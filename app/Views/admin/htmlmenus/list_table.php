@@ -5,7 +5,7 @@
             <th>Tiêu đề <?php echo $name_type; ?></th>
             <th>Mã nhúng</th>
             <th>Trạng thái</th>
-            <th colspan="2">Ngày tạo/ Last Update</th>
+            <th colspan="2">Ngày tạo/ <a :href="'admin/' + controller_slug + '?order_by=post_modified'">Cập nhật cuối <i class="fa fa-sort"></i></a></th>
             <th>Lang</th>
             <th>&nbsp;</th>
         </tr>
