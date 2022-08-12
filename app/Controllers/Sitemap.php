@@ -333,22 +333,27 @@ class Sitemap extends Csrf {
         $main_sitemap_xsl = PUBLIC_HTML_PATH . 'public/css/main-sitemap.xsl';
 
         // thay thế nội dung trong sitemap thành của partner
-        $c = file_get_contents( $main_sitemap_xsl, 1 );
-        $arr_replace_xsl = [
-            '%partner_website%' => PARTNER_WEBSITE,
-            '%partner_brand_name%' => PARTNER_BRAND_NAME,
-            '%partner2_website%' => PARTNER2_WEBSITE,
-            '%partner2_brand_name%' => PARTNER2_BRAND_NAME,
-        ];
-        $has_replace = false;
-        foreach ( $arr_replace_xsl as $k => $v ) {
-            if ( strpos( $c, $k ) !== false ) {
-                $c = str_replace( $k, $v, $c );
-                $has_replace = true;
+        if ( $this->base_model->scache( __FUNCTION__ ) === NULL ) {
+            $c = file_get_contents( $main_sitemap_xsl, 1 );
+            $arr_replace_xsl = [
+                '%partner_website%' => PARTNER_WEBSITE,
+                '%partner_brand_name%' => PARTNER_BRAND_NAME,
+                '%partner2_website%' => PARTNER2_WEBSITE,
+                '%partner2_brand_name%' => PARTNER2_BRAND_NAME,
+            ];
+            $has_replace = false;
+            foreach ( $arr_replace_xsl as $k => $v ) {
+                if ( strpos( $c, $k ) !== false ) {
+                    $c = str_replace( $k, $v, $c );
+                    $has_replace = true;
+                }
             }
-        }
-        if ( $has_replace === true ) {
-            $this->base_model->_eb_create_file( $main_sitemap_xsl, $c );
+            if ( $has_replace === true ) {
+                $this->base_model->_eb_create_file( $main_sitemap_xsl, $c );
+            }
+
+            //
+            $this->base_model->scache( __FUNCTION__, time(), 24 * 3600 );
         }
 
         //
