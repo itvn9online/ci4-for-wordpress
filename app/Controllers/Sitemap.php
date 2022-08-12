@@ -13,6 +13,11 @@ class Sitemap extends Csrf {
     public function __construct() {
         parent::__construct();
 
+        // kiểm tra xem website có đang bật chế độ public không
+        //print_r( $this->getconfig );
+        if ( $this->getconfig->blog_private == 'on' ) {
+            die( 'ERROR ' . __LINE__ . '! Sitemap not available because site not public...' );
+        }
 
         // định dạng ngày tháng
         $this->sitemap_date_format = 'c';
