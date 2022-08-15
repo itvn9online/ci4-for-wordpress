@@ -1,14 +1,9 @@
 <?php
 namespace App\ Controllers;
 
-//
-//use CodeIgniter\ Controller;
-
 // Libraries
-//use App\ Libraries\ LanguageCost;
 use App\ Libraries\ PostType;
 use App\ Libraries\ UsersType;
-//use App\ Libraries\ FtpAccount;
 
 //
 class Layout extends Sync {
@@ -40,7 +35,6 @@ class Layout extends Sync {
 
         //echo base_url('/') . '<br>' . "\n";
 
-        //$this->base_model = new\ App\ Models\ Base();
         $this->option_model = new\ App\ Models\ Option();
         $this->lang_model = new\ App\ Models\ Lang();
         $this->post_model = new\ App\ Models\ Post();

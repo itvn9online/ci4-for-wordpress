@@ -9,7 +9,6 @@ use App\ Libraries\ LanguageCost;
 use App\ Libraries\ AdminMenu;
 use App\ Libraries\ CommentType;
 use App\ Libraries\ UsersType;
-//use App\ Libraries\ MyImage;
 
 //
 class Admin extends Ajaxs {

@@ -12,8 +12,6 @@ class File extends EbModel {
 
     public function __construct() {
         parent::__construct();
-
-        //$this->post_model = new\ App\ Models\ Post();
     }
 
     // EBE_check_ftp_account

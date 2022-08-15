@@ -1,9 +1,3 @@
-<?php
-
-//
-//$option_model = new\ App\ Models\ Option();
-
-?>
 <div class="w90">
     <div class="d-none">
         <div class="text-center">

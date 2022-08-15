@@ -65,6 +65,9 @@ jQuery(document).ready(function () {
     if (height_for_lazzy_load == 0) {
         height_for_lazzy_load = jQuery(window).height();
     }
+    
+    //
+    _global_js_eb.ebe_currency_format();
 });
 
 //

@@ -1,9 +1,7 @@
 <?php
-
 namespace App\ Models;
 
 //
-//use App\ Libraries\ UsersType;
 use App\ Libraries\ DeletedStatus;
 
 //

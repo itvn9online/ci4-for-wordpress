@@ -2,11 +2,9 @@
 namespace App\ Controllers;
 
 // Libraries
-//use App\ Libraries\ DeletedStatus;
-//use App\ Libraries\ TaxonomyType;
 use App\ Libraries\ PostType;
-//use App\ Libraries\ LanguageCost;
 
+//
 class Search extends Csrf {
     protected $post_type = PostType::POST;
 

@@ -1,8 +1,5 @@
 <?php
-
 // Libraries
-//use App\ Libraries\ TaxonomyType;
-//use App\ Libraries\ LanguageCost;
 //use App\ Libraries\ UsersType;
 
 //print_r( $session_data );

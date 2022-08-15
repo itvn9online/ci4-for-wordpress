@@ -826,7 +826,6 @@ var _global_js_eb = {
     // giả lập GET của PHP
     _get: function (p) {},
 
-
     ebe_currency_format: function () {
         // hỗ trợ chuyển đổi đơn vị tiền tệ nếu to quá
         var mot_ty = 1000000000;
@@ -888,9 +887,8 @@ var _global_js_eb = {
                     }
                 }
             }
-        }).removeClass('ebe-currency-format');
+        }).removeClass('ebe-currency-format').addClass('ebe-currency');
     }
-
 };
 
 //

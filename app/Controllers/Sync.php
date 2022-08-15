@@ -1,11 +1,7 @@
 <?php
 namespace App\ Controllers;
 
-//
-//use CodeIgniter\ Controller;
-
 // Libraries
-//use App\ Libraries\ LanguageCost;
 use App\ Libraries\ DeletedStatus;
 use App\ Helpers\ HtmlTemplate;
 

@@ -412,7 +412,8 @@ var g_func = {
         } else {
             so_thap_phan = '';
         }
-        return g_func.formatV2Currency(num) + so_thap_phan;
+        //return g_func.formatV2Currency(num) + so_thap_phan;
+        return g_func.formatV2Currency(num);
 
         /*
          * v1
