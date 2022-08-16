@@ -112,10 +112,18 @@ function datetimepicker_onClose(input_name, input_id, type) {
                 time_stamp += tzoffset;
                 console.log('time_stamp:', time_stamp);
             }
-            $('#' + input_id).val(Math.ceil(time_stamp / 1000));
+            time_stamp = Math.ceil(time_stamp / 1000);
+            // nếu là pick date -> đưa về cuối ngày -> để nếu có hết hạn thì cũng cuối ngày mới bị khóa
+            if ($('#' + input_id).hasClass('datepicker')) {
+                time_stamp += 24 * 3600 - 1;
+                console.log('time_stamp:', time_stamp);
+            }
+            $('#' + input_id).val(time_stamp);
 
             //
             console.log('Test date:', new Date($('#' + input_id).val() * 1000).toISOString());
+        } else {
+            $('#' + input_id).val('0');
         }
     });
 }
