@@ -108,8 +108,8 @@ defined( 'CUSTOM_ADMIN_URI' ) || define( 'CUSTOM_ADMIN_URI', 'wgr-wp-admin' );
 defined( 'PARTNER_WEBSITE' ) || define( 'PARTNER_WEBSITE', 'https://echbay.com/' );
 defined( 'PARTNER_BRAND_NAME' ) || define( 'PARTNER_BRAND_NAME', 'EchBay.com' );
 //
-defined( 'PARTNER2_WEBSITE' ) || define( 'PARTNER_WEBSITE', 'https://webgiare.org/' );
-defined( 'PARTNER2_BRAND_NAME' ) || define( 'PARTNER_BRAND_NAME', 'WebGiaRe.org' );
+defined( 'PARTNER2_WEBSITE' ) || define( 'PARTNER2_WEBSITE', 'https://webgiare.org/' );
+defined( 'PARTNER2_BRAND_NAME' ) || define( 'PARTNER2_BRAND_NAME', 'WebGiaRe.org' );
 
 /*
  * URL động cho website để có thể chạy trên nhiều tên miền khác nhau mà không cần config lại

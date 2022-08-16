@@ -1,12 +1,15 @@
 <?php
 namespace App\ Models;
 
-// Trong một số trường hợp sẽ không sử dụng đến prefix cho table khi truy vấn -> lúc đấy sẽ gọi thông qua model này
+// Trong một số trường hợp càn thay đổi prefix table khi truy vấn -> lúc đấy sẽ gọi thông qua model này
 class NoPrefix extends Csdl {
+    // tùy chỉnh prefix theo ý muốn
+    protected $custom_prefix = '';
+
     public function __construct() {
         parent::__construct();
 
-        // bỏ prefix đi -> vì code móc nối tới không dùng prefix
-        $this->db->setPrefix( '' );
+        // thiết lập prefix mới, dùng cho 1 số code móc nối nhiều database khác nhau
+        $this->db->setPrefix( $this->custom_prefix );
     }
 }
