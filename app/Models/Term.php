@@ -971,6 +971,8 @@ class Term extends TermBase {
      * đồng bộ các tổng số nhóm con cho các danh mục
      */
     public function sync_term_child_count() {
+        $prefix = WGR_TABLE_PREFIX;
+
         //echo __FUNCTION__ . '<br>' . "\n";
         $last_run = $this->base_model->scache( __FUNCTION__ );
         if ( $last_run !== NULL ) {
@@ -987,7 +989,7 @@ class Term extends TermBase {
         $this->base_model->scache( __FUNCTION__, time(), $this->time_update_last_count - rand( 333, 999 ) );
 
         //
-        $the_view = WGR_TABLE_PREFIX . 'zzz_update_count';
+        $the_view = $prefix . 'zzz_update_count';
 
         //
         $current_time = time();
@@ -1035,15 +1037,17 @@ class Term extends TermBase {
         $this->base_model->MY_query( $sql );
 
         // update count cho các parent trong view
-        $sql = "UPDATE " . WGR_TABLE_PREFIX . "terms
+        $sql = "UPDATE " . $prefix . "terms
         INNER JOIN
-            $the_view ON $the_view.parent = " . WGR_TABLE_PREFIX . "terms.term_id
+            $the_view ON $the_view.parent = " . $prefix . "terms.term_id
         SET
-            " . WGR_TABLE_PREFIX . "terms.child_count = $the_view.c
+            " . $prefix . "terms.child_count = $the_view.c
         WHERE
-            is_deleted = " . DeletedStatus::FOR_DEFAULT;
+            is_deleted = ?";
         //echo $sql . '<br>' . "\n";
-        $this->base_model->MY_query( $sql );
+        $this->base_model->MY_query( $sql, [
+            DeletedStatus::FOR_DEFAULT
+        ] );
 
 
         /*
@@ -1057,11 +1061,13 @@ class Term extends TermBase {
         ] );
 
         // đặt các relationships về XÓA
-        $sql = "UPDATE " . WGR_TABLE_PREFIX . "term_relationships
+        $sql = "UPDATE " . $prefix . "term_relationships
         SET
-            is_deleted = " . DeletedStatus::DELETED;
+            is_deleted = ?";
         //echo $sql . '<br>' . "\n";
-        $this->base_model->MY_query( $sql );
+        $this->base_model->MY_query( $sql, [
+            DeletedStatus::DELETED
+        ] );
 
         // đặt trạng thái public các các relationships của post đang public
         /*
@@ -1084,15 +1090,21 @@ class Term extends TermBase {
             'no_remove_field' => 1
         ] );
         */
-        $sql = "UPDATE " . WGR_TABLE_PREFIX . "term_relationships
+        $params = [];
+        $sql = "UPDATE " . $prefix . "term_relationships
         INNER JOIN
-            " . WGR_TABLE_PREFIX . "posts ON  " . WGR_TABLE_PREFIX . "posts.ID = " . WGR_TABLE_PREFIX . "term_relationships.object_id
+            " . $prefix . "posts ON  " . $prefix . "posts.ID = " . $prefix . "term_relationships.object_id
         SET
-            " . WGR_TABLE_PREFIX . "term_relationships.is_deleted = " . DeletedStatus::FOR_DEFAULT . "
-        WHERE
-            " . WGR_TABLE_PREFIX . "posts.post_status = '" . PostType::PUBLICITY . "'";
+            " . $prefix . "term_relationships.is_deleted = ?";
+        $params[] = DeletedStatus::FOR_DEFAULT;
+
+        //
+        $sql .= "WHERE " . $prefix . "posts.post_status = ?";
+        $params[] = PostType::PUBLICITY;
+
+        //
         //echo $sql . '<br>' . "\n";
-        $this->base_model->MY_query( $sql );
+        $this->base_model->MY_query( $sql, $params );
         //return false;
 
         /*
@@ -1122,11 +1134,11 @@ class Term extends TermBase {
         $this->base_model->MY_query( $sql );
 
         // update count cho các parent trong view
-        $sql = "UPDATE " . WGR_TABLE_PREFIX . "term_taxonomy
+        $sql = "UPDATE " . $prefix . "term_taxonomy
         INNER JOIN
-            $the_view ON $the_view.term_taxonomy_id = " . WGR_TABLE_PREFIX . "term_taxonomy.term_id
+            $the_view ON $the_view.term_taxonomy_id = " . $prefix . "term_taxonomy.term_id
         SET
-            " . WGR_TABLE_PREFIX . "term_taxonomy.count = $the_view.c";
+            " . $prefix . "term_taxonomy.count = $the_view.c";
         //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query( $sql );
 
@@ -1158,11 +1170,11 @@ class Term extends TermBase {
         $this->base_model->MY_query( $sql );
 
         // update count cho các parent trong view
-        $sql = "UPDATE " . WGR_TABLE_PREFIX . "term_taxonomy
+        $sql = "UPDATE " . $prefix . "term_taxonomy
         INNER JOIN
-            $the_view ON $the_view.parent = " . WGR_TABLE_PREFIX . "term_taxonomy.term_id
+            $the_view ON $the_view.parent = " . $prefix . "term_taxonomy.term_id
         SET
-            " . WGR_TABLE_PREFIX . "term_taxonomy.count = " . WGR_TABLE_PREFIX . "term_taxonomy.count+$the_view.t";
+            " . $prefix . "term_taxonomy.count = " . $prefix . "term_taxonomy.count+$the_view.t";
         //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query( $sql );
 

@@ -4,10 +4,6 @@
  */
 namespace App\ Models;
 
-//
-//use CodeIgniter\ Model;
-use App\ Helpers\ HtmlTemplate;
-
 // Cơ sở dữ liệu =)) thi thoảng làm tí thuần Việt cho đỡ bị xung đột với framework
 class Csdl extends Session {
     public $default_post_type = 'post';
@@ -606,7 +602,11 @@ class Csdl extends Session {
         return true;
     }
 
-    public function MY_query( $sql ) {
-        return $this->db->query( $sql );
+    /*
+     * Sử dụng query bindings để hạn chế sql injection
+     * https://www.codeigniter.com/user_guide/database/queries.html#query-bindings
+     */
+    public function MY_query( $sql, $params = [] ) {
+        return $this->db->query( $sql, $params );
     }
 }

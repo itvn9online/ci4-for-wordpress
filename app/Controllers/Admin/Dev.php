@@ -20,12 +20,14 @@ class Dev extends Admin {
          */
         $has_update = $this->base_model->scache( __FUNCTION__ );
         if ( $has_update === NULL ) {
+            $prefix = WGR_TABLE_PREFIX;
+
             /*
              * một số lệnh thay đổi dữ liệu thủ công
              */
             $arr_update_db = [
-                'UPDATE `' . WGR_TABLE_PREFIX . 'term_taxonomy` SET `term_level` = 0 WHERE `parent` = 0',
-                'UPDATE `' . WGR_TABLE_PREFIX . 'term_taxonomy` SET `term_level` = 1 WHERE `parent` > 0 AND `parent` IN (SELECT `term_id` FROM `' . WGR_TABLE_PREFIX . 'term_taxonomy` WHERE `parent` = 0)',
+                'UPDATE `' . $prefix . 'term_taxonomy` SET `term_level` = 0 WHERE `parent` = 0',
+                'UPDATE `' . $prefix . 'term_taxonomy` SET `term_level` = 1 WHERE `parent` > 0 AND `parent` IN (SELECT `term_id` FROM `' . $prefix . 'term_taxonomy` WHERE `parent` = 0)',
             ];
             // lấy term level cao nhất để for
             $high_level = $this->base_model->select( 'term_level', 'term_taxonomy', [], [
@@ -42,7 +44,7 @@ class Dev extends Admin {
             //print_r( $high_level );
             if ( !empty( $high_level ) ) {
                 for ( $i = 1; $i < $high_level[ 'term_level' ] + 1; $i++ ) {
-                    $arr_update_db[] = 'UPDATE `' . WGR_TABLE_PREFIX . 'term_taxonomy` SET `term_level` = ' . ( $i + 1 ) . ' WHERE `parent` > 0 AND `parent` IN (SELECT `term_id` FROM `' . WGR_TABLE_PREFIX . 'term_taxonomy` WHERE term_level = ' . $i . ')';
+                    $arr_update_db[] = 'UPDATE `' . $prefix . 'term_taxonomy` SET `term_level` = ' . ( $i + 1 ) . ' WHERE `parent` > 0 AND `parent` IN (SELECT `term_id` FROM `' . $prefix . 'term_taxonomy` WHERE term_level = ' . $i . ')';
                 }
             }
             // daidq (2022-03-04): chức năng này đang hoạt động không đúng -> vòng lặp nó sẽ chạy mãi do i++ hoài

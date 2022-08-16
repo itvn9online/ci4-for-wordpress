@@ -44,11 +44,6 @@ class Layout extends Sync {
         $this->comment_model = new\ App\ Models\ Comment();
 
         //
-        //$this->load->model( 'Blog', 'blog_model' );
-        //$this->load->model( 'Ads', 'ads_model' );
-        //$this->load->model( 'Upload', 'upload_model' );
-
-        //
         //$this->session = \Config\ Services::session();
         $this->request = \Config\ Services::request();
 

@@ -221,6 +221,9 @@ class Sync extends BaseController {
             return false;
         }
 
+        //
+        $prefix = WGR_TABLE_PREFIX;
+
         // các cột khi gặp sẽ thêm cả chức năng add index
         $arr_index_cloumn = [
             'lang_key',
@@ -238,7 +241,7 @@ class Sync extends BaseController {
 
         // tự động fixed các cột của bảng nếu chưa có
         $arr_add_cloumn = [
-            WGR_TABLE_PREFIX . 'users' => [
+            $prefix . 'users' => [
                 'ci_pass' => 'VARCHAR(255) NULL COMMENT \'Mật khẩu đăng nhập cho phiên bản CI-wordpress\'',
                 'member_type' => 'VARCHAR(55) NOT NULL COMMENT \'Phân loại thành viên (role)\'',
                 'is_deleted' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'0 = hiển thị, 1 = xóa\'',
@@ -251,7 +254,7 @@ class Sync extends BaseController {
                 'user_phone' => 'VARCHAR(55) NULL COMMENT \'Điện thoại liên hệ\'',
                 'avatar' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Ảnh đại diện\'',
             ],
-            WGR_TABLE_PREFIX . 'posts' => [
+            $prefix . 'posts' => [
                 'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
                 'lang_parent' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Dùng để xác định với các bản ghi được nhân bản từ ngôn ngữ chính\'',
                 'post_viewed' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Đếm số lượt xem bài viết\'',
@@ -260,7 +263,7 @@ class Sync extends BaseController {
                 'time_order' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Sắp xếp độ ưu tiên của post dựa theo thời gian hiện tại\'',
                 'post_meta_data' => 'LONGTEXT NULL COMMENT \'Lưu các post meta vào đây để đỡ phải query nhiều\'',
             ],
-            WGR_TABLE_PREFIX . 'terms' => [
+            $prefix . 'terms' => [
                 'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
                 'lang_parent' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Dùng để xác định với các bản ghi được nhân bản từ ngôn ngữ chính\'',
                 'last_updated' => 'DATETIME NOT NULL',
@@ -274,14 +277,14 @@ class Sync extends BaseController {
                 'child_last_count' => 'BIGINT(20) NULL COMMENT \'Thời gian cập nhật child_count lần trước\'',
                 'term_type' => 'VARCHAR(55) NULL COMMENT \'Dùng để phân loại term, tương tự category nhưng ít dùng hơn nhiều\'',
             ],
-            WGR_TABLE_PREFIX . 'term_taxonomy' => [
+            $prefix . 'term_taxonomy' => [
                 // term level -> dùng để lọc các nhóm theo cấp độ cho nó nhanh -> ví dụ khi cần lấy tất cả các nhóm cấp 1, 2, 3
                 'term_level' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'Level của nhóm, tính theo cấp độ của nhóm cha +1\'',
             ],
-            WGR_TABLE_PREFIX . 'term_relationships' => [
+            $prefix . 'term_relationships' => [
                 'is_deleted' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'0 = hiển thị, 1 = xóa. Trạng thái này được lấy định kỳ dựa theo trạng thái của post\'',
             ],
-            WGR_TABLE_PREFIX . 'options' => [
+            $prefix . 'options' => [
                 'option_type' => 'VARCHAR(55) NULL DEFAULT NULL COMMENT \'Phân loại option dành cho nhiều việc khác nhau\'',
                 'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
                 'lang_parent' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Dùng để xác định với các bản ghi được nhân bản từ ngôn ngữ chính\'',
@@ -289,7 +292,7 @@ class Sync extends BaseController {
                 'is_deleted' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'0 = hiển thị, 1 = xóa\'',
                 'insert_time' => 'BIGINT(20) NULL DEFAULT NULL COMMENT \'Thời gian insert bản ghi, dùng để lọc các dữ liệu insert cùng thời điểm\'',
             ],
-            WGR_TABLE_PREFIX . 'comments' => [
+            $prefix . 'comments' => [
                 // thêm tiêu đề cho phần comment -> do bảng mặc định của wp comment không có cột này
                 'comment_title' => 'VARCHAR(255) NOT NULL DEFAULT \'Thêm tiêu đề để tiện cho việc hiển thị\'',
                 'comment_slug' => 'VARCHAR(255) NOT NULL DEFAULT \'Thêm phần slug để tiện cho quá trình tìm kiếm\'',
@@ -326,7 +329,7 @@ class Sync extends BaseController {
         }
 
         //
-        $arr_add_cloumn[ WGR_TABLE_PREFIX . 'options_deleted' ] = $arr_add_cloumn[ WGR_TABLE_PREFIX . 'options' ];
+        $arr_add_cloumn[ $prefix . 'options_deleted' ] = $arr_add_cloumn[ $prefix . 'options' ];
         //print_r( $arr_add_cloumn );
 
         //
@@ -372,13 +375,13 @@ class Sync extends BaseController {
             }
         }
         //die( __CLASS__ . ':' . __LINE__ );
-        
+
         // bảng post_title wordpress mặc định nó là TEXT -> chuyển về VARCHAR
         /*
-        $alter_query = "ALTER TABLE `" . WGR_TABLE_PREFIX . "posts` CHANGE `post_title` `post_title` VARCHAR(255) NOT NULL;";
+        $alter_query = "ALTER TABLE `" . $prefix . "posts` CHANGE `post_title` `post_title` VARCHAR(255) NOT NULL;";
         echo $alter_query . '<br>' . "\n";
         if ( $this->base_model->MY_query( $alter_query ) ) {
-            echo WGR_TABLE_PREFIX . 'posts - post_title column in database has been sync! <br>' . "\n";
+            echo $prefix . 'posts - post_title column in database has been sync! <br>' . "\n";
         } else {
             echo 'Query failed! Please re-check query <br>' . "\n";
         }
