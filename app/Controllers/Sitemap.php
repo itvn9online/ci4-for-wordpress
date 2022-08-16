@@ -16,6 +16,9 @@ class Sitemap extends Csrf {
         // kiểm tra xem website có đang bật chế độ public không
         //print_r( $this->getconfig );
         if ( $this->getconfig->blog_private == 'on' ) {
+            $pcol = ( isset( $_SERVER[ 'SERVER_PROTOCOL' ] ) ? $_SERVER[ 'SERVER_PROTOCOL' ] : 'HTTP/1.0' );
+            //$this->response->setStatusCode( 404, $pcol . ' 404 Not Found' );
+            header( $pcol . ' 404 Not Found' );
             die( 'ERROR ' . __LINE__ . '! Sitemap not available because site not public...' );
         }
 
