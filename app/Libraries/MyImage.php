@@ -231,10 +231,12 @@ class MyImage {
             $get_file_info = getimagesize( $source );
             // nếu size cần resize mà nhỏ hơn size chính -> copy luôn cho nhanh
             if ( $width > $get_file_info[ 0 ] ) {
-                copy( $source, $desc )or die( 'ERROR copy for resize file with new width' );
+                if ( $source != $desc ) {
+                    copy( $source, $desc )or die( 'ERROR copy for resize file width ' . $width . ' to ' . $get_file_info[ 0 ] );
 
-                // optimize file sau mỗi lần copy
-                $new_quality = self::quality( $desc, $desc, $compression );
+                    // optimize file sau mỗi lần copy
+                    $new_quality = self::quality( $desc, $desc, $compression );
+                }
             }
             // còn lại sẽ thực hiện resize
             else {
