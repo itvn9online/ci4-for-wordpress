@@ -294,15 +294,6 @@ class Csdl extends Session {
         ], [
             'debug_backtrace' => debug_backtrace()[ 1 ][ 'function' ]
         ] );
-
-        //
-        $builder = $this->db->table( $table );
-        $builder->where( $where, $id );
-        $builder->delete();
-        if ( $this->db->affectedRows() ) {
-            return true;
-        }
-        return false;
     }
 
     // trả về các cột dữ liệu mặc định trong 1 bảng

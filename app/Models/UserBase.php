@@ -79,6 +79,9 @@ class UserBase extends EbModel {
     }
 
     public function login( $name, $password, $ci_pass = '', $level = '0' ) {
+        /*
+         * Chức năng đăng nhập này hơi cầu kỳ nên không dùng cái builder query chung được
+         */
         $builder = $this->base_model->db->table( $this->table );
         //$builder->select( '*' );
 
