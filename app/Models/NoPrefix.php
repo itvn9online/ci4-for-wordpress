@@ -16,6 +16,7 @@ class NoPrefix extends Csdl {
 
     // thiết lập prefix theo yêu cầu
     protected function my_prefix() {
+        //die( $this->custom_prefix );
         $this->db->setPrefix( $this->custom_prefix );
     }
 
@@ -55,6 +56,13 @@ class NoPrefix extends Csdl {
     public function select( $select, $from, $where = array(), $ops = array() ) {
         $this->my_prefix();
         $a = parent::select( $select, $from, $where, $ops );
+        $this->default_prefix();
+        return $a;
+    }
+
+    public function default_data( $table, $other_table = [] ) {
+        $this->my_prefix();
+        $a = parent::default_data( $table, $other_table );
         $this->default_prefix();
         return $a;
     }

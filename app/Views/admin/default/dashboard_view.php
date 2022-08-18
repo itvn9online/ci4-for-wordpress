@@ -1,6 +1,9 @@
 <?php
 
 //
+$ci_last_version = 424;
+
+//
 $Vue_version = '{{Vue.version}}';
 if ( $debug_enable === true ) {
     $Vue_version = 'Development Version';
@@ -246,7 +249,7 @@ if ( $debug_enable === true ) {
 $vue_data = [
     'base_url' => DYNAMIC_BASE_URL,
     'ci_version' => \CodeIgniter\ CodeIgniter::CI_VERSION, // phiên bản CI hiện tại
-    'ci_last_version' => 423, // phiên bản CI mới nhất -> đổi màu để dễ nhận biết có bản mới hơn
+    'ci_last_version' => $ci_last_version, // phiên bản CI mới nhất -> đổi màu để dễ nhận biết có bản mới hơn
     'robots_exist' => $robots_exist,
     'phpversion' => phpversion(),
     'current_dbname' => $current_dbname,
@@ -271,11 +274,3 @@ var vue_data = <?php echo json_encode($vue_data); ?>;
 
 //
 $base_model->add_js( 'admin/js/dashboard.js' );
-
-
-
-
-
-
-
-
