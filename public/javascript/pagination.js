@@ -31,14 +31,14 @@ function EBE_part_page(Page, TotalPage, strLinkPager, sub_part) {
     if (begin_i < 1) {
         begin_i = 1;
     } else if (begin_i > 1) {
-        first_page = ' <a href="' + strLinkPager + (Page - 1) + '" rel="nofollow">&lt;&lt;</a> ';
-        first_page += ' <a rel="nofollow" href="' + strLinkPager + '1">1</a> ';
+        first_page = ' <a data-page="' + (Page - 1) + '" href="' + strLinkPager + (Page - 1) + '" rel="nofollow">&lt;&lt;</a> ';
+        first_page += ' <a data-page="1" rel="nofollow" href="' + strLinkPager + '1">1</a> ';
         if (begin_i > 2) {
             first_page += ' ... ';
         }
     }
     for (var i = begin_i; i < Page; i++) {
-        prev_page += ' <a rel="nofollow" href="' + strLinkPager + i + '">' + i + '</a> ';
+        prev_page += ' <a data-page="' + i + '" rel="nofollow" href="' + strLinkPager + i + '">' + i + '</a> ';
         show_page--;
     }
     //console.log('show page:', show_page);
@@ -54,10 +54,10 @@ function EBE_part_page(Page, TotalPage, strLinkPager, sub_part) {
         if (end_i < TotalPage - 1) {
             last_page += ' ... ';
         }
-        last_page += ' <a rel="nofollow" href="' + strLinkPager + TotalPage + '">' + TotalPage + '</a> <a href="' + strLinkPager + (Page + 1) + '" rel="nofollow">&gt;&gt;</a> ';
+        last_page += ' <a data-page="' + TotalPage + '" rel="nofollow" href="' + strLinkPager + TotalPage + '">' + TotalPage + '</a> <a data-page="' + (Page + 1) + '" href="' + strLinkPager + (Page + 1) + '" rel="nofollow">&gt;&gt;</a> ';
     }
     for (var i = (Page + 1); i <= end_i; i++) {
-        next_page += ' <a rel="nofollow" href="' + strLinkPager + i + '">' + i + '</a> ';
+        next_page += ' <a data-page="' + i + '" rel="nofollow" href="' + strLinkPager + i + '">' + i + '</a> ';
     }
 
     //
