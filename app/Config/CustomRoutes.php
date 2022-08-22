@@ -38,7 +38,8 @@ $routes->get( '(:num)/(:segment)', 'Posts::post_details/$1/$2' );
 
 // page -> có base slug cho page thì dùng loại base fix cứng này
 if ( WGR_PAGES_PREFIX != '' ) {
-    $routes->add( WGR_PAGES_PREFIX . '/(:segment)', 'Pages::get_page/$1' );
+    //$routes->add( WGR_PAGES_PREFIX . '/(:segment)', 'Pages::get_page/$1' );
+    $routes->add( PAGE_BASE_URL . '(:segment)', 'Pages::get_page/$1' );
 }
 
 // custom post type
@@ -51,12 +52,15 @@ $routes->get( 'c/(:segment)/(:num)/(:segment)/page/(:num)', 'C::custom_taxonomy/
 // category -> có base slug cho category thì dùng loại base fix cứng này
 if ( WGR_CATEGORY_PREFIX != '' ) {
     $routes->get( WGR_CATEGORY_PREFIX . '/(:segment)', 'Category::category_list/$1' );
+    /*
     $routes->get( WGR_CATEGORY_PREFIX . '/(:segment)/page/(:num)', 'Category::category_list/$1/page/$2' );
 }
 // không có thì mới sử dụng loại auto category -> hỗ trợ phân trang
 else {
     $routes->get( '(:segment)/page/(:num)', 'Category::category_list/$1/page/$2' );
+    */
 }
+$routes->get( CATEGORY_BASE_URL . '(:segment)/page/(:num)', 'Category::category_list/$1/page/$2' );
 
 // auto category -> dùng nặng -> hạn chế sử dụng
 //$routes->get( '(:segment)/page/(:num)', 'Home::checkurl/$1/page/$2' );

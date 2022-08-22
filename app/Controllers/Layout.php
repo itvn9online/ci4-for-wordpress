@@ -4,6 +4,7 @@ namespace App\ Controllers;
 // Libraries
 use App\ Libraries\ PostType;
 use App\ Libraries\ UsersType;
+use App\ Libraries\ TaxonomyType;
 
 //
 class Layout extends Sync {

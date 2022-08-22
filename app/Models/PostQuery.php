@@ -15,7 +15,14 @@ class PostQuery extends PostMeta {
         parent::__construct();
     }
 
-    function insert_post( $data, $data_meta = [], $check_slug = true ) {
+    protected function sync_post_data( $data ) {
+        // đặt giá trị này để khởi tạo lại permalink
+        $data[ 'post_permalink' ] = '';
+        //$data[ 'updated_permalink' ] = 0;
+        return $data;
+    }
+
+    public function insert_post( $data, $data_meta = [], $check_slug = true ) {
         // các dữ liệu mặc định
         $default_data = [
             'post_date' => date( EBE_DATETIME_FORMAT ),
@@ -83,10 +90,12 @@ class PostQuery extends PostMeta {
                 $data[ $k ] = $v;
             }
         }
-
-        // insert post
+        // đồng bộ dữ liệu trước khi insert
+        $data = $this->sync_post_data( $data );
         //print_r( $data );
         //die( __CLASS__ . ':' . __LINE__ );
+
+        // insert post
         $result_id = $this->base_model->insert( $this->table, $data, true );
         //var_dump( $result_id );
         //print_r( $result_id );
@@ -198,6 +207,8 @@ class PostQuery extends PostMeta {
                 $data[ $k ] = $v;
             }
         }
+        // đồng bộ dữ liệu trước khi update
+        $data = $this->sync_post_data( $data );
         //print_r( $data );
         //die( __CLASS__ . ':' . __LINE__ );
 

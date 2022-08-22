@@ -108,19 +108,54 @@ class PostBase extends EbModel {
     public function get_the_permalink( $data ) {
         //print_r( $data );
 
+        // sử dụng permalink có sẵn trong data
+        if ( $data[ 'post_permalink' ] != '' ) {
+            return DYNAMIC_BASE_URL . $data[ 'post_permalink' ];
+        }
+
         //
         //return DYNAMIC_BASE_URL . $data[ 'post_type' ] . '/' . $data[ 'ID' ] . '/' . $data[ 'post_name' ] . '.html';
 
         //
         if ( $data[ 'post_type' ] == PostType::POST ) {
-            return DYNAMIC_BASE_URL . $data[ 'ID' ] . '/' . $data[ 'post_name' ];
+            //return DYNAMIC_BASE_URL . $data[ 'ID' ] . '/' . $data[ 'post_name' ];
+            $url = WGR_POST_PERMALINK;
         } else if ( $data[ 'post_type' ] == PostType::BLOG ) {
-            return DYNAMIC_BASE_URL . PostType::BLOG . '-' . $data[ 'ID' ] . '/' . $data[ 'post_name' ];
+            //return DYNAMIC_BASE_URL . PostType::BLOG . '-' . $data[ 'ID' ] . '/' . $data[ 'post_name' ];
+            $url = WGR_BLOG_PERMALINK;
         } else if ( $data[ 'post_type' ] == PostType::PAGE ) {
-            return DYNAMIC_BASE_URL . PAGE_BASE_URL . $data[ 'post_name' ];
+            //return DYNAMIC_BASE_URL . PAGE_BASE_URL . $data[ 'post_name' ];
+            $url = WGR_PAGE_PERMALINK;
+        } else {
+            $url = WGR_POSTS_PERMALINK;
         }
+
+        //
+        foreach ( [
+                'page_base' => PAGE_BASE_URL,
+                'ID' => $data[ 'ID' ],
+                'post_name' => $data[ 'post_name' ],
+                'post_type' => $data[ 'post_type' ],
+            ] as $k => $v ) {
+            $url = str_replace( '%' . $k . '%', $v, $url );
+        }
+
+        // update vào db để sau còn tái sử dụng -> nhẹ server
+        $this->base_model->update_multiple( 'posts', [
+            'post_permalink' => $url,
+        ], [
+            'ID' => $data[ 'ID' ],
+        ], [
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+        ] );
+
+        //
+        return DYNAMIC_BASE_URL . $url;
+
+        //
         //return DYNAMIC_BASE_URL . '?p=' . $data[ 'ID' ] . '&post_type=' . $data[ 'post_type' ] . '&slug=' . $data[ 'post_name' ];
-        return DYNAMIC_BASE_URL . 'p/' . $data[ 'post_type' ] . '/' . $data[ 'ID' ] . '/' . $data[ 'post_name' ] . '.html';
+        //return DYNAMIC_BASE_URL . 'p/' . $data[ 'post_type' ] . '/' . $data[ 'ID' ] . '/' . $data[ 'post_name' ] . '.html';
     }
 
     // thường dùng trong view -> in ra link admin của 1 post

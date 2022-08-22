@@ -16,6 +16,13 @@ class Term extends TermBase {
         parent::__construct();
     }
 
+    protected function sync_term_data( $data ) {
+        // đặt giá trị này để khởi tạo lại permalink
+        $data[ 'term_permalink' ] = '';
+        //$data[ 'updated_permalink' ] = 0;
+        return $data;
+    }
+
     // lấy post theo dạng tương tự wordpress -> nếu không có -> tự động tạo mới
     function get_cat_post( $slug, $post_type = 'post', $taxonomy = 'category', $auto_insert = true, $ops = [] ) {
         if ( !isset( $ops[ 'lang_key' ] ) || $ops[ 'lang_key' ] == '' ) {
@@ -154,6 +161,8 @@ class Term extends TermBase {
                 $data[ $k ] = $v;
             }
         }
+        // đồng bộ dữ liệu trước khi insert
+        $data = $this->sync_term_data( $data );
         //print_r( $data );
         //die( __CLASS__ . ':' . __LINE__ );
 
@@ -295,6 +304,8 @@ class Term extends TermBase {
         ];
         //print_r( $where );
 
+        // đồng bộ dữ liệu trước khi update
+        $data = $this->sync_term_data( $data );
 
         //
         $result_update = $this->base_model->update_multiple( $this->table, $data, $where, [
@@ -439,7 +450,7 @@ class Term extends TermBase {
         //echo 'in_cache: ' . $in_cache . '<br>' . "\n";
 
         // cố định loại cột cần lấy
-        $ops[ 'select_col' ] = 'term_id, name, slug, term_group, count, parent, taxonomy, child_count, child_last_count';
+        $ops[ 'select_col' ] = 'term_id, name, slug, term_group, count, parent, taxonomy, child_count, child_last_count, term_permalink';
         //$ops[ 'select_col' ] = '*';
 
         //
@@ -798,24 +809,59 @@ class Term extends TermBase {
     }
 
     // trả về url của 1 term
-    function get_the_permalink( $data ) {
+    public function get_the_permalink( $data ) {
         //print_r( $data );
 
+        // sử dụng permalink có sẵn trong data
+        if ( $data[ 'term_permalink' ] != '' ) {
+            return DYNAMIC_BASE_URL . $data[ 'term_permalink' ];
+        }
+
+        // không có thì mới tạo và update vào db
         $allow_taxonomy = [
             TaxonomyType::TAGS,
             TaxonomyType::BLOGS,
             TaxonomyType::BLOG_TAGS,
         ];
         if ( $data[ 'taxonomy' ] == TaxonomyType::POSTS ) {
-            return DYNAMIC_BASE_URL . CATEGORY_BASE_URL . $data[ 'slug' ];
+            //return DYNAMIC_BASE_URL . CATEGORY_BASE_URL . $data[ 'slug' ];
+            $url = WGR_CATEGORY_PERMALINK;
         } else if ( in_array( $data[ 'taxonomy' ], $allow_taxonomy ) ) {
-            return DYNAMIC_BASE_URL . $data[ 'taxonomy' ] . '/' . $data[ 'slug' ];
+            //return DYNAMIC_BASE_URL . $data[ 'taxonomy' ] . '/' . $data[ 'slug' ];
+            $url = WGR_BLOGS_PERMALINK;
+        } else {
+            $url = WGR_TAXONOMY_PERMALINK;
         }
+
+        //
+        foreach ( [
+                'category_base' => CATEGORY_BASE_URL,
+                'term_id' => $data[ 'term_id' ],
+                'slug' => $data[ 'slug' ],
+                'taxonomy' => $data[ 'taxonomy' ],
+            ] as $k => $v ) {
+            $url = str_replace( '%' . $k . '%', $v, $url );
+        }
+
+        // update vào db để sau còn tái sử dụng -> nhẹ server
+        $this->base_model->update_multiple( 'terms', [
+            'term_permalink' => $url,
+        ], [
+            'term_id' => $data[ 'term_id' ],
+        ], [
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+        ] );
+
+        //
+        return DYNAMIC_BASE_URL . $url;
+
+        //
         //return DYNAMIC_BASE_URL . '?cat=' . $data[ 'term_id' ] . '&taxonomy=' . $data[ 'taxonomy' ] . '&slug=' . $data[ 'slug' ];
-        return DYNAMIC_BASE_URL . 'c/' . $data[ 'taxonomy' ] . '/' . $data[ 'term_id' ] . '/' . $data[ 'slug' ];
+        //return DYNAMIC_BASE_URL . 'c/' . $data[ 'taxonomy' ] . '/' . $data[ 'term_id' ] . '/' . $data[ 'slug' ];
     }
     // thường dùng trong view -> in ra link admin của 1 term
-    function the_permalink( $data ) {
+    public function the_permalink( $data ) {
         echo $this->get_the_permalink( $data );
     }
 

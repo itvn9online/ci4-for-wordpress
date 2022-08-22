@@ -825,6 +825,11 @@ function WGR_is_mobile(a) {
     return false;
 }
 
+function get_term_permalink(data) {
+    //console.log(data);
+    return web_link + data.term_permalink;
+}
+
 // tạo menu tự động dựa theo danh mục đang có
 function create_menu_by_taxonomy(arr, li_class) {
     if (arr.length <= 0) {
@@ -850,9 +855,10 @@ function create_menu_by_taxonomy(arr, li_class) {
         if (typeof arr[i].child_term != 'undefined' && arr[i].child_term.length > 0) {
             sub_menu = '<ul class="sub-menu">' + create_menu_by_taxonomy(arr[i].child_term, 'childs-menu') + '</ul>';
         }
+        //console.log(get_term_permalink(arr[i]));
 
         //
-        str += '<li data-id="' + arr[i].term_id + '" class="' + li_class + '"><a href="' + web_link + 'c/' + arr[i].taxonomy + '/' + arr[i].term_id + '/' + arr[i].slug + '" data-id="' + arr[i].term_id + '">' + arr[i].name + ' <span class="taxonomy-count">' + arr[i].count + '</span></a>' + sub_menu + '</li>';
+        str += '<li data-id="' + arr[i].term_id + '" class="' + li_class + '"><a href="' + get_term_permalink(arr[i]) + '" data-id="' + arr[i].term_id + '">' + arr[i].name + ' <span class="taxonomy-count">' + arr[i].count + '</span></a>' + sub_menu + '</li>';
     }
     //console.log(str);
 
