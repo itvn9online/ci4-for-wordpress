@@ -365,7 +365,9 @@ var g_func = {
             s[1] = s[1] || '';
             s[1] += new Array(prec - s[1].length + 1).join('0');
         }
-        return s.join(dec);
+        //console.log(s);
+        // bỏ đoạn sau dấu dec nếu nó là 2 số 0 trở lên
+        return s.join(dec).split(dec + '00')[0];
     },
     formatCurrency: function (num, dot, num_thap_phan) {
         if (typeof num == 'undefined' || num == '') {

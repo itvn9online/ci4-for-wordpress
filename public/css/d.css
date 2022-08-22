@@ -193,14 +193,7 @@ i.fas, em.fas, i.fa, em.fa {
 .big-banner-button li.selected {
     color: #c00;
 }
-.thread-details-tohome {
-    line-height: 44px;
-    height: 44px;
-    overflow: hidden;
-    border-bottom: 1px #ccc solid;
-    background: #f5f5f5;
-    margin-bottom: 18px;
-}
+.thread-details-tohome {}
 /*
 .thread-details-tohome i { color: #F60; }
 */
@@ -213,6 +206,7 @@ i.fas, em.fas, i.fa, em.fa {
 }
 .thread-details-tohome li {
     float: left;
+    padding: 10px 0;
 }
 .thread-details-tohome li:after {
     content: "/";
