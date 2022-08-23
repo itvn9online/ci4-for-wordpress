@@ -352,8 +352,22 @@ class Base extends Csdl {
         return $arr;
     }
 
+    public function default_seo( $name, $canonical ) {
+        return array(
+            'index' => '0',
+            'title' => $name,
+            'description' => $name,
+            'keyword' => $name,
+            'name' => $name,
+            'body_class' => str_replace( '/', '-', $canonical ),
+            'canonical' => base_url( '/' . $canonical ),
+            //'google_analytics' => $getconfig->google_analytics,
+        );
+    }
+
     public function seo( $data, $url ) {
         //print_r( $data );
+        $shortlink = '';
         if ( isset( $data[ 'term_id' ] ) ) {
             $seo = array(
                 'title' => $data[ 'name' ],
@@ -363,6 +377,7 @@ class Base extends Csdl {
                 'term_id' => $data[ 'term_id' ],
                 'body_class' => 'taxonomy ' . $data[ 'taxonomy' ] . '-taxonomy',
             );
+            $shortlink = DYNAMIC_BASE_URL . '?cat=' . $data[ 'term_id' ] . '&taxonomy=' . $data[ 'taxonomy' ];
         } else {
             $seo = array(
                 'title' => $data[ 'post_title' ],
@@ -372,6 +387,7 @@ class Base extends Csdl {
                 'post_id' => $data[ 'ID' ],
                 'body_class' => 'post ' . $data[ 'post_type' ] . '-post',
             );
+            $shortlink = DYNAMIC_BASE_URL . '?p=' . $data[ 'ID' ];
 
             //
             if ( isset( $data[ 'post_meta' ][ 'meta_description' ] ) && $data[ 'post_meta' ][ 'meta_description' ] != '' ) {
@@ -384,6 +400,7 @@ class Base extends Csdl {
         $seo[ 'keyword' ] = $seo[ 'description' ];
         $seo[ 'url' ] = $url;
         $seo[ 'canonical' ] = $url;
+        $seo[ 'shortlink' ] = $shortlink;
         //$seo[ 'index' ] = 1;
         $seo[ 'description' ] = trim( strip_tags( $seo[ 'description' ] ) );
         //print_r( $seo );
@@ -440,19 +457,6 @@ class Base extends Csdl {
 
     public function EBE_pagination( $Page, $TotalPage, $strLinkPager, $sub_part = '/page/' ) {
         return '<div data-page="' . $Page . '" data-total="' . $TotalPage . '" data-url="' . $strLinkPager . '" data-params="' . $sub_part . '" class="each-to-page-part"></div>';
-    }
-
-    public function default_seo( $name, $canonical ) {
-        return array(
-            'index' => '0',
-            'title' => $name,
-            'description' => $name,
-            'keyword' => $name,
-            'name' => $name,
-            'body_class' => str_replace( '/', '-', $canonical ),
-            'canonical' => base_url( '/' . $canonical ),
-            //'google_analytics' => $getconfig->google_analytics,
-        );
     }
 
     // tạo file

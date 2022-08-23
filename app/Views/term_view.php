@@ -59,6 +59,14 @@ if ( $totalThread > 0 ) {
             'offset' => $offset,
             'limit' => $post_per_page
         ] );
+        //print_r( $child_data );
+        // -> chạy 1 vòng để nạp lại permarlink trước khi cache -> tránh trường hợp update liên tọi
+        foreach ( $child_data as $k => $v ) {
+            if ( $v[ 'post_permalink' ] == '' ) {
+                $v[ 'post_permalink' ] = $post_model->get_the_permalink( $v );
+                $child_data[ $k ] = $v;
+            }
+        }
 
         //
         $term_model->the_cache( $data[ 'term_id' ], $in_cache, $child_data );

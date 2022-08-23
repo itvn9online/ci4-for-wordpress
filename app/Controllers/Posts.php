@@ -172,9 +172,9 @@ class Posts extends Csrf {
         }
 
         //
-        $post_permalink = $this->post_model->get_the_permalink( $data );
-        $this->create_breadcrumb( $data[ 'post_title' ], $post_permalink );
-        $seo = $this->base_model->seo( $data, $post_permalink );
+        $data[ 'post_permalink' ] = $this->post_model->get_the_permalink( $data );
+        $this->create_breadcrumb( $data[ 'post_title' ], $data[ 'post_permalink' ] );
+        $seo = $this->base_model->seo( $data, $data[ 'post_permalink' ] );
 
         //
         $structured_data = $this->structuredData( $data, 'Article.html' );

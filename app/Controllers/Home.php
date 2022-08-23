@@ -21,9 +21,12 @@ class Home extends Csrf {
         // đồng bộ lại tổng số nhóm con cho các danh mục trước đã
         $this->term_model->sync_term_child_count();
 
+        // thử xem có tham số p không -> có thì có thể là shortlink
+        $post_id = $this->MY_get( 'p', 0 );
         // dẫn tới trang post mặc định
-        if ( isset( $_GET[ 'p' ], $_GET[ 'post_type' ] ) ) {
-            return $this->autoDetails();
+        //if ( isset( $_GET[ 'p' ], $_GET[ 'post_type' ] ) ) {
+        if ( $post_id > 0 ) {
+            return $this->showPostDetails( $post_id, $this->MY_get( 'post_type', '' ) );
         }
         //
         else if ( isset( $_GET[ 'cat' ], $_GET[ 'taxonomy' ] ) ) {
@@ -143,10 +146,12 @@ class Home extends Csrf {
         return $this->page404( 'ERROR ' . strtolower( __FUNCTION__ ) . ':' . __LINE__ . '! Không xác định được danh mục bài viết...' );
     }
 
+    /*
     protected function autoDetails() {
         return $this->showPostDetails( $this->MY_get( 'p', 0 ), $this->MY_get( 'post_type', '' ) );
     }
-    protected function showPostDetails( $id, $post_type ) {
+    */
+    protected function showPostDetails( $id, $post_type = '' ) {
         //echo $id . '<br>' . "\n";
         //echo $post_type . '<br>' . "\n";
 
@@ -175,7 +180,8 @@ class Home extends Csrf {
             $data = $this->base_model->select( '*', 'posts', array(
                 // các kiểu điều kiện where
                 'ID' => $id,
-                'post_type' => $post_type,
+                // bỏ qua where post_type để còn tạo shortlink
+                //'post_type' => $post_type,
                 'post_status' => PostType::PUBLICITY
             ), array(
                 // hiển thị mã SQL để check
@@ -190,6 +196,16 @@ class Home extends Csrf {
 
             //
             if ( !empty( $data ) ) {
+                // nếu đây là shortlink
+                if ( $post_type == '' ) {
+                    // chuyển đến URL đầy đủ
+                    $redirect_to = $this->post_model->get_the_permalink( $data );
+                    echo $redirect_to . '<br>' . "\n";
+                    die( header( 'Location:' . $redirect_to ) );
+                    //die( redirect( $redirect_to ) );
+                    //die( __CLASS__ . ':' . __LINE__ );
+                }
+
                 // lấy meta của post này
                 //$data[ 'post_meta' ] = $this->post_model->arr_meta_post( $data[ 'ID' ] );
                 $data = $this->post_model->the_meta_post( $data );
@@ -213,9 +229,7 @@ class Home extends Csrf {
                 return $this->pageDetail( $data );
             }
             // các custom post type -> dùng view theo post type (ngoại trừ post type ADS)
-            else if ( !in_array( $data[ 'post_type' ], [
-                    PostType::ADS
-                ] ) ) {
+            else if ( $data[ 'post_type' ] != PostType::ADS ) {
                 return $this->pageDetail( $data, $data[ 'post_type' ] . '_view' );
             }
         }
@@ -318,9 +332,9 @@ class Home extends Csrf {
         }
 
         //
-        $post_permalink = $this->post_model->get_the_permalink( $data );
-        $this->create_breadcrumb( $data[ 'post_title' ], $post_permalink );
-        $seo = $this->base_model->seo( $data, $post_permalink );
+        $data[ 'post_permalink' ] = $this->post_model->get_the_permalink( $data );
+        $this->create_breadcrumb( $data[ 'post_title' ], $data[ 'post_permalink' ] );
+        $seo = $this->base_model->seo( $data, $data[ 'post_permalink' ] );
         $this->current_pid = $data[ 'ID' ];
 
         // -> views
@@ -354,11 +368,11 @@ class Home extends Csrf {
     }
 
     protected function autoCategory() {
-        $term_id = $this->MY_get( 'cat' );
+        $term_id = $this->MY_get( 'cat', 0 );
         //echo $term_id . '<br>' . "\n";
 
         //
-        $taxonomy_type = $this->MY_get( 'taxonomy' );
+        $taxonomy_type = $this->MY_get( 'taxonomy', '' );
         //echo $taxonomy_type . '<br>' . "\n";
 
         //

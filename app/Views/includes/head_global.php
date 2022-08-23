@@ -33,6 +33,11 @@ use App\ Helpers\ HtmlTemplate;
 <meta itemprop="description" content="<?php echo $seo['description']; ?>" />
 <?php
 //
+if ( $seo[ 'shortlink' ] != '' ) {
+    ?>
+<link href="<?php echo $seo[ 'shortlink' ]; ?>" rel="shortlink" />
+<?php
+}
 if ( CDN_BASE_URL != '' ) {
     ?>
 <link rel="dns-prefetch" href="<?php echo CDN_BASE_URL; ?>" />

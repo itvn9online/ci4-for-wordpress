@@ -304,6 +304,7 @@ class Layout extends Sync {
     }
 
     protected function category( $input, $post_type, $taxonomy, $file_view = 'category_view', $ops = [] ) {
+        //echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . PHP_EOL;
         //$config['base_url'] = $this->term_model->get_the_permalink();
         //$config['per_page'] = 50;
         //$config['uri_segment'] = 3;
@@ -363,6 +364,7 @@ class Layout extends Sync {
         // chỉnh lại thông số cho canonical
         if ( $ops[ 'page_num' ] > 1 ) {
             $seo[ 'canonical' ] = rtrim( $seo[ 'canonical' ], '/' ) . '/page/' . $ops[ 'page_num' ];
+            $seo[ 'shortlink' ] = rtrim( $seo[ 'shortlink' ], '/' ) . '&page_num=' . $ops[ 'page_num' ];
         }
 
         // lấy danh sách nhóm con xem có không
