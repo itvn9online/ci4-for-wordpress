@@ -336,8 +336,9 @@ body.ebfixed-down-menu.sidebar-hover.sidebar-height #sidebar, body.ebfixed-down-
     background-color: antiquewhite !important;
 }
 .eb-table input[type="number"] {
-    padding: 12px 0 12px 10px;
+    padding: 6px 0 6px 10px;
     margin-bottom: 0;
+    line-height: normal;
 }
 .eb-table input[type="number"].s {
     max-width: 50px;
