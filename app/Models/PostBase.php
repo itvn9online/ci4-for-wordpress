@@ -19,7 +19,10 @@ class PostBase extends EbModel {
     public $itempropLogoHtmlNode = '';
     public $itempropImageHtmlNode = '';
     public $itempropAuthorHtmlNode = '';
+    // tùy chỉnh thẻ LI hoặc thẻ DIV
     protected $product_html_tag = 'li';
+    // tùy chỉnh class css cho thẻ bao ngoài cùng của danh sách post
+    protected $product_list_css = '';
     public $blog_html_node = '';
     public $getconfig = NULL;
 
@@ -45,6 +48,7 @@ class PostBase extends EbModel {
         //
         $structured_data = file_get_contents( VIEWS_PATH . 'html/structured-data/NewsArticle.html' );
         $structured_data = str_replace( '{{product_html_tag}}', $this->product_html_tag, $structured_data );
+        $structured_data = str_replace( '{{product_list_css}}', $this->product_list_css, $structured_data );
         $structured_data = str_replace( '{{primary_controller}}', $this->primary_controller, $structured_data );
 
         // tạo block html cho phần sản phẩm

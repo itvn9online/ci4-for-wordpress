@@ -937,6 +937,7 @@ class Layout extends Sync {
     }
 
     protected function structuredData( $data, $f ) {
+        //print_r( $data );
         $data[ 'name' ] = $this->getconfig->name;
         $data[ 'logo' ] = DYNAMIC_BASE_URL . $this->getconfig->logo;
         $data[ 'logo_height_img' ] = $this->getconfig->logo_height_img;
@@ -948,13 +949,19 @@ class Layout extends Sync {
         $data[ 'trv_height_img' ] = 0;
         //$data[ 'trv_img' ] = $this->post_model->get_list_thumbnail( $data, 'large' );
         $data[ 'trv_img' ] = $this->post_model->get_post_thumbnail( $data );
-        if ( $data[ 'trv_img' ] != '' && file_exists( PUBLIC_PUBLIC_PATH . $data[ 'trv_img' ] ) ) {
-            $logo_data = getimagesize( PUBLIC_PUBLIC_PATH . $data[ 'trv_img' ] );
+        if ( $data[ 'trv_img' ] != '' ) {
+            if ( file_exists( PUBLIC_PUBLIC_PATH . $data[ 'trv_img' ] ) ) {
+                $logo_data = getimagesize( PUBLIC_PUBLIC_PATH . $data[ 'trv_img' ] );
 
-            //
-            $data[ 'post_img' ] = DYNAMIC_BASE_URL . $data[ 'trv_img' ];
-            $data[ 'trv_width_img' ] = $logo_data[ 0 ];
-            $data[ 'trv_height_img' ] = $logo_data[ 1 ];
+                //
+                $data[ 'post_img' ] = DYNAMIC_BASE_URL . $data[ 'trv_img' ];
+                $data[ 'trv_width_img' ] = $logo_data[ 0 ];
+                $data[ 'trv_height_img' ] = $logo_data[ 1 ];
+            } else if ( strpos( $data[ 'trv_img' ], '//' ) !== false ) {
+                $data[ 'post_img' ] = $data[ 'trv_img' ];
+                $data[ 'trv_width_img' ] = 280;
+                $data[ 'trv_height_img' ] = 280;
+            }
         }
 
         //
@@ -965,11 +972,21 @@ class Layout extends Sync {
 
         //
         $html = file_get_contents( VIEWS_PATH . 'html/structured-data/' . $f );
+        // thay dât chính
         foreach ( $data as $k => $v ) {
             if ( is_array( $v ) ) {
                 continue;
             }
             $html = str_replace( '{{' . $k . '}}', str_replace( '"', '', $v ), $html );
+        }
+        // sau đó là meta
+        if ( isset( $data[ 'post_meta' ] ) ) {
+            foreach ( $data[ 'post_meta' ] as $k => $v ) {
+                if ( is_array( $v ) ) {
+                    continue;
+                }
+                $html = str_replace( '{{' . $k . '}}', str_replace( '"', '', $v ), $html );
+            }
         }
         return $html;
     }

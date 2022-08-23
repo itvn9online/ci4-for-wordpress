@@ -254,10 +254,9 @@ body.home .thread-details-tohome {
 .web-logo {
     line-height: 50px;
     background: center no-repeat;
-    background-size: contain;
+    background-size: auto 100%;
     text-indent: -999px;
     display: block;
-    background-size: auto 100%;
 }
 /* for elementor */
 .elementor-image {
