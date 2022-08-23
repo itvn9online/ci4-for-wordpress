@@ -25,10 +25,8 @@ class PostPosts extends PostSlider {
         } else {
             $data[ 'cf_product_size' ] = $this->getconfig->cf_product_size;
         }
-        $data[ 'trv_num_giamoi' ] = 0;
         $data[ 'product_status' ] = 1;
         $data[ 'dynamic_title_tag' ] = 'h3';
-        $data[ 'pt' ] = 0;
         $data[ 'trv_img' ] = $this->get_post_thumbnail( $data );
         $data[ 'trv_webp' ] = $this->get_post_image( $data, 'image_webp', '' );
         if ( $data[ 'post_excerpt' ] == '' ) {
@@ -57,6 +55,11 @@ class PostPosts extends PostSlider {
         $data[ 'itemprop_logo' ] = $itemprop_logo;
         $data[ 'itemprop_author' ] = $itemprop_author;
         $data[ 'itemprop_image' ] = $itemprop_image;
+
+        //
+        $default_arr[ 'price' ] = 0;
+        $default_arr[ 'price_sale' ] = 0;
+        $default_arr[ 'pt' ] = 0;
 
         //
         return $this->base_model->tmp_to_html( $tmp_html, $data, $default_arr );

@@ -133,13 +133,6 @@ if ( $debug_enable === true ) {
             </div>
         </div>
         <!-- END Memcached --> 
-        <!-- securityheaders -->
-        <p><strong>Security headers:</strong> <a :href="'https://securityheaders.com/?q=' + encode_url + '&followRedirects=on'" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-shield"></i> vào đây</a> để kiểm tra độ bảo mật thông qua header trên website của bạn. Tối thiểu nên ở mức điểm
-            <button type="button" class="btn btn-warning">B</button>
-            khuyến nghị điểm
-            <button type="button" class="btn btn-success">A</button>
-        </p>
-        <!-- END securityheaders --> 
         <!-- pagespeed -->
         <p><strong>Page speed:</strong> <a :href="'https://pagespeed.web.dev/report?url=' + encode_url" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-flash"></i> vào đây</a> để phân tích tốc độ website của bạn và độ thân thiện với các công cụ tìm kiếm (tối ưu SEO). Tối thiểu nên ở mức điểm
             <button type="button" class="btn btn-warning">80</button>
@@ -147,12 +140,22 @@ if ( $debug_enable === true ) {
             <button type="button" class="btn btn-success">90</button>
         </p>
         <!-- END pagespeed --> 
+        <!-- schema -->
+        <p><strong>Structured data:</strong> <a :href="'https://validator.schema.org/#url=' + encode_url" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-lightbulb-o"></i> vào đây</a> để kiểm tra dữ liệu có cấu trúc cho website của bạn. Một cấu trúc tốt sẽ giúp website dễ dàng SEO hơn.</p>
+        <!-- END schema --> 
         <!-- Open Graph Facebook -->
         <p><strong>Open Graph Facebook:</strong> <a :href="'https://developers.facebook.com/tools/debug/?q=' + encode_url" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-bug"></i> vào đây</a> để phân tích dữ liệu có cấu trúc đối với Facebook.</p>
         <!-- END Open Graph Facebook --> 
         <!-- Open Graph Zalo -->
         <p><strong>Open Graph Zalo:</strong> <a :href="'https://developers.zalo.me/tools/debug-sharing?q=' + encode_url" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-bug"></i> vào đây</a> để phân tích dữ liệu có cấu trúc đối với Zalo.</p>
         <!-- END Open Graph Zalo --> 
+        <!-- securityheaders -->
+        <p><strong>Security headers:</strong> <a :href="'https://securityheaders.com/?q=' + encode_url + '&followRedirects=on'" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-shield"></i> vào đây</a> để kiểm tra độ bảo mật thông qua header trên website của bạn. Tối thiểu nên ở mức điểm
+            <button type="button" class="btn btn-warning">B</button>
+            khuyến nghị điểm
+            <button type="button" class="btn btn-success">A</button>
+        </p>
+        <!-- END securityheaders --> 
     </div>
     <!-- -->
     <div class="p redcolor medium" :class="current_protocol != 'https:' ? '' : 'd-none'"><i class="fa fa-warning"></i> Kết nối hiện tại <strong>{{current_protocol}}</strong> chưa hỗ trợ redirect sang <strong>https</strong>. Vui lòng kích hoạt và sử dụng redirect <strong>https</strong> để giúp website bảo mật và nhanh hơn.</div>

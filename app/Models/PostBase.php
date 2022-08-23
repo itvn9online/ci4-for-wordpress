@@ -23,6 +23,7 @@ class PostBase extends EbModel {
     protected $product_html_tag = 'li';
     // tùy chỉnh class css cho thẻ bao ngoài cùng của danh sách post
     protected $product_list_css = '';
+
     public $blog_html_node = '';
     public $getconfig = NULL;
 
@@ -53,12 +54,7 @@ class PostBase extends EbModel {
 
         // tạo block html cho phần sản phẩm
         //echo THEMEPATH . '<br>' . "\n";
-        $this->product_html_node = $this->base_model->get_html_tmp( 'thread_node' );
-        /*
-        if ( $this->product_html_tag == 'li' ) {
-            $this->product_html_node = '<li data-id="{{ID}}" data-control="' . $this->primary_controller . '" data-type="{{post_type}}" data-price="{{trv_num_giamoi}}" data-per="{{pt}}" data-link="{{p_link}}" data-status="{{product_status}}" class="hide-if-gia-zero" itemscope="" itemtype="http://schema.org/NewsArticle">' . $this->product_html_node . '</li>';
-        }
-        */
+        if ( $this->product_html_node == '' )$this->product_html_node = $this->base_model->get_html_tmp( 'thread_node' );
         $this->product_html_node = str_replace( '{{product_html_node}}', $this->product_html_node, $structured_data );
 
         //
