@@ -19,7 +19,6 @@ class Term extends TermBase {
     protected function sync_term_data( $data ) {
         // đặt giá trị này để khởi tạo lại permalink
         $data[ 'term_permalink' ] = '';
-        //$data[ 'updated_permalink' ] = 0;
         return $data;
     }
 

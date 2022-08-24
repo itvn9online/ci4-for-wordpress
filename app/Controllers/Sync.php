@@ -256,7 +256,6 @@ class Sync extends BaseController {
             ],
             $prefix . 'posts' => [
                 'post_permalink' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Lưu permarlink để cho nhẹ server\'',
-                //'updated_permalink' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'0 = update permalink, 1 = đã update, không cần update nữa\'',
                 'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
                 'lang_parent' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Dùng để xác định với các bản ghi được nhân bản từ ngôn ngữ chính\'',
                 'post_viewed' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Đếm số lượt xem bài viết\'',
@@ -267,7 +266,6 @@ class Sync extends BaseController {
             ],
             $prefix . 'terms' => [
                 'term_permalink' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Lưu permarlink để cho nhẹ server\'',
-                //'updated_permalink' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'0 = update permalink, 1 = đã update, không cần update nữa\'',
                 'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
                 'lang_parent' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Dùng để xác định với các bản ghi được nhân bản từ ngôn ngữ chính\'',
                 'last_updated' => 'DATETIME NOT NULL',

@@ -18,7 +18,6 @@ class PostQuery extends PostMeta {
     protected function sync_post_data( $data ) {
         // đặt giá trị này để khởi tạo lại permalink
         $data[ 'post_permalink' ] = '';
-        //$data[ 'updated_permalink' ] = 0;
         return $data;
     }
 
