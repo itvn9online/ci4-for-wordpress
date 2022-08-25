@@ -222,8 +222,10 @@ class Sitemap extends Csrf {
             */
             //'or_like' => $where_or_like,
             'order_by' => array(
-                'posts.menu_order' => 'DESC',
-                'posts.post_date' => 'DESC',
+                // trong sitemap thì order theo ID ASC để hạn chế việc post thì nhảy liên tục trong sitemap
+                'posts.ID' => 'ASC',
+                //'posts.menu_order' => 'DESC',
+                //'posts.post_date' => 'DESC',
                 //'post_modified' => 'DESC',
             ),
             // hiển thị mã SQL để check
