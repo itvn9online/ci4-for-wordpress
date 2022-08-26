@@ -13,6 +13,6 @@ class P extends Home {
         //echo $slug . '<br>' . "\n";
 
         //
-        return $this->showPostDetails( $id, $post_type );
+        return $this->showPostDetails( $id, $post_type, $slug );
     }
 }

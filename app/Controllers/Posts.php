@@ -40,6 +40,8 @@ class Posts extends Csrf {
             //'post_name' => $slug_1,
             'post_type' => $this->post_type,
         ] );
+        //print_r( $data );
+        //die( __CLASS__ . ':' . __LINE__ );
         if ( empty( $data ) ) {
             //print_r( $data );
             return $this->page404( 'ERROR ' . strtolower( __FUNCTION__ ) . ':' . __LINE__ . '! Không xác định được dữ liệu bài viết...' );
@@ -48,6 +50,16 @@ class Posts extends Csrf {
         // kiểm tra quyền truy cập chi tiết 1 post
         if ( $this->post_permission( $data ) !== true ) {
             return $this->page404( $this->post_permission( $data ) );
+        }
+
+        // kiểm tra lại slug -> nếu sai thì redirect 301 qua url mới
+        if ( $slug != '' && $slug != $data[ 'post_name' ] ) {
+            $redirect_to = $this->post_model->get_the_permalink( $data );
+
+            //die( $redirect_to );
+            header( 'HTTP/1.1 301 Moved Permanently' );
+            die( header( 'Location: ' . $redirect_to, TRUE, 301 ) );
+            //die( __CLASS__ . ':' . __LINE__ );
         }
 
         // update lượt xem -> daidq (2021-12-14): chuyển phần update này qua view, ai thích dùng thì kích hoạt cho nó nhẹ

@@ -957,3 +957,17 @@ function move_custom_code_to() {
         }
     }).addClass('move-custom-code-done').removeClass('move-custom-code-to');
 }
+
+// kiểm tra url hiện tại có trùng với canonical không, nếu không thì redirect tới canonical
+function redirect_to_canonical() {
+    var a = $('link[rel="canonical"]').attr('href');
+    if (window.location.href.split(a).length === 1) {
+        if (a.split('?').length > 1) {
+            a += '&';
+        } else {
+            a += '?';
+        }
+        a += 'canonical=false';
+        window.location = a;
+    }
+}

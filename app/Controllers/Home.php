@@ -151,7 +151,7 @@ class Home extends Csrf {
         return $this->showPostDetails( $this->MY_get( 'p', 0 ), $this->MY_get( 'post_type', '' ) );
     }
     */
-    protected function showPostDetails( $id, $post_type = '' ) {
+    protected function showPostDetails( $id, $post_type = '', $slug = '' ) {
         //echo $id . '<br>' . "\n";
         //echo $post_type . '<br>' . "\n";
 
@@ -196,16 +196,6 @@ class Home extends Csrf {
 
             //
             if ( !empty( $data ) ) {
-                // nếu đây là shortlink
-                if ( $post_type == '' ) {
-                    // chuyển đến URL đầy đủ
-                    $redirect_to = $this->post_model->get_the_permalink( $data );
-                    echo $redirect_to . '<br>' . "\n";
-                    die( header( 'Location:' . $redirect_to ) );
-                    //die( redirect( $redirect_to ) );
-                    //die( __CLASS__ . ':' . __LINE__ );
-                }
-
                 // lấy meta của post này
                 //$data[ 'post_meta' ] = $this->post_model->arr_meta_post( $data[ 'ID' ] );
                 $data = $this->post_model->the_meta_post( $data );
@@ -220,6 +210,26 @@ class Home extends Csrf {
 
         //
         if ( !empty( $data ) ) {
+            // kiểm tra lại slug -> nếu sai thì redirect 301 qua url mới
+            if ( $slug != '' && $slug != $data[ 'post_name' ] ) {
+                $redirect_to = $this->post_model->get_the_permalink( $data );
+
+                //die( $redirect_to );
+                header( 'HTTP/1.1 301 Moved Permanently' );
+                die( header( 'Location: ' . $redirect_to, TRUE, 301 ) );
+                //die( __CLASS__ . ':' . __LINE__ );
+            }
+            // nếu đây là shortlink
+            if ( $post_type == '' ) {
+                // chuyển đến URL đầy đủ
+                $redirect_to = $this->post_model->get_the_permalink( $data );
+
+                //die( $redirect_to );
+                header( 'HTTP/1.1 301 Moved Permanently' );
+                die( header( 'Location: ' . $redirect_to, TRUE, 301 ) );
+                //die( __CLASS__ . ':' . __LINE__ );
+            }
+
             // với các post type mặc định -> dùng page view
             if ( in_array( $data[ 'post_type' ], [
                     PostType::POST,
@@ -384,7 +394,7 @@ class Home extends Csrf {
     }
 
     //
-    protected function showCategory( $term_id, $taxonomy_type, $page_num = 1 ) {
+    protected function showCategory( $term_id, $taxonomy_type, $page_num = 1, $slug = '' ) {
         $cache_key = $this->term_model->key_cache( $term_id ) . 'page' . $page_num;
         $cache_value = $this->MY_cache( $cache_key );
         // có thì in ra cache là được
@@ -408,6 +418,17 @@ class Home extends Csrf {
             $this->term_model->the_cache( $term_id, $in_cache, $data );
         }
         //print_r( $data );
+        //die( __CLASS__ . ':' . __LINE__ );
+
+        // kiểm tra lại slug -> nếu sai thì redirect 301 qua url mới
+        if ( $slug != '' && $slug != $data[ 'slug' ] ) {
+            $redirect_to = $this->term_model->get_the_permalink( $data );
+
+            //die( $redirect_to );
+            header( 'HTTP/1.1 301 Moved Permanently' );
+            die( header( 'Location: ' . $redirect_to, TRUE, 301 ) );
+            //die( __CLASS__ . ':' . __LINE__ );
+        }
 
         // có -> lấy bài viết trong nhóm
         if ( !empty( $data ) && $data[ 'count' ] > 0 ) {

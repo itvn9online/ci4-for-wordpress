@@ -14,6 +14,6 @@ class C extends Home {
         //echo $page_num . '<br>' . "\n";
 
         //
-        return $this->showCategory( $id, $taxonomy_type, $page_num );
+        return $this->showCategory( $id, $taxonomy_type, $page_num, $slug );
     }
 }

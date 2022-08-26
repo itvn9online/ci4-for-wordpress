@@ -203,6 +203,7 @@ $WGR_config = [
 
 ?>
 <script>
+redirect_to_canonical();
 var WGR_config=<?php echo json_encode($WGR_config); ?>;
 </script>
 <?php
