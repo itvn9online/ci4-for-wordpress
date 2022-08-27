@@ -360,7 +360,7 @@ class Base extends Csdl {
             'keyword' => $name,
             'name' => $name,
             'body_class' => str_replace( '/', '-', $canonical ),
-            'canonical' => base_url( '/' . $canonical ),
+            //'canonical' => base_url( '/' . $canonical ),
             //'google_analytics' => $getconfig->google_analytics,
         );
     }
