@@ -8,8 +8,19 @@ namespace App\ ThirdParty;
 
 //
 class Casso {
+    protected static function testInput( $v ) {
+        $f = PUBLIC_HTML_PATH . 'test.txt';
+
+        file_put_contents( $f, 'description: ' . $v->description . "\n", FILE_APPEND );
+        file_put_contents( $f, 'amount: ' . $v->amount . "\n", FILE_APPEND );
+        file_put_contents( $f, 'subAccId: ' . $v->subAccId . "\n", FILE_APPEND );
+        file_put_contents( $f, 'bank_sub_acc_id: ' . $v->bank_sub_acc_id . "\n", FILE_APPEND );
+        file_put_contents( $f, 'id: ' . $v->id . "\n", FILE_APPEND );
+        file_put_contents( $f, 'tid: ' . $v->tid . "\n", FILE_APPEND );
+    }
+
     // hàm này sẽ trả về object chứa thông tin thanh toán
-    public static function phpInput() {
+    public static function phpInput( $debug_enable = false ) {
         ini_set( 'display_errors', 0 );
         error_reporting( E_ALL );
         //error_reporting( E_ALL && E_WARNING && E_NOTICE );
@@ -19,16 +30,18 @@ class Casso {
         //
         $result = [];
         try {
-            // TEST data
-            //$data_string = '{"error":0,"data":[{"id":1298570,"tid":"FT22201464809738\\BNK","description":"CUSTOMER MBVCB 2246976598 038356 Bill 5756 C T tu 0451001536775 DAO QUOC DAI toi  8101019778888 DAO VIET LONG  MB  Q uan Doi Trace 038356","amount":10000,"cusum_balance":35002,"when":"2022-07-20 21:33:00","bank_sub_acc_id":"8101019778888","subAccId":"8101019778888","virtualAccount":"","virtualAccountName":"","corresponsiveName":"","corresponsiveAccount":"","corresponsiveBankId":"","corresponsiveBankName":""}]}';
             // LIVE data
             $data_string = file_get_contents( 'php://input' );
             if ( empty( $data_string ) ) {
-                return NULL;
+                if ( $debug_enable !== true ) {
+                    return NULL;
+                }
+                // TEST data
+                $data_string = '{"error":0,"data":[{"id":1517540,"tid":"184139","description":"ND:CT DEN:223900089686 MBVCB.2383815647.089686.Bill 15998.CT tu 0451001536775 DAO QUOC DAI toi 108876637379 DAO QUOC DAI (VIETINBANK) Cong Thuong Viet Nam; tai Napas","amount":1000,"cusum_balance":10000,"when":"2022-08-27 07:09:32","bank_sub_acc_id":"108876637379","subAccId":"108876637379","virtualAccount":"","virtualAccountName":"","corresponsiveName":"","corresponsiveAccount":"","corresponsiveBankId":"","corresponsiveBankName":""}]}';
             }
-            file_put_contents( PUBLIC_HTML_PATH . 'test.txt', $data_string, LOCK_EX );
-            file_put_contents( PUBLIC_HTML_PATH . 'test.txt', $_SERVER[ 'REQUEST_URI' ], FILE_APPEND );
-            file_put_contents( PUBLIC_HTML_PATH . 'test.txt', __CLASS__ . ':' . __LINE__, FILE_APPEND );
+            file_put_contents( PUBLIC_HTML_PATH . 'test.txt', $data_string . "\n", LOCK_EX );
+            file_put_contents( PUBLIC_HTML_PATH . 'test.txt', $_SERVER[ 'REQUEST_URI' ] . "\n", FILE_APPEND );
+            file_put_contents( PUBLIC_HTML_PATH . 'test.txt', __CLASS__ . ':' . __LINE__ . "\n", FILE_APPEND );
 
             //
             //echo $data_string;
@@ -44,23 +57,31 @@ class Casso {
             //
             if ( isset( $data->data ) ) {
                 foreach ( $data->data as $k => $v ) {
-                    //file_put_contents( PUBLIC_HTML_PATH . 'test.txt', $v->description . "\n", FILE_APPEND );
-                    //file_put_contents( PUBLIC_HTML_PATH . 'test.txt', $v->amount . "\n", FILE_APPEND );
-                    //file_put_contents( PUBLIC_HTML_PATH . 'test.txt', $v->subAccId . "\n", FILE_APPEND );
-                    //file_put_contents( PUBLIC_HTML_PATH . 'test.txt', $v->bank_sub_acc_id . "\n", FILE_APPEND );
-                    //file_put_contents( PUBLIC_HTML_PATH . 'test.txt', $v->id . "\n", FILE_APPEND );
-                    //file_put_contents( PUBLIC_HTML_PATH . 'test.txt', $v->tid . "\n", FILE_APPEND );
+                    self::testInput( $v );
 
                     // -> lấy order ID theo chữ bill -> tham số bắt buộc
-                    $order_id = explode( ' bill ', strtolower( $v->description ) );
+                    $low_description = strtolower( $v->description );
+
+                    // thử cắt theo dấu cách
+                    $order_id = explode( ' bill ', $low_description );
                     if ( count( $order_id ) > 1 ) {
                         $order_id = explode( ' ', $order_id[ 1 ] );
-                        $order_id = $order_id[ 0 ];
+                        $order_id = explode( '.', $order_id[ 0 ] );
 
                         //
-                        $data->data[ $k ]->order_id = $order_id;
+                        $data->data[ $k ]->order_id = trim( $order_id[ 0 ] );
                     } else {
-                        $data->data[ $k ] = NULL;
+                        // không thấy thì thử dấu .
+                        $order_id = explode( '.bill ', $low_description );
+                        if ( count( $order_id ) > 1 ) {
+                            $order_id = explode( ' ', $order_id[ 1 ] );
+                            $order_id = explode( '.', $order_id[ 0 ] );
+
+                            //
+                            $data->data[ $k ]->order_id = trim( $order_id[ 0 ] );
+                        } else {
+                            $data->data[ $k ] = NULL;
+                        }
                     }
                 }
             } else {
@@ -78,6 +99,10 @@ class Casso {
             //error_log( $e->getCode() );
             //error_log( $e->getTraceAsString() );
         }
+        //print( $result );
+        //file_put_contents( PUBLIC_HTML_PATH . 'test.txt', json_encode( $result ), LOCK_EX );
+        //file_put_contents( PUBLIC_HTML_PATH . 'test.txt', $_SERVER[ 'REQUEST_URI' ], FILE_APPEND );
+        //die( __CLASS__ . ':' . __LINE__ );
 
         //
         return $result;
