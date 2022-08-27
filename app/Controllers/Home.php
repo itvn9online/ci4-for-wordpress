@@ -211,14 +211,8 @@ class Home extends Csrf {
         //
         if ( !empty( $data ) ) {
             // kiểm tra lại slug -> nếu sai thì redirect 301 qua url mới
-            if ( $slug != '' && $slug != $data[ 'post_name' ] ) {
-                $redirect_to = $this->post_model->get_the_permalink( $data );
+            $this->post_model->check_canonical( $slug, $data );
 
-                //die( $redirect_to );
-                header( 'HTTP/1.1 301 Moved Permanently' );
-                die( header( 'Location: ' . $redirect_to, TRUE, 301 ) );
-                //die( __CLASS__ . ':' . __LINE__ );
-            }
             // nếu đây là shortlink
             if ( $post_type == '' ) {
                 // chuyển đến URL đầy đủ
@@ -421,14 +415,7 @@ class Home extends Csrf {
         //die( __CLASS__ . ':' . __LINE__ );
 
         // kiểm tra lại slug -> nếu sai thì redirect 301 qua url mới
-        if ( $slug != '' && $slug != $data[ 'slug' ] ) {
-            $redirect_to = $this->term_model->get_the_permalink( $data );
-
-            //die( $redirect_to );
-            header( 'HTTP/1.1 301 Moved Permanently' );
-            die( header( 'Location: ' . $redirect_to, TRUE, 301 ) );
-            //die( __CLASS__ . ':' . __LINE__ );
-        }
+        $this->term_model->check_canonical( $slug, $data );
 
         // có -> lấy bài viết trong nhóm
         if ( !empty( $data ) && $data[ 'count' ] > 0 ) {

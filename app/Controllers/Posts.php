@@ -53,14 +53,7 @@ class Posts extends Csrf {
         }
 
         // kiểm tra lại slug -> nếu sai thì redirect 301 qua url mới
-        if ( $slug != '' && $slug != $data[ 'post_name' ] ) {
-            $redirect_to = $this->post_model->get_the_permalink( $data );
-
-            //die( $redirect_to );
-            header( 'HTTP/1.1 301 Moved Permanently' );
-            die( header( 'Location: ' . $redirect_to, TRUE, 301 ) );
-            //die( __CLASS__ . ':' . __LINE__ );
-        }
+        $this->post_model->check_canonical( $slug, $data );
 
         // update lượt xem -> daidq (2021-12-14): chuyển phần update này qua view, ai thích dùng thì kích hoạt cho nó nhẹ
         //$this->post_model->update_views( $data[ 'ID' ] );

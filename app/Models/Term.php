@@ -803,8 +803,35 @@ class Term extends TermBase {
     }
 
     // thường dùng trong view -> in ra link admin của 1 term
-    function admin_permalink( $taxonomy = '', $id = 0, $controller_slug = 'terms' ) {
+    public function admin_permalink( $taxonomy = '', $id = 0, $controller_slug = 'terms' ) {
         echo $this->get_admin_permalink( $taxonomy, $id, $controller_slug );
+    }
+
+    // kiểm tra url đã chuẩn chưa, chưa thì redirect về url chuẩn
+    public function check_canonical( $slug, $data ) {
+        // nếu slug trống
+        if ( $slug == '' ||
+            // hoặc đúng là slug
+            $slug == $data[ 'slug' ] ||
+            // hoặc kiểu URL có .html, .html, .etc...
+            strpos( $slug, $data[ 'slug' ] . '.' ) !== false ) {
+            // thì cho qua
+            return true;
+        }
+        // không thì redirect về URL chuẩn
+        $redirect_to = $this->get_the_permalink( $data );
+        //die( $redirect_to );
+        if ( strpos( $redirect_to, '?' ) === false ) {
+            $redirect_to .= '?';
+        } else {
+            $redirect_to .= '&';
+        }
+        $redirect_to .= 'canonical=php';
+
+        //
+        header( 'HTTP/1.1 301 Moved Permanently' );
+        die( header( 'Location: ' . $redirect_to, TRUE, 301 ) );
+        //die( __CLASS__ . ':' . __LINE__ );
     }
 
     // trả về url của 1 term

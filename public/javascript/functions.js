@@ -967,7 +967,7 @@ function redirect_to_canonical() {
         } else {
             a += '?';
         }
-        a += 'canonical=false';
+        a += 'canonical=js';
         window.location = a;
     }
 }
