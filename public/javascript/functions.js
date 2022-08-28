@@ -960,14 +960,14 @@ function move_custom_code_to() {
 
 // kiểm tra url hiện tại có trùng với canonical không, nếu không thì redirect tới canonical
 function redirect_to_canonical() {
-    var a = $('link[rel="canonical"]').attr('href');
-    if (window.location.href.split(a).length === 1) {
+    var a = $('link[rel="canonical"]').attr('href') || '';
+    if (a != '' && window.location.href.split(a).length === 1) {
         if (a.split('?').length > 1) {
             a += '&';
         } else {
             a += '?';
         }
-        a += 'canonical=js';
+        a += 'canonical=client';
         window.location = a;
     }
 }

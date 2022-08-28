@@ -117,7 +117,7 @@ class Guest extends Csrf {
         $this->teamplate[ 'main' ] = view( 'login_view', array(
             //'option_model' => $this->option_model,
 
-            'seo' => $this->seo( 'Đăng nhập', __FUNCTION__ ),
+            'seo' => $this->guest_seo( 'Đăng nhập', __FUNCTION__ ),
             'breadcrumb' => '',
             'login_redirect' => $this->loginRedirect(),
             //'cateByLang' => $cateByLang,
@@ -223,7 +223,7 @@ class Guest extends Csrf {
         // nếu website không cho đăng ký thành viên thì hiển thị view thông báo tương ứng
         if ( isset( $this->getconfig->disable_register_member ) && $this->getconfig->disable_register_member == 'on' ) {
             $this->teamplate[ 'main' ] = view( 'register_disable_view', array(
-                'seo' => $this->seo( 'Website tạm dừng việc đăng ký tài khoản mới', __FUNCTION__ ),
+                'seo' => $this->guest_seo( 'Website tạm dừng việc đăng ký tài khoản mới', __FUNCTION__ ),
                 'breadcrumb' => '',
                 //'cateByLang' => $cateByLang,
                 //'serviceByLang' => $serviceByLang,
@@ -313,7 +313,7 @@ class Guest extends Csrf {
 
         //
         $this->teamplate[ 'main' ] = view( 'register_view', array(
-            'seo' => $this->seo( 'Đăng ký tài khoản mới', __FUNCTION__ ),
+            'seo' => $this->guest_seo( 'Đăng ký tài khoản mới', __FUNCTION__ ),
             'breadcrumb' => '',
             //'cateByLang' => $cateByLang,
             //'serviceByLang' => $serviceByLang,
@@ -418,7 +418,7 @@ class Guest extends Csrf {
 
         //
         $this->teamplate[ 'main' ] = view( 'resetpass_view', array(
-            'seo' => $this->seo( 'Lấy lại mật khẩu', __FUNCTION__ ),
+            'seo' => $this->guest_seo( 'Lấy lại mật khẩu', __FUNCTION__ ),
             'breadcrumb' => '',
             //'cateByLang' => $cateByLang,
             //'serviceByLang' => $serviceByLang,
@@ -431,9 +431,9 @@ class Guest extends Csrf {
         return $this->user_model->check_resetpass( $data[ 'email' ] );
     }
 
-    protected function seo( $name, $canonical ) {
-        //echo $canonical . '<br>' . "\n";
-        return $this->base_model->default_seo( $name, $this->getClassName( __CLASS__ ) . '/' . $canonical );
+    protected function guest_seo( $name, $uri ) {
+        //echo $uri . '<br>' . "\n";
+        return $this->base_model->default_seo( $name, $this->getClassName( __CLASS__ ) . '/' . $uri );
     }
 
     public function confirm_reset_password() {
@@ -521,7 +521,7 @@ class Guest extends Csrf {
 
         // dùng chung view với trang đăng nhập
         $this->teamplate[ 'main' ] = view( 'login_view', array(
-            'seo' => $this->seo( 'Khởi tạo lại mật khẩu', __FUNCTION__ ),
+            'seo' => $this->guest_seo( 'Khởi tạo lại mật khẩu', __FUNCTION__ ),
             'breadcrumb' => '',
             'login_redirect' => $this->loginRedirect(),
         ) );
@@ -659,7 +659,7 @@ class Guest extends Csrf {
 
         // dùng chung view với trang đăng nhập
         $this->teamplate[ 'main' ] = view( 'login_view', array(
-            'seo' => $this->seo( 'Thay đổi email đăng nhập', __FUNCTION__ ),
+            'seo' => $this->guest_seo( 'Thay đổi email đăng nhập', __FUNCTION__ ),
             'breadcrumb' => '',
             'login_redirect' => $this->loginRedirect(),
         ) );

@@ -146,9 +146,6 @@ class Search extends Csrf {
         }
         //die( __CLASS__ . ':' . __LINE__ );
 
-        //
-        $seo = $this->base_model->default_seo( trim( 'Tìm kiếm ' . $by_keyword ), base_url() );
-
         // -> views
         $this->teamplate[ 'breadcrumb' ] = view( 'breadcrumb_view', array(
             'breadcrumb' => $this->breadcrumb
@@ -158,7 +155,7 @@ class Search extends Csrf {
         $this->teamplate[ 'main' ] = view( 'search_view', array(
             'totalThread' => $totalThread,
             'by_keyword' => $by_keyword,
-            'seo' => $seo,
+            'seo' => $this->base_model->default_seo( trim( 'Tìm kiếm ' . $by_keyword ) ),
             'post_type' => $this->post_type,
             'public_part_page' => $pagination,
             'data' => $data,

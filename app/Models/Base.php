@@ -352,57 +352,70 @@ class Base extends Csdl {
         return $arr;
     }
 
-    public function default_seo( $name, $canonical ) {
-        return array(
-            'index' => '0',
+    public function default_seo( $name, $uri = '', $params = [] ) {
+        $result = array(
+            'index' => 'off',
             'title' => $name,
             'description' => $name,
             'keyword' => $name,
             'name' => $name,
-            'body_class' => str_replace( '/', '-', $canonical ),
-            //'canonical' => base_url( '/' . $canonical ),
-            //'google_analytics' => $getconfig->google_analytics,
+            'body_class' => str_replace( '/', '-', $uri ),
+            'canonical' => '',
+            //'canonical' => base_url( '/' . $uri ),
+            'shortlink' => '',
+            'updated_time' => strtotime( date( 'Y-m-d' ) ),
         );
+        // thay thế dữ liệu riêng nếu có
+        foreach ( $params as $k => $v ) {
+            $result[ $k ] = $v;
+        }
+        return $result;
     }
 
-    public function seo( $data, $url ) {
+    public function term_seo( $data, $url ) {
         //print_r( $data );
-        $shortlink = '';
-        if ( isset( $data[ 'term_id' ] ) ) {
-            $seo = array(
-                'title' => $data[ 'name' ],
-                'description' => $data[ 'description' ] != '' ? $data[ 'description' ] : $data[ 'name' ],
-                //'keyword' => $pageDetail[ 0 ][ 'keyword' ],
-                //'name' => $pageDetail[ 0 ][ 'name' ],
-                'term_id' => $data[ 'term_id' ],
-                'body_class' => 'taxonomy ' . $data[ 'taxonomy' ] . '-taxonomy',
-            );
-            $shortlink = DYNAMIC_BASE_URL . '?cat=' . $data[ 'term_id' ] . '&taxonomy=' . $data[ 'taxonomy' ];
-        } else {
-            $seo = array(
-                'title' => $data[ 'post_title' ],
-                'description' => $data[ 'post_title' ],
-                //'keyword' => $pageDetail[ 0 ][ 'keyword' ],
-                //'name' => $pageDetail[ 0 ][ 'name' ],
-                'post_id' => $data[ 'ID' ],
-                'body_class' => 'post ' . $data[ 'post_type' ] . '-post',
-            );
-            $shortlink = DYNAMIC_BASE_URL . '?p=' . $data[ 'ID' ];
-
-            //
-            if ( isset( $data[ 'post_meta' ][ 'meta_description' ] ) && $data[ 'post_meta' ][ 'meta_description' ] != '' ) {
-                $seo[ 'description' ] = $data[ 'post_meta' ][ 'meta_description' ];
-            } else if ( $data[ 'post_excerpt' ] != '' ) {
-                $seo[ 'description' ] = strip_tags( $data[ 'post_excerpt' ] );
-            }
-        }
-        //$seo[ 'google_analytics' ] = $getconfig->google_analytics;
-        $seo[ 'keyword' ] = $seo[ 'description' ];
-        $seo[ 'url' ] = $url;
-        $seo[ 'canonical' ] = $url;
-        $seo[ 'shortlink' ] = $shortlink;
-        //$seo[ 'index' ] = 1;
+        $seo = array(
+            'index' => 'on',
+            'title' => $data[ 'name' ],
+            'description' => $data[ 'description' ] != '' ? $data[ 'description' ] : $data[ 'name' ],
+            'term_id' => $data[ 'term_id' ],
+            'body_class' => 'taxonomy ' . $data[ 'taxonomy' ] . '-taxonomy',
+            'updated_time' => strtotime( $data[ 'last_updated' ] ),
+            'shortlink' => DYNAMIC_BASE_URL . '?cat=' . $data[ 'term_id' ] . '&taxonomy=' . $data[ 'taxonomy' ],
+            'url' => $url,
+            'canonical' => $url,
+        );
         $seo[ 'description' ] = trim( strip_tags( $seo[ 'description' ] ) );
+        $seo[ 'keyword' ] = $seo[ 'description' ];
+        //print_r( $seo );
+
+        return $seo;
+    }
+
+    public function post_seo( $data, $url ) {
+        //print_r( $data );
+        $seo = array(
+            'index' => 'on',
+            'title' => $data[ 'post_title' ],
+            'description' => $data[ 'post_title' ],
+            //'keyword' => $pageDetail[ 0 ][ 'keyword' ],
+            //'name' => $pageDetail[ 0 ][ 'name' ],
+            'post_id' => $data[ 'ID' ],
+            'body_class' => 'post ' . $data[ 'post_type' ] . '-post',
+            'updated_time' => strtotime( $data[ 'post_modified' ] ),
+            'shortlink' => DYNAMIC_BASE_URL . '?p=' . $data[ 'ID' ],
+            'url' => $url,
+            'canonical' => $url,
+        );
+
+        //
+        if ( isset( $data[ 'post_meta' ][ 'meta_description' ] ) && $data[ 'post_meta' ][ 'meta_description' ] != '' ) {
+            $seo[ 'description' ] = $data[ 'post_meta' ][ 'meta_description' ];
+        } else if ( $data[ 'post_excerpt' ] != '' ) {
+            $seo[ 'description' ] = strip_tags( $data[ 'post_excerpt' ] );
+        }
+        $seo[ 'description' ] = trim( strip_tags( $seo[ 'description' ] ) );
+        $seo[ 'keyword' ] = $seo[ 'description' ];
         //print_r( $seo );
 
         return $seo;

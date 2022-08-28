@@ -295,7 +295,9 @@ class Layout extends Sync {
 
         //
         $this->teamplate[ 'main' ] = view( '404', array(
-            'seo' => $this->base_model->default_seo( '404 not found', '404' ),
+            'seo' => $this->base_model->default_seo( '404 not found', __FUNCTION__, [
+                'canonical' => base_url( '404' ),
+            ] ),
             'breadcrumb' => '',
             // thông điệp của việc xuất hiện lỗi 404
             'msg_404' => $msg_404,
@@ -359,7 +361,7 @@ class Layout extends Sync {
         //$this->create_breadcrumb( $data[ 'name' ] );
         $this->create_term_breadcrumb( $data );
         //print_r( $this->taxonomy_slider );
-        $seo = $this->base_model->seo( $data, $this->term_model->get_the_permalink( $data ) );
+        $seo = $this->base_model->term_seo( $data, $this->term_model->get_the_permalink( $data ) );
 
         // chỉnh lại thông số cho canonical
         if ( $ops[ 'page_num' ] > 1 ) {

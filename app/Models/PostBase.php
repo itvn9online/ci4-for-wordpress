@@ -123,7 +123,7 @@ class PostBase extends EbModel {
         } else {
             $redirect_to .= '&';
         }
-        $redirect_to .= 'canonical=php';
+        $redirect_to .= 'canonical=server';
 
         //
         header( 'HTTP/1.1 301 Moved Permanently' );

@@ -56,16 +56,13 @@ class Home extends Csrf {
         $getconfig = $this->getconfig;
 
         //
-        $seo = array(
-            'index' => '1',
-            'title' => $getconfig->title,
+        $seo = $this->base_model->default_seo( $getconfig->title, $this->getClassName( __CLASS__ ), [
+            'index' => 'on',
+            'canonical' => DYNAMIC_BASE_URL,
             'description' => $getconfig->description,
             'keyword' => $getconfig->keyword,
             'name' => $getconfig->name,
-            'canonical' => DYNAMIC_BASE_URL,
-            'body_class' => 'home',
-            //'google_analytics' => $getconfig->google_analytics,
-        );
+        ] );
 
         $this->teamplate[ 'main' ] = view( 'home_view', array(
             'seo' => $seo,
@@ -338,7 +335,7 @@ class Home extends Csrf {
         //
         $data[ 'post_permalink' ] = $this->post_model->get_the_permalink( $data );
         $this->create_breadcrumb( $data[ 'post_title' ], $data[ 'post_permalink' ] );
-        $seo = $this->base_model->seo( $data, $data[ 'post_permalink' ] );
+        $seo = $this->base_model->post_seo( $data, $data[ 'post_permalink' ] );
         $this->current_pid = $data[ 'ID' ];
 
         // -> views

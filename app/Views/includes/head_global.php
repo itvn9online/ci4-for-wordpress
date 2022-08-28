@@ -3,6 +3,9 @@
 //
 use App\ Helpers\ HtmlTemplate;
 
+//
+//print_r( $seo );
+
 ?>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -22,7 +25,6 @@ use App\ Helpers\ HtmlTemplate;
 <meta name="format-detection" content="telephone=no">
 <!-- SEO -->
 <link href="<?php echo $option_model->get_the_favicon($getconfig); ?>" rel="shortcut icon" type="image/png" />
-<link href="<?php echo $seo['canonical']; ?>" rel="canonical" />
 <meta name="title" content="<?php echo $seo['title']; ?>" />
 <meta name="keywords" content="<?php echo $seo['keyword']; ?>" />
 <meta name="news_keywords" content="<?php echo $seo['keyword']; ?>" />
@@ -32,12 +34,23 @@ use App\ Helpers\ HtmlTemplate;
 <meta itemprop="name" content="<?php echo $seo['title']; ?>" />
 <meta itemprop="description" content="<?php echo $seo['description']; ?>" />
 <?php
+
+//
+if ( $seo[ 'canonical' ] != '' ) {
+    ?>
+<link href="<?php echo $seo['canonical']; ?>" rel="canonical" />
+<meta property="og:url" content="<?php echo $seo['canonical']; ?>" />
+<?php
+}
+
 //
 if ( $seo[ 'shortlink' ] != '' ) {
     ?>
 <link href="<?php echo $seo[ 'shortlink' ]; ?>" rel="shortlink" />
 <?php
 }
+
+//
 if ( CDN_BASE_URL != '' ) {
     ?>
 <link rel="dns-prefetch" href="<?php echo CDN_BASE_URL; ?>" />
@@ -46,7 +59,7 @@ if ( CDN_BASE_URL != '' ) {
 
 //
 //print_r( $getconfig );
-if ( $getconfig->blog_private == 'on' ) {
+if ( $getconfig->blog_private == 'on' || $seo[ 'index' ] == 'off' ) {
     ?>
 <meta name="robots" content="noindex, nofollow" />
 <?php
@@ -60,7 +73,6 @@ if ( $getconfig->fb_app_id != '' ) {
 }
 ?>
 <meta property="og:title" content="<?php echo $seo['title']; ?>" />
-<meta property="og:url" content="<?php echo $seo['canonical']; ?>" />
 <meta property="og:description" content="<?php echo $seo['description']; ?>" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="<?php $option_model->the_config($getconfig, 'name'); ?>" />
@@ -78,7 +90,7 @@ if ( $getconfig->fb_app_id != '' ) {
                                        $option_model->the_config($getconfig, 'name');
                                    }
                                    ?>" />
-<meta property="og:updated_time" content="<?php echo time(); ?>" />
+<meta property="og:updated_time" content="<?php echo $seo['updated_time']; ?>" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:description" content="<?php echo $seo['description']; ?>" />
 <meta name="twitter:title" content="<?php echo $seo['title']; ?>" />
