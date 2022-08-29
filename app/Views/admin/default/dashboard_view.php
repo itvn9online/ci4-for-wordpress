@@ -77,7 +77,7 @@ if ( $debug_enable === true ) {
             <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12">
                 <div class="row">
                     <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                        <div class="p">Client IP: <a href="https://www.iplocation.net/ip-lookup?query=<?php echo $request_ip; ?>" target="_blank" rel="nofollow" class="bold greencolor"><?php echo $request_ip; ?></a></div>
+                        <div class="p">Client IP: <a href="https://www.iplocation.net" target="_blank" rel="nofollow" class="bold greencolor"><?php echo $request_ip; ?></a></div>
                     </div>
                     <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
                         <div class="p">Client time: <strong>{{ datetime(Date_now) }}</strong></div>
