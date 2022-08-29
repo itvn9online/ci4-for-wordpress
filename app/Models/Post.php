@@ -28,4 +28,9 @@ class Post extends PostPosts {
             //'get_query' => 1,
         ] );
     }
+
+    // vì permalink gán trực tiếp vào db nên thi thoảng sẽ check lại chút
+    public function sync_post_term_permalink() {
+        //
+    }
 }
