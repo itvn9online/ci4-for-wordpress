@@ -68,6 +68,7 @@ function register_admin_menu() {
                 'admin/sub_controller' => [
                     'name' => 'Sub menu',
                     'icon' => 'fa fa-plus',
+                    //'target' => '_blank',
                 ],
             ],
             'order' => 95,
