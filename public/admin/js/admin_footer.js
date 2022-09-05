@@ -24,6 +24,11 @@ console.log(aaaaaaaa);
         }
         arr[x].icon = '<i class="' + arr[x].icon + '"></i>';
 
+        // tạo target
+        if (typeof arr[x].target == 'undefined' || arr[x].target == '') {
+            arr[x].target = '_self';
+        }
+
         //
         cl = '';
         // chỉnh lại css cho các menu dưới chân admin
@@ -34,7 +39,7 @@ console.log(aaaaaaaa);
         }
 
         //
-        str += '<li class="' + cl + '" style="order: ' + arr[x].order + '"><a href="' + x + '">' + arr[x].icon + arr[x].name + '</a>';
+        str += '<li class="' + cl + '" style="order: ' + arr[x].order + '"><a href="' + x + '" target="' + arr[x].target + '">' + arr[x].icon + arr[x].name + '</a>';
 
         //
         //console.log(arr[x]);
@@ -48,8 +53,13 @@ console.log(aaaaaaaa);
                 }
                 v_sub[k_sub].icon = '<i class="' + v_sub[k_sub].icon + '"></i>';
 
+                // tạo target
+                if (typeof v_sub[k_sub].target == 'undefined' || v_sub[k_sub].target == '') {
+                    v_sub[k_sub].target = '_self';
+                }
+
                 //
-                str_sub += '<li><a href="' + k_sub + '">' + v_sub[k_sub].icon + v_sub[k_sub].name + '</a></li>';
+                str_sub += '<li><a href="' + k_sub + '" target="' + v_sub[k_sub].target + '">' + v_sub[k_sub].icon + v_sub[k_sub].name + '</a></li>';
             }
 
             //
