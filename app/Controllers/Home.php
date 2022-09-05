@@ -108,7 +108,7 @@ class Home extends Csrf {
             // vào đây thì bắt buộc phải không có category prefix
             if ( WGR_CATEGORY_PREFIX != '' ) {
                 // -> có thì chuyển hướng tới link chính ngay
-                return redirect()->to( $this->term_model->get_the_permalink( $data ) );
+                return redirect()->to( $this->term_model->get_full_permalink( $data ) );
                 //die( __CLASS__ . ':' . __LINE__ );
             }
 
@@ -130,7 +130,7 @@ class Home extends Csrf {
                 // vào đây thì bắt buộc phải không có page prefix
                 if ( WGR_PAGES_PREFIX != '' ) {
                     // -> có thì chuyển hướng tới link chính ngay
-                    return redirect()->to( $this->post_model->get_the_permalink( $data ) );
+                    return redirect()->to( $this->post_model->get_full_permalink( $data ) );
                     //die( __CLASS__ . ':' . __LINE__ );
                 }
 
@@ -213,7 +213,7 @@ class Home extends Csrf {
             // nếu đây là shortlink
             if ( $post_type == '' ) {
                 // chuyển đến URL đầy đủ
-                $redirect_to = $this->post_model->get_the_permalink( $data );
+                $redirect_to = $this->post_model->get_full_permalink( $data );
 
                 //die( $redirect_to );
                 header( 'HTTP/1.1 301 Moved Permanently' );
@@ -324,7 +324,7 @@ class Home extends Csrf {
 
             //
             if ( !empty( $parent_data ) ) {
-                $this->create_breadcrumb( $parent_data[ 'post_title' ], $this->post_model->get_the_permalink( $parent_data ) );
+                $this->create_breadcrumb( $parent_data[ 'post_title' ], $this->post_model->get_full_permalink( $parent_data ) );
             }
             // cha bị khóa thì cũng trả về 404 luôn
             else {
@@ -333,9 +333,9 @@ class Home extends Csrf {
         }
 
         //
-        $data[ 'post_permalink' ] = $this->post_model->get_the_permalink( $data );
-        $this->create_breadcrumb( $data[ 'post_title' ], $data[ 'post_permalink' ] );
-        $seo = $this->base_model->post_seo( $data, $data[ 'post_permalink' ] );
+        $full_link = $this->post_model->get_full_permalink( $data );
+        $this->create_breadcrumb( $data[ 'post_title' ], $full_link );
+        $seo = $this->base_model->post_seo( $data, $full_link );
         $this->current_pid = $data[ 'ID' ];
 
         // -> views

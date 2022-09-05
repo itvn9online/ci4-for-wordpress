@@ -283,7 +283,7 @@ class Layout extends Sync {
         }
 
         //
-        return $this->create_breadcrumb( $cats[ 'name' ], $this->term_model->get_the_permalink( $cats ) );
+        return $this->create_breadcrumb( $cats[ 'name' ], $this->term_model->get_full_permalink( $cats ) );
     }
 
     public function page404( $msg_404 = '', $in_cache = '' ) {
@@ -361,7 +361,7 @@ class Layout extends Sync {
         //$this->create_breadcrumb( $data[ 'name' ] );
         $this->create_term_breadcrumb( $data );
         //print_r( $this->taxonomy_slider );
-        $seo = $this->base_model->term_seo( $data, $this->term_model->get_the_permalink( $data ) );
+        $seo = $this->base_model->term_seo( $data, $this->term_model->get_full_permalink( $data ) );
 
         // chỉnh lại thông số cho canonical
         if ( $ops[ 'page_num' ] > 1 ) {
@@ -969,7 +969,7 @@ class Layout extends Sync {
         }
 
         //
-        $data[ 'p_link' ] = $this->post_model->get_the_permalink( $data );
+        $data[ 'p_link' ] = $this->post_model->get_full_permalink( $data );
 
         //
         //print_r( $data );

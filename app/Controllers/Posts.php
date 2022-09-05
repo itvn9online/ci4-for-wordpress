@@ -173,13 +173,13 @@ class Posts extends Csrf {
                 'limit' => 1
             ) );
             //print_r( $parent_data );
-            $this->create_breadcrumb( $parent_data[ 'post_title' ], $this->post_model->get_the_permalink( $parent_data ) );
+            $this->create_breadcrumb( $parent_data[ 'post_title' ], $this->post_model->get_full_permalink( $parent_data ) );
         }
 
         //
-        $data[ 'post_permalink' ] = $this->post_model->get_the_permalink( $data );
-        $this->create_breadcrumb( $data[ 'post_title' ], $data[ 'post_permalink' ] );
-        $seo = $this->base_model->post_seo( $data, $data[ 'post_permalink' ] );
+        $full_link = $this->post_model->get_full_permalink( $data );
+        $this->create_breadcrumb( $data[ 'post_title' ], $full_link );
+        $seo = $this->base_model->post_seo( $data, $full_link );
 
         //
         $structured_data = $this->structuredData( $data, 'Article.html' );

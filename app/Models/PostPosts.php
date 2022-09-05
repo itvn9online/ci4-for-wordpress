@@ -19,7 +19,7 @@ class PostPosts extends PostSlider {
         //echo $tmp_html . '<br>' . "\n";
 
         //
-        $data[ 'p_link' ] = $this->get_the_permalink( $data );
+        $data[ 'p_link' ] = $this->get_full_permalink( $data );
         if ( isset( $ops[ 'taxonomy_post_size' ] ) && $ops[ 'taxonomy_post_size' ] != '' ) {
             $data[ 'cf_product_size' ] = $ops[ 'taxonomy_post_size' ];
         } else {
@@ -106,7 +106,7 @@ class PostPosts extends PostSlider {
         //echo $tmp_html . '<br>' . "\n";
 
         //
-        $data[ 'p_link' ] = $this->get_the_permalink( $data );
+        $data[ 'p_link' ] = $this->get_full_permalink( $data );
         if ( isset( $ops[ 'taxonomy_post_size' ] ) && $ops[ 'taxonomy_post_size' ] != '' ) {
             $data[ 'cf_blog_size' ] = $ops[ 'taxonomy_post_size' ];
         } else {

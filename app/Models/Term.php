@@ -819,7 +819,7 @@ class Term extends TermBase {
             return true;
         }
         // không thì redirect về URL chuẩn
-        $redirect_to = $this->get_the_permalink( $data );
+        $redirect_to = $this->get_full_permalink( $data );
         //die( $redirect_to );
         if ( strpos( $redirect_to, '?' ) === false ) {
             $redirect_to .= '?';
@@ -834,13 +834,18 @@ class Term extends TermBase {
         //die( __CLASS__ . ':' . __LINE__ );
     }
 
+    // trả về url với đầy đủ tên miền
+    public function get_full_permalink( $data ) {
+        return $this->get_the_permalink( $data, DYNAMIC_BASE_URL );
+    }
+
     // trả về url của 1 term
-    public function get_the_permalink( $data ) {
+    public function get_the_permalink( $data, $base_url = '' ) {
         //print_r( $data );
 
         // sử dụng permalink có sẵn trong data
         if ( $data[ 'term_permalink' ] != '' ) {
-            return DYNAMIC_BASE_URL . $data[ 'term_permalink' ];
+            return $base_url . $data[ 'term_permalink' ];
         }
 
         // không có thì mới tạo và update vào db
@@ -850,10 +855,10 @@ class Term extends TermBase {
             TaxonomyType::BLOG_TAGS,
         ];
         if ( $data[ 'taxonomy' ] == TaxonomyType::POSTS ) {
-            //return DYNAMIC_BASE_URL . CATEGORY_BASE_URL . $data[ 'slug' ];
+            //return $base_url . CATEGORY_BASE_URL . $data[ 'slug' ];
             $url = WGR_CATEGORY_PERMALINK;
         } else if ( in_array( $data[ 'taxonomy' ], $allow_taxonomy ) ) {
-            //return DYNAMIC_BASE_URL . $data[ 'taxonomy' ] . '/' . $data[ 'slug' ];
+            //return $base_url . $data[ 'taxonomy' ] . '/' . $data[ 'slug' ];
             $url = WGR_BLOGS_PERMALINK;
         } else {
             $url = WGR_TAXONOMY_PERMALINK;
@@ -880,11 +885,11 @@ class Term extends TermBase {
         ] );
 
         //
-        return DYNAMIC_BASE_URL . $url;
+        return $base_url . $url;
 
         //
-        //return DYNAMIC_BASE_URL . '?cat=' . $data[ 'term_id' ] . '&taxonomy=' . $data[ 'taxonomy' ] . '&slug=' . $data[ 'slug' ];
-        //return DYNAMIC_BASE_URL . 'c/' . $data[ 'taxonomy' ] . '/' . $data[ 'term_id' ] . '/' . $data[ 'slug' ];
+        //return $base_url . '?cat=' . $data[ 'term_id' ] . '&taxonomy=' . $data[ 'taxonomy' ] . '&slug=' . $data[ 'slug' ];
+        //return $base_url . 'c/' . $data[ 'taxonomy' ] . '/' . $data[ 'term_id' ] . '/' . $data[ 'slug' ];
     }
     // thường dùng trong view -> in ra link admin của 1 term
     public function the_permalink( $data ) {

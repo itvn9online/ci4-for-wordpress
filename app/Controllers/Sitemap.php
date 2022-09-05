@@ -188,7 +188,7 @@ class Sitemap extends Csrf {
             //print_r( $data );
             foreach ( $data as $v ) {
                 $get_list_sitemap .= $this->WGR_echo_sitemap_url_node(
-                    $this->term_model->get_the_permalink( $v ),
+                    $this->term_model->get_full_permalink( $v ),
                     1.0,
                     date( $this->sitemap_date_format, strtotime( $v[ 'last_updated' ] ) ),
                 );
@@ -279,7 +279,7 @@ class Sitemap extends Csrf {
         $get_list_sitemap = '';
         foreach ( $data as $v ) {
             $get_list_sitemap .= $this->WGR_echo_sitemap_url_node(
-                $this->post_model->get_the_permalink( $v ),
+                $this->post_model->get_full_permalink( $v ),
                 0.5,
                 date( $this->sitemap_date_format, strtotime( $v[ 'post_modified' ] ) ),
                 array(
@@ -465,7 +465,7 @@ class Sitemap extends Csrf {
                     if ( !empty( $parent_data ) ) {
                         $get_list_sitemap .= '
 <url>
-<loc><![CDATA[' . $this->post_model->get_the_permalink( $parent_data ) . ']]></loc>' . $get_list_img_sitemap . '
+<loc><![CDATA[' . $this->post_model->get_full_permalink( $parent_data ) . ']]></loc>' . $get_list_img_sitemap . '
 </url>';
 
                         // reset list ảnh
@@ -522,7 +522,7 @@ class Sitemap extends Csrf {
             if ( $get_list_img_sitemap != '' && !empty( $parent_data ) ) {
                 $get_list_sitemap .= '
 <url>
-<loc><![CDATA[' . $this->post_model->get_the_permalink( $parent_data ) . ']]></loc>' . $get_list_img_sitemap . '
+<loc><![CDATA[' . $this->post_model->get_full_permalink( $parent_data ) . ']]></loc>' . $get_list_img_sitemap . '
 </url>';
             }
         }

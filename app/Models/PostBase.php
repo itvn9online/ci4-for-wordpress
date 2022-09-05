@@ -116,7 +116,7 @@ class PostBase extends EbModel {
             return true;
         }
         // không thì redirect về URL chuẩn
-        $redirect_to = $this->get_the_permalink( $data );
+        $redirect_to = $this->get_full_permalink( $data );
         //die( $redirect_to );
         if ( strpos( $redirect_to, '?' ) === false ) {
             $redirect_to .= '?';
@@ -131,27 +131,32 @@ class PostBase extends EbModel {
         //die( __CLASS__ . ':' . __LINE__ );
     }
 
+    // trả về url với đầy đủ tên miền
+    public function get_full_permalink( $data ) {
+        return $this->get_the_permalink( $data, DYNAMIC_BASE_URL );
+    }
+
     // trả về url của 1 post
-    public function get_the_permalink( $data ) {
+    public function get_the_permalink( $data, $base_url = '' ) {
         //print_r( $data );
 
         // sử dụng permalink có sẵn trong data
         if ( $data[ 'post_permalink' ] != '' ) {
-            return DYNAMIC_BASE_URL . $data[ 'post_permalink' ];
+            return $base_url . $data[ 'post_permalink' ];
         }
 
         //
-        //return DYNAMIC_BASE_URL . $data[ 'post_type' ] . '/' . $data[ 'ID' ] . '/' . $data[ 'post_name' ] . '.html';
+        //return $base_url . $data[ 'post_type' ] . '/' . $data[ 'ID' ] . '/' . $data[ 'post_name' ] . '.html';
 
         //
         if ( $data[ 'post_type' ] == PostType::POST ) {
-            //return DYNAMIC_BASE_URL . $data[ 'ID' ] . '/' . $data[ 'post_name' ];
+            //return $base_url . $data[ 'ID' ] . '/' . $data[ 'post_name' ];
             $url = WGR_POST_PERMALINK;
         } else if ( $data[ 'post_type' ] == PostType::BLOG ) {
-            //return DYNAMIC_BASE_URL . PostType::BLOG . '-' . $data[ 'ID' ] . '/' . $data[ 'post_name' ];
+            //return $base_url . PostType::BLOG . '-' . $data[ 'ID' ] . '/' . $data[ 'post_name' ];
             $url = WGR_BLOG_PERMALINK;
         } else if ( $data[ 'post_type' ] == PostType::PAGE ) {
-            //return DYNAMIC_BASE_URL . PAGE_BASE_URL . $data[ 'post_name' ];
+            //return $base_url . PAGE_BASE_URL . $data[ 'post_name' ];
             $url = WGR_PAGE_PERMALINK;
         } else {
             $url = WGR_POSTS_PERMALINK;
@@ -178,11 +183,11 @@ class PostBase extends EbModel {
         ] );
 
         //
-        return DYNAMIC_BASE_URL . $url;
+        return $base_url . $url;
 
         //
-        //return DYNAMIC_BASE_URL . '?p=' . $data[ 'ID' ] . '&post_type=' . $data[ 'post_type' ] . '&slug=' . $data[ 'post_name' ];
-        //return DYNAMIC_BASE_URL . 'p/' . $data[ 'post_type' ] . '/' . $data[ 'ID' ] . '/' . $data[ 'post_name' ] . '.html';
+        //return $base_url . '?p=' . $data[ 'ID' ] . '&post_type=' . $data[ 'post_type' ] . '&slug=' . $data[ 'post_name' ];
+        //return $base_url . 'p/' . $data[ 'post_type' ] . '/' . $data[ 'ID' ] . '/' . $data[ 'post_name' ] . '.html';
     }
 
     // thường dùng trong view -> in ra link admin của 1 post
