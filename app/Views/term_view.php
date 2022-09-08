@@ -62,10 +62,7 @@ if ( $totalThread > 0 ) {
         //print_r( $child_data );
         // -> chạy 1 vòng để nạp lại permalink trước khi cache -> tránh trường hợp update liên tọi
         foreach ( $child_data as $k => $v ) {
-            if ( $v[ 'post_permalink' ] == '' ) {
-                $v[ 'post_permalink' ] = $post_model->get_the_permalink( $v );
-                $child_data[ $k ] = $v;
-            }
+            $child_data[ $k ][ 'post_permalink' ] = $post_model->get_the_permalink( $v );
         }
 
         //

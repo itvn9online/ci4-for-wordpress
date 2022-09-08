@@ -4,6 +4,7 @@ namespace App\ Libraries;
 
 class TaxonomyType {
 
+    // taxonomy
     const POSTS = 'category';
     const TAGS = 'tags';
     const ADS = 'ads_options';

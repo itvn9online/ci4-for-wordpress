@@ -19,7 +19,7 @@ class Home extends Csrf {
     public function index() {
         // đồng bộ lại tổng số nhóm con cho các danh mục trước đã
         $this->term_model->sync_term_child_count();
-        //$this->post_model->sync_post_term_permalink();
+        $this->post_model->sync_post_term_permalink();
 
         // thử xem có tham số p không -> có thì có thể là shortlink
         $post_id = $this->MY_get( 'p', 0 );
