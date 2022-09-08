@@ -93,6 +93,5 @@ define('EVENT_PRIORITY_NORMAL', 100);
  */
 define('EVENT_PRIORITY_HIGH', 10);
 
-
 // include file kiểu này để mỗi lần update code thì check git nó tiện
 require_once __DIR__ . '/MyConstants.php';
