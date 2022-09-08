@@ -570,7 +570,9 @@ class PostQuery extends PostMeta {
             //
             $p_link = 'javascript:;';
             if ( isset( $v[ 'post_meta' ][ 'url_redirect' ] ) && $v[ 'post_meta' ][ 'url_redirect' ] != '' ) {
+                //print_r( $v );
                 $p_link = $v[ 'post_meta' ][ 'url_redirect' ];
+                //echo $p_link . '<br>' . "\n";
             }
 
             //
@@ -582,11 +584,17 @@ class PostQuery extends PostMeta {
             }
 
             // tạo html cho từng node
-            $str_node = $this->base_model->tmp_to_html( $tmp_html, $v, [
-                'taxonomy_key' => $ops[ 'taxonomy' ],
+            //echo $tmp_html;
+            $str_node = $this->base_model->tmp_to_html( $tmp_html, [
                 'p_link' => $p_link,
+                'post_permalink' => $p_link,
             ] );
+            $str_node = $this->base_model->tmp_to_html( $str_node, $v, [
+                'taxonomy_key' => $ops[ 'taxonomy' ],
+            ] );
+            //echo $str_node;
             $str_node = HtmlTemplate::render( $str_node, $v[ 'post_meta' ] );
+            //echo $str_node;
 
             //
             $html .= $str_node;

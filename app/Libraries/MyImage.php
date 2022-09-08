@@ -63,7 +63,9 @@ class MyImage {
         //
         // bắt đầu chuyển đổi sang webp
         $create_webp = false;
-        if ( $file_ext == 'png' ) {
+        if ( $file_ext == 'webp' ) {
+            return str_replace( PUBLIC_PUBLIC_PATH, '', $source );
+        } else if ( $file_ext == 'png' ) {
             $img = imagecreatefrompng( $source );
             $create_webp = true;
         } else if ( $file_ext == 'jpg' || $file_ext == 'jpeg' ) {
