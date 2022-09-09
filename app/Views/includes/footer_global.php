@@ -8,6 +8,7 @@ $base_model->adds_js( [
     //'thirdparty/bootstrap/js/bootstrap.bundle.min.js', // bao gồm cả Popper -> ít dùng -> khi nào dùng thì include vào sau
     'thirdparty/bootstrap/js/bootstrap.min.js',
     'javascript/footer.js',
+    'javascript/footer_audio.js',
     'javascript/pagination.js',
     'themes/' . THEMENAME . '/js/d.js'
 ], [

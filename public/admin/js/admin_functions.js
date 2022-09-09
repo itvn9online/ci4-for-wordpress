@@ -129,7 +129,7 @@ function add_and_show_post_avt(for_id, add_img_tag, img_size, input_type) {
     //
     var str = [];
     //str.push(' <input type="button" class="btn btn-info" value="Chọn ảnh" onclick="BrowseServer( \'Images:/\', \'' + for_id.substr(1) + '\' );"/>');
-    str.push(' <button type="button" class="btn btn-info add-image-' + for_id.replace(/\#|\./gi, '-') + '" onclick="WgrWp_popup_upload( \'' + for_id.substr(1) + '\', ' + add_img_tag + ', \'' + img_size + '\', \'' + input_type + '\' );">Thêm ảnh</button>');
+    str.push(' <button type="button" class="btn btn-info add-image-' + for_id.replace(/\#|\./gi, '-') + '" onclick="WgrWp_popup_upload( \'' + for_id.substr(1) + '\', ' + add_img_tag + ', \'' + img_size + '\', \'' + input_type + '\' );">Thêm Media</button>');
 
     //
     $('.for-' + for_id).remove();
@@ -330,18 +330,22 @@ function WGR_load_textediter(for_id, ops) {
             // sự kiện khi khi nhấp đúp chuột
             ed.on('DblClick', function (e) {
                 //console.log('Double click event:', e.target);
-                console.log('Double click event:', e.target.nodeName);
-                //console.log('Double click event:', e.target.getAttribute('data-mce-object'));
+
+                //
+                var target_nodeName = e.target.nodeName.toLocaleLowerCase();
+                console.log('Double click event:', target_nodeName);
                 // nếu là hình ảnh -> mở hộp thoại sửa ảnh
-                if (e.target.nodeName == 'IMG') {
-                    if (e.target.getAttribute('data-mce-object') == 'video') {
+                if (target_nodeName == 'img') {
+                    var mce_object = e.target.getAttribute('data-mce-object');
+                    console.log('data mce object:', mce_object);
+                    if (mce_object == 'video' || mce_object == 'audio') {
                         tinymce.activeEditor.execCommand('mceMedia');
                     } else {
                         tinymce.activeEditor.execCommand('mceImage');
                     }
                 }
                 // nếu là URL -> mở hộp chỉnh sửa URL
-                else if (e.target.nodeName == 'A') {
+                else if (target_nodeName == 'a') {
                     tinymce.activeEditor.execCommand('mceLink');
                 }
             });

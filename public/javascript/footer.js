@@ -75,7 +75,6 @@ jQuery(window).resize(function () {
     _global_js_eb.auto_margin();
 });
 
-
 //
 jQuery('#oi_scroll_top, .oi_scroll_top').click(function () {
     window.scroll(0, 0);
