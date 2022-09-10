@@ -553,6 +553,10 @@ class Posts extends Admin {
             else if ( $this->post_type == PostType::PAGE ) {
                 $this->cleanup_cache( 'get_page-' . $data[ 'post_name' ] );
             }
+            // hoặc ads
+            else if ( $this->post_type == PostType::ADS ) {
+                $this->cleanup_cache( 'get_the_ads-' );
+            }
         }
 
         // xóa cache cho term liên quan

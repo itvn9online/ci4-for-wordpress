@@ -184,7 +184,7 @@ class TaxonomyType {
                 'chutren_anhduoi' => 'Chữ trên - ảnh dưới',
                 'chi_chu' => 'Chỉ tiêu đề (title only)',
                 'chi_anh' => 'Chỉ ảnh (image only)',
-                'text_only' => 'Chỉ chữ (text only)',
+                'text_only' => 'Tiêu đề + nội dung (text only)',
                 'chi_anh_chu' => 'Chỉ ảnh + tiêu đề (title + image)'
             ],
             'max_width' => [

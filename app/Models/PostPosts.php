@@ -166,6 +166,7 @@ class PostPosts extends PostSlider {
 
         //
         if ( $in_cache != '' ) {
+            //echo $in_cache . '<br>' . "\n";
             $cache_value = $this->base_model->scache( $in_cache );
 
             // có cache thì trả về

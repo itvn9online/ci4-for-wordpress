@@ -971,3 +971,16 @@ function redirect_to_canonical() {
         window.location = a;
     }
 }
+
+function hide_if_esc() {
+    if (top != self) {
+        return top.hide_if_esc();
+    }
+
+    //
+    $('.hide-if-esc').hide();
+    $('body').removeClass('no-scroll');
+
+    //
+    return false;
+}

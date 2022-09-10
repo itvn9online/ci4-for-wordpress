@@ -520,19 +520,6 @@ function set_last_url_segment(last_w) {
     return false;
 }
 
-function hide_if_esc() {
-    if (top != self) {
-        return top.hide_if_esc();
-    }
-
-    //
-    $('.hide-if-esc').hide();
-    $('body').removeClass('no-scroll');
-
-    //
-    return false;
-}
-
 
 //
 var loading_term_select_option = {};

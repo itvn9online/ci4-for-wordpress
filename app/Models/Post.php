@@ -70,7 +70,7 @@ class Post extends PostPosts {
 
         // nếu không có thì chuyển sang update term
         if ( empty( $data ) ) {
-            // lấy các post chưa có permalink đẻ update
+            // lấy các term chưa có permalink đẻ update
             $data = $this->base_model->select( 'term_id, term_permalink, taxonomy, slug', WGR_TERM_VIEW, array(
                 // các kiểu điều kiện where
                 'is_deleted' => DeletedStatus::FOR_DEFAULT,
@@ -103,6 +103,10 @@ class Post extends PostPosts {
             // nếu hết rồi thì lưu lại cache để sau đỡ dính
             if ( empty( $data ) ) {
                 $this->base_model->scache( __FUNCTION__, time(), 3600 );
+            } else {
+                foreach ( $data as $v ) {
+                    $this->term_model->get_the_permalink( $v );
+                }
             }
         }
         // có thì xử lý cái phần có

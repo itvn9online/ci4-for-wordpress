@@ -5,13 +5,13 @@ die( 'no money no love' );
 ?>
 <!-- các file CSS chuyển từ PHP sang sẽ cho vào đây -->
 <?php
-$this->base_model->add_css( 'public/css/ten_file.css', [
+$base_model->add_css( 'public/css/ten_file.css', [
     'get_content' => 1,
     'preload' => 1,
     'cdn' => CDN_BASE_URL,
 ] );
 // lấy mã CSS trả về thay vì echo luôn
-$this->base_model->get_add_css( 'public/css/ten_file.css', [
+$base_model->get_add_css( 'public/css/ten_file.css', [
     'get_content' => 1,
     'preload' => 1,
     'cdn' => CDN_BASE_URL,
@@ -20,7 +20,7 @@ $this->base_model->get_add_css( 'public/css/ten_file.css', [
 
 <!-- các file JS chuyển từ PHP sang sẽ cho vào đây -->
 <?php
-$this->base_model->add_js( 'javascript/ten_file.js', [
+$base_model->add_js( 'javascript/ten_file.js', [
     'get_content' => 1,
     'preload' => 1,
     'cdn' => CDN_BASE_URL,
@@ -28,7 +28,7 @@ $this->base_model->add_js( 'javascript/ten_file.js', [
     'defer'
 ] );
 // lấy mã JS trả về thay vì echo luôn
-$this->base_model->get_add_js( 'javascript/ten_file.js', [
+$base_model->get_add_js( 'javascript/ten_file.js', [
     'get_content' => 1,
     'preload' => 1,
     'cdn' => CDN_BASE_URL,
@@ -230,6 +230,20 @@ $this->base_model->delete_multiple( 'users', [
     // trả về câu query để sử dụng cho mục đích khác
     'get_query' => 1,
 ] );
+
+
+//
+$post_model->the_ads( 'ads-term-slug', $limit = 1, $ops = [
+    //'post_type' => 'post_type',
+    //'taxonomy' => 'taxonomy',
+    //'limit' => 'limit',
+    // nếu có tham số auto clone -> cho phép nhân bản dữ liệu cho các ngôn ngữ khác
+    'auto_clone' => 1,
+    // trả về dữ liệu ngay sau khi select xong -> bỏ qua đoạn builder HTML
+    'return_object' => 1,
+    // thêm class css tùy chỉnh vào
+    'add_class' => 'css-class-1 cas-class-2',
+], $using_cache = true, $time = MEDIUM_CACHE_TIMEOUT );
 
 
 // khai báo URL tùy chỉnh trong application/config/routes.php

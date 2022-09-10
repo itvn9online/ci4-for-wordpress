@@ -68,6 +68,13 @@ jQuery(document).ready(function () {
     
     //
     _global_js_eb.ebe_currency_format();
+}).keydown(function (e) {
+    //console.log(e.keyCode);
+
+    //
+    if (e.keyCode == 27) {
+        hide_if_esc();
+    }
 });
 
 //

@@ -427,8 +427,10 @@ class PostQuery extends PostMeta {
         //print_r( $get_data );
         //die( __CLASS__ . ':' . __LINE__ );
         if ( !isset( $get_data[ 'posts' ] ) || empty( $get_data[ 'posts' ] ) ) {
-            // nếu có tham số cho phép nhân bản dữ liệu cho các ngôn ngữ khác
-            if ( isset( $ops[ 'auto_clone' ] ) && $ops[ 'auto_clone' ] === 1 && LanguageCost::lang_key() != LanguageCost::default_lang() ) {
+            // nếu có tham số auto clone -> cho phép nhân bản dữ liệu cho các ngôn ngữ khác
+            if ( isset( $ops[ 'auto_clone' ] ) &&
+                $ops[ 'auto_clone' ] === 1 &&
+                LanguageCost::lang_key() != LanguageCost::default_lang() ) {
                 //print_r( $get_data );
                 // tiến hành lấy dữ liệu mẫu để nhân
                 $clone_data = $this->get_auto_post( $slug, $ops[ 'post_type' ], $ops[ 'taxonomy' ], $ops[ 'limit' ], [
@@ -459,13 +461,14 @@ class PostQuery extends PostMeta {
                 //die( 'fjg dghsd sgsd' );
             }
             //return '<a href="./admin/posts/add?post_type=' . $ops[ 'post_type' ] . '">Please add post to category slug #' . $slug . '</a>';
-            return 'Please add post to category slug #' . $slug;
+            return '<p>Please add post to category slug #' . $slug . '</p>';
         }
 
         //
         $data = $get_data[ 'posts' ];
         //print_r( $data );
         if ( isset( $ops[ 'return_object' ] ) ) {
+            // trả về dữ liệu ngay sau khi select xong -> bỏ qua đoạn builder HTML
             return $data;
         }
         $post_cat = $get_data[ 'term' ];
@@ -528,25 +531,27 @@ class PostQuery extends PostMeta {
         // thêm class theo slug
         $instance[ 'max_width' ] .= ' ' . str_replace( '-', '', $slug );
         // hiển thị nội dung của bài viết
+        $show_post_content = '';
         if ( $instance[ 'show_post_content' ] == 'on' ) {
-            //
+            $show_post_content = '{{post_content}}';
         }
         //print_r( $instance );
         if ( isset( $ops[ 'add_class' ] ) ) {
+            // thêm class css tùy chỉnh vào
             $instance[ 'max_width' ] .= ' ' . $ops[ 'add_class' ];
         }
         $instance[ 'max_width' ] .= ' blog-section';
 
         // cố định file HTML để tối ưu với SEO
-        $html_node = 'blogs_node';
+        $html_node = 'ads_node';
         if ( $instance[ 'post_cloumn' ] == 'chi_anh' ) {
-            $html_node = 'blogs_node_chi_anh';
+            $html_node = 'ads_node_chi_anh';
         } else if ( $instance[ 'post_cloumn' ] == 'chi_chu' ) {
-            $html_node = 'blogs_node_chi_chu';
+            $html_node = 'ads_node_chi_chu';
         } else if ( $instance[ 'post_cloumn' ] == 'text_only' ) {
-            $html_node = 'blogs_node_text_only';
+            $html_node = 'ads_node_text_only';
         } else if ( $instance[ 'hide_description' ] == 'on' && $instance[ 'hide_info' ] == 'on' ) {
-            $html_node = 'blogs_node_avt_title';
+            $html_node = 'ads_node_avt_title';
         }
         echo '<!-- ' . $html_node . ' --> ' . PHP_EOL;
         $tmp_html = $this->base_model->parent_html_tmp( $html_node );
@@ -563,9 +568,12 @@ class PostQuery extends PostMeta {
         if ( $ops[ 'limit' ] == 1 ) {
             $data = [ $data ];
         }
+        //print_r( $data );
         $html = '';
         foreach ( $data as $v ) {
             //print_r( $v );
+            //continue;
+            //die( __CLASS__ . ':' . __LINE__ );
 
             //
             $p_link = 'javascript:;';
@@ -580,17 +588,19 @@ class PostQuery extends PostMeta {
                 $v[ 'post_excerpt' ] = nl2br( $v[ 'post_excerpt' ] );
             }
             if ( $instance[ 'text_view_details' ] != '' ) {
-                $v[ 'post_excerpt' ] .= '<div class="widget-blog-more details-blog-more"><a href="{{p_link}}">' . $instance[ 'text_view_details' ] . '</a></div>';
+                $show_post_content .= '<div class="widget-blog-more details-blog-more"><a href="{{p_link}}">' . $instance[ 'text_view_details' ] . '</a></div>';
             }
 
             // tạo html cho từng node
             //echo $tmp_html;
             $str_node = $this->base_model->tmp_to_html( $tmp_html, [
                 'p_link' => $p_link,
+                'show_post_content' => $show_post_content,
                 'post_permalink' => $p_link,
             ] );
             $str_node = $this->base_model->tmp_to_html( $str_node, $v, [
                 'taxonomy_key' => $ops[ 'taxonomy' ],
+                'p_link' => $p_link,
             ] );
             //echo $str_node;
             $str_node = HtmlTemplate::render( $str_node, $v[ 'post_meta' ] );
