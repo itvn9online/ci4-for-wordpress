@@ -190,7 +190,9 @@ function create_html_menu_nestable(a) {
     for (var x in arr_replace_class) {
         tmp = tmp.replace('%' + x + '%', arr_replace_class[x]);
     }
-    //console.log('tmp:', tmp);
+    //console.log('data class length:', tmp.split(' data-class=').length);
+    tmp = tmp.replace(/\sdata\-class\=/gi, ' class=');
+    console.log('tmp:', tmp);
 
     //
     for (var i = 0; i < a.length; i++) {

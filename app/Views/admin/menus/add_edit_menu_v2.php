@@ -14,13 +14,13 @@
 <div class="container container-edit-menu"> 
     <!-- menu template: không được gán class trực tiếp, tránh xung đột -->
     <ol class="dd-tmp-list hide-if-edit-menu">
-        <li class="%dd-item%" data-id="%id%" data-name="%name%" data-slug="%slug%"
+        <li data-class="%dd-item%" data-id="%id%" data-name="%name%" data-slug="%slug%"
             data-target="" data-rel="" data-custom-css=""
             data-new="0" data-deleted="0">
-            <div class="%dd-handle%">%newText%</div>
-            <span class="%button-delete%"
-                      data-owner-id="%id%"> <i class="%fa-times%" aria-hidden="true"></i> </span> <span class="%button-edit%"
-                      data-owner-id="%id%"> <i class="%fa-pencil%" aria-hidden="true"></i> </span> %child_htm%</li>
+            <div data-class="%dd-handle%">%newText%</div>
+            <span data-class="%button-delete%"
+                      data-owner-id="%id%"> <i data-class="%fa-times%" aria-hidden="true"></i> </span> <span data-class="%button-edit%"
+                      data-owner-id="%id%"> <i data-class="%fa-pencil%" aria-hidden="true"></i> </span> %child_htm%</li>
     </ol>
     <!-- END menu template -->
     <div class="cf">
