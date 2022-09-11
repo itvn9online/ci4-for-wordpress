@@ -1,4 +1,4 @@
 /* khi có quyền admin thì cho phép hiển thị thanh debug */
-.wgr-view-path, #toolbarContainer {
+.show-if-admin, .wgr-view-path, #toolbarContainer {
     display: block !important;
 }

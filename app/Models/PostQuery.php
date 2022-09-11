@@ -64,7 +64,7 @@ class PostQuery extends PostMeta {
                         )
                     ),
                     // hiển thị mã SQL để check
-                    'show_query' => 1,
+                    //'show_query' => 1,
                     // trả về câu query để sử dụng cho mục đích khác
                     //'get_query' => 1,
                     //'offset' => 2,
@@ -192,7 +192,7 @@ class PostQuery extends PostMeta {
                         )
                     ),
                     // hiển thị mã SQL để check
-                    'show_query' => 1,
+                    //'show_query' => 1,
                     // trả về câu query để sử dụng cho mục đích khác
                     //'get_query' => 1,
                     //'offset' => 2,
@@ -473,7 +473,7 @@ class PostQuery extends PostMeta {
                 //die( 'fjg dghsd sgsd' );
             }
             //return '<a href="./admin/posts/add?post_type=' . $ops[ 'post_type' ] . '">Please add post to category slug #' . $slug . '</a>';
-            return '<p>Please add post to category slug #' . $slug . '</p>';
+            return '<p class="show-if-admin">Please add post to category slug #' . $slug . '</p>';
         }
 
         //

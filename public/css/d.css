@@ -449,7 +449,7 @@ body.home .thread-details-tohome {
 .upper {
     text-transform: uppercase;
 }
-.show-if-javascript, .home-count-subcat, .blog-count-subcat, .display_none, .d-none, .dnone, .custom-width-global-sidebar {
+.show-if-admin, .show-if-javascript, .home-count-subcat, .blog-count-subcat, .display_none, .d-none, .dnone, .custom-width-global-sidebar {
     display: none;
 }
 .vhidden, .v-hidden {

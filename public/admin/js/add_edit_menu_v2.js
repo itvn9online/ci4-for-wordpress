@@ -166,6 +166,7 @@ var global_menu_jd = 1;
 
 function create_html_menu_nestable(a) {
     if (a.length == 0) {
+        console.log('a length');
         return '';
     }
 
@@ -177,6 +178,19 @@ function create_html_menu_nestable(a) {
         console.log('%c dd-tmp-list not found!', 'color: red;');
         return false;
     }
+    //console.log('tmp:', tmp);
+    var arr_replace_class = {
+        'dd-item': 'dd-item',
+        'dd-handle': 'dd-handle',
+        'button-delete': 'button-delete btn btn-default btn-xs pull-right',
+        'button-edit': 'button-edit btn btn-default btn-xs pull-right',
+        'fa-times': 'fa fa-times-circle-o',
+        'fa-pencil': 'fa fa-pencil',
+    };
+    for (var x in arr_replace_class) {
+        tmp = tmp.replace('%' + x + '%', arr_replace_class[x]);
+    }
+    //console.log('tmp:', tmp);
 
     //
     for (var i = 0; i < a.length; i++) {
