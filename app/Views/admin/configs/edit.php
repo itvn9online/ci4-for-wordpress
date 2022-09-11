@@ -21,9 +21,7 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
             <div class="d-none">
                 <textarea id="list_field_has_change" name="list_field_has_change" placeholder="Các input, textarea, select... nào có thay đổi thì mới thực hiện lưu dữ liệu."></textarea>
             </div>
-            <div class="control-group">
-                <div class="text-center l35">Ngôn ngữ: <strong>{{vue_data.lang_name}}</strong> </div>
-            </div>
+            <p class="bold medium text-center top-menu-space">Ngôn ngữ: <strong>{{vue_data.lang_name}}</strong> </p>
             <?php
 
             //
@@ -60,8 +58,16 @@ $base_model->add_css( 'admin/css/config_' . $config_type . '.css' );
                 //echo $input_type . '<br>' . "\n";
 
                 //
-                if ( $input_type == 'hidden' ) {
+                if ( $input_type == 'heading' ) {
                     ?>
+            <p class="bold medium text-center top-menu-space"><?php echo $v; ?></p>
+            <?php
+            continue;
+            }
+
+            //
+            if ( $input_type == 'hidden' ) {
+                ?>
             <input type="<?php echo $input_type; ?>" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>" value="<?php echo htmlentities( $data[$k], ENT_QUOTES, 'UTF-8' ); ?>" />
             <?php
             continue;

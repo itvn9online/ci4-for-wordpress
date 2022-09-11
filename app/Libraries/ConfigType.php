@@ -25,7 +25,7 @@ class ConfigType {
         self::BLOGS => 'Danh sách Blog/ Tin tức',
         self::BLOG => 'Chi tiết Blog/ Tin tức',
         self::TRANS => 'Bản dịch',
-        self::SMTP => 'Cấu hình gửi mail',
+        self::SMTP => 'Cấu hình Mail/ Telegram',
         self::CHECKOUT => 'Thanh toán',
     );
 
@@ -180,16 +180,22 @@ class ConfigType {
                 //'smtp_from' => 'From',
                 'smtp_from_name' => 'From name',
                 'smtp_no_reply' => 'No-reply',
+                //
+                'smtp_heading_test_email' => 'Thử nghiệm chức năng gửi email',
                 'smtp_test_email' => 'Test email',
                 'smtp_test_bcc_email' => 'Test BCC email',
                 'smtp_test_cc_email' => 'Test CC email',
                 // cấu hình dự phòng
+                'smtp2_heading_host_user' => 'Cấu hình mail dự phòng',
                 'smtp2_host_user' => 'Email hoặc Username',
                 'smtp2_host_pass' => 'Mật khẩu',
                 'smtp2_host_show_pass' => 'Mật khẩu',
                 'smtp2_host_name' => 'IP hoặc Hostname',
                 'smtp2_secure' => 'Bảo mật',
                 'smtp2_host_port' => 'Port',
+                'telegram_begin_block' => 'Cài đặt Telegram',
+                'telegram_bot_token' => 'Bot token',
+                'telegram_chat_id' => 'Chat ID',
             ];
         } else if ( $config_type == self::CHECKOUT ) {
             $arr = [
@@ -299,6 +305,9 @@ class ConfigType {
             //'list_slide' => '',
             'site_max_width' => 'number',
             'site_full_width' => 'number',
+            'telegram_begin_block' => 'heading',
+            'smtp_heading_test_email' => 'heading',
+            'smtp2_heading_host_user' => 'heading',
         ];
         foreach ( self::textArea() as $k => $v ) {
             $arr[ $k ] = 'textarea';
@@ -396,6 +405,9 @@ class ConfigType {
             'bank_bin_code' => 'Chức năng tự động xác nhận tiền vào thông qua WebHook của https://casso.vn/ - Ưu tiên sử dụng tài khoản ngân hàng <strong>VietinBank</strong>.',
 
             'powered_by_echbay' => 'Sử dụng lệnh <strong>$lang_model->the_web_license( $getconfig );</strong> để hiển thị thông điệp bản quyền mặc định.',
+
+            'telegram_bot_token' => 'Token của bot trên Telegram. Sau khi có Token, hãy <a href="' . base_url( 'admin/smtps' ) . '?get_tele_chat_id=1" target="_blank" class="click-check-email-test bluecolor"><strong>bấm vào đây</strong></a> để tìm Chat ID.',
+            'telegram_chat_id' => 'ID nhóm chat trên Telegram. Bao gồm cả dấu - nếu có',
         ];
         if ( isset( $arr[ $key ] ) && $arr[ $key ] != '' ) {
             echo '<p class="controls-text-note">' . $arr[ $key ] . '</p>';

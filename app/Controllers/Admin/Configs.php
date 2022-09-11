@@ -6,6 +6,7 @@ use App\ Libraries\ LanguageCost;
 use App\ Libraries\ ConfigType;
 use App\ Libraries\ DeletedStatus;
 use App\ Libraries\ PHPMaillerSend;
+use App\ ThirdParty\ TelegramBot;
 
 //
 class Configs extends Admin {
@@ -34,8 +35,12 @@ class Configs extends Admin {
             return $this->updated( $this->config_type );
         }
 
+        //
         if ( isset( $_GET[ 'test_mail' ] ) ) {
-            return $this->test_mail();
+            return $this->testMail();
+        }
+        if ( isset( $_GET[ 'get_tele_chat_id' ] ) ) {
+            return $this->getTeleChatId();
         }
 
         //
@@ -263,7 +268,7 @@ class Configs extends Admin {
         $this->base_model->alert( 'Cập nhật dữ liệu thành công #' . $option_type );
     }
 
-    private function test_mail() {
+    private function testMail() {
         $smtp_config = $this->option_model->get_smtp();
         //print_r( $smtp_config );
         //die( __CLASS__ . ':' . __LINE__ );
@@ -336,5 +341,34 @@ class Configs extends Admin {
 
         //
         return false;
+    }
+
+    // trả về json chứa thông tin của chat ID trên telegram -> dùng để gửi tin nhắn vào nhóm chat
+    private function getTeleChatId() {
+        //
+        $smtp_config = $this->option_model->get_smtp();
+        //print_r( $smtp_config );
+        //print_r( $msg );
+        //die( __CLASS__ . ':' . __LINE__ );
+
+        // lấy ID nhóm chat trên tele
+        $a = TelegramBot::getUpdates( $smtp_config );
+        return $this->printTeleChatId( $a );
+    }
+    private function printTeleChatId( $a, $show = 0 ) {
+        foreach ( $a as $k => $v ) {
+            if ( $k == 'chat' ) {
+                echo $k . ': <br>' . "\n";
+                $this->printTeleChatId( $v, 1 );
+            } else if ( is_object( $v ) || is_array( $v ) ) {
+                $this->printTeleChatId( $v );
+            } else if ( $show > 0 ) {
+                echo $k . ': ' . $v . '<br>' . "\n";
+                /*
+            } else {
+                echo $k . ': ' . $v . '<br>' . "\n";
+                */
+            }
+        }
     }
 }
