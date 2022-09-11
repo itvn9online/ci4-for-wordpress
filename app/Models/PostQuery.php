@@ -55,10 +55,16 @@ class PostQuery extends PostMeta {
                 $check_slug = $this->base_model->select( 'ID, post_type', $this->table, [
                     'post_name' => $data[ 'post_name' ],
                     'post_type' => $data[ 'post_type' ],
-                    'post_status !=' => PostType::DELETED,
+                    //'post_status !=' => PostType::DELETED,
                 ], [
+                    'where_not_in' => array(
+                        'post_status' => array(
+                            PostType::DELETED,
+                            PostType::REMOVED,
+                        )
+                    ),
                     // hiển thị mã SQL để check
-                    //'show_query' => 1,
+                    'show_query' => 1,
                     // trả về câu query để sử dụng cho mục đích khác
                     //'get_query' => 1,
                     //'offset' => 2,
@@ -176,11 +182,17 @@ class PostQuery extends PostMeta {
                     'post_name' => $data[ 'post_name' ],
                     'ID !=' => $current_slug[ 'ID' ],
                     'post_type' => $current_slug[ 'post_type' ],
-                    'post_status !=' => PostType::DELETED,
+                    //'post_status !=' => PostType::DELETED,
                     //'post_status' => $current_slug[ 'post_status' ],
                 ], [
+                    'where_not_in' => array(
+                        'post_status' => array(
+                            PostType::DELETED,
+                            PostType::REMOVED,
+                        )
+                    ),
                     // hiển thị mã SQL để check
-                    //'show_query' => 1,
+                    'show_query' => 1,
                     // trả về câu query để sử dụng cho mục đích khác
                     //'get_query' => 1,
                     //'offset' => 2,
