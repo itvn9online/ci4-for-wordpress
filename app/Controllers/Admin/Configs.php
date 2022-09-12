@@ -345,14 +345,8 @@ class Configs extends Admin {
 
     // trả về json chứa thông tin của chat ID trên telegram -> dùng để gửi tin nhắn vào nhóm chat
     private function getTeleChatId() {
-        //
-        $smtp_config = $this->option_model->get_smtp();
-        //print_r( $smtp_config );
-        //print_r( $msg );
-        //die( __CLASS__ . ':' . __LINE__ );
-
         // lấy ID nhóm chat trên tele
-        $a = TelegramBot::getUpdates( $smtp_config );
+        $a = TelegramBot::getUpdates();
         return $this->printTeleChatId( $a );
     }
     private function printTeleChatId( $a, $show = 0 ) {

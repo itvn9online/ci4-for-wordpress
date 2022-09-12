@@ -21,12 +21,20 @@ class TelegramBot {
         ];
     }
 
+    protected static function getCog() {
+        $option_model = new\ App\ Models\ Option();
+        return $option_model->get_smtp();
+    }
+
     // GET chat ID
-    public static function getUpdates( $cog ) {
+    public static function getUpdates( $cog = NULL ) {
+        if ( $cog === NULL ) {
+            $cog = self::getCog();
+        }
         if ( !isset( $cog->telegram_bot_token ) || empty( $cog->telegram_bot_token ) ) {
             return self::resultErrorMsg( 'ERROR bot token?' );
         }
-        
+
         //
         $curl = curl_init();
 
