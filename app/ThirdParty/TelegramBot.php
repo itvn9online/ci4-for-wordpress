@@ -30,6 +30,7 @@ class TelegramBot {
     public static function getUpdates( $cog = NULL ) {
         if ( $cog === NULL ) {
             $cog = self::getCog();
+            //print_r( $cog );
         }
         if ( !isset( $cog->telegram_bot_token ) || empty( $cog->telegram_bot_token ) ) {
             return self::resultErrorMsg( 'ERROR bot token?' );
@@ -61,7 +62,11 @@ class TelegramBot {
         return self::resultOkMsg( $response );
     }
 
-    public static function sendMessage( $cog, $text ) {
+    public static function sendMessage( $text, $cog = NULL ) {
+        if ( $cog === NULL ) {
+            $cog = self::getCog();
+            //print_r( $cog );
+        }
         if ( !isset( $cog->telegram_bot_token ) || empty( $cog->telegram_bot_token ) ) {
             return self::resultErrorMsg( 'ERROR bot token?' );
         }

@@ -346,14 +346,29 @@ class Configs extends Admin {
     // trả về json chứa thông tin của chat ID trên telegram -> dùng để gửi tin nhắn vào nhóm chat
     private function getTeleChatId() {
         // lấy ID nhóm chat trên tele
-        $a = TelegramBot::getUpdates();
-        return $this->printTeleChatId( $a );
+        $this->printTeleChatId( TelegramBot::getUpdates() );
+
+        // gửi luôn 1 đoạn test chức năng gửi mess
+        TelegramBot::sendMessage( implode( "\n", [
+            date( 'r' ),
+            'IP: ' . $this->request->getIPAddress(),
+            'Agent: ' . $_SERVER[ 'HTTP_USER_AGENT' ],
+            basename( __FILE__ ) . ':' . __LINE__,
+        ] ) );
+
+        //
+        exit();
     }
     private function printTeleChatId( $a, $show = 0 ) {
+        //print_r( $a );
+
+        //
+        $has_id = false;
         foreach ( $a as $k => $v ) {
             if ( $k == 'chat' ) {
                 echo $k . ': <br>' . "\n";
                 $this->printTeleChatId( $v, 1 );
+                $has_id = true;
             } else if ( is_object( $v ) || is_array( $v ) ) {
                 $this->printTeleChatId( $v );
             } else if ( $show > 0 ) {
@@ -363,6 +378,11 @@ class Configs extends Admin {
                 echo $k . ': ' . $v . '<br>' . "\n";
                 */
             }
+        }
+
+        //
+        if ( $has_id === false ) {
+            echo 'Chat ID not found! <br>' . "\n";
         }
     }
 }
