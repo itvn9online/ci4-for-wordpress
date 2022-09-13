@@ -28,7 +28,7 @@ class Uploads extends Admin {
         $this->sync_no_parent();
 
         //
-        $post_per_page = 50;
+        $post_per_page = 36;
 
         // các kiểu điều kiện where
         $where = [
@@ -48,6 +48,9 @@ class Uploads extends Admin {
             'post_type',
             's',
             'page_num',
+            'mode',
+            'attachment-filter',
+            'm',
         ];
         $hiddenSearchForm = [];
         foreach ( $_GET as $k => $v ) {
@@ -76,6 +79,46 @@ class Uploads extends Admin {
         }
 
         //
+        $where_like = [];
+        $where_like_after = [];
+
+        //
+        $alow_mime_type = [
+            'image' => 'Hình ảnh',
+            'audio' => 'Audio',
+            'video' => 'Video',
+        ];
+
+        // lọc theo định dạng file
+        $attachment_filter = $this->MY_get( 'attachment-filter', '' );
+        //echo 'attachment filter: ' . $attachment_filter . '<br>' . "\n";
+        if ( $attachment_filter != '' && isset( $alow_mime_type[ $attachment_filter ] ) ) {
+            $urlParams[] = 'attachment-filter=' . $attachment_filter;
+            $where_like_after[ 'post_mime_type' ] = $attachment_filter;
+        }
+
+        // lọc theo tháng upload
+        $month_filter = $this->MY_get( 'm', '' );
+        //echo 'month filter: ' . $month_filter . '<br>' . "\n";
+        if ( $month_filter != '' ) {
+            $urlParams[] = 'm=' . $month_filter;
+
+            //
+            //$by_post_date = $month_filter . '-01 00:00:00';
+            $by_post_date = $month_filter . '-01';
+
+            //
+            $where[ 'post_date >=' ] = $by_post_date;
+            $where[ 'post_date <' ] = date( 'Y-m-d', strtotime( '+1 month', strtotime( $by_post_date ) ) );
+        }
+
+        //
+        $mode = $this->MY_get( 'mode', 'grid' );
+        if ( $mode != '' ) {
+            $urlParams[] = 'mode=' . $mode;
+        }
+
+        //
         $filter = [
             'where_in' => array(
                 'post_type' => array(
@@ -83,6 +126,8 @@ class Uploads extends Admin {
                     PostType::WP_MEDIA,
                 )
             ),
+            'like_after' => $where_like_after,
+            'like' => $where_like,
             'or_like' => $where_or_like,
             'order_by' => array(
                 //'menu_order' => 'DESC',
@@ -142,16 +187,56 @@ class Uploads extends Admin {
             $pagination = '';
         }
 
+        // lấy các ngày có ảnh để tạo bộ lọc
+        $m_filter = $this->base_model->scache( 'upload_post_date_filter' );
+        //$m_filter = NULL;
+        if ( $m_filter === NULL ) {
+            $m_data = $this->base_model->select( "DATE_FORMAT(`post_date`, '%Y-%m') as d", 'posts', [
+                //
+            ], [
+                'where_in' => array(
+                    'post_type' => array(
+                        $this->post_type,
+                        PostType::WP_MEDIA,
+                    )
+                ),
+                'group_by' => array(
+                    'd',
+                ),
+                'order_by' => array(
+                    'ID' => 'DESC'
+                ),
+                //'show_query' => 1,
+                'limit' => -1
+            ] );
+            //print_r( $m_data );
+
+            //
+            $m_filter = [];
+            foreach ( $m_data as $v ) {
+                $m_filter[] = $v[ 'd' ];
+            }
+
+            //
+            $this->base_model->scache( 'upload_post_date_filter', $m_filter, DAY );
+        }
+        //print_r( $m_filter );
+
         //
         $this->teamplate_admin[ 'body_class' ] = $this->body_class;
 
         //
         $this->teamplate_admin[ 'content' ] = view( 'admin/uploads/list', array(
+            'attachment_filter' => $attachment_filter,
+            'alow_mime_type' => $alow_mime_type,
+            'm_filter' => $m_filter,
+            'month_filter' => $month_filter,
             'by_keyword' => $by_keyword,
             'data' => $data,
             'hiddenSearchForm' => $hiddenSearchForm,
             'pagination' => $pagination,
             'totalThread' => $totalThread,
+            'mode' => $mode,
             //'taxonomy' => $this->taxonomy,
             'post_type' => $this->post_type,
             'controller_slug' => $this->controller_slug,

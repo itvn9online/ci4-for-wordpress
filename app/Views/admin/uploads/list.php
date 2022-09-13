@@ -4,12 +4,23 @@
 use App\ Libraries\ PostType;
 
 //
+$base_model->add_css( 'admin/css/uploads.css' );
+
+//
 $upload_model = new\ App\ Models\ Upload();
 
 //
 $uri_quick_upload = [];
 foreach ( $_GET as $k => $v ) {
+    //echo $k . '<br>' . "\n";
     $uri_quick_upload[] = $k . '=' . $v;
+}
+
+//
+if ( $mode == 'list' ) {
+    $inc_style = 'list_list';
+} else {
+    $inc_style = 'list_grid';
 }
 
 //
@@ -73,9 +84,14 @@ if ( !empty( $uri_quick_upload ) ) {
 <ul class="admin-breadcrumb">
     <li>Danh sách <?php echo $name_type; ?> (<?php echo $totalThread; ?>)</li>
 </ul>
-<div class="cf">
-    <div class="lf f50 admin-search-form">
+<div class="cf admin-upload-filter <?php echo $mode; ?>">
+    <div class="lf f10 big d-inlines">
+        <div><a data-mode="grid" class="click-set-mode"><i class="fa fa-th-large"></i></a></div>
+        <div><a data-mode="list" class="click-set-mode"><i class="fa fa-list"></i></a></div>
+    </div>
+    <div class="lf f40 admin-search-form">
         <form name="frm_admin_search_controller" action="./admin/<?php echo $controller_slug; ?>" method="get">
+            <input type="hidden" name="mode" id="mode_filter" value="<?php echo $mode; ?>">
             <?php
 
             // thêm các tham số ẩn khi tìm kiếm
@@ -86,13 +102,42 @@ if ( !empty( $uri_quick_upload ) ) {
             }
 
             ?>
-            <br>
             <div class="cf">
                 <div class="lf f30">
                     <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $name_type; ?>" autofocus aria-required="true" required>
                 </div>
-                <div class="lf f20">
-                    <button type="submit" class="btn-success"><i class="fa fa-search"></i> Tìm kiếm</button>
+                <div class="lf f30">
+                    <select data-select="<?php echo $attachment_filter; ?>" name="attachment-filter" id="attachment-filter">
+                        <option value="">Tất cả</option>
+                        <?php
+
+                        //
+                        foreach ( $alow_mime_type as $k => $v ) {
+                            ?>
+                        <option value="<?php echo $k; ?>"><?php echo $v; ?></option>
+                        <?php
+                        }
+
+                        ?>
+                    </select>
+                </div>
+                <div class="lf f30">
+                    <select data-select="<?php echo $month_filter; ?>" name="m" id="filter-by-date">
+                        <option value="">Tất cả các tháng</option>
+                        <?php
+
+                        //
+                        foreach ( $m_filter as $v ) {
+                            ?>
+                        <option value="<?php echo $v; ?>">Tháng <?php echo $v; ?></option>
+                        <?php
+                        }
+
+                        ?>
+                    </select>
+                </div>
+                <div class="lf f10">
+                    <button type="submit" class="btn-success"><i class="fa fa-search"></i></button>
                 </div>
             </div>
         </form>
@@ -109,7 +154,7 @@ if ( !empty( $uri_quick_upload ) ) {
     </div>
 </div>
 <br>
-<ul id="admin_main_list" class="cf admin-media-attachment">
+<ul id="admin_main_list" class="cf admin-media-attachment <?php echo $mode; ?>">
     <?php
 
     //
@@ -186,30 +231,10 @@ if ( !empty( $uri_quick_upload ) ) {
 
         ?>
     <li data-id="<?php echo $v['ID']; ?>">
-        <div data-title="<?php echo $v['post_name']; ?>" class="media-attachment-padding">
-            <div class="d-none show-if-hover-upload lf medium18"><strong onClick="return click_set_img_for_input('<?php echo $v['ID']; ?>');" class="greencolor cur"><i class="fa fa-plus"></i></strong></div>
-            <div class="d-none remove-attachment show-if-hover-upload rf medium18"><a href="admin/<?php echo $controller_slug; ?>/delete?id=<?php echo $v['ID'] . $uri_quick_upload; ?>" target="target_eb_iframe" onClick="return confirm('Xác nhận xóa tệp này?');"><i class="fa fa-trash"></i></a></div>
-            <div data-id="<?php echo $v['ID']; ?>"
-                 data-add_img_tag="<?php echo $add_img_tag; ?>"
-                 data-insert="<?php echo $str_insert_to; ?>"
-                 data-size="<?php echo $img_size; ?>"
-                 data-width="<?php echo $data_width; ?>"
-                 data-height="<?php echo $data_height; ?>"
-                 data-input_type="<?php echo $input_type; ?>"
-                 data-mime="<?php echo explode('/', $v['post_mime_type'])[0]; ?>"
-                 data-mime_type="<?php echo $v['post_mime_type']; ?>"
-                 <?php
-        foreach ($all_src as $size_name => $file) {
-            echo ' data-' . $size_name . '="' . $file . '"' . "\n";
-        }
+        <?php
+        include __DIR__ . '/' . $inc_style . '.php';
+        //include __DIR__ . '/list_grid.php';
         ?>
-                 data-srcset="<?php echo implode(', ', $data_srcset); ?>"
-                 data-sizes="(max-width: <?php echo $attachment_metadata['width']; ?>px) 100vw, <?php echo $attachment_metadata['width']; ?>px"
-                 onDblClick="return click_set_img_for_input('<?php echo $v['ID']; ?>');"
-                 class="media-attachment-img"
-                 style="<?php echo $background_image; ?>">&nbsp;</div>
-            <div class="d-none show-if-hover-upload show-attachment-title"><?php echo $v['post_name']; ?></div>
-        </div>
     </li>
     <?php
     }

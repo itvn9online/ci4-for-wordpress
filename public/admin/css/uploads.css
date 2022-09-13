@@ -1,0 +1,28 @@
+.admin-upload-filter {
+    border: 1px #ccc solid;
+    background: #fff;
+    padding: 10px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+}
+.admin-upload-filter select {
+    margin: 0;
+}
+.admin-upload-filter.grid a[data-mode="grid"], .admin-upload-filter.list a[data-mode="list"] {
+    color: blue;
+}
+.admin-media-attachment.list {}
+.admin-media-attachment.list li {
+    width: 50%;
+    margin-right: 0;
+    margin-bottom: 0;
+}
+.admin-media-attachment.list .attachment-list-padding {
+    max-width: 90px;
+}
+.admin-media-attachment.list .media-attachment-padding {
+    box-shadow: none;
+    border-top: 1px #f2f2f2 solid;
+}
+.admin-media-attachment.list {}
