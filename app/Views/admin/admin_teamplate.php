@@ -89,7 +89,7 @@ if ( $debug_enable === true ) {
 <link rel="stylesheet" type="text/css" media="all" href="admin/css/bootstrap-responsive.min.css" />
 <!-- END bootstrap -->
 <!-- <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/select2/select2.min.css" /> -->
-<link rel="stylesheet" type="text/css" media="all" href="./thirdparty/select2-4.1.0-rc.0/css/select2.min.css" />
+<link rel="stylesheet" type="text/css" media="all" href="./thirdparty/select2-4.0.13/css/select2.min.css" />
 <link rel="stylesheet" type="text/css" media="all" href="css/my-bootstrap.css" />
 <link rel="stylesheet" type="text/css" media="all" href="admin/css/fullcalendar.css" />
 <link rel="stylesheet" type="text/css" media="all" href="admin/css/maruti-style.css" />
@@ -124,7 +124,7 @@ if ( $debug_enable === true ) {
 <script src="./thirdparty/vuejs/vue<?php echo ($debug_enable !== true ? '.min' : ''); ?>.js"></script> 
 <!-- <script src="./thirdparty/bootstrap/js/bootstrap.min.js"></script> --> 
 <!-- <script src="./thirdparty/select2/select2.min.js"></script> -->
-<script src="./thirdparty/select2-4.1.0-rc.0/js/select2.min.js"></script>
+<script src="./thirdparty/select2-4.0.13/js/select2.min.js"></script>
 <?php
 
 $base_model->adds_css( [
