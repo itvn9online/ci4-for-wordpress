@@ -637,6 +637,9 @@ function action_each_to_taxonomy() {
     // daidq (2022-03-06): thử cách nạp các nhóm được hiển thị trên trang hiện tại -> cách này nạp ít dữ liệu mà độ chuẩn xác lại cao
     taxonomy_ids_unique = [];
 
+    //
+    $('.each-to-taxonomy[data-id="0"], .each-to-taxonomy[data-id=""]').removeClass('each-to-taxonomy').addClass('each-to-taxonomy-zero');
+
     // lấy các ID có 
     $('.each-to-taxonomy').each(function () {
         var a = $(this).attr('data-id') || '';

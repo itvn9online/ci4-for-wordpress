@@ -21,10 +21,12 @@
                  style="<?php echo $background_image; ?>">&nbsp;</div>
     </div>
     <div class="lf f75">
-        <p class="bold"><?php echo $v['post_name']; ?></p>
-        <div class="cf medium18">
-            <div class="lf f50"><strong onClick="return click_set_img_for_input('<?php echo $v['ID']; ?>');" class="greencolor cur"><i class="fa fa-plus"></i></strong></div>
-            <div class="lf f50"><a href="admin/<?php echo $controller_slug; ?>/delete?id=<?php echo $v['ID'] . $uri_quick_upload; ?>" target="target_eb_iframe" onClick="return confirm('Xác nhận xóa tệp này?');"><i class="fa fa-trash"></i></a></div>
+        <div class="left-menu-space10">
+            <p class="bold"><?php echo $v['post_name']; ?></p>
+            <div class="cf medium18">
+                <div class="lf f50"><strong onClick="return click_set_img_for_input('<?php echo $v['ID']; ?>');" class="greencolor cur"><i class="fa fa-plus"></i></strong></div>
+                <div class="lf f50"><a href="admin/<?php echo $controller_slug; ?>/delete?id=<?php echo $v['ID'] . $uri_quick_upload; ?>" target="target_eb_iframe" onClick="return confirm('Xác nhận xóa tệp này?');"><i class="fa fa-trash"></i></a></div>
+            </div>
         </div>
     </div>
 </div>

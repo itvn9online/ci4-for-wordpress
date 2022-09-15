@@ -86,8 +86,8 @@ if ( !empty( $uri_quick_upload ) ) {
 </ul>
 <div class="cf admin-upload-filter <?php echo $mode; ?>">
     <div class="lf f10 big d-inlines">
-        <div><a data-mode="grid" class="click-set-mode"><i class="fa fa-th-large"></i></a></div>
-        <div><a data-mode="list" class="click-set-mode"><i class="fa fa-list"></i></a></div>
+        <div><a data-mode="grid" class="click-set-mode cur"><i class="fa fa-th-large"></i></a></div>
+        <div><a data-mode="list" class="click-set-mode cur"><i class="fa fa-list"></i></a></div>
     </div>
     <div class="lf f40 admin-search-form">
         <form name="frm_admin_search_controller" action="./admin/<?php echo $controller_slug; ?>" method="get">

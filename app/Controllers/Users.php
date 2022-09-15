@@ -27,7 +27,17 @@ class Users extends Csrf {
 
         //
         if ( $this->current_user_id <= 0 ) {
-            die( 'Permission deny! ' . basename( __FILE__, '.php' ) . ':' . __LINE__ );
+            // tạo url sau khi đăng nhập xong sẽ trỏ tới
+            $login_redirect = base_url() . $_SERVER[ 'REQUEST_URI' ];
+            //die( $login_redirect );
+
+            //
+            $login_url = base_url( 'guest/login' ) . '?login_redirect=' . urlencode( $login_redirect ) . '&msg=' . urlencode( 'Permission deny! ' . basename( __FILE__, '.php' ) . ':' . __LINE__ );
+            //die( $login_url );
+
+            //
+            die( header( 'Location: ' . $login_url ) );
+            //die( 'Permission deny! ' . basename( __FILE__, '.php' ) . ':' . __LINE__ );
         }
 
         //

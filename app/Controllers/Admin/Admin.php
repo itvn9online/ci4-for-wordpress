@@ -24,11 +24,17 @@ class Admin extends Ajaxs {
 
         //
         if ( $this->current_user_id <= 0 ) {
-            $redirect_to = DYNAMIC_BASE_URL . 'guest/login?login_redirect=' . urlencode( base_url( $_SERVER[ 'REQUEST_URI' ] ) ) . '&remove_parameter=';
+            // tạo url sau khi đăng nhập xong sẽ trỏ tới
+            $login_redirect = base_url() . $_SERVER[ 'REQUEST_URI' ];
+            //die( $login_redirect );
 
             //
-            die( header( 'Location: ' . $redirect_to ) );
-            //return redirect()->to( $redirect_to );
+            $login_url = base_url( 'guest/login' ) . '?login_redirect=' . urlencode( $login_redirect ) . '&msg=' . urlencode( 'Permission deny! ' . basename( __FILE__, '.php' ) . ':' . __LINE__ ) . '&remove_parameter=';
+            //die( $login_url );
+
+            //
+            die( header( 'Location: ' . $login_url ) );
+            //die( 'Permission deny! ' . basename( __FILE__, '.php' ) . ':' . __LINE__ );
         }
         //print_r( $this->session_data );
         //var_dump( $this->session_data );

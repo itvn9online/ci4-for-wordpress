@@ -280,6 +280,7 @@ class Terms extends Admin {
         if ( in_array( $this->taxonomy, [
                 TaxonomyType::POSTS,
                 TaxonomyType::BLOGS,
+                TaxonomyType::OPTIONS,
             ] ) ) {
             $set_parent = $this->taxonomy;
         }
@@ -335,6 +336,38 @@ class Terms extends Admin {
             $this->base_model->alert( 'Danh mục đã tồn tại trong hệ thống (' . $this->taxonomy . ')', 'error' );
         }
         $this->base_model->alert( 'Lỗi tạo ' . $this->name_type . ' mới', 'error' );
+    }
+
+    // thêm nhiều term 1 lúc
+    public function multi_add() {
+        //print_r( $_POST );
+        $data = $this->MY_post( 'data' );
+        //print_r( $data );
+        //die( $this->taxonomy );
+
+        //
+        if ( empty( $data[ 'term_id' ] ) ) {
+            $this->base_model->alert( 'Không xác định được ID nhóm cha!', 'error' );
+        }
+
+        //
+        $term_name = explode( "\n", $data[ 'term_name' ] );
+        foreach ( $term_name as $v ) {
+            $v = trim( $v );
+            if ( empty( $v ) ) {
+                continue;
+            }
+
+            //
+            $result_id = $this->term_model->insert_terms( [
+                'name' => $v,
+                'parent' => $data[ 'term_id' ],
+            ], $this->taxonomy );
+        }
+
+        //
+        die( '<script>top.done_multi_add_term();</script>' );
+        die( __CLASS__ . ':' . __LINE__ );
     }
 
     protected function update( $id ) {

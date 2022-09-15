@@ -205,6 +205,7 @@ class Term extends TermBase {
                     'term_id !=' => $term_id,
                     'slug' => $data[ 'slug' ],
                     'taxonomy' => $taxonomy,
+                    'is_deleted' => DeletedStatus::FOR_DEFAULT,
                 ] );
                 //print_r( $check_term_exist );
                 //die( __CLASS__ . ':' . __LINE__ );

@@ -4,3 +4,12 @@
 .hide-if-trash[data-deleted="0"] {
     display: block;
 }
+.parent-term-after {
+    font-style: italic;
+    color: #666;
+}
+.parent-term-after:after {
+    content: ">";
+    display: inline-block;
+    margin-left: 5px;
+}

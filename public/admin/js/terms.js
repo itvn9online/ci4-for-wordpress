@@ -19,8 +19,10 @@ function term_tree_view(data, tmp, gach_ngang) {
             str = tmp;
 
             //
-            for (var j = 0; j < 10; j++) {
-                str = str.replace('{{v.gach_ngang}}', gach_ngang);
+            var v_x = '{{v.gach_ngang}}';
+            var max_j = str.split(v_x).length;
+            for (var j = 0; j < max_j; j++) {
+                str = str.replace(v_x, gach_ngang);
             }
 
             //
@@ -28,8 +30,11 @@ function term_tree_view(data, tmp, gach_ngang) {
             for (var x in arr) {
                 //console.log(typeof arr[x], arr[x]);
                 if (typeof arr[x] != 'object') {
-                    for (var j = 0; j < 10; j++) {
-                        str = str.replace('{{v.' + x + '}}', arr[x]);
+                    var v_x = '{{v.' + x + '}}';
+                    var max_j = str.split(v_x).length;
+                    //console.log('max j (' + x + '):', max_j);
+                    for (var j = 0; j < max_j; j++) {
+                        str = str.replace(v_x, arr[x]);
                     }
                 } else {
                     //
@@ -56,8 +61,12 @@ function tmp_to_term_html(data, tmp, gach_ngang) {
 
     //
     var str = tmp;
-    for (var j = 0; j < 10; j++) {
-        str = str.replace('{{v.gach_ngang}}', gach_ngang);
+
+    //
+    var v_x = '{{v.gach_ngang}}';
+    var max_j = str.split(v_x).length;
+    for (var j = 0; j < max_j; j++) {
+        str = str.replace(v_x, gach_ngang);
     }
 
     //
@@ -65,7 +74,10 @@ function tmp_to_term_html(data, tmp, gach_ngang) {
     for (var x in arr) {
         //console.log(typeof arr[x], arr[x]);
         if (typeof arr[x] != 'object') {
-            for (var j = 0; j < 10; j++) {
+            var v_x = '{{v.' + x + '}}';
+            var max_j = str.split(v_x).length;
+            //console.log('max j (' + x + '):', max_j);
+            for (var j = 0; j < max_j; j++) {
                 str = str.replace('{{v.' + x + '}}', arr[x]);
             }
         } else {
@@ -206,6 +218,20 @@ function before_tree_view(tmp, max_i) {
     //$('.this-child-term div[v-if]').remove();
 }
 
+function done_multi_add_term() {
+    window.location = window.location.href;
+}
+
+function open_modal_add_multi_term(term_id) {
+    $('#data_term_id').val(term_id);
+    $('#multi_add_parent_name').html($('.get-parent-term-name[data-id="' + term_id + '"]').attr('data-name') || '');
+
+    //
+    setTimeout(function () {
+        $('#data_term_name').focus();
+    }, 600);
+}
+
 (function () {
     if (term_data.length <= 0) {
         // không có dữ liệu thì xóa template đi
@@ -241,6 +267,11 @@ function before_tree_view(tmp, max_i) {
     // chạy rà soát lại những nhóm chưa được xác định -> not null
     term_not_null_tree_view(tmp);
     //console.log('term data:', term_data);
+
+    // bỏ các term không có cha
+    $('.parent-term-name[data-id="0"], .parent-term-name[data-id=""]').remove().hide();
+    // thêm class nạp tên term cho các thẻ đủ điều kiện
+    $('.parent-term-name[data-line=""]').addClass('each-to-taxonomy').addClass('parent-term-after');
 })();
 
 

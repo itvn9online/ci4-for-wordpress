@@ -105,7 +105,7 @@
                         </div>
                         <div class="form-group">
                             <label for="target">Target</label>
-                            <select name="target" id="target" class="form-control item-menu">
+                            <select name="target" id="target" class="form-select item-menu">
                                 <option value="_self">Self</option>
                                 <option value="_blank">Blank</option>
                                 <option value="_top">Top</option>
