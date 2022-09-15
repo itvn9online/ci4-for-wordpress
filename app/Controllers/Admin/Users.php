@@ -110,6 +110,7 @@ class Users extends Admin {
                     // nếu có @ -> tìm theo email
                     if ( strpos( $by_keyword, '@' ) !== false ) {
                         $where_or_like[ 'user_phone' ] = explode( '@', $by_keyword )[ 0 ];
+                        $where_or_like[ 'user_email' ] = $by_keyword;
                     }
                     // còn lại thì có gì tìm hết
                     else {

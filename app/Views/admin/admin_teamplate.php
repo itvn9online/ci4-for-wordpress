@@ -88,7 +88,8 @@ if ( $debug_enable === true ) {
 <link rel="stylesheet" type="text/css" media="all" href="admin/css/bootstrap.min-old.css" />
 <link rel="stylesheet" type="text/css" media="all" href="admin/css/bootstrap-responsive.min.css" />
 <!-- END bootstrap -->
-<link rel="stylesheet" type="text/css" media="all" href="./thirdparty/select2/select2.min.css" />
+<!-- <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/select2/select2.min.css" /> -->
+<link rel="stylesheet" type="text/css" media="all" href="./thirdparty/select2-4.1.0-rc.0/css/select2.min.css" />
 <link rel="stylesheet" type="text/css" media="all" href="css/my-bootstrap.css" />
 <link rel="stylesheet" type="text/css" media="all" href="admin/css/fullcalendar.css" />
 <link rel="stylesheet" type="text/css" media="all" href="admin/css/maruti-style.css" />
@@ -96,7 +97,6 @@ if ( $debug_enable === true ) {
 <link rel="stylesheet" type="text/css" media="all" href="admin/css/base.css" />
 <!-- <link rel="stylesheet" type="text/css" media="all" href="admin/css/uniform.css"/> -->
 <link rel="stylesheet" type="text/css" media="all" href="admin/css/maruti-media.css" class="skin-color" />
-<!-- <link rel="stylesheet" type="text/css" media="all" href="admin/css/select2.css"/> -->
 <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/awesome47/css/font-awesome.before.css?v=4.7" />
 <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/awesome47/css/font-awesome.min.css?v=4.7" />
 <!--
@@ -123,8 +123,8 @@ if ( $debug_enable === true ) {
 <script src="./thirdparty/angular/angular.min.js"></script> 
 <script src="./thirdparty/vuejs/vue<?php echo ($debug_enable !== true ? '.min' : ''); ?>.js"></script> 
 <!-- <script src="./thirdparty/bootstrap/js/bootstrap.min.js"></script> --> 
-<script src="./thirdparty/select2/select2.full.js"></script> 
-<!-- <script src="admin/js/select2.min.js"></script> -->
+<!-- <script src="./thirdparty/select2/select2.min.js"></script> -->
+<script src="./thirdparty/select2-4.1.0-rc.0/js/select2.min.js"></script>
 <?php
 
 $base_model->adds_css( [
