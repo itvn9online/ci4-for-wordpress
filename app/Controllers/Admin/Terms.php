@@ -376,10 +376,9 @@ class Terms extends Admin {
         //die( __LINE__ );
 
         //
-        $result_id = $this->term_model->update_terms( $id, $data, $this->taxonomy );
-        if ( $result_id < 0 ) {
-            $this->base_model->alert( 'ERROR! lỗi cập nhật danh mục... Có thể slug đã được sử dụng', 'error' );
-        }
+        $result_id = $this->term_model->update_terms( $id, $data, $this->taxonomy, [
+            'alert' => 1,
+        ] );
 
         // dọn dẹp cache liên quan đến post này -> reset cache
         $this->cleanup_cache( $this->term_model->key_cache( $id ) );

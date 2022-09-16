@@ -1,40 +1,42 @@
 <?php
-die( 'no money no love' );
+die('no money no love');
+echo $a;
+echo 'test format on type';
 
 
 ?>
 <!-- các file CSS chuyển từ PHP sang sẽ cho vào đây -->
 <?php
-$base_model->add_css( 'public/css/ten_file.css', [
+$base_model->add_css('public/css/ten_file.css', [
     'get_content' => 1,
     'preload' => 1,
     'cdn' => CDN_BASE_URL,
-] );
+]);
 // lấy mã CSS trả về thay vì echo luôn
-$base_model->get_add_css( 'public/css/ten_file.css', [
+$base_model->get_add_css('public/css/ten_file.css', [
     'get_content' => 1,
     'preload' => 1,
     'cdn' => CDN_BASE_URL,
-] );
+]);
 ?>
 
 <!-- các file JS chuyển từ PHP sang sẽ cho vào đây -->
 <?php
-$base_model->add_js( 'javascript/ten_file.js', [
+$base_model->add_js('javascript/ten_file.js', [
     'get_content' => 1,
     'preload' => 1,
     'cdn' => CDN_BASE_URL,
 ], [
     'defer'
-] );
+]);
 // lấy mã JS trả về thay vì echo luôn
-$base_model->get_add_js( 'javascript/ten_file.js', [
+$base_model->get_add_js('javascript/ten_file.js', [
     'get_content' => 1,
     'preload' => 1,
     'cdn' => CDN_BASE_URL,
 ], [
     'defer'
-] );
+]);
 
 
 // bộ câu lệnh git dùng để đồng bộ code từ máy này sang máy khác, đỡ bị xung đột
@@ -65,32 +67,32 @@ error_reporting( E_ALL );
 Pattern_format::EMAIL
 */
 
-$this->base_model->alert( 'Nội dung thông báo', 'URL cần chuyển đến hoặc mã cảnh báo error' );
-$this->base_model->short_string( 'Nội dung cần cắt', 'độ dài cần cắt' );
+$this->base_model->alert('Nội dung thông báo', 'URL cần chuyển đến hoặc mã cảnh báo error');
+$this->base_model->short_string('Nội dung cần cắt', 'độ dài cần cắt');
 // chuyển chuỗi thành URL tiêu chuẩn (SEO) -> dùng khi cần tạo slug URL hoặc xử lý tên file upload lên host
-$this->base_model->_eb_non_mark_seo( 'Nội dung cần xử lý' );
+$this->base_model->_eb_non_mark_seo('Nội dung cần xử lý');
 
-$user_id = $this->base_model->get_ses_login()[ 'ID' ];
+$user_id = $this->base_model->get_ses_login()['ID'];
 
 // cURL
-$this->base_model->get( 'URL' );
+$this->base_model->get('URL');
 
-$this->base_model->_eb_number_only( 'fgfsd097834msdgs' );
-$this->base_model->_eb_float_only( 'fgfsd097834msdgs' );
+$this->base_model->_eb_number_only('fgfsd097834msdgs');
+$this->base_model->_eb_float_only('fgfsd097834msdgs');
 
 
 // INSERT
-$result_id = $this->base_model->insert( $this->table, $data, true );
+$result_id = $this->base_model->insert($this->table, $data, true);
 //var_dump( $result_id );
 //print_r( $result_id );
 
-if ( $result_id !== false ) {
+if ($result_id !== false) {
     //
 }
 
 
 // UPDATE
-$this->base_model->update_multiple( 'users', [
+$this->base_model->update_multiple('users', [
     // SET
     'is_member' => User_type::GUEST,
 ], [
@@ -124,11 +126,11 @@ $this->base_model->update_multiple( 'users', [
     'get_query' => 1,
     // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
     //'no_remove_field' => 1
-] );
+]);
 
 
 // SELECT
-$data = $this->base_model->select( '*', 'users', array(
+$data = $this->base_model->select('*', 'users', array(
     // các kiểu điều kiện where
     // WHERE AND OR
     "(aaaaaaaaaa = 1 OR bbbbbbb = 2)" => NULL,
@@ -200,10 +202,10 @@ $data = $this->base_model->select( '*', 'users', array(
     //'getNumRows' => 1,
     //'offset' => 0,
     'limit' => 3
-) );
+));
 
 // DELETE
-$this->base_model->delete_multiple( 'users', [
+$this->base_model->delete_multiple('users', [
     // WHERE
     'is_member' => User_type::GUEST,
 ], [
@@ -229,11 +231,11 @@ $this->base_model->delete_multiple( 'users', [
     'show_query' => 1,
     // trả về câu query để sử dụng cho mục đích khác
     'get_query' => 1,
-] );
+]);
 
 
 //
-$post_model->the_ads( 'ads-term-slug', $limit = 1, $ops = [
+$post_model->the_ads('ads-term-slug', $limit = 1, $ops = [
     //'post_type' => 'post_type',
     //'taxonomy' => 'taxonomy',
     //'limit' => 'limit',
@@ -243,7 +245,7 @@ $post_model->the_ads( 'ads-term-slug', $limit = 1, $ops = [
     'return_object' => 1,
     // thêm class css tùy chỉnh vào
     'add_class' => 'css-class-1 cas-class-2',
-], $using_cache = true, $time = MEDIUM_CACHE_TIMEOUT );
+], $using_cache = true, $time = MEDIUM_CACHE_TIMEOUT);
 
 
 // khai báo URL tùy chỉnh trong application/config/routes.php

@@ -5,10 +5,10 @@
 session_start();
 
 // do vụ update permarlink gây lỗi 404 nên phải xử lý thủ công mấy link này
-if ( strpos($_SERVER['REQUEST_URI'], 'https://' . $_SERVER['HTTP_HOST'] . '/') !== false ) {
+if (strpos($_SERVER['REQUEST_URI'], 'https://' . $_SERVER['HTTP_HOST'] . '/') !== false) {
     //echo substr( $_SERVER['REQUEST_URI'], 1 ) . '<br>'."\n";
     header("HTTP/1.1 301 Moved Permanently");
-    header("Location: " . substr( $_SERVER['REQUEST_URI'], 1 ));
+    header("Location: " . substr($_SERVER['REQUEST_URI'], 1));
     exit();
 }
 

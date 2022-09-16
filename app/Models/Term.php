@@ -190,7 +190,7 @@ class Term extends TermBase {
         return $result_id;
     }
 
-    function update_terms( $term_id, $data, $taxonomy = '' ) {
+    function update_terms( $term_id, $data, $taxonomy = '', $ops = [] ) {
         if ( isset( $data[ 'slug' ] ) ) {
             if ( $data[ 'slug' ] == '' ) {
                 $data[ 'slug' ] = $data[ 'name' ];
@@ -212,6 +212,15 @@ class Term extends TermBase {
 
                 //
                 if ( !empty( $check_term_exist ) ) {
+                    // đưa ra cảnh báo ngay nếu có kiêu cầu
+                    if ( isset( $ops[ 'alert' ] ) ) {
+                        //print_r( $check_term_exist );
+
+                        //
+                        $this->base_model->alert( 'ERROR! lỗi cập nhật danh mục... Có thể slug đã được sử dụng', 'error' );
+                    }
+
+                    //
                     return -1;
                 }
             }
