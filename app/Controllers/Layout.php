@@ -24,6 +24,7 @@ class Layout extends Sync {
     public $preload_header = true;
 
     public $current_user_id = 0;
+    public $current_user_type = '';
     public $current_pid = 0;
     public $current_tid = 0;
     public $breadcrumb_position = 1;
@@ -105,6 +106,7 @@ class Layout extends Sync {
         //$this->wrg_cookie_login_key = 'wrg_logged_in_key';
         if ( !empty( $this->session_data ) && isset( $this->session_data[ 'userID' ] ) && $this->session_data[ 'userID' ] > 0 ) {
             $this->current_user_id = $this->session_data[ 'userID' ];
+            $this->current_user_type = $this->session_data[ 'member_type' ];
         }
 
         //
@@ -185,6 +187,7 @@ class Layout extends Sync {
             'getconfig' => $this->getconfig,
             'session_data' => $this->session_data,
             'current_user_id' => $this->current_user_id,
+            'current_user_type' => $this->current_user_type,
             'current_tid' => $this->current_tid,
             'current_pid' => $this->current_pid,
             'debug_enable' => $this->debug_enable,

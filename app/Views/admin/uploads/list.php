@@ -146,7 +146,11 @@ if ( !empty( $uri_quick_upload ) ) {
         <label for="upload_image" class="text-center greencolor cur">* Chọn ảnh để upload lên hệ thống (có thể chọn nhiều ảnh cùng lúc)</label>
         <form action="" method="post" name="frm_global_upload" role="form" enctype="multipart/form-data" target="target_eb_iframe">
             <input type="hidden" name="data" value="1" />
-            <input type="file" name="upload_image[]" id="upload_image" accept="image/*,video/*,audio/*,application/*,text/*" multiple />
+            <input type="file"
+                   name="upload_image[]"
+                   id="upload_image"
+                   accept="image/*,video/*,audio/*,application/*,text/*"
+                   multiple />
             <div class="d-none">
                 <button type="submit">sb</button>
             </div>
