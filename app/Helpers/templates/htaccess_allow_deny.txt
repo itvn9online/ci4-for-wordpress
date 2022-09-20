@@ -12,7 +12,7 @@ Allow from all
 # too many redirect if not image -> in apache, openlitespeed
 <IfModule mod_rewrite.c>
 RewriteCond %{REQUEST_URI} !^.*\.({{htaccess_allow}})$
-RewriteRule ^(\.*) {base_url}$1 [F]
+RewriteRule ^(\.*) {{base_url}}$1 [F]
 </IfModule>
 
 {{hotlink_protection}}
