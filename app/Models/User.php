@@ -21,7 +21,7 @@ class User extends UserMeta
                 // tạo mật khẩu cho wordpress
                 $data['user_pass'] = md5($data['ci_pass']);
                 // với 1 số website sẽ cho lưu pass dưới dạng có thể giải mã
-                $data['ci_unpass'] = base64_encode(base64_encode($data['ci_pass']));
+                $data['ci_unpass'] = $this->base_model->wgr_encode($data['ci_pass']);
 
                 // sử dụng hàm md5 tự viết
                 //$data[ 'ci_pass' ] = md5( $data[ 'ci_pass' ] );
@@ -134,8 +134,9 @@ class User extends UserMeta
 
         //
         $where['ID'] = $id;
-        //print_r( $data );
+        //print_r($data);
         //print_r( $where );
+        //die(__CLASS__ . ':' . __LINE__);
 
         //
         $result_update = $this->base_model->update_multiple($this->table, $data, $where, [
