@@ -139,7 +139,9 @@ class User extends UserMeta
 
         //
         $result_update = $this->base_model->update_multiple($this->table, $data, $where, [
-            'debug_backtrace' => debug_backtrace()[1]['function']
+            'debug_backtrace' => debug_backtrace()[1]['function'],
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
         ]);
 
         //
