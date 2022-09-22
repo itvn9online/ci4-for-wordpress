@@ -1,26 +1,29 @@
 <?php
-namespace App\ Models;
+namespace App\Models;
 
 // Libraries
-use App\ Libraries\ PostType;
-use App\ Libraries\ TaxonomyType;
-use App\ Libraries\ DeletedStatus;
+use App\Libraries\PostType;
+use App\Libraries\TaxonomyType;
+use App\Libraries\DeletedStatus;
 
 //
-class Post extends PostPosts {
-    public function __construct() {
+class Post extends PostPosts
+{
+    public function __construct()
+    {
         parent::__construct();
     }
 
     /*
      * cập nhật lượt xem cho post
      */
-    public function update_views( $id ) {
+    public function update_views($id)
+    {
         //echo __FUNCTION__ . '<br>' . "\n";
         //echo $id . '<br>' . "\n";
 
         //
-        $this->base_model->update_count( $this->table, 'post_viewed', array(
+        $this->base_model->update_count($this->table, 'post_viewed', array(
             // WHERE
             'ID' => $id,
         ), [
@@ -28,19 +31,20 @@ class Post extends PostPosts {
             //'show_query' => 1,
             // trả về câu query để sử dụng cho mục đích khác
             //'get_query' => 1,
-        ] );
+        ]);
     }
 
     // vì permalink gán trực tiếp vào db nên thi thoảng sẽ check lại chút
-    public function sync_post_term_permalink() {
-        if ( $this->base_model->scache( __FUNCTION__ ) !== NULL ) {
+    public function sync_post_term_permalink()
+    {
+        if ($this->base_model->scache(__FUNCTION__) !== NULL) {
             return false;
         }
         // luôn tạo giãn cách để tránh update liên tục -> chỉ 1 người update là đủ
-        $this->base_model->scache( __FUNCTION__, time(), 60 );
+        $this->base_model->scache(__FUNCTION__, time(), 120);
 
         // lấy các post chưa có permalink đẻ update
-        $data = $this->base_model->select( 'ID, post_permalink, post_type, post_name', 'posts', array(
+        $data = $this->base_model->select('ID, post_permalink, post_type, post_name', 'posts', array(
             // các kiểu điều kiện where
             'post_status' => PostType::PUBLICITY,
             'post_permalink' => '',
@@ -65,13 +69,13 @@ class Post extends PostPosts {
             //'getNumRows' => 1,
             //'offset' => 0,
             'limit' => 20
-        ) );
+        ));
         //print_r( $data );
 
         // nếu không có thì chuyển sang update term
-        if ( empty( $data ) ) {
+        if (empty($data)) {
             // lấy các term chưa có permalink đẻ update
-            $data = $this->base_model->select( 'term_id, term_permalink, taxonomy, slug', WGR_TERM_VIEW, array(
+            $data = $this->base_model->select('term_id, term_permalink, taxonomy, slug', WGR_TERM_VIEW, array(
                 // các kiểu điều kiện where
                 'is_deleted' => DeletedStatus::FOR_DEFAULT,
                 'term_permalink' => '',
@@ -97,23 +101,27 @@ class Post extends PostPosts {
                 //'getNumRows' => 1,
                 //'offset' => 0,
                 'limit' => 20
-            ) );
+            ));
             //print_r( $data );
 
             // nếu hết rồi thì lưu lại cache để sau đỡ dính
-            if ( empty( $data ) ) {
-                $this->base_model->scache( __FUNCTION__, time(), 3600 );
-            } else {
-                foreach ( $data as $v ) {
-                    $this->term_model->get_the_permalink( $v );
+            if (empty($data)) {
+                $this->base_model->scache(__FUNCTION__, time(), 3600);
+            }
+            else {
+                foreach ($data as $v) {
+                    $this->term_model->get_the_permalink($v);
                 }
             }
         }
         // có thì xử lý cái phần có
         else {
-            foreach ( $data as $v ) {
-                $this->get_the_permalink( $v );
+            foreach ($data as $v) {
+                $this->get_the_permalink($v);
             }
         }
+
+        //
+        return true;
     }
 }

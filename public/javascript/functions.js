@@ -431,10 +431,10 @@ var g_func = {
 
         /*
         for (var i = 0, t = ''; i < num.length; i++) {
-        	t = num.substr(i, 1);
-        	if (re.test(t) == true) {
-        		str += t;
-        	}
+            t = num.substr(i, 1);
+            if (re.test(t) == true) {
+                str += t;
+            }
         }
         */
         // Nếu không phải tách số theo dấu chấm -> tìm cả số thập phân
@@ -487,8 +487,8 @@ var g_func = {
         //return num;
     },
 
-    wh: function () {},
-    opopup: function (o) {},
+    wh: function () { },
+    opopup: function (o) { },
 
 
     mb_v2: function () {
