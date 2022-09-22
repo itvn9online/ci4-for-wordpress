@@ -659,7 +659,7 @@ class Base extends Csdl
     }
 
     // mã hóa 1 chuỗi
-    function wgr_encode($str, $streng = 5)
+    public function wgr_encode($str, $streng = 5)
     {
         $len = strlen($str);
         $result = '';
@@ -673,7 +673,7 @@ class Base extends Csdl
     }
 
     // giải mã 1 chuỗi
-    function wgr_decode($str, $streng = 5)
+    public function wgr_decode($str, $streng = 5)
     {
         if (empty($str)) {
             return '';
