@@ -1,54 +1,57 @@
 <?php
-namespace App\ Controllers\ Admin;
+namespace App\Controllers\Admin;
 
 // Libraries
-use App\ Libraries\ LanguageCost;
-use App\ Libraries\ ConfigType;
-use App\ Libraries\ DeletedStatus;
-use App\ Libraries\ PHPMaillerSend;
-use App\ ThirdParty\ TelegramBot;
+use App\Libraries\LanguageCost;
+use App\Libraries\ConfigType;
+use App\Libraries\DeletedStatus;
+use App\Libraries\PHPMaillerSend;
+use App\ThirdParty\TelegramBot;
 
 //
-class Configs extends Admin {
+class Configs extends Admin
+{
     //private $lang_key = '';
     protected $config_type = '';
     protected $view_edit = 'edit';
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         //$this->load->library( 'LanguageCost' );
 
         // kiểm tra quyền truy cập của tài khoản hiện tại
-        $this->check_permision( __CLASS__ );
+        $this->check_permision(__CLASS__);
 
         //
         $this->lang_key = $this->lang_key;
 
         // hỗ trợ lấy theo params truyền vào từ url
-        if ( $this->config_type == '' ) {
-            $this->config_type = $this->MY_get( 'config_type', ConfigType::CONFIG );
+        if ($this->config_type == '') {
+            $this->config_type = $this->MY_get('config_type', ConfigType::CONFIG);
         }
     }
 
-    public function index() {
-        if ( !empty( $this->MY_post( 'data' ) ) ) {
-            return $this->updated( $this->config_type );
+    public function index()
+    {
+        if (!empty($this->MY_post('data'))) {
+            return $this->updated($this->config_type);
         }
 
         //
-        if ( isset( $_GET[ 'test_mail' ] ) ) {
+        if (isset($_GET['test_mail'])) {
             return $this->testMail();
         }
-        if ( isset( $_GET[ 'get_tele_chat_id' ] ) ) {
+        else if (isset($_GET['get_tele_chat_id'])) {
             return $this->getTeleChatId();
         }
 
         //
-        $meta_default = ConfigType::meta_default( $this->config_type );
+        $meta_default = ConfigType::meta_default($this->config_type);
         //print_r( $meta_default );
 
         // select dữ liệu từ 1 bảng bất kỳ
-        $sql = $this->base_model->select( '*', $this->option_model->table, array(
+        $sql = $this->base_model->select('*', $this->option_model->table, array(
             // các kiểu điều kiện where
             'is_deleted' => DeletedStatus::FOR_DEFAULT,
             'option_type' => $this->config_type,
@@ -63,41 +66,43 @@ class Configs extends Admin {
             //'get_query' => 1,
             //'offset' => 2,
             //'limit' => 3
-        ) );
+        ));
         //print_r( $sql );
         $value = [];
-        foreach ( $sql as $v ) {
-            $value[ $v[ 'option_name' ] ] = $v[ 'option_value' ];
+        foreach ($sql as $v) {
+            $value[$v['option_name']] = $v['option_value'];
         }
         //print_r( $value );
 
         // gán giá trị mặc định
-        foreach ( $meta_default as $k => $v ) {
-            if ( !isset( $value[ $k ] ) ) {
-                $value[ $k ] = '';
+        foreach ($meta_default as $k => $v) {
+            if (!isset($value[$k])) {
+                $value[$k] = '';
             }
         }
 
-        $this->teamplate_admin[ 'content' ] = view( 'admin/configs/' . $this->view_edit, array(
+        $this->teamplate_admin['content'] = view('admin/configs/' . $this->view_edit, array(
             'lang_key' => $this->lang_key,
             'config_type' => $this->config_type,
             'meta_default' => $meta_default,
             'data' => $value,
             'vue_data' => [
                 'lang_key' => $this->lang_key,
-                'lang_name' => LanguageCost::typeList( $this->lang_key ),
+                'lang_name' => LanguageCost::typeList($this->lang_key),
                 'config_type' => $this->config_type,
-                'config_name' => ConfigType::typeList( $this->config_type ),
+                'config_name' => ConfigType::typeList($this->config_type),
             ],
-            'value' => ( object )$value,
-        ) );
-        return view( 'admin/admin_teamplate', $this->teamplate_admin );
+            'value' => (object)$value,
+        ));
+        return view('admin/admin_teamplate', $this->teamplate_admin);
     }
 
-    protected function updated( $option_type ) {
-        if ( !empty( $this->MY_post( 'data' ) ) ) {
-            $data = $this->MY_post( 'data' );
-        } else {
+    protected function updated($option_type)
+    {
+        if (!empty($this->MY_post('data'))) {
+            $data = $this->MY_post('data');
+        }
+        else {
             $data = $_POST;
         }
         //print_r( $data );
@@ -106,62 +111,63 @@ class Configs extends Admin {
         $arr_meta_key = [];
 
         //
-        if ( $option_type == ConfigType::CONFIG ) {
+        if ($option_type == ConfigType::CONFIG) {
             // chỉ cho phép một số định dạng file được truy cập trong thư mục upload
-            echo $this->deny_visit_upload( '', true, isset( $data[ 'enable_hotlink_protection' ] ) ? true : false ) . '<br>' . "\n";
-            $this->auto_create_htaccess_deny( true );
+            echo $this->deny_visit_upload('', true, isset($data['enable_hotlink_protection']) ? true : false) . '<br>' . "\n";
+            $this->auto_create_htaccess_deny(true);
 
             // chỉ cho phép một số định dạng file được truy cập trong thư mục themes
-            echo $this->deny_visit_upload( PUBLIC_PUBLIC_PATH . 'themes', true, false ) . '<br>' . "\n";
+            echo $this->deny_visit_upload(PUBLIC_PUBLIC_PATH . 'themes', true, false) . '<br>' . "\n";
 
             //
-            $data[ 'logo_width_img' ] = 0;
-            $data[ 'logo_height_img' ] = 0;
+            $data['logo_width_img'] = 0;
+            $data['logo_height_img'] = 0;
             //echo PUBLIC_PUBLIC_PATH . $data[ 'logo' ] . '<br>' . "\n";
-            if ( isset( $data[ 'logo' ] ) && $data[ 'logo' ] != '' && file_exists( PUBLIC_PUBLIC_PATH . $data[ 'logo' ] ) ) {
-                $logo_data = getimagesize( PUBLIC_PUBLIC_PATH . $data[ 'logo' ] );
+            if (isset($data['logo']) && $data['logo'] != '' && file_exists(PUBLIC_PUBLIC_PATH . $data['logo'])) {
+                $logo_data = getimagesize(PUBLIC_PUBLIC_PATH . $data['logo']);
 
                 //
-                $data[ 'logo_width_img' ] = $logo_data[ 0 ];
-                $data[ 'logo_height_img' ] = $logo_data[ 1 ];
+                $data['logo_width_img'] = $logo_data[0];
+                $data['logo_height_img'] = $logo_data[1];
 
                 //
-                if ( !isset( $data[ 'logo_main_height' ] ) || empty( $data[ 'logo_main_height' ] ) ) {
-                    $data[ 'logo_main_height' ] = $data[ 'logo_height_img' ];
-                    echo '<script>top.set_configs_value("#data_logo_main_height", ' . $data[ 'logo_main_height' ] . ');</script>';
+                if (!isset($data['logo_main_height']) || empty($data['logo_main_height'])) {
+                    $data['logo_main_height'] = $data['logo_height_img'];
+                    echo '<script>top.set_configs_value("#data_logo_main_height", ' . $data['logo_main_height'] . ');</script>';
                 }
-                echo '<script>top.set_configs_value("#data_logo_width_img", ' . $data[ 'logo_width_img' ] . ');</script>';
-                echo '<script>top.set_configs_value("#data_logo_height_img", ' . $data[ 'logo_height_img' ] . ');</script>';
+                echo '<script>top.set_configs_value("#data_logo_width_img", ' . $data['logo_width_img'] . ');</script>';
+                echo '<script>top.set_configs_value("#data_logo_height_img", ' . $data['logo_height_img'] . ');</script>';
             }
             $arr_meta_key[] = 'logo_width_img';
             $arr_meta_key[] = 'logo_height_img';
-            //print_r( $data );
+        //print_r( $data );
 
-            //
-            //die( __CLASS__ . ':' . __LINE__ );
+        //
+        //die( __CLASS__ . ':' . __LINE__ );
         }
 
-        $list_field_has_change = $this->MY_post( 'list_field_has_change' );
-        if ( empty( $list_field_has_change ) ) {
-            $this->base_model->alert( 'Không xác định được dữ liệu cần thay đổi #' . $option_type, 'warning' );
+        $list_field_has_change = $this->MY_post('list_field_has_change');
+        if (empty($list_field_has_change)) {
+            $this->base_model->alert('Không xác định được dữ liệu cần thay đổi #' . $option_type, 'warning');
         }
         //echo $list_field_has_change . '<br>' . "\n";
-        $list_field_has_change = json_decode( $list_field_has_change );
+        $list_field_has_change = json_decode($list_field_has_change);
         //print_r( $list_field_has_change );
-        if ( empty( $list_field_has_change ) ) {
-            $this->base_model->alert( 'Không có thay đổi nào được chỉ định #' . $option_type, 'warning' );
+        if (empty($list_field_has_change)) {
+            $this->base_model->alert('Không có thay đổi nào được chỉ định #' . $option_type, 'warning');
         }
 
-        foreach ( $list_field_has_change as $k => $v ) {
+        foreach ($list_field_has_change as $k => $v) {
             $arr_meta_key[] = $k;
         }
         //print_r( $arr_meta_key );
 
         //
-        if ( !empty( $data[ 'list_slide' ] ) ) {
-            $data[ 'list_slide' ] = implode( ';', $data[ 'list_slide' ] );
-        } else {
-            $data[ 'list_slide' ] = '';
+        if (!empty($data['list_slide'])) {
+            $data['list_slide'] = implode(';', $data['list_slide']);
+        }
+        else {
+            $data['list_slide'] = '';
         }
         //$data[ 'min_price' ] = str_replace( ',', '', $data[ 'min_price' ] );
         //$data[ 'max_price' ] = str_replace( ',', '', $data[ 'max_price' ] );
@@ -169,16 +175,16 @@ class Configs extends Admin {
         //die( __CLASS__ . ':' . __LINE__ );
 
         //
-        if ( isset( $data[ 'blog_private' ] ) && $data[ 'blog_private' ] == 'on' ) {
-            $this->base_model->_eb_create_file( PUBLIC_PUBLIC_PATH . 'robots.txt', $this->helpersTmpFile( 'robots_disallow_all' ), [ 'ftp' => 1 ] );
+        if (isset($data['blog_private']) && $data['blog_private'] == 'on') {
+            $this->base_model->_eb_create_file(PUBLIC_PUBLIC_PATH . 'robots.txt', $this->helpersTmpFile('robots_disallow_all'), ['ftp' => 1]);
         }
         //
-        else if ( isset( $data[ 'robots' ] ) ) {
+        else if (isset($data['robots'])) {
             // cập nhật lại robots.txt khi không có nội dung hoặc sai địa chỉ sitemap
-            if ( $data[ 'robots' ] == '' || strpos( $data[ 'robots' ], DYNAMIC_BASE_URL ) === false ) {
-                $data[ 'robots' ] = $this->helpersTmpFile( 'robots_default', [
+            if ($data['robots'] == '' || strpos($data['robots'], DYNAMIC_BASE_URL) === false) {
+                $data['robots'] = $this->helpersTmpFile('robots_default', [
                     'base_url' => DYNAMIC_BASE_URL,
-                ] );
+                ]);
                 //echo nl2br( $data[ 'robots' ] );
 
                 //
@@ -190,31 +196,31 @@ class Configs extends Admin {
             //$id = '1';
 
             /*
-            $robot = fopen( PUBLIC_PUBLIC_PATH . 'robots.txt', 'w' )or die( 'Unable to open file!' );
-            fwrite( $robot, $data[ 'robots' ] );
-            fclose( $robot );
-            */
+             $robot = fopen( PUBLIC_PUBLIC_PATH . 'robots.txt', 'w' )or die( 'Unable to open file!' );
+             fwrite( $robot, $data[ 'robots' ] );
+             fclose( $robot );
+             */
 
             //
-            $this->base_model->_eb_create_file( PUBLIC_PUBLIC_PATH . 'robots.txt', $data[ 'robots' ], [ 'ftp' => 1 ] );
+            $this->base_model->_eb_create_file(PUBLIC_PUBLIC_PATH . 'robots.txt', $data['robots'], ['ftp' => 1]);
         }
         //print_r( $data );
 
         //
-        $this->option_model->backup_options( $option_type, $this->lang_key, $arr_meta_key );
+        $this->option_model->backup_options($option_type, $this->lang_key, $arr_meta_key);
 
         // sau đó insert cái mới
-        $last_updated = date( EBE_DATETIME_FORMAT );
-        $insert_time = date( 'YmdHis' );
-        foreach ( $data as $k => $v ) {
+        $last_updated = date(EBE_DATETIME_FORMAT);
+        $insert_time = date('YmdHis');
+        foreach ($data as $k => $v) {
             // có tác động thì mới update -> tác động thì sẽ có tên trong danh sách update
-            if ( !in_array( $k, $arr_meta_key ) ) {
+            if (!in_array($k, $arr_meta_key)) {
                 continue;
             }
 
             // có giá trị thì mới update
-            $v = trim( $v );
-            if ( $v == '' ) {
+            $v = trim($v);
+            if ($v == '') {
                 continue;
             }
 
@@ -222,29 +228,29 @@ class Configs extends Admin {
             echo 'Insert: ' . $k . ' = ' . $v . '<br>' . "\n";
 
             //
-            $this->option_model->insert_options( [
+            $this->option_model->insert_options([
                 'option_name' => $k,
                 'option_value' => $v,
                 'option_type' => $option_type,
                 'lang_key' => $this->lang_key,
                 'last_updated' => $last_updated,
                 'insert_time' => $insert_time,
-            ] );
+            ]);
         }
         //die( __CLASS__ . ':' . __LINE__ );
 
         // chạy vòng lặp xóa các dữ liệu dư thừa -> không có trong config
-        $meta_default = ConfigType::meta_default( $this->config_type );
+        $meta_default = ConfigType::meta_default($this->config_type);
         //print_r( $meta_default );
         $remove_not_in = [];
-        foreach ( $meta_default as $k => $v ) {
+        foreach ($meta_default as $k => $v) {
             $remove_not_in[] = $k;
         }
         //print_r( $remove_not_in );
 
         // DELETE dữ liệu
-        if ( !empty( $remove_not_in ) ) {
-            $this->base_model->delete_multiple( $this->option_model->table, [
+        if (!empty($remove_not_in)) {
+            $this->base_model->delete_multiple($this->option_model->table, [
                 // WHERE
                 'option_type' => $this->config_type,
             ], [
@@ -253,31 +259,32 @@ class Configs extends Admin {
                 ),
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
-            ] );
+            ]);
         }
 
 
         // dọn dẹp cache liên quan đến config này -> reset cache
-        $this->cleanup_cache( $this->option_model->key_cache( 'list_config' ) );
-        $this->cleanup_cache( $this->option_model->key_cache( $option_type ) );
+        $this->cleanup_cache($this->option_model->key_cache('list_config'));
+        $this->cleanup_cache($this->option_model->key_cache($option_type));
 
         // xác nhận việc update đã xong
         echo '<script>top.done_field_has_change();</script>';
 
         //
-        $this->base_model->alert( 'Cập nhật dữ liệu thành công #' . $option_type );
+        $this->base_model->alert('Cập nhật dữ liệu thành công #' . $option_type);
     }
 
-    private function testMail() {
+    private function testMail()
+    {
         $smtp_config = $this->option_model->get_smtp();
         //print_r( $smtp_config );
         //die( __CLASS__ . ':' . __LINE__ );
-        if ( !isset( $smtp_config->smtp_test_email ) || empty( $smtp_config->smtp_test_email ) ) {
+        if (!isset($smtp_config->smtp_test_email) || empty($smtp_config->smtp_test_email)) {
             //print_r( $smtp_config );
-            die( json_encode( [
+            die(json_encode([
                 'code' => __LINE__,
                 'error' => 'Test email is NULL or not found!'
-            ] ) );
+            ]));
         }
 
         //
@@ -285,33 +292,33 @@ class Configs extends Admin {
             'to' => $smtp_config->smtp_test_email,
             'to_name' => 'Dao Quoc Dai',
             /*
-            'bcc_email' => [
-                'v0tjnhlangtu@gmail.com'
-            ],
-            'cc_email' => [
-                'itvn9online@yahoo.com'
-            ],
-            */
-            'subject' => 'Test email ' . date( 'r' ),
-            'message' => implode( '<br>', [
-                'PHPMailer version: ' . file_get_contents( APPPATH . 'ThirdParty/PHPMailer/VERSION', 1 ),
-                'Domain: ' . $_SERVER[ 'HTTP_HOST' ],
-                'Request: ' . $_SERVER[ 'REQUEST_URI' ],
-                'Method: ' . $_SERVER[ 'REQUEST_METHOD' ],
-                'Time: ' . date( 'r' ),
+     'bcc_email' => [
+     'v0tjnhlangtu@gmail.com'
+     ],
+     'cc_email' => [
+     'itvn9online@yahoo.com'
+     ],
+     */
+            'subject' => 'Test email ' . date('r'),
+            'message' => implode('<br>', [
+                'PHPMailer version: ' . file_get_contents(APPPATH . 'ThirdParty/PHPMailer/VERSION', 1),
+                'Domain: ' . $_SERVER['HTTP_HOST'],
+                'Request: ' . $_SERVER['REQUEST_URI'],
+                'Method: ' . $_SERVER['REQUEST_METHOD'],
+                'Time: ' . date('r'),
                 'IP: ' . $this->request->getIPAddress(),
-                'Browser: ' . $_SERVER[ 'HTTP_USER_AGENT' ],
-                'Server: ' . $_SERVER[ 'SERVER_ADDR' ],
+                'Browser: ' . $_SERVER['HTTP_USER_AGENT'],
+                'Server: ' . $_SERVER['SERVER_ADDR'],
                 'Session: ' . session_id(),
-            ] ),
+            ]),
         ];
-        if ( isset( $smtp_config->smtp_test_bcc_email ) && !empty( $smtp_config->smtp_test_bcc_email ) ) {
-            $data_send[ 'bcc_email' ] = [
+        if (isset($smtp_config->smtp_test_bcc_email) && !empty($smtp_config->smtp_test_bcc_email)) {
+            $data_send['bcc_email'] = [
                 $smtp_config->smtp_test_bcc_email
             ];
         }
-        if ( isset( $smtp_config->smtp_test_cc_email ) && !empty( $smtp_config->smtp_test_cc_email ) ) {
-            $data_send[ 'cc_email' ] = [
+        if (isset($smtp_config->smtp_test_cc_email) && !empty($smtp_config->smtp_test_cc_email)) {
+            $data_send['cc_email'] = [
                 $smtp_config->smtp_test_cc_email
             ];
         }
@@ -319,24 +326,25 @@ class Configs extends Admin {
         //die( __CLASS__ . ':' . __LINE__ );
 
         //
-        echo 'PHPMailer version: ' . file_get_contents( APPPATH . 'ThirdParty/PHPMailer/VERSION', 1 ) . '<br>' . "\n";
+        echo 'PHPMailer version: ' . file_get_contents(APPPATH . 'ThirdParty/PHPMailer/VERSION', 1) . '<br>' . "\n";
         echo 'Username/ Email: ' . $smtp_config->smtp_host_user . '<br>' . "\n";
-        echo 'Password: ' . substr( $smtp_config->smtp_host_pass, 0, 6 ) . '******<br>' . "\n";
+        echo 'Password: ' . substr($smtp_config->smtp_host_pass, 0, 6) . '******<br>' . "\n";
         echo 'Hostname: ' . $smtp_config->smtp_host_name . '<br>' . "\n";
         echo 'Secure: ' . $smtp_config->smtp_secure . '<br>' . "\n";
         echo 'Port: ' . $smtp_config->smtp_host_port . '<br>' . "\n";
         echo '<hr>' . "\n";
 
         //
-        $result = PHPMaillerSend::the_send( $data_send, $smtp_config, PHPMaillerSend::DEBUG_2 );
-        if ( $result === true ) {
-            echo 'Gửi email thành công! from <strong>' . $smtp_config->smtp_host_user . '</strong> to <strong>' . $data_send[ 'to' ] . '</strong> <br>' . "\n";
+        $result = PHPMaillerSend::the_send($data_send, $smtp_config, PHPMaillerSend::DEBUG_2);
+        if ($result === true) {
+            echo 'Gửi email thành công! from <strong>' . $smtp_config->smtp_host_user . '</strong> to <strong>' . $data_send['to'] . '</strong> <br>' . "\n";
 
             //
             return true;
-        } else {
+        }
+        else {
             echo 'Gửi email THẤT BẠI! from <strong>' . $smtp_config->smtp_host_user . '</strong> <br>' . "\n";
-            print_r( $result );
+            print_r($result);
         }
 
         //
@@ -344,44 +352,48 @@ class Configs extends Admin {
     }
 
     // trả về json chứa thông tin của chat ID trên telegram -> dùng để gửi tin nhắn vào nhóm chat
-    private function getTeleChatId() {
+    private function getTeleChatId()
+    {
         // lấy ID nhóm chat trên tele
-        $this->printTeleChatId( TelegramBot::getUpdates() );
+        $this->printTeleChatId(TelegramBot::getUpdates());
 
         // gửi luôn 1 đoạn test chức năng gửi mess
-        TelegramBot::sendMessage( implode( "\n", [
-            date( 'r' ),
+        TelegramBot::sendMessage(implode("\n", [
+            date('r'),
             'IP: ' . $this->request->getIPAddress(),
-            'Agent: ' . $_SERVER[ 'HTTP_USER_AGENT' ],
-            basename( __FILE__ ) . ':' . __LINE__,
-        ] ) );
+            'Agent: ' . $_SERVER['HTTP_USER_AGENT'],
+            basename(__FILE__) . ':' . __LINE__,
+        ]));
 
         //
         exit();
     }
-    private function printTeleChatId( $a, $show = 0 ) {
+    private function printTeleChatId($a, $show = 0)
+    {
         //print_r( $a );
 
         //
         $has_id = false;
-        foreach ( $a as $k => $v ) {
-            if ( $k == 'chat' ) {
+        foreach ($a as $k => $v) {
+            if ($k == 'chat') {
                 echo $k . ': <br>' . "\n";
-                $this->printTeleChatId( $v, 1 );
+                $this->printTeleChatId($v, 1);
                 $has_id = true;
-            } else if ( is_object( $v ) || is_array( $v ) ) {
-                $this->printTeleChatId( $v );
-            } else if ( $show > 0 ) {
+            }
+            else if (is_object($v) || is_array($v)) {
+                $this->printTeleChatId($v);
+            }
+            else if ($show > 0) {
                 echo $k . ': ' . $v . '<br>' . "\n";
-                /*
-            } else {
-                echo $k . ': ' . $v . '<br>' . "\n";
-                */
+            /*
+             } else {
+             echo $k . ': ' . $v . '<br>' . "\n";
+             */
             }
         }
 
         //
-        if ( $has_id === false ) {
+        if ($has_id === false) {
             echo 'Chat ID not found! <br>' . "\n";
         }
     }
