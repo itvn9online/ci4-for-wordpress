@@ -316,10 +316,10 @@ function WGR_load_textediter(for_id, ops) {
             title: 'No Follow',
             value: 'nofollow'
             /*
-		}, {
-			title: 'No Opener',
-			value: 'noopener'
-			*/
+        }, {
+            title: 'No Opener',
+            value: 'noopener'
+            */
         }, {
             title: 'External Link',
             value: 'external'

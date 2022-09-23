@@ -371,7 +371,7 @@ class Users extends Csrf
         }
     }
 
-    protected function get_path_upload($id)
+    protected function get_path_upload($id, $dir = 'profile')
     {
         $upload_root = PUBLIC_HTML_PATH . PostType::MEDIA_PATH;
         //echo $upload_root . '<br>' . "\n";
@@ -381,7 +381,7 @@ class Users extends Csrf
 
         //
         $upload_path = $this->media_path([
-            'profile',
+            $dir,
             $id,
         ], $upload_root);
         //echo $upload_path . '<br>' . "\n";

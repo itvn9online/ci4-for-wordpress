@@ -45,7 +45,7 @@ function sync_ajax_post_term() {
         last_run = Date.now() - last_run;
         last_run = Math.ceil(last_run / 1000);
         //console.log('last run:', last_run);
-        if (last_run < 300) {
+        if (last_run < 600) {
             return false;
         }
     }
@@ -74,7 +74,9 @@ function sync_ajax_post_term() {
             console.log(data);
 
             //
-            localStorage.setItem(k, Date.now());
+            if (typeof data.post != 'undefined' && data.post === false) {
+                localStorage.setItem(k, Date.now());
+            }
         }
     });
 }
