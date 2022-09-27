@@ -380,6 +380,11 @@ class Users extends Csrf
         $this->deny_visit_upload($upload_root);
 
         //
+        if ($dir == '') {
+            $dir = 'users';
+        }
+
+        //
         $upload_path = $this->media_path([
             $dir,
             $id,

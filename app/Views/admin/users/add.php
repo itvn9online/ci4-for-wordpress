@@ -80,6 +80,52 @@ if ($data['ID'] > 0) {
                         </div>
                     </div>
                     <div class="control-group">
+                        <label class="control-label">Tài khoản</label>
+                        <div class="controls bold bluecolor">
+                            <input type="text" class="span6" placeholder="Tài khoản" name="data[user_login]"
+                                id="data_user_login" value="<?php echo $data['user_login']; ?>"
+                                onDblClick="$('#data_user_login').removeAttr('readonly');" aria-required="true" required
+                                <?php echo ($data['user_login'] != '' ? ' readonly' : ''); ?> />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Nhóm
+                            <?php echo $member_name; ?>
+                        </label>
+                        <div class="controls">
+                            <select data-select="<?php echo $data['member_type']; ?>" name="data[member_type]"
+                                class="span5">
+                                <option value="">[ Chọn nhóm
+                                    <?php echo $member_name; ?> ]
+                                </option>
+                                <?php
+
+//
+foreach ($arr_members_type as $type_k => $type_v) {
+    echo '<option value="' . $type_k . '">' . $type_v . '</option>';
+}
+
+?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Trạng thái đăng nhập</label>
+                        <div class="controls">
+                            <select data-select="<?php echo $data['user_status']; ?>" name="data[user_status]"
+                                id="data_user_status" aria-required="true" required class="span5">
+                                <?php
+
+//
+foreach (UsersType::statusList() as $type_k => $type_v) {
+    echo '<option value="' . $type_k . '">' . $type_v . '</option>';
+}
+
+?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
                         <label class="control-label">Họ và tên</label>
                         <div class="controls">
                             <input type="text" class="span6" placeholder="Họ và tên" name="data[display_name]"
@@ -112,24 +158,6 @@ if ($data['ID'] > 0) {
                         <div class="controls">
                             <input type="text" class="span4" placeholder="Điện thoại" name="data[user_phone]"
                                 id="data_user_phone" value="<?php echo $data['user_phone']; ?>" />
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">Ngày đăng ký</label>
-                        <div class="controls">
-                            <?php echo $data['user_registered']; ?>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">Đăng nhập cuối</label>
-                        <div class="controls">
-                            <?php echo $data['last_login']; ?>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">Cập nhật cuối</label>
-                        <div class="controls">
-                            <?php echo $data['last_updated']; ?>
                         </div>
                     </div>
                     <div class="end-user-add"></div>
@@ -181,57 +209,29 @@ else {
                 </div>
                 <div class="col col-4 right-user-add">
                     <div class="control-group">
-                        <label class="control-label">Tài khoản</label>
-                        <div class="controls bold bluecolor">
-                            <input type="text" class="span9" placeholder="Tài khoản" name="data[user_login]"
-                                id="data_user_login" value="<?php echo $data['user_login']; ?>"
-                                onDblClick="$('#data_user_login').removeAttr('readonly');" aria-required="true" required
-                                <?php echo ($data['user_login'] !='' ? ' readonly' : '' ); ?> />
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">Nhóm
-                            <?php echo $member_name; ?>
-                        </label>
-                        <div class="controls">
-                            <select data-select="<?php echo $data['member_type']; ?>" name="data[member_type]"
-                                class="span5">
-                                <option value="">[ Chọn nhóm
-                                    <?php echo $member_name; ?> ]
-                                </option>
-                                <?php
-
-//
-foreach ($arr_members_type as $type_k => $type_v) {
-    echo '<option value="' . $type_k . '">' . $type_v . '</option>';
-}
-
-?>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">Trạng thái đăng nhập</label>
-                        <div class="controls">
-                            <select data-select="<?php echo $data['user_status']; ?>" name="data[user_status]"
-                                id="data_user_status" aria-required="true" required class="span5">
-                                <?php
-
-//
-foreach (UsersType::statusList() as $type_k => $type_v) {
-    echo '<option value="' . $type_k . '">' . $type_v . '</option>';
-}
-
-?>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="control-group">
                         <label class="control-label">Ảnh đại diện</label>
                         <div class="controls">
                             <div class="user-bg-avatar"
                                 :style="[data.avatar != '' ? {'background-image': 'url(' + data.avatar + ')'} : '']">
                                 &nbsp;</div>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Ngày đăng ký</label>
+                        <div class="controls">
+                            <?php echo $data['user_registered']; ?>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Đăng nhập cuối</label>
+                        <div class="controls">
+                            <?php echo $data['last_login']; ?>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Cập nhật cuối</label>
+                        <div class="controls">
+                            <?php echo $data['last_updated']; ?>
                         </div>
                     </div>
                     <br>
