@@ -1,0 +1,19 @@
+embed,
+iframe,
+object,
+img,
+#main {
+    max-width: 100%;
+}
+
+@media only screen and (max-width:788px) {
+
+    body,
+    #main {
+        overflow-x: hidden;
+    }
+
+    body:not(.document-ready) {
+        line-height: 2.5;
+    }
+}

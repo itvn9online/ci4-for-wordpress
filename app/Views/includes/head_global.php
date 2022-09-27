@@ -1,7 +1,7 @@
 <?php
 
 //
-use App\ Helpers\ HtmlTemplate;
+use App\Helpers\HtmlTemplate;
 
 //
 //print_r( $seo );
@@ -9,9 +9,11 @@ use App\ Helpers\ HtmlTemplate;
 ?>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php echo $seo['title']; ?></title>
+<title>
+    <?php echo $seo['title']; ?>
+</title>
 <base href="<?php echo DYNAMIC_BASE_URL; ?>" />
-<!-- <meta http-equiv="Cache-control" content="public"> --> 
+<!-- <meta http-equiv="Cache-control" content="public"> -->
 <!-- <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" /> -->
 <meta name="theme-color" content="<?php echo $getconfig->default_bg; ?>">
 <meta name="msapplication-navbutton-color" content="<?php echo $getconfig->default_bg; ?>">
@@ -36,38 +38,38 @@ use App\ Helpers\ HtmlTemplate;
 <?php
 
 //
-if ( $seo[ 'canonical' ] != '' ) {
-    ?>
+if ($seo['canonical'] != '') {
+?>
 <link href="<?php echo $seo['canonical']; ?>" rel="canonical" />
 <meta property="og:url" content="<?php echo $seo['canonical']; ?>" />
 <?php
 }
 
 //
-if ( $seo[ 'shortlink' ] != '' ) {
-    ?>
-<link href="<?php echo $seo[ 'shortlink' ]; ?>" rel="shortlink" />
+if ($seo['shortlink'] != '') {
+?>
+<link href="<?php echo $seo['shortlink']; ?>" rel="shortlink" />
 <?php
 }
 
 //
-if ( CDN_BASE_URL != '' ) {
-    ?>
+if (CDN_BASE_URL != '') {
+?>
 <link rel="dns-prefetch" href="<?php echo CDN_BASE_URL; ?>" />
 <?php
 }
 
 //
 //print_r( $getconfig );
-if ( $getconfig->blog_private == 'on' || $seo[ 'index' ] == 'off' ) {
-    ?>
+if ($getconfig->blog_private == 'on' || $seo['index'] == 'off') {
+?>
 <meta name="robots" content="noindex, nofollow" />
 <?php
 }
 
 //
-if ( $getconfig->fb_app_id != '' ) {
-    ?>
+if ($getconfig->fb_app_id != '') {
+?>
 <meta property="fb:app_id" content="<?php echo $getconfig->fb_app_id; ?>" />
 <?php
 }
@@ -77,36 +79,46 @@ if ( $getconfig->fb_app_id != '' ) {
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="<?php $option_model->the_config($getconfig, 'name'); ?>" />
 <meta property="og:image" content="<?php
-                                   if ( isset( $seo['og_image'] ) && $seo['og_image'] != '' ) {
-                                       echo $seo['og_image'];
-                                   } else {
-                                       echo base_url() . ltrim( str_replace( base_url(), '', $option_model->get_config($getconfig, 'image') ), '/' );
-                                   }
-                                   ?>" />
+if (isset($seo['og_image']) && $seo['og_image'] != '') {
+    echo $seo['og_image'];
+}
+else {
+    echo base_url() . ltrim(str_replace(base_url(), '', $option_model->get_config($getconfig, 'image')), '/');
+}
+?>" />
 <meta property="og:image:alt" content="<?php
-                                   if ( isset( $seo['og_image_alt'] ) && $seo['og_image_alt'] != '' ) {
-                                       echo $seo['og_image_alt'];
-                                   } else {
-                                       $option_model->the_config($getconfig, 'name');
-                                   }
-                                   ?>" />
+if (isset($seo['og_image_alt']) && $seo['og_image_alt'] != '') {
+    echo $seo['og_image_alt'];
+}
+else {
+    $option_model->the_config($getconfig, 'name');
+}
+?>" />
 <meta property="og:updated_time" content="<?php echo $seo['updated_time']; ?>" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:description" content="<?php echo $seo['description']; ?>" />
 <meta name="twitter:title" content="<?php echo $seo['title']; ?>" />
-<!-- END SEO --> 
+<!-- END SEO -->
 <!-- -->
 <link href="https://fonts.googleapis.com" rel="preconnect" />
 <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
 <!-- -->
 <?php
 
+// nạp phần css inline để phục vụ cho bản mobile
+?>
+<style>
+<?php echo file_get_contents(PUBLIC_PUBLIC_PATH . 'css/mobile-usability.css', 1);
+?>
+</style>
+<?php
+
 
 // nạp file font theo kiểu inline
-$font_awesome_before = $base_model->get_add_css( 'thirdparty/awesome47/css/font-awesome.before.css', [
+$font_awesome_before = $base_model->get_add_css('thirdparty/awesome47/css/font-awesome.before.css', [
     'get_content' => 1
-] );
-$font_awesome_before = str_replace( '../fonts/', 'thirdparty/awesome47/fonts/', $font_awesome_before );
+]);
+$font_awesome_before = str_replace('../fonts/', 'thirdparty/awesome47/fonts/', $font_awesome_before);
 echo $font_awesome_before;
 
 
@@ -127,87 +139,87 @@ $arr_preload_bootstrap = [
     //'thirdparty/bootstrap/css/bootstrap-utilities.rtl.min.css',
 ];
 
-foreach ( $arr_preload_bootstrap as $v ) {
-    ?>
+foreach ($arr_preload_bootstrap as $v) {
+?>
 <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="<?php echo $v; ?>" />
 <?php
 }
 
 ?>
-<!-- <link rel="stylesheet" type="text/css" media="all" href="thirdparty/flatsome/flatsome.css" /> --> 
-<!-- <link rel="stylesheet" type="text/css" media="all" href="frontend/css/swiper.min.css" /> --> 
-<script src="<?php echo CDN_BASE_URL; ?>thirdparty/jquery/jquery-3.6.0.min.js"></script> 
-<!-- <script src="thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> --> 
+<!-- <link rel="stylesheet" type="text/css" media="all" href="thirdparty/flatsome/flatsome.css" /> -->
+<!-- <link rel="stylesheet" type="text/css" media="all" href="frontend/css/swiper.min.css" /> -->
+<script src="<?php echo CDN_BASE_URL; ?>thirdparty/jquery/jquery-3.6.0.min.js"></script>
+<!-- <script src="thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> -->
 <!-- <script src="frontend/js/swiper.min.js"></script> -->
 <?php
 
 // in ra mã màu dạng global để tiện thay đổi
-echo HtmlTemplate::html( 'root_color.txt', [
+echo HtmlTemplate::html('root_color.txt', [
     'default_bg' => $getconfig->default_bg,
     'sub_bg' => $getconfig->sub_bg,
     'default_color' => $getconfig->default_color,
     'a_color' => $getconfig->a_color,
-] );
+]);
 
 //
-$base_model->preloads_css( [
+$base_model->preloads_css([
     'css/d.css',
     'css/d2.css',
 ], [
     'cdn' => CDN_BASE_URL,
-] );
-$base_model->adds_css( [
+]);
+$base_model->adds_css([
     'css/flatsome.css',
     'css/thread_list.css',
     'themes/' . THEMENAME . '/style.css',
     'themes/' . THEMENAME . '/css/thread_node.css',
 ], [
     'cdn' => CDN_BASE_URL,
-] );
+]);
 
 
 // mobile
-if ( $isMobile == true ) {
-    $base_model->adds_css( [
+if ($isMobile == true) {
+    $base_model->adds_css([
         'css/m.css',
         'themes/' . THEMENAME . '/css/m.css',
     ], [
         'cdn' => CDN_BASE_URL,
-    ] );
+    ]);
 }
 
 
 // xác định kích thước khung web dựa theo config
-echo HtmlTemplate::html( 'custom_css.txt', [
+echo HtmlTemplate::html('custom_css.txt', [
     'site_max_width30' => $getconfig->site_max_width + 30,
     'site_max_width19' => $getconfig->site_max_width + 19,
     'site_max_width' => $getconfig->site_max_width,
     'site_full_width' => $getconfig->site_full_width,
-] );
+]);
 
 
 //
-$base_model->adds_js( [
+$base_model->adds_js([
     'javascript/functions.js',
     'javascript/eb.js',
     //'javascript/slider.js',
     'themes/' . THEMENAME . '/js/functions.js',
 ], [
     'cdn' => CDN_BASE_URL,
-] );
+]);
 
 // nạp thư viện vuejs nếu có yêu cầu
-if ( $getconfig->enable_vue_js == 'on' ) {
-    $base_model->add_js( 'thirdparty/vuejs/vue.min.js', [
+if ($getconfig->enable_vue_js == 'on') {
+    $base_model->add_js('thirdparty/vuejs/vue.min.js', [
         'cdn' => CDN_BASE_URL,
     ], [
         'defer'
-    ] );
+    ]);
 }
 
 //
 $WGR_config = [
-    'cf_tester_mode' => ( $debug_enable === true ) ? 1 : 0,
+    'cf_tester_mode' => ($debug_enable === true) ? 1 : 0,
     'current_user_id' => $current_user_id * 1,
     'pid' => $current_pid,
     'cid' => $current_tid,
@@ -216,7 +228,7 @@ $WGR_config = [
 ?>
 <script>
 redirect_to_canonical();
-var WGR_config=<?php echo json_encode($WGR_config); ?>;
+var WGR_config = <?php echo json_encode($WGR_config); ?>;
 </script>
 <?php
 
@@ -227,8 +239,9 @@ echo $getconfig->html_header;
 $theme_private_view = VIEWS_CUSTOM_PATH . 'get_header.php';
 // nạp file kiểm tra private view
 //echo $theme_private_view;
-if ( file_exists( $theme_private_view ) ) {
-    if ( $debug_enable === true )echo '<div class="wgr-view-path bold">' . str_replace( PUBLIC_HTML_PATH, '', $theme_private_view ) . '</div>';
+if (file_exists($theme_private_view)) {
+    if ($debug_enable === true)
+        echo '<div class="wgr-view-path bold">' . str_replace(PUBLIC_HTML_PATH, '', $theme_private_view) . '</div>';
 
     //
     include $theme_private_view;
@@ -236,8 +249,8 @@ if ( file_exists( $theme_private_view ) ) {
 
 
 // nếu có ID google analytics thì nạp nó
-if ( $getconfig->google_analytics != '' ) {
-    echo HtmlTemplate::html( 'google_analytics.txt', [
+if ($getconfig->google_analytics != '') {
+    echo HtmlTemplate::html('google_analytics.txt', [
         'google_analytics' => $getconfig->google_analytics,
-    ] );
+    ]);
 }

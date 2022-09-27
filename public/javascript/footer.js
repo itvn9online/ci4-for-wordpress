@@ -73,6 +73,11 @@ jQuery(document).ready(function () {
     if (typeof sync_ajax_post_term == 'function') {
         sync_ajax_post_term();
     }
+
+    //
+    $(document).ready(function () {
+        $('body').addClass('document-ready');
+    });
 }).keydown(function (e) {
     //console.log(e.keyCode);
 

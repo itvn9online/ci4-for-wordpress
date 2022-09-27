@@ -484,7 +484,7 @@ class Home extends Csrf
 
             // xác định post type dựa theo taxonomy type
             $get_post_type = $this->base_model->select('post_type', 'posts', $where, $filter);
-            //print_r( $get_post_type );
+            //print_r($get_post_type);
 
             // tìm được post tương ứng thì mới show category ra
             if (!empty($get_post_type)) {
@@ -494,6 +494,8 @@ class Home extends Csrf
                 ]);
             }
 
+            //
+            //echo basename(__FILE__) . ':' . __LINE__ . '<br>' . "\n";
             // cập nhật lại tổng số bài viết cho term - để sau nếu có tính năng lấy theo nhóm thì nó sẽ không xuất hiện nữa
             $this->base_model->update_multiple($this->term_model->taxTable, [
                 'count' => 0

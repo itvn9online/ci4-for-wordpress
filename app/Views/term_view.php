@@ -9,7 +9,7 @@
 //print_r( $getconfig );
 
 // tự động tạo slider nếu có (và chưa được gọi ra)
-if ( !defined( 'IN_CATEGORY_VIEW' ) ) {
+if (!defined('IN_CATEGORY_VIEW')) {
     echo $taxonomy_slider;
 }
 
@@ -17,32 +17,31 @@ if ( !defined( 'IN_CATEGORY_VIEW' ) ) {
 /*
  * Chuẩn bị dữ liệu để phân trang
  */
-$post_per_page = $base_model->get_config( $getconfig, 'eb_posts_per_page', 20 );
+$post_per_page = $base_model->get_config($getconfig, 'eb_posts_per_page', 20);
 //$post_per_page = 2;
 //echo $post_per_page . '<br>' . "\n";
 
 //
-$totalThread = $data[ 'count' ];
-//echo $totalThread . '<br>' . "\n";
-//$totalThread = $post_model->count_posts_by( $data );
+$totalThread = $data['count'];
 //echo $totalThread . '<br>' . "\n";
 
-if ( $totalThread > 0 ) {
-    $totalPage = ceil( $totalThread / $post_per_page );
-    if ( $totalPage < 1 ) {
+if ($totalThread > 0) {
+    $totalPage = ceil($totalThread / $post_per_page);
+    if ($totalPage < 1) {
         $totalPage = 1;
     }
     //echo $totalPage . '<br>' . "\n";
-    if ( $ops[ 'page_num' ] > $totalPage ) {
-        $ops[ 'page_num' ] = $totalPage;
-    } else if ( $ops[ 'page_num' ] < 1 ) {
-        $ops[ 'page_num' ] = 1;
+    if ($ops['page_num'] > $totalPage) {
+        $ops['page_num'] = $totalPage;
+    }
+    else if ($ops['page_num'] < 1) {
+        $ops['page_num'] = 1;
     }
     //echo $totalThread . '<br>' . "\n";
     //echo $totalPage . '<br>' . "\n";
-    $offset = ( $ops[ 'page_num' ] - 1 ) * $post_per_page;
+    $offset = ($ops['page_num'] - 1) * $post_per_page;
 
-    $public_part_page = $base_model->EBE_pagination( $ops[ 'page_num' ], $totalPage, $term_model->get_the_permalink( $data ) );
+    $public_part_page = $base_model->EBE_pagination($ops['page_num'], $totalPage, $term_model->get_the_permalink($data));
 
 
     /*
@@ -53,40 +52,56 @@ if ( $totalThread > 0 ) {
 
     //
     $in_cache = 'view-' . $offset . '-' . $post_per_page;
-    $child_data = $term_model->the_cache( $data[ 'term_id' ], $in_cache );
-    if ( $child_data === NULL ) {
-        $child_data = $post_model->post_category( $post_type, $data, [
+    $child_data = $term_model->the_cache($data['term_id'], $in_cache);
+    if ($child_data === NULL) {
+        $child_data = $post_model->post_category($post_type, $data, [
             'offset' => $offset,
             'limit' => $post_per_page
-        ] );
-        //print_r( $child_data );
-        // -> chạy 1 vòng để nạp lại permalink trước khi cache -> tránh trường hợp update liên tọi
-        foreach ( $child_data as $k => $v ) {
-            $child_data[ $k ][ 'post_permalink' ] = $post_model->get_the_permalink( $v );
-        }
+        ]);
 
-        //
-        $term_model->the_cache( $data[ 'term_id' ], $in_cache, $child_data );
+        // nếu đến đây mà query lại tìm không thấy bài viết -> tính lại tổng bài
+        if (empty($child_data)) {
+            //echo basename(__FILE__) . ':' . __LINE__ . '<br>' . "\n";
+
+            //
+            //print_r($data);
+            $totalThread = $post_model->fix_term_count($data, $post_type);
+            echo $totalThread . '<br>' . "\n";
+        }
+        // nếu có thì hiển thị bình thường
+        else {
+            //print_r( $child_data );
+            // -> chạy 1 vòng để nạp lại permalink trước khi cache -> tránh trường hợp update liên tọi
+            foreach ($child_data as $k => $v) {
+                $child_data[$k]['post_permalink'] = $post_model->get_the_permalink($v);
+            }
+
+            //
+            $term_model->the_cache($data['term_id'], $in_cache, $child_data);
+        }
     }
-    //print_r( $child_data );
-} else {
+//echo basename(__FILE__) . ':' . __LINE__ . '<br>' . "\n";
+//print_r( $child_data );
+}
+else {
+    //echo basename(__FILE__) . ':' . __LINE__ . '<br>' . "\n";
     $public_part_page = '';
     $child_data = [];
 }
-
+//echo basename(__FILE__) . ':' . __LINE__ . '<br>' . "\n";
 
 /*
  * nạp view riêng của từng theme nếu có
  */
-$theme_default_view = VIEWS_PATH . 'default/' . basename( __FILE__ );
+$theme_default_view = VIEWS_PATH . 'default/' . basename(__FILE__);
 // nạp file kiểm tra private view
 include VIEWS_PATH . 'private_view.php';
 
 //
-if ( !defined( 'IN_CATEGORY_VIEW' ) ) {
-    $base_model->add_js( 'themes/' . THEMENAME . '/js/taxonomy.js', [
+if (!defined('IN_CATEGORY_VIEW')) {
+    $base_model->add_js('themes/' . THEMENAME . '/js/taxonomy.js', [
         'cdn' => CDN_BASE_URL,
     ], [
         'defer'
-    ] );
+    ]);
 }
