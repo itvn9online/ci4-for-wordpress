@@ -7,6 +7,13 @@ namespace App\Controllers;
 //
 class Uploads extends Users
 {
+    // định dạng file được phép upload
+    public $allow_mime_type = [
+        'image/jpeg',
+        'image/jpg',
+        'image/png',
+    ];
+
     public function __construct()
     {
         parent::__construct();
@@ -69,14 +76,15 @@ class Uploads extends Users
 
         // kiểm tra định dạng file -> chỉ chấp nhận định dạng jpeg
         $mime_type = mime_content_type($file_path);
-        if ($mime_type != 'image/jpeg') {
+
+        if (!in_array($mime_type, $this->allow_mime_type)) {
             unlink($file_path);
 
             //
             $this->result_json_type([
                 'in' => __CLASS__,
                 'code' => __LINE__,
-                'error' => 'mime type not JPEG!'
+                'error' => 'mime type not support! ' . $mime_type
             ]);
         }
 

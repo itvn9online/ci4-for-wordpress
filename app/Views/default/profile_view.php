@@ -4,15 +4,18 @@
             target="target_eb_iframe" enctype="multipart/form-data">
             <?php $base_model->csrf_field(); ?>
             <div class="control-group normal_text">
-                <h3><?php echo $seo['title']; ?></h3>
+                <h3>
+                    <?php echo $seo['title']; ?>
+                </h3>
             </div>
             <br>
             <div class="s14 main-profile">
                 <div id="data-user_email">
                     <div class="row change-user_email">
                         <div class="col small-12 medium-4 large-4">Email</div>
-                        <div class="col small-12 medium-8 large-8"><?php echo $data['user_email']; ?> - <em
-                                class="cur bluecolor click-change-email">Thay đổi email <i class="fa fa-edit"></i></em>
+                        <div class="col small-12 medium-8 large-8">
+                            <?php echo $data['user_email']; ?> - <em class="cur bluecolor click-change-email">Thay đổi
+                                email <i class="fa fa-edit"></i></em>
                         </div>
                     </div>
                     <div class="row changed-user_email d-none">
@@ -35,26 +38,26 @@
                     <div class="col small-12 medium-8 large-8">
                         <?php
 echo $data['user_login'];
-                
+
+
 // chức năng riêng dành cho admin
 if (isset($session_data['userLevel']) && $session_data['userLevel'] > 0) {
 ?>
                         <a href="./<?php echo CUSTOM_ADMIN_URI; ?>">@</a>
                         <?php
 }
-                ?>
+?>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col small-12 medium-4 large-4 l40">Ảnh đại diện</div>
                     <div class="col small-12 medium-8 large-8">
-                        <label for="file-input-cd" id="click-chose-CD"> <img src="images/_blank.png" height="150"
-                                <?php
-                                                                             if ($data[ 'avatar' ] != '') {
-                                                                                 ?>style="background-image: url(<?php echo $data[ 'avatar' ]; ?>);" <?php
-                                                                             }
-                                                                             ?> />
-                            <input id="file-input-cd" accept="image/*" type="file" />
+                        <label for="file-input-media" id="click-chose-media"> <img src="images/_blank.png" height="150"
+                                <?php if ($data['avatar'] != '') { ?>style="background-image: url(
+                            <?php echo $data['avatar']; ?>);" <?php
+}
+?> />
+                            <input id="file-input-media" accept="image/*" type="file" />
                             <input type="hidden" name="data[avatar]" id="file-input-avatar"
                                 value="<?php echo $data['avatar']; ?>" />
                         </label>
@@ -136,15 +139,21 @@ if (isset($session_data['userLevel']) && $session_data['userLevel'] > 0) {
     <div>
         <div class="row">
             <div class="col small-12 medium-4 large-4">Ngày đăng ký</div>
-            <div class="col small-12 medium-8 large-8"><?php echo $data['user_registered']; ?></div>
+            <div class="col small-12 medium-8 large-8">
+                <?php echo $data['user_registered']; ?>
+            </div>
         </div>
         <div class="row">
             <div class="col small-12 medium-4 large-4">Đăng nhập cuối</div>
-            <div class="col small-12 medium-8 large-8"><?php echo $data['last_login']; ?></div>
+            <div class="col small-12 medium-8 large-8">
+                <?php echo $data['last_login']; ?>
+            </div>
         </div>
         <div class="row">
             <div class="col small-12 medium-4 large-4">Cập nhật cuối</div>
-            <div class="col small-12 medium-8 large-8"><?php echo $data['last_updated']; ?></div>
+            <div class="col small-12 medium-8 large-8">
+                <?php echo $data['last_updated']; ?>
+            </div>
         </div>
     </div>
 </div>

@@ -57,15 +57,9 @@ git push origin hung
 */
 
 
-/*
-ini_set( 'display_errors', 1 );
-error_reporting( E_ALL );
-*/
+/* ini_set( 'display_errors', 1 ); error_reporting( E_ALL ); */
 
-/*
-* Định dạng trong INPUT HTML5
-Pattern_format::EMAIL
-*/
+/* * Định dạng trong INPUT HTML5 Pattern_format::EMAIL */
 
 $this->base_model->alert('Nội dung thông báo', 'URL cần chuyển đến hoặc mã cảnh báo error');
 $this->base_model->short_string('Nội dung cần cắt', 'độ dài cần cắt');
@@ -87,7 +81,7 @@ $result_id = $this->base_model->insert($this->table, $data, true);
 //print_r( $result_id );
 
 if ($result_id !== false) {
-    //
+//
 }
 
 
@@ -99,13 +93,14 @@ $this->base_model->update_multiple('users', [
     // WHERE
     'is_member' => User_type::GUEST,
 ], [
+    'debug_backtrace' => debug_backtrace()[1]['function'],
     // trong builder CI4 lệnh UPDATE chưa hỗ trợ lệnh join
     /*
-    'join' => array(
-        'tbl1' => 'tbl_0.id = tbl1.id',
-        'tbl2' => 'tbl_0.id = tbl2.id'
-    ),
-    */
+     'join' => array(
+     'tbl1' => 'tbl_0.id = tbl1.id',
+     'tbl2' => 'tbl_0.id = tbl2.id'
+     ),
+     */
     'where_in' => array(
         'ID' => array(
             1,

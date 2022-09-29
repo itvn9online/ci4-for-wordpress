@@ -6,13 +6,21 @@ jQuery(document).ready(function () {
     _global_js_eb.wgr_nonce('pasword_form');
 
     // hiển thị trước ảnh đại diện nếu có
-    document.getElementById("file-input-cd").onchange = function () {
+    document.getElementById("file-input-media").onchange = function () {
         var reader = new FileReader();
         reader.onload = function (e) {
-            $('#click-chose-CD img').css('background-image', `url(${e.target.result})`);
+            $('#click-chose-media img').css('background-image', `url(${e.target.result})`);
 
-            // upload luôn ảnh lên server -> kèm resize cho nó nhẹ
-            ajax_push_image_to_server('uploads/avatar_push', e.target.result, 'avatar', '#click-chose-CD img', '#file-input-cd', 250);
+            // upload luôn ảnh lên server -> kèm resize tại local cho nó nhẹ server
+            ajax_push_image_to_server({
+                action: 'uploads/avatar_push',
+                data: e.target.result,
+                file_name: 'avatar',
+                set_bg: '#click-chose-media img',
+                set_thumb: '#file-input-avatar',
+                input_file: '#file-input-media',
+                img_max_width: 250,
+            });
         };
         // chỉ lấy ảnh số 0
         reader.readAsDataURL(this.files[0]);

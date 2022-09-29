@@ -1,6 +1,45 @@
 //
-function ajax_push_image_to_server(action, str, file_name, set_bg_for, reset_input_file, img_max_width) {
-    file_name = file_name.split('.');
+function ajax_push_image_to_server(params, __callBack) {
+    if (typeof params != 'object') {
+        WGR_alert('typeof params is not OBJECT!', 'error');
+        return false;
+    }
+
+    // các tham số bắt buộc
+    var require_params = [
+        // action xử lý việc upload
+        'action',
+        // dữ liệu ảnh để upload
+        'data',
+        // thiết lập file name
+        'file_name',
+        // input select file đầu vào -> dùng để reset form sau khi upload thành công
+        'input_file',
+    ];
+    for (var i = 0; i < require_params.length; i++) {
+        if (typeof params[require_params[i]] == 'undefined' || params[require_params[i]] == '') {
+            WGR_alert('Parameter ' + require_params[i].replace(/\_/gi, ' ') + ' is not EMPTY!', 'error');
+            return false;
+        }
+    }
+
+    // các tham số không bắt buộc -> không có thì để trống -> không phải làm gì
+    var option_params = [
+        // thiết lập ảnh làm bg sau khi upload thành công
+        'set_bg',
+        // thiết lập thumbnail
+        'set_thumb',
+        // thiết lập ảnh lớn
+        'set_val',
+    ];
+    for (var i = 0; i < option_params.length; i++) {
+        if (typeof params[option_params[i]] == 'undefined') {
+            params[option_params[i]] = '';
+        }
+    }
+
+    // định dạng file name về 1 mối chuẩn chỉ
+    var file_name = params['file_name'].split('.');
     if (file_name.length > 1) {
         file_name[file_name.length - 1] = '';
         file_name = file_name.join('.');
@@ -12,15 +51,15 @@ function ajax_push_image_to_server(action, str, file_name, set_bg_for, reset_inp
 
     //
     var img = document.createElement('img');
-    img.src = str;
+    img.src = params['data'];
 
     //
-    if (typeof img_max_width != 'number') {
-        img_max_width = 999;
-    } else if (img_max_width < 90) {
-        img_max_width = 90;
-    } else if (img_max_width > 1366) {
-        img_max_width = 1366;
+    if (typeof params['img_max_width'] != 'number') {
+        params['img_max_width'] = 999;
+    } else if (params['img_max_width'] < 90) {
+        params['img_max_width'] = 90;
+    } else if (params['img_max_width'] > 1366) {
+        params['img_max_width'] = 1366;
     }
 
     //
@@ -28,8 +67,8 @@ function ajax_push_image_to_server(action, str, file_name, set_bg_for, reset_inp
         var width = img.width;
         var height = img.height;
         if (width > 0 && height > 0) {
-            var MAX_WIDTH = img_max_width;
-            var MAX_HEIGHT = img_max_width;
+            var MAX_WIDTH = params['img_max_width'];
+            var MAX_HEIGHT = params['img_max_width'];
             var has_resize = false;
             if (width > height) {
                 if (width > MAX_WIDTH) {
@@ -45,7 +84,7 @@ function ajax_push_image_to_server(action, str, file_name, set_bg_for, reset_inp
                 }
             }
             if (has_resize === true) {
-                console.log('has resize:', img_max_width);
+                console.log('has resize:', params['img_max_width']);
             }
             width = Math.ceil(width);
             height = Math.ceil(height);
@@ -55,16 +94,16 @@ function ajax_push_image_to_server(action, str, file_name, set_bg_for, reset_inp
                 canvas.height = height;
                 canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
                 var dataurl = canvas.toDataURL('image/jpeg', 1.9);
-                str = dataurl;
+                params['data'] = dataurl;
             }
         }
 
         //
         $.ajax({
             type: "POST",
-            url: action,
+            url: params['action'],
             data: {
-                img: str,
+                img: params['data'],
                 file_name: file_name,
             },
             timeout: 33 * 1000,
@@ -84,16 +123,34 @@ function ajax_push_image_to_server(action, str, file_name, set_bg_for, reset_inp
                     //console.log(typeof data.img_large);
                     data.img_large += '?v=' + Math.random();
                     data.img_thumb += '?v=' + Math.random();
-                    $(set_bg_for).css({
-                        'background-image': 'url(' + data.img_large + ')'
-                    });
 
                     //
-                    $('#file-input-avatar').val(data.img_thumb);
+                    if (params['set_bg'] != '') {
+                        $(params['set_bg']).css({
+                            'background-image': 'url(' + data.img_large + ')'
+                        });
+                    }
+
+                    //
+                    if (params['set_thumb'] != '') {
+                        $(params['set_thumb']).val(data.img_thumb);
+                    }
+
+                    //
+                    if (params['set_val'] != '') {
+                        $(params['set_val']).val(data.img_large);
+                    }
                 }
 
                 //
-                $(reset_input_file).val('');
+                $(params['input_file']).val('');
+
+                //
+                if (typeof __callBack == 'function') {
+                    __callBack();
+                } else {
+                    console.log('%c __callBack is not FUNCTION', 'color: red;');
+                }
             },
         });
     }, 200);
