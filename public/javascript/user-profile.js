@@ -24,6 +24,7 @@ jQuery(document).ready(function () {
                 data: e.target.result,
                 file_name: 'avatar',
                 last_modified: Math.ceil(mediaData.lastModified / 1000),
+                mime_type: mediaData.type,
                 set_bg: '#click-chose-media img',
                 set_thumb: '#file-input-avatar',
                 input_file: '#file-input-media',

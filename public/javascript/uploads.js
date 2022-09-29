@@ -33,6 +33,8 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
         'set_val',
         // thời gian chỉnh sửa file -> để tránh trùng lặp
         'last_modified',
+        // định dạng file -> dùng để xác định kiểu convert -> mặc định là kiểu JPG
+        'mime_type',
     ];
     for (var i = 0; i < option_params.length; i++) {
         if (typeof params[option_params[i]] == 'undefined') {
@@ -98,7 +100,15 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
                 canvas.width = width;
                 canvas.height = height;
                 canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-                var dataurl = canvas.toDataURL('image/jpeg', 1.9);
+                console.log('mime type:', params['mime_type']);
+                // nếu là png thì cho phép giữ nguyên png
+                if (params['mime_type'] == 'image/png') {
+                    var dataurl = canvas.toDataURL('image/png');
+                }
+                // còn lại cho hết sang jpg
+                else {
+                    var dataurl = canvas.toDataURL('image/jpeg', 1.9);
+                }
                 params['data'] = dataurl;
             }
         }

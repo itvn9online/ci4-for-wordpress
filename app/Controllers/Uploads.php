@@ -52,7 +52,7 @@ class Uploads extends Users
         }
 
         // thêm ngày tháng năm vào tên file để tránh trùng lặp
-        $file_name = date($format_modified, $last_modified) . '-' . $file_name;
+        $file_name .= '-' . date($format_modified, $last_modified);
 
         //
         $upload_path = $this->get_path_upload($this->current_user_id, $dir);
@@ -117,6 +117,7 @@ class Uploads extends Users
             'img_thumb' => $img_thumb,
             'success' => $success,
             'file_name' => $file_name,
+            'file_type' => $file_type,
             'dir' => $dir,
             'last_modified' => $last_modified,
         ]);
