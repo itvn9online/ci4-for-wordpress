@@ -1,5 +1,5 @@
 //
-function ajax_push_image_to_server(params, __callBack) {
+function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
     if (typeof params != 'object') {
         WGR_alert('typeof params is not OBJECT!', 'error');
         return false;
@@ -31,12 +31,17 @@ function ajax_push_image_to_server(params, __callBack) {
         'set_thumb',
         // thiết lập ảnh lớn
         'set_val',
+        // thời gian chỉnh sửa file -> để tránh trùng lặp
+        'last_modified',
     ];
     for (var i = 0; i < option_params.length; i++) {
         if (typeof params[option_params[i]] == 'undefined') {
             params[option_params[i]] = '';
         }
     }
+
+    //
+    console.log('params:', params);
 
     // định dạng file name về 1 mối chuẩn chỉ
     var file_name = params['file_name'].split('.');
@@ -105,24 +110,34 @@ function ajax_push_image_to_server(params, __callBack) {
             data: {
                 img: params['data'],
                 file_name: file_name,
+                last_modified: params['last_modified'],
             },
             timeout: 33 * 1000,
             error: function (jqXHR, textStatus, errorThrown) {
+                WGR_alert('ERROR uploading... Please re-check!', 'error');
+
+                //
                 console.log(jqXHR);
                 if (typeof jqXHR.responseText != 'undefined') {
                     console.log(jqXHR.responseText);
                 }
                 console.log(errorThrown);
                 console.log(textStatus);
-                if (textStatus === 'timeout') { }
+                if (textStatus === 'timeout') {
+                    //
+                }
+
+                // nếu có function báo lỗi quá trình upload thì báo ở đây
+                if (typeof __errorCallBack == 'function') {
+                    __errorCallBack();
+                }
             },
             success: function (data) {
-                console.log(data);
-                //console.log(typeof data.img_large);
+                //
                 if (typeof data.img_large != 'undefined') {
                     //console.log(typeof data.img_large);
-                    data.img_large += '?v=' + Math.random();
-                    data.img_thumb += '?v=' + Math.random();
+                    data.img_large += '?v=' + data.last_modified;
+                    data.img_thumb += '?v=' + data.last_modified;
 
                     //
                     if (params['set_bg'] != '') {
@@ -149,8 +164,11 @@ function ajax_push_image_to_server(params, __callBack) {
                 if (typeof __callBack == 'function') {
                     __callBack();
                 } else {
-                    console.log('%c __callBack is not FUNCTION', 'color: red;');
+                    console.log('%c __callBack is not FUNCTION', 'color: orange;');
                 }
+
+                //
+                console.log(data);
             },
         });
     }, 200);

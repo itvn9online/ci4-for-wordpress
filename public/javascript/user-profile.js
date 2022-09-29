@@ -7,6 +7,13 @@ jQuery(document).ready(function () {
 
     // hiển thị trước ảnh đại diện nếu có
     document.getElementById("file-input-media").onchange = function () {
+        //console.log(this.files);
+
+        //
+        var mediaData = this.files[0];
+        console.log(mediaData);
+
+        //
         var reader = new FileReader();
         reader.onload = function (e) {
             $('#click-chose-media img').css('background-image', `url(${e.target.result})`);
@@ -16,6 +23,7 @@ jQuery(document).ready(function () {
                 action: 'uploads/avatar_push',
                 data: e.target.result,
                 file_name: 'avatar',
+                last_modified: Math.ceil(mediaData.lastModified / 1000),
                 set_bg: '#click-chose-media img',
                 set_thumb: '#file-input-avatar',
                 input_file: '#file-input-media',
@@ -23,7 +31,7 @@ jQuery(document).ready(function () {
             });
         };
         // chỉ lấy ảnh số 0
-        reader.readAsDataURL(this.files[0]);
+        reader.readAsDataURL(mediaData);
     };
 });
 

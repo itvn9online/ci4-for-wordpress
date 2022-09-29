@@ -272,7 +272,10 @@ class Posts extends Admin
 
                 // lấy 1 số dữ liệu khác gán vào, để angularjs chỉ việc hiển thị
                 $v['admin_permalink'] = $this->post_model->get_admin_permalink($this->post_type, $v['ID'], $this->controller_slug);
-                if ($v['aaa'] != PostType::ORDER) {
+                if ($v['post_type'] == PostType::ORDER) {
+                    $v['the_permalink'] = '#';
+                }
+                else {
                     $v['the_permalink'] = $this->post_model->get_the_permalink($v);
                 }
                 $v['thumbnail'] = $this->post_model->get_list_thumbnail($v['post_meta']);

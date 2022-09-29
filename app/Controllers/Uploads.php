@@ -31,6 +31,8 @@ class Uploads extends Users
                 'error' => 'img EMPTY!'
             ]);
         }
+
+        // tên file
         $file_name = $this->MY_post('file_name', '');
         if (empty($file_name)) {
             $this->result_json_type([
@@ -40,8 +42,17 @@ class Uploads extends Users
             ]);
         }
 
+        // thời gian chỉnh sửa file
+        $last_modified = $this->MY_post('last_modified', '');
+        // tên file lấy theo thời gian chỉnh sửa -> nếu không có gì khác bọt thì khỏi upload lại
+        $format_modified = 'ymdHis';
+        if (empty($last_modified)) {
+            $last_modified = time();
+            $format_modified = 'ymdH';
+        }
+
         // thêm ngày tháng năm vào tên file để tránh trùng lặp
-        $file_name = date('ymd') . '-' . $file_name;
+        $file_name = date($format_modified, $last_modified) . '-' . $file_name;
 
         //
         $upload_path = $this->get_path_upload($this->current_user_id, $dir);
@@ -59,7 +70,6 @@ class Uploads extends Users
         }
         $img = str_replace(' ', '+', $img);
         $file_path = $upload_path . $file_name . '.' . $file_type;
-        $file_large_path = $file_path;
         $file_thumb_path = $upload_path . $file_name . '-thumb.' . $file_type;
 
         //
@@ -68,32 +78,32 @@ class Uploads extends Users
         //$this->result_json_type([$file_thumb_path]); // TEST
 
         //
-        if (file_exists($file_path)) {
-            unlink($file_path);
-        }
-        $success = file_put_contents($file_path, base64_decode($img));
-        chmod($file_path, 0777);
+        $success = 0;
+        $mime_type = $file_type;
+        if (!file_exists($file_path)) {
+            $success = file_put_contents($file_path, base64_decode($img));
+            chmod($file_path, 0777);
 
-        // kiểm tra định dạng file -> chỉ chấp nhận định dạng jpeg
-        $mime_type = mime_content_type($file_path);
+            // kiểm tra định dạng file -> chỉ chấp nhận định dạng jpeg
+            $mime_type = mime_content_type($file_path);
 
-        if (!in_array($mime_type, $this->allow_mime_type)) {
-            unlink($file_path);
+            if (!in_array($mime_type, $this->allow_mime_type)) {
+                unlink($file_path);
 
-            //
-            $this->result_json_type([
-                'in' => __CLASS__,
-                'code' => __LINE__,
-                'error' => 'mime type not support! ' . $mime_type
-            ]);
+                //
+                $this->result_json_type([
+                    'in' => __CLASS__,
+                    'code' => __LINE__,
+                    'error' => 'mime type not support! ' . $mime_type
+                ]);
+            }
         }
 
         // resize ảnh để chạy cho mượt
-        if (file_exists($file_thumb_path)) {
-            unlink($file_thumb_path);
+        if (!file_exists($file_thumb_path)) {
+            $resize_img = \App\Libraries\MyImage::resize($file_path, $file_thumb_path, 220);
+            chmod($file_thumb_path, 0777);
         }
-        $resize_img = \App\Libraries\MyImage::resize($file_large_path, $file_thumb_path, 220);
-        chmod($file_thumb_path, 0777);
 
         //
         $img_thumb = str_replace(PUBLIC_PUBLIC_PATH, '', $file_thumb_path);
@@ -103,10 +113,12 @@ class Uploads extends Users
             'user' => $this->current_user_id,
             'img' => str_replace(PUBLIC_PUBLIC_PATH, '', $file_path),
             'mime_type' => $mime_type,
-            'img_large' => str_replace(PUBLIC_PUBLIC_PATH, '', $file_large_path),
+            'img_large' => str_replace(PUBLIC_PUBLIC_PATH, '', $file_path),
             'img_thumb' => $img_thumb,
             'success' => $success,
             'file_name' => $file_name,
+            'dir' => $dir,
+            'last_modified' => $last_modified,
         ]);
     }
 
