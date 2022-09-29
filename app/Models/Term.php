@@ -110,7 +110,7 @@ class Term extends TermBase
         //print_r( $default_data );
 
         //
-        if ($data['slug'] == '') {
+        if (!isset($data['slug']) || $data['slug'] == '') {
             $data['slug'] = $data['name'];
         }
         if ($data['slug'] != '') {

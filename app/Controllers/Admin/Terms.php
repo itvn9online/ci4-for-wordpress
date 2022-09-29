@@ -369,16 +369,17 @@ class Terms extends Admin
                 continue;
             }
 
-            //
+            // -> thêm multi thì không cho phép trùng lặp
             $result_id = $this->term_model->insert_terms([
                 'name' => $v,
+                'slug' => $v,
                 'parent' => $data['term_id'],
-            ], $this->taxonomy);
+            ], $this->taxonomy, true);
         }
 
         //
         die('<script>top.done_multi_add_term();</script>');
-        die(__CLASS__ . ':' . __LINE__);
+    //die(__CLASS__ . ':' . __LINE__);
     }
 
     protected function update($id)
