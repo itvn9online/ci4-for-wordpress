@@ -255,6 +255,8 @@ class Users extends Admin
 
         //
         if (!empty($this->MY_post('data'))) {
+            //print_r($_POST);
+            //die(__CLASS__ . ':' . __LINE__);
             // update
             if ($id > 0) {
                 return $this->update($id);

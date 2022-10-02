@@ -37,6 +37,13 @@ class User extends UserMeta
         }
 
         //
+        foreach ($data as $k => $v) {
+            if (is_array($v)) {
+                $data[$k] = implode(',', $v);
+            }
+        }
+
+        //
         return $data;
     }
 

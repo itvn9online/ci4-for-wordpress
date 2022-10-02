@@ -148,7 +148,8 @@ class PostBase extends EbModel
     // trả về url của 1 post
     public function get_the_permalink($data, $base_url = '')
     {
-        //print_r( $data );
+        //print_r($data);
+        //return '#';
 
         // sử dụng permalink có sẵn trong data
         if ($data['post_permalink'] != '') {

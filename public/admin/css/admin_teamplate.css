@@ -71,6 +71,7 @@ form#listContactByType {
     font-weight: bold;
     font-size: 15px;
     transform: translate(0, -50%);
+    z-index: 1;
 }
 
 .admin-breadcrumb {
