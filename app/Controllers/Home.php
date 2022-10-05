@@ -109,8 +109,7 @@ class Home extends Csrf
             // vào đây thì bắt buộc phải không có category prefix
             if (WGR_CATEGORY_PREFIX != '') {
                 // -> có thì chuyển hướng tới link chính ngay
-                return redirect()->to($this->term_model->get_full_permalink($data));
-            //die( __CLASS__ . ':' . __LINE__ );
+                $this->MY_redirect($this->term_model->get_full_permalink($data), 301);
             }
 
             //
@@ -131,8 +130,7 @@ class Home extends Csrf
                 // vào đây thì bắt buộc phải không có page prefix
                 if (WGR_PAGES_PREFIX != '') {
                     // -> có thì chuyển hướng tới link chính ngay
-                    return redirect()->to($this->post_model->get_full_permalink($data));
-                //die( __CLASS__ . ':' . __LINE__ );
+                    $this->MY_redirect($this->post_model->get_full_permalink($data), 301);
                 }
 
                 //
@@ -214,13 +212,7 @@ class Home extends Csrf
 
             // nếu đây là shortlink
             if ($post_type == '') {
-                // chuyển đến URL đầy đủ
-                $redirect_to = $this->post_model->get_full_permalink($data);
-
-                //die( $redirect_to );
-                header('HTTP/1.1 301 Moved Permanently');
-                die(header('Location: ' . $redirect_to, TRUE, 301));
-            //die( __CLASS__ . ':' . __LINE__ );
+                $this->MY_redirect($this->post_model->get_full_permalink($data), 301);
             }
 
             // với các post type mặc định -> dùng page view
@@ -540,15 +532,8 @@ class Home extends Csrf
         }
 
         // insert dữ liệu vào bảng
-        /*
-         $insert_to = $this->MY_post( 'to' );
-         if ( empty( $insert_to ) ) {
-         $this->base_model->msg_error_session( 'Không xác định được đích dữ liệu' );
-         die( redirect( $redirect_to ) );
-         }
-         */
         $data = $this->MY_post('data');
-        $send_my_email = $this->MY_post('send_my_email');
+        //$send_my_email = $this->MY_post('send_my_email');
         //print_r( $data );
 
         // nếu không có thuộc tính phân loại comment -> tạu tạo phân loại dựa theo tên function gửi đến

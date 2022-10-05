@@ -390,8 +390,7 @@ class Posts extends Admin
                 ]);
 
                 //
-                die(header('Location:' . DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/')));
-            //return redirect()->to( DYNAMIC_BASE_URL . ltrim( $_SERVER[ 'REQUEST_URI' ], '/' ) );
+                $this->MY_redirect(DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/'), 301);
             }
 
             // lấy bài tiếp theo để auto next
@@ -958,6 +957,6 @@ class Posts extends Admin
         if ($id > 0) {
             return $admin_permalink;
         }
-        return redirect()->to($admin_permalink);
+        $this->MY_redirect($admin_permalink, 301);
     }
 }

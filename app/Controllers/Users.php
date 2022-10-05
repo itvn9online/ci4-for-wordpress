@@ -356,7 +356,7 @@ class Users extends Csrf
             $this->MY_session('admin_login_as', '');
 
             //
-            return redirect()->to(base_url('users/profile'));
+            $this->MY_redirect(base_url('users/profile'), 301);
         }
         // còn không thì logout thôi
         else {
@@ -367,7 +367,7 @@ class Users extends Csrf
             //delete_cookie( $this->wrg_cookie_login_key );
 
             //
-            return redirect()->to(base_url('guest/login'));
+            $this->MY_redirect(base_url('guest/login'), 301);
         }
     }
 

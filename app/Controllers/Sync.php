@@ -609,4 +609,19 @@ class Sync extends BaseController
     {
         return HtmlTemplate::html($fname . '.txt', $data);
     }
+
+    protected function MY_redirect($to, $status = 200)
+    {
+        if ($status == 200) {
+            die(header('Location: ' . $to));
+        }
+        $pcol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
+        if ($status == 404) {
+            header($pcol . ' 404 Not Found');
+        }
+        else {
+            header($pcol . ' ' . $status . ' Not Found');
+        }
+        die(header('Location: ' . $to, TRUE, $status));
+    }
 }

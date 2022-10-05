@@ -1,32 +1,34 @@
 <?php
-namespace App\ Controllers;
+namespace App\Controllers;
 
 //
-use App\ Libraries\ PHPMaillerSend;
-use App\ Language\ Translate;
+use App\Libraries\PHPMaillerSend;
+use App\Language\Translate;
 
-class Contact extends Home {
-    public function __construct() {
+class Contact extends Home
+{
+    public function __construct()
+    {
         parent::__construct();
         //$this->load->helper( 'translate' );
         //$this->load->helper( 'form' );
-        $this->validation = \Config\ Services::validation();
+        $this->validation = \Config\Services::validation();
     }
 
-    public function put() {
+    public function put()
+    {
         $this->wgr_target();
 
         //
-        $data = $this->MY_post( 'data' );
-        if ( empty( $data ) ) {
-            $this->base_model->msg_error_session( 'Phương thức đầu vào không chính xác', $this->form_target );
-            //return redirect()->to( DYNAMIC_BASE_URL );
+        $data = $this->MY_post('data');
+        if (empty($data)) {
+            $this->base_model->msg_error_session('Phương thức đầu vào không chính xác', $this->form_target);
             return $this->done_action_login();
         }
 
         // thực hiện validation
         $this->validation->reset();
-        $this->validation->setRules( [
+        $this->validation->setRules([
             'fullname' => [
                 'label' => Translate::FULLNAME,
                 'rules' => 'required|min_length[5]|max_length[255]',
@@ -63,60 +65,60 @@ class Contact extends Home {
                     'min_length' => Translate::MIN_LENGTH,
                 ],
             ]
-        ] );
+        ]);
 
         //
-        $redirect_to = DYNAMIC_BASE_URL . ltrim( $this->MY_post( 'redirect' ), '/' );
-        if ( empty( $redirect_to ) ) {
+        $redirect_to = DYNAMIC_BASE_URL . ltrim($this->MY_post('redirect'), '/');
+        if (empty($redirect_to)) {
             $redirect_to = DYNAMIC_BASE_URL;
         }
 
         //
         /*
-        if ( $this->form_validation->run() == FALSE ) {
-            $this->base_model->msg_error_session( 'Vui lòng kiểm tra lại! Dữ liệu đầu vào không chính xác', $this->form_target );
-            */
-        if ( !$this->validation->run( $data ) ) {
-            $this->set_validation_error( $this->validation->getErrors(), $this->form_target );
-        } else {
+         if ( $this->form_validation->run() == FALSE ) {
+         $this->base_model->msg_error_session( 'Vui lòng kiểm tra lại! Dữ liệu đầu vào không chính xác', $this->form_target );
+         */
+        if (!$this->validation->run($data)) {
+            $this->set_validation_error($this->validation->getErrors(), $this->form_target);
+        }
+        else {
             $smtp_config = $this->option_model->get_smtp();
 
-            $submit = $this->MY_comment( [
+            $submit = $this->MY_comment([
                 'redirect_to' => $redirect_to,
-                'comment_type' => $this->getClassName( __CLASS__ )
-            ] );
+                'comment_type' => $this->getClassName(__CLASS__)
+            ]);
 
             // thiết lập thông tin người nhận
             $data_send = [
                 //'to' => $data[ 'email' ],
                 'to' => $smtp_config->emailcontact,
                 //'to_name' => $data[ 'fullname' ],
-                'subject' => $data[ 'title' ],
-                'message' => $submit[ 'message' ],
+                'subject' => $data['title'],
+                'message' => $submit['message'],
             ];
 
             //
             $bcc_email = [];
 
             //
-            $send_my_email = $this->MY_post( 'send_my_email' );
-            if ( $send_my_email === 'on' ) {
+            $send_my_email = $this->MY_post('send_my_email');
+            if ($send_my_email === 'on') {
                 //$data_send[ 'to' ] = $data[ 'email' ];
                 //$data_send[ 'to_name' ] = $data[ 'fullname' ];
 
                 //
-                $bcc_email[] = $data[ 'email' ];
+                $bcc_email[] = $data['email'];
             }
 
             //
-            $data_send[ 'bcc_email' ] = $bcc_email;
+            $data_send['bcc_email'] = $bcc_email;
 
             //
-            PHPMaillerSend::the_send( $data_send, $smtp_config );
+            PHPMaillerSend::the_send($data_send, $smtp_config);
         }
 
         //
-        //die( redirect( $redirect_to ) );
-        return $this->done_action_login( $redirect_to );
+        return $this->done_action_login($redirect_to);
     }
 }

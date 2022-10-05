@@ -48,9 +48,9 @@ class Csrf extends Layout
         if ($this->form_target !== false) {
             die('<script>top.done_action_submit("' . $login_redirect . '");</script>');
         }
-        return redirect()->to($login_redirect);
-        exit();
+        $this->MY_redirect($login_redirect);
     }
+
     protected function wgr_target()
     {
         if ($this->MY_post('__wgr_target', '') != '') {
