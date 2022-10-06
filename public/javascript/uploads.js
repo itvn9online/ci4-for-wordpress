@@ -172,7 +172,7 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
 
                 //
                 if (typeof __callBack == 'function') {
-                    __callBack();
+                    __callBack(data);
                 } else {
                     console.log('%c __callBack is not FUNCTION', 'color: orange;');
                 }
