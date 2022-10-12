@@ -13,10 +13,10 @@ var flatsomeVars = {
     "theme": {
         "version": "3.16.1"
     },
-    "ajaxurl": "wp-admin\/admin-ajax.php",
+    "ajaxurl": "",
     "rtl": "",
     "sticky_height": "70",
-    "assets_url": "wp-content\/themes\/flatsome\/assets\/js\/",
+    "assets_url": "",
     "lightbox": {
         "close_markup": "<button title=\"%title%\" type=\"button\" class=\"mfp-close\"><svg xmlns=\"http:\/\/www.w3.org\/2000\/svg\" width=\"28\" height=\"28\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"feather feather-x\"><line x1=\"18\" y1=\"6\" x2=\"6\" y2=\"18\"><\/line><line x1=\"6\" y1=\"6\" x2=\"18\" y2=\"18\"><\/line><\/svg><\/button>",
         "close_btn_inside": false
