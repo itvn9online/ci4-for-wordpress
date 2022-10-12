@@ -10,9 +10,6 @@
 <script type='text/javascript' id='flatsome-js-js-extra'>
 /* <![CDATA[ */
 var flatsomeVars = {
-    "theme": {
-        "version": "3.16.1"
-    },
     "ajaxurl": "wp-admin\/admin-ajax.php",
     "rtl": "",
     "sticky_height": "70",
@@ -46,7 +43,7 @@ var flatsomeVars = {
 
 //
 //$base_model->add_js('javascript/flatsome.js', [
-$base_model->add_js('thirdparty/flatsome/flatsome.js', [
+$base_model->add_js('thirdparty/flatsome/flatsome-3.15.7.js', [
     //'get_content' => 1,
     //'preload' => 1,
     'cdn' => CDN_BASE_URL,
