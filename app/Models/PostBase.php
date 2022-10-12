@@ -131,7 +131,7 @@ class PostBase extends EbModel
         else {
             $redirect_to .= '&';
         }
-        $redirect_to .= 'canonical=server';
+        $redirect_to .= 'canonical=server&uri=' . urlencode($_SERVER['REQUEST_URI']);
 
         //
         header('HTTP/1.1 301 Moved Permanently');

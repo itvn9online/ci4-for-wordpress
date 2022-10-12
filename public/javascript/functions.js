@@ -970,7 +970,7 @@ function redirect_to_canonical() {
         } else {
             a += '?';
         }
-        a += 'canonical=client';
+        a += 'canonical=client&uri=' + encodeURIComponent(window.location.href);
         window.location = a;
     }
 }
