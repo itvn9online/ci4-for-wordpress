@@ -7,4 +7,5 @@
  */
 
 //
+//include VIEWS_PATH . 'includes/flatsome-3.15.7.php';
 include VIEWS_PATH . 'includes/flatsome.php';
