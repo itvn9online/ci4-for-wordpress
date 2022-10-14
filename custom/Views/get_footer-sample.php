@@ -6,6 +6,7 @@
  * Lưu ý: flatsome không chạy chung với vuejs được, chỗ nào chạy flatsome thì phải tách ra khỏi vuejs
  */
 
-//
+// hỗ trợ flatsome bản thấp hơn
 //include VIEWS_PATH . 'includes/flatsome-3.15.7.php';
+// flatsome 3.16.x xung đột preventDefault nên không phải code nào cũng dùng được
 include VIEWS_PATH . 'includes/flatsome.php';
