@@ -1,11 +1,11 @@
 <?php
 
 //
-$ci_last_version = 426;
+$ci_last_version = 427;
 
 //
 $Vue_version = '{{Vue.version}}';
-if ( $debug_enable === true ) {
+if ($debug_enable === true) {
     $Vue_version = 'Development Version';
 }
 
@@ -20,34 +20,38 @@ if ( $debug_enable === true ) {
         <br>
     </div>
     <h4>Tổng quan:</h4>
-    <p>Website sử dụng giao diện: <strong><?php echo THEMENAME; ?></strong> - được phát triển bởi <a
-            href="<?php echo PARTNER_WEBSITE; ?>" target="_blank"
-            rel="nofollow"><strong><?php echo PARTNER_BRAND_NAME; ?></strong></a>. Cập nhật lần cuối:
+    <p>Website sử dụng giao diện: <strong>
+            <?php echo THEMENAME; ?>
+        </strong> - được phát triển bởi <a href="<?php echo PARTNER_WEBSITE; ?>" target="_blank" rel="nofollow"><strong>
+                <?php echo PARTNER_BRAND_NAME; ?>
+            </strong></a>. Cập nhật lần cuối:
         <strong>{{ datetime(last_ci4_update*1000) }}</strong>
         (<em><strong>{{calculate_ci4_update(last_ci4_update)}}</strong> ngày trước</em>)
         <?php
 
-        // lấy theo version
-        if ( file_exists( APPPATH . 'VERSION' ) ) {
-            echo ' - Phiên bản: <strong>' . file_get_contents( APPPATH . 'VERSION', 1 ) . '</strong>';
-        }
+// lấy theo version
+if (file_exists(APPPATH . 'VERSION')) {
+    echo ' - Phiên bản: <strong>' . file_get_contents(APPPATH . 'VERSION', 1) . '</strong>';
+}
 
-        ?>
+?>
     </p>
     <p>Nền tảng chính framework <a href="https://codeigniter.com/download/" target="_blank" rel="nofollow"><strong
                 :class="warning_ci_version(ci_version, ci_last_version)">Codeigniter {{ci_version}}</strong></a>
         <?php
 
-        //
-        if ( file_exists( PUBLIC_HTML_PATH . 'system.zip' ) ) {
-            echo '(<em>Cập nhật lần cuối: ' . date( EBE_DATETIME_FORMAT, filemtime( PUBLIC_HTML_PATH . 'system.zip' ) ) . '</em>)';
-        }
+//
+if (file_exists(PUBLIC_HTML_PATH . 'system.zip')) {
+    echo '(<em>Cập nhật lần cuối: ' . date(EBE_DATETIME_FORMAT, filemtime(PUBLIC_HTML_PATH . 'system.zip')) . '</em>)';
+}
 
-        ?>
+?>
         kết hợp với cấu trúc database nền tảng của <a href="https://wordpress.org/download/" target="_blank"
             rel="nofollow"><strong>Wordpress</strong></a> nhằm đem lại khả năng tùy biến linh hoạt với tốc độ tối ưu.
     </p>
-    <div class="p d-inlines">PHP version: <strong><?php echo phpversion(); ?></strong> (
+    <div class="p d-inlines">PHP version: <strong>
+            <?php echo phpversion(); ?>
+        </strong> (
         <div v-if="phpversion >= 73">
             <div v-if="phpversion >= 74">
                 <div class="greencolor">Xin chúc mừng! Phiên bản PHP{{phpversion}} bạn đang sử dụng đang ở mức khuyến
@@ -69,28 +73,40 @@ if ( $debug_enable === true ) {
             <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12">
                 <div class="row">
                     <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                        <div class="p">Server time: <strong><?php echo date(EBE_DATETIME_FORMAT); ?></strong></div>
+                        <div class="p">Server time: <strong>
+                                <?php echo date(EBE_DATETIME_FORMAT); ?>
+                            </strong></div>
                     </div>
                     <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
                         <div class="p">Server IP: <a
                                 href="https://www.iplocation.net/ip-lookup?query=<?php echo $_SERVER['SERVER_ADDR']; ?>"
-                                target="_blank" rel="nofollow" class="bold"><?php echo $_SERVER['SERVER_ADDR']; ?></a>
+                                target="_blank" rel="nofollow" class="bold">
+                                <?php echo $_SERVER['SERVER_ADDR']; ?>
+                            </a>
                         </div>
                     </div>
                     <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
                         <div class="p">Database: <span v-if="current_dbname != ''">
-                                <strong>******<?php echo substr( $current_dbname, 6 ); ?></strong> </span></div>
+                                <strong>******
+                                    <?php echo substr($current_dbname, 6); ?>
+                                </strong> </span></div>
                     </div>
                     <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                        <div class="p">Server OS: <strong><?php echo PHP_OS; ?></strong></div>
+                        <div class="p">Server OS: <strong>
+                                <?php echo PHP_OS; ?>
+                            </strong></div>
                     </div>
                     <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                        <div class="p">Server software: <strong><?php echo $_SERVER['SERVER_SOFTWARE']; ?></strong>
+                        <div class="p">Server software: <strong>
+                                <?php echo $_SERVER['SERVER_SOFTWARE']; ?>
+                            </strong>
                         </div>
                     </div>
                     <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
                         <div class="p">VueJS version: <a href="https://v2.vuejs.org/v2/guide/installation.html"
-                                target="_blank" rel="nofollow" class="bold bluecolor"> <?php echo $Vue_version; ?> </a>
+                                target="_blank" rel="nofollow" class="bold bluecolor">
+                                <?php echo $Vue_version; ?>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -99,7 +115,9 @@ if ( $debug_enable === true ) {
                 <div class="row">
                     <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
                         <div class="p">Client IP: <a href="https://www.iplocation.net" target="_blank" rel="nofollow"
-                                class="bold greencolor"><?php echo $request_ip; ?></a></div>
+                                class="bold greencolor">
+                                <?php echo $request_ip; ?>
+                            </a></div>
                     </div>
                     <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
                         <div class="p">Client time: <strong>{{ datetime(Date_now) }}</strong></div>
@@ -155,10 +173,12 @@ if ( $debug_enable === true ) {
             <div v-if="memcached_exist > 0" class="greencolor">Xin chúc mừng, <strong>Memcached</strong> đã được cài
                 đặt!
                 <div v-if="cache_handler == 'memcached'" class="greencolor">Và Website của bạn đang sử dụng
-                    <strong>memcached</strong> làm bộ nhớ đệm.</div>
+                    <strong>memcached</strong> làm bộ nhớ đệm.
+                </div>
                 <div v-if="cache_handler == 'file'" class="greencolor">Nếu bạn đang sử dụng hosting hoặc RAM của VPS từ
                     2GB trở lên thì hãy chỉnh tham số <strong>MY_CACHE_HANDLER</strong> thành
-                    <strong>memcached</strong>.</div>
+                    <strong>memcached</strong>.
+                </div>
             </div>
             <div v-if="memcached_exist <= 0">
                 <div v-if="cache_handler == 'file'" class="orgcolor">Nếu bạn đang sử dụng VPS với lượng RAM đủ lớn, hãy
@@ -224,11 +244,11 @@ if ( $debug_enable === true ) {
     <hr>
     <?php
 
-    /*
-     * hiển thị chức năng bật/ tắt debug đối với admin
-     */
-    if ( $session_data[ 'member_type' ] == $user_type[ 'admin' ] ) {
-        ?>
+/*
+ * hiển thị chức năng bật/ tắt debug đối với admin
+ */
+if ($session_data['member_type'] == $user_type['admin']) {
+?>
     <!-- DEBUG -->
     <div>
         <div v-if="debug_enable > 0">
@@ -238,14 +258,17 @@ if ( $debug_enable === true ) {
                 Vui lòng chỉ bật debug khi cần sửa lỗi liên quan đến code.</p>
             <div v-if="exists_f_env > 0">
                 <p class="orgcolor"><i class="fa fa-lightbulb-o"></i> Chế độ debug sẽ được tự động TẮT vào lúc
-                    <strong><?php echo (file_exists( $f_env ) ? date('r', filemtime( $f_env ) + $auto_disable_debug) : ''); ?></strong>.
+                    <strong>
+                        <?php echo (file_exists($f_env) ? date('r', filemtime($f_env) + $auto_disable_debug) : ''); ?>
+                    </strong>.
                 </p>
                 <div><a href="admin/dashboard/disable_env" class="btn btn-danger" target="target_eb_iframe"><i
                             class="fa fa-bug"></i> TẮT chế độ debug</a> </div>
             </div>
             <div v-if="exists_f_env <= 0">
                 <p class="orgcolor"><i class="fa fa-cog"></i> Chế độ debug đang được thiết lập thủ công, không qua file
-                    <strong>.env</strong>! Bạn chỉ có thể BẬT/ TẮT thủ công.</p>
+                    <strong>.env</strong>! Bạn chỉ có thể BẬT/ TẮT thủ công.
+                </p>
             </div>
         </div>
         <div v-if="debug_enable <= 0">
@@ -281,7 +304,8 @@ if ( $debug_enable === true ) {
             </div>
             <div v-if="exists_f_backup_env <= 0">
                 <p class="orgcolor"><i class="fa fa-cog"></i> Chế độ debug đang được thiết lập thủ công, không qua file
-                    <strong>.env</strong>! Bạn chỉ có thể BẬT/ TẮT thủ công.</p>
+                    <strong>.env</strong>! Bạn chỉ có thể BẬT/ TẮT thủ công.
+                </p>
             </div>
         </div>
     </div>
@@ -292,7 +316,8 @@ if ( $debug_enable === true ) {
         <p class="bluecolor"><i class="fa fa-cloud-upload"></i> Update system. Dùng khi cần cập nhật bản mới cho
             Codeigniter 4. File <strong>system.zip</strong> sẽ được update lên <strong>public_html</strong>, và hàm này
             sẽ hỗ trợ việc giải nén file ra. Thư mục system cũ sẽ được backup vào:
-            <strong>system-{{ci_version}}</strong>.</p>
+            <strong>system-{{ci_version}}</strong>.
+        </p>
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#unzipSystemModal"> <i
                 class="fa fa-file-archive-o"></i> Unzip <strong>system.zip</strong> </button>
@@ -321,8 +346,8 @@ if ( $debug_enable === true ) {
         <br>
     </div>
     <?php
-    } // END member type ADMIN
-    ?>
+} // END member type ADMIN
+?>
 </div>
 <?php
 
@@ -332,29 +357,28 @@ if ( $debug_enable === true ) {
 //
 $vue_data = [
     'base_url' => DYNAMIC_BASE_URL,
-    'ci_version' => \CodeIgniter\ CodeIgniter::CI_VERSION, // phiên bản CI hiện tại
+    'ci_version' => \CodeIgniter\CodeIgniter::CI_VERSION, // phiên bản CI hiện tại
     'ci_last_version' => $ci_last_version, // phiên bản CI mới nhất -> đổi màu để dễ nhận biết có bản mới hơn
     'robots_exist' => $robots_exist,
     'phpversion' => phpversion(),
     'current_dbname' => $current_dbname,
-    'debug_enable' => ( $debug_enable === true ? 1 : 0 ),
-    'exists_f_env' => ( file_exists( $f_env ) ? 1 : 0 ),
-    'exists_f_backup_env' => ( file_exists( $f_backup_env ) ? 1 : 0 ),
-    'system_zip' => ( file_exists( PUBLIC_HTML_PATH . 'system.zip' ) ? 1 : 0 ),
-    'imagick_exist' => ( class_exists( 'Imagick' ) ? 1 : 0 ),
-    'cache_actived' => ( $check_cache_active !== NULL ? 1 : 0 ),
-    'memcached_exist' => ( class_exists( 'Memcached' ) ? 1 : 0 ),
-    'redis_exist' => phpversion( 'redis' ),
+    'debug_enable' => ($debug_enable === true ? 1 : 0),
+    'exists_f_env' => (file_exists($f_env) ? 1 : 0),
+    'exists_f_backup_env' => (file_exists($f_backup_env) ? 1 : 0),
+    'system_zip' => (file_exists(PUBLIC_HTML_PATH . 'system.zip') ? 1 : 0),
+    'imagick_exist' => (class_exists('Imagick') ? 1 : 0),
+    'cache_actived' => ($check_cache_active !== NULL ? 1 : 0),
+    'memcached_exist' => (class_exists('Memcached') ? 1 : 0),
+    'redis_exist' => phpversion('redis'),
     'cache_handler' => MY_CACHE_HANDLER,
-    'opcache_exist' => ( function_exists('opcache_get_status')&& is_array( opcache_get_status() ) ? 1 : 0 ),
-    'last_ci4_update' => ( file_exists( APPPATH . 'VERSION' ) ? filemtime( APPPATH . 'VERSION' ) : filemtime( APPPATH . 'Controllers/Layout.php' ) ),
+    'opcache_exist' => (function_exists('opcache_get_status') && is_array(opcache_get_status()) ? 1 : 0),
+    'last_ci4_update' => (file_exists(APPPATH . 'VERSION') ? filemtime(APPPATH . 'VERSION') : filemtime(APPPATH . 'Controllers/Layout.php')),
 ];
 
-?>
-<script>
-var vue_data = <?php echo json_encode($vue_data); ?>;
-</script>
-<?php
+//
+echo '<script>
+    var vue_data = ' . json_encode($vue_data) . ';
+</script>';
 
 //
-$base_model->add_js( 'admin/js/dashboard.js' );
+$base_model->add_js('admin/js/dashboard.js');
