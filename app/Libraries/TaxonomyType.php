@@ -1,8 +1,9 @@
 <?php
 
-namespace App\ Libraries;
+namespace App\Libraries;
 
-class TaxonomyType {
+class TaxonomyType
+{
 
     // taxonomy
     const POSTS = 'category';
@@ -25,19 +26,20 @@ class TaxonomyType {
         //self::PAGE => 'Trang tĩnh',
     );
 
-    public static function typeList( $key = '', $first_name = false ) {
-        if ( $key == '' ) {
+    public static function typeList($key = '', $first_name = false)
+    {
+        if ($key == '') {
             return self::$arr;
         }
-        if ( isset( self::$arr[ $key ] ) ) {
+        if (isset(self::$arr[$key])) {
             // lấy thêm định danh cho Danh mục (nếu có)
             $get_first_name = '';
             /*
-            if ( $first_name == true ) {
-                $get_first_name = self::nameList( $key );
-            }
-            */
-            return $get_first_name . self::$arr[ $key ];
+             if ( $first_name == true ) {
+             $get_first_name = self::nameList( $key );
+             }
+             */
+            return $get_first_name . self::$arr[$key];
         }
         return '';
     }
@@ -53,45 +55,47 @@ class TaxonomyType {
         //self::PAGE => 'Trang tĩnh',
     );
 
-    public static function nameList( $key = '' ) {
-        if ( $key == '' ) {
+    public static function nameList($key = '')
+    {
+        if ($key == '') {
             return self::$arr_name;
         }
-        if ( isset( self::$arr_name[ $key ] ) ) {
-            return self::$arr_name[ $key ] . ' ';
+        if (isset(self::$arr_name[$key])) {
+            return self::$arr_name[$key] . ' ';
         }
         return 'Danh mục ';
     }
 
     // trả về các meta mặc định dựa theo từng post_type
-    public static function meta_default( $taxonomy ) {
+    public static function meta_default($taxonomy)
+    {
         $arr = [];
 
         //
-        $arr[ 'taxonomy_custom_post_size' ] = 'Tùy chỉnh tỉ lệ ảnh';
-        $arr[ 'taxonomy_auto_slider' ] = 'Slider';
-        if ( $taxonomy == self::ADS ) {
-            $arr[ 'hide_widget_title' ] = 'Ẩn tiêu đề danh mục';
-            $arr[ 'custom_cat_link' ] = 'Tùy chỉnh URL';
-            $arr[ 'dynamic_tag' ] = 'HTML tag cho Tiêu đề';
-            $arr[ 'dynamic_post_tag' ] = 'HTML tag cho Tên bài viết';
-            $arr[ 'widget_description' ] = 'Mô tả';
-            $arr[ 'post_number' ] = 'Số lượng bài để hiển thị';
-            $arr[ 'num_line' ] = 'Số bài viết trên mỗi dòng';
-            $arr[ 'post_cloumn' ] = 'Bố cục bài viết';
-            $arr[ 'hide_title' ] = 'Ẩn tiêu đề của bài viết';
-            $arr[ 'hide_description' ] = 'Ẩn tóm tắt của bài viết';
-            $arr[ 'hide_info' ] = 'Ẩn ngày tháng, danh mục của bài viết';
-            $arr[ 'show_post_content' ] = 'Hiển thị nội dung của bài viết';
-            $arr[ 'run_slider' ] = 'Chạy slider';
-            $arr[ 'max_width' ] = 'Chiều rộng tối đa';
-            $arr[ 'custom_style' ] = 'Tùy chỉnh CSS';
-            $arr[ 'custom_id' ] = 'Tùy chỉnh ID';
-            $arr[ 'custom_size' ] = 'Tùy chỉnh size ảnh';
-            $arr[ 'rel_xfn' ] = 'Quan hệ liên kết (XFN)';
-            $arr[ 'open_target' ] = 'Mở liên kết trong tab mới';
-            $arr[ 'text_view_more' ] = 'Hiển thị nút xem thêm';
-            $arr[ 'text_view_details' ] = 'Hiển thị nút xem chi tiết';
+        $arr['taxonomy_custom_post_size'] = 'Tùy chỉnh tỉ lệ ảnh';
+        $arr['taxonomy_auto_slider'] = 'Slider';
+        if ($taxonomy == self::ADS) {
+            $arr['hide_widget_title'] = 'Ẩn tiêu đề danh mục';
+            $arr['custom_cat_link'] = 'Tùy chỉnh URL';
+            $arr['dynamic_tag'] = 'HTML tag cho Tiêu đề';
+            $arr['dynamic_post_tag'] = 'HTML tag cho Tên bài viết';
+            $arr['widget_description'] = 'Mô tả';
+            $arr['post_number'] = 'Số lượng bài để hiển thị';
+            $arr['num_line'] = 'Số bài viết trên mỗi dòng';
+            $arr['post_cloumn'] = 'Bố cục bài viết';
+            $arr['hide_title'] = 'Ẩn tiêu đề của bài viết';
+            $arr['hide_description'] = 'Ẩn tóm tắt của bài viết';
+            $arr['hide_info'] = 'Ẩn ngày tháng, danh mục của bài viết';
+            $arr['show_post_content'] = 'Hiển thị nội dung của bài viết';
+            $arr['run_slider'] = 'Chạy slider';
+            $arr['max_width'] = 'Chiều rộng tối đa';
+            $arr['custom_style'] = 'Tùy chỉnh CSS';
+            $arr['custom_id'] = 'Tùy chỉnh ID';
+            $arr['custom_size'] = 'Tùy chỉnh size ảnh';
+            $arr['rel_xfn'] = 'Quan hệ liên kết (XFN)';
+            $arr['open_target'] = 'Mở liên kết trong tab mới';
+            $arr['text_view_more'] = 'Hiển thị nút xem thêm';
+            $arr['text_view_details'] = 'Hiển thị nút xem chi tiết';
             //$arr[ 'aaaaaaaaaaaaaaa' ] = 'aaaaaaaaaaaaa';
         }
 
@@ -101,7 +105,8 @@ class TaxonomyType {
     }
 
     // trả về định dạng của từng post type (nếu có) -> mặc định type = text
-    public static function meta_type( $key ) {
+    public static function meta_type($key)
+    {
         $arr = [
             'hide_widget_title' => 'checkbox',
             'dynamic_tag' => 'select',
@@ -119,8 +124,8 @@ class TaxonomyType {
             'taxonomy_auto_slider' => 'checkbox',
             'max_width' => 'select',
         ];
-        if ( isset( $arr[ $key ] ) ) {
-            return $arr[ $key ];
+        if (isset($arr[$key])) {
+            return $arr[$key];
         }
 
         //
@@ -128,11 +133,12 @@ class TaxonomyType {
     }
 
     // description của từng meta nếu có
-    public static function meta_desc( $key ) {
+    public static function meta_desc($key)
+    {
         $arr = [
             'custom_size' => 'Kích thước hình ảnh liên quan đến việc đảm bảo khung hình không bị vỡ, kích thước mặc định sẽ được sử dụng nếu bạn bỏ qua trường dữ liệu tương ứng. <br> Từ kích thước mong muốn mà bạn nhập vào, hệ thống sẽ tính toán tỉ lệ phù hợp nhất, cách tính tỉ lệ sẽ lấy chiều cao/ chiều rộng. <br> Ví dụ, bạn có hình ảnh có kích thước chiều rộng là 1366px, chiều cao là 400px, bạn sẽ nhập vào ô tương ứng là: <strong>400/1366</strong>. <br> * Vui lòng chỉ nhập số và dấu chéo.',
             'custom_cat_link' => '* Mặc định URL sẽ được tạo theo URL của phân nhóm hoặc để trống nếu không có nhóm. Bạn muốn thiết lập cứng URL cho phần này thì có thể thiết lập tại đây, hoặc hủy URL thì nhập <strong>#</strong>.',
-            'custom_style' => file_get_contents( dirname( __DIR__ ) . '/Views/html/custom_style.html', 1 ),
+            'custom_style' => file_get_contents(dirname(__DIR__) . '/Views/html/custom_style.html', 1),
             'custom_id' => '* Tương tự như CSS -> gán ID để xử lý cho tiện.',
             'rel_xfn' => '<strong>rel</strong>: noreferrer, nofollow...',
             'text_view_more' => 'Nhập nội dung cho nút xem thêm (Danh mục), khi trường này có dữ liệu, nút xem thêm sẽ xuất hiện trong widget',
@@ -140,13 +146,14 @@ class TaxonomyType {
             'taxonomy_custom_post_size' => 'Mặc định, tỉ lệ ảnh sẽ được dùng theo cấu hình chung của hệ thống. Trường hợp cần cấu hình riêng cho từng danh mục thì bạn có thể thiết lập tại đây. Ví dụ: 4/3',
             'taxonomy_auto_slider' => 'Khi chế độ này được kích hoạt, một slider sẽ tự động được khởi tạo, sau đó bạn chỉ việc thêm ảnh cho slider để nó có thể hoạt động',
         ];
-        if ( isset( $arr[ $key ] ) ) {
-            echo '<p class="controls-text-note">' . $arr[ $key ] . '</p>';
+        if (isset($arr[$key])) {
+            echo '<p class="controls-text-note">' . $arr[$key] . '</p>';
         }
     }
 
     // mảng chứa giá trị của các select
-    public static function meta_select( $key ) {
+    public static function meta_select($key)
+    {
         $arr_dynamic_tag = [
             'div' => 'DIV',
             'p' => 'P',
@@ -194,8 +201,8 @@ class TaxonomyType {
                 'w96' => 'Rộng tối đa 1666px',
             ]
         ];
-        if ( isset( $arr[ $key ] ) ) {
-            return $arr[ $key ];
+        if (isset($arr[$key])) {
+            return $arr[$key];
         }
 
         //

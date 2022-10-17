@@ -836,6 +836,7 @@ function get_term_permalink(data) {
 // tạo menu tự động dựa theo danh mục đang có
 function create_menu_by_taxonomy(arr, li_class) {
     if (arr.length <= 0) {
+        console.log('create menu by taxonomy:', arr.length);
         return '';
     }
     //console.log(arr);

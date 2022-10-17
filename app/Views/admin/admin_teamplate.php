@@ -43,10 +43,10 @@ if ($session_data['member_type'] != $is_admin) {
 
             //
             if (isset($v_sub['role']) &&
-            // phân quyền không trống
-            !empty($v_sub['role']) &&
-            // kiểm tra quyền truy cập
-            !in_array($session_data['member_type'], $v_sub['role'])) {
+                // phân quyền không trống
+                !empty($v_sub['role']) &&
+                // kiểm tra quyền truy cập
+                !in_array($session_data['member_type'], $v_sub['role'])) {
                 echo '<!-- Permission sub deny! -->';
                 $v['arr'] = null;
                 $arr_admin_menu[$k] = $v;
@@ -54,8 +54,8 @@ if ($session_data['member_type'] != $is_admin) {
             }
         }
 
-    //
-    //echo $v[ 'name' ] . '<br>' . "\n";
+        //
+        //echo $v[ 'name' ] . '<br>' . "\n";
     }
 }
 //print_r( $arr_admin_menu );
@@ -108,7 +108,7 @@ echo (($html_lang == 'vn' || $html_lang == '') ? 'vi' : $html_lang);
 <link rel="stylesheet" type="text/css" media="all" href="fonts/fontawesome-free-5.15.1-web/css/v4-shims.min.css" />
 -->
     <!-- <script src="./thirdparty/validate/jquery.min.js"></script> -->
-    <script src="./thirdparty/jquery/jquery-3.6.0.min.js"></script>
+    <script src="./thirdparty/jquery/jquery-3.6.1.min.js"></script>
     <!-- <script src="./thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> -->
     <!-- <script src="./thirdparty/jquery/jquery-migrate-1.4.1.min.js"></script> -->
     <script src="./thirdparty/validate/library.js"></script>
@@ -150,7 +150,7 @@ $base_model->adds_js([
 
 ?>
     <script>
-    var allow_mysql_delete = <?php echo (ALLOW_USING_MYSQL_DELETE ? 'true' : 'false'); ?>;
+    var allow_mysql_delete = <?php echo (ALLOW_USING_MYSQL_DELETE ? ' true ' : ' false '); ?>;
     var arr_admin_menu = <?php echo json_encode($arr_admin_menu); ?>;
     var arr_lang_list = <?php echo json_encode($arr_lang_list); ?>;
     var web_link = window.location.protocol + '//' + document.domain + '/';

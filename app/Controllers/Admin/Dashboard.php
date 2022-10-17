@@ -55,11 +55,11 @@ class Dashboard extends Optimize
         $this->config_deleted_file = PUBLIC_HTML_PATH . 'app-deleted/Config/Database.php';
         //echo $this->config_deleted_file . '<br>' . "\n";
         $this->config_file = PUBLIC_HTML_PATH . 'app/Config/Database.php';
-    //echo $this->config_file . '<br>' . "\n";
+        //echo $this->config_file . '<br>' . "\n";
 
-    //
-    //echo THEMEPATH . '<br>' . "\n";
-    //echo basename( THEMEPATH ) . '<br>' . "\n";
+        //
+        //echo THEMEPATH . '<br>' . "\n";
+        //echo basename( THEMEPATH ) . '<br>' . "\n";
     }
 
     public function index()
@@ -185,8 +185,7 @@ class Dashboard extends Optimize
                 if ($for_alert === 1) {
                     $this->base_model->alert('LỖI! không backup được file ' . basename($f), 'error');
                 }
-            }
-            else {
+            } else {
                 chmod($f_backup, DEFAULT_FILE_PERMISSION);
             }
             if (!file_exists($f_backup)) {
@@ -200,10 +199,9 @@ class Dashboard extends Optimize
         if ($this->MY_unlink($f)) {
             if ($for_alert === 1) {
                 $this->base_model->alert('', base_url(CUSTOM_ADMIN_URI));
-            //$this->base_model->alert( 'TẮT chế độ debug thành công (LƯU TRỮ file ' . basename( $f ) . ')' );
+                //$this->base_model->alert( 'TẮT chế độ debug thành công (LƯU TRỮ file ' . basename( $f ) . ')' );
             }
-        }
-        else if ($for_alert === 1) {
+        } else if ($for_alert === 1) {
             $this->base_model->alert('LỖI! Không xóa được file ' . basename($f), 'error');
         }
 
@@ -220,7 +218,7 @@ class Dashboard extends Optimize
         // nếu tồn tại file .env -> bỏ qua
         $f = $this->f_env;
         if (file_exists($f)) {
-        //$this->base_model->alert( 'File đã tồn tại ' . basename( $f ), 'error' );
+            //$this->base_model->alert( 'File đã tồn tại ' . basename( $f ), 'error' );
         }
 
         // phải tồn tại file .env bak thì mới tiếp tục
@@ -229,13 +227,11 @@ class Dashboard extends Optimize
             // restore lại file env
             if ($this->MY_copy($f_backup, $f)) {
                 $this->base_model->alert('', base_url(CUSTOM_ADMIN_URI));
-            //$this->base_model->alert( 'BẬT chế độ debug thành công (copy file ' . basename( $f ) . ')' );
-            }
-            else {
+                //$this->base_model->alert( 'BẬT chế độ debug thành công (copy file ' . basename( $f ) . ')' );
+            } else {
                 $this->base_model->alert('LỖI! không restore được file ' . basename($f), 'error');
             }
-        }
-        else {
+        } else {
             $this->base_model->alert('Không tồn tại file ' . basename($f_backup), 'error');
         }
 
@@ -273,7 +269,7 @@ class Dashboard extends Optimize
         $to = PUBLIC_HTML_PATH . 'system-' . $current_ci_version;
         if (is_dir($to)) {
             $to .= '-' . date('Ymd-His');
-        //$this->base_model->alert( 'Vui lòng XÓA ' . basename( $to ) . ' backup trước khi tiếp tục', 'error' );
+            //$this->base_model->alert( 'Vui lòng XÓA ' . basename( $to ) . ' backup trước khi tiếp tục', 'error' );
         }
 
         // đổi tên thư mục system -> backup
@@ -375,19 +371,18 @@ class Dashboard extends Optimize
                 //echo $file_name . '<br>' . "\n";
                 if (basename($file_name) == 'system.zip') {
                     return $this->unzip_system();
-                //die( __CLASS__ . ':' . __LINE__ );
+                    //die( __CLASS__ . ':' . __LINE__ );
                 }
                 //die( __CLASS__ . ':' . __LINE__ );
 
                 // giải nén sau khi upload
                 $this->after_unzip_code($file_path, $upload_path, $upload_via_ftp);
 
-            /*
-             * dọn dẹp code dư thừa sau khi giải nén (nếu tồn tại thư mục này)
-             */
-            //$this->cleanup_deleted_dir( $this->dir_deleted_list, $upload_via_ftp );
-            }
-            else {
+                /*
+                 * dọn dẹp code dư thừa sau khi giải nén (nếu tồn tại thư mục này)
+                 */
+                //$this->cleanup_deleted_dir( $this->dir_deleted_list, $upload_via_ftp );
+            } else {
                 throw new \RuntimeException($file->getErrorString() . '(' . $file->getError() . ')');
             }
         }
@@ -472,8 +467,7 @@ class Dashboard extends Optimize
 
                 //
                 $this->file_re_cache[] = $filename;
-            }
-            else if (is_dir($filename)) {
+            } else if (is_dir($filename)) {
                 //echo $filename . '<br>' . "\n";
                 $check_dot = basename($filename);
 
@@ -496,8 +490,7 @@ class Dashboard extends Optimize
 
                 //
                 $this->file_re_cache[] = $filename;
-            }
-            else if (is_dir($filename)) {
+            } else if (is_dir($filename)) {
                 //echo $filename . '<br>' . "\n";
                 $this->get_all_file_in_folder($filename);
             }
@@ -579,19 +572,19 @@ class Dashboard extends Optimize
                     }
                 }
 
-            // tạo thư mục thông qua FTP
-            /*
-             if ( $upload_via_ftp === true ) {
-             $file_model->create_dir( $this->app_dir );
-             }
-             // tạo mặc định
-             else {
-             $this->mk_dir( $this->app_dir, __CLASS__ . ':' . __LINE__, 0755 );
-             }
-             */
+                // tạo thư mục thông qua FTP
+                /*
+                 if ( $upload_via_ftp === true ) {
+                 $file_model->create_dir( $this->app_dir );
+                 }
+                 // tạo mặc định
+                 else {
+                 $this->mk_dir( $this->app_dir, __CLASS__ . ':' . __LINE__, 0755 );
+                 }
+                 */
 
-            //
-            //die( __CLASS__ . ':' . __LINE__ );
+                //
+                //die( __CLASS__ . ':' . __LINE__ );
             }
 
             // giải nén sau khi upload
@@ -607,8 +600,7 @@ class Dashboard extends Optimize
 
             // đồng bộ lại thirdparty và database
             $this->vendor_sync(false);
-        }
-        else {
+        } else {
             $this->base_model->alert('Download thất bại! Không xác định được file sau khi download', 'error');
         }
         //die( $file_path );
@@ -653,8 +645,7 @@ class Dashboard extends Optimize
                 if ($main_zip === true) {
                     $this->get_all_file_in_folder($upload_path . 'app/');
                     $this->get_all_file_in_folder($upload_path . 'public/');
-                }
-                else {
+                } else {
                     $this->get_all_file_in_folder($upload_path);
                 }
 
@@ -710,8 +701,7 @@ class Dashboard extends Optimize
                 }
                 /*
                  * chuyển file thông qua tạo kết nối qua FTP
-                 */
-                else {
+                 */else {
                     $check_dir = $file_model->root_dir();
                     $has_ftp = false;
                     if ($check_dir === true) {
@@ -727,8 +717,7 @@ class Dashboard extends Optimize
                                 $has_ftp = true;
                             }
                         }
-                    }
-                    else {
+                    } else {
                         echo 'FTP ERROR! ' . $check_dir . '<br>' . PHP_EOL;
                     }
 
@@ -748,12 +737,10 @@ class Dashboard extends Optimize
                             //
                             if (ftp_put($conn_id, $to, $file, FTP_BINARY)) {
                                 echo '<em>' . $to . '</em><br>' . "\n";
-                            }
-                            else {
+                            } else {
                                 echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . "\n";
                             }
-                        }
-                        else {
+                        } else {
                             echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . "\n";
                         }
 
@@ -781,8 +768,8 @@ class Dashboard extends Optimize
                         unlink($file);
                     }
 
-                //
-                //die( $upload_path );
+                    //
+                    //die( $upload_path );
                 }
 
                 /*
@@ -818,8 +805,8 @@ class Dashboard extends Optimize
         $arr_download_thirdparty = [
             //'https://github.com/vuejs/vue/releases',
             'https://v2.vuejs.org/v2/guide/installation.html?current_version=2.7.10',
-            'https://github.com/PHPMailer/PHPMailer/releases/tag/v6.6.3',
-            'https://jquery.com/download/?current_version=3.6.0',
+            'https://github.com/PHPMailer/PHPMailer/releases?current_version=6.6.5',
+            'https://jquery.com/download/?current_version=3.6.1',
             'https://getbootstrap.com/docs/5.0/getting-started/download/?current_version=5.0.2',
             'https://icons.getbootstrap.com/?current_version=1.9.0',
             'https://www.tiny.cloud/get-tiny/?current_version=4.9.11',
@@ -964,8 +951,7 @@ class Dashboard extends Optimize
                         $has_ftp = true;
                     }
                 }
-            }
-            else {
+            } else {
                 echo 'FTP ERROR! ' . $check_dir . '<br>' . PHP_EOL;
             }
 
@@ -988,12 +974,10 @@ class Dashboard extends Optimize
                     //
                     if (ftp_delete($conn_id, $to)) {
                         echo '<em>' . $to . '</em><br>' . "\n";
-                    }
-                    else {
+                    } else {
                         echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . "\n";
                     }
-                }
-                else {
+                } else {
                     echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . "\n";
                 }
             }
@@ -1017,12 +1001,10 @@ class Dashboard extends Optimize
                     //
                     if (ftp_rmdir($conn_id, $to)) {
                         echo '<em>' . $to . '</em><br>' . "\n";
-                    }
-                    else {
+                    } else {
                         echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . "\n";
                     }
-                }
-                else {
+                } else {
                     echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . "\n";
                 }
             }
@@ -1098,8 +1080,7 @@ class Dashboard extends Optimize
     {
         if (@!file_put_contents($upload_path . 'test_permission.txt', time())) {
             return true;
-        }
-        else {
+        } else {
             unlink($upload_path . 'test_permission.txt');
         }
         return false;

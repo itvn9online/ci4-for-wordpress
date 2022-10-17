@@ -248,5 +248,13 @@ $base_model->JSON_parse([
     'json_data' => $data,
 ]);
 
+// JSON echo
+$base_model->JSON_echo([
+    // mảng này sẽ in ra dưới dạng JSON hoặc number
+    'json_data' => $data,
+], [
+        // mảng này sẽ in ra dưới dạng string
+    ]);
+
 
 // khai báo URL tùy chỉnh trong application/config/routes.php

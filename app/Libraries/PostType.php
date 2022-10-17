@@ -1,11 +1,12 @@
 <?php
-namespace App\ Libraries;
+namespace App\Libraries;
 
 //
-use App\ Language\ admin\ AdminTranslate;
+use App\Language\admin\AdminTranslate;
 
 //
-class PostType {
+class PostType
+{
 
     // post_type
     const POST = 'post';
@@ -40,7 +41,8 @@ class PostType {
     const MEDIA_THUMBNAIL = 'thumbnail';
     const MEDIA_MEDIUM_LARGE = 'medium_large';
 
-    public function __construct() {
+    public function __construct()
+    {
         //
     }
 
@@ -55,7 +57,8 @@ class PostType {
         self::ORDER => 'Đơn hàng',
     );
 
-    public static function arrStatus() {
+    public static function arrStatus()
+    {
         return array(
             self::PUBLICITY => 'Hiển thị',
             self::PRIVATELY => 'Riêng tư',
@@ -66,19 +69,21 @@ class PostType {
         );
     }
 
-    public static function typeList( $key = '' ) {
+    public static function typeList($key = '')
+    {
         //echo $key . '<br>' . "\n";
-        if ( $key == '' ) {
+        if ($key == '') {
             return self::$arr;
         }
-        if ( isset( self::$arr[ $key ] ) ) {
-            return self::$arr[ $key ];
+        if (isset(self::$arr[$key])) {
+            return self::$arr[$key];
         }
         return '';
     }
 
     // trả về các meta mặc định dựa theo từng post_type
-    public static function meta_default( $post_type ) {
+    public static function meta_default($post_type)
+    {
         $arr = [
             'image' => 'Ảnh đại diện', // fullsize
             'image_large' => 'Ảnh đại diện (large)',
@@ -90,26 +95,26 @@ class PostType {
         ];
 
         //
-        if ( $post_type == self::POST ||
+        if ($post_type == self::POST ||
             //
             $post_type == self::ADS ||
             //
-            $post_type == self::BLOG ) {
+            $post_type == self::BLOG) {
             //$arr[ 'post_relationships' ] = 'Danh sách term ID';
-            $arr[ 'post_category' ] = 'Danh mục';
-            $arr[ 'post_tags' ] = 'Thẻ';
+            $arr['post_category'] = 'Danh mục';
+            $arr['post_tags'] = 'Thẻ';
         }
 
         //
-        if ( $post_type == self::ADS ) {
-            $arr[ 'url_video' ] = 'URL video';
-            $arr[ 'url_redirect' ] = 'Đường dẫn';
+        if ($post_type == self::ADS) {
+            $arr['url_video'] = 'URL video';
+            $arr['url_redirect'] = 'Đường dẫn';
         }
         //
-        else if ( $post_type == self::PAGE ) {
+        else if ($post_type == self::PAGE) {
             //$arr[ 'second_content' ] = 'Nội dung phụ';
-            $arr[ 'post_auto_slider' ] = 'Slider';
-            $arr[ 'page_template' ] = 'Giao diện';
+            $arr['post_auto_slider'] = 'Slider';
+            $arr['page_template'] = 'Giao diện';
         }
 
         //
@@ -118,19 +123,21 @@ class PostType {
     }
 
     // trả về bản dịch của từng post_meta dựa theo key truyền vào
-    public static function meta( $key, $post_type, $arr = NULL ) {
-        if ( $arr === NULL ) {
-            $arr = self::meta_default( $post_type );
+    public static function meta($key, $post_type, $arr = NULL)
+    {
+        if ($arr === NULL) {
+            $arr = self::meta_default($post_type);
         }
 
-        if ( isset( $arr[ $key ] ) ) {
-            return $arr[ $key ];
+        if (isset($arr[$key])) {
+            return $arr[$key];
         }
         return '%' . $key . '%';
     }
 
     // trả về định dạng của từng post type (nếu có) -> mặc định type = text
-    public static function meta_type( $key ) {
+    public static function meta_type($key)
+    {
         $arr = [
             //'second_content' => 'textarea',
             'page_template' => 'select',
@@ -144,8 +151,8 @@ class PostType {
             'image_thumbnail' => 'hidden',
             'image_webp' => 'hidden',
         ];
-        if ( isset( $arr[ $key ] ) ) {
-            return $arr[ $key ];
+        if (isset($arr[$key])) {
+            return $arr[$key];
         }
 
         //
@@ -153,24 +160,26 @@ class PostType {
     }
 
     // description của từng meta nếu có
-    public static function meta_desc( $key ) {
+    public static function meta_desc($key)
+    {
         $arr = [
             'url_video' => 'Bạn có thể nhập vào URL video trên Youtube (Ví dụ: https://youtu.be/<strong>{ID}</strong>) hoặc URL video MP4, các định dạng khác hiện chưa được hỗ trợ. <br> Ảnh đại diện theo video: http://i3.ytimg.com/vi/<strong>{ID}</strong>/hqdefault.jpg hoặc http://i3.ytimg.com/vi/<strong>{ID}</strong>/maxresdefault.jpg hoặc https://img.youtube.com/vi/<strong>{ID}</strong>/0.jpg',
             'url_redirect' => 'Nhập vào đường dẫn bạn muốn banner này trỏ tới (nếu có).',
             //'second_content' => 'Nội dung phụ để dễ xử lý giao diện cho một số trường hợp đặc biệt',
             'post_auto_slider' => 'Khi chế độ này được kích hoạt, một slider sẽ tự động được khởi tạo, sau đó bạn chỉ việc thêm ảnh cho slider để nó có thể hoạt động',
         ];
-        if ( isset( $arr[ $key ] ) ) {
-            echo '<p class="controls-text-note">' . $arr[ $key ] . '</p>';
+        if (isset($arr[$key])) {
+            echo '<p class="controls-text-note">' . $arr[$key] . '</p>';
         }
     }
 
-    public static function meta_class( $key ) {
+    public static function meta_class($key)
+    {
         $arr = [
             //'second_content' => 'ckeditor',
         ];
-        if ( isset( $arr[ $key ] ) ) {
-            return $arr[ $key ];
+        if (isset($arr[$key])) {
+            return $arr[$key];
         }
 
         //
@@ -178,12 +187,13 @@ class PostType {
     }
 
     // mảng chứa giá trị của các select
-    public static function meta_select( $key ) {
+    public static function meta_select($key)
+    {
         $arr = [
             //'page_template' => [],
         ];
-        if ( isset( $arr[ $key ] ) ) {
-            return $arr[ $key ];
+        if (isset($arr[$key])) {
+            return $arr[$key];
         }
 
         //
@@ -191,15 +201,16 @@ class PostType {
     }
 
     // trả về kích cỡ resize của ảnh
-    public static function media_size( $key = '' ) {
+    public static function media_size($key = '')
+    {
         $arr = [
             self::MEDIA_MEDIUM => 300,
             self::MEDIA_LARGE => 1024,
             self::MEDIA_THUMBNAIL => 150,
             self::MEDIA_MEDIUM_LARGE => 768,
         ];
-        if ( isset( $arr[ $key ] ) ) {
-            return $arr[ $key ];
+        if (isset($arr[$key])) {
+            return $arr[$key];
         }
         return $arr;
     }

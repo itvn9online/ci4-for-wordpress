@@ -81,16 +81,14 @@ if ($getconfig->fb_app_id != '') {
 <meta property="og:image" content="<?php
 if (isset($seo['og_image']) && $seo['og_image'] != '') {
     echo $seo['og_image'];
-}
-else {
+} else {
     echo base_url() . ltrim(str_replace(base_url(), '', $option_model->get_config($getconfig, 'image')), '/');
 }
 ?>" />
 <meta property="og:image:alt" content="<?php
 if (isset($seo['og_image_alt']) && $seo['og_image_alt'] != '') {
     echo $seo['og_image_alt'];
-}
-else {
+} else {
     $option_model->the_config($getconfig, 'name');
 }
 ?>" />
@@ -148,7 +146,7 @@ foreach ($arr_preload_bootstrap as $v) {
 ?>
 <!-- <link rel="stylesheet" type="text/css" media="all" href="thirdparty/flatsome/flatsome.css" /> -->
 <!-- <link rel="stylesheet" type="text/css" media="all" href="frontend/css/swiper.min.css" /> -->
-<script src="<?php echo CDN_BASE_URL; ?>thirdparty/jquery/jquery-3.6.0.min.js"></script>
+<script src="<?php echo CDN_BASE_URL; ?>thirdparty/jquery/jquery-3.6.1.min.js"></script>
 <!-- <script src="thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> -->
 <!-- <script src="frontend/js/swiper.min.js"></script> -->
 <?php
@@ -166,16 +164,16 @@ $base_model->preloads_css([
     'css/d.css',
     'css/d2.css',
 ], [
-    'cdn' => CDN_BASE_URL,
-]);
+        'cdn' => CDN_BASE_URL,
+    ]);
 $base_model->adds_css([
     'css/flatsome.css',
     'css/thread_list.css',
     'themes/' . THEMENAME . '/style.css',
     'themes/' . THEMENAME . '/css/thread_node.css',
 ], [
-    'cdn' => CDN_BASE_URL,
-]);
+        'cdn' => CDN_BASE_URL,
+    ]);
 
 
 // mobile
@@ -184,8 +182,8 @@ if ($isMobile == true) {
         'css/m.css',
         'themes/' . THEMENAME . '/css/m.css',
     ], [
-        'cdn' => CDN_BASE_URL,
-    ]);
+            'cdn' => CDN_BASE_URL,
+        ]);
 }
 
 
@@ -205,16 +203,16 @@ $base_model->adds_js([
     //'javascript/slider.js',
     'themes/' . THEMENAME . '/js/functions.js',
 ], [
-    'cdn' => CDN_BASE_URL,
-]);
+        'cdn' => CDN_BASE_URL,
+    ]);
 
 // nạp thư viện vuejs nếu có yêu cầu
 if ($getconfig->enable_vue_js == 'on') {
     $base_model->add_js('thirdparty/vuejs/vue.min.js', [
         'cdn' => CDN_BASE_URL,
     ], [
-        'defer'
-    ]);
+            'defer'
+        ]);
 }
 
 //

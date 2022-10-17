@@ -688,11 +688,31 @@ class Base extends Csdl
     }
 
     // đầu vào là 1 mảng có key -> đầu ra là mã javascript -> thay thế cho JSON.parse
-    public function JSON_parse($var = [])
+    public function JSON_parse($var)
     {
         $str = '';
+        // in dữ liệu đầu vào là array -> đầu ra là JSON
         foreach ($var as $k => $v) {
             $str .= 'var ' . $k . '=' . json_encode($v) . ';' . PHP_EOL;
+        }
+        echo '<script>' . $str . '</script>';
+    }
+
+    // đầu vào là 1 mảng có key -> đầu ra là mã javascript -> dùng cho trường hợp in thẳng JSON vào HTML
+    public function JSON_echo($var, $arr = [])
+    {
+        $str = '';
+        // đầu vào là array hoặc number -> đầu ra thì cứ echo thẳng
+        foreach ($var as $k => $v) {
+            $str .= 'var ' . $k . '=' . $v . ';' . PHP_EOL;
+        }
+        // in ra dạng string
+        foreach ($arr as $k => $v) {
+            $v = str_replace('/', '\/', $v);
+            $v = str_replace('"', '\"', $v);
+
+            //
+            $str .= 'var ' . $k . '="' . $v . '";' . PHP_EOL;
         }
         echo '<script>' . $str . '</script>';
     }
