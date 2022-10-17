@@ -27,16 +27,16 @@ $base_model->add_js('javascript/ten_file.js', [
     'preload' => 1,
     'cdn' => CDN_BASE_URL,
 ], [
-    'defer'
-]);
+        'defer'
+    ]);
 // lấy mã JS trả về thay vì echo luôn
 $base_model->get_add_js('javascript/ten_file.js', [
     'get_content' => 1,
     'preload' => 1,
     'cdn' => CDN_BASE_URL,
 ], [
-    'defer'
-]);
+        'defer'
+    ]);
 
 
 // bộ câu lệnh git dùng để đồng bộ code từ máy này sang máy khác, đỡ bị xung đột
@@ -81,7 +81,7 @@ $result_id = $this->base_model->insert($this->table, $data, true);
 //print_r( $result_id );
 
 if ($result_id !== false) {
-//
+    //
 }
 
 
@@ -90,38 +90,38 @@ $this->base_model->update_multiple('users', [
     // SET
     'is_member' => User_type::GUEST,
 ], [
-    // WHERE
-    'is_member' => User_type::GUEST,
-], [
-    'debug_backtrace' => debug_backtrace()[1]['function'],
-    // trong builder CI4 lệnh UPDATE chưa hỗ trợ lệnh join
-    /*
-     'join' => array(
-     'tbl1' => 'tbl_0.id = tbl1.id',
-     'tbl2' => 'tbl_0.id = tbl2.id'
-     ),
-     */
-    'where_in' => array(
-        'ID' => array(
-            1,
-            2,
-            3
-        )
-    ),
-    'where_not_in' => array(
-        'user_id' => array(
-            1,
-            2,
-            3
-        )
-    ),
-    // hiển thị mã SQL để check
-    'show_query' => 1,
-    // trả về câu query để sử dụng cho mục đích khác
-    'get_query' => 1,
-    // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
-    //'no_remove_field' => 1
-]);
+        // WHERE
+        'is_member' => User_type::GUEST,
+    ], [
+        'debug_backtrace' => debug_backtrace()[1]['function'],
+        // trong builder CI4 lệnh UPDATE chưa hỗ trợ lệnh join
+        /*
+         'join' => array(
+         'tbl1' => 'tbl_0.id = tbl1.id',
+         'tbl2' => 'tbl_0.id = tbl2.id'
+         ),
+         */
+        'where_in' => array(
+            'ID' => array(
+                1,
+                2,
+                3
+            )
+        ),
+        'where_not_in' => array(
+            'user_id' => array(
+                1,
+                2,
+                3
+            )
+        ),
+        // hiển thị mã SQL để check
+        'show_query' => 1,
+        // trả về câu query để sử dụng cho mục đích khác
+        'get_query' => 1,
+        // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
+        //'no_remove_field' => 1
+    ]);
 
 
 // SELECT
@@ -138,95 +138,95 @@ $data = $this->base_model->select('*', 'users', array(
     'is_member' => User_type::GUEST,
     'FIND_IN_SET(\'string_to_find\', column_name)' => NULL,
 ), array(
-    'or_where' => array(
-        'username' => 2, [
-            'username' => 3,
-            'FIND_IN_SET(\'string_to_find\', column_name)' => NULL,
-        ],
-        'user_id' => 1
-    ),
-    'where_in' => array(
-        'user_id' => array(
-            1,
-            2,
-            3
-        )
-    ),
-    'where_not_in' => array(
-        'user_id' => array(
-            1,
-            2,
-            3
-        )
-    ),
-    'join' => array(
-        'tbl1' => 'tbl_0.id = tbl1.id',
-        'tbl2' => 'tbl_0.id = tbl2.id'
-    ),
-    'like' => array(
-        'username' => 2,
-        'user_id' => 1
-    ),
-    'not_like' => array(
-        'username' => 2,
-        'user_id' => 1
-    ),
-    'or_like' => array(
-        'username' => 2,
-        'user_id' => 1
-    ),
-    'or_not_like' => array(
-        'username' => 2,
-        'user_id' => 1
-    ),
-    'group_by' => array(
-        'username',
-        'user_id',
-    ),
-    'order_by' => array(
-        'username' => 'ASC',
-        'user_id' => 'DESC'
-    ),
-    // hiển thị mã SQL để check
-    'show_query' => 1,
-    // trả về câu query để sử dụng cho mục đích khác
-    //'get_query' => 1,
-    // trả về COUNT(column_name) AS column_name
-    //'selectCount' => 'ID',
-    // trả về tổng số bản ghi -> tương tự mysql num row
-    //'getNumRows' => 1,
-    //'offset' => 0,
-    'limit' => 3
-));
+        'or_where' => array(
+            'username' => 2, [
+                'username' => 3,
+                'FIND_IN_SET(\'string_to_find\', column_name)' => NULL,
+            ],
+            'user_id' => 1
+        ),
+        'where_in' => array(
+            'user_id' => array(
+                1,
+                2,
+                3
+            )
+        ),
+        'where_not_in' => array(
+            'user_id' => array(
+                1,
+                2,
+                3
+            )
+        ),
+        'join' => array(
+            'tbl1' => 'tbl_0.id = tbl1.id',
+            'tbl2' => 'tbl_0.id = tbl2.id'
+        ),
+        'like' => array(
+            'username' => 2,
+            'user_id' => 1
+        ),
+        'not_like' => array(
+            'username' => 2,
+            'user_id' => 1
+        ),
+        'or_like' => array(
+            'username' => 2,
+            'user_id' => 1
+        ),
+        'or_not_like' => array(
+            'username' => 2,
+            'user_id' => 1
+        ),
+        'group_by' => array(
+            'username',
+            'user_id',
+        ),
+        'order_by' => array(
+            'username' => 'ASC',
+            'user_id' => 'DESC'
+        ),
+        // hiển thị mã SQL để check
+        'show_query' => 1,
+        // trả về câu query để sử dụng cho mục đích khác
+        //'get_query' => 1,
+        // trả về COUNT(column_name) AS column_name
+        //'selectCount' => 'ID',
+        // trả về tổng số bản ghi -> tương tự mysql num row
+        //'getNumRows' => 1,
+        //'offset' => 0,
+        'limit' => 3
+    ));
 
 // DELETE
 $this->base_model->delete_multiple('users', [
     // WHERE
     'is_member' => User_type::GUEST,
 ], [
-    'join' => array(
-        'tbl1' => 'tbl_0.id = tbl1.id',
-        'tbl2' => 'tbl_0.id = tbl2.id'
-    ),
-    'where_in' => array(
-        'user_id' => array(
-            1,
-            2,
-            3
-        )
-    ),
-    'where_not_in' => array(
-        'user_id' => array(
-            1,
-            2,
-            3
-        )
-    ),
-    // hiển thị mã SQL để check
-    'show_query' => 1,
-    // trả về câu query để sử dụng cho mục đích khác
-    'get_query' => 1,
-]);
+        'join' => array(
+            'tbl1' => 'tbl_0.id = tbl1.id',
+            'tbl2' => 'tbl_0.id = tbl2.id'
+        ),
+        'where_in' => array(
+            'user_id' => array(
+                1,
+                2,
+                3
+            )
+        ),
+        'where_not_in' => array(
+            'user_id' => array(
+                1,
+                2,
+                3
+            )
+        ),
+        // hiển thị mã SQL để check
+        'show_query' => 1,
+        // trả về câu query để sử dụng cho mục đích khác
+        'get_query' => 1,
+    ]);
 
 
 //
@@ -241,6 +241,12 @@ $post_model->the_ads('ads-term-slug', $limit = 1, $ops = [
     // thêm class css tùy chỉnh vào
     'add_class' => 'css-class-1 cas-class-2',
 ], $using_cache = true, $time = MEDIUM_CACHE_TIMEOUT);
+
+
+// JSON.parse
+$base_model->JSON_parse([
+    'json_data' => $data,
+]);
 
 
 // khai báo URL tùy chỉnh trong application/config/routes.php

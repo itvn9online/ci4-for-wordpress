@@ -40,8 +40,7 @@ class Base extends Csdl
         //
         if (isset($ops['preload'])) {
             $rel = 'rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"';
-        }
-        else {
+        } else {
             $rel = 'rel="stylesheet" type="text/css" media="all"';
         }
         return '<link ' . $rel . ' href="' . $ops['cdn'] . $f . '?v=' . filemtime(PUBLIC_PUBLIC_PATH . $f) . '"' . implode(' ', $attr) . ' />';
@@ -231,7 +230,7 @@ class Base extends Csdl
 
         //
         return $str;
-    //	return strtolower($str);
+        //	return strtolower($str);
     }
 
     public function _eb_non_mark($str)
@@ -314,8 +313,7 @@ class Base extends Csdl
         if (isset($arr['post_meta']) && $arr['post_meta'] !== '') {
             $arr_meta = $arr['post_meta'];
             $arr['post_meta'] = '';
-        }
-        else if (isset($arr['term_meta']) && $arr['term_meta'] !== '') {
+        } else if (isset($arr['term_meta']) && $arr['term_meta'] !== '') {
             $arr_meta = $arr['term_meta'];
             $arr['term_meta'] = '';
         }
@@ -350,8 +348,7 @@ class Base extends Csdl
         // lấy danh sách file
         if ($file_type != '') {
             $arr = glob($dir . '*' . $file_type, GLOB_BRACE);
-        }
-        else {
+        } else {
             $arr = glob($dir . '*');
         }
         //print_r( $arr );
@@ -440,8 +437,7 @@ class Base extends Csdl
         //
         if (isset($data['post_meta']['meta_description']) && $data['post_meta']['meta_description'] != '') {
             $seo['description'] = $data['post_meta']['meta_description'];
-        }
-        else if ($data['post_excerpt'] != '') {
+        } else if ($data['post_excerpt'] != '') {
             $seo['description'] = strip_tags($data['post_excerpt']);
         }
         $seo['description'] = trim(strip_tags($seo['description']));
@@ -539,8 +535,7 @@ class Base extends Csdl
                     $file_model = new \App\Models\File();
                     return $file_model->create_file($file_, $content_, $ops);
                 }
-            }
-            else {
+            } else {
                 // nhớ set 777 cho file
                 chmod($file_, $ops['set_permission']);
             }
@@ -577,11 +572,9 @@ class Base extends Csdl
         //	echo $a . ' a number<br>';
         if ($a == '') {
             $a = 0;
-        }
-        else if (substr($str, 0, 1) == '-') {
+        } else if (substr($str, 0, 1) == '-') {
             $a = 0 - $a;
-        }
-        else {
+        } else {
             $a *= 1;
         }
         return $a;
@@ -602,8 +595,7 @@ class Base extends Csdl
             $a = explode('.', $a);
             if (isset($a[1])) {
                 $a = (int)$a[0] . '.' . $a[1];
-            }
-            else {
+            } else {
                 $a = (int)$a[0];
             }
         }
@@ -687,12 +679,21 @@ class Base extends Csdl
             if ($j > 0 && $j % $streng === 0) {
                 $result .= substr($str, $i, 1);
                 $j = 0;
-            }
-            else {
+            } else {
                 $j++;
             }
         }
         // kết chuỗi
         return $result;
+    }
+
+    // đầu vào là 1 mảng có key -> đầu ra là mã javascript -> thay thế cho JSON.parse
+    public function JSON_parse($var = [])
+    {
+        $str = '';
+        foreach ($var as $k => $v) {
+            $str .= 'var ' . $k . '=' . json_encode($v) . ';' . PHP_EOL;
+        }
+        echo '<script>' . $str . '</script>';
     }
 }
