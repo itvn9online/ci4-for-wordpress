@@ -690,21 +690,21 @@ class Base extends Csdl
     // đầu vào là 1 mảng có key -> đầu ra là mã javascript -> thay thế cho JSON.parse
     public function JSON_parse($var)
     {
-        $str = '';
+        $str = [];
         // in dữ liệu đầu vào là array -> đầu ra là JSON
         foreach ($var as $k => $v) {
-            $str .= 'var ' . $k . '=' . json_encode($v) . ';' . PHP_EOL;
+            $str[] = 'var ' . $k . '=' . json_encode($v) . ';';
         }
-        echo '<script>' . $str . '</script>';
+        echo '<script>' . implode(PHP_EOL, $str) . '</script>';
     }
 
     // đầu vào là 1 mảng có key -> đầu ra là mã javascript -> dùng cho trường hợp in thẳng JSON vào HTML
     public function JSON_echo($var, $arr = [])
     {
-        $str = '';
+        $str = [];
         // đầu vào là array hoặc number -> đầu ra thì cứ echo thẳng
         foreach ($var as $k => $v) {
-            $str .= 'var ' . $k . '=' . $v . ';' . PHP_EOL;
+            $str[] = 'var ' . $k . '=' . $v . ';';
         }
         // in ra dạng string
         foreach ($arr as $k => $v) {
@@ -712,8 +712,8 @@ class Base extends Csdl
             $v = str_replace('"', '\"', $v);
 
             //
-            $str .= 'var ' . $k . '="' . $v . '";' . PHP_EOL;
+            $str[] = 'var ' . $k . '="' . $v . '";';
         }
-        echo '<script>' . $str . '</script>';
+        echo '<script>' . implode(PHP_EOL, $str) . '</script>';
     }
 }
