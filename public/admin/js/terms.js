@@ -19,25 +19,16 @@ function term_tree_view(data, tmp, gach_ngang) {
             str = tmp;
 
             //
-            var v_x = '{{v.gach_ngang}}';
-            var max_j = str.split(v_x).length;
-            for (var j = 0; j < max_j; j++) {
-                str = str.replace(v_x, gach_ngang);
-            }
+            str = replace_html_by_max_j('{{v.gach_ngang}}', str, gach_ngang);
 
             //
             arr = data[i];
             for (var x in arr) {
                 //console.log(typeof arr[x], arr[x]);
                 if (typeof arr[x] != 'object') {
-                    var v_x = '{{v.' + x + '}}';
-                    var max_j = str.split(v_x).length;
-                    //console.log('max j (' + x + '):', max_j);
-                    for (var j = 0; j < max_j; j++) {
-                        str = str.replace(v_x, arr[x]);
-                    }
+                    str = replace_html_by_max_j('{{v.' + x + '}}', str, arr[x]);
                 } else {
-                    //
+                    console.log(arr[x]);
                 }
             }
 
@@ -63,36 +54,46 @@ function tmp_to_term_html(data, tmp, gach_ngang) {
     var str = tmp;
 
     //
-    var v_x = '{{v.gach_ngang}}';
-    var max_j = str.split(v_x).length;
-    for (var j = 0; j < max_j; j++) {
-        str = str.replace(v_x, gach_ngang);
-    }
+    str = replace_html_by_max_j('{{v.gach_ngang}}', str, gach_ngang);
 
     //
     var arr = data;
     for (var x in arr) {
         //console.log(typeof arr[x], arr[x]);
         if (typeof arr[x] != 'object') {
-            var v_x = '{{v.' + x + '}}';
-            var max_j = str.split(v_x).length;
-            //console.log('max j (' + x + '):', max_j);
-            for (var j = 0; j < max_j; j++) {
-                str = str.replace('{{v.' + x + '}}', arr[x]);
+            str = replace_html_by_max_j('{{v.' + x + '}}', str, arr[x]);
+        } else if (arr[x] != null) {
+            //console.log(x + ':', arr[x]);
+            for (var y in arr[x]) {
+                //console.log(arr[x][y]);
+
+                //
+                str = replace_html_by_max_j('%' + x + '.' + y + '%', str, arr[x][y]);
             }
-        } else {
-            //
         }
     }
 
+    // xử lý dữ liệu dư thừa
+    str = replace_html_by_max_j('%term_meta.custom_size%', str, '&nbsp;');
+
     //
+    return str;
+}
+
+// thay thế dữ liệu dựa theo số lượng tmp có trong html
+function replace_html_by_max_j(v_x, str, data) {
+    var max_j = str.split(v_x).length;
+    //console.log('max j (' + x + '):', max_j);
+    for (var j = 0; j < max_j; j++) {
+        str = str.replace(v_x, data);
+    }
     return str;
 }
 
 function term_v2_tree_view(tmp, term_id, gach_ngang) {
     // lần đầu thì lấy nhóm cấp 1 trước
     if (typeof term_id == 'undefined') {
-        $('#admin_main_list').text('');
+        $('#admin_term_list').text('');
         term_id = 0;
         gach_ngang = '';
     } else {
@@ -117,7 +118,7 @@ function term_v2_tree_view(tmp, term_id, gach_ngang) {
         //has_term = true;
 
         // hiển thị nhóm hiện tại ra
-        $('#admin_main_list').append(tmp_to_term_html(term_data[i], tmp, gach_ngang));
+        $('#admin_term_list').append(tmp_to_term_html(term_data[i], tmp, gach_ngang));
 
         // nạp nhóm con luôn và ngay
         term_v2_tree_view(tmp, term_data[i].term_id, gach_ngang + '&#8212; ');
@@ -176,7 +177,7 @@ function term_not_null_tree_view(tmp, gach_ngang) {
         var j = check_term_parent_by_id(term_data[i].parent);
         // tìm thấy cha thì in nhóm cha trước rồi mới in nhóm con
         if (j !== false) {
-            $('#admin_main_list').append(tmp_to_term_html(term_data[j], tmp, gach_ngang));
+            $('#admin_term_list').append(tmp_to_term_html(term_data[j], tmp, gach_ngang));
 
             // nạp nhóm con luôn và ngay
             term_v2_tree_view(tmp, term_data[j].term_id, gach_ngang + '&#8212; ');
@@ -185,7 +186,7 @@ function term_not_null_tree_view(tmp, gach_ngang) {
         }
         // không thấy cha thì in trực tiếp nó ra thôi
         else {
-            $('#admin_main_list').append(tmp_to_term_html(term_data[i], tmp, gach_ngang));
+            $('#admin_term_list').append(tmp_to_term_html(term_data[i], tmp, gach_ngang));
 
             // nạp nhóm con luôn và ngay
             term_v2_tree_view(tmp, term_data[i].term_id, gach_ngang + '&#8212; ');
@@ -204,7 +205,7 @@ function before_tree_view(tmp, max_i) {
     }
 
     // chờ khi aguilar nạp xong html thì mới nạp tree view
-    if ($('#admin_main_list tr.ng-scope').length == 0) {
+    if ($('#admin_term_list tr.ng-scope').length == 0) {
         setTimeout(function () {
             before_tree_view(tmp, max_i - 1);
         }, 100);
@@ -235,13 +236,13 @@ function open_modal_add_multi_term(term_id) {
 (function () {
     if (term_data.length <= 0) {
         // không có dữ liệu thì xóa template đi
-        $('#admin_main_list').text('');
+        $('#admin_term_list').text('');
         return false;
     }
 
     //
-    var tmp = $('#admin_main_list tr:first').html() || '';
-    $('#admin_main_list').text('');
+    var tmp = $('#admin_term_list tr:first').html() || '';
+    $('#admin_term_list').text('');
     if (tmp == '') {
         return false;
     }
