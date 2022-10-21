@@ -17,7 +17,7 @@ class Post extends PostPosts
     /*
      * cập nhật lượt xem cho post
      */
-    public function update_views($id)
+    public function update_views($id, $val = 1)
     {
         //echo __FUNCTION__ . '<br>' . "\n";
         //echo $id . '<br>' . "\n";
@@ -27,11 +27,12 @@ class Post extends PostPosts
             // WHERE
             'ID' => $id,
         ), [
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-        ]);
+                'value' => $val,
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+            ]);
     }
 
     // vì permalink gán trực tiếp vào db nên thi thoảng sẽ check lại chút
@@ -49,47 +50,15 @@ class Post extends PostPosts
             'post_status' => PostType::PUBLICITY,
             'post_permalink' => '',
         ), array(
-            'where_in' => array(
-                'post_type' => array(
-                    PostType::POST,
-                    PostType::BLOG,
-                    PostType::PAGE,
-                )
-            ),
-            'order_by' => array(
-                'ID' => 'DESC'
-            ),
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-            // trả về COUNT(column_name) AS column_name
-            //'selectCount' => 'ID',
-            // trả về tổng số bản ghi -> tương tự mysql num row
-            //'getNumRows' => 1,
-            //'offset' => 0,
-            'limit' => 20
-        ));
-        //print_r( $data );
-
-        // nếu không có thì chuyển sang update term
-        if (empty($data)) {
-            // lấy các term chưa có permalink đẻ update
-            $data = $this->base_model->select('term_id, term_permalink, taxonomy, slug', WGR_TERM_VIEW, array(
-                // các kiểu điều kiện where
-                'is_deleted' => DeletedStatus::FOR_DEFAULT,
-                'term_permalink' => '',
-            ), array(
                 'where_in' => array(
-                    'taxonomy' => array(
-                        TaxonomyType::POSTS,
-                        TaxonomyType::TAGS,
-                        TaxonomyType::BLOGS,
-                        TaxonomyType::BLOG_TAGS,
+                    'post_type' => array(
+                        PostType::POST,
+                        PostType::BLOG,
+                        PostType::PAGE,
                     )
                 ),
                 'order_by' => array(
-                    'term_id' => 'DESC'
+                    'ID' => 'DESC'
                 ),
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
@@ -102,13 +71,44 @@ class Post extends PostPosts
                 //'offset' => 0,
                 'limit' => 20
             ));
+        //print_r( $data );
+
+        // nếu không có thì chuyển sang update term
+        if (empty($data)) {
+            // lấy các term chưa có permalink đẻ update
+            $data = $this->base_model->select('term_id, term_permalink, taxonomy, slug', WGR_TERM_VIEW, array(
+                // các kiểu điều kiện where
+                'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                'term_permalink' => '',
+            ), array(
+                    'where_in' => array(
+                        'taxonomy' => array(
+                            TaxonomyType::POSTS,
+                            TaxonomyType::TAGS,
+                            TaxonomyType::BLOGS,
+                            TaxonomyType::BLOG_TAGS,
+                        )
+                    ),
+                    'order_by' => array(
+                        'term_id' => 'DESC'
+                    ),
+                    // hiển thị mã SQL để check
+                    //'show_query' => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    //'get_query' => 1,
+                    // trả về COUNT(column_name) AS column_name
+                    //'selectCount' => 'ID',
+                    // trả về tổng số bản ghi -> tương tự mysql num row
+                    //'getNumRows' => 1,
+                    //'offset' => 0,
+                    'limit' => 20
+                ));
             //print_r( $data );
 
             // nếu hết rồi thì lưu lại cache để sau đỡ dính
             if (empty($data)) {
                 $this->base_model->scache(__FUNCTION__, time(), 3600);
-            }
-            else {
+            } else {
                 foreach ($data as $v) {
                     $this->term_model->get_the_permalink($v);
                 }

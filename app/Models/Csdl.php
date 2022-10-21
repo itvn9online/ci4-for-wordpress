@@ -32,15 +32,12 @@ class Csdl extends Session
         $builder = $this->db->table($table);
         if ($queryType == 'ignore') {
             $builder->ignore(true)->insert($data);
-        }
-        else if ($queryType == 'getQuery') {
+        } else if ($queryType == 'getQuery') {
             echo $builder->set($data)->getCompiledInsert();
             return false;
-        }
-        else if ($queryType == 'replace') {
+        } else if ($queryType == 'replace') {
             $builder->replace($data);
-        }
-        else {
+        } else {
             $builder->insert($data);
         }
         //die(' bb'); // lỗi sẽ hiển thị ở đây khi không insert đc
@@ -48,11 +45,11 @@ class Csdl extends Session
             //var_dump( $this->db->affectedRows() );
             //echo $this->db->insertID() . '<br>' . "\n";
             return $this->db->insertID();
-        /*
-         } else {
-         print_r( $this->db->error() );
-         print_r( $this->db->_error_message() );
-         */
+            /*
+             } else {
+             print_r( $this->db->error() );
+             print_r( $this->db->_error_message() );
+             */
         }
         return false;
     }
@@ -60,8 +57,14 @@ class Csdl extends Session
     // update giá trị cho 1 cột nào đó lên 1 đơn vị. Ví dụ: update lượt xem
     public function update_count($table, $col, $where_array, $ops = [])
     {
+        //
+        if (!isset($ops['value']) || !is_numeric($ops['value']) || $ops['value'] < 1) {
+            $ops['value'] = 1;
+        }
+
+        //
         $builder = $this->db->table($table);
-        $builder->set($col, $col . '+1', false);
+        $builder->set($col, $col . '+' . $ops['value'], false);
         foreach ($where_array as $key => $value) {
             $builder->where($key, $value);
         }
@@ -181,8 +184,8 @@ class Csdl extends Session
         return $this->update_multiple($table, $data, [
             $where => $id
         ], [
-            'debug_backtrace' => debug_backtrace()[1]['function']
-        ]);
+                'debug_backtrace' => debug_backtrace()[1]['function']
+            ]);
     }
 
     public function removeInvalidField($items, $tbl_name, $disableFields = array())
@@ -304,8 +307,8 @@ class Csdl extends Session
         return $this->delete_multiple($table, [
             $where => $id
         ], [
-            'debug_backtrace' => debug_backtrace()[1]['function']
-        ]);
+                'debug_backtrace' => debug_backtrace()[1]['function']
+            ]);
     }
 
     // trả về các cột dữ liệu mặc định trong 1 bảng
@@ -390,8 +393,7 @@ class Csdl extends Session
             if ($v === NULL) {
                 //$builder->where( $k, NULL, FALSE );
                 $builder->where($k);
-            }
-            else {
+            } else {
                 $builder->where($k, $v);
             }
         }
@@ -411,8 +413,7 @@ class Csdl extends Session
                         foreach ($v as $k2 => $v2) {
                             if ($v2 === NULL) {
                                 $builder->orWhere($k2);
-                            }
-                            else {
+                            } else {
                                 $builder->orWhere($k2, $v2);
                             }
                         }
@@ -425,7 +426,7 @@ class Csdl extends Session
                 }
             }
             $builder->groupEnd();
-        //print_r($and_or);
+            //print_r($and_or);
         }
 
         // where in
@@ -583,8 +584,7 @@ class Csdl extends Session
         //print_r( $this->db->_error_message() );
         if (isset($ops['getNumRows'])) {
             return $query->getNumRows();
-        }
-        else {
+        } else {
             $a = $query->getResultArray();
         }
         //if ( $builder->countAllResults() > 0 ) {

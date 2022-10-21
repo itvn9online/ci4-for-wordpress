@@ -4,7 +4,8 @@ namespace App\Controllers;
 // Libraries
 use App\Libraries\PostType;
 use App\Libraries\UsersType;
-use App\Libraries\TaxonomyType;
+
+//use App\Libraries\TaxonomyType;
 
 //
 class Layout extends Sync
@@ -163,8 +164,7 @@ class Layout extends Sync
         echo '<!-- Cached by ebcache' . PHP_EOL;
         if (MY_CACHE_HANDLER == 'file') {
             echo 'Caching using hard disk drive. Recommendations using SSD drive for your website.' . PHP_EOL;
-        }
-        else {
+        } else {
             echo 'How wonderful! Caching using ' . MY_CACHE_HANDLER . ' handler.' . PHP_EOL;
         }
         echo 'Compression = gzip -->';
@@ -224,22 +224,20 @@ class Layout extends Sync
         //
         if (empty($a)) {
             $is_mobile = false;
-        }
-        else if (strpos($a, 'Mobile') !== false // Many mobile devices (all iPhone, iPad, etc.)
-        ||
-        strpos($a, 'Android') !== false ||
-        strpos($a, 'Silk/') !== false ||
-        strpos($a, 'Kindle') !== false ||
-        strpos($a, 'BlackBerry') !== false ||
-        strpos($a, 'Opera Mini') !== false ||
-        strpos($a, 'Opera Mobi') !== false) {
+        } else if (strpos($a, 'Mobile') !== false // Many mobile devices (all iPhone, iPad, etc.)
+            ||
+            strpos($a, 'Android') !== false ||
+            strpos($a, 'Silk/') !== false ||
+            strpos($a, 'Kindle') !== false ||
+            strpos($a, 'BlackBerry') !== false ||
+            strpos($a, 'Opera Mini') !== false ||
+            strpos($a, 'Opera Mobi') !== false) {
             // thêm key cho bản mobile
             $this->cache_mobile_key = '---mobile';
 
             //
             $is_mobile = true;
-        }
-        else {
+        } else {
             $is_mobile = false;
         }
 
@@ -262,8 +260,7 @@ class Layout extends Sync
 
             //
             $this->breadcrumb[] = '<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"><a href="' . $url . '" itemprop="item" title="' . str_replace('"', '', $text) . '"><span itemprop="name">' . $text . '</span></a><meta itemprop="position" content="' . $this->breadcrumb_position . '"></li>';
-        }
-        else {
+        } else {
             $this->breadcrumb[] = '<li>' . $text . '</li>';
 
         }
@@ -338,8 +335,7 @@ class Layout extends Sync
         //
         if (!isset($ops['cache_key'])) {
             $this->cache_key = $this->term_model->key_cache($input['term_id']) . 'page' . $ops['page_num'];
-        }
-        else {
+        } else {
             $this->cache_key = $ops['cache_key'];
         }
         $cache_value = $this->MY_cache($this->cache_key);
@@ -447,11 +443,9 @@ class Layout extends Sync
         // với kiểu chuỗi -> so sánh lấy chuỗi trống
         if (is_string($a) && $a == '') {
             return $default_value;
-        }
-        else if (is_numeric($a)) {
+        } else if (is_numeric($a)) {
             return $a;
-        }
-        else if (empty($a)) {
+        } else if (empty($a)) {
             return $default_value;
         }
 
@@ -578,14 +572,25 @@ class Layout extends Sync
                                 'code' => __LINE__,
                                 'error' => 'Định dạng file chưa được hỗ trợ ' . $mime_type
                             ]);
-                        //$file_ext = basename( $mime_type );
+                            //$file_ext = basename( $mime_type );
                         }
                         $file_ext = strtolower($file_ext);
-                        //echo $file_ext . '<br>' . "\n";
 
                         //
                         $file_path = $upload_path . $file_name;
                         //echo $file_path . '<br>' . "\n";
+
+                        // kiểm tra lại ext -> vì có 1 trường hợp mime type khác với ext truyền vào
+                        $check_ext = pathinfo($file_path, PATHINFO_EXTENSION);
+                        //echo $check_ext . '<br>' . "\n";
+
+                        //
+                        if ($check_ext != $file_ext) {
+                            //$this->base_model->alert('Định dạng file không khớp nhau! ' . $check_ext . ' != ' . $file_ext, 'error');
+                            $this->base_model->msg_error_session('Định dạng file không khớp nhau! ' . $check_ext . ' != ' . $file_ext);
+                            continue;
+                        }
+
                         // đổi tên file nếu file đã tồn tại
                         if (file_exists($file_path)) {
                             for ($i = 1; $i < 100; $i++) {
@@ -611,7 +616,7 @@ class Layout extends Sync
                             ];
                             // hỗ trợ up video, audio
                             if (in_array($check_mime_type, $media_mime_type)) {
-                            //
+                                //
                             }
                             // các file khác chưa xác định thì cứ gọi là bỏ qua đã
                             else {
@@ -628,14 +633,13 @@ class Layout extends Sync
                                             break;
                                         }
                                     }
-                                }
-                                else {
+                                } else {
                                     $file_path = $file_new_path;
                                 }
                                 //echo $file_path . '<br>' . "\n";
                                 $file_name = basename($file_path);
-                            //echo $file_name . '<br>' . "\n";
-                            //die( __CLASS__ . ':' . __LINE__ );
+                                //echo $file_name . '<br>' . "\n";
+                                //die( __CLASS__ . ':' . __LINE__ );
                             }
                         }
                         //echo $file_path . '<br>' . "\n";
@@ -677,13 +681,12 @@ class Layout extends Sync
                         if ($metadata !== false) {
                             $arr_result[$key][] = $metadata['file_uri'];
                         }
-                    }
-                    else {
+                    } else {
                         throw new \RuntimeException($file->getErrorString() . '(' . $file->getError() . ')');
                     }
                 }
             }
-        //die( __CLASS__ . ':' . __LINE__ );
+            //die( __CLASS__ . ':' . __LINE__ );
         }
         //print_r( $arr_result );
         //die( __CLASS__ . ':' . __LINE__ );
@@ -728,10 +731,12 @@ class Layout extends Sync
         //echo $file_uri . '<br>' . "\n";
 
         //
+        //echo $file_ext . '<br>' . "\n";
         if ($file_ext == '') {
             $file_ext = pathinfo($file_path, PATHINFO_EXTENSION);
         }
         $file_ext = strtolower($file_ext);
+        //die($file_ext);
         //echo $file_ext . '<br>' . "\n";
 
         //
@@ -764,8 +769,7 @@ class Layout extends Sync
         $arr_after_sizes = [];
         if ($is_image == true) {
             $get_file_info = getimagesize($file_path);
-        }
-        else {
+        } else {
             $get_file_info = [
                 0,
                 0
@@ -911,8 +915,7 @@ class Layout extends Sync
         ];
         if (in_array($result['member_type'], $arr_admin_group)) {
             $result['userLevel'] = UsersType::ADMIN_LEVEL;
-        }
-        else {
+        } else {
             $result['userLevel'] = UsersType::GUEST_LEVEL;
         }
         //print_r( $result );
@@ -999,8 +1002,7 @@ class Layout extends Sync
                 $data['post_img'] = DYNAMIC_BASE_URL . $data['trv_img'];
                 $data['trv_width_img'] = $logo_data[0];
                 $data['trv_height_img'] = $logo_data[1];
-            }
-            else if (strpos($data['trv_img'], '//') !== false) {
+            } else if (strpos($data['trv_img'], '//') !== false) {
                 $data['post_img'] = $data['trv_img'];
                 $data['trv_width_img'] = 280;
                 $data['trv_height_img'] = 280;

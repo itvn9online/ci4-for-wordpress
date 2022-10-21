@@ -1,26 +1,29 @@
 <?php
-namespace App\ Controllers\ Admin;
+namespace App\Controllers\Admin;
 
 // Libraries
-use App\ Libraries\ PostType;
+use App\Libraries\PostType;
 
 //
-class Uploads extends Admin {
+class Uploads extends Admin
+{
     protected $post_type = PostType::MEDIA;
     protected $name_type = '';
     protected $controller_slug = 'uploads';
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         // kiểm tra quyền truy cập của tài khoản hiện tại
-        $this->check_permision( __CLASS__ );
+        $this->check_permision(__CLASS__);
     }
 
-    public function index( $url = '' ) {
+    public function index($url = '')
+    {
         //print_r( $_POST );
         //print_r( $this->MY_post( 'data' ) );
-        if ( !empty( $this->MY_post( 'data' ) ) ) {
+        if (!empty($this->MY_post('data'))) {
             $this->upload();
         }
 
@@ -36,7 +39,7 @@ class Uploads extends Admin {
         ];
 
         // tìm kiếm theo từ khóa nhập vào
-        $by_keyword = $this->MY_get( 's' );
+        $by_keyword = $this->MY_get('s');
         $where_or_like = [];
         // URL cho phân trang tìm kiếm
         $urlPartPage = 'admin/' . $this->controller_slug;
@@ -53,22 +56,22 @@ class Uploads extends Admin {
             'm',
         ];
         $hiddenSearchForm = [];
-        foreach ( $_GET as $k => $v ) {
-            if ( in_array( $k, $arr_deny_params ) ) {
+        foreach ($_GET as $k => $v) {
+            if (in_array($k, $arr_deny_params)) {
                 continue;
             }
             $urlParams[] = $k . '=' . $v;
-            $hiddenSearchForm[ $k ] = $v;
+            $hiddenSearchForm[$k] = $v;
         }
 
         //
-        if ( $by_keyword != '' ) {
+        if ($by_keyword != '') {
             $urlParams[] = 's=' . $by_keyword;
 
             //
-            $by_like = $this->base_model->_eb_non_mark_seo( $by_keyword );
+            $by_like = $this->base_model->_eb_non_mark_seo($by_keyword);
             // tối thiểu từ 1 ký tự trở lên mới kích hoạt tìm kiếm
-            if ( strlen( $by_like ) > 0 ) {
+            if (strlen($by_like) > 0) {
                 //var_dump( strlen( $by_like ) );
                 $where_or_like = [
                     //'ID' => $by_like,
@@ -90,17 +93,17 @@ class Uploads extends Admin {
         ];
 
         // lọc theo định dạng file
-        $attachment_filter = $this->MY_get( 'attachment-filter', '' );
+        $attachment_filter = $this->MY_get('attachment-filter', '');
         //echo 'attachment filter: ' . $attachment_filter . '<br>' . "\n";
-        if ( $attachment_filter != '' && isset( $alow_mime_type[ $attachment_filter ] ) ) {
+        if ($attachment_filter != '' && isset($alow_mime_type[$attachment_filter])) {
             $urlParams[] = 'attachment-filter=' . $attachment_filter;
-            $where_like_after[ 'post_mime_type' ] = $attachment_filter;
+            $where_like_after['post_mime_type'] = $attachment_filter;
         }
 
         // lọc theo tháng upload
-        $month_filter = $this->MY_get( 'm', '' );
+        $month_filter = $this->MY_get('m', '');
         //echo 'month filter: ' . $month_filter . '<br>' . "\n";
-        if ( $month_filter != '' ) {
+        if ($month_filter != '') {
             $urlParams[] = 'm=' . $month_filter;
 
             //
@@ -108,13 +111,13 @@ class Uploads extends Admin {
             $by_post_date = $month_filter . '-01';
 
             //
-            $where[ 'post_date >=' ] = $by_post_date;
-            $where[ 'post_date <' ] = date( 'Y-m-d', strtotime( '+1 month', strtotime( $by_post_date ) ) );
+            $where['post_date >='] = $by_post_date;
+            $where['post_date <'] = date('Y-m-d', strtotime('+1 month', strtotime($by_post_date)));
         }
 
         //
-        $mode = $this->MY_get( 'mode', 'grid' );
-        if ( $mode != '' ) {
+        $mode = $this->MY_get('mode', 'grid');
+        if ($mode != '') {
             $urlParams[] = 'mode=' . $mode;
         }
 
@@ -147,40 +150,40 @@ class Uploads extends Admin {
         /*
          * phân trang
          */
-        $totalThread = $this->base_model->select( 'COUNT(ID) AS c', 'posts', $where, $filter );
+        $totalThread = $this->base_model->select('COUNT(ID) AS c', 'posts', $where, $filter);
         //print_r( $totalThread );
-        $totalThread = $totalThread[ 0 ][ 'c' ];
+        $totalThread = $totalThread[0]['c'];
         //print_r( $totalThread );
 
-        if ( $totalThread > 0 ) {
-            $totalPage = ceil( $totalThread / $post_per_page );
-            if ( $totalPage < 1 ) {
+        if ($totalThread > 0) {
+            $totalPage = ceil($totalThread / $post_per_page);
+            if ($totalPage < 1) {
                 $totalPage = 1;
             }
-            $page_num = $this->MY_get( 'page_num', 1 );
+            $page_num = $this->MY_get('page_num', 1);
             //echo $totalPage . '<br>' . "\n";
-            if ( $page_num > $totalPage ) {
+            if ($page_num > $totalPage) {
                 $page_num = $totalPage;
-            } else if ( $page_num < 1 ) {
+            } else if ($page_num < 1) {
                 $page_num = 1;
             }
             //echo $totalThread . '<br>' . "\n";
             //echo $totalPage . '<br>' . "\n";
-            $offset = ( $page_num - 1 ) * $post_per_page;
+            $offset = ($page_num - 1) * $post_per_page;
 
             //
             $urlParams[] = 'page_num=';
-            $urlPartPage .= '?' . implode( '&', $urlParams );
-            $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '' );
+            $urlPartPage .= '?' . implode('&', $urlParams);
+            $pagination = $this->base_model->EBE_pagination($page_num, $totalPage, $urlPartPage, '');
 
 
             // select dữ liệu từ 1 bảng bất kỳ
-            $filter[ 'offset' ] = $offset;
-            $filter[ 'limit' ] = $post_per_page;
-            $data = $this->base_model->select( '*', 'posts', $where, $filter );
+            $filter['offset'] = $offset;
+            $filter['limit'] = $post_per_page;
+            $data = $this->base_model->select('*', 'posts', $where, $filter);
 
             //
-            $data = $this->post_model->list_meta_post( $data );
+            $data = $this->post_model->list_meta_post($data);
             //print_r( $data );
         } else {
             $data = [];
@@ -188,45 +191,45 @@ class Uploads extends Admin {
         }
 
         // lấy các ngày có ảnh để tạo bộ lọc
-        $m_filter = $this->base_model->scache( 'upload_post_date_filter' );
+        $m_filter = $this->base_model->scache('upload_post_date_filter');
         //$m_filter = NULL;
-        if ( $m_filter === NULL ) {
-            $m_data = $this->base_model->select( "DATE_FORMAT(`post_date`, '%Y-%m') as d", 'posts', [
+        if ($m_filter === NULL) {
+            $m_data = $this->base_model->select("DATE_FORMAT(`post_date`, '%Y-%m') as d", 'posts', [
                 //
             ], [
-                'where_in' => array(
-                    'post_type' => array(
-                        $this->post_type,
-                        PostType::WP_MEDIA,
-                    )
-                ),
-                'group_by' => array(
-                    'd',
-                ),
-                'order_by' => array(
-                    'ID' => 'DESC'
-                ),
-                //'show_query' => 1,
-                'limit' => -1
-            ] );
+                    'where_in' => array(
+                        'post_type' => array(
+                            $this->post_type,
+                            PostType::WP_MEDIA,
+                        )
+                    ),
+                    'group_by' => array(
+                        'd',
+                    ),
+                    'order_by' => array(
+                        'ID' => 'DESC'
+                    ),
+                    //'show_query' => 1,
+                    'limit' => -1
+                ]);
             //print_r( $m_data );
 
             //
             $m_filter = [];
-            foreach ( $m_data as $v ) {
-                $m_filter[] = $v[ 'd' ];
+            foreach ($m_data as $v) {
+                $m_filter[] = $v['d'];
             }
 
             //
-            $this->base_model->scache( 'upload_post_date_filter', $m_filter, DAY );
+            $this->base_model->scache('upload_post_date_filter', $m_filter, DAY);
         }
         //print_r( $m_filter );
 
         //
-        $this->teamplate_admin[ 'body_class' ] = $this->body_class;
+        $this->teamplate_admin['body_class'] = $this->body_class;
 
         //
-        $this->teamplate_admin[ 'content' ] = view( 'admin/uploads/list', array(
+        $this->teamplate_admin['content'] = view('admin/uploads/list', array(
             'attachment_filter' => $attachment_filter,
             'alow_mime_type' => $alow_mime_type,
             'm_filter' => $m_filter,
@@ -240,42 +243,44 @@ class Uploads extends Admin {
             //'taxonomy' => $this->taxonomy,
             'post_type' => $this->post_type,
             'controller_slug' => $this->controller_slug,
-            'name_type' => PostType::typeList( $this->post_type ),
-        ) );
-        return view( 'admin/admin_teamplate', $this->teamplate_admin );
+            'name_type' => PostType::typeList($this->post_type),
+        ));
+        return view('admin/admin_teamplate', $this->teamplate_admin);
     }
 
-    protected function upload( $key = 'upload_image' ) {
+    protected function upload($key = 'upload_image')
+    {
         // gọi tới function upload ảnh thôi
-        $list_upload = $this->media_upload( false );
+        $this->media_upload(false);
         //die( 'fg dfhdfhfd' );
 
         // -> gọi hàm này để nó nạp lại trang cha
-        $this->alert( '' );
+        $this->alert('');
     }
 
-    public function delete() {
-        $id = $this->MY_get( 'id', 0 );
+    public function delete()
+    {
+        $id = $this->MY_get('id', 0);
         $id *= 1;
-        if ( $id <= 0 ) {
+        if ($id <= 0) {
             return false;
         }
 
         //
-        $data = $this->post_model->select_post( $id, [
+        $data = $this->post_model->select_post($id, [
             'post_type' => $this->post_type,
-        ] );
-        if ( empty( $data ) ) {
-            $data = $this->post_model->select_post( $id, [
+        ]);
+        if (empty($data)) {
+            $data = $this->post_model->select_post($id, [
                 'post_type' => PostType::WP_MEDIA,
-            ] );
+            ]);
         }
         $update = false;
-        if ( !empty( $data ) ) {
+        if (!empty($data)) {
             //print_r( $data );
 
             //
-            if ( $data[ 'post_type' ] == PostType::WP_MEDIA ) {
+            if ($data['post_type'] == PostType::WP_MEDIA) {
                 $secondes_path = PostType::WP_MEDIA_URI;
             } else {
                 $secondes_path = PostType::MEDIA_PATH;
@@ -287,79 +292,82 @@ class Uploads extends Admin {
             //
             $delete_file = [];
             // Don't attempt to unserialize data that wasn't serialized going in.
-            if ( isset( $data[ 'post_meta' ][ '_wp_attachment_metadata' ] ) && $data[ 'post_meta' ][ '_wp_attachment_metadata' ] != '' ) {
+            if (isset($data['post_meta']['_wp_attachment_metadata']) && $data['post_meta']['_wp_attachment_metadata'] != '') {
                 //if ( is_serialized( $v[ 'post_meta' ][ '_wp_attachment_metadata' ] ) ) {
-                $attachment_metadata = unserialize( $data[ 'post_meta' ][ '_wp_attachment_metadata' ] );
+                $attachment_metadata = unserialize($data['post_meta']['_wp_attachment_metadata']);
                 //}
 
                 //print_r( $attachment_metadata );
-                if ( empty( $attachment_metadata ) ) {
+                if (empty($attachment_metadata)) {
                     return '';
                 }
                 //print_r( $attachment_metadata );
 
-                $src = $attachment_metadata[ 'file' ];
+                $src = $attachment_metadata['file'];
                 $delete_file[] = $src;
-                if ( isset( $attachment_metadata[ 'sizes' ] ) ) {
-                    foreach ( $attachment_metadata[ 'sizes' ] as $size_name => $size ) {
-                        $delete_file[] = dirname( $src ) . '/' . $size[ 'file' ];
+                if (isset($attachment_metadata['sizes'])) {
+                    foreach ($attachment_metadata['sizes'] as $size_name => $size) {
+                        $delete_file[] = dirname($src) . '/' . $size['file'];
                     }
                 }
-            } else if ( isset( $data[ 'post_meta' ][ '_wp_attached_file' ] ) && $data[ 'post_meta' ][ '_wp_attached_file' ] != '' ) {
-                $delete_file[] = $data[ 'post_meta' ][ '_wp_attached_file' ];
+            } else if (isset($data['post_meta']['_wp_attached_file']) && $data['post_meta']['_wp_attached_file'] != '') {
+                $delete_file[] = $data['post_meta']['_wp_attached_file'];
             }
             //print_r( $delete_file );
-            foreach ( $delete_file as $v ) {
+            foreach ($delete_file as $v) {
                 $remove_file = $secondes_path . $v;
 
                 //
-                if ( file_exists( $remove_file ) ) {
+                if (file_exists($remove_file)) {
                     //echo $remove_file . '<br>' . "\n";
-                    $this->MY_unlink( $remove_file )or die( 'ERROR remove upload file: ' . $v );
+                    $this->MY_unlink($remove_file) or die('ERROR remove upload file: ' . $v);
                 }
             }
             //die( 'delete media' );
 
             //
-            $update = $this->post_model->update_post( $data[ 'ID' ], [
+            $update = $this->post_model->update_post($data['ID'], [
                 'post_status' => PostType::DELETED
             ], [
-                'post_type' => $data[ 'post_type' ],
-            ] );
+                    'post_type' => $data['post_type'],
+                ]);
         }
 
         //
-        if ( $update === true ) {
-            $this->done_delete_restore( $id );
+        if ($update === true) {
+            $this->done_delete_restore($id);
         }
-        $this->alert( '' );
+        $this->alert('');
     }
-    protected function done_delete_restore( $id ) {
-        die( '<script>top.done_delete_restore(' . $id . ', "' . base_url( 'admin/' . $this->controller_slug ) . '");</script>' );
+    protected function done_delete_restore($id)
+    {
+        die('<script>top.done_delete_restore(' . $id . ', "' . base_url('admin/' . $this->controller_slug) . '");</script>');
     }
 
-    protected function alert( $m, $url = '' ) {
-        if ( $url == '' ) {
-            $url = base_url( 'admin/uploads' );
+    protected function alert($m, $url = '')
+    {
+        if ($url == '') {
+            $url = base_url('admin/uploads');
             $uri_quick_upload = [];
-            foreach ( $_GET as $k => $v ) {
-                if ( $k != 'id' ) {
+            foreach ($_GET as $k => $v) {
+                if ($k != 'id') {
                     $uri_quick_upload[] = $k . '=' . $v;
                 }
             }
-            if ( !empty( $uri_quick_upload ) ) {
-                $url .= '?' . implode( '&', $uri_quick_upload );
+            if (!empty($uri_quick_upload)) {
+                $url .= '?' . implode('&', $uri_quick_upload);
             }
             //die( $url );
         }
 
         //
         //$this->base_model->alert( '', $url );
-        die( '<script>parent.window.location = "' . $url . '";</script>' );
+        die('<script>parent.window.location = "' . $url . '";</script>');
     }
 
     // tối ưu hóa ảnh -> nhiều quả ảnh up lên nhưng quá nặng -> cần tối ưu hóa lại chút
-    public function optimize() {
+    public function optimize()
+    {
         $post_per_page = 50;
 
         // các kiểu điều kiện where
@@ -397,38 +405,38 @@ class Uploads extends Admin {
         /*
          * phân trang
          */
-        $totalThread = $this->base_model->select( 'COUNT(ID) AS c', 'posts', $where, $filter );
+        $totalThread = $this->base_model->select('COUNT(ID) AS c', 'posts', $where, $filter);
         //print_r( $totalThread );
-        $totalThread = $totalThread[ 0 ][ 'c' ];
+        $totalThread = $totalThread[0]['c'];
         //print_r( $totalThread );
 
-        if ( $totalThread > 0 ) {
-            $totalPage = ceil( $totalThread / $post_per_page );
-            if ( $totalPage < 1 ) {
+        if ($totalThread > 0) {
+            $totalPage = ceil($totalThread / $post_per_page);
+            if ($totalPage < 1) {
                 $totalPage = 1;
             }
-            $page_num = $this->MY_get( 'page_num', 1 );
+            $page_num = $this->MY_get('page_num', 1);
             //echo $totalPage . '<br>' . "\n";
-            if ( $page_num > $totalPage ) {
+            if ($page_num > $totalPage) {
                 $page_num = $totalPage;
-            } else if ( $page_num < 1 ) {
+            } else if ($page_num < 1) {
                 $page_num = 1;
             }
             //echo $totalThread . '<br>' . "\n";
             //echo $totalPage . '<br>' . "\n";
-            $offset = ( $page_num - 1 ) * $post_per_page;
+            $offset = ($page_num - 1) * $post_per_page;
 
             //
-            $pagination = $this->base_model->EBE_pagination( $page_num, $totalPage, $urlPartPage, '?page_num=' );
+            $pagination = $this->base_model->EBE_pagination($page_num, $totalPage, $urlPartPage, '?page_num=');
 
 
             // select dữ liệu từ 1 bảng bất kỳ
-            $filter[ 'offset' ] = $offset;
-            $filter[ 'limit' ] = $post_per_page;
-            $data = $this->base_model->select( '*', 'posts', $where, $filter );
+            $filter['offset'] = $offset;
+            $filter['limit'] = $post_per_page;
+            $data = $this->base_model->select('*', 'posts', $where, $filter);
 
             //
-            $data = $this->post_model->list_meta_post( $data );
+            $data = $this->post_model->list_meta_post($data);
             //print_r( $data );
         } else {
             $data = [];
@@ -436,40 +444,41 @@ class Uploads extends Admin {
         }
 
         //
-        $this->teamplate_admin[ 'body_class' ] = $this->body_class;
+        $this->teamplate_admin['body_class'] = $this->body_class;
 
         //
-        $this->teamplate_admin[ 'content' ] = view( 'admin/uploads/optimize', array(
+        $this->teamplate_admin['content'] = view('admin/uploads/optimize', array(
             'data' => $data,
             'pagination' => $pagination,
             'totalThread' => $totalThread,
             'totalPage' => $totalPage,
             'post_type' => $this->post_type,
             'controller_slug' => $this->controller_slug,
-            'name_type' => PostType::typeList( $this->post_type ),
-        ) );
-        return view( 'admin/admin_teamplate', $this->teamplate_admin );
+            'name_type' => PostType::typeList($this->post_type),
+        ));
+        return view('admin/admin_teamplate', $this->teamplate_admin);
     }
 
     // tìm cha cho các ảnh không có parent
-    private function sync_no_parent() {
+    private function sync_no_parent()
+    {
         // daidq (2022-03-05): chưa có site để test nên tính năng này đang tạm dừng
         return false;
 
         //
-        $data = $this->base_model->select( '*', 'posts', [
+        $data = $this->base_model->select('*', 'posts', [
             'post_type' => $this->post_type,
             'post_parent' => 0,
             'post_status' => PostType::INHERIT,
         ], [
-            // hiển thị mã SQL để check
-            'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-            //'getNumRows' => 1,
-            'offset' => $offset,
-            'limit' => 5
-        ] );
+                // hiển thị mã SQL để check
+                'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                //'getNumRows' => 1,
+                'offset' => $offset,
+                'limit' => 5
+            ]);
         //print_r( $data );
         //die( __CLASS__ . ':' . __LINE__ );
     }

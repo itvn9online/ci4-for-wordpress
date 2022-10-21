@@ -70,8 +70,8 @@ $get_data = $this->post_model->get_posts_by( $term_data, [
 	'limit' => 10,
 	'offset' => 0,
 	'order_by' => [
-		'ID DESC',
-		'post_name ASC',
+		'ID' => 'DESC',
+		'post_name' => 'ASC',
 	],
 ] );
 ```
@@ -122,8 +122,8 @@ $get_data = $this->post_model->get_blogs_by( $term_data, [
 	'limit' => 10,
 	'offset' => 0,
 	'order_by' => [
-		'ID DESC',
-		'post_name ASC',
+		'ID' => 'DESC',
+		'post_name' => 'ASC',
 	],
 ] );
 ```
@@ -163,8 +163,8 @@ $get_data = $this->post_model->get_adss_by( $term_data, [
 	'limit' => 10,
 	'offset' => 0,
 	'order_by' => [
-		'ID DESC',
-		'post_name ASC',
+		'ID' => 'DESC',
+		'post_name' => 'ASC',
 	],
 ] );
 ```

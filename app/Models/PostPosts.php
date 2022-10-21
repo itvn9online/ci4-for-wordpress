@@ -25,8 +25,7 @@ class PostPosts extends PostSlider
         $data['p_link'] = $this->get_full_permalink($data);
         if (isset($ops['taxonomy_post_size']) && $ops['taxonomy_post_size'] != '') {
             $data['cf_product_size'] = $ops['taxonomy_post_size'];
-        }
-        else {
+        } else {
             $data['cf_product_size'] = $this->getconfig->cf_product_size;
         }
         $data['product_status'] = 1;
@@ -109,8 +108,7 @@ class PostPosts extends PostSlider
         //print_r( $data );
         if (isset($ops['tmp_html']) && $ops['tmp_html'] != '') {
             $tmp_html = $ops['tmp_html'];
-        }
-        else {
+        } else {
             $tmp_html = $this->blog_html_node;
         }
         //echo $tmp_html . '<br>' . "\n";
@@ -119,8 +117,7 @@ class PostPosts extends PostSlider
         $data['p_link'] = $this->get_full_permalink($data);
         if (isset($ops['taxonomy_post_size']) && $ops['taxonomy_post_size'] != '') {
             $data['cf_blog_size'] = $ops['taxonomy_post_size'];
-        }
-        else {
+        } else {
             $data['cf_blog_size'] = $this->getconfig->cf_blog_size;
         }
         $data['post_category'] = 0;
@@ -287,13 +284,13 @@ class PostPosts extends PostSlider
         $this->base_model->update_multiple($this->term_model->taxTable, [
             'count' => $count
         ], [
-            'term_taxonomy_id' => $prams['term_id'],
-            'term_id' => $prams['term_id'],
-        ], [
-            'debug_backtrace' => debug_backtrace()[1]['function'],
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-        ]);
+                'term_taxonomy_id' => $prams['term_id'],
+                'term_id' => $prams['term_id'],
+            ], [
+                'debug_backtrace' => debug_backtrace()[1]['function'],
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+            ]);
 
         // dọn dẹp cache
         $this->base_model->dcache($this->key_cache($prams['term_id']));
@@ -336,7 +333,7 @@ class PostPosts extends PostSlider
         }
         // nếu có -> lấy theo cả cha và con
         else {
-            $where_in = [];
+            $where_in = [$data['term_id']];
             foreach ($data['child_term'] as $v) {
                 $where_in[] = $v['term_id'];
             }

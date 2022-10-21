@@ -56,8 +56,9 @@ class PostBase extends EbModel
 
         // tạo block html cho phần sản phẩm
         //echo THEMEPATH . '<br>' . "\n";
-        if ($this->product_html_node == '')
+        if ($this->product_html_node == '') {
             $this->product_html_node = $this->base_model->get_html_tmp('thread_node');
+        }
         $this->product_html_node = str_replace('{{product_html_node}}', $this->product_html_node, $structured_data);
 
         //
@@ -80,13 +81,12 @@ class PostBase extends EbModel
         // kích thước hình ảnh sẽ sử dụng
         if ($getconfig->cf_thumbnail_size == '') {
             $this->cf_thumbnail_size = 'medium';
-        }
-        else {
+        } else {
             $this->cf_thumbnail_size = $getconfig->cf_thumbnail_size;
         }
 
-    //
-    //$this->session = \Config\ Services::session();
+        //
+        //$this->session = \Config\ Services::session();
     }
 
     // chỉ trả về link admin của 1 post
@@ -115,10 +115,10 @@ class PostBase extends EbModel
     {
         // nếu slug trống
         if ($slug == '' ||
-        // hoặc đúng là post_name
-        $slug == $data['post_name'] ||
-        // hoặc kiểu URL có .html, .html, .etc...
-        strpos($slug, $data['post_name'] . '.') !== false) {
+            // hoặc đúng là post_name
+            $slug == $data['post_name'] ||
+                // hoặc kiểu URL có .html, .html, .etc...
+            strpos($slug, $data['post_name'] . '.') !== false) {
             // thì cho qua
             return true;
         }
@@ -127,8 +127,7 @@ class PostBase extends EbModel
         //die( $redirect_to );
         if (strpos($redirect_to, '?') === false) {
             $redirect_to .= '?';
-        }
-        else {
+        } else {
             $redirect_to .= '&';
         }
         $redirect_to .= 'canonical=server&uri=' . urlencode($_SERVER['REQUEST_URI']);
@@ -136,7 +135,7 @@ class PostBase extends EbModel
         //
         header('HTTP/1.1 301 Moved Permanently');
         die(header('Location: ' . $redirect_to, TRUE, 301));
-    //die( __CLASS__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
     }
 
     // trả về url với đầy đủ tên miền
@@ -163,29 +162,26 @@ class PostBase extends EbModel
         if ($data['post_type'] == PostType::POST) {
             //return $base_url . $data[ 'ID' ] . '/' . $data[ 'post_name' ];
             $url = WGR_POST_PERMALINK;
-        }
-        else if ($data['post_type'] == PostType::BLOG) {
+        } else if ($data['post_type'] == PostType::BLOG) {
             //return $base_url . PostType::BLOG . '-' . $data[ 'ID' ] . '/' . $data[ 'post_name' ];
             $url = WGR_BLOG_PERMALINK;
-        }
-        else if ($data['post_type'] == PostType::PAGE) {
+        } else if ($data['post_type'] == PostType::PAGE) {
             //return $base_url . PAGE_BASE_URL . $data[ 'post_name' ];
             $url = WGR_PAGE_PERMALINK;
         }
         // với phần hóa đơn thì khác bảng, và cũng không dùng permalink
         else if ($data['post_type'] == PostType::ORDER) {
             return '#';
-        }
-        else {
+        } else {
             $url = WGR_POSTS_PERMALINK;
         }
 
         //
         foreach ([
-        'page_base' => PAGE_BASE_URL,
-        'ID' => $data['ID'],
-        'post_name' => $data['post_name'],
-        'post_type' => $data['post_type'],
+            'page_base' => PAGE_BASE_URL,
+            'ID' => $data['ID'],
+            'post_name' => $data['post_name'],
+            'post_type' => $data['post_type'],
         ] as $k => $v) {
             $url = str_replace('%' . $k . '%', $v, $url);
         }
@@ -194,18 +190,18 @@ class PostBase extends EbModel
         $this->base_model->update_multiple('posts', [
             'post_permalink' => $url,
         ], [
-            'ID' => $data['ID'],
-        ], [
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-        ]);
+                'ID' => $data['ID'],
+            ], [
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+            ]);
 
         //
         return $base_url . $url;
 
-    //
-    //return $base_url . '?p=' . $data[ 'ID' ] . '&post_type=' . $data[ 'post_type' ] . '&slug=' . $data[ 'post_name' ];
-    //return $base_url . 'p/' . $data[ 'post_type' ] . '/' . $data[ 'ID' ] . '/' . $data[ 'post_name' ] . '.html';
+        //
+        //return $base_url . '?p=' . $data[ 'ID' ] . '&post_type=' . $data[ 'post_type' ] . '&slug=' . $data[ 'post_name' ];
+        //return $base_url . 'p/' . $data[ 'post_type' ] . '/' . $data[ 'ID' ] . '/' . $data[ 'post_name' ] . '.html';
     }
 
     // thường dùng trong view -> in ra link admin của 1 post
@@ -222,16 +218,16 @@ class PostBase extends EbModel
             // WHERE AND OR
             'post_type' => $post_type,
         ), array(
-            'order_by' => array(
-                'menu_order' => 'DESC'
-            ),
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-            //'offset' => 2,
-            'limit' => 1
-        ));
+                'order_by' => array(
+                    'menu_order' => 'DESC'
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                //'offset' => 2,
+                'limit' => 1
+            ));
         //print_r( $a );
         if (!empty($a)) {
             return $a['menu_order'] * 1 + 1;

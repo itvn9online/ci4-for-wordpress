@@ -1,47 +1,50 @@
 <?php
-namespace App\ Models;
+namespace App\Models;
 
 // Libraries
 //use App\ Libraries\ PostType;
 
 //
-class PostGet extends PostQuery {
-    public function __construct() {
+class PostGet extends PostQuery
+{
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    public function get_auto_post( $slug, $post_type = 'post', $taxonomy = 'category', $limit = 0, $ops = [] ) {
+    public function get_auto_post($slug, $post_type = 'post', $taxonomy = 'category', $limit = 0, $ops = [])
+    {
         //echo $slug . '<br>' . "\n";
-        if ( $slug == '' ) {
-            die( 'slug for get_auto_post is NULL!' );
+        if ($slug == '') {
+            die('slug for get_auto_post is NULL!');
         }
 
         //
-        if ( $post_type == '' ) {
+        if ($post_type == '') {
             $post_type = $this->base_model->default_post_type;
         }
-        if ( $taxonomy == '' ) {
+        if ($taxonomy == '') {
             $taxonomy = $this->base_model->default_taxonomy;
         }
 
         //
-        $post_cat = $this->term_model->get_cat_post( $slug, $post_type, $taxonomy, true, $ops );
-        $post_cat = $this->term_model->terms_meta_post( [ $post_cat ] );
-        $post_cat = $post_cat[ 0 ];
+        $post_cat = $this->term_model->get_cat_post($slug, $post_type, $taxonomy, true, $ops);
+        $post_cat = $this->term_model->terms_meta_post([$post_cat]);
+        $post_cat = $post_cat[0];
         //print_r( $post_cat );
         //echo $post_cat[ 'taxonomy' ] . '<br>' . "\n";
         //echo $taxonomy . '<br>' . "\n";
 
         //
-        if ( $limit < 1 && isset( $post_cat[ 'term_meta' ][ 'post_number' ] ) ) {
-            $limit = $post_cat[ 'term_meta' ][ 'post_number' ];
+        if ($limit < 1 && isset($post_cat['term_meta']['post_number'])) {
+            $limit = $post_cat['term_meta']['post_number'];
         }
-        if ( $limit < 1 ) {
+        if ($limit < 1) {
             $limit = 1;
         }
 
         // lấy danh sách bài viết thuộc nhóm này
-        $data = $this->select_list_post( $post_type, $post_cat, $limit );
+        $data = $this->select_list_post($post_type, $post_cat, $limit);
         //print_r( $data );
 
         //
@@ -55,50 +58,52 @@ class PostGet extends PostQuery {
      * function lấy dữ liệu theo từng post type và taxonomy
      * điều kiện truyền vào có thể là term_id (ưu tiên) hoặc taxonomy slug
      */
-    public function get_posts( $prams, $ops = [] ) {
-        if ( !isset( $prams[ 'limit' ] ) ) {
-            $prams[ 'limit' ] = isset( $ops[ 'limit' ] ) ? $ops[ 'limit' ] : 0;
+    public function get_posts($prams, $ops = [])
+    {
+        if (!isset($prams['limit'])) {
+            $prams['limit'] = isset($ops['limit']) ? $ops['limit'] : 0;
         }
-        if ( !isset( $prams[ 'offset' ] ) ) {
-            $prams[ 'offset' ] = isset( $ops[ 'offset' ] ) ? $ops[ 'offset' ] : 0;
+        if (!isset($prams['offset'])) {
+            $prams['offset'] = isset($ops['offset']) ? $ops['offset'] : 0;
         }
-        if ( !isset( $prams[ 'order_by' ] ) ) {
-            $prams[ 'order_by' ] = isset( $ops[ 'order_by' ] ) ? $ops[ 'order_by' ] : [];
+        if (!isset($prams['order_by'])) {
+            $prams['order_by'] = isset($ops['order_by']) ? $ops['order_by'] : [];
         }
         //print_r( $prams );
 
         // kiểu dữ liệu trả về
-        $ops[ 'offset' ] = $prams[ 'offset' ];
+        $ops['offset'] = $prams['offset'];
         // trả về số lượng bản ghi
-        if ( isset( $ops[ 'count' ] ) ) {
-            $ops[ 'count_record' ] = 1;
+        if (isset($ops['count'])) {
+            $ops['count_record'] = 1;
         }
         //print_r( $ops );
 
         //
-        $data = $this->select_list_post( $prams[ 'post_type' ], $prams, $prams[ 'limit' ], $prams[ 'order_by' ], $ops );
+        $data = $this->select_list_post($prams['post_type'], $prams, $prams['limit'], $prams['order_by'], $ops);
 
         //
         return $data;
     }
 
     // đồng bộ tham số đầu vào
-    public function sync_post_parms( $prams ) {
+    public function sync_post_parms($prams)
+    {
         // nếu đầu vào không phải array
-        if ( !is_array( $prams ) ) {
-            if ( empty( $prams ) ) {
+        if (!is_array($prams)) {
+            if (empty($prams)) {
                 return [];
                 //return debug_backtrace()[ 1 ][ 'function' ] . ' $prams is NULL!';
             }
 
             // tự tạo theo term_id
-            if ( is_numeric( $prams ) ) {
+            if (is_numeric($prams)) {
                 $prams = [
                     'term_id' => $prams
                 ];
             }
             // hoặc slug
-            else if ( is_string( $prams ) ) {
+            else if (is_string($prams)) {
                 $prams = [
                     'slug' => $prams
                 ];
@@ -108,11 +113,12 @@ class PostGet extends PostQuery {
         //die( 'dgh dgsda d' );
         return $prams;
     }
-    public function sync_post_ops( $ops ) {
+    public function sync_post_ops($ops)
+    {
         // nếu đầu vào không phải array
-        if ( !is_array( $ops ) ) {
+        if (!is_array($ops)) {
             // tự tạo limit nếu đầu vào là 1 số
-            if ( !empty( $ops ) && is_numeric( $ops ) ) {
+            if (!empty($ops) && is_numeric($ops)) {
                 $ops = [
                     'limit' => $ops
                 ];

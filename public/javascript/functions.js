@@ -857,7 +857,10 @@ function create_menu_by_taxonomy(arr, li_class) {
         var sub_menu = '';
         //console.log(typeof arr[i].child_term);
         if (typeof arr[i].child_term != 'undefined' && arr[i].child_term.length > 0) {
-            sub_menu = '<ul class="sub-menu">' + create_menu_by_taxonomy(arr[i].child_term, 'childs-menu') + '</ul>';
+            sub_menu = create_menu_by_taxonomy(arr[i].child_term, 'childs-menu');
+            if (sub_menu != '') {
+                sub_menu = '<ul class="sub-menu">' + sub_menu + '</ul>';
+            }
         }
         //console.log(get_term_permalink(arr[i]));
 

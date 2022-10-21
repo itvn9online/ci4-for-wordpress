@@ -1,67 +1,71 @@
 <div class="w90">
     <div class="text-center">
-        <h1 data-type="<?php echo $data[ 'taxonomy' ]; ?>" data-id="<?php echo $data[ 'term_id' ]; ?>" class="<?php echo $data[ 'taxonomy' ]; ?>-taxonomy-title global-taxonomy-title global-module-title">
+        <h1 data-type="<?php echo $data['taxonomy']; ?>" data-id="<?php echo $data['term_id']; ?>"
+            class="<?php echo $data['taxonomy']; ?>-taxonomy-title global-taxonomy-title global-module-title">
             <?php
-            echo $data[ 'name' ];
-            ?>
+echo $data['name'];
+?>
         </h1>
     </div>
     <br>
     <?php
 
-    //
-    foreach ( $data[ 'child_term' ] as $key => $val ) {
-        //echo '<!-- ';
-        //print_r( $val );
-        //echo ' -->';
+//
+foreach ($data['child_term'] as $key => $val) {
+    //echo '<!-- ';
+    //print_r( $val );
+    //echo ' -->';
 
-        /*
-        $child_data = $post_model->get_posts_by( $val, [
-            'limit' => 4,
-        ] );
-        */
-        $child_data = $post_model->post_category( $post_type, $val, [
-            //'offset' => $offset,
-            'limit' => 4,
-        ] );
-        if ( empty( $child_data ) ) {
-            continue;
-        }
-        $taxonomy_child_custom_post_size = '';
-        if ( isset( $val[ 'term_meta' ][ 'taxonomy_custom_post_size' ] ) && $val[ 'term_meta' ][ 'taxonomy_custom_post_size' ] != '' ) {
-            $taxonomy_child_custom_post_size = $val[ 'term_meta' ][ 'taxonomy_custom_post_size' ];
-        }
-        //echo '<!-- ';
-        //print_r( $child_data );
-        //echo ' -->';
+    /*
+     $child_data = $post_model->get_posts_by( $val, [
+     'limit' => 4,
+     ] );
+     */
+    $child_data = $post_model->post_category($post_type, $val, [
+        //'offset' => $offset,
+        'limit' => 4,
+    ]);
+    if (empty($child_data)) {
+        continue;
+    }
+    $taxonomy_child_custom_post_size = '';
+    if (isset($val['term_meta']['taxonomy_custom_post_size']) && $val['term_meta']['taxonomy_custom_post_size'] != '') {
+        $taxonomy_child_custom_post_size = $val['term_meta']['taxonomy_custom_post_size'];
+    }
+    //echo '<!-- ';
+    //print_r( $child_data );
+    //echo ' -->';
 
-        ?>
+?>
     <div class="category-child-block">
         <div>
-            <h2 class="global-module-title"><a href="<?php $term_model->the_permalink($val); ?>"><?php echo $val[ 'name' ]; ?></a></h2>
+            <h2 class="global-module-title"><a href="<?php $term_model->the_permalink($val); ?>">
+                    <?php echo $val['name']; ?>
+                </a></h2>
         </div>
         <br>
-        <ul class="category_main fix-li-wit thread-list main-thread-list cf <?php $option_model->posts_in_line( $getconfig ); ?>">
+        <ul
+            class="category_main fix-li-wit thread-list main-thread-list cf <?php $option_model->posts_in_line($getconfig); ?>">
             <?php
 
-            foreach ( $child_data as $child_key => $child_val ) {
-                //echo '<!-- ';
-                //print_r( $child_val );
-                //echo ' -->';
+    foreach ($child_data as $child_key => $child_val) {
+        //echo '<!-- ';
+        //print_r( $child_val );
+        //echo ' -->';
 
-                //
-                $post_model->the_node( $child_val, [
-                    'taxonomy_post_size' => $taxonomy_child_custom_post_size != '' ? $taxonomy_child_custom_post_size : $taxonomy_post_size,
-                ] );
-            }
+        //
+        $post_model->the_node($child_val, [
+            'taxonomy_post_size' => $taxonomy_child_custom_post_size != '' ? $taxonomy_child_custom_post_size : $taxonomy_post_size,
+        ]);
+    }
 
-            ?>
+?>
         </ul>
         <br>
     </div>
     <?php
 
-    }
+}
 
-    ?>
+?>
 </div>

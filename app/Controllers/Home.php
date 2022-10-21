@@ -5,7 +5,8 @@ namespace App\Controllers;
 use App\Libraries\DeletedStatus;
 use App\Libraries\TaxonomyType;
 use App\Libraries\PostType;
-use App\Libraries\LanguageCost;
+
+//use App\Libraries\LanguageCost;
 
 //
 class Home extends Csrf
@@ -181,13 +182,13 @@ class Home extends Csrf
                 //'post_type' => $post_type,
                 'post_status' => PostType::PUBLICITY
             ), array(
-                // hiển thị mã SQL để check
-                //'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-                //'offset' => 2,
-                'limit' => 1
-            ));
+                    // hiển thị mã SQL để check
+                    //'show_query' => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    //'get_query' => 1,
+                    //'offset' => 2,
+                    'limit' => 1
+                ));
             //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             //die( __CLASS__ . ':' . __LINE__ );
 
@@ -196,8 +197,8 @@ class Home extends Csrf
                 // lấy meta của post này
                 //$data[ 'post_meta' ] = $this->post_model->arr_meta_post( $data[ 'ID' ] );
                 $data = $this->post_model->the_meta_post($data);
-            //print_r( $data );
-            //die( __CLASS__ . ':' . __LINE__ );
+                //print_r( $data );
+                //die( __CLASS__ . ':' . __LINE__ );
             }
 
             //
@@ -217,9 +218,9 @@ class Home extends Csrf
 
             // với các post type mặc định -> dùng page view
             if (in_array($data['post_type'], [
-            PostType::POST,
-            PostType::BLOG,
-            PostType::PAGE
+                PostType::POST,
+                PostType::BLOG,
+                PostType::PAGE
             ])) {
                 return $this->pageDetail($data);
             }
@@ -273,13 +274,13 @@ class Home extends Csrf
                     $cats = $this->base_model->select('*', WGR_TERM_VIEW, [
                         'term_id' => $post_category,
                     ], [
-                        // hiển thị mã SQL để check
-                        //'show_query' => 1,
-                        // trả về câu query để sử dụng cho mục đích khác
-                        //'get_query' => 1,
-                        //'offset' => 0,
-                        'limit' => 1
-                    ]);
+                            // hiển thị mã SQL để check
+                            //'show_query' => 1,
+                            // trả về câu query để sử dụng cho mục đích khác
+                            //'get_query' => 1,
+                            //'offset' => 0,
+                            'limit' => 1
+                        ]);
 
                     //
                     $this->term_model->the_cache($post_category, $in_cache, $cats);
@@ -308,13 +309,13 @@ class Home extends Csrf
                 'ID' => $data['post_parent'],
                 'post_status' => PostType::PUBLICITY
             ), array(
-                // hiển thị mã SQL để check
-                //'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-                //'offset' => 2,
-                'limit' => 1
-            ));
+                    // hiển thị mã SQL để check
+                    //'show_query' => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    //'get_query' => 1,
+                    //'offset' => 2,
+                    'limit' => 1
+                ));
             //print_r( $parent_data );
 
             //
@@ -492,11 +493,11 @@ class Home extends Csrf
             $this->base_model->update_multiple($this->term_model->taxTable, [
                 'count' => 0
             ], [
-                'term_taxonomy_id' => $term_id,
-                'term_id' => $term_id,
-            ], [
-                'debug_backtrace' => debug_backtrace()[1]['function']
-            ]);
+                    'term_taxonomy_id' => $term_id,
+                    'term_id' => $term_id,
+                ], [
+                    'debug_backtrace' => debug_backtrace()[1]['function']
+                ]);
         }
 
         //
@@ -516,8 +517,7 @@ class Home extends Csrf
         //
         if (isset($ops['redirect_to']) && $ops['redirect_to'] != '') {
             $redirect_to = $ops['redirect_to'];
-        }
-        else {
+        } else {
             $redirect_to = DYNAMIC_BASE_URL . ltrim($this->MY_post('redirect'), '/');
             if (empty($redirect_to)) {
                 $redirect_to = DYNAMIC_BASE_URL;
@@ -574,8 +574,7 @@ class Home extends Csrf
             $gettype_v = gettype($v);
             if ($gettype_v == 'array' || $gettype_v == 'object') {
                 $v = json_encode($v);
-            }
-            else {
+            } else {
                 $v = trim($v);
             }
 

@@ -1,13 +1,17 @@
 /* khi có quyền admin thì cho phép hiển thị thanh debug */
-body.is-admin .show-if-admin, body.is-admin .wgr-view-path, body.is-admin #toolbarContainer {
+body.is-admin .show-if-admin,
+body.is-admin .show-view .wgr-view-path,
+body.is-admin #toolbarContainer {
     display: block !important;
 }
+
 body.is-admin #target_eb_iframe {
     position: inherit;
     position: unset;
     top: auto;
     left: auto;
 }
+
 /* */
 .click-goto-edit {
     position: relative;
@@ -15,6 +19,7 @@ body.is-admin #target_eb_iframe {
     padding: 0 !important;
     border: 0 none !important;
 }
+
 .click-goto-edit span {
     position: absolute;
     top: 0;
@@ -23,6 +28,12 @@ body.is-admin #target_eb_iframe {
     bottom: auto;
     line-height: normal;
 }
+
+.eb-widget-hide-title .click-goto-edit span {
+    right: auto;
+    left: 50%;
+}
+
 .click-goto-edit span i {
     background: rgba(255, 255, 255, 0.8);
     padding: 1px 3px;

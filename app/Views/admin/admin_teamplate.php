@@ -86,8 +86,8 @@ echo (($html_lang == 'vn' || $html_lang == '') ? 'vi' : $html_lang);
     <!-- bootstrap -->
     <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/bootstrap/css/bootstrap.min.css" />
     <!-- chưa có thời gian cập nhật bootstrap bản mới -> vẫn ưu tiên dùng bản cũ vậy -->
-    <link rel="stylesheet" type="text/css" media="all" href="admin/css/bootstrap.min-old.css" />
-    <link rel="stylesheet" type="text/css" media="all" href="admin/css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/bootstrap-old/bootstrap.min-old.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/bootstrap-old/bootstrap-responsive.min.css" />
     <!-- END bootstrap -->
     <!-- <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/select2/select2.min.css" /> -->
     <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/select2-4.0.13/css/select2.min.css" />
@@ -148,11 +148,22 @@ $base_model->adds_js([
     'javascript/eb.js'
 ]);
 
+//
+$base_model->JSON_parse([
+    'arr_admin_menu' => $arr_admin_menu,
+    'arr_lang_list' => $arr_lang_list,
+]);
+
+//
+$base_model->JSON_echo([
+    // mảng này sẽ in ra dưới dạng JSON hoặc number
+    'allow_mysql_delete' => ALLOW_USING_MYSQL_DELETE ? 'true' : 'false',
+], [
+        // mảng này sẽ in ra dưới dạng string
+    ]);
+
 ?>
     <script>
-    var allow_mysql_delete = <?php echo (ALLOW_USING_MYSQL_DELETE ? ' true ' : ' false '); ?>;
-    var arr_admin_menu = <?php echo json_encode($arr_admin_menu); ?>;
-    var arr_lang_list = <?php echo json_encode($arr_lang_list); ?>;
     var web_link = window.location.protocol + '//' + document.domain + '/';
     var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
     </script>

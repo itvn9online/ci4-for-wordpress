@@ -33,8 +33,7 @@ if ($totalThread > 0) {
     //echo $totalPage . '<br>' . "\n";
     if ($ops['page_num'] > $totalPage) {
         $ops['page_num'] = $totalPage;
-    }
-    else if ($ops['page_num'] < 1) {
+    } else if ($ops['page_num'] < 1) {
         $ops['page_num'] = 1;
     }
     //echo $totalThread . '<br>' . "\n";
@@ -53,6 +52,7 @@ if ($totalThread > 0) {
     //
     $in_cache = 'view-' . $offset . '-' . $post_per_page;
     $child_data = $term_model->the_cache($data['term_id'], $in_cache);
+    $child_data = NULL;
     if ($child_data === NULL) {
         $child_data = $post_model->post_category($post_type, $data, [
             'offset' => $offset,
@@ -80,10 +80,9 @@ if ($totalThread > 0) {
             $term_model->the_cache($data['term_id'], $in_cache, $child_data);
         }
     }
-//echo basename(__FILE__) . ':' . __LINE__ . '<br>' . "\n";
+    //echo basename(__FILE__) . ':' . __LINE__ . '<br>' . "\n";
 //print_r( $child_data );
-}
-else {
+} else {
     //echo basename(__FILE__) . ':' . __LINE__ . '<br>' . "\n";
     $public_part_page = '';
     $child_data = [];
@@ -102,6 +101,6 @@ if (!defined('IN_CATEGORY_VIEW')) {
     $base_model->add_js('themes/' . THEMENAME . '/js/taxonomy.js', [
         'cdn' => CDN_BASE_URL,
     ], [
-        'defer'
-    ]);
+            'defer'
+        ]);
 }
