@@ -636,25 +636,31 @@ var ready_load_ajax_taxonomy = false;
 function action_each_to_taxonomy() {
     // daidq (2022-03-06): thử cách nạp các nhóm được hiển thị trên trang hiện tại -> cách này nạp ít dữ liệu mà độ chuẩn xác lại cao
     taxonomy_ids_unique = [];
+    //console.log('action each to taxonomy');
 
     //
-    $('.each-to-taxonomy[data-id="0"], .each-to-taxonomy[data-id=""]').removeClass('each-to-taxonomy').addClass('each-to-taxonomy-zero');
+    $('.each-to-taxonomy[data-id="0"], .each-to-taxonomy[data-id=""]').removeClass('each-to-taxonomy').addClass('zero-to-taxonomy');
 
     // lấy các ID có 
     $('.each-to-taxonomy').each(function () {
         var a = $(this).attr('data-id') || '';
+        //console.log('a:', a);
         var as = $(this).attr('data-ids') || '';
-        var taxonomy = $(this).attr('data-taxonomy') || '';
+        //console.log('as:', as);
+        //var taxonomy = $(this).attr('data-taxonomy') || '';
+        //console.log('taxonomy:', taxonomy);
 
         if (a == '') {
             a = as;
         }
 
-        if (a != '' && taxonomy != '') {
+        //if (a != '' && taxonomy != '') {
+        if (a != '') {
             a = a.split(',');
-            var str = [];
+            //var str = [];
             for (var i = 0; i < a.length; i++) {
                 if (a[i] != '') {
+                    a[i] = $.trim(a[i]);
                     a[i] *= 1;
                     if (a[i] > 0) {
                         var has_add = false;
@@ -664,14 +670,17 @@ function action_each_to_taxonomy() {
                                 break;
                             }
                         }
+                        //console.log('has add:', has_add);
                         if (has_add === false) {
                             taxonomy_ids_unique.push(a[i]);
                         }
                     }
                 }
             }
+
+            //
+            $(this).addClass('loading-to-taxonomy').removeClass('each-to-taxonomy');
         }
-        //console.log(a);
     });
     //console.log(taxonomy_ids_unique);
     // nếu không có ID nào cẩn xử lý thì bỏ qua đoạn sau luôn
@@ -679,6 +688,8 @@ function action_each_to_taxonomy() {
         //after_each_to_taxonomy();
         return false;
     }
+    //console.log(taxonomy_ids_unique);
+    //return false;
 
     // chạy ajax nạp dữ liệu của taxonomy
     jQuery.ajax({
@@ -704,32 +715,28 @@ function action_each_to_taxonomy() {
         success: function (data) {
             //console.log(data);
 
-            // nạp xong thì gán dữ liệu cho mảng arr_ajax_taxonomy
-            if (data.length > 0) {
-                for (var i = 0; i < data.length; i++) {
-                    if (typeof arr_ajax_taxonomy[data[i].taxonomy] == 'undefined') {
-                        arr_ajax_taxonomy[data[i].taxonomy] = [];
-                    }
-
-                    //
-                    arr_ajax_taxonomy[data[i].taxonomy].push(data[i]);
-                }
-                //console.log('arr_ajax_taxonomy:', arr_ajax_taxonomy);
-            }
-
             //
-            after_each_to_taxonomy();
             ready_load_ajax_taxonomy = true;
+            return after_each_to_taxonomy(data);
         }
     });
+
+    //
+    //taxonomy_ids_unique = [];
 }
 
 // hiển thị tên danh mục sau khi nạp xong
-function after_each_to_taxonomy() {
-    $('.each-to-taxonomy').each(function () {
+function after_each_to_taxonomy(data) {
+    //console.log(data);
+    //return false;
+
+    //
+    $('.loading-to-taxonomy').each(function () {
         var a = $(this).attr('data-id') || '';
+        //console.log(a);
         var as = $(this).attr('data-ids') || '';
-        var taxonomy = $(this).attr('data-taxonomy') || '';
+        //console.log(as);
+        //var taxonomy = $(this).attr('data-taxonomy') || '';
         var uri = $(this).attr('data-uri') || '';
         if (uri != '') {
             // thêm term_id nếu không có trong yêu cầu
@@ -751,45 +758,47 @@ function after_each_to_taxonomy() {
             a = as;
         }
 
-        if (a != '' && taxonomy != '') {
-            if (typeof arr_ajax_taxonomy[taxonomy] != 'undefined') {
-                a = a.split(',');
-                var str = [];
-                for (var i = 0; i < a.length; i++) {
-                    if (a[i] != '') {
-                        var taxonomy_data = get_taxonomy_data_by_ids(arr_ajax_taxonomy[taxonomy], a[i] * 1);
-                        //console.log(taxonomy_data);
-                        if (taxonomy_data === null) {
-                            str.push('#' + a[i]);
-                            continue;
+        //
+        //if (a != '' && taxonomy != '') {
+        if (a != '') {
+            a = a.split(',');
+            var str = [];
+            for (var i = 0; i < a.length; i++) {
+                if (a[i] != '') {
+                    var taxonomy_data = get_taxonomy_data_by_ids(data, a[i] * 1);
+                    //console.log(taxonomy_data);
+                    if (taxonomy_data === null) {
+                        str.push('#' + a[i]);
+                        continue;
+                    }
+
+                    //
+                    var taxonomy_name = taxonomy_data.name;
+                    if (uri != '') {
+                        // thay thế dữ liệu cho uri
+                        var url = uri;
+                        for (var x in taxonomy_data) {
+                            url = url.replace('%' + x + '%', taxonomy_data[x]);
                         }
 
                         //
-                        var taxonomy_name = taxonomy_data.name;
-                        if (uri != '') {
-                            // thay thế dữ liệu cho uri
-                            var url = uri;
-                            for (var x in taxonomy_data) {
-                                url = url.replace('%' + x + '%', taxonomy_data[x]);
-                            }
+                        taxonomy_name = '<a href="' + url + '" class="' + a_class + '">' + taxonomy_name + '</a>';
+                        //console.log(taxonomy_name);
+                    }
 
-                            //
-                            taxonomy_name = '<a href="' + url + '" class="' + a_class + '">' + taxonomy_name + '</a>';
-                            //console.log(taxonomy_name);
-                        }
-
-                        if (taxonomy_name != '') {
-                            str.push(taxonomy_name);
-                        }
+                    if (taxonomy_name != '') {
+                        str.push(taxonomy_name);
                     }
                 }
-
-                // in ra
-                $(this).html(str.join(a_space));
             }
+
+            // in ra
+            $(this).html(str.join(a_space));
         }
+
+        //
+        $(this).addClass('loaded-to-taxonomy').removeClass('loading-to-taxonomy');
     });
-    $('.each-to-taxonomy').addClass('each-to-taxonomy-done').removeClass('each-to-taxonomy');
 }
 
 // kiểm tra xem trình duyệt có hỗ trợ định dạng webp không
@@ -880,6 +889,23 @@ function WGR_check_option_on(a) {
     return false;
 }
 
+// khi muốn nạp nhiều lệnh vue js 1 lúc (ngăn cách bởi dấu ,) -> sử dụng hàm này
+function WGR_multi_vuejs(app_id, obj, _callBack, max_i) {
+    app_id = app_id.split(',');
+    for (var i = 0; i < app_id.length; i++) {
+        app_id[i] = $.trim(app_id[i]);
+
+        //
+        WGR_vuejs(app_id[i], obj, _callBack, max_i);
+    }
+}
+
+// các pha nạp vuejs xong sẽ nạp lại taxonomy
+function WGR_taxonomy_vuejs(app_id, obj, _callBack, max_i) {
+    obj.action_taxonomy = 1;
+    return WGR_vuejs(app_id, obj, _callBack, max_i);
+}
+
 // chờ vuejs nạp xong để khởi tạo nội dung
 function WGR_vuejs(app_id, obj, _callBack, max_i) {
     if (typeof max_i != 'number') {
@@ -895,6 +921,11 @@ function WGR_vuejs(app_id, obj, _callBack, max_i) {
             WGR_vuejs(app_id, obj, _callBack, max_i - 1);
         }, 100);
         return false;
+    }
+
+    // gọi tới chức năng nạp taxonomy -> mặc định là có
+    if (typeof obj.action_taxonomy == 'undefined') {
+        obj.action_taxonomy = 0;
     }
 
     // chưa tìm ra hàm định dạng ngày tháng tương tự angular -> tự viết hàm riêng vậy
@@ -934,8 +965,8 @@ function WGR_vuejs(app_id, obj, _callBack, max_i) {
                 _callBack();
             }
 
-            //
-            if (taxonomy_ids_unique.length == 0) {
+            //console.log(taxonomy_ids_unique);
+            if (obj.action_taxonomy === 1 && taxonomy_ids_unique.length == 0) {
                 action_each_to_taxonomy();
             }
         },

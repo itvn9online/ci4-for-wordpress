@@ -848,6 +848,14 @@ span.taxonomy-count:after {
     padding-right: 40px;
 }
 
+.bottom10-padding,
+.bottom-padding-menu10,
+.padding-bottom-menu10,
+.bottom-space-menu10,
+.bottom-menu-space10 {
+    padding-bottom: 10px;
+}
+
 .bottom20-padding,
 .bottom-padding-menu,
 .padding-bottom-menu,
