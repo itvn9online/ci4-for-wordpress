@@ -1086,9 +1086,9 @@ class Dashboard extends Optimize
         return false;
     }
 
-    public function cleanup_matching_cache()
+    public function cleanup_matching_cache($default_key = '')
     {
-        $data = $this->MY_post('data', '');
+        $data = $this->MY_post('data', $default_key);
 
         if (empty($data) || strlen($data) < 4) {
             $this->base_model->alert('Từ khóa khớp dữ liệu quá ngắn', 'error');
@@ -1100,6 +1100,7 @@ class Dashboard extends Optimize
         if ($data == 'term') {
             $this->cleanup_cache('get_all_taxonomy-');
         }
+        //die(__CLASS__ . ':' . __LINE__);
 
         //
         $this->base_model->alert('Xóa cache theo key thành công. Matching: ' . $data);
@@ -1110,5 +1111,108 @@ class Dashboard extends Optimize
         $this->vendor_sync(false);
         echo '<script>top.after_unzip_thirdparty();</script>';
         $this->base_model->alert('Đồng bộ lại Code bên thứ 3 và Database thành công!');
+    }
+
+    public function reset_term_permarlink()
+    {
+        $space_reset = $this->base_model->scache(__FUNCTION__);
+        if ($space_reset != NULL) {
+            $this->base_model->alert('Hệ thống đang bận! Vui lòng thử lại sau ' . (120 - (time() - $space_reset)) . ' giây...', 'warning');
+        }
+
+        // xóa hết term permalink trong db đi để nạp lại
+        $this->base_model->update_multiple('terms', [
+            // SET
+            'term_permalink' => '',
+        ], [
+                // WHERE
+                'term_permalink !=' => '',
+            ], [
+                'debug_backtrace' => debug_backtrace()[1]['function'],
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
+                //'no_remove_field' => 1
+            ]);
+
+        // cập nhật lại cho 1 ít term
+        $data = $this->base_model->select('*', WGR_TERM_VIEW, array(
+            // các kiểu điều kiện where
+        ), array(
+                'order_by' => array(
+                    'term_id' => 'DESC'
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => 500
+            ));
+        foreach ($data as $v) {
+            $this->term_model->get_the_permalink($v);
+        }
+        $this->base_model->scache(__FUNCTION__, time(), 120);
+
+        //
+        $this->base_model->alert('Reset Term Permarlink thành công!');
+    }
+
+    public function reset_post_permarlink()
+    {
+        $space_reset = $this->base_model->scache(__FUNCTION__);
+        if ($space_reset != NULL) {
+            $this->base_model->alert('Hệ thống đang bận! Vui lòng thử lại sau ' . (120 - (time() - $space_reset)) . '
+    giây...', 'warning');
+        }
+
+        // xóa hết term permalink trong db đi để nạp lại
+        $this->base_model->update_multiple('posts', [
+            // SET
+            'post_permalink' => '',
+        ], [
+                // WHERE
+                'post_permalink !=' => '',
+            ], [
+                'debug_backtrace' => debug_backtrace()[1]['function'],
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
+                //'no_remove_field' => 1
+            ]);
+
+        // cập nhật lại cho 1 ít term
+        $data = $this->base_model->select('*', 'posts', array(
+            // các kiểu điều kiện where
+        ), array(
+                'order_by' => array(
+                    'ID' => 'DESC'
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => 500
+            ));
+        foreach ($data as $v) {
+            $this->post_model->get_the_permalink($v);
+        }
+        $this->base_model->scache(__FUNCTION__, time(), 120);
+
+        //
+        $this->base_model->alert('Reset Post Permarlink thành công!');
     }
 }

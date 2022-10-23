@@ -672,6 +672,9 @@ class Term extends TermBase
                 $post_cat = $this->get_child_terms($post_cat, $ops);
             }
             //}
+
+            //print_r($post_cat);
+            //die(__CLASS__ . ':' . __LINE__);
         }
 
         //

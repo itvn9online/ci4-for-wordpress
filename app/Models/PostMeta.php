@@ -38,14 +38,13 @@ class PostMeta extends PostBase
                 $this->base_model->update_multiple($this->table, [
                     'post_meta_data' => json_encode($post_meta_data),
                 ], [
-                    'ID' => $v['ID'],
-                ]);
+                        'ID' => $v['ID'],
+                    ]);
 
                 // thông báo kiểu dữ liệu trả về
                 $data[$k]['post_meta_data'] = 'query';
-            }
-            else {
-                $post_meta_data = (array)json_decode($v['post_meta_data']);
+            } else {
+                $post_meta_data = (array) json_decode($v['post_meta_data']);
                 //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                 // thông báo kiểu dữ liệu trả về
@@ -88,8 +87,7 @@ class PostMeta extends PostBase
                     $term_relationships[] = $v;
                 }
                 $meta_data['post_category'] = implode(',', $meta_data['post_category']);
-            }
-            else {
+            } else {
                 $term_relationships[] = $meta_data['post_category'];
             }
         }
@@ -99,8 +97,7 @@ class PostMeta extends PostBase
                     $term_relationships[] = $v;
                 }
                 $meta_data['post_tags'] = implode(',', $meta_data['post_tags']);
-            }
-            else {
+            } else {
                 $term_relationships[] = $meta_data['post_tags'];
             }
         }
@@ -140,14 +137,12 @@ class PostMeta extends PostBase
                     $create_webp = \App\Libraries\MyImage::webpConvert(PUBLIC_PUBLIC_PATH . $meta_data['image_medium']);
                     if ($create_webp != '') {
                         $meta_data['image_webp'] = $create_webp;
-                    }
-                    else if ($meta_data['image_webp'] == '') {
+                    } else if ($meta_data['image_webp'] == '') {
                         $meta_data['image_webp'] = $meta_data['image_medium'];
                     }
                 }
-            //echo $meta_data[ 'image_webp' ] . '<br>' . "\n";
-            }
-            else {
+                //echo $meta_data[ 'image_webp' ] . '<br>' . "\n";
+            } else {
                 $meta_data['image_large'] = '';
                 $meta_data['image_medium_large'] = '';
                 $meta_data['image_medium'] = '';
@@ -179,8 +174,7 @@ class PostMeta extends PostBase
             if (is_array($v)) {
                 if (!empty($v)) {
                     $v = implode(',', $v);
-                }
-                else {
+                } else {
                     $v = '';
                 }
                 $meta_data[$k] = $v;
@@ -215,17 +209,17 @@ class PostMeta extends PostBase
             $this->base_model->update_multiple($this->metaTable, [
                 'meta_value' => $v,
             ], [
-                'post_id' => $post_id,
-                'meta_key' => $k,
-            ]);
+                    'post_id' => $post_id,
+                    'meta_key' => $k,
+                ]);
         }
 
         // cập nhật post meta vào cột của post để đỡ phải query nhiều
         $this->base_model->update_multiple($this->table, [
             'post_meta_data' => json_encode($meta_data),
         ], [
-            'ID' => $post_id,
-        ]);
+                'ID' => $post_id,
+            ]);
 
         //
         //die( __CLASS__ . ':' . __LINE__ );
@@ -250,9 +244,9 @@ class PostMeta extends PostBase
             $this->base_model->update_multiple($this->metaTable, [
                 'meta_value' => $v,
             ], [
-                'post_id' => $post_id,
-                'meta_key' => $key,
-            ]);
+                    'post_id' => $post_id,
+                    'meta_key' => $key,
+                ]);
         }
     }
 
@@ -265,16 +259,16 @@ class PostMeta extends PostBase
                 'post_id' => $post_id,
                 'meta_key' => $key,
             ), array(
-                'order_by' => array(
-                    'meta_id' => 'DESC'
-                ),
-                // hiển thị mã SQL để check
-                //'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-                //'offset' => 2,
-                'limit' => 1
-            ));
+                    'order_by' => array(
+                        'meta_id' => 'DESC'
+                    ),
+                    // hiển thị mã SQL để check
+                    //'show_query' => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    //'get_query' => 1,
+                    //'offset' => 2,
+                    'limit' => 1
+                ));
 
             //
             if (empty($data)) {
@@ -288,19 +282,19 @@ class PostMeta extends PostBase
             // các kiểu điều kiện where
             'post_id' => $post_id
         ), array(
-            'group_by' => array(
-                'meta_key',
-            ),
-            'order_by' => array(
-                'meta_id' => 'DESC'
-            ),
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-            //'offset' => 2,
-            //'limit' => 3
-        ));
+                'group_by' => array(
+                    'meta_key',
+                ),
+                'order_by' => array(
+                    'meta_id' => 'DESC'
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                //'offset' => 2,
+                //'limit' => 3
+            ));
     }
 
     /*
@@ -338,16 +332,16 @@ class PostMeta extends PostBase
                     // các kiểu điều kiện where
                     'object_id' => $post_id
                 ), array(
-                    'join' => array(
-                        'term_taxonomy' => 'term_taxonomy.term_id = term_relationships.term_taxonomy_id'
-                    ),
-                    // hiển thị mã SQL để check
-                    //'show_query' => 1,
-                    // trả về câu query để sử dụng cho mục đích khác
-                    //'get_query' => 1,
-                    //'offset' => 2,
-                    //'limit' => 3
-                ));
+                        'join' => array(
+                            'term_taxonomy' => 'term_taxonomy.term_id = term_relationships.term_taxonomy_id'
+                        ),
+                        // hiển thị mã SQL để check
+                        //'show_query' => 1,
+                        // trả về câu query để sử dụng cho mục đích khác
+                        //'get_query' => 1,
+                        //'offset' => 2,
+                        //'limit' => 3
+                    ));
                 //print_r( $sql );
                 $term_relationships = [
                     TaxonomyType::POSTS => [],
@@ -361,9 +355,9 @@ class PostMeta extends PostBase
                 foreach ($term_relationships as $k => $v) {
                     $meta_data['post_' . $k] = implode(',', $v);
                 }
-            //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
-            //print_r( $meta_data );
-            //die( __CLASS__ . ':' . __LINE__ );
+                //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+                //print_r( $meta_data );
+                //die( __CLASS__ . ':' . __LINE__ );
             }
         }
 
@@ -376,8 +370,7 @@ class PostMeta extends PostBase
     {
         if (isset($data[$key])) {
             return $data[$key];
-        }
-        else if (isset($data['post_meta'])) {
+        } else if (isset($data['post_meta'])) {
             return $this->return_meta_post($data['post_meta'], $key);
         }
 
@@ -393,6 +386,9 @@ class PostMeta extends PostBase
     // tương tự show meta post -> chỉ khác là sẽ truyền thẳng data post_meta vào luôn
     function echo_meta_post($data, $key, $default_value = '')
     {
+        if (!isset($data['post_meta'])) {
+            return false;
+        }
         echo $this->return_meta_post($data['post_meta'], $key, $default_value);
     }
 
@@ -408,7 +404,7 @@ class PostMeta extends PostBase
         if (file_exists($check_size)) {
             if ($file_ext == '') {
                 $file_ext = pathinfo($check_size, PATHINFO_EXTENSION);
-            //echo $file_ext . ':' . __LINE__ . '<br>' . "\n";
+                //echo $file_ext . ':' . __LINE__ . '<br>' . "\n";
             }
 
             // kiểm tra xem có size tương ứng không
@@ -441,8 +437,7 @@ class PostMeta extends PostBase
             if ($result == '') {
                 $result = $this->return_meta_post($data, $key);
             }
-        }
-        else {
+        } else {
             $result = $this->return_meta_post($data, $key);
         }
         //echo $result . '<br>' . "\n";
@@ -450,7 +445,7 @@ class PostMeta extends PostBase
         // hỗ trợ dữ liệu từ echbaydotcom
         if ($result == '') {
             $result = $this->return_meta_post($data, '_eb_product_avatar');
-        //echo $result . '<br>' . "\n";
+            //echo $result . '<br>' . "\n";
         }
 
         // nếu không tìm được thì trả về dữ liệu trống

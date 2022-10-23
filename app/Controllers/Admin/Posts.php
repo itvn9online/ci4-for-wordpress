@@ -122,8 +122,7 @@ class Posts extends Admin
                         //'post_author' => $by_like,
                         //'post_parent' => $by_like,
                     ];
-                }
-                else {
+                } else {
                     $where_or_like = [
                         'post_name' => $by_like,
                         'post_title' => $by_keyword,
@@ -140,8 +139,7 @@ class Posts extends Admin
                 PostType::PENDING,
                 PostType::PRIVATELY,
             ];
-        }
-        else {
+        } else {
             $urlPartPage .= '&post_status=' . $post_status;
             $for_action .= '&post_status=' . $post_status;
 
@@ -171,17 +169,17 @@ class Posts extends Admin
                 // các kiểu điều kiện where
                 'parent' => $by_term_id,
             ), array(
-                // trả về COUNT(column_name) AS column_name
-                //'selectCount' => 'ID',
-                // hiển thị mã SQL để check
-                //'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-                // trả về tổng số bản ghi -> tương tự mysql num row
-                //'getNumRows' => 1,
-                //'offset' => 0,
-                'limit' => -1
-            ));
+                    // trả về COUNT(column_name) AS column_name
+                    //'selectCount' => 'ID',
+                    // hiển thị mã SQL để check
+                    //'show_query' => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    //'get_query' => 1,
+                    // trả về tổng số bản ghi -> tương tự mysql num row
+                    //'getNumRows' => 1,
+                    //'offset' => 0,
+                    'limit' => -1
+                ));
             //print_r( $ids );
             $ids = $ids[0]['ids'];
 
@@ -194,8 +192,7 @@ class Posts extends Admin
 
                 //
                 $filter['where_in']['term_taxonomy.term_id'] = $ids;
-            }
-            else {
+            } else {
                 $where['term_taxonomy.term_id'] = $by_term_id;
             }
 
@@ -230,8 +227,7 @@ class Posts extends Admin
             //echo $totalPage . '<br>' . "\n";
             if ($page_num > $totalPage) {
                 $page_num = $totalPage;
-            }
-            else if ($page_num < 1) {
+            } else if ($page_num < 1) {
                 $page_num = 1;
             }
             $for_action .= ($page_num > 1 ? '&page_num=' . $page_num : '');
@@ -269,17 +265,23 @@ class Posts extends Admin
                 // không cần hiển thị nội dung
                 $v['post_content'] = '';
                 $v['post_excerpt'] = '';
+                //print_r($v);
+                //continue;
 
                 // lấy 1 số dữ liệu khác gán vào, để angularjs chỉ việc hiển thị
                 $v['admin_permalink'] = $this->post_model->get_admin_permalink($this->post_type, $v['ID'], $this->controller_slug);
                 if ($v['post_type'] == PostType::ORDER) {
                     $v['the_permalink'] = '#';
-                }
-                else {
+                } else {
                     $v['the_permalink'] = $this->post_model->get_the_permalink($v);
                 }
-                $v['thumbnail'] = $this->post_model->get_list_thumbnail($v['post_meta']);
-                $v['main_category_key'] = $this->post_model->return_meta_post($v['post_meta'], $this->main_category_key);
+                if (isset($v['post_meta'])) {
+                    $v['thumbnail'] = $this->post_model->get_list_thumbnail($v['post_meta']);
+                    $v['main_category_key'] = $this->post_model->return_meta_post($v['post_meta'], $this->main_category_key);
+                } else {
+                    $v['thumbnail'] = '';
+                    $v['main_category_key'] = '';
+                }
 
                 //
                 //print_r( $v );
@@ -287,8 +289,7 @@ class Posts extends Admin
                 //
                 $data[$k] = $v;
             }
-        }
-        else {
+        } else {
             $data = [];
             $pagination = '';
         }
@@ -386,8 +387,8 @@ class Posts extends Admin
                     'post_title' => $data['post_title'],
                     'post_name' => '',
                 ], [
-                    'post_type' => $this->post_type,
-                ]);
+                        'post_type' => $this->post_type,
+                    ]);
 
                 //
                 $this->MY_redirect(DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/'), 301);
@@ -449,7 +450,7 @@ class Posts extends Admin
                 //'limit' => $post_per_page
             ];
             $parent_post = $this->base_model->select($this->table . '.ID, ' . $this->table . '.post_title', $this->table, $where, $filter);
-        //print_r( $parent_post );
+            //print_r( $parent_post );
         }
         // lấy danh sách các nhóm để add cho post
         else {
@@ -479,7 +480,7 @@ class Posts extends Admin
             'parent_post' => $parent_post,
             'quick_menu_list' => [],
             'data' => $data,
-            'post_lang' => $data['lang_key'] != '' ?LanguageCost::typeList($data['lang_key']) : '',
+            'post_lang' => $data['lang_key'] != '' ? LanguageCost::typeList($data['lang_key']) : '',
             'meta_detault' => PostType::meta_default($this->post_type),
             'post_arr_status' => $this->post_arr_status,
             'taxonomy' => $this->taxonomy,
@@ -635,17 +636,17 @@ class Posts extends Admin
                 'ID' => $id,
                 'post_status !=' => $post_status,
             ], [
-                // hiển thị mã SQL để check
-                //'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-                //'offset' => 2,
-                'limit' => 1
-            ]);
+                    // hiển thị mã SQL để check
+                    //'show_query' => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    //'get_query' => 1,
+                    //'offset' => 2,
+                    'limit' => 1
+                ]);
             //print_r( $check_slug );
             //var_dump( strpos( $check_slug[ 'post_name' ], '___' . $post_status ) );
             if (!empty($check_slug) && $check_slug['post_name'] != '' &&
-            strpos($check_slug['post_name'], $post_trash_title) === false) {
+                strpos($check_slug['post_name'], $post_trash_title) === false) {
                 $data['post_name'] = $this->base_model->_eb_non_mark_seo($check_slug['post_name']);
                 $data['post_name'] .= $post_trash_title;
             }
@@ -693,13 +694,13 @@ class Posts extends Admin
             'post_status' => PostType::DELETED,
             'post_type' => $this->post_type,
         ], array(
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-            //'offset' => 2,
-            'limit' => 1
-        ));
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                //'offset' => 2,
+                'limit' => 1
+            ));
 
         //
         if (empty($data)) {
@@ -753,8 +754,7 @@ class Posts extends Admin
     {
         if ($id > 0) {
             $ids = [$id];
-        }
-        else {
+        } else {
             $ids = $this->get_ids();
         }
 
@@ -764,19 +764,19 @@ class Posts extends Admin
             // WHERE
             //'t2.post_status' => PostType::REMOVED,
         ], [
-            /*
-     'left_join' => array(
-     $this->post_model->table . ' AS t2' => $this->term_model->relaTable . '.object_id = t2.ID'
-     ),
-     */
-            'where_in' => array(
-                'object_id' => $ids
-            ),
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-        ]);
+                /*
+         'left_join' => array(
+         $this->post_model->table . ' AS t2' => $this->term_model->relaTable . '.object_id = t2.ID'
+         ),
+         */
+                'where_in' => array(
+                    'object_id' => $ids
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+            ]);
         //die( __CLASS__ . ':' . __LINE__ );
 
         // XÓA dữ liệu chính
@@ -784,33 +784,33 @@ class Posts extends Admin
             // WHERE
             //'t2.post_status' => PostType::REMOVED,
         ], [
-            /*
-     'left_join' => array(
-     $this->post_model->table . ' AS t2' => $this->post_model->metaTable . '.post_id = t2.ID'
-     ),
-     */
-            'where_in' => array(
-                'post_id' => $ids
-            ),
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-        ]);
+                /*
+         'left_join' => array(
+         $this->post_model->table . ' AS t2' => $this->post_model->metaTable . '.post_id = t2.ID'
+         ),
+         */
+                'where_in' => array(
+                    'post_id' => $ids
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+            ]);
 
         //
         $this->base_model->delete_multiple($this->post_model->table, [
             // WHERE
             //'post_status' => PostType::REMOVED,
         ], [
-            'where_in' => array(
-                'ID' => $ids
-            ),
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-        ]);
+                'where_in' => array(
+                    'ID' => $ids
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+            ]);
 
         //
         return $result;
@@ -826,16 +826,16 @@ class Posts extends Admin
             // SET
             'post_status' => $post_status
         ], [
-            'post_status !=' => $post_status
-        ], [
-            'where_in' => array(
-                'ID' => $ids
-            ),
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-        ]);
+                'post_status !=' => $post_status
+            ], [
+                'where_in' => array(
+                    'ID' => $ids
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+            ]);
 
         // nếu update thành công -> gửi lệnh javascript để ẩn bài viết bằng javascript
         if ($update === true && $post_status == PostType::REMOVED && ALLOW_USING_MYSQL_DELETE === true) {
@@ -867,8 +867,7 @@ class Posts extends Admin
         // nếu có thuộc tính cho phép xóa hoàn toàn dữ liệu thì tiến hành xóa
         if (ALLOW_USING_MYSQL_DELETE === true) {
             $result = $this->delete_remove();
-        }
-        else {
+        } else {
             $result = $this->before_all_delete_restore(PostType::REMOVED);
         }
 

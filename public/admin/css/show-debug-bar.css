@@ -1,6 +1,7 @@
 /* khi có quyền admin thì cho phép hiển thị thanh debug */
 body.is-admin .show-if-admin,
 body.is-admin .show-view .wgr-view-path,
+body.is-admin.body-debug_enable #toolbarContainer,
 body.is-admin #toolbarContainer {
     display: block !important;
 }

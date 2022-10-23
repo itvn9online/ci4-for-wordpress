@@ -169,7 +169,7 @@ $base_model->JSON_echo([
     </script>
 </head>
 
-<body class="<?php echo $body_class; ?>">
+<body class="is-admin <?php echo $body_class; ?>">
     <div id="admin_custom_alert" onClick="$('#admin_custom_alert').fadeOut();"></div>
     <!--Header-part-->
     <div id="admin-header" class="cf whitecolor awhitecolor">
