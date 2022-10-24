@@ -1,15 +1,17 @@
 <?php
-namespace App\ Controllers\ Admin;
+namespace App\Controllers\Admin;
 
 // Libraries
-use App\ Libraries\ TaxonomyType;
+use App\Libraries\TaxonomyType;
 
 //
-class Tags extends Terms {
+class Tags extends Terms
+{
     protected $taxonomy = TaxonomyType::TAGS;
     protected $controller_slug = 'tags';
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 }

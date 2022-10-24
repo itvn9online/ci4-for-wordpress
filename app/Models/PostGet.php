@@ -2,7 +2,7 @@
 namespace App\Models;
 
 // Libraries
-//use App\ Libraries\ PostType;
+//use App\Libraries\PostType;
 
 //
 class PostGet extends PostQuery

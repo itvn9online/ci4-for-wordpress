@@ -14,11 +14,10 @@ class PostPosts extends PostSlider
         parent::__construct();
     }
 
-    // trả về khối HTML của từng sản phẩm trong danh mục
-    function get_the_node($data, $ops = [], $default_arr = [])
+    // trả về khối HTML của từng post trong danh mục -> dùng để tùy chỉnh khối HTML
+    public function build_the_node($data, $tmp_html, $ops = [], $default_arr = [])
     {
         //print_r( $data );
-        $tmp_html = $this->product_html_node;
         //echo $tmp_html . '<br>' . "\n";
 
         //
@@ -68,7 +67,13 @@ class PostPosts extends PostSlider
         return $this->base_model->tmp_to_html($tmp_html, $data, $default_arr);
     }
 
-    function the_node($data, $ops = [], $default_arr = [])
+    // trả về khối HTML của từng sản phẩm trong danh mục
+    public function get_the_node($data, $ops = [], $default_arr = [])
+    {
+        return $this->build_the_node($data, $this->product_html_node, $ops, $default_arr);
+    }
+
+    public function the_node($data, $ops = [], $default_arr = [])
     {
         echo $this->get_the_node($data, $ops, $default_arr);
     }

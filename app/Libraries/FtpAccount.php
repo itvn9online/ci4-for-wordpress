@@ -1,7 +1,8 @@
 <?php
 
-namespace App\ Libraries;
+namespace App\Libraries;
 
-class FtpAccount {
-    //
+class FtpAccount
+{
+//
 }

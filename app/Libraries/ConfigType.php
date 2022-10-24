@@ -1,8 +1,9 @@
 <?php
 
-namespace App\ Libraries;
+namespace App\Libraries;
 
-class ConfigType {
+class ConfigType
+{
 
     // post_type
     const CONFIG = 'config';
@@ -29,27 +30,30 @@ class ConfigType {
         self::CHECKOUT => 'Thanh toán',
     );
 
-    public static function typeList( $key = '' ) {
-        if ( $key == '' ) {
+    public static function typeList($key = '')
+    {
+        if ($key == '') {
             return self::$arr;
         }
-        if ( isset( self::$arr[ $key ] ) ) {
-            return self::$arr[ $key ];
+        if (isset(self::$arr[$key])) {
+            return self::$arr[$key];
         }
         return '';
     }
 
-    private static function textArea() {
+    private static function textArea()
+    {
         $arr_tmp = [];
-        for ( $i = 0; $i < NUMBER_TRANS_TEXTAREA; $i++ ) {
-            $arr_tmp[ 'custom_textarea' . $i ] = 'Custom textarea ' . $i;
+        for ($i = 0; $i < NUMBER_TRANS_TEXTAREA; $i++) {
+            $arr_tmp['custom_textarea' . $i] = 'Custom textarea ' . $i;
         }
         return $arr_tmp;
     }
 
     // trả về các meta mặc định dựa theo từng post_type
-    public static function meta_default( $config_type ) {
-        if ( $config_type == self::CONFIG ) {
+    public static function meta_default($config_type)
+    {
+        if ($config_type == self::CONFIG) {
             $arr = [
                 'name' => 'Tên website',
                 'company_name' => 'Tên công ty',
@@ -101,7 +105,7 @@ class ConfigType {
                 'disable_register_member' => 'Dừng đăng ký tài khoản mới',
                 'blog_private' => 'Ngăn chặn các công cụ tìm kiếm đánh chỉ mục website này',
             ];
-        } else if ( $config_type == self::DISPLAY ) {
+        } else if ($config_type == self::DISPLAY) {
             $arr = [
                 'default_bg' => 'Màu nền mặc định',
                 'sub_bg' => 'Màu nền thứ cấp',
@@ -113,7 +117,7 @@ class ConfigType {
                 'main_banner_size' => 'Kích thước banner chính',
                 'second_banner_size' => 'Kích thước banner phụ',
             ];
-        } else if ( $config_type == self::SOCIAL ) {
+        } else if ($config_type == self::SOCIAL) {
             $arr = [
                 'google_analytics' => 'Google Analytics ID',
                 'fb_app_id' => 'Facebook App ID',
@@ -126,7 +130,7 @@ class ConfigType {
                 'registeronline' => 'Link đăng ký BCT',
                 'notificationbct' => 'Link thông báo BCT',
             ];
-        } else if ( $config_type == self::CATEGORY ) {
+        } else if ($config_type == self::CATEGORY) {
             $arr = [
                 'eb_posts_per_page' => 'Số sản phẩm trên mỗi trang',
                 'eb_posts_per_line' => 'Số sản phẩm trên mỗi dòng',
@@ -134,11 +138,11 @@ class ConfigType {
                 'cf_thumbnail_size' => 'Chất lượng hình ảnh',
                 'show_child_category' => 'Hiển thị nhóm sản phẩm con',
             ];
-        } else if ( $config_type == self::POST ) {
+        } else if ($config_type == self::POST) {
             $arr = [
                 'eb_post_per_page' => 'Số sản phẩm cùng nhóm',
             ];
-        } else if ( $config_type == self::BLOGS ) {
+        } else if ($config_type == self::BLOGS) {
             $arr = [
                 'eb_blogs_per_page' => 'Số bài viết trên mỗi trang',
                 'eb_blogs_per_line' => 'Số sản phẩm trên mỗi dòng',
@@ -146,29 +150,29 @@ class ConfigType {
                 'cf_blog_size' => 'Tỉ lệ ảnh tin tức',
                 'show_child_blogs' => 'Hiển thị nhóm tin tức con',
             ];
-        } else if ( $config_type == self::BLOG ) {
+        } else if ($config_type == self::BLOG) {
             $arr = [
                 'eb_blog_per_page' => 'Số bài cùng nhóm',
             ];
-        } else if ( $config_type == self::TRANS ) {
+        } else if ($config_type == self::TRANS) {
             $arr_tmp = [];
-            $arr_tmp[ 'main_slider_slug' ] = 'Slug slider chính';
-            $arr_tmp[ 'copy_right_first' ] = 'Bản quyền (trước)';
-            $arr_tmp[ 'copy_right_last' ] = 'Bản quyền (sau)';
-            $arr_tmp[ 'powered_by_echbay' ] = 'Cung cấp bởi';
-            for ( $i = 0; $i < NUMBER_TRANS_INPUT; $i++ ) {
-                $arr_tmp[ 'custom_text' . $i ] = 'Custom text ' . $i;
+            $arr_tmp['main_slider_slug'] = 'Slug slider chính';
+            $arr_tmp['copy_right_first'] = 'Bản quyền (trước)';
+            $arr_tmp['copy_right_last'] = 'Bản quyền (sau)';
+            $arr_tmp['powered_by_echbay'] = 'Cung cấp bởi';
+            for ($i = 0; $i < NUMBER_TRANS_INPUT; $i++) {
+                $arr_tmp['custom_text' . $i] = 'Custom text ' . $i;
             }
-            foreach ( self::textArea() as $k => $v ) {
-                $arr_tmp[ $k ] = $v;
+            foreach (self::textArea() as $k => $v) {
+                $arr_tmp[$k] = $v;
             }
 
             // thêm prefix vào đầu mỗi key
             $arr = [];
-            foreach ( $arr_tmp as $k => $v ) {
-                $arr[ 'lang_' . $k ] = $v;
+            foreach ($arr_tmp as $k => $v) {
+                $arr['lang_' . $k] = $v;
             }
-        } else if ( $config_type == self::SMTP ) {
+        } else if ($config_type == self::SMTP) {
             $arr = [
                 // Công nghệ bảo mật
                 'smtp_host_user' => 'Email hoặc Username',
@@ -197,7 +201,7 @@ class ConfigType {
                 'telegram_bot_token' => 'Bot token',
                 'telegram_chat_id' => 'Chat ID',
             ];
-        } else if ( $config_type == self::CHECKOUT ) {
+        } else if ($config_type == self::CHECKOUT) {
             $arr = [
                 // Số tiền mặc định -> dùng cho các website dịch vụ đồng giá
                 'min_product_price' => 'Giá trị tối thiểu của đơn hàng',
@@ -221,7 +225,8 @@ class ConfigType {
     }
 
     // trả về định dạng của từng post type (nếu có) -> mặc định type = text
-    public static function meta_type( $key ) {
+    public static function meta_type($key)
+    {
         $arr = [
             'default_bg' => 'color',
             'sub_bg' => 'color',
@@ -309,12 +314,12 @@ class ConfigType {
             'smtp_heading_test_email' => 'heading',
             'smtp2_heading_host_user' => 'heading',
         ];
-        foreach ( self::textArea() as $k => $v ) {
-            $arr[ $k ] = 'textarea';
+        foreach (self::textArea() as $k => $v) {
+            $arr[$k] = 'textarea';
         }
         //print_r( $arr );
-        if ( isset( $arr[ $key ] ) ) {
-            return $arr[ $key ];
+        if (isset($arr[$key])) {
+            return $arr[$key];
         }
 
         //
@@ -322,7 +327,8 @@ class ConfigType {
     }
 
     // description của từng meta nếu có
-    public static function meta_desc( $key ) {
+    public static function meta_desc($key)
+    {
         $arr = [
             'default_bg' => 'Là màu nền đặc trưng cho các menu, nút bấm trên toàn bộ website.',
             'sub_bg' => 'Màu nền cho các module khác, tạo sự khác biệt với màu nền chính ở trên.',
@@ -388,8 +394,8 @@ class ConfigType {
             'smtp_host_show_pass' => 'Mật khẩu ứng dụng Gmail hoặc mật khẩu đăng nhập email thông thường. Nên dùng gmail và mật khẩu ứng dụng để đảm bảo bảo mật.',
             'smtp_from' => 'Email người gửi. Để trống để sử dụng email đăng nhập luôn, hạn chế email gửi vào spam',
             'smtp_from_name' => 'Tên người gửi. Bạn có thể tùy biến tên người gửi tại đây. Ví dụ: Công ty ABC, Nguyên Văn A...',
-            'smtp_no_reply' => 'Khi kích hoạt chế độ này, email reply sẽ được đặt là <strong>noreply@' . $_SERVER[ 'HTTP_HOST' ] . '</strong> để các hệ thống email xác nhận đây là mail không nhận phản hồi.',
-            'smtp_test_email' => 'Thiết lập xong cấu hình, bạn có thể nhập thêm email người nhận và <a href="' . base_url( 'admin/smtps' ) . '?test_mail=1" target="_blank" class="click-check-email-test bluecolor"><strong>bấm vào đây</strong></a> để test email gửi đi.',
+            'smtp_no_reply' => 'Khi kích hoạt chế độ này, email reply sẽ được đặt là <strong>noreply@' . $_SERVER['HTTP_HOST'] . '</strong> để các hệ thống email xác nhận đây là mail không nhận phản hồi.',
+            'smtp_test_email' => 'Thiết lập xong cấu hình, bạn có thể nhập thêm email người nhận và <a href="' . base_url('admin/smtps') . '?test_mail=1" target="_blank" class="click-check-email-test bluecolor"><strong>bấm vào đây</strong></a> để test email gửi đi.',
             'smtp_test_bcc_email' => 'Thêm email để test chức năng BCC.',
             'smtp_test_cc_email' => 'Thêm email để test chức năng CC.',
             'smtp2_host_user' => 'Cấu hình mail dự phòng, khi mail chính có vấn đề thì mail này sẽ được kích hoạt để dùng tạm',
@@ -406,16 +412,17 @@ class ConfigType {
 
             'powered_by_echbay' => 'Sử dụng lệnh <strong>$lang_model->the_web_license( $getconfig );</strong> để hiển thị thông điệp bản quyền mặc định.',
 
-            'telegram_bot_token' => 'Token của bot trên Telegram. Sau khi có Token, hãy <a href="' . base_url( 'admin/smtps' ) . '?get_tele_chat_id=1" target="_blank" class="click-check-email-test bluecolor"><strong>bấm vào đây</strong></a> để tìm Chat ID.',
+            'telegram_bot_token' => 'Token của bot trên Telegram. Sau khi có Token, hãy <a href="' . base_url('admin/smtps') . '?get_tele_chat_id=1" target="_blank" class="click-check-email-test bluecolor"><strong>bấm vào đây</strong></a> để tìm Chat ID.',
             'telegram_chat_id' => 'ID nhóm chat trên Telegram. Bao gồm cả dấu - nếu có',
         ];
-        if ( isset( $arr[ $key ] ) && $arr[ $key ] != '' ) {
-            echo '<p class="controls-text-note">' . $arr[ $key ] . '</p>';
+        if (isset($arr[$key]) && $arr[$key] != '') {
+            echo '<p class="controls-text-note">' . $arr[$key] . '</p>';
         }
     }
 
     // description của từng meta nếu có
-    public static function defaultColor( $key ) {
+    public static function defaultColor($key)
+    {
         //echo $key . '<br>' . "\n";
         $arr = [
             'default_bg' => '#145c00',
@@ -423,14 +430,15 @@ class ConfigType {
             //'default_color' => '',
             'a_color' => '#0d6efd',
         ];
-        if ( isset( $arr[ $key ] ) && $arr[ $key ] != '' ) {
-            return $arr[ $key ];
+        if (isset($arr[$key]) && $arr[$key] != '') {
+            return $arr[$key];
         }
         return '#000000';
     }
 
     // mảng chứa giá trị của các select
-    public static function meta_select( $key ) {
+    public static function meta_select($key)
+    {
         $eb_posts_per_line = [
             '' => 'Theo thiết kế mặc định của tác giả',
             'thread-list100' => '1',
@@ -464,16 +472,17 @@ class ConfigType {
                 '' => '[ Chọn ngân hàng ]'
             ]
         ];
-        $arr[ 'smtp2_secure' ] = $arr[ 'smtp_secure' ];
-        if ( isset( $arr[ $key ] ) ) {
-            return $arr[ $key ];
+        $arr['smtp2_secure'] = $arr['smtp_secure'];
+        if (isset($arr[$key])) {
+            return $arr[$key];
         }
 
         //
         return [];
     }
 
-    public static function placeholder( $key = '', $default_value = '' ) {
+    public static function placeholder($key = '', $default_value = '')
+    {
         $arr = [
             'copy_right_first' => 'Bản quyền &copy; ',
             'copy_right_last' => ' - Toàn bộ phiên bản.',
@@ -483,9 +492,9 @@ class ConfigType {
         //echo $default_value . '<br>' . "\n";
 
         //
-        if ( $key != '' ) {
-            if ( isset( $arr[ $key ] ) ) {
-                return $arr[ $key ];
+        if ($key != '') {
+            if (isset($arr[$key])) {
+                return $arr[$key];
             }
             return $default_value;
         }

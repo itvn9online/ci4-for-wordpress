@@ -2,14 +2,15 @@
 /*
  * file này chủ yếu xử lý các vấn đề liên quan đến session
  */
-namespace App\ Models;
+namespace App\Models;
 
 // Libraries
-use App\ Libraries\ LanguageCost;
+use App\Libraries\LanguageCost;
 
 //use CodeIgniter\ Model;
 
-class Session {
+class Session
+{
     // key dùng lưu session cho các phiên kiểm tra csrf
     private $key_csrf_hash = '_wgr_csrf_hash';
     // key lưu phiên đăng nhập của khách
@@ -19,42 +20,45 @@ class Session {
 
     public $cache = NULL;
 
-    public function __construct() {
-        $this->cache = \Config\ Services::cache();
+    public function __construct()
+    {
+        $this->cache = \Config\Services::cache();
     }
 
-    public function MY_session( $key, $value = NULL ) {
-        if ( $value !== NULL ) {
-            $_SESSION[ $key ] = $value;
+    public function MY_session($key, $value = NULL)
+    {
+        if ($value !== NULL) {
+            $_SESSION[$key] = $value;
             return true;
         }
         /*
-        if ( empty( $key ) ) {
-            echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . PHP_EOL;
-            die( __CLASS__ . ':' . __LINE__ );
-        }
-        */
-        return isset( $_SESSION[ $key ] ) ? $_SESSION[ $key ] : '';
+         if ( empty( $key ) ) {
+         echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . PHP_EOL;
+         die( __CLASS__ . ':' . __LINE__ );
+         }
+         */
+        return isset($_SESSION[$key]) ? $_SESSION[$key] : '';
     }
 
     /*
      * Kiểm tra đầu vào của dữ liệu xem chuẩn không
      */
-    public function check_csrf() {
+    public function check_csrf()
+    {
         $csrf_name = csrf_token();
         //echo $csrf_name . '<br>' . "\n";
         // nếu tồn tại hash
-        if ( isset( $_REQUEST[ $csrf_name ] ) ) {
-            $hash = $this->MY_session( $this->key_csrf_hash );
+        if (isset($_REQUEST[$csrf_name])) {
+            $hash = $this->MY_session($this->key_csrf_hash);
             // -> kiểm tra khớp dữ liệu
-            if ( $hash != '' && $_REQUEST[ $csrf_name ] != $hash ) {
-                print_r( $_SESSION );
-                die( json_encode( [
+            if ($hash != '' && $_REQUEST[$csrf_name] != $hash) {
+                print_r($_SESSION);
+                die(json_encode([
                     'code' => __LINE__,
-                    'in' => $_REQUEST[ $csrf_name ],
-                    'out' => $this->MY_session( $this->key_csrf_hash ),
+                    'in' => $_REQUEST[$csrf_name],
+                    'out' => $this->MY_session($this->key_csrf_hash),
                     'error' => 'CSRF Invalid token from your request!'
-                ] ) );
+                ]));
             }
         }
         //die( __CLASS__ . ':' . __LINE__ );
@@ -64,9 +68,10 @@ class Session {
     }
 
     // trả về input chứa csrf và lưu vào session để nếu submit thì còn kiểm tra được
-    public function csrf_field() {
+    public function csrf_field()
+    {
         // mỗi phiên -> lưu lại csrf token dưới dạng session
-        $this->MY_session( $this->key_csrf_hash, csrf_hash() );
+        $this->MY_session($this->key_csrf_hash, csrf_hash());
 
         // in html
         echo csrf_field();
@@ -76,21 +81,24 @@ class Session {
     }
 
     // set session login -> lưu phiên đăng nhập của người dùng
-    public function set_ses_login( $data ) {
-        return $this->MY_session( $this->key_member_login, $data );
+    public function set_ses_login($data)
+    {
+        return $this->MY_session($this->key_member_login, $data);
     }
     // get session login -> trả về dữ liệu đăng nhập của người dùng
-    public function get_ses_login() {
-        return $this->MY_session( $this->key_member_login );
+    public function get_ses_login()
+    {
+        return $this->MY_session($this->key_member_login);
     }
 
     /*
      * Chức năng captcha khi đăng nhập sai nhiều lần
      */
     // lấy tổng số lần đăng nhập sai
-    public function get_faild_login() {
-        $a = $this->MY_session( 'count_faild_login' );
-        if ( $a == '' ) {
+    public function get_faild_login()
+    {
+        $a = $this->MY_session('count_faild_login');
+        if ($a == '') {
             $a = 0;
         } else {
             $a *= 1;
@@ -100,43 +108,49 @@ class Session {
         return $a;
     }
     // thêm số lần đăng nhập sai -> mỗi lần đăng nhập sai thì thêm 1 đơn vị
-    public function push_faild_login() {
-        $this->MY_session( 'count_faild_login', $this->get_faild_login() + 1 );
+    public function push_faild_login()
+    {
+        $this->MY_session('count_faild_login', $this->get_faild_login() + 1);
     }
     // reset lại số lần nhập sai pass nếu trước đó đã nhập đúng captcha
-    public function reset_faild_login() {
-        if ( $this->MY_session( 'count_faild_login' ) != '' ) {
-            $this->MY_session( 'count_faild_login', '' );
+    public function reset_faild_login()
+    {
+        if ($this->MY_session('count_faild_login') != '') {
+            $this->MY_session('count_faild_login', '');
         }
     }
     // kiểm tra nếu vượt số lần đăng nhập sai thì trả về 1 số > 0
-    public function check_faild_login() {
-        if ( $this->get_faild_login() >= $this->max_login_faild ) {
+    public function check_faild_login()
+    {
+        if ($this->get_faild_login() >= $this->max_login_faild) {
             return 1;
         }
         return 0;
     }
 
-    public function mdnam( $str, $hash = '' ) {
+    public function mdnam($str, $hash = '')
+    {
         $str .= $hash;
-        $str = md5( $str );
-        $str = substr( $str, 2, 6 );
-        return md5( $str );
+        $str = md5($str);
+        $str = substr($str, 2, 6);
+        return md5($str);
     }
 
-    public function set_lang() {
+    public function set_lang()
+    {
         return LanguageCost::set_lang();
     }
 
     // cache bên model là cache select database -> chỉ kiểm tra theo key truyền vào -> không kiểm tra theo session login
-    public function scache( $key, $value = '', $time = MINI_CACHE_TIMEOUT ) {
+    public function scache($key, $value = '', $time = MINI_CACHE_TIMEOUT)
+    {
         // lưu cache nếu có nội dung
-        if ( $value != '' ) {
-            return $this->cache->save( $key, $value, $time );
+        if ($value != '') {
+            return $this->cache->save($key, $value, $time);
         }
 
         // trả về cache nếu có
-        return $this->cache->get( $key );
+        return $this->cache->get($key);
     }
 
     /*
@@ -144,20 +158,21 @@ class Session {
      * chức năng xóa cache theo key truyền vào
      * clean_all: một số phương thức không áp dụng được kiểu xóa theo key -> admin có thể xóa all
      */
-    public function dcache( $for = '', $clean_all = false ) {
+    public function dcache($for = '', $clean_all = false)
+    {
         // lưu có key -> xóa theo key truyền vào
-        if ( $for != '' ) {
+        if ($for != '') {
             // 1 số phương thức không áp dụng được kiểu xóa này do không có key 
-            if ( in_array( MY_CACHE_HANDLER, [
-                    'memcached',
-                    'wincache',
-                ] ) ) {
+            if (in_array(MY_CACHE_HANDLER, [
+                'memcached',
+                'wincache',
+            ])) {
                 // có thể cân đối giữa việc XÓA toàn bộ hoặc return false luôn
-                if ( $clean_all !== true ) {
+                if ($clean_all !== true) {
                     return NULL;
                 }
             } else {
-                return $this->cache->deleteMatching( '*' . $for . '*' );
+                return $this->cache->deleteMatching('*' . $for . '*');
             }
         }
 
@@ -166,15 +181,16 @@ class Session {
     }
 
     // chạy vòng lặp gán nốt các thông số khác trên url vào phân trang
-    public function auto_add_params( $uri ) {
-        foreach ( $_GET as $k => $v ) {
+    public function auto_add_params($uri)
+    {
+        foreach ($_GET as $k => $v) {
             // tham số phân trang thì bỏ qua -> sẽ được add lại trong hàm phân trang
-            if ( $k == 'page_num' ) {
+            if ($k == 'page_num') {
                 continue;
             }
-            if ( strpos( $uri, $k . '=' ) === false ) {
-                if ( is_array( $v ) ) {
-                    foreach ( $v as $k2 => $v2 ) {
+            if (strpos($uri, $k . '=') === false) {
+                if (is_array($v)) {
+                    foreach ($v as $k2 => $v2) {
                         $uri .= '&' . $k . '[' . $k2 . ']=' . $v2;
                     }
                 } else {

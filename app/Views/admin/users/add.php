@@ -16,20 +16,19 @@ $base_model->adds_css([
         </a></li>
     <li>
         <?php
-if ($data['ID'] > 0) {
-?>
+        if ($data['ID'] > 0) {
+        ?>
         Chỉnh sửa
         <?php
-}
-else {
-?>
+        } else {
+        ?>
         Thêm mới
         <?php
-}
+        }
 
-//
-echo $member_name;
-?>
+        //
+        echo $member_name;
+        ?>
     </li>
 </ul>
 <div id="app" class="widget-box">
@@ -40,8 +39,8 @@ echo $member_name;
                 <div class="col col-8 left-user-add">
                     <div class="begin-user-add"></div>
                     <?php
-if ($data['ID'] > 0) {
-?>
+                    if ($data['ID'] > 0) {
+                    ?>
                     <div class="control-group">
                         <label class="control-label">ID</label>
                         <div class="controls bold redcolor">
@@ -50,14 +49,14 @@ if ($data['ID'] > 0) {
                     </div>
                     <?php
 
-    // hiển thị nút login as
-    //print_r( $session_data );
-    if (isset($session_data['ID']) &&
-    // ID đang đăng nhập và ID đang xem không được giống nhau
-    $session_data['ID'] != $data['ID'] &&
-    // tài khoản phải là admin
-    $session_data['member_type'] == UsersType::ADMIN) {
-?>
+                        // hiển thị nút login as
+                        //print_r( $session_data );
+                        if (isset($session_data['ID']) &&
+                            // ID đang đăng nhập và ID đang xem không được giống nhau
+                            $session_data['ID'] != $data['ID'] &&
+                            // tài khoản phải là admin
+                            $session_data['member_type'] == UsersType::ADMIN) {
+                    ?>
                     <div class="control-group">
                         <label class="control-label">&nbsp;</label>
                         <div class="controls bold"><a
@@ -67,10 +66,10 @@ if ($data['ID'] > 0) {
                             </a></div>
                     </div>
                     <?php
-    } // END login as
-
-} // END ID > 0
-?>
+                        } // END login as
+                    
+                    } // END ID > 0
+                    ?>
                     <div class="control-group">
                         <label class="control-label">Email</label>
                         <div class="controls">
@@ -100,12 +99,12 @@ if ($data['ID'] > 0) {
                                 </option>
                                 <?php
 
-//
-foreach ($arr_members_type as $type_k => $type_v) {
-    echo '<option value="' . $type_k . '">' . $type_v . '</option>';
-}
+                                //
+                                foreach ($arr_members_type as $type_k => $type_v) {
+                                    echo '<option value="' . $type_k . '">' . $type_v . '</option>';
+                                }
 
-?>
+                                ?>
                             </select>
                         </div>
                     </div>
@@ -116,12 +115,12 @@ foreach ($arr_members_type as $type_k => $type_v) {
                                 id="data_user_status" aria-required="true" required class="span5">
                                 <?php
 
-//
-foreach (UsersType::statusList() as $type_k => $type_v) {
-    echo '<option value="' . $type_k . '">' . $type_v . '</option>';
-}
+                                //
+                                foreach (UsersType::statusList() as $type_k => $type_v) {
+                                    echo '<option value="' . $type_k . '">' . $type_v . '</option>';
+                                }
 
-?>
+                                ?>
                             </select>
                         </div>
                     </div>
@@ -162,8 +161,8 @@ foreach (UsersType::statusList() as $type_k => $type_v) {
                     </div>
                     <div class="end-user-add"></div>
                     <?php
-if ($data['ci_pass'] != '') {
-?>
+                    if ($data['ci_pass'] != '') {
+                    ?>
                     <div class="control-group">
                         <label class="control-label">Mật khẩu đăng nhập</label>
                         <div class="controls">
@@ -172,9 +171,8 @@ if ($data['ci_pass'] != '') {
                         </div>
                     </div>
                     <?php
-}
-else {
-?>
+                    } else {
+                    ?>
                     <br>
                     <br>
                     <div class="control-group">
@@ -203,8 +201,8 @@ else {
                         </div>
                     </div>
                     <?php
-}
-?>
+                    }
+                    ?>
                     <br>
                 </div>
                 <div class="col col-4 right-user-add">
@@ -235,43 +233,49 @@ else {
                         </div>
                     </div>
                     <br>
-                    <div class="form-actions-xoa frm-fixed-btn cf">
+                    <div class="form-actions frm-fixed-btn cf">
                         <?php
-if ($data['ID'] > 0) {
-?>
-                        <div class="cf text-center">
-                            <div class="lf f50"> <a
-                                    href="admin/<?php echo $controller_slug; ?>/delete?id=<?php echo $data['ID']; ?>"
-                                    onClick="return click_a_delete_record();" class="btn btn-danger"
-                                    target="target_eb_iframe"><i class="fa fa-trash"></i> XÓA
-                                    <?php echo $member_name; ?>
-                                </a> </div>
-                            <div class="lf f50">
-                                <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Lưu
-                                    lại</button>
-                            </div>
-                        </div>
+                        if ($data['ID'] > 0) {
+                        ?>
+                        <a href="admin/<?php echo $controller_slug; ?>/delete?id=<?php echo $data['ID']; ?>"
+                            onClick="return click_a_delete_record();" class="btn btn-danger"
+                            target="target_eb_iframe"><i class="fa fa-trash"></i> XÓA {{member_name}}</a>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Lưu
+                            lại</button>
                         <?php
-}
-else {
-?>
-                        <button type="submit" onClick="return check_user_email_before_add();"
-                            class="btn btn-success rf"><i class="fa fa-plus"></i> Thêm mới</button>
+                        } else {
+                        ?>
+                        <button type="submit" onClick="return check_user_email_before_add();" class="btn btn-primary"><i
+                                class="fa fa-plus"></i> Thêm mới {{member_name}}</button>
                         <?php
-}
-?>
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
         </form>
     </div>
 </div>
-<script>
-var user_data = <?php echo json_encode($data); ?>;
+<?php
 
 //
+$base_model->JSON_parse([
+    'user_data' => $data,
+]);
+
+//
+$base_model->JSON_echo([
+    // mảng này sẽ in ra dưới dạng JSON hoặc number
+], [
+        // mảng này sẽ in ra dưới dạng string
+        'member_name' => $member_name,
+    ]);
+
+?>
+<script>
 WGR_vuejs('#app', {
     data: user_data,
+    member_name: member_name,
 });
 </script>
 <?php

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\ Libraries;
+namespace App\Libraries;
 
-class CommentType {
+class CommentType
+{
 
     // post_type
     const CONTACT = 'contact';
@@ -13,12 +14,13 @@ class CommentType {
         self::COMMENT => 'Bình luận',
     );
 
-    public static function typeList( $key = '' ) {
-        if ( $key == '' ) {
+    public static function typeList($key = '')
+    {
+        if ($key == '') {
             return self::$arr;
         }
-        if ( isset( self::$arr[ $key ] ) ) {
-            return self::$arr[ $key ];
+        if (isset(self::$arr[$key])) {
+            return self::$arr[$key];
         }
         return '';
     }

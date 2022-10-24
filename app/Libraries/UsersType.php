@@ -1,8 +1,9 @@
 <?php
 
-namespace App\ Libraries;
+namespace App\Libraries;
 
-class UsersType {
+class UsersType
+{
     //
     const GUEST_LEVEL = 0;
     const ADMIN_LEVEL = 1;
@@ -31,17 +32,19 @@ class UsersType {
         self::ADMIN => 'Quản trị',
     );
 
-    public static function typeList( $key = '' ) {
-        if ( $key == '' ) {
+    public static function typeList($key = '')
+    {
+        if ($key == '') {
             return self::$arr;
         }
-        if ( isset( self::$arr[ $key ] ) ) {
-            return self::$arr[ $key ];
+        if (isset(self::$arr[$key])) {
+            return self::$arr[$key];
         }
         return '';
     }
 
-    public static function statusList( $key = '' ) {
+    public static function statusList($key = '')
+    {
         $arr = array(
             self::FOR_DEFAULT => 'Cho phép đăng nhập',
             self::NO_1H_LOGIN => 'KHÓA trong 1 giờ',
@@ -50,19 +53,20 @@ class UsersType {
             self::NO_MONTH_LOGIN => 'KHÓA 01 tháng',
             self::NO_LOGIN => 'KHÓA vĩnh viễn',
         );
-        if ( $key == '' ) {
+        if ($key == '') {
             return $arr;
         }
-        if ( isset( $arr[ $key ] ) ) {
-            return $arr[ $key ];
+        if (isset($arr[$key])) {
+            return $arr[$key];
         }
         return '';
     }
 
     // quyền truy cập vào controller theo từng nhóm thành viên
-    public static function role( $key ) {
+    public static function role($key)
+    {
         // khách vãng lai và thành viên -> không có quyền gì ở đây cả
-        if ( $key == self::GUEST || $key == self::MEMBER ) {
+        if ($key == self::GUEST || $key == self::MEMBER) {
             return [];
         }
 
@@ -72,7 +76,7 @@ class UsersType {
         ];
 
         // với tác giả -> cho thêm quyền liên quan đến bài viết, up ảnh
-        if ( $key == self::MOD || $key == self::AUTHOR ) {
+        if ($key == self::MOD || $key == self::AUTHOR) {
             $arr[] = 'Comments';
             $arr[] = 'Posts';
             $arr[] = 'Terms';
@@ -80,7 +84,7 @@ class UsersType {
         }
 
         // biên tập viên -> cho thêm quyền điều khiển thành viên
-        if ( $key == self::MOD ) {
+        if ($key == self::MOD) {
             $arr[] = 'Htmlmenus';
             $arr[] = 'Menus';
             $arr[] = 'Users';
@@ -90,8 +94,8 @@ class UsersType {
 
         // chuyển hết về chữ thường
         $result = [];
-        foreach ( $arr as $v ) {
-            $result[] = strtolower( $v );
+        foreach ($arr as $v) {
+            $result[] = strtolower($v);
         }
         //print_r( $result );
 

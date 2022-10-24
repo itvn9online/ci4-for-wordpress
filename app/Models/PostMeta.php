@@ -133,11 +133,15 @@ class PostMeta extends PostBase
                 }
                 // không thì kiểm tra và tạo mới nếu chưa có
                 else {
+                    //echo $meta_data['image_medium'] . '<br>' . "\n";
+                    //die(__CLASS__ . ':' . __LINE__);
+
                     // phiên bản webp -> có lệnh riêng để tối ưu
                     $create_webp = \App\Libraries\MyImage::webpConvert(PUBLIC_PUBLIC_PATH . $meta_data['image_medium']);
+                    //die(__CLASS__ . ':' . __LINE__);
                     if ($create_webp != '') {
                         $meta_data['image_webp'] = $create_webp;
-                    } else if ($meta_data['image_webp'] == '') {
+                    } else if (!isset($meta_data['image_webp']) || $meta_data['image_webp'] == '') {
                         $meta_data['image_webp'] = $meta_data['image_medium'];
                     }
                 }

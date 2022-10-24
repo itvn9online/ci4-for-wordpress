@@ -3,12 +3,13 @@
 /*
  * Nạp model dùng chung cho các model khác
  */
-namespace App\ Models;
+namespace App\Models;
 
 //use CodeIgniter\ Model;
 
 //class EbModel extends Model {
-class EbModel {
+class EbModel
+{
     protected $table = '';
     public $primaryKey = 'ID';
 
@@ -30,8 +31,9 @@ class EbModel {
     protected $validationMessages = [];
     protected $skipValidation = false;
 
-    public function __construct() {
-        $this->base_model = new\ App\ Models\ Base();
+    public function __construct()
+    {
+        $this->base_model = new \App\Models\Base();
         //$this->db = \Config\ Database::connect();
     }
 }

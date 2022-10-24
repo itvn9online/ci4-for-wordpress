@@ -1,11 +1,12 @@
 <?php
-namespace App\ Controllers\ Admin;
+namespace App\Controllers\Admin;
 
 // Libraries
-use App\ Libraries\ OrderType;
+use App\Libraries\OrderType;
 
 //
-class Orders extends Posts {
+class Orders extends Posts
+{
     protected $post_type = OrderType::ORDER;
 
     // tham số dùng để thay đổi bảng cần gọi dữ liệu
@@ -19,7 +20,8 @@ class Orders extends Posts {
     protected $list_view_path = 'orders';
 
     //
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         //

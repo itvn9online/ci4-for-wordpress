@@ -4,9 +4,10 @@
  * Một số chức năng có tính linh động,khách hàng có thể tùy ý đổi tên thành từ dễ nhớ hoặc đúng với lĩnh vực của website hơn
  */
 
-namespace App\ Language;
+namespace App\Language;
 
-class Translate {
+class Translate
+{
     const PASSWORD = 'Mật khẩu';
     const USERNAME = 'Tài khoản';
     const FULLNAME = 'Họ và tên';

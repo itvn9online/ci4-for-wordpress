@@ -63,7 +63,29 @@ form#listContactByType {
     margin: 0;
 }
 
-.frm-fixed-btn button[type="submit"] {
+.form-actions.frm-fixed-btn.cf {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    right: 0;
+    left: 168px;
+    text-align: center;
+    padding: 8px 0;
+    background: rgba(222, 222, 222, 0.9);
+    border-top-color: #ccc;
+    z-index: 99;
+}
+
+.form-actions.frm-fixed-btn.cf .btn {
+    margin: 0 10px;
+    box-shadow: 0 0 10px #666;
+}
+
+.body-debug_enable .form-actions.frm-fixed-btn.cf {
+    padding-bottom: 48px;
+}
+
+.frm-fixed-btn:not(.cf) button[type="submit"] {
     position: fixed;
     top: 50%;
     right: 20px;

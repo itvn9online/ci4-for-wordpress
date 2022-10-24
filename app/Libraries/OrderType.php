@@ -1,14 +1,17 @@
 <?php
 
-namespace App\ Libraries;
+namespace App\Libraries;
 
 //
-class OrderType extends PostType {
-    public function __construct() {
+class OrderType extends PostType
+{
+    public function __construct()
+    {
         //
     }
 
-    public static function arrStatus() {
+    public static function arrStatus()
+    {
         return array(
             //self::PUBLICITY => 'Hiển thị',
             self::PRIVATELY => 'Đã thanh toán',

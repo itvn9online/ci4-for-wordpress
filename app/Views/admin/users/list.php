@@ -1,19 +1,26 @@
 <?php
 
 // Libraries
-use App\ Libraries\ UsersType;
+use App\Libraries\UsersType;
 
 //
-$base_model->add_css( 'admin/css/users_list.css' );
-$base_model->add_js( 'admin/js/users_functions.js' );
+$base_model->add_css('admin/css/users_list.css');
+$base_model->add_js('admin/js/users_functions.js');
 
 ?>
 <ul class="admin-breadcrumb">
-    <li><a href="admin/<?php echo $controller_slug; ?>">Danh sách <?php echo $member_name; ?></a> (<?php echo $totalThread; ?>)</li>
+    <li><a href="admin/<?php echo $controller_slug; ?>">Danh sách
+            <?php echo $member_name; ?>
+        </a>
+        (
+        <?php echo $totalThread; ?>)
+    </li>
     <?php
-    if ( $member_type != '' ) {
-        ?>
-    <li><?php echo $member_name; ?></li>
+    if ($member_type != '') {
+    ?>
+    <li>
+        <?php echo $member_name; ?>
+    </li>
     <?php
     }
     ?>
@@ -26,16 +33,18 @@ $base_model->add_js( 'admin/js/users_functions.js' );
                 <div class="cf">
                     <div class="lf f30">
                         <?php
-                        if ( $by_is_deleted > 0 ) {
-                            ?>
+                        if ($by_is_deleted > 0) {
+                        ?>
                         <input type="hidden" name="is_deleted" value="<?php echo $by_is_deleted; ?>">
                         <?php
                         }
                         ?>
-                        <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $member_name; ?>" autofocus aria-required="true" required>
+                        <input name="s" value="<?php echo $by_keyword; ?>"
+                            placeholder="Tìm kiếm <?php echo $member_name; ?>" autofocus aria-required="true" required>
                     </div>
                     <div class="lf f30">
-                        <select name="user_status" data-select="<?php echo $by_user_status; ?>" onChange="document.frm_admin_search_controller.submit();">
+                        <select name="user_status" data-select="<?php echo $by_user_status; ?>"
+                            onChange="document.frm_admin_search_controller.submit();">
                             <option value="all">- Trạng thái đăng nhập -</option>
                             <option v-for="(v, k) in UsersType_listStatus" :value="k">{{v}}</option>
                         </select>
@@ -65,7 +74,7 @@ $base_model->add_js( 'admin/js/users_functions.js' );
     $theme_private_view = $admin_root_views . $list_view_path . '/list_table.php';
     //echo $theme_private_view . '<br>' . "\n";
     //echo __DIR__ . '/list_table.php' . '<br>' . "\n";
-    if ( file_exists( $theme_private_view ) ) {
+    if (file_exists($theme_private_view)) {
         include $theme_private_view;
     } else {
         include __DIR__ . '/list_table.php';
@@ -73,7 +82,10 @@ $base_model->add_js( 'admin/js/users_functions.js' );
 
     ?>
 </div>
-<div class="public-part-page"> <?php echo $pagination; ?> Trên tổng số <?php echo $totalThread; ?> bản ghi.</div>
+<div class="public-part-page">
+    <?php echo $pagination; ?> Trên tổng số
+    <?php echo $totalThread; ?> bản ghi.
+</div>
 <script>
 var controller_slug = '<?php echo $controller_slug; ?>';
 var col_filter = <?php echo json_encode($col_filter); ?>;
@@ -89,17 +101,17 @@ WGR_vuejs('#app', {
     for_action: '<?php echo $for_action; ?>',
     DeletedStatus_DELETED: '<?php echo $DeletedStatus_DELETED; ?>',
     by_is_deleted: '<?php echo $by_is_deleted; ?>',
-    UsersType_NO_LOGIN: <?php echo UsersType::NO_LOGIN; ?>,
-    UsersType_FOR_DEFAULT: <?php echo UsersType::FOR_DEFAULT; ?>,
+    UsersType_NO_LOGIN: <?php echo UsersType:: NO_LOGIN; ?>,
+    UsersType_FOR_DEFAULT: <?php echo UsersType:: FOR_DEFAULT; ?>,
     list: <?php echo json_encode($arr_members_type); ?>,
-    UsersType_listStatus: <?php echo json_encode(UsersType::statusList()); ?>,
-}, function () {
+    UsersType_listStatus: <?php echo json_encode(UsersType:: statusList()); ?>,
+}, function() {
     action_change_user_status();
 });
 </script>
 <?php
 
 //
-$base_model->add_js( 'admin/js/users.js' );
-$base_model->add_js( 'admin/js/users_list.js' );
-$base_model->add_js( 'admin/js/' . $member_type . '.js' );
+$base_model->add_js('admin/js/users.js');
+$base_model->add_js('admin/js/users_list.js');
+$base_model->add_js('admin/js/' . $member_type . '.js');

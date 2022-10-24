@@ -1,15 +1,18 @@
 <?php
 
 // Libraries
-use App\ Libraries\ PostType;
+use App\Libraries\PostType;
 
 // css riêng cho từng post type (nếu có)
-$base_model->add_css( 'admin/css/posts_list.css' );
-$base_model->add_css( 'admin/css/' . $post_type . '.css' );
+$base_model->add_css('admin/css/posts_list.css');
+$base_model->add_css('admin/css/' . $post_type . '.css');
 
 ?>
 <ul class="admin-breadcrumb">
-    <li>Danh sách <?php echo $name_type; ?> (<?php echo $totalThread; ?>)</li>
+    <li>Danh sách
+        <?php echo $name_type; ?> (
+        <?php echo $totalThread; ?>)
+    </li>
 </ul>
 <div id="app" class="ng-main-content">
     <div class="cf admin-search-form">
@@ -17,16 +20,23 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
             <form name="frm_admin_search_controller" action="./admin/<?php echo $controller_slug; ?>" method="get">
                 <div class="cf">
                     <div class="lf f25">
-                        <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $name_type; ?>" autofocus aria-required="true" required>
+                        <input name="s" value="<?php echo $by_keyword; ?>"
+                            placeholder="Tìm kiếm <?php echo $name_type; ?>" autofocus aria-required="true" required>
                     </div>
                     <div class="lf f25 hide-if-no-taxonomy">
-                        <select name="term_id" data-select="<?php echo $by_term_id; ?>" :data-taxonomy="taxonomy" onChange="document.frm_admin_search_controller.submit();" class="each-to-group-taxonomy">
-                            <option value="0">- Danh mục <?php echo $name_type; ?> -</option>
+                        <select name="term_id" data-select="<?php echo $by_term_id; ?>" :data-taxonomy="taxonomy"
+                            onChange="document.frm_admin_search_controller.submit();" class="each-to-group-taxonomy">
+                            <option value="0">- Danh mục
+                                <?php echo $name_type; ?> -
+                            </option>
                         </select>
                     </div>
                     <div class="lf f25">
-                        <select name="post_status" :data-select="post_status" onChange="document.frm_admin_search_controller.submit();">
-                            <option value="">- Trạng thái <?php echo $name_type; ?> -</option>
+                        <select name="post_status" :data-select="post_status"
+                            onChange="document.frm_admin_search_controller.submit();">
+                            <option value="">- Trạng thái
+                                <?php echo $name_type; ?> -
+                            </option>
                             <option :value="k" v-for="(v, k) in PostType_arrStatus">{{v}}</option>
                         </select>
                     </div>
@@ -52,7 +62,7 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
     include $admin_root_views . 'posts/list_select_all.php';
 
     // sử dụng list_table riêng của post type nếu có khai báo
-    if ( $list_table_path != '' ) {
+    if ($list_table_path != '') {
         include $admin_root_views . $list_table_path . '/list_table.php';
     }
     // list_table mặc định
@@ -62,7 +72,10 @@ $base_model->add_css( 'admin/css/' . $post_type . '.css' );
 
     ?>
 </div>
-<div class="public-part-page"> <?php echo $pagination; ?> Trên tổng số <?php echo $totalThread; ?> bản ghi.</div>
+<div class="public-part-page">
+    <?php echo $pagination; ?> Trên tổng số
+    <?php echo $totalThread; ?> bản ghi.
+</div>
 <script>
 WGR_vuejs('#app', {
     allow_mysql_delete: allow_mysql_delete,
@@ -82,5 +95,5 @@ WGR_vuejs('#app', {
 include $admin_root_views . 'posts/sync_modal.php';
 
 // css riêng cho từng post type (nếu có)
-$base_model->add_js( 'admin/js/post_list.js' );
-$base_model->add_js( 'admin/js/' . $post_type . '.js' );
+$base_model->add_js('admin/js/post_list.js');
+$base_model->add_js('admin/js/' . $post_type . '.js');

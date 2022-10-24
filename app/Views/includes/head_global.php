@@ -226,9 +226,13 @@ $WGR_config = [
 ?>
 <script>
 redirect_to_canonical();
-var WGR_config = <?php echo json_encode($WGR_config); ?>;
 </script>
 <?php
+
+//
+$base_model->JSON_parse([
+    'WGR_config' => $WGR_config,
+]);
 
 //
 echo $getconfig->html_header;

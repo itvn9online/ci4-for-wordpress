@@ -1,8 +1,9 @@
 <?php
 
-namespace App\ Libraries;
+namespace App\Libraries;
 
-class MenuType {
+class MenuType
+{
 
     const SHOW = '0';
     const HIDE = '1';
@@ -16,11 +17,12 @@ class MenuType {
         self::SLIDER => 'Slider'
     );
 
-    public static function typeList( $key = '' ) {
-        if ( $key == '' ) {
+    public static function typeList($key = '')
+    {
+        if ($key == '') {
             return self::$arr;
         }
-        return self::$arr[ $key ];
+        return self::$arr[$key];
     }
 
 }

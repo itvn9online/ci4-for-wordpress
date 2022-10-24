@@ -1,11 +1,12 @@
 <?php
-namespace App\ Controllers\ Admin;
+namespace App\Controllers\Admin;
 
 // Libraries
-use App\ Libraries\ PostType;
+use App\Libraries\PostType;
 
 //
-class Menus extends Posts {
+class Menus extends Posts
+{
     protected $post_type = PostType::MENU;
 
     // tham số dùng để thay đổi URL cho controller nếu muốn
@@ -17,10 +18,11 @@ class Menus extends Posts {
     protected $list_table_path = 'menus';
 
     //
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         // kiểm tra quyền truy cập của tài khoản hiện tại
-        $this->check_permision( __CLASS__ );
+        $this->check_permision(__CLASS__);
     }
 }

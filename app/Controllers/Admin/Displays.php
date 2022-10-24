@@ -1,15 +1,17 @@
 <?php
-namespace App\ Controllers\ Admin;
+namespace App\Controllers\Admin;
 
 // Libraries
-use App\ Libraries\ ConfigType;
+use App\Libraries\ConfigType;
 
 //
-class Displays extends Configs {
+class Displays extends Configs
+{
     protected $config_type = ConfigType::DISPLAY;
     //protected $view_edit = 'smtp';
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 }

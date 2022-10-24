@@ -1,6 +1,6 @@
 <?php
 // Libraries
-//use App\ Libraries\ UsersType;
+//use App\Libraries\UsersType;
 
 //print_r( $session_data );
 //print_r( $_SESSION );
@@ -129,40 +129,40 @@ echo (($html_lang == 'vn' || $html_lang == '') ? 'vi' : $html_lang);
     <script src="./thirdparty/select2-4.0.13/js/select2.min.js"></script>
     <?php
 
-$base_model->adds_css([
-    //'css/flatsome.css',
-    'css/flatsome-for-bootstrap.css',
-    'css/d.css',
-    //'css/d2.css',
-    'admin/css/admin_teamplate.css',
-    // admin thì luôn show debug bar rồi
-    'admin/css/show-debug-bar.css',
-]);
-
-$base_model->adds_js([
-    'admin/js/admin_functions.js',
-    'admin/js/admin_teamplate.js',
-    'javascript/functions.js',
-    'javascript/functions_footer.js',
-    'themes/' . THEMENAME . '/js/functions.js',
-    'javascript/eb.js'
-]);
-
-//
-$base_model->JSON_parse([
-    'arr_admin_menu' => $arr_admin_menu,
-    'arr_lang_list' => $arr_lang_list,
-]);
-
-//
-$base_model->JSON_echo([
-    // mảng này sẽ in ra dưới dạng JSON hoặc number
-    'allow_mysql_delete' => ALLOW_USING_MYSQL_DELETE ? 'true' : 'false',
-], [
-        // mảng này sẽ in ra dưới dạng string
+    $base_model->adds_css([
+        //'css/flatsome.css',
+        'css/flatsome-for-bootstrap.css',
+        'css/d.css',
+        //'css/d2.css',
+        'admin/css/admin_teamplate.css',
+        // admin thì luôn show debug bar rồi
+        'admin/css/show-debug-bar.css',
     ]);
 
-?>
+    $base_model->adds_js([
+        'admin/js/admin_functions.js',
+        'admin/js/admin_teamplate.js',
+        'javascript/functions.js',
+        'javascript/functions_footer.js',
+        'themes/' . THEMENAME . '/js/functions.js',
+        'javascript/eb.js'
+    ]);
+
+    //
+    $base_model->JSON_parse([
+        'arr_admin_menu' => $arr_admin_menu,
+        'arr_lang_list' => $arr_lang_list,
+    ]);
+
+    //
+    $base_model->JSON_echo([
+        // mảng này sẽ in ra dưới dạng JSON hoặc number
+        'allow_mysql_delete' => ALLOW_USING_MYSQL_DELETE ? 'true' : 'false',
+    ], [
+            // mảng này sẽ in ra dưới dạng string
+        ]);
+
+    ?>
     <script>
     var web_link = window.location.protocol + '//' + document.domain + '/';
     var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
@@ -186,8 +186,8 @@ $base_model->JSON_echo([
         </div>
         <div class="lf f50 text-right">Xin Chào: <a title="Thông tin cá nhân" href="./users/profile">
                 <?php
-echo ($session_data['display_name'] != '' ? $session_data['display_name'] : $session_data['user_login']);
-?>
+                echo ($session_data['display_name'] != '' ? $session_data['display_name'] : $session_data['user_login']);
+                ?>
             </a> &nbsp; | &nbsp; <a title="Đăng xuất" data-bs-toggle="modal" data-bs-target="#logoutModal"
                 href="javascript:;"><i class="fa fa-sign-out"></i> Logout</a></div>
     </div>
@@ -214,17 +214,17 @@ echo ($session_data['display_name'] != '' ? $session_data['display_name'] : $ses
             <div class="row-fluid">
                 <?php
 
-/*
- * thông điệp lỗi trả về nếu có
- */
-include dirname(__DIR__) . '/includes/msg_view.php';
+                /*
+                 * thông điệp lỗi trả về nếu có
+                 */
+                include dirname(__DIR__) . '/includes/msg_view.php';
 
-//
-?>
+                //
+                ?>
                 <div id="for_vue">
                     <?php
-echo $content;
-?>
+                    echo $content;
+                    ?>
                 </div>
             </div>
         </div>
@@ -239,14 +239,14 @@ echo $content;
     </div>
     <?php
 
-$base_model->adds_js([
-    'admin/js/admin_footer.js',
-    'admin/js/active-support-label.js',
-    'javascript/datetimepicker.js',
-    'javascript/pagination.js',
-]);
+    $base_model->adds_js([
+        'admin/js/admin_footer.js',
+        'admin/js/active-support-label.js',
+        'javascript/datetimepicker.js',
+        'javascript/pagination.js',
+    ]);
 
-?>
+    ?>
     <!-- Modal logout -->
     <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
         <div class="modal-dialog">

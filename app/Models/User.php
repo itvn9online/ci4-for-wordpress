@@ -2,7 +2,7 @@
 namespace App\Models;
 
 //
-//use App\ Libraries\ DeletedStatus;
+//use App\Libraries\DeletedStatus;
 
 //
 class User extends UserMeta
@@ -68,7 +68,7 @@ class User extends UserMeta
             //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             //echo $data[ 'user_email' ] . '<br>' . "\n";
             $data['user_login'] = $this->generate_user_login($data['user_email']);
-        //echo $data[ 'user_login' ] . '<br>' . "\n";
+            //echo $data[ 'user_login' ] . '<br>' . "\n";
         }
         $data['user_login'] = $this->check_user_login_exist($data['user_login']);
         // mã hóa mật khẩu
@@ -99,12 +99,10 @@ class User extends UserMeta
                 if (isset($data['user_email']) && $data['user_email'] != '') {
                     $data['user_login'] = $this->generate_user_login($data['user_email']);
                     $data['user_login'] = $this->check_user_login_exist($data['user_login']);
-                }
-                else {
+                } else {
                     return 'User login is empty!';
                 }
-            }
-            else {
+            } else {
                 // kiểm tra email này đã có ai dùng chưa
                 $check__exist = $this->check_another_user_by($id, 'user_login', $data['user_login']);
 
