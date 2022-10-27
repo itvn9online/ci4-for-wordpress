@@ -63,14 +63,14 @@ class Uploads extends Users
         if (strpos($img, 'data:image/png;') !== false) {
             $file_type = 'png';
             $img = str_replace('data:image/png;base64,', '', $img);
-        }
-        else {
+        } else {
             $img = str_replace('data:image/jpeg;base64,', '', $img);
             $img = str_replace('data:image/jpg;base64,', '', $img);
         }
         $img = str_replace(' ', '+', $img);
         $file_path = $upload_path . $file_name . '.' . $file_type;
         $file_thumb_path = $upload_path . $file_name . '-thumb.' . $file_type;
+        $file_medium_path = $upload_path . $file_name . '-medium.' . $file_type;
 
         //
         //$this->result_json_type( [ $img ] ); // TEST
@@ -104,9 +104,14 @@ class Uploads extends Users
             $resize_img = \App\Libraries\MyImage::resize($file_path, $file_thumb_path, 220);
             chmod($file_thumb_path, 0777);
         }
+        if (!file_exists($file_medium_path)) {
+            $resize_img = \App\Libraries\MyImage::resize($file_path, $file_medium_path, 400);
+            chmod($file_medium_path, 0777);
+        }
 
         //
         $img_thumb = str_replace(PUBLIC_PUBLIC_PATH, '', $file_thumb_path);
+        $img_medium = str_replace(PUBLIC_PUBLIC_PATH, '', $file_medium_path);
 
         //
         $this->result_json_type([
@@ -115,6 +120,7 @@ class Uploads extends Users
             'mime_type' => $mime_type,
             'img_large' => str_replace(PUBLIC_PUBLIC_PATH, '', $file_path),
             'img_thumb' => $img_thumb,
+            'img_medium' => $img_medium,
             'success' => $success,
             'file_name' => $file_name,
             'file_type' => $file_type,

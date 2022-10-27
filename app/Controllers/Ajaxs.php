@@ -49,20 +49,20 @@ class Ajaxs extends Layout
             // WHERE AND OR
             //'is_member' => User_type::GUEST,
         ), array(
-            'where_in' => array(
-                'term_id' => explode(',', $ids)
-            ),
-            // trả về COUNT(column_name) AS column_name
-            //'selectCount' => 'ID',
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-            // trả về tổng số bản ghi -> tương tự mysql num row
-            //'getNumRows' => 1,
-            //'offset' => 2,
-            'limit' => -1
-        ));
+                'where_in' => array(
+                    'term_id' => explode(',', $ids)
+                ),
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 2,
+                'limit' => -1
+            ));
 
         //
         die(json_encode($data));
@@ -77,7 +77,7 @@ class Ajaxs extends Layout
     {
         // đồng bộ lại tổng số nhóm con cho các danh mục trước đã
         $this->result_json_type([
-            'term' => $this->term_model->sync_term_child_count(),
+            //'term' => $this->term_model->sync_term_child_count(),
             'post' => $this->post_model->sync_post_term_permalink(),
         ]);
     }

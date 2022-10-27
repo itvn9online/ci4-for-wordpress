@@ -11,6 +11,9 @@ function action_before_submit_post() {
     fixed_CLS_for_editer('iframe#Resolution_ifr');
 
     //
+    $('#post_meta_image_size').trigger('change');
+
+    //
     return true;
 }
 

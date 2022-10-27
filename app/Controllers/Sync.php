@@ -13,8 +13,8 @@ class Sync extends BaseController
         $this->base_model = new \App\Models\Base();
         $this->term_model = new \App\Models\Term();
 
-    //
-    //$this->cache = \Config\ Services::cache();
+        //
+        //$this->cache = \Config\ Services::cache();
     }
 
     public function vendor_sync($check_thirdparty_exist = true)
@@ -100,8 +100,7 @@ class Sync extends BaseController
             //echo $k . '<br>' . "\n";
             if (isset($tbl_terms[$k])) {
                 echo '- - - - - - unset term_taxonomy.' . $k . '<br>' . "\n";
-            }
-            else {
+            } else {
                 $arr_term_taxonomy[] = 't.' . $k;
             }
         }
@@ -111,16 +110,16 @@ class Sync extends BaseController
         $sql = $this->base_model->select('terms.*,' . implode(',', $arr_term_taxonomy), 'terms', array(
             // các kiểu điều kiện where
         ), array(
-            'join' => array(
-                'term_taxonomy t' => 'terms.term_id = t.term_id'
-            ),
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            'get_query' => 1,
-            //'offset' => 2,
-            'limit' => -1
-        ));
+                'join' => array(
+                    'term_taxonomy t' => 'terms.term_id = t.term_id'
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                'get_query' => 1,
+                //'offset' => 2,
+                'limit' => -1
+            ));
 
         //
         $sql = "CREATE OR REPLACE VIEW " . WGR_TERM_VIEW . " AS " . $sql;
@@ -164,8 +163,7 @@ class Sync extends BaseController
             //echo $k . '<br>' . "\n";
             if (isset($tbl_posts[$k])) {
                 echo '- - - - - - unset term_taxonomy.' . $k . '<br>' . "\n";
-            }
-            else {
+            } else {
                 $arr_term_taxonomy[] = 't.' . $k;
             }
         }
@@ -184,8 +182,7 @@ class Sync extends BaseController
             //echo $k . '<br>' . "\n";
             if (isset($tbl_term_taxonomy[$k])) {
                 echo '- - - - - - unset term_relationships.' . $k . '<br>' . "\n";
-            }
-            else {
+            } else {
                 $arr_term_relationships[] = 'r.' . $k;
             }
         }
@@ -195,17 +192,17 @@ class Sync extends BaseController
         $sql = $this->base_model->select('posts.*,' . implode(',', $arr_term_taxonomy) . ',' . implode(',', $arr_term_relationships), 'posts', array(
             // các kiểu điều kiện where
         ), array(
-            'join' => array(
-                'term_relationships r' => 'r.object_id = posts.ID',
-                'term_taxonomy t' => 'r.term_taxonomy_id = t.term_taxonomy_id',
-            ),
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            'get_query' => 1,
-            //'offset' => 2,
-            'limit' => -1
-        ));
+                'join' => array(
+                    'term_relationships r' => 'r.object_id = posts.ID',
+                    'term_taxonomy t' => 'r.term_taxonomy_id = t.term_taxonomy_id',
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                'get_query' => 1,
+                //'offset' => 2,
+                'limit' => -1
+            ));
         //echo $sql . '<br>' . "\n";
 
         //
@@ -378,8 +375,7 @@ class Sync extends BaseController
 
                         //
                         $has_table_change = true;
-                    }
-                    else {
+                    } else {
                         echo 'Query failed! Please re-check query <br>' . "\n";
                     }
 
@@ -407,10 +403,12 @@ class Sync extends BaseController
         $this->view_terms($has_table_change);
         $this->view_posts($has_table_change);
         // cập nhật lại tổng số nhóm con cho phân term
-        $last_run = $this->term_model->sync_term_child_count();
-        if ($last_run !== true) {
-            echo 'sync_term_child_count RUN ' . (time() - $last_run) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
-        }
+        /*
+         $last_run = $this->term_model->sync_term_child_count();
+         if ($last_run !== true) {
+         echo 'sync term child count RUN ' . (time() - $last_run) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+         }
+         */
 
         //
         //die( __CLASS__ . ':' . __LINE__ );
@@ -443,8 +441,7 @@ class Sync extends BaseController
         $upload_via_ftp = false;
         if (@!file_put_contents(PUBLIC_HTML_PATH . 'test_permission.txt', time())) {
             $upload_via_ftp = true;
-        }
-        else {
+        } else {
             unlink(PUBLIC_HTML_PATH . 'test_permission.txt');
         }
         //var_dump( $upload_via_ftp );
@@ -478,12 +475,10 @@ class Sync extends BaseController
             if ($check_thirdparty_exist === false || !is_dir($check_dir)) {
                 if ($this->MY_unzip($filename, PUBLIC_HTML_PATH . $dir) === TRUE) {
                     echo 'DONE! sync code ' . $file . ' <br>' . "\n";
-                }
-                else {
+                } else {
                     echo 'ERROR! sync code ' . $file . ' <br>' . "\n";
                 }
-            }
-            else {
+            } else {
                 echo $file . ' has been sync <br>' . "\n";
             }
         }
@@ -506,7 +501,7 @@ class Sync extends BaseController
             $this->base_model->msg_error_session($error);
             break;
         }
-    //die( __CLASS__ . ':' . __LINE__ );
+        //die( __CLASS__ . ':' . __LINE__ );
     }
 
     // đồng bộ nội dung về 1 kiểu
@@ -618,8 +613,7 @@ class Sync extends BaseController
         $pcol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
         if ($status == 404) {
             header($pcol . ' 404 Not Found');
-        }
-        else {
+        } else {
             header($pcol . ' ' . $status . ' Not Found');
         }
         die(header('Location: ' . $to, TRUE, $status));

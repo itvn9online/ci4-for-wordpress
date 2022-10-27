@@ -81,18 +81,24 @@ class PostType
         return '';
     }
 
-    // trả về các meta mặc định dựa theo từng post_type
-    public static function meta_default($post_type)
+    public static function imageSizes()
     {
-        $arr = [
-            'image' => 'Ảnh đại diện', // fullsize
-            'image_large' => 'Ảnh đại diện (large)',
-            'image_medium_large' => 'Ảnh đại diện (medium large)',
+        return [
             'image_medium' => 'Ảnh đại diện (medium)',
             'image_thumbnail' => 'Ảnh đại diện (thumbnail)',
             'image_webp' => 'Ảnh đại diện (webp)',
-            'meta_description' => 'Meta description',
+            'image_medium_large' => 'Ảnh đại diện (medium large)',
+            'image_large' => 'Ảnh đại diện (large)',
         ];
+    }
+
+    // trả về các meta mặc định dựa theo từng post_type
+    public static function meta_default($post_type)
+    {
+        $arr = self::imageSizes();
+        $arr['image'] = 'Ảnh đại diện'; // fullsize
+        $arr['image_size'] = 'Kích cỡ'; // lựa chọn size ảnh
+        $arr['meta_description'] = 'Meta description';
 
         //
         if ($post_type == self::POST ||
@@ -150,6 +156,7 @@ class PostType
             'image_medium' => 'hidden',
             'image_thumbnail' => 'hidden',
             'image_webp' => 'hidden',
+            'image_size' => 'select',
         ];
         if (isset($arr[$key])) {
             return $arr[$key];
@@ -189,8 +196,13 @@ class PostType
     // mảng chứa giá trị của các select
     public static function meta_select($key)
     {
+        $arr_image_size = self::imageSizes();
+        $arr_image_size['image_origin'] = 'Ảnh đại diện (bản gốc)';
+
+        //
         $arr = [
             //'page_template' => [],
+            'image_size' => $arr_image_size,
         ];
         if (isset($arr[$key])) {
             return $arr[$key];

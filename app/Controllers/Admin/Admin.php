@@ -36,7 +36,7 @@ class Admin extends Ajaxs
 
             //
             die(header('Location: ' . $login_url));
-        //die( 'Permission deny! ' . basename( __FILE__, '.php' ) . ':' . __LINE__ );
+            //die( 'Permission deny! ' . basename( __FILE__, '.php' ) . ':' . __LINE__ );
         }
         //print_r( $this->session_data );
         //var_dump( $this->session_data );
@@ -74,8 +74,7 @@ class Admin extends Ajaxs
                     'session_data' => $this->session_data,
                 )),
             ];
-        }
-        else {
+        } else {
             $this->teamplate_admin = [];
         }
     }
@@ -163,8 +162,7 @@ class Admin extends Ajaxs
                 if (isset($arr[$k])) {
                     if (empty($v)) {
                         $arr[$k] = NULL;
-                    }
-                    else {
+                    } else {
                         //print_r( $v );
                         // nếu có tham số arr_replace -> thay toàn bộ menu cũ bằng menu mới
                         if (isset($v['arr_replace'])) {
@@ -247,7 +245,7 @@ class Admin extends Ajaxs
                     }
                 }
             }
-        //include $filename;
+            //include $filename;
         }
     }
 
@@ -269,8 +267,8 @@ class Admin extends Ajaxs
                     return false;
                 }
                 echo 'Using cache delete Matching `' . $for . '` --- Total clear: ' . $has_cache . '<br>' . "\n";
-            //var_dump( $has_cache );
-            //die( $for );
+                //var_dump( $has_cache );
+                //die( $for );
             }
             // xóa toàn bộ cache
             else {
@@ -305,9 +303,8 @@ class Admin extends Ajaxs
                 $this->base_model->alert('Toàn bộ file cache đã được xóa');
 
                 // đồng bộ lại tổng số nhóm con cho các danh mục trước đã
-                echo $this->term_model->sync_term_child_count();
-            }
-            else {
+                //echo $this->term_model->sync_term_child_count();
+            } else {
                 $this->base_model->alert('Thư mục cache trống!', 'warning');
             }
             die(__CLASS__ . ':' . __LINE__);
@@ -326,10 +323,10 @@ class Admin extends Ajaxs
 
     public function testCode()
     {
-    // test chức năng xử lý ảnh của codeigniter 4
-    //MyImage::quality( PUBLIC_PUBLIC_PATH . 'upload/2021/11/002.jpg', PUBLIC_PUBLIC_PATH . 'upload/2021/11/002-test-quality.jpg' );
-    //MyImage::crop( PUBLIC_PUBLIC_PATH . 'upload/2021/11/002.jpg', PUBLIC_PUBLIC_PATH . 'upload/2021/11/002-test-crop.jpg' );
-    //MyImage::resize( PUBLIC_PUBLIC_PATH . 'upload/2021/11/002.jpg', PUBLIC_PUBLIC_PATH . 'upload/2021/11/002-test-resize.jpg', 0, 150 );
-    //MyImage::watermark( PUBLIC_PUBLIC_PATH . 'upload/2021/11/002.jpg', PUBLIC_PUBLIC_PATH . 'upload/2021/11/002-test-watermark.jpg' );
+        // test chức năng xử lý ảnh của codeigniter 4
+        //MyImage::quality( PUBLIC_PUBLIC_PATH . 'upload/2021/11/002.jpg', PUBLIC_PUBLIC_PATH . 'upload/2021/11/002-test-quality.jpg' );
+        //MyImage::crop( PUBLIC_PUBLIC_PATH . 'upload/2021/11/002.jpg', PUBLIC_PUBLIC_PATH . 'upload/2021/11/002-test-crop.jpg' );
+        //MyImage::resize( PUBLIC_PUBLIC_PATH . 'upload/2021/11/002.jpg', PUBLIC_PUBLIC_PATH . 'upload/2021/11/002-test-resize.jpg', 0, 150 );
+        //MyImage::watermark( PUBLIC_PUBLIC_PATH . 'upload/2021/11/002.jpg', PUBLIC_PUBLIC_PATH . 'upload/2021/11/002-test-watermark.jpg' );
     }
 }
