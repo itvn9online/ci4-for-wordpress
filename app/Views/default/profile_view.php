@@ -37,26 +37,26 @@
                     <div class="col small-12 medium-4 large-4">Tài khoản</div>
                     <div class="col small-12 medium-8 large-8">
                         <?php
-echo $data['user_login'];
+                        echo $data['user_login'];
 
 
-// chức năng riêng dành cho admin
-if (isset($session_data['userLevel']) && $session_data['userLevel'] > 0) {
-?>
+                        // chức năng riêng dành cho admin
+                        if (isset($session_data['userLevel']) && $session_data['userLevel'] > 0) {
+                        ?>
                         <a href="./<?php echo CUSTOM_ADMIN_URI; ?>">@</a>
                         <?php
-}
-?>
+                        }
+                        ?>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col small-12 medium-4 large-4 l40">Ảnh đại diện</div>
                     <div class="col small-12 medium-8 large-8">
                         <label for="file-input-media" id="click-chose-media"> <img src="images/_blank.png" height="150"
-                                <?php if ($data['avatar'] !='' ) { ?>style="background-image: url(
+                                <?php if ($data['avatar'] !='') { ?>style="background-image: url(
                             <?php echo $data['avatar']; ?>);" <?php
-}
-?> />
+                                }
+                                ?> />
                             <input id="file-input-media" accept="image/*" type="file" class="cur" />
                             <input type="hidden" name="data[avatar]" id="file-input-avatar"
                                 value="<?php echo $data['avatar']; ?>" />
@@ -102,7 +102,8 @@ if (isset($session_data['userLevel']) && $session_data['userLevel'] > 0) {
                 </div>
             </div>
             <div class="form-actions text-center">
-                <button type="submit" class="btn btn-success">Cập nhật thông tin cá nhân</button>
+                <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Cập nhật thông tin cá
+                    nhân</button>
             </div>
         </form>
     </div>
@@ -131,7 +132,7 @@ if (isset($session_data['userLevel']) && $session_data['userLevel'] > 0) {
                         nhập</em>.</p>
             </div>
             <div class="form-actions text-center">
-                <input type="submit" class="btn btn-success" value="Thay đổi mật khẩu" />
+                <button type="submit" class="btn btn-success"><i class="fa fa-key"></i> Thay đổi mật khẩu</button>
             </div>
         </form>
         <hr />

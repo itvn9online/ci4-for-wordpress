@@ -2,7 +2,7 @@
 namespace App\Controllers;
 
 // Libraries
-//use App\Libraries\PostType;
+use App\Libraries\PostType;
 
 //
 class Uploads extends Users
@@ -71,6 +71,7 @@ class Uploads extends Users
         $file_path = $upload_path . $file_name . '.' . $file_type;
         $file_thumb_path = $upload_path . $file_name . '-thumb.' . $file_type;
         $file_medium_path = $upload_path . $file_name . '-medium.' . $file_type;
+        $file_large_path = $upload_path . $file_name . '-medium_large.' . $file_type;
 
         //
         //$this->result_json_type( [ $img ] ); // TEST
@@ -100,27 +101,29 @@ class Uploads extends Users
         }
 
         // resize ảnh để chạy cho mượt
+        $arr_sizes = PostType::media_size();
         if (!file_exists($file_thumb_path)) {
-            $resize_img = \App\Libraries\MyImage::resize($file_path, $file_thumb_path, 220);
+            $rs = \App\Libraries\MyImage::resize($file_path, $file_thumb_path, $arr_sizes[PostType::MEDIA_THUMBNAIL]);
             chmod($file_thumb_path, 0777);
         }
         if (!file_exists($file_medium_path)) {
-            $resize_img = \App\Libraries\MyImage::resize($file_path, $file_medium_path, 400);
+            $rs = \App\Libraries\MyImage::resize($file_path, $file_medium_path, $arr_sizes[PostType::MEDIA_MEDIUM]);
             chmod($file_medium_path, 0777);
         }
-
-        //
-        $img_thumb = str_replace(PUBLIC_PUBLIC_PATH, '', $file_thumb_path);
-        $img_medium = str_replace(PUBLIC_PUBLIC_PATH, '', $file_medium_path);
+        if (!file_exists($file_large_path)) {
+            $rs = \App\Libraries\MyImage::resize($file_path, $file_large_path, $arr_sizes[PostType::MEDIA_MEDIUM_LARGE]);
+            chmod($file_large_path, 0777);
+        }
 
         //
         $this->result_json_type([
             'user' => $this->current_user_id,
-            'img' => str_replace(PUBLIC_PUBLIC_PATH, '', $file_path),
             'mime_type' => $mime_type,
-            'img_large' => str_replace(PUBLIC_PUBLIC_PATH, '', $file_path),
-            'img_thumb' => $img_thumb,
-            'img_medium' => $img_medium,
+            'img' => str_replace(PUBLIC_PUBLIC_PATH, '', $file_path),
+            //'img_large' => str_replace(PUBLIC_PUBLIC_PATH, '', $file_path),
+            'img_large' => str_replace(PUBLIC_PUBLIC_PATH, '', $file_large_path),
+            'img_thumb' => str_replace(PUBLIC_PUBLIC_PATH, '', $file_thumb_path),
+            'img_medium' => str_replace(PUBLIC_PUBLIC_PATH, '', $file_medium_path),
             'success' => $success,
             'file_name' => $file_name,
             'file_type' => $file_type,

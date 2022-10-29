@@ -349,6 +349,8 @@ label,
     padding-left: 0;
 }
 
+.eb-blog.anhtren_chuduoi .eb-blog-left,
+.eb-blog.anhtren_chuduoi .eb-blog-right,
 .blogs_node_text_only .eb-blog-left,
 .blogs_node_text_only .eb-blog-right,
 .blogs_node_chi_chu .eb-blog-left,
@@ -361,6 +363,7 @@ label,
     width: auto;
 }
 
+.eb-blog.anhtren_chuduoi .eb-blog-marginleft,
 .blogs_node_anhtren_chuduoi .eb-blog-marginleft {
     padding-top: 8px;
     padding-left: 0;
@@ -373,11 +376,6 @@ label,
 .blogs_node_chutren_anhduoi .eb-blog-marginleft {
     padding-bottom: 8px;
     padding-left: 0;
-}
-
-.blogs_node_anhtren_chuduoi.eb-blog100 .eb-blog-left,
-.blogs_node_anhtren_chuduoi.eb-blog100 .eb-blog-right {
-    width: auto;
 }
 
 .eb-blog.text_only .eb-blog-right {
@@ -1658,13 +1656,6 @@ a.eb-btn {
 }
 
 /* */
-.eb-blog.anhtren_chuduoi {}
-
-.eb-blog.anhtren_chuduoi .eb-blog-left,
-.eb-blog.anhtren_chuduoi .eb-blog-right {
-    float: none;
-    width: 100%;
-}
 
 /* */
 .btn-small {

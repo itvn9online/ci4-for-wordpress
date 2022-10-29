@@ -29,23 +29,23 @@ if ($debug_enable === true) {
         (<em><strong>{{calculate_ci4_update(last_ci4_update)}}</strong> ngày trước</em>)
         <?php
 
-// lấy theo version
-if (file_exists(APPPATH . 'VERSION')) {
-    echo ' - Phiên bản: <strong>' . file_get_contents(APPPATH . 'VERSION', 1) . '</strong>';
-}
+        // lấy theo version
+        if (file_exists(APPPATH . 'VERSION')) {
+            echo ' - Phiên bản: <strong>' . file_get_contents(APPPATH . 'VERSION', 1) . '</strong>';
+        }
 
-?>
+        ?>
     </p>
     <p>Nền tảng chính framework <a href="https://codeigniter.com/download/" target="_blank" rel="nofollow"><strong
                 :class="warning_ci_version(ci_version, ci_last_version)">Codeigniter {{ci_version}}</strong></a>
         <?php
 
-//
-if (file_exists(PUBLIC_HTML_PATH . 'system.zip')) {
-    echo '(<em>Cập nhật lần cuối: ' . date(EBE_DATETIME_FORMAT, filemtime(PUBLIC_HTML_PATH . 'system.zip')) . '</em>)';
-}
+        //
+        if (file_exists(PUBLIC_HTML_PATH . 'system.zip')) {
+            echo '(<em>Cập nhật lần cuối: ' . date(EBE_DATETIME_FORMAT, filemtime(PUBLIC_HTML_PATH . 'system.zip')) . '</em>)';
+        }
 
-?>
+        ?>
         kết hợp với cấu trúc database nền tảng của <a href="https://wordpress.org/download/" target="_blank"
             rel="nofollow"><strong>Wordpress</strong></a> nhằm đem lại khả năng tùy biến linh hoạt với tốc độ tối ưu.
     </p>
@@ -244,11 +244,11 @@ if (file_exists(PUBLIC_HTML_PATH . 'system.zip')) {
     <hr>
     <?php
 
-/*
- * hiển thị chức năng bật/ tắt debug đối với admin
- */
-if ($session_data['member_type'] == $user_type['admin']) {
-?>
+    /*
+     * hiển thị chức năng bật/ tắt debug đối với admin
+     */
+    if ($session_data['member_type'] == $user_type['admin']) {
+    ?>
     <!-- DEBUG -->
     <div>
         <div v-if="debug_enable > 0">
@@ -346,8 +346,8 @@ if ($session_data['member_type'] == $user_type['admin']) {
         <br>
     </div>
     <?php
-} // END member type ADMIN
-?>
+    } // END member type ADMIN
+    ?>
 </div>
 <?php
 
@@ -355,30 +355,27 @@ if ($session_data['member_type'] == $user_type['admin']) {
 //var_dump( PHP_OS );
 
 //
-$vue_data = [
-    'base_url' => DYNAMIC_BASE_URL,
-    'ci_version' => \CodeIgniter\CodeIgniter::CI_VERSION, // phiên bản CI hiện tại
-    'ci_last_version' => $ci_last_version, // phiên bản CI mới nhất -> đổi màu để dễ nhận biết có bản mới hơn
-    'robots_exist' => $robots_exist,
-    'phpversion' => phpversion(),
-    'current_dbname' => $current_dbname,
-    'debug_enable' => ($debug_enable === true ? 1 : 0),
-    'exists_f_env' => (file_exists($f_env) ? 1 : 0),
-    'exists_f_backup_env' => (file_exists($f_backup_env) ? 1 : 0),
-    'system_zip' => (file_exists(PUBLIC_HTML_PATH . 'system.zip') ? 1 : 0),
-    'imagick_exist' => (class_exists('Imagick') ? 1 : 0),
-    'cache_actived' => ($check_cache_active !== NULL ? 1 : 0),
-    'memcached_exist' => (class_exists('Memcached') ? 1 : 0),
-    'redis_exist' => phpversion('redis'),
-    'cache_handler' => MY_CACHE_HANDLER,
-    'opcache_exist' => (function_exists('opcache_get_status') && is_array(opcache_get_status()) ? 1 : 0),
-    'last_ci4_update' => (file_exists(APPPATH . 'VERSION') ? filemtime(APPPATH . 'VERSION') : filemtime(APPPATH . 'Controllers/Layout.php')),
-];
-
-//
-echo '<script>
-    var vue_data = ' . json_encode($vue_data) . ';
-</script>';
+$base_model->JSON_parse([
+    'vue_data' => [
+        'base_url' => DYNAMIC_BASE_URL,
+        'ci_version' => \CodeIgniter\CodeIgniter::CI_VERSION, // phiên bản CI hiện tại
+        'ci_last_version' => $ci_last_version, // phiên bản CI mới nhất -> đổi màu để dễ nhận biết có bản mới hơn
+        'robots_exist' => $robots_exist,
+        'phpversion' => phpversion(),
+        'current_dbname' => $current_dbname,
+        'debug_enable' => ($debug_enable === true ? 1 : 0),
+        'exists_f_env' => (file_exists($f_env) ? 1 : 0),
+        'exists_f_backup_env' => (file_exists($f_backup_env) ? 1 : 0),
+        'system_zip' => (file_exists(PUBLIC_HTML_PATH . 'system.zip') ? 1 : 0),
+        'imagick_exist' => (class_exists('Imagick') ? 1 : 0),
+        'cache_actived' => ($check_cache_active !== NULL ? 1 : 0),
+        'memcached_exist' => (class_exists('Memcached') ? 1 : 0),
+        'redis_exist' => phpversion('redis'),
+        'cache_handler' => MY_CACHE_HANDLER,
+        'opcache_exist' => (function_exists('opcache_get_status') && is_array(opcache_get_status()) ? 1 : 0),
+        'last_ci4_update' => (file_exists(APPPATH . 'VERSION') ? filemtime(APPPATH . 'VERSION') : filemtime(APPPATH . 'Controllers/Layout.php')),
+    ],
+]);
 
 //
 $base_model->add_js('admin/js/dashboard.js');

@@ -92,8 +92,9 @@ $base_model->add_css('admin/css/' . $taxonomy . '.css');
             <div class="control-group">
                 <label class="control-label">Nội dung</label>
                 <div class="controls" style="width:80%;">
-                    <textarea id="Resolution" rows="30" data-height="550" class="ckeditor auto-ckeditor"
-                        placeholder="Nhập thông tin chi tiết..."
+                    <textarea id="Resolution" rows="30"
+                        data-height="<?php echo ($taxonomy == TaxonomyType::ADS ? '250' : '550'); ?>"
+                        class="ckeditor auto-ckeditor" placeholder="Nhập thông tin chi tiết..."
                         name="data[description]"><?php echo $data['description']; ?></textarea>
                 </div>
             </div>

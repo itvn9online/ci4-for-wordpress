@@ -60,16 +60,19 @@ class PostBase extends EbModel
             $this->product_html_node = $this->base_model->get_html_tmp('thread_node');
         }
         $this->product_html_node = str_replace('{{product_html_node}}', $this->product_html_node, $structured_data);
+        //echo $this->product_html_node . PHP_EOL;
 
-        //
-        $this->blog_html_node = $this->base_model->get_html_tmp('blogs_node');
-        $this->blog_html_node = str_replace('{{blog_html_node}}', $this->blog_html_node, $structured_data);
-
+        // tạo block html cho phần tin tức
+        if ($this->blog_html_node == '') {
+            $this->blog_html_node = $this->base_model->get_html_tmp('blogs_node');
+        }
+        $this->blog_html_node = str_replace('{{product_html_node}}', $this->blog_html_node, $structured_data);
+        //echo $this->blog_html_node . PHP_EOL;
 
         //
         $getconfig = $this->option_model->list_config();
         //print_r( $getconfig );
-        $getconfig = (object)$getconfig;
+        $getconfig = (object) $getconfig;
         $getconfig->cf_product_size = $this->base_model->get_config($getconfig, 'cf_product_size', 1);
         $getconfig->cf_blog_size = $this->base_model->get_config($getconfig, 'cf_blog_size', '2/3');
         if ($getconfig->cf_blog_description_length == '') {

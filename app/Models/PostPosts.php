@@ -30,7 +30,7 @@ class PostPosts extends PostSlider
         $data['product_status'] = 1;
         $data['dynamic_title_tag'] = 'h3';
         $data['trv_img'] = $this->get_post_thumbnail($data);
-        $data['trv_webp'] = $this->get_post_image($data, 'image_webp', '');
+        //$data['trv_webp'] = $this->get_post_image($data, 'image_webp', '');
         if ($data['post_excerpt'] == '') {
             $data['post_excerpt'] = strip_tags($data['post_content']);
             $data['post_excerpt'] = $this->base_model->short_string($data['post_excerpt'], 168);
@@ -50,10 +50,11 @@ class PostPosts extends PostSlider
             $logo_data = getimagesize(PUBLIC_PUBLIC_PATH . $data['trv_img']);
 
             //
-            $itemprop_image = str_replace('{{trv_img}}', DYNAMIC_BASE_URL . $data['trv_img'], $itemprop_image);
+            $itemprop_image = str_replace('{{image}}', DYNAMIC_BASE_URL . $data['trv_img'], $itemprop_image);
             $itemprop_image = str_replace('{{trv_width_img}}', $logo_data[0], $itemprop_image);
             $itemprop_image = str_replace('{{trv_height_img}}', $logo_data[1], $itemprop_image);
         }
+        $data['image'] = $data['trv_img'];
         $data['itemprop_logo'] = $itemprop_logo;
         $data['itemprop_author'] = $itemprop_author;
         $data['itemprop_image'] = $itemprop_image;
@@ -119,16 +120,23 @@ class PostPosts extends PostSlider
         //echo $tmp_html . '<br>' . "\n";
 
         //
-        $data['p_link'] = $this->get_full_permalink($data);
+        $data['dynamic_post_tag'] = 'h3';
+        $data['show_post_content'] = '';
+        $data['blog_link_option'] = '';
+        $data['taxonomy_key'] = '';
+        $data['url_video'] = '';
         if (isset($ops['taxonomy_post_size']) && $ops['taxonomy_post_size'] != '') {
             $data['cf_blog_size'] = $ops['taxonomy_post_size'];
         } else {
             $data['cf_blog_size'] = $this->getconfig->cf_blog_size;
         }
+
+        //
+        return $this->build_the_node($data, $tmp_html, $ops);
+
+        //
+        $data['p_link'] = $this->get_full_permalink($data);
         $data['post_category'] = 0;
-        $data['taxonomy_key'] = '';
-        $data['dynamic_post_tag'] = 'h3';
-        $data['blog_link_option'] = '';
         $data['image'] = $this->get_post_thumbnail($data);
 
         if ($data['post_excerpt'] == '') {

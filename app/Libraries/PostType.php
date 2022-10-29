@@ -216,10 +216,10 @@ class PostType
     public static function media_size($key = '')
     {
         $arr = [
-            self::MEDIA_MEDIUM => 300,
-            self::MEDIA_LARGE => 1024,
-            self::MEDIA_THUMBNAIL => 150,
+            self::MEDIA_THUMBNAIL => 220,
+            self::MEDIA_MEDIUM => 410,
             self::MEDIA_MEDIUM_LARGE => 768,
+            self::MEDIA_LARGE => 1024,
         ];
         if (isset($arr[$key])) {
             return $arr[$key];

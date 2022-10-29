@@ -247,12 +247,7 @@ function click_set_img_for_input(img_id) {
             top.tinymce.get(insert_to).insertContent(return_html);
         } else {
             // thay ảnh hiển thị
-            //console.log('.show-img-if-change.for-' + insert_to);
-            //console.log('.show-img-if-change.for-' + data_src);
-            //console.log(top.$('.show-img-if-change.for-' + insert_to + ' img').length);
-            top.$('.show-img-if-change.for-' + insert_to + ' img').attr({
-                'src': data_src
-            });
+            top.WGR_show_real_post_avt(insert_to, data_src);
 
             //
             if (add_img_tag === 1) {
@@ -262,6 +257,35 @@ function click_set_img_for_input(img_id) {
         }
     }
     hide_if_esc();
+}
+
+function WGR_show_real_post_avt(insert_to, data_src) {
+    //console.log('.show-img-if-change.for-' + insert_to);
+    //console.log('data src:', data_src);
+    //console.log('.show-img-if-change.for-' + data_src);
+    //console.log('.show-img-if-change.for-' + insert_to);
+    //console.log($('.show-img-if-change.for-' + insert_to + ' img').length);
+    if ($('.show-img-if-change.for-' + insert_to + ' img').length > 0) {
+        $('.show-img-if-change.for-' + insert_to + ' img').attr({
+            'src': data_src
+        });
+
+        // xóa bỏ các ảnh phụ trợ
+        var arr = [
+            'image_medium',
+            'image_thumbnail',
+            'image_webp',
+            'image_medium_large',
+            'image_large',
+        ];
+        for (var i = 0; i < arr.length; i++) {
+            $('#post_meta_' + arr[i]).val('');
+        }
+
+        //
+        return true;
+    }
+    return false;
 }
 
 function WGR_load_textediter(for_id, ops) {

@@ -75,7 +75,7 @@ class Layout extends Sync
 
         $this->getconfig = $this->option_model->list_config();
         //print_r( $this->getconfig );
-        $this->getconfig = (object)$this->getconfig;
+        $this->getconfig = (object) $this->getconfig;
         //print_r( $this->getconfig );
 
         // tạo thông tin nhà xuất bản (publisher) cho phần dữ liệu có cấu trúc
@@ -85,7 +85,7 @@ class Layout extends Sync
             // logo
             $structured_data = file_get_contents(VIEWS_PATH . 'html/structured-data/itemprop-logo.html');
             $structured_data = str_replace('{{web_quot_title}}', str_replace('"', '', $this->getconfig->name), $structured_data);
-            $structured_data = str_replace('{{trv_img}}', DYNAMIC_BASE_URL . $this->getconfig->logo, $structured_data);
+            $structured_data = str_replace('{{image}}', DYNAMIC_BASE_URL . $this->getconfig->logo, $structured_data);
             $structured_data = str_replace('{{trv_width_img}}', $this->getconfig->logo_height_img, $structured_data);
             $structured_data = str_replace('{{trv_height_img}}', $this->getconfig->logo_width_img, $structured_data);
 
@@ -1008,6 +1008,7 @@ class Layout extends Sync
                 $data['trv_height_img'] = 280;
             }
         }
+        $data['image'] = $data['trv_img'];
 
         //
         $data['p_link'] = $this->post_model->get_full_permalink($data);

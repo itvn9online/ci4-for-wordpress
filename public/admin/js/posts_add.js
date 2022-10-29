@@ -19,8 +19,28 @@ $('#post_meta_image_size').change(function () {
                 $('#post_meta_image').val(img);
             }
         }
+
+        //
+        localStorage.setItem('post-meta-image-size', avt_size);
     }
 });
+
+// select sẵn size ảnh nếu có
+(function () {
+    if ($('#post_meta_image_size').length === 0) {
+        return false;
+    }
+
+    //
+    var a = localStorage.getItem('post-meta-image-size');
+    //console.log(a);
+    if (a !== null && a != '') {
+        var b = $('#post_meta_image_size').val('data-select') || '';
+        if (b != '') {
+            $('#post_meta_image_size').val(a).trigger('change');
+        }
+    }
+})();
 
 //
 $(document).ready(function () {
