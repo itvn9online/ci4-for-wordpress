@@ -309,9 +309,7 @@ class PostQuery extends PostMeta
     {
         //print_r( $post_cat );
         //print_r( $ops );
-        if (!isset($ops['offset'])) {
-            $ops['offset'] = 0;
-        } else if ($ops['offset'] < 0) {
+        if (!isset($ops['offset']) || $ops['offset'] < 0) {
             $ops['offset'] = 0;
         }
 
@@ -669,10 +667,10 @@ class PostQuery extends PostMeta
             'blog_link_option' => $blog_link_option,
             'widget_title' => $html_widget_title,
             /*
-     'max_width' => $max_width,
-     'num_line' => $num_line,
-     'post_cloumn' => $post_cloumn,
-     */
+             'max_width' => $max_width,
+             'num_line' => $num_line,
+             'post_cloumn' => $post_cloumn,
+             */
             'more_link' => $instance['text_view_more'] != '' ? '<div class="widget-blog-more"><a href="{{custom_cat_link}}">' . $instance['text_view_more'] . '</a></div>' : '',
             'str_sub_cat' => '',
         ]);

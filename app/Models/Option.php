@@ -220,6 +220,10 @@ class Option extends EbModel
         // chuẩn hóa dữ liệu để tránh lỗi
         //print_r( $this_cache_config );
         $default_config_value = [
+            'default_bg' => ConfigType::defaultColor('default_bg'),
+            'sub_bg' => ConfigType::defaultColor('sub_bg'),
+            'a_color' => ConfigType::defaultColor('a_color'),
+            //
             'site_max_width' => 1024,
             'site_full_width' => 1920,
         ];

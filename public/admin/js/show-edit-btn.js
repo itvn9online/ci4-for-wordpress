@@ -17,13 +17,31 @@ $(document).ready(function () {
         var jd = $(this).attr('data-id') || '';
         //console.log(jd);
         var type = $(this).attr('data-type') || '';
-        var controller = $(this).attr('data-control') || 'posts';
+        var controller = $(this).attr('data-control') || '';
         //console.log(type);
         var insert_before = $(this).attr('insert-before') || '';
         //console.log(insert_before);
 
         //
         if (jd != '' && type != '') {
+            // tìm controller theo post type
+            if (controller == '') {
+                // mặc định
+                controller = 'posts';
+                var arr_type = {
+                    blog: 'blogs',
+                    ads: 'adss',
+                    page: 'pages',
+                };
+                // các post type mặc định
+                if (typeof arr_type[type] != 'undefined') {
+                    controller = arr_type[type];
+                }
+                // custom post type
+                else if (typeof arr_edit_custom_type != 'undefined' && typeof arr_edit_custom_type[type] != 'undefined') {
+                    controller = arr_edit_custom_type[type];
+                }
+            }
             var url = 'admin/' + controller + '/add?id=' + jd;
             if (type != '') {
                 url += '&post_type=' + type;
@@ -45,10 +63,30 @@ $(document).ready(function () {
         //console.log(jd);
         var type = $(this).attr('data-type') || '';
         //console.log(type);
-        var controller = $(this).attr('data-control') || 'terms';
+        var controller = $(this).attr('data-control') || '';
 
         //
         if (jd != '' && type != '') {
+            // tìm controller theo taxonomy
+            if (controller == '') {
+                // mặc định
+                controller = 'terms';
+                var arr_type = {
+                    post_options: 'postoptions',
+                    tags: 'tags',
+                    blogs: 'blogcategory',
+                    blog_tags: 'blogtags',
+                    ads_options: 'adsoptions',
+                };
+                // các post type mặc định
+                if (typeof arr_type[type] != 'undefined') {
+                    controller = arr_type[type];
+                }
+                // custom post type
+                else if (typeof arr_edit_custom_taxonomy != 'undefined' && typeof arr_edit_custom_taxonomy[type] != 'undefined') {
+                    controller = arr_edit_custom_taxonomy[type];
+                }
+            }
             var url = 'admin/' + controller + '/add?id=' + jd;
             if (type != '') {
                 url += '&taxonomy=' + type;

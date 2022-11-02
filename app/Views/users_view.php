@@ -1,57 +1,62 @@
 <!doctype html>
 <html lang="<?php
-            echo ( ( $html_lang =='vn' || $html_lang== '' ) ? 'vi' : $html_lang);
-            ?>" class="no-js no-svg" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+echo (($html_lang == 'vn' || $html_lang == '') ? 'vi' : $html_lang);
+?>" class="no-js no-svg" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+
 <head>
-<?php
+    <?php
 
 
-/*
- * đoạn head dùng chung cho toàn website
- */
-require __DIR__ . '/includes/head_global.php';
+    /*
+     * đoạn head dùng chung cho toàn website
+     */
+    require __DIR__ . '/includes/head_global.php';
 
-//
-$base_model->add_css( 'css/user-profile.css', [
-    'cdn' => CDN_BASE_URL,
-] );
+    //
+    $base_model->add_css(
+        'css/user-profile.css',
+        [
+            'cdn' => CDN_BASE_URL,
+        ]
+    );
 
-?>
+    ?>
 </head>
 
 <body class="<?php echo $seo['body_class']; ?>">
-<?php
+    <?php
 
-//
-echo $header;
+    //
+    echo $header;
 
-//
-echo $breadcrumb;
-
-
-/*
- * thông điệp lỗi trả về nếu có
- */
-include __DIR__ . '/includes/msg_view.php';
+    //
+    echo $breadcrumb;
 
 
-/*
- * nạp view riêng của từng theme nếu có
- */
-$theme_default_view = VIEWS_PATH . 'default/' . basename( __FILE__ );
-// nạp file kiểm tra private view
-include VIEWS_PATH . 'private_view.php';
+    /*
+     * thông điệp lỗi trả về nếu có
+     */
+    include __DIR__ . '/includes/msg_view.php';
 
 
-//
-echo $footer;
+    /*
+     * nạp view riêng của từng theme nếu có
+     */
+    $theme_default_view = VIEWS_PATH . 'default/' . basename(__FILE__);
+    // nạp file kiểm tra private view
+    include VIEWS_PATH . 'private_view.php';
 
 
-/*
- * đoạn head dùng chung cho toàn website
- */
-require __DIR__ . '/includes/footer_global.php';
+    //
+    echo $footer;
 
-?>
+
+    /*
+     * đoạn footer dùng chung cho toàn website
+     */
+    require __DIR__ . '/includes/footer_global.php';
+
+    ?>
 </body>
+
 </html>

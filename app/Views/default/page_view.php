@@ -8,14 +8,16 @@
     <div class="padding-global-content cf ">
         <div class="col-main-content custom-width-page-main fullsize-if-mobile">
             <div class="col-main-padding col-page-padding">
-                <h1 data-type="<?php echo $data[ 'post_type' ]; ?>" data-id="<?php echo $data[ 'ID' ]; ?>" class="page-details-title global-details-title global-module-title">
+                <h1 data-type="<?php echo $data['post_type']; ?>" data-id="<?php echo $data['ID']; ?>"
+                    class="page-details-title global-details-title global-module-title">
                     <?php
-                    echo $data[ 'post_title' ];
+                    echo $data['post_title'];
                     ?>
                 </h1>
-                <div class="img-max-width medium l20 global-details-content <?php echo $data[ 'post_type' ]; ?>-details-content ul-default-style">
+                <div
+                    class="img-max-width medium l20 global-details-content <?php echo $data['post_type']; ?>-details-content ul-default-style">
                     <?php
-                    echo $data[ 'post_content' ];
+                    echo $data['post_content'];
                     ?>
                 </div>
                 <br />

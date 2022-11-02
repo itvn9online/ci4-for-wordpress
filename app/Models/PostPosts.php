@@ -80,7 +80,7 @@ class PostPosts extends PostSlider
     }
 
     // post
-    public function get_posts_by($prams, $ops = [])
+    public function get_posts_by($prams, $ops = [], $in_cache = '', $cache_time = 300)
     {
         $prams = $this->sync_post_parms($prams);
         $ops = $this->sync_post_ops($ops);
@@ -90,7 +90,7 @@ class PostPosts extends PostSlider
         $prams['taxonomy'] = TaxonomyType::POSTS;
 
         //
-        return $this->get_posts($prams, $ops);
+        return $this->get_posts($prams, $ops, $in_cache, $cache_time);
     }
     public function count_posts_by($prams, $ops = [])
     {

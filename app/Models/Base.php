@@ -141,14 +141,18 @@ class Base extends Csdl
         //print_r($arr_debug);
 
         //
-        die(HtmlTemplate::html('wgr_alert.html', [
-            'file' => basename($arr_debug[1]['file']),
-            'line' => $arr_debug[1]['line'],
-            'function' => $arr_debug[1]['function'],
-            'class' => basename(str_replace('\\', '/', $arr_debug[1]['class'])),
-            'm' => $m,
-            'lnk' => $lnk,
-        ]));
+        die(HtmlTemplate::html(
+            'wgr_alert.html',
+            [
+                'file' => basename($arr_debug[1]['file']),
+                'line' => $arr_debug[1]['line'],
+                'function' => $arr_debug[1]['function'],
+                'class' => basename(str_replace('\\', '/', $arr_debug[1]['class'])),
+                'm' => $m,
+                'lnk' => $lnk,
+            ]
+        )
+            );
     }
 
     //
@@ -192,14 +196,14 @@ class Base extends Csdl
         //
         $unicode = array(
             /*
-     'a' => array('á','à','ả','ã','ạ','ă','ắ','ặ','ằ','ẳ','ẵ','â','ấ','ầ','ẩ','ẫ','ậ','Á','À','Ả','Ã','Ạ','Ă','Ắ','Ặ','Ằ','Ẳ','Ẵ','Â','Ấ','Ầ','Ẩ','Ẫ','Ậ'),
-     'd' => array('đ','Đ'),
-     'e' => array('é','è','ẻ','ẽ','ẹ','ê','ế','ề','ể','ễ','ệ','É','È','Ẻ','Ẽ','Ẹ','Ê','Ế','Ề','Ể','Ễ','Ệ'),
-     'i' => array('í','ì','ỉ','ĩ','ị', 'Í','Ì','Ỉ','Ĩ','Ị'),
-     'o' => array('ó','ò','ỏ','õ','ọ','ô','ố','ồ','ổ','ỗ','ộ','ơ','ớ','ờ','ở','ỡ','ợ','Ó','Ò','Ỏ','Õ','Ọ','Ô','Ố','Ồ','Ổ','Ỗ','Ộ','Ơ','Ớ','Ờ','Ở','Ỡ','Ợ'),
-     'u' => array('ú','ù','ủ','ũ','ụ','ư','ứ','ừ','ử','ữ','ự','Ú','Ù','Ủ','Ũ','Ụ','Ư','Ứ','Ừ','Ử','Ữ','Ự'),
-     'y' => array('ý','ỳ','ỷ','ỹ','ỵ','Ý','Ỳ','Ỷ','Ỹ','Ỵ'),
-     */
+             'a' => array('á','à','ả','ã','ạ','ă','ắ','ặ','ằ','ẳ','ẵ','â','ấ','ầ','ẩ','ẫ','ậ','Á','À','Ả','Ã','Ạ','Ă','Ắ','Ặ','Ằ','Ẳ','Ẵ','Â','Ấ','Ầ','Ẩ','Ẫ','Ậ'),
+             'd' => array('đ','Đ'),
+             'e' => array('é','è','ẻ','ẽ','ẹ','ê','ế','ề','ể','ễ','ệ','É','È','Ẻ','Ẽ','Ẹ','Ê','Ế','Ề','Ể','Ễ','Ệ'),
+             'i' => array('í','ì','ỉ','ĩ','ị', 'Í','Ì','Ỉ','Ĩ','Ị'),
+             'o' => array('ó','ò','ỏ','õ','ọ','ô','ố','ồ','ổ','ỗ','ộ','ơ','ớ','ờ','ở','ỡ','ợ','Ó','Ò','Ỏ','Õ','Ọ','Ô','Ố','Ồ','Ổ','Ỗ','Ộ','Ơ','Ớ','Ờ','Ở','Ỡ','Ợ'),
+             'u' => array('ú','ù','ủ','ũ','ụ','ư','ứ','ừ','ử','ữ','ự','Ú','Ù','Ủ','Ũ','Ụ','Ư','Ứ','Ừ','Ử','Ữ','Ự'),
+             'y' => array('ý','ỳ','ỷ','ỹ','ỵ','Ý','Ỳ','Ỷ','Ỹ','Ỵ'),
+             */
             '-' => array(' ', '~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '=', '[', ']', '{', '}', '\\', '|', ';', ':', '\'', '"', ',', '<', '>', '/', '?')
         );
         foreach ($unicode as $nonUnicode => $uni) {
@@ -561,7 +565,8 @@ class Base extends Csdl
         return true;
     }
 
-    public function _eb_number_only($str = '', $re = '/[^0-9]+/')
+    // trả về số dạng chuỗi
+    public function number_only($str = '', $re = '/[^0-9]+/')
     {
         $str = trim($str);
         if ($str == '') {
@@ -572,7 +577,14 @@ class Base extends Csdl
         //	echo $a . ' a number<br>';
         if ($a == '') {
             $a = 0;
-        } else if (substr($str, 0, 1) == '-') {
+        }
+        return $a;
+    }
+    // trả về số
+    public function _eb_number_only($str = '', $re = '/[^0-9]+/')
+    {
+        $a = $this->number_only($str, $re);
+        if (substr($str, 0, 1) == '-') {
             $a = 0 - $a;
         } else {
             $a *= 1;
@@ -594,9 +606,9 @@ class Base extends Csdl
         else if ($lam_tron == 2) {
             $a = explode('.', $a);
             if (isset($a[1])) {
-                $a = (int)$a[0] . '.' . $a[1];
+                $a = (int) $a[0] . '.' . $a[1];
             } else {
-                $a = (int)$a[0];
+                $a = (int) $a[0];
             }
         }
 
@@ -607,10 +619,6 @@ class Base extends Csdl
         return $this->_eb_number_only($str);
     }
     public function unmoney_format($str)
-    {
-        return $this->_eb_number_only($str);
-    }
-    public function number_only($str)
     {
         return $this->_eb_number_only($str);
     }

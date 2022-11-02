@@ -58,7 +58,7 @@ class PostGet extends PostQuery
      * function lấy dữ liệu theo từng post type và taxonomy
      * điều kiện truyền vào có thể là term_id (ưu tiên) hoặc taxonomy slug
      */
-    public function get_posts($prams, $ops = [])
+    public function get_posts($prams, $ops = [], $in_cache = '', $cache_time = 300)
     {
         if (!isset($prams['limit'])) {
             $prams['limit'] = isset($ops['limit']) ? $ops['limit'] : 0;
@@ -66,6 +66,16 @@ class PostGet extends PostQuery
         if (!isset($prams['offset'])) {
             $prams['offset'] = isset($ops['offset']) ? $ops['offset'] : 0;
         }
+        // ưu tiên lấy trong cache
+        if ($in_cache != '') {
+            $in_cache .= $prams['limit'] . $prams['offset'];
+            $data = $this->base_model->scache($in_cache);
+            if ($data !== null) {
+                return $data;
+            }
+        }
+
+        //
         if (!isset($prams['order_by'])) {
             $prams['order_by'] = isset($ops['order_by']) ? $ops['order_by'] : [];
         }
@@ -81,6 +91,11 @@ class PostGet extends PostQuery
 
         //
         $data = $this->select_list_post($prams['post_type'], $prams, $prams['limit'], $prams['order_by'], $ops);
+
+        //
+        if ($in_cache != '') {
+            $this->base_model->scache($in_cache, $data, $cache_time);
+        }
 
         //
         return $data;

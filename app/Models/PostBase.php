@@ -52,7 +52,7 @@ class PostBase extends EbModel
         $structured_data = file_get_contents(VIEWS_PATH . 'html/structured-data/NewsArticle.html');
         $structured_data = str_replace('{{product_html_tag}}', $this->product_html_tag, $structured_data);
         $structured_data = str_replace('{{product_list_css}}', $this->product_list_css, $structured_data);
-        $structured_data = str_replace('{{primary_controller}}', $this->primary_controller, $structured_data);
+        //$structured_data = str_replace('{{primary_controller}}', $this->primary_controller, $structured_data);
 
         // tạo block html cho phần sản phẩm
         //echo THEMEPATH . '<br>' . "\n";

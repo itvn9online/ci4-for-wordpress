@@ -1,7 +1,7 @@
 <?php
 
 //
-$ci_last_version = 427;
+$ci_last_version = 429;
 
 //
 $Vue_version = '{{Vue.version}}';
@@ -355,27 +355,31 @@ if ($debug_enable === true) {
 //var_dump( PHP_OS );
 
 //
-$base_model->JSON_parse([
-    'vue_data' => [
-        'base_url' => DYNAMIC_BASE_URL,
-        'ci_version' => \CodeIgniter\CodeIgniter::CI_VERSION, // phiên bản CI hiện tại
-        'ci_last_version' => $ci_last_version, // phiên bản CI mới nhất -> đổi màu để dễ nhận biết có bản mới hơn
-        'robots_exist' => $robots_exist,
-        'phpversion' => phpversion(),
-        'current_dbname' => $current_dbname,
-        'debug_enable' => ($debug_enable === true ? 1 : 0),
-        'exists_f_env' => (file_exists($f_env) ? 1 : 0),
-        'exists_f_backup_env' => (file_exists($f_backup_env) ? 1 : 0),
-        'system_zip' => (file_exists(PUBLIC_HTML_PATH . 'system.zip') ? 1 : 0),
-        'imagick_exist' => (class_exists('Imagick') ? 1 : 0),
-        'cache_actived' => ($check_cache_active !== NULL ? 1 : 0),
-        'memcached_exist' => (class_exists('Memcached') ? 1 : 0),
-        'redis_exist' => phpversion('redis'),
-        'cache_handler' => MY_CACHE_HANDLER,
-        'opcache_exist' => (function_exists('opcache_get_status') && is_array(opcache_get_status()) ? 1 : 0),
-        'last_ci4_update' => (file_exists(APPPATH . 'VERSION') ? filemtime(APPPATH . 'VERSION') : filemtime(APPPATH . 'Controllers/Layout.php')),
-    ],
-]);
+$base_model->JSON_parse(
+    [
+        'vue_data' => [
+            'base_url' => DYNAMIC_BASE_URL,
+            'ci_version' => \CodeIgniter\CodeIgniter::CI_VERSION,
+            // phiên bản CI hiện tại
+            'ci_last_version' => $ci_last_version,
+            // phiên bản CI mới nhất -> đổi màu để dễ nhận biết có bản mới hơn
+            'robots_exist' => $robots_exist,
+            'phpversion' => phpversion(),
+            'current_dbname' => $current_dbname,
+            'debug_enable' => ($debug_enable === true ? 1 : 0),
+            'exists_f_env' => (file_exists($f_env) ? 1 : 0),
+            'exists_f_backup_env' => (file_exists($f_backup_env) ? 1 : 0),
+            'system_zip' => (file_exists(PUBLIC_HTML_PATH . 'system.zip') ? 1 : 0),
+            'imagick_exist' => (class_exists('Imagick') ? 1 : 0),
+            'cache_actived' => ($check_cache_active !== NULL ? 1 : 0),
+            'memcached_exist' => (class_exists('Memcached') ? 1 : 0),
+            'redis_exist' => phpversion('redis'),
+            'cache_handler' => MY_CACHE_HANDLER,
+            'opcache_exist' => (function_exists('opcache_get_status') && is_array(opcache_get_status()) ? 1 : 0),
+            'last_ci4_update' => (file_exists(APPPATH . 'VERSION') ? filemtime(APPPATH . 'VERSION') : filemtime(APPPATH . 'Controllers/Layout.php')),
+        ],
+    ]
+);
 
 //
 $base_model->add_js('admin/js/dashboard.js');

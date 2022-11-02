@@ -12,6 +12,14 @@ $base_model->add_css('public/css/ten_file.css', [
     'preload' => 1,
     'cdn' => CDN_BASE_URL,
 ]);
+$base_model->adds_css([
+    'public/css/ten_file.css',
+    'themes/' . THEMENAME . '/css/aaaaaaaaaaa.css',
+], [
+        'get_content' => 1,
+        'preload' => 1,
+        'cdn' => CDN_BASE_URL,
+    ]);
 // lấy mã CSS trả về thay vì echo luôn
 $base_model->get_add_css('public/css/ten_file.css', [
     'get_content' => 1,
@@ -27,6 +35,16 @@ $base_model->add_js('javascript/ten_file.js', [
     'preload' => 1,
     'cdn' => CDN_BASE_URL,
 ], [
+        'defer'
+    ]);
+$base_model->adds_js([
+    'javascript/ten_file.js',
+    'themes/' . THEMENAME . '/js/aaaaaaaaaaa.js',
+], [
+        'get_content' => 1,
+        'preload' => 1,
+        'cdn' => CDN_BASE_URL,
+    ], [
         'defer'
     ]);
 // lấy mã JS trả về thay vì echo luôn
