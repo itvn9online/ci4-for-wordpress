@@ -133,31 +133,50 @@ function get_json_edit_menu(obj) {
     return get_json_code_menu(obj);
 }
 
+// mỗi lần cập nhật menu -> tạo ra câu confirm để còn chờ nội dung menu được cập nhật
+function action_before_submit_menu() {
+    action_json_code_menu();
+
+    //
+    if (confirm('Xác nhận thay đổi nội dung cho menu này!') === false) {
+        return false;
+    }
+
+    //
+    return true;
+}
+
 function get_json_code_menu(obj) {
     setTimeout(function () {
-        var arr = $('#json-output').val();
-        //console.log(arr);
-
-        //
-        $('#data_post_excerpt').val(arr);
-
-        //setTimeout(function () {
-        create_html_menu_editer();
-        //}, 200);
-
-        //
-        if (typeof obj != 'undefined' && typeof obj.id != 'undefined') {
-            //console.log(obj.id);
-            // xóa chữ trong các input của form tương ứng được truyền vào
-            setTimeout(function () {
-                $('#' + obj.id + ' input[type="text"]').val('');
-
-                // tự động cập nhật menu
-                console.log('Auto submit in ' + ($(this).attr('id') || ''));
-                document.admin_global_form.submit();
-            }, 200);
-        }
+        action_json_code_menu(obj);
     }, 200);
+
+    return true;
+}
+
+function action_json_code_menu(obj) {
+    var arr = $('#json-output').val();
+    //console.log(arr);
+
+    //
+    $('#data_post_excerpt').val(arr);
+
+    //setTimeout(function () {
+    create_html_menu_editer();
+    //}, 200);
+
+    //
+    if (typeof obj != 'undefined' && typeof obj.id != 'undefined') {
+        //console.log(obj.id);
+        // xóa chữ trong các input của form tương ứng được truyền vào
+        setTimeout(function () {
+            $('#' + obj.id + ' input[type="text"]').val('');
+
+            // tự động cập nhật menu
+            console.log('Auto submit in ' + ($(this).attr('id') || ''));
+            document.admin_global_form.submit();
+        }, 200);
+    }
 
     return true;
 }

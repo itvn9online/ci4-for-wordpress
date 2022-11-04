@@ -628,15 +628,34 @@ function get_taxonomy_data_by_ids(arr, jd) {
 // hiển thị tên của danh mục bằng javascript -> giảm tải cho server
 var taxonomy_ids_unique = [];
 // mảng chứa thông tin của term để hiển thị
-var arr_ajax_taxonomy = {};
+var arr_ajax_taxonomy = [];
 // khi tiến trình nạp dữ liệu qua ajax hoàn tất thì đổi nó thành true -> để các tiến trình khác dễ nắm bắt
 var ready_load_ajax_taxonomy = false;
+// không cho việc load ajax diễn ra liên tục
+var loading_ajax_taxonomy = false;
+// nạp lại taxonomy nếu có yêu cầu
+var reload_ajax_taxonomy = false;
 
 // lấy thông tin các taxonomy đang hiện hoạt trên trang
 function action_each_to_taxonomy() {
+    try {
+        console.log('Call in: ' + arguments.callee.caller.name.toString());
+    } catch (e) {
+        WGR_show_try_catch_err(e);
+    }
+
+    // nếu đang có tiến trình được kích hoạt thỉ hủy bỏ việc nạp -> chờ đợi
+    if (loading_ajax_taxonomy === true) {
+        console.log('loading ajax taxonomy');
+        // bật chế độ nạp lại taxonomy
+        reload_ajax_taxonomy = true;
+        return false;
+    }
+    loading_ajax_taxonomy = true;
+
     // daidq (2022-03-06): thử cách nạp các nhóm được hiển thị trên trang hiện tại -> cách này nạp ít dữ liệu mà độ chuẩn xác lại cao
     taxonomy_ids_unique = [];
-    console.log('action each to taxonomy');
+    console.log('action each to taxonomy:', $('.each-to-taxonomy').length);
     //return false;
 
     //
@@ -654,6 +673,7 @@ function action_each_to_taxonomy() {
         if (a == '') {
             a = as;
         }
+        //console.log('a:', a);
 
         //if (a != '' && taxonomy != '') {
         if (a != '') {
@@ -686,6 +706,10 @@ function action_each_to_taxonomy() {
     //console.log(taxonomy_ids_unique);
     // nếu không có ID nào cẩn xử lý thì bỏ qua đoạn sau luôn
     if (taxonomy_ids_unique.length == 0) {
+        console.log('taxonomy ids unique length');
+
+        //
+        reset_each_to_taxonomy();
         //after_each_to_taxonomy();
         return false;
     }
@@ -714,16 +738,35 @@ function action_each_to_taxonomy() {
             }
         },
         success: function (data) {
-            //console.log(data);
+            console.log(data);
 
             //
-            ready_load_ajax_taxonomy = true;
+            if (reload_ajax_taxonomy === true) {
+                setTimeout(function () {
+                    console.log('reload ajax taxonomy');
+                    action_each_to_taxonomy();
+                }, 100);
+            }
+
+            // xong việc thì gán lại các tham số này về mặc định
+            reset_each_to_taxonomy();
+
+            //
             return after_each_to_taxonomy(data);
         }
     });
 
     //
     //taxonomy_ids_unique = [];
+}
+
+function reset_each_to_taxonomy() {
+    // xác nhận taxonomy đã được nạp xong
+    ready_load_ajax_taxonomy = true;
+
+    // gán lại các tham số này về mặc định
+    loading_ajax_taxonomy = false;
+    reload_ajax_taxonomy = false;
 }
 
 // hiển thị tên danh mục sau khi nạp xong
@@ -772,6 +815,7 @@ function after_each_to_taxonomy(data) {
                         str.push('#' + a[i]);
                         continue;
                     }
+                    arr_ajax_taxonomy.push(taxonomy_data);
 
                     //
                     var taxonomy_name = taxonomy_data.name;
@@ -967,9 +1011,9 @@ function WGR_vuejs(app_id, obj, _callBack, max_i) {
             }
 
             //console.log(taxonomy_ids_unique);
-            if (obj.action_taxonomy === 1 && taxonomy_ids_unique.length == 0) {
-                action_each_to_taxonomy();
-            }
+            //if (obj.action_taxonomy === 1 && taxonomy_ids_unique.length == 0) {
+            action_each_to_taxonomy();
+            //}
         },
     });
 }

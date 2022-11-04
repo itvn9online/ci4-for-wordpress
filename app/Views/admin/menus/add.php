@@ -15,7 +15,7 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
 <div class="widget-box ng-main-content" ng-app="myApp" ng-controller="myCtrl">
     <div class="widget-content nopadding">
         <form action="" method="post" name="admin_global_form" id="admin_global_form"
-            onSubmit="return action_before_submit_post();" accept-charset="utf-8" class="form-horizontal"
+            onSubmit="return action_before_submit_menu();" accept-charset="utf-8" class="form-horizontal"
             target="target_eb_iframe">
             <div class="control-group">
                 <label class="control-label">Ngôn ngữ</label>
@@ -77,16 +77,21 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
             // nạp các meta theo từng loại post
             foreach ($meta_detault as $k => $v) {
                 // menu thì không dùng ảnh đại diện
-                if (in_array($k, [
-                    'post_category',
-                    'post_tags',
-                    'image',
-                    'image_large',
-                    'image_medium_large',
-                    'image_medium',
-                    'image_thumbnail',
-                    'image_webp',
-                ])) {
+                if (
+                    in_array(
+                        $k,
+                        [
+                            'post_category',
+                            'post_tags',
+                            'image',
+                            'image_large',
+                            'image_medium_large',
+                            'image_medium',
+                            'image_thumbnail',
+                            'image_webp',
+                        ]
+                    )
+                ) {
                     continue;
                 }
 
@@ -203,10 +208,12 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
 <?php
 
 //
-$base_model->JSON_parse([
-    'post_arr_status' => $post_arr_status,
-    'quick_menu_list' => $quick_menu_list,
-]);
+$base_model->JSON_parse(
+    [
+        'post_arr_status' => $post_arr_status,
+        'quick_menu_list' => $quick_menu_list,
+    ]
+);
 
 ?>
 <script>

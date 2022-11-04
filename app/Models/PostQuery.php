@@ -56,11 +56,15 @@ class PostQuery extends PostMeta
 
             //
             if ($check_slug === true) {
-                $check_slug = $this->base_model->select('ID, post_type', $this->table, [
-                    'post_name' => $data['post_name'],
-                    'post_type' => $data['post_type'],
-                    //'post_status !=' => PostType::DELETED,
-                ], [
+                $check_slug = $this->base_model->select(
+                    'ID, post_type', $this->table,
+                    [
+                        'post_name' => $data['post_name'],
+                        'post_type' => $data['post_type'],
+                        //'post_status !=' => PostType::DELETED,
+
+                    ],
+                    [
                         'where_not_in' => array(
                             'post_status' => array(
                                 PostType::DELETED,
@@ -73,7 +77,8 @@ class PostQuery extends PostMeta
                         //'get_query' => 1,
                         //'offset' => 2,
                         'limit' => 1
-                    ]);
+                    ]
+                );
                 //print_r( $check_slug );
                 if (!empty($check_slug)) {
                     return [
@@ -171,25 +176,33 @@ class PostQuery extends PostMeta
         // kiểm tra xem có trùng slug không
         else if (isset($data['post_name']) && $data['post_name'] != '') {
             // post đang cần update
-            $current_slug = $this->base_model->select('*', $this->table, $where, [
-                // hiển thị mã SQL để check
-                //'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-                //'offset' => 2,
-                'limit' => 1
-            ]);
+            $current_slug = $this->base_model->select(
+                '*', $this->table,
+                $where,
+                [
+                    // hiển thị mã SQL để check
+                    //'show_query' => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    //'get_query' => 1,
+                    //'offset' => 2,
+                    'limit' => 1
+                ]
+            );
             //print_r( $current_slug );
 
             //
             if (!empty($current_slug)) {
-                $check_slug = $this->base_model->select('ID, post_type', $this->table, [
-                    'post_name' => $data['post_name'],
-                    'ID !=' => $current_slug['ID'],
-                    'post_type' => $current_slug['post_type'],
-                    //'post_status !=' => PostType::DELETED,
-                    //'post_status' => $current_slug[ 'post_status' ],
-                ], [
+                $check_slug = $this->base_model->select(
+                    'ID, post_type', $this->table,
+                    [
+                        'post_name' => $data['post_name'],
+                        'ID !=' => $current_slug['ID'],
+                        'post_type' => $current_slug['post_type'],
+                        //'post_status !=' => PostType::DELETED,
+                        //'post_status' => $current_slug[ 'post_status' ],
+
+                    ],
+                    [
                         'where_not_in' => array(
                             'post_status' => array(
                                 PostType::DELETED,
@@ -202,7 +215,8 @@ class PostQuery extends PostMeta
                         //'get_query' => 1,
                         //'offset' => 2,
                         'limit' => 1
-                    ]);
+                    ]
+                );
                 //print_r( $check_slug );
                 if (!empty($check_slug)) {
                     return [
@@ -229,9 +243,14 @@ class PostQuery extends PostMeta
         //die( __CLASS__ . ':' . __LINE__ );
 
         //
-        $result_update = $this->base_model->update_multiple($this->table, $data, $where, [
-            'debug_backtrace' => debug_backtrace()[1]['function']
-        ]);
+        $result_update = $this->base_model->update_multiple(
+            $this->table,
+            $data,
+            $where,
+            [
+                'debug_backtrace' => debug_backtrace()[1]['function']
+            ]
+        );
 
         //
         //print_r( $_POST );
@@ -283,34 +302,44 @@ class PostQuery extends PostMeta
         return $data;
     }
 
-    function select_public_post($post_id, $where = [])
+    public function select_public_post($post_id, $where = [])
     {
         // các tham số bắt buộc
         //$where[ 'post_status' ] = PostType::PUBLICITY;
         $where['lang_key'] = LanguageCost::lang_key();
 
         //
-        return $this->select_post($post_id, $where, [
-            'where_in' => array(
-                'post_status' => array(
-                    // ai cũng có thể xem
-                    PostType::PUBLICITY,
-                    // người dùng đã đăng nhập
-                    PostType::PRIVATELY,
-                    // cho admin xem trước
-                    PostType::DRAFT,
-                )
-            ),
-        ]);
+        return $this->select_post(
+            $post_id,
+            $where,
+            [
+                'where_in' => array(
+                    'post_status' => array(
+                        // ai cũng có thể xem
+                        PostType::PUBLICITY,
+                        // người dùng đã đăng nhập
+                        PostType::PRIVATELY,
+                        // cho admin xem trước
+                        PostType::DRAFT,
+                    )
+                ),
+            ]
+        );
     }
 
     // trả về danh sách post theo term_id
-    function select_list_post($post_type, $post_cat = [], $limit = 1, $order_by = [], $ops = [])
+    public function select_list_post($post_type, $post_cat = [], $limit = 1, $order_by = [], $ops = [])
     {
         //print_r( $post_cat );
         //print_r( $ops );
         if (!isset($ops['offset']) || $ops['offset'] < 0) {
             $ops['offset'] = 0;
+        }
+
+        //
+        $where_not_in = [];
+        if (isset($ops['where_not_in'])) {
+            $where_not_in = $ops['where_not_in'];
         }
 
         //
@@ -328,6 +357,7 @@ class PostQuery extends PostMeta
             'post_status' => PostType::PUBLICITY,
             'taxonomy' => $post_cat['taxonomy'],
             //'(term_taxonomy.term_id = ' . $post_cat[ 'term_id' ] . ' OR term_taxonomy.parent = ' . $post_cat[ 'term_id' ] . ')' => NULL,
+
         ];
         /*
          if ( isset( $post_cat[ 'taxonomy' ] ) && $post_cat[ 'taxonomy' ] != '' ) {
@@ -348,11 +378,15 @@ class PostQuery extends PostMeta
         // tìm theo slug truyền vào
         else if (isset($post_cat['slug']) && $post_cat['slug'] != '') {
             // lấy term_id theo slug truyền vào
-            $get_term_id = $this->term_model->get_taxonomy([
-                'slug' => $post_cat['slug'],
-                'is_deleted' => DeletedStatus::FOR_DEFAULT,
-                'taxonomy' => $post_cat['taxonomy'],
-            ], 1, 'term_id');
+            $get_term_id = $this->term_model->get_taxonomy(
+                [
+                    'slug' => $post_cat['slug'],
+                    'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                    'taxonomy' => $post_cat['taxonomy'],
+                ],
+                1,
+                'term_id'
+            );
             //print_r( $get_term_id );
 
             // không có thì trả về lỗi
@@ -369,16 +403,23 @@ class PostQuery extends PostMeta
 
         //
         if (isset($ops['count_record'])) {
-            $data = $this->base_model->select('COUNT(ID) AS c', WGR_POST_VIEW, $where, [
-                'selectCount' => 'ID',
-                'or_where' => $arr_or_where,
-                //'order_by' => $order_by,
-                //'get_sql' => 1,
-                //'show_query' => 1,
-                //'debug_only' => 1,
-                //'offset' => $ops[ 'offset' ],
-                //'limit' => $limit
-            ]);
+            $data = $this->base_model->select(
+                'COUNT(ID) AS c',
+                WGR_POST_VIEW,
+                $where,
+                [
+                    'selectCount' => 'ID',
+                    'or_where' => $arr_or_where,
+                    'where_not_in' => $where_not_in,
+                    //'order_by' => $order_by,
+                    //'get_sql' => 1,
+                    //'show_query' => 1,
+                    //'debug_only' => 1,
+                    //'offset' => $ops[ 'offset' ],
+                    //'limit' => $limit
+
+                ]
+            );
             //print_r( $data );
 
             //return $data[ 0 ][ 'c' ];
@@ -400,15 +441,21 @@ class PostQuery extends PostMeta
             }
 
             // lấy danh sách bài viết thuộc nhóm này
-            $data = $this->base_model->select($ops['select'], WGR_POST_VIEW, $where, [
-                'or_where' => $arr_or_where,
-                'order_by' => $order_by,
-                //'get_sql' => 1,
-                //'show_query' => 1,
-                //'debug_only' => 1,
-                'offset' => $ops['offset'],
-                'limit' => $limit
-            ]);
+            $data = $this->base_model->select(
+                $ops['select'],
+                WGR_POST_VIEW,
+                $where,
+                [
+                    'or_where' => $arr_or_where,
+                    'where_not_in' => $where_not_in,
+                    'order_by' => $order_by,
+                    //'get_sql' => 1,
+                    //'show_query' => 1,
+                    //'debug_only' => 1,
+                    'offset' => $ops['offset'],
+                    'limit' => $limit
+                ]
+            );
             //print_r( $data );
         }
 
@@ -452,9 +499,12 @@ class PostQuery extends PostMeta
                 LanguageCost::lang_key() != LanguageCost::default_lang()) {
                 //print_r( $get_data );
                 // tiến hành lấy dữ liệu mẫu để nhân
-                $clone_data = $this->get_auto_post($slug, $ops['post_type'], $ops['taxonomy'], $ops['limit'], [
-                    'lang_key' => LanguageCost::default_lang()
-                ]);
+                $clone_data = $this->get_auto_post(
+                    $slug, $ops['post_type'], $ops['taxonomy'], $ops['limit'],
+                    [
+                        'lang_key' => LanguageCost::default_lang()
+                    ]
+                );
                 //print_r( $clone_data );
 
                 // bắt đầu nhân bản
@@ -623,15 +673,22 @@ class PostQuery extends PostMeta
 
             // tạo html cho từng node
             //echo $tmp_html;
-            $str_node = $this->base_model->tmp_to_html($tmp_html, [
-                'p_link' => $p_link,
-                'show_post_content' => $show_post_content,
-                'post_permalink' => $p_link,
-            ]);
-            $str_node = $this->base_model->tmp_to_html($str_node, $v, [
-                'taxonomy_key' => $ops['taxonomy'],
-                'p_link' => $p_link,
-            ]);
+            $str_node = $this->base_model->tmp_to_html(
+                $tmp_html,
+                [
+                    'p_link' => $p_link,
+                    'show_post_content' => $show_post_content,
+                    'post_permalink' => $p_link,
+                ]
+            );
+            $str_node = $this->base_model->tmp_to_html(
+                $str_node,
+                $v,
+                [
+                    'taxonomy_key' => $ops['taxonomy'],
+                    'p_link' => $p_link,
+                ]
+            );
             //echo $str_node;
             $str_node = HtmlTemplate::render($str_node, $v['post_meta']);
             //echo $str_node;
@@ -661,27 +718,34 @@ class PostQuery extends PostMeta
         // ưu tiên các giá trị trong instance
         $tmp_html = HtmlTemplate::render($tmp_html, $instance);
         // sau đó mới đến custom
-        $html = $this->base_model->tmp_to_html($tmp_html, $post_cat, [
-            'content' => $html,
-            'cf_blog_size' => '{{custom_size}}',
-            'blog_link_option' => $blog_link_option,
-            'widget_title' => $html_widget_title,
-            /*
-             'max_width' => $max_width,
-             'num_line' => $num_line,
-             'post_cloumn' => $post_cloumn,
-             */
-            'more_link' => $instance['text_view_more'] != '' ? '<div class="widget-blog-more"><a href="{{custom_cat_link}}">' . $instance['text_view_more'] . '</a></div>' : '',
-            'str_sub_cat' => '',
-        ]);
+        $html = $this->base_model->tmp_to_html(
+            $tmp_html,
+            $post_cat,
+            [
+                'content' => $html,
+                'cf_blog_size' => '{{custom_size}}',
+                'blog_link_option' => $blog_link_option,
+                'widget_title' => $html_widget_title,
+                /*
+                 'max_width' => $max_width,
+                 'num_line' => $num_line,
+                 'post_cloumn' => $post_cloumn,
+                 */
+                'more_link' => $instance['text_view_more'] != '' ? '<div class="widget-blog-more"><a href="{{custom_cat_link}}">' . $instance['text_view_more'] . '</a></div>' : '',
+                'str_sub_cat' => '',
+            ]
+        );
 
         //
         $html = HtmlTemplate::render($html, $instance);
         // thay các size dùng chung
-        $html = HtmlTemplate::render($html, [
-            'main_banner_size' => $this->base_model->get_config($this->getconfig, 'main_banner_size'),
-            'second_banner_size' => $this->base_model->get_config($this->getconfig, 'second_banner_size'),
-        ]);
+        $html = HtmlTemplate::render(
+            $html,
+            [
+                'main_banner_size' => $this->base_model->get_config($this->getconfig, 'main_banner_size'),
+                'second_banner_size' => $this->base_model->get_config($this->getconfig, 'second_banner_size'),
+            ]
+        );
 
         //
         return $html;

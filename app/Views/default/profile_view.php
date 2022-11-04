@@ -53,7 +53,7 @@
                     <div class="col small-12 medium-4 large-4 l40">Ảnh đại diện</div>
                     <div class="col small-12 medium-8 large-8">
                         <label for="file-input-media" id="click-chose-media"> <img src="images/_blank.png" height="150"
-                                <?php if ($data['avatar'] !='') { ?>style="background-image: url(
+                                <?php if ($data['avatar'] != '') { ?>style="background-image: url(
                             <?php echo $data['avatar']; ?>);" <?php
                                 }
                                 ?> />
@@ -64,10 +64,10 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col small-12 medium-4 large-4 l40">Họ và tên đệm</div>
+                    <div class="col small-12 medium-4 large-4 l40">Họ và Tên đệm</div>
                     <div class="col small-12 medium-8 large-8">
                         <div class="form-control">
-                            <input type="text" placeholder="Họ và tên đệm" name="data[display_name]"
+                            <input type="text" placeholder="Họ và Tên đệm" name="data[display_name]"
                                 id="data_display_name" value="<?php echo $data['display_name']; ?>" aria-required="true"
                                 required>
                         </div>

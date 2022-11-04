@@ -87,7 +87,7 @@ class PostGet extends PostQuery
         if (isset($ops['count'])) {
             $ops['count_record'] = 1;
         }
-        //print_r( $ops );
+        //print_r($ops);
 
         //
         $data = $this->select_list_post($prams['post_type'], $prams, $prams['limit'], $prams['order_by'], $ops);
