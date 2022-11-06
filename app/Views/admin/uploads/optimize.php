@@ -134,11 +134,17 @@ foreach ($data as $k => $v) {
     }
 }
 
-?>
-<script>
-var totalPage = <?php echo $totalPage; ?>;
-</script>
-<?php
+//
+$base_model->JSON_echo(
+    [
+        // mảng này sẽ in ra dưới dạng JSON hoặc number
+        'totalPage' => $totalPage,
+    ],
+    [
+        // mảng này sẽ in ra dưới dạng string
+
+    ]
+);
 
 // js riêng cho từng post type (nếu có)
 $base_model->add_js('admin/js/optimize.js');

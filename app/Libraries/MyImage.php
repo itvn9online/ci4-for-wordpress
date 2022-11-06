@@ -122,10 +122,18 @@ class MyImage
 
         //
         $mime_type = mime_content_type($source);
+        if (strpos($mime_type, 'image') === false) {
+            return false;
+        }
         // 1 số định dạng file không sử dụng quality được
-        if (in_array($mime_type, [
-            'image/webp'
-        ])) {
+        else if (
+            in_array(
+                $mime_type,
+                [
+                    'image/webp'
+                ]
+            )
+        ) {
             return false;
         }
 

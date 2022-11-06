@@ -436,7 +436,7 @@ class File extends EbModel
         $f = WRITEPATH . 'cache_for_ftp.txt';
 
         if ($content_ != '') {
-            echo $f . '<br>' . PHP_EOL;
+            echo __CLASS__ . ':' . __LINE__ . ':' . $f . '<br>' . PHP_EOL;
             $this->base_model->_eb_create_file($f, $content_);
         }
         return $f;
