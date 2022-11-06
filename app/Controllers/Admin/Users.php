@@ -37,8 +37,7 @@ class Users extends Admin
         if ($this->member_name == '') {
             if ($this->member_type != '') {
                 $this->member_name = UsersType::typeList($this->member_type);
-            }
-            else {
+            } else {
                 $this->member_name = UsersType::ALL;
             }
         }
@@ -111,8 +110,7 @@ class Users extends Admin
                     $where_or_like['ID'] = $by_like * 1;
                     $where_or_like['user_login'] = $by_like;
                     $where_or_like['user_phone'] = $by_like;
-                }
-                else {
+                } else {
                     // nếu có @ -> tìm theo email
                     if (strpos($by_keyword, '@') !== false) {
                         $where_or_like['user_phone'] = explode('@', $by_keyword)[0];
@@ -159,8 +157,7 @@ class Users extends Admin
             $order_by = [
                 'users.last_login' => 'DESC',
             ];
-        }
-        else {
+        } else {
             $order_by = [
                 'users.ID' => 'DESC',
             ];
@@ -197,8 +194,7 @@ class Users extends Admin
             //echo $totalPage . '<br>' . "\n";
             if ($page_num > $totalPage) {
                 $page_num = $totalPage;
-            }
-            else if ($page_num < 1) {
+            } else if ($page_num < 1) {
                 $page_num = 1;
             }
             $for_action .= $page_num > 1 ? '&page_num=' . $page_num : '';
@@ -218,34 +214,62 @@ class Users extends Admin
             $filter['order_by'] = $order_by;
             $filter['offset'] = $offset;
             $filter['limit'] = $post_per_page;
-            $data = $this->base_model->select('*', 'users', $where, $filter);
 
-        //
-        //print_r( $data );
-        }
-        else {
+            // để tăng độ bảo mật, chỉ select
+            $table_col = $this->base_model->default_data('users');
+            //print_r($table_col);
+            $select_col = [];
+            foreach ($table_col as $k => $v) {
+                if (
+                    in_array(
+                        $k,
+                        [
+                            'user_pass',
+                            'ci_pass',
+                            'ci_unpass',
+                            'user_activation_key',
+                        ]
+                    )
+                ) {
+                    continue;
+                }
+
+                //
+                $select_col[] = $k;
+            }
+            //print_r($select_col);
+
+            //
+            $data = $this->base_model->select(implode(',', $select_col), 'users', $where, $filter);
+
+            //
+            //print_r( $data );
+        } else {
             $data = [];
             $pagination = '';
         }
 
         //
-        $this->teamplate_admin['content'] = view('admin/' . $this->list_view_path . '/list', array(
-            'pagination' => $pagination,
-            'by_is_deleted' => $by_is_deleted,
-            'for_action' => $for_action,
-            'by_user_status' => $by_user_status,
-            //'page_num' => $page_num,
-            'totalThread' => $totalThread,
-            'by_keyword' => $by_keyword,
-            'data' => $data,
-            'col_filter' => $col_filter,
-            'controller_slug' => $this->controller_slug,
-            'list_view_path' => $this->list_view_path,
-            'member_type' => $this->member_type,
-            'member_name' => $this->member_name,
-            'arr_members_type' => $this->arr_members_type,
-            'DeletedStatus_DELETED' => DeletedStatus::DELETED,
-        ));
+        $this->teamplate_admin['content'] = view(
+            'admin/' . $this->list_view_path . '/list',
+            array(
+                'pagination' => $pagination,
+                'by_is_deleted' => $by_is_deleted,
+                'for_action' => $for_action,
+                'by_user_status' => $by_user_status,
+                //'page_num' => $page_num,
+                'totalThread' => $totalThread,
+                'by_keyword' => $by_keyword,
+                'data' => $data,
+                'col_filter' => $col_filter,
+                'controller_slug' => $this->controller_slug,
+                'list_view_path' => $this->list_view_path,
+                'member_type' => $this->member_type,
+                'member_name' => $this->member_name,
+                'arr_members_type' => $this->arr_members_type,
+                'DeletedStatus_DELETED' => DeletedStatus::DELETED,
+            )
+        );
         return view('admin/admin_teamplate', $this->teamplate_admin);
     }
 
@@ -269,16 +293,21 @@ class Users extends Admin
         // edit
         if ($id != '') {
             // select dữ liệu từ 1 bảng bất kỳ
-            $data = $this->base_model->select('*', 'users', [
-                'ID' => $id
-            ], array(
-                // hiển thị mã SQL để check
-                //'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-                //'offset' => 2,
-                'limit' => 1
-            ));
+            $data = $this->base_model->select(
+                '*',
+                'users',
+                [
+                    'ID' => $id
+                ],
+                array(
+                    // hiển thị mã SQL để check
+                    //'show_query' => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    //'get_query' => 1,
+                    //'offset' => 2,
+                    'limit' => 1
+                )
+            );
 
             if (empty($data)) {
                 die('user not found!');
@@ -290,13 +319,17 @@ class Users extends Admin
             //print_r( $data );
             // nếu tài khoản đang là admin
             if ($data['member_type'] == UsersType::ADMIN &&
-            // -> chỉ tài khoản admin mới được quyền xem
-            $this->session_data['member_type'] != UsersType::ADMIN
+                // -> chỉ tài khoản admin mới được quyền xem
+                $this->session_data['member_type'] != UsersType::ADMIN
             ) {
-                die(json_encode([
-                    'code' => __LINE__,
-                    'error' => 'ERROR! Permisson deny for view user details!'
-                ]));
+                die(
+                    json_encode(
+                        [
+                            'code' => __LINE__,
+                            'error' => 'ERROR! Permisson deny for view user details!'
+                        ]
+                    )
+                    );
             }
 
             // sửa tài khoản thì không nhập pass
@@ -342,13 +375,16 @@ class Users extends Admin
         }
 
         //
-        $this->teamplate_admin['content'] = view('admin/' . $this->add_view_path . '/add', array(
-            'data' => $data,
-            'controller_slug' => $this->controller_slug,
-            'member_type' => $this->member_type,
-            'member_name' => $this->member_name,
-            'arr_members_type' => $this->arr_members_type,
-        ));
+        $this->teamplate_admin['content'] = view(
+            'admin/' . $this->add_view_path . '/add',
+            array(
+                'data' => $data,
+                'controller_slug' => $this->controller_slug,
+                'member_type' => $this->member_type,
+                'member_name' => $this->member_name,
+                'arr_members_type' => $this->arr_members_type,
+            )
+        );
         return view('admin/admin_teamplate', $this->teamplate_admin);
     }
 
@@ -371,8 +407,7 @@ class Users extends Admin
         $result_id = $this->user_model->insert_member($data);
         if ($result_id < 0) {
             $this->base_model->alert('Email đã được sử dụng ' . $data['user_email'], 'error');
-        }
-        else if ($result_id !== false) {
+        } else if ($result_id !== false) {
             $this->base_model->msg_session('Thêm mới ' . $this->member_name . ' thành công');
             $this->base_model->alert('', base_url('admin/' . $this->controller_slug . '/add') . '?id=' . $result_id);
         }
@@ -392,33 +427,35 @@ class Users extends Admin
             $data = [
                 'ci_pass' => $data['ci_pass']
             ];
-        //print_r( $data );
-        //die( __CLASS__ . ':' . __LINE__ );
+            //print_r( $data );
+            //die( __CLASS__ . ':' . __LINE__ );
         }
         // các thông tin khác thì cập nhật bình thường
         else {
             if (isset($data['user_email'])) {
                 $this->validation->reset();
-                $this->validation->setRules([
-                    'user_email' => [
-                        'label' => 'Email',
-                        'rules' => 'required|min_length[5]|max_length[255]|valid_email',
-                        'errors' => [
-                            'required' => Translate::REQUIRED,
-                            'min_length' => Translate::MIN_LENGTH,
-                            'max_length' => Translate::MAX_LENGTH,
-                            'valid_email' => Translate::VALID_EMAIL,
-                        ],
+                $this->validation->setRules(
+                    [
+                        'user_email' => [
+                            'label' => 'Email',
+                            'rules' => 'required|min_length[5]|max_length[255]|valid_email',
+                            'errors' => [
+                                'required' => Translate::REQUIRED,
+                                'min_length' => Translate::MIN_LENGTH,
+                                'max_length' => Translate::MAX_LENGTH,
+                                'valid_email' => Translate::VALID_EMAIL,
+                            ],
+                        ]
                     ]
-                ]);
+                );
                 if (!$this->validation->run($data)) {
                     $this->set_validation_error($this->validation->getErrors(), 'error');
                 }
                 $data['user_email'] = strtolower($data['user_email']);
-            /*
-             } else {
-             $data[ 'user_email' ] = '';
-             */
+                /*
+                 } else {
+                 $data[ 'user_email' ] = '';
+                 */
             }
         }
 
@@ -431,8 +468,7 @@ class Users extends Admin
             if ($is_change_pass === true) {
                 echo '<script>top.close_input_change_user_password();</script>';
                 $this->base_model->alert('Thay đổi mật khẩu cho ' . $this->member_name . ' thành công');
-            }
-            else {
+            } else {
                 if (!isset($data['user_email'])) {
                     $data['user_email'] = '';
                 }
@@ -445,8 +481,7 @@ class Users extends Admin
                 }
                 $this->base_model->alert($msg_session);
             }
-        }
-        else {
+        } else {
             $this->base_model->alert($result_id, 'error');
         }
     }
@@ -490,9 +525,12 @@ class Users extends Admin
         }
 
         //
-        $update = $this->user_model->update_member($id, [
-            'is_deleted' => $is_deleted,
-        ]);
+        $update = $this->user_model->update_member(
+            $id,
+            [
+                'is_deleted' => $is_deleted,
+            ]
+        );
 
         // nếu update thành công -> gửi lệnh javascript để ẩn bài viết bằng javascript
         if ($update === true) {
@@ -536,19 +574,23 @@ class Users extends Admin
     {
         $ids = $this->MY_post('ids', '');
         if (empty($ids)) {
-            $this->result_json_type([
-                'code' => __LINE__,
-                'error' => 'ids not found!',
-            ]);
+            $this->result_json_type(
+                [
+                    'code' => __LINE__,
+                    'error' => 'ids not found!',
+                ]
+            );
         }
 
         //
         $ids = explode(',', $ids);
         if (count($ids) <= 0) {
-            $this->result_json_type([
-                'code' => __LINE__,
-                'error' => 'ids EMPTY!',
-            ]);
+            $this->result_json_type(
+                [
+                    'code' => __LINE__,
+                    'error' => 'ids EMPTY!',
+                ]
+            );
         }
         //print_r( $ids );
 
@@ -561,39 +603,48 @@ class Users extends Admin
     {
         if ($id > 0) {
             $ids = [$id];
-        }
-        else {
+        } else {
             $ids = $this->get_ids();
         }
         //die( __CLASS__ . ':' . __LINE__ );
 
         // XÓA meta
-        $result = $this->base_model->delete_multiple($this->user_model->metaTable, [
-            // WHERE
-            //'t2.is_deleted' => DeletedStatus::REMOVED,
-        ], [
-            /*
-     'join' => array(
-     $this->user_model->table . ' AS t2' => $this->user_model->metaTable . '.user_id = t2.ID'
-     ),
-     */
-            'where_in' => array(
-                'user_id' => $ids
-            ),
-        ]);
+        $result = $this->base_model->delete_multiple(
+            $this->user_model->metaTable,
+            [
+                // WHERE
+                //'t2.is_deleted' => DeletedStatus::REMOVED,
+
+            ],
+            [
+                /*
+                 'join' => array(
+                 $this->user_model->table . ' AS t2' => $this->user_model->metaTable . '.user_id = t2.ID'
+                 ),
+                 */
+                'where_in' => array(
+                    'user_id' => $ids
+                ),
+            ]
+        );
         //var_dump( $result );
         //die( __CLASS__ . ':' . __LINE__ );
 
         // XÓA dữ liệu chính
         if ($result == true) {
-            $this->base_model->delete_multiple($this->user_model->table, [
-                // WHERE
-                //'is_deleted' => DeletedStatus::REMOVED,
-            ], [
-                'where_in' => array(
-                    'ID' => $ids
-                ),
-            ]);
+            $this->base_model->delete_multiple(
+                $this->user_model->table,
+                [
+                    // WHERE
+                    //'is_deleted' => DeletedStatus::REMOVED,
+
+                ],
+                [
+                    'where_in' => array(
+                        'ID' => $ids
+                    ),
+                ]
+            );
         }
 
         //
@@ -608,18 +659,24 @@ class Users extends Admin
         $where['is_deleted !='] = $is_deleted;
         //die( json_encode( $where ) );
 
-        $update = $this->base_model->update_multiple('users', [
-            // SET
-            'is_deleted' => $is_deleted,
-        ], $where, [
-            'where_in' => array(
-                'ID' => $ids
-            ),
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-        ]);
+        $update = $this->base_model->update_multiple(
+            'users',
+            [
+                // SET
+                'is_deleted' => $is_deleted,
+            ],
+            $where,
+            [
+                'where_in' => array(
+                    'ID' => $ids
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+
+            ]
+        );
 
         // riêng với lệnh remove -> kiểm tra nếu remove hoàn toàn thì xử lý riêng
         if ($update === true && $is_deleted == DeletedStatus::REMOVED && ALLOW_USING_MYSQL_DELETE === true) {
@@ -627,19 +684,25 @@ class Users extends Admin
         }
 
         //
-        $this->result_json_type([
-            'code' => __LINE__,
-            'result' => $update,
-            //'ids' => $ids,
-        ]);
+        $this->result_json_type(
+            [
+                'code' => __LINE__,
+                'result' => $update,
+                //'ids' => $ids,
+
+            ]
+        );
     }
 
     // chức năng xóa nhiều bản ghi 1 lúc
     public function delete_all()
     {
-        return $this->before_all_delete_restore(DeletedStatus::DELETED, [
-            'ID !=' => $this->current_user_id
-        ]);
+        return $this->before_all_delete_restore(
+            DeletedStatus::DELETED,
+            [
+                'ID !=' => $this->current_user_id
+            ]
+        );
     }
 
     // chức năng restore nhiều bản ghi 1 lúc
@@ -654,17 +717,19 @@ class Users extends Admin
         // nếu có thuộc tính cho phép xóa hoàn toàn dữ liệu thì tiến hành xóa
         if (ALLOW_USING_MYSQL_DELETE === true) {
             $result = $this->delete_remove();
-        }
-        else {
+        } else {
             $result = $this->before_all_delete_restore(DeletedStatus::REMOVED);
         }
 
         //
-        $this->result_json_type([
-            'code' => __LINE__,
-            'result' => $result,
-            //'ids' => $ids,
-        ]);
+        $this->result_json_type(
+            [
+                'code' => __LINE__,
+                'result' => $result,
+                //'ids' => $ids,
+
+            ]
+        );
     }
 
     // chức năng đăng nhập vào 1 tài khoản khác
@@ -686,16 +751,21 @@ class Users extends Admin
         }
 
         // select dữ liệu từ 1 bảng bất kỳ
-        $data = $this->base_model->select('*', 'users', [
-            'ID' => $id
-        ], array(
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-            //'offset' => 2,
-            'limit' => 1
-        ));
+        $data = $this->base_model->select(
+            '*',
+            'users',
+            [
+                'ID' => $id
+            ],
+            array(
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                //'offset' => 2,
+                'limit' => 1
+            )
+        );
         //print_r( $data );
 
         //
@@ -724,54 +794,65 @@ class Users extends Admin
     {
         $user_id = $this->MY_post('user_id');
         if (empty($user_id)) {
-            $this->result_json_type([
-                'in' => __CLASS__,
-                'code' => __LINE__,
-                'error' => 'EMPTY user id!'
-            ]);
+            $this->result_json_type(
+                [
+                    'in' => __CLASS__,
+                    'code' => __LINE__,
+                    'error' => 'EMPTY user id!'
+                ]
+            );
         }
 
         //
         $user_status = $this->MY_post('user_status', '');
         if ($user_status == '' || UsersType::typeList($user_status)) {
-            $this->result_json_type([
-                'in' => __CLASS__,
-                'code' => __LINE__,
-                'error' => 'EMPTY user status!'
-            ]);
+            $this->result_json_type(
+                [
+                    'in' => __CLASS__,
+                    'code' => __LINE__,
+                    'error' => 'EMPTY user status!'
+                ]
+            );
         }
         if ($user_status * 1 < 0) {
             $user_status = UsersType::FOR_DEFAULT;
-        }
-        else {
+        } else {
             // nếu là KHÓA -> không cho KHÓA chính tài khoản hiện tại
             if ($this->current_user_id * 1 === $user_id * 1) {
-                $this->result_json_type([
-                    'in' => __CLASS__,
-                    'code' => __LINE__,
-                    'error' => 'Không thể tự KHÓA chính bạn!'
-                ]);
+                $this->result_json_type(
+                    [
+                        'in' => __CLASS__,
+                        'code' => __LINE__,
+                        'error' => 'Không thể tự KHÓA chính bạn!'
+                    ]
+                );
             }
             $user_status = UsersType::NO_LOGIN;
         }
         //$this->result_json_type( [ $user_status ] ); // TEST
 
         //
-        $this->base_model->update_multiple('users', [
-            'user_status' => $user_status
-        ], [
-            // WHERE
-            'ID' => $user_id,
-            'member_type' => $this->member_type
-        ]);
+        $this->base_model->update_multiple(
+            'users',
+            [
+                'user_status' => $user_status
+            ],
+            [
+                // WHERE
+                'ID' => $user_id,
+                'member_type' => $this->member_type
+            ]
+        );
 
         //
         //$this->result_json_type( $_POST ); // TEST
-        $this->result_json_type([
-            'ok' => $user_id,
-            'member_name' => $this->member_name,
-            'user_status' => $user_status,
-        ]);
+        $this->result_json_type(
+            [
+                'ok' => $user_id,
+                'member_name' => $this->member_name,
+                'user_status' => $user_status,
+            ]
+        );
     }
 
 }

@@ -86,10 +86,34 @@ $base_model->add_js('admin/js/users_functions.js');
     <?php echo $pagination; ?> Trên tổng số
     <?php echo $totalThread; ?> bản ghi.
 </div>
+<?php
+
+//
+$base_model->JSON_parse(
+    [
+        'col_filter' => $col_filter,
+        'scope_data' => $data,
+        'arr_members_type' => $arr_members_type,
+        'UsersType_listStatus' => UsersType::statusList(),
+    ]
+);
+
+//
+$base_model->JSON_echo(
+    [
+        // mảng này sẽ in ra dưới dạng JSON hoặc number
+        'UsersType_NO_LOGIN' => UsersType::NO_LOGIN,
+        'UsersType_FOR_DEFAULT' => UsersType::FOR_DEFAULT,
+    ],
+    [
+        // mảng này sẽ in ra dưới dạng string
+
+    ]
+);
+
+?>
 <script>
 var controller_slug = '<?php echo $controller_slug; ?>';
-var col_filter = <?php echo json_encode($col_filter); ?>;
-var scope_data = <?php echo json_encode($data); ?>;
 
 //
 WGR_vuejs('#app', {
@@ -101,10 +125,10 @@ WGR_vuejs('#app', {
     for_action: '<?php echo $for_action; ?>',
     DeletedStatus_DELETED: '<?php echo $DeletedStatus_DELETED; ?>',
     by_is_deleted: '<?php echo $by_is_deleted; ?>',
-    UsersType_NO_LOGIN: <?php echo UsersType:: NO_LOGIN; ?>,
-    UsersType_FOR_DEFAULT: <?php echo UsersType:: FOR_DEFAULT; ?>,
-    list: <?php echo json_encode($arr_members_type); ?>,
-    UsersType_listStatus: <?php echo json_encode(UsersType:: statusList()); ?>,
+    UsersType_NO_LOGIN: UsersType_NO_LOGIN,
+    UsersType_FOR_DEFAULT: UsersType_FOR_DEFAULT,
+    list: arr_members_type,
+    UsersType_listStatus: UsersType_listStatus,
 }, function() {
     action_change_user_status();
 });

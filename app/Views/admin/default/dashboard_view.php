@@ -1,7 +1,7 @@
 <?php
 
 //
-$ci_last_version = 429;
+$ci_last_version = 4210;
 
 //
 $Vue_version = '{{Vue.version}}';
