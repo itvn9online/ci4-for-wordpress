@@ -261,6 +261,15 @@ class PostQuery extends PostMeta
         }
 
         //
+        if ($result_update === true) {
+            $data['ID'] = $post_id;
+            if (isset($data['post_name']) && isset($data['post_type'])) {
+                $data['post_permalink'] = $this->get_the_permalink($data);
+            }
+            //print_r($data);
+        }
+
+        //
         return $result_update;
     }
 

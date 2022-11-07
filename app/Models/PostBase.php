@@ -120,7 +120,7 @@ class PostBase extends EbModel
         if ($slug == '' ||
             // hoặc đúng là post_name
             $slug == $data['post_name'] ||
-                // hoặc kiểu URL có .html, .html, .etc...
+            // hoặc kiểu URL có .html, .html, .etc...
             strpos($slug, $data['post_name'] . '.') !== false) {
             // thì cho qua
             return true;
@@ -163,13 +163,10 @@ class PostBase extends EbModel
 
         //
         if ($data['post_type'] == PostType::POST) {
-            //return $base_url . $data[ 'ID' ] . '/' . $data[ 'post_name' ];
             $url = WGR_POST_PERMALINK;
         } else if ($data['post_type'] == PostType::BLOG) {
-            //return $base_url . PostType::BLOG . '-' . $data[ 'ID' ] . '/' . $data[ 'post_name' ];
             $url = WGR_BLOG_PERMALINK;
         } else if ($data['post_type'] == PostType::PAGE) {
-            //return $base_url . PAGE_BASE_URL . $data[ 'post_name' ];
             $url = WGR_PAGE_PERMALINK;
         }
         // với phần hóa đơn thì khác bảng, và cũng không dùng permalink
@@ -180,24 +177,31 @@ class PostBase extends EbModel
         }
 
         //
-        foreach ([
-            'page_base' => PAGE_BASE_URL,
-            'ID' => $data['ID'],
-            'post_name' => $data['post_name'],
-            'post_type' => $data['post_type'],
-        ] as $k => $v) {
+        foreach (
+            [
+                'page_base' => PAGE_BASE_URL,
+                'ID' => $data['ID'],
+                'post_name' => $data['post_name'],
+                'post_type' => $data['post_type'],
+            ] as $k => $v) {
             $url = str_replace('%' . $k . '%', $v, $url);
         }
 
         // update vào db để sau còn tái sử dụng -> nhẹ server
-        $this->base_model->update_multiple('posts', [
-            'post_permalink' => $url,
-        ], [
+        $this->base_model->update_multiple(
+            'posts',
+            [
+                'post_permalink' => $url,
+            ],
+            [
                 'ID' => $data['ID'],
-            ], [
+            ],
+            [
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
-            ]);
+
+            ]
+        );
 
         //
         return $base_url . $url;
@@ -217,10 +221,13 @@ class PostBase extends EbModel
     public function max_menu_order($post_type)
     {
         // lấy chap cuối cùng của truyện để tổng kết
-        $a = $this->base_model->select('menu_order', $this->table, array(
-            // WHERE AND OR
-            'post_type' => $post_type,
-        ), array(
+        $a = $this->base_model->select(
+            'menu_order', $this->table,
+            array(
+                // WHERE AND OR
+                'post_type' => $post_type,
+            ),
+            array(
                 'order_by' => array(
                     'menu_order' => 'DESC'
                 ),
@@ -230,7 +237,8 @@ class PostBase extends EbModel
                 //'get_query' => 1,
                 //'offset' => 2,
                 'limit' => 1
-            ));
+            )
+        );
         //print_r( $a );
         if (!empty($a)) {
             return $a['menu_order'] * 1 + 1;

@@ -55,9 +55,7 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                 }
 
                 //
-                $lang_k = str_replace('lang_', '', $k);
-                //echo $lang_k . '<br>' . "\n";
-                $input_type = ConfigType::meta_type($lang_k);
+                $input_type = ConfigType::meta_type($k);
                 //echo $k . '<br>' . "\n";
                 //echo $input_type . '<br>' . "\n";
             
@@ -95,7 +93,7 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                     <?php
 
                     // hiển thị ghi chú nếu có
-                    ConfigType::meta_desc($lang_k);
+                    ConfigType::meta_desc($k);
 
                     ?>
                 </div>
@@ -111,7 +109,7 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                 </div>
                 <div class="lf f85">
                     <input type="color" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>"
-                        value="<?php echo $data[$k]; ?>" placeholder="<?php echo ConfigType::defaultColor($lang_k); ?>"
+                        value="<?php echo $data[$k]; ?>" placeholder="<?php echo ConfigType::defaultColor($k); ?>"
                         class="span2 auto-reset-site-color" />
                     - <a href="javascript:;" data-set="data_<?php echo $k; ?>"
                         class="bluecolor click-to-set-site-color">Nhập mã màu</a> - <a href="javascript:;"
@@ -119,7 +117,7 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                     <?php
 
                     // hiển thị ghi chú nếu có
-                    ConfigType::meta_desc($lang_k);
+                    ConfigType::meta_desc($k);
 
                     ?>
                 </div>
@@ -145,7 +143,7 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                     }
                     // END if textarea
                     else if ($input_type == 'select') {
-                        $select_options = ConfigType::meta_select($lang_k);
+                        $select_options = ConfigType::meta_select($k);
 
                     ?>
                     <select data-select="<?php echo $data[$k]; ?>" name="data[<?php echo $k; ?>]"
@@ -162,7 +160,7 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                     }
                     // END if select
                     else {
-                        // thay đổi độ rộng của inpurt cho phù hợp
+                        // thay đổi độ rộng của input cho phù hợp
                         $span10 = 'span10';
                         if ($input_type == 'number') {
                             $span10 = 'span3';
@@ -173,14 +171,14 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                         //
                     ?>
                     <input type="<?php echo $input_type; ?>" class="<?php echo $span10; ?>"
-                        placeholder="<?php echo ConfigType::placeholder($lang_k, $v); ?>" name="data[<?php echo $k; ?>]"
+                        placeholder="<?php echo ConfigType::placeholder($k, $v); ?>" name="data[<?php echo $k; ?>]"
                         id="data_<?php echo $k; ?>"
                         value="<?php echo htmlentities($data[$k], ENT_QUOTES, 'UTF-8'); ?>" />
                     <?php
                     }
 
                     //
-                    ConfigType::meta_desc($lang_k);
+                    ConfigType::meta_desc($k);
 
                     ?>
                 </div>
@@ -205,19 +203,26 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
 $base_model->add_js('admin/js/config_function.js');
 
 //
-$base_model->adds_js([
-    'admin/js/config.js',
-    'admin/js/config_' . $config_type . '.js',
-], [
+$base_model->adds_js(
+    [
+        'admin/js/config.js',
+        'admin/js/config_' . $config_type . '.js',
+    ],
+    [
         //'cdn' => CDN_BASE_URL,
-    ], [
+
+    ],
+    [
         'defer'
-    ]);
+    ]
+);
 
 //
-$base_model->JSON_parse([
-    'vue_data' => $vue_data,
-]);
+$base_model->JSON_parse(
+    [
+        'vue_data' => $vue_data,
+    ]
+);
 
 ?>
 <script>

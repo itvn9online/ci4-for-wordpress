@@ -2,7 +2,7 @@
 
 //
 //print_r( $data );
-$data[ 'comment_content' ] = nl2br( $data[ 'comment_content' ] );
+$data['comment_content'] = nl2br($data['comment_content']);
 
 ?>
 <ul class="admin-breadcrumb">
@@ -19,9 +19,20 @@ $data[ 'comment_content' ] = nl2br( $data[ 'comment_content' ] );
         </div>
     </div>
 </div>
+<?php
+
+//
+$base_model->JSON_parse(
+    [
+        'json_data' => $data,
+        'vue_data' => $vue_data,
+    ]
+);
+
+?>
 <script>
 WGR_vuejs('#for_vue', {
-    data: <?php echo json_encode($data); ?>,
-    vue_data: <?php echo json_encode($vue_data); ?>,
+    data: json_data,
+    vue_data: vue_data,
 });
-</script> 
+</script>

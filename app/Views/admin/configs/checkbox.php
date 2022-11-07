@@ -28,53 +28,34 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                 <div class="text-center l35">Ngôn ngữ: <strong>{{vue_data.lang_name}}</strong> </div>
             </div>
             <br>
-            <div class="redcolor text-center l20">* Bản dịch cho website. Sử dụng bằng cách copy code ở cột bên phải và
-                cho vào view. Hàm <strong>the_text()</strong> sẽ thực thi echo luôn. Nếu chỉ muốn lấy về đoạn text mà
-                không echo, hãy sử dụng: <strong>get_the_text()</strong>.</div>
+            <div class="redcolor text-center l20">* Cấu hình dạng chuyên checkbox. Dùng để BẬT/ TẮT một chức năng nào đó
+                trong website. Website nào cần dùng thì code sẽ đặt tên cho chức năng và người dùng sẽ tiến hành bật tắt
+                tại đây. Code sẽ if else để BẬT/ TẮT tính năng tương ứng.</div>
             <?php
 
             //
             foreach ($meta_default as $k => $v) {
-                $lang_k = str_replace('lang_', '', $k);
-                //echo $lang_k . '<br>' . "\n";
-                $input_type = ConfigType::meta_type($lang_k);
-                //echo $k . '<br>' . "\n";
-                //echo $input_type . '<br>' . "\n";
-            
             ?>
             <div class="control-group eb-control-group cf">
-                <div class="lf f15">
-                    <label for="data_<?php echo $k; ?>" class="text-right right-menu-space">
-                        <?php echo $v; ?>
+                <div class="lf f30">&nbsp;</div>
+                <div class="lf f35 controls-checkbox">
+                    <label for="data_<?php echo $k; ?>">
+                        <input type="checkbox" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>" value="on"
+                            data-value="<?php echo $data[$k]; ?>" />
+                        <span class="replace-text-label">
+                            <?php echo $v; ?>
+                        </span>
                     </label>
-                </div>
-                <div class="lf f50">
                     <?php
 
-                if ($input_type == 'textarea') {
-                    ?>
-                    <textarea class="span10 required fix-textarea-height" style="height:100px"
-                        placeholder="<?php echo $v; ?>" name="data[<?php echo $k; ?>]"
-                        id="data_<?php echo $k; ?>"><?php echo $data[$k]; ?></textarea>
-                    <?php
-                } // END if textarea
-                else {
-                    ?>
-                    <input type="text" class="span10" placeholder="<?php echo ConfigType::placeholder($lang_k, $v); ?>"
-                        name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>"
-                        value="<?php echo htmlentities($data[$k], ENT_QUOTES, 'UTF-8'); ?>" />
-                    <?php
-                }
-
-                //
-                ConfigType::meta_desc($lang_k);
+                // hiển thị ghi chú nếu có
+                ConfigType::meta_desc($k);
 
                     ?>
                 </div>
                 <div class="lf f35">
                     <input type="text" onDblClick="click2Copy(this);"
-                        value="&lt;?php $lang_model->the_text( '<?php echo str_replace('lang_', '', $k); ?>' ); ?&gt;"
-                        class="span11" readonly />
+                        value="&lt;?php $getconfig-><?php echo $k; ?>; ?&gt;" class="span11" readonly />
                 </div>
             </div>
             <?php
@@ -93,7 +74,7 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
 //
 $base_model->JSON_parse(
     [
-        'arr_trans_label' => TRANS_TRANS_LABEL,
+        'arr_trans_label' => TRANS_CHECKBOXS_LABEL,
         'vue_data' => $vue_data,
     ]
 );

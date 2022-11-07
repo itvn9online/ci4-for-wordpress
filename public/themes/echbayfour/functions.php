@@ -39,6 +39,30 @@ define( 'TRANS_TRANS_LABEL', [
 ] );
 */
 
+// Số lượng bản ghi dạng số nguyên -> website nào cần dùng nhiều tăng số lượng trong file functions lên
+//defined('NUMBER_NUMS_INPUT') || define('NUMBER_NUMS_INPUT', 3);
+// khi cần thay label cho trang /admin/nummons để dễ hiểu hơn thì thêm các thông số vào đây
+/*
+defined('TRANS_NUMS_LABEL') || define(
+    'TRANS_NUMS_LABEL',
+    [
+        'custom_num_mon0' => 'Tùy chỉnh số 0',
+    ]
+);
+*/
+
+// Số lượng bản ghi dạng số nguyên -> website nào cần dùng nhiều tăng số lượng trong file functions lên
+//defined('NUMBER_CHECKBOXS_INPUT') || define('NUMBER_CHECKBOXS_INPUT', 3);
+// khi cần thay label cho trang /admin/checkboxs để dễ hiểu hơn thì thêm các thông số vào đây
+/*
+defined('TRANS_CHECKBOXS_LABEL') || define(
+    'TRANS_CHECKBOXS_LABEL',
+    [
+        'custom_checkbox0' => 'Checkbox số 0',
+    ]
+);
+*/
+
 
 /*
  * Tiền tố cho danh mục sản phẩm
@@ -55,44 +79,44 @@ define( 'TRANS_TRANS_LABEL', [
  * Ngoài các menu mặc định, với mỗi website có thể thêm các menu tùy chỉnh khác nhau vào đây theo công thức mẫu
  */
 /*
-function register_admin_menu() {
-    return [
-        'admin/controller' => [
-            // nếu có phân quyền thì nhập phân quyền vào đây, không thì xóa nó đi -> quyền admin
-            'role' => [
-                UsersType::ADMIN
-            ],
-            'name' => 'Custom admin menu',
-            'icon' => 'fa fa-bug',
-            'arr' => [
-                'admin/sub_controller' => [
-                    'name' => 'Sub menu',
-                    'icon' => 'fa fa-plus',
-                    //'target' => '_blank',
-                ],
-            ],
-            'order' => 95,
-        ]
-    ];
-}
-*/
+ function register_admin_menu() {
+ return [
+ 'admin/controller' => [
+ // nếu có phân quyền thì nhập phân quyền vào đây, không thì xóa nó đi -> quyền admin
+ 'role' => [
+ UsersType::ADMIN
+ ],
+ 'name' => 'Custom admin menu',
+ 'icon' => 'fa fa-bug',
+ 'arr' => [
+ 'admin/sub_controller' => [
+ 'name' => 'Sub menu',
+ 'icon' => 'fa fa-plus',
+ //'target' => '_blank',
+ ],
+ ],
+ 'order' => 95,
+ ]
+ ];
+ }
+ */
 
 /*
  * đăng ký taxonomy riêng
  */
 /*
-register_taxonomy( 'custom_taxonomy', [
-    'name' => 'Custom name',
-    'set_parent' => true,
-    'slug' => '',
-] );
-*/
+ register_taxonomy( 'custom_taxonomy', [
+ 'name' => 'Custom name',
+ 'set_parent' => true,
+ 'slug' => '',
+ ] );
+ */
 
 /*
  * đăng ký post type riêng
  */
 /*
-register_post_type( 'custom_post_type', [
-    'name' => 'Custom name'
-] );
-*/
+ register_post_type( 'custom_post_type', [
+ 'name' => 'Custom name'
+ ] );
+ */

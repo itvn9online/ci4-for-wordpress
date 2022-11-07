@@ -219,6 +219,14 @@ class AdminMenu
                         'name' => ConfigType::typeList(ConfigType::CHECKOUT),
                         'icon' => 'fa fa-dollar',
                     ],
+                    'admin/nummons' => [
+                        'name' => ConfigType::typeList(ConfigType::NUM_MON),
+                        'icon' => 'fa fa-sort-numeric-asc',
+                    ],
+                    'admin/checkboxs' => [
+                        'name' => ConfigType::typeList(ConfigType::CHECKBOX),
+                        'icon' => 'fa fa-check-square-o',
+                    ],
                 ]
             ],
             'admin/dev' => [

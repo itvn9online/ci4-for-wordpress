@@ -41,8 +41,7 @@ class Configs extends Admin
         //
         if (isset($_GET['test_mail'])) {
             return $this->testMail();
-        }
-        else if (isset($_GET['get_tele_chat_id'])) {
+        } else if (isset($_GET['get_tele_chat_id'])) {
             return $this->getTeleChatId();
         }
 
@@ -51,22 +50,27 @@ class Configs extends Admin
         //print_r( $meta_default );
 
         // select dữ liệu từ 1 bảng bất kỳ
-        $sql = $this->base_model->select('*', $this->option_model->table, array(
-            // các kiểu điều kiện where
-            'is_deleted' => DeletedStatus::FOR_DEFAULT,
-            'option_type' => $this->config_type,
-            'lang_key' => $this->lang_key
-        ), array(
-            'order_by' => array(
-                'option_id' => 'DESC',
+        $sql = $this->base_model->select(
+            '*', $this->option_model->table,
+            array(
+                // các kiểu điều kiện where
+                'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                'option_type' => $this->config_type,
+                'lang_key' => $this->lang_key
             ),
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-            //'offset' => 2,
-            //'limit' => 3
-        ));
+            array(
+                'order_by' => array(
+                    'option_id' => 'DESC',
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                //'offset' => 2,
+                //'limit' => 3
+
+            )
+        );
         //print_r( $sql );
         $value = [];
         foreach ($sql as $v) {
@@ -81,19 +85,32 @@ class Configs extends Admin
             }
         }
 
-        $this->teamplate_admin['content'] = view('admin/configs/' . $this->view_edit, array(
-            'lang_key' => $this->lang_key,
-            'config_type' => $this->config_type,
-            'meta_default' => $meta_default,
-            'data' => $value,
-            'vue_data' => [
+        // cố định 1 số view đọng dạng input -> tránh if else nhiều
+        if ($this->config_type == ConfigType::TRANS) {
+            $this->view_edit = 'translate';
+        } else if ($this->config_type == ConfigType::CHECKBOX) {
+            $this->view_edit = 'checkbox';
+        } else if ($this->config_type == ConfigType::NUM_MON) {
+            $this->view_edit = 'num_mon';
+        }
+
+        //
+        $this->teamplate_admin['content'] = view(
+            'admin/configs/' . $this->view_edit,
+            array(
                 'lang_key' => $this->lang_key,
-                'lang_name' => LanguageCost::typeList($this->lang_key),
                 'config_type' => $this->config_type,
-                'config_name' => ConfigType::typeList($this->config_type),
-            ],
-            'value' => (object)$value,
-        ));
+                'meta_default' => $meta_default,
+                'data' => $value,
+                'vue_data' => [
+                    'lang_key' => $this->lang_key,
+                    'lang_name' => LanguageCost::typeList($this->lang_key),
+                    'config_type' => $this->config_type,
+                    'config_name' => ConfigType::typeList($this->config_type),
+                ],
+                'value' => (object) $value,
+            )
+        );
         return view('admin/admin_teamplate', $this->teamplate_admin);
     }
 
@@ -101,8 +118,7 @@ class Configs extends Admin
     {
         if (!empty($this->MY_post('data'))) {
             $data = $this->MY_post('data');
-        }
-        else {
+        } else {
             $data = $_POST;
         }
         //print_r( $data );
@@ -140,10 +156,10 @@ class Configs extends Admin
             }
             $arr_meta_key[] = 'logo_width_img';
             $arr_meta_key[] = 'logo_height_img';
-        //print_r( $data );
+            //print_r( $data );
 
-        //
-        //die( __CLASS__ . ':' . __LINE__ );
+            //
+            //die( __CLASS__ . ':' . __LINE__ );
         }
 
         $list_field_has_change = $this->MY_post('list_field_has_change');
@@ -165,8 +181,7 @@ class Configs extends Admin
         //
         if (!empty($data['list_slide'])) {
             $data['list_slide'] = implode(';', $data['list_slide']);
-        }
-        else {
+        } else {
             $data['list_slide'] = '';
         }
         //$data[ 'min_price' ] = str_replace( ',', '', $data[ 'min_price' ] );
@@ -182,9 +197,12 @@ class Configs extends Admin
         else if (isset($data['robots'])) {
             // cập nhật lại robots.txt khi không có nội dung hoặc sai địa chỉ sitemap
             if ($data['robots'] == '' || strpos($data['robots'], DYNAMIC_BASE_URL) === false) {
-                $data['robots'] = $this->helpersTmpFile('robots_default', [
-                    'base_url' => DYNAMIC_BASE_URL,
-                ]);
+                $data['robots'] = $this->helpersTmpFile(
+                    'robots_default',
+                    [
+                        'base_url' => DYNAMIC_BASE_URL,
+                    ]
+                );
                 //echo nl2br( $data[ 'robots' ] );
 
                 //
@@ -228,14 +246,16 @@ class Configs extends Admin
             echo 'Insert: ' . $k . ' = ' . $v . '<br>' . "\n";
 
             //
-            $this->option_model->insert_options([
-                'option_name' => $k,
-                'option_value' => $v,
-                'option_type' => $option_type,
-                'lang_key' => $this->lang_key,
-                'last_updated' => $last_updated,
-                'insert_time' => $insert_time,
-            ]);
+            $this->option_model->insert_options(
+                [
+                    'option_name' => $k,
+                    'option_value' => $v,
+                    'option_type' => $option_type,
+                    'lang_key' => $this->lang_key,
+                    'last_updated' => $last_updated,
+                    'insert_time' => $insert_time,
+                ]
+            );
         }
         //die( __CLASS__ . ':' . __LINE__ );
 
@@ -250,16 +270,21 @@ class Configs extends Admin
 
         // DELETE dữ liệu
         if (!empty($remove_not_in)) {
-            $this->base_model->delete_multiple($this->option_model->table, [
-                // WHERE
-                'option_type' => $this->config_type,
-            ], [
-                'where_not_in' => array(
-                    'option_name' => $remove_not_in
-                ),
-                // hiển thị mã SQL để check
-                //'show_query' => 1,
-            ]);
+            $this->base_model->delete_multiple(
+                $this->option_model->table,
+                [
+                    // WHERE
+                    'option_type' => $this->config_type,
+                ],
+                [
+                    'where_not_in' => array(
+                        'option_name' => $remove_not_in
+                    ),
+                    // hiển thị mã SQL để check
+                    //'show_query' => 1,
+
+                ]
+            );
         }
 
 
@@ -281,10 +306,14 @@ class Configs extends Admin
         //die( __CLASS__ . ':' . __LINE__ );
         if (!isset($smtp_config->smtp_test_email) || empty($smtp_config->smtp_test_email)) {
             //print_r( $smtp_config );
-            die(json_encode([
-                'code' => __LINE__,
-                'error' => 'Test email is NULL or not found!'
-            ]));
+            die(
+                json_encode(
+                    [
+                        'code' => __LINE__,
+                        'error' => 'Test email is NULL or not found!'
+                    ]
+                )
+                );
         }
 
         //
@@ -292,25 +321,28 @@ class Configs extends Admin
             'to' => $smtp_config->smtp_test_email,
             'to_name' => 'Dao Quoc Dai',
             /*
-     'bcc_email' => [
-     'v0tjnhlangtu@gmail.com'
-     ],
-     'cc_email' => [
-     'itvn9online@yahoo.com'
-     ],
-     */
+             'bcc_email' => [
+             'v0tjnhlangtu@gmail.com'
+             ],
+             'cc_email' => [
+             'itvn9online@yahoo.com'
+             ],
+             */
             'subject' => 'Test email ' . date('r'),
-            'message' => implode('<br>', [
-                'PHPMailer version: ' . file_get_contents(APPPATH . 'ThirdParty/PHPMailer/VERSION', 1),
-                'Domain: ' . $_SERVER['HTTP_HOST'],
-                'Request: ' . $_SERVER['REQUEST_URI'],
-                'Method: ' . $_SERVER['REQUEST_METHOD'],
-                'Time: ' . date('r'),
-                'IP: ' . $this->request->getIPAddress(),
-                'Browser: ' . $_SERVER['HTTP_USER_AGENT'],
-                'Server: ' . $_SERVER['SERVER_ADDR'],
-                'Session: ' . session_id(),
-            ]),
+            'message' => implode(
+                '<br>',
+                [
+                    'PHPMailer version: ' . file_get_contents(APPPATH . 'ThirdParty/PHPMailer/VERSION', 1),
+                    'Domain: ' . $_SERVER['HTTP_HOST'],
+                    'Request: ' . $_SERVER['REQUEST_URI'],
+                    'Method: ' . $_SERVER['REQUEST_METHOD'],
+                    'Time: ' . date('r'),
+                    'IP: ' . $this->request->getIPAddress(),
+                    'Browser: ' . $_SERVER['HTTP_USER_AGENT'],
+                    'Server: ' . $_SERVER['SERVER_ADDR'],
+                    'Session: ' . session_id(),
+                ]
+            ),
         ];
         if (isset($smtp_config->smtp_test_bcc_email) && !empty($smtp_config->smtp_test_bcc_email)) {
             $data_send['bcc_email'] = [
@@ -341,8 +373,7 @@ class Configs extends Admin
 
             //
             return true;
-        }
-        else {
+        } else {
             echo 'Gửi email THẤT BẠI! from <strong>' . $smtp_config->smtp_host_user . '</strong> <br>' . "\n";
             print_r($result);
         }
@@ -358,12 +389,17 @@ class Configs extends Admin
         $this->printTeleChatId(TelegramBot::getUpdates());
 
         // gửi luôn 1 đoạn test chức năng gửi mess
-        TelegramBot::sendMessage(implode("\n", [
-            date('r'),
-            'IP: ' . $this->request->getIPAddress(),
-            'Agent: ' . $_SERVER['HTTP_USER_AGENT'],
-            basename(__FILE__) . ':' . __LINE__,
-        ]));
+        TelegramBot::sendMessage(
+            implode(
+                "\n",
+                [
+                    date('r'),
+                    'IP: ' . $this->request->getIPAddress(),
+                    'Agent: ' . $_SERVER['HTTP_USER_AGENT'],
+                    basename(__FILE__) . ':' . __LINE__,
+                ]
+            )
+        );
 
         //
         exit();
@@ -379,16 +415,14 @@ class Configs extends Admin
                 echo $k . ': <br>' . "\n";
                 $this->printTeleChatId($v, 1);
                 $has_id = true;
-            }
-            else if (is_object($v) || is_array($v)) {
+            } else if (is_object($v) || is_array($v)) {
                 $this->printTeleChatId($v);
-            }
-            else if ($show > 0) {
+            } else if ($show > 0) {
                 echo $k . ': ' . $v . '<br>' . "\n";
-            /*
-             } else {
-             echo $k . ': ' . $v . '<br>' . "\n";
-             */
+                /*
+                 } else {
+                 echo $k . ': ' . $v . '<br>' . "\n";
+                 */
             }
         }
 

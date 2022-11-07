@@ -76,6 +76,17 @@ $base_model->add_css('admin/css/' . $post_type . '.css');
     <?php echo $pagination; ?> Trên tổng số
     <?php echo $totalThread; ?> bản ghi.
 </div>
+<?php
+
+//
+$base_model->JSON_parse(
+    [
+        'json_data' => $data,
+        'PostType_arrStatus' => $post_arr_status,
+    ]
+);
+
+?>
 <script>
 WGR_vuejs('#app', {
     allow_mysql_delete: allow_mysql_delete,
@@ -85,8 +96,8 @@ WGR_vuejs('#app', {
     controller_slug: '<?php echo $controller_slug; ?>',
     for_action: '<?php echo $for_action; ?>',
     PostType_DELETED: '<?php echo PostType::DELETED; ?>',
-    PostType_arrStatus: <?php echo json_encode($post_arr_status); ?>,
-    data: <?php echo json_encode($data); ?>,
+    PostType_arrStatus: PostType_arrStatus,
+    data: json_data,
 });
 </script>
 <?php

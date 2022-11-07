@@ -76,7 +76,7 @@ class Layout extends Sync
         $this->getconfig = $this->option_model->list_config();
         //print_r( $this->getconfig );
         $this->getconfig = (object) $this->getconfig;
-        //print_r( $this->getconfig );
+        //print_r($this->getconfig);
 
         // tạo thông tin nhà xuất bản (publisher) cho phần dữ liệu có cấu trúc
         $itemprop_cache_logo = WRITEPATH . 'itemprop-logo.txt';
@@ -177,31 +177,33 @@ class Layout extends Sync
     protected function global_header_footer()
     {
         //print_r($this->getconfig);
-        $this->teamplate['header'] = view('header_view', array(
-            // các model dùng chung thì cho vào header để sau sử dụng luôn
-            'base_model' => $this->base_model,
-            'menu_model' => $this->menu_model,
-            'htmlmenu_model' => $this->htmlmenu_model,
-            'option_model' => $this->option_model,
-            'post_model' => $this->post_model,
-            'term_model' => $this->term_model,
-            'lang_model' => $this->lang_model,
-            'user_model' => $this->user_model,
+        $this->teamplate['header'] = view(
+            'header_view',
+            array(
+                // các model dùng chung thì cho vào header để sau sử dụng luôn
+                'base_model' => $this->base_model,
+                'menu_model' => $this->menu_model,
+                'htmlmenu_model' => $this->htmlmenu_model,
+                'option_model' => $this->option_model,
+                'post_model' => $this->post_model,
+                'term_model' => $this->term_model,
+                'lang_model' => $this->lang_model,
+                'user_model' => $this->user_model,
+                //
+                //'session' => $this->session,
 
-            //
-            //'session' => $this->session,
-
-            'getconfig' => $this->getconfig,
-            'session_data' => $this->session_data,
-            'current_user_id' => $this->current_user_id,
-            'current_user_type' => $this->current_user_type,
-            'current_tid' => $this->current_tid,
-            'current_pid' => $this->current_pid,
-            'debug_enable' => $this->debug_enable,
-            //'menu' => $menu,
-            //'allurl' => $allurl,
-            'isMobile' => $this->isMobile
-        ));
+                'getconfig' => $this->getconfig,
+                'session_data' => $this->session_data,
+                'current_user_id' => $this->current_user_id,
+                'current_user_type' => $this->current_user_type,
+                'current_tid' => $this->current_tid,
+                'current_pid' => $this->current_pid,
+                'debug_enable' => $this->debug_enable,
+                //'menu' => $menu,
+                //'allurl' => $allurl,
+                'isMobile' => $this->isMobile
+            )
+        );
 
         //
         $this->teamplate['footer'] = view('footer_view');
@@ -309,14 +311,21 @@ class Layout extends Sync
         $this->response->setStatusCode(404, $pcol . ' 404 Not Found');
 
         //
-        $this->teamplate['main'] = view('404', array(
-            'seo' => $this->base_model->default_seo('404 not found', __FUNCTION__, [
-                'canonical' => base_url('404'),
-            ]),
-            'breadcrumb' => '',
-            // thông điệp của việc xuất hiện lỗi 404
-            'msg_404' => $msg_404,
-        ));
+        $this->teamplate['main'] = view(
+            '404',
+            array(
+                'seo' => $this->base_model->default_seo(
+                    '404 not found',
+                    __FUNCTION__,
+                    [
+                        'canonical' => base_url('404'),
+                    ]
+                ),
+                'breadcrumb' => '',
+                // thông điệp của việc xuất hiện lỗi 404
+                'msg_404' => $msg_404,
+            )
+        );
         return view('layout_view', $this->teamplate);
     }
 
@@ -397,31 +406,41 @@ class Layout extends Sync
         }
         //echo $taxonomy_slider . '<br>' . "\n";
         if ($taxonomy_slider != '') {
-            $taxonomy_slider = $this->post_model->get_the_ads($taxonomy_slider, 0, [
-                'add_class' => 'taxonomy-auto-slider'
-            ]);
+            $taxonomy_slider = $this->post_model->get_the_ads(
+                $taxonomy_slider,
+                0,
+                [
+                    'add_class' => 'taxonomy-auto-slider'
+                ]
+            );
         }
 
         // -> views
-        $this->teamplate['breadcrumb'] = view('breadcrumb_view', array(
-            'breadcrumb' => $this->breadcrumb
-        ));
+        $this->teamplate['breadcrumb'] = view(
+            'breadcrumb_view',
+            array(
+                'breadcrumb' => $this->breadcrumb
+            )
+        );
         $this->current_tid = $data['term_id'];
 
         //
         //echo $file_view . '<br>' . "\n";
-        $this->teamplate['main'] = view($file_view, array(
-            //'post_per_page' => $post_per_page,
-            'taxonomy_post_size' => $this->taxonomy_post_size,
-            //'taxonomy_slider' => $this->taxonomy_slider,
-            'taxonomy_slider' => $taxonomy_slider,
-            'ops' => $ops,
-            'seo' => $seo,
-            'post_type' => $post_type,
-            'getconfig' => $this->getconfig,
-            'data' => $data,
-            'current_tid' => $this->current_tid,
-        ));
+        $this->teamplate['main'] = view(
+            $file_view,
+            array(
+                //'post_per_page' => $post_per_page,
+                'taxonomy_post_size' => $this->taxonomy_post_size,
+                //'taxonomy_slider' => $this->taxonomy_slider,
+                'taxonomy_slider' => $taxonomy_slider,
+                'ops' => $ops,
+                'seo' => $seo,
+                'post_type' => $post_type,
+                'getconfig' => $this->getconfig,
+                'data' => $data,
+                'current_tid' => $this->current_tid,
+            )
+        );
 
         // nếu có flash session -> trả về view luôn
         if ($this->hasFlashSession() === true) {
@@ -486,24 +505,34 @@ class Layout extends Sync
             // tạo hotlink protection nếu có yêu cầu
             $hotlink_protection = '';
             if ($hotlink_protection === true) {
-                $hotlink_protection = $this->helpersTmpFile('hotlink_protection', [
-                    'http_host' => $_SERVER['HTTP_HOST'],
-                    'htaccess_allow' => $this->htaccess_allow,
-                ]);
+                $hotlink_protection = $this->helpersTmpFile(
+                    'hotlink_protection',
+                    [
+                        'http_host' => $_SERVER['HTTP_HOST'],
+                        'htaccess_allow' => $this->htaccess_allow,
+                    ]
+                );
             }
 
             // tạo file htaccess chỉ cho phép truy cập tới 1 số file được chỉ định
-            $htaccess_allow_deny = $this->helpersTmpFile('htaccess_allow_deny', [
-                'htaccess_allow' => $this->htaccess_allow,
-                'base_url' => DYNAMIC_BASE_URL,
-                'hotlink_protection' => $hotlink_protection,
-            ]);
+            $htaccess_allow_deny = $this->helpersTmpFile(
+                'htaccess_allow_deny',
+                [
+                    'htaccess_allow' => $this->htaccess_allow,
+                    'base_url' => DYNAMIC_BASE_URL,
+                    'hotlink_protection' => $hotlink_protection,
+                ]
+            );
 
             // nội dung chặn mọi truy cập tới các file trong này
-            $this->base_model->_eb_create_file($htaccess_file, $htaccess_allow_deny, [
-                'set_permission' => 0644,
-                'ftp' => 1,
-            ]);
+            $this->base_model->_eb_create_file(
+                $htaccess_file,
+                $htaccess_allow_deny,
+                [
+                    'set_permission' => 0644,
+                    'ftp' => 1,
+                ]
+            );
         }
         //die( __CLASS__ . ':' . __LINE__ );
 
@@ -524,10 +553,13 @@ class Layout extends Sync
         $this->deny_visit_upload($upload_root);
 
         //
-        $upload_path = $this->media_path([
-            date('Y'),
-            date('m'),
-        ], $upload_root);
+        $upload_path = $this->media_path(
+            [
+                date('Y'),
+                date('m'),
+            ],
+            $upload_root
+        );
         //echo $upload_path . '<br>' . "\n";
 
         // mảng trả về danh sách file đã upload
@@ -568,10 +600,12 @@ class Layout extends Sync
                         $file_ext = $file->guessExtension();
                         //echo $file_ext . '<br>' . "\n";
                         if (empty($file_ext)) {
-                            $this->result_json_type([
-                                'code' => __LINE__,
-                                'error' => 'Định dạng file chưa được hỗ trợ ' . $mime_type
-                            ]);
+                            $this->result_json_type(
+                                [
+                                    'code' => __LINE__,
+                                    'error' => 'Định dạng file chưa được hỗ trợ ' . $mime_type
+                                ]
+                            );
                             //$file_ext = basename( $mime_type );
                         }
                         $file_ext = strtolower($file_ext);

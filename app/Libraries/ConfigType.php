@@ -1,11 +1,9 @@
 <?php
-
 namespace App\Libraries;
 
 class ConfigType
 {
-
-    // post_type
+    // config type
     const CONFIG = 'config';
     const DISPLAY = 'display';
     const SOCIAL = 'social';
@@ -16,6 +14,8 @@ class ConfigType
     const TRANS = 'translate';
     const SMTP = 'smtp';
     const CHECKOUT = 'checkout';
+    const CHECKBOX = 'checkbox';
+    const NUM_MON = 'num_mon'; // number and money -> loại cấu hình dùng để định giá hoặc tạo số theo ý muốn
 
     private static $arr = array(
         self::CONFIG => 'Cấu hình',
@@ -28,6 +28,8 @@ class ConfigType
         self::TRANS => 'Bản dịch',
         self::SMTP => 'Cấu hình Mail/ Telegram',
         self::CHECKOUT => 'Thanh toán',
+        self::CHECKBOX => 'Bật/ Tắt',
+        self::NUM_MON => 'Số',
     );
 
     public static function typeList($key = '')
@@ -50,7 +52,7 @@ class ConfigType
         return $arr_tmp;
     }
 
-    // trả về các meta mặc định dựa theo từng post_type
+    // trả về các meta mặc định dựa theo từng config type
     public static function meta_default($config_type)
     {
         if ($config_type == self::CONFIG) {
@@ -111,7 +113,6 @@ class ConfigType
                 'sub_bg' => 'Màu nền thứ cấp',
                 'default_color' => 'Màu chữ mặc định',
                 'a_color' => 'Màu liên kết',
-
                 'site_max_width' => 'Chiều rộng trang',
                 'site_full_width' => 'Chiều rộng tối đa',
                 'main_banner_size' => 'Kích thước banner chính',
@@ -154,6 +155,16 @@ class ConfigType
             $arr = [
                 'eb_blog_per_page' => 'Số bài cùng nhóm',
             ];
+        } else if ($config_type == self::NUM_MON) {
+            $arr = [];
+            for ($i = 0; $i < NUMBER_NUMS_INPUT; $i++) {
+                $arr['custom_num_mon' . $i] = 'Custom number ' . $i;
+            }
+        } else if ($config_type == self::CHECKBOX) {
+            $arr = [];
+            for ($i = 0; $i < NUMBER_CHECKBOXS_INPUT; $i++) {
+                $arr['custom_checkbox' . $i] = 'Custom checkbox ' . $i;
+            }
         } else if ($config_type == self::TRANS) {
             $arr_tmp = [];
             $arr_tmp['main_slider_slug'] = 'Slug slider chính';
@@ -232,7 +243,6 @@ class ConfigType
             'sub_bg' => 'color',
             'default_color' => 'color',
             'a_color' => 'color',
-
             'min_product_price' => 'number',
             'bank_number' => 'number',
             'bank_bin_code' => 'select',
@@ -241,24 +251,19 @@ class ConfigType
             'bank_name' => 'hidden',
             'bank_short_name' => 'hidden',
             'bank_code' => 'hidden',
-
             'smtp_host_port' => 'number',
             'smtp2_host_port' => 'number',
             'smtp_host_pass' => 'hidden',
             'smtp2_host_pass' => 'hidden',
             'smtp_secure' => 'select',
             'smtp2_secure' => 'select',
-
             'cf_thumbnail_size' => 'select',
-
             'eb_posts_per_page' => 'number',
             'eb_posts_per_line' => 'select',
             'eb_post_per_page' => 'number',
-
             'eb_blogs_per_page' => 'number',
             'eb_blogs_per_line' => 'select',
             'eb_blog_per_page' => 'number',
-
             'enable_vue_js' => 'checkbox',
             'enable_hotlink_protection' => 'checkbox',
             'enable_device_protection' => 'checkbox',
@@ -387,7 +392,6 @@ class ConfigType
             'site_full_width' => 'Tương tự chiều rộng trang nhưng có độ rộng nhỉnh hơn chút. Chiều rộng tiêu chuẩn: 1024px - Chiều rộng phổ biến: 1666px',
             'main_banner_size' => 'Đây là kích thước dùng chung cho các banner chính, sử dụng bằng cách nhập <strong>%main_banner_size%</strong> vào mục <strong>Tùy chỉnh size ảnh</strong> trong cấu hình banner.',
             'second_banner_size' => 'Tương tự <strong>main_banner_size</strong>, đây là kích thước dùng chung cho các banner khác (nếu có), sử dụng bằng cách nhập <strong>%second_banner_size%</strong> vào mục <strong>Tùy chỉnh size ảnh</strong> trong cấu hình banner.',
-
             'smtp_host_name' => 'IP hoặc host name của server mail. Gmail SMTP: <strong>smtp.gmail.com</strong>, Pepipost SMTP: <strong>smtp.pepipost.com</strong>',
             'smtp_host_port' => 'Port nếu có. Gmail SSL port: <strong>465</strong>, Gmail TLS port: <strong>587</strong>, Pepipost port <strong>2525</strong>.',
             'smtp_host_user' => 'Email hoặc tài khoản đăng nhập. Khuyên dùng Gmail.',
@@ -399,19 +403,15 @@ class ConfigType
             'smtp_test_bcc_email' => 'Thêm email để test chức năng BCC.',
             'smtp_test_cc_email' => 'Thêm email để test chức năng CC.',
             'smtp2_host_user' => 'Cấu hình mail dự phòng, khi mail chính có vấn đề thì mail này sẽ được kích hoạt để dùng tạm',
-
             'enable_hotlink_protection' => 'Chặn các website khác truy cập trực tiếp vào file ảnh trên host này.',
             'enable_device_protection' => 'Chặn đăng nhập trên nhiều thiết bị trong cùng một thời điểm. Nếu phát hiện, sẽ đưa ra popup cảnh báo cho người dùng.',
             'disable_register_member' => 'Khi muốn dừng việc đăng ký tài khoản trên website thì bật chức năng này lên (admin vẫn có thể tạo tài khoản từ trang admin).',
             'blog_private' => 'Việc tuân thủ yêu cầu này hoàn toàn phụ thuộc vào các công cụ tìm kiếm.',
-
             'min_product_price' => 'Số tiền tối thiểu mà khách phải thanh toán cho mỗi đơn hàng.',
             'bank_card_name' => 'Lưu ý: viết HOA không dấu',
             'autobank_token' => 'Tham số dùng để tăng độ bảo mật cho WebHook tự động xác thực quá trình thanh toán.',
             'bank_bin_code' => 'Chức năng tự động xác nhận tiền vào thông qua WebHook của https://casso.vn/ - Ưu tiên sử dụng tài khoản ngân hàng <strong>VietinBank</strong>.',
-
             'powered_by_echbay' => 'Sử dụng lệnh <strong>$lang_model->the_web_license( $getconfig );</strong> để hiển thị thông điệp bản quyền mặc định.',
-
             'telegram_bot_token' => 'Token của bot trên Telegram. Sau khi có Token, hãy <a href="' . base_url('admin/smtps') . '?get_tele_chat_id=1" target="_blank" class="click-check-email-test bluecolor"><strong>bấm vào đây</strong></a> để tìm Chat ID.',
             'telegram_chat_id' => 'ID nhóm chat trên Telegram. Bao gồm cả dấu - nếu có',
         ];
