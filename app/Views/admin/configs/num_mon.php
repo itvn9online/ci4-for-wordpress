@@ -56,7 +56,7 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                 </div>
                 <div class="lf f35">
                     <input type="text" onDblClick="click2Copy(this);"
-                        value="&lt;?php $getconfig-><?php echo $k; ?>; ?&gt;" class="span11" readonly />
+                        value="&lt;?php echo $this->getconfig-><?php echo $k; ?>; ?&gt;" class="span11" readonly />
                 </div>
             </div>
             <?php

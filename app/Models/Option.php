@@ -60,7 +60,7 @@ class Option extends EbModel
             //echo $sql . '<br>' . "\n";
             //die( __CLASS__ . ':' . __LINE__ );
             $this->base_model->MY_query($sql);
-            echo 'Backup config: ' . $option_name . ':' . $option_type . '<br>' . PHP_EOL;
+            echo 'Backup config: ' . $option_name . ':' . $option_type . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
             // xong XÓA
             $this->base_model->delete_multiple(
@@ -75,7 +75,7 @@ class Option extends EbModel
                 ]
             );
             //die( __CLASS__ . ':' . __LINE__ );
-            echo 'Delete config: ' . $option_name . ':' . $option_type . '<br>' . PHP_EOL;
+            echo 'Delete config: ' . $option_name . ':' . $option_type . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
         }
     }
 

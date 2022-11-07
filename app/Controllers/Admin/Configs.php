@@ -34,6 +34,14 @@ class Configs extends Admin
 
     public function index()
     {
+        // khi submit với checkbox, cần xử lý thêm trường hợp không có checkbox nào được chọn
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && $this->config_type == ConfigType::CHECKBOX) {
+            if (empty($this->MY_post('data'))) {
+                return $this->updated($this->config_type);
+                //die(__CLASS__ . ':' . __LINE__);
+            }
+        }
+        // update
         if (!empty($this->MY_post('data'))) {
             return $this->updated($this->config_type);
         }
@@ -121,7 +129,8 @@ class Configs extends Admin
         } else {
             $data = $_POST;
         }
-        //print_r( $data );
+        //print_r($data);
+        //die(__CLASS__ . ':' . __LINE__);
 
         //
         $arr_meta_key = [];
@@ -257,16 +266,16 @@ class Configs extends Admin
                 ]
             );
         }
-        //die( __CLASS__ . ':' . __LINE__ );
+        //die(__CLASS__ . ':' . __LINE__);
 
         // chạy vòng lặp xóa các dữ liệu dư thừa -> không có trong config
         $meta_default = ConfigType::meta_default($this->config_type);
-        //print_r( $meta_default );
+        //print_r($meta_default);
         $remove_not_in = [];
         foreach ($meta_default as $k => $v) {
             $remove_not_in[] = $k;
         }
-        //print_r( $remove_not_in );
+        //print_r($remove_not_in);
 
         // DELETE dữ liệu
         if (!empty($remove_not_in)) {

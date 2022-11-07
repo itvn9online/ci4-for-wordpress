@@ -59,20 +59,22 @@ class Admin extends Ajaxs
                 'session_data' => $this->session_data,
                 'body_class' => $this->body_class,
                 // các biến mà view con cần sử dụng thì cho vào view trung gian này
-                'header' => view('admin/header_view', array(
-                    'admin_root_views' => VIEWS_PATH . 'admin/',
-                    //'admin_default_views' => VIEWS_PATH . 'admin/default/',
-                    'base_model' => $this->base_model,
-                    //'menu_model' => $this->menu_model,
-                    //'option_model' => $this->option_model,
-                    'post_model' => $this->post_model,
-                    'term_model' => $this->term_model,
-                    'lang_model' => $this->lang_model,
-
-                    //
-                    'debug_enable' => $this->debug_enable,
-                    'session_data' => $this->session_data,
-                )),
+                'header' => view(
+                    'admin/header_view',
+                    array(
+                        'admin_root_views' => VIEWS_PATH . 'admin/',
+                        //'admin_default_views' => VIEWS_PATH . 'admin/default/',
+                        'base_model' => $this->base_model,
+                        //'menu_model' => $this->menu_model,
+                        //'option_model' => $this->option_model,
+                        'post_model' => $this->post_model,
+                        'term_model' => $this->term_model,
+                        'lang_model' => $this->lang_model,
+                        //
+                        'debug_enable' => $this->debug_enable,
+                        'session_data' => $this->session_data,
+                    )
+                ),
             ];
         } else {
             $this->teamplate_admin = [];
@@ -233,15 +235,22 @@ class Admin extends Ajaxs
                         //echo $f . '<br>' . "\n";
 
                         //
-                        $htaccess_deny_all = $this->helpersTmpFile('htaccess_deny_all', [
-                            'base_url' => DYNAMIC_BASE_URL,
-                        ]);
+                        $htaccess_deny_all = $this->helpersTmpFile(
+                            'htaccess_deny_all',
+                            [
+                                'base_url' => DYNAMIC_BASE_URL,
+                            ]
+                        );
 
                         //
-                        $this->base_model->_eb_create_file($f, $htaccess_deny_all, [
-                            'set_permission' => 0644,
-                            'ftp' => 1,
-                        ]);
+                        $this->base_model->_eb_create_file(
+                            $f,
+                            $htaccess_deny_all,
+                            [
+                                'set_permission' => 0644,
+                                'ftp' => 1,
+                            ]
+                        );
                     }
                 }
             }
@@ -255,7 +264,7 @@ class Admin extends Ajaxs
      */
     public function cleanup_cache($for = '', $clean_all = false)
     {
-        if (!empty($this->MY_post('data'))) {
+        if ($for != '' || !empty($this->MY_post('data'))) {
             /*
              * ưu tiên sử dụng cleanup mặc định của codeigniter
              */
