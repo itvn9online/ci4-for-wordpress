@@ -29,8 +29,12 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
             </div>
             <br>
             <div class="redcolor text-center l20">* Cấu hình dạng chuyên checkbox. Dùng để BẬT/ TẮT một chức năng nào đó
-                trong website. Website nào cần dùng thì code sẽ đặt tên cho chức năng và người dùng sẽ tiến hành bật tắt
-                tại đây. Code sẽ if else để BẬT/ TẮT tính năng tương ứng.</div>
+                trong website. <br>
+                Website nào cần dùng thì code sẽ đặt tên cho checkbox và người dùng sẽ tiến hành bật tắt
+                tại đây. Code sẽ if else để BẬT/ TẮT tính năng tương ứng. <br>
+                - Để tăng số lượng checkbox, hãy điều chỉnh tham số: <strong>NUMBER_CHECKBOXS_INPUT</strong> <br>
+                - Để thay đổi tên cho checkbox, hãy điều chỉnh tham số: <strong>TRANS_CHECKBOXS_LABEL</strong>
+            </div>
             <?php
 
             //

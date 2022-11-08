@@ -11,7 +11,7 @@ use App\Libraries\PostType;
 //
 class Term extends TermBase
 {
-    public $time_update_last_count = 4 * 3600;
+    public $time_update_last_count = 6 * 3600;
 
     public function __construct()
     {
@@ -52,9 +52,15 @@ class Term extends TermBase
             if ($auto_insert === true) {
                 // lấy thêm các tham số của nhóm ngôn ngữ chính nếu có
                 if ($ops['lang_key'] != LanguageCost::default_lang()) {
-                    $cat_primary_data = $this->get_cat_post($slug, $post_type, $taxonomy, false, [
-                        'lang_key' => LanguageCost::default_lang(),
-                    ]);
+                    $cat_primary_data = $this->get_cat_post(
+                        $slug,
+                        $post_type,
+                        $taxonomy,
+                        false,
+                        [
+                            'lang_key' => LanguageCost::default_lang(),
+                        ]
+                    );
                     //print_r( $cat_primary_data );
                     if (!empty($cat_primary_data)) {
                         $cat_primary_data = $this->terms_meta_post([$cat_primary_data]);
@@ -71,11 +77,14 @@ class Term extends TermBase
 
                 //
                 echo 'Auto create taxonomy: ' . $slug . ' (' . $taxonomy . ') <br>' . PHP_EOL;
-                $result_id = $this->insert_terms([
-                    'name' => str_replace('-', ' ', $slug),
-                    'slug' => $slug,
-                    'lang_key' => $ops['lang_key'],
-                ], $taxonomy);
+                $result_id = $this->insert_terms(
+                    [
+                        'name' => str_replace('-', ' ', $slug),
+                        'slug' => $slug,
+                        'lang_key' => $ops['lang_key'],
+                    ],
+                    $taxonomy
+                );
 
                 //
                 if ($result_id > 0) {
@@ -207,12 +216,14 @@ class Term extends TermBase
                 //print_r( $data );
 
                 // kiểm tra lại slug trước khi update
-                $check_term_exist = $this->get_taxonomy([
-                    'term_id !=' => $term_id,
-                    'slug' => $data['slug'],
-                    'taxonomy' => $taxonomy,
-                    'is_deleted' => DeletedStatus::FOR_DEFAULT,
-                ]);
+                $check_term_exist = $this->get_taxonomy(
+                    [
+                        'term_id !=' => $term_id,
+                        'slug' => $data['slug'],
+                        'taxonomy' => $taxonomy,
+                        'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                    ]
+                );
                 //print_r( $check_term_exist );
                 //die( __CLASS__ . ':' . __LINE__ );
 
@@ -236,11 +247,15 @@ class Term extends TermBase
         }
 
         // tính tổng số term con của term đang được cập nhật
-        $child_term = $this->base_model->select('COUNT(term_id) AS c', WGR_TERM_VIEW, array(
-            'parent' => $term_id,
-            'taxonomy' => $taxonomy,
-            'is_deleted' => DeletedStatus::FOR_DEFAULT,
-        ), array(
+        $child_term = $this->base_model->select(
+            'COUNT(term_id) AS c',
+            WGR_TERM_VIEW,
+            array(
+                'parent' => $term_id,
+                'taxonomy' => $taxonomy,
+                'is_deleted' => DeletedStatus::FOR_DEFAULT,
+            ),
+            array(
                 'selectCount' => 'term_id',
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
@@ -248,7 +263,9 @@ class Term extends TermBase
                 //'get_query' => 1,
                 //'offset' => 2,
                 //'limit' => 3
-            ));
+
+            )
+        );
         //print_r( $child_term );
 
         //
@@ -266,16 +283,20 @@ class Term extends TermBase
             // nếu nhóm này có cha
             if ($data['parent'] * 1 > 0) {
                 // -> lấy level của cha
-                $parent_level = $this->base_model->select('term_level', $this->taxTable, array(
-                    'term_id' => $term_id,
-                ), array(
+                $parent_level = $this->base_model->select(
+                    'term_level', $this->taxTable,
+                    array(
+                        'term_id' => $term_id,
+                    ),
+                    array(
                         // hiển thị mã SQL để check
                         //'show_query' => 1,
                         // trả về câu query để sử dụng cho mục đích khác
                         //'get_query' => 1,
                         //'offset' => 2,
                         'limit' => 1
-                    ));
+                    )
+                );
                 //print_r( $parent_level );
 
                 //
@@ -285,23 +306,31 @@ class Term extends TermBase
             }
 
             // đặt các nhóm con của nó lên 1 level
-            $this->base_model->update_multiple($this->taxTable, [
-                'term_level' => $data['term_level'] + 1
-            ], [
+            $this->base_model->update_multiple(
+                $this->taxTable,
+                [
+                    'term_level' => $data['term_level'] + 1
+                ],
+                [
                     'parent' => $term_id,
-                ], [
+                ],
+                [
                     'debug_backtrace' => debug_backtrace()[1]['function']
-                ]);
+                ]
+            );
         }
         //print_r( $data );
         //die( __CLASS__ . ':' . __LINE__ );
 
 
         //
-        $count_post_term = $this->base_model->select('COUNT(object_id) AS c', $this->relaTable, array(
-            // WHERE AND OR
-            'term_taxonomy_id' => $term_id,
-        ), array(
+        $count_post_term = $this->base_model->select(
+            'COUNT(object_id) AS c', $this->relaTable,
+            array(
+                // WHERE AND OR
+                'term_taxonomy_id' => $term_id,
+            ),
+            array(
                 'selectCount' => 'object_id',
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
@@ -309,7 +338,9 @@ class Term extends TermBase
                 //'get_query' => 1,
                 //'offset' => 2,
                 //'limit' => 3
-            ));
+
+            )
+        );
         //print_r( $count_post_term );
         $data['count'] = $count_post_term[0]['object_id'];
 
@@ -323,9 +354,14 @@ class Term extends TermBase
         $data = $this->sync_term_data($data);
 
         //
-        $result_update = $this->base_model->update_multiple($this->table, $data, $where, [
-            'debug_backtrace' => debug_backtrace()[1]['function']
-        ]);
+        $result_update = $this->base_model->update_multiple(
+            $this->table,
+            $data,
+            $where,
+            [
+                'debug_backtrace' => debug_backtrace()[1]['function']
+            ]
+        );
 
         // nếu có taxonomy -> update luôn cho bảng term_taxonomy
         if ($taxonomy != '') {
@@ -334,9 +370,14 @@ class Term extends TermBase
                 'taxonomy' => $taxonomy,
             ];
             //print_r( $where );
-            $this->base_model->update_multiple($this->taxTable, $data, $where, [
-                'debug_backtrace' => debug_backtrace()[1]['function']
-            ]);
+            $this->base_model->update_multiple(
+                $this->taxTable,
+                $data,
+                $where,
+                [
+                    'debug_backtrace' => debug_backtrace()[1]['function']
+                ]
+            );
 
             // xóa cache
             $this->delete_cache_taxonomy($taxonomy);
@@ -360,11 +401,14 @@ class Term extends TermBase
         // add lại
         foreach ($meta_data as $k => $v) {
             if ($v != '') {
-                $this->base_model->insert($this->metaTable, [
-                    'term_id' => $term_id,
-                    'meta_key' => $k,
-                    'meta_value' => $v,
-                ]);
+                $this->base_model->insert(
+                    $this->metaTable,
+                    [
+                        'term_id' => $term_id,
+                        'meta_key' => $k,
+                        'meta_value' => $v,
+                    ]
+                );
             }
         }
 
@@ -401,10 +445,13 @@ class Term extends TermBase
                     //echo 'DELETE ' . $k . ' ' . $v . '<br>' . "\n";
 
                     //
-                    $this->base_model->delete_multiple($this->metaTable, [
-                        'term_id' => $term_id,
-                        'meta_key' => $k,
-                    ]);
+                    $this->base_model->delete_multiple(
+                        $this->metaTable,
+                        [
+                            'term_id' => $term_id,
+                            'meta_key' => $k,
+                        ]
+                    );
                 }
             }
         }
@@ -426,30 +473,41 @@ class Term extends TermBase
         // các meta chưa có thì insert
         //print_r( $insert_meta );
         foreach ($insert_meta as $k => $v) {
-            $this->base_model->insert($this->metaTable, [
-                'term_id' => $term_id,
-                'meta_key' => $k,
-                'meta_value' => $v,
-            ]);
+            $this->base_model->insert(
+                $this->metaTable,
+                [
+                    'term_id' => $term_id,
+                    'meta_key' => $k,
+                    'meta_value' => $v,
+                ]
+            );
         }
 
         // các meta có rồi thì update
         //print_r( $update_meta );
         foreach ($update_meta as $k => $v) {
-            $this->base_model->update_multiple($this->metaTable, [
-                'meta_value' => $v,
-            ], [
+            $this->base_model->update_multiple(
+                $this->metaTable,
+                [
+                    'meta_value' => $v,
+                ],
+                [
                     'term_id' => $term_id,
                     'meta_key' => $k,
-                ]);
+                ]
+            );
         }
 
         // cập nhật post meta vào cột của post để đỡ phải query nhiều
-        $this->base_model->update_multiple($this->table, [
-            'term_meta_data' => json_encode($meta_data),
-        ], [
+        $this->base_model->update_multiple(
+            $this->table,
+            [
+                'term_meta_data' => json_encode($meta_data),
+            ],
+            [
                 'term_id' => $term_id,
-            ]);
+            ]
+        );
 
         //
         //die( __CLASS__ . ':' . __LINE__ );
@@ -620,18 +678,23 @@ class Term extends TermBase
         //die( __CLASS__ . ':' . __LINE__ );
 
         //
-        $post_cat = $this->base_model->select($ops['select_col'], WGR_TERM_VIEW, $where, array(
-            //'where_in' => isset( $ops[ 'where_in' ] ) ? $ops[ 'where_in' ] : [],
-            'or_like' => $where_or_like,
-            'order_by' => $ops['order_by'],
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-            //'offset' => 2,
-            'offset' => $ops['offset'],
-            'limit' => $ops['limit']
-        ));
+        $post_cat = $this->base_model->select(
+            $ops['select_col'],
+            WGR_TERM_VIEW,
+            $where,
+            array(
+                //'where_in' => isset( $ops[ 'where_in' ] ) ? $ops[ 'where_in' ] : [],
+                'or_like' => $where_or_like,
+                'order_by' => $ops['order_by'],
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                //'offset' => 2,
+                'offset' => $ops['offset'],
+                'limit' => $ops['limit']
+            )
+        );
         //print_r( $post_cat );
         //die( __CLASS__ . ':' . __LINE__ );
 
@@ -688,17 +751,22 @@ class Term extends TermBase
 
     public function get_taxonomy($where, $limit = 1, $select_col = '*')
     {
-        return $this->base_model->select($select_col, WGR_TERM_VIEW, $where, array(
-            'order_by' => array(
-                'term_id' => 'DESC'
-            ),
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-            //'offset' => 2,
-            'limit' => $limit
-        ));
+        return $this->base_model->select(
+            $select_col,
+            WGR_TERM_VIEW,
+            $where,
+            array(
+                'order_by' => array(
+                    'term_id' => 'DESC'
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                //'offset' => 2,
+                'limit' => $limit
+            )
+        );
     }
 
     function get_child_terms($data, $ops = [])
@@ -732,12 +800,16 @@ class Term extends TermBase
                 }
 
                 //
-                $this->base_model->update_multiple($this->table, [
-                    'child_count' => $child_count,
-                    'child_last_count' => $current_time,
-                ], [
+                $this->base_model->update_multiple(
+                    $this->table,
+                    [
+                        'child_count' => $child_count,
+                        'child_last_count' => $current_time,
+                    ],
+                    [
                         'term_id' => $v['term_id'],
-                    ]);
+                    ]
+                );
 
                 // thông báo kiểu dữ liệu trả về
                 $data[$k]['child_count'] = $child_update_count;
@@ -754,12 +826,16 @@ class Term extends TermBase
                         //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                         //
-                        $this->base_model->update_multiple($this->table, [
-                            'child_count' => $child_count,
-                            'child_last_count' => $current_time,
-                        ], [
+                        $this->base_model->update_multiple(
+                            $this->table,
+                            [
+                                'child_count' => $child_count,
+                                'child_last_count' => $current_time,
+                            ],
+                            [
                                 'term_id' => $v['term_id'],
-                            ]);
+                            ]
+                        );
                     }
                 }
 
@@ -785,17 +861,23 @@ class Term extends TermBase
             $term_id = trim($term_id);
 
             if ($term_id != '' && $term_id > 0) {
-                $this->base_model->insert($this->relaTable, [
-                    'object_id' => $post_id,
-                    'term_taxonomy_id' => $term_id,
-                    'term_order' => $term_order,
-                ]);
+                $this->base_model->insert(
+                    $this->relaTable,
+                    [
+                        'object_id' => $post_id,
+                        'term_taxonomy_id' => $term_id,
+                        'term_order' => $term_order,
+                    ]
+                );
 
                 // tính tổng bài viết theo từng term
-                $count_post_term = $this->base_model->select('COUNT(object_id) AS c', $this->relaTable, array(
-                    // WHERE AND OR
-                    'term_taxonomy_id' => $term_id,
-                ), array(
+                $count_post_term = $this->base_model->select(
+                    'COUNT(object_id) AS c', $this->relaTable,
+                    array(
+                        // WHERE AND OR
+                        'term_taxonomy_id' => $term_id,
+                    ),
+                    array(
                         'selectCount' => 'object_id',
                         // hiển thị mã SQL để check
                         //'show_query' => 1,
@@ -803,19 +885,26 @@ class Term extends TermBase
                         //'get_query' => 1,
                         //'offset' => 2,
                         //'limit' => 3
-                    ));
+
+                    )
+                );
                 //print_r( $count_post_term );
 
                 // cập nhật lại tổng số bài viết cho term
-                $this->base_model->update_multiple($this->taxTable, [
-                    //'count' => $count_post_term[ 0 ][ 'c' ]
-                    'count' => $count_post_term[0]['object_id']
-                ], [
+                $this->base_model->update_multiple(
+                    $this->taxTable,
+                    [
+                        //'count' => $count_post_term[ 0 ][ 'c' ]
+                        'count' => $count_post_term[0]['object_id']
+                    ],
+                    [
                         'term_taxonomy_id' => $term_id,
                         'term_id' => $term_id,
-                    ], [
+                    ],
+                    [
                         'debug_backtrace' => debug_backtrace()[1]['function']
-                    ]);
+                    ]
+                );
             }
         }
     }
@@ -845,7 +934,7 @@ class Term extends TermBase
         if ($slug == '' ||
             // hoặc đúng là slug
             $slug == $data['slug'] ||
-                // hoặc kiểu URL có .html, .html, .etc...
+            // hoặc kiểu URL có .html, .html, .etc...
             strpos($slug, $data['slug'] . '.') !== false) {
             // thì cho qua
             return true;
@@ -899,24 +988,31 @@ class Term extends TermBase
         }
 
         //
-        foreach ([
-            'category_base' => CATEGORY_BASE_URL,
-            'term_id' => $data['term_id'],
-            'slug' => $data['slug'],
-            'taxonomy' => $data['taxonomy'],
-        ] as $k => $v) {
+        foreach (
+            [
+                'category_base' => CATEGORY_BASE_URL,
+                'term_id' => $data['term_id'],
+                'slug' => $data['slug'],
+                'taxonomy' => $data['taxonomy'],
+            ] as $k => $v) {
             $url = str_replace('%' . $k . '%', $v, $url);
         }
 
         // update vào db để sau còn tái sử dụng -> nhẹ server
-        $this->base_model->update_multiple('terms', [
-            'term_permalink' => $url,
-        ], [
+        $this->base_model->update_multiple(
+            'terms',
+            [
+                'term_permalink' => $url,
+            ],
+            [
                 'term_id' => $data['term_id'],
-            ], [
+            ],
+            [
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
-            ]);
+
+            ]
+        );
 
         //
         return $base_url . $url;
@@ -1051,10 +1147,14 @@ class Term extends TermBase
     // lấy chi tiết 1 term theo ID
     public function get_term_by_id($id, $taxonomy = 'category', $get_meta = true, $limit = 1, $select_col = '*')
     {
-        $data = $this->get_taxonomy([
-            'term_id' => $id,
-            'taxonomy' => $taxonomy,
-        ], $limit, $select_col);
+        $data = $this->get_taxonomy(
+            [
+                'term_id' => $id,
+                'taxonomy' => $taxonomy,
+            ],
+            $limit,
+            $select_col
+        );
 
         //
         if ($get_meta === true && !empty($data)) {
@@ -1069,11 +1169,15 @@ class Term extends TermBase
     // lấy chi tiết 1 term theo slug
     public function get_term_by_slug($slug, $taxonomy = 'category', $get_meta = true, $limit = 1, $select_col = '*')
     {
-        $data = $this->get_taxonomy([
-            'slug' => $slug,
-            'taxonomy' => $taxonomy,
-            'is_deleted' => DeletedStatus::FOR_DEFAULT,
-        ], $limit, $select_col);
+        $data = $this->get_taxonomy(
+            [
+                'slug' => $slug,
+                'taxonomy' => $taxonomy,
+                'is_deleted' => DeletedStatus::FOR_DEFAULT,
+            ],
+            $limit,
+            $select_col
+        );
 
         //
         if ($get_meta === true && !empty($data)) {
@@ -1090,6 +1194,12 @@ class Term extends TermBase
      */
     public function sync_term_child_count()
     {
+        // chức năng này chỉ hoạt động vào khung giờ thấp điểm
+        if (date('H') % 6 != 0) {
+            return 'Run in 0, 6, 12 ỏ 24h only';
+        }
+
+        //
         $prefix = WGR_TABLE_PREFIX;
 
         //echo __FUNCTION__ . '<br>' . "\n";
@@ -1105,7 +1215,7 @@ class Term extends TermBase
          * chức năng này chạy lâu hơn bình thường -> tạo cache luôn và ngay để tránh việc người sau vào lại thực thi cùng
          * cái này cứ để giãn cách xa 1 chút, tầm nửa ngày đến vài ngày làm 1 lần cũng được
          */
-        $this->base_model->scache(__FUNCTION__, time(), $this->time_update_last_count - rand(666, 999));
+        $this->base_model->scache(__FUNCTION__, time(), $this->time_update_last_count - rand(333, 666));
 
         //
         $the_view = $prefix . 'zzz_update_count';
@@ -1117,25 +1227,35 @@ class Term extends TermBase
          * tính tổng số nhóm con trong 1 nhóm
          */
         // reset tất cả về 0 đã
-        $this->base_model->update_multiple('terms', [
-            'child_count' => 0,
-            'child_last_count' => $current_time,
-        ], [
+        $this->base_model->update_multiple(
+            'terms',
+            [
+                'child_count' => 0,
+                'child_last_count' => $current_time,
+            ],
+            [
                 'is_deleted' => DeletedStatus::FOR_DEFAULT,
-            ], [
+            ],
+            [
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
-            ]);
+
+            ]
+        );
         //return false;
 
         /*
          * tạo 1 view trung gian để update tính tổng số nhóm con trong 1 nhóm
          */
         // -> dùng CI query builder để tạo query -> tránh sql injection
-        $sql = $this->base_model->select('parent, COUNT(term_id) AS c', 'term_taxonomy', array(
-            // các kiểu điều kiện where
-            'parent > ' => 0,
-        ), array(
+        $sql = $this->base_model->select(
+            'parent, COUNT(term_id) AS c',
+            'term_taxonomy',
+            array(
+                // các kiểu điều kiện where
+                'parent > ' => 0,
+            ),
+            array(
                 'group_by' => array(
                     'parent',
                 ),
@@ -1149,7 +1269,8 @@ class Term extends TermBase
                 //'getNumRows' => 1,
                 //'offset' => 0,
                 'limit' => -1
-            ));
+            )
+        );
         $sql = "CREATE OR REPLACE VIEW $the_view AS $sql";
         //echo $sql . '<br>' . "\n";
         //die( __CLASS__ . ':' . __LINE__ );
@@ -1164,29 +1285,39 @@ class Term extends TermBase
         WHERE
             is_deleted = ?";
         //echo $sql . '<br>' . "\n";
-        $this->base_model->MY_query($sql, [
-            DeletedStatus::FOR_DEFAULT
-        ]);
+        $this->base_model->MY_query(
+            $sql,
+            [
+                DeletedStatus::FOR_DEFAULT
+            ]
+        );
 
 
         /*
          * tính tổng số bài viết trong 1 nhóm
          */
         // reset tất cả về 0 đã
-        $this->base_model->update_multiple('term_taxonomy', [
-            'count' => 0
-        ], [
+        $this->base_model->update_multiple(
+            'term_taxonomy',
+            [
+                'count' => 0
+            ],
+            [
                 'count >' => 0
-            ]);
+            ]
+        );
 
         // đặt các relationships về XÓA
         $sql = "UPDATE " . $prefix . "term_relationships
         SET
             is_deleted = ?";
         //echo $sql . '<br>' . "\n";
-        $this->base_model->MY_query($sql, [
-            DeletedStatus::DELETED
-        ]);
+        $this->base_model->MY_query(
+            $sql,
+            [
+                DeletedStatus::DELETED
+            ]
+        );
 
         // đặt trạng thái public các các relationships của post đang public
         /*
@@ -1230,10 +1361,14 @@ class Term extends TermBase
          * tạo 1 view trung gian để update tính tổng số bài viết trong 1 nhóm
          */
         // -> dùng CI query builder để tạo query -> tránh sql injection
-        $sql = $this->base_model->select('term_taxonomy_id, COUNT(object_id) AS c', 'term_relationships', array(
-            // các kiểu điều kiện where
-            'is_deleted' => DeletedStatus::FOR_DEFAULT,
-        ), array(
+        $sql = $this->base_model->select(
+            'term_taxonomy_id, COUNT(object_id) AS c',
+            'term_relationships',
+            array(
+                // các kiểu điều kiện where
+                'is_deleted' => DeletedStatus::FOR_DEFAULT,
+            ),
+            array(
                 'group_by' => array(
                     'term_taxonomy_id',
                 ),
@@ -1247,7 +1382,8 @@ class Term extends TermBase
                 //'getNumRows' => 1,
                 //'offset' => 0,
                 'limit' => -1
-            ));
+            )
+        );
         $sql = "CREATE OR REPLACE VIEW $the_view AS $sql";
         //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query($sql);
@@ -1266,10 +1402,14 @@ class Term extends TermBase
          * tạo view để tính tổng số bài trong nhóm con, sau đó update cho nhóm cha -> tăng xác suất xuất hiện của nhóm cha
          */
         // -> dùng CI query builder để tạo query -> tránh sql injection
-        $sql = $this->base_model->select('parent, SUM(count) AS t', 'term_taxonomy', array(
-            // các kiểu điều kiện where
-            'parent > ' => 0,
-        ), array(
+        $sql = $this->base_model->select(
+            'parent, SUM(count) AS t',
+            'term_taxonomy',
+            array(
+                // các kiểu điều kiện where
+                'parent > ' => 0,
+            ),
+            array(
                 'group_by' => array(
                     'parent',
                 ),
@@ -1283,7 +1423,8 @@ class Term extends TermBase
                 //'getNumRows' => 1,
                 //'offset' => 0,
                 'limit' => -1
-            ));
+            )
+        );
         $sql = "CREATE OR REPLACE VIEW $the_view AS $sql";
         //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query($sql);

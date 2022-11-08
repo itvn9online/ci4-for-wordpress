@@ -29,8 +29,12 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
             </div>
             <br>
             <div class="redcolor text-center l20">* Cấu hình dạng chuyên số nguyên. Dùng để thiết lập giá trị dạng số
-                trong quá trình vận hành website sẽ có một số code cần dùng đến. Lúc nào cần dùng thì code sẽ đặt tên
-                cho config này trong file functions.php của từng theme, sau đó lấy giá trị trong đây để sử dụng nó.
+                trong quá trình vận hành website sẽ có một số code cần dùng đến. <br>
+                Lúc nào cần dùng thì code sẽ đặt tên
+                cho config này trong file <strong>functions.php</strong> của từng theme, sau đó lấy giá trị trong đây để
+                sử dụng nó. <br>
+                - Để tăng số lượng input, hãy điều chỉnh tham số: <strong>NUMBER_NUMS_INPUT</strong> <br>
+                - Để thay đổi tên cho input, hãy điều chỉnh tham số: <strong>TRANS_NUMS_LABEL</strong>
             </div>
             <?php
 

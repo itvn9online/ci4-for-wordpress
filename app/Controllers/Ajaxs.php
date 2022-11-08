@@ -25,10 +25,12 @@ class Ajaxs extends Layout
 
 
         // trả về key đã lưu của người dùng trong file
-        $this->result_json_type([
-            't' => time(),
-            'hash' => $result
-        ]);
+        $this->result_json_type(
+            [
+                't' => time(),
+                'hash' => $result
+            ]
+        );
     }
 
     public function get_taxonomy_by_ids()
@@ -38,17 +40,26 @@ class Ajaxs extends Layout
         //
         $ids = $this->MY_post('ids', '');
         if (empty($ids)) {
-            die(json_encode([
-                'code' => __LINE__,
-                'error' => 'EMPTY ids'
-            ]));
+            die(
+                json_encode(
+                    [
+                        'code' => __LINE__,
+                        'error' => 'EMPTY ids'
+                    ]
+                )
+                );
         }
 
         //
-        $data = $this->base_model->select($this->select_term_col, WGR_TERM_VIEW, array(
-            // WHERE AND OR
-            //'is_member' => User_type::GUEST,
-        ), array(
+        $data = $this->base_model->select(
+            $this->select_term_col,
+            WGR_TERM_VIEW,
+            array(
+                // WHERE AND OR
+                //'is_member' => User_type::GUEST,
+
+            ),
+            array(
                 'where_in' => array(
                     'term_id' => explode(',', $ids)
                 ),
@@ -62,7 +73,8 @@ class Ajaxs extends Layout
                 //'getNumRows' => 1,
                 //'offset' => 2,
                 'limit' => -1
-            ));
+            )
+        );
 
         //
         die(json_encode($data));
@@ -76,9 +88,11 @@ class Ajaxs extends Layout
     public function sync_ajax_post_term()
     {
         // đồng bộ lại tổng số nhóm con cho các danh mục trước đã
-        $this->result_json_type([
-            //'term' => $this->term_model->sync_term_child_count(),
-            'post' => $this->post_model->sync_post_term_permalink(),
-        ]);
+        $this->result_json_type(
+            [
+                'term' => $this->term_model->sync_term_child_count(),
+                'post' => $this->post_model->sync_post_term_permalink(),
+            ]
+        );
     }
 }
