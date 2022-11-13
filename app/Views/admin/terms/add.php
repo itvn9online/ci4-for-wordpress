@@ -50,6 +50,13 @@ $base_model->add_css('admin/css/' . $taxonomy . '.css');
                         value="<?php echo $data['name']; ?>" autofocus aria-required="true" required />
                 </div>
             </div>
+            <div class="control-group">
+                <label class="control-label">Tiêu đề (ngắn)</label>
+                <div class="controls">
+                    <input type="text" class="span6 required" placeholder="Tiêu đề (ngắn)" name="data[term_shortname]"
+                        value="<?php echo $data['term_shortname']; ?>" />
+                </div>
+            </div>
             <?php
 
             // các mục không cho sửa slug -> vì sửa xong sẽ làm lệnh lấy tin tự động hoạt động sai

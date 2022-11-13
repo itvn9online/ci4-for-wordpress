@@ -1656,6 +1656,57 @@ a.eb-btn {
 }
 
 /* */
+.wgr-fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-style: normal;
+}
+
+.wgr-fa::before {
+    font-family: FontAwesome;
+}
+
+.wgr-fa.wgr-icons-facebook::before {
+    content: "\f09a";
+}
+
+.wgr-fa.wgr-icons-google::before {
+    content: "\f1a0";
+}
+
+.wgr-fa.wgr-icons-linkin::before {}
+
+.wgr-fa.wgr-icons-skype::before {
+    content: "\f17e";
+}
+
+.wgr-fa.wgr-icons-youtube::before {
+    content: "\f167";
+}
+
+.wgr-fa.wgr-icons-zalo::before {}
+
+.wgr-fa.wgr-icons-tiktok::before {}
+
+.wgr-share-icons {}
+
+.wgr-share-icons li {
+    float: left;
+    margin: 0 10px 10px 0;
+    width: 30px;
+    text-align: center;
+    border: 1px #ccc solid;
+    border-radius: 3px;
+}
+
+.wgr-share-icons a {
+    line-height: 28px;
+    display: block;
+}
 
 /* */
 .btn-small {

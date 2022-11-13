@@ -45,6 +45,19 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                 </div>
             </div>
             <?php
+            } else if ($config_type == ConfigType::SOCIAL) {
+            ?>
+            <div class="control-group eb-control-group cf">
+                <div class="lf f15">
+                    <label class="text-right right-menu-space">Share icons</label>
+                </div>
+                <div class="lf f50">Chức năng tạo khối chia sẻ lên mạng xã hội theo cấu trúc chung.</div>
+                <div class="lf f35"><input type="text" onDblClick="click2Copy(this);"
+                        value="&lt;?php echo $this->option_model->share_icons($this->getconfig); ?&gt;" class="span11"
+                        readonly />
+                </div>
+            </div>
+            <?php
             }
 
             //
@@ -84,7 +97,7 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                 if ($input_type == 'checkbox') {
                 ?>
                 <div class="lf f15">&nbsp;</div>
-                <div class="lf f85 controls-checkbox">
+                <div class="lf f50 controls-checkbox">
                     <label for="data_<?php echo $k; ?>">
                         <input type="checkbox" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>" value="on"
                             data-value="<?php echo $data[$k]; ?>" />
@@ -107,7 +120,7 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                         <?php echo $v; ?>
                     </label>
                 </div>
-                <div class="lf f85">
+                <div class="lf f50">
                     <input type="color" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>"
                         value="<?php echo $data[$k]; ?>" placeholder="<?php echo ConfigType::defaultColor($k); ?>"
                         class="span2 auto-reset-site-color" />
@@ -162,9 +175,7 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                     else {
                         // thay đổi độ rộng của input cho phù hợp
                         $span10 = 'span10';
-                        if ($input_type == 'number') {
-                            $span10 = 'span3';
-                        } else if ($input_type == 'email') {
+                        if ($input_type != 'text') {
                             $span10 = 'span5';
                         }
 
@@ -185,6 +196,9 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                 <?php
                 } // END else checkbox
                 ?>
+                <div class="lf f35"><input type="text" onDblClick="click2Copy(this);"
+                        value="&lt;?php echo $this->getconfig-><?php echo $k; ?>; ?&gt;" class="span11" readonly />
+                </div>
             </div>
             <?php
             } // END foreach

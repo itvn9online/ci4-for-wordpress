@@ -41,6 +41,13 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
                 </div>
             </div>
             <div class="control-group">
+                <label for="data_post_title" class="control-label">Tiêu đề (ngắn)</label>
+                <div class="controls">
+                    <input type="text" class="span6 required" placeholder="Tiêu đề (ngắn)" name="data[post_shorttitle]"
+                        id="data_post_shorttitle" value="<?php echo $data['post_shorttitle']; ?>" />
+                </div>
+            </div>
+            <div class="control-group">
                 <label class="control-label">Slug</label>
                 <div class="controls">
                     <input type="text" title="Bấm đúp chuột để chỉnh sửa đường dẫn" class="span6" name="data[post_name]"

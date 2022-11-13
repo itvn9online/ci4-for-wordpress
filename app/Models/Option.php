@@ -173,7 +173,7 @@ class Option extends EbModel
         return $data;
     }
 
-    function list_config($lang_key = '', $time = BIG_CACHE_TIMEOUT)
+    public function list_config($lang_key = '', $time = BIG_CACHE_TIMEOUT)
     {
         global $this_cache_config;
         if ($this_cache_config !== NULL) {
@@ -299,7 +299,7 @@ class Option extends EbModel
     /*
      * Các function trong này sẽ được dọn dần trong base_model
      */
-    function get_the_favicon($cog, $key = 'web_favicon')
+    public function get_the_favicon($cog, $key = 'web_favicon')
     {
         // nếu không có -> lấy mặc định logo
         //if ( !isset( $cog->$key ) || $cog->$key == '' ) {
@@ -310,7 +310,7 @@ class Option extends EbModel
         return $cog->$key;
     }
 
-    function get_the_logo($cog, $key = 'logo')
+    public function get_the_logo($cog, $key = 'logo')
     {
         //if ( !isset( $cog->$key ) || $cog->$key == '' ) {
         if ($cog->$key == '') {
@@ -319,7 +319,7 @@ class Option extends EbModel
         return $cog->$key;
     }
 
-    function the_logo($cog, $key = 'logo', $logo_height = 'logo_main_height')
+    public function the_logo($cog, $key = 'logo', $logo_height = 'logo_main_height')
     {
         //if ( !isset( $cog->$logo_height ) || $cog->$logo_height == '' ) {
         if ($cog->$logo_height == '') {
@@ -335,7 +335,7 @@ class Option extends EbModel
         echo '<a href="./" class="web-logo" aria-label="Home" style="background-image: url(\'' . $this->get_the_logo($cog, $key) . '\'); height: ' . $height . 'px;">&nbsp;</a>';
     }
 
-    function get_config($config, $key, $default_value = '')
+    public function get_config($config, $key, $default_value = '')
     {
         //print_r( $config );
         //if ( isset( $config->$key ) ) {
@@ -345,7 +345,32 @@ class Option extends EbModel
         return $default_value;
     }
 
-    function the_config($config, $key, $default_value = '')
+    public function share_icons($cogs)
+    {
+        //print_r($cogs);
+        // các cột dữ liệu sẽ được lấy để hiển thị
+        $arr = [
+            'facebook',
+            'google',
+            'linkin',
+            'skype',
+            'youtube',
+            'zalo',
+            'tiktok',
+        ];
+
+        //
+        $str = '';
+        foreach ($arr as $v) {
+            if ($cogs->$v == '') {
+                continue;
+            }
+            $str .= '<li><a href="' . $cogs->$v . '" target="_blank" rel="nofollow"><i class="wgr-fa wgr-icons-' . $v . '"></i> <span>' . $cogs->$v . '</span></a></li>';
+        }
+        return '<ul class="wgr-share-icons cf">' . $str . '</ul>';
+    }
+
+    public function the_config($config, $key, $default_value = '')
     {
         echo $this->get_config($config, $key, $default_value);
     }

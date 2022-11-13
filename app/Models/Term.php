@@ -597,10 +597,10 @@ class Term extends TermBase
                 //print_r( $cache_value );
                 return $cache_value;
                 /*
-                 } else {
-                 print_r( $cache_value );
-                 var_dump( $cache_value );
-                 */
+                } else {
+                print_r( $cache_value );
+                var_dump( $cache_value );
+                */
             }
         }
 
@@ -654,9 +654,9 @@ class Term extends TermBase
         if (!isset($ops['limit'])) {
             $ops['limit'] = 500;
             /*
-             } else if ( $ops[ 'limit' ] < 0 ) {
-             $ops[ 'limit' ] = 0;
-             */
+            } else if ( $ops[ 'limit' ] < 0 ) {
+            $ops[ 'limit' ] = 0;
+            */
         }
         if (!isset($ops['offset'])) {
             $ops['offset'] = 0;
@@ -931,11 +931,13 @@ class Term extends TermBase
     public function check_canonical($slug, $data)
     {
         // nếu slug trống
-        if ($slug == '' ||
+        if (
+            $slug == '' ||
             // hoặc đúng là slug
             $slug == $data['slug'] ||
             // hoặc kiểu URL có .html, .html, .etc...
-            strpos($slug, $data['slug'] . '.') !== false) {
+            strpos($slug, $data['slug'] . '.') !== false
+        ) {
             // thì cho qua
             return true;
         }
@@ -1109,22 +1111,22 @@ class Term extends TermBase
                 return $slug;
 
                 /*
-                 return $this->post_model->get_the_ads( $slug, 0, [
-                 'add_class' => 'taxonomy-auto-slider'
-                 ] );
-                 */
+                return $this->post_model->get_the_ads( $slug, 0, [
+                'add_class' => 'taxonomy-auto-slider'
+                ] );
+                */
                 break;
             }
         }
 
         // đến đây vẫn không có -> tìm slider thứ cấp (slider dùng chung cho cả website)
         /*
-         if ( $second_slider != '' ) {
-         return $this->post_model->get_the_ads( $second_slider, 0, [
-         'add_class' => 'taxonomy-auto-slider'
-         ] );
-         }
-         */
+        if ( $second_slider != '' ) {
+        return $this->post_model->get_the_ads( $second_slider, 0, [
+        'add_class' => 'taxonomy-auto-slider'
+        ] );
+        }
+        */
 
         //
         return '';
@@ -1192,10 +1194,10 @@ class Term extends TermBase
     /*
      * đồng bộ các tổng số nhóm con cho các danh mục
      */
-    public function sync_term_child_count()
+    public function sync_term_child_count($run_h_only = true)
     {
         // chức năng này chỉ hoạt động vào khung giờ thấp điểm
-        if (date('H') % 6 != 0) {
+        if ($run_h_only === true && date('H') % 6 != 0) {
             return 'Run in 0, 6, 12 ỏ 24h only';
         }
 
@@ -1321,25 +1323,25 @@ class Term extends TermBase
 
         // đặt trạng thái public các các relationships của post đang public
         /*
-         // trong builder CI4 lệnh UPDATE chưa hỗ trợ lệnh join
-         $this->base_model->update_multiple( 'term_relationships', [
-         // SET
-         'term_relationships.is_deleted' => DeletedStatus::FOR_DEFAULT,
-         ], [
-         // WHERE
-         'posts.post_status' => PostType::PUBLICITY,
-         ], [
-         'join' => array(
-         'posts' => 'posts.ID = term_relationships.object_id'
-         ),
-         // hiển thị mã SQL để check
-         'show_query' => 1,
-         // trả về câu query để sử dụng cho mục đích khác
-         //'get_query' => 1,
-         // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
-         'no_remove_field' => 1
-         ] );
-         */
+        // trong builder CI4 lệnh UPDATE chưa hỗ trợ lệnh join
+        $this->base_model->update_multiple( 'term_relationships', [
+        // SET
+        'term_relationships.is_deleted' => DeletedStatus::FOR_DEFAULT,
+        ], [
+        // WHERE
+        'posts.post_status' => PostType::PUBLICITY,
+        ], [
+        'join' => array(
+        'posts' => 'posts.ID = term_relationships.object_id'
+        ),
+        // hiển thị mã SQL để check
+        'show_query' => 1,
+        // trả về câu query để sử dụng cho mục đích khác
+        //'get_query' => 1,
+        // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
+        'no_remove_field' => 1
+        ] );
+        */
         $params = [];
         $sql = "UPDATE " . $prefix . "term_relationships
         INNER JOIN

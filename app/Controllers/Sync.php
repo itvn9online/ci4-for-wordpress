@@ -107,9 +107,14 @@ class Sync extends BaseController
         //print_r( $arr_term_taxonomy );
 
         // -> dùng CI query builder để tạo query -> tránh sql injection
-        $sql = $this->base_model->select('terms.*,' . implode(',', $arr_term_taxonomy), 'terms', array(
-            // các kiểu điều kiện where
-        ), array(
+        $sql = $this->base_model->select(
+            'terms.*,' . implode(',', $arr_term_taxonomy),
+            'terms',
+            array(
+                // các kiểu điều kiện where
+
+            ),
+            array(
                 'join' => array(
                     'term_taxonomy t' => 'terms.term_id = t.term_id'
                 ),
@@ -119,7 +124,8 @@ class Sync extends BaseController
                 'get_query' => 1,
                 //'offset' => 2,
                 'limit' => -1
-            ));
+            )
+        );
 
         //
         $sql = "CREATE OR REPLACE VIEW " . WGR_TERM_VIEW . " AS " . $sql;
@@ -189,9 +195,14 @@ class Sync extends BaseController
         //print_r( $arr_term_relationships );
 
         // -> dùng CI query builder để tạo query -> tránh sql injection
-        $sql = $this->base_model->select('posts.*,' . implode(',', $arr_term_taxonomy) . ',' . implode(',', $arr_term_relationships), 'posts', array(
-            // các kiểu điều kiện where
-        ), array(
+        $sql = $this->base_model->select(
+            'posts.*,' . implode(',', $arr_term_taxonomy) . ',' . implode(',', $arr_term_relationships),
+            'posts',
+            array(
+                // các kiểu điều kiện where
+
+            ),
+            array(
                 'join' => array(
                     'term_relationships r' => 'r.object_id = posts.ID',
                     'term_taxonomy t' => 'r.term_taxonomy_id = t.term_taxonomy_id',
@@ -202,7 +213,8 @@ class Sync extends BaseController
                 'get_query' => 1,
                 //'offset' => 2,
                 'limit' => -1
-            ));
+            )
+        );
         //echo $sql . '<br>' . "\n";
 
         //
@@ -262,6 +274,7 @@ class Sync extends BaseController
                 'avatar' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Ảnh đại diện\'',
             ],
             $prefix . 'posts' => [
+                'post_shorttitle' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Tên rút gọn của post\'',
                 'post_permalink' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Lưu permalink để cho nhẹ server\'',
                 'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
                 'lang_parent' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Dùng để xác định với các bản ghi được nhân bản từ ngôn ngữ chính\'',
@@ -272,6 +285,7 @@ class Sync extends BaseController
                 'post_meta_data' => 'LONGTEXT NULL COMMENT \'Lưu các post meta vào đây để đỡ phải query nhiều\'',
             ],
             $prefix . 'terms' => [
+                'term_shortname' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Tên rút gọn của term\'',
                 'term_permalink' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Lưu permalink để cho nhẹ server\'',
                 'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
                 'lang_parent' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Dùng để xác định với các bản ghi được nhân bản từ ngôn ngữ chính\'',
@@ -388,14 +402,14 @@ class Sync extends BaseController
 
         // bảng post_title wordpress mặc định nó là TEXT -> chuyển về VARCHAR
         /*
-         $alter_query = "ALTER TABLE `" . $prefix . "posts` CHANGE `post_title` `post_title` VARCHAR(255) NOT NULL;";
-         echo $alter_query . '<br>' . "\n";
-         if ( $this->base_model->MY_query( $alter_query ) ) {
-         echo $prefix . 'posts - post_title column in database has been sync! <br>' . "\n";
-         } else {
-         echo 'Query failed! Please re-check query <br>' . "\n";
-         }
-         */
+        $alter_query = "ALTER TABLE `" . $prefix . "posts` CHANGE `post_title` `post_title` VARCHAR(255) NOT NULL;";
+        echo $alter_query . '<br>' . "\n";
+        if ( $this->base_model->MY_query( $alter_query ) ) {
+        echo $prefix . 'posts - post_title column in database has been sync! <br>' . "\n";
+        } else {
+        echo 'Query failed! Please re-check query <br>' . "\n";
+        }
+        */
 
         //
         $this->tbl_sessions();
@@ -404,11 +418,11 @@ class Sync extends BaseController
         $this->view_posts($has_table_change);
         // cập nhật lại tổng số nhóm con cho phân term
         /*
-         $last_run = $this->term_model->sync_term_child_count();
-         if ($last_run !== true) {
-         echo 'sync term child count RUN ' . (time() - $last_run) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
-         }
-         */
+        $last_run = $this->term_model->sync_term_child_count();
+        if ($last_run !== true) {
+        echo 'sync term child count RUN ' . (time() - $last_run) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        }
+        */
 
         //
         //die( __CLASS__ . ':' . __LINE__ );

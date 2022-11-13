@@ -127,6 +127,8 @@ class ConfigType
                 'linkin' => 'Linkin',
                 'skype' => 'Skype',
                 'youtube' => 'Youtube',
+                'tiktok' => 'TikTok',
+                'zalo' => 'Số Zalo',
                 'image' => 'Ảnh share Facebook',
                 'registeronline' => 'Link đăng ký BCT',
                 'notificationbct' => 'Link thông báo BCT',
@@ -318,6 +320,8 @@ class ConfigType
             'telegram_begin_block' => 'heading',
             'smtp_heading_test_email' => 'heading',
             'smtp2_heading_host_user' => 'heading',
+            //'zalo' => 'number',
+            'fb_app_id' => 'number',
         ];
         foreach (self::textArea() as $k => $v) {
             $arr[$k] = 'textarea';

@@ -32,7 +32,7 @@ class Layout extends Sync
     public $breadcrumb_position = 1;
 
     // các định dạng file được phép truy cập trong thư mục upload
-    protected $htaccess_allow = 'css|js|map|htm?l|xml|json|webmanifest|tff|eot|woff?|gif|jpe?g|tiff?|png|webp|bmp|ico|svg';
+    protected $htaccess_allow = 'zip|xlsx|xls|mp3|css|js|map|htm?l|xml|json|webmanifest|tff|eot|woff?|gif|jpe?g|tiff?|png|webp|bmp|ico|svg';
 
     public function __construct()
     {
@@ -54,13 +54,13 @@ class Layout extends Sync
 
         //
         /*
-         helper( [
-         //'cookie',
-         'url',
-         'form',
-         'security'
-         ] );
-         */
+        helper( [
+        //'cookie',
+        'url',
+        'form',
+        'security'
+        ] );
+        */
 
         /*
          * bắt đầu code
@@ -226,14 +226,16 @@ class Layout extends Sync
         //
         if (empty($a)) {
             $is_mobile = false;
-        } else if (strpos($a, 'Mobile') !== false // Many mobile devices (all iPhone, iPad, etc.)
+        } else if (
+            strpos($a, 'Mobile') !== false // Many mobile devices (all iPhone, iPad, etc.)
             ||
             strpos($a, 'Android') !== false ||
             strpos($a, 'Silk/') !== false ||
             strpos($a, 'Kindle') !== false ||
             strpos($a, 'BlackBerry') !== false ||
             strpos($a, 'Opera Mini') !== false ||
-            strpos($a, 'Opera Mobi') !== false) {
+            strpos($a, 'Opera Mobi') !== false
+        ) {
             // thêm key cho bản mobile
             $this->cache_mobile_key = '---mobile';
 
@@ -367,11 +369,11 @@ class Layout extends Sync
 
         // đầu vào (input) chính là data rồi -> không cần gọi lại
         /*
-         $data = $this->term_model->get_all_taxonomy( $taxonomy, $input[ 'term_id' ], [
-         'parent' => $input[ 'term_id' ],
-         //'where_in' => isset( $input[ 'where_in' ] ) ? $input[ 'where_in' ] : NULL
-         ] );
-         */
+        $data = $this->term_model->get_all_taxonomy( $taxonomy, $input[ 'term_id' ], [
+        'parent' => $input[ 'term_id' ],
+        //'where_in' => isset( $input[ 'where_in' ] ) ? $input[ 'where_in' ] : NULL
+        ] );
+        */
 
         //
         //print_r( $data );
@@ -683,11 +685,11 @@ class Layout extends Sync
                             continue;
                         }
                         /*
-                         // nếu không, sẽ chặn các định dạng file có khả năng thực thi lệnh từ server
-                         else if ( in_array( $file_ext, $arr_block_upload ) ) {
-                         continue;
-                         }
-                         */
+                        // nếu không, sẽ chặn các định dạng file có khả năng thực thi lệnh từ server
+                        else if ( in_array( $file_ext, $arr_block_upload ) ) {
+                        continue;
+                        }
+                        */
 
                         //
                         $file->move($upload_path, $file_name, true);
@@ -739,11 +741,11 @@ class Layout extends Sync
 
         // bảo mật file, lỗi thì xóa luôn file này đi
         /*
-         if ( $this->security->xss_clean( $file_path, TRUE ) === FALSE ) {
-         unlink( $file_path );
-         die( 'ERROR! xss file upload' );
-         }
-         */
+        if ( $this->security->xss_clean( $file_path, TRUE ) === FALSE ) {
+        unlink( $file_path );
+        die( 'ERROR! xss file upload' );
+        }
+        */
         //unlink( $file_path );
         //continue;
 
