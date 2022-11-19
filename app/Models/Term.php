@@ -20,6 +20,14 @@ class Term extends TermBase
 
     protected function sync_term_data($data)
     {
+        // tạo short shortslug nếu có -> dùng để order khi select
+        if (isset($data['term_shortname'])) {
+            if ($data['term_shortname'] != '') {
+                $data['term_shortslug'] = $this->base_model->_eb_non_mark_seo($data['term_shortname']);
+            } else {
+                $data['term_shortslug'] = '';
+            }
+        }
         // đặt giá trị này để khởi tạo lại permalink
         $data['term_permalink'] = '';
         return $data;
@@ -124,6 +132,7 @@ class Term extends TermBase
         if ($data['slug'] != '') {
             $data['slug'] = $this->base_model->_eb_non_mark_seo($data['slug']);
             $data['slug'] = str_replace('.', '-', $data['slug']);
+            $data['slug'] = str_replace('--', '-', $data['slug']);
             //print_r( $data );
             //die( __CLASS__ . ':' . __LINE__ );
 
@@ -213,6 +222,7 @@ class Term extends TermBase
             if ($data['slug'] != '') {
                 $data['slug'] = $this->base_model->_eb_non_mark_seo($data['slug']);
                 $data['slug'] = str_replace('.', '-', $data['slug']);
+                $data['slug'] = str_replace('--', '-', $data['slug']);
                 //print_r( $data );
 
                 // kiểm tra lại slug trước khi update
@@ -390,6 +400,16 @@ class Term extends TermBase
         }
 
         //
+        if ($result_update === true) {
+            $data['term_id'] = $term_id;
+            // nếu có đủ các thông số còn thiếu thì tiến hành cập nhật permalink
+            if (isset($data['slug']) && isset($data['taxonomy'])) {
+                $data['term_permalink'] = $this->get_the_permalink($data);
+            }
+            //print_r($data);
+        }
+
+        //
         return $result_update;
     }
 
@@ -526,7 +546,7 @@ class Term extends TermBase
         //echo 'in_cache: ' . $in_cache . '<br>' . "\n";
 
         // cố định loại cột cần lấy
-        $ops['select_col'] = 'term_id, name, slug, term_group, count, parent, taxonomy, child_count, child_last_count, term_permalink';
+        $ops['select_col'] = 'term_id, name, term_shortname, slug, term_group, count, parent, taxonomy, child_count, child_last_count, term_permalink, term_avatar, term_favicon';
         //$ops[ 'select_col' ] = '*';
 
         //
@@ -669,6 +689,8 @@ class Term extends TermBase
         if (!isset($ops['result_count'])) {
             $ops['order_by'] = [
                 'term_order' => 'DESC',
+                'term_shortslug' => 'ASC',
+                'slug' => 'ASC',
                 'term_id' => 'DESC',
             ];
         }

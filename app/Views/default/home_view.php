@@ -16,7 +16,8 @@ $post_model->the_ads('top-main-slider');
             //'offset' => 0,
             'order_by' => [
                 'menu_order' => 'DESC',
-                'post_modified' => 'DESC',
+                'time_order' => 'DESC',
+                //'post_modified' => 'DESC',
                 'ID' => 'DESC'
             ],
         ]);
@@ -33,6 +34,7 @@ $post_model->the_ads('top-main-slider');
         //
         $post_model->the_node($child_val, [
             //'taxonomy_post_size' => $taxonomy_post_size,
+    
         ]);
     }
 

@@ -218,6 +218,7 @@ class ConfigType
             $arr = [
                 // Số tiền mặc định -> dùng cho các website dịch vụ đồng giá
                 'min_product_price' => 'Giá trị tối thiểu của đơn hàng',
+                'select_price' => 'Các bước giá',
                 'bank_number' => 'Số tài khoản',
                 'bank_card_name' => 'Chủ tài khoản',
                 'bank_bin_code' => 'ID ngân hàng',
@@ -412,8 +413,9 @@ class ConfigType
             'disable_register_member' => 'Khi muốn dừng việc đăng ký tài khoản trên website thì bật chức năng này lên (admin vẫn có thể tạo tài khoản từ trang admin).',
             'blog_private' => 'Việc tuân thủ yêu cầu này hoàn toàn phụ thuộc vào các công cụ tìm kiếm.',
             'min_product_price' => 'Số tiền tối thiểu mà khách phải thanh toán cho mỗi đơn hàng.',
+            'select_price' => 'Sử dụng khi muốn tạo select các mức nạp tiền vào tài khoản. Mỗi mức giá cách nhau bởi dấu phẩy (,)',
             'bank_card_name' => 'Lưu ý: viết HOA không dấu',
-            'autobank_token' => 'Tham số dùng để tăng độ bảo mật cho WebHook tự động xác thực quá trình thanh toán.',
+            'autobank_token' => 'Tham số dùng để tăng độ bảo mật cho WebHook tự động xác thực quá trình thanh toán. URL WebHook mặc định: ' . base_url('cassos/confirm'),
             'bank_bin_code' => 'Chức năng tự động xác nhận tiền vào thông qua WebHook của https://casso.vn/ - Ưu tiên sử dụng tài khoản ngân hàng <strong>VietinBank</strong>.',
             'powered_by_echbay' => 'Sử dụng lệnh <strong>$lang_model->the_web_license( $getconfig );</strong> để hiển thị thông điệp bản quyền mặc định.',
             'telegram_bot_token' => 'Token của bot trên Telegram. Sau khi có Token, hãy <a href="' . base_url('admin/smtps') . '?get_tele_chat_id=1" target="_blank" class="click-check-email-test bluecolor"><strong>bấm vào đây</strong></a> để tìm Chat ID.',

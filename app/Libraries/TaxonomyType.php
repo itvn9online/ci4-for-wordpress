@@ -24,6 +24,7 @@ class TaxonomyType
         self::OPTIONS => 'Thông số khác',
         //self::MENU => 'Menu',
         //self::PAGE => 'Trang tĩnh',
+
     );
 
     public static function typeList($key = '', $first_name = false)
@@ -35,10 +36,10 @@ class TaxonomyType
             // lấy thêm định danh cho Danh mục (nếu có)
             $get_first_name = '';
             /*
-             if ( $first_name == true ) {
-             $get_first_name = self::nameList( $key );
-             }
-             */
+            if ( $first_name == true ) {
+            $get_first_name = self::nameList( $key );
+            }
+            */
             return $get_first_name . self::$arr[$key];
         }
         return '';
@@ -53,6 +54,7 @@ class TaxonomyType
         self::OPTIONS => 'Danh sách',
         //self::MENU => 'Menu',
         //self::PAGE => 'Trang tĩnh',
+
     );
 
     public static function nameList($key = '')
@@ -72,6 +74,7 @@ class TaxonomyType
         $arr = [];
 
         //
+        //$arr['taxonomy_avatar'] = 'Ảnh đại diện';
         $arr['taxonomy_custom_post_size'] = 'Tùy chỉnh tỉ lệ ảnh';
         $arr['taxonomy_auto_slider'] = 'Slider';
         if ($taxonomy == self::ADS) {

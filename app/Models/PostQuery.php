@@ -19,6 +19,14 @@ class PostQuery extends PostMeta
 
     protected function sync_post_data($data)
     {
+        // tạo short shortslug nếu có -> dùng để order khi select
+        if (isset($data['post_shorttitle'])) {
+            if ($data['post_shorttitle'] != '') {
+                $data['post_shortslug'] = $this->base_model->_eb_non_mark_seo($data['post_shorttitle']);
+            } else {
+                $data['post_shortslug'] = '';
+            }
+        }
         // đặt giá trị này để khởi tạo lại permalink
         $data['post_permalink'] = '';
         return $data;
@@ -53,6 +61,7 @@ class PostQuery extends PostMeta
         if ($data['post_name'] != '') {
             $data['post_name'] = $this->base_model->_eb_non_mark_seo($data['post_name']);
             $data['post_name'] = str_replace('.', '-', $data['post_name']);
+            $data['post_name'] = str_replace('--', '-', $data['post_name']);
 
             //
             if ($check_slug === true) {
@@ -128,9 +137,9 @@ class PostQuery extends PostMeta
                 $this->insert_meta_post($_POST['post_meta'], $result_id);
             }
             /*
-             } else {
-             $this->base_model->insert( $this->table, $data, true, 'getQuery' );
-             */
+            } else {
+            $this->base_model->insert( $this->table, $data, true, 'getQuery' );
+            */
         }
         return $result_id;
     }
@@ -151,6 +160,7 @@ class PostQuery extends PostMeta
                     $data['post_name'] = $this->base_model->_eb_non_mark_seo($data['post_name']);
                 }
                 $data['post_name'] = str_replace('.', '-', $data['post_name']);
+                $data['post_name'] = str_replace('--', '-', $data['post_name']);
             }
         }
         if (!isset($data['post_modified']) || $data['post_modified'] == '') {
@@ -263,6 +273,7 @@ class PostQuery extends PostMeta
         //
         if ($result_update === true) {
             $data['ID'] = $post_id;
+            // nếu có đủ các thông số còn thiếu thì tiến hành cập nhật permalink
             if (isset($data['post_name']) && isset($data['post_type'])) {
                 $data['post_permalink'] = $this->get_the_permalink($data);
             }
@@ -369,10 +380,10 @@ class PostQuery extends PostMeta
 
         ];
         /*
-         if ( isset( $post_cat[ 'taxonomy' ] ) && $post_cat[ 'taxonomy' ] != '' ) {
-         $where[ 'term_taxonomy.taxonomy' ] = $post_cat[ 'taxonomy' ];
-         }
-         */
+        if ( isset( $post_cat[ 'taxonomy' ] ) && $post_cat[ 'taxonomy' ] != '' ) {
+        $where[ 'term_taxonomy.taxonomy' ] = $post_cat[ 'taxonomy' ];
+        }
+        */
 
         //
         $arr_or_where = [];
@@ -439,10 +450,10 @@ class PostQuery extends PostMeta
                 // chuẩn hóa đầu vào
                 $ops['select'] = str_replace(' ', '', $ops['select']);
                 /*
-                 $ops[ 'select' ] = explode( ',', $ops[ 'select' ] );
-                 //print_r( $ops[ 'select' ] );
-                 $ops[ 'select' ] = implode( ',', $ops[ 'select' ] );
-                 */
+                $ops[ 'select' ] = explode( ',', $ops[ 'select' ] );
+                //print_r( $ops[ 'select' ] );
+                $ops[ 'select' ] = implode( ',', $ops[ 'select' ] );
+                */
                 //$ops[ 'select' ] = $ops[ 'select' ];
                 //echo $ops[ 'select' ] . '<br>' . "\n";
             } else {
@@ -503,9 +514,11 @@ class PostQuery extends PostMeta
         //die( __CLASS__ . ':' . __LINE__ );
         if (!isset($get_data['posts']) || empty($get_data['posts'])) {
             // nếu có tham số auto clone -> cho phép nhân bản dữ liệu cho các ngôn ngữ khác
-            if (isset($ops['auto_clone']) &&
+            if (
+                isset($ops['auto_clone']) &&
                 $ops['auto_clone'] === 1 &&
-                LanguageCost::lang_key() != LanguageCost::default_lang()) {
+                LanguageCost::lang_key() != LanguageCost::default_lang()
+            ) {
                 //print_r( $get_data );
                 // tiến hành lấy dữ liệu mẫu để nhân
                 $clone_data = $this->get_auto_post(
@@ -610,10 +623,10 @@ class PostQuery extends PostMeta
             $instance['max_width'] .= ' ebwidget-run-slider';
         }
         /*
-         if ( $instance[ 'open_youtube' ] == 'on' ) {
-         $instance[ 'max_width' ] .= ' youtube-quick-view';
-         }
-         */
+        if ( $instance[ 'open_youtube' ] == 'on' ) {
+        $instance[ 'max_width' ] .= ' youtube-quick-view';
+        }
+        */
         if ($instance['text_view_more'] != '' || $instance['text_view_details'] != 'text_view_details') {
             $instance['max_width'] .= ' show-view-more';
         }
@@ -736,10 +749,10 @@ class PostQuery extends PostMeta
                 'blog_link_option' => $blog_link_option,
                 'widget_title' => $html_widget_title,
                 /*
-                 'max_width' => $max_width,
-                 'num_line' => $num_line,
-                 'post_cloumn' => $post_cloumn,
-                 */
+                'max_width' => $max_width,
+                'num_line' => $num_line,
+                'post_cloumn' => $post_cloumn,
+                */
                 'more_link' => $instance['text_view_more'] != '' ? '<div class="widget-blog-more"><a href="{{custom_cat_link}}">' . $instance['text_view_more'] . '</a></div>' : '',
                 'str_sub_cat' => '',
             ]

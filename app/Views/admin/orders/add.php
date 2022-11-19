@@ -48,7 +48,7 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
             <div class="control-group">
                 <label for="data_post_title" class="control-label">Tổng tiền</label>
                 <div class="controls bold">
-                    <?php echo number_format($data['post_parent']); ?> VNĐ
+                    <?php echo number_format($data['order_money']); ?> VNĐ
                 </div>
             </div>
             <div class="control-group">
@@ -77,16 +77,18 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
             // nạp các meta theo từng loại post
             foreach ($meta_detault as $k => $v) {
                 // đơn hàng thì không dùng ảnh đại diện
-                if (in_array($k, [
-                    'post_category',
-                    'post_tags',
-                    'image',
-                    'image_large',
-                    'image_medium_large',
-                    'image_medium',
-                    'image_thumbnail',
-                    'image_webp',
-                ])) {
+                if (
+                    in_array($k, [
+                        'post_category',
+                        'post_tags',
+                        'image',
+                        'image_large',
+                        'image_medium_large',
+                        'image_medium',
+                        'image_thumbnail',
+                        'image_webp',
+                    ])
+                ) {
                     continue;
                 }
 
@@ -158,7 +160,7 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
                     ?>
                     <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>"
                         name="post_meta[<?php echo $k; ?>]<?php echo $meta_multiple; ?>" <?php echo $select_multiple;
-                        ?>>
+                                                                     ?>>
                         <?php
 
                     foreach ($select_options as $option_k => $option_v) {

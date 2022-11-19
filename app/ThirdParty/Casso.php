@@ -40,7 +40,7 @@ class Casso
                     return NULL;
                 }
                 // TEST data
-                $data_string = '{"error":0,"data":[{"id":1517540,"tid":"184139","description":"ND:CT DEN:223900089686 MBVCB.2383815647.089686.Bill 15998.CT tu 0451001536775 DAO QUOC DAI toi 108876637379 DAO QUOC DAI (VIETINBANK) Cong Thuong Viet Nam; tai Napas","amount":1000,"cusum_balance":10000,"when":"2022-08-27 07:09:32","bank_sub_acc_id":"108876637379","subAccId":"108876637379","virtualAccount":"","virtualAccountName":"","corresponsiveName":"","corresponsiveAccount":"","corresponsiveBankId":"","corresponsiveBankName":""}]}';
+                $data_string = '{"error":0,"data":[{"id":1844887,"tid":"246745","description":"ND:CT DEN:231915042064 MBVCB.2707051024.042064.Bill 4.CT tu 0451001536775 DAO QUOC DAI toi 105877347307 DO XUAN VIET Ngan hang Cong Thuong Viet Nam (VIETINBANK); tai Napas","amount":5000,"cusum_balance":55000,"when":"2022-11-15 22:25:00","bank_sub_acc_id":"105877347307","subAccId":"105877347307","virtualAccount":"","virtualAccountName":"","corresponsiveName":"","corresponsiveAccount":"","corresponsiveBankId":"","corresponsiveBankName":""}]}';
             }
             file_put_contents(PUBLIC_HTML_PATH . 'test.txt', $data_string . "\n", LOCK_EX);
             file_put_contents(PUBLIC_HTML_PATH . 'test.txt', $_SERVER['REQUEST_URI'] . "\n", FILE_APPEND);

@@ -157,18 +157,20 @@ class PostAdmin extends Post
 
             $filter = [
                 /*
-                 'where_in' => array(
-                 'post_status' => array(
-                 //PostType::DRAFT,
-                 PostType::PUBLICITY,
-                 //PostType::PENDING,
-                 )
-                 ),
-                 */
+                'where_in' => array(
+                'post_status' => array(
+                //PostType::DRAFT,
+                PostType::PUBLICITY,
+                //PostType::PENDING,
+                )
+                ),
+                */
                 'order_by' => array(
                     'menu_order' => 'DESC',
-                    'post_date' => 'DESC',
+                    'time_order' => 'DESC',
+                    //'post_date' => 'DESC',
                     //'post_modified' => 'DESC',
+
                 ),
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
@@ -222,6 +224,7 @@ class PostAdmin extends Post
             './users/profile' => 'Tài khoản',
             './users/logout' => 'Đăng xuất',
             //'./users/changepass' => 'Đổi mật khẩu',
+
         ];
 
         //

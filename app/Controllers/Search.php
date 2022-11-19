@@ -76,19 +76,21 @@ class Search extends Csrf
             // tổng kết filter
             $filter = [
                 /*
-                 'where_in' => array(
-                 'posts.post_type' => array(
-                 PostType::POST,
-                 PostType::BLOG,
-                 PostType::PAGE,
-                 )
-                 ),
-                 */
+                'where_in' => array(
+                'posts.post_type' => array(
+                PostType::POST,
+                PostType::BLOG,
+                PostType::PAGE,
+                )
+                ),
+                */
                 'or_like' => $where_or_like,
                 'order_by' => array(
                     'posts.menu_order' => 'DESC',
-                    'posts.post_date' => 'DESC',
+                    'posts.time_order' => 'DESC',
+                    //'posts.post_date' => 'DESC',
                     //'post_modified' => 'DESC',
+
                 ),
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
@@ -96,6 +98,7 @@ class Search extends Csrf
                 //'get_query' => 1,
                 //'offset' => 0,
                 //'limit' => $post_per_page
+
             ];
             //print_r( $filter );
 
@@ -152,7 +155,8 @@ class Search extends Csrf
         // -> views
         $this->teamplate['breadcrumb'] = view('breadcrumb_view', array(
             'breadcrumb' => $this->breadcrumb
-        ));
+        )
+        );
 
         //
         $this->teamplate['main'] = view('search_view', array(
@@ -162,7 +166,8 @@ class Search extends Csrf
             'post_type' => $this->post_type,
             'public_part_page' => $pagination,
             'data' => $data,
-        ));
+        )
+        );
         return view('layout_view', $this->teamplate);
     }
 

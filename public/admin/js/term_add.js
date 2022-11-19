@@ -17,3 +17,7 @@ if ($('#data_parent').length > 0) {
         WGR_set_prop_for_select('#data_parent');
     });
 }
+
+// thêm nút add ảnh đại diện
+add_and_show_post_avt('#data_term_avatar', '', 'medium');
+add_and_show_post_avt('#data_term_favicon', '', 'medium');

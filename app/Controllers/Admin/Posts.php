@@ -121,6 +121,7 @@ class Posts extends Admin
                         'ID' => $by_like * 1,
                         //'post_author' => $by_like,
                         //'post_parent' => $by_like,
+
                     ];
                 } else {
                     $where_or_like = [
@@ -165,10 +166,14 @@ class Posts extends Admin
         // nếu có lọc theo term_id -> thêm câu lệnh để lọc
         if ($by_term_id > 0) {
             // lấy các nhóm con của nhóm này
-            $ids = $this->base_model->select('GROUP_CONCAT(DISTINCT term_id SEPARATOR \',\') AS ids', 'term_taxonomy', array(
-                // các kiểu điều kiện where
-                'parent' => $by_term_id,
-            ), array(
+            $ids = $this->base_model->select(
+                'GROUP_CONCAT(DISTINCT term_id SEPARATOR \',\') AS ids',
+                'term_taxonomy',
+                array(
+                    // các kiểu điều kiện where
+                    'parent' => $by_term_id,
+                ),
+                array(
                     // trả về COUNT(column_name) AS column_name
                     //'selectCount' => 'ID',
                     // hiển thị mã SQL để check
@@ -179,7 +184,8 @@ class Posts extends Admin
                     //'getNumRows' => 1,
                     //'offset' => 0,
                     'limit' => -1
-                ));
+                )
+            );
             //print_r( $ids );
             $ids = $ids[0]['ids'];
 
@@ -247,13 +253,18 @@ class Posts extends Admin
             $filter['limit'] = $post_per_page;
 
             //
-            $order_by = $this->MY_get('order_by', 'ID');
-            $filter['order_by'] = [
-                //$this->table . '.menu_order' => 'DESC',
-                $this->table . '.' . $order_by => 'DESC',
-                //$this->table . '.post_date' => 'DESC',
-                //'post_modified' => 'DESC',
-            ];
+            $order_by = $this->MY_get('order_by', '');
+            if ($order_by == '') {
+                $order_by = [
+                    $this->table . '.menu_order' => 'DESC',
+                    $this->table . '.time_order' => 'DESC',
+                ];
+            } else {
+                $order_by = [
+                    $this->table . '.' . $order_by => 'DESC',
+                ];
+            }
+            $filter['order_by'] = $order_by;
             $data = $this->base_model->select('*', $this->table, $where, $filter);
 
             //
@@ -295,24 +306,27 @@ class Posts extends Admin
         }
 
         //
-        $this->teamplate_admin['content'] = view('admin/' . $this->list_view_path . '/list', array(
-            'for_action' => $for_action,
-            'by_post_status' => $by_post_status,
-            'post_status' => $post_status,
-            'by_keyword' => $by_keyword,
-            'by_term_id' => $by_term_id,
-            'controller_slug' => $this->controller_slug,
-            'pagination' => $pagination,
-            'totalThread' => $totalThread,
-            'main_category_key' => $this->main_category_key,
-            'data' => $data,
-            'taxonomy' => $this->taxonomy,
-            'post_type' => $this->post_type,
-            'name_type' => $this->name_type,
-            'post_arr_status' => $this->post_arr_status,
-            //'list_view_path' => $this->list_view_path,
-            'list_table_path' => $this->list_table_path,
-        ));
+        $this->teamplate_admin['content'] = view(
+            'admin/' . $this->list_view_path . '/list',
+            array(
+                'for_action' => $for_action,
+                'by_post_status' => $by_post_status,
+                'post_status' => $post_status,
+                'by_keyword' => $by_keyword,
+                'by_term_id' => $by_term_id,
+                'controller_slug' => $this->controller_slug,
+                'pagination' => $pagination,
+                'totalThread' => $totalThread,
+                'main_category_key' => $this->main_category_key,
+                'data' => $data,
+                'taxonomy' => $this->taxonomy,
+                'post_type' => $this->post_type,
+                'name_type' => $this->name_type,
+                'post_arr_status' => $this->post_arr_status,
+                //'list_view_path' => $this->list_view_path,
+                'list_table_path' => $this->list_table_path,
+            )
+        );
         //return $this->teamplate_admin[ 'content' ];
         return view('admin/admin_teamplate', $this->teamplate_admin);
     }
@@ -439,8 +453,7 @@ class Posts extends Admin
                 ),
                 'order_by' => array(
                     $this->table . '.menu_order' => 'DESC',
-                    $this->table . '.post_date' => 'DESC',
-                    //'post_modified' => 'DESC',
+                    $this->table . '.time_order' => 'DESC',
                 ),
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
@@ -448,6 +461,7 @@ class Posts extends Admin
                 //'get_query' => 1,
                 //'offset' => 0,
                 //'limit' => $post_per_page
+
             ];
             $parent_post = $this->base_model->select($this->table . '.ID, ' . $this->table . '.post_title', $this->table, $where, $filter);
             //print_r( $parent_post );
@@ -470,24 +484,27 @@ class Posts extends Admin
         }
 
         //
-        $this->teamplate_admin['content'] = view('admin/' . $this->add_view_path . '/add', array(
-            'controller_slug' => $this->controller_slug,
-            'lang_key' => $this->lang_key,
-            'auto_update_module' => $auto_update_module,
-            'url_next_post' => $url_next_post,
-            'post_cat' => $post_cat,
-            'post_tags' => $post_tags,
-            'parent_post' => $parent_post,
-            'quick_menu_list' => [],
-            'data' => $data,
-            'post_lang' => $data['lang_key'] != '' ? LanguageCost::typeList($data['lang_key']) : '',
-            'meta_detault' => PostType::meta_default($this->post_type),
-            'post_arr_status' => $this->post_arr_status,
-            'taxonomy' => $this->taxonomy,
-            'tags' => $this->tags,
-            'post_type' => $this->post_type,
-            'name_type' => $this->name_type,
-        ));
+        $this->teamplate_admin['content'] = view(
+            'admin/' . $this->add_view_path . '/add',
+            array(
+                'controller_slug' => $this->controller_slug,
+                'lang_key' => $this->lang_key,
+                'auto_update_module' => $auto_update_module,
+                'url_next_post' => $url_next_post,
+                'post_cat' => $post_cat,
+                'post_tags' => $post_tags,
+                'parent_post' => $parent_post,
+                'quick_menu_list' => [],
+                'data' => $data,
+                'post_lang' => $data['lang_key'] != '' ? LanguageCost::typeList($data['lang_key']) : '',
+                'meta_detault' => PostType::meta_default($this->post_type),
+                'post_arr_status' => $this->post_arr_status,
+                'taxonomy' => $this->taxonomy,
+                'tags' => $this->tags,
+                'post_type' => $this->post_type,
+                'name_type' => $this->name_type,
+            )
+        );
         return view('admin/admin_teamplate', $this->teamplate_admin);
     }
 
@@ -645,8 +662,10 @@ class Posts extends Admin
                 ]);
             //print_r( $check_slug );
             //var_dump( strpos( $check_slug[ 'post_name' ], '___' . $post_status ) );
-            if (!empty($check_slug) && $check_slug['post_name'] != '' &&
-                strpos($check_slug['post_name'], $post_trash_title) === false) {
+            if (
+                !empty($check_slug) && $check_slug['post_name'] != '' &&
+                strpos($check_slug['post_name'], $post_trash_title) === false
+            ) {
                 $data['post_name'] = $this->base_model->_eb_non_mark_seo($check_slug['post_name']);
                 $data['post_name'] .= $post_trash_title;
             }
@@ -689,18 +708,22 @@ class Posts extends Admin
         $id = $this->MY_get('id', 0);
 
         // xem bản ghi này có được đánh dấu là XÓA không
-        $data = $this->base_model->select('*', $this->post_model->table, [
-            'ID' => $id,
-            'post_status' => PostType::DELETED,
-            'post_type' => $this->post_type,
-        ], array(
+        $data = $this->base_model->select(
+            '*', $this->post_model->table,
+            [
+                'ID' => $id,
+                'post_status' => PostType::DELETED,
+                'post_type' => $this->post_type,
+            ],
+            array(
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
                 // trả về câu query để sử dụng cho mục đích khác
                 //'get_query' => 1,
                 //'offset' => 2,
                 'limit' => 1
-            ));
+            )
+        );
 
         //
         if (empty($data)) {
@@ -763,12 +786,13 @@ class Posts extends Admin
         $result = $this->base_model->delete_multiple($this->term_model->relaTable, [
             // WHERE
             //'t2.post_status' => PostType::REMOVED,
+
         ], [
                 /*
-         'left_join' => array(
-         $this->post_model->table . ' AS t2' => $this->term_model->relaTable . '.object_id = t2.ID'
-         ),
-         */
+                'left_join' => array(
+                $this->post_model->table . ' AS t2' => $this->term_model->relaTable . '.object_id = t2.ID'
+                ),
+                */
                 'where_in' => array(
                     'object_id' => $ids
                 ),
@@ -776,6 +800,7 @@ class Posts extends Admin
                 //'show_query' => 1,
                 // trả về câu query để sử dụng cho mục đích khác
                 //'get_query' => 1,
+
             ]);
         //die( __CLASS__ . ':' . __LINE__ );
 
@@ -783,12 +808,13 @@ class Posts extends Admin
         $result = $this->base_model->delete_multiple($this->post_model->metaTable, [
             // WHERE
             //'t2.post_status' => PostType::REMOVED,
+
         ], [
                 /*
-         'left_join' => array(
-         $this->post_model->table . ' AS t2' => $this->post_model->metaTable . '.post_id = t2.ID'
-         ),
-         */
+                'left_join' => array(
+                $this->post_model->table . ' AS t2' => $this->post_model->metaTable . '.post_id = t2.ID'
+                ),
+                */
                 'where_in' => array(
                     'post_id' => $ids
                 ),
@@ -796,12 +822,14 @@ class Posts extends Admin
                 //'show_query' => 1,
                 // trả về câu query để sử dụng cho mục đích khác
                 //'get_query' => 1,
+
             ]);
 
         //
         $this->base_model->delete_multiple($this->post_model->table, [
             // WHERE
             //'post_status' => PostType::REMOVED,
+
         ], [
                 'where_in' => array(
                     'ID' => $ids
@@ -810,6 +838,7 @@ class Posts extends Admin
                 //'show_query' => 1,
                 // trả về câu query để sử dụng cho mục đích khác
                 //'get_query' => 1,
+
             ]);
 
         //
@@ -835,6 +864,7 @@ class Posts extends Admin
                 //'show_query' => 1,
                 // trả về câu query để sử dụng cho mục đích khác
                 //'get_query' => 1,
+
             ]);
 
         // nếu update thành công -> gửi lệnh javascript để ẩn bài viết bằng javascript
@@ -876,6 +906,7 @@ class Posts extends Admin
             'code' => __LINE__,
             'result' => $result,
             //'ids' => $ids,
+
         ]);
     }
 
@@ -922,17 +953,21 @@ class Posts extends Admin
         }
 
         //
-        $data = $this->base_model->select('*', $this->post_model->table, $where, array(
-            'order_by' => array(
-                'ID' => 'DESC'
-            ),
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-            //'offset' => 2,
-            'limit' => 1
-        ));
+        $data = $this->base_model->select(
+            '*', $this->post_model->table,
+            $where,
+            array(
+                'order_by' => array(
+                    'ID' => 'DESC'
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                //'offset' => 2,
+                'limit' => 1
+            )
+        );
         //print_r( $data );
 
         //

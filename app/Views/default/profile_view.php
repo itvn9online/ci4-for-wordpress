@@ -77,7 +77,7 @@
                     <div class="col small-12 medium-4 large-4 l40">Tên gọi</div>
                     <div class="col small-12 medium-8 large-8">
                         <div class="form-control">
-                            <input type="text" placeholder="Tên gọi" name="data[user_nicename]"
+                            <input type="text" placeholder="Tên gọi" name="data[user_nicename]" id="data_user_nicename"
                                 value="<?php echo $data['user_nicename']; ?>" aria-required="true" required>
                         </div>
                     </div>

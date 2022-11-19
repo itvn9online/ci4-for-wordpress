@@ -27,10 +27,14 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
     var option_params = [
         // thiết lập ảnh làm bg sau khi upload thành công
         'set_bg',
+        // thay đổi src cho img sau khi upload thành công
+        'set_src',
         // thiết lập thumbnail
         'set_thumb',
         // thiết lập ảnh lớn
         'set_val',
+        // thiết lập ảnh gốc
+        'set_origin',
         // thời gian chỉnh sửa file -> để tránh trùng lặp
         'last_modified',
         // định dạng file -> dùng để xác định kiểu convert -> mặc định là kiểu JPG
@@ -70,12 +74,17 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
     }
 
     //
+    if (typeof params['img_max_height'] != 'number') {
+        params['img_max_height'] = params['img_max_width'];
+    }
+
+    //
     setTimeout(function () {
         var width = img.width;
         var height = img.height;
         if (width > 0 && height > 0) {
             var MAX_WIDTH = params['img_max_width'];
-            var MAX_HEIGHT = params['img_max_width'];
+            var MAX_HEIGHT = params['img_max_height'];
             var has_resize = false;
             if (width > height) {
                 if (width > MAX_WIDTH) {
@@ -157,13 +166,23 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
                     }
 
                     //
+                    if (params['set_src'] != '') {
+                        $(params['set_src']).attr({
+                            src: data.img_large
+                        });
+                    }
+
+                    // nếu dùng thumbnail thì thiết lập tham số set thumbnail
                     if (params['set_thumb'] != '') {
                         $(params['set_thumb']).val(data.img_thumb);
                     }
-
-                    //
+                    // muốn dùng ảnh cỡ lớn thì thiết lập set val
                     if (params['set_val'] != '') {
                         $(params['set_val']).val(data.img_large);
+                    }
+                    // muốn dùng ảnh gốc thì thiết lập set val
+                    if (params['set_origin'] != '') {
+                        $(params['set_origin']).val(data.img);
                     }
                 }
 

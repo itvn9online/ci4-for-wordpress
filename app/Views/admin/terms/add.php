@@ -130,6 +130,28 @@ $base_model->add_css('admin/css/' . $taxonomy . '.css');
                 </div>
             </div>
             <div class="control-group">
+                <label class="control-label">Ảnh đại diện:</label>
+                <div class="controls">
+                    <input type="text" class="span6" value="<?php echo $data['term_avatar']; ?>"
+                        name="data[term_avatar]" id="data_term_avatar" />
+                    <p class="controls-text-note">Ảnh đại diện của
+                        <?php echo $name_type; ?>, thường dùng khi chia sẻ liên kết lên mạng xã hội như Zalo,
+                        Facebook...
+                    </p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Hình thu nhỏ:</label>
+                <div class="controls">
+                    <input type="text" class="span6" value="<?php echo $data['term_favicon']; ?>"
+                        name="data[term_favicon]" id="data_term_favicon" />
+                    <p class="controls-text-note">Hình thu nhỏ của
+                        <?php echo $name_type; ?>, một số giao diện sẽ sử dụng đến nó ở trong các menu. Để tối ưu tốc độ
+                        cho website, kích thước ảnh thu nhỏ không được vượt quá 124x124 pixel.
+                    </p>
+                </div>
+            </div>
+            <div class="control-group">
                 <div class="controls">
                     <h5>Thông số hiển thị cho widget:</h5>
                 </div>

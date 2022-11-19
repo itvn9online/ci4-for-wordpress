@@ -888,12 +888,17 @@ function get_term_permalink(data) {
 }
 
 // tạo menu tự động dựa theo danh mục đang có
-function create_menu_by_taxonomy(arr, li_class) {
+function create_menu_by_taxonomy(arr, li_class, show_favicon) {
     if (arr.length <= 0) {
         console.log('create menu by taxonomy:', arr.length);
         return '';
     }
     //console.log(arr);
+
+    //
+    if (typeof show_favicon == 'undefined') {
+        show_favicon = false;
+    }
 
     //
     if (typeof li_class == 'undefined' || li_class == '') {
@@ -908,6 +913,17 @@ function create_menu_by_taxonomy(arr, li_class) {
         }
 
         //
+        if (typeof arr[i].term_shortname == 'undefined' || arr[i].term_shortname == '') {
+            arr[i].term_shortname = arr[i].name;
+        }
+
+        // hiển thị icon cho danh mục nếu có
+        var img_favicon = '';
+        if (show_favicon === true && typeof arr[i].term_favicon != 'undefined' && arr[i].term_favicon != '') {
+            img_favicon = '<img src="' + arr[i].term_favicon + '" alt="' + arr[i].term_shortname + '"> ';
+        }
+
+        //
         var sub_menu = '';
         //console.log(typeof arr[i].child_term);
         if (typeof arr[i].child_term != 'undefined' && arr[i].child_term.length > 0) {
@@ -919,7 +935,7 @@ function create_menu_by_taxonomy(arr, li_class) {
         //console.log(get_term_permalink(arr[i]));
 
         //
-        str += '<li data-id="' + arr[i].term_id + '" class="' + li_class + '"><a href="' + get_term_permalink(arr[i]) + '" data-id="' + arr[i].term_id + '">' + arr[i].name + ' <span class="taxonomy-count">' + arr[i].count + '</span></a>' + sub_menu + '</li>';
+        str += '<li data-id="' + arr[i].term_id + '" class="' + li_class + '"><a href="' + get_term_permalink(arr[i]) + '" data-id="' + arr[i].term_id + '">' + img_favicon + arr[i].term_shortname + ' <span class="taxonomy-count">' + arr[i].count + '</span></a>' + sub_menu + '</li>';
     }
     //console.log(str);
 

@@ -73,13 +73,13 @@ $base_model->add_css('admin/css/' . $post_type . '.css');
                         class="input-checkbox-control" /></td>
                 <td class="text-center">
                     <div>#{{v.ID}}</div>
-                    <div><a :href="v.admin_permalink">{{v.post_name}} <i class="fa fa-edit"></i></a></div>
+                    <div><a :href="v.admin_permalink" class="upper">{{v.post_name}} <i class="fa fa-edit"></i></a></div>
                     <div>({{v.post_modified.substr(0, 16)}})</div>
                 </td>
                 <td>{{PostType_arrStatus[v.post_status]}}</td>
                 <td>
                     <div><a :href="v.admin_permalink">{{v.post_title}} <i class="fa fa-edit"></i></a></div>
-                    <div><span class="ebe-currency">{{ number_format(v.post_parent) }}</span></div>
+                    <div><span class="ebe-currency">{{ number_format(v.order_money) }}</span></div>
                 </td>
                 <td>
                     <div><i class="fa fa-envelope"></i> <a :href="'admin/users/add?id=' + v.post_author"
