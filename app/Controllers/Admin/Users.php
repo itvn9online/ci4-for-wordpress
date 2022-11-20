@@ -15,10 +15,14 @@ class Users extends Admin
 
     // tham số dùng để thay đổi URL cho controller nếu muốn
     protected $controller_slug = 'users';
+    // dùng cho trang list -> khi cần phân trang thì cần có cả tên function
+    protected $controller_path = '';
     // tham số dùng để đổi file view khi add hoặc edit bài viết nếu muốn
     protected $add_view_path = 'users';
     // tham số dùng để thay đổi view của trang danh sách thành viên
     protected $list_view_path = 'users';
+    // số bản ghi trên mỗi trang
+    protected $post_per_page = 50;
 
     public function __construct()
     {
@@ -60,17 +64,15 @@ class Users extends Admin
      * tham số where: dùng khi muốn thêm điều kiện where từ các controller được extends
      * tham số where_or_like: dùng khi muốn thêm điều kiện tìm kiếm dữ liệu từ các controller được extends
      */
-    public function lists($where = [], $where_or_like = [])
+    public function lists($where = [], $where_or_like = [], $add_filter = [], $ops = [])
     {
         //print_r( $where );
         //print_r( $where_or_like );
 
-        //
-        $post_per_page = 50;
         // URL cho các action dùng chung
         $for_action = '';
         // URL cho phân trang
-        $urlPartPage = 'admin/' . $this->controller_slug . '?member_type=' . $this->member_type;
+        $urlPartPage = 'admin/' . $this->controller_slug . $this->controller_path . '?member_type=' . $this->member_type;
 
         // GET
         $by_is_deleted = $this->MY_get('is_deleted', DeletedStatus::FOR_DEFAULT);
@@ -165,16 +167,20 @@ class Users extends Admin
 
         //
         $filter = [
-            'or_like' => $where_or_like,
             //'order_by' => $order_by,
             // hiển thị mã SQL để check
             //'show_query' => 1,
             // trả về câu query để sử dụng cho mục đích khác
             //'get_query' => 1,
-            //'offset' => 0,
-            'limit' => -1
+            'or_like' => $where_or_like,
         ];
 
+        // ghi đè filter nếu có
+        foreach ($add_filter as $k => $v) {
+            $filter[$k] = $v;
+        }
+        $filter['offset'] = 0;
+        $filter['limit'] = -1;
 
         /*
          * phân trang
@@ -187,7 +193,7 @@ class Users extends Admin
         if ($totalThread > 0) {
             $page_num = $this->MY_get('page_num', 1);
 
-            $totalPage = ceil($totalThread / $post_per_page);
+            $totalPage = ceil($totalThread / $this->post_per_page);
             if ($totalPage < 1) {
                 $totalPage = 1;
             }
@@ -200,7 +206,7 @@ class Users extends Admin
             $for_action .= $page_num > 1 ? '&page_num=' . $page_num : '';
             //echo $totalThread . '<br>' . "\n";
             //echo $totalPage . '<br>' . "\n";
-            $offset = ($page_num - 1) * $post_per_page;
+            $offset = ($page_num - 1) * $this->post_per_page;
 
             // chạy vòng lặp gán nốt các thông số khác trên url vào phân trang
             $urlPartPage = $this->base_model->auto_add_params($urlPartPage);
@@ -213,7 +219,7 @@ class Users extends Admin
             //$filter[ 'show_query' ] = 1;
             $filter['order_by'] = $order_by;
             $filter['offset'] = $offset;
-            $filter['limit'] = $post_per_page;
+            $filter['limit'] = $this->post_per_page;
 
             // để tăng độ bảo mật, chỉ select
             $table_col = $this->base_model->default_data('users');
@@ -239,8 +245,18 @@ class Users extends Admin
             }
             //print_r($select_col);
 
+            // ghi đè filter nếu có
+            foreach ($add_filter as $k => $v) {
+                $filter[$k] = $v;
+            }
+
             //
             $data = $this->base_model->select(implode(',', $select_col), 'users', $where, $filter);
+
+            // trả luôn về data nếu có yêu cầu
+            if (isset($ops['get_data']) && $ops['get_data'] === 1) {
+                return $data;
+            }
 
             //
             //print_r( $data );
@@ -318,7 +334,8 @@ class Users extends Admin
              */
             //print_r( $data );
             // nếu tài khoản đang là admin
-            if ($data['member_type'] == UsersType::ADMIN &&
+            if (
+                $data['member_type'] == UsersType::ADMIN &&
                 // -> chỉ tài khoản admin mới được quyền xem
                 $this->session_data['member_type'] != UsersType::ADMIN
             ) {
@@ -329,7 +346,7 @@ class Users extends Admin
                             'error' => 'ERROR! Permisson deny for view user details!'
                         ]
                     )
-                    );
+                );
             }
 
             // sửa tài khoản thì không nhập pass
@@ -453,9 +470,9 @@ class Users extends Admin
                 }
                 $data['user_email'] = strtolower($data['user_email']);
                 /*
-                 } else {
-                 $data[ 'user_email' ] = '';
-                 */
+                } else {
+                $data[ 'user_email' ] = '';
+                */
             }
         }
 
@@ -618,10 +635,10 @@ class Users extends Admin
             ],
             [
                 /*
-                 'join' => array(
-                 $this->user_model->table . ' AS t2' => $this->user_model->metaTable . '.user_id = t2.ID'
-                 ),
-                 */
+                'join' => array(
+                $this->user_model->table . ' AS t2' => $this->user_model->metaTable . '.user_id = t2.ID'
+                ),
+                */
                 'where_in' => array(
                     'user_id' => $ids
                 ),

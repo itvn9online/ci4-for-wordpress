@@ -84,6 +84,7 @@ class PostPosts extends PostSlider
     {
         $prams = $this->sync_post_parms($prams);
         $ops = $this->sync_post_ops($ops);
+        //print_r($ops);
 
         // fix cứng tham số
         $prams['post_type'] = PostType::POST;
@@ -303,6 +304,7 @@ class PostPosts extends PostSlider
                 'debug_backtrace' => debug_backtrace()[1]['function'],
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
+
             ]);
 
         // dọn dẹp cache
@@ -333,6 +335,7 @@ class PostPosts extends PostSlider
             ),
             //'offset' => $offset,
             //'limit' => $post_per_page
+
         ];
 
         //

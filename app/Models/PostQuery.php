@@ -351,7 +351,7 @@ class PostQuery extends PostMeta
     public function select_list_post($post_type, $post_cat = [], $limit = 1, $order_by = [], $ops = [])
     {
         //print_r( $post_cat );
-        //print_r( $ops );
+        //print_r($ops);
         if (!isset($ops['offset']) || $ops['offset'] < 0) {
             $ops['offset'] = 0;
         }
@@ -360,6 +360,12 @@ class PostQuery extends PostMeta
         $where_not_in = [];
         if (isset($ops['where_not_in'])) {
             $where_not_in = $ops['where_not_in'];
+        }
+
+        //
+        $where_in = [];
+        if (isset($ops['where_in'])) {
+            $where_in = $ops['where_in'];
         }
 
         //
@@ -384,6 +390,13 @@ class PostQuery extends PostMeta
         $where[ 'term_taxonomy.taxonomy' ] = $post_cat[ 'taxonomy' ];
         }
         */
+
+        //
+        if (isset($ops['where'])) {
+            foreach ($ops['where'] as $k => $v) {
+                $where[$k] = $v;
+            }
+        }
 
         //
         $arr_or_where = [];
@@ -468,6 +481,7 @@ class PostQuery extends PostMeta
                 [
                     'or_where' => $arr_or_where,
                     'where_not_in' => $where_not_in,
+                    'where_in' => $where_in,
                     'order_by' => $order_by,
                     //'get_sql' => 1,
                     //'show_query' => 1,
