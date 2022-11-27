@@ -7,6 +7,15 @@
         </h1>
     </div>
     <br>
+    <?php
+    if (empty($data)) {
+    ?>
+    <br>
+    <h3 class="text-center top-menu-space bottom-menu-space">Không có dữ liệu nào phù hợp với từ khóa của bạn.</h3>
+    <br>
+    <?php
+    } else {
+    ?>
     <ul id="search_main"
         class="fix-li-wit thread-list main-thread-list cf <?php $option_model->posts_in_line($getconfig); ?>">
         <?php
@@ -15,7 +24,7 @@
             //echo '<!-- ';
             //print_r( $child_val );
             //echo ' -->';
-        
+    
             //
             $post_model->the_node($v);
         }
@@ -23,10 +32,9 @@
         ?>
     </ul>
     <div class="public-part-page">
-        <?php
-
-        echo $public_part_page;
-
-        ?>
+        <?php echo $public_part_page; ?>
     </div>
+    <?php
+    }
+    ?>
 </div>

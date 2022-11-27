@@ -35,6 +35,8 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
         'set_val',
         // thiết lập ảnh gốc
         'set_origin',
+        // nếu có tham số ảnh xem trước -> dùng ảnh này thay cho val
+        'set_preview',
         // thời gian chỉnh sửa file -> để tránh trùng lặp
         'last_modified',
         // định dạng file -> dùng để xác định kiểu convert -> mặc định là kiểu JPG
@@ -116,7 +118,7 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
                 }
                 // còn lại cho hết sang jpg
                 else {
-                    var dataurl = canvas.toDataURL('image/jpeg', 1.9);
+                    var dataurl = canvas.toDataURL('image/jpeg', 1.0);
                 }
                 params['data'] = dataurl;
             }
@@ -159,30 +161,44 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
                     data.img_thumb += '?v=' + data.last_modified;
 
                     //
+                    var show_img = '';
+
+                    // nếu dùng thumbnail thì thiết lập tham số set thumbnail
+                    if (params['set_thumb'] != '') {
+                        $(params['set_thumb']).val(data.img_thumb);
+                        show_img = data.img_thumb;
+                    }
+                    // muốn dùng ảnh cỡ lớn thì thiết lập set val
+                    if (params['set_val'] != '') {
+                        $(params['set_val']).val(data.img_large);
+                        show_img = data.img_large;
+                    }
+                    // muốn dùng ảnh gốc thì thiết lập set val
+                    if (params['set_origin'] != '') {
+                        $(params['set_origin']).val(data.img);
+                        show_img = data.img;
+                    }
+                    // nếu có tham số ảnh xem trước -> dùng ảnh này thay cho val
+                    if (params['set_preview'] == 'origin') {
+                        show_img = data.img;
+                    } else if (params['set_preview'] == 'large') {
+                        show_img = data.img_large;
+                    } else if (params['set_preview'] == 'thumb') {
+                        show_img = data.img_thumb;
+                    }
+
+                    //
                     if (params['set_bg'] != '') {
                         $(params['set_bg']).css({
-                            'background-image': 'url(' + data.img_large + ')'
+                            'background-image': 'url(' + show_img + ')'
                         });
                     }
 
                     //
                     if (params['set_src'] != '') {
                         $(params['set_src']).attr({
-                            src: data.img_large
+                            src: show_img
                         });
-                    }
-
-                    // nếu dùng thumbnail thì thiết lập tham số set thumbnail
-                    if (params['set_thumb'] != '') {
-                        $(params['set_thumb']).val(data.img_thumb);
-                    }
-                    // muốn dùng ảnh cỡ lớn thì thiết lập set val
-                    if (params['set_val'] != '') {
-                        $(params['set_val']).val(data.img_large);
-                    }
-                    // muốn dùng ảnh gốc thì thiết lập set val
-                    if (params['set_origin'] != '') {
-                        $(params['set_origin']).val(data.img);
                     }
                 }
 

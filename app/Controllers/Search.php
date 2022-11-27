@@ -18,7 +18,7 @@ class Search extends Csrf
     }
 
     // tìm kiếm
-    public function index()
+    public function index($add_where = [], $add_filter = [])
     {
         //print_r( $_GET );
 
@@ -30,10 +30,7 @@ class Search extends Csrf
 
         //
         $by_keyword = trim($this->MY_get('s'));
-        if (!empty($by_keyword)) {
-            $this->create_breadcrumb($by_keyword);
-
-            //
+        if (!empty($by_keyword) || !empty($add_where)) {
             //$post_per_page = 20;
             $post_per_page = $this->base_model->get_config($this->getconfig, 'eb_blogs_per_page', 10);
 
@@ -50,27 +47,31 @@ class Search extends Csrf
             // URL cho phân trang tìm kiếm
             $urlPartPage = $this->base_class_url(__CLASS__);
             $urlParams = [];
-            $urlParams[] = 's=' . $by_keyword;
 
             //
-            $by_like = $this->base_model->_eb_non_mark_seo($by_keyword);
-            // tối thiểu từ 3 ký tự trở lên mới kích hoạt tìm kiếm
-            if (strlen($by_like) > 0) {
-                //var_dump( strlen( $by_like ) );
-                // nếu là số -> chỉ tìm theo ID
-                if (is_numeric($by_like) === true) {
-                    $where_or_like = [
-                        'ID' => $by_like * 1,
-                    ];
-                } else {
-                    $where_or_like = [
-                        //'ID' => $by_like,
-                        'post_name' => $by_like,
-                        'post_title' => $by_keyword,
-                    ];
+            if (!empty($by_keyword)) {
+                $this->create_breadcrumb($by_keyword);
+                $urlParams[] = 's=' . $by_keyword;
+                $by_like = $this->base_model->_eb_non_mark_seo($by_keyword);
+
+                // tối thiểu từ 3 ký tự trở lên mới kích hoạt tìm kiếm
+                if (strlen($by_like) > 0) {
+                    //var_dump( strlen( $by_like ) );
+                    // nếu là số -> chỉ tìm theo ID
+                    if (is_numeric($by_like) === true) {
+                        $where_or_like = [
+                            'ID' => $by_like * 1,
+                        ];
+                    } else {
+                        $where_or_like = [
+                            //'ID' => $by_like,
+                            'post_name' => $by_like,
+                            'post_title' => $by_keyword,
+                        ];
+                    }
                 }
+                //print_r( $where_or_like );
             }
-            //print_r( $where_or_like );
 
 
             // tổng kết filter
@@ -101,6 +102,15 @@ class Search extends Csrf
 
             ];
             //print_r( $filter );
+
+
+            // thêm where từ sub-function
+            foreach ($add_where as $k => $v) {
+                $where[$k] = $v;
+            }
+            foreach ($add_filter as $k => $v) {
+                $filter[$k] = $v;
+            }
 
 
             /*
@@ -153,20 +163,24 @@ class Search extends Csrf
         //die( __CLASS__ . ':' . __LINE__ );
 
         // -> views
-        $this->teamplate['breadcrumb'] = view('breadcrumb_view', array(
-            'breadcrumb' => $this->breadcrumb
-        )
+        $this->teamplate['breadcrumb'] = view(
+            'breadcrumb_view',
+            array(
+                'breadcrumb' => $this->breadcrumb
+            )
         );
 
         //
-        $this->teamplate['main'] = view('search_view', array(
-            'totalThread' => $totalThread,
-            'by_keyword' => $by_keyword,
-            'seo' => $this->base_model->default_seo(trim('Tìm kiếm ' . $by_keyword)),
-            'post_type' => $this->post_type,
-            'public_part_page' => $pagination,
-            'data' => $data,
-        )
+        $this->teamplate['main'] = view(
+            'search_view',
+            array(
+                'totalThread' => $totalThread,
+                'by_keyword' => $by_keyword,
+                'seo' => $this->base_model->default_seo(trim('Tìm kiếm ' . $by_keyword)),
+                'post_type' => $this->post_type,
+                'public_part_page' => $pagination,
+                'data' => $data,
+            )
         );
         return view('layout_view', $this->teamplate);
     }

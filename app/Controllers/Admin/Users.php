@@ -279,6 +279,7 @@ class Users extends Admin
                 'data' => $data,
                 'col_filter' => $col_filter,
                 'controller_slug' => $this->controller_slug,
+                'controller_path' => $this->controller_path,
                 'list_view_path' => $this->list_view_path,
                 'member_type' => $this->member_type,
                 'member_name' => $this->member_name,

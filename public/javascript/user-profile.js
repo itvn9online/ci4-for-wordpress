@@ -27,8 +27,11 @@ jQuery(document).ready(function () {
                 mime_type: mediaData.type,
                 set_bg: '#click-chose-media img',
                 set_thumb: '#file-input-avatar',
+                //set_val: '#file-input-avatar',
+                //set_origin: '#file-input-avatar',
+                set_preview: 'origin',
                 input_file: '#file-input-media',
-                img_max_width: 250,
+                img_max_width: 410,
             });
         };
         // chỉ lấy ảnh số 0

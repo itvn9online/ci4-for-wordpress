@@ -28,7 +28,8 @@ $base_model->add_js('admin/js/users_functions.js');
 <div id="app" class="ng-main-content">
     <div class="cf admin-search-form">
         <div class="lf f50">
-            <form name="frm_admin_search_controller" action="./admin/<?php echo $controller_slug; ?>" method="get">
+            <form name="frm_admin_search_controller" action="./admin/<?php echo $controller_slug . $controller_path; ?>"
+                method="get">
                 <input type="hidden" name="member_type" :value="member_type">
                 <div class="cf">
                     <div class="lf f30">
