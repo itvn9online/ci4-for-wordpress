@@ -96,11 +96,11 @@ class Guest extends Csrf
 
                         //
                         /*
-                         if ( function_exists( 'set_cookie' ) ) {
-                         //die( $this->wrg_cookie_login_key );
-                         //set_cookie( $this->wrg_cookie_login_key, $this->session_data[ 'ID' ] . '|' . time() . '|' . md5( $this->wrg_cookie_login_key . $this->session_data[ 'ID' ] ), 3600, '.' . $_SERVER[ 'HTTP_HOST' ], '/' );
-                         }
-                         */
+                        if ( function_exists( 'set_cookie' ) ) {
+                        //die( $this->wrg_cookie_login_key );
+                        //set_cookie( $this->wrg_cookie_login_key, $this->session_data[ 'ID' ] . '|' . time() . '|' . md5( $this->wrg_cookie_login_key . $this->session_data[ 'ID' ] ), 3600, '.' . $_SERVER[ 'HTTP_HOST' ], '/' );
+                        }
+                        */
 
                         //
                         if (isset($_REQUEST['login_redirect']) && $_REQUEST['login_redirect'] != '') {
@@ -118,15 +118,19 @@ class Guest extends Csrf
         }
 
         //
-        $this->teamplate['main'] = view('login_view', array(
-            //'option_model' => $this->option_model,
+        $this->teamplate['main'] = view(
+            'login_view',
+            array(
+                //'option_model' => $this->option_model,
 
-            'seo' => $this->guest_seo('Đăng nhập', __FUNCTION__),
-            'breadcrumb' => '',
-            'login_redirect' => $this->loginRedirect(),
-            //'cateByLang' => $cateByLang,
-            //'serviceByLang' => $serviceByLang,
-        ));
+                'seo' => $this->guest_seo('Đăng nhập', __FUNCTION__),
+                'breadcrumb' => '',
+                'login_redirect' => $this->loginRedirect(),
+                //'cateByLang' => $cateByLang,
+                //'serviceByLang' => $serviceByLang,
+
+            )
+        );
         //print_r( $this->teamplate );
         return view('layout_view', $this->teamplate);
     }
@@ -140,17 +144,22 @@ class Guest extends Csrf
         //$result = $this->user_model->login( $username, $user_pass );
         $result = $this->user_model->login($username, $user_pass, $ci_pass);
         if (empty($result)) {
-            $sql = $this->base_model->select('ID', 'users', array(
-                // các kiểu điều kiện where
-                'user_email' => $username,
-            ), array(
+            $sql = $this->base_model->select(
+                'ID',
+                'users',
+                array(
+                    // các kiểu điều kiện where
+                    'user_email' => $username,
+                ),
+                array(
                     // hiển thị mã SQL để check
                     //'show_query' => 1,
                     // trả về câu query để sử dụng cho mục đích khác
                     //'get_query' => 1,
                     'offset' => 0,
                     'limit' => 1
-                ));
+                )
+            );
 
             // thêm số lần đăng nhập sai
             $this->base_model->push_faild_login();
@@ -228,12 +237,16 @@ class Guest extends Csrf
         //print_r( $this->getconfig );
         // nếu website không cho đăng ký thành viên thì hiển thị view thông báo tương ứng
         if (isset($this->getconfig->disable_register_member) && $this->getconfig->disable_register_member == 'on') {
-            $this->teamplate['main'] = view('register_disable_view', array(
-                'seo' => $this->guest_seo('Website tạm dừng việc đăng ký tài khoản mới', __FUNCTION__),
-                'breadcrumb' => '',
-                //'cateByLang' => $cateByLang,
-                //'serviceByLang' => $serviceByLang,
-            ));
+            $this->teamplate['main'] = view(
+                'register_disable_view',
+                array(
+                    'seo' => $this->guest_seo('Website tạm dừng việc đăng ký tài khoản mới', __FUNCTION__),
+                    'breadcrumb' => '',
+                    //'cateByLang' => $cateByLang,
+                    //'serviceByLang' => $serviceByLang,
+
+                )
+            );
             return view('layout_view', $this->teamplate);
         }
 
@@ -258,6 +271,7 @@ class Guest extends Csrf
                 $this->validation->setRules([
                     'email' => [
                         'label' => 'Email',
+                        //'rules' => 'required|min_length[5]|max_length[255]|valid_email|is_unique[users.user_email]',
                         'rules' => 'required|min_length[5]|max_length[255]|valid_email',
                         'errors' => [
                             'required' => Translate::REQUIRED,
@@ -318,12 +332,16 @@ class Guest extends Csrf
         }
 
         //
-        $this->teamplate['main'] = view('register_view', array(
-            'seo' => $this->guest_seo('Đăng ký tài khoản mới', __FUNCTION__),
-            'breadcrumb' => '',
-            //'cateByLang' => $cateByLang,
-            //'serviceByLang' => $serviceByLang,
-        ));
+        $this->teamplate['main'] = view(
+            'register_view',
+            array(
+                'seo' => $this->guest_seo('Đăng ký tài khoản mới', __FUNCTION__),
+                'breadcrumb' => '',
+                //'cateByLang' => $cateByLang,
+                //'serviceByLang' => $serviceByLang,
+
+            )
+        );
         return view('layout_view', $this->teamplate);
     }
 
@@ -395,7 +413,8 @@ class Guest extends Csrf
                                 'to' => $data['email'],
                                 'subject' => 'Khởi tạo lại mật khẩu đăng nhập',
                                 'message' => HtmlTemplate::render(
-                                        $this->base_model->get_html_tmp('reset_password_confirm', '', 'html/mail-template/'), [
+                                        $this->base_model->get_html_tmp('reset_password_confirm', '', 'html/mail-template/'),
+                                    [
                                         'base_url' => base_url(),
                                         'email' => $data['email'],
                                         'link_reset_pass' => $link_reset_pass,
@@ -425,12 +444,16 @@ class Guest extends Csrf
         }
 
         //
-        $this->teamplate['main'] = view('resetpass_view', array(
-            'seo' => $this->guest_seo('Lấy lại mật khẩu', __FUNCTION__),
-            'breadcrumb' => '',
-            //'cateByLang' => $cateByLang,
-            //'serviceByLang' => $serviceByLang,
-        ));
+        $this->teamplate['main'] = view(
+            'resetpass_view',
+            array(
+                'seo' => $this->guest_seo('Lấy lại mật khẩu', __FUNCTION__),
+                'breadcrumb' => '',
+                //'cateByLang' => $cateByLang,
+                //'serviceByLang' => $serviceByLang,
+
+            )
+        );
         return view('layout_view', $this->teamplate);
     }
 
@@ -482,13 +505,16 @@ class Guest extends Csrf
                         /*
                          * v2: đăng nhập và chuyển đến form đổi pass
                          */
-                        $data = $this->base_model->select('*', $this->user_model->table, array(
-                            // các kiểu điều kiện where
-                            // mặc định
-                            'ID' => $user_id,
-                            // kiểm tra email đã được sử dụng rồi hay chưa thì không cần kiểm tra trạng thái XÓA -> vì có thể user này đã bị xóa vĩnh viễn
-                            'is_deleted' => DeletedStatus::FOR_DEFAULT,
-                        ), array(
+                        $data = $this->base_model->select(
+                            '*', $this->user_model->table,
+                            array(
+                                // các kiểu điều kiện where
+                                // mặc định
+                                'ID' => $user_id,
+                                // kiểm tra email đã được sử dụng rồi hay chưa thì không cần kiểm tra trạng thái XÓA -> vì có thể user này đã bị xóa vĩnh viễn
+                                'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                            ),
+                            array(
                                 'order_by' => [
                                     'ID' => 'ASC'
                                 ],
@@ -498,7 +524,8 @@ class Guest extends Csrf
                                 //'get_query' => 1,
                                 //'offset' => 2,
                                 'limit' => 1
-                            ));
+                            )
+                        );
                         //print_r( $data );
 
                         //
@@ -531,11 +558,14 @@ class Guest extends Csrf
         }
 
         // dùng chung view với trang đăng nhập
-        $this->teamplate['main'] = view('login_view', array(
-            'seo' => $this->guest_seo('Khởi tạo lại mật khẩu', __FUNCTION__),
-            'breadcrumb' => '',
-            'login_redirect' => $this->loginRedirect(),
-        ));
+        $this->teamplate['main'] = view(
+            'login_view',
+            array(
+                'seo' => $this->guest_seo('Khởi tạo lại mật khẩu', __FUNCTION__),
+                'breadcrumb' => '',
+                'login_redirect' => $this->loginRedirect(),
+            )
+        );
         //print_r( $this->teamplate );
         return view('layout_view', $this->teamplate);
     }
@@ -550,7 +580,8 @@ class Guest extends Csrf
             'to' => $email,
             'subject' => 'Mật khẩu đăng nhập mới',
             'message' => HtmlTemplate::render(
-                    $this->base_model->get_html_tmp('reset_password', '', 'html/mail-template/'), [
+                    $this->base_model->get_html_tmp('reset_password', '', 'html/mail-template/'),
+                [
                     'base_url' => base_url('guest/login'),
                     'email' => $email,
                     'ip' => $this->request->getIPAddress(),
@@ -622,13 +653,16 @@ class Guest extends Csrf
                         ]);
 
                         // select lại dữ liệu
-                        $data = $this->base_model->select('*', $this->user_model->table, array(
-                            // các kiểu điều kiện where
-                            // mặc định
-                            'ID' => $user_id,
-                            // kiểm tra email đã được sử dụng rồi hay chưa thì không cần kiểm tra trạng thái XÓA -> vì có thể user này đã bị xóa vĩnh viễn
-                            'is_deleted' => DeletedStatus::FOR_DEFAULT,
-                        ), array(
+                        $data = $this->base_model->select(
+                            '*', $this->user_model->table,
+                            array(
+                                // các kiểu điều kiện where
+                                // mặc định
+                                'ID' => $user_id,
+                                // kiểm tra email đã được sử dụng rồi hay chưa thì không cần kiểm tra trạng thái XÓA -> vì có thể user này đã bị xóa vĩnh viễn
+                                'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                            ),
+                            array(
                                 'order_by' => [
                                     'ID' => 'ASC'
                                 ],
@@ -638,7 +672,8 @@ class Guest extends Csrf
                                 //'get_query' => 1,
                                 //'offset' => 2,
                                 'limit' => 1
-                            ));
+                            )
+                        );
                         //print_r( $data );
 
                         //
@@ -671,11 +706,14 @@ class Guest extends Csrf
         }
 
         // dùng chung view với trang đăng nhập
-        $this->teamplate['main'] = view('login_view', array(
-            'seo' => $this->guest_seo('Thay đổi email đăng nhập', __FUNCTION__),
-            'breadcrumb' => '',
-            'login_redirect' => $this->loginRedirect(),
-        ));
+        $this->teamplate['main'] = view(
+            'login_view',
+            array(
+                'seo' => $this->guest_seo('Thay đổi email đăng nhập', __FUNCTION__),
+                'breadcrumb' => '',
+                'login_redirect' => $this->loginRedirect(),
+            )
+        );
         //print_r( $this->teamplate );
         return view('layout_view', $this->teamplate);
     }
@@ -685,9 +723,11 @@ class Guest extends Csrf
         $login_redirect = '';
         if (isset($_REQUEST['login_redirect'])) {
             $login_redirect = urldecode($_REQUEST['login_redirect']);
-        } else if (isset($_SERVER['HTTP_REFERER']) &&
+        } else if (
+            isset($_SERVER['HTTP_REFERER']) &&
             $_SERVER['HTTP_REFERER'] &&
-            strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) !== false) {
+            strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) !== false
+        ) {
             $login_redirect = urldecode($_SERVER['HTTP_REFERER']);
         }
         return $login_redirect;
