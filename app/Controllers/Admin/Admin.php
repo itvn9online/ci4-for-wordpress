@@ -57,6 +57,7 @@ class Admin extends Ajaxs
                 'arr_lang_list' => LanguageCost::typeList(),
                 'arr_admin_menu' => $this->admin_menu(),
                 'session_data' => $this->session_data,
+                'current_user_id' => $this->current_user_id,
                 'body_class' => $this->body_class,
                 // các biến mà view con cần sử dụng thì cho vào view trung gian này
                 'header' => view(
@@ -130,16 +131,16 @@ class Admin extends Ajaxs
     }
 
     /*
-     function checkslug() {
-     $slug = $this->MY_post( 'slug' );
-     $checkslug = $this->base_model->checkslug( $slug );
-     if ( $checkslug == 'true' ) {
-     echo 'false';
-     } else {
-     echo 'true';
-     }
-     }
-     */
+    function checkslug() {
+    $slug = $this->MY_post( 'slug' );
+    $checkslug = $this->base_model->checkslug( $slug );
+    if ( $checkslug == 'true' ) {
+    echo 'false';
+    } else {
+    echo 'true';
+    }
+    }
+    */
 
     private function admin_menu()
     {
