@@ -1,6 +1,9 @@
 <?php
 
 //
+//echo $current_user_id;
+
+//
 $ci_last_version = 4210;
 
 //

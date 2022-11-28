@@ -57,7 +57,6 @@ class Admin extends Ajaxs
                 'arr_lang_list' => LanguageCost::typeList(),
                 'arr_admin_menu' => $this->admin_menu(),
                 'session_data' => $this->session_data,
-                'current_user_id' => $this->current_user_id,
                 'body_class' => $this->body_class,
                 // các biến mà view con cần sử dụng thì cho vào view trung gian này
                 'header' => view(
@@ -74,6 +73,7 @@ class Admin extends Ajaxs
                         //
                         'debug_enable' => $this->debug_enable,
                         'session_data' => $this->session_data,
+                        'current_user_id' => $this->current_user_id,
                     )
                 ),
             ];
