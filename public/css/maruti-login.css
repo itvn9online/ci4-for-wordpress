@@ -13,13 +13,16 @@ body {
     background: #677EB0 url(../images/HD-Eagle-Wallpapers.jpg) top center fixed no-repeat;
     background-size: 100% auto;
 }
-/* #logo, */ #loginbox {
+
+/* #logo, */
+#loginbox {
     width: 99%;
     margin-left: auto;
     margin-right: auto;
     position: relative;
     max-width: 450px;
 }
+
 /*
 #logo img {
     width: 215px;
@@ -32,13 +35,17 @@ body {
     overflow: hidden !important;
     text-align: left;
     position: relative;
-    -moz-border-image: url(../images/css-border-bg.jpg) 3 3 round; /* Old Firefox */
-    -webkit-border-image: url(../images/css-border-bg.jpg) 3 3 round; /* Safari */
-    -o-border-image: url(../images/css-border-bg.jpg) 3 3 round; /* Opera */
+    -moz-border-image: url(../images/css-border-bg.jpg) 3 3 round;
+    /* Old Firefox */
+    -webkit-border-image: url(../images/css-border-bg.jpg) 3 3 round;
+    /* Safari */
+    -o-border-image: url(../images/css-border-bg.jpg) 3 3 round;
+    /* Opera */
     border-image: url(../images/css-border-bg.jpg) 3 3 round;
     box-shadow: 8px 10px 20px #b6b6b6;
     background-color: white;
 }
+
 #loginbox form {
     width: 100%;
     background: #fff;
@@ -46,27 +53,34 @@ body {
     top: 0;
     left: 0;
 }
+
 #loginbox .form-actions {
     padding: 14px 20px 15px;
 }
+
 #loginbox .form-actions .pull-left {
     margin-top: 0px;
 }
+
 #loginbox form#loginform {
     z-index: 8;
     display: block;
 }
+
 #loginbox form#recoverform {
     z-index: 100;
     display: none;
 }
+
 #loginbox form#recoverform .form-actions {
     margin-top: 27px;
 }
+
 #loginbox .main_input_box {
     margin: 0 auto;
     text-align: center
 }
+
 #loginbox .main_input_box .add-on {
     background-color: #EEEEEE;
     border: 1px dashed #dadada;
@@ -78,30 +92,37 @@ body {
     text-shadow: 0 1px 0 #FFFFFF;
     width: 30px;
 }
+
 #loginbox .main_input_box input {
-    height: 30px;
+    height: 32px;
     display: inline-block;
     width: 75%;
-    border: 1px dashed #dadada;
+    border: 1px solid #dadada;
     margin-bottom: 3px;
 }
+
 #loginbox .controls {
     padding: 0 20px;
 }
+
 #loginbox .control-group {
     padding: 20px 0;
     border-bottom: 1px solid #dadada;
     margin-bottom: 0px;
 }
-.form-vertical, .form-actions {
+
+.form-vertical,
+.form-actions {
     margin-bottom: 0;
 }
+
 #loginbox .normal_text {
     padding: 15px 10px;
     text-align: center;
     font-size: 14px;
     line-height: 20px;
 }
+
 .form-actions {
     padding: 19px 20px 20px;
     margin-top: 20px;
@@ -110,6 +131,7 @@ body {
     border-top: 1px solid #e5e5e5;
     *zoom: 1;
 }
+
 /*
 select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
     display: inline-block;
@@ -167,7 +189,9 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {
     height: 90px;
     line-height: 90px;
 }
+
 @media (max-width: 480px) {
+
     /*
     #logo {
         width: 40%;
@@ -176,6 +200,7 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {
     #loginbox {
         width: 90%
     }
+
     #loginbox .control-group {
         padding: 8px 0;
         border-bottom: 1px solid #dadada;

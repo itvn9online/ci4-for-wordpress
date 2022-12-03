@@ -11,6 +11,11 @@ use App\Helpers\HtmlTemplate;
 //
 class Guest extends Csrf
 {
+    // dùng để các class extends có thể thay đổi slug theo ý muốn
+    public $controller_slug = 'guest';
+
+    public $member_type = UsersType::GUEST;
+
     public function __construct()
     {
         parent::__construct();
@@ -122,13 +127,12 @@ class Guest extends Csrf
             'login_view',
             array(
                 //'option_model' => $this->option_model,
-
                 'seo' => $this->guest_seo('Đăng nhập', __FUNCTION__),
                 'breadcrumb' => '',
                 'login_redirect' => $this->loginRedirect(),
                 //'cateByLang' => $cateByLang,
                 //'serviceByLang' => $serviceByLang,
-
+                'set_login' => $this->MY_get('set_login', '')
             )
         );
         //print_r( $this->teamplate );
@@ -304,7 +308,7 @@ class Guest extends Csrf
                     $data['email'] = strtolower($data['email']);
                     $data['user_email'] = $data['email'];
                     $data['ci_pass'] = $data['password'];
-                    $data['member_type'] = UsersType::GUEST;
+                    $data['member_type'] = $this->member_type;
                     //$data[ 'username' ] = str_replace( '.', '', str_replace( '@', '', $data[ 'email' ] ) );
                     //$data[ 'password' ] = md5( $data[ 'password' ] );
                     //$data[ 'level' ] = '0';
@@ -332,6 +336,10 @@ class Guest extends Csrf
         }
 
         //
+        //echo $this->controller_slug;
+        //echo $this->member_type;
+
+        //
         $this->teamplate['main'] = view(
             'register_view',
             array(
@@ -339,7 +347,8 @@ class Guest extends Csrf
                 'breadcrumb' => '',
                 //'cateByLang' => $cateByLang,
                 //'serviceByLang' => $serviceByLang,
-
+                'member_type' => $this->member_type,
+                'form_action' => $this->controller_slug . '/' . __FUNCTION__,
             )
         );
         return view('layout_view', $this->teamplate);
@@ -413,7 +422,7 @@ class Guest extends Csrf
                                 'to' => $data['email'],
                                 'subject' => 'Khởi tạo lại mật khẩu đăng nhập',
                                 'message' => HtmlTemplate::render(
-                                        $this->base_model->get_html_tmp('reset_password_confirm', '', 'html/mail-template/'),
+                                    $this->base_model->get_html_tmp('reset_password_confirm', '', 'html/mail-template/'),
                                     [
                                         'base_url' => base_url(),
                                         'email' => $data['email'],
@@ -564,6 +573,7 @@ class Guest extends Csrf
                 'seo' => $this->guest_seo('Khởi tạo lại mật khẩu', __FUNCTION__),
                 'breadcrumb' => '',
                 'login_redirect' => $this->loginRedirect(),
+                'set_login' => $this->MY_get('set_login', '')
             )
         );
         //print_r( $this->teamplate );
@@ -580,7 +590,7 @@ class Guest extends Csrf
             'to' => $email,
             'subject' => 'Mật khẩu đăng nhập mới',
             'message' => HtmlTemplate::render(
-                    $this->base_model->get_html_tmp('reset_password', '', 'html/mail-template/'),
+                $this->base_model->get_html_tmp('reset_password', '', 'html/mail-template/'),
                 [
                     'base_url' => base_url('guest/login'),
                     'email' => $email,
@@ -712,6 +722,7 @@ class Guest extends Csrf
                 'seo' => $this->guest_seo('Thay đổi email đăng nhập', __FUNCTION__),
                 'breadcrumb' => '',
                 'login_redirect' => $this->loginRedirect(),
+                'set_login' => $this->MY_get('set_login', '')
             )
         );
         //print_r( $this->teamplate );

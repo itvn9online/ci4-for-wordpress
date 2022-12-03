@@ -17,8 +17,8 @@ class UserBase extends EbModel
     {
         parent::__construct();
 
-    //
-    //$this->session = \Config\ Services::session();
+        //
+        //$this->session = \Config\ Services::session();
     }
 
     /*
@@ -36,24 +36,38 @@ class UserBase extends EbModel
 
     function check_user_login_exist($user_login, $i = 0)
     {
-        $new_user_login = $i > 0 ? $user_login . $i : $user_login;
+        if ($i === false) {
+            $new_user_login = $user_login;
+        } else {
+            $new_user_login = $i > 0 ? $user_login . $i : $user_login;
+        }
 
         //
-        $data = $this->base_model->select('*', $this->table, [
-            'user_login' => $new_user_login
-        ], array(
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-            //'offset' => 2,
-            'limit' => 1
-        ));
+        $data = $this->base_model->select(
+            '*', $this->table,
+            [
+                // các kiểu điều kiện where
+                // kiểm tra user login đã được sử dụng rồi hay chưa thì không cần kiểm tra trạng thái XÓA -> vì có thể user này đã bị xóa vĩnh viễn
+                //'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                'user_login' => $new_user_login
+            ],
+            array(
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                //'offset' => 2,
+                'limit' => 1
+            )
+        );
         //print_r( $data );
 
-        //
+        // nếu ko có -> chưa dùng -> trả về user login này để dùng
         if (empty($data)) {
             return $new_user_login;
+        }
+        if ($i === false) {
+            return false;
         }
         return $this->check_user_login_exist($user_login, $i + 1);
     }
@@ -62,18 +76,22 @@ class UserBase extends EbModel
     public function check_another_user_by($id, $key, $val)
     {
         // lấy dữ liệu trong db
-        $check_exist = $this->base_model->select('ID', $this->table, array(
-            // các kiểu điều kiện where
-            'ID !=' => $id,
-            $key => $val,
-        ), array(
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-            //'offset' => 2,
-            'limit' => 1
-        ));
+        $check_exist = $this->base_model->select(
+            'ID', $this->table,
+            array(
+                // các kiểu điều kiện where
+                'ID !=' => $id,
+                $key => $val,
+            ),
+            array(
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                //'offset' => 2,
+                'limit' => 1
+            )
+        );
 
         //
         if (!empty($check_exist)) {
@@ -144,20 +162,24 @@ class UserBase extends EbModel
         }
 
         // select dữ liệu từ 1 bảng bất kỳ
-        $sql = $this->base_model->select('ID', $this->table, array(
-            // các kiểu điều kiện where
-            // mặc định
-            $col => $email,
-            // kiểm tra email đã được sử dụng rồi hay chưa thì không cần kiểm tra trạng thái XÓA -> vì có thể user này đã bị xóa vĩnh viễn
-            //'is_deleted' => DeletedStatus::FOR_DEFAULT,
-        ), array(
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-            //'offset' => 2,
-            'limit' => 1
-        ));
+        $sql = $this->base_model->select(
+            'ID', $this->table,
+            array(
+                // các kiểu điều kiện where
+                // kiểm tra email đã được sử dụng rồi hay chưa thì không cần kiểm tra trạng thái XÓA -> vì có thể user này đã bị xóa vĩnh viễn
+                //'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                // mặc định
+                $col => $email,
+            ),
+            array(
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                //'offset' => 2,
+                'limit' => 1
+            )
+        );
         //print_r( $sql );
 
         // có rồi

@@ -172,7 +172,7 @@ class ConfigType
             $arr_tmp['main_slider_slug'] = 'Slug slider chính';
             $arr_tmp['copy_right_first'] = 'Bản quyền (trước)';
             $arr_tmp['copy_right_last'] = 'Bản quyền (sau)';
-            $arr_tmp['powered_by_echbay'] = 'Cung cấp bởi';
+            $arr_tmp['powered_by_eb'] = 'Cung cấp bởi';
             for ($i = 0; $i < NUMBER_TRANS_INPUT; $i++) {
                 $arr_tmp['custom_text' . $i] = 'Custom text ' . $i;
             }
@@ -417,7 +417,7 @@ class ConfigType
             'bank_card_name' => 'Lưu ý: viết HOA không dấu',
             'autobank_token' => 'Tham số dùng để tăng độ bảo mật cho WebHook tự động xác thực quá trình thanh toán. URL WebHook mặc định: ' . base_url('cassos/confirm'),
             'bank_bin_code' => 'Chức năng tự động xác nhận tiền vào thông qua WebHook của https://casso.vn/ - Ưu tiên sử dụng tài khoản ngân hàng <strong>VietinBank</strong>.',
-            'powered_by_echbay' => 'Sử dụng lệnh <strong>$lang_model->the_web_license( $getconfig );</strong> để hiển thị thông điệp bản quyền mặc định.',
+            'powered_by_eb' => 'Sử dụng lệnh <strong>$lang_model->the_web_license( $getconfig );</strong> để hiển thị thông điệp bản quyền mặc định.',
             'telegram_bot_token' => 'Token của bot trên Telegram. Sau khi có Token, hãy <a href="' . base_url('admin/smtps') . '?get_tele_chat_id=1" target="_blank" class="click-check-email-test bluecolor"><strong>bấm vào đây</strong></a> để tìm Chat ID.',
             'telegram_chat_id' => 'ID nhóm chat trên Telegram. Bao gồm cả dấu - nếu có',
         ];
@@ -492,7 +492,7 @@ class ConfigType
         $arr = [
             'copy_right_first' => 'Bản quyền &copy; ',
             'copy_right_last' => ' - Toàn bộ phiên bản.',
-            'powered_by_echbay' => ' Cung cấp bởi ' . PARTNER_BRAND_NAME,
+            'powered_by_eb' => ' Cung cấp bởi ' . PARTNER_BRAND_NAME,
         ];
         //echo $k . '<br>' . "\n";
         //echo $default_value . '<br>' . "\n";

@@ -69,8 +69,15 @@ class User extends UserMeta
             //echo $data[ 'user_email' ] . '<br>' . "\n";
             $data['user_login'] = $this->generate_user_login($data['user_email']);
             //echo $data[ 'user_login' ] . '<br>' . "\n";
+            // tự động tạo user login thì sẽ tiến hành thêm số vào sau
+            $data['user_login'] = $this->check_user_login_exist($data['user_login']);
+        } else {
+            // còn gán cứng user login thì chỉ báo đã đc sử dụng
+            $data['user_login'] = $this->check_user_login_exist($data['user_login'], false);
+            if ($data['user_login'] === false) {
+                return -1;
+            }
         }
-        $data['user_login'] = $this->check_user_login_exist($data['user_login']);
         // mã hóa mật khẩu
         $data = $this->sync_pass($data);
 
@@ -148,6 +155,7 @@ class User extends UserMeta
             'debug_backtrace' => debug_backtrace()[1]['function'],
             // hiển thị mã SQL để check
             //'show_query' => 1,
+
         ]);
 
         //

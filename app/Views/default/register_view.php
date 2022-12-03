@@ -5,8 +5,8 @@ include VIEWS_PATH . 'default/login_header.php';
 
 ?>
 <div id="loginbox">
-    <form id="loginform" name="loginform" class="form-vertical" accept-charset="utf-8" action="./guest/register"
-        method="post" target="target_eb_iframe">
+    <form id="loginform" name="loginform" class="form-vertical" accept-charset="utf-8"
+        action="<?php echo $form_action; ?>" method="post" target="target_eb_iframe">
         <?php $base_model->csrf_field(); ?>
         <div class="control-group normal_text">
             <h3>

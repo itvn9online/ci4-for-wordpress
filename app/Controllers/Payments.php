@@ -21,7 +21,7 @@ class Payments extends Layout
     // hàm này là để ajax request tới server kiểm tra xem đơn hàng đã được thanh toán chưa
     public function check_paid()
     {
-        // nếu không có id đơn hàng -> lỗi
+        // nếu không có id user -> lỗi
         if ($this->current_user_id <= 0) {
             $this->result_json_type([
                 'code' => basename(__FILE__) . ':' . __LINE__,
