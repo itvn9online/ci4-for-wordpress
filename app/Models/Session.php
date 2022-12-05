@@ -31,12 +31,6 @@ class Session
             $_SESSION[$key] = $value;
             return true;
         }
-        /*
-         if ( empty( $key ) ) {
-         echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . PHP_EOL;
-         die( __CLASS__ . ':' . __LINE__ );
-         }
-         */
         return isset($_SESSION[$key]) ? $_SESSION[$key] : '';
     }
 
@@ -163,10 +157,12 @@ class Session
         // lưu có key -> xóa theo key truyền vào
         if ($for != '') {
             // 1 số phương thức không áp dụng được kiểu xóa này do không có key 
-            if (in_array(MY_CACHE_HANDLER, [
-                'memcached',
-                'wincache',
-            ])) {
+            if (
+                in_array(MY_CACHE_HANDLER, [
+                    'memcached',
+                    'wincache',
+                ])
+            ) {
                 // có thể cân đối giữa việc XÓA toàn bộ hoặc return false luôn
                 if ($clean_all !== true) {
                     return NULL;

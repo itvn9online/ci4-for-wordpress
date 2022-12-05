@@ -417,9 +417,6 @@ class Users extends Admin
         }
         //print_r( $data );
         //die( __CLASS__ . ':' . __LINE__ );
-        if (isset($data['user_email'])) {
-            $data['user_email'] = strtolower($data['user_email']);
-        }
 
         //
         $result_id = $this->user_model->insert_member($data);
@@ -469,7 +466,6 @@ class Users extends Admin
                 if (!$this->validation->run($data)) {
                     $this->set_validation_error($this->validation->getErrors(), 'error');
                 }
-                $data['user_email'] = strtolower($data['user_email']);
                 /*
                 } else {
                 $data[ 'user_email' ] = '';

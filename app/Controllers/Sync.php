@@ -2,7 +2,7 @@
 namespace App\Controllers;
 
 // Libraries
-use App\Libraries\DeletedStatus;
+use App\Libraries\UsersType;
 use App\Helpers\HtmlTemplate;
 
 //
@@ -639,5 +639,50 @@ class Sync extends BaseController
             header($pcol . ' ' . $status . ' Not Found');
         }
         die(header('Location: ' . $to, TRUE, $status));
+    }
+
+    protected function result_json_type($arr, $headers = [], $too_headers = [])
+    {
+        // reset lại view -> tránh in ra phần html nếu lỡ nạp
+        $this->teamplate = [];
+
+        //
+        header('Content-type: application/json; charset=utf-8');
+        // header mặc định, ghi đè header trước đó
+        foreach ($headers as $v) {
+            header($v);
+        }
+        // header không ghi đè -> 2 header trùng tên nhưng khác giá trị
+        foreach ($too_headers as $v) {
+            header($v, false);
+        }
+        die(json_encode($arr));
+    }
+
+    // đồng bộ dữ liệu login của thành viên về 1 định dạng chung
+    protected function sync_login_data($result)
+    {
+        $result['user_pass'] = '';
+        $result['ci_pass'] = '';
+        // hỗ trợ phiên bản code cũ -> tạo thêm dữ liệu tương ứng
+        $result['userID'] = $result['ID'];
+        $result['userName'] = $result['display_name'];
+        $result['userEmail'] = $result['user_email'];
+        // quyền admin
+        $arr_admin_group = [
+            UsersType::AUTHOR,
+            UsersType::MOD,
+            UsersType::ADMIN,
+        ];
+        if (in_array($result['member_type'], $arr_admin_group)) {
+            $result['userLevel'] = UsersType::ADMIN_LEVEL;
+        } else {
+            $result['userLevel'] = UsersType::GUEST_LEVEL;
+        }
+        //print_r( $result );
+        //die( __CLASS__ . ':' . __LINE__ );
+
+        //
+        return $result;
     }
 }

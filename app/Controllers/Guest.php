@@ -58,13 +58,15 @@ class Guest extends Csrf
         //
         if (!empty($this->MY_post('username'))) {
             $this->wgr_target();
+            //die(__CLASS__ . ':' . __LINE__);
 
             // xem có phải nhập mã captcha không -> khi đăng nhập sai quá nhiều lần -> bắt buộc phải nhập captcha
             if ($this->base_model->check_faild_login() > 0) {
                 //die( __CLASS__ . ':' . __LINE__ );
                 $this->check_required_captcha();
             }
-            //die( __CLASS__ . ':' . __LINE__ );
+            //var_dump($this->has_captcha);
+            //die(__CLASS__ . ':' . __LINE__);
 
             //
             if ($this->has_captcha === false) {
@@ -87,12 +89,13 @@ class Guest extends Csrf
                         ],
                     ]
                 ]);
+                //die(__CLASS__ . ':' . __LINE__);
 
                 //
                 if (!$this->validation->run($_POST)) {
                     $this->set_validation_error($this->validation->getErrors(), $this->form_target);
                 } else {
-                    //die( __CLASS__ . ':' . __LINE__ );
+                    //die(__CLASS__ . ':' . __LINE__);
 
                     //
                     if ($this->checkaccount() === true) {
@@ -119,6 +122,9 @@ class Guest extends Csrf
                         return $this->done_action_login($login_redirect);
                     }
                 }
+            } else {
+                $this->base_model->alert('Không xác định được nonce', 'error');
+                //die(__CLASS__ . ':' . __LINE__);
             }
         }
 
@@ -305,7 +311,7 @@ class Guest extends Csrf
                 }
                 // tiến hành đăng ký tài khoản
                 else {
-                    $data['email'] = strtolower($data['email']);
+                    $data['email'] = $data['email'];
                     $data['user_email'] = $data['email'];
                     $data['ci_pass'] = $data['password'];
                     $data['member_type'] = $this->member_type;

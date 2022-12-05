@@ -35,6 +35,10 @@ class User extends UserMeta
                 }
             }
         }
+        if (isset($data['user_email'])) {
+            $data['user_email'] = strtolower($data['user_email']);
+            $data['user_email'] = str_replace('www.', '', $data['user_email']);
+        }
 
         //
         foreach ($data as $k => $v) {

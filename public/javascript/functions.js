@@ -1083,3 +1083,12 @@ function hide_if_esc() {
     //
     return false;
 }
+
+function WGR_open_poup(str, tit, __callBack) {
+    $('#popupModalLabel').html(tit);
+    $('#popupModal .modal-body').html(str);
+    if (typeof __callBack == 'function') {
+        __callBack();
+    }
+    $('#popupModal').modal('show');
+}

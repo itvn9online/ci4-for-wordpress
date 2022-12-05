@@ -30,8 +30,9 @@ class Csrf extends Layout
     // các trường hợp bắt buộc phải có captcha
     protected function check_required_captcha($msg = 'Mã xác thực không chính xác')
     {
-        // với các trường hợp cần dùng đến captcha nhưng không có
-        if ($_SERVER['REQUEST_METHOD'] != 'GET' && $this->MY_session('check_captcha') != $this->MY_post('captcha')) {
+        // với các trường hợp cần dùng đến captcha nhưng không có trong đầu vào
+        if ($_SERVER['REQUEST_METHOD'] != 'GET' && $this->MY_session('check_captcha') != '' && $this->MY_session('check_captcha') != $this->MY_post('captcha')) {
+            //die(__CLASS__ . ':' . __LINE__);
             $this->base_model->msg_error_session($msg, $this->form_target);
 
             // -> chuyển tham số này thành true -> các lệnh sau đó sẽ dừng thực thi
@@ -43,7 +44,7 @@ class Csrf extends Layout
     {
         if ($login_redirect == '') {
             $login_redirect = base_url($_SERVER['REQUEST_URI']);
-        //die( $login_redirect );
+            //die( $login_redirect );
         }
         if ($this->form_target !== false) {
             die('<script>top.done_action_submit("' . $login_redirect . '");</script>');
