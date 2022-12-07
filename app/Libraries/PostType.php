@@ -7,7 +7,6 @@ use App\Language\admin\AdminTranslate;
 //
 class PostType
 {
-
     // post_type
     const POST = 'post';
     const ADS = 'ads';
@@ -66,6 +65,7 @@ class PostType
             self::DRAFT => 'Bản nháp',
             self::DELETED => 'XÓA',
             //self::INHERIT => '',
+
         );
     }
 
@@ -101,11 +101,13 @@ class PostType
         $arr['meta_description'] = 'Meta description';
 
         //
-        if ($post_type == self::POST ||
+        if (
+            $post_type == self::POST ||
             //
             $post_type == self::ADS ||
             //
-            $post_type == self::BLOG) {
+            $post_type == self::BLOG
+        ) {
             //$arr[ 'post_relationships' ] = 'Danh sách term ID';
             $arr['post_category'] = 'Danh mục';
             $arr['post_tags'] = 'Thẻ';
@@ -148,7 +150,6 @@ class PostType
             //'second_content' => 'textarea',
             'page_template' => 'select',
             'post_auto_slider' => 'checkbox',
-
             //'post_relationships' => 'hidden',
 
             'image_large' => 'hidden',
@@ -184,6 +185,7 @@ class PostType
     {
         $arr = [
             //'second_content' => 'ckeditor',
+
         ];
         if (isset($arr[$key])) {
             return $arr[$key];

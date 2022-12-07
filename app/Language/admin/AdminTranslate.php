@@ -9,4 +9,12 @@ namespace App\Language\admin;
 class AdminTranslate
 {
     const POST = 'Bài viết';
+
+    const USER_TRANS = [
+        'guest' => 'Khách vãng lai',
+        'member' => 'Thành viên',
+        'author' => 'Tác giả',
+        'mod' => 'Biên tập viên',
+        'admin' => 'Quản trị',
+    ];
 }

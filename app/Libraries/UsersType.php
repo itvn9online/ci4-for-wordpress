@@ -1,6 +1,8 @@
 <?php
-
 namespace App\Libraries;
+
+//
+use App\Language\admin\AdminTranslate;
 
 class UsersType
 {
@@ -25,11 +27,11 @@ class UsersType
     const NO_LOGIN = -1; // tài khoản bị khóa chức năng đăng nhập (vĩnh viễn)
 
     private static $arr = array(
-        self::GUEST => 'Khách vãng lai',
-        self::MEMBER => 'Thành viên',
-        self::AUTHOR => 'Tác giả',
-        self::MOD => 'Biên tập viên',
-        self::ADMIN => 'Quản trị',
+        self::GUEST => AdminTranslate::USER_TRANS[self::GUEST],
+        self::MEMBER => AdminTranslate::USER_TRANS[self::MEMBER],
+        self::AUTHOR => AdminTranslate::USER_TRANS[self::AUTHOR],
+        self::MOD => AdminTranslate::USER_TRANS[self::MOD],
+        self::ADMIN => AdminTranslate::USER_TRANS[self::ADMIN],
     );
 
     public static function typeList($key = '')
