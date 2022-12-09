@@ -39,7 +39,7 @@ class Users extends Csrf
 
             //
             die(header('Location: ' . $login_url));
-        //die( 'Permission deny! ' . basename( __FILE__, '.php' ) . ':' . __LINE__ );
+            //die( 'Permission deny! ' . basename( __FILE__, '.php' ) . ':' . __LINE__ );
         }
 
         //
@@ -66,32 +66,43 @@ class Users extends Csrf
 
         // edit
         // select dữ liệu từ 1 bảng bất kỳ
-        $data = $this->base_model->select('*', 'users', [
-            'ID' => $id
-        ], array(
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-            //'offset' => 2,
-            'limit' => 1
-        ));
+        $data = $this->base_model->select(
+            '*',
+            'users',
+            [
+                'ID' => $id
+            ],
+            array(
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                //'offset' => 2,
+                'limit' => 1
+            )
+        );
         if (empty($data)) {
             return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Không xác định được thông tin thành viên...');
         }
 
         //
-        $this->teamplate['breadcrumb'] = view('breadcrumb_view', array(
-            'breadcrumb' => $this->breadcrumb
-        ));
+        $this->teamplate['breadcrumb'] = view(
+            'breadcrumb_view',
+            array(
+                'breadcrumb' => $this->breadcrumb
+            )
+        );
 
         //
-        $this->teamplate['main'] = view('profile_view', array(
-            'seo' => $this->base_model->default_seo('Thông tin tài khoản', $this->getClassName(__CLASS__) . '/' . __FUNCTION__),
-            'breadcrumb' => '',
-            'data' => $data,
-            'session_data' => $this->session_data,
-        ));
+        $this->teamplate['main'] = view(
+            'profile_view',
+            array(
+                'seo' => $this->base_model->default_seo('Thông tin tài khoản', $this->getClassName(__CLASS__) . '/' . __FUNCTION__),
+                'breadcrumb' => '',
+                'data' => $data,
+                'session_data' => $this->session_data,
+            )
+        );
         return view('users_view', $this->teamplate);
     }
 
@@ -123,7 +134,7 @@ class Users extends Csrf
             ]);
             if (!$this->validation->run($data)) {
                 $this->set_validation_error($this->validation->getErrors(), $this->form_target);
-            //die( __CLASS__ . ':' . __LINE__ );
+                //die( __CLASS__ . ':' . __LINE__ );
             }
 
             // cập nhật mật khẩu mới cho user
@@ -187,12 +198,12 @@ class Users extends Csrf
 
                 //
                 $data['avatar'] = str_replace(PUBLIC_PUBLIC_PATH, '', $file_path) . '?v=' . time();
-            //print_r( $data );
+                //print_r( $data );
 
-            //
-            //die( __CLASS__ . ':' . __LINE__ );
+                //
+                //die( __CLASS__ . ':' . __LINE__ );
             }
-        //die( __CLASS__ . ':' . __LINE__ );
+            //die( __CLASS__ . ':' . __LINE__ );
         }
 
 
@@ -276,13 +287,14 @@ class Users extends Csrf
                             'to' => $this->session_data['user_email'],
                             'subject' => 'Xác nhận thay đổi email',
                             'message' => HtmlTemplate::render(
-                            $this->base_model->get_html_tmp('change_email_confirm', '', 'html/mail-template/'), [
-                                'base_url' => base_url(),
-                                'email' => $data['user_email'],
-                                'old_email' => $this->session_data['user_email'],
-                                'link_change_email' => $link_change_email,
-                            ]
-                        ),
+                                $this->base_model->get_html_tmp('change_email_confirm', '', 'html/mail-template/'),
+                                [
+                                    'base_url' => base_url(),
+                                    'email' => $data['user_email'],
+                                    'old_email' => $this->session_data['user_email'],
+                                    'link_change_email' => $link_change_email,
+                                ]
+                            ),
                         ];
                         //print_r( $data_send );
                         //die( __CLASS__ . ':' . __LINE__ );
@@ -301,8 +313,8 @@ class Users extends Csrf
             if ($change_email === false) {
                 unset($data['user_email']);
             }
-        //print_r( $data );
-        //die( __CLASS__ . ':' . __LINE__ );
+            //print_r( $data );
+            //die( __CLASS__ . ':' . __LINE__ );
         }
 
         //
@@ -356,7 +368,8 @@ class Users extends Csrf
             $this->MY_session('admin_login_as', '');
 
             //
-            $this->MY_redirect(base_url('users/profile'), 301);
+            //$this->MY_redirect(base_url('users/profile'), 301);
+            $this->MY_redirect(base_url('admin/users/add') . '?id=' . $this->current_user_id, 301);
         }
         // còn không thì logout thôi
         else {
@@ -367,7 +380,11 @@ class Users extends Csrf
             //delete_cookie( $this->wrg_cookie_login_key );
 
             //
-            $this->MY_redirect(base_url('guest/login'), 301);
+            if (isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])) {
+                $this->MY_redirect($_SERVER['HTTP_REFERER'], 301);
+            } else {
+                $this->MY_redirect(base_url('guest/login'), 301);
+            }
         }
     }
 

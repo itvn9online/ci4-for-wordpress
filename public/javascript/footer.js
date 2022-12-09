@@ -1,6 +1,15 @@
 //
 //WGR_set_prop_for_select('#content select');
 
+// kiểm tra xem nếu có session sau logout thì chuyển tới đây
+/*
+(function (a) {
+    if (a !== null) {
+        sessionStorage.removeItem('logout_redirect');
+        window.location = a;
+    }
+})(sessionStorage.getItem('logout_redirect'));
+*/
 
 // xóa href cho các thẻ a không sử dụng
 $('a[href="#"], a[href="javascript:;"]').removeAttr('href').attr({
@@ -9,6 +18,7 @@ $('a[href="#"], a[href="javascript:;"]').removeAttr('href').attr({
 
 // khi bấm nút đăng xuất
 $('a[href="users/logout"], a[href="./users/logout"]').click(function () {
+    //sessionStorage.setItem('logout_redirect', window.location.href);
     return confirm('Xác nhận Đăng xuất khỏi tài khoản!');
 });
 
