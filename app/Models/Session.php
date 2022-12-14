@@ -75,9 +75,12 @@ class Session
     }
 
     // set session login -> lưu phiên đăng nhập của người dùng
-    public function set_ses_login($data)
+    public function set_ses_login($data, $save_data = [])
     {
-        return $this->MY_session($this->key_member_login, $data);
+        foreach ($data as $k => $v) {
+            $save_data[$k] = $v;
+        }
+        return $this->MY_session($this->key_member_login, $save_data);
     }
     // get session login -> trả về dữ liệu đăng nhập của người dùng
     public function get_ses_login()

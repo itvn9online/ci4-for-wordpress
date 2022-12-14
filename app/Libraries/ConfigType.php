@@ -321,7 +321,7 @@ class ConfigType
             'telegram_begin_block' => 'heading',
             'smtp_heading_test_email' => 'heading',
             'smtp2_heading_host_user' => 'heading',
-            //'zalo' => 'number',
+            'zalo' => 'number',
             'fb_app_id' => 'number',
         ];
         foreach (self::textArea() as $k => $v) {

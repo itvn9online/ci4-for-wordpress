@@ -50,7 +50,8 @@ $('ul li.current-menu-parent').addClass('active').parent('ul').parent('li').addC
 
 // nếu trình duyệt không hỗ trợ định dạng webp -> xóa bỏ định dạng webp nếu có
 if (support_format_webp() !== true) {
-    $('.each-to-bgimg').removeAttr('data-webp');
+    attr_data_webp = 'data-img';
+    //$('.each-to-bgimg').removeAttr('data-webp');
 }
 
 // hiển thị trước hình ảnh cho màn hình đầu tiên

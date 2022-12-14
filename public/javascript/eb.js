@@ -1,6 +1,6 @@
-/*
- * file js thiết kế riêng cho theme wp
- */
+// xác định trình duyệt hỗ trợ webp hay không
+var attr_data_webp = 'data-webp';
+
 var _global_js_eb = {
     check_email: function (email, alert_true) {
         var re = /^\w+([\-\.]?\w+)*@\w+(\.\w+){1,3}$/;
@@ -355,7 +355,7 @@ var _global_js_eb = {
     _log_click_ref: function () { },
 
     ebBgLazzyLoadOffset: function (i) {
-        //		console.log( 'each-to-bgimg offset' );
+        //console.log( 'each-to-bgimg offset' );
 
         if (typeof i != 'number') {
             i = 5;
@@ -408,9 +408,9 @@ var _global_js_eb = {
                     var wit = jQuery(this).width() || 300;
                     //console.log('width:', wit);
                     if (wit > 360) {
-                        var img = jQuery(this).attr('data-large-img') || jQuery(this).attr('data-img') || '';
+                        var img = jQuery(this).attr('data-large-img') || jQuery(this).attr(attr_data_webp) || jQuery(this).attr('data-img') || '';
                     } else {
-                        var img = jQuery(this).attr('data-webp') || jQuery(this).attr('data-img') || '';
+                        var img = jQuery(this).attr(attr_data_webp) || jQuery(this).attr('data-img') || '';
                     }
 
                     //

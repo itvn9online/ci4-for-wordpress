@@ -69,9 +69,27 @@ class Uploads extends Users
         }
         $img = str_replace(' ', '+', $img);
         $file_path = $upload_path . $file_name . '.' . $file_type;
-        $file_thumb_path = $upload_path . $file_name . '-thumb.' . $file_type;
-        $file_medium_path = $upload_path . $file_name . '-medium.' . $file_type;
-        $file_large_path = $upload_path . $file_name . '-medium_large.' . $file_type;
+
+        //
+        $file_thumb_path = $upload_path . 'thumb/';
+        if (!is_dir($file_thumb_path)) {
+            mkdir($file_thumb_path, 0777);
+        }
+        $file_thumb_path .= $file_name . '.' . $file_type;
+
+        //
+        $file_medium_path = $upload_path . 'medium/';
+        if (!is_dir($file_medium_path)) {
+            mkdir($file_medium_path, 0777);
+        }
+        $file_medium_path .= $file_name . '.' . $file_type;
+
+        //
+        $file_large_path = $upload_path . 'medium_large/';
+        if (!is_dir($file_large_path)) {
+            mkdir($file_large_path, 0777);
+        }
+        $file_large_path .= $file_name . '.' . $file_type;
 
         //
         //$this->result_json_type( [ $img ] ); // TEST
