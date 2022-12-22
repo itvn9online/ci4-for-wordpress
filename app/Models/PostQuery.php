@@ -335,11 +335,11 @@ class PostQuery extends PostMeta
             [
                 'where_in' => array(
                     'post_status' => array(
-                        // ai cũng có thể xem
+                            // ai cũng có thể xem
                         PostType::PUBLICITY,
-                        // người dùng đã đăng nhập
+                            // người dùng đã đăng nhập
                         PostType::PRIVATELY,
-                        // cho admin xem trước
+                            // cho admin xem trước
                         PostType::DRAFT,
                     )
                 ),
@@ -383,7 +383,6 @@ class PostQuery extends PostMeta
             'post_status' => PostType::PUBLICITY,
             'taxonomy' => $post_cat['taxonomy'],
             //'(term_taxonomy.term_id = ' . $post_cat[ 'term_id' ] . ' OR term_taxonomy.parent = ' . $post_cat[ 'term_id' ] . ')' => NULL,
-
         ];
         /*
         if ( isset( $post_cat[ 'taxonomy' ] ) && $post_cat[ 'taxonomy' ] != '' ) {
@@ -438,7 +437,7 @@ class PostQuery extends PostMeta
         if (isset($ops['count_record'])) {
             $data = $this->base_model->select(
                 'COUNT(ID) AS c',
-                WGR_POST_VIEW,
+            WGR_POST_VIEW,
                 $where,
                 [
                     'selectCount' => 'ID',
@@ -476,7 +475,7 @@ class PostQuery extends PostMeta
             // lấy danh sách bài viết thuộc nhóm này
             $data = $this->base_model->select(
                 $ops['select'],
-                WGR_POST_VIEW,
+            WGR_POST_VIEW,
                 $where,
                 [
                     'or_where' => $arr_or_where,

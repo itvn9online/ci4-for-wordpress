@@ -93,18 +93,20 @@ class Posts extends Csrf
             $config_key = 'eb_blog_per_page';
         }
         $post_per_page = $this->base_model->get_config($this->getconfig, $config_key, 5);
-        if ($post_per_page > 0 &&
+        if (
+            $post_per_page > 0 &&
             isset($data['post_meta']['post_category']) &&
-            !empty($data['post_meta']['post_category'])) {
+            !empty($data['post_meta']['post_category'])
+        ) {
             //print_r( $data[ 'post_meta' ][ 'post_category' ] );
 
             //
             /*
-             $same_cat_data = $this->post_model->select_list_post( $this->post_type, [
-             'term_id' => $data[ 'post_meta' ][ 'post_category' ],
-             'taxonomy' => $this->taxonomy,
-             ], $post_per_page );
-             */
+            $same_cat_data = $this->post_model->select_list_post($this->post_type, [
+            'term_id' => $data['post_meta']['post_category'],
+            'taxonomy' => $this->taxonomy,
+            ], $post_per_page);
+            */
 
             //
             $arr_where_in = [
@@ -114,6 +116,8 @@ class Posts extends Csrf
             // lấy 1 bài phía trước
             $same_cat_data = $this->base_model->select('*', WGR_POST_VIEW, [
                 'ID >' => $data['ID'],
+                'post_status' => PostType::PUBLICITY,
+                'taxonomy' => $this->taxonomy,
             ], [
                     'where_in' => $arr_where_in,
                     'order_by' => [
@@ -137,6 +141,8 @@ class Posts extends Csrf
             if ($post_per_page > 0) {
                 $after_cat_data = $this->base_model->select('*', WGR_POST_VIEW, [
                     'ID <' => $data['ID'],
+                    'post_status' => PostType::PUBLICITY,
+                    'taxonomy' => $this->taxonomy,
                 ], [
                         'where_in' => $arr_where_in,
                         'order_by' => [
@@ -164,18 +170,23 @@ class Posts extends Csrf
         // nếu có post cha -> lấy cả thông tin post cha
         $parent_data = [];
         if ($data['post_parent'] > 0) {
-            $parent_data = $this->base_model->select('*', 'posts', array(
-                // các kiểu điều kiện where
-                'ID' => $data['post_parent'],
-                'post_status' => PostType::PUBLICITY
-            ), array(
+            $parent_data = $this->base_model->select(
+                '*',
+                'posts',
+                array(
+                    // các kiểu điều kiện where
+                    'ID' => $data['post_parent'],
+                    'post_status' => PostType::PUBLICITY
+                ),
+                array(
                     // hiển thị mã SQL để check
                     //'show_query' => 1,
                     // trả về câu query để sử dụng cho mục đích khác
                     //'get_query' => 1,
                     //'offset' => 2,
                     'limit' => 1
-                ));
+                )
+            );
             //print_r( $parent_data );
             $this->create_breadcrumb($parent_data['post_title'], $this->post_model->get_full_permalink($parent_data));
         }
@@ -189,17 +200,23 @@ class Posts extends Csrf
         $structured_data = $this->structuredData($data, 'Article.html');
 
         // -> views
-        $this->teamplate['breadcrumb'] = view('breadcrumb_view', array(
-            'breadcrumb' => $this->breadcrumb
-        )) . $structured_data;
+        $this->teamplate['breadcrumb'] = view(
+            'breadcrumb_view',
+            array(
+                'breadcrumb' => $this->breadcrumb
+            )
+        ) . $structured_data;
 
-        $this->teamplate['main'] = view($this->file_view, array(
-            'taxonomy_slider' => $this->taxonomy_slider,
-            'taxonomy_post_size' => $this->taxonomy_post_size,
-            'same_cat_data' => $same_cat_data,
-            'seo' => $seo,
-            'data' => $data,
-        ));
+        $this->teamplate['main'] = view(
+            $this->file_view,
+            array(
+                'taxonomy_slider' => $this->taxonomy_slider,
+                'taxonomy_post_size' => $this->taxonomy_post_size,
+                'same_cat_data' => $same_cat_data,
+                'seo' => $seo,
+                'data' => $data,
+            )
+        );
 
         // nếu có flash session -> trả về view luôn
         if ($this->hasFlashSession() === true) {

@@ -32,12 +32,12 @@ $base_model->adds_css([
                 <div class="cf">
                     <div class="lf f30">
                         <?php
-if ($by_is_deleted > 0) {
-?>
+                        if ($by_is_deleted > 0) {
+                        ?>
                         <input type="hidden" name="is_deleted" value="<?php echo $by_is_deleted; ?>">
                         <?php
-}
-?>
+                        }
+                        ?>
                         <input name="s" value="<?php echo $by_keyword; ?>"
                             placeholder="Tìm kiếm <?php echo $name_type; ?>" autofocus aria-required="true" required>
                     </div>
@@ -63,10 +63,10 @@ if ($by_is_deleted > 0) {
     <br>
     <?php
 
-//
-include __DIR__ . '/list_select_all.php';
+    //
+    include __DIR__ . '/list_select_all.php';
 
-?>
+    ?>
     <table class="table table-bordered table-striped with-check table-list eb-table">
         <thead>
             <tr>
@@ -76,6 +76,7 @@ include __DIR__ . '/list_select_all.php';
                     <?php echo $name_type; ?>
                 </th>
                 <th>Slug</th>
+                <th>Tên rút gọn</th>
                 <th class="d-none show-if-ads-type">Size</th>
                 <th>Nội dung</th>
                 <th>Ngôn ngữ</th>
@@ -93,6 +94,7 @@ include __DIR__ . '/list_select_all.php';
                         class="parent-term-name"></span> <a href="{{v.get_admin_permalink}}">{{v.gach_ngang}}{{v.name}}
                         <i class="fa fa-edit"></i></a></td>
                 <td><a href="{{v.view_url}}" target="_blank">{{v.slug}} <i class="fa fa-external-link"></i></a></td>
+                <td>{{v.term_shortname}}</td>
                 <td class="d-none show-if-ads-type">
                     <?php echo $ads_size; ?>
                 </td>
@@ -103,16 +105,16 @@ include __DIR__ . '/list_select_all.php';
                         class="form-control s change-update-term_order" /></td>
                 <td width="90" class="text-center">
                     <?php
-require __DIR__ . '/list_action.php';
-?>
+                    require __DIR__ . '/list_action.php';
+                    ?>
                 </td>
             </tr>
             <?php
 
-//echo $term_model->list_html_view( $data, '', $by_is_deleted, $controller_slug );
+            //echo $term_model->list_html_view( $data, '', $by_is_deleted, $controller_slug );
 //$term_model->get_admin_permalink($v['taxonomy'], $v['term_id']);
-
-?>
+            
+            ?>
         </tbody>
     </table>
 </div>

@@ -39,7 +39,8 @@ class Menu extends Post
                 //'get_query' => 1,
                 //'offset' => 2,
                 'limit' => 1
-            ));
+            )
+        );
         //print_r( $sql );
 
         // nếu không có -> tạo luôn 1 menu mẫu để admin chỉnh sửa sau
@@ -51,7 +52,7 @@ class Menu extends Post
                     'post_type' => $this->post_type,
                     'post_status' => PostType::PUBLICITY,
                     'lang_key' => $lang,
-                    'post_content' => '<ul class="show-if-admin"><li>Menu mẫu #' . $slug . '</li></ul>'
+                    'post_content' => '<ul><li>Menu mẫu #' . $slug . '</li></ul>'
                 ];
                 //print_r( $data_insert );
 
@@ -73,7 +74,8 @@ class Menu extends Post
                             //'get_query' => 1,
                             //'offset' => 2,
                             'limit' => 1
-                        ));
+                        )
+                    );
                     //print_r( $sql );
                     if (!empty($sql)) {
                         $data_insert['post_content'] = $sql['post_content'];
