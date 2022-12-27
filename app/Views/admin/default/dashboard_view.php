@@ -4,7 +4,7 @@
 //echo $current_user_id;
 
 //
-$ci_last_version = 4210;
+$ci_last_version = 4211;
 
 //
 $Vue_version = '{{Vue.version}}';
