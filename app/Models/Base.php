@@ -725,4 +725,17 @@ class Base extends Csdl
         }
         echo '<script>' . implode(PHP_EOL, $str) . '</script>';
     }
+
+    // kiểm tra xem 1 mảng có bị trống các dữ liệu bắt buộc hay không. Trống thì trả về true -> tương tự hàm empty của php
+    public function isEmptyData($data, $required_data)
+    {
+        $is_empty = false;
+        foreach ($required_data as $v) {
+            if (!isset($data[$v]) || empty($data[$v])) {
+                $is_empty = true;
+                break;
+            }
+        }
+        return $is_empty;
+    }
 }

@@ -289,4 +289,8 @@ $base_model->JSON_echo([
     ]);
 
 
+// kiểm tra các giá trị bắt buộc trong 1 mảng
+$this->base_model->isEmptyData($data, $required_data);
+
+
 // khai báo URL tùy chỉnh trong application/config/routes.php

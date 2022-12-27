@@ -9,9 +9,14 @@ namespace App\ThirdParty;
 //
 class Casso
 {
+    protected static function pathTestLog()
+    {
+        return PUBLIC_HTML_PATH . '___casso_test.txt';
+    }
+
     protected static function testInput($v)
     {
-        $f = PUBLIC_HTML_PATH . 'test.txt';
+        $f = self::pathTestLog();
 
         file_put_contents($f, 'description: ' . $v->description . "\n", FILE_APPEND);
         file_put_contents($f, 'amount: ' . $v->amount . "\n", FILE_APPEND);
@@ -33,18 +38,20 @@ class Casso
         //
         $result = [];
         try {
+            file_put_contents(self::pathTestLog(), $_SERVER['REQUEST_URI'] . "\n", LOCK_EX);
+            file_put_contents(self::pathTestLog(), __CLASS__ . ':' . __LINE__ . "\n", FILE_APPEND);
+
             // LIVE data
             $data_string = file_get_contents('php://input');
             if (empty($data_string)) {
                 if ($debug_enable !== true) {
+                    file_put_contents(self::pathTestLog(), 'empty data string' . "\n", FILE_APPEND);
                     return NULL;
                 }
                 // TEST data
                 $data_string = '{"error":0,"data":[{"id":1844887,"tid":"246745","description":"ND:CT DEN:231915042064 MBVCB.2707051024.042064.Bill 4.CT tu 0451001536775 DAO QUOC DAI toi 105877347307 DO XUAN VIET Ngan hang Cong Thuong Viet Nam (VIETINBANK); tai Napas","amount":5000,"cusum_balance":55000,"when":"2022-11-15 22:25:00","bank_sub_acc_id":"105877347307","subAccId":"105877347307","virtualAccount":"","virtualAccountName":"","corresponsiveName":"","corresponsiveAccount":"","corresponsiveBankId":"","corresponsiveBankName":""}]}';
             }
-            file_put_contents(PUBLIC_HTML_PATH . 'test.txt', $data_string . "\n", LOCK_EX);
-            file_put_contents(PUBLIC_HTML_PATH . 'test.txt', $_SERVER['REQUEST_URI'] . "\n", FILE_APPEND);
-            file_put_contents(PUBLIC_HTML_PATH . 'test.txt', __CLASS__ . ':' . __LINE__ . "\n", FILE_APPEND);
+            file_put_contents(self::pathTestLog(), $data_string . "\n", FILE_APPEND);
 
             //
             //echo $data_string;
@@ -96,8 +103,8 @@ class Casso
             //error_log( $e->getTraceAsString() );
         }
         //print( $result );
-        //file_put_contents( PUBLIC_HTML_PATH . 'test.txt', json_encode( $result ), LOCK_EX );
-        //file_put_contents( PUBLIC_HTML_PATH . 'test.txt', $_SERVER[ 'REQUEST_URI' ], FILE_APPEND );
+        //file_put_contents( self::pathTestLog(), json_encode( $result ), LOCK_EX );
+        //file_put_contents( self::pathTestLog(), $_SERVER[ 'REQUEST_URI' ], FILE_APPEND );
         //die( __CLASS__ . ':' . __LINE__ );
 
         //
