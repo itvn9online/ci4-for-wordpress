@@ -137,6 +137,9 @@ defined('PARTNER_BRAND_NAME') || define('PARTNER_BRAND_NAME', 'EchBay.com');
 defined('PARTNER2_WEBSITE') || define('PARTNER2_WEBSITE', 'https://webgiare.org/');
 defined('PARTNER2_BRAND_NAME') || define('PARTNER2_BRAND_NAME', 'WebGiaRe.org');
 
+// kiểu kết nối dữ liệu
+defined('MY_DB_DRIVER') || define('MY_DB_DRIVER', 'MySQLi');
+
 /*
  * URL động cho website để có thể chạy trên nhiều tên miền khác nhau mà không cần config lại
  */

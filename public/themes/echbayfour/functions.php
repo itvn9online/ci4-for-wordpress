@@ -12,6 +12,9 @@
 //define( 'PARTNER_WEBSITE', 'https://' . $_SERVER[ 'HTTP_HOST' ] . '/' );
 //define( 'PARTNER_BRAND_NAME', strtoupper( $_SERVER[ 'HTTP_HOST' ] ) );
 
+//
+//define( 'MY_DB_DRIVER', 'MySQLi|Postgre|PDO|Oracle' );
+
 // tinh chỉnh protocol theo ý thích -> mặc định là https
 //define( 'BASE_PROTOCOL', 'http' );
 
@@ -79,44 +82,44 @@ defined('TRANS_CHECKBOXS_LABEL') || define(
  * Ngoài các menu mặc định, với mỗi website có thể thêm các menu tùy chỉnh khác nhau vào đây theo công thức mẫu
  */
 /*
- function register_admin_menu() {
- return [
- 'admin/controller' => [
- // nếu có phân quyền thì nhập phân quyền vào đây, không thì xóa nó đi -> quyền admin
- 'role' => [
- UsersType::ADMIN
- ],
- 'name' => 'Custom admin menu',
- 'icon' => 'fa fa-bug',
- 'arr' => [
- 'admin/sub_controller' => [
- 'name' => 'Sub menu',
- 'icon' => 'fa fa-plus',
- //'target' => '_blank',
- ],
- ],
- 'order' => 95,
- ]
- ];
- }
- */
+function register_admin_menu() {
+return [
+'admin/controller' => [
+// nếu có phân quyền thì nhập phân quyền vào đây, không thì xóa nó đi -> quyền admin
+'role' => [
+UsersType::ADMIN
+],
+'name' => 'Custom admin menu',
+'icon' => 'fa fa-bug',
+'arr' => [
+'admin/sub_controller' => [
+'name' => 'Sub menu',
+'icon' => 'fa fa-plus',
+//'target' => '_blank',
+],
+],
+'order' => 95,
+]
+];
+}
+*/
 
 /*
  * đăng ký taxonomy riêng
  */
 /*
- register_taxonomy( 'custom_taxonomy', [
- 'name' => 'Custom name',
- 'set_parent' => true,
- 'slug' => '',
- ] );
- */
+register_taxonomy( 'custom_taxonomy', [
+'name' => 'Custom name',
+'set_parent' => true,
+'slug' => '',
+] );
+*/
 
 /*
  * đăng ký post type riêng
  */
 /*
- register_post_type( 'custom_post_type', [
- 'name' => 'Custom name'
- ] );
- */
+register_post_type( 'custom_post_type', [
+'name' => 'Custom name'
+] );
+*/

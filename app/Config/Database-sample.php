@@ -2,12 +2,13 @@
 
 namespace Config;
 
-use CodeIgniter\ Database\ Config;
+use CodeIgniter\Database\Config;
 
 /**
  * Database Configuration
  */
-class Database extends Config {
+class Database extends Config
+{
     /**
      * The directory that holds the Migrations
      * and Seeds directories.
@@ -35,11 +36,10 @@ class Database extends Config {
         'username' => '',
         'password' => '',
         'database' => '',
-        'DBDriver' => 'MySQLi',
-        //'DBPrefix' => '',
+        'DBDriver' => MY_DB_DRIVER,
         'DBPrefix' => WGR_TABLE_PREFIX,
         'pConnect' => false,
-        'DBDebug' => ( ENVIRONMENT !== 'production' ),
+        'DBDebug' => (ENVIRONMENT !== 'production'),
         'charset' => 'utf8',
         'DBCollat' => 'utf8_general_ci',
         'swapPre' => '',
@@ -63,9 +63,10 @@ class Database extends Config {
         'password' => '',
         'database' => ':memory:',
         'DBDriver' => 'SQLite3',
-        'DBPrefix' => 'db_', // Needed to ensure we're working correctly with prefixes live. DO NOT REMOVE FOR CI DEVS
+        'DBPrefix' => 'db_',
+        // Needed to ensure we're working correctly with prefixes live. DO NOT REMOVE FOR CI DEVS
         'pConnect' => false,
-        'DBDebug' => ( ENVIRONMENT !== 'production' ),
+        'DBDebug' => (ENVIRONMENT !== 'production'),
         'charset' => 'utf8',
         'DBCollat' => 'utf8_general_ci',
         'swapPre' => '',
@@ -76,13 +77,14 @@ class Database extends Config {
         'port' => 3306,
     ];
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         // Ensure that we always set the database group to 'tests' if
         // we are currently running an automated test suite, so that
         // we don't overwrite live data on accident.
-        if ( ENVIRONMENT === 'testing' ) {
+        if (ENVIRONMENT === 'testing') {
             $this->defaultGroup = 'tests';
         }
     }
