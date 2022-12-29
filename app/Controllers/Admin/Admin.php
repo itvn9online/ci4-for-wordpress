@@ -48,6 +48,7 @@ class Admin extends Ajaxs
 
         //
         $this->post_model = new \App\Models\PostAdmin();
+        $this->comment_model = new \App\Models\Comment();
 
         //
         if ($this->preload_admin_header === true && $_SERVER['REQUEST_METHOD'] == 'GET') {

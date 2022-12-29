@@ -14,6 +14,9 @@ class Home extends Csrf
     public function __construct()
     {
         parent::__construct();
+
+        //
+        $this->comment_model = new \App\Models\Comment();
     }
 
     /*
@@ -65,12 +68,15 @@ class Home extends Csrf
             'name' => $getconfig->name,
         ]);
 
-        $this->teamplate['main'] = view('home_view', array(
-            'seo' => $seo,
-            'breadcrumb' => '',
-            //'cateByLang' => $cateByLang,
-            //'serviceByLang' => $serviceByLang,
-        ));
+        $this->teamplate['main'] = view(
+            'home_view',
+            array(
+                'seo' => $seo,
+                'breadcrumb' => '',
+                //'cateByLang' => $cateByLang,
+                //'serviceByLang' => $serviceByLang,
+            )
+        );
         //print_r( $this->teamplate );
 
         // nếu có flash session -> trả về view luôn
@@ -96,13 +102,15 @@ class Home extends Csrf
         //echo $page_num . ' <br>' . "\n";
 
         // -> kiểm tra theo category
-        $data = $this->term_model->get_taxonomy(array(
-            // các kiểu điều kiện where
-            'slug' => $slug,
-            'is_deleted' => DeletedStatus::FOR_DEFAULT,
-            'lang_key' => $this->lang_key,
-            'taxonomy' => TaxonomyType::POSTS
-        ));
+        $data = $this->term_model->get_taxonomy(
+            array(
+                // các kiểu điều kiện where
+                'slug' => $slug,
+                'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                'lang_key' => $this->lang_key,
+                'taxonomy' => TaxonomyType::POSTS
+            )
+        );
         //print_r( $data );
 
         // có -> ưu tiên category
@@ -144,10 +152,10 @@ class Home extends Csrf
     }
 
     /*
-     protected function autoDetails() {
-     return $this->showPostDetails( $this->MY_get( 'p', 0 ), $this->MY_get( 'post_type', '' ) );
-     }
-     */
+    protected function autoDetails() {
+    return $this->showPostDetails( $this->MY_get( 'p', 0 ), $this->MY_get( 'post_type', '' ) );
+    }
+    */
     protected function showPostDetails($id, $post_type = '', $slug = '')
     {
         //echo $id . '<br>' . "\n";
@@ -175,20 +183,25 @@ class Home extends Csrf
         $data = $this->post_model->the_cache($id, $in_cache);
         if ($data === NULL) {
             // lấy post theo ID, không lọc theo post type -> vì nhiều nơi cần dùng đến
-            $data = $this->base_model->select('*', 'posts', array(
-                // các kiểu điều kiện where
-                'ID' => $id,
-                // bỏ qua where post_type để còn tạo shortlink
-                //'post_type' => $post_type,
-                'post_status' => PostType::PUBLICITY
-            ), array(
+            $data = $this->base_model->select(
+                '*',
+                'posts',
+                array(
+                    // các kiểu điều kiện where
+                    'ID' => $id,
+                    // bỏ qua where post_type để còn tạo shortlink
+                    //'post_type' => $post_type,
+                    'post_status' => PostType::PUBLICITY
+                ),
+                array(
                     // hiển thị mã SQL để check
                     //'show_query' => 1,
                     // trả về câu query để sử dụng cho mục đích khác
                     //'get_query' => 1,
                     //'offset' => 2,
                     'limit' => 1
-                ));
+                )
+            );
             //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             //die( __CLASS__ . ':' . __LINE__ );
 
@@ -217,11 +230,13 @@ class Home extends Csrf
             }
 
             // với các post type mặc định -> dùng page view
-            if (in_array($data['post_type'], [
-                PostType::POST,
-                PostType::BLOG,
-                PostType::PAGE
-            ])) {
+            if (
+                in_array($data['post_type'], [
+                        PostType::POST,
+                        PostType::BLOG,
+                        PostType::PAGE
+                ])
+            ) {
                 return $this->pageDetail($data);
             }
             // các custom post type -> dùng view theo post type (ngoại trừ post type ADS)
@@ -304,18 +319,23 @@ class Home extends Csrf
         // nếu có post cha -> lấy cả thông tin post cha
         $parent_data = [];
         if ($data['post_parent'] > 0) {
-            $parent_data = $this->base_model->select('*', 'posts', array(
-                // các kiểu điều kiện where
-                'ID' => $data['post_parent'],
-                'post_status' => PostType::PUBLICITY
-            ), array(
+            $parent_data = $this->base_model->select(
+                '*',
+                'posts',
+                array(
+                    // các kiểu điều kiện where
+                    'ID' => $data['post_parent'],
+                    'post_status' => PostType::PUBLICITY
+                ),
+                array(
                     // hiển thị mã SQL để check
                     //'show_query' => 1,
                     // trả về câu query để sử dụng cho mục đích khác
                     //'get_query' => 1,
                     //'offset' => 2,
                     'limit' => 1
-                ));
+                )
+            );
             //print_r( $parent_data );
 
             //
@@ -335,17 +355,23 @@ class Home extends Csrf
         $this->current_pid = $data['ID'];
 
         // -> views
-        $this->teamplate['breadcrumb'] = view('breadcrumb_view', array(
-            'breadcrumb' => $this->breadcrumb
-        ));
+        $this->teamplate['breadcrumb'] = view(
+            'breadcrumb_view',
+            array(
+                'breadcrumb' => $this->breadcrumb
+            )
+        );
 
-        $this->teamplate['main'] = view($file_view, array(
-            'seo' => $seo,
-            'page_template' => $page_template,
-            'data' => $data,
-            'current_pid' => $this->current_pid,
-            'parent_data' => $parent_data,
-        ));
+        $this->teamplate['main'] = view(
+            $file_view,
+            array(
+                'seo' => $seo,
+                'page_template' => $page_template,
+                'data' => $data,
+                'current_pid' => $this->current_pid,
+                'parent_data' => $parent_data,
+            )
+        );
 
         // nếu có flash session -> trả về view luôn
         if ($this->hasFlashSession() === true) {
@@ -395,13 +421,15 @@ class Home extends Csrf
         $in_cache = __FUNCTION__;
         $data = $this->term_model->the_cache($term_id, $in_cache);
         if ($data === NULL) {
-            $data = $this->term_model->get_taxonomy(array(
-                // các kiểu điều kiện where
-                'term_id' => $term_id,
-                'is_deleted' => DeletedStatus::FOR_DEFAULT,
-                'lang_key' => $this->lang_key,
-                'taxonomy' => $taxonomy_type
-            ));
+            $data = $this->term_model->get_taxonomy(
+                array(
+                    // các kiểu điều kiện where
+                    'term_id' => $term_id,
+                    'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                    'lang_key' => $this->lang_key,
+                    'taxonomy' => $taxonomy_type
+                )
+            );
 
             //
             $this->term_model->the_cache($term_id, $in_cache, $data);
@@ -418,13 +446,17 @@ class Home extends Csrf
             $in_cache = __FUNCTION__ . '-parent';
             $child_data = $this->term_model->the_cache($term_id, $in_cache);
             if ($child_data === NULL) {
-                $child_data = $this->term_model->get_taxonomy(array(
-                    // các kiểu điều kiện where
-                    'parent' => $term_id,
-                    'is_deleted' => DeletedStatus::FOR_DEFAULT,
-                    'lang_key' => $this->lang_key,
-                    'taxonomy' => $taxonomy_type
-                ), 10, 'term_id');
+                $child_data = $this->term_model->get_taxonomy(
+                    array(
+                        // các kiểu điều kiện where
+                        'parent' => $term_id,
+                        'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                        'lang_key' => $this->lang_key,
+                        'taxonomy' => $taxonomy_type
+                    ),
+                    10,
+                    'term_id'
+                );
 
                 //
                 $this->term_model->the_cache($term_id, $in_cache, $child_data);
@@ -611,7 +643,7 @@ class Home extends Csrf
 
             //
             if ($k != '' && $v != '') {
-                $meta_id = $this->comment_model->insert_meta_comments([
+                $this->comment_model->insert_meta_comments([
                     'comment_id' => $comment_ID,
                     'meta_key' => $k,
                     'meta_value' => $v,
@@ -621,7 +653,7 @@ class Home extends Csrf
 
         //
         if (!empty($list_upload)) {
-            $meta_id = $this->comment_model->insert_meta_comments([
+            $this->comment_model->insert_meta_comments([
                 'comment_id' => $comment_ID,
                 'meta_key' => 'list_upload',
                 'meta_value' => json_encode($list_upload),
