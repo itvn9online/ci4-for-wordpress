@@ -226,35 +226,38 @@ class Admin extends Ajaxs
                 $f = $filename . '/.htaccess';
 
                 // không xử lý file htaccess trong các thư mục được nêu tên
-                if (!in_array(basename($filename), $arr_allow_dir)) {
-                    // cập nhật lại nội dung file htaccess
-                    if ($remove_file === true && file_exists($f)) {
-                        $this->MY_unlink($f);
-                    }
-
-                    //
-                    if (!file_exists($f)) {
-                        //echo $f . '<br>' . "\n";
-
-                        //
-                        $htaccess_deny_all = $this->helpersTmpFile(
-                            'htaccess_deny_all',
-                            [
-                                'base_url' => DYNAMIC_BASE_URL,
-                            ]
-                        );
-
-                        //
-                        $this->base_model->_eb_create_file(
-                            $f,
-                            $htaccess_deny_all,
-                            [
-                                'set_permission' => 0644,
-                                'ftp' => 1,
-                            ]
-                        );
-                    }
+                if (in_array(basename($filename), $arr_allow_dir)) {
+                    continue;
                 }
+
+                // cập nhật lại nội dung file htaccess
+                if ($remove_file === true && file_exists($f)) {
+                    $this->MY_unlink($f);
+                }
+
+                //
+                if (file_exists($f)) {
+                    continue;
+                }
+                //echo $f . '<br>' . "\n";
+
+                //
+                $htaccess_deny_all = $this->helpersTmpFile(
+                    'htaccess_deny_all',
+                    [
+                        'base_url' => DYNAMIC_BASE_URL,
+                    ]
+                );
+
+                //
+                $this->base_model->_eb_create_file(
+                    $f,
+                    $htaccess_deny_all,
+                    [
+                        'set_permission' => 0644,
+                        'ftp' => 1,
+                    ]
+                );
             }
             //include $filename;
         }

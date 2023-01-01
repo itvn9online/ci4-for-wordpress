@@ -354,7 +354,7 @@ body.home .thread-details-tohome {
 .web-logo {
     line-height: 50px;
     background: center no-repeat;
-    background-size: auto 100%;
+    background-size: contain;
     text-indent: -999px;
     display: block;
 }
