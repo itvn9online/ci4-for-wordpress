@@ -4,6 +4,7 @@ namespace App\Models;
 // Libraries
 use App\Libraries\PostType;
 use App\Libraries\TaxonomyType;
+use App\Libraries\DeletedStatus;
 
 //
 class PostMeta extends PostBase
@@ -14,7 +15,7 @@ class PostMeta extends PostBase
     }
 
     // lấy về danh sách meta post cho toàn bộ data được truyền vào
-    function list_meta_post($data)
+    public function list_meta_post($data)
     {
         foreach ($data as $k => $v) {
             //print_r($v);
@@ -65,13 +66,13 @@ class PostMeta extends PostBase
     }
 
     // thêm post meta
-    function insert_meta_post($meta_data, $post_id, $clear_meta = true)
+    public function insert_meta_post($meta_data, $post_id, $clear_meta = true)
     {
         if (!is_array($meta_data) || empty($meta_data)) {
             return false;
         }
         //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
-        //print_r( $meta_data );
+        //print_r($meta_data);
         //die( __CLASS__ . ':' . __LINE__ );
 
         // lấy toàn bộ meta của post này
@@ -90,6 +91,9 @@ class PostMeta extends PostBase
             } else {
                 $term_relationships[] = $meta_data['post_category'];
             }
+
+            // lấy ID danh mục chính -> chỉ lấy danh mục cấp 1
+            $this->get_parents_term(explode(',', $meta_data['post_category']), $post_id);
         }
         if (isset($meta_data['post_tags'])) {
             if (gettype($meta_data['post_tags']) == 'array') {
@@ -111,7 +115,7 @@ class PostMeta extends PostBase
             $this->term_model->insert_term_relationships($post_id, $post_relationships);
         }
         //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
-        //print_r( $meta_data );
+        //print_r($meta_data);
 
         // xử lý cho ảnh đại diện -> thêm các size ảnh khác để sau còn tùy ý sử dụng
         if (isset($meta_data['image'])) {
@@ -230,7 +234,95 @@ class PostMeta extends PostBase
         return true;
     }
 
-    function set_meta_post($post_id, $key = '', $v = '')
+    // trả về ID của nhóm cha cuối cùng -> không là con của thằng nào cả
+    public function get_parents_term($where_in, $post_id, $col = 'term_id')
+    {
+        // trả về 0 nếu không có đầu vào
+        if (empty($where_in)) {
+            return false;
+        }
+
+        //
+        $data = $this->base_model->select(
+            'term_id, slug, parent',
+            WGR_TERM_VIEW,
+            array(
+                // các kiểu điều kiện where
+                'is_deleted' => DeletedStatus::FOR_DEFAULT,
+            ),
+            array(
+                'where_in' => array(
+                    $col => $where_in
+                ),
+                'order_by' => array(
+                    'term_order' => 'DESC',
+                    'term_id' => 'ASC',
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => -1
+            )
+        );
+        //print_r($data);
+
+        // thử tìm nhóm cha xem có không
+        $research = [];
+        $parent_data = [];
+        $has_id = 0;
+        foreach ($data as $k => $v) {
+            //print_r($v);
+
+            // nếu có nhóm cha -> bỏ
+            if ($v['parent'] > 0) {
+                $research[] = $v['parent'];
+                continue;
+            }
+
+            // tìm được thì gán
+            $has_id = $v['term_id'];
+            $parent_data = $v;
+
+            // và thoát luôn
+            break;
+        }
+        //print_r($research);
+
+        // có ID thì trả về
+        if ($has_id > 0) {
+            // cập nhật cho post
+            $this->base_model->update_multiple('posts', [
+                // SET
+                'category_primary_id' => $parent_data['term_id'],
+                'category_primary_slug' => $parent_data['slug'],
+            ], [
+                    // WHERE
+                    'ID' => $post_id,
+                ], [
+                    'debug_backtrace' => debug_backtrace()[1]['function'],
+                    // hiển thị mã SQL để check
+                    //'show_query' => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    //'get_query' => 1,
+                    // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
+                    //'no_remove_field' => 1
+                ]);
+
+            // trả về dữ liệu
+            return $parent_data;
+        }
+
+        // không có thì tìm tiếp theo parent
+        return $this->get_parents_term($research, $post_id, $col);
+    }
+
+    public function set_meta_post($post_id, $key = '', $v = '')
     {
         // kiểm tra xem meta này có chưa
         $check_meta_exist = $this->get_meta_post($post_id, $key);
@@ -254,15 +346,18 @@ class PostMeta extends PostBase
         }
     }
 
-    function get_meta_post($post_id, $key = '')
+    public function get_meta_post($post_id, $key = '')
     {
         // lấy theo key cụ thể
         if ($key != '') {
-            $data = $this->base_model->select('*', $this->metaTable, array(
-                // các kiểu điều kiện where
-                'post_id' => $post_id,
-                'meta_key' => $key,
-            ), array(
+            $data = $this->base_model->select(
+                '*', $this->metaTable,
+                array(
+                    // các kiểu điều kiện where
+                    'post_id' => $post_id,
+                    'meta_key' => $key,
+                ),
+                array(
                     'order_by' => array(
                         'meta_id' => 'DESC'
                     ),
@@ -272,7 +367,8 @@ class PostMeta extends PostBase
                     //'get_query' => 1,
                     //'offset' => 2,
                     'limit' => 1
-                ));
+                )
+            );
 
             //
             if (empty($data)) {
@@ -282,10 +378,13 @@ class PostMeta extends PostBase
         }
 
         // lấy toàn bộ meta
-        return $this->base_model->select('*', $this->metaTable, array(
-            // các kiểu điều kiện where
-            'post_id' => $post_id
-        ), array(
+        return $this->base_model->select(
+            '*', $this->metaTable,
+            array(
+                // các kiểu điều kiện where
+                'post_id' => $post_id
+            ),
+            array(
                 'group_by' => array(
                     'meta_key',
                 ),
@@ -298,14 +397,15 @@ class PostMeta extends PostBase
                 //'get_query' => 1,
                 //'offset' => 2,
                 //'limit' => 3
-            ));
+            )
+        );
     }
 
     /*
      * trả về danh sách meta post dưới dạng key => value
      * get_relationships: lấy danh sách relationships từ database nếu không có meta -> khi cần check meta exist thì không lấy, để tránh việc post_category luôn tồn tại -> lệnh update được gọi nhưng không update được
      */
-    function arr_meta_post($post_id, $get_relationships = true)
+    public function arr_meta_post($post_id, $get_relationships = true)
     {
         $data = $this->get_meta_post($post_id);
         //print_r( $data );
@@ -320,22 +420,26 @@ class PostMeta extends PostBase
 
         // hỗ trợ kiểu danh mục từ echbaydotcom
         /*
-         if ( !isset( $meta_data[ 'post_category' ] ) ) {
-         echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
-         } else if ( empty( $meta_data[ 'post_category' ] ) ) {
-         echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
-         }
-         */
+        if ( !isset( $meta_data[ 'post_category' ] ) ) {
+        echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        } else if ( empty( $meta_data[ 'post_category' ] ) ) {
+        echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        }
+        */
         if ($get_relationships === true) {
             if (!isset($meta_data['post_category']) || empty($meta_data['post_category'])) {
                 //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                 //print_r( $meta_data );
 
                 //
-                $sql = $this->base_model->select('term_relationships.term_taxonomy_id, term_taxonomy.taxonomy', 'term_relationships', array(
-                    // các kiểu điều kiện where
-                    'object_id' => $post_id
-                ), array(
+                $sql = $this->base_model->select(
+                    'term_relationships.term_taxonomy_id, term_taxonomy.taxonomy',
+                    'term_relationships',
+                    array(
+                        // các kiểu điều kiện where
+                        'object_id' => $post_id
+                    ),
+                    array(
                         'join' => array(
                             'term_taxonomy' => 'term_taxonomy.term_id = term_relationships.term_taxonomy_id'
                         ),
@@ -345,11 +449,12 @@ class PostMeta extends PostBase
                         //'get_query' => 1,
                         //'offset' => 2,
                         //'limit' => 3
-                    ));
+                    )
+                );
                 //print_r( $sql );
                 $term_relationships = [
-                    TaxonomyType::POSTS => [],
-                    TaxonomyType::TAGS => [],
+                        TaxonomyType::POSTS => [],
+                        TaxonomyType::TAGS => [],
                 ];
                 foreach ($sql as $k => $v) {
                     $term_relationships[$v['taxonomy']][] = $v['term_taxonomy_id'];
@@ -370,7 +475,7 @@ class PostMeta extends PostBase
     }
 
     // hàm này sẽ kiểm tra xem có meta tương ứng của post không, có thì in ra luôn
-    function return_meta_post($data, $key, $default_value = '')
+    public function return_meta_post($data, $key, $default_value = '')
     {
         if (isset($data[$key])) {
             return $data[$key];
@@ -382,13 +487,13 @@ class PostMeta extends PostBase
         return $default_value;
     }
 
-    function show_meta_post($data, $key, $default_value = '')
+    public function show_meta_post($data, $key, $default_value = '')
     {
         echo $this->return_meta_post($data, $key, $default_value);
     }
 
     // tương tự show meta post -> chỉ khác là sẽ truyền thẳng data post_meta vào luôn
-    function echo_meta_post($data, $key, $default_value = '')
+    public function echo_meta_post($data, $key, $default_value = '')
     {
         if (!isset($data['post_meta'])) {
             return false;
@@ -397,7 +502,7 @@ class PostMeta extends PostBase
     }
 
     // trả về ảnh với kích thước khác -> dựa theo ảnh gốc
-    function get_img_by_size($result, $file_size, $file_ext = '')
+    public function get_img_by_size($result, $file_size, $file_ext = '')
     {
         // tạo path tuyệt đối để kiểm tra
         //echo PUBLIC_PUBLIC_PATH . '<br>' . "\n";

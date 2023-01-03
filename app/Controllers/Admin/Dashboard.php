@@ -95,16 +95,16 @@ class Dashboard extends Optimize
 
         // Nếu chế độ không phải là đang chạy chính thức
         /*
-         $debug_enable = false;
-         if ( ( ENVIRONMENT !== 'production' ) === true ) {
-         //var_dump( ( ENVIRONMENT !== 'production' ) );
-         //
-         $debug_enable = true;
-         // kiểm tra nếu chế độ debug đang được bật -> đưa ra cảnh báo
-         //echo PUBLIC_HTML_PATH . '<br>' . "\n";
-         //echo PUBLIC_HTML_PATH . '.env';
-         }
-         */
+        $debug_enable = false;
+        if ( ( ENVIRONMENT !== 'production' ) === true ) {
+        //var_dump( ( ENVIRONMENT !== 'production' ) );
+        //
+        $debug_enable = true;
+        // kiểm tra nếu chế độ debug đang được bật -> đưa ra cảnh báo
+        //echo PUBLIC_HTML_PATH . '<br>' . "\n";
+        //echo PUBLIC_HTML_PATH . '.env';
+        }
+        */
 
         // optimize code
         $this->optimize_css_js();
@@ -142,22 +142,25 @@ class Dashboard extends Optimize
         //print_r( opcache_get_status() );
 
         //
-        $this->teamplate_admin['content'] = view('admin/dashboard_view', array(
-            //'topPostHighestView' => $topPostHighestView,
-            'session_data' => $this->session_data,
-            'request_ip' => $client_ip,
-            //'debug_enable' => $this->debug_enable,
-            'last_enabled_debug' => $last_enabled_debug,
-            'auto_disable_debug' => $auto_disable_debug,
-            'current_dbname' => $current_dbname,
-            'f_env' => $this->f_env,
-            'f_backup_env' => $this->f_backup_env,
-            'robots_exist' => $robots_exist,
-            'check_cache_active' => $check_cache_active,
-            'user_type' => [
-                'admin' => UsersType::ADMIN,
-            ],
-        ));
+        $this->teamplate_admin['content'] = view(
+            'admin/dashboard_view',
+            array(
+                //'topPostHighestView' => $topPostHighestView,
+                'session_data' => $this->session_data,
+                'request_ip' => $client_ip,
+                //'debug_enable' => $this->debug_enable,
+                'last_enabled_debug' => $last_enabled_debug,
+                'auto_disable_debug' => $auto_disable_debug,
+                'current_dbname' => $current_dbname,
+                'f_env' => $this->f_env,
+                'f_backup_env' => $this->f_backup_env,
+                'robots_exist' => $robots_exist,
+                'check_cache_active' => $check_cache_active,
+                'user_type' => [
+                    'admin' => UsersType::ADMIN,
+                ],
+            )
+        );
         return view('admin/admin_teamplate', $this->teamplate_admin);
     }
 
@@ -508,10 +511,10 @@ class Dashboard extends Optimize
     {
         // kiểm tra phiên bản code xem có khác nhau không
         /*
-         if ( file_get_contents( APPPATH . 'VERSION', 1 ) == file_get_contents( 'https://raw.githubusercontent.com/itvn9online/ci4-for-wordpress/main/app/VERSION', 1 ) ) {
-         $this->base_model->alert( 'Download thất bại! Phiên bản của bạn đang là bản mới nhất', 'warning' );
-         }
-         */
+        if ( file_get_contents( APPPATH . 'VERSION', 1 ) == file_get_contents( 'https://raw.githubusercontent.com/itvn9online/ci4-for-wordpress/main/app/VERSION', 1 ) ) {
+        $this->base_model->alert( 'Download thất bại! Phiên bản của bạn đang là bản mới nhất', 'warning' );
+        }
+        */
 
         //
         $upload_path = PUBLIC_HTML_PATH;
@@ -574,14 +577,14 @@ class Dashboard extends Optimize
 
                 // tạo thư mục thông qua FTP
                 /*
-                 if ( $upload_via_ftp === true ) {
-                 $file_model->create_dir( $this->app_dir );
-                 }
-                 // tạo mặc định
-                 else {
-                 $this->mk_dir( $this->app_dir, __CLASS__ . ':' . __LINE__, 0755 );
-                 }
-                 */
+                if ( $upload_via_ftp === true ) {
+                $file_model->create_dir( $this->app_dir );
+                }
+                // tạo mặc định
+                else {
+                $this->mk_dir( $this->app_dir, __CLASS__ . ':' . __LINE__, 0755 );
+                }
+                */
 
                 //
                 //die( __CLASS__ . ':' . __LINE__ );
@@ -820,15 +823,18 @@ class Dashboard extends Optimize
         ];
 
         //
-        $this->teamplate_admin['content'] = view('admin/update_view', array(
-            // xác định các thư mục deleted code có tồn tại không
-            'app_deleted_exist' => $this->check_deleted_exist(),
-            // xác định xem thư mục theme cũ có tồn tại không
-            //'theme_deleted_exist' => $theme_deleted_exist,
-            'link_download_github' => $this->link_download_github,
-            'arr_list_thirdparty' => $arr_list_thirdparty,
-            'arr_download_thirdparty' => $arr_download_thirdparty,
-        ));
+        $this->teamplate_admin['content'] = view(
+            'admin/update_view',
+            array(
+                // xác định các thư mục deleted code có tồn tại không
+                'app_deleted_exist' => $this->check_deleted_exist(),
+                // xác định xem thư mục theme cũ có tồn tại không
+                //'theme_deleted_exist' => $theme_deleted_exist,
+                'link_download_github' => $this->link_download_github,
+                'arr_list_thirdparty' => $arr_list_thirdparty,
+                'arr_download_thirdparty' => $arr_download_thirdparty,
+            )
+        );
         return view('admin/admin_teamplate', $this->teamplate_admin);
     }
 
@@ -1138,9 +1144,13 @@ class Dashboard extends Optimize
             ]);
 
         // cập nhật lại cho 1 ít term
-        $data = $this->base_model->select('*', WGR_TERM_VIEW, array(
-            // các kiểu điều kiện where
-        ), array(
+        $data = $this->base_model->select(
+            '*',
+            WGR_TERM_VIEW,
+            array(
+                // các kiểu điều kiện where
+            ),
+            array(
                 'order_by' => array(
                     'term_id' => 'DESC'
                 ),
@@ -1154,9 +1164,10 @@ class Dashboard extends Optimize
                 //'getNumRows' => 1,
                 //'offset' => 0,
                 'limit' => 500
-            ));
+            )
+        );
         foreach ($data as $v) {
-            $this->term_model->get_the_permalink($v);
+            $this->term_model->get_term_permalink($v);
         }
         $this->base_model->scache(__FUNCTION__, time(), 120);
 
@@ -1168,8 +1179,7 @@ class Dashboard extends Optimize
     {
         $space_reset = $this->base_model->scache(__FUNCTION__);
         if ($space_reset != NULL) {
-            $this->base_model->alert('Hệ thống đang bận! Vui lòng thử lại sau ' . (120 - (time() - $space_reset)) . '
-    giây...', 'warning');
+            $this->base_model->alert('Hệ thống đang bận! Vui lòng thử lại sau ' . (120 - (time() - $space_reset)) . ' giây...', 'warning');
         }
 
         // xóa hết term permalink trong db đi để nạp lại
@@ -1190,9 +1200,13 @@ class Dashboard extends Optimize
             ]);
 
         // cập nhật lại cho 1 ít term
-        $data = $this->base_model->select('*', 'posts', array(
-            // các kiểu điều kiện where
-        ), array(
+        $data = $this->base_model->select(
+            '*',
+            'posts',
+            array(
+                // các kiểu điều kiện where
+            ),
+            array(
                 'order_by' => array(
                     'ID' => 'DESC'
                 ),
@@ -1206,9 +1220,10 @@ class Dashboard extends Optimize
                 //'getNumRows' => 1,
                 //'offset' => 0,
                 'limit' => 500
-            ));
+            )
+        );
         foreach ($data as $v) {
-            $this->post_model->get_the_permalink($v);
+            $this->post_model->get_post_permalink($v);
         }
         $this->base_model->scache(__FUNCTION__, time(), 120);
 

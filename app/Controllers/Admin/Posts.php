@@ -135,10 +135,10 @@ class Posts extends Admin
         //
         if ($post_status == '') {
             $by_post_status = [
-                PostType::DRAFT,
-                PostType::PUBLICITY,
-                PostType::PENDING,
-                PostType::PRIVATELY,
+                    PostType::DRAFT,
+                    PostType::PUBLICITY,
+                    PostType::PENDING,
+                    PostType::PRIVATELY,
             ];
         } else {
             $urlPartPage .= '&post_status=' . $post_status;
@@ -284,7 +284,7 @@ class Posts extends Admin
                 if ($v['post_type'] == PostType::ORDER) {
                     $v['the_permalink'] = '#';
                 } else {
-                    $v['the_permalink'] = $this->post_model->get_the_permalink($v);
+                    $v['the_permalink'] = $this->post_model->get_post_permalink($v);
                 }
                 if (isset($v['post_meta'])) {
                     $v['thumbnail'] = $this->post_model->get_list_thumbnail($v['post_meta']);
@@ -441,9 +441,9 @@ class Posts extends Admin
             $filter = [
                 'where_in' => array(
                     $this->table . '.post_status' => array(
-                        PostType::DRAFT,
-                        PostType::PUBLICITY,
-                        PostType::PENDING,
+                            PostType::DRAFT,
+                            PostType::PUBLICITY,
+                            PostType::PENDING,
                     )
                 ),
                 'where_not_in' => array(
@@ -800,7 +800,6 @@ class Posts extends Admin
                 //'show_query' => 1,
                 // trả về câu query để sử dụng cho mục đích khác
                 //'get_query' => 1,
-
             ]);
         //die( __CLASS__ . ':' . __LINE__ );
 
@@ -822,7 +821,6 @@ class Posts extends Admin
                 //'show_query' => 1,
                 // trả về câu query để sử dụng cho mục đích khác
                 //'get_query' => 1,
-
             ]);
 
         //
@@ -838,7 +836,6 @@ class Posts extends Admin
                 //'show_query' => 1,
                 // trả về câu query để sử dụng cho mục đích khác
                 //'get_query' => 1,
-
             ]);
 
         //
@@ -864,7 +861,6 @@ class Posts extends Admin
                 //'show_query' => 1,
                 // trả về câu query để sử dụng cho mục đích khác
                 //'get_query' => 1,
-
             ]);
 
         // nếu update thành công -> gửi lệnh javascript để ẩn bài viết bằng javascript

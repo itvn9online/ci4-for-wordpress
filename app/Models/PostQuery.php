@@ -76,8 +76,8 @@ class PostQuery extends PostMeta
                     [
                         'where_not_in' => array(
                             'post_status' => array(
-                                PostType::DELETED,
-                                PostType::REMOVED,
+                                    PostType::DELETED,
+                                    PostType::REMOVED,
                             )
                         ),
                         // hiển thị mã SQL để check
@@ -215,8 +215,8 @@ class PostQuery extends PostMeta
                     [
                         'where_not_in' => array(
                             'post_status' => array(
-                                PostType::DELETED,
-                                PostType::REMOVED,
+                                    PostType::DELETED,
+                                    PostType::REMOVED,
                             )
                         ),
                         // hiển thị mã SQL để check
@@ -275,7 +275,7 @@ class PostQuery extends PostMeta
             $data['ID'] = $post_id;
             // nếu có đủ các thông số còn thiếu thì tiến hành cập nhật permalink
             if (isset($data['post_name']) && isset($data['post_type'])) {
-                $data['post_permalink'] = $this->get_the_permalink($data);
+                $data['post_permalink'] = $this->get_post_permalink($data);
             }
             //print_r($data);
         }
@@ -336,11 +336,11 @@ class PostQuery extends PostMeta
                 'where_in' => array(
                     'post_status' => array(
                             // ai cũng có thể xem
-                        PostType::PUBLICITY,
+                            PostType::PUBLICITY,
                             // người dùng đã đăng nhập
-                        PostType::PRIVATELY,
+                            PostType::PRIVATELY,
                             // cho admin xem trước
-                        PostType::DRAFT,
+                            PostType::DRAFT,
                     )
                 ),
             ]
@@ -437,7 +437,7 @@ class PostQuery extends PostMeta
         if (isset($ops['count_record'])) {
             $data = $this->base_model->select(
                 'COUNT(ID) AS c',
-            WGR_POST_VIEW,
+                WGR_POST_VIEW,
                 $where,
                 [
                     'selectCount' => 'ID',
@@ -475,7 +475,7 @@ class PostQuery extends PostMeta
             // lấy danh sách bài viết thuộc nhóm này
             $data = $this->base_model->select(
                 $ops['select'],
-            WGR_POST_VIEW,
+                WGR_POST_VIEW,
                 $where,
                 [
                     'or_where' => $arr_or_where,

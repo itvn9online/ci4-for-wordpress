@@ -200,7 +200,7 @@ $get_data = $this->post_model->count_adss_by( 'quang-cao' );
 
 #### Trả về URL của bài viết (dùng chung cho Sản phẩm và Blog/ Tin tức):
 ```
-$post_link = $this->post_model->get_the_permalink( $data );
+$post_link = $this->post_model->get_post_permalink( $data );
 ```
 - `$data`: là dữ liệu của bản ghi cần tạo URL.
 

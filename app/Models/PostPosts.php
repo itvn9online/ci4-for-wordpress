@@ -304,7 +304,6 @@ class PostPosts extends PostSlider
                 'debug_backtrace' => debug_backtrace()[1]['function'],
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
-
             ]);
 
         // dọn dẹp cache

@@ -334,7 +334,7 @@ class Layout extends Sync
     protected function category($input, $post_type, $taxonomy, $file_view = 'category_view', $ops = [])
     {
         //echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . PHP_EOL;
-        //$config['base_url'] = $this->term_model->get_the_permalink();
+        //$config['base_url'] = $this->term_model->get_term_permalink();
         //$config['per_page'] = 50;
         //$config['uri_segment'] = 3;
 

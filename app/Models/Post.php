@@ -45,16 +45,20 @@ class Post extends PostPages
         $this->base_model->scache(__FUNCTION__, time(), 120);
 
         // lấy các post chưa có permalink đẻ update
-        $data = $this->base_model->select('ID, post_permalink, post_type, post_name', 'posts', array(
-            // các kiểu điều kiện where
-            'post_status' => PostType::PUBLICITY,
-            'post_permalink' => '',
-        ), array(
+        $data = $this->base_model->select(
+            'ID, post_permalink, post_type, post_name',
+            'posts',
+            array(
+                // các kiểu điều kiện where
+                'post_status' => PostType::PUBLICITY,
+                'post_permalink' => '',
+            ),
+            array(
                 'where_in' => array(
                     'post_type' => array(
-                        PostType::POST,
-                        PostType::BLOG,
-                        PostType::PAGE,
+                            PostType::POST,
+                            PostType::BLOG,
+                            PostType::PAGE,
                     )
                 ),
                 'order_by' => array(
@@ -70,23 +74,28 @@ class Post extends PostPages
                 //'getNumRows' => 1,
                 //'offset' => 0,
                 'limit' => 20
-            ));
+            )
+        );
         //print_r( $data );
 
         // nếu không có thì chuyển sang update term
         if (empty($data)) {
             // lấy các term chưa có permalink đẻ update
-            $data = $this->base_model->select('term_id, term_permalink, taxonomy, slug', WGR_TERM_VIEW, array(
-                // các kiểu điều kiện where
-                'is_deleted' => DeletedStatus::FOR_DEFAULT,
-                'term_permalink' => '',
-            ), array(
+            $data = $this->base_model->select(
+                'term_id, term_permalink, taxonomy, slug',
+                WGR_TERM_VIEW,
+                array(
+                    // các kiểu điều kiện where
+                    'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                    'term_permalink' => '',
+                ),
+                array(
                     'where_in' => array(
                         'taxonomy' => array(
-                            TaxonomyType::POSTS,
-                            TaxonomyType::TAGS,
-                            TaxonomyType::BLOGS,
-                            TaxonomyType::BLOG_TAGS,
+                                TaxonomyType::POSTS,
+                                TaxonomyType::TAGS,
+                                TaxonomyType::BLOGS,
+                                TaxonomyType::BLOG_TAGS,
                         )
                     ),
                     'order_by' => array(
@@ -102,7 +111,8 @@ class Post extends PostPages
                     //'getNumRows' => 1,
                     //'offset' => 0,
                     'limit' => 20
-                ));
+                )
+            );
             //print_r( $data );
 
             // nếu hết rồi thì lưu lại cache để sau đỡ dính
@@ -110,14 +120,14 @@ class Post extends PostPages
                 $this->base_model->scache(__FUNCTION__, time(), 3600);
             } else {
                 foreach ($data as $v) {
-                    $this->term_model->get_the_permalink($v);
+                    $this->term_model->get_term_permalink($v);
                 }
             }
         }
         // có thì xử lý cái phần có
         else {
             foreach ($data as $v) {
-                $this->get_the_permalink($v);
+                $this->get_post_permalink($v);
             }
         }
 

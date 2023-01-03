@@ -628,7 +628,6 @@ class Users extends Admin
             [
                 // WHERE
                 //'t2.is_deleted' => DeletedStatus::REMOVED,
-
             ],
             [
                 /*
@@ -688,7 +687,6 @@ class Users extends Admin
                 //'show_query' => 1,
                 // trả về câu query để sử dụng cho mục đích khác
                 //'get_query' => 1,
-
             ]
         );
 
@@ -703,7 +701,6 @@ class Users extends Admin
                 'code' => __LINE__,
                 'result' => $update,
                 //'ids' => $ids,
-
             ]
         );
     }
@@ -712,7 +709,7 @@ class Users extends Admin
     public function delete_all()
     {
         return $this->before_all_delete_restore(
-            DeletedStatus::DELETED,
+                DeletedStatus::DELETED,
             [
                 'ID !=' => $this->current_user_id
             ]
@@ -741,7 +738,6 @@ class Users extends Admin
                 'code' => __LINE__,
                 'result' => $result,
                 //'ids' => $ids,
-
             ]
         );
     }

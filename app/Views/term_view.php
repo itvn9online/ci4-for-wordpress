@@ -40,7 +40,7 @@ if ($totalThread > 0) {
     //echo $totalPage . '<br>' . "\n";
     $offset = ($ops['page_num'] - 1) * $post_per_page;
 
-    $public_part_page = $base_model->EBE_pagination($ops['page_num'], $totalPage, $term_model->get_the_permalink($data));
+    $public_part_page = $base_model->EBE_pagination($ops['page_num'], $totalPage, $term_model->get_term_permalink($data));
 
 
     /*
@@ -73,7 +73,7 @@ if ($totalThread > 0) {
             //print_r( $child_data );
             // -> chạy 1 vòng để nạp lại permalink trước khi cache -> tránh trường hợp update liên tọi
             foreach ($child_data as $k => $v) {
-                $child_data[$k]['post_permalink'] = $post_model->get_the_permalink($v);
+                $child_data[$k]['post_permalink'] = $post_model->get_post_permalink($v);
             }
 
             //

@@ -404,7 +404,7 @@ class Term extends TermBase
             $data['term_id'] = $term_id;
             // nếu có đủ các thông số còn thiếu thì tiến hành cập nhật permalink
             if (isset($data['slug']) && isset($data['taxonomy'])) {
-                $data['term_permalink'] = $this->get_the_permalink($data);
+                $data['term_permalink'] = $this->get_term_permalink($data);
             }
             //print_r($data);
         }
@@ -982,11 +982,15 @@ class Term extends TermBase
     // trả về url với đầy đủ tên miền
     public function get_full_permalink($data)
     {
-        return $this->get_the_permalink($data, DYNAMIC_BASE_URL);
+        return $this->get_term_permalink($data, DYNAMIC_BASE_URL);
     }
 
     // trả về url của 1 term
     public function get_the_permalink($data, $base_url = '')
+    {
+        return $this->get_term_permalink($data, $base_url);
+    }
+    public function get_term_permalink($data, $base_url = '')
     {
         //print_r( $data );
 
@@ -997,9 +1001,9 @@ class Term extends TermBase
 
         // không có thì mới tạo và update vào db
         $allow_taxonomy = [
-            TaxonomyType::TAGS,
-            TaxonomyType::BLOGS,
-            TaxonomyType::BLOG_TAGS,
+                TaxonomyType::TAGS,
+                TaxonomyType::BLOGS,
+                TaxonomyType::BLOG_TAGS,
         ];
         if ($data['taxonomy'] == TaxonomyType::POSTS) {
             //return $base_url . CATEGORY_BASE_URL . $data[ 'slug' ];
@@ -1012,13 +1016,7 @@ class Term extends TermBase
         }
 
         //
-        foreach (
-            [
-                'category_base' => CATEGORY_BASE_URL,
-                'term_id' => $data['term_id'],
-                'slug' => $data['slug'],
-                'taxonomy' => $data['taxonomy'],
-            ] as $k => $v) {
+        foreach (['category_base' => CATEGORY_BASE_URL, 'term_id' => $data['term_id'], 'slug' => $data['slug'], 'taxonomy' => $data['taxonomy'],] as $k => $v) {
             $url = str_replace('%' . $k . '%', $v, $url);
         }
 
@@ -1034,7 +1032,6 @@ class Term extends TermBase
             [
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
-
             ]
         );
 
@@ -1046,9 +1043,14 @@ class Term extends TermBase
         //return $base_url . 'c/' . $data[ 'taxonomy' ] . '/' . $data[ 'term_id' ] . '/' . $data[ 'slug' ];
     }
     // thường dùng trong view -> in ra link admin của 1 term
+    public function the_term_permalink($data)
+    {
+        echo $this->get_term_permalink($data);
+    }
     public function the_permalink($data)
     {
-        echo $this->get_the_permalink($data);
+        // gọi tên đầy đủ để dễ lọc function giữa post với term
+        $this->the_term_permalink($data);
     }
 
     // tạo html trong này -> do trong view không viết được tham số $this để tạo vòng lặp đệ quy
@@ -1101,7 +1103,7 @@ class Term extends TermBase
                 }
             }
             $node = str_replace('%get_admin_permalink%', $this->get_admin_permalink($v['taxonomy'], $v['term_id'], $controller_slug), $node);
-            $node = str_replace('%view_url%', $this->get_the_permalink($v), $node);
+            $node = str_replace('%view_url%', $this->get_term_permalink($v), $node);
 
             //
             $str .= $node;
@@ -1263,7 +1265,6 @@ class Term extends TermBase
             [
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
-
             ]
         );
         //return false;
@@ -1312,7 +1313,7 @@ class Term extends TermBase
         $this->base_model->MY_query(
             $sql,
             [
-                DeletedStatus::FOR_DEFAULT
+                    DeletedStatus::FOR_DEFAULT
             ]
         );
 
@@ -1339,7 +1340,7 @@ class Term extends TermBase
         $this->base_model->MY_query(
             $sql,
             [
-                DeletedStatus::DELETED
+                    DeletedStatus::DELETED
             ]
         );
 

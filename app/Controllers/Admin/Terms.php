@@ -44,11 +44,13 @@ class Terms extends Admin
                 // thử xem có phải custom taxonomy không
                 if (isset($arr_custom_taxonomy[$this->taxonomy])) {
                     // xem có slug không
-                    if (isset($arr_custom_taxonomy[$this->taxonomy]['slug']) &&
-                    // nếu có
-                    $arr_custom_taxonomy[$this->taxonomy]['slug'] != '' &&
-                    // mà khác nhau
-                    $arr_custom_taxonomy[$this->taxonomy]['slug'] != $this->controller_slug) {
+                    if (
+                        isset($arr_custom_taxonomy[$this->taxonomy]['slug']) &&
+                        // nếu có
+                        $arr_custom_taxonomy[$this->taxonomy]['slug'] != '' &&
+                        // mà khác nhau
+                        $arr_custom_taxonomy[$this->taxonomy]['slug'] != $this->controller_slug
+                    ) {
 
                         // tạo link redirect
                         $redirect_to = str_replace('/admin/' . $this->controller_slug, '/admin/' . $arr_custom_taxonomy[$this->taxonomy]['slug'], $_SERVER['REQUEST_URI']);
@@ -58,7 +60,7 @@ class Terms extends Admin
                         // và redirect tới đúng link
                         die(header('Location: ' . $redirect_to));
                     }
-                //die( $this->taxonomy );
+                    //die( $this->taxonomy );
                 }
 
                 // không xác định được thì báo lỗi
@@ -106,8 +108,7 @@ class Terms extends Admin
                         'term_id' => $by_like * 1,
                         //'parent' => $by_like,
                     ];
-                }
-                else {
+                } else {
                     $where_or_like = [
                         'slug' => $by_like,
                         'name' => $by_keyword,
@@ -140,8 +141,7 @@ class Terms extends Admin
             //echo $totalPage . '<br>' . "\n";
             if ($page_num > $totalPage) {
                 $page_num = $totalPage;
-            }
-            else if ($page_num < 1) {
+            } else if ($page_num < 1) {
                 $page_num = 1;
             }
             $for_action .= $page_num > 1 ? '&page_num=' . $page_num : '';
@@ -171,9 +171,8 @@ class Terms extends Admin
 
             //
             $data = $this->term_treeview_data($data);
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
-        }
-        else {
+            //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        } else {
             $data = [];
             $pagination = '';
         }
@@ -191,7 +190,8 @@ class Terms extends Admin
             'name_type' => $this->name_type,
             'controller_slug' => $this->controller_slug,
             'DeletedStatus_DELETED' => DeletedStatus::DELETED,
-        ));
+        )
+        );
         return view('admin/admin_teamplate', $this->teamplate_admin);
     }
 
@@ -199,15 +199,15 @@ class Terms extends Admin
     {
         foreach ($data as $k => $v) {
             $v['get_admin_permalink'] = $this->term_model->get_admin_permalink($v['taxonomy'], $v['term_id'], $this->controller_slug);
-            $v['view_url'] = $this->term_model->get_the_permalink($v);
+            $v['view_url'] = $this->term_model->get_term_permalink($v);
             $v['gach_ngang'] = '';
 
             // phiên bản dùng angular js -> có sử dụng child_term
             /*
-             if ( count( $v[ 'child_term' ] ) > 0 ) {
-             $v[ 'child_term' ] = $this->term_treeview_data( $v[ 'child_term' ] );
-             }
-             */
+            if ( count( $v[ 'child_term' ] ) > 0 ) {
+            $v[ 'child_term' ] = $this->term_treeview_data( $v[ 'child_term' ] );
+            }
+            */
 
             //
             $data[$k] = $v;
@@ -274,10 +274,10 @@ class Terms extends Admin
         else {
             $data = $this->base_model->default_data(WGR_TERM_VIEW);
             /*
-             $data = $this->base_model->default_data( 'terms', [
-             'term_taxonomy'
-             ] );
-             */
+            $data = $this->base_model->default_data( 'terms', [
+            'term_taxonomy'
+            ] );
+            */
             $data['term_meta'] = [];
         }
         //print_r( $data );
@@ -285,11 +285,13 @@ class Terms extends Admin
 
         // lấy danh sách các nhóm để tạo cha con
         $set_parent = '';
-        if (in_array($this->taxonomy, [
-        TaxonomyType::POSTS,
-        TaxonomyType::BLOGS,
-        TaxonomyType::OPTIONS,
-        ])) {
+        if (
+            in_array($this->taxonomy, [
+                    TaxonomyType::POSTS,
+                    TaxonomyType::BLOGS,
+                    TaxonomyType::OPTIONS,
+            ])
+        ) {
             $set_parent = $this->taxonomy;
         }
         // với custom taxonomy -> kiểm tra xem có tham số set cha con không
@@ -317,12 +319,13 @@ class Terms extends Admin
             'lang_key' => $this->lang_key,
             'set_parent' => $set_parent,
             'data' => $data,
-            'term_lang' => $data['lang_key'] != '' ?LanguageCost::typeList($data['lang_key']) : '',
+            'term_lang' => $data['lang_key'] != '' ? LanguageCost::typeList($data['lang_key']) : '',
             'taxonomy' => $this->taxonomy,
             'name_type' => $this->name_type,
             'meta_detault' => TaxonomyType::meta_default($this->taxonomy),
             'controller_slug' => $this->controller_slug,
-        ));
+        )
+        );
         return view('admin/admin_teamplate', $this->teamplate_admin);
     }
 
@@ -378,7 +381,7 @@ class Terms extends Admin
 
         //
         die('<script>top.done_multi_add_term();</script>');
-    //die(__CLASS__ . ':' . __LINE__);
+        //die(__CLASS__ . ':' . __LINE__);
     }
 
     protected function update($id)
@@ -486,16 +489,16 @@ class Terms extends Admin
             // SET
             'is_deleted' => $is_deleted
         ], [
-            'is_deleted !=' => $is_deleted
-        ], [
-            'where_in' => array(
-                'term_id' => $ids
-            ),
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-        ]);
+                'is_deleted !=' => $is_deleted
+            ], [
+                'where_in' => array(
+                    'term_id' => $ids
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+            ]);
 
         // riêng với lệnh remove -> kiểm tra nếu remove hoàn toàn thì xử lý riêng
         if ($update === true && $is_deleted == DeletedStatus::REMOVED && ALLOW_USING_MYSQL_DELETE === true) {
@@ -527,8 +530,7 @@ class Terms extends Admin
         // nếu có thuộc tính cho phép xóa hoàn toàn dữ liệu thì tiến hành xóa
         if (ALLOW_USING_MYSQL_DELETE === true) {
             $result = $this->delete_remove();
-        }
-        else {
+        } else {
             $result = $this->before_all_delete_restore(DeletedStatus::REMOVED);
         }
 
@@ -575,8 +577,7 @@ class Terms extends Admin
     {
         if ($id > 0) {
             $ids = [$id];
-        }
-        else {
+        } else {
             $ids = $this->get_ids();
         }
         //die( __CLASS__ . ':' . __LINE__ );
@@ -586,55 +587,55 @@ class Terms extends Admin
             // WHERE
             //'t2.is_deleted' => DeletedStatus::REMOVED,
         ], [
-            /*
-     'join' => array(
-     $this->term_model->table . ' AS t2' => $this->term_model->taxTable . '.term_id = t2.term_id'
-     ),
-     */
-            'where_in' => array(
-                'term_id' => $ids
-            ),
-        ]);
+                /*
+                'join' => array(
+                $this->term_model->table . ' AS t2' => $this->term_model->taxTable . '.term_id = t2.term_id'
+                ),
+                */
+                'where_in' => array(
+                    'term_id' => $ids
+                ),
+            ]);
 
         // XÓA relationships
         $this->base_model->delete_multiple($this->term_model->relaTable, [
             // WHERE
             //'t2.is_deleted' => DeletedStatus::REMOVED,
         ], [
-            /*
-     'join' => array(
-     $this->term_model->table . ' AS t2' => $this->term_model->relaTable . '.term_taxonomy_id = t2.term_id'
-     ),
-     */
-            'where_in' => array(
-                'term_taxonomy_id' => $ids
-            ),
-        ]);
+                /*
+                'join' => array(
+                $this->term_model->table . ' AS t2' => $this->term_model->relaTable . '.term_taxonomy_id = t2.term_id'
+                ),
+                */
+                'where_in' => array(
+                    'term_taxonomy_id' => $ids
+                ),
+            ]);
 
         // XÓA meta
         $this->base_model->delete_multiple($this->term_model->metaTable, [
             // WHERE
             //'t2.is_deleted' => DeletedStatus::REMOVED,
         ], [
-            /*
-     'join' => array(
-     $this->term_model->table . ' AS t2' => $this->term_model->metaTable . '.term_id = t2.term_id'
-     ),
-     */
-            'where_in' => array(
-                'term_id' => $ids
-            ),
-        ]);
+                /*
+                'join' => array(
+                $this->term_model->table . ' AS t2' => $this->term_model->metaTable . '.term_id = t2.term_id'
+                ),
+                */
+                'where_in' => array(
+                    'term_id' => $ids
+                ),
+            ]);
 
         // XÓA dữ liệu chính
         $this->base_model->delete_multiple($this->term_model->table, [
             // WHERE
             //'is_deleted' => DeletedStatus::REMOVED,
         ], [
-            'where_in' => array(
-                'term_id' => $ids
-            ),
-        ]);
+                'where_in' => array(
+                    'term_id' => $ids
+                ),
+            ]);
 
         //
         return $result;

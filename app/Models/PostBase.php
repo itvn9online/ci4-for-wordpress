@@ -117,11 +117,13 @@ class PostBase extends EbModel
     public function check_canonical($slug, $data)
     {
         // nếu slug trống
-        if ($slug == '' ||
+        if (
+            $slug == '' ||
             // hoặc đúng là post_name
             $slug == $data['post_name'] ||
             // hoặc kiểu URL có .html, .html, .etc...
-            strpos($slug, $data['post_name'] . '.') !== false) {
+            strpos($slug, $data['post_name'] . '.') !== false
+        ) {
             // thì cho qua
             return true;
         }
@@ -144,11 +146,15 @@ class PostBase extends EbModel
     // trả về url với đầy đủ tên miền
     public function get_full_permalink($data)
     {
-        return $this->get_the_permalink($data, DYNAMIC_BASE_URL);
+        return $this->get_post_permalink($data, DYNAMIC_BASE_URL);
     }
 
     // trả về url của 1 post
     public function get_the_permalink($data, $base_url = '')
+    {
+        return $this->get_post_permalink($data, $base_url);
+    }
+    public function get_post_permalink($data, $base_url = '')
     {
         //print_r($data);
         //return '#';
@@ -177,13 +183,7 @@ class PostBase extends EbModel
         }
 
         //
-        foreach (
-            [
-                'page_base' => PAGE_BASE_URL,
-                'ID' => $data['ID'],
-                'post_name' => $data['post_name'],
-                'post_type' => $data['post_type'],
-            ] as $k => $v) {
+        foreach (['page_base' => PAGE_BASE_URL, 'ID' => $data['ID'], 'post_name' => $data['post_name'], 'post_type' => $data['post_type'],] as $k => $v) {
             $url = str_replace('%' . $k . '%', $v, $url);
         }
 
@@ -199,7 +199,6 @@ class PostBase extends EbModel
             [
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
-
             ]
         );
 
@@ -212,9 +211,14 @@ class PostBase extends EbModel
     }
 
     // thường dùng trong view -> in ra link admin của 1 post
+    public function the_post_permalink($data)
+    {
+        echo $this->get_post_permalink($data);
+    }
     public function the_permalink($data)
     {
-        echo $this->get_the_permalink($data);
+        // gọi tên đầy đủ để dễ lọc function giữa post với term
+        $this->the_post_permalink($data);
     }
 
     // trả về số thứ tự lớn nhất của 1 post type -> dùng khi muốn đưa 1 bài viết trong 1 post type lên đầu

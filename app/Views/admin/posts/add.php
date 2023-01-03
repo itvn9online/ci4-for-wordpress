@@ -18,7 +18,7 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
             <input type="hidden" name="is_duplicate" id="is_duplicate" value="0" />
             <?php
             if ($data['ID'] > 0) {
-            ?>
+                ?>
             <div class="rf">
                 <button type="button" onClick="click_duplicate_record();" class="btn btn-warning"><i
                         class="fa fa-copy"></i> Nhân bản</button>
@@ -55,8 +55,8 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
                         value="<?php echo $data['post_name']; ?>" readonly />
                     <?php
                     if ($data['ID'] > 0) {
-                    ?>
-                    <a href="<?php $post_model->the_permalink($data); ?>" class="bluecolor">Xem <i
+                        ?>
+                    <a href="<?php $post_model->the_post_permalink($data); ?>" class="bluecolor">Xem <i
                             class="fa fa-eye"></i></a>
                     <?php
                     }
@@ -96,7 +96,7 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
             </div>
             <?php
             if (!empty($parent_post)) {
-            ?>
+                ?>
             <div class="control-group">
                 <label class="control-label">Cha</label>
                 <div class="controls">
@@ -123,7 +123,7 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
 
                 //
                 if ($input_type == 'hidden') {
-            ?>
+                    ?>
             <input type="hidden" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>"
                 value="<?php $post_model->echo_meta_post($data, $k); ?>" />
             <?php
@@ -134,7 +134,7 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
             
                 //
                 if ($input_type == 'checkbox') {
-            ?>
+                    ?>
             <div class="control-group post_meta_<?php echo $k; ?>">
                 <div class="controls controls-checkbox">
                     <label for="post_meta_<?php echo $k; ?>">
@@ -144,10 +144,10 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
                     </label>
                     <?php
 
-                    // hiển thị ghi chú nếu có
-                    PostType::meta_desc($k);
+                            // hiển thị ghi chú nếu có
+                            PostType::meta_desc($k);
 
-                    ?>
+                            ?>
                 </div>
             </div>
             <?php
@@ -156,7 +156,7 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
                     continue;
                 } // END if checkbox
             
-            ?>
+                ?>
             <div class="control-group post_meta_<?php echo $k; ?>">
                 <label for="post_meta_<?php echo $k; ?>" class="control-label">
                     <?php echo $v; ?>
@@ -164,9 +164,9 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
                 <div class="controls">
                     <?php
 
-                // với 1 số post type có đặc thù riêng -> ví dụ danh mục
-                if ($k == 'post_category') {
-                    ?>
+                        // với 1 số post type có đặc thù riêng -> ví dụ danh mục
+                        if ($k == 'post_category') {
+                            ?>
                     <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>"
                         name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple>
                         <option value="">[ Chọn
@@ -178,9 +178,9 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
                         <?php echo $v; ?> mới
                     </a>
                     <?php
-                } // END if post category
-                else if ($k == 'post_tags') {
-                    ?>
+                        } // END if post category
+                        else if ($k == 'post_tags') {
+                            ?>
                     <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>"
                         name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple>
                         <option value="">[ Chọn
@@ -192,68 +192,68 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
                         <?php echo $v; ?> mới
                     </a>
                     <?php
-                } // END if post tags
-                // mặc định thì hiển thị bình thường
-                else if ($input_type == 'textarea') {
-                    ?>
+                        } // END if post tags
+                        // mặc định thì hiển thị bình thường
+                        else if ($input_type == 'textarea') {
+                            ?>
                     <textarea style="width:80%;" placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]"
                         id="post_meta_<?php echo $k; ?>" class="<?php echo PostType::meta_class($k); ?>"><?php $post_model->echo_meta_post($data, $k); ?>
-</textarea>
+        </textarea>
                     <?php
-                } // END if post textarea
-                else if ($input_type == 'select' || $input_type == 'select_multiple') {
-                    $select_multiple = '';
-                    $meta_multiple = '';
-                    if ($input_type == 'select_multiple') {
-                        $select_multiple = 'multiple';
-                        $meta_multiple = '[]';
-                    }
+                        } // END if post textarea
+                        else if ($input_type == 'select' || $input_type == 'select_multiple') {
+                            $select_multiple = '';
+                            $meta_multiple = '';
+                            if ($input_type == 'select_multiple') {
+                                $select_multiple = 'multiple';
+                                $meta_multiple = '[]';
+                            }
 
-                    // lấy danh sách page template cho page
-                    if ($post_type == PostType::PAGE && $k = 'page_template') {
-                        $arr_page_template = $base_model->EBE_get_file_in_folder(THEMEPATH . 'page-templates/', '.{php}', 'file');
-                        //print_r( $arr_page_template );
-            
-                        //
-                        $select_options = array(
-                            '' => '[ Mặc định ]'
-                        );
-                        foreach ($arr_page_template as $tmp_k => $tmp_v) {
-                            $tmp_v = basename($tmp_v, '.php');
-                            $select_options[$tmp_v] = str_replace('-', ' ', $tmp_v);
-                        }
+                            // lấy danh sách page template cho page
+                            if ($post_type == PostType::PAGE && $k = 'page_template') {
+                                $arr_page_template = $base_model->EBE_get_file_in_folder(THEMEPATH . 'page-templates/', '.{php}', 'file');
+                                //print_r( $arr_page_template );
+                    
+                                //
+                                $select_options = array(
+                                    '' => '[ Mặc định ]'
+                                );
+                                foreach ($arr_page_template as $tmp_k => $tmp_v) {
+                                    $tmp_v = basename($tmp_v, '.php');
+                                    $select_options[$tmp_v] = str_replace('-', ' ', $tmp_v);
+                                }
 
-                        //
-                    } else {
-                        $select_options = PostType::meta_select($k);
-                    }
+                                //
+                            } else {
+                                $select_options = PostType::meta_select($k);
+                            }
 
-                    ?>
+                            ?>
                     <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>"
                         name="post_meta[<?php echo $k; ?>]<?php echo $meta_multiple; ?>"
                         id="post_meta_<?php echo $k; ?>" <?php echo $select_multiple; ?>>
                         <?php
 
-                    foreach ($select_options as $option_k => $option_v) {
-                        echo '<option value="' . $option_k . '">' . $option_v . '</option>';
-                    }
+                                foreach ($select_options as $option_k => $option_v) {
+                                    echo '<option value="' . $option_k . '">' . $option_v . '</option>';
+                                }
 
-                        ?>
+                                ?>
                     </select>
                     <?php
-                } // END if post select
-                else {
-                    ?>
+                        } // END if post select
+                        else {
+                            ?>
                     <input type="<?php echo $input_type; ?>" class="span10" placeholder="<?php echo $v; ?>"
                         name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>"
                         value="<?php $post_model->echo_meta_post($data, $k); ?>" />
                     <?php
-                } // END else
-            
-                // hiển thị ghi chú nếu có
-                PostType::meta_desc($k);
+                        } // END else
+                    
+                        // hiển thị ghi chú nếu có
+                        PostType::meta_desc($k);
 
-                    ?>
+                        ?>
                 </div>
             </div>
             <?php
@@ -262,7 +262,7 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
 
             // thêm chức năng add link nhanh cho ADS
             if ($post_type == PostType::ADS) {
-            ?>
+                ?>
             <div class="control-group">
                 <label for="quick_add_menu" class="control-label">Thêm kết nội bộ</label>
                 <div class="controls">
@@ -270,11 +270,11 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
                         <option value="">[ Thêm nhanh Tiên kết ]</option>
                         <?php
 
-                $quick_menu_list = $post_model->quick_add_menu();
-                //print_r( $quick_menu_list );
-                //echo implode( '', $quick_menu_list );
-            
-                        ?>
+                            $quick_menu_list = $post_model->quick_add_menu();
+                            //print_r( $quick_menu_list );
+                            //echo implode( '', $quick_menu_list );
+                        
+                            ?>
                         <option :value="v.value" v-for="v in quick_menu_list" :class="v.class" :disabled="v.selectable">
                             {{v.text}}</option>
                     </select>
