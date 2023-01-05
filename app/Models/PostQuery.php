@@ -76,8 +76,8 @@ class PostQuery extends PostMeta
                     [
                         'where_not_in' => array(
                             'post_status' => array(
-                                    PostType::DELETED,
-                                    PostType::REMOVED,
+                                PostType::DELETED,
+                                PostType::REMOVED,
                             )
                         ),
                         // hiển thị mã SQL để check
@@ -215,8 +215,8 @@ class PostQuery extends PostMeta
                     [
                         'where_not_in' => array(
                             'post_status' => array(
-                                    PostType::DELETED,
-                                    PostType::REMOVED,
+                                PostType::DELETED,
+                                PostType::REMOVED,
                             )
                         ),
                         // hiển thị mã SQL để check
@@ -264,7 +264,9 @@ class PostQuery extends PostMeta
 
         //
         //print_r( $_POST );
+        //print_r($data_meta);
         if (!empty($data_meta)) {
+            //print_r($data_meta);
             $this->insert_meta_post($data_meta, $post_id);
         } else if (isset($_POST['post_meta'])) {
             $this->insert_meta_post($_POST['post_meta'], $post_id);
@@ -336,11 +338,11 @@ class PostQuery extends PostMeta
                 'where_in' => array(
                     'post_status' => array(
                             // ai cũng có thể xem
-                            PostType::PUBLICITY,
+                        PostType::PUBLICITY,
                             // người dùng đã đăng nhập
-                            PostType::PRIVATELY,
+                        PostType::PRIVATELY,
                             // cho admin xem trước
-                            PostType::DRAFT,
+                        PostType::DRAFT,
                     )
                 ),
             ]

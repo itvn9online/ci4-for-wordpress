@@ -8,51 +8,48 @@ echo (($html_lang == 'vn' || $html_lang == '') ? 'vi' : $html_lang);
     <?php
 
 
-/*
- * đoạn head dùng chung cho toàn website
- */
-require __DIR__ . '/includes/head_global.php';
+    /*
+     * đoạn head dùng chung cho toàn website
+     */
+    require __DIR__ . '/includes/head_global.php';
 
 
-?>
+    ?>
 </head>
 
 <body data-session="<?php echo session_id(); ?>"
-    class="<?php echo $seo['body_class']; ?> is-<?php echo $current_user_type; ?>">
+    class="<?php echo $seo['body_class']; ?> is-<?php echo $current_user_type; ?> <?php echo $current_user_logged; ?>">
+    <script>
+    redirect_to_canonical('<?php echo $seo['body_class']; ?>');
+    </script>
     <?php
 
-//
-echo $header;
+    //
+    echo $header;
 
-//
-echo $breadcrumb;
-
-
-/*
- * thông điệp lỗi trả về nếu có
- */
-include __DIR__ . '/includes/msg_view.php';
+    //
+    echo $breadcrumb;
 
 
-/*
- * nạp view riêng của từng theme nếu có
- */
-$theme_default_view = VIEWS_PATH . 'default/' . basename(__FILE__);
-// nạp file kiểm tra private view
-include VIEWS_PATH . 'private_view.php';
+    // thông điệp lỗi trả về nếu có
+    include __DIR__ . '/includes/msg_view.php';
 
 
-//
-echo $footer;
+    // nạp view riêng của từng theme nếu có
+    $theme_default_view = VIEWS_PATH . 'default/' . basename(__FILE__);
+    // nạp file kiểm tra private view
+    include VIEWS_PATH . 'private_view.php';
 
 
-/*
- * đoạn footer dùng chung cho toàn website
- */
-require __DIR__ . '/includes/footer_global.php';
+    //
+    echo $footer;
 
 
-?>
+    // đoạn footer dùng chung cho toàn website
+    require __DIR__ . '/includes/footer_global.php';
+
+
+    ?>
 </body>
 
 </html>

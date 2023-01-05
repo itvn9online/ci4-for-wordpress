@@ -37,7 +37,7 @@ use App\Helpers\HtmlTemplate;
 
 //
 if ($seo['canonical'] != '') {
-?>
+    ?>
 <link href="<?php echo $seo['canonical']; ?>" rel="canonical" />
 <meta property="og:url" content="<?php echo $seo['canonical']; ?>" />
 <?php
@@ -45,14 +45,14 @@ if ($seo['canonical'] != '') {
 
 //
 if ($seo['shortlink'] != '') {
-?>
+    ?>
 <link href="<?php echo $seo['shortlink']; ?>" rel="shortlink" />
 <?php
 }
 
 //
 if (CDN_BASE_URL != '') {
-?>
+    ?>
 <link rel="dns-prefetch" href="<?php echo CDN_BASE_URL; ?>" />
 <?php
 }
@@ -60,14 +60,14 @@ if (CDN_BASE_URL != '') {
 //
 //print_r( $getconfig );
 if ($getconfig->blog_private == 'on' || $seo['index'] == 'off') {
-?>
+    ?>
 <meta name="robots" content="noindex, nofollow" />
 <?php
 }
 
 //
 if ($getconfig->fb_app_id != '') {
-?>
+    ?>
 <meta property="fb:app_id" content="<?php echo $getconfig->fb_app_id; ?>" />
 <?php
 }
@@ -136,7 +136,7 @@ $arr_preload_bootstrap = [
 ];
 
 foreach ($arr_preload_bootstrap as $v) {
-?>
+    ?>
 <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="<?php echo $v; ?>" />
 <?php
 }
@@ -221,11 +221,6 @@ $WGR_config = [
     'cid' => $current_tid,
 ];
 
-?>
-<script>
-redirect_to_canonical();
-</script>
-<?php
 
 //
 $base_model->JSON_parse([

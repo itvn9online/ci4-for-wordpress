@@ -25,8 +25,13 @@ class Layout extends Sync
     // với 1 số controller, sẽ không nạp cái HTML header vào, nên có thêm tham số này để không nạp header nữa
     public $preload_header = true;
 
+    // ID của user đang đang nhập
     public $current_user_id = 0;
-    public $current_user_type = '';
+    // phân loại user đang đăng nhập
+    public $current_user_type = 'nologin';
+    // kiểu login -> dùng để css cho frontend nó dễ hơn
+    public $current_user_logged = 'free-viewer';
+    //
     public $current_pid = 0;
     public $current_tid = 0;
     public $breadcrumb_position = 1;
@@ -110,6 +115,7 @@ class Layout extends Sync
         if (!empty($this->session_data) && isset($this->session_data['userID']) && $this->session_data['userID'] > 0) {
             $this->current_user_id = $this->session_data['userID'];
             $this->current_user_type = $this->session_data['member_type'];
+            $this->current_user_logged = 'logged-in';
         }
 
         //
@@ -196,6 +202,7 @@ class Layout extends Sync
                 'session_data' => $this->session_data,
                 'current_user_id' => $this->current_user_id,
                 'current_user_type' => $this->current_user_type,
+                'current_user_logged' => $this->current_user_logged,
                 'current_tid' => $this->current_tid,
                 'current_pid' => $this->current_pid,
                 'debug_enable' => $this->debug_enable,

@@ -17,12 +17,12 @@ class Posts extends Csrf
         parent::__construct();
     }
 
-    public function index($id, $slug = '')
+    public function index($id = 0, $slug = '')
     {
         return $this->post_details($id, $slug);
     }
 
-    public function post_details($id, $slug = '')
+    public function post_details($id = 0, $slug = '')
     {
         //echo $id . ' <br>' . "\n";
         //echo $slug . ' <br>' . "\n";

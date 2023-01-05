@@ -1058,7 +1058,14 @@ function move_custom_code_to() {
 }
 
 // kiểm tra url hiện tại có trùng với canonical không, nếu không thì redirect tới canonical
-function redirect_to_canonical() {
+function redirect_to_canonical(body_class) {
+    // không thực hiện redirect ở trang 404
+    if (body_class.split('page404').length > 1) {
+        console.log('%c is 404 page!', 'color: red;');
+        return false;
+    }
+
+    //
     var a = $('link[rel="canonical"]').attr('href') || '';
     if (a != '' && window.location.href.split(a).length === 1) {
         if (a.split('?').length > 1) {

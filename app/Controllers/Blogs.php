@@ -20,7 +20,7 @@ class Blogs extends Posts
 
     public function blog_details($id, $slug)
     {
-        return $this->index($id, $slug);
+        return $this->post_details($id, $slug);
     }
 
     public function blogs_list($slug, $set_page = '', $page_num = 1)
@@ -36,13 +36,15 @@ class Blogs extends Posts
         }
 
         // -> kiểm tra theo category
-        $data = $this->term_model->get_taxonomy(array(
-            // các kiểu điều kiện where
-            'slug' => $slug,
-            'is_deleted' => DeletedStatus::FOR_DEFAULT,
-            'lang_key' => $this->lang_key,
-            'taxonomy' => $this->taxonomy,
-        ));
+        $data = $this->term_model->get_taxonomy(
+            array(
+                // các kiểu điều kiện where
+                'slug' => $slug,
+                'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                'lang_key' => $this->lang_key,
+                'taxonomy' => $this->taxonomy,
+            )
+        );
         //print_r( $data );
 
         // có -> ưu tiên category

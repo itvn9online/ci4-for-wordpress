@@ -285,7 +285,6 @@ $base_model->JSON_echo([
     'json_data' => $data,
 ], [
         // mảng này sẽ in ra dưới dạng string
-
     ]);
 
 

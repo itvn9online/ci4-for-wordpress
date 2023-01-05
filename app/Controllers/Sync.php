@@ -287,6 +287,8 @@ class Sync extends BaseController
                 'time_order' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Sắp xếp độ ưu tiên của post dựa theo thời gian hiện tại\'',
                 'category_primary_id' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'ID của danh mục chính, hữu dụng khi 1 post có nhiều danh mục\'',
                 'category_primary_slug' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Slug của danh mục chính, dùng để làm URL nếu muốn\'',
+                'category_second_id' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'ID của danh mục phụ, hữu dụng khi 1 post có nhiều danh mục\'',
+                'category_second_slug' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Slug của danh mục phụ, dùng để làm URL nếu muốn\'',
                 'post_meta_data' => 'LONGTEXT NULL COMMENT \'Lưu các post meta vào đây để đỡ phải query nhiều\'',
             ],
             $prefix . 'terms' => [

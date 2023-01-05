@@ -29,6 +29,7 @@ class Home extends Csrf
         // dẫn tới trang post mặc định
         //if ( isset( $_GET[ 'p' ], $_GET[ 'post_type' ] ) ) {
         if ($post_id > 0) {
+            //die(__CLASS__ . ':' . __LINE__);
             return $this->showPostDetails($post_id, $this->MY_get('post_type', ''));
         }
         //
@@ -181,6 +182,7 @@ class Home extends Csrf
         //
         $in_cache = __FUNCTION__;
         $data = $this->post_model->the_cache($id, $in_cache);
+        //var_dump($data);
         if ($data === NULL) {
             // lấy post theo ID, không lọc theo post type -> vì nhiều nơi cần dùng đến
             $data = $this->base_model->select(
@@ -191,7 +193,7 @@ class Home extends Csrf
                     'ID' => $id,
                     // bỏ qua where post_type để còn tạo shortlink
                     //'post_type' => $post_type,
-                    'post_status' => PostType::PUBLICITY
+                    //'post_status' => PostType::PUBLICITY
                 ),
                 array(
                     // hiển thị mã SQL để check
@@ -203,10 +205,15 @@ class Home extends Csrf
                 )
             );
             //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
-            //die( __CLASS__ . ':' . __LINE__ );
+            //die(__CLASS__ . ':' . __LINE__);
 
             //
             if (!empty($data)) {
+                if ($data['post_status'] != PostType::PUBLICITY) {
+                    return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Bạn không có quyền xem bài viết này...');
+                    //die(__CLASS__ . ':' . __LINE__);
+                }
+
                 // lấy meta của post này
                 //$data[ 'post_meta' ] = $this->post_model->arr_meta_post( $data[ 'ID' ] );
                 $data = $this->post_model->the_meta_post($data);
@@ -218,9 +225,12 @@ class Home extends Csrf
             $this->post_model->the_cache($id, $in_cache, $data);
         }
         //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        //print_r($data);
+        //die(__CLASS__ . ':' . __LINE__);
 
         //
         if (!empty($data)) {
+            //die(__CLASS__ . ':' . __LINE__);
             // kiểm tra lại slug -> nếu sai thì redirect 301 qua url mới
             $this->post_model->check_canonical($slug, $data);
 
@@ -232,9 +242,9 @@ class Home extends Csrf
             // với các post type mặc định -> dùng page view
             if (
                 in_array($data['post_type'], [
-                        PostType::POST,
-                        PostType::BLOG,
-                        PostType::PAGE
+                    PostType::POST,
+                    PostType::BLOG,
+                    PostType::PAGE
                 ])
             ) {
                 return $this->pageDetail($data);

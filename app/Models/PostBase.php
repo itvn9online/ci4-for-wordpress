@@ -183,7 +183,15 @@ class PostBase extends EbModel
         }
 
         //
-        foreach (['page_base' => PAGE_BASE_URL, 'ID' => $data['ID'], 'post_name' => $data['post_name'], 'post_type' => $data['post_type'],] as $k => $v) {
+        $tmp = [
+            'page_base' => PAGE_BASE_URL,
+            'ID' => $data['ID'],
+            'post_name' => $data['post_name'],
+            'post_type' => $data['post_type'],
+            'category_primary_slug' => $data['category_primary_slug'],
+            'category_second_slug' => $data['category_second_slug'],
+        ];
+        foreach ($tmp as $k => $v) {
             $url = str_replace('%' . $k . '%', $v, $url);
         }
 

@@ -235,7 +235,7 @@ class PostMeta extends PostBase
     }
 
     // trả về ID của nhóm cha cuối cùng -> không là con của thằng nào cả
-    public function get_parents_term($where_in, $post_id, $col = 'term_id')
+    public function get_parents_term($where_in, $post_id, $col = 'term_id', $second_data = [])
     {
         // trả về 0 nếu không có đầu vào
         if (empty($where_in)) {
@@ -276,12 +276,18 @@ class PostMeta extends PostBase
         $research = [];
         $parent_data = [];
         $has_id = 0;
+        // xác định nhóm cấp 2 đầu tiên
+        $second_first = 0;
         foreach ($data as $k => $v) {
             //print_r($v);
 
             // nếu có nhóm cha -> bỏ
             if ($v['parent'] > 0) {
                 $research[] = $v['parent'];
+                if ($second_first === 0) {
+                    $second_first++;
+                    $second_data = $v;
+                }
                 continue;
             }
 
@@ -296,7 +302,10 @@ class PostMeta extends PostBase
 
         // có ID thì trả về
         if ($has_id > 0) {
-            // cập nhật cho post
+            //print_r($parent_data);
+            //print_r($second_data);
+
+            // cập nhật danh mục cho post
             $this->base_model->update_multiple('posts', [
                 // SET
                 'category_primary_id' => $parent_data['term_id'],
@@ -314,12 +323,32 @@ class PostMeta extends PostBase
                     //'no_remove_field' => 1
                 ]);
 
+            //
+            if (!empty($second_data)) {
+                $this->base_model->update_multiple('posts', [
+                    // SET
+                    'category_second_id' => $second_data['term_id'],
+                    'category_second_slug' => $second_data['slug'],
+                ], [
+                        // WHERE
+                        'ID' => $post_id,
+                    ], [
+                        'debug_backtrace' => debug_backtrace()[1]['function'],
+                        // hiển thị mã SQL để check
+                        //'show_query' => 1,
+                        // trả về câu query để sử dụng cho mục đích khác
+                        //'get_query' => 1,
+                        // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
+                        //'no_remove_field' => 1
+                    ]);
+            }
+
             // trả về dữ liệu
             return $parent_data;
         }
 
         // không có thì tìm tiếp theo parent
-        return $this->get_parents_term($research, $post_id, $col);
+        return $this->get_parents_term($research, $post_id, $col, $second_data);
     }
 
     public function set_meta_post($post_id, $key = '', $v = '')
@@ -453,8 +482,8 @@ class PostMeta extends PostBase
                 );
                 //print_r( $sql );
                 $term_relationships = [
-                        TaxonomyType::POSTS => [],
-                        TaxonomyType::TAGS => [],
+                    TaxonomyType::POSTS => [],
+                    TaxonomyType::TAGS => [],
                 ];
                 foreach ($sql as $k => $v) {
                     $term_relationships[$v['taxonomy']][] = $v['term_taxonomy_id'];
