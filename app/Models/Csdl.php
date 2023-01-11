@@ -46,10 +46,10 @@ class Csdl extends Session
             //echo $this->db->insertID() . '<br>' . "\n";
             return $this->db->insertID();
             /*
-             } else {
-             print_r( $this->db->error() );
-             print_r( $this->db->_error_message() );
-             */
+            } else {
+            print_r( $this->db->error() );
+            print_r( $this->db->_error_message() );
+            */
         }
         return false;
     }
@@ -135,22 +135,22 @@ class Csdl extends Session
 
         //
         /*
-         if ( isset( $ops[ 'join' ] ) ) {
-         foreach ( $ops[ 'join' ] as $k => $v ) {
-         $builder->join( $k, $v, 'inner' );
-         }
-         }
-         if ( isset( $ops[ 'left_join' ] ) ) {
-         foreach ( $ops[ 'left_join' ] as $k => $v ) {
-         $builder->join( $k, $v, 'left' );
-         }
-         }
-         if ( isset( $ops[ 'right_join' ] ) ) {
-         foreach ( $ops[ 'right_join' ] as $k => $v ) {
-         $builder->join( $k, $v, 'right' );
-         }
-         }
-         */
+        if ( isset( $ops[ 'join' ] ) ) {
+        foreach ( $ops[ 'join' ] as $k => $v ) {
+        $builder->join( $k, $v, 'inner' );
+        }
+        }
+        if ( isset( $ops[ 'left_join' ] ) ) {
+        foreach ( $ops[ 'left_join' ] as $k => $v ) {
+        $builder->join( $k, $v, 'left' );
+        }
+        }
+        if ( isset( $ops[ 'right_join' ] ) ) {
+        foreach ( $ops[ 'right_join' ] as $k => $v ) {
+        $builder->join( $k, $v, 'right' );
+        }
+        }
+        */
 
         //
         $builder->update($data);
@@ -375,19 +375,19 @@ class Csdl extends Session
             }
         }
         /*
-         if ( isset( $ops[ 'full_join' ] ) ) {
-         foreach ( $ops[ 'full_join' ] as $k => $v ) {
-         $builder->join( $k, $v, 'full' );
-         }
-         }
-         */
+        if ( isset( $ops[ 'full_join' ] ) ) {
+        foreach ( $ops[ 'full_join' ] as $k => $v ) {
+        $builder->join( $k, $v, 'full' );
+        }
+        }
+        */
         /*
-         if ( isset( $ops[ 'self_join' ] ) ) {
-         foreach ( $ops[ 'self_join' ] as $k => $v ) {
-         $builder->join( $k, $v, 'self' );
-         }
-         }
-         */
+        if ( isset( $ops[ 'self_join' ] ) ) {
+        foreach ( $ops[ 'self_join' ] as $k => $v ) {
+        $builder->join( $k, $v, 'self' );
+        }
+        }
+        */
         // điều kiện lấy dữ liệu
         foreach ($where as $k => $v) {
             if ($v === NULL) {
@@ -546,10 +546,10 @@ class Csdl extends Session
         }
         //print_r($op);
         /*
-         if ( isset( $ops[ 'limit' ] ) && $ops[ 'limit' ] > 0 ) {
-         $builder->limit( $ops[ 'limit' ], $ops[ 'offset' ] );
-         }
-         */
+        if ( isset( $ops[ 'limit' ] ) && $ops[ 'limit' ] > 0 ) {
+        $builder->limit( $ops[ 'limit' ], $ops[ 'offset' ] );
+        }
+        */
         // daidq (2021-12-25): để tránh trường hợp select unlimit cho dữ liệu lớn -> đặt mặc định lệnh LIMIT nếu không được chỉ định
         if (!isset($ops['limit']) || $ops['limit'] === 0) {
             //echo 'auto limit <br>' . "\n";
@@ -613,7 +613,7 @@ class Csdl extends Session
     }
 
     /*
-     * Sử dụng query bindings để hạn chế sql injection
+     * Sử dụng query bindings để hạn chế sql injection -> params
      * https://www.codeigniter.com/user_guide/database/queries.html#query-bindings
      */
     public function MY_query($sql, $params = [])

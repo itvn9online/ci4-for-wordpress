@@ -756,6 +756,8 @@ span.taxonomy-count:after {
 }
 
 /* */
+.ebe-currency {}
+
 .ebe-currency:before,
 .ebe-currency:after {
     content: "\0111";
@@ -779,7 +781,6 @@ span.taxonomy-count:after {
     content: "t\1EF7";
 }
 
-/* .ebe-currency:after, */
 .ebe-currency:after {
     display: inline-block;
     margin-left: 2px;

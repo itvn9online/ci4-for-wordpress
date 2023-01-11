@@ -818,7 +818,7 @@ function after_each_to_taxonomy(data) {
                     arr_ajax_taxonomy.push(taxonomy_data);
 
                     //
-                    var taxonomy_name = taxonomy_data.name;
+                    var taxonomy_name = (taxonomy_data.term_shortname != '' ? taxonomy_data.term_shortname : taxonomy_data.name);
                     if (uri != '') {
                         // thay thế dữ liệu cho uri
                         var url = uri;

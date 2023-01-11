@@ -6,7 +6,7 @@ class Ajaxs extends Layout
     // chức năng này không cần nạp header
     public $preload_header = false;
 
-    protected $select_term_col = 'term_id, name, slug, term_group, count, parent, taxonomy, child_count, child_last_count';
+    protected $select_term_col = 'term_id, name, slug, term_shortname, term_group, count, parent, taxonomy, child_count, child_last_count';
 
     public function __construct()
     {
@@ -47,7 +47,7 @@ class Ajaxs extends Layout
                         'error' => 'EMPTY ids'
                     ]
                 )
-                );
+            );
         }
 
         //

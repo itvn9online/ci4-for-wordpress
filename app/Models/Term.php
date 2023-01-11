@@ -1001,9 +1001,9 @@ class Term extends TermBase
 
         // không có thì mới tạo và update vào db
         $allow_taxonomy = [
-                TaxonomyType::TAGS,
-                TaxonomyType::BLOGS,
-                TaxonomyType::BLOG_TAGS,
+            TaxonomyType::TAGS,
+            TaxonomyType::BLOGS,
+            TaxonomyType::BLOG_TAGS,
         ];
         if ($data['taxonomy'] == TaxonomyType::POSTS) {
             //return $base_url . CATEGORY_BASE_URL . $data[ 'slug' ];
@@ -1222,7 +1222,7 @@ class Term extends TermBase
     {
         // chức năng này chỉ hoạt động vào khung giờ thấp điểm
         if ($run_h_only === true && date('H') % 6 != 0) {
-            return 'Run in 0, 6, 12 ỏ 24h only';
+            return 'Run in 0, 6, 12 or 24h only';
         }
 
         //
@@ -1313,7 +1313,7 @@ class Term extends TermBase
         $this->base_model->MY_query(
             $sql,
             [
-                    DeletedStatus::FOR_DEFAULT
+                DeletedStatus::FOR_DEFAULT
             ]
         );
 
@@ -1340,31 +1340,11 @@ class Term extends TermBase
         $this->base_model->MY_query(
             $sql,
             [
-                    DeletedStatus::DELETED
+                DeletedStatus::DELETED
             ]
         );
 
-        // đặt trạng thái public các các relationships của post đang public
-        /*
-        // trong builder CI4 lệnh UPDATE chưa hỗ trợ lệnh join
-        $this->base_model->update_multiple( 'term_relationships', [
-        // SET
-        'term_relationships.is_deleted' => DeletedStatus::FOR_DEFAULT,
-        ], [
-        // WHERE
-        'posts.post_status' => PostType::PUBLICITY,
-        ], [
-        'join' => array(
-        'posts' => 'posts.ID = term_relationships.object_id'
-        ),
-        // hiển thị mã SQL để check
-        'show_query' => 1,
-        // trả về câu query để sử dụng cho mục đích khác
-        //'get_query' => 1,
-        // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
-        'no_remove_field' => 1
-        ] );
-        */
+        // đặt trạng thái public các relationships của post đang public
         $params = [];
         $sql = "UPDATE " . $prefix . "term_relationships
         INNER JOIN

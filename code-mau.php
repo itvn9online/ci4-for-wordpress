@@ -30,6 +30,7 @@ $base_model->get_add_css('public/css/ten_file.css', [
 
 <!-- các file JS chuyển từ PHP sang sẽ cho vào đây -->
 <?php
+
 $base_model->add_js('javascript/ten_file.js', [
     'get_content' => 1,
     'preload' => 1,
@@ -37,6 +38,7 @@ $base_model->add_js('javascript/ten_file.js', [
 ], [
         'defer'
     ]);
+
 $base_model->adds_js([
     'javascript/ten_file.js',
     'themes/' . THEMENAME . '/js/aaaaaaaaaaa.js',
@@ -47,6 +49,7 @@ $base_model->adds_js([
     ], [
         'defer'
     ]);
+
 // lấy mã JS trả về thay vì echo luôn
 $base_model->get_add_js('javascript/ten_file.js', [
     'get_content' => 1,
@@ -106,10 +109,10 @@ if ($result_id !== false) {
 // UPDATE
 $result_id = $this->base_model->update_multiple('users', [
     // SET
-    'is_member' => User_type::GUEST,
+    'member_type' => UsersType::GUEST,
 ], [
         // WHERE
-        'is_member' => User_type::GUEST,
+        'member_type' => UsersType::GUEST,
     ], [
         'debug_backtrace' => debug_backtrace()[1]['function'],
         // trong builder CI4 lệnh UPDATE chưa hỗ trợ lệnh join
@@ -127,7 +130,7 @@ $result_id = $this->base_model->update_multiple('users', [
             )
         ),
         'where_not_in' => array(
-            'user_id' => array(
+            'ID' => array(
                 1,
                 2,
                 3
@@ -139,7 +142,6 @@ $result_id = $this->base_model->update_multiple('users', [
         'get_query' => 1,
         // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
         //'no_remove_field' => 1
-
     ]);
 
 if ($result_id !== false) {
@@ -156,12 +158,13 @@ $data = $this->base_model->select(
         // WHERE AND OR
         "(aaaaaaaaaa = 1 OR bbbbbbb = 2)" => NULL,
         // WHERE IN
-        "user_id IN (SELECT user_id FROM tbl_0 WHERE select_id = " . $chapter_id . ")" => NULL,
+        "ID IN (SELECT user_id FROM tbl_0 WHERE select_id = " . $chapter_id . ")" => NULL,
         // mặc định
         'date_check_in >= ' => 1,
         'date_check_in <= ' => 10,
-        'is_member' => User_type::MEMBER,
-        'is_member' => User_type::GUEST,
+        'member_type' => UsersType::MEMBER,
+        'member_type' => UsersType::GUEST,
+        'is_deleted' => DeletedStatus::FOR_DEFAULT,
         'FIND_IN_SET(\'string_to_find\', column_name)' => NULL,
     ),
     array(
@@ -171,17 +174,17 @@ $data = $this->base_model->select(
                 'username' => 3,
                 'FIND_IN_SET(\'string_to_find\', column_name)' => NULL,
             ],
-            'user_id' => 1
+            'ID' => 1
         ),
         'where_in' => array(
-            'user_id' => array(
+            'ID' => array(
                 1,
                 2,
                 3
             )
         ),
         'where_not_in' => array(
-            'user_id' => array(
+            'ID' => array(
                 1,
                 2,
                 3
@@ -193,27 +196,27 @@ $data = $this->base_model->select(
         ),
         'like' => array(
             'username' => 2,
-            'user_id' => 1
+            'ID' => 1
         ),
         'not_like' => array(
             'username' => 2,
-            'user_id' => 1
+            'ID' => 1
         ),
         'or_like' => array(
             'username' => 2,
-            'user_id' => 1
+            'ID' => 1
         ),
         'or_not_like' => array(
             'username' => 2,
-            'user_id' => 1
+            'ID' => 1
         ),
         'group_by' => array(
             'username',
-            'user_id',
+            'ID',
         ),
         'order_by' => array(
             'username' => 'ASC',
-            'user_id' => 'DESC'
+            'ID' => 'DESC'
         ),
         // hiển thị mã SQL để check
         'show_query' => 1,
@@ -231,21 +234,21 @@ $data = $this->base_model->select(
 // DELETE
 $this->base_model->delete_multiple('users', [
     // WHERE
-    'is_member' => User_type::GUEST,
+    'member_type' => UsersType::GUEST,
 ], [
         'join' => array(
             'tbl1' => 'tbl_0.id = tbl1.id',
             'tbl2' => 'tbl_0.id = tbl2.id'
         ),
         'where_in' => array(
-            'user_id' => array(
+            'ID' => array(
                 1,
                 2,
                 3
             )
         ),
         'where_not_in' => array(
-            'user_id' => array(
+            'ID' => array(
                 1,
                 2,
                 3

@@ -31,7 +31,9 @@ class Order extends Post
         if (!isset($data_insert['post_status'])) {
             $data_insert['post_status'] = OrderType::PENDING;
         }
-        $data_insert['post_type'] = $this->post_type;
+        if (!isset($data_insert['post_type'])) {
+            $data_insert['post_type'] = $this->post_type;
+        }
 
         // tự động tạo mã đơn hàng nếu chưa có
         if (!isset($data_insert['post_name']) || $data_insert['post_name'] == '') {
