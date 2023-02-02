@@ -335,16 +335,16 @@ class PostQuery extends PostMeta
             $post_id,
             $where,
             [
-                'where_in' => array(
-                    'post_status' => array(
+                'where_in' => [
+                    'post_status' => [
                             // ai cũng có thể xem
                         PostType::PUBLICITY,
                             // người dùng đã đăng nhập
                         PostType::PRIVATELY,
                             // cho admin xem trước
                         PostType::DRAFT,
-                    )
-                ),
+                    ]
+                ],
             ]
         );
     }
