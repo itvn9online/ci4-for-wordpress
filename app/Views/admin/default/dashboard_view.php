@@ -4,7 +4,7 @@
 //echo $current_user_id;
 
 //
-$ci_last_version = 4211;
+$ci_last_version = 431;
 
 //
 $Vue_version = '{{Vue.version}}';
@@ -251,7 +251,7 @@ if ($debug_enable === true) {
      * hiển thị chức năng bật/ tắt debug đối với admin
      */
     if ($session_data['member_type'] == $user_type['admin']) {
-    ?>
+        ?>
     <!-- DEBUG -->
     <div>
         <div v-if="debug_enable > 0">

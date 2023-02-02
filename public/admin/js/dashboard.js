@@ -63,7 +63,12 @@ vue_data.client_os = (function () {
     return os;
 })();
 vue_data.warning_ci_version = function (a, b) {
-    if (a.replace(/\./gi, '') * 1 < b) {
+    //
+    a = a.toString().replace(/\./gi, '') * 1;
+    b = b.toString() * 1;
+
+    //
+    if (a < b) {
         return 'orgcolor';
     }
     return 'greencolor';
