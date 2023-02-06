@@ -126,7 +126,7 @@ class Optimize extends Admin
             $c = $this->WGR_update_core_remove_php_multi_comment($this->WGR_update_core_remove_php_comment(file_get_contents($filename, 1)));
             if ($c != '') {
                 $c .= PHP_EOL;
-            //$c .= ' ';
+                //$c .= ' ';
             }
             $this->base_model->_eb_create_file($filename, $c, ['ftp' => 1]);
         }
@@ -318,8 +318,7 @@ class Optimize extends Admin
             $v = trim($v);
 
             if ($v == '' || substr($v, 0, 2) == '//') {
-            }
-            else {
+            } else {
                 // thêm dấu xuống dòng với 1 số trường hợp
                 if ($chim == true || strpos($v, '//') !== false || substr($v, -1) == '\\') {
                     $v .= "\n";
@@ -394,7 +393,7 @@ class Optimize extends Admin
         // nếu số thẻ đóng với thẻ mở khác nhau -> hủy luôn
         if (count($a) != count($b)) {
             return $str;
-        //		return _eb_str_block_fix_content( $str );
+            //		return _eb_str_block_fix_content( $str );
         }
 
         //
@@ -407,7 +406,7 @@ class Optimize extends Admin
         }
 
         return $str;
-    //	return _eb_str_block_fix_content( $str );
+        //	return _eb_str_block_fix_content( $str );
     }
 
     private function _eb_arr_block_fix_content()
@@ -570,18 +569,18 @@ class Optimize extends Admin
             }
 
             $str .= $v . "\n";
-        /*
-         if ( strpos( $v, '//' ) !== false ) {
-         $str .= "\n";
-         } else {
-         $str .= ' ';
-         }
-         */
+            /*
+            if ( strpos( $v, '//' ) !== false ) {
+            $str .= "\n";
+            } else {
+            $str .= ' ';
+            }
+            */
         }
 
         //
         return trim($str);
-    //	return trim( $str );
+        //	return trim( $str );
     }
 
     private function WGR_update_core_remove_php_comment($a)
@@ -607,14 +606,16 @@ class Optimize extends Admin
 
             //
             $str .= $v . "\n";
-        /*
-         if ( strpos( $v, '//' ) !== false ) {
-         $str .= "\n";
-         } else {
-         $str .= ' ';
-         }
-         */
+            /*
+            if ( strpos( $v, '//' ) !== false ) {
+            $str .= "\n";
+            } else {
+            $str .= ' ';
+            }
+            */
         }
+        // tránh dấu cách khi optimize file php
+        $str = str_replace('?><?php', '?> <?php', $str);
 
         //	return trim( WGR_remove_js_multi_comment( $str ) );
         return trim($str);

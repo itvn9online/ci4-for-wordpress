@@ -1059,7 +1059,7 @@ class Term extends TermBase
         $tmp = '<tr>
             <td>&nbsp;</td>
             <td><a href="%get_admin_permalink%">' . $gach_ngang . ' %name% <i class="fa fa-edit"></i></a></td>
-            <td><a href="%view_url%" target="_blank">%slug% <i class="fa fa-external-link"></i></a></td>
+            <td><a href="%view_url%" target="_blank">%slug% <i class="fa fa-eye"></i></a></td>
             <td class="d-none show-if-ads-type">%custom_size%</td>
             <td>&nbsp;</td>
             <td>%lang_key%</td>

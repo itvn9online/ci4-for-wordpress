@@ -33,9 +33,9 @@ $base_model->adds_css([
                     <div class="lf f30">
                         <?php
                         if ($by_is_deleted > 0) {
-                        ?>
-                        <input type="hidden" name="is_deleted" value="<?php echo $by_is_deleted; ?>">
-                        <?php
+                            ?>
+                            <input type="hidden" name="is_deleted" value="<?php echo $by_is_deleted; ?>">
+                            <?php
                         }
                         ?>
                         <input name="s" value="<?php echo $by_keyword; ?>"
@@ -93,7 +93,7 @@ $base_model->adds_css([
                 <td><span data-id="{{v.parent}}" data-taxonomy="<?php echo $taxonomy; ?>" data-line="{{v.gach_ngang}}"
                         class="parent-term-name"></span> <a href="{{v.get_admin_permalink}}">{{v.gach_ngang}}{{v.name}}
                         <i class="fa fa-edit"></i></a></td>
-                <td><a href="{{v.view_url}}" target="_blank">{{v.slug}} <i class="fa fa-external-link"></i></a></td>
+                <td><a href="{{v.view_url}}" target="_blank">{{v.slug}} <i class="fa fa-eye"></i></a></td>
                 <td>{{v.term_shortname}}</td>
                 <td class="d-none show-if-ads-type">
                     <?php echo $ads_size; ?>
@@ -182,9 +182,9 @@ $base_model->JSON_echo([
 
 //
 if ($taxonomy == TaxonomyType::ADS) {
-?>
-<pre><code>&lt;?php $post_model->the_ads( '%slug%' ); ?&gt;</code></pre>
-<?php
+    ?>
+    <pre><code>&lt;?php $post_model->the_ads( '%slug%' ); ?&gt;</code></pre>
+    <?php
 }
 
 // js riêng cho từng post type (nếu có)
@@ -195,12 +195,12 @@ $base_model->adds_js([
 
 ?>
 <script>
-WGR_vuejs('#app', {
-    allow_mysql_delete: allow_mysql_delete,
-    data: term_data,
-    by_is_deleted: '<?php echo $by_is_deleted; ?>',
-    controller_slug: controller_slug,
-    for_action: for_action,
-    DeletedStatus_DELETED: DeletedStatus_DELETED,
-});
+    WGR_vuejs('#app', {
+        allow_mysql_delete: allow_mysql_delete,
+        data: term_data,
+        by_is_deleted: '<?php echo $by_is_deleted; ?>',
+        controller_slug: controller_slug,
+        for_action: for_action,
+        DeletedStatus_DELETED: DeletedStatus_DELETED,
+    });
 </script>
