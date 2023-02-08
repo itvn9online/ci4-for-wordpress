@@ -30,6 +30,9 @@ class Configs extends Admin
         if ($this->config_type == '') {
             $this->config_type = $this->MY_get('config_type', ConfigType::CONFIG);
         }
+
+        //
+        $this->payment_model = new \App\Models\Payment();
     }
 
     public function index()
@@ -117,6 +120,7 @@ class Configs extends Admin
                     'config_name' => ConfigType::typeList($this->config_type),
                 ],
                 'value' => (object) $value,
+                'checkout_config' => $this->payment_model->getCheckoutConfig(false),
             )
         );
         return view('admin/admin_teamplate', $this->teamplate_admin);
@@ -223,10 +227,10 @@ class Configs extends Admin
             //$id = '1';
 
             /*
-             $robot = fopen( PUBLIC_PUBLIC_PATH . 'robots.txt', 'w' )or die( 'Unable to open file!' );
-             fwrite( $robot, $data[ 'robots' ] );
-             fclose( $robot );
-             */
+            $robot = fopen( PUBLIC_PUBLIC_PATH . 'robots.txt', 'w' )or die( 'Unable to open file!' );
+            fwrite( $robot, $data[ 'robots' ] );
+            fclose( $robot );
+            */
 
             //
             $this->base_model->_eb_create_file(PUBLIC_PUBLIC_PATH . 'robots.txt', $data['robots'], ['ftp' => 1]);
@@ -322,7 +326,7 @@ class Configs extends Admin
                         'error' => 'Test email is NULL or not found!'
                     ]
                 )
-                );
+            );
         }
 
         //
@@ -330,13 +334,13 @@ class Configs extends Admin
             'to' => $smtp_config->smtp_test_email,
             'to_name' => 'Dao Quoc Dai',
             /*
-             'bcc_email' => [
-             'v0tjnhlangtu@gmail.com'
-             ],
-             'cc_email' => [
-             'itvn9online@yahoo.com'
-             ],
-             */
+            'bcc_email' => [
+            'v0tjnhlangtu@gmail.com'
+            ],
+            'cc_email' => [
+            'itvn9online@yahoo.com'
+            ],
+            */
             'subject' => 'Test email ' . date('r'),
             'message' => implode(
                 '<br>',
@@ -429,9 +433,9 @@ class Configs extends Admin
             } else if ($show > 0) {
                 echo $k . ': ' . $v . '<br>' . "\n";
                 /*
-                 } else {
-                 echo $k . ': ' . $v . '<br>' . "\n";
-                 */
+                } else {
+                echo $k . ': ' . $v . '<br>' . "\n";
+                */
             }
         }
 

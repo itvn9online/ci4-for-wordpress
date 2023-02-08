@@ -28,7 +28,7 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
 
             //
             if ($config_type == ConfigType::SMTP) {
-            ?>
+                ?>
             <div class="control-group eb-control-group cf">
                 <div class="lf f15">
                     <label class="text-right right-menu-space">PHPMailer version</label>
@@ -36,8 +36,8 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                 <div class="lf f50">
                     <div class="bold s15">
                         <?php
-                echo file_get_contents(APPPATH . 'ThirdParty/PHPMailer/VERSION', 1);
-                        ?>
+                            echo file_get_contents(APPPATH . 'ThirdParty/PHPMailer/VERSION', 1);
+                            ?>
                     </div>
                     <p class="controls-text-note">Kiểm tra và tải phiên bản mới nhất <a
                             href="https://github.com/PHPMailer/PHPMailer/releases" target="_blank" rel="noreferrer"
@@ -46,7 +46,7 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
             </div>
             <?php
             } else if ($config_type == ConfigType::SOCIAL) {
-            ?>
+                ?>
             <div class="control-group eb-control-group cf">
                 <div class="lf f15">
                     <label class="text-right right-menu-space">Share icons</label>
@@ -74,7 +74,7 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
             
                 //
                 if ($input_type == 'heading') {
-            ?>
+                    ?>
             <p class="bold medium text-center top-menu-space">
                 <?php echo $v; ?>
             </p>
@@ -84,18 +84,18 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
 
                 //
                 if ($input_type == 'hidden') {
-            ?>
+                    ?>
             <input type="<?php echo $input_type; ?>" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>"
                 value="<?php echo htmlentities($data[$k], ENT_QUOTES, 'UTF-8'); ?>" />
             <?php
                     continue;
                 } // END if hidden
             
-            ?>
+                ?>
             <div class="control-group eb-control-group cf">
                 <?php
-                if ($input_type == 'checkbox') {
-                ?>
+                    if ($input_type == 'checkbox') {
+                        ?>
                 <div class="lf f15">&nbsp;</div>
                 <div class="lf f50 controls-checkbox">
                     <label for="data_<?php echo $k; ?>">
@@ -105,16 +105,16 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                     </label>
                     <?php
 
-                    // hiển thị ghi chú nếu có
-                    ConfigType::meta_desc($k);
+                            // hiển thị ghi chú nếu có
+                            ConfigType::meta_desc($k);
 
-                    ?>
+                            ?>
                 </div>
                 <?php
-                }
-                // END if checkbox
-                else if ($input_type == 'color') {
-                ?>
+                    }
+                    // END if checkbox
+                    else if ($input_type == 'color') {
+                        ?>
                 <div class="lf f15">
                     <label for="data_<?php echo $k; ?>" class="text-right right-menu-space">
                         <?php echo $v; ?>
@@ -129,16 +129,16 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                         data-set="data_<?php echo $k; ?>" class="bluecolor click-to-reset-site-color">Mặc định</a>
                     <?php
 
-                    // hiển thị ghi chú nếu có
-                    ConfigType::meta_desc($k);
+                                // hiển thị ghi chú nếu có
+                                ConfigType::meta_desc($k);
 
-                    ?>
+                                ?>
                 </div>
                 <?php
-                }
-                // END if color
-                else {
-                ?>
+                    }
+                    // END if color
+                    else {
+                        ?>
                 <div class="lf f15">
                     <label for="data_<?php echo $k; ?>" class="text-right right-menu-space">
                         <?php echo $v; ?>
@@ -147,55 +147,55 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                 <div class="lf f50">
                     <?php
 
-                    if ($input_type == 'textarea') {
-                    ?>
+                                if ($input_type == 'textarea') {
+                                    ?>
                     <textarea class="span10 required fix-textarea-height" style="height:100px"
                         placeholder="<?php echo $v; ?>" name="data[<?php echo $k; ?>]"
                         id="data_<?php echo $k; ?>"><?php echo $data[$k]; ?></textarea>
                     <?php
-                    }
-                    // END if textarea
-                    else if ($input_type == 'select') {
-                        $select_options = ConfigType::meta_select($k);
+                                }
+                                // END if textarea
+                                else if ($input_type == 'select') {
+                                    $select_options = ConfigType::meta_select($k);
 
-                    ?>
+                                    ?>
                     <select data-select="<?php echo $data[$k]; ?>" name="data[<?php echo $k; ?>]"
                         id="data_<?php echo $k; ?>" class="span5">
                         <?php
 
-                        foreach ($select_options as $option_k => $option_v) {
-                            echo '<option value="' . $option_k . '">' . $option_v . '</option>';
-                        }
+                                        foreach ($select_options as $option_k => $option_v) {
+                                            echo '<option value="' . $option_k . '">' . $option_v . '</option>';
+                                        }
 
-                        ?>
+                                        ?>
                     </select>
                     <?php
-                    }
-                    // END if select
-                    else {
-                        // thay đổi độ rộng của input cho phù hợp
-                        $span10 = 'span10';
-                        if ($input_type != 'text') {
-                            $span10 = 'span5';
-                        }
+                                }
+                                // END if select
+                                else {
+                                    // thay đổi độ rộng của input cho phù hợp
+                                    $span10 = 'span10';
+                                    if ($input_type != 'text') {
+                                        $span10 = 'span5';
+                                    }
 
-                        //
-                    ?>
+                                    //
+                                    ?>
                     <input type="<?php echo $input_type; ?>" class="<?php echo $span10; ?>"
                         placeholder="<?php echo ConfigType::placeholder($k, $v); ?>" name="data[<?php echo $k; ?>]"
                         id="data_<?php echo $k; ?>"
                         value="<?php echo htmlentities($data[$k], ENT_QUOTES, 'UTF-8'); ?>" />
                     <?php
-                    }
+                                }
 
-                    //
-                    ConfigType::meta_desc($k);
+                                //
+                                ConfigType::meta_desc($k);
 
-                    ?>
+                                ?>
                 </div>
                 <?php
-                } // END else checkbox
-                ?>
+                    } // END else checkbox
+                    ?>
                 <div class="lf f35"><input type="text" onDblClick="click2Copy(this);"
                         value="&lt;?php echo $this->getconfig-><?php echo $k; ?>; ?&gt;" class="span11" readonly />
                 </div>
@@ -224,7 +224,6 @@ $base_model->adds_js(
     ],
     [
         //'cdn' => CDN_BASE_URL,
-
     ],
     [
         'defer'
@@ -234,6 +233,7 @@ $base_model->adds_js(
 //
 $base_model->JSON_parse(
     [
+        'checkout_config' => $checkout_config,
         'vue_data' => $vue_data,
     ]
 );

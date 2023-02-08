@@ -63,6 +63,9 @@ $base_model->add_css('admin/css/' . $post_type . '.css');
                 <th>Tiêu đề
                     <?php echo $name_type; ?>
                 </th>
+                <th>Giá trị</th>
+                <th>Giảm giá</th>
+                <th>Tặng thêm</th>
                 <th>Thành viên/ Điện thoại/ Địa chỉ</th>
                 <th>&nbsp;</th>
             </tr>
@@ -77,10 +80,10 @@ $base_model->add_css('admin/css/' . $post_type . '.css');
                     <div>({{v.post_modified.substr(0, 16)}})</div>
                 </td>
                 <td>{{PostType_arrStatus[v.post_status]}}</td>
-                <td>
-                    <div><a :href="v.admin_permalink">{{v.post_title}} <i class="fa fa-edit"></i></a></div>
-                    <div><span class="ebe-currency">{{ number_format(v.order_money) }}</span></div>
-                </td>
+                <td><a :href="v.admin_permalink">{{v.post_title}} <i class="fa fa-edit"></i></a></td>
+                <td><span class="ebe-currency">{{ number_format(v.order_money) }}</span></td>
+                <td><span class="ebe-currency">{{ number_format(v.order_discount) }}</span></td>
+                <td><span class="ebe-currency">{{ number_format(v.order_bonus) }}</span></td>
                 <td>
                     <div><i class="fa fa-envelope"></i> <a :href="'admin/users/add?id=' + v.post_author"
                             :data-id="v.post_author" class="each-to-email" target="_blank">{{v.post_author}}</a></div>
@@ -112,15 +115,15 @@ $base_model->JSON_parse(
 
 ?>
 <script>
-WGR_vuejs('#app', {
-    controller_slug: '<?php echo $controller_slug; ?>',
-    post_type: '<?php echo $post_type; ?>',
-    post_status: '<?php echo $post_status; ?>',
-    for_action: '<?php echo $for_action; ?>',
-    PostType_DELETED: '<?php echo OrderType::DELETED; ?>',
-    PostType_arrStatus: PostType_arrStatus,
-    data: json_data,
-});
+    WGR_vuejs('#app', {
+        controller_slug: '<?php echo $controller_slug; ?>',
+        post_type: '<?php echo $post_type; ?>',
+        post_status: '<?php echo $post_status; ?>',
+        for_action: '<?php echo $for_action; ?>',
+        PostType_DELETED: '<?php echo OrderType::DELETED; ?>',
+        PostType_arrStatus: PostType_arrStatus,
+        data: json_data,
+    });
 </script>
 <?php
 

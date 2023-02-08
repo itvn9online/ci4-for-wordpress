@@ -278,7 +278,7 @@ class Sync extends BaseController
                 'post_shorttitle' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Tên rút gọn của post\'',
                 'post_shortslug' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Slug rút gọn của post\'',
                 'post_permalink' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Lưu permalink để cho nhẹ server\'',
-                'post_viewed' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Đếm số lượt xem bài viết\'',
+                'post_viewed' => 'BIGINT(20) NOT NULL DEFAULT \'1\' COMMENT \'Đếm số lượt xem bài viết\'',
                 'category_id' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'ID của category chính\'',
                 'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
                 'lang_parent' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Dùng để xác định với các bản ghi được nhân bản từ ngôn ngữ chính\'',
@@ -335,7 +335,10 @@ class Sync extends BaseController
                 'time_order' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Sắp xếp độ ưu tiên của post dựa theo thời gian hiện tại\'',
             ],
             $prefix . 'orders' => [
+                'order_period' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'Giá trị đơn hàng theo gói định sẵn\'',
                 'order_money' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Giá trị của đơn hàng\'',
+                'order_discount' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Tiền giảm giá cho mỗi đơn hàng\'',
+                'order_bonus' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Tiền cộng thêm cho mỗi đơn hàng\'',
             ],
         ];
 
@@ -675,9 +678,9 @@ class Sync extends BaseController
         $result['userEmail'] = $result['user_email'];
         // quyền admin
         $arr_admin_group = [
-                UsersType::AUTHOR,
-                UsersType::MOD,
-                UsersType::ADMIN,
+            UsersType::AUTHOR,
+            UsersType::MOD,
+            UsersType::ADMIN,
         ];
         if (in_array($result['member_type'], $arr_admin_group)) {
             $result['userLevel'] = UsersType::ADMIN_LEVEL;

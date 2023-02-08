@@ -1,0 +1,18 @@
+table.html-period-price {
+    min-width: 80%;
+}
+
+
+table.html-period-priceth,
+table.html-period-price td {
+    padding: 3px;
+}
+
+table.html-period-price th {}
+
+table.html-period-price td {}
+
+table.html-period-price input {
+    padding: 5px;
+    max-width: 150px;
+}

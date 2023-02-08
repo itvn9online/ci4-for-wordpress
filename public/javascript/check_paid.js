@@ -2,9 +2,9 @@
 * Chức năng kiểm tra trạng thái đơn hàng đã được thanh toán chưa
 */
 // Số lần kiểm tra tối đa -> hết lượt này nếu chưa thanh toán thì thôi
-var max_check_paid = 30;
+var max_check_paid = 60;
 // giãn cách mỗi lần kiểm tra
-var time_check_paid = 10000;
+var time_check_paid = 6000;
 
 //
 function payments_check_paid(__callBack) {
@@ -17,7 +17,9 @@ function payments_check_paid(__callBack) {
             order_id: order_id,
         },
         success: function (data) {
-            console.log(data);
+            if (WGR_config.cf_tester_mode > 0) {
+                console.log(data);
+            }
 
             //
             if (typeof data.status != 'undefined' && data.status * 1 > 0) {

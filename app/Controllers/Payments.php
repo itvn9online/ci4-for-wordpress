@@ -16,6 +16,7 @@ class Payments extends Layout
 
         //
         $this->order_model = new \App\Models\Order();
+        $this->payment_model = new \App\Models\Payment();
     }
 
     // hàm này là để ajax request tới server kiểm tra xem đơn hàng đã được thanh toán chưa
@@ -80,20 +81,8 @@ class Payments extends Layout
         ]);
     }
 
-    // chức năng thay đổi số tiền trong đơn hàng
-    public function change_period()
+    protected function getOrderId()
     {
-        //
-        $order_money = $this->MY_post('val', 0);
-        $order_money *= 1;
-
-        if ($order_money <= 0) {
-            $this->result_json_type([
-                'code' => __LINE__,
-                'error' => 'Không xác định được số tiền cần nạp'
-            ]);
-        }
-
         //
         $order_id = $this->MY_post('order_id', 0);
         $order_id *= 1;
@@ -104,30 +93,114 @@ class Payments extends Layout
                 'error' => 'Không xác định được hóa đơn cần xử lý'
             ]);
         }
+        return $order_id;
+    }
 
+    public function updateOrder($order_id, $update_data)
+    {
         //
-        $result_update = $this->order_model->update_order($order_id, [
-            // SET
-            // giá trị đơn hàng
-            //'menu_order' => $total_price,
-            'order_money' => $order_money,
-        ], [
-                // WHERE
-                'post_status' => OrderType::PENDING,
-                'post_author' => $this->current_user_id,
-            ]);
+        $result_update = $this->order_model->update_order($order_id, $update_data, [
+            // WHERE
+            'post_status' => OrderType::PENDING,
+            'post_author' => $this->current_user_id,
+        ]);
         //var_dump( $result_update );
 
         //
         if ($result_update) {
             $this->result_json_type([
                 'order_id' => $order_id,
-                'total_price' => $order_money,
+                'order_money' => $update_data['order_money'],
+                'order_discount' => $update_data['order_discount'],
+                'order_bonus' => $update_data['order_bonus'],
+                'total_price' => $update_data['order_money'] - $update_data['order_discount'],
             ]);
         }
         $this->result_json_type([
             'code' => __LINE__,
             'error' => 'LỖI cập nhật đơn hàng'
+        ]);
+    }
+
+    // thay đổi gói cước cố định trong config
+    public function change_period()
+    {
+        //
+        $order_id = $this->getOrderId('order_id', 0);
+
+        // xác định gói cước
+        $checkout_config = $this->payment_model->getCheckoutConfig();
+        //print_r($checkout_config);
+        //die(__CLASS__ . ':' . __LINE__);
+
+        // xác định ID gói cước
+        $period_id = $this->MY_post('val', 0);
+        $period_id *= 1;
+
+        //
+        $arr_period_price = $checkout_config['period_price'];
+        if (!isset($arr_period_price[$period_id])) {
+            $this->result_json_type([
+                'code' => __LINE__,
+                'error' => 'period not found!'
+            ]);
+        }
+        $arr_period_discount = $checkout_config['period_discount'];
+        $arr_period_bonus = $checkout_config['period_bonus'];
+
+        //
+        $update_data = [
+            // ID gói cước
+            'order_period' => $period_id,
+            // giá trị đơn hàng
+            'order_money' => $arr_period_price[$period_id],
+            // giảm giá
+            'order_discount' => $arr_period_discount[$period_id],
+            // tặng thêm
+            'order_bonus' => $arr_period_bonus[$period_id],
+        ];
+
+        // TEST
+        if (1 > 2) {
+            $this->result_json_type([
+                'code' => __LINE__,
+                'update_data' => $update_data,
+                'period_price' => $arr_period_price,
+                'period_discount' => $arr_period_discount,
+                'test' => $checkout_config,
+            ]);
+        }
+
+        //
+        return $this->updateOrder($order_id, $update_data);
+    }
+
+    // chức năng thay đổi số tiền trong đơn hàng
+    public function change_fund()
+    {
+        //
+        $order_id = $this->getOrderId('order_id', 0);
+
+        // xác định gói cước
+        $checkout_config = $this->payment_model->getCheckoutConfig();
+        //print_r($checkout_config);
+        //die(__CLASS__ . ':' . __LINE__);
+
+        //
+        $order_money = $this->MY_post('val', 0);
+        $order_money *= 1;
+
+        if ($order_money <= $checkout_config['min_product_price']) {
+            $this->result_json_type([
+                'code' => __LINE__,
+                'error' => 'Không xác định được số tiền cần nạp'
+            ]);
+        }
+
+        //
+        return $this->updateOrder($order_id, [
+            // giá trị đơn hàng
+            'order_money' => $order_money,
         ]);
     }
 }

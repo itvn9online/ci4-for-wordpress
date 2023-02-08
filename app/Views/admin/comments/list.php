@@ -1,7 +1,7 @@
 <?php
 
 // css riêng cho từng post type (nếu có)
-$base_model->add_css( 'admin/css/' . $comment_type . '.css' );
+$base_model->add_css('admin/css/' . $comment_type . '.css');
 
 ?>
 <ul class="admin-breadcrumb">
@@ -69,7 +69,9 @@ $base_model->add_css( 'admin/css/' . $comment_type . '.css' );
         </tr>
     </tbody>
 </table>
-<div class="public-part-page"> <?php echo $pagination; ?> Trên tổng số {{vue_data.totalThread}} bản ghi.</div>
+<div class="public-part-page">
+    <?php echo $pagination; ?> Trên tổng số {{vue_data.totalThread}} bản ghi.
+</div>
 <p class="d-none">* Copy đoạn code bên dưới rồi cho vào nơi cần hiển thị block này ở trong view. Nhớ thay %slug% thành
     slug thật trong danh sách ở trên.</p>
 <?php
@@ -84,16 +86,16 @@ $base_model->JSON_parse(
 
 ?>
 <script>
-WGR_vuejs('#for_vue', {
-    for_action: '<?php echo $for_action; ?>',
-    controller_slug: '<?php echo $controller_slug; ?>',
-    DeletedStatus_DELETED: '<?php echo $DeletedStatus_DELETED; ?>',
-    data: json_data,
-    vue_data: vue_data,
-});
+    WGR_vuejs('#for_vue', {
+        for_action: '<?php echo $for_action; ?>',
+        controller_slug: '<?php echo $controller_slug; ?>',
+        DeletedStatus_DELETED: '<?php echo $DeletedStatus_DELETED; ?>',
+        data: json_data,
+        vue_data: vue_data,
+    });
 </script>
 <?php
 
 // js riêng cho từng comments type (nếu có)
-$base_model->add_js( 'admin/js/comments.js' );
-$base_model->add_js( 'admin/js/' . $comment_type . '.js' );
+$base_model->add_js('admin/js/comments.js');
+$base_model->add_js('admin/js/' . $comment_type . '.js');

@@ -1,29 +1,27 @@
-.adddelete
-{
-border: 1px solid #CDCDCD;
-padding: 9px 20px;
-font-weight: bold;
-color: rgb(231, 44, 44);
-background: rgb(125, 245, 202);
-font-size: 15px;
-}
-.adddelete:hover
-{
-background:blue;
-}
-.error
-{
-color:red;
+.adddelete {
+	border: 1px solid #CDCDCD;
+	padding: 9px 20px;
+	font-weight: bold;
+	color: rgb(231, 44, 44);
+	background: rgb(125, 245, 202);
+	font-size: 15px;
 }
 
-#sidebar > ul > li a
-{
-padding:10px;
+.adddelete:hover {
+	background: blue;
 }
-.thcart
-{
-	width:auto;
-	margin-left:100px;
-	margin-top:20px;
+
+.error {
+	color: red;
+}
+
+#sidebar>ul>li a {
+	padding: 10px;
+}
+
+.thcart {
+	width: auto;
+	margin-left: 100px;
+	margin-top: 20px;
 	border-bottom: 1px solid #ddd;
 }
