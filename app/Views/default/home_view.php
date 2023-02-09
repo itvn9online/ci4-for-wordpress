@@ -1,6 +1,6 @@
 <?php
 
-// nạp banner q.cáo  thao slug
+// nạp banner q.cáo theo slug
 $post_model->the_ads('top-main-slider');
 
 ?>
