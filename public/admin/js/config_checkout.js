@@ -83,7 +83,7 @@ function create_period_price_html(period_price, period_discount, period_bonus) {
             htm += '<td><input type="text" onchange="return change_period__price(this,' + i + ');" value="' + period_price[i] + '"></td>';
             htm += '<td><input type="text" onchange="return change_period__discount(this,' + i + ');" value="' + period_discount[i] + '"></td>';
             htm += '<td><input type="text" onchange="return change_period__bonus(this,' + i + ');" value="' + period_bonus[i] + '"></td>';
-            htm += '<td><button type="button" onclick="return remove_period__price(' + i + ');" class="btn btn-danger">Xóa</button></td>';
+            htm += '<td><button type="button" onclick="return remove_period__price(' + i + ');" class="btn btn-danger btn-small">Xóa</button></td>';
             htm += '</tr>';
         }
 
@@ -93,7 +93,7 @@ function create_period_price_html(period_price, period_discount, period_bonus) {
 
     //
     str = '<table class="html-period-price">' + str + '</table>';
-    str += '<div class="html-period-price"><button type="button" onclick="return add_period__price();" class="btn btn-primary">Thêm mới</button></div>';
+    str += '<div class="html-period-price"><button type="button" onclick="return add_period__price();" class="btn btn-primary btn-small"><i class="fa fa-plus"></i> Thêm mới</button></div>';
 
     //
     $('.html-period-price').remove();

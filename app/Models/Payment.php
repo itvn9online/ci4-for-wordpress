@@ -46,14 +46,17 @@ class Payment extends Option
 
             //
             foreach ($split_period_price as $k => $v) {
-                $price = $this->convertStrToVnd(trim($v));
+                $price = trim($v);
+                if ($convert_currency === true && $price > 0) {
+                    $price = $this->convertStrToVnd($price);
+                }
                 //
-                $discount_price = $split_period_discount[$k];
+                $discount_price = trim($split_period_discount[$k]);
                 if ($convert_currency === true && $discount_price > 0) {
                     $discount_price = $this->convertStrToVnd($discount_price, $price);
                 }
                 //
-                $bonus_price = $split_period_bonus[$k];
+                $bonus_price = trim($split_period_bonus[$k]);
                 if ($convert_currency === true && $bonus_price > 0) {
                     $bonus_price = $this->convertStrToVnd($bonus_price, $price);
                 }

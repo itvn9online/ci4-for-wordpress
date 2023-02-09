@@ -327,7 +327,7 @@ var _global_js_eb = {
             str_css += '.' + x + '{padding-top:' + (new_arr_ti_le_global[x].toFixed(3) * 1) + '%}';
         }
         if (str_css != '') {
-            console.log('ty-le-global padding CSS: ' + str_css);
+            if (WGR_config.cf_tester_mode > 0) console.log('ty-le-global padding CSS: ' + str_css);
             $('head').append('<style>' + str_css + '</style>');
         }
 
@@ -508,12 +508,9 @@ var _global_js_eb = {
     // tự động lấy vị trí tương đối của người dùng mà không cần xin phép
     user_auto_loc: function (after_load) { },
 
-
     demo_html: function (clat, len) { },
 
-
     page404_func: function () { },
-
 
     cart_create_arr_poruduct: function (cart_total_price) { },
 

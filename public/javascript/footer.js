@@ -27,13 +27,13 @@ $('a[href="users/logout"], a[href="./users/logout"]').click(function () {
  */
 (function (a) {
     $('a[href="' + a + '"]').addClass('active-menu-item');
-    console.log(a);
+    if (WGR_config.cf_tester_mode > 0) console.log(a);
 
     //
     var base_url = $('base').attr('href') || '';
     if (base_url != '') {
         a = a.replace(base_url, '').split('/page/')[0];
-        console.log(a);
+        if (WGR_config.cf_tester_mode > 0) console.log(a);
         $('a[href="' + a + '"], a[href="./' + a + '"]').addClass('active-menu-item');
     }
 })(window.location.href);

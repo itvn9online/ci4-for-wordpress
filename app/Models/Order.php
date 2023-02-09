@@ -211,14 +211,17 @@ class Order extends Post
                 //'offset' => 0,
                 'limit' => 1
             ),
-            'SUM(order_money) AS money'
+            'SUM(order_money) AS money, SUM(order_bonus) AS bonus'
         );
         //print_r($data);
 
         //
-        $this->user_model->the_cache($user_id, __FUNCTION__, $data['money']);
+        $user_fund = $data['money'] + $data['bonus'];
 
         //
-        return $data['money'];
+        $this->user_model->the_cache($user_id, __FUNCTION__, $user_fund);
+
+        //
+        return $user_fund;
     }
 }

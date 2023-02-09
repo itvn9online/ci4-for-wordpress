@@ -547,14 +547,14 @@ var reload_ajax_taxonomy = false;
 // lấy thông tin các taxonomy đang hiện hoạt trên trang
 function action_each_to_taxonomy() {
     try {
-        console.log('Call in: ' + arguments.callee.caller.name.toString());
+        if (WGR_config.cf_tester_mode > 0) console.log('Call in: ' + arguments.callee.caller.name.toString());
     } catch (e) {
         WGR_show_try_catch_err(e);
     }
 
     // nếu đang có tiến trình được kích hoạt thỉ hủy bỏ việc nạp -> chờ đợi
     if (loading_ajax_taxonomy === true) {
-        console.log('loading ajax taxonomy');
+        if (WGR_config.cf_tester_mode > 0) console.log('loading ajax taxonomy');
         // bật chế độ nạp lại taxonomy
         reload_ajax_taxonomy = true;
         return false;
@@ -563,7 +563,7 @@ function action_each_to_taxonomy() {
 
     // daidq (2022-03-06): thử cách nạp các nhóm được hiển thị trên trang hiện tại -> cách này nạp ít dữ liệu mà độ chuẩn xác lại cao
     taxonomy_ids_unique = [];
-    console.log('action each to taxonomy:', $('.each-to-taxonomy').length);
+    if (WGR_config.cf_tester_mode > 0) console.log('action each to taxonomy:', $('.each-to-taxonomy').length);
     //return false;
 
     //
@@ -614,7 +614,7 @@ function action_each_to_taxonomy() {
     //console.log(taxonomy_ids_unique);
     // nếu không có ID nào cẩn xử lý thì bỏ qua đoạn sau luôn
     if (taxonomy_ids_unique.length == 0) {
-        console.log('taxonomy ids unique length');
+        if (WGR_config.cf_tester_mode > 0) console.log('taxonomy ids unique length');
 
         //
         reset_each_to_taxonomy();
@@ -646,12 +646,12 @@ function action_each_to_taxonomy() {
             }
         },
         success: function (data) {
-            console.log(data);
+            if (WGR_config.cf_tester_mode > 0) console.log(data);
 
             //
             if (reload_ajax_taxonomy === true) {
                 setTimeout(function () {
-                    console.log('reload ajax taxonomy');
+                    if (WGR_config.cf_tester_mode > 0) console.log('reload ajax taxonomy');
                     action_each_to_taxonomy();
                 }, 100);
             }

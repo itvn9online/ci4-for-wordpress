@@ -4,15 +4,21 @@ table.html-period-price {
 
 
 table.html-period-priceth,
-table.html-period-price td {
-    padding: 3px;
-}
+table.html-period-price td {}
 
 table.html-period-price th {}
 
 table.html-period-price td {}
 
 table.html-period-price input {
-    padding: 5px;
+    padding: 2px 5px;
     max-width: 150px;
+}
+
+table.html-period-price .btn {
+    opacity: 0.01;
+}
+
+table.html-period-price tr:hover .btn {
+    opacity: 1;
 }

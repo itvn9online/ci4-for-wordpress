@@ -238,7 +238,7 @@ $base_model->adds_css([
                         if ($data['ID'] > 0) {
                         ?>
                         <a href="admin/<?php echo $controller_slug; ?>/delete?id=<?php echo $data['ID']; ?>"
-                            onClick="return click_a_delete_record();" class="btn btn-danger"
+                            onClick="return click_a_delete_record();" class="btn btn-danger btn-small"
                             target="target_eb_iframe"><i class="fa fa-trash"></i> XÓA {{member_name}}</a>
                         <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Lưu
                             lại</button>

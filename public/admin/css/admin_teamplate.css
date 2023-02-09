@@ -77,8 +77,15 @@ form#listContactByType {
 }
 
 .form-actions.frm-fixed-btn.cf .btn {
-    margin: 0 10px;
+    margin: 0 25px;
     box-shadow: 0 0 10px #666;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.form-actions.frm-fixed-btn.cf .btn-small {
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .body-debug_enable .form-actions.frm-fixed-btn.cf {

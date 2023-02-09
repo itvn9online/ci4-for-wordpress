@@ -15,12 +15,12 @@ $base_model->add_css('admin/css/' . $taxonomy . '.css');
         <?php
         if ($data['term_id'] > 0) {
             ?>
-        Chỉnh sửa
-        <?php
+            Chỉnh sửa
+            <?php
         } else {
             ?>
-        Thêm mới
-        <?php
+            Thêm mới
+            <?php
         }
         echo $name_type;
         ?>
@@ -63,36 +63,36 @@ $base_model->add_css('admin/css/' . $taxonomy . '.css');
             if ($taxonomy == TaxonomyType::ADS) {
                 if ($data['slug'] != '') {
                     ?>
-            <div class="control-group">
-                <label class="control-label">PHP Code:</label>
-                <div class="controls">
-                    <input type="text" class="span6"
-                        value="&lt;?php $this->post_model->the_ads( '<?php echo $data['slug']; ?>' ); ?&gt;" readonly />
-                </div>
-            </div>
-            <?php
+                    <div class="control-group">
+                        <label class="control-label">PHP Code:</label>
+                        <div class="controls">
+                            <input type="text" class="span6"
+                                value="&lt;?php $this->post_model->the_ads( '<?php echo $data['slug']; ?>' ); ?&gt;" readonly />
+                        </div>
+                    </div>
+                    <?php
                 }
             }
             // các mục khác cho hiển thị slug để sửa
             else {
                 ?>
-            <div class="control-group">
-                <label class="control-label">Slug</label>
-                <div class="controls">
-                    <input type="text" title="Bấm đúp chuột để chỉnh sửa đường dẫn" class="span6" name="data[slug]"
-                        id="data_post_name" onDblClick="$('#data_post_name').removeAttr('readonly');"
-                        value="<?php echo $data['slug']; ?>" readonly />
-                    <?php
+                <div class="control-group">
+                    <label class="control-label">Slug</label>
+                    <div class="controls">
+                        <input type="text" title="Bấm đúp chuột để chỉnh sửa đường dẫn" class="span6" name="data[slug]"
+                            id="data_post_name" onDblClick="$('#data_post_name').removeAttr('readonly');"
+                            value="<?php echo $data['slug']; ?>" readonly />
+                        <?php
                         if ($data['term_id'] > 0) {
                             ?>
-                    <a href="<?php $term_model->the_term_permalink($data); ?>" class="bluecolor">Xem <i
-                            class="fa fa-eye"></i></a>
-                    <?php
+                            <a href="<?php $term_model->the_term_permalink($data); ?>" class="bluecolor">Xem <i
+                                    class="fa fa-eye"></i></a>
+                            <?php
                         }
                         ?>
+                    </div>
                 </div>
-            </div>
-            <?php
+                <?php
             }
 
             ?>
@@ -109,16 +109,16 @@ $base_model->add_css('admin/css/' . $taxonomy . '.css');
             // cho phép xác định cha con với danh mục
             if ($set_parent != '') {
                 ?>
-            <div class="control-group">
-                <label class="control-label">Danh mục cha</label>
-                <div class="controls">
-                    <select data-select="<?php echo $data['parent']; ?>" name="data[parent]" id="data_parent"
-                        class="span5">
-                        <option value="0">[ Chọn Danh mục cha ]</option>
-                    </select>
+                <div class="control-group">
+                    <label class="control-label">Danh mục cha</label>
+                    <div class="controls">
+                        <select data-select="<?php echo $data['parent']; ?>" name="data[parent]" id="data_parent"
+                            class="span5">
+                            <option value="0">[ Chọn Danh mục cha ]</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <?php
+                <?php
             }
             ?>
             <div class="control-group">
@@ -164,78 +164,78 @@ $base_model->add_css('admin/css/' . $taxonomy . '.css');
 
                 //
                 ?>
-            <div class="control-group">
-                <?php
+                <div class="control-group">
+                    <?php
                     if ($input_type == 'checkbox') {
                         ?>
-                <div class="controls controls-checkbox">
-                    <label>
-                        <input type="checkbox" name="term_meta[<?php echo $k; ?>]" id="term_meta_<?php echo $k; ?>"
-                            value="on" data-value="<?php $term_model->echo_meta_term($data, $k); ?>" />
-                        <?php echo $v; ?>
-                    </label>
-                    <?php
+                        <div class="controls controls-checkbox">
+                            <label>
+                                <input type="checkbox" name="term_meta[<?php echo $k; ?>]" id="term_meta_<?php echo $k; ?>"
+                                    value="on" data-value="<?php $term_model->echo_meta_term($data, $k); ?>" />
+                                <?php echo $v; ?>
+                            </label>
+                            <?php
 
                             // hiển thị ghi chú nếu có
                             TaxonomyType::meta_desc($k);
 
                             ?>
-                </div>
-                <?php
+                        </div>
+                        <?php
                     }
                     // END if input type checkbox
                     else {
                         ?>
-                <label for="term_meta_<?php echo $k; ?>" class="control-label">
-                    <?php echo $v; ?>
-                </label>
-                <div class="controls">
-                    <?php
+                        <label for="term_meta_<?php echo $k; ?>" class="control-label">
+                            <?php echo $v; ?>
+                        </label>
+                        <div class="controls">
+                            <?php
 
                             //
                             if ($input_type == 'textarea') {
                                 ?>
-                    <textarea style="width:80%;" placeholder="<?php echo $v; ?>" name="term_meta[<?php echo $k; ?>]"
-                        id="term_meta_<?php echo $k; ?>"><?php $term_model->echo_meta_term($data, $k); ?>
-            </textarea>
-                    <?php
+                                <textarea style="width:80%;" placeholder="<?php echo $v; ?>" name="term_meta[<?php echo $k; ?>]"
+                                    id="term_meta_<?php echo $k; ?>"><?php $term_model->echo_meta_term($data, $k); ?>
+                        </textarea>
+                                <?php
                             }
                             // END if input type textarea
                             else if ($input_type == 'select') {
                                 $select_options = TaxonomyType::meta_select($k);
 
                                 ?>
-                    <select data-select="<?php $term_model->echo_meta_term($data, $k); ?>"
-                        name="term_meta[<?php echo $k; ?>]" class="span5">
-                        <?php
+                                    <select data-select="<?php $term_model->echo_meta_term($data, $k); ?>"
+                                        name="term_meta[<?php echo $k; ?>]" class="span5">
+                                        <?php
 
-                                    foreach ($select_options as $option_k => $option_v) {
-                                        echo '<option value="' . $option_k . '">' . $option_v . '</option>';
-                                    }
+                                        foreach ($select_options as $option_k => $option_v) {
+                                            echo '<option value="' . $option_k . '">' . $option_v . '</option>';
+                                        }
 
-                                    ?>
-                    </select>
-                    <?php
+                                        ?>
+                                    </select>
+                                <?php
                             }
                             // END else if input type select                    
                             else {
                                 ?>
-                    <input type="<?php echo $input_type; ?>" class="span6" placeholder="<?php echo $v; ?>"
-                        name="term_meta[<?php echo $k; ?>]" id="term_meta_<?php echo $k; ?>"
-                        value="<?php $term_model->echo_meta_term($data, $k); ?>" />
-                    <?php
+                                    <input type="<?php echo $input_type; ?>" class="span6" placeholder="<?php echo $v; ?>"
+                                        name="term_meta[<?php echo $k; ?>]" id="term_meta_<?php echo $k; ?>"
+                                        value="<?php $term_model->echo_meta_term($data, $k); ?>" />
+                                <?php
                             }
 
                             // hiển thị ghi chú nếu có
                             TaxonomyType::meta_desc($k);
 
                             ?>
-                </div>
-                <?php
+                        </div>
+                        <?php
                     } // END else input type checkbox
                     ?>
-            </div>
-            <?php
+                </div>
+                <?php
             } // END auto add term_meta
             
             ?>
@@ -243,19 +243,19 @@ $base_model->add_css('admin/css/' . $taxonomy . '.css');
                 <?php
                 if ($data['term_id'] > 0) {
                     ?>
-                <a href="admin/terms/<?php echo $controller_slug; ?>?id=<?php echo $data['term_id']; ?>"
-                    onClick="return click_a_delete_record();" class="btn btn-danger" target="target_eb_iframe"><i
-                        class="fa fa-trash"></i> XÓA
-                    <?php echo $name_type; ?>
-                </a>
-                <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Lưu lại</button>
-                <?php
+                    <a href="admin/terms/<?php echo $controller_slug; ?>?id=<?php echo $data['term_id']; ?>"
+                        onClick="return click_a_delete_record();" class="btn btn-danger btn-small"
+                        target="target_eb_iframe"><i class="fa fa-trash"></i> XÓA
+                        <?php echo $name_type; ?>
+                    </a>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Lưu lại</button>
+                    <?php
                 } else {
                     ?>
-                <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Thêm mới
-                    <?php echo $name_type; ?>
-                </button>
-                <?php
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Thêm mới
+                        <?php echo $name_type; ?>
+                    </button>
+                    <?php
                 }
                 ?>
             </div>
@@ -263,7 +263,7 @@ $base_model->add_css('admin/css/' . $taxonomy . '.css');
     </div>
 </div>
 <script>
-WGR_widget_add_custom_style_to_field();
+    WGR_widget_add_custom_style_to_field();
 </script>
 <?php
 

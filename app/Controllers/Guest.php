@@ -159,14 +159,19 @@ class Guest extends Csrf
                 'users',
                 array(
                     // các kiểu điều kiện where
-                    'user_email' => $username,
+                    //'user_email' => $username,
                 ),
                 array(
+                    'or_where' => array(
+                        'user_email' => $username,
+                        'user_login' => $username,
+                        'user_phone' => $username,
+                    ),
                     // hiển thị mã SQL để check
-                    //'show_query' => 1,
+                    'show_query' => 1,
                     // trả về câu query để sử dụng cho mục đích khác
                     //'get_query' => 1,
-                    'offset' => 0,
+                    //'offset' => 0,
                     'limit' => 1
                 )
             );
