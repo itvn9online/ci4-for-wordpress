@@ -198,7 +198,7 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
                             ?>
                     <textarea style="width:80%;" placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]"
                         id="post_meta_<?php echo $k; ?>" class="<?php echo PostType::meta_class($k); ?>"><?php $post_model->echo_meta_post($data, $k); ?>
-        </textarea>
+                                        </textarea>
                     <?php
                         } // END if post textarea
                         else if ($input_type == 'select' || $input_type == 'select_multiple') {
@@ -234,11 +234,11 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
                         id="post_meta_<?php echo $k; ?>" <?php echo $select_multiple; ?>>
                         <?php
 
-                                foreach ($select_options as $option_k => $option_v) {
-                                    echo '<option value="' . $option_k . '">' . $option_v . '</option>';
-                                }
+                                    foreach ($select_options as $option_k => $option_v) {
+                                        echo '<option value="' . $option_k . '">' . $option_v . '</option>';
+                                    }
 
-                                ?>
+                                    ?>
                     </select>
                     <?php
                         } // END if post select

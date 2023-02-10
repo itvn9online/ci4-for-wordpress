@@ -42,11 +42,13 @@ if ($session_data['member_type'] != $is_admin) {
             //print_r( $v_sub );
 
             //
-            if (isset($v_sub['role']) &&
+            if (
+                isset($v_sub['role']) &&
                 // phân quyền không trống
                 !empty($v_sub['role']) &&
                 // kiểm tra quyền truy cập
-                !in_array($session_data['member_type'], $v_sub['role'])) {
+                !in_array($session_data['member_type'], $v_sub['role'])
+            ) {
                 echo '<!-- Permission sub deny! -->';
                 $v['arr'] = null;
                 $arr_admin_menu[$k] = $v;
@@ -162,10 +164,21 @@ echo (($html_lang == 'vn' || $html_lang == '') ? 'vi' : $html_lang);
             // mảng này sẽ in ra dưới dạng string
         ]);
 
+    //
+    $WGR_config = [
+        'cf_tester_mode' => ($debug_enable === true) ? 1 : 0,
+        'current_user_id' => $current_user_id * 1,
+    ];
+
+    //
+    $base_model->JSON_parse([
+        'WGR_config' => $WGR_config,
+    ]);
+
     ?>
     <script>
-    var web_link = window.location.protocol + '//' + document.domain + '/';
-    var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
+        var web_link = window.location.protocol + '//' + document.domain + '/';
+        var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
     </script>
 </head>
 

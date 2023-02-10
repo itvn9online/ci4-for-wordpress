@@ -41,7 +41,7 @@ class Posts extends Admin
     protected $timestamp_post_data = [];
 
     /*
-     * for_extends: khi một controller extends lại class này và sử dụng các post type khác thì khai báo nó bằng true để bỏ qua các điều kiện kiểm tra
+     * for_extends: khi một controller extends lại class này và sử dụng các post type khác (custom post type) thì khai báo nó bằng true để bỏ qua các điều kiện kiểm tra
      */
     public function __construct($for_extends = false)
     {
@@ -135,10 +135,10 @@ class Posts extends Admin
         //
         if ($post_status == '') {
             $by_post_status = [
-                    PostType::DRAFT,
-                    PostType::PUBLICITY,
-                    PostType::PENDING,
-                    PostType::PRIVATELY,
+                PostType::DRAFT,
+                PostType::PUBLICITY,
+                PostType::PENDING,
+                PostType::PRIVATELY,
             ];
         } else {
             $urlPartPage .= '&post_status=' . $post_status;
@@ -441,9 +441,9 @@ class Posts extends Admin
             $filter = [
                 'where_in' => array(
                     $this->table . '.post_status' => array(
-                            PostType::DRAFT,
-                            PostType::PUBLICITY,
-                            PostType::PENDING,
+                        PostType::DRAFT,
+                        PostType::PUBLICITY,
+                        PostType::PENDING,
                     )
                 ),
                 'where_not_in' => array(

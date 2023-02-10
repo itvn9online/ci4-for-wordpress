@@ -48,9 +48,9 @@ class TaxonomyType
     private static $arr_name = array(
         self::POSTS => 'Danh mục',
         self::TAGS => 'Danh sách',
-        //self::ADS => 'Danh mục',
-        //self::BLOGS => 'Danh mục',
-        //self::BLOG_TAGS => 'Danh mục',
+            //self::ADS => 'Danh mục',
+            //self::BLOGS => 'Danh mục',
+            //self::BLOG_TAGS => 'Danh mục',
         self::OPTIONS => 'Danh sách',
         //self::MENU => 'Menu',
         //self::PAGE => 'Trang tĩnh',
@@ -90,7 +90,7 @@ class TaxonomyType
             $arr['hide_description'] = 'Ẩn tóm tắt của bài viết';
             $arr['hide_info'] = 'Ẩn ngày tháng, danh mục của bài viết';
             $arr['show_post_content'] = 'Hiển thị nội dung của bài viết';
-            $arr['run_slider'] = 'Chạy slider';
+            $arr['run_slider'] = 'Chạy slider (banner sẽ được hiển thị dưới dạng slider)';
             $arr['max_width'] = 'Chiều rộng tối đa';
             $arr['custom_style'] = 'Tùy chỉnh CSS';
             $arr['custom_id'] = 'Tùy chỉnh ID';
@@ -99,7 +99,6 @@ class TaxonomyType
             $arr['open_target'] = 'Mở liên kết trong tab mới';
             $arr['text_view_more'] = 'Hiển thị nút xem thêm';
             $arr['text_view_details'] = 'Hiển thị nút xem chi tiết';
-            //$arr[ 'aaaaaaaaaaaaaaa' ] = 'aaaaaaaaaaaaa';
         }
 
         //

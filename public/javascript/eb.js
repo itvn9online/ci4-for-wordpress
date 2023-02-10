@@ -407,7 +407,9 @@ var _global_js_eb = {
                 if (a < lazzy_show) {
                     var wit = jQuery(this).width() || 300;
                     //console.log('width:', wit);
-                    if (wit > 360) {
+                    if (wit > 1024) {
+                        var img = jQuery(this).attr('data-img') || '';
+                    } else if (wit > 360) {
                         var img = jQuery(this).attr('data-large-img') || jQuery(this).attr(attr_data_webp) || jQuery(this).attr('data-img') || '';
                     } else {
                         var img = jQuery(this).attr(attr_data_webp) || jQuery(this).attr('data-img') || '';
@@ -449,6 +451,51 @@ var _global_js_eb = {
 
             _global_js_eb.ebBgLazzyLoad(jQuery(window).height() * 1.5);
         }
+    },
+
+    // nạp slider của flatsome
+    loadFlatsomeSlider: function (flickity_options, add_class) {
+        if (typeof flickity_options != 'object') {
+            flickity_options = {
+                "cellAlign": "center",
+                "imagesLoaded": true,
+                "lazyLoad": 1,
+                "freeScroll": false,
+                "wrapAround": true,
+                "autoPlay": 6000,
+                "pauseAutoPlayOnHover": true,
+                "prevNextButtons": true,
+                "contain": true,
+                "adaptiveHeight": true,
+                "dragThreshold": 10,
+                "percentPosition": true,
+                "pageDots": true,
+                "rightToLeft": false,
+                "draggable": true,
+                "selectedAttraction": 0.1,
+                "parallax": 0,
+                "friction": 0.6
+            };
+        }
+
+        //
+        if (typeof add_class != 'object' || add_class.length == 0) {
+            add_class = [
+                'slider',
+                'slider-nav-circle',
+                //'slider-nav-large',
+                'slider-nav-light',
+                //'slider-style-normal',
+                //'is-draggable',
+                //'sliflickity-enabledder',
+            ];
+            console.log(add_class);
+        }
+
+        //
+        $('.ebwidget-run-slider .widget-run-slider .eb-blog').attr({
+            'data-flickity-options': JSON.stringify(flickity_options)
+        }).addClass(add_class.join(' '));
     },
 
     fix_url_id: function () { },

@@ -38,38 +38,38 @@ use App\Helpers\HtmlTemplate;
 //
 if ($seo['canonical'] != '') {
     ?>
-<link href="<?php echo $seo['canonical']; ?>" rel="canonical" />
-<meta property="og:url" content="<?php echo $seo['canonical']; ?>" />
-<?php
+    <link href="<?php echo $seo['canonical']; ?>" rel="canonical" />
+    <meta property="og:url" content="<?php echo $seo['canonical']; ?>" />
+    <?php
 }
 
 //
 if ($seo['shortlink'] != '') {
     ?>
-<link href="<?php echo $seo['shortlink']; ?>" rel="shortlink" />
-<?php
+    <link href="<?php echo $seo['shortlink']; ?>" rel="shortlink" />
+    <?php
 }
 
 //
 if (CDN_BASE_URL != '') {
     ?>
-<link rel="dns-prefetch" href="<?php echo CDN_BASE_URL; ?>" />
-<?php
+    <link rel="dns-prefetch" href="<?php echo CDN_BASE_URL; ?>" />
+    <?php
 }
 
 //
 //print_r( $getconfig );
 if ($getconfig->blog_private == 'on' || $seo['index'] == 'off') {
     ?>
-<meta name="robots" content="noindex, nofollow" />
-<?php
+    <meta name="robots" content="noindex, nofollow" />
+    <?php
 }
 
 //
 if ($getconfig->fb_app_id != '') {
     ?>
-<meta property="fb:app_id" content="<?php echo $getconfig->fb_app_id; ?>" />
-<?php
+    <meta property="fb:app_id" content="<?php echo $getconfig->fb_app_id; ?>" />
+    <?php
 }
 ?>
 <meta property="og:title" content="<?php echo $seo['title']; ?>" />
@@ -104,8 +104,8 @@ if (isset($seo['og_image_alt']) && $seo['og_image_alt'] != '') {
 // nạp phần css inline để phục vụ cho bản mobile
 ?>
 <style>
-<?php echo file_get_contents(PUBLIC_PUBLIC_PATH . 'css/mobile-usability.css', 1);
-?>
+    <?php echo file_get_contents(PUBLIC_PUBLIC_PATH . 'css/mobile-usability.css', 1);
+    ?>
 </style>
 <?php
 
@@ -137,8 +137,8 @@ $arr_preload_bootstrap = [
 
 foreach ($arr_preload_bootstrap as $v) {
     ?>
-<link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="<?php echo $v; ?>" />
-<?php
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="<?php echo $v; ?>" />
+    <?php
 }
 
 ?>
@@ -220,7 +220,6 @@ $WGR_config = [
     'pid' => $current_pid,
     'cid' => $current_tid,
 ];
-
 
 //
 $base_model->JSON_parse([

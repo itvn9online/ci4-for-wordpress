@@ -85,9 +85,20 @@ label,
     margin: 0 -10px;
 }
 
+.eb-blog.slider .eb-blog-padding,
+.eb-blog.slider {
+    margin: 0;
+}
+
+.eb-blog.slider .eb-blog-padding {}
+
 .eb-blog li {
     float: left;
     width: 50%;
+}
+
+.flickity-page-dots li {
+    float: none;
 }
 
 .eb-blog-padding {

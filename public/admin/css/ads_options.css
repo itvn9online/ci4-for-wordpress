@@ -1,3 +1,11 @@
 .show-if-ads-type {
     display: table-cell !important;
 }
+
+.form-horizontal .control-label {
+    width: 250px;
+}
+
+.form-horizontal .controls {
+    margin-left: 270px;
+}

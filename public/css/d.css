@@ -346,11 +346,6 @@ body.home .thread-details-tohome {
     display: none !important;
 }
 
-.ebwidget-run-slider {
-    overflow: hidden;
-    height: 90px;
-}
-
 .web-logo {
     line-height: 50px;
     background: center no-repeat;

@@ -56,6 +56,7 @@ if (support_format_webp() !== true) {
 
 // hiển thị trước hình ảnh cho màn hình đầu tiên
 _global_js_eb.ebBgLazzyLoad();
+_global_js_eb.loadFlatsomeSlider();
 _global_js_eb.auto_margin();
 
 // khi document đã load xong

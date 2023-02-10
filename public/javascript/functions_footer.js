@@ -49,7 +49,7 @@ function sync_ajax_post_term() {
             return false;
         }
     }
-    console.log(k);
+    if (WGR_config.cf_tester_mode > 0) console.log(k);
 
     //
     jQuery.ajax({
@@ -71,7 +71,7 @@ function sync_ajax_post_term() {
             }
         },
         success: function (data) {
-            console.log(data);
+            if (WGR_config.cf_tester_mode > 0) console.log(data);
 
             //
             if (typeof data.post != 'undefined' && data.post === false) {

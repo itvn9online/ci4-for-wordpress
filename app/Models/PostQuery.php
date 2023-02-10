@@ -784,6 +784,19 @@ class PostQuery extends PostMeta
             ]
         );
 
+        // với slider -> dùng flatsome -> sử dụng thẻ DIV thay vì UL LI
+        if ($instance['run_slider'] == 'on') {
+            $for_slider = [
+                '<ul ' => '<div ',
+                '</ul>' => '</div>',
+                '<li ' => '<div ',
+                '</li>' => '</div>'
+            ];
+            foreach ($for_slider as $k => $v) {
+                $html = str_replace($k, $v, $html);
+            }
+        }
+
         //
         return $html;
     }

@@ -18,6 +18,9 @@ class Terms extends Admin
     // tham số dùng để đổi file view khi add hoặc edit bài viết nếu muốn
     protected $add_view_path = 'terms';
 
+    /*
+     * for_extends: khi một controller extends lại class này và sử dụng các taxonomy khác (custom taxonomy) thì khai báo nó bằng true để bỏ qua các điều kiện kiểm tra
+     */
     public function __construct($for_extends = false)
     {
         parent::__construct();
@@ -179,18 +182,20 @@ class Terms extends Admin
         //print_r( $data );
 
         //
-        $this->teamplate_admin['content'] = view('admin/terms/list', array(
-            'for_action' => $for_action,
-            'by_keyword' => $by_keyword,
-            'data' => $data,
-            'by_is_deleted' => $by_is_deleted,
-            'pagination' => $pagination,
-            'totalThread' => $totalThread,
-            'taxonomy' => $this->taxonomy,
-            'name_type' => $this->name_type,
-            'controller_slug' => $this->controller_slug,
-            'DeletedStatus_DELETED' => DeletedStatus::DELETED,
-        )
+        $this->teamplate_admin['content'] = view(
+            'admin/terms/list',
+            array(
+                'for_action' => $for_action,
+                'by_keyword' => $by_keyword,
+                'data' => $data,
+                'by_is_deleted' => $by_is_deleted,
+                'pagination' => $pagination,
+                'totalThread' => $totalThread,
+                'taxonomy' => $this->taxonomy,
+                'name_type' => $this->name_type,
+                'controller_slug' => $this->controller_slug,
+                'DeletedStatus_DELETED' => DeletedStatus::DELETED,
+            )
         );
         return view('admin/admin_teamplate', $this->teamplate_admin);
     }
@@ -287,9 +292,9 @@ class Terms extends Admin
         $set_parent = '';
         if (
             in_array($this->taxonomy, [
-                    TaxonomyType::POSTS,
-                    TaxonomyType::BLOGS,
-                    TaxonomyType::OPTIONS,
+                TaxonomyType::POSTS,
+                TaxonomyType::BLOGS,
+                TaxonomyType::OPTIONS,
             ])
         ) {
             $set_parent = $this->taxonomy;
@@ -315,16 +320,18 @@ class Terms extends Admin
 
 
         //
-        $this->teamplate_admin['content'] = view('admin/' . $this->add_view_path . '/add', array(
-            'lang_key' => $this->lang_key,
-            'set_parent' => $set_parent,
-            'data' => $data,
-            'term_lang' => $data['lang_key'] != '' ? LanguageCost::typeList($data['lang_key']) : '',
-            'taxonomy' => $this->taxonomy,
-            'name_type' => $this->name_type,
-            'meta_detault' => TaxonomyType::meta_default($this->taxonomy),
-            'controller_slug' => $this->controller_slug,
-        )
+        $this->teamplate_admin['content'] = view(
+            'admin/' . $this->add_view_path . '/add',
+            array(
+                'lang_key' => $this->lang_key,
+                'set_parent' => $set_parent,
+                'data' => $data,
+                'term_lang' => $data['lang_key'] != '' ? LanguageCost::typeList($data['lang_key']) : '',
+                'taxonomy' => $this->taxonomy,
+                'name_type' => $this->name_type,
+                'meta_detault' => TaxonomyType::meta_default($this->taxonomy),
+                'controller_slug' => $this->controller_slug,
+            )
         );
         return view('admin/admin_teamplate', $this->teamplate_admin);
     }

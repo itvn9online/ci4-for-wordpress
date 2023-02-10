@@ -1,65 +1,123 @@
-.eb-blog10 li, .thread-list10 li {
+.eb-blog10 li,
+.thread-list10 li {
     width: 10%;
 }
-.eb-blog9 li, .thread-list9 li, .eb-blog11 li, .thread-list11 li {
+
+.eb-blog9 li,
+.thread-list9 li,
+.eb-blog11 li,
+.thread-list11 li {
     width: 11.11%;
     width: calc(100%/9);
 }
-.eb-blog8 li, .thread-list8 li, .eb-blog12 li, .thread-list12 li {
+
+.eb-blog8 li,
+.thread-list8 li,
+.eb-blog12 li,
+.thread-list12 li {
     width: 12.5%;
     width: calc(100%/8);
 }
-.eb-blog7 li, .thread-list7 li, .eb-blog14 li, .thread-list14 li {
+
+.eb-blog7 li,
+.thread-list7 li,
+.eb-blog14 li,
+.thread-list14 li {
     width: 14.28%;
     width: calc(100%/7);
 }
-.eb-blog6 li, .thread-list6 li, .eb-blog16 li, .thread-list16 li {
+
+.eb-blog6 li,
+.thread-list6 li,
+.eb-blog16 li,
+.thread-list16 li {
     width: 16.666%;
     width: calc(100%/6);
 }
-.eb-blog5 li, .thread-list5 li, .eb-blog20 li, .thread-list20 li {
+
+.eb-blog5 li,
+.thread-list5 li,
+.eb-blog20 li,
+.thread-list20 li {
     width: 20%;
 }
-.eb-blog4 li, .thread-list4 li, .eb-blog25 li, .thread-list25 li {
+
+.eb-blog4 li,
+.thread-list4 li,
+.eb-blog25 li,
+.thread-list25 li {
     width: 25%;
 }
-.eb-blog3 li, .thread-list3 li, .eb-blog33 li, .thread-list33 li {
+
+.eb-blog3 li,
+.thread-list3 li,
+.eb-blog33 li,
+.thread-list33 li {
     width: 33.33%;
     width: calc(100%/3);
 }
-.eb-blog2 li, .thread-list2 li, .eb-blog50 li, .thread-list50 li {
+
+.eb-blog2 li,
+.thread-list2 li,
+.eb-blog50 li,
+.thread-list50 li {
     width: 50%;
 }
-.eb-blog100, .thread-list100, .eb-blog100 .eb-blog-padding, .eb-blog100 .thread-list-padding, .thread-list100 .eb-blog-padding, .thread-list100 .thread-list-padding {
+
+.eb-blog100,
+.thread-list100,
+.eb-blog100 .eb-blog-padding,
+.eb-blog100 .thread-list-padding,
+.thread-list100 .eb-blog-padding,
+.thread-list100 .thread-list-padding {
     margin-left: 0;
     margin-right: 0;
 }
-.eb-blog100 li, .thread-list100 li {
+
+.eb-blog100 li,
+.thread-list100 li {
     width: 100%;
 }
+
 /* tùy chỉnh một số kích thước khác */
 .eb-blog-number1 li {
     margin: 0;
 }
+
 /* mobile, table only */
 @media only screen and (max-width:788px) {
-    .eb-blog li, .thread-list li {
+
+    .eb-blog li,
+    .thread-list li {
         width: 50%;
     }
-    .eb-blog100 li, .thread-list100 li {
+
+    .eb-blog100 li,
+    .thread-list100 li {
         width: 100%;
     }
+
     /* nếu chỉ có 1 cột -> cùng chỉnh về 100% */
-    .eb-blog-number1 .eb-blog li, .eb-blog-number1 .thread-list li, .ebwidget-run-slider .eb-blog100 li, .ebwidget-run-slider .thread-list100 li, .fullsize-li-first li:first-child {
+    .eb-blog-number1 .eb-blog li,
+    .eb-blog-number1 .thread-list li,
+    .fullsize-li-first li:first-child {
         width: 100%;
     }
-    .oneline-in-mobile .eb-blog li, .oneline-in-mobile .thread-list li {
+
+    .oneline-in-mobile .eb-blog li,
+    .oneline-in-mobile .thread-list li {
         width: 100% !important;
     }
-    .eb-blog-number1 .eb-blog li, .eb-blog-number1 .thread-list li {
+
+    .eb-blog-number1 .eb-blog li,
+    .eb-blog-number1 .thread-list li {
         float: none;
     }
-    .eb-blog100 .eb-blog-padding, .eb-blog100 .thread-list-padding, .thread-list100 .eb-blog-padding, .thread-list100 .thread-list-padding {
+
+    .eb-blog100 .eb-blog-padding,
+    .eb-blog100 .thread-list-padding,
+    .thread-list100 .eb-blog-padding,
+    .thread-list100 .thread-list-padding {
         margin-left: 3px;
         margin-right: 3px;
     }
