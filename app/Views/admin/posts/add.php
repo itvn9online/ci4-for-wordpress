@@ -63,7 +63,7 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
                     ?>
                 </div>
             </div>
-            <div class="control-group">
+            <div class="control-group control-group-post_content">
                 <label class="control-label">Nội dung</label>
                 <div class="controls" style="width:80%;">
                     <textarea id="Resolution" rows="30"
@@ -198,7 +198,7 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
                             ?>
                     <textarea style="width:80%;" placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]"
                         id="post_meta_<?php echo $k; ?>" class="<?php echo PostType::meta_class($k); ?>"><?php $post_model->echo_meta_post($data, $k); ?>
-                                        </textarea>
+                                                        </textarea>
                     <?php
                         } // END if post textarea
                         else if ($input_type == 'select' || $input_type == 'select_multiple') {

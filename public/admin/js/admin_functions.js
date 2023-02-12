@@ -297,18 +297,33 @@ function WGR_load_textediter(for_id, ops) {
     }
     if (typeof ops['plugins'] == 'undefined') {
         ops['plugins'] = [
-            'advlist autolink lists link image imagetools media charmap print preview anchor',
-            'searchreplace visualblocks code fullscreen',
-            'insertdatetime media table paste code help wordcount'
+            'textcolor colorpicker',
+            'print preview paste importcss searchreplace autolink autosave save directionality',
+            'code visualblocks visualchars fullscreen image link media template codesample table hr',
+            'pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern',
+            'noneditable help charmap emoticons'
         ];
     }
     if (typeof ops['toolbar'] == 'undefined') {
-        ops['toolbar'] = 'undo redo | formatselect | '
-            + 'bold italic backcolor | alignleft aligncenter '
-            + 'alignright alignjustify | bullist numlist outdent indent | image media | '
-            + 'link table | '
-            + 'removeformat code | help';
+        var arr_toolbar = [
+            'undo redo',
+            'bold italic underline strikethrough',
+            'fontselect fontsizeselect formatselect',
+            //'sub sup',
+            'alignleft aligncenter alignright alignjustify',
+            //'justifyleft justifycenter justifyright justifyfull',
+            'forecolor backcolor',
+            'bullist numlist outdent indent',
+            'image media',
+            'link table',
+            //'insertdate inserttime',
+            //'showcomments addcomment',
+            'preview removeformat fullscreen code',
+            'help'
+        ];
+        ops['toolbar'] = arr_toolbar.join(' | ');
     }
+    //console.log(ops);
 
     //
     tinymce.init({
@@ -329,6 +344,9 @@ function WGR_load_textediter(for_id, ops) {
         image_caption: true,
         image_advtab: true,
         //imagetools_toolbar: "rotateleft rotateright | flipv fliph | editimage imageoptions",
+        //quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
+        //toolbar_mode: 'sliding',
+        //contextmenu: 'link image imagetools table',
         // rel cho thẻ A
         rel_list: [{
             title: 'None',
@@ -350,6 +368,48 @@ function WGR_load_textediter(for_id, ops) {
         }],
         //
         toolbar: ops['toolbar'],
+        //toolbar_sticky: true,
+        templates: [
+            {
+                title: 'New Table',
+                description: 'creates a new table',
+                content: [
+                    '<div class="mceTmpl">',
+                    '<table width="98%%" border="0" cellspacing="0" cellpadding="0">',
+                    '<tr>',
+                    '<th scope="col"> th </th>',
+                    '<th scope="col"> th </th>',
+                    '</tr>',
+                    '<tr>',
+                    '<td> td </td>',
+                    '<td> td </td>',
+                    '</tr>',
+                    '</table>',
+                    '</div>'
+                ].join(' ')
+            },
+            {
+                title: 'Starting my story',
+                description: 'A cure for writers block',
+                content: 'Once upon a time...'
+            },
+            {
+                title: 'New list with dates',
+                description: 'New List with dates',
+                content: [
+                    '<div class="mceTmpl">',
+                    '<span class="cdate">cdate</span><br /><span class="mdate">mdate</span>',
+                    '<h2>My List</h2>',
+                    '<ul>',
+                    '<li> li </li>',
+                    '<li> li </li>',
+                    '</ul>',
+                    '</div>'
+                ].join(' ')
+            }
+        ],
+        template_cdate_format: '[Date Created (CDATE): %d/%m/%Y : %H:%M:%S]',
+        template_mdate_format: '[Date Modified (MDATE): %d/%m/%Y : %H:%M:%S]',
         setup: function (ed) {
             // sự kiện khi khi nhấp đúp chuột
             ed.on('DblClick', function (e) {

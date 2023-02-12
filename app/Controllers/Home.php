@@ -43,7 +43,7 @@ class Home extends Csrf
     /*
      * home page
      */
-    protected function portal()
+    protected function portal($custom_data = [])
     {
         $cache_key = 'home';
         $cache_value = $this->MY_cache($cache_key);
@@ -76,6 +76,7 @@ class Home extends Csrf
                 'breadcrumb' => '',
                 //'cateByLang' => $cateByLang,
                 //'serviceByLang' => $serviceByLang,
+                'custom_data' => $custom_data,
             )
         );
         //print_r( $this->teamplate );
