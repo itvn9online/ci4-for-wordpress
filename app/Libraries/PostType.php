@@ -151,7 +151,6 @@ class PostType
             'page_template' => 'select',
             'post_auto_slider' => 'checkbox',
             //'post_relationships' => 'hidden',
-
             'image_large' => 'hidden',
             'image_medium_large' => 'hidden',
             'image_medium' => 'hidden',

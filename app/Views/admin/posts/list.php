@@ -50,7 +50,7 @@ $base_model->add_css('admin/css/' . $post_type . '.css');
             <?php
 
             //
-            include $admin_root_views . 'posts/list_right_button.php';
+            include ADMIN_ROOT_VIEWS . 'posts/list_right_button.php';
 
             ?>
         </div>
@@ -59,11 +59,11 @@ $base_model->add_css('admin/css/' . $post_type . '.css');
     <?php
 
     //
-    include $admin_root_views . 'posts/list_select_all.php';
+    include ADMIN_ROOT_VIEWS . 'posts/list_select_all.php';
 
     // sử dụng list_table riêng của post type nếu có khai báo
     if ($list_table_path != '') {
-        include $admin_root_views . $list_table_path . '/list_table.php';
+        include ADMIN_ROOT_VIEWS . $list_table_path . '/list_table.php';
     }
     // list_table mặc định
     else {
@@ -88,22 +88,22 @@ $base_model->JSON_parse(
 
 ?>
 <script>
-WGR_vuejs('#app', {
-    allow_mysql_delete: allow_mysql_delete,
-    post_type: '<?php echo $post_type; ?>',
-    post_status: '<?php echo $post_status; ?>',
-    taxonomy: '<?php echo $taxonomy; ?>',
-    controller_slug: '<?php echo $controller_slug; ?>',
-    for_action: '<?php echo $for_action; ?>',
-    PostType_DELETED: '<?php echo PostType::DELETED; ?>',
-    PostType_arrStatus: PostType_arrStatus,
-    data: json_data,
-});
+    WGR_vuejs('#app', {
+        allow_mysql_delete: allow_mysql_delete,
+        post_type: '<?php echo $post_type; ?>',
+        post_status: '<?php echo $post_status; ?>',
+        taxonomy: '<?php echo $taxonomy; ?>',
+        controller_slug: '<?php echo $controller_slug; ?>',
+        for_action: '<?php echo $for_action; ?>',
+        PostType_DELETED: '<?php echo PostType::DELETED; ?>',
+        PostType_arrStatus: PostType_arrStatus,
+        data: json_data,
+    });
 </script>
 <?php
 
 //
-include $admin_root_views . 'posts/sync_modal.php';
+include ADMIN_ROOT_VIEWS . 'posts/sync_modal.php';
 
 // css riêng cho từng post type (nếu có)
 $base_model->add_js('admin/js/post_list.js');

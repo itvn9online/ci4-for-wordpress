@@ -18,9 +18,10 @@ class Search extends Csrf
     }
 
     // tìm kiếm
-    public function index($add_where = [], $add_filter = [])
+    public function index($add_where = [], $add_filter = [], $base_slug = '')
     {
         //print_r( $_GET );
+        //die(__CLASS__ . ':' . __LINE__);
 
         //
         $this->create_breadcrumb('Tìm kiếm');
@@ -29,7 +30,7 @@ class Search extends Csrf
         $totalThread = 0;
 
         //
-        $by_keyword = trim($this->MY_get('s'));
+        $by_keyword = trim($this->MY_get('s', ''));
         if (!empty($by_keyword) || !empty($add_where)) {
             //$post_per_page = 20;
             $post_per_page = $this->base_model->get_config($this->getconfig, 'eb_posts_per_page', 10);
@@ -45,13 +46,16 @@ class Search extends Csrf
             // tìm kiếm theo từ khóa nhập vào
             $where_or_like = [];
             // URL cho phân trang tìm kiếm
-            $urlPartPage = $this->base_class_url(__CLASS__);
-            $urlParams = [];
+            if ($base_slug == '') {
+                $urlPartPage = $this->base_class_url(__CLASS__);
+            } else {
+                $urlPartPage = $base_slug;
+            }
+            //die($urlPartPage);
 
             //
             if (!empty($by_keyword)) {
                 $this->create_breadcrumb($by_keyword);
-                $urlParams[] = 's=' . $by_keyword;
                 $by_like = $this->base_model->_eb_non_mark_seo($by_keyword);
 
                 // tối thiểu từ 3 ký tự trở lên mới kích hoạt tìm kiếm
@@ -101,7 +105,7 @@ class Search extends Csrf
                 //'limit' => $post_per_page
 
             ];
-            //print_r( $filter );
+            //print_r($filter);
 
 
             // thêm where từ sub-function
@@ -138,8 +142,32 @@ class Search extends Csrf
                 $offset = ($page_num - 1) * $post_per_page;
 
                 //
+                $urlParams = [];
+                foreach ($_GET as $k => $v) {
+                    if (empty($v)) {
+                        continue;
+                    }
+                    //print_r($v);
+                    if ($k == 's') {
+                        $urlParams[] = 's=' . $by_keyword;
+                    } else if ($k == 'page_num') {
+                        continue;
+                    }
+                    if (is_array($v)) {
+                        foreach ($v as $k2 => $v2) {
+                            if (empty($v2)) {
+                                continue;
+                            }
+                            $urlParams[] = $k . '%5B' . $k2 . '%5D=' . $v2;
+                        }
+                    } else {
+                        $urlParams[] = $k . '=' . $v;
+                    }
+                }
                 $urlParams[] = 'page_num=';
-                $urlPartPage .= '?' . implode('&', $urlParams);
+                if (!empty($urlParams)) {
+                    $urlPartPage .= '?' . implode('&', $urlParams);
+                }
                 $pagination = $this->base_model->EBE_pagination($page_num, $totalPage, $urlPartPage, '');
                 //echo $pagination . '<br>' . "\n";
 

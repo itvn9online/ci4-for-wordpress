@@ -1454,8 +1454,10 @@ a.eb-btn {
     text-align: center;
 }
 
-.show-view-more .widget-products-more a,
-.show-view-more .widget-blog-more a {
+/*
+.show-view-more .widget-blog-more a,
+*/
+.show-view-more .widget-products-more a {
     display: inline-block;
     background: #c00;
     background-color: var(--default-bg);

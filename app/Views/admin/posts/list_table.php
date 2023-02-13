@@ -2,7 +2,9 @@
     <thead>
         <tr>
             <th><input type="checkbox" class="input-checkbox-all" /></th>
-            <th>Tiêu đề <?php echo $name_type; ?></th>
+            <th>Tiêu đề
+                <?php echo $name_type; ?>
+            </th>
             <th>Ảnh đại diện</th>
             <th>Danh mục</th>
             <th>Trạng thái</th>
@@ -34,9 +36,11 @@
             <td width="90">{{v.lang_key}}</td>
             <td width="60"><input type="number" :data-id="v.ID" :value="v.menu_order" size="5"
                     class="form-control s change-update-menu_order" /></td>
-            <td width="90" class="text-center"><?php
-            include $admin_root_views . 'posts/list_action.php';
-            ?></td>
+            <td width="90" class="text-center">
+                <?php
+                include ADMIN_ROOT_VIEWS . 'posts/list_action.php';
+                ?>
+            </td>
         </tr>
     </tbody>
 </table>

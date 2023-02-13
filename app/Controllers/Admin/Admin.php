@@ -63,7 +63,7 @@ class Admin extends Ajaxs
                 'header' => view(
                     'admin/header_view',
                     array(
-                        'admin_root_views' => VIEWS_PATH . 'admin/',
+                        //'admin_root_views' => VIEWS_PATH . 'admin/',
                         //'admin_default_views' => VIEWS_PATH . 'admin/default/',
                         'base_model' => $this->base_model,
                         //'menu_model' => $this->menu_model,

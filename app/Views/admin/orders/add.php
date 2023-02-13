@@ -10,7 +10,7 @@ $base_model->add_css('admin/css/' . $post_type . '.css');
 //print_r( $data );
 
 //
-include $admin_root_views . 'posts/add_breadcrumb.php';
+include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
 
 ?>
 <div class="widget-box ng-main-content" id="myApp">
@@ -97,10 +97,10 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
 
                 //
                 if ($input_type == 'hidden') {
-            ?>
-            <input type="hidden" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>"
-                value="<?php $post_model->echo_meta_post($data, $k); ?>" />
-            <?php
+                    ?>
+                    <input type="hidden" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>"
+                        value="<?php $post_model->echo_meta_post($data, $k); ?>" />
+                    <?php
 
                     //
                     continue;
@@ -108,84 +108,84 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
             
                 //
                 if ($input_type == 'checkbox') {
-            ?>
-            <div class="control-group post_meta_<?php echo $k; ?>">
-                <div class="controls controls-checkbox">
-                    <label for="post_meta_<?php echo $k; ?>">
-                        <input type="checkbox" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>"
-                            value="on" data-value="<?php $post_model->echo_meta_post($data, $k); ?>" />
-                        <?php echo $v; ?>
-                    </label>
-                    <?php
-
-                    // hiển thị ghi chú nếu có
-                    OrderType::meta_desc($k);
-
                     ?>
-                </div>
-            </div>
-            <?php
+                    <div class="control-group post_meta_<?php echo $k; ?>">
+                        <div class="controls controls-checkbox">
+                            <label for="post_meta_<?php echo $k; ?>">
+                                <input type="checkbox" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>"
+                                    value="on" data-value="<?php $post_model->echo_meta_post($data, $k); ?>" />
+                                <?php echo $v; ?>
+                            </label>
+                            <?php
+
+                            // hiển thị ghi chú nếu có
+                            OrderType::meta_desc($k);
+
+                            ?>
+                        </div>
+                    </div>
+                    <?php
 
                     //
                     continue;
                 } // END if checkbox
             
-            ?>
-            <div class="control-group post_meta_<?php echo $k; ?>">
-                <label for="post_meta_<?php echo $k; ?>" class="control-label">
-                    <?php echo $v; ?>
-                </label>
-                <div class="controls">
-                    <?php
-
-                // mặc định thì hiển thị bình thường
-                if ($input_type == 'textarea') {
-                    ?>
-                    <textarea style="width:80%;" placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]"
-                        id="post_meta_<?php echo $k; ?>" class="<?php echo OrderType::meta_class($k); ?>"><?php $post_model->echo_meta_post($data, $k); ?>
-</textarea>
-                    <?php
-                } // END if post textarea
-                else if ($input_type == 'select' || $input_type == 'select_multiple') {
-                    $select_multiple = '';
-                    $meta_multiple = '';
-                    if ($input_type == 'select_multiple') {
-                        $select_multiple = 'multiple';
-                        $meta_multiple = '[]';
-                    }
-
-                    //
-                    $select_options = OrderType::meta_select($k);
-
-                    ?>
-                    <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>"
-                        name="post_meta[<?php echo $k; ?>]<?php echo $meta_multiple; ?>" <?php echo $select_multiple;
-                                                                     ?>>
+                ?>
+                <div class="control-group post_meta_<?php echo $k; ?>">
+                    <label for="post_meta_<?php echo $k; ?>" class="control-label">
+                        <?php echo $v; ?>
+                    </label>
+                    <div class="controls">
                         <?php
 
-                    foreach ($select_options as $option_k => $option_v) {
-                        echo '<option value="' . $option_k . '">' . $option_v . '</option>';
-                    }
+                        // mặc định thì hiển thị bình thường
+                        if ($input_type == 'textarea') {
+                            ?>
+                            <textarea style="width:80%;" placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]"
+                                id="post_meta_<?php echo $k; ?>" class="<?php echo OrderType::meta_class($k); ?>"><?php $post_model->echo_meta_post($data, $k); ?>
+        </textarea>
+                            <?php
+                        } // END if post textarea
+                        else if ($input_type == 'select' || $input_type == 'select_multiple') {
+                            $select_multiple = '';
+                            $meta_multiple = '';
+                            if ($input_type == 'select_multiple') {
+                                $select_multiple = 'multiple';
+                                $meta_multiple = '[]';
+                            }
+
+                            //
+                            $select_options = OrderType::meta_select($k);
+
+                            ?>
+                                <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>"
+                                    name="post_meta[<?php echo $k; ?>]<?php echo $meta_multiple; ?>" <?php echo $select_multiple;
+                                          ?>>
+                                    <?php
+
+                                    foreach ($select_options as $option_k => $option_v) {
+                                        echo '<option value="' . $option_k . '">' . $option_v . '</option>';
+                                    }
+
+                                    ?>
+                                </select>
+                            <?php
+                        } // END if post select
+                        else {
+                            ?>
+                                <input type="<?php echo $input_type; ?>" class="span10" placeholder="<?php echo $v; ?>"
+                                    name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>"
+                                    value="<?php $post_model->echo_meta_post($data, $k); ?>" />
+                            <?php
+                        } // END else
+                    
+                        // hiển thị ghi chú nếu có
+                        OrderType::meta_desc($k);
 
                         ?>
-                    </select>
-                    <?php
-                } // END if post select
-                else {
-                    ?>
-                    <input type="<?php echo $input_type; ?>" class="span10" placeholder="<?php echo $v; ?>"
-                        name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>"
-                        value="<?php $post_model->echo_meta_post($data, $k); ?>" />
-                    <?php
-                } // END else
-            
-                // hiển thị ghi chú nếu có
-                OrderType::meta_desc($k);
-
-                    ?>
+                    </div>
                 </div>
-            </div>
-            <?php
+                <?php
             } // END foreach auto add post meta
             
             ?>
@@ -222,7 +222,7 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
             <?php
 
             //
-            include $admin_root_views . 'posts/add_submit.php';
+            include ADMIN_ROOT_VIEWS . 'posts/add_submit.php';
 
             ?>
         </form>
@@ -237,16 +237,16 @@ $base_model->JSON_parse([
 
 ?>
 <script>
-var current_post_type = '<?php echo $post_type; ?>';
-var auto_update_module = '<?php echo $auto_update_module; ?>';
-var url_next_post = '<?php echo $url_next_post; ?>';
-//var post_cat = '<?php echo $post_cat; ?>';
-//var post_tags = '<?php echo $post_tags; ?>';
+    var current_post_type = '<?php echo $post_type; ?>';
+    var auto_update_module = '<?php echo $auto_update_module; ?>';
+    var url_next_post = '<?php echo $url_next_post; ?>';
+    //var post_cat = '<?php echo $post_cat; ?>';
+    //var post_tags = '<?php echo $post_tags; ?>';
 
-// do phần menu chưa xử lý được bằng vue-js nên vẫn phải dùng angular
-WGR_vuejs('#myApp', {
-    post_status: post_arr_status,
-});
+    // do phần menu chưa xử lý được bằng vue-js nên vẫn phải dùng angular
+    WGR_vuejs('#myApp', {
+        post_status: post_arr_status,
+    });
 </script>
 <?php
 

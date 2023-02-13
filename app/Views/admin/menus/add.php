@@ -7,7 +7,7 @@ use App\Libraries\PostType;
 $base_model->add_css('admin/css/' . $post_type . '.css');
 
 //
-include $admin_root_views . 'posts/add_breadcrumb.php';
+include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
 
 ?>
 <p class="medium blackcolor"><span class="redcolor">*</span> Chức năng tạo menu bằng công cụ hỗ trợ riêng. Công cụ này
@@ -192,7 +192,7 @@ include $admin_root_views . 'posts/add_breadcrumb.php';
             } // END foreach auto add post meta
             
             //
-            include $admin_root_views . 'posts/add_submit.php';
+            include ADMIN_ROOT_VIEWS . 'posts/add_submit.php';
 
             ?>
         </form>

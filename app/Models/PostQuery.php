@@ -704,8 +704,9 @@ class PostQuery extends PostMeta
             if ($v['post_excerpt'] != '') {
                 $v['post_excerpt'] = nl2br($v['post_excerpt']);
             }
+            $widget_blog_more = '';
             if ($instance['text_view_details'] != '') {
-                $show_post_content .= '<div class="widget-blog-more details-blog-more"><a href="{{p_link}}">' . $instance['text_view_details'] . '</a></div>';
+                $widget_blog_more = '<div class="widget-blog-more details-blog-more"><a href="{{p_link}}">' . $instance['text_view_details'] . '</a></div>';
             }
 
             // tạo html cho từng node
@@ -714,7 +715,7 @@ class PostQuery extends PostMeta
                 $tmp_html,
                 [
                     'p_link' => $p_link,
-                    'show_post_content' => $show_post_content,
+                    'show_post_content' => $show_post_content . $widget_blog_more,
                     'post_permalink' => $p_link,
                 ]
             );

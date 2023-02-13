@@ -4,7 +4,7 @@
 
     // 
     for (var x in arr_trans_label) {
-        $('#for_vue label[for="data_lang_' + x + '"]').html(arr_trans_label[x]);
+        $('#for_vue label[for="data_lang_' + x + '"]').html(arr_trans_label[x]).addClass('bold');
         $('#data_lang_' + x).attr({
             placeholder: arr_trans_label[x]
         });

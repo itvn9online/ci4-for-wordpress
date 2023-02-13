@@ -22,6 +22,9 @@ define('PUBLIC_PUBLIC_PATH', PUBLIC_HTML_PATH . 'public/');
 define('VIEWS_PATH', APPPATH . 'Views/');
 // view riêng của từng theme nếu có thì view này sẽ được ưu tiên sử dụng
 define('VIEWS_CUSTOM_PATH', ROOTPATH . 'custom/Views/');
+// views của admin
+define('ADMIN_ROOT_VIEWS', VIEWS_PATH . 'admin/');
+//define('ADMIN_DEFAULT_VIEWS', VIEWS_PATH . 'admin/default/');
 //die( VIEWS_CUSTOM_PATH );
 
 

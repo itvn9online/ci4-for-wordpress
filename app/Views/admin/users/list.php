@@ -17,11 +17,11 @@ $base_model->add_js('admin/js/users_functions.js');
     </li>
     <?php
     if ($member_type != '') {
-    ?>
-    <li>
-        <?php echo $member_name; ?>
-    </li>
-    <?php
+        ?>
+        <li>
+            <?php echo $member_name; ?>
+        </li>
+        <?php
     }
     ?>
 </ul>
@@ -35,9 +35,9 @@ $base_model->add_js('admin/js/users_functions.js');
                     <div class="lf f30">
                         <?php
                         if ($by_is_deleted > 0) {
-                        ?>
-                        <input type="hidden" name="is_deleted" value="<?php echo $by_is_deleted; ?>">
-                        <?php
+                            ?>
+                            <input type="hidden" name="is_deleted" value="<?php echo $by_is_deleted; ?>">
+                            <?php
                         }
                         ?>
                         <input name="s" value="<?php echo $by_keyword; ?>"
@@ -72,7 +72,7 @@ $base_model->add_js('admin/js/users_functions.js');
     include __DIR__ . '/list_select_all.php';
 
     //
-    $theme_private_view = $admin_root_views . $list_view_path . '/list_table.php';
+    $theme_private_view = ADMIN_ROOT_VIEWS . $list_view_path . '/list_table.php';
     //echo $theme_private_view . '<br>' . "\n";
     //echo __DIR__ . '/list_table.php' . '<br>' . "\n";
     if (file_exists($theme_private_view)) {
@@ -114,25 +114,25 @@ $base_model->JSON_echo(
 
 ?>
 <script>
-var controller_slug = '<?php echo $controller_slug; ?>';
+    var controller_slug = '<?php echo $controller_slug; ?>';
 
-//
-WGR_vuejs('#app', {
-    allow_mysql_delete: allow_mysql_delete,
-    member_name: '<?php echo $member_name; ?>',
-    member_type: '<?php echo $member_type; ?>',
-    controller_slug: controller_slug,
-    data: scope_data,
-    for_action: '<?php echo $for_action; ?>',
-    DeletedStatus_DELETED: '<?php echo $DeletedStatus_DELETED; ?>',
-    by_is_deleted: '<?php echo $by_is_deleted; ?>',
-    UsersType_NO_LOGIN: UsersType_NO_LOGIN,
-    UsersType_FOR_DEFAULT: UsersType_FOR_DEFAULT,
-    list: arr_members_type,
-    UsersType_listStatus: UsersType_listStatus,
-}, function() {
-    action_change_user_status();
-});
+    //
+    WGR_vuejs('#app', {
+        allow_mysql_delete: allow_mysql_delete,
+        member_name: '<?php echo $member_name; ?>',
+        member_type: '<?php echo $member_type; ?>',
+        controller_slug: controller_slug,
+        data: scope_data,
+        for_action: '<?php echo $for_action; ?>',
+        DeletedStatus_DELETED: '<?php echo $DeletedStatus_DELETED; ?>',
+        by_is_deleted: '<?php echo $by_is_deleted; ?>',
+        UsersType_NO_LOGIN: UsersType_NO_LOGIN,
+        UsersType_FOR_DEFAULT: UsersType_FOR_DEFAULT,
+        list: arr_members_type,
+        UsersType_listStatus: UsersType_listStatus,
+    }, function () {
+        action_change_user_status();
+    });
 </script>
 <?php
 

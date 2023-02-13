@@ -31,9 +31,9 @@
 //define( 'ALLOW_USING_MYSQL_DELETE', true );
 
 // Số lượng bản dịch dạng input -> website nào cần dùng nhiều tăng số lượng trong file functions lên
-//define( 'NUMBER_TRANS_INPUT', 20 );
+//define( 'NUMBER_TRANS_INPUT', 30 );
 // Số lượng bản dịch dạng textarea -> website nào cần dùng nhiều tăng số lượng trong file functions lên
-//define( 'NUMBER_TRANS_TEXTAREA', 10 );
+//define( 'NUMBER_TRANS_TEXTAREA', 20 );
 /*
 // khi cần thay label cho trang /admin/translates để dễ hiểu hơn thì thêm các thông số vào đây
 define( 'TRANS_TRANS_LABEL', [

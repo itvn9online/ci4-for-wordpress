@@ -385,7 +385,8 @@ class Posts extends Admin
 
         // edit
         $url_next_post = '';
-        if ($id != '') {
+        //if ($id != '') {
+        if ($id > 0) {
             // select dữ liệu từ 1 bảng bất kỳ
             $data = $this->post_model->select_post($id, [
                 'post_type' => $this->post_type,
