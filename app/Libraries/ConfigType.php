@@ -419,7 +419,7 @@ class ConfigType
             'blog_private' => 'Việc tuân thủ yêu cầu này hoàn toàn phụ thuộc vào các công cụ tìm kiếm.',
             'min_product_price' => 'Số tiền tối thiểu mà khách phải thanh toán cho mỗi đơn hàng.',
             //'period_price' => 'Sử dụng khi muốn tạo select các mức nạp tiền vào tài khoản. Mỗi mức giá cách nhau bởi dấu xuống dòng (Enter). <br> Trong mỗi dòng, có thể nhập + hoặc - để tăng thêm tiền hoặc giảm số tiền thực nạp. Ví dụ: <br> - "50000-10k" <br> - "50000+10k"',
-            'period_price' => 'Bấm [Thêm mới] để thêm các mức giá cho các gói nạp, bấm [Xóa] để loại bỏ một mức giá. Hỗ trợ các đơn vị chuyển đổi: tr, k, %',
+            'period_price' => 'Bấm [Thêm mới] để thêm các mức giá cho các gói nạp, bấm [Xóa] để loại bỏ một mức giá. <br> Hỗ trợ các đơn vị chuyển đổi: tr = triệu, k = nghìn, % = quy đổi theo giá gốc.',
             'bank_card_name' => 'Lưu ý: viết HOA không dấu',
             'autobank_token' => 'Tham số dùng để tăng độ bảo mật cho WebHook tự động xác thực quá trình thanh toán. URL WebHook mặc định: ' . base_url('cassos/confirm'),
             'bank_bin_code' => 'Chức năng tự động xác nhận tiền vào thông qua WebHook của https://casso.vn/ - Ưu tiên sử dụng tài khoản ngân hàng <strong>VietinBank</strong>.',

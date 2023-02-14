@@ -188,7 +188,7 @@ class Order extends Post
         if ($using_cache === true) {
             $data = $this->user_model->the_cache($user_id, __FUNCTION__);
             if ($data !== NULL) {
-                return $data;
+                return $data * 1;
             }
         }
 
@@ -216,10 +216,17 @@ class Order extends Post
         //print_r($data);
 
         //
+        $data['money'] *= 1;
+        $data['bonus'] *= 1;
         $user_fund = $data['money'] + $data['bonus'];
 
         //
-        $this->user_model->the_cache($user_id, __FUNCTION__, $user_fund);
+        if ($user_fund !== 0) {
+            $this->user_model->the_cache($user_id, __FUNCTION__, $user_fund);
+        } else {
+            $this->user_model->the_cache($user_id, __FUNCTION__, '0');
+        }
+        //$this->base_model->alert($user_fund, 'error');
 
         //
         return $user_fund;

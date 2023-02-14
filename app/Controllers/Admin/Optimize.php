@@ -605,7 +605,7 @@ class Optimize extends Admin
             }
 
             //
-            $str .= $v . "\n";
+            $str .= $v . ' ' . "\n";
             /*
             if ( strpos( $v, '//' ) !== false ) {
             $str .= "\n";

@@ -66,7 +66,8 @@ class PostQuery extends PostMeta
             //
             if ($check_slug === true) {
                 $check_slug = $this->base_model->select(
-                    'ID, post_type', $this->table,
+                    'ID, post_type',
+                    $this->table,
                     [
                         'post_name' => $data['post_name'],
                         'post_type' => $data['post_type'],
@@ -187,7 +188,8 @@ class PostQuery extends PostMeta
         else if (isset($data['post_name']) && $data['post_name'] != '') {
             // post đang cần update
             $current_slug = $this->base_model->select(
-                '*', $this->table,
+                '*',
+                $this->table,
                 $where,
                 [
                     // hiển thị mã SQL để check
@@ -203,7 +205,8 @@ class PostQuery extends PostMeta
             //
             if (!empty($current_slug)) {
                 $check_slug = $this->base_model->select(
-                    'ID, post_type', $this->table,
+                    'ID, post_type',
+                    $this->table,
                     [
                         'post_name' => $data['post_name'],
                         'ID !=' => $current_slug['ID'],
@@ -324,7 +327,7 @@ class PostQuery extends PostMeta
         return $data;
     }
 
-    public function select_public_post($post_id, $where = [])
+    public function select_public_post($post_id, $where = [], $select_col = '*')
     {
         // các tham số bắt buộc
         //$where[ 'post_status' ] = PostType::PUBLICITY;
@@ -337,15 +340,16 @@ class PostQuery extends PostMeta
             [
                 'where_in' => [
                     'post_status' => [
-                            // ai cũng có thể xem
+                        // ai cũng có thể xem
                         PostType::PUBLICITY,
-                            // người dùng đã đăng nhập
+                        // người dùng đã đăng nhập
                         PostType::PRIVATELY,
-                            // cho admin xem trước
+                        // cho admin xem trước
                         PostType::DRAFT,
                     ]
                 ],
-            ]
+            ],
+            $select_col
         );
     }
 
@@ -537,7 +541,10 @@ class PostQuery extends PostMeta
                 //print_r( $get_data );
                 // tiến hành lấy dữ liệu mẫu để nhân
                 $clone_data = $this->get_auto_post(
-                    $slug, $ops['post_type'], $ops['taxonomy'], $ops['limit'],
+                    $slug,
+                    $ops['post_type'],
+                    $ops['taxonomy'],
+                    $ops['limit'],
                     [
                         'lang_key' => LanguageCost::default_lang()
                     ]

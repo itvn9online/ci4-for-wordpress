@@ -16,10 +16,10 @@ $base_model->adds_css([
     'public/css/ten_file.css',
     'themes/' . THEMENAME . '/css/aaaaaaaaaaa.css',
 ], [
-        'get_content' => 1,
-        'preload' => 1,
-        'cdn' => CDN_BASE_URL,
-    ]);
+    'get_content' => 1,
+    'preload' => 1,
+    'cdn' => CDN_BASE_URL,
+]);
 // lấy mã CSS trả về thay vì echo luôn
 $base_model->get_add_css('public/css/ten_file.css', [
     'get_content' => 1,
@@ -36,19 +36,19 @@ $base_model->add_js('javascript/ten_file.js', [
     'preload' => 1,
     'cdn' => CDN_BASE_URL,
 ], [
-        'defer'
-    ]);
+    'defer'
+]);
 
 $base_model->adds_js([
     'javascript/ten_file.js',
     'themes/' . THEMENAME . '/js/aaaaaaaaaaa.js',
 ], [
-        'get_content' => 1,
-        'preload' => 1,
-        'cdn' => CDN_BASE_URL,
-    ], [
-        'defer'
-    ]);
+    'get_content' => 1,
+    'preload' => 1,
+    'cdn' => CDN_BASE_URL,
+], [
+    'defer'
+]);
 
 // lấy mã JS trả về thay vì echo luôn
 $base_model->get_add_js('javascript/ten_file.js', [
@@ -56,8 +56,8 @@ $base_model->get_add_js('javascript/ten_file.js', [
     'preload' => 1,
     'cdn' => CDN_BASE_URL,
 ], [
-        'defer'
-    ]);
+    'defer'
+]);
 
 
 // bộ câu lệnh git dùng để đồng bộ code từ máy này sang máy khác, đỡ bị xung đột
@@ -70,7 +70,7 @@ git push
 
 
 // bộ lệnh đồng bộ hùng
-/* 
+/*
 git checkout hung
 git pull origin master
 git push origin hung
@@ -111,38 +111,38 @@ $result_id = $this->base_model->update_multiple('users', [
     // SET
     'member_type' => UsersType::GUEST,
 ], [
-        // WHERE
-        'member_type' => UsersType::GUEST,
-    ], [
-        'debug_backtrace' => debug_backtrace()[1]['function'],
-        // trong builder CI4 lệnh UPDATE chưa hỗ trợ lệnh join
-        /*
+    // WHERE
+    'member_type' => UsersType::GUEST,
+], [
+    'debug_backtrace' => debug_backtrace()[1]['function'],
+    // trong builder CI4 lệnh UPDATE chưa hỗ trợ lệnh join
+    /*
         'join' => array(
         'tbl1' => 'tbl_0.id = tbl1.id',
         'tbl2' => 'tbl_0.id = tbl2.id'
         ),
         */
-        'where_in' => array(
-            'ID' => array(
-                1,
-                2,
-                3
-            )
-        ),
-        'where_not_in' => array(
-            'ID' => array(
-                1,
-                2,
-                3
-            )
-        ),
-        // hiển thị mã SQL để check
-        'show_query' => 1,
-        // trả về câu query để sử dụng cho mục đích khác
-        'get_query' => 1,
-        // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
-        //'no_remove_field' => 1
-    ]);
+    'where_in' => array(
+        'ID' => array(
+            1,
+            2,
+            3
+        )
+    ),
+    'where_not_in' => array(
+        'ID' => array(
+            1,
+            2,
+            3
+        )
+    ),
+    // hiển thị mã SQL để check
+    'show_query' => 1,
+    // trả về câu query để sử dụng cho mục đích khác
+    'get_query' => 1,
+    // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
+    //'no_remove_field' => 1
+]);
 
 if ($result_id !== false) {
     //
@@ -156,23 +156,23 @@ $data = $this->base_model->select(
     array(
         // các kiểu điều kiện where
         // WHERE AND OR
-        "(aaaaaaaaaa = 1 OR bbbbbbb = 2)" => NULL,
+        "(aaaaaaaaaa = 1 OR bbbbbbb = 2)" => null,
         // WHERE IN
-        "ID IN (SELECT user_id FROM tbl_0 WHERE select_id = " . $chapter_id . ")" => NULL,
+        "ID IN (SELECT user_id FROM tbl_0 WHERE select_id = " . $chapter_id . ")" => null,
         // mặc định
         'date_check_in >= ' => 1,
         'date_check_in <= ' => 10,
         'member_type' => UsersType::MEMBER,
         'member_type' => UsersType::GUEST,
         'is_deleted' => DeletedStatus::FOR_DEFAULT,
-        'FIND_IN_SET(\'string_to_find\', column_name)' => NULL,
+        'FIND_IN_SET(\'string_to_find\', column_name)' => null,
     ),
     array(
         'or_where' => array(
             'username' => 2,
             [
                 'username' => 3,
-                'FIND_IN_SET(\'string_to_find\', column_name)' => NULL,
+                'FIND_IN_SET(\'string_to_find\', column_name)' => null,
             ],
             'ID' => 1
         ),
@@ -236,29 +236,29 @@ $this->base_model->delete_multiple('users', [
     // WHERE
     'member_type' => UsersType::GUEST,
 ], [
-        'join' => array(
-            'tbl1' => 'tbl_0.id = tbl1.id',
-            'tbl2' => 'tbl_0.id = tbl2.id'
-        ),
-        'where_in' => array(
-            'ID' => array(
-                1,
-                2,
-                3
-            )
-        ),
-        'where_not_in' => array(
-            'ID' => array(
-                1,
-                2,
-                3
-            )
-        ),
-        // hiển thị mã SQL để check
-        'show_query' => 1,
-        // trả về câu query để sử dụng cho mục đích khác
-        'get_query' => 1,
-    ]);
+    'join' => array(
+        'tbl1' => 'tbl_0.id = tbl1.id',
+        'tbl2' => 'tbl_0.id = tbl2.id'
+    ),
+    'where_in' => array(
+        'ID' => array(
+            1,
+            2,
+            3
+        )
+    ),
+    'where_not_in' => array(
+        'ID' => array(
+            1,
+            2,
+            3
+        )
+    ),
+    // hiển thị mã SQL để check
+    'show_query' => 1,
+    // trả về câu query để sử dụng cho mục đích khác
+    'get_query' => 1,
+]);
 
 
 //
@@ -287,8 +287,8 @@ $base_model->JSON_echo([
     // mảng này sẽ in ra dưới dạng JSON hoặc number
     'json_data' => $data,
 ], [
-        // mảng này sẽ in ra dưới dạng string
-    ]);
+    // mảng này sẽ in ra dưới dạng string
+]);
 
 
 // kiểm tra các giá trị bắt buộc trong 1 mảng
