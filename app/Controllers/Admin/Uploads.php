@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\Admin;
 
 // Libraries
@@ -197,21 +198,21 @@ class Uploads extends Admin
             $m_data = $this->base_model->select("DATE_FORMAT(`post_date`, '%Y-%m') as d", 'posts', [
                 //
             ], [
-                    'where_in' => array(
-                        'post_type' => array(
-                            $this->post_type,
-                            PostType::WP_MEDIA,
-                        )
-                    ),
-                    'group_by' => array(
-                        'd',
-                    ),
-                    'order_by' => array(
-                        'ID' => 'DESC'
-                    ),
-                    //'show_query' => 1,
-                    'limit' => -1
-                ]);
+                'where_in' => array(
+                    'post_type' => array(
+                        $this->post_type,
+                        PostType::WP_MEDIA,
+                    )
+                ),
+                'group_by' => array(
+                    'd',
+                ),
+                'order_by' => array(
+                    'ID' => 'DESC'
+                ),
+                //'show_query' => 1,
+                'limit' => -1
+            ]);
             //print_r( $m_data );
 
             //
@@ -329,8 +330,8 @@ class Uploads extends Admin
             $update = $this->post_model->update_post($data['ID'], [
                 'post_status' => PostType::DELETED
             ], [
-                    'post_type' => $data['post_type'],
-                ]);
+                'post_type' => $data['post_type'],
+            ]);
         }
 
         //
@@ -471,14 +472,14 @@ class Uploads extends Admin
             'post_parent' => 0,
             'post_status' => PostType::INHERIT,
         ], [
-                // hiển thị mã SQL để check
-                'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-                //'getNumRows' => 1,
-                'offset' => $offset,
-                'limit' => 5
-            ]);
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            //'getNumRows' => 1,
+            'offset' => $offset,
+            'limit' => 5
+        ]);
         //print_r( $data );
         //die( __CLASS__ . ':' . __LINE__ );
     }

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 //
@@ -168,7 +169,7 @@ class Guest extends Csrf
                         'user_phone' => $username,
                     ),
                     // hiển thị mã SQL để check
-                    'show_query' => 1,
+                    //'show_query' => 1,
                     // trả về câu query để sử dụng cho mục đích khác
                     //'get_query' => 1,
                     //'offset' => 0,
@@ -526,7 +527,8 @@ class Guest extends Csrf
                          * v2: đăng nhập và chuyển đến form đổi pass
                          */
                         $data = $this->base_model->select(
-                            '*', $this->user_model->table,
+                            '*',
+                            $this->user_model->table,
                             array(
                                 // các kiểu điều kiện where
                                 // mặc định
@@ -675,7 +677,8 @@ class Guest extends Csrf
 
                         // select lại dữ liệu
                         $data = $this->base_model->select(
-                            '*', $this->user_model->table,
+                            '*',
+                            $this->user_model->table,
                             array(
                                 // các kiểu điều kiện where
                                 // mặc định
