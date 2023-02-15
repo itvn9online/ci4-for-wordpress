@@ -617,7 +617,6 @@ class PostQuery extends PostMeta
         if ($instance['custom_id'] != '') {
             $instance['custom_id'] = ' id="' . $instance['custom_id'] . '"';
         }
-        $instance['max_width'] = str_replace('  ', ' ', trim($instance['max_width'] . ' ' . $instance['custom_style']));
 
         //
         $html_widget_title = '';
@@ -665,6 +664,7 @@ class PostQuery extends PostMeta
             $instance['max_width'] .= ' ' . $ops['add_class'];
         }
         $instance['max_width'] .= ' blog-section';
+        $instance['max_width'] = str_replace('  ', ' ', trim($instance['max_width']));
 
         // cố định file HTML để tối ưu với SEO
         $html_node = 'ads_node';
@@ -687,6 +687,7 @@ class PostQuery extends PostMeta
             $instance['post_cloumn'] = 'blogs_node_' . $instance['post_cloumn'];
         }
         //print_r( $instance );
+        $instance['post_cloumn'] = str_replace('  ', ' ', trim($instance['post_cloumn'] . ' ' . $instance['num_line']));
 
         // do hàm select có chỉnh sửa với limit -> ở đây phải thao tác ngược lại
         if ($ops['limit'] == 1) {

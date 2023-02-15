@@ -48,9 +48,9 @@ class TaxonomyType
     private static $arr_name = array(
         self::POSTS => 'Danh mục',
         self::TAGS => 'Danh sách',
-            //self::ADS => 'Danh mục',
-            //self::BLOGS => 'Danh mục',
-            //self::BLOG_TAGS => 'Danh mục',
+        //self::ADS => 'Danh mục',
+        //self::BLOGS => 'Danh mục',
+        //self::BLOG_TAGS => 'Danh mục',
         self::OPTIONS => 'Danh sách',
         //self::MENU => 'Menu',
         //self::PAGE => 'Trang tĩnh',
@@ -198,9 +198,9 @@ class TaxonomyType
             ],
             'max_width' => [
                 '' => 'Không giới hạn chiều rộng',
-                'w99' => 'Rộng tối đa 999px',
-                'w90' => 'Rộng tối đa 1366px',
-                'w96' => 'Rộng tối đa 1666px',
+                'w99' => 'Rộng tối đa 999px (w99)',
+                'w90' => 'Rộng tối đa 1366px (w90)',
+                'w96' => 'Rộng tối đa 1666px (w96)',
             ]
         ];
         if (isset($arr[$key])) {
@@ -210,5 +210,4 @@ class TaxonomyType
         //
         return [];
     }
-
 }
