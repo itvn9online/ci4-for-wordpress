@@ -8,6 +8,8 @@
                     ?>
                 </h1>
                 <br>
+                <div><?php $post_model->show_post_thumbnail($data['post_meta']); ?></div>
+                <br>
                 <div class="img-max-width medium l20 global-details-content <?php echo $data['post_type']; ?>-details-content ul-default-style">
                     <?php
                     echo $data['post_content'];

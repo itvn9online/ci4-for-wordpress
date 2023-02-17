@@ -255,14 +255,24 @@ class Posts extends Admin
 
             //
             $order_by = $this->MY_get('order_by', '');
-            if ($order_by == '') {
+            if ($order_by != '') {
+                $order_by = [
+                    $this->table . '.' . $order_by => 'DESC',
+                ];
+            }
+            // với phần q.cáo sẽ sắp xếp theo nhóm và tên cho dễ xem
+            else if ($this->post_type == PostType::ADS) {
+                $order_by = [
+                    $this->table . '.category_primary_id'  => 'ASC',
+                    $this->table . '.post_name'  => 'DESC',
+                ];
+            }
+            // mặc định sắp xếp theo stt và thời gian tạo
+            else {
                 $order_by = [
                     $this->table . '.menu_order' => 'DESC',
                     $this->table . '.time_order' => 'DESC',
-                ];
-            } else {
-                $order_by = [
-                    $this->table . '.' . $order_by => 'DESC',
+                    $this->table . '.ID' => 'DESC',
                 ];
             }
             $filter['order_by'] = $order_by;

@@ -18,7 +18,7 @@ class ConfigType
     const CHECKBOX = 'checkbox';
     const NUM_MON = 'num_mon'; // number and money -> loại cấu hình dùng để định giá hoặc tạo số theo ý muốn
 
-    private static $eb_posts_per_line = [
+    private static $arr_posts_per_line = [
         '' => 'Theo thiết kế mặc định của tác giả',
         'row-5' => '1',
         'row-12' => 1,
@@ -162,7 +162,9 @@ class ConfigType
             $arr = [
                 'eb_posts_per_page' => 'Số sản phẩm trên mỗi trang',
                 'eb_posts_per_line' => 'Số cột trên mỗi dòng',
-                'eb_posts_column_spacing' => 'Khoảng các giữ các cột',
+                'eb_posts_medium_per_line' => 'Số cột trên mỗi dòng (table)',
+                'eb_posts_small_per_line' => 'Số cột trên mỗi dòng (mobile)',
+                'eb_posts_column_spacing' => 'Khoảng cách giữ các cột',
                 'cf_product_size' => 'Tỉ lệ ảnh sản phẩm',
                 'cf_thumbnail_size' => 'Chất lượng hình ảnh',
                 'show_child_category' => 'Hiển thị nhóm sản phẩm con',
@@ -171,13 +173,17 @@ class ConfigType
             $arr = [
                 'eb_post_per_page' => 'Số sản phẩm cùng nhóm',
                 'eb_post_per_line' => 'Số cột trên mỗi dòng',
-                'eb_post_column_spacing' => 'Khoảng các giữ các cột',
+                'eb_post_medium_per_line' => 'Số cột trên mỗi dòng (table)',
+                'eb_post_small_per_line' => 'Số cột trên mỗi dòng (mobile)',
+                'eb_post_column_spacing' => 'Khoảng cách giữ các cột',
             ];
         } else if ($config_type == self::BLOGS) {
             $arr = [
                 'eb_blogs_per_page' => 'Số bài viết trên mỗi trang',
                 'eb_blogs_per_line' => 'Số cột trên mỗi dòng',
-                'eb_blogs_column_spacing' => 'Khoảng các giữ các cột',
+                'eb_blogs_medium_per_line' => 'Số cột trên mỗi dòng (table)',
+                'eb_blogs_small_per_line' => 'Số cột trên mỗi dòng (mobile)',
+                'eb_blogs_column_spacing' => 'Khoảng cách giữ các cột',
                 'cf_blog_description_length' => 'Độ dài tóm tắt bài viết',
                 'cf_blog_size' => 'Tỉ lệ ảnh tin tức',
                 'show_child_blogs' => 'Hiển thị nhóm tin tức con',
@@ -186,7 +192,9 @@ class ConfigType
             $arr = [
                 'eb_blog_per_page' => 'Số bài cùng nhóm',
                 'eb_blog_per_line' => 'Số cột trên mỗi dòng',
-                'eb_blog_column_spacing' => 'Khoảng các giữ các cột',
+                'eb_blog_medium_per_line' => 'Số cột trên mỗi dòng (table)',
+                'eb_blog_small_per_line' => 'Số cột trên mỗi dòng (mobile)',
+                'eb_blog_column_spacing' => 'Khoảng cách giữ các cột',
             ];
         } else if ($config_type == self::NUM_MON) {
             $arr = [];
@@ -300,18 +308,26 @@ class ConfigType
             //
             'eb_posts_per_page' => 'number',
             'eb_posts_per_line' => 'select',
+            'eb_posts_medium_per_line' => 'select',
+            'eb_posts_small_per_line' => 'select',
             'eb_posts_column_spacing' => 'select',
             //
             'eb_post_per_page' => 'number',
             'eb_post_per_line' => 'select',
+            'eb_post_medium_per_line' => 'select',
+            'eb_post_small_per_line' => 'select',
             'eb_post_column_spacing' => 'select',
             //
             'eb_blogs_per_page' => 'number',
             'eb_blogs_per_line' => 'select',
+            'eb_blogs_medium_per_line' => 'select',
+            'eb_blogs_small_per_line' => 'select',
             'eb_blogs_column_spacing' => 'select',
             //
             'eb_blog_per_page' => 'number',
             'eb_blog_per_line' => 'select',
+            'eb_blog_medium_per_line' => 'select',
+            'eb_blog_small_per_line' => 'select',
             'eb_blog_column_spacing' => 'select',
             //
             'enable_vue_js' => 'checkbox',
@@ -494,6 +510,14 @@ class ConfigType
     public static function meta_select($key)
     {
         //
+        $arr_num_medium_line = [];
+        $arr_num_small_line = [];
+        foreach (self::$arr_posts_per_line as $k => $v) {
+            $arr_num_medium_line[str_replace('row-', 'row-medium-', $k)] = $v;
+            $arr_num_small_line[str_replace('row-', 'row-small-', $k)] = $v;
+        }
+
+        //
         $arr = [
             'cf_thumbnail_size' => [
                 'medium' => 'Thu gọn (khuyên dùng)',
@@ -502,16 +526,24 @@ class ConfigType
                 '' => 'Đầy đủ (bản gốc)',
                 'thumbnail' => 'Hình nhỏ (thumbnail)',
             ],
-            'eb_posts_per_line' => self::$eb_posts_per_line,
+            'eb_posts_per_line' => self::$arr_posts_per_line,
+            'eb_posts_medium_per_line' => $arr_num_medium_line,
+            'eb_posts_small_per_line' => $arr_num_small_line,
             'eb_posts_column_spacing' => self::$eb_posts_column_spacing,
             //
-            'eb_post_per_line' => self::$eb_posts_per_line,
+            'eb_post_per_line' => self::$arr_posts_per_line,
+            'eb_post_medium_per_line' => $arr_num_medium_line,
+            'eb_post_small_per_line' => $arr_num_small_line,
             'eb_post_column_spacing' => self::$eb_posts_column_spacing,
             //
-            'eb_blogs_per_line' => self::$eb_posts_per_line,
+            'eb_blogs_per_line' => self::$arr_posts_per_line,
+            'eb_blogs_medium_per_line' => self::$arr_posts_per_line,
+            'eb_blogs_small_per_line' => self::$arr_posts_per_line,
             'eb_blogs_column_spacing' => self::$eb_posts_column_spacing,
             //
-            'eb_blog_per_line' => self::$eb_posts_per_line,
+            'eb_blog_per_line' => self::$arr_posts_per_line,
+            'eb_blog_medium_per_line' => self::$arr_posts_per_line,
+            'eb_blog_small_per_line' => self::$arr_posts_per_line,
             'eb_blog_column_spacing' => self::$eb_posts_column_spacing,
             //
             'smtp_secure' => [

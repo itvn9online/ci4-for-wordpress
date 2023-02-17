@@ -696,6 +696,8 @@ class PostQuery extends PostMeta
         //print_r( $instance );
         $instance['post_cloumn'] = implode(' ', [
             $instance['num_line'],
+            $instance['num_medium_line'],
+            $instance['num_small_line'],
             $instance['post_cloumn'],
             $instance['column_spacing'],
             $instance['max_width'],

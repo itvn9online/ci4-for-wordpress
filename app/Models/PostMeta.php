@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 // Libraries
@@ -39,8 +40,8 @@ class PostMeta extends PostBase
                 $this->base_model->update_multiple($this->table, [
                     'post_meta_data' => json_encode($post_meta_data),
                 ], [
-                        'ID' => $v['ID'],
-                    ]);
+                    'ID' => $v['ID'],
+                ]);
 
                 // thông báo kiểu dữ liệu trả về
                 $data[$k]['post_meta_data'] = 'query';
@@ -217,17 +218,17 @@ class PostMeta extends PostBase
             $this->base_model->update_multiple($this->metaTable, [
                 'meta_value' => $v,
             ], [
-                    'post_id' => $post_id,
-                    'meta_key' => $k,
-                ]);
+                'post_id' => $post_id,
+                'meta_key' => $k,
+            ]);
         }
 
         // cập nhật post meta vào cột của post để đỡ phải query nhiều
         $this->base_model->update_multiple($this->table, [
             'post_meta_data' => json_encode($meta_data),
         ], [
-                'ID' => $post_id,
-            ]);
+            'ID' => $post_id,
+        ]);
 
         //
         //die( __CLASS__ . ':' . __LINE__ );
@@ -311,6 +312,25 @@ class PostMeta extends PostBase
                 'category_primary_id' => $parent_data['term_id'],
                 'category_primary_slug' => $parent_data['slug'],
             ], [
+                // WHERE
+                'ID' => $post_id,
+            ], [
+                'debug_backtrace' => debug_backtrace()[1]['function'],
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
+                //'no_remove_field' => 1
+            ]);
+
+            //
+            if (!empty($second_data)) {
+                $this->base_model->update_multiple('posts', [
+                    // SET
+                    'category_second_id' => $second_data['term_id'],
+                    'category_second_slug' => $second_data['slug'],
+                ], [
                     // WHERE
                     'ID' => $post_id,
                 ], [
@@ -322,25 +342,6 @@ class PostMeta extends PostBase
                     // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
                     //'no_remove_field' => 1
                 ]);
-
-            //
-            if (!empty($second_data)) {
-                $this->base_model->update_multiple('posts', [
-                    // SET
-                    'category_second_id' => $second_data['term_id'],
-                    'category_second_slug' => $second_data['slug'],
-                ], [
-                        // WHERE
-                        'ID' => $post_id,
-                    ], [
-                        'debug_backtrace' => debug_backtrace()[1]['function'],
-                        // hiển thị mã SQL để check
-                        //'show_query' => 1,
-                        // trả về câu query để sử dụng cho mục đích khác
-                        //'get_query' => 1,
-                        // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
-                        //'no_remove_field' => 1
-                    ]);
             }
 
             // trả về dữ liệu
@@ -369,9 +370,9 @@ class PostMeta extends PostBase
             $this->base_model->update_multiple($this->metaTable, [
                 'meta_value' => $v,
             ], [
-                    'post_id' => $post_id,
-                    'meta_key' => $key,
-                ]);
+                'post_id' => $post_id,
+                'meta_key' => $key,
+            ]);
         }
     }
 
@@ -380,7 +381,8 @@ class PostMeta extends PostBase
         // lấy theo key cụ thể
         if ($key != '') {
             $data = $this->base_model->select(
-                '*', $this->metaTable,
+                '*',
+                $this->metaTable,
                 array(
                     // các kiểu điều kiện where
                     'post_id' => $post_id,
@@ -408,7 +410,8 @@ class PostMeta extends PostBase
 
         // lấy toàn bộ meta
         return $this->base_model->select(
-            '*', $this->metaTable,
+            '*',
+            $this->metaTable,
             array(
                 // các kiểu điều kiện where
                 'post_id' => $post_id
@@ -599,5 +602,23 @@ class PostMeta extends PostBase
     public function get_post_thumbnail($data)
     {
         return $this->get_list_thumbnail($data, $this->cf_thumbnail_size);
+    }
+
+    // trả về cấu trúc img chuẩn SEO
+    public function build_post_thumbnail($meta, $size = 'image_medium', $alt = '', $width = 1024)
+    {
+        $srcset = implode(', ', [
+            $meta['image_large'] . ' 1024w',
+            $meta['image_medium'] . ' 400w',
+            $meta['image_medium_large'] . ' 768w',
+            $meta['image'] . ' 1476w',
+        ]);
+
+        //
+        return '<img width="' . $width . '" src="' . $meta[$size] . '" data-src="' . $meta[$size] . '" alt="' . $alt . '" decoding="async" srcset="' .  $srcset . '" data-srcset="' .  $srcset . '" sizes="(max-width: ' . $width . 'px) 100vw, ' . $width . 'px">';
+    }
+    public function show_post_thumbnail($meta, $size = 'image_medium', $alt = '', $width = 1024)
+    {
+        echo $this->build_post_thumbnail($meta, $size, $alt, $width);
     }
 }

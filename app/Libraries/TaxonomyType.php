@@ -83,9 +83,11 @@ class TaxonomyType
             $arr['dynamic_tag'] = 'HTML tag cho Tiêu đề';
             $arr['dynamic_post_tag'] = 'HTML tag cho Tên bài viết';
             $arr['widget_description'] = 'Mô tả';
-            $arr['post_number'] = 'Số lượng bài để hiển thị';
-            $arr['num_line'] = 'Số bài viết trên mỗi dòng';
-            $arr['column_spacing'] = 'Khoảng các giữ các cột';
+            $arr['post_number'] = 'Số lượng bản ghi hiển thị';
+            $arr['num_line'] = 'Số cột trên mỗi dòng';
+            $arr['num_medium_line'] = 'Số cột trên mỗi dòng (table)';
+            $arr['num_small_line'] = 'Số cột trên mỗi dòng (mobile)';
+            $arr['column_spacing'] = 'Khoảng cách giữ các cột';
             $arr['post_cloumn'] = 'Bố cục bài viết';
             $arr['hide_title'] = 'Ẩn tiêu đề của bài viết';
             $arr['hide_description'] = 'Ẩn tóm tắt của bài viết';
@@ -117,6 +119,8 @@ class TaxonomyType
             'widget_description' => 'textarea',
             'post_number' => 'number',
             'num_line' => 'select',
+            'num_medium_line' => 'select',
+            'num_small_line' => 'select',
             'column_spacing' => 'select',
             'post_cloumn' => 'select',
             'hide_title' => 'checkbox',
@@ -170,24 +174,35 @@ class TaxonomyType
         ];
 
         //
+        $arr_num_line = [
+            '' => 'Mặc định',
+            'row-12' => 1,
+            'row-6' => 2,
+            'row-4' => 3,
+            'row-3' => 4,
+            'row-5' => 5,
+            'row-2' => 6,
+            'row-7' => 7,
+            'row-8' => 8,
+            'row-9' => 9,
+            'row-10' => 10,
+            'row-11' => 11,
+            'row-1' => 12,
+        ];
+        $arr_num_medium_line = [];
+        $arr_num_small_line = [];
+        foreach ($arr_num_line as $k => $v) {
+            $arr_num_medium_line[str_replace('row-', 'row-medium-', $k)] = $v;
+            $arr_num_small_line[str_replace('row-', 'row-small-', $k)] = $v;
+        }
+
+        //
         $arr = [
             'dynamic_tag' => $arr_dynamic_tag,
             'dynamic_post_tag' => $arr_dynamic_tag,
-            'num_line' => [
-                '' => 'Mặc định',
-                'row-12' => 1,
-                'row-6' => 2,
-                'row-4' => 3,
-                'row-3' => 4,
-                'row-5' => 5,
-                'row-2' => 6,
-                'row-7' => 7,
-                'row-8' => 8,
-                'row-9' => 9,
-                'row-10' => 10,
-                'row-11' => 11,
-                'row-1' => 12,
-            ],
+            'num_line' => $arr_num_line,
+            'num_medium_line' => $arr_num_medium_line,
+            'num_small_line' => $arr_num_small_line,
             'column_spacing' => [
                 '' => 'Mặc định',
                 'row-small' => 'Nhỏ',

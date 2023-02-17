@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\Admin;
 
 //
@@ -7,7 +8,7 @@ use App\Controllers\Ajaxs;
 // Libraries
 use App\Libraries\LanguageCost;
 use App\Libraries\AdminMenu;
-use App\Libraries\CommentType;
+//use App\Libraries\CommentType;
 use App\Libraries\UsersType;
 
 //

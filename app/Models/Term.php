@@ -594,7 +594,7 @@ class Term extends TermBase
 
     public function get_all_taxonomy($taxonomy = 'category', $term_id = 0, $ops = [], $in_cache = '', $clear_cache = false, $time = MINI_CACHE_TIMEOUT)
     {
-        //print_r( $ops );
+        //print_r($ops);
 
         // nếu không có cache key -> kiểm tra điều kiện tạo key
         if ($in_cache == '') {
@@ -693,7 +693,7 @@ class Term extends TermBase
         if (!isset($ops['select_col'])) {
             $ops['select_col'] = '*';
         }
-        if (!isset($ops['result_count'])) {
+        if (!isset($ops['result_count']) && !isset($ops['order_by'])) {
             $ops['order_by'] = [
                 'term_order' => 'DESC',
                 'term_shortslug' => 'ASC',

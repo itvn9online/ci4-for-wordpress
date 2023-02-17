@@ -7,6 +7,11 @@
                     echo $data['post_title'];
                     ?>
                 </h1>
+                <div class="img-max-width medium l20 global-details-excerpt <?php echo $data['post_type']; ?>-details-excerpt ul-default-style remove-first-img">
+                    <?php
+                    echo $data['post_excerpt'];
+                    ?>
+                </div>
                 <div class="img-max-width medium l20 global-details-content <?php echo $data['post_type']; ?>-details-content ul-default-style remove-first-img">
                     <?php
                     echo $data['post_content'];

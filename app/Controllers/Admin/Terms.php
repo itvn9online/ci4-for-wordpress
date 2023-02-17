@@ -164,6 +164,11 @@ class Terms extends Admin
             // daidq (2021-01-24): tạm thời không cần lấy nhóm cấp 1
             if ($this->taxonomy == TaxonomyType::ADS) {
                 $filter['get_meta'] = true;
+                // với mục q.cáo thì sắp xếp theo tên cho dễ xem
+                $filter['order_by'] = [
+                    'slug' => 'ASC',
+                    'term_id' => 'DESC',
+                ];
             }
             //$filter[ 'get_child' ] = 1;
 

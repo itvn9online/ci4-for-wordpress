@@ -265,12 +265,11 @@ class Option extends EbModel
     {
         $arr = [];
         // desktop
-        //$arr[] = $this->get_config($cog, 'eb_posts_per_line');
         $arr[] = $cog->eb_posts_per_line;
         // table
-        //$arr[] = $this->get_config( $cog, 'medium_posts_per_line' );
+        $arr[] = $cog->eb_posts_medium_per_line;
         // mobile
-        //$arr[] = $this->get_config( $cog, 'small_posts_per_line' );
+        $arr[] = $cog->eb_posts_small_per_line;
 
         // column spacing
         $arr[] = $cog->eb_posts_column_spacing;
@@ -288,12 +287,11 @@ class Option extends EbModel
     {
         $arr = [];
         // desktop
-        //$arr[] = $this->get_config($cog, 'eb_post_per_line');
         $arr[] = $cog->eb_post_per_line;
         // table
-        //$arr[] = $this->get_config( $cog, 'medium_post_per_line' );
+        $arr[] = $cog->eb_post_medium_per_line;
         // mobile
-        //$arr[] = $this->get_config( $cog, 'small_post_per_line' );
+        $arr[] = $cog->eb_post_small_per_line;
 
         // column spacing
         $arr[] = $cog->eb_post_column_spacing;
@@ -311,11 +309,11 @@ class Option extends EbModel
     {
         $arr = [];
         // desktop
-        $arr[] = $this->get_config($cog, 'eb_blogs_per_line');
+        $arr[] = $cog->eb_blogs_per_line;
         // table
-        //$arr[] = $this->get_config( $cog, 'medium_blogs_per_line' );
+        $arr[] = $cog->eb_blogs_medium_per_line;
         // mobile
-        //$arr[] = $this->get_config( $cog, 'small_blogs_per_line' );
+        $arr[] = $cog->eb_blogs_small_per_line;
 
         // column spacing
         $arr[] = $cog->eb_blogs_column_spacing;
@@ -333,11 +331,11 @@ class Option extends EbModel
     {
         $arr = [];
         // desktop
-        $arr[] = $this->get_config($cog, 'eb_blog_per_line');
+        $arr[] = $cog->eb_blog_per_line;
         // table
-        //$arr[] = $this->get_config( $cog, 'medium_blog_per_line' );
+        $arr[] = $cog->eb_blog_medium_per_line;
         // mobile
-        //$arr[] = $this->get_config( $cog, 'small_blog_per_line' );
+        $arr[] = $cog->eb_blog_small_per_line;
 
         // column spacing
         $arr[] = $cog->eb_blog_column_spacing;
