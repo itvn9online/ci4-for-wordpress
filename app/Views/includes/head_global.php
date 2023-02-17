@@ -37,39 +37,39 @@ use App\Helpers\HtmlTemplate;
 
 //
 if ($seo['canonical'] != '') {
-    ?>
+?>
     <link href="<?php echo $seo['canonical']; ?>" rel="canonical" />
     <meta property="og:url" content="<?php echo $seo['canonical']; ?>" />
-    <?php
+<?php
 }
 
 //
 if ($seo['shortlink'] != '') {
-    ?>
+?>
     <link href="<?php echo $seo['shortlink']; ?>" rel="shortlink" />
-    <?php
+<?php
 }
 
 //
 if (CDN_BASE_URL != '') {
-    ?>
+?>
     <link rel="dns-prefetch" href="<?php echo CDN_BASE_URL; ?>" />
-    <?php
+<?php
 }
 
 //
 //print_r( $getconfig );
 if ($getconfig->blog_private == 'on' || $seo['index'] == 'off') {
-    ?>
+?>
     <meta name="robots" content="noindex, nofollow" />
-    <?php
+<?php
 }
 
 //
 if ($getconfig->fb_app_id != '') {
-    ?>
+?>
     <meta property="fb:app_id" content="<?php echo $getconfig->fb_app_id; ?>" />
-    <?php
+<?php
 }
 ?>
 <meta property="og:title" content="<?php echo $seo['title']; ?>" />
@@ -77,19 +77,19 @@ if ($getconfig->fb_app_id != '') {
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="<?php $option_model->the_config($getconfig, 'name'); ?>" />
 <meta property="og:image" content="<?php
-if (isset($seo['og_image']) && $seo['og_image'] != '') {
-    echo $seo['og_image'];
-} else {
-    echo base_url() . ltrim(str_replace(base_url(), '', $option_model->get_config($getconfig, 'image')), '/');
-}
-?>" />
+                                    if (isset($seo['og_image']) && $seo['og_image'] != '') {
+                                        echo $seo['og_image'];
+                                    } else {
+                                        echo base_url() . ltrim(str_replace(base_url(), '', $option_model->get_config($getconfig, 'image')), '/');
+                                    }
+                                    ?>" />
 <meta property="og:image:alt" content="<?php
-if (isset($seo['og_image_alt']) && $seo['og_image_alt'] != '') {
-    echo $seo['og_image_alt'];
-} else {
-    $option_model->the_config($getconfig, 'name');
-}
-?>" />
+                                        if (isset($seo['og_image_alt']) && $seo['og_image_alt'] != '') {
+                                            echo $seo['og_image_alt'];
+                                        } else {
+                                            $option_model->the_config($getconfig, 'name');
+                                        }
+                                        ?>" />
 <meta property="og:updated_time" content="<?php echo $seo['updated_time']; ?>" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:description" content="<?php echo $seo['description']; ?>" />
@@ -136,9 +136,9 @@ $arr_preload_bootstrap = [
 ];
 
 foreach ($arr_preload_bootstrap as $v) {
-    ?>
+?>
     <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="<?php echo $v; ?>" />
-    <?php
+<?php
 }
 
 ?>
@@ -160,18 +160,19 @@ echo HtmlTemplate::html('root_color.txt', [
 //
 $base_model->preloads_css([
     'css/d.css',
+    'css/d1.css',
     'css/d2.css',
 ], [
-        'cdn' => CDN_BASE_URL,
-    ]);
+    'cdn' => CDN_BASE_URL,
+]);
 $base_model->adds_css([
     'css/flatsome.css',
     'css/thread_list.css',
     'themes/' . THEMENAME . '/style.css',
     'themes/' . THEMENAME . '/css/thread_node.css',
 ], [
-        'cdn' => CDN_BASE_URL,
-    ]);
+    'cdn' => CDN_BASE_URL,
+]);
 
 
 // mobile
@@ -180,13 +181,14 @@ if ($isMobile == true) {
         'css/m.css',
         'themes/' . THEMENAME . '/css/m.css',
     ], [
-            'cdn' => CDN_BASE_URL,
-        ]);
+        'cdn' => CDN_BASE_URL,
+    ]);
 }
 
 
 // xác định kích thước khung web dựa theo config
 echo HtmlTemplate::html('custom_css.txt', [
+    'site_max_width60' => $getconfig->site_max_width + 60,
     'site_max_width30' => $getconfig->site_max_width + 30,
     'site_max_width19' => $getconfig->site_max_width + 19,
     'site_max_width' => $getconfig->site_max_width,
@@ -201,16 +203,16 @@ $base_model->adds_js([
     //'javascript/slider.js',
     'themes/' . THEMENAME . '/js/functions.js',
 ], [
-        'cdn' => CDN_BASE_URL,
-    ]);
+    'cdn' => CDN_BASE_URL,
+]);
 
 // nạp thư viện vuejs nếu có yêu cầu
 if ($getconfig->enable_vue_js == 'on') {
     $base_model->add_js('thirdparty/vuejs/vue.min.js', [
         'cdn' => CDN_BASE_URL,
     ], [
-            'defer'
-        ]);
+        'defer'
+    ]);
 }
 
 //

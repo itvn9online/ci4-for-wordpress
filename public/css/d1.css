@@ -1,0 +1,111 @@
+html,
+body,
+div,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+dl,
+dt,
+dd,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+form,
+fieldset,
+embed,
+object,
+applet {
+    border: 0 none;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #fff;
+    font-size: 10pt;
+    color: #000;
+    font-family: Arial, sans-serif;
+    margin: 0 auto;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+    list-style: none
+}
+
+a {
+    color: var(--a-color);
+    text-decoration: none
+}
+
+.default-bg {
+    background-color: var(--default-bg);
+}
+
+.default2-bg {
+    background-color: var(--default2-bg);
+}
+
+.default-bg,
+.default-bg a {
+    color: #fff;
+}
+
+body.wgria-no-scroll,
+body.body-no-scroll {
+    overflow: hidden;
+}
+
+body.body-onload {
+    opacity: .5;
+}
+
+label,
+.cur {
+    cursor: pointer;
+}
+
+.eb-blog .flickity-page-dots {
+    left: auto;
+    right: auto;
+}
+
+.d-flex,
+.blogs_node_anh_chu .eb-blog-padding,
+.blogs_node_chu_anh .eb-blog-padding,
+.blogs_node_chutren_anhduoi .eb-blog-padding {
+    display: -webkit-flex;
+    /* Safari */
+    display: flex;
+}
+
+.blogs_node_anh_chu .eb-blog-left,
+.blogs_node_anh_chu .eb-blog-right,
+.blogs_node_chu_anh .eb-blog-left,
+.blogs_node_chu_anh .eb-blog-right {
+    max-width: 50%;
+    -ms-flex-preferred-size: 50%;
+    flex-basis: 50%;
+}
+
+.blogs_node_chu_anh .eb-blog-padding {
+    flex-direction: row-reverse;
+}
+
+.blogs_node_chu_anh .eb-blog-marginleft {
+    padding-right: 15px;
+    padding-left: 0;
+}
+
+.blogs_node_chutren_anhduoi .eb-blog-padding {
+    flex-direction: column-reverse;
+}

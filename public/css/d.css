@@ -316,11 +316,6 @@ body.home .thread-details-tohome {
     display: none;
 }
 
-.thread-list li {
-    float: left;
-    width: 25%;
-}
-
 .div-search {
     background: #fff;
     border: 1px #ccc solid;

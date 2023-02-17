@@ -1,18 +1,9 @@
 /* Global css (thread_node) */
-.thread-list {
-    margin: 0 -20px;
-}
+.thread-list {}
 
-.thread-list-padding {
-    background: #fff;
-    margin: 20px;
-    border: 1px #ccc solid;
-    border-radius: 2px;
-}
+.thread-list-padding {}
 
-.thread-list-padding:hover {
-    border-color: #999;
-}
+.thread-list-padding:hover {}
 
 .thread-list-avt {
     background: center no-repeat;
@@ -21,87 +12,38 @@
     position: relative;
 }
 
-.thread-list-avt:after {}
-
-.thread-list-info {
-    padding: 2px 5px 2px 15px;
-}
+.thread-list-info {}
 
 .thread-list-title {
-    text-transform: uppercase;
     color: var(--default-bg);
-    padding-top: 10px;
 }
 
-.thread-list-title * {
-    font-weight: normal;
-    margin: 0 5px 5px 15px;
-    line-height: 20px;
-    max-height: 60px;
-    overflow: hidden;
-    font-size: 16px;
-}
+.thread-list-title * {}
 
-.thread-list-desc {
-    line-height: 20px;
-    max-height: 60px;
-    overflow: hidden;
-}
+.thread-list-desc {}
 
-.thread-list-more {
-    margin-top: 10px;
-}
+.thread-list-more {}
 
-.thread-list-more span {
-    background-color: #cfe0fa;
-    display: inline-block;
-    padding: 3px 12px;
-    border-radius: 3px;
-    border: 1px #ccc solid;
-    box-shadow: 3px 3px 5px #ccc;
-    text-transform: uppercase;
-    font-size: 12px;
-}
+.thread-list-more span {}
 
-.thread-list-right {
-    max-height: 210px;
-    overflow: hidden;
-}
+.thread-list-right {}
 
 /* desktop only */
 @media only screen and (min-width:748px) {}
 
 /* mobile, table only */
 @media only screen and (max-width:788px) {
-    .thread-list {
-        margin: 0;
-    }
+    .thread-list {}
 
-    .thread-list-padding {
-        margin: 5px;
-    }
+    .thread-list-padding {}
 
-    .thread-list-title {
-        border-left: 0 none;
-        padding: 0;
-    }
+    .thread-list-title {}
 
-    .thread-list-title * {
-        margin: 5px;
-    }
+    .thread-list-title * {}
 
-    .thread-list-avt:after {
-        display: none;
-    }
+    .thread-list-info {}
 
-    .thread-list-info {
-        padding: 5px;
-    }
-
-    .thread-list-right {
-        height: 180px;
-        overflow: hidden;
-    }
+    .thread-list-right {}
 }
 
 /* mobile only */

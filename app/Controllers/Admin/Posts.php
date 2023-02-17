@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\Admin;
 
 // Libraries
@@ -402,8 +403,8 @@ class Posts extends Admin
                     'post_title' => $data['post_title'],
                     'post_name' => '',
                 ], [
-                        'post_type' => $this->post_type,
-                    ]);
+                    'post_type' => $this->post_type,
+                ]);
 
                 //
                 $this->MY_redirect(DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/'), 301);
@@ -483,6 +484,9 @@ class Posts extends Admin
             print_r($data);
             echo ' -->';
         }
+
+        //
+        //echo ADMIN_ROOT_VIEWS;
 
         //
         $this->teamplate_admin['content'] = view(
@@ -654,13 +658,13 @@ class Posts extends Admin
                 'ID' => $id,
                 'post_status !=' => $post_status,
             ], [
-                    // hiển thị mã SQL để check
-                    //'show_query' => 1,
-                    // trả về câu query để sử dụng cho mục đích khác
-                    //'get_query' => 1,
-                    //'offset' => 2,
-                    'limit' => 1
-                ]);
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                //'offset' => 2,
+                'limit' => 1
+            ]);
             //print_r( $check_slug );
             //var_dump( strpos( $check_slug[ 'post_name' ], '___' . $post_status ) );
             if (
@@ -710,7 +714,8 @@ class Posts extends Admin
 
         // xem bản ghi này có được đánh dấu là XÓA không
         $data = $this->base_model->select(
-            '*', $this->post_model->table,
+            '*',
+            $this->post_model->table,
             [
                 'ID' => $id,
                 'post_status' => PostType::DELETED,
@@ -789,19 +794,19 @@ class Posts extends Admin
             //'t2.post_status' => PostType::REMOVED,
 
         ], [
-                /*
+            /*
                 'left_join' => array(
                 $this->post_model->table . ' AS t2' => $this->term_model->relaTable . '.object_id = t2.ID'
                 ),
                 */
-                'where_in' => array(
-                    'object_id' => $ids
-                ),
-                // hiển thị mã SQL để check
-                //'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-            ]);
+            'where_in' => array(
+                'object_id' => $ids
+            ),
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+        ]);
         //die( __CLASS__ . ':' . __LINE__ );
 
         // XÓA dữ liệu chính
@@ -810,19 +815,19 @@ class Posts extends Admin
             //'t2.post_status' => PostType::REMOVED,
 
         ], [
-                /*
+            /*
                 'left_join' => array(
                 $this->post_model->table . ' AS t2' => $this->post_model->metaTable . '.post_id = t2.ID'
                 ),
                 */
-                'where_in' => array(
-                    'post_id' => $ids
-                ),
-                // hiển thị mã SQL để check
-                //'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-            ]);
+            'where_in' => array(
+                'post_id' => $ids
+            ),
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+        ]);
 
         //
         $this->base_model->delete_multiple($this->post_model->table, [
@@ -830,14 +835,14 @@ class Posts extends Admin
             //'post_status' => PostType::REMOVED,
 
         ], [
-                'where_in' => array(
-                    'ID' => $ids
-                ),
-                // hiển thị mã SQL để check
-                //'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-            ]);
+            'where_in' => array(
+                'ID' => $ids
+            ),
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+        ]);
 
         //
         return $result;
@@ -853,16 +858,16 @@ class Posts extends Admin
             // SET
             'post_status' => $post_status
         ], [
-                'post_status !=' => $post_status
-            ], [
-                'where_in' => array(
-                    'ID' => $ids
-                ),
-                // hiển thị mã SQL để check
-                //'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-            ]);
+            'post_status !=' => $post_status
+        ], [
+            'where_in' => array(
+                'ID' => $ids
+            ),
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+        ]);
 
         // nếu update thành công -> gửi lệnh javascript để ẩn bài viết bằng javascript
         if ($update === true && $post_status == PostType::REMOVED && ALLOW_USING_MYSQL_DELETE === true) {
@@ -951,7 +956,8 @@ class Posts extends Admin
 
         //
         $data = $this->base_model->select(
-            '*', $this->post_model->table,
+            '*',
+            $this->post_model->table,
             $where,
             array(
                 'order_by' => array(

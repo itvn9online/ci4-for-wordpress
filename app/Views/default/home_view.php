@@ -4,7 +4,7 @@
 $post_model->the_ads('top-main-slider');
 
 ?>
-<ul class="fix-li-wit thread-list home-thread-list cf <?php $option_model->posts_in_line($getconfig); ?>">
+<div class="fix-li-wit thread-list home-thread-list row <?php $option_model->posts_in_line($getconfig); ?>">
     <?php
 
     // lấy post mới nhất
@@ -26,17 +26,17 @@ $post_model->the_ads('top-main-slider');
         $base_model->scache($in_cache, $new_posts, 300);
     }
     //print_r($new_posts);
-    
+
     //
     foreach ($new_posts as $child_key => $child_val) {
         //print_r($child_val);
-    
+
         //
         $post_model->the_node($child_val, [
             //'taxonomy_post_size' => $taxonomy_post_size,
-    
+
         ]);
     }
 
     ?>
-</ul>
+</div>

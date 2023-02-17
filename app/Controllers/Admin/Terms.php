@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\Admin;
 
 // Libraries
@@ -398,7 +399,7 @@ class Terms extends Admin
         //die( __LINE__ );
 
         //
-        $result_id = $this->term_model->update_terms($id, $data, $this->taxonomy, [
+        $this->term_model->update_terms($id, $data, $this->taxonomy, [
             'alert' => 1,
         ]);
 
@@ -496,16 +497,16 @@ class Terms extends Admin
             // SET
             'is_deleted' => $is_deleted
         ], [
-                'is_deleted !=' => $is_deleted
-            ], [
-                'where_in' => array(
-                    'term_id' => $ids
-                ),
-                // hiển thị mã SQL để check
-                //'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-            ]);
+            'is_deleted !=' => $is_deleted
+        ], [
+            'where_in' => array(
+                'term_id' => $ids
+            ),
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+        ]);
 
         // riêng với lệnh remove -> kiểm tra nếu remove hoàn toàn thì xử lý riêng
         if ($update === true && $is_deleted == DeletedStatus::REMOVED && ALLOW_USING_MYSQL_DELETE === true) {
@@ -594,55 +595,55 @@ class Terms extends Admin
             // WHERE
             //'t2.is_deleted' => DeletedStatus::REMOVED,
         ], [
-                /*
+            /*
                 'join' => array(
                 $this->term_model->table . ' AS t2' => $this->term_model->taxTable . '.term_id = t2.term_id'
                 ),
                 */
-                'where_in' => array(
-                    'term_id' => $ids
-                ),
-            ]);
+            'where_in' => array(
+                'term_id' => $ids
+            ),
+        ]);
 
         // XÓA relationships
         $this->base_model->delete_multiple($this->term_model->relaTable, [
             // WHERE
             //'t2.is_deleted' => DeletedStatus::REMOVED,
         ], [
-                /*
+            /*
                 'join' => array(
                 $this->term_model->table . ' AS t2' => $this->term_model->relaTable . '.term_taxonomy_id = t2.term_id'
                 ),
                 */
-                'where_in' => array(
-                    'term_taxonomy_id' => $ids
-                ),
-            ]);
+            'where_in' => array(
+                'term_taxonomy_id' => $ids
+            ),
+        ]);
 
         // XÓA meta
         $this->base_model->delete_multiple($this->term_model->metaTable, [
             // WHERE
             //'t2.is_deleted' => DeletedStatus::REMOVED,
         ], [
-                /*
+            /*
                 'join' => array(
                 $this->term_model->table . ' AS t2' => $this->term_model->metaTable . '.term_id = t2.term_id'
                 ),
                 */
-                'where_in' => array(
-                    'term_id' => $ids
-                ),
-            ]);
+            'where_in' => array(
+                'term_id' => $ids
+            ),
+        ]);
 
         // XÓA dữ liệu chính
         $this->base_model->delete_multiple($this->term_model->table, [
             // WHERE
             //'is_deleted' => DeletedStatus::REMOVED,
         ], [
-                'where_in' => array(
-                    'term_id' => $ids
-                ),
-            ]);
+            'where_in' => array(
+                'term_id' => $ids
+            ),
+        ]);
 
         //
         return $result;

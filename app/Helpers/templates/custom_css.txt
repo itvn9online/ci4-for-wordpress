@@ -5,6 +5,9 @@ max-width: {{site_max_width30}}px;
 .row.row-small {
 max-width: {{site_max_width19}}px;
 }
+.row.row-large {
+max-width: {{site_max_width60}}px;
+}
 .row.row-collapse, .w90, .w99 {
 max-width: {{site_max_width}}px;
 }

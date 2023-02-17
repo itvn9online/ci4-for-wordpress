@@ -24,6 +24,7 @@ define('VIEWS_PATH', APPPATH . 'Views/');
 define('VIEWS_CUSTOM_PATH', ROOTPATH . 'custom/Views/');
 // views của admin
 define('ADMIN_ROOT_VIEWS', VIEWS_PATH . 'admin/');
+define('ADMIN_CUSTOM_VIEWS', VIEWS_CUSTOM_PATH . 'admin/');
 //define('ADMIN_DEFAULT_VIEWS', VIEWS_PATH . 'admin/default/');
 //die( VIEWS_CUSTOM_PATH );
 

@@ -178,8 +178,7 @@ $base_model->add_css('admin/css/' . $taxonomy . '.css');
                             //
                             if ($input_type == 'textarea') {
                             ?>
-                                <textarea style="width:80%;" placeholder="<?php echo $v; ?>" name="term_meta[<?php echo $k; ?>]" id="term_meta_<?php echo $k; ?>"><?php $term_model->echo_meta_term($data, $k); ?>
-                                    </textarea>
+                                <textarea placeholder="<?php echo $v; ?>" name="term_meta[<?php echo $k; ?>]" id="term_meta_<?php echo $k; ?>" class="span10"><?php $term_model->echo_meta_term($data, $k); ?></textarea>
                             <?php
                             }
                             // END if input type textarea

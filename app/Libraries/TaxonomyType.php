@@ -85,12 +85,13 @@ class TaxonomyType
             $arr['widget_description'] = 'Mô tả';
             $arr['post_number'] = 'Số lượng bài để hiển thị';
             $arr['num_line'] = 'Số bài viết trên mỗi dòng';
+            $arr['column_spacing'] = 'Khoảng các giữ các cột';
             $arr['post_cloumn'] = 'Bố cục bài viết';
             $arr['hide_title'] = 'Ẩn tiêu đề của bài viết';
             $arr['hide_description'] = 'Ẩn tóm tắt của bài viết';
             $arr['hide_info'] = 'Ẩn ngày tháng, danh mục của bài viết';
             $arr['show_post_content'] = 'Hiển thị nội dung của bài viết';
-            $arr['run_slider'] = 'Chạy slider (banner sẽ được hiển thị dưới dạng slider)';
+            $arr['run_slider'] = 'Chạy slider (banner sẽ được hiển thị dưới dạng slider của flatsome)';
             $arr['max_width'] = 'Chiều rộng tối đa';
             $arr['custom_style'] = 'Tùy chỉnh CSS';
             $arr['custom_id'] = 'Tùy chỉnh ID';
@@ -116,6 +117,7 @@ class TaxonomyType
             'widget_description' => 'textarea',
             'post_number' => 'number',
             'num_line' => 'select',
+            'column_spacing' => 'select',
             'post_cloumn' => 'select',
             'hide_title' => 'checkbox',
             'hide_description' => 'checkbox',
@@ -173,23 +175,30 @@ class TaxonomyType
             'dynamic_post_tag' => $arr_dynamic_tag,
             'num_line' => [
                 '' => 'Mặc định',
-                'thread-list100' => 1,
-                'thread-list50' => 2,
-                'thread-list33' => 3,
-                'thread-list25' => 4,
-                'thread-list20' => 5,
-                'thread-list16' => 6,
-                'thread-list14' => 7,
-                'thread-list12' => 8,
-                'thread-list11' => 9,
-                'thread-list10' => 10,
-                'thread-list9' => 11,
-                'thread-list8' => 12,
+                'row-12' => 1,
+                'row-6' => 2,
+                'row-4' => 3,
+                'row-3' => 4,
+                'row-5' => 5,
+                'row-2' => 6,
+                'row-7' => 7,
+                'row-8' => 8,
+                'row-9' => 9,
+                'row-10' => 10,
+                'row-11' => 11,
+                'row-1' => 12,
+            ],
+            'column_spacing' => [
+                '' => 'Mặc định',
+                'row-small' => 'Nhỏ',
+                'row-large' => 'Lớn',
+                'row-collapse' => 'Không có khoảng cách',
             ],
             'post_cloumn' => [
-                '' => 'Mặc định',
+                '' => 'Mặc định (Ảnh trên - chữ dưới)',
+                'anh_chu' => 'Ảnh trái - chữ phải',
                 'chu_anh' => 'Chữ trái - ảnh phải',
-                'anhtren_chuduoi' => 'Ảnh trên - chữ dưới',
+                //'anhtren_chuduoi' => 'Ảnh trên - chữ dưới',
                 'chutren_anhduoi' => 'Chữ trên - ảnh dưới',
                 'chi_chu' => 'Chỉ tiêu đề (title only)',
                 'chi_anh' => 'Chỉ ảnh (image only)',
@@ -197,10 +206,14 @@ class TaxonomyType
                 'chi_anh_chu' => 'Chỉ ảnh + tiêu đề (title + image)'
             ],
             'max_width' => [
+                '' => 'Mặc định',
+                'row-full-width' => 'Không giới hạn chiều rộng',
+                /*
                 '' => 'Không giới hạn chiều rộng',
                 'w99' => 'Rộng tối đa 999px (w99)',
                 'w90' => 'Rộng tối đa 1366px (w90)',
                 'w96' => 'Rộng tối đa 1666px (w96)',
+                */
             ]
         ];
         if (isset($arr[$key])) {

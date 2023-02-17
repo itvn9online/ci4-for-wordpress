@@ -30,6 +30,11 @@ class Term extends TermBase
         }
         // đặt giá trị này để khởi tạo lại permalink
         $data['term_permalink'] = '';
+
+        //
+        foreach ($data as $k => $v) {
+            $data[$k] = trim($v);
+        }
         return $data;
     }
 
@@ -294,7 +299,8 @@ class Term extends TermBase
             if ($data['parent'] * 1 > 0) {
                 // -> lấy level của cha
                 $parent_level = $this->base_model->select(
-                    'term_level', $this->taxTable,
+                    'term_level',
+                    $this->taxTable,
                     array(
                         'term_id' => $term_id,
                     ),
@@ -335,7 +341,8 @@ class Term extends TermBase
 
         //
         $count_post_term = $this->base_model->select(
-            'COUNT(object_id) AS c', $this->relaTable,
+            'COUNT(object_id) AS c',
+            $this->relaTable,
             array(
                 // WHERE AND OR
                 'term_taxonomy_id' => $term_id,
@@ -894,7 +901,8 @@ class Term extends TermBase
 
                 // tính tổng bài viết theo từng term
                 $count_post_term = $this->base_model->select(
-                    'COUNT(object_id) AS c', $this->relaTable,
+                    'COUNT(object_id) AS c',
+                    $this->relaTable,
                     array(
                         // WHERE AND OR
                         'term_taxonomy_id' => $term_id,

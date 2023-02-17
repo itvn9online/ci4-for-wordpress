@@ -500,49 +500,61 @@ var _global_js_eb = {
 
 	// nạp slider của flatsome
 	loadFlatsomeSlider: function (flickity_options, add_class) {
-		if (typeof flickity_options != "object") {
-			flickity_options = {
-				cellAlign: "center",
-				imagesLoaded: true,
-				lazyLoad: 1,
-				freeScroll: false,
-				wrapAround: true,
-				autoPlay: 6000,
-				pauseAutoPlayOnHover: true,
-				prevNextButtons: true,
-				contain: true,
-				adaptiveHeight: true,
-				dragThreshold: 10,
-				percentPosition: true,
-				pageDots: true,
-				rightToLeft: false,
-				draggable: true,
-				selectedAttraction: 0.1,
-				parallax: 0,
-				friction: 0.6,
-			};
-		}
+		$(".ebwidget-run-slider .eb-blog").each(function () {
+			if (!$(this).hasClass("actived-slider")) {
+				//
+				if (typeof flickity_options != "object") {
+					flickity_options = {
+						cellAlign: "center",
+						imagesLoaded: true,
+						lazyLoad: 1,
+						freeScroll: false,
+						wrapAround: true,
+						autoPlay: 6000,
+						pauseAutoPlayOnHover: true,
+						prevNextButtons: true,
+						contain: true,
+						adaptiveHeight: true,
+						dragThreshold: 10,
+						percentPosition: true,
+						pageDots: true,
+						rightToLeft: false,
+						draggable: true,
+						selectedAttraction: 0.1,
+						parallax: 0,
+						friction: 0.6,
+					};
+				}
 
-		//
-		if (typeof add_class != "object" || add_class.length == 0) {
-			add_class = [
-				"slider",
-				"slider-nav-circle",
-				//'slider-nav-large',
-				"slider-nav-light",
-				//'slider-style-normal',
-				//'is-draggable',
-				//'sliflickity-enabledder',
-			];
-			console.log(add_class);
-		}
+				//
+				if (typeof add_class != "object" || add_class.length == 0) {
+					add_class = [
+						//"row",
+						//"row-collapse",
+						//"row-small",
+						//"row-full-width",
+						//"align-equal",
+						"slider",
+						"actived-slider",
+						"row-slider",
+						"slider-nav-circle",
+						//'slider-nav-large',
+						"slider-nav-light",
+						//'slider-style-normal',
+						//'is-draggable',
+						//'sliflickity-enabledder',
+					];
+					console.log(add_class);
+				}
 
-		//
-		$(".ebwidget-run-slider .widget-run-slider .eb-blog")
-			.attr({
-				"data-flickity-options": JSON.stringify(flickity_options),
-			})
-			.addClass(add_class.join(" "));
+				//
+				$(this)
+					.attr({
+						"data-flickity-options": JSON.stringify(flickity_options),
+					})
+					.addClass(add_class.join(" "));
+			}
+		});
 	},
 
 	fix_url_id: function () {},

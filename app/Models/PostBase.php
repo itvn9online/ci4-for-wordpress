@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 // Libraries
@@ -21,7 +22,7 @@ class PostBase extends EbModel
     public $itempropImageHtmlNode = '';
     public $itempropAuthorHtmlNode = '';
     // tùy chỉnh thẻ LI hoặc thẻ DIV
-    protected $product_html_tag = 'li';
+    protected $product_html_tag = 'div';
     // tùy chỉnh class css cho thẻ bao ngoài cùng của danh sách post
     protected $product_list_css = '';
 
@@ -234,7 +235,8 @@ class PostBase extends EbModel
     {
         // lấy chap cuối cùng của truyện để tổng kết
         $a = $this->base_model->select(
-            'menu_order', $this->table,
+            'menu_order',
+            $this->table,
             array(
                 // WHERE AND OR
                 'post_type' => $post_type,

@@ -104,6 +104,12 @@
     margin-bottom: 0;
 }
 
+.row-large>.col,
+.row-large>.flickity-viewport>.flickity-slider>.col {
+    margin-bottom: 0;
+    padding: 0 30px 30px;
+}
+
 .small-1 {
     max-width: 8.3333333333%;
     -ms-flex-preferred-size: 8.3333333333%;
@@ -1231,4 +1237,70 @@ button.flickity-prev-next-button[disabled] {
     -ms-flex-item-align: center !important;
     align-self: center !important;
     vertical-align: middle !important;
+}
+
+.row-12 .col {
+    max-width: 100%;
+    -ms-flex-preferred-size: 100%;
+    flex-basis: 100%;
+}
+
+.row-6 .col {
+    max-width: 50%;
+    -ms-flex-preferred-size: 50%;
+    flex-basis: 50%;
+}
+
+.row-4 .col {
+    max-width: 33.333333%;
+    -ms-flex-preferred-size: 33.333333%;
+    flex-basis: 33.333333%;
+}
+
+.row-3 .col {
+    max-width: 25%;
+    -ms-flex-preferred-size: 25%;
+    flex-basis: 25%;
+}
+
+.row-5 .col {
+    max-width: 20%;
+    -ms-flex-preferred-size: 20%;
+    flex-basis: 20%;
+}
+
+.row-2 .col {
+    max-width: 50%;
+    -ms-flex-preferred-size: 50%;
+    flex-basis: 50%;
+}
+
+.row-7 .col {
+    max-width: 14.2857%;
+    -ms-flex-preferred-size: 14.2857%;
+    flex-basis: 14.2857%;
+}
+
+.row-8 .col {
+    max-width: 12.5%;
+    -ms-flex-preferred-size: 12.5%;
+    flex-basis: 12.5%;
+}
+
+.row-9 .col {
+    max-width: 11.111111%;
+    -ms-flex-preferred-size: 11.111111%;
+    flex-basis: 11.111111%;
+}
+
+.row-10 .col {
+    max-width: 10%;
+    -ms-flex-preferred-size: 10%;
+    flex-basis: 10%;
+}
+
+.row-11 .col {
+    max-width: 9.090909%;
+    -ms-flex-preferred-size: 9.090909%;
+    flex-basis: 9.090909%;
 }

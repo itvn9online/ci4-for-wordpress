@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 //
@@ -36,7 +37,8 @@ class Option extends EbModel
              */
             // -> dùng CI query builder để tạo query -> tránh sql injection
             $sql = $this->base_model->select(
-                '*', $this->table,
+                '*',
+                $this->table,
                 $where,
                 array(
                     // hiển thị mã SQL để check
@@ -116,7 +118,8 @@ class Option extends EbModel
 
         //
         $data = $this->base_model->select(
-            '*', $this->table,
+            '*',
+            $this->table,
             array(
                 // các kiểu điều kiện where
                 'is_deleted' => DeletedStatus::FOR_DEFAULT,
@@ -257,16 +260,20 @@ class Option extends EbModel
         return $this_cache_config;
     }
 
-    // trả về class css cho việc hiển thị số sản phẩm trên mỗi dòng
+    // trả về class css cho việc hiển thị Số cột trên mỗi dòng
     public function get_posts_in_line($cog)
     {
         $arr = [];
         // desktop
-        $arr[] = $this->get_config($cog, 'eb_posts_per_line');
+        //$arr[] = $this->get_config($cog, 'eb_posts_per_line');
+        $arr[] = $cog->eb_posts_per_line;
         // table
         //$arr[] = $this->get_config( $cog, 'medium_posts_per_line' );
         // mobile
         //$arr[] = $this->get_config( $cog, 'small_posts_per_line' );
+
+        // column spacing
+        $arr[] = $cog->eb_posts_column_spacing;
 
         //
         return implode(' ', $arr);
@@ -274,6 +281,29 @@ class Option extends EbModel
     public function posts_in_line($cog)
     {
         echo $this->get_posts_in_line($cog);
+    }
+
+    // trả về class css cho việc hiển thị Số cột trên mỗi dòng
+    public function get_post_in_line($cog)
+    {
+        $arr = [];
+        // desktop
+        //$arr[] = $this->get_config($cog, 'eb_post_per_line');
+        $arr[] = $cog->eb_post_per_line;
+        // table
+        //$arr[] = $this->get_config( $cog, 'medium_post_per_line' );
+        // mobile
+        //$arr[] = $this->get_config( $cog, 'small_post_per_line' );
+
+        // column spacing
+        $arr[] = $cog->eb_post_column_spacing;
+
+        //
+        return implode(' ', $arr);
+    }
+    public function post_in_line($cog)
+    {
+        echo $this->get_post_in_line($cog);
     }
 
     // trả về class css cho việc hiển thị số bài viết blog trên mỗi dòng
@@ -287,12 +317,37 @@ class Option extends EbModel
         // mobile
         //$arr[] = $this->get_config( $cog, 'small_blogs_per_line' );
 
+        // column spacing
+        $arr[] = $cog->eb_blogs_column_spacing;
+
         //
         return implode(' ', $arr);
     }
     public function blogs_in_line($cog)
     {
         echo $this->get_blogs_in_line($cog);
+    }
+
+    // trả về class css cho việc hiển thị số bài viết blog trên mỗi dòng
+    public function get_blog_in_line($cog)
+    {
+        $arr = [];
+        // desktop
+        $arr[] = $this->get_config($cog, 'eb_blog_per_line');
+        // table
+        //$arr[] = $this->get_config( $cog, 'medium_blog_per_line' );
+        // mobile
+        //$arr[] = $this->get_config( $cog, 'small_blog_per_line' );
+
+        // column spacing
+        $arr[] = $cog->eb_blog_column_spacing;
+
+        //
+        return implode(' ', $arr);
+    }
+    public function blog_in_line($cog)
+    {
+        echo $this->get_blog_in_line($cog);
     }
 
     /*

@@ -29,6 +29,11 @@ class PostQuery extends PostMeta
         }
         // đặt giá trị này để khởi tạo lại permalink
         $data['post_permalink'] = '';
+
+        //
+        foreach ($data as $k => $v) {
+            $data[$k] = trim($v);
+        }
         return $data;
     }
 
@@ -617,11 +622,13 @@ class PostQuery extends PostMeta
         if ($instance['custom_id'] != '') {
             $instance['custom_id'] = ' id="' . $instance['custom_id'] . '"';
         }
+        $custom_style = explode(' ', $instance['custom_style']);
+        $custom_style[] = str_replace('-', '', $slug);
 
         //
         $html_widget_title = '';
         if ($instance['hide_widget_title'] == 'on') {
-            $instance['max_width'] .= ' hide-widget-title';
+            $custom_style[] = 'hide-widget-title';
 
             // với widget ẩn title -> vẫn cho thẻ hiển thị nút sửa để admin tiện điều khiển
             $html_widget_title = '<div data-type="' . $post_cat['taxonomy'] . '" data-id="' . $post_cat['term_id'] . '"
@@ -632,27 +639,25 @@ class PostQuery extends PostMeta
 {{widget_description}}';
         }
         if ($instance['hide_title'] == 'on') {
-            $instance['max_width'] .= ' hide-blogs-title';
+            $custom_style[] = 'hide-blogs-title';
         }
         if ($instance['hide_description'] == 'on') {
-            $instance['max_width'] .= ' hide-blogs-description';
+            $custom_style[] = 'hide-blogs-description';
         }
         if ($instance['hide_info'] == 'on') {
-            $instance['max_width'] .= ' hide-blogs-info';
+            $custom_style[] = 'hide-blogs-info';
         }
         if ($instance['run_slider'] == 'on') {
-            $instance['max_width'] .= ' ebwidget-run-slider';
+            $custom_style[] = 'ebwidget-run-slider';
         }
         /*
         if ( $instance[ 'open_youtube' ] == 'on' ) {
-        $instance[ 'max_width' ] .= ' youtube-quick-view';
+            $custom_style[] = 'youtube-quick-view';
         }
         */
         if ($instance['text_view_more'] != '' || $instance['text_view_details'] != 'text_view_details') {
-            $instance['max_width'] .= ' show-view-more';
+            $custom_style[] = 'show-view-more';
         }
-        // thêm class theo slug
-        $instance['max_width'] .= ' ' . str_replace('-', '', $slug);
         // hiển thị nội dung của bài viết
         $show_post_content = '';
         if ($instance['show_post_content'] == 'on') {
@@ -661,10 +666,12 @@ class PostQuery extends PostMeta
         //print_r( $instance );
         if (isset($ops['add_class'])) {
             // thêm class css tùy chỉnh vào
-            $instance['max_width'] .= ' ' . $ops['add_class'];
+            $custom_style[] = $ops['add_class'];
         }
-        $instance['max_width'] .= ' blog-section';
-        $instance['max_width'] = str_replace('  ', ' ', trim($instance['max_width']));
+        $custom_style[] = 'blog-section';
+
+        // thêm class theo slug
+        $instance['custom_style'] =  implode(' ', $custom_style);
 
         // cố định file HTML để tối ưu với SEO
         $html_node = 'ads_node';
@@ -687,7 +694,12 @@ class PostQuery extends PostMeta
             $instance['post_cloumn'] = 'blogs_node_' . $instance['post_cloumn'];
         }
         //print_r( $instance );
-        $instance['post_cloumn'] = str_replace('  ', ' ', trim($instance['post_cloumn'] . ' ' . $instance['num_line']));
+        $instance['post_cloumn'] = implode(' ', [
+            $instance['num_line'],
+            $instance['post_cloumn'],
+            $instance['column_spacing'],
+            $instance['max_width'],
+        ]);
 
         // do hàm select có chỉnh sửa với limit -> ở đây phải thao tác ngược lại
         if ($ops['limit'] == 1) {
@@ -755,9 +767,6 @@ class PostQuery extends PostMeta
         }
         //print_r( $instance );
         //print_r( $post_cat );
-        //$max_width = '';
-        //$num_line = '';
-        //$post_cloumn = '';
 
         // thay thế HTML cho khối term
         $tmp_html = $this->base_model->parent_html_tmp('widget_eb_blog');
@@ -772,11 +781,6 @@ class PostQuery extends PostMeta
                 'cf_blog_size' => '{{custom_size}}',
                 'blog_link_option' => $blog_link_option,
                 'widget_title' => $html_widget_title,
-                /*
-                'max_width' => $max_width,
-                'num_line' => $num_line,
-                'post_cloumn' => $post_cloumn,
-                */
                 'more_link' => $instance['text_view_more'] != '' ? '<div class="widget-blog-more"><a href="{{custom_cat_link}}">' . $instance['text_view_more'] . '</a></div>' : '',
                 'str_sub_cat' => '',
             ]
@@ -792,19 +796,6 @@ class PostQuery extends PostMeta
                 'second_banner_size' => $this->base_model->get_config($this->getconfig, 'second_banner_size'),
             ]
         );
-
-        // với slider -> dùng flatsome -> sử dụng thẻ DIV thay vì UL LI
-        if ($instance['run_slider'] == 'on') {
-            $for_slider = [
-                '<ul ' => '<div ',
-                '</ul>' => '</div>',
-                '<li ' => '<div ',
-                '</li>' => '</div>'
-            ];
-            foreach ($for_slider as $k => $v) {
-                $html = str_replace($k, $v, $html);
-            }
-        }
 
         //
         return $html;
