@@ -164,7 +164,7 @@ class ConfigType
                 'eb_posts_per_line' => 'Số cột trên mỗi dòng',
                 'eb_posts_medium_per_line' => 'Số cột trên mỗi dòng (table)',
                 'eb_posts_small_per_line' => 'Số cột trên mỗi dòng (mobile)',
-                'eb_posts_column_spacing' => 'Khoảng cách giữ các cột',
+                'eb_posts_column_spacing' => 'Khoảng cách giữa các cột',
                 'cf_product_size' => 'Tỉ lệ ảnh sản phẩm',
                 'cf_thumbnail_size' => 'Chất lượng hình ảnh',
                 'show_child_category' => 'Hiển thị nhóm sản phẩm con',
@@ -175,7 +175,7 @@ class ConfigType
                 'eb_post_per_line' => 'Số cột trên mỗi dòng',
                 'eb_post_medium_per_line' => 'Số cột trên mỗi dòng (table)',
                 'eb_post_small_per_line' => 'Số cột trên mỗi dòng (mobile)',
-                'eb_post_column_spacing' => 'Khoảng cách giữ các cột',
+                'eb_post_column_spacing' => 'Khoảng cách giữa các cột',
             ];
         } else if ($config_type == self::BLOGS) {
             $arr = [
@@ -183,7 +183,7 @@ class ConfigType
                 'eb_blogs_per_line' => 'Số cột trên mỗi dòng',
                 'eb_blogs_medium_per_line' => 'Số cột trên mỗi dòng (table)',
                 'eb_blogs_small_per_line' => 'Số cột trên mỗi dòng (mobile)',
-                'eb_blogs_column_spacing' => 'Khoảng cách giữ các cột',
+                'eb_blogs_column_spacing' => 'Khoảng cách giữa các cột',
                 'cf_blog_description_length' => 'Độ dài tóm tắt bài viết',
                 'cf_blog_size' => 'Tỉ lệ ảnh tin tức',
                 'show_child_blogs' => 'Hiển thị nhóm tin tức con',
@@ -194,13 +194,17 @@ class ConfigType
                 'eb_blog_per_line' => 'Số cột trên mỗi dòng',
                 'eb_blog_medium_per_line' => 'Số cột trên mỗi dòng (table)',
                 'eb_blog_small_per_line' => 'Số cột trên mỗi dòng (mobile)',
-                'eb_blog_column_spacing' => 'Khoảng cách giữ các cột',
+                'eb_blog_column_spacing' => 'Khoảng cách giữa các cột',
             ];
         } else if ($config_type == self::NUM_MON) {
-            $arr = [];
+            $arr = [
+                'custom_num_mon0' => 'Custom number 0'
+            ];
+            /*
             for ($i = 0; $i < NUMBER_NUMS_INPUT; $i++) {
                 $arr['custom_num_mon' . $i] = 'Custom number ' . $i;
             }
+            */
         } else if ($config_type == self::CHECKBOX) {
             $arr = [];
             for ($i = 0; $i < NUMBER_CHECKBOXS_INPUT; $i++) {
@@ -212,12 +216,14 @@ class ConfigType
             $arr_tmp['copy_right_first'] = 'Bản quyền (trước)';
             $arr_tmp['copy_right_last'] = 'Bản quyền (sau)';
             $arr_tmp['powered_by_eb'] = 'Cung cấp bởi';
+            /*
             for ($i = 0; $i < NUMBER_TRANS_INPUT; $i++) {
                 $arr_tmp['custom_text' . $i] = 'Custom text ' . $i;
             }
             foreach (self::textArea() as $k => $v) {
                 $arr_tmp[$k] = $v;
             }
+            */
 
             // thêm prefix vào đầu mỗi key
             $arr = [];
@@ -387,9 +393,11 @@ class ConfigType
             'zalo' => 'number',
             'fb_app_id' => 'number',
         ];
+        /*
         foreach (self::textArea() as $k => $v) {
             $arr[$k] = 'textarea';
         }
+        */
         //print_r( $arr );
         if (isset($arr[$key])) {
             return $arr[$key];

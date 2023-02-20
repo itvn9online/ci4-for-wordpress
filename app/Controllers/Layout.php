@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 // Libraries
@@ -47,6 +48,8 @@ class Layout extends Sync
 
         $this->option_model = new \App\Models\Option();
         $this->lang_model = new \App\Models\Lang();
+        $this->num_model = new \App\Models\Num();
+        $this->checkbox_model = new \App\Models\Checkbox();
         $this->post_model = new \App\Models\Post();
         $this->menu_model = new \App\Models\Menu();
         $this->htmlmenu_model = new \App\Models\Htmlmenu();
@@ -194,6 +197,8 @@ class Layout extends Sync
                 'post_model' => $this->post_model,
                 'term_model' => $this->term_model,
                 'lang_model' => $this->lang_model,
+                'num_model' => $this->num_model,
+                'checkbox_model' => $this->checkbox_model,
                 'user_model' => $this->user_model,
                 //
                 //'session' => $this->session,
@@ -273,7 +278,6 @@ class Layout extends Sync
             $this->breadcrumb[] = '<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"><a href="' . $url . '" itemprop="item" title="' . str_replace('"', '', $text) . '"><span itemprop="name">' . $text . '</span></a><meta itemprop="position" content="' . $this->breadcrumb_position . '"></li>';
         } else {
             $this->breadcrumb[] = '<li>' . $text . '</li>';
-
         }
         //print_r( $this->breadcrumb );
 
@@ -411,7 +415,7 @@ class Layout extends Sync
         $taxonomy_slider = $this->term_model->get_the_slider($this->taxonomy_slider);
         //echo $taxonomy_slider . '<br>' . "\n";
         if ($taxonomy_slider == '') {
-            $taxonomy_slider = $this->lang_model->get_the_text('main_slider_slug');
+            $taxonomy_slider = $this->lang_model->get_the_text('main_slider_slug', '');
         }
         //echo $taxonomy_slider . '<br>' . "\n";
         if ($taxonomy_slider != '') {
@@ -925,7 +929,6 @@ class Layout extends Sync
         if ($path == '') {
             //$path = PUBLIC_HTML_PATH . PostType::MEDIA_URI;
             $path = PUBLIC_HTML_PATH . PostType::MEDIA_PATH;
-
         }
         foreach ($data as $v) {
             $path .= $v . '/';

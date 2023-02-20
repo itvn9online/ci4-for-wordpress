@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 // Libraries
@@ -28,6 +29,7 @@ class PostGet extends PostQuery
         }
 
         //
+        //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . '\\ ' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
         $post_cat = $this->term_model->get_cat_post($slug, $post_type, $taxonomy, true, $ops);
         $post_cat = $this->term_model->terms_meta_post([$post_cat]);
         $post_cat = $post_cat[0];

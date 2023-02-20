@@ -87,7 +87,7 @@ class TaxonomyType
             $arr['num_line'] = 'Số cột trên mỗi dòng';
             $arr['num_medium_line'] = 'Số cột trên mỗi dòng (table)';
             $arr['num_small_line'] = 'Số cột trên mỗi dòng (mobile)';
-            $arr['column_spacing'] = 'Khoảng cách giữ các cột';
+            $arr['column_spacing'] = 'Khoảng cách giữa các cột';
             $arr['post_cloumn'] = 'Bố cục bài viết';
             $arr['hide_title'] = 'Ẩn tiêu đề của bài viết';
             $arr['hide_description'] = 'Ẩn tóm tắt của bài viết';

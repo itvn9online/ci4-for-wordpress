@@ -70,9 +70,9 @@ if ($debug_enable === true) {
 ?>
 <!DOCTYPE html>
 <html lang="<?php
-//$html_lang = LanguageCost::lang_key();
-echo (($html_lang == 'vn' || $html_lang == '') ? 'vi' : $html_lang);
-?>">
+            //$html_lang = LanguageCost::lang_key();
+            echo (($html_lang == 'vn' || $html_lang == '') ? 'vi' : $html_lang);
+            ?>">
 
 <head>
     <title>Quản trị</title>
@@ -100,8 +100,7 @@ echo (($html_lang == 'vn' || $html_lang == '') ? 'vi' : $html_lang);
     <link rel="stylesheet" type="text/css" media="all" href="admin/css/base.css" />
     <!-- <link rel="stylesheet" type="text/css" media="all" href="admin/css/uniform.css"/> -->
     <link rel="stylesheet" type="text/css" media="all" href="admin/css/maruti-media.css" class="skin-color" />
-    <link rel="stylesheet" type="text/css" media="all"
-        href="./thirdparty/awesome47/css/font-awesome.before.css?v=4.7" />
+    <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/awesome47/css/font-awesome.before.css?v=4.7" />
     <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/awesome47/css/font-awesome.min.css?v=4.7" />
     <!--
 <link rel="stylesheet" type="text/css" media="all" href="fonts/fontawesome-free-5.15.1-web/css/fontawesome.min.css" />
@@ -161,8 +160,8 @@ echo (($html_lang == 'vn' || $html_lang == '') ? 'vi' : $html_lang);
         // mảng này sẽ in ra dưới dạng JSON hoặc number
         'allow_mysql_delete' => ALLOW_USING_MYSQL_DELETE ? 'true' : 'false',
     ], [
-            // mảng này sẽ in ra dưới dạng string
-        ]);
+        // mảng này sẽ in ra dưới dạng string
+    ]);
 
     //
     $WGR_config = [
@@ -201,8 +200,7 @@ echo (($html_lang == 'vn' || $html_lang == '') ? 'vi' : $html_lang);
                 <?php
                 echo ($session_data['display_name'] != '' ? $session_data['display_name'] : $session_data['user_login']);
                 ?>
-            </a> &nbsp; | &nbsp; <a title="Đăng xuất" data-bs-toggle="modal" data-bs-target="#logoutModal"
-                href="javascript:;"><i class="fa fa-sign-out"></i> Logout</a></div>
+            </a> &nbsp; | &nbsp; <a title="Đăng xuất" data-bs-toggle="modal" data-bs-target="#logoutModal" href="javascript:;"><i class="fa fa-sign-out"></i> Logout</a></div>
     </div>
     <!--close-Header-part-->
     <!--top-Header-menu-->
@@ -218,8 +216,7 @@ echo (($html_lang == 'vn' || $html_lang == '') ? 'vi' : $html_lang);
                 <ul class="cf">
                     <li><a href="./" title="Go to Home" class="tip-bottom"> <i class="fa fa-home"></i> Trang chủ</a>
                     </li>
-                    <li><a href="./<?php echo CUSTOM_ADMIN_URI; ?>" title="Go to Home" class="tip-bottom"> <i
-                                class="fa fa-cog"></i> Quản trị</a></li>
+                    <li><a href="./<?php echo CUSTOM_ADMIN_URI; ?>" title="Go to Home" class="tip-bottom"> <i class="fa fa-cog"></i> Quản trị</a></li>
                 </ul>
             </div>
         </div>
@@ -245,8 +242,7 @@ echo (($html_lang == 'vn' || $html_lang == '') ? 'vi' : $html_lang);
     <div class="text-center admin-copyright">&copy;
         <?php echo date('Y'); ?> <a href="<?php echo PARTNER_WEBSITE; ?>" target="_blank" rel="nofollow">
             <?php echo PARTNER_BRAND_NAME; ?>
-        </a> - All rights reserved. Code using framework <a href="https://codeigniter.com/" target="_blank"
-            rel="nofollow">Codeigniter
+        </a> - All rights reserved. Code using framework <a href="https://codeigniter.com/" target="_blank" rel="nofollow">Codeigniter
             <?php echo \CodeIgniter\CodeIgniter::CI_VERSION; ?>
         </a> - <span class="cur" onClick="$('#target_eb_iframe').addClass('show-target-eb');">Show process</span>
     </div>
@@ -277,8 +273,7 @@ echo (($html_lang == 'vn' || $html_lang == '') ? 'vi' : $html_lang);
         </div>
     </div>
     <!-- END Modal -->
-    <iframe id="target_eb_iframe" name="target_eb_iframe" src="about:blank" width="99%" height="550"
-        frameborder="0">AJAX form</iframe>
+    <iframe id="target_eb_iframe" name="target_eb_iframe" src="about:blank" width="99%" height="550" frameborder="0">AJAX form</iframe>
 </body>
 
 </html>

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 // Libraries
@@ -40,6 +41,8 @@ class PostSlider extends PostGet
                     return $parent_slider;
                 }
             }
+            //echo $taxonomy_slider . '<br>';
+            //echo $second_slider . '<br>';
 
             // không có -> sử dụng của taxonomy
             $tax_slider = $this->term_model->get_the_slider($taxonomy_slider, $second_slider);
@@ -54,6 +57,7 @@ class PostSlider extends PostGet
 
             // đến đây vẫn không có -> tìm slider thứ cấp (slider dùng chung cho cả website)
             //$second_slider = 'top-main-slider'; // main_slider_slug
+            //echo $second_slider . '<br>';
             if ($second_slider != '') {
                 return $this->get_the_ads($second_slider, 0, [
                     'add_class' => 'taxonomy-auto-slider'

@@ -15,8 +15,17 @@ class HtmlTemplate
 
     public static function render($html, $data = [], $meta = [])
     {
-        //print_r( $data );
+        //print_r($data);
         foreach ($data as $k => $v) {
+            if (gettype($v) == 'array') {
+                continue;
+            }
+            //echo 'render key:' . PHP_EOL;
+            //print_r($k);
+            //echo PHP_EOL;
+            //echo 'render value:' . PHP_EOL;
+            //print_r($v);
+            //echo PHP_EOL;
             // sử dụng chung mẫu template với angular js
             $html = str_replace('{{' . $k . '}}', $v, $html);
         }

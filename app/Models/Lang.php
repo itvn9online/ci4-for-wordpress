@@ -9,6 +9,8 @@ use App\Helpers\HtmlTemplate;
 //
 class Lang extends EbModel
 {
+    public $option_prefix = 'lang_';
+
     public function __construct()
     {
         parent::__construct();
@@ -22,7 +24,7 @@ class Lang extends EbModel
      * $before_text: đoạn chữ đính kèm trước dữ liệu trả về
      * $after_text: đoạn chữ đính kèm phía sau dữ liệu trả về
      */
-    public function get_the_text($key, $default_text = '', $before_text = '', $after_text = '')
+    public function get_the_text($key, $default_value = '', $before_text = '', $after_text = '')
     {
         global $this_cache_lang;
 
@@ -30,20 +32,23 @@ class Lang extends EbModel
         if ($this_cache_lang === NULL) {
             $this_cache_lang = $this->option_model->get_lang();
         }
-        //print_r( $this_cache_lang );
+        //print_r($this_cache_lang);
 
         //
-        $key = 'lang_' . $key;
+        $key = $this->option_prefix . $key;
         //echo $key . '<br>' . "\n";
-        if (isset($this_cache_lang[$key])) {
-            return $before_text . $this_cache_lang[$key] . $after_text;
+        // nếu chưa có
+        if (!isset($this_cache_lang[$key])) {
+            // gọi đến lệnh tạo lang
+            $this_cache_lang[$key] = $this->option_model->create_lang($key, $default_value);
         }
-        return $default_text;
+        //print_r($this_cache_lang);
+        return $before_text . $this_cache_lang[$key] . $after_text;
     }
 
-    public function the_text($key, $default_text = '', $before_text = '', $after_text = '')
+    public function the_text($key, $default_value = '', $before_text = '', $after_text = '')
     {
-        echo $this->get_the_text($key, $default_text, $before_text, $after_text);
+        echo $this->get_the_text($key, $default_value, $before_text, $after_text);
     }
 
     // trả về thông tin bản quyền phần mềm theo tiêu chuẩn

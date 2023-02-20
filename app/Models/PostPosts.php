@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 // Libraries
@@ -210,6 +211,7 @@ class PostPosts extends PostSlider
         $ops['auto_clone'] = 1;
 
         //
+        //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . '\\ ' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
         $data = $this->echbay_blog($slug, $ops);
 
         //
@@ -298,13 +300,13 @@ class PostPosts extends PostSlider
         $this->base_model->update_multiple($this->term_model->taxTable, [
             'count' => $count
         ], [
-                'term_taxonomy_id' => $prams['term_id'],
-                'term_id' => $prams['term_id'],
-            ], [
-                'debug_backtrace' => debug_backtrace()[1]['function'],
-                // hiển thị mã SQL để check
-                //'show_query' => 1,
-            ]);
+            'term_taxonomy_id' => $prams['term_id'],
+            'term_id' => $prams['term_id'],
+        ], [
+            'debug_backtrace' => debug_backtrace()[1]['function'],
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+        ]);
 
         // dọn dẹp cache
         $this->base_model->dcache($this->key_cache($prams['term_id']));

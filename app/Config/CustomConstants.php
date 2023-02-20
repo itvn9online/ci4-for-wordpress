@@ -34,6 +34,8 @@ define('ADMIN_CUSTOM_VIEWS', VIEWS_CUSTOM_PATH . 'admin/');
  */
 $this_cache_config = NULL;
 $this_cache_lang = NULL;
+$this_cache_num = NULL;
+$this_cache_checkbox = NULL;
 
 
 /*
@@ -92,20 +94,20 @@ if (file_exists(THEMEPATH . 'functions.php')) {
 }
 
 // Số lượng bản dịch dạng input -> website nào cần dùng nhiều tăng số lượng trong file functions lên
-defined('NUMBER_TRANS_INPUT') || define('NUMBER_TRANS_INPUT', 20);
+//defined('NUMBER_TRANS_INPUT') || define('NUMBER_TRANS_INPUT', 20);
 // Số lượng bản dịch dạng textarea -> website nào cần dùng nhiều tăng số lượng trong file functions lên
-defined('NUMBER_TRANS_TEXTAREA') || define('NUMBER_TRANS_TEXTAREA', 10);
+//defined('NUMBER_TRANS_TEXTAREA') || define('NUMBER_TRANS_TEXTAREA', 10);
 // khi cần thay label cho trang /admin/translates để dễ hiểu hơn thì thêm các thông số vào đây
 defined('TRANS_TRANS_LABEL') || define(
     'TRANS_TRANS_LABEL',
     [
         'custom_text0' => 'Bản dịch số 0',
-        'custom_textarea0' => 'Bản dịch số 0',
+        //'custom_textarea0' => 'Bản dịch số 0',
     ]
 );
 
 // Số lượng bản ghi dạng số nguyên -> website nào cần dùng nhiều tăng số lượng trong file functions lên
-defined('NUMBER_NUMS_INPUT') || define('NUMBER_NUMS_INPUT', 3);
+//defined('NUMBER_NUMS_INPUT') || define('NUMBER_NUMS_INPUT', 3);
 // khi cần thay label cho trang /admin/nummons để dễ hiểu hơn thì thêm các thông số vào đây
 defined('TRANS_NUMS_LABEL') || define(
     'TRANS_NUMS_LABEL',

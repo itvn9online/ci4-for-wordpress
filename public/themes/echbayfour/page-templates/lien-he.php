@@ -8,9 +8,9 @@
                             <div class="img-max-width">
                                 <?php
 
-                                if ( isset( $data[ 'post_meta' ][ 'image' ] ) ) {
-                                    ?>
-                                <img src="<?php echo $data['post_meta']['image']; ?>" />
+                                if (isset($data['post_meta']['image'])) {
+                                ?>
+                                    <img src="<?php echo $data['post_meta']['image']; ?>" />
                                 <?php
                                 }
 
@@ -19,21 +19,21 @@
                         </div>
                         <div class="lf f60 fullsize-if-mobile">
                             <div class="left-menu-space40">
-                                <div class="medium l20 global-details-content <?php echo $data[ 'post_type' ]; ?>-details-content ul-default-style">
-                                    <h1 data-type="<?php echo $data[ 'post_type' ]; ?>" data-id="<?php echo $data[ 'ID' ]; ?>" class="page-details-title global-details-title global-module-title">
+                                <div class="medium l20 global-details-content <?php echo $data['post_type']; ?>-details-content ul-default-style">
+                                    <h1 data-type="<?php echo $data['post_type']; ?>" data-id="<?php echo $data['ID']; ?>" class="page-details-title global-details-title global-module-title">
                                         <?php
-                                        $lang_model->the_text( 'custom_text1' );
+                                        $lang_model->the_text('custom_text1', $data['post_title']);
                                         ?>
                                     </h1>
                                     <p><span class="mcb"><i class="fa fa-map-marker"></i></span>
                                         <?php
-                                        echo nl2br( $getconfig->address );
+                                        echo nl2br($getconfig->address);
                                         ?>
                                     </p>
                                     <?php
-                                    $data[ 'post_content' ] = str_replace( '][/i]', '></i>', $data[ 'post_content' ] );
-                                    $data[ 'post_content' ] = str_replace( '[i ', '<i ', $data[ 'post_content' ] );
-                                    echo $data[ 'post_content' ];
+                                    $data['post_content'] = str_replace('][/i]', '></i>', $data['post_content']);
+                                    $data['post_content'] = str_replace('[i ', '<i ', $data['post_content']);
+                                    echo $data['post_content'];
                                     ?>
                                 </div>
                                 <hr>

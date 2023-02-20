@@ -38,7 +38,7 @@
 // khi cần thay label cho trang /admin/translates để dễ hiểu hơn thì thêm các thông số vào đây
 define( 'TRANS_TRANS_LABEL', [
     'custom_text0' => 'Bản dịch số 0',
-    'custom_textarea0' => 'Bản dịch số 0',
+    //'custom_textarea0' => 'Bản dịch số 0',
 ] );
 */
 

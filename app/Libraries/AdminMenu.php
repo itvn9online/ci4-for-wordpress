@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Libraries;
 
 class AdminMenu
@@ -207,10 +208,6 @@ class AdminMenu
                         'name' => ConfigType::typeList(ConfigType::BLOG),
                         'icon' => 'fa fa-newspaper-o',
                     ],
-                    'admin/translates' => [
-                        'name' => ConfigType::typeList(ConfigType::TRANS),
-                        'icon' => 'fa fa-globe',
-                    ],
                     'admin/smtps' => [
                         'name' => ConfigType::typeList(ConfigType::SMTP),
                         'icon' => 'fa fa-envelope',
@@ -226,6 +223,10 @@ class AdminMenu
                     'admin/checkboxs' => [
                         'name' => ConfigType::typeList(ConfigType::CHECKBOX),
                         'icon' => 'fa fa-check-square-o',
+                    ],
+                    'admin/translates' => [
+                        'name' => ConfigType::typeList(ConfigType::TRANS),
+                        'icon' => 'fa fa-globe',
                     ],
                 ]
             ],

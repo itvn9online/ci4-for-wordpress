@@ -20,6 +20,9 @@ class Option extends EbModel
 
     public function insert_options($data)
     {
+        $data['is_deleted'] = DeletedStatus::FOR_DEFAULT;
+        $data['last_updated'] = date(EBE_DATETIME_FORMAT);
+        $data['insert_time'] = date('YmdHis');
         return $this->base_model->insert($this->table, $data);
     }
 
@@ -58,7 +61,7 @@ class Option extends EbModel
 
             // -> câu SQL để thực thi trực tiếp
             $sql = "INSERT INTO `" . WGR_TABLE_PREFIX . "options_deleted` $sql";
-            //echo $sql . '<br>' . "\n";
+            echo $sql . '<br>' . "\n";
             //die( __CLASS__ . ':' . __LINE__ );
             $this->base_model->MY_query($sql);
             echo 'Backup config: ' . $option_name . ':' . $option_type . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
@@ -69,10 +72,9 @@ class Option extends EbModel
                 $where,
                 [
                     // hiển thị mã SQL để check
-                    //'show_query' => 1,
+                    'show_query' => 1,
                     // trả về câu query để sử dụng cho mục đích khác
                     //'get_query' => 1,
-
                 ]
             );
             //die( __CLASS__ . ':' . __LINE__ );
@@ -93,9 +95,61 @@ class Option extends EbModel
         return $result;
     }
 
+    // insert tự động 1 bản ghi vào option nếu không tìm thấy theo key
+    protected function createOptions($option_name, $option_value, $option_type, $lang_key)
+    {
+        $data = $this->base_model->select(
+            '*',
+            $this->table,
+            array(
+                // các kiểu điều kiện where
+                'option_name' => $option_name,
+                'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                'option_type' => $option_type,
+                'lang_key' => $lang_key,
+            ),
+            array(
+                'order_by' => array(
+                    'option_id' => 'DESC',
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                //'offset' => 2,
+                'limit' => 1
+            )
+        );
+        //print_r($data);
+        // nếu không có
+        if (empty($data)) {
+            // insert bản ghi mới
+            $data = [
+                'option_name' => $option_name,
+                'option_value' => $option_value,
+                'option_type' => $option_type,
+                'lang_key' => $lang_key,
+            ];
+            //print_r($data);
+
+            //
+            $this->insert_options($data);
+        }
+        return $data['option_name'];
+    }
+
     public function get_lang()
     {
         return $this->gets_config(ConfigType::TRANS, LanguageCost::lang_key());
+    }
+    public function create_lang($option_name, $option_value)
+    {
+        return $this->createOptions($option_name, $option_value, ConfigType::TRANS, LanguageCost::lang_key());
+    }
+
+    public function create_num($option_name, $option_value)
+    {
+        return $this->createOptions($option_name, $option_value, ConfigType::NUM_MON, LanguageCost::lang_key());
     }
 
     public function get_smtp()
@@ -112,7 +166,7 @@ class Option extends EbModel
 
         // có cache thì trả về
         if ($data !== NULL) {
-            //print_r( $data );
+            //print_r($data);
             return $data;
         }
 
@@ -162,7 +216,7 @@ class Option extends EbModel
                     //print_r( $data_insert );
 
                     //
-                    $this->base_model->insert($this->table, $data_insert);
+                    $this->insert_options($data_insert);
                 }
             }
             //die( __CLASS__ . ':' . __LINE__ );
@@ -203,8 +257,9 @@ class Option extends EbModel
             ConfigType::POST,
             ConfigType::BLOGS,
             ConfigType::BLOG,
-            ConfigType::CHECKBOX,
-            ConfigType::NUM_MON,
+            // một số config sử dụng method riêng rồi thì bỏ ở đây đi
+            //ConfigType::CHECKBOX,
+            //ConfigType::NUM_MON,
         ];
         //print_r( $arr_option_type );
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\Admin;
 
 // Libraries
@@ -14,6 +15,11 @@ class Configs extends Admin
     //private $lang_key = '';
     protected $config_type = '';
     protected $view_edit = 'edit';
+    // một số kiểu config có sử dụng code và view riêng
+    protected $dynamic_config = [
+        ConfigType::TRANS => 'translate',
+        ConfigType::NUM_MON => 'num_mon',
+    ];
 
     public function __construct()
     {
@@ -62,7 +68,8 @@ class Configs extends Admin
 
         // select dữ liệu từ 1 bảng bất kỳ
         $sql = $this->base_model->select(
-            '*', $this->option_model->table,
+            '*',
+            $this->option_model->table,
             array(
                 // các kiểu điều kiện where
                 'is_deleted' => DeletedStatus::FOR_DEFAULT,
@@ -78,8 +85,7 @@ class Configs extends Admin
                 // trả về câu query để sử dụng cho mục đích khác
                 //'get_query' => 1,
                 //'offset' => 2,
-                //'limit' => 3
-
+                'limit' => -1
             )
         );
         //print_r( $sql );
@@ -87,23 +93,42 @@ class Configs extends Admin
         foreach ($sql as $v) {
             $value[$v['option_name']] = $v['option_value'];
         }
-        //print_r( $value );
-
-        // gán giá trị mặc định
-        foreach ($meta_default as $k => $v) {
-            if (!isset($value[$k])) {
-                $value[$k] = '';
-            }
-        }
+        //print_r($value);
 
         // cố định 1 số view đọng dạng input -> tránh if else nhiều
-        if ($this->config_type == ConfigType::TRANS) {
-            $this->view_edit = 'translate';
-        } else if ($this->config_type == ConfigType::CHECKBOX) {
-            $this->view_edit = 'checkbox';
-        } else if ($this->config_type == ConfigType::NUM_MON) {
-            $this->view_edit = 'num_mon';
+        $trans_data = $meta_default;
+        $trans_custom_type = [];
+        // nếu có code riêng thì cho vào đây
+        if (isset($this->dynamic_config[$this->config_type])) {
+            // với phần dịch -> ghi đè giá trị của default
+            foreach ($value as $k => $v) {
+                $trans_data[$k] = $v;
+            }
+
+            // cố định input type cho các thuộc tính cứng -> ngoài những cái này thì để textarea hết
+            foreach ($meta_default as $k => $v) {
+                $trans_custom_type[$k] = '';
+            }
+
+            // thiết lập file view riêng
+            $this->view_edit = $this->dynamic_config[$this->config_type];
+        } else {
+            // gán giá trị mặc định cho các config khác
+            foreach ($meta_default as $k => $v) {
+                if (!isset($value[$k])) {
+                    $value[$k] = '';
+                }
+            }
+
+            //
+            if ($this->config_type == ConfigType::CHECKBOX) {
+                $this->view_edit = 'checkbox';
+            }
         }
+        //print_r($value);
+        //print_r($meta_default);
+        //print_r($trans_data);
+        //print_r($trans_custom_type);
 
         //
         $this->teamplate_admin['content'] = view(
@@ -112,6 +137,8 @@ class Configs extends Admin
                 'lang_key' => $this->lang_key,
                 'config_type' => $this->config_type,
                 'meta_default' => $meta_default,
+                'trans_data' => $trans_data,
+                'trans_custom_type' => $trans_custom_type,
                 'data' => $value,
                 'vue_data' => [
                     'lang_key' => $this->lang_key,
@@ -237,7 +264,7 @@ class Configs extends Admin
         }
         //print_r( $data );
 
-        //
+        // backup và xóa các config cũ đã được liệt kê
         $this->option_model->backup_options($option_type, $this->lang_key, $arr_meta_key);
 
         // sau đó insert cái mới
@@ -272,33 +299,37 @@ class Configs extends Admin
         }
         //die(__CLASS__ . ':' . __LINE__);
 
-        // chạy vòng lặp xóa các dữ liệu dư thừa -> không có trong config
-        $meta_default = ConfigType::meta_default($this->config_type);
-        //print_r($meta_default);
-        $remove_not_in = [];
-        foreach ($meta_default as $k => $v) {
-            $remove_not_in[] = $k;
-        }
-        //print_r($remove_not_in);
+        // dọn dẹp config dư thừa với các loại không nằm trong danh sách này
+        if (!isset($this->dynamic_config[$this->config_type])) {
+            // chạy vòng lặp xóa các dữ liệu dư thừa -> không có trong config
+            $meta_default = ConfigType::meta_default($this->config_type);
+            //print_r($meta_default);
+            $remove_not_in = [];
+            foreach ($meta_default as $k => $v) {
+                $remove_not_in[] = $k;
+            }
+            //print_r($remove_not_in);
+            //die(__CLASS__ . ':' . __LINE__);
 
-        // DELETE dữ liệu
-        if (!empty($remove_not_in)) {
-            $this->base_model->delete_multiple(
-                $this->option_model->table,
-                [
-                    // WHERE
-                    'option_type' => $this->config_type,
-                ],
-                [
-                    'where_not_in' => array(
-                        'option_name' => $remove_not_in
-                    ),
-                    // hiển thị mã SQL để check
-                    //'show_query' => 1,
-
-                ]
-            );
+            // DELETE dữ liệu
+            if (!empty($remove_not_in)) {
+                $this->base_model->delete_multiple(
+                    $this->option_model->table,
+                    [
+                        // WHERE
+                        'option_type' => $this->config_type,
+                    ],
+                    [
+                        'where_not_in' => array(
+                            'option_name' => $remove_not_in
+                        ),
+                        // hiển thị mã SQL để check
+                        'show_query' => 1,
+                    ]
+                );
+            }
         }
+        //die(__CLASS__ . ':' . __LINE__);
 
 
         // dọn dẹp cache liên quan đến config này -> reset cache
@@ -319,14 +350,12 @@ class Configs extends Admin
         //die( __CLASS__ . ':' . __LINE__ );
         if (!isset($smtp_config->smtp_test_email) || empty($smtp_config->smtp_test_email)) {
             //print_r( $smtp_config );
-            die(
-                json_encode(
-                    [
-                        'code' => __LINE__,
-                        'error' => 'Test email is NULL or not found!'
-                    ]
-                )
-            );
+            die(json_encode(
+                [
+                    'code' => __LINE__,
+                    'error' => 'Test email is NULL or not found!'
+                ]
+            ));
         }
 
         //

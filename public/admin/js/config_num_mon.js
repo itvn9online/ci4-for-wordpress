@@ -1,12 +1,16 @@
-(function () {
-    //console.log(arr_trans_label);
-    console.log('%c Chạy vòng lặp thay thế text cho label', 'color: green;');
+function convert_option_number(obj) {
+	var a = $.trim(obj.value);
+	if (a != "") {
+		a = g_func.float_only(a);
+		if (isNaN(a)) {
+			a = "0";
+		}
+		//console.log(obj.value);
+		obj.value = a;
+	}
+}
 
-    // 
-    for (var x in arr_trans_label) {
-        $('#for_vue label[for="data_' + x + '"]').html(arr_trans_label[x]).addClass('bold');
-        $('#data_' + x).attr({
-            placeholder: arr_trans_label[x]
-        });
-    }
-})();
+//
+console.log("%c Chạy vòng lặp thay thế text cho label", "color: green;");
+action_trans_label(arr_meta_default);
+action_trans_label(arr_trans_label);

@@ -12,7 +12,7 @@
         <div class="col medium-3 small-12 large-3">
             <div class="col-inner">
                 <?php
-                $option_model->the_logo( $getconfig, 'logofooter', 'logo_footer_height' );
+                $option_model->the_logo($getconfig, 'logofooter', 'logo_footer_height');
                 ?>
                 <div class="footer-info">
                     <div class="footer-company">
@@ -22,7 +22,7 @@
                     </div>
                     <div class="footer-address">
                         <?php
-                        echo nl2br( $getconfig->address );
+                        echo nl2br($getconfig->address);
                         ?>
                     </div>
                     <div class="footer-phone">SĐT: <?php echo $getconfig->phone; ?> &nbsp; | &nbsp; Fax: <?php echo $getconfig->fax; ?> </div>
@@ -33,37 +33,37 @@
         <div class="col medium-3 small-12 large-3">
             <div class="col-inner">
                 <h4 class="footer-title upper bold">
-                    <?php $lang_model->the_text( 'custom_text0' ); ?>
+                    <?php $lang_model->the_text('custom_text0', 'custom_text0'); ?>
                 </h4>
                 <?php
-                $menu_model->the_menu( 'footer2-menu' );
+                $menu_model->the_menu('footer2-menu');
                 ?>
             </div>
         </div>
         <div class="col medium-3 small-12 large-3">
             <div class="col-inner">
                 <h4 class="footer-title upper bold">
-                    <?php $lang_model->the_text( 'custom_text1' ); ?>
+                    <?php $lang_model->the_text('custom_text1', 'custom_text1'); ?>
                 </h4>
                 <?php
-                $menu_model->the_menu( 'footer3-menu' );
+                $menu_model->the_menu('footer3-menu');
                 ?>
             </div>
         </div>
         <div class="col medium-3 small-12 large-3">
             <div class="col-inner">
                 <h4 class="footer-title upper bold">
-                    <?php $lang_model->the_text( 'custom_text2' ); ?>
+                    <?php $lang_model->the_text('custom_text2', 'custom_text2'); ?>
                 </h4>
                 <div>
-                    <?php $lang_model->the_text( 'custom_text3' ); ?>
+                    <?php $lang_model->the_text('custom_text3', 'custom_text3'); ?>
                 </div>
                 <br>
                 <h4 class="footer-title bold">
-                    <?php $lang_model->the_text( 'custom_text4' ); ?>
+                    <?php $lang_model->the_text('custom_text4', 'custom_text4'); ?>
                 </h4>
                 <?php
-                $menu_model->the_menu( 'footer4-menu' );
+                $menu_model->the_menu('footer4-menu');
                 ?>
             </div>
         </div>
@@ -71,6 +71,6 @@
 </section>
 <section class="default2-bg footer2-section">
     <div class="text-center center-if-mobile">
-        <?php $lang_model->the_web_license( $getconfig ); ?>
+        <?php $lang_model->the_web_license($getconfig); ?>
     </div>
 </section>

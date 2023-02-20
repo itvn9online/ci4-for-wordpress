@@ -39,7 +39,7 @@ class Term extends TermBase
     }
 
     // lấy post theo dạng tương tự wordpress -> nếu không có -> tự động tạo mới
-    function get_cat_post($slug, $post_type = 'post', $taxonomy = 'category', $auto_insert = true, $ops = [])
+    public function get_cat_post($slug, $post_type = 'post', $taxonomy = 'category', $auto_insert = true, $ops = [])
     {
         if (!isset($ops['lang_key']) || $ops['lang_key'] == '') {
             $ops['lang_key'] = LanguageCost::lang_key();
@@ -89,6 +89,7 @@ class Term extends TermBase
                 }
 
                 //
+                //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . '\\ ' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
                 echo 'Auto create taxonomy: ' . $slug . ' (' . $taxonomy . ') <br>' . PHP_EOL;
                 $result_id = $this->insert_terms(
                     [
@@ -101,15 +102,18 @@ class Term extends TermBase
 
                 //
                 if ($result_id > 0) {
+                    //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . '\\ ' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
                     return $this->get_cat_post($slug, $post_type, $taxonomy, false);
                 }
                 // nếu tồn tại rồi thì báo đã tồn tại
                 else if ($result_id < 0) {
-                    die('EXIST auto create new terms #' . $taxonomy . ':' . basename(__FILE__) . ':' . __LINE__);
+                    //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . '\\ ' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
+                    die('EXIST auto create new terms #' . $taxonomy . ':' . __CLASS__ . ':' . __LINE__);
                 }
-                die('ERROR auto create new terms #' . $taxonomy . ':' . basename(__FILE__) . ':' . __LINE__);
+                die('ERROR auto create new terms #' . $taxonomy . ':' . __CLASS__ . ':' . __LINE__);
             } else {
-                die('AUTO INSERT new terms has DISABLE #' . $taxonomy . ':' . basename(__FILE__) . ':' . __LINE__);
+                //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . '\\ ' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
+                die('AUTO INSERT new terms has DISABLE #' . $taxonomy . ':' . __CLASS__ . ':' . __LINE__);
             }
         }
         //print_r( $post_cat );
