@@ -35,7 +35,6 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                     <li>Tham số của hàm <strong>the_checkbox()</strong>:
                         <ol>
                             <li><strong>key</strong>: dùng để phân biệt giữa các bản ghi khác nhau.</li>
-                            <li><strong>default_value</strong>: giá này trị sẽ được insert vào CSDL nếu chưa có.</li>
                         </ol>
                     </li>
                     <li>Để tăng số lượng checkbox, hãy điều chỉnh tham số: <strong>NUMBER_CHECKBOXS_INPUT</strong></li>
