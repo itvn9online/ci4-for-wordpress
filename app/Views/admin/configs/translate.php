@@ -44,6 +44,7 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                     </li>
                     <li>Để THÊM 1 bản ghi, hãy copy lệnh PHP dưới đây và cho vào trong file code, bản ghi sẽ được tự động thêm vào hệ thống nếu chưa có.</li>
                     <li>Để thay đổi tên cho input, hãy điều chỉnh tham số: <strong>TRANS_TRANS_LABEL</strong></li>
+                    <li>Tìm và thay đổi code cho các phiên bản cũ: <strong>getconfig->custom_checkbox</strong></li>
                 </ul>
             </div>
             <div class="text-center">
