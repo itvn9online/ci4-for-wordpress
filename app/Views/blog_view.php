@@ -1,7 +1,7 @@
 <?php
 
 // tự động tạo slider nếu có
-$post_model->the_slider($data, $taxonomy_slider, $lang_model->get_the_text('main_slider_slug', ''));
+//$post_model->the_slider($data, $taxonomy_slider, $lang_model->get_the_text('main_slider_slug', ''));
 
 // nạp view riêng của từng theme nếu có
 $theme_default_view = VIEWS_PATH . 'default/' . basename(__FILE__);

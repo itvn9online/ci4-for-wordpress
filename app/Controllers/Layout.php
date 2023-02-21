@@ -412,6 +412,8 @@ class Layout extends Sync
         //print_r( $child_cat );
 
         // lấy banner quảng cáo theo taxonomy nếu có
+        $taxonomy_slider = '';
+        /*
         $taxonomy_slider = $this->term_model->get_the_slider($this->taxonomy_slider);
         //echo $taxonomy_slider . '<br>' . "\n";
         if ($taxonomy_slider == '') {
@@ -427,6 +429,7 @@ class Layout extends Sync
                 ]
             );
         }
+        */
 
         // -> views
         $this->teamplate['breadcrumb'] = view(

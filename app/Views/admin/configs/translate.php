@@ -63,6 +63,7 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                 }
                 //echo $k . '<br>' . "\n";
                 //echo $input_type . '<br>' . "\n";
+                $non_html = strip_tags($v);
 
             ?>
                 <div class="control-group eb-control-group cf">
@@ -76,7 +77,7 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
 
                         if ($input_type == 'textarea') {
                         ?>
-                            <textarea class="span10 required fix-textarea-height" style="height:100px" placeholder="<?php echo $v; ?>" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>"><?php echo $v; ?></textarea>
+                            <textarea class="span10 required fix-textarea-height" style="height:100px" placeholder="<?php echo $non_html; ?>" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>"><?php echo htmlentities($v, ENT_QUOTES, 'UTF-8'); ?></textarea>
                         <?php
                         } // END if textarea
                         else {

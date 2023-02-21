@@ -318,7 +318,9 @@ class Option extends EbModel
     // trả về class css cho việc hiển thị Số cột trên mỗi dòng
     public function get_posts_in_line($cog)
     {
-        $arr = [];
+        $arr = [
+            'row'
+        ];
         // desktop
         $arr[] = $cog->eb_posts_per_line;
         // table
@@ -340,7 +342,9 @@ class Option extends EbModel
     // trả về class css cho việc hiển thị Số cột trên mỗi dòng
     public function get_post_in_line($cog)
     {
-        $arr = [];
+        $arr = [
+            'row'
+        ];
         // desktop
         $arr[] = $cog->eb_post_per_line;
         // table
@@ -362,7 +366,9 @@ class Option extends EbModel
     // trả về class css cho việc hiển thị số bài viết blog trên mỗi dòng
     public function get_blogs_in_line($cog)
     {
-        $arr = [];
+        $arr = [
+            'row'
+        ];
         // desktop
         $arr[] = $cog->eb_blogs_per_line;
         // table
@@ -384,7 +390,9 @@ class Option extends EbModel
     // trả về class css cho việc hiển thị số bài viết blog trên mỗi dòng
     public function get_blog_in_line($cog)
     {
-        $arr = [];
+        $arr = [
+            'row'
+        ];
         // desktop
         $arr[] = $cog->eb_blog_per_line;
         // table

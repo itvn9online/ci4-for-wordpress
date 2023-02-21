@@ -1,7 +1,7 @@
 <?php
 
 // tự động tạo slider nếu có
-$post_model->the_slider($data, [], $lang_model->get_the_text('main_slider_slug', ''));
+//$post_model->the_slider($data, [], $lang_model->get_the_text('main_slider_slug', ''));
 
 // nạp css dùng chung
 $base_model->add_css('themes/' . THEMENAME . '/css/page.css', [
