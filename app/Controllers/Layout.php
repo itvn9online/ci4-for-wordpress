@@ -4,9 +4,7 @@ namespace App\Controllers;
 
 // Libraries
 use App\Libraries\PostType;
-
-//use App\Libraries\UsersType;
-//use App\Libraries\TaxonomyType;
+use App\Libraries\LanguageCost;
 
 //
 class Layout extends Sync
@@ -74,9 +72,8 @@ class Layout extends Sync
          * bắt đầu code
          */
         // xác định ngôn ngữ hiện tại
-        $this->lang_key = $this->base_model->set_lang();
-        //$this->lang_key = LanguageCost::set_lang();
-        //$this->lang_key = LanguageCost::lang_key();
+        //$this->lang_key = $this->base_model->set_lang();
+        $this->lang_key = LanguageCost::lang_key();
         //echo $this->lang_key . '<br>' . "\n";
 
         //$allurl = 'https://' . $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'REQUEST_URI' ];
@@ -1039,5 +1036,10 @@ class Layout extends Sync
             }
         }
         return $html;
+    }
+
+    public function change_lang()
+    {
+        return LanguageCost::set_lang();
     }
 }

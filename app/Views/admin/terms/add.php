@@ -238,9 +238,6 @@ $base_model->add_css('admin/css/' . $taxonomy . '.css');
         </form>
     </div>
 </div>
-<script>
-    WGR_widget_add_custom_style_to_field();
-</script>
 <?php
 
 //

@@ -48,7 +48,12 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                 </ul>
             </div>
             <div class="text-center">
-                <input type="text" onDblClick="click2Copy(this);" value="$this->num_model->the_number('num_key', 'num default value');" class="span8 bold text-center" style="max-width: 666px;" readonly />
+                <div>
+                    <input type="text" onDblClick="click2Copy(this);" value="$this->num_model->the_number('num_key', 'num default value');" class="span8 bold text-center" style="max-width: 666px;" readonly />
+                </div>
+                <div>
+                    <input type="text" onDblClick="click2Copy(this);" value="&lt;?php $num_model->the_number('num_key', 'num default value'); ?&gt;" class="span8 bold text-center" style="max-width: 666px;" readonly />
+                </div>
             </div>
             <?php
 
@@ -71,7 +76,12 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                         ?>
                     </div>
                     <div class="lf f35">
-                        <input type="text" onDblClick="click2Copy(this);" value="$this->num_model->the_number('<?php echo $k; ?>');" class="span11" readonly />
+                        <div>
+                            <input type="text" onDblClick="click2Copy(this);" value="$this->num_model->the_number('<?php echo $k; ?>');" class="span11" readonly />
+                        </div>
+                        <div>
+                            <input type="text" onDblClick="click2Copy(this);" value="&lt;?php $num_model->the_number('<?php echo $k; ?>'); ?&gt;" class="span11" readonly />
+                        </div>
                     </div>
                 </div>
             <?php

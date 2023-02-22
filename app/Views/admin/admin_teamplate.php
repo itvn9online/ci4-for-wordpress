@@ -1,6 +1,7 @@
 <?php
 // Libraries
 //use App\Libraries\UsersType;
+//use App\Language\admin\AdminTranslate;
 
 //print_r( $session_data );
 //print_r( $_SESSION );
@@ -8,6 +9,7 @@
 /*
  * thêm custom taxonomy
  */
+
 global $arr_custom_taxonomy;
 //print_r( $arr_custom_taxonomy );
 
@@ -186,21 +188,20 @@ if ($debug_enable === true) {
     <!--Header-part-->
     <div id="admin-header" class="cf whitecolor awhitecolor">
         <div class="lf f50">
-            <div class="d-inline"><a href="./<?php echo CUSTOM_ADMIN_URI; ?>"><i class="fa fa-cog"></i> Quản trị hệ
-                    thống</a></div>
+            <div class="d-inline"><a href="./<?php echo CUSTOM_ADMIN_URI; ?>"><i class="fa fa-cog"></i> <?php $lang_model->the_text('admin_quan_tri_he_thong', 'Quản trị hệ thống'); ?></a></div>
             &nbsp; | &nbsp;
-            <div class="d-inline"><a href="./"><i class="fa fa-home"></i> Về trang chủ</a></div>
+            <div class="d-inline"><a href="./"><i class="fa fa-home"></i> <?php $lang_model->the_text('admin_ve_trang_chu', 'Về trang chủ'); ?></a></div>
             &nbsp; | &nbsp;
-            <div class="d-inline">Ngôn ngữ:
+            <div class="d-inline"><?php $lang_model->the_text('admin_ngon_ngu', 'Ngôn ngữ'); ?>:
                 <select data-select="<?php echo $html_lang; ?>" class="admin-change-language">
                 </select>
             </div>
         </div>
-        <div class="lf f50 text-right">Xin Chào: <a title="Thông tin cá nhân" href="./users/profile">
+        <div class="lf f50 text-right"><?php $lang_model->the_text('admin_xin_chao', 'Xin chào'); ?>: <a title="<?php $lang_model->the_text('admin_thong_tin_ca_nhan', 'Thông tin cá nhân'); ?>" href="./users/profile">
                 <?php
                 echo ($session_data['display_name'] != '' ? $session_data['display_name'] : $session_data['user_login']);
                 ?>
-            </a> &nbsp; | &nbsp; <a title="Đăng xuất" data-bs-toggle="modal" data-bs-target="#logoutModal" href="javascript:;"><i class="fa fa-sign-out"></i> Logout</a></div>
+            </a> &nbsp; | &nbsp; <a title="<?php $lang_model->the_text('admin_dang_xuat', 'Đăng xuất'); ?>" data-bs-toggle="modal" data-bs-target="#logoutModal" href="javascript:;"><i class="fa fa-sign-out"></i> <?php $lang_model->the_text('admin_dang_xuat', 'Đăng xuất'); ?></a></div>
     </div>
     <!--close-Header-part-->
     <!--top-Header-menu-->

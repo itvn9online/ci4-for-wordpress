@@ -48,7 +48,12 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                 </ul>
             </div>
             <div class="text-center">
-                <input type="text" onDblClick="click2Copy(this);" value="$this->lang_model->the_text('lang_key', 'lang default value');" class="span8 bold text-center" style="max-width: 666px;" readonly />
+                <div>
+                    <input type="text" onDblClick="click2Copy(this);" value="$this->lang_model->the_text('lang_key', 'lang default value');" class="span8 bold text-center" style="max-width: 666px;" readonly />
+                </div>
+                <div>
+                    <input type="text" onDblClick="click2Copy(this);" value="&lt;?php $lang_model->the_text('lang_key', 'lang default value'); ?&gt;" class="span8 bold text-center" style="max-width: 666px;" readonly />
+                </div>
             </div>
             <br>
             <?php
@@ -78,7 +83,7 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
 
                         if ($input_type == 'textarea') {
                         ?>
-                            <textarea class="span10 required fix-textarea-height" style="height:100px" placeholder="<?php echo $non_html; ?>" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>"><?php echo htmlentities($v, ENT_QUOTES, 'UTF-8'); ?></textarea>
+                            <textarea class="span10 required fix-textarea-height change-auto-save-translate" placeholder="<?php echo $non_html; ?>" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>"><?php echo htmlentities($v, ENT_QUOTES, 'UTF-8'); ?></textarea>
                         <?php
                         } // END if textarea
                         else {

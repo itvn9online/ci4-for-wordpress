@@ -148,7 +148,8 @@ class TaxonomyType
         $arr = [
             'custom_size' => 'Kích thước hình ảnh liên quan đến việc đảm bảo khung hình không bị vỡ, kích thước mặc định sẽ được sử dụng nếu bạn bỏ qua trường dữ liệu tương ứng. <br> Từ kích thước mong muốn mà bạn nhập vào, hệ thống sẽ tính toán tỉ lệ phù hợp nhất, cách tính tỉ lệ sẽ lấy chiều cao/ chiều rộng. <br> Ví dụ, bạn có hình ảnh có kích thước chiều rộng là 1366px, chiều cao là 400px, bạn sẽ nhập vào ô tương ứng là: <strong>400/1366</strong>. <br> * Vui lòng chỉ nhập số và dấu chéo.',
             'custom_cat_link' => '* Mặc định URL sẽ được tạo theo URL của phân nhóm hoặc để trống nếu không có nhóm. Bạn muốn thiết lập cứng URL cho phần này thì có thể thiết lập tại đây, hoặc hủy URL thì nhập <strong>#</strong>.',
-            'custom_style' => file_get_contents(dirname(__DIR__) . '/Views/html/custom_style.html', 1),
+            //'custom_style' => file_get_contents(dirname(__DIR__) . '/Views/html/custom_style.html', 1),
+            'custom_style' => 'Chọn class CSS hỗ trợ định dạng sẵn hoặc tự soạn class CSS mới sau đó thực hiện viết CSS tương ứng.',
             'custom_id' => '* Tương tự như CSS -> gán ID để xử lý cho tiện.',
             'rel_xfn' => '<strong>rel</strong>: noreferrer, nofollow...',
             'text_view_more' => 'Nhập nội dung cho nút xem thêm (Danh mục), khi trường này có dữ liệu, nút xem thêm sẽ xuất hiện trong widget',

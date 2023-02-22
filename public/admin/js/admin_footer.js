@@ -242,7 +242,7 @@ $(".admin-change-language").change(function () {
 
 		window.location =
 			web_link +
-			"?set_lang=" +
+			"layout/change_lang?set_lang=" +
 			a +
 			"&redirect_to=" +
 			encodeURIComponent(window.location.href);
