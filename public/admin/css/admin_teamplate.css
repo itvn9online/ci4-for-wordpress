@@ -443,7 +443,7 @@ body.ebfixed-down-menu.sidebar-hover.sidebar-height #sidebar, body.ebfixed-down-
 }
 
 .eb-table input[type="number"].s {
-    max-width: 50px;
+    width: 68px;
 }
 
 #post_meta_post_category {
@@ -592,6 +592,11 @@ body.body-debug_enable #sidebar {
 
 .admin-order-table tr.trash td:first-child {
     border-left-color: gray;
+}
+
+.change-update-menu_order.pending,
+.change-update-term_order.pending {
+    opacity: 0.1;
 }
 
 /* ================================== reponsive ================================== */

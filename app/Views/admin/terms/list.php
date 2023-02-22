@@ -33,13 +33,12 @@ $base_model->adds_css([
                     <div class="lf f30">
                         <?php
                         if ($by_is_deleted > 0) {
-                            ?>
+                        ?>
                             <input type="hidden" name="is_deleted" value="<?php echo $by_is_deleted; ?>">
-                            <?php
+                        <?php
                         }
                         ?>
-                        <input name="s" value="<?php echo $by_keyword; ?>"
-                            placeholder="Tìm kiếm <?php echo $name_type; ?>" autofocus aria-required="true" required>
+                        <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $name_type; ?>" autofocus aria-required="true" required>
                     </div>
                     <div class="lf f20">
                         <button type="submit" class="btn-success"><i class="fa fa-search"></i> Tìm kiếm</button>
@@ -48,16 +47,12 @@ $base_model->adds_css([
             </form>
         </div>
         <div class="lf f50 text-right">
-            <div class="d-inline"> <a href="<?php $term_model->admin_permalink($taxonomy, 0, $controller_slug); ?>"
-                    class="btn btn-success btn-mini"> <i class="fa fa-plus"></i> Thêm mới
+            <div class="d-inline"> <a href="<?php $term_model->admin_permalink($taxonomy, 0, $controller_slug); ?>" class="btn btn-success btn-mini"> <i class="fa fa-plus"></i> Thêm mới
                     <?php echo $name_type; ?>
                 </a> </div>
             <!-- -->
-            <div v-if="by_is_deleted == DeletedStatus_DELETED" class="d-inline"><a :href="'admin/' + controller_slug"
-                    class="btn btn-primary btn-mini"> <i class="fa fa-list"></i> Quay lại</a></div>
-            <div v-if="by_is_deleted != DeletedStatus_DELETED" class="d-inline"><a
-                    :href="'admin/' + controller_slug + '?is_deleted=' + DeletedStatus_DELETED" class="btn btn-mini"> <i
-                        class="fa fa-trash"></i> Lưu trữ</a></div>
+            <div v-if="by_is_deleted == DeletedStatus_DELETED" class="d-inline"><a :href="'admin/' + controller_slug" class="btn btn-primary btn-mini"> <i class="fa fa-list"></i> Quay lại</a></div>
+            <div v-if="by_is_deleted != DeletedStatus_DELETED" class="d-inline"><a :href="'admin/' + controller_slug + '?is_deleted=' + DeletedStatus_DELETED" class="btn btn-mini"> <i class="fa fa-trash"></i> Lưu trữ</a></div>
         </div>
     </div>
     <br>
@@ -87,11 +82,9 @@ $base_model->adds_css([
         </thead>
         <tbody id="admin_term_list">
             <tr data-id="{{v.term_id}}" class="each-to-child-term">
-                <td width="50" class="text-center"><input type="checkbox" value="{{v.term_id}}"
-                        class="input-checkbox-control" /></td>
+                <td width="50" class="text-center"><input type="checkbox" value="{{v.term_id}}" class="input-checkbox-control" /></td>
                 <td>{{v.term_id}}</td>
-                <td><span data-id="{{v.parent}}" data-taxonomy="<?php echo $taxonomy; ?>" data-line="{{v.gach_ngang}}"
-                        class="parent-term-name"></span> <a href="{{v.get_admin_permalink}}">{{v.gach_ngang}}{{v.name}}
+                <td><span data-id="{{v.parent}}" data-taxonomy="<?php echo $taxonomy; ?>" data-line="{{v.gach_ngang}}" class="parent-term-name"></span> <a href="{{v.get_admin_permalink}}">{{v.gach_ngang}}{{v.name}}
                         <i class="fa fa-edit"></i></a></td>
                 <td><a href="{{v.view_url}}" target="_blank">{{v.slug}} <i class="fa fa-eye"></i></a></td>
                 <td>{{v.term_shortname}}</td>
@@ -101,8 +94,7 @@ $base_model->adds_css([
                 <td>&nbsp;</td>
                 <td width="90">{{v.lang_key}}</td>
                 <td width="90">{{v.count}}</td>
-                <td width="60"><input type="text" data-id="{{v.term_id}}" value="{{v.term_order}}" size="5"
-                        class="form-control s change-update-term_order" /></td>
+                <td width="60"><input type="text" data-id="{{v.term_id}}" value="{{v.term_order}}" size="5" class="form-control s change-update-term_order" /></td>
                 <td width="90" class="text-center">
                     <?php
                     require __DIR__ . '/list_action.php';
@@ -112,8 +104,8 @@ $base_model->adds_css([
             <?php
 
             //echo $term_model->list_html_view( $data, '', $by_is_deleted, $controller_slug );
-//$term_model->get_admin_permalink($v['taxonomy'], $v['term_id']);
-            
+            //$term_model->get_admin_permalink($v['taxonomy'], $v['term_id']);
+
             ?>
         </tbody>
     </table>
@@ -124,11 +116,9 @@ $base_model->adds_css([
 <p class="d-none">* Copy đoạn code bên dưới rồi cho vào nơi cần hiển thị block này ở trong view. Nhớ thay %slug% thành
     slug thật trong danh sách ở trên.</p>
 <!-- Modal add multi term -->
-<div class="modal fade" id="termMultiAddModal" tabindex="-1" aria-labelledby="termMultiAddModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="termMultiAddModal" tabindex="-1" aria-labelledby="termMultiAddModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form name="frm_admin_search_controller" action="./admin/<?php echo $controller_slug; ?>/multi_add"
-            method="post" target="target_eb_iframe">
+        <form name="frm_admin_search_controller" action="./admin/<?php echo $controller_slug; ?>/multi_add" method="post" target="target_eb_iframe">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="termMultiAddModalLabel">Thêm nhanh
@@ -147,8 +137,7 @@ $base_model->adds_css([
                         <label><strong>Nhập danh sách
                                 <?php echo $name_type; ?> cần thêm:
                             </strong>
-                            <textarea name="data[term_name]" id="data_term_name" rows="10" class="d-block form-control"
-                                aria-required="true" required></textarea>
+                            <textarea name="data[term_name]" id="data_term_name" rows="10" class="d-block form-control" aria-required="true" required></textarea>
                         </label>
                         <p class="description">Có thể nhập nhiều
                             <?php echo $name_type; ?>, mỗi
@@ -173,18 +162,17 @@ $base_model->JSON_parse([
 ]);
 
 //
-$base_model->JSON_echo([
-], [
-        'for_action' => $for_action,
-        'controller_slug' => $controller_slug,
-        'DeletedStatus_DELETED' => $DeletedStatus_DELETED,
-    ]);
+$base_model->JSON_echo([], [
+    'for_action' => $for_action,
+    'controller_slug' => $controller_slug,
+    'DeletedStatus_DELETED' => $DeletedStatus_DELETED,
+]);
 
 //
 if ($taxonomy == TaxonomyType::ADS) {
-    ?>
+?>
     <pre><code>&lt;?php $post_model->the_ads( '%slug%' ); ?&gt;</code></pre>
-    <?php
+<?php
 }
 
 // js riêng cho từng post type (nếu có)

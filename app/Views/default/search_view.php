@@ -16,7 +16,7 @@
     <?php
     } else {
     ?>
-        <div id="search_main" class="fix-li-wit thread-list main-thread-list row <?php $option_model->posts_in_line($getconfig); ?>">
+        <div id="search_main" class="thread-list main-thread-list <?php $option_model->posts_in_line($getconfig); ?>">
             <?php
 
             foreach ($data as $v) {

@@ -319,7 +319,8 @@ class Option extends EbModel
     public function get_posts_in_line($cog)
     {
         $arr = [
-            'row'
+            __FUNCTION__,
+            'row',
         ];
         // desktop
         $arr[] = $cog->eb_posts_per_line;
@@ -343,6 +344,7 @@ class Option extends EbModel
     public function get_post_in_line($cog)
     {
         $arr = [
+            __FUNCTION__,
             'row'
         ];
         // desktop
@@ -367,6 +369,7 @@ class Option extends EbModel
     public function get_blogs_in_line($cog)
     {
         $arr = [
+            __FUNCTION__,
             'row'
         ];
         // desktop
@@ -391,6 +394,7 @@ class Option extends EbModel
     public function get_blog_in_line($cog)
     {
         $arr = [
+            __FUNCTION__,
             'row'
         ];
         // desktop

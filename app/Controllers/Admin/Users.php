@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\Admin;
 
 // Libraries
@@ -308,7 +309,7 @@ class Users extends Admin
         $data['ci_show_pass'] = '';
 
         // edit
-        if ($id != '') {
+        if ($id > 0) {
             // select dữ liệu từ 1 bảng bất kỳ
             $data = $this->base_model->select(
                 '*',
@@ -340,14 +341,12 @@ class Users extends Admin
                 // -> chỉ tài khoản admin mới được quyền xem
                 $this->session_data['member_type'] != UsersType::ADMIN
             ) {
-                die(
-                    json_encode(
-                        [
-                            'code' => __LINE__,
-                            'error' => 'ERROR! Permisson deny for view user details!'
-                        ]
-                    )
-                );
+                die(json_encode(
+                    [
+                        'code' => __LINE__,
+                        'error' => 'ERROR! Permisson deny for view user details!'
+                    ]
+                ));
             }
 
             // sửa tài khoản thì không nhập pass
@@ -357,6 +356,7 @@ class Users extends Admin
         // add
         else {
             $data = $this->base_model->default_data('users');
+            $data['member_type'] = $this->member_type;
 
             // tạo mật khẩu ngẫu nhiên cho user
             $rand_password = [
@@ -709,7 +709,7 @@ class Users extends Admin
     public function delete_all()
     {
         return $this->before_all_delete_restore(
-                DeletedStatus::DELETED,
+            DeletedStatus::DELETED,
             [
                 'ID !=' => $this->current_user_id
             ]
@@ -864,5 +864,4 @@ class Users extends Admin
             ]
         );
     }
-
 }

@@ -41,7 +41,7 @@ if (!empty($same_cat_data)) {
     <div class="text-center">
         <div class="other-post-title global-module-title">Bài viết tương tự</div>
     </div>
-    <div id="post_same_cat" class="fix-li-wit thread-list other-thread-list row <?php $option_model->post_in_line($getconfig); ?>">
+    <div id="post_same_cat" class="thread-list other-thread-list <?php $option_model->post_in_line($getconfig); ?>">
         <?php
 
         foreach ($same_cat_data as $child_key => $child_val) {

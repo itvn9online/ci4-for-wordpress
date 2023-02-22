@@ -460,7 +460,6 @@ class PostQuery extends PostMeta
                     //'debug_only' => 1,
                     //'offset' => $ops[ 'offset' ],
                     //'limit' => $limit
-
                 ]
             );
             //print_r( $data );
@@ -700,6 +699,7 @@ class PostQuery extends PostMeta
             $instance['num_small_line'],
             $instance['post_cloumn'],
             $instance['column_spacing'],
+            $instance['row_align'],
             $instance['max_width'],
         ]);
 

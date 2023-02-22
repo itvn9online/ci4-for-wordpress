@@ -2,39 +2,97 @@
  * tạo select box các nhóm dữ liệu cho khung tìm kiếm
  */
 $(document).ready(function () {
-    //console.log(a);
+	//console.log(a);
 
-    //
-    if ($('.each-to-group-taxonomy').length == 0) {
-        return false;
-    }
+	//
+	if ($(".each-to-group-taxonomy").length == 0) {
+		return false;
+	}
 
-    //
-    $('.each-to-group-taxonomy').each(function () {
-        var a = $(this).attr('data-taxonomy') || '';
-        var jd = $(this).attr('id') || '';
-        if (jd == '') {
-            jd = '_' + Math.random().toString(32).replace('.', '_');
-            //console.log(jd);
+	//
+	$(".each-to-group-taxonomy").each(function () {
+		var a = $(this).attr("data-taxonomy") || "";
+		var jd = $(this).attr("id") || "";
+		if (jd == "") {
+			jd = "_" + Math.random().toString(32).replace(".", "_");
+			//console.log(jd);
 
-            //
-            $(this).attr({
-                id: jd
-            });
-        }
-        //console.log(a);
+			//
+			$(this).attr({
+				id: jd,
+			});
+		}
+		//console.log(a);
 
-        // chạy ajax nạp dữ liệu của taxonomy
-        load_term_select_option(a, jd, function (data, jd) {
-            if (data.length > 0) {
-                // tạo select
-                $('#' + jd).append(create_term_select_option(data)).removeClass('set-selected');
+		// chạy ajax nạp dữ liệu của taxonomy
+		load_term_select_option(a, jd, function (data, jd) {
+			if (data.length > 0) {
+				// tạo select
+				$("#" + jd)
+					.append(create_term_select_option(data))
+					.removeClass("set-selected");
 
-                // tạo lại selected
-                WGR_set_prop_for_select('#' + jd);
-            } else {
-                $('#' + jd).parent('.hide-if-no-taxonomy').hide();
-            }
-        });
-    });
+				// tạo lại selected
+				WGR_set_prop_for_select("#" + jd);
+			} else {
+				$("#" + jd)
+					.parent(".hide-if-no-taxonomy")
+					.hide();
+			}
+		});
+	});
+
+	// thay đổi số thứ tự của post
+	$(".change-update-menu_order")
+		.attr({
+			type: "number",
+		})
+		.change(function () {
+			var a = $(this).attr("data-id") || "";
+			if (a != "") {
+				var v = $(this).val();
+				v *= 1;
+				if (!isNaN(v)) {
+					if (v <= 0) {
+						v = 0;
+					}
+					//console.log(a + ":", v);
+
+					//
+					$(this).addClass("pending").val(v);
+
+					//
+					jQuery.ajax({
+						type: "POST",
+						url: "admin/asjaxs/update_menu_order",
+						dataType: "json",
+						data: {
+							id: a * 1,
+							order: v,
+						},
+						timeout: 33 * 1000,
+						error: function (jqXHR, textStatus, errorThrown) {
+							console.log(jqXHR);
+							if (typeof jqXHR.responseText != "undefined") {
+								console.log(jqXHR.responseText);
+							}
+							console.log(errorThrown);
+							console.log(textStatus);
+							if (textStatus === "timeout") {
+								//
+							}
+						},
+						success: function (data) {
+							console.log(data);
+							if (typeof data.error != "undefined") {
+								WGR_alert(data.error, "error");
+							} else {
+								WGR_alert("OK");
+							}
+							$(".change-update-menu_order").removeClass("pending");
+						},
+					});
+				}
+			}
+		});
 });

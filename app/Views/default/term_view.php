@@ -13,7 +13,7 @@ if (!empty($child_data)) {
 
     //
 ?>
-    <div id="term_main" class="fix-li-wit thread-list main-thread-list row <?php $option_model->posts_in_line($getconfig); ?>">
+    <div id="term_main" class="thread-list main-thread-list <?php $option_model->posts_in_line($getconfig); ?>">
         <?php
 
         foreach ($child_data as $child_key => $child_val) {

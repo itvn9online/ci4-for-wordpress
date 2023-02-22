@@ -1,5 +1,12 @@
 <?php
 
+//
+$base_model->add_css('themes/' . THEMENAME . '/css/post.css', [
+    //'get_content' => 1,
+    //'preload' => 1,
+    'cdn' => CDN_BASE_URL,
+]);
+
 // tự động tạo slider nếu có
 //$post_model->the_slider($data, $taxonomy_slider, $lang_model->get_the_text('main_slider_slug', ''));
 

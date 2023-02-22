@@ -88,6 +88,7 @@ class TaxonomyType
             $arr['num_medium_line'] = 'Số cột trên mỗi dòng (table)';
             $arr['num_small_line'] = 'Số cột trên mỗi dòng (mobile)';
             $arr['column_spacing'] = 'Khoảng cách giữa các cột';
+            $arr['row_align'] = 'Căn chỉnh (align)';
             $arr['post_cloumn'] = 'Bố cục bài viết';
             $arr['hide_title'] = 'Ẩn tiêu đề của bài viết';
             $arr['hide_description'] = 'Ẩn tóm tắt của bài viết';
@@ -122,6 +123,7 @@ class TaxonomyType
             'num_medium_line' => 'select',
             'num_small_line' => 'select',
             'column_spacing' => 'select',
+            'row_align' => 'select',
             'post_cloumn' => 'select',
             'hide_title' => 'checkbox',
             'hide_description' => 'checkbox',
@@ -208,6 +210,11 @@ class TaxonomyType
                 'row-small' => 'Nhỏ',
                 'row-large' => 'Lớn',
                 'row-collapse' => 'Không có khoảng cách',
+            ],
+            'row_align' => [
+                '' => 'Mặc định',
+                'align-equal' => 'equal',
+                'align-middle' => 'middle',
             ],
             'post_cloumn' => [
                 '' => 'Mặc định (Ảnh trên - chữ dưới)',

@@ -4,7 +4,7 @@
 $post_model->the_ads('top-main-slider');
 
 ?>
-<div class="fix-li-wit thread-list home-thread-list row <?php $option_model->posts_in_line($getconfig); ?>">
+<div class="thread-list home-thread-list <?php $option_model->posts_in_line($getconfig); ?>">
     <?php
 
     // lấy post mới nhất

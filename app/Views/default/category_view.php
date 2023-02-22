@@ -43,7 +43,7 @@
                     </a></h2>
             </div>
             <br>
-            <div class="category_main fix-li-wit thread-list main-thread-list row <?php $option_model->posts_in_line($getconfig); ?>">
+            <div class="category_main thread-list main-thread-list <?php $option_model->posts_in_line($getconfig); ?>">
                 <?php
 
                 foreach ($child_data as $child_key => $child_val) {

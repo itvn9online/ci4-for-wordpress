@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 // Libraries
@@ -335,6 +336,7 @@ class Sync extends BaseController
                 'time_order' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Sắp xếp độ ưu tiên của post dựa theo thời gian hiện tại\'',
             ],
             $prefix . 'orders' => [
+                'order_type' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Phân loại đơn hàng\'',
                 'order_period' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'Giá trị đơn hàng theo gói định sẵn\'',
                 'order_money' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Giá trị của đơn hàng\'',
                 'order_discount' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Tiền giảm giá cho mỗi đơn hàng\'',

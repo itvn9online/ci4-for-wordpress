@@ -112,25 +112,113 @@ class Asjaxs extends Admin
         $data = $this->base_model->select('ID, user_email', 'users', array(
             // các kiểu điều kiện where
         ), array(
-                'where_in' => array(
-                    'ID' => explode(',', $ids)
-                ),
-                'group_by' => array(
-                    'ID',
-                ),
-                // hiển thị mã SQL để check
-                //'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-                // trả về COUNT(column_name) AS column_name
-                //'selectCount' => 'ID',
-                // trả về tổng số bản ghi -> tương tự mysql num row
-                //'getNumRows' => 1,
-                //'offset' => 0,
-                'limit' => -1
-            ));
+            'where_in' => array(
+                'ID' => explode(',', $ids)
+            ),
+            'group_by' => array(
+                'ID',
+            ),
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            // trả về COUNT(column_name) AS column_name
+            //'selectCount' => 'ID',
+            // trả về tổng số bản ghi -> tương tự mysql num row
+            //'getNumRows' => 1,
+            //'offset' => 0,
+            'limit' => -1
+        ));
 
         //
         die(json_encode($data));
+    }
+
+    public function update_term_order()
+    {
+        $term_id = $this->MY_post('id', 0);
+        if ($term_id <= 0) {
+            $this->result_json_type([
+                'code' => __LINE__,
+                'error' => 'term id is zero!'
+            ]);
+        }
+
+        //
+        $term_order = $this->MY_post('order', 0);
+
+        // UPDATE
+        $result_id = $this->base_model->update_multiple('terms', [
+            // SET
+            'term_order' => $term_order,
+        ], [
+            // WHERE
+            'term_id' => $term_id,
+        ], [
+            'debug_backtrace' => debug_backtrace()[1]['function'],
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
+            //'no_remove_field' => 1
+        ]);
+
+        if ($result_id !== false) {
+            $this->result_json_type([
+                'ok' => __LINE__,
+                'data' => $_POST
+            ]);
+        }
+
+        //
+        $this->result_json_type([
+            'code' => __LINE__,
+            'error' => 'Lỗi cập nhật số thứ tự cho danh mục!'
+        ]);
+    }
+
+    public function update_menu_order()
+    {
+        $id = $this->MY_post('id', 0);
+        if ($id <= 0) {
+            $this->result_json_type([
+                'code' => __LINE__,
+                'error' => 'post id is zero!'
+            ]);
+        }
+
+        //
+        $menu_order = $this->MY_post('order', 0);
+
+        // UPDATE
+        $result_id = $this->base_model->update_multiple('posts', [
+            // SET
+            'menu_order' => $menu_order,
+        ], [
+            // WHERE
+            'ID' => $id,
+        ], [
+            'debug_backtrace' => debug_backtrace()[1]['function'],
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
+            //'no_remove_field' => 1
+        ]);
+
+        if ($result_id !== false) {
+            $this->result_json_type([
+                'ok' => __LINE__,
+                'data' => $_POST
+            ]);
+        }
+
+        //
+        $this->result_json_type([
+            'code' => __LINE__,
+            'error' => 'Lỗi cập nhật số thứ tự cho bài viết!'
+        ]);
     }
 }

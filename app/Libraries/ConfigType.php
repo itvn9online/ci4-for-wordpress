@@ -35,11 +35,17 @@ class ConfigType
         'row-1' => 12,
     ];
 
-    private static $eb_posts_column_spacing = [
+    private static $eb_column_spacing = [
         '' => 'Mặc định',
         'row-small' => 'Nhỏ',
         'row-large' => 'Lớn',
         'row-collapse' => 'Không có khoảng cách',
+    ];
+
+    private static $eb_row_align = [
+        '' => 'Mặc định',
+        'align-equal' => 'equal',
+        'align-middle' => 'middle',
     ];
 
     private static $arr = array(
@@ -165,6 +171,7 @@ class ConfigType
                 'eb_posts_medium_per_line' => 'Số cột trên mỗi dòng (table)',
                 'eb_posts_small_per_line' => 'Số cột trên mỗi dòng (mobile)',
                 'eb_posts_column_spacing' => 'Khoảng cách giữa các cột',
+                'eb_posts_row_align' => 'Căn chỉnh (align)',
                 'cf_product_size' => 'Tỉ lệ ảnh sản phẩm',
                 'cf_thumbnail_size' => 'Chất lượng hình ảnh',
                 'show_child_category' => 'Hiển thị nhóm sản phẩm con',
@@ -176,6 +183,7 @@ class ConfigType
                 'eb_post_medium_per_line' => 'Số cột trên mỗi dòng (table)',
                 'eb_post_small_per_line' => 'Số cột trên mỗi dòng (mobile)',
                 'eb_post_column_spacing' => 'Khoảng cách giữa các cột',
+                'eb_post_row_align' => 'Căn chỉnh (align)',
             ];
         } else if ($config_type == self::BLOGS) {
             $arr = [
@@ -184,6 +192,7 @@ class ConfigType
                 'eb_blogs_medium_per_line' => 'Số cột trên mỗi dòng (table)',
                 'eb_blogs_small_per_line' => 'Số cột trên mỗi dòng (mobile)',
                 'eb_blogs_column_spacing' => 'Khoảng cách giữa các cột',
+                'eb_blogs_row_align' => 'Căn chỉnh (align)',
                 'cf_blog_description_length' => 'Độ dài tóm tắt bài viết',
                 'cf_blog_size' => 'Tỉ lệ ảnh tin tức',
                 'show_child_blogs' => 'Hiển thị nhóm tin tức con',
@@ -195,6 +204,7 @@ class ConfigType
                 'eb_blog_medium_per_line' => 'Số cột trên mỗi dòng (table)',
                 'eb_blog_small_per_line' => 'Số cột trên mỗi dòng (mobile)',
                 'eb_blog_column_spacing' => 'Khoảng cách giữa các cột',
+                'eb_blog_row_align' => 'Căn chỉnh (align)',
             ];
         } else if ($config_type == self::NUM_MON) {
             $arr = [
@@ -317,24 +327,28 @@ class ConfigType
             'eb_posts_medium_per_line' => 'select',
             'eb_posts_small_per_line' => 'select',
             'eb_posts_column_spacing' => 'select',
+            'eb_posts_row_align' => 'select',
             //
             'eb_post_per_page' => 'number',
             'eb_post_per_line' => 'select',
             'eb_post_medium_per_line' => 'select',
             'eb_post_small_per_line' => 'select',
             'eb_post_column_spacing' => 'select',
+            'eb_post_row_align' => 'select',
             //
             'eb_blogs_per_page' => 'number',
             'eb_blogs_per_line' => 'select',
             'eb_blogs_medium_per_line' => 'select',
             'eb_blogs_small_per_line' => 'select',
             'eb_blogs_column_spacing' => 'select',
+            'eb_blogs_row_align' => 'select',
             //
             'eb_blog_per_page' => 'number',
             'eb_blog_per_line' => 'select',
             'eb_blog_medium_per_line' => 'select',
             'eb_blog_small_per_line' => 'select',
             'eb_blog_column_spacing' => 'select',
+            'eb_blog_row_align' => 'select',
             //
             'enable_vue_js' => 'checkbox',
             'enable_hotlink_protection' => 'checkbox',
@@ -537,22 +551,26 @@ class ConfigType
             'eb_posts_per_line' => self::$arr_posts_per_line,
             'eb_posts_medium_per_line' => $arr_num_medium_line,
             'eb_posts_small_per_line' => $arr_num_small_line,
-            'eb_posts_column_spacing' => self::$eb_posts_column_spacing,
+            'eb_posts_column_spacing' => self::$eb_column_spacing,
+            'eb_posts_row_align' => self::$eb_row_align,
             //
             'eb_post_per_line' => self::$arr_posts_per_line,
             'eb_post_medium_per_line' => $arr_num_medium_line,
             'eb_post_small_per_line' => $arr_num_small_line,
-            'eb_post_column_spacing' => self::$eb_posts_column_spacing,
+            'eb_post_column_spacing' => self::$eb_column_spacing,
+            'eb_post_row_align' => self::$eb_row_align,
             //
             'eb_blogs_per_line' => self::$arr_posts_per_line,
             'eb_blogs_medium_per_line' => self::$arr_posts_per_line,
             'eb_blogs_small_per_line' => self::$arr_posts_per_line,
-            'eb_blogs_column_spacing' => self::$eb_posts_column_spacing,
+            'eb_blogs_column_spacing' => self::$eb_column_spacing,
+            'eb_blogs_row_align' => self::$eb_row_align,
             //
             'eb_blog_per_line' => self::$arr_posts_per_line,
             'eb_blog_medium_per_line' => self::$arr_posts_per_line,
             'eb_blog_small_per_line' => self::$arr_posts_per_line,
-            'eb_blog_column_spacing' => self::$eb_posts_column_spacing,
+            'eb_blog_column_spacing' => self::$eb_column_spacing,
+            'eb_blog_row_align' => self::$eb_row_align,
             //
             'smtp_secure' => [
                 '' => 'Không bảo mật',
