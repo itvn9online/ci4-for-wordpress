@@ -458,6 +458,15 @@ body.ebfixed-down-menu.sidebar-hover.sidebar-height #sidebar, body.ebfixed-down-
     box-shadow: 0 0 10px 0 #666;
 }
 
+.post-admin-thumbnail {
+    display: inline-block;
+}
+
+.post-admin-thumbnail img {
+    max-height: 90px;
+    width: auto !important;
+}
+
 /*
 #admin_main_list tr {
     opacity: 0.1;

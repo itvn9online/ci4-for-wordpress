@@ -5,55 +5,45 @@ namespace App\Libraries;
 class LanguageCost
 {
 
-    const VIETNAMESE = 'vn';
-    const ENGLISH = 'en';
+    //const VIETNAMESE = 'vn';
+    //const ENGLISH = 'en';
     //const JAPANESE = 'jp';
 
     const CK_LANG_NAME = 'show_language';
 
     private static $items = array(
-        self::VIETNAMESE => array(
-            "value" => self::VIETNAMESE,
-            "text_en" => "Vietnamese",
-            "text_vn" => "Tiếng Việt",
-            "css_class" => "text-muted"
+        array(
+            'value' => 'vn',
+            'text' => 'Tiếng Việt',
+            'css_class' => 'text-muted'
         ),
-        self::ENGLISH => array(
-            "value" => self::ENGLISH,
-            "text_en" => "English",
-            "text_vn" => "Tiếng Anh",
-            "css_class" => "text-success"
+        array(
+            'value' => 'en',
+            'text' => 'English',
+            'css_class' => 'text-success'
         ),
     );
 
     public static function get_list($textlang = null)
     {
-        $returnslist = array();
-        if (empty($textlang) || $textlang == null)
-            $text = "text_vn";
-        else
-            $text = "text_en";
-
-        foreach (self::$items as $key => $values) {
-            $returnslist[$key]["value"] = $values["value"];
-            $returnslist[$key]["text"] = $values[$text];
-            $returnslist[$key]["css_class"] = $values['css_class'];
-        }
-
-        return $returnslist;
+        return self::$items;
     }
-
-    private static $arr = array(
-        self::VIETNAMESE => 'Tiếng Việt',
-        self::ENGLISH => 'English'
-    );
 
     public static function typeList($key = '')
     {
-        if ($key == '') {
-            return self::$arr;
+        // tạo mảng chứa danh sách các ngôn ngữ được hỗ trợ
+        $arr = [];
+        foreach (self::$items as $values) {
+            $arr[$values["value"]] = $values["text"];
         }
-        return self::$arr[$key];
+        //print_r($arr);
+        //die(__CLASS__ . ':' . __LINE__);
+
+        //
+        if ($key == '') {
+            return $arr;
+        }
+        return $arr[$key];
     }
 
     private static function unparse_url($parsed_url)
@@ -75,7 +65,10 @@ class LanguageCost
         if (isset($_GET['set_lang'])) {
             $lang = trim($_GET['set_lang']);
             //echo $lang . '<br>' . "\n";
-            if (isset(self::$arr[$lang])) {
+
+            //
+            $arr = self::typeList();
+            if (isset($arr[$lang])) {
                 setcookie(self::CK_LANG_NAME, $lang, time() + (86400 * 30), "/"); // 86400 = 1 day * 30 = 1 month
 
                 // nếu có chỉ định redirect tới khu nào đó
@@ -83,7 +76,7 @@ class LanguageCost
                     $redirect_to = $_GET['redirect_to'];
                     echo $redirect_to . '<br>' . PHP_EOL;
                     header('location:' . $redirect_to);
-                    die(basename(__FILE__) . ':' . __LINE__);
+                    die(__CLASS__ . ':' . __LINE__);
                 }
 
                 // mặc địh thì redirect về trang chủ
@@ -128,14 +121,15 @@ class LanguageCost
         if (isset($_COOKIE[self::CK_LANG_NAME])) {
             $lang = $_COOKIE[self::CK_LANG_NAME];
         } else {
-            $lang = self::VIETNAMESE;
+            //$lang = self::VIETNAMESE;
+            $lang = self::default_lang();
         }
         return $lang;
     }
 
     public static function default_lang()
     {
-        return self::VIETNAMESE;
+        //return self::VIETNAMESE;
+        return self::$items[0]['value'];
     }
-
 }

@@ -77,7 +77,7 @@ class PostQuery extends PostMeta
                         'post_name' => $data['post_name'],
                         'post_type' => $data['post_type'],
                         //'post_status !=' => PostType::DELETED,
-
+                        'lang_key' => LanguageCost::lang_key()
                     ],
                     [
                         'where_not_in' => array(
@@ -98,7 +98,7 @@ class PostQuery extends PostMeta
                 if (!empty($check_slug)) {
                     return [
                         'code' => __LINE__,
-                        'error' => 'Slug đã được sử dụng ở ' . $check_slug['post_type'] . ' #' . $check_slug['ID'] . ' (' . $data['post_name'] . ')',
+                        'error' => __FUNCTION__ . ' Slug đã được sử dụng ở ' . $check_slug['post_type'] . ' #' . $check_slug['ID'] . ' (' . $data['post_name'] . ')',
                     ];
                 }
                 //die( __CLASS__ . ':' . __LINE__ );
@@ -218,7 +218,7 @@ class PostQuery extends PostMeta
                         'post_type' => $current_slug['post_type'],
                         //'post_status !=' => PostType::DELETED,
                         //'post_status' => $current_slug[ 'post_status' ],
-
+                        'lang_key' => $default_data['lang_key']
                     ],
                     [
                         'where_not_in' => array(
@@ -239,7 +239,7 @@ class PostQuery extends PostMeta
                 if (!empty($check_slug)) {
                     return [
                         'code' => __LINE__,
-                        'error' => 'Slug đã được sử dụng ở ' . $check_slug['post_type'] . ' #' . $check_slug['ID'] . ' (' . $data['post_name'] . ')',
+                        'error' => __FUNCTION__ . 'Slug đã được sử dụng ở ' . $check_slug['post_type'] . ' #' . $check_slug['ID'] . ' (' . $data['post_name'] . ')',
                     ];
                 }
                 //die( __CLASS__ . ':' . __LINE__ );

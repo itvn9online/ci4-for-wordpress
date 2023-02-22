@@ -332,7 +332,7 @@ class Terms extends Admin
                 'lang_key' => $this->lang_key,
                 'set_parent' => $set_parent,
                 'data' => $data,
-                'term_lang' => $data['lang_key'] != '' ? LanguageCost::typeList($data['lang_key']) : '',
+                'term_lang' => ($data['lang_key'] != '' ? LanguageCost::typeList($data['lang_key']) : ''),
                 'taxonomy' => $this->taxonomy,
                 'name_type' => $this->name_type,
                 'meta_detault' => TaxonomyType::meta_default($this->taxonomy),

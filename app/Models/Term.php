@@ -1212,6 +1212,7 @@ class Term extends TermBase
                 'slug' => $slug,
                 'taxonomy' => $taxonomy,
                 'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                'lang_key' => LanguageCost::lang_key(),
             ],
             $limit,
             $select_col

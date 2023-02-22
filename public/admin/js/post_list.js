@@ -47,6 +47,9 @@ $(document).ready(function () {
 		.attr({
 			type: "number",
 		})
+		.on("dblclick", function () {
+			$(this).select();
+		})
 		.change(function () {
 			var a = $(this).attr("data-id") || "";
 			if (a != "") {

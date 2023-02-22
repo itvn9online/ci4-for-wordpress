@@ -23,13 +23,17 @@ class Menu extends Post
         //echo $slug . '<br>' . "\n";
 
         // select dữ liệu từ 1 bảng bất kỳ
-        $sql = $this->base_model->select('*', $this->table, array(
-            // các kiểu điều kiện where
-            'post_type' => $this->post_type,
-            'post_status' => PostType::PUBLICITY,
-            'post_name' => $slug,
-            'lang_key' => $lang
-        ), array(
+        $sql = $this->base_model->select(
+            '*',
+            $this->table,
+            array(
+                // các kiểu điều kiện where
+                'post_type' => $this->post_type,
+                'post_status' => PostType::PUBLICITY,
+                'post_name' => $slug,
+                'lang_key' => $lang
+            ),
+            array(
                 'order_by' => array(
                     'ID' => 'DESC'
                 ),
@@ -41,7 +45,7 @@ class Menu extends Post
                 'limit' => 1
             )
         );
-        //print_r( $sql );
+        //print_r($sql);
 
         // nếu không có -> tạo luôn 1 menu mẫu để admin chỉnh sửa sau
         if (empty($sql)) {
@@ -58,13 +62,17 @@ class Menu extends Post
 
                 // nếu không phải ngôn ngữ mặc định -> copy từ ngôn ngữ mặc định qua nếu có
                 if ($lang != LanguageCost::default_lang()) {
-                    $sql = $this->base_model->select('*', $this->table, array(
-                        // các kiểu điều kiện where
-                        'post_type' => $this->post_type,
-                        'post_status' => PostType::PUBLICITY,
-                        'post_name' => $slug,
-                        'lang_key' => LanguageCost::default_lang()
-                    ), array(
+                    $sql = $this->base_model->select(
+                        '*',
+                        $this->table,
+                        array(
+                            // các kiểu điều kiện where
+                            'post_type' => $this->post_type,
+                            'post_status' => PostType::PUBLICITY,
+                            'post_name' => $slug,
+                            'lang_key' => LanguageCost::default_lang()
+                        ),
+                        array(
                             'order_by' => array(
                                 'ID' => 'DESC'
                             ),
@@ -76,21 +84,24 @@ class Menu extends Post
                             'limit' => 1
                         )
                     );
-                    //print_r( $sql );
+                    //print_r($sql);
                     if (!empty($sql)) {
                         $data_insert['post_content'] = $sql['post_content'];
                         $data_insert['post_excerpt'] = $sql['post_excerpt'];
                         $data_insert['lang_parent'] = $sql['ID'];
-                        //print_r( $data_insert );
+                        //print_r($data_insert);
                     }
-                    //die( 'df dhdassa' );
+                    //die(__CLASS__ . ':' . __LINE__);
                 }
 
-                $insert_id = $this->insert_post($data_insert);
-                if ($insert_id > 0) {
+                $result_id = $this->insert_post($data_insert);
+                if (is_array($result_id) && isset($result_id['error'])) {
+                    die($result_id['error'] . ' in ' . __CLASS__ . ':' . __LINE__);
+                } else {
                     return $this->get_dynamic_menu($slug, $menu_type, $this->table, false);
                 }
-                //echo $insert_id . '<br>' . "\n";
+                //print_r($result_id);
+                //die(__CLASS__ . ':' . __LINE__);
             } else {
                 die('ERROR auto create new menu #' . $this->post_type . ':' . basename(__FILE__) . ':' . __LINE__);
             }
