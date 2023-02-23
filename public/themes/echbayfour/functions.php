@@ -77,6 +77,12 @@ defined('TRANS_CHECKBOXS_LABEL') || define(
  */
 //define( 'WGR_PAGES_PREFIX', 'pages' );
 
+//
+//define('WGR_POST_PERMALINK', '%ID%/%post_name%');
+//define('WGR_BLOG_PERMALINK', '%post_type%-%ID%/%post_name%');
+//define('WGR_PAGE_PERMALINK', '%page_base%%post_name%');
+//define('WGR_POSTS_PERMALINK', 'p/%post_type%/%ID%/%post_name%.html');
+
 /*
  * Thêm menu cho admin
  * Ngoài các menu mặc định, với mỗi website có thể thêm các menu tùy chỉnh khác nhau vào đây theo công thức mẫu

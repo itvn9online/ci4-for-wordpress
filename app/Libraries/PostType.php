@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Libraries;
 
 //
@@ -144,7 +145,7 @@ class PostType
     }
 
     // trả về định dạng của từng post type (nếu có) -> mặc định type = text
-    public static function meta_type($key)
+    public static function meta_type($key, $custom_arr = [])
     {
         $arr = [
             //'second_content' => 'textarea',
@@ -160,6 +161,10 @@ class PostType
         ];
         if (isset($arr[$key])) {
             return $arr[$key];
+        }
+        // dành cho custom type muốn định dạng input
+        if (isset($custom_arr[$key])) {
+            return $custom_arr[$key];
         }
 
         //
@@ -227,5 +232,4 @@ class PostType
         }
         return $arr;
     }
-
 }

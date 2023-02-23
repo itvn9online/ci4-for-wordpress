@@ -81,7 +81,7 @@ if ($totalThread > 0) {
         }
     }
     //echo basename(__FILE__) . ':' . __LINE__ . '<br>' . "\n";
-//print_r( $child_data );
+    //print_r( $child_data );
 } else {
     //echo basename(__FILE__) . ':' . __LINE__ . '<br>' . "\n";
     $public_part_page = '';
@@ -101,6 +101,6 @@ if (!defined('IN_CATEGORY_VIEW')) {
     $base_model->add_js('themes/' . THEMENAME . '/js/taxonomy.js', [
         'cdn' => CDN_BASE_URL,
     ], [
-            'defer'
-        ]);
+        'defer'
+    ]);
 }

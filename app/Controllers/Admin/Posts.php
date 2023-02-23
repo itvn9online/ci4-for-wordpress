@@ -518,6 +518,7 @@ class Posts extends Admin
                 'tags' => $this->tags,
                 'post_type' => $this->post_type,
                 'name_type' => $this->name_type,
+                'meta_custom_type' => [],
             )
         );
         return view('admin/admin_teamplate', $this->teamplate_admin);

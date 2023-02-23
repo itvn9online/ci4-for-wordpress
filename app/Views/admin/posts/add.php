@@ -105,7 +105,7 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                 }
 
                 //
-                $input_type = PostType::meta_type($k);
+                $input_type = PostType::meta_type($k, $meta_custom_type);
 
                 //
                 if ($input_type == 'hidden') {
@@ -292,7 +292,11 @@ $base_model->JSON_parse([
 </script>
 <?php
 
-$base_model->add_js('admin/js/posts.js');
-$base_model->add_js('admin/js/posts_add.js');
-// css riêng cho từng post type (nếu có)
-$base_model->add_js('admin/js/' . $post_type . '.js');
+//
+$base_model->adds_js([
+    'admin/js/posts.js',
+    'admin/js/posts_add.js',
+    // js riêng cho từng post type (nếu có)
+    'admin/js/' . $post_type . '.js',
+    'admin/js/' . $post_type . '_add.js',
+]);
