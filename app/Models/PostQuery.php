@@ -77,7 +77,7 @@ class PostQuery extends PostMeta
                         'post_name' => $data['post_name'],
                         'post_type' => $data['post_type'],
                         //'post_status !=' => PostType::DELETED,
-                        'lang_key' => LanguageCost::lang_key()
+                        'lang_key' => $default_data['lang_key']
                     ],
                     [
                         'where_not_in' => array(
@@ -121,8 +121,9 @@ class PostQuery extends PostMeta
         }
         // đồng bộ dữ liệu trước khi insert
         $data = $this->sync_post_data($data);
-        //print_r( $data );
-        //die( __CLASS__ . ':' . __LINE__ );
+        //print_r($data);
+        //print_r($data_meta);
+        //die(__CLASS__ . ':' . __LINE__);
 
         // insert post
         $result_id = $this->base_model->insert($this->table, $data, true);
@@ -218,7 +219,7 @@ class PostQuery extends PostMeta
                         'post_type' => $current_slug['post_type'],
                         //'post_status !=' => PostType::DELETED,
                         //'post_status' => $current_slug[ 'post_status' ],
-                        'lang_key' => $default_data['lang_key']
+                        'lang_key' => LanguageCost::lang_key()
                     ],
                     [
                         'where_not_in' => array(
@@ -294,7 +295,7 @@ class PostQuery extends PostMeta
         return $result_update;
     }
 
-    function select_post($post_id, $where = [], $filter = [], $select_col = '*')
+    public function select_post($post_id, $where = [], $filter = [], $select_col = '*')
     {
         if ($post_id > 0) {
             $where['ID'] = $post_id;
@@ -454,6 +455,9 @@ class PostQuery extends PostMeta
                     'selectCount' => 'ID',
                     'or_where' => $arr_or_where,
                     'where_not_in' => $where_not_in,
+                    'group_by' => array(
+                        'ID',
+                    ),
                     //'order_by' => $order_by,
                     //'get_sql' => 1,
                     //'show_query' => 1,
@@ -491,6 +495,9 @@ class PostQuery extends PostMeta
                     'or_where' => $arr_or_where,
                     'where_not_in' => $where_not_in,
                     'where_in' => $where_in,
+                    'group_by' => array(
+                        'ID',
+                    ),
                     'order_by' => $order_by,
                     //'get_sql' => 1,
                     //'show_query' => 1,

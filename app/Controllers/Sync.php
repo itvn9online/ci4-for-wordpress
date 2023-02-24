@@ -5,10 +5,13 @@ namespace App\Controllers;
 // Libraries
 use App\Libraries\UsersType;
 use App\Helpers\HtmlTemplate;
+use App\Libraries\LanguageCost;
 
 //
 class Sync extends BaseController
 {
+    public $lang_key = '';
+
     public function __construct()
     {
         $this->base_model = new \App\Models\Base();
@@ -16,6 +19,10 @@ class Sync extends BaseController
 
         //
         //$this->cache = \Config\ Services::cache();
+        $this->request = \Config\Services::request();
+
+        // kiểm tra segment vị trí thứ 1
+        $this->prefixLang($this->request->uri->getSegment(1));
     }
 
     public function vendor_sync($check_thirdparty_exist = true)
@@ -694,5 +701,37 @@ class Sync extends BaseController
 
         //
         return $result;
+    }
+
+    // kiểm tra segment tại vị trí thứ 1
+    protected function prefixLang($seg)
+    {
+        $arr_lang_support = LanguageCost::typeList();
+
+        //print_r($arr_lang_support);
+        if (
+            // nếu nó trùng với ngôn ngữ được hỗ trợ
+            isset($arr_lang_support[$seg]) &&
+            // nếu khác với ngôn ngữ chính
+            $seg != LanguageCost::default_lang() &&
+            // và không phải là ngôn ngữ đang hiển thị
+            $seg != $this->lang_key
+        ) {
+            // gán ngôn ngữ theo segment
+            $this->lang_key = $seg;
+            //die(__CLASS__ . ':' . __LINE__);
+            //echo $this->lang_key . '<br>' . "\n";
+        } else {
+            // gán ngôn ngữ theo cookies
+            $this->lang_key = LanguageCost::lang_key();
+        }
+
+        // xác định ngôn ngữ hiện tại
+        //echo $this->lang_key . '<br>' . "\n";
+    }
+
+    public function change_lang()
+    {
+        return LanguageCost::setLang();
     }
 }

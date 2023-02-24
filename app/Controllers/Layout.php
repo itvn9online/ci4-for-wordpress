@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 // Libraries
 use App\Libraries\PostType;
-use App\Libraries\LanguageCost;
 
 //
 class Layout extends Sync
@@ -12,7 +11,6 @@ class Layout extends Sync
     //public $CI = NULL;
 
     //
-    public $lang_key = '';
     public $breadcrumb = [];
     public $getconfig = NULL;
     public $taxonomy_post_size = '';
@@ -56,7 +54,6 @@ class Layout extends Sync
 
         //
         //$this->session = \Config\ Services::session();
-        $this->request = \Config\Services::request();
 
         //
         /*
@@ -71,10 +68,6 @@ class Layout extends Sync
         /*
          * bắt đầu code
          */
-        // xác định ngôn ngữ hiện tại
-        //$this->lang_key = $this->base_model->set_lang();
-        $this->lang_key = LanguageCost::lang_key();
-        //echo $this->lang_key . '<br>' . "\n";
 
         //$allurl = 'https://' . $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'REQUEST_URI' ];
 
@@ -210,7 +203,8 @@ class Layout extends Sync
                 'debug_enable' => $this->debug_enable,
                 //'menu' => $menu,
                 //'allurl' => $allurl,
-                'isMobile' => $this->isMobile
+                'isMobile' => $this->isMobile,
+                'html_lang' => $this->lang_key,
             )
         );
 
@@ -403,6 +397,7 @@ class Layout extends Sync
             $seo['canonical'] = rtrim($seo['canonical'], '/') . '/page/' . $ops['page_num'];
             $seo['shortlink'] = rtrim($seo['shortlink'], '/') . '&page_num=' . $ops['page_num'];
         }
+        //print_r($seo);
 
         // lấy danh sách nhóm con xem có không
         //$child_cat = $this->term_model->get_all_taxonomy( $data[ 'taxonomy' ] );
@@ -446,6 +441,7 @@ class Layout extends Sync
                 'taxonomy_post_size' => $this->taxonomy_post_size,
                 //'taxonomy_slider' => $this->taxonomy_slider,
                 'taxonomy_slider' => $taxonomy_slider,
+                'taxonomy' => $taxonomy,
                 'ops' => $ops,
                 'seo' => $seo,
                 'post_type' => $post_type,
@@ -1036,10 +1032,5 @@ class Layout extends Sync
             }
         }
         return $html;
-    }
-
-    public function change_lang()
-    {
-        return LanguageCost::set_lang();
     }
 }

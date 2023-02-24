@@ -55,7 +55,7 @@ $(document).ready(function () {
 			url =
 				'<a href="' +
 				url +
-				'" target="_blank" rel="nofollow" class="click-goto-edit"><span><i class="fa fa-edit"></i></span></a>';
+				'" target="_blank" rel="nofollow" class="click-goto-edit goto-post-edit"><span><i class="fa fa-edit"></i></span></a>';
 
 			if (insert_before != "") {
 				$(this).before(url);
@@ -109,12 +109,12 @@ $(document).ready(function () {
 			$(this).prepend(
 				'<a href="' +
 					url +
-					'" target="_blank" rel="nofollow" class="click-goto-edit"><span><i class="fa fa-edit"></i></span></a>'
+					'" target="_blank" rel="nofollow" class="click-goto-edit goto-taxonomy-edit"><span><i class="fa fa-edit"></i></span></a>'
 			);
 		}
 	});
 
 	$(".web-logo").before(
-		'<a href="admin/configs?support_tab=data_logo" target="_blank" rel="nofollow" class="click-goto-edit"><span><i class="fa fa-edit"></i></span></a>'
+		'<a href="admin/configs?support_tab=data_logo" target="_blank" rel="nofollow" class="click-goto-edit goto-option-edit"><span><i class="fa fa-edit"></i></span></a>'
 	);
 });

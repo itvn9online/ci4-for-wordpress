@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 // Libraries
@@ -96,6 +97,12 @@ class Sitemap extends Csrf
 
         // lấy custom post type
         foreach ($arr_custom_post_type as $k => $v) {
+            // không tạo sitemap cho các post type được chỉ định không public
+            if (isset($v['public']) && $v['public'] != 'on') {
+                continue;
+            }
+
+            //
             $arr_post_type[] = $k;
         }
         //print_r( $arr_post_type );
@@ -175,11 +182,15 @@ class Sitemap extends Csrf
 
         // lấy custom post type
         foreach ($arr_custom_taxonomy as $k => $v) {
+            // không tạo sitemap cho các taxonomy được chỉ định không public
+            if (isset($v['public']) && $v['public'] != 'on') {
+                continue;
+            }
             $arr_taxonomy_type[] = $k;
         }
-        //print_r( $arr_taxonomy_type );
+        //print_r($arr_taxonomy_type);
         $arr_taxonomy_type = array_unique($arr_taxonomy_type);
-        //print_r( $arr_taxonomy_type );
+        //print_r($arr_taxonomy_type);
 
         // ->
         foreach ($arr_taxonomy_type as $taxonomy_type) {
@@ -192,7 +203,7 @@ class Sitemap extends Csrf
             //print_r( $data );
             foreach ($data as $v) {
                 $get_list_sitemap .= $this->WGR_echo_sitemap_url_node(
-                        $this->term_model->get_full_permalink($v),
+                    $this->term_model->get_full_permalink($v),
                     1.0,
                     date($this->sitemap_date_format, strtotime($v['last_updated'])),
                 );
@@ -285,10 +296,10 @@ class Sitemap extends Csrf
         $get_list_sitemap = '';
         foreach ($data as $v) {
             $get_list_sitemap .= $this->WGR_echo_sitemap_url_node(
-                    $this->post_model->get_full_permalink($v),
+                $this->post_model->get_full_permalink($v),
                 0.5,
                 date($this->sitemap_date_format, strtotime($v['post_modified'])),
-                    array(
+                array(
                     'get_images' => $v['ID'],
                 )
             );
@@ -401,19 +412,19 @@ class Sitemap extends Csrf
             'post_parent >' => 0,
             'post_status' => PostType::INHERIT,
         ], [
-                /*
+            /*
                  'group_by' => array(
                  'post_parent',
                  ),
                  */
-                // hiển thị mã SQL để check
-                //'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-                'getNumRows' => 1,
-                //'offset' => 0,
-                'limit' => -1
-            ]);
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            'getNumRows' => 1,
+            //'offset' => 0,
+            'limit' => -1
+        ]);
     }
 
     private function media_sitemap($post_type, $page_num)
@@ -447,23 +458,23 @@ class Sitemap extends Csrf
                 'post_parent >' => 0,
                 'post_status' => PostType::INHERIT,
             ], [
-                    /*
+                /*
                      'group_by' => array(
                      'post_parent',
                      ),
                      */
-                    'order_by' => array(
-                        'post_parent' => 'ASC',
-                    ),
-                    // hiển thị mã SQL để check
-                    //'show_query' => 1,
-                    // trả về câu query để sử dụng cho mục đích khác
-                    //'get_query' => 1,
-                    //'getNumRows' => 1,
-                    'offset' => $offset,
-                    'limit' => $this->limit_post_get
-                    //'limit' => 50
-                ]);
+                'order_by' => array(
+                    'post_parent' => 'ASC',
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                //'getNumRows' => 1,
+                'offset' => $offset,
+                'limit' => $this->limit_post_get
+                //'limit' => 50
+            ]);
             //print_r( $data );
 
             //
@@ -491,24 +502,24 @@ class Sitemap extends Csrf
                         'ID' => $v['post_parent'],
                         'post_status' => PostType::PUBLICITY,
                     ], [
-                            /*
+                        /*
                              'group_by' => array(
                              'post_parent',
                              ),
                              */
-                            /*
+                        /*
                              'order_by' => array(
                              'post_parent' => 'ASC',
                              ),
                              */
-                            // hiển thị mã SQL để check
-                            //'show_query' => 1,
-                            // trả về câu query để sử dụng cho mục đích khác
-                            //'get_query' => 1,
-                            //'getNumRows' => 1,
-                            //'offset' => $offset,
-                            'limit' => 1
-                        ]);
+                        // hiển thị mã SQL để check
+                        //'show_query' => 1,
+                        // trả về câu query để sử dụng cho mục đích khác
+                        //'get_query' => 1,
+                        //'getNumRows' => 1,
+                        //'offset' => $offset,
+                        'limit' => 1
+                    ]);
                     //print_r( $parent_data );
                 }
                 $parent_id = $v['post_parent'];

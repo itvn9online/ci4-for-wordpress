@@ -19,6 +19,13 @@ body.is-admin #target_eb_iframe {
     display: block !important;
     padding: 0 !important;
     border: 0 none !important;
+    opacity: 0.5;
+    z-index: 9999;
+}
+
+.col .click-goto-edit {
+    position: absolute;
+    right: 0;
 }
 
 .click-goto-edit span {
@@ -41,4 +48,16 @@ body.is-admin #target_eb_iframe {
     border-radius: 2px;
     display: inline-block;
     font-size: 10pt;
+}
+
+.goto-taxonomy-edit:hover,
+.goto-option-edit:hover,
+.col:hover .click-goto-edit {
+    opacity: 1;
+}
+
+.goto-taxonomy-edit:hover,
+.goto-option-edit:hover,
+.col:hover .click-goto-edit span i {
+    font-size: 11pt;
 }

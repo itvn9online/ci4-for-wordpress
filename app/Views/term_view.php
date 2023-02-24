@@ -88,6 +88,7 @@ if ($totalThread > 0) {
     $child_data = [];
 }
 //echo basename(__FILE__) . ':' . __LINE__ . '<br>' . "\n";
+//echo $taxonomy;
 
 /*
  * nạp view riêng của từng theme nếu có

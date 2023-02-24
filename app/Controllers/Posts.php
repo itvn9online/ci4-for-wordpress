@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 // Libraries
@@ -22,11 +23,12 @@ class Posts extends Csrf
         return $this->post_details($id, $slug);
     }
 
-    public function post_details($id = 0, $slug = '')
+    public function post_details($id = 0, $slug = '', $data = NULL)
     {
         //echo $id . ' <br>' . "\n";
         //echo $slug . ' <br>' . "\n";
         //echo 'post details <br>' . "\n";
+        //print_r($data);
 
         //
         $this->cache_key = $this->post_model->key_cache($id);
@@ -40,10 +42,13 @@ class Posts extends Csrf
         }
 
         //
-        $data = $this->post_model->select_public_post($id, [
-            //'post_name' => $slug_1,
-            'post_type' => $this->post_type,
-        ]);
+        if ($data === NULL) {
+            $data = $this->post_model->select_public_post($id, [
+                //'post_name' => $slug_1,
+                'post_type' => $this->post_type,
+            ]);
+            //print_r($data);
+        }
         //print_r( $data );
         //die( __CLASS__ . ':' . __LINE__ );
         if (empty($data)) {
@@ -119,17 +124,17 @@ class Posts extends Csrf
                 'post_status' => PostType::PUBLICITY,
                 'taxonomy' => $this->taxonomy,
             ], [
-                    'where_in' => $arr_where_in,
-                    'order_by' => [
-                        'menu_order' => 'ASC',
-                        'ID' => 'ASC',
-                    ],
-                    //'get_sql' => 1,
-                    //'show_query' => 1,
-                    //'debug_only' => 1,
-                    //'offset' => 0,
-                    'limit' => 1
-                ]);
+                'where_in' => $arr_where_in,
+                'order_by' => [
+                    'menu_order' => 'ASC',
+                    'ID' => 'ASC',
+                ],
+                //'get_sql' => 1,
+                //'show_query' => 1,
+                //'debug_only' => 1,
+                //'offset' => 0,
+                'limit' => 1
+            ]);
             if (!empty($same_cat_data)) {
                 $same_cat_data = $this->post_model->list_meta_post([$same_cat_data]);
                 //print_r( $same_cat_data );
@@ -144,17 +149,17 @@ class Posts extends Csrf
                     'post_status' => PostType::PUBLICITY,
                     'taxonomy' => $this->taxonomy,
                 ], [
-                        'where_in' => $arr_where_in,
-                        'order_by' => [
-                            'menu_order' => 'DESC',
-                            'ID' => 'DESC',
-                        ],
-                        //'get_sql' => 1,
-                        //'show_query' => 1,
-                        //'debug_only' => 1,
-                        //'offset' => 0,
-                        'limit' => $post_per_page
-                    ]);
+                    'where_in' => $arr_where_in,
+                    'order_by' => [
+                        'menu_order' => 'DESC',
+                        'ID' => 'DESC',
+                    ],
+                    //'get_sql' => 1,
+                    //'show_query' => 1,
+                    //'debug_only' => 1,
+                    //'offset' => 0,
+                    'limit' => $post_per_page
+                ]);
                 if (!empty($after_cat_data)) {
                     $after_cat_data = $this->post_model->list_meta_post($after_cat_data);
 

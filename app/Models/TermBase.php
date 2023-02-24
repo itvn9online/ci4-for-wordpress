@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+// Libraries
+use App\Libraries\PostType;
+use App\Libraries\DeletedStatus;
+
 //
 class TermBase extends EbModel
 {
@@ -16,6 +20,9 @@ class TermBase extends EbModel
 
     public $relaTable = 'term_relationships';
     public $relaKey = 'object_id';
+
+    //
+    public $time_update_last_count = 6 * 3600;
 
     //protected $primaryTaxonomy = 'category';
 
@@ -63,8 +70,8 @@ class TermBase extends EbModel
                 $this->base_model->update_multiple($this->table, [
                     'term_meta_data' => json_encode($term_meta_data),
                 ], [
-                        'term_id' => $v['term_id'],
-                    ]);
+                    'term_id' => $v['term_id'],
+                ]);
 
                 // thông báo kiểu dữ liệu trả về
                 $data[$k]['term_meta_data'] = 'query';
@@ -105,16 +112,16 @@ class TermBase extends EbModel
                 'term_id' => $term_id,
                 'meta_key' => $key,
             ), array(
-                    'order_by' => array(
-                        'meta_id' => 'DESC'
-                    ),
-                    // hiển thị mã SQL để check
-                    //'show_query' => 1,
-                    // trả về câu query để sử dụng cho mục đích khác
-                    //'get_query' => 1,
-                    //'offset' => 2,
-                    'limit' => 1
-                ));
+                'order_by' => array(
+                    'meta_id' => 'DESC'
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                //'offset' => 2,
+                'limit' => 1
+            ));
 
             //
             if (empty($data)) {
@@ -128,19 +135,19 @@ class TermBase extends EbModel
             // các kiểu điều kiện where
             'term_id' => $term_id
         ), array(
-                'group_by' => array(
-                    'meta_key',
-                ),
-                'order_by' => array(
-                    'meta_id' => 'DESC'
-                ),
-                // hiển thị mã SQL để check
-                //'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-                //'offset' => 2,
-                //'limit' => 3
-            ));
+            'group_by' => array(
+                'meta_key',
+            ),
+            'order_by' => array(
+                'meta_id' => 'DESC'
+            ),
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            //'offset' => 2,
+            //'limit' => 3
+        ));
     }
 
     // hàm này sẽ kiểm tra xem có meta tương ứng của post không, có thì in ra luôn
@@ -202,6 +209,293 @@ class TermBase extends EbModel
 
         //
         return $prams;
+    }
+
+    public function select_term($term_id, $where = [], $filter = [], $select_col = '*')
+    {
+        if ($term_id > 0) {
+            $where['term_id'] = $term_id;
+        }
+        if (empty($where)) {
+            return [];
+        }
+
+        //
+        $default_filter = [
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            //'offset' => 2,
+            'limit' => 1
+        ];
+        foreach ($filter as $k => $v) {
+            $default_filter[$k] = $v;
+        }
+
+        // select dữ liệu từ 1 bảng bất kỳ
+        $data = $this->base_model->select($select_col, WGR_TERM_VIEW, $where, $default_filter);
+        //print_r($data);
+
+        // lấy meta của post này
+        if (!empty($data)) {
+            $data = $this->terms_meta_post([$data]);
+            //print_r($data);
+            return $data[0];
+        }
+
+        //
+        return [];
+    }
+
+    /*
+     * đồng bộ các tổng số nhóm con cho các danh mục
+     */
+    public function sync_term_child_count($run_h_only = true)
+    {
+        // chức năng này chỉ hoạt động vào khung giờ thấp điểm
+        if ($run_h_only === true && date('H') % 6 != 0) {
+            return 'Run in 0, 6, 12 or 24h only';
+        }
+
+        //
+        $prefix = WGR_TABLE_PREFIX;
+
+        //echo __FUNCTION__ . '<br>' . "\n";
+        $last_run = $this->base_model->scache(__FUNCTION__);
+        if ($last_run !== NULL) {
+            //print_r( $last_run );
+            return $last_run;
+        }
+        // lúc cần xem lỗi trên html thì mở dòng này để còn hiển thị html
+        //echo ' -->';
+
+        /*
+         * chức năng này chạy lâu hơn bình thường -> tạo cache luôn và ngay để tránh việc người sau vào lại thực thi cùng
+         * cái này cứ để giãn cách xa 1 chút, tầm nửa ngày đến vài ngày làm 1 lần cũng được
+         */
+        $this->base_model->scache(__FUNCTION__, time(), $this->time_update_last_count - rand(333, 666));
+
+        //
+        $the_view = $prefix . 'zzz_update_count';
+
+        //
+        $current_time = time();
+
+        /*
+         * tính tổng số nhóm con trong 1 nhóm
+         */
+        // reset tất cả về 0 đã
+        $this->base_model->update_multiple(
+            'terms',
+            [
+                'child_count' => 0,
+                'child_last_count' => $current_time,
+            ],
+            [
+                'is_deleted' => DeletedStatus::FOR_DEFAULT,
+            ],
+            [
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+            ]
+        );
+        //return false;
+
+        /*
+         * tạo 1 view trung gian để update tính tổng số nhóm con trong 1 nhóm
+         */
+        // -> dùng CI query builder để tạo query -> tránh sql injection
+        $sql = $this->base_model->select(
+            'parent, COUNT(term_id) AS c',
+            'term_taxonomy',
+            array(
+                // các kiểu điều kiện where
+                'parent > ' => 0,
+            ),
+            array(
+                'group_by' => array(
+                    'parent',
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => -1
+            )
+        );
+        $sql = "CREATE OR REPLACE VIEW $the_view AS $sql";
+        //echo $sql . '<br>' . "\n";
+        //die( __CLASS__ . ':' . __LINE__ );
+        $this->base_model->MY_query($sql);
+
+        // update count cho các parent trong view
+        $sql = "UPDATE " . $prefix . "terms
+        INNER JOIN
+            $the_view ON $the_view.parent = " . $prefix . "terms.term_id
+        SET
+            " . $prefix . "terms.child_count = $the_view.c
+        WHERE
+            is_deleted = ?";
+        //echo $sql . '<br>' . "\n";
+        $this->base_model->MY_query(
+            $sql,
+            [
+                DeletedStatus::FOR_DEFAULT
+            ]
+        );
+
+
+        /*
+         * tính tổng số bài viết trong 1 nhóm
+         */
+        // reset tất cả về 0 đã
+        $this->base_model->update_multiple(
+            'term_taxonomy',
+            [
+                'count' => 0
+            ],
+            [
+                'count >' => 0
+            ]
+        );
+
+        // đặt các relationships về XÓA
+        $sql = "UPDATE " . $prefix . "term_relationships
+        SET
+            is_deleted = ?";
+        //echo $sql . '<br>' . "\n";
+        $this->base_model->MY_query(
+            $sql,
+            [
+                DeletedStatus::DELETED
+            ]
+        );
+
+        // đặt trạng thái public các relationships của post đang public
+        $params = [];
+        $sql = "UPDATE " . $prefix . "term_relationships
+        INNER JOIN
+            " . $prefix . "posts ON  " . $prefix . "posts.ID = " . $prefix . "term_relationships.object_id
+        SET
+            " . $prefix . "term_relationships.is_deleted = ?";
+        $params[] = DeletedStatus::FOR_DEFAULT;
+
+        //
+        $sql .= "WHERE " . $prefix . "posts.post_status = ?";
+        $params[] = PostType::PUBLICITY;
+
+        //
+        //echo $sql . '<br>' . "\n";
+        $this->base_model->MY_query($sql, $params);
+        //return false;
+
+        /*
+         * tạo 1 view trung gian để update tính tổng số bài viết trong 1 nhóm
+         */
+        // -> dùng CI query builder để tạo query -> tránh sql injection
+        $sql = $this->base_model->select(
+            'term_taxonomy_id, COUNT(object_id) AS c',
+            'term_relationships',
+            array(
+                // các kiểu điều kiện where
+                'is_deleted' => DeletedStatus::FOR_DEFAULT,
+            ),
+            array(
+                'group_by' => array(
+                    'term_taxonomy_id',
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => -1
+            )
+        );
+        $sql = "CREATE OR REPLACE VIEW $the_view AS $sql";
+        //echo $sql . '<br>' . "\n";
+        $this->base_model->MY_query($sql);
+
+        // update count cho các parent trong view
+        $sql = "UPDATE " . $prefix . "term_taxonomy
+        INNER JOIN
+            $the_view ON $the_view.term_taxonomy_id = " . $prefix . "term_taxonomy.term_id
+        SET
+            " . $prefix . "term_taxonomy.count = $the_view.c";
+        //echo $sql . '<br>' . "\n";
+        $this->base_model->MY_query($sql);
+
+
+        /*
+         * tạo view để tính tổng số bài trong nhóm con, sau đó update cho nhóm cha -> tăng xác suất xuất hiện của nhóm cha
+         */
+        // -> dùng CI query builder để tạo query -> tránh sql injection
+        $sql = $this->base_model->select(
+            'parent, SUM(count) AS t',
+            'term_taxonomy',
+            array(
+                // các kiểu điều kiện where
+                'parent > ' => 0,
+            ),
+            array(
+                'group_by' => array(
+                    'parent',
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => -1
+            )
+        );
+        $sql = "CREATE OR REPLACE VIEW $the_view AS $sql";
+        //echo $sql . '<br>' . "\n";
+        $this->base_model->MY_query($sql);
+
+        // update count cho các parent trong view
+        $sql = "UPDATE " . $prefix . "term_taxonomy
+        INNER JOIN
+            $the_view ON $the_view.parent = " . $prefix . "term_taxonomy.term_id
+        SET
+            " . $prefix . "term_taxonomy.count = " . $prefix . "term_taxonomy.count+$the_view.t";
+        //echo $sql . '<br>' . "\n";
+        $this->base_model->MY_query($sql);
+
+        // TEST
+        //return false;
+
+
+        /*
+         * xong thì xóa luôn view này đi
+         */
+        $sql = "DROP VIEW IF EXISTS $the_view";
+        //echo $sql . '<br>' . "\n";
+        $this->base_model->MY_query($sql);
+
+
+        /*
+         * dọn dẹp các cache liên quan đến term để nếu trước đó nó dính thì sau nó còn nạp lại luôn
+         */
+        $this->base_model->dcache('get_all_taxonomy-');
+        $this->base_model->dcache('term-');
+
+        //
+        return true;
     }
 
     // trả về key cho term cache

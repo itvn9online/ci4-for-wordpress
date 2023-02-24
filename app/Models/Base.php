@@ -2,6 +2,7 @@
 /*
  * file này chủ yếu xử lý các vấn đề chung chung, chẳng biết gọi tên chính xác là gì -> hổ lốn
  */
+
 namespace App\Models;
 
 //
@@ -151,8 +152,7 @@ class Base extends Csdl
                 'm' => $m,
                 'lnk' => $lnk,
             ]
-        )
-        );
+        ));
     }
 
     //

@@ -129,7 +129,7 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                             <?php
 
                             // hiển thị ghi chú nếu có
-                            PostType::meta_desc($k);
+                            PostType::meta_desc($k, $meta_custom_desc);
 
                             ?>
                         </div>
@@ -225,7 +225,7 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                         } // END else
 
                         // hiển thị ghi chú nếu có
-                        PostType::meta_desc($k);
+                        PostType::meta_desc($k, $meta_custom_desc);
 
                         ?>
                     </div>

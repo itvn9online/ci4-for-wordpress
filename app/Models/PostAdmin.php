@@ -42,14 +42,20 @@ class PostAdmin extends Post
 
         //
         $allow_taxonomy = [
-                TaxonomyType::POSTS,
-                TaxonomyType::TAGS,
-                TaxonomyType::BLOGS,
-                TaxonomyType::BLOG_TAGS,
+            TaxonomyType::POSTS,
+            TaxonomyType::TAGS,
+            TaxonomyType::BLOGS,
+            TaxonomyType::BLOG_TAGS,
         ];
         // thêm custom taxonomy vào phần add menu
         $arr_custom_name = [];
         foreach ($arr_custom_taxonomy as $k => $v) {
+            // không tạo menu cho các taxonomy được chỉ định không public
+            if (isset($v['public']) && $v['public'] != 'on') {
+                continue;
+            }
+
+            //
             if (!in_array($k, $allow_taxonomy)) {
                 $allow_taxonomy[] = $k;
 
@@ -128,9 +134,9 @@ class PostAdmin extends Post
 
         //
         $allow_post_type = [
-                PostType::PAGE,
-                PostType::POST,
-                PostType::BLOG,
+            PostType::PAGE,
+            PostType::POST,
+            PostType::BLOG,
         ];
         // thêm custom post type vào phần add menu
         $arr_custom_name = [];

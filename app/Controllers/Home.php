@@ -7,8 +7,6 @@ use App\Libraries\DeletedStatus;
 use App\Libraries\TaxonomyType;
 use App\Libraries\PostType;
 
-//use App\Libraries\LanguageCost;
-
 //
 class Home extends Posts
 {
@@ -165,10 +163,10 @@ class Home extends Posts
                     'post_type' => PostType::POST,
                 ]);
                 if (!empty($data)) {
-                    //print_r( $data );
+                    //print_r($data);
 
                     //
-                    return $this->post_details($data['ID'], $data['post_name']);
+                    return $this->post_details($data['ID'], $data['post_name'], $data);
                 }
                 // không có post -> thử tìm theo blog
                 else {
@@ -185,7 +183,7 @@ class Home extends Posts
                         $this->file_view = 'blog_view';
 
                         //
-                        return $this->post_details($data['ID'], $data['post_name']);
+                        return $this->post_details($data['ID'], $data['post_name'], $data);
                     }
                 }
             }
@@ -294,7 +292,13 @@ class Home extends Posts
             }
             // các custom post type -> dùng view theo post type (ngoại trừ post type ADS)
             else if ($data['post_type'] != PostType::ADS) {
-                return $this->pageDetail($data, $data['post_type'] . '_view');
+                // xem có file view tương ứng không
+                if (file_exists(VIEWS_PATH . $data['post_type'] . '_view.php')) {
+                    // có thì hiển thị view ra
+                    return $this->pageDetail($data, $data['post_type'] . '_view');
+                } else {
+                    return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Bạn không có quyền xem thông tin này...');
+                }
             }
         }
         //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
@@ -566,7 +570,15 @@ class Home extends Posts
 
             // tìm được post tương ứng thì mới show category ra
             if (!empty($get_post_type)) {
-                return $this->category($data, $get_post_type['post_type'], $taxonomy_type, 'term_view', [
+                // nếu có view riêng của taxonomy -> sử dụng view riêng
+                if ($taxonomy_type != '' && file_exists(VIEWS_PATH . $taxonomy_type . '_view.php')) {
+                    $file_view = $taxonomy_type . '_view';
+                } else {
+                    $file_view = 'term_view';
+                }
+
+                //
+                return $this->category($data, $get_post_type['post_type'], $taxonomy_type, $file_view, [
                     'page_num' => $page_num,
                     'cache_key' => $cache_key,
                 ]);

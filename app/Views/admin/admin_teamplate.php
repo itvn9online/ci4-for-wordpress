@@ -10,7 +10,7 @@
  * thêm custom taxonomy
  */
 
-global $arr_custom_taxonomy;
+//global $arr_custom_taxonomy;
 //print_r( $arr_custom_taxonomy );
 
 

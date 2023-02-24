@@ -394,16 +394,82 @@ class Posts extends Admin
             return $this->add_new();
         }
 
+        //
+        $file_view = 'add';
+
         // edit
         $url_next_post = '';
-        //if ($id != '') {
         if ($id > 0) {
             // select dữ liệu từ 1 bảng bất kỳ
             $data = $this->post_model->select_post($id, [
                 'post_type' => $this->post_type,
+                //'lang_key' => $this->lang_key,
             ]);
             if (empty($data)) {
-                die('post not found!');
+                die('post not found!' . __CLASS__ . ':' . __LINE__);
+            }
+            //print_r($data);
+            // nếu ngôn ngữ của post không đúng với ngôn ngữ đang hiển thị
+            if ($data['lang_key'] != $this->lang_key) {
+                // ngôn ngữ hiện tại có cha -> chuyển đến bản ghi cha
+                if ($data['lang_parent'] > 0) {
+                    $this->redirectLanguage($data, $data['lang_parent']);
+                }
+                // nếu không có cha
+                else {
+                    // tìm bản ghi con
+                    $child_data = $this->post_model->select_post(0, [
+                        'post_type' => $this->post_type,
+                        'lang_key' => $this->lang_key,
+                        'lang_parent' => $data['ID'],
+                    ]);
+                    //print_r($child_data);
+
+                    // nếu không có thì báo lỗi hiển thị
+                    if (empty($child_data)) {
+                        // nếu bài viết hiện tại đang là ngôn ngữ mặc định
+                        if (isset($_GET['lang_duplicate']) && $data['lang_key'] == LanguageCost::default_lang()) {
+                            // nhân bản cho ngôn ngữ phụ
+                            //print_r($data);
+                            // nhân bản data
+                            $duplicate_data = $data;
+                            $duplicate_data['lang_key'] = $this->lang_key;
+                            $duplicate_data['lang_parent'] = $data['ID'];
+                            // xóa phần ID để tránh xung đột primary key
+                            $duplicate_data['ID'] = 0;
+                            unset($duplicate_data['ID']);
+                            $post_meta = $duplicate_data['post_meta'];
+                            unset($duplicate_data['post_meta']);
+
+                            //
+                            //print_r($duplicate_data);
+                            //die(__CLASS__ . ':' . __LINE__);
+
+                            //
+                            $result_id = $this->post_model->insert_post($duplicate_data, $post_meta);
+                            if (is_array($result_id) && isset($result_id['error'])) {
+                                die($result_id['error'] . ':' . __CLASS__ . ':' . __LINE__);
+                            }
+                            //echo $result_id;
+                            $redirect_to = $this->post_model->get_admin_permalink($this->post_type, $result_id, $this->controller_slug);
+                            //die($redirect_to);
+
+                            // sau đó redirect tới
+                            $this->MY_redirect($redirect_to, 301);
+                            die(__CLASS__ . ':' . __LINE__);
+                        }
+
+                        // thay đổi file view sang file thông báo tạo ngôn ngữ mới
+                        $file_view = 'clone_lang';
+                        // cố định thư mục chứa view
+                        $this->add_view_path = 'posts';
+
+                        // mặc định hiển thị thông báo lỗi cho việc lấy dữ liệu
+                        //die('post not found because data_lang_key(' . $data['lang_key'] . ') != this_lang_key(' . $this->lang_key . ')');
+                    } else {
+                        $this->redirectLanguage($child_data, $child_data['ID']);
+                    }
+                }
             }
 
             // tự động cập nhật lại slug khi nhân bản
@@ -500,7 +566,7 @@ class Posts extends Admin
 
         //
         $this->teamplate_admin['content'] = view(
-            'admin/' . $this->add_view_path . '/add',
+            'admin/' . $this->add_view_path . '/' . $file_view,
             array(
                 'controller_slug' => $this->controller_slug,
                 'lang_key' => $this->lang_key,
@@ -518,7 +584,9 @@ class Posts extends Admin
                 'tags' => $this->tags,
                 'post_type' => $this->post_type,
                 'name_type' => $this->name_type,
+                // mảng tham số tùy chỉnh dành cho các custom post type
                 'meta_custom_type' => [],
+                'meta_custom_desc' => [],
             )
         );
         return view('admin/admin_teamplate', $this->teamplate_admin);
@@ -1006,5 +1074,17 @@ class Posts extends Admin
             return $admin_permalink;
         }
         $this->MY_redirect($admin_permalink, 301);
+    }
+
+    // chuyển đến bản ghi dựa theo ngôn ngữ đang xem
+    protected function redirectLanguage($data, $id)
+    {
+        // xác định url cha
+        $redirect_to = $this->post_model->get_admin_permalink($data['post_type'], $id, $this->controller_slug);
+        //die($redirect_to);
+
+        // sau đó redirect tới
+        $this->MY_redirect($redirect_to, 301);
+        die(__CLASS__ . ':' . __LINE__);
     }
 }

@@ -11,18 +11,8 @@ class LanguageCost
 
     const CK_LANG_NAME = 'show_language';
 
-    private static $items = array(
-        array(
-            'value' => 'vn',
-            'text' => 'Tiếng Việt',
-            'css_class' => 'text-muted'
-        ),
-        array(
-            'value' => 'en',
-            'text' => 'English',
-            'css_class' => 'text-success'
-        ),
-    );
+    private static $langs = NULL;
+    private static $items = SITE_LANGUAGE_SUPPORT;
 
     public static function get_list($textlang = null)
     {
@@ -32,18 +22,21 @@ class LanguageCost
     public static function typeList($key = '')
     {
         // tạo mảng chứa danh sách các ngôn ngữ được hỗ trợ
-        $arr = [];
-        foreach (self::$items as $values) {
-            $arr[$values["value"]] = $values["text"];
+        if (self::$langs == NULL) {
+            $arr = [];
+            foreach (self::$items as $values) {
+                $arr[$values["value"]] = $values["text"];
+            }
+            self::$langs = $arr;
         }
         //print_r($arr);
         //die(__CLASS__ . ':' . __LINE__);
 
         //
         if ($key == '') {
-            return $arr;
+            return self::$langs;
         }
-        return $arr[$key];
+        return self::$langs[$key];
     }
 
     private static function unparse_url($parsed_url)
@@ -60,7 +53,7 @@ class LanguageCost
         return "$scheme$user$pass$host$port$path$query$fragment";
     }
 
-    public static function set_lang()
+    public static function setLang()
     {
         if (isset($_GET['set_lang'])) {
             $lang = trim($_GET['set_lang']);
@@ -130,6 +123,7 @@ class LanguageCost
     public static function default_lang()
     {
         //return self::VIETNAMESE;
-        return self::$items[0]['value'];
+        //return self::$items[0]['value'];
+        return SITE_LANGUAGE_DEFAULT;
     }
 }

@@ -6,26 +6,10 @@ use App\Libraries\TaxonomyType;
 // css riêng cho từng post type (nếu có)
 $base_model->add_css('admin/css/' . $taxonomy . '.css');
 
+//
+include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
+
 ?>
-<ul class="admin-breadcrumb">
-    <li><a href="admin/<?php echo $controller_slug; ?>">Danh sách
-            <?php echo $name_type; ?>
-        </a></li>
-    <li>
-        <?php
-        if ($data['term_id'] > 0) {
-        ?>
-            Chỉnh sửa
-        <?php
-        } else {
-        ?>
-            Thêm mới
-        <?php
-        }
-        echo $name_type;
-        ?>
-    </li>
-</ul>
 <div class="widget-box">
     <div class="widget-content nopadding">
         <form action="" method="post" name="admin_global_form" id="admin_global_form" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">

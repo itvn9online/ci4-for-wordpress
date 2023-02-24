@@ -93,6 +93,20 @@ if (file_exists(THEMEPATH . 'functions.php')) {
     include THEMEPATH . 'functions.php';
 }
 
+// ngôn ngữ của website -> mặc định chỉ chạy 1 ngôn ngữ, nếu muốn chạy nhiều ngôn ngữ thì tăng số mảng lên
+defined('SITE_LANGUAGE_SUPPORT') || define(
+    'SITE_LANGUAGE_SUPPORT',
+    [
+        [
+            'value' => 'vn',
+            'text' => 'Tiếng Việt',
+            'css_class' => 'text-muted'
+        ],
+    ]
+);
+// ngôn ngữ mặc định -> đặt là mảng số 0
+defined('SITE_LANGUAGE_DEFAULT') || define('SITE_LANGUAGE_DEFAULT', SITE_LANGUAGE_SUPPORT[0]['value']);
+
 // Số lượng bản dịch dạng input -> website nào cần dùng nhiều tăng số lượng trong file functions lên
 //defined('NUMBER_TRANS_INPUT') || define('NUMBER_TRANS_INPUT', 20);
 // Số lượng bản dịch dạng textarea -> website nào cần dùng nhiều tăng số lượng trong file functions lên

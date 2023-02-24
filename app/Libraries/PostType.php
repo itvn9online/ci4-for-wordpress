@@ -172,7 +172,7 @@ class PostType
     }
 
     // description của từng meta nếu có
-    public static function meta_desc($key)
+    public static function meta_desc($key, $custom_arr = [])
     {
         $arr = [
             'url_video' => 'Bạn có thể nhập vào URL video trên Youtube (Ví dụ: https://youtu.be/<strong>{ID}</strong>) hoặc URL video MP4, các định dạng khác hiện chưa được hỗ trợ. <br> Ảnh đại diện theo video: http://i3.ytimg.com/vi/<strong>{ID}</strong>/hqdefault.jpg hoặc http://i3.ytimg.com/vi/<strong>{ID}</strong>/maxresdefault.jpg hoặc https://img.youtube.com/vi/<strong>{ID}</strong>/0.jpg',
@@ -182,6 +182,10 @@ class PostType
         ];
         if (isset($arr[$key])) {
             echo '<p class="controls-text-note">' . $arr[$key] . '</p>';
+        }
+        // dành cho custom type muốn định dạng input
+        if (isset($custom_arr[$key])) {
+            echo '<p class="controls-text-note">' . $custom_arr[$key] . '</p>';
         }
     }
 

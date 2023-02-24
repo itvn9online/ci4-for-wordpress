@@ -6,7 +6,6 @@
 namespace App\Models;
 
 // Libraries
-//use App\Libraries\LanguageCost;
 //use CodeIgniter\ Model;
 
 class Session
@@ -132,13 +131,6 @@ class Session
         $str = substr($str, 2, 6);
         return md5($str);
     }
-
-    /*
-    public function set_lang()
-    {
-        return LanguageCost::set_lang();
-    }
-    */
 
     // cache bên model là cache select database -> chỉ kiểm tra theo key truyền vào -> không kiểm tra theo session login
     public function scache($key, $value = '', $time = MINI_CACHE_TIMEOUT)

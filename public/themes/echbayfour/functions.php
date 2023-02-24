@@ -30,6 +30,37 @@
 // Mặc định không cho xóa hoàn toàn dữ liệu trong mysql, nếu bạn muốn xóa hẳn thì có thể kích hoạt tính năng này.
 //define( 'ALLOW_USING_MYSQL_DELETE', true );
 
+
+/*
+* ngôn ngữ hiển thị của website
+*/
+// các ngôn ngữ được hỗ trợ
+/*
+define(
+    'SITE_LANGUAGE_SUPPORT',
+    [
+        [
+            'value' => 'vn',
+            'text' => 'Tiếng Việt',
+            'css_class' => 'text-muted'
+        ],
+        // muốn chạy bao nhiêu ngôn ngữ thì thêm bằng đấy mảng vào đây
+        [
+            'value' => 'en',
+            'text' => 'English',
+            'css_class' => 'text-success'
+        ],
+    ]
+);
+*/
+
+// ngôn ngữ mặc định
+// -> đặt là mảng số 0
+//defined('SITE_LANGUAGE_DEFAULT') || define('SITE_LANGUAGE_DEFAULT', SITE_LANGUAGE_SUPPORT[0]['value']);
+// hoặc định nghĩa cụ thể 1 ngôn ngữ
+//define('SITE_LANGUAGE_DEFAULT', 'vn');
+
+
 // Số lượng bản dịch dạng input -> website nào cần dùng nhiều tăng số lượng trong file functions lên
 //define( 'NUMBER_TRANS_INPUT', 30 );
 // Số lượng bản dịch dạng textarea -> website nào cần dùng nhiều tăng số lượng trong file functions lên
@@ -111,21 +142,23 @@ UsersType::ADMIN
 */
 
 /*
- * đăng ký taxonomy riêng
+ * đăng ký taxonomy riêng nếu muốn taxonomy này được public ra ngoài
  */
 /*
-register_taxonomy( 'custom_taxonomy', [
-'name' => 'Custom name',
-'set_parent' => true,
-'slug' => '',
-] );
+register_taxonomy('custom_taxonomy', [
+    'name' => 'Custom name',
+    'set_parent' => true,
+    'slug' => '',
+    //'public' => 'off',
+]);
 */
 
 /*
- * đăng ký post type riêng
+ * đăng ký taxonomy riêng nếu muốn post type này được public ra ngoài
  */
 /*
-register_post_type( 'custom_post_type', [
-'name' => 'Custom name'
-] );
+register_post_type('custom_post_type', [
+    'name' => 'Custom name',
+    //'public' => 'off',
+]);
 */
