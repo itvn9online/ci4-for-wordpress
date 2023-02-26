@@ -2,7 +2,7 @@
 <html lang="<?php
             //$html_lang = LanguageCost::lang_key();
             echo (($html_lang == 'vn' || $html_lang == '') ? 'vi' : $html_lang);
-            ?>" class="no-js no-svg" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+            ?>" data-lang="<?php echo $html_lang; ?>" data-default-lang="<?php echo SITE_LANGUAGE_DEFAULT; ?>" class="no-js no-svg" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
 
 <head>
     <?php

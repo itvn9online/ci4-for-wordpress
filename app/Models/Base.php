@@ -11,6 +11,8 @@ use App\Helpers\HtmlTemplate;
 
 class Base extends Csdl
 {
+    public $lang_key = '';
+
     public function __construct()
     {
         parent::__construct();

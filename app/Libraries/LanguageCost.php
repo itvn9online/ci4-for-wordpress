@@ -11,6 +11,8 @@ class LanguageCost
 
     const CK_LANG_NAME = 'show_language';
 
+    // hiển thị ngôn ngữ theo segment
+    private static $seg_lang = NULL;
     private static $langs = NULL;
     private static $items = SITE_LANGUAGE_SUPPORT;
 
@@ -53,56 +55,66 @@ class LanguageCost
         return "$scheme$user$pass$host$port$path$query$fragment";
     }
 
+    // segment lang -> hiển thị ngôn ngữ theo segment
+    public static function segLang($lang)
+    {
+        self::$seg_lang = $lang;
+    }
+
+    public static function saveLang($lang)
+    {
+        //echo $lang . '<br>' . "\n";
+
+        //
+        $arr = self::typeList();
+        if (isset($arr[$lang])) {
+            setcookie(self::CK_LANG_NAME, $lang, time() + (86400 * 30), "/"); // 86400 = 1 day * 30 = 1 month
+
+            // nếu có chỉ định redirect tới khu nào đó
+            if (isset($_GET['redirect_to'])) {
+                $redirect_to = $_GET['redirect_to'];
+                echo $redirect_to . '<br>' . PHP_EOL;
+                header('location:' . $redirect_to);
+                die(__CLASS__ . ':' . __LINE__);
+            }
+
+            // mặc địh thì redirect về trang chủ
+            //print_r( $_SERVER );
+            $full_url = parse_url(DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/'));
+            //print_r( $full_url );
+            if (isset($full_url['query'])) {
+                $full_url['query'] = '';
+                unset($full_url['query']);
+            }
+            //print_r( $full_url );
+            $full_url = self::unparse_url($full_url);
+            //print_r( $full_url );
+
+            //
+            //print_r( $_GET );
+            $query = [];
+            foreach ($_GET as $k => $v) {
+                if ($k == 'set_lang') {
+                    continue;
+                }
+                $query[] = $k . '=' . $v;
+            }
+            //print_r( $query );
+            if (!empty($query)) {
+                $full_url .= '?' . implode('&', $query);
+            }
+            //print_r( $full_url );
+            header('location:' . $full_url);
+
+            //
+            return $lang;
+        }
+    }
+
     public static function setLang()
     {
         if (isset($_GET['set_lang'])) {
-            $lang = trim($_GET['set_lang']);
-            //echo $lang . '<br>' . "\n";
-
-            //
-            $arr = self::typeList();
-            if (isset($arr[$lang])) {
-                setcookie(self::CK_LANG_NAME, $lang, time() + (86400 * 30), "/"); // 86400 = 1 day * 30 = 1 month
-
-                // nếu có chỉ định redirect tới khu nào đó
-                if (isset($_GET['redirect_to'])) {
-                    $redirect_to = $_GET['redirect_to'];
-                    echo $redirect_to . '<br>' . PHP_EOL;
-                    header('location:' . $redirect_to);
-                    die(__CLASS__ . ':' . __LINE__);
-                }
-
-                // mặc địh thì redirect về trang chủ
-                //print_r( $_SERVER );
-                $full_url = parse_url(DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/'));
-                //print_r( $full_url );
-                if (isset($full_url['query'])) {
-                    $full_url['query'] = '';
-                    unset($full_url['query']);
-                }
-                //print_r( $full_url );
-                $full_url = self::unparse_url($full_url);
-                //print_r( $full_url );
-
-                //
-                //print_r( $_GET );
-                $query = [];
-                foreach ($_GET as $k => $v) {
-                    if ($k == 'set_lang') {
-                        continue;
-                    }
-                    $query[] = $k . '=' . $v;
-                }
-                //print_r( $query );
-                if (!empty($query)) {
-                    $full_url .= '?' . implode('&', $query);
-                }
-                //print_r( $full_url );
-                header('location:' . $full_url);
-
-                //
-                return $lang;
-            }
+            self::saveLang(trim($_GET['set_lang']));
         }
 
         //
@@ -111,7 +123,10 @@ class LanguageCost
 
     public static function lang_key()
     {
-        if (isset($_COOKIE[self::CK_LANG_NAME])) {
+        if (self::$seg_lang !== NULL) {
+            $lang = self::$seg_lang;
+            //echo $lang;
+        } else if (isset($_COOKIE[self::CK_LANG_NAME])) {
             $lang = $_COOKIE[self::CK_LANG_NAME];
         } else {
             //$lang = self::VIETNAMESE;

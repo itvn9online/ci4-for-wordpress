@@ -86,12 +86,16 @@ defined('THEMENAME') || define('THEMENAME', 'echbayfour');
 define('THEMEPATH', PUBLIC_PUBLIC_PATH . 'themes/' . THEMENAME . '/');
 //die( THEMEPATH );
 
+
+####################################################################
 /*
  * nạp file function của từng theme
  */
 if (file_exists(THEMEPATH . 'functions.php')) {
     include THEMEPATH . 'functions.php';
 }
+####################################################################
+
 
 // ngôn ngữ của website -> mặc định chỉ chạy 1 ngôn ngữ, nếu muốn chạy nhiều ngôn ngữ thì tăng số mảng lên
 defined('SITE_LANGUAGE_SUPPORT') || define(
@@ -101,11 +105,13 @@ defined('SITE_LANGUAGE_SUPPORT') || define(
             'value' => 'vn',
             'text' => 'Tiếng Việt',
             'css_class' => 'text-muted'
-        ],
+        ]
     ]
 );
 // ngôn ngữ mặc định -> đặt là mảng số 0
 defined('SITE_LANGUAGE_DEFAULT') || define('SITE_LANGUAGE_DEFAULT', SITE_LANGUAGE_SUPPORT[0]['value']);
+// kiểu hiển thị đa ngôn ngữ (true:có hỗ trợ|false: không hỗ trợ), nếu là sub-folder thì sẽ hỗ trợ prefix cho routes, url cũng sẽ thêm prefix vào trước (nếu tắt đi thì kiểu đa ngôn ngữ sẽ là sub-domain)
+defined('SITE_LANGUAGE_SUB_FOLDER') || define('SITE_LANGUAGE_SUB_FOLDER', true);
 
 // Số lượng bản dịch dạng input -> website nào cần dùng nhiều tăng số lượng trong file functions lên
 //defined('NUMBER_TRANS_INPUT') || define('NUMBER_TRANS_INPUT', 20);

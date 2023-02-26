@@ -183,6 +183,11 @@ class PostBase extends EbModel
             $url = WGR_POSTS_PERMALINK;
         }
 
+        // thêm prefix cho url -> hỗ trợ đa ngôn ngữ sub-folder
+        if (SITE_LANGUAGE_SUB_FOLDER == true && $data['lang_key'] != SITE_LANGUAGE_DEFAULT) {
+            $url = $data['lang_key'] . '/' . $url;
+        }
+
         //
         $tmp = [
             'page_base' => PAGE_BASE_URL,

@@ -188,7 +188,9 @@ class PostPosts extends PostSlider
     {
         $in_cache = '';
         if ($using_cache === true) {
-            $in_cache = __FUNCTION__ . '-' . $slug . '-' . LanguageCost::lang_key();
+            $in_cache = __FUNCTION__ . '-' . $slug . '-';
+            //$in_cache .= LanguageCost::lang_key();
+            $in_cache .= $this->base_model->lang_key;
         }
 
         //

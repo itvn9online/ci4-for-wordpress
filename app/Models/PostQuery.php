@@ -388,12 +388,18 @@ class PostQuery extends PostMeta
             ];
         }
 
+        //
+        if (!isset($post_cat['lang_key']) || $post_cat['lang_key'] == '') {
+            $post_cat['lang_key'] = LanguageCost::lang_key();
+        }
+
 
         //
         $where = [
             'post_type' => $post_type,
             'post_status' => PostType::PUBLICITY,
             'taxonomy' => $post_cat['taxonomy'],
+            'lang_key' => $post_cat['lang_key'],
             //'(term_taxonomy.term_id = ' . $post_cat[ 'term_id' ] . ' OR term_taxonomy.parent = ' . $post_cat[ 'term_id' ] . ')' => NULL,
         ];
         /*
@@ -506,7 +512,7 @@ class PostQuery extends PostMeta
                     'limit' => $limit
                 ]
             );
-            //print_r( $data );
+            //print_r($data);
         }
 
         //
@@ -540,8 +546,8 @@ class PostQuery extends PostMeta
 
         // trả về dữ liệu
         $get_data = $this->get_auto_post($slug, $ops['post_type'], $ops['taxonomy'], $ops['limit']);
-        //print_r( $get_data );
-        //die( __CLASS__ . ':' . __LINE__ );
+        //print_r($get_data);
+        //die(__CLASS__ . ':' . __LINE__);
         if (!isset($get_data['posts']) || empty($get_data['posts'])) {
             // nếu có tham số auto clone -> cho phép nhân bản dữ liệu cho các ngôn ngữ khác
             if (

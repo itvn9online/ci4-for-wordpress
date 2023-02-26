@@ -501,11 +501,15 @@ var _global_js_eb = {
 	// nạp slider của flatsome
 	loadFlatsomeSlider: function (flickity_options, add_class) {
 		$(".ebwidget-run-slider .eb-blog").each(function () {
-			if (!$(this).hasClass("actived-slider")) {
+			var has_attr = $(this).attr("data-flickity-options") || "";
+
+			//
+			if (has_attr == "" && !$(this).hasClass("actived-slider")) {
 				//
 				if (typeof flickity_options != "object") {
 					flickity_options = {
-						cellAlign: "center",
+						cellAlign: "left",
+						//cellAlign: "center",
 						imagesLoaded: true,
 						lazyLoad: 1,
 						freeScroll: false,

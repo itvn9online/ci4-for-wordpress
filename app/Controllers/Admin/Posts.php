@@ -410,7 +410,11 @@ class Posts extends Admin
             }
             //print_r($data);
             // nếu ngôn ngữ của post không đúng với ngôn ngữ đang hiển thị
-            if ($data['lang_key'] != $this->lang_key) {
+            if (
+                $data['lang_key'] != $this->lang_key &&
+                // và phải có tham số clone lang -> tham số khi thay đổi ngôn ngữ trong admin
+                isset($_GET['clone_lang'])
+            ) {
                 // ngôn ngữ hiện tại có cha -> chuyển đến bản ghi cha
                 if ($data['lang_parent'] > 0) {
                     $this->redirectLanguage($data, $data['lang_parent']);

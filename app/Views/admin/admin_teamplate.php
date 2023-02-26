@@ -74,7 +74,7 @@ if ($debug_enable === true) {
 <html lang="<?php
             //$html_lang = LanguageCost::lang_key();
             echo (($html_lang == 'vn' || $html_lang == '') ? 'vi' : $html_lang);
-            ?>">
+            ?>" data-lang="<?php echo $html_lang; ?>" data-default-lang="<?php echo SITE_LANGUAGE_DEFAULT; ?>">
 
 <head>
     <title>Quản trị</title>

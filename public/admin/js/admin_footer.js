@@ -240,12 +240,23 @@ $(".admin-change-language").change(function () {
 	if (a != "") {
 		//console.log(a);
 
+		// tạo url cho phép hiển thị view clone_lang
+		var redirect_to = window.location.href;
+		redirect_to = redirect_to.split("?clone_lang=")[0].split("&clone_lang=")[0];
+		if (redirect_to.split("?").length > 1) {
+			redirect_to += "&";
+		} else {
+			redirect_to += "?";
+		}
+		redirect_to += "clone_lang=1";
+
+		//
 		window.location =
 			web_link +
 			"layout/change_lang?set_lang=" +
 			a +
 			"&redirect_to=" +
-			encodeURIComponent(window.location.href);
+			encodeURIComponent(redirect_to);
 	}
 });
 

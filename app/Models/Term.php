@@ -40,6 +40,7 @@ class Term extends TermBase
     {
         if (!isset($ops['lang_key']) || $ops['lang_key'] == '') {
             $ops['lang_key'] = LanguageCost::lang_key();
+            //$ops['lang_key'] = $this->base_model->lang_key;
         }
 
         //
@@ -1026,6 +1027,11 @@ class Term extends TermBase
             $url = WGR_BLOGS_PERMALINK;
         } else {
             $url = WGR_TAXONOMY_PERMALINK;
+        }
+
+        // thêm prefix cho url -> hỗ trợ đa ngôn ngữ sub-folder
+        if (SITE_LANGUAGE_SUB_FOLDER == true && $data['lang_key'] != SITE_LANGUAGE_DEFAULT) {
+            $url = $data['lang_key'] . '/' . $url;
         }
 
         //

@@ -219,6 +219,7 @@ if ($getconfig->enable_vue_js == 'on') {
 $WGR_config = [
     'cf_tester_mode' => ($debug_enable === true) ? 1 : 0,
     'current_user_id' => $current_user_id * 1,
+    'site_lang_sub_dir' => (SITE_LANGUAGE_SUB_FOLDER === true) ? 1 : 0,
     'pid' => $current_pid,
     'cid' => $current_tid,
 ];

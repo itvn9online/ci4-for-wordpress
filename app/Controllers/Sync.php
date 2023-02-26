@@ -23,6 +23,10 @@ class Sync extends BaseController
 
         // kiểm tra segment vị trí thứ 1
         $this->prefixLang($this->request->uri->getSegment(1));
+
+        //
+        $this->base_model->lang_key = $this->lang_key;
+        //echo $this->base_model->lang_key . PHP_EOL;
     }
 
     public function vendor_sync($check_thirdparty_exist = true)
@@ -715,12 +719,18 @@ class Sync extends BaseController
             // nếu khác với ngôn ngữ chính
             $seg != LanguageCost::default_lang() &&
             // và không phải là ngôn ngữ đang hiển thị
-            $seg != $this->lang_key
+            //$seg != $this->lang_key
+            $seg != LanguageCost::lang_key()
         ) {
             // gán ngôn ngữ theo segment
             $this->lang_key = $seg;
             //die(__CLASS__ . ':' . __LINE__);
             //echo $this->lang_key . '<br>' . "\n";
+
+            // thay đổi tham số tạm thời cho lang hiện tại -> để các query lấy đúng bản ghi theo segment đang xem
+            LanguageCost::segLang($seg);
+            // lưu lang mới vào cookie -> việc lưu kiểu này sẽ ảnh hưởng tới việc khi quay lại ngôn ngữ chính -> không có sub-dir là rụng
+            //LanguageCost::saveLang($seg);
         } else {
             // gán ngôn ngữ theo cookies
             $this->lang_key = LanguageCost::lang_key();

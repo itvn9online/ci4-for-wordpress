@@ -59,6 +59,8 @@ define(
 //defined('SITE_LANGUAGE_DEFAULT') || define('SITE_LANGUAGE_DEFAULT', SITE_LANGUAGE_SUPPORT[0]['value']);
 // hoặc định nghĩa cụ thể 1 ngôn ngữ
 //define('SITE_LANGUAGE_DEFAULT', 'vn');
+// kiểu hiển thị đa ngôn ngữ (true:có hỗ trợ|false: không hỗ trợ), nếu là sub-folder thì sẽ hỗ trợ prefix cho routes, url cũng sẽ thêm prefix vào trước (nếu tắt đi thì kiểu đa ngôn ngữ sẽ là sub-domain)
+//define('SITE_LANGUAGE_SUB_FOLDER', false);
 
 
 // Số lượng bản dịch dạng input -> website nào cần dùng nhiều tăng số lượng trong file functions lên

@@ -17,7 +17,7 @@ class PostGet extends PostQuery
     {
         //echo $slug . '<br>' . "\n";
         if ($slug == '') {
-            die('slug for get_auto_post is NULL!');
+            die('slug for get auto post is NULL!');
         }
 
         //
@@ -33,7 +33,7 @@ class PostGet extends PostQuery
         $post_cat = $this->term_model->get_cat_post($slug, $post_type, $taxonomy, true, $ops);
         $post_cat = $this->term_model->terms_meta_post([$post_cat]);
         $post_cat = $post_cat[0];
-        //print_r( $post_cat );
+        //print_r($post_cat);
         //echo $post_cat[ 'taxonomy' ] . '<br>' . "\n";
         //echo $taxonomy . '<br>' . "\n";
 

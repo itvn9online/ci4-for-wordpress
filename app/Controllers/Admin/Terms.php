@@ -274,7 +274,11 @@ class Terms extends Admin
             }
             //print_r($data);
             // nếu ngôn ngữ của post không đúng với ngôn ngữ đang hiển thị
-            if ($data['lang_key'] != $this->lang_key) {
+            if (
+                $data['lang_key'] != $this->lang_key &&
+                // và phải có tham số clone lang -> tham số khi thay đổi ngôn ngữ trong admin
+                isset($_GET['clone_lang'])
+            ) {
                 // ngôn ngữ hiện tại có cha -> chuyển đến bản ghi cha
                 if ($data['lang_parent'] > 0) {
                     $this->redirectLanguage($data, $data['lang_parent']);
@@ -345,74 +349,6 @@ class Terms extends Admin
                 }
             }
             //die(__CLASS__ . ':' . __LINE__);
-
-            if (1 === 2 && empty($data)) {
-                //echo $this->lang_key . PHP_EOL;
-                // nếu không phải đang xem ngôn ngữ mặc định
-                if ($this->lang_key != LanguageCost::default_lang()) {
-                    // thử xem có ở ngôn ngữ mặc định không
-                    $parent_data = $this->term_model->get_all_taxonomy($this->taxonomy, $id, [
-                        'get_meta' => 1,
-                        'lang_key' => LanguageCost::default_lang(),
-                    ]);
-                    //print_r($parent_data);
-                    // nếu không có thì báo không có
-                    if (empty($parent_data)) {
-                        die('term not found!' . __CLASS__ . ':' . __LINE__);
-                    }
-                    // có thì hỏi xem có muốn nhân bản không
-                    else {
-                        $data = $parent_data;
-
-                        // tạo dữ liệu để nhân bản
-                        if (isset($_GET['lang_duplicate'])) {
-                            $duplicate_data = $data;
-                            $duplicate_data['lang_key'] = $this->lang_key;
-                            $duplicate_data['lang_parent'] = $data['term_id'];
-                            // xóa phần ID để tránh xung đột primary key
-                            $duplicate_data['term_id'] = 0;
-                            unset($duplicate_data['term_id']);
-                            $duplicate_data['term_taxonomy_id'] = 0;
-                            unset($duplicate_data['term_taxonomy_id']);
-                            $term_meta = $duplicate_data['term_meta'];
-                            unset($duplicate_data['term_meta']);
-
-                            //
-                            //print_r($duplicate_data);
-                            //die(__CLASS__ . ':' . __LINE__);
-
-                            //
-                            $result_id = $this->term_model->insert_terms($duplicate_data, $this->taxonomy, true, $term_meta);
-
-                            //
-                            if ($result_id > 0) {
-                                $redirect_to = $this->term_model->get_admin_permalink($this->taxonomy, $result_id, $this->controller_slug);
-                                //die($redirect_to);
-
-                                // sau đó redirect tới
-                                $this->MY_redirect($redirect_to, 301);
-                                die(__CLASS__ . ':' . __LINE__);
-                            }
-                            // nếu tồn tại rồi thì báo đã tồn tại
-                            else if ($result_id < 0) {
-                                die('Không thể nhân bản do đã tồn tại slug trong hệ thống (' . $this->taxonomy . ')');
-                            }
-                            die('Lỗi nhân bản ' . $this->name_type . ' mới');
-                            //die(__CLASS__ . ':' . __LINE__);
-                        }
-
-                        // thay đổi file view sang file thông báo tạo ngôn ngữ mới
-                        $file_view = 'clone_lang';
-                        // cố định thư mục chứa view
-                        $this->add_view_path = 'terms';
-
-                        //
-                        //die(__CLASS__ . ':' . __LINE__);
-                    }
-                } else {
-                    die('term not found!' . __CLASS__ . ':' . __LINE__);
-                }
-            }
 
             // tự động cập nhật lại slug khi nhân bản
             if (strstr($data['slug'], '-duplicate-') == true && strstr($data['name'], ' - Duplicate ') == false) {

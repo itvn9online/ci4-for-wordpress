@@ -3,10 +3,6 @@
  * Routes mặc định của code gốc, nó bao gốm những gì cần thiết nhất cho một website cơ bản
  */
 
-// xác định prefix cho routes
-//print_r(SITE_LANGUAGE_SUPPORT);
-//echo $_SERVER['REQUEST_URI'];
-
 
 /*
 * Các routes không hỗ trợ đa ngôn ngữ
@@ -14,13 +10,33 @@
 // install
 $routes->get('/install', 'Installs::index');
 
-// admin
 // tạo đường dẫn admin tránh đường dẫn mặc định
 $routes->get('/' . CUSTOM_ADMIN_URI, 'Admin\Dashboard::index');
 
 
+/*
+* Các routes này là của trang khách -> có hỗ trợ dùng prefix để xác định ngôn ngữ hiển thị
+* xác định prefix cho routes
+*/
+//print_r(SITE_LANGUAGE_SUPPORT);
+//echo $_SERVER['REQUEST_URI'];
+
+// nếu web này có dùng đa ngôn ngữ kiểu sub-folder thì sẽ tiến hành tạo prefix
+if (SITE_LANGUAGE_SUB_FOLDER === true) {
+    $arr_prefix_routes = SITE_LANGUAGE_SUPPORT;
+}
+// nếu không -> giả lập 1 mảng để làm sao cho foreach chạy 1 lần rồi thôi, và giá trị prefix được thiết lập sẽ là /
+else {
+    $arr_prefix_routes = [
+        [
+            'value' => '/',
+        ]
+    ];
+}
+//print_r($arr_prefix_routes);
+
 // chạy vòng lặp để add routes cho từng ngôn ngữ
-foreach (SITE_LANGUAGE_SUPPORT as $v) {
+foreach ($arr_prefix_routes as $v) {
     // với ngôn ngữ mặc định
     if ($v['value'] == SITE_LANGUAGE_DEFAULT) {
         $routes_prefix = '/';
