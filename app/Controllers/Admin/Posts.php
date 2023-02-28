@@ -522,7 +522,7 @@ class Posts extends Admin
                     ),
                     //'show_query' => 1,
                     'limit' => 5,
-                ], 'ID, post_title');
+                ], 'ID, post_title, post_name');
                 //print_r($prev_post);
 
                 //
@@ -544,7 +544,7 @@ class Posts extends Admin
                     ),
                     //'show_query' => 1,
                     'limit' => 5,
-                ], 'ID, post_title');
+                ], 'ID, post_title, post_name');
                 //print_r($next_post);
             }
         }

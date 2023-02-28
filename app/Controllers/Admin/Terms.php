@@ -380,7 +380,7 @@ class Terms extends Admin
                 ),
                 //'show_query' => 1,
                 'limit' => 5,
-            ], 'term_id, name');
+            ], 'term_id, name, slug');
             //print_r($prev_term);
 
             //
@@ -396,7 +396,7 @@ class Terms extends Admin
                 ),
                 //'show_query' => 1,
                 'limit' => 5,
-            ], 'term_id, name');
+            ], 'term_id, name, slug');
             //print_r($next_term);
         }
         // add

@@ -265,30 +265,19 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
 <br>
 <div class="left-menu-space">
     <h3><?php echo $name_type; ?> khác:</h3>
-    <ul class="s14">
-        <?php
-
-        //
-        foreach ($prev_term as $v) {
-        ?>
-            <li><a href="<?php $term_model->admin_permalink($taxonomy, $v['term_id'], $controller_slug); ?>"><?php echo $v['name']; ?></a></li>
-        <?php
-        }
-
-        ?>
+    <ul id="oi_other_posts" class="s14">
+        <li v-for="v in prev_term"><a :href="term_admin_permalink(current_taxonomy, v.term_id, controller_slug)">{{v.name}} ({{v.slug}})</a></li>
         <li class="bold"><?php echo $data['name']; ?></li>
-        <?php
-        //
-        foreach ($next_term as $v) {
-        ?>
-            <li><a href="<?php $term_model->admin_permalink($taxonomy, $v['term_id'], $controller_slug); ?>"><?php echo $v['name']; ?></a></li>
-        <?php
-        }
-
-        ?>
+        <li v-for="v in next_term"><a :href="term_admin_permalink(current_taxonomy, v.term_id, controller_slug)">{{v.name}} ({{v.slug}})</a></li>
     </ul>
 </div>
 <?php
+
+//
+$base_model->JSON_parse([
+    'prev_term' => $prev_term,
+    'next_term' => $next_term,
+]);
 
 //
 $base_model->JSON_echo([
@@ -298,8 +287,19 @@ $base_model->JSON_echo([
     // mảng này sẽ in ra dưới dạng string
     'set_parent' => $set_parent,
     'name_type' => $name_type,
+    'current_taxonomy' => $taxonomy,
+    'controller_slug' => $controller_slug,
 ]);
 
 // css riêng cho từng post type (nếu có)
 $base_model->add_js('admin/js/term_add.js');
 $base_model->add_js('admin/js/' . $taxonomy . '.js');
+
+?>
+<script>
+    //
+    WGR_vuejs('#oi_other_posts', {
+        prev_term: prev_term,
+        next_term: next_term,
+    });
+</script>

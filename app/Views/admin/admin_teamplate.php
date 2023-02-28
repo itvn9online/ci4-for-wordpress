@@ -144,6 +144,7 @@ if ($debug_enable === true) {
 
     $base_model->adds_js([
         'admin/js/admin_functions.js',
+        'admin/js/admin_functions2.js',
         'admin/js/admin_teamplate.js',
         'javascript/functions.js',
         'javascript/functions_footer.js',

@@ -275,27 +275,10 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
 <br>
 <div class="left-menu-space">
     <h3><?php echo $name_type; ?> khác:</h3>
-    <ul class="s14">
-        <?php
-
-        //
-        foreach ($prev_post as $v) {
-        ?>
-            <li><a href="<?php $post_model->admin_permalink($post_type, $v['ID'], $controller_slug); ?>"><?php echo $v['post_title']; ?></a></li>
-        <?php
-        }
-
-        ?>
+    <ul id="oi_other_posts" class="s14">
+        <li v-for="v in prev_post"><a :href="post_admin_permalink(current_post_type, v.ID, controller_slug)">{{v.post_title}} ({{v.post_name}})</a></li>
         <li class="bold"><?php echo $data['post_title']; ?></li>
-        <?php
-        //
-        foreach ($next_post as $v) {
-        ?>
-            <li><a href="<?php $post_model->admin_permalink($post_type, $v['ID'], $controller_slug); ?>"><?php echo $v['post_title']; ?></a></li>
-        <?php
-        }
-
-        ?>
+        <li v-for="v in next_post"><a :href="post_admin_permalink(current_post_type, v.ID, controller_slug)">{{v.post_title}} ({{v.post_name}})</a></li>
     </ul>
 </div>
 <?php
@@ -305,22 +288,37 @@ $base_model->JSON_parse([
     'parent_post' => $parent_post,
     'post_arr_status' => $post_arr_status,
     'quick_menu_list' => $quick_menu_list,
+    'prev_post' => $prev_post,
+    'next_post' => $next_post,
+]);
+
+//
+$base_model->JSON_echo([
+    // mảng này sẽ in ra dưới dạng JSON hoặc number
+], [
+    // mảng này sẽ in ra dưới dạng string
+    'controller_slug' => $controller_slug,
+    'current_post_type' => $post_type,
+    'page_post_type' => PostType::PAGE,
+    'auto_update_module' => $auto_update_module,
+    'url_next_post' => $url_next_post,
+    'post_cat' => $post_cat,
+    'post_tags' => $post_tags,
 ]);
 
 ?>
 <script>
-    var current_post_type = '<?php echo $post_type; ?>';
-    var page_post_type = '<?php echo PostType::PAGE; ?>';
-    var auto_update_module = '<?php echo $auto_update_module; ?>';
-    var url_next_post = '<?php echo $url_next_post; ?>';
-    var post_cat = '<?php echo $post_cat; ?>';
-    var post_tags = '<?php echo $post_tags; ?>';
-
     // do phần menu chưa xử lý được bằng vue-js nên vẫn phải dùng angular
     WGR_vuejs('#myApp', {
         parent_post: parent_post,
         post_status: post_arr_status,
         quick_menu_list: quick_menu_list,
+    });
+
+    //
+    WGR_vuejs('#oi_other_posts', {
+        prev_post: prev_post,
+        next_post: next_post,
     });
 </script>
 <?php
