@@ -46,6 +46,7 @@ class ConfigType
         '' => 'Mặc định',
         'align-equal' => 'equal',
         'align-middle' => 'middle',
+        'align-bottom' => 'bottom',
     ];
 
     private static $arr = array(

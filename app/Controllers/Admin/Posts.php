@@ -399,6 +399,8 @@ class Posts extends Admin
 
         // edit
         $url_next_post = '';
+        $prev_post = [];
+        $next_post = [];
         if ($id > 0) {
             // select dữ liệu từ 1 bảng bất kỳ
             $data = $this->post_model->select_post($id, [
@@ -409,64 +411,68 @@ class Posts extends Admin
                 die('post not found!' . __CLASS__ . ':' . __LINE__);
             }
             //print_r($data);
+
             // nếu ngôn ngữ của post không đúng với ngôn ngữ đang hiển thị
-            if (
-                $data['lang_key'] != $this->lang_key &&
-                // và phải có tham số clone lang -> tham số khi thay đổi ngôn ngữ trong admin
-                isset($_GET['clone_lang'])
-            ) {
+            $clone_lang = $this->MY_get('clone_lang', '');
+            if ($clone_lang != '' && $clone_lang != $data['lang_key']) {
+                //die(__CLASS__ . ':' . __LINE__);
                 // ngôn ngữ hiện tại có cha -> chuyển đến bản ghi cha
                 if ($data['lang_parent'] > 0) {
+                    //die(__CLASS__ . ':' . __LINE__);
                     $this->redirectLanguage($data, $data['lang_parent']);
                 }
                 // nếu không có cha
                 else {
+                    //die(__CLASS__ . ':' . __LINE__);
                     // tìm bản ghi con
                     $child_data = $this->post_model->select_post(0, [
                         'post_type' => $this->post_type,
-                        'lang_key' => $this->lang_key,
+                        'lang_key' => $clone_lang,
                         'lang_parent' => $data['ID'],
                     ]);
                     //print_r($child_data);
+                    //die(__CLASS__ . ':' . __LINE__);
 
                     // nếu không có thì báo lỗi hiển thị
                     if (empty($child_data)) {
+                        //die(__CLASS__ . ':' . __LINE__);
                         // nếu bài viết hiện tại đang là ngôn ngữ mặc định
-                        if (isset($_GET['lang_duplicate']) && $data['lang_key'] == LanguageCost::default_lang()) {
-                            // nhân bản cho ngôn ngữ phụ
-                            //print_r($data);
-                            // nhân bản data
-                            $duplicate_data = $data;
-                            $duplicate_data['lang_key'] = $this->lang_key;
-                            $duplicate_data['lang_parent'] = $data['ID'];
-                            // xóa phần ID để tránh xung đột primary key
-                            $duplicate_data['ID'] = 0;
-                            unset($duplicate_data['ID']);
-                            $post_meta = $duplicate_data['post_meta'];
-                            unset($duplicate_data['post_meta']);
+                        //if (isset($_GET['lang_duplicate']) && $data['lang_key'] == LanguageCost::default_lang()) {
+                        // nhân bản cho ngôn ngữ phụ
+                        //print_r($data);
+                        // nhân bản data
+                        $dup_data = $data;
+                        $dup_data['lang_key'] = $clone_lang;
+                        $dup_data['lang_parent'] = $data['ID'];
+                        $dup_data['post_permalink'] = '';
+                        // xóa phần ID để tránh xung đột primary key
+                        $dup_data['ID'] = 0;
+                        unset($dup_data['ID']);
+                        $post_meta = $dup_data['post_meta'];
+                        unset($dup_data['post_meta']);
 
-                            //
-                            //print_r($duplicate_data);
-                            //die(__CLASS__ . ':' . __LINE__);
+                        //
+                        //print_r($dup_data);
+                        //die(__CLASS__ . ':' . __LINE__);
 
-                            //
-                            $result_id = $this->post_model->insert_post($duplicate_data, $post_meta);
-                            if (is_array($result_id) && isset($result_id['error'])) {
-                                die($result_id['error'] . ':' . __CLASS__ . ':' . __LINE__);
-                            }
-                            //echo $result_id;
-                            $redirect_to = $this->post_model->get_admin_permalink($this->post_type, $result_id, $this->controller_slug);
-                            //die($redirect_to);
-
-                            // sau đó redirect tới
-                            $this->MY_redirect($redirect_to, 301);
-                            die(__CLASS__ . ':' . __LINE__);
+                        //
+                        $result_id = $this->post_model->insert_post($dup_data, $post_meta);
+                        if (is_array($result_id) && isset($result_id['error'])) {
+                            die($result_id['error'] . ':' . __CLASS__ . ':' . __LINE__);
                         }
+                        //echo $result_id;
+                        $redirect_to = $this->post_model->get_admin_permalink($this->post_type, $result_id, $this->controller_slug);
+                        //die($redirect_to);
+
+                        // sau đó redirect tới
+                        $this->MY_redirect($redirect_to, 301);
+                        die(__CLASS__ . ':' . __LINE__);
+                        //}
 
                         // thay đổi file view sang file thông báo tạo ngôn ngữ mới
-                        $file_view = 'clone_lang';
+                        //$file_view = 'clone_lang';
                         // cố định thư mục chứa view
-                        $this->add_view_path = 'posts';
+                        //$this->add_view_path = 'posts';
 
                         // mặc định hiển thị thông báo lỗi cho việc lấy dữ liệu
                         //die('post not found because data_lang_key(' . $data['lang_key'] . ') != this_lang_key(' . $this->lang_key . ')');
@@ -480,8 +486,8 @@ class Posts extends Admin
             if (strstr($data['post_name'], '-duplicate-') == true && strstr($data['post_title'], ' - Duplicate ') == false) {
                 //echo 'bbbbbbbbbbbbb';
                 $this->post_model->update_post($id, [
-                    'post_title' => $data['post_title'],
-                    'post_name' => '',
+                    //'post_title' => $data['post_title'],
+                    'post_name' => $this->base_model->_eb_non_mark_seo($data['post_title'])
                 ], [
                     'post_type' => $this->post_type,
                 ]);
@@ -496,6 +502,50 @@ class Posts extends Admin
 
                 //
                 $url_next_post = $this->action_update_module($id);
+            } else {
+                // lấy các bài khác cùng nhóm để xử lý cho tiện -> nhiều khi muốn sửa thì sửa luôn
+                $prev_post = $this->post_model->select_post(0, [
+                    'ID <' => $data['ID'],
+                    'post_type' => $this->post_type,
+                    'lang_key' => $this->lang_key,
+                ], [
+                    'where_in' => array(
+                        'post_status' => array(
+                            PostType::DRAFT,
+                            PostType::PUBLICITY,
+                            PostType::PENDING,
+                        )
+                    ),
+                    'order_by' => array(
+                        'menu_order' => 'DESC',
+                        'ID' => 'ASC'
+                    ),
+                    //'show_query' => 1,
+                    'limit' => 5,
+                ], 'ID, post_title');
+                //print_r($prev_post);
+
+                //
+                $next_post = $this->post_model->select_post(0, [
+                    'ID >' => $data['ID'],
+                    'post_type' => $this->post_type,
+                    'lang_key' => $this->lang_key,
+                ], [
+                    'where_in' => array(
+                        'post_status' => array(
+                            PostType::DRAFT,
+                            PostType::PUBLICITY,
+                            PostType::PENDING,
+                        )
+                    ),
+                    'order_by' => array(
+                        'menu_order' => 'DESC',
+                        'ID' => 'ASC'
+                    ),
+                    //'show_query' => 1,
+                    'limit' => 5,
+                ], 'ID, post_title');
+                //print_r($next_post);
             }
         }
         // add
@@ -576,6 +626,8 @@ class Posts extends Admin
                 'lang_key' => $this->lang_key,
                 'auto_update_module' => $auto_update_module,
                 'url_next_post' => $url_next_post,
+                'prev_post' => $prev_post,
+                'next_post' => $next_post,
                 'post_cat' => $post_cat,
                 'post_tags' => $post_tags,
                 'parent_post' => $parent_post,

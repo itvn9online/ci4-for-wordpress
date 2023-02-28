@@ -259,6 +259,8 @@ class Terms extends Admin
 
         //
         $file_view = 'add';
+        $next_term = [];
+        $prev_term = [];
 
         // edit
         if ($id > 0) {
@@ -268,17 +270,16 @@ class Terms extends Admin
             $data = $this->term_model->select_term($id, [
                 'taxonomy' => $this->taxonomy,
                 //'lang_key' => $this->lang_key,
+            ], [
+                //'show_query' => 1,
             ]);
             if (empty($data)) {
                 die('term not found!' . __CLASS__ . ':' . __LINE__);
             }
             //print_r($data);
             // nếu ngôn ngữ của post không đúng với ngôn ngữ đang hiển thị
-            if (
-                $data['lang_key'] != $this->lang_key &&
-                // và phải có tham số clone lang -> tham số khi thay đổi ngôn ngữ trong admin
-                isset($_GET['clone_lang'])
-            ) {
+            $clone_lang = $this->MY_get('clone_lang', '');
+            if ($clone_lang != '' && $clone_lang != $data['lang_key']) {
                 // ngôn ngữ hiện tại có cha -> chuyển đến bản ghi cha
                 if ($data['lang_parent'] > 0) {
                     $this->redirectLanguage($data, $data['lang_parent']);
@@ -288,57 +289,60 @@ class Terms extends Admin
                     // tìm bản ghi con
                     $child_data = $this->term_model->select_term(0, [
                         'taxonomy' => $this->taxonomy,
-                        'lang_key' => $this->lang_key,
+                        'lang_key' => $clone_lang,
                         'lang_parent' => $data['term_id'],
+                    ], [
+                        //'show_query' => 1,
                     ]);
                     //print_r($child_data);
 
                     // nếu không có thì báo lỗi hiển thị
                     if (empty($child_data)) {
                         // nếu bài viết hiện tại đang là ngôn ngữ mặc định
-                        if (isset($_GET['lang_duplicate']) && $data['lang_key'] == LanguageCost::default_lang()) {
-                            // nhân bản cho ngôn ngữ phụ
-                            //print_r($data);
-                            // nhân bản data
-                            $duplicate_data = $data;
-                            $duplicate_data['lang_key'] = $this->lang_key;
-                            $duplicate_data['lang_parent'] = $data['term_id'];
-                            // xóa phần ID để tránh xung đột primary key
-                            $duplicate_data['term_id'] = 0;
-                            unset($duplicate_data['term_id']);
-                            $duplicate_data['term_taxonomy_id'] = 0;
-                            unset($duplicate_data['term_taxonomy_id']);
-                            $term_meta = $duplicate_data['term_meta'];
-                            unset($duplicate_data['term_meta']);
+                        //if (isset($_GET['lang_duplicate']) && $data['lang_key'] == LanguageCost::default_lang()) {
+                        // nhân bản cho ngôn ngữ phụ
+                        //print_r($data);
+                        // nhân bản data
+                        $dup_data = $data;
+                        $dup_data['lang_key'] = $clone_lang;
+                        $dup_data['lang_parent'] = $data['term_id'];
+                        $dup_data['term_permalink'] = '';
+                        // xóa phần ID để tránh xung đột primary key
+                        $dup_data['term_id'] = 0;
+                        unset($dup_data['term_id']);
+                        $dup_data['term_taxonomy_id'] = 0;
+                        unset($dup_data['term_taxonomy_id']);
+                        $term_meta = $dup_data['term_meta'];
+                        unset($dup_data['term_meta']);
 
-                            //
-                            //print_r($duplicate_data);
-                            //die(__CLASS__ . ':' . __LINE__);
+                        //
+                        //print_r($dup_data);
+                        //die(__CLASS__ . ':' . __LINE__);
 
-                            //
-                            $result_id = $this->term_model->insert_terms($duplicate_data, $this->taxonomy, true, $term_meta);
+                        //
+                        $result_id = $this->term_model->insert_terms($dup_data, $this->taxonomy, true, $term_meta);
 
-                            //
-                            if ($result_id > 0) {
-                                $redirect_to = $this->term_model->get_admin_permalink($this->taxonomy, $result_id, $this->controller_slug);
-                                //die($redirect_to);
+                        //
+                        if ($result_id > 0) {
+                            $redirect_to = $this->term_model->get_admin_permalink($this->taxonomy, $result_id, $this->controller_slug);
+                            //die($redirect_to);
 
-                                // sau đó redirect tới
-                                $this->MY_redirect($redirect_to, 301);
-                                die(__CLASS__ . ':' . __LINE__);
-                            }
-                            // nếu tồn tại rồi thì báo đã tồn tại
-                            else if ($result_id < 0) {
-                                die('Không thể nhân bản do đã tồn tại slug trong hệ thống (' . $this->taxonomy . ')');
-                            }
-                            die('Lỗi nhân bản ' . $this->name_type . ' mới');
-                            //die(__CLASS__ . ':' . __LINE__);
+                            // sau đó redirect tới
+                            $this->MY_redirect($redirect_to, 301);
+                            die(__CLASS__ . ':' . __LINE__);
                         }
+                        // nếu tồn tại rồi thì báo đã tồn tại
+                        else if ($result_id < 0) {
+                            die('Không thể nhân bản do đã tồn tại slug trong hệ thống (' . $this->taxonomy . ')');
+                        }
+                        die('Lỗi nhân bản ' . $this->name_type . ' mới');
+                        //die(__CLASS__ . ':' . __LINE__);
+                        //}
 
                         // thay đổi file view sang file thông báo tạo ngôn ngữ mới
-                        $file_view = 'clone_lang';
+                        //$file_view = 'clone_lang';
                         // cố định thư mục chứa view
-                        $this->add_view_path = 'terms';
+                        //$this->add_view_path = 'terms';
 
                         // mặc định hiển thị thông báo lỗi cho việc lấy dữ liệu
                         //die('term not found because data_lang_key(' . $data['lang_key'] . ') != this_lang_key(' . $this->lang_key . ')');
@@ -355,13 +359,45 @@ class Terms extends Admin
                 //die( DYNAMIC_BASE_URL . ltrim( $_SERVER[ 'REQUEST_URI' ], '/' ) );
                 //echo 'bbbbbbbbbbbbb';
                 $this->term_model->update_terms($data['term_id'], [
-                    'name' => $data['name'],
-                    'slug' => '',
+                    //'name' => $data['name'],
+                    'slug' => $this->base_model->_eb_non_mark_seo($data['name'])
                 ]);
 
                 //
                 $this->MY_redirect(DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/'), 301);
             }
+
+            // lấy các nhóm khác cùng nhóm để xử lý cho tiện -> nhiều khi muốn sửa thì sửa luôn
+            $prev_term = $this->term_model->select_term(0, [
+                'term_id <' => $data['term_id'],
+                'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                'taxonomy' => $this->taxonomy,
+                'lang_key' => $this->lang_key,
+            ], [
+                'order_by' => array(
+                    'term_order' => 'DESC',
+                    'term_id' => 'ASC'
+                ),
+                //'show_query' => 1,
+                'limit' => 5,
+            ], 'term_id, name');
+            //print_r($prev_term);
+
+            //
+            $next_term = $this->term_model->select_term(0, [
+                'term_id >' => $data['term_id'],
+                'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                'taxonomy' => $this->taxonomy,
+                'lang_key' => $this->lang_key,
+            ], [
+                'order_by' => array(
+                    'term_order' => 'DESC',
+                    'term_id' => 'ASC'
+                ),
+                //'show_query' => 1,
+                'limit' => 5,
+            ], 'term_id, name');
+            //print_r($next_term);
         }
         // add
         else {
@@ -413,6 +449,8 @@ class Terms extends Admin
             array(
                 'lang_key' => $this->lang_key,
                 'set_parent' => $set_parent,
+                'prev_term' => $prev_term,
+                'next_term' => $next_term,
                 'data' => $data,
                 'term_lang' => ($data['lang_key'] != '' ? LanguageCost::typeList($data['lang_key']) : ''),
                 'taxonomy' => $this->taxonomy,

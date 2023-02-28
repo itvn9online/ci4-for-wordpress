@@ -196,8 +196,16 @@ class Posts extends Csrf
             $this->create_breadcrumb($parent_data['post_title'], $this->post_model->get_full_permalink($parent_data));
         }
 
+        // nếu có lệnh redirect do sai URL
+        if (isset($_GET['canonical'])) {
+            //echo __CLASS__ . ':' . __LINE__;
+            // xóa permarlink để URL được update lại
+            $data['post_permalink'] = '';
+        }
+
         //
         $full_link = $this->post_model->get_full_permalink($data);
+        //echo $full_link;
         $this->create_breadcrumb($data['post_title'], $full_link);
         $seo = $this->base_model->post_seo($data, $full_link);
 

@@ -39,11 +39,15 @@ class PostQuery extends PostMeta
 
     public function insert_post($data, $data_meta = [], $check_slug = true)
     {
+        //print_r($data);
+
         // các dữ liệu mặc định
         $default_data = [
             'post_date' => date(EBE_DATETIME_FORMAT),
-            'lang_key' => LanguageCost::lang_key(),
         ];
+        if (!isset($data['lang_key']) || $data['lang_key'] == '') {
+            $data['lang_key'] = LanguageCost::lang_key();
+        }
         // gán thông ID tác giả nếu chưa có
         if (!isset($data['post_author']) || empty($data['post_author'])) {
             //$session_data = $this->session->get( 'admin' );
@@ -77,7 +81,7 @@ class PostQuery extends PostMeta
                         'post_name' => $data['post_name'],
                         'post_type' => $data['post_type'],
                         //'post_status !=' => PostType::DELETED,
-                        'lang_key' => $default_data['lang_key']
+                        'lang_key' => $data['lang_key'],
                     ],
                     [
                         'where_not_in' => array(
@@ -87,7 +91,7 @@ class PostQuery extends PostMeta
                             )
                         ),
                         // hiển thị mã SQL để check
-                        //'show_query' => 1,
+                        'show_query' => 1,
                         // trả về câu query để sử dụng cho mục đích khác
                         //'get_query' => 1,
                         //'offset' => 2,
@@ -210,6 +214,13 @@ class PostQuery extends PostMeta
 
             //
             if (!empty($current_slug)) {
+                if (isset($data['lang_key']) && $data['lang_key'] != '') {
+                    $lang_key = $data['lang_key'];
+                } else {
+                    $lang_key = LanguageCost::lang_key();
+                }
+
+                //
                 $check_slug = $this->base_model->select(
                     'ID, post_type',
                     $this->table,
@@ -219,7 +230,7 @@ class PostQuery extends PostMeta
                         'post_type' => $current_slug['post_type'],
                         //'post_status !=' => PostType::DELETED,
                         //'post_status' => $current_slug[ 'post_status' ],
-                        'lang_key' => LanguageCost::lang_key()
+                        'lang_key' => $lang_key,
                     ],
                     [
                         'where_not_in' => array(
@@ -229,7 +240,7 @@ class PostQuery extends PostMeta
                             )
                         ),
                         // hiển thị mã SQL để check
-                        //'show_query' => 1,
+                        'show_query' => 1,
                         // trả về câu query để sử dụng cho mục đích khác
                         //'get_query' => 1,
                         //'offset' => 2,
@@ -240,7 +251,7 @@ class PostQuery extends PostMeta
                 if (!empty($check_slug)) {
                     return [
                         'code' => __LINE__,
-                        'error' => __FUNCTION__ . 'Slug đã được sử dụng ở ' . $check_slug['post_type'] . ' #' . $check_slug['ID'] . ' (' . $data['post_name'] . ')',
+                        'error' => __FUNCTION__ . ' Slug đã được sử dụng ở ' . $check_slug['post_type'] . ' #' . $check_slug['ID'] . ' (' . $data['post_name'] . ')',
                     ];
                 }
                 //die( __CLASS__ . ':' . __LINE__ );
@@ -472,8 +483,13 @@ class PostQuery extends PostMeta
                     //'limit' => $limit
                 ]
             );
-            //print_r( $data );
+            //print_r($data);
+            //die(__CLASS__ . ':' . __LINE__);
 
+            //
+            if (empty($data)) {
+                return 0;
+            }
             //return $data[ 0 ][ 'c' ];
             return $data[0]['ID'];
         } else {

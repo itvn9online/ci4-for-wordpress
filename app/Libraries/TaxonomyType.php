@@ -75,6 +75,7 @@ class TaxonomyType
 
         //
         //$arr['taxonomy_avatar'] = 'Ảnh đại diện';
+        $arr['term_template'] = 'Giao diện';
         $arr['taxonomy_custom_post_size'] = 'Tùy chỉnh tỉ lệ ảnh';
         $arr['taxonomy_auto_slider'] = 'Slider';
         if ($taxonomy == self::ADS) {
@@ -114,6 +115,7 @@ class TaxonomyType
     public static function meta_type($key)
     {
         $arr = [
+            'term_template' => 'select',
             'hide_widget_title' => 'checkbox',
             'dynamic_tag' => 'select',
             'dynamic_post_tag' => 'select',
@@ -216,6 +218,7 @@ class TaxonomyType
                 '' => 'Mặc định',
                 'align-equal' => 'equal',
                 'align-middle' => 'middle',
+                'align-bottom' => 'bottom',
             ],
             'post_cloumn' => [
                 '' => 'Mặc định (Ảnh trên - chữ dưới)',

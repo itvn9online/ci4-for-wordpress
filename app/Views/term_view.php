@@ -4,7 +4,7 @@
  */
 
 //
-//print_r( $data );
+//print_r($data);
 //print_r( $ops );
 //print_r( $getconfig );
 
@@ -90,12 +90,40 @@ if ($totalThread > 0) {
 //echo basename(__FILE__) . ':' . __LINE__ . '<br>' . "\n";
 //echo $taxonomy;
 
-/*
- * nạp view riêng của từng theme nếu có
- */
-$theme_default_view = VIEWS_PATH . 'default/' . basename(__FILE__);
-// nạp file kiểm tra private view
-include VIEWS_PATH . 'private_view.php';
+
+// xem có sử dụng view term template không
+$term_template = '';
+// nếu có dùng template riêng -> dùng luôn
+if (isset($data['term_meta']['term_template']) && $data['term_meta']['term_template'] != '') {
+    $term_template = $data['term_meta']['term_template'];
+}
+
+// nạp view template riêng của từng page nếu có
+if ($term_template != '') {
+    // nạp css riêng nếu có
+    $base_model->add_css(THEMEPATH . 'term-templates/' . $term_template . '.css', [
+        'cdn' => CDN_BASE_URL,
+    ]);
+
+    // nạp view
+    $theme_private_view = THEMEPATH . 'term-templates/' . $term_template . '.php';
+    if ($debug_enable === true) echo '<div class="wgr-view-path bold">' . str_replace(PUBLIC_HTML_PATH, '', $theme_private_view) . '</div>';
+
+    include $theme_private_view;
+
+    // nạp js riêng nếu có
+    $base_model->add_js(THEMEPATH . 'term-templates/' . $term_template . '.js', [
+        'cdn' => CDN_BASE_URL,
+    ], [
+        'defer'
+    ]);
+} else {
+    // nạp view riêng của từng term nếu có
+    $theme_default_view = VIEWS_PATH . 'default/' . basename(__FILE__);
+    // nạp file kiểm tra private view
+    include VIEWS_PATH . 'private_view.php';
+}
+
 
 //
 if (!defined('IN_CATEGORY_VIEW')) {

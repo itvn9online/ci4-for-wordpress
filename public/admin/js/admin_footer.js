@@ -244,11 +244,11 @@ $(".admin-change-language").change(function () {
 		var redirect_to = window.location.href;
 		redirect_to = redirect_to.split("?clone_lang=")[0].split("&clone_lang=")[0];
 		if (redirect_to.split("?").length > 1) {
-			redirect_to += "&";
+			//redirect_to += "&";
 		} else {
-			redirect_to += "?";
+			//redirect_to += "?";
 		}
-		redirect_to += "clone_lang=1";
+		//redirect_to += "clone_lang=1";
 
 		//
 		window.location =

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\Admin;
 
 class Optimize extends Admin
@@ -22,32 +23,15 @@ class Optimize extends Admin
             $f = $this->f_active_optimize;
 
             // basse code
-            $this->base_model->_eb_create_file(PUBLIC_PUBLIC_PATH . 'css/' . $f, $c, [
-                'set_permission' => DEFAULT_FILE_PERMISSION,
-                'ftp' => 1,
-            ]);
-            $this->base_model->_eb_create_file(PUBLIC_PUBLIC_PATH . 'javascript/' . $f, $c, [
-                'set_permission' => DEFAULT_FILE_PERMISSION,
-                'ftp' => 1,
-            ]);
+            $this->before_active_optimize(PUBLIC_PUBLIC_PATH . 'css/', $f, $c);
+            $this->before_active_optimize(PUBLIC_PUBLIC_PATH . 'javascript/', $f, $c);
             // theme
-            $this->base_model->_eb_create_file(THEMEPATH . 'css/' . $f, $c, [
-                'set_permission' => DEFAULT_FILE_PERMISSION,
-                'ftp' => 1,
-            ]);
-            $this->base_model->_eb_create_file(THEMEPATH . 'js/' . $f, $c, [
-                'set_permission' => DEFAULT_FILE_PERMISSION,
-                'ftp' => 1,
-            ]);
-            $this->base_model->_eb_create_file(THEMEPATH . 'page-templates/' . $f, $c, [
-                'set_permission' => DEFAULT_FILE_PERMISSION,
-                'ftp' => 1,
-            ]);
+            $this->before_active_optimize(THEMEPATH . 'css/', $f, $c);
+            $this->before_active_optimize(THEMEPATH . 'js/', $f, $c);
+            $this->before_active_optimize(THEMEPATH . 'page-templates/', $f, $c);
+            $this->before_active_optimize(THEMEPATH . 'term-templates/', $f, $c);
             // optimize phần view -> nếu muốn optimize thủ công thì mở comment đoạn sau, còn không chỉ optimize khi update code
-            $this->base_model->_eb_create_file(VIEWS_PATH . $f, $c, [
-                'set_permission' => DEFAULT_FILE_PERMISSION,
-                'ftp' => 1,
-            ]);
+            $this->before_active_optimize(VIEWS_PATH, $f, $c);
 
             // bắt đầu optimize
             ob_start();
@@ -61,6 +45,20 @@ class Optimize extends Admin
             'data' => $data
         ]);
         return view('admin/admin_teamplate', $this->teamplate_admin);
+    }
+
+    protected function before_active_optimize($dir, $f, $c)
+    {
+        if (!is_dir($dir)) {
+            mkdir($dir, DEFAULT_DIR_PERMISSION) or die('ERROR create cache dir');
+            chmod($dir, DEFAULT_DIR_PERMISSION);
+        }
+
+        //
+        $this->base_model->_eb_create_file($dir . $f, $c, [
+            'set_permission' => DEFAULT_FILE_PERMISSION,
+            'ftp' => 1,
+        ]);
     }
 
     protected function optimize_css_js()
@@ -94,13 +92,24 @@ class Optimize extends Admin
         //
         if ($this->optimize_action_js(THEMEPATH, 'page-templates') === true) {
             // tạo lại file xác nhận để css còn có cái mà dùng
-            $this->base_model->_eb_create_file(THEMEPATH . 'page-templates/' . $this->f_active_optimize, $this->c_active_optimize, [
-                'set_permission' => DEFAULT_FILE_PERMISSION,
-                'ftp' => 1,
-            ]);
+            $this->before_active_optimize(THEMEPATH . 'page-templates/', $this->f_active_optimize, $this->c_active_optimize);
 
             //
             $this->optimize_action_css(THEMEPATH, 'page-templates');
+        }
+
+        //
+        if (
+            $this->optimize_action_js(THEMEPATH, 'term-templates') === true
+        ) {
+            // tạo lại file xác nhận để css còn có cái mà dùng
+            $this->before_active_optimize(THEMEPATH . 'term-templates/', $this->f_active_optimize, $this->c_active_optimize);
+
+            //
+            $this->optimize_action_css(
+                THEMEPATH,
+                'term-templates'
+            );
         }
 
         // optimize phần view -> optimize HTML

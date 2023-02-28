@@ -405,8 +405,16 @@ class Home extends Posts
             }
         }
 
+        // nếu có lệnh redirect do sai URL
+        if (isset($_GET['canonical'])) {
+            //echo __CLASS__ . ':' . __LINE__;
+            // xóa permarlink để URL được update lại
+            $data['post_permalink'] = '';
+        }
+
         //
         $full_link = $this->post_model->get_full_permalink($data);
+        //echo $full_link;
         $this->create_breadcrumb($data['post_title'], $full_link);
         $seo = $this->base_model->post_seo($data, $full_link);
         $this->current_pid = $data['ID'];
@@ -598,6 +606,6 @@ class Home extends Posts
         }
 
         //
-        return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Không xác định được danh mục bài viết...', $cache_key);
+        return $this->page404('ERROR ' . __FUNCTION__ . ':' . __LINE__ . '! Không xác định được danh mục bài viết...', $cache_key);
     }
 }

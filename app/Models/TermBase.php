@@ -56,6 +56,11 @@ class TermBase extends EbModel
 
     public function terms_meta_post($data)
     {
+        if (!isset($data[0]['term_meta_data'])) {
+            return $data;
+        }
+
+        //
         //print_r( $data );
         foreach ($data as $k => $v) {
             //print_r( $v );
@@ -236,12 +241,18 @@ class TermBase extends EbModel
         // select dữ liệu từ 1 bảng bất kỳ
         $data = $this->base_model->select($select_col, WGR_TERM_VIEW, $where, $default_filter);
         //print_r($data);
+        //die(__CLASS__ . ':' . __LINE__);
 
         // lấy meta của post này
         if (!empty($data)) {
-            $data = $this->terms_meta_post([$data]);
+            if ($default_filter['limit'] > 1) {
+                $data = $this->terms_meta_post($data);
+            } else {
+                $data = $this->terms_meta_post([$data]);
+                $data = $data[0];
+            }
             //print_r($data);
-            return $data[0];
+            return $data;
         }
 
         //

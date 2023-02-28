@@ -2,6 +2,7 @@
 
 // Libraries
 use App\Libraries\PostType;
+use App\Libraries\LanguageCost;
 
 // css riêng cho từng post type (nếu có)
 $base_model->add_css('admin/css/' . $post_type . '.css');
@@ -14,6 +15,7 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
     <div class="widget-content nopadding">
         <form action="" method="post" name="admin_global_form" id="admin_global_form" onSubmit="return action_before_submit_post();" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
             <input type="hidden" name="is_duplicate" id="is_duplicate" value="0" />
+            <input type="hidden" name="data[lang_key]" value="<?php echo $data['lang_key']; ?>" />
             <?php
             if ($data['ID'] > 0) {
             ?>
@@ -26,7 +28,12 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
             <div class="control-group">
                 <label class="control-label">Ngôn ngữ</label>
                 <div class="controls">
-                    <?php echo $post_lang; ?>
+                    <?php
+
+                    //
+                    include ADMIN_ROOT_VIEWS . 'posts/change_lang.php';
+
+                    ?>
                 </div>
             </div>
             <div class="control-group">
@@ -48,7 +55,7 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                     <?php
                     if ($data['ID'] > 0) {
                     ?>
-                        <a href="<?php $post_model->the_post_permalink($data); ?>" class="bluecolor">Xem <i class="fa fa-eye"></i></a>
+                        <a href="<?php $post_model->the_post_permalink($data); ?>" class="bluecolor"><?php echo $data['post_permalink']; ?> <i class="fa fa-eye"></i></a>
                     <?php
                     }
                     ?>
@@ -264,6 +271,32 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
             ?>
         </form>
     </div>
+</div>
+<br>
+<div class="left-menu-space">
+    <h3><?php echo $name_type; ?> khác:</h3>
+    <ul class="s14">
+        <?php
+
+        //
+        foreach ($prev_post as $v) {
+        ?>
+            <li><a href="<?php $post_model->admin_permalink($post_type, $v['ID'], $controller_slug); ?>"><?php echo $v['post_title']; ?></a></li>
+        <?php
+        }
+
+        ?>
+        <li class="bold"><?php echo $data['post_title']; ?></li>
+        <?php
+        //
+        foreach ($next_post as $v) {
+        ?>
+            <li><a href="<?php $post_model->admin_permalink($post_type, $v['ID'], $controller_slug); ?>"><?php echo $v['post_title']; ?></a></li>
+        <?php
+        }
+
+        ?>
+    </ul>
 </div>
 <?php
 

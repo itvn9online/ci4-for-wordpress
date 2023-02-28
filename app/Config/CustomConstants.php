@@ -237,6 +237,9 @@ if (WGR_CATEGORY_PREFIX != '') {
 defined('WGR_CATEGORY_PERMALINK') || define('WGR_CATEGORY_PERMALINK', '%category_base%%slug%');
 defined('WGR_BLOGS_PERMALINK') || define('WGR_BLOGS_PERMALINK', '%taxonomy%/%slug%');
 defined('WGR_TAXONOMY_PERMALINK') || define('WGR_TAXONOMY_PERMALINK', 'c/%taxonomy%/%term_id%/%slug%');
+// URL tùy chỉnh của từng custom taxonomy
+defined('WGR_CUS_TAX_PERMALINK') || define('WGR_CUS_TAX_PERMALINK', []);
+//print_r(WGR_CUS_TAX_PERMALINK);
 
 /*
  * Tiền tố cho trang tĩnh

@@ -20,8 +20,20 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
             <div class="control-group">
                 <label class="control-label">Ngôn ngữ</label>
                 <div class="controls">
+                    <strong class="redcolor"><?php echo $term_lang; ?></strong>
                     <?php
-                    echo $term_lang;
+
+                    // chạy vòng lặp hiển thị các ngôn ngữ được hỗ trợ trên website
+                    $lang_parent = $data['lang_parent'] > 0 ? $data['lang_parent'] : $data['term_id'];
+                    foreach (SITE_LANGUAGE_SUPPORT as $v) {
+                        if ($v['value'] == $data['lang_key']) {
+                            continue;
+                        }
+                    ?>
+                        | <a href="<?php echo $term_model->get_admin_permalink($taxonomy, $lang_parent, $controller_slug); ?>&clone_lang=<?php echo $v['value']; ?>" class="bluecolor"><?php echo $v['text']; ?></a>
+                    <?php
+                    }
+
                     ?>
                 </div>
             </div>
@@ -62,7 +74,7 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
                         <?php
                         if ($data['term_id'] > 0) {
                         ?>
-                            <a href="<?php $term_model->the_term_permalink($data); ?>" class="bluecolor">Xem <i class="fa fa-eye"></i></a>
+                            <a href="<?php $term_model->the_term_permalink($data); ?>" class="bluecolor"><?php echo $data['term_permalink']; ?> <i class="fa fa-eye"></i></a>
                         <?php
                         }
                         ?>
@@ -166,11 +178,35 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
                             <?php
                             }
                             // END if input type textarea
-                            else if ($input_type == 'select') {
-                                $select_options = TaxonomyType::meta_select($k);
+                            else if ($input_type == 'select' || $input_type == 'select_multiple') {
+                                $select_multiple = '';
+                                $meta_multiple = '';
+                                if ($input_type == 'select_multiple') {
+                                    $select_multiple = 'multiple';
+                                    $meta_multiple = '[]';
+                                }
+
+                                // lấy danh sách page template cho page
+                                if ($k == 'term_template') {
+                                    $arr_term_template = $base_model->EBE_get_file_in_folder(THEMEPATH . 'term-templates/', '.{php}', 'file');
+                                    //print_r( $arr_term_template );
+
+                                    //
+                                    $select_options = array(
+                                        '' => '[ Mặc định ]'
+                                    );
+                                    foreach ($arr_term_template as $tmp_k => $tmp_v) {
+                                        $tmp_v = basename($tmp_v, '.php');
+                                        $select_options[$tmp_v] = str_replace('-', ' ', $tmp_v);
+                                    }
+
+                                    //
+                                } else {
+                                    $select_options = TaxonomyType::meta_select($k);
+                                }
 
                             ?>
-                                <select data-select="<?php $term_model->echo_meta_term($data, $k); ?>" name="term_meta[<?php echo $k; ?>]" class="span5">
+                                <select data-select="<?php $term_model->echo_meta_term($data, $k); ?>" name="term_meta[<?php echo $k; ?>]<?php echo $meta_multiple; ?>" class="span5" <?php echo $select_multiple; ?>>
                                     <?php
 
                                     foreach ($select_options as $option_k => $option_v) {
@@ -201,6 +237,10 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
             } // END auto add term_meta
 
             ?>
+            <div class="control-group">
+                <label class="control-label">Taxonomy:</label>
+                <div class="controls"><?php echo $data['taxonomy']; ?></div>
+            </div>
             <div class="form-actions frm-fixed-btn cf">
                 <?php
                 if ($data['term_id'] > 0) {
@@ -221,6 +261,32 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
             </div>
         </form>
     </div>
+</div>
+<br>
+<div class="left-menu-space">
+    <h3><?php echo $name_type; ?> khác:</h3>
+    <ul class="s14">
+        <?php
+
+        //
+        foreach ($prev_term as $v) {
+        ?>
+            <li><a href="<?php $term_model->admin_permalink($taxonomy, $v['term_id'], $controller_slug); ?>"><?php echo $v['name']; ?></a></li>
+        <?php
+        }
+
+        ?>
+        <li class="bold"><?php echo $data['name']; ?></li>
+        <?php
+        //
+        foreach ($next_term as $v) {
+        ?>
+            <li><a href="<?php $term_model->admin_permalink($taxonomy, $v['term_id'], $controller_slug); ?>"><?php echo $v['name']; ?></a></li>
+        <?php
+        }
+
+        ?>
+    </ul>
 </div>
 <?php
 

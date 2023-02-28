@@ -1239,6 +1239,13 @@ button.flickity-prev-next-button[disabled] {
     vertical-align: middle !important;
 }
 
+.align-bottom {
+    align-items: flex-end !important;
+    align-self: flex-end !important;
+    justify-content: flex-end !important;
+    vertical-align: bottom !important;
+}
+
 .row-12 .col {
     max-width: 100%;
     -ms-flex-preferred-size: 100%;

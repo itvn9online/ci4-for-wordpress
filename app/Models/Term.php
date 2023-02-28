@@ -158,7 +158,7 @@ class Term extends TermBase
                     $by_slug .= $i;
                 }
                 //echo 'by_slug: ' . $by_slug . '<br>' . "\n";
-                $check_term_exist = $this->get_term_by_slug($by_slug, $taxonomy, false, 1, 'term_id');
+                $check_term_exist = $this->get_term_by_slug($by_slug, $taxonomy, false, 1, 'term_id', isset($data['lang_key']) ? $data['lang_key'] : '');
                 //print_r( $check_term_exist );
                 //die( __CLASS__ . ':' . __LINE__ );
 
@@ -243,6 +243,7 @@ class Term extends TermBase
                         'slug' => $data['slug'],
                         'taxonomy' => $taxonomy,
                         'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                        'lang_key' => LanguageCost::lang_key(),
                     ]
                 );
                 //print_r( $check_term_exist );
@@ -1025,6 +1026,8 @@ class Term extends TermBase
         } else if (in_array($data['taxonomy'], $allow_taxonomy)) {
             //return $base_url . $data[ 'taxonomy' ] . '/' . $data[ 'slug' ];
             $url = WGR_BLOGS_PERMALINK;
+        } else if (isset(WGR_CUS_TAX_PERMALINK[$data['taxonomy']])) {
+            $url = WGR_CUS_TAX_PERMALINK[$data['taxonomy']];
         } else {
             $url = WGR_TAXONOMY_PERMALINK;
         }
@@ -1217,14 +1220,14 @@ class Term extends TermBase
     }
 
     // lấy chi tiết 1 term theo slug
-    public function get_term_by_slug($slug, $taxonomy = 'category', $get_meta = true, $limit = 1, $select_col = '*')
+    public function get_term_by_slug($slug, $taxonomy = 'category', $get_meta = true, $limit = 1, $select_col = '*', $lang_key = '')
     {
         $data = $this->get_taxonomy(
             [
                 'slug' => $slug,
                 'taxonomy' => $taxonomy,
                 'is_deleted' => DeletedStatus::FOR_DEFAULT,
-                'lang_key' => LanguageCost::lang_key(),
+                'lang_key' => $lang_key != '' ? $lang_key : LanguageCost::lang_key(),
             ],
             $limit,
             $select_col

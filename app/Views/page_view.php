@@ -8,7 +8,7 @@ $base_model->add_css('themes/' . THEMENAME . '/css/page.css', [
     'cdn' => CDN_BASE_URL,
 ]);
 
-// nạp view riêng của từng page nếu có
+// nạp view template riêng của từng page nếu có
 if ($page_template != '') {
     // nạp css riêng nếu có
     $base_model->add_css(THEMEPATH . 'page-templates/' . $page_template . '.css', [
@@ -16,7 +16,10 @@ if ($page_template != '') {
     ]);
 
     // nạp view
-    include THEMEPATH . 'page-templates/' . $page_template . '.php';
+    $theme_private_view = THEMEPATH . 'page-templates/' . $page_template . '.php';
+    if ($debug_enable === true) echo '<div class="wgr-view-path bold">' . str_replace(PUBLIC_HTML_PATH, '', $theme_private_view) . '</div>';
+
+    include $theme_private_view;
 
     // nạp js riêng nếu có
     $base_model->add_js(THEMEPATH . 'page-templates/' . $page_template . '.js', [

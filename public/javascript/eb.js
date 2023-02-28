@@ -548,7 +548,7 @@ var _global_js_eb = {
 						//'is-draggable',
 						//'sliflickity-enabledder',
 					];
-					console.log(add_class);
+					//console.log(add_class);
 				}
 
 				//
