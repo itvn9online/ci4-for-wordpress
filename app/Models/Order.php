@@ -50,7 +50,15 @@ class Order extends Post
         //die(__CLASS__ . ':' . __LINE__);
 
         //
-        return parent::insert_post($data_insert);
+        $result = parent::insert_post($data_insert);
+
+        //
+        if (isset($data_insert['post_author']) && $data_insert['post_author'] > 0) {
+            $this->order_model->cache_user_fund($data_insert['post_author']);
+        }
+
+        //
+        return $result;
     }
 
     public function get_order($where = [], $filter = [], $select_col = '*')
@@ -117,7 +125,13 @@ class Order extends Post
 
         //
         //return $this->base_model->update_multiple( $this->table, $data, $where, $filter );
-        return parent::update_post($order_id, $data, $where);
+        $result = parent::update_post($order_id, $data, $where);
+
+        //
+        $this->order_model->cache_user_fund($order_id);
+
+        //
+        return $result;
     }
 
     public function update_user_fund($order_id, $post_author = 0, $where = [])
@@ -163,18 +177,18 @@ class Order extends Post
                 // SET
                 'money' => $this->get_user_fund($post_author),
             ], [
-                    // WHERE
-                    'ID' => $post_author,
-                ], [
-                    'debug_backtrace' => debug_backtrace()[1]['function'],
-                    // hiển thị mã SQL để check
-                    //'show_query' => 1,
-                    // trả về câu query để sử dụng cho mục đích khác
-                    //'get_query' => 1,
-                    // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
-                    //'no_remove_field' => 1
+                // WHERE
+                'ID' => $post_author,
+            ], [
+                'debug_backtrace' => debug_backtrace()[1]['function'],
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
+                //'no_remove_field' => 1
 
-                ]);
+            ]);
         }
 
         //
@@ -230,5 +244,47 @@ class Order extends Post
 
         //
         return $user_fund;
+    }
+
+    // cập nhật lại số dư user trong cache
+    public function cache_user_fund($order_id, $post_author = 0)
+    {
+        // nếu có ID user -> dùng luôn ID này
+        if ($post_author > 0) {
+            return $this->get_user_fund($post_author);
+        }
+
+        // lấy ID user dựa theo ID đơn hàng
+        $order_data = $this->get_order(
+            array(
+                // các kiểu điều kiện where
+                'ID' => $order_id,
+            ),
+            array(
+                'order_by' => array(
+                    'ID' => 'DESC'
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => 1
+            ),
+            'post_author'
+        );
+        //print_r($order_data);
+
+        // -> lấy số dư của user -> cache liên quan đến số dư cũng sẽ được cập nhật luôn
+        if (!empty($order_data)) {
+            return $this->get_user_fund($order_data['post_author']);
+        }
+
+        //
+        return false;
     }
 }

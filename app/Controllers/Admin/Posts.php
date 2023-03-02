@@ -353,33 +353,27 @@ class Posts extends Admin
             // nếu là nhân bản
             if ($this->MY_post('is_duplicate', 0) * 1 > 0) {
                 //print_r( $_POST );
-                //$dup_data = $this->MY_post( 'data' );
-                //print_r( $dup_data );
 
                 // select dữ liệu từ 1 bảng bất kỳ
                 $dup_data = $this->post_model->select_post($id, [
                     'post_type' => $this->post_type,
                 ]);
                 //print_r( $dup_data );
+                //die(__CLASS__.':'.__LINE__);
 
                 // đổi lại tiêu đề để tránh trùng lặp
                 if (isset($dup_data['post_title'])) {
                     $duplicate_title = explode('- Duplicate', $dup_data['post_title']);
                     $dup_data['post_title'] = trim($duplicate_title[0]) . ' - Duplicate ' . date('Ymd-His');
-
-                    // tạo lại slug
-                    $dup_data['post_name'] = '';
                 }
+                $dup_data['post_name'] = '';
+                $dup_data['post_shorttitle'] = '';
                 $dup_data['ID'] = 0;
                 unset($dup_data['ID']);
-
-                //
-                //print_r( $dup_data );
+                //print_r($dup_data);
 
                 // -> bỏ ID đi
                 $id = 0;
-
-                //
                 //die( __CLASS__ . ':' . __LINE__ );
 
                 //
@@ -654,10 +648,10 @@ class Posts extends Admin
             $data = $this->MY_post('data');
         }
         $data['post_type'] = $this->post_type;
-
-        //
         //print_r( $data );
         //die( __CLASS__ . ':' . __LINE__ );
+
+        //
         $result_id = $this->post_model->insert_post($data);
         if (is_array($result_id) && isset($result_id['error'])) {
             $this->base_model->alert($result_id['error'], 'error');
@@ -670,7 +664,7 @@ class Posts extends Admin
         $this->base_model->alert('Lỗi tạo ' . $this->name_type . ' mới', 'error');
     }
 
-    protected function update($id)
+    protected function updating($id)
     {
         $data = $this->MY_post('data');
         //print_r( $data );
@@ -740,6 +734,14 @@ class Posts extends Admin
                 $this->cleanup_cache($this->term_model->key_cache($v));
             }
         }
+
+        //
+        return true;
+    }
+
+    protected function update($id)
+    {
+        $this->updating($id);
 
         //
         $this->base_model->alert('Cập nhật ' . $this->name_type . ' thành công');

@@ -30,7 +30,14 @@ class Term extends TermBase
 
         //
         foreach ($data as $k => $v) {
-            $data[$k] = trim($v);
+            //echo gettype($v) . PHP_EOL;
+
+            //
+            if (in_array(gettype($v), [
+                'string'
+            ])) {
+                $data[$k] = trim($v);
+            }
         }
         return $data;
     }

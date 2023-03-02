@@ -1,10 +1,5 @@
-/*
- * tạo select box các nhóm dữ liệu cho khung tìm kiếm
- */
-$(document).ready(function () {
-	//console.log(a);
-
-	//
+// tạo select box các nhóm dữ liệu cho khung tìm kiếm
+function each_to_group_taxonomy() {
 	if ($(".each-to-group-taxonomy").length == 0) {
 		return false;
 	}
@@ -26,6 +21,7 @@ $(document).ready(function () {
 
 		// chạy ajax nạp dữ liệu của taxonomy
 		load_term_select_option(a, jd, function (data, jd) {
+			console.log(data);
 			if (data.length > 0) {
 				// tạo select
 				$("#" + jd)
@@ -41,6 +37,14 @@ $(document).ready(function () {
 			}
 		});
 	});
+}
+
+//
+$(document).ready(function () {
+	//console.log(a);
+
+	//
+	each_to_group_taxonomy();
 
 	// thay đổi số thứ tự của post
 	$(".change-update-menu_order")

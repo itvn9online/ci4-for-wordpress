@@ -726,12 +726,20 @@ function create_term_select_option(arr, space) {
 	//
 	var str = "";
 	for (var i = 0; i < arr.length; i++) {
+		if (
+			typeof arr[i].term_shortname == "undefined" ||
+			arr[i].term_shortname == ""
+		) {
+			arr[i].term_shortname = arr[i].name;
+		}
+
+		//
 		str +=
 			'<option value="' +
 			arr[i].term_id +
 			'">' +
 			space +
-			arr[i].name +
+			arr[i].term_shortname +
 			"</option>";
 
 		//

@@ -1122,6 +1122,7 @@ function redirect_to_canonical(body_class) {
 			a += "?";
 		}
 		a += "canonical=client&uri=" + encodeURIComponent(window.location.href);
+		//console.log(a);
 		window.location = a;
 	}
 }

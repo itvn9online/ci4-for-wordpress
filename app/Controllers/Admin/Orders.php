@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\Admin;
 
 // Libraries
@@ -25,6 +26,18 @@ class Orders extends Posts
         parent::__construct();
 
         //
+        $this->order_model = new \App\Models\Order();
+
+        //
         $this->post_arr_status = OrderType::arrStatus();
+    }
+
+    protected function updating($id)
+    {
+        // cập nhật thông tin đơn hàng
+        parent::updating($id);
+
+        // -> cập nhật lại số dư của user trong cache
+        return $this->order_model->cache_user_fund($id);
     }
 }

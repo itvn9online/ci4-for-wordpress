@@ -147,18 +147,21 @@ class Admin extends Ajaxs
     private function admin_menu()
     {
         $arr = AdminMenu::menu_list();
-        //print_r( $arr );
+        //print_r($arr);
+        //echo count($arr) . PHP_EOL;
 
         // tạo số thứ tự để sắp xếp menu
         $j = 100;
+        $j_ = ceil(100 / count($arr));
+        //echo $j_ . PHP_EOL;
         foreach ($arr as $k => $v) {
             $arr[$k]['order'] = $j;
-            $j -= 5;
+            $j -= $j_;
             if ($j < 0) {
-                break;
+                $j = 0;
             }
         }
-        //print_r( $arr );
+        //print_r($arr);
 
         // thêm custom menu nếu có
         if (function_exists('register_admin_menu')) {

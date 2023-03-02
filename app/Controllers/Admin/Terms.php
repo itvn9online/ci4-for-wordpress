@@ -235,18 +235,31 @@ class Terms extends Admin
             // nếu là nhân bản
             if ($this->MY_post('is_duplicate', 0) * 1 > 0) {
                 //print_r( $_POST );
-                //die( 'fghs ffs' );
-                // đổi lại tiêu đề để tránh trùng lặp
-                if (isset($_POST['data']['name'])) {
-                    $duplicate_title = explode('- Duplicate', $_POST['data']['name']);
-                    $_POST['data']['name'] = trim($duplicate_title[0]) . ' - Duplicate ' . date('Ymd-His');
 
-                    // tạo lại slug
-                    $_POST['data']['slug'] = '';
+                // select dữ liệu từ 1 bảng bất kỳ
+                $dup_data = $this->term_model->select_term($id, [
+                    'taxonomy' => $this->taxonomy,
+                ]);
+                //print_r($dup_data);
+                //die(__CLASS__ . ':' . __LINE__);
+
+                // đổi lại tiêu đề để tránh trùng lặp
+                if (isset($dup_data['name'])) {
+                    $duplicate_title = explode('- Duplicate', $dup_data['name']);
+                    $dup_data['name'] = trim($duplicate_title[0]) . ' - Duplicate ' . date('Ymd-His');
                 }
+                $dup_data['slug'] = '';
+                $dup_data['term_shortname'] = '';
+                $dup_data['term_id'] = 0;
+                unset($dup_data['term_id']);
+                //print_r($dup_data);
 
                 // -> bỏ ID đi
                 $id = 0;
+                //die(__CLASS__ . ':' . __LINE__);
+
+                //
+                return $this->add_new($dup_data);
             }
 
             // update
@@ -462,9 +475,12 @@ class Terms extends Admin
         return view('admin/admin_teamplate', $this->teamplate_admin);
     }
 
-    protected function add_new()
+    protected function add_new($data = NULL)
     {
-        $data = $this->MY_post('data');
+        if ($data === NULL) {
+            $data = $this->MY_post('data');
+        }
+        $data['taxonomy'] = $this->taxonomy;
         //print_r( $data );
         //die( __CLASS__ . ':' . __LINE__ );
 
