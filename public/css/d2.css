@@ -1374,9 +1374,7 @@
         margin: 0;
     }
 
-    .padding-global-content {
-        padding: 0 10px;
-    }
+    .padding-global-content {}
 
     .thread-details-tohome {
         padding-left: 10px;

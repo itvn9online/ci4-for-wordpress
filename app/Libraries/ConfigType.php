@@ -562,14 +562,14 @@ class ConfigType
             'eb_post_row_align' => self::$eb_row_align,
             //
             'eb_blogs_per_line' => self::$arr_posts_per_line,
-            'eb_blogs_medium_per_line' => self::$arr_posts_per_line,
-            'eb_blogs_small_per_line' => self::$arr_posts_per_line,
+            'eb_blogs_medium_per_line' => $arr_num_medium_line,
+            'eb_blogs_small_per_line' => $arr_num_small_line,
             'eb_blogs_column_spacing' => self::$eb_column_spacing,
             'eb_blogs_row_align' => self::$eb_row_align,
             //
             'eb_blog_per_line' => self::$arr_posts_per_line,
-            'eb_blog_medium_per_line' => self::$arr_posts_per_line,
-            'eb_blog_small_per_line' => self::$arr_posts_per_line,
+            'eb_blog_medium_per_line' => $arr_num_medium_line,
+            'eb_blog_small_per_line' => $arr_num_small_line,
             'eb_blog_column_spacing' => self::$eb_column_spacing,
             'eb_blog_row_align' => self::$eb_row_align,
             //

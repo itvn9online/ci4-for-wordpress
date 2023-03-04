@@ -143,10 +143,16 @@ class Menu extends Post
         $menu_content = $data['post_content'];
 
         // thay thế mã cho font awesome
-        $menu_content = str_replace('[i ', '<i ', $menu_content);
-        $menu_content = str_replace('][/i]', '></i>', $menu_content);
-        $menu_content = str_replace('&quot;', '"', $menu_content);
-        $menu_content = str_replace('href="#"', 'href="javascript:;"', $menu_content);
+        foreach ([
+            '[i ' => '<i ',
+            '][/i]' => '></i>',
+            '&quot;' => '"',
+            'href="#"' => 'href="javascript:;"',
+            '../' => './',
+            '././' => './',
+        ] as $k => $v) {
+            $menu_content = str_replace($k, $v, $menu_content);
+        }
 
         //
         $str = '<div data-id="' . $data['ID'] . '" data-type="' . $this->post_type . '" class="eb-sub-menu ' . $slug . ' ' . $add_class . '">' . $menu_content . '</div>';

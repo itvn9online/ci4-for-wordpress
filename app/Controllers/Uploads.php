@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 // Libraries
@@ -134,6 +135,30 @@ class Uploads extends Users
         }
 
         //
+        $img_medium = str_replace(PUBLIC_PUBLIC_PATH, '', $file_medium_path);
+
+        // cập nhật luôn avatar cho tài khoản này
+        $update_avt = $this->MY_post('update_avt', 0);
+        $result_id = $update_avt;
+        if ($update_avt * 1 > 0) {
+            $result_id = $this->base_model->update_multiple('users', [
+                // SET
+                'avatar' => $img_medium,
+            ], [
+                // WHERE
+                'ID' => $this->current_user_id,
+            ], [
+                //'debug_backtrace' => debug_backtrace()[1]['function'],
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
+                //'no_remove_field' => 1
+            ]);
+        }
+
+        //
         $this->result_json_type([
             'user' => $this->current_user_id,
             'mime_type' => $mime_type,
@@ -141,12 +166,14 @@ class Uploads extends Users
             //'img_large' => str_replace(PUBLIC_PUBLIC_PATH, '', $file_path),
             'img_large' => str_replace(PUBLIC_PUBLIC_PATH, '', $file_large_path),
             'img_thumb' => str_replace(PUBLIC_PUBLIC_PATH, '', $file_thumb_path),
-            'img_medium' => str_replace(PUBLIC_PUBLIC_PATH, '', $file_medium_path),
+            'img_medium' => $img_medium,
             'success' => $success,
             'file_name' => $file_name,
             'file_type' => $file_type,
             'dir' => $dir,
             'last_modified' => $last_modified,
+            'result_id' => $result_id,
+            'update_avt' => $update_avt,
         ]);
     }
 

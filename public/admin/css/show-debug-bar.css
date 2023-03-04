@@ -1,4 +1,14 @@
+/* TEST lúc nào cần test layout thì bật cái này lên */
+.row {
+    box-shadow: 0 0 5px #f00;
+}
+
+section {
+    box-shadow: 0 0 5px #00f;
+}
+
 /* khi có quyền admin thì cho phép hiển thị thanh debug */
+
 body.is-admin .show-if-admin,
 body.is-admin .show-view .wgr-view-path,
 body.is-admin.body-debug_enable #toolbarContainer,
@@ -40,7 +50,7 @@ body.is-admin #target_eb_iframe {
 
 .eb-widget-hide-title .click-goto-edit span {
     right: auto;
-    left: 50%;
+    left: 51%;
 }
 
 .click-goto-edit span i {
@@ -62,3 +72,24 @@ body.is-admin #target_eb_iframe {
 .col:hover .click-goto-edit span i {
     font-size: 11pt;
 }
+
+.goto-taxonomy-edit span i {
+    font-size: 25px !important;
+}
+
+/* ================================== reponsive ================================== */
+/* desktop only */
+@media only screen and (min-width:748px) {
+    body.is-admin {
+        padding-top: 32px;
+    }
+}
+
+/* mobile, table only */
+@media only screen and (max-width:788px) {}
+
+/* medium size */
+@media only screen and (max-width:588px) {}
+
+/* mobile only */
+@media only screen and (max-width:395px) {}
