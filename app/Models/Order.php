@@ -54,7 +54,7 @@ class Order extends Post
 
         //
         if (isset($data_insert['post_author']) && $data_insert['post_author'] > 0) {
-            $this->order_model->cache_user_fund($data_insert['post_author']);
+            $this->cache_user_fund($data_insert['post_author']);
         }
 
         //
@@ -128,7 +128,7 @@ class Order extends Post
         $result = parent::update_post($order_id, $data, $where);
 
         //
-        $this->order_model->cache_user_fund($order_id);
+        $this->cache_user_fund($order_id);
 
         //
         return $result;
