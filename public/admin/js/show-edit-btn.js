@@ -1,4 +1,17 @@
 $(document).ready(function () {
+	// thêm css tạo hình
+	/*
+	(function (b, e, v, t, s) {
+		t = b.createElement(e);
+		t.rel = "stylesheet";
+		t.type = "text/css";
+		t.media = "all";
+		t.href = v;
+		s = b.getElementsByTagName(e)[0];
+		s.parentNode.insertBefore(t, s);
+	})(document, "link", "admin/css/show-debug-bar.css");
+	*/
+
 	// post
 	$(".global-details-title").attr({
 		"insert-before": 1,

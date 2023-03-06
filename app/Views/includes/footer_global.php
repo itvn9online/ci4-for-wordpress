@@ -12,10 +12,10 @@ $base_model->adds_js([
     'javascript/pagination.js',
     'themes/' . THEMENAME . '/js/d.js'
 ], [
-        'cdn' => CDN_BASE_URL,
-    ], [
-        'defer'
-    ]);
+    'cdn' => CDN_BASE_URL,
+], [
+    'defer'
+]);
 
 // chức năng riêng dành cho admin
 if ($current_user_id > 0 && isset($session_data['userLevel']) && $session_data['userLevel'] > 0) {
@@ -28,8 +28,8 @@ if ($current_user_id > 0 && isset($session_data['userLevel']) && $session_data['
     $base_model->add_js('admin/js/show-edit-btn.js', [
         'cdn' => CDN_BASE_URL,
     ], [
-            'defer'
-        ]);
+        'defer'
+    ]);
 }
 
 

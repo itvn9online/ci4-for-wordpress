@@ -1,4 +1,5 @@
 /* TEST lúc nào cần test layout thì bật cái này lên */
+/*
 .row {
     box-shadow: 0 0 5px #f00;
 }
@@ -6,6 +7,7 @@
 section {
     box-shadow: 0 0 5px #00f;
 }
+*/
 
 /* khi có quyền admin thì cho phép hiển thị thanh debug */
 
