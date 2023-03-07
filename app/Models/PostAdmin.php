@@ -18,11 +18,14 @@ class PostAdmin extends Post
 
     /*
      * Tạo danh sách link để thêm menu trong admin cho tiện
+     * Trả về danh sách các liên kết nội bộ trong website
      */
-    function quick_add_menu($limit = 500, $clear_cache = false, $time = MINI_CACHE_TIMEOUT)
+    public function get_site_inlink($lang_key = '', $limit = 500, $clear_cache = false, $time = MINI_CACHE_TIMEOUT)
     {
         // cache
-        $lang_key = LanguageCost::lang_key();
+        if ($lang_key == '') {
+            $lang_key = LanguageCost::lang_key();
+        }
         $in_cache = __FUNCTION__ . '-' . $lang_key;
 
         // xóa cache nếu có yêu cầu
@@ -71,6 +74,7 @@ class PostAdmin extends Post
         $arr_result = [];
         foreach ($allow_taxonomy as $allow) {
             $category_list = $this->term_model->get_all_taxonomy($allow, 0, [
+                'lang_key' => $lang_key,
                 'by_is_deleted' => DeletedStatus::FOR_DEFAULT,
                 'parent' => 0,
                 //'get_meta' => true,
@@ -110,6 +114,7 @@ class PostAdmin extends Post
 
                 // lấy các nhóm con thuộc nhóm này
                 $child_list = $this->term_model->get_all_taxonomy($allow, 0, [
+                    'lang_key' => $lang_key,
                     'by_is_deleted' => DeletedStatus::FOR_DEFAULT,
                     'parent' => $cat_val['term_id'],
                     //'get_meta' => true,
@@ -221,17 +226,22 @@ class PostAdmin extends Post
         }
 
         //
+        $lang_prefix = '';
+        if ($lang_key != LanguageCost::lang_key()) {
+            $lang_prefix = $lang_key . '/';
+        }
+
+        //
         //$arr_result[] = '<option class="bold" disabled>Menu hệ thống</option>';
         $arr_system_menu = [
-            './' . CUSTOM_ADMIN_URI . '' => 'Quản trị hệ thống',
-            './guest/login' => 'Đăng nhập',
-            './guest/register' => 'Đăng ký',
-            './guest/resetpass' => 'Quên mật khẩu',
-            './users/profile' => 'Tài khoản',
-            './users/logout' => 'Đăng xuất',
-            //'./users/changepass' => 'Đổi mật khẩu',
-
+            './' . $lang_prefix . 'guest/login' => 'Đăng nhập',
+            './' . $lang_prefix . 'guest/register' => 'Đăng ký',
+            './' . $lang_prefix . 'guest/resetpass' => 'Quên mật khẩu',
+            './' . $lang_prefix . 'users/profile' => 'Tài khoản',
+            './' . $lang_prefix . 'users/logout' => 'Đăng xuất',
+            //'./' . $lang_prefix . 'users/changepass' => 'Đổi mật khẩu',
         ];
+        $arr_system_menu['./' . CUSTOM_ADMIN_URI] = 'Quản trị hệ thống';
 
         //
         $arr_result[] = [

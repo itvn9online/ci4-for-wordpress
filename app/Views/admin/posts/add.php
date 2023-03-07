@@ -251,7 +251,7 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                             <option value="">[ Thêm nhanh Tiên kết ]</option>
                             <?php
 
-                            $quick_menu_list = $post_model->quick_add_menu();
+                            $quick_menu_list = $post_model->get_site_inlink($data['lang_key']);
                             //print_r( $quick_menu_list );
                             //echo implode( '', $quick_menu_list );
 

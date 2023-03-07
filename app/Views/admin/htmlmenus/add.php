@@ -14,48 +14,43 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
     trong khung soạn thảo sẽ được in trực tiếp ra HTML mà không cần qua công cụ hỗ trợ biên soạn.</p>
 <div class="widget-box ng-main-content" id="myApp">
     <div class="widget-content nopadding">
-        <form action="" method="post" name="admin_global_form" id="admin_global_form"
-            onSubmit="return action_before_submit_html_menu();" accept-charset="utf-8" class="form-horizontal"
-            target="target_eb_iframe">
+        <form action="" method="post" name="admin_global_form" id="admin_global_form" onSubmit="return action_before_submit_html_menu();" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
             <div class="control-group">
                 <label class="control-label">Ngôn ngữ</label>
                 <div class="controls">
                     <?php
-                    echo $post_lang;
+
+                    //
+                    include ADMIN_ROOT_VIEWS . 'posts/change_lang.php';
+
                     ?>
                 </div>
             </div>
             <div class="control-group">
                 <label for="data_post_title" class="control-label">Tiêu đề</label>
                 <div class="controls">
-                    <input type="text" class="span6 required" placeholder="Tiêu đề" name="data[post_title]"
-                        id="data_post_title" value="<?php echo $data['post_title']; ?>" autofocus aria-required="true"
-                        required />
+                    <input type="text" class="span6 required" placeholder="Tiêu đề" name="data[post_title]" id="data_post_title" value="<?php echo $data['post_title']; ?>" autofocus aria-required="true" required />
                 </div>
             </div>
             <?php
 
             // menu không cho sửa slug -> vì sửa xong sẽ làm lệnh lấy tin tự động hoạt động sai
             if ($data['post_name'] != '') {
-                ?>
+            ?>
                 <div class="control-group">
                     <label class="control-label">PHP Code:</label>
                     <div class="controls">
-                        <input type="text" class="span6" onClick="this.select()" onDblClick="click2Copy(this);"
-                            value="&lt;?php $htmlmenu_model->the_menu( '<?php echo $data['post_name']; ?>' ); ?&gt;"
-                            readonly />
+                        <input type="text" class="span6" onClick="this.select()" onDblClick="click2Copy(this);" value="&lt;?php $htmlmenu_model->the_menu( '<?php echo $data['post_name']; ?>' ); ?&gt;" readonly />
                     </div>
                 </div>
-                <?php
+            <?php
             }
 
             ?>
             <div class="control-group">
                 <label class="control-label">Nội dung</label>
                 <div class="controls" style="width:80%;">
-                    <textarea id="Resolution" rows="30" data-height="550" class="ckeditor auto-ckeditor"
-                        placeholder="Nhập thông tin chi tiết..."
-                        name="data[post_content]"><?php echo $data['post_content']; ?></textarea>
+                    <textarea id="Resolution" rows="30" data-height="550" class="ckeditor auto-ckeditor" placeholder="Nhập thông tin chi tiết..." name="data[post_content]"><?php echo $data['post_content']; ?></textarea>
                 </div>
             </div>
             <div class="control-group">
@@ -91,23 +86,21 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
 
                 //
                 if ($input_type == 'hidden') {
-                    ?>
-                    <input type="hidden" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>"
-                        value="<?php $post_model->echo_meta_post($data, $k); ?>" />
-                    <?php
+            ?>
+                    <input type="hidden" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" value="<?php $post_model->echo_meta_post($data, $k); ?>" />
+                <?php
 
                     //
                     continue;
                 } // END if hidden type
-            
+
                 //
                 if ($input_type == 'checkbox') {
-                    ?>
+                ?>
                     <div class="control-group post_meta_<?php echo $k; ?>">
                         <div class="controls controls-checkbox">
                             <label for="post_meta_<?php echo $k; ?>">
-                                <input type="checkbox" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>"
-                                    value="on" data-value="<?php $post_model->echo_meta_post($data, $k); ?>" />
+                                <input type="checkbox" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" value="on" data-value="<?php $post_model->echo_meta_post($data, $k); ?>" />
                                 <?php echo $v; ?>
                             </label>
                             <?php
@@ -118,12 +111,12 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                             ?>
                         </div>
                     </div>
-                    <?php
+                <?php
 
                     //
                     continue;
                 } // END if checkbox
-            
+
                 ?>
                 <div class="control-group post_meta_<?php echo $k; ?>">
                     <label for="post_meta_<?php echo $k; ?>" class="control-label">
@@ -134,11 +127,10 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
 
                         //
                         if ($input_type == 'textarea') {
-                            ?>
-                            <textarea style="width:80%;" placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]"
-                                id="post_meta_<?php echo $k; ?>" class="<?php echo PostType::meta_class($k); ?>"><?php $post_model->echo_meta_post($data, $k); ?>
+                        ?>
+                            <textarea style="width:80%;" placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" class="<?php echo PostType::meta_class($k); ?>"><?php $post_model->echo_meta_post($data, $k); ?>
         </textarea>
-                            <?php
+                        <?php
                         } // END if post textarea
                         else if ($input_type == 'select' || $input_type == 'select_multiple') {
                             $select_multiple = '';
@@ -151,37 +143,34 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                             //
                             $select_options = PostType::meta_select($k);
 
-                            ?>
-                                <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>"
-                                    name="post_meta[<?php echo $k; ?>]<?php echo $meta_multiple; ?>" <?php echo $select_multiple;
-                                          ?>>
-                                    <?php
+                        ?>
+                            <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>]<?php echo $meta_multiple; ?>" <?php echo $select_multiple;
+                                                                                                                                                                    ?>>
+                                <?php
 
-                                    foreach ($select_options as $option_k => $option_v) {
-                                        echo '<option value="' . $option_k . '">' . $option_v . '</option>';
-                                    }
+                                foreach ($select_options as $option_k => $option_v) {
+                                    echo '<option value="' . $option_k . '">' . $option_v . '</option>';
+                                }
 
-                                    ?>
-                                </select>
-                            <?php
+                                ?>
+                            </select>
+                        <?php
                         } // END if post select
                         else {
-                            ?>
-                                <input type="<?php echo $input_type; ?>" class="span10" placeholder="<?php echo $v; ?>"
-                                    name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>"
-                                    value="<?php $post_model->echo_meta_post($data, $k); ?>" />
-                            <?php
+                        ?>
+                            <input type="<?php echo $input_type; ?>" class="span10" placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" value="<?php $post_model->echo_meta_post($data, $k); ?>" />
+                        <?php
                         } // END else
-                    
+
                         // hiển thị ghi chú nếu có
                         PostType::meta_desc($k);
 
                         ?>
                     </div>
                 </div>
-                <?php
+            <?php
             } // END foreach auto add post meta
-            
+
             //
             include ADMIN_ROOT_VIEWS . 'posts/add_submit.php';
 

@@ -20,16 +20,18 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
             <div class="control-group">
                 <label class="control-label">Ngôn ngữ</label>
                 <div class="controls">
-                    <strong class="redcolor"><?php echo $term_lang; ?></strong>
                     <?php
 
                     // chạy vòng lặp hiển thị các ngôn ngữ được hỗ trợ trên website
                     $lang_parent = $data['lang_parent'] > 0 ? $data['lang_parent'] : $data['term_id'];
                     foreach (SITE_LANGUAGE_SUPPORT as $v) {
                         if ($v['value'] == $data['lang_key']) {
+                    ?>
+                            | <strong class="redcolor"><?php echo $term_lang; ?></strong>
+                        <?php
                             continue;
                         }
-                    ?>
+                        ?>
                         | <a href="<?php echo $term_model->get_admin_permalink($taxonomy, $lang_parent, $controller_slug); ?>&clone_lang=<?php echo $v['value']; ?>" class="bluecolor"><?php echo $v['text']; ?></a>
                     <?php
                     }
