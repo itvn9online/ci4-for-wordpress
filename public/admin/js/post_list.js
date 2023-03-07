@@ -10,7 +10,6 @@ function each_to_group_taxonomy() {
 		var jd = $(this).attr("id") || "";
 		if (jd == "") {
 			jd = "_" + Math.random().toString(32).replace(".", "_");
-			//console.log(jd);
 
 			//
 			$(this).attr({
@@ -18,6 +17,7 @@ function each_to_group_taxonomy() {
 			});
 		}
 		//console.log(a);
+		//console.log(jd);
 
 		// chạy ajax nạp dữ liệu của taxonomy
 		load_term_select_option(a, jd, function (data, jd) {
@@ -28,8 +28,11 @@ function each_to_group_taxonomy() {
 					.append(create_term_select_option(data))
 					.removeClass("set-selected");
 
+				// xóa các option không có count -> đỡ phải lọc
+				$("#" + jd + " option[data-count='0']").remove();
 				// tạo lại selected
 				WGR_set_prop_for_select("#" + jd);
+				$("#" + jd).select2();
 			} else {
 				$("#" + jd)
 					.parent(".hide-if-no-taxonomy")

@@ -478,13 +478,30 @@ class Posts extends Admin
 
             // tự động cập nhật lại slug khi nhân bản
             if (strstr($data['post_name'], '-duplicate-') == true && strstr($data['post_title'], ' - Duplicate ') == false) {
+                //die(__CLASS__ . ':' . __LINE__);
                 //echo 'bbbbbbbbbbbbb';
-                $this->post_model->update_post($id, [
+
+                //
+                $duplicate_name = $this->base_model->_eb_non_mark_seo($data['post_title']);
+                if ($this->post_type == PostType::ADS) {
+                    // với mục q.cáo -> không dùng slug nên tự thêm id vào slug để tránh trùng lặp
+                    $duplicate_name .= '-' . $id;
+                }
+
+                //
+                $result_update = $this->post_model->update_post($id, [
                     //'post_title' => $data['post_title'],
-                    'post_name' => $this->base_model->_eb_non_mark_seo($data['post_title'])
+                    'post_name' => $duplicate_name
                 ], [
                     'post_type' => $this->post_type,
                 ]);
+
+                // nếu có lỗi thì thông báo lỗi
+                if ($result_update !== true && is_array($result_update) && isset($result_update['error'])) {
+                    //die(__CLASS__ . ':' . __LINE__);
+                    die($result_update['error']);
+                    //$this->base_model->alert($result_update['error'], 'error');
+                }
 
                 //
                 $this->MY_redirect(DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/'), 301);
@@ -652,7 +669,7 @@ class Posts extends Admin
         //die( __CLASS__ . ':' . __LINE__ );
 
         //
-        $result_id = $this->post_model->insert_post($data);
+        $result_id = $this->post_model->insert_post($data, [], $this->post_type == PostType::ADS ? false : true);
         if (is_array($result_id) && isset($result_id['error'])) {
             $this->base_model->alert($result_id['error'], 'error');
         }
@@ -742,6 +759,19 @@ class Posts extends Admin
     protected function update($id)
     {
         $this->updating($id);
+
+        //
+        $data = $this->MY_post('data');
+        //print_r( $data );
+        //print_r( $_POST );
+
+        // nạp lại trang nếu có đổi slug duplicate
+        if (
+            isset($data['post_name']) && strstr($data['post_name'], '-duplicate-') == true &&
+            isset($data['post_title']) && strstr($data['post_title'], ' - Duplicate ') == false
+        ) {
+            $this->base_model->alert('', DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/'));
+        }
 
         //
         $this->base_model->alert('Cập nhật ' . $this->name_type . ' thành công');

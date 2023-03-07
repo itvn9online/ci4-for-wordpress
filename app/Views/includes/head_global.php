@@ -104,7 +104,8 @@ if ($getconfig->fb_app_id != '') {
 // nạp phần css inline để phục vụ cho bản mobile
 ?>
 <style>
-    <?php echo file_get_contents(PUBLIC_PUBLIC_PATH . 'css/mobile-usability.css', 1);
+    <?php
+    echo file_get_contents(PUBLIC_PUBLIC_PATH . 'css/mobile-usability.css', 1);
     ?>
 </style>
 <?php
@@ -150,12 +151,14 @@ foreach ($arr_preload_bootstrap as $v) {
 <?php
 
 // in ra mã màu dạng global để tiện thay đổi
+/*
 echo HtmlTemplate::html('root_color.txt', [
     'default_bg' => $getconfig->default_bg,
     'sub_bg' => $getconfig->sub_bg,
     'default_color' => $getconfig->default_color,
     'a_color' => $getconfig->a_color,
 ]);
+*/
 
 //
 $base_model->preloads_css([
@@ -188,11 +191,19 @@ if ($isMobile == true) {
 
 // xác định kích thước khung web dựa theo config
 echo HtmlTemplate::html('custom_css.txt', [
+    'default_bg' => $getconfig->default_bg,
+    'sub_bg' => $getconfig->sub_bg,
+    'default_color' => $getconfig->default_color,
+    'a_color' => $getconfig->a_color,
+    //
     'site_max_width60' => $getconfig->site_max_width + 60,
     'site_max_width30' => $getconfig->site_max_width + 30,
     'site_max_width19' => $getconfig->site_max_width + 19,
     'site_max_width' => $getconfig->site_max_width,
     'site_full_width' => $getconfig->site_full_width,
+    //
+    'body_font_size' => $getconfig->body_font_size,
+    'bodym_font_size' => $getconfig->bodym_font_size,
 ]);
 
 

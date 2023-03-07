@@ -75,7 +75,6 @@ class TaxonomyType
 
         //
         //$arr['taxonomy_avatar'] = 'Ảnh đại diện';
-        $arr['term_template'] = 'Giao diện';
         $arr['taxonomy_custom_post_size'] = 'Tùy chỉnh tỉ lệ ảnh';
         $arr['taxonomy_auto_slider'] = 'Slider';
         if ($taxonomy == self::ADS) {
@@ -94,6 +93,7 @@ class TaxonomyType
             $arr['hide_title'] = 'Ẩn tiêu đề của bài viết';
             $arr['hide_description'] = 'Ẩn tóm tắt của bài viết';
             $arr['hide_info'] = 'Ẩn ngày tháng, danh mục của bài viết';
+            $arr['show_short_title'] = 'Hiển thị tiêu đề ngắn bài viết';
             $arr['show_post_content'] = 'Hiển thị nội dung của bài viết';
             $arr['run_slider'] = 'Chạy slider (banner sẽ được hiển thị dưới dạng slider của flatsome)';
             $arr['max_width'] = 'Chiều rộng tối đa';
@@ -104,6 +104,8 @@ class TaxonomyType
             $arr['open_target'] = 'Mở liên kết trong tab mới';
             $arr['text_view_more'] = 'Hiển thị nút xem thêm';
             $arr['text_view_details'] = 'Hiển thị nút xem chi tiết';
+        } else {
+            $arr['term_template'] = 'Giao diện';
         }
 
         //
@@ -130,6 +132,7 @@ class TaxonomyType
             'hide_title' => 'checkbox',
             'hide_description' => 'checkbox',
             'hide_info' => 'checkbox',
+            'show_short_title' => 'checkbox',
             'show_post_content' => 'checkbox',
             'run_slider' => 'checkbox',
             'open_target' => 'checkbox',

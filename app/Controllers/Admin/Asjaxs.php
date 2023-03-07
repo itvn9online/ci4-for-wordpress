@@ -89,7 +89,10 @@ class Asjaxs extends Admin
 
         //
         //die( json_encode( $_POST ) );
-        die($this->term_model->json_taxonomy($taxonomy, 0, ['get_child' => 1], $taxonomy . '_get_child'));
+        die($this->term_model->json_taxonomy($taxonomy, 0, [
+            'get_child' => 1,
+            'lang_key' => $this->MY_post('lang_key', ''),
+        ], $taxonomy . '_get_child'));
     }
 
     public function get_users_by_ids()

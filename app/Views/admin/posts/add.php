@@ -304,6 +304,7 @@ $base_model->JSON_echo([
     'url_next_post' => $url_next_post,
     'post_cat' => $post_cat,
     'post_tags' => $post_tags,
+    'post_lang_key' => $data['lang_key'],
 ]);
 
 ?>

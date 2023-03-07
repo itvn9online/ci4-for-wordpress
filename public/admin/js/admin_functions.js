@@ -36,6 +36,14 @@ function fix_textarea_height() {
 		});
 }
 
+function create_div_grid_layout(class_css) {
+	return [
+		'<div class="col ' + class_css + '">',
+		'<div class="col-inner">div content</div>',
+		"</div>",
+	].join(" ");
+}
+
 var current_textediter_insert_to = "";
 
 function WgrWp_popup_upload(insert_to, add_img_tag, img_size, input_type) {
@@ -353,29 +361,22 @@ function WGR_load_textediter(for_id, ops) {
 		//quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
 		//toolbar_mode: 'sliding',
 		//contextmenu: 'link image imagetools table',
+		//
+		link_class_list: [
+			{ title: "None", value: "" },
+			{ title: "Button primary", value: "btn btn-primary" },
+			{ title: "Button secondary", value: "btn btn-secondary" },
+			{ title: "Button success", value: "btn btn-success" },
+			{ title: "Button danger", value: "btn btn-danger" },
+			{ title: "Button warning", value: "btn btn-warning" },
+			{ title: "Button info", value: "btn btn-info" },
+		],
 		// rel cho thẻ A
 		rel_list: [
-			{
-				title: "None",
-				value: "",
-			},
-			{
-				title: "No Referrer",
-				value: "noreferrer",
-			},
-			{
-				title: "No Follow",
-				value: "nofollow",
-				/*
-        }, {
-            title: 'No Opener',
-            value: 'noopener'
-            */
-			},
-			{
-				title: "External Link",
-				value: "external",
-			},
+			{ title: "None", value: "" },
+			{ title: "No Referrer", value: "noreferrer" },
+			{ title: "No Follow", value: "nofollow" },
+			{ title: "External Link", value: "external" },
 		],
 		//
 		toolbar: ops["toolbar"],
@@ -385,7 +386,7 @@ function WGR_load_textediter(for_id, ops) {
 				title: "New Table",
 				description: "creates a new table",
 				content: [
-					'<div class="mceTmpl">',
+					'<div class="mce-table-tmpl">',
 					'<table width="98%%" border="0" cellspacing="0" cellpadding="0">',
 					"<tr>",
 					'<th scope="col"> th </th>',
@@ -408,7 +409,7 @@ function WGR_load_textediter(for_id, ops) {
 				title: "New list with dates",
 				description: "New List with dates",
 				content: [
-					'<div class="mceTmpl">',
+					'<div class="mce-list-tmpl">',
 					'<span class="cdate">cdate</span><br /><span class="mdate">mdate</span>',
 					"<h2>My List</h2>",
 					"<ul>",
@@ -418,13 +419,53 @@ function WGR_load_textediter(for_id, ops) {
 					"</div>",
 				].join(" "),
 			},
+			{
+				title: "DIV grid",
+				description: "Add DIV grid using bootstrap",
+				content: [
+					'<div class="row">',
+					create_div_grid_layout("small-12 medium-4 large-4"),
+					create_div_grid_layout("small-12 medium-4 large-4"),
+					create_div_grid_layout("small-12 medium-4 large-4"),
+					"</div>",
+				].join(" "),
+			},
+			{
+				title: "Button inline",
+				description: "New new button inline",
+				content: '<a href="#" class="btn btn-primary">Button inline</a>',
+			},
+			{
+				title: "Button new-line",
+				description: "New new button new-line",
+				content: [
+					'<p class="mce-btn-tmpl">',
+					'<a href="#" class="btn btn-primary">Button new-line</a>',
+					"</p>",
+				].join(" "),
+			},
+			{
+				title: "Phone icon",
+				description: "Phone icon awesome",
+				content: '<i class="fa fa-phone"><!-- icon --></i>',
+			},
 		],
 		template_cdate_format: "[Date Created (CDATE): %d/%m/%Y : %H:%M:%S]",
 		template_mdate_format: "[Date Modified (MDATE): %d/%m/%Y : %H:%M:%S]",
+		// tắt chức năng chuyển thẻ i thành em
+		extended_valid_elements: "i[class]",
+		// thêm 1 số link css để tạo định dạng trong quá trình soạn thảo
+		content_css: [
+			web_link + "thirdparty/bootstrap/css/bootstrap.min.css",
+			web_link + "admin/css/bootstrap-for-tiny-editer.css",
+			web_link + "thirdparty/awesome47/css/font-awesome.before.css?v=4.7",
+			web_link + "thirdparty/awesome47/css/font-awesome.min.css?v=4.7",
+		].join(","),
 		setup: function (ed) {
 			// sự kiện khi khi nhấp đúp chuột
 			ed.on("DblClick", function (e) {
-				//console.log('Double click event:', e.target);
+				//console.log("Double click event:", e.target);
+				//console.log("Double click event:", e.target.className);
 
 				//
 				var target_nodeName = e.target.nodeName.toLocaleLowerCase();
@@ -442,6 +483,26 @@ function WGR_load_textediter(for_id, ops) {
 				// nếu là URL -> mở hộp chỉnh sửa URL
 				else if (target_nodeName == "a") {
 					tinymce.activeEditor.execCommand("mceLink");
+				}
+				// nếu mở thẻ của font awesome
+				else if (target_nodeName == "i") {
+					var i_class_name = e.target.className;
+					if (i_class_name.split("fa ").length > 1) {
+						//console.log("i tag dblclick:", i_class_name);
+						let new_class_name = prompt("Font awesome class", i_class_name);
+						if (new_class_name != null && new_class_name != i_class_name) {
+							// xóa các class cũ
+							var i_class_name = i_class_name.split(" ");
+							for (var i = 0; i < i_class_name.length; i++) {
+								e.target.classList.remove(i_class_name[i]);
+							}
+							// thay class mới
+							i_class_name = new_class_name.split(" ");
+							for (var i = 0; i < i_class_name.length; i++) {
+								e.target.classList.add(i_class_name[i]);
+							}
+						}
+					}
 				}
 			});
 		},
@@ -677,7 +738,7 @@ function load_term_select_option(a, jd, _callBack, max_i) {
 		//crossDomain: true,
 		data: {
 			taxonomy: a,
-			//jd: jd,
+			lang_key: typeof post_lang_key != "undefined" ? post_lang_key : "",
 		},
 		timeout: 33 * 1000,
 		error: function (jqXHR, textStatus, errorThrown) {
@@ -734,8 +795,15 @@ function create_term_select_option(arr, space) {
 		}
 
 		//
+		if (typeof arr[i].count != "undefined" && arr[i].count * 1 > 0) {
+			arr[i].term_shortname += " (" + arr[i].count + ")";
+		}
+
+		//
 		str +=
-			'<option value="' +
+			'<option data-count="' +
+			arr[i].count +
+			'" value="' +
 			arr[i].term_id +
 			'">' +
 			space +

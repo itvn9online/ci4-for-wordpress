@@ -141,6 +141,8 @@ class ConfigType
             ];
         } else if ($config_type == self::DISPLAY) {
             $arr = [
+                'body_font_size' => 'Cỡ chữ mặc định',
+                'bodym_font_size' => 'Cỡ chữ mặc định',
                 'default_bg' => 'Màu nền mặc định',
                 'sub_bg' => 'Màu nền thứ cấp',
                 'default_color' => 'Màu chữ mặc định',
@@ -300,6 +302,8 @@ class ConfigType
     public static function meta_type($key)
     {
         $arr = [
+            'body_font_size' => 'number',
+            'bodym_font_size' => 'number',
             'default_bg' => 'color',
             'sub_bg' => 'color',
             'default_color' => 'color',
@@ -362,6 +366,8 @@ class ConfigType
             //'description' => '',
             //'logo' => '',
             'logo_main_height' => 'number',
+            'logo_width_img' => 'number',
+            'logo_height_img' => 'number',
             //'logofooter' => '',
             'logo_footer_height' => 'number',
             //'logo_mobile' => '',
@@ -426,6 +432,8 @@ class ConfigType
     public static function meta_desc($key)
     {
         $arr = [
+            'body_font_size' => 'Cỡ chữ được thiết lập cho body.',
+            'bodym_font_size' => 'Cỡ chữ được thiết lập cho body bản mobile.',
             'default_bg' => 'Là màu nền đặc trưng cho các menu, nút bấm trên toàn bộ website.',
             'sub_bg' => 'Màu nền cho các module khác, tạo sự khác biệt với màu nền chính ở trên.',
             'default_color' => 'Màu mặc định cho mọi font chữ trên website nếu module đó không được thiết lập màu riêng.',

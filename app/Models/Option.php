@@ -298,6 +298,9 @@ class Option extends EbModel
             //
             'site_max_width' => 1024,
             'site_full_width' => 1920,
+            //
+            'body_font_size' => 14,
+            'bodym_font_size' => 13,
         ];
         foreach ($default_config_value as $k => $v) {
             if (empty($this_cache_config[$k])) {

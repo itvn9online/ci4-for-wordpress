@@ -82,10 +82,14 @@ class Layout extends Sync
         if (!file_exists($itemprop_cache_logo) || time() - filemtime($itemprop_cache_logo) > HOUR) {
             // logo
             $structured_data = file_get_contents(VIEWS_PATH . 'html/structured-data/itemprop-logo.html');
-            $structured_data = str_replace('{{web_quot_title}}', str_replace('"', '', $this->getconfig->name), $structured_data);
-            $structured_data = str_replace('{{image}}', DYNAMIC_BASE_URL . $this->getconfig->logo, $structured_data);
-            $structured_data = str_replace('{{trv_width_img}}', $this->getconfig->logo_height_img, $structured_data);
-            $structured_data = str_replace('{{trv_height_img}}', $this->getconfig->logo_width_img, $structured_data);
+            foreach ([
+                '{{web_quot_title}}' => str_replace('"', '', $this->getconfig->name),
+                '{{image}}' => DYNAMIC_BASE_URL . $this->getconfig->logo,
+                '{{trv_width_img}}' => $this->getconfig->logo_height_img,
+                '{{trv_height_img}}' => $this->getconfig->logo_width_img,
+            ] as $k => $v) {
+                $structured_data = str_replace($k, $v, $structured_data);
+            }
 
             //
             file_put_contents($itemprop_cache_logo, $structured_data);

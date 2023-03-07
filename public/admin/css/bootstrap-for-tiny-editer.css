@@ -1,0 +1,14 @@
+.row,
+.col,
+.col-inner {}
+
+.row {
+    margin-bottom: 15px;
+}
+
+.col {
+    border: 1px #ccc dashed;
+    padding: 10px 15px;
+}
+
+.col-inner {}

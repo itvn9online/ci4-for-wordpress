@@ -98,7 +98,7 @@ class PostQuery extends PostMeta
                             )
                         ),
                         // hiển thị mã SQL để check
-                        'show_query' => 1,
+                        //'show_query' => 1,
                         // trả về câu query để sử dụng cho mục đích khác
                         //'get_query' => 1,
                         //'offset' => 2,
@@ -247,7 +247,7 @@ class PostQuery extends PostMeta
                             )
                         ),
                         // hiển thị mã SQL để check
-                        'show_query' => 1,
+                        //'show_query' => 1,
                         // trả về câu query để sử dụng cho mục đích khác
                         //'get_query' => 1,
                         //'offset' => 2,
@@ -693,6 +693,11 @@ class PostQuery extends PostMeta
         if ($instance['text_view_more'] != '' || $instance['text_view_details'] != 'text_view_details') {
             $custom_style[] = 'show-view-more';
         }
+        // hiển thị tiêu đề ngắn bài viết
+        $show_short_title = '';
+        if ($instance['show_short_title'] == 'on') {
+            $show_short_title = '{{post_shorttitle}}';
+        }
         // hiển thị nội dung của bài viết
         $show_post_content = '';
         if ($instance['show_post_content'] == 'on') {
@@ -773,6 +778,7 @@ class PostQuery extends PostMeta
                 $tmp_html,
                 [
                     'p_link' => $p_link,
+                    'show_short_title' => $show_short_title,
                     'show_post_content' => $show_post_content . $widget_blog_more,
                     'post_permalink' => $p_link,
                 ]

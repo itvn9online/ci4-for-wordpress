@@ -59,6 +59,7 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
                         <label class="control-label">PHP Code:</label>
                         <div class="controls">
                             <input type="text" class="span6" value="&lt;?php $this->post_model->the_ads( '<?php echo $data['slug']; ?>' ); ?&gt;" readonly />
+                            <input type="hidden" name="data[slug]" value="<?php echo $data['slug']; ?>" />
                         </div>
                     </div>
                 <?php

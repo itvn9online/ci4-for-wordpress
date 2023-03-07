@@ -183,8 +183,8 @@ class Configs extends Admin
                 $logo_data = getimagesize(PUBLIC_PUBLIC_PATH . $data['logo']);
 
                 //
-                $data['logo_width_img'] = $logo_data[0];
-                $data['logo_height_img'] = $logo_data[1];
+                $data['logo_width_img'] = ceil($logo_data[0]);
+                $data['logo_height_img'] = ceil($logo_data[1]);
 
                 //
                 if (!isset($data['logo_main_height']) || empty($data['logo_main_height'])) {

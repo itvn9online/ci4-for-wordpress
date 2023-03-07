@@ -1,4 +1,11 @@
 <style>
+:root {
+--default-bg: {{default_bg}};
+--sub-bg: {{sub_bg}};
+--default2-bg: {{sub_bg}};
+--default-color: {{default_color}};
+--a-color: {{a_color}};
+}
 .row {
 max-width: {{site_max_width30}}px;
 }
@@ -13,5 +20,13 @@ max-width: {{site_max_width}}px;
 }
 .w96 {
 max-width: {{site_full_width}}px;
+}
+body {
+font-size: {{body_font_size}}px;
+}
+@media only screen and (max-width:588px) {
+body {
+font-size: {{bodym_font_size}}px;
+}
 }
 </style>

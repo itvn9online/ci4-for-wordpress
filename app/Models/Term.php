@@ -567,7 +567,7 @@ class Term extends TermBase
         //echo 'in_cache: ' . $in_cache . '<br>' . "\n";
 
         // cố định loại cột cần lấy
-        $ops['select_col'] = 'term_id, name, term_shortname, slug, term_group, count, parent, taxonomy, child_count, child_last_count, term_permalink, term_avatar, term_favicon';
+        $ops['select_col'] = 'term_id, name, term_shortname, slug, term_group, count, parent, taxonomy, child_count, child_last_count, term_permalink, term_avatar, term_favicon, lang_key';
         //$ops[ 'select_col' ] = '*';
 
         //
