@@ -368,7 +368,12 @@ class Terms extends Admin
             //die(__CLASS__ . ':' . __LINE__);
 
             // tự động cập nhật lại slug khi nhân bản
-            if (strstr($data['slug'], '-duplicate-') == true && strstr($data['name'], ' - Duplicate ') == false) {
+            if (
+                // url vẫn còn duplicate
+                strstr($data['slug'], '-duplicate-') == true &&
+                // tiêu đề không còn Duplicate
+                strstr($data['name'], ' - Duplicate ') == false
+            ) {
                 //die( DYNAMIC_BASE_URL . ltrim( $_SERVER[ 'REQUEST_URI' ], '/' ) );
                 //echo 'bbbbbbbbbbbbb';
                 $this->term_model->update_terms($data['term_id'], [
@@ -376,8 +381,17 @@ class Terms extends Admin
                     'slug' => $this->base_model->_eb_non_mark_seo($data['name'])
                 ]);
 
+                // lấy data mới -> sau khi update
+                $new_data = $this->term_model->select_term($data['term_id'], [
+                    'taxonomy' => $this->taxonomy,
+                ]);
+                //print_r($new_data);
+                // cập nhật lại slug luôn vào ngay
+                $this->term_model->the_term_permalink($new_data);
+
                 //
-                $this->MY_redirect(DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/'), 301);
+                //$this->MY_redirect(DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/'), 301);
+                $this->MY_redirect($this->term_model->get_admin_permalink($this->taxonomy, $data['term_id'], $this->controller_slug), 301);
             }
 
             // lấy các nhóm khác cùng nhóm để xử lý cho tiện -> nhiều khi muốn sửa thì sửa luôn
@@ -556,6 +570,35 @@ class Terms extends Admin
             //
             //print_r( $data );
             $this->cleanup_cache($data['slug']);
+        }
+
+        // nạp lại trang nếu có đổi slug duplicate
+        if (
+            // url vẫn còn duplicate
+            isset($data['slug']) && strstr($data['slug'], '-duplicate-') == true &&
+            // tiêu đề không còn Duplicate
+            isset($data['name']) && strstr($data['name'], ' - Duplicate ') == false
+        ) {
+            // nạp lại trang
+            //$this->base_model->alert('', DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/'));
+            $this->base_model->alert('', $this->term_model->get_admin_permalink($this->taxonomy, $id, $this->controller_slug));
+        } else {
+            // so sánh url cũ và mới
+            $old_slug = $this->MY_post('old_slug');
+            //print_r($old_slug);
+
+            // nếu có sự khác nhau
+            if ($old_slug != $data['slug']) {
+                // lấy data mới -> sau khi update
+                $new_data = $this->term_model->select_term($id, [
+                    'taxonomy' => $this->taxonomy,
+                ]);
+                //print_r($new_data);
+
+                // -> lấy url mới -> thiết lập lại url ở fronend
+                //$this->post_model->the_post_permalink($new_data);
+                echo '<script>top.set_new_term_url("' . $this->term_model->get_term_permalink($new_data) . '", "' . $new_data['slug'] . '");</script>';
+            }
         }
 
         //

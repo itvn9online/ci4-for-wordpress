@@ -477,7 +477,12 @@ class Posts extends Admin
             }
 
             // tự động cập nhật lại slug khi nhân bản
-            if (strstr($data['post_name'], '-duplicate-') == true && strstr($data['post_title'], ' - Duplicate ') == false) {
+            if (
+                // url vẫn còn duplicate
+                strstr($data['post_name'], '-duplicate-') == true &&
+                // tiêu đề không còn Duplicate
+                strstr($data['post_title'], ' - Duplicate ') == false
+            ) {
                 //die(__CLASS__ . ':' . __LINE__);
                 //echo 'bbbbbbbbbbbbb';
 
@@ -503,8 +508,17 @@ class Posts extends Admin
                     //$this->base_model->alert($result_update['error'], 'error');
                 }
 
+                // lấy data mới -> sau khi update
+                $new_data = $this->post_model->select_post($id, [
+                    'post_type' => $this->post_type,
+                ]);
+                //print_r($new_data);
+                // cập nhật lại slug luôn vào ngay
+                $this->post_model->the_post_permalink($new_data);
+
                 //
-                $this->MY_redirect(DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/'), 301);
+                //$this->MY_redirect(DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/'), 301);
+                $this->MY_redirect($this->post_model->get_admin_permalink($this->post_type, $id, $this->controller_slug), 301);
             }
 
             // lấy bài tiếp theo để auto next
@@ -762,15 +776,36 @@ class Posts extends Admin
 
         //
         $data = $this->MY_post('data');
-        //print_r( $data );
+        //print_r($data);
         //print_r( $_POST );
 
         // nạp lại trang nếu có đổi slug duplicate
         if (
+            // url vẫn còn duplicate
             isset($data['post_name']) && strstr($data['post_name'], '-duplicate-') == true &&
+            // tiêu đề không còn Duplicate
             isset($data['post_title']) && strstr($data['post_title'], ' - Duplicate ') == false
         ) {
-            $this->base_model->alert('', DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/'));
+            // nạp lại trang
+            //$this->base_model->alert('', DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/'));
+            $this->base_model->alert('', $this->post_model->get_admin_permalink($this->post_type, $id, $this->controller_slug));
+        } else {
+            // so sánh url cũ và mới
+            $old_postname = $this->MY_post('old_postname');
+            //print_r($old_postname);
+
+            // nếu có sự khác nhau
+            if ($old_postname != $data['post_name']) {
+                // lấy data mới -> sau khi update
+                $new_data = $this->post_model->select_post($id, [
+                    'post_type' => $this->post_type,
+                ]);
+                //print_r($new_data);
+
+                // -> lấy url mới -> thiết lập lại url ở fronend
+                //$this->post_model->the_post_permalink($new_data);
+                echo '<script>top.set_new_post_url("' . $this->post_model->get_post_permalink($new_data) . '", "' . $new_data['post_name'] . '");</script>';
+            }
         }
 
         //

@@ -135,9 +135,14 @@ if (
 
 			// tạo lại selected
 			WGR_set_prop_for_select("#post_meta_post_category");
+			if ($("#post_meta_post_category").length > 10) {
+				$("#post_meta_post_category").select2();
+			}
 		}
 	);
 }
+
+//
 if (
 	$("#post_meta_post_tags").length > 0 &&
 	typeof post_tags != "undefined" &&
@@ -154,6 +159,9 @@ if (
 
 			// tạo lại selected
 			WGR_set_prop_for_select("#post_meta_post_tags");
+			if ($("#post_meta_post_tags").length > 10) {
+				$("#post_meta_post_tags").select2();
+			}
 		}
 	);
 }

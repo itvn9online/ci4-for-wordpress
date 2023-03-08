@@ -74,10 +74,11 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
                     <label class="control-label">Slug</label>
                     <div class="controls">
                         <input type="text" title="Bấm đúp chuột để chỉnh sửa đường dẫn" class="span6" name="data[slug]" id="data_post_name" onDblClick="$('#data_post_name').removeAttr('readonly');" value="<?php echo $data['slug']; ?>" readonly />
+                        <input type="hidden" name="old_slug" id="old_slug" value="<?php echo $data['slug']; ?>" />
                         <?php
                         if ($data['term_id'] > 0) {
                         ?>
-                            <a href="<?php $term_model->the_term_permalink($data); ?>" class="bluecolor"><?php echo $data['term_permalink']; ?> <i class="fa fa-eye"></i></a>
+                            <a href="<?php $term_model->the_term_permalink($data); ?>" class="bluecolor set-new-url"><?php echo $data['term_permalink']; ?></a> <i class="fa fa-eye bluecolor"></i>
                         <?php
                         }
                         ?>
@@ -248,7 +249,7 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
                 <?php
                 if ($data['term_id'] > 0) {
                 ?>
-                    <a href="admin/terms/<?php echo $controller_slug; ?>?id=<?php echo $data['term_id']; ?>" onClick="return click_a_delete_record();" class="btn btn-danger btn-small" target="target_eb_iframe"><i class="fa fa-trash"></i> XÓA
+                    <a href="admin/<?php echo $controller_slug; ?>/delete?id=<?php echo $data['term_id']; ?>" onClick="return click_a_delete_record();" class="btn btn-danger btn-small" target="target_eb_iframe"><i class="fa fa-trash"></i> XÓA
                         <?php echo $name_type; ?>
                     </a>
                     <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Lưu lại</button>

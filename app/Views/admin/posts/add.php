@@ -52,10 +52,11 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                 <label class="control-label">Slug</label>
                 <div class="controls">
                     <input type="text" title="Bấm đúp chuột để chỉnh sửa đường dẫn" class="span6" name="data[post_name]" id="data_post_name" onDblClick="$('#data_post_name').removeAttr('readonly');" value="<?php echo $data['post_name']; ?>" readonly />
+                    <input type="hidden" name="old_postname" id="old_postname" value="<?php echo $data['post_name']; ?>" />
                     <?php
                     if ($data['ID'] > 0) {
                     ?>
-                        <a href="<?php $post_model->the_post_permalink($data); ?>" class="bluecolor"><?php echo $data['post_permalink']; ?> <i class="fa fa-eye"></i></a>
+                        <a href="<?php $post_model->the_post_permalink($data); ?>" class="bluecolor set-new-url"><?php echo $data['post_permalink']; ?></a> <i class="fa fa-eye bluecolor"></i>
                     <?php
                     }
                     ?>

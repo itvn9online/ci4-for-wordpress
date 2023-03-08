@@ -86,7 +86,7 @@ $base_model->adds_css([
                 <td>{{v.term_id}}</td>
                 <td><span data-id="{{v.parent}}" data-taxonomy="<?php echo $taxonomy; ?>" data-line="{{v.gach_ngang}}" class="parent-term-name"></span> <a href="{{v.get_admin_permalink}}">{{v.gach_ngang}}{{v.name}}
                         <i class="fa fa-edit"></i></a></td>
-                <td><a href="{{v.view_url}}" target="_blank">{{v.slug}} <i class="fa fa-eye"></i></a></td>
+                <td><a href="{{v.view_url}}" target="_blank">{{v.view_url}} <i class="fa fa-eye"></i></a></td>
                 <td>{{v.term_shortname}}</td>
                 <td class="d-none show-if-ads-type">
                     <?php echo $ads_size; ?>
