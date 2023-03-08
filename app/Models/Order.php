@@ -50,7 +50,7 @@ class Order extends Post
         //die(__CLASS__ . ':' . __LINE__);
 
         //
-        $result = parent::insert_post($data_insert);
+        $result = parent::insert_post($data_insert, [], false);
 
         //
         if (isset($data_insert['post_author']) && $data_insert['post_author'] > 0) {
