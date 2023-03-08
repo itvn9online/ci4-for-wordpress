@@ -167,7 +167,7 @@ var _global_js_eb = {
 				var max_width =
 					jQuery(this).attr("data-width") || jQuery(this).width() || 250;
 				max_width = Math.ceil(max_width) - 1;
-				console.log("max_width: " + max_width);
+				//console.log("max_width: " + max_width);
 
 				// xử lý với video của youtube
 				jQuery("iframe", this).each(function () {
