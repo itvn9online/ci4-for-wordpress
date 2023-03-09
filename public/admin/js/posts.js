@@ -135,8 +135,16 @@ if (
 
 			// tạo lại selected
 			WGR_set_prop_for_select("#post_meta_post_category");
-			if ($("#post_meta_post_category").length > 10) {
+			console.log(
+				"post meta post category option length:",
+				$("#post_meta_post_category option").length
+			);
+			if (
+				$("#post_meta_post_category option").length > 10 &&
+				!$("#post_meta_post_category").hasClass("has-select2")
+			) {
 				$("#post_meta_post_category").select2();
+				$("#post_meta_post_category").addClass("has-select2");
 			}
 		}
 	);

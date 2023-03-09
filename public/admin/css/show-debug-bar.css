@@ -28,18 +28,23 @@ body.is-admin #target_eb_iframe {
 /* */
 .click-goto-edit {
     position: relative;
+    top: 0;
+    left: 0;
+    bottom: auto;
+    right: 0;
     display: block !important;
     padding: 0 !important;
     border: 0 none !important;
     opacity: 0.5;
     z-index: 9999;
-    color: black !important;
+    color: blue !important;
 }
 
 .col .click-goto-edit {
     position: absolute;
-    right: 0;
 }
+
+.col .goto-taxonomy-edit {}
 
 .click-goto-edit span {
     position: absolute;
@@ -52,7 +57,7 @@ body.is-admin #target_eb_iframe {
 
 .eb-widget-hide-title .click-goto-edit span {
     right: auto;
-    left: 51%;
+    left: 50%;
 }
 
 .click-goto-edit span i {

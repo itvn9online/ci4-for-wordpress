@@ -10,6 +10,6 @@ foreach (SITE_LANGUAGE_SUPPORT as $v) {
         continue;
     }
     ?>
-    | <a href="<?php echo $post_model->get_admin_permalink($data['post_type'], $lang_parent, $controller_slug); ?>&clone_lang=<?php echo $v['value']; ?>" class="bluecolor"><?php echo $v['text']; ?></a>
+    | <a href="<?php echo $post_model->get_admin_permalink($data['post_type'], $lang_parent, $controller_slug); ?>&clone_lang=<?php echo $v['value']; ?>&preview_url=<?php echo urlencode($preview_url); ?>" class="bluecolor"><?php echo $v['text']; ?></a>
 <?php
 }

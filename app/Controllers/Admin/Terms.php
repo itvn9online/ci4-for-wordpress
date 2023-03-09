@@ -484,6 +484,7 @@ class Terms extends Admin
                 'name_type' => $this->name_type,
                 'meta_detault' => TaxonomyType::meta_default($this->taxonomy),
                 'controller_slug' => $this->controller_slug,
+                'preview_url' => $this->MY_get('preview_url', ''),
             )
         );
         return view('admin/admin_teamplate', $this->teamplate_admin);
@@ -600,6 +601,9 @@ class Terms extends Admin
                 echo '<script>top.set_new_term_url("' . $this->term_model->get_term_permalink($new_data) . '", "' . $new_data['slug'] . '");</script>';
             }
         }
+
+        //
+        echo '<script>top.after_update_term();</script>';
 
         //
         $this->base_model->alert('Cập nhật ' . $this->name_type . ' thành công');

@@ -13,6 +13,12 @@ function set_new_term_url(url, slug) {
 	$("#old_slug").val(slug);
 }
 
+function after_update_term() {
+	if (typeof reload_preview_if_isset == "function") {
+		reload_preview_if_isset();
+	}
+}
+
 /*
  * tạo các option con cho phần select Danh mục cha
  */

@@ -1,4 +1,4 @@
-$(document).ready(function () {
+function show_edit_btn() {
 	// thêm css tạo hình
 	/*
 	(function (b, e, v, t, s) {
@@ -24,6 +24,9 @@ $(document).ready(function () {
 	$('.eb-sub-menu[data-type="html_menu"]').attr({
 		"data-control": "htmlmenus",
 	});
+
+	//
+	var preview_url = "&preview_url=" + encodeURIComponent(window.location.href);
 
 	//
 	$(
@@ -68,7 +71,10 @@ $(document).ready(function () {
 			url =
 				'<a href="' +
 				url +
-				'" target="_blank" rel="nofollow" class="click-goto-edit goto-post-edit"><span><i class="fa fa-edit"></i></span></a>';
+				preview_url +
+				'" target="_blank" rel="nofollow" class="click-goto-edit goto-post-edit goto-' +
+				type +
+				'-edit"><span><i class="fa fa-edit"></i></span></a>';
 
 			if (insert_before != "") {
 				$(this).before(url);
@@ -122,12 +128,39 @@ $(document).ready(function () {
 			$(this).prepend(
 				'<a href="' +
 					url +
-					'" target="_blank" rel="nofollow" class="click-goto-edit goto-taxonomy-edit"><span><i class="fa fa-edit"></i></span></a>'
+					preview_url +
+					'" target="_blank" rel="nofollow" class="click-goto-edit goto-taxonomy-edit goto-' +
+					type +
+					'-edit"><span><i class="fa fa-edit"></i></span></a>'
 			);
 		}
 	});
 
+	//
 	$(".web-logo").before(
 		'<a href="admin/configs?support_tab=data_logo" target="_blank" rel="nofollow" class="click-goto-edit goto-option-edit"><span><i class="fa fa-edit"></i></span></a>'
 	);
+
+	// nếu đang mở trong iframe
+	if (top != self) {
+		// không cho bấm vào các link
+		$("a").click(function () {
+			return false;
+		});
+
+		// link edit mở trong top
+		$(".click-goto-edit")
+			.attr({
+				target: "_top",
+			})
+			.off("click")
+			.click(function () {
+				return true;
+			});
+	}
+}
+
+//
+$(document).ready(function () {
+	show_edit_btn();
 });

@@ -10,6 +10,12 @@ function set_new_post_url(url, post_name) {
 	$("#old_postname").val(post_name);
 }
 
+function after_update_post() {
+	if (typeof reload_preview_if_isset == "function") {
+		reload_preview_if_isset();
+	}
+}
+
 // chỉnh lại size ảnh nếu có lựa chọn
 $("#post_meta_image_size").change(function () {
 	var avt_size = $(this).val() || "";

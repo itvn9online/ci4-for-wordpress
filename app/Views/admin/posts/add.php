@@ -13,6 +13,7 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
 ?>
 <div class="widget-box ng-main-content" id="myApp">
     <div class="widget-content nopadding">
+        <div class="preview-btn d-none"></div>
         <form action="" method="post" name="admin_global_form" id="admin_global_form" onSubmit="return action_before_submit_post();" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
             <input type="hidden" name="is_duplicate" id="is_duplicate" value="0" />
             <input type="hidden" name="data[lang_key]" value="<?php echo $data['lang_key']; ?>" />
@@ -275,7 +276,7 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
 </div>
 <br>
 <div class="left-menu-space">
-    <h3><?php echo $name_type; ?> khác:</h3>
+    <h3 class="white-preview-url"><?php echo $name_type; ?> khác:</h3>
     <ul id="oi_other_posts" class="s14">
         <li v-for="v in prev_post"><a :href="post_admin_permalink(current_post_type, v.ID, controller_slug)">{{v.post_title}} ({{v.post_name}})</a></li>
         <li class="bold"><?php echo $data['post_title']; ?></li>
@@ -306,6 +307,7 @@ $base_model->JSON_echo([
     'post_cat' => $post_cat,
     'post_tags' => $post_tags,
     'post_lang_key' => $data['lang_key'],
+    'preview_url' => $preview_url,
 ]);
 
 ?>
@@ -327,6 +329,7 @@ $base_model->JSON_echo([
 
 //
 $base_model->adds_js([
+    'admin/js/preview_url.js',
     'admin/js/posts.js',
     'admin/js/posts_add.js',
     // js riêng cho từng post type (nếu có)

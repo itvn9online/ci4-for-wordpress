@@ -12,6 +12,7 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
 ?>
 <div class="widget-box">
     <div class="widget-content nopadding">
+        <div class="preview-btn d-none"></div>
         <form action="" method="post" name="admin_global_form" id="admin_global_form" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
             <input type="hidden" name="is_duplicate" id="is_duplicate" value="0" />
             <div class="rf">
@@ -32,7 +33,7 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
                             continue;
                         }
                         ?>
-                        | <a href="<?php echo $term_model->get_admin_permalink($taxonomy, $lang_parent, $controller_slug); ?>&clone_lang=<?php echo $v['value']; ?>" class="bluecolor"><?php echo $v['text']; ?></a>
+                        | <a href="<?php echo $term_model->get_admin_permalink($taxonomy, $lang_parent, $controller_slug); ?>&clone_lang=<?php echo $v['value']; ?>&preview_url=<?php echo urlencode($preview_url); ?>" class="bluecolor"><?php echo $v['text']; ?></a>
                     <?php
                     }
 
@@ -293,11 +294,16 @@ $base_model->JSON_echo([
     'name_type' => $name_type,
     'current_taxonomy' => $taxonomy,
     'controller_slug' => $controller_slug,
+    'preview_url' => $preview_url,
 ]);
 
-// css riêng cho từng post type (nếu có)
-$base_model->add_js('admin/js/term_add.js');
-$base_model->add_js('admin/js/' . $taxonomy . '.js');
+//
+$base_model->adds_js([
+    'admin/js/preview_url.js',
+    'admin/js/term_add.js',
+    // js riêng cho từng taxonomy (nếu có)
+    'admin/js/' . $taxonomy . '_add.js',
+]);
 
 ?>
 <script>

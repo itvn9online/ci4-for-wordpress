@@ -21,7 +21,7 @@
     </ol>
     <!-- END menu template -->
     <div class="cf">
-        <div class="lf f50">
+        <div class="lf f50 fullsize-if-mobile">
             <h3>Menu</h3>
             <div class="dd nestable hide-if-edit-menu">
                 <ol class="dd-list">
@@ -65,7 +65,7 @@
                 </ol>
             </div>
         </div>
-        <div class="lf f50 menu-edit-input">
+        <div class="lf f50 fullsize-if-mobile menu-edit-input">
             <div class="left-menu-space">
                 <!-- ADD menu -->
                 <form class="form-inline" onSubmit="return get_json_add_menu(this);" id="menu-add">
@@ -118,6 +118,7 @@
                     </div>
                     <div>
                         <button type="submit" class="btn btn-info" id="editButton"><i class="fa fa-save"></i> Cập nhật</button>
+                        <button type="button" onclick="$('#menu-editor').fadeOut();" class="btn btn-danger" id="editButton"><i class="fa fa-close"></i> Hủy bỏ</button>
                     </div>
                 </form>
                 <!-- EDIT menu END -->
