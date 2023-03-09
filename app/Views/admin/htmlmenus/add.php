@@ -200,7 +200,21 @@ $base_model->JSON_parse([
 </script>
 <?php
 
-$base_model->add_js('admin/js/posts.js');
-$base_model->add_js('admin/js/posts_add.js');
-// css riêng cho từng post type (nếu có)
-$base_model->add_js('admin/js/' . $post_type . '.js');
+//
+$base_model->JSON_echo([
+    // mảng này sẽ in ra dưới dạng JSON hoặc number
+], [
+    // mảng này sẽ in ra dưới dạng string
+    'preview_url' => $preview_url,
+    'preview_offset_top' => $preview_offset_top,
+]);
+
+//
+$base_model->adds_js([
+    'admin/js/preview_url.js',
+    'admin/js/posts.js',
+    'admin/js/posts_add.js',
+    // js riêng cho từng post type (nếu có)
+    'admin/js/' . $post_type . '.js',
+    'admin/js/' . $post_type . '_add.js',
+]);

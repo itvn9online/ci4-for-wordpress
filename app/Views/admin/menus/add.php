@@ -13,7 +13,6 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
 <p class="medium blackcolor white-preview-url"><span class="redcolor">*</span> Chức năng tạo menu bằng công cụ hỗ trợ riêng. Công cụ này sẽ khởi tạo mã HTML thông qua kéo thả.</p>
 <div class="widget-box ng-main-content" ng-app="myApp" ng-controller="myCtrl">
     <div class="widget-content nopadding">
-        <div class="preview-btn d-none"></div>
         <form action="" method="post" name="admin_global_form" id="admin_global_form" onSubmit="return action_before_submit_menu();" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
             <div class="control-group">
                 <label class="control-label">Ngôn ngữ</label>
@@ -229,6 +228,7 @@ $base_model->JSON_echo([
 ], [
     // mảng này sẽ in ra dưới dạng string
     'preview_url' => $preview_url,
+    'preview_offset_top' => $preview_offset_top,
 ]);
 
 //

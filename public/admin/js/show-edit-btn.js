@@ -71,6 +71,8 @@ function show_edit_btn() {
 			url =
 				'<a href="' +
 				url +
+				"&preview_offset_top=" +
+				$(this).offset().top +
 				preview_url +
 				'" target="_blank" rel="nofollow" class="click-goto-edit goto-post-edit goto-' +
 				type +
@@ -128,6 +130,8 @@ function show_edit_btn() {
 			$(this).prepend(
 				'<a href="' +
 					url +
+					"&preview_offset_top=" +
+					$(this).offset().top +
 					preview_url +
 					'" target="_blank" rel="nofollow" class="click-goto-edit goto-taxonomy-edit goto-' +
 					type +

@@ -219,8 +219,10 @@ fix_textarea_height();
  */
 //WGR_duy_tri_dang_nhap(4 * 60);
 setInterval(function () {
-	document.getElementById("target_eb_iframe").src =
-		web_link + "admin/admin/admin_logged";
+	if ($("body.preview-url").length == 0) {
+		document.getElementById("target_eb_iframe").src =
+			web_link + "admin/admin/admin_logged";
+	}
 }, 10 * 60 * 1000);
 
 /*

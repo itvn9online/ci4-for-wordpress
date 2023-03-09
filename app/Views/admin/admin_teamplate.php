@@ -212,6 +212,11 @@ if ($debug_enable === true) {
             </ul>
         </div>
     </div>
+    <!-- nút quay lại dành cho preview post, term -->
+    <div class="preview-btn">
+        <a class="btn btn-primary"><i class="fa fa-arrow-left"></i> Quay lại</a>
+        <button type="button" onclick="return close_preview_mode();" class="btn btn-danger"><i class="fa fa-eye-slash"></i> Tắt chế độ Preview</button>
+    </div>
     <div id="content">
         <div id="content-header">
             <div id="breadcrumb">

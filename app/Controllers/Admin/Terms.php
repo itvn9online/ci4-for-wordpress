@@ -337,7 +337,7 @@ class Terms extends Admin
 
                         //
                         if ($result_id > 0) {
-                            $redirect_to = $this->term_model->get_admin_permalink($this->taxonomy, $result_id, $this->controller_slug);
+                            $redirect_to = $this->term_model->get_admin_permalink($this->taxonomy, $result_id, $this->controller_slug) . $this->get_preview_url();
                             //die($redirect_to);
 
                             // sau đó redirect tới
@@ -485,6 +485,7 @@ class Terms extends Admin
                 'meta_detault' => TaxonomyType::meta_default($this->taxonomy),
                 'controller_slug' => $this->controller_slug,
                 'preview_url' => $this->MY_get('preview_url', ''),
+                'preview_offset_top' => $this->MY_get('preview_offset_top', ''),
             )
         );
         return view('admin/admin_teamplate', $this->teamplate_admin);
@@ -841,7 +842,7 @@ class Terms extends Admin
     protected function redirectLanguage($data, $id)
     {
         // xác định url cha
-        $redirect_to = $this->term_model->get_admin_permalink($data['taxonomy'], $id, $this->controller_slug);
+        $redirect_to = $this->term_model->get_admin_permalink($data['taxonomy'], $id, $this->controller_slug) . $this->get_preview_url();
         //die($redirect_to);
 
         // sau đó redirect tới

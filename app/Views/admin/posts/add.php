@@ -13,7 +13,6 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
 ?>
 <div class="widget-box ng-main-content" id="myApp">
     <div class="widget-content nopadding">
-        <div class="preview-btn d-none"></div>
         <form action="" method="post" name="admin_global_form" id="admin_global_form" onSubmit="return action_before_submit_post();" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
             <input type="hidden" name="is_duplicate" id="is_duplicate" value="0" />
             <input type="hidden" name="data[lang_key]" value="<?php echo $data['lang_key']; ?>" />
@@ -308,6 +307,7 @@ $base_model->JSON_echo([
     'post_tags' => $post_tags,
     'post_lang_key' => $data['lang_key'],
     'preview_url' => $preview_url,
+    'preview_offset_top' => $preview_offset_top,
 ]);
 
 ?>

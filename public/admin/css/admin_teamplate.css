@@ -608,6 +608,10 @@ body.body-debug_enable #sidebar {
     opacity: 0.1;
 }
 
+.preview-btn {
+    display: none;
+}
+
 /* ================================== reponsive ================================== */
 /* desktop only */
 @media only screen and (min-width:748px) {

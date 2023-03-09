@@ -339,6 +339,28 @@ class Admin extends Ajaxs
         $this->base_model->alert('CẢNH BÁO! Hãy đăng xuất admin khi không sử dụng!', 'warning');
     }
 
+    protected function get_preview_url()
+    {
+        $result = [];
+
+        //
+        $a = $this->MY_get('preview_url', '');
+        if (
+            $a != ''
+        ) {
+            $result[] = 'preview_url=' . urlencode($a);
+        }
+
+        //
+        $a = $this->MY_get('preview_offset_top', '');
+        if ($a != '') {
+            $result[] = 'preview_offset_top=' . $a;
+        }
+
+        //
+        return implode('&', $result);
+    }
+
     public function testCode()
     {
         // test chức năng xử lý ảnh của codeigniter 4

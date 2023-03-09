@@ -1,9 +1,33 @@
+// nạp src cho iframe
+function set_preview_src() {
+	document.getElementById("target_eb_iframe").src = preview_url;
+
+	//
+	var min_scroll = 90;
+	if (
+		typeof preview_offset_top != "undefined" &&
+		preview_offset_top != "" &&
+		preview_offset_top * 1 > min_scroll
+	) {
+		//console.log("preview offset top:", preview_offset_top);
+
+		//
+		var myIframe = document.getElementById("target_eb_iframe");
+		myIframe.onload = function () {
+			myIframe.contentWindow.scrollTo(
+				0,
+				Math.ceil(preview_offset_top) - min_scroll
+			);
+		};
+	}
+}
+
 // chức năng nạp lại URL preview nếu có
 function reload_preview_if_isset() {
 	if (typeof preview_url == "undefined" || preview_url == "") {
 		return false;
 	}
-	document.getElementById("target_eb_iframe").src = preview_url;
+	set_preview_src();
 }
 
 function close_preview_mode() {
@@ -14,19 +38,14 @@ function close_preview_mode() {
 //console.log(preview_url);
 if (typeof preview_url != "undefined" && preview_url != "") {
 	$("body").addClass("preview-url");
-	$(".preview-btn").html(
-		[
-			'<a href="' +
-				preview_url +
-				'" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Quay lại</a>',
-			'<button type="button" onclick="return close_preview_mode();" class="btn btn-danger"><i class="fa fa-eye-slash"></i> Tắt chế độ Preview</button>',
-		].join(" ")
-	);
+	$(".preview-btn a").attr({
+		href: preview_url,
+	});
 
 	// nạp link preview
 	$(document).ready(function () {
 		$("#target_eb_iframe").height(Math.ceil($(window).height()));
-		document.getElementById("target_eb_iframe").src = preview_url;
+		set_preview_src();
 	});
 
 	//

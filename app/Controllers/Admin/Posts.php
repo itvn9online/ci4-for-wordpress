@@ -455,7 +455,7 @@ class Posts extends Admin
                             die($result_id['error'] . ':' . __CLASS__ . ':' . __LINE__);
                         }
                         //echo $result_id;
-                        $redirect_to = $this->post_model->get_admin_permalink($this->post_type, $result_id, $this->controller_slug) . '&preview_url=' . $this->get_preview_url();
+                        $redirect_to = $this->post_model->get_admin_permalink($this->post_type, $result_id, $this->controller_slug) . $this->get_preview_url();
                         //die($redirect_to);
 
                         // sau đó redirect tới
@@ -666,6 +666,7 @@ class Posts extends Admin
                 'post_type' => $this->post_type,
                 'name_type' => $this->name_type,
                 'preview_url' => $this->MY_get('preview_url', ''),
+                'preview_offset_top' => $this->MY_get('preview_offset_top', ''),
                 // mảng tham số tùy chỉnh dành cho các custom post type
                 'meta_custom_type' => [],
                 'meta_custom_desc' => [],
@@ -1207,20 +1208,11 @@ class Posts extends Admin
     protected function redirectLanguage($data, $id)
     {
         // xác định url cha
-        $redirect_to = $this->post_model->get_admin_permalink($data['post_type'], $id, $this->controller_slug) . '&preview_url=' . $this->get_preview_url();
+        $redirect_to = $this->post_model->get_admin_permalink($data['post_type'], $id, $this->controller_slug) . $this->get_preview_url();
         //die($redirect_to);
 
         // sau đó redirect tới
         $this->MY_redirect($redirect_to, 301);
         die(__CLASS__ . ':' . __LINE__);
-    }
-
-    protected function get_preview_url()
-    {
-        $a = $this->MY_get('preview_url', '');
-        if ($a != '') {
-            $a = urlencode($a);
-        }
-        return $a;
     }
 }
