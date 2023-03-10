@@ -4,13 +4,15 @@
  */
 session_start();
 
-// do vụ update permarlink gây lỗi 404 nên phải xử lý thủ công mấy link này
+// do vụ update permalink gây lỗi 404 nên phải xử lý thủ công mấy link này
+/*
 if (strpos($_SERVER['REQUEST_URI'], 'https://' . $_SERVER['HTTP_HOST'] . '/') !== false) {
     //echo substr( $_SERVER['REQUEST_URI'], 1 ) . '<br>'."\n";
     header("HTTP/1.1 301 Moved Permanently");
     header("Location: " . substr($_SERVER['REQUEST_URI'], 1));
     exit();
 }
+*/
 
 // Check PHP version.
 $minPhpVersion = '7.4'; // If you update this, don't forget to update `spark`.

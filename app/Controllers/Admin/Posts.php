@@ -455,7 +455,7 @@ class Posts extends Admin
                             die($result_id['error'] . ':' . __CLASS__ . ':' . __LINE__);
                         }
                         //echo $result_id;
-                        $redirect_to = $this->post_model->get_admin_permalink($this->post_type, $result_id, $this->controller_slug) . $this->get_preview_url();
+                        $redirect_to = $this->buildAdminPermalink($result_id);
                         //die($redirect_to);
 
                         // sau đó redirect tới
@@ -518,7 +518,8 @@ class Posts extends Admin
 
                 //
                 //$this->MY_redirect(DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/'), 301);
-                $this->MY_redirect($this->post_model->get_admin_permalink($this->post_type, $id, $this->controller_slug), 301);
+                //$this->MY_redirect($this->post_model->get_admin_permalink($this->post_type, $id, $this->controller_slug), 301);
+                $this->MY_redirect($this->buildAdminPermalink($id), 301);
             }
 
             // lấy bài tiếp theo để auto next
@@ -692,7 +693,7 @@ class Posts extends Admin
 
         //
         if ($result_id > 0) {
-            $this->base_model->alert('', $this->post_model->get_admin_permalink($this->post_type, $result_id, $this->controller_slug));
+            $this->base_model->alert('', $this->buildAdminPermalink($result_id));
         }
         $this->base_model->alert('Lỗi tạo ' . $this->name_type . ' mới', 'error');
     }
@@ -790,7 +791,8 @@ class Posts extends Admin
         ) {
             // nạp lại trang
             //$this->base_model->alert('', DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/'));
-            $this->base_model->alert('', $this->post_model->get_admin_permalink($this->post_type, $id, $this->controller_slug));
+            //$this->base_model->alert('', $this->post_model->get_admin_permalink($this->post_type, $id, $this->controller_slug));
+            $this->base_model->alert('', $this->buildAdminPermalink($id));
         } else {
             // so sánh url cũ và mới
             $old_postname = $this->MY_post('old_postname');
@@ -1208,11 +1210,22 @@ class Posts extends Admin
     protected function redirectLanguage($data, $id)
     {
         // xác định url cha
-        $redirect_to = $this->post_model->get_admin_permalink($data['post_type'], $id, $this->controller_slug) . $this->get_preview_url();
+        $redirect_to = $this->buildAdminPermalink($id, $data['post_type']);
         //die($redirect_to);
 
         // sau đó redirect tới
         $this->MY_redirect($redirect_to, 301);
         die(__CLASS__ . ':' . __LINE__);
+    }
+
+    // trả về URL chỉnh sửa post cho admin
+    protected function buildAdminPermalink($id, $post_type = '')
+    {
+        if ($post_type == '') {
+            $post_type = $this->post_type;
+        }
+
+        //
+        return $this->post_model->get_admin_permalink($post_type, $id, $this->controller_slug) . $this->get_preview_url();
     }
 }

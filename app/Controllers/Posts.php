@@ -199,7 +199,7 @@ class Posts extends Csrf
         // nếu có lệnh redirect do sai URL
         if (isset($_GET['canonical'])) {
             //echo __CLASS__ . ':' . __LINE__;
-            // xóa permarlink để URL được update lại
+            // xóa permalink để URL được update lại
             $data['post_permalink'] = '';
         }
 

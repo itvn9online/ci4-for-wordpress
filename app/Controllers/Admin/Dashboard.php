@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\Admin;
 
 use App\Libraries\UsersType;
@@ -704,7 +705,7 @@ class Dashboard extends Optimize
                 }
                 /*
                  * chuyển file thông qua tạo kết nối qua FTP
-                 */else {
+                 */ else {
                     $check_dir = $file_model->root_dir();
                     $has_ftp = false;
                     if ($check_dir === true) {
@@ -1119,7 +1120,7 @@ class Dashboard extends Optimize
         $this->base_model->alert('Đồng bộ lại Code bên thứ 3 và Database thành công!');
     }
 
-    public function reset_term_permarlink()
+    public function reset_term_permalink()
     {
         $space_reset = $this->base_model->scache(__FUNCTION__);
         if ($space_reset != NULL) {
@@ -1131,17 +1132,17 @@ class Dashboard extends Optimize
             // SET
             'term_permalink' => '',
         ], [
-                // WHERE
-                'term_permalink !=' => '',
-            ], [
-                'debug_backtrace' => debug_backtrace()[1]['function'],
-                // hiển thị mã SQL để check
-                //'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-                // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
-                //'no_remove_field' => 1
-            ]);
+            // WHERE
+            'term_permalink !=' => '',
+        ], [
+            'debug_backtrace' => debug_backtrace()[1]['function'],
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
+            //'no_remove_field' => 1
+        ]);
 
         // cập nhật lại cho 1 ít term
         $data = $this->base_model->select(
@@ -1172,10 +1173,10 @@ class Dashboard extends Optimize
         $this->base_model->scache(__FUNCTION__, time(), 120);
 
         //
-        $this->base_model->alert('Reset Term Permarlink thành công!');
+        $this->base_model->alert('Reset Term Permalink thành công!');
     }
 
-    public function reset_post_permarlink()
+    public function reset_post_permalink()
     {
         $space_reset = $this->base_model->scache(__FUNCTION__);
         if ($space_reset != NULL) {
@@ -1187,17 +1188,17 @@ class Dashboard extends Optimize
             // SET
             'post_permalink' => '',
         ], [
-                // WHERE
-                'post_permalink !=' => '',
-            ], [
-                'debug_backtrace' => debug_backtrace()[1]['function'],
-                // hiển thị mã SQL để check
-                //'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-                // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
-                //'no_remove_field' => 1
-            ]);
+            // WHERE
+            'post_permalink !=' => '',
+        ], [
+            'debug_backtrace' => debug_backtrace()[1]['function'],
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
+            //'no_remove_field' => 1
+        ]);
 
         // cập nhật lại cho 1 ít term
         $data = $this->base_model->select(
@@ -1228,6 +1229,6 @@ class Dashboard extends Optimize
         $this->base_model->scache(__FUNCTION__, time(), 120);
 
         //
-        $this->base_model->alert('Reset Post Permarlink thành công!');
+        $this->base_model->alert('Reset Post Permalink thành công!');
     }
 }

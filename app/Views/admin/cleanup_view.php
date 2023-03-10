@@ -9,8 +9,7 @@
     <div class="row">
         <div class="col">
             <div>
-                <form action="admin/dashboard/cleanup_matching_cache" method="post" role="form"
-                    onsubmit="return waiting_cleanup_cache();" enctype="multipart/form-data" target="target_eb_iframe">
+                <form action="admin/dashboard/cleanup_matching_cache" method="post" role="form" onsubmit="return waiting_cleanup_cache();" enctype="multipart/form-data" target="target_eb_iframe">
                     <input type="hidden" name="data" value="post" />
                     <br>
                     <div>
@@ -23,8 +22,7 @@
             </div>
             <br>
             <div>
-                <form action="admin/dashboard/cleanup_matching_cache" method="post" role="form"
-                    onsubmit="return waiting_cleanup_cache();" enctype="multipart/form-data" target="target_eb_iframe">
+                <form action="admin/dashboard/cleanup_matching_cache" method="post" role="form" onsubmit="return waiting_cleanup_cache();" enctype="multipart/form-data" target="target_eb_iframe">
                     <input type="hidden" name="data" value="get_page" />
                     <br>
                     <div>
@@ -36,8 +34,7 @@
             </div>
             <br>
             <div>
-                <form action="admin/dashboard/cleanup_matching_cache" method="post" role="form"
-                    onsubmit="return waiting_cleanup_cache();" enctype="multipart/form-data" target="target_eb_iframe">
+                <form action="admin/dashboard/cleanup_matching_cache" method="post" role="form" onsubmit="return waiting_cleanup_cache();" enctype="multipart/form-data" target="target_eb_iframe">
                     <input type="hidden" name="data" value="term" />
                     <br>
                     <div>
@@ -49,8 +46,7 @@
             </div>
             <br>
             <div>
-                <form action="admin/dashboard/cleanup_matching_cache" method="post" role="form"
-                    onsubmit="return waiting_cleanup_cache();" enctype="multipart/form-data" target="target_eb_iframe">
+                <form action="admin/dashboard/cleanup_matching_cache" method="post" role="form" onsubmit="return waiting_cleanup_cache();" enctype="multipart/form-data" target="target_eb_iframe">
                     <input type="hidden" name="data" value="get_the_menu" />
                     <br>
                     <div>
@@ -61,8 +57,7 @@
             </div>
             <br>
             <div>
-                <form action="admin/dashboard/cleanup_matching_cache" method="post" role="form"
-                    onsubmit="return waiting_cleanup_cache();" enctype="multipart/form-data" target="target_eb_iframe">
+                <form action="admin/dashboard/cleanup_matching_cache" method="post" role="form" onsubmit="return waiting_cleanup_cache();" enctype="multipart/form-data" target="target_eb_iframe">
                     <input type="hidden" name="data" value="user" />
                     <br>
                     <div>
@@ -73,8 +68,7 @@
             </div>
             <br>
             <div class="tborder">
-                <form action="" method="post" role="form" onsubmit="return waiting_cleanup_cache();"
-                    enctype="multipart/form-data" target="target_eb_iframe">
+                <form action="" method="post" role="form" onsubmit="return waiting_cleanup_cache();" enctype="multipart/form-data" target="target_eb_iframe">
                     <input type="hidden" name="data" value="1" />
                     <br>
                     <div>
@@ -87,8 +81,7 @@
         </div>
         <div class="col">
             <div>
-                <form action="admin/dashboard/reset_term_permarlink" method="post" role="form"
-                    onsubmit="return waiting_cleanup_cache();" enctype="multipart/form-data" target="target_eb_iframe">
+                <form action="admin/dashboard/reset_term_permalink" method="post" role="form" onsubmit="return waiting_cleanup_cache();" enctype="multipart/form-data" target="target_eb_iframe">
                     <br>
                     <div>
                         <button type="submit" class="btn btn-warning"><i class="fa fa-refresh"></i> Cập nhật lại
@@ -99,8 +92,7 @@
             </div>
             <br>
             <div>
-                <form action="admin/dashboard/reset_post_permarlink" method="post" role="form"
-                    onsubmit="return waiting_cleanup_cache();" enctype="multipart/form-data" target="target_eb_iframe">
+                <form action="admin/dashboard/reset_post_permalink" method="post" role="form" onsubmit="return waiting_cleanup_cache();" enctype="multipart/form-data" target="target_eb_iframe">
                     <br>
                     <div>
                         <button type="submit" class="btn btn-danger"><i class="fa fa-refresh"></i> Cập nhật lại

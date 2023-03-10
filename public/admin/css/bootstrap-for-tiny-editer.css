@@ -12,3 +12,34 @@
 }
 
 .col-inner {}
+
+table {
+    border-top: 1px #ccc dashed;
+    border-right: 1px #ccc dashed;
+}
+
+tr {}
+
+th,
+td {
+    padding: 6px;
+    border-bottom: 1px #ccc dashed;
+    border-left: 1px #ccc dashed;
+}
+
+th {
+    font-weight: bold;
+}
+
+td {}
+
+table[border="1"] {
+    border-top-style: solid;
+    border-right-style: solid;
+}
+
+table[border="1"] th,
+table[border="1"] td {
+    border-bottom-style: solid;
+    border-left-style: solid;
+}
