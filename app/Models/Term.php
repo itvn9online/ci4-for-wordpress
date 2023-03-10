@@ -250,7 +250,7 @@ class Term extends TermBase
                         'slug' => $data['slug'],
                         'taxonomy' => $taxonomy,
                         'is_deleted' => DeletedStatus::FOR_DEFAULT,
-                        'lang_key' => LanguageCost::lang_key(),
+                        'lang_key' => isset($data['lang_key']) ? $data['lang_key'] : LanguageCost::lang_key(),
                     ]
                 );
                 //print_r( $check_term_exist );
@@ -258,6 +258,8 @@ class Term extends TermBase
 
                 //
                 if (!empty($check_term_exist)) {
+                    //print_r($check_term_exist);
+
                     // đưa ra cảnh báo ngay nếu có kiêu cầu
                     if (isset($ops['alert'])) {
                         //print_r( $check_term_exist );

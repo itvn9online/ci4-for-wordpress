@@ -220,7 +220,7 @@ class PostQuery extends PostMeta
             //print_r( $current_slug );
 
             //
-            if (!empty($current_slug)) {
+            if (!empty($current_slug) && $current_slug['post_type'] != PostType::ADS) {
                 if (isset($data['lang_key']) && $data['lang_key'] != '') {
                     $lang_key = $data['lang_key'];
                 } else {
@@ -229,7 +229,8 @@ class PostQuery extends PostMeta
 
                 //
                 $check_slug = $this->base_model->select(
-                    'ID, post_type',
+                    '*',
+                    //'ID, post_type',
                     $this->table,
                     [
                         'post_name' => $data['post_name'],
@@ -256,6 +257,9 @@ class PostQuery extends PostMeta
                 );
                 //print_r( $check_slug );
                 if (!empty($check_slug)) {
+                    //print_r($check_slug);
+
+                    //
                     return [
                         'code' => __LINE__,
                         'error' => __FUNCTION__ . ' Slug đã được sử dụng ở ' . $check_slug['post_type'] . ' #' . $check_slug['ID'] . ' (' . $data['post_name'] . ')',

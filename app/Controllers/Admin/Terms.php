@@ -552,7 +552,7 @@ class Terms extends Admin
     protected function update($id)
     {
         $data = $this->MY_post('data');
-        //print_r( $data );
+        //print_r($data);
         //die( __LINE__ );
 
         //
@@ -565,12 +565,18 @@ class Terms extends Admin
         //echo $this->taxonomy . '<br>' . "\n";
         // xóa cache cho riêng phần ads
         if ($this->taxonomy == TaxonomyType::ADS) {
+            // dọn dẹp theo slug truyền vào
+            if (isset($data['slug']) && $data['slug'] != '') {
+                $this->cleanup_cache($data['slug']);
+            }
+
+            // slug tự động theo tên danh mục
             $data['slug'] = $data['name'];
             $data['slug'] = $this->base_model->_eb_non_mark_seo($data['slug']);
             $data['slug'] = str_replace('.', '-', $data['slug']);
 
             //
-            //print_r( $data );
+            //print_r($data);
             $this->cleanup_cache($data['slug']);
         }
 

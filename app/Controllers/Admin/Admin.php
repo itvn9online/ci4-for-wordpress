@@ -358,7 +358,10 @@ class Admin extends Ajaxs
         }
 
         //
-        return implode('&', $result);
+        if (!empty($result)) {
+            return '&' . implode('&', $result);
+        }
+        return '';
     }
 
     public function testCode()

@@ -49,15 +49,16 @@ body.is-admin #target_eb_iframe {
 .click-goto-edit span {
     position: absolute;
     top: 0;
-    right: 0;
+    right: 20px;
     z-index: 9;
     bottom: auto;
     line-height: normal;
 }
 
-.eb-widget-hide-title .click-goto-edit span {
+.goto-taxonomy-edit span {
     right: auto;
     left: 50%;
+    top: -20px;
 }
 
 .click-goto-edit span i {

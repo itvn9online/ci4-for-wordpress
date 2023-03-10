@@ -14,6 +14,7 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
     <div class="widget-content nopadding">
         <form action="" method="post" name="admin_global_form" id="admin_global_form" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
             <input type="hidden" name="is_duplicate" id="is_duplicate" value="0" />
+            <input type="hidden" name="data[lang_key]" value="<?php echo $data['lang_key']; ?>" />
             <div class="rf">
                 <button type="button" onClick="click_duplicate_record();" class="btn btn-warning"><i class="fa fa-copy"></i> Nhân bản</button>
             </div>
@@ -60,7 +61,7 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
                     <div class="control-group">
                         <label class="control-label">PHP Code:</label>
                         <div class="controls">
-                            <input type="text" class="span6" value="&lt;?php $this->post_model->the_ads( '<?php echo $data['slug']; ?>' ); ?&gt;" readonly />
+                            <input type="text" class="span6" value="&lt;?php $this->post_model->the_ads('<?php echo $data['slug']; ?>'); ?&gt;" readonly />
                             <input type="hidden" name="data[slug]" value="<?php echo $data['slug']; ?>" />
                         </div>
                     </div>

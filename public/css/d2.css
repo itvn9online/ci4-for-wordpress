@@ -501,7 +501,7 @@
 .eb-widget-title {
     position: relative;
     border-bottom: 2px #ccc solid;
-    line-height: 20px;
+    /* line-height: 20px; */
     font-size: 18px;
     margin-bottom: 10px;
 }

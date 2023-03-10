@@ -14,6 +14,9 @@ function set_preview_src() {
 		//
 		var myIframe = document.getElementById("target_eb_iframe");
 		myIframe.onload = function () {
+			//$("#target_eb_iframe").contents().find("body").css("zoom", 0.7);
+
+			//
 			myIframe.contentWindow.scrollTo(
 				0,
 				Math.ceil(preview_offset_top) - min_scroll
