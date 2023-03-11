@@ -27,6 +27,7 @@ function show_edit_btn() {
 
 	//
 	var preview_url = "&preview_url=" + encodeURIComponent(window.location.href);
+	var offset_prev_top = 0;
 
 	//
 	$(
@@ -68,11 +69,21 @@ function show_edit_btn() {
 				url += "&post_type=" + type;
 			}
 			//console.log(url);
+
+			//
+			var offset_top = $(this).offset().top || 0;
+			if (offset_top < 1) {
+				offset_top = offset_prev_top;
+			} else {
+				offset_prev_top = offset_top;
+			}
+
+			//
 			url =
 				'<a href="' +
 				url +
 				"&preview_offset_top=" +
-				$(this).offset().top +
+				offset_top +
 				preview_url +
 				'" target="_blank" rel="nofollow" class="click-goto-edit goto-post-edit goto-' +
 				type +
@@ -127,11 +138,20 @@ function show_edit_btn() {
 			}
 			//console.log(url);
 
+			//
+			var offset_top = $(this).offset().top || 0;
+			if (offset_top < 1) {
+				offset_top = offset_prev_top;
+			} else {
+				offset_prev_top = offset_top;
+			}
+
+			//
 			$(this).prepend(
 				'<a href="' +
 					url +
 					"&preview_offset_top=" +
-					$(this).offset().top +
+					offset_top +
 					preview_url +
 					'" target="_blank" rel="nofollow" class="click-goto-edit goto-taxonomy-edit goto-' +
 					type +
