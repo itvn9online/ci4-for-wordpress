@@ -47,10 +47,6 @@ if (file_exists($theme_private_view)) {
 }
 
 
-?>
-<div id="admin_custom_alert" onClick="$('#admin_custom_alert').fadeOut();"></div>
-<?php
-
 //
 /*
 $base_model->add_js( 'javascript/analytics.js', [], [

@@ -19,7 +19,6 @@ var bg_load = "Loading...",
 	ebe_arr_cart_customer_info = [],
 	arr_ti_le_global = {};
 
-var auto_hide_admin_custom_alert = null;
 var global_window_width = jQuery(window).width(),
 	web_link = window.location.protocol + "//" + document.domain + "/";
 
@@ -42,28 +41,40 @@ function WGR_alert(m, lnk) {
 		top.WGR_alert(m, lnk);
 	} else {
 		if (m != "") {
-			if ($("#admin_custom_alert").length > 0) {
-				$("#admin_custom_alert")
-					.removeClass("orgbg")
-					.removeClass("redbg")
-					.html("<div>" + m + "</div>")
-					.show();
-				if (lnk == "error") {
-					$("#admin_custom_alert").addClass("redbg");
-				} else if (lnk == "warning") {
-					$("#admin_custom_alert").addClass("orgbg");
-				}
-
-				clearTimeout(auto_hide_admin_custom_alert);
-				auto_hide_admin_custom_alert = setTimeout(function () {
-					$("#admin_custom_alert").fadeOut();
-				}, 6000);
-
-				//
-				return true;
-			} else {
-				alert(m);
+			// class thể hiện màu sắc của alert
+			var cl = "";
+			if (lnk == "error") {
+				cl = "redbg";
+			} else if (lnk == "warning") {
+				cl = "orgbg";
 			}
+
+			// id dùng để hẹn giờ tự ẩn
+			var jd = "_" + Math.random().toString(32).replace(/\./gi, "_");
+
+			//
+			var htm = [
+				'<div id="' + jd + '" class="' + cl + '" onClick="$(this).fadeOut();">',
+				m,
+				"</div>",
+			].join(" ");
+			//console.log(htm);
+
+			//
+			if ($("#my_custom_alert").length <= 0) {
+				$("body").append('<div id="my_custom_alert"></div>');
+			}
+			$("#my_custom_alert").append(htm).show();
+
+			//
+			setTimeout(function () {
+				$("#" + jd).remove();
+
+				// nếu không còn div nào -> ẩn luôn
+				if ($("#my_custom_alert div").length <= 0) {
+					$("#my_custom_alert").fadeOut();
+				}
+			}, 6000);
 		} else if (lnk != "") {
 			return WGR_redirect(lnk);
 		}

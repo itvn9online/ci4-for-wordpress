@@ -185,7 +185,6 @@ if ($debug_enable === true) {
 </head>
 
 <body class="is-admin <?php echo $body_class; ?>">
-    <div id="admin_custom_alert" onClick="$('#admin_custom_alert').fadeOut();"></div>
     <!--Header-part-->
     <div id="admin-header" class="cf whitecolor awhitecolor">
         <div class="lf f50">

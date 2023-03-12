@@ -387,54 +387,37 @@ body.home .thread-details-tohome {
     border-right: 1px #ccc solid;
 }
 
-#admin_custom_alert {
-    position: absolute;
+#my_custom_alert {
+    position: fixed;
     display: none;
+    top: 90px;
+    z-index: 9999999;
+    /* border: 1px #f00 solid; */
+    left: 50%;
+    transform: translate(-50%, 0);
 }
 
-#admin_custom_alert div {
-    position: fixed;
-    z-index: 999999999;
-    top: 90px;
-    background: green;
+#my_custom_alert div {
+    /* position: fixed; */
+    /* z-index: 999999999; */
+    /* top: 90px; */
+    background: #008000;
     color: #fff;
     padding: 10px 20px;
     border-radius: 5px;
     box-shadow: 0 0 20px #999;
     cursor: pointer;
+    text-align: center;
+    /* display: inline-block; */
+    /* width: auto; */
+    margin-bottom: 15px;
 }
 
-/* desktop only */
-@media only screen and (min-width:748px) {
-    #admin_custom_alert div {
-        left: 50%;
-        transform: translate(-50%, 0);
-    }
-}
-
-/* mobile, table only */
-@media only screen and (max-width:788px) {
-    #admin_custom_alert div {
-        left: 10%;
-        right: 10%;
-        text-align: center;
-        top: 10px;
-    }
-}
-
-/* medium size */
-@media only screen and (max-width:588px) {
-    #admin_custom_alert div {
-        left: 5%;
-        right: 5%;
-    }
-}
-
-#admin_custom_alert.redbg div {
+#my_custom_alert div.redbg {
     background-color: darkred;
 }
 
-#admin_custom_alert.orgbg div {
+#my_custom_alert div.orgbg {
     background-color: darkorange;
 }
 
@@ -939,23 +922,3 @@ span.taxonomy-count:after {
 
 /* desktop only */
 @media only screen and (min-width:748px) {}
-
-/* mobile, table only */
-@media only screen and (max-width:788px) {
-
-    .public-part-page a,
-    .public-part-page span {
-        min-width: 45px;
-        margin: 5px;
-    }
-
-    .show-if-mobile {
-        display: block;
-    }
-}
-
-/* medium size */
-@media only screen and (max-width:588px) {}
-
-/* mobile only */
-@media only screen and (max-width:395px) {}
