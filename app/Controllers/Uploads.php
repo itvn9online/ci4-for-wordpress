@@ -179,4 +179,10 @@ class Uploads extends Users
     {
         return $this->image_push('profile');
     }
+
+    // upload các ảnh khác thì mặc định cho vào thư mục gallery
+    public function gallery_push()
+    {
+        return $this->image_push('gallery');
+    }
 }
