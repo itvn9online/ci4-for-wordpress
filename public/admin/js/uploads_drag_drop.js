@@ -11,7 +11,10 @@ var arr_drop_uploading_file = [];
 $(function () {
 	// attr này dùng để tùy chỉnh thẻ drop cha -> đây là thẻ lúc drop vào thì sẽ hiển thị thông báo drop để upload
 	// mặc định là ốp thẳng vào thẻ htm
-	var parent_drop = $(".upload-area").attr("data-parent_drop") || "html";
+	var parent_drop = $("#drop_upload_file").attr("data-parent_drop") || "";
+	if (parent_drop == "") {
+		parent_drop = "html";
+	}
 
 	// preventing page from redirecting
 	$(parent_drop).on("dragover", function (e) {
@@ -33,21 +36,21 @@ $(function () {
 	});
 
 	// Drag enter
-	$(".upload-area").on("dragenter", function (e) {
+	$("#drop_upload_file").on("dragenter", function (e) {
 		e.stopPropagation();
 		e.preventDefault();
 		//$("h1").text("Drop");
 	});
 
 	// Drag over
-	$(".upload-area").on("dragover", function (e) {
+	$("#drop_upload_file").on("dragover", function (e) {
 		e.stopPropagation();
 		e.preventDefault();
 		//$("h1").text("Drop");
 	});
 
 	// Drop
-	$(".upload-area").on("drop", function (e) {
+	$("#drop_upload_file").on("drop", function (e) {
 		e.stopPropagation();
 		e.preventDefault();
 
@@ -64,7 +67,7 @@ $(function () {
 
 	// Open file selector on div click
 	/*
-	$("#uploadfile").click(function () {
+	$("#drop_upload_file").click(function () {
 		//$("#file").click();
 		$("#file").trigger("click");
 	});
@@ -96,17 +99,13 @@ function after_drop_upload_media(mediaData) {
 	arr_drop_uploading_file.push(false);
 
 	// URL upload
-	var action_upload = "uploads/image_push";
-	// nếu có tùy chỉnh URL upload thì sử dụng URL này
-	if (
-		typeof action_custom_upload != "undefined" &&
-		action_custom_upload != ""
-	) {
-		action_upload = action_custom_upload;
-	}
-	// nếu trong admin thì dùng URL này
-	else if (typeof is_admin == "number" && is_admin > 0) {
-		action_upload = "admin/uploads/drop_upload";
+	var action_upload = $("#drop_upload_file").attr("data-action") || "";
+	if (action_upload == "") {
+		action_upload = "uploads/image_push";
+		// nếu trong admin thì dùng URL này
+		if (typeof is_admin == "number" && is_admin > 0) {
+			action_upload = "admin/uploads/drop_upload";
+		}
 	}
 	//console.log(arr_drop_uploading_file);
 	//console.log(action_upload);
@@ -158,51 +157,4 @@ function after_drop_upload_media(mediaData) {
 
 	//
 	reader.readAsDataURL(mediaData);
-}
-
-// Sending AJAX request and upload file
-function uploadData(formdata) {
-	console.log(formdata);
-	$.ajax({
-		url: "admin/uploads/drop_upload",
-		type: "post",
-		data: formdata,
-		contentType: false,
-		processData: false,
-		dataType: "json",
-		success: function (response) {
-			console.log(response);
-			//addThumbnail(response);
-		},
-	});
-}
-
-// Added thumbnail
-function addThumbnail(data) {
-	$("#uploadfile h1").remove();
-	var len = $("#uploadfile div.thumbnail").length;
-
-	var num = Number(len);
-	num = num + 1;
-
-	var name = data.name;
-	var size = convertSize(data.size);
-	var src = data.src;
-
-	// Creating an thumbnail
-	$("#uploadfile").append(
-		'<div id="thumbnail_' + num + '" class="thumbnail"></div>'
-	);
-	$("#thumbnail_" + num).append(
-		'<img src="' + src + '" width="100%" height="78%">'
-	);
-	$("#thumbnail_" + num).append('<span class="size">' + size + "<span>");
-}
-
-// Bytes conversion
-function convertSize(size) {
-	var sizes = ["Bytes", "KB", "MB", "GB", "TB"];
-	if (size == 0) return "0 Byte";
-	var i = parseInt(Math.floor(Math.log(size) / Math.log(1024)));
-	return Math.round(size / Math.pow(1024, i), 2) + " " + sizes[i];
 }

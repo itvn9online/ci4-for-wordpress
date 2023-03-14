@@ -88,8 +88,7 @@ include VIEWS_PATH . 'includes/uploads_drag_drop.php';
         </form>
     </div>
     <div class="lf f50 text-center">
-        <label for="upload_image" class="text-center greencolor cur">* Chọn ảnh để upload lên hệ thống (có thể chọn
-            nhiều ảnh cùng lúc)</label>
+        <label for="upload_image" class="text-center greencolor cur">* Kéo thả ảnh vào đây hoặc Chọn ảnh để upload lên hệ thống</label>
         <form action="" method="post" name="frm_global_upload" role="form" enctype="multipart/form-data" target="target_eb_iframe">
             <input type="hidden" name="data" value="1" />
             <input type="file" name="upload_image[]" id="upload_image" accept="image/*,video/*,audio/*,application/*,text/*" multiple />
