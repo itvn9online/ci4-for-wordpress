@@ -213,9 +213,9 @@ if ($debug_enable === true) {
     </div>
     <!-- nút quay lại dành cho preview post, term -->
     <div class="preview-btn">
-        <a href="#" class="btn btn-primary back-preview-mode"><i class="fa fa-arrow-left"></i> Quay lại</a>
-        <button type="button" onclick="return expand_preview_mode();" class="btn btn-success"><i class="fa fa-expand"></i> Mở rộng</button>
-        <button type="button" onclick="return close_preview_mode();" class="btn btn-danger"><i class="fa fa-eye-slash"></i> Tắt chế độ Preview</button>
+        <a href="#" title="Quay lại" class="btn btn-primary back-preview-mode"><i class="fa fa-arrow-left"></i></a>
+        <button type="button" title="Mở rộng" onclick="return expand_preview_mode();" class="btn btn-success"><i class="fa fa-arrows-h"></i></button>
+        <button type="button" title="Tắt chế độ Preview" onclick="return close_preview_mode();" class="btn btn-danger"><i class="fa fa-close"></i></button>
     </div>
     <div id="content">
         <div id="content-header">

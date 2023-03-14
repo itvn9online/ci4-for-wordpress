@@ -723,17 +723,14 @@ body.body-debug_enable #sidebar {
         position: fixed;
         top: 0;
         right: auto;
-        text-align: center;
-        background: rgba(0, 0, 0, 0.5);
-        padding: 5px 0;
+        text-align: right;
+        background: #ccc;
+        padding: 5px;
         left: 0;
-        border-bottom: 1px #666 solid;
         z-index: 9;
     }
 
-    body.preview-url .btn {
-        margin: 0 10px;
-    }
+    body.preview-url .btn {}
 
     body.preview-url .fullsize-if-mobile {
         float: none;
