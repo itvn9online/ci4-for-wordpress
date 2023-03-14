@@ -57,6 +57,16 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
 	}
 
 	//
+	if (params["mime_type"].split("/")[0] != "image") {
+		WGR_alert(
+			"Định dạng file chưa được hỗ trợ: " + params["mime_type"],
+			"error"
+		);
+		WGR_alert("Chức kéo thả hiện tại upload được file ảnh!", "warning");
+		return false;
+	}
+
+	//
 	if (WGR_config.cf_tester_mode > 0) console.log("params:", params);
 
 	// định dạng file name về 1 mối chuẩn chỉ
@@ -141,6 +151,7 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
 			data: {
 				img: params["data"],
 				file_name: file_name,
+				mime_type: params["mime_type"],
 				last_modified: params["last_modified"],
 			},
 			timeout: 33 * 1000,

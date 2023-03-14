@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Libraries;
 
 //
@@ -6,7 +7,7 @@ class OrderType extends PostType
 {
     public function __construct()
     {
-        //
+        parent::__construct();
     }
 
     public static function arrStatus()

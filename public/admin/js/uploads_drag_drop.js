@@ -131,25 +131,15 @@ function after_drop_upload_media(mediaData) {
 				console.log(data);
 
 				//
-				if (typeof data.error == "undefined") {
-					// xem còn file nào đang upload không
-					for (var i = 0; i < arr_drop_uploading_file.length; i++) {
-						if (arr_drop_uploading_file[i] === false) {
-							arr_drop_uploading_file[i] = true;
-							break;
-						}
-					}
-					//console.log(arr_drop_uploading_file.length);
-					//console.log(i);
+				if (typeof data.error != "undefined") {
+					WGR_alert(data.error, "error");
 
-					// nạp lại trang nếu toàn bộ các file đã được upload hoàn tất
-					if (i >= arr_drop_uploading_file.length - 1) {
-						if (WGR_config.cf_tester_mode > 0) {
-							console.log("All drop file has uploaded...");
-						} else {
-							window.location = window.location.href;
-						}
-					}
+					// lỗi thì kiểm tra và nạp lại chậm 1 chút -> để còn kịp xem lỗi mà xử lý
+					setTimeout(function () {
+						check_and_reload_after_upload();
+					}, 33 * 1000);
+				} else {
+					check_and_reload_after_upload();
 				}
 			}
 		);
@@ -157,4 +147,25 @@ function after_drop_upload_media(mediaData) {
 
 	//
 	reader.readAsDataURL(mediaData);
+}
+
+function check_and_reload_after_upload() {
+	// xem còn file nào đang upload không
+	for (var i = 0; i < arr_drop_uploading_file.length; i++) {
+		if (arr_drop_uploading_file[i] === false) {
+			arr_drop_uploading_file[i] = true;
+			break;
+		}
+	}
+	//console.log(arr_drop_uploading_file.length);
+	//console.log(i);
+
+	// nạp lại trang nếu toàn bộ các file đã được upload hoàn tất
+	if (i >= arr_drop_uploading_file.length - 1) {
+		if (WGR_config.cf_tester_mode > 0) {
+			console.log("All drop file has uploaded...");
+		} else {
+			//window.location = window.location.href;
+		}
+	}
 }

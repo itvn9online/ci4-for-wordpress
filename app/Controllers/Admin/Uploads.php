@@ -3,21 +3,18 @@
 namespace App\Controllers\Admin;
 
 // Libraries
-use App\Libraries\PostType;
+use App\Libraries\MediaType;
 
 //
 class Uploads extends Admin
 {
-    protected $post_type = PostType::MEDIA;
+    protected $post_type = MediaType::MEDIA;
     protected $name_type = '';
     protected $controller_slug = 'uploads';
 
     // định dạng file được phép upload
-    public $allow_mime_type = [
-        'image/jpeg',
-        'image/jpg',
-        'image/png',
-    ];
+    public $allow_image_type = MediaType::IMAGE_MIME_TYPE;
+    public $allow_media_type = MediaType::ALLOW_MIME_TYPE;
 
     public function __construct()
     {
@@ -43,7 +40,7 @@ class Uploads extends Admin
 
         // các kiểu điều kiện where
         $where = [
-            'post_status !=' => PostType::DELETED,
+            'post_status !=' => MediaType::DELETED,
         ];
 
         // tìm kiếm theo từ khóa nhập vào
@@ -134,7 +131,7 @@ class Uploads extends Admin
             'where_in' => array(
                 'post_type' => array(
                     $this->post_type,
-                    PostType::WP_MEDIA,
+                    MediaType::WP_MEDIA,
                 )
             ),
             'like_after' => $where_like_after,
@@ -208,7 +205,7 @@ class Uploads extends Admin
                 'where_in' => array(
                     'post_type' => array(
                         $this->post_type,
-                        PostType::WP_MEDIA,
+                        MediaType::WP_MEDIA,
                     )
                 ),
                 'group_by' => array(
@@ -251,7 +248,7 @@ class Uploads extends Admin
             //'taxonomy' => $this->taxonomy,
             'post_type' => $this->post_type,
             'controller_slug' => $this->controller_slug,
-            'name_type' => PostType::typeList($this->post_type),
+            'name_type' => MediaType::typeList($this->post_type),
         ));
         return view('admin/admin_teamplate', $this->teamplate_admin);
     }
@@ -280,7 +277,7 @@ class Uploads extends Admin
         ]);
         if (empty($data)) {
             $data = $this->post_model->select_post($id, [
-                'post_type' => PostType::WP_MEDIA,
+                'post_type' => MediaType::WP_MEDIA,
             ]);
         }
         $update = false;
@@ -288,10 +285,10 @@ class Uploads extends Admin
             //print_r( $data );
 
             //
-            if ($data['post_type'] == PostType::WP_MEDIA) {
-                $secondes_path = PostType::WP_MEDIA_URI;
+            if ($data['post_type'] == MediaType::WP_MEDIA) {
+                $secondes_path = MediaType::WP_MEDIA_URI;
             } else {
-                $secondes_path = PostType::MEDIA_PATH;
+                $secondes_path = MediaType::MEDIA_PATH;
             }
             $secondes_path = PUBLIC_HTML_PATH . $secondes_path;
             //echo $secondes_path . '<br>' . "\n";
@@ -335,7 +332,7 @@ class Uploads extends Admin
 
             //
             $update = $this->post_model->update_post($data['ID'], [
-                'post_status' => PostType::DELETED
+                'post_status' => MediaType::DELETED
             ], [
                 'post_type' => $data['post_type'],
             ]);
@@ -381,7 +378,7 @@ class Uploads extends Admin
         // các kiểu điều kiện where
         $where = [
             //'post_parent' => 688, // TEST
-            'post_status !=' => PostType::DELETED,
+            'post_status !=' => MediaType::DELETED,
         ];
 
         // URL cho phân trang tìm kiếm
@@ -392,7 +389,7 @@ class Uploads extends Admin
             'where_in' => array(
                 'post_type' => array(
                     $this->post_type,
-                    PostType::WP_MEDIA,
+                    MediaType::WP_MEDIA,
                 )
             ),
             'order_by' => array(
@@ -462,7 +459,7 @@ class Uploads extends Admin
             'totalPage' => $totalPage,
             'post_type' => $this->post_type,
             'controller_slug' => $this->controller_slug,
-            'name_type' => PostType::typeList($this->post_type),
+            'name_type' => MediaType::typeList($this->post_type),
         ));
         return view('admin/admin_teamplate', $this->teamplate_admin);
     }
@@ -477,7 +474,7 @@ class Uploads extends Admin
         $data = $this->base_model->select('*', 'posts', [
             'post_type' => $this->post_type,
             'post_parent' => 0,
-            'post_status' => PostType::INHERIT,
+            'post_status' => MediaType::INHERIT,
         ], [
             // hiển thị mã SQL để check
             //'show_query' => 1,
@@ -527,7 +524,7 @@ class Uploads extends Admin
         $file_name .= '-' . date($format_modified, $last_modified);
 
         //
-        $upload_root = PUBLIC_HTML_PATH . PostType::MEDIA_PATH;
+        $upload_root = PUBLIC_HTML_PATH . MediaType::MEDIA_PATH;
         //echo $upload_root . '<br>' . "\n";
 
         //
@@ -563,18 +560,22 @@ class Uploads extends Admin
             // kiểm tra định dạng file -> chỉ chấp nhận định dạng jpeg
             $mime_type = mime_content_type($file_path);
 
-            if (!in_array($mime_type, $this->allow_mime_type)) {
+            // nếu là file ảnh
+            if (in_array($mime_type, $this->allow_image_type) || in_array($mime_type, $this->allow_media_type)) {
+                // tiến hành tạo thumbnail, metadata -> insert vào db
+                $metadata = $this->media_attachment_metadata($file_path, $file_type, $upload_path, $mime_type, $upload_root);
+            }
+            // các file khác thì không cho upload
+            else {
                 unlink($file_path);
 
                 //
                 $this->result_json_type([
                     'in' => __CLASS__,
                     'code' => __LINE__,
+                    'mime_type' => $this->MY_post('mime_type', ''),
                     'error' => 'mime type not support! ' . $mime_type
                 ]);
-            } else {
-                // tiến hành tạo thumbnail, metadata -> insert vào db
-                $metadata = $this->media_attachment_metadata($file_path, $file_type, $upload_path, $mime_type, $upload_root);
             }
         }
 
@@ -584,6 +585,8 @@ class Uploads extends Admin
             //'upload_path' => $upload_path,
             //'data' => $_POST,
             //'metadata' => $metadata,
+            'mime_input_type' => $this->MY_post('mime_type', ''),
+            'mime_type' => $mime_type,
             'success' => $success,
         ]);
     }

@@ -41,6 +41,7 @@ class PostType
     const MEDIA_THUMBNAIL = 'thumbnail';
     const MEDIA_MEDIUM_LARGE = 'medium_large';
 
+    //
     public function __construct()
     {
         //

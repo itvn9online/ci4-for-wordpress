@@ -3,17 +3,14 @@
 namespace App\Controllers;
 
 // Libraries
-use App\Libraries\PostType;
+use App\Libraries\MediaType;
 
 //
 class Uploads extends Users
 {
     // định dạng file được phép upload
-    public $allow_mime_type = [
-        'image/jpeg',
-        'image/jpg',
-        'image/png',
-    ];
+    public $allow_image_type = MediaType::IMAGE_MIME_TYPE;
+    public $allow_media_type = MediaType::ALLOW_MIME_TYPE;
 
     public function __construct()
     {
@@ -107,7 +104,7 @@ class Uploads extends Users
             // kiểm tra định dạng file -> chỉ chấp nhận định dạng jpeg
             $mime_type = mime_content_type($file_path);
 
-            if (!in_array($mime_type, $this->allow_mime_type)) {
+            if (!in_array($mime_type, $this->allow_image_type)) {
                 unlink($file_path);
 
                 //
@@ -120,17 +117,17 @@ class Uploads extends Users
         }
 
         // resize ảnh để chạy cho mượt
-        $arr_sizes = PostType::media_size();
+        $arr_sizes = MediaType::media_size();
         if (!file_exists($file_thumb_path)) {
-            $rs = \App\Libraries\MyImage::resize($file_path, $file_thumb_path, $arr_sizes[PostType::MEDIA_THUMBNAIL]);
+            $rs = \App\Libraries\MyImage::resize($file_path, $file_thumb_path, $arr_sizes[MediaType::MEDIA_THUMBNAIL]);
             chmod($file_thumb_path, 0777);
         }
         if (!file_exists($file_medium_path)) {
-            $rs = \App\Libraries\MyImage::resize($file_path, $file_medium_path, $arr_sizes[PostType::MEDIA_MEDIUM]);
+            $rs = \App\Libraries\MyImage::resize($file_path, $file_medium_path, $arr_sizes[MediaType::MEDIA_MEDIUM]);
             chmod($file_medium_path, 0777);
         }
         if (!file_exists($file_large_path)) {
-            $rs = \App\Libraries\MyImage::resize($file_path, $file_large_path, $arr_sizes[PostType::MEDIA_MEDIUM_LARGE]);
+            $rs = \App\Libraries\MyImage::resize($file_path, $file_large_path, $arr_sizes[MediaType::MEDIA_MEDIUM_LARGE]);
             chmod($file_large_path, 0777);
         }
 
