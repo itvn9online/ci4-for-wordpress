@@ -1,0 +1,83 @@
+/* chức năng upload ảnh bằng cách kéo thả */
+.upload-area {
+    padding: 90px 0;
+    border: 3px dashed lightgray;
+    border-radius: 3px;
+    text-align: center;
+    overflow: auto;
+    margin: 20px auto;
+    display: none;
+}
+
+.upload-area::before {
+    content: "";
+}
+
+.upload-area:hover {
+    cursor: pointer;
+}
+
+.upload-area .upload-text {
+    text-align: center;
+    font-weight: normal;
+    font-family: sans-serif;
+    line-height: 36px;
+    color: darkslategray;
+}
+
+.drag-drop-upload #file {
+    display: none;
+}
+
+/* Thumbnail */
+.drag-drop-upload .thumbnail {
+    width: 80px;
+    height: 80px;
+    padding: 2px;
+    border: 2px solid lightgray;
+    border-radius: 3px;
+    float: left;
+}
+
+.drag-drop-upload .size {
+    font-size: 12px;
+}
+
+body.droped .upload-area {
+    display: block;
+}
+
+body.droping .upload-area {
+    margin: 0;
+    position: fixed;
+    z-index: 9999999;
+    background: rgba(0, 0, 0, 0.5);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: block;
+    border: 0 none;
+}
+
+body.droping .upload-area .upload-border {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    bottom: 20px;
+    left: 20px;
+    border: 3px dashed lightgray;
+}
+
+body.droping .upload-area .upload-border::before {
+    content: "";
+}
+
+body.droping .upload-area .upload-text {
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}

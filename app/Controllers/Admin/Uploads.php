@@ -12,6 +12,13 @@ class Uploads extends Admin
     protected $name_type = '';
     protected $controller_slug = 'uploads';
 
+    // định dạng file được phép upload
+    public $allow_mime_type = [
+        'image/jpeg',
+        'image/jpg',
+        'image/png',
+    ];
+
     public function __construct()
     {
         parent::__construct();
@@ -253,7 +260,7 @@ class Uploads extends Admin
     {
         // gọi tới function upload ảnh thôi
         $this->media_upload(false);
-        //die( 'fg dfhdfhfd' );
+        //die(__CLASS__ . ':' . __LINE__);
 
         // -> gọi hàm này để nó nạp lại trang cha
         $this->alert('');
@@ -482,5 +489,102 @@ class Uploads extends Admin
         ]);
         //print_r( $data );
         //die( __CLASS__ . ':' . __LINE__ );
+    }
+
+    public function drop_upload()
+    {
+        //
+        $img = $this->MY_post('img', '');
+        if (empty($img)) {
+            $this->result_json_type([
+                'in' => __CLASS__,
+                'code' => __LINE__,
+                'error' => 'img EMPTY!'
+            ]);
+        }
+
+        // tên file
+        $file_name = $this->MY_post('file_name', '');
+        if (empty($file_name)) {
+            $this->result_json_type([
+                'in' => __CLASS__,
+                'code' => __LINE__,
+                'error' => 'file name EMPTY!'
+            ]);
+        }
+
+        // thời gian chỉnh sửa file
+        $last_modified = $this->MY_post('last_modified', '');
+        // tên file lấy theo thời gian chỉnh sửa -> nếu không có gì khác bọt thì khỏi upload lại
+        //$format_modified = 'ymdHis';
+        $format_modified = 'His';
+        if (empty($last_modified)) {
+            $last_modified = time();
+            //$format_modified = 'ymdH';
+        }
+
+        // thêm ngày tháng năm vào tên file để tránh trùng lặp
+        $file_name .= '-' . date($format_modified, $last_modified);
+
+        //
+        $upload_root = PUBLIC_HTML_PATH . PostType::MEDIA_PATH;
+        //echo $upload_root . '<br>' . "\n";
+
+        //
+        $upload_path = $this->media_path(
+            [
+                date('Y'),
+                date('m'),
+            ],
+            $upload_root
+        );
+        //echo $upload_path . '<br>' . "\n";
+
+        //
+        $file_type = 'jpg';
+        if (strpos($img, 'data:image/png;') !== false) {
+            $file_type = 'png';
+            $img = str_replace('data:image/png;base64,', '', $img);
+        } else {
+            $img = str_replace('data:image/jpeg;base64,', '', $img);
+            $img = str_replace('data:image/jpg;base64,', '', $img);
+        }
+        $img = str_replace(' ', '+', $img);
+        $file_path = $upload_path . $file_name . '.' . $file_type;
+
+        //
+        $success = 0;
+        $mime_type = $file_type;
+        $metadata = [];
+        if (!file_exists($file_path)) {
+            $success = file_put_contents($file_path, base64_decode($img));
+            chmod($file_path, 0777);
+
+            // kiểm tra định dạng file -> chỉ chấp nhận định dạng jpeg
+            $mime_type = mime_content_type($file_path);
+
+            if (!in_array($mime_type, $this->allow_mime_type)) {
+                unlink($file_path);
+
+                //
+                $this->result_json_type([
+                    'in' => __CLASS__,
+                    'code' => __LINE__,
+                    'error' => 'mime type not support! ' . $mime_type
+                ]);
+            } else {
+                // tiến hành tạo thumbnail, metadata -> insert vào db
+                $metadata = $this->media_attachment_metadata($file_path, $file_type, $upload_path, $mime_type, $upload_root);
+            }
+        }
+
+        // TEST
+        $this->result_json_type([
+            //'file_path' => $file_path,
+            //'upload_path' => $upload_path,
+            //'data' => $_POST,
+            //'metadata' => $metadata,
+            'success' => $success,
+        ]);
     }
 }

@@ -350,8 +350,9 @@ var _global_js_eb = {
 				"%}";
 		}
 		if (str_css != "") {
-			if (WGR_config.cf_tester_mode > 0)
+			if (WGR_config.cf_tester_mode > 0) {
 				console.log("ty-le-global padding CSS: " + str_css);
+			}
 			$("head").append("<style>" + str_css + "</style>");
 		}
 	},

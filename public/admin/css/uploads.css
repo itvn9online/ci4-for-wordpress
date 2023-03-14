@@ -6,30 +6,39 @@
     display: flex;
     align-items: center;
 }
+
 .admin-upload-filter select {
     margin: 0;
 }
-.admin-upload-filter.grid a[data-mode="grid"], .admin-upload-filter.list a[data-mode="list"] {
+
+.admin-upload-filter.grid a[data-mode="grid"],
+.admin-upload-filter.list a[data-mode="list"] {
     color: blue;
 }
+
 .admin-media-attachment.list {}
+
 .admin-media-attachment.list li {
     width: 50%;
     margin-right: 0;
     margin-bottom: 0;
 }
+
 .admin-media-attachment.list .attachment-list-padding {
     max-width: 90px;
 }
+
 .admin-media-attachment.list .media-attachment-padding {
     box-shadow: none;
     border-top: 1px #f2f2f2 solid;
 }
+
 .admin-media-attachment.list .media-attachment-img {
     background-size: contain;
     border: 1px #f2f2f2 solid;
     box-shadow: 0 0 10px #ccc;
 }
+
 .admin-media-attachment.list .media-attachment-padding {
     padding: 10px 0;
 }

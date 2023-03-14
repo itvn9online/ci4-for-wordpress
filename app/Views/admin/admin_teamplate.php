@@ -154,6 +154,7 @@ if ($debug_enable === true) {
 
     //
     $base_model->JSON_parse([
+        'is_admin' => 1,
         'arr_admin_menu' => $arr_admin_menu,
         'arr_lang_list' => $arr_lang_list,
     ]);

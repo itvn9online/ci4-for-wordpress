@@ -1,7 +1,10 @@
 <?php
 
 //
-$base_model->add_css('admin/css/uploads.css');
+$base_model->adds_css([
+    'admin/css/uploads_drag_drop.css',
+    'admin/css/uploads.css',
+]);
 
 //
 $upload_model = new \App\Models\Upload();
@@ -16,6 +19,12 @@ include __DIR__ . '/list_head.php';
         <?php echo $totalThread; ?>)
     </li>
 </ul>
+<?php
+
+// nạp HTML phần drag drop upload
+include VIEWS_PATH . 'includes/uploads_drag_drop.php';
+
+?>
 <div class="cf admin-upload-filter <?php echo $mode; ?>">
     <div class="lf f10 big d-inlines">
         <div><a data-mode="grid" class="click-set-mode cur"><i class="fa fa-th-large"></i></a></div>
@@ -29,28 +38,26 @@ include __DIR__ . '/list_head.php';
             // thêm các tham số ẩn khi tìm kiếm
             foreach ($hiddenSearchForm as $k => $v) {
             ?>
-            <input type="hidden" name="<?php echo $k; ?>" value="<?php echo $v; ?>">
+                <input type="hidden" name="<?php echo $k; ?>" value="<?php echo $v; ?>">
             <?php
             }
 
             ?>
             <div class="cf">
                 <div class="lf f30">
-                    <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $name_type; ?>"
-                        autofocus aria-required="true" required>
+                    <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $name_type; ?>" autofocus aria-required="true" required>
                 </div>
                 <div class="lf f30">
-                    <select data-select="<?php echo $attachment_filter; ?>" name="attachment-filter"
-                        id="attachment-filter">
+                    <select data-select="<?php echo $attachment_filter; ?>" name="attachment-filter" id="attachment-filter">
                         <option value="">Tất cả</option>
                         <?php
 
                         //
                         foreach ($alow_mime_type as $k => $v) {
                         ?>
-                        <option value="<?php echo $k; ?>">
-                            <?php echo $v; ?>
-                        </option>
+                            <option value="<?php echo $k; ?>">
+                                <?php echo $v; ?>
+                            </option>
                         <?php
                         }
 
@@ -65,9 +72,9 @@ include __DIR__ . '/list_head.php';
                         //
                         foreach ($m_filter as $v) {
                         ?>
-                        <option value="<?php echo $v; ?>">Tháng
-                            <?php echo $v; ?>
-                        </option>
+                            <option value="<?php echo $v; ?>">Tháng
+                                <?php echo $v; ?>
+                            </option>
                         <?php
                         }
 
@@ -83,11 +90,9 @@ include __DIR__ . '/list_head.php';
     <div class="lf f50 text-center">
         <label for="upload_image" class="text-center greencolor cur">* Chọn ảnh để upload lên hệ thống (có thể chọn
             nhiều ảnh cùng lúc)</label>
-        <form action="" method="post" name="frm_global_upload" role="form" enctype="multipart/form-data"
-            target="target_eb_iframe">
+        <form action="" method="post" name="frm_global_upload" role="form" enctype="multipart/form-data" target="target_eb_iframe">
             <input type="hidden" name="data" value="1" />
-            <input type="file" name="upload_image[]" id="upload_image"
-                accept="image/*,video/*,audio/*,application/*,text/*" multiple />
+            <input type="file" name="upload_image[]" id="upload_image" accept="image/*,video/*,audio/*,application/*,text/*" multiple />
             <div class="d-none">
                 <button type="submit">sb</button>
             </div>
@@ -110,4 +115,8 @@ include __DIR__ . '/list_head.php';
 <?php
 
 //
-$base_model->add_js('admin/js/uploads.js');
+$base_model->adds_js([
+    'admin/js/uploads.js',
+    'admin/js/uploads_drag_drop.js',
+    'javascript/uploads.js',
+]);
