@@ -88,9 +88,7 @@ body.is-admin #target_eb_iframe {
 /* ================================== reponsive ================================== */
 /* desktop only */
 @media only screen and (min-width:748px) {
-    body.is-admin {
-        padding-top: 32px;
-    }
+    body.is-admin {}
 }
 
 /* mobile, table only */

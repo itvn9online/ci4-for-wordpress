@@ -37,11 +37,15 @@ function close_preview_mode() {
 	$("body").removeClass("preview-url");
 }
 
+function expand_preview_mode() {
+	$("body").toggleClass("preview-expand-url");
+}
+
 // tạo url preview nếu có
 //console.log(preview_url);
 if (typeof preview_url != "undefined" && preview_url != "") {
 	$("body").addClass("preview-url");
-	$(".preview-btn a").attr({
+	$("a.back-preview-mode").attr({
 		href: preview_url,
 	});
 
