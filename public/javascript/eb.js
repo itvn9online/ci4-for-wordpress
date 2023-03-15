@@ -514,6 +514,7 @@ var _global_js_eb = {
 						imagesLoaded: true,
 						lazyLoad: 1,
 						freeScroll: false,
+						// wrapAround true -> cho phép slider chạy vòng tròn
 						wrapAround: true,
 						autoPlay: 6000,
 						pauseAutoPlayOnHover: true,
