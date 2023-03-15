@@ -266,13 +266,34 @@ function click_set_img_for_input(img_id) {
 			}
 			top.tinymce.get(insert_to).insertContent(return_html);
 		} else {
-			// thay ảnh hiển thị
-			top.WGR_show_real_post_avt(insert_to, data_src);
+			// riêng với ảnh đại diện
+			var arr_all_srcs = {};
+			if (insert_to == "post_meta_image") {
+				// các kích cỡ khác
+				var arr_all_sizes = [
+					//"full",
+					"thumbnail",
+					"medium",
+					"medium_large",
+					"large",
+				];
+				//console.log(arr_all_sizes);
+				for (var i = 0; i < arr_all_sizes.length; i++) {
+					arr_all_srcs[arr_all_sizes[i]] =
+						img.attr("data-" + arr_all_sizes[i]) || "";
+				}
+				//console.log(arr_all_srcs);
+			}
+
+			// thay ảnh hiển thị -> gọi đến function trên top
+			top.WGR_show_real_post_avt(insert_to, data_src, arr_all_srcs);
 
 			//
 			if (add_img_tag === 1) {
 				data_src = '<img src="' + data_src + '" />';
 			}
+
+			//
 			top
 				.$("#" + insert_to)
 				.val(data_src)
@@ -282,7 +303,7 @@ function click_set_img_for_input(img_id) {
 	hide_if_esc();
 }
 
-function WGR_show_real_post_avt(insert_to, data_src) {
+function WGR_show_real_post_avt(insert_to, data_src, arr_all_srcs) {
 	//console.log('.show-img-if-change.for-' + insert_to);
 	//console.log('data src:', data_src);
 	//console.log('.show-img-if-change.for-' + data_src);
@@ -293,16 +314,27 @@ function WGR_show_real_post_avt(insert_to, data_src) {
 			src: data_src,
 		});
 
-		// xóa bỏ các ảnh phụ trợ
-		var arr = [
-			"image_medium",
-			"image_thumbnail",
-			"image_webp",
-			"image_medium_large",
-			"image_large",
-		];
-		for (var i = 0; i < arr.length; i++) {
-			$("#post_meta_" + arr[i]).val("");
+		// nếu đang thiết lập ảnh đại diện chính
+		if (insert_to == "post_meta_image") {
+			//console.log(insert_to);
+			//console.log(arr_all_srcs);
+
+			// xóa bỏ các ảnh phụ trợ
+			var arr = [
+				"image_medium",
+				"image_thumbnail",
+				"image_webp",
+				"image_medium_large",
+				"image_large",
+			];
+			for (var i = 0; i < arr.length; i++) {
+				$("#post_meta_" + arr[i]).val("");
+			}
+
+			// thiết lập ảnh mới
+			for (var x in arr_all_srcs) {
+				$("#post_meta_image_" + x).val(arr_all_srcs[x]);
+			}
 		}
 
 		//
@@ -522,7 +554,15 @@ function WGR_load_textediter(for_id, ops) {
 				//console.log(typeof document.admin_global_form);
 				if (typeof document.admin_global_form != "undefined") {
 					//WGR_alert("234");
-					document.admin_global_form.submit();
+					// nếu có function này
+					if (typeof action_before_submit_post == "function") {
+						// phải gọi đến nó trước rồi mới submit
+						if (action_before_submit_post() === true) {
+							document.admin_global_form.submit();
+						}
+					} else {
+						document.admin_global_form.submit();
+					}
 					return false;
 				}
 			});

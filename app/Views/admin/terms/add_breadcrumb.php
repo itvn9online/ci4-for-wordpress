@@ -5,6 +5,7 @@
     <li>
         <?php
         if ($data['term_id'] > 0) {
+            echo $data['name'] . ' | ';
         ?>
             Chỉnh sửa
         <?php

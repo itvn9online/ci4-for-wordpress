@@ -1,12 +1,40 @@
 // thêm nút add ảnh đại diện
 add_and_show_post_avt("#post_meta_image", "", "medium");
 
-if (
-	typeof page_post_type != "undefined" &&
-	current_post_type == page_post_type
-) {
-	WGR_load_textediter("#data_post_excerpt");
-}
+// nạp text-editer cho phần tóm tắt nếu phát hiện thấy có sử dụng mã html
+(function (str) {
+	// một số cấu trúc đặc trưng của html
+	if (str != "" && str.split("</").length > 1 && str.split(">").length > 1) {
+		// cho hết dữ liệu về 1 dòng
+		str = str.split("\n");
+		var arr = [];
+		for (var i = 0; i < str.length; i++) {
+			arr.push($.trim(str[i]));
+		}
+		$("#data_post_excerpt").val(arr.join(" "));
+
+		//
+		console.log("Auto enable text-editer for post_excerpt");
+		WGR_load_textediter("#data_post_excerpt");
+	}
+})($("#data_post_excerpt").val() || "");
+
+// 1 số editer chỉ kích hoạt khi có bấm
+$(".click-enable-editer").click(function () {
+	var jd = $(this).attr("data-for") || "";
+	if (jd != "") {
+		var h = $(this).attr("data-height") || "";
+		if (h == "" || h < 200) {
+			h = 200;
+		}
+
+		//
+		WGR_load_textediter("#" + jd, {
+			height: h * 1,
+		});
+	}
+	$(this).fadeOut();
+});
 
 //
 function action_before_submit_post() {

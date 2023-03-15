@@ -64,14 +64,17 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
             </div>
             <div class="control-group control-group-post_content">
                 <label class="control-label">Nội dung</label>
-                <div class="controls" style="width:80%;">
+                <div class="controls f80">
                     <textarea id="Resolution" rows="30" data-height="<?php echo $post_type == PostType::ADS ? '250' : '550'; ?>" class="ckeditor auto-ckeditor" placeholder="Nhập thông tin chi tiết..." name="data[post_content]"><?php echo $data['post_content']; ?></textarea>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Mô tả</label>
-                <div class="controls" style="width:80%;">
+                <div class="controls f80">
                     <textarea placeholder="Tóm tắt" name="data[post_excerpt]" id="data_post_excerpt" class="span30 fix-textarea-height"><?php echo $data['post_excerpt']; ?></textarea>
+                    <div data-for="data_post_excerpt" class="cur bold click-enable-editer">
+                        <input type="checkbox" /> Sử dụng chế độ soạn thảo HTML cho phần tóm tắt.
+                    </div>
                 </div>
             </div>
             <div class="control-group">
@@ -184,7 +187,7 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                         // mặc định thì hiển thị bình thường
                         else if ($input_type == 'textarea') {
                         ?>
-                            <textarea style="width:80%;" placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" class="<?php echo PostType::meta_class($k); ?>"><?php $post_model->echo_meta_post($data, $k); ?></textarea>
+                            <textarea placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" class="f80 <?php echo PostType::meta_class($k); ?>"><?php $post_model->echo_meta_post($data, $k); ?></textarea>
                         <?php
                         } // END if post textarea
                         else if ($input_type == 'select' || $input_type == 'select_multiple') {

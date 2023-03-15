@@ -5,15 +5,16 @@
     <li>
         <?php
         if ($data['ID'] > 0) {
+            echo $data['post_title'] . ' | ';
         ?>
-        Chỉnh sửa
+            Chỉnh sửa
         <?php
         } else {
         ?>
-        Thêm mới
+            Thêm mới
         <?php
         }
-        echo $name_type . ' ' . $data['post_title'];
+        echo $name_type;
         ?>
     </li>
 </ul>
@@ -23,7 +24,7 @@
 if ($auto_update_module > 0) {
     //echo $auto_update_module;
 ?>
-<p class="orgcolor text-center medium show-if-end-function">* Kích hoạt chức năng tự động cập nhật bài viết để nhận các
-    tính mới...</p>
+    <p class="orgcolor text-center medium show-if-end-function">* Kích hoạt chức năng tự động cập nhật bài viết để nhận các
+        tính mới...</p>
 <?php
 }

@@ -48,13 +48,13 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
             ?>
             <div class="control-group hide-if-edit-menu">
                 <label class="control-label">Nội dung</label>
-                <div class="controls" style="width:80%;">
+                <div class="controls f80">
                     <textarea id="Resolution" rows="30" data-height="550" class="ckeditor auto-ckeditor" placeholder="Nhập thông tin chi tiết..." name="data[post_content]"><?php echo $data['post_content']; ?></textarea>
                 </div>
             </div>
             <div class="control-group hide-if-edit-menu">
                 <label class="control-label">Mô tả</label>
-                <div class="controls" style="width:80%;">
+                <div class="controls f80">
                     <textarea placeholder="Tóm tắt" name="data[post_excerpt]" id="data_post_excerpt" class="span30 fix-textarea-height"><?php echo $data['post_excerpt']; ?></textarea>
                 </div>
             </div>
@@ -136,7 +136,7 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                         //
                         if ($input_type == 'textarea') {
                         ?>
-                            <textarea style="width:80%;" placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" class="<?php echo PostType::meta_class($k); ?>"><?php $post_model->echo_meta_post($data, $k); ?>
+                            <textarea placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" class="f80 <?php echo PostType::meta_class($k); ?>"><?php $post_model->echo_meta_post($data, $k); ?>
 </textarea>
                         <?php
                         } // END if post textarea

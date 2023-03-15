@@ -36,7 +36,7 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
             </div>
             <div class="control-group">
                 <label class="control-label">Nội dung</label>
-                <div class="controls" style="width:80%;">
+                <div class="controls f80">
                     <textarea placeholder="Nội dung" name="data[post_content]" id="data_post_content" class="span30 fix-textarea-height"><?php echo $data['post_content']; ?></textarea>
                 </div>
             </div>
@@ -133,7 +133,7 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                         // mặc định thì hiển thị bình thường
                         if ($input_type == 'textarea') {
                         ?>
-                            <textarea style="width:80%;" placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" class="<?php echo OrderType::meta_class($k); ?>"><?php $post_model->echo_meta_post($data, $k); ?>
+                            <textarea placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" class="f80 <?php echo OrderType::meta_class($k); ?>"><?php $post_model->echo_meta_post($data, $k); ?>
         </textarea>
                         <?php
                         } // END if post textarea

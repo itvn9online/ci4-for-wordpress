@@ -767,8 +767,8 @@ class PostQuery extends PostMeta
                 //echo $p_link . '<br>' . "\n";
             }
 
-            //
-            if ($v['post_excerpt'] != '') {
+            // đặt chế độ xuống dòng cho phần tóm tắt khi không có mã HTML trong đấy
+            if ($v['post_excerpt'] != '' && strpos($v['post_excerpt'], '</') === false && strpos($v['post_excerpt'], '>') === false) {
                 $v['post_excerpt'] = nl2br($v['post_excerpt']);
             }
             $widget_blog_more = '';
