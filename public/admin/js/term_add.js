@@ -45,3 +45,13 @@ if ($("#data_parent").length > 0) {
 // thêm nút add ảnh đại diện
 add_and_show_post_avt("#data_term_avatar", "", "medium");
 add_and_show_post_avt("#data_term_favicon", "", "medium");
+
+//
+$(document).bind("keyup keydown", function (e) {
+	// khi người dùng ctrl + s -> save
+	if (e.ctrlKey && e.which == 83) {
+		document.admin_global_form.submit();
+		return false;
+	}
+	return true;
+});

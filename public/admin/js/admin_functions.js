@@ -108,7 +108,9 @@ function add_and_show_post_avt(for_id, add_img_tag, img_size, input_type) {
 	var str = [];
 	//str.push(' <input type="button" class="btn btn-info" value="Chọn ảnh" onclick="BrowseServer( \'Images:/\', \'' + for_id.substr(1) + '\' );"/>');
 	str.push(
-		' <button type="button" class="btn btn-info add-image-' +
+		' <button type="button" data-for="' +
+			for_id.substr(1) +
+			'" class="btn btn-info add-image-' +
 			for_id.replace(/\#|\./gi, "-") +
 			'" onclick="WgrWp_popup_upload( \'' +
 			for_id.substr(1) +
@@ -133,7 +135,9 @@ function add_and_show_post_avt(for_id, add_img_tag, img_size, input_type) {
 					for_id.substr(1) +
 					'"><img src="' +
 					img +
-					'" class="control-group-avt" /></p>'
+					'" onclick="return trigger_click_open_media(\'' +
+					for_id.substr(1) +
+					'\');" class="cur control-group-avt" /></p>'
 			);
 		}
 	}
@@ -141,6 +145,11 @@ function add_and_show_post_avt(for_id, add_img_tag, img_size, input_type) {
 	//
 	console.log("Add button image for:", for_id);
 	$(for_id).after(str.join(" "));
+}
+
+// mở form upload ảnh để upload cho tiện
+function trigger_click_open_media(for_id) {
+	$("button[data-for='" + for_id + "']").trigger("click");
 }
 
 function click_set_img_for_input(img_id) {

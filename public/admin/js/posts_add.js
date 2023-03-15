@@ -61,6 +61,15 @@ $("#post_meta_image_size").change(function () {
 })();
 
 //
-$(document).ready(function () {
-	for_admin_global_checkbox();
-});
+$(document)
+	.ready(function () {
+		for_admin_global_checkbox();
+	})
+	.bind("keyup keydown", function (e) {
+		// khi người dùng ctrl + s -> save
+		if (e.ctrlKey && e.which == 83) {
+			document.admin_global_form.submit();
+			return false;
+		}
+		return true;
+	});
