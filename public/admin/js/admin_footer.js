@@ -342,8 +342,8 @@ $(document)
 	});
 
 // khi người dùng thay đổi kích thước window thì xác nhận lại chiều cao
+/*
 $(window).resize(function () {
-	/*
     current_admin_window_height = $(window).height();
     current_admin_menu_height = $('#sidebar .order-admin-menu').height();
     if (current_admin_menu_height > current_admin_window_height) {
@@ -351,5 +351,5 @@ $(window).resize(function () {
     } else {
         $('body').removeClass('sidebar-height');
     }
-    */
 });
+*/

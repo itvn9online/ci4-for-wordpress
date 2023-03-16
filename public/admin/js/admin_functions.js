@@ -586,6 +586,10 @@ function WGR_load_textediter(for_id, ops) {
 	btn_remove_editer_style(for_id);
 	// tạo nút nhúng media vào text-editer
 	add_and_show_post_avt(for_id, 1, "", "textediter");
+	// tính toán lại chiều cao của iframe
+	setTimeout(function () {
+		re_height_iframe_editer(for_id);
+	}, 1000);
 }
 
 function btn_remove_editer_style(for_id) {

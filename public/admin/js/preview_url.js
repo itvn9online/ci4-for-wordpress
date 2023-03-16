@@ -31,6 +31,7 @@ function reload_preview_if_isset() {
 		return false;
 	}
 	set_preview_src();
+	unexpand_preview_mode();
 }
 
 function close_preview_mode() {
@@ -39,6 +40,21 @@ function close_preview_mode() {
 
 function expand_preview_mode() {
 	$("body").toggleClass("preview-expand-url");
+	auto_resize_ckeditor();
+}
+
+function unexpand_preview_mode() {
+	$("body").removeClass("preview-expand-url");
+	auto_resize_ckeditor();
+}
+
+function auto_resize_ckeditor() {
+	$(".auto-ckeditor").each(function () {
+		var a = $(this).attr("id") || "";
+		if (a != "") {
+			re_height_iframe_editer(a);
+		}
+	});
 }
 
 // tạo url preview nếu có
