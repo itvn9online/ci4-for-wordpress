@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 // Libraries
@@ -27,12 +28,12 @@ class Post extends PostPages
             // WHERE
             'ID' => $id,
         ), [
-                'value' => $val,
-                // hiển thị mã SQL để check
-                //'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-            ]);
+            'value' => $val,
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+        ]);
     }
 
     // vì permalink gán trực tiếp vào db nên thi thoảng sẽ check lại chút
@@ -46,19 +47,22 @@ class Post extends PostPages
 
         // lấy các post chưa có permalink đẻ update
         $data = $this->base_model->select(
-            'ID, post_permalink, post_type, post_name',
+            'ID, post_permalink, updated_permalink, post_type, post_name',
             'posts',
             array(
                 // các kiểu điều kiện where
                 'post_status' => PostType::PUBLICITY,
-                'post_permalink' => '',
             ),
             array(
+                'or_where' => array(
+                    'post_permalink' => '',
+                    'updated_permalink' => 0,
+                ),
                 'where_in' => array(
                     'post_type' => array(
-                            PostType::POST,
-                            PostType::BLOG,
-                            PostType::PAGE,
+                        PostType::POST,
+                        PostType::BLOG,
+                        PostType::PAGE,
                     )
                 ),
                 'order_by' => array(
@@ -82,20 +86,24 @@ class Post extends PostPages
         if (empty($data)) {
             // lấy các term chưa có permalink đẻ update
             $data = $this->base_model->select(
-                'term_id, term_permalink, taxonomy, slug',
+                'term_id, term_permalink, updated_permalink, taxonomy, slug',
                 WGR_TERM_VIEW,
                 array(
                     // các kiểu điều kiện where
                     'is_deleted' => DeletedStatus::FOR_DEFAULT,
-                    'term_permalink' => '',
+                    //'term_permalink' => '',
                 ),
                 array(
+                    'or_where' => array(
+                        'term_permalink' => '',
+                        'updated_permalink' => 0,
+                    ),
                     'where_in' => array(
                         'taxonomy' => array(
-                                TaxonomyType::POSTS,
-                                TaxonomyType::TAGS,
-                                TaxonomyType::BLOGS,
-                                TaxonomyType::BLOG_TAGS,
+                            TaxonomyType::POSTS,
+                            TaxonomyType::TAGS,
+                            TaxonomyType::BLOGS,
+                            TaxonomyType::BLOG_TAGS,
                         )
                     ),
                     'order_by' => array(

@@ -1130,10 +1130,12 @@ class Dashboard extends Optimize
         // xóa hết term permalink trong db đi để nạp lại
         $this->base_model->update_multiple('terms', [
             // SET
-            'term_permalink' => '',
+            //'term_permalink' => '',
+            'updated_permalink' => 0,
         ], [
             // WHERE
-            'term_permalink !=' => '',
+            //'term_permalink !=' => '',
+            'updated_permalink >' => 0,
         ], [
             'debug_backtrace' => debug_backtrace()[1]['function'],
             // hiển thị mã SQL để check
@@ -1186,10 +1188,12 @@ class Dashboard extends Optimize
         // xóa hết term permalink trong db đi để nạp lại
         $this->base_model->update_multiple('posts', [
             // SET
-            'post_permalink' => '',
+            //'post_permalink' => '',
+            'updated_permalink' => 0,
         ], [
             // WHERE
-            'post_permalink !=' => '',
+            //'post_permalink !=' => '',
+            'updated_permalink >' => 0,
         ], [
             'debug_backtrace' => debug_backtrace()[1]['function'],
             // hiển thị mã SQL để check

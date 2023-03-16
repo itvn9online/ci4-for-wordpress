@@ -439,6 +439,7 @@ class Posts extends Admin
                         $dup_data['lang_key'] = $clone_lang;
                         $dup_data['lang_parent'] = $data['ID'];
                         $dup_data['post_permalink'] = '';
+                        $dup_data['updated_permalink'] = 0;
                         // xóa phần ID để tránh xung đột primary key
                         $dup_data['ID'] = 0;
                         unset($dup_data['ID']);

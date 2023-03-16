@@ -160,8 +160,13 @@ class PostBase extends EbModel
         //print_r($data);
         //return '#';
 
+        // đoạn này sẽ để 1 thời gian, sau sẽ comment lại
+        if (!isset($data['updated_permalink'])) {
+            die('Updated permalink! ' . __CLASS__ . ':' . __LINE__);
+        }
+
         // sử dụng permalink có sẵn trong data
-        if ($data['post_permalink'] != '') {
+        if ($data['updated_permalink'] > 0 && $data['post_permalink'] != '') {
             return $base_url . $data['post_permalink'];
         }
 
@@ -206,6 +211,7 @@ class PostBase extends EbModel
             'posts',
             [
                 'post_permalink' => $url,
+                'updated_permalink' => time(),
             ],
             [
                 'ID' => $data['ID'],

@@ -92,7 +92,7 @@ function add_and_show_post_avt(for_id, add_img_tag, img_size, input_type) {
 		console.log(for_id + " not found! (length != 1)");
 		return false;
 	}
-	console.log(Math.random());
+	//console.log(Math.random());
 	if (typeof add_img_tag == "undefined" || add_img_tag == "") {
 		add_img_tag = 0;
 	}
@@ -120,7 +120,7 @@ function add_and_show_post_avt(for_id, add_img_tag, img_size, input_type) {
 			img_size +
 			"', '" +
 			input_type +
-			"' );\">Thêm Media</button>"
+			"' );\">Thêm Media</button> "
 	);
 
 	//
@@ -491,6 +491,18 @@ function WGR_load_textediter(for_id, ops) {
 				content: '<i class="fa fa-phone"><!-- icon --></i>',
 			},
 		],
+		// không cho phép reszie với table -> để tối ưu với reponsive
+		table_resize_bars: false,
+		// thuộc tính mặc định của table
+		table_default_attributes: {
+			width: "100%",
+			border: "0",
+			cellspacing: "0",
+			cellpadding: "0",
+		},
+		// style mặc định của table
+		table_default_styles: {},
+		//
 		template_cdate_format: "[Date Created (CDATE): %d/%m/%Y : %H:%M:%S]",
 		template_mdate_format: "[Date Modified (MDATE): %d/%m/%Y : %H:%M:%S]",
 		// tắt chức năng chuyển thẻ i thành em
@@ -570,8 +582,37 @@ function WGR_load_textediter(for_id, ops) {
 		//content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
 	});
 
-	//
+	// tạo nút xóa style trong text-editer
+	btn_remove_editer_style(for_id);
+	// tạo nút nhúng media vào text-editer
 	add_and_show_post_avt(for_id, 1, "", "textediter");
+}
+
+function btn_remove_editer_style(for_id) {
+	console.log(for_id);
+	$(for_id).after(
+		"<button type='button' onclick=\"return cleanup_html_in_editer('" +
+			for_id.substr(1) +
+			'\');" class="btn btn-secondary">Xóa định dạng</button> '
+	);
+}
+
+// tìm và xóa toàn bộ thả style trong text-editer
+function cleanup_html_in_editer(for_id) {
+	for_id = "#" + for_id + "_ifr";
+	console.log(for_id);
+	if ($(for_id).length <= 0) {
+		WGR_alert("Không xác định được iframe ID " + for_id);
+		return false;
+	}
+
+	//
+	jQuery(for_id)
+		.contents()
+		.find("body")
+		.find("*")
+		.removeAttr("data-mce-style")
+		.removeAttr("style");
 }
 
 // gán src cho thẻ img từ data-img -> dùng cho angularjs

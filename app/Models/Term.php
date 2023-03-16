@@ -26,7 +26,8 @@ class Term extends TermBase
             }
         }
         // đặt giá trị này để khởi tạo lại permalink
-        $data['term_permalink'] = '';
+        //$data['term_permalink'] = '';
+        $data['updated_permalink'] = 0;
 
         //
         foreach ($data as $k => $v) {
@@ -1018,8 +1019,13 @@ class Term extends TermBase
     {
         //print_r( $data );
 
+        // chức năng này sẽ để 1 thời gian sau đó comment lại
+        if (!isset($data['updated_permalink'])) {
+            die('Updated permalink! ' . __CLASS__ . ':' . __LINE__);
+        }
+
         // sử dụng permalink có sẵn trong data
-        if ($data['term_permalink'] != '') {
+        if ($data['updated_permalink'] > 0 && $data['term_permalink'] != '') {
             return $base_url . $data['term_permalink'];
         }
 
@@ -1061,6 +1067,7 @@ class Term extends TermBase
             'terms',
             [
                 'term_permalink' => $url,
+                'updated_permalink' => time(),
             ],
             [
                 'term_id' => $data['term_id'],

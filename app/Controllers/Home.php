@@ -410,6 +410,7 @@ class Home extends Posts
             //echo __CLASS__ . ':' . __LINE__;
             // xóa permalink để URL được update lại
             $data['post_permalink'] = '';
+            $data['updated_permalink'] = 0;
         }
 
         //

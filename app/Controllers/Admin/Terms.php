@@ -320,6 +320,7 @@ class Terms extends Admin
                         $dup_data['lang_key'] = $clone_lang;
                         $dup_data['lang_parent'] = $data['term_id'];
                         $dup_data['term_permalink'] = '';
+                        $dup_data['updated_permalink'] = 0;
                         // xóa phần ID để tránh xung đột primary key
                         $dup_data['term_id'] = 0;
                         unset($dup_data['term_id']);
