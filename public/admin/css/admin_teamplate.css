@@ -141,6 +141,10 @@ form#listContactByType {
     margin-top: -2px;
 }
 
+.controls-checkbox label {
+    display: inline-block;
+}
+
 .controls-text-note {
     font-style: italic;
 }
