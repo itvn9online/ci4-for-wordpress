@@ -481,7 +481,9 @@ function WGR_load_textediter(for_id, ops) {
 				description: "New new button new-line",
 				content: [
 					'<p class="mce-btn-tmpl">',
-					'<a href="#" class="btn btn-primary">Button new-line</a>',
+					'<a href="' +
+						web_link +
+						'" class="btn btn-primary">Button new-line</a>',
 					"</p>",
 				].join(" "),
 			},

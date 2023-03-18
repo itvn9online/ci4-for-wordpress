@@ -763,9 +763,9 @@ body.body-debug_enable #sidebar {
         width: 30%;
     }
 
-    body.preview-expand-url .preview-btn,
-    body.preview-expand-url .form-actions.frm-fixed-btn.cf,
-    body.preview-expand-url #content {
+    body.preview-url.preview-expand-url .preview-btn,
+    body.preview-url.preview-expand-url .form-actions.frm-fixed-btn.cf,
+    body.preview-url.preview-expand-url #content {
         -moz-transition: all 0.2s ease;
         -o-transition: all 0.2s ease;
         -webkit-transition: all 0.2s ease;
