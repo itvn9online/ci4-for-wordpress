@@ -60,6 +60,7 @@ a {
     color: #fff;
 }
 
+body.no-scroll,
 body.wgria-no-scroll,
 body.body-no-scroll {
     overflow: hidden;

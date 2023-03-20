@@ -162,7 +162,8 @@ class PostBase extends EbModel
 
         // đoạn này sẽ để 1 thời gian, sau sẽ comment lại
         if (!isset($data['updated_permalink'])) {
-            die('Updated permalink! ' . __CLASS__ . ':' . __LINE__);
+            //print_r($data);
+            die(__FUNCTION__ . ' Updated permalink! ' . __CLASS__ . ':' . __LINE__);
         }
 
         // sử dụng permalink có sẵn trong data
@@ -210,7 +211,8 @@ class PostBase extends EbModel
         $this->base_model->update_multiple(
             'posts',
             [
-                'post_permalink' => $url,
+                // xóa cắp dấu // để tránh trường hợp gặp segment trống
+                'post_permalink' => str_replace('//', '/', $url),
                 'updated_permalink' => time(),
             ],
             [

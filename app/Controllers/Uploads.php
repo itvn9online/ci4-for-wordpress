@@ -46,11 +46,12 @@ class Uploads extends Users
         $format_modified = 'ymdHis';
         if (empty($last_modified)) {
             $last_modified = time();
-            $format_modified = 'ymdH';
+            //$format_modified = 'ymdH';
         }
 
         // thêm ngày tháng năm vào tên file để tránh trùng lặp
-        $file_name .= '-' . date($format_modified, $last_modified);
+        //$file_name .= '-' . date($format_modified, $last_modified);
+        $file_name =  date($format_modified, $last_modified) . '-' . $file_name;
 
         //
         $upload_path = $this->get_path_upload($this->current_user_id, $dir);

@@ -25,7 +25,7 @@
     color: darkslategray;
 }
 
-.drag-drop-upload #file {
+.drag-drop-upload .drag-drop-input {
     display: none;
 }
 

@@ -1021,7 +1021,8 @@ class Term extends TermBase
 
         // chức năng này sẽ để 1 thời gian sau đó comment lại
         if (!isset($data['updated_permalink'])) {
-            die('Updated permalink! ' . __CLASS__ . ':' . __LINE__);
+            //print_r($data);
+            die(__FUNCTION__ . ' Updated permalink! ' . __CLASS__ . ':' . __LINE__);
         }
 
         // sử dụng permalink có sẵn trong data
@@ -1066,7 +1067,8 @@ class Term extends TermBase
         $this->base_model->update_multiple(
             'terms',
             [
-                'term_permalink' => $url,
+                // xóa cắp dấu // để tránh trường hợp gặp segment trống
+                'term_permalink' => str_replace('//', '/', $url),
                 'updated_permalink' => time(),
             ],
             [

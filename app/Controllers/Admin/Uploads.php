@@ -521,7 +521,8 @@ class Uploads extends Admin
         }
 
         // thêm ngày tháng năm vào tên file để tránh trùng lặp
-        $file_name .= '-' . date($format_modified, $last_modified);
+        //$file_name .= '-' . date($format_modified, $last_modified);
+        $file_name =  date($format_modified, $last_modified) . '-' . $file_name;
 
         //
         $upload_root = PUBLIC_HTML_PATH . MediaType::MEDIA_PATH;
