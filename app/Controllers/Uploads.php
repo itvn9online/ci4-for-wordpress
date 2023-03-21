@@ -49,8 +49,7 @@ class Uploads extends Users
             //$format_modified = 'ymdH';
         }
 
-        // thêm ngày tháng năm vào tên file để tránh trùng lặp
-        //$file_name .= '-' . date($format_modified, $last_modified);
+        // thêm ngày tháng năm vào tên file để tránh trùng lặp -> cho ngày tháng về trước vì còn liên quan đến sắp xếp file -> ko insert db nên ko order được
         $file_name =  date($format_modified, $last_modified) . '-' . $file_name;
 
         //

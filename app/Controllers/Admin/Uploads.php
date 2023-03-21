@@ -520,9 +520,8 @@ class Uploads extends Admin
             //$format_modified = 'ymdH';
         }
 
-        // thêm ngày tháng năm vào tên file để tránh trùng lặp
-        //$file_name .= '-' . date($format_modified, $last_modified);
-        $file_name =  date($format_modified, $last_modified) . '-' . $file_name;
+        // thêm ngày tháng năm vào tên file để tránh trùng lặp -> upload trong admin có insert db nên n gày tháng để sau
+        $file_name .= '-' . date($format_modified, $last_modified);
 
         //
         $upload_root = PUBLIC_HTML_PATH . MediaType::MEDIA_PATH;
