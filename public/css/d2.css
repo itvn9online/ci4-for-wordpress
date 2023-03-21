@@ -1286,39 +1286,22 @@
 /* */
 .wgr-fa {
     display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-style: normal;
+    background: center no-repeat;
+    background-size: cover;
+    min-width: 28px;
 }
 
 .wgr-fa::before {
-    font-family: FontAwesome;
+    content: "a";
+    color: transparent;
 }
 
-.wgr-fa.wgr-icons-facebook::before {
-    content: "\f09a";
+.wgr-fa.wgr-icons-zalo {
+    background-image: url(../images/icons/zalo.svg);
+    background-size: 70%;
 }
 
-.wgr-fa.wgr-icons-google::before {
-    content: "\f1a0";
-}
-
-.wgr-fa.wgr-icons-linkin::before {}
-
-.wgr-fa.wgr-icons-skype::before {
-    content: "\f17e";
-}
-
-.wgr-fa.wgr-icons-youtube::before {
-    content: "\f167";
-}
-
-.wgr-fa.wgr-icons-zalo::before {}
-
-.wgr-fa.wgr-icons-tiktok::before {}
+.wgr-fa.wgr-icons-tiktok {}
 
 .wgr-share-icons {}
 

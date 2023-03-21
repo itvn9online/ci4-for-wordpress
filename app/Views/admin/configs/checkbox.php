@@ -63,7 +63,12 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                         ?>
                     </div>
                     <div class="lf f35">
-                        <input type="text" onDblClick="click2Copy(this);" value="$this->checkbox_model->the_checkbox('<?php echo $k; ?>');" class="span11" readonly />
+                        <div>
+                            <input type="text" onDblClick="click2Copy(this);" value="$this->checkbox_model->the_checkbox('<?php echo $k; ?>');" class="span11" readonly />
+                        </div>
+                        <div>
+                            <input type="text" onDblClick="click2Copy(this);" value="$checkbox_model->the_checkbox('<?php echo $k; ?>');" class="span11" readonly />
+                        </div>
                     </div>
                 </div>
             <?php

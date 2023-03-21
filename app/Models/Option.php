@@ -477,8 +477,17 @@ class Option extends EbModel
             'linkin',
             'skype',
             'youtube',
-            'zalo',
+            'zalo_me',
             'tiktok',
+        ];
+        $icons = [
+            'facebook' => 'fa fa-facebook',
+            'google' => 'fa fa-google',
+            'linkin' => 'fa fa-linkedin',
+            'skype' => 'fa fa-skype',
+            'youtube' => 'fa fa-youtube',
+            'zalo_me' => 'wgr-fa wgr-icons-zalo',
+            'tiktok' => 'wgr-fa wgr-icons-tiktok',
         ];
 
         //
@@ -487,7 +496,9 @@ class Option extends EbModel
             if ($cogs->$v == '') {
                 continue;
             }
-            $str .= '<li><a href="' . $cogs->$v . '" target="_blank" rel="nofollow"><i class="wgr-fa wgr-icons-' . $v . '"></i> <span>' . $cogs->$v . '</span></a></li>';
+
+            //
+            $str .= '<li><a href="' . $cogs->$v . '" target="_blank" rel="nofollow"><i class="' . $icons[$v] . '"></i> <span>' . $cogs->$v . '</span></a></li>';
         }
         return '<ul class="wgr-share-icons cf">' . $str . '</ul>';
     }

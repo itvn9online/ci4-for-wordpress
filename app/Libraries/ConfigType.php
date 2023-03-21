@@ -163,6 +163,7 @@ class ConfigType
                 'youtube' => 'Youtube',
                 'tiktok' => 'TikTok',
                 'zalo' => 'Số Zalo',
+                'zalo_me' => 'Link Zalo',
                 'image' => 'Ảnh share Facebook',
                 'registeronline' => 'Link đăng ký BCT',
                 'notificationbct' => 'Link thông báo BCT',
@@ -412,6 +413,7 @@ class ConfigType
             'smtp_heading_test_email' => 'heading',
             'smtp2_heading_host_user' => 'heading',
             'zalo' => 'number',
+            'zalo_me' => 'hidden',
             'fb_app_id' => 'number',
         ];
         /*
