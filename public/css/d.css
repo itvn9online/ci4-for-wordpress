@@ -390,7 +390,7 @@ body.home .thread-details-tohome {
 #my_custom_alert {
     position: fixed;
     display: none;
-    top: 90px;
+    top: 36px;
     z-index: 9999999;
     /* border: 1px #f00 solid; */
     left: 50%;
