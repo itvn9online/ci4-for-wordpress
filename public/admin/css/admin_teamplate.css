@@ -292,10 +292,15 @@ body.sidebar-hover #adminmenumain {
     width: 400px;
     overflow-y: auto;
     overflow-x: hidden;
+    scrollbar-color: grey transparent;
+    scrollbar-width: thin;
 }
 
 #adminmenumain::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.01);
+    -moz-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.01);
+    -o-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.01);
+    box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.01);
     background-color: transparent;
 }
 
@@ -305,6 +310,10 @@ body.sidebar-hover #adminmenumain {
 }
 
 #adminmenumain::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.01);
+    -moz-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.01);
+    -o-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.01);
+    box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.01);
     background-color: transparent;
 }
 
@@ -657,8 +666,10 @@ body.body-debug_enable #sidebar {
     }
 
     body.preview-url #content::-webkit-scrollbar-track {
-        box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
         -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+        -moz-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+        -o-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+        box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
         background-color: #F5F5F5;
     }
 
@@ -668,6 +679,10 @@ body.body-debug_enable #sidebar {
     }
 
     body.preview-url #content::-webkit-scrollbar-thumb {
+        -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+        -moz-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+        -o-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+        box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
         background-color: #666;
     }
 
