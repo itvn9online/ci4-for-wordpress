@@ -211,7 +211,7 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
                                 }
 
                             ?>
-                                <select data-select="<?php $term_model->echo_meta_term($data, $k); ?>" name="term_meta[<?php echo $k; ?>]<?php echo $meta_multiple; ?>" class="span5" <?php echo $select_multiple; ?>>
+                                <select data-select="<?php $term_model->echo_meta_term($data, $k); ?>" name="term_meta[<?php echo $k; ?>]<?php echo $meta_multiple; ?>" id="post_meta_<?php echo $k; ?>" class="span5" <?php echo $select_multiple; ?>>
                                     <?php
 
                                     foreach ($select_options as $option_k => $option_v) {

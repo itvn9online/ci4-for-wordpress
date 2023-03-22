@@ -118,7 +118,7 @@ if ($debug_enable === true) {
     <script src="./thirdparty/validate/jquery.validate.min.js"></script>
     <script src="./thirdparty/validate/localization/messages_vi.js"></script>
     <!-- <script src="ckeditor/ckeditor.js"></script> -->
-    <script src="./thirdparty/tinymce/tinymce.min.js"></script>
+    <script src="./thirdparty/tinymce/tinymce.min.js?v=4.9.11"></script>
     <!-- <script src="https://cdn.ckeditor.com/ckeditor5/28.0.0/classic/ckeditor.js"></script> -->
     <!-- <script src="ckfinder/ckfinder.js"></script> -->
     <script src="./thirdparty/jquery-ui/jquery-ui.min.js"></script>
@@ -214,9 +214,9 @@ if ($debug_enable === true) {
     </div>
     <!-- nút quay lại dành cho preview post, term -->
     <div class="preview-btn">
-        <a href="#" title="Quay lại" class="btn btn-primary back-preview-mode"><i class="fa fa-arrow-left"></i></a>
-        <button type="button" title="Mở rộng" onclick="return expand_preview_mode();" class="btn btn-success"><i class="fa fa-arrows-h"></i></button>
-        <button type="button" title="Tắt chế độ Preview" onclick="return close_preview_mode();" class="btn btn-danger"><i class="fa fa-close"></i></button>
+        <a href="#" title="Quay lại trang chính" class="btn btn-primary back-preview-mode"><i class="fa fa-arrow-left"></i></a>
+        <button type="button" title="Mở rộng sang 2 bên" onclick="return expand_preview_mode();" class="btn btn-success"><i class="fa fa-arrows-h"></i></button>
+        <button type="button" title="Tắt chế độ Preview" onclick="return close_preview_mode();" class="btn btn-danger"><i class="fa fa-arrows"></i></button>
     </div>
     <div id="content">
         <div id="content-header">

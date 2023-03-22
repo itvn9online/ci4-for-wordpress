@@ -106,3 +106,34 @@ function WGR_widget_add_custom_style_to_field() {
 
 //
 WGR_widget_add_custom_style_to_field();
+
+// khi người dùng thay đổi số lượng bản ghi cần hiển thị
+function set_col_for_ads_row(a, in_id) {
+	var b = $(in_id).val() || "";
+	if (b == "") {
+		var c = "";
+		$(in_id + " option").each(function () {
+			if ($.trim($(this).html()) == a) {
+				c = $(this).attr("value") || "";
+			}
+		});
+		console.log(c);
+		if (c != "") {
+			$(in_id).val(c).trigger("change");
+		}
+	}
+}
+
+$("#term_meta_post_number").change(function () {
+	var a = $(this).val() || "";
+	// tự select các giá trị khác tương ứng -> đỡ phải select nhiều
+	if (a != "" && a * 1 > 0) {
+		// tùy vào số lượng bản ghi cần hiển thị mà đưa ra số cột tương ứng
+		set_col_for_ads_row(a * 1 > 3 ? "3" : a, "#post_meta_num_line");
+		set_col_for_ads_row(
+			a * 1 > 3 ? "3" : a * 1 > 2 ? "2" : a,
+			"#post_meta_num_medium_line"
+		);
+		set_col_for_ads_row(a * 1 > 2 ? "2" : a, "#post_meta_num_small_line");
+	}
+});

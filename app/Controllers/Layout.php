@@ -339,7 +339,7 @@ class Layout extends Sync
 
     protected function category($input, $post_type, $taxonomy, $file_view = 'category_view', $ops = [])
     {
-        //echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . PHP_EOL;
+        //echo debug_backtrace()[1]['class'] . '\\ ' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
         //$config['base_url'] = $this->term_model->get_term_permalink();
         //$config['per_page'] = 50;
         //$config['uri_segment'] = 3;
@@ -382,12 +382,20 @@ class Layout extends Sync
         */
 
         //
-        //print_r( $data );
+        //print_r($data);
         $data = $this->term_model->get_child_terms([$data], []);
         //print_r( $data );
 
         $data = $data[0];
-        //print_r( $data );
+        //print_r($data);
+
+        // nếu có lệnh redirect do sai URL
+        if (isset($_GET['canonical'])) {
+            //echo __CLASS__ . ':' . __LINE__;
+            // xóa permalink để URL được update lại
+            $data['term_permalink'] = '';
+            $data['updated_permalink'] = 0;
+        }
 
 
         //

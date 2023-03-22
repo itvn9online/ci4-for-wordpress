@@ -691,6 +691,7 @@ body.body-debug_enable #sidebar {
         width: auto;
         text-align: left;
         padding-left: 10px !important;
+        display: inline-block;
     }
 
     body.preview-url .form-horizontal .controls {
