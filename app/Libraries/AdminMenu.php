@@ -192,19 +192,19 @@ class AdminMenu
                         'name' => ConfigType::typeList(ConfigType::SOCIAL),
                         'icon' => 'fa fa-facebook',
                     ],
-                    'admin/configs?config_type=' . ConfigType::CATEGORY => [
+                    'admin/configcats' => [
                         'name' => ConfigType::typeList(ConfigType::CATEGORY),
                         'icon' => 'fa fa-cog',
                     ],
-                    'admin/configs?config_type=' . ConfigType::POST => [
+                    'admin/configposts' => [
                         'name' => ConfigType::typeList(ConfigType::POST),
                         'icon' => 'fa fa-product-hunt',
                     ],
-                    'admin/configs?config_type=' . ConfigType::BLOGS => [
+                    'admin/configblogss' => [
                         'name' => ConfigType::typeList(ConfigType::BLOGS),
                         'icon' => 'fa fa-cog',
                     ],
-                    'admin/configs?config_type=' . ConfigType::BLOG => [
+                    'admin/configblogs' => [
                         'name' => ConfigType::typeList(ConfigType::BLOG),
                         'icon' => 'fa fa-newspaper-o',
                     ],

@@ -66,6 +66,9 @@ class PostPosts extends PostSlider
         $default_arr['pt'] = 0;
 
         //
+        //print_r($data);
+
+        //
         return $this->base_model->tmp_to_html($tmp_html, $data, $default_arr);
     }
 
@@ -132,6 +135,7 @@ class PostPosts extends PostSlider
         } else {
             $data['cf_blog_size'] = $this->getconfig->cf_blog_size;
         }
+        //echo $data['cf_blog_size'];
 
         //
         return $this->build_the_node($data, $tmp_html, $ops);

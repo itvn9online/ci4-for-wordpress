@@ -59,6 +59,10 @@ console.log(aaaaaaaa);
 			var str_sub = "";
 			var v_sub = arr[x].arr;
 			for (var k_sub in v_sub) {
+				if (v_sub[k_sub] === null) {
+					continue;
+				}
+
 				// tạo icon
 				if (
 					typeof v_sub[k_sub].icon == "undefined" ||

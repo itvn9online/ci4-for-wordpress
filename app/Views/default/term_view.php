@@ -1,4 +1,4 @@
-<div class="text-center">
+<div class="w90 text-center">
     <h1 data-type="<?php echo $data['taxonomy']; ?>" data-id="<?php echo $data['term_id']; ?>" class="<?php echo $data['taxonomy']; ?>-taxonomy-title global-taxonomy-title global-module-title">
         <?php
         echo $data['name'];

@@ -76,6 +76,7 @@ class PostBase extends EbModel
         $getconfig = (object) $getconfig;
         $getconfig->cf_product_size = $this->base_model->get_config($getconfig, 'cf_product_size', 1);
         $getconfig->cf_blog_size = $this->base_model->get_config($getconfig, 'cf_blog_size', '2/3');
+        //echo $getconfig->cf_blog_size;
         if ($getconfig->cf_blog_description_length == '') {
             $getconfig->cf_blog_description_length = 250;
         }

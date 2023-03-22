@@ -185,13 +185,23 @@ class Admin extends Ajaxs
                                 $arr[$k]['arr'][$k2] = $v2;
                             }
                         }
+                        //print_r($v);
 
                         // thay thế các giá trị khác cho menu. Ví dụ: phân quyền
                         foreach ($v as $k2 => $v2) {
-                            if ($k2 == 'arr') {
-                                continue;
+                            //print_r($v2);
+
+                            // nếu mảng con được đặt NULL -> ẩn nó đi
+                            if (empty($v2)) {
+                                //echo $k . PHP_EOL;
+                                //echo $k2 . PHP_EOL;
+                                $arr[$k]['arr'][$k2] = NULL;
+                            } else {
+                                if ($k2 == 'arr') {
+                                    continue;
+                                }
+                                $arr[$k][$k2] = $v2;
                             }
-                            $arr[$k][$k2] = $v2;
                         }
                     }
                 }
@@ -201,7 +211,7 @@ class Admin extends Ajaxs
                 }
             }
         }
-        //print_r( $arr );
+        //print_r($arr);
 
         //
         return $arr;
