@@ -2,264 +2,263 @@
  * https://github.com/FrancescoBorzi/Nestable
  */
 
-
 function edit_menu_htmlentities(str) {
-    return str.replace(/[\u00A0-\u9999<>\&]/g, function (i) {
-        return '&#' + i.charCodeAt(0) + ';';
-    });
+	return str.replace(/[\u00A0-\u9999<>\&]/g, function (i) {
+		return "&#" + i.charCodeAt(0) + ";";
+	});
 }
 
 function create_ul_menu_editer(a, sub_menu) {
-    if (a.length == 0) {
-        return '';
-    }
+	if (a.length == 0) {
+		return "";
+	}
 
-    //
-    //console.log(a);
-    var str = '';
-    for (var i = 0; i < a.length; i++) {
-        if (a[i].deleted * 1 !== 0) {
-            continue;
-        }
+	//
+	//console.log(a);
+	var str = "";
+	for (var i = 0; i < a.length; i++) {
+		if (a[i].deleted * 1 !== 0) {
+			continue;
+		}
 
-        //
-        var a_tag = '';
-        if (a[i].slug == '') {
-            a_tag = a[i].name;
-        } else {
-            a_tag = '<a href="' + a[i].slug + '">' + a[i].name + '</a>';
-        }
+		//
+		var a_tag = "";
+		if (a[i].slug == "") {
+			a_tag = a[i].name;
+		} else {
+			a_tag = '<a href="' + a[i].slug + '">' + a[i].name + "</a>";
+		}
 
-        // nếu có menu con -> gọi luôn
-        if (typeof a[i].children != 'undefined') {
-            a_tag += create_ul_menu_editer(a[i].children, 'sub-menu');
-        }
+		// nếu có menu con -> gọi luôn
+		if (typeof a[i].children != "undefined") {
+			a_tag += create_ul_menu_editer(a[i].children, "sub-menu");
+		}
 
-        //
-        str += '<li>' + a_tag + '</li>';
-    }
+		//
+		str += "<li>" + a_tag + "</li>";
+	}
 
-    //
-    if (typeof sub_menu == 'undefined') {
-        sub_menu = '';
-    }
-    sub_menu = jQuery.trim(sub_menu + ' cf');
+	//
+	if (typeof sub_menu == "undefined") {
+		sub_menu = "";
+	}
+	sub_menu = jQuery.trim(sub_menu + " cf");
 
-    //
-    return '<ul class="' + sub_menu + '">' + str + '</ul>';
+	//
+	return '<ul class="' + sub_menu + '">' + str + "</ul>";
 }
 
 function create_html_menu_editer(max_i) {
-    if (typeof max_i != 'number') {
-        max_i = 100;
-    } else if (max_i < 0) {
-        console.log('%c Không xác định được editer cho menu', 'color: red');
-        return false;
-    }
+	if (typeof max_i != "number") {
+		max_i = 100;
+	} else if (max_i < 0) {
+		console.log("%c Không xác định được editer cho menu", "color: red");
+		return false;
+	}
 
-    //
-    var insert_to = '';
-    if (jQuery('#Resolution_ifr').length === 1) {
-        insert_to = '#Resolution_ifr';
-    } else if (jQuery('.cke_wysiwyg_frame').length === 1) {
-        insert_to = '.cke_wysiwyg_frame';
-    } else {
-        setTimeout(function () {
-            create_html_menu_editer(max_i - 1);
-        }, 200);
-        return false;
-    }
-    try {
-        console.log('Call in: ' + arguments.callee.caller.name.toString());
-    } catch (e) {
-        //
-    }
+	//
+	var insert_to = "";
+	if (jQuery("#Resolution_ifr").length === 1) {
+		insert_to = "#Resolution_ifr";
+	} else if (jQuery(".cke_wysiwyg_frame").length === 1) {
+		insert_to = ".cke_wysiwyg_frame";
+	} else {
+		setTimeout(function () {
+			create_html_menu_editer(max_i - 1);
+		}, 200);
+		return false;
+	}
+	try {
+		console.log("Call in: " + arguments.callee.caller.name.toString());
+	} catch (e) {
+		//
+	}
 
-    //
-    var a = $('#json-output').val() || '';
-    if (a != '') {
-        try {
-            a = JSON.parse(a);
-        } catch (e) {
-            WGR_show_try_catch_err(e);
-            a = null;
-        }
+	//
+	var a = $("#json-output").val() || "";
+	if (a != "") {
+		try {
+			a = JSON.parse(a);
+		} catch (e) {
+			WGR_show_try_catch_err(e);
+			a = null;
+		}
 
-        //
-        if (a !== null) {
-            var str = create_ul_menu_editer(a);
-            //console.log(str);
+		//
+		if (a !== null) {
+			var str = create_ul_menu_editer(a);
+			//console.log(str);
 
-            //
-            jQuery(insert_to).contents().find('body').html(str);
-        }
-    }
+			//
+			jQuery(insert_to).contents().find("body").html(str);
+		}
+	}
 
-    //
-    return true;
+	//
+	return true;
 }
 
 function get_json_add_menu(obj) {
-    try {
-        console.log('Call in: ' + arguments.callee.caller.name.toString());
-    } catch (e) {
-        //
-    }
+	try {
+		console.log("Call in: " + arguments.callee.caller.name.toString());
+	} catch (e) {
+		//
+	}
 
-    //
-    if ($.trim($('#addInputSlug').val() || '') == '') {
-        $('#addInputSlug').val('#').trigger('change');
-        return false;
-    }
+	//
+	if ($.trim($("#addInputSlug").val() || "") == "") {
+		$("#addInputSlug").val("#").trigger("change");
+		return false;
+	}
 
-    //
-    return get_json_code_menu(obj);
+	//
+	return get_json_code_menu(obj);
 }
 
 function get_json_edit_menu(obj) {
-    try {
-        console.log('Call in: ' + arguments.callee.caller.name.toString());
-    } catch (e) {
-        //
-    }
+	try {
+		console.log("Call in: " + arguments.callee.caller.name.toString());
+	} catch (e) {
+		//
+	}
 
-    //
-    if ($.trim($('#editInputSlug').val() || '') == '') {
-        $('#editInputSlug').val('#').trigger('change');
-        return false;
-    }
+	//
+	if ($.trim($("#editInputSlug").val() || "") == "") {
+		$("#editInputSlug").val("#").trigger("change");
+		return false;
+	}
 
-    //
-    return get_json_code_menu(obj);
+	//
+	return get_json_code_menu(obj);
 }
 
 // mỗi lần cập nhật menu -> tạo ra câu confirm để còn chờ nội dung menu được cập nhật
 function action_before_submit_menu() {
-    action_json_code_menu();
+	action_json_code_menu();
 
-    //
-    if (confirm('Xác nhận thay đổi nội dung cho menu này!') === false) {
-        return false;
-    }
+	//
+	if (confirm("Xác nhận thay đổi nội dung cho menu này!") === false) {
+		return false;
+	}
 
-    //
-    return true;
+	//
+	return true;
 }
 
 function get_json_code_menu(obj) {
-    setTimeout(function () {
-        action_json_code_menu(obj);
-    }, 200);
+	setTimeout(function () {
+		action_json_code_menu(obj);
+	}, 200);
 
-    return true;
+	return true;
 }
 
 function action_json_code_menu(obj) {
-    var arr = $('#json-output').val();
-    //console.log(arr);
+	var arr = $("#json-output").val();
+	//console.log(arr);
 
-    //
-    $('#data_post_excerpt').val(arr);
+	//
+	$("#data_post_excerpt").val(arr);
 
-    //setTimeout(function () {
-    create_html_menu_editer();
-    //}, 200);
+	//setTimeout(function () {
+	create_html_menu_editer();
+	//}, 200);
 
-    //
-    if (typeof obj != 'undefined' && typeof obj.id != 'undefined') {
-        //console.log(obj.id);
-        // xóa chữ trong các input của form tương ứng được truyền vào
-        setTimeout(function () {
-            $('#' + obj.id + ' input[type="text"]').val('');
+	//
+	if (typeof obj != "undefined" && typeof obj.id != "undefined") {
+		//console.log(obj.id);
+		// xóa chữ trong các input của form tương ứng được truyền vào
+		setTimeout(function () {
+			$("#" + obj.id + ' input[type="text"]').val("");
 
-            // tự động cập nhật menu
-            console.log('Auto submit in ' + ($(this).attr('id') || ''));
-            document.admin_global_form.submit();
-        }, 200);
-    }
+			// tự động cập nhật menu
+			console.log("Auto submit in " + ($(this).attr("id") || ""));
+			document.admin_global_form.submit();
+		}, 200);
+	}
 
-    return true;
+	return true;
 }
 
 var global_menu_jd = 1;
 
 function create_html_menu_nestable(a) {
-    if (a.length == 0) {
-        console.log('a length');
-        return '';
-    }
+	if (a.length == 0) {
+		console.log("a length");
+		return "";
+	}
 
-    //
-    //console.log(a);
-    var str = '';
-    var tmp = $('.dd-tmp-list').html() || '';
-    if (tmp == '') {
-        console.log('%c dd-tmp-list not found!', 'color: red;');
-        return false;
-    }
-    //console.log('tmp:', tmp);
-    var arr_replace_class = {
-        'dd-item': 'dd-item',
-        'dd-handle': 'dd-handle',
-        'button-delete': 'button-delete btn btn-default btn-xs pull-right',
-        'button-edit': 'button-edit btn btn-default btn-xs pull-right',
-        'fa-times': 'fa fa-times-circle-o',
-        'fa-pencil': 'fa fa-pencil',
-    };
-    for (var x in arr_replace_class) {
-        tmp = tmp.replace('%' + x + '%', arr_replace_class[x]);
-    }
-    //console.log('data class length:', tmp.split(' data-class=').length);
-    tmp = tmp.replace(/\sdata\-class\=/gi, ' class=');
-    console.log('tmp:', tmp);
+	//
+	//console.log(a);
+	var str = "";
+	var tmp = $(".dd-tmp-list").html() || "";
+	if (tmp == "") {
+		console.log("%c dd-tmp-list not found!", "color: red;");
+		return false;
+	}
+	//console.log('tmp:', tmp);
+	var arr_replace_class = {
+		"dd-item": "dd-item",
+		"dd-handle": "dd-handle",
+		"button-delete": "button-delete btn btn-default btn-xs pull-right",
+		"button-edit": "button-edit btn btn-default btn-xs pull-right",
+		"fa-times": "fa fa-times-circle-o",
+		"fa-pencil": "fa fa-pencil",
+	};
+	for (var x in arr_replace_class) {
+		tmp = tmp.replace("%" + x + "%", arr_replace_class[x]);
+	}
+	//console.log('data class length:', tmp.split(' data-class=').length);
+	tmp = tmp.replace(/\sdata\-class\=/gi, " class=");
+	console.log("tmp:", tmp);
 
-    //
-    for (var i = 0; i < a.length; i++) {
-        //console.log(a[i]);
-        if (a[i].deleted * 1 !== 0) {
-            continue;
-        }
+	//
+	for (var i = 0; i < a.length; i++) {
+		//console.log(a[i]);
+		if (a[i].deleted * 1 !== 0) {
+			continue;
+		}
 
-        //
-        var htm = tmp;
-        a[i]['id'] = global_menu_jd;
-        global_menu_jd++;
-        for (var x in a[i]) {
-            //console.log(a[i]);
-            if (typeof a[i].name == 'undefined') {
-                continue;
-            }
-            var newText = JSON.parse(JSON.stringify(a[i]));
-            //console.log(newText);
-            //newText.newText = newText.name;
+		//
+		var htm = tmp;
+		a[i]["id"] = global_menu_jd;
+		global_menu_jd++;
+		for (var x in a[i]) {
+			//console.log(a[i]);
+			if (typeof a[i].name == "undefined") {
+				continue;
+			}
+			var newText = JSON.parse(JSON.stringify(a[i]));
+			//console.log(newText);
+			//newText.newText = newText.name;
 
-            // thay " thành &quot; để đỡ lỗi HTML
-            for (var j = 0; j < 10; j++) {
-                htm = htm.replace('%newText%', newText.name);
-                a[i].name = a[i].name.replace('"', '&quot;');
-            }
-            //console.log(a[i]);
+			// thay " thành &quot; để đỡ lỗi HTML
+			for (var j = 0; j < 10; j++) {
+				htm = htm.replace("%newText%", newText.name);
+				a[i].name = a[i].name.replace('"', "&quot;");
+			}
+			//console.log(a[i]);
 
-            //
-            for (var j = 0; j < 10; j++) {
-                htm = htm.replace('%' + x + '%', a[i][x]);
-            }
-        }
+			//
+			for (var j = 0; j < 10; j++) {
+				htm = htm.replace("%" + x + "%", a[i][x]);
+			}
+		}
 
-        // nếu có menu con -> gọi luôn
-        var child_htm = '';
-        if (typeof a[i].children != 'undefined') {
-            child_htm = create_html_menu_nestable(a[i].children);
-        }
-        htm = htm.replace('%child_htm%', child_htm);
-        //console.log(htm);
+		// nếu có menu con -> gọi luôn
+		var child_htm = "";
+		if (typeof a[i].children != "undefined") {
+			child_htm = create_html_menu_nestable(a[i].children);
+		}
+		htm = htm.replace("%child_htm%", child_htm);
+		//console.log(htm);
 
-        //
-        str += htm;
-    }
+		//
+		str += htm;
+	}
 
-    //
-    return '<ol class="dd-list">' + str + '</ol>';
+	//
+	return '<ol class="dd-list">' + str + "</ol>";
 }
 
 /*
@@ -270,57 +269,56 @@ function create_html_menu_nestable(a) {
 //$('.hide-if-edit-menu').hide();
 
 (function () {
-    // tạo html cho việc chỉnh sửa menu
-    var a = $('#data_post_excerpt').val() || '';
-    if (a != '') {
-        try {
-            a = JSON.parse(a);
-            //console.log(a);
-        } catch (e) {
-            WGR_show_try_catch_err(e);
-            a = null;
-        }
+	// tạo html cho việc chỉnh sửa menu
+	var a = $("#data_post_excerpt").val() || "";
+	if (a != "") {
+		try {
+			a = JSON.parse(a);
+			//console.log(a);
+		} catch (e) {
+			WGR_show_try_catch_err(e);
+			a = null;
+		}
 
-        //
-        if (a !== null) {
-            var str = create_html_menu_nestable(a);
-            //console.log(str);
+		//
+		if (a !== null) {
+			var str = create_html_menu_nestable(a);
+			//console.log(str);
 
-            //
-            jQuery('.container-edit-menu .dd.nestable').html(str).show();
-        }
-    }
+			//
+			jQuery(".container-edit-menu .dd.nestable").html(str).show();
+		}
+	}
 })();
 
 //
 //create_html_menu_editer();
 //});
 
-$('#quick_add_menu').change(function () {
-    var v = $('#quick_add_menu').val() || '';
+$("#quick_add_menu").change(function () {
+	var v = $("#quick_add_menu").val() || "";
 
-    if (v != '') {
-        var base_url = $('base ').attr('href') || '';
-        if (base_url != '') {
-            v = v.replace(base_url, './');
-        }
+	if (v != "") {
+		var base_url = $("base ").attr("href") || "";
+		if (base_url != "") {
+			v = v.replace(base_url, "./");
+		}
 
-        //
-        $('#addInputName').val($('#quick_add_menu option:selected').text());
-    } else {
-        $('#addInputName').val(v);
-    }
-    $('#addInputSlug').val(v);
-    $('#addInputName').focus();
+		//
+		$("#addInputName").val($("#quick_add_menu option:selected").text());
+	} else {
+		$("#addInputName").val(v);
+	}
+	$("#addInputSlug").val(v);
+	$("#addInputName").focus();
 });
 
 /*
 $(document).ready(function () {
-    $('#quick_add_menu').select2();
+    MY_select2('#quick_add_menu');
 });
 */
 
-
 //
-add_and_show_post_avt('#addInputName', 1, 'medium');
-add_and_show_post_avt('#editInputName', 1, 'medium');
+add_and_show_post_avt("#addInputName", 1, "medium");
+add_and_show_post_avt("#editInputName", 1, "medium");

@@ -167,13 +167,9 @@ if (
 				"post meta post category option length:",
 				$("#post_meta_post_category option").length
 			);
-			if (
-				$("#post_meta_post_category option").length > 10 &&
-				!$("#post_meta_post_category").hasClass("has-select2")
-			) {
-				$("#post_meta_post_category").select2();
-				$("#post_meta_post_category").addClass("has-select2");
-			}
+
+			//
+			MY_select2("#post_meta_post_category");
 		}
 	);
 }
@@ -195,9 +191,9 @@ if (
 
 			// tạo lại selected
 			WGR_set_prop_for_select("#post_meta_post_tags");
-			if ($("#post_meta_post_tags").length > 10) {
-				$("#post_meta_post_tags").select2();
-			}
+
+			//
+			MY_select2("#post_meta_post_tags");
 		}
 	);
 }

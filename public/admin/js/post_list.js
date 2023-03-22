@@ -32,7 +32,7 @@ function each_to_group_taxonomy() {
 				$("#" + jd + " option[data-count='0']").remove();
 				// tạo lại selected
 				WGR_set_prop_for_select("#" + jd);
-				$("#" + jd).select2();
+				MY_select2("#" + jd);
 			} else {
 				$("#" + jd)
 					.parent(".hide-if-no-taxonomy")

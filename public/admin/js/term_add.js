@@ -39,6 +39,7 @@ if ($("#data_parent").length > 0) {
 
 		// tạo lại selected
 		WGR_set_prop_for_select("#data_parent");
+		MY_select2("#data_parent");
 	});
 }
 

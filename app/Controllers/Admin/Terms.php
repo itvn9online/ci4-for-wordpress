@@ -290,6 +290,25 @@ class Terms extends Admin
                 die('term not found!' . __CLASS__ . ':' . __LINE__);
             }
             //print_r($data);
+
+            // cập nhật lang default nếu chưa có
+            if ($data['lang_key'] == '') {
+                $data['lang_key'] = LanguageCost::default_lang();
+
+                //
+                $this->base_model->update_multiple('terms', [
+                    // SET
+                    'lang_key' => $data['lang_key']
+                ], [
+                    'term_id' => $id
+                ], [
+                    // hiển thị mã SQL để check
+                    //'show_query' => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    //'get_query' => 1,
+                ]);
+            }
+
             // nếu ngôn ngữ của post không đúng với ngôn ngữ đang hiển thị
             $clone_lang = $this->MY_get('clone_lang', '');
             if ($clone_lang != '' && $clone_lang != $data['lang_key']) {

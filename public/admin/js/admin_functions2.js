@@ -72,3 +72,10 @@ function re_height_iframe_editer(for_id, if_id, max_i) {
 		height: iframe_body_h + "px",
 	});
 }
+
+function MY_select2(for_id) {
+	if ($(for_id + " option").length > 10 && !$(for_id).hasClass("has-select2")) {
+		$(for_id).select2();
+		$(for_id).addClass("has-select2");
+	}
+}
