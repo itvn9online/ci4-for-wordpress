@@ -54,7 +54,7 @@ class Post extends PostPages
                 'post_status' => PostType::PUBLICITY,
             ),
             array(
-                'or_where' => array(
+                'where_or' => array(
                     'post_permalink' => '',
                     'updated_permalink' => 0,
                 ),
@@ -94,7 +94,7 @@ class Post extends PostPages
                     //'term_permalink' => '',
                 ),
                 array(
-                    'or_where' => array(
+                    'where_or' => array(
                         'term_permalink' => '',
                         'updated_permalink' => 0,
                     ),

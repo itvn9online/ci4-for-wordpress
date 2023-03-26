@@ -336,6 +336,9 @@ class Option extends EbModel
         $arr[] = $cog->eb_posts_column_spacing;
 
         //
+        $arr[] = $cog->eb_posts_row_align;
+
+        //
         return implode(' ', $arr);
     }
     public function posts_in_line($cog)
@@ -359,6 +362,9 @@ class Option extends EbModel
 
         // column spacing
         $arr[] = $cog->eb_post_column_spacing;
+
+        //
+        $arr[] = $cog->eb_post_row_align;
 
         //
         return implode(' ', $arr);

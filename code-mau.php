@@ -168,7 +168,7 @@ $data = $this->base_model->select(
         'FIND_IN_SET(\'string_to_find\', column_name)' => null,
     ),
     array(
-        'or_where' => array(
+        'where_or' => array(
             'username' => 2,
             [
                 'username' => 3,

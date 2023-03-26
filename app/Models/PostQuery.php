@@ -439,11 +439,11 @@ class PostQuery extends PostMeta
         }
 
         //
-        $arr_or_where = [];
+        $arr_where_or = [];
         // tìm theo ID truyền vào
         if (isset($post_cat['term_id']) && $post_cat['term_id'] > 0) {
             //$where[ '(term_id = ' . $post_cat[ 'term_id' ] . ' OR parent = ' . $post_cat[ 'term_id' ] . ')' ] = NULL;
-            $arr_or_where = [
+            $arr_where_or = [
                 'term_id' => $post_cat['term_id'],
                 'parent' => $post_cat['term_id'],
             ];
@@ -468,10 +468,17 @@ class PostQuery extends PostMeta
             }
             // có thì gán lấy theo term_id
             //$where[ '(term_id = ' . $get_term_id[ 'term_id' ] . ' OR parent = ' . $get_term_id[ 'term_id' ] . ')' ] = NULL;
-            $arr_or_where = [
+            $arr_where_or = [
                 'term_id' => $get_term_id['term_id'],
                 'parent' => $get_term_id['term_id'],
             ];
+        }
+
+        //
+        if (isset($ops['where_or'])) {
+            foreach ($ops['where_or'] as $k => $v) {
+                $arr_where_or[$k] = $v;
+            }
         }
 
         //
@@ -482,7 +489,7 @@ class PostQuery extends PostMeta
                 $where,
                 [
                     'selectCount' => 'ID',
-                    'or_where' => $arr_or_where,
+                    'where_or' => $arr_where_or,
                     'where_not_in' => $where_not_in,
                     'group_by' => array(
                         'ID',
@@ -526,7 +533,7 @@ class PostQuery extends PostMeta
                 WGR_POST_VIEW,
                 $where,
                 [
-                    'or_where' => $arr_or_where,
+                    'where_or' => $arr_where_or,
                     'where_not_in' => $where_not_in,
                     'where_in' => $where_in,
                     'group_by' => array(

@@ -75,7 +75,13 @@ class PostPosts extends PostSlider
     // trả về khối HTML của từng sản phẩm trong danh mục
     public function get_the_node($data, $ops = [], $default_arr = [])
     {
-        return $this->build_the_node($data, $this->product_html_node, $ops, $default_arr);
+        // nếu không có col HTML riêng -> dùng col HTML mặc định
+        if (!isset($ops['custom_html']) || $ops['custom_html'] == '') {
+            $ops['custom_html'] = $this->product_html_node;
+        }
+
+        //
+        return $this->build_the_node($data, $ops['custom_html'], $ops, $default_arr);
     }
 
     public function the_node($data, $ops = [], $default_arr = [])
@@ -141,6 +147,7 @@ class PostPosts extends PostSlider
         return $this->build_the_node($data, $tmp_html, $ops);
 
         //
+        /*
         $data['p_link'] = $this->get_full_permalink($data);
         $data['post_category'] = 0;
         $data['image'] = $this->get_post_thumbnail($data);
@@ -153,6 +160,7 @@ class PostPosts extends PostSlider
 
         //
         return $this->base_model->tmp_to_html($tmp_html, $data);
+        */
     }
 
     function the_blog_node($data, $ops = [])

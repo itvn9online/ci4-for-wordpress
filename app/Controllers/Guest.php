@@ -163,7 +163,7 @@ class Guest extends Csrf
                     //'user_email' => $username,
                 ),
                 array(
-                    'or_where' => array(
+                    'where_or' => array(
                         'user_email' => $username,
                         'user_login' => $username,
                         'user_phone' => $username,

@@ -1,6 +1,6 @@
 <div class="global-page-module w90">
     <div class="padding-global-content cf ">
-        <div class="col-main-content custom-width-page-main fullsize-if-mobile">
+        <div class="col-main-content custom-width-global-main custom-width-page-main fullsize-if-mobile">
             <div class="col-main-padding col-page-padding">
                 <div class="lien-he">
                     <div class="cf">

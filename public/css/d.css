@@ -647,8 +647,7 @@ body.home .thread-details-tohome {
 .blog-count-subcat,
 .display_none,
 .d-none,
-.dnone,
-.custom-width-global-sidebar {
+.dnone {
     display: none;
 }
 

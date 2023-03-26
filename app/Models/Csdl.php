@@ -2,6 +2,7 @@
 /*
  * file này chủ yếu xử lý các vấn đề liên quan đến database
  */
+
 namespace App\Models;
 
 // Cơ sở dữ liệu =)) thi thoảng làm tí thuần Việt cho đỡ bị xung đột với framework
@@ -184,8 +185,8 @@ class Csdl extends Session
         return $this->update_multiple($table, $data, [
             $where => $id
         ], [
-                'debug_backtrace' => debug_backtrace()[1]['function']
-            ]);
+            'debug_backtrace' => debug_backtrace()[1]['function']
+        ]);
     }
 
     public function removeInvalidField($items, $tbl_name, $disableFields = array())
@@ -307,8 +308,8 @@ class Csdl extends Session
         return $this->delete_multiple($table, [
             $where => $id
         ], [
-                'debug_backtrace' => debug_backtrace()[1]['function']
-            ]);
+            'debug_backtrace' => debug_backtrace()[1]['function']
+        ]);
     }
 
     // trả về các cột dữ liệu mặc định trong 1 bảng
@@ -400,11 +401,15 @@ class Csdl extends Session
 
 
         // các thông số tùy chỉnh khác
-        // or where
-        if (isset($ops['or_where']) && !empty($ops['or_where'])) {
+        // -> chuyển or where thành where or
+        if (isset($ops['or_where']) && !isset($ops['where_or'])) {
+            $ops['where_or'] = $ops['or_where'];
+        }
+        // where or
+        if (isset($ops['where_or']) && !empty($ops['where_or'])) {
             //$and_or = array();
             $builder->groupStart();
-            foreach ($ops['or_where'] as $k => $v) {
+            foreach ($ops['where_or'] as $k => $v) {
                 // nếu v là 1 mảng -> đây là kiểu WHERE OR lồng nhau
                 if (is_array($v)) {
                     if (!empty($v)) {

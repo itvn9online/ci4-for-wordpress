@@ -1,7 +1,7 @@
-<div class="global-page-module w90">
-    <div class="padding-global-content cf ">
-        <div class="col-main-content custom-width-page-main fullsize-if-mobile">
-            <div class="col-main-padding col-page-padding">
+<div class="global-main-module global-blog-module w90">
+    <div class="padding-global-content padding-blog-content <?php echo $getconfig->eb_blog_sidebar; ?> cf">
+        <div class="col-main-content custom-width-global-main custom-width-blog-main fullsize-if-mobile">
+            <div class="col-main-padding col-blog-padding">
                 <h1 data-type="<?php echo $data['post_type']; ?>" data-id="<?php echo $data['ID']; ?>" class="blog-details-title global-details-title global-module-title">
                     <?php
                     echo $data['post_title'];
@@ -49,19 +49,25 @@
 
                 ?>
                 <br>
-                <div class="global-page-widget">
+                <div class="global-main-widget global-blog-widget">
                     <?php
                     // str_for_details_sidebar
                     ?>
                 </div>
             </div>
         </div>
-        <div class="col-sidebar-content custom-width-global-sidebar custom-width-page-sidebar fullsize-if-mobile">
-            <div class="page-right-space global-right-space">
-                <?php
-                // str_sidebar
-                ?>
+        <?php
+        if ($getconfig->eb_blog_sidebar != '') {
+        ?>
+            <div class="col-sidebar-content custom-width-global-sidebar custom-width-blog-sidebar fullsize-if-mobile">
+                <div class="global-right-space blog-right-space">
+                    <?php
+                    // str_sidebar
+                    ?>
+                </div>
             </div>
-        </div>
+        <?php
+        }
+        ?>
     </div>
 </div>

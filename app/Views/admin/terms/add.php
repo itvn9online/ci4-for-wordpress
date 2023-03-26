@@ -193,20 +193,34 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
 
                                 // lấy danh sách page template cho page
                                 if ($k == 'term_template') {
-                                    $arr_term_template = $base_model->EBE_get_file_in_folder(THEMEPATH . 'term-templates/', '.{php}', 'file');
-                                    //print_r( $arr_term_template );
+                                    $arr_template = $base_model->htaccess_custom_template(THEMEPATH . 'term-templates/', '.{php}', 'file');
+                                    //print_r($arr_template);
 
                                     //
                                     $select_options = array(
                                         '' => '[ Mặc định ]'
                                     );
-                                    foreach ($arr_term_template as $tmp_k => $tmp_v) {
+                                    foreach ($arr_template as $tmp_k => $tmp_v) {
                                         $tmp_v = basename($tmp_v, '.php');
                                         $select_options[$tmp_v] = str_replace('-', ' ', $tmp_v);
                                     }
+                                }
+                                // danh sách col HTML nếu có
+                                else if ($k == 'term_col_templates') {
+                                    $arr_template = $base_model->htaccess_custom_template(THEMEPATH . 'term-col-templates/', '.{html}', 'file');
+                                    //print_r($arr_template);
 
                                     //
-                                } else {
+                                    $select_options = array(
+                                        '' => '[ Mặc định ]'
+                                    );
+                                    foreach ($arr_template as $tmp_k => $tmp_v) {
+                                        $tmp_v = basename($tmp_v, '.php');
+                                        $select_options[$tmp_v] = str_replace('-', ' ', $tmp_v);
+                                    }
+                                }
+                                // còn lại sẽ sử dụng select được thiết lập trong code
+                                else {
                                     $select_options = TaxonomyType::meta_select($k);
                                 }
 

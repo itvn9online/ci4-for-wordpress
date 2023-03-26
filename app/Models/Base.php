@@ -7,6 +7,8 @@ namespace App\Models;
 
 //
 //use CodeIgniter\ Model;
+
+use __PHP_Incomplete_Class;
 use App\Helpers\HtmlTemplate;
 
 class Base extends Csdl
@@ -340,16 +342,59 @@ class Base extends Csdl
         return $tmp_html;
     }
 
-    public function EBE_get_file_in_folder($dir, $file_type = '', $type = '', $get_basename = false)
+    // các file trong thư mục template sẽ không cho truy cập trực tiếp
+    public function htaccess_custom_template($dir, $file_type = '', $type = '', $get_basename = false)
+    {
+        // bỏ dấu * nếu có
+        $dir = rtrim($dir, '*');
+        // thêm dấu / nếu chưa có
+        $dir = rtrim($dir, '/') . '/';
+        $file_type = ltrim($file_type, '*');
+        if (!is_dir($dir)) {
+            //die(__CLASS__ . ':' . __LINE__);
+            return [];
+        }
+
+        // tạo file htaccess chặn truy cập nếu chưa có
+        $f = $dir . '.htaccess';
+        //echo $f . PHP_EOL;
+        if (!file_exists($f)) {
+            $htaccess_deny_all = HtmlTemplate::html('htaccess_deny_all.txt', [
+                'base_url' => DYNAMIC_BASE_URL,
+            ]);
+            //echo $htaccess_deny_all;
+
+            //
+            $this->_eb_create_file(
+                $f,
+                $htaccess_deny_all,
+                [
+                    'set_permission' => 0644,
+                    'ftp' => 1,
+                ]
+            );
+        }
+
+        // bỏ qua chế độ check thông số đầu vào
+        return $this->EBE_get_file_in_folder($dir, $file_type, $type, $get_basename, false);
+    }
+
+    public function EBE_get_file_in_folder($dir, $file_type = '', $type = '', $get_basename = false, $check_params = true)
     {
         /*
          * chuẩn hóa đầu vào
          */
-        // bỏ dấu * nếu có
-        $dir = rtrim($dir, '*');
-        $file_type = ltrim($file_type, '*');
-        // thêm dấu / nếu chưa có
-        $dir = rtrim($dir, '/') . '/';
+        if ($check_params === true) {
+            // bỏ dấu * nếu có
+            $dir = rtrim($dir, '*');
+            $file_type = ltrim($file_type, '*');
+            // thêm dấu / nếu chưa có
+            $dir = rtrim($dir, '/') . '/';
+            if (!is_dir($dir)) {
+                //die(__CLASS__ . ':' . __LINE__);
+                return [];
+            }
+        }
         //echo $dir . '*' . $file_type . '<br>' . "\n";
 
         // lấy danh sách file
@@ -358,7 +403,7 @@ class Base extends Csdl
         } else {
             $arr = glob($dir . '*');
         }
-        //print_r( $arr );
+        //print_r($arr);
 
         // chỉ lấy file
         if ($type == 'file') {
@@ -368,9 +413,7 @@ class Base extends Csdl
         else if ($type == 'dir') {
             $arr = array_filter($arr, 'is_dir');
         }
-
-        //	print_r($arr);
-        //	exit();
+        //print_r($arr);
 
         // chỉ lấy mỗi tên file hoặc thư mục
         if ($get_basename == true) {
@@ -379,6 +422,7 @@ class Base extends Csdl
             }
         }
 
+        //
         return $arr;
     }
 

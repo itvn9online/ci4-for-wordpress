@@ -1328,6 +1328,36 @@
     font-size: 14px;
 }
 
+/* định dạng khối cho phần nội dung chính */
+.padding-global-content.top-sidebar {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+/* left sidebar */
+.padding-global-content.left-sidebar {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+/* left/ right sidebar */
+.padding-global-content.left-sidebar .col-main-content,
+.padding-global-content.left-sidebar .col-sidebar-content,
+.padding-global-content.right-sidebar .col-main-content,
+.padding-global-content.right-sidebar .col-sidebar-content {
+    float: left;
+}
+
+.padding-global-content.left-sidebar .col-main-content,
+.padding-global-content.right-sidebar .col-main-content {
+    width: 75%;
+}
+
+.padding-global-content.left-sidebar .col-sidebar-content,
+.padding-global-content.right-sidebar .col-sidebar-content {
+    width: 25%;
+}
+
 /* desktop only */
 @media only screen and (min-width:748px) {}
 

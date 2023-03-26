@@ -2,6 +2,8 @@
 
 namespace App\Libraries;
 
+use App\Language\admin\AdminTranslate;
+
 class ConfigType
 {
     // config type
@@ -53,8 +55,8 @@ class ConfigType
         self::CONFIG => 'Cấu hình',
         self::DISPLAY => 'Cài đặt hiển thị',
         self::SOCIAL => 'Mạng xã hội',
-        self::CATEGORY => 'Danh sách sản phẩm',
-        self::POST => 'Chi tiết sản phẩm',
+        self::CATEGORY => 'Danh sách ' . AdminTranslate::POST,
+        self::POST => 'Chi tiết ' . AdminTranslate::POST,
         self::BLOGS => 'Danh sách Blog/ Tin tức',
         self::BLOG => 'Chi tiết Blog/ Tin tức',
         self::TRANS => 'Bản dịch',
@@ -170,24 +172,26 @@ class ConfigType
             ];
         } else if ($config_type == self::CATEGORY) {
             $arr = [
-                'eb_posts_per_page' => 'Số sản phẩm trên mỗi trang',
+                'eb_posts_per_page' => 'Số ' . AdminTranslate::POST . ' trên mỗi trang',
                 'eb_posts_per_line' => 'Số cột trên mỗi dòng',
                 'eb_posts_medium_per_line' => 'Số cột trên mỗi dòng (table)',
                 'eb_posts_small_per_line' => 'Số cột trên mỗi dòng (mobile)',
                 'eb_posts_column_spacing' => 'Khoảng cách giữa các cột',
                 'eb_posts_row_align' => 'Căn chỉnh (align)',
-                'cf_product_size' => 'Tỉ lệ ảnh sản phẩm',
+                'eb_posts_sidebar' => 'Sidebar',
+                'cf_product_size' => 'Tỉ lệ ảnh ' . AdminTranslate::POST,
                 'cf_thumbnail_size' => 'Chất lượng hình ảnh',
-                'show_child_category' => 'Hiển thị nhóm sản phẩm con',
+                'show_child_category' => 'Hiển thị nhóm ' . AdminTranslate::POST . ' con',
             ];
         } else if ($config_type == self::POST) {
             $arr = [
-                'eb_post_per_page' => 'Số sản phẩm cùng nhóm',
+                'eb_post_per_page' => 'Số ' . AdminTranslate::POST . ' cùng nhóm',
                 'eb_post_per_line' => 'Số cột trên mỗi dòng',
                 'eb_post_medium_per_line' => 'Số cột trên mỗi dòng (table)',
                 'eb_post_small_per_line' => 'Số cột trên mỗi dòng (mobile)',
                 'eb_post_column_spacing' => 'Khoảng cách giữa các cột',
                 'eb_post_row_align' => 'Căn chỉnh (align)',
+                'eb_post_sidebar' => 'Sidebar',
             ];
         } else if ($config_type == self::BLOGS) {
             $arr = [
@@ -197,6 +201,7 @@ class ConfigType
                 'eb_blogs_small_per_line' => 'Số cột trên mỗi dòng (mobile)',
                 'eb_blogs_column_spacing' => 'Khoảng cách giữa các cột',
                 'eb_blogs_row_align' => 'Căn chỉnh (align)',
+                'eb_blogs_sidebar' => 'Sidebar',
                 'cf_blog_description_length' => 'Độ dài tóm tắt bài viết',
                 'cf_blog_size' => 'Tỉ lệ ảnh tin tức',
                 'show_child_blogs' => 'Hiển thị nhóm tin tức con',
@@ -209,6 +214,7 @@ class ConfigType
                 'eb_blog_small_per_line' => 'Số cột trên mỗi dòng (mobile)',
                 'eb_blog_column_spacing' => 'Khoảng cách giữa các cột',
                 'eb_blog_row_align' => 'Căn chỉnh (align)',
+                'eb_blog_sidebar' => 'Sidebar',
             ];
         } else if ($config_type == self::NUM_MON) {
             $arr = [
@@ -334,6 +340,7 @@ class ConfigType
             'eb_posts_small_per_line' => 'select',
             'eb_posts_column_spacing' => 'select',
             'eb_posts_row_align' => 'select',
+            'eb_posts_sidebar' => 'select',
             //
             'eb_post_per_page' => 'number',
             'eb_post_per_line' => 'select',
@@ -341,6 +348,7 @@ class ConfigType
             'eb_post_small_per_line' => 'select',
             'eb_post_column_spacing' => 'select',
             'eb_post_row_align' => 'select',
+            'eb_post_sidebar' => 'select',
             //
             'eb_blogs_per_page' => 'number',
             'eb_blogs_per_line' => 'select',
@@ -348,6 +356,7 @@ class ConfigType
             'eb_blogs_small_per_line' => 'select',
             'eb_blogs_column_spacing' => 'select',
             'eb_blogs_row_align' => 'select',
+            'eb_blogs_sidebar' => 'select',
             //
             'eb_blog_per_page' => 'number',
             'eb_blog_per_line' => 'select',
@@ -355,6 +364,7 @@ class ConfigType
             'eb_blog_small_per_line' => 'select',
             'eb_blog_column_spacing' => 'select',
             'eb_blog_row_align' => 'select',
+            'eb_blog_sidebar' => 'select',
             //
             'enable_vue_js' => 'checkbox',
             'enable_hotlink_protection' => 'checkbox',
@@ -442,7 +452,7 @@ class ConfigType
             //'a_color' => 'Màu chữ của các liên kết.',
 
             'enable_vue_js' => 'Khi chế độ này được kích hoạt, thư viện VueJS sẽ được nhúng vào frontend để sử dụng',
-            'show_child_category' => 'Khi chế độ này được kích hoạt, và khi truy cập vào danh mục sản phẩm, nếu trong danh mục đó có các nhóm con thì các nhóm con sẽ được hiển thị thay vì hiển thị trực tiếp danh sách sản phẩm',
+            'show_child_category' => 'Khi chế độ này được kích hoạt, và khi truy cập vào danh mục ' . AdminTranslate::POST . ', nếu trong danh mục đó có các nhóm con thì các nhóm con sẽ được hiển thị thay vì hiển thị trực tiếp danh sách ' . AdminTranslate::POST,
             'show_child_blogs' => 'Khi chế độ này được kích hoạt, và khi truy cập vào danh mục tin tức, nếu trong danh mục đó có các nhóm con thì các nhóm con sẽ được hiển thị thay vì hiển thị trực tiếp danh sách tin tức',
             'eb_post_per_page' => 'Khi số này lớn hơn 0, trong trang chi tiết bài viết sẽ lấy các bài cùng nhóm với bài hiện tại để giới thiệu',
             'eb_blog_per_page' => 'Khi số này lớn hơn 0, trong trang chi tiết bài viết sẽ lấy các bài cùng nhóm với bài hiện tại để giới thiệu',
@@ -551,6 +561,15 @@ class ConfigType
         }
 
         //
+        $show_sidebar = [
+            '' => 'Không hiển thị',
+            'top-sidebar' => 'Trên',
+            'bottom-sidebar' => 'Dưới',
+            'left-sidebar' => 'Trái',
+            'right-sidebar' => 'Phải',
+        ];
+
+        //
         $arr = [
             'cf_thumbnail_size' => [
                 'medium' => 'Thu gọn (khuyên dùng)',
@@ -564,24 +583,28 @@ class ConfigType
             'eb_posts_small_per_line' => $arr_num_small_line,
             'eb_posts_column_spacing' => self::$eb_column_spacing,
             'eb_posts_row_align' => self::$eb_row_align,
+            'eb_posts_sidebar' => $show_sidebar,
             //
             'eb_post_per_line' => self::$arr_posts_per_line,
             'eb_post_medium_per_line' => $arr_num_medium_line,
             'eb_post_small_per_line' => $arr_num_small_line,
             'eb_post_column_spacing' => self::$eb_column_spacing,
             'eb_post_row_align' => self::$eb_row_align,
+            'eb_post_sidebar' => $show_sidebar,
             //
             'eb_blogs_per_line' => self::$arr_posts_per_line,
             'eb_blogs_medium_per_line' => $arr_num_medium_line,
             'eb_blogs_small_per_line' => $arr_num_small_line,
             'eb_blogs_column_spacing' => self::$eb_column_spacing,
             'eb_blogs_row_align' => self::$eb_row_align,
+            'eb_blogs_sidebar' => $show_sidebar,
             //
             'eb_blog_per_line' => self::$arr_posts_per_line,
             'eb_blog_medium_per_line' => $arr_num_medium_line,
             'eb_blog_small_per_line' => $arr_num_small_line,
             'eb_blog_column_spacing' => self::$eb_column_spacing,
             'eb_blog_row_align' => self::$eb_row_align,
+            'eb_blog_sidebar' => $show_sidebar,
             //
             'smtp_secure' => [
                 '' => 'Không bảo mật',

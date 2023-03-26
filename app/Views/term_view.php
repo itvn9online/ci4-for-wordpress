@@ -98,6 +98,13 @@ if (isset($data['term_meta']['term_template']) && $data['term_meta']['term_templ
     $term_template = $data['term_meta']['term_template'];
 }
 
+// xem có sử dụng col HTML riêng không
+$term_col_templates = '';
+// nếu có dùng col HTML riêng -> dùng luôn
+if (isset($data['term_meta']['term_col_templates']) && $data['term_meta']['term_col_templates'] != '') {
+    $term_col_templates = file_get_contents(THEMEPATH . 'term-col-templates/' . $data['term_meta']['term_col_templates'], 1);
+}
+
 // nạp view template riêng của từng page nếu có
 if ($term_template != '') {
     // nạp css riêng nếu có

@@ -107,6 +107,7 @@ class TaxonomyType
         } else {
             $arr['term_template'] = 'Giao diện';
         }
+        $arr['term_col_templates'] = 'Col HTML';
 
         //
         //print_r( $arr );
@@ -118,6 +119,7 @@ class TaxonomyType
     {
         $arr = [
             'term_template' => 'select',
+            'term_col_templates' => 'select',
             'hide_widget_title' => 'checkbox',
             'dynamic_tag' => 'select',
             'dynamic_post_tag' => 'select',
@@ -161,6 +163,8 @@ class TaxonomyType
             'text_view_details' => 'Nhập nội dung cho nút xem chi tiết bài viết, khi trường này có dữ liệu, nút xem chi tiết sẽ xuất hiện, liên kết của nó chính là liên kết của bài viết hoặc link gắn ngoài của bài viết',
             'taxonomy_custom_post_size' => 'Mặc định, tỉ lệ ảnh sẽ được dùng theo cấu hình chung của hệ thống. Trường hợp cần cấu hình riêng cho từng danh mục thì bạn có thể thiết lập tại đây. Ví dụ: 4/3',
             'taxonomy_auto_slider' => 'Khi chế độ này được kích hoạt, một slider sẽ tự động được khởi tạo, sau đó bạn chỉ việc thêm ảnh cho slider để nó có thể hoạt động',
+            'term_template' => 'Sử dụng khi muốn thiết lập giao diện riêng cho từng danh mục. File mẫu là file .php được đặt trong thư mục <b>term-templates</b> của mỗi theme.',
+            'term_col_templates' => 'HTML mẫu của phần col cho từng danh mục (nếu có). Mặc định sử dụng col chung của website.',
         ];
         if (isset($arr[$key])) {
             echo '<p class="controls-text-note">' . $arr[$key] . '</p>';
