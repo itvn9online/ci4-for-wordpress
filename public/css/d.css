@@ -679,6 +679,7 @@ body.home .thread-details-tohome {
     padding: 0 1px;
 }
 
+.public-part-page a.current,
 .public-part-page span.current {
     background: #333;
     color: #fff;

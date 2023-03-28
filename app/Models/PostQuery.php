@@ -416,7 +416,6 @@ class PostQuery extends PostMeta
             $post_cat['lang_key'] = LanguageCost::lang_key();
         }
 
-
         //
         $where = [
             'post_type' => $post_type,
@@ -482,6 +481,13 @@ class PostQuery extends PostMeta
         }
 
         //
+        if (!isset($ops['group_by'])) {
+            $ops['group_by'] = [
+                'ID',
+            ];
+        }
+
+        //
         if (isset($ops['count_record'])) {
             $data = $this->base_model->select(
                 'COUNT(ID) AS c',
@@ -491,9 +497,7 @@ class PostQuery extends PostMeta
                     'selectCount' => 'ID',
                     'where_or' => $arr_where_or,
                     'where_not_in' => $where_not_in,
-                    'group_by' => array(
-                        'ID',
-                    ),
+                    'group_by' => $ops['group_by'],
                     //'order_by' => $order_by,
                     //'get_sql' => 1,
                     //'show_query' => 1,
@@ -513,9 +517,11 @@ class PostQuery extends PostMeta
             return $data[0]['ID'];
         } else {
             // nếu có chỉ định chỉ lấy các cột cần thiết
-            if (isset($ops['select'])) {
+            if (!isset($ops['select'])) {
+                $ops['select'] = '*';
+                //} else {
                 // chuẩn hóa đầu vào
-                $ops['select'] = str_replace(' ', '', $ops['select']);
+                //$ops['select'] = str_replace(' ', '', $ops['select']);
                 /*
                 $ops[ 'select' ] = explode( ',', $ops[ 'select' ] );
                 //print_r( $ops[ 'select' ] );
@@ -523,8 +529,6 @@ class PostQuery extends PostMeta
                 */
                 //$ops[ 'select' ] = $ops[ 'select' ];
                 //echo $ops[ 'select' ] . '<br>' . "\n";
-            } else {
-                $ops['select'] = '*';
             }
 
             // lấy danh sách bài viết thuộc nhóm này
@@ -536,9 +540,7 @@ class PostQuery extends PostMeta
                     'where_or' => $arr_where_or,
                     'where_not_in' => $where_not_in,
                     'where_in' => $where_in,
-                    'group_by' => array(
-                        'ID',
-                    ),
+                    'group_by' => $ops['group_by'],
                     'order_by' => $order_by,
                     //'get_sql' => 1,
                     //'show_query' => 1,
