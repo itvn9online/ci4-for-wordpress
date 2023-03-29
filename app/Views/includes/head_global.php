@@ -76,20 +76,8 @@ if ($getconfig->fb_app_id != '') {
 <meta property="og:description" content="<?php echo $seo['description']; ?>" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="<?php $option_model->the_config($getconfig, 'name'); ?>" />
-<meta property="og:image" content="<?php
-                                    if (isset($seo['og_image']) && $seo['og_image'] != '') {
-                                        echo $seo['og_image'];
-                                    } else {
-                                        echo base_url() . ltrim(str_replace(base_url(), '', $option_model->get_config($getconfig, 'image')), '/');
-                                    }
-                                    ?>" />
-<meta property="og:image:alt" content="<?php
-                                        if (isset($seo['og_image_alt']) && $seo['og_image_alt'] != '') {
-                                            echo $seo['og_image_alt'];
-                                        } else {
-                                            $option_model->the_config($getconfig, 'name');
-                                        }
-                                        ?>" />
+<meta property="og:image" content="<?php $option_model->the_og_image($seo, $getconfig); ?>" />
+<meta property="og:image:alt" content="<?php $option_model->the_og_image_alt($seo, $getconfig); ?>" />
 <meta property="og:updated_time" content="<?php echo $seo['updated_time']; ?>" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:description" content="<?php echo $seo['description']; ?>" />

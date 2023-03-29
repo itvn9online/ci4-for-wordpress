@@ -524,4 +524,29 @@ class Option extends EbModel
     {
         return $this->base_model->scache($this->key_cache($config_type) . $key, $value, $time);
     }
+
+    // in ra ảnh để tạo og:image
+    public function the_og_image($seo, $getconfig)
+    {
+        if (!isset($seo['og_image']) || $seo['og_image'] == '') {
+            $seo['og_image'] = $this->get_config($getconfig, 'image');
+        }
+        if (strpos($seo['og_image'], '//') === false) {
+            $seo['og_image'] = base_url() . '/' . ltrim($seo['og_image'], '/');
+        }
+
+        //
+        echo $seo['og_image'];
+    }
+
+    // in ra ảnh để tạo og:image:alt
+    public function the_og_image_alt($seo, $getconfig)
+    {
+        if (!isset($seo['og_image_alt']) || $seo['og_image_alt'] == '') {
+            $seo['og_image_alt'] = $this->the_config($getconfig, 'name');
+        }
+
+        //
+        echo $seo['og_image_alt'];
+    }
 }

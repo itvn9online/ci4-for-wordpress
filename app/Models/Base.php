@@ -470,7 +470,9 @@ class Base extends Csdl
 
     public function post_seo($data, $url)
     {
-        //print_r( $data );
+        //print_r($data);
+
+        //
         $seo = array(
             'index' => 'on',
             'title' => $data['post_title'],
@@ -483,6 +485,7 @@ class Base extends Csdl
             'shortlink' => DYNAMIC_BASE_URL . '?p=' . $data['ID'],
             'url' => $url,
             'canonical' => $url,
+            //'og_image' => $data['post_meta']['image_medium_large'],
         );
 
         //
@@ -493,8 +496,17 @@ class Base extends Csdl
         }
         $seo['description'] = trim(strip_tags($seo['description']));
         $seo['keyword'] = $seo['description'];
-        //print_r( $seo );
 
+        //
+        if (isset($data['post_meta']['image_medium_large']) && $data['post_meta']['image_medium_large'] != '') {
+            $seo['og_image'] =  $data['post_meta']['image_medium_large'];
+            if (strpos($seo['og_image'], '//') === false) {
+                $seo['og_image'] = base_url() . '/' . ltrim($seo['og_image'], '/');
+            }
+        }
+
+        //
+        //print_r( $seo );
         return $seo;
     }
 
