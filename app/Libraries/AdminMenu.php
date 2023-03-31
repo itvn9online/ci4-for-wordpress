@@ -103,6 +103,29 @@ class AdminMenu
                     ],
                 ]
             ],
+            // product -> sử dụng chức năng của woocomerce
+            'admin/products' => [
+                'role' => [
+                    UsersType::AUTHOR,
+                    UsersType::MOD,
+                ],
+                'name' => PostType::typeList(PostType::PROD),
+                'icon' => 'fa fa-newspaper-o',
+                'arr' => [
+                    'admin/products/add' => [
+                        'name' => PostType::typeList(PostType::PROD),
+                        'icon' => 'fa fa-plus',
+                    ],
+                    'admin/productcategory' => [
+                        'name' => TaxonomyType::typeList(TaxonomyType::PROD_CATS, true),
+                        'icon' => 'fa fa-cubes',
+                    ],
+                    'admin/producttags' => [
+                        'name' => TaxonomyType::typeList(TaxonomyType::PROD_TAGS, true),
+                        'icon' => 'fa fa-tag',
+                    ],
+                ]
+            ],
             'admin/uploads' => [
                 'role' => [
                     UsersType::AUTHOR,

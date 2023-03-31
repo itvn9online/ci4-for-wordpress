@@ -13,6 +13,7 @@ class PostType
     const ADS = 'ads';
     const BLOG = 'blog';
     const PAGE = 'page';
+    const PROD = 'product';
     const MENU = 'nav_menu';
     const HTML_MENU = 'html_menu'; // kiểu menu soạn thảo trực tiếp trong khung nội dung của post
     const ORDER = 'shop_order';
@@ -52,6 +53,7 @@ class PostType
         self::ADS => 'Quảng cáo',
         self::BLOG => 'Blog/ Tin tức',
         self::PAGE => 'Trang tĩnh',
+        self::PROD => 'Sản phẩm',
         self::MENU => 'Menu',
         self::HTML_MENU => 'HTML Menu',
         self::MEDIA => 'Media',

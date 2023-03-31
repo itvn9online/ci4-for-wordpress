@@ -100,6 +100,12 @@
     margin-right: -9.8px;
 }
 
+.w90 .row.row-12,
+.row .row.row-12 {
+    margin-left: 0;
+    margin-right: 0;
+}
+
 .row-small>.flickity-viewport>.flickity-slider>.col,
 .row-small>.col {
     padding: 0 9.8px 19.6px;
@@ -1258,6 +1264,8 @@ button.flickity-prev-next-button[disabled] {
     max-width: 100%;
     -ms-flex-preferred-size: 100%;
     flex-basis: 100%;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .row-6 .col {

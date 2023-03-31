@@ -12,6 +12,8 @@ class TaxonomyType
     const BLOGS = 'blogs';
     const BLOG_TAGS = 'blog_tags';
     const OPTIONS = 'post_options';
+    const PROD_CATS = 'product_cat';
+    const PROD_TAGS = 'product_tag';
     //const MENU = 'nav_menu';
     //const PAGE = 'page_taxonomy';
 
@@ -22,6 +24,8 @@ class TaxonomyType
         self::BLOGS => 'Danh mục tin',
         self::BLOG_TAGS => 'Thẻ Blog/ Tin tức',
         self::OPTIONS => 'Thông số khác',
+        self::PROD_CATS => 'Danh mục sản phẩm',
+        self::PROD_TAGS => 'Thẻ sản phẩm',
         //self::MENU => 'Menu',
         //self::PAGE => 'Trang tĩnh',
 
