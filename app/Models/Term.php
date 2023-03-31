@@ -1031,17 +1031,22 @@ class Term extends TermBase
         }
 
         // không có thì mới tạo và update vào db
-        $allow_taxonomy = [
-            TaxonomyType::TAGS,
-            TaxonomyType::BLOGS,
-            TaxonomyType::BLOG_TAGS,
-        ];
         if ($data['taxonomy'] == TaxonomyType::POSTS) {
-            //return $base_url . CATEGORY_BASE_URL . $data[ 'slug' ];
             $url = WGR_CATEGORY_PERMALINK;
-        } else if (in_array($data['taxonomy'], $allow_taxonomy)) {
-            //return $base_url . $data[ 'taxonomy' ] . '/' . $data[ 'slug' ];
+        } else if ($data['taxonomy'] == TaxonomyType::BLOGS) {
             $url = WGR_BLOGS_PERMALINK;
+        } else if ($data['taxonomy'] == TaxonomyType::PROD_CATS) {
+            $url = WGR_PRODS_PERMALINK;
+            /*
+        } else if ($data['taxonomy'] == TaxonomyType::TAGS) {
+            $url = WGR_TAGS_PERMALINK;
+        } else if ($data['taxonomy'] == TaxonomyType::OPTIONS) {
+            $url = WGR_OPTIONS_PERMALINK;
+        } else if ($data['taxonomy'] == TaxonomyType::BLOG_TAGS) {
+            $url = WGR_BLOG_TAGS_PERMALINK;
+        } else if ($data['taxonomy'] == TaxonomyType::PROD_TAGS) {
+            $url = WGR_PROD_TAGS_PERMALINK;
+            */
         } else if (isset(WGR_CUS_TAX_PERMALINK[$data['taxonomy']])) {
             $url = WGR_CUS_TAX_PERMALINK[$data['taxonomy']];
         } else {

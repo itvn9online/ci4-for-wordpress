@@ -148,7 +148,7 @@ class Uploads extends Admin
             // trả về câu query để sử dụng cho mục đích khác
             //'get_query' => 1,
             //'offset' => 0,
-            //'limit' => $post_per_page
+            'limit' => -1
         ];
 
 
@@ -189,7 +189,7 @@ class Uploads extends Admin
 
             //
             $data = $this->post_model->list_meta_post($data);
-            //print_r( $data );
+            //print_r($data);
         } else {
             $data = [];
             $pagination = '';

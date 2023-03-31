@@ -81,11 +81,11 @@ foreach ($data as $k => $v) {
     //print_r( $data_srcset );
 
 ?>
-<li data-id="<?php echo $v['ID']; ?>">
-    <?php
-    include __DIR__ . '/' . $inc_style . '.php';
-    //include __DIR__ . '/list_grid.php';
-    ?>
-</li>
+    <li data-id="<?php echo $v['ID']; ?>">
+        <?php
+        include __DIR__ . '/' . $inc_style . '.php';
+        //include __DIR__ . '/list_grid.php';
+        ?>
+    </li>
 <?php
 }

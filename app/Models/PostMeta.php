@@ -24,21 +24,36 @@ class PostMeta extends PostBase
             //var_dump( $v[ 'post_meta_data' ] );
 
             // nếu không có dữ liệu của post meta
+            /*
             if (!isset($v['post_meta_data'])) {
+                echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                 //print_r($v);
                 //$data[$k]['post_meta'] = [];
                 continue;
             }
+            */
 
             //
-            if ($v['post_meta_data'] === NULL) {
+            $new_meta = false;
+            if (isset($v['time_meta_data']) && $v['time_meta_data'] < time()) {
+                //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+                $new_meta = true;
+            } else if (!isset($v['post_meta_data']) || $v['post_meta_data'] === NULL) {
+                //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+                $new_meta = true;
+            }
+
+            //
+            if ($new_meta === true) {
                 $post_meta_data = $this->arr_meta_post($v['ID']);
-                //print_r( $post_meta_data );
+                //print_r($post_meta_data);
                 //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                 //
                 $this->base_model->update_multiple($this->table, [
                     'post_meta_data' => json_encode($post_meta_data),
+                    // thời gian lưu meta cache -> quá thời gian này sẽ tiến hành nạp lại meta
+                    'time_meta_data' => time() + 3600,
                 ], [
                     'ID' => $v['ID'],
                 ]);

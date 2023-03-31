@@ -234,10 +234,20 @@ if (WGR_CATEGORY_PREFIX != '') {
  * ---> làm kiểu này để còn truyền ra cả javascript sử dụng chung
  * ---> tiếp đến là các website khác nhau muốn đổi URL thì có thể đổi Constants
  */
+// category
 defined('WGR_CATEGORY_PERMALINK') || define('WGR_CATEGORY_PERMALINK', '%category_base%%slug%');
+// blogs
 defined('WGR_BLOGS_PERMALINK') || define('WGR_BLOGS_PERMALINK', '%taxonomy%/%slug%');
+// product_cat
+defined('WGR_PRODS_PERMALINK') || define('WGR_PRODS_PERMALINK', 'products/%slug%');
+// other taxonomy
 defined('WGR_TAXONOMY_PERMALINK') || define('WGR_TAXONOMY_PERMALINK', 'c/%taxonomy%/%term_id%/%slug%');
-// URL tùy chỉnh của từng custom taxonomy
+// mấy các tags thì dùng chung mẫu mặc định luôn
+//defined('WGR_TAGS_PERMALINK') || define('WGR_TAGS_PERMALINK', WGR_TAXONOMY_PERMALINK);
+//defined('WGR_OPTIONS_PERMALINK') || define('WGR_OPTIONS_PERMALINK', WGR_TAXONOMY_PERMALINK);
+//defined('WGR_BLOG_TAGS_PERMALINK') || define('WGR_BLOG_TAGS_PERMALINK', WGR_TAXONOMY_PERMALINK);
+//defined('WGR_PROD_TAGS_PERMALINK') || define('WGR_PROD_TAGS_PERMALINK', WGR_TAXONOMY_PERMALINK);
+// URL tùy chỉnh của từng tags hoặc custom taxonomy
 defined('WGR_CUS_TAX_PERMALINK') || define('WGR_CUS_TAX_PERMALINK', []);
 //print_r(WGR_CUS_TAX_PERMALINK);
 
@@ -258,7 +268,11 @@ if (WGR_PAGES_PREFIX != '') {
 defined('WGR_POST_PERMALINK') || define('WGR_POST_PERMALINK', '%ID%/%post_name%');
 defined('WGR_BLOG_PERMALINK') || define('WGR_BLOG_PERMALINK', '%post_type%-%ID%/%post_name%');
 defined('WGR_PAGE_PERMALINK') || define('WGR_PAGE_PERMALINK', '%page_base%%post_name%');
+defined('WGR_PROD_PERMALINK') || define('WGR_PROD_PERMALINK', WGR_BLOG_PERMALINK);
 defined('WGR_POSTS_PERMALINK') || define('WGR_POSTS_PERMALINK', 'p/%post_type%/%ID%/%post_name%.html');
+// URL tùy chỉnh của từng custom post type
+defined('WGR_CUS_POST_PERMALINK') || define('WGR_CUS_POST_PERMALINK', []);
+//print_r(WGR_CUS_POST_PERMALINK);
 
 /**
  * Tiền tố cho bảng database.

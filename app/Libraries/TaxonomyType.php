@@ -8,10 +8,10 @@ class TaxonomyType
     // taxonomy
     const POSTS = 'category';
     const TAGS = 'tags';
+    const OPTIONS = 'post_options';
     const ADS = 'ads_options';
     const BLOGS = 'blogs';
     const BLOG_TAGS = 'blog_tags';
-    const OPTIONS = 'post_options';
     const PROD_CATS = 'product_cat';
     const PROD_TAGS = 'product_tag';
     //const MENU = 'nav_menu';

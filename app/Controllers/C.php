@@ -2,6 +2,9 @@
 
 namespace App\Controllers;
 
+// Libraries
+use App\Libraries\TaxonomyType;
+
 //
 class C extends Home
 {
@@ -12,21 +15,29 @@ class C extends Home
 
     public function custom_taxonomy($taxonomy_type, $id, $slug = '', $page_name = '', $page_num = 1)
     {
-        global $arr_custom_taxonomy;
-        //print_r($arr_custom_taxonomy);
+        // chỉ kiểm tra custom taxonomy
+        if (!in_array($taxonomy_type, [
+            TaxonomyType::TAGS,
+            TaxonomyType::OPTIONS,
+            TaxonomyType::BLOG_TAGS,
+            TaxonomyType::PROD_TAGS,
+        ])) {
+            global $arr_custom_taxonomy;
+            //print_r($arr_custom_taxonomy);
 
-        //echo $taxonomy_type . '<br>' . "\n";
-        //echo $id . '<br>' . "\n";
-        //echo $slug . '<br>' . "\n";
-        //echo $page_num . '<br>' . "\n";
+            //echo $taxonomy_type . '<br>' . "\n";
+            //echo $id . '<br>' . "\n";
+            //echo $slug . '<br>' . "\n";
+            //echo $page_num . '<br>' . "\n";
 
-        // với custom taxonomy -> kiểm tra xem taxonomy này phải được đăng ký thì mới hiển thị ra
-        if (!isset($arr_custom_taxonomy[$taxonomy_type])) {
-            return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Danh mục này chưa được đăng ký hiển thị...');
-        }
-        // hoặc custom taxonomy có đăng ký nhưng không hiển thị với người khác ngoại trừ admin
-        else if (isset($arr_custom_taxonomy[$taxonomy_type]['public']) && $arr_custom_taxonomy[$taxonomy_type]['public'] != 'on') {
-            return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Bạn không được phép xem thông tin danh mục này...');
+            // với custom taxonomy -> kiểm tra xem taxonomy này phải được đăng ký thì mới hiển thị ra
+            if (!isset($arr_custom_taxonomy[$taxonomy_type])) {
+                return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Danh mục này chưa được đăng ký hiển thị...');
+            }
+            // hoặc custom taxonomy có đăng ký nhưng không hiển thị với người khác ngoại trừ admin
+            else if (isset($arr_custom_taxonomy[$taxonomy_type]['public']) && $arr_custom_taxonomy[$taxonomy_type]['public'] != 'on') {
+                return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Bạn không được phép xem thông tin danh mục này...');
+            }
         }
 
         //

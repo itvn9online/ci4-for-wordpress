@@ -180,12 +180,16 @@ class PostBase extends EbModel
             $url = WGR_POST_PERMALINK;
         } else if ($data['post_type'] == PostType::BLOG) {
             $url = WGR_BLOG_PERMALINK;
+        } else if ($data['post_type'] == PostType::PROD) {
+            $url = WGR_PROD_PERMALINK;
         } else if ($data['post_type'] == PostType::PAGE) {
             $url = WGR_PAGE_PERMALINK;
         }
         // với phần hóa đơn thì khác bảng, và cũng không dùng permalink
         else if ($data['post_type'] == PostType::ORDER) {
             return '#';
+        } else if (isset(WGR_CUS_POST_PERMALINK[$data['post_type']])) {
+            $url = WGR_CUS_POST_PERMALINK[$data['post_type']];
         } else {
             $url = WGR_POSTS_PERMALINK;
         }

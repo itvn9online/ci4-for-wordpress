@@ -74,7 +74,20 @@ foreach ($arr_prefix_routes as $v) {
         // blog
         $routes->get('blogs/(:segment)', 'Blogs::blogs_list/$1');
         $routes->get('blogs/(:segment)/page/(:num)', 'Blogs::blogs_list/$1/page/$2');
+        //
+        //$routes->get('blog_tags/(:segment)', 'Blogtags::blogs_list/$1');
+        //$routes->get('blog_tags/(:segment)/page/(:num)', 'Blogtags::blogs_list/$1/page/$2');
+        //
         $routes->get('blog-(:num)/(:segment)', 'Blogs::blog_details/$1/$2');
+
+        // product
+        $routes->get('products/(:segment)', 'Products::products_list/$1');
+        $routes->get('products/(:segment)/page/(:num)', 'Products::products_list/$1/page/$2');
+        //
+        //$routes->get('product_tag/(:segment)', 'Producttags::products_list/$1');
+        //$routes->get('product_tag/(:segment)/page/(:num)', 'Producttags::products_list/$1/page/$2');
+        //
+        $routes->get('product-(:num)/(:segment)', 'Products::product_details/$1/$2');
 
         // post
         $routes->get('(:num)/(:segment)', 'Posts::post_details/$1/$2');
