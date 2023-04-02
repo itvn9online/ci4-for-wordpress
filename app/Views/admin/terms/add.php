@@ -43,13 +43,13 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
             <div class="control-group">
                 <label class="control-label">Tiêu đề</label>
                 <div class="controls">
-                    <input type="text" class="span6 required" placeholder="Tiêu đề" name="data[name]" value="<?php echo $data['name']; ?>" autofocus aria-required="true" required />
+                    <input type="text" class="span6 required" placeholder="Tiêu đề" name="data[name]" value="<?php $base_model->the_esc_html($data['name']); ?>" autofocus aria-required="true" required />
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Tiêu đề (ngắn)</label>
                 <div class="controls">
-                    <input type="text" class="span6 required" placeholder="Tiêu đề (ngắn)" name="data[term_shortname]" value="<?php echo $data['term_shortname']; ?>" />
+                    <input type="text" class="span6 required" placeholder="Tiêu đề (ngắn)" name="data[term_shortname]" value="<?php $base_model->the_esc_html($data['term_shortname']); ?>" />
                 </div>
             </div>
             <?php

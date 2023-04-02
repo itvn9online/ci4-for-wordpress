@@ -540,12 +540,21 @@ class PostMeta extends PostBase
     }
 
     // tương tự show meta post -> chỉ khác là sẽ truyền thẳng data post_meta vào luôn
-    public function echo_meta_post($data, $key, $default_value = '')
+    public function text_meta_post($data, $key, $default_value = '')
     {
         if (!isset($data['post_meta'])) {
-            return false;
+            return '';
         }
-        echo $this->return_meta_post($data['post_meta'], $key, $default_value);
+        return $this->return_meta_post($data['post_meta'], $key, $default_value);
+    }
+    public function echo_meta_post($data, $key, $default_value = '')
+    {
+        echo $this->text_meta_post($data, $key, $default_value);
+    }
+    public function echo_esc_meta_post($data, $key, $default_value = '')
+    {
+        $a = $this->text_meta_post($data, $key, $default_value);
+        $this->base_model->the_esc_html($a);
     }
 
     // trả về ảnh với kích thước khác -> dựa theo ảnh gốc

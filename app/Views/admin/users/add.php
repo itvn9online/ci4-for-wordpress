@@ -119,13 +119,13 @@ $base_model->adds_css([
                     <div class="control-group">
                         <label class="control-label">Họ và tên</label>
                         <div class="controls">
-                            <input type="text" class="span6" placeholder="Họ và tên" name="data[display_name]" id="data_display_name" value="<?php echo $data['display_name']; ?>" />
+                            <input type="text" class="span6" placeholder="Họ và tên" name="data[display_name]" id="data_display_name" value="<?php $base_model->the_esc_html($data['display_name']); ?>" />
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label">Tên rút gọn</label>
                         <div class="controls">
-                            <input type="text" class="span4" placeholder="Tên rút gọn" name="data[user_nicename]" value="<?php echo $data['user_nicename']; ?>" />
+                            <input type="text" class="span4" placeholder="Tên rút gọn" name="data[user_nicename]" value="<?php $base_model->the_esc_html($data['user_nicename']); ?>" />
                         </div>
                     </div>
                     <div class="control-group">

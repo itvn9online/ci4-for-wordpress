@@ -39,13 +39,13 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
             <div class="control-group">
                 <label for="data_post_title" class="control-label">Tiêu đề</label>
                 <div class="controls">
-                    <input type="text" class="span6 required" placeholder="Tiêu đề" name="data[post_title]" id="data_post_title" value="<?php echo $data['post_title']; ?>" autofocus aria-required="true" required />
+                    <input type="text" class="span6 required" placeholder="Tiêu đề" name="data[post_title]" id="data_post_title" value="<?php $base_model->the_esc_html($data['post_title']); ?>" autofocus aria-required="true" required />
                 </div>
             </div>
             <div class="control-group">
                 <label for="data_post_title" class="control-label">Tiêu đề (ngắn)</label>
                 <div class="controls">
-                    <input type="text" class="span6 required" placeholder="Tiêu đề (ngắn)" name="data[post_shorttitle]" id="data_post_shorttitle" value="<?php echo $data['post_shorttitle']; ?>" />
+                    <input type="text" class="span6 required" placeholder="Tiêu đề (ngắn)" name="data[post_shorttitle]" id="data_post_shorttitle" value="<?php $base_model->the_esc_html($data['post_shorttitle']); ?>" />
                 </div>
             </div>
             <div class="control-group">
@@ -121,7 +121,7 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                 //
                 if ($input_type == 'hidden') {
                 ?>
-                    <input type="hidden" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" value="<?php $post_model->echo_meta_post($data, $k); ?>" />
+                    <input type="hidden" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" value="<?php $post_model->echo_esc_meta_post($data, $k); ?>" />
                 <?php
 
                     //
@@ -231,7 +231,7 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                         } // END if post select
                         else {
                         ?>
-                            <input type="<?php echo $input_type; ?>" class="span10" placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" value="<?php $post_model->echo_meta_post($data, $k); ?>" />
+                            <input type="<?php echo $input_type; ?>" class="span10" placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" value="<?php $post_model->echo_esc_meta_post($data, $k); ?>" />
                         <?php
                         } // END else
 

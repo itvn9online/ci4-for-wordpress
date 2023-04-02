@@ -796,4 +796,84 @@ class Base extends Csdl
         }
         return $is_empty;
     }
+
+    public function wp_check_invalid_utf8($text, $strip = false)
+    {
+        $text = (string) $text;
+
+        if (0 === strlen($text)) {
+            return '';
+        }
+
+        // Check for support for utf8 in the installed PCRE library once and store the result in a static.
+        static $utf8_pcre = null;
+        if (!isset($utf8_pcre)) {
+            // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+            $utf8_pcre = @preg_match('/^./u', 'a');
+        }
+        // We can't demand utf8 in the PCRE installation, so just return the string in those cases.
+        if (!$utf8_pcre) {
+            return $text;
+        }
+
+        // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- preg_match fails when it encounters invalid UTF8 in $text.
+        if (1 === @preg_match('/^./us', $text)) {
+            return $text;
+        }
+
+        return '';
+    }
+
+    public function wp_specialchars($text, $quote_style = ENT_NOQUOTES, $charset = false, $double_encode = false)
+    {
+        $text = (string) $text;
+        if (0 === strlen($text)) {
+            return '';
+        }
+
+        // Don't bother if there are no specialchars - saves some processing.
+        if (!preg_match('/[&<>"\']/', $text)) {
+            return $text;
+        }
+
+        // Account for the previous behavior of the function when the $quote_style is not an accepted value.
+        if (empty($quote_style)) {
+            $quote_style = ENT_NOQUOTES;
+        } elseif (ENT_XML1 === $quote_style) {
+            $quote_style = ENT_QUOTES | ENT_XML1;
+        } elseif (!in_array($quote_style, array(ENT_NOQUOTES, ENT_COMPAT, ENT_QUOTES, 'single', 'double'), true)) {
+            $quote_style = ENT_QUOTES;
+        }
+
+        // Store the site charset as a static to avoid multiple calls to wp_load_alloptions().
+        $charset = 'UTF-8';
+
+        $_quote_style = $quote_style;
+
+        if ('double' === $quote_style) {
+            $quote_style  = ENT_COMPAT;
+            $_quote_style = ENT_COMPAT;
+        } elseif ('single' === $quote_style) {
+            $quote_style = ENT_NOQUOTES;
+        }
+
+        $text = htmlspecialchars($text, $quote_style, $charset, $double_encode);
+
+        // Back-compat.
+        if ('single' === $_quote_style) {
+            $text = str_replace("'", '&#039;', $text);
+        }
+
+        return $text;
+    }
+
+    public function wp_esc_html($text)
+    {
+        $safe_text = $this->wp_check_invalid_utf8($text);
+        return $this->wp_specialchars($safe_text, ENT_QUOTES);
+    }
+    public function the_esc_html($text)
+    {
+        echo $this->wp_esc_html($text);
+    }
 }
