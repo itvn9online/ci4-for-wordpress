@@ -10,6 +10,9 @@ class P extends Home
         parent::__construct();
     }
 
+    /*
+    * Kiểm tra xem post type có được đăng ký hiển thị thông qua function register_post_type không
+    */
     public function custom_post_type($post_type, $id, $slug = '')
     {
         global $arr_custom_post_type;

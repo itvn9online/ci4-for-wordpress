@@ -412,6 +412,7 @@ class Home extends Posts
             $data['post_permalink'] = '';
             $data['updated_permalink'] = 0;
         }
+        //print_r($data);
 
         //
         $full_link = $this->post_model->get_full_permalink($data);

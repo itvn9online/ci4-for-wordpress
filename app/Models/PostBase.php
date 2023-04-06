@@ -148,6 +148,7 @@ class PostBase extends EbModel
     // trả về url với đầy đủ tên miền
     public function get_full_permalink($data)
     {
+        //echo DYNAMIC_BASE_URL . PHP_EOL;
         return $this->get_post_permalink($data, DYNAMIC_BASE_URL);
     }
 
@@ -170,6 +171,7 @@ class PostBase extends EbModel
 
         // sử dụng permalink có sẵn trong data
         if ($data['updated_permalink'] > 0 && $data['post_permalink'] != '') {
+            //echo $data['post_permalink'] . PHP_EOL;
             return $base_url . $data['post_permalink'];
         }
 
@@ -212,6 +214,7 @@ class PostBase extends EbModel
         foreach ($tmp as $k => $v) {
             $url = str_replace('%' . $k . '%', $v, $url);
         }
+        $url = ltrim($url, '/');
 
         // update vào db để sau còn tái sử dụng -> nhẹ server
         $this->base_model->update_multiple(

@@ -1126,6 +1126,7 @@ function redirect_to_canonical(body_class) {
 
 	//
 	var a = $('link[rel="canonical"]').attr("href") || "";
+	//console.log(a);
 	if (a != "" && window.location.href.split(a).length === 1) {
 		if (a.split("?").length > 1) {
 			a += "&";
