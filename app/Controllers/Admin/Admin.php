@@ -257,17 +257,15 @@ class Admin extends Ajaxs
                 //echo $f . '<br>' . "\n";
 
                 //
-                $htaccess_deny_all = $this->helpersTmpFile(
-                    'htaccess_deny_all',
-                    [
-                        'base_url' => DYNAMIC_BASE_URL,
-                    ]
-                );
-
-                //
                 $this->base_model->_eb_create_file(
                     $f,
-                    $htaccess_deny_all,
+                    $this->helpersTmpFile(
+                        'htaccess_deny_all',
+                        [
+                            'created_from' => __CLASS__ . ':' . __LINE__,
+                            'base_url' => DYNAMIC_BASE_URL,
+                        ]
+                    ),
                     [
                         'set_permission' => 0644,
                         'ftp' => 1,

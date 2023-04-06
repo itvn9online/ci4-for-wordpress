@@ -282,3 +282,6 @@ defined('WGR_TABLE_PREFIX') || define('WGR_TABLE_PREFIX', 'wp_');
 
 define('WGR_TERM_VIEW', WGR_TABLE_PREFIX . 'zzz_v_terms');
 define('WGR_POST_VIEW', WGR_TABLE_PREFIX . 'zzz_v_posts');
+
+// Một số thư mục chỉ cho phép 1 số định dạng file được phép truy cập
+define('HTACCESSS_ALLOW', 'zip|xlsx|xls|mp3|css|js|map|htm?l|xml|json|webmanifest|tff|eot|woff?|gif|jpe?g|tiff?|png|webp|bmp|ico|svg');

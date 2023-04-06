@@ -33,9 +33,6 @@ class Layout extends Sync
     public $current_tid = 0;
     public $breadcrumb_position = 1;
 
-    // các định dạng file được phép truy cập trong thư mục upload
-    protected $htaccess_allow = 'zip|xlsx|xls|mp3|css|js|map|htm?l|xml|json|webmanifest|tff|eot|woff?|gif|jpe?g|tiff?|png|webp|bmp|ico|svg';
-
     public function __construct()
     {
         parent::__construct();
@@ -530,25 +527,24 @@ class Layout extends Sync
                     'hotlink_protection',
                     [
                         'http_host' => $_SERVER['HTTP_HOST'],
-                        'htaccess_allow' => $this->htaccess_allow,
+                        'htaccess_allow' => HTACCESSS_ALLOW,
                     ]
                 );
             }
 
-            // tạo file htaccess chỉ cho phép truy cập tới 1 số file được chỉ định
-            $htaccess_allow_deny = $this->helpersTmpFile(
-                'htaccess_allow_deny',
-                [
-                    'htaccess_allow' => $this->htaccess_allow,
-                    'base_url' => DYNAMIC_BASE_URL,
-                    'hotlink_protection' => $hotlink_protection,
-                ]
-            );
-
             // nội dung chặn mọi truy cập tới các file trong này
             $this->base_model->_eb_create_file(
                 $htaccess_file,
-                $htaccess_allow_deny,
+                // tạo file htaccess chỉ cho phép truy cập tới 1 số file được chỉ định
+                $this->helpersTmpFile(
+                    'htaccess_allow_deny',
+                    [
+                        'htaccess_allow' => HTACCESSS_ALLOW,
+                        'created_from' => __CLASS__ . ':' . __LINE__,
+                        'base_url' => DYNAMIC_BASE_URL,
+                        'hotlink_protection' => $hotlink_protection,
+                    ]
+                ),
                 [
                     'set_permission' => 0644,
                     'ftp' => 1,

@@ -1,4 +1,5 @@
 # chan moi truy cap toi thu muc nay
+# {{created_from}}
 <IfModule authz_core_module>
 	Require all denied
 </IfModule>

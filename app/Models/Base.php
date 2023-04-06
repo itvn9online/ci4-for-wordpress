@@ -359,15 +359,22 @@ class Base extends Csdl
         $f = $dir . '.htaccess';
         //echo $f . PHP_EOL;
         if (!file_exists($f)) {
-            $htaccess_deny_all = HtmlTemplate::html('htaccess_deny_all.txt', [
-                'base_url' => DYNAMIC_BASE_URL,
-            ]);
-            //echo $htaccess_deny_all;
-
-            //
             $this->_eb_create_file(
                 $f,
-                $htaccess_deny_all,
+                /*
+                // chặn tất cả
+                HtmlTemplate::html('htaccess_deny_all.txt', [
+                    'created_from' => __CLASS__ . ':' . __LINE__,
+                    'base_url' => DYNAMIC_BASE_URL,
+                ]),
+                */
+                // chặn tất cả nhưng có mở 1 số định dạng file
+                HtmlTemplate::html('htaccess_allow_deny.txt', [
+                    'htaccess_allow' => HTACCESSS_ALLOW,
+                    'created_from' => __CLASS__ . ':' . __LINE__,
+                    'base_url' => DYNAMIC_BASE_URL,
+                    'hotlink_protection' => '',
+                ]),
                 [
                     'set_permission' => 0644,
                     'ftp' => 1,
