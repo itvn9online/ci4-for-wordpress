@@ -164,7 +164,8 @@ class PostBase extends EbModel
         // đoạn này sẽ để 1 thời gian, sau sẽ comment lại
         if (!isset($data['updated_permalink'])) {
             //print_r($data);
-            die(__FUNCTION__ . ' Updated permalink! ' . __CLASS__ . ':' . __LINE__);
+            //die(__FUNCTION__ . ' updated_permalink not found! ' . __CLASS__ . ':' . __LINE__);
+            return $_SERVER['REQUEST_URI'] . '#updated_permalink-not-found';
         }
 
         // sử dụng permalink có sẵn trong data

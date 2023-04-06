@@ -20,7 +20,9 @@ class PostMeta extends PostBase
     {
         foreach ($data as $k => $v) {
             //print_r($v);
-            //continue;
+            if (empty($v)) {
+                continue;
+            }
             //var_dump( $v[ 'post_meta_data' ] );
 
             // nếu không có dữ liệu của post meta
