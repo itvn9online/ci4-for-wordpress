@@ -343,8 +343,8 @@ class PostQuery extends PostMeta
         // select dữ liệu từ 1 bảng bất kỳ
         $data = $this->base_model->select($select_col, $this->table, $where, $default_filter);
 
-        // lấy meta của post này
-        if (!empty($data)) {
+        // lấy meta của post này -> chỉ lấy khi có post ID
+        if (!empty($data) && $post_id > 0) {
             //$data[ 'post_meta' ] = $this->arr_meta_post( $data[ 'ID' ] );
             // trong trang chi tiết -> lấy trực tiếp từ meta -> đỡ lỗi
             //$data[ 'post_meta_data' ] = NULL;

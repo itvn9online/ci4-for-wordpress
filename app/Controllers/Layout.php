@@ -1039,6 +1039,15 @@ class Layout extends Sync
                 $html = str_replace('{{' . $k . '}}', str_replace('"', '', $v), $html);
             }
         }
+
+        // thay 1 số template đề phòng không có dữ liệu tương ứng
+        foreach ([
+            'meta_description' => $data['post_title'],
+        ] as $k => $v) {
+            $html = str_replace('{{' . $k . '}}', $v, $html);
+        }
+
+        //
         return $html;
     }
 }

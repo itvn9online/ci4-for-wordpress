@@ -325,6 +325,7 @@ $base_model->JSON_echo([
     });
 
     //
+    console.log(prev_post);
     WGR_vuejs('#oi_other_posts', {
         prev_post: prev_post,
         next_post: next_post,
