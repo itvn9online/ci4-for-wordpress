@@ -79,7 +79,9 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
                         <?php
                         if ($data['term_id'] > 0) {
                         ?>
-                            <a href="<?php $term_model->the_term_permalink($data); ?>" class="bluecolor set-new-url"><?php echo $data['term_permalink']; ?></a> <i class="fa fa-eye bluecolor"></i>
+                            <div>
+                                <a href="<?php $term_model->the_term_permalink($data); ?>" class="bluecolor set-new-url"><?php echo $data['term_permalink']; ?></a> <i class="fa fa-eye bluecolor"></i>
+                            </div>
                         <?php
                         }
                         ?>

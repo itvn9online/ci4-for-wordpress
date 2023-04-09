@@ -7,7 +7,7 @@ use App\Libraries\OrderType;
 $base_model->add_css('admin/css/' . $post_type . '.css');
 
 //
-//print_r( $data );
+print_r($data);
 
 //
 include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';

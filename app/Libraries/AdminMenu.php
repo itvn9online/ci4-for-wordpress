@@ -194,7 +194,7 @@ class AdminMenu
                         'name' => UsersType::typeList(UsersType::MOD),
                         'icon' => 'fa fa-modx',
                     ],
-                    'admin/users?member_type=' . UsersType::ADMIN => [
+                    'admin/admins' => [
                         'role' => [
                             UsersType::ADMIN,
                         ],

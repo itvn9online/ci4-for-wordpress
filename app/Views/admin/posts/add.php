@@ -56,7 +56,9 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                     <?php
                     if ($data['ID'] > 0) {
                     ?>
-                        <a href="<?php $post_model->the_post_permalink($data); ?>" class="bluecolor set-new-url"><?php echo $data['post_permalink']; ?></a> <i class="fa fa-eye bluecolor"></i>
+                        <div>
+                            <a href="<?php $post_model->the_post_permalink($data); ?>" class="bluecolor set-new-url"><?php echo $data['post_permalink']; ?></a> <i class="fa fa-eye bluecolor"></i>
+                        </div>
                     <?php
                     }
                     ?>

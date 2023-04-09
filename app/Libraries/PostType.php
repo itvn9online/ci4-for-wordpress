@@ -102,7 +102,10 @@ class PostType
         $arr = self::imageSizes();
         $arr['image'] = 'Ảnh đại diện'; // fullsize
         $arr['image_size'] = 'Kích cỡ'; // lựa chọn size ảnh
+        // SEO
+        $arr['meta_title'] = 'Meta title';
         $arr['meta_description'] = 'Meta description';
+        $arr['meta_keyword'] = 'Meta keyword';
 
         //
         if (

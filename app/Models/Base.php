@@ -456,11 +456,12 @@ class Base extends Csdl
 
     public function term_seo($data, $url)
     {
-        //print_r( $data );
+        //print_r($data);
         $seo = array(
             'index' => 'on',
             'title' => $data['name'],
-            'description' => $data['description'] != '' ? $data['description'] : $data['name'],
+            'description' => ($data['description'] != '' ? trim(strip_tags($data['description'])) : $data['name']),
+            'keyword' => '',
             'term_id' => $data['term_id'],
             'body_class' => 'taxonomy ' . $data['taxonomy'] . '-taxonomy',
             'updated_time' => strtotime($data['last_updated']),
@@ -468,8 +469,25 @@ class Base extends Csdl
             'url' => $url,
             'canonical' => $url,
         );
-        $seo['description'] = trim(strip_tags($seo['description']));
-        $seo['keyword'] = $seo['description'];
+
+        //
+        if (isset($data['term_meta'])) {
+            if (isset($data['term_meta']['meta_title']) && $data['term_meta']['meta_title'] != '') {
+                $seo['title'] = $data['term_meta']['meta_title'];
+            }
+
+            //
+            if (isset($data['term_meta']['meta_description']) && $data['term_meta']['meta_description'] != '') {
+                $seo['description'] = $data['term_meta']['meta_description'];
+            }
+
+            //
+            if (isset($data['term_meta']['meta_keyword']) && $data['term_meta']['meta_keyword'] != '') {
+                $seo['keyword'] = $data['term_meta']['meta_keyword'];
+            }
+        }
+        //$seo['description'] = trim(strip_tags($seo['description']));
+        //$seo['keyword'] = $seo['description'];
         //print_r( $seo );
 
         return $seo;
@@ -483,8 +501,10 @@ class Base extends Csdl
         $seo = array(
             'index' => 'on',
             'title' => $data['post_title'],
-            'description' => $data['post_title'],
+            //'description' => $data['post_title'],
+            'description' => ($data['post_excerpt'] != '' ? trim(strip_tags($data['post_excerpt'])) : $data['post_title']),
             //'keyword' => $pageDetail[ 0 ][ 'keyword' ],
+            'keyword' => '',
             //'name' => $pageDetail[ 0 ][ 'name' ],
             'post_id' => $data['ID'],
             'body_class' => 'post ' . $data['post_type'] . '-post',
@@ -496,13 +516,23 @@ class Base extends Csdl
         );
 
         //
-        if (isset($data['post_meta']['meta_description']) && $data['post_meta']['meta_description'] != '') {
-            $seo['description'] = $data['post_meta']['meta_description'];
-        } else if ($data['post_excerpt'] != '') {
-            $seo['description'] = strip_tags($data['post_excerpt']);
+        if (isset($data['post_meta'])) {
+            if (isset($data['post_meta']['meta_title']) && $data['post_meta']['meta_title'] != '') {
+                $seo['title'] = $data['post_meta']['meta_title'];
+            }
+
+            //
+            if (isset($data['post_meta']['meta_description']) && $data['post_meta']['meta_description'] != '') {
+                $seo['description'] = $data['post_meta']['meta_description'];
+            }
+
+            //
+            if (isset($data['post_meta']['meta_keyword']) && $data['post_meta']['meta_keyword'] != '') {
+                $seo['keyword'] = $data['post_meta']['meta_keyword'];
+            }
         }
-        $seo['description'] = trim(strip_tags($seo['description']));
-        $seo['keyword'] = $seo['description'];
+        //$seo['description'] = trim(strip_tags($seo['description']));
+        //$seo['keyword'] = $seo['description'];
 
         //
         if (isset($data['post_meta']['image_medium_large']) && $data['post_meta']['image_medium_large'] != '') {

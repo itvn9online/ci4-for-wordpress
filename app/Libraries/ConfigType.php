@@ -94,8 +94,8 @@ class ConfigType
                 'name' => 'Tên website',
                 'company_name' => 'Tên công ty',
                 'h1' => 'Thẻ H1',
-                'title' => 'Thẻ Title',
                 'solugan' => 'Câu slogan',
+                'title' => 'Meta Title',
                 'keyword' => 'Meta Keyword',
                 'description' => 'Meta Description',
                 'logo' => 'Logo chính',
@@ -126,6 +126,7 @@ class ConfigType
                 'html_header' => 'HTML đầu trang',
                 'html_body' => 'HTML chân trang',
                 'robots' => 'Robots.txt',
+                'blog_private' => 'Ngăn chặn các công cụ tìm kiếm đánh chỉ mục website này',
                 //'webmaster_tool' => '',
                 //'NL_receiver_email' => '',
                 //'NL_url_api' => '',
@@ -139,7 +140,6 @@ class ConfigType
                 'enable_hotlink_protection' => 'HotLink protection',
                 'enable_device_protection' => 'Device logged protection',
                 'disable_register_member' => 'Dừng đăng ký tài khoản mới',
-                'blog_private' => 'Ngăn chặn các công cụ tìm kiếm đánh chỉ mục website này',
             ];
         } else if ($config_type == self::DISPLAY) {
             $arr = [

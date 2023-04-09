@@ -109,6 +109,10 @@ class TaxonomyType
             $arr['text_view_more'] = 'Hiển thị nút xem thêm';
             $arr['text_view_details'] = 'Hiển thị nút xem chi tiết';
         } else {
+            // SEO
+            $arr['meta_title'] = 'Meta title';
+            $arr['meta_description'] = 'Meta description';
+            $arr['meta_keyword'] = 'Meta keyword';
             $arr['term_template'] = 'Giao diện';
         }
         $arr['term_col_templates'] = 'Col HTML';
