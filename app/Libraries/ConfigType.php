@@ -16,6 +16,7 @@ class ConfigType
     const BLOG = 'blog';
     const TRANS = 'translate';
     const SMTP = 'smtp';
+    const CONSTANTS = 'constants';
     const CHECKOUT = 'checkout';
     const CHECKBOX = 'checkbox';
     const NUM_MON = 'num_mon'; // number and money -> loại cấu hình dùng để định giá hoặc tạo số theo ý muốn
@@ -61,6 +62,7 @@ class ConfigType
         self::BLOG => 'Chi tiết Blog/ Tin tức',
         self::TRANS => 'Bản dịch',
         self::SMTP => 'Cấu hình Mail/ Telegram',
+        self::CONSTANTS => 'Constants',
         self::CHECKOUT => 'Thanh toán',
         self::CHECKBOX => 'Bật/ Tắt',
         self::NUM_MON => 'Số',
@@ -75,15 +77,6 @@ class ConfigType
             return self::$arr[$key];
         }
         return '';
-    }
-
-    private static function textArea()
-    {
-        $arr_tmp = [];
-        for ($i = 0; $i < NUMBER_TRANS_TEXTAREA; $i++) {
-            $arr_tmp['custom_textarea' . $i] = 'Custom textarea ' . $i;
-        }
-        return $arr_tmp;
     }
 
     // trả về các meta mặc định dựa theo từng config type
@@ -220,11 +213,6 @@ class ConfigType
             $arr = [
                 'custom_num_mon0' => 'Custom number 0'
             ];
-            /*
-            for ($i = 0; $i < NUMBER_NUMS_INPUT; $i++) {
-                $arr['custom_num_mon' . $i] = 'Custom number ' . $i;
-            }
-            */
         } else if ($config_type == self::CHECKBOX) {
             $arr = [];
             for ($i = 0; $i < NUMBER_CHECKBOXS_INPUT; $i++) {
@@ -236,14 +224,6 @@ class ConfigType
             $arr_tmp['copy_right_first'] = 'Bản quyền (trước)';
             $arr_tmp['copy_right_last'] = 'Bản quyền (sau)';
             $arr_tmp['powered_by_eb'] = 'Cung cấp bởi';
-            /*
-            for ($i = 0; $i < NUMBER_TRANS_INPUT; $i++) {
-                $arr_tmp['custom_text' . $i] = 'Custom text ' . $i;
-            }
-            foreach (self::textArea() as $k => $v) {
-                $arr_tmp[$k] = $v;
-            }
-            */
 
             // thêm prefix vào đầu mỗi key
             $arr = [];
@@ -278,6 +258,30 @@ class ConfigType
                 'telegram_begin_block' => 'Cài đặt Telegram',
                 'telegram_bot_token' => 'Bot token',
                 'telegram_chat_id' => 'Chat ID',
+            ];
+        } else if ($config_type == self::CONSTANTS) {
+            $arr = [
+                'FTP_HOST' => 'FTP HOST',
+                'FTP_USER' => 'FTP USER',
+                'FTP_PASS' => 'FTP PASS',
+                'PARTNER_WEBSITE' => 'Website đối tác',
+                'PARTNER_BRAND_NAME' => 'Tên đối tác',
+                'MY_DB_DRIVER' => 'DB Driver',
+                'BASE_PROTOCOL' => 'Giao thức cơ sở',
+                'CUSTOM_MD5_HASH_CODE' => 'CUSTOM_MD5_HASH_CODE',
+                'MY_CACHE_HANDLER' => 'Kiểu cache',
+                'CDN_BASE_URL' => 'CDN BASE URL',
+                'ALLOW_USING_MYSQL_DELETE' => 'ALLOW_USING_MYSQL_DELETE',
+                'WGR_CSP_ENABLE' => 'WGR_CSP_ENABLE',
+                'NUMBER_CHECKBOXS_INPUT' => 'Số lượng bản ghi dạng số nguyên',
+                'SITE_LANGUAGE_SUB_FOLDER' => 'Kiểu hiển thị đa ngôn ngữ',
+                'SITE_LANGUAGE_DEFAULT' => 'Ngôn ngữ mặc định',
+                'WGR_CATEGORY_PREFIX' => 'Tiền tố cho danh mục sản phẩm',
+                'WGR_PAGES_PREFIX' => 'Tiền tố cho trang tĩnh',
+                'WGR_POST_PERMALINK' => 'Post permalink',
+                'WGR_BLOG_PERMALINK' => 'Blog permalink',
+                'WGR_PAGE_PERMALINK' => 'Page permalink',
+                'WGR_POSTS_PERMALINK' => 'Other post permalink',
             ];
         } else if ($config_type == self::CHECKOUT) {
             $arr = [
@@ -425,12 +429,16 @@ class ConfigType
             'zalo' => 'number',
             'zalo_me' => 'hidden',
             'fb_app_id' => 'number',
+            //
+            'MY_DB_DRIVER' => 'select',
+            'BASE_PROTOCOL' => 'select',
+            'MY_CACHE_HANDLER' => 'select',
+            'ALLOW_USING_MYSQL_DELETE' => 'select',
+            'WGR_CSP_ENABLE' => 'select',
+            'NUMBER_CHECKBOXS_INPUT' => 'number',
+            'SITE_LANGUAGE_SUB_FOLDER' => 'select',
+            'SITE_LANGUAGE_DEFAULT' => 'select',
         ];
-        /*
-        foreach (self::textArea() as $k => $v) {
-            $arr[$k] = 'textarea';
-        }
-        */
         //print_r( $arr );
         if (isset($arr[$key])) {
             return $arr[$key];
@@ -527,6 +535,14 @@ class ConfigType
             'powered_by_eb' => 'Sử dụng lệnh <strong>$lang_model->the_web_license( $getconfig );</strong> để hiển thị thông điệp bản quyền mặc định.',
             'telegram_bot_token' => 'Token của bot trên Telegram. Sau khi có Token, hãy <a href="' . base_url('admin/smtps') . '?get_tele_chat_id=1" target="_blank" class="click-check-email-test bluecolor"><strong>bấm vào đây</strong></a> để tìm Chat ID.',
             'telegram_chat_id' => 'ID nhóm chat trên Telegram. Bao gồm cả dấu - nếu có',
+            //
+            'FTP_HOST' => 'Thông tin FTP - dùng để điều khiển file trong trường hợp bị lỗi permission',
+            'CDN_BASE_URL' => 'URL để chạy CDN cho các file tĩnh (nếu có). Ví dụ: https://cdn.' . $_SERVER['HTTP_HOST'] . '/',
+            'ALLOW_USING_MYSQL_DELETE' => 'Mặc định không cho xóa hoàn toàn dữ liệu trong mysql, nếu bạn muốn xóa hẳn thì có thể kích hoạt tính năng này.',
+            'WGR_CSP_ENABLE' => 'Bật/Tắt chế độ Content-Security-Policy',
+            'NUMBER_CHECKBOXS_INPUT' => 'Website nào cần dùng nhiều tăng số lượng trong file functions lên',
+            'SITE_LANGUAGE_SUB_FOLDER' => '(true: sub-folder | false: sub-domain), nếu là sub-folder thì sẽ hỗ trợ prefix cho routes, url cũng sẽ thêm prefix vào trước.',
+            'CUSTOM_MD5_HASH_CODE' => 'Chuỗi sẽ thêm vào khi sử dụng hàm mdnam -> md5 -> tăng độ bảo mật cho chuỗi',
         ];
         if (isset($arr[$key]) && $arr[$key] != '') {
             echo '<p class="controls-text-note">' . $arr[$key] . '</p>';
@@ -568,6 +584,15 @@ class ConfigType
             'left-sidebar' => 'Trái',
             'right-sidebar' => 'Phải',
         ];
+
+        //
+        $arr_default_display_lang = [
+            '' => 'Mặc định theo code',
+        ];
+        //print_r(SITE_LANGUAGE_SUPPORT);
+        foreach (SITE_LANGUAGE_SUPPORT as $v) {
+            $arr_default_display_lang[$v['value']] = $v['text'];
+        }
 
         //
         $arr = [
@@ -613,7 +638,42 @@ class ConfigType
             ],
             'bank_bin_code' => [
                 '' => '[ Chọn ngân hàng ]'
-            ]
+            ],
+            //
+            'MY_DB_DRIVER' => [
+                '' => 'Mặc định theo code',
+                'MySQLi' => 'MySQLi',
+                'Postgre' => 'Postgre',
+                'PDO' => 'PDO',
+                'Oracle' => 'Oracle',
+            ],
+            'BASE_PROTOCOL' => [
+                '' => 'Mặc định theo code',
+                'https' => 'https',
+                'http' => 'http',
+            ],
+            'MY_CACHE_HANDLER' => [
+                '' => 'Mặc định theo code',
+                'file' => 'file',
+                'redis' => 'redis',
+                'memcached' => 'memcached',
+            ],
+            'ALLOW_USING_MYSQL_DELETE' => [
+                '' => 'Mặc định theo code',
+                '0' => 'Tắt',
+                '1' => 'Bật',
+            ],
+            'WGR_CSP_ENABLE' => [
+                '' => 'Mặc định theo code',
+                '0' => 'Tắt',
+                '1' => 'Bật',
+            ],
+            'SITE_LANGUAGE_SUB_FOLDER' => [
+                '' => 'Mặc định theo code',
+                '0' => 'Tắt',
+                '1' => 'Bật',
+            ],
+            'SITE_LANGUAGE_DEFAULT' => $arr_default_display_lang,
         ];
         $arr['smtp2_secure'] = $arr['smtp_secure'];
         if (isset($arr[$key])) {

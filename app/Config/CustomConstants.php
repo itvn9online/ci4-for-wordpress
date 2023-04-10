@@ -89,10 +89,16 @@ define('THEMEPATH', PUBLIC_PUBLIC_PATH . 'themes/' . THEMENAME . '/');
 
 ####################################################################
 /*
- * nạp file function của từng theme
+ * nạp file function của từng theme -> code cứng -> độ ưu tiên cao nhất
  */
 if (file_exists(THEMEPATH . 'functions.php')) {
     include THEMEPATH . 'functions.php';
+}
+/*
+* Nạp Constants của từng web -> code độ -> sẽ bị phủ định bởi code cứng
+*/
+if (file_exists(APPPATH . 'Config/DynamicConstants.php')) {
+    include APPPATH . 'Config/DynamicConstants.php';
 }
 ####################################################################
 
@@ -113,10 +119,6 @@ defined('SITE_LANGUAGE_DEFAULT') || define('SITE_LANGUAGE_DEFAULT', SITE_LANGUAG
 // kiểu hiển thị đa ngôn ngữ (true:có hỗ trợ|false: không hỗ trợ), nếu là sub-folder thì sẽ hỗ trợ prefix cho routes, url cũng sẽ thêm prefix vào trước (nếu tắt đi thì kiểu đa ngôn ngữ sẽ là sub-domain)
 defined('SITE_LANGUAGE_SUB_FOLDER') || define('SITE_LANGUAGE_SUB_FOLDER', true);
 
-// Số lượng bản dịch dạng input -> website nào cần dùng nhiều tăng số lượng trong file functions lên
-//defined('NUMBER_TRANS_INPUT') || define('NUMBER_TRANS_INPUT', 20);
-// Số lượng bản dịch dạng textarea -> website nào cần dùng nhiều tăng số lượng trong file functions lên
-//defined('NUMBER_TRANS_TEXTAREA') || define('NUMBER_TRANS_TEXTAREA', 10);
 // khi cần thay label cho trang /admin/translates để dễ hiểu hơn thì thêm các thông số vào đây
 defined('TRANS_TRANS_LABEL') || define(
     'TRANS_TRANS_LABEL',
@@ -126,8 +128,6 @@ defined('TRANS_TRANS_LABEL') || define(
     ]
 );
 
-// Số lượng bản ghi dạng số nguyên -> website nào cần dùng nhiều tăng số lượng trong file functions lên
-//defined('NUMBER_NUMS_INPUT') || define('NUMBER_NUMS_INPUT', 3);
 // khi cần thay label cho trang /admin/nummons để dễ hiểu hơn thì thêm các thông số vào đây
 defined('TRANS_NUMS_LABEL') || define(
     'TRANS_NUMS_LABEL',
@@ -285,3 +285,11 @@ define('WGR_POST_VIEW', WGR_TABLE_PREFIX . 'zzz_v_posts');
 
 // Một số thư mục chỉ cho phép 1 số định dạng file được phép truy cập
 define('HTACCESSS_ALLOW', 'zip|xlsx|xls|mp3|css|js|map|htm?l|xml|json|webmanifest|tff|eot|woff?|gif|jpe?g|tiff?|png|webp|bmp|ico|svg');
+
+// https://scotthelme.co.uk/content-security-policy-an-introduction/
+// Content-Security-Policy
+defined('WGR_CSP_ENABLE') || define('WGR_CSP_ENABLE', false);
+// tham khảo của mấy web lớn: https://securityheaders.com/?q=https%3A%2F%2Fwww.facebook.com%2F&followRedirects=on
+defined('WGR_CSP_DEFAULT_SRC') || define('WGR_CSP_DEFAULT_SRC', "'self' 'unsafe-inline' 'unsafe-eval' data: blob: *.fbsbx.com 'unsafe-inline' *.facebook.com *.fbcdn.net *.gstatic.com");
+defined('WGR_CSP_SCRIPT_SRC') || define('WGR_CSP_SCRIPT_SRC', "'self' 'unsafe-inline' 'unsafe-eval' *.googleapis.com *.fbcdn.net data: *.facebook.com");
+defined('WGR_CSP_STYLE_SRC') || define('WGR_CSP_STYLE_SRC', "'self' 'unsafe-inline' 'unsafe-eval' blob: data: *.facebook.com *.fbcdn.net *.facebook.net *.google-analytics.com *.google.com *.facebook.net *.googleapis.com");

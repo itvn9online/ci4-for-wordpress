@@ -30,7 +30,7 @@ class Configs extends Admin
         $this->check_permision(__CLASS__);
 
         //
-        $this->lang_key = $this->lang_key;
+        //$this->lang_key = $this->lang_key;
 
         // hỗ trợ lấy theo params truyền vào từ url
         if ($this->config_type == '') {

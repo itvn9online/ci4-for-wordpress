@@ -47,28 +47,28 @@ class ContentSecurityPolicy extends BaseConfig
      *
      * @var string|string[]|null
      */
-    public $defaultSrc;
+    public $defaultSrc = WGR_CSP_DEFAULT_SRC;
 
     /**
      * Lists allowed scripts' URLs.
      *
      * @var string|string[]
      */
-    public $scriptSrc = 'self';
+    public $scriptSrc = WGR_CSP_SCRIPT_SRC;
 
     /**
      * Lists allowed stylesheets' URLs.
      *
      * @var string|string[]
      */
-    public $styleSrc = 'self';
+    public $styleSrc = WGR_CSP_STYLE_SRC;
 
     /**
      * Defines the origins from which images can be loaded.
      *
      * @var string|string[]
      */
-    public $imageSrc = 'self';
+    public $imageSrc = WGR_CSP_DEFAULT_SRC;
 
     /**
      * Restricts the URLs that can appear in a page's `<base>` element.

@@ -1,36 +1,4 @@
 <?php
-
-/*
- * Tài khoản FTP -> dùng để điều khiển file trong trường hợp bị lỗi permission
- */
-//define( 'FTP_HOST', $_SERVER[ 'SERVER_ADDR' ] );
-//define( 'FTP_HOST', '127.0.0.1' );
-//define( 'FTP_USER', '' );
-//define( 'FTP_PASS', '' );
-
-//
-//define( 'PARTNER_WEBSITE', 'https://' . $_SERVER[ 'HTTP_HOST' ] . '/' );
-//define( 'PARTNER_BRAND_NAME', strtoupper( $_SERVER[ 'HTTP_HOST' ] ) );
-
-//
-//define( 'MY_DB_DRIVER', 'MySQLi|Postgre|PDO|Oracle' );
-
-// tinh chỉnh protocol theo ý thích -> mặc định là https
-//define( 'BASE_PROTOCOL', 'http' );
-
-// chuỗi sẽ thêm vào khi sử dụng hàm mdnam -> md5 -> tăng độ bảo mật cho chuỗi
-//define( 'CUSTOM_MD5_HASH_CODE', '' );
-
-// kiểu sử dụng cache, độ ưu tiên: redis -> memcached -> file
-//define( 'MY_CACHE_HANDLER', 'redis|memcached|file' );
-
-// khi cần chuyển các file tĩnh sang url khác để giảm tải cho server chính thì dùng chức năng này
-//define( 'CDN_BASE_URL', '' );
-
-// Mặc định không cho xóa hoàn toàn dữ liệu trong mysql, nếu bạn muốn xóa hẳn thì có thể kích hoạt tính năng này.
-//define( 'ALLOW_USING_MYSQL_DELETE', true );
-
-
 /*
 * ngôn ngữ hiển thị của website
 */
@@ -54,19 +22,7 @@ define(
 );
 */
 
-// ngôn ngữ mặc định
-// -> đặt là mảng số 0
-//defined('SITE_LANGUAGE_DEFAULT') || define('SITE_LANGUAGE_DEFAULT', SITE_LANGUAGE_SUPPORT[0]['value']);
-// hoặc định nghĩa cụ thể 1 ngôn ngữ
-//define('SITE_LANGUAGE_DEFAULT', 'vn');
-// kiểu hiển thị đa ngôn ngữ (true:có hỗ trợ|false: không hỗ trợ), nếu là sub-folder thì sẽ hỗ trợ prefix cho routes, url cũng sẽ thêm prefix vào trước (nếu tắt đi thì kiểu đa ngôn ngữ sẽ là sub-domain)
-//define('SITE_LANGUAGE_SUB_FOLDER', false);
 
-
-// Số lượng bản dịch dạng input -> website nào cần dùng nhiều tăng số lượng trong file functions lên
-//define( 'NUMBER_TRANS_INPUT', 30 );
-// Số lượng bản dịch dạng textarea -> website nào cần dùng nhiều tăng số lượng trong file functions lên
-//define( 'NUMBER_TRANS_TEXTAREA', 20 );
 /*
 // khi cần thay label cho trang /admin/translates để dễ hiểu hơn thì thêm các thông số vào đây
 define( 'TRANS_TRANS_LABEL', [
@@ -75,8 +31,6 @@ define( 'TRANS_TRANS_LABEL', [
 ] );
 */
 
-// Số lượng bản ghi dạng số nguyên -> website nào cần dùng nhiều tăng số lượng trong file functions lên
-//defined('NUMBER_NUMS_INPUT') || define('NUMBER_NUMS_INPUT', 3);
 // khi cần thay label cho trang /admin/nummons để dễ hiểu hơn thì thêm các thông số vào đây
 /*
 defined('TRANS_NUMS_LABEL') || define(
@@ -87,8 +41,6 @@ defined('TRANS_NUMS_LABEL') || define(
 );
 */
 
-// Số lượng bản ghi dạng số nguyên -> website nào cần dùng nhiều tăng số lượng trong file functions lên
-//defined('NUMBER_CHECKBOXS_INPUT') || define('NUMBER_CHECKBOXS_INPUT', 3);
 // khi cần thay label cho trang /admin/checkboxs để dễ hiểu hơn thì thêm các thông số vào đây
 /*
 defined('TRANS_CHECKBOXS_LABEL') || define(
@@ -98,23 +50,6 @@ defined('TRANS_CHECKBOXS_LABEL') || define(
     ]
 );
 */
-
-
-/*
- * Tiền tố cho danh mục sản phẩm
- */
-//define( 'WGR_CATEGORY_PREFIX', 'category' );
-
-/*
- * Tiền tố cho trang tĩnh
- */
-//define( 'WGR_PAGES_PREFIX', 'pages' );
-
-//
-//define('WGR_POST_PERMALINK', '%ID%/%post_name%');
-//define('WGR_BLOG_PERMALINK', '%post_type%-%ID%/%post_name%');
-//define('WGR_PAGE_PERMALINK', '%page_base%%post_name%');
-//define('WGR_POSTS_PERMALINK', 'p/%post_type%/%ID%/%post_name%.html');
 
 /*
  * Thêm menu cho admin

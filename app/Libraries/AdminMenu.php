@@ -254,6 +254,9 @@ class AdminMenu
                 ]
             ],
             'admin/dev' => [
+                'role' => [
+                    UsersType::ADMIN,
+                ],
                 'name' => 'Kỹ thuật',
                 'icon' => 'fa fa-bug',
                 'arr' => [
@@ -268,6 +271,10 @@ class AdminMenu
                     'admin/dashboard/update_code' => [
                         'name' => 'Update code',
                         'icon' => 'fa fa-upload',
+                    ],
+                    'admin/constants' => [
+                        'name' => ConfigType::typeList(ConfigType::CONSTANTS),
+                        'icon' => 'fa fa-paragraph',
                     ],
                     'admin/dev/php_info' => [
                         'name' => 'PHP info',
