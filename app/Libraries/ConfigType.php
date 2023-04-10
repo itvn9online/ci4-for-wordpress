@@ -543,6 +543,7 @@ class ConfigType
             'NUMBER_CHECKBOXS_INPUT' => 'Website nào cần dùng nhiều tăng số lượng trong file functions lên',
             'SITE_LANGUAGE_SUB_FOLDER' => '(true: sub-folder | false: sub-domain), nếu là sub-folder thì sẽ hỗ trợ prefix cho routes, url cũng sẽ thêm prefix vào trước.',
             'CUSTOM_MD5_HASH_CODE' => 'Chuỗi sẽ thêm vào khi sử dụng hàm mdnam -> md5 -> tăng độ bảo mật cho chuỗi',
+            'WGR_POST_PERMALINK' => 'Các tham số đầu vào sẽ là %tên-cột-trong-bảng-posts%. Ví dụ: %ID% %post_type% %post_name%',
         ];
         if (isset($arr[$key]) && $arr[$key] != '') {
             echo '<p class="controls-text-note">' . $arr[$key] . '</p>';
