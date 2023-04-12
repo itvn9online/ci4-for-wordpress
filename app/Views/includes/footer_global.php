@@ -60,3 +60,7 @@ $base_model->add_js( 'javascript/analytics.js', [], [
 if ($getconfig->enable_device_protection == 'on') {
     include_once __DIR__ . '/device_protection.php';
 }
+
+
+//
+echo $getconfig->html_body;

@@ -48,6 +48,11 @@ class Admin extends Ajaxs
         }
 
         //
+        //$response = \Config\Services::response();
+        //$this->response->setHeader('Cache-Control', 'no-cache');
+        //$response->removeHeader('Content-Security-Policy');
+
+        //
         $this->post_model = new \App\Models\PostAdmin();
         $this->comment_model = new \App\Models\Comment();
 

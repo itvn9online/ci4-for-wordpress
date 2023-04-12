@@ -633,6 +633,17 @@ function action_data_img_src() {
 	});
 }
 
+function action_data_bg_src() {
+	$(".each-to-bg-src").each(function () {
+		var a = $(this).attr("data-src") || "";
+		if (a != "") {
+			$(this).css({
+				"background-image": "url(" + a + ")",
+			});
+		}
+	});
+}
+
 function click_a_delete_record() {
 	return confirm("Xác nhận xóa bản ghi này?");
 }

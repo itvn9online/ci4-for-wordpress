@@ -68,7 +68,7 @@ class ContentSecurityPolicy extends BaseConfig
      *
      * @var string|string[]
      */
-    public $imageSrc = WGR_CSP_DEFAULT_SRC;
+    public $imageSrc = WGR_CSP_IMG_SRC;
 
     /**
      * Restricts the URLs that can appear in a page's `<base>` element.
@@ -92,7 +92,7 @@ class ContentSecurityPolicy extends BaseConfig
      *
      * @var string|string[]
      */
-    public $connectSrc = 'self';
+    public $connectSrc = WGR_CSP_CONNECT_SRC;
 
     /**
      * Specifies the origins that can serve web fonts.

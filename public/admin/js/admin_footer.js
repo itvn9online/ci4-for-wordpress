@@ -317,6 +317,7 @@ $(document)
 		action_each_to_taxonomy();
 		action_each_to_email();
 		//action_data_img_src();
+		action_data_bg_src();
 		action_for_check_checked_all();
 
 		// nếu chiều cao menu admin > window thì thêm class xác nhận

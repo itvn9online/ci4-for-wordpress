@@ -35,7 +35,7 @@ class Constants extends Configs
 
         // chạy vòng lặp và add constants vào file tĩnh
         $meta_default = ConfigType::meta_default($this->config_type);
-        print_r($meta_default);
+        //print_r($meta_default);
 
         // mảng các giá trị sẽ được chuyển đổi thành true|false nếu đầu vào là 1|0
         $arr_true_false = [
@@ -52,7 +52,9 @@ class Constants extends Configs
             }
 
             //
-            if (in_array($k, $arr_true_false)) {
+            if ($v === 'EMPTY') {
+                $a[] = "defined('$k') || define('$k', '');";
+            } else if (in_array($k, $arr_true_false)) {
                 if ($v > 0) {
                     $v = 'true';
                 } else {
@@ -72,6 +74,7 @@ class Constants extends Configs
 
         //
         if (!empty($a)) {
+            //var_dump($a);
             file_put_contents($f, str_replace(' ', '', '< ? php') . PHP_EOL . implode(PHP_EOL, $a) . PHP_EOL);
         } else if (file_exists($f)) {
             unlink($f);

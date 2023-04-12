@@ -312,6 +312,7 @@ class Layout extends Sync
         /*
          * trả về lỗi 404
          */
+        //echo __CLASS__ . ':' . __LINE__;
         $pcol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
         $this->response->setStatusCode(404, $pcol . ' 404 Not Found');
 

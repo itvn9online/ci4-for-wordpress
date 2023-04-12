@@ -284,12 +284,30 @@ define('WGR_TERM_VIEW', WGR_TABLE_PREFIX . 'zzz_v_terms');
 define('WGR_POST_VIEW', WGR_TABLE_PREFIX . 'zzz_v_posts');
 
 // Một số thư mục chỉ cho phép 1 số định dạng file được phép truy cập
-define('HTACCESSS_ALLOW', 'zip|xlsx|xls|mp3|css|js|map|htm?l|xml|json|webmanifest|tff|eot|woff?|gif|jpe?g|tiff?|png|webp|bmp|ico|svg');
+defined('HTACCESSS_ALLOW') || define('HTACCESSS_ALLOW', 'zip|xlsx|xls|mp3|css|js|map|htm?l|xml|json|webmanifest|tff|eot|woff?|gif|jpe?g|tiff?|png|webp|bmp|ico|svg');
 
 // https://scotthelme.co.uk/content-security-policy-an-introduction/
 // Content-Security-Policy
 defined('WGR_CSP_ENABLE') || define('WGR_CSP_ENABLE', false);
+//echo ROOTPATH . '.env';
+// nếu chế độ debug được bật -> bắt buộc phải tắt CSP
+if (file_exists(ROOTPATH . '.env')) {
+    define('WGR_CSP_FOR_DEBUG', false);
+} else {
+    // còn lại sẽ lấy theo config động
+    define('WGR_CSP_FOR_DEBUG', WGR_CSP_ENABLE);
+}
+//var_dump(WGR_CSP_FOR_DEBUG);
+
+// nội dung cho phần src của CSP
 // tham khảo của mấy web lớn: https://securityheaders.com/?q=https%3A%2F%2Fwww.facebook.com%2F&followRedirects=on
+// default-src
 defined('WGR_CSP_DEFAULT_SRC') || define('WGR_CSP_DEFAULT_SRC', "'self' 'unsafe-inline' 'unsafe-eval' data: blob: *.fbsbx.com 'unsafe-inline' *.facebook.com *.fbcdn.net *.gstatic.com");
-defined('WGR_CSP_SCRIPT_SRC') || define('WGR_CSP_SCRIPT_SRC', "'self' 'unsafe-inline' 'unsafe-eval' *.googleapis.com *.fbcdn.net data: *.facebook.com");
+// script-src
+defined('WGR_CSP_SCRIPT_SRC') || define('WGR_CSP_SCRIPT_SRC', "'self' 'unsafe-inline' 'unsafe-eval' data: *.googleapis.com *.fbcdn.net *.facebook.com *.googletagmanager.com *.tiktok.com *.doubleclick.net");
+// style-src
 defined('WGR_CSP_STYLE_SRC') || define('WGR_CSP_STYLE_SRC', "'self' 'unsafe-inline' 'unsafe-eval' blob: data: *.facebook.com *.fbcdn.net *.facebook.net *.google-analytics.com *.google.com *.facebook.net *.googleapis.com");
+// img-src
+defined('WGR_CSP_IMG_SRC') || define('WGR_CSP_IMG_SRC', "'self' data: *.google.com *.google.com.vn *.googletagmanager.com");
+// connect-src
+defined('WGR_CSP_CONNECT_SRC') || define('WGR_CSP_CONNECT_SRC', "'self' *.google-analytics.com *.tiktok.com");

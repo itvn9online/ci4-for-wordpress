@@ -28,8 +28,9 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
             <div class="w99 redcolor l20 medium">
                 <ul>
                     <li>Xin lưu ý! Phần config này thuộc dạng đặc biệt nguy hiểm, chỉ thay đổi khi bạn có sẵn tài khoản host để xử lý phòng trường hợp lỗi có thể xảy ra.</li>
-                    <li>Các constants sẽ được lưu trữ tại file: /app/Config/DynamicConstants.php</li>
-                    <li>Để phủ định các constants này, code có thể khai báo constants cứng trong file functions.php của mỗi theme.</li>
+                    <li>Các constants sẽ được lưu trữ tại file: <b>/app/Config/DynamicConstants.php</b></li>
+                    <li>Để phủ định các constants này, code có thể khai báo constants cứng trong file <b>functions.php</b> của mỗi theme.</li>
+                    <li>Nhập <b>EMPTY</b> để thiết lập các constants trống.</li>
                 </ul>
             </div>
             <?php
