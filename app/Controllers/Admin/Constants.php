@@ -52,30 +52,52 @@ class Constants extends Configs
             }
 
             //
-            if ($v === 'EMPTY') {
-                $a[] = "defined('$k') || define('$k', '');";
+            if ($v == 'IS_EMPTY') {
+                //$a[] = "defined('$k') || define('$k', '');";
+                $a[] = "define('$k', '');";
             } else if (in_array($k, $arr_true_false)) {
                 if ($v > 0) {
                     $v = 'true';
                 } else {
                     $v = 'false';
                 }
-                $a[] = "defined('$k') || define('$k', $v);";
+                //$a[] = "defined('$k') || define('$k', $v);";
+                $a[] = "define('$k', $v);";
             } else {
-                $a[] = "defined('$k') || define('$k', '$v');";
+                $str_quote = "'";
+                if (strpos($v, "'") !== false) {
+                    $str_quote = '"';
+                    if (strpos($v, '"') !== false) {
+                        $v = str_replace('"', '\"', $v);
+                    }
+                }
+
+                //$a[] = "defined('$k') || define('$k', $str_quote$v$str_quote);";
+                $a[] = "define('$k', $str_quote$v$str_quote);";
             }
         }
         //print_r($a);
         //echo implode(PHP_EOL, $a) . PHP_EOL;
 
         //
-        $f = APPPATH . 'Config/DynamicConstants.php';
-        echo $f . PHP_EOL;
+        $f = DYNAMIC_CONSTANTS_PATH;
+        echo $f . '<br>' . PHP_EOL;
 
         //
         if (!empty($a)) {
             //var_dump($a);
-            file_put_contents($f, str_replace(' ', '', '< ? php') . PHP_EOL . implode(PHP_EOL, $a) . PHP_EOL);
+
+            //
+            foreach ($a as $v) {
+                echo $v . '<br>' . PHP_EOL;
+            }
+
+            //
+            //file_put_contents($f, str_replace(' ', '', '< ? php') . PHP_EOL . implode(PHP_EOL, $a) . PHP_EOL);
+            $this->base_model->_eb_create_file($f, str_replace(' ', '', '< ? php') . PHP_EOL . implode(PHP_EOL, $a) . PHP_EOL, [
+                'set_permission' => DEFAULT_FILE_PERMISSION,
+                'ftp' => 1,
+            ]);
         } else if (file_exists($f)) {
             unlink($f);
         }

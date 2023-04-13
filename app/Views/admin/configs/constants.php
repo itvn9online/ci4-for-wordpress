@@ -28,9 +28,9 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
             <div class="w99 redcolor l20 medium">
                 <ul>
                     <li>Xin lưu ý! Phần config này thuộc dạng đặc biệt nguy hiểm, chỉ thay đổi khi bạn có sẵn tài khoản host để xử lý phòng trường hợp lỗi có thể xảy ra.</li>
-                    <li>Các constants sẽ được lưu trữ tại file: <b>/app/Config/DynamicConstants.php</b></li>
-                    <li>Để phủ định các constants này, code có thể khai báo constants cứng trong file <b>functions.php</b> của mỗi theme.</li>
-                    <li>Nhập <b>EMPTY</b> để thiết lập các constants trống.</li>
+                    <li>Các constants này sẽ được lưu trữ tại file: <b><?php echo str_replace(ROOTPATH, '', DYNAMIC_CONSTANTS_PATH); ?></b></li>
+                    <li>Các constants này có độ ưu tiên cao nhất, phủ định ngay cả constants được thiết lập cứng trong file <b>functions.php</b> của mỗi theme.</li>
+                    <li>Chọn <b>is empty</b> hoặc nhập <b>IS_EMPTY</b> để thiết lập các constants trống.</li>
                 </ul>
             </div>
             <?php
@@ -86,26 +86,6 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                     <?php
                     }
                     // END if checkbox
-                    else if ($input_type == 'color') {
-                    ?>
-                        <div class="lf f25">
-                            <label for="data_<?php echo $k; ?>" class="text-right right-menu-space">
-                                <?php echo $v; ?>
-                            </label>
-                        </div>
-                        <div class="lf f40">
-                            <input type="color" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>" value="<?php echo $data[$k]; ?>" placeholder="<?php echo ConfigType::defaultColor($k); ?>" class="span2 auto-reset-site-color" />
-                            - <a href="javascript:;" data-set="data_<?php echo $k; ?>" class="bluecolor click-to-set-site-color">Nhập mã màu</a> - <a href="javascript:;" data-set="data_<?php echo $k; ?>" class="bluecolor click-to-reset-site-color">Mặc định</a>
-                            <?php
-
-                            // hiển thị ghi chú nếu có
-                            ConfigType::meta_desc($k);
-
-                            ?>
-                        </div>
-                    <?php
-                    }
-                    // END if color
                     else {
                     ?>
                         <div class="lf f25">
@@ -159,10 +139,11 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                     <?php
                     } // END else checkbox
                     ?>
-                    <div class="lf f35">
-                        <div>
-                            <input type="text" onDblClick="click2Copy(this);" value="<?php echo $k; ?>" class="span11" readonly />
-                        </div>
+                    <div class="lf f10">
+                        <label><input type="checkbox" data-id="data_<?php echo $k; ?>" class="each-to-is-empty" /> is empty</label>
+                    </div>
+                    <div class="lf f25">
+                        <input type="text" onDblClick="click2Copy(this);" value="<?php echo $k; ?>" class="span11" readonly />
                     </div>
                 </div>
             <?php

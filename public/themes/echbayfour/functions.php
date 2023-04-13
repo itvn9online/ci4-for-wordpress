@@ -33,7 +33,7 @@ define( 'TRANS_TRANS_LABEL', [
 
 // khi cần thay label cho trang /admin/nummons để dễ hiểu hơn thì thêm các thông số vào đây
 /*
-defined('TRANS_NUMS_LABEL') || define(
+define(
     'TRANS_NUMS_LABEL',
     [
         'custom_num_mon0' => 'Tùy chỉnh số 0',
@@ -43,7 +43,7 @@ defined('TRANS_NUMS_LABEL') || define(
 
 // khi cần thay label cho trang /admin/checkboxs để dễ hiểu hơn thì thêm các thông số vào đây
 /*
-defined('TRANS_CHECKBOXS_LABEL') || define(
+define(
     'TRANS_CHECKBOXS_LABEL',
     [
         'custom_checkbox0' => 'Checkbox số 0',
@@ -100,3 +100,6 @@ register_post_type('custom_post_type', [
     //'public' => 'off',
 ]);
 */
+
+// URL tùy chỉnh của từng tags hoặc custom taxonomy
+//define('WGR_CUS_TAX_PERMALINK', []);

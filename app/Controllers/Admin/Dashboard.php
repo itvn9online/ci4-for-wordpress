@@ -13,6 +13,8 @@ class Dashboard extends Optimize
     // link download code từ github
     //private $link_download_github = 'https://github.com/itvn9online/ci4-for-wordpress/blob/main/ci4-for-wordpress.zip?raw=true';
     private $link_download_github = 'https://github.com/itvn9online/ci4-for-wordpress/archive/refs/heads/main.zip';
+    // mảng các file sẽ được copy lại ngay sau khi update
+    private $copy_after_updated = [];
 
     public function __construct()
     {
@@ -53,10 +55,16 @@ class Dashboard extends Optimize
         //die( $this->app_deleted_dir );
 
         // tham số dùng để copy lại file config -> bắt buộc phải có thì mới chạy được web
-        $this->config_deleted_file = PUBLIC_HTML_PATH . 'app-deleted/Config/Database.php';
+        //$this->config_deleted_file = PUBLIC_HTML_PATH . 'app-deleted/Config/Database.php';
         //echo $this->config_deleted_file . '<br>' . "\n";
-        $this->config_file = PUBLIC_HTML_PATH . 'app/Config/Database.php';
+        //$this->config_file = PUBLIC_HTML_PATH . 'app/Config/Database.php';
         //echo $this->config_file . '<br>' . "\n";
+
+        //
+        $this->copy_after_updated = [
+            PUBLIC_HTML_PATH . 'app-deleted/Config/Database.php' => PUBLIC_HTML_PATH . 'app/Config/Database.php',
+            PUBLIC_HTML_PATH . 'app-deleted/Config/' . basename(DYNAMIC_CONSTANTS_PATH) => PUBLIC_HTML_PATH . 'app/Config/' . basename(DYNAMIC_CONSTANTS_PATH),
+        ];
 
         //
         //echo THEMEPATH . '<br>' . "\n";
@@ -595,10 +603,23 @@ class Dashboard extends Optimize
             $this->after_unzip_code($file_path, $upload_path, $upload_via_ftp, $from_main_github);
 
             // nếu tồn tại file config -> copy nó sang thư mục chính
+            /*
             if (file_exists($this->config_deleted_file) && !file_exists($this->config_file)) {
                 // không copy được file config thì restore code lại
                 if (!$this->MY_copy($this->config_deleted_file, $this->config_file)) {
                     $this->restore_code();
+                }
+            }
+            */
+
+            // copy lại file cần thiết sau khi update
+            foreach ($this->copy_after_updated as $f_delete => $f_copy) {
+                if (file_exists($f_delete) && !file_exists($f_copy)) {
+                    // không copy được file config thì restore code lại
+                    if (!$this->MY_copy($f_delete, $f_copy)) {
+                        $this->restore_code();
+                        break;
+                    }
                 }
             }
 

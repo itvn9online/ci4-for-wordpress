@@ -293,7 +293,6 @@ class ConfigType
                 'WGR_BLOGS_PERMALINK' => 'Blogs permalink',
                 'WGR_PRODS_PERMALINK' => 'Product category permalink',
                 'WGR_TAXONOMY_PERMALINK' => 'Other taxonomy permalink',
-                'WGR_CUS_TAX_PERMALINK' => 'Custom taxonomy permalink',
                 //
                 'WGR_POST_PERMALINK' => 'Post permalink',
                 'WGR_BLOG_PERMALINK' => 'Blog permalink',
@@ -553,15 +552,28 @@ class ConfigType
             'telegram_bot_token' => 'Token của bot trên Telegram. Sau khi có Token, hãy <a href="' . base_url('admin/smtps') . '?get_tele_chat_id=1" target="_blank" class="click-check-email-test bluecolor"><strong>bấm vào đây</strong></a> để tìm Chat ID.',
             'telegram_chat_id' => 'ID nhóm chat trên Telegram. Bao gồm cả dấu - nếu có',
             //
-            'FTP_HOST' => 'Thông tin FTP - dùng để điều khiển file trong trường hợp bị lỗi permission',
+            'FTP_HOST' => 'Thông tin FTP - dùng để điều khiển file trong trường hợp bị lỗi permission. Mặc định là: 127.0.0.1',
             'CDN_BASE_URL' => 'URL để chạy CDN cho các file tĩnh (nếu có). Ví dụ: https://cdn.' . $_SERVER['HTTP_HOST'] . '/',
             'ALLOW_USING_MYSQL_DELETE' => 'Mặc định không cho xóa hoàn toàn dữ liệu trong mysql, nếu bạn muốn xóa hẳn thì có thể kích hoạt tính năng này.',
             'WGR_CSP_ENABLE' => 'Bật/Tắt chế độ Content-Security-Policy. Nhớ điều chỉnh thông số src cho hợp lý.',
             'NUMBER_CHECKBOXS_INPUT' => 'Website nào cần dùng nhiều tăng số lượng bản ghi lên.',
-            'SITE_LANGUAGE_SUB_FOLDER' => '(true: sub-folder | false: sub-domain), nếu là sub-folder thì sẽ hỗ trợ prefix cho routes, url cũng sẽ thêm prefix vào trước.',
-            'CUSTOM_MD5_HASH_CODE' => 'Chuỗi sẽ thêm vào khi sử dụng hàm mdnam -> md5 -> tăng độ bảo mật cho chuỗi',
-            'WGR_POST_PERMALINK' => 'Các tham số đầu vào sẽ là %tên-cột-trong-bảng-posts%. Ví dụ: %ID% %post_type% %post_name%',
+            'SITE_LANGUAGE_SUB_FOLDER' => 'Nếu là sub-folder thì sẽ hỗ trợ prefix cho routes, url cũng sẽ thêm prefix vào ngay sau domain.',
+            'CUSTOM_MD5_HASH_CODE' => 'Chuỗi sẽ thêm vào khi sử dụng hàm mdnam -> md5 -> tăng độ bảo mật cho chuỗi. Chỉ thay đổi khi thực sự cần thiết do thông số này sẽ có thể khiến toàn bộ chuỗi sử dụng hàm mdnam sẽ phải dựng lại.',
             'HTACCESSS_ALLOW' => 'Một số thư mục chỉ cho phép 1 số định dạng file được phép truy cập. Ví dụ: ' . HTACCESSS_ALLOW,
+            //
+            'WGR_CATEGORY_PREFIX' => 'Ví dụ: ' . WGR_CATEGORY_PREFIX,
+            'WGR_PAGES_PREFIX' => 'Ví dụ: ' . WGR_PAGES_PREFIX,
+            //
+            'WGR_CATEGORY_PERMALINK' => 'Ví dụ: ' . WGR_CATEGORY_PERMALINK,
+            'WGR_BLOGS_PERMALINK' => 'Ví dụ: ' . WGR_BLOGS_PERMALINK,
+            'WGR_PRODS_PERMALINK' => 'Ví dụ: ' . WGR_PRODS_PERMALINK,
+            'WGR_TAXONOMY_PERMALINK' => 'Ví dụ: ' . WGR_TAXONOMY_PERMALINK,
+            //
+            'WGR_POST_PERMALINK' => 'Các tham số đầu vào sẽ là %tên-cột-trong-bảng-posts%. Ví dụ: %ID% %post_type% %post_name%',
+            'WGR_BLOG_PERMALINK' => 'Ví dụ: ' . WGR_BLOG_PERMALINK,
+            'WGR_PAGE_PERMALINK' => 'Ví dụ: ' . WGR_PAGE_PERMALINK,
+            'WGR_POSTS_PERMALINK' => 'Ví dụ: ' . WGR_POSTS_PERMALINK,
+            //
             'WGR_CSP_DEFAULT_SRC' => 'Ví dụ: ' . WGR_CSP_DEFAULT_SRC,
             'WGR_CSP_SCRIPT_SRC' => 'Ví dụ: ' . WGR_CSP_SCRIPT_SRC,
             'WGR_CSP_STYLE_SRC' => 'Ví dụ: ' . WGR_CSP_STYLE_SRC,
@@ -694,8 +706,8 @@ class ConfigType
             ],
             'SITE_LANGUAGE_SUB_FOLDER' => [
                 '' => 'Mặc định theo code',
-                '0' => 'Tắt',
-                '1' => 'Bật',
+                '0' => 'sub-domain',
+                '1' => 'sub-folder',
             ],
             'SITE_LANGUAGE_DEFAULT' => $arr_default_display_lang,
         ];

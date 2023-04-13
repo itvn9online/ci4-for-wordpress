@@ -88,17 +88,22 @@ define('THEMEPATH', PUBLIC_PUBLIC_PATH . 'themes/' . THEMENAME . '/');
 
 
 ####################################################################
+// file Constants động
+define('DYNAMIC_CONSTANTS_PATH', APPPATH . 'Config/DynamicConstants.php');
+
 /*
- * nạp file function của từng theme -> code cứng -> độ ưu tiên cao nhất
+* Nạp Constants của từng web -> code động -> độ ưu tiên cao nhất
+*/
+if (file_exists(DYNAMIC_CONSTANTS_PATH)) {
+    include DYNAMIC_CONSTANTS_PATH;
+}
+
+/*
+ * nạp file function của từng theme -> code cứng -> sẽ bị phủ định bởi code động
+ * -> trong functions phải khai báo theo mẫu: defined() || define()
  */
 if (file_exists(THEMEPATH . 'functions.php')) {
     include THEMEPATH . 'functions.php';
-}
-/*
-* Nạp Constants của từng web -> code độ -> sẽ bị phủ định bởi code cứng
-*/
-if (file_exists(APPPATH . 'Config/DynamicConstants.php')) {
-    include APPPATH . 'Config/DynamicConstants.php';
 }
 ####################################################################
 

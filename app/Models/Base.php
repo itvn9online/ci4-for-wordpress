@@ -627,6 +627,7 @@ class Base extends Csdl
         }
 
         //
+        /*
         if (!file_exists($file_)) {
             $filew = @fopen($file_, 'x+');
             if (!$filew) {
@@ -641,6 +642,7 @@ class Base extends Csdl
             }
             fclose($filew);
         }
+        */
 
         //
         if ($ops['add_line'] != '') {

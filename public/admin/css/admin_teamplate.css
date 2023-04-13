@@ -147,6 +147,7 @@ form#listContactByType {
 
 .controls-text-note {
     font-style: italic;
+    line-height: normal;
 }
 
 .click_add_widget_class .fa-check-square {

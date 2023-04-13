@@ -190,7 +190,7 @@ $base_model->adds_css([
                     <div class="control-group">
                         <label class="control-label">Ảnh đại diện</label>
                         <div class="controls">
-                            <div class="user-bg-avatar" :style="[data.avatar != '' ? {'background-image': 'url(' + data.avatar + ')'} : '']">&nbsp;</div>
+                            <div class="user-bg-avatar each-to-bg-src" :data-src="data.avatar">&nbsp;</div>
                         </div>
                     </div>
                     <div class="control-group">
