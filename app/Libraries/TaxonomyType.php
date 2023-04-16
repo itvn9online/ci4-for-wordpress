@@ -94,6 +94,7 @@ class TaxonomyType
             $arr['column_spacing'] = 'Khoảng cách giữa các cột';
             $arr['row_align'] = 'Căn chỉnh (align)';
             $arr['post_cloumn'] = 'Bố cục bài viết';
+            $arr['post_custom_cloumn'] = 'Bố cục tùy chỉnh bài viết';
             $arr['hide_title'] = 'Ẩn tiêu đề của bài viết';
             $arr['hide_description'] = 'Ẩn tóm tắt của bài viết';
             $arr['hide_info'] = 'Ẩn ngày tháng, danh mục của bài viết';
@@ -139,6 +140,7 @@ class TaxonomyType
             'column_spacing' => 'select',
             'row_align' => 'select',
             'post_cloumn' => 'select',
+            'post_custom_cloumn' => 'select',
             'hide_title' => 'checkbox',
             'hide_description' => 'checkbox',
             'hide_info' => 'checkbox',
@@ -245,6 +247,9 @@ class TaxonomyType
                 'chi_anh' => 'Chỉ ảnh (image only)',
                 'text_only' => 'Tiêu đề + nội dung (text only)',
                 'chi_anh_chu' => 'Chỉ ảnh + tiêu đề (title + image)'
+            ],
+            'post_custom_cloumn' => [
+                '' => '- Tùy chỉnh HTML -',
             ],
             'max_width' => [
                 '' => 'Mặc định',

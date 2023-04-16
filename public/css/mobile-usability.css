@@ -8,8 +8,8 @@ img,
 
 @media only screen and (max-width:788px) {
 
-    body,
-    #main {
+    body:not(.document-ready),
+    body:not(.document-ready) #main {
         overflow-x: hidden;
     }
 

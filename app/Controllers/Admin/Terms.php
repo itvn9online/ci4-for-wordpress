@@ -481,6 +481,12 @@ class Terms extends Admin
             }
         }
 
+        //
+        $arr_custom_cloumn = [];
+        if ($this->taxonomy == TaxonomyType::ADS) {
+            $arr_custom_cloumn = $this->base_model->EBE_get_file_in_folder(VIEWS_CUSTOM_PATH . 'ads_node/', '.{html}', 'file', true);
+            //print_r($arr_custom_cloumn);
+        }
 
         //
         if ($this->debug_enable === true) {
@@ -489,11 +495,11 @@ class Terms extends Admin
             echo ' -->';
         }
 
-
         //
         $this->teamplate_admin['content'] = view(
             'admin/' . $this->add_view_path . '/' . $file_view,
             array(
+                'arr_custom_cloumn' => $arr_custom_cloumn,
                 'lang_key' => $this->lang_key,
                 'set_parent' => $set_parent,
                 'prev_term' => $prev_term,

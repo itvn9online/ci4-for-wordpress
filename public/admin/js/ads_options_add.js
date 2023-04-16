@@ -137,3 +137,25 @@ $("#term_meta_post_number").change(function () {
 		set_col_for_ads_row(a * 1 > 2 ? "2" : a, "#post_meta_num_small_line");
 	}
 });
+
+//
+(function () {
+	// nếu không có tệp html nào thì ẩn nó đi thôi
+	if (arr_custom_cloumn.length <= 0) {
+		$("#post_meta_post_custom_cloumn")
+			.parent(".controls")
+			.parent(".control-group")
+			.hide();
+	}
+	console.log(arr_custom_cloumn);
+	var str = "";
+	for (var i = 0; i < arr_custom_cloumn.length; i++) {
+		str +=
+			'<option value="' +
+			arr_custom_cloumn[i].split(".")[0] +
+			'">' +
+			arr_custom_cloumn[i] +
+			"</option>";
+	}
+	$("#post_meta_post_custom_cloumn").append(str);
+})();

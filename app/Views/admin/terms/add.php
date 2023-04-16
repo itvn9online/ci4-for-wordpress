@@ -296,6 +296,7 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
 
 //
 $base_model->JSON_parse([
+    'arr_custom_cloumn' => $arr_custom_cloumn,
     'prev_term' => $prev_term,
     'next_term' => $next_term,
 ]);

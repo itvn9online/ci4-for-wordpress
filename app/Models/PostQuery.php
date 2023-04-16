@@ -349,6 +349,8 @@ class PostQuery extends PostMeta
             // trong trang chi tiết -> lấy trực tiếp từ meta -> đỡ lỗi
             //$data[ 'post_meta_data' ] = NULL;
             $data = $this->the_meta_post($data);
+        } else if ($default_filter['limit'] === 1) {
+            $data = $this->the_meta_post($data);
         }
         //print_r( $data );
 
@@ -727,19 +729,26 @@ class PostQuery extends PostMeta
         // thêm class theo slug
         $instance['custom_style'] =  implode(' ', $custom_style);
 
-        // cố định file HTML để tối ưu với SEO
-        $html_node = 'ads_node';
-        if ($instance['post_cloumn'] == 'chi_anh') {
-            $html_node = 'ads_node_chi_anh';
-        } else if ($instance['post_cloumn'] == 'chi_chu') {
-            $html_node = 'ads_node_chi_chu';
-        } else if ($instance['post_cloumn'] == 'text_only') {
-            $html_node = 'ads_node_text_only';
-        } else if ($instance['hide_description'] == 'on' && $instance['hide_info'] == 'on') {
-            $html_node = 'ads_node_avt_title';
+        // nếu có file custom HTML -> ưu tiên dùng
+        if ($instance['post_custom_cloumn'] != '') {
+            echo '<!-- ' . $instance['post_custom_cloumn'] . ' --> ' . PHP_EOL;
+            $tmp_html = $this->base_model->get_html_tmp($instance['post_custom_cloumn'], VIEWS_CUSTOM_PATH . 'ads_node/', '');
         }
-        echo '<!-- ' . $html_node . ' --> ' . PHP_EOL;
-        $tmp_html = $this->base_model->parent_html_tmp($html_node);
+        // cố định file HTML để tối ưu với SEO
+        else {
+            $html_node = 'ads_node';
+            if ($instance['post_cloumn'] == 'chi_anh') {
+                $html_node = 'ads_node_chi_anh';
+            } elseif ($instance['post_cloumn'] == 'chi_chu') {
+                $html_node = 'ads_node_chi_chu';
+            } elseif ($instance['post_cloumn'] == 'text_only') {
+                $html_node = 'ads_node_text_only';
+            } elseif ($instance['hide_description'] == 'on' && $instance['hide_info'] == 'on') {
+                $html_node = 'ads_node_avt_title';
+            }
+            echo '<!-- ' . $html_node . ' --> ' . PHP_EOL;
+            $tmp_html = $this->base_model->parent_html_tmp($html_node);
+        }
         //echo $tmp_html . '<br>' . "\n";
 
         // tạo css chỉnh cột

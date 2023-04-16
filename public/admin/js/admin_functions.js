@@ -493,6 +493,7 @@ function WGR_load_textediter(for_id, ops) {
 				content: '<i class="fa fa-phone"><!-- icon --></i>',
 			},
 		],
+		//table_use_colgroups: true,
 		// không cho phép reszie với table -> để tối ưu với reponsive
 		table_resize_bars: false,
 		// thuộc tính mặc định của table
