@@ -463,6 +463,11 @@ class Option extends EbModel
         echo '<a href="./" class="web-logo" aria-label="Home" style="background-image: url(\'' . $this->get_the_logo($cog, $key) . '\'); height: ' . $height . 'px;">&nbsp;</a>';
     }
 
+    public function the_footer_logo($cog)
+    {
+        return $this->the_logo($cog, 'logofooter', 'logo_footer_height');
+    }
+
     public function get_config($config, $key, $default_value = '')
     {
         //print_r( $config );

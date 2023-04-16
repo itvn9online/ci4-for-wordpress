@@ -12,7 +12,7 @@
         <div class="col medium-3 small-12 large-3">
             <div class="col-inner">
                 <?php
-                $option_model->the_logo($getconfig, 'logofooter', 'logo_footer_height');
+                $option_model->the_footer_logo($getconfig);
                 ?>
                 <div class="footer-info">
                     <div class="footer-company">
