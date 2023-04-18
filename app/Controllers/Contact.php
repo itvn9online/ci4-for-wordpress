@@ -14,6 +14,7 @@ class Contact extends Home
         //$this->load->helper( 'translate' );
         //$this->load->helper( 'form' );
         $this->validation = \Config\Services::validation();
+        $this->comment_model = new \App\Models\Comment();
     }
 
     public function put()
@@ -34,36 +35,36 @@ class Contact extends Home
                 'label' => Translate::FULLNAME,
                 'rules' => 'required|min_length[5]|max_length[255]',
                 'errors' => [
-                    'required' => Translate::REQUIRED,
-                    'min_length' => Translate::MIN_LENGTH,
-                    'max_length' => Translate::MAX_LENGTH,
+                    'required' => $this->lang_model->get_the_text('translate_required', Translate::REQUIRED),
+                    'min_length' => $this->lang_model->get_the_text('translate_min_len', Translate::MIN_LENGTH),
+                    'max_length' => $this->lang_model->get_the_text('translate_max_len', Translate::MAX_LENGTH),
                 ],
             ],
             'email' => [
                 'label' => 'Email',
                 'rules' => 'required|min_length[5]|max_length[255]|valid_email',
                 'errors' => [
-                    'required' => Translate::REQUIRED,
-                    'min_length' => Translate::MIN_LENGTH,
-                    'max_length' => Translate::MAX_LENGTH,
-                    'valid_email' => Translate::VALID_EMAIL,
+                    'required' => $this->lang_model->get_the_text('translate_required', Translate::REQUIRED),
+                    'min_length' => $this->lang_model->get_the_text('translate_min_len', Translate::MIN_LENGTH),
+                    'max_length' => $this->lang_model->get_the_text('translate_max_len', Translate::MAX_LENGTH),
+                    'valid_email' => $this->lang_model->get_the_text('translate_valid_email', Translate::VALID_EMAIL),
                 ],
             ],
             'title' => [
                 'label' => Translate::TITLE,
                 'rules' => 'required|min_length[6]|max_length[255]',
                 'errors' => [
-                    'required' => Translate::REQUIRED,
-                    'min_length' => Translate::MIN_LENGTH,
-                    'max_length' => Translate::MAX_LENGTH,
+                    'required' => $this->lang_model->get_the_text('translate_required', Translate::REQUIRED),
+                    'min_length' => $this->lang_model->get_the_text('translate_min_len', Translate::MIN_LENGTH),
+                    'max_length' => $this->lang_model->get_the_text('translate_max_len', Translate::MAX_LENGTH),
                 ],
             ],
             'content' => [
                 'label' => Translate::CONTENT,
                 'rules' => 'required|min_length[6]',
                 'errors' => [
-                    'required' => Translate::REQUIRED,
-                    'min_length' => Translate::MIN_LENGTH,
+                    'required' => $this->lang_model->get_the_text('translate_required', Translate::REQUIRED),
+                    'min_length' => $this->lang_model->get_the_text('translate_min_len', Translate::MIN_LENGTH),
                 ],
             ]
         ]);

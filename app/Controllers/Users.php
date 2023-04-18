@@ -127,9 +127,9 @@ class Users extends Csrf
                     'label' => Translate::PASSWORD,
                     'rules' => 'required|min_length[5]|max_length[255]',
                     'errors' => [
-                        'required' => Translate::REQUIRED,
-                        'min_length' => Translate::MIN_LENGTH,
-                        'max_length' => Translate::MAX_LENGTH,
+                        'required' => $this->lang_model->get_the_text('translate_required', Translate::REQUIRED),
+                        'min_length' => $this->lang_model->get_the_text('translate_min_len', Translate::MIN_LENGTH),
+                        'max_length' => $this->lang_model->get_the_text('translate_max_len', Translate::MAX_LENGTH),
                     ],
                 ]
             ]);
@@ -219,10 +219,10 @@ class Users extends Csrf
                     'label' => 'Email',
                     'rules' => 'required|min_length[5]|max_length[255]|valid_email',
                     'errors' => [
-                        'required' => Translate::REQUIRED,
-                        'min_length' => Translate::MIN_LENGTH,
-                        'max_length' => Translate::MAX_LENGTH,
-                        'valid_email' => Translate::VALID_EMAIL,
+                        'required' => $this->lang_model->get_the_text('translate_required', Translate::REQUIRED),
+                        'min_length' => $this->lang_model->get_the_text('translate_min_len', Translate::MIN_LENGTH),
+                        'max_length' => $this->lang_model->get_the_text('translate_max_len', Translate::MAX_LENGTH),
+                        'valid_email' => $this->lang_model->get_the_text('translate_valid_email', Translate::VALID_EMAIL),
                     ],
                 ],
             ]);

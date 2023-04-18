@@ -47,7 +47,6 @@ class Layout extends Sync
         $this->menu_model = new \App\Models\Menu();
         $this->htmlmenu_model = new \App\Models\Htmlmenu();
         $this->user_model = new \App\Models\User();
-        //$this->comment_model = new \App\Models\Comment();
 
         //
         //$this->session = \Config\ Services::session();

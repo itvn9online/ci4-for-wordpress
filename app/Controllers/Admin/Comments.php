@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\Admin;
 
 // Libraries
@@ -36,6 +37,9 @@ class Comments extends Admin
                 die('Comment type not register in system: ' . $this->comment_type);
             }
         }
+
+        //
+        //$this->comment_model = new \App\Models\Comment();
     }
 
     public function index()
@@ -218,13 +222,13 @@ class Comments extends Admin
             'comment_type' => $this->comment_type,
             //'lang_key' => $this->lang_key
         ], [
-                // hiển thị mã SQL để check
-                //'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-                //'offset' => 0,
-                'limit' => 1
-            ]);
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            //'offset' => 0,
+            'limit' => 1
+        ]);
         //print_r( $data );
 
         //

@@ -13,9 +13,6 @@ class Home extends Posts
     public function __construct()
     {
         parent::__construct();
-
-        //
-        $this->comment_model = new \App\Models\Comment();
     }
 
     /*

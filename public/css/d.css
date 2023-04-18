@@ -341,12 +341,21 @@ body.home .thread-details-tohome {
     display: none !important;
 }
 
+.btc-logo,
 .web-logo {
     line-height: 50px;
     background: center no-repeat;
     background-size: contain;
     text-indent: -999px;
     display: block;
+}
+
+.btc-register-logo {
+    background-image: url(../images/dadangky.png);
+}
+
+.btc-noti-logo {
+    background-image: url(../images/dathongbao.png);
 }
 
 /* for elementor */

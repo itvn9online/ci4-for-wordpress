@@ -84,7 +84,7 @@ class ContentSecurityPolicy extends BaseConfig
      *
      * @var string|string[]
      */
-    public $childSrc = 'self';
+    public $childSrc = WGR_CSP_CHILD_SRC;
 
     /**
      * Limits the origins that you can connect to (via XHR,

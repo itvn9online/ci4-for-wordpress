@@ -182,6 +182,10 @@ class AdminMenu
                         'name' => UsersType::typeList(UsersType::GUEST),
                         'icon' => 'fa fa-question-circle-o',
                     ],
+                    'admin/subs' => [
+                        'name' => UsersType::typeList(UsersType::SUB),
+                        'icon' => 'fa fa-eye',
+                    ],
                     'admin/members' => [
                         'name' => UsersType::typeList(UsersType::MEMBER),
                         'icon' => 'fa fa-user',

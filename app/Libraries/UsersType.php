@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Libraries;
 
 //
@@ -17,6 +18,7 @@ class UsersType
     const AUTHOR = 'author';
     const MOD = 'mod';
     const ADMIN = 'admin';
+    const SUB = 'subscribe';
 
     // user status
     const FOR_DEFAULT = '0'; // mặc định là hiển thị
@@ -32,6 +34,7 @@ class UsersType
         self::AUTHOR => AdminTranslate::USER_TRANS[self::AUTHOR],
         self::MOD => AdminTranslate::USER_TRANS[self::MOD],
         self::ADMIN => AdminTranslate::USER_TRANS[self::ADMIN],
+        self::SUB => AdminTranslate::USER_TRANS[self::SUB],
     );
 
     public static function typeList($key = '')

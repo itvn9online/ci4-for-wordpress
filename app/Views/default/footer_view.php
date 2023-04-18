@@ -11,9 +11,9 @@
     <div class="row row-collapse">
         <div class="col medium-3 small-12 large-3">
             <div class="col-inner">
-                <?php
-                $option_model->the_footer_logo($getconfig);
-                ?>
+                <div>
+                    <?php $option_model->the_footer_logo($getconfig); ?>
+                </div>
                 <div class="footer-info">
                     <div class="footer-company">
                         <?php
@@ -28,6 +28,9 @@
                     <div class="footer-phone">SĐT: <?php echo $getconfig->phone; ?> &nbsp; | &nbsp; Fax: <?php echo $getconfig->fax; ?> </div>
                     <div class="footer-website">Website: <?php echo $getconfig->website; ?> </div>
                 </div>
+            </div>
+            <div>
+                <?php $option_model->the_btc_logo($getconfig); ?>
             </div>
         </div>
         <div class="col medium-3 small-12 large-3">

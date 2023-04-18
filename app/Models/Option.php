@@ -447,25 +447,33 @@ class Option extends EbModel
         return $cog->$key;
     }
 
-    public function the_logo($cog, $key = 'logo', $logo_height = 'logo_main_height')
+    public function the_logo($cog, $key = 'logo', $logo_height = '')
     {
-        //if ( !isset( $cog->$logo_height ) || $cog->$logo_height == '' ) {
-        if ($cog->$logo_height == '') {
-            $logo_height = 'logo_main_height';
-        }
-        if (isset($cog->$logo_height)) {
+        //echo $logo_height;
+        if ($logo_height != '' && isset($cog->$logo_height) && $cog->$logo_height != '') {
             $height = $cog->$logo_height;
         } else {
-            $height = 90;
+            $height = $cog->logo_main_height;
         }
 
         //
         echo '<a href="./" class="web-logo" aria-label="Home" style="background-image: url(\'' . $this->get_the_logo($cog, $key) . '\'); height: ' . $height . 'px;">&nbsp;</a>';
     }
 
+    // trả về logo ở footer nếu có -> không thì trả về logo mặc định
     public function the_footer_logo($cog)
     {
         return $this->the_logo($cog, 'logofooter', 'logo_footer_height');
+    }
+
+    // trả về logo BTC nếu có link
+    public function the_btc_logo($cog)
+    {
+        if ($cog->registeronline != '') {
+            echo '<a href="' . $cog->registeronline . '" class="btc-logo btc-register-logo" aria-label="BCT" target="_blank" rel="nofollow">&nbsp;</a>';
+        } else if ($cog->notificationbct != '') {
+            echo '<a href="' . $cog->registeronline . '" class="btc-logo btc-noti-logo" aria-label="BCT" target="_blank" rel="nofollow">&nbsp;</a>';
+        }
     }
 
     public function get_config($config, $key, $default_value = '')

@@ -260,6 +260,7 @@ class ConfigType
                 'WGR_CSP_STYLE_SRC' => 'CSP style src',
                 'WGR_CSP_IMG_SRC' => 'CSP img src',
                 'WGR_CSP_CONNECT_SRC' => 'CSP connect src',
+                'WGR_CSP_CHILD_SRC' => 'CSP child src',
                 'NUMBER_CHECKBOXS_INPUT' => 'Số lượng bản ghi dạng số nguyên',
                 'SITE_LANGUAGE_SUB_FOLDER' => 'Kiểu hiển thị đa ngôn ngữ',
                 'SITE_LANGUAGE_DEFAULT' => 'Ngôn ngữ mặc định',
@@ -485,6 +486,7 @@ class ConfigType
             'WGR_CSP_STYLE_SRC' => 'Ví dụ: ' . WGR_CSP_STYLE_SRC,
             'WGR_CSP_IMG_SRC' => 'Ví dụ: ' . WGR_CSP_IMG_SRC,
             'WGR_CSP_CONNECT_SRC' => 'Ví dụ: ' . WGR_CSP_CONNECT_SRC,
+            'WGR_CSP_CHILD_SRC' => 'Ví dụ: ' . WGR_CSP_CHILD_SRC,
         ];
         if (isset($arr[$key]) && $arr[$key] != '') {
             echo '<p class="controls-text-note">' . $arr[$key] . '</p>';

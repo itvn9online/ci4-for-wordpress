@@ -17,5 +17,6 @@ class AdminTranslates
         'author' => 'Tác giả',
         'mod' => 'Biên tập viên',
         'admin' => 'Quản trị',
+        'subscribe' => 'Theo dõi',
     ];
 }
