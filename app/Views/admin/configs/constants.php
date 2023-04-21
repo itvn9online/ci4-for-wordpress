@@ -27,10 +27,11 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
             <br>
             <div class="w99 redcolor l20 medium">
                 <ul>
-                    <li>Xin lưu ý! Phần config này thuộc dạng đặc biệt nguy hiểm, chỉ thay đổi khi bạn có sẵn tài khoản host để xử lý phòng trường hợp lỗi có thể xảy ra.</li>
+                    <li>Xin lưu ý! Phần constants này thuộc dạng đặc biệt nguy hiểm do thông số sẽ được lưu đồng thời vào file tĩnh để nạp cho website, chỉ thay đổi khi bạn có sẵn tài khoản host để xử lý phòng trường hợp lỗi có thể xảy ra.</li>
                     <li>Các constants này sẽ được lưu trữ tại file: <b><?php echo str_replace(ROOTPATH, '', DYNAMIC_CONSTANTS_PATH); ?></b></li>
                     <li>Các constants này có độ ưu tiên cao nhất, phủ định ngay cả constants được thiết lập cứng trong file <b>functions.php</b> của mỗi theme.</li>
                     <li>Chọn <b>is empty</b> hoặc nhập <b>IS_EMPTY</b> để thiết lập các constants trống.</li>
+                    <li>Để sử dụng constants mặc định, hãy bỏ chọn <b>is empty</b> và xóa giá trị trong input tương ứng.</li>
                 </ul>
             </div>
             <?php
