@@ -104,6 +104,7 @@ class ConfigType
                 'fax' => 'Fax',
                 'website' => 'Website',
                 'address' => 'Địa chỉ',
+                'address2' => 'Địa chỉ 2',
                 'emailcontact' => 'Email liên hệ',
                 'html_header' => 'HTML đầu trang',
                 'html_body' => 'HTML chân trang',
@@ -142,6 +143,8 @@ class ConfigType
                 'image' => 'Ảnh share Facebook',
                 'registeronline' => 'Link đăng ký BCT',
                 'notificationbct' => 'Link thông báo BCT',
+                'g_recaptcha_site_key' => 'G recaptcha site key',
+                'g_recaptcha_secret_key' => 'G recaptcha secret key',
             ];
         } else if ($config_type == self::CATEGORY) {
             $arr = [
@@ -290,6 +293,7 @@ class ConfigType
                 'bank_number' => 'Số tài khoản',
                 'bank_card_name' => 'Chủ tài khoản',
                 'bank_bin_code' => 'ID ngân hàng',
+                'bank_reg_in' => 'Nơi mở tài khoản',
                 'bank_logo' => 'Logo ngân hàng',
                 'bank_swift_code' => 'Mã số ngân hàng',
                 'bank_name' => 'Tên ngân hàng',
@@ -381,6 +385,7 @@ class ConfigType
             'logo_footer_height' => 'number',
             'logo_mobile_height' => 'number',
             'address' => 'textarea',
+            'address2' => 'textarea',
             'emailcontact' => 'email',
             'html_header' => 'textarea',
             'html_body' => 'textarea',
@@ -431,6 +436,8 @@ class ConfigType
             'image' => 'Khi share bài viết lên mạng xã hội như Facebook, Zalo... ảnh này sẽ được hiển thị nếu link share không có ảnh đính kèm.',
             'registeronline' => 'Link đăng ký với bộ công thương. Trong file view, sử dụng hàm <strong>$option_model->the_bct( $getconfig );</strong> để in ra logo BCT màu đỏ.',
             'notificationbct' => 'Link thông báo với bộ công thương. Trong file view, sử dụng hàm <strong>$option_model->the_bct( $getconfig );</strong> để in ra logo BCT màu xanh.',
+            'g_recaptcha_site_key' => 'Use this site key in the HTML code your site serves to users.',
+            'g_recaptcha_secret_key' => 'Use this secret key for communication between your site and reCAPTCHA.',
             'site_max_width' => 'Bạn có thể thiết lập chiều rộng cho trang tại đây. Chiều rộng tiêu chuẩn: 1024px - Chiều rộng phổ biến: 1366px',
             'site_full_width' => 'Tương tự chiều rộng trang nhưng có độ rộng nhỉnh hơn chút. Chiều rộng tiêu chuẩn: 1024px - Chiều rộng phổ biến: 1666px',
             'main_banner_size' => 'Đây là kích thước dùng chung cho các banner chính, sử dụng bằng cách nhập <strong>%main_banner_size%</strong> vào mục <strong>Tùy chỉnh size ảnh</strong> trong cấu hình banner.',

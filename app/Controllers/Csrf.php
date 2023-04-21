@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 //
@@ -18,12 +19,41 @@ class Csrf extends Layout
         $this->base_model->check_csrf();
     }
 
+    protected function checking_recaptcha()
+    {
+        // kiểm tra recaptcha (nếu có)
+        $check_recaptcha = $this->googleCaptachStore();
+        // != true -> có lỗi -> in ra lỗi
+        if ($check_recaptcha !== true) {
+            $this->base_model->msg_error_session($check_recaptcha, $this->form_target);
+
+            // -> chuyển tham số này thành true -> các lệnh sau đó sẽ dừng thực thi
+            $this->has_captcha = true;
+        }
+
+        //
+        return $check_recaptcha;
+    }
+
     // các trường hợp có captcha thì so khớp, không thì thôi
     protected function checking_captcha($msg = 'Mã xác thực không chính xác')
     {
-        if ($_SERVER['REQUEST_METHOD'] != 'GET' && isset($_REQUEST['captcha']) && $this->MY_session('check_captcha') != $this->MY_post('captcha')) {
-            $this->base_model->msg_error_session($msg, $this->form_target);
-            $this->has_captcha = true;
+        if ($_SERVER['REQUEST_METHOD'] != 'GET') {
+            // ưu tiên sử dụng recaptcha
+            if (
+                isset($_REQUEST['g-recaptcha-response']) &&
+                $this->checking_recaptcha() !== true
+            ) {
+                // không cần làm gì ở đây cả -> trong function checking_recaptcha đã làm rồi
+            }
+            // không có thì sử dụng MY_captcha
+            else if (
+                isset($_REQUEST['captcha']) &&
+                $this->MY_session('check_captcha') != $this->MY_post('captcha')
+            ) {
+                $this->base_model->msg_error_session($msg, $this->form_target);
+                $this->has_captcha = true;
+            }
         }
     }
 
@@ -31,12 +61,25 @@ class Csrf extends Layout
     protected function check_required_captcha($msg = 'Mã xác thực không chính xác')
     {
         // với các trường hợp cần dùng đến captcha nhưng không có trong đầu vào
-        if ($_SERVER['REQUEST_METHOD'] != 'GET' && $this->MY_session('check_captcha') != '' && $this->MY_session('check_captcha') != $this->MY_post('captcha')) {
-            //die(__CLASS__ . ':' . __LINE__);
-            $this->base_model->msg_error_session($msg, $this->form_target);
+        if ($_SERVER['REQUEST_METHOD'] != 'GET') {
+            // ưu tiên sử dụng recaptcha
+            if (
+                !empty($this->getconfig->g_recaptcha_secret_key) &&
+                $this->checking_recaptcha() !== true
+            ) {
+                // không cần làm gì ở đây cả -> trong function checking_recaptcha đã làm rồi
+            }
+            // không có thì sử dụng MY_captcha
+            else if (
+                $this->MY_session('check_captcha') != '' &&
+                $this->MY_session('check_captcha') != $this->MY_post('captcha')
+            ) {
+                //die(__CLASS__ . ':' . __LINE__);
+                $this->base_model->msg_error_session($msg, $this->form_target);
 
-            // -> chuyển tham số này thành true -> các lệnh sau đó sẽ dừng thực thi
-            $this->has_captcha = true;
+                // -> chuyển tham số này thành true -> các lệnh sau đó sẽ dừng thực thi
+                $this->has_captcha = true;
+            }
         }
     }
 

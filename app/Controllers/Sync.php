@@ -747,4 +747,50 @@ class Sync extends BaseController
     {
         return LanguageCost::setLang();
     }
+
+    // chức năng kiểm tra sumit form bằng google captcha
+    protected function googleCaptachStore()
+    {
+        // xem có secret không
+        $secret = $this->getconfig->g_recaptcha_secret_key;
+        // không có -> không dùng recaptcha -> trả về true
+        if (empty($secret)) {
+            return true;
+        }
+
+        // nạp dữ liệu để kiểm tra
+        $credential = array(
+            'secret' => $secret,
+            'response' => $this->request->getVar('g-recaptcha-response')
+        );
+        if (empty($credential['response'])) {
+            return 'g-recaptcha-response EMPTY!';
+        }
+
+        // lấy dữ liệu từ google
+        $verify = curl_init();
+        curl_setopt($verify, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
+        curl_setopt($verify, CURLOPT_POST, true);
+        curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($credential));
+        curl_setopt($verify, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($verify);
+
+        // lấy kết quả trả về
+        $status = json_decode($response, true);
+        //print_r($status);
+
+        // captcha chính xác
+        if (isset($status['success']) && !empty($status['success'])) {
+            //die('Form has been successfully submitted');
+            // trả về true
+            return true;
+        }
+        // còn lại sẽ trả về thông điếp báo lỗi
+        else if (isset($status['error-codes']) && !empty($status['error-codes'])) {
+            return __FUNCTION__ . ': ' . $status['error-codes'][0];
+        }
+        //die('Something goes to wrong');
+        return __FUNCTION__ . ': ' . 'Something goes to wrong';
+    }
 }

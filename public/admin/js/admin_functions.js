@@ -595,17 +595,32 @@ function WGR_load_textediter(for_id, ops) {
 	}, 1000);
 }
 
+// tạo nút xóa một số attr trong editer để tránh xung đột mã HTML với website -> hay gặp khi copy nội dung từ web khác về
 function btn_remove_editer_style(for_id) {
 	console.log(for_id);
 	$(for_id).after(
-		"<button type='button' onclick=\"return cleanup_html_in_editer('" +
+		"<button type='button' onclick=\"return cleanup_style_in_editer('" +
 			for_id.substr(1) +
-			'\');" class="btn btn-secondary">Xóa định dạng</button> '
+			'\');" class="btn btn-secondary">Xóa style</button> '
+	);
+	$(for_id).after(
+		"<button type='button' onclick=\"return cleanup_class_in_editer('" +
+			for_id.substr(1) +
+			'\');" class="btn btn-secondary">Xóa class CSS</button> '
 	);
 }
 
-// tìm và xóa toàn bộ thả style trong text-editer
-function cleanup_html_in_editer(for_id) {
+function cleanup_style_in_editer(for_id) {
+	cleanup_attr_in_editer(for_id, "style");
+	cleanup_attr_in_editer(for_id, "data-mce-st");
+}
+
+function cleanup_class_in_editer(for_id) {
+	cleanup_attr_in_editer(for_id, "class");
+}
+
+// tìm và xóa toàn bộ thẻ style trong text-editer
+function cleanup_attr_in_editer(for_id, rm_attr) {
 	for_id = "#" + for_id + "_ifr";
 	console.log(for_id);
 	if ($(for_id).length <= 0) {
@@ -614,12 +629,7 @@ function cleanup_html_in_editer(for_id) {
 	}
 
 	//
-	jQuery(for_id)
-		.contents()
-		.find("body")
-		.find("*")
-		.removeAttr("data-mce-style")
-		.removeAttr("style");
+	jQuery(for_id).contents().find("body").find("*").removeAttr(rm_attr);
 }
 
 // gán src cho thẻ img từ data-img -> dùng cho angularjs

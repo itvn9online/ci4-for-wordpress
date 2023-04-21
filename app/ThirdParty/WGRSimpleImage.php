@@ -1,9 +1,11 @@
 <?php
+
 namespace App\ThirdParty;
 
 /*
  * hàm xử lý hình ảnh viết bằng PHP thuần, lấy từ hệ thống webgiare.org sang
  */
+
 use App\Libraries\MyImage;
 
 //
@@ -131,19 +133,19 @@ class WGRSimpleImage
 
         // sử dụng php thuần
         /*
-         $this->load( $source_file );
-         if ( $this->image_type == IMAGETYPE_JPEG ) {
-         if ( $width <= 0 ) {
-         $width = $this->getWidth();
-         }
-         if ( $height <= 0 ) {
-         $height = $this->getHeight();
-         }
-         $this->resize( $width, $height );
-         $this->save( $dst_file );
-         }
-         $this->destroy();
-         */
+        $this->load($source_file);
+        if ($this->image_type == IMAGETYPE_JPEG) {
+            if ($width <= 0) {
+                $width = $this->getWidth();
+            }
+            if ($height <= 0) {
+                $height = $this->getHeight();
+            }
+            $this->resize($width, $height);
+            $this->save($dst_file);
+        }
+        $this->destroy();
+        */
     }
 
     public function destroy()
