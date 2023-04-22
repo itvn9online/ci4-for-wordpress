@@ -5,7 +5,6 @@ namespace App\Controllers\Admin;
 // Libraries
 use App\Libraries\CommentType;
 use App\Libraries\DeletedStatus;
-use App\Libraries\LanguageCost;
 
 //
 class Comments extends Admin
@@ -13,8 +12,14 @@ class Comments extends Admin
     protected $comment_type = '';
     protected $comment_name = '';
 
-    // tham số dùng để thay đổi URL cho controller nếu muốn
+    // tham số dùng để thay đổi URL cho controller (nếu muốn)
     protected $controller_slug = 'comments';
+    // tham số dùng để đổi file view khi add hoặc edit comment (nếu muốn)
+    protected $add_view_path = 'comments';
+    // tham số dùng để thay đổi view của trang danh sách comment
+    protected $list_view_path = 'comments';
+    // số bản ghi trên mỗi trang
+    protected $post_per_page = 50;
 
     public function __construct($for_extends = false)
     {
@@ -49,8 +54,6 @@ class Comments extends Admin
             return $this->details($comment_id);
         }
 
-        //
-        $post_per_page = 50;
         // URL cho các action dùng chung
         $for_action = '';
         // URL cho phân trang
@@ -127,7 +130,7 @@ class Comments extends Admin
             // trả về câu query để sử dụng cho mục đích khác
             //'get_query' => 1,
             //'offset' => 0,
-            //'limit' => $post_per_page
+            //'limit' => $this->post_per_page
         ];
 
 
@@ -141,7 +144,7 @@ class Comments extends Admin
 
         //
         if ($totalThread > 0) {
-            $totalPage = ceil($totalThread / $post_per_page);
+            $totalPage = ceil($totalThread / $this->post_per_page);
             if ($totalPage < 1) {
                 $totalPage = 1;
             }
@@ -155,7 +158,7 @@ class Comments extends Admin
             $for_action .= $page_num > 1 ? '&page_num=' . $page_num : '';
             //echo $totalThread . '<br>' . "\n";
             //echo $totalPage . '<br>' . "\n";
-            $offset = ($page_num - 1) * $post_per_page;
+            $offset = ($page_num - 1) * $this->post_per_page;
 
             //
             $pagination = $this->base_model->EBE_pagination($page_num, $totalPage, $urlPartPage, '&page_num=');
@@ -163,7 +166,7 @@ class Comments extends Admin
 
             // select dữ liệu từ 1 bảng bất kỳ
             $filter['offset'] = $offset;
-            $filter['limit'] = $post_per_page;
+            $filter['limit'] = $this->post_per_page;
             $data = $this->base_model->select('*', 'comments', $where, $filter);
             //print_r( $data );
             //die('fj gd sdgsd');
@@ -192,7 +195,8 @@ class Comments extends Admin
         }
 
         //
-        $this->teamplate_admin['content'] = view('admin/comments/list', array(
+        $this->teamplate_admin['content'] = view('admin/' . $this->list_view_path . '/list', array(
+            'list_view_path' => $this->list_view_path,
             'pagination' => $pagination,
             //'page_num' => $page_num,
             'for_action' => $for_action,
@@ -239,7 +243,7 @@ class Comments extends Admin
         }
 
         //
-        $this->teamplate_admin['content'] = view('admin/comments/details', array(
+        $this->teamplate_admin['content'] = view('admin/' . $this->add_view_path . '/details', array(
             'data' => $data,
             'vue_data' => [
                 'controller_slug' => $this->controller_slug,

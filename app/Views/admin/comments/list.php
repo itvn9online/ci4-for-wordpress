@@ -12,10 +12,8 @@ $base_model->add_css('admin/css/' . $comment_type . '.css');
         <form name="frm_admin_search_controller" :action="'./admin/' + controller_slug" method="get">
             <div class="cf">
                 <div class="lf f30">
-                    <input v-if="vue_data.by_is_deleted > 0" type="hidden" name="is_deleted"
-                        :value="vue_data.by_is_deleted">
-                    <input name="s" :value="vue_data.by_keyword" :placeholder="'Tìm kiếm ' + vue_data.comment_name"
-                        autofocus aria-required="true" required>
+                    <input v-if="vue_data.by_is_deleted > 0" type="hidden" name="is_deleted" :value="vue_data.by_is_deleted">
+                    <input name="s" :value="vue_data.by_keyword" :placeholder="'Tìm kiếm ' + vue_data.comment_name" autofocus aria-required="true" required>
                 </div>
                 <div class="lf f20">
                     <button type="submit" class="btn-success"><i class="fa fa-search"></i> Tìm kiếm</button>
@@ -24,8 +22,7 @@ $base_model->add_css('admin/css/' . $comment_type . '.css');
         </form>
     </div>
     <div class="lf f50 text-right">
-        <div class="d-inline"><a :href="'admin/' + controller_slug + '?is_deleted=' + DeletedStatus_DELETED"
-                class="btn btn-mini"> <i class="fa fa-trash"></i> Lưu trữ</a></div>
+        <div class="d-inline"><a :href="'admin/' + controller_slug + '?is_deleted=' + DeletedStatus_DELETED" class="btn btn-mini"> <i class="fa fa-trash"></i> Lưu trữ</a></div>
     </div>
 </div>
 <br>
@@ -45,8 +42,7 @@ $base_model->add_css('admin/css/' . $comment_type . '.css');
     <tbody id="admin_main_list" class="ng-main-content">
         <tr v-for="v in data">
             <td>&nbsp;</td>
-            <td><a :href="'admin/' + controller_slug + '?comment_id=' + v.comment_ID">{{v.comment_title}} <i
-                        class="fa fa-edit"></i></a> {{v.comment_slug}}</td>
+            <td><a :href="'admin/' + controller_slug + '?comment_id=' + v.comment_ID">{{v.comment_title}} <i class="fa fa-edit"></i></a> {{v.comment_slug}}</td>
             <td>{{v.comment_author_email}}</td>
             <td>{{v.comment_approved}}</td>
             <td>{{v.comment_author_IP}}</td>
@@ -55,14 +51,10 @@ $base_model->add_css('admin/css/' . $comment_type . '.css');
             <td class="text-center">
                 <div>
                     <div v-if="v.is_deleted != DeletedStatus_DELETED">
-                        <div><a :href="'admin/' + controller_slug + '/delete?id=' + v.comment_ID + for_action"
-                                onClick="return click_a_delete_record();" class="redcolor" target="target_eb_iframe"><i
-                                    class="fa fa-trash"></i></a> </div>
+                        <div><a :href="'admin/' + controller_slug + '/delete?id=' + v.comment_ID + for_action" onClick="return click_a_delete_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-trash"></i></a> </div>
                     </div>
                     <div v-if="v.is_deleted == DeletedStatus_DELETED">
-                        <div><a :href="'admin/' + controller_slug + '/restore?id=' + v.comment_ID + for_action"
-                                onClick="return click_a_restore_record();" class="bluecolor"
-                                target="target_eb_iframe"><i class="fa fa-undo"></i></a></div>
+                        <div><a :href="'admin/' + controller_slug + '/restore?id=' + v.comment_ID + for_action" onClick="return click_a_restore_record();" class="bluecolor" target="target_eb_iframe"><i class="fa fa-undo"></i></a></div>
                     </div>
                 </div>
             </td>
@@ -72,8 +64,6 @@ $base_model->add_css('admin/css/' . $comment_type . '.css');
 <div class="public-part-page">
     <?php echo $pagination; ?> Trên tổng số {{vue_data.totalThread}} bản ghi.
 </div>
-<p class="d-none">* Copy đoạn code bên dưới rồi cho vào nơi cần hiển thị block này ở trong view. Nhớ thay %slug% thành
-    slug thật trong danh sách ở trên.</p>
 <?php
 
 //

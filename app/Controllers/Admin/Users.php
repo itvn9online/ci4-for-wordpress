@@ -14,11 +14,11 @@ class Users extends Admin
     protected $member_name = '';
     protected $arr_members_type = NULL;
 
-    // tham số dùng để thay đổi URL cho controller nếu muốn
+    // tham số dùng để thay đổi URL cho controller (nếu muốn)
     protected $controller_slug = 'users';
     // dùng cho trang list -> khi cần phân trang thì cần có cả tên function
     protected $controller_path = '';
-    // tham số dùng để đổi file view khi add hoặc edit bài viết nếu muốn
+    // tham số dùng để đổi file view khi add hoặc edit bài viết (nếu muốn)
     protected $add_view_path = 'users';
     // tham số dùng để thay đổi view của trang danh sách thành viên
     protected $list_view_path = 'users';
