@@ -97,7 +97,7 @@ $base_model->adds_css([
                 <td width="60"><input type="text" data-id="{{v.term_id}}" value="{{v.term_order}}" size="5" class="form-control s change-update-term_order" /></td>
                 <td width="90" class="text-center">
                     <?php
-                    require __DIR__ . '/list_action.php';
+                    include ADMIN_ROOT_VIEWS . 'terms/list_action.php';
                     ?>
                 </td>
             </tr>

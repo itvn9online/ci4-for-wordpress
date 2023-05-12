@@ -476,6 +476,10 @@ class Option extends EbModel
             echo '<a href="' . $cog->registeronline . '" class="btc-logo btc-noti-logo" aria-label="BCT" target="_blank" rel="nofollow">&nbsp;</a>';
         }
     }
+    public function the_bct($cog)
+    {
+        return $this->the_btc_logo($cog);
+    }
 
     public function get_config($config, $key, $default_value = '')
     {

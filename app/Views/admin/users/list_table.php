@@ -1,3 +1,9 @@
+<?php
+/*
+* Chức năng hiển thị bảng dữ liệu dạng table.
+* Tách riêng kiểu này để khi các loại users khác nhau muốn hiển thị các dữ liệu khác nhau thì chỉ cần copy file list_table.php ra thư mục view tương ứng rồi chỉnh sửa nó là được.
+*/
+?>
 <table class="table table-bordered table-striped with-check table-list eb-table">
     <thead>
         <tr>
@@ -30,9 +36,11 @@
                 <div :data-id="v.ID" :data-status="UsersType_NO_LOGIN" class="cur"><i class="fa fa-toggle-off"></i></div>
                 <div :data-id="v.ID" :data-status="UsersType_FOR_DEFAULT" class="cur greencolor"><i class="fa fa-toggle-on"></i></div>
             </td>
-            <td width="90" class="text-center"><?php
-                                                include dirname(__DIR__) . '/users/list_action.php';
-                                                ?></td>
+            <td width="90" class="text-center">
+                <?php
+                include ADMIN_ROOT_VIEWS . 'users/list_action.php';
+                ?>
+            </td>
         </tr>
     </tbody>
 </table>

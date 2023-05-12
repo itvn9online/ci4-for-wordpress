@@ -242,4 +242,14 @@ class PostType
         }
         return $arr;
     }
+
+    public static function meta_custom_type($data_type = '')
+    {
+        return [];
+    }
+
+    public static function meta_custom_desc($data_type = '')
+    {
+        return [];
+    }
 }

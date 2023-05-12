@@ -165,13 +165,9 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                         if ($k == 'post_category') {
                         ?>
                             <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple>
-                                <option value="">[ Chọn
-                                    <?php echo $v; ?> ]
-                                </option>
+                                <option value="">[ Chọn <?php echo $v; ?> ]</option>
                             </select>
-                            &nbsp; <a href="admin/terms/add/?taxonomy=<?php echo $taxonomy; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm
-                                <?php echo $v; ?> mới
-                            </a>
+                            &nbsp; <a href="admin/terms/add/?taxonomy=<?php echo $taxonomy; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm <?php echo $v; ?> mới</a>
                         <?php
                         } // END if post category
                         else if ($k == 'post_tags') {

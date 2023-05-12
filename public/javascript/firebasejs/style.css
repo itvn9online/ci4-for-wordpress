@@ -1,0 +1,9 @@
+.clearfix {
+  clear: both;
+}
+
+.hidden {
+  display: none;
+}
+
+#firebase_user-info {}

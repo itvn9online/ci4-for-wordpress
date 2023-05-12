@@ -145,6 +145,11 @@ class ConfigType
                 'notificationbct' => 'Link thông báo BCT',
                 'g_recaptcha_site_key' => 'G recaptcha site key',
                 'g_recaptcha_secret_key' => 'G recaptcha secret key',
+                'g_firebase_config' => 'SDK setup and configuration',
+                'g_firebase_privacy_policy_url' => 'Privacy policy url/callback',
+                'g_firebase_terms_service_url' => 'Terms of service url',
+                'g_firebase_default_country' => 'Default country',
+                'g_firebase_login_hint' => 'Login hint',
             ];
         } else if ($config_type == self::CATEGORY) {
             $arr = [
@@ -407,6 +412,7 @@ class ConfigType
             'NUMBER_CHECKBOXS_INPUT' => 'number',
             'SITE_LANGUAGE_SUB_FOLDER' => 'select',
             'SITE_LANGUAGE_DEFAULT' => 'select',
+            'g_firebase_config' => 'textarea',
         ];
         //print_r( $arr );
         if (isset($arr[$key])) {
@@ -438,6 +444,10 @@ class ConfigType
             'notificationbct' => 'Link thông báo với bộ công thương. Trong file view, sử dụng hàm <strong>$option_model->the_bct( $getconfig );</strong> để in ra logo BCT màu xanh.',
             'g_recaptcha_site_key' => 'Use this site key in the HTML code your site serves to users.',
             'g_recaptcha_secret_key' => 'Use this secret key for communication between your site and reCAPTCHA.',
+            'g_firebase_config' => 'Trong https://console.firebase.google.com/u/0/ -> chọn Project cần kết nối -> Project settings -> General -> Your apps -> SDK setup and configuration -> Config -> Copy code ở Config và  dán vào đây',
+            'g_firebase_default_country' => 'Mã quốc gia sẽ select mặc định khi xác  thực số điện  thoại qua firebase. Ví dụ: VN, US...',
+            'g_firebase_login_hint' => 'Mã quốc gia sẽ select mặc định khi xác  thực số điện  thoại qua firebase. Ví dụ: +84',
+            //
             'site_max_width' => 'Bạn có thể thiết lập chiều rộng cho trang tại đây. Chiều rộng tiêu chuẩn: 1024px - Chiều rộng phổ biến: 1366px',
             'site_full_width' => 'Tương tự chiều rộng trang nhưng có độ rộng nhỉnh hơn chút. Chiều rộng tiêu chuẩn: 1024px - Chiều rộng phổ biến: 1666px',
             'main_banner_size' => 'Đây là kích thước dùng chung cho các banner chính, sử dụng bằng cách nhập <strong>%main_banner_size%</strong> vào mục <strong>Tùy chỉnh size ảnh</strong> trong cấu hình banner.',
