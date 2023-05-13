@@ -76,8 +76,7 @@ class Firebase2s extends Firebases
             if (!empty($email)) {
                 $where['user_email'] = $email;
             } else if (!empty($phone)) {
-                $phone = substr($phone, -9);
-                $where_like['user_phone'] = $phone;
+                $where_like['user_phone'] = substr($phone, -9);
             } else {
                 $this->result_json_type([
                     'code' => __LINE__,
@@ -119,7 +118,7 @@ class Firebase2s extends Firebases
                 $this->base_model->set_ses_login($data);
             } else {
                 if (empty($email)) {
-                    $email = substr($email, -9) . '@' . $_SERVER['HTTP_HOST'];
+                    $email = substr($phone, -9) . '@' . $_SERVER['HTTP_HOST'];
                 }
 
                 // chưa có -> tiến hành đăng ký tài khoản mới
@@ -130,6 +129,7 @@ class Firebase2s extends Firebases
                     'user_phone' => $phone,
                     'member_type' => UsersType::GUEST,
                 ];
+                //$this->result_json_type($data);
                 $insert = $this->user_model->insert_member($data);
                 if ($insert < 0) {
                     $this->result_json_type([

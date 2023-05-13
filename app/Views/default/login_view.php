@@ -46,9 +46,11 @@ include VIEWS_PATH . 'default/login_header.php';
             </span>
         </div>
     </form>
-    <?php
-    include VIEWS_PATH . 'firebase_auth_view.php';
-    ?>
+    <div class="text-center">
+        <?php
+        include VIEWS_PATH . 'firebase_auth_view.php';
+        ?>
+    </div>
     <p id="backtoblog" class="text-center"> <a href="<?php echo base_url(); ?>">&larr; Quay lại Trang chủ</a> </p>
 </div>
 <br>

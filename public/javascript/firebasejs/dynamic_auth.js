@@ -46,7 +46,7 @@ function getUiConfig() {
 		},
 		// Opens IDP Providers sign-in flow in a popup.
 		signInFlow: "popup",
-		//signInSuccessUrl: create_sign_in_success_url(),
+		signInSuccessUrl: create_sign_in_success_url(),
 		signInOptions: dynamicUiConfig(),
 		// Privacy policy url/callback.
 		privacyPolicyUrl: function () {

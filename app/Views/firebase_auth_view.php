@@ -32,27 +32,24 @@ if ($getconfig->g_firebase_config != '') {
     ]);
 
     ?>
+    <br>
     <div id="loading">Loading...</div>
     <div id="loaded" class="hidden">
-        <div id="main">
-            <div id="user-signed-in" class="hidden">
-                <div id="firebase_user-info">
-                    <p>Name: <span id="firebase_name"></span></p>
-                    <p>Email: <span id="firebase_email"></span></p>
-                    <p>Phone: <span id="firebase_phone"></span></p>
-                </div>
-                <div>
-                    <button type="button" id="sign-out" class="btn btn-secondary"><?php $lang_model->the_text('firebase_sign_out', 'Đăng xuất'); ?></button>
-                    <button type="button" id="delete-account" class="btn btn-danger d-none"><?php $lang_model->the_text('firebase_delete_account', 'Xóa tài khoản'); ?></button>
-                </div>
-            </div>
-            <div id="user-signed-out" class="hidden">
-                <div id="firebaseui-spa">
-                    <div id="firebaseui-container"></div>
-                </div>
+        <div id="user-signed-in" class="hidden">
+            <div>Name: <span id="firebase_name"></span></div>
+            <div>Email: <span id="firebase_email"></span></div>
+            <div>Phone: <span id="firebase_phone"></span></div>
+            <div>
+                <button type="button" id="sign-in" class="btn btn-primary"><?php $lang_model->the_text('firebase_sign_in', 'Đăng nhập'); ?></button>
+                <button type="button" id="sign-out" class="btn btn-secondary"><?php $lang_model->the_text('firebase_sign_out', 'Đăng xuất'); ?></button>
+                <button type="button" id="delete-account" class="btn btn-danger d-none"><?php $lang_model->the_text('firebase_delete_account', 'Xóa tài khoản'); ?></button>
             </div>
         </div>
+        <div id="user-signed-out" class="hidden">
+            <div id="firebaseui-container"></div>
+        </div>
     </div>
+    <br>
 <?php
 
     //

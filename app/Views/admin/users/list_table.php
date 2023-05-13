@@ -8,8 +8,8 @@
     <thead>
         <tr>
             <th><input type="checkbox" class="input-checkbox-all" /></th>
-            <th>ID</th>
             <th>Avt</th>
+            <th>ID</th>
             <th>Tài khoản</th>
             <th>Email</th>
             <th>Tên hiển thị</th>
