@@ -79,3 +79,35 @@ function MY_select2(for_id) {
 		$(for_id).addClass("has-select2");
 	}
 }
+
+// tìm url trong text vào tạo link
+function WGR_urlify(text) {
+	var urlRegex = /(https?:\/\/[^\s]+)/g;
+	return text.replace(urlRegex, function (url) {
+		return '<a href="' + url + '">' + url + "</a>";
+	});
+	// or alternatively
+	// return text.replace(urlRegex, '<a href="$1">$1</a>')
+}
+
+function WGR_nofollow() {
+	var links = document.links;
+	for (var i = 0; i < links.length; i++) {
+		if (links[i].hostname == window.location.hostname) {
+			continue;
+		}
+		links[i].rel = "nofollow";
+		links[i].target = "_blank";
+	}
+}
+
+function url_for_text_note() {
+	$(".controls-text-note").each(function () {
+		var a = $(this).html();
+		if (a.split("://").length > 1) {
+			a = WGR_urlify(a);
+			//console.log(a);
+			$(this).html(a);
+		}
+	});
+}

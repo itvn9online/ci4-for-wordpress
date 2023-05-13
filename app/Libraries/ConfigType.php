@@ -150,6 +150,7 @@ class ConfigType
                 'g_firebase_terms_service_url' => 'Terms of service url',
                 'g_firebase_default_country' => 'Default country',
                 'g_firebase_login_hint' => 'Login hint',
+                'g_firebase_language_code' => 'Language code',
             ];
         } else if ($config_type == self::CATEGORY) {
             $arr = [
@@ -445,8 +446,9 @@ class ConfigType
             'g_recaptcha_site_key' => 'Use this site key in the HTML code your site serves to users.',
             'g_recaptcha_secret_key' => 'Use this secret key for communication between your site and reCAPTCHA.',
             'g_firebase_config' => 'Trong https://console.firebase.google.com/u/0/ -> chọn Project cần kết nối -> Project settings -> General -> Your apps -> SDK setup and configuration -> Config -> Copy code ở Config và  dán vào đây',
-            'g_firebase_default_country' => 'Mã quốc gia sẽ select mặc định khi xác  thực số điện  thoại qua firebase. Ví dụ: VN, US...',
+            'g_firebase_default_country' => 'Mã quốc gia sẽ select mặc định khi xác  thực số điện  thoại qua firebase. Danh sách các mã xem tại đây: https://github.com/firebase/firebaseui-web/blob/master/javascript/data/README.md',
             'g_firebase_login_hint' => 'Mã quốc gia sẽ select mặc định khi xác  thực số điện  thoại qua firebase. Ví dụ: +84',
+            'g_firebase_language_code' => 'Ngôn ngữ hiển thị Firebase. Mã ngôn ngữ xem tại đây: https://github.com/firebase/firebaseui-web/blob/master/LANGUAGES.md',
             //
             'site_max_width' => 'Bạn có thể thiết lập chiều rộng cho trang tại đây. Chiều rộng tiêu chuẩn: 1024px - Chiều rộng phổ biến: 1366px',
             'site_full_width' => 'Tương tự chiều rộng trang nhưng có độ rộng nhỉnh hơn chút. Chiều rộng tiêu chuẩn: 1024px - Chiều rộng phổ biến: 1666px',
@@ -459,7 +461,7 @@ class ConfigType
             'smtp_from' => 'Email người gửi. Để trống để sử dụng email đăng nhập luôn, hạn chế email gửi vào spam',
             'smtp_from_name' => 'Tên người gửi. Bạn có thể tùy biến tên người gửi tại đây. Ví dụ: Công ty ABC, Nguyên Văn A...',
             'smtp_no_reply' => 'Khi kích hoạt chế độ này, email reply sẽ được đặt là <strong>noreply@' . $_SERVER['HTTP_HOST'] . '</strong> để các hệ thống email xác nhận đây là mail không nhận phản hồi.',
-            'smtp_test_email' => 'Thiết lập xong cấu hình, bạn có thể nhập thêm email người nhận và <a href="' . base_url('admin/smtps') . '?test_mail=1" target="_blank" class="click-check-email-test bluecolor"><strong>bấm vào đây</strong></a> để test email gửi đi.',
+            'smtp_test_email' => 'Thiết lập xong cấu hình, bạn có thể nhập thêm email người nhận và bấm vào đây để test email gửi đi: ' . base_url('admin/smtps') . '?test_mail=1',
             'smtp_test_bcc_email' => 'Thêm email để test chức năng BCC.',
             'smtp_test_cc_email' => 'Thêm email để test chức năng CC.',
             'smtp2_host_user' => 'Cấu hình mail dự phòng, khi mail chính có vấn đề thì mail này sẽ được kích hoạt để dùng tạm',
@@ -473,7 +475,7 @@ class ConfigType
             'autobank_token' => 'Tham số dùng để tăng độ bảo mật cho WebHook tự động xác thực quá trình thanh toán. URL WebHook mặc định: ' . base_url('cassos/confirm'),
             'bank_bin_code' => 'Chức năng tự động xác nhận tiền vào thông qua WebHook của https://casso.vn/ - Ưu tiên sử dụng tài khoản ngân hàng <strong>VietinBank</strong>.',
             'powered_by_eb' => 'Sử dụng lệnh <strong>$lang_model->the_web_license( $getconfig );</strong> để hiển thị thông điệp bản quyền mặc định.',
-            'telegram_bot_token' => 'Token của bot trên Telegram. Sau khi có Token, hãy <a href="' . base_url('admin/smtps') . '?get_tele_chat_id=1" target="_blank" class="click-check-email-test bluecolor"><strong>bấm vào đây</strong></a> để tìm Chat ID.',
+            'telegram_bot_token' => 'Token của bot trên Telegram. Sau khi có Token, hãy bấm vào đây để tìm Chat ID: ' . base_url('admin/smtps') . '?get_tele_chat_id=1',
             'telegram_chat_id' => 'ID nhóm chat trên Telegram. Bao gồm cả dấu - nếu có',
             //
             'FTP_HOST' => 'Thông tin FTP - dùng để điều khiển file trong trường hợp bị lỗi permission. Mặc định là: 127.0.0.1',

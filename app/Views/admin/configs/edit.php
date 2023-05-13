@@ -37,7 +37,7 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                             echo file_get_contents(APPPATH . 'ThirdParty/PHPMailer/VERSION', 1);
                             ?>
                         </div>
-                        <p class="controls-text-note">Kiểm tra và tải phiên bản mới nhất <a href="https://github.com/PHPMailer/PHPMailer/releases" target="_blank" rel="noreferrer" class="bold bluecolor">tại đây</a>.</p>
+                        <p class="controls-text-note">Kiểm tra và tải phiên bản mới nhất tại đây: https://github.com/PHPMailer/PHPMailer/releases.</p>
                     </div>
                 </div>
             <?php

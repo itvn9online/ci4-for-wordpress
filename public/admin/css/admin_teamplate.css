@@ -150,6 +150,10 @@ form#listContactByType {
     line-height: normal;
 }
 
+.controls-text-note a {
+    color: #0969da;
+}
+
 .click_add_widget_class .fa-check-square {
     color: green;
 }

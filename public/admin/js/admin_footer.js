@@ -336,6 +336,9 @@ $(document)
 		setTimeout(function () {
 			$(".text-submit-msg").fadeOut();
 		}, 30 * 1000);
+
+		//
+		WGR_nofollow();
 	})
 	.keydown(function (e) {
 		//console.log(e.keyCode);

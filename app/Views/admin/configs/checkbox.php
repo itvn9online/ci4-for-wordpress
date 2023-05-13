@@ -103,7 +103,6 @@ $base_model->adds_js(
     ],
     [
         //'cdn' => CDN_BASE_URL,
-
     ],
     [
         'defer'
