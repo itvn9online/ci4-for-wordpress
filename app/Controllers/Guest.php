@@ -766,7 +766,7 @@ class Guest extends Csrf
         $current_time = time();
 
         //
-        return base_url('firebases/sign_in_success') . '?' . implode('&', [
+        return base_url('firebase2s/sign_in_success') . '?' . implode('&', [
             'expires_token=' . $current_time,
             'access_token=' . $this->base_model->mdnam($current_time . session_id()),
             'user_token=' . $this->base_model->mdnam($current_time . $this->current_user_id),
