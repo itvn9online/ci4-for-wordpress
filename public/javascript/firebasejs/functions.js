@@ -114,10 +114,43 @@ function action_signInSuccessWithAuthResult(authResult, redirectUrl) {
 	// Return type determines whether we continue the redirect
 	// automatically or whether we leave that to developer to handle.
 	console.log(create_sign_in_success_url());
-	console.log(user.displayName);
-	console.log(user.email);
-	console.log(user.emailVerified);
-	console.log(user.phoneNumber);
+	//console.log(user.displayName);
+	//console.log(user.email);
+	//console.log(user.emailVerified);
+	//console.log(user.phoneNumber);
+
+	//
+	jQuery.ajax({
+		type: "POST",
+		url: create_sign_in_success_url(),
+		dataType: "json",
+		//crossDomain: true,
+		data: {
+			name: user.displayName,
+			email: user.email,
+			phone: user.phoneNumber,
+		},
+		timeout: 33 * 1000,
+		error: function (jqXHR, textStatus, errorThrown) {
+			console.log(jqXHR);
+			if (typeof jqXHR.responseText != "undefined") {
+				console.log(jqXHR.responseText);
+			}
+			console.log(errorThrown);
+			console.log(textStatus);
+			if (textStatus === "timeout") {
+				//
+			}
+		},
+		success: function (data) {
+			console.log(data);
+			if (typeof data.error != "undefined" && data.error != "") {
+				WGR_alert(data.error, "error");
+			} else if (typeof data.ok != "undefined" && data.ok * 1 > 0) {
+				window.location = window.location.href;
+			}
+		},
+	});
 	return true;
 }
 

@@ -26,7 +26,7 @@ include VIEWS_PATH . 'default/login_header.php';
             <?php
 
             // đăng nhập sai quá nhiều lần thì hiển thị thêm captcha để bắt xác thực
-            if ( $base_model->check_faild_login() > 0 ) {
+            if ($base_model->check_faild_login() > 0) {
                 include VIEWS_PATH . 'default/login_captcha.php';
             }
 
@@ -35,16 +35,20 @@ include VIEWS_PATH . 'default/login_header.php';
         <div class="form-actions cf l35">
             <?php
             // chỉ hiển thị link đăng ký khi được phép
-            if ( $getconfig->disable_register_member != 'on' ) {
-                ?>
-            <a href="./guest/register">Đăng ký</a> |
+            if ($getconfig->disable_register_member != 'on') {
+            ?>
+                <a href="./guest/register">Đăng ký</a> |
             <?php
             }
             ?>
             <a href="./guest/resetpass"> Quên mật khẩu?</a> <span class="pull-right">
-            <input type="submit" class="btn btn-success" value="<?php echo $seo['title']; ?>" />
-            </span> </div>
+                <input type="submit" class="btn btn-success" value="<?php echo $seo['title']; ?>" />
+            </span>
+        </div>
     </form>
+    <?php
+    include VIEWS_PATH . 'firebase_auth_view.php';
+    ?>
     <p id="backtoblog" class="text-center"> <a href="<?php echo base_url(); ?>">&larr; Quay lại Trang chủ</a> </p>
 </div>
 <br>

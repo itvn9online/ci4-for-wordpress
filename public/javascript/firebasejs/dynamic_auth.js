@@ -3,13 +3,27 @@
  */
 function dynamicUiConfig() {
 	var a = [];
-	a.push(firebase.auth.GoogleAuthProvider.PROVIDER_ID);
-	a.push(firebase.auth.FacebookAuthProvider.PROVIDER_ID);
-	a.push(firebase.auth.TwitterAuthProvider.PROVIDER_ID);
-	a.push(firebase.auth.GithubAuthProvider.PROVIDER_ID);
-	a.push(firebase.auth.EmailAuthProvider.PROVIDER_ID);
-	a.push(firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID);
-	a.push(buildPhoneAuthProvider());
+	if (firebase_auth_google == "on") {
+		a.push(firebase.auth.GoogleAuthProvider.PROVIDER_ID);
+	}
+	if (firebase_auth_facebook == "on") {
+		a.push(firebase.auth.FacebookAuthProvider.PROVIDER_ID);
+	}
+	if (firebase_auth_twitter == "on") {
+		a.push(firebase.auth.TwitterAuthProvider.PROVIDER_ID);
+	}
+	if (firebase_auth_github == "on") {
+		a.push(firebase.auth.GithubAuthProvider.PROVIDER_ID);
+	}
+	if (firebase_auth_email == "on") {
+		a.push(firebase.auth.EmailAuthProvider.PROVIDER_ID);
+	}
+	if (firebase_auth_anonymous == "on") {
+		a.push(firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID);
+	}
+	if (firebase_auth_phone == "on") {
+		a.push(buildPhoneAuthProvider());
+	}
 	//console.log(a);
 
 	//

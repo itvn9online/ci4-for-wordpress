@@ -198,6 +198,14 @@ $data = $this->base_model->select(
             'username' => 2,
             'ID' => 1
         ),
+        'like_before' => array(
+            'username' => 2,
+            'ID' => 1
+        ),
+        'like_after' => array(
+            'username' => 2,
+            'ID' => 1
+        ),
         'not_like' => array(
             'username' => 2,
             'ID' => 1

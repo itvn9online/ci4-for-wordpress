@@ -139,7 +139,10 @@ class Guest extends Csrf
                 'login_redirect' => $this->loginRedirect(),
                 //'cateByLang' => $cateByLang,
                 //'serviceByLang' => $serviceByLang,
-                'set_login' => $this->MY_get('set_login', '')
+                'set_login' => $this->MY_get('set_login', ''),
+                // tạo chuỗi dùng để xác thực url sau khi đăng nhập thành công
+                'sign_in_success_url' => $this->firebaseSignInSuccessUrl(),
+                'file_auth' => 'dynamic_auth',
             )
         );
         //print_r( $this->teamplate );
@@ -236,7 +239,7 @@ class Guest extends Csrf
         $result['user_activation_key'] = session_id();
 
         //
-        $result_id = $this->user_model->update_member($result['ID'], [
+        $this->user_model->update_member($result['ID'], [
             'last_login' => date(EBE_DATETIME_FORMAT),
             'user_activation_key' => $result['user_activation_key'],
         ]);
@@ -756,5 +759,17 @@ class Guest extends Csrf
             $login_redirect = urldecode($_SERVER['HTTP_REFERER']);
         }
         return $login_redirect;
+    }
+
+    protected function firebaseSignInSuccessUrl()
+    {
+        $current_time = time();
+
+        //
+        return base_url('firebases/sign_in_success') . '?' . implode('&', [
+            'expires_token=' . $current_time,
+            'access_token=' . $this->base_model->mdnam($current_time . session_id()),
+            'user_token=' . $this->base_model->mdnam($current_time . $this->current_user_id),
+        ]);
     }
 }

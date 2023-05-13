@@ -3,7 +3,20 @@
 <br>
 <?php
 if ($current_user_id > 0) {
-    include VIEWS_PATH . 'firebase_auth_view.php';
+?>
+    <div class="row">
+        <div class="col small-12 medium-3 large-3">
+            <div class="col-inner">&nbsp;</div>
+        </div>
+        <div class="col small-12 medium-6 large-6">
+            <div class="col-inner">
+                <?php
+                include VIEWS_PATH . 'firebase_auth_view.php';
+                ?>
+            </div>
+        </div>
+    </div>
+<?php
 } else {
 ?>
     <div class="text-center">

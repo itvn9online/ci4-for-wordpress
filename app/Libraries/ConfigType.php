@@ -151,6 +151,13 @@ class ConfigType
                 'g_firebase_default_country' => 'Default country',
                 'g_firebase_login_hint' => 'Login hint',
                 'g_firebase_language_code' => 'Language code',
+                'firebase_auth_google' => 'Google Auth Provider',
+                'firebase_auth_facebook' => 'Facebook Auth Provider',
+                'firebase_auth_twitter' => 'Twitter Auth Provider',
+                'firebase_auth_github' => 'Github Auth Provider',
+                'firebase_auth_email' => 'Email Auth Provider',
+                'firebase_auth_anonymous' => 'Anonymous Auth Provider',
+                'firebase_auth_phone' => 'Phone Auth Provider',
             ];
         } else if ($config_type == self::CATEGORY) {
             $arr = [
@@ -414,6 +421,13 @@ class ConfigType
             'SITE_LANGUAGE_SUB_FOLDER' => 'select',
             'SITE_LANGUAGE_DEFAULT' => 'select',
             'g_firebase_config' => 'textarea',
+            'firebase_auth_google' => 'checkbox',
+            'firebase_auth_facebook' => 'checkbox',
+            'firebase_auth_twitter' => 'checkbox',
+            'firebase_auth_github' => 'checkbox',
+            'firebase_auth_email' => 'checkbox',
+            'firebase_auth_anonymous' => 'checkbox',
+            'firebase_auth_phone' => 'checkbox',
         ];
         //print_r( $arr );
         if (isset($arr[$key])) {
@@ -449,6 +463,13 @@ class ConfigType
             'g_firebase_default_country' => 'Mã quốc gia sẽ select mặc định khi xác  thực số điện  thoại qua firebase. Danh sách các mã xem tại đây: https://github.com/firebase/firebaseui-web/blob/master/javascript/data/README.md',
             'g_firebase_login_hint' => 'Mã quốc gia sẽ select mặc định khi xác  thực số điện  thoại qua firebase. Ví dụ: +84',
             'g_firebase_language_code' => 'Ngôn ngữ hiển thị Firebase. Mã ngôn ngữ xem tại đây: https://github.com/firebase/firebaseui-web/blob/master/LANGUAGES.md',
+            'firebase_auth_google' => 'Đăng nhập bằng tài khoản Google',
+            'firebase_auth_facebook' => 'Đăng nhập bằng tài khoản Facebook',
+            'firebase_auth_twitter' => 'Đăng nhập bằng tài khoản Twitter',
+            'firebase_auth_github' => 'Đăng nhập bằng tài khoản Github',
+            'firebase_auth_email' => 'Đăng nhập bằng email',
+            'firebase_auth_anonymous' => 'Sử dụng với vai trò khách',
+            'firebase_auth_phone' => 'Đăng nhập bằng số điện thoại',
             //
             'site_max_width' => 'Bạn có thể thiết lập chiều rộng cho trang tại đây. Chiều rộng tiêu chuẩn: 1024px - Chiều rộng phổ biến: 1366px',
             'site_full_width' => 'Tương tự chiều rộng trang nhưng có độ rộng nhỉnh hơn chút. Chiều rộng tiêu chuẩn: 1024px - Chiều rộng phổ biến: 1666px',
