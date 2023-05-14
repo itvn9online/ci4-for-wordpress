@@ -6,10 +6,15 @@ class Optimize extends Admin
 {
     private $f_active_optimize = 'active-optimize.txt';
     private $c_active_optimize = 'Nếu tồn tại file này -> sẽ kích hoạt lệnh optimize file CSS hoặc JS trong thư mục tương ứng';
+    protected $upload_via_ftp = NULL;
+    protected $file_model = NULL;
 
     public function __construct()
     {
         parent::__construct();
+
+        //
+        $this->file_model = new \App\Models\File();
     }
 
     // sử dụng khi cần nén lại các file tĩnh bằng cách thủ công
@@ -53,10 +58,8 @@ class Optimize extends Admin
             echo 'mkdir: ' . $dir . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
             //
-            $upload_via_ftp = $this->using_via_ftp();
-            if ($upload_via_ftp === true) {
-                $file_model = new \App\Models\File();
-                $file_model->create_dir($dir);
+            if ($this->using_via_ftp() === true) {
+                $this->file_model->create_dir($dir);
             } else {
                 $this->mk_dir($dir, __CLASS__ . ':' . __LINE__);
             }
@@ -127,6 +130,7 @@ class Optimize extends Admin
 
     private function optimize_action_views($path, $check_active = true)
     {
+        $path = rtrim($path, '/');
         //echo $path . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
         if ($this->check_active_optimize($path . '/') !== true) {
             if ($check_active === true) {
@@ -145,7 +149,9 @@ class Optimize extends Admin
                 $c .= PHP_EOL;
                 //$c .= ' ';
             }
-            $this->base_model->_eb_create_file($filename, $c, ['ftp' => 1]);
+
+            //
+            $this->push_content_file($filename, $c);
         }
 
         // optimize file html
@@ -154,7 +160,9 @@ class Optimize extends Admin
 
             //
             $c = $this->WGR_update_core_remove_html_comment(file_get_contents($filename, 1));
-            $this->base_model->_eb_create_file($filename, $c, ['ftp' => 1]);
+
+            //
+            $this->push_content_file($filename, $c);
         }
 
         // optimize các thư mục con
@@ -193,7 +201,7 @@ class Optimize extends Admin
             //
             $c = trim($c);
             if (!empty($c)) {
-                $this->base_model->_eb_create_file($filename, $c, ['ftp' => 1]);
+                $this->push_content_file($filename, $c);
             }
         }
 
@@ -227,7 +235,7 @@ class Optimize extends Admin
 
             //
             if (!empty($c)) {
-                $this->base_model->_eb_create_file($filename, $c, ['ftp' => 1]);
+                $this->push_content_file($filename, $c);
             }
         }
 
@@ -713,18 +721,22 @@ class Optimize extends Admin
     // kiểm tra xem có put file bằng php được hay phải dùng ftp
     protected function using_via_ftp($upload_check = '')
     {
+        if ($this->upload_via_ftp !== NULL) {
+            return $this->upload_via_ftp;
+        }
+
         // thử kiểm tra quyền đọc ghi file trong thư mục app, nếu không ghi được -> sẽ sử dụng FTP để xử lý file
         if ($upload_check == '') {
             $upload_check = PUBLIC_HTML_PATH . 'app/';
         }
-
-        //
         $path = $upload_check . 'test_permission.txt';
         if (@!file_put_contents($path, time())) {
-            return true;
+            $this->upload_via_ftp = true;
+        } else {
+            $this->upload_via_ftp = false;
+            unlink($path);
         }
-        unlink($path);
-        return false;
+        return $this->upload_via_ftp;
     }
 
     // tạo thư mục
@@ -732,5 +744,17 @@ class Optimize extends Admin
     {
         mkdir($dir, $permision) or die('ERROR create dir (' . $msg . ')! ' . $dir);
         chmod($dir, $permision);
+    }
+
+    protected function push_content_file($f, $c)
+    {
+        if ($this->using_via_ftp() === true) {
+            $this->file_model->create_file($f, $c, [
+                'add_line' => '',
+                'set_permission' => DEFAULT_FILE_PERMISSION,
+            ]);
+        } else {
+            file_put_contents($f, $c);
+        }
     }
 }

@@ -487,10 +487,13 @@ class Sync extends BaseController
     private function action_vendor_sync($dir, $check_thirdparty_exist = true)
     {
         $upload_via_ftp = false;
-        if (@!file_put_contents(PUBLIC_HTML_PATH . 'test_permission.txt', time())) {
+
+        // thử kiểm tra quyền đọc ghi file trong thư mục app, nếu không ghi được -> sẽ sử dụng FTP để xử lý file
+        $path = PUBLIC_HTML_PATH . 'app/test_permission.txt';
+        if (@!file_put_contents($path, time())) {
             $upload_via_ftp = true;
         } else {
-            unlink(PUBLIC_HTML_PATH . 'test_permission.txt');
+            unlink($path);
         }
         //var_dump( $upload_via_ftp );
         //die( __CLASS__ . ':' . __LINE__ );

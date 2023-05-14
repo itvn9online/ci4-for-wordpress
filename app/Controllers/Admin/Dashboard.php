@@ -326,8 +326,7 @@ class Dashboard extends Optimize
         //echo $upload_path . '<br>' . "\n";
 
         // với 1 số host, chỉ upload được vào thư mục có permission 777 -> cache
-        $upload_via_ftp = $this->using_via_ftp();
-        if ($upload_via_ftp === true) {
+        if ($this->using_via_ftp() === true) {
             $upload_path = WRITEPATH . 'updates/';
 
             // tạo thư mục nếu chưa có
@@ -396,12 +395,12 @@ class Dashboard extends Optimize
                 //die( __CLASS__ . ':' . __LINE__ );
 
                 // giải nén sau khi upload
-                $this->after_unzip_code($file_path, $upload_path, $upload_via_ftp);
+                $this->after_unzip_code($file_path, $upload_path);
 
                 /*
                  * dọn dẹp code dư thừa sau khi giải nén (nếu tồn tại thư mục này)
                  */
-                //$this->cleanup_deleted_dir( $this->dir_deleted_list, $upload_via_ftp );
+                //$this->cleanup_deleted_dir($this->dir_deleted_list);
             } else {
                 throw new \RuntimeException($file->getErrorString() . '(' . $file->getError() . ')');
             }
@@ -532,8 +531,7 @@ class Dashboard extends Optimize
         //echo $file_path . '<br>' . "\n";
 
         //
-        $file_model = new \App\Models\File();
-        if ($file_model->download_file($file_path, $this->link_download_system_github) === true) {
+        if ($this->file_model->download_file($file_path, $this->link_download_system_github) === true) {
             chmod($file_path, DEFAULT_FILE_PERMISSION);
         }
 
@@ -569,10 +567,7 @@ class Dashboard extends Optimize
         $from_main_github = true;
 
         // với 1 số host, chỉ upload được vào thư mục có permission 777 -> cache
-        $upload_via_ftp = $this->using_via_ftp();
-
-        //
-        if ($from_main_github === true || $upload_via_ftp === true) {
+        if ($from_main_github === true || $this->using_via_ftp() === true) {
             $upload_path = WRITEPATH . 'updates/';
 
             // tạo thư mục nếu chưa có
@@ -591,8 +586,7 @@ class Dashboard extends Optimize
         //die( $file_path );
 
         //
-        $file_model = new \App\Models\File();
-        if ($file_model->download_file($file_path, $this->link_download_github) === true) {
+        if ($this->file_model->download_file($file_path, $this->link_download_github) === true) {
             chmod($file_path, DEFAULT_FILE_PERMISSION);
 
             /*
@@ -622,8 +616,8 @@ class Dashboard extends Optimize
 
                 // tạo thư mục thông qua FTP
                 /*
-                if ( $upload_via_ftp === true ) {
-                $file_model->create_dir( $this->app_dir );
+                if ( $this->using_via_ftp() === true ) {
+                $this->file_model->create_dir( $this->app_dir );
                 }
                 // tạo mặc định
                 else {
@@ -636,7 +630,7 @@ class Dashboard extends Optimize
             }
 
             // giải nén sau khi upload
-            $this->after_unzip_code($file_path, $upload_path, $upload_via_ftp, $from_main_github);
+            $this->after_unzip_code($file_path, $upload_path, $from_main_github);
 
             // nếu tồn tại file config -> copy nó sang thư mục chính
             /*
@@ -675,10 +669,10 @@ class Dashboard extends Optimize
      * giải nén sau khi upload
      * main_zip: dành cho unzip code từ main github
      */
-    private function after_unzip_code($file_path, $upload_path, $upload_via_ftp, $main_zip = false)
+    private function after_unzip_code($file_path, $upload_path, $main_zip = false)
     {
         echo 'upload path: ' . $upload_path . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
-        echo 'upload via ftp: ' . $upload_via_ftp . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        echo 'upload via ftp: ' . $this->using_via_ftp() . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         echo 'main zip: ' . $main_zip . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
         //
@@ -689,15 +683,12 @@ class Dashboard extends Optimize
             //die(__CLASS__ . ':' . __LINE__);
 
             // nếu là giải nén trong cache -> copy file sang thư mục public
-            if ($main_zip === true || $upload_via_ftp === true) {
+            if ($main_zip === true || $this->using_via_ftp() === true) {
                 if ($main_zip === true) {
                     $upload_path .= 'ci4-for-wordpress-main/';
                 }
                 //die( $upload_path );
                 echo 'upload path: ' . $upload_path . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
-
-                //
-                $file_model = new \App\Models\File();
 
                 // lấy danh sách các file để còn copy
                 $this->file_re_cache = [];
@@ -728,8 +719,8 @@ class Dashboard extends Optimize
                         //continue;
 
                         // tạo thư mục thông qua FTP
-                        if ($upload_via_ftp === true) {
-                            $file_model->create_dir($dir);
+                        if ($this->using_via_ftp() === true) {
+                            $this->file_model->create_dir($dir);
                         }
                         // tạo mặc định
                         else {
@@ -747,7 +738,7 @@ class Dashboard extends Optimize
                 ];
 
                 // copy file bằng php thông thường -> nhanh
-                if ($upload_via_ftp !== true) {
+                if ($this->using_via_ftp() !== true) {
                     // chuyển file
                     foreach ($this->file_re_cache as $file) {
                         if (in_array(basename($file), $deny_file_update)) {
@@ -771,17 +762,17 @@ class Dashboard extends Optimize
                 }
                 // chuyển file thông qua tạo kết nối qua FTP
                 else {
-                    $check_dir = $file_model->root_dir();
+                    $check_dir = $this->file_model->root_dir();
                     $has_ftp = false;
                     if ($check_dir === true) {
-                        echo 'ftp server: ' . $file_model->ftp_server . '<br>' . "\n";
-                        echo 'base dir: ' . $file_model->base_dir . '<br>' . "\n";
+                        echo 'ftp server: ' . $this->file_model->ftp_server . '<br>' . "\n";
+                        echo 'base dir: ' . $this->file_model->base_dir . '<br>' . "\n";
 
                         // tạo kết nối
-                        $conn_id = ftp_connect($file_model->ftp_server);
+                        $conn_id = ftp_connect($this->file_model->ftp_server);
 
                         // đăng nhập
-                        if ($file_model->base_dir != '') {
+                        if ($this->file_model->base_dir != '') {
                             if (ftp_login($conn_id, FTP_USER, FTP_PASS)) {
                                 $has_ftp = true;
                             }
@@ -803,8 +794,8 @@ class Dashboard extends Optimize
                         echo 'to: ' . $to . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                         if ($has_ftp === true) {
                             // nếu trong chuỗi file không có root dir -> báo lỗi
-                            if (strpos($to, '/' . $file_model->base_dir . '/') !== false) {
-                                $to = strstr($to, '/' . $file_model->base_dir . '/');
+                            if (strpos($to, '/' . $this->file_model->base_dir . '/') !== false) {
+                                $to = strstr($to, '/' . $this->file_model->base_dir . '/');
                             }
 
                             //
@@ -946,7 +937,7 @@ class Dashboard extends Optimize
         return $result;
     }
 
-    private function cleanup_deleted_dir($dirs, $upload_via_ftp)
+    private function cleanup_deleted_dir($dirs)
     {
         //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $dirs );
@@ -983,7 +974,7 @@ class Dashboard extends Optimize
         //die( __CLASS__ . ':' . __LINE__ );
 
         // xóa bằng php thường
-        if ($upload_via_ftp !== true) {
+        if ($this->using_via_ftp() !== true) {
             foreach ($this->file_re_cache as $file) {
                 if (!file_exists($file)) {
                     continue;
@@ -1003,20 +994,17 @@ class Dashboard extends Optimize
         }
         // xóa thông qua ftp
         else {
-            $file_model = new \App\Models\File();
-
-            //
-            $check_dir = $file_model->root_dir();
+            $check_dir = $this->file_model->root_dir();
             $has_ftp = false;
             if ($check_dir === true) {
-                echo 'ftp server: ' . $file_model->ftp_server . '<br>' . "\n";
-                echo 'base dir: ' . $file_model->base_dir . '<br>' . "\n";
+                echo 'ftp server: ' . $this->file_model->ftp_server . '<br>' . "\n";
+                echo 'base dir: ' . $this->file_model->base_dir . '<br>' . "\n";
 
                 // tạo kết nối
-                $conn_id = ftp_connect($file_model->ftp_server);
+                $conn_id = ftp_connect($this->file_model->ftp_server);
 
                 // đăng nhập
-                if ($file_model->base_dir != '') {
+                if ($this->file_model->base_dir != '') {
                     if (ftp_login($conn_id, FTP_USER, FTP_PASS)) {
                         $has_ftp = true;
                     }
@@ -1037,8 +1025,8 @@ class Dashboard extends Optimize
                 $to = $file;
                 if ($has_ftp === true) {
                     // nếu trong chuỗi file không có root dir -> báo lỗi
-                    if (strpos($to, '/' . $file_model->base_dir . '/') !== false) {
-                        $to = strstr($to, '/' . $file_model->base_dir . '/');
+                    if (strpos($to, '/' . $this->file_model->base_dir . '/') !== false) {
+                        $to = strstr($to, '/' . $this->file_model->base_dir . '/');
                     }
 
                     //
@@ -1064,8 +1052,8 @@ class Dashboard extends Optimize
                 $to = $dir;
                 if ($has_ftp === true) {
                     // nếu trong chuỗi dir không có root dir -> báo lỗi
-                    if (strpos($to, '/' . $file_model->base_dir . '/') !== false) {
-                        $to = strstr($to, '/' . $file_model->base_dir . '/');
+                    if (strpos($to, '/' . $this->file_model->base_dir . '/') !== false) {
+                        $to = strstr($to, '/' . $this->file_model->base_dir . '/');
                     }
 
                     //
@@ -1105,7 +1093,7 @@ class Dashboard extends Optimize
             if (is_dir($v)) {
                 $this->cleanup_deleted_dir([
                     $v,
-                ], $this->using_via_ftp());
+                ]);
             }
 
             // đổi tên thư mục delete
@@ -1137,7 +1125,7 @@ class Dashboard extends Optimize
             if (is_dir($v)) {
                 $this->cleanup_deleted_dir([
                     $v,
-                ], $this->using_via_ftp());
+                ]);
             }
         }
 
