@@ -750,11 +750,11 @@ class Dashboard extends Optimize
                 if ($upload_via_ftp !== true) {
                     // chuyển file
                     foreach ($this->file_re_cache as $file) {
-                        echo 'from: ' . $file . '<br>' . "\n";
                         if (in_array(basename($file), $deny_file_update)) {
                             echo 'deny file update: ' . $file . '<br>' . "\n";
                             continue;
                         }
+                        echo 'from: ' . $file . '<br>' . "\n";
 
                         //
                         $to = str_replace($upload_path, PUBLIC_HTML_PATH, $file);
@@ -792,11 +792,11 @@ class Dashboard extends Optimize
 
                     // chuyển file
                     foreach ($this->file_re_cache as $file) {
-                        echo 'from: ' . $file . '<br>' . "\n";
                         if (in_array(basename($file), $deny_file_update)) {
                             echo 'deny file update: ' . $file . '<br>' . "\n";
                             continue;
                         }
+                        echo 'from: ' . $file . '<br>' . "\n";
 
                         //
                         $to = str_replace($upload_path, PUBLIC_HTML_PATH, $file);
