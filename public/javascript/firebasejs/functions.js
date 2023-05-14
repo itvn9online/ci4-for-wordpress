@@ -158,14 +158,50 @@ function action_signInSuccessWithAuthResult(authResult, redirectUrl) {
 		},
 		success: function (data) {
 			console.log(data);
-			if (typeof data.error != "undefined" && data.error != "") {
+			// nếu có tham số nạp lại trang -> nạp lại
+			if (typeof data.reload != "undefined" && data.reload * 1 > 0) {
+				login_reload();
+			}
+			// có lỗi thì thông báo lỗi
+			else if (typeof data.error != "undefined" && data.error != "") {
 				WGR_alert(data.error, "error");
-			} else if (typeof data.ok != "undefined" && data.ok * 1 > 0) {
-				window.location = window.location.href;
+			}
+			// mặc định sẽ nạp lại trang
+			else if (typeof data.ok != "undefined" && data.ok * 1 > 0) {
+				var a = login_get_params("login_redirect");
+				if (a != "") {
+					//console.log(a);
+					a = decodeURIComponent(a);
+					//console.log(a);
+					if (a.split("//").length > 1) {
+						window.location = a;
+					} else {
+						login_reload();
+					}
+				} else {
+					login_reload();
+				}
 			}
 		},
 	});
 	return true;
+}
+
+function login_reload() {
+	window.location = window.location.href;
+}
+
+function login_get_params(param) {
+	var queryString = window.location.search;
+	//console.log(queryString);
+	var urlParams = new URLSearchParams(queryString);
+	var a = urlParams.get(param);
+	//console.log(a);
+	if (a === null) {
+		a = "";
+	}
+	//console.log(a);
+	return a;
 }
 
 function action_signInFailure(error) {

@@ -32,6 +32,7 @@ class Firebase2s extends Firebases
             // URL hết hạn
             $this->result_json_type([
                 'code' => __LINE__,
+                'reload' => 1,
                 'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'expires_expires', 'expires_token is expires!'),
             ]);
         }
