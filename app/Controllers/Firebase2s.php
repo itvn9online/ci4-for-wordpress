@@ -11,6 +11,8 @@ class Firebase2s extends Firebases
 {
     // với 1 số controller, sẽ không nạp cái HTML header vào, nên có thêm tham số này để không nạp header nữa
     public $preload_header = false;
+    // thời gian hết hạn của mỗi token -> để thấp cho nó bảo mật
+    public $expires_time = 120;
 
     public function __construct()
     {
@@ -24,39 +26,43 @@ class Firebase2s extends Firebases
         if (empty($expires_token)) {
             $this->result_json_type([
                 'code' => __LINE__,
-                'error' => 'expires token?',
+                'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'expires_token', 'expires_token is EMPTY!'),
             ]);
-        } else if (time() - $expires_token > 600) {
+        } else if (time() - $expires_token > $this->expires_time) {
             // URL hết hạn
             $this->result_json_type([
                 'code' => __LINE__,
-                'error' => 'expires token?',
+                'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'expires_expires', 'expires_token is expires!'),
             ]);
         }
+
+        //
         $access_token = $this->MY_get('access_token');
         if (empty($access_token)) {
             $this->result_json_type([
                 'code' => __LINE__,
-                'error' => 'access token?',
+                'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'access_token', 'access_token is EMPTY!'),
             ]);
         } else if ($this->base_model->mdnam($expires_token . session_id()) != $access_token) {
             // URL hết hạn
             $this->result_json_type([
                 'code' => __LINE__,
-                'error' => 'access token?',
+                'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'access_token', 'access_token mismatched!'),
             ]);
         }
+
+        //
         $user_token = $this->MY_get('user_token');
         if (empty($user_token)) {
             $this->result_json_type([
                 'code' => __LINE__,
-                'error' => 'user token?',
+                'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'user_token', 'user_token is EMPTY!'),
             ]);
         } else if ($this->base_model->mdnam($expires_token . $this->current_user_id) != $user_token) {
             // URL hết hạn
             $this->result_json_type([
                 'code' => __LINE__,
-                'error' => 'user token?',
+                'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'user_token', 'user_token mismatched!'),
             ]);
         }
 

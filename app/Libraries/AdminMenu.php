@@ -255,6 +255,10 @@ class AdminMenu
                         'name' => ConfigType::typeList(ConfigType::TRANS),
                         'icon' => 'fa fa-globe',
                     ],
+                    'admin/firebases' => [
+                        'name' => ConfigType::typeList(ConfigType::FIREBASE),
+                        'icon' => 'fa fa-sign-in',
+                    ],
                 ]
             ],
             'admin/dev' => [

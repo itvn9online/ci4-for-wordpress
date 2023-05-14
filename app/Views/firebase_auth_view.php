@@ -36,9 +36,10 @@ if ($getconfig->g_firebase_config != '') {
     <div id="loading">Loading...</div>
     <div id="loaded" class="hidden">
         <div id="user-signed-in" class="hidden">
-            <div>Name: <span id="firebase_name"></span></div>
-            <div>Email: <span id="firebase_email"></span></div>
-            <div>Phone: <span id="firebase_phone"></span></div>
+            <div id="firebase_name"></div>
+            <div id="firebase_email"></div>
+            <div id="firebase_phone"></div>
+            <br>
             <div>
                 <button type="button" id="sign-in" class="btn btn-primary"><?php $lang_model->the_text('firebase_sign_in', 'Đăng nhập'); ?></button>
                 <button type="button" id="sign-out" class="btn btn-secondary"><?php $lang_model->the_text('firebase_sign_out', 'Đăng xuất'); ?></button>

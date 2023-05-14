@@ -118,6 +118,23 @@ function action_signInSuccessWithAuthResult(authResult, redirectUrl) {
 	//console.log(user.email);
 	//console.log(user.emailVerified);
 	//console.log(user.phoneNumber);
+	/*
+	for (var x in user) {
+		console.log(x + ":", user[x]);
+	}
+	*/
+	var data = {
+		name: user.displayName,
+		email: user.email,
+		verified: user.emailVerified,
+		phone: user.phoneNumber,
+		photo: user.photoURL,
+		anonymous: user.isAnonymous,
+		apikey: user.l,
+		apiurl: user.s,
+	};
+	//console.log(data);
+	//return false;
 
 	//
 	jQuery.ajax({
@@ -125,11 +142,7 @@ function action_signInSuccessWithAuthResult(authResult, redirectUrl) {
 		url: create_sign_in_success_url(),
 		dataType: "json",
 		//crossDomain: true,
-		data: {
-			name: user.displayName,
-			email: user.email,
-			phone: user.phoneNumber,
-		},
+		data: data,
 		timeout: 33 * 1000,
 		error: function (jqXHR, textStatus, errorThrown) {
 			console.log(jqXHR);

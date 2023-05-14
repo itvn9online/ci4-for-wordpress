@@ -249,19 +249,7 @@ class Option extends EbModel
         }
 
         //
-        $arr_option_type = [
-            ConfigType::CONFIG,
-            ConfigType::DISPLAY,
-            ConfigType::SOCIAL,
-            ConfigType::CATEGORY,
-            ConfigType::POST,
-            ConfigType::BLOGS,
-            ConfigType::BLOG,
-            ConfigType::CHECKOUT,
-            // một số config sử dụng method riêng rồi thì bỏ ở đây đi
-            //ConfigType::CHECKBOX,
-            //ConfigType::NUM_MON,
-        ];
+        $arr_option_type = ConfigType::mainType();
         //print_r( $arr_option_type );
 
         //

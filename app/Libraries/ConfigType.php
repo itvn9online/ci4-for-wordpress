@@ -20,6 +20,7 @@ class ConfigType
     const CHECKOUT = 'checkout';
     const CHECKBOX = 'checkbox';
     const NUM_MON = 'num_mon'; // number and money -> loại cấu hình dùng để định giá hoặc tạo số theo ý muốn
+    const FIREBASE = 'firebase';
 
     private static $arr_posts_per_line = [
         '' => 'Theo thiết kế mặc định của tác giả',
@@ -66,7 +67,27 @@ class ConfigType
         self::CHECKOUT => 'Thanh toán',
         self::CHECKBOX => 'Bật/ Tắt',
         self::NUM_MON => 'Số',
+        self::FIREBASE => 'Firebase',
     );
+
+    // các loại config chính sẽ được auto load để sử dụng khi cần thiết
+    public static function mainType()
+    {
+        return [
+            self::CONFIG,
+            self::DISPLAY,
+            self::SOCIAL,
+            self::CATEGORY,
+            self::POST,
+            self::BLOGS,
+            self::BLOG,
+            self::CHECKOUT,
+            self::FIREBASE,
+            // một số config sử dụng method riêng rồi thì bỏ ở đây đi
+            //self::CHECKBOX,
+            //self::NUM_MON,
+        ];
+    }
 
     public static function typeList($key = '')
     {
@@ -143,21 +164,6 @@ class ConfigType
                 'image' => 'Ảnh share Facebook',
                 'registeronline' => 'Link đăng ký BCT',
                 'notificationbct' => 'Link thông báo BCT',
-                'g_recaptcha_site_key' => 'G recaptcha site key',
-                'g_recaptcha_secret_key' => 'G recaptcha secret key',
-                'g_firebase_config' => 'SDK setup and configuration',
-                'g_firebase_privacy_policy_url' => 'Privacy policy url',
-                'g_firebase_terms_service_url' => 'Terms of service url',
-                'g_firebase_default_country' => 'Default country',
-                'g_firebase_login_hint' => 'Login hint',
-                'g_firebase_language_code' => 'Language code',
-                'firebase_auth_google' => 'Google Auth Provider',
-                'firebase_auth_facebook' => 'Facebook Auth Provider',
-                'firebase_auth_twitter' => 'Twitter Auth Provider',
-                'firebase_auth_github' => 'Github Auth Provider',
-                'firebase_auth_email' => 'Email Auth Provider',
-                'firebase_auth_anonymous' => 'Anonymous Auth Provider',
-                'firebase_auth_phone' => 'Phone Auth Provider',
             ];
         } else if ($config_type == self::CATEGORY) {
             $arr = [
@@ -208,6 +214,24 @@ class ConfigType
         } else if ($config_type == self::NUM_MON) {
             $arr = [
                 'custom_num_mon0' => 'Custom number 0'
+            ];
+        } else if ($config_type == self::FIREBASE) {
+            $arr = [
+                'g_recaptcha_site_key' => 'G recaptcha site key',
+                'g_recaptcha_secret_key' => 'G recaptcha secret key',
+                'g_firebase_config' => 'SDK setup and configuration',
+                'g_firebase_privacy_policy_url' => 'Privacy policy url',
+                'g_firebase_terms_service_url' => 'Terms of service url',
+                'g_firebase_default_country' => 'Default country',
+                'g_firebase_login_hint' => 'Login hint',
+                'g_firebase_language_code' => 'Language code',
+                'firebase_auth_google' => 'Google Auth Provider',
+                'firebase_auth_facebook' => 'Facebook Auth Provider',
+                'firebase_auth_twitter' => 'Twitter Auth Provider',
+                'firebase_auth_github' => 'Github Auth Provider',
+                'firebase_auth_email' => 'Email Auth Provider',
+                'firebase_auth_anonymous' => 'Anonymous Auth Provider',
+                'firebase_auth_phone' => 'Phone Auth Provider',
             ];
         } else if ($config_type == self::CHECKBOX) {
             $arr = [];
