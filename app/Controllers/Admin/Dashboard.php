@@ -326,7 +326,7 @@ class Dashboard extends Optimize
         //echo $upload_path . '<br>' . "\n";
 
         // với 1 số host, chỉ upload được vào thư mục có permission 777 -> cache
-        $upload_via_ftp = $this->using_via_ftp($upload_path);
+        $upload_via_ftp = $this->using_via_ftp();
         if ($upload_via_ftp === true) {
             $upload_path = WRITEPATH . 'updates/';
 
@@ -569,7 +569,7 @@ class Dashboard extends Optimize
         $from_main_github = true;
 
         // với 1 số host, chỉ upload được vào thư mục có permission 777 -> cache
-        $upload_via_ftp = $this->using_via_ftp($upload_path);
+        $upload_via_ftp = $this->using_via_ftp();
 
         //
         if ($from_main_github === true || $upload_via_ftp === true) {
@@ -580,7 +580,7 @@ class Dashboard extends Optimize
                 $this->mk_dir($upload_path, __CLASS__ . ':' . __LINE__);
             }
         }
-        echo 'upload path:' . $upload_path . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        echo 'upload path: ' . $upload_path . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
         //
         $this->cleanup_zip($upload_path, 'Không xóa được file ZIP cũ trước khi upload file mới');
@@ -677,25 +677,24 @@ class Dashboard extends Optimize
      */
     private function after_unzip_code($file_path, $upload_path, $upload_via_ftp, $main_zip = false)
     {
-        $filename = '';
-        if ($this->MY_unzip($file_path, $upload_path) === TRUE) {
-            echo 'upload path:' . $upload_path . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        echo 'upload path: ' . $upload_path . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        echo 'upload via ftp: ' . $upload_via_ftp . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        echo 'main zip: ' . $main_zip . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
+        //
+        //$filename = '';
+        if ($this->MY_unzip($file_path, $upload_path) === TRUE) {
             //
             $this->cleanup_zip($upload_path, 'Không xóa được file ZIP sau khi giải nén code');
-            //echo $upload_path . '<br>' . "\n";
-            //var_dump( $upload_via_ftp );
-            //die( __CLASS__ . ':' . __LINE__ );
+            //die(__CLASS__ . ':' . __LINE__);
 
             // nếu là giải nén trong cache -> copy file sang thư mục public
             if ($main_zip === true || $upload_via_ftp === true) {
-                //var_dump( $main_zip );
-                //var_dump( $upload_via_ftp );
                 if ($main_zip === true) {
                     $upload_path .= 'ci4-for-wordpress-main/';
                 }
                 //die( $upload_path );
-                echo 'upload path:' . $upload_path . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+                echo 'upload path: ' . $upload_path . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                 //
                 $file_model = new \App\Models\File();
@@ -739,13 +738,23 @@ class Dashboard extends Optimize
                     }
                 }
 
-                /*
-                 * copy file bằng php thông thường -> nhanh
-                 */
+                // copy file bằng php thông thường -> nhanh
                 if ($upload_via_ftp !== true) {
+                    // các file không cần update
+                    $deny_file_update = [
+                        '.gitattributes',
+                        '.gitignore',
+                        'system.zip',
+                        'database.zip',
+                    ];
+
                     // chuyển file
                     foreach ($this->file_re_cache as $file) {
                         echo 'from: ' . $file . '<br>' . "\n";
+                        if (in_array(basename($file), $deny_file_update)) {
+                            echo 'deny file update: ' . $file . '<br>' . "\n";
+                            continue;
+                        }
 
                         //
                         $to = str_replace($upload_path, PUBLIC_HTML_PATH, $file);
@@ -760,9 +769,8 @@ class Dashboard extends Optimize
                         }
                     }
                 }
-                /*
-                 * chuyển file thông qua tạo kết nối qua FTP
-                 */ else {
+                // chuyển file thông qua tạo kết nối qua FTP
+                else {
                     $check_dir = $file_model->root_dir();
                     $has_ftp = false;
                     if ($check_dir === true) {
@@ -1141,13 +1149,19 @@ class Dashboard extends Optimize
     }
 
     // kiểm tra xem có put file bằng php được hay phải dùng ftp
-    private function using_via_ftp($upload_path = PUBLIC_HTML_PATH)
+    private function using_via_ftp($upload_check = '')
     {
-        if (@!file_put_contents($upload_path . 'test_permission.txt', time())) {
-            return true;
-        } else {
-            unlink($upload_path . 'test_permission.txt');
+        // thử kiểm tra quyền đọc ghi file trong thư mục app, nếu không ghi được -> sẽ sử dụng FTP để xử lý file
+        if ($upload_check == '') {
+            $upload_check = PUBLIC_HTML_PATH . 'app/';
         }
+
+        //
+        $path = $upload_check . 'test_permission.txt';
+        if (@!file_put_contents($path, time())) {
+            return true;
+        }
+        unlink($path);
         return false;
     }
 
