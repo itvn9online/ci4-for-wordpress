@@ -28,6 +28,10 @@ class UsersType
     const NO_MONTH_LOGIN = 720; // khóa 720 giờ = 1 tháng
     const NO_LOGIN = -1; // tài khoản bị khóa chức năng đăng nhập (vĩnh viễn)
 
+    // member_verified
+    const VERIFING = 0;
+    const VERIFIED = 1;
+
     private static $arr = array(
         self::GUEST => AdminTranslate::USER_TRANS[self::GUEST],
         self::MEMBER => AdminTranslate::USER_TRANS[self::MEMBER],

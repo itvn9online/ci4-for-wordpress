@@ -124,6 +124,7 @@ function action_signInSuccessWithAuthResult(authResult, redirectUrl) {
 	}
 	*/
 	var data = {
+		uid: user.uid,
 		name: user.displayName,
 		email: user.email,
 		verified: user.emailVerified,

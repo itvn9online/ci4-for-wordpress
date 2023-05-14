@@ -275,6 +275,7 @@ class Sync extends BaseController
             $prefix . 'users' => [
                 'ci_pass' => 'VARCHAR(255) NULL COMMENT \'Mật khẩu đăng nhập cho phiên bản CI-wordpress\'',
                 'member_type' => 'VARCHAR(55) NOT NULL COMMENT \'Phân loại thành viên (role)\'',
+                'member_verified' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'Kích hoạt qua email hoặc phone. 0 = chưa, 1 = rồi\'',
                 'is_deleted' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'0 = hiển thị, 1 = xóa\'',
                 'parent_id' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'ID của tài khoản cha nếu có\'',
                 'district_id' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'ID của quận huyện\'',
@@ -284,6 +285,7 @@ class Sync extends BaseController
                 'user_birthday' => 'DATE NULL COMMENT \'Sinh nhật của thành viên\'',
                 'user_phone' => 'VARCHAR(55) NULL COMMENT \'Điện thoại liên hệ\'',
                 'avatar' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Ảnh đại diện\'',
+                'firebase_uid' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'User ID khi đăng nhập qua firebase\'',
                 'user_fund' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Số dư tài khoản\'',
             ],
             $prefix . 'posts' => [

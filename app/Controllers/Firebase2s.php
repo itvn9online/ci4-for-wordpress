@@ -114,10 +114,11 @@ class Firebase2s extends Firebases
                 $data = $this->sync_login_data($data);
                 $data['user_activation_key'] = session_id();
 
-                //
+                // cập nhật 1 số thông tin kiểu cố định
                 $this->user_model->update_member($data['ID'], [
                     'last_login' => date(EBE_DATETIME_FORMAT),
                     'user_activation_key' => $data['user_activation_key'],
+                    'member_verified' => UsersType::VERIFIED,
                 ]);
 
                 //
@@ -134,6 +135,9 @@ class Firebase2s extends Firebases
                     'display_name' => $name,
                     'user_phone' => $phone,
                     'member_type' => UsersType::GUEST,
+                    'avatar' => $this->MY_post('photo', ''),
+                    'firebase_uid' => $this->MY_post('uid', ''),
+                    'member_verified' => UsersType::VERIFIED,
                 ];
                 //$this->result_json_type($data);
                 $insert = $this->user_model->insert_member($data);
