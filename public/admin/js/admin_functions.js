@@ -198,7 +198,7 @@ function click_set_img_for_input(img_id) {
 			//data_size = 'full';
 			data_size = "large";
 		}
-		var data_src = img.attr("data-" + data_size) || "";
+		var data_src = img.data(data_size) || "";
 
 		// lấy các thuộc tính của ảnh -> tối ưu SEO
 		var img_attr = [];
@@ -279,8 +279,7 @@ function click_set_img_for_input(img_id) {
 				];
 				//console.log(arr_all_sizes);
 				for (var i = 0; i < arr_all_sizes.length; i++) {
-					arr_all_srcs[arr_all_sizes[i]] =
-						img.attr("data-" + arr_all_sizes[i]) || "";
+					arr_all_srcs[arr_all_sizes[i]] = img.data(arr_all_sizes[i]) || "";
 				}
 				//console.log(arr_all_srcs);
 			}
@@ -1069,6 +1068,9 @@ function action_delete_restore_checked(
 		},
 		success: function (data) {
 			console.log(data);
+			console.log(arr_check_checked_all);
+
+			//
 			if (typeof data.error != "undefined") {
 				WGR_alert(data.error + " - Code: " + data.code, "error");
 			} else if (typeof data.result != "undefined") {
@@ -1099,7 +1101,7 @@ function action_delete_restore_checked(
 						"Có lỗi trong quá trình " + method_name + " bản ghi",
 						"warning"
 					);
-					console.log(data);
+					//console.log(data);
 				}
 			}
 		},

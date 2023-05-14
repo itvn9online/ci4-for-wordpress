@@ -33,12 +33,12 @@ class UsersType
     const VERIFIED = 1;
 
     private static $arr = array(
-        self::GUEST => AdminTranslate::USER_TRANS[self::GUEST],
-        self::MEMBER => AdminTranslate::USER_TRANS[self::MEMBER],
-        self::AUTHOR => AdminTranslate::USER_TRANS[self::AUTHOR],
-        self::MOD => AdminTranslate::USER_TRANS[self::MOD],
-        self::ADMIN => AdminTranslate::USER_TRANS[self::ADMIN],
-        self::SUB => AdminTranslate::USER_TRANS[self::SUB],
+        self::GUEST => AdminTranslate::GUEST,
+        self::MEMBER => AdminTranslate::MEMBER,
+        self::AUTHOR => AdminTranslate::AUTHOR,
+        self::MOD => AdminTranslate::MOD,
+        self::ADMIN => AdminTranslate::ADMIN,
+        self::SUB => AdminTranslate::SUB,
     );
 
     public static function typeList($key = '')

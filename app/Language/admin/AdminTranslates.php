@@ -11,12 +11,11 @@ class AdminTranslates
 {
     const POST = 'Bài viết';
 
-    const USER_TRANS = [
-        'guest' => 'Khách vãng lai',
-        'member' => 'Thành viên',
-        'author' => 'Tác giả',
-        'mod' => 'Biên tập viên',
-        'admin' => 'Quản trị',
-        'subscribe' => 'Theo dõi',
-    ];
+    // bản dịch cho tên các nhóm tài khoản
+    const GUEST = 'Khách vãng lai';
+    const MEMBER = 'Thành viên';
+    const AUTHOR = 'Tác giả';
+    const MOD = 'Biên tập viên';
+    const ADMIN = 'Quản trị';
+    const SUB = 'Theo dõi';
 }

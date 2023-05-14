@@ -623,7 +623,7 @@ class Users extends Admin
         //die( __CLASS__ . ':' . __LINE__ );
 
         // XÓA meta
-        $result = $this->base_model->delete_multiple(
+        $this->base_model->delete_multiple(
             $this->user_model->metaTable,
             [
                 // WHERE
@@ -638,27 +638,33 @@ class Users extends Admin
                 'where_in' => array(
                     'user_id' => $ids
                 ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
             ]
         );
         //var_dump( $result );
         //die( __CLASS__ . ':' . __LINE__ );
 
         // XÓA dữ liệu chính
-        if ($result == true) {
-            $this->base_model->delete_multiple(
-                $this->user_model->table,
-                [
-                    // WHERE
-                    //'is_deleted' => DeletedStatus::REMOVED,
-
-                ],
-                [
-                    'where_in' => array(
-                        'ID' => $ids
-                    ),
-                ]
-            );
-        }
+        $this->base_model->delete_multiple(
+            $this->user_model->table,
+            [
+                // WHERE
+                //'is_deleted' => DeletedStatus::REMOVED,
+            ],
+            [
+                'where_in' => array(
+                    'ID' => $ids
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+            ]
+        );
+        //die(__CLASS__ . ':' . __LINE__);
 
         //
         return $result;
@@ -725,6 +731,7 @@ class Users extends Admin
     // chức năng remove nhiều bản ghi 1 lúc
     public function remove_all()
     {
+        //die(__CLASS__ . ':' . __LINE__);
         // nếu có thuộc tính cho phép xóa hoàn toàn dữ liệu thì tiến hành xóa
         if (ALLOW_USING_MYSQL_DELETE === true) {
             $result = $this->delete_remove();
@@ -839,7 +846,7 @@ class Users extends Admin
             }
             $user_status = UsersType::NO_LOGIN;
         }
-        //$this->result_json_type( [ $user_status ] ); // TEST
+        //$this->result_json_type([$user_status]); // TEST
 
         //
         $this->base_model->update_multiple(

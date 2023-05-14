@@ -1,10 +1,13 @@
-.click-change-user-status div {
+.click-change-user-status .show-if-actived {
     display: none;
 }
 
-.click-change-user-status[data-status="0"] div[data-status="0"],
-.click-change-user-status[data-status="-1"] div[data-status="-1"] {
+.click-change-user-status[data-status="0"] .show-if-actived {
     display: inline-block;
+}
+
+.click-change-user-status[data-status="0"] .show-if-unactived {
+    display: none;
 }
 
 .users-bg-avatar {

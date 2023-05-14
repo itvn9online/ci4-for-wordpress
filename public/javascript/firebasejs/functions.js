@@ -204,6 +204,19 @@ function login_get_params(param) {
 	return a;
 }
 
+function action_signInSuccessUrl() {
+	var a = login_get_params("login_redirect");
+	if (a != "") {
+		//console.log(a);
+		a = decodeURIComponent(a);
+		//console.log(a);
+		if (a.split("//").length > 1) {
+			return a;
+		}
+	}
+	return window.location.href;
+}
+
 function action_signInFailure(error) {
 	// Some unrecoverable error occurred during sign-in.
 	// Return a promise when error handling is completed and FirebaseUI

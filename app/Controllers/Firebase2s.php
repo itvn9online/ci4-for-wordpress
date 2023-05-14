@@ -21,6 +21,31 @@ class Firebase2s extends Firebases
 
     public function sign_in_success($callBack = true)
     {
+        // kiểm tra url submit tới xem có khớp nhau không
+        if (!isset($_SERVER['HTTP_REFERER']) || empty($_SERVER['HTTP_REFERER'])) {
+            $this->result_json_type([
+                'code' => __LINE__,
+                'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'referer', 'referer is EMPTY!'),
+            ]);
+        }
+        $referer = explode('//', $_SERVER['HTTP_REFERER']);
+        if (!isset($referer[1])) {
+            $this->result_json_type([
+                'code' => __LINE__,
+                'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'referer_https', 'referer not //'),
+            ]);
+        }
+        //$this->result_json_type([$_SERVER['HTTP_REFERER']]);
+        $referer = explode('/', $referer[1]);
+        $referer = $referer[0];
+        if ($referer != $_SERVER['HTTP_HOST']) {
+            $this->result_json_type([
+                'code' => __LINE__,
+                'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'referer_host', 'referer mismatched!'),
+            ]);
+        }
+        //$this->result_json_type([$referer]);
+
         // kiểm tra tính hợp lệ của url
         $expires_token = $this->MY_get('expires_token');
         if (empty($expires_token)) {
@@ -120,6 +145,16 @@ class Firebase2s extends Firebases
                     'last_login' => date(EBE_DATETIME_FORMAT),
                     'user_activation_key' => $data['user_activation_key'],
                     'member_verified' => UsersType::VERIFIED,
+                ]);
+
+                // cho phép đăng nhập nếu tài khoản chưa bị đánh dấu xóa
+                $this->user_model->update_member($data['ID'], [
+                    'user_status' => UsersType::FOR_DEFAULT,
+                ], [
+                    // nếu tài khoản không bị khóa vĩnh viễn
+                    'user_status !=' => UsersType::NO_LOGIN,
+                    // và chưa bị đánh dấu xóa
+                    'is_deleted' => DeletedStatus::FOR_DEFAULT,
                 ]);
 
                 //

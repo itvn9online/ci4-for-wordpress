@@ -22,6 +22,7 @@ class Firebases extends Guest
                 'file_auth' => 'phone_auth',
                 // các chức năng đăng nhập khác sẽ được viết riêng vào đây
                 //'file_auth' => 'dynamic_auth',
+                'phone_number' => $this->MY_get('phone_number', ''),
                 // tạo chuỗi dùng để xác thực url sau khi đăng nhập thành công
                 'sign_in_success_url' => $this->firebaseSignInSuccessUrl(),
             )
