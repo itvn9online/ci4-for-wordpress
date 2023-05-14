@@ -125,10 +125,10 @@ class Cache extends BaseConfig
      * @var array<string, bool|int|string>
      */
     public array $memcached = [
-        'host' => '127.0.0.1',
-        'port' => 11211,
+        'host'   => '127.0.0.1',
+        'port'   => 11211,
         'weight' => 1,
-        'raw' => false,
+        'raw'    => false,
     ];
 
     /**
@@ -141,10 +141,10 @@ class Cache extends BaseConfig
      * @var array<string, int|string|null>
      */
     public array $redis = [
-        'host' => '127.0.0.1',
+        'host'     => '127.0.0.1',
         'password' => null,
-        'port' => 6379,
-        'timeout' => 0,
+        'port'     => 6379,
+        'timeout'  => 0,
         'database' => 0,
     ];
 
@@ -159,11 +159,11 @@ class Cache extends BaseConfig
      * @var array<string, string>
      */
     public array $validHandlers = [
-        'dummy' => DummyHandler::class,
-        'file' => FileHandler::class,
+        'dummy'     => DummyHandler::class,
+        'file'      => FileHandler::class,
         'memcached' => MemcachedHandler::class,
-        'predis' => PredisHandler::class,
-        'redis' => RedisHandler::class,
-        'wincache' => WincacheHandler::class,
+        'predis'    => PredisHandler::class,
+        'redis'     => RedisHandler::class,
+        'wincache'  => WincacheHandler::class,
     ];
 }

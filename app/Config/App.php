@@ -12,15 +12,10 @@ class App extends BaseConfig
      * Base Site URL
      * --------------------------------------------------------------------------
      *
-     * URL to your CodeIgniter root. Typically this will be your base URL,
+     * URL to your CodeIgniter root. Typically, this will be your base URL,
      * WITH a trailing slash:
      *
      *    http://example.com/
-     *
-     * If this is not set then CodeIgniter will try guess the protocol, domain
-     * and path to your installation. However, you should always configure this
-     * explicitly and never rely on auto-guessing, especially in production
-     * environments.
      */
     public string $baseURL = DYNAMIC_BASE_URL;
 
@@ -110,6 +105,8 @@ class App extends BaseConfig
      *
      * The default timezone that will be used in your application to display
      * dates with the date helper, and can be retrieved through app_timezone()
+     *
+     * @see https://www.php.net/manual/en/timezones.php for list of timezones supported by PHP.
      */
     public string $appTimezone = 'Asia/Ho_Chi_Minh';
 
