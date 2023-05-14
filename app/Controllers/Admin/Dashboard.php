@@ -738,16 +738,16 @@ class Dashboard extends Optimize
                     }
                 }
 
+                // các file không cần update
+                $deny_file_update = [
+                    '.gitattributes',
+                    '.gitignore',
+                    'system.zip',
+                    'database.zip',
+                ];
+
                 // copy file bằng php thông thường -> nhanh
                 if ($upload_via_ftp !== true) {
-                    // các file không cần update
-                    $deny_file_update = [
-                        '.gitattributes',
-                        '.gitignore',
-                        'system.zip',
-                        'database.zip',
-                    ];
-
                     // chuyển file
                     foreach ($this->file_re_cache as $file) {
                         echo 'from: ' . $file . '<br>' . "\n";
@@ -793,6 +793,10 @@ class Dashboard extends Optimize
                     // chuyển file
                     foreach ($this->file_re_cache as $file) {
                         echo 'from: ' . $file . '<br>' . "\n";
+                        if (in_array(basename($file), $deny_file_update)) {
+                            echo 'deny file update: ' . $file . '<br>' . "\n";
+                            continue;
+                        }
 
                         //
                         $to = str_replace($upload_path, PUBLIC_HTML_PATH, $file);
