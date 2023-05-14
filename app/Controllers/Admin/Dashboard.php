@@ -13,6 +13,7 @@ class Dashboard extends Optimize
     // link download code từ github
     //private $link_download_github = 'https://github.com/itvn9online/ci4-for-wordpress/blob/main/ci4-for-wordpress.zip?raw=true';
     private $link_download_github = 'https://github.com/itvn9online/ci4-for-wordpress/archive/refs/heads/main.zip';
+    private $link_download_system_github = 'https://github.com/itvn9online/ci4-for-wordpress/raw/main/system.zip';
     // mảng các file sẽ được copy lại ngay sau khi update
     private $copy_after_updated = [];
 
@@ -266,7 +267,7 @@ class Dashboard extends Optimize
         }
     }
 
-    public function unzip_system()
+    public function unzip_system($non_stop = false)
     {
         $system_zip = PUBLIC_HTML_PATH . 'system.zip';
         if (!file_exists($system_zip)) {
@@ -290,6 +291,13 @@ class Dashboard extends Optimize
         // giải nén system zip
         if ($this->MY_unzip($system_zip, PUBLIC_HTML_PATH) === TRUE) {
             $this->MY_unlink($system_zip);
+
+            // non_stop = true -> dừng lại tại đây thôi
+            if ($non_stop !== false) {
+                return true;
+            }
+
+            // còn không thì trả về thông báo
             //$this->base_model->alert( 'DONE! giải nén system.zip thành công' );
             die('<script>top.done_unzip_system();</script>');
         }
@@ -509,6 +517,30 @@ class Dashboard extends Optimize
         }
     }
 
+    // chức năng download và update system
+    protected function update_system()
+    {
+        //
+        $upload_path = PUBLIC_HTML_PATH;
+        //echo $upload_path . '<br>' . "\n";
+
+        //
+        $this->cleanup_zip($upload_path, 'Không xóa được file ZIP cũ trước khi upload file mới');
+
+        //
+        $file_path = $upload_path . explode('?', basename($this->link_download_system_github))[0];
+        //echo $file_path . '<br>' . "\n";
+
+        //
+        $file_model = new \App\Models\File();
+        if ($file_model->download_file($file_path, $this->link_download_system_github) === true) {
+            chmod($file_path, DEFAULT_FILE_PERMISSION);
+        }
+
+        //
+        return $this->unzip_system(true);
+    }
+
     // chức năng download code từ github nhưng kèm tính năng xóa code cũ -> nạp code mới hoàn toàn
     public function reset_code()
     {
@@ -518,6 +550,10 @@ class Dashboard extends Optimize
     // chức năng upload file code zip lên host và giải nén -> update code
     public function download_code($reset_code = false)
     {
+        // update system trước
+        $this->update_system();
+        die(__CLASS__ . ':' . __LINE__);
+
         // kiểm tra phiên bản code xem có khác nhau không
         /*
         if ( file_get_contents( APPPATH . 'VERSION', 1 ) == file_get_contents( 'https://raw.githubusercontent.com/itvn9online/ci4-for-wordpress/main/app/VERSION', 1 ) ) {
@@ -853,6 +889,7 @@ class Dashboard extends Optimize
                 // xác định xem thư mục theme cũ có tồn tại không
                 //'theme_deleted_exist' => $theme_deleted_exist,
                 'link_download_github' => $this->link_download_github,
+                'link_download_system_github' => $this->link_download_system_github,
                 'arr_list_thirdparty' => $arr_list_thirdparty,
                 'arr_download_thirdparty' => $arr_download_thirdparty,
             )
