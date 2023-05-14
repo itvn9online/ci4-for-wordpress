@@ -946,13 +946,6 @@ class Dashboard extends Optimize
         return $result;
     }
 
-    // tạo thư mục
-    private function mk_dir($dir, $msg, $permision = DEFAULT_DIR_PERMISSION)
-    {
-        mkdir($dir, $permision) or die('ERROR create dir (' . $msg . ')! ' . $dir);
-        chmod($dir, $permision);
-    }
-
     private function cleanup_deleted_dir($dirs, $upload_via_ftp)
     {
         //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
@@ -1150,23 +1143,6 @@ class Dashboard extends Optimize
 
         //die(__FILE__.':'.__LINE__);
         die('<script>top.done_submit_restore_code();</script>');
-    }
-
-    // kiểm tra xem có put file bằng php được hay phải dùng ftp
-    private function using_via_ftp($upload_check = '')
-    {
-        // thử kiểm tra quyền đọc ghi file trong thư mục app, nếu không ghi được -> sẽ sử dụng FTP để xử lý file
-        if ($upload_check == '') {
-            $upload_check = PUBLIC_HTML_PATH . 'app/';
-        }
-
-        //
-        $path = $upload_check . 'test_permission.txt';
-        if (@!file_put_contents($path, time())) {
-            return true;
-        }
-        unlink($path);
-        return false;
     }
 
     public function cleanup_matching_cache($default_key = '')

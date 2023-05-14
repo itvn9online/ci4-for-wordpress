@@ -50,8 +50,16 @@ class Optimize extends Admin
     protected function before_active_optimize($dir, $f, $c)
     {
         if (!is_dir($dir)) {
-            mkdir($dir, DEFAULT_DIR_PERMISSION) or die('ERROR create cache dir');
-            chmod($dir, DEFAULT_DIR_PERMISSION);
+            echo 'mkdir: ' . $dir . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+
+            //
+            $upload_via_ftp = $this->using_via_ftp();
+            if ($upload_via_ftp === true) {
+                $file_model = new \App\Models\File();
+                $file_model->create_dir($dir);
+            } else {
+                $this->mk_dir($dir, __CLASS__ . ':' . __LINE__);
+            }
         }
 
         //
@@ -700,5 +708,29 @@ class Optimize extends Admin
 
         // và không cần xóa liên tục
         $this->base_model->scache(__FUNCTION__, $current_time, $time);
+    }
+
+    // kiểm tra xem có put file bằng php được hay phải dùng ftp
+    protected function using_via_ftp($upload_check = '')
+    {
+        // thử kiểm tra quyền đọc ghi file trong thư mục app, nếu không ghi được -> sẽ sử dụng FTP để xử lý file
+        if ($upload_check == '') {
+            $upload_check = PUBLIC_HTML_PATH . 'app/';
+        }
+
+        //
+        $path = $upload_check . 'test_permission.txt';
+        if (@!file_put_contents($path, time())) {
+            return true;
+        }
+        unlink($path);
+        return false;
+    }
+
+    // tạo thư mục
+    protected function mk_dir($dir, $msg, $permision = DEFAULT_DIR_PERMISSION)
+    {
+        mkdir($dir, $permision) or die('ERROR create dir (' . $msg . ')! ' . $dir);
+        chmod($dir, $permision);
     }
 }
