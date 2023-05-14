@@ -44,8 +44,6 @@ body.is-admin #target_eb_iframe {
     position: absolute;
 }
 
-.col .goto-taxonomy-edit {}
-
 .click-goto-edit span {
     position: absolute;
     top: 0;
@@ -84,18 +82,3 @@ body.is-admin #target_eb_iframe {
 .goto-taxonomy-edit span i {
     font-size: 25px !important;
 }
-
-/* ================================== reponsive ================================== */
-/* desktop only */
-@media only screen and (min-width:748px) {
-    body.is-admin {}
-}
-
-/* mobile, table only */
-@media only screen and (max-width:788px) {}
-
-/* medium size */
-@media only screen and (max-width:588px) {}
-
-/* mobile only */
-@media only screen and (max-width:395px) {}

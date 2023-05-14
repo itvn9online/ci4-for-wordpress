@@ -33,10 +33,10 @@ function show_edit_btn() {
 	$(
 		".eb-blog li , .eb-blog div.col, .thread-list li, .eb-sub-menu, .global-details-title, .custom-bootstrap-post_type"
 	).each(function () {
-		var jd = $(this).attr("data-id") || "";
+		var jd = $(this).data("id") || "";
 		//console.log(jd);
-		var type = $(this).attr("data-type") || "";
-		var controller = $(this).attr("data-control") || "";
+		var type = $(this).data("type") || "";
+		var controller = $(this).data("control") || "";
 		//console.log(type);
 		var insert_before = $(this).attr("insert-before") || "";
 		//console.log(insert_before);
@@ -101,11 +101,11 @@ function show_edit_btn() {
 	$(
 		".global-taxonomy-title, .eb-widget-title, .eb-widget-hide-title, .custom-bootstrap-taxonomy"
 	).each(function () {
-		var jd = $(this).attr("data-id") || "";
+		var jd = $(this).data("id") || "";
 		//console.log(jd);
-		var type = $(this).attr("data-type") || "";
+		var type = $(this).data("type") || "";
 		//console.log(type);
-		var controller = $(this).attr("data-control") || "";
+		var controller = $(this).data("control") || "";
 
 		//
 		if (jd != "" && type != "") {

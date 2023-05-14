@@ -9,46 +9,11 @@
     float: none;
 }
 
-.eb-blog-padding {}
-
-.eb-blog-marginright {}
-
-.eb-blog-margintop {}
-
-.eb-blog-marginbottom {}
-
-.eb-blog-title {}
-
-.eb-blog-title a {}
-
-.eb-blog-infos {}
-
 .eb-blog-avt {
     background: #fff center no-repeat;
     background-size: contain;
     height: 150px;
 }
-
-.eb-blog-gioithieu,
-.eb-blog-ngay {}
-
-.eb-blog-gioithieu {}
-
-.eb-blog-cat a {}
-
-.eb-blog-left {}
-
-.eb-blog-right {}
-
-.eb-blogmain.eb-blog100 .eb-blog-left {}
-
-.eb-blogmain.eb-blog100 .eb-blog-right {}
-
-.eb-details-blog .eb-blog-left {}
-
-.eb-details-blog .eb-blog-right {}
-
-.eb-details-blog .eb-blog-cat {}
 
 .thread-list100 .eb-blog-title,
 .eb-blog100 .eb-blog-title,
@@ -371,8 +336,6 @@
 }
 
 /* search */
-.thread-search {}
-
 .thread-search li {
     margin: 8px 0 15px 0;
     border-bottom: 1px #f2f2f2 solid;
@@ -690,9 +653,6 @@
     font-style: normal;
 }
 
-.show_count_cart:before,
-.show_count_cart:after {}
-
 .show_count_cart:before {
     content: "(";
 }
@@ -735,13 +695,9 @@
     text-align: center;
 }
 
-.thread-list-status1 {}
-
 .thread-list-status2 {
     background-color: #090;
 }
-
-.thread-list-status4 {}
 
 .thread-list-status6 {
     background: url(../images-global/golden_time.png) top left no-repeat;
@@ -1268,8 +1224,6 @@
 }
 
 /* */
-.htv-text-slider .bg-slider {}
-
 .img-max-width img {
     max-width: 100%;
     height: auto;
@@ -1300,10 +1254,6 @@
     background-image: url(../images/icons/zalo.svg);
     background-size: 70%;
 }
-
-.wgr-fa.wgr-icons-tiktok {}
-
-.wgr-share-icons {}
 
 .wgr-share-icons li {
     float: left;
@@ -1362,6 +1312,11 @@
     margin: 0 auto;
 }
 
+.custom-bootstrap-post_type,
+.custom-bootstrap-taxonomy {
+    position: relative;
+}
+
 /* desktop only */
 @media only screen and (min-width:748px) {}
 
@@ -1390,8 +1345,6 @@
     .eb-blog {
         margin: 0;
     }
-
-    .padding-global-content {}
 
     .thread-details-tohome {
         padding-left: 10px;

@@ -1,8 +1,7 @@
 .error-page {
     padding: 50px 0;
 }
+
 .error-page h1 {
     font-weight: bolder;
 }
-.error-page .not-found {}
-.error-page .msg_404 {}

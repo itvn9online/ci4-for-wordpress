@@ -272,11 +272,6 @@ em.fa {
     color: #c00;
 }
 
-.thread-details-tohome {}
-
-/*
-.thread-details-tohome i { color: #F60; }
-*/
 .thread-details-tohome,
 .thread-details-tohome a {
     color: #6C6C6C;
@@ -703,8 +698,6 @@ div.p {
     margin: 0 0 10px;
 }
 
-span.taxonomy-count {}
-
 span.taxonomy-count:before {
     content: "(";
 }
@@ -738,8 +731,6 @@ span.taxonomy-count:after {
 }
 
 /* */
-.ebe-currency {}
-
 .ebe-currency:before,
 .ebe-currency:after {
     content: "\0111";

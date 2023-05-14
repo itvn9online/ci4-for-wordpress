@@ -1,15 +1,10 @@
 /*
 * file này sẽ hỗ trợ xử lý 1 chút css từ flatsome, để cho khớp với bootrap mặc định
 */
-.flatsome {}
-
-/* */
 .flatsome .row {
     margin-left: auto;
     margin-right: auto;
 }
-
-.flatsome .row {}
 
 /* */
 .flatsome .col {

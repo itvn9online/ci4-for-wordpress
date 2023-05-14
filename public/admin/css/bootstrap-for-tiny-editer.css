@@ -1,7 +1,3 @@
-.row,
-.col,
-.col-inner {}
-
 .row {
     margin-bottom: 15px;
 }
@@ -11,14 +7,10 @@
     padding: 10px 15px;
 }
 
-.col-inner {}
-
 table {
     border-top: 1px #ccc dashed;
     border-right: 1px #ccc dashed;
 }
-
-tr {}
 
 th,
 td {
@@ -30,8 +22,6 @@ td {
 th {
     font-weight: bold;
 }
-
-td {}
 
 table[border="1"] {
     border-top-style: solid;
