@@ -168,7 +168,7 @@ function action_signInSuccessWithAuthResult(authResult, redirectUrl) {
 			}
 			// mặc định sẽ nạp lại trang
 			else if (typeof data.ok != "undefined" && data.ok * 1 > 0) {
-				var a = login_get_params("login_redirect");
+				var a = WGR_get_params("login_redirect");
 				if (a != "") {
 					//console.log(a);
 					a = decodeURIComponent(a);
@@ -191,21 +191,8 @@ function login_reload() {
 	window.location = window.location.href;
 }
 
-function login_get_params(param) {
-	var queryString = window.location.search;
-	//console.log(queryString);
-	var urlParams = new URLSearchParams(queryString);
-	var a = urlParams.get(param);
-	//console.log(a);
-	if (a === null) {
-		a = "";
-	}
-	//console.log(a);
-	return a;
-}
-
 function action_signInSuccessUrl() {
-	var a = login_get_params("login_redirect");
+	var a = WGR_get_params("login_redirect");
 	if (a != "") {
 		//console.log(a);
 		a = decodeURIComponent(a);

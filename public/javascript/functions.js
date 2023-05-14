@@ -1160,3 +1160,12 @@ function WGR_open_poup(str, tit, __callBack) {
 	}
 	$("#popupModal").modal("show");
 }
+
+function WGR_get_params(param) {
+	var queryString = window.location.search;
+	//console.log(queryString);
+	var urlParams = new URLSearchParams(queryString);
+	var a = urlParams.get(param);
+	//console.log(a);
+	return a === null ? "" : a;
+}
