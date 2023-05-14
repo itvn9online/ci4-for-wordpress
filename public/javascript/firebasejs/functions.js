@@ -173,14 +173,20 @@ function action_signInSuccessWithAuthResult(authResult, redirectUrl) {
 					//console.log(a);
 					a = decodeURIComponent(a);
 					//console.log(a);
-					if (a.split("//").length > 1) {
-						window.location = a;
-					} else {
-						login_reload();
+					if (a.split("//").length <= 1) {
+						a = web_link;
 					}
 				} else {
-					login_reload();
+					if (
+						typeof data.redirect_to != "undefined" &&
+						data.redirect_to != ""
+					) {
+						a = data.redirect_to;
+					} else {
+						a = web_link;
+					}
 				}
+				window.location = a;
 			}
 		},
 	});
@@ -201,7 +207,8 @@ function action_signInSuccessUrl() {
 			return a;
 		}
 	}
-	return window.location.href;
+	//return window.location.href;
+	return web_link;
 }
 
 function action_signInFailure(error) {
