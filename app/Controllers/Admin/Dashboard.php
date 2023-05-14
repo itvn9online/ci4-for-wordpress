@@ -552,7 +552,7 @@ class Dashboard extends Optimize
     {
         // update system trước
         $this->update_system();
-        die(__CLASS__ . ':' . __LINE__);
+        //die(__CLASS__ . ':' . __LINE__);
 
         // kiểm tra phiên bản code xem có khác nhau không
         /*
