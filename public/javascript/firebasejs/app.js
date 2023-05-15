@@ -12,13 +12,22 @@ var ui = new firebaseui.auth.AuthUI(firebase.auth());
  * @param {!firebase.User} user
  */
 var handleSignedInUser = function (user) {
+	if (user === null || typeof user == "undefined") {
+		return false;
+	}
+
+	//
 	//action_handleSignedInUser(user);
 	jQuery("#user-signed-in").show();
 	jQuery("#user-signed-out").hide();
 	jQuery("#firebase_name").html(user.displayName);
 	jQuery("#firebase_email").html(user.email);
 	jQuery("#firebase_phone").html(user.phoneNumber);
-	if (typeof user.photoURL != "undefined" && user.photoURL != "") {
+	if (
+		typeof user.photoURL != "undefined" &&
+		user.photoURL != "" &&
+		user.photoURL != null
+	) {
 		jQuery("#firebase_photo").html('<img src="' + user.photoURL + '" />');
 	}
 };
