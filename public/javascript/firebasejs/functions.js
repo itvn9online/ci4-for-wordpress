@@ -103,6 +103,10 @@ function action_handleSignedInUser() {
 
 // ngay sau khi đăng nhập thành công trên firebase -> thực hiện đăng nhập trên web thôi
 function action_signInSuccessWithAuthResult(authResult, redirectUrl) {
+	if (authResult === null || typeof authResult.user == "undefined") {
+		return false;
+	}
+
 	//console.log(Math.random());
 	//console.log(redirectUrl);
 	var user = authResult.user;
@@ -201,6 +205,24 @@ function action_signInSuccessWithAuthResult(authResult, redirectUrl) {
 
 function login_reload() {
 	window.location = window.location.href;
+}
+
+function continueSignIn() {
+	action_signInSuccessWithAuthResult({
+		user: firebase.auth().currentUser,
+	});
+}
+
+function firebaseSignOut(m) {
+	if (confirm(m) === true) {
+		firebase.auth().signOut();
+	}
+}
+
+function firebaseDeleteAccountt(m) {
+	if (confirm(m) === true) {
+		deleteAccount();
+	}
 }
 
 function action_signInSuccessUrl() {

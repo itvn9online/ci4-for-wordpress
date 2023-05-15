@@ -36,14 +36,15 @@ if ($getconfig->g_firebase_config != '') {
     <div id="loading">Loading...</div>
     <div id="loaded" class="hidden">
         <div id="user-signed-in" class="hidden">
+            <div id="firebase_photo"></div>
             <div id="firebase_name"></div>
             <div id="firebase_email"></div>
             <div id="firebase_phone"></div>
             <br>
             <div>
-                <button type="button" id="sign-in" class="btn btn-primary"><?php $lang_model->the_text('firebase_sign_in', 'Đăng nhập'); ?></button>
-                <button type="button" id="sign-out" class="btn btn-secondary"><?php $lang_model->the_text('firebase_sign_out', 'Đăng xuất'); ?></button>
-                <button type="button" id="delete-account" class="btn btn-danger d-none"><?php $lang_model->the_text('firebase_delete_account', 'Xóa tài khoản'); ?></button>
+                <button type="button" id="sign-in" onclick="return continueSignIn();" class="btn btn-primary"><?php $lang_model->the_text('firebase_sign_in', 'Đăng nhập'); ?></button>
+                <button type="button" id="sign-out" onclick="return firebaseSignOut('<?php $lang_model->the_text('firebase_confirm_logout', 'Bạn thật sự muốn thoát tài khoản này!'); ?>');" class="btn btn-secondary"><?php $lang_model->the_text('firebase_sign_out', 'Đăng xuất'); ?></button>
+                <button type="button" id="delete-account" onclick="return firebaseDeleteAccountt('<?php $lang_model->the_text('firebase_confirm_delete', 'Xác nhận xóa tài khoản khỏi website này!'); ?>');" class="btn btn-danger d-none"><?php $lang_model->the_text('firebase_delete_account', 'Xóa'); ?></button>
             </div>
         </div>
         <div id="user-signed-out" class="hidden">

@@ -18,13 +18,8 @@ var handleSignedInUser = function (user) {
 	jQuery("#firebase_name").html(user.displayName);
 	jQuery("#firebase_email").html(user.email);
 	jQuery("#firebase_phone").html(user.phoneNumber);
-	if (document.getElementById("firebase_photo") !== null) {
-		if (user.photoURL) {
-			document.getElementById("firebase_photo").src = user.photoURL;
-			jQuery("#firebase_photo").show();
-		} else {
-			jQuery("#firebase_photo").hide();
-		}
+	if (typeof user.photoURL != "undefined" && user.photoURL != "") {
+		jQuery("#firebase_photo").html('<img src="' + user.photoURL + '" />');
 	}
 };
 
@@ -86,20 +81,13 @@ var deleteAccount = function () {
 /**
  * Initializes the app.
  */
+/*
 var initApp = function () {
-	document.getElementById("sign-in").addEventListener("click", function () {
-		action_signInSuccessWithAuthResult({
-			user: firebase.auth().currentUser,
-		});
-	});
-	document.getElementById("sign-out").addEventListener("click", function () {
-		firebase.auth().signOut();
-	});
+	//document.getElementById("sign-in").addEventListener("click", function () {});
+	//document.getElementById("sign-out").addEventListener("click", function () {});
 	document
 		.getElementById("delete-account")
-		.addEventListener("click", function () {
-			deleteAccount();
-		});
+		.addEventListener("click", function () {});
 };
-
 window.addEventListener("load", initApp);
+*/
