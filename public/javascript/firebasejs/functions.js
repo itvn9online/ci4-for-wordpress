@@ -174,7 +174,10 @@ function action_signInSuccessWithAuthResult(authResult, redirectUrl) {
 					a = decodeURIComponent(a);
 					//console.log(a);
 					if (a.split("//").length <= 1) {
-						a = web_link;
+						a = set_value_firebase_config(
+							firebase_sign_in_redirect_to,
+							web_link
+						);
 					}
 				} else {
 					if (
@@ -183,7 +186,10 @@ function action_signInSuccessWithAuthResult(authResult, redirectUrl) {
 					) {
 						a = data.redirect_to;
 					} else {
-						a = web_link;
+						a = set_value_firebase_config(
+							firebase_sign_in_redirect_to,
+							web_link
+						);
 					}
 				}
 				window.location = a;
@@ -208,7 +214,7 @@ function action_signInSuccessUrl() {
 		}
 	}
 	//return window.location.href;
-	return web_link;
+	return set_value_firebase_config(firebase_sign_in_redirect_to, web_link);
 }
 
 function action_signInFailure(error) {

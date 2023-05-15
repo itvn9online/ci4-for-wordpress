@@ -60,6 +60,7 @@ if ($getconfig->g_firebase_config != '') {
         // mảng này sẽ in ra dưới dạng string
         'firebase_privacy_policy_url' => $getconfig->g_firebase_privacy_policy_url,
         'firebase_terms_service_url' => $getconfig->g_firebase_terms_service_url,
+        'firebase_sign_in_redirect_to' => $getconfig->firebase_sign_in_redirect_to,
         'firebase_default_country' => $getconfig->g_firebase_default_country,
         'firebase_login_hint' => $getconfig->g_firebase_login_hint,
         //
