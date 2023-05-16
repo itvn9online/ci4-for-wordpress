@@ -109,6 +109,14 @@ class Firebase2s extends Firebases
                     'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'apikey', 'apikey mismatched!'),
                 ]);
             }
+            // apiurl phải tồn tại trong config thì mới cho tiếp tục
+            $apiurl = $this->MY_post('apiurl');
+            if (strpos($this->getconfig->g_firebase_config, $apiurl) === false) {
+                $this->result_json_type([
+                    'code' => __LINE__,
+                    'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'apiurl', 'apiurl mismatched!'),
+                ]);
+            }
 
             //
             $name = $this->MY_post('name');

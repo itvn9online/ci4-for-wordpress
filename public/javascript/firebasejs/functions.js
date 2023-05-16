@@ -101,6 +101,12 @@ function action_handleSignedInUser() {
 	});
 }
 
+function test_result_user_data(user) {
+	for (var x in user) {
+		console.log(x + ":", user[x]);
+	}
+}
+
 // ngay sau khi đăng nhập thành công trên firebase -> thực hiện đăng nhập trên web thôi
 function action_signInSuccessWithAuthResult(authResult, redirectUrl) {
 	if (authResult === null || typeof authResult.user == "undefined") {
@@ -122,11 +128,9 @@ function action_signInSuccessWithAuthResult(authResult, redirectUrl) {
 	//console.log(user.email);
 	//console.log(user.emailVerified);
 	//console.log(user.phoneNumber);
-	/*
-	for (var x in user) {
-		console.log(x + ":", user[x]);
-	}
-	*/
+	//test_result_user_data(user);
+
+	//
 	var data = {
 		uid: user.uid,
 		name: user.displayName,
