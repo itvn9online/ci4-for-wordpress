@@ -468,7 +468,7 @@ class ConfigType
     // description của từng meta nếu có
     public static function meta_desc($key)
     {
-        $firebase_note_phone = ' * Chức năng này dùng nhiều sẽ mất phí nếu đăng ký gói trả phí. Vui lòng xem bảng giá trước khi kích hoạt nó. Bảng giá chung: https://firebase.google.com/pricing?hl=en&authuser=0#blaze-calculator Bảng giá chi tiết: https://cloud.google.com/identity-platform/pricing?authuser=0#pricing_table ';
+        $firebase_note_phone = ' * Chức năng này dùng nhiều sẽ mất phí nếu đăng ký gói trả phí. Vui lòng xem bảng giá trước khi kích hoạt nó. Bảng giá chung: https://firebase.google.com/pricing?hl=en&authuser=0 Bảng giá chi tiết: https://cloud.google.com/identity-platform/pricing?authuser=0#pricing_table ';
 
         //
         $arr = [
