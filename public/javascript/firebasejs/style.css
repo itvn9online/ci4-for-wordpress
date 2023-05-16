@@ -12,3 +12,7 @@
   box-shadow: 0 0 10px #ccc;
   border: 5px #fff solid;
 }
+
+.firebaseui-idp-button {
+  max-width: 250px;
+}

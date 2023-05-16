@@ -15,6 +15,7 @@ function dynamicUiConfig() {
 	if (firebase_auth_github == "on") {
 		a.push(firebase.auth.GithubAuthProvider.PROVIDER_ID);
 	}
+	//a.push(firebase.auth.OAuthProvider("yahoo.com"));
 	if (firebase_auth_email == "on") {
 		a.push(firebase.auth.EmailAuthProvider.PROVIDER_ID);
 	}

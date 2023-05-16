@@ -128,6 +128,7 @@ function action_signInSuccessWithAuthResult(authResult, redirectUrl) {
 	//console.log(user.email);
 	//console.log(user.emailVerified);
 	//console.log(user.phoneNumber);
+	//
 	//test_result_user_data(user);
 
 	//
