@@ -17,6 +17,13 @@ class Guest extends Csrf
 
     public $member_type = UsersType::GUEST;
 
+    /*
+    * file JS khi sử dụng chức năng đăng nhập qua firebase
+    * phone_auth: phần đăng nhập qua điện thoại sẽ được ưu tiên code riêng do nó có mất phí
+    * dynamic_auth: các chức năng đăng nhập khác sẽ được viết riêng vào đây
+    */
+    public $file_auth = 'dynamic_auth';
+
     public function __construct()
     {
         parent::__construct();
@@ -142,7 +149,7 @@ class Guest extends Csrf
                 'set_login' => $this->MY_get('set_login', ''),
                 // tạo chuỗi dùng để xác thực url sau khi đăng nhập thành công
                 'sign_in_success_url' => $this->firebaseSignInSuccessUrl(),
-                'file_auth' => 'dynamic_auth',
+                'file_auth' => $this->file_auth,
             )
         );
         //print_r( $this->teamplate );

@@ -72,6 +72,7 @@ if ($getconfig->g_firebase_config != '') {
         'firebase_auth_email' => $getconfig->firebase_auth_email,
         'firebase_auth_anonymous' => $getconfig->firebase_auth_anonymous,
         'firebase_auth_phone' => $getconfig->firebase_auth_phone,
+        'firebase_verify_phone' => $getconfig->firebase_verify_phone,
         //
         'default_national_number' => $current_user_id > 0 ? $session_data['user_phone'] : (isset($phone_number) ? $phone_number : ''),
         'sign_in_success_url' => $sign_in_success_url,

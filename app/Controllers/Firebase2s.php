@@ -46,6 +46,14 @@ class Firebase2s extends Firebases
         }
         //$this->result_json_type([$referer]);
 
+        // xem có config cho chức năng đăng nhập qua firebase không
+        if (empty(trim($this->getconfig->g_firebase_config))) {
+            $this->result_json_type([
+                'code' => __LINE__,
+                'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'firebase_config', 'firebase_config is EMPTY!'),
+            ]);
+        }
+
         // kiểm tra tính hợp lệ của url
         $expires_token = $this->MY_get('expires_token');
         if (empty($expires_token)) {
@@ -93,6 +101,15 @@ class Firebase2s extends Firebases
         }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // apikey phải tồn tại trong config thì mới cho tiếp tục
+            $apikey = $this->MY_post('apikey');
+            if (strpos($this->getconfig->g_firebase_config, $apikey) === false) {
+                $this->result_json_type([
+                    'code' => __LINE__,
+                    'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'apikey', 'apikey mismatched!'),
+                ]);
+            }
+
             //
             $name = $this->MY_post('name');
             $email = trim($this->MY_post('email'));

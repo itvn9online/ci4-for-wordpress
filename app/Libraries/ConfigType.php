@@ -233,6 +233,7 @@ class ConfigType
                 'firebase_auth_email' => 'Email Auth Provider',
                 'firebase_auth_anonymous' => 'Anonymous Auth Provider',
                 'firebase_auth_phone' => 'Phone Auth Provider',
+                'firebase_verify_phone' => 'Phone Verify Provider',
             ];
         } else if ($config_type == self::CHECKBOX) {
             $arr = [];
@@ -453,6 +454,7 @@ class ConfigType
             'firebase_auth_email' => 'checkbox',
             'firebase_auth_anonymous' => 'checkbox',
             'firebase_auth_phone' => 'checkbox',
+            'firebase_verify_phone' => 'checkbox',
         ];
         //print_r( $arr );
         if (isset($arr[$key])) {
@@ -466,6 +468,9 @@ class ConfigType
     // description của từng meta nếu có
     public static function meta_desc($key)
     {
+        $firebase_note_phone = ' * Chức năng này dùng nhiều sẽ mất phí nếu đăng ký gói trả phí. Vui lòng xem bảng giá trước khi kích hoạt nó. Bảng giá chung: https://firebase.google.com/pricing?hl=en&authuser=0#blaze-calculator Bảng giá chi tiết: https://cloud.google.com/identity-platform/pricing?authuser=0#pricing_table ';
+
+        //
         $arr = [
             'body_font_size' => 'Cỡ chữ được thiết lập cho body.',
             'bodym_font_size' => 'Cỡ chữ được thiết lập cho body bản mobile.',
@@ -496,7 +501,8 @@ class ConfigType
             'firebase_auth_github' => 'Đăng nhập bằng tài khoản Github',
             'firebase_auth_email' => 'Đăng nhập bằng email',
             'firebase_auth_anonymous' => 'Sử dụng với vai trò khách',
-            'firebase_auth_phone' => 'Đăng nhập bằng số điện thoại',
+            'firebase_auth_phone' => 'Đăng nhập bằng số điện thoại ' . $firebase_note_phone,
+            'firebase_verify_phone' => 'Chức năng xác thực số điện thoại qua Firebase tại đây: ' . base_url('firebases/phone_auth') . $firebase_note_phone,
             //
             'site_max_width' => 'Bạn có thể thiết lập chiều rộng cho trang tại đây. Chiều rộng tiêu chuẩn: 1024px - Chiều rộng phổ biến: 1366px',
             'site_full_width' => 'Tương tự chiều rộng trang nhưng có độ rộng nhỉnh hơn chút. Chiều rộng tiêu chuẩn: 1024px - Chiều rộng phổ biến: 1666px',

@@ -2,6 +2,18 @@
  * Thiết lập chức năng đăng nhập bằng số điện thoại
  * https://github.com/firebase/firebaseui-web#configure-phone-provider
  */
+
+function phoneUiConfig() {
+	var a = [];
+	if (firebase_verify_phone == "on") {
+		a.push(buildPhoneAuthProvider());
+	}
+	//console.log(a);
+
+	//
+	return a;
+}
+
 function getUiConfig() {
 	return {
 		callbacks: {
@@ -19,7 +31,7 @@ function getUiConfig() {
 		// Opens IDP Providers sign-in flow in a popup.
 		signInFlow: "popup",
 		signInSuccessUrl: action_signInSuccessUrl(),
-		signInOptions: [buildPhoneAuthProvider()],
+		signInOptions: phoneUiConfig(),
 		// Privacy policy url/callback.
 		privacyPolicyUrl: function () {
 			action_privacyPolicyUrl();
