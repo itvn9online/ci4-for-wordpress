@@ -248,6 +248,7 @@ class Guest extends Csrf
         //
         $this->user_model->update_member($result['ID'], [
             'last_login' => date(EBE_DATETIME_FORMAT),
+            'login_type' => UsersType::LOCAL,
             'user_activation_key' => $result['user_activation_key'],
         ]);
 

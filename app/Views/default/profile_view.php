@@ -132,7 +132,7 @@
         <div class="row">
             <div class="col small-12 medium-4 large-4">Đăng nhập cuối</div>
             <div class="col small-12 medium-8 large-8">
-                <?php echo $data['last_login']; ?>
+                <?php echo $data['last_login']; ?> (<?php echo $data['login_type']; ?>)
             </div>
         </div>
         <div class="row">

@@ -281,6 +281,7 @@ class Sync extends BaseController
                 'district_id' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'ID của quận huyện\'',
                 'province_id' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'ID của tỉnh thành phố\'',
                 'last_login' => 'DATETIME NOT NULL',
+                'login_type' => 'VARCHAR(55) NOT NULL COMMENT \'Phân loại kiểu đăng nhập\'',
                 'last_updated' => 'DATETIME NOT NULL',
                 'user_birthday' => 'DATE NULL COMMENT \'Sinh nhật của thành viên\'',
                 'user_phone' => 'VARCHAR(55) NULL COMMENT \'Điện thoại liên hệ\'',

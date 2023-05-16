@@ -202,7 +202,7 @@ $base_model->adds_css([
                     <div class="control-group">
                         <label class="control-label">Đăng nhập cuối</label>
                         <div class="controls">
-                            <?php echo $data['last_login']; ?>
+                            <?php echo $data['last_login']; ?> (<?php echo $data['login_type']; ?>)
                         </div>
                     </div>
                     <div class="control-group">

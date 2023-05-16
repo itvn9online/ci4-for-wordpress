@@ -160,6 +160,7 @@ class Firebase2s extends Firebases
                 // cập nhật 1 số thông tin kiểu cố định
                 $this->user_model->update_member($data['ID'], [
                     'last_login' => date(EBE_DATETIME_FORMAT),
+                    'login_type' => UsersType::FIREBASE,
                     'user_activation_key' => $data['user_activation_key'],
                     'member_verified' => UsersType::VERIFIED,
                 ]);

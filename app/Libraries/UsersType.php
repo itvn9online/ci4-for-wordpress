@@ -32,6 +32,10 @@ class UsersType
     const VERIFING = 0;
     const VERIFIED = 1;
 
+    // login_type
+    const LOCAL = 'local';
+    const FIREBASE = 'firebase';
+
     private static $arr = array(
         self::GUEST => AdminTranslate::GUEST,
         self::MEMBER => AdminTranslate::MEMBER,
