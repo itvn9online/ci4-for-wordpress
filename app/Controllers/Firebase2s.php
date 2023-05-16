@@ -124,6 +124,7 @@ class Firebase2s extends Firebases
             //$email = 'itvn9online@yahoo.com';
             $phone = trim($this->MY_post('phone'));
             //$phone = '+84984533228';
+            $photo = $this->MY_post('photo', '');
 
             //
             $where = [
@@ -184,6 +185,13 @@ class Firebase2s extends Firebases
                 ]);
 
                 //
+                if (empty($data['avatar']) && $photo != '') {
+                    $this->user_model->update_member($data['ID'], [
+                        'avatar' => $photo,
+                    ]);
+                }
+
+                //
                 $this->base_model->set_ses_login($data);
             } else {
                 if (empty($email)) {
@@ -197,7 +205,7 @@ class Firebase2s extends Firebases
                     'display_name' => $name,
                     'user_phone' => $phone,
                     'member_type' => UsersType::GUEST,
-                    'avatar' => $this->MY_post('photo', ''),
+                    'avatar' => $photo,
                     'firebase_uid' => $this->MY_post('uid', ''),
                     'member_verified' => UsersType::VERIFIED,
                 ];
