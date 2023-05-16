@@ -4,6 +4,7 @@
  * -> chỉ xử lý với file, dùng trong trường hợp sử dụng host không có quyền thực thi file trực tiếp
  * -> không cần extends tới Models để đỡ bị qua thủ tục kết nối database
  */
+
 namespace App\Models;
 
 class File extends EbModel
@@ -345,7 +346,7 @@ class File extends EbModel
 
             $file_for_ftp = strstr($file_, '/' . $this->base_dir . '/');
         }
-        //die( $file_for_ftp );
+        //die($file_for_ftp);
 
         //
         $local_filename = $this->create_cache_for_ftp($content_);
@@ -434,7 +435,6 @@ class File extends EbModel
     private function create_cache_for_ftp($content_ = '')
     {
         $f = WRITEPATH . 'cache_for_ftp.txt';
-
         if ($content_ != '') {
             echo __CLASS__ . ':' . __LINE__ . ':' . $f . '<br>' . PHP_EOL;
             $this->base_model->_eb_create_file($f, $content_);
