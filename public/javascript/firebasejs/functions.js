@@ -169,7 +169,12 @@ function action_signInSuccessWithAuthResult(authResult, redirectUrl) {
 			console.log(data);
 			// nếu có tham số nạp lại trang -> nạp lại
 			if (typeof data.reload != "undefined" && data.reload * 1 > 0) {
-				login_reload();
+				if (typeof data.error != "undefined" && data.error != "") {
+					WGR_alert(data.error, "error");
+				}
+				setTimeout(function () {
+					login_reload();
+				}, 2000);
 			}
 			// có lỗi thì thông báo lỗi
 			else if (typeof data.error != "undefined" && data.error != "") {
