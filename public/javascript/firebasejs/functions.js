@@ -266,13 +266,10 @@ function action_uiShown() {
 
 function action_privacyPolicyUrl() {
 	window.location.assign(
-		set_value_firebase_config(firebase_privacy_policy_url, window.location.href)
+		set_value_firebase_config(firebase_privacy_policy_url, web_link)
 	);
 }
 
 function build_tosUrl() {
-	return set_value_firebase_config(
-		firebase_terms_service_url,
-		window.location.href
-	);
+	return set_value_firebase_config(firebase_terms_service_url, web_link);
 }
