@@ -110,9 +110,7 @@ class PostType
         //
         if (
             $post_type == self::POST ||
-            //
             $post_type == self::ADS ||
-            //
             $post_type == self::BLOG
         ) {
             //$arr[ 'post_relationships' ] = 'Danh sách term ID';

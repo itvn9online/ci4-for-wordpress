@@ -77,7 +77,7 @@ class Users extends Admin
 
         // GET
         $by_is_deleted = $this->MY_get('is_deleted', DeletedStatus::FOR_DEFAULT);
-        $by_keyword = $this->MY_get('s');
+        $by_keyword = trim($this->MY_get('s', ''));
         $by_user_status = $this->MY_get('user_status');
         $order_by = $this->MY_get('order_by');
 

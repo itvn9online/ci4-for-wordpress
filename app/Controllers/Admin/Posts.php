@@ -6,6 +6,7 @@ namespace App\Controllers\Admin;
 use App\Libraries\PostType;
 use App\Libraries\TaxonomyType;
 use App\Libraries\LanguageCost;
+use App\Libraries\DeletedStatus;
 
 //
 class Posts extends Admin
@@ -99,36 +100,83 @@ class Posts extends Admin
         $by_keyword = $this->MY_get('s');
         $post_status = $this->MY_get('post_status');
         $by_term_id = $this->MY_get('term_id', 0);
+        $by_user_id = $this->MY_get('user_id', 0);
 
         // các kiểu điều kiện where
         //$where[ $this->table . '.post_status !=' ] = PostType::DELETED;
         $where[$this->table . '.post_type'] = $this->post_type;
         $where[$this->table . '.lang_key'] = $this->lang_key;
+        if ($by_user_id > 0) {
+            $where[$this->table . '.post_author'] = $by_user_id;
+            $urlPartPage .= '&user_id=' . $by_user_id;
+            $for_action .= '&user_id=' . $by_user_id;
+        }
 
         // tìm kiếm theo từ khóa nhập vào
         $where_or_like = [];
+        $where_in = [];
         if ($by_keyword != '') {
             $urlPartPage .= '&s=' . $by_keyword;
             $for_action .= '&s=' . $by_keyword;
 
-            //
-            $by_like = $this->base_model->_eb_non_mark_seo($by_keyword);
-            // tối thiểu từ 1 ký tự trở lên mới kích hoạt tìm kiếm
-            if (strlen($by_like) > 0) {
-                //var_dump( strlen( $by_like ) );
-                // nếu là số -> chỉ tìm theo ID
-                if (is_numeric($by_like) === true) {
-                    $where_or_like = [
-                        'ID' => $by_like * 1,
-                        //'post_author' => $by_like,
-                        //'post_parent' => $by_like,
-
-                    ];
+            // nếu là email -> tìm theo email thành viên
+            if (strpos($by_keyword, '@') !== false) {
+                $user_data = $this->base_model->select(
+                    'ID',
+                    'users',
+                    array(
+                        'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                    ),
+                    array(
+                        'like' => array(
+                            'user_email' => $by_keyword,
+                        ),
+                        'order_by' => array(
+                            'ID' => 'DESC'
+                        ),
+                        // hiển thị mã SQL để check
+                        //'show_query' => 1,
+                        // trả về câu query để sử dụng cho mục đích khác
+                        //'get_query' => 1,
+                        // trả về COUNT(column_name) AS column_name
+                        //'selectCount' => 'ID',
+                        // trả về tổng số bản ghi -> tương tự mysql num row
+                        //'getNumRows' => 1,
+                        //'offset' => 0,
+                        'limit' => 100
+                    )
+                );
+                //print_r($user_data);
+                if (!empty($user_data)) {
+                    $in_users_id = [];
+                    foreach ($user_data as $v) {
+                        $in_users_id[] = $v['ID'];
+                    }
+                    $where_in[$this->table . '.post_author'] = $in_users_id;
                 } else {
-                    $where_or_like = [
-                        'post_name' => $by_like,
-                        'post_title' => $by_keyword,
-                    ];
+                    // không có thì đặt điều kiện tìm kiếm là -1 -> không có user ID nào là -1 -> không có kết quả tìm kiếm
+                    $where[$this->table . '.post_author'] = '-1';
+                }
+            }
+            // còn lại sẽ tìm theo thông tin đơn hàng
+            else {
+                $by_like = $this->base_model->_eb_non_mark_seo($by_keyword);
+                // tối thiểu từ 1 ký tự trở lên mới kích hoạt tìm kiếm
+                if (strlen($by_like) > 0) {
+                    //var_dump( strlen( $by_like ) );
+                    // nếu là số -> chỉ tìm theo ID
+                    if (is_numeric($by_like) === true) {
+                        $where_or_like = [
+                            'ID' => $by_like * 1,
+                            'post_author' => $by_like,
+                            'post_parent' => $by_like,
+                        ];
+                    } else {
+                        $where_or_like = [
+                            'post_name' => $by_like,
+                            'post_title' => $by_keyword,
+                        ];
+                    }
                 }
             }
         }
@@ -149,12 +197,11 @@ class Posts extends Admin
                 $post_status,
             ];
         }
+        $where_in[$this->table . '.post_status'] = $by_post_status;
 
         // tổng kết filter
         $filter = [
-            'where_in' => array(
-                $this->table . '.post_status' => $by_post_status
-            ),
+            'where_in' => $where_in,
             'or_like' => $where_or_like,
             // hiển thị mã SQL để check
             //'show_query' => 1,
@@ -325,6 +372,7 @@ class Posts extends Admin
                 'post_status' => $post_status,
                 'by_keyword' => $by_keyword,
                 'by_term_id' => $by_term_id,
+                'by_user_id' => $by_user_id,
                 'controller_slug' => $this->controller_slug,
                 'pagination' => $pagination,
                 'totalThread' => $totalThread,

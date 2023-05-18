@@ -773,7 +773,57 @@ class Terms extends Admin
 
     public function term_status()
     {
-        $this->base_model->alert('Warning! tính năng chờ cập nhật...', 'warning');
+        $id = $this->MY_get('id', '');
+        if (empty($id)) {
+            die('id empty');
+        }
+
+        //
+        $data = $this->base_model->select(
+            'term_status',
+            'terms',
+            array(
+                'term_id' => $id,
+            ),
+            array(
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => 1
+            )
+        );
+        print_r($data);
+        if (empty($data)) {
+            $this->base_model->alert('Không xác định được danh mục cần cập nhật!', 'warning');
+        }
+        if ($data['term_status'] == TaxonomyType::VISIBLE) {
+            $data['term_status'] = TaxonomyType::HIDDEN;
+        } else {
+            $data['term_status'] = TaxonomyType::VISIBLE;
+        }
+        print_r($data);
+
+        //
+        $this->base_model->update_multiple(
+            'terms',
+            [
+                'term_status' => $data['term_status'],
+            ],
+            [
+                'term_id' => $id,
+            ],
+            [
+                'debug_backtrace' => debug_backtrace()[1]['function']
+            ]
+        );
+        //$this->base_model->alert('Không xác định được danh mục cần cập nhật!', 'warning');
+        die('<script>top.record_status_color(' . $id . ',' . $data['term_status'] . ');</script>');
     }
 
     //

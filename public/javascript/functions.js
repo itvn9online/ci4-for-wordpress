@@ -902,6 +902,7 @@ function create_menu_by_taxonomy(arr, li_class, show_favicon) {
 		console.log("create menu by taxonomy:", arr.length);
 		return "";
 	}
+	console.log("create menu by taxonomy:", arr.length);
 	//console.log(arr);
 
 	//
@@ -917,7 +918,8 @@ function create_menu_by_taxonomy(arr, li_class, show_favicon) {
 	//
 	var str = "";
 	for (var i = 0; i < arr.length; i++) {
-		if (arr[i].count * 1 <= 0) {
+		// không hiển thị các danh mục không có bài viết hoặc bị đánh dấu ẩn
+		if (arr[i].count * 1 <= 0 || arr[i].term_status * 1 > 0) {
 			continue;
 		}
 

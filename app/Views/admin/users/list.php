@@ -17,35 +17,32 @@ $base_model->add_js('admin/js/users_functions.js');
     </li>
     <?php
     if ($member_type != '') {
-        ?>
+    ?>
         <li>
             <?php echo $member_name; ?>
         </li>
-        <?php
+    <?php
     }
     ?>
 </ul>
 <div id="app" class="ng-main-content">
     <div class="cf admin-search-form">
         <div class="lf f50">
-            <form name="frm_admin_search_controller" action="./admin/<?php echo $controller_slug . $controller_path; ?>"
-                method="get">
+            <form name="frm_admin_search_controller" action="./admin/<?php echo $controller_slug . $controller_path; ?>" method="get">
                 <input type="hidden" name="member_type" :value="member_type">
                 <div class="cf">
                     <div class="lf f30">
                         <?php
                         if ($by_is_deleted > 0) {
-                            ?>
+                        ?>
                             <input type="hidden" name="is_deleted" value="<?php echo $by_is_deleted; ?>">
-                            <?php
+                        <?php
                         }
                         ?>
-                        <input name="s" value="<?php echo $by_keyword; ?>"
-                            placeholder="Tìm kiếm <?php echo $member_name; ?>" autofocus aria-required="true" required>
+                        <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $member_name; ?>" autofocus aria-required="true" required>
                     </div>
                     <div class="lf f30">
-                        <select name="user_status" data-select="<?php echo $by_user_status; ?>"
-                            onChange="document.frm_admin_search_controller.submit();">
+                        <select name="user_status" data-select="<?php echo $by_user_status; ?>" onChange="document.frm_admin_search_controller.submit();">
                             <option value="all">- Trạng thái đăng nhập -</option>
                             <option v-for="(v, k) in UsersType_listStatus" :value="k">{{v}}</option>
                         </select>
@@ -130,7 +127,7 @@ $base_model->JSON_echo(
         UsersType_FOR_DEFAULT: UsersType_FOR_DEFAULT,
         list: arr_members_type,
         UsersType_listStatus: UsersType_listStatus,
-    }, function () {
+    }, function() {
         action_change_user_status();
     });
 </script>

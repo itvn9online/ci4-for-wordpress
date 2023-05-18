@@ -1,15 +1,25 @@
-.hide-if-trash[data-deleted="1"], .show-if-trash[data-deleted="0"] {
+.hide-if-trash[data-deleted="1"],
+.show-if-trash[data-deleted="0"] {
     display: none;
 }
+
 .hide-if-trash[data-deleted="0"] {
     display: block;
 }
+
 .parent-term-after {
     font-style: italic;
     color: #666;
 }
+
 .parent-term-after:after {
     content: ">";
     display: inline-block;
     margin-left: 5px;
+}
+
+.record-status-color {}
+
+.record-status-color[data-status="1"] {
+    color: #999;
 }

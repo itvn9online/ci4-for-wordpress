@@ -30,7 +30,7 @@ function set_value_firebase_config(val, default_val) {
 // tạo URL xác thực sau khi đăng nhập thành công
 function create_sign_in_success_url() {
 	// thêm chuỗi ngẫu nhiên
-	if (typeof sign_in_success_url != "undefined") {
+	if (typeof sign_in_success_url != "undefined" && sign_in_success_url != "") {
 		//console.log(sign_in_success_url);
 		return sign_in_success_url;
 	}

@@ -242,6 +242,12 @@ function open_modal_add_multi_term(term_id) {
 	}, 600);
 }
 
+function record_status_color(id, term_status) {
+	$('#admin_term_list .record-status-color[data-id="' + id + '"]').attr({
+		"data-status": term_status,
+	});
+}
+
 (function () {
 	if (term_data.length <= 0) {
 		// không có dữ liệu thì xóa template đi

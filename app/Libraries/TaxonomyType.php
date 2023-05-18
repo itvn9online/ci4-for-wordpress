@@ -4,7 +4,6 @@ namespace App\Libraries;
 
 class TaxonomyType
 {
-
     // taxonomy
     const POSTS = 'category';
     const TAGS = 'tags';
@@ -16,6 +15,10 @@ class TaxonomyType
     const PROD_TAGS = 'product_tag';
     //const MENU = 'nav_menu';
     //const PAGE = 'page_taxonomy';
+
+    // term_status
+    const VISIBLE = '0';
+    const HIDDEN = '1';
 
     private static $arr = array(
         self::POSTS => 'Danh mục',

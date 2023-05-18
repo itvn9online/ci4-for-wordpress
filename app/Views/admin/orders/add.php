@@ -7,7 +7,8 @@ use App\Libraries\OrderType;
 $base_model->add_css('admin/css/' . $post_type . '.css');
 
 //
-print_r($data);
+//print_r($data);
+//print_r($meta_detault);
 
 //
 include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
@@ -64,119 +65,8 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                 <label class="control-label">Thành viên</label>
                 <div class="controls"><a href="admin/users/add?id=<?php echo $data['post_author']; ?>" data-id="<?php echo $data['post_author']; ?>" class="each-to-email bluecolor" target="_blank">
                         <?php echo $data['post_author']; ?>
-                    </a> </div>
+                    </a> &nbsp; <a href="admin/orders?user_id=<?php echo $data['post_author']; ?>" class="greencolor">Danh sách đơn hàng <i class="fa fa-search"></i></a></div>
             </div>
-            <?php
-
-            // nạp các meta theo từng loại post
-            foreach ($meta_detault as $k => $v) {
-                // đơn hàng thì không dùng ảnh đại diện
-                if (
-                    in_array($k, [
-                        'post_category',
-                        'post_tags',
-                        'image',
-                        'image_large',
-                        'image_medium_large',
-                        'image_medium',
-                        'image_thumbnail',
-                        'image_webp',
-                    ])
-                ) {
-                    continue;
-                }
-
-                //
-                $input_type = OrderType::meta_type($k);
-
-                //
-                if ($input_type == 'hidden') {
-            ?>
-                    <input type="hidden" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" value="<?php $post_model->echo_esc_meta_post($data, $k); ?>" />
-                <?php
-
-                    //
-                    continue;
-                } // END if hidden type
-
-                //
-                if ($input_type == 'checkbox') {
-                ?>
-                    <div class="control-group post_meta_<?php echo $k; ?>">
-                        <div class="controls controls-checkbox">
-                            <label for="post_meta_<?php echo $k; ?>">
-                                <input type="checkbox" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" value="on" data-value="<?php $post_model->echo_meta_post($data, $k); ?>" />
-                                <?php echo $v; ?>
-                            </label>
-                            <?php
-
-                            // hiển thị ghi chú nếu có
-                            OrderType::meta_desc($k);
-
-                            ?>
-                        </div>
-                    </div>
-                <?php
-
-                    //
-                    continue;
-                } // END if checkbox
-
-                ?>
-                <div class="control-group post_meta_<?php echo $k; ?>">
-                    <label for="post_meta_<?php echo $k; ?>" class="control-label">
-                        <?php echo $v; ?>
-                    </label>
-                    <div class="controls">
-                        <?php
-
-                        // mặc định thì hiển thị bình thường
-                        if ($input_type == 'textarea') {
-                        ?>
-                            <textarea placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" class="f80 <?php echo OrderType::meta_class($k); ?>"><?php $post_model->echo_meta_post($data, $k); ?>
-        </textarea>
-                        <?php
-                        } // END if post textarea
-                        else if ($input_type == 'select' || $input_type == 'select_multiple') {
-                            $select_multiple = '';
-                            $meta_multiple = '';
-                            if ($input_type == 'select_multiple') {
-                                $select_multiple = 'multiple';
-                                $meta_multiple = '[]';
-                            }
-
-                            //
-                            $select_options = OrderType::meta_select($k);
-
-                        ?>
-                            <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>]<?php echo $meta_multiple; ?>" <?php echo $select_multiple;
-                                                                                                                                                                    ?>>
-                                <?php
-
-                                foreach ($select_options as $option_k => $option_v) {
-                                    echo '<option value="' . $option_k . '">' . $option_v . '</option>';
-                                }
-
-                                ?>
-                            </select>
-                        <?php
-                        } // END if post select
-                        else {
-                        ?>
-                            <input type="<?php echo $input_type; ?>" class="span10" placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" value="<?php $post_model->echo_esc_meta_post($data, $k); ?>" />
-                        <?php
-                        } // END else
-
-                        // hiển thị ghi chú nếu có
-                        OrderType::meta_desc($k);
-
-                        ?>
-                    </div>
-                </div>
-            <?php
-            } // END foreach auto add post meta
-
-            ?>
             <div class="control-group">
                 <label for="data_post_title" class="control-label">Ngày tạo</label>
                 <div class="controls">

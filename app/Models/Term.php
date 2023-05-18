@@ -570,7 +570,7 @@ class Term extends TermBase
         //echo 'in_cache: ' . $in_cache . '<br>' . "\n";
 
         // cố định loại cột cần lấy
-        $ops['select_col'] = 'term_id, name, term_shortname, slug, term_group, count, parent, taxonomy, child_count, child_last_count, term_permalink, term_avatar, term_favicon, lang_key';
+        $ops['select_col'] = 'term_id, name, term_shortname, slug, term_group, count, parent, taxonomy, child_count, child_last_count, term_permalink, term_avatar, term_favicon, term_status, lang_key';
         //$ops[ 'select_col' ] = '*';
 
         //
@@ -1135,7 +1135,7 @@ class Term extends TermBase
             if ($v['is_deleted'] == DeletedStatus::DELETED) {
                 $action_link = '<a href="admin/' . $controller_slug . '/restore?id=%term_id%' . $for_redirect . '" onClick="return click_a_restore_record();" target="target_eb_iframe" class="bluecolor"><i class="fa fa-undo"></i></a>';
             } else {
-                $action_link = '<a href="admin/' . $controller_slug . '/term_status?id=%term_id%&current_status=%term_status%' . $for_redirect . '" target="target_eb_iframe" data-status="%term_status%" class="record-status-color"><i class="fa fa-eye"></i></a> &nbsp; ';
+                $action_link = '<a href="admin/' . $controller_slug . '/term_status?id=%term_id%' . $for_redirect . '" target="target_eb_iframe" data-id="%term_id%" data-status="%term_status%" class="record-status-color"><i class="fa fa-eye"></i></a> &nbsp; ';
 
                 $action_link .= '<a href="admin/' . $controller_slug . '/delete?id=%term_id%' . $for_redirect . '" onClick="return click_a_delete_record();" target="target_eb_iframe" class="redcolor"><i class="fa fa-trash"></i></a>';
             }
