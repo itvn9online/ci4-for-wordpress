@@ -15,7 +15,7 @@ if ($current_user_id > 0 || !empty($phone_number)) {
                     include VIEWS_PATH . 'firebase_auth_view.php';
                 } else {
                 ?>
-                    <div><?php $lang_model->the_text('firebase_verify_phone_warning', 'Chức năng xác thực số điện thoại đang tạm ngừng!'); ?></div>
+                    <div class="redcolor"><?php $lang_model->the_text('firebase_verify_phone_warning', 'Chức năng xác thực số điện thoại đang tạm ngừng!'); ?></div>
                 <?php
                 }
                 ?>
