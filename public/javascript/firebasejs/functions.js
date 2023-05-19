@@ -92,17 +92,18 @@ function buildPhoneAuthProvider() {
 /*
  * Một số chức năng sau khi đăng nhập thành công thì viết chung vào function như này
  */
-function action_handleSignedInUser() {
-	if (WGR_config.cf_tester_mode > 0) {
-		console.log(user);
-		console.log(user.emailVerified);
-		console.log(user.photoURL);
-		console.log(user.uid);
-		console.log(user.providerData);
-	}
+function action_handleSignedInUser(user) {
+	console.log(user);
+	console.log(user.emailVerified);
+	console.log(user.photoURL);
+	console.log(user.uid);
+	console.log(user.providerData);
 	user.getIdToken().then(function (accessToken) {
-		//console.log(accessToken);
+		console.log(accessToken);
 	});
+
+	//
+	return user;
 }
 
 function test_result_user_data(user) {

@@ -17,12 +17,27 @@ var handleSignedInUser = function (user) {
 	}
 
 	//
-	//action_handleSignedInUser(user);
+	//user = action_handleSignedInUser(user);
+
+	//
 	jQuery("#user-signed-in").show();
 	jQuery("#user-signed-out").hide();
 	jQuery("#firebase_name").html(user.displayName);
 	jQuery("#firebase_email").html(user.email);
 	jQuery("#firebase_phone").html(user.phoneNumber);
+	// nếu có tham số bắt buộc phải có số điện thoại -> kiểm tra xem có số điện thoại chưa
+	//console.log(required_firebase_phone_number);
+	if (
+		typeof required_firebase_phone_number != "undefined" &&
+		required_firebase_phone_number === true &&
+		$.trim($("#firebase_phone").html() || "") == ""
+	) {
+		WGR_alert("Phone number not found!", "error");
+		$("#sign-in").hide();
+		return false;
+	}
+	//console.log(user);
+	//console.log(user.phoneNumber);
 	if (
 		typeof user.photoURL != "undefined" &&
 		user.photoURL != "" &&

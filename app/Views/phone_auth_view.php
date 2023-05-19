@@ -11,7 +11,13 @@ if ($current_user_id > 0 || !empty($phone_number)) {
         <div class="col small-12 medium-6 large-6">
             <div class="col-inner text-center">
                 <?php
-                include VIEWS_PATH . 'firebase_auth_view.php';
+                if ($getconfig->firebase_verify_phone === 'on') {
+                    include VIEWS_PATH . 'firebase_auth_view.php';
+                } else {
+                ?>
+                    <div><?php $lang_model->the_text('firebase_verify_phone_warning', 'Chức năng xác thực số điện thoại đang tạm ngừng!'); ?></div>
+                <?php
+                }
                 ?>
             </div>
         </div>

@@ -3,6 +3,8 @@
  * https://github.com/firebase/firebaseui-web#configure-phone-provider
  */
 
+var required_firebase_phone_number = true;
+
 function phoneUiConfig() {
 	var a = [];
 	if (firebase_verify_phone == "on") {
