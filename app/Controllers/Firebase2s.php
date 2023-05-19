@@ -56,12 +56,7 @@ class Firebase2s extends Firebases
 
         // kiểm tra tính hợp lệ của url
         $expires_token = $this->MY_get('expires_token');
-        if (empty($expires_token)) {
-            $this->result_json_type([
-                'code' => __LINE__,
-                'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'expires_token', 'expires_token is EMPTY!'),
-            ]);
-        } else if (time() - $expires_token > $this->expires_time) {
+        if (empty($expires_token) || time() - $expires_token > $this->expires_time) {
             // URL hết hạn
             $this->result_json_type([
                 'code' => __LINE__,
@@ -72,12 +67,7 @@ class Firebase2s extends Firebases
 
         //
         $access_token = $this->MY_get('access_token');
-        if (empty($access_token)) {
-            $this->result_json_type([
-                'code' => __LINE__,
-                'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'access_token', 'access_token is EMPTY!'),
-            ]);
-        } else if ($this->base_model->mdnam($expires_token . session_id()) != $access_token) {
+        if (empty($access_token) || $this->base_model->mdnam($expires_token . session_id()) != $access_token) {
             // URL hết hạn
             $this->result_json_type([
                 'code' => __LINE__,
@@ -87,12 +77,7 @@ class Firebase2s extends Firebases
 
         //
         $user_token = $this->MY_get('user_token');
-        if (empty($user_token)) {
-            $this->result_json_type([
-                'code' => __LINE__,
-                'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'user_token', 'user_token is EMPTY!'),
-            ]);
-        } else if ($this->base_model->mdnam($expires_token . $this->current_user_id) != $user_token) {
+        if (empty($user_token) || $this->base_model->mdnam($expires_token . $this->current_user_id) != $user_token) {
             // URL hết hạn
             $this->result_json_type([
                 'code' => __LINE__,
@@ -103,7 +88,7 @@ class Firebase2s extends Firebases
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // apikey phải tồn tại trong config thì mới cho tiếp tục
             $apikey = $this->MY_post('apikey');
-            if (strpos($this->getconfig->g_firebase_config, $apikey) === false) {
+            if (empty($apikey) || strpos($this->getconfig->g_firebase_config, $apikey) === false) {
                 $this->result_json_type([
                     'code' => __LINE__,
                     'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'apikey', 'apikey mismatched!'),
@@ -111,7 +96,7 @@ class Firebase2s extends Firebases
             }
             // apiurl phải tồn tại trong config thì mới cho tiếp tục
             $apiurl = $this->MY_post('apiurl');
-            if (strpos($this->getconfig->g_firebase_config, $apiurl) === false) {
+            if (empty($apiurl) || strpos($this->getconfig->g_firebase_config, $apiurl) === false) {
                 $this->result_json_type([
                     'code' => __LINE__,
                     'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'apiurl', 'apiurl mismatched!'),
