@@ -56,6 +56,11 @@ if ($getconfig->g_firebase_config != '') {
 <?php
 
     //
+    $base_model->JSON_parse([
+        'sign_in_success_params' => $sign_in_success_params,
+    ]);
+
+    //
     $base_model->JSON_echo([
         // mảng này sẽ in ra dưới dạng JSON hoặc number
     ], [
@@ -76,7 +81,6 @@ if ($getconfig->g_firebase_config != '') {
         'firebase_verify_phone' => $getconfig->firebase_verify_phone,
         //
         'default_national_number' => $current_user_id > 0 ? $session_data['user_phone'] : (isset($phone_number) ? $phone_number : ''),
-        'sign_in_success_url' => $sign_in_success_url,
     ]);
 
     // các function sẽ sử dụng cho quá trình đăng nhập qua firebase

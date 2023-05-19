@@ -148,7 +148,7 @@ class Guest extends Csrf
                 //'serviceByLang' => $serviceByLang,
                 'set_login' => $this->MY_get('set_login', ''),
                 // tạo chuỗi dùng để xác thực url sau khi đăng nhập thành công
-                'sign_in_success_url' => $this->firebaseSignInSuccessUrl(),
+                'sign_in_success_params' => $this->firebaseSignInSuccessParams(),
                 'file_auth' => $this->file_auth,
             )
         );
@@ -769,15 +769,16 @@ class Guest extends Csrf
         return $login_redirect;
     }
 
-    protected function firebaseSignInSuccessUrl()
+    protected function firebaseSignInSuccessParams()
     {
         $current_time = time();
 
-        //
-        return base_url('firebase2s/sign_in_success') . '?' . implode('&', [
-            'expires_token=' . $current_time,
-            'access_token=' . $this->base_model->mdnam($current_time . session_id()),
-            'user_token=' . $this->base_model->mdnam($current_time . $this->current_user_id),
-        ]);
+        // trả về thông số tăng cường bảo mật cho quá trình đăng nhập qua firebase
+        return [
+            'base_url' => base_url('firebase2s/sign_in_success'),
+            'expires_token' => $current_time,
+            'access_token' => $this->base_model->mdnam($current_time . session_id()),
+            'user_token' => $this->base_model->mdnam($current_time . $this->current_user_id),
+        ];
     }
 }

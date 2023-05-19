@@ -54,38 +54,38 @@ class Firebase2s extends Firebases
             ]);
         }
 
-        // kiểm tra tính hợp lệ của url
-        $expires_token = $this->MY_get('expires_token');
-        if (empty($expires_token) || time() - $expires_token > $this->expires_time) {
-            // URL hết hạn
-            $this->result_json_type([
-                'code' => __LINE__,
-                'reload' => 1,
-                'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'expires_expires', 'expires_token is expires!'),
-            ]);
-        }
-
-        //
-        $access_token = $this->MY_get('access_token');
-        if (empty($access_token) || $this->base_model->mdnam($expires_token . session_id()) != $access_token) {
-            // URL hết hạn
-            $this->result_json_type([
-                'code' => __LINE__,
-                'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'access_token', 'access_token mismatched!'),
-            ]);
-        }
-
-        //
-        $user_token = $this->MY_get('user_token');
-        if (empty($user_token) || $this->base_model->mdnam($expires_token . $this->current_user_id) != $user_token) {
-            // URL hết hạn
-            $this->result_json_type([
-                'code' => __LINE__,
-                'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'user_token', 'user_token mismatched!'),
-            ]);
-        }
-
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // kiểm tra tính hợp lệ của url
+            $expires_token = $this->MY_post('expires_token');
+            if (empty($expires_token) || time() - $expires_token > $this->expires_time) {
+                // URL hết hạn
+                $this->result_json_type([
+                    'code' => __LINE__,
+                    'reload' => 1,
+                    'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'expires_expires', 'expires_token is expires!'),
+                ]);
+            }
+
+            //
+            $access_token = $this->MY_post('access_token');
+            if (empty($access_token) || $this->base_model->mdnam($expires_token . session_id()) != $access_token) {
+                // URL hết hạn
+                $this->result_json_type([
+                    'code' => __LINE__,
+                    'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'access_token', 'access_token mismatched!'),
+                ]);
+            }
+
+            //
+            $user_token = $this->MY_post('user_token');
+            if (empty($user_token) || $this->base_model->mdnam($expires_token . $this->current_user_id) != $user_token) {
+                // URL hết hạn
+                $this->result_json_type([
+                    'code' => __LINE__,
+                    'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'user_token', 'user_token mismatched!'),
+                ]);
+            }
+
             // apikey phải tồn tại trong config thì mới cho tiếp tục
             $apikey = $this->MY_post('apikey');
             if (empty($apikey) || strpos($this->getconfig->g_firebase_config, $apikey) === false) {

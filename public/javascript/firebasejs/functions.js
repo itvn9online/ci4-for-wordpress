@@ -28,11 +28,15 @@ function set_value_firebase_config(val, default_val) {
 }
 
 // tạo URL xác thực sau khi đăng nhập thành công
-function create_sign_in_success_url() {
+function create_signInSuccessUrl() {
 	// thêm chuỗi ngẫu nhiên
-	if (typeof sign_in_success_url != "undefined" && sign_in_success_url != "") {
-		//console.log(sign_in_success_url);
-		return sign_in_success_url;
+	if (
+		typeof sign_in_success_params != "undefined" &&
+		typeof sign_in_success_params["base_url"] != "undefined" &&
+		sign_in_success_params["base_url"] != ""
+	) {
+		//console.log(sign_in_success_params);
+		return sign_in_success_params["base_url"];
 	}
 	// loại bỏ mọi thể loại parameter
 	return window.location.href.split("?")[0].split("&")[0];
@@ -123,7 +127,8 @@ function action_signInSuccessWithAuthResult(authResult, redirectUrl) {
 	// Do something with the returned AuthResult.
 	// Return type determines whether we continue the redirect
 	// automatically or whether we leave that to developer to handle.
-	console.log(create_sign_in_success_url());
+	//console.log(create_signInSuccessUrl());
+	//console.log(sign_in_success_params);
 	//console.log(user.displayName);
 	//console.log(user.email);
 	//console.log(user.emailVerified);
@@ -143,13 +148,21 @@ function action_signInSuccessWithAuthResult(authResult, redirectUrl) {
 		apikey: user.l,
 		apiurl: user.s,
 	};
+	// chạy vòng lặp bổ sung tham số bảo mật
+	for (var x in sign_in_success_params) {
+		// bỏ qua tham số URL
+		if (x == "base_url") {
+			continue;
+		}
+		data[x] = sign_in_success_params[x];
+	}
 	//console.log(data);
 	//return false;
 
 	//
 	jQuery.ajax({
 		type: "POST",
-		url: create_sign_in_success_url(),
+		url: create_signInSuccessUrl(),
 		dataType: "json",
 		//crossDomain: true,
 		data: data,
