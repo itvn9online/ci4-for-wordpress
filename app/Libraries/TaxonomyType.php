@@ -178,7 +178,7 @@ class TaxonomyType
             'taxonomy_auto_slider' => 'Khi chế độ này được kích hoạt, một slider sẽ tự động được khởi tạo, sau đó bạn chỉ việc thêm ảnh cho slider để nó có thể hoạt động',
             'term_template' => 'Sử dụng khi muốn thiết lập giao diện riêng cho từng danh mục. File mẫu là file .php được đặt trong thư mục <b>term-templates</b> của mỗi theme.',
             'term_col_templates' => 'HTML mẫu của phần col cho từng danh mục (nếu có). Mặc định sử dụng col chung của website.',
-            'post_custom_cloumn' => 'Khi cần tùy chỉnh `Bố cục bài viết` cho danh mục này thì có thể thêm file .html vào đây `' . str_replace(ROOTPATH, '', VIEWS_CUSTOM_PATH) . 'ads_node/` sau đó chọn file tương ứng cho danh mục này. HTML trong file được chọn sẽ dùng để tạo hình cho bài viết. Mẫu HTML có thể copy từ file `/app/Views/html/ads_node.html` hoặc tùy chỉnh theo tiêu chuẩn .col của bootstrap.',
+            'post_custom_cloumn' => 'Khi cần tùy chỉnh `Bố cục bài viết` cho danh mục này thì có thể thêm file .html vào đây `/' . str_replace(ROOTPATH, '', VIEWS_CUSTOM_PATH) . 'ads_node/` sau đó chọn file tương ứng cho danh mục này. HTML trong file được chọn sẽ dùng để tạo hình cho bài viết. Mẫu HTML có thể copy từ file `/app/Views/html/ads_node.html` hoặc tùy chỉnh theo tiêu chuẩn .col của bootstrap.',
         ];
         if (isset($arr[$key])) {
             echo '<p class="controls-text-note">' . $arr[$key] . '</p>';
