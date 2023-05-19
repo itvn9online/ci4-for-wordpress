@@ -258,9 +258,7 @@ class Users extends Admin
             if (isset($ops['get_data']) && $ops['get_data'] === 1) {
                 return $data;
             }
-
-            //
-            //print_r( $data );
+            //print_r($data);
         } else {
             $data = [];
             $pagination = '';
