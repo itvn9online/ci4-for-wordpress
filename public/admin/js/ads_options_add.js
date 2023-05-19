@@ -141,12 +141,6 @@ $("#term_meta_post_number").change(function () {
 //
 (function () {
 	// nếu không có tệp html nào thì ẩn nó đi thôi
-	if (arr_custom_cloumn.length <= 0) {
-		$("#post_meta_post_custom_cloumn")
-			.parent(".controls")
-			.parent(".control-group")
-			.hide();
-	}
 	console.log(arr_custom_cloumn);
 	var str = "";
 	for (var i = 0; i < arr_custom_cloumn.length; i++) {
