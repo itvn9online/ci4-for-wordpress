@@ -221,7 +221,7 @@ class ConfigType
                 'g_recaptcha_secret_key' => 'G recaptcha secret key',
                 'g_firebase_config' => 'SDK setup and configuration',
                 'disable_local_login' => 'Tắt chức năng đăng nhập mặc định',
-                'reverify_firebase_email' => 'Xác thực lại email',
+                'reverify_firebase_email' => 'Xác minh lại email nếu không khớp thông số',
                 'g_firebase_privacy_policy_url' => 'Privacy policy URL',
                 'g_firebase_terms_service_url' => 'Terms of service URL',
                 'firebase_sign_in_redirect_to' => 'Sign-in success URL',
