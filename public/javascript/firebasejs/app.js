@@ -11,13 +11,15 @@ var ui = new firebaseui.auth.AuthUI(firebase.auth());
  * Displays the UI for a signed in user.
  * @param {!firebase.User} user
  */
-var handleSignedInUser = function (user) {
-	if (user === null || typeof user == "undefined") {
+var handleSignedInUser = function () {
+	var user = firebase.auth().currentUser;
+	//console.log(user);
+	if (user === null) {
 		return false;
 	}
 
 	//
-	//user = action_handleSignedInUser(user);
+	//user = action_handleSignedInUser();
 
 	//
 	jQuery("#user-signed-in").show();
@@ -64,7 +66,7 @@ firebase.auth().onAuthStateChanged(
 		jQuery("#loaded").show();
 		if (user) {
 			// User is signed in.
-			handleSignedInUser(user);
+			handleSignedInUser();
 		} else {
 			// User is signed out.
 			handleSignedOutUser();

@@ -146,6 +146,13 @@ $base_model->adds_css([
                             <input type="text" class="span4" placeholder="Điện thoại" name="data[user_phone]" id="data_user_phone" value="<?php echo $data['user_phone']; ?>" />
                         </div>
                     </div>
+                    <div class="control-group">
+                        <label class="control-label">Firebase uid</label>
+                        <div class="controls">
+                            <input type="text" class="span4 graycolor" placeholder="Firebase uid" name="data[firebase_uid]" id="data_firebase_uid" value="<?php echo $data['firebase_uid']; ?>" />
+                            <p class="controls-text-note">Khi người dùng đăng nhập qua Firebase sẽ có thông số này (đã được mã hóa). Nếu nó không khớp với phiên đăng nhập của người dùng thì phiên sẽ bị từ chối. Để reset phiên cho người dùng thì cần xóa trắng dữ liệu ở đây đi và cập nhật lại.</p>
+                        </div>
+                    </div>
                     <div class="end-user-add"></div>
                     <?php
                     if ($data['ci_pass'] != '') {

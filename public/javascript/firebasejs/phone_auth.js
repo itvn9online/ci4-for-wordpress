@@ -21,7 +21,7 @@ function getUiConfig() {
 		callbacks: {
 			// Called when the user has been successfully signed in.
 			signInSuccessWithAuthResult: function (authResult, redirectUrl) {
-				return action_signInSuccessWithAuthResult(authResult, redirectUrl);
+				return action_signInSuccessWithAuthResult();
 			},
 			signInFailure: function (error) {
 				return action_signInFailure(error);

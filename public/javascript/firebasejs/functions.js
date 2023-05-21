@@ -92,7 +92,11 @@ function buildPhoneAuthProvider() {
 /*
  * Một số chức năng sau khi đăng nhập thành công thì viết chung vào function như này
  */
-function action_handleSignedInUser(user) {
+function action_handleSignedInUser() {
+	var user = firebase.auth().currentUser;
+	if (user === null) {
+		return false;
+	}
 	console.log(user);
 	console.log(user.emailVerified);
 	console.log(user.photoURL);
@@ -113,14 +117,29 @@ function test_result_user_data(user) {
 }
 
 // ngay sau khi đăng nhập thành công trên firebase -> thực hiện đăng nhập trên web thôi
-function action_signInSuccessWithAuthResult(authResult, redirectUrl) {
-	if (authResult === null || typeof authResult.user == "undefined") {
+function action_signInSuccessWithAuthResult() {
+	//console.log(Math.random());
+
+	//
+	firebase
+		.auth()
+		.currentUser.getIdToken(true)
+		.then(function (idToken) {
+			//console.log(idToken);
+			// Send token to your backend via HTTPS
+			action_signInSuccessWithIdToken(idToken);
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+}
+
+function action_signInSuccessWithIdToken(idToken) {
+	//console.log(idToken);
+	var user = firebase.auth().currentUser;
+	if (user === null) {
 		return false;
 	}
-
-	//console.log(Math.random());
-	//console.log(redirectUrl);
-	var user = authResult.user;
 	//var credential = authResult.credential;
 	//var isNewUser = authResult.additionalUserInfo.isNewUser;
 	//var providerId = authResult.additionalUserInfo.providerId;
@@ -146,6 +165,8 @@ function action_signInSuccessWithAuthResult(authResult, redirectUrl) {
 		phone: user.phoneNumber,
 		photo: user.photoURL,
 		anonymous: user.isAnonymous,
+		id_token: idToken,
+		project_id: firebaseConfig.projectId,
 		apikey: user.l,
 		apiurl: user.s,
 	};
@@ -180,7 +201,9 @@ function action_signInSuccessWithAuthResult(authResult, redirectUrl) {
 			}
 		},
 		success: function (data) {
-			console.log(data);
+			//console.log(data);
+			//return false;
+
 			// nếu có tham số nạp lại trang -> nạp lại
 			if (typeof data.reload != "undefined" && data.reload * 1 > 0) {
 				if (typeof data.error != "undefined" && data.error != "") {
@@ -239,7 +262,15 @@ function continueSignIn() {
 
 function firebaseSignOut(m) {
 	if (confirm(m) === true) {
-		firebase.auth().signOut();
+		firebase
+			.auth()
+			.signOut()
+			.then(() => {
+				// Sign-out successful.
+			})
+			.catch((error) => {
+				// An error happened.
+			});
 	}
 }
 
