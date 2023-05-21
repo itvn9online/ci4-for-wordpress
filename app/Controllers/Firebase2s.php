@@ -5,6 +5,8 @@ namespace App\Controllers;
 // Libraries
 use App\Libraries\UsersType;
 use App\Libraries\DeletedStatus;
+use App\Libraries\PHPMaillerSend;
+use App\Helpers\HtmlTemplate;
 
 //require_once APPPATH . 'ThirdParty/firebase-tokens-php-4.2.0/src/JWT/Error/IdTokenVerificationFailed.php';
 //require_once APPPATH . 'ThirdParty/firebase-tokens-php-4.2.0/src/JWT/IdTokenVerifier.php';
@@ -60,9 +62,14 @@ class Firebase2s extends Firebases
             ]);
         }
 
+        // chỉ nhận method post
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // kiểm tra tính hợp lệ của url
             $expires_token = $this->MY_post('expires_token');
+            if (!empty($expires_token)) {
+                // cắt bỏ 3 ký tự cuối của expires_token
+                $expires_token = substr($expires_token, 0, -3);
+            }
             if (empty($expires_token) || time() - $expires_token > $this->expires_time) {
                 // URL hết hạn
                 $this->result_json_type([
@@ -104,7 +111,7 @@ class Firebase2s extends Firebases
             if (empty($firebase_uid)) {
                 $this->result_json_type([
                     'code' => __LINE__,
-                    'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'uid', 'uid EMPTY!'),
+                    'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'uid', 'user_id EMPTY!'),
                 ]);
             }
 
@@ -158,7 +165,7 @@ class Firebase2s extends Firebases
             } else {
                 $this->result_json_type([
                     'code' => __LINE__,
-                    'error' => 'email or phone?',
+                    'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'email_or_phone', 'email or phone?'),
                 ]);
             }
 
@@ -185,19 +192,106 @@ class Firebase2s extends Firebases
             if (!empty($data)) {
                 // cập nhật firebase_uid nếu chưa có
                 if (empty($data['firebase_uid'])) {
-                    $this->user_model->update_member($data['ID'], [
-                        'firebase_uid' => $this->base_model->mdnam($firebase_uid),
-                    ]);
+                    // xem đã có tài khoản nào sử dụng firebase_uid này chưa
+                    $check_uid = $this->base_model->select(
+                        'ID',
+                        $this->user_model->table,
+                        [
+                            'firebase_uid' => $this->base_model->mdnam($firebase_uid),
+                        ],
+                        array(
+                            // hiển thị mã SQL để check
+                            //'show_query' => 1,
+                            // trả về câu query để sử dụng cho mục đích khác
+                            //'get_query' => 1,
+                            //'offset' => 2,
+                            'limit' => 1
+                        )
+                    );
+                    if (!empty($check_uid)) {
+                        $this->result_json_type([
+                            'code' => __LINE__,
+                            'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'check_uid', 'user_id has been using in another account'),
+                        ]);
+                    }
+
+                    // bật tắt chế độ verify email khi chưa có firebase_uid -> sau có thời gian thì chuyển cái này thành option on/off trong config
+                    $verify_email = 0;
+                    if ($verify_email > 0) {
+                        // muốn an toàn hơn thì nên làm chức năng gửi email xác thực xong mới cập nhật firebase_uid
+                        if (!empty($email)) {
+                            // trạng thái chờ kích hoạt email
+                            $wait_verify = UsersType::NO_LOGIN;
+                            if ($data['user_status'] == $wait_verify) {
+                                $this->result_json_type([
+                                    'code' => __LINE__,
+                                    'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'email_block', 'Your account has been block or not active!'),
+                                ]);
+                            }
+
+                            $this->user_model->update_member($data['ID'], [
+                                // cập nhật firebase_uid
+                                'firebase_uid' => $this->base_model->mdnam($firebase_uid),
+                                // khóa tài khoản lại -> chờ xác thực email xong sẽ mở
+                                'user_status' => $wait_verify,
+                            ]);
+
+                            // chuẩn bị gửi mail bào xác thực email
+                            $smtp_config = $this->option_model->get_smtp();
+
+                            // thiết lập thông tin người nhận
+                            $data_send = [
+                                'to' => $email,
+                                'subject' => 'Please verify your email account',
+                                'message' => HtmlTemplate::render(
+                                    // mẫu HTML
+                                    $this->base_model->get_html_tmp('firebase_verify_email'),
+                                    [
+                                        // các tham số
+                                        'base_url' => base_url('firebase2s/verify_email'),
+                                        'email' => $email,
+                                        'ip' => $this->request->getIPAddress(),
+                                        'agent' => $_SERVER['HTTP_USER_AGENT'],
+                                        'date_send' => date('r'),
+                                    ]
+                                ),
+                            ];
+
+                            // Nếu gửi mail thành công
+                            if (PHPMaillerSend::the_send($data_send, $smtp_config) === true) {
+                                // báo người dùng check email
+                                $this->result_json_type([
+                                    'code' => __LINE__,
+                                    'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'check_email', 'Please check email and verify your account: ') . $email,
+                                ]);
+                            } else {
+                                // gửi mail lỗi -> reset trạng thái
+                                $this->user_model->update_member($data['ID'], [
+                                    'user_status' => $data['user_status'],
+                                ]);
+                            }
+                        } else {
+                            $this->result_json_type([
+                                'code' => __LINE__,
+                                'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'empty_email', 'user_id not active if email EMPTY?'),
+                            ]);
+                        }
+                    } else {
+                        $this->user_model->update_member($data['ID'], [
+                            // cập nhật firebase_uid
+                            'firebase_uid' => $this->base_model->mdnam($firebase_uid),
+                        ]);
+                    }
                 }
                 // nếu có firebase_uid -> so khớp phần dữ liệu này -> coi như đây là password
                 else if ($data['firebase_uid'] != $this->base_model->mdnam($firebase_uid)) {
                     $this->result_json_type([
                         'code' => __LINE__,
-                        'error' => 'user_id mismatched?',
+                        'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'user_id_mismatched', 'user_id mismatched?'),
                     ]);
                 }
 
-                //
+                // tạo session login
                 $data = $this->sync_login_data($data);
                 $data['user_activation_key'] = session_id();
 
@@ -249,7 +343,7 @@ class Firebase2s extends Firebases
                 if ($insert < 0) {
                     $this->result_json_type([
                         'code' => __LINE__,
-                        'error' => 'Email đã được sử dụng',
+                        'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'email_used', 'Email đã được sử dụng'),
                     ]);
                 } else if ($insert !== false) {
                     // đăng ký thành công thì gọi lại chính function này để nó trả về dữ liệu
@@ -263,7 +357,7 @@ class Firebase2s extends Firebases
                 } else {
                     $this->result_json_type([
                         'code' => __LINE__,
-                        'error' => 'Lỗi đăng ký tài khoản',
+                        'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'error_create', 'Lỗi đăng ký tài khoản'),
                     ]);
                 }
             }
@@ -288,9 +382,6 @@ class Firebase2s extends Firebases
         //require_once APPPATH . 'ThirdParty/firebase-tokens-php-4.2.0/src/JWT/Error/IdTokenVerificationFailed.php';
         //require_once APPPATH . 'ThirdParty/firebase-tokens-php-4.2.0/src/JWT/IdTokenVerifier.php';
         //die(__CLASS__ . ':' . __LINE__);
-
-        $projectId = 'echbay-login';
-        $idToken = 'eyJhbGciOiJSUzI1NiIsImtpZCI6ImQwZTFkMjM5MDllNzZmZjRhNzJlZTA4ODUxOWM5M2JiOTg4ZjE4NDUiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiRGFvIFF1b2MgRGFpIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FHTm15eFlvUWY0c0hCUVFxZmtBWnNCODRCTVdJZ3ZaMlJra2RqNjZvbnVzZ2c9czk2LWMiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZWNoYmF5LWxvZ2luIiwiYXVkIjoiZWNoYmF5LWxvZ2luIiwiYXV0aF90aW1lIjoxNjg0NTkyMTA1LCJ1c2VyX2lkIjoiZTRQMThGbTY2SWVxMzZJc01MbFZUbldqa2hoMSIsInN1YiI6ImU0UDE4Rm02NkllcTM2SXNNTGxWVG5XamtoaDEiLCJpYXQiOjE2ODQ2MjU5NzEsImV4cCI6MTY4NDYyOTU3MSwiZW1haWwiOiJpdHZuOW9ubGluZUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJnb29nbGUuY29tIjpbIjEwODY4MjU2MzUzNzYxMTIyMjAwMiJdLCJnaXRodWIuY29tIjpbIjI0OTI4OTk1Il0sImVtYWlsIjpbIml0dm45b25saW5lQGdtYWlsLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6Imdvb2dsZS5jb20ifX0.iFhHDaN4bI8cJZwGULa8nClmgFLiFlLYrfOnZ_WXFm2ikvcK5uupV0WfXuzJ5jmjcRKRdLWIfhihWvtwZ7DIb2RNIFwJKD4DKRZTNxqk3YMh8MiO7roTEyaok2JYpoqm7YYlkr_-3eDft5VmIDuNk8TD4Imz7WvuHVa7YtD3EjFCjKeaUjWr9XtPMnkr4X6fiOFNKD3lcM-RZYRMQIEpd9HFgrrI6XToJlJ-5_ySMdYipvF0UNVi714s-op6adgXeG4PmZCbrFi3XXm574t5XUsV-C4OOJW81zAzOVg4JRS5wB03oPnCx4_cA7TKz7JC7-0TmtSJCA1yvaYi5GUTDw';
 
         //
         $aaaaaaa = new \Kreait\Firebase\JWT\IdTokenVerifier();

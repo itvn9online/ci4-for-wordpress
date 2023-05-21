@@ -776,7 +776,8 @@ class Guest extends Csrf
         // trả về thông số tăng cường bảo mật cho quá trình đăng nhập qua firebase
         return [
             'base_url' => base_url('firebase2s/sign_in_success'),
-            'expires_token' => $current_time,
+            // thêm 3 ký tự ngẫu nhiên vào expires_token -> để tăng bảo mật
+            'expires_token' => $current_time . rand(100, 999),
             'access_token' => $this->base_model->mdnam($current_time . session_id()),
             'user_token' => $this->base_model->mdnam($current_time . $this->current_user_id),
         ];
