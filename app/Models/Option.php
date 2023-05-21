@@ -127,6 +127,7 @@ class Option extends EbModel
             $data = [
                 'option_name' => $option_name,
                 'option_value' => $option_value,
+                'is_deleted' => DeletedStatus::FOR_DEFAULT,
                 'option_type' => $option_type,
                 'lang_key' => $lang_key,
             ];
@@ -135,7 +136,8 @@ class Option extends EbModel
             //
             $this->insert_options($data);
         }
-        return $data['option_name'];
+        //return $data['option_name'];
+        return $data['option_value'];
     }
 
     public function get_lang()

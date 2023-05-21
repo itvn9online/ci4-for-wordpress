@@ -182,6 +182,11 @@ function action_signInSuccessWithIdToken(idToken) {
 	//return false;
 
 	//
+	jQuery("body").css({
+		opacity: 0.1,
+	});
+
+	//
 	jQuery.ajax({
 		type: "POST",
 		url: create_signInSuccessUrl(),
@@ -204,6 +209,11 @@ function action_signInSuccessWithIdToken(idToken) {
 			//console.log(data);
 			//return false;
 
+			//
+			jQuery("body").css({
+				opacity: 1,
+			});
+
 			// nếu có tham số nạp lại trang -> nạp lại
 			if (typeof data.reload != "undefined" && data.reload * 1 > 0) {
 				if (typeof data.error != "undefined" && data.error != "") {
@@ -215,6 +225,11 @@ function action_signInSuccessWithIdToken(idToken) {
 			}
 			// có lỗi thì thông báo lỗi
 			else if (typeof data.error != "undefined" && data.error != "") {
+				if (typeof data.code != "undefined" && data.code > 0) {
+					data.error += " (#" + data.code + ")";
+				}
+
+				//
 				WGR_alert(data.error, "error");
 			}
 			// mặc định sẽ nạp lại trang

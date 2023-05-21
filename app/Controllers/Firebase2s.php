@@ -27,20 +27,44 @@ class Firebase2s extends Firebases
         parent::__construct();
     }
 
+    // trả về bản dịch của chức năng đăng nhâp qua firebase
+    protected function firebaseLang($key, $default_value)
+    {
+        return $this->lang_model->get_the_text('firebase' . $key, $default_value);
+    }
+
+    // kiểm tra dữ liệu trống
+    protected function checkEmptyParams($str, $err)
+    {
+        if (empty($str)) {
+            $this->result_json_type($err);
+        }
+        return $str;
+    }
+
+    // kiểm tra dữ liệu trống hoặc không có trong config
+    protected function checkConfigParams($str, $err)
+    {
+        if (empty($str) || strpos($this->getconfig->g_firebase_config, $str) === false) {
+            $this->result_json_type($err);
+        }
+        return $str;
+    }
+
     public function sign_in_success($callBack = true)
     {
         // kiểm tra url submit tới xem có khớp nhau không
         if (!isset($_SERVER['HTTP_REFERER']) || empty($_SERVER['HTTP_REFERER'])) {
             $this->result_json_type([
                 'code' => __LINE__,
-                'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'referer', 'referer is EMPTY!'),
+                'error' => $this->firebaseLang('referer', 'referer is EMPTY!'),
             ]);
         }
         $referer = explode('//', $_SERVER['HTTP_REFERER']);
         if (!isset($referer[1])) {
             $this->result_json_type([
                 'code' => __LINE__,
-                'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'referer_https', 'referer not //'),
+                'error' => $this->firebaseLang('referer_https', 'referer not //'),
             ]);
         }
         //$this->result_json_type([$_SERVER['HTTP_REFERER']]);
@@ -49,97 +73,59 @@ class Firebase2s extends Firebases
         if ($referer != $_SERVER['HTTP_HOST']) {
             $this->result_json_type([
                 'code' => __LINE__,
-                'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'referer_host', 'referer mismatched!'),
+                'error' => $this->firebaseLang('referer_host', 'referer mismatched!'),
             ]);
         }
         //$this->result_json_type([$referer]);
 
         // xem có config cho chức năng đăng nhập qua firebase không
-        if (empty(trim($this->getconfig->g_firebase_config))) {
-            $this->result_json_type([
-                'code' => __LINE__,
-                'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'firebase_config', 'firebase_config is EMPTY!'),
-            ]);
-        }
+        $this->checkEmptyParams(trim($this->getconfig->g_firebase_config), [
+            'code' => __LINE__,
+            'error' => $this->firebaseLang('firebase_config', 'firebase_config is EMPTY!'),
+        ]);
 
         // chỉ nhận method post
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // kiểm tra tính hợp lệ của url
-            $expires_token = $this->MY_post('expires_token');
-            if (!empty($expires_token)) {
-                // cắt bỏ 3 ký tự cuối của expires_token
-                $expires_token = substr($expires_token, 0, -3);
-            }
-            if (empty($expires_token) || time() - $expires_token > $this->expires_time) {
-                // URL hết hạn
-                $this->result_json_type([
-                    'code' => __LINE__,
-                    'reload' => 1,
-                    'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'expires_expires', 'expires_token is expires!'),
-                ]);
-            }
-
-            //
-            $access_token = $this->MY_post('access_token');
-            if (empty($access_token) || $this->base_model->mdnam($expires_token . session_id()) != $access_token) {
-                $this->result_json_type([
-                    'code' => __LINE__,
-                    'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'access_token', 'access_token mismatched!'),
-                ]);
-            }
+            $expires_token = $this->firebaseUrlExpires($this->MY_post('expires_token'), $this->MY_post('access_token'), $this->expires_time);
 
             //
             $user_token = $this->MY_post('user_token');
             if (empty($user_token) || $this->base_model->mdnam($expires_token . $this->current_user_id) != $user_token) {
                 $this->result_json_type([
                     'code' => __LINE__,
-                    'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'user_token', 'user_token mismatched!'),
+                    'error' => $this->firebaseLang('user_token', 'user_token mismatched!'),
                 ]);
             }
 
             //
-            $id_token = $this->MY_post('id_token');
-            if (empty($id_token)) {
-                $this->result_json_type([
-                    'code' => __LINE__,
-                    'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'id_token', 'id_token EMPTY!'),
-                ]);
-            }
+            $this->checkEmptyParams($this->MY_post('id_token'), [
+                'code' => __LINE__,
+                'error' => $this->firebaseLang('id_token', 'id_token EMPTY!'),
+            ]);
 
             //
-            $firebase_uid = $this->MY_post('uid', '');
-            if (empty($firebase_uid)) {
-                $this->result_json_type([
-                    'code' => __LINE__,
-                    'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'uid', 'user_id EMPTY!'),
-                ]);
-            }
+            $firebase_uid = $this->checkEmptyParams($this->MY_post('uid', ''), [
+                'code' => __LINE__,
+                'error' => $this->firebaseLang('uid', 'user_id EMPTY!'),
+            ]);
 
             //
-            $project_id = $this->MY_post('project_id');
-            if (empty($project_id) || strpos($this->getconfig->g_firebase_config, $project_id) === false) {
-                $this->result_json_type([
-                    'code' => __LINE__,
-                    'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'project_id', 'project_id mismatched!'),
-                ]);
-            }
+            $this->checkConfigParams($this->MY_post('project_id'), [
+                'code' => __LINE__,
+                'error' => $this->firebaseLang('project_id', 'project_id mismatched!'),
+            ]);
 
             // apikey phải tồn tại trong config thì mới cho tiếp tục
-            $apikey = $this->MY_post('apikey');
-            if (empty($apikey) || strpos($this->getconfig->g_firebase_config, $apikey) === false) {
-                $this->result_json_type([
-                    'code' => __LINE__,
-                    'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'apikey', 'apikey mismatched!'),
-                ]);
-            }
+            $this->checkConfigParams($this->MY_post('apikey'), [
+                'code' => __LINE__,
+                'error' => $this->firebaseLang('apikey', 'apikey mismatched!'),
+            ]);
             // apiurl phải tồn tại trong config thì mới cho tiếp tục
-            $apiurl = $this->MY_post('apiurl');
-            if (empty($apiurl) || strpos($this->getconfig->g_firebase_config, $apiurl) === false) {
-                $this->result_json_type([
-                    'code' => __LINE__,
-                    'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'apiurl', 'apiurl mismatched!'),
-                ]);
-            }
+            $this->checkConfigParams($this->MY_post('apiurl'), [
+                'code' => __LINE__,
+                'error' => $this->firebaseLang('apiurl', 'apiurl mismatched!'),
+            ]);
 
             // kiểm tra tính xác thực của token
             //$this->verifyFirebaseIdToken($project_id, $id_token);
@@ -165,7 +151,7 @@ class Firebase2s extends Firebases
             } else {
                 $this->result_json_type([
                     'code' => __LINE__,
-                    'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'email_or_phone', 'email or phone?'),
+                    'error' => $this->firebaseLang('email_or_phone', 'email or phone?'),
                 ]);
             }
 
@@ -211,13 +197,12 @@ class Firebase2s extends Firebases
                     if (!empty($check_uid)) {
                         $this->result_json_type([
                             'code' => __LINE__,
-                            'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'check_uid', 'user_id has been using in another account'),
+                            'error' => $this->firebaseLang('check_uid', 'user_id has been using in another account'),
                         ]);
                     }
 
-                    // bật tắt chế độ verify email khi chưa có firebase_uid -> sau có thời gian thì chuyển cái này thành option on/off trong config
-                    $verify_email = 0;
-                    if ($verify_email > 0) {
+                    // verify email khi chưa có firebase_uid
+                    if ($this->getconfig->reverify_firebase_email == 'on') {
                         // muốn an toàn hơn thì nên làm chức năng gửi email xác thực xong mới cập nhật firebase_uid
                         if (!empty($email)) {
                             // trạng thái chờ kích hoạt email
@@ -225,10 +210,11 @@ class Firebase2s extends Firebases
                             if ($data['user_status'] == $wait_verify) {
                                 $this->result_json_type([
                                     'code' => __LINE__,
-                                    'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'email_block', 'Your account has been block or not active!'),
+                                    'error' => $this->firebaseLang('email_block', 'Your account has been block or not active!'),
                                 ]);
                             }
 
+                            //
                             $this->user_model->update_member($data['ID'], [
                                 // cập nhật firebase_uid
                                 'firebase_uid' => $this->base_model->mdnam($firebase_uid),
@@ -236,44 +222,12 @@ class Firebase2s extends Firebases
                                 'user_status' => $wait_verify,
                             ]);
 
-                            // chuẩn bị gửi mail bào xác thực email
-                            $smtp_config = $this->option_model->get_smtp();
-
-                            // thiết lập thông tin người nhận
-                            $data_send = [
-                                'to' => $email,
-                                'subject' => 'Please verify your email account',
-                                'message' => HtmlTemplate::render(
-                                    // mẫu HTML
-                                    $this->base_model->get_html_tmp('firebase_verify_email'),
-                                    [
-                                        // các tham số
-                                        'base_url' => base_url('firebase2s/verify_email'),
-                                        'email' => $email,
-                                        'ip' => $this->request->getIPAddress(),
-                                        'agent' => $_SERVER['HTTP_USER_AGENT'],
-                                        'date_send' => date('r'),
-                                    ]
-                                ),
-                            ];
-
-                            // Nếu gửi mail thành công
-                            if (PHPMaillerSend::the_send($data_send, $smtp_config) === true) {
-                                // báo người dùng check email
-                                $this->result_json_type([
-                                    'code' => __LINE__,
-                                    'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'check_email', 'Please check email and verify your account: ') . $email,
-                                ]);
-                            } else {
-                                // gửi mail lỗi -> reset trạng thái
-                                $this->user_model->update_member($data['ID'], [
-                                    'user_status' => $data['user_status'],
-                                ]);
-                            }
+                            //
+                            $this->reVerifyFirebaseEmail($data);
                         } else {
                             $this->result_json_type([
                                 'code' => __LINE__,
-                                'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'empty_email', 'user_id not active if email EMPTY?'),
+                                'error' => $this->firebaseLang('empty_email', 'user_id not active if email EMPTY?'),
                             ]);
                         }
                     } else {
@@ -285,9 +239,14 @@ class Firebase2s extends Firebases
                 }
                 // nếu có firebase_uid -> so khớp phần dữ liệu này -> coi như đây là password
                 else if ($data['firebase_uid'] != $this->base_model->mdnam($firebase_uid)) {
+                    $this->reVerifyFirebaseEmail($data, [
+                        'uid' => $firebase_uid
+                    ]);
+
+                    //
                     $this->result_json_type([
                         'code' => __LINE__,
-                        'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'user_id_mismatched', 'user_id mismatched?'),
+                        'error' => $this->firebaseLang('user_id_mismatched', 'user_id mismatched?'),
                     ]);
                 }
 
@@ -343,7 +302,7 @@ class Firebase2s extends Firebases
                 if ($insert < 0) {
                     $this->result_json_type([
                         'code' => __LINE__,
-                        'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'email_used', 'Email đã được sử dụng'),
+                        'error' => $this->firebaseLang('email_used', 'Email đã được sử dụng'),
                     ]);
                 } else if ($insert !== false) {
                     // đăng ký thành công thì gọi lại chính function này để nó trả về dữ liệu
@@ -357,7 +316,7 @@ class Firebase2s extends Firebases
                 } else {
                     $this->result_json_type([
                         'code' => __LINE__,
-                        'error' => $this->lang_model->get_the_text(__FUNCTION__ . 'error_create', 'Lỗi đăng ký tài khoản'),
+                        'error' => $this->firebaseLang('error_create', 'Lỗi đăng ký tài khoản'),
                     ]);
                 }
             }
@@ -370,6 +329,159 @@ class Firebase2s extends Firebases
 
         //
         $this->result_json_type($_GET);
+    }
+
+    // gửi email xác thực lại thông tin đăng nhập qua firebase
+    protected function reVerifyFirebaseEmail($data, $ops = [])
+    {
+        //$this->result_json_type($data);
+
+        // chuẩn bị gửi mail báo xác thực email
+        $smtp_config = $this->option_model->get_smtp();
+
+        //
+        $verify_params = $this->firebaseSignInSuccessParams();
+        //print_r($verify_params);
+        $verify_params['base_url'] = '';
+        unset($verify_params['base_url']);
+
+        //
+        if (isset($ops['uid']) && !empty($ops['uid'])) {
+            $verify_params['uid'] = $ops['uid'];
+            $verify_params['verify_key'] = $this->base_model->mdnam($ops['uid']);
+        } else {
+            $verify_params['verify_key'] = $this->base_model->mdnam($data['ID'] . session_id());
+        }
+
+        //
+        $verify_url = base_url('firebase2s/verify_email') . '?nse=' . $data['ID'];
+        foreach ($verify_params as $k => $v) {
+            if ($k == 'base_url') {
+                continue;
+            }
+            $verify_url .= '&' . $k . '=' . $v;
+        }
+
+        // thiết lập thông tin người nhận
+        $data_send = [
+            'to' => $data['user_email'],
+            'subject' => $this->firebaseLang('reverify_subject', 'Please verify your email account'),
+            'message' => HtmlTemplate::render(
+                // mẫu HTML
+                $this->base_model->get_html_tmp('firebase_verify_email'),
+                [
+                    // các tham số
+                    'verify_url' => $verify_url,
+                    'base_url' => base_url(),
+                    'email' => $data['user_email'],
+                    'ip' => $this->request->getIPAddress(),
+                    'agent' => $_SERVER['HTTP_USER_AGENT'],
+                    'date_send' => date('r'),
+                ]
+            ),
+        ];
+
+        // Nếu gửi mail thành công
+        if (PHPMaillerSend::the_send($data_send, $smtp_config) === true) {
+            // cập nhật verify_key -> nếu người dùng bấm vào đây thì sẽ tiến hành cập nhật firebase_uid
+            $this->user_model->update_member($data['ID'], [
+                'user_activation_key' => $verify_params['verify_key'],
+            ]);
+
+            // báo người dùng check email
+            $this->result_json_type([
+                'code' => __LINE__,
+                'error' => $this->firebaseLang('check_email', 'Please check email and verify your account: ') . $data['user_email'],
+            ]);
+        } else {
+            // gửi mail lỗi -> reset trạng thái
+            $this->user_model->update_member($data['ID'], [
+                'firebase_uid' => '',
+                'user_status' => $data['user_status'],
+            ]);
+
+            //
+            $this->result_json_type([
+                'code' => __LINE__,
+                'error' => $this->firebaseLang('error_email', 'Hệ thống email đang lỗi, vui lòng báo với quản trị viên'),
+            ]);
+        }
+    }
+
+    public function verify_email()
+    {
+        $this->firebaseUrlExpires($this->MY_get('expires_token'), $this->MY_get('access_token'), 1800);
+        //$this->result_json_type($_GET);
+
+        //
+        $user_id = $this->checkEmptyParams($this->MY_get('nse'), [
+            'code' => __LINE__,
+            'error' => $this->firebaseLang('verify_nse', 'nse EMPTY!'),
+        ]);
+        $verify_key = $this->checkEmptyParams($this->MY_get('verify_key'), [
+            'code' => __LINE__,
+            'error' => $this->firebaseLang('verify_key', 'verify_key EMPTY!'),
+        ]);
+
+        // nếu có uid -> cập nhật cả uid
+        $uid = $this->MY_get('uid');
+        $update_ok = false;
+        if (!empty($uid)) {
+            // so khới với verify_key
+            if ($this->base_model->mdnam($uid) == $verify_key) {
+                $update_ok = $this->user_model->update_member($user_id, [
+                    'user_status' => UsersType::FOR_DEFAULT,
+                    'firebase_uid' => $this->base_model->mdnam($uid),
+                ], [
+                    // where
+                    'user_activation_key' => $verify_key,
+                ]);
+            } else {
+                $this->base_model->msg_error_session('Thông số URL không hợp lệ!');
+            }
+        } else {
+            $update_ok = $this->user_model->update_member($user_id, [
+                'user_status' => UsersType::FOR_DEFAULT,
+            ], [
+                // where
+                'user_activation_key' => $verify_key,
+            ]);
+        }
+        if ($update_ok > 0) {
+            $this->base_model->msg_session('Kích hoạt lại tài khoản thành công! Cảm ơn bạn.');
+        }
+
+        // chuyển đến trang đăng nhập
+        $this->MY_redirect(base_url('guest/login'));
+    }
+
+    // kiểm tra URL có hợp lệ hay không
+    protected function firebaseUrlExpires($expires_token, $access_token, $expires_time)
+    {
+        // bắt đầu kiểm tra
+        if (!empty($expires_token)) {
+            // cắt bỏ 3 ký tự cuối của expires_token
+            $expires_token = substr($expires_token, 0, -3);
+        }
+        if (empty($expires_token) || time() - $expires_token > $expires_time) {
+            // URL hết hạn
+            $this->result_json_type([
+                'code' => __LINE__,
+                'reload' => 1,
+                'error' => $this->firebaseLang('expires_expires', 'expires_token is expires!'),
+            ]);
+        }
+
+        //
+        if (empty($access_token) || $this->base_model->mdnam($expires_token . session_id()) != $access_token) {
+            $this->result_json_type([
+                'code' => __LINE__,
+                'error' => $this->firebaseLang('access_token', 'access_token mismatched!'),
+            ]);
+        }
+
+        //
+        return $expires_token;
     }
 
     /*
