@@ -508,7 +508,7 @@ class ConfigType
             'disable_local_login' => 'Khi chức năng đăng nhập qua Firebase được kích hoạt, bạn có thể tắt chức năng đăng nhập mặc định của website bằng cách kích hoạt option này.',
             'reverify_firebase_email' => 'Chức năng này sẽ gia tăng khả năng bảo vệ tài khoản của khách hàng. Khi đăng nhập qua firebase, nếu thông số từ firebase gửi về không khớp với thông số trên web thì sẽ gửi email để xác thực lại quyền truy cập.',
             'firebase_auth_google' => 'Đăng nhập bằng tài khoản Google',
-            'firebase_auth_facebook' => 'Đăng nhập bằng tài khoản Facebook. Tạo app sau đó lấy App ID và App secret tại đây: https://developers.facebook.com/apps/ * Nhớ truy cập vào Đăng nhập bằng Facebook -> Cài đặt -> URI chuyển hướng OAuth hợp lệ để tiến hành cài đặt URL chuyển hướng cho firebase: https://developers.facebook.com/apps/{appId}/fb-login/settings/ * URL này có dạng: https://{projectId}.firebaseapp.com/__/auth/handler',
+            'firebase_auth_facebook' => 'Đăng nhập bằng tài khoản Facebook. Tạo app sau đó lấy App ID và App secret tại đây: https://developers.facebook.com/apps/ * Nhớ truy cập vào Đăng nhập bằng Facebook -> Cài đặt -> URI chuyển hướng OAuth hợp lệ để tiến hành cài đặt URL chuyển hướng cho firebase: https://developers.facebook.com/apps/YOUR_FACEBOOK_APP_ID/fb-login/settings/ * URL này có dạng: https://YOUR_FIREBASE_PROJECT_ID.firebaseapp.com/__/auth/handler',
             'firebase_auth_apple' => 'Đăng nhập bằng tài khoản Apple',
             'firebase_auth_microsoft' => 'Đăng nhập bằng tài khoản Microsoft',
             'firebase_auth_yahoo' => 'Đăng nhập bằng tài khoản Yahoo',
