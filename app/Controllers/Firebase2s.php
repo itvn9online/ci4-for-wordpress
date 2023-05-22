@@ -8,12 +8,6 @@ use App\Libraries\DeletedStatus;
 use App\Libraries\PHPMaillerSend;
 use App\Helpers\HtmlTemplate;
 
-//require_once APPPATH . 'ThirdParty/firebase-tokens-php-4.2.0/src/JWT/Error/IdTokenVerificationFailed.php';
-//require_once APPPATH . 'ThirdParty/firebase-tokens-php-4.2.0/src/JWT/IdTokenVerifier.php';
-
-//use Kreait\Firebase\JWT\Error\IdTokenVerificationFailed;
-//use Kreait\Firebase\JWT\IdTokenVerifier;
-
 //
 class Firebase2s extends Firebases
 {
@@ -21,6 +15,7 @@ class Firebase2s extends Firebases
     public $preload_header = false;
     // thời gian hết hạn của mỗi token -> để thấp cho nó bảo mật
     public $expires_time = 120;
+    public $expires_reverify_time = 1800;
 
     public function __construct()
     {
@@ -421,7 +416,7 @@ class Firebase2s extends Firebases
 
     public function verify_email()
     {
-        $this->firebaseUrlExpires($this->MY_get('expires_token'), $this->MY_get('access_token'), 1800);
+        $this->firebaseUrlExpires($this->MY_get('expires_token'), $this->MY_get('access_token'), $this->expires_reverify_time);
         //$this->result_json_type($_GET);
 
         //
@@ -458,7 +453,7 @@ class Firebase2s extends Firebases
                 'user_activation_key' => $verify_key,
             ]);
         }
-        if ($update_ok > 0) {
+        if ($update_ok !== false) {
             $this->base_model->msg_session($this->firebaseLang('verify_complete', 'Kích hoạt lại tài khoản thành công! Cảm ơn bạn.'));
         }
 
@@ -493,37 +488,5 @@ class Firebase2s extends Firebases
 
         //
         return $expires_token;
-    }
-
-    /*
-    * TEST -> code lỗi chưa dùng được
-    * Xác thực token của firebase
-    * https://github.com/kreait/firebase-tokens-php
-    */
-    protected function verifyFirebaseIdToken($projectId = '', $idToken = '')
-    {
-        //require_once APPPATH . 'ThirdParty/firebase-tokens-php-4.2.0/src/JWT/Error/IdTokenVerificationFailed.php';
-        //require_once APPPATH . 'ThirdParty/firebase-tokens-php-4.2.0/src/JWT/IdTokenVerifier.php';
-        //die(__CLASS__ . ':' . __LINE__);
-
-        //
-        $aaaaaaa = new \Kreait\Firebase\JWT\IdTokenVerifier();
-        die(__CLASS__ . ':' . __LINE__);
-        $verifier = $aaaaaaa::createWithProjectId($projectId);
-        //$verifier = IdTokenVerifier::createWithProjectId($projectId);
-
-        try {
-            $token = $verifier->verifyIdToken($idToken);
-            $this->result_json_type([
-                'code' => __LINE__,
-                'error' => __LINE__,
-                'token' => $token,
-            ]);
-        } catch (IdTokenVerificationFailed $e) {
-            $this->result_json_type([
-                'code' => __LINE__,
-                'error' => $e->getMessage(),
-            ]);
-        }
     }
 }
