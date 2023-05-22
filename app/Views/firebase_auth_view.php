@@ -73,6 +73,9 @@ if ($getconfig->g_firebase_config != '') {
         //
         'firebase_auth_google' => $getconfig->firebase_auth_google,
         'firebase_auth_facebook' => $getconfig->firebase_auth_facebook,
+        'firebase_auth_apple' => $getconfig->firebase_auth_apple,
+        'firebase_auth_microsoft' => $getconfig->firebase_auth_microsoft,
+        'firebase_auth_yahoo' => $getconfig->firebase_auth_yahoo,
         'firebase_auth_twitter' => $getconfig->firebase_auth_twitter,
         'firebase_auth_github' => $getconfig->firebase_auth_github,
         'firebase_auth_email' => $getconfig->firebase_auth_email,

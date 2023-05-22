@@ -769,16 +769,20 @@ class Guest extends Csrf
         return $login_redirect;
     }
 
-    protected function firebaseSignInSuccessParams()
+    protected function firebaseSignInSuccessParams($hash_code = '')
     {
         $current_time = time();
+        // tạo hash code mặc định nếu chưa có
+        if (empty($hash_code)) {
+            $hash_code = session_id();
+        }
 
         // trả về thông số tăng cường bảo mật cho quá trình đăng nhập qua firebase
         return [
             'base_url' => base_url('firebase2s/sign_in_success'),
             // thêm 3 ký tự ngẫu nhiên vào expires_token -> để tăng bảo mật
             'expires_token' => $current_time . rand(100, 999),
-            'access_token' => $this->base_model->mdnam($current_time . session_id()),
+            'access_token' => $this->base_model->mdnam($current_time . $hash_code),
             'user_token' => $this->base_model->mdnam($current_time . $this->current_user_id),
         ];
     }
