@@ -150,7 +150,7 @@ class Firebase2s extends Firebases
             'is_deleted' => DeletedStatus::FOR_DEFAULT,
         ];
         $where_like = [];
-        if (!empty($email)) {
+        if (!empty($email) && strpos($email, '@') !== false) {
             $where['user_email'] = $email;
         } else if (!empty($phone)) {
             $where_like['user_phone'] = substr($phone, -9);
@@ -190,7 +190,7 @@ class Firebase2s extends Firebases
                 // verify email khi chưa có firebase_uid
                 if ($this->getconfig->skipverify_firebase_email != 'on') {
                     // muốn an toàn hơn thì nên làm chức năng gửi email xác thực xong mới cập nhật firebase_uid
-                    if (!empty($email)) {
+                    if (!empty($email) && strpos($email, '@') !== false) {
                         $this->reVerifyFirebaseEmail($data, [
                             'uid' => $firebase_uid
                         ]);
