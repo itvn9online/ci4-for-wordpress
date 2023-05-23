@@ -135,6 +135,7 @@ function action_signInSuccessWithAuthResult(successfully) {
 		.currentUser.getIdToken(true)
 		.then(function (idToken) {
 			//console.log(idToken);
+
 			// Send token to your backend via HTTPS
 			if (successfully !== false) {
 				jQuery.ajax({
@@ -174,7 +175,7 @@ function action_signInSuccessWithAuthResult(successfully) {
 			}
 		})
 		.catch(function (error) {
-			return handleUIError(error);
+			console.log(error);
 		});
 }
 
@@ -362,7 +363,7 @@ function firebaseSignOut(m, redirect_to) {
 		})
 		.catch((error) => {
 			// An error happened.
-			return handleUIError(error);
+			console.log(error);
 		});
 }
 

@@ -4,7 +4,7 @@
 */
 
 //
-if ($getconfig->g_firebase_config != '') {
+if ($getconfig->firebase_json_config != '') {
     //print_r($session_data);
 
     //

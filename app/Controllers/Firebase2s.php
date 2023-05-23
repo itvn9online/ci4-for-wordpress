@@ -40,7 +40,7 @@ class Firebase2s extends Firebases
     // kiểm tra dữ liệu trống hoặc không có trong config
     protected function checkConfigParams($str, $err)
     {
-        if (empty($str) || strpos($this->getconfig->g_firebase_config, $str) === false) {
+        if (empty($str) || strpos($this->getconfig->firebase_json_config, $str) === false) {
             $this->result_json_type($err);
         }
         return $str;
@@ -74,7 +74,7 @@ class Firebase2s extends Firebases
         //$this->result_json_type([$referer]);
 
         // xem có config cho chức năng đăng nhập qua firebase không
-        $this->checkEmptyParams(trim($this->getconfig->g_firebase_config), [
+        $this->checkEmptyParams(trim($this->getconfig->firebase_json_config), [
             'code' => __LINE__,
             'error' => $this->firebaseLang('firebase_config', 'firebase_config chưa được thiết lập'),
         ]);
@@ -514,5 +514,21 @@ class Firebase2s extends Firebases
             return $this->base_model->scache(__FUNCTION__ . session_id(), $str, HOUR);
         }
         return $this->base_model->scache(__FUNCTION__ . session_id());
+    }
+
+    public function firebase_config()
+    {
+        if (!empty($this->getconfig->firebase_json_config)) {
+            $this->result_json_type([
+                'ok' => __LINE__,
+                'data' => json_decode($this->getconfig->firebase_json_config)
+            ]);
+        }
+
+        //
+        $this->result_json_type([
+            'code' => __LINE__,
+            'error' => 'No money no love!'
+        ]);
     }
 }

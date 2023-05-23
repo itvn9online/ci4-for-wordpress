@@ -73,7 +73,7 @@ firebase.auth().onAuthStateChanged(
 		}
 	},
 	function (error) {
-		return handleUIError(error);
+		console.log(error);
 	}
 );
 
