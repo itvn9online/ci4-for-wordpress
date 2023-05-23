@@ -517,9 +517,16 @@ class Firebase2s extends Firebases
     protected function id_cache_token($str = '')
     {
         if ($str != '') {
-            return $this->base_model->scache(__FUNCTION__ . session_id(), $str, DAY);
+            // nếu có lệnh giữ lại session -> dùng cache -> session bị xóa khi bấm logout -> không giữ được
+            if ($this->getconfig->save_firebase_session == 'on') {
+                return $this->base_model->scache(__FUNCTION__ . session_id(), $str, DAY);
+            }
+            return $this->base_model->MY_session(__FUNCTION__ . session_id(), $str);
         }
-        return $this->base_model->scache(__FUNCTION__ . session_id());
+        if ($this->getconfig->save_firebase_session == 'on') {
+            return $this->base_model->scache(__FUNCTION__ . session_id());
+        }
+        return $this->base_model->MY_session(__FUNCTION__ . session_id());
     }
 
     public function firebase_config()
