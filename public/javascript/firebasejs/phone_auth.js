@@ -7,7 +7,7 @@ var required_firebase_phone_number = true;
 
 function phoneUiConfig() {
 	var a = [];
-	if (firebase_verify_phone == "on") {
+	if (firebase_dynamic_config.verify_phone == "on") {
 		a.push(buildPhoneAuthProvider());
 	}
 	//console.log(a);

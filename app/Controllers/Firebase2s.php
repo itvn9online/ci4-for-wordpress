@@ -98,6 +98,13 @@ class Firebase2s extends Firebases
                 'code' => __LINE__,
                 'error' => $this->firebaseLang('id_token', 'id_token trống'),
             ]);
+            if ($this->id_cache_token() === NULL) {
+                $this->result_json_type([
+                    'code' => __LINE__,
+                    'auto_logout' => __LINE__,
+                    'error' => $this->firebaseLang('cache_token', 'Lỗi xác minh danh tính! Vui lòng thử lại...'),
+                ]);
+            }
 
             //
             $firebase_uid = $this->checkEmptyParams($this->MY_post('uid', ''), [
@@ -207,7 +214,7 @@ class Firebase2s extends Firebases
                     //
                     $this->result_json_type([
                         'code' => __LINE__,
-                        'error' => $this->firebaseLang('user_id_mismatched', 'user_id không phù hợp'),
+                        'error' => $this->firebaseLang('user_id_mismatched', 'user_id không đúng'),
                     ]);
                 }
 
@@ -335,7 +342,6 @@ class Firebase2s extends Firebases
         if (isset($ops['uid']) && !empty($ops['uid'])) {
             $verify_params = $this->firebaseSignInSuccessParams($ops['uid']);
             $verify_params['uid'] = $ops['uid'];
-            //$verify_params['hash_code'] = $ops['uid'];
             $verify_params['verify_key'] = $this->base_model->mdnam($data['ID'] . $ops['uid']);
         } else {
             $verify_params = $this->firebaseSignInSuccessParams();
@@ -347,7 +353,8 @@ class Firebase2s extends Firebases
         $verify_url = base_url('firebase2s/verify_email') . '?nse=' . $data['ID'];
         foreach ($verify_params as $k => $v) {
             if (in_array($k, [
-                'base_url',
+                'success_url',
+                'token_url',
                 'user_token',
             ])) {
                 continue;
@@ -398,13 +405,6 @@ class Firebase2s extends Firebases
                 'error' => $this->firebaseLang('check_email', 'Vui lòng kiểm tra email và kích hoạt tài khoản của bạn: ') . $data['user_email'],
             ]);
         } else {
-            // gửi mail lỗi -> reset trạng thái
-            $this->user_model->update_member($data['ID'], [
-                'firebase_uid' => '',
-                //'user_status' => $data['user_status'],
-            ]);
-
-            //
             $this->result_json_type([
                 'code' => __LINE__,
                 'error' => $this->firebaseLang('error_email', 'Hệ thống email đang lỗi, vui lòng báo với quản trị viên'),
@@ -434,9 +434,10 @@ class Firebase2s extends Firebases
         // so khới với verify_key
         if ($this->base_model->mdnam($user_id . $uid) == $verify_key) {
             // khớp thông tin thì cập nhật lại firebase_uid
-            $this->user_model->update_member($user_id, [
+            $result_update = $this->user_model->update_member($user_id, [
                 //'user_status' => UsersType::FOR_DEFAULT,
                 'firebase_uid' => $this->base_model->mdnam($uid),
+                'user_activation_key' => '',
             ], [
                 // where
                 'user_activation_key' => $verify_key,
@@ -464,7 +465,7 @@ class Firebase2s extends Firebases
             // URL hết hạn
             $this->result_json_type([
                 'code' => __LINE__,
-                'reload' => 1,
+                'reload' => __LINE__,
                 'error' => $this->firebaseLang('expires_expires', 'expires_token đã hết hạn sử dụng. Vui lòng thử lại sau giây lát...'),
             ]);
         }
@@ -483,5 +484,35 @@ class Firebase2s extends Firebases
 
         //
         return $expires_token;
+    }
+
+    public function sign_in_token()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $id_token = $this->checkEmptyParams($this->MY_post('id_token'), [
+                'code' => __LINE__,
+                'error' => $this->firebaseLang('id_token', 'id_token trống'),
+            ]);
+
+            // lưu cache để đến phiên đăng nhập thì nạp lại -> không cho 1 phiên lưu quá lâu
+            $this->id_cache_token($id_token);
+
+            //
+            $this->result_json_type($_POST);
+        }
+
+        //
+        $this->result_json_type([
+            'code' => __LINE__,
+            'error' => 'No money no love!'
+        ]);
+    }
+
+    protected function id_cache_token($str = '')
+    {
+        if ($str != '') {
+            return $this->base_model->scache(__FUNCTION__ . session_id(), $str, HOUR);
+        }
+        return $this->base_model->scache(__FUNCTION__ . session_id());
     }
 }

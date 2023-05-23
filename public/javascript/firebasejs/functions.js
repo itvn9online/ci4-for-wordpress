@@ -32,11 +32,11 @@ function create_signInSuccessUrl() {
 	// thêm chuỗi ngẫu nhiên
 	if (
 		typeof sign_in_success_params != "undefined" &&
-		typeof sign_in_success_params["base_url"] != "undefined" &&
-		sign_in_success_params["base_url"] != ""
+		typeof sign_in_success_params["success_url"] != "undefined" &&
+		sign_in_success_params["success_url"] != ""
 	) {
 		//console.log(sign_in_success_params);
-		return sign_in_success_params["base_url"];
+		return sign_in_success_params["success_url"];
 	}
 	// loại bỏ mọi thể loại parameter
 	return window.location.href.split("?")[0].split("&")[0];
@@ -56,14 +56,17 @@ function buildPhoneAuthProvider() {
 			badge: "bottomleft",
 		},
 		// Set default country to the Vietnam (+84).
-		defaultCountry: set_value_firebase_config(firebase_default_country, "VN"),
+		defaultCountry: set_value_firebase_config(
+			firebase_dynamic_config.default_country,
+			"VN"
+		),
 		// For prefilling the national number, set defaultNationNumber.
 		// This will only be observed if only phone Auth provider is used since
 		// for multiple providers, the NASCAR screen will always render first
 		// with a 'sign in with phone number' button.
 		//
 		defaultNationalNumber: cut_zero_first_in_phone_number(
-			default_national_number
+			firebase_dynamic_config.default_national_number
 		),
 		// You can also pass the full phone number string instead of the
 		// 'defaultCountry' and 'defaultNationalNumber'. However, in this case,
@@ -76,7 +79,10 @@ function buildPhoneAuthProvider() {
 		// in their favor. In this case, the default country will be 'GB' even
 		// though 'loginHint' specified the country code as '+1'.
 		//
-		loginHint: set_value_firebase_config(firebase_login_hint, "+84"),
+		loginHint: set_value_firebase_config(
+			firebase_dynamic_config.login_hint,
+			"+84"
+		),
 		// You can provide a 'whitelistedCountries' or 'blacklistedCountries' for
 		// countries to select. It takes an array of either ISO (alpha-2) or
 		// E164 (prefix with '+') formatted country codes. If 'defaultCountry' is
@@ -117,8 +123,11 @@ function test_result_user_data(user) {
 }
 
 // ngay sau khi đăng nhập thành công trên firebase -> thực hiện đăng nhập trên web thôi
-function action_signInSuccessWithAuthResult() {
+function action_signInSuccessWithAuthResult(successfully) {
 	//console.log(Math.random());
+	if (typeof successfully == "undefined") {
+		successfully = false;
+	}
 
 	//
 	firebase
@@ -127,18 +136,56 @@ function action_signInSuccessWithAuthResult() {
 		.then(function (idToken) {
 			//console.log(idToken);
 			// Send token to your backend via HTTPS
-			action_signInSuccessWithIdToken(idToken);
+			if (successfully !== false) {
+				jQuery.ajax({
+					type: "POST",
+					url: sign_in_success_params["token_url"],
+					dataType: "json",
+					//crossDomain: true,
+					data: {
+						id_token: idToken,
+					},
+					timeout: 33 * 1000,
+					error: function (jqXHR, textStatus, errorThrown) {
+						console.log(jqXHR);
+						if (typeof jqXHR.responseText != "undefined") {
+							console.log(jqXHR.responseText);
+						}
+						console.log(errorThrown);
+						console.log(textStatus);
+						if (textStatus === "timeout") {
+							//
+						}
+					},
+					success: function (data) {
+						//console.log(data);
+						//return false;
+
+						//
+						if (typeof data.id_token != "undefined" && data.id_token != "") {
+							action_signInSuccessWithIdToken(data.id_token, true);
+						} else {
+							console.log(Math.random());
+						}
+					},
+				});
+			} else {
+				action_signInSuccessWithIdToken(idToken, successfully);
+			}
 		})
 		.catch(function (error) {
-			console.log(error);
+			return handleUIError(error);
 		});
 }
 
-function action_signInSuccessWithIdToken(idToken) {
+function action_signInSuccessWithIdToken(idToken, successfully) {
 	//console.log(idToken);
 	var user = firebase.auth().currentUser;
 	if (user === null) {
 		return false;
+	}
+	if (typeof successfully == "undefined") {
+		successfully = false;
 	}
 	//var credential = authResult.credential;
 	//var isNewUser = authResult.additionalUserInfo.isNewUser;
@@ -169,16 +216,27 @@ function action_signInSuccessWithIdToken(idToken) {
 		project_id: firebaseConfig.projectId,
 		apikey: user.l,
 		apiurl: user.s,
+		successfully: successfully,
 	};
 	// chạy vòng lặp bổ sung tham số bảo mật
 	for (var x in sign_in_success_params) {
 		// bỏ qua tham số URL
-		if (x == "base_url") {
+		if (x == "success_url") {
 			continue;
 		}
 		data[x] = sign_in_success_params[x];
 	}
+
+	//
+	/*
+	if (successfully !== false) {
+		localStorage.setItem("fb_signin_success_params", JSON.stringify(data));
+	}
+	*/
+
+	//
 	//console.log(data);
+	//console.log(data.id_token.length);
 	//return false;
 
 	//
@@ -228,9 +286,15 @@ function action_signInSuccessWithIdToken(idToken) {
 				if (typeof data.code != "undefined" && data.code > 0) {
 					data.error += " (#" + data.code + ")";
 				}
+				if (typeof data.auto_logout != "undefined" && data.auto_logout > 0) {
+					firebaseSignOut();
+				}
 
 				//
 				WGR_alert(data.error, "error");
+
+				//console.log(data);
+				//return false;
 			}
 			// mặc định sẽ nạp lại trang
 			else if (typeof data.ok != "undefined" && data.ok * 1 > 0) {
@@ -241,7 +305,7 @@ function action_signInSuccessWithIdToken(idToken) {
 					//console.log(a);
 					if (a.split("//").length <= 1) {
 						a = set_value_firebase_config(
-							firebase_sign_in_redirect_to,
+							firebase_dynamic_config.sign_in_redirect_to,
 							web_link
 						);
 					}
@@ -253,12 +317,18 @@ function action_signInSuccessWithIdToken(idToken) {
 						a = data.redirect_to;
 					} else {
 						a = set_value_firebase_config(
-							firebase_sign_in_redirect_to,
+							firebase_dynamic_config.sign_in_redirect_to,
 							web_link
 						);
 					}
 				}
-				window.location = a;
+
+				// thoát phiên firebase ngay sau khi đăng nhập thành công -> gia tăng độ bảo mật
+				if (firebase_dynamic_config.auto_logout == "on") {
+					firebaseSignOut("", a);
+				} else {
+					window.location = a;
+				}
 			}
 		},
 	});
@@ -270,23 +340,30 @@ function login_reload() {
 }
 
 function continueSignIn() {
-	action_signInSuccessWithAuthResult({
-		user: firebase.auth().currentUser,
-	});
+	action_signInSuccessWithAuthResult();
 }
 
-function firebaseSignOut(m) {
-	if (confirm(m) === true) {
-		firebase
-			.auth()
-			.signOut()
-			.then(() => {
-				// Sign-out successful.
-			})
-			.catch((error) => {
-				// An error happened.
-			});
+function firebaseSignOut(m, redirect_to) {
+	if (typeof m != "undefined" && m != "") {
+		if (confirm(m) !== true) {
+			return false;
+		}
 	}
+
+	//
+	firebase
+		.auth()
+		.signOut()
+		.then(() => {
+			// Sign-out successful.
+			if (typeof redirect_to != "undefined" && redirect_to != "") {
+				window.location = redirect_to;
+			}
+		})
+		.catch((error) => {
+			// An error happened.
+			return handleUIError(error);
+		});
 }
 
 function firebaseDeleteAccountt(m) {
@@ -306,7 +383,10 @@ function action_signInSuccessUrl() {
 		}
 	}
 	//return window.location.href;
-	return set_value_firebase_config(firebase_sign_in_redirect_to, web_link);
+	return set_value_firebase_config(
+		firebase_dynamic_config.sign_in_redirect_to,
+		web_link
+	);
 }
 
 function action_signInFailure(error) {
@@ -322,14 +402,21 @@ function action_uiShown() {
 	// The widget is rendered.
 	// Hide the loader.
 	//document.getElementById("loader").style.display = "none";
+	//console.log(Math.random());
 }
 
 function action_privacyPolicyUrl() {
 	window.location.assign(
-		set_value_firebase_config(firebase_privacy_policy_url, web_link)
+		set_value_firebase_config(
+			firebase_dynamic_config.privacy_policy_url,
+			web_link
+		)
 	);
 }
 
 function build_tosUrl() {
-	return set_value_firebase_config(firebase_terms_service_url, web_link);
+	return set_value_firebase_config(
+		firebase_dynamic_config.terms_service_url,
+		web_link
+	);
 }

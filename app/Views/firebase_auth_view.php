@@ -58,32 +58,28 @@ if ($getconfig->g_firebase_config != '') {
     //
     $base_model->JSON_parse([
         'sign_in_success_params' => $sign_in_success_params,
-    ]);
-
-    //
-    $base_model->JSON_echo([
-        // mảng này sẽ in ra dưới dạng JSON hoặc number
-    ], [
-        // mảng này sẽ in ra dưới dạng string
-        'firebase_privacy_policy_url' => $getconfig->g_firebase_privacy_policy_url,
-        'firebase_terms_service_url' => $getconfig->g_firebase_terms_service_url,
-        'firebase_sign_in_redirect_to' => $getconfig->firebase_sign_in_redirect_to,
-        'firebase_default_country' => $getconfig->g_firebase_default_country,
-        'firebase_login_hint' => $getconfig->g_firebase_login_hint,
-        //
-        'firebase_auth_google' => $getconfig->firebase_auth_google,
-        'firebase_auth_facebook' => $getconfig->firebase_auth_facebook,
-        'firebase_auth_apple' => $getconfig->firebase_auth_apple,
-        'firebase_auth_microsoft' => $getconfig->firebase_auth_microsoft,
-        'firebase_auth_yahoo' => $getconfig->firebase_auth_yahoo,
-        'firebase_auth_twitter' => $getconfig->firebase_auth_twitter,
-        'firebase_auth_github' => $getconfig->firebase_auth_github,
-        'firebase_auth_email' => $getconfig->firebase_auth_email,
-        'firebase_auth_anonymous' => $getconfig->firebase_auth_anonymous,
-        'firebase_auth_phone' => $getconfig->firebase_auth_phone,
-        'firebase_verify_phone' => $getconfig->firebase_verify_phone,
-        //
-        'default_national_number' => $current_user_id > 0 ? $session_data['user_phone'] : (isset($phone_number) ? $phone_number : ''),
+        'firebase_dynamic_config' => [
+            'privacy_policy_url' => $getconfig->g_firebase_privacy_policy_url,
+            'terms_service_url' => $getconfig->g_firebase_terms_service_url,
+            'sign_in_redirect_to' => $getconfig->firebase_sign_in_redirect_to,
+            'default_country' => $getconfig->g_firebase_default_country,
+            'login_hint' => $getconfig->g_firebase_login_hint,
+            'auto_logout' => $getconfig->auto_logout_firebase,
+            //
+            'google' => $getconfig->firebase_auth_google,
+            'facebook' => $getconfig->firebase_auth_facebook,
+            'apple' => $getconfig->firebase_auth_apple,
+            'microsoft' => $getconfig->firebase_auth_microsoft,
+            'yahoo' => $getconfig->firebase_auth_yahoo,
+            'twitter' => $getconfig->firebase_auth_twitter,
+            'github' => $getconfig->firebase_auth_github,
+            'email' => $getconfig->firebase_auth_email,
+            'anonymous' => $getconfig->firebase_auth_anonymous,
+            'phone' => $getconfig->firebase_auth_phone,
+            'verify_phone' => $getconfig->firebase_verify_phone,
+            //
+            'default_national_number' => $current_user_id > 0 ? $session_data['user_phone'] : (isset($phone_number) ? $phone_number : ''),
+        ],
     ]);
 
     // các function sẽ sử dụng cho quá trình đăng nhập qua firebase

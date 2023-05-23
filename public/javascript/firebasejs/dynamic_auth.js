@@ -3,34 +3,34 @@
  */
 function dynamicUiConfig() {
 	var a = [];
-	if (firebase_auth_google == "on") {
+	if (firebase_dynamic_config.google == "on") {
 		a.push(firebase.auth.GoogleAuthProvider.PROVIDER_ID);
 	}
-	if (firebase_auth_facebook == "on") {
+	if (firebase_dynamic_config.facebook == "on") {
 		a.push(firebase.auth.FacebookAuthProvider.PROVIDER_ID);
 	}
-	if (firebase_auth_twitter == "on") {
+	if (firebase_dynamic_config.twitter == "on") {
 		a.push(firebase.auth.TwitterAuthProvider.PROVIDER_ID);
 	}
-	if (firebase_auth_github == "on") {
+	if (firebase_dynamic_config.github == "on") {
 		a.push(firebase.auth.GithubAuthProvider.PROVIDER_ID);
 	}
-	if (firebase_auth_apple == "on") {
+	if (firebase_dynamic_config.apple == "on") {
 		a.push("apple.com");
 	}
-	if (firebase_auth_microsoft == "on") {
+	if (firebase_dynamic_config.microsoft == "on") {
 		a.push("microsoft.com");
 	}
-	if (firebase_auth_yahoo == "on") {
+	if (firebase_dynamic_config.yahoo == "on") {
 		a.push("yahoo.com");
 	}
-	if (firebase_auth_email == "on") {
+	if (firebase_dynamic_config.email == "on") {
 		a.push(firebase.auth.EmailAuthProvider.PROVIDER_ID);
 	}
-	if (firebase_auth_anonymous == "on") {
+	if (firebase_dynamic_config.anonymous == "on") {
 		a.push(firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID);
 	}
-	if (firebase_auth_phone == "on") {
+	if (firebase_dynamic_config.phone == "on") {
 		a.push(buildPhoneAuthProvider());
 	}
 	//console.log(a);
@@ -44,7 +44,7 @@ function getUiConfig() {
 		callbacks: {
 			// Called when the user has been successfully signed in.
 			signInSuccessWithAuthResult: function (authResult, redirectUrl) {
-				return action_signInSuccessWithAuthResult();
+				return action_signInSuccessWithAuthResult(true);
 			},
 			signInFailure: function (error) {
 				return action_signInFailure(error);
