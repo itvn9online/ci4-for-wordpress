@@ -134,6 +134,20 @@ function addSignInSuccessParams(data) {
 	return data;
 }
 
+function afterRequestTokenSignIn(data) {
+	if (typeof data.code != "undefined" && data.code > 0) {
+		data.error += " (#" + data.code + ")";
+	}
+	if (typeof data.auto_logout != "undefined" && data.auto_logout > 0) {
+		firebaseSignOut();
+	}
+
+	//
+	WGR_alert(data.error, "error");
+
+	//console.log(data);
+}
+
 // ngay sau khi đăng nhập thành công trên firebase -> thực hiện đăng nhập trên web thôi
 function action_signInSuccessWithAuthResult(successfully) {
 	//console.log(Math.random());
@@ -151,10 +165,10 @@ function action_signInSuccessWithAuthResult(successfully) {
 		.currentUser.getIdToken(true)
 		.then(function (idToken) {
 			//console.log(idToken);
-
 			// Send token to your backend via HTTPS
 			if (successfully !== false) {
 				var data = {
+					token_url: Math.random(),
 					uid: user.uid,
 					id_token: idToken,
 				};
@@ -165,7 +179,8 @@ function action_signInSuccessWithAuthResult(successfully) {
 				//
 				jQuery.ajax({
 					type: "POST",
-					url: sign_in_success_params["token_url"],
+					//url: sign_in_success_params["token_url"],
+					url: create_signInSuccessUrl(),
 					dataType: "json",
 					//crossDomain: true,
 					data: data,
@@ -183,20 +198,7 @@ function action_signInSuccessWithAuthResult(successfully) {
 						}
 						// có lỗi thì thông báo lỗi
 						else if (typeof data.error != "undefined" && data.error != "") {
-							if (typeof data.code != "undefined" && data.code > 0) {
-								data.error += " (#" + data.code + ")";
-							}
-							if (
-								typeof data.auto_logout != "undefined" &&
-								data.auto_logout > 0
-							) {
-								firebaseSignOut();
-							}
-
-							//
-							WGR_alert(data.error, "error");
-
-							//console.log(data);
+							afterRequestTokenSignIn(data);
 							//return false;
 						} else {
 							console.log(Math.random());
@@ -302,17 +304,7 @@ function action_signInSuccessWithIdToken(idToken, successfully) {
 			}
 			// có lỗi thì thông báo lỗi
 			else if (typeof data.error != "undefined" && data.error != "") {
-				if (typeof data.code != "undefined" && data.code > 0) {
-					data.error += " (#" + data.code + ")";
-				}
-				if (typeof data.auto_logout != "undefined" && data.auto_logout > 0) {
-					firebaseSignOut();
-				}
-
-				//
-				WGR_alert(data.error, "error");
-
-				//console.log(data);
+				afterRequestTokenSignIn(data);
 				//return false;
 			}
 			// mặc định sẽ nạp lại trang
