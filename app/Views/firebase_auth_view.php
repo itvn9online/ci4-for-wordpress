@@ -64,7 +64,7 @@ if ($getconfig->g_firebase_config != '') {
             'sign_in_redirect_to' => $getconfig->firebase_sign_in_redirect_to,
             'default_country' => $getconfig->g_firebase_default_country,
             'login_hint' => $getconfig->g_firebase_login_hint,
-            'auto_logout' => $getconfig->auto_logout_firebase,
+            'save_session' => $getconfig->save_firebase_session,
             //
             'google' => $getconfig->firebase_auth_google,
             'facebook' => $getconfig->firebase_auth_facebook,

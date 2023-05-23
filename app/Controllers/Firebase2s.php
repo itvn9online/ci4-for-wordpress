@@ -184,7 +184,7 @@ class Firebase2s extends Firebases
                     $this->checkUid($firebase_uid);
 
                     // verify email khi chưa có firebase_uid
-                    if ($this->getconfig->reverify_firebase_email == 'on') {
+                    if ($this->getconfig->skipverify_firebase_email != 'on') {
                         // muốn an toàn hơn thì nên làm chức năng gửi email xác thực xong mới cập nhật firebase_uid
                         if (!empty($email)) {
                             $this->reVerifyFirebaseEmail($data, [
@@ -205,7 +205,7 @@ class Firebase2s extends Firebases
                 }
                 // nếu có firebase_uid -> so khớp phần dữ liệu này -> coi như đây là password
                 else if ($data['firebase_uid'] != $this->base_model->mdnam($firebase_uid)) {
-                    if ($this->getconfig->reverify_firebase_email == 'on') {
+                    if ($this->getconfig->skipverify_firebase_email != 'on') {
                         $this->reVerifyFirebaseEmail($data, [
                             'uid' => $firebase_uid
                         ]);
@@ -434,7 +434,7 @@ class Firebase2s extends Firebases
         // so khới với verify_key
         if ($this->base_model->mdnam($user_id . $uid) == $verify_key) {
             // khớp thông tin thì cập nhật lại firebase_uid
-            $result_update = $this->user_model->update_member($user_id, [
+            $this->user_model->update_member($user_id, [
                 //'user_status' => UsersType::FOR_DEFAULT,
                 'firebase_uid' => $this->base_model->mdnam($uid),
                 'user_activation_key' => '',

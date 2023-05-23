@@ -324,7 +324,7 @@ function action_signInSuccessWithIdToken(idToken, successfully) {
 				}
 
 				// thoát phiên firebase ngay sau khi đăng nhập thành công -> gia tăng độ bảo mật
-				if (firebase_dynamic_config.auto_logout == "on") {
+				if (firebase_dynamic_config.save_session != "on") {
 					firebaseSignOut("", a);
 				} else {
 					window.location = a;

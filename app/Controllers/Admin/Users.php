@@ -126,6 +126,7 @@ class Users extends Admin
                         //$where_or_like[ 'display_name' ] = $by_like;
                         $where_or_like['user_url'] = $by_like;
                         $where_or_like['display_name'] = $by_keyword;
+                        $where_or_like['firebase_uid'] = $by_keyword;
                     }
                 }
             }
