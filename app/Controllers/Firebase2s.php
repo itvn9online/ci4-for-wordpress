@@ -40,7 +40,7 @@ class Firebase2s extends Firebases
     // kiểm tra dữ liệu trống hoặc không có trong config
     protected function checkConfigParams($str, $err)
     {
-        if (empty($str) || strpos($this->getconfig->firebase_json_config, $str) === false) {
+        if (empty($str) || strpos($this->getconfig->g_firebase_config, $str) === false) {
             $this->result_json_type($err);
         }
         return $str;
@@ -74,7 +74,7 @@ class Firebase2s extends Firebases
         //$this->result_json_type([$referer]);
 
         // xem có config cho chức năng đăng nhập qua firebase không
-        $this->checkEmptyParams(trim($this->getconfig->firebase_json_config), [
+        $this->checkEmptyParams(trim($this->getconfig->g_firebase_config), [
             'code' => __LINE__,
             'error' => $this->firebaseLang('firebase_config', 'firebase_config chưa được thiết lập'),
         ]);
@@ -85,13 +85,7 @@ class Firebase2s extends Firebases
             $expires_token = $this->firebaseUrlExpires($this->MY_post('expires_token'), $this->MY_post('access_token'), $this->expires_time);
 
             //
-            $user_token = $this->MY_post('user_token');
-            if (empty($user_token) || $this->base_model->mdnam($expires_token . $this->current_user_id) != $user_token) {
-                $this->result_json_type([
-                    'code' => __LINE__,
-                    'error' => $this->firebaseLang('user_token', 'user_token không phù hợp'),
-                ]);
-            }
+            $this->firebaseSessionToken($expires_token, $this->MY_post('user_token'));
 
             //
             $this->checkEmptyParams($this->MY_post('id_token'), [
@@ -487,9 +481,26 @@ class Firebase2s extends Firebases
         return $expires_token;
     }
 
+    // kiểm tra xem token có đúng theo session không
+    protected function firebaseSessionToken($expires_token, $user_token)
+    {
+        if (empty($user_token) || $this->base_model->mdnam($expires_token . session_id()) != $user_token) {
+            $this->result_json_type([
+                'code' => __LINE__,
+                'error' => $this->firebaseLang('user_token', 'user_token không phù hợp'),
+            ]);
+        }
+    }
+
     public function sign_in_token()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $expires_token = $this->firebaseUrlExpires($this->MY_post('expires_token'), $this->MY_post('access_token'), $this->expires_time);
+
+            //
+            $this->firebaseSessionToken($expires_token, $this->MY_post('user_token'));
+
+            //
             $uid = $this->checkEmptyParams($this->MY_post('uid'), [
                 'code' => __LINE__,
                 'error' => $this->firebaseLang('uid', 'user_id trống'),

@@ -122,6 +122,18 @@ function test_result_user_data(user) {
 	}
 }
 
+function addSignInSuccessParams(data) {
+	// chạy vòng lặp bổ sung tham số bảo mật
+	for (var x in sign_in_success_params) {
+		// bỏ qua tham số URL
+		if (x == "success_url" || x == "token_url") {
+			continue;
+		}
+		data[x] = sign_in_success_params[x];
+	}
+	return data;
+}
+
 // ngay sau khi đăng nhập thành công trên firebase -> thực hiện đăng nhập trên web thôi
 function action_signInSuccessWithAuthResult(successfully) {
 	//console.log(Math.random());
@@ -142,16 +154,21 @@ function action_signInSuccessWithAuthResult(successfully) {
 
 			// Send token to your backend via HTTPS
 			if (successfully !== false) {
+				var data = {
+					uid: user.uid,
+					id_token: idToken,
+				};
+				data = addSignInSuccessParams(data);
+				//console.log(data);
+				//return false;
+
+				//
 				jQuery.ajax({
 					type: "POST",
 					url: sign_in_success_params["token_url"],
 					dataType: "json",
 					//crossDomain: true,
-					data: {
-						nse: Math.random(),
-						uid: user.uid,
-						id_token: idToken,
-					},
+					data: data,
 					timeout: 33 * 1000,
 					error: function (jqXHR, textStatus, errorThrown) {
 						jQueryAjaxError(jqXHR, textStatus, errorThrown);
@@ -163,6 +180,24 @@ function action_signInSuccessWithAuthResult(successfully) {
 						//
 						if (typeof data.id_token != "undefined" && data.id_token != "") {
 							action_signInSuccessWithIdToken(data.id_token, true);
+						}
+						// có lỗi thì thông báo lỗi
+						else if (typeof data.error != "undefined" && data.error != "") {
+							if (typeof data.code != "undefined" && data.code > 0) {
+								data.error += " (#" + data.code + ")";
+							}
+							if (
+								typeof data.auto_logout != "undefined" &&
+								data.auto_logout > 0
+							) {
+								firebaseSignOut();
+							}
+
+							//
+							WGR_alert(data.error, "error");
+
+							//console.log(data);
+							//return false;
 						} else {
 							console.log(Math.random());
 						}
@@ -217,14 +252,7 @@ function action_signInSuccessWithIdToken(idToken, successfully) {
 		apiurl: user.s,
 		successfully: successfully,
 	};
-	// chạy vòng lặp bổ sung tham số bảo mật
-	for (var x in sign_in_success_params) {
-		// bỏ qua tham số URL
-		if (x == "success_url") {
-			continue;
-		}
-		data[x] = sign_in_success_params[x];
-	}
+	data = addSignInSuccessParams(data);
 
 	//
 	/*

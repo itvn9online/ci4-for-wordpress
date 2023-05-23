@@ -785,7 +785,7 @@ class Guest extends Csrf
             // thêm 3 ký tự ngẫu nhiên vào expires_token -> để tăng bảo mật
             'expires_token' => $current_time . rand(100, 999),
             'access_token' => $this->base_model->mdnam($current_time . $hash_code),
-            'user_token' => $this->base_model->mdnam($current_time . $this->current_user_id),
+            'user_token' => $this->base_model->mdnam($current_time . session_id()),
         ];
     }
 }

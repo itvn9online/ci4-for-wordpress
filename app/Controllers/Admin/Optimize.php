@@ -27,9 +27,10 @@ class Optimize extends Admin
             $c = $this->c_active_optimize;
             $f = $this->f_active_optimize;
 
-            // basse code
+            // base code
             $this->before_active_optimize(PUBLIC_PUBLIC_PATH . 'css/', $f, $c);
             $this->before_active_optimize(PUBLIC_PUBLIC_PATH . 'javascript/', $f, $c);
+            $this->before_active_optimize(PUBLIC_PUBLIC_PATH . 'javascript/firebasejs/', $f, $c);
             // theme
             $this->before_active_optimize(THEMEPATH . 'css/', $f, $c);
             $this->before_active_optimize(THEMEPATH . 'js/', $f, $c);
@@ -82,6 +83,7 @@ class Optimize extends Admin
         // css, js chung
         $this->optimize_action_css(PUBLIC_PUBLIC_PATH);
         $this->optimize_action_js(PUBLIC_PUBLIC_PATH, 'javascript');
+        $this->optimize_action_js(PUBLIC_PUBLIC_PATH, 'javascript/firebasejs');
 
         // css, js của từng theme
         if ($this->optimize_action_css(THEMEPATH) === true) {
