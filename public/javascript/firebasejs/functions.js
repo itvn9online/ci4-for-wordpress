@@ -125,6 +125,10 @@ function test_result_user_data(user) {
 // ngay sau khi đăng nhập thành công trên firebase -> thực hiện đăng nhập trên web thôi
 function action_signInSuccessWithAuthResult(successfully) {
 	//console.log(Math.random());
+	var user = firebase.auth().currentUser;
+	if (user === null) {
+		return false;
+	}
 	if (typeof successfully == "undefined") {
 		successfully = false;
 	}
@@ -144,19 +148,13 @@ function action_signInSuccessWithAuthResult(successfully) {
 					dataType: "json",
 					//crossDomain: true,
 					data: {
+						nse: Math.random(),
+						uid: user.uid,
 						id_token: idToken,
 					},
 					timeout: 33 * 1000,
 					error: function (jqXHR, textStatus, errorThrown) {
-						console.log(jqXHR);
-						if (typeof jqXHR.responseText != "undefined") {
-							console.log(jqXHR.responseText);
-						}
-						console.log(errorThrown);
-						console.log(textStatus);
-						if (textStatus === "timeout") {
-							//
-						}
+						jQueryAjaxError(jqXHR, textStatus, errorThrown);
 					},
 					success: function (data) {
 						//console.log(data);
@@ -254,15 +252,7 @@ function action_signInSuccessWithIdToken(idToken, successfully) {
 		data: data,
 		timeout: 33 * 1000,
 		error: function (jqXHR, textStatus, errorThrown) {
-			console.log(jqXHR);
-			if (typeof jqXHR.responseText != "undefined") {
-				console.log(jqXHR.responseText);
-			}
-			console.log(errorThrown);
-			console.log(textStatus);
-			if (textStatus === "timeout") {
-				//
-			}
+			jQueryAjaxError(jqXHR, textStatus, errorThrown);
 		},
 		success: function (data) {
 			//console.log(data);

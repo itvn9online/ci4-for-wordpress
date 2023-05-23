@@ -859,15 +859,7 @@ function load_term_select_option(a, jd, _callBack, max_i) {
 		},
 		timeout: 33 * 1000,
 		error: function (jqXHR, textStatus, errorThrown) {
-			console.log(jqXHR);
-			if (typeof jqXHR.responseText != "undefined") {
-				console.log(jqXHR.responseText);
-			}
-			console.log(errorThrown);
-			console.log(textStatus);
-			if (textStatus === "timeout") {
-				//
-			}
+			jQueryAjaxError(jqXHR, textStatus, errorThrown);
 		},
 		success: function (data) {
 			//console.log(data);
@@ -1149,15 +1141,7 @@ function action_each_to_email() {
 		},
 		timeout: 33 * 1000,
 		error: function (jqXHR, textStatus, errorThrown) {
-			console.log(jqXHR);
-			if (typeof jqXHR.responseText != "undefined") {
-				console.log(jqXHR.responseText);
-			}
-			console.log(errorThrown);
-			console.log(textStatus);
-			if (textStatus === "timeout") {
-				//
-			}
+			jQueryAjaxError(jqXHR, textStatus, errorThrown);
 		},
 		success: function (data) {
 			//console.log(data);

@@ -98,19 +98,20 @@ class Firebase2s extends Firebases
                 'code' => __LINE__,
                 'error' => $this->firebaseLang('id_token', 'id_token trống'),
             ]);
-            if ($this->id_cache_token() === NULL) {
+
+            // lấy uid
+            $firebase_uid = $this->checkEmptyParams($this->MY_post('uid', ''), [
+                'code' => __LINE__,
+                'error' => $this->firebaseLang('uid', 'user_id trống'),
+            ]);
+            // so khớp trong cache -> trước đó sẽ có 1 request update cache này -> nếu không có nghĩa là lỗi
+            if ($this->id_cache_token() != $firebase_uid) {
                 $this->result_json_type([
                     'code' => __LINE__,
                     'auto_logout' => __LINE__,
                     'error' => $this->firebaseLang('cache_token', 'Lỗi xác minh danh tính! Vui lòng thử lại...'),
                 ]);
             }
-
-            //
-            $firebase_uid = $this->checkEmptyParams($this->MY_post('uid', ''), [
-                'code' => __LINE__,
-                'error' => $this->firebaseLang('uid', 'user_id trống'),
-            ]);
 
             //
             $this->checkConfigParams($this->MY_post('project_id'), [
@@ -489,13 +490,17 @@ class Firebase2s extends Firebases
     public function sign_in_token()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $id_token = $this->checkEmptyParams($this->MY_post('id_token'), [
+            $uid = $this->checkEmptyParams($this->MY_post('uid'), [
+                'code' => __LINE__,
+                'error' => $this->firebaseLang('uid', 'user_id trống'),
+            ]);
+            $this->checkEmptyParams($this->MY_post('id_token'), [
                 'code' => __LINE__,
                 'error' => $this->firebaseLang('id_token', 'id_token trống'),
             ]);
 
             // lưu cache để đến phiên đăng nhập thì nạp lại -> không cho 1 phiên lưu quá lâu
-            $this->id_cache_token($id_token);
+            $this->id_cache_token($uid);
 
             //
             $this->result_json_type($_POST);
@@ -511,7 +516,7 @@ class Firebase2s extends Firebases
     protected function id_cache_token($str = '')
     {
         if ($str != '') {
-            return $this->base_model->scache(__FUNCTION__ . session_id(), $str, HOUR);
+            return $this->base_model->scache(__FUNCTION__ . session_id(), $str, DAY);
         }
         return $this->base_model->scache(__FUNCTION__ . session_id());
     }

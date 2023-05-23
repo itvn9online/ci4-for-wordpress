@@ -159,15 +159,7 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
 				WGR_alert("ERROR uploading... Please re-check!", "error");
 
 				//
-				console.log(jqXHR);
-				if (typeof jqXHR.responseText != "undefined") {
-					console.log(jqXHR.responseText);
-				}
-				console.log(errorThrown);
-				console.log(textStatus);
-				if (textStatus === "timeout") {
-					//
-				}
+				jQueryAjaxError(jqXHR, textStatus, errorThrown);
 
 				// nếu có function báo lỗi quá trình upload thì báo ở đây
 				if (typeof __errorCallBack == "function") {

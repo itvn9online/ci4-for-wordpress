@@ -561,15 +561,7 @@ function WGR_duy_tri_dang_nhap(max_i) {
 		//data: data,
 		timeout: 33 * 1000,
 		error: function (jqXHR, textStatus, errorThrown) {
-			console.log(jqXHR);
-			if (typeof jqXHR.responseText != "undefined") {
-				console.log(jqXHR.responseText);
-			}
-			console.log(errorThrown);
-			console.log(textStatus);
-			if (textStatus === "timeout") {
-				//
-			}
+			jQueryAjaxError(jqXHR, textStatus, errorThrown);
 		},
 		success: function (data) {
 			console.log(data);
@@ -723,15 +715,7 @@ function action_each_to_taxonomy() {
 		},
 		timeout: 33 * 1000,
 		error: function (jqXHR, textStatus, errorThrown) {
-			console.log(jqXHR);
-			if (typeof jqXHR.responseText != "undefined") {
-				console.log(jqXHR.responseText);
-			}
-			console.log(errorThrown);
-			console.log(textStatus);
-			if (textStatus === "timeout") {
-				//
-			}
+			jQueryAjaxError(jqXHR, textStatus, errorThrown);
 		},
 		success: function (data) {
 			if (WGR_config.cf_tester_mode > 0) console.log(data);
@@ -1170,4 +1154,15 @@ function WGR_get_params(param) {
 	var a = urlParams.get(param);
 	//console.log(a);
 	return a === null ? "" : a;
+}
+
+function jQueryAjaxError(jqXHR, textStatus, errorThrown) {
+	console.log(jqXHR);
+	if (typeof jqXHR.responseText != "undefined") {
+		console.log(jqXHR.responseText);
+	}
+	console.log(errorThrown);
+	console.log(textStatus);
+	if (textStatus === "timeout") {
+	}
 }
