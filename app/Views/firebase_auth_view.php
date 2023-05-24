@@ -92,10 +92,4 @@ if ($getconfig->g_firebase_config != '') {
     ], [
         'defer'
     ]);
-} else {
-?>
-    <p class="medium18 text-center">SDK setup and configuration is EMPTY!
-        <br>Please find <b>g_firebase_config</b> in base code and setup...
-    </p>
-<?php
 }
