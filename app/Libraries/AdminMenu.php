@@ -30,10 +30,12 @@ class AdminMenu
                         'name' => TaxonomyType::typeList(TaxonomyType::POSTS, true),
                         'icon' => 'fa fa-cubes',
                     ],
+                    /*
                     'admin/postoptions' => [
                         'name' => TaxonomyType::typeList(TaxonomyType::OPTIONS, true),
                         'icon' => 'fa fa-filter',
                     ],
+                    */
                     'admin/tags' => [
                         'name' => TaxonomyType::typeList(TaxonomyType::TAGS, true),
                         'icon' => 'fa fa-tag',
@@ -119,6 +121,10 @@ class AdminMenu
                     'admin/productcategory' => [
                         'name' => TaxonomyType::typeList(TaxonomyType::PROD_CATS, true),
                         'icon' => 'fa fa-cubes',
+                    ],
+                    'admin/productoptions' => [
+                        'name' => TaxonomyType::typeList(TaxonomyType::PROD_OTPS, true),
+                        'icon' => 'fa fa-filter',
                     ],
                     'admin/producttags' => [
                         'name' => TaxonomyType::typeList(TaxonomyType::PROD_TAGS, true),

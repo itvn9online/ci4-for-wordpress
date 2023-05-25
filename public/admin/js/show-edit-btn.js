@@ -114,7 +114,8 @@ function show_edit_btn() {
 				// mặc định
 				controller = "terms";
 				var arr_type = {
-					post_options: "postoptions",
+					//post_options: "postoptions",
+					product_opt: "productoptions",
 					tags: "tags",
 					blogs: "blogcategory",
 					blog_tags: "blogtags",

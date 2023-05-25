@@ -53,7 +53,7 @@ class PostType
         self::ADS => 'Quảng cáo',
         self::BLOG => 'Blog/ Tin tức',
         self::PAGE => 'Trang tĩnh',
-        self::PROD => 'Sản phẩm',
+        self::PROD => AdminTranslate::PROD,
         self::MENU => 'Menu',
         self::HTML_MENU => 'HTML Menu',
         self::MEDIA => 'Media',

@@ -18,7 +18,8 @@ class C extends Home
         // chỉ kiểm tra custom taxonomy
         if (!in_array($taxonomy_type, [
             TaxonomyType::TAGS,
-            TaxonomyType::OPTIONS,
+            //TaxonomyType::OPTIONS,
+            TaxonomyType::PROD_OTPS,
             TaxonomyType::BLOG_TAGS,
             TaxonomyType::PROD_TAGS,
         ])) {

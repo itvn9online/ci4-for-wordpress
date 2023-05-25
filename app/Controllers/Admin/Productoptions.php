@@ -1,14 +1,15 @@
 <?php
+
 namespace App\Controllers\Admin;
 
 // Libraries
 use App\Libraries\TaxonomyType;
 
 //
-class Postoptions extends Terms
+class Productoptions extends Terms
 {
-    protected $taxonomy = TaxonomyType::OPTIONS;
-    protected $controller_slug = 'postoptions';
+    protected $taxonomy = TaxonomyType::PROD_OTPS;
+    protected $controller_slug = 'productoptions';
 
     public function __construct()
     {

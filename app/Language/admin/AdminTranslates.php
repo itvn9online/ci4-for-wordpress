@@ -10,6 +10,7 @@ namespace App\Language\admin;
 class AdminTranslates
 {
     const POST = 'Bài viết';
+    const PROD = 'Sản phẩm';
 
     // bản dịch cho tên các nhóm tài khoản
     const GUEST = 'Khách vãng lai';

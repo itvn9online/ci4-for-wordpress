@@ -2,16 +2,20 @@
 
 namespace App\Libraries;
 
+//
+use App\Language\admin\AdminTranslate;
+
 class TaxonomyType
 {
     // taxonomy
     const POSTS = 'category';
     const TAGS = 'tags';
-    const OPTIONS = 'post_options';
+    //const OPTIONS = 'post_options';
     const ADS = 'ads_options';
     const BLOGS = 'blogs';
     const BLOG_TAGS = 'blog_tags';
     const PROD_CATS = 'product_cat';
+    const PROD_OTPS = 'product_opt';
     const PROD_TAGS = 'product_tag';
     //const MENU = 'nav_menu';
     //const PAGE = 'page_taxonomy';
@@ -21,17 +25,17 @@ class TaxonomyType
     const HIDDEN = '1';
 
     private static $arr = array(
-        self::POSTS => 'Danh mục',
-        self::TAGS => 'Thẻ',
+        self::POSTS => 'Danh mục ' . AdminTranslate::POST,
+        self::TAGS => 'Thẻ ' . AdminTranslate::POST,
+        //self::OPTIONS => 'Thông số khác',
         self::ADS => 'Danh mục quảng cáo',
         self::BLOGS => 'Danh mục tin',
         self::BLOG_TAGS => 'Thẻ Blog/ Tin tức',
-        self::OPTIONS => 'Thông số khác',
-        self::PROD_CATS => 'Danh mục sản phẩm',
-        self::PROD_TAGS => 'Thẻ sản phẩm',
+        self::PROD_CATS => 'Danh mục ' . AdminTranslate::PROD,
+        self::PROD_OTPS => 'Thông số khác',
+        self::PROD_TAGS => 'Thẻ ' . AdminTranslate::PROD,
         //self::MENU => 'Menu',
         //self::PAGE => 'Trang tĩnh',
-
     );
 
     public static function typeList($key = '', $first_name = false)
@@ -58,7 +62,8 @@ class TaxonomyType
         //self::ADS => 'Danh mục',
         //self::BLOGS => 'Danh mục',
         //self::BLOG_TAGS => 'Danh mục',
-        self::OPTIONS => 'Danh sách',
+        //self::OPTIONS => 'Danh sách',
+        self::PROD_OTPS => 'Danh sách',
         //self::MENU => 'Menu',
         //self::PAGE => 'Trang tĩnh',
 

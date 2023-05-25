@@ -11,6 +11,7 @@ class Products extends Posts
 {
     protected $post_type = PostType::PROD;
     protected $taxonomy = TaxonomyType::PROD_CATS;
+    protected $options = TaxonomyType::PROD_OTPS;
     protected $tags = TaxonomyType::PROD_TAGS;
     protected $controller_slug = 'products';
 

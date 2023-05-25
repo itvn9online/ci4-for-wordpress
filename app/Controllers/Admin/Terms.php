@@ -465,7 +465,9 @@ class Terms extends Admin
             in_array($this->taxonomy, [
                 TaxonomyType::POSTS,
                 TaxonomyType::BLOGS,
-                TaxonomyType::OPTIONS,
+                //TaxonomyType::OPTIONS,
+                TaxonomyType::PROD_CATS,
+                TaxonomyType::PROD_OTPS,
             ])
         ) {
             $set_parent = $this->taxonomy;

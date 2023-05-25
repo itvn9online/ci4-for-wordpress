@@ -19,7 +19,8 @@ class Posts extends Admin
     // các taxonomy được hỗ trợ -> cái nào trống nghĩa là không hỗ trợ theo post_type tương ứng
     protected $taxonomy = TaxonomyType::POSTS;
     protected $tags = TaxonomyType::TAGS;
-    protected $options = TaxonomyType::OPTIONS;
+    //protected $options = TaxonomyType::OPTIONS;
+    protected $options = '';
 
     // tham số dùng để thay đổi bảng cần gọi dữ liệu
     public $table = 'posts';
