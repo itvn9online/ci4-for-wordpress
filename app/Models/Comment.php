@@ -61,6 +61,8 @@ class Comment extends EbModel
 
         //
         $data = $this->sync_comment_data($data);
+        //print_r($data);
+        //die(__CLASS__ . ':' . __LINE__);
 
         //
         $result_id = $this->base_model->insert($this->table, $data, true);
@@ -73,8 +75,8 @@ class Comment extends EbModel
                 $comment_count = $this->base_model->select('COUNT(comment_ID) AS c', $this->table, array(
                     'comment_post_ID' => $data['comment_post_ID'],
                 ), [
-                        'selectCount' => 'comment_ID',
-                    ]);
+                    'selectCount' => 'comment_ID',
+                ]);
                 //$comment_count = $comment_count[ 0 ][ 'c' ];
                 $comment_count = $comment_count[0]['comment_ID'];
 
@@ -85,9 +87,9 @@ class Comment extends EbModel
                     // SET
                     'comment_count' => $comment_count,
                 ], [
-                        // WHERE
-                        $post_model->primaryKey => $data['comment_post_ID'],
-                    ]);
+                    // WHERE
+                    $post_model->primaryKey => $data['comment_post_ID'],
+                ]);
             }
         }
         return $result_id;

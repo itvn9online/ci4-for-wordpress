@@ -2,7 +2,7 @@
 
 // Libraries
 use App\Libraries\PostType;
-use App\Libraries\LanguageCost;
+//use App\Libraries\LanguageCost;
 
 // css riêng cho từng post type (nếu có)
 $base_model->add_css('admin/css/' . $post_type . '.css');

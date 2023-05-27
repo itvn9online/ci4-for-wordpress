@@ -31,8 +31,8 @@ class Users extends Csrf
         //
         if ($this->current_user_id <= 0) {
             // tạo url sau khi đăng nhập xong sẽ trỏ tới
-            $login_redirect = base_url() . $_SERVER['REQUEST_URI'];
-            //die( $login_redirect );
+            $login_redirect = DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/');
+            //die($login_redirect);
 
             //
             $login_url = base_url('guest/login') . '?login_redirect=' . urlencode($login_redirect) . '&msg=' . urlencode('Permission deny! ' . basename(__FILE__, '.php') . ':' . __LINE__);

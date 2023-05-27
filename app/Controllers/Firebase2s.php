@@ -85,10 +85,10 @@ class Firebase2s extends Firebases
         }
 
         // kiểm tra tính hợp lệ của url
-        $expires_token = $this->firebaseUrlExpires($this->MY_post('expires_token'), $this->MY_post('access_token'), $this->expires_time);
+        $this->firebaseUrlExpires($this->MY_post('expires_token'), $this->expires_time);
 
         //
-        $this->firebaseSessionToken($expires_token, $this->MY_post('user_token'));
+        //$this->firebaseSessionToken($expires_token, $this->MY_post('user_token'));
 
         //
         $this->checkEmptyParams($this->MY_post('id_token'), [
@@ -355,7 +355,7 @@ class Firebase2s extends Firebases
             if (in_array($k, [
                 'success_url',
                 //'token_url',
-                'user_token',
+                //'user_token',
             ])) {
                 continue;
             }
@@ -414,7 +414,7 @@ class Firebase2s extends Firebases
 
     public function verify_email()
     {
-        $this->firebaseUrlExpires($this->MY_get('expires_token'), $this->MY_get('access_token'), $this->expires_reverify_time, $this->MY_get('uid'));
+        $this->firebaseUrlExpires($this->MY_get('expires_token'), $this->expires_reverify_time, $this->MY_get('uid'));
         //$this->result_json_type($_GET);
 
         //
@@ -454,7 +454,7 @@ class Firebase2s extends Firebases
     }
 
     // kiểm tra URL có hợp lệ hay không
-    protected function firebaseUrlExpires($expires_token, $access_token, $expires_time, $hash_code = '')
+    protected function firebaseUrlExpires($expires_token, $expires_time, $hash_code = '')
     {
         // bắt đầu kiểm tra
         if (!empty($expires_token)) {
@@ -475,9 +475,12 @@ class Firebase2s extends Firebases
         }
 
         //
-        if (empty($access_token) || $this->base_model->mdnam($expires_token . $hash_code) != $access_token) {
+        $at = $this->myAccessToken();
+        if (empty($at) || $this->base_model->mdnam($expires_token . $hash_code) != $at) {
             $this->result_json_type([
                 'code' => __LINE__,
+                'reload' => __LINE__,
+                'auto_logout' => __LINE__,
                 'error' => $this->firebaseLang('access_token', 'access_token không phù hợp'),
             ]);
         }
@@ -487,9 +490,9 @@ class Firebase2s extends Firebases
     }
 
     // kiểm tra xem token có đúng theo session không
-    protected function firebaseSessionToken($expires_token, $user_token)
+    protected function firebaseSessionToken($expires_token, $ut)
     {
-        if (empty($user_token) || $this->base_model->mdnam($expires_token . session_id()) != $user_token) {
+        if (empty($ut) || $this->base_model->mdnam($expires_token . session_id()) != $ut) {
             $this->result_json_type([
                 'code' => __LINE__,
                 'error' => $this->firebaseLang('user_token', 'user_token không phù hợp'),

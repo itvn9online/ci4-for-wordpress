@@ -94,6 +94,7 @@ function show_edit_btn() {
 			} else {
 				$(this).prepend(url);
 			}
+			$(this).addClass("actived-goto-edit");
 		}
 	});
 

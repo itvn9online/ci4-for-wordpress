@@ -235,6 +235,10 @@ em.fa {
     display: inline-block
 }
 
+.eb-sub-menu.actived-goto-edit {
+    position: relative;
+}
+
 /* ads banner */
 .banner-ads-media {
     background: center no-repeat;

@@ -135,17 +135,35 @@ function addSignInSuccessParams(data) {
 }
 
 function afterRequestTokenSignIn(data) {
-	if (typeof data.code != "undefined" && data.code > 0) {
-		data.error += " (#" + data.code + ")";
+	//console.log(data);
+
+	// có lỗi thì thông báo lỗi
+	if (typeof data.error != "undefined" && data.error != "") {
+		if (typeof data.code != "undefined" && data.code > 0) {
+			data.error += " (#" + data.code + ")";
+		}
+
+		//
+		WGR_alert(data.error, "error");
 	}
+
+	// logout session nếu có yêu cầu
 	if (typeof data.auto_logout != "undefined" && data.auto_logout > 0) {
 		firebaseSignOut();
 	}
 
-	//
-	WGR_alert(data.error, "error");
-
-	//console.log(data);
+	// nạp lại trang nếu có yêu cầu
+	if (typeof data.reload != "undefined" && data.reload * 1 > 0) {
+		console.log("Waiting reload page...");
+		setTimeout(function () {
+			login_reload();
+		}, 2000);
+	}
+	// trả về true nếu quá trình đăng nhập ok
+	else if (typeof data.ok != "undefined" && data.ok * 1 > 0) {
+		return true;
+	}
+	return false;
 }
 
 // ngay sau khi đăng nhập thành công trên firebase -> thực hiện đăng nhập trên web thôi
@@ -195,12 +213,8 @@ function action_signInSuccessWithAuthResult(successfully) {
 						//
 						if (typeof data.id_token != "undefined" && data.id_token != "") {
 							action_signInSuccessWithIdToken(data.id_token, true);
-						}
-						// có lỗi thì thông báo lỗi
-						else if (typeof data.error != "undefined" && data.error != "") {
-							afterRequestTokenSignIn(data);
-							//return false;
 						} else {
+							afterRequestTokenSignIn(data);
 							console.log(Math.random());
 						}
 					},
@@ -293,22 +307,8 @@ function action_signInSuccessWithIdToken(idToken, successfully) {
 				opacity: 1,
 			});
 
-			// nếu có tham số nạp lại trang -> nạp lại
-			if (typeof data.reload != "undefined" && data.reload * 1 > 0) {
-				if (typeof data.error != "undefined" && data.error != "") {
-					WGR_alert(data.error, "error");
-				}
-				setTimeout(function () {
-					login_reload();
-				}, 2000);
-			}
-			// có lỗi thì thông báo lỗi
-			else if (typeof data.error != "undefined" && data.error != "") {
-				afterRequestTokenSignIn(data);
-				//return false;
-			}
-			// mặc định sẽ nạp lại trang
-			else if (typeof data.ok != "undefined" && data.ok * 1 > 0) {
+			//
+			if (afterRequestTokenSignIn(data) === true) {
 				var a = WGR_get_params("login_redirect");
 				if (a != "") {
 					//console.log(a);

@@ -659,6 +659,11 @@ class Sync extends BaseController
 
     protected function MY_redirect($to, $status = 200)
     {
+        // reset lại view -> tránh in ra phần html nếu lỡ nạp
+        ob_end_clean();
+        $this->teamplate = [];
+
+        //
         if ($status == 200) {
             die(header('Location: ' . $to));
         }
@@ -674,6 +679,7 @@ class Sync extends BaseController
     protected function result_json_type($arr, $headers = [], $too_headers = [])
     {
         // reset lại view -> tránh in ra phần html nếu lỡ nạp
+        ob_end_clean();
         $this->teamplate = [];
 
         //

@@ -188,9 +188,10 @@ class Users extends Admin
          * phân trang
          */
         $totalThread = $this->base_model->select('COUNT(ID) AS c', 'users', $where, $filter);
-        //print_r( $totalThread );
+        //print_r($totalThread);
         $totalThread = $totalThread[0]['c'];
-        //print_r( $totalThread );
+        //print_r($totalThread);
+        //die(__CLASS__ . ':' . __LINE__);
 
         if ($totalThread > 0) {
             $page_num = $this->MY_get('page_num', 1);
@@ -223,29 +224,40 @@ class Users extends Admin
             $filter['offset'] = $offset;
             $filter['limit'] = $this->post_per_page;
 
-            // để tăng độ bảo mật, chỉ select
-            $table_col = $this->base_model->default_data('users');
-            //print_r($table_col);
-            $select_col = [];
-            foreach ($table_col as $k => $v) {
-                if (
-                    in_array(
-                        $k,
-                        [
-                            'user_pass',
-                            'ci_pass',
-                            'ci_unpass',
-                            'user_activation_key',
-                        ]
-                    )
-                ) {
-                    continue;
-                }
+            // để tăng độ bảo mật -> không select các cột này
+            $arr_deny_col = [
+                'user_pass',
+                'ci_pass',
+                'ci_unpass',
+                'user_activation_key',
+            ];
+            $select_col = $this->MY_get('select_col');
+            $selects_col = [];
+            if (empty($select_col)) {
+                $table_col = $this->base_model->default_data('users');
+                //print_r($table_col);
+                foreach ($table_col as $k => $v) {
+                    if (in_array($k, $arr_deny_col)) {
+                        continue;
+                    }
 
-                //
-                $select_col[] = $k;
+                    //
+                    $selects_col[] = $k;
+                }
+            } else {
+                $select_col = explode(',', $select_col);
+                //print_r($select_col);
+                foreach ($select_col as $v) {
+                    if (empty($v) || in_array($v, $arr_deny_col)) {
+                        continue;
+                    }
+
+                    //
+                    $selects_col[] = $v;
+                }
             }
-            //print_r($select_col);
+            //print_r($selects_col);
+            //$this->result_json_type($select_col);
 
             // ghi đè filter nếu có
             foreach ($add_filter as $k => $v) {
@@ -253,16 +265,19 @@ class Users extends Admin
             }
 
             //
-            $data = $this->base_model->select(implode(',', $select_col), 'users', $where, $filter);
-
-            // trả luôn về data nếu có yêu cầu
-            if (isset($ops['get_data']) && $ops['get_data'] === 1) {
-                return $data;
-            }
+            $data = $this->base_model->select(implode(',', $selects_col), 'users', $where, $filter);
+            //echo implode(',', $selects_col);
             //print_r($data);
+            //die(__CLASS__ . ':' . __LINE__);
         } else {
             $data = [];
             $pagination = '';
+        }
+        //$this->result_json_type($data);
+
+        // trả luôn về data nếu có yêu cầu
+        if (isset($ops['get_data']) && $ops['get_data'] === 1) {
+            return $data;
         }
 
         //
@@ -869,5 +884,17 @@ class Users extends Admin
                 'user_status' => $user_status,
             ]
         );
+    }
+
+    // trả về danh sách người dùng dạng json
+    public function get_json()
+    {
+        $data = $this->lists([],  [],  [],  [
+            'get_data' => 1
+        ]);
+        //print_r($data);
+
+        //
+        $this->result_json_type($data);
     }
 }

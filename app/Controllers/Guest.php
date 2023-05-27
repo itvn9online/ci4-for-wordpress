@@ -769,6 +769,15 @@ class Guest extends Csrf
         return $login_redirect;
     }
 
+    protected function myAccessToken($str = '')
+    {
+        if ($str != '') {
+            $str = $this->base_model->mdnam($str);
+            return $this->base_model->MY_session('access_token' . session_id(), $str);
+        }
+        return $this->base_model->MY_session('access_token' . session_id());
+    }
+
     protected function firebaseSignInSuccessParams($hash_code = '')
     {
         $current_time = time();
@@ -777,6 +786,9 @@ class Guest extends Csrf
             $hash_code = session_id();
         }
 
+        // lưu access_token vào cache -> lúc cần kiểm tra sẽ lấy từ cache để kiểm tra -> tăng bảo mật
+        $this->myAccessToken($current_time . $hash_code);
+
         // trả về thông số tăng cường bảo mật cho quá trình đăng nhập qua firebase
         return [
             'success_url' => base_url('firebase2s/sign_in_success'),
@@ -784,8 +796,7 @@ class Guest extends Csrf
             //'firebase_config' => base_url('firebase2s/firebase_config'),
             // thêm 3 ký tự ngẫu nhiên vào expires_token -> để tăng bảo mật
             'expires_token' => $current_time . rand(100, 999),
-            'access_token' => $this->base_model->mdnam($current_time . $hash_code),
-            'user_token' => $this->base_model->mdnam($current_time . session_id()),
+            //'user_token' => $this->base_model->mdnam($current_time . session_id()),
         ];
     }
 }

@@ -1,5 +1,5 @@
 <div class="control-group">
-    <label class="control-label">Post type:</label>
+    <label class="control-label">Post type</label>
     <div class="controls"><?php echo $data['post_type']; ?></div>
 </div>
 <div class="form-actions frm-fixed-btn cf">
