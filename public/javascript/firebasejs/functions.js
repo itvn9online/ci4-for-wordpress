@@ -183,6 +183,7 @@ function action_signInSuccessWithAuthResult(successfully) {
 		.currentUser.getIdToken(true)
 		.then(function (idToken) {
 			//console.log(idToken);
+			//return false;
 			// Send token to your backend via HTTPS
 			if (successfully !== false) {
 				var data = {

@@ -91,7 +91,7 @@ class Firebase2s extends Firebases
         //$this->firebaseSessionToken($expires_token, $this->MY_post('user_token'));
 
         //
-        $this->checkEmptyParams($this->MY_post('id_token'), [
+        $id_token = $this->checkEmptyParams($this->MY_post('id_token'), [
             'code' => __LINE__,
             'error' => $this->firebaseLang('id_token', 'id_token trống'),
         ]);
@@ -101,6 +101,9 @@ class Firebase2s extends Firebases
             'code' => __LINE__,
             'error' => $this->firebaseLang('uid', 'user_id trống'),
         ]);
+
+        // kiểm tra tính xác thực của token -> so khớp token sau khi biên dịch với uid xem có giống nhau không
+        $this->phpJwt($id_token, $firebase_uid);
 
         // nếu là request lưu uid để lát so khớp thì xử lý riêng tại đây -> tận dụng các hàm kiểm tra bảo mật ở trên
         if (!empty($this->MY_post('token_url'))) {
@@ -133,8 +136,6 @@ class Firebase2s extends Firebases
             'error' => $this->firebaseLang('apiurl', 'apiurl không phù hợp'),
         ]);
 
-        // kiểm tra tính xác thực của token
-        //$this->verifyFirebaseIdToken($project_id, $id_token);
         //$this->result_json_type($_POST);
 
         //
@@ -546,5 +547,56 @@ class Firebase2s extends Firebases
             'code' => __LINE__,
             'error' => 'No money no love!'
         ]);
+    }
+
+    // biên dịch mã jwt để so sánh giá trị truyền vào
+    protected function phpJwt($jwt, $uid = '')
+    {
+        list($headersB64, $payloadB64, $sig) = explode('.', $jwt);
+        //echo $headersB64 . PHP_EOL;
+        //echo $payloadB64 . PHP_EOL;
+        //echo $sig . PHP_EOL;
+
+        //
+        //$decoded = json_decode(base64_decode($headersB64), true);
+        //print_r($decoded);
+
+        //
+        //$decoded = json_decode(base64_decode($sig), true);
+        //print_r($decoded);
+
+        //
+        $decoded = json_decode(base64_decode($payloadB64), true);
+        //print_r($decoded);
+
+        //
+        if (!is_array($decoded)) {
+            $this->result_json_type([
+                'code' => __LINE__,
+                'error' => $this->firebaseLang('decoded_array', 'Định dạng decoded không đúng'),
+            ]);
+        } else if (!isset($decoded['user_id'])) {
+            $this->result_json_type([
+                'code' => __LINE__,
+                'error' => $this->firebaseLang('user_id_isset', 'Không xác định được user_id'),
+            ]);
+        }
+
+        //
+        //echo date('Y-m-d H:i:s', $decoded['exp']) . PHP_EOL;
+        //echo date('Y-m-d H:i:s', $decoded['auth_time']) . PHP_EOL;
+
+        // nếu có uid -> so khớp
+        if ($uid != '') {
+            if ($uid != $decoded['user_id']) {
+                $this->result_json_type([
+                    'code' => __LINE__,
+                    'error' => $this->firebaseLang('user_id_uid', 'uid không hợp lệ'),
+                ]);
+            }
+        }
+
+        //
+        return $decoded;
     }
 }
