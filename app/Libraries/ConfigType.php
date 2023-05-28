@@ -533,7 +533,7 @@ class ConfigType
             'firebase_auth_phone' => 'Đăng nhập bằng số điện thoại ' . $firebase_note_phone,
             'firebase_verify_phone' => 'Chức năng xác thực số điện thoại qua Firebase tại đây: ' . base_url('firebases/phone_auth') . $firebase_note_phone,
             //
-            'zalooa_app_id' => 'ID của ứng dụng trên Zalo, tạo và lấy tại đây: https://developers.zalo.me/apps',
+            'zalooa_app_id' => 'ID của ứng dụng trên Zalo, tạo và lấy tại đây: https://developers.zalo.me/apps * Xem tài liệu code tại đây: https://github.com/zaloplatform/zalo-php-sdk',
             'zalooa_app_secret' => 'Secret của ứng dụng trên Zalo. Sau khi cập nhật đầy đủ thì có thể test code tại đây: ' . base_url('zalos/login_url'),
             //
             'site_max_width' => 'Bạn có thể thiết lập chiều rộng cho trang tại đây. Chiều rộng tiêu chuẩn: 1024px - Chiều rộng phổ biến: 1366px',
