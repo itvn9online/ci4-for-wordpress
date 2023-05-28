@@ -4,7 +4,6 @@ namespace App\Models;
 
 //
 use App\Libraries\ConfigType;
-use App\Libraries\LanguageCost;
 
 //
 class Checkbox extends Lang
@@ -23,7 +22,7 @@ class Checkbox extends Lang
 
         //
         if ($this_cache_checkbox === NULL) {
-            $this_cache_checkbox = $this->option_model->gets_config(ConfigType::CHECKBOX, LanguageCost::lang_key());
+            $this_cache_checkbox = $this->option_model->arr_config(ConfigType::CHECKBOX);
         }
         //print_r($this_cache_checkbox);
 

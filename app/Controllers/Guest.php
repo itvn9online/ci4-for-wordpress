@@ -8,6 +8,7 @@ use App\Libraries\DeletedStatus;
 use App\Libraries\PHPMaillerSend;
 use App\Language\Translate;
 use App\Helpers\HtmlTemplate;
+use App\Libraries\ConfigType;
 
 //
 class Guest extends Csrf
@@ -16,6 +17,8 @@ class Guest extends Csrf
     public $controller_slug = 'guest';
 
     public $member_type = UsersType::GUEST;
+    protected $firebase_config;
+    protected $zalooa_config;
 
     /*
     * file JS khi sử dụng chức năng đăng nhập qua firebase
@@ -42,6 +45,13 @@ class Guest extends Csrf
                 $this->has_captcha = true;
             }
         }
+
+        // nạp config cho phần đăng nhập
+        $this->firebase_config = $this->option_model->obj_config(ConfigType::FIREBASE);
+        //print_r($this->firebase_config);
+        $this->zalooa_config = $this->option_model->obj_config(ConfigType::ZALO);
+        //print_r($this->zalooa_config);
+        //die(__CLASS__ . ':' . __LINE__);
     }
 
     public function index()
@@ -150,6 +160,8 @@ class Guest extends Csrf
                 // tạo chuỗi dùng để xác thực url sau khi đăng nhập thành công
                 'sign_in_success_params' => $this->firebaseSignInSuccessParams(),
                 'file_auth' => $this->file_auth,
+                'firebase_config' => $this->firebase_config,
+                'zalooa_config' => $this->zalooa_config,
             )
         );
         //print_r( $this->teamplate );
@@ -597,7 +609,9 @@ class Guest extends Csrf
                 'seo' => $this->guest_seo('Khởi tạo lại mật khẩu', __FUNCTION__),
                 'breadcrumb' => '',
                 'login_redirect' => $this->loginRedirect(),
-                'set_login' => $this->MY_get('set_login', '')
+                'set_login' => $this->MY_get('set_login', ''),
+                'firebase_config' => $this->firebase_config,
+                'zalooa_config' => $this->zalooa_config,
             )
         );
         //print_r( $this->teamplate );
@@ -747,7 +761,9 @@ class Guest extends Csrf
                 'seo' => $this->guest_seo('Thay đổi email đăng nhập', __FUNCTION__),
                 'breadcrumb' => '',
                 'login_redirect' => $this->loginRedirect(),
-                'set_login' => $this->MY_get('set_login', '')
+                'set_login' => $this->MY_get('set_login', ''),
+                'firebase_config' => $this->firebase_config,
+                'zalooa_config' => $this->zalooa_config,
             )
         );
         //print_r( $this->teamplate );

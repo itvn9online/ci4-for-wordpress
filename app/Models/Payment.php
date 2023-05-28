@@ -1,9 +1,9 @@
 <?php
+
 namespace App\Models;
 
 //
 use App\Libraries\ConfigType;
-use App\Libraries\LanguageCost;
 
 //
 class Payment extends Option
@@ -21,7 +21,7 @@ class Payment extends Option
 
     public function getCheckoutConfig($convert_currency = true)
     {
-        $a = $this->gets_config(ConfigType::CHECKOUT, LanguageCost::lang_key());
+        $a = $this->arr_config(ConfigType::CHECKOUT);
         //print_r($a);
 
         // mảng giá gốc
@@ -86,7 +86,7 @@ class Payment extends Option
 
                 //
                 if ($a['min_product_price'] <= 0) {
-                    die('ERROR! ' . basename(__FILE__) . ':' . __LINE__);
+                    die('ERROR! ' . __CLASS__ . ':' . __LINE__);
                 }
             }
         }

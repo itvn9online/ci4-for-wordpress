@@ -11,11 +11,11 @@ if ($current_user_id > 0 || !empty($phone_number)) {
         <div class="col small-12 medium-6 large-6">
             <div class="col-inner text-center">
                 <?php
-                if ($getconfig->firebase_verify_phone === 'on') {
+                if ($firebase_config->firebase_verify_phone === 'on') {
                     include VIEWS_PATH . 'firebase_auth_view.php';
 
                     //
-                    if (empty($getconfig->g_firebase_config)) {
+                    if (empty($firebase_config->g_firebase_config)) {
                 ?>
                         <p class="medium18 text-center">SDK setup and configuration is EMPTY!
                             <br>Please find <b>g_firebase_config</b> in base code and setup...

@@ -82,6 +82,29 @@ class Option extends EbModel
         }
     }
 
+    // trả về config theo type dưới dạng array
+    public function arr_config($option_type)
+    {
+        $arr = $this->gets_config($option_type, LanguageCost::lang_key());
+        //print_r($arr);
+        // gán giá trị mặc định cho các mảng dữ liệu chưa có
+        $config_default = ConfigType::meta_default($option_type);
+        //print_r($config_default);
+        foreach ($config_default as $k => $v) {
+            if (!isset($arr[$k])) {
+                $arr[$k] = '';
+            }
+        }
+        //print_r($arr);
+        return $arr;
+    }
+
+    // trả về config theo type dưới dạng object
+    public function obj_config($option_type)
+    {
+        return (object) $this->arr_config($option_type);
+    }
+
     public function gets_config($option_type, $lang_key)
     {
         //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
@@ -142,7 +165,7 @@ class Option extends EbModel
 
     public function get_lang()
     {
-        return $this->gets_config(ConfigType::TRANS, LanguageCost::lang_key());
+        return $this->arr_config(ConfigType::TRANS);
     }
     public function create_lang($option_name, $option_value)
     {
@@ -156,7 +179,7 @@ class Option extends EbModel
 
     public function get_smtp()
     {
-        return (object) $this->gets_config(ConfigType::SMTP, LanguageCost::lang_key());
+        return $this->getconfig(ConfigType::SMTP);
     }
 
     public function get_config_by_type($option_type, $lang_key, $time = BIG_CACHE_TIMEOUT, $repeat = true)
@@ -263,19 +286,13 @@ class Option extends EbModel
         }
         //print_r($this_cache_config);
 
-        //
-        $config_default = [];
-        foreach ($arr_option_type as $v) {
-            $config_default[] = ConfigType::meta_default($v);
-        }
-        //print_r( $config_default );
-
         // gán giá trị mặc định cho các mảng dữ liệu chưa có
-        foreach ($config_default as $v) {
-            //print_r( $v );
-            foreach ($v as $k2 => $v2) {
-                if (!isset($this_cache_config[$k2])) {
-                    $this_cache_config[$k2] = '';
+        foreach ($arr_option_type as $v) {
+            $config_default = ConfigType::meta_default($v);
+            //print_r($config_default);
+            foreach ($config_default as $k => $v) {
+                if (!isset($this_cache_config[$k])) {
+                    $this_cache_config[$k] = '';
                 }
             }
         }

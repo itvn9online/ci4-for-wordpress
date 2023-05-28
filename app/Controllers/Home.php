@@ -202,7 +202,7 @@ class Home extends Posts
 
         //
         if (!is_numeric($id) || $id <= 0) {
-            die('ERROR! id? ' . basename(__FILE__) . ':' . __LINE__);
+            die('ERROR! id? ' . __CLASS__ . ':' . __LINE__);
         }
 
         //
@@ -592,7 +592,7 @@ class Home extends Posts
             }
 
             //
-            //echo basename(__FILE__) . ':' . __LINE__ . '<br>' . "\n";
+            //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             // cập nhật lại tổng số bài viết cho term - để sau nếu có tính năng lấy theo nhóm thì nó sẽ không xuất hiện nữa
             $this->base_model->update_multiple($this->term_model->taxTable, [
                 'count' => 0

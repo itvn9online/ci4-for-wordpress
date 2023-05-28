@@ -20,6 +20,8 @@ class Configs extends Admin
         ConfigType::TRANS => 'translate',
         ConfigType::NUM_MON => 'num_mon',
     ];
+    // tham số ví dụ -> mặc định là getconfig truyền từ Layout, 1 số config thi thoảng mới dùng thì truyền tham số riêng
+    protected $example_prefix = 'getconfig';
 
     public function __construct()
     {
@@ -148,6 +150,7 @@ class Configs extends Admin
                 ],
                 'value' => (object) $value,
                 'checkout_config' => $this->payment_model->getCheckoutConfig(false),
+                'example_prefix' => $this->example_prefix,
             )
         );
         return view('admin/admin_teamplate', $this->teamplate_admin);
@@ -438,7 +441,7 @@ class Configs extends Admin
                     date('r'),
                     'IP: ' . $this->request->getIPAddress(),
                     'Agent: ' . $_SERVER['HTTP_USER_AGENT'],
-                    basename(__FILE__) . ':' . __LINE__,
+                    __CLASS__ . ':' . __LINE__,
                 ]
             )
         );

@@ -40,7 +40,7 @@ class Firebase2s extends Firebases
     // kiểm tra dữ liệu trống hoặc không có trong config
     protected function checkConfigParams($str, $err)
     {
-        if (empty($str) || strpos($this->getconfig->g_firebase_config, $str) === false) {
+        if (empty($str) || strpos($this->firebase_config->g_firebase_config, $str) === false) {
             $this->result_json_type($err);
         }
         return $str;
@@ -74,7 +74,7 @@ class Firebase2s extends Firebases
         //$this->result_json_type([$referer]);
 
         // xem có config cho chức năng đăng nhập qua firebase không
-        $this->checkEmptyParams(trim($this->getconfig->g_firebase_config), [
+        $this->checkEmptyParams(trim($this->firebase_config->g_firebase_config), [
             'code' => __LINE__,
             'error' => $this->firebaseLang('firebase_config', 'firebase_config chưa được thiết lập'),
         ]);
@@ -188,7 +188,7 @@ class Firebase2s extends Firebases
                 $this->checkUid($firebase_uid);
 
                 // verify email khi chưa có firebase_uid
-                if ($this->getconfig->skipverify_firebase_email != 'on') {
+                if ($this->firebase_config->skipverify_firebase_email != 'on') {
                     // muốn an toàn hơn thì nên làm chức năng gửi email xác thực xong mới cập nhật firebase_uid
                     if (!empty($email) && strpos($email, '@') !== false) {
                         $this->reVerifyFirebaseEmail($data, [
@@ -209,7 +209,7 @@ class Firebase2s extends Firebases
             }
             // nếu có firebase_uid -> so khớp phần dữ liệu này -> coi như đây là password
             else if ($data['firebase_uid'] != $this->base_model->mdnam($firebase_uid)) {
-                if ($this->getconfig->skipverify_firebase_email != 'on') {
+                if ($this->firebase_config->skipverify_firebase_email != 'on') {
                     $this->reVerifyFirebaseEmail($data, [
                         'uid' => $firebase_uid
                     ]);
@@ -521,12 +521,12 @@ class Firebase2s extends Firebases
     {
         if ($str != '') {
             // nếu có lệnh giữ lại session -> dùng cache -> session bị xóa khi bấm logout -> không giữ được
-            if ($this->getconfig->save_firebase_session == 'on') {
+            if ($this->firebase_config->save_firebase_session == 'on') {
                 return $this->base_model->scache(__FUNCTION__ . session_id(), $str, DAY);
             }
             return $this->base_model->MY_session(__FUNCTION__ . session_id(), $str);
         }
-        if ($this->getconfig->save_firebase_session == 'on') {
+        if ($this->firebase_config->save_firebase_session == 'on') {
             return $this->base_model->scache(__FUNCTION__ . session_id());
         }
         return $this->base_model->MY_session(__FUNCTION__ . session_id());
@@ -534,10 +534,10 @@ class Firebase2s extends Firebases
 
     public function firebase_config()
     {
-        if (!empty($this->getconfig->firebase_json_config)) {
+        if (!empty($this->firebase_config->firebase_json_config)) {
             $this->result_json_type([
                 'ok' => __LINE__,
-                'data' => json_decode($this->getconfig->firebase_json_config)
+                'data' => json_decode($this->firebase_config->firebase_json_config)
             ]);
         }
 

@@ -335,7 +335,7 @@ class Dashboard extends Optimize
             }
         }
         //die( $upload_path );
-        echo $upload_path . ':' . basename(__FILE__) . ':' . __LINE__ . '<br>' . "\n";
+        echo $upload_path . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
         //
         $file_path = '';
@@ -420,9 +420,9 @@ class Dashboard extends Optimize
     // xóa file zip sau khi xử lý code
     private function cleanup_zip($upload_path, $msg)
     {
-        echo $upload_path . ':' . basename(__FILE__) . ':' . __LINE__ . '<br>' . "\n";
+        echo $upload_path . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         foreach (glob(rtrim($upload_path, '/') . '/*.zip') as $filename) {
-            echo $filename . ':' . basename(__FILE__) . ':' . __LINE__ . '<br>' . "\n";
+            echo $filename . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
             //
             if (is_file($filename)) {
@@ -1018,7 +1018,7 @@ class Dashboard extends Optimize
                 if (!file_exists($file)) {
                     continue;
                 }
-                echo $file . ':' . basename(__FILE__) . ':' . __LINE__ . '<br>' . "\n";
+                echo $file . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                 //continue;
 
                 //
@@ -1045,7 +1045,7 @@ class Dashboard extends Optimize
                 if (!is_dir($dir)) {
                     continue;
                 }
-                echo $dir . ':' . basename(__FILE__) . ':' . __LINE__ . '<br>' . "\n";
+                echo $dir . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                 //continue;
 
                 //

@@ -3,16 +3,13 @@
 namespace App\Controllers\Admin;
 
 // Libraries
-//use App\Libraries\LanguageCost;
+use App\Libraries\ConfigType;
 
 //
-require_once __DIR__ . '/vendor/autoload.php';
-
-//
-class Zalooas extends Admin
+class Zalooas extends Configs
 {
-    // với 1 số controller, sẽ không nạp cái HTML header vào, nên có thêm tham số này để không nạp header nữa
-    public $preload_admin_header = false;
+    protected $config_type = ConfigType::ZALO;
+    protected $example_prefix = 'zalooa_config';
 
     public function __construct()
     {
@@ -21,5 +18,7 @@ class Zalooas extends Admin
 
     public function testCode()
     {
+        $arr = $this->option_model->arr_config($this->config_type);
+        print_r($arr);
     }
 }

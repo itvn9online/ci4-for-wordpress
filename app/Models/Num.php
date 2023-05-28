@@ -4,7 +4,6 @@ namespace App\Models;
 
 //
 use App\Libraries\ConfigType;
-use App\Libraries\LanguageCost;
 
 //
 class Num extends Lang
@@ -23,7 +22,7 @@ class Num extends Lang
 
         //
         if ($this_cache_num === NULL) {
-            $this_cache_num = $this->option_model->gets_config(ConfigType::NUM_MON, LanguageCost::lang_key());
+            $this_cache_num = $this->option_model->arr_config(ConfigType::NUM_MON);
         }
         //print_r($this_cache_num);
 

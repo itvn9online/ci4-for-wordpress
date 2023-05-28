@@ -263,7 +263,11 @@ class AdminMenu
                     ],
                     'admin/firebases' => [
                         'name' => ConfigType::typeList(ConfigType::FIREBASE),
-                        'icon' => 'fa fa-sign-in',
+                        'icon' => 'fa fa-code-fork',
+                    ],
+                    'admin/zalooas' => [
+                        'name' => ConfigType::typeList(ConfigType::ZALO),
+                        'icon' => 'fa fa-comment-o',
                     ],
                 ]
             ],

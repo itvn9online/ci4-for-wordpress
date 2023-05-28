@@ -112,7 +112,7 @@ class Order extends Post
         $result_id = $this->insert_order($data_insert);
         //print_r( $result_id );
         if (is_array($result_id) && isset($result_id['error'])) {
-            die($result_id['error'] . ' --- ERROR! ' . basename(__FILE__) . ':' . __LINE__);
+            die($result_id['error'] . ' --- ERROR! ' . __CLASS__ . ':' . __LINE__);
         }
 
         //

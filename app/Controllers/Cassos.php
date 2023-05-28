@@ -2,6 +2,7 @@
 /*
  * Chức năng tự động xác thực thanh toán qua ngân hàng của casso
  */
+
 namespace App\Controllers;
 
 // Libraries
@@ -23,7 +24,7 @@ class Cassos extends Payments
         if ($data === NULL) {
             $this->result_json_type([
                 'status' => 0,
-                'code' => basename(__FILE__) . ':' . __LINE__,
+                'code' => __CLASS__ . ':' . __LINE__,
                 'error' => 'data NULL',
             ]);
         }
@@ -103,10 +104,10 @@ class Cassos extends Payments
                 //'pinged' => $data[ 'data_string' ],
                 'pinged' => json_encode($v),
             ], [
-                    // WHERE
-                    'post_status' => OrderType::PENDING,
-                    'post_author' => $order_data['post_author'],
-                ]);
+                // WHERE
+                'post_status' => OrderType::PENDING,
+                'post_author' => $order_data['post_author'],
+            ]);
 
             // cập nhật lại số dư tài khoản người dùng
             if ($result_update === true) {
@@ -123,7 +124,7 @@ class Cassos extends Payments
         $this->result_json_type([
             'status' => $status,
             'msg' => json_encode($msg),
-            'code' => basename(__FILE__) . ':' . __LINE__
+            'code' => __CLASS__ . ':' . __LINE__
         ]);
     }
 }

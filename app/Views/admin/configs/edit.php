@@ -48,7 +48,7 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                         <label class="text-right right-menu-space">Share icons</label>
                     </div>
                     <div class="lf f50">Chức năng tạo khối chia sẻ lên mạng xã hội theo cấu trúc chung.</div>
-                    <div class="lf f35"><input type="text" onDblClick="click2Copy(this);" value="&lt;?php echo $this->option_model->share_icons($this->getconfig); ?&gt;" class="span11" readonly />
+                    <div class="lf f35"><input type="text" onDblClick="click2Copy(this);" value="&lt;?php echo $this->option_model->share_icons($this-><?php echo $example_prefix; ?>); ?&gt;" class="span11" readonly />
                     </div>
                 </div>
                 <?php
@@ -180,10 +180,10 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                     ?>
                     <div class="lf f35">
                         <div>
-                            <input type="text" onDblClick="click2Copy(this);" value="$this->getconfig-><?php echo $k; ?>" class="span11" readonly />
+                            <input type="text" onDblClick="click2Copy(this);" value="$this-><?php echo $example_prefix; ?>-><?php echo $k; ?>" class="span11" readonly />
                         </div>
                         <div>
-                            <input type="text" onDblClick="click2Copy(this);" value="&lt;?php $getconfig-><?php echo $k; ?>; ?&gt;" class="span11" readonly />
+                            <input type="text" onDblClick="click2Copy(this);" value="&lt;?php $<?php echo $example_prefix; ?>-><?php echo $k; ?>; ?&gt;" class="span11" readonly />
                         </div>
                     </div>
                 </div>

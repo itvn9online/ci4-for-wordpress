@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 // Libraries
@@ -25,7 +26,7 @@ class Payments extends Layout
         // nếu không có id user -> lỗi
         if ($this->current_user_id <= 0) {
             $this->result_json_type([
-                'code' => basename(__FILE__) . ':' . __LINE__,
+                'code' => __CLASS__ . ':' . __LINE__,
                 'error' => 'Không xác định được thông tin tài khoản'
             ]);
         }
@@ -35,7 +36,7 @@ class Payments extends Layout
         // nếu không có id đơn hàng -> lỗi
         if ($order_id <= 0) {
             $this->result_json_type([
-                'code' => basename(__FILE__) . ':' . __LINE__,
+                'code' => __CLASS__ . ':' . __LINE__,
                 'error' => 'Không xác định được thông tin đơn hàng'
             ]);
         }
@@ -69,7 +70,7 @@ class Payments extends Layout
         //
         if (empty($data)) {
             $this->result_json_type([
-                'code' => basename(__FILE__) . ':' . __LINE__,
+                'code' => __CLASS__ . ':' . __LINE__,
                 'error' => 'Đơn hàng chưa được thanh toán'
             ]);
         }
@@ -77,7 +78,7 @@ class Payments extends Layout
         //
         $this->result_json_type([
             'status' => $data['ID'],
-            'code' => basename(__FILE__) . ':' . __LINE__
+            'code' => __CLASS__ . ':' . __LINE__
         ]);
     }
 

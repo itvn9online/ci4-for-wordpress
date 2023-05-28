@@ -2,13 +2,14 @@
 /*
 * File view chức năng đăng nhập qua firebase
 */
+//print_r($firebase_config);
 
 //
-if ($getconfig->g_firebase_config != '') {
+if (!empty($firebase_config->g_firebase_config)) {
     //print_r($session_data);
 
     //
-    $firebase_language_code = $getconfig->g_firebase_language_code;
+    $firebase_language_code = $firebase_config->g_firebase_language_code;
     if ($firebase_language_code == '') {
         $firebase_language_code = 'vi';
     }
@@ -19,7 +20,7 @@ if ($getconfig->g_firebase_config != '') {
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script>
         <?php
-        echo $getconfig->g_firebase_config;
+        echo $firebase_config->g_firebase_config;
         ?>
     </script>
     <script src="https://www.gstatic.com/firebasejs/ui/6.0.2/firebase-ui-auth__<?php echo $firebase_language_code; ?>.js"></script>
@@ -59,24 +60,24 @@ if ($getconfig->g_firebase_config != '') {
     $base_model->JSON_parse([
         'sign_in_success_params' => $sign_in_success_params,
         'firebase_dynamic_config' => [
-            'privacy_policy_url' => $getconfig->g_firebase_privacy_policy_url,
-            'terms_service_url' => $getconfig->g_firebase_terms_service_url,
-            'sign_in_redirect_to' => $getconfig->firebase_sign_in_redirect_to,
-            'default_country' => $getconfig->g_firebase_default_country,
-            'login_hint' => $getconfig->g_firebase_login_hint,
-            'save_session' => $getconfig->save_firebase_session,
+            'privacy_policy_url' => $firebase_config->g_firebase_privacy_policy_url,
+            'terms_service_url' => $firebase_config->g_firebase_terms_service_url,
+            'sign_in_redirect_to' => $firebase_config->firebase_sign_in_redirect_to,
+            'default_country' => $firebase_config->g_firebase_default_country,
+            'login_hint' => $firebase_config->g_firebase_login_hint,
+            'save_session' => $firebase_config->save_firebase_session,
             //
-            'google' => $getconfig->firebase_auth_google,
-            'facebook' => $getconfig->firebase_auth_facebook,
-            'apple' => $getconfig->firebase_auth_apple,
-            'microsoft' => $getconfig->firebase_auth_microsoft,
-            'yahoo' => $getconfig->firebase_auth_yahoo,
-            'twitter' => $getconfig->firebase_auth_twitter,
-            'github' => $getconfig->firebase_auth_github,
-            'email' => $getconfig->firebase_auth_email,
-            'anonymous' => $getconfig->firebase_auth_anonymous,
-            'phone' => $getconfig->firebase_auth_phone,
-            'verify_phone' => $getconfig->firebase_verify_phone,
+            'google' => $firebase_config->firebase_auth_google,
+            'facebook' => $firebase_config->firebase_auth_facebook,
+            'apple' => $firebase_config->firebase_auth_apple,
+            'microsoft' => $firebase_config->firebase_auth_microsoft,
+            'yahoo' => $firebase_config->firebase_auth_yahoo,
+            'twitter' => $firebase_config->firebase_auth_twitter,
+            'github' => $firebase_config->firebase_auth_github,
+            'email' => $firebase_config->firebase_auth_email,
+            'anonymous' => $firebase_config->firebase_auth_anonymous,
+            'phone' => $firebase_config->firebase_auth_phone,
+            'verify_phone' => $firebase_config->firebase_verify_phone,
             //
             'default_national_number' => $current_user_id > 0 ? $session_data['user_phone'] : (isset($phone_number) ? $phone_number : ''),
         ],

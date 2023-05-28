@@ -21,6 +21,7 @@ class ConfigType
     const CHECKBOX = 'checkbox';
     const NUM_MON = 'num_mon'; // number and money -> loại cấu hình dùng để định giá hoặc tạo số theo ý muốn
     const FIREBASE = 'firebase';
+    const ZALO = 'zalo';
 
     private static $arr_posts_per_line = [
         '' => 'Theo thiết kế mặc định của tác giả',
@@ -68,6 +69,7 @@ class ConfigType
         self::CHECKBOX => 'Bật/ Tắt',
         self::NUM_MON => 'Số',
         self::FIREBASE => 'Firebase',
+        self::ZALO => 'Zalo OA',
     );
 
     // các loại config chính sẽ được auto load để sử dụng khi cần thiết
@@ -82,8 +84,8 @@ class ConfigType
             self::BLOGS,
             self::BLOG,
             self::CHECKOUT,
-            self::FIREBASE,
             // một số config sử dụng method riêng rồi thì bỏ ở đây đi
+            //self::FIREBASE,
             //self::CHECKBOX,
             //self::NUM_MON,
         ];
@@ -241,6 +243,11 @@ class ConfigType
                 'firebase_auth_anonymous' => 'Anonymous Auth Provider',
                 'firebase_auth_phone' => 'Phone Auth Provider',
                 'firebase_verify_phone' => 'Phone Verify Provider',
+            ];
+        } else if ($config_type == self::ZALO) {
+            $arr = [
+                'zalooa_app_id' => 'App ID',
+                'zalooa_app_secret' => 'App secret',
             ];
         } else if ($config_type == self::CHECKBOX) {
             $arr = [];
@@ -525,6 +532,9 @@ class ConfigType
             'firebase_auth_anonymous' => 'Sử dụng với vai trò khách',
             'firebase_auth_phone' => 'Đăng nhập bằng số điện thoại ' . $firebase_note_phone,
             'firebase_verify_phone' => 'Chức năng xác thực số điện thoại qua Firebase tại đây: ' . base_url('firebases/phone_auth') . $firebase_note_phone,
+            //
+            'zalooa_app_id' => 'ID của ứng dụng trên Zalo, tạo và lấy tại đây: https://developers.zalo.me/apps',
+            'zalooa_app_secret' => 'Secret của ứng dụng trên Zalo. Sau khi cập nhật đầy đủ thì có thể test code tại đây: ' . base_url('zalos/login_url'),
             //
             'site_max_width' => 'Bạn có thể thiết lập chiều rộng cho trang tại đây. Chiều rộng tiêu chuẩn: 1024px - Chiều rộng phổ biến: 1366px',
             'site_full_width' => 'Tương tự chiều rộng trang nhưng có độ rộng nhỉnh hơn chút. Chiều rộng tiêu chuẩn: 1024px - Chiều rộng phổ biến: 1666px',

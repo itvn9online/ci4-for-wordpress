@@ -44,7 +44,7 @@ class Admin extends Ajaxs
 
         // nếu không có quyền admin -> báo lỗi nếu đang vào admin
         if ($this->session_data['userLevel'] != UsersType::ADMIN_LEVEL) {
-            die('404 error line ' . basename(__FILE__) . ':' . __LINE__);
+            die('404 error line ' . __CLASS__ . ':' . __LINE__);
         }
 
         //
@@ -94,7 +94,7 @@ class Admin extends Ajaxs
     {
         //echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . "\n";
         echo 'Controller index not found! <br>' . "\n";
-        die(basename(__FILE__) . ':' . __LINE__);
+        die(__CLASS__ . ':' . __LINE__);
     }
 
     // chức năng này sẽ kiểm tra quyền truy cập 1 module nào đó theo từng tài khoản -> truyền vào controller class -> role -> xác định theo role

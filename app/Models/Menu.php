@@ -103,7 +103,7 @@ class Menu extends Post
                 //print_r($result_id);
                 //die(__CLASS__ . ':' . __LINE__);
             } else {
-                die('ERROR auto create new menu #' . $this->post_type . ':' . basename(__FILE__) . ':' . __LINE__);
+                die('ERROR auto create new menu #' . $this->post_type . ':' . __CLASS__ . ':' . __LINE__);
             }
 
             //
