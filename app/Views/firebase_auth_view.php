@@ -85,6 +85,7 @@ if (!empty($firebase_config->g_firebase_config)) {
 
     // các function sẽ sử dụng cho quá trình đăng nhập qua firebase
     $base_model->adds_js([
+        'javascript/firebasejs/base64.js',
         'javascript/firebasejs/functions.js',
         'javascript/firebasejs/' . $file_auth . '.js',
         'javascript/firebasejs/app.js',

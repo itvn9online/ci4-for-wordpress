@@ -166,6 +166,16 @@ function afterRequestTokenSignIn(data) {
 	return false;
 }
 
+function payloadJwt(jwt) {
+	jwt = jwt.split(".");
+	var a = "";
+	if (jwt.length > 2) {
+		a = Base64.decode(jwt[1]);
+		//console.log(a);
+	}
+	return a;
+}
+
 // ngay sau khi đăng nhập thành công trên firebase -> thực hiện đăng nhập trên web thôi
 function action_signInSuccessWithAuthResult(successfully) {
 	//console.log(Math.random());
@@ -235,6 +245,18 @@ function action_signInSuccessWithIdToken(idToken, successfully) {
 	if (user === null) {
 		return false;
 	}
+
+	// dịch ngược token và kiểm tra qua thông số trước
+	var jwt = payloadJwt(idToken);
+	if (
+		jwt.includes(user.uid) === false ||
+		jwt.includes(firebaseConfig.projectId) === false
+	) {
+		WGR_alert("token mismatched!", "error");
+		return false;
+	}
+
+	//
 	if (typeof successfully == "undefined") {
 		successfully = false;
 	}
