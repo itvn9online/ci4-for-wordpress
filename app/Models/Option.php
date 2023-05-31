@@ -477,10 +477,10 @@ class Option extends EbModel
     // trả về logo BTC nếu có link
     public function the_btc_logo($cog)
     {
-        if ($cog->registeronline != '') {
+        if (!empty($cog->registeronline)) {
             echo '<a href="' . $cog->registeronline . '" class="btc-logo btc-register-logo" aria-label="BCT" target="_blank" rel="nofollow">&nbsp;</a>';
-        } else if ($cog->notificationbct != '') {
-            echo '<a href="' . $cog->registeronline . '" class="btc-logo btc-noti-logo" aria-label="BCT" target="_blank" rel="nofollow">&nbsp;</a>';
+        } else if (!empty($cog->notificationbct)) {
+            echo '<a href="' . $cog->notificationbct . '" class="btc-logo btc-noti-logo" aria-label="BCT" target="_blank" rel="nofollow">&nbsp;</a>';
         }
     }
     public function the_bct($cog)
