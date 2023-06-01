@@ -179,7 +179,7 @@ class Option extends EbModel
 
     public function get_smtp()
     {
-        return $this->getconfig(ConfigType::SMTP);
+        return $this->obj_config(ConfigType::SMTP);
     }
 
     public function get_config_by_type($option_type, $lang_key, $time = BIG_CACHE_TIMEOUT, $repeat = true)
