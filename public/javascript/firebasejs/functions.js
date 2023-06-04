@@ -135,10 +135,9 @@ function addSignInSuccessParams(data) {
 }
 
 function afterRequestTokenSignIn(data) {
-	//console.log(data);
-
 	// có lỗi thì thông báo lỗi
 	if (typeof data.error != "undefined" && data.error != "") {
+		//console.log(data);
 		if (typeof data.code != "undefined" && data.code > 0) {
 			data.error += " (#" + data.code + ")";
 		}
@@ -166,14 +165,13 @@ function afterRequestTokenSignIn(data) {
 	return false;
 }
 
-function payloadJwt(jwt) {
-	jwt = jwt.split(".");
-	var a = "";
-	if (jwt.length > 2) {
-		a = Base64.decode(jwt[1]);
-		//console.log(a);
+function parseJwt(token) {
+	//console.log(token);
+	token = token.split(".");
+	if (token.length > 2) {
+		return Base64.decode(token[1]);
 	}
-	return a;
+	return {};
 }
 
 // ngay sau khi đăng nhập thành công trên firebase -> thực hiện đăng nhập trên web thôi
@@ -247,11 +245,15 @@ function action_signInSuccessWithIdToken(idToken, successfully) {
 	}
 
 	// dịch ngược token và kiểm tra qua thông số trước
-	var jwt = payloadJwt(idToken);
+	var jwt = parseJwt(idToken);
+	///console.log(jwt);
 	if (
-		jwt.includes(user.uid) === false ||
-		jwt.includes(firebaseConfig.projectId) === false
+		typeof jwt.user_id == "undefined" ||
+		jwt.user_id != user.uid ||
+		typeof jwt.aud == "undefined" ||
+		jwt.aud != firebaseConfig.projectId
 	) {
+		//console.log(jwt);
 		WGR_alert("token mismatched!", "error");
 		return false;
 	}

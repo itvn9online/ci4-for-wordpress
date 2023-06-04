@@ -566,6 +566,8 @@ class Firebase2s extends Firebases
         //print_r($decoded);
 
         //
+        $payloadB64 = str_replace('-', '+', $payloadB64);
+        $payloadB64 = str_replace('_', '/', $payloadB64);
         $decoded = json_decode(base64_decode($payloadB64), true);
         //print_r($decoded);
 
@@ -573,6 +575,12 @@ class Firebase2s extends Firebases
         if (!is_array($decoded)) {
             $this->result_json_type([
                 'code' => __LINE__,
+                //'jwt' => $jwt,
+                //'headersB64' => $headersB64,
+                //'payloadB64' => $payloadB64,
+                //'payloadB64' => base64_decode($payloadB64),
+                //'sig' => $sig,
+                //'decoded' => $decoded,
                 'error' => $this->firebaseLang('decoded_array', 'Định dạng decoded không đúng'),
             ]);
         } else if (!isset($decoded['user_id'])) {
