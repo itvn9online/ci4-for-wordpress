@@ -9,8 +9,13 @@ namespace App\Models;
 
 class File extends EbModel
 {
-    public $base_dir = '';
+    public $base_dir = NULL;
     public $ftp_server = '';
+
+    // lưu connect qua ftp -> đỡ phải connect nhiều
+    public $conn_cache_id = NULL;
+    // tham số dùng để xác định ftp đã close chưa
+    public $ftp_is_login = false;
 
     public function __construct()
     {
@@ -41,26 +46,28 @@ class File extends EbModel
     // EBE_get_ftp_root_dir
     public function root_dir()
     {
-        if ($this->base_dir != '') {
+        //echo __CLASS__ . ':' . __LINE__ . ':' . $this->debugMyBacktrace(debug_backtrace());
+        //echo 'base_dir: ' . $this->base_dir . '<br>' . PHP_EOL;
+        if ($this->base_dir !== NULL) {
             return true;
         }
 
         // xác định server kết nối
         if ($this->ftp_server == '') {
             if ($this->get_server() === false) {
-                echo debug_backtrace()[1]['class'] . '\\ ' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
+                echo $this->debugMyBacktrace(debug_backtrace());
                 return 'FTP host not found';
             }
         }
 
         // tạo kết nối
-        $conn_id = ftp_connect($this->ftp_server);
+        $conn_id = $this->ftp_my_connect();
         if (!$conn_id) {
             return 'ERROR FTP connect to server';
         }
 
         // đăng nhập
-        if (!ftp_login($conn_id, FTP_USER, FTP_PASS)) {
+        if ($this->ftp_my_login($conn_id) !== true) {
             return 'ERROR FTP login false';
         }
 
@@ -93,14 +100,15 @@ class File extends EbModel
                 }
             }
         }
+        //echo 'ftp_dir_root: ' . $ftp_dir_root . '<br>' . PHP_EOL;
 
         //
-        ftp_close($conn_id);
+        $this->ftp_my_close($conn_id);
         //die( $ftp_dir_root );
 
         //
+        $this->base_dir = $ftp_dir_root;
         if ($ftp_dir_root != '') {
-            $this->base_dir = $ftp_dir_root;
             return true;
         }
 
@@ -124,10 +132,10 @@ class File extends EbModel
          * các khâu kết nối và kiểm tra đã diễn ra ở bước root dir -> sau đây chỉ việc sử dụng
          */
         // tạo kết nối
-        $conn_id = ftp_connect($this->ftp_server);
+        $conn_id = $this->ftp_my_connect();
 
         // đăng nhập
-        if (!ftp_login($conn_id, FTP_USER, FTP_PASS)) {
+        if ($this->ftp_my_login($conn_id) !== true) {
             echo 'ERROR FTP login false <br>' . PHP_EOL;
             return false;
         }
@@ -155,7 +163,7 @@ class File extends EbModel
         }
 
         // close the connection
-        ftp_close($conn_id);
+        $this->ftp_my_close($conn_id);
 
         //
         return false;
@@ -177,10 +185,10 @@ class File extends EbModel
          * các khâu kết nối và kiểm tra đã diễn ra ở bước root dir -> sau đây chỉ việc sử dụng
          */
         // tạo kết nối
-        $conn_id = ftp_connect($this->ftp_server);
+        $conn_id = $this->ftp_my_connect();
 
         // đăng nhập
-        if (!ftp_login($conn_id, FTP_USER, FTP_PASS)) {
+        if ($this->ftp_my_login($conn_id) !== true) {
             echo 'ERROR FTP login false <br>' . PHP_EOL;
             return false;
         }
@@ -208,7 +216,7 @@ class File extends EbModel
         }
 
         // close the connection
-        ftp_close($conn_id);
+        $this->ftp_my_close($conn_id);
 
         //
         return false;
@@ -225,15 +233,16 @@ class File extends EbModel
         //echo $this->base_dir . '<br>' . PHP_EOL;
         //echo $this->ftp_server . '<br>' . PHP_EOL;
         //die( __CLASS__ . ':' . __LINE__ );
+        //echo __CLASS__ . ':' . __LINE__ . ':' . $this->debugMyBacktrace(debug_backtrace());
 
         /*
          * các khâu kết nối và kiểm tra đã diễn ra ở bước root dir -> sau đây chỉ việc sử dụng
          */
         // tạo kết nối
-        $conn_id = ftp_connect($this->ftp_server);
+        $conn_id = $this->ftp_my_connect();
 
         // đăng nhập
-        if (!ftp_login($conn_id, FTP_USER, FTP_PASS)) {
+        if ($this->ftp_my_login($conn_id) !== true) {
             echo 'ERROR FTP login false <br>' . PHP_EOL;
             return false;
         }
@@ -250,14 +259,14 @@ class File extends EbModel
         }
 
         // close the connection
-        ftp_close($conn_id);
+        $this->ftp_my_close($conn_id);
 
         //
         return $result;
     }
 
     //
-    public function FTP_chmod($path, $file_permission = DEFAULT_FILE_PERMISSION)
+    public function ftp_my_chmod($path, $file_permission = DEFAULT_FILE_PERMISSION)
     {
         $check_dir = $this->root_dir();
         if ($check_dir !== true) {
@@ -271,11 +280,10 @@ class File extends EbModel
         /*
          * các khâu kết nối và kiểm tra đã diễn ra ở bước root dir -> sau đây chỉ việc sử dụng
          */
-        // tạo kết nối
-        $conn_id = ftp_connect($this->ftp_server);
+        $conn_id = $this->ftp_my_connect();
 
         // đăng nhập
-        if (!ftp_login($conn_id, FTP_USER, FTP_PASS)) {
+        if ($this->ftp_my_login($conn_id) !== true) {
             echo 'ERROR FTP login false <br>' . PHP_EOL;
             return false;
         }
@@ -300,7 +308,7 @@ class File extends EbModel
         }
 
         // close the connection
-        ftp_close($conn_id);
+        $this->ftp_my_close($conn_id);
 
         //
         return false;
@@ -312,6 +320,7 @@ class File extends EbModel
             echo 'ERROR FTP: content is NULL <br>' . PHP_EOL;
             return false;
         }
+        //echo __CLASS__ . ':' . __LINE__ . ':' . $this->debugMyBacktrace(debug_backtrace());
 
         //
         $check_dir = $this->root_dir();
@@ -327,10 +336,10 @@ class File extends EbModel
          * các khâu kết nối và kiểm tra đã diễn ra ở bước root dir -> sau đây chỉ việc sử dụng
          */
         // tạo kết nối
-        $conn_id = ftp_connect($this->ftp_server);
+        $conn_id = $this->ftp_my_connect();
 
         // đăng nhập
-        if (!ftp_login($conn_id, FTP_USER, FTP_PASS)) {
+        if ($this->ftp_my_login($conn_id) !== true) {
             echo 'ERROR FTP login false <br>' . PHP_EOL;
             return false;
         }
@@ -373,7 +382,7 @@ class File extends EbModel
         }
 
         // close the connection
-        ftp_close($conn_id);
+        $this->ftp_my_close($conn_id);
 
         //
         return $result;
@@ -394,10 +403,10 @@ class File extends EbModel
          * các khâu kết nối và kiểm tra đã diễn ra ở bước root dir -> sau đây chỉ việc sử dụng
          */
         // tạo kết nối
-        $conn_id = ftp_connect($this->ftp_server);
+        $conn_id = $this->ftp_my_connect();
 
         // đăng nhập
-        if (!ftp_login($conn_id, FTP_USER, FTP_PASS)) {
+        if ($this->ftp_my_login($conn_id) !== true) {
             echo 'ERROR FTP login false <br>' . PHP_EOL;
             return false;
         }
@@ -426,7 +435,7 @@ class File extends EbModel
         ftp_chmod($conn_id, $ops['set_permission'], $dir_for_ftp);
 
         // close the connection
-        ftp_close($conn_id);
+        $this->ftp_my_close($conn_id);
 
         //
         return true;
@@ -460,5 +469,45 @@ class File extends EbModel
             return true;
         }
         return false;
+    }
+
+    // tạo kết nối nếu chưa có
+    protected function ftp_my_connect()
+    {
+        if ($this->conn_cache_id !== NULL) {
+            return $this->conn_cache_id;
+        }
+        //echo __CLASS__ . ':' . __LINE__ . ':' . $this->debugMyBacktrace(debug_backtrace());
+        return ftp_connect($this->ftp_server);
+    }
+
+    // đóng kết nối ftp nếu có yêu cầu
+    protected function ftp_my_close($conn_id)
+    {
+        if ($this->conn_cache_id === NULL) {
+            //echo __CLASS__ . ':' . __LINE__ . ':' . $this->debugMyBacktrace(debug_backtrace());
+            ftp_close($conn_id);
+            // tiếp tục cho mở kết nối
+            $this->ftp_is_login = false;
+        }
+    }
+
+    // nếu đăng nhập thành công hoặc còn phiên đăng nhập -> trả về true
+    protected function ftp_my_login($conn_id)
+    {
+        // không mở nhiều kết nối ftp -> lỗi
+        if ($this->ftp_is_login === false) {
+            //echo __CLASS__ . ':' . __LINE__ . ':' . $this->debugMyBacktrace(debug_backtrace());
+            if (!ftp_login($conn_id, FTP_USER, FTP_PASS)) {
+                return 'ERROR FTP login false';
+            }
+        }
+        $this->ftp_is_login = true;
+        return true;
+    }
+
+    protected function debugMyBacktrace($a)
+    {
+        return $a[1]['class'] . '\\ ' . $a[1]['function'] . '<br>' . PHP_EOL;
     }
 }

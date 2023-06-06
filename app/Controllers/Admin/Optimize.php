@@ -9,6 +9,12 @@ class Optimize extends Admin
     protected $upload_via_ftp = NULL;
     protected $file_model = NULL;
 
+    // lưu connect qua ftp -> đỡ phải connect nhiều
+    public $conn_cache_id = NULL;
+    public $conn_clear_id = false;
+    public $base_cache_dir = NULL;
+
+    //
     public function __construct()
     {
         parent::__construct();
@@ -21,8 +27,15 @@ class Optimize extends Admin
     public function index()
     {
         $data = '';
+        $time_start = time();
         // tính năng này không hoạt động trên localhost
         if (strpos($_SERVER['HTTP_HOST'], 'localhost') === false) {
+            //die(__CLASS__ . ':' . __LINE__);
+            // kiểm tra tiến trình push file qua fpt hay php
+            if ($this->using_via_ftp() === true) {
+                $this->connCacheId();
+            }
+
             // tạo các file txt xác nhận quá trình optimize
             $c = $this->c_active_optimize;
             $f = $this->f_active_optimize;
@@ -42,13 +55,23 @@ class Optimize extends Admin
             // bắt đầu optimize
             ob_start();
             $this->optimize_css_js();
+
+            // close connect ftp sau khi xong việc
+            if ($this->conn_clear_id === true) {
+                ftp_close($this->conn_cache_id);
+                $this->file_model->conn_cache_id = NULL;
+
+                //
+                echo '<strong>FTP close</strong>:<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+            }
             $data = ob_get_contents();
             ob_end_clean();
         }
 
         //
         $this->teamplate_admin['content'] = view('admin/optimize_view', [
-            'data' => $data
+            'total_time' => time() - $time_start,
+            'data' => $data,
         ]);
         return view('admin/admin_teamplate', $this->teamplate_admin);
     }
@@ -66,11 +89,21 @@ class Optimize extends Admin
             }
         }
 
-        //
+        // chạy theo cách này để hạn chế connect ftp
+        if ($this->using_via_ftp() === true) {
+            $this->file_model->ftp_my_chmod($dir, DEFAULT_FILE_PERMISSION);
+        }
+        $this->push_content_file($dir . $f, $c, DEFAULT_FILE_PERMISSION);
+        if ($this->using_via_ftp() === true) {
+            $this->file_model->ftp_my_chmod($dir, 0755);
+        }
+
+        /*
         $this->base_model->_eb_create_file($dir . $f, $c, [
             'set_permission' => DEFAULT_FILE_PERMISSION,
             'ftp' => 1,
         ]);
+        */
     }
 
     protected function optimize_css_js()
@@ -95,7 +128,8 @@ class Optimize extends Admin
                     echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
                     $c = trim($c);
                     if (!empty($c)) {
-                        $this->base_model->_eb_create_file($filename, $c, ['ftp' => 1]);
+                        $this->push_content_file($filename, $c);
+                        //$this->base_model->_eb_create_file($filename, $c, ['ftp' => 1]);
                     }
                 }
             }
@@ -293,6 +327,8 @@ class Optimize extends Admin
         $str = str_replace(', #', ',#', $str);
         $str = str_replace(': ', ':', $str);
         $str = str_replace('} .', '}.', $str);
+        $str = str_replace('{ }', '{}', $str);
+        $str = str_replace('{ }', '{}', $str);
 
         // chuyển đổi tên màu sang mã màu
         $arr_colorname_to_code = [
@@ -316,6 +352,26 @@ class Optimize extends Admin
             $str = str_replace(':' . $k . ' !', ':#' . $v . ' !', $str);
             $str = str_replace(':' . $k . '!', ':#' . $v . '!', $str);
         }
+
+        // loại bỏ các dòng css chưa có code
+        $str = explode('{}', $str);
+        //print_r($str);
+        foreach ($str as $k => $v) {
+            // cắt chuỗi
+            $v = explode('}', $v);
+            //print_r($v);
+            //$v = array_pop($v);
+            $v[count($v) - 1] = '';
+            unset($v[count($v) - 1]);
+            //print_r($v);
+            $v = implode('}', $v);
+            //print_r($v);
+
+            //
+            $str[$k] = $v;
+        }
+        $str = implode('', $str);
+        //die(__CLASS__ . ':' . __LINE__);
 
         //
         return $str;
@@ -748,15 +804,61 @@ class Optimize extends Admin
         chmod($dir, $permision);
     }
 
-    protected function push_content_file($f, $c)
+    protected function connCacheId()
+    {
+        if ($this->conn_cache_id === NULL) {
+            // nếu không xác định được server -> bỏ qua
+            if ($this->file_model->get_server() === false) {
+                $this->conn_cache_id = false;
+            } else {
+                //die($this->file_model->ftp_server);
+                $this->conn_cache_id = ftp_connect($this->file_model->ftp_server);
+                // đặt tham số close connect ftp sau khi xong việc
+                $this->conn_clear_id = true;
+                // gán cho connect này model
+                $this->file_model->conn_cache_id = $this->conn_cache_id;
+                // xác định FTP root
+                if ($this->file_model->root_dir() === true) {
+                    $this->base_cache_dir = $this->file_model->base_dir;
+                    //echo 'base_cache_dir: ' . $this->base_cache_dir . '<br>' . PHP_EOL;
+                }
+            }
+        }
+        return $this->conn_cache_id;
+    }
+
+    protected function push_content_file($f, $c, $set_permission = 0644)
     {
         if ($this->using_via_ftp() === true) {
-            $this->file_model->create_file($f, $c, [
+            if ($this->conn_cache_id === false) {
+                echo '<strong>conn_cache_id is false</strong>:<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+                return false;
+            }
+
+            //
+            if ($this->base_cache_dir !== NULL) {
+                $this->file_model->base_dir = $this->base_cache_dir;
+            }
+
+            // cách 1 -> thử chmod xong push file bằng php xem có nhanh hơn không
+            if (file_exists($f)) {
+                $this->file_model->ftp_my_chmod($f, DEFAULT_FILE_PERMISSION);
+            }
+            //file_put_contents($f, $c);
+            // trước đấy đã có lệnh chmod 0777 -> thì có thể sử dụng php để chmod về 0644
+            //return chmod($f, $set_permission);
+
+            //
+            //return $this->file_model->ftp_my_chmod($f, $set_permission);
+
+            // không được thì dùng cách push file bằng ftp
+            /*
+            return $this->file_model->create_file($f, $c, [
                 'add_line' => '',
                 'set_permission' => DEFAULT_FILE_PERMISSION,
             ]);
-        } else {
-            file_put_contents($f, $c);
+            */
         }
+        return file_put_contents($f, $c);
     }
 }

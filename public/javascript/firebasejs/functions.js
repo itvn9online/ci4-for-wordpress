@@ -246,7 +246,8 @@ function action_signInSuccessWithIdToken(idToken, successfully) {
 
 	// dịch ngược token và kiểm tra qua thông số trước
 	var jwt = parseJwt(idToken);
-	///console.log(jwt);
+	//console.log(jwt);
+	//return false;
 	if (
 		typeof jwt.user_id == "undefined" ||
 		jwt.user_id != user.uid ||
