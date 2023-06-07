@@ -1,6 +1,17 @@
 /* Global style for EB code */
 @charset "utf-8";
 
+:root {
+    /* hàm này sẽ tính toán giãn cách của sticky so với khối html ngoài nó */
+    --wgr-scroll-padding-top: calc(var(--wgr-header-sticky-height, 0px) + var(--wp-admin-admin-bar-height, 0px));
+}
+
+html {
+    /* đây là giãn cách của sticky với top -> web nào cần giãn cách bao nhiêu thì tự khai báo lại */
+    --wp-admin-admin-bar-height: 0px;
+    --wgr-header-sticky-height: 0px;
+}
+
 i.fas,
 em.fas,
 i.fa,
@@ -925,4 +936,14 @@ span.taxonomy-count:after {
 }
 
 /* desktop only */
-@media only screen and (min-width:748px) {}
+@media only screen and (min-width:748px) {
+    .wgr-sticky-column {
+        top: calc(var(--wgr-scroll-padding-top) + 0px);
+        transition: top .6s;
+        position: sticky !important;
+    }
+
+    .wgr-sticky-column_inner {
+        display: flow-root;
+    }
+}
