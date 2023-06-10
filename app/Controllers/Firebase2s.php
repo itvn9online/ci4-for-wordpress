@@ -158,7 +158,8 @@ class Firebase2s extends Firebases
         } else {
             $this->result_json_type([
                 'code' => __LINE__,
-                'error' => $this->firebaseLang('email_or_phone', 'Không xác định được email hoặc phone'),
+                'auto_logout' => __LINE__,
+                'error' => $this->firebaseLang('email_or_phone', 'Không xác định được Email hoặc Số điện thoại'),
             ]);
         }
 
@@ -467,6 +468,7 @@ class Firebase2s extends Firebases
             $this->result_json_type([
                 'code' => __LINE__,
                 'reload' => __LINE__,
+                'auto_logout' => __LINE__,
                 'error' => $this->firebaseLang('expires_expires', 'expires_token đã hết hạn sử dụng. Vui lòng thử lại sau giây lát...'),
             ]);
         }

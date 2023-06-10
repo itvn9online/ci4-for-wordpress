@@ -154,6 +154,9 @@ function afterRequestTokenSignIn(data) {
 	// nạp lại trang nếu có yêu cầu
 	if (typeof data.reload != "undefined" && data.reload * 1 > 0) {
 		console.log("Waiting reload page...");
+		jQuery("body").css({
+			opacity: 0.1,
+		});
 		setTimeout(function () {
 			login_reload();
 		}, 2000);
