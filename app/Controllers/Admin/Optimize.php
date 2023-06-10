@@ -121,11 +121,13 @@ class Optimize extends Admin
             }
         }
         $this->push_content_file($dir . $f, $c, DEFAULT_FILE_PERMISSION);
+        /*
         if ($this->using_via_ftp() === true) {
             if (!$this->file_model->ftp_my_chmod($dir, 0755)) {
                 die(__CLASS__ . ':' . __LINE__);
             }
         }
+        */
 
         /*
         $this->base_model->_eb_create_file($dir . $f, $c, [
@@ -391,7 +393,6 @@ class Optimize extends Admin
             //print_r($v);
             //$v = array_pop($v);
             $v[count($v) - 1] = '';
-            unset($v[count($v) - 1]);
             //print_r($v);
             $v = implode('}', $v);
             //print_r($v);
