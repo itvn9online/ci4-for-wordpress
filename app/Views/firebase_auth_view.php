@@ -34,8 +34,8 @@ if (!empty($firebase_config->g_firebase_config)) {
 
     ?>
     <br>
-    <div id="loading">Loading...</div>
-    <div id="loaded" class="hidden">
+    <div id="firebase-loading">Loading...</div>
+    <div id="firebase-loaded" class="hidden">
         <div id="user-signed-in" class="hidden">
             <p><?php $lang_model->the_text('firebase_loged_title', 'Hoặc tiếp tục với thông tin đăng nhập này:'); ?></p>
             <div id="firebase_photo"></div>

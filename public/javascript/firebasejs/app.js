@@ -62,8 +62,8 @@ var handleSignedOutUser = function () {
 // the user is signed in or not.
 firebase.auth().onAuthStateChanged(
 	function (user) {
-		jQuery("#loading").hide();
-		jQuery("#loaded").show();
+		jQuery("#firebase-loading").hide();
+		jQuery("#firebase-loaded").show();
 		if (user) {
 			// User is signed in.
 			handleSignedInUser();
