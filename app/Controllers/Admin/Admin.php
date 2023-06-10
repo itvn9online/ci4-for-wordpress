@@ -82,6 +82,7 @@ class Admin extends Ajaxs
                         'debug_enable' => $this->debug_enable,
                         'session_data' => $this->session_data,
                         'current_user_id' => $this->current_user_id,
+                        'getconfig' => $this->getconfig,
                     )
                 ),
             ];

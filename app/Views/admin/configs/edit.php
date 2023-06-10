@@ -225,6 +225,16 @@ $base_model->JSON_parse(
     ]
 );
 
+//
+//print_r($getconfig);
+//echo 'fb_app_id: ' . $getconfig->fb_app_id;
+$base_model->JSON_echo([
+    // mảng này sẽ in ra dưới dạng JSON hoặc number
+], [
+    // mảng này sẽ in ra dưới dạng string
+    'fb_app_id' => $getconfig->fb_app_id,
+]);
+
 ?>
 <script>
     WGR_vuejs('#app', {

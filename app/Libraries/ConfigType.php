@@ -489,7 +489,7 @@ class ConfigType
     // description của từng meta nếu có
     public static function meta_desc($key)
     {
-        $firebase_note_phone = ' * Chức năng này dùng nhiều sẽ mất phí nếu đăng ký gói trả phí. Vui lòng xem bảng giá trước khi kích hoạt nó. Bảng giá chung: https://firebase.google.com/pricing?hl=en&authuser=0 Bảng giá chi tiết: https://cloud.google.com/identity-platform/pricing?authuser=0#pricing_table ';
+        $firebase_note_phone = ' * Chức năng này dùng nhiều sẽ mất phí nếu đăng ký gói trả phí. Vui lòng xem bảng giá trước khi kích hoạt nó. <br> Bảng giá chung: https://firebase.google.com/pricing?hl=en&authuser=0 <br> Bảng giá chi tiết: https://cloud.google.com/identity-platform/pricing?authuser=0#pricing_table ';
 
         //
         $arr = [
@@ -522,7 +522,7 @@ class ConfigType
             'skipverify_firebase_email' => 'Khi thông tin từ firebase trả về không khớp với dữ liệu trên web, một email yêu cầu xác minh tài khoản sẽ được gửi đi. Bật tính năng này sẽ bỏ qua việc xác minh lại tài khoản.',
             'save_firebase_session' => 'Mặc định khi đăng nhập qua Firebase hoàn tất, kết nối của người dùng được xóa bỏ nhằm đảm bảo an toàn. Nếu muốn giữ lại phiên đăng nhập để tái sử dụng lần tới, hãy kích hoạt chức năng này.',
             'firebase_auth_google' => 'Đăng nhập bằng tài khoản Google',
-            'firebase_auth_facebook' => 'Đăng nhập bằng tài khoản Facebook. Tạo app sau đó lấy App ID và App secret tại đây: https://developers.facebook.com/apps/ * Nhớ truy cập vào Đăng nhập bằng Facebook -> Cài đặt -> URI chuyển hướng OAuth hợp lệ để tiến hành cài đặt URL chuyển hướng cho firebase: https://developers.facebook.com/apps/YOUR_FACEBOOK_APP_ID/fb-login/settings/ * URL này có dạng: https://YOUR_FIREBASE_PROJECT_ID.firebaseapp.com/__/auth/handler',
+            'firebase_auth_facebook' => 'Đăng nhập bằng tài khoản Facebook. Tạo app sau đó lấy App ID và App secret tại đây: https://developers.facebook.com/apps/ <br> * Nhớ truy cập vào Đăng nhập bằng Facebook -> Cài đặt -> URI chuyển hướng OAuth hợp lệ để tiến hành cài đặt URL chuyển hướng cho firebase: https://developers.facebook.com/apps/YOUR_FACEBOOK_APP_ID/fb-login/settings/ <br> * URL này có dạng: https://YOUR_FIREBASE_PROJECT_ID.firebaseapp.com/__/auth/handler',
             'firebase_auth_apple' => 'Đăng nhập bằng tài khoản Apple',
             'firebase_auth_microsoft' => 'Đăng nhập bằng tài khoản Microsoft',
             'firebase_auth_yahoo' => 'Đăng nhập bằng tài khoản Yahoo',

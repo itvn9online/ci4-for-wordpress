@@ -2,6 +2,8 @@
 /*
 * Chức năng đăng nhập qua Zalo
 * https://github.com/zaloplatform/zalo-php-sdk
+* Gửi thông báo qua Zalo ZNS
+* https://developers.zalo.me/docs/api/zalo-notification-service-api/gui-thong-bao-zns/gui-thong-bao-zns-post-5208
 */
 
 namespace App\Controllers;
@@ -88,10 +90,10 @@ class Zalos extends Guest
     }
 
     /*
-    * chức năng đăng nhập qua zalo
-    * https://developers.zalo.me/docs/api/social-api/tham-khao/user-access-token-post-4316
+    * chức năng tạo URL để Yêu cầu cấp mới OA Access Token
+    * https://developers.zalo.me/docs/api/official-account-api/phu-luc/official-account-access-token-post-4307
     */
-    public function login_url()
+    protected function newAccessToken($callBackUrl)
     {
         //
         ob_end_flush();
@@ -106,14 +108,23 @@ class Zalos extends Guest
         $this->cache_challenge($codeChallenge);
 
         //
-        $callBackUrl = base_url('zalos/dang_nhap');
         $state = md5($codeChallenge);
         $this->loadConfig();
         $loginUrl = $this->helper->getLoginUrl($callBackUrl, $codeChallenge, $state); // This is login url
+        //die($loginUrl);
         //echo $loginUrl . '<br>';
 
         //
         $this->MY_redirect($loginUrl);
+    }
+
+    /*
+    * chức năng đăng nhập qua zalo
+    * https://developers.zalo.me/docs/api/social-api/tham-khao/user-access-token-post-4316
+    */
+    public function login_url()
+    {
+        return $this->newAccessToken(base_url('zalos/dang_nhap'));
     }
 
     public function dang_nhap()
@@ -128,7 +139,12 @@ class Zalos extends Guest
             $this->loadConfig();
             $zaloToken = $this->helper->getZaloToken($codeVerifier); // get zalo token
             $accessToken = $zaloToken->getAccessToken();
+            //die($accessToken);
             //echo $accessToken . '<br>';
+
+            //
+            //ini_set('display_errors', 1);
+            //error_reporting(E_ALL);
 
             //
             $params = ['fields' => 'id,name,picture'];
