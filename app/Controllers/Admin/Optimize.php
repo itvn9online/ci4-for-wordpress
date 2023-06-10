@@ -121,13 +121,6 @@ class Optimize extends Admin
             }
         }
         $this->push_content_file($dir . $f, $c, DEFAULT_FILE_PERMISSION);
-        /*
-        if ($this->using_via_ftp() === true) {
-            if (!$this->file_model->ftp_my_chmod($dir, 0755)) {
-                die(__CLASS__ . ':' . __LINE__);
-            }
-        }
-        */
 
         /*
         $this->base_model->_eb_create_file($dir . $f, $c, [
@@ -385,7 +378,7 @@ class Optimize extends Admin
         }
 
         // loại bỏ các dòng css chưa có code
-        $str = remove_css_not_using($str);
+        $str = $this->remove_css_not_using($str);
 
         //
         return $str;
@@ -879,26 +872,11 @@ class Optimize extends Admin
                 $this->file_model->base_dir = $this->base_cache_dir;
             }
 
-            // cách 1 -> thử chmod xong push file bằng php xem có nhanh hơn không
-            if (file_exists($f)) {
-                if (!$this->file_model->ftp_my_chmod($f, DEFAULT_FILE_PERMISSION)) {
-                    die(__CLASS__ . ':' . __LINE__);
-                }
-            }
-            //file_put_contents($f, $c);
-            // trước đấy đã có lệnh chmod 0777 -> thì có thể sử dụng php để chmod về 0644
-            //return chmod($f, $set_permission);
-
-            //
-            //return $this->file_model->ftp_my_chmod($f, $set_permission);
-
-            // không được thì dùng cách push file bằng ftp
-            /*
+            // tạo file qua ftp -> còn liên quan đến chown
             return $this->file_model->create_file($f, $c, [
                 'add_line' => '',
                 'set_permission' => DEFAULT_FILE_PERMISSION,
             ]);
-            */
         }
         return file_put_contents($f, $c);
     }
