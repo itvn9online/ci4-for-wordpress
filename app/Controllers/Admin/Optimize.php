@@ -385,6 +385,15 @@ class Optimize extends Admin
         }
 
         // loại bỏ các dòng css chưa có code
+        $str = remove_css_not_using($str);
+
+        //
+        return $str;
+    }
+
+    // loại bỏ các dòng css chưa có code
+    protected function remove_css_not_using($str)
+    {
         $str = explode('{}', $str);
         //print_r($str);
         foreach ($str as $k => $v) {
