@@ -117,7 +117,7 @@ class Dashboard extends Optimize
         */
 
         // optimize code
-        $this->optimize_css_js();
+        $this->beforce_compress_css_js();
 
         //
         $client_ip = $this->request->getIPAddress();

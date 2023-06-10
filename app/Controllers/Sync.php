@@ -509,7 +509,9 @@ class Sync extends BaseController
 
             // chuyển thư mục về 777 để có thể unzip
             $file_model = new \App\Models\File();
-            $file_model->ftp_my_chmod(PUBLIC_HTML_PATH . $dir, DEFAULT_DIR_PERMISSION);
+            if (!$file_model->ftp_my_chmod(PUBLIC_HTML_PATH . $dir, DEFAULT_DIR_PERMISSION)) {
+                die(__CLASS__ . ':' . __LINE__);
+            }
         }
         //die( __CLASS__ . ':' . __LINE__ );
 

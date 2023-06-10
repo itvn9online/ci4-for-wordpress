@@ -76,6 +76,31 @@ class Optimize extends Admin
         return view('admin/admin_teamplate', $this->teamplate_admin);
     }
 
+    protected function beforce_compress_css_js()
+    {
+        if ($this->base_model->scache(__FUNCTION__) !== NULL) {
+            //die(__CLASS__ . ':' . __LINE__);
+            return false;
+        }
+
+        // kiểm tra tiến trình push file qua fpt hay php
+        if ($this->using_via_ftp() === true) {
+            $this->connCacheId();
+        }
+
+        //
+        $this->optimize_css_js();
+
+        // close connect ftp sau khi xong việc
+        if ($this->conn_clear_id === true) {
+            ftp_close($this->conn_cache_id);
+            $this->file_model->conn_cache_id = NULL;
+        }
+
+        //
+        $this->base_model->scache(__FUNCTION__, time());
+    }
+
     protected function before_active_optimize($dir, $f, $c)
     {
         if (!is_dir($dir)) {
@@ -91,11 +116,15 @@ class Optimize extends Admin
 
         // chạy theo cách này để hạn chế connect ftp
         if ($this->using_via_ftp() === true) {
-            $this->file_model->ftp_my_chmod($dir, DEFAULT_FILE_PERMISSION);
+            if (!$this->file_model->ftp_my_chmod($dir, DEFAULT_FILE_PERMISSION)) {
+                die(__CLASS__ . ':' . __LINE__);
+            }
         }
         $this->push_content_file($dir . $f, $c, DEFAULT_FILE_PERMISSION);
         if ($this->using_via_ftp() === true) {
-            $this->file_model->ftp_my_chmod($dir, 0755);
+            if (!$this->file_model->ftp_my_chmod($dir, 0755)) {
+                die(__CLASS__ . ':' . __LINE__);
+            }
         }
 
         /*
@@ -842,7 +871,9 @@ class Optimize extends Admin
 
             // cách 1 -> thử chmod xong push file bằng php xem có nhanh hơn không
             if (file_exists($f)) {
-                $this->file_model->ftp_my_chmod($f, DEFAULT_FILE_PERMISSION);
+                if (!$this->file_model->ftp_my_chmod($f, DEFAULT_FILE_PERMISSION)) {
+                    die(__CLASS__ . ':' . __LINE__);
+                }
             }
             //file_put_contents($f, $c);
             // trước đấy đã có lệnh chmod 0777 -> thì có thể sử dụng php để chmod về 0644
