@@ -88,7 +88,7 @@ class Layout extends Sync
             }
 
             //
-            file_put_contents($itemprop_cache_logo, $structured_data);
+            $this->base_model->eb_create_file($itemprop_cache_logo, $structured_data);
             touch($itemprop_cache_logo, time());
 
             // author
@@ -96,7 +96,7 @@ class Layout extends Sync
             $structured_data = str_replace('{{author_quot_title}}', str_replace('"', '', $this->getconfig->name), $structured_data);
 
             //
-            file_put_contents($itemprop_cache_author, $structured_data);
+            $this->base_model->eb_create_file($itemprop_cache_author, $structured_data);
         }
 
         //
@@ -533,7 +533,7 @@ class Layout extends Sync
             }
 
             // nội dung chặn mọi truy cập tới các file trong này
-            $this->base_model->_eb_create_file(
+            $this->base_model->ftp_create_file(
                 $htaccess_file,
                 // tạo file htaccess chỉ cho phép truy cập tới 1 số file được chỉ định
                 $this->helpersTmpFile(
@@ -545,10 +545,6 @@ class Layout extends Sync
                         'hotlink_protection' => $hotlink_protection,
                     ]
                 ),
-                [
-                    'set_permission' => 0644,
-                    'ftp' => 1,
-                ]
             );
         }
         //die( __CLASS__ . ':' . __LINE__ );

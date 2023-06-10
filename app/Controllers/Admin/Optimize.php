@@ -121,13 +121,6 @@ class Optimize extends Admin
             }
         }
         $this->push_content_file($dir . $f, $c, DEFAULT_FILE_PERMISSION);
-
-        /*
-        $this->base_model->_eb_create_file($dir . $f, $c, [
-            'set_permission' => DEFAULT_FILE_PERMISSION,
-            'ftp' => 1,
-        ]);
-        */
     }
 
     protected function optimize_css_js()
@@ -153,7 +146,6 @@ class Optimize extends Admin
                     $c = trim($c);
                     if (!empty($c)) {
                         $this->push_content_file($filename, $c);
-                        //$this->base_model->_eb_create_file($filename, $c, ['ftp' => 1]);
                     }
                 }
             }
@@ -820,11 +812,12 @@ class Optimize extends Admin
             $upload_check = PUBLIC_HTML_PATH . 'app/';
         }
         $path = $upload_check . 'test_permission.txt';
-        if (@!file_put_contents($path, time())) {
-            $this->upload_via_ftp = true;
-        } else {
+        if (@file_put_contents($path, time())) {
             $this->upload_via_ftp = false;
+            chmod($path, DEFAULT_FILE_PERMISSION);
             unlink($path);
+        } else {
+            $this->upload_via_ftp = true;
         }
         return $this->upload_via_ftp;
     }
@@ -873,11 +866,8 @@ class Optimize extends Admin
             }
 
             // tạo file qua ftp -> còn liên quan đến chown
-            return $this->file_model->create_file($f, $c, [
-                'add_line' => '',
-                'set_permission' => DEFAULT_FILE_PERMISSION,
-            ]);
+            return $this->file_model->create_file($f, $c);
         }
-        return file_put_contents($f, $c);
+        return $this->base_model->eb_create_file($f, $c);
     }
 }

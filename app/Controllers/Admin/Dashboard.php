@@ -531,9 +531,7 @@ class Dashboard extends Optimize
         //echo $file_path . '<br>' . "\n";
 
         //
-        if ($this->file_model->download_file($file_path, $this->link_download_system_github) === true) {
-            chmod($file_path, DEFAULT_FILE_PERMISSION);
-        }
+        $this->file_model->download_file($file_path, $this->link_download_system_github);
 
         //
         return $this->unzip_system(true);
@@ -587,11 +585,7 @@ class Dashboard extends Optimize
 
         //
         if ($this->file_model->download_file($file_path, $this->link_download_github) === true) {
-            chmod($file_path, DEFAULT_FILE_PERMISSION);
-
-            /*
-             * Khi có tham số reset code -> đổi tên thư mục app, public để upload code từ đầu
-             */
+            // Khi có tham số reset code -> đổi tên thư mục app, public để upload code từ đầu
             if ($reset_code === true) {
                 foreach ($this->dir_list as $v) {
                     // nếu không có thư mục gốc -> bỏ qua

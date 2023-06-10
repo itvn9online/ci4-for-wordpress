@@ -357,6 +357,7 @@ class Sitemap extends Csrf
 
         //
         $main_sitemap_xsl = PUBLIC_HTML_PATH . 'public/css/main-sitemap.xsl';
+        $cache_sitemap_xsl = PUBLIC_HTML_PATH . 'public/upload/main-sitemap.xsl';
 
         // thay thế nội dung trong sitemap thành của partner
         if ($this->base_model->scache(__FUNCTION__) === NULL) {
@@ -374,8 +375,8 @@ class Sitemap extends Csrf
                     $has_replace = true;
                 }
             }
-            if ($has_replace === true) {
-                $this->base_model->_eb_create_file($main_sitemap_xsl, $c);
+            if (!file_exists($cache_sitemap_xsl) || $has_replace === true) {
+                $this->base_model->ftp_create_file($cache_sitemap_xsl, $c);
             }
 
             //

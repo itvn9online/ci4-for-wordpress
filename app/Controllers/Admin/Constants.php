@@ -93,11 +93,7 @@ class Constants extends Configs
             }
 
             //
-            //file_put_contents($f, str_replace(' ', '', '< ? php') . PHP_EOL . implode(PHP_EOL, $a) . PHP_EOL);
-            $this->base_model->_eb_create_file($f, str_replace(' ', '', '< ? php') . PHP_EOL . implode(PHP_EOL, $a) . PHP_EOL, [
-                'set_permission' => DEFAULT_FILE_PERMISSION,
-                'ftp' => 1,
-            ]);
+            $this->base_model->ftp_create_file($f, str_replace(' ', '', '< ? php') . PHP_EOL . implode(PHP_EOL, $a) . PHP_EOL);
         } else if (file_exists($f)) {
             unlink($f);
         }

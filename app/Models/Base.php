@@ -603,64 +603,53 @@ class Base extends Csdl
         return '<div data-page="' . $Page . '" data-total="' . $TotalPage . '" data-url="' . $strLinkPager . '" data-params="' . $sub_part . '" class="each-to-page-part"></div>';
     }
 
-    // tạo file
+    // tạo file -> hàm cũ
     public function _eb_create_file($file_, $content_, $ops = [])
+    {
+        return $this->eb_create_file($file_, $content_, $ops);
+    }
+    // tạo file có hỗ trợ của ftp
+    public function ftp_create_file($file_, $content_, $ops = [])
+    {
+        $ops['ftp'] = 1;
+        return $this->eb_create_file($file_, $content_, $ops);
+    }
+    public function eb_create_file($file_, $content_, $ops = [])
     {
         if ($content_ == '') {
             echo 'ERROR put file: content is NULL<br>' . PHP_EOL;
             return false;
         }
 
-        //
-        if (!isset($ops['add_line'])) {
-            $ops['add_line'] = '';
-        }
-
-        //
-        if (!isset($ops['set_permission'])) {
-            $ops['set_permission'] = DEFAULT_FILE_PERMISSION;
-        }
-
-        //
-        if (!isset($ops['ftp'])) {
-            $ops['ftp'] = 0;
-        }
-
-        //
-        /*
-        if (!file_exists($file_)) {
-            $filew = @fopen($file_, 'x+');
-            if (!$filew) {
-                // thử tạo bằng ftp
-                if ($ops['ftp'] === 1) {
-                    $file_model = new \App\Models\File();
-                    return $file_model->create_file($file_, $content_, $ops);
-                }
-            } else {
-                // nhớ set 777 cho file
-                chmod($file_, $ops['set_permission']);
-            }
-            fclose($filew);
-        }
-        */
-
-        //
-        if ($ops['add_line'] != '') {
-            if (@!file_put_contents($file_, $content_, FILE_APPEND, LOCK_EX)) {
-                $file_model = new \App\Models\File();
-                return $file_model->create_file($file_, $content_, $ops);
-            }
-        }
-        //
-        else {
-            if (@!file_put_contents($file_, $content_)) {
-                $file_model = new \App\Models\File();
-                return $file_model->create_file($file_, $content_, $ops);
+        // các option mặc định nếu không có giá trị truyền vào
+        foreach ([
+            'add_line' => '',
+            'set_permission' => DEFAULT_FILE_PERMISSION,
+            'ftp' => 0,
+        ] as $k => $v) {
+            if (!isset($ops[$k])) {
+                $ops[$k] = $v;
             }
         }
 
-        //
-        return true;
+        // có file rồi
+        if ($ops['add_line'] != '' && file_exists($file_)) {
+            // -> chỉ append content
+            if (@file_put_contents($file_, $content_, FILE_APPEND)) {
+                return true;
+            }
+        } else if (@file_put_contents($file_, $content_, LOCK_EX)) {
+            // tạo mới thì thêm đoạn chmod
+            chmod($file_, $ops['set_permission']);
+            return true;
+        }
+
+        // -> đến được đây -> ko return được -> sử dụng ftp để tạo file
+        if ($ops['ftp'] > 0) {
+            $file_model = new \App\Models\File();
+            return $file_model->create_file($file_, $content_, $ops);
+        }
+        return false;
     }
 
     // trả về số dạng chuỗi

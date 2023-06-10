@@ -554,8 +554,7 @@ class Uploads extends Admin
         $mime_type = $file_type;
         $metadata = [];
         if (!file_exists($file_path)) {
-            $success = file_put_contents($file_path, base64_decode($img));
-            chmod($file_path, 0777);
+            $success = $this->base_model->eb_create_file($file_path, base64_decode($img));
 
             // kiểm tra định dạng file -> chỉ chấp nhận định dạng jpeg
             $mime_type = mime_content_type($file_path);

@@ -263,7 +263,7 @@ class Admin extends Ajaxs
                 //echo $f . '<br>' . "\n";
 
                 //
-                $this->base_model->_eb_create_file(
+                $this->base_model->ftp_create_file(
                     $f,
                     $this->helpersTmpFile(
                         'htaccess_deny_all',
@@ -272,10 +272,6 @@ class Admin extends Ajaxs
                             'base_url' => DYNAMIC_BASE_URL,
                         ]
                     ),
-                    [
-                        'set_permission' => 0644,
-                        'ftp' => 1,
-                    ]
                 );
             }
             //include $filename;

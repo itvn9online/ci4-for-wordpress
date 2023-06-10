@@ -1,4 +1,5 @@
 <?php
+
 namespace App\ThirdParty;
 
 /*
@@ -9,6 +10,11 @@ namespace App\ThirdParty;
 //
 class Casso
 {
+    public function __construct()
+    {
+        //$this->base_model = new \App\Models\Base();
+    }
+
     protected static function pathTestLog()
     {
         return PUBLIC_HTML_PATH . '___casso_test.txt';
@@ -24,6 +30,7 @@ class Casso
         file_put_contents($f, 'bank_sub_acc_id: ' . $v->bank_sub_acc_id . "\n", FILE_APPEND);
         file_put_contents($f, 'id: ' . $v->id . "\n", FILE_APPEND);
         file_put_contents($f, 'tid: ' . $v->tid . "\n", FILE_APPEND);
+        chmod($f, DEFAULT_FILE_PERMISSION);
     }
 
     // hàm này sẽ trả về object chứa thông tin thanh toán

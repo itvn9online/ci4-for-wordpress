@@ -364,6 +364,16 @@ class File extends EbModel
             return false;
         }
 
+        // các option mặc định nếu không có giá trị truyền vào
+        foreach ([
+            'add_line' => '',
+            'set_permission' => DEFAULT_FILE_PERMISSION,
+        ] as $k => $v) {
+            if (!isset($ops[$k])) {
+                $ops[$k] = $v;
+            }
+        }
+
         // upload file
         $result = true;
         if ($ops['add_line'] != '') {
@@ -371,11 +381,9 @@ class File extends EbModel
                 echo 'ERROR FTP: ftp append error <br>' . PHP_EOL;
                 $result = false;
             }
-        } else {
-            if (!ftp_put($conn_id, '.' . $file_for_ftp, $local_filename, FTP_BINARY)) {
-                echo 'ERROR FTP: ftp put error <br>' . PHP_EOL;
-                $result = false;
-            }
+        } else if (!ftp_put($conn_id, '.' . $file_for_ftp, $local_filename, FTP_BINARY)) {
+            echo 'ERROR FTP: ftp put error <br>' . PHP_EOL;
+            $result = false;
         }
         if ($result === true && $ops['set_permission'] > 0) {
             ftp_chmod($conn_id, $ops['set_permission'], $file_for_ftp);
@@ -451,10 +459,10 @@ class File extends EbModel
         return $f;
     }
 
-    public function download_file($file_path, $url)
+    public function download_file($file_path, $url, $ops = [])
     {
-        if (@!file_put_contents($file_path, file_get_contents($url))) {
-            //if ( @!copy( $url, $file_path ) ) {
+        if (!file_put_contents($file_path, file_get_contents($url))) {
+            //if (!copy($url, $file_path)) {
             $ch = curl_init($url);
             $fp = fopen($file_path, 'wb');
             curl_setopt($ch, CURLOPT_FILE, $fp);
@@ -466,7 +474,15 @@ class File extends EbModel
 
         //
         if (file_exists($file_path)) {
+            if (!isset($ops['set_permission'])) {
+                $ops['set_permission'] = DEFAULT_FILE_PERMISSION;
+            }
+            chmod($file_path, $ops['set_permission']);
             return true;
+        } else if ($this->create_file($file_path, file_get_contents($url))) {
+            if (file_exists($file_path)) {
+                return true;
+            }
         }
         return false;
     }

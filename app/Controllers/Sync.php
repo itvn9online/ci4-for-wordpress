@@ -491,10 +491,11 @@ class Sync extends BaseController
 
         // thử kiểm tra quyền đọc ghi file trong thư mục app, nếu không ghi được -> sẽ sử dụng FTP để xử lý file
         $path = PUBLIC_HTML_PATH . 'app/test_permission.txt';
-        if (@!file_put_contents($path, time())) {
-            $upload_via_ftp = true;
-        } else {
+        if (@file_put_contents($path, time())) {
+            chmod($path, DEFAULT_FILE_PERMISSION);
             unlink($path);
+        } else {
+            $upload_via_ftp = true;
         }
         //var_dump( $upload_via_ftp );
         //die( __CLASS__ . ':' . __LINE__ );

@@ -234,7 +234,7 @@ class Configs extends Admin
 
         //
         if (isset($data['blog_private']) && $data['blog_private'] == 'on') {
-            $this->base_model->_eb_create_file(PUBLIC_PUBLIC_PATH . 'robots.txt', $this->helpersTmpFile('robots_disallow_all'), ['ftp' => 1]);
+            $this->base_model->ftp_create_file(PUBLIC_PUBLIC_PATH . 'robots.txt', $this->helpersTmpFile('robots_disallow_all'));
         }
         //
         else if (isset($data['robots'])) {
@@ -263,7 +263,7 @@ class Configs extends Admin
             */
 
             //
-            $this->base_model->_eb_create_file(PUBLIC_PUBLIC_PATH . 'robots.txt', $data['robots'], ['ftp' => 1]);
+            $this->base_model->ftp_create_file(PUBLIC_PUBLIC_PATH . 'robots.txt', $data['robots']);
         }
         //print_r( $data );
 
