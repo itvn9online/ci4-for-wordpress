@@ -2,120 +2,34 @@
 /*
 * Chức năng đăng nhập qua Zalo
 * https://github.com/zaloplatform/zalo-php-sdk
+*
 * Gửi thông báo qua Zalo ZNS
 * https://developers.zalo.me/docs/api/zalo-notification-service-api/gui-thong-bao-zns/gui-thong-bao-zns-post-5208
+*
+* Gửi ZNS thông qua API
+* https://zalo.cloud/zns/guidelines/zns-api
+*
+* Hướng dẫn tạo ứng dụng (App ID) và liên kết với Zalo OA
+* https://zalo.cloud/blog/huong-dan-tao-ung-dung-app-id-va-lien-ket-voi-zalo-oa-/kgua7vnkkvbyy88rma
+*
+* Quản lý các app đã kết nối zalo -> khi cần XÓA đi để test thì vào đây XÓA
+* https://zalo.me/profile/app-management
 */
 
 namespace App\Controllers;
 
-// chạy vòng lặp nạp thư viện của Zalo -> nạp chính xác từng bước nếu không sẽ lỗi class
-foreach ([
-    'ZaloEndPoint.php',
-    'Authentication/ZaloToken.php',
-    'Exceptions/ZaloSDKException.php',
-    'Exceptions/ZaloOAException.php',
-    'Exceptions/ZaloResponseException.php',
-    'ZaloResponse.php',
-    'Http/GraphRawResponse.php',
-    'Http/RequestBodyInterface.php',
-    'Http/RequestBodyUrlEncoded.php',
-    'Url/ZaloUrlManipulator.php',
-    'ZaloRequest.php',
-    'Authentication/OAuth2Client.php',
-    'Authentication/ZaloRedirectLoginHelper.php',
-    'Url/UrlDetectionInterface.php',
-    'Url/ZaloUrlDetectionHandler.php',
-    'ZaloApp.php',
-    'HttpClients/ZaloCurl.php',
-    'HttpClients/ZaloHttpClientInterface.php',
-    'HttpClients/ZaloCurlHttpClient.php',
-    'HttpClients/HttpClientsFactory.php',
-    'ZaloClient.php',
-    'Zalo.php',
-] as $v) {
-    $f = APPPATH . 'ThirdParty/zalo-php-sdk/src/' . $v;
-    if (!file_exists($f)) {
-        ob_end_flush();
-        //echo $f . '<br>' . PHP_EOL;
-        die('File not found: ' . $v);
-    }
-    require_once $f;
-}
-
-//
-use Zalo\Zalo;
-
 //
 //use App\Libraries\UsersType;
-//use App\Libraries\DeletedStatus;
-//use App\Libraries\PHPMaillerSend;
-//use App\Language\Translate;
-//use App\Helpers\HtmlTemplate;
 
 //
 class Zalos extends Guest
 {
-    protected $zalo = NULL;
-    protected $helper = NULL;
-
     public function __construct()
     {
         parent::__construct();
 
         //
-    }
-
-    protected function loadConfig()
-    {
-        if ($this->zalo === NULL) {
-            if (empty($this->zalooa_config->zalooa_app_id)) {
-                $this->result_json_type([
-                    'code' => __LINE__,
-                    'error' => 'Zalo OA app ID is EMPTY!',
-                ]);
-            } else if (empty($this->zalooa_config->zalooa_app_secret)) {
-                $this->result_json_type([
-                    'code' => __LINE__,
-                    'error' => 'Zalo OA app secret is EMPTY!',
-                ]);
-            }
-
-            //
-            $this->zalo = new Zalo([
-                'app_id' => $this->zalooa_config->zalooa_app_id,
-                'app_secret' => $this->zalooa_config->zalooa_app_secret
-            ]);
-            $this->helper = $this->zalo->getRedirectLoginHelper();
-        }
-    }
-
-    /*
-    * chức năng tạo URL để Yêu cầu cấp mới OA Access Token
-    * https://developers.zalo.me/docs/api/official-account-api/phu-luc/official-account-access-token-post-4307
-    */
-    protected function newAccessToken($callBackUrl)
-    {
-        //
-        ob_end_flush();
-
-        //
-        $random = bin2hex(openssl_random_pseudo_bytes(32));
-        $verifier = $this->base64url_encode(pack('H*', $random));
-        $this->cache_verifier($verifier);
-        $codeChallenge = $this->base64url_encode(pack('H*', hash('sha256', $verifier)));
-        //echo 'codeChallenge: ' . $codeChallenge . ':' . __LINE__ . '<br>';
-        //echo strlen($codeChallenge) . ':' . __LINE__ . '<br>';
-        $this->cache_challenge($codeChallenge);
-
-        //
-        $state = md5($codeChallenge);
-        $this->loadConfig();
-        $loginUrl = $this->helper->getLoginUrl($callBackUrl, $codeChallenge, $state); // This is login url
-        //die($loginUrl);
-        //echo $loginUrl . '<br>';
-
-        //
-        $this->MY_redirect($loginUrl);
+        $this->zaloa_model = new \App\Models\Zaloa();
     }
 
     /*
@@ -124,78 +38,96 @@ class Zalos extends Guest
     */
     public function login_url()
     {
-        return $this->newAccessToken(base_url('zalos/dang_nhap'));
+        $this->MY_redirect($this->zaloa_model->zaloOaAccessToken(base_url('zalos/dang_nhap')));
     }
-
     public function dang_nhap()
     {
-        //
-        ob_end_flush();
+        $accessToken = $this->zaloa_model->zaloOaAfterAccessToken();
+        if ($accessToken === false) {
+            $this->result_json_type([
+                'code' => __LINE__,
+                'error' => 'Zalo Access Token is EMPTY!',
+            ]);
+            return false;
+        }
 
         //
-        $codeVerifier = $this->cache_verifier();
-        if (!empty($codeVerifier)) {
-            //echo $codeVerifier . PHP_EOL;
-            $this->loadConfig();
-            $zaloToken = $this->helper->getZaloToken($codeVerifier); // get zalo token
-            $accessToken = $zaloToken->getAccessToken();
-            //die($accessToken);
-            //echo $accessToken . '<br>';
+        $result = $this->zaloa_model->getZaloIdName($accessToken);
+        //$this->result_json_type($result);
 
-            //
-            //ini_set('display_errors', 1);
-            //error_reporting(E_ALL);
-
-            //
-            $params = ['fields' => 'id,name,picture'];
-            $response = $this->zalo->get(\Zalo\ZaloEndPoint::API_GRAPH_ME, $accessToken, $params);
-            $result = $response->getDecodedBody(); // result
-            //print_r($result);
-            //$this->result_json_type($result);
-
-            //
-            if (isset($result['error'])) {
-                if ($result['error'] == '0' || $result['error'] == 0) {
-                    $this->result_json_type($result);
-                } else {
-                    $this->result_json_type([
-                        'code' => __LINE__,
-                        'error' => 'ERROR code ' . $result['error'], ' (' . $result['message'] . ')',
-                    ]);
-                }
+        //
+        if (isset($result['error'])) {
+            if ($result['error'] == '0' || $result['error'] == 0) {
+                $this->result_json_type($result);
             } else {
                 $this->result_json_type([
                     'code' => __LINE__,
-                    'error' => 'Result parameter mismatched!',
+                    'error' => 'ERROR code ' . $result['error'], ' (' . $result['message'] . ')',
                 ]);
             }
+        } else {
+            $this->result_json_type([
+                'code' => __LINE__,
+                'error' => 'Result parameter mismatched!',
+            ]);
         }
     }
 
-    protected function cache_verifier($str = '')
+    /*
+    * Chức năng gửi tin nhắn qua Zalo ZNS
+    * https://zalo.cloud/blog/huong-dan-tao-ung-dung-app-id-va-lien-ket-voi-zalo-oa-/kgua7vnkkvbyy88rma
+    */
+    public function before_zns()
     {
-        return $this->zalo_session(__FUNCTION__, $str);
+        //print_r($_GET);
+        $this->MY_redirect($this->zaloa_model->zaloAccessToken(base_url('zalos/send_zns')));
     }
-
-    protected function cache_challenge($str = '')
+    public function send_zns()
     {
-        return $this->zalo_session(__FUNCTION__, $str);
-    }
-
-    // lưu session của phiên request qua zalo
-    protected function zalo_session($key, $str = '')
-    {
-        if ($str != '') {
-            return $this->base_model->MY_session($key . session_id(), $str);
+        //print_r($_GET);
+        //die(__CLASS__ . ':' . __LINE__);
+        $accessToken = $this->zaloa_model->zaloAfterAccessToken();
+        if ($accessToken === false) {
+            $this->result_json_type([
+                'code' => __LINE__,
+                'error' => 'Zalo Access Token is EMPTY!',
+            ]);
+            return false;
         }
-        return $this->base_model->MY_session($key . session_id());
-    }
+        die($accessToken);
 
-    protected function base64url_encode($plainText)
-    {
-        $base64 = base64_encode($plainText);
-        $base64 = trim($base64, "=");
-        $base64url = strtr($base64, '+/', '-_');
-        return ($base64url);
+        //
+        //$accessToken = '8xEZJqod25qdkQf0Jg09LYE-gafGqMTTQiwy00Er5qCrs-eVEOCAII-MuHueqqfk6foVBWprTaeTdfef1yCtVI3Nw3OrbY5tMlNM7Kpq1rzpkUSCMzumQr6Xxmnau1PzL9-q46B7MmT7eeXwS-rZ4MYMZbPPxbm0SOw9GKZxNX5RbBDWGjvU7rE-jGjC-byTHgEH3N-xQNbRfRKpMUGPOqs2rH5soGv-6xFDDX3pDI4vg_rBIQeK8oMskMaWtda-JAYwM4xUQp9IliPHGACB9ctCtKzZenO8IBZ8M6pSCHTSbvbvSjT9BbtFuKr7eZKWIhV9S7Mh2H1XxiTOCbqicYLAiGXS';
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://business.openapi.zalo.me/message/template',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => '{
+    "mode": "development",
+    "phone": "84984533228",
+    "template_id": "264275",
+    "template_data": {
+        "otp": "' . rand(1000, 9999) . '",
+    }
+}',
+            CURLOPT_HTTPHEADER => array(
+                'access_token: ' . $accessToken,
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        //echo $response;
+
+        die($response);
     }
 }

@@ -201,6 +201,17 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
 <?php
 
 //
+//print_r($getconfig);
+//echo 'fb_app_id: ' . $getconfig->fb_app_id;
+$base_model->JSON_echo([
+    // mảng này sẽ in ra dưới dạng JSON hoặc number
+], [
+    // mảng này sẽ in ra dưới dạng string
+    'fb_app_id' => $getconfig->fb_app_id,
+    'zalo_app_id' => $zalooa_config->zalooa_app_id,
+]);
+
+//
 $base_model->add_js('admin/js/config_function.js');
 
 //
@@ -224,16 +235,6 @@ $base_model->JSON_parse(
         'vue_data' => $vue_data,
     ]
 );
-
-//
-//print_r($getconfig);
-//echo 'fb_app_id: ' . $getconfig->fb_app_id;
-$base_model->JSON_echo([
-    // mảng này sẽ in ra dưới dạng JSON hoặc number
-], [
-    // mảng này sẽ in ra dưới dạng string
-    'fb_app_id' => $getconfig->fb_app_id,
-]);
 
 ?>
 <script>

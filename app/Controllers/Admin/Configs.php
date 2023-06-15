@@ -22,6 +22,7 @@ class Configs extends Admin
     ];
     // tham số ví dụ -> mặc định là getconfig truyền từ Layout, 1 số config thi thoảng mới dùng thì truyền tham số riêng
     protected $example_prefix = 'getconfig';
+    protected $zalooa_config = NULL;
 
     public function __construct()
     {
@@ -41,6 +42,11 @@ class Configs extends Admin
 
         //
         $this->payment_model = new \App\Models\Payment();
+
+        //
+        $this->zalooa_config = $this->option_model->obj_config(ConfigType::ZALO);
+        //print_r($this->zalooa_config);
+        //die(__CLASS__ . ':' . __LINE__);
     }
 
     public function index()
@@ -138,6 +144,7 @@ class Configs extends Admin
             array(
                 'lang_key' => $this->lang_key,
                 'config_type' => $this->config_type,
+                'zalooa_config' => $this->zalooa_config,
                 'meta_default' => $meta_default,
                 'trans_data' => $trans_data,
                 'trans_custom_type' => $trans_custom_type,

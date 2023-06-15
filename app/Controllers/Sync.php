@@ -681,21 +681,10 @@ class Sync extends BaseController
 
     protected function result_json_type($arr, $headers = [], $too_headers = [])
     {
-        // reset lại view -> tránh in ra phần html nếu lỡ nạp
-        ob_end_clean();
         $this->teamplate = [];
 
         //
-        header('Content-type: application/json; charset=utf-8');
-        // header mặc định, ghi đè header trước đó
-        foreach ($headers as $v) {
-            header($v);
-        }
-        // header không ghi đè -> 2 header trùng tên nhưng khác giá trị
-        foreach ($too_headers as $v) {
-            header($v, false);
-        }
-        die(json_encode($arr));
+        return $this->base_model->result_json_type($arr, $headers, $too_headers);
     }
 
     // đồng bộ dữ liệu login của thành viên về 1 định dạng chung

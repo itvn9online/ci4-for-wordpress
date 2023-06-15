@@ -1,4 +1,5 @@
 <?php
+
 namespace App\ThirdParty;
 
 /*
@@ -36,7 +37,7 @@ class TelegramBot
     {
         if ($cog === NULL) {
             $cog = self::getCog();
-        //print_r( $cog );
+            //print_r( $cog );
         }
         if (!isset($cog->telegram_bot_token) || empty($cog->telegram_bot_token)) {
             return self::resultErrorMsg('ERROR bot token?');
@@ -54,7 +55,11 @@ class TelegramBot
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_POSTFIELDS => array('cmd' => '_notify-synch', 'tx' => '54E3398386635404W', 'at' => 'vGyTxoxDseiSWeryncdVbF4uIEcguRK9Ga2DizaKtz964Iyw4Z68SwyLLTu'),
+            CURLOPT_POSTFIELDS => array(
+                'cmd' => '_notify-synch',
+                'tx' => '54E3398386635404W',
+                'at' => 'vGyTxoxDseiSWeryncdVbF4uIEcguRK9Ga2DizaKtz964Iyw4Z68SwyLLTu'
+            ),
         ));
 
         $response = curl_exec($curl);
@@ -72,7 +77,7 @@ class TelegramBot
     {
         if ($cog === NULL) {
             $cog = self::getCog();
-        //print_r( $cog );
+            //print_r( $cog );
         }
         if (!isset($cog->telegram_bot_token) || empty($cog->telegram_bot_token)) {
             return self::resultErrorMsg('ERROR bot token?');
@@ -93,7 +98,11 @@ class TelegramBot
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_POSTFIELDS => array('cmd' => '_notify-synch', 'tx' => '54E3398386635404W', 'at' => 'vGyTxoxDseiSWeryncdVbF4uIEcguRK9Ga2DizaKtz964Iyw4Z68SwyLLTu'),
+            CURLOPT_POSTFIELDS => array(
+                'cmd' => '_notify-synch',
+                'tx' => '54E3398386635404W',
+                'at' => 'vGyTxoxDseiSWeryncdVbF4uIEcguRK9Ga2DizaKtz964Iyw4Z68SwyLLTu'
+            ),
         ));
 
         $response = curl_exec($curl);

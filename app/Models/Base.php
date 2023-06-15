@@ -640,7 +640,7 @@ class Base extends Csdl
             }
         } else if (@file_put_contents($file_, $content_, LOCK_EX)) {
             // tạo mới thì thêm đoạn chmod
-            chmod($file_, $ops['set_permission']);
+            @chmod($file_, $ops['set_permission']);
             return true;
         }
 
@@ -903,5 +903,23 @@ class Base extends Csdl
     public function the_esc_html($text)
     {
         echo $this->wp_esc_html($text);
+    }
+
+    public function result_json_type($arr, $headers = [], $too_headers = [])
+    {
+        // reset lại view -> tránh in ra phần html nếu lỡ nạp
+        ob_end_clean();
+
+        //
+        header('Content-type: application/json; charset=utf-8');
+        // header mặc định, ghi đè header trước đó
+        foreach ($headers as $v) {
+            header($v);
+        }
+        // header không ghi đè -> 2 header trùng tên nhưng khác giá trị
+        foreach ($too_headers as $v) {
+            header($v, false);
+        }
+        die(json_encode($arr));
     }
 }

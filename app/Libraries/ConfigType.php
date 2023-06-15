@@ -248,6 +248,8 @@ class ConfigType
             $arr = [
                 'zalooa_app_id' => 'App ID',
                 'zalooa_app_secret' => 'App secret',
+                'zalooa_access_token' => 'Access token',
+                'zalooa_template_otp_id' => 'ID mẫu ZNS (OTP)',
             ];
         } else if ($config_type == self::CHECKBOX) {
             $arr = [];
@@ -476,6 +478,8 @@ class ConfigType
             'firebase_auth_anonymous' => 'checkbox',
             'firebase_auth_phone' => 'checkbox',
             'firebase_verify_phone' => 'checkbox',
+            //
+            'zalooa_access_token' => 'textarea',
         ];
         //print_r( $arr );
         if (isset($arr[$key])) {
@@ -535,6 +539,8 @@ class ConfigType
             //
             'zalooa_app_id' => 'ID của ứng dụng trên Zalo, tạo và lấy tại đây: https://developers.zalo.me/apps * Xem tài liệu code tại đây: https://github.com/zaloplatform/zalo-php-sdk',
             'zalooa_app_secret' => 'Secret của ứng dụng trên Zalo. Sau khi cập nhật đầy đủ thì có thể test code tại đây: ' . base_url('zalos/login_url'),
+            'zalooa_access_token' => 'Access token dùng để gửi tin nhắn qua ZNS, lấy Access token bằng công cụ API explorer tại đây: https://developers.zalo.me/tools/explorer/YOUR_ZALO_APP_ID <br> * Loại access token: OA Access Token',
+            'zalooa_template_otp_id' => 'ID mẫu tin nhắn gửi qua ZNS, xem hướng dẫn tạo mẫu template tại đây: https://zalo.cloud/blog/huong-dan-tao-ung-dung-app-id-va-lien-ket-voi-zalo-oa-/kgua7vnkkvbyy88rma <br> Gửi thử tin nhắn ZNS OTP tại đây: ' . base_url('admin/zalooas/send_test_otp_zns'),
             //
             'site_max_width' => 'Bạn có thể thiết lập chiều rộng cho trang tại đây. Chiều rộng tiêu chuẩn: 1024px - Chiều rộng phổ biến: 1366px',
             'site_full_width' => 'Tương tự chiều rộng trang nhưng có độ rộng nhỉnh hơn chút. Chiều rộng tiêu chuẩn: 1024px - Chiều rộng phổ biến: 1666px',
