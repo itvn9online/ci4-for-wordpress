@@ -196,6 +196,12 @@ class Firebase2s extends Firebases
                         $this->reVerifyFirebaseEmail($data, [
                             'uid' => $firebase_uid
                         ]);
+                    } else if (strlen($phone) > 9) {
+                        //$this->result_json_type($data);
+                        $this->user_model->update_member($data['ID'], [
+                            // cập nhật firebase_uid
+                            'firebase_uid' => $this->base_model->mdnam($firebase_uid),
+                        ]);
                     } else {
                         $this->result_json_type([
                             'code' => __LINE__,

@@ -100,8 +100,8 @@ class Users extends Admin
 
         // tìm kiếm theo từ khóa nhập vào
         if ($by_keyword != '') {
-            $urlPartPage .= '&s=' . $by_keyword;
-            $for_action .= '&s=' . $by_keyword;
+            $urlPartPage .= '&s=' . urlencode($by_keyword);
+            $for_action .= '&s=' . urlencode($by_keyword);
 
             //
             $by_like = $this->base_model->_eb_non_mark_seo($by_keyword);
