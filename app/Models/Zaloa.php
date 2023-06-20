@@ -209,7 +209,6 @@ class Zaloa extends Option
 
         //
         $curl = curl_init();
-
         curl_setopt_array($curl, array(
             CURLOPT_URL => 'https://oauth.zaloapp.com/v4/oa/access_token',
             CURLOPT_RETURNTRANSFER => true,
@@ -225,9 +224,7 @@ class Zaloa extends Option
                 'Content-Type: application/x-www-form-urlencoded'
             ),
         ));
-
         $response = curl_exec($curl);
-
         curl_close($curl);
         //echo $response;
         $response = json_decode($response);
@@ -282,7 +279,6 @@ class Zaloa extends Option
 
         //
         $curl = curl_init();
-
         curl_setopt_array($curl, array(
             CURLOPT_URL => 'https://oauth.zaloapp.com/v4/oa/access_token',
             CURLOPT_RETURNTRANSFER => true,
@@ -298,9 +294,7 @@ class Zaloa extends Option
                 'Content-Type: application/x-www-form-urlencoded'
             ),
         ));
-
         $response = curl_exec($curl);
-
         curl_close($curl);
         //echo $response;
         $response = json_decode($response);
@@ -379,13 +373,10 @@ class Zaloa extends Option
     * Gửi ZNS
     * https://developers.zalo.me/docs/api/zalo-notification-service-api/gui-thong-bao-zns/gui-thong-bao-zns-post-5208
     */
-    public function sendOtpZns($phone, $otp, $custom_data = [])
+    public function sendZns($phone, $template_id, $template_data, $custom_data = [])
     {
         if (empty($this->zalooa_config->zalooa_access_token)) {
             return 'zalooa_access_token EMPTY';
-        }
-        if (empty($this->zalooa_config->zalooa_template_otp_id)) {
-            return 'zalooa_template_otp_id EMPTY';
         }
 
         // chuyển định dạng số điện thoại về chuẩn mà Zalo yêu cầu
@@ -397,10 +388,9 @@ class Zaloa extends Option
         $data = [
             //'mode' => 'development',
             'phone' => $phone,
-            'template_id' => $this->zalooa_config->zalooa_template_otp_id,
-            'template_data' => [
-                'otp' => $otp
-            ]
+            'template_id' => $template_id,
+            'template_data' => $template_data,
+            'tracking_id' => session_id(),
         ];
         foreach ($custom_data as $k => $v) {
             $data[$k] = $v;
@@ -410,7 +400,6 @@ class Zaloa extends Option
 
         //
         $curl = curl_init();
-
         curl_setopt_array($curl, array(
             CURLOPT_URL => 'https://business.openapi.zalo.me/message/template',
             CURLOPT_RETURNTRANSFER => true,
@@ -426,9 +415,7 @@ class Zaloa extends Option
                 'Content-Type: application/json'
             ),
         ));
-
         $response = curl_exec($curl);
-
         curl_close($curl);
 
         //
@@ -439,6 +426,18 @@ class Zaloa extends Option
 
         //
         return $response;
+    }
+
+    public function sendOtpZns($phone, $otp, $custom_data = [])
+    {
+        if (empty($this->zalooa_config->zalooa_template_otp_id)) {
+            return 'zalooa_template_otp_id EMPTY';
+        }
+
+        //
+        return $this->sendZns($phone, $this->zalooa_config->zalooa_template_otp_id, [
+            'otp' => $otp
+        ], $custom_data);
     }
 
     // đồng bộ số điện thoại về 1 định dạng
