@@ -85,6 +85,9 @@ function WGR_urlify(text) {
 	var urlRegex = /(https?:\/\/[^\s]+)/g;
 	return text.replace(urlRegex, function (url) {
 		url = url.replace(web_link, "");
+		if (url == "") {
+			url = web_link;
+		}
 		return '<a href="' + url + '">' + url + "</a>";
 	});
 	// or alternatively

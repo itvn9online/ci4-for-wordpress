@@ -10,6 +10,7 @@ class Zalooas extends Configs
 {
     protected $config_type = ConfigType::ZALO;
     protected $example_prefix = 'zalooa_config';
+    protected $zalooa_config = NULL;
 
     public function __construct()
     {
@@ -17,6 +18,11 @@ class Zalooas extends Configs
 
         //
         $this->zaloa_model = new \App\Models\Zaloa();
+
+        //
+        $this->zalooa_config = $this->option_model->obj_config(ConfigType::ZALO);
+        //print_r($this->zalooa_config);
+        //die(__CLASS__ . ':' . __LINE__);
     }
 
     /**
@@ -24,7 +30,7 @@ class Zalooas extends Configs
      **/
     public function send_test_otp_zns()
     {
-        if (empty($this->getconfig->phone)) {
+        if (empty($this->zalooa_config->zns_phone_for_test)) {
             $this->result_json_type([
                 'code' => __LINE__,
                 'error' => 'Please enter phone number for test: ' . base_url('admin/configs') . '?support_tab=data_phone',
@@ -34,13 +40,19 @@ class Zalooas extends Configs
         //
         $this->result_json_type([
             'code' => __LINE__,
-            'result' => $this->zaloa_model->send_otp_zns($this->getconfig->phone, rand(100000, 999999)),
+            'phone' => $this->zalooa_config->zns_phone_for_test,
+            'result' => $this->zaloa_model->sendOtpZns($this->zalooa_config->zns_phone_for_test, rand(1000, 9999), [
+                'mode' => 'development',
+            ]),
         ]);
     }
 
-    public function testCode()
+    /*
+    * Tạo URL update Access Token cho ZNS
+    */
+    public function before_zns()
     {
-        $arr = $this->option_model->arr_config($this->config_type);
-        print_r($arr);
+        //print_r($_GET);
+        $this->MY_redirect($this->zaloa_model->zaloAccessToken(base_url('zalos/get_access_token')));
     }
 }

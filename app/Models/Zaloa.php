@@ -1,4 +1,20 @@
 <?php
+/*
+* Chức năng đăng nhập qua Zalo
+* https://github.com/zaloplatform/zalo-php-sdk
+*
+* Gửi thông báo qua Zalo ZNS
+* https://developers.zalo.me/docs/api/zalo-notification-service-api/gui-thong-bao-zns/gui-thong-bao-zns-post-5208
+*
+* Gửi ZNS thông qua API
+* https://zalo.cloud/zns/guidelines/zns-api
+*
+* Hướng dẫn tạo ứng dụng (App ID) và liên kết với Zalo OA
+* https://zalo.cloud/blog/huong-dan-tao-ung-dung-app-id-va-lien-ket-voi-zalo-oa-/kgua7vnkkvbyy88rma
+*
+* Quản lý các app đã kết nối zalo -> khi cần XÓA đi để test thì vào đây XÓA
+* https://zalo.me/profile/app-management
+*/
 
 namespace App\Models;
 
@@ -39,6 +55,7 @@ foreach ([
 //
 use Zalo\Zalo;
 use App\Libraries\ConfigType;
+use App\Libraries\LanguageCost;
 
 //
 class Zaloa extends Option
@@ -50,6 +67,9 @@ class Zaloa extends Option
     public function __construct()
     {
         parent::__construct();
+
+        //
+        $this->option_model = new \App\Models\Option();
 
         //
         $this->zalooa_config = $this->obj_config(ConfigType::ZALO);
@@ -148,10 +168,46 @@ class Zaloa extends Option
         return $accessToken;
     }
 
-    // lấy access token sau khi request xong
+    /*
+    * lấy access token sau khi request xong
+    * https://developers.zalo.me/docs/api/official-account-api/xac-thuc-va-uy-quyen/cach-1-xac-thuc-voi-giao-thuc-oauth/yeu-cau-cap-moi-oa-access-token-post-4307
+    */
     public function zaloAfterAccessToken()
     {
         //die($this->zalooa_config->zalooa_app_id);
+        //$this->base_model->result_json_type([$this->cache_challenge()]);
+
+        //
+        if (empty($this->zalooa_config->zalooa_app_id)) {
+            $this->base_model->result_json_type([
+                'code' => __LINE__,
+                'error' => 'Zalo App ID EMPTY',
+            ]);
+        }
+        if (empty($this->zalooa_config->zalooa_app_secret)) {
+            $this->base_model->result_json_type([
+                'code' => __LINE__,
+                'error' => 'Zalo App Secret EMPTY',
+            ]);
+        }
+
+        //
+        $data = [
+            'code' => (isset($_GET['code']) ? $_GET['code'] : ''),
+            'app_id' => $this->zalooa_config->zalooa_app_id,
+            'grant_type' => 'authorization_code',
+            'code_verifier' => $this->cache_verifier(),
+        ];
+        //$this->base_model->result_json_type($data);
+        //$data = json_encode($data);
+        $postfield = [];
+        foreach ($data as $k => $v) {
+            $postfield[] = $k . '=' . $v;
+        }
+        $postfield = implode('&', $postfield);
+        //die($postfield);
+
+        //
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -163,12 +219,7 @@ class Zaloa extends Option
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => '{
-    "code": "' . $_GET['code'] . '",
-    "app_id": "' . $this->zalooa_config->zalooa_app_id . '",
-    "grant_type": "authorization_code",
-    "code_verifier": "' . $this->cache_verifier() . '"
-}',
+            CURLOPT_POSTFIELDS => $postfield,
             CURLOPT_HTTPHEADER => array(
                 'secret_key: ' . $this->zalooa_config->zalooa_app_secret,
                 'Content-Type: application/x-www-form-urlencoded'
@@ -178,10 +229,157 @@ class Zaloa extends Option
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
+        //echo $response;
+        $response = json_decode($response);
+
+        //
+        $this->updateAccessToken($response, true);
+
+        //
+        return $response;
     }
 
-    public function send_otp_zns($phone, $otp)
+    /**
+     * Lấy OA Access Token từ OA Refresh Token
+     * https://developers.zalo.me/docs/api/official-account-api/xac-thuc-va-uy-quyen/cach-1-xac-thuc-voi-giao-thuc-oauth/lay-access-token-tu-refresh-token-post-4970
+     **/
+    public function zaloRefreshToken($by_admin = false)
+    {
+        //
+        if (empty($this->zalooa_config->zalooa_app_id)) {
+            $this->base_model->result_json_type([
+                'code' => __LINE__,
+                'error' => 'Zalo App ID EMPTY',
+            ]);
+        }
+        if (empty($this->zalooa_config->zalooa_app_secret)) {
+            $this->base_model->result_json_type([
+                'code' => __LINE__,
+                'error' => 'Zalo App Secret EMPTY',
+            ]);
+        }
+        if (empty($this->zalooa_config->zalooa_refresh_token)) {
+            $this->base_model->result_json_type([
+                'code' => __LINE__,
+                'error' => 'Zalo Refresh token EMPTY',
+            ]);
+        }
+
+        //
+        $data = [
+            'refresh_token' => $this->zalooa_config->zalooa_refresh_token,
+            'app_id' => $this->zalooa_config->zalooa_app_id,
+            'grant_type' => 'refresh_token',
+        ];
+        //$this->base_model->result_json_type($data);
+        //$data = json_encode($data);
+        $postfield = [];
+        foreach ($data as $k => $v) {
+            $postfield[] = $k . '=' . $v;
+        }
+        $postfield = implode('&', $postfield);
+        //die($postfield);
+
+        //
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://oauth.zaloapp.com/v4/oa/access_token',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => $postfield,
+            CURLOPT_HTTPHEADER => array(
+                'secret_key: ' . $this->zalooa_config->zalooa_app_secret,
+                'Content-Type: application/x-www-form-urlencoded'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        //echo $response;
+        $response = json_decode($response);
+
+        //
+        $this->updateAccessToken($response, $by_admin);
+
+        //
+        return $response;
+    }
+
+    /**
+     * Cập nhật lại Access token và Refresh token mỗi khi request
+     **/
+    protected function updateAccessToken($response, $by_admin = false)
+    {
+        if (isset($response->access_token)) {
+            $this->removeAndInsert('zalooa_access_token', $response->access_token);
+
+            //
+            if (isset($response->refresh_token)) {
+                $this->removeAndInsert('zalooa_refresh_token', $response->refresh_token);
+            }
+
+            //
+            $this->base_model->dcache($this->option_model->key_cache('list_config'));
+            $this->base_model->dcache($this->option_model->key_cache(ConfigType::ZALO));
+
+            // đi tới bảng điều khiển admin nếu admin là người update
+            if ($by_admin !== false) {
+                die(header('Location: ' . base_url('admin/zalooas') . '?support_tab=data_zalooa_access_token', TRUE));
+            }
+        }
+    }
+
+    /**
+     * Xóa xong tạo 1 option cho zalo config
+     **/
+    protected function removeAndInsert($option_name, $option_value)
+    {
+        //
+        $last_updated = date(EBE_DATETIME_FORMAT);
+        $insert_time = date('YmdHis');
+
+        // delete
+        $where = [
+            'option_type' => ConfigType::ZALO,
+            'option_name' => $option_name,
+            'lang_key' => LanguageCost::lang_key(),
+        ];
+        $this->base_model->delete_multiple(
+            'options',
+            $where,
+            [
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+            ]
+        );
+
+        // insert
+        $this->option_model->insert_options(
+            [
+                'option_name' => $option_name,
+                'option_value' => $option_value,
+                'option_type' => ConfigType::ZALO,
+                'lang_key' => LanguageCost::lang_key(),
+                'last_updated' => $last_updated,
+                'insert_time' => $insert_time,
+            ]
+        );
+    }
+
+    /*
+    * Gửi ZNS
+    * https://developers.zalo.me/docs/api/zalo-notification-service-api/gui-thong-bao-zns/gui-thong-bao-zns-post-5208
+    */
+    public function sendOtpZns($phone, $otp, $custom_data = [])
     {
         if (empty($this->zalooa_config->zalooa_access_token)) {
             return 'zalooa_access_token EMPTY';
@@ -196,6 +394,21 @@ class Zaloa extends Option
         //die($phone);
 
         //
+        $data = [
+            //'mode' => 'development',
+            'phone' => $phone,
+            'template_id' => $this->zalooa_config->zalooa_template_otp_id,
+            'template_data' => [
+                'otp' => $otp
+            ]
+        ];
+        foreach ($custom_data as $k => $v) {
+            $data[$k] = $v;
+        }
+        //$this->base_model->result_json_type($data);
+        $data = json_encode($data);
+
+        //
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -207,14 +420,7 @@ class Zaloa extends Option
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => '{
-    "mode": "development",
-    "phone": "' . $phone . '",
-    "template_id": "' . $this->zalooa_config->zalooa_template_otp_id . '",
-    "template_data": {
-        "otp": "' . $otp . '",
-    }
-}',
+            CURLOPT_POSTFIELDS => $data,
             CURLOPT_HTTPHEADER => array(
                 'access_token: ' . $this->zalooa_config->zalooa_access_token,
                 'Content-Type: application/json'

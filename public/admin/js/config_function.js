@@ -38,10 +38,18 @@ function replace_url_config_app(key, val) {
 		for (var i = 0; i < findk.length; i++) {
 			if (a.split(findk[i]).length > 1) {
 				//console.log(a);
-				val = findk[i].replace(key, val);
-				a = a.replace(findk[i], val).replace(findk[i], val);
+				var v = findk[i].replace(key, val);
+				//console.log(v);
+				for (var j = 0; j < 10; j++) {
+					if (a.split(findk[i]).length > 1) {
+						a = a.replace(findk[i], v);
+					} else {
+						break;
+					}
+				}
 				$(this).html(a);
-				return false;
+				//return false;
+				//break;
 			}
 		}
 	});

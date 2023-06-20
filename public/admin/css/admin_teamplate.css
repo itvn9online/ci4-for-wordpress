@@ -147,7 +147,8 @@ form#listContactByType {
 
 .controls-text-note {
     font-style: italic;
-    line-height: normal;
+    line-height: 19px;
+    margin-bottom: 0;
 }
 
 .controls-text-note a {
