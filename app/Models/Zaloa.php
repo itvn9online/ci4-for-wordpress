@@ -240,22 +240,40 @@ class Zaloa extends Option
      * Lấy OA Access Token từ OA Refresh Token
      * https://developers.zalo.me/docs/api/official-account-api/xac-thuc-va-uy-quyen/cach-1-xac-thuc-voi-giao-thuc-oauth/lay-access-token-tu-refresh-token-post-4970
      **/
-    public function zaloRefreshToken($by_admin = false)
+    public function zaloRefreshToken($return_false = false)
     {
-        //
+        // nếu đây là quá trình update tự động -> kiểm tra hạn của token -> còn hạn thì không update
+        if ($return_false !== false) {
+            if (!empty($this->zalooa_config->zalooa_expires_token) && $this->zalooa_config->zalooa_expires_token > time()) {
+                return false;
+            }
+        }
+
+        // kiểm tra nếu thiếu thông số thì trả về lỗi luôn
         if (empty($this->zalooa_config->zalooa_app_id)) {
+            // 1 số trường hợp sẽ trả về false để tiến trình sau đấy vẫn tiếp tục được
+            if ($return_false !== false) {
+                return false;
+            }
+            // mặc định sẽ trả về thông báo lỗi -> die
             $this->base_model->result_json_type([
                 'code' => __LINE__,
                 'error' => 'Zalo App ID EMPTY',
             ]);
         }
         if (empty($this->zalooa_config->zalooa_app_secret)) {
+            if ($return_false !== false) {
+                return false;
+            }
             $this->base_model->result_json_type([
                 'code' => __LINE__,
                 'error' => 'Zalo App Secret EMPTY',
             ]);
         }
         if (empty($this->zalooa_config->zalooa_refresh_token)) {
+            if ($return_false !== false) {
+                return false;
+            }
             $this->base_model->result_json_type([
                 'code' => __LINE__,
                 'error' => 'Zalo Refresh token EMPTY',
@@ -300,7 +318,7 @@ class Zaloa extends Option
         $response = json_decode($response);
 
         //
-        $this->updateAccessToken($response, $by_admin);
+        $this->updateAccessToken($response);
 
         //
         return $response;
@@ -309,8 +327,9 @@ class Zaloa extends Option
     /**
      * Cập nhật lại Access token và Refresh token mỗi khi request
      **/
-    protected function updateAccessToken($response, $by_admin = false)
+    protected function updateAccessToken($response)
     {
+        //$this->base_model->result_json_type($response);
         if (isset($response->access_token)) {
             $this->removeAndInsert('zalooa_access_token', $response->access_token);
 
@@ -320,14 +339,22 @@ class Zaloa extends Option
             }
 
             //
+            if (isset($response->expires_in)) {
+                $response->expires_in *= 1;
+                $this->removeAndInsert('zalooa_expires_token', time() + $response->expires_in);
+            }
+
+            // xóa cache liên quan
             $this->base_model->dcache($this->option_model->key_cache('list_config'));
             $this->base_model->dcache($this->option_model->key_cache(ConfigType::ZALO));
 
-            // đi tới bảng điều khiển admin nếu admin là người update
-            if ($by_admin !== false) {
-                die(header('Location: ' . base_url('admin/zalooas') . '?support_tab=data_zalooa_access_token', TRUE));
-            }
+            // sau đó nạp lại
+            $this->zalooa_config = $this->obj_config(ConfigType::ZALO);
+
+            //
+            return true;
         }
+        return false;
     }
 
     /**
@@ -373,7 +400,7 @@ class Zaloa extends Option
     * Gửi ZNS
     * https://developers.zalo.me/docs/api/zalo-notification-service-api/gui-thong-bao-zns/gui-thong-bao-zns-post-5208
     */
-    public function sendZns($phone, $template_id, $template_data, $custom_data = [])
+    public function sendZns($phone, $template_id, $template_data, $custom_data = [], $reset_token = true)
     {
         if (empty($this->zalooa_config->zalooa_access_token)) {
             return 'zalooa_access_token EMPTY';
@@ -423,6 +450,15 @@ class Zaloa extends Option
         //echo $response;
         $response = json_decode($response);
         //print_r($response);
+
+        // nếu có lỗi -> xem nếu là lỗi hết hạn token thì thực hiện update access token từ refresh token
+        if ($reset_token === true && isset($response->error) && $response->error < 0) {
+            $result = $this->zaloRefreshToken(true);
+            // nếu quá trình update token thành công
+            if ($result !== false && isset($result->access_token)) {
+                return $this->sendZns($phone, $template_id, $template_data, $custom_data, false);
+            }
+        }
 
         //
         return $response;

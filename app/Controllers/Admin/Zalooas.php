@@ -33,7 +33,7 @@ class Zalooas extends Configs
         if (empty($this->zalooa_config->zns_phone_for_test)) {
             $this->result_json_type([
                 'code' => __LINE__,
-                'error' => 'Please enter phone number for test: ' . base_url('admin/configs') . '?support_tab=data_phone',
+                'error' => 'Please enter phone number for test: ' . base_url('admin/zalooas') . '?support_tab=data_zns_phone_for_test',
             ]);
         }
 
@@ -41,6 +41,7 @@ class Zalooas extends Configs
         $this->result_json_type([
             'code' => __LINE__,
             'phone' => $this->zalooa_config->zns_phone_for_test,
+            'back' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '',
             'result' => $this->zaloa_model->sendOtpZns($this->zalooa_config->zns_phone_for_test, rand(1000, 9999), [
                 'mode' => 'development',
             ]),
@@ -54,5 +55,23 @@ class Zalooas extends Configs
     {
         //print_r($_GET);
         $this->MY_redirect($this->zaloa_model->zaloAccessToken(base_url('zalos/get_access_token')));
+    }
+
+    /**
+     * Cập nhật lại zalo access token bằng refresh token
+     **/
+    public function refresh_access_token()
+    {
+        $result = $this->zaloa_model->zaloRefreshToken();
+        // nếu quá trình update token thành công
+        if ($result !== false && isset($result->access_token)) {
+            $this->MY_redirect(base_url('admin/zalooas') . '?support_tab=data_zns_phone_for_test');
+        }
+
+        //
+        $this->result_json_type([
+            'code' => __LINE__,
+            'result' => $result,
+        ]);
     }
 }

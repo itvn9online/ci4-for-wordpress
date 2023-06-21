@@ -72,7 +72,6 @@ class Zalos extends Guest
         //die(__CLASS__ . ':' . __LINE__);
         $this->result_json_type([
             'code' => __LINE__,
-            //'app_id' => $this->zalooa_config->zalooa_app_id,
             'result' => $response,
         ]);
     }

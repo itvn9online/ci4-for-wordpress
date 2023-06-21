@@ -250,7 +250,8 @@ class ConfigType
                 'zalooa_app_secret' => 'App secret',
                 'zalooa_access_token' => 'Access token',
                 'zalooa_refresh_token' => 'Refresh token',
-                'zalooa_template_otp_id' => 'ID mẫu ZNS (OTP)',
+                'zalooa_expires_token' => 'Thời hạn của access token',
+                'zalooa_template_otp_id' => 'ID mẫu OTP ZNS',
                 'zns_phone_for_test' => 'Số điện thoại test ZNS',
             ];
         } else if ($config_type == self::CHECKBOX) {
@@ -483,6 +484,7 @@ class ConfigType
             //
             'zalooa_access_token' => 'textarea',
             'zalooa_refresh_token' => 'textarea',
+            'zalooa_expires_token' => 'number',
         ];
         //print_r( $arr );
         if (isset($arr[$key])) {
@@ -543,7 +545,8 @@ class ConfigType
             'zalooa_app_id' => 'ID của ứng dụng trên Zalo, tạo và lấy tại đây: https://developers.zalo.me/apps * Xem tài liệu code tại đây: https://github.com/zaloplatform/zalo-php-sdk',
             'zalooa_app_secret' => 'Secret của ứng dụng trên Zalo (thường dùng cho chức năng đăng nhập qua Zalo). <br> * Trong phần cài đặt của chức năng Đăng nhập Zalo https://developers.zalo.me/app/YOUR_ZALO_APP_ID/login thiết lập như sau: <br> - Home URL là: ' . base_url() . ' <br> - Callback URL là: ' . base_url('zalos/dang_nhap') . ' <br> * Sau khi cập nhật đầy đủ thì có thể test code tại đây: ' . base_url('zalos/login_url'),
             'zalooa_access_token' => 'Access token dùng để gửi tin nhắn qua ZNS, lấy Access token bằng công cụ API explorer tại đây: https://developers.zalo.me/tools/explorer/YOUR_ZALO_APP_ID <br> * Loại Access token: OA Access Token <br> - Trong Official Account -> Thiết lập chung -> https://developers.zalo.me/app/YOUR_ZALO_APP_ID/oa/settings <br> - Thiết lập Official Account Callback Url là: ' . base_url('zalos/get_access_token') . ' <br> * URL update Access Token tự động: ' . base_url('admin/zalooas/before_zns'),
-            'zalooa_refresh_token' => 'Mỗi access token được tạo sẽ có một refresh token đi kèm. Refresh token cho phép bạn tạo lại access token mới khi access token hiện tại hết hiệu lực. <br> * Refresh token chỉ có thể sử dụng 1 lần. <br> * Xem hướng dẫn tạo access token mới từ refresh token tại đây: https://developers.zalo.me/docs/api/official-account-api/xac-thuc-va-uy-quyen/cach-1-xac-thuc-voi-giao-thuc-oauth/lay-access-token-tu-refresh-token-post-4970 . <br> * Hiệu lực: 3 tháng',
+            'zalooa_refresh_token' => 'Mỗi access token được tạo sẽ có một refresh token đi kèm. Refresh token cho phép bạn tạo lại access token mới khi access token hiện tại hết hiệu lực. <br> * Refresh token chỉ có thể sử dụng 1 lần. <br> * Xem hướng dẫn tạo access token mới từ refresh token tại đây: https://developers.zalo.me/docs/api/official-account-api/xac-thuc-va-uy-quyen/cach-1-xac-thuc-voi-giao-thuc-oauth/lay-access-token-tu-refresh-token-post-4970 . <br> * Hiệu lực: 3 tháng <br> * Nếu có Refresh token, có thể cập nhật lại Access token luôn tại đây: ' . base_url('admin/zalooas/refresh_access_token'),
+            'zalooa_expires_token' => 'Khi access token hết hạn thì mà có refresh token thì 1 access token mới sẽ được cập nhật tự động <br> * Quản lý tài khoản ZNS: https://account.zalo.cloud/',
             'zalooa_template_otp_id' => 'ID mẫu tin nhắn gửi qua ZNS, xem hướng dẫn tạo mẫu template tại đây: https://zalo.cloud/blog/huong-dan-tao-ung-dung-app-id-va-lien-ket-voi-zalo-oa-/kgua7vnkkvbyy88rma ',
             'zns_phone_for_test' => 'Số điện thoại dùng để test chức năng gửi tin nhắn qua Zalo ZNS. <br> Gửi thử tin nhắn ZNS OTP tại đây: ' . base_url('admin/zalooas/send_test_otp_zns'),
             //
