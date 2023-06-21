@@ -16,33 +16,101 @@ class Zalos extends Guest
         $this->zaloa_model = new \App\Models\Zaloa();
     }
 
-    /*
-    * chức năng đăng nhập qua zalo
-    * https://developers.zalo.me/docs/api/social-api/tham-khao/user-access-token-post-4316
-    */
+    /**
+     * chức năng đăng nhập qua zalo OA
+     * https://developers.zalo.me/docs/api/social-api/tham-khao/user-access-token-post-4316
+     **/
     public function login_url()
     {
-        $this->MY_redirect($this->zaloa_model->zaloOaAccessToken(base_url('zalos/dang_nhap')));
+        // xác định URL trả về sau khi hoàn tất quá trình kết nối
+        $redirect_uri = $this->MY_post('redirect_uri', $this->MY_get('redirect_uri'));
+        if (empty($redirect_uri)) {
+            $redirect_uri = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+            if (!empty($redirect_uri) && strpos($redirect_uri, base_url()) === false) {
+                $redirect_uri = '';
+            }
+        }
+
+        // lưu cache URL redirect để lát còn redirect tới sau khi kết nối xong
+        if (!empty($redirect_uri)) {
+            $this->oa_redirect($redirect_uri);
+        }
+
+        //
+        $this->MY_redirect($this->zaloa_model->zaloOaAccessToken(base_url('zalos/oa_connect')));
     }
-    public function dang_nhap()
+    /**
+     * chỉ đơn giản là móc nối tới login_url -> oa_permission -> thể hiện ý nghĩa là xin cấp quyền kết nối zalo OA
+     **/
+    public function oa_permission()
     {
+        return $this->login_url();
+    }
+    public function oa_connect()
+    {
+        //
+        //$redirect_url = base_url();
+        $redirect_url = $this->oa_redirect();
+
+        //
         $accessToken = $this->zaloa_model->zaloOaAfterAccessToken();
         if ($accessToken === false) {
+            if (!empty($redirect_url)) {
+                $this->MY_redirect($redirect_url);
+            }
+
+            //
             $this->result_json_type([
                 'code' => __LINE__,
                 'error' => 'Zalo Access Token is EMPTY!',
+                'url' => $redirect_url,
             ]);
+
+            //
             return false;
         }
 
         //
         $result = $this->zaloa_model->getZaloIdName($accessToken);
         //$this->result_json_type($result);
+        //die(__CLASS__ . ':' . __LINE__);
 
         //
         if (isset($result['error'])) {
+            // không có lỗi lầm gì
             if ($result['error'] == '0' || $result['error'] == 0) {
-                $this->result_json_type($result);
+                // nếu người dùng đã đăng nhập
+                if ($this->current_user_id > 0 && isset($result['id'])) {
+                    // cập nhật thông tin cho người dùng
+                    $this->user_model->update_member($this->current_user_id, [
+                        'zalo_oa_id' => $result['id'],
+                        'zalo_oa_data' => json_encode($result),
+                    ]);
+
+                    //
+                    //$this->result_json_type($this->session_data);
+                    //die($result['picture']['data']['url']);
+                    if ($this->session_data['avatar'] == '' && isset($result['picture']) && isset($result['picture']['data']) && isset($result['picture']['data']['url'])) {
+                        $this->user_model->update_member($this->current_user_id, [
+                            'avatar' => $result['picture']['data']['url'],
+                        ]);
+                    }
+                }
+
+                //
+                if (!empty($redirect_url)) {
+                    $this->MY_redirect($redirect_url);
+                }
+
+                // in ra mảng json để TEST
+                $this->result_json_type([
+                    'code' => __LINE__,
+                    'url' => $redirect_url,
+                    'result' => $result
+                ]);
+
+                // trả về dữ liệu
+                return $result;
             } else {
                 $this->result_json_type([
                     'code' => __LINE__,
@@ -55,6 +123,17 @@ class Zalos extends Guest
                 'error' => 'Result parameter mismatched!',
             ]);
         }
+        return false;
+    }
+    /**
+     * lưu cache URL redirect để lát còn redirect tới sau khi kết nối xong
+     **/
+    protected function oa_redirect($uri = '')
+    {
+        if (!empty($uri)) {
+            return $this->base_model->scache(__FUNCTION__ . session_id(), $uri, 3600);
+        }
+        return $this->base_model->scache(__FUNCTION__ . session_id());
     }
 
     /*

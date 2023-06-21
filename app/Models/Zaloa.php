@@ -18,39 +18,8 @@
 
 namespace App\Models;
 
-// chạy vòng lặp nạp thư viện của Zalo -> nạp chính xác từng bước nếu không sẽ lỗi class
-foreach ([
-    'ZaloEndPoint.php',
-    'Authentication/ZaloToken.php',
-    'Exceptions/ZaloSDKException.php',
-    'Exceptions/ZaloOAException.php',
-    'Exceptions/ZaloResponseException.php',
-    'ZaloResponse.php',
-    'Http/GraphRawResponse.php',
-    'Http/RequestBodyInterface.php',
-    'Http/RequestBodyUrlEncoded.php',
-    'Url/ZaloUrlManipulator.php',
-    'ZaloRequest.php',
-    'Authentication/OAuth2Client.php',
-    'Authentication/ZaloRedirectLoginHelper.php',
-    'Url/UrlDetectionInterface.php',
-    'Url/ZaloUrlDetectionHandler.php',
-    'ZaloApp.php',
-    'HttpClients/ZaloCurl.php',
-    'HttpClients/ZaloHttpClientInterface.php',
-    'HttpClients/ZaloCurlHttpClient.php',
-    'HttpClients/HttpClientsFactory.php',
-    'ZaloClient.php',
-    'Zalo.php',
-] as $v) {
-    $f = APPPATH . 'ThirdParty/zalo-php-sdk/src/' . $v;
-    if (!file_exists($f)) {
-        ob_end_flush();
-        //echo $f . '<br>' . PHP_EOL;
-        die('File not found: ' . $v);
-    }
-    require_once $f;
-}
+// sử dụng composer để tải zalo-php-sdk về, sau đó lấy code và up lên host
+require_once APPPATH . 'ThirdParty/zalo-php-sdk/autoload.php';
 
 //
 use Zalo\Zalo;
@@ -77,20 +46,13 @@ class Zaloa extends Option
         //die(__CLASS__ . ':' . __LINE__);
     }
 
+    /**
+     * Chức năng này vừa kiểm tra thông số của zalo OA vừa nạp zalo code
+     **/
     protected function loadConfig()
     {
         if ($this->zalo === NULL) {
-            if (empty($this->zalooa_config->zalooa_app_id)) {
-                $this->base_model->result_json_type([
-                    'code' => __LINE__,
-                    'error' => 'Zalo OA app ID is EMPTY!',
-                ]);
-            } else if (empty($this->zalooa_config->zalooa_app_secret)) {
-                $this->base_model->result_json_type([
-                    'code' => __LINE__,
-                    'error' => 'Zalo OA app secret is EMPTY!',
-                ]);
-            }
+            $this->checkZaloOaConfig(__FUNCTION__);
 
             //
             $this->zalo = new Zalo([
@@ -98,6 +60,26 @@ class Zaloa extends Option
                 'app_secret' => $this->zalooa_config->zalooa_app_secret
             ]);
             $this->helper = $this->zalo->getRedirectLoginHelper();
+        }
+    }
+
+    /**
+     * Chức năng này sẽ kiểm tra thông số của zalo OA
+     **/
+    protected function checkZaloOaConfig($fname = '')
+    {
+        if (empty($this->zalooa_config->zalooa_app_id)) {
+            $this->base_model->result_json_type([
+                'code' => __LINE__,
+                'error' => 'Zalo OA app ID is EMPTY!',
+                'function' => $fname,
+            ]);
+        } else if (empty($this->zalooa_config->zalooa_app_secret)) {
+            $this->base_model->result_json_type([
+                'code' => __LINE__,
+                'error' => 'Zalo OA app secret is EMPTY!',
+                'function' => $fname,
+            ]);
         }
     }
 
@@ -143,6 +125,14 @@ class Zaloa extends Option
     // lấy access token sau khi request xong
     public function zaloOaAfterAccessToken()
     {
+        // TEST
+        //$this->base_model->result_json_type($_GET);
+
+        // nếu có lỗi -> người dùng có thể đã bấm từ chối
+        if (isset($_GET['error'])) {
+            return false;
+        }
+
         //
         ob_end_flush();
 
@@ -178,18 +168,7 @@ class Zaloa extends Option
         //$this->base_model->result_json_type([$this->cache_challenge()]);
 
         //
-        if (empty($this->zalooa_config->zalooa_app_id)) {
-            $this->base_model->result_json_type([
-                'code' => __LINE__,
-                'error' => 'Zalo App ID EMPTY',
-            ]);
-        }
-        if (empty($this->zalooa_config->zalooa_app_secret)) {
-            $this->base_model->result_json_type([
-                'code' => __LINE__,
-                'error' => 'Zalo App Secret EMPTY',
-            ]);
-        }
+        $this->checkZaloOaConfig(__FUNCTION__);
 
         //
         $data = [
@@ -260,8 +239,7 @@ class Zaloa extends Option
                 'code' => __LINE__,
                 'error' => 'Zalo App ID EMPTY',
             ]);
-        }
-        if (empty($this->zalooa_config->zalooa_app_secret)) {
+        } else if (empty($this->zalooa_config->zalooa_app_secret)) {
             if ($return_false !== false) {
                 return false;
             }
@@ -269,8 +247,7 @@ class Zaloa extends Option
                 'code' => __LINE__,
                 'error' => 'Zalo App Secret EMPTY',
             ]);
-        }
-        if (empty($this->zalooa_config->zalooa_refresh_token)) {
+        } else if (empty($this->zalooa_config->zalooa_refresh_token)) {
             if ($return_false !== false) {
                 return false;
             }
@@ -417,7 +394,7 @@ class Zaloa extends Option
             'phone' => $phone,
             'template_id' => $template_id,
             'template_data' => $template_data,
-            'tracking_id' => session_id(),
+            'tracking_id' => session_id() . time(),
         ];
         foreach ($custom_data as $k => $v) {
             $data[$k] = $v;
@@ -521,9 +498,36 @@ class Zaloa extends Option
     public function getZaloIdName($accessToken)
     {
         $params = ['fields' => 'id,name,picture'];
+        $this->loadConfig();
         $response = $this->zalo->get(\Zalo\ZaloEndPoint::API_GRAPH_ME, $accessToken, $params);
         $result = $response->getDecodedBody(); // result
         //print_r($result);
+        return $result;
+    }
+
+    /**
+     * Chức năng gửi tin nhắn thông qua Zalo OA
+     * https://github.com/zaloplatform/zalo-php-sdk
+     **/
+    public function sendOaText($oa_id, $content, $btn = [])
+    {
+        //die(\Zalo\ZaloEndPoint::API_OA_SEND_CONSULTATION_MESSAGE_V3);
+        //die($this->zalooa_config->zalooa_access_token);
+
+        // build data
+        $msgBuilder = new \Zalo\Builder\MessageBuilder(\Zalo\Builder\MessageBuilder::MSG_TYPE_TXT);
+        $msgBuilder->withUserId($oa_id);
+        $msgBuilder->withText($content);
+
+        //
+        $msgText = $msgBuilder->build();
+
+        // send request
+        $this->loadConfig();
+        $response = $this->zalo->post(\Zalo\ZaloEndPoint::API_OA_SEND_CONSULTATION_MESSAGE_V3, $this->zalooa_config->zalooa_access_token, $msgText);
+        $result = $response->getDecodedBody();
+
+        //
         return $result;
     }
 }

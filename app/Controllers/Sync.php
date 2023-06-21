@@ -288,6 +288,8 @@ class Sync extends BaseController
                 'avatar' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Ảnh đại diện\'',
                 'firebase_uid' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'User ID khi đăng nhập qua firebase\'',
                 'user_fund' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Số dư tài khoản\'',
+                'zalo_oa_id' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'ID của người dùng trên Zalo OA\'',
+                'zalo_oa_data' => 'TEXT NULL COMMENT \'Dữ liệu của người dùng được trả về khi kết nối với Zalo OA\'',
             ],
             $prefix . 'posts' => [
                 'post_shorttitle' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Tên rút gọn của post\'',

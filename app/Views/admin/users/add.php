@@ -151,6 +151,13 @@ $base_model->adds_css([
                             <p class="controls-text-note">Khi người dùng đăng nhập qua Firebase sẽ có thông số này (đã được mã hóa). Nếu nó không khớp với phiên đăng nhập của người dùng thì phiên sẽ bị từ chối. Để reset phiên cho người dùng thì cần xóa trắng dữ liệu ở đây đi và cập nhật lại.</p>
                         </div>
                     </div>
+                    <div class="control-group">
+                        <label class="control-label">Zalo OA uid</label>
+                        <div class="controls">
+                            <input type="text" class="span4 graycolor" placeholder="Zalo OA uid" name="data[zalo_oa_id]" id="data_zalo_oa_id" value="<?php echo $data['zalo_oa_id']; ?>" />
+                            <p class="controls-text-note">Khi người dùng đăng nhập qua Zalo OA sẽ có thông số này. Thông số này có thể được thiết lập cho nhiều tài khoản khác nhau vì mục đích chính của nó là để gửi tin nhắn thông báo nên không cần thiết lập kiểu dữ liệu duy nhất.</p>
+                        </div>
+                    </div>
                     <div class="end-user-add"></div>
                     <?php
                     if ($data['ci_pass'] != '') {

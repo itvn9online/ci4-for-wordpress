@@ -5,9 +5,14 @@ $(document).ready(function () {
 
 	// các dữ liệu không khuyến khích sửa
 	$("#data_zalooa_access_token, #data_zalooa_refresh_token")
+		.addClass("graycolor")
 		.attr({
 			readonly: "readonly",
-			title: "Bấm đúp chuột để cập nhật dữ liệu này",
+			title:
+				"Dữ liệu này không khuyến khích thay đổi thủ công! Nếu bạn vẫn muốn tiếp tục, hãy bấm đúp chuột để cập nhật dữ liệu này...",
+		})
+		.click(function () {
+			WGR_alert($(this).attr("title"), "warning");
 		})
 		.dblclick(function () {
 			$(this).removeAttr("readonly");
@@ -18,4 +23,15 @@ $(document).ready(function () {
 		disabled: "disabled",
 		readonly: "readonly",
 	});
+
+	//
+	var a = $("#data_zalooa_expires_token").val() || "";
+	if (a != "") {
+		a *= 1000;
+		if (!isNaN(a)) {
+			var tzoffset = new Date().getTimezoneOffset() * 60000; // offset in milliseconds
+			a = new Date(a - tzoffset).toISOString().split(".")[0].replace("T", " ");
+			$("#data_zalooa_expires_token").after(" " + a);
+		}
+	}
 });

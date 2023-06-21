@@ -33,7 +33,8 @@ class Zalooas extends Configs
         if (empty($this->zalooa_config->zns_phone_for_test)) {
             $this->result_json_type([
                 'code' => __LINE__,
-                'error' => 'Please enter phone number for test: ' . base_url('admin/zalooas') . '?support_tab=data_zns_phone_for_test',
+                'error' => 'Please enter phone number for test',
+                'url' => base_url('admin/zalooas') . '?support_tab=data_zns_phone_for_test',
             ]);
         }
 
@@ -45,6 +46,34 @@ class Zalooas extends Configs
             'result' => $this->zaloa_model->sendOtpZns($this->zalooa_config->zns_phone_for_test, rand(1000, 9999), [
                 'mode' => 'development',
             ]),
+        ]);
+    }
+
+    /**
+     * Gửi tin nhắn thông qua Zalo OA
+     **/
+    public function send_test_msg_oa()
+    {
+        //$this->result_json_type($this->session_data);
+        if (empty($this->session_data['zalo_oa_id'])) {
+            $this->result_json_type([
+                'code' => __LINE__,
+                'error' => 'Tài khoản của bạn chưa được kết nối với Zalo OA, vui lòng kết nối trước khi tiếp tục',
+                'url' => base_url('zalos/login_url'),
+            ]);
+        }
+
+        //
+        $this->result_json_type([
+            'code' => __LINE__,
+            'zalo_oa_id' => $this->session_data['zalo_oa_id'],
+            'back' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '',
+            'result' => $this->zaloa_model->sendOaText($this->session_data['zalo_oa_id'], implode(PHP_EOL, [
+                'Đây là đài phát thanh Việt Nam!',
+                'Phát đi từ Hà Nội, thủ đô nước cộng hòa xã hội chủ nghĩa Việt Nam.',
+                'Bây giờ là: ' . date('r') . '.',
+                base_url(),
+            ])),
         ]);
     }
 
