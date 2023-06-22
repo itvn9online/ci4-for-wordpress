@@ -432,6 +432,9 @@ class Zaloa extends Option
         //print_r($response);
 
         //
+        $this->oaLogs($response);
+
+        //
         return $response;
     }
 
@@ -526,6 +529,20 @@ class Zaloa extends Option
         $result = $response->getDecodedBody();
 
         //
+        $this->oaLogs($result);
+
+        //
         return $result;
+    }
+
+    /**
+     * lưu trữ log mỗi lần gửi tin qua OA để tiện theo dõi
+     **/
+    protected function oaLogs($response)
+    {
+        $f = WRITEPATH . 'logs/zalo-oa-' . date('Y-m-d') . '.txt';
+        if (file_put_contents($f, json_encode($response) . PHP_EOL, FILE_APPEND)) {
+            chmod($f, DEFAULT_FILE_PERMISSION);
+        }
     }
 }
