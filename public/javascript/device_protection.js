@@ -35,7 +35,7 @@ var timeout_device_protection = 30;
 			//data: data,
 			timeout: 33 * 1000,
 			error: function (jqXHR, textStatus, errorThrown) {
-				jQueryAjaxError(jqXHR, textStatus, errorThrown);
+				jQueryAjaxError(jqXHR, textStatus, errorThrown, new Error().stack);
 			},
 			success: function (data) {
 				if (WGR_check_option_on(WGR_config.cf_tester_mode)) console.log(data);

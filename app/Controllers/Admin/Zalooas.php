@@ -69,9 +69,11 @@ class Zalooas extends Configs
             'zalo_oa_id' => $this->session_data['zalo_oa_id'],
             'back' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '',
             'result' => $this->zaloa_model->sendOaText($this->session_data['zalo_oa_id'], implode(PHP_EOL, [
-                'Đây là đài phát thanh Việt Nam!',
+                'Đây là đài tiếng nói Việt Nam!',
                 'Phát đi từ Hà Nội, thủ đô nước cộng hòa xã hội chủ nghĩa Việt Nam.',
                 'Bây giờ là: ' . date('r') . '.',
+                'IP: ' . $this->request->getIPAddress(),
+                'Agent: ' . $_SERVER['HTTP_USER_AGENT'],
                 base_url(),
             ])),
         ]);

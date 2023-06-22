@@ -7,12 +7,14 @@ function done_unzip_system() {
 }
 
 //
-var current_full_domain = sessionStorage.getItem("WGR-current-full-domain");
+var current_full_domain = localStorage.getItem("WGR-current-full-domain");
 var current_protocol = web_link;
 var current_www = web_link;
 if (current_full_domain !== null) {
-	current_protocol = current_full_domain;
-	current_www = current_full_domain;
+	current_full_domain = JSON.parse(current_full_domain);
+	console.log("current full domain:", current_full_domain);
+	current_protocol = current_full_domain.http_response;
+	current_www = current_full_domain.http_response;
 }
 
 //
@@ -76,8 +78,19 @@ vue_data.warning_ci_version = function (a, b) {
 //
 WGR_vuejs("#app", vue_data);
 
+//
+function dashboard_current_timestamp() {
+	var currentDate = new Date();
+	var timestamp = currentDate.getTime();
+	return Math.ceil(timestamp / 1000);
+}
+
 // cập nhật full URL nếu chưa có
-if (current_full_domain === null) {
+if (
+	current_full_domain === null ||
+	current_full_domain.expires_in == "undefined" ||
+	current_full_domain.expires_in < dashboard_current_timestamp()
+) {
 	jQuery.ajax({
 		type: "GET",
 		// lấy base URL từ link http thường (không phải https) -> để xem nó có redirect về https không
@@ -87,13 +100,14 @@ if (current_full_domain === null) {
 		//data: data,
 		timeout: 33 * 1000,
 		error: function (jqXHR, textStatus, errorThrown) {
-			jQueryAjaxError(jqXHR, textStatus, errorThrown);
+			jQueryAjaxError(jqXHR, textStatus, errorThrown, new Error().stack);
 		},
 		success: function (data) {
+			data.expires_in = dashboard_current_timestamp() + 24 * 3600;
 			console.log(data);
 
 			//
-			sessionStorage.setItem("WGR-current-full-domain", data.http_response);
+			localStorage.setItem("WGR-current-full-domain", JSON.stringify(data));
 		},
 	});
 }

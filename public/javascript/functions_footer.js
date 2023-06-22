@@ -59,7 +59,7 @@ function sync_ajax_post_term() {
 		//data: data,
 		timeout: 33 * 1000,
 		error: function (jqXHR, textStatus, errorThrown) {
-			jQueryAjaxError(jqXHR, textStatus, errorThrown);
+			jQueryAjaxError(jqXHR, textStatus, errorThrown, new Error().stack);
 		},
 		success: function (data) {
 			if (WGR_config.cf_tester_mode > 0) console.log(data);

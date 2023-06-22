@@ -216,7 +216,7 @@ function action_signInSuccessWithAuthResult(successfully) {
 					data: data,
 					timeout: 33 * 1000,
 					error: function (jqXHR, textStatus, errorThrown) {
-						jQueryAjaxError(jqXHR, textStatus, errorThrown);
+						jQueryAjaxError(jqXHR, textStatus, errorThrown, new Error().stack);
 					},
 					success: function (data) {
 						//console.log(data);
@@ -325,7 +325,7 @@ function action_signInSuccessWithIdToken(idToken, successfully) {
 		data: data,
 		timeout: 33 * 1000,
 		error: function (jqXHR, textStatus, errorThrown) {
-			jQueryAjaxError(jqXHR, textStatus, errorThrown);
+			jQueryAjaxError(jqXHR, textStatus, errorThrown, new Error().stack);
 		},
 		success: function (data) {
 			//console.log(data);

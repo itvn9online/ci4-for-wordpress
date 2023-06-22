@@ -159,7 +159,7 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
 				WGR_alert("ERROR uploading... Please re-check!", "error");
 
 				//
-				jQueryAjaxError(jqXHR, textStatus, errorThrown);
+				jQueryAjaxError(jqXHR, textStatus, errorThrown, new Error().stack);
 
 				// nếu có function báo lỗi quá trình upload thì báo ở đây
 				if (typeof __errorCallBack == "function") {

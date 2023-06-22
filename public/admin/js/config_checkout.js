@@ -195,7 +195,7 @@ $(document).ready(function () {
 		//crossDomain: true,
 		timeout: 33 * 1000,
 		error: function (jqXHR, textStatus, errorThrown) {
-			jQueryAjaxError(jqXHR, textStatus, errorThrown);
+			jQueryAjaxError(jqXHR, textStatus, errorThrown, new Error().stack);
 		},
 		success: function (data) {
 			console.log(data);

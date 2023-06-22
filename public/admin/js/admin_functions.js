@@ -859,7 +859,7 @@ function load_term_select_option(a, jd, _callBack, max_i) {
 		},
 		timeout: 33 * 1000,
 		error: function (jqXHR, textStatus, errorThrown) {
-			jQueryAjaxError(jqXHR, textStatus, errorThrown);
+			jQueryAjaxError(jqXHR, textStatus, errorThrown, new Error().stack);
 		},
 		success: function (data) {
 			//console.log(data);
@@ -1141,7 +1141,7 @@ function action_each_to_email() {
 		},
 		timeout: 33 * 1000,
 		error: function (jqXHR, textStatus, errorThrown) {
-			jQueryAjaxError(jqXHR, textStatus, errorThrown);
+			jQueryAjaxError(jqXHR, textStatus, errorThrown, new Error().stack);
 		},
 		success: function (data) {
 			//console.log(data);

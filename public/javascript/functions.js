@@ -561,7 +561,7 @@ function WGR_duy_tri_dang_nhap(max_i) {
 		//data: data,
 		timeout: 33 * 1000,
 		error: function (jqXHR, textStatus, errorThrown) {
-			jQueryAjaxError(jqXHR, textStatus, errorThrown);
+			jQueryAjaxError(jqXHR, textStatus, errorThrown, new Error().stack);
 		},
 		success: function (data) {
 			console.log(data);
@@ -715,7 +715,7 @@ function action_each_to_taxonomy() {
 		},
 		timeout: 33 * 1000,
 		error: function (jqXHR, textStatus, errorThrown) {
-			jQueryAjaxError(jqXHR, textStatus, errorThrown);
+			jQueryAjaxError(jqXHR, textStatus, errorThrown, new Error().stack);
 		},
 		success: function (data) {
 			if (WGR_config.cf_tester_mode > 0) console.log(data);
@@ -1156,7 +1156,10 @@ function WGR_get_params(param) {
 	return a === null ? "" : a;
 }
 
-function jQueryAjaxError(jqXHR, textStatus, errorThrown) {
+function jQueryAjaxError(jqXHR, textStatus, errorThrown, errorStack) {
+	if (typeof errorStack != "undefined") {
+		console.log(errorStack);
+	}
 	console.log(jqXHR);
 	if (typeof jqXHR.responseText != "undefined") {
 		console.log(jqXHR.responseText);

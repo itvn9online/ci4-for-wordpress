@@ -76,7 +76,7 @@ class Optimize extends Admin
         return view('admin/admin_teamplate', $this->teamplate_admin);
     }
 
-    protected function beforce_compress_css_js()
+    protected function before_compress_css_js()
     {
         if ($this->base_model->scache(__FUNCTION__) !== NULL) {
             //die(__CLASS__ . ':' . __LINE__);

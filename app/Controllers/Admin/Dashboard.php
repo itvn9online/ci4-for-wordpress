@@ -74,14 +74,20 @@ class Dashboard extends Optimize
 
     public function index()
     {
+        // TEST thời gian chạy module -> host dùng ftp chạy có vẻ lâu
+        //$begin_t = time();
+
         echo '<!-- ' . "\n";
         $this->vendor_sync();
+        //echo 'begin t: ' . (time() - $begin_t) . PHP_EOL;
         //$this->unzip_ci4_for_wordpress();
-        $this->cleanup_old_cache(24 * 3600);
+        //$this->cleanup_old_cache(24 * 3600);
+        //echo 'begin t: ' . (time() - $begin_t) . PHP_EOL;
         echo ' -->';
 
         //
         $this->auto_create_htaccess_deny();
+        //echo 'begin t: ' . (time() - $begin_t) . PHP_EOL;
 
         //
         $current_dbname = \Config\Database::connect()->database;
@@ -89,7 +95,7 @@ class Dashboard extends Optimize
         //
         $last_enabled_debug = 0;
         // tự động tắt chế độ debug sau 7 ngày
-        $auto_disable_debug = WEEK;
+        //$auto_disable_debug = WEEK;
         // tự động tắt chế độ debug sau 4 giờ
         $auto_disable_debug = 4 * 3600;
         if (file_exists($this->f_env)) {
@@ -102,6 +108,7 @@ class Dashboard extends Optimize
                 $this->action_disable_env($this->f_env, $this->f_backup_env);
             }
         }
+        //echo 'begin t: ' . (time() - $begin_t) . PHP_EOL;
 
         // Nếu chế độ không phải là đang chạy chính thức
         /*
@@ -117,7 +124,8 @@ class Dashboard extends Optimize
         */
 
         // optimize code
-        $this->beforce_compress_css_js();
+        $this->before_compress_css_js();
+        //echo 'begin t: ' . (time() - $begin_t) . PHP_EOL;
 
         //
         $client_ip = $this->request->getIPAddress();
@@ -143,6 +151,8 @@ class Dashboard extends Optimize
                 $robots_exist = 2;
             }
         }
+        //echo 'begin t: ' . (time() - $begin_t) . PHP_EOL;
+        //die(__CLASS__ . ':' . __LINE__);
 
         //
         //print_r( $_SERVER );

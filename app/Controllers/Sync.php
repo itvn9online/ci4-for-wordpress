@@ -498,6 +498,9 @@ class Sync extends BaseController
             unlink($path);
         } else {
             $upload_via_ftp = true;
+
+            // daidq (2023-06-22): tạm thời không sync thông qua ftp
+            //return false;
         }
         //var_dump( $upload_via_ftp );
         //die( __CLASS__ . ':' . __LINE__ );
@@ -510,10 +513,17 @@ class Sync extends BaseController
             //echo PUBLIC_HTML_PATH . $dir . '<br>' . "\n";
             //die( __CLASS__ . ':' . __LINE__ );
 
-            // chuyển thư mục về 777 để có thể unzip
-            $file_model = new \App\Models\File();
-            if (!$file_model->ftp_my_chmod(PUBLIC_HTML_PATH . $dir, DEFAULT_DIR_PERMISSION)) {
-                die(__CLASS__ . ':' . __LINE__);
+            // test quyền đọc ghi trong thư mục này để xem có thể giải nén được không
+            $path = PUBLIC_HTML_PATH . $dir . '/test_permission.txt';
+            if (@file_put_contents($path, time())) {
+                chmod($path, DEFAULT_FILE_PERMISSION);
+                unlink($path);
+            } else {
+                // chuyển thư mục về 777 để có thể unzip
+                $file_model = new \App\Models\File();
+                if (!$file_model->ftp_my_chmod(PUBLIC_HTML_PATH . $dir, DEFAULT_DIR_PERMISSION)) {
+                    die(__CLASS__ . ':' . __LINE__);
+                }
             }
         }
         //die( __CLASS__ . ':' . __LINE__ );

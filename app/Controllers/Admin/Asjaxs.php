@@ -30,8 +30,7 @@ class Asjaxs extends Admin
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'GET',
             CURLOPT_HTTPHEADER => array(
-                //'Cookie: PHPSESSID=' . $session_id
-                'Cookie: PHPSESSID=' . session_id()
+                'Cookie: PHPSESSID=' . $session_id
             ),
         ));
         $http_response = curl_exec($curl);
