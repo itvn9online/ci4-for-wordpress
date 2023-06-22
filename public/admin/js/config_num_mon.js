@@ -12,5 +12,5 @@ function convert_option_number(obj) {
 
 //
 console.log("%c Chạy vòng lặp thay thế text cho label", "color: green;");
-action_trans_label(arr_meta_default);
-action_trans_label(arr_trans_label);
+//action_trans_label(arr_meta_default);
+//action_trans_label(arr_trans_label);

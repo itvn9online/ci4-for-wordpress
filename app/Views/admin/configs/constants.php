@@ -161,7 +161,12 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
 <?php
 
 //
-$base_model->add_js('admin/js/config_function.js');
+$base_model->adds_js(
+    [
+        'admin/js/config_function.js',
+        'admin/js/config_options_translate.js',
+    ]
+);
 
 //
 $base_model->adds_js(

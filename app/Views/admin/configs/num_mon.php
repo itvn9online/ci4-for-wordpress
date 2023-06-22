@@ -107,13 +107,17 @@ $base_model->JSON_parse(
 );
 
 //
-$base_model->add_js('admin/js/config_function.js');
+$base_model->adds_js(
+    [
+        'admin/js/config_function.js',
+        'admin/js/config_options_translate.js',
+    ]
+);
 
 //
 $base_model->adds_js(
     [
         'admin/js/config.js',
-        'admin/js/config_options_translate.js',
         'admin/js/config_' . $config_type . '.js',
     ],
     [

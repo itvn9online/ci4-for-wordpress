@@ -212,7 +212,12 @@ $base_model->JSON_echo([
 ]);
 
 //
-$base_model->add_js('admin/js/config_function.js');
+$base_model->adds_js(
+    [
+        'admin/js/config_function.js',
+        'admin/js/config_options_translate.js',
+    ]
+);
 
 //
 $base_model->adds_js(
@@ -231,6 +236,7 @@ $base_model->adds_js(
 //
 $base_model->JSON_parse(
     [
+        'arr_trans_label' => TRANS_TRANS_LABEL,
         'checkout_config' => $checkout_config,
         'vue_data' => $vue_data,
     ]

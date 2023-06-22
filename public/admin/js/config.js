@@ -97,3 +97,15 @@ $(".auto-reset-site-color").each(function () {
 
 //
 url_for_text_note();
+
+//
+$(document).ready(function () {
+	if (typeof action_trans_label == "function") {
+		if (typeof arr_meta_default != "undefined") {
+			action_trans_label(arr_meta_default);
+		}
+		if (typeof arr_trans_label != "undefined") {
+			action_trans_label(arr_trans_label);
+		}
+	}
+});

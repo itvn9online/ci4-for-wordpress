@@ -25,6 +25,14 @@ $(document).ready(function () {
 	});
 
 	//
+	$("#data_zalooa_webhook")
+		.attr({
+			readonly: "readonly",
+			ondblclick: "click2Copy(this);",
+		})
+		.val(web_link + "zalos/webhook");
+
+	//
 	var a = $("#data_zalooa_expires_token").val() || "";
 	if (a != "") {
 		a *= 1000;

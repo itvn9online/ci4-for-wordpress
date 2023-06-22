@@ -157,9 +157,19 @@ class Zalos extends Guest
 
     /**
      * Webhook lưu lại các sự kiện mà người dùng thực thi với OA -> xác định thời gian tương tác cuối -> dùng để gửi thông báo qua OA
+     * https://developers.zalo.me/docs/api/official-account-api/webhook/gioi-thieu-ve-webhook-post-4219
      **/
     public function webhook()
     {
+        // URL này chỉ nhận method post
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            $this->result_json_type([
+                'code' => __LINE__,
+                'error' => 'data type ERROR',
+            ]);
+        }
+
+        //
         $data_input = file_get_contents('php://input');
         if (empty($data_input)) {
             $this->result_json_type([
@@ -169,14 +179,18 @@ class Zalos extends Guest
         }
 
         //
-        $f = WRITEPATH . '___zalo_oa_webhook-' . date('Y-m-d') . '.txt';
+        $f = WRITEPATH . 'logs/zalo-oa-webhook-' . date('Y-m-d') . '.txt';
         file_put_contents($f, $data_input . PHP_EOL, FILE_APPEND);
         chmod($f, DEFAULT_FILE_PERMISSION);
 
         //
+        //$data_obj = json_decode($data_input);
+
+        //
         $this->result_json_type([
             'code' => __LINE__,
-            'data' => $data_input,
+            //'data' => $data_input,
+            'ok' => __LINE__,
         ]);
     }
 }
