@@ -339,6 +339,81 @@ $(document)
 
 		//
 		WGR_nofollow();
+
+		// tạo menu phụ trợ để tìm kiếm cho tiện
+		$("#admin_menu_result").html($("#sidebar").html());
+		// không dùng sub-menu -> do khi tìm sub-menu thì parent-menu có thể vẫn đang bị display none
+		$("#admin_menu_result .sub-menu").each(function () {
+			// chuyển các li ra ngang hàng với menu cha
+			$(this).parent().after($(this).html());
+			// xóa sub-menu
+			$(this).remove();
+		});
+		// xóa bỏ các thuộc tính không cần thiết
+		$("#admin_menu_result ul, #admin_menu_result li")
+			.removeAttr("class")
+			.removeAttr("style");
+		// xóa bỏ icon
+		$("#admin_menu_result i").remove();
+		// tạo key tìm kiếm cho li
+		$("#admin_menu_result a").each(function () {
+			var a = $(this).attr("href") || "";
+			a += $(this).html();
+			//console.log(a);
+			a = g_func.non_mark_seo(a).replace(/\-/g, "");
+			//console.log(a);
+
+			//
+			$(this).parent().attr({ "data-key": a });
+		});
+
+		// khi người dùng gõ tìm kiếm
+		$("#admin_menu_search")
+			.focus(function (e) {
+				$(".admin-menu-result").show();
+			})
+			.focusout(function (e) {
+				setTimeout(function () {
+					$(".admin-menu-result").hide();
+				}, 300);
+			})
+			.keyup(function (e) {
+				//console.log(e.keyCode);
+				var k = $(this).val();
+				$(".admin-menu-key").text(k);
+				k = g_func.non_mark_seo(k).replace(/\-/g, "");
+				//console.log(k);
+
+				//
+				if (k.length > 2) {
+					$(".admin-menu-result").addClass("actived");
+					var has_menu = false;
+					$("#admin_menu_result li")
+						.removeAttr("data-show")
+						.each(function () {
+							var a = $(this).attr("data-key") || "";
+							if (a != "" && a.split(k).length > 1) {
+								//$(this).show();
+								$(this).attr({ "data-show": "1" });
+								has_menu = true;
+							}
+						});
+
+					//
+					if (has_menu === false) {
+						$(".admin-menu-result").addClass("noned");
+						//$(".admin-menu-none").show();
+						$(".admin-menu-header").hide();
+					} else {
+						$(".admin-menu-result").removeClass("noned");
+						//$(".admin-menu-none").hide();
+						$(".admin-menu-header").show();
+					}
+				} else {
+					$(".admin-menu-result").removeClass("actived").removeClass("noned");
+					$(".admin-menu-header").hide();
+				}
+			});
 	})
 	.keydown(function (e) {
 		//console.log(e.keyCode);

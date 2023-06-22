@@ -188,7 +188,7 @@ if ($debug_enable === true) {
 <body class="is-admin <?php echo $body_class; ?>">
     <!--Header-part-->
     <div id="admin-header" class="cf whitecolor awhitecolor">
-        <div class="lf f50">
+        <div class="lf f33">
             <div class="d-inline"><a href="./<?php echo CUSTOM_ADMIN_URI; ?>"><i class="fa fa-cog"></i> <?php $lang_model->the_text('admin_quan_tri_he_thong', 'Quản trị hệ thống'); ?></a></div>
             &nbsp; | &nbsp;
             <div class="d-inline"><a href="./"><i class="fa fa-home"></i> <?php $lang_model->the_text('admin_ve_trang_chu', 'Về trang chủ'); ?></a></div>
@@ -198,7 +198,19 @@ if ($debug_enable === true) {
                 </select>
             </div>
         </div>
-        <div class="lf f50 text-right"><?php $lang_model->the_text('admin_xin_chao', 'Xin chào'); ?>: <a title="<?php $lang_model->the_text('admin_thong_tin_ca_nhan', 'Thông tin cá nhân'); ?>" href="./users/profile">
+        <div class="lf f33">
+            <div class="admin-menu-search text-center">
+                <input type="search" id="admin_menu_search" placeholder="Search for post, product, menu, user..." />
+            </div>
+            <div class="admin-menu-result">
+                <div class="admin-menu-padding">
+                    <div class="admin-menu-header">View search result menu for "<strong class="admin-menu-key"></strong>"</div>
+                    <div id="admin_menu_result"></div>
+                    <div class="admin-menu-none">No result for "<strong class="admin-menu-key"></strong>"</div>
+                </div>
+            </div>
+        </div>
+        <div class="lf f33 text-right"><?php $lang_model->the_text('admin_xin_chao', 'Xin chào'); ?>: <a title="<?php $lang_model->the_text('admin_thong_tin_ca_nhan', 'Thông tin cá nhân'); ?>" href="./users/profile">
                 <?php
                 echo ($session_data['display_name'] != '' ? $session_data['display_name'] : $session_data['user_login']);
                 ?>
