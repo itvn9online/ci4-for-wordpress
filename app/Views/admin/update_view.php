@@ -138,6 +138,35 @@ if ($app_deleted_exist === true) {
     }
     ?>
 </ol>
+<div class="medium">
+    <p class="bold redcolor">* Lưu ý! Đối với các thirdparty dùng mã nguồn PHP, ưu tiên sử dụng composer để download và update code. Code lúc nạp sẽ nạp file autoload.php có được sau khi composer</p>
+    <p class="bold">Cài đặt composer cho Window:</p>
+    <ol>
+        <li>Download và cài đặt composer cho window: https://getcomposer.org/download/</li>
+        <li>Cài đặt xampp nếu chưa có: https://www.apachefriends.org/download.html</li>
+        <li>Chỉnh biến môi trường cho php
+            <blockquote>Add <strong>C:\xampp\php</strong> to your PATH environment variable.(My Computer->properties -> Advanced system setting -> Environment Variables ->path (click on edit))</blockquote>
+        </li>
+        <li>Tham khảo: https://stackoverflow.com/questions/31291317/php-is-not-recognized-as-an-internal-or-external-command-in-command-prompt</li>
+        <li>Mở 1 terminal mới với quyền administrator</li>
+        <li>Tạo thư mục để code composer sẽ tập trung trong này:
+            <blockquote>mkdir composer</blockquote>
+            <blockquote>cd composer</blockquote>
+        </li>
+        <li>Chạy lệnh composer code được cung cấp bởi tác giả.</li>
+    </ol>
+    <p class="bold">Cài đặt composer cho Linux/ Ubuntu:</p>
+    <ol>
+        <li>Nếu chưa cài đặt composer thì vào đây để xem hướng dẫn cài đặt</li>
+        <li>https://phoenixnap.com/kb/how-to-install-and-use-php-composer-on-centos-7</li>
+        <li>Chạy các lệnh sau để tạo thư mục composer riêng:
+            <blockquote>cd ~</blockquote>
+            <blockquote>mkdir -p /root/composer</blockquote>
+            <blockquote>cd /root/composer</blockquote>
+        </li>
+        <li>Chạy lệnh composer code được cung cấp bởi tác giả.</li>
+    </ol>
+</div>
 <!-- -->
 <script>
     var themeName = '<?php echo THEMENAME; ?>'

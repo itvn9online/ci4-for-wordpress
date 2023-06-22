@@ -34,10 +34,10 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                     <div class="lf f50">
                         <div class="bold s15">
                             <?php
-                            echo file_get_contents(APPPATH . 'ThirdParty/PHPMailer/VERSION', 1);
+                            echo file_get_contents(APPPATH . 'ThirdParty/PHPMailer/phpmailer/phpmailer/VERSION', 1);
                             ?>
                         </div>
-                        <p class="controls-text-note">Kiểm tra và tải phiên bản mới nhất tại đây: https://github.com/PHPMailer/PHPMailer/releases</p>
+                        <p class="controls-text-note">Kiểm tra và tải phiên bản mới nhất tại đây: https://github.com/PHPMailer/PHPMailer</p>
                     </div>
                 </div>
             <?php

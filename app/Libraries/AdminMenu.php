@@ -246,6 +246,7 @@ class AdminMenu
                     ],
                     'admin/smtps' => [
                         'name' => ConfigType::typeList(ConfigType::SMTP),
+                        'tag' => 'PHPMailer',
                         'icon' => 'fa fa-envelope',
                     ],
                     'admin/checkouts' => [

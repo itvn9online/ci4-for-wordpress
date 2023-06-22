@@ -384,7 +384,7 @@ class Configs extends Admin
             'message' => implode(
                 '<br>',
                 [
-                    'PHPMailer version: ' . file_get_contents(APPPATH . 'ThirdParty/PHPMailer/VERSION', 1),
+                    'PHPMailer version: ' . file_get_contents(APPPATH . 'ThirdParty/PHPMailer/phpmailer/phpmailer/VERSION', 1),
                     'Domain: ' . $_SERVER['HTTP_HOST'],
                     'Request: ' . $_SERVER['REQUEST_URI'],
                     'Method: ' . $_SERVER['REQUEST_METHOD'],
@@ -410,7 +410,7 @@ class Configs extends Admin
         //die( __CLASS__ . ':' . __LINE__ );
 
         //
-        echo 'PHPMailer version: ' . file_get_contents(APPPATH . 'ThirdParty/PHPMailer/VERSION', 1) . '<br>' . "\n";
+        echo 'PHPMailer version: ' . file_get_contents(APPPATH . 'ThirdParty/PHPMailer/phpmailer/phpmailer/VERSION', 1) . '<br>' . "\n";
         echo 'Username/ Email: ' . $smtp_config->smtp_host_user . '<br>' . "\n";
         echo 'Password: ' . substr($smtp_config->smtp_host_pass, 0, 6) . '******<br>' . "\n";
         echo 'Hostname: ' . $smtp_config->smtp_host_name . '<br>' . "\n";

@@ -2,6 +2,9 @@
 
 namespace App\Libraries;
 
+//
+require_once APPPATH . 'ThirdParty/PHPMailer/autoload.php';
+
 //use PHPMailer\PHPMailer\PHPMailer;
 //use PHPMailer\PHPMailer\Exception;
 
@@ -14,9 +17,9 @@ class PHPMaillerSend
     public static function get_the_send($data, $cog = [], $debug = 0, $resend = true)
     {
         //echo APPPATH . '<br>' . "\n";
-        require_once APPPATH . 'ThirdParty/PHPMailer/src/Exception.php';
-        require_once APPPATH . 'ThirdParty/PHPMailer/src/PHPMailer.php';
-        require_once APPPATH . 'ThirdParty/PHPMailer/src/SMTP.php';
+        //require_once APPPATH . 'ThirdParty/PHPMailer/src/Exception.php';
+        //require_once APPPATH . 'ThirdParty/PHPMailer/src/PHPMailer.php';
+        //require_once APPPATH . 'ThirdParty/PHPMailer/src/SMTP.php';
 
         //print_r( $data );
         //print_r( $cog );
