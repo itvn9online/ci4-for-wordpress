@@ -142,17 +142,17 @@ class Terms extends Admin
             if ($totalPage < 1) {
                 $totalPage = 1;
             }
-            //echo $totalPage . '<br>' . "\n";
+            //echo $totalPage . '<br>' . PHP_EOL;
             if ($page_num > $totalPage) {
                 $page_num = $totalPage;
             } else if ($page_num < 1) {
                 $page_num = 1;
             }
             $for_action .= $page_num > 1 ? '&page_num=' . $page_num : '';
-            //echo $totalThread . '<br>' . "\n";
-            //echo $totalPage . '<br>' . "\n";
+            //echo $totalThread . '<br>' . PHP_EOL;
+            //echo $totalPage . '<br>' . PHP_EOL;
             $offset = ($page_num - 1) * $post_per_page;
-            //echo $offset . '<br>' . "\n";
+            //echo $offset . '<br>' . PHP_EOL;
             //die( __CLASS__ . ':' . __LINE__ );
 
             //
@@ -180,7 +180,7 @@ class Terms extends Admin
 
             //
             $data = $this->term_treeview_data($data);
-            //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+            //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
         } else {
             $data = [];
             $pagination = '';
@@ -557,7 +557,7 @@ class Terms extends Admin
         }
 
         //
-        $term_name = explode("\n", $data['term_name']);
+        $term_name = explode(PHP_EOL, $data['term_name']);
         foreach ($term_name as $v) {
             $v = trim($v);
             if (empty($v)) {
@@ -590,7 +590,7 @@ class Terms extends Admin
 
         // dọn dẹp cache liên quan đến post này -> reset cache
         $this->cleanup_cache($this->term_model->key_cache($id));
-        //echo $this->taxonomy . '<br>' . "\n";
+        //echo $this->taxonomy . '<br>' . PHP_EOL;
         // xóa cache cho riêng phần ads
         if ($this->taxonomy == TaxonomyType::ADS) {
             // dọn dẹp theo slug truyền vào

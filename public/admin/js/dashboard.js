@@ -111,3 +111,8 @@ if (
 		},
 	});
 }
+
+//
+$(document).ready(function () {
+	$("#admin_menu_search").focus();
+});

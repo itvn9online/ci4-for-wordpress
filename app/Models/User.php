@@ -74,10 +74,10 @@ class User extends UserMeta
 
         //
         if (!isset($data['user_login']) || $data['user_login'] == '') {
-            //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
-            //echo $data[ 'user_email' ] . '<br>' . "\n";
+            //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            //echo $data[ 'user_email' ] . '<br>' . PHP_EOL;
             $data['user_login'] = $this->generate_user_login($data['user_email']);
-            //echo $data[ 'user_login' ] . '<br>' . "\n";
+            //echo $data[ 'user_login' ] . '<br>' . PHP_EOL;
             // tự động tạo user login thì sẽ tiến hành thêm số vào sau
             $data['user_login'] = $this->check_user_login_exist($data['user_login']);
         } else {

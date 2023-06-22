@@ -26,7 +26,7 @@ class Base extends Csdl
         //print_r( $ops );
         $f = str_replace(PUBLIC_PUBLIC_PATH, '', $f);
         $f = ltrim($f, '/');
-        //echo $f . '<br>' . "\n";
+        //echo $f . '<br>' . PHP_EOL;
 
         if (!file_exists(PUBLIC_PUBLIC_PATH . $f)) {
             return '<!-- ' . $f . ' not exist! -->';
@@ -86,7 +86,7 @@ class Base extends Csdl
         //print_r( $ops );
         $f = str_replace(PUBLIC_PUBLIC_PATH, '', $f);
         $f = ltrim($f, '/');
-        //echo $f . '<br>' . "\n";
+        //echo $f . '<br>' . PHP_EOL;
         if (!file_exists(PUBLIC_PUBLIC_PATH . $f)) {
             return '<!-- ' . $f . ' not exist! -->';
         }
@@ -279,9 +279,9 @@ class Base extends Csdl
     // trả về nội dung HTML mẫu
     public function get_html_tmp($file_name, $path = '', $sub_path = 'html/', $file_type = '.html')
     {
-        //echo PUBLIC_HTML_PATH . '<br>' . "\n";
-        //echo APPPATH . '<br>' . "\n";
-        //echo PUBLIC_HTML_PATH . APPPATH . '<br>' . "\n";
+        //echo PUBLIC_HTML_PATH . '<br>' . PHP_EOL;
+        //echo APPPATH . '<br>' . PHP_EOL;
+        //echo PUBLIC_HTML_PATH . APPPATH . '<br>' . PHP_EOL;
 
         // nếu path được chỉ định -> dùng path
         if ($path != '') {
@@ -402,7 +402,7 @@ class Base extends Csdl
                 return [];
             }
         }
-        //echo $dir . '*' . $file_type . '<br>' . "\n";
+        //echo $dir . '*' . $file_type . '<br>' . PHP_EOL;
 
         // lấy danh sách file
         if ($file_type != '') {
@@ -565,7 +565,7 @@ class Base extends Csdl
         // bỏ mảng cuối cùng
         $str = explode(' ', $str);
         $count_str = count($str);
-        //echo $count_str . "\n";
+        //echo $count_str . PHP_EOL;
         //print_r($str);
         unset($str[$count_str - 1]);
         if ($add_more == true) {

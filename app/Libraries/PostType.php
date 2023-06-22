@@ -75,7 +75,7 @@ class PostType
 
     public static function typeList($key = '')
     {
-        //echo $key . '<br>' . "\n";
+        //echo $key . '<br>' . PHP_EOL;
         if ($key == '') {
             return self::$arr;
         }

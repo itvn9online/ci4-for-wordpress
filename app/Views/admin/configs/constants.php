@@ -45,8 +45,8 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
 
                 //
                 $input_type = ConfigType::meta_type($k);
-                //echo $k . '<br>' . "\n";
-                //echo $input_type . '<br>' . "\n";
+                //echo $k . '<br>' . PHP_EOL;
+                //echo $input_type . '<br>' . PHP_EOL;
 
                 //
                 if ($input_type == 'heading') {

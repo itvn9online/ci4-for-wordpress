@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 //
@@ -44,7 +45,8 @@ class UserBase extends EbModel
 
         //
         $data = $this->base_model->select(
-            '*', $this->table,
+            '*',
+            $this->table,
             [
                 // các kiểu điều kiện where
                 // kiểm tra user login đã được sử dụng rồi hay chưa thì không cần kiểm tra trạng thái XÓA -> vì có thể user này đã bị xóa vĩnh viễn
@@ -77,7 +79,8 @@ class UserBase extends EbModel
     {
         // lấy dữ liệu trong db
         $check_exist = $this->base_model->select(
-            'ID', $this->table,
+            'ID',
+            $this->table,
             array(
                 // các kiểu điều kiện where
                 'ID !=' => $id,
@@ -163,7 +166,8 @@ class UserBase extends EbModel
 
         // select dữ liệu từ 1 bảng bất kỳ
         $sql = $this->base_model->select(
-            'ID', $this->table,
+            'ID',
+            $this->table,
             array(
                 // các kiểu điều kiện where
                 // kiểm tra email đã được sử dụng rồi hay chưa thì không cần kiểm tra trạng thái XÓA -> vì có thể user này đã bị xóa vĩnh viễn
@@ -231,7 +235,7 @@ class UserBase extends EbModel
     // cache cho phần user -> gán key theo mẫu thống nhất để sau còn xóa cache cho dễ
     public function the_cache($id, $key, $value = '', $time = MEDIUM_CACHE_TIMEOUT)
     {
-        //echo $this->key_cache( $id ) . $key . '<br>' . "\n";
+        //echo $this->key_cache( $id ) . $key . '<br>' . PHP_EOL;
         return $this->base_model->scache($this->key_cache($id) . $key, $value, $time);
     }
 }

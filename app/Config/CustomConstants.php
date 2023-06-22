@@ -14,7 +14,7 @@
  * Các tham số khác, rất ít khi thay đổi
  */
 define('PUBLIC_HTML_PATH', ROOTPATH);
-//echo PUBLIC_HTML_PATH . '<br>' . "\n";
+//echo PUBLIC_HTML_PATH . '<br>' . PHP_EOL;
 define('PUBLIC_PUBLIC_PATH', PUBLIC_HTML_PATH . 'public/');
 //die( PUBLIC_PUBLIC_PATH );
 
@@ -70,7 +70,7 @@ function register_post_type($name, $ops = [])
 // xác định theme tự động
 foreach (glob(PUBLIC_PUBLIC_PATH . 'themes/*.actived-theme') as $filename) {
     $filename = basename($filename, '.actived-theme');
-    //echo $filename . '<br>' . "\n";
+    //echo $filename . '<br>' . PHP_EOL;
     if (is_dir(PUBLIC_PUBLIC_PATH . 'themes/' . $filename)) {
         define('THEMENAME', $filename);
         break;
@@ -79,7 +79,7 @@ foreach (glob(PUBLIC_PUBLIC_PATH . 'themes/*.actived-theme') as $filename) {
 
 // nếu không có file active theme tự động -> gán mặc định theme echbayfour
 defined('THEMENAME') || define('THEMENAME', 'echbayfour');
-//echo THEMENAME . '<br>' . "\n";
+//echo THEMENAME . '<br>' . PHP_EOL;
 
 
 //

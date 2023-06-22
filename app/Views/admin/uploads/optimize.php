@@ -29,7 +29,7 @@ $max_size_img = 0;
 //
 if (class_exists('Imagick')) {
 ?>
-<p class="medium grrencolor"><strong>Imagick</strong> enable</p>
+    <p class="medium grrencolor"><strong>Imagick</strong> enable</p>
 <?php
 }
 
@@ -53,9 +53,9 @@ foreach ($data as $k => $v) {
     $file_path = PUBLIC_PUBLIC_PATH . $uri . $attachment_metadata['file'];
     $file_size = filesize($file_path);
     if ($file_size < $max_quality_img) {
-        echo $file_path . ' (' . ceil($file_size / 1000) . ')<br>' . "\n";
+        echo $file_path . ' (' . ceil($file_size / 1000) . ')<br>' . PHP_EOL;
         $img_src = str_replace(PUBLIC_PUBLIC_PATH, '', $file_path);
-        echo '<a href="' . $img_src . '" target="_blank" class="bluecolor">' . $img_src . ' (' . ceil($file_size / 1000) . ')</a> <br>' . "\n";
+        echo '<a href="' . $img_src . '" target="_blank" class="bluecolor">' . $img_src . ' (' . ceil($file_size / 1000) . ')</a> <br>' . PHP_EOL;
 
         //
         continue;
@@ -82,18 +82,18 @@ foreach ($data as $k => $v) {
 
     //
     //print_r( $attachment_metadata );
-    //echo $file_size . '<br>' . "\n";
-    //echo $file_path . '<br>' . "\n";
-    //echo $uri . $attachment_metadata[ 'file' ] . '<br>' . "\n";
+    //echo $file_size . '<br>' . PHP_EOL;
+    //echo $file_path . '<br>' . PHP_EOL;
+    //echo $uri . $attachment_metadata[ 'file' ] . '<br>' . PHP_EOL;
 
     //
     $dir_path = dirname($file_path) . '/';
-    //echo $dir_path . '<br>' . "\n";
+    //echo $dir_path . '<br>' . PHP_EOL;
 
     //
     $dst_file = $file_path;
     //$dst_file = $dir_path . '___' . basename( $file_path );
-    echo $dst_file . ' (' . ceil($file_size / 1000) . ')<br>' . "\n";
+    echo $dst_file . ' (' . ceil($file_size / 1000) . ')<br>' . PHP_EOL;
 
     // -> optimize
     MyImage::quality($file_path, $dst_file, $attachment_metadata['width'], $attachment_metadata['height']);
@@ -101,7 +101,7 @@ foreach ($data as $k => $v) {
     //
     $img_src = str_replace(PUBLIC_PUBLIC_PATH, '', $dst_file);
     clearstatcache();
-    echo '<a href="' . $img_src . '" target="_blank" class="greencolor">' . $img_src . ' (' . ceil(filesize($dst_file) / 1000) . ')</a> <br>' . "\n";
+    echo '<a href="' . $img_src . '" target="_blank" class="greencolor">' . $img_src . ' (' . ceil(filesize($dst_file) / 1000) . ')</a> <br>' . PHP_EOL;
 
     // bắt đầu resize
     foreach ($attachment_metadata['sizes'] as $k2 => $v2) {
@@ -117,12 +117,12 @@ foreach ($data as $k => $v) {
         if ($file2_size < $max_quality_img) {
             continue;
         }
-        //echo $file2_path . '<br>' . "\n";
+        //echo $file2_path . '<br>' . PHP_EOL;
 
         //
         $dst_file = $file2_path;
         //$dst_file = $dir_path . '______' . basename( $file2_path ); // TEST
-        echo $dst_file . ' (' . ceil($file2_size / 1000) . ')<br>' . "\n";
+        echo $dst_file . ' (' . ceil($file2_size / 1000) . ')<br>' . PHP_EOL;
 
         // -> optimize
         MyImage::quality($file2_path, $dst_file, $v2['width'], $v2['height']);
@@ -130,7 +130,7 @@ foreach ($data as $k => $v) {
         //
         $img_src = str_replace(PUBLIC_PUBLIC_PATH, '', $dst_file);
         clearstatcache();
-        echo '<a href="' . $img_src . '" target="_blank" class="greencolor">' . $img_src . ' (' . ceil(filesize($dst_file) / 1000) . ')</a> <br>' . "\n";
+        echo '<a href="' . $img_src . '" target="_blank" class="greencolor">' . $img_src . ' (' . ceil(filesize($dst_file) / 1000) . ')</a> <br>' . PHP_EOL;
     }
 }
 

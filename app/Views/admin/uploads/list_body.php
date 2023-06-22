@@ -16,7 +16,7 @@ foreach ($data as $k => $v) {
     $data_width = '';
     $data_height = '';
     $src = $upload_model->get_thumbnail($v);
-    //echo 'src: ' . $src . '<br>' . "\n";
+    //echo 'src: ' . $src . '<br>' . PHP_EOL;
     //continue;
 
     // với định dạng khác -> chưa xử lý
@@ -58,7 +58,7 @@ foreach ($data as $k => $v) {
 
             //
             foreach ($attachment_metadata['sizes'] as $k_sizes => $sizes) {
-                //echo $k_sizes . '<br>' . "\n";
+                //echo $k_sizes . '<br>' . PHP_EOL;
                 //print_r( $sizes );
                 //continue;
 

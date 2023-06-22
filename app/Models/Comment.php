@@ -22,7 +22,7 @@ class Comment extends EbModel
         if (!isset($data['comment_title']) || $data['comment_title'] == '') {
             if (isset($data['comment_content']) && $data['comment_content'] != '') {
                 $data['comment_title'] = strip_tags($data['comment_content']);
-                $data['comment_title'] = explode("\n", $data['comment_title']);
+                $data['comment_title'] = explode(PHP_EOL, $data['comment_title']);
                 $data['comment_title'] = trim($data['comment_title'][0]);
             }
         }

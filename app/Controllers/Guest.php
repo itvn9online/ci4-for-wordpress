@@ -35,12 +35,12 @@ class Guest extends Csrf
         $this->validation = \Config\Services::validation();
 
         //
-        //echo $_SERVER[ 'REQUEST_METHOD' ] . '<br>' . "\n";
+        //echo $_SERVER[ 'REQUEST_METHOD' ] . '<br>' . PHP_EOL;
         // quá trình submit bắt buộc phải có các tham số sau -> chống tắt javascript
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+            //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
             if (!isset($_POST['__wgr_request_from']) || !isset($_POST['__wgr_nonce'])) {
-                //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+                //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
                 // chuyển tham số này thành true -> dùng chung với captcha
                 $this->has_captcha = true;
             }
@@ -448,8 +448,8 @@ class Guest extends Csrf
                                 $link_reset_pass[] = $k . '=' . $v;
                             }
                             $link_reset_pass = base_url('guest/confirm_reset_password') . '?' . implode('&', $link_reset_pass);
-                            //echo $link_reset_pass . '<br>' . "\n";
-                            //echo base_url() . '<br>' . "\n";
+                            //echo $link_reset_pass . '<br>' . PHP_EOL;
+                            //echo base_url() . '<br>' . PHP_EOL;
 
 
                             // thiết lập thông tin người nhận
@@ -509,7 +509,7 @@ class Guest extends Csrf
 
     protected function guest_seo($name, $uri)
     {
-        //echo $uri . '<br>' . "\n";
+        //echo $uri . '<br>' . PHP_EOL;
         return $this->base_model->default_seo($name, $this->getClassName(__CLASS__) . '/' . $uri);
     }
 
@@ -621,7 +621,7 @@ class Guest extends Csrf
     private function change_random_password()
     {
         $random_password = substr($this->base_model->mdnam(time()), 0, 12);
-        //echo $random_password . '<br>' . "\n";
+        //echo $random_password . '<br>' . PHP_EOL;
 
         // thiết lập thông tin người nhận
         $data_send = [

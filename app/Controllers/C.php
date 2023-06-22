@@ -26,10 +26,10 @@ class C extends Home
             global $arr_custom_taxonomy;
             //print_r($arr_custom_taxonomy);
 
-            //echo $taxonomy_type . '<br>' . "\n";
-            //echo $id . '<br>' . "\n";
-            //echo $slug . '<br>' . "\n";
-            //echo $page_num . '<br>' . "\n";
+            //echo $taxonomy_type . '<br>' . PHP_EOL;
+            //echo $id . '<br>' . PHP_EOL;
+            //echo $slug . '<br>' . PHP_EOL;
+            //echo $page_num . '<br>' . PHP_EOL;
 
             // với custom taxonomy -> kiểm tra xem taxonomy này phải được đăng ký thì mới hiển thị ra
             if (!isset($arr_custom_taxonomy[$taxonomy_type])) {

@@ -39,7 +39,7 @@ class Session
     public function check_csrf()
     {
         $csrf_name = csrf_token();
-        //echo $csrf_name . '<br>' . "\n";
+        //echo $csrf_name . '<br>' . PHP_EOL;
         // nếu tồn tại hash
         if (isset($_REQUEST[$csrf_name])) {
             $hash = $this->MY_session($this->key_csrf_hash);

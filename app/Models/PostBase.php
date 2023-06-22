@@ -56,7 +56,7 @@ class PostBase extends EbModel
         //$structured_data = str_replace('{{primary_controller}}', $this->primary_controller, $structured_data);
 
         // tạo block html cho phần sản phẩm
-        //echo THEMEPATH . '<br>' . "\n";
+        //echo THEMEPATH . '<br>' . PHP_EOL;
         if ($this->product_html_node == '') {
             $this->product_html_node = $this->base_model->get_html_tmp('thread_node');
         }

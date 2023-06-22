@@ -22,7 +22,7 @@ class Installs extends Sync
         if (file_exists($f)) {
             $this->vendor_sync();
         } else {
-            echo 'WARNING! code #' . __LINE__ . '. sync file not found!<br>' . "\n";
+            echo 'WARNING! code #' . __LINE__ . '. sync file not found!<br>' . PHP_EOL;
         }
     }
 }

@@ -47,7 +47,7 @@ class MyImage
     public static function webpConvert($source, $desc = '', $quality = -1)
     {
         $source = explode('?', $source)[0];
-        //echo $source . '<br>' . "\n";
+        //echo $source . '<br>' . PHP_EOL;
         if (!file_exists($source)) {
             return '';
         }
@@ -56,7 +56,7 @@ class MyImage
         if ($desc == '') {
             $desc = $source . '.webp';
         }
-        //echo $desc . '<br>' . "\n";
+        //echo $desc . '<br>' . PHP_EOL;
 
         // nếu có rồi thì trả về luôn
         if (file_exists($desc)) {
@@ -65,7 +65,7 @@ class MyImage
 
         // nếu chưa có -> tạo thôi
         $file_ext = pathinfo($source, PATHINFO_EXTENSION);
-        //echo $file_ext . '<br>' . "\n";
+        //echo $file_ext . '<br>' . PHP_EOL;
 
         //
         // bắt đầu chuyển đổi sang webp
@@ -87,7 +87,7 @@ class MyImage
         if ($create_webp !== true) {
             return '';
         }
-        //echo 'Create webp<br>' . "\n";
+        //echo 'Create webp<br>' . PHP_EOL;
 
         //
         imagepalettetotruecolor($img);
@@ -99,7 +99,7 @@ class MyImage
 
         // kiểm tra lại xem có chưa
         if (file_exists($desc)) {
-            //echo $desc . '<br>' . "\n";
+            //echo $desc . '<br>' . PHP_EOL;
             return str_replace(PUBLIC_PUBLIC_PATH, '', $desc);
         }
 
@@ -148,7 +148,7 @@ class MyImage
             /*
              * https://phpimagick.com/Imagick/setCompressionQuality?quality=85&image_path=Lorikeet
              */
-            //echo 'Imagick - ' . $mime_type . ' - ' . IMAGETYPE_JPEG . ' - ' . $this->image_type . ' - ' . \Imagick::COMPRESSION_JPEG . ' <br>' . "\n";
+            //echo 'Imagick - ' . $mime_type . ' - ' . IMAGETYPE_JPEG . ' - ' . $this->image_type . ' - ' . \Imagick::COMPRESSION_JPEG . ' <br>' . PHP_EOL;
 
             //
             $image = new \Imagick($source);

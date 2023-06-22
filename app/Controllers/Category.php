@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 // Libraries
@@ -19,9 +20,9 @@ class Category extends Home
         if ($slug == '') {
             die('404 slug error!');
         }
-        //echo $slug . '<br>' . "\n";
-        //echo $set_page . '<br>' . "\n";
-        //echo $page_num . '<br>' . "\n";
+        //echo $slug . '<br>' . PHP_EOL;
+        //echo $set_page . '<br>' . PHP_EOL;
+        //echo $page_num . '<br>' . PHP_EOL;
 
         //
         $data = $this->term_model->get_taxonomy(array(

@@ -260,8 +260,8 @@ class ContactBase extends Home
 
             //
             if ($k != '' && !empty($v)) {
-                $data_insert['comment_content'] .= $k . ':' . "\n";
-                $data_insert['comment_content'] .= $v . "\n";
+                $data_insert['comment_content'] .= $k . ':' . PHP_EOL;
+                $data_insert['comment_content'] .= $v . PHP_EOL;
             }
         }
         //print_r( $data_insert );
@@ -271,10 +271,10 @@ class ContactBase extends Home
         $list_upload = $this->media_upload();
         //print_r( $list_upload );
         if (!empty($list_upload)) {
-            $data_insert['comment_content'] .= 'File đính kèm: ' . "\n";
+            $data_insert['comment_content'] .= 'File đính kèm: ' . PHP_EOL;
             foreach ($list_upload as $arr) {
                 foreach ($arr as $v) {
-                    $data_insert['comment_content'] .= DYNAMIC_BASE_URL . $v . "\n";
+                    $data_insert['comment_content'] .= DYNAMIC_BASE_URL . $v . PHP_EOL;
                 }
             }
         }

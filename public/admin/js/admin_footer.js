@@ -8,6 +8,9 @@ console.log(aaaaaaaa);
 */
 
 //
+var admin_menu_show = false;
+
+//
 (function (arr) {
 	var str = "";
 	var cl = "";
@@ -385,10 +388,12 @@ $(document)
 		// khi người dùng gõ tìm kiếm
 		$("#admin_menu_search")
 			.focus(function (e) {
+				admin_menu_show = true;
 				$(".admin-menu-result").show();
 			})
 			.focusout(function (e) {
 				setTimeout(function () {
+					admin_menu_show = false;
 					$(".admin-menu-result").hide();
 				}, 200);
 			})
@@ -401,6 +406,13 @@ $(document)
 
 				//
 				if (k.length > 2) {
+					// nếu autofocus được thiết lập thì dễ bị mất hiệu ứng focus -> đoạn này để định vị lại focus cho khung search
+					if (admin_menu_show === false) {
+						admin_menu_show = true;
+						$(".admin-menu-result").show();
+					}
+
+					//
 					$(".admin-menu-result").addClass("actived");
 					var has_menu = false;
 					$("#admin_menu_result li")

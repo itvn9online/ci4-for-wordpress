@@ -321,11 +321,11 @@ class Optimize extends Admin
         }
 
         //
-        $a = explode("\n", $str);
+        $a = explode(PHP_EOL, $str);
         if (count($a) < 10) {
             return false;
         }
-        //echo 'count a: ' . count( $a ) . '<br>' . "\n";
+        //echo 'count a: ' . count( $a ) . '<br>' . PHP_EOL;
         $str = '';
         foreach ($a as $v) {
             $v = trim($v);
@@ -417,7 +417,7 @@ class Optimize extends Admin
 
     private function WGR_remove_js_comment($a, $chim = false)
     {
-        $a = explode("\n", $a);
+        $a = explode(PHP_EOL, $a);
         if (count($a) < 10) {
             return false;
         }
@@ -430,7 +430,7 @@ class Optimize extends Admin
             } else {
                 // thêm dấu xuống dòng với 1 số trường hợp
                 if ($chim == true || strpos($v, '//') !== false || substr($v, -1) == '\\') {
-                    $v .= "\n";
+                    $v .= PHP_EOL;
                 }
                 $str .= $v;
             }
@@ -661,7 +661,7 @@ class Optimize extends Admin
 
     private function WGR_update_core_remove_html_comment($a)
     {
-        $a = explode("\n", $a);
+        $a = explode(PHP_EOL, $a);
 
         $str = '';
         foreach ($a as $v) {
@@ -671,16 +671,16 @@ class Optimize extends Admin
                 continue;
             }
             // loại bỏ các comment html đơn giản
-            //echo substr( $v, 0, 4 ) . '<br>' . "\n";
-            //echo substr( $v, -3 ) . '<br>' . "\n";
+            //echo substr( $v, 0, 4 ) . '<br>' . PHP_EOL;
+            //echo substr( $v, -3 ) . '<br>' . PHP_EOL;
             if (substr($v, 0, 4) == '<!--' && substr($v, -3) == '-->') {
                 continue;
             }
 
-            $str .= $v . "\n";
+            $str .= $v . PHP_EOL;
             /*
             if ( strpos( $v, '//' ) !== false ) {
-            $str .= "\n";
+            $str .= PHP_EOL;
             } else {
             $str .= ' ';
             }
@@ -694,7 +694,7 @@ class Optimize extends Admin
 
     private function WGR_update_core_remove_php_comment($a)
     {
-        $a = explode("\n", $a);
+        $a = explode(PHP_EOL, $a);
 
         $str = '';
         foreach ($a as $v) {
@@ -714,10 +714,10 @@ class Optimize extends Admin
             }
 
             //
-            $str .= $v . ' ' . "\n";
+            $str .= $v . ' ' . PHP_EOL;
             /*
             if ( strpos( $v, '//' ) !== false ) {
-            $str .= "\n";
+            $str .= PHP_EOL;
             } else {
             $str .= ' ';
             }
@@ -771,7 +771,7 @@ class Optimize extends Admin
         //
         $last_run = $this->base_model->scache(__FUNCTION__);
         if ($last_run !== NULL) {
-            echo __FUNCTION__ . ' RUN ' . ($current_time - $last_run) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+            echo __FUNCTION__ . ' RUN ' . ($current_time - $last_run) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
             return false;
         }
 
@@ -780,15 +780,15 @@ class Optimize extends Admin
             if ($time < MEDIUM_CACHE_TIMEOUT) {
                 $time = MEDIUM_CACHE_TIMEOUT;
             }
-            //echo $time . '<br>' . "\n";
+            //echo $time . '<br>' . PHP_EOL;
 
             //
             foreach (glob(WRITE_CACHE_PATH . '*') as $filename) {
-                //echo $filename . '<br>' . "\n";
+                //echo $filename . '<br>' . PHP_EOL;
 
                 // xem file được tạo lâu rồi thì xóa nó đi
                 if (is_file($filename) && $current_time - filemtime($filename) > $time) {
-                    //echo $filename . ' (' . date( 'r', filemtime( $filename ) ) . ')' . '<br>' . "\n";
+                    //echo $filename . ' (' . date( 'r', filemtime( $filename ) ) . ')' . '<br>' . PHP_EOL;
 
                     // không xóa được file thì break luôn -> file 0777 mà không xóa được 1 file thì các file khác cũng vậy
                     if (!$this->MY_unlink($filename)) {

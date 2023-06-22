@@ -61,14 +61,14 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
             //
             foreach ($trans_data as $k => $v) {
                 $lang_k = str_replace('lang_', '', $k);
-                //echo $lang_k . '<br>' . "\n";
+                //echo $lang_k . '<br>' . PHP_EOL;
                 if (isset($trans_custom_type[$k])) {
                     $input_type = ConfigType::meta_type($lang_k);
                 } else {
                     $input_type = 'textarea';
                 }
-                //echo $k . '<br>' . "\n";
-                //echo $input_type . '<br>' . "\n";
+                //echo $k . '<br>' . PHP_EOL;
+                //echo $input_type . '<br>' . PHP_EOL;
                 $non_html = strip_tags($v);
 
             ?>

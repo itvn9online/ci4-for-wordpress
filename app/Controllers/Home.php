@@ -50,7 +50,7 @@ class Home extends Posts
         if ($this->hasFlashSession() === false && $cache_value !== NULL) {
             return $this->show_cache($cache_value);
         }
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
         //
         //print_r( $this->getconfig );
@@ -106,8 +106,8 @@ class Home extends Posts
         if ($slug == '') {
             die('404 slug error!');
         }
-        //echo $set_page . ' <br>' . "\n";
-        //echo $page_num . ' <br>' . "\n";
+        //echo $set_page . ' <br>' . PHP_EOL;
+        //echo $page_num . ' <br>' . PHP_EOL;
 
         // -> kiểm tra theo category
         $data = $this->term_model->get_taxonomy(
@@ -136,7 +136,7 @@ class Home extends Posts
         }
         // -> nếu không có -> thử tìm theo trang
         else {
-            //echo 'check page <br>' . "\n";
+            //echo 'check page <br>' . PHP_EOL;
             $data = $this->post_model->select_public_post(0, [
                 'post_name' => $slug,
                 'post_type' => PostType::PAGE,
@@ -197,8 +197,8 @@ class Home extends Posts
     */
     protected function showPostDetails($id, $post_type = '', $slug = '')
     {
-        //echo $id . '<br>' . "\n";
-        //echo $post_type . '<br>' . "\n";
+        //echo $id . '<br>' . PHP_EOL;
+        //echo $post_type . '<br>' . PHP_EOL;
 
         //
         if (!is_numeric($id) || $id <= 0) {
@@ -207,7 +207,7 @@ class Home extends Posts
 
         //
         $cache_key = $this->post_model->key_cache($id);
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
         $cache_value = $this->MY_cache($cache_key);
         // Will get the cache entry named 'my_foo'
         //var_dump( $cache_value );
@@ -215,7 +215,7 @@ class Home extends Posts
         if ($cache_value !== NULL) {
             return $this->show_cache($cache_value);
         }
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
         //
         $in_cache = __FUNCTION__;
@@ -242,7 +242,7 @@ class Home extends Posts
                     'limit' => 1
                 )
             );
-            //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+            //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
             //die(__CLASS__ . ':' . __LINE__);
 
             //
@@ -262,7 +262,7 @@ class Home extends Posts
             //
             $this->post_model->the_cache($id, $in_cache, $data);
         }
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
         //print_r($data);
         //die(__CLASS__ . ':' . __LINE__);
 
@@ -298,7 +298,7 @@ class Home extends Posts
                 }
             }
         }
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
         //
         return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Không xác định được dữ liệu bài viết...');
@@ -457,15 +457,15 @@ class Home extends Posts
     protected function autoCategory()
     {
         $term_id = $this->MY_get('cat', 0);
-        //echo $term_id . '<br>' . "\n";
+        //echo $term_id . '<br>' . PHP_EOL;
 
         //
         $taxonomy_type = $this->MY_get('taxonomy', '');
-        //echo $taxonomy_type . '<br>' . "\n";
+        //echo $taxonomy_type . '<br>' . PHP_EOL;
 
         //
         $page_num = $this->MY_get('page_num', 1);
-        //echo $page_num . '<br>' . "\n";
+        //echo $page_num . '<br>' . PHP_EOL;
 
         //
         return $this->showCategory($term_id, $taxonomy_type, $page_num);
@@ -592,7 +592,7 @@ class Home extends Posts
             }
 
             //
-            //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+            //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
             // cập nhật lại tổng số bài viết cho term - để sau nếu có tính năng lấy theo nhóm thì nó sẽ không xuất hiện nữa
             $this->base_model->update_multiple($this->term_model->taxTable, [
                 'count' => 0

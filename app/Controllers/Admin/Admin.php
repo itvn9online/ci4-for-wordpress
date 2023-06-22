@@ -93,8 +93,8 @@ class Admin extends Ajaxs
 
     public function index()
     {
-        //echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . "\n";
-        echo 'Controller index not found! <br>' . "\n";
+        //echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . PHP_EOL;
+        echo 'Controller index not found! <br>' . PHP_EOL;
         die(__CLASS__ . ':' . __LINE__);
     }
 
@@ -102,9 +102,9 @@ class Admin extends Ajaxs
     protected function check_permision($role)
     {
         // role này chính là tên controller của admin -> kiểm tra xem có file này không
-        //echo $role . '<br>' . "\n";
+        //echo $role . '<br>' . PHP_EOL;
         $role = $this->get_class_name($role);
-        //echo $role . '<br>' . "\n";
+        //echo $role . '<br>' . PHP_EOL;
 
         //
         $this->body_class = strtolower($role);
@@ -122,7 +122,7 @@ class Admin extends Ajaxs
 
         //
         $check_file = __DIR__ . '/' . $role . '.php';
-        //echo $check_file . '<br>' . "\n";
+        //echo $check_file . '<br>' . PHP_EOL;
         // nếu không tồn tại -> báo lỗi luôn
         if (!file_exists($check_file)) {
             die('Role not found!');
@@ -130,7 +130,7 @@ class Admin extends Ajaxs
 
         // chuyển role về chữ thường
         $role = $this->body_class;
-        //echo $role . '<br>' . "\n";
+        //echo $role . '<br>' . PHP_EOL;
         if (!in_array($role, UsersType::role($session_data['member_type']))) {
             die('Permission ERROR!');
         }
@@ -242,8 +242,8 @@ class Admin extends Ajaxs
         foreach (glob(PUBLIC_HTML_PATH . '*') as $filename) {
             // chỉ kiểm tra đối với thư mục
             if (is_dir($filename)) {
-                //echo $filename . '<br>' . "\n";
-                //echo basename( $filename ) . '<br>' . "\n";
+                //echo $filename . '<br>' . PHP_EOL;
+                //echo basename( $filename ) . '<br>' . PHP_EOL;
                 $f = $filename . '/.htaccess';
 
                 // không xử lý file htaccess trong các thư mục được nêu tên
@@ -260,7 +260,7 @@ class Admin extends Ajaxs
                 if (file_exists($f)) {
                     continue;
                 }
-                //echo $f . '<br>' . "\n";
+                //echo $f . '<br>' . PHP_EOL;
 
                 //
                 $this->base_model->ftp_create_file(
@@ -295,7 +295,7 @@ class Admin extends Ajaxs
                 if ($has_cache === NULL) {
                     return false;
                 }
-                echo 'Using cache delete Matching `' . $for . '` --- Total clear: ' . $has_cache . '<br>' . "\n";
+                echo 'Using cache delete Matching `' . $for . '` --- Total clear: ' . $has_cache . '<br>' . PHP_EOL;
                 //var_dump( $has_cache );
                 //die( $for );
             }
@@ -309,7 +309,7 @@ class Admin extends Ajaxs
             // nếu lỗi -> thử phương thức xóa từng file
             if ($has_cache === false && MY_CACHE_HANDLER == 'file') {
                 foreach (glob(WRITE_CACHE_PATH . $for . '*') as $filename) {
-                    echo $filename . '<br>' . "\n";
+                    echo $filename . '<br>' . PHP_EOL;
                     $has_cache = true;
 
                     //

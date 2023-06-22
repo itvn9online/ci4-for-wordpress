@@ -17,19 +17,20 @@ class Casso
 
     protected static function pathTestLog()
     {
-        return PUBLIC_HTML_PATH . '___casso_test.txt';
+        return WRITEPATH . '___casso_test.txt';
     }
 
     protected static function testInput($v)
     {
         $f = self::pathTestLog();
 
-        file_put_contents($f, 'description: ' . $v->description . "\n", FILE_APPEND);
-        file_put_contents($f, 'amount: ' . $v->amount . "\n", FILE_APPEND);
-        file_put_contents($f, 'subAccId: ' . $v->subAccId . "\n", FILE_APPEND);
-        file_put_contents($f, 'bank_sub_acc_id: ' . $v->bank_sub_acc_id . "\n", FILE_APPEND);
-        file_put_contents($f, 'id: ' . $v->id . "\n", FILE_APPEND);
-        file_put_contents($f, 'tid: ' . $v->tid . "\n", FILE_APPEND);
+        //
+        file_put_contents($f, 'description: ' . $v->description . PHP_EOL, FILE_APPEND);
+        file_put_contents($f, 'amount: ' . $v->amount . PHP_EOL, FILE_APPEND);
+        file_put_contents($f, 'subAccId: ' . $v->subAccId . PHP_EOL, FILE_APPEND);
+        file_put_contents($f, 'bank_sub_acc_id: ' . $v->bank_sub_acc_id . PHP_EOL, FILE_APPEND);
+        file_put_contents($f, 'id: ' . $v->id . PHP_EOL, FILE_APPEND);
+        file_put_contents($f, 'tid: ' . $v->tid . PHP_EOL, FILE_APPEND);
         chmod($f, DEFAULT_FILE_PERMISSION);
     }
 
@@ -45,20 +46,20 @@ class Casso
         //
         $result = [];
         try {
-            file_put_contents(self::pathTestLog(), $_SERVER['REQUEST_URI'] . "\n", LOCK_EX);
-            file_put_contents(self::pathTestLog(), __CLASS__ . ':' . __LINE__ . "\n", FILE_APPEND);
+            file_put_contents(self::pathTestLog(), $_SERVER['REQUEST_URI'] . PHP_EOL, LOCK_EX);
+            file_put_contents(self::pathTestLog(), __CLASS__ . ':' . __LINE__ . PHP_EOL, FILE_APPEND);
 
             // LIVE data
             $data_string = file_get_contents('php://input');
             if (empty($data_string)) {
                 if ($debug_enable !== true) {
-                    file_put_contents(self::pathTestLog(), 'empty data string' . "\n", FILE_APPEND);
+                    file_put_contents(self::pathTestLog(), 'empty data string' . PHP_EOL, FILE_APPEND);
                     return NULL;
                 }
                 // TEST data
                 $data_string = '{"error":0,"data":[{"id":1844887,"tid":"246745","description":"ND:CT DEN:231915042064 MBVCB.2707051024.042064.Bill 4.CT tu 0451001536775 DAO QUOC DAI toi 105877347307 DO XUAN VIET Ngan hang Cong Thuong Viet Nam (VIETINBANK); tai Napas","amount":5000,"cusum_balance":55000,"when":"2022-11-15 22:25:00","bank_sub_acc_id":"105877347307","subAccId":"105877347307","virtualAccount":"","virtualAccountName":"","corresponsiveName":"","corresponsiveAccount":"","corresponsiveBankId":"","corresponsiveBankName":""}]}';
             }
-            file_put_contents(self::pathTestLog(), $data_string . "\n", FILE_APPEND);
+            file_put_contents(self::pathTestLog(), $data_string . PHP_EOL, FILE_APPEND);
 
             //
             //echo $data_string;

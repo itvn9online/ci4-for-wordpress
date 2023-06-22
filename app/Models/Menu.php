@@ -20,7 +20,7 @@ class Menu extends Post
     function get_dynamic_menu($slug, $menu_type, $tbl = 'posts', $auto_install = true)
     {
         $lang = LanguageCost::lang_key();
-        //echo $slug . '<br>' . "\n";
+        //echo $slug . '<br>' . PHP_EOL;
 
         // select dữ liệu từ 1 bảng bất kỳ
         $sql = $this->base_model->select(
@@ -116,7 +116,7 @@ class Menu extends Post
 
     function get_the_menu($slug, $add_class = '', $using_cache = true, $time = MEDIUM_CACHE_TIMEOUT)
     {
-        //echo MenuType::MENU . '<br>' . "\n";
+        //echo MenuType::MENU . '<br>' . PHP_EOL;
 
         //
         $in_cache = '';
@@ -172,7 +172,7 @@ class Menu extends Post
 
     function get_slider($slug, $add_class = '')
     {
-        //echo MenuType::MENU . '<br>' . "\n";
+        //echo MenuType::MENU . '<br>' . PHP_EOL;
 
         $menu_content = $this->get_dynamic_menu($slug, MenuType::SLIDER);
 

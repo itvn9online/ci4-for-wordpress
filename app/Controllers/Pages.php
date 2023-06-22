@@ -18,7 +18,7 @@ class Pages extends Home
         if ($slug == '') {
             die('404 slug error!');
         }
-        //echo $slug . '<br>' . "\n";
+        //echo $slug . '<br>' . PHP_EOL;
 
         //
         $in_cache = __FUNCTION__ . '-' . $slug;

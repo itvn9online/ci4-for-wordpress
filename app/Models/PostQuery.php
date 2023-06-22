@@ -530,7 +530,7 @@ class PostQuery extends PostMeta
                 $ops[ 'select' ] = implode( ',', $ops[ 'select' ] );
                 */
                 //$ops[ 'select' ] = $ops[ 'select' ];
-                //echo $ops[ 'select' ] . '<br>' . "\n";
+                //echo $ops[ 'select' ] . '<br>' . PHP_EOL;
             }
 
             // lấy danh sách bài viết thuộc nhóm này
@@ -749,7 +749,7 @@ class PostQuery extends PostMeta
             echo '<!-- ' . $html_node . ' --> ' . PHP_EOL;
             $tmp_html = $this->base_model->parent_html_tmp($html_node);
         }
-        //echo $tmp_html . '<br>' . "\n";
+        //echo $tmp_html . '<br>' . PHP_EOL;
 
         // tạo css chỉnh cột
         //print_r( $instance );
@@ -783,7 +783,7 @@ class PostQuery extends PostMeta
             if (isset($v['post_meta']['url_redirect']) && $v['post_meta']['url_redirect'] != '') {
                 //print_r( $v );
                 $p_link = $v['post_meta']['url_redirect'];
-                //echo $p_link . '<br>' . "\n";
+                //echo $p_link . '<br>' . PHP_EOL;
             }
 
             // đặt chế độ xuống dòng cho phần tóm tắt khi không có mã HTML trong đấy

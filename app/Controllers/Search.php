@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 // Libraries
@@ -123,7 +124,7 @@ class Search extends Csrf
             $totalThread = $this->base_model->select('COUNT(ID) AS c', 'posts', $where, $filter);
             //print_r( $totalThread );
             $totalThread = $totalThread[0]['c'];
-            //echo $totalThread . '<br>' . "\n";
+            //echo $totalThread . '<br>' . PHP_EOL;
 
             if ($totalThread > 0) {
                 $totalPage = ceil($totalThread / $post_per_page);
@@ -131,14 +132,14 @@ class Search extends Csrf
                     $totalPage = 1;
                 }
                 $page_num = $this->MY_get('page_num', 1);
-                //echo $totalPage . '<br>' . "\n";
+                //echo $totalPage . '<br>' . PHP_EOL;
                 if ($page_num > $totalPage) {
                     $page_num = $totalPage;
                 } else if ($page_num < 1) {
                     $page_num = 1;
                 }
-                //echo $totalThread . '<br>' . "\n";
-                //echo $totalPage . '<br>' . "\n";
+                //echo $totalThread . '<br>' . PHP_EOL;
+                //echo $totalPage . '<br>' . PHP_EOL;
                 $offset = ($page_num - 1) * $post_per_page;
 
                 //
@@ -169,7 +170,7 @@ class Search extends Csrf
                     $urlPartPage .= '?' . implode('&', $urlParams);
                 }
                 $pagination = $this->base_model->EBE_pagination($page_num, $totalPage, $urlPartPage, '');
-                //echo $pagination . '<br>' . "\n";
+                //echo $pagination . '<br>' . PHP_EOL;
 
 
                 // select dữ liệu từ 1 bảng bất kỳ
@@ -241,7 +242,7 @@ class Search extends Csrf
             'Cache-Control: no-store, no-cache, must-revalidate, max-age=0',
             'Pragma: no-cache',
         ], [
-                'Cache-Control: post-check=0, pre-check=0',
-            ]);
+            'Cache-Control: post-check=0, pre-check=0',
+        ]);
     }
 }

@@ -36,7 +36,7 @@ class Lang extends EbModel
 
         //
         $key = $this->option_prefix . $key;
-        //echo $key . '<br>' . "\n";
+        //echo $key . '<br>' . PHP_EOL;
         // nếu chưa có
         if (!isset($this_cache_lang[$key])) {
             // gọi đến lệnh tạo lang

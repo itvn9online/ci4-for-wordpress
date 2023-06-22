@@ -279,15 +279,15 @@ class Posts extends Admin
             if ($totalPage < 1) {
                 $totalPage = 1;
             }
-            //echo $totalPage . '<br>' . "\n";
+            //echo $totalPage . '<br>' . PHP_EOL;
             if ($page_num > $totalPage) {
                 $page_num = $totalPage;
             } else if ($page_num < 1) {
                 $page_num = 1;
             }
             $for_action .= ($page_num > 1 ? '&page_num=' . $page_num : '');
-            //echo $totalThread . '<br>' . "\n";
-            //echo $totalPage . '<br>' . "\n";
+            //echo $totalThread . '<br>' . PHP_EOL;
+            //echo $totalPage . '<br>' . PHP_EOL;
             $offset = ($page_num - 1) * $post_per_page;
 
             // chạy vòng lặp gán nốt các thông số khác trên url vào phân trang
@@ -574,7 +574,7 @@ class Posts extends Admin
 
             // lấy bài tiếp theo để auto next
             if ($auto_update_module > 0) {
-                //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+                //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
                 //
                 $url_next_post = $this->action_update_module($id);
@@ -773,8 +773,8 @@ class Posts extends Admin
         //print_r( $data );
         //print_r( $this->timestamp_post_data );
         foreach ($this->timestamp_post_data as $k => $v) {
-            //echo $k . '<br>' . "\n";
-            //echo $data[ $k ] . '<br>' . "\n";
+            //echo $k . '<br>' . PHP_EOL;
+            //echo $data[ $k ] . '<br>' . PHP_EOL;
             if (isset($data[$k]) && $data[$k] != '') {
                 $data[$k] = strtotime($data[$k]);
             }
@@ -798,7 +798,7 @@ class Posts extends Admin
             // bổ sung thêm xóa cache với menu
             if ($this->post_type == PostType::MENU || $this->post_type == PostType::HTML_MENU) {
                 $post_name = $this->base_model->_eb_non_mark_seo($data['post_title']);
-                //echo $post_name . '<br>' . "\n";
+                //echo $post_name . '<br>' . PHP_EOL;
                 $this->cleanup_cache('get_the_menu-' . $post_name);
             }
             // hoặc page
@@ -814,7 +814,7 @@ class Posts extends Admin
         // xóa cache cho term liên quan
         if (isset($_POST['post_meta']) && isset($_POST['post_meta']['post_category'])) {
             foreach ($_POST['post_meta']['post_category'] as $v) {
-                //echo $v . '<br>' . "\n";
+                //echo $v . '<br>' . PHP_EOL;
                 $this->cleanup_cache($this->term_model->key_cache($v));
             }
         }
@@ -1243,11 +1243,11 @@ class Posts extends Admin
 
         // lấy link sửa bài viết trong admin
         $admin_permalink = $this->post_model->get_admin_permalink($data['post_type'], $data['ID'], $this->controller_slug);
-        //echo $admin_permalink . '<br>' . "\n";
+        //echo $admin_permalink . '<br>' . PHP_EOL;
 
         // thêm tham số tự động submit
         $admin_permalink .= '&auto_update_module=1';
-        //echo $admin_permalink . '<br>' . "\n";
+        //echo $admin_permalink . '<br>' . PHP_EOL;
 
         //
         if ($id > 0) {

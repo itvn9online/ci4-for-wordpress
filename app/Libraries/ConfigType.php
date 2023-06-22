@@ -631,7 +631,7 @@ class ConfigType
     // description của từng meta nếu có
     public static function defaultColor($key)
     {
-        //echo $key . '<br>' . "\n";
+        //echo $key . '<br>' . PHP_EOL;
         $arr = [
             'default_bg' => '#145c00',
             'sub_bg' => '#c20000',
@@ -770,8 +770,8 @@ class ConfigType
             'copy_right_last' => ' - Toàn bộ phiên bản.',
             'powered_by_eb' => ' Cung cấp bởi ' . PARTNER_BRAND_NAME,
         ];
-        //echo $k . '<br>' . "\n";
-        //echo $default_value . '<br>' . "\n";
+        //echo $k . '<br>' . PHP_EOL;
+        //echo $default_value . '<br>' . PHP_EOL;
 
         //
         if ($key != '') {

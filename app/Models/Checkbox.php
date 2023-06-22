@@ -27,7 +27,7 @@ class Checkbox extends Lang
         //print_r($this_cache_checkbox);
 
         //
-        //echo $key . '<br>' . "\n";
+        //echo $key . '<br>' . PHP_EOL;
         // nếu chưa có
         if (!isset($this_cache_checkbox[$key])) {
             // gọi đến lệnh tạo num

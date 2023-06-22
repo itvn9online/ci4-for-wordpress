@@ -44,7 +44,7 @@ class Csdl extends Session
         //die(' bb'); // lỗi sẽ hiển thị ở đây khi không insert đc
         if ($this->db->affectedRows()) {
             //var_dump( $this->db->affectedRows() );
-            //echo $this->db->insertID() . '<br>' . "\n";
+            //echo $this->db->insertID() . '<br>' . PHP_EOL;
             return $this->db->insertID();
             /*
             } else {
@@ -557,7 +557,7 @@ class Csdl extends Session
         */
         // daidq (2021-12-25): để tránh trường hợp select unlimit cho dữ liệu lớn -> đặt mặc định lệnh LIMIT nếu không được chỉ định
         if (!isset($ops['limit']) || $ops['limit'] === 0) {
-            //echo 'auto limit <br>' . "\n";
+            //echo 'auto limit <br>' . PHP_EOL;
             $ops['limit'] = 500;
         }
         if ($ops['limit'] > 0) {
@@ -597,8 +597,8 @@ class Csdl extends Session
 
         // nếu chỉ lấy 1 kết quả -> trả về luôn mảng số 0
         if (isset($ops['limit']) && $ops['limit'] === 1 && !empty($a)) {
-            //echo $ops[ 'limit' ] . '<br>' . "\n";
-            //echo $builder->countAllResults() . '<br>' . "\n";
+            //echo $ops[ 'limit' ] . '<br>' . PHP_EOL;
+            //echo $builder->countAllResults() . '<br>' . PHP_EOL;
             //print_r( $a );
             //print_r( $a[ 0 ] );
             //die( 'fgjhkgsd gsdfgsgs' );

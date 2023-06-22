@@ -54,15 +54,15 @@ class Sitemap extends Csrf
     {
         global $arr_custom_post_type;
         //print_r( $arr_custom_post_type );
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
         //
         $this->WGR_echo_sitemap_css();
 
         //
-        //echo $post_type . '<br>' . "\n";
-        //echo $page_page . '<br>' . "\n";
-        //echo $page_num . '<br>' . "\n";
+        //echo $post_type . '<br>' . PHP_EOL;
+        //echo $page_page . '<br>' . PHP_EOL;
+        //echo $page_num . '<br>' . PHP_EOL;
         if (!empty($post_type)) {
             // sitemap cho danh mục
             if ($post_type == 'tags') {
@@ -136,7 +136,7 @@ class Sitemap extends Csrf
         // ->
         foreach ($arr_post_type as $post_type) {
             $totalThread = $this->media_total($post_type);
-            //echo $totalThread . '<br>' . "\n";
+            //echo $totalThread . '<br>' . PHP_EOL;
 
             //
             if ($totalThread <= 0) {
@@ -267,14 +267,14 @@ class Sitemap extends Csrf
         if ($totalPage < 1) {
             $totalPage = 1;
         }
-        //echo $totalPage . '<br>' . "\n";
+        //echo $totalPage . '<br>' . PHP_EOL;
         if ($page_num > $totalPage) {
             $page_num = $totalPage;
         } else if ($page_num < 1) {
             $page_num = 1;
         }
-        //echo $totalThread . '<br>' . "\n";
-        //echo $totalPage . '<br>' . "\n";
+        //echo $totalThread . '<br>' . PHP_EOL;
+        //echo $totalPage . '<br>' . PHP_EOL;
         $offset = ($page_num - 1) * $this->limit_post_get;
 
         //
@@ -331,7 +331,7 @@ class Sitemap extends Csrf
         $str = '';
 
         $count_post_post = $count_post;
-        //echo $type . ' --> ' . $count_post . '<br>' . "\n";
+        //echo $type . ' --> ' . $count_post . '<br>' . PHP_EOL;
 
         if ($count_post_post > $this->limit_post_get) {
             $j = 0;
@@ -442,16 +442,16 @@ class Sitemap extends Csrf
             if ($totalPage < 1) {
                 $totalPage = 1;
             }
-            //echo $totalPage . '<br>' . "\n";
+            //echo $totalPage . '<br>' . PHP_EOL;
             if ($page_num > $totalPage) {
                 $page_num = $totalPage;
             } else if ($page_num < 1) {
                 $page_num = 1;
             }
-            //echo $totalThread . '<br>' . "\n";
-            //echo $totalPage . '<br>' . "\n";
+            //echo $totalThread . '<br>' . PHP_EOL;
+            //echo $totalPage . '<br>' . PHP_EOL;
             $offset = ($page_num - 1) * $this->limit_post_get;
-            //echo $offset . '<br>' . "\n";
+            //echo $offset . '<br>' . PHP_EOL;
 
             //
             $data = $this->base_model->select('post_title, post_type, post_parent, guid, post_meta_data', 'posts', [

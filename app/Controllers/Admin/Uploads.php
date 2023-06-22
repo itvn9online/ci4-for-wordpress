@@ -99,7 +99,7 @@ class Uploads extends Admin
 
         // lọc theo định dạng file
         $attachment_filter = $this->MY_get('attachment-filter', '');
-        //echo 'attachment filter: ' . $attachment_filter . '<br>' . "\n";
+        //echo 'attachment filter: ' . $attachment_filter . '<br>' . PHP_EOL;
         if ($attachment_filter != '' && isset($alow_mime_type[$attachment_filter])) {
             $urlParams[] = 'attachment-filter=' . $attachment_filter;
             $where_like_after['post_mime_type'] = $attachment_filter;
@@ -107,7 +107,7 @@ class Uploads extends Admin
 
         // lọc theo tháng upload
         $month_filter = $this->MY_get('m', '');
-        //echo 'month filter: ' . $month_filter . '<br>' . "\n";
+        //echo 'month filter: ' . $month_filter . '<br>' . PHP_EOL;
         if ($month_filter != '') {
             $urlParams[] = 'm=' . $month_filter;
 
@@ -166,14 +166,14 @@ class Uploads extends Admin
                 $totalPage = 1;
             }
             $page_num = $this->MY_get('page_num', 1);
-            //echo $totalPage . '<br>' . "\n";
+            //echo $totalPage . '<br>' . PHP_EOL;
             if ($page_num > $totalPage) {
                 $page_num = $totalPage;
             } else if ($page_num < 1) {
                 $page_num = 1;
             }
-            //echo $totalThread . '<br>' . "\n";
-            //echo $totalPage . '<br>' . "\n";
+            //echo $totalThread . '<br>' . PHP_EOL;
+            //echo $totalPage . '<br>' . PHP_EOL;
             $offset = ($page_num - 1) * $post_per_page;
 
             //
@@ -291,7 +291,7 @@ class Uploads extends Admin
                 $secondes_path = MediaType::MEDIA_PATH;
             }
             $secondes_path = PUBLIC_HTML_PATH . $secondes_path;
-            //echo $secondes_path . '<br>' . "\n";
+            //echo $secondes_path . '<br>' . PHP_EOL;
             //die( __CLASS__ . ':' . __LINE__ );
 
             //
@@ -324,7 +324,7 @@ class Uploads extends Admin
 
                 //
                 if (file_exists($remove_file)) {
-                    //echo $remove_file . '<br>' . "\n";
+                    //echo $remove_file . '<br>' . PHP_EOL;
                     $this->MY_unlink($remove_file) or die('ERROR remove upload file: ' . $v);
                 }
             }
@@ -421,14 +421,14 @@ class Uploads extends Admin
                 $totalPage = 1;
             }
             $page_num = $this->MY_get('page_num', 1);
-            //echo $totalPage . '<br>' . "\n";
+            //echo $totalPage . '<br>' . PHP_EOL;
             if ($page_num > $totalPage) {
                 $page_num = $totalPage;
             } else if ($page_num < 1) {
                 $page_num = 1;
             }
-            //echo $totalThread . '<br>' . "\n";
-            //echo $totalPage . '<br>' . "\n";
+            //echo $totalThread . '<br>' . PHP_EOL;
+            //echo $totalPage . '<br>' . PHP_EOL;
             $offset = ($page_num - 1) * $post_per_page;
 
             //
@@ -525,7 +525,7 @@ class Uploads extends Admin
 
         //
         $upload_root = PUBLIC_HTML_PATH . MediaType::MEDIA_PATH;
-        //echo $upload_root . '<br>' . "\n";
+        //echo $upload_root . '<br>' . PHP_EOL;
 
         //
         $upload_path = $this->media_path(
@@ -535,7 +535,7 @@ class Uploads extends Admin
             ],
             $upload_root
         );
-        //echo $upload_path . '<br>' . "\n";
+        //echo $upload_path . '<br>' . PHP_EOL;
 
         //
         $file_type = 'jpg';

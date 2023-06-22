@@ -179,16 +179,16 @@ class Configs extends Admin
         //
         if ($option_type == ConfigType::CONFIG) {
             // chỉ cho phép một số định dạng file được truy cập trong thư mục upload
-            echo $this->deny_visit_upload('', true, isset($data['enable_hotlink_protection']) ? true : false) . '<br>' . "\n";
+            echo $this->deny_visit_upload('', true, isset($data['enable_hotlink_protection']) ? true : false) . '<br>' . PHP_EOL;
             $this->auto_create_htaccess_deny(true);
 
             // chỉ cho phép một số định dạng file được truy cập trong thư mục themes
-            echo $this->deny_visit_upload(PUBLIC_PUBLIC_PATH . 'themes', true, false) . '<br>' . "\n";
+            echo $this->deny_visit_upload(PUBLIC_PUBLIC_PATH . 'themes', true, false) . '<br>' . PHP_EOL;
 
             //
             $data['logo_width_img'] = 0;
             $data['logo_height_img'] = 0;
-            //echo PUBLIC_PUBLIC_PATH . $data[ 'logo' ] . '<br>' . "\n";
+            //echo PUBLIC_PUBLIC_PATH . $data[ 'logo' ] . '<br>' . PHP_EOL;
             if (isset($data['logo']) && $data['logo'] != '' && file_exists(PUBLIC_PUBLIC_PATH . $data['logo'])) {
                 $logo_data = getimagesize(PUBLIC_PUBLIC_PATH . $data['logo']);
 
@@ -216,7 +216,7 @@ class Configs extends Admin
         if (empty($list_field_has_change)) {
             $this->base_model->alert('Không xác định được dữ liệu cần thay đổi #' . $option_type, 'warning');
         }
-        //echo $list_field_has_change . '<br>' . "\n";
+        //echo $list_field_has_change . '<br>' . PHP_EOL;
         $list_field_has_change = json_decode($list_field_has_change);
         //print_r( $list_field_has_change );
         if (empty($list_field_has_change)) {
@@ -293,7 +293,7 @@ class Configs extends Admin
             }
 
             //
-            echo 'Insert: ' . $k . ' = ' . $v . '<br>' . "\n";
+            echo 'Insert: ' . $k . ' = ' . $v . '<br>' . PHP_EOL;
 
             //
             $this->option_model->insert_options(
@@ -410,23 +410,23 @@ class Configs extends Admin
         //die( __CLASS__ . ':' . __LINE__ );
 
         //
-        echo 'PHPMailer version: ' . file_get_contents(APPPATH . 'ThirdParty/PHPMailer/phpmailer/phpmailer/VERSION', 1) . '<br>' . "\n";
-        echo 'Username/ Email: ' . $smtp_config->smtp_host_user . '<br>' . "\n";
-        echo 'Password: ' . substr($smtp_config->smtp_host_pass, 0, 6) . '******<br>' . "\n";
-        echo 'Hostname: ' . $smtp_config->smtp_host_name . '<br>' . "\n";
-        echo 'Secure: ' . $smtp_config->smtp_secure . '<br>' . "\n";
-        echo 'Port: ' . $smtp_config->smtp_host_port . '<br>' . "\n";
-        echo '<hr>' . "\n";
+        echo 'PHPMailer version: ' . file_get_contents(APPPATH . 'ThirdParty/PHPMailer/phpmailer/phpmailer/VERSION', 1) . '<br>' . PHP_EOL;
+        echo 'Username/ Email: ' . $smtp_config->smtp_host_user . '<br>' . PHP_EOL;
+        echo 'Password: ' . substr($smtp_config->smtp_host_pass, 0, 6) . '******<br>' . PHP_EOL;
+        echo 'Hostname: ' . $smtp_config->smtp_host_name . '<br>' . PHP_EOL;
+        echo 'Secure: ' . $smtp_config->smtp_secure . '<br>' . PHP_EOL;
+        echo 'Port: ' . $smtp_config->smtp_host_port . '<br>' . PHP_EOL;
+        echo '<hr>' . PHP_EOL;
 
         //
         $result = PHPMaillerSend::the_send($data_send, $smtp_config, PHPMaillerSend::DEBUG_2);
         if ($result === true) {
-            echo 'Gửi email thành công! from <strong>' . $smtp_config->smtp_host_user . '</strong> to <strong>' . $data_send['to'] . '</strong> <br>' . "\n";
+            echo 'Gửi email thành công! from <strong>' . $smtp_config->smtp_host_user . '</strong> to <strong>' . $data_send['to'] . '</strong> <br>' . PHP_EOL;
 
             //
             return true;
         } else {
-            echo 'Gửi email THẤT BẠI! from <strong>' . $smtp_config->smtp_host_user . '</strong> <br>' . "\n";
+            echo 'Gửi email THẤT BẠI! from <strong>' . $smtp_config->smtp_host_user . '</strong> <br>' . PHP_EOL;
             print_r($result);
         }
 
@@ -443,7 +443,7 @@ class Configs extends Admin
         // gửi luôn 1 đoạn test chức năng gửi mess
         TelegramBot::sendMessage(
             implode(
-                "\n",
+                PHP_EOL,
                 [
                     date('r'),
                     'IP: ' . $this->request->getIPAddress(),
@@ -464,23 +464,23 @@ class Configs extends Admin
         $has_id = false;
         foreach ($a as $k => $v) {
             if ($k == 'chat') {
-                echo $k . ': <br>' . "\n";
+                echo $k . ': <br>' . PHP_EOL;
                 $this->printTeleChatId($v, 1);
                 $has_id = true;
             } else if (is_object($v) || is_array($v)) {
                 $this->printTeleChatId($v);
             } else if ($show > 0) {
-                echo $k . ': ' . $v . '<br>' . "\n";
+                echo $k . ': ' . $v . '<br>' . PHP_EOL;
                 /*
                 } else {
-                echo $k . ': ' . $v . '<br>' . "\n";
+                echo $k . ': ' . $v . '<br>' . PHP_EOL;
                 */
             }
         }
 
         //
         if ($has_id === false) {
-            echo 'Chat ID not found! <br>' . "\n";
+            echo 'Chat ID not found! <br>' . PHP_EOL;
         }
     }
 }

@@ -19,7 +19,7 @@ class PostPosts extends PostSlider
     public function build_the_node($data, $tmp_html, $ops = [], $default_arr = [])
     {
         //print_r( $data );
-        //echo $tmp_html . '<br>' . "\n";
+        //echo $tmp_html . '<br>' . PHP_EOL;
 
         //
         $data['p_link'] = $this->get_full_permalink($data);
@@ -128,7 +128,7 @@ class PostPosts extends PostSlider
         } else {
             $tmp_html = $this->blog_html_node;
         }
-        //echo $tmp_html . '<br>' . "\n";
+        //echo $tmp_html . '<br>' . PHP_EOL;
 
         //
         $data['dynamic_post_tag'] = 'h3';
@@ -154,7 +154,7 @@ class PostPosts extends PostSlider
 
         if ($data['post_excerpt'] == '') {
             $data['post_excerpt'] = strip_tags($data['post_content']);
-            //echo $this->getconfig->cf_blog_description_length . ' aaaaaaaaaa <br>' . "\n";
+            //echo $this->getconfig->cf_blog_description_length . ' aaaaaaaaaa <br>' . PHP_EOL;
             $data['post_excerpt'] = $this->base_model->short_string($data['post_excerpt'], $this->getconfig->cf_blog_description_length);
         }
 
@@ -207,7 +207,7 @@ class PostPosts extends PostSlider
 
         //
         if ($in_cache != '') {
-            //echo $in_cache . '<br>' . "\n";
+            //echo $in_cache . '<br>' . PHP_EOL;
             $cache_value = $this->base_model->scache($in_cache);
 
             // có cache thì trả về

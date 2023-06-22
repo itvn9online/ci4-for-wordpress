@@ -1,20 +1,24 @@
 <?php
-/*
-* Chức năng đăng nhập qua Zalo
-* https://github.com/zaloplatform/zalo-php-sdk
-*
-* Gửi thông báo qua Zalo ZNS
-* https://developers.zalo.me/docs/api/zalo-notification-service-api/gui-thong-bao-zns/gui-thong-bao-zns-post-5208
-*
-* Gửi ZNS thông qua API
-* https://zalo.cloud/zns/guidelines/zns-api
-*
-* Hướng dẫn tạo ứng dụng (App ID) và liên kết với Zalo OA
-* https://zalo.cloud/blog/huong-dan-tao-ung-dung-app-id-va-lien-ket-voi-zalo-oa-/kgua7vnkkvbyy88rma
-*
-* Quản lý các app đã kết nối zalo -> khi cần XÓA đi để test thì vào đây XÓA
-* https://zalo.me/profile/app-management
-*/
+
+/**
+ * Chức năng đăng nhập qua Zalo
+ * https://github.com/zaloplatform/zalo-php-sdk
+ *
+ * Gửi thông báo qua Zalo ZNS
+ * https://developers.zalo.me/docs/api/zalo-notification-service-api/gui-thong-bao-zns/gui-thong-bao-zns-post-5208
+ *
+ * Gửi ZNS thông qua API
+ * https://zalo.cloud/zns/guidelines/zns-api
+ *
+ * Hướng dẫn tạo ứng dụng (App ID) và liên kết với Zalo OA
+ * https://zalo.cloud/blog/huong-dan-tao-ung-dung-app-id-va-lien-ket-voi-zalo-oa-/kgua7vnkkvbyy88rma
+ *
+ * Quản lý các app đã kết nối zalo -> khi cần XÓA đi để test thì vào đây XÓA
+ * https://zalo.me/profile/app-management
+ *
+ * Giới thiệu Zalo Official Account API
+ * https://developers.zalo.me/docs/api/official-account-api-230
+ **/
 
 namespace App\Models;
 
@@ -44,6 +48,12 @@ class Zaloa extends Option
         $this->zalooa_config = $this->obj_config(ConfigType::ZALO);
         //print_r($this->zalooa_config);
         //die(__CLASS__ . ':' . __LINE__);
+
+        // kiểm tra và nạp cấu hình
+        $this->loadConfig();
+
+        // kiểm tra và nạp lại token nếu đã hết hạn
+        $this->zaloRefreshToken(true);
     }
 
     /**
@@ -59,6 +69,15 @@ class Zaloa extends Option
                 'app_id' => $this->zalooa_config->zalooa_app_id,
                 'app_secret' => $this->zalooa_config->zalooa_app_secret
             ]);
+        }
+    }
+
+    /**
+     * nạp helper để Zalo API còn hoạt động
+     **/
+    protected function loadHelper()
+    {
+        if ($this->helper === NULL) {
             $this->helper = $this->zalo->getRedirectLoginHelper();
         }
     }
@@ -104,8 +123,9 @@ class Zaloa extends Option
 
         //
         $state = md5($codeChallenge);
-        $this->loadConfig();
+        //$this->loadConfig();
         if ($login_url === true) {
+            $this->loadHelper();
             $loginUrl = $this->helper->getLoginUrl($callBackUrl, $codeChallenge, $state); // This is login url
         } else {
             $loginUrl = 'https://oauth.zaloapp.com/v4/oa/permission?app_id=' . $this->zalooa_config->zalooa_app_id . '&redirect_uri=' . urlencode($callBackUrl) . '&code_challenge=' . $codeChallenge . '&state=' . $state;
@@ -144,7 +164,8 @@ class Zaloa extends Option
         //echo $codeVerifier . PHP_EOL;
 
         //
-        $this->loadConfig();
+        //$this->loadConfig();
+        $this->loadHelper();
         $zaloToken = $this->helper->getZaloToken($codeVerifier); // get zalo token
         $accessToken = $zaloToken->getAccessToken();
         //die($accessToken);
@@ -168,7 +189,7 @@ class Zaloa extends Option
         //$this->base_model->result_json_type([$this->cache_challenge()]);
 
         //
-        $this->checkZaloOaConfig(__FUNCTION__);
+        //$this->checkZaloOaConfig(__FUNCTION__);
 
         //
         $data = [
@@ -384,7 +405,7 @@ class Zaloa extends Option
         }
 
         // kiểm tra và nạp lại token nếu đã hết hạn
-        $this->zaloRefreshToken(true);
+        //$this->zaloRefreshToken(true);
 
         // chuyển định dạng số điện thoại về chuẩn mà Zalo yêu cầu
         $phone = $this->syncPhoneNumber($phone);
@@ -495,7 +516,7 @@ class Zaloa extends Option
     public function getZaloIdName($accessToken)
     {
         $params = ['fields' => 'id,name,picture'];
-        $this->loadConfig();
+        //$this->loadConfig();
         $response = $this->zalo->get(\Zalo\ZaloEndPoint::API_GRAPH_ME, $accessToken, $params);
         $result = $response->getDecodedBody(); // result
         //print_r($result);
@@ -512,9 +533,9 @@ class Zaloa extends Option
         //die($this->zalooa_config->zalooa_access_token);
 
         // trước khi gửi thì cứ kiểm tra cấu hình đã
-        $this->loadConfig();
+        //$this->loadConfig();
         // kiểm tra và nạp lại token nếu đã hết hạn
-        $this->zaloRefreshToken(true);
+        //$this->zaloRefreshToken(true);
 
         // build data
         $msgBuilder = new \Zalo\Builder\MessageBuilder(\Zalo\Builder\MessageBuilder::MSG_TYPE_TXT);
@@ -533,6 +554,177 @@ class Zaloa extends Option
 
         //
         return $result;
+    }
+
+    /**
+     * Lấy thông tin người quan tâm
+     **/
+    public function getOaUserProfile($user_id)
+    {
+        // trước khi gửi thì cứ kiểm tra cấu hình đã
+        //$this->loadConfig();
+
+        //
+        $data = [
+            'data' => json_encode(array(
+                'user_id' => $user_id
+            ))
+        ];
+        $response = $this->zalo->get(\Zalo\ZaloEndPoint::API_OA_GET_USER_PROFILE, $this->zalooa_config->zalooa_access_token, $data);
+        $result = $response->getDecodedBody(); // result
+        //print_r($result);
+
+        //
+        return $result;
+    }
+
+    /**
+     * Lấy danh sách người quan tâm
+     **/
+    public function getOaListFollower($offset = 0)
+    {
+        // trước khi gửi thì cứ kiểm tra cấu hình đã
+        //$this->loadConfig();
+
+        //
+        $data = [
+            'data' => json_encode(array(
+                'offset' => $offset,
+                'count' => 10
+            ))
+        ];
+        $response = $this->zalo->get(\Zalo\ZaloEndPoint::API_OA_GET_LIST_FOLLOWER, $this->zalooa_config->zalooa_access_token, $data);
+        $result = $response->getDecodedBody(); // result
+        //print_r($result);
+
+        //
+        return $result;
+    }
+
+    /**
+     * Lấy thông tin OA
+     **/
+    public function getOaProfile()
+    {
+        // trước khi gửi thì cứ kiểm tra cấu hình đã
+        //$this->loadConfig();
+
+        //
+        $response = $this->zalo->get(\Zalo\ZaloEndPoint::API_OA_GET_PROFILE, $this->zalooa_config->zalooa_access_token, []);
+        $result = $response->getDecodedBody(); // result
+        //print_r($result);
+
+        //
+        return $result;
+    }
+
+    /**
+     * Lấy danh sách tin nhắn gần nhất
+     **/
+    public function getOaListRecentChat($offset = 0)
+    {
+        // trước khi gửi thì cứ kiểm tra cấu hình đã
+        //$this->loadConfig();
+
+        //
+        $data = [
+            'data' => json_encode(array(
+                'offset' => $offset,
+                'count' => 10
+            ))
+        ];
+        $response = $this->zalo->get(\Zalo\ZaloEndPoint::API_OA_GET_LIST_RECENT_CHAT, $this->zalooa_config->zalooa_access_token, $data);
+        $result = $response->getDecodedBody(); // result
+        //print_r($result);
+
+        //
+        return $result;
+    }
+
+    /**
+     * Lấy danh sách tin nhắn với người quan tâm
+     **/
+    public function getOaConversation($user_id, $offset = 0)
+    {
+        // trước khi gửi thì cứ kiểm tra cấu hình đã
+        //$this->loadConfig();
+
+        //
+        $data = [
+            'data' => json_encode(array(
+                'user_id' => $user_id,
+                'offset' => $offset,
+                'count' => 10
+            ))
+        ];
+        $response = $this->zalo->get(\Zalo\ZaloEndPoint::API_OA_GET_CONVERSATION, $this->zalooa_config->zalooa_access_token, $data);
+        $result = $response->getDecodedBody(); // result
+        //print_r($result);
+
+        //
+        return $result;
+    }
+
+    /**
+     * Kiểm tra hạn mức Tin tư vấn miễn phí
+     **/
+    public function getOaQuota()
+    {
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://openapi.zalo.me/v2.0/oa/quota/message',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_HTTPHEADER => array(
+                'access_token: ' . $this->zalooa_config->zalooa_access_token
+            ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        //echo $response;
+        $response = json_decode($response);
+
+        //
+        return $response;
+    }
+
+    /**
+     * Kiểm tra hạn mức tin Truyền thông
+     **/
+    public function getOaPromotionQuota($user_id)
+    {
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://openapi.zalo.me/v2.0/oa/quota/message',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => json_encode([
+                'user_id' => $user_id,
+                'type' => 'promotion',
+            ]),
+            CURLOPT_HTTPHEADER => array(
+                'access_token: ' . $this->zalooa_config->zalooa_access_token,
+                'Content-Type: application/json'
+            ),
+        ));
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        //echo $response;
+        $response = json_decode($response);
+
+        //
+        return $response;
     }
 
     /**

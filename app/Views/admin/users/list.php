@@ -70,8 +70,8 @@ $base_model->add_js('admin/js/users_functions.js');
 
     //
     $theme_private_view = ADMIN_ROOT_VIEWS . $list_view_path . '/list_table.php';
-    //echo $theme_private_view . '<br>' . "\n";
-    //echo __DIR__ . '/list_table.php' . '<br>' . "\n";
+    //echo $theme_private_view . '<br>' . PHP_EOL;
+    //echo __DIR__ . '/list_table.php' . '<br>' . PHP_EOL;
     if (file_exists($theme_private_view)) {
         include $theme_private_view;
     } else {

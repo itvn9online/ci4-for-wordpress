@@ -63,7 +63,7 @@ class LanguageCost
 
     public static function saveLang($lang)
     {
-        //echo $lang . '<br>' . "\n";
+        //echo $lang . '<br>' . PHP_EOL;
 
         //
         $arr = self::typeList();

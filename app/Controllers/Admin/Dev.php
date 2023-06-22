@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\Admin;
 
 //
@@ -53,13 +54,13 @@ class Dev extends Admin
             }
             // daidq (2022-03-04): chức năng này đang hoạt động không đúng -> vòng lặp nó sẽ chạy mãi do i++ hoài
             foreach ($arr_update_db as $v) {
-                echo $v . '<br>' . "\n";
+                echo $v . '<br>' . PHP_EOL;
 
                 //
                 if ($this->base_model->MY_query($v)) {
-                    echo 'OK! RUN query... <br>' . "\n";
+                    echo 'OK! RUN query... <br>' . PHP_EOL;
                 } else {
-                    echo 'Query failed! Please re-check query <br>' . "\n";
+                    echo 'Query failed! Please re-check query <br>' . PHP_EOL;
                 }
             }
 

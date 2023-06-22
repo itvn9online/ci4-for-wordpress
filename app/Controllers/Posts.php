@@ -25,9 +25,9 @@ class Posts extends Csrf
 
     public function post_details($id = 0, $slug = '', $data = NULL)
     {
-        //echo $id . ' <br>' . "\n";
-        //echo $slug . ' <br>' . "\n";
-        //echo 'post details <br>' . "\n";
+        //echo $id . ' <br>' . PHP_EOL;
+        //echo $slug . ' <br>' . PHP_EOL;
+        //echo 'post details <br>' . PHP_EOL;
         //print_r($data);
 
         //

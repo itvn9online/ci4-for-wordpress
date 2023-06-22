@@ -19,25 +19,25 @@ if (!defined('IN_CATEGORY_VIEW')) {
  */
 $post_per_page = $base_model->get_config($getconfig, 'eb_posts_per_page', 20);
 //$post_per_page = 2;
-//echo $post_per_page . '<br>' . "\n";
+//echo $post_per_page . '<br>' . PHP_EOL;
 
 //
 $totalThread = $data['count'];
-//echo $totalThread . '<br>' . "\n";
+//echo $totalThread . '<br>' . PHP_EOL;
 
 if ($totalThread > 0) {
     $totalPage = ceil($totalThread / $post_per_page);
     if ($totalPage < 1) {
         $totalPage = 1;
     }
-    //echo $totalPage . '<br>' . "\n";
+    //echo $totalPage . '<br>' . PHP_EOL;
     if ($ops['page_num'] > $totalPage) {
         $ops['page_num'] = $totalPage;
     } else if ($ops['page_num'] < 1) {
         $ops['page_num'] = 1;
     }
-    //echo $totalThread . '<br>' . "\n";
-    //echo $totalPage . '<br>' . "\n";
+    //echo $totalThread . '<br>' . PHP_EOL;
+    //echo $totalPage . '<br>' . PHP_EOL;
     $offset = ($ops['page_num'] - 1) * $post_per_page;
 
     $public_part_page = $base_model->EBE_pagination($ops['page_num'], $totalPage, $term_model->get_term_permalink($data));
@@ -46,7 +46,7 @@ if ($totalThread > 0) {
     /*
      * chuẩn bị dữ liệu để hiển thị ra
      */
-    //echo $taxonomy_post_size . '<br>' . "\n";
+    //echo $taxonomy_post_size . '<br>' . PHP_EOL;
     //print_r( $data );
 
     //
@@ -61,12 +61,12 @@ if ($totalThread > 0) {
 
         // nếu đến đây mà query lại tìm không thấy bài viết -> tính lại tổng bài
         if (empty($child_data)) {
-            //echo basename(__FILE__) . ':' . __LINE__ . '<br>' . "\n";
+            //echo basename(__FILE__) . ':' . __LINE__ . '<br>' . PHP_EOL;
 
             //
             //print_r($data);
             $totalThread = $post_model->fix_term_count($data, $post_type);
-            echo $totalThread . '<br>' . "\n";
+            echo $totalThread . '<br>' . PHP_EOL;
         }
         // nếu có thì hiển thị bình thường
         else {
@@ -80,14 +80,14 @@ if ($totalThread > 0) {
             $term_model->the_cache($data['term_id'], $in_cache, $child_data);
         }
     }
-    //echo basename(__FILE__) . ':' . __LINE__ . '<br>' . "\n";
+    //echo basename(__FILE__) . ':' . __LINE__ . '<br>' . PHP_EOL;
     //print_r( $child_data );
 } else {
-    //echo basename(__FILE__) . ':' . __LINE__ . '<br>' . "\n";
+    //echo basename(__FILE__) . ':' . __LINE__ . '<br>' . PHP_EOL;
     $public_part_page = '';
     $child_data = [];
 }
-//echo basename(__FILE__) . ':' . __LINE__ . '<br>' . "\n";
+//echo basename(__FILE__) . ':' . __LINE__ . '<br>' . PHP_EOL;
 //echo $taxonomy;
 
 

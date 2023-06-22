@@ -56,12 +56,12 @@ class Option extends EbModel
                     'limit' => -1
                 )
             );
-            //echo $sql . '<br>' . "\n";
+            //echo $sql . '<br>' . PHP_EOL;
             //die( __CLASS__ . ':' . __LINE__ );
 
             // -> câu SQL để thực thi trực tiếp
             $sql = "INSERT INTO `" . WGR_TABLE_PREFIX . "options_deleted` $sql";
-            echo $sql . '<br>' . "\n";
+            echo $sql . '<br>' . PHP_EOL;
             //die( __CLASS__ . ':' . __LINE__ );
             $this->base_model->MY_query($sql);
             echo 'Backup config: ' . $option_name . ':' . $option_type . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
@@ -107,7 +107,7 @@ class Option extends EbModel
 
     public function gets_config($option_type, $lang_key)
     {
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
         $data = $this->get_config_by_type($option_type, $lang_key);
 
         //

@@ -69,7 +69,7 @@ class TermBase extends EbModel
             if ($v['term_meta_data'] === NULL) {
                 $term_meta_data = $this->arr_meta_terms($v['term_id']);
                 //print_r( $term_meta_data );
-                //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+                //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
                 //
                 $this->base_model->update_multiple($this->table, [
@@ -82,7 +82,7 @@ class TermBase extends EbModel
                 $data[$k]['term_meta_data'] = 'query';
             } else {
                 $term_meta_data = (array) json_decode($v['term_meta_data']);
-                //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+                //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
                 // thông báo kiểu dữ liệu trả về
                 $data[$k]['term_meta_data'] = 'cache';
@@ -272,7 +272,7 @@ class TermBase extends EbModel
         //
         $prefix = WGR_TABLE_PREFIX;
 
-        //echo __FUNCTION__ . '<br>' . "\n";
+        //echo __FUNCTION__ . '<br>' . PHP_EOL;
         $last_run = $this->base_model->scache(__FUNCTION__);
         if ($last_run !== NULL) {
             //print_r( $last_run );
@@ -341,7 +341,7 @@ class TermBase extends EbModel
             )
         );
         $sql = "CREATE OR REPLACE VIEW $the_view AS $sql";
-        //echo $sql . '<br>' . "\n";
+        //echo $sql . '<br>' . PHP_EOL;
         //die( __CLASS__ . ':' . __LINE__ );
         $this->base_model->MY_query($sql);
 
@@ -353,7 +353,7 @@ class TermBase extends EbModel
             " . $prefix . "terms.child_count = $the_view.c
         WHERE
             is_deleted = ?";
-        //echo $sql . '<br>' . "\n";
+        //echo $sql . '<br>' . PHP_EOL;
         $this->base_model->MY_query(
             $sql,
             [
@@ -380,7 +380,7 @@ class TermBase extends EbModel
         $sql = "UPDATE " . $prefix . "term_relationships
         SET
             is_deleted = ?";
-        //echo $sql . '<br>' . "\n";
+        //echo $sql . '<br>' . PHP_EOL;
         $this->base_model->MY_query(
             $sql,
             [
@@ -402,7 +402,7 @@ class TermBase extends EbModel
         $params[] = PostType::PUBLICITY;
 
         //
-        //echo $sql . '<br>' . "\n";
+        //echo $sql . '<br>' . PHP_EOL;
         $this->base_model->MY_query($sql, $params);
         //return false;
 
@@ -434,7 +434,7 @@ class TermBase extends EbModel
             )
         );
         $sql = "CREATE OR REPLACE VIEW $the_view AS $sql";
-        //echo $sql . '<br>' . "\n";
+        //echo $sql . '<br>' . PHP_EOL;
         $this->base_model->MY_query($sql);
 
         // update count cho các parent trong view
@@ -443,7 +443,7 @@ class TermBase extends EbModel
             $the_view ON $the_view.term_taxonomy_id = " . $prefix . "term_taxonomy.term_id
         SET
             " . $prefix . "term_taxonomy.count = $the_view.c";
-        //echo $sql . '<br>' . "\n";
+        //echo $sql . '<br>' . PHP_EOL;
         $this->base_model->MY_query($sql);
 
 
@@ -475,7 +475,7 @@ class TermBase extends EbModel
             )
         );
         $sql = "CREATE OR REPLACE VIEW $the_view AS $sql";
-        //echo $sql . '<br>' . "\n";
+        //echo $sql . '<br>' . PHP_EOL;
         $this->base_model->MY_query($sql);
 
         // update count cho các parent trong view
@@ -484,7 +484,7 @@ class TermBase extends EbModel
             $the_view ON $the_view.parent = " . $prefix . "term_taxonomy.term_id
         SET
             " . $prefix . "term_taxonomy.count = " . $prefix . "term_taxonomy.count+$the_view.t";
-        //echo $sql . '<br>' . "\n";
+        //echo $sql . '<br>' . PHP_EOL;
         $this->base_model->MY_query($sql);
 
         // TEST
@@ -495,7 +495,7 @@ class TermBase extends EbModel
          * xong thì xóa luôn view này đi
          */
         $sql = "DROP VIEW IF EXISTS $the_view";
-        //echo $sql . '<br>' . "\n";
+        //echo $sql . '<br>' . PHP_EOL;
         $this->base_model->MY_query($sql);
 
 

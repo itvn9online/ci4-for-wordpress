@@ -36,7 +36,7 @@ class Users extends Admin
         if ($this->member_type == '') {
             $this->member_type = $this->MY_get('member_type', '');
         }
-        //echo $this->member_type . '<br>' . "\n";
+        //echo $this->member_type . '<br>' . PHP_EOL;
 
         //
         if ($this->member_name == '') {
@@ -200,15 +200,15 @@ class Users extends Admin
             if ($totalPage < 1) {
                 $totalPage = 1;
             }
-            //echo $totalPage . '<br>' . "\n";
+            //echo $totalPage . '<br>' . PHP_EOL;
             if ($page_num > $totalPage) {
                 $page_num = $totalPage;
             } else if ($page_num < 1) {
                 $page_num = 1;
             }
             $for_action .= $page_num > 1 ? '&page_num=' . $page_num : '';
-            //echo $totalThread . '<br>' . "\n";
-            //echo $totalPage . '<br>' . "\n";
+            //echo $totalThread . '<br>' . PHP_EOL;
+            //echo $totalPage . '<br>' . PHP_EOL;
             $offset = ($page_num - 1) * $this->post_per_page;
 
             // chạy vòng lặp gán nốt các thông số khác trên url vào phân trang
@@ -423,8 +423,8 @@ class Users extends Admin
     protected function add_new()
     {
         $data = $this->MY_post('data');
-        //echo $this->controller_slug . '<br>' . "\n";
-        //echo $this->member_type . '<br>' . "\n";
+        //echo $this->controller_slug . '<br>' . PHP_EOL;
+        //echo $this->member_type . '<br>' . PHP_EOL;
         //print_r( $data );
         if ($data['member_type'] == '') {
             $data['member_type'] = $this->member_type;

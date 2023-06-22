@@ -15,7 +15,7 @@ class PostGet extends PostQuery
 
     public function get_auto_post($slug, $post_type = 'post', $taxonomy = 'category', $limit = 0, $ops = [])
     {
-        //echo $slug . '<br>' . "\n";
+        //echo $slug . '<br>' . PHP_EOL;
         if ($slug == '') {
             die('slug for get auto post is NULL!');
         }
@@ -34,8 +34,8 @@ class PostGet extends PostQuery
         $post_cat = $this->term_model->terms_meta_post([$post_cat]);
         $post_cat = $post_cat[0];
         //print_r($post_cat);
-        //echo $post_cat[ 'taxonomy' ] . '<br>' . "\n";
-        //echo $taxonomy . '<br>' . "\n";
+        //echo $post_cat[ 'taxonomy' ] . '<br>' . PHP_EOL;
+        //echo $taxonomy . '<br>' . PHP_EOL;
 
         //
         if ($limit < 1 && isset($post_cat['term_meta']['post_number'])) {

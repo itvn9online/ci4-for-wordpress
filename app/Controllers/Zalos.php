@@ -154,4 +154,29 @@ class Zalos extends Guest
             'result' => $response,
         ]);
     }
+
+    /**
+     * Webhook lưu lại các sự kiện mà người dùng thực thi với OA -> xác định thời gian tương tác cuối -> dùng để gửi thông báo qua OA
+     **/
+    public function webhook()
+    {
+        $data_input = file_get_contents('php://input');
+        if (empty($data_input)) {
+            $this->result_json_type([
+                'code' => __LINE__,
+                'error' => 'data_input EMPTY',
+            ]);
+        }
+
+        //
+        $f = WRITEPATH . '___zalo_oa_webhook-' . date('Y-m-d') . '.txt';
+        file_put_contents($f, $data_input . PHP_EOL, FILE_APPEND);
+        chmod($f, DEFAULT_FILE_PERMISSION);
+
+        //
+        $this->result_json_type([
+            'code' => __LINE__,
+            'data' => $data_input,
+        ]);
+    }
 }
