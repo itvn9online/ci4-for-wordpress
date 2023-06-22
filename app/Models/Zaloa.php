@@ -383,6 +383,9 @@ class Zaloa extends Option
             return 'zalooa_access_token EMPTY';
         }
 
+        // kiểm tra và nạp lại token nếu đã hết hạn
+        $this->zaloRefreshToken(true);
+
         // chuyển định dạng số điện thoại về chuẩn mà Zalo yêu cầu
         $phone = $this->syncPhoneNumber($phone);
         $phone = preg_replace('/^0/', '84', $phone);
@@ -427,15 +430,6 @@ class Zaloa extends Option
         //echo $response;
         $response = json_decode($response);
         //print_r($response);
-
-        // nếu có lỗi -> xem nếu là lỗi hết hạn token thì thực hiện update access token từ refresh token
-        if ($reset_token === true && isset($response->error) && $response->error < 0) {
-            $result = $this->zaloRefreshToken(true);
-            // nếu quá trình update token thành công
-            if ($result !== false && isset($result->access_token)) {
-                return $this->sendZns($phone, $template_id, $template_data, $custom_data, false);
-            }
-        }
 
         //
         return $response;
@@ -509,10 +503,15 @@ class Zaloa extends Option
      * Chức năng gửi tin nhắn thông qua Zalo OA
      * https://github.com/zaloplatform/zalo-php-sdk
      **/
-    public function sendOaText($oa_id, $content, $btn = [])
+    public function sendOaText($oa_id, $content, $btn = [], $reset_token = true)
     {
         //die(\Zalo\ZaloEndPoint::API_OA_SEND_CONSULTATION_MESSAGE_V3);
         //die($this->zalooa_config->zalooa_access_token);
+
+        // trước khi gửi thì cứ kiểm tra cấu hình đã
+        $this->loadConfig();
+        // kiểm tra và nạp lại token nếu đã hết hạn
+        $this->zaloRefreshToken(true);
 
         // build data
         $msgBuilder = new \Zalo\Builder\MessageBuilder(\Zalo\Builder\MessageBuilder::MSG_TYPE_TXT);
@@ -523,7 +522,6 @@ class Zaloa extends Option
         $msgText = $msgBuilder->build();
 
         // send request
-        $this->loadConfig();
         $response = $this->zalo->post(\Zalo\ZaloEndPoint::API_OA_SEND_CONSULTATION_MESSAGE_V3, $this->zalooa_config->zalooa_access_token, $msgText);
         $result = $response->getDecodedBody();
 
