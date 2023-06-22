@@ -200,7 +200,7 @@ if ($debug_enable === true) {
         </div>
         <div class="lf f33">
             <div class="admin-menu-search text-center">
-                <input type="search" id="admin_menu_search" placeholder="Search for post, product, menu, user..." />
+                <input type="search" id="admin_menu_search" placeholder="Search in admin menu. Ex: post, product, setting, config, user..." />
             </div>
             <div class="admin-menu-result">
                 <div class="admin-menu-padding">

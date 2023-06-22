@@ -660,7 +660,6 @@ body.body-debug_enable #sidebar {
     max-height: 250px;
     overflow-y: auto;
     border: 1px #ccc solid;
-    box-shadow: 0 0 10px #ccc;
     background-color: white;
 }
 

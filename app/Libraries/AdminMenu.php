@@ -138,6 +138,7 @@ class AdminMenu
                     UsersType::MOD,
                 ],
                 'name' => PostType::typeList(PostType::MEDIA),
+                'tag' => 'Images',
                 'icon' => 'fa fa-camera',
                 'arr' => [
                     'admin/uploads/optimize' => [
@@ -182,6 +183,7 @@ class AdminMenu
                     UsersType::MOD,
                 ],
                 'name' => UsersType::ALL,
+                'tag' => 'Members',
                 'icon' => 'fa fa-users',
                 'arr' => [
                     'admin/guests' => [
@@ -215,6 +217,7 @@ class AdminMenu
             ],
             'admin/configs' => [
                 'name' => 'Cài đặt chung',
+                'tag' => 'Setting',
                 'icon' => 'fa fa-cogs',
                 'arr' => [
                     'admin/displays' => [
@@ -259,6 +262,7 @@ class AdminMenu
                     ],
                     'admin/translates' => [
                         'name' => ConfigType::typeList(ConfigType::TRANS),
+                        'tag' => 'Language',
                         'icon' => 'fa fa-globe',
                     ],
                     'admin/firebases' => [

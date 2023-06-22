@@ -29,6 +29,11 @@ console.log(aaaaaaaa);
 			arr[x].target = "_self";
 		}
 
+		// tạo tag
+		if (typeof arr[x].tag == "") {
+			arr[x].tag = "";
+		}
+
 		//
 		cl = "";
 		// chỉnh lại css cho các menu dưới chân admin
@@ -48,6 +53,8 @@ console.log(aaaaaaaa);
 			x +
 			'" target="' +
 			arr[x].target +
+			'" data-tag="' +
+			arr[x].tag +
 			'">' +
 			arr[x].icon +
 			arr[x].name +
@@ -80,12 +87,19 @@ console.log(aaaaaaaa);
 					v_sub[k_sub].target = "_self";
 				}
 
+				// tạo tag
+				if (typeof v_sub[k_sub].tag == "undefined") {
+					v_sub[k_sub].tag = "";
+				}
+
 				//
 				str_sub +=
 					'<li><a href="' +
 					k_sub +
 					'" target="' +
 					v_sub[k_sub].target +
+					'" data-tag="' +
+					v_sub[k_sub].tag +
 					'">' +
 					v_sub[k_sub].icon +
 					v_sub[k_sub].name +
@@ -358,6 +372,7 @@ $(document)
 		// tạo key tìm kiếm cho li
 		$("#admin_menu_result a").each(function () {
 			var a = $(this).attr("href") || "";
+			a += $(this).attr("data-tag") || "";
 			a += $(this).html();
 			//console.log(a);
 			a = g_func.non_mark_seo(a).replace(/\-/g, "");
@@ -375,7 +390,7 @@ $(document)
 			.focusout(function (e) {
 				setTimeout(function () {
 					$(".admin-menu-result").hide();
-				}, 300);
+				}, 200);
 			})
 			.keyup(function (e) {
 				//console.log(e.keyCode);
