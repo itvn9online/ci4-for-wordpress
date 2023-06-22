@@ -33,4 +33,10 @@ $(document).ready(function () {
 	if (($("#data_g_firebase_config").val() || "") != "") {
 		$("#data_g_firebase_config").trigger("change");
 	}
+
+	// các dữ liệu không cho sửa
+	$("#data_firebase_json_config").attr({
+		//disabled: "disabled",
+		readonly: "readonly",
+	});
 });
