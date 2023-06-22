@@ -354,7 +354,7 @@ $(document)
 			.removeAttr("class")
 			.removeAttr("style");
 		// xóa bỏ icon
-		$("#admin_menu_result i").remove();
+		//$("#admin_menu_result i").remove();
 		// tạo key tìm kiếm cho li
 		$("#admin_menu_result a").each(function () {
 			var a = $(this).attr("href") || "";
