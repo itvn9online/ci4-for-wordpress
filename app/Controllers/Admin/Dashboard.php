@@ -24,6 +24,10 @@ class Dashboard extends Optimize
         // kiểm tra quyền truy cập của tài khoản hiện tại
         $this->check_permision(__CLASS__);
 
+        // Luôn bật display error để tiện theo dõi vấn đề
+        ini_set('display_errors', 1);
+        error_reporting(E_ALL);
+
         //
         $this->f_env = PUBLIC_HTML_PATH . '.env';
         $this->f_backup_env = PUBLIC_HTML_PATH . 'writable/.env-bak';
