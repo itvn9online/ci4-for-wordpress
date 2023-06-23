@@ -179,18 +179,28 @@ class Zalos extends Guest
         }
 
         //
-        $f = WRITEPATH . 'logs/zalo-oa-webhook-' . date('Y-m-d') . '.txt';
-        file_put_contents($f, $data_input . PHP_EOL, FILE_APPEND);
-        chmod($f, DEFAULT_FILE_PERMISSION);
+        //$f = WRITEPATH . 'logs/zalo-oa-webhook-' . date('Y-m-d') . '.txt';
+        //file_put_contents($f, $data_input . PHP_EOL, FILE_APPEND);
+        //chmod($f, DEFAULT_FILE_PERMISSION);
 
         //
-        //$data_obj = json_decode($data_input);
+        $data_obj = json_decode($data_input);
+
+        // INSERT
+        $result_id = $this->base_model->insert('webhook_zalo_oa', [
+            'ip' => $this->request->getIPAddress(),
+            'event_name' => $data_obj->event_name,
+            'app_id' => $data_obj->app_id,
+            'content' => $data_input,
+            'created_at' => time(),
+        ], true);
+        //print_r( $result_id );
 
         //
         $this->result_json_type([
             'code' => __LINE__,
             //'data' => $data_input,
-            'ok' => __LINE__,
+            'ok' => $result_id,
         ]);
     }
 }

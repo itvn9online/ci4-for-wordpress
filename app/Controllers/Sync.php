@@ -54,7 +54,6 @@ class Sync extends BaseController
      * daidq: tự động đồng bộ cấu trúc bảng
      * do cấu trúc bảng của wordpress thiếu 1 số tính năng so với bản CI này nên cần thêm cột để sử dụng
      */
-
     // tạo bảng để lưu session khi cần có thể sử dụng luôn
     private function tbl_sessions($tbl = 'ci_sessions')
     {
@@ -73,11 +72,67 @@ class Sync extends BaseController
             `timestamp` timestamp DEFAULT CURRENT_TIMESTAMP NOT null,
             `data` blob NOT null,
             KEY `ci_sessions_timestamp` (`timestamp`)
-        )";
-        echo 'CREATE TABLE IF NOT EXISTS `' . $table . '` <br>' . "\n\n";
+        ) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_general_ci";
+        echo 'CREATE TABLE IF NOT EXISTS `' . $table . '` <br>' . PHP_EOL;
 
         //
         return $this->base_model->MY_query($sql);
+    }
+
+    /**
+     * Bảng để lưu event webhook của Zalo OA
+     **/
+    protected function tbl_webhook_zalooa($tbl = 'webhook_zalo_oa')
+    {
+        $table = WGR_TABLE_PREFIX . $tbl;
+
+        // xem bảng này có chưa -> có rồi thì thôi
+        if ($this->base_model->table_exists($table)) {
+            echo 'TABLE exist ' . $table . '<br>' . PHP_EOL;
+            return false;
+        }
+
+        //
+        $sql = "CREATE TABLE IF NOT EXISTS `$table` (
+            `id` BIGINT(20) NOT NULL AUTO_INCREMENT ,
+            `ip` VARCHAR(255) NULL DEFAULT NULL ,
+            `event_name` VARCHAR(255) NOT NULL ,
+            `app_id` VARCHAR(255) NOT NULL ,
+            `content` TEXT NULL ,
+            `is_deleted` TINYINT(2) NOT NULL DEFAULT '0' ,
+            `created_at` BIGINT(20) NOT NULL DEFAULT '0' ,
+            PRIMARY KEY (`id`) ,
+            INDEX (`event_name`) ,
+            INDEX (`app_id`) ,
+            INDEX (`is_deleted`)
+            ) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_general_ci";
+        echo 'CREATE TABLE IF NOT EXISTS `' . $table . '` <br>' . PHP_EOL;
+
+        //
+        return $this->base_model->MY_query($sql);
+    }
+
+    /**
+     * Bảng hóa đơn
+     **/
+    protected function tbl_orders($tbl = 'orders')
+    {
+        $table = WGR_TABLE_PREFIX . $tbl;
+        $from_table = WGR_TABLE_PREFIX . 'posts';
+
+        // xem bảng này có chưa -> có rồi thì thôi
+        if ($this->base_model->table_exists($table)) {
+            echo 'TABLE exist ' . $table . '<br>' . PHP_EOL;
+            return false;
+        }
+
+        //
+        $sql = "CREATE TABLE IF NOT EXISTS `$table` LIKE `$from_table`";
+        echo 'CREATE TABLE IF NOT EXISTS `' . $table . '` <br>' . PHP_EOL;
+
+        //
+        return $this->base_model->MY_query($sql);
+        # code...
     }
 
     // tạo view cho term để select dữ liệu cho tiện
@@ -142,7 +197,7 @@ class Sync extends BaseController
         //
         $sql = "CREATE OR REPLACE VIEW " . WGR_TERM_VIEW . " AS " . $sql;
         echo $sql . '<br>' . PHP_EOL;
-        echo 'CREATE OR REPLACE VIEW ' . WGR_TERM_VIEW . ' <br>' . "\n\n";
+        echo 'CREATE OR REPLACE VIEW ' . WGR_TERM_VIEW . ' <br>' . PHP_EOL;
 
         //
         //die( __CLASS__ . ':' . __LINE__ );
@@ -235,7 +290,7 @@ class Sync extends BaseController
         //
         $sql = "CREATE OR REPLACE VIEW " . WGR_POST_VIEW . " AS " . $sql;
         echo $sql . '<br>' . PHP_EOL;
-        echo 'CREATE OR REPLACE VIEW ' . WGR_POST_VIEW . ' <br>' . "\n\n";
+        echo 'CREATE OR REPLACE VIEW ' . WGR_POST_VIEW . ' <br>' . PHP_EOL;
 
         //
         return $this->base_model->MY_query($sql);
@@ -251,6 +306,11 @@ class Sync extends BaseController
             echo __FUNCTION__ . ' RUN ' . (time() - $last_run) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
             return false;
         }
+
+        // tạo bảng nếu chưa có
+        $this->tbl_webhook_zalooa();
+        $this->tbl_orders();
+        $this->tbl_sessions();
 
         //
         $prefix = WGR_TABLE_PREFIX;
@@ -449,8 +509,6 @@ class Sync extends BaseController
         }
         */
 
-        //
-        $this->tbl_sessions();
         // kiểm tra và tạo view nếu bảng có sự thay đổi
         $this->view_terms($has_table_change);
         $this->view_posts($has_table_change);
