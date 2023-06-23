@@ -11,7 +11,7 @@
     /* <![CDATA[ */
     var flatsomeVars = {
         "theme": {
-            "version": "3.17.2"
+            "version": "3.16.1"
         },
         "ajaxurl": "",
         "rtl": "",

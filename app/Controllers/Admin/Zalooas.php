@@ -55,7 +55,16 @@ class Zalooas extends Configs
     public function send_test_msg_oa()
     {
         //$this->result_json_type($this->session_data);
-        if (empty($this->session_data['zalo_oa_id'])) {
+
+        //
+        if (empty($this->zalooa_config->zalooa_user_id_test)) {
+            $zalo_oa_id = $this->session_data['zalo_oa_id'];
+        } else {
+            $zalo_oa_id = $this->zalooa_config->zalooa_user_id_test;
+        }
+
+        //
+        if (empty($zalo_oa_id)) {
             $this->result_json_type([
                 'code' => __LINE__,
                 'error' => 'Tài khoản của bạn chưa được kết nối với Zalo OA, vui lòng kết nối trước khi tiếp tục',
@@ -66,18 +75,18 @@ class Zalooas extends Configs
         //
         $this->result_json_type([
             'code' => __LINE__,
-            'zalo_oa_id' => $this->session_data['zalo_oa_id'],
+            'zalo_oa_id' => $zalo_oa_id,
             'back' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '',
             // test lấy thông tin OA
-            //'user_profile' => $this->zaloa_model->getOaUserProfile($this->session_data['zalo_oa_id']),
+            //'user_profile' => $this->zaloa_model->getOaUserProfile($zalo_oa_id),
             //'user_follower' => $this->zaloa_model->getOaListFollower(),
             //'oa_rofile' => $this->zaloa_model->getOaProfile(),
             //'recent_chat' => $this->zaloa_model->getOaListRecentChat(),
-            //'user_chat' => $this->zaloa_model->getOaConversation($this->session_data['zalo_oa_id']),
+            //'user_chat' => $this->zaloa_model->getOaConversation($zalo_oa_id),
             //'oa_quota' => $this->zaloa_model->getOaQuota(),
-            'oa_promotion_quota' => $this->zaloa_model->getOaPromotionQuota($this->session_data['zalo_oa_id']),
+            'oa_promotion_quota' => $this->zaloa_model->getOaPromotionQuota($zalo_oa_id),
             // test gửi tin nhắn
-            'result' => $this->zaloa_model->sendOaText($this->session_data['zalo_oa_id'], implode(PHP_EOL, [
+            'result' => $this->zaloa_model->sendOaText($zalo_oa_id, implode(PHP_EOL, [
                 'Đây là đài tiếng nói Việt Nam!',
                 'Phát đi từ Hà Nội, thủ đô nước cộng hòa xã hội chủ nghĩa Việt Nam.',
                 'Bây giờ là: ' . date('r') . '.',

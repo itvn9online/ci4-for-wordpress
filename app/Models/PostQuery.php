@@ -795,12 +795,22 @@ class PostQuery extends PostMeta
                 $widget_blog_more = '<div class="widget-blog-more details-blog-more"><a href="{{p_link}}">' . $instance['text_view_details'] . '</a></div>';
             }
 
+            //
+            $a_class = '';
+            $a_link = $p_link;
+            if (isset($v['post_meta']['url_video']) && $v['post_meta']['url_video'] != '') {
+                $a_class = 'open-video';
+                $a_link = $v['post_meta']['url_video'];
+            }
+
             // tạo html cho từng node
             //echo $tmp_html;
             $str_node = $this->base_model->tmp_to_html(
                 $tmp_html,
                 [
                     'p_link' => $p_link,
+                    'a_class' => $a_class,
+                    'a_link' => $a_link,
                     'show_short_title' => $show_short_title,
                     'show_post_content' => $show_post_content . $widget_blog_more,
                     'post_permalink' => $p_link,

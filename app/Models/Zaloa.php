@@ -529,6 +529,54 @@ class Zaloa extends Option
      **/
     public function sendOaText($oa_id, $content, $btn = [], $reset_token = true)
     {
+        return $this->sendOaMyText($oa_id, $content, $btn, $reset_token);
+        // gửi bằng code cung cấp bởi zalo đang bị đứt do gửi lỗi thì web dừng luôn -> hạn chế dùng
+        //return $this->sendOaSdkText($oa_id, $content, $btn, $reset_token);
+    }
+
+    /**
+     * Chức năng gửi tin nhắn thông qua Zalo OA -> sử dụng code tự build qua postman
+     **/
+    public function sendOaMyText($oa_id, $content, $btn = [], $reset_token = true)
+    {
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://openapi.zalo.me/v3.0/oa/message/cs',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => json_encode([
+                'recipient' => [
+                    'user_id' => $oa_id
+                ],
+                'message' => [
+                    'text' => $content
+                ],
+            ]),
+            CURLOPT_HTTPHEADER => array(
+                'access_token: ' . $this->zalooa_config->zalooa_access_token,
+                'Content-Type: application/json'
+            ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        //echo $response;
+        $response = json_decode($response);
+
+        //
+        return $response;
+    }
+
+    /**
+     * Chức năng gửi tin nhắn thông qua Zalo OA -> sử dụng code cung cấp bởi Zalo
+     * Chức năng này lúc lỗi thì nó đứt luôn -> cũng hạn chế dùng -> vì mình cần lấy lỗi trả về thôi
+     **/
+    public function sendOaSdkText($oa_id, $content, $btn = [], $reset_token = true)
+    {
         //die(\Zalo\ZaloEndPoint::API_OA_SEND_CONSULTATION_MESSAGE_V3);
         //die($this->zalooa_config->zalooa_access_token);
 
@@ -546,7 +594,10 @@ class Zaloa extends Option
         $msgText = $msgBuilder->build();
 
         // send request
+        //die(__CLASS__ . ':' . __LINE__);
         $response = $this->zalo->post(\Zalo\ZaloEndPoint::API_OA_SEND_CONSULTATION_MESSAGE_V3, $this->zalooa_config->zalooa_access_token, $msgText);
+        //print_r($response);
+        //die(__CLASS__ . ':' . __LINE__);
         $result = $response->getDecodedBody();
 
         //
