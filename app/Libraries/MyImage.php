@@ -64,21 +64,40 @@ class MyImage
         }
 
         // nếu chưa có -> tạo thôi
-        $file_ext = pathinfo($source, PATHINFO_EXTENSION);
+        //$file_ext = pathinfo($source, PATHINFO_EXTENSION);
         //echo $file_ext . '<br>' . PHP_EOL;
+
+        //
+        $mime_type = mime_content_type($source);
+        //die($source . ':' . __CLASS__ . ':' . __LINE__);
+        //die($mime_type . ':' . __CLASS__ . ':' . __LINE__);
+        if (strpos($mime_type, 'image') === false) {
+            return '';
+        }
+        // 1 số định dạng file không sử dụng quality được
+        else if (
+            in_array(
+                $mime_type,
+                [
+                    'image/webp'
+                ]
+            )
+        ) {
+            return '';
+        }
 
         //
         // bắt đầu chuyển đổi sang webp
         $create_webp = false;
-        if ($file_ext == 'webp') {
+        if ($mime_type == 'image/webp') {
             return str_replace(PUBLIC_PUBLIC_PATH, '', $source);
-        } else if ($file_ext == 'png') {
+        } else if ($mime_type == 'image/png') {
             $img = imagecreatefrompng($source);
             $create_webp = true;
-        } else if ($file_ext == 'jpg' || $file_ext == 'jpeg') {
+        } else if ($mime_type == 'image/jpg' || $mime_type == 'image/jpeg') {
             $img = imagecreatefromjpeg($source);
             $create_webp = true;
-        } else if ($file_ext == 'gif') {
+        } else if ($mime_type == 'image/gif') {
             $img = imagecreatefromgif($source);
             $create_webp = true;
         }
@@ -152,7 +171,7 @@ class MyImage
 
             //
             $image = new \Imagick($source);
-            if ($mime_type == 'image/jpeg') {
+            if ($mime_type == 'image/jpg' || $mime_type == 'image/jpeg') {
                 $image->setImageFormat('jpg');
                 $image->setImageCompression(\Imagick::COMPRESSION_JPEG);
                 $image->setImageCompressionQuality($compression);
