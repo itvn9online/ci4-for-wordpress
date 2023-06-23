@@ -110,3 +110,35 @@ label,
 .blogs_node_chutren_anhduoi .eb-blog-padding {
     flex-direction: column-reverse;
 }
+
+.open-video {}
+
+.open-video::before {
+    content: "";
+    position: absolute;
+    display: block;
+    border: 2px #fff solid;
+    width: 42px;
+    height: 42px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+
+}
+
+.open-video::after {
+    font: normal normal normal 14px/1 FontAwesome;
+    content: "\f04b";
+    position: absolute;
+    left: 51%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    color: white;
+}
+
+.open-video:hover::before {
+    width: 50px;
+    height: 50px;
+}
