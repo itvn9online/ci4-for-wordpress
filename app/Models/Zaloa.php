@@ -49,9 +49,6 @@ class Zaloa extends Option
         //print_r($this->zalooa_config);
         //die(__CLASS__ . ':' . __LINE__);
 
-        // kiểm tra và nạp cấu hình
-        $this->loadConfig();
-
         // kiểm tra và nạp lại token nếu đã hết hạn
         $this->zaloRefreshToken(true);
     }
@@ -69,6 +66,7 @@ class Zaloa extends Option
                 'app_id' => $this->zalooa_config->zalooa_app_id,
                 'app_secret' => $this->zalooa_config->zalooa_app_secret
             ]);
+            $this->loadHelper();
         }
     }
 
@@ -123,9 +121,8 @@ class Zaloa extends Option
 
         //
         $state = md5($codeChallenge);
-        //$this->loadConfig();
         if ($login_url === true) {
-            $this->loadHelper();
+            $this->loadConfig();
             $loginUrl = $this->helper->getLoginUrl($callBackUrl, $codeChallenge, $state); // This is login url
         } else {
             $loginUrl = 'https://oauth.zaloapp.com/v4/oa/permission?app_id=' . $this->zalooa_config->zalooa_app_id . '&redirect_uri=' . urlencode($callBackUrl) . '&code_challenge=' . $codeChallenge . '&state=' . $state;
@@ -164,8 +161,7 @@ class Zaloa extends Option
         //echo $codeVerifier . PHP_EOL;
 
         //
-        //$this->loadConfig();
-        $this->loadHelper();
+        $this->loadConfig();
         $zaloToken = $this->helper->getZaloToken($codeVerifier); // get zalo token
         $accessToken = $zaloToken->getAccessToken();
         //die($accessToken);
@@ -404,9 +400,6 @@ class Zaloa extends Option
             return 'zalooa_access_token EMPTY';
         }
 
-        // kiểm tra và nạp lại token nếu đã hết hạn
-        //$this->zaloRefreshToken(true);
-
         // chuyển định dạng số điện thoại về chuẩn mà Zalo yêu cầu
         $phone = $this->syncPhoneNumber($phone);
         $phone = preg_replace('/^0/', '84', $phone);
@@ -414,7 +407,6 @@ class Zaloa extends Option
 
         //
         $data = [
-            //'mode' => 'development',
             'phone' => $phone,
             'template_id' => $template_id,
             'template_data' => $template_data,
@@ -515,8 +507,10 @@ class Zaloa extends Option
 
     public function getZaloIdName($accessToken)
     {
+        $this->loadConfig();
+
+        //
         $params = ['fields' => 'id,name,picture'];
-        //$this->loadConfig();
         $response = $this->zalo->get(\Zalo\ZaloEndPoint::API_GRAPH_ME, $accessToken, $params);
         $result = $response->getDecodedBody(); // result
         //print_r($result);
@@ -581,9 +575,7 @@ class Zaloa extends Option
         //die($this->zalooa_config->zalooa_access_token);
 
         // trước khi gửi thì cứ kiểm tra cấu hình đã
-        //$this->loadConfig();
-        // kiểm tra và nạp lại token nếu đã hết hạn
-        //$this->zaloRefreshToken(true);
+        $this->loadConfig();
 
         // build data
         $msgBuilder = new \Zalo\Builder\MessageBuilder(\Zalo\Builder\MessageBuilder::MSG_TYPE_TXT);
@@ -613,7 +605,7 @@ class Zaloa extends Option
     public function getOaUserProfile($user_id)
     {
         // trước khi gửi thì cứ kiểm tra cấu hình đã
-        //$this->loadConfig();
+        $this->loadConfig();
 
         //
         $data = [
@@ -635,7 +627,7 @@ class Zaloa extends Option
     public function getOaListFollower($offset = 0)
     {
         // trước khi gửi thì cứ kiểm tra cấu hình đã
-        //$this->loadConfig();
+        $this->loadConfig();
 
         //
         $data = [
@@ -658,7 +650,7 @@ class Zaloa extends Option
     public function getOaProfile()
     {
         // trước khi gửi thì cứ kiểm tra cấu hình đã
-        //$this->loadConfig();
+        $this->loadConfig();
 
         //
         $response = $this->zalo->get(\Zalo\ZaloEndPoint::API_OA_GET_PROFILE, $this->zalooa_config->zalooa_access_token, []);
@@ -675,7 +667,7 @@ class Zaloa extends Option
     public function getOaListRecentChat($offset = 0)
     {
         // trước khi gửi thì cứ kiểm tra cấu hình đã
-        //$this->loadConfig();
+        $this->loadConfig();
 
         //
         $data = [
@@ -698,7 +690,7 @@ class Zaloa extends Option
     public function getOaConversation($user_id, $offset = 0)
     {
         // trước khi gửi thì cứ kiểm tra cấu hình đã
-        //$this->loadConfig();
+        $this->loadConfig();
 
         //
         $data = [
