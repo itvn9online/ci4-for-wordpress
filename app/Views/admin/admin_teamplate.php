@@ -194,7 +194,7 @@ if ($debug_enable === true) {
             <div class="d-inline"><a href="./"><i class="fa fa-home"></i> <?php $lang_model->the_text('admin_ve_trang_chu', 'Về trang chủ'); ?></a></div>
             &nbsp; | &nbsp;
             <div class="d-inline"><?php $lang_model->the_text('admin_ngon_ngu', 'Ngôn ngữ'); ?>:
-                <select data-select="<?php echo $html_lang; ?>" class="admin-change-language">
+                <select data-select="<?php echo $html_lang; ?>" id="admin-change-language">
                 </select>
             </div>
         </div>

@@ -114,9 +114,7 @@ if ($term_template != '') {
 
     // nạp view
     $theme_private_view = THEMEPATH . 'term-templates/' . $term_template . '.php';
-    if ($debug_enable === true) echo '<div class="wgr-view-path bold">' . str_replace(PUBLIC_HTML_PATH, '', $theme_private_view) . '</div>';
-
-    include $theme_private_view;
+    include VIEWS_PATH . 'private_include_view.php';
 
     // nạp js riêng nếu có
     $base_model->add_js(THEMEPATH . 'term-templates/' . $term_template . '.js', [

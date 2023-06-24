@@ -35,16 +35,7 @@ if ($current_user_id > 0 && isset($session_data['userLevel']) && $session_data['
 
 // nạp footer riêng của từng theme (tương tự function get_footer bên wordpress)
 $theme_private_view = VIEWS_CUSTOM_PATH . 'get_footer.php';
-// nạp file kiểm tra private view
-//echo $theme_private_view;
-if (file_exists($theme_private_view)) {
-    if ($debug_enable === true) {
-        echo '<div class="wgr-view-path bold">' . str_replace(PUBLIC_HTML_PATH, '', $theme_private_view) . '</div>';
-    }
-
-    //
-    include $theme_private_view;
-}
+include VIEWS_PATH . 'private_require_view.php';
 
 
 //

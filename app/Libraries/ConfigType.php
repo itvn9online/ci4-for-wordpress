@@ -542,7 +542,7 @@ class ConfigType
             'save_firebase_session' => 'Mặc định khi đăng nhập qua Firebase hoàn tất, kết nối của người dùng được xóa bỏ nhằm đảm bảo an toàn. Nếu muốn giữ lại phiên đăng nhập để tái sử dụng lần tới, hãy kích hoạt chức năng này.',
             'firebase_auth_google' => 'Đăng nhập bằng tài khoản Google',
             'firebase_auth_facebook' => 'Đăng nhập bằng tài khoản Facebook. Tạo app sau đó lấy App ID và App secret tại đây: https://developers.facebook.com/apps/ <br> * Nhớ truy cập vào Đăng nhập bằng Facebook -> Cài đặt -> URI chuyển hướng OAuth hợp lệ để tiến hành cài đặt URL chuyển hướng cho firebase: https://developers.facebook.com/apps/YOUR_FACEBOOK_APP_ID/fb-login/settings/ <br> * URL này có dạng: https://YOUR_FIREBASE_PROJECT_ID.firebaseapp.com/__/auth/handler',
-            'firebase_auth_apple' => 'Đăng nhập bằng tài khoản Apple',
+            'firebase_auth_apple' => 'Đăng nhập bằng tài khoản Apple. Xem hướng dẫn tại đây: https://firebase.google.com/docs/auth/web/apple?authuser=0&hl=en',
             'firebase_auth_microsoft' => 'Đăng nhập bằng tài khoản Microsoft',
             'firebase_auth_yahoo' => 'Đăng nhập bằng tài khoản Yahoo',
             'firebase_auth_twitter' => 'Đăng nhập bằng tài khoản Twitter',

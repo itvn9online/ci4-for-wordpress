@@ -254,9 +254,9 @@ setInterval(function () {
 	for (var x in arr_lang_list) {
 		str += '<option value="' + x + '">' + arr_lang_list[x] + "</option>";
 	}
-	$(".admin-change-language").html(str);
+	$("#admin-change-language").html(str);
 })();
-$(".admin-change-language").change(function () {
+$("#admin-change-language").change(function () {
 	var a = $(this).val() || "";
 
 	//
@@ -315,7 +315,7 @@ $(document)
 
 		// tự động select khi có dữ liệu
 		WGR_set_prop_for_select("#content select");
-		WGR_set_prop_for_select("select.admin-change-language");
+		WGR_set_prop_for_select("select#admin-change-language");
 
 		//
 		//$('input[type=checkbox],input[type=radio],input[type=file]').uniform();
