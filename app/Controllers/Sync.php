@@ -385,8 +385,8 @@ class Sync extends BaseController
                 'term_viewed' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Đếm số lượt xem danh mục\'',
                 'term_meta_data' => 'LONGTEXT NULL COMMENT \'Lưu các post meta vào đây để đỡ phải query nhiều\'',
                 'term_ids' => 'VARCHAR(255) NULL COMMENT \'Danh sách ID của các nhóm con, dùng để tạo query cho nhanh\'',
-                'child_count' => 'BIGINT(20) NULL COMMENT \'Tính tổng số nhóm con để gọi lệnh lấy nhóm con nếu không NULL\'',
-                'child_last_count' => 'BIGINT(20) NULL COMMENT \'Thời gian cập nhật child_count lần trước\'',
+                'child_count' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Tính tổng số nhóm con để gọi lệnh lấy nhóm con nếu không NULL\'',
+                'child_last_count' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Thời gian cập nhật child_count lần trước\'',
                 'term_type' => 'VARCHAR(55) NULL COMMENT \'Dùng để phân loại term, tương tự category nhưng ít dùng hơn nhiều\'',
                 'term_avatar' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Ảnh đại diện của term\'',
                 'term_favicon' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Hình thu nhỏ của term\'',
@@ -513,12 +513,10 @@ class Sync extends BaseController
         $this->view_terms($has_table_change);
         $this->view_posts($has_table_change);
         // cập nhật lại tổng số nhóm con cho phân term
-        /*
         $last_run = $this->term_model->sync_term_child_count();
         if ($last_run !== true) {
-        echo 'sync term child count RUN ' . (time() - $last_run) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            echo 'sync term child count RUN ' . (time() - $last_run) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
         }
-        */
 
         //
         //die( __CLASS__ . ':' . __LINE__ );

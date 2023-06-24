@@ -25,8 +25,8 @@ function each_to_group_taxonomy() {
 			if (data.length > 0) {
 				// tạo select
 				$("#" + jd)
-					.append(create_term_select_option(data))
-					.removeClass("set-selected");
+					.removeClass("set-selected")
+					.append(create_term_select_option(data));
 
 				// xóa các option không có count -> đỡ phải lọc
 				$("#" + jd + " option[data-count='0']").remove();

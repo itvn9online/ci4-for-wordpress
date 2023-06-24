@@ -820,6 +820,9 @@ var loading_term_select_option = {};
 var arr_all_taxonomy = {};
 
 function load_term_select_option(a, jd, _callBack, max_i) {
+	if (arguments.callee.caller !== null) {
+		console.log("Call in: " + arguments.callee.caller.name.toString());
+	}
 	//console.log(a);
 	//console.log(arr_all_taxonomy);
 
@@ -835,7 +838,9 @@ function load_term_select_option(a, jd, _callBack, max_i) {
 		//
 		if (typeof arr_all_taxonomy[a] != "undefined") {
 			console.log("%c using arr_all_taxonomy", "color: blue;");
-			_callBack(arr_all_taxonomy[a], jd);
+			if (typeof _callBack == "function") {
+				_callBack(arr_all_taxonomy[a], jd);
+			}
 			return false;
 		}
 
@@ -883,14 +888,26 @@ function load_term_select_option(a, jd, _callBack, max_i) {
 	});
 }
 
-// tạo danh sách option cho các select term
-function create_term_select_option(arr, space) {
-	//console.log('Call in: ' + arguments.callee.caller.name.toString());
+/*
+ * tạo danh sách option cho các select term
+ * limit_deep: giới hạn độ sâu của vòng lặp tìm các mảng con (child-data)
+ * current_deep: độ sâu hiện tại của vòng lặp -> dùng để thoát vòng lặp nếu đạt đủ độ sâu cần thiết
+ */
+function create_term_select_option(arr, space, limit_deep, current_deep) {
+	if (arguments.callee.caller !== null) {
+		console.log("Call in: " + arguments.callee.caller.name.toString());
+	}
 	//console.log(arr);
 
 	//
 	if (typeof space == "undefined") {
 		space = "";
+	}
+	if (typeof limit_deep != "number") {
+		limit_deep = 999;
+	}
+	if (typeof current_deep != "number") {
+		current_deep = 0;
 	}
 
 	//
@@ -920,10 +937,12 @@ function create_term_select_option(arr, space) {
 			"</option>";
 
 		//
-		if (arr[i].child_term.length > 0) {
+		if (arr[i].child_term.length > 0 && current_deep < limit_deep) {
 			str += create_term_select_option(
 				arr[i].child_term,
-				"&#160 &#160 " + space
+				"&#160 &#160 " + space,
+				limit_deep,
+				current_deep + 1
 			);
 		}
 	}

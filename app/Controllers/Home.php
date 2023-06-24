@@ -496,9 +496,12 @@ class Home extends Posts
             );
 
             //
+            $this->term_model->update_count_post_in_term($data);
+
+            //
             $this->term_model->the_cache($term_id, $in_cache, $data);
         }
-        //print_r( $data );
+        //print_r($data);
         //die( __CLASS__ . ':' . __LINE__ );
 
         // kiểm tra lại slug -> nếu sai thì redirect 301 qua url mới

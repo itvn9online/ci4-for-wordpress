@@ -23,6 +23,7 @@ class TermBase extends EbModel
 
     //
     public $time_update_last_count = 6 * 3600;
+    public $time_update_count = 3600;
 
     //protected $primaryTaxonomy = 'category';
 
@@ -262,7 +263,7 @@ class TermBase extends EbModel
     /*
      * đồng bộ các tổng số nhóm con cho các danh mục
      */
-    public function sync_term_child_count($run_h_only = true)
+    public function sync_v1_term_child_count($run_h_only = true)
     {
         // chức năng này chỉ hoạt động vào khung giờ thấp điểm
         if ($run_h_only === true && date('H') % 6 != 0) {
@@ -504,6 +505,163 @@ class TermBase extends EbModel
          */
         $this->base_model->dcache('get_all_taxonomy-');
         $this->base_model->dcache('term-');
+
+        //
+        return true;
+    }
+
+    /**
+     * đồng bộ các tổng số nhóm con cho các danh mục
+     **/
+    public function sync_term_child_count($run_h_only = true)
+    {
+        $last_run = $this->base_model->scache(__FUNCTION__);
+        if ($last_run !== NULL) {
+            //print_r( $last_run );
+            return $last_run;
+        }
+
+        // lấy ít nhóm đã quá hạn đồng bộ để chạy vòng lặp đồng bộ lại
+        $data = $this->base_model->select(
+            'term_id, child_last_count',
+            'terms',
+            array(
+                // các kiểu điều kiện where
+                'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                'child_last_count <' => time() - $this->time_update_count,
+            ),
+            array(
+                'order_by' => array(
+                    'child_last_count' => 'ASC',
+                    //'term_id' => 'DESC',
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => 10
+            )
+        );
+        //print_r($data);
+        if (empty($data)) {
+            $this->base_model->scache(__FUNCTION__, time(), $this->time_update_last_count - rand(333, 666));
+            return false;
+        }
+
+        //
+        foreach ($data as $v) {
+            $this->update_count_post_in_term($v);
+        }
+
+        //
+        return true;
+    }
+
+    /**
+     * Update tổng số bài viết trong 1 nhóm
+     **/
+    public function update_count_post_in_term($data)
+    {
+        //print_r($data);
+        if (!isset($data['child_last_count']) || !isset($data['term_id'])) {
+            return false;
+        }
+
+        // giãn cách giữa các lần cập nhật count
+        if ($data['child_last_count'] > 0 && ($data['child_last_count'] + $this->time_update_count) > time()) {
+            return false;
+        }
+
+        /*
+        * child_count: tính tổng số nhóm con của nhóm này
+        */
+        $child_count = $this->base_model->select(
+            'term_id',
+            'term_taxonomy',
+            array(
+                // các kiểu điều kiện where
+                'parent' => $data['term_id'],
+            ),
+            array(
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => -1
+            )
+        );
+        //print_r($child_count);
+
+        //
+        $this->base_model->update_multiple('terms', [
+            'child_count' => count($child_count),
+            'child_last_count' => time(),
+        ], [
+            'term_id' => $data['term_id'],
+        ], [
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+        ]);
+
+        //
+        $where_in = [$data['term_id']];
+        foreach ($child_count as $v) {
+            $where_in[] = $v['term_id'];
+        }
+        //print_r($where_in);
+
+        /*
+        * count: tính tổng số bài viết của nhóm này và nhóm con
+        */
+        $post_count = $this->base_model->select(
+            'COUNT(' . WGR_TABLE_PREFIX . 'term_relationships.object_id) AS c',
+            'term_relationships',
+            array(
+                // các kiểu điều kiện where
+                //'term_relationships.term_taxonomy_id' => $data['term_id'],
+                'term_relationships.is_deleted' => DeletedStatus::FOR_DEFAULT,
+                'posts.post_status' => PostType::PUBLICITY,
+            ),
+            array(
+                'where_in' => array(
+                    'term_relationships.term_taxonomy_id' => $where_in
+                ),
+                'join' => array(
+                    'posts' => 'posts.ID = term_relationships.object_id'
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => -1
+            )
+        );
+        //print_r($post_count);
+
+        //
+        $this->base_model->update_multiple('term_taxonomy', [
+            'count' => $post_count[0]['c'],
+        ], [
+            'term_id' => $data['term_id'],
+        ], [
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+        ]);
 
         //
         return true;

@@ -81,7 +81,7 @@ $base_model->adds_css([
             </tr>
         </thead>
         <tbody id="admin_term_list">
-            <tr data-id="{{v.term_id}}" class="each-to-child-term">
+            <tr>
                 <td width="50" class="text-center"><input type="checkbox" value="{{v.term_id}}" class="input-checkbox-control" /></td>
                 <td>{{v.term_id}}</td>
                 <td><span data-id="{{v.parent}}" data-taxonomy="<?php echo $taxonomy; ?>" data-line="{{v.gach_ngang}}" class="parent-term-name"></span> <a href="{{v.get_admin_permalink}}">{{v.gach_ngang}}{{v.name}}

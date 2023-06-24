@@ -74,10 +74,11 @@ function re_height_iframe_editer(for_id, if_id, max_i) {
 }
 
 function MY_select2(for_id) {
-	if ($(for_id + " option").length > 10 && !$(for_id).hasClass("has-select2")) {
-		$(for_id).select2();
-		$(for_id).addClass("has-select2");
+	if ($(for_id + " option").length < 10 || $(for_id).hasClass("has-select2")) {
+		return false;
 	}
+	$(for_id).addClass("has-select2");
+	$(for_id).select2();
 }
 
 // tìm url trong text vào tạo link
@@ -112,6 +113,28 @@ function url_for_text_note() {
 			a = WGR_urlify(a);
 			//console.log(a);
 			$(this).html(a);
+		}
+	});
+}
+
+// Tạo khung tìm kiếm theo các label đang có trong trang hiện tại
+function create_search_by_label() {
+	$("label").each(function () {
+		var a = $(this).attr("for") || "";
+		if (a != "" && $("#admin_menu_result label[for='" + a + "']").length < 1) {
+			var b = $(this).text();
+			var k = a + b;
+			k = g_func.non_mark_seo(k).replace(/\-/g, "");
+			//console.log(a);
+			$("#admin_menu_result ul").append(
+				"<li data-key='" +
+					k +
+					"'><label for='" +
+					a +
+					"'><i class='fa fa-tag'></i> " +
+					b.replace(/\:/g, "") +
+					"</label></li>"
+			);
 		}
 	});
 }

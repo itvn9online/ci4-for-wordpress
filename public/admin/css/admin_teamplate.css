@@ -669,14 +669,20 @@ body.body-debug_enable #sidebar {
 
 #admin_menu_result li {}
 
+#admin_menu_result label,
 #admin_menu_result a {
-    display: block;
     color: black !important;
+    display: block;
     padding: 6px 0;
     border-top: 1px #f2f2f2 solid;
     font-size: 15px;
 }
 
+#admin_menu_result label {
+    cursor: pointer;
+}
+
+#admin_menu_result label:hover,
 #admin_menu_result a:hover {
     color: red !important;
     border-top-color: #ccc;

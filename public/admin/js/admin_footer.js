@@ -385,6 +385,9 @@ $(document)
 			$(this).parent().attr({ "data-key": a });
 		});
 
+		//
+		create_search_by_label();
+
 		// khi người dùng gõ tìm kiếm
 		$("#admin_menu_search")
 			.focus(function (e) {

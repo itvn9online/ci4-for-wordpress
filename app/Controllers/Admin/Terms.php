@@ -445,6 +445,10 @@ class Terms extends Admin
                 'limit' => 5,
             ], 'term_id, name, slug');
             //print_r($next_term);
+
+            //
+            $this->term_model->sync_term_child_count();
+            $this->term_model->update_count_post_in_term($data);
         }
         // add
         else {

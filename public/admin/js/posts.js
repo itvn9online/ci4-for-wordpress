@@ -158,8 +158,8 @@ if (
 
 			//
 			$("#post_meta_post_category")
-				.append(create_term_select_option(data))
-				.removeClass("set-selected");
+				.removeClass("set-selected")
+				.append(create_term_select_option(data));
 
 			// tạo lại selected
 			WGR_set_prop_for_select("#post_meta_post_category");
@@ -186,8 +186,8 @@ if (
 		"post_meta_post_tags",
 		function (data, jd) {
 			$("#post_meta_post_tags")
-				.append(create_term_select_option(data))
-				.removeClass("set-selected");
+				.removeClass("set-selected")
+				.append(create_term_select_option(data));
 
 			// tạo lại selected
 			WGR_set_prop_for_select("#post_meta_post_tags");

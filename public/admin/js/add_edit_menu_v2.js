@@ -69,7 +69,9 @@ function create_html_menu_editer(max_i) {
 		return false;
 	}
 	try {
-		console.log("Call in: " + arguments.callee.caller.name.toString());
+		if (arguments.callee.caller !== null) {
+			console.log("Call in: " + arguments.callee.caller.name.toString());
+		}
 	} catch (e) {
 		//
 	}
@@ -100,7 +102,9 @@ function create_html_menu_editer(max_i) {
 
 function get_json_add_menu(obj) {
 	try {
-		console.log("Call in: " + arguments.callee.caller.name.toString());
+		if (arguments.callee.caller !== null) {
+			console.log("Call in: " + arguments.callee.caller.name.toString());
+		}
 	} catch (e) {
 		//
 	}
@@ -117,7 +121,9 @@ function get_json_add_menu(obj) {
 
 function get_json_edit_menu(obj) {
 	try {
-		console.log("Call in: " + arguments.callee.caller.name.toString());
+		if (arguments.callee.caller !== null) {
+			console.log("Call in: " + arguments.callee.caller.name.toString());
+		}
 	} catch (e) {
 		//
 	}

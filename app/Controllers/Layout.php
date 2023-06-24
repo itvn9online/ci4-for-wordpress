@@ -394,6 +394,8 @@ class Layout extends Sync
             $data['updated_permalink'] = 0;
         }
 
+        //
+        $this->term_model->update_count_post_in_term($data);
 
         //
         //$this->create_breadcrumb( $data[ 'name' ] );

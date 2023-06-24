@@ -27,8 +27,9 @@ if ($("#data_parent").length > 0) {
 	load_term_select_option(set_parent, "data_parent", function (data, jd) {
 		//console.log(data);
 		$("#data_parent")
-			.append(create_term_select_option(data))
-			.removeClass("set-selected");
+			.removeClass("set-selected")
+			.append(create_term_select_option(data));
+
 		// disabled option của term hiện tại đi -> không để nó chọn chính nó làm cha
 		if (data_term_id > 0) {
 			$('#data_parent option[value="' + data_term_id + '"]').prop(

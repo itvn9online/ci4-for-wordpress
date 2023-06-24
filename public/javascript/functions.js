@@ -622,8 +622,9 @@ var reload_ajax_taxonomy = false;
 // lấy thông tin các taxonomy đang hiện hoạt trên trang
 function action_each_to_taxonomy() {
 	try {
-		if (WGR_config.cf_tester_mode > 0)
+		if (WGR_config.cf_tester_mode > 0 && arguments.callee.caller !== null) {
 			console.log("Call in: " + arguments.callee.caller.name.toString());
+		}
 	} catch (e) {
 		WGR_show_try_catch_err(e);
 	}

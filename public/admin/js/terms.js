@@ -267,7 +267,7 @@ function record_status_color(id, term_status) {
 		tmp = tmp.replace("{{controller_slug}}", controller_slug);
 	}
 	tmp =
-		'<tr data-id="{{v.term_id}}" class="each-to-child-term this-child-term">' +
+		'<tr data-id="{{v.term_id}}" data-level="{{v.term_level}}" class="each-to-child-term this-child-term">' +
 		tmp +
 		"</tr>";
 	//console.log(tmp);
