@@ -163,14 +163,16 @@ class PostBase extends EbModel
         //return '#';
 
         // đoạn này sẽ để 1 thời gian, sau sẽ comment lại
+        /*
         if (!isset($data['updated_permalink'])) {
             //print_r($data);
             //die(__FUNCTION__ . ' updated_permalink not found! ' . __CLASS__ . ':' . __LINE__);
             return $_SERVER['REQUEST_URI'] . '#updated_permalink-not-found';
         }
+        */
 
         // sử dụng permalink có sẵn trong data
-        if ($data['updated_permalink'] > 0 && $data['post_permalink'] != '') {
+        if ($data['updated_permalink'] > time() && $data['post_permalink'] != '') {
             //echo $data['post_permalink'] . PHP_EOL;
             return $base_url . $data['post_permalink'];
         }
@@ -222,7 +224,8 @@ class PostBase extends EbModel
             [
                 // xóa cắp dấu // để tránh trường hợp gặp segment trống
                 'post_permalink' => str_replace('//', '/', $url),
-                'updated_permalink' => time(),
+                // cập nhật giãn cách update lại permalink -> khi quá thời gian này sẽ tiến hành cập nhật permalink mới
+                'updated_permalink' => time() + 3600,
             ],
             [
                 'ID' => $data['ID'],

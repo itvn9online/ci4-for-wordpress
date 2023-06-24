@@ -128,7 +128,7 @@ form#listContactByType {
     margin-bottom: 0;
 }
 
-.control-group label.control-label {
+.control-group .control-label {
     font-weight: bold;
 }
 

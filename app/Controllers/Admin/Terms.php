@@ -447,8 +447,8 @@ class Terms extends Admin
             //print_r($next_term);
 
             //
-            $this->term_model->sync_term_child_count();
             $this->term_model->update_count_post_in_term($data);
+            $this->term_model->sync_term_child_count();
         }
         // add
         else {
@@ -591,6 +591,12 @@ class Terms extends Admin
         $this->term_model->update_terms($id, $data, $this->taxonomy, [
             'alert' => 1,
         ]);
+
+        //
+        $data['term_id'] = $id;
+        $data['child_last_count'] = 0;
+        $this->term_model->update_count_post_in_term($data);
+        $this->term_model->sync_term_child_count();
 
         // dọn dẹp cache liên quan đến post này -> reset cache
         $this->cleanup_cache($this->term_model->key_cache($id));

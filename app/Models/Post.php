@@ -52,12 +52,15 @@ class Post extends PostPages
             array(
                 // các kiểu điều kiện where
                 'post_status' => PostType::PUBLICITY,
+                'updated_permalink <' => time(),
             ),
             array(
+                /*
                 'where_or' => array(
                     'post_permalink' => '',
                     'updated_permalink' => 0,
                 ),
+                */
                 'where_in' => array(
                     'post_type' => array(
                         PostType::POST,
@@ -92,12 +95,15 @@ class Post extends PostPages
                     // các kiểu điều kiện where
                     'is_deleted' => DeletedStatus::FOR_DEFAULT,
                     //'term_permalink' => '',
+                    'updated_permalink <' => time(),
                 ),
                 array(
+                    /*
                     'where_or' => array(
                         'term_permalink' => '',
                         'updated_permalink' => 0,
                     ),
+                    */
                     'where_in' => array(
                         'taxonomy' => array(
                             TaxonomyType::POSTS,

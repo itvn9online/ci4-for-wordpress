@@ -89,7 +89,7 @@ class Ajaxs extends Layout
         // đồng bộ lại tổng số nhóm con cho các danh mục trước đã
         $this->result_json_type(
             [
-                //'term' => $this->term_model->sync_term_child_count(),
+                'term' => $this->term_model->sync_term_child_count(),
                 'post' => $this->post_model->sync_post_term_permalink(),
             ]
         );

@@ -513,12 +513,14 @@ class TermBase extends EbModel
     /**
      * đồng bộ các tổng số nhóm con cho các danh mục
      **/
-    public function sync_term_child_count($run_h_only = true)
+    public function sync_term_child_count($run_h_only = true, $limit = 20)
     {
-        $last_run = $this->base_model->scache(__FUNCTION__);
-        if ($last_run !== NULL) {
-            //print_r( $last_run );
-            return $last_run;
+        if ($run_h_only === true) {
+            $last_run = $this->base_model->scache(__FUNCTION__);
+            if ($last_run !== NULL) {
+                //print_r( $last_run );
+                return $last_run;
+            }
         }
 
         // lấy ít nhóm đã quá hạn đồng bộ để chạy vòng lặp đồng bộ lại
@@ -528,7 +530,7 @@ class TermBase extends EbModel
             array(
                 // các kiểu điều kiện where
                 'is_deleted' => DeletedStatus::FOR_DEFAULT,
-                'child_last_count <' => time() - $this->time_update_count,
+                'child_last_count <' => time(),
             ),
             array(
                 'order_by' => array(
@@ -544,13 +546,13 @@ class TermBase extends EbModel
                 // trả về tổng số bản ghi -> tương tự mysql num row
                 //'getNumRows' => 1,
                 //'offset' => 0,
-                'limit' => 10
+                'limit' => $limit
             )
         );
         //print_r($data);
         if (empty($data)) {
             $this->base_model->scache(__FUNCTION__, time(), $this->time_update_last_count - rand(333, 666));
-            return false;
+            return true;
         }
 
         //
@@ -571,9 +573,8 @@ class TermBase extends EbModel
         if (!isset($data['child_last_count']) || !isset($data['term_id'])) {
             return false;
         }
-
         // giãn cách giữa các lần cập nhật count
-        if ($data['child_last_count'] > 0 && ($data['child_last_count'] + $this->time_update_count) > time()) {
+        if ($data['child_last_count'] > time()) {
             return false;
         }
 
@@ -605,7 +606,7 @@ class TermBase extends EbModel
         //
         $this->base_model->update_multiple('terms', [
             'child_count' => count($child_count),
-            'child_last_count' => time(),
+            'child_last_count' => time() + $this->time_update_count,
         ], [
             'term_id' => $data['term_id'],
         ], [

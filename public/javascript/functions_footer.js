@@ -48,7 +48,9 @@ function sync_ajax_post_term() {
 			return false;
 		}
 	}
-	if (WGR_config.cf_tester_mode > 0) console.log(k);
+	if (WGR_config.cf_tester_mode > 0) {
+		console.log(k);
+	}
 
 	//
 	jQuery.ajax({
@@ -62,7 +64,9 @@ function sync_ajax_post_term() {
 			jQueryAjaxError(jqXHR, textStatus, errorThrown, new Error().stack);
 		},
 		success: function (data) {
-			if (WGR_config.cf_tester_mode > 0) console.log(data);
+			if (WGR_config.cf_tester_mode > 0) {
+				console.log(data);
+			}
 
 			//
 			if (typeof data.post != "undefined" && data.post === false) {

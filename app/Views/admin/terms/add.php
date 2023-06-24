@@ -259,8 +259,20 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
 
             ?>
             <div class="control-group">
-                <label class="control-label">Taxonomy:</label>
+                <div class="control-label">Taxonomy:</div>
                 <div class="controls"><?php echo $data['taxonomy']; ?></div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">Total posts:</div>
+                <div class="controls"><?php echo $data['count']; ?></div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">Total child term:</div>
+                <div class="controls"><?php echo $data['child_count']; ?></div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">Next count child term:</div>
+                <div class="controls"><?php echo ($data['child_last_count'] > 0 ? date('Y-m-d H:i:s', $data['child_last_count']) : ''); ?></div>
             </div>
             <div class="end-term-add"></div>
             <div class="form-actions frm-fixed-btn cf">

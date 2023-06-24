@@ -279,31 +279,33 @@ class Term extends TermBase
         }
 
         // tính tổng số term con của term đang được cập nhật
+        /*
         $child_term = $this->base_model->select(
             'COUNT(term_id) AS c',
             WGR_TERM_VIEW,
             array(
                 'parent' => $term_id,
-                'taxonomy' => $taxonomy,
+                //'taxonomy' => $taxonomy,
                 'is_deleted' => DeletedStatus::FOR_DEFAULT,
             ),
             array(
-                'selectCount' => 'term_id',
+                //'selectCount' => 'term_id',
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
                 // trả về câu query để sử dụng cho mục đích khác
                 //'get_query' => 1,
                 //'offset' => 2,
                 //'limit' => 3
-
             )
         );
-        //print_r( $child_term );
+        //print_r($child_term);
 
         //
-        //$data[ 'child_count' ] = $child_term[ 0 ][ 'c' ];
-        $data['child_count'] = $child_term[0]['term_id'];
-        $data['child_last_count'] = time();
+        $data['child_count'] = $child_term[0]['c'];
+        //$data['child_count'] = $child_term[0]['term_id'];
+        $data['child_last_count'] = time() + $this->time_update_count;
+        */
+        $data['child_last_count'] = 0;
 
         //
         //print_r( $data );
@@ -357,6 +359,7 @@ class Term extends TermBase
 
 
         //
+        /*
         $count_post_term = $this->base_model->select(
             'COUNT(object_id) AS c',
             $this->relaTable,
@@ -372,11 +375,11 @@ class Term extends TermBase
                 //'get_query' => 1,
                 //'offset' => 2,
                 //'limit' => 3
-
             )
         );
-        //print_r( $count_post_term );
+        print_r($count_post_term);
         $data['count'] = $count_post_term[0]['object_id'];
+        */
 
         //
         $where = [
@@ -834,7 +837,8 @@ class Term extends TermBase
                 $child_update_count = 'query';
             }
             // hoặc lần cuối cập nhật cách đây đủ lâu
-            else if ($current_time - $v['child_last_count'] > $this->time_update_last_count) {
+            //else if ($current_time - $v['child_last_count'] > $this->time_update_last_count) {
+            else if ($v['child_last_count'] < $current_time) {
                 $child_update_count = 'timeout';
             }
 
@@ -850,7 +854,7 @@ class Term extends TermBase
                     $this->table,
                     [
                         'child_count' => $child_count,
-                        'child_last_count' => $current_time,
+                        'child_last_count' => $current_time + $this->time_update_count,
                     ],
                     [
                         'term_id' => $v['term_id'],
@@ -876,7 +880,7 @@ class Term extends TermBase
                             $this->table,
                             [
                                 'child_count' => $child_count,
-                                'child_last_count' => $current_time,
+                                'child_last_count' => $current_time + $this->time_update_count,
                             ],
                             [
                                 'term_id' => $v['term_id'],
@@ -1020,13 +1024,15 @@ class Term extends TermBase
         //print_r( $data );
 
         // chức năng này sẽ để 1 thời gian sau đó comment lại
+        /*
         if (!isset($data['updated_permalink'])) {
             //print_r($data);
             die(__FUNCTION__ . ' Updated permalink! ' . __CLASS__ . ':' . __LINE__);
         }
+        */
 
         // sử dụng permalink có sẵn trong data
-        if ($data['updated_permalink'] > 0 && $data['term_permalink'] != '') {
+        if ($data['updated_permalink'] > time() && $data['term_permalink'] != '') {
             return $base_url . $data['term_permalink'];
         }
 
@@ -1074,7 +1080,8 @@ class Term extends TermBase
             [
                 // xóa cắp dấu // để tránh trường hợp gặp segment trống
                 'term_permalink' => str_replace('//', '/', $url),
-                'updated_permalink' => time(),
+                // cập nhật giãn cách update lại permalink -> khi quá thời gian này sẽ tiến hành cập nhật permalink mới
+                'updated_permalink' => time() + 3600,
             ],
             [
                 'term_id' => $data['term_id'],
