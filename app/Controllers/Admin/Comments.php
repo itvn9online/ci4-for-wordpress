@@ -51,6 +51,10 @@ class Comments extends Admin
 
     public function index()
     {
+        return $this->lists();
+    }
+    public function lists($ops = [])
+    {
         $comment_id = $this->MY_get('comment_id');
         if ($comment_id > 0) {
             return $this->details($comment_id);

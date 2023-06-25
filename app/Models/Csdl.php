@@ -455,14 +455,9 @@ class Csdl extends Session
         // like
         if (isset($ops['like'])) {
             foreach ($ops['like'] as $k => $v) {
-                $len = strlen($v);
-                // từ 3 ký tự trở lên sẽ tìm theo dạng '%tu-khoa%'
-                if ($len > 2) {
+                if ($v != '') {
+                    // Produces: WHERE `title` LIKE '%match%' ESCAPE '!'
                     $builder->like($k, $v);
-                }
-                // từ 3 ký tự trở xuống sẽ tìm theo dạng 'tu-khoa%' -> bắt đầu bằng
-                else if ($len > 0) {
-                    $builder->like($k, $v, 'after');
                 }
             }
         }

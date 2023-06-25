@@ -43,8 +43,8 @@ function sync_ajax_post_term() {
 		last_run *= 1;
 		last_run = Date.now() - last_run;
 		last_run = Math.ceil(last_run / 1000);
-		//console.log('last run:', last_run);
 		if (last_run < 600) {
+			console.log("last run: " + k + ":", last_run);
 			return false;
 		}
 	}
@@ -67,6 +67,7 @@ function sync_ajax_post_term() {
 			if (WGR_config.cf_tester_mode > 0) {
 				console.log(data);
 			}
+			sessionStorage.setItem(k, JSON.stringify(data));
 
 			//
 			if (typeof data.post != "undefined" && data.post === false) {

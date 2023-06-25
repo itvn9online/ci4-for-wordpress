@@ -65,7 +65,7 @@ class Users extends Admin
      * tham số where: dùng khi muốn thêm điều kiện where từ các controller được extends
      * tham số where_or_like: dùng khi muốn thêm điều kiện tìm kiếm dữ liệu từ các controller được extends
      */
-    public function lists($where = [], $where_or_like = [], $add_filter = [], $ops = [])
+    public function lists($ops = [])
     {
         //print_r( $where );
         //print_r( $where_or_like );
@@ -88,6 +88,12 @@ class Users extends Admin
         }
 
         // các kiểu điều kiện where
+        if (!isset($ops['where'])) {
+            $where = [];
+        }
+        if (!isset($ops['where_or_like'])) {
+            $where_or_like = [];
+        }
         $where['users.is_deleted'] = $by_is_deleted;
         if ($this->member_type != '') {
             $where['users.member_type'] = $this->member_type;
@@ -178,8 +184,10 @@ class Users extends Admin
         ];
 
         // ghi đè filter nếu có
-        foreach ($add_filter as $k => $v) {
-            $filter[$k] = $v;
+        if (isset($ops['add_filter'])) {
+            foreach ($add_filter as $k => $v) {
+                $filter[$k] = $v;
+            }
         }
         $filter['offset'] = 0;
         $filter['limit'] = -1;
@@ -260,8 +268,10 @@ class Users extends Admin
             //$this->result_json_type($select_col);
 
             // ghi đè filter nếu có
-            foreach ($add_filter as $k => $v) {
-                $filter[$k] = $v;
+            if (isset($ops['add_filter'])) {
+                foreach ($add_filter as $k => $v) {
+                    $filter[$k] = $v;
+                }
             }
 
             //
@@ -305,7 +315,7 @@ class Users extends Admin
         return view('admin/admin_teamplate', $this->teamplate_admin);
     }
 
-    public function add()
+    public function add($ops = [])
     {
         $id = $this->MY_get('id', 0);
 

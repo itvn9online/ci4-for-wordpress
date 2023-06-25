@@ -1,7 +1,7 @@
 <?php
 
 // Libraries
-use App\Libraries\OrderType;
+//use App\Libraries\OrderType;
 
 // css riêng cho từng post type (nếu có)
 $base_model->add_css('admin/css/' . $post_type . '.css');
@@ -50,7 +50,7 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
             <div class="control-group">
                 <label for="data_post_title" class="control-label">Hạn sử dụng</label>
                 <div class="controls">
-                    <?php echo $data['comment_count']; ?> (tháng)
+                    <?php echo $data['order_period']; ?> (tháng)
                 </div>
             </div>
             <div class="control-group">
@@ -63,9 +63,12 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
             </div>
             <div class="control-group">
                 <label class="control-label">Thành viên</label>
-                <div class="controls"><a href="admin/users/add?id=<?php echo $data['post_author']; ?>" data-id="<?php echo $data['post_author']; ?>" class="each-to-email bluecolor" target="_blank">
+                <div class="controls">
+                    <a href="admin/users/add?id=<?php echo $data['post_author']; ?>" data-id="<?php echo $data['post_author']; ?>" class="each-to-email bluecolor" target="_blank">
                         <?php echo $data['post_author']; ?>
-                    </a> &nbsp; <a href="admin/orders?user_id=<?php echo $data['post_author']; ?>" class="greencolor">Danh sách đơn hàng <i class="fa fa-search"></i></a></div>
+                    </a> &nbsp;
+                    <a href="admin/orders?user_id=<?php echo $data['post_author']; ?>" class="btn btn-inverse">Danh sách đơn hàng <i class="fa fa-search"></i></a>
+                </div>
             </div>
             <div class="control-group">
                 <label for="data_post_title" class="control-label">Ngày tạo</label>
@@ -89,12 +92,14 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                 <label class="control-label">Thông tin Sản phẩm</label>
                 <div class="controls">
                     <pre><code><?php echo $data['post_excerpt']; ?></code></pre>
+                    <p class="controls-text-note">Khi đơn hàng được xác định thanh toán cho 1 Sản phẩm/ Dịch vụ nào đó thì sẽ bổ sung thêm thông tin Sản phẩm/ Dịch vụ tại đây.</p>
                 </div>
             </div>
             <div class="control-group">
                 <label for="data_post_title" class="control-label">Dữ liệu thanh toán</label>
                 <div class="controls">
-                    <?php echo $data['pinged']; ?>
+                    <pre><code><?php echo $data['pinged']; ?></code></pre>
+                    <p class="controls-text-note">Khi đơn hàng được thanh toán tự động qua bên thứ 3, dữ liệu thanh toán sẽ được lưu tại đây.</p>
                 </div>
             </div>
             <?php

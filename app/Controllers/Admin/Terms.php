@@ -77,7 +77,7 @@ class Terms extends Admin
     {
         return $this->lists();
     }
-    public function lists($where = [])
+    public function lists($ops = [])
     {
         $post_per_page = 100;
         // URL cho các action dùng chung
@@ -226,7 +226,7 @@ class Terms extends Admin
         return $data;
     }
 
-    public function add()
+    public function add($ops = [])
     {
         $id = $this->MY_get('id', 0);
 

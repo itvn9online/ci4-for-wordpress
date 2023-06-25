@@ -113,26 +113,25 @@ class Sync extends BaseController
     }
 
     /**
-     * Bảng hóa đơn
+     * Nhân bản 1 bảng
      **/
-    protected function tbl_orders($tbl = 'orders')
+    protected function cloneDbTable($from, $to)
     {
-        $table = WGR_TABLE_PREFIX . $tbl;
-        $from_table = WGR_TABLE_PREFIX . 'posts';
+        $from = WGR_TABLE_PREFIX . $from;
+        $to = WGR_TABLE_PREFIX . $to;
 
         // xem bảng này có chưa -> có rồi thì thôi
-        if ($this->base_model->table_exists($table)) {
-            echo 'TABLE exist ' . $table . '<br>' . PHP_EOL;
+        if ($this->base_model->table_exists($from)) {
+            echo 'TABLE exist ' . $from . '<br>' . PHP_EOL;
             return false;
         }
 
         //
-        $sql = "CREATE TABLE IF NOT EXISTS `$table` LIKE `$from_table`";
-        echo 'CREATE TABLE IF NOT EXISTS `' . $table . '` <br>' . PHP_EOL;
+        $sql = "CREATE TABLE IF NOT EXISTS `$from` LIKE `$to`";
+        echo 'CREATE TABLE IF NOT EXISTS `' . $from . '` <br>' . PHP_EOL;
 
         //
         return $this->base_model->MY_query($sql);
-        # code...
     }
 
     // tạo view cho term để select dữ liệu cho tiện
@@ -309,7 +308,8 @@ class Sync extends BaseController
 
         // tạo bảng nếu chưa có
         $this->tbl_webhook_zalooa();
-        $this->tbl_orders();
+        $this->cloneDbTable('posts', 'orders');
+        $this->cloneDbTable('options', 'options_deleted');
         $this->tbl_sessions();
 
         //

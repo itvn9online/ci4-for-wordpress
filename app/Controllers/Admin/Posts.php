@@ -84,7 +84,7 @@ class Posts extends Admin
     {
         return $this->lists();
     }
-    public function lists($where = [])
+    public function lists($ops = [])
     {
         if (!empty($this->MY_get('auto_update_module', 0))) {
             return $this->action_update_module();
@@ -104,6 +104,9 @@ class Posts extends Admin
         $by_user_id = $this->MY_get('user_id', 0);
 
         // các kiểu điều kiện where
+        if (!isset($ops['where'])) {
+            $where = [];
+        }
         //$where[ $this->table . '.post_status !=' ] = PostType::DELETED;
         $where[$this->table . '.post_type'] = $this->post_type;
         $where[$this->table . '.lang_key'] = $this->lang_key;
@@ -259,8 +262,16 @@ class Posts extends Admin
                 'term_taxonomy' => 'term_relationships.term_taxonomy_id = term_taxonomy.term_taxonomy_id',
             ];
         }
-        //print_r( $where );
-        //print_r( $filter );
+        //print_r($where);
+        //print_r($filter);
+
+
+        //
+        if (isset($ops['add_filter'])) {
+            foreach ($ops['add_filter'] as $k => $v) {
+                $filter[$k] = $v;
+            }
+        }
 
 
         /*
@@ -391,7 +402,7 @@ class Posts extends Admin
         return view('admin/admin_teamplate', $this->teamplate_admin);
     }
 
-    public function add()
+    public function add($ops = [])
     {
         $id = $this->MY_get('id', 0);
         $auto_update_module = $this->MY_get('auto_update_module', 0);
