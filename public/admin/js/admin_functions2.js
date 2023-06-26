@@ -119,6 +119,7 @@ function url_for_text_note() {
 
 // Tạo khung tìm kiếm theo các label đang có trong trang hiện tại
 function create_search_by_label() {
+	var str = "";
 	$("label").each(function () {
 		var a = $(this).attr("for") || "";
 		if (a != "" && $("#admin_menu_result label[for='" + a + "']").length < 1) {
@@ -126,15 +127,19 @@ function create_search_by_label() {
 			var k = a + b;
 			k = g_func.non_mark_seo(k).replace(/\-/g, "");
 			//console.log(a);
-			$("#admin_menu_result ul").append(
+			str +=
 				"<li data-key='" +
-					k +
-					"'><label for='" +
-					a +
-					"'><i class='fa fa-tag'></i> " +
-					b.replace(/\:/g, "") +
-					"</label></li>"
-			);
+				k +
+				"'><label for='" +
+				a +
+				"'><i class='fa fa-tag'></i> " +
+				b.replace(/\:/g, "") +
+				"</label></li>";
 		}
 	});
+
+	//
+	if (str != "") {
+		$("#admin_menu_result ul").prepend(str);
+	}
 }
