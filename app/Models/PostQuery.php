@@ -29,7 +29,7 @@ class PostQuery extends PostMeta
         }
         // đặt giá trị này để khởi tạo lại permalink
         //$data['post_permalink'] = '';
-        $data['updated_permalink'] = 0;
+        //$data['updated_permalink'] = 0;
 
         //
         foreach ($data as $k => $v) {

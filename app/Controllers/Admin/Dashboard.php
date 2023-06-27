@@ -1201,6 +1201,7 @@ class Dashboard extends Optimize
             WGR_TERM_VIEW,
             array(
                 // các kiểu điều kiện where
+                'updated_permalink' => 0,
             ),
             array(
                 'order_by' => array(
@@ -1259,6 +1260,7 @@ class Dashboard extends Optimize
             'posts',
             array(
                 // các kiểu điều kiện where
+                'updated_permalink' => 0,
             ),
             array(
                 'order_by' => array(

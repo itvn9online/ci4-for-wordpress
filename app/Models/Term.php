@@ -27,7 +27,7 @@ class Term extends TermBase
         }
         // đặt giá trị này để khởi tạo lại permalink
         //$data['term_permalink'] = '';
-        $data['updated_permalink'] = 0;
+        //$data['updated_permalink'] = 0;
 
         //
         foreach ($data as $k => $v) {
@@ -1033,7 +1033,7 @@ class Term extends TermBase
     /**
      * Update update permalink định kỳ
      **/
-    public function update_term_permalink($data)
+    public function update_term_permalink($data, $base_url = '')
     {
         // không có thì mới tạo và update vào db
         if ($data['taxonomy'] == TaxonomyType::POSTS) {
@@ -1092,7 +1092,7 @@ class Term extends TermBase
         );
 
         //
-        return $url;
+        return $base_url . $url;
     }
     // trả về url với đầy đủ tên miền
     public function get_full_permalink($data)

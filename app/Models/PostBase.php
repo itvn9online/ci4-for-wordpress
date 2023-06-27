@@ -168,7 +168,7 @@ class PostBase extends EbModel
     /**
      * Update update permalink định kỳ
      **/
-    public function update_post_permalink($data)
+    public function update_post_permalink($data, $base_url = '')
     {
         //
         if ($data['post_type'] == PostType::POST) {
@@ -227,7 +227,7 @@ class PostBase extends EbModel
         );
 
         //
-        return $url;
+        return $base_url . $url;
     }
     // trả về url với đầy đủ tên miền
     public function get_full_permalink($data)

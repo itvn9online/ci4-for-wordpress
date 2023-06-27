@@ -200,13 +200,15 @@ class Posts extends Csrf
         if (isset($_GET['canonical'])) {
             //echo __CLASS__ . ':' . __LINE__;
             // xóa permalink để URL được update lại
-            $data['post_permalink'] = '';
-            $data['updated_permalink'] = 0;
+            //$data['post_permalink'] = '';
+            //$data['updated_permalink'] = 0;
+            $full_link = $this->post_model->update_post_permalink($data, DYNAMIC_BASE_URL);
+        } else {
+            $full_link = $this->post_model->get_full_permalink($data);
         }
+        //echo $full_link;
 
         //
-        $full_link = $this->post_model->get_full_permalink($data);
-        //echo $full_link;
         $this->create_breadcrumb($data['post_title'], $full_link);
         $seo = $this->base_model->post_seo($data, $full_link);
 

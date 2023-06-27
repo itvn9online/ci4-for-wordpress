@@ -390,9 +390,13 @@ class Layout extends Sync
         if (isset($_GET['canonical'])) {
             //echo __CLASS__ . ':' . __LINE__;
             // xóa permalink để URL được update lại
-            $data['term_permalink'] = '';
-            $data['updated_permalink'] = 0;
+            //$data['term_permalink'] = '';
+            //$data['updated_permalink'] = 0;
+            $full_link = $this->term_model->update_term_permalink($data, DYNAMIC_BASE_URL);
+        } else {
+            $full_link = $this->term_model->get_full_permalink($data);
         }
+        //echo $full_link;
 
         //
         $this->term_model->update_count_post_in_term($data);
@@ -401,7 +405,7 @@ class Layout extends Sync
         //$this->create_breadcrumb( $data[ 'name' ] );
         $this->create_term_breadcrumb($data);
         //print_r( $this->taxonomy_slider );
-        $seo = $this->base_model->term_seo($data, $this->term_model->get_full_permalink($data));
+        $seo = $this->base_model->term_seo($data, $full_link);
 
         // chỉnh lại thông số cho canonical
         if ($ops['page_num'] > 1) {
