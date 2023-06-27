@@ -66,15 +66,17 @@ if ($totalThread > 0) {
             //
             //print_r($data);
             $totalThread = $post_model->fix_term_count($data, $post_type);
-            echo $totalThread . '<br>' . PHP_EOL;
+            //echo $totalThread . '<br>' . PHP_EOL;
         }
         // nếu có thì hiển thị bình thường
         else {
             //print_r( $child_data );
             // -> chạy 1 vòng để nạp lại permalink trước khi cache -> tránh trường hợp update liên tọi
+            /*
             foreach ($child_data as $k => $v) {
                 $child_data[$k]['post_permalink'] = $post_model->get_post_permalink($v);
             }
+            */
 
             //
             $term_model->the_cache($data['term_id'], $in_cache, $child_data);

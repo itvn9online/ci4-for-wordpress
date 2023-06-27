@@ -121,14 +121,14 @@ class Sync extends BaseController
         $to = WGR_TABLE_PREFIX . $to;
 
         // xem bảng này có chưa -> có rồi thì thôi
-        if ($this->base_model->table_exists($from)) {
-            echo 'TABLE exist ' . $from . '<br>' . PHP_EOL;
+        if ($this->base_model->table_exists($to)) {
+            echo 'TABLE exist ' . $to . '<br>' . PHP_EOL;
             return false;
         }
 
         //
-        $sql = "CREATE TABLE IF NOT EXISTS `$from` LIKE `$to`";
-        echo 'CREATE TABLE IF NOT EXISTS `' . $from . '` <br>' . PHP_EOL;
+        $sql = "CREATE TABLE IF NOT EXISTS `$to` LIKE `$from`";
+        echo 'CREATE TABLE IF NOT EXISTS `' . $to . '` <br>' . PHP_EOL;
 
         //
         return $this->base_model->MY_query($sql);

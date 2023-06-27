@@ -1219,7 +1219,7 @@ class Dashboard extends Optimize
             )
         );
         foreach ($data as $v) {
-            $this->term_model->get_term_permalink($v);
+            $this->term_model->update_term_permalink($v);
         }
         $this->base_model->scache(__FUNCTION__, time(), 120);
 
@@ -1277,7 +1277,7 @@ class Dashboard extends Optimize
             )
         );
         foreach ($data as $v) {
-            $this->post_model->get_post_permalink($v);
+            $this->post_model->update_post_permalink($v);
         }
         $this->base_model->scache(__FUNCTION__, time(), 120);
 

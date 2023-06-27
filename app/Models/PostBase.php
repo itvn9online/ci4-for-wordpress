@@ -145,41 +145,31 @@ class PostBase extends EbModel
         //die( __CLASS__ . ':' . __LINE__ );
     }
 
-    // trả về url với đầy đủ tên miền
-    public function get_full_permalink($data)
+    /**
+     * Kiểm tra dữ liệu đầu vào trước khi update post permalink -> tránh lỗi
+     **/
+    public function before_post_permalink($data)
     {
-        //echo DYNAMIC_BASE_URL . PHP_EOL;
-        return $this->get_post_permalink($data, DYNAMIC_BASE_URL);
-    }
-
-    // trả về url của 1 post
-    public function get_the_permalink($data, $base_url = '')
-    {
-        return $this->get_post_permalink($data, $base_url);
-    }
-    public function get_post_permalink($data, $base_url = '')
-    {
-        //print_r($data);
-        //return '#';
-
-        // đoạn này sẽ để 1 thời gian, sau sẽ comment lại
-        /*
-        if (!isset($data['updated_permalink'])) {
-            //print_r($data);
-            //die(__FUNCTION__ . ' updated_permalink not found! ' . __CLASS__ . ':' . __LINE__);
-            return $_SERVER['REQUEST_URI'] . '#updated_permalink-not-found';
+        // nếu có đủ các thông số còn thiếu thì tiến hành cập nhật permalink
+        foreach ([
+            'ID',
+            'post_name',
+            'post_type',
+            'lang_key',
+            'category_primary_slug',
+            'category_second_slug',
+        ] as $k) {
+            if (!isset($data[$k])) {
+                return false;
+            }
         }
-        */
-
-        // sử dụng permalink có sẵn trong data
-        if ($data['updated_permalink'] > time() && $data['post_permalink'] != '') {
-            //echo $data['post_permalink'] . PHP_EOL;
-            return $base_url . $data['post_permalink'];
-        }
-
-        //
-        //return $base_url . $data[ 'post_type' ] . '/' . $data[ 'ID' ] . '/' . $data[ 'post_name' ] . '.html';
-
+        return $this->update_post_permalink($data);
+    }
+    /**
+     * Update update permalink định kỳ
+     **/
+    public function update_post_permalink($data)
+    {
         //
         if ($data['post_type'] == PostType::POST) {
             $url = WGR_POST_PERMALINK;
@@ -237,7 +227,43 @@ class PostBase extends EbModel
         );
 
         //
-        return $base_url . $url;
+        return $url;
+    }
+    // trả về url với đầy đủ tên miền
+    public function get_full_permalink($data)
+    {
+        //echo DYNAMIC_BASE_URL . PHP_EOL;
+        return $this->get_post_permalink($data, DYNAMIC_BASE_URL);
+    }
+    // trả về url của 1 post
+    public function get_the_permalink($data, $base_url = '')
+    {
+        return $this->get_post_permalink($data, $base_url);
+    }
+    public function get_post_permalink($data, $base_url = '')
+    {
+        //
+        //return $base_url . $data[ 'post_type' ] . '/' . $data[ 'ID' ] . '/' . $data[ 'post_name' ] . '.html';
+        //print_r($data);
+        //return '#';
+
+        // đoạn này sẽ để 1 thời gian, sau sẽ comment lại
+        /*
+        if (!isset($data['updated_permalink'])) {
+            //print_r($data);
+            //die(__FUNCTION__ . ' updated_permalink not found! ' . __CLASS__ . ':' . __LINE__);
+            return $_SERVER['REQUEST_URI'] . '#updated_permalink-not-found';
+        }
+        */
+
+        // sử dụng permalink có sẵn trong data
+        /*
+        if ($data['updated_permalink'] > time() && $data['post_permalink'] != '') {
+            return $base_url . $data['post_permalink'];
+        }
+        */
+        //echo $data['post_permalink'] . PHP_EOL;
+        return $base_url . $data['post_permalink'];
 
         //
         //return $base_url . '?p=' . $data[ 'ID' ] . '&post_type=' . $data[ 'post_type' ] . '&slug=' . $data[ 'post_name' ];

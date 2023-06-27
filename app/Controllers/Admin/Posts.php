@@ -575,7 +575,7 @@ class Posts extends Admin
                 ]);
                 //print_r($new_data);
                 // cập nhật lại slug luôn vào ngay
-                $this->post_model->the_post_permalink($new_data);
+                $this->post_model->update_post_permalink($new_data);
 
                 //
                 //$this->MY_redirect(DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/'), 301);
@@ -868,8 +868,7 @@ class Posts extends Admin
                 //print_r($new_data);
 
                 // -> lấy url mới -> thiết lập lại url ở fronend
-                //$this->post_model->the_post_permalink($new_data);
-                echo '<script>top.set_new_post_url("' . $this->post_model->get_post_permalink($new_data) . '", "' . $new_data['post_name'] . '");</script>';
+                echo '<script>top.set_new_post_url("' . $this->post_model->update_post_permalink($new_data) . '", "' . $new_data['post_name'] . '");</script>';
             }
         }
 

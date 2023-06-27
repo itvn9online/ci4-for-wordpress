@@ -36,7 +36,9 @@ class Post extends PostPages
         ]);
     }
 
-    // vì permalink gán trực tiếp vào db nên thi thoảng sẽ check lại chút
+    /**
+     * vì permalink gán trực tiếp vào db nên thi thoảng sẽ check lại chút
+     **/
     public function sync_post_term_permalink()
     {
         if ($this->base_model->scache(__FUNCTION__) !== NULL) {
@@ -47,7 +49,7 @@ class Post extends PostPages
 
         // lấy các post chưa có permalink đẻ update
         $data = $this->base_model->select(
-            'ID, post_permalink, updated_permalink, post_type, post_name',
+            '*',
             'posts',
             array(
                 // các kiểu điều kiện where
@@ -89,7 +91,7 @@ class Post extends PostPages
         if (empty($data)) {
             // lấy các term chưa có permalink đẻ update
             $data = $this->base_model->select(
-                'term_id, term_permalink, updated_permalink, taxonomy, slug',
+                '*',
                 WGR_TERM_VIEW,
                 array(
                     // các kiểu điều kiện where
@@ -134,14 +136,14 @@ class Post extends PostPages
                 $this->base_model->scache(__FUNCTION__, time(), 3600);
             } else {
                 foreach ($data as $v) {
-                    $this->term_model->get_term_permalink($v);
+                    $this->term_model->update_term_permalink($v);
                 }
             }
         }
         // có thì xử lý cái phần có
         else {
             foreach ($data as $v) {
-                $this->get_post_permalink($v);
+                $this->update_post_permalink($v);
             }
         }
 

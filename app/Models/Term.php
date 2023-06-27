@@ -217,6 +217,13 @@ class Term extends TermBase
             //
             $this->base_model->insert($this->taxTable, $data_insert, true);
 
+            //
+            if (is_numeric($result_id) && $result_id > 0) {
+                $this->before_term_permalink($this->select_term($result_id, [
+                    //'taxonomy' => $taxonomy,
+                ]));
+            }
+
             // insert/ update meta term
             if (!empty($data_meta)) {
                 $this->insert_meta_term($data_meta, $result_id);
@@ -429,10 +436,7 @@ class Term extends TermBase
         //
         if ($result_update === true) {
             $data['term_id'] = $term_id;
-            // nếu có đủ các thông số còn thiếu thì tiến hành cập nhật permalink
-            if (isset($data['slug']) && isset($data['taxonomy'])) {
-                $data['term_permalink'] = $this->get_term_permalink($data);
-            }
+            $data['term_permalink'] = $this->before_term_permalink($data);
             //print_r($data);
         }
 
@@ -1008,34 +1012,29 @@ class Term extends TermBase
         //die( __CLASS__ . ':' . __LINE__ );
     }
 
-    // trả về url với đầy đủ tên miền
-    public function get_full_permalink($data)
+    /**
+     * Kiểm tra dữ liệu đầu vào trước khi update post permalink -> tránh lỗi
+     **/
+    public function before_term_permalink($data)
     {
-        return $this->get_term_permalink($data, DYNAMIC_BASE_URL);
-    }
-
-    // trả về url của 1 term
-    public function get_the_permalink($data, $base_url = '')
-    {
-        return $this->get_term_permalink($data, $base_url);
-    }
-    public function get_term_permalink($data, $base_url = '')
-    {
-        //print_r( $data );
-
-        // chức năng này sẽ để 1 thời gian sau đó comment lại
-        /*
-        if (!isset($data['updated_permalink'])) {
-            //print_r($data);
-            die(__FUNCTION__ . ' Updated permalink! ' . __CLASS__ . ':' . __LINE__);
+        // nếu có đủ các thông số còn thiếu thì tiến hành cập nhật permalink
+        foreach ([
+            'term_id',
+            'slug',
+            'taxonomy',
+            'lang_key',
+        ] as $k) {
+            if (!isset($data[$k])) {
+                return false;
+            }
         }
-        */
-
-        // sử dụng permalink có sẵn trong data
-        if ($data['updated_permalink'] > time() && $data['term_permalink'] != '') {
-            return $base_url . $data['term_permalink'];
-        }
-
+        return $this->update_term_permalink($data);
+    }
+    /**
+     * Update update permalink định kỳ
+     **/
+    public function update_term_permalink($data)
+    {
         // không có thì mới tạo và update vào db
         if ($data['taxonomy'] == TaxonomyType::POSTS) {
             $url = WGR_CATEGORY_PERMALINK;
@@ -1093,7 +1092,37 @@ class Term extends TermBase
         );
 
         //
-        return $base_url . $url;
+        return $url;
+    }
+    // trả về url với đầy đủ tên miền
+    public function get_full_permalink($data)
+    {
+        return $this->get_term_permalink($data, DYNAMIC_BASE_URL);
+    }
+    // trả về url của 1 term
+    public function get_the_permalink($data, $base_url = '')
+    {
+        return $this->get_term_permalink($data, $base_url);
+    }
+    public function get_term_permalink($data, $base_url = '')
+    {
+        //print_r( $data );
+
+        // chức năng này sẽ để 1 thời gian sau đó comment lại
+        /*
+        if (!isset($data['updated_permalink'])) {
+            //print_r($data);
+            die(__FUNCTION__ . ' Updated permalink! ' . __CLASS__ . ':' . __LINE__);
+        }
+        */
+
+        // sử dụng permalink có sẵn trong data
+        /*
+        if ($data['updated_permalink'] > time() && $data['term_permalink'] != '') {
+            return $base_url . $data['term_permalink'];
+        }
+        */
+        return $base_url . $data['term_permalink'];
 
         //
         //return $base_url . '?cat=' . $data[ 'term_id' ] . '&taxonomy=' . $data[ 'taxonomy' ] . '&slug=' . $data[ 'slug' ];

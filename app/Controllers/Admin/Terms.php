@@ -642,8 +642,7 @@ class Terms extends Admin
                 //print_r($new_data);
 
                 // -> lấy url mới -> thiết lập lại url ở fronend
-                //$this->post_model->the_post_permalink($new_data);
-                echo '<script>top.set_new_term_url("' . $this->term_model->get_term_permalink($new_data) . '", "' . $new_data['slug'] . '");</script>';
+                echo '<script>top.set_new_term_url("' . $this->term_model->update_term_permalink($new_data) . '", "' . $new_data['slug'] . '");</script>';
             }
         }
 

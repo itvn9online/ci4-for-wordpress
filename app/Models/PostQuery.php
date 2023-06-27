@@ -143,9 +143,17 @@ class PostQuery extends PostMeta
         //print_r( $result_id );
 
         if ($result_id !== false) {
-            //print_r( $data_meta );
-            //print_r( $_POST );
+            //print_r($data_meta);
+            //print_r($_POST);
             //die( __CLASS__ . ':' . __LINE__ );
+
+            //
+            if (is_numeric($result_id) && $result_id > 0) {
+                $this->before_post_permalink($this->select_post($result_id, [
+                    //'post_type' => $data['post_type'],
+                ]));
+                //die(__CLASS__ . ':' . __LINE__);
+            }
 
             // insert/ update meta post
             if (!empty($data_meta)) {
@@ -307,10 +315,7 @@ class PostQuery extends PostMeta
         //
         if ($result_update === true) {
             $data['ID'] = $post_id;
-            // nếu có đủ các thông số còn thiếu thì tiến hành cập nhật permalink
-            if (isset($data['post_name']) && isset($data['post_type'])) {
-                $data['post_permalink'] = $this->get_post_permalink($data);
-            }
+            $data['post_permalink'] = $this->before_post_permalink($data);
             //print_r($data);
         }
 

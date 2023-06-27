@@ -106,7 +106,6 @@ class PostAdmin extends Post
 
             //
             foreach ($category_list as $cat_key => $cat_val) {
-                //$arr_result[] = '<option value="' . $this->term_model->get_term_permalink( $cat_val ) . '">' . $cat_val[ 'name' ] . '</option>';
                 $arr_result[] = [
                     'value' => $this->term_model->get_term_permalink($cat_val),
                     'text' => $cat_val['name'],
@@ -125,7 +124,6 @@ class PostAdmin extends Post
 
                 //
                 foreach ($child_list as $child_key => $child_val) {
-                    //$arr_result[] = '<option value="' . $this->term_model->get_term_permalink( $child_val ) . '">' . $child_val[ 'name' ] . '</option>';
                     $arr_result[] = [
                         'value' => $this->term_model->get_term_permalink($child_val),
                         'text' => $child_val['name'],
@@ -217,7 +215,6 @@ class PostAdmin extends Post
 
             //
             foreach ($page_list as $post_key => $post_val) {
-                //$arr_result[] = '<option value="' . $this->get_post_permalink( $post_val ) . '">' . $post_val[ 'post_title' ] . '</option>';
                 $arr_result[] = [
                     'value' => $this->get_post_permalink($post_val),
                     'text' => $post_val['post_title'],
