@@ -7,7 +7,7 @@ if ($isMobile == true) {
 // desktop
 else {
 ?>
-    <section class="default-bg top-section medium">
+    <section id="top-bar" class="default-bg top-section medium">
         <div class="row row-collapse">
             <div class="col small-12 medium-12 large-12 text-right">
                 <div class="col-inner">
@@ -31,7 +31,7 @@ else {
             </div>
         </div>
     </section>
-    <section class="">
+    <section id="masthead" class="header-main">
         <div class="row row-collapse align-middle">
             <div class="col medium-3 small-3 large-3">
                 <div class="col-inner">
@@ -40,17 +40,22 @@ else {
                     ?>
                 </div>
             </div>
-            <div class="col medium-9 small-9 large-9 text-right">
+            <div class="col medium-6 small-6 large-6">
                 <div class="col-inner">
                     <?php
-                    $menu_model->the_menu('top-nav-menu');
+                    include VIEWS_PATH . 'includes/header_search.php';
                     ?>
                 </div>
             </div>
         </div>
     </section>
+    <section id="wide-nav" class="header-bottom text-center">
+        <?php
+        $menu_model->the_menu('top-nav-menu');
+        ?>
+    </section>
 <?php
 } // END desktop
 
 //
-include VIEWS_PATH . 'includes/header_search.php';
+include VIEWS_PATH . 'includes/header_modal_search.php';

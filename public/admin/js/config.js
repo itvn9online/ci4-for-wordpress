@@ -66,6 +66,9 @@ $(".click-to-set-site-color").click(function () {
 	$("input#" + a)
 		.val("#" + n)
 		.trigger("change");
+
+	//
+	return false;
 });
 
 // reset màu về mặc định
@@ -83,6 +86,9 @@ $(".click-to-reset-site-color").click(function () {
 			.val(b)
 			.trigger("change");
 	}
+
+	//
+	return false;
 });
 
 //

@@ -514,8 +514,8 @@ class ConfigType
         $arr = [
             'body_font_size' => 'Cỡ chữ được thiết lập cho body.',
             'bodym_font_size' => 'Cỡ chữ được thiết lập cho body bản mobile.',
-            'default_bg' => 'Là màu nền đặc trưng cho các menu, nút bấm trên toàn bộ website.',
-            'sub_bg' => 'Màu nền cho các module khác, tạo sự khác biệt với màu nền chính ở trên.',
+            'default_bg' => 'Là màu nền đặc trưng cho các menu, nút bấm trên toàn bộ website. Sử dụng: <strong>.default-bg</strong>',
+            'sub_bg' => 'Màu nền cho các module khác, tạo sự khác biệt với màu nền chính ở trên. Sử dụng: <strong>.default2-bg, .sub-bg</strong>',
             'default_color' => 'Màu mặc định cho mọi font chữ trên website nếu module đó không được thiết lập màu riêng.',
 
             'enable_vue_js' => 'Khi chế độ này được kích hoạt, thư viện VueJS sẽ được nhúng vào frontend để sử dụng',
@@ -570,8 +570,8 @@ class ConfigType
             'zalooa_template_other4_id' => 'ID mẫu ZNS dùng để gửi thông báo khác (mẫu dự phòng 4)',
             'zalooa_template_other5_id' => 'ID mẫu ZNS dùng để gửi thông báo khác (mẫu dự phòng 5)',
             //
-            'site_max_width' => 'Bạn có thể thiết lập chiều rộng cho trang tại đây. Chiều rộng tiêu chuẩn: 1024px - Chiều rộng phổ biến: 1366px',
-            'site_full_width' => 'Tương tự chiều rộng trang nhưng có độ rộng nhỉnh hơn chút. Chiều rộng tiêu chuẩn: 1024px - Chiều rộng phổ biến: 1666px',
+            'site_max_width' => 'Bạn có thể thiết lập chiều rộng cho trang tại đây. Chiều rộng tiêu chuẩn: 1024px - Chiều rộng phổ biến: 1366px . Sử dụng: <strong>.row, .w90, .w99</strong>',
+            'site_full_width' => 'Tương tự chiều rộng trang nhưng có độ rộng nhỉnh hơn chút. Chiều rộng tiêu chuẩn: 1024px - Chiều rộng phổ biến: 1666px . Sử dụng: <strong>.row-big, .w96</strong>',
             'main_banner_size' => 'Đây là kích thước dùng chung cho các banner chính, sử dụng bằng cách nhập <strong>%main_banner_size%</strong> vào mục <strong>Tùy chỉnh size ảnh</strong> trong cấu hình banner.',
             'second_banner_size' => 'Tương tự <strong>main_banner_size</strong>, đây là kích thước dùng chung cho các banner khác (nếu có), sử dụng bằng cách nhập <strong>%second_banner_size%</strong> vào mục <strong>Tùy chỉnh size ảnh</strong> trong cấu hình banner.',
             'smtp_host_name' => 'IP hoặc host name của server mail. Gmail SMTP: <strong>smtp.gmail.com</strong>, Pepipost SMTP: <strong>smtp.pepipost.com</strong>',

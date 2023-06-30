@@ -51,6 +51,7 @@ a {
     background-color: var(--default-bg);
 }
 
+.sub-bg,
 .default2-bg {
     background-color: var(--default2-bg);
 }
