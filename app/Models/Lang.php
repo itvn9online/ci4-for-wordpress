@@ -31,6 +31,7 @@ class Lang extends EbModel
         //
         if ($this_cache_lang === NULL) {
             $this_cache_lang = $this->option_model->get_lang();
+            //echo __CLASS__ . ':' . __LINE__ . PHP_EOL;
         }
         //print_r($this_cache_lang);
 

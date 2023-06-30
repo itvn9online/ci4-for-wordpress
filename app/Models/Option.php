@@ -158,7 +158,11 @@ class Option extends EbModel
 
             //
             $this->insert_options($data);
+
+            // dọn dẹp cache liên quan -> để sau đấy cache sẽ được tái nạp
+            $this->clear_cache($option_type);
         }
+
         //return $data['option_name'];
         return $data['option_value'];
     }
@@ -191,9 +195,11 @@ class Option extends EbModel
 
         // có cache thì trả về
         if ($data !== NULL) {
+            //echo __CLASS__ . ':' . __LINE__ . PHP_EOL;
             //print_r($data);
             return $data;
         }
+        //echo __CLASS__ . ':' . __LINE__ . PHP_EOL;
 
         //
         $data = $this->base_model->select(
@@ -243,6 +249,9 @@ class Option extends EbModel
                     //
                     $this->insert_options($data_insert);
                 }
+
+                // dọn dẹp cache liên quan -> để sau đấy cache sẽ được tái nạp
+                $this->clear_cache($option_type);
             }
             //die( __CLASS__ . ':' . __LINE__ );
         }
@@ -548,6 +557,16 @@ class Option extends EbModel
     public function the_cache($config_type, $key, $value = '', $time = MINI_CACHE_TIMEOUT)
     {
         return $this->base_model->scache($this->key_cache($config_type) . $key, $value, $time);
+    }
+
+    /**
+     * Dọn dẹp cache khi update config -> để cache sau đấy sẽ được tái nạp
+     **/
+    public function clear_cache($option_type)
+    {
+        //echo $this->key_cache($option_type) . PHP_EOL;
+        $this->base_model->dcache($this->key_cache('list_config'));
+        $this->base_model->dcache($this->key_cache($option_type));
     }
 
     // in ra ảnh để tạo og:image

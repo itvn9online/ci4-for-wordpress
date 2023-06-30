@@ -42,9 +42,6 @@ class Zaloa extends Option
         parent::__construct();
 
         //
-        $this->option_model = new \App\Models\Option();
-
-        //
         $this->zalooa_config = $this->obj_config(ConfigType::ZALO);
         //print_r($this->zalooa_config);
         //die(__CLASS__ . ':' . __LINE__);
@@ -339,8 +336,7 @@ class Zaloa extends Option
             }
 
             // xóa cache liên quan
-            $this->base_model->dcache($this->option_model->key_cache('list_config'));
-            $this->base_model->dcache($this->option_model->key_cache(ConfigType::ZALO));
+            $this->clear_cache(ConfigType::ZALO);
 
             // sau đó nạp lại
             $this->zalooa_config = $this->obj_config(ConfigType::ZALO);
@@ -378,7 +374,7 @@ class Zaloa extends Option
         );
 
         // insert
-        $this->option_model->insert_options(
+        $this->insert_options(
             [
                 'option_name' => $option_name,
                 'option_value' => $option_value,
