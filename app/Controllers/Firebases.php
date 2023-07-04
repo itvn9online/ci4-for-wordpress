@@ -24,6 +24,7 @@ class Firebases extends Guest
                 'phone_number' => $this->MY_get('phone_number', ''),
                 // tạo chuỗi dùng để xác thực url sau khi đăng nhập thành công
                 'sign_in_success_params' => $this->firebaseSignInSuccessParams(),
+                'expires_time' => $this->expires_time,
                 'firebase_config' => $this->firebase_config,
                 'zalooa_config' => $this->zalooa_config,
             )

@@ -117,3 +117,11 @@ var initApp = function () {
 };
 window.addEventListener("load", initApp);
 */
+
+//
+if (typeof token_expires_time == "number") {
+	console.log("Token expires time:", token_expires_time);
+	setTimeout(function () {
+		window.location = window.location.href;
+	}, token_expires_time * 1000);
+}

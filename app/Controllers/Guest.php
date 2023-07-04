@@ -162,10 +162,10 @@ class Guest extends Csrf
                 'set_login' => $this->MY_get('set_login', ''),
                 // tạo chuỗi dùng để xác thực url sau khi đăng nhập thành công
                 'sign_in_success_params' => $this->firebaseSignInSuccessParams(),
+                'expires_time' => $this->expires_time,
                 'file_auth' => $this->file_auth,
                 'firebase_config' => $this->firebase_config,
                 'zalooa_config' => $this->zalooa_config,
-                'expires_time' => $this->expires_time,
             )
         );
         //print_r( $this->teamplate );

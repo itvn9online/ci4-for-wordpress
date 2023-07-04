@@ -59,7 +59,7 @@ if (!empty($firebase_config->g_firebase_config)) {
     //
     $base_model->JSON_parse([
         'sign_in_success_params' => $sign_in_success_params,
-        'expires_time' => $expires_time,
+        'token_expires_time' => $expires_time,
         'firebase_dynamic_config' => [
             'privacy_policy_url' => $firebase_config->g_firebase_privacy_policy_url,
             'terms_service_url' => $firebase_config->g_firebase_terms_service_url,
