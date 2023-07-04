@@ -13,9 +13,6 @@ class Firebase2s extends Firebases
 {
     // với 1 số controller, sẽ không nạp cái HTML header vào, nên có thêm tham số này để không nạp header nữa
     public $preload_header = false;
-    // thời gian hết hạn của mỗi token -> để thấp cho nó bảo mật
-    public $expires_time = 600;
-    public $expires_reverify_time = 1800;
 
     public function __construct()
     {

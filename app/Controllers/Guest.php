@@ -26,6 +26,9 @@ class Guest extends Csrf
     * dynamic_auth: các chức năng đăng nhập khác sẽ được viết riêng vào đây
     */
     public $file_auth = 'dynamic_auth';
+    // thời gian hết hạn của mỗi token login -> để thấp cho nó bảo mật
+    public $expires_time = 600;
+    public $expires_reverify_time = 1800;
 
     public function __construct()
     {
@@ -162,6 +165,7 @@ class Guest extends Csrf
                 'file_auth' => $this->file_auth,
                 'firebase_config' => $this->firebase_config,
                 'zalooa_config' => $this->zalooa_config,
+                'expires_time' => $this->expires_time,
             )
         );
         //print_r( $this->teamplate );
