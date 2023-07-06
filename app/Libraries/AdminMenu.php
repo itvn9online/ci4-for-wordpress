@@ -267,7 +267,7 @@ class AdminMenu
                         'icon' => 'fa fa-globe',
                     ],
                     'admin/firebases' => [
-                        'name' => ConfigType::typeList(ConfigType::FIREBASE),
+                        'name' => 'Recaptcha/ Firebase',
                         'icon' => 'fa fa-code-fork',
                     ],
                     'admin/zalooas' => [

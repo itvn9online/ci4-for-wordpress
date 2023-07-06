@@ -221,6 +221,7 @@ class ConfigType
             $arr = [
                 'g_recaptcha_site_key' => 'G recaptcha site key',
                 'g_recaptcha_secret_key' => 'G recaptcha secret key',
+                'g_firebase_title' => 'Firebase',
                 'g_firebase_config' => 'SDK setup and configuration',
                 'firebase_json_config' => 'Firebase config',
                 'disable_local_login' => 'Tắt chức năng đăng nhập mặc định',
@@ -475,6 +476,7 @@ class ConfigType
             'NUMBER_CHECKBOXS_INPUT' => 'number',
             'SITE_LANGUAGE_SUB_FOLDER' => 'select',
             'SITE_LANGUAGE_DEFAULT' => 'select',
+            'g_firebase_title' => 'heading',
             'g_firebase_config' => 'textarea',
             'firebase_json_config' => 'textarea',
             'disable_local_login' => 'checkbox',
@@ -595,7 +597,7 @@ class ConfigType
             'autobank_token' => 'Tham số dùng để tăng độ bảo mật cho WebHook tự động xác thực quá trình thanh toán. URL WebHook mặc định: ' . base_url('cassos/confirm'),
             'bank_bin_code' => 'Chức năng tự động xác nhận tiền vào thông qua WebHook của https://casso.vn/ - Ưu tiên sử dụng tài khoản ngân hàng <strong>VietinBank</strong>.',
             'powered_by_eb' => 'Sử dụng lệnh <strong>$lang_model->the_web_license( $getconfig );</strong> để hiển thị thông điệp bản quyền mặc định.',
-            'telegram_bot_token' => 'Token của bot trên Telegram. Sau khi có Token, hãy bấm vào đây để tìm Chat ID: ' . base_url('admin/smtps') . '?get_tele_chat_id=1',
+            'telegram_bot_token' => 'Token của bot trên Telegram. Sau khi có Token, hãy bấm vào đây để tìm Chat ID: ' . base_url('admin/smtps') . '?get_tele_chat_id=1 <br> Mở Telegram lên > Nhập Botfather tại thanh tìm kiếm > Chọn Botfather có tích xanh > Nhấn vào Start > Hệ thống sẽ hiển thị ra đoạn chat > Nhấn vào mục /newbot - create a new bot > Nhập tên cho Bot > Nhấn Gửi > Nhập tên người dùng cho Bot > Nhấn Gửi > Hệ thống gửi xác nhận thành công. https://wiki.matbao.net/kb/huong-dan-tao-bot-va-gui-thong-bao-telegram/',
             'telegram_chat_id' => 'ID nhóm chat trên Telegram. Bao gồm cả dấu - nếu có',
             //
             'FTP_HOST' => 'Thông tin FTP - dùng để điều khiển file trong trường hợp bị lỗi permission. Mặc định là: 127.0.0.1',

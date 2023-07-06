@@ -446,6 +446,7 @@ class Configs extends Admin
                 PHP_EOL,
                 [
                     date('r'),
+                    __CLASS__ . ': ' . __FUNCTION__,
                     'IP: ' . $this->request->getIPAddress(),
                     'Agent: ' . $_SERVER['HTTP_USER_AGENT'],
                     __CLASS__ . ':' . __LINE__,
