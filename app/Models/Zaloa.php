@@ -772,8 +772,12 @@ class Zaloa extends Option
     protected function oaLogs($response)
     {
         $f = WRITEPATH . 'logs/zalo-oa-' . date('Y-m-d') . '.txt';
-        if (file_put_contents($f, json_encode($response) . PHP_EOL, FILE_APPEND)) {
+        if (!file_exists($f)) {
+            if (!file_put_contents($f, __CLASS__ . ':' . __LINE__ . PHP_EOL, LOCK_EX)) {
+                return false;
+            }
             chmod($f, DEFAULT_FILE_PERMISSION);
         }
+        return file_put_contents($f, json_encode($response) . PHP_EOL, FILE_APPEND);
     }
 }
