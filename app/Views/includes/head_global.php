@@ -11,7 +11,7 @@ use App\Helpers\HtmlTemplate;
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <?php echo '<title>' . $seo['title'] . '</title>' . PHP_EOL; ?>
 <base href="<?php echo DYNAMIC_BASE_URL; ?>" />
-<!-- <meta http-equiv="Cache-control" content="public"> -->
+<meta http-equiv="Cache-control" content="max-age=60, private, must-revalidate">
 <!-- <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" /> -->
 <meta name="theme-color" content="<?php echo $getconfig->default_bg; ?>">
 <meta name="msapplication-navbutton-color" content="<?php echo $getconfig->default_bg; ?>">

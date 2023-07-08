@@ -660,7 +660,8 @@ class PostQuery extends PostMeta
         }
 
         //
-        if ($instance['custom_cat_link'] == '#') {
+        //if ($instance['custom_cat_link'] == '#') {
+        if ($instance['custom_cat_link'] == '') {
             $instance['custom_cat_link'] = 'javascript:;';
         }
         if ($instance['widget_description'] != '') {
@@ -690,9 +691,7 @@ class PostQuery extends PostMeta
             $html_widget_title = '<div data-type="' . $post_cat['taxonomy'] . '" data-id="' . $post_cat['term_id'] . '"
                 class="eb-widget-hide-title"></div>';
         } else {
-            $html_widget_title = '<{{dynamic_tag}} data-type="' . $post_cat['taxonomy'] . '" data-id="' . $post_cat['term_id'] . '"
-    class="eb-widget-title"><a href="{{custom_cat_link}}">' . $post_cat['name'] . '</a></{{dynamic_tag}}>
-{{widget_description}}';
+            $html_widget_title = '<{{dynamic_tag}} data-type="' . $post_cat['taxonomy'] . '" data-id="' . $post_cat['term_id'] . '" class="eb-widget-title"><a href="{{custom_cat_link}}">' . $post_cat['name'] . '</a></{{dynamic_tag}}>{{widget_description}}';
         }
         if ($instance['hide_title'] == 'on') {
             $custom_style[] = 'hide-blogs-title';

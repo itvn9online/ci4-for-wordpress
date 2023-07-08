@@ -293,7 +293,7 @@ if ($debug_enable === true) {
         </div>
     </div>
     <!-- END Modal -->
-    <iframe id="target_eb_iframe" name="target_eb_iframe" src="about:blank" width="99%" height="550" frameborder="0">AJAX form</iframe>
+    <iframe id="target_eb_iframe" name="target_eb_iframe" title="EB iframe" src="about:blank" width="99%" height="550" frameborder="0">AJAX form</iframe>
 </body>
 
 </html>

@@ -882,7 +882,7 @@ function get_term_permalink(data) {
 }
 
 // tạo menu tự động dựa theo danh mục đang có
-function create_menu_by_taxonomy(arr, li_class, show_favicon) {
+function create_menu_by_taxonomy(arr, li_class, show_favicon, ops) {
 	if (arr.length <= 0) {
 		console.log("create menu by taxonomy:", arr.length);
 		return "";
@@ -898,6 +898,13 @@ function create_menu_by_taxonomy(arr, li_class, show_favicon) {
 	//
 	if (typeof li_class == "undefined" || li_class == "") {
 		li_class = "parent-menu";
+	}
+
+	//
+	//console.log(typeof ops);
+	//console.log(ops);
+	if (typeof ops != "object") {
+		ops = {};
 	}
 
 	//
@@ -923,10 +930,26 @@ function create_menu_by_taxonomy(arr, li_class, show_favicon) {
 			typeof arr[i].term_favicon != "undefined" &&
 			arr[i].term_favicon != ""
 		) {
+			var ops_width = "",
+				ops_height = "";
+			if (typeof ops.width != "undefined") {
+				ops_width = ' width="' + ops.width + '"';
+			}
+
+			//
+			if (typeof ops.height != "undefined") {
+				ops_height = ' height="' + ops.height + '"';
+			}
+			//console.log(ops);
+
+			//
 			img_favicon =
 				'<img src="' +
 				arr[i].term_favicon +
-				'" alt="' +
+				'"' +
+				ops_width +
+				ops_height +
+				' alt="' +
 				arr[i].term_shortname +
 				'"> ';
 		}
@@ -938,7 +961,12 @@ function create_menu_by_taxonomy(arr, li_class, show_favicon) {
 			typeof arr[i].child_term != "undefined" &&
 			arr[i].child_term.length > 0
 		) {
-			sub_menu = create_menu_by_taxonomy(arr[i].child_term, "childs-menu");
+			sub_menu = create_menu_by_taxonomy(
+				arr[i].child_term,
+				"childs-menu",
+				show_favicon,
+				ops
+			);
 			if (sub_menu != "") {
 				sub_menu = '<ul class="sub-menu">' + sub_menu + "</ul>";
 			}

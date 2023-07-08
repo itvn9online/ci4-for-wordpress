@@ -72,8 +72,12 @@ Header set Cache-Control "public, must-revalidate, proxy-revalidate"
 Header set Cache-Control "public, must-revalidate, proxy-revalidate"
 </FilesMatch>
 
-<FilesMatch "\.(x?html|htm|php|asp|aspx)$">
+<FilesMatch "\.(php|asp|aspx)$">
 Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+</FilesMatch>
+
+<FilesMatch "\.(x?html|htm)$">
+Header set Cache-Control "max-age=60, private, must-revalidate"
 </FilesMatch>
 
 #	https://techtalk.vn/tat-ca-nhung-thu-ban-can-biet-ve-http-security-headers.html

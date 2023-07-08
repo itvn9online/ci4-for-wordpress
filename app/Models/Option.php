@@ -538,7 +538,7 @@ class Option extends EbModel
             }
 
             //
-            $str .= '<li><a href="' . $cogs->$v . '" target="_blank" rel="nofollow"><i class="' . $icons[$v] . '"></i> <span>' . $cogs->$v . '</span></a></li>';
+            $str .= '<li><a href="' . $cogs->$v . '" aria-label="' . $v . '" target="_blank" rel="nofollow"><i class="' . $icons[$v] . '"></i> <span>' . $cogs->$v . '</span></a></li>';
         }
         return '<ul class="wgr-share-icons cf">' . $str . '</ul>';
     }

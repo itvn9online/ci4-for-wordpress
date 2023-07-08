@@ -129,9 +129,17 @@ class Uploads extends Users
             $rs = \App\Libraries\MyImage::resize($file_path, $file_large_path, $arr_sizes[MediaType::MEDIA_MEDIUM_LARGE]);
             chmod($file_large_path, 0777);
         }
+        $img_webp = $file_medium_path;
+        if (file_exists($file_medium_path)) {
+            $create_webp = \App\Libraries\MyImage::webpConvert($file_medium_path);
+            if ($create_webp != '') {
+                $img_webp = $create_webp;
+            }
+        }
 
         //
         $img_medium = str_replace(PUBLIC_PUBLIC_PATH, '', $file_medium_path);
+        $img_webp = str_replace(PUBLIC_PUBLIC_PATH, '', $img_webp);
 
         // cập nhật luôn avatar cho tài khoản này
         $update_avt = $this->MY_post('update_avt', 0);
@@ -139,7 +147,7 @@ class Uploads extends Users
         if ($update_avt * 1 > 0) {
             $result_id = $this->base_model->update_multiple('users', [
                 // SET
-                'avatar' => $img_medium,
+                'avatar' => $img_webp,
             ], [
                 // WHERE
                 'ID' => $this->current_user_id,
@@ -152,6 +160,7 @@ class Uploads extends Users
                 // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
                 //'no_remove_field' => 1
             ]);
+            $result_id = __LINE__; // TEST
         }
 
         //
@@ -162,6 +171,7 @@ class Uploads extends Users
             //'img_large' => str_replace(PUBLIC_PUBLIC_PATH, '', $file_path),
             'img_large' => str_replace(PUBLIC_PUBLIC_PATH, '', $file_large_path),
             'img_thumb' => str_replace(PUBLIC_PUBLIC_PATH, '', $file_thumb_path),
+            'img_webp' => $img_webp,
             'img_medium' => $img_medium,
             'success' => $success,
             'file_name' => $file_name,

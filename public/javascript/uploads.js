@@ -39,6 +39,7 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
 		"set_src",
 		// thiết lập thumbnail
 		"set_thumb",
+		"set_webp",
 		// thiết lập ảnh lớn
 		"set_val",
 		// thiết lập ảnh gốc
@@ -143,6 +144,10 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
 				params["data"] = dataurl;
 			}
 		}
+		if (WGR_config.cf_tester_mode > 0) console.log(params);
+
+		//
+		WGR_alert("Updating...");
 
 		//
 		$.ajax({
@@ -153,6 +158,7 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
 				file_name: file_name,
 				mime_type: params["mime_type"],
 				last_modified: params["last_modified"],
+				update_avt: params["update_avt"],
 			},
 			timeout: 33 * 1000,
 			error: function (jqXHR, textStatus, errorThrown) {
@@ -172,12 +178,16 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
 					//console.log(typeof data.img_large);
 					data.img_large += "?v=" + data.last_modified;
 					data.img_thumb += "?v=" + data.last_modified;
+					data.img_webp += "?v=" + data.last_modified;
 
 					//
 					var show_img = "";
 
 					// nếu dùng thumbnail thì thiết lập tham số set thumbnail
-					if (params["set_thumb"] != "") {
+					if (params["set_webp"] != "") {
+						$(params["set_webp"]).val(data.img_webp);
+						show_img = data.img_webp;
+					} else if (params["set_thumb"] != "") {
 						$(params["set_thumb"]).val(data.img_thumb);
 						show_img = data.img_thumb;
 					}
@@ -213,6 +223,11 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
 							src: show_img,
 						});
 					}
+				}
+
+				//
+				if (typeof data.update_avt != "undefined" && data.update_avt * 1 > 0) {
+					WGR_alert("Updated!");
 				}
 
 				//
