@@ -380,7 +380,7 @@ function login_reload() {
 }
 
 function continueSignIn() {
-	action_signInSuccessWithAuthResult();
+	action_signInSuccessWithAuthResult(true);
 }
 
 function firebaseSignOut(m, redirect_to) {
