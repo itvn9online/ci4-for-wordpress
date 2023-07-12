@@ -59,6 +59,8 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
             <?php
 
             //
+            //print_r($trans_data);
+            //print_r($meta_default);
             foreach ($trans_data as $k => $v) {
                 $lang_k = str_replace('lang_', '', $k);
                 //echo $lang_k . '<br>' . PHP_EOL;
@@ -69,7 +71,11 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
                 }
                 //echo $k . '<br>' . PHP_EOL;
                 //echo $input_type . '<br>' . PHP_EOL;
-                $non_html = strip_tags($v);
+                if (strpos($v, '"') === false) {
+                    $non_html = strip_tags($v);
+                } else {
+                    $non_html = '';
+                }
 
             ?>
                 <div class="control-group eb-control-group cf">
