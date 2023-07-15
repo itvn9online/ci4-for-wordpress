@@ -74,12 +74,14 @@ class PostBase extends EbModel
         $getconfig = $this->option_model->list_config();
         //print_r( $getconfig );
         $getconfig = (object) $getconfig;
-        $getconfig->cf_product_size = $this->base_model->get_config($getconfig, 'cf_product_size', 1);
-        $getconfig->cf_blog_size = $this->base_model->get_config($getconfig, 'cf_blog_size', '2/3');
+        $getconfig->cf_posts_size = $this->base_model->get_config($getconfig, 'cf_posts_size', 1);
+        //$getconfig->cf_blog_size = $this->base_model->get_config($getconfig, 'cf_blog_size', '2/3');
         //echo $getconfig->cf_blog_size;
+        /*
         if ($getconfig->cf_blog_description_length == '') {
             $getconfig->cf_blog_description_length = 250;
         }
+        */
         //print_r( $getconfig );
         $this->getconfig = $getconfig;
 
@@ -91,7 +93,7 @@ class PostBase extends EbModel
         }
 
         //
-        //$this->session = \Config\ Services::session();
+        //$this->session = \Config\Services::session();
     }
 
     // chỉ trả về link admin của 1 post
@@ -173,8 +175,10 @@ class PostBase extends EbModel
         //
         if ($data['post_type'] == PostType::POST) {
             $url = WGR_POST_PERMALINK;
+            /*
         } else if ($data['post_type'] == PostType::BLOG) {
             $url = WGR_BLOG_PERMALINK;
+            */
         } else if ($data['post_type'] == PostType::PROD) {
             $url = WGR_PROD_PERMALINK;
         } else if ($data['post_type'] == PostType::PAGE) {
@@ -196,7 +200,7 @@ class PostBase extends EbModel
 
         //
         $tmp = [
-            'page_base' => PAGE_BASE_URL,
+            //'page_base' => PAGE_BASE_URL,
             'ID' => $data['ID'],
             'post_name' => $data['post_name'],
             'post_type' => $data['post_type'],

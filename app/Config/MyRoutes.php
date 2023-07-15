@@ -72,6 +72,7 @@ foreach ($arr_prefix_routes as $v) {
 
 
         // blog
+        /*
         $routes->get('blogs/(:segment)', 'Blogs::blogs_list/$1');
         $routes->get('blogs/(:segment)/page/(:num)', 'Blogs::blogs_list/$1/page/$2');
         //
@@ -79,23 +80,40 @@ foreach ($arr_prefix_routes as $v) {
         //$routes->get('blog_tags/(:segment)/page/(:num)', 'Blogtags::blogs_list/$1/page/$2');
         //
         $routes->get('blog-(:num)/(:segment)', 'Blogs::blog_details/$1/$2');
+*/
 
         // product
-        $routes->get('products/(:segment)', 'Products::products_list/$1');
-        $routes->get('products/(:segment)/page/(:num)', 'Products::products_list/$1/page/$2');
+        //echo WGR_PRODS_PERMALINK . ' <br>' . PHP_EOL;
+        if (WGR_PRODS_PERMALINK != '%slug%') {
+            $a = str_replace('%slug%', '(:segment)', WGR_PRODS_PERMALINK);
+            $routes->get($a, 'Products::products_list/$1');
+            $routes->get($a . '/page/(:num)', 'Products::products_list/$1/page/$2');
+        }
         //
         //$routes->get('product_tag/(:segment)', 'Producttags::products_list/$1');
         //$routes->get('product_tag/(:segment)/page/(:num)', 'Producttags::products_list/$1/page/$2');
-        //
-        $routes->get('product-(:num)/(:segment)', 'Products::product_details/$1/$2');
+        // product
+        //echo WGR_PROD_PERMALINK . ' <br>' . PHP_EOL;
+        if (WGR_PROD_PERMALINK != '%post_name%') {
+            $a = str_replace('%post_name%', '(:segment)', WGR_PROD_PERMALINK);
+            $a = str_replace('%ID%', '(:num)', $a);
+            $routes->get($a, 'Products::product_details/$1/$2');
+        }
 
         // post
-        $routes->get('(:num)/(:segment)', 'Posts::post_details/$1/$2');
+        //echo WGR_POST_PERMALINK . ' <br>' . PHP_EOL;
+        if (WGR_POST_PERMALINK != '%post_name%') {
+            $a = str_replace('%post_name%', '(:segment)', WGR_POST_PERMALINK);
+            $a = str_replace('%ID%', '(:num)', $a);
+            $routes->get($a, 'Posts::post_details/$1/$2');
+        }
 
-        // page -> có base slug cho page thì dùng loại base fix cứng này
-        if (WGR_PAGES_PREFIX != '') {
-            //$routes->add( WGR_PAGES_PREFIX . '/(:segment)', 'Pages::get_page/$1' );
-            $routes->add(PAGE_BASE_URL . '(:segment)', 'Pages::get_page/$1');
+        // page
+        //echo WGR_PAGE_PERMALINK . ' <br>' . PHP_EOL;
+        if (WGR_PAGE_PERMALINK != '%post_name%') {
+            $a = str_replace('%post_name%', '(:segment)', WGR_PAGE_PERMALINK);
+            //$a = str_replace('%ID%', '(:num)', $a);
+            $routes->get($a, 'Pages::get_page/$1');
         }
 
         // custom post type
@@ -105,24 +123,33 @@ foreach ($arr_prefix_routes as $v) {
         $routes->get('c/(:segment)/(:num)/(:segment)', 'C::custom_taxonomy/$1/$2/$3');
         $routes->get('c/(:segment)/(:num)/(:segment)/page/(:num)', 'C::custom_taxonomy/$1/$2/$3/page/$4');
 
+        // Category
+        //echo WGR_CATEGORY_PERMALINK . ' <br>' . PHP_EOL;
+        if (WGR_CATEGORY_PERMALINK != '%slug%') {
+            $a = str_replace('%slug%', '(:segment)', WGR_CATEGORY_PERMALINK);
+            $routes->get($a, 'Category::category_list/$1');
+            $routes->get($a . '/page/(:num)', 'Category::category_list/$1/page/$2');
+        }
+
         // category -> có base slug cho category thì dùng loại base fix cứng này
-        if (WGR_CATEGORY_PREFIX != '') {
-            $routes->get(WGR_CATEGORY_PREFIX . '/(:segment)', 'Category::category_list/$1');
-            /*
+        //if (WGR_CATEGORY_PREFIX != '') {
+        //$routes->get(WGR_CATEGORY_PREFIX . '/(:segment)', 'Category::category_list/$1');
+        /*
             $routes->get(WGR_CATEGORY_PREFIX . '/(:segment)/page/(:num)', 'Category::category_list/$1/page/$2');
         }
         // không có thì mới sử dụng loại auto category -> hỗ trợ phân trang
         else {
             $routes->get('(:segment)/page/(:num)', 'Category::category_list/$1/page/$2');
             */
-        }
-        $routes->get(CATEGORY_BASE_URL . '(:segment)/page/(:num)', 'Category::category_list/$1/page/$2');
+        //}
+        //$routes->get(CATEGORY_BASE_URL . '(:segment)/page/(:num)', 'Category::category_list/$1/page/$2');
 
         // auto category -> dùng nặng -> hạn chế sử dụng
         //$routes->get( '(:segment)/page/(:num)', 'Home::checkurl/$1/page/$2' );
 
         // hỗ trợ auto category và page -> sau đó sẽ so sánh URL, nếu khác biệt thì sẽ chuyển về link gốc
         $routes->add('(:segment)', 'Home::checkurl/$1');
+        $routes->add('(:segment)/page/(:num)', 'Home::checkurl/$1/page/$2');
 
         //
         //$routes->addPlaceholder( 'checkurl', '[0-9a-z]{1}-(:segment)' );

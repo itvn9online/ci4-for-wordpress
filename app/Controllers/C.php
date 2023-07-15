@@ -20,7 +20,7 @@ class C extends Home
             TaxonomyType::TAGS,
             //TaxonomyType::OPTIONS,
             TaxonomyType::PROD_OTPS,
-            TaxonomyType::BLOG_TAGS,
+            //TaxonomyType::BLOG_TAGS,
             TaxonomyType::PROD_TAGS,
         ])) {
             global $arr_custom_taxonomy;

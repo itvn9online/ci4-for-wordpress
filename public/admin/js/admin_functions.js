@@ -707,7 +707,7 @@ function click_duplicate_record() {
 // phần thiết lập thông số của size -> chỉnh về 1 định dạng
 function convert_size_to_one_format() {
 	jQuery(
-		"#post_meta_custom_size, #term_meta_custom_size, #data_cf_product_size, #data_cf_blog_size, #term_meta_taxonomy_custom_post_size, #data_main_banner_size, #data_second_banner_size"
+		"#post_meta_custom_size, #term_meta_custom_size, #data_cf_posts_size, #data_cf_products_size, #term_meta_taxonomy_custom_post_size, #data_main_banner_size, #data_second_banner_size"
 	)
 		.off("change")
 		.change(function () {

@@ -49,7 +49,7 @@ class Layout extends Sync
         $this->user_model = new \App\Models\User();
 
         //
-        //$this->session = \Config\ Services::session();
+        //$this->session = \Config\Services::session();
 
         //
         /*
@@ -336,7 +336,7 @@ class Layout extends Sync
 
     protected function category($input, $post_type, $taxonomy, $file_view = 'category_view', $ops = [])
     {
-        //echo debug_backtrace()[1]['class'] . '\\ ' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
+        //echo debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
         //$config['base_url'] = $this->term_model->get_term_permalink();
         //$config['per_page'] = 50;
         //$config['uri_segment'] = 3;
@@ -987,7 +987,10 @@ class Layout extends Sync
         return false;
     }
 
-    protected function structuredData($data, $f)
+    /**
+     * Tạo dữ liệu để tạo schema cho thống nhất
+     **/
+    protected function structuredData($data, $f, $html = '', $get_data = false)
     {
         //print_r( $data );
         $data['name'] = $this->getconfig->name;
@@ -999,9 +1002,12 @@ class Layout extends Sync
         $data['post_img'] = '';
         $data['trv_width_img'] = 0;
         $data['trv_height_img'] = 0;
-        //$data[ 'trv_img' ] = $this->post_model->get_list_thumbnail( $data, 'large' );
-        $data['trv_img'] = $this->post_model->get_post_thumbnail($data);
+        $data['trv_img'] = $this->post_model->get_list_thumbnail($data, 'large');
+        //$data['trv_img'] = $this->post_model->get_post_thumbnail($data);
         if ($data['trv_img'] != '') {
+            $data['trv_img'] = explode('?', $data['trv_img'])[0];
+            // nếu file tồn tại trong host -> xác định size của file
+            //echo PUBLIC_PUBLIC_PATH . $data['trv_img'];
             if (file_exists(PUBLIC_PUBLIC_PATH . $data['trv_img'])) {
                 $logo_data = getimagesize(PUBLIC_PUBLIC_PATH . $data['trv_img']);
 
@@ -1022,9 +1028,14 @@ class Layout extends Sync
 
         //
         //print_r( $data );
+        if ($get_data === true) {
+            return $data;
+        }
 
         //
-        $html = file_get_contents(VIEWS_PATH . 'html/structured-data/' . $f);
+        if ($html == '') {
+            $html = file_get_contents(VIEWS_PATH . 'html/structured-data/' . $f);
+        }
         // thay dât chính
         foreach ($data as $k => $v) {
             if (is_array($v)) {
@@ -1051,5 +1062,13 @@ class Layout extends Sync
 
         //
         return $html;
+    }
+
+    /**
+     * Trả về mảng dữ liệu đã được build để tạo cấu trúc
+     **/
+    public function structuredGetData($data)
+    {
+        return $this->structuredData($data, '', '', true);
     }
 }

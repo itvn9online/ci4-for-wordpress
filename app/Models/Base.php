@@ -6,7 +6,7 @@
 namespace App\Models;
 
 //
-//use CodeIgniter\ Model;
+//use CodeIgniter\Model;
 
 use __PHP_Incomplete_Class;
 use App\Helpers\HtmlTemplate;
@@ -452,6 +452,40 @@ class Base extends Csdl
             $result[$k] = $v;
         }
         return $result;
+    }
+
+    /**
+     * Tạo ra mã schema dựa theo dữ liệu đầu vào
+     **/
+    public function dynamicSchema($v)
+    {
+        return '<script type="application/ld+json">' . json_encode($v) . '</script>';
+    }
+
+    /**
+     * Chạy vòng lặp tạo ra mã schema dựa theo dữ liệu đầu vào
+     **/
+    public function dynamicsSchema($datas)
+    {
+        $data = '';
+        foreach ($datas as $v) {
+            $data .= $this->dynamicSchema($v);
+        }
+        return $data;
+    }
+
+    /**
+     * Tạo URL mạng xã hội cho phần sameAs
+     **/
+    public function sameAsSchema($datas)
+    {
+        $data = [];
+        foreach ($datas as $v) {
+            if (!empty($v) && $v != '#') {
+                $data[] = $v;
+            }
+        }
+        return $data;
     }
 
     public function term_seo($data, $url)

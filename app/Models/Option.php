@@ -392,53 +392,53 @@ class Option extends EbModel
     }
 
     // trả về class css cho việc hiển thị số bài viết blog trên mỗi dòng
-    public function get_blogs_in_line($cog)
+    public function get_products_in_line($cog)
     {
         $arr = [
             __FUNCTION__,
             'row'
         ];
         // desktop
-        $arr[] = $cog->eb_blogs_per_line;
+        $arr[] = $cog->eb_products_per_line;
         // table
-        $arr[] = $cog->eb_blogs_medium_per_line;
+        $arr[] = $cog->eb_products_medium_per_line;
         // mobile
-        $arr[] = $cog->eb_blogs_small_per_line;
+        $arr[] = $cog->eb_products_small_per_line;
 
         // column spacing
-        $arr[] = $cog->eb_blogs_column_spacing;
+        $arr[] = $cog->eb_products_column_spacing;
 
         //
         return implode(' ', $arr);
     }
-    public function blogs_in_line($cog)
+    public function products_in_line($cog)
     {
-        echo $this->get_blogs_in_line($cog);
+        echo $this->get_products_in_line($cog);
     }
 
     // trả về class css cho việc hiển thị số bài viết blog trên mỗi dòng
-    public function get_blog_in_line($cog)
+    public function get_product_in_line($cog)
     {
         $arr = [
             __FUNCTION__,
             'row'
         ];
         // desktop
-        $arr[] = $cog->eb_blog_per_line;
+        $arr[] = $cog->eb_product_per_line;
         // table
-        $arr[] = $cog->eb_blog_medium_per_line;
+        $arr[] = $cog->eb_product_medium_per_line;
         // mobile
-        $arr[] = $cog->eb_blog_small_per_line;
+        $arr[] = $cog->eb_product_small_per_line;
 
         // column spacing
-        $arr[] = $cog->eb_blog_column_spacing;
+        $arr[] = $cog->eb_product_column_spacing;
 
         //
         return implode(' ', $arr);
     }
-    public function blog_in_line($cog)
+    public function product_in_line($cog)
     {
-        echo $this->get_blog_in_line($cog);
+        echo $this->get_product_in_line($cog);
     }
 
     /*

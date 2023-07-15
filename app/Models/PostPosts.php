@@ -24,10 +24,11 @@ class PostPosts extends PostSlider
         //
         $data['p_link'] = $this->get_full_permalink($data);
         if (isset($ops['taxonomy_post_size']) && $ops['taxonomy_post_size'] != '') {
-            $data['cf_product_size'] = $ops['taxonomy_post_size'];
+            $data['cf_posts_size'] = $ops['taxonomy_post_size'];
         } else {
-            $data['cf_product_size'] = $this->getconfig->cf_product_size;
+            $data['cf_posts_size'] = $this->getconfig->cf_posts_size;
         }
+        $data['cf_products_size'] = $this->getconfig->cf_products_size;
         $data['product_status'] = 1;
         $data['dynamic_title_tag'] = 'h3';
         $data['trv_img'] = $this->get_post_thumbnail($data);
@@ -60,10 +61,12 @@ class PostPosts extends PostSlider
         $data['itemprop_author'] = $itemprop_author;
         $data['itemprop_image'] = $itemprop_image;
 
-        //
+        // gán các giá trị mặc định phòng trường hợp không có dữ liệu tương ứng
         $default_arr['price'] = 0;
         $default_arr['price_sale'] = 0;
         $default_arr['pt'] = 0;
+        $default_arr['image_medium_large'] = '';
+        $default_arr['image_webp'] = '';
 
         //
         //print_r($data);
@@ -119,6 +122,38 @@ class PostPosts extends PostSlider
         return $this->get_posts($prams, $ops);
     }
 
+    /**
+     * Trả về danh sách sản phẩm
+     **/
+    public function get_products_by($prams, $ops = [], $in_cache = '', $cache_time = 300)
+    {
+        $prams = $this->sync_post_parms($prams);
+        $ops = $this->sync_post_ops($ops);
+        //print_r($ops);
+
+        // fix cứng tham số
+        $prams['post_type'] = PostType::PROD;
+        $prams['taxonomy'] = TaxonomyType::PROD_CATS;
+
+        //
+        return $this->get_posts($prams, $ops, $in_cache, $cache_time);
+    }
+    public function count_products_by($prams, $ops = [])
+    {
+        $prams = $this->sync_post_parms($prams);
+        //print_r($prams);
+
+        // fix cứng tham số
+        $prams['post_type'] = PostType::PROD;
+        $prams['taxonomy'] = TaxonomyType::PROD_CATS;
+
+        //
+        $ops['count_record'] = 1;
+
+        //
+        return $this->get_posts($prams, $ops);
+    }
+
     // trả về khối HTML của từng sản phẩm trong danh mục
     function get_the_blog_node($data, $ops = [])
     {
@@ -137,11 +172,11 @@ class PostPosts extends PostSlider
         $data['taxonomy_key'] = '';
         $data['url_video'] = '';
         if (isset($ops['taxonomy_post_size']) && $ops['taxonomy_post_size'] != '') {
-            $data['cf_blog_size'] = $ops['taxonomy_post_size'];
+            $data['cf_posts_size'] = $ops['taxonomy_post_size'];
         } else {
-            $data['cf_blog_size'] = $this->getconfig->cf_blog_size;
+            $data['cf_posts_size'] = $this->getconfig->cf_posts_size;
         }
-        //echo $data['cf_blog_size'];
+        //echo $data['cf_posts_size'];
 
         //
         return $this->build_the_node($data, $tmp_html, $ops);
@@ -169,6 +204,7 @@ class PostPosts extends PostSlider
     }
 
     // blog
+    /*
     public function get_blogs_by($prams, $ops = [])
     {
         $prams = $this->sync_post_parms($prams);
@@ -195,6 +231,7 @@ class PostPosts extends PostSlider
         //
         return $this->get_posts($prams, $ops);
     }
+    */
 
     function get_the_ads($slug, $limit = 0, $ops = [], $using_cache = true, $time = MEDIUM_CACHE_TIMEOUT)
     {
@@ -225,7 +262,7 @@ class PostPosts extends PostSlider
         $ops['auto_clone'] = 1;
 
         //
-        //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . '\\ ' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
+        //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
         $data = $this->echbay_blog($slug, $ops);
 
         //

@@ -12,7 +12,7 @@ class Products extends Posts
 {
     protected $post_type = PostType::PROD;
     protected $taxonomy = TaxonomyType::PROD_CATS;
-    //protected $file_view = 'product_view';
+    protected $file_view = 'product_view';
 
     public function __construct()
     {

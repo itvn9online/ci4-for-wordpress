@@ -22,7 +22,7 @@ class MyImage
         /*
          if ( class_exists( 'Imagick' ) ) {
          echo 'with imagick library <br>' . PHP_EOL;
-         $image = \Config\ Services::image( 'imagick' );
+         $image = \Config\Services::image( 'imagick' );
          }
          //
          else {

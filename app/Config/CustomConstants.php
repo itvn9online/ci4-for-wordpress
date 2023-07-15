@@ -228,21 +228,23 @@ defined('ALLOW_USING_MYSQL_DELETE') || define('ALLOW_USING_MYSQL_DELETE', false)
 /*
  * Tiền tố cho danh mục sản phẩm
  */
+/*
 defined('WGR_CATEGORY_PREFIX') || define('WGR_CATEGORY_PREFIX', 'category');
 if (WGR_CATEGORY_PREFIX != '') {
     define('CATEGORY_BASE_URL', WGR_CATEGORY_PREFIX . '/');
 } else {
     define('CATEGORY_BASE_URL', '');
 }
+*/
 /*
  * cấu trúc URL cho category
  * ---> làm kiểu này để còn truyền ra cả javascript sử dụng chung
  * ---> tiếp đến là các website khác nhau muốn đổi URL thì có thể đổi Constants
  */
 // category
-defined('WGR_CATEGORY_PERMALINK') || define('WGR_CATEGORY_PERMALINK', '%category_base%%slug%');
+defined('WGR_CATEGORY_PERMALINK') || define('WGR_CATEGORY_PERMALINK', 'category/%slug%');
 // blogs
-defined('WGR_BLOGS_PERMALINK') || define('WGR_BLOGS_PERMALINK', '%taxonomy%/%slug%');
+//defined('WGR_BLOGS_PERMALINK') || define('WGR_BLOGS_PERMALINK', '%taxonomy%/%slug%');
 // product_cat
 defined('WGR_PRODS_PERMALINK') || define('WGR_PRODS_PERMALINK', 'products/%slug%');
 // other taxonomy
@@ -259,21 +261,23 @@ defined('WGR_CUS_TAX_PERMALINK') || define('WGR_CUS_TAX_PERMALINK', []);
 /*
  * Tiền tố cho trang tĩnh
  */
+/*
 defined('WGR_PAGES_PREFIX') || define('WGR_PAGES_PREFIX', 'pages');
 if (WGR_PAGES_PREFIX != '') {
     define('PAGE_BASE_URL', WGR_PAGES_PREFIX . '/');
 } else {
     define('PAGE_BASE_URL', '');
 }
+*/
 /*
  * cấu trúc URL cho post
  * ---> làm kiểu này để còn truyền ra cả javascript sử dụng chung
  * ---> tiếp đến là các website khác nhau muốn đổi URL thì có thể đổi Constants
  */
 defined('WGR_POST_PERMALINK') || define('WGR_POST_PERMALINK', '%ID%/%post_name%');
-defined('WGR_BLOG_PERMALINK') || define('WGR_BLOG_PERMALINK', '%post_type%-%ID%/%post_name%');
-defined('WGR_PAGE_PERMALINK') || define('WGR_PAGE_PERMALINK', '%page_base%%post_name%');
-defined('WGR_PROD_PERMALINK') || define('WGR_PROD_PERMALINK', WGR_BLOG_PERMALINK);
+defined('WGR_PROD_PERMALINK') || define('WGR_PROD_PERMALINK', '%post_type%-%ID%/%post_name%');
+defined('WGR_PAGE_PERMALINK') || define('WGR_PAGE_PERMALINK', 'pages/%post_name%');
+//defined('WGR_BLOG_PERMALINK') || define('WGR_BLOG_PERMALINK', WGR_PROD_PERMALINK);
 defined('WGR_POSTS_PERMALINK') || define('WGR_POSTS_PERMALINK', 'p/%post_type%/%ID%/%post_name%.html');
 // URL tùy chỉnh của từng custom post type
 defined('WGR_CUS_POST_PERMALINK') || define('WGR_CUS_POST_PERMALINK', []);

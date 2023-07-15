@@ -3,6 +3,8 @@
 namespace App\Controllers\Admin;
 
 use App\Libraries\UsersType;
+use App\Libraries\PostType;
+use App\Libraries\TaxonomyType;
 
 class Dashboard extends Optimize
 {
@@ -16,6 +18,8 @@ class Dashboard extends Optimize
     private $link_download_system_github = 'https://github.com/itvn9online/ci4-for-wordpress/raw/main/system.zip';
     // mảng các file sẽ được copy lại ngay sau khi update
     private $copy_after_updated = [];
+    // giãn cách reser permalink
+    private $space_reset_permalink = 60;
 
     public function __construct()
     {
@@ -1173,7 +1177,7 @@ class Dashboard extends Optimize
     {
         $space_reset = $this->base_model->scache(__FUNCTION__);
         if ($space_reset != NULL) {
-            $this->base_model->alert('Hệ thống đang bận! Vui lòng thử lại sau ' . (120 - (time() - $space_reset)) . ' giây...', 'warning');
+            $this->base_model->alert('Hệ thống đang bận! Vui lòng thử lại sau ' . ($this->space_reset_permalink - (time() - $space_reset)) . ' giây...', 'warning');
         }
 
         // xóa hết term permalink trong db đi để nạp lại
@@ -1185,10 +1189,11 @@ class Dashboard extends Optimize
             // WHERE
             //'term_permalink !=' => '',
             'updated_permalink >' => 0,
+            'updated_permalink <' => time() + 3600 - ($this->space_reset_permalink * 2),
         ], [
             'debug_backtrace' => debug_backtrace()[1]['function'],
             // hiển thị mã SQL để check
-            //'show_query' => 1,
+            'show_query' => 1,
             // trả về câu query để sử dụng cho mục đích khác
             //'get_query' => 1,
             // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
@@ -1204,11 +1209,17 @@ class Dashboard extends Optimize
                 'updated_permalink' => 0,
             ),
             array(
+                'where_in' => array(
+                    'taxonomy' => array(
+                        TaxonomyType::POSTS,
+                        TaxonomyType::PROD_CATS,
+                    )
+                ),
                 'order_by' => array(
                     'term_id' => 'DESC'
                 ),
                 // hiển thị mã SQL để check
-                //'show_query' => 1,
+                'show_query' => 1,
                 // trả về câu query để sử dụng cho mục đích khác
                 //'get_query' => 1,
                 // trả về COUNT(column_name) AS column_name
@@ -1222,7 +1233,7 @@ class Dashboard extends Optimize
         foreach ($data as $v) {
             $this->term_model->update_term_permalink($v);
         }
-        $this->base_model->scache(__FUNCTION__, time(), 120);
+        $this->base_model->scache(__FUNCTION__, time(), $this->space_reset_permalink);
 
         //
         $this->base_model->alert('Reset Term Permalink thành công!');
@@ -1232,7 +1243,7 @@ class Dashboard extends Optimize
     {
         $space_reset = $this->base_model->scache(__FUNCTION__);
         if ($space_reset != NULL) {
-            $this->base_model->alert('Hệ thống đang bận! Vui lòng thử lại sau ' . (120 - (time() - $space_reset)) . ' giây...', 'warning');
+            $this->base_model->alert('Hệ thống đang bận! Vui lòng thử lại sau ' . ($this->space_reset_permalink - (time() - $space_reset)) . ' giây...', 'warning');
         }
 
         // xóa hết term permalink trong db đi để nạp lại
@@ -1244,17 +1255,18 @@ class Dashboard extends Optimize
             // WHERE
             //'post_permalink !=' => '',
             'updated_permalink >' => 0,
+            'updated_permalink <' => time() + 3600 - ($this->space_reset_permalink * 2),
         ], [
             'debug_backtrace' => debug_backtrace()[1]['function'],
             // hiển thị mã SQL để check
-            //'show_query' => 1,
+            'show_query' => 1,
             // trả về câu query để sử dụng cho mục đích khác
             //'get_query' => 1,
             // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
             //'no_remove_field' => 1
         ]);
 
-        // cập nhật lại cho 1 ít term
+        // cập nhật lại cho 1 ít post
         $data = $this->base_model->select(
             '*',
             'posts',
@@ -1263,11 +1275,18 @@ class Dashboard extends Optimize
                 'updated_permalink' => 0,
             ),
             array(
+                'where_in' => array(
+                    'post_type' => array(
+                        PostType::POST,
+                        PostType::PROD,
+                        PostType::PAGE
+                    )
+                ),
                 'order_by' => array(
                     'ID' => 'DESC'
                 ),
                 // hiển thị mã SQL để check
-                //'show_query' => 1,
+                'show_query' => 1,
                 // trả về câu query để sử dụng cho mục đích khác
                 //'get_query' => 1,
                 // trả về COUNT(column_name) AS column_name
@@ -1281,7 +1300,7 @@ class Dashboard extends Optimize
         foreach ($data as $v) {
             $this->post_model->update_post_permalink($v);
         }
-        $this->base_model->scache(__FUNCTION__, time(), 120);
+        $this->base_model->scache(__FUNCTION__, time(), $this->space_reset_permalink);
 
         //
         $this->base_model->alert('Reset Post Permalink thành công!');

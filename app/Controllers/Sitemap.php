@@ -90,7 +90,8 @@ class Sitemap extends Csrf
          */
         $arr_post_type = [
             PostType::POST,
-            PostType::BLOG,
+            //PostType::BLOG,
+            PostType::PROD,
             PostType::PAGE,
         ];
         //print_r( $arr_post_type );
@@ -176,7 +177,8 @@ class Sitemap extends Csrf
         //
         $arr_taxonomy_type = [
             TaxonomyType::POSTS,
-            TaxonomyType::BLOGS,
+            //TaxonomyType::BLOGS,
+            TaxonomyType::PROD_CATS,
         ];
         //print_r( $arr_taxonomy_type );
 

@@ -18,7 +18,7 @@ class Sync extends BaseController
         $this->term_model = new \App\Models\Term();
 
         //
-        //$this->cache = \Config\ Services::cache();
+        //$this->cache = \Config\Services::cache();
         $this->request = \Config\Services::request();
 
         // kiểm tra segment vị trí thứ 1

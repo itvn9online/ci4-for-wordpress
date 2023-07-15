@@ -19,7 +19,7 @@ class UserBase extends EbModel
         parent::__construct();
 
         //
-        //$this->session = \Config\ Services::session();
+        //$this->session = \Config\Services::session();
     }
 
     /*

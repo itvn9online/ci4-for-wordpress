@@ -47,8 +47,10 @@ class PostAdmin extends Post
         $allow_taxonomy = [
             TaxonomyType::POSTS,
             TaxonomyType::TAGS,
-            TaxonomyType::BLOGS,
-            TaxonomyType::BLOG_TAGS,
+            //TaxonomyType::BLOGS,
+            //TaxonomyType::BLOG_TAGS,
+            TaxonomyType::PROD_CATS,
+            TaxonomyType::PROD_TAGS,
         ];
         // thêm custom taxonomy vào phần add menu
         $arr_custom_name = [];
@@ -139,7 +141,8 @@ class PostAdmin extends Post
         $allow_post_type = [
             PostType::PAGE,
             PostType::POST,
-            PostType::BLOG,
+            //PostType::BLOG,
+            PostType::PROD,
         ];
         // thêm custom post type vào phần add menu
         $arr_custom_name = [];

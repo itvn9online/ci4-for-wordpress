@@ -53,7 +53,7 @@ class Asjaxs extends Admin
         //die( $www_url );
 
         //
-        //$client = \Config\ Services::curlrequest();
+        //$client = \Config\Services::curlrequest();
 
         // rồi lấy url xem nó có tự redirect về url chuẩn mình mong muốn không
         $this->result_json_type([

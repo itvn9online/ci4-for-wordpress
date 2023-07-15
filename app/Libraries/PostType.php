@@ -11,7 +11,7 @@ class PostType
     // post_type
     const POST = 'post';
     const ADS = 'ads';
-    const BLOG = 'blog';
+    //const BLOG = 'blog';
     const PAGE = 'page';
     const PROD = 'product';
     const MENU = 'nav_menu';
@@ -51,7 +51,7 @@ class PostType
     protected static $arr = array(
         self::POST => AdminTranslate::POST,
         self::ADS => 'Quảng cáo',
-        self::BLOG => 'Blog/ Tin tức',
+        //self::BLOG => 'Blog/ Tin tức',
         self::PAGE => 'Trang tĩnh',
         self::PROD => AdminTranslate::PROD,
         self::MENU => 'Menu',
@@ -110,8 +110,8 @@ class PostType
         //
         if (
             $post_type == self::POST ||
-            $post_type == self::ADS ||
-            $post_type == self::BLOG
+            //$post_type == self::BLOG ||
+            $post_type == self::ADS
         ) {
             //$arr[ 'post_relationships' ] = 'Danh sách term ID';
             $arr['post_category'] = 'Danh mục';

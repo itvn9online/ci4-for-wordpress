@@ -10,10 +10,12 @@ class ConfigType
     const CONFIG = 'config';
     const DISPLAY = 'display';
     const SOCIAL = 'social';
-    const CATEGORY = 'product_list';
-    const POST = 'product';
-    const BLOGS = 'blog_list';
-    const BLOG = 'blog';
+    const CATEGORY = 'post_list';
+    const POST = 'post';
+    //const BLOGS = 'blog_list';
+    //const BLOG = 'blog';
+    const PROD_CATS = 'product_cat';
+    const PROD = 'product';
     const TRANS = 'translate';
     const SMTP = 'smtp';
     const CONSTANTS = 'constants';
@@ -60,8 +62,10 @@ class ConfigType
         self::SOCIAL => 'Mạng xã hội',
         self::CATEGORY => 'Danh sách ' . AdminTranslate::POST,
         self::POST => 'Chi tiết ' . AdminTranslate::POST,
-        self::BLOGS => 'Danh sách Blog/ Tin tức',
-        self::BLOG => 'Chi tiết Blog/ Tin tức',
+        //self::BLOGS => 'Danh sách Blog/ Tin tức',
+        //self::BLOG => 'Chi tiết Blog/ Tin tức',
+        self::PROD_CATS => 'Danh sách ' . AdminTranslate::PROD,
+        self::PROD => 'Chi tiết ' . AdminTranslate::PROD,
         self::TRANS => 'Bản dịch',
         self::SMTP => 'Cấu hình Mail/ Telegram',
         self::CONSTANTS => 'Constants',
@@ -81,8 +85,10 @@ class ConfigType
             self::SOCIAL,
             self::CATEGORY,
             self::POST,
-            self::BLOGS,
-            self::BLOG,
+            //self::BLOGS,
+            //self::BLOG,
+            self::PROD_CATS,
+            self::PROD,
             self::CHECKOUT,
             // một số config sử dụng method riêng rồi thì bỏ ở đây đi
             //self::FIREBASE,
@@ -176,7 +182,7 @@ class ConfigType
                 'eb_posts_column_spacing' => 'Khoảng cách giữa các cột',
                 'eb_posts_row_align' => 'Căn chỉnh (align)',
                 'eb_posts_sidebar' => 'Sidebar',
-                'cf_product_size' => 'Tỉ lệ ảnh ' . AdminTranslate::POST,
+                'cf_posts_size' => 'Tỉ lệ ảnh ' . AdminTranslate::POST,
                 'cf_thumbnail_size' => 'Chất lượng hình ảnh',
                 'show_child_category' => 'Hiển thị nhóm ' . AdminTranslate::POST . ' con',
             ];
@@ -190,6 +196,7 @@ class ConfigType
                 'eb_post_row_align' => 'Căn chỉnh (align)',
                 'eb_post_sidebar' => 'Sidebar',
             ];
+            /*
         } else if ($config_type == self::BLOGS) {
             $arr = [
                 'eb_blogs_per_page' => 'Số bài viết trên mỗi trang',
@@ -212,6 +219,30 @@ class ConfigType
                 'eb_blog_column_spacing' => 'Khoảng cách giữa các cột',
                 'eb_blog_row_align' => 'Căn chỉnh (align)',
                 'eb_blog_sidebar' => 'Sidebar',
+            ];
+            */
+        } else if ($config_type == self::PROD_CATS) {
+            $arr = [
+                'eb_products_per_page' => 'Số ' . AdminTranslate::PROD . ' trên mỗi trang',
+                'eb_products_per_line' => 'Số cột trên mỗi dòng',
+                'eb_products_medium_per_line' => 'Số cột trên mỗi dòng (table)',
+                'eb_products_small_per_line' => 'Số cột trên mỗi dòng (mobile)',
+                'eb_products_column_spacing' => 'Khoảng cách giữa các cột',
+                'eb_products_row_align' => 'Căn chỉnh (align)',
+                'eb_products_sidebar' => 'Sidebar',
+                'cf_product_description_length' => 'Độ dài tóm tắt ' . AdminTranslate::PROD,
+                'cf_products_size' => 'Tỉ lệ ảnh ' . AdminTranslate::PROD,
+                'show_child_products' => 'Hiển thị nhóm ' . AdminTranslate::PROD . ' con',
+            ];
+        } else if ($config_type == self::PROD) {
+            $arr = [
+                'eb_product_per_page' => 'Số bài cùng nhóm',
+                'eb_product_per_line' => 'Số cột trên mỗi dòng',
+                'eb_product_medium_per_line' => 'Số cột trên mỗi dòng (table)',
+                'eb_product_small_per_line' => 'Số cột trên mỗi dòng (mobile)',
+                'eb_product_column_spacing' => 'Khoảng cách giữa các cột',
+                'eb_product_row_align' => 'Căn chỉnh (align)',
+                'eb_product_sidebar' => 'Sidebar',
             ];
         } else if ($config_type == self::NUM_MON) {
             $arr = [
@@ -339,16 +370,17 @@ class ConfigType
                 'WGR_TABLE_PREFIX' => 'Database table prefix',
                 'HTACCESSS_ALLOW' => 'Htaccess allow',
                 //
-                'WGR_CATEGORY_PREFIX' => 'Tiền tố cho danh mục sản phẩm',
-                'WGR_PAGES_PREFIX' => 'Tiền tố cho trang tĩnh',
+                //'WGR_CATEGORY_PREFIX' => 'Tiền tố cho danh mục sản phẩm',
+                //'WGR_PAGES_PREFIX' => 'Tiền tố cho trang tĩnh',
                 //
                 'WGR_CATEGORY_PERMALINK' => 'Category permalink',
-                'WGR_BLOGS_PERMALINK' => 'Blogs permalink',
+                //'WGR_BLOGS_PERMALINK' => 'Blogs permalink',
                 'WGR_PRODS_PERMALINK' => 'Product category permalink',
                 'WGR_TAXONOMY_PERMALINK' => 'Other taxonomy permalink',
                 //
                 'WGR_POST_PERMALINK' => 'Post permalink',
-                'WGR_BLOG_PERMALINK' => 'Blog permalink',
+                //'WGR_BLOG_PERMALINK' => 'Blog permalink',
+                'WGR_PROD_PERMALINK' => 'Product permalink',
                 'WGR_PAGE_PERMALINK' => 'Page permalink',
                 'WGR_POSTS_PERMALINK' => 'Other post permalink',
             ];
@@ -424,21 +456,21 @@ class ConfigType
             'eb_post_row_align' => 'select',
             'eb_post_sidebar' => 'select',
             //
-            'eb_blogs_per_page' => 'number',
-            'eb_blogs_per_line' => 'select',
-            'eb_blogs_medium_per_line' => 'select',
-            'eb_blogs_small_per_line' => 'select',
-            'eb_blogs_column_spacing' => 'select',
-            'eb_blogs_row_align' => 'select',
-            'eb_blogs_sidebar' => 'select',
+            'eb_products_per_page' => 'number',
+            'eb_products_per_line' => 'select',
+            'eb_products_medium_per_line' => 'select',
+            'eb_products_small_per_line' => 'select',
+            'eb_products_column_spacing' => 'select',
+            'eb_products_row_align' => 'select',
+            'eb_products_sidebar' => 'select',
             //
-            'eb_blog_per_page' => 'number',
-            'eb_blog_per_line' => 'select',
-            'eb_blog_medium_per_line' => 'select',
-            'eb_blog_small_per_line' => 'select',
-            'eb_blog_column_spacing' => 'select',
-            'eb_blog_row_align' => 'select',
-            'eb_blog_sidebar' => 'select',
+            'eb_product_per_page' => 'number',
+            'eb_product_per_line' => 'select',
+            'eb_product_medium_per_line' => 'select',
+            'eb_product_small_per_line' => 'select',
+            'eb_product_column_spacing' => 'select',
+            'eb_product_row_align' => 'select',
+            'eb_product_sidebar' => 'select',
             //
             'enable_vue_js' => 'checkbox',
             'enable_hotlink_protection' => 'checkbox',
@@ -447,7 +479,7 @@ class ConfigType
             'blog_private' => 'checkbox',
             'smtp_no_reply' => 'checkbox',
             'show_child_category' => 'checkbox',
-            'show_child_blogs' => 'checkbox',
+            'show_child_products' => 'checkbox',
             'logo_main_height' => 'number',
             'logo_width_img' => 'number',
             'logo_height_img' => 'number',
@@ -522,11 +554,12 @@ class ConfigType
 
             'enable_vue_js' => 'Khi chế độ này được kích hoạt, thư viện VueJS sẽ được nhúng vào frontend để sử dụng',
             'show_child_category' => 'Khi chế độ này được kích hoạt, và khi truy cập vào danh mục ' . AdminTranslate::POST . ', nếu trong danh mục đó có các nhóm con thì các nhóm con sẽ được hiển thị thay vì hiển thị trực tiếp danh sách ' . AdminTranslate::POST,
-            'show_child_blogs' => 'Khi chế độ này được kích hoạt, và khi truy cập vào danh mục tin tức, nếu trong danh mục đó có các nhóm con thì các nhóm con sẽ được hiển thị thay vì hiển thị trực tiếp danh sách tin tức',
-            'eb_post_per_page' => 'Khi số này lớn hơn 0, trong trang chi tiết bài viết sẽ lấy các bài cùng nhóm với bài hiện tại để giới thiệu',
-            'eb_blog_per_page' => 'Khi số này lớn hơn 0, trong trang chi tiết bài viết sẽ lấy các bài cùng nhóm với bài hiện tại để giới thiệu',
+            'show_child_products' => 'Khi chế độ này được kích hoạt, và khi truy cập vào danh mục ' . AdminTranslate::PROD . ', nếu trong danh mục đó có các nhóm con thì các nhóm con sẽ được hiển thị thay vì hiển thị trực tiếp danh sách ' . AdminTranslate::PROD,
+            'eb_post_per_page' => 'Khi số này lớn hơn 0, trong trang chi tiết ' . AdminTranslate::POST . ' sẽ lấy các bài cùng nhóm với bài hiện tại để giới thiệu',
+            //
+            'eb_product_per_page' => 'Khi số này lớn hơn 0, trong trang chi tiết ' . AdminTranslate::PROD . ' sẽ lấy các bài cùng nhóm với bài hiện tại để giới thiệu',
             'main_slider_slug' => 'Nhập slug của slider chính vào đây, khi hàm the_slider không tìm được slider tương ứng thì nó sẽ lấy slider này để gán vào',
-            'image' => 'Khi share bài viết lên mạng xã hội như Facebook, Zalo... ảnh này sẽ được hiển thị nếu link share không có ảnh đính kèm.',
+            'image' => 'Khi share ' . AdminTranslate::POST . ' lên mạng xã hội như Facebook, Zalo... ảnh này sẽ được hiển thị nếu link share không có ảnh đính kèm.',
             'registeronline' => 'Link đăng ký với bộ công thương. Trong file view, sử dụng hàm <strong>$option_model->the_bct( $getconfig );</strong> để in ra logo BCT màu đỏ.',
             'notificationbct' => 'Link thông báo với bộ công thương. Trong file view, sử dụng hàm <strong>$option_model->the_bct( $getconfig );</strong> để in ra logo BCT màu xanh.',
             'g_recaptcha_site_key' => 'Truy cập vào đây https://www.google.com/recaptcha/about/ -> tới bảng điều khiển site -> tìm tab Settings -> reCAPTCHA keys -> copy Site key và Secret key dán vào đây và lưu lại.',
@@ -559,7 +592,7 @@ class ConfigType
             'zalooa_access_token' => 'Access token dùng để gửi tin nhắn qua ZNS, lấy Access token bằng công cụ API explorer tại đây: https://developers.zalo.me/tools/explorer/YOUR_ZALO_APP_ID <br> * Loại Access token: OA Access Token <br> - Trong Official Account -> Thiết lập chung -> https://developers.zalo.me/app/YOUR_ZALO_APP_ID/oa/settings <br> - Thiết lập Official Account Callback Url là: ' . base_url('zalos/get_access_token') . ' <br> * URL update Access Token tự động: ' . base_url('admin/zalooas/before_zns'),
             'zalooa_refresh_token' => 'Mỗi access token được tạo sẽ có một refresh token đi kèm. Refresh token cho phép bạn tạo lại access token mới khi access token hiện tại hết hiệu lực. <br> * Refresh token chỉ có thể sử dụng 1 lần. <br> * Xem hướng dẫn tạo access token mới từ refresh token tại đây: https://developers.zalo.me/docs/api/official-account-api/xac-thuc-va-uy-quyen/cach-1-xac-thuc-voi-giao-thuc-oauth/lay-access-token-tu-refresh-token-post-4970 . <br> * Hiệu lực: 3 tháng <br> * Nếu có Refresh token, có thể cập nhật lại Access token luôn tại đây: ' . base_url('admin/zalooas/refresh_access_token'),
             'zalooa_expires_token' => 'Khi access token hết hạn thì mà có refresh token thì 1 access token mới sẽ được cập nhật tự động <br> * Quản lý tài khoản ZNS: https://account.zalo.cloud/',
-            'zalooa_webhook' => 'URL nhận các sự kiện ghi lại tương tác của người dùng với OA: có người dùng gửi tin nhắn tới Offical Account, các thay đổi liên quan tới bài viết (Article) hoặc cửa hàng (Zalo Shop) <br> * Cài đặt Webhook cho Zalo OA: https://developers.zalo.me/app/YOUR_ZALO_APP_ID/webhook <br> - ' . base_url('zalos/webhook') . ' <br> * Giới thiệu về Webhook: https://developers.zalo.me/docs/api/official-account-api/webhook/gioi-thieu-ve-webhook-post-4219',
+            'zalooa_webhook' => 'URL nhận các sự kiện ghi lại tương tác của người dùng với OA: có người dùng gửi tin nhắn tới Offical Account, các thay đổi liên quan tới ' . AdminTranslate::POST . ' (Article) hoặc cửa hàng (Zalo Shop) <br> * Cài đặt Webhook cho Zalo OA: https://developers.zalo.me/app/YOUR_ZALO_APP_ID/webhook <br> - ' . base_url('zalos/webhook') . ' <br> * Giới thiệu về Webhook: https://developers.zalo.me/docs/api/official-account-api/webhook/gioi-thieu-ve-webhook-post-4219',
             'zalooa_template_otp_id' => 'ID mẫu tin nhắn gửi qua ZNS, xem hướng dẫn tạo mẫu template tại đây: https://zalo.cloud/blog/huong-dan-tao-ung-dung-app-id-va-lien-ket-voi-zalo-oa-/kgua7vnkkvbyy88rma ',
             'zns_phone_for_test' => 'Số điện thoại dùng để test chức năng gửi tin nhắn qua Zalo ZNS. <br> * Gửi thử tin nhắn OTP qua ZNS tại đây: ' . base_url('admin/zalooas/send_test_otp_zns'),
             'zalooa_user_id_test' => 'User ID Zalo OD dùng để test chức năng gửi tin nhắn qua Zalo OA. Nếu để trống, hệ thống sẽ gửi tin nhắn test cho tài khoản của bạn. <br> * Gửi thử tin nhắn thông báo qua Zalo OA tại đây: ' . base_url('admin/zalooas/send_test_msg_oa'),
@@ -607,27 +640,29 @@ class ConfigType
             'NUMBER_CHECKBOXS_INPUT' => 'Website nào cần dùng nhiều tăng số lượng bản ghi lên.',
             'SITE_LANGUAGE_SUB_FOLDER' => 'Nếu là sub-folder thì sẽ hỗ trợ prefix cho routes, url cũng sẽ thêm prefix vào ngay sau domain. Ví dụ: domain.com/vn hoặc domain.com/en',
             'CUSTOM_MD5_HASH_CODE' => 'Chuỗi sẽ thêm vào khi sử dụng hàm mdnam -> md5 -> tăng độ bảo mật cho chuỗi. Chỉ thay đổi khi thực sự cần thiết do thông số này sẽ có thể khiến toàn bộ chuỗi sử dụng hàm mdnam sẽ phải dựng lại.',
-            'HTACCESSS_ALLOW' => 'Một số thư mục chỉ cho phép 1 số định dạng file được phép truy cập. Ví dụ: ' . HTACCESSS_ALLOW,
+            'WGR_TABLE_PREFIX' => 'Xóa trắng để xem mặc định: ' . WGR_TABLE_PREFIX,
+            'HTACCESSS_ALLOW' => 'Một số thư mục chỉ cho phép 1 số định dạng file được phép truy cập. Xóa trắng để xem mặc định: ' . HTACCESSS_ALLOW,
             //
-            'WGR_CATEGORY_PREFIX' => 'Ví dụ: ' . WGR_CATEGORY_PREFIX,
-            'WGR_PAGES_PREFIX' => 'Ví dụ: ' . WGR_PAGES_PREFIX,
+            //'WGR_CATEGORY_PREFIX' => 'Xóa trắng để xem mặc định: ' . WGR_CATEGORY_PREFIX,
+            //'WGR_PAGES_PREFIX' => 'Xóa trắng để xem mặc định: ' . WGR_PAGES_PREFIX,
             //
-            'WGR_CATEGORY_PERMALINK' => 'Ví dụ: ' . WGR_CATEGORY_PERMALINK,
-            'WGR_BLOGS_PERMALINK' => 'Ví dụ: ' . WGR_BLOGS_PERMALINK,
-            'WGR_PRODS_PERMALINK' => 'Ví dụ: ' . WGR_PRODS_PERMALINK,
-            'WGR_TAXONOMY_PERMALINK' => 'Ví dụ: ' . WGR_TAXONOMY_PERMALINK,
+            'WGR_CATEGORY_PERMALINK' => 'Xóa trắng để xem mặc định: ' . WGR_CATEGORY_PERMALINK,
+            //'WGR_BLOGS_PERMALINK' => 'Xóa trắng để xem mặc định: ' . WGR_BLOGS_PERMALINK,
+            'WGR_PRODS_PERMALINK' => 'Xóa trắng để xem mặc định: ' . WGR_PRODS_PERMALINK,
+            'WGR_TAXONOMY_PERMALINK' => 'Xóa trắng để xem mặc định: ' . WGR_TAXONOMY_PERMALINK,
             //
             'WGR_POST_PERMALINK' => 'Các tham số đầu vào sẽ là %tên-cột-trong-bảng-posts%. Ví dụ: %ID% %post_type% %post_name%',
-            'WGR_BLOG_PERMALINK' => 'Ví dụ: ' . WGR_BLOG_PERMALINK,
-            'WGR_PAGE_PERMALINK' => 'Ví dụ: ' . WGR_PAGE_PERMALINK,
-            'WGR_POSTS_PERMALINK' => 'Ví dụ: ' . WGR_POSTS_PERMALINK,
+            //'WGR_BLOG_PERMALINK' => 'Xóa trắng để xem mặc định: ' . WGR_BLOG_PERMALINK,
+            'WGR_PROD_PERMALINK' => 'Xóa trắng để xem mặc định: ' . WGR_PROD_PERMALINK,
+            'WGR_PAGE_PERMALINK' => 'Xóa trắng để xem mặc định: ' . WGR_PAGE_PERMALINK,
+            'WGR_POSTS_PERMALINK' => 'Xóa trắng để xem mặc định: ' . WGR_POSTS_PERMALINK,
             //
-            'WGR_CSP_DEFAULT_SRC' => 'Ví dụ: ' . WGR_CSP_DEFAULT_SRC,
-            'WGR_CSP_SCRIPT_SRC' => 'Ví dụ: ' . WGR_CSP_SCRIPT_SRC,
-            'WGR_CSP_STYLE_SRC' => 'Ví dụ: ' . WGR_CSP_STYLE_SRC,
-            'WGR_CSP_IMG_SRC' => 'Ví dụ: ' . WGR_CSP_IMG_SRC,
-            'WGR_CSP_CONNECT_SRC' => 'Ví dụ: ' . WGR_CSP_CONNECT_SRC,
-            'WGR_CSP_CHILD_SRC' => 'Ví dụ: ' . WGR_CSP_CHILD_SRC,
+            'WGR_CSP_DEFAULT_SRC' => 'Xóa trắng để xem mặc định: ' . WGR_CSP_DEFAULT_SRC,
+            'WGR_CSP_SCRIPT_SRC' => 'Xóa trắng để xem mặc định: ' . WGR_CSP_SCRIPT_SRC,
+            'WGR_CSP_STYLE_SRC' => 'Xóa trắng để xem mặc định: ' . WGR_CSP_STYLE_SRC,
+            'WGR_CSP_IMG_SRC' => 'Xóa trắng để xem mặc định: ' . WGR_CSP_IMG_SRC,
+            'WGR_CSP_CONNECT_SRC' => 'Xóa trắng để xem mặc định: ' . WGR_CSP_CONNECT_SRC,
+            'WGR_CSP_CHILD_SRC' => 'Xóa trắng để xem mặc định: ' . WGR_CSP_CHILD_SRC,
         ];
         if (isset($arr[$key]) && $arr[$key] != '') {
             echo '<p class="controls-text-note">' . $arr[$key] . '</p>';
@@ -702,19 +737,19 @@ class ConfigType
             'eb_post_row_align' => self::$eb_row_align,
             'eb_post_sidebar' => $show_sidebar,
             //
-            'eb_blogs_per_line' => self::$arr_posts_per_line,
-            'eb_blogs_medium_per_line' => $arr_num_medium_line,
-            'eb_blogs_small_per_line' => $arr_num_small_line,
-            'eb_blogs_column_spacing' => self::$eb_column_spacing,
-            'eb_blogs_row_align' => self::$eb_row_align,
-            'eb_blogs_sidebar' => $show_sidebar,
+            'eb_products_per_line' => self::$arr_posts_per_line,
+            'eb_products_medium_per_line' => $arr_num_medium_line,
+            'eb_products_small_per_line' => $arr_num_small_line,
+            'eb_products_column_spacing' => self::$eb_column_spacing,
+            'eb_products_row_align' => self::$eb_row_align,
+            'eb_products_sidebar' => $show_sidebar,
             //
-            'eb_blog_per_line' => self::$arr_posts_per_line,
-            'eb_blog_medium_per_line' => $arr_num_medium_line,
-            'eb_blog_small_per_line' => $arr_num_small_line,
-            'eb_blog_column_spacing' => self::$eb_column_spacing,
-            'eb_blog_row_align' => self::$eb_row_align,
-            'eb_blog_sidebar' => $show_sidebar,
+            'eb_product_per_line' => self::$arr_posts_per_line,
+            'eb_product_medium_per_line' => $arr_num_medium_line,
+            'eb_product_small_per_line' => $arr_num_small_line,
+            'eb_product_column_spacing' => self::$eb_column_spacing,
+            'eb_product_row_align' => self::$eb_row_align,
+            'eb_product_sidebar' => $show_sidebar,
             //
             'smtp_secure' => [
                 '' => 'Không bảo mật',

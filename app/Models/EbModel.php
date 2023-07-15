@@ -3,9 +3,10 @@
 /*
  * Nạp model dùng chung cho các model khác
  */
+
 namespace App\Models;
 
-//use CodeIgniter\ Model;
+//use CodeIgniter\Model;
 
 //class EbModel extends Model {
 class EbModel
@@ -34,6 +35,6 @@ class EbModel
     public function __construct()
     {
         $this->base_model = new \App\Models\Base();
-        //$this->db = \Config\ Database::connect();
+        //$this->db = \Config\Database::connect();
     }
 }

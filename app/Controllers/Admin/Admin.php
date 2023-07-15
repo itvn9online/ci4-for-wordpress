@@ -93,7 +93,7 @@ class Admin extends Ajaxs
 
     public function index()
     {
-        //echo debug_backtrace()[ 1 ][ 'class' ] . '\\ ' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . PHP_EOL;
+        //echo debug_backtrace()[ 1 ][ 'class' ] . ':' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . PHP_EOL;
         echo 'Controller index not found! <br>' . PHP_EOL;
         die(__CLASS__ . ':' . __LINE__);
     }

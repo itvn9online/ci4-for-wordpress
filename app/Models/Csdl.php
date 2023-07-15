@@ -113,7 +113,7 @@ class Csdl extends Session
             if (isset($ops['debug_backtrace'])) {
                 echo $ops['debug_backtrace'] . '<br>' . PHP_EOL;
             }
-            echo debug_backtrace()[1]['class'] . '\\ ' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
+            echo debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
 
             //
             die('data update empty ' . $table . ':' . __CLASS__ . ':line:' . __LINE__);
@@ -128,7 +128,7 @@ class Csdl extends Session
             if (isset($ops['debug_backtrace'])) {
                 echo $ops['debug_backtrace'] . '<br>' . PHP_EOL;
             }
-            echo debug_backtrace()[1]['class'] . '\\ ' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
+            echo debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
 
             //
             die(__FUNCTION__ . ' data update empty ' . $table . ':line:' . __LINE__);
@@ -253,7 +253,7 @@ class Csdl extends Session
             if (isset($ops['debug_backtrace'])) {
                 echo $ops['debug_backtrace'] . '<br>' . PHP_EOL;
             }
-            echo debug_backtrace()[1]['class'] . '\\ ' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
+            echo debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
 
             //
             die(__FUNCTION__ . ' where update empty ' . $table . ':line:' . __LINE__);

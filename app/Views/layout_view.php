@@ -18,6 +18,18 @@
     <script>
         redirect_to_canonical('<?php echo $seo['body_class']; ?>');
     </script>
+    <?php
+
+    // thêm schema cho trang chủ -> schema này tự tùy biến trong phần bản dịch
+    if ($seo['body_class'] == 'home') {
+        $lang_model->the_text('home_schema', '<!-- -->');
+    }
+    // và các trang khác nếu có
+    if (isset($seo['dynamic_schema'])) {
+        echo $seo['dynamic_schema'];
+    }
+
+    ?>
 </head>
 
 <body data-session="<?php echo session_id(); ?>" class="<?php echo $seo['body_class']; ?> is-<?php echo $current_user_type . ' ' . $current_user_logged; ?>">

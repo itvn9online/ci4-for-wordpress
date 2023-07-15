@@ -524,6 +524,6 @@ class File extends EbModel
 
     protected function debugMyBacktrace($a)
     {
-        return $a[1]['class'] . '\\ ' . $a[1]['function'] . '<br>' . PHP_EOL;
+        return $a[1]['class'] . ':' . $a[1]['function'] . '<br>' . PHP_EOL;
     }
 }

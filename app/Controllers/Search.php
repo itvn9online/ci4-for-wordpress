@@ -83,11 +83,11 @@ class Search extends Csrf
             $filter = [
                 /*
                 'where_in' => array(
-                'posts.post_type' => array(
-                PostType::POST,
-                PostType::BLOG,
-                PostType::PAGE,
-                )
+                    'posts.post_type' => array(
+                        PostType::POST,
+                        //PostType::BLOG,
+                        PostType::PAGE,
+                    )
                 ),
                 */
                 'or_like' => $where_or_like,
@@ -231,7 +231,8 @@ class Search extends Csrf
 
         //
         $data['post'] = $this->post_model->get_posts_by([], $post_ops);
-        $data['blog'] = $this->post_model->get_blogs_by([], $post_ops);
+        //$data['blog'] = $this->post_model->get_blogs_by([], $post_ops);
+        $data['product'] = $this->post_model->get_products_by([], $post_ops);
 
         //
         //print_r( $data );

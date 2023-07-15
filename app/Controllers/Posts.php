@@ -89,13 +89,15 @@ class Posts extends Csrf
         }
         //print_r( $this->taxonomy_slider );
         //print_r( $this->posts_parent_list );
-        //print_r( $data );
+        //print_r($data);
+        $data = $this->post_model->metaTitleDescription($data);
 
         // tìm các bài cùng nhóm
         $same_cat_data = [];
         $config_key = 'eb_post_per_page';
-        if ($this->post_type == PostType::BLOG) {
-            $config_key = 'eb_blog_per_page';
+        //if ($this->post_type == PostType::BLOG) {
+        if ($this->post_type == PostType::PROD) {
+            $config_key = 'eb_product_per_page';
         }
         $post_per_page = $this->base_model->get_config($this->getconfig, $config_key, 5);
         if (
@@ -213,7 +215,14 @@ class Posts extends Csrf
         $seo = $this->base_model->post_seo($data, $full_link);
 
         //
-        $structured_data = $this->structuredData($data, 'Article.html');
+        //$structured_data = $this->structuredData($data, 'Article.html', '', true);
+        $structured_data = $this->structuredGetData($data);
+        //print_r($structured_data);
+        $structured_data = $this->post_model->structuredArticleData($data, $structured_data);
+        if (!isset($seo['dynamic_schema'])) {
+            $seo['dynamic_schema'] = '';
+        }
+        $seo['dynamic_schema'] .= $structured_data;
 
         // -> views
         $this->teamplate['breadcrumb'] = view(
@@ -221,7 +230,7 @@ class Posts extends Csrf
             array(
                 'breadcrumb' => $this->breadcrumb
             )
-        ) . $structured_data;
+        );
 
         $this->teamplate['main'] = view(
             $this->file_view,

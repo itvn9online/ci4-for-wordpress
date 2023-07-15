@@ -363,27 +363,42 @@ class PostQuery extends PostMeta
         return $data;
     }
 
-    public function select_public_post($post_id, $where = [], $select_col = '*')
+    public function select_public_post($post_id, $where = [], $select_col = '*', $ops = [])
     {
         // các tham số bắt buộc
         //$where[ 'post_status' ] = PostType::PUBLICITY;
         $where['lang_key'] = LanguageCost::lang_key();
 
         //
+        if (!isset($ops['where_in'])) {
+            $ops['where_in'] = [];
+        }
+        if (!isset($ops['order_by'])) {
+            $ops['order_by'] = [
+                'ID' => 'ASC'
+            ];
+        }
+        $ops['where_in']['post_status'] = [
+            // ai cũng có thể xem
+            PostType::PUBLICITY,
+            // người dùng đã đăng nhập
+            PostType::PRIVATELY,
+            // cho admin xem trước
+            PostType::DRAFT,
+        ];
+        //print_r($ops);
+        //die(__CLASS__ . ':' . __LINE__);
+
+        //
         return $this->select_post(
             $post_id,
             $where,
             [
-                'where_in' => [
-                    'post_status' => [
-                        // ai cũng có thể xem
-                        PostType::PUBLICITY,
-                        // người dùng đã đăng nhập
-                        PostType::PRIVATELY,
-                        // cho admin xem trước
-                        PostType::DRAFT,
-                    ]
-                ],
+                'where_in' => $ops['where_in'],
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                //
+                'order_by' => $ops['order_by'],
             ],
             $select_col
         );
@@ -463,8 +478,10 @@ class PostQuery extends PostMeta
                     'is_deleted' => DeletedStatus::FOR_DEFAULT,
                     'taxonomy' => $post_cat['taxonomy'],
                 ],
-                1,
-                'term_id'
+                [
+                    'limit' => 1,
+                    'select_col' => 'term_id',
+                ]
             );
             //print_r( $get_term_id );
 
@@ -674,7 +691,7 @@ class PostQuery extends PostMeta
             $instance['dynamic_post_tag'] = 'div';
         }
         if ($instance['custom_size'] == '') {
-            $instance['custom_size'] = $this->getconfig->cf_blog_size;
+            $instance['custom_size'] = $this->getconfig->cf_posts_size;
         }
         if ($instance['custom_id'] != '') {
             $instance['custom_id'] = ' id="' . $instance['custom_id'] . '"';
@@ -859,7 +876,7 @@ class PostQuery extends PostMeta
             $post_cat,
             [
                 'content' => $html,
-                'cf_blog_size' => '{{custom_size}}',
+                'cf_posts_size' => '{{custom_size}}',
                 'blog_link_option' => $blog_link_option,
                 'widget_title' => $html_widget_title,
                 'more_link' => $instance['text_view_more'] != '' ? '<div class="widget-blog-more"><a href="{{custom_cat_link}}">' . $instance['text_view_more'] . '</a></div>' : '',

@@ -51,6 +51,9 @@ if (!empty($firebase_config->g_firebase_config)) {
         </div>
         <div id="user-signed-out" class="hidden">
             <div id="firebaseui-container"></div>
+            <label>
+                <input type="checkbox" id="firebase_auto_login" /> Tự động đăng nhập lần sau
+            </label>
         </div>
     </div>
     <br>

@@ -48,7 +48,8 @@ function show_edit_btn() {
 				// mặc định
 				controller = "posts";
 				var arr_type = {
-					blog: "blogs",
+					product: "products",
+					//blog: "blogs",
 					ads: "adss",
 					page: "pages",
 				};
@@ -116,10 +117,12 @@ function show_edit_btn() {
 				controller = "terms";
 				var arr_type = {
 					//post_options: "postoptions",
+					product_cat: "productcategory",
 					product_opt: "productoptions",
+					product_tag: "producttags",
 					tags: "tags",
-					blogs: "blogcategory",
-					blog_tags: "blogtags",
+					//blogs: "blogcategory",
+					//blog_tags: "blogtags",
 					ads_options: "adsoptions",
 				};
 				// các post type mặc định

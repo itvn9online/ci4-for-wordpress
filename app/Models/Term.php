@@ -95,7 +95,7 @@ class Term extends TermBase
                 }
 
                 //
-                //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . '\\ ' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
+                //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
                 echo 'Auto create taxonomy: ' . $slug . ' (' . $taxonomy . ') <br>' . PHP_EOL;
                 $result_id = $this->insert_terms(
                     [
@@ -108,17 +108,17 @@ class Term extends TermBase
 
                 //
                 if ($result_id > 0) {
-                    //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . '\\ ' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
+                    //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
                     return $this->get_cat_post($slug, $post_type, $taxonomy, false);
                 }
                 // nếu tồn tại rồi thì báo đã tồn tại
                 else if ($result_id < 0) {
-                    //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . '\\ ' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
+                    //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
                     die('EXIST auto create new terms #' . $taxonomy . ':' . __CLASS__ . ':' . __LINE__);
                 }
                 die('ERROR auto create new terms #' . $taxonomy . ':' . __CLASS__ . ':' . __LINE__);
             } else {
-                //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . '\\ ' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
+                //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
                 die('AUTO INSERT new terms has DISABLE #' . $taxonomy . ':' . __CLASS__ . ':' . __LINE__);
             }
         }
@@ -802,13 +802,25 @@ class Term extends TermBase
         return $post_cat;
     }
 
-    public function get_taxonomy($where, $limit = 1, $select_col = '*')
+    public function get_taxonomy($where, $ops = [])
     {
+        if (!isset($ops['where_in'])) {
+            $ops['where_in'] = [];
+        }
+        if (!isset($ops['limit'])) {
+            $ops['limit'] = 1;
+        }
+        if (!isset($ops['select_col'])) {
+            $ops['select_col'] = '*';
+        }
+
+        //
         return $this->base_model->select(
-            $select_col,
+            $ops['select_col'],
             WGR_TERM_VIEW,
             $where,
             array(
+                'where_in' => $ops['where_in'],
                 'order_by' => array(
                     'term_id' => 'DESC'
                 ),
@@ -817,7 +829,7 @@ class Term extends TermBase
                 // trả về câu query để sử dụng cho mục đích khác
                 //'get_query' => 1,
                 //'offset' => 2,
-                'limit' => $limit
+                'limit' => $ops['limit']
             )
         );
     }
@@ -1038,8 +1050,10 @@ class Term extends TermBase
         // không có thì mới tạo và update vào db
         if ($data['taxonomy'] == TaxonomyType::POSTS) {
             $url = WGR_CATEGORY_PERMALINK;
+            /*
         } else if ($data['taxonomy'] == TaxonomyType::BLOGS) {
             $url = WGR_BLOGS_PERMALINK;
+            */
         } else if ($data['taxonomy'] == TaxonomyType::PROD_CATS) {
             $url = WGR_PRODS_PERMALINK;
             /*
@@ -1065,7 +1079,7 @@ class Term extends TermBase
 
         //
         foreach ([
-            'category_base' => CATEGORY_BASE_URL,
+            //'category_base' => CATEGORY_BASE_URL,
             'term_id' => $data['term_id'],
             'slug' => $data['slug'],
             'taxonomy' => $data['taxonomy'],
@@ -1264,8 +1278,10 @@ class Term extends TermBase
                 'term_id' => $id,
                 'taxonomy' => $taxonomy,
             ],
-            $limit,
-            $select_col
+            [
+                'limit' => $limit,
+                'select_col' => $select_col,
+            ]
         );
 
         //
@@ -1288,8 +1304,10 @@ class Term extends TermBase
                 'is_deleted' => DeletedStatus::FOR_DEFAULT,
                 'lang_key' => $lang_key != '' ? $lang_key : LanguageCost::lang_key(),
             ],
-            $limit,
-            $select_col
+            [
+                'limit' => $limit,
+                'select_col' => $select_col,
+            ]
         );
 
         //

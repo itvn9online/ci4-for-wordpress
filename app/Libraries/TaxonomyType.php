@@ -12,8 +12,8 @@ class TaxonomyType
     const TAGS = 'tags';
     //const OPTIONS = 'post_options';
     const ADS = 'ads_options';
-    const BLOGS = 'blogs';
-    const BLOG_TAGS = 'blog_tags';
+    //const BLOGS = 'blogs';
+    //const BLOG_TAGS = 'blog_tags';
     const PROD_CATS = 'product_cat';
     const PROD_OTPS = 'product_opt';
     const PROD_TAGS = 'product_tag';
@@ -29,8 +29,8 @@ class TaxonomyType
         self::TAGS => 'Thẻ ' . AdminTranslate::POST,
         //self::OPTIONS => 'Thông số khác',
         self::ADS => 'Danh mục quảng cáo',
-        self::BLOGS => 'Danh mục tin',
-        self::BLOG_TAGS => 'Thẻ Blog/ Tin tức',
+        //self::BLOGS => 'Danh mục tin',
+        //self::BLOG_TAGS => 'Thẻ Blog/ Tin tức',
         self::PROD_CATS => 'Danh mục ' . AdminTranslate::PROD,
         self::PROD_OTPS => 'Thông số khác',
         self::PROD_TAGS => 'Thẻ ' . AdminTranslate::PROD,

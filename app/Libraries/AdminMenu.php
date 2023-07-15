@@ -69,6 +69,7 @@ class AdminMenu
                     ],
                 ]
             ],
+            /*
             'admin/blogs' => [
                 'role' => [
                     UsersType::AUTHOR,
@@ -91,6 +92,7 @@ class AdminMenu
                     ],
                 ]
             ],
+            */
             'admin/pages' => [
                 'role' => [
                     UsersType::AUTHOR,
@@ -236,12 +238,22 @@ class AdminMenu
                         'name' => ConfigType::typeList(ConfigType::POST),
                         'icon' => 'fa fa-product-hunt',
                     ],
+                    /*
                     'admin/configblogss' => [
                         'name' => ConfigType::typeList(ConfigType::BLOGS),
                         'icon' => 'fa fa-cog',
                     ],
                     'admin/configblogs' => [
                         'name' => ConfigType::typeList(ConfigType::BLOG),
+                        'icon' => 'fa fa-newspaper-o',
+                    ],
+                    */
+                    'admin/configprodcats' => [
+                        'name' => ConfigType::typeList(ConfigType::PROD_CATS),
+                        'icon' => 'fa fa-cog',
+                    ],
+                    'admin/configprods' => [
+                        'name' => ConfigType::typeList(ConfigType::PROD),
                         'icon' => 'fa fa-newspaper-o',
                     ],
                     'admin/smtps' => [

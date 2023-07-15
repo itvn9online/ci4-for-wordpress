@@ -468,7 +468,7 @@ class Terms extends Admin
         if (
             in_array($this->taxonomy, [
                 TaxonomyType::POSTS,
-                TaxonomyType::BLOGS,
+                //TaxonomyType::BLOGS,
                 //TaxonomyType::OPTIONS,
                 TaxonomyType::PROD_CATS,
                 TaxonomyType::PROD_OTPS,

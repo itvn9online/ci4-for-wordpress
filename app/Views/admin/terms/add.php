@@ -274,6 +274,41 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
                 <div class="control-label">Next count child term:</div>
                 <div class="controls"><?php echo ($data['child_last_count'] > 0 ? date('Y-m-d H:i:s', $data['child_last_count']) : ''); ?></div>
             </div>
+            <?php
+
+            // tạo module check độ chuẩn SEO cho danh mục
+            if ($data['term_id'] > 0) {
+                $linkEncode = urlencode($term_model->get_full_permalink($data));
+
+                //
+                foreach ([
+                    [
+                        'name' => 'Page speed',
+                        'link' => 'https://pagespeed.web.dev/report?url=' . $linkEncode,
+                    ], [
+                        'name' => 'Structured data',
+                        'link' => 'https://validator.schema.org/#url=' . $linkEncode,
+                    ], [
+                        'name' => 'Open Graph Facebook',
+                        'link' => 'https://developers.facebook.com/tools/debug/?q=' . $linkEncode,
+                    ], [
+                        'name' => 'Open Graph Zalo',
+                        'link' => 'https://developers.zalo.me/tools/debug-sharing?q=' . $linkEncode,
+                    ], [
+                        'name' => 'Security headers',
+                        'link' => 'https://securityheaders.com/?q=' . $linkEncode . '&followRedirects=on',
+                    ]
+                ] as $v) {
+            ?>
+                    <div class="control-group">
+                        <div class="control-label"><?php echo $v['name']; ?></div>
+                        <div class="controls"><a href="<?php echo $v['link']; ?>" target="_blank" rel="nofollow"><?php echo $v['link']; ?></a></div>
+                    </div>
+            <?php
+                }
+            }
+
+            ?>
             <div class="end-term-add"></div>
             <div class="form-actions frm-fixed-btn cf">
                 <?php

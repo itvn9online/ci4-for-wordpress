@@ -63,8 +63,59 @@ class Home extends Posts
             'description' => $getconfig->description,
             'keyword' => $getconfig->keyword,
             'name' => $getconfig->name,
+            'dynamic_schema' => $this->base_model->dynamicSchema([[
+                '@context' => 'http://schema.org',
+                '@type' => (!empty($this->getconfig->company_name) ? 'Organization' : 'Person'),
+                "name" => (!empty($this->getconfig->company_name) ? $this->getconfig->company_name : $this->getconfig->name),
+                'alternateName' => $_SERVER['HTTP_HOST'],
+                "url" => base_url(),
+                'logo' => strpos($this->getconfig->logo, '//') === false ? base_url() . ltrim($this->getconfig->logo, '/') : $this->getconfig->logo,
+                "sameAs" => $this->base_model->sameAsSchema([
+                    $this->getconfig->facebook,
+                    $this->getconfig->google,
+                    $this->getconfig->linkin,
+                    $this->getconfig->youtube,
+                    $this->getconfig->tiktok,
+                    (!empty($this->getconfig->zalo) ? 'https://zalo.me/' . $this->getconfig->zalo : ''),
+                    $this->getconfig->registeronline,
+                    $this->getconfig->notificationbct
+                ]),
+                "contactPoint" => [
+                    '@type' => 'ContactPoint',
+                    'telephone' => $this->getconfig->phone,
+                    'contactType' => 'Customer support',
+                    'areaServed' => strtoupper($this->lang_key),
+                    'availableLanguage' => [[
+                        "@type" => "Language",
+                        "name" => "Vietnamese"
+                    ], [
+                        "@type" => "Language",
+                        "name" => "English"
+                    ], [
+                        "@type" => "Language",
+                        "name" => "German"
+                    ], [
+                        "@type" => "Language",
+                        "name" => "Chinese"
+                    ], [
+                        "@type" => "Language",
+                        "name" => "Japanese"
+                    ]],
+                ],
+            ], [
+                '@context' => 'http://schema.org',
+                '@type' => 'CreativeWorkSeries',
+                'aggregateRating' => [
+                    "@type" => "AggregateRating",
+                    "ratingValue" => "4.8",
+                    "bestRating" => "5",
+                    "ratingCount" => "800",
+                    "reviewCount" => "5866"
+                ]
+            ]]),
         ]);
 
+        //
         $this->teamplate['main'] = view(
             'home_view',
             array(
@@ -109,78 +160,123 @@ class Home extends Posts
         //echo $set_page . ' <br>' . PHP_EOL;
         //echo $page_num . ' <br>' . PHP_EOL;
 
+        //
+        //echo WGR_CATEGORY_PREFIX . ' <br>' . PHP_EOL;
+        //echo CATEGORY_BASE_URL . ' <br>' . PHP_EOL;
+        //echo WGR_PAGES_PREFIX . ' <br>' . PHP_EOL;
+        //echo WGR_CATEGORY_PERMALINK . ' <br>' . PHP_EOL;
+        //echo WGR_TAXONOMY_PERMALINK . ' <br>' . PHP_EOL;
+        //echo WGR_POST_PERMALINK . ' <br>' . PHP_EOL;
+        //echo WGR_PRODS_PERMALINK . ' <br>' . PHP_EOL;
+        //echo WGR_PROD_PERMALINK . ' <br>' . PHP_EOL;
+        //echo WGR_PAGE_PERMALINK . ' <br>' . PHP_EOL;
+        //echo WGR_POSTS_PERMALINK . ' <br>' . PHP_EOL;
+
+        // nếu taxonomy nào sử dụng slug thì cho vào danh sách tìm URL trong trang chủ
+        $where_taxonomy_in = [];
+        if (WGR_CATEGORY_PERMALINK == '%slug%') {
+            $where_taxonomy_in[] = TaxonomyType::POSTS;
+        }
+        if (WGR_PRODS_PERMALINK == '%slug%') {
+            $where_taxonomy_in[] = TaxonomyType::PROD_CATS;
+        }
+
         // -> kiểm tra theo category
-        $data = $this->term_model->get_taxonomy(
-            array(
-                // các kiểu điều kiện where
-                'slug' => $slug,
-                'is_deleted' => DeletedStatus::FOR_DEFAULT,
-                'lang_key' => $this->lang_key,
-                'taxonomy' => TaxonomyType::POSTS
-            )
-        );
-        //print_r( $data );
+        if (!empty($where_taxonomy_in)) {
+            $data = $this->term_model->get_taxonomy(
+                [
+                    // các kiểu điều kiện where
+                    'slug' => $slug,
+                    'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                    'lang_key' => $this->lang_key,
+                    //'taxonomy' => TaxonomyType::POSTS
+                ],
+                [
+                    'where_in' => [
+                        'taxonomy' => $where_taxonomy_in,
+                    ]
+                ]
+            );
+            //print_r($data);
+        } else {
+            $data = [];
+        }
+        //die(__CLASS__ . ':' . __LINE__);
 
         // có -> ưu tiên category
         if (!empty($data)) {
             // vào đây thì bắt buộc phải không có category prefix
+            /*
             if (WGR_CATEGORY_PREFIX != '') {
                 // -> có thì chuyển hướng tới link chính ngay
                 $this->MY_redirect($this->term_model->get_full_permalink($data), 301);
             }
+            */
 
             //
-            return $this->category($data, PostType::POST, TaxonomyType::POSTS, 'category_view', [
+            $tax_to_post_type = [
+                TaxonomyType::POSTS => PostType::POST,
+                TaxonomyType::PROD_CATS => PostType::PROD,
+            ];
+            //print_r($tax_to_post_type);
+
+            //
+            return $this->category($data, isset($tax_to_post_type[$data['taxonomy']]) ? $tax_to_post_type[$data['taxonomy']] : PostType::POST, $data['taxonomy'], $data['taxonomy'] . '_view', [
                 'page_num' => $page_num,
             ]);
         }
         // -> nếu không có -> thử tìm theo trang
         else {
+            $where_post_type_in = [];
+            if (WGR_POST_PERMALINK == '%post_name%') {
+                $where_post_type_in[] = PostType::POST;
+            }
+            if (WGR_PROD_PERMALINK == '%post_name%') {
+                $where_post_type_in[] = PostType::PROD;
+            }
+            if (WGR_PAGE_PERMALINK == '%post_name%') {
+                $where_post_type_in[] = PostType::PAGE;
+            }
             //echo 'check page <br>' . PHP_EOL;
-            $data = $this->post_model->select_public_post(0, [
-                'post_name' => $slug,
-                'post_type' => PostType::PAGE,
-            ]);
-            if (!empty($data)) {
-                //print_r( $data );
 
-                // vào đây thì bắt buộc phải không có page prefix
+            //
+            if (!empty($where_post_type_in)) {
+                $data = $this->post_model->select_public_post(0, [
+                    'post_name' => $slug,
+                    //'post_type' => PostType::PAGE,
+                ], '*', [
+                    'where_in' => [
+                        'post_type' => $where_post_type_in
+                    ],
+                ]);
+                if (!empty($data)) {
+                    //print_r( $data );
+
+                    // vào đây thì bắt buộc phải không có page prefix
+                    /*
                 if (WGR_PAGES_PREFIX != '') {
                     // -> có thì chuyển hướng tới link chính ngay
                     $this->MY_redirect($this->post_model->get_full_permalink($data), 301);
                 }
+                */
 
-                //
-                return $this->pageDetail($data);
-            }
-            // không có trang -> thử tìm theo post
-            else {
-                $data = $this->post_model->select_public_post(0, [
-                    'post_name' => $slug,
-                    'post_type' => PostType::POST,
-                ]);
-                if (!empty($data)) {
-                    //print_r($data);
-
-                    //
-                    return $this->post_details($data['ID'], $data['post_name'], $data);
-                }
-                // không có post -> thử tìm theo blog
-                else {
-                    $data = $this->post_model->select_public_post(0, [
-                        'post_name' => $slug,
-                        'post_type' => PostType::BLOG,
-                    ]);
-                    if (!empty($data)) {
+                    // phân bổ view dựa theo post type
+                    if ($data['post_type'] == PostType::POST) {
+                        return $this->post_details($data['ID'], $data['post_name'], $data);
+                    } else if ($data['post_type'] == PostType::PROD) {
                         //print_r( $data );
 
                         // chỉnh lại thông số 1 chút -> do mặc định nó đang kết nối tới post
-                        $this->post_type = PostType::BLOG;
-                        $this->taxonomy = TaxonomyType::BLOGS;
-                        $this->file_view = 'blog_view';
+                        //$this->post_type = PostType::BLOG;
+                        $this->post_type = PostType::PROD;
+                        //$this->taxonomy = TaxonomyType::BLOGS;
+                        $this->taxonomy = TaxonomyType::PROD_CATS;
+                        $this->file_view = $this->post_type . '_view';
 
                         //
                         return $this->post_details($data['ID'], $data['post_name'], $data);
+                    } else if ($data['post_type'] == PostType::PAGE) {
+                        return $this->pageDetail($data);
                     }
                 }
             }
@@ -281,7 +377,8 @@ class Home extends Posts
             if (
                 in_array($data['post_type'], [
                     PostType::POST,
-                    PostType::BLOG,
+                    //PostType::BLOG,
+                    PostType::PROD,
                     PostType::PAGE
                 ])
             ) {
@@ -328,6 +425,7 @@ class Home extends Posts
         //
         $data['post_content'] = $this->replace_content($data['post_content']);
         //print_r($data);
+        $data = $this->post_model->metaTitleDescription($data);
 
         // lấy thông tin danh mục để tạo breadcrumb
         $cats = [];
@@ -418,6 +516,17 @@ class Home extends Posts
         //
         $this->create_breadcrumb($data['post_title'], $full_link);
         $seo = $this->base_model->post_seo($data, $full_link);
+
+        //
+        $structured_data = $this->structuredGetData($data);
+        //print_r($structured_data);
+        $structured_data = $this->post_model->structuredArticleData($data, $structured_data);
+        if (!isset($seo['dynamic_schema'])) {
+            $seo['dynamic_schema'] = '';
+        }
+        $seo['dynamic_schema'] .= $structured_data;
+
+        //
         $this->current_pid = $data['ID'];
 
         // -> views
@@ -516,15 +625,18 @@ class Home extends Posts
             $child_data = $this->term_model->the_cache($term_id, $in_cache);
             if ($child_data === NULL) {
                 $child_data = $this->term_model->get_taxonomy(
-                    array(
+                    [
                         // các kiểu điều kiện where
                         'parent' => $term_id,
                         'is_deleted' => DeletedStatus::FOR_DEFAULT,
                         'lang_key' => $this->lang_key,
-                        'taxonomy' => $taxonomy_type
-                    ),
-                    10,
-                    'term_id'
+                        'taxonomy' =>
+                        $taxonomy_type
+                    ],
+                    [
+                        'limit' => 10,
+                        'select_col' => 'term_id',
+                    ]
                 );
 
                 //
@@ -583,11 +695,13 @@ class Home extends Posts
             // tìm được post tương ứng thì mới show category ra
             if (!empty($get_post_type)) {
                 // nếu có view riêng của taxonomy -> sử dụng view riêng
-                if ($taxonomy_type != '' && file_exists(VIEWS_PATH . $taxonomy_type . '_view.php')) {
-                    $file_view = $taxonomy_type . '_view';
+                //if ($taxonomy_type != '' && file_exists(VIEWS_PATH . $taxonomy_type . '_view.php')) {
+                $file_view = $taxonomy_type . '_view';
+                /*
                 } else {
                     $file_view = 'term_view';
                 }
+                */
 
                 //
                 return $this->category($data, $get_post_type['post_type'], $taxonomy_type, $file_view, [
