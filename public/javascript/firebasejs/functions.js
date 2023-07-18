@@ -9,6 +9,8 @@ if (typeof firebaseConfig != "undefined") {
 	console.log("firebaseConfig not found!");
 }
 
+var firebase_recommend_login = null;
+
 // cắt bỏ số 0 ở đầu mỗi số điện thoại -> sử dụng số điện thoại theo tiêu chuẩn quốc tế
 function cut_zero_first_in_phone_number(str) {
 	//console.log(str);
@@ -380,6 +382,7 @@ function login_reload() {
 }
 
 function continueSignIn() {
+	clearTimeout(firebase_recommend_login);
 	action_signInSuccessWithAuthResult(true);
 }
 
