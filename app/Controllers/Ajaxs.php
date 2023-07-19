@@ -94,4 +94,46 @@ class Ajaxs extends Layout
             ]
         );
     }
+
+    public function update_post_viewed()
+    {
+        $resuire_data = [
+            //'current_user_id',
+            'pid',
+            'post_author',
+        ];
+        foreach ($resuire_data as $v) {
+            if (!isset($_POST[$v]) || empty($_POST[$v])) {
+                $this->result_json_type([
+                    'msg' => $v,
+                    'error' => __LINE__
+                ]);
+            }
+        }
+
+        // nếu là tác giả đang xem thì chỉ tăng 1 lượt xem thôi
+        $current_user_id = $this->MY_post('current_user_id', 0);
+        if ($current_user_id > 0 && $current_user_id == $this->MY_post('post_author', 0)) {
+            $val = 1;
+        } else {
+            // người khác vào xem thì tăng mạnh hơn -> fview = fake view -> ngoài FE viết tắt tí cho kỳ bí
+            $fake_view = $this->MY_post('fview', 1);
+            if ($fake_view > 10) {
+                $val = rand(5, $fake_view);
+            } else {
+                $val = 1;
+            }
+        }
+        $this->post_model->update_views($this->MY_post('pid', 0), $val);
+
+        //
+        $this->result_json_type(
+            [
+                'ok' => __LINE__,
+                'data' => $_POST,
+                'val' => $val,
+            ]
+        );
+        return true;
+    }
 }

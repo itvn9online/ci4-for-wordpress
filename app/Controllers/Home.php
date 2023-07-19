@@ -261,22 +261,22 @@ class Home extends Posts
                 */
 
                     // phân bổ view dựa theo post type
-                    if ($data['post_type'] == PostType::POST) {
-                        return $this->post_details($data['ID'], $data['post_name'], $data);
-                    } else if ($data['post_type'] == PostType::PROD) {
-                        //print_r( $data );
+                    if ($data['post_type'] == PostType::PAGE) {
+                        return $this->pageDetail($data);
+                    } else {
+                        if ($data['post_type'] == PostType::PROD) {
+                            //print_r( $data );
 
-                        // chỉnh lại thông số 1 chút -> do mặc định nó đang kết nối tới post
-                        //$this->post_type = PostType::BLOG;
-                        $this->post_type = PostType::PROD;
-                        //$this->taxonomy = TaxonomyType::BLOGS;
-                        $this->taxonomy = TaxonomyType::PROD_CATS;
-                        $this->file_view = $this->post_type . '_view';
+                            // chỉnh lại thông số 1 chút -> do mặc định nó đang kết nối tới post
+                            //$this->post_type = PostType::BLOG;
+                            $this->post_type = PostType::PROD;
+                            //$this->taxonomy = TaxonomyType::BLOGS;
+                            $this->taxonomy = TaxonomyType::PROD_CATS;
+                            $this->file_view = $this->post_type . '_view';
+                        }
 
                         //
                         return $this->post_details($data['ID'], $data['post_name'], $data);
-                    } else if ($data['post_type'] == PostType::PAGE) {
-                        return $this->pageDetail($data);
                     }
                 }
             }
@@ -386,13 +386,7 @@ class Home extends Posts
             }
             // các custom post type -> dùng view theo post type (ngoại trừ post type ADS)
             else if ($data['post_type'] != PostType::ADS) {
-                // xem có file view tương ứng không
-                if (file_exists(VIEWS_PATH . $data['post_type'] . '_view.php')) {
-                    // có thì hiển thị view ra
-                    return $this->pageDetail($data, $data['post_type'] . '_view');
-                } else {
-                    return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Bạn không có quyền xem thông tin này...');
-                }
+                return $this->pageDetail($data, $data['post_type'] . '_view');
             }
         }
         //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
@@ -406,6 +400,12 @@ class Home extends Posts
         // kiểm tra quyền truy cập chi tiết 1 post
         if ($this->post_permission($data) !== true) {
             return $this->page404($this->post_permission($data));
+        }
+
+        // xem có file view tương ứng không
+        if (!file_exists(VIEWS_PATH . $file_view . '.php')) {
+            // không có thì hiển thị lỗi luôn
+            return $this->page404('ERROR (' . $file_view . ') ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Bạn không có quyền xem thông tin này...');
         }
 
         //
@@ -694,17 +694,7 @@ class Home extends Posts
 
             // tìm được post tương ứng thì mới show category ra
             if (!empty($get_post_type)) {
-                // nếu có view riêng của taxonomy -> sử dụng view riêng
-                //if ($taxonomy_type != '' && file_exists(VIEWS_PATH . $taxonomy_type . '_view.php')) {
-                $file_view = $taxonomy_type . '_view';
-                /*
-                } else {
-                    $file_view = 'term_view';
-                }
-                */
-
-                //
-                return $this->category($data, $get_post_type['post_type'], $taxonomy_type, $file_view, [
+                return $this->category($data, $get_post_type['post_type'], $taxonomy_type, $taxonomy_type . '_view', [
                     'page_num' => $page_num,
                     'cache_key' => $cache_key,
                 ]);
