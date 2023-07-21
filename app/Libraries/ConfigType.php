@@ -161,6 +161,12 @@ class ConfigType
             $arr = [
                 'google_analytics' => 'Google Analytics ID',
                 'fb_app_id' => 'Facebook App ID',
+                // Chức năng tạo review ảo cho phần dữ liệu có cấu trúc ở trang chủ
+                'home_fake_review' => 'Home fake review',
+                'home_rating_value' => 'Home rating value',
+                'home_rating_count' => 'Home rating count',
+                'home_review_count' => 'Home review count',
+                'home_url_fanpage' => 'URL fanpage',
                 'facebook' => 'Facebook',
                 'google' => 'Google+',
                 'linkin' => 'Linkin',
@@ -499,6 +505,11 @@ class ConfigType
             'zalo' => 'number',
             'zalo_me' => 'hidden',
             'fb_app_id' => 'number',
+            'home_fake_review' => 'heading',
+            //'home_rating_value' => 'number',
+            'home_rating_count' => 'number',
+            'home_review_count' => 'number',
+            'home_url_fanpage' => 'heading',
             //
             'MY_DB_DRIVER' => 'select',
             'BASE_PROTOCOL' => 'select',
@@ -663,6 +674,10 @@ class ConfigType
             'WGR_CSP_IMG_SRC' => 'Xóa trắng để xem mặc định: ' . WGR_CSP_IMG_SRC,
             'WGR_CSP_CONNECT_SRC' => 'Xóa trắng để xem mặc định: ' . WGR_CSP_CONNECT_SRC,
             'WGR_CSP_CHILD_SRC' => 'Xóa trắng để xem mặc định: ' . WGR_CSP_CHILD_SRC,
+            //
+            'home_rating_value' => 'Vui lòng nhập dạng số thập phân. Ví dụ: 4.8 hoặc 4.5 hoặc 3.3',
+            'home_rating_count' => 'Vui lòng nhập dạng số nguyên, tổng số lượng bình chọn website này, nếu là số ảo thì nhập trong khoảng 160 - 300.',
+            'home_review_count' => 'Vui lòng nhập dạng số nguyên, tổng số lượng bài đánh giá website này, nếu là số ảo thì nhập dưới 70.',
         ];
         if (isset($arr[$key]) && $arr[$key] != '') {
             echo '<p class="controls-text-note">' . $arr[$key] . '</p>';

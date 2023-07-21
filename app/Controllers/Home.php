@@ -56,14 +56,9 @@ class Home extends Posts
         //print_r( $this->getconfig );
         $getconfig = $this->getconfig;
 
-        //
-        $seo = $this->base_model->default_seo($getconfig->title, $this->getClassName(__CLASS__), [
-            'index' => 'on',
-            'canonical' => DYNAMIC_BASE_URL,
-            'description' => $getconfig->description,
-            'keyword' => $getconfig->keyword,
-            'name' => $getconfig->name,
-            'dynamic_schema' => $this->base_model->dynamicSchema([[
+        // dữ liệu có cấu trúc cho trang chủ
+        $dynamic_schema = [
+            [
                 '@context' => 'http://schema.org',
                 '@type' => (!empty($this->getconfig->company_name) ? 'Organization' : 'Person'),
                 "name" => (!empty($this->getconfig->company_name) ? $this->getconfig->company_name : $this->getconfig->name),
@@ -102,17 +97,34 @@ class Home extends Posts
                         "name" => "Japanese"
                     ]],
                 ],
-            ], [
+            ]
+        ];
+
+        // nếu có phần fake review
+        //if ($this->getconfig->home_rating_value > 0 && $this->getconfig->home_rating_count > 0 && $this->getconfig->home_review_count) {
+        //if (!empty($this->getconfig->home_rating_value) && $this->getconfig->home_rating_value > 0) {
+        if (!empty($this->getconfig->home_rating_value)) {
+            $dynamic_schema[] = [
                 '@context' => 'http://schema.org',
                 '@type' => 'CreativeWorkSeries',
                 'aggregateRating' => [
                     "@type" => "AggregateRating",
-                    "ratingValue" => "4.8",
-                    "bestRating" => "5",
-                    "ratingCount" => "800",
-                    "reviewCount" => "5866"
+                    "ratingValue" => $this->getconfig->home_rating_value,
+                    "bestRating" => 5,
+                    "ratingCount" => $this->getconfig->home_rating_count,
+                    "reviewCount" => $this->getconfig->home_review_count
                 ]
-            ]]),
+            ];
+        }
+
+        //
+        $seo = $this->base_model->default_seo($getconfig->title, $this->getClassName(__CLASS__), [
+            'index' => 'on',
+            'canonical' => DYNAMIC_BASE_URL,
+            'description' => $getconfig->description,
+            'keyword' => $getconfig->keyword,
+            'name' => $getconfig->name,
+            'dynamic_schema' => $this->base_model->dynamicSchema($dynamic_schema),
         ]);
 
         //
