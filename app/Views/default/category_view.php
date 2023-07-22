@@ -1,69 +1,54 @@
-<div class="w90">
-    <div class="text-center">
-        <h1 data-type="<?php echo $data['taxonomy']; ?>" data-id="<?php echo $data['term_id']; ?>" class="<?php echo $data['taxonomy']; ?>-taxonomy-title global-taxonomy-title global-module-title">
-            <?php
-            echo $data['name'];
-            ?>
-        </h1>
-    </div>
-    <br>
-    <?php
-
-    //
-    foreach ($data['child_term'] as $key => $val) {
-        //echo '<!-- ';
-        //print_r( $val );
-        //echo ' -->';
-
-        /*
-        $child_data = $post_model->get_posts_by( $val, [
-        'limit' => 4,
-        ] );
-        */
-        $child_data = $post_model->post_category($post_type, $val, [
-            //'offset' => $offset,
-            'limit' => 4,
-        ]);
-        if (empty($child_data)) {
-            continue;
-        }
-        $taxonomy_child_custom_post_size = '';
-        if (isset($val['term_meta']['taxonomy_custom_post_size']) && $val['term_meta']['taxonomy_custom_post_size'] != '') {
-            $taxonomy_child_custom_post_size = $val['term_meta']['taxonomy_custom_post_size'];
-        }
-        //echo '<!-- ';
-        //print_r( $child_data );
-        //echo ' -->';
-
-    ?>
-        <div class="category-child-block">
-            <div>
-                <h2 class="global-module-title"><a href="<?php $term_model->the_term_permalink($val); ?>">
-                        <?php echo $val['name']; ?>
-                    </a></h2>
-            </div>
-            <br>
-            <div class="category_main thread-list main-thread-list <?php $option_model->posts_in_line($getconfig); ?>">
+<div class="global-main-module global-<?php echo $data['taxonomy']; ?>-module w90">
+    <div class="padding-global-content padding-<?php echo $data['taxonomy']; ?>-content <?php echo $getconfig->eb_posts_sidebar; ?> cf">
+        <div class="col-main-content custom-width-global-main custom-width-<?php echo $data['taxonomy']; ?>-main fullsize-if-mobile">
+            <div class="col-main-padding col-<?php echo $data['taxonomy']; ?>-padding">
+                <h1 data-type="<?php echo $data['taxonomy']; ?>" data-id="<?php echo $data['term_id']; ?>" class="<?php echo $data['taxonomy']; ?>-taxonomy-title global-taxonomy-title global-module-title text-center"><?php echo $data['name']; ?></h1>
+                <br>
                 <?php
 
-                foreach ($child_data as $child_key => $child_val) {
-                    //echo '<!-- ';
-                    //print_r( $child_val );
-                    //echo ' -->';
+                if (!empty($child_data)) {
+                    $child_data = $post_model->list_meta_post($child_data);
 
                     //
-                    $post_model->the_node($child_val, [
-                        'taxonomy_post_size' => $taxonomy_child_custom_post_size != '' ? $taxonomy_child_custom_post_size : $taxonomy_post_size,
-                    ]);
-                }
+                ?>
+                    <div id="term_main" class="thread-list main-thread-list <?php $option_model->posts_in_line($getconfig); ?>">
+                        <?php
 
+                        //
+                        foreach ($child_data as $child_key => $child_val) {
+                            //echo '<!-- ';
+                            //print_r( $child_val );
+                            //echo ' -->';
+
+                            //
+                            $post_model->the_node($child_val, [
+                                'taxonomy_post_size' => $taxonomy_post_size,
+                                'custom_html' => $term_col_templates,
+                            ]);
+                        }
+
+                        ?>
+                    </div>
+                    <br>
+                    <div class="public-part-page"><?php echo $public_part_page; ?></div>
+                <?php
+                }
                 ?>
             </div>
-            <br>
         </div>
-    <?php
-
-    }
-
-    ?>
+        <?php
+        // hiển thị sidebar nếu có yêu cầu
+        if ($getconfig->eb_posts_sidebar != '') {
+        ?>
+            <div class="col-sidebar-content custom-width-global-sidebar custom-width-<?php echo $data['taxonomy']; ?>-sidebar fullsize-if-mobile">
+                <div class="global-right-space <?php echo $data['taxonomy']; ?>-right-space">
+                    <?php
+                    // sidebar
+                    ?>
+                </div>
+            </div>
+        <?php
+        }
+        ?>
+    </div>
 </div>

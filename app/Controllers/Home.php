@@ -713,6 +713,7 @@ class Home extends Posts
 
             // tìm được post tương ứng thì mới show category ra
             if (!empty($get_post_type)) {
+                //die(__CLASS__ . ':' . __LINE__);
                 return $this->category($data, $get_post_type['post_type'], $taxonomy_type, $taxonomy_type . '_view', [
                     'page_num' => $page_num,
                     'cache_key' => $cache_key,

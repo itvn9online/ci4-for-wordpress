@@ -1,17 +1,13 @@
 <?php
-/*
- * file view dành cho các term khác, ngoài các term mặc định được hỗ trợ
- */
+
+/**
+ * file view dành cho các term khác, ngoài các term mặc định được hỗ trợ -> sẽ tự động kiểm tra view trong custom view nếu có thì in ra
+ **/
 
 //
 //print_r($data);
 //print_r( $ops );
 //print_r( $getconfig );
-
-// tự động tạo slider nếu có (và chưa được gọi ra)
-if (!defined('IN_CATEGORY_VIEW')) {
-    echo $taxonomy_slider;
-}
 
 
 /*
@@ -57,17 +53,20 @@ if ($term_template != '') {
     ]);
 } else {
     // nạp view riêng của từng term nếu có
-    $theme_default_view = VIEWS_PATH . 'default/' . basename(__FILE__);
+    //$theme_default_view = VIEWS_PATH . 'default/' . basename(__FILE__);
+    $theme_default_view = VIEWS_PATH . 'default/' . $taxonomy . '_view.php';
     // nạp file kiểm tra private view
     include VIEWS_PATH . 'private_view.php';
 }
 
 
 //
-if (!defined('IN_CATEGORY_VIEW')) {
-    $base_model->add_js('themes/' . THEMENAME . '/js/taxonomy.js', [
-        'cdn' => CDN_BASE_URL,
-    ], [
-        'defer'
-    ]);
-}
+$base_model->adds_js([
+    'javascript/taxonomy.js',
+    'themes/' . THEMENAME . '/js/taxonomy.js',
+    'themes/' . THEMENAME . '/js/' . $taxonomy . '_taxonomy.js',
+], [
+    'cdn' => CDN_BASE_URL,
+], [
+    'defer'
+]);

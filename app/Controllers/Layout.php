@@ -339,7 +339,9 @@ class Layout extends Sync
         // xem có file view tương ứng không
         if (!file_exists(VIEWS_PATH . $file_view . '.php')) {
             // không có thì hiển thị lỗi luôn
-            return $this->page404('ERROR (' . $file_view . ') ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Bạn không có quyền xem thông tin này...');
+            //return $this->page404('ERROR (' . $file_view . ') ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Bạn không có quyền xem thông tin này...');
+            //$file_view = 'category_auto_view';
+            $file_view = 'term_view';
         }
 
         //echo debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;

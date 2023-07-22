@@ -191,6 +191,7 @@ class ConfigType
                 'cf_posts_size' => 'Tỉ lệ ảnh ' . AdminTranslate::POST,
                 'cf_thumbnail_size' => 'Chất lượng hình ảnh',
                 'show_child_category' => 'Hiển thị nhóm ' . AdminTranslate::POST . ' con',
+                'max_child_category' => 'Số lượng ' . AdminTranslate::POST . ' con',
             ];
         } else if ($config_type == self::POST) {
             $arr = [
@@ -239,6 +240,7 @@ class ConfigType
                 'cf_product_description_length' => 'Độ dài tóm tắt ' . AdminTranslate::PROD,
                 'cf_products_size' => 'Tỉ lệ ảnh ' . AdminTranslate::PROD,
                 'show_child_products' => 'Hiển thị nhóm ' . AdminTranslate::PROD . ' con',
+                'max_child_products' => 'Số lượng ' . AdminTranslate::PROD . ' con',
             ];
         } else if ($config_type == self::PROD) {
             $arr = [
@@ -485,7 +487,9 @@ class ConfigType
             'blog_private' => 'checkbox',
             'smtp_no_reply' => 'checkbox',
             'show_child_category' => 'checkbox',
+            'max_child_category' => 'number',
             'show_child_products' => 'checkbox',
+            'max_child_products' => 'number',
             'logo_main_height' => 'number',
             'logo_width_img' => 'number',
             'logo_height_img' => 'number',
@@ -565,7 +569,9 @@ class ConfigType
 
             'enable_vue_js' => 'Khi chế độ này được kích hoạt, thư viện VueJS sẽ được nhúng vào frontend để sử dụng',
             'show_child_category' => 'Khi chế độ này được kích hoạt, và khi truy cập vào danh mục ' . AdminTranslate::POST . ', nếu trong danh mục đó có các nhóm con thì các nhóm con sẽ được hiển thị thay vì hiển thị trực tiếp danh sách ' . AdminTranslate::POST,
+            'max_child_category' => 'Một vòng lặp sẽ lấy số lượng ' . AdminTranslate::POST . ' để hiển thị trong mỗi nhóm con',
             'show_child_products' => 'Khi chế độ này được kích hoạt, và khi truy cập vào danh mục ' . AdminTranslate::PROD . ', nếu trong danh mục đó có các nhóm con thì các nhóm con sẽ được hiển thị thay vì hiển thị trực tiếp danh sách ' . AdminTranslate::PROD,
+            'max_child_products' => 'Một vòng lặp sẽ lấy số lượng ' . AdminTranslate::PROD . ' để hiển thị trong mỗi nhóm con',
             'eb_post_per_page' => 'Khi số này lớn hơn 0, trong trang chi tiết ' . AdminTranslate::POST . ' sẽ lấy các bài cùng nhóm với bài hiện tại để giới thiệu',
             //
             'eb_product_per_page' => 'Khi số này lớn hơn 0, trong trang chi tiết ' . AdminTranslate::PROD . ' sẽ lấy các bài cùng nhóm với bài hiện tại để giới thiệu',
