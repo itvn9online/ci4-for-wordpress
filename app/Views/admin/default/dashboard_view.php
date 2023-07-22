@@ -51,19 +51,19 @@ if ($debug_enable === true) {
     <div class="p d-inlines">PHP version: <strong>
             <?php echo phpversion(); ?>
         </strong> (
-        <div v-if="phpversion >= 73">
-            <div v-if="phpversion >= 74">
+        <div v-if="phpversion >= 80">
+            <div v-if="phpversion >= 81">
                 <div class="greencolor">Xin chúc mừng! Phiên bản PHP{{phpversion}} bạn đang sử dụng đang ở mức khuyến
                     nghị của chúng tôi</div>
             </div>
-            <div v-if="phpversion < 74">
+            <div v-if="phpversion < 81">
                 <div class="bluecolor">Xin chúc mừng! Phiên bản PHP{{phpversion}} của bạn tương đối tốt. Tuy nhiên,
-                    chúng tôi vẫn khuyến nghị bạn sử dụng phiên bản <strong>PHP 7.4</strong> trở lên.</div>
+                    chúng tôi vẫn khuyến nghị bạn sử dụng phiên bản <strong>PHP 8.1</strong> trở lên.</div>
             </div>
         </div>
-        <div v-if="phpversion < 73">
+        <div v-if="phpversion < 80">
             <div class="redcolor">Để tối ưu hiệu suất hệ thống! Vui lòng sử dụng phiên bản PHP <strong>7.3</strong> trở
-                lên. Khuyên dùng: PHP <strong>7.4</strong></div>
+                lên. Khuyên dùng: PHP <strong>8.1</strong></div>
         </div>
         )
     </div>
