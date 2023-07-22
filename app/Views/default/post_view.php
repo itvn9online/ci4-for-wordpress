@@ -37,7 +37,7 @@
 if (!empty($same_cat_data)) {
 ?>
     <div class="text-center other-<?php echo $data['post_type']; ?>-title global-module-title"><?php $lang_model->the_text('same_post_title', 'Bài viết tương tự'); ?></div>
-    <div id="<?php echo $data['post_type']; ?>_same_cat" class="thread-list other-thread-list <?php $option_model->post_in_line($getconfig); ?>">
+    <div id="<?php echo $data['post_type']; ?>_same_cat" class="posts-list other-posts-list <?php $option_model->post_in_line($getconfig); ?>">
         <?php
 
         foreach ($same_cat_data as $child_key => $child_val) {
@@ -46,7 +46,7 @@ if (!empty($same_cat_data)) {
             //echo ' -->';
 
             //
-            $post_model->the_blog_node($child_val, [
+            $post_model->the_node($child_val, [
                 'taxonomy_post_size' => $taxonomy_post_size,
             ]);
         }

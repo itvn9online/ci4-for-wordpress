@@ -43,7 +43,7 @@
                     </a></h2>
             </div>
             <br>
-            <div class="category_main thread-list main-thread-list <?php $option_model->posts_in_line($getconfig); ?>">
+            <div class="category_main posts-list main-posts-list <?php $option_model->posts_in_line($getconfig); ?>">
                 <?php
 
                 foreach ($child_data as $child_key => $child_val) {
@@ -52,7 +52,7 @@
                     //echo ' -->';
 
                     //
-                    $post_model->the_blog_node($child_val, [
+                    $post_model->the_node($child_val, [
                         'taxonomy_post_size' => $taxonomy_child_custom_post_size != '' ? $taxonomy_child_custom_post_size : $taxonomy_post_size,
                     ]);
                 }

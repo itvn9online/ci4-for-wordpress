@@ -58,14 +58,16 @@ class PostBase extends EbModel
         // tạo block html cho phần sản phẩm
         //echo THEMEPATH . '<br>' . PHP_EOL;
         if ($this->product_html_node == '') {
-            $this->product_html_node = $this->base_model->get_html_tmp('thread_node');
+            // thread_node
+            $this->product_html_node = $this->base_model->get_html_tmp('products_node');
         }
         $this->product_html_node = str_replace('{{product_html_node}}', $this->product_html_node, $structured_data);
         //echo $this->product_html_node . PHP_EOL;
 
         // tạo block html cho phần tin tức
         if ($this->blog_html_node == '') {
-            $this->blog_html_node = $this->base_model->get_html_tmp('blogs_node');
+            // blogs_node
+            $this->blog_html_node = $this->base_model->get_html_tmp('posts_node');
         }
         $this->blog_html_node = str_replace('{{product_html_node}}', $this->blog_html_node, $structured_data);
         //echo $this->blog_html_node . PHP_EOL;

@@ -1,0 +1,50 @@
+/* Global css (product_node) */
+.products-list {}
+
+.products-list-padding {}
+
+.products-list-padding:hover {}
+
+.products-list-avt {
+    background: center no-repeat;
+    height: 220px;
+    background-size: cover;
+    position: relative;
+}
+
+.products-list-info {}
+
+.products-list-title {
+    color: var(--default-bg);
+}
+
+.products-list-title * {}
+
+.products-list-desc {}
+
+.products-list-more {}
+
+.products-list-more span {}
+
+.products-list-right {}
+
+/* desktop only */
+@media only screen and (min-width:748px) {}
+
+/* mobile, table only */
+@media only screen and (max-width:788px) {
+    .products-list {}
+
+    .products-list-padding {}
+
+    .products-list-title {}
+
+    .products-list-title * {}
+
+    .products-list-info {}
+
+    .products-list-right {}
+}
+
+/* mobile only */
+@media only screen and (max-width:395px) {}

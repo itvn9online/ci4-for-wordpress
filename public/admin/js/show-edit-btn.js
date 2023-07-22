@@ -31,7 +31,7 @@ function show_edit_btn() {
 
 	//
 	$(
-		".eb-blog li , .eb-blog div.col, .thread-list li, .eb-sub-menu, .global-details-title, .custom-bootstrap-post_type"
+		".eb-blog li , .eb-blog div.col, .products-list li, .eb-sub-menu, .global-details-title, .custom-bootstrap-post_type"
 	).each(function () {
 		var jd = $(this).attr("data-id") || "";
 		//console.log(jd);

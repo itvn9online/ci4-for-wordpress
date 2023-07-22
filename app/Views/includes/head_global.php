@@ -158,9 +158,12 @@ $base_model->preloads_css([
 ]);
 $base_model->adds_css([
     'css/flatsome.css',
-    'css/thread_list.css',
+    // thread_list
+    'css/products_list.css',
+    'css/posts_list.css',
     'themes/' . THEMENAME . '/style.css',
-    'themes/' . THEMENAME . '/css/thread_node.css',
+    'themes/' . THEMENAME . '/css/posts_node.css',
+    'themes/' . THEMENAME . '/css/products_node.css',
 ], [
     'cdn' => CDN_BASE_URL,
 ]);

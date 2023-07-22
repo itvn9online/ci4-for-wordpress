@@ -4,7 +4,7 @@
     display: none;
 }
 
-/* Global css (thread_node) */
+/* Global css (product_node) */
 .flickity-page-dots li {
     float: none;
 }
@@ -15,33 +15,33 @@
     height: 150px;
 }
 
-.thread-list100 .eb-blog-title,
+.products-list100 .eb-blog-title,
 .eb-blog100 .eb-blog-title,
-.thread-list100 .eb-blog-infos,
-.thread-list100 .eb-blog-gioithieu,
+.products-list100 .eb-blog-infos,
+.products-list100 .eb-blog-gioithieu,
 .eb-blog100 .eb-blog-gioithieu {
     height: auto;
     overflow: hidden;
 }
 
 @media only screen and (max-width:788px) {
-    .thread-list100 .eb-blog-infos {
+    .products-list100 .eb-blog-infos {
         display: none;
     }
 }
 
 /* tối đa cho phần giới thiệu của blog là 5 dòng */
-.thread-list100 .eb-blog-gioithieu,
+.products-list100 .eb-blog-gioithieu,
 .eb-blog100 .eb-blog-gioithieu {
     max-height: 95px;
 }
 
 @media only screen and (max-width:788px) {
 
-    /* .thread-list100 .eb-blog-infos, */
-    .thread-list100 .eb-blog-gioithieu,
+    /* .products-list100 .eb-blog-infos, */
+    .products-list100 .eb-blog-gioithieu,
     .eb-blog100 .eb-blog-gioithieu,
-    .thread-list100 .eb-blog-title,
+    .products-list100 .eb-blog-title,
     .eb-blog100 .eb-blog-title {
         height: 38px;
     }
@@ -68,7 +68,7 @@
 }
 
 /* */
-.noborder .thread-list-avt,
+.noborder .products-list-avt,
 .noborder .eb-blog-avt {
     border: 0 none;
 }
@@ -275,8 +275,8 @@
     z-index: 3;
 }
 
-.global-a-posi a.thread-list-ant_ten,
-.global-position-relative a.thread-list-ant_ten {
+.global-a-posi a.products-list-ant_ten,
+.global-position-relative a.products-list-ant_ten {
     position: relative;
 }
 
@@ -359,17 +359,17 @@
     background-size: auto 100%;
 }
 
-.thread-list-order {
+.products-list-order {
     position: relative;
 }
 
-.thread-list-order .thread-list-orderby {
+.products-list-order .products-list-orderby {
     position: absolute;
     right: 0;
     z-index: 5;
 }
 
-.thread-list-orderby select {
+.products-list-orderby select {
     padding: 2px;
 }
 
@@ -662,29 +662,29 @@
 }
 
 .thread-details-tags a:after,
-.thread-list-options a:after,
-.thread-list-tags a:after {
+.products-list-options a:after,
+.products-list-tags a:after {
     content: ", ";
 }
 
 .thread-details-tags a:last-child:after,
-.thread-list-options a:last-child:after,
-.thread-list-tags a:last-child:after {
+.products-list-options a:last-child:after,
+.products-list-tags a:last-child:after {
     display: none;
 }
 
-.thread-list-status1,
-.thread-list-status2,
-.thread-list-status4,
-.thread-list-status6 {
+.products-list-status1,
+.products-list-status2,
+.products-list-status4,
+.products-list-status6 {
     position: absolute;
     z-index: 2;
     display: none;
 }
 
-.thread-list-status1,
-.thread-list-status2,
-.thread-list-status4 {
+.products-list-status1,
+.products-list-status2,
+.products-list-status4 {
     right: 0;
     top: 15px;
     line-height: 25px;
@@ -695,11 +695,11 @@
     text-align: center;
 }
 
-.thread-list-status2 {
+.products-list-status2 {
     background-color: #090;
 }
 
-.thread-list-status6 {
+.products-list-status6 {
     background: url(../images-global/golden_time.png) top left no-repeat;
     background-size: 100% auto;
     width: 90px;
@@ -709,10 +709,10 @@
     left: -2px;
 }
 
-.thread-list li[data-status="1"] .thread-list-status1,
-.thread-list li[data-status="2"] .thread-list-status2,
-.thread-list li[data-status="4"] .thread-list-status4,
-.thread-list li[data-status="6"] .thread-list-status6 {
+.products-list li[data-status="1"] .products-list-status1,
+.products-list li[data-status="2"] .products-list-status2,
+.products-list li[data-status="4"] .products-list-status4,
+.products-list li[data-status="6"] .products-list-status6 {
     display: inline-block !important;
 }
 
@@ -750,14 +750,14 @@
     display: none;
 }
 
-.thread-list-filter {
+.products-list-filter {
     border-bottom: 2px #333 solid;
     line-height: 35px;
     color: #fff;
     text-transform: uppercase;
 }
 
-.thread-list-filter div {
+.products-list-filter div {
     background: #333;
     padding: 0 20px;
 }

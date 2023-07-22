@@ -4,7 +4,7 @@
 $post_model->the_ads('top-main-slider');
 
 ?>
-<div class="thread-list home-thread-list <?php $option_model->posts_in_line($getconfig); ?>">
+<div class="posts-list home-posts-list <?php $option_model->posts_in_line($getconfig); ?>">
     <?php
 
     // lấy post mới nhất
@@ -32,9 +32,8 @@ $post_model->the_ads('top-main-slider');
         //print_r($child_val);
 
         //
-        $post_model->the_blog_node($child_val, [
+        $post_model->the_node($child_val, [
             //'taxonomy_post_size' => $taxonomy_post_size,
-
         ]);
     }
 

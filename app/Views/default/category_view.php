@@ -11,7 +11,7 @@
 
                     //
                 ?>
-                    <div id="term_main" class="thread-list main-thread-list <?php $option_model->posts_in_line($getconfig); ?>">
+                    <div id="term_main" class="posts-list main-posts-list <?php $option_model->posts_in_line($getconfig); ?>">
                         <?php
 
                         //
@@ -21,7 +21,7 @@
                             //echo ' -->';
 
                             //
-                            $post_model->the_blog_node($child_val, [
+                            $post_model->the_node($child_val, [
                                 'taxonomy_post_size' => $taxonomy_post_size,
                                 'custom_html' => $term_col_templates,
                             ]);
