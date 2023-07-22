@@ -21,7 +21,7 @@
                             //echo ' -->';
 
                             //
-                            $post_model->the_node($child_val, [
+                            $post_model->the_blog_node($child_val, [
                                 'taxonomy_post_size' => $taxonomy_post_size,
                                 'custom_html' => $term_col_templates,
                             ]);

@@ -46,7 +46,7 @@ if (!empty($same_cat_data)) {
             //echo ' -->';
 
             //
-            $post_model->the_node($child_val, [
+            $post_model->the_blog_node($child_val, [
                 'taxonomy_post_size' => $taxonomy_post_size,
             ]);
         }

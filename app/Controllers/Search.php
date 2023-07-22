@@ -207,6 +207,7 @@ class Search extends Csrf
                 'by_keyword' => $by_keyword,
                 'seo' => $this->base_model->default_seo(trim('Tìm kiếm ' . $by_keyword)),
                 'post_type' => $this->post_type,
+                'product_type' => PostType::PROD,
                 'public_part_page' => $pagination,
                 'data' => $data,
             )

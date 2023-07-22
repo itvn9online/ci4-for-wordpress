@@ -40,6 +40,9 @@ if (
 else {
     // khai báo tham số để phân biệt nơi nạp term view
     //define('IN_CATEGORY_VIEW', true);
+    if ($debug_enable === true) {
+        echo '<div class="wgr-view-path">' . str_replace(PUBLIC_HTML_PATH, '', __DIR__ . '/term_view.php') . '</div>';
+    }
 
     // -> dùng của term view luôn
     include __DIR__ . '/term_view.php';

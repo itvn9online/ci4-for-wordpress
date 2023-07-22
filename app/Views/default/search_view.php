@@ -25,7 +25,11 @@
                 //echo ' -->';
 
                 //
-                $post_model->the_node($v);
+                if ($post_type == $product_type) {
+                    $post_model->the_node($v);
+                } else {
+                    $post_model->the_blog_node($v);
+                }
             }
 
             ?>
