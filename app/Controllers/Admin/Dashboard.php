@@ -1180,6 +1180,23 @@ class Dashboard extends Optimize
             $this->base_model->alert('Hệ thống đang bận! Vui lòng thử lại sau ' . ($this->space_reset_permalink - (time() - $space_reset)) . ' giây...', 'warning');
         }
 
+        //
+        global $arr_custom_taxonomy;
+        $allow_taxonomy = [
+            TaxonomyType::POSTS,
+            TaxonomyType::TAGS,
+            //TaxonomyType::BLOGS,
+            //TaxonomyType::BLOG_TAGS,
+            TaxonomyType::PROD_CATS,
+            TaxonomyType::PROD_TAGS,
+        ];
+        foreach ($arr_custom_taxonomy as $k => $v) {
+            if (!in_array($k, $allow_taxonomy)) {
+                $allow_taxonomy[] = $k;
+            }
+        }
+        //print_r($allow_taxonomy);
+
         // xóa hết term permalink trong db đi để nạp lại
         $this->base_model->update_multiple('terms', [
             // SET
@@ -1191,6 +1208,11 @@ class Dashboard extends Optimize
             'updated_permalink >' => 0,
             'updated_permalink <' => time() + 3600 - ($this->space_reset_permalink * 2),
         ], [
+            /*
+            'where_in' => array(
+                'taxonomy' => $allow_taxonomy
+            ),
+            */
             'debug_backtrace' => debug_backtrace()[1]['function'],
             // hiển thị mã SQL để check
             'show_query' => 1,
@@ -1210,10 +1232,7 @@ class Dashboard extends Optimize
             ),
             array(
                 'where_in' => array(
-                    'taxonomy' => array(
-                        TaxonomyType::POSTS,
-                        TaxonomyType::PROD_CATS,
-                    )
+                    'taxonomy' => $allow_taxonomy
                 ),
                 'order_by' => array(
                     'term_id' => 'DESC'
@@ -1246,6 +1265,21 @@ class Dashboard extends Optimize
             $this->base_model->alert('Hệ thống đang bận! Vui lòng thử lại sau ' . ($this->space_reset_permalink - (time() - $space_reset)) . ' giây...', 'warning');
         }
 
+        //
+        global $arr_custom_post_type;
+        $allow_post_type = [
+            PostType::PAGE,
+            PostType::POST,
+            //PostType::BLOG,
+            PostType::PROD,
+        ];
+        foreach ($arr_custom_post_type as $k => $v) {
+            if (!in_array($k, $allow_post_type)) {
+                $allow_post_type[] = $k;
+            }
+        }
+        //print_r($allow_post_type);
+
         // xóa hết term permalink trong db đi để nạp lại
         $this->base_model->update_multiple('posts', [
             // SET
@@ -1257,6 +1291,9 @@ class Dashboard extends Optimize
             'updated_permalink >' => 0,
             'updated_permalink <' => time() + 3600 - ($this->space_reset_permalink * 2),
         ], [
+            'where_in' => array(
+                'post_type' => $allow_post_type
+            ),
             'debug_backtrace' => debug_backtrace()[1]['function'],
             // hiển thị mã SQL để check
             'show_query' => 1,
@@ -1276,11 +1313,7 @@ class Dashboard extends Optimize
             ),
             array(
                 'where_in' => array(
-                    'post_type' => array(
-                        PostType::POST,
-                        PostType::PROD,
-                        PostType::PAGE
-                    )
+                    'post_type' => $allow_post_type
                 ),
                 'order_by' => array(
                     'ID' => 'DESC'

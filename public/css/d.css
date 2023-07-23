@@ -246,7 +246,7 @@ em.fa {
     display: inline-block
 }
 
-.eb-sub-menu.actived-goto-edit {
+.eb-sub-menu.actived-goto-edit a {
     position: relative;
 }
 

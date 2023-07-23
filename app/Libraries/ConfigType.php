@@ -27,7 +27,7 @@ class ConfigType
 
     private static $arr_posts_per_line = [
         '' => 'Theo thiết kế mặc định của tác giả',
-        'row-5' => '1',
+        //'row-5' => '1',
         'row-12' => 1,
         'row-6' => 2,
         'row-4' => 3,

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="<?php
-echo (($html_lang == 'vn' || $html_lang == '') ? 'vi' : $html_lang);
-?>" class="no-js no-svg" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+            echo (($html_lang == 'vn' || $html_lang == '') ? 'vi' : $html_lang);
+            ?>" class="no-js no-svg" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
 
 <head>
     <?php
@@ -14,7 +14,7 @@ echo (($html_lang == 'vn' || $html_lang == '') ? 'vi' : $html_lang);
 
     //
     $base_model->add_css(
-        'css/user-profile.css',
+        'css/users.css',
         [
             'cdn' => CDN_BASE_URL,
         ]

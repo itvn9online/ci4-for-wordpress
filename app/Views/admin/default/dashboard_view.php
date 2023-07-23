@@ -62,7 +62,7 @@ if ($debug_enable === true) {
             </div>
         </div>
         <div v-if="phpversion < 80">
-            <div class="redcolor">Để tối ưu hiệu suất hệ thống! Vui lòng sử dụng phiên bản PHP <strong>7.3</strong> trở
+            <div class="redcolor">Để tối ưu hiệu suất hệ thống! Vui lòng sử dụng phiên bản PHP <strong>8.0</strong> trở
                 lên. Khuyên dùng: PHP <strong>8.1</strong></div>
         </div>
         )

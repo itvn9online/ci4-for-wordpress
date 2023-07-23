@@ -860,7 +860,7 @@ class Posts extends Admin
             //print_r($old_postname);
 
             // nếu có sự khác nhau
-            if ($old_postname != $data['post_name']) {
+            if (isset($data['post_name']) && $old_postname != $data['post_name']) {
                 // lấy data mới -> sau khi update
                 $new_data = $this->post_model->select_post($id, [
                     'post_type' => $this->post_type,

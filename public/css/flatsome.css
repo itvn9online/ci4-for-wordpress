@@ -1275,9 +1275,9 @@ button.flickity-prev-next-button[disabled] {
 }
 
 .row-2 .col {
-    max-width: 50%;
-    -ms-flex-preferred-size: 50%;
-    flex-basis: 50%;
+    max-width: 16.6666%;
+    -ms-flex-preferred-size: 16.6666%;
+    flex-basis: 16.6666%;
 }
 
 .row-7 .col {

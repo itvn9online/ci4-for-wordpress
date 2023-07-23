@@ -15,7 +15,7 @@ max-width: {{site_max_width19}}px;
 .row.row-large {
 max-width: {{site_max_width60}}px;
 }
-.row.row-collapse, .w90, .w99 {
+.row.row-collapse, .row.row-12, .w90, .w99 {
 max-width: {{site_max_width}}px;
 }
 .row-big,

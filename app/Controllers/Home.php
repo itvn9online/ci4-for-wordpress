@@ -392,19 +392,8 @@ class Home extends Posts
                 $this->MY_redirect($this->post_model->get_full_permalink($data), 301);
             }
 
-            // với các post type mặc định -> dùng page view
-            if (
-                in_array($data['post_type'], [
-                    PostType::POST,
-                    //PostType::BLOG,
-                    PostType::PROD,
-                    PostType::PAGE
-                ])
-            ) {
-                return $this->pageDetail($data);
-            }
-            // các custom post type -> dùng view theo post type (ngoại trừ post type ADS)
-            else if ($data['post_type'] != PostType::ADS) {
+            // dùng view theo post type (ngoại trừ post type ADS)
+            if ($data['post_type'] != PostType::ADS) {
                 return $this->pageDetail($data, $data['post_type'] . '_view');
             }
         }
@@ -632,108 +621,110 @@ class Home extends Posts
             $this->term_model->the_cache($term_id, $in_cache, $data);
         }
         //print_r($data);
-        //die( __CLASS__ . ':' . __LINE__ );
+        //die(__CLASS__ . ':' . __LINE__);
+
+        // không có dữ liệu -> báo 404 luôn
+        if (empty($data)) {
+            return $this->page404('ERROR ' . __FUNCTION__ . ':' . __LINE__ . '! Không xác định được danh mục bài viết...', $cache_key);
+        } else if ($data['count'] <= 0) {
+            return $this->page404('ERROR ' . __FUNCTION__ . ':' . __LINE__ . '! Không tìm thấy bài viết trong danh mục...', $cache_key);
+        }
 
         // kiểm tra lại slug -> nếu sai thì redirect 301 qua url mới
         $this->term_model->check_canonical($slug, $data);
 
         // có -> lấy bài viết trong nhóm
-        if (!empty($data) && $data['count'] > 0) {
-            // xem nhóm này có nhóm con không
-            $in_cache = __FUNCTION__ . '-parent';
-            $child_data = $this->term_model->the_cache($term_id, $in_cache);
-            if ($child_data === NULL) {
-                $child_data = $this->term_model->get_taxonomy(
-                    [
-                        // các kiểu điều kiện where
-                        'parent' => $term_id,
-                        'is_deleted' => DeletedStatus::FOR_DEFAULT,
-                        'lang_key' => $this->lang_key,
-                        'taxonomy' =>
-                        $taxonomy_type
-                    ],
-                    [
-                        'limit' => 10,
-                        'select_col' => 'term_id',
-                    ]
-                );
-
-                //
-                $this->term_model->the_cache($term_id, $in_cache, $child_data);
-            }
-            //print_r( $child_data );
+        // xem nhóm này có nhóm con không
+        $in_cache = __FUNCTION__ . '-parent';
+        $child_data = $this->term_model->the_cache($term_id, $in_cache);
+        if ($child_data === NULL) {
+            $child_data = $this->term_model->get_taxonomy(
+                [
+                    // các kiểu điều kiện where
+                    'parent' => $term_id,
+                    'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                    'lang_key' => $this->lang_key,
+                    'taxonomy' =>
+                    $taxonomy_type
+                ],
+                [
+                    'limit' => 10,
+                    'select_col' => 'term_id',
+                ]
+            );
 
             //
-            $where = [
-                'posts.post_status' => PostType::PUBLICITY,
-                'posts.lang_key' => $this->lang_key
+            $this->term_model->the_cache($term_id, $in_cache, $child_data);
+        }
+        //print_r( $child_data );
+
+        //
+        $where = [
+            'posts.post_status' => PostType::PUBLICITY,
+            'posts.lang_key' => $this->lang_key
+        ];
+
+        //
+        $filter = [
+            'join' => [
+                'term_relationships' => 'term_relationships.object_id = posts.ID',
+                'term_taxonomy' => 'term_relationships.term_taxonomy_id = term_taxonomy.term_taxonomy_id',
+            ],
+            'order_by' => [
+                'posts.ID' => 'DESC',
+            ],
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            //'offset' => 0,
+            'limit' => 1
+        ];
+
+        // nếu không có cha -> chỉ cần lấy theo ID nhóm hiện tại là được
+        if (empty($child_data)) {
+            $where['term_taxonomy.term_id'] = $data['term_id'];
+        }
+        // nếu có -> lấy theo cả cha và con
+        else {
+            $where_in = [];
+            foreach ($child_data as $v) {
+                $where_in[] = $v['term_id'];
+            }
+
+            //
+            $filter['where_in'] = [
+                'term_taxonomy.term_id' => $where_in
             ];
 
             //
-            $filter = [
-                'join' => [
-                    'term_relationships' => 'term_relationships.object_id = posts.ID',
-                    'term_taxonomy' => 'term_relationships.term_taxonomy_id = term_taxonomy.term_taxonomy_id',
-                ],
-                'order_by' => [
-                    'posts.ID' => 'DESC',
-                ],
-                // hiển thị mã SQL để check
-                //'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-                //'offset' => 0,
-                'limit' => 1
-            ];
+            $data['where_in'] = $where_in;
+        }
+        //print_r( $data );
 
-            // nếu không có cha -> chỉ cần lấy theo ID nhóm hiện tại là được
-            if (empty($child_data)) {
-                $where['term_taxonomy.term_id'] = $data['term_id'];
-            }
-            // nếu có -> lấy theo cả cha và con
-            else {
-                $where_in = [];
-                foreach ($child_data as $v) {
-                    $where_in[] = $v['term_id'];
-                }
+        // xác định post type dựa theo taxonomy type
+        $get_post_type = $this->base_model->select('post_type', 'posts', $where, $filter);
+        //print_r($get_post_type);
 
-                //
-                $filter['where_in'] = [
-                    'term_taxonomy.term_id' => $where_in
-                ];
-
-                //
-                $data['where_in'] = $where_in;
-            }
-            //print_r( $data );
-
-            // xác định post type dựa theo taxonomy type
-            $get_post_type = $this->base_model->select('post_type', 'posts', $where, $filter);
-            //print_r($get_post_type);
-
-            // tìm được post tương ứng thì mới show category ra
-            if (!empty($get_post_type)) {
-                //die(__CLASS__ . ':' . __LINE__);
-                return $this->category($data, $get_post_type['post_type'], $taxonomy_type, $taxonomy_type . '_view', [
-                    'page_num' => $page_num,
-                    'cache_key' => $cache_key,
-                ]);
-            }
-
-            //
-            //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-            // cập nhật lại tổng số bài viết cho term - để sau nếu có tính năng lấy theo nhóm thì nó sẽ không xuất hiện nữa
-            $this->base_model->update_multiple($this->term_model->taxTable, [
-                'count' => 0
-            ], [
-                'term_taxonomy_id' => $term_id,
-                'term_id' => $term_id,
-            ], [
-                'debug_backtrace' => debug_backtrace()[1]['function']
+        // tìm được post tương ứng thì mới show category ra
+        if (!empty($get_post_type)) {
+            //die(__CLASS__ . ':' . __LINE__);
+            return $this->category($data, $get_post_type['post_type'], $taxonomy_type, $taxonomy_type . '_view', [
+                'page_num' => $page_num,
+                'cache_key' => $cache_key,
             ]);
         }
 
         //
-        return $this->page404('ERROR ' . __FUNCTION__ . ':' . __LINE__ . '! Không xác định được danh mục bài viết...', $cache_key);
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // cập nhật lại tổng số bài viết cho term - để sau nếu có tính năng lấy theo nhóm thì nó sẽ không xuất hiện nữa
+        $this->base_model->update_multiple($this->term_model->taxTable, [
+            'count' => 0
+        ], [
+            'term_taxonomy_id' => $term_id,
+            'term_id' => $term_id,
+        ], [
+            'debug_backtrace' => debug_backtrace()[1]['function']
+        ]);
     }
 }

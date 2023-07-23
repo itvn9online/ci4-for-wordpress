@@ -40,6 +40,21 @@ class Sync extends BaseController
         $this->action_vendor_sync('vendor', $check_thirdparty_exist);
         // đồng bộ ThirdParty php (code php của bên thứ 3)
         $this->action_vendor_sync('app/ThirdParty', $check_thirdparty_exist);
+        // tạo file index cho các thư mục cần bảo mật
+        foreach (glob(PUBLIC_HTML_PATH . 'public/*') as $filename) {
+            if (is_dir($filename)) {
+                //echo $filename . '<br>' . PHP_EOL;
+                //echo basename($filename) . '<br>' . PHP_EOL;
+                $this->action_index_sync('public/' . basename($filename), $check_thirdparty_exist);
+            }
+        }
+        foreach (glob(PUBLIC_HTML_PATH . 'public/admin/*') as $filename) {
+            if (is_dir($filename)) {
+                //echo $filename . '<br>' . PHP_EOL;
+                //echo basename($filename) . '<br>' . PHP_EOL;
+                $this->action_index_sync('public/admin/' . basename($filename), $check_thirdparty_exist);
+            }
+        }
 
         //
         if (strpos($_SERVER['HTTP_HOST'], 'localhost') === false) {
@@ -605,6 +620,38 @@ class Sync extends BaseController
             } else {
                 echo $file . ' has been sync <br>' . PHP_EOL;
             }
+        }
+    }
+
+    /**
+     * Thêm file index cho các thư mục cần bảo mật -> khi truy cập vào đây sẽ không lộ các thư mục trong này
+     **/
+    private function action_index_sync($dir, $check_thirdparty_exist = true)
+    {
+        $arr_index = [
+            'index.html',
+            'index.htm',
+            'index.php',
+        ];
+        $dir = PUBLIC_HTML_PATH . rtrim($dir, '/') . '/';
+        //echo $dir;
+
+        //
+        $has_index = false;
+        foreach ($arr_index as $v) {
+            if (file_exists($dir . $v)) {
+                $has_index = true;
+                break;
+            }
+        }
+
+        //
+        if ($has_index === false) {
+            echo 'Create index.html for: ' . $dir . '<br>' . PHP_EOL;
+            $this->base_model->ftp_create_file(
+                $dir . 'index.html',
+                'Nice to meet you',
+            );
         }
     }
 

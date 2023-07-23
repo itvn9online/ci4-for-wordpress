@@ -194,6 +194,8 @@ class PostBase extends EbModel
         } else {
             $url = WGR_POSTS_PERMALINK;
         }
+        //echo $data['post_type'] . '<br>' . PHP_EOL;
+        //echo WGR_POSTS_PERMALINK . '<br>' . PHP_EOL;
 
         // thêm prefix cho url -> hỗ trợ đa ngôn ngữ sub-folder
         if (SITE_LANGUAGE_SUB_FOLDER == true && $data['lang_key'] != SITE_LANGUAGE_DEFAULT) {

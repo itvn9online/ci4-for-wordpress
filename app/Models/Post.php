@@ -47,6 +47,20 @@ class Post extends PostPages
         // luôn tạo giãn cách để tránh update liên tục -> chỉ 1 người update là đủ
         $this->base_model->scache(__FUNCTION__, time(), 120);
 
+        //
+        global $arr_custom_post_type;
+        $allow_post_type = [
+            PostType::PAGE,
+            PostType::POST,
+            //PostType::BLOG,
+            PostType::PROD,
+        ];
+        foreach ($arr_custom_post_type as $k => $v) {
+            if (!in_array($k, $allow_post_type)) {
+                $allow_post_type[] = $k;
+            }
+        }
+
         // lấy các post chưa có permalink đẻ update
         $data = $this->base_model->select(
             '*',
@@ -64,12 +78,7 @@ class Post extends PostPages
                 ),
                 */
                 'where_in' => array(
-                    'post_type' => array(
-                        PostType::POST,
-                        //PostType::BLOG,
-                        PostType::PROD,
-                        PostType::PAGE,
-                    )
+                    'post_type' => $allow_post_type
                 ),
                 'order_by' => array(
                     'ID' => 'DESC'
@@ -90,6 +99,21 @@ class Post extends PostPages
 
         // nếu không có thì chuyển sang update term
         if (empty($data)) {
+            global $arr_custom_taxonomy;
+            $allow_taxonomy = [
+                TaxonomyType::POSTS,
+                TaxonomyType::TAGS,
+                //TaxonomyType::BLOGS,
+                //TaxonomyType::BLOG_TAGS,
+                TaxonomyType::PROD_CATS,
+                TaxonomyType::PROD_TAGS,
+            ];
+            foreach ($arr_custom_taxonomy as $k => $v) {
+                if (!in_array($k, $allow_taxonomy)) {
+                    $allow_taxonomy[] = $k;
+                }
+            }
+
             // lấy các term chưa có permalink đẻ update
             $data = $this->base_model->select(
                 '*',
@@ -108,14 +132,7 @@ class Post extends PostPages
                     ),
                     */
                     'where_in' => array(
-                        'taxonomy' => array(
-                            TaxonomyType::POSTS,
-                            TaxonomyType::TAGS,
-                            //TaxonomyType::BLOGS,
-                            //TaxonomyType::BLOG_TAGS,
-                            TaxonomyType::PROD_CATS,
-                            TaxonomyType::PROD_TAGS,
-                        )
+                        'taxonomy' => $allow_taxonomy
                     ),
                     'order_by' => array(
                         'term_id' => 'DESC'

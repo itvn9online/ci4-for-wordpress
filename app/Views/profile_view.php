@@ -1,5 +1,13 @@
 <?php
 
+//
+$base_model->add_css(
+    'css/user-profile.css',
+    [
+        'cdn' => CDN_BASE_URL,
+    ]
+);
+
 
 /*
  * nạp view riêng của từng theme nếu có
