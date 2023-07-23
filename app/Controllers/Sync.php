@@ -646,13 +646,16 @@ class Sync extends BaseController
         }
 
         //
-        if ($has_index === false) {
-            echo 'Create index.html for: ' . $dir . '<br>' . PHP_EOL;
-            $this->base_model->ftp_create_file(
-                $dir . 'index.html',
-                'Nice to meet you',
-            );
+        if ($has_index !== false) {
+            return false;
         }
+
+        //
+        echo 'Create index.html for: ' . $dir . '<br>' . PHP_EOL;
+        $this->base_model->ftp_create_file(
+            $dir . 'index.html',
+            'Nice to meet you',
+        );
     }
 
     // tự set session, do session của ci4 nó đứt liên tục
