@@ -628,32 +628,16 @@ class Sync extends BaseController
      **/
     private function action_index_sync($dir, $check_thirdparty_exist = true)
     {
-        $arr_index = [
-            'index.html',
-            'index.htm',
-            'index.php',
-        ];
-        $dir = PUBLIC_HTML_PATH . rtrim($dir, '/') . '/';
-        //echo $dir;
-
-        //
-        $has_index = false;
-        foreach ($arr_index as $v) {
-            if (file_exists($dir . $v)) {
-                $has_index = true;
-                break;
-            }
-        }
-
-        //
-        if ($has_index !== false) {
+        $dir = PUBLIC_HTML_PATH . rtrim($dir, '/') . '/index.html';
+        //echo $dir . '<br>' . PHP_EOL;
+        if (file_exists($dir)) {
             return false;
         }
 
         //
-        echo 'Create index.html for: ' . $dir . '<br>' . PHP_EOL;
+        echo 'Create file: ' . $dir . '<br>' . PHP_EOL;
         $this->base_model->ftp_create_file(
-            $dir . 'index.html',
+            $dir,
             'Nice to meet you',
         );
     }
