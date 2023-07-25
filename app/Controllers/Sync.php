@@ -628,11 +628,18 @@ class Sync extends BaseController
      **/
     private function action_index_sync($dir, $check_thirdparty_exist = true)
     {
-        $dir = PUBLIC_HTML_PATH . rtrim($dir, '/') . '/index.html';
+        $dir = PUBLIC_HTML_PATH . rtrim($dir, '/') . '/';
         //echo $dir . '<br>' . PHP_EOL;
-        if (file_exists($dir)) {
-            return false;
+        foreach ([
+            'index.html',
+            'index.htm',
+            'index.php',
+        ] as $v) {
+            if (file_exists($dir . $v)) {
+                return false;
+            }
         }
+        $dir .= 'index.html';
 
         //
         echo 'Create file: ' . $dir . '<br>' . PHP_EOL;

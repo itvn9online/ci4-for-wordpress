@@ -139,6 +139,16 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
                 </div>
             </div>
             <div class="control-group">
+                <label class="control-label">Trạng thái hiển thị:</label>
+                <div class="controls">
+                    <select data-select="<?php echo $data['term_status']; ?>" name="data[term_status]" id="data_term_status" class="span5">
+                        <option value="<?php echo TaxonomyType::VISIBLE; ?>">Hiển thị</option>
+                        <option value="<?php echo TaxonomyType::HIDDEN; ?>">Ẩn</option>
+                    </select>
+                    <p class="controls-text-note">Dùng khi cần ẩn các danh mục khỏi menu động.</p>
+                </div>
+            </div>
+            <div class="control-group">
                 <div class="controls">
                     <h5>Thông số hiển thị cho widget:</h5>
                 </div>
@@ -258,6 +268,7 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
             } // END auto add term_meta
 
             ?>
+            <div class="end-term-add"></div>
             <div class="control-group">
                 <div class="control-label">Taxonomy:</div>
                 <div class="controls"><?php echo $data['taxonomy']; ?></div>
@@ -309,7 +320,6 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
             }
 
             ?>
-            <div class="end-term-add"></div>
             <div class="form-actions frm-fixed-btn cf">
                 <?php
                 if ($data['term_id'] > 0) {

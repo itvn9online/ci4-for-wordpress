@@ -809,7 +809,7 @@ class Terms extends Admin
                 'limit' => 1
             )
         );
-        print_r($data);
+        //print_r($data);
         if (empty($data)) {
             $this->base_model->alert('Không xác định được danh mục cần cập nhật!', 'warning');
         }
@@ -818,7 +818,7 @@ class Terms extends Admin
         } else {
             $data['term_status'] = TaxonomyType::VISIBLE;
         }
-        print_r($data);
+        //print_r($data);
 
         //
         $this->base_model->update_multiple(

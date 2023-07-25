@@ -66,7 +66,6 @@ class TaxonomyType
         self::PROD_OTPS => 'Danh sách',
         //self::MENU => 'Menu',
         //self::PAGE => 'Trang tĩnh',
-
     );
 
     public static function nameList($key = '')
@@ -123,6 +122,7 @@ class TaxonomyType
             $arr['meta_description'] = 'Meta description';
             $arr['meta_keyword'] = 'Meta keyword';
             $arr['term_template'] = 'Giao diện';
+            //$arr['term_status'] = 'Trạng thái hiển thị';
         }
         $arr['term_col_templates'] = 'Col HTML';
 
@@ -158,6 +158,7 @@ class TaxonomyType
             'open_target' => 'checkbox',
             'taxonomy_auto_slider' => 'checkbox',
             'max_width' => 'select',
+            //'term_status' => 'select',
         ];
         if (isset($arr[$key])) {
             return $arr[$key];
@@ -184,6 +185,7 @@ class TaxonomyType
             'term_template' => 'Sử dụng khi muốn thiết lập giao diện riêng cho từng danh mục. File mẫu là file .php được đặt trong thư mục <b>term-templates</b> của mỗi theme.',
             'term_col_templates' => 'HTML mẫu của phần col cho từng danh mục (nếu có). Mặc định sử dụng col chung của website.',
             'post_custom_cloumn' => 'Khi cần tùy chỉnh `Bố cục bài viết` cho danh mục này thì có thể thêm file .html vào đây `/' . str_replace(ROOTPATH, '', VIEWS_CUSTOM_PATH) . 'ads_node/` sau đó chọn file tương ứng cho danh mục này. HTML trong file được chọn sẽ dùng để tạo hình cho bài viết. Mẫu HTML có thể copy từ file `/app/Views/html/ads_node.html` hoặc tùy chỉnh theo tiêu chuẩn .col của bootstrap.',
+            //'term_status' => 'Dùng khi cần ẩn các danh mục khỏi menu động.',
         ];
         if (isset($arr[$key])) {
             echo '<p class="controls-text-note">' . $arr[$key] . '</p>';
@@ -269,7 +271,13 @@ class TaxonomyType
                 'w90' => 'Rộng tối đa 1366px (w90)',
                 'w96' => 'Rộng tối đa 1666px (w96)',
                 */
-            ]
+            ],
+            /*
+            'term_status' => [
+                TaxonomyType::VISIBLE => 'Hiển thị',
+                TaxonomyType::HIDDEN => 'Ẩn',
+            ],
+            */
         ];
         if (isset($arr[$key])) {
             return $arr[$key];
