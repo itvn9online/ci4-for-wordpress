@@ -30,7 +30,10 @@ $('a[href="users/logout"], a[href="./users/logout"]').click(function () {
 /*
  * tạo hiệu ứng selected cho các thẻ a
  */
-(function (a) {
+function action_active_menu_item() {
+	var a = window.location.href;
+
+	//
 	$('a[href="' + a + '"]').addClass("active-menu-item");
 	if (WGR_config.cf_tester_mode > 0) console.log(a);
 
@@ -60,28 +63,28 @@ $('a[href="users/logout"], a[href="./users/logout"]').click(function () {
 			});
 		}
 	}
-})(window.location.href);
 
-// tạo active cho li con
-$(".sub-menu a.active-menu-item")
-	.addClass("active")
-	.parent("li")
-	.addClass("current-menu-item");
+	// tạo active cho li con
+	$(".sub-menu a.active-menu-item")
+		.addClass("active")
+		.parent("li")
+		.addClass("current-menu-item");
 
-// tạo active cho li cha
-$("ul li.current-menu-item")
-	.addClass("active")
-	.parent("ul")
-	.parent("li")
-	.addClass("current-menu-parent");
+	// tạo active cho li cha
+	$("ul li.current-menu-item")
+		.addClass("active")
+		.parent("ul")
+		.parent("li")
+		.addClass("current-menu-parent");
 
-// tạo active cho li ông
-$("ul li.current-menu-parent")
-	.addClass("active")
-	.parent("ul")
-	.parent("li")
-	.addClass("current-menu-grand")
-	.addClass("active");
+	// tạo active cho li ông
+	$("ul li.current-menu-parent")
+		.addClass("active")
+		.parent("ul")
+		.parent("li")
+		.addClass("current-menu-grand")
+		.addClass("active");
+}
 
 // nếu trình duyệt không hỗ trợ định dạng webp -> xóa bỏ định dạng webp nếu có
 if (support_format_webp() !== true) {
@@ -99,6 +102,7 @@ jQuery(document)
 	.ready(function () {
 		move_custom_code_to();
 		action_each_to_taxonomy();
+		action_active_menu_item();
 
 		// chiều cao của document đủ lớn
 		/*
