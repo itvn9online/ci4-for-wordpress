@@ -41,34 +41,72 @@ class PostBase extends EbModel
         $this->term_model = new \App\Models\Term();
 
         //
+        $itemprop_cache_logo = $this->base_model->scache('itemprop_logo');
+        if ($itemprop_cache_logo !== NULL) {
+            $this->itempropLogoHtmlNode = $itemprop_cache_logo;
+        }
+        $itemprop_cache_author = $this->base_model->scache('itemprop_author');
+        if ($itemprop_cache_author !== NULL) {
+            $this->itempropAuthorHtmlNode = $itemprop_cache_author;
+        }
+        /*
         if (file_exists(WRITEPATH . 'itemprop-logo.txt')) {
             $this->itempropLogoHtmlNode = file_get_contents(WRITEPATH . 'itemprop-logo.txt');
         }
         if (file_exists(WRITEPATH . 'itemprop-author.txt')) {
             $this->itempropAuthorHtmlNode = file_get_contents(WRITEPATH . 'itemprop-author.txt');
         }
-        $this->itempropImageHtmlNode = file_get_contents(VIEWS_PATH . 'html/structured-data/itemprop-image.html');
+        */
+
+        //
+        $postbase_construct = $this->base_model->scache('postbase_construct');
+        if ($postbase_construct === NULL) {
+            $this->itempropImageHtmlNode = file_get_contents(VIEWS_PATH . 'html/structured-data/itemprop-image.html');
+
+            // tạo block html cho phần sản phẩm
+            //echo THEMEPATH . '<br>' . PHP_EOL;
+            if ($this->product_html_node == '') {
+                // thread_node
+                $this->product_html_node = $this->base_model->get_html_tmp('products_node');
+            }
+
+            // tạo block html cho phần tin tức
+            if ($this->blog_html_node == '') {
+                // blogs_node
+                $this->blog_html_node = $this->base_model->get_html_tmp('posts_node');
+            }
+            //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            //echo debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
+
+            //
+            $this->base_model->scache('postbase_construct', [
+                'itemprop_image' => $this->itempropImageHtmlNode,
+                'product_html_node' => $this->product_html_node,
+                'blog_html_node' => $this->blog_html_node,
+            ], HOUR);
+        } else {
+            $this->itempropImageHtmlNode = $postbase_construct['itemprop_image'];
+            if ($this->product_html_node == '') {
+                $this->product_html_node = $postbase_construct['product_html_node'];
+            }
+            if ($this->blog_html_node == '') {
+                $this->blog_html_node = $postbase_construct['blog_html_node'];
+            }
+        }
 
         //
         $structured_data = file_get_contents(VIEWS_PATH . 'html/structured-data/NewsArticle.html');
-        $structured_data = str_replace('{{product_html_tag}}', $this->product_html_tag, $structured_data);
-        $structured_data = str_replace('{{product_list_css}}', $this->product_list_css, $structured_data);
-        //$structured_data = str_replace('{{primary_controller}}', $this->primary_controller, $structured_data);
-
-        // tạo block html cho phần sản phẩm
-        //echo THEMEPATH . '<br>' . PHP_EOL;
-        if ($this->product_html_node == '') {
-            // thread_node
-            $this->product_html_node = $this->base_model->get_html_tmp('products_node');
+        foreach ([
+            'product_html_tag' => $this->product_html_tag,
+            'product_list_css' => $this->product_list_css,
+            //'primary_controller' => $this->primary_controller,
+        ] as $k => $v) {
+            $structured_data = str_replace('{{' . $k . '}}', $v, $structured_data);
         }
+
+        //
         $this->product_html_node = str_replace('{{product_html_node}}', $this->product_html_node, $structured_data);
         //echo $this->product_html_node . PHP_EOL;
-
-        // tạo block html cho phần tin tức
-        if ($this->blog_html_node == '') {
-            // blogs_node
-            $this->blog_html_node = $this->base_model->get_html_tmp('posts_node');
-        }
         $this->blog_html_node = str_replace('{{product_html_node}}', $this->blog_html_node, $structured_data);
         //echo $this->blog_html_node . PHP_EOL;
 

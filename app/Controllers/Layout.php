@@ -73,9 +73,11 @@ class Layout extends Sync
         //print_r($this->getconfig);
 
         // tạo thông tin nhà xuất bản (publisher) cho phần dữ liệu có cấu trúc
-        $itemprop_cache_logo = WRITEPATH . 'itemprop-logo.txt';
-        $itemprop_cache_author = WRITEPATH . 'itemprop-author.txt';
-        if (!file_exists($itemprop_cache_logo) || time() - filemtime($itemprop_cache_logo) > HOUR) {
+        $itemprop_cache_logo = $this->base_model->scache('itemprop_logo');
+        //$itemprop_cache_logo = WRITEPATH . 'itemprop-logo.txt';
+        //$itemprop_cache_author = WRITEPATH . 'itemprop-author.txt';
+        //if (!file_exists($itemprop_cache_logo) || time() - filemtime($itemprop_cache_logo) > HOUR) {
+        if ($itemprop_cache_logo === NULL) {
             // logo
             $structured_data = file_get_contents(VIEWS_PATH . 'html/structured-data/itemprop-logo.html');
             foreach ([
@@ -88,15 +90,17 @@ class Layout extends Sync
             }
 
             //
-            $this->base_model->eb_create_file($itemprop_cache_logo, $structured_data);
-            touch($itemprop_cache_logo, time());
+            //$this->base_model->eb_create_file($itemprop_cache_logo, $structured_data);
+            //touch($itemprop_cache_logo, time());
+            $this->base_model->scache('itemprop_logo', $structured_data, HOUR);
 
             // author
             $structured_data = file_get_contents(VIEWS_PATH . 'html/structured-data/itemprop-author.html');
             $structured_data = str_replace('{{author_quot_title}}', str_replace('"', '', $this->getconfig->name), $structured_data);
 
             //
-            $this->base_model->eb_create_file($itemprop_cache_author, $structured_data);
+            //$this->base_model->eb_create_file($itemprop_cache_author, $structured_data);
+            $this->base_model->scache('itemprop_author', $structured_data, HOUR);
         }
 
         //
