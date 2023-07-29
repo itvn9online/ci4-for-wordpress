@@ -81,6 +81,11 @@ class Guest extends Csrf
             $this->wgr_target();
             //die(__CLASS__ . ':' . __LINE__);
 
+            //
+            if ($this->firebase_config->disable_local_login == 'on') {
+                $this->base_model->alert('Chức năng đăng nhập đang tạm ngưng!', $this->form_target);
+            }
+
             // xem có phải nhập mã captcha không -> khi đăng nhập sai quá nhiều lần -> bắt buộc phải nhập captcha
             if ($this->base_model->check_faild_login() > 0) {
                 //die( __CLASS__ . ':' . __LINE__ );

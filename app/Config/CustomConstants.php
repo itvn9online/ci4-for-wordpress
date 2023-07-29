@@ -322,3 +322,6 @@ defined('WGR_CSP_IMG_SRC') || define('WGR_CSP_IMG_SRC', "'self' data: *.google.c
 defined('WGR_CSP_CONNECT_SRC') || define('WGR_CSP_CONNECT_SRC', "'self' *.google-analytics.com *.tiktok.com");
 // child-src -> for youtube video
 defined('WGR_CSP_CHILD_SRC') || define('WGR_CSP_CHILD_SRC', "'self' *.youtube.com");
+
+// Khi cần thay đổi URL cho trang login thì đổi tham số này -> có thể tận dụng HTML của trang login thay vì tự code mới
+defined('ACTION_LOGIN_FORM') || define('ACTION_LOGIN_FORM', './guest/login');
