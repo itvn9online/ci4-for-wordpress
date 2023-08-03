@@ -9,6 +9,7 @@ use App\Libraries\PostType;
 class Search extends Csrf
 {
     protected $post_type = PostType::POST;
+    protected $post_per_page = 0;
 
     public function __construct()
     {
@@ -33,8 +34,11 @@ class Search extends Csrf
         //
         $by_keyword = trim($this->MY_get('s', ''));
         if (!empty($by_keyword) || !empty($add_where)) {
-            //$post_per_page = 20;
-            $post_per_page = $this->base_model->get_config($this->getconfig, 'eb_posts_per_page', 10);
+            if ($this->post_per_page > 0) {
+                $post_per_page = $this->post_per_page;
+            } else {
+                $post_per_page = $this->base_model->get_config($this->getconfig, 'eb_posts_per_page', 10);
+            }
 
             // các kiểu điều kiện where
             $where = [
