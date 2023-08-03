@@ -99,18 +99,8 @@ if ($getconfig->fb_app_id != '') {
 <?php
 
 
-// nạp file font theo kiểu inline
-$font_awesome_before = $base_model->get_add_css('thirdparty/awesome47/css/font-awesome.before.css', [
-    'get_content' => 1
-]);
-$font_awesome_before = str_replace('../fonts/', 'thirdparty/awesome47/fonts/', $font_awesome_before);
-echo $font_awesome_before;
-
-
 // nạp một số css ở dạng preload
 $arr_preload_bootstrap = [
-    CDN_BASE_URL . 'thirdparty/awesome47/css/font-awesome.min.css?v=4.7',
-
     // bản full
     CDN_BASE_URL . 'thirdparty/bootstrap/css/bootstrap.min.css',
     //'thirdparty/bootstrap/css/bootstrap.rtl.min.css',
@@ -123,6 +113,19 @@ $arr_preload_bootstrap = [
     //'thirdparty/bootstrap/css/bootstrap-utilities.min.css',
     //'thirdparty/bootstrap/css/bootstrap-utilities.rtl.min.css',
 ];
+
+// nạp file font theo kiểu inline
+//echo $getconfig->disable_fontawesome4;
+if ($getconfig->disable_fontawesome4 != 'on') {
+    $font_awesome_before = $base_model->get_add_css('thirdparty/awesome47/css/font-awesome.before.css', [
+        'get_content' => 1
+    ]);
+    $font_awesome_before = str_replace('../fonts/', 'thirdparty/awesome47/fonts/', $font_awesome_before);
+    echo $font_awesome_before;
+
+    //
+    $arr_preload_bootstrap[] = CDN_BASE_URL . 'thirdparty/awesome47/css/font-awesome.min.css?v=4.7';
+}
 
 foreach ($arr_preload_bootstrap as $v) {
 ?>

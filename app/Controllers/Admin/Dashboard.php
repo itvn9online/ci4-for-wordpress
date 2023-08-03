@@ -89,7 +89,7 @@ class Dashboard extends Optimize
         $this->vendor_sync();
         //echo 'begin t: ' . (time() - $begin_t) . PHP_EOL;
         //$this->unzip_ci4_for_wordpress();
-        //$this->cleanup_old_cache(24 * 3600);
+        //$this->cleanup_old_cache(DAY);
         //echo 'begin t: ' . (time() - $begin_t) . PHP_EOL;
         echo ' -->';
 
