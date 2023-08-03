@@ -73,7 +73,8 @@ Header set Cache-Control "public, must-revalidate, proxy-revalidate"
 </FilesMatch>
 
 <FilesMatch "\.(php|asp|aspx)$">
-Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+#Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+Header set Cache-Control "max-age=0, no-cache, must-revalidate"
 </FilesMatch>
 
 <FilesMatch "\.(x?html|htm)$">

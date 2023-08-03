@@ -148,10 +148,13 @@ class Search extends Csrf
 
                 //
                 $urlParams = [];
+                //print_r($_GET) . PHP_EOL;
+                //echo http_build_query($_GET) . PHP_EOL;
                 foreach ($_GET as $k => $v) {
                     if (empty($v)) {
                         continue;
                     }
+                    //echo $k . PHP_EOL;
                     //print_r($v);
                     if ($k == 's') {
                         $urlParams[] = 's=' . $by_keyword;
@@ -159,11 +162,25 @@ class Search extends Csrf
                         continue;
                     }
                     if (is_array($v)) {
+                        //echo http_build_query($v) . PHP_EOL;
                         foreach ($v as $k2 => $v2) {
                             if (empty($v2)) {
                                 continue;
                             }
-                            $urlParams[] = $k . '%5B' . $k2 . '%5D=' . $v2;
+                            //echo $k2 . PHP_EOL;
+                            //print_r($v2);
+                            if (is_array($v2)) {
+                                foreach ($v2 as $k3 => $v3) {
+                                    //echo $k3 . PHP_EOL;
+                                    if (is_array($v3)) {
+                                        continue;
+                                    }
+                                    //echo $v3 . PHP_EOL;
+                                    $urlParams[] = $k . '%5B' . $k2 . '%5D%5B%5D=' . $v3;
+                                }
+                            } else {
+                                $urlParams[] = $k . '%5B' . $k2 . '%5D=' . $v2;
+                            }
                         }
                     } else {
                         $urlParams[] = $k . '=' . $v;

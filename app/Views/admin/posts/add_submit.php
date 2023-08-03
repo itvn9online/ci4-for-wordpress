@@ -5,7 +5,9 @@
 <?php
 
 // tạo module check độ chuẩn SEO cho bài viết
-if ($data['ID'] > 0) {
+if ($data['ID'] > 0 && isset($data['post_permalink'])) {
+    //print_r($data);
+    //die(__FILE__ . ':' . __LINE__);
     $linkEncode = urlencode($post_model->get_full_permalink($data));
 
     //
