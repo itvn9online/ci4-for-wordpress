@@ -1140,7 +1140,7 @@ class Term extends TermBase
 
         //
         //return $base_url . '?cat=' . $data[ 'term_id' ] . '&taxonomy=' . $data[ 'taxonomy' ] . '&slug=' . $data[ 'slug' ];
-        //return $base_url . 'c/' . $data[ 'taxonomy' ] . '/' . $data[ 'term_id' ] . '/' . $data[ 'slug' ];
+        //return $base_url . 'c/' . $data['taxonomy'] . '/' . $data['term_id'] . '/' . $data['slug'];
     }
     // thường dùng trong view -> in ra link admin của 1 term
     public function the_term_permalink($data)
