@@ -23,7 +23,7 @@
     ?>
 </head>
 
-<body class="<?php echo $seo['body_class']; ?>">
+<body class="<?php echo $seo['body_class']; ?> is-<?php echo $current_user_type; ?>">
     <?php
 
     //
