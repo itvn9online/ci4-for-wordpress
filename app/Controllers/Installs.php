@@ -21,6 +21,9 @@ class Installs extends Sync
         // chỉ khi tồn tại file sync thì mới sync
         if (file_exists($f)) {
             $this->vendor_sync();
+
+            // xóa toàn bộ cache
+            $this->base_model->dcache();
         } else {
             echo 'WARNING! code #' . __LINE__ . '. sync file not found!<br>' . PHP_EOL;
         }

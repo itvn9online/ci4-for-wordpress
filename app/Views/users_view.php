@@ -1,3 +1,16 @@
+<?php
+
+//
+if (!isset($seo)) {
+    $seo = $base_model->default_seo('Users', 'users/profile');
+}
+
+//
+if (!isset($breadcrumb)) {
+    $breadcrumb = '';
+}
+
+?>
 <!doctype html>
 <html lang="<?php
             echo (($html_lang == 'vn' || $html_lang == '') ? 'vi' : $html_lang);
