@@ -23,7 +23,8 @@ class Installs extends Sync
             $this->vendor_sync();
 
             // xóa toàn bộ cache
-            $this->base_model->dcache();
+            $has_cache = $this->base_model->dcache();
+            var_dump($has_cache);
         } else {
             echo 'WARNING! code #' . __LINE__ . '. sync file not found!<br>' . PHP_EOL;
         }
