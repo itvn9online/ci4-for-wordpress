@@ -267,6 +267,71 @@ function create_html_menu_nestable(a) {
 	return '<ol class="dd-list">' + str + "</ol>";
 }
 
+function restore_json_menu_in_html_menu() {
+	if (confirm("Xác nhận muốn khôi phục lại JSON menu từ HTML menu!") !== true) {
+		return false;
+	}
+
+	//
+	var arr = [];
+	var _id = 1;
+	$("#Resolution_ifr")
+		.contents()
+		.find("#tinymce a")
+		.each(function () {
+			var a_href = $(this).attr("href") || "";
+			a_href = a_href.replace(/\.\.\//gi, "");
+			if (a_href == "") {
+				a_href = "#";
+			}
+			var a_text = $(this).html() || "";
+			arr.push({
+				deleted: 0,
+				new: 0,
+				slug: a_href,
+				name: a_text,
+				id: _id,
+			});
+
+			//
+			_id++;
+		});
+	console.log(arr);
+	if (arr.length > 0) {
+		WGR_alert("Tìm thấy " + arr.length + " menu");
+
+		//
+		$("body").addClass("show-hidden-menu");
+
+		//
+		$("#json-output, #data_post_excerpt").val(JSON.stringify(arr)).focus();
+		WGR_alert("Bấm lưu lại sau đó chờ tải lại trang để nhận thay đổi mới");
+
+		//
+		$("#target_eb_iframe").on("load", function () {
+			window.location = window.location.href;
+		});
+	}
+
+	//
+	return true;
+}
+
+function show_hide_if_edit_menu() {
+	if (localStorage.getItem("admin-show-hidden-menu") === null) {
+		if (confirm("Chức năng này chủ yếu để debug code!") === true) {
+			$("body").addClass("show-hidden-menu");
+			localStorage.setItem("admin-show-hidden-menu", 1);
+		}
+	} else {
+		$("body").removeClass("show-hidden-menu");
+		localStorage.removeItem("admin-show-hidden-menu");
+	}
+}
+if (localStorage.getItem("admin-show-hidden-menu") !== null) {
+	$("body").addClass("show-hidden-menu");
+}
+
 /*
  *
  */

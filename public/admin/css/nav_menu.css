@@ -1,3 +1,7 @@
 .hide-if-edit-menu {
     display: none;
 }
+
+body.show-hidden-menu .hide-if-edit-menu {
+    display: block;
+}

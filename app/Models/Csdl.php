@@ -194,19 +194,27 @@ class Csdl extends Session
         if (!is_array($items)) {
             return [];
         }
-        $column_name = $this->db->getFieldNames($tbl_name); // list ra những cột có trong table
+        // list ra những cột có trong table
+        $column_name = $this->db->getFieldNames($tbl_name);
         //print_r( $column_name );
         //die( __CLASS__ . ':' . __LINE__ );
 
-        foreach ($items as $key => $value) { //lặp lại cột lấy giá trị mà người dùng đẩy lên table: $item = array('newstitle'=>'tin tuc hom nay', 'slug'=>'tin-tuc-hom-nay'...)
-            if (!in_array($key, $column_name)) { // kiểm tra xem những giá trị trường đẩy lên có trùng với cột trong table ở csdl k
-                unset($items[$key]); // nếu không trùng thì loại bỏ những cột mà người dùng đẩy lên
+        // lặp lại cột lấy giá trị mà người dùng đẩy lên table: $item = array('newstitle'=>'tin tuc hom nay', 'slug'=>'tin-tuc-hom-nay'...)
+        foreach ($items as $key => $value) {
+            // kiểm tra xem những giá trị trường đẩy lên có trùng với cột trong table ở csdl k
+            if (!in_array($key, $column_name)) {
+                // nếu không trùng thì loại bỏ những cột mà người dùng đẩy lên
+                unset($items[$key]);
             }
         }
+
         // remove disallow fields
-        foreach ($disableFields as $key => $value) { //kiểm tra những field nào không đc phép cập nhật thì loại bỏ
-            if (in_array($value, $column_name)) { // kiểm tra nếu tồn tại những cột được disable
-                unset($items[$value]); // nếu tồn tại những cột đã disable thì sẽ remove.
+        // kiểm tra những field nào không đc phép cập nhật thì loại bỏ
+        foreach ($disableFields as $key => $value) {
+            // kiểm tra nếu tồn tại những cột được disable
+            if (in_array($value, $column_name)) {
+                // nếu tồn tại những cột đã disable thì sẽ remove.
+                unset($items[$value]);
             }
         }
 

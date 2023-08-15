@@ -179,6 +179,13 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
             <?php
             } // END foreach auto add post meta
 
+            ?>
+            <div class="control-group">
+                <div class="control-label">&nbsp;</div>
+                <div class="controls cur bold redcolor" onclick="return show_hide_if_edit_menu();">Hiển thị tham số ẩn trong quá trình sửa menu</div>
+            </div>
+            <?php
+
             //
             include ADMIN_ROOT_VIEWS . 'posts/add_submit.php';
 

@@ -64,6 +64,8 @@
 
                 </ol>
             </div>
+            <br>
+            <div onclick="return restore_json_menu_in_html_menu();" class="cur greencolor bold">* Khôi phục lại mã JSON cho menu từ HTML menu (dùng khi JSON menu bị lỗi mà HTML không lỗi).</div>
         </div>
         <div class="lf f50 fullsize-if-mobile menu-edit-input">
             <div class="left-menu-space">

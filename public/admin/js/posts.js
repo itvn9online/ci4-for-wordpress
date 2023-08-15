@@ -3,6 +3,14 @@ add_and_show_post_avt("#post_meta_image", "", "medium");
 
 // nạp text-editer cho phần tóm tắt nếu phát hiện thấy có sử dụng mã html
 (function (str) {
+	if (current_post_type == "nav_menu") {
+		console.log(
+			"%c textediter not enable in: " + current_post_type,
+			"color: red"
+		);
+		return false;
+	}
+
 	// một số cấu trúc đặc trưng của html
 	if (str != "" && str.split("</").length > 1 && str.split(">").length > 1) {
 		// cho hết dữ liệu về 1 dòng
