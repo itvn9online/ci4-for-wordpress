@@ -432,6 +432,7 @@ class PostPosts extends PostSlider
         $filter['order_by'] = [
             //$this->table . '.post_modified' => 'DESC',
             $this->table . '.menu_order' => 'DESC',
+            $this->table . '.time_order' => 'DESC',
             $this->table . '.ID' => 'DESC',
         ];
 

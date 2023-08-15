@@ -605,6 +605,7 @@ class Posts extends Admin
                     ),
                     'order_by' => array(
                         'menu_order' => 'DESC',
+                        'time_order' => 'DESC',
                         'ID' => 'ASC'
                     ),
                     //'show_query' => 1,
@@ -627,6 +628,7 @@ class Posts extends Admin
                     ),
                     'order_by' => array(
                         'menu_order' => 'DESC',
+                        'time_order' => 'DESC',
                         'ID' => 'ASC'
                     ),
                     //'show_query' => 1,

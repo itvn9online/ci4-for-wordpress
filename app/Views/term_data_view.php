@@ -1,6 +1,11 @@
 <?php
 
 //
+if ($debug_enable === true) {
+    echo '<div class="wgr-view-path">' . str_replace(PUBLIC_HTML_PATH, '', __FILE__) . '</div>';
+}
+
+//
 $totalThread = $data['count'];
 //echo $totalThread . '<br>' . PHP_EOL;
 

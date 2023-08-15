@@ -340,7 +340,8 @@ class PostBase extends EbModel
             ),
             array(
                 'order_by' => array(
-                    'menu_order' => 'DESC'
+                    'menu_order' => 'DESC',
+                    'time_order' => 'DESC',
                 ),
                 // hiển thị mã SQL để check
                 //'show_query' => 1,

@@ -129,6 +129,7 @@ class Posts extends Csrf
                 'where_in' => $arr_where_in,
                 'order_by' => [
                     'menu_order' => 'ASC',
+                    //'time_order' => 'ASC',
                     'ID' => 'ASC',
                 ],
                 //'get_sql' => 1,
@@ -154,6 +155,7 @@ class Posts extends Csrf
                     'where_in' => $arr_where_in,
                     'order_by' => [
                         'menu_order' => 'DESC',
+                        'time_order' => 'DESC',
                         'ID' => 'DESC',
                     ],
                     //'get_sql' => 1,

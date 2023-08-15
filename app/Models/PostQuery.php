@@ -429,6 +429,7 @@ class PostQuery extends PostMeta
         if (empty($order_by)) {
             $order_by = [
                 'menu_order' => 'DESC',
+                'time_order' => 'DESC',
                 'ID' => 'DESC',
             ];
         }

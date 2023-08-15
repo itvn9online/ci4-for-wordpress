@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 // Libraries
@@ -24,6 +25,7 @@ class PostPages extends PostPosts
         if (!isset($ops['order_by']) || !is_array($ops['order_by']) || empty($ops['order_by'])) {
             $ops['order_by'] = [
                 'menu_order' => 'DESC',
+                'time_order' => 'DESC',
                 'ID' => 'DESC',
             ];
         }

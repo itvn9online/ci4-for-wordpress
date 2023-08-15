@@ -393,7 +393,7 @@ class Layout extends Sync
         //
         //print_r($data);
         $data = $this->term_model->get_child_terms([$data], []);
-        //print_r( $data );
+        //print_r($data);
 
         $data = $data[0];
         //print_r($data);

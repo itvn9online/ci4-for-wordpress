@@ -656,7 +656,7 @@ class Home extends Posts
             //
             $this->term_model->the_cache($term_id, $in_cache, $child_data);
         }
-        //print_r( $child_data );
+        //print_r($child_data);
 
         //
         $where = [
