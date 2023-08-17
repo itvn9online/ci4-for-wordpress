@@ -191,14 +191,40 @@ defined('DEFAULT_DIR_PERMISSION') || define('DEFAULT_DIR_PERMISSION', 0777);
 defined('MY_CACHE_HANDLER') || define('MY_CACHE_HANDLER', 'file');
 
 // đồng bộ http host về 1 chuỗi chung
-define('HTTP_SYNC_HOST', str_replace('www.', '', str_replace('.', '', explode(':', $_SERVER['HTTP_HOST'])[0])));
+define('HTTP_SYNC_HOST', str_replace('www.', '', str_replace('.', '', str_replace('-', '_', explode(':', $_SERVER['HTTP_HOST'])[0]))));
 
 // chuỗi sẽ thêm vào khi sử dụng hàm mdnam -> md5
 defined('CUSTOM_MD5_HASH_CODE') || define('CUSTOM_MD5_HASH_CODE', HTTP_SYNC_HOST);
 
+// tách riêng cache cho mobile và desktop
+// fake function wp_is_mobile of wordpress
+$is_mobile = false;
+$cache_prefix = HTTP_SYNC_HOST;
+if (isset($_SERVER['HTTP_USER_AGENT'])) {
+    $a = $_SERVER['HTTP_USER_AGENT'];
+    if (!empty($a)) {
+        if (
+            // Many mobile devices (all iPhone, iPad, etc.)
+            strpos($a, 'Mobile') !== false ||
+            strpos($a, 'Android') !== false ||
+            strpos($a, 'Silk/') !== false ||
+            strpos($a, 'Kindle') !== false ||
+            strpos($a, 'BlackBerry') !== false ||
+            strpos($a, 'Opera Mini') !== false ||
+            strpos($a, 'Opera Mobi') !== false
+        ) {
+            // xác định thiết bị đang là mobile
+            $is_mobile = true;
+            // thay đổi path hoặc prefix cho cache
+            $cache_prefix .= '_m';
+        }
+    }
+}
+define('WGR_IS_MOBILE', $is_mobile);
+
 // với cache file -> thư mục lưu cache theo từng tên miền -> code thêm cho các web sử dụng domain pointer
 if (MY_CACHE_HANDLER == 'file') {
-    define('WRITE_CACHE_PATH', WRITEPATH . 'cache/' . HTTP_SYNC_HOST . '/');
+    define('WRITE_CACHE_PATH', WRITEPATH . 'cache/' . $cache_prefix . '/');
 
     //
     define('CACHE_HOST_PREFIX', '');
@@ -208,10 +234,10 @@ else {
     define('WRITE_CACHE_PATH', WRITEPATH . 'cache/');
 
     // tạo key theo host để làm prefix
-    define('CACHE_HOST_PREFIX', HTTP_SYNC_HOST);
+    define('CACHE_HOST_PREFIX', $cache_prefix);
 }
-//die( CACHE_HOST_PREFIX );
-//die( WRITE_CACHE_PATH );
+//die(CACHE_HOST_PREFIX);
+//die(WRITE_CACHE_PATH);
 if (!is_dir(WRITE_CACHE_PATH)) {
     mkdir(WRITE_CACHE_PATH, DEFAULT_DIR_PERMISSION) or die('ERROR create cache dir');
     chmod(WRITE_CACHE_PATH, DEFAULT_DIR_PERMISSION);

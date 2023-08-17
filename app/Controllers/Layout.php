@@ -129,7 +129,7 @@ class Layout extends Sync
         if ($this->preload_header === true) {
             //echo 'preload header <br>' . PHP_EOL;
             //$this->isMobile = $this->checkDevice( $_SERVER[ 'HTTP_USER_AGENT' ] );
-            $this->isMobile = $this->WGR_is_mobile();
+            $this->isMobile = WGR_IS_MOBILE;
             //var_dump( $this->isMobile );
 
             //
@@ -218,50 +218,6 @@ class Layout extends Sync
 
         //
         return true;
-    }
-
-    // fake function wp_is_mobile of wordpress
-    protected function WGR_is_mobile()
-    {
-        if (!isset($_SERVER['HTTP_USER_AGENT'])) {
-            return false;
-        }
-
-        //
-        $a = $_SERVER['HTTP_USER_AGENT'];
-
-        //
-        if (empty($a)) {
-            $is_mobile = false;
-        } else if (
-            strpos($a, 'Mobile') !== false // Many mobile devices (all iPhone, iPad, etc.)
-            ||
-            strpos($a, 'Android') !== false ||
-            strpos($a, 'Silk/') !== false ||
-            strpos($a, 'Kindle') !== false ||
-            strpos($a, 'BlackBerry') !== false ||
-            strpos($a, 'Opera Mini') !== false ||
-            strpos($a, 'Opera Mobi') !== false
-        ) {
-            // thêm key cho bản mobile
-            $this->cache_mobile_key = '---mobile';
-
-            //
-            $is_mobile = true;
-        } else {
-            $is_mobile = false;
-        }
-
-        //
-        return $is_mobile;
-    }
-
-    /*
-     * v2 -> fake wordpress function
-     */
-    protected function checkDevice($useragent)
-    {
-        return $this->WGR_is_mobile();
     }
 
     protected function create_breadcrumb($text, $url = '')
