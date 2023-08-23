@@ -797,31 +797,12 @@ class Sync extends BaseController
         return $this->base_model->result_json_type($arr, $headers, $too_headers);
     }
 
-    // đồng bộ dữ liệu login của thành viên về 1 định dạng chung
+    /**
+     * đồng bộ dữ liệu login của thành viên về 1 định dạng chung
+     **/
     protected function sync_login_data($result)
     {
-        $result['user_pass'] = '';
-        $result['ci_pass'] = '';
-        // hỗ trợ phiên bản code cũ -> tạo thêm dữ liệu tương ứng
-        $result['userID'] = $result['ID'];
-        $result['userName'] = $result['display_name'];
-        $result['userEmail'] = $result['user_email'];
-        // quyền admin
-        $arr_admin_group = [
-            UsersType::AUTHOR,
-            UsersType::MOD,
-            UsersType::ADMIN,
-        ];
-        if (in_array($result['member_type'], $arr_admin_group)) {
-            $result['userLevel'] = UsersType::ADMIN_LEVEL;
-        } else {
-            $result['userLevel'] = UsersType::GUEST_LEVEL;
-        }
-        //print_r( $result );
-        //die( __CLASS__ . ':' . __LINE__ );
-
-        //
-        return $result;
+        return $this->user_model->sync_login_data($result);
     }
 
     // kiểm tra segment tại vị trí thứ 1

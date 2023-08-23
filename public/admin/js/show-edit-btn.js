@@ -47,12 +47,7 @@ function show_edit_btn() {
 			if (controller == "") {
 				// mặc định
 				controller = "posts";
-				var arr_type = {
-					product: "products",
-					//blog: "blogs",
-					ads: "adss",
-					page: "pages",
-				};
+				var arr_type = arr_post_controller;
 				// các post type mặc định
 				if (typeof arr_type[type] != "undefined") {
 					controller = arr_type[type];
@@ -115,16 +110,7 @@ function show_edit_btn() {
 			if (controller == "") {
 				// mặc định
 				controller = "terms";
-				var arr_type = {
-					//post_options: "postoptions",
-					product_cat: "productcategory",
-					product_opt: "productoptions",
-					product_tag: "producttags",
-					tags: "tags",
-					//blogs: "blogcategory",
-					//blog_tags: "blogtags",
-					ads_options: "adsoptions",
-				};
+				var arr_type = arr_taxnomy_controller;
 				// các post type mặc định
 				if (typeof arr_type[type] != "undefined") {
 					controller = arr_type[type];

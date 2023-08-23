@@ -24,7 +24,18 @@ $('a[href="#"], a[href="javascript:;"]')
 // khi bấm nút đăng xuất
 $('a[href="users/logout"], a[href="./users/logout"]').click(function () {
 	//sessionStorage.setItem('logout_redirect', window.location.href);
-	return confirm("Xác nhận Đăng xuất khỏi tài khoản!");
+	var a =
+		$(this).attr("data-title") ||
+		$(this).attr("title") ||
+		"Xác nhận Đăng xuất khỏi tài khoản!";
+	var result = confirm(a);
+	//console.log(result);
+
+	// Xóa auto login qua firebase
+	if (result === true) {
+		localStorage.removeItem("firebase_auto_login");
+	}
+	return result;
 });
 
 /*

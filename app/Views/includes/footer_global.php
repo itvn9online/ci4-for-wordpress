@@ -24,6 +24,12 @@ if ($current_user_id > 0 && isset($session_data['userLevel']) && $session_data['
         'cdn' => CDN_BASE_URL,
     ]);
 
+    //
+    $base_model->JSON_parse([
+        'arr_post_controller' => $post_model->controllerByType(),
+        'arr_taxnomy_controller' => $term_model->controllerByType(),
+    ]);
+
     // nút edit
     $base_model->add_js('admin/js/show-edit-btn.js', [
         'cdn' => CDN_BASE_URL,

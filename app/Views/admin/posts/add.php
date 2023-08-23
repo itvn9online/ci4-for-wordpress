@@ -163,21 +163,29 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
 
                         // với 1 số post type có đặc thù riêng -> ví dụ danh mục
                         if ($k == 'post_category') {
+                            $url_add_term = 'admin/terms/add/?taxonomy=' . $taxonomy;
+                            if (isset($arr_taxnomy_controller[$taxonomy])) {
+                                $url_add_term = 'admin/' . $arr_taxnomy_controller[$taxonomy] . '/add';
+                            }
                         ?>
                             <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple>
                                 <option value="">[ Chọn <?php echo $v; ?> ]</option>
                             </select>
-                            &nbsp; <a href="admin/terms/add/?taxonomy=<?php echo $taxonomy; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm <?php echo $v; ?> mới</a>
+                            &nbsp; <a href="<?php echo $url_add_term; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm <?php echo $v; ?> mới</a>
                         <?php
                         } // END if post category
                         else if ($k == 'post_tags') {
+                            $url_add_term = 'admin/terms/add/?taxonomy=' . $tags;
+                            if (isset($arr_taxnomy_controller[$tags])) {
+                                $url_add_term = 'admin/' . $arr_taxnomy_controller[$tags] . '/add';
+                            }
                         ?>
                             <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple>
                                 <option value="">[ Chọn
                                     <?php echo $v; ?> ]
                                 </option>
                             </select>
-                            &nbsp; <a href="admin/terms/add/?taxonomy=<?php echo $tags; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm
+                            &nbsp; <a href="<?php echo $url_add_term; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm
                                 <?php echo $v; ?> mới
                             </a>
                         <?php

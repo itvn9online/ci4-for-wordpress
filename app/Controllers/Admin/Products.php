@@ -13,11 +13,13 @@ class Products extends Posts
     protected $taxonomy = TaxonomyType::PROD_CATS;
     protected $options = TaxonomyType::PROD_OTPS;
     protected $tags = TaxonomyType::PROD_TAGS;
-    protected $controller_slug = 'products';
 
     //
     public function __construct()
     {
+        $this->controller_slug = PostType::controllerList(PostType::PROD);
+
+        //
         parent::__construct();
     }
 }

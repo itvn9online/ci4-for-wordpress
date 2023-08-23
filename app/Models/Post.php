@@ -257,4 +257,12 @@ class Post extends PostPages
             "description" => $data['post_meta']['meta_description']
         ]);
     }
+
+    /**
+     * Trả về danh sách controller theo từng post_type
+     **/
+    public function controllerByType()
+    {
+        return PostType::controllerList();
+    }
 }

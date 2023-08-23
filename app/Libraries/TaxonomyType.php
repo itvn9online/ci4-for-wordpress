@@ -38,6 +38,30 @@ class TaxonomyType
         //self::PAGE => 'Trang tĩnh',
     );
 
+    private static $arr_name = array(
+        self::POSTS => 'Danh mục',
+        self::TAGS => 'Danh sách',
+        //self::ADS => 'Danh mục',
+        //self::BLOGS => 'Danh mục',
+        //self::BLOG_TAGS => 'Danh mục',
+        //self::OPTIONS => 'Danh sách',
+        self::PROD_OTPS => 'Danh sách',
+        //self::MENU => 'Menu',
+        //self::PAGE => 'Trang tĩnh',
+    );
+
+    // Danh sách controller cho phần editer terms -> taxonomy phân biệt theo controller để trả về url sau khi add/ edit
+    private static $arr_controller = array(
+        //self::OPTIONS => 'postoptions',
+        self::PROD_CATS => 'productcategory',
+        self::PROD_OTPS => 'productoptions',
+        self::PROD_TAGS => 'producttags',
+        self::TAGS => 'tags',
+        //self::BLOGS => 'blogcategory',
+        //self::BLOG_TAGS => 'blogtags',
+        self::ADS => 'adsoptions',
+    );
+
     public static function typeList($key = '', $first_name = false)
     {
         if ($key == '') {
@@ -56,18 +80,6 @@ class TaxonomyType
         return '';
     }
 
-    private static $arr_name = array(
-        self::POSTS => 'Danh mục',
-        self::TAGS => 'Danh sách',
-        //self::ADS => 'Danh mục',
-        //self::BLOGS => 'Danh mục',
-        //self::BLOG_TAGS => 'Danh mục',
-        //self::OPTIONS => 'Danh sách',
-        self::PROD_OTPS => 'Danh sách',
-        //self::MENU => 'Menu',
-        //self::PAGE => 'Trang tĩnh',
-    );
-
     public static function nameList($key = '')
     {
         if ($key == '') {
@@ -77,6 +89,17 @@ class TaxonomyType
             return self::$arr_name[$key] . ' ';
         }
         return 'Danh mục ';
+    }
+
+    public static function controllerList($key = '')
+    {
+        if ($key == '') {
+            return self::$arr_controller;
+        }
+        if (isset(self::$arr_controller[$key])) {
+            return self::$arr_controller[$key];
+        }
+        return 'terms';
     }
 
     // trả về các meta mặc định dựa theo từng post_type

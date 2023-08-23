@@ -4,6 +4,7 @@ namespace App\Models;
 
 //
 //use App\Libraries\DeletedStatus;
+use App\Libraries\UsersType;
 
 //
 class User extends UserMeta
@@ -168,5 +169,71 @@ class User extends UserMeta
 
         //
         return $result_update;
+    }
+
+    /**
+     * Trả về dữ liệu của 1 user dựa theo ID truyền vào
+     **/
+    public function get_user_by_id($id, $where = [], $add_filter = [])
+    {
+        $where['ID'] = $id;
+        $filter = [
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            // trả về COUNT(column_name) AS column_name
+            //'selectCount' => 'ID',
+            // trả về tổng số bản ghi -> tương tự mysql num row
+            //'getNumRows' => 1,
+            //'offset' => 0,
+            'limit' => 1
+        ];
+        foreach ($add_filter as $k => $v) {
+            $filter[$k] = $v;
+        }
+
+        //
+        $data = $this->base_model->select(
+            '*',
+            'users',
+            $where,
+            $filter
+        );
+        //print_r($data);
+        $data = $this->sync_login_data($data);
+        //print_r($data);
+
+        //
+        return $data;
+    }
+
+    /**
+     * đồng bộ dữ liệu login của thành viên về 1 định dạng chung
+     **/
+    public function sync_login_data($result)
+    {
+        $result['user_pass'] = '';
+        $result['ci_pass'] = '';
+        // hỗ trợ phiên bản code cũ -> tạo thêm dữ liệu tương ứng
+        $result['userID'] = $result['ID'];
+        $result['userName'] = $result['display_name'];
+        $result['userEmail'] = $result['user_email'];
+        // quyền admin
+        $arr_admin_group = [
+            UsersType::AUTHOR,
+            UsersType::MOD,
+            UsersType::ADMIN,
+        ];
+        if (in_array($result['member_type'], $arr_admin_group)) {
+            $result['userLevel'] = UsersType::ADMIN_LEVEL;
+        } else {
+            $result['userLevel'] = UsersType::GUEST_LEVEL;
+        }
+        //print_r($result);
+        //die(__CLASS__ . ':' . __LINE__);
+
+        //
+        return $result;
     }
 }

@@ -60,6 +60,14 @@ class PostType
         self::ORDER => 'Đơn hàng',
     );
 
+    // Danh sách controller cho phần editer posts -> post_type phân biệt theo controller để trả về url sau khi add/ edit
+    private static $arr_controller = array(
+        self::PROD => 'products',
+        //self::BLOG => 'blogs',
+        self::ADS => 'adss',
+        self::PAGE => 'pages',
+    );
+
     public static function arrStatus()
     {
         return array(
@@ -83,6 +91,17 @@ class PostType
             return self::$arr[$key];
         }
         return '';
+    }
+
+    public static function controllerList($key = '')
+    {
+        if ($key == '') {
+            return self::$arr_controller;
+        }
+        if (isset(self::$arr_controller[$key])) {
+            return self::$arr_controller[$key];
+        }
+        return 'posts';
     }
 
     public static function imageSizes()

@@ -4,9 +4,10 @@ echo $a;
 echo 'test format on type';
 
 
-?>
-<!-- các file CSS chuyển từ PHP sang sẽ cho vào đây -->
-<?php
+
+/**
+ * các file CSS chuyển từ PHP sang sẽ cho vào đây
+ **/
 $base_model->add_css('public/css/ten_file.css', [
     'get_content' => 1,
     'preload' => 1,
@@ -26,11 +27,13 @@ $base_model->get_add_css('public/css/ten_file.css', [
     'preload' => 1,
     'cdn' => CDN_BASE_URL,
 ]);
-?>
 
-<!-- các file JS chuyển từ PHP sang sẽ cho vào đây -->
-<?php
 
+
+
+/**
+ * các file JS chuyển từ PHP sang sẽ cho vào đây
+ **/
 $base_model->add_js('javascript/ten_file.js', [
     'get_content' => 1,
     'preload' => 1,

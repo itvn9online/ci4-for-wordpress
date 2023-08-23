@@ -26,8 +26,12 @@ if (!isset($breadcrumb)) {
     require __DIR__ . '/includes/head_global.php';
 
     //
-    $base_model->add_css(
-        'css/users.css',
+    $base_model->adds_css(
+        [
+            'css/users.css',
+            'themes/' . THEMENAME . '/css/users.css',
+
+        ],
         [
             'cdn' => CDN_BASE_URL,
         ]
@@ -70,6 +74,7 @@ if (!isset($breadcrumb)) {
     require __DIR__ . '/includes/footer_global.php';
 
     ?>
+    <iframe id="target_eb_iframe" name="target_eb_iframe" title="EB iframe" src="about:blank" width="99%" height="550" frameborder="0">AJAX form</iframe>
 </body>
 
 </html>
