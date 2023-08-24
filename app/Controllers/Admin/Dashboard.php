@@ -9,17 +9,17 @@ use App\Libraries\TaxonomyType;
 class Dashboard extends Optimize
 {
     // danh sách các thư mục trong quá trình unzip file -> lật ngược lại mới xóa được thư mục
-    private $dir_re_cache = [];
+    protected $dir_re_cache = [];
     // danh sách các file copy từ cache sang thư mục code
-    private $file_re_cache = [];
+    protected $file_re_cache = [];
     // link download code từ github
-    //private $link_download_github = 'https://github.com/itvn9online/ci4-for-wordpress/blob/main/ci4-for-wordpress.zip?raw=true';
-    private $link_download_github = 'https://github.com/itvn9online/ci4-for-wordpress/archive/refs/heads/main.zip';
-    private $link_download_system_github = 'https://github.com/itvn9online/ci4-for-wordpress/raw/main/system.zip';
+    //protected $link_download_github = 'https://github.com/itvn9online/ci4-for-wordpress/blob/main/ci4-for-wordpress.zip?raw=true';
+    protected $link_download_github = 'https://github.com/itvn9online/ci4-for-wordpress/archive/refs/heads/main.zip';
+    protected $link_download_system_github = 'https://github.com/itvn9online/ci4-for-wordpress/raw/main/system.zip';
     // mảng các file sẽ được copy lại ngay sau khi update
-    private $copy_after_updated = [];
+    protected $copy_after_updated = [];
     // giãn cách reser permalink
-    private $space_reset_permalink = 60;
+    protected $space_reset_permalink = 60;
 
     public function __construct()
     {
@@ -208,7 +208,7 @@ class Dashboard extends Optimize
         // END v2
         return $this->action_disable_env($f, $this->f_backup_env);
     }
-    private function action_disable_env($f, $f_backup, $for_alert = 1)
+    protected function action_disable_env($f, $f_backup, $for_alert = 1)
     {
         // bakup file .env nếu chưa có
         if (!file_exists($f_backup)) {
@@ -270,7 +270,7 @@ class Dashboard extends Optimize
         return true;
     }
 
-    private function unzip_ci4_for_wordpress()
+    protected function unzip_ci4_for_wordpress()
     {
         $file_zip = PUBLIC_HTML_PATH . 'ci4-for-wordpress.zip';
 
@@ -330,7 +330,7 @@ class Dashboard extends Optimize
         return true;
     }
 
-    private function unzip_code()
+    protected function unzip_code()
     {
         //die( PUBLIC_HTML_PATH );
 
@@ -436,7 +436,7 @@ class Dashboard extends Optimize
     }
 
     // xóa file zip sau khi xử lý code
-    private function cleanup_zip($upload_path, $msg)
+    protected function cleanup_zip($upload_path, $msg)
     {
         echo $upload_path . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
         foreach (glob(rtrim($upload_path, '/') . '/*.zip') as $filename) {
@@ -451,7 +451,7 @@ class Dashboard extends Optimize
         }
     }
 
-    private function rmdir_from_cache($upload_path)
+    protected function rmdir_from_cache($upload_path)
     {
         //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
         //die( $upload_path );
@@ -492,7 +492,7 @@ class Dashboard extends Optimize
         }
     }
 
-    private function get_all_file_in_folder($upload_path)
+    protected function get_all_file_in_folder($upload_path)
     {
         //die( $upload_path );
 
@@ -681,7 +681,7 @@ class Dashboard extends Optimize
      * giải nén sau khi upload
      * main_zip: dành cho unzip code từ main github
      */
-    private function after_unzip_code($file_path, $upload_path, $main_zip = false)
+    protected function after_unzip_code($file_path, $upload_path, $main_zip = false)
     {
         echo 'upload path: ' . $upload_path . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
         echo 'upload via ftp: ' . $this->using_via_ftp() . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
@@ -862,58 +862,7 @@ class Dashboard extends Optimize
         }
     }
 
-    // chức năng upload file code zip lên host và giải nén -> update code
-    public function update_code()
-    {
-        if (!empty($this->MY_post('data'))) {
-            $this->unzip_code();
-        }
-
-        //
-        $arr_list_thirdparty = $this->get_list_thirdparty([
-            'public/thirdparty',
-            'vendor',
-            'app/ThirdParty',
-        ]);
-        //print_r( $arr_list_thirdparty );
-
-        //
-        $arr_download_thirdparty = [
-            //'https://github.com/vuejs/vue/releases',
-            'https://v2.vuejs.org/v2/guide/installation.html?current_version=2.7.13',
-            'https://github.com/PHPMailer/PHPMailer',
-            'https://jquery.com/download/?current_version=3.6.1',
-            'https://getbootstrap.com/docs/5.0/getting-started/download/?current_version=5.0.2',
-            'https://icons.getbootstrap.com/?current_version=1.9.0',
-            'https://www.tiny.cloud/get-tiny/?current_version=4.9.11',
-            'https://fontawesome.com/v4/icons/?current_version=4.7.0',
-            'https://plugins.jquery.com/datetimepicker/?current_version=2.3.6',
-            'https://github.com/select2/select2/releases/tag/4.0.13',
-            'https://jqueryui.com/download/?current_version=1.13.2',
-            'https://github.com/jquery-validation/jquery-validation/releases/tag/1.9.0',
-            'https://angularjs.org/?current_version=1.8.2',
-            'https://github.com/zaloplatform/zalo-php-sdk',
-            'https://github.com/itvn9online/Nestable?current_version=2',
-        ];
-
-        //
-        $this->teamplate_admin['content'] = view(
-            'admin/update_view',
-            array(
-                // xác định các thư mục deleted code có tồn tại không
-                'app_deleted_exist' => $this->check_deleted_exist(),
-                // xác định xem thư mục theme cũ có tồn tại không
-                //'theme_deleted_exist' => $theme_deleted_exist,
-                'link_download_github' => $this->link_download_github,
-                'link_download_system_github' => $this->link_download_system_github,
-                'arr_list_thirdparty' => $arr_list_thirdparty,
-                'arr_download_thirdparty' => $arr_download_thirdparty,
-            )
-        );
-        return view('admin/admin_teamplate', $this->teamplate_admin);
-    }
-
-    private function get_list_thirdparty($dirs)
+    protected function get_list_thirdparty($dirs)
     {
         $arr = [];
 
@@ -931,7 +880,7 @@ class Dashboard extends Optimize
         return $arr;
     }
 
-    private function check_deleted_exist($arr = NULL)
+    protected function check_deleted_exist($arr = NULL)
     {
         //
         if ($arr === NULL) {
@@ -950,7 +899,7 @@ class Dashboard extends Optimize
         return $result;
     }
 
-    private function cleanup_deleted_dir($dirs)
+    protected function cleanup_deleted_dir($dirs)
     {
         //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
         //print_r( $dirs );

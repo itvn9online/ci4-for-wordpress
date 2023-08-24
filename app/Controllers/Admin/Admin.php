@@ -112,8 +112,11 @@ class Admin extends Ajaxs
         //
         $session_data = $this->session_data;
         // TEST
-        //$session_data[ 'member_type' ] = UsersType::AUTHOR;
-        //print_r( $session_data );
+        //$session_data['member_type'] = UsersType::GUEST;
+        //$session_data['member_type'] = UsersType::MEMBER;
+        //$session_data['member_type'] = UsersType::AUTHOR;
+        //$session_data['member_type'] = UsersType::MOD;
+        //print_r($session_data);
 
         // khâu kiểm tra quyền không cần đối với tài khoản admin
         if ($session_data['member_type'] == UsersType::ADMIN) {
@@ -132,7 +135,7 @@ class Admin extends Ajaxs
         $role = $this->body_class;
         //echo $role . '<br>' . PHP_EOL;
         if (!in_array($role, UsersType::role($session_data['member_type']))) {
-            die('Permission ERROR!');
+            die('Permission ERROR! ' . $role . ' for ' . $session_data['member_type']);
         }
 
         //

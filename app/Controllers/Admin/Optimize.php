@@ -4,8 +4,8 @@ namespace App\Controllers\Admin;
 
 class Optimize extends Admin
 {
-    private $f_active_optimize = 'active-optimize.txt';
-    private $c_active_optimize = 'Nếu tồn tại file này -> sẽ kích hoạt lệnh optimize file CSS hoặc JS trong thư mục tương ứng';
+    protected $f_active_optimize = 'active-optimize.txt';
+    protected $c_active_optimize = 'Nếu tồn tại file này -> sẽ kích hoạt lệnh optimize file CSS hoặc JS trong thư mục tương ứng';
     protected $upload_via_ftp = NULL;
     protected $file_model = NULL;
 
@@ -21,59 +21,6 @@ class Optimize extends Admin
 
         //
         $this->file_model = new \App\Models\File();
-    }
-
-    // sử dụng khi cần nén lại các file tĩnh bằng cách thủ công
-    public function index()
-    {
-        $data = '';
-        $time_start = time();
-        // tính năng này không hoạt động trên localhost
-        if (strpos($_SERVER['HTTP_HOST'], 'localhost') === false) {
-            //die(__CLASS__ . ':' . __LINE__);
-            // kiểm tra tiến trình push file qua fpt hay php
-            if ($this->using_via_ftp() === true) {
-                $this->connCacheId();
-            }
-
-            // tạo các file txt xác nhận quá trình optimize
-            $c = $this->c_active_optimize;
-            $f = $this->f_active_optimize;
-
-            // base code
-            $this->before_active_optimize(PUBLIC_PUBLIC_PATH . 'css/', $f, $c);
-            $this->before_active_optimize(PUBLIC_PUBLIC_PATH . 'javascript/', $f, $c);
-            $this->before_active_optimize(PUBLIC_PUBLIC_PATH . 'javascript/firebasejs/', $f, $c);
-            // theme
-            $this->before_active_optimize(THEMEPATH . 'css/', $f, $c);
-            $this->before_active_optimize(THEMEPATH . 'js/', $f, $c);
-            $this->before_active_optimize(THEMEPATH . 'page-templates/', $f, $c);
-            $this->before_active_optimize(THEMEPATH . 'term-templates/', $f, $c);
-            // optimize phần view -> nếu muốn optimize thủ công thì mở comment đoạn sau, còn không chỉ optimize khi update code
-            $this->before_active_optimize(VIEWS_PATH, $f, $c);
-
-            // bắt đầu optimize
-            ob_start();
-            $this->optimize_css_js();
-
-            // close connect ftp sau khi xong việc
-            if ($this->conn_clear_id === true) {
-                ftp_close($this->conn_cache_id);
-                $this->file_model->conn_cache_id = NULL;
-
-                //
-                echo '<strong>FTP close</strong>:<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
-            }
-            $data = ob_get_contents();
-            ob_end_clean();
-        }
-
-        //
-        $this->teamplate_admin['content'] = view('admin/optimize_view', [
-            'total_time' => time() - $time_start,
-            'data' => $data,
-        ]);
-        return view('admin/admin_teamplate', $this->teamplate_admin);
     }
 
     protected function before_compress_css_js()
@@ -180,7 +127,7 @@ class Optimize extends Admin
         $this->optimize_action_views(VIEWS_CUSTOM_PATH);
     }
 
-    private function optimize_action_views($path, $check_active = true)
+    protected function optimize_action_views($path, $check_active = true)
     {
         $path = rtrim($path, '/');
         //echo $path . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
@@ -225,7 +172,7 @@ class Optimize extends Admin
         }
     }
 
-    private function optimize_action_css($path, $dir = 'css', $type = 'css')
+    protected function optimize_action_css($path, $dir = 'css', $type = 'css')
     {
         $path = $path . rtrim($dir, '/');
         //echo $path . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
@@ -261,7 +208,7 @@ class Optimize extends Admin
         return true;
     }
 
-    private function optimize_action_js($path, $dir = 'js', $type = 'js')
+    protected function optimize_action_js($path, $dir = 'js', $type = 'js')
     {
         $path = $path . rtrim($dir, '/');
         //echo $path . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
@@ -296,7 +243,7 @@ class Optimize extends Admin
     }
 
     // kiểm tra xem có sự tồn tại của file kích hoạt chế độ optimize không
-    private function check_active_optimize($path)
+    protected function check_active_optimize($path)
     {
         //echo '<strong>' . $path . '</strong>:<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
         $full_path = $path . $this->f_active_optimize;
@@ -311,7 +258,7 @@ class Optimize extends Admin
     }
 
     // optimize cho file css
-    private function WGR_remove_css_multi_comment($a)
+    protected function WGR_remove_css_multi_comment($a)
     {
         $a = explode('*/', $a);
         $str = '';
@@ -403,7 +350,7 @@ class Optimize extends Admin
         return $str;
     }
 
-    private function WGR_update_core_remove_js_comment($a)
+    protected function WGR_update_core_remove_js_comment($a)
     {
         $a = $this->WGR_remove_js_comment($a);
         if ($a === false) {
@@ -415,7 +362,7 @@ class Optimize extends Admin
         return trim($a);
     }
 
-    private function WGR_remove_js_comment($a, $chim = false)
+    protected function WGR_remove_js_comment($a, $chim = false)
     {
         $a = explode(PHP_EOL, $a);
         if (count($a) < 10) {
@@ -470,7 +417,7 @@ class Optimize extends Admin
         return $str;
     }
 
-    private function _eb_str_text_fix_js_content($str)
+    protected function _eb_str_text_fix_js_content($str)
     {
         if ($str == '') {
             return '';
@@ -491,7 +438,7 @@ class Optimize extends Admin
         return $str;
     }
 
-    private function WGR_remove_js_multi_comment($a, $begin = '/*', $end = '*/')
+    protected function WGR_remove_js_multi_comment($a, $begin = '/*', $end = '*/')
     {
 
         $str = $a;
@@ -518,7 +465,7 @@ class Optimize extends Admin
         //	return _eb_str_block_fix_content( $str );
     }
 
-    private function _eb_arr_block_fix_content()
+    protected function _eb_arr_block_fix_content()
     {
         // https://www.google.com/search?q=site:charbase.com+%E1%BB%9D#q=site:charbase.com+%E1%BA%A3
         return array(
@@ -659,7 +606,7 @@ class Optimize extends Admin
         );
     }
 
-    private function WGR_update_core_remove_html_comment($a)
+    protected function WGR_update_core_remove_html_comment($a)
     {
         $a = explode(PHP_EOL, $a);
 
@@ -692,7 +639,7 @@ class Optimize extends Admin
         //	return trim( $str );
     }
 
-    private function WGR_update_core_remove_php_comment($a)
+    protected function WGR_update_core_remove_php_comment($a)
     {
         $a = explode(PHP_EOL, $a);
 
@@ -730,7 +677,7 @@ class Optimize extends Admin
         return trim($str);
     }
 
-    private function WGR_update_core_remove_php_multi_comment($fileStr)
+    protected function WGR_update_core_remove_php_multi_comment($fileStr)
     {
         // https://stackoverflow.com/questions/503871/best-way-to-automatically-remove-comments-from-php-code
         $str = '';

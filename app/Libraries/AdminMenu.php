@@ -299,11 +299,11 @@ class AdminMenu
                         'name' => 'Dọn dẹp website',
                         'icon' => 'fa fa-magic',
                     ],
-                    'admin/optimize' => [
+                    'admin/optimizes' => [
                         'name' => 'Optimize code',
                         'icon' => 'fa fa-code',
                     ],
-                    'admin/dashboard/update_code' => [
+                    'admin/dashboards/update_code' => [
                         'name' => 'Update code',
                         'icon' => 'fa fa-upload',
                     ],

@@ -110,7 +110,7 @@ class UsersType
         foreach ($arr as $v) {
             $result[] = strtolower($v);
         }
-        //print_r( $result );
+        //print_r($result);
 
         //
         return $result;
