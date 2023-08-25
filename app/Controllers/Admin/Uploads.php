@@ -465,7 +465,7 @@ class Uploads extends Admin
     }
 
     // tìm cha cho các ảnh không có parent
-    private function sync_no_parent()
+    protected function sync_no_parent()
     {
         // daidq (2022-03-05): chưa có site để test nên tính năng này đang tạm dừng
         return false;

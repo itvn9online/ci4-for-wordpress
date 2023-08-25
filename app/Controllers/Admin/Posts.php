@@ -1065,7 +1065,6 @@ class Posts extends Admin
         $result = $this->base_model->delete_multiple($this->term_model->relaTable, [
             // WHERE
             //'t2.post_status' => PostType::REMOVED,
-
         ], [
             /*
                 'left_join' => array(
@@ -1086,7 +1085,6 @@ class Posts extends Admin
         $result = $this->base_model->delete_multiple($this->post_model->metaTable, [
             // WHERE
             //'t2.post_status' => PostType::REMOVED,
-
         ], [
             /*
                 'left_join' => array(
@@ -1106,7 +1104,6 @@ class Posts extends Admin
         $this->base_model->delete_multiple($this->post_model->table, [
             // WHERE
             //'post_status' => PostType::REMOVED,
-
         ], [
             'where_in' => array(
                 'ID' => $ids
@@ -1181,12 +1178,11 @@ class Posts extends Admin
             'code' => __LINE__,
             'result' => $result,
             //'ids' => $ids,
-
         ]);
     }
 
     //
-    private function createdThumbnail($imagePath)
+    protected function createdThumbnail($imagePath)
     {
         $listSizeThumb = $this->config->item('list_thumbnail');
         $listThumbFolder = $this->config->item('thumbnail_folder');
@@ -1216,7 +1212,7 @@ class Posts extends Admin
     }
 
     // chức năng tự động cập nhật lại toàn bộ bài viết mỗi khi có cập nhật mới và cần auto submit
-    private function action_update_module($id = 0)
+    protected function action_update_module($id = 0)
     {
         $where = [
             // các kiểu điều kiện where

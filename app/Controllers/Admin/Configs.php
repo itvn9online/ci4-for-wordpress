@@ -353,7 +353,7 @@ class Configs extends Admin
         $this->base_model->alert('Cập nhật dữ liệu thành công #' . $option_type);
     }
 
-    private function testMail()
+    protected function testMail()
     {
         $smtp_config = $this->option_model->get_smtp();
         //print_r( $smtp_config );
@@ -435,7 +435,7 @@ class Configs extends Admin
     }
 
     // trả về json chứa thông tin của chat ID trên telegram -> dùng để gửi tin nhắn vào nhóm chat
-    private function getTeleChatId()
+    protected function getTeleChatId()
     {
         // lấy ID nhóm chat trên tele
         $this->printTeleChatId(TelegramBot::getUpdates());
@@ -457,7 +457,7 @@ class Configs extends Admin
         //
         exit();
     }
-    private function printTeleChatId($a, $show = 0)
+    protected function printTeleChatId($a, $show = 0)
     {
         //print_r( $a );
 

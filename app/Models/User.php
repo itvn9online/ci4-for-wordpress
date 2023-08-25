@@ -14,7 +14,7 @@ class User extends UserMeta
         parent::__construct();
     }
 
-    private function sync_pass($data)
+    protected function sync_pass($data)
     {
         // nếu có pass -> tiến hành đồng bộ pass
         if (isset($data['ci_pass'])) {

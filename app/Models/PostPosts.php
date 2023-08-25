@@ -403,7 +403,6 @@ class PostPosts extends PostSlider
             ),
             //'offset' => $offset,
             //'limit' => $post_per_page
-
         ];
 
         //

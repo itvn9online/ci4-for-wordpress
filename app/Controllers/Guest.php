@@ -627,7 +627,7 @@ class Guest extends Csrf
         return view('layout_view', $this->teamplate);
     }
 
-    private function change_random_password()
+    protected function change_random_password()
     {
         $random_password = substr($this->base_model->mdnam(time()), 0, 12);
         //echo $random_password . '<br>' . PHP_EOL;

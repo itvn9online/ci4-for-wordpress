@@ -107,7 +107,7 @@ class Users extends Csrf
         return view('users_view', $this->teamplate);
     }
 
-    private function update($id)
+    protected function update($id)
     {
         $data = $this->MY_post('data');
         //print_r( $data );

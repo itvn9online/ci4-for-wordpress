@@ -17,7 +17,7 @@ class Comment extends EbModel
         $this->request = \Config\Services::request();
     }
 
-    private function sync_comment_data($data)
+    protected function sync_comment_data($data)
     {
         if (!isset($data['comment_title']) || $data['comment_title'] == '') {
             if (isset($data['comment_content']) && $data['comment_content'] != '') {

@@ -206,7 +206,7 @@ class Terms extends Admin
         return view('admin/admin_teamplate', $this->teamplate_admin);
     }
 
-    private function term_treeview_data($data)
+    protected function term_treeview_data($data)
     {
         foreach ($data as $k => $v) {
             $v['get_admin_permalink'] = $this->term_model->get_admin_permalink($v['taxonomy'], $v['term_id'], $this->controller_slug);

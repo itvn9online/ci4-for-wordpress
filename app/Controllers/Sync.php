@@ -70,7 +70,7 @@ class Sync extends BaseController
      * do cấu trúc bảng của wordpress thiếu 1 số tính năng so với bản CI này nên cần thêm cột để sử dụng
      */
     // tạo bảng để lưu session khi cần có thể sử dụng luôn
-    private function tbl_sessions($tbl = 'ci_sessions')
+    protected function tbl_sessions($tbl = 'ci_sessions')
     {
         $table = WGR_TABLE_PREFIX . $tbl;
 
@@ -150,7 +150,7 @@ class Sync extends BaseController
     }
 
     // tạo view cho term để select dữ liệu cho tiện
-    private function view_terms($has_table_change = false)
+    protected function view_terms($has_table_change = false)
     {
         // nếu không xác định được sự thay đổi của bảng
         if ($has_table_change === false) {
@@ -219,7 +219,7 @@ class Sync extends BaseController
     }
 
     // tạo view cho post để select dữ liệu cho tiện
-    private function view_posts($has_table_change)
+    protected function view_posts($has_table_change)
     {
         // nếu không xác định được sự thay đổi của bảng
         if ($has_table_change === false) {
@@ -310,7 +310,7 @@ class Sync extends BaseController
         return $this->base_model->MY_query($sql);
     }
 
-    private function auto_sync_table_column($check_thirdparty_exist = true)
+    protected function auto_sync_table_column($check_thirdparty_exist = true)
     {
         /*
          * db không cần update liên tục, nếu cần thì clear cache để tái sử dụng
@@ -559,7 +559,7 @@ class Sync extends BaseController
     /*
      * daidq: chức năng này sẽ giải nén các code trong thư mục vendor dể sử dụng nếu chưa có
      */
-    private function action_vendor_sync($dir, $check_thirdparty_exist = true)
+    protected function action_vendor_sync($dir, $check_thirdparty_exist = true)
     {
         $upload_via_ftp = false;
 
@@ -626,7 +626,7 @@ class Sync extends BaseController
     /**
      * Thêm file index cho các thư mục cần bảo mật -> khi truy cập vào đây sẽ không lộ các thư mục trong này
      **/
-    private function action_index_sync($dir, $check_thirdparty_exist = true)
+    protected function action_index_sync($dir, $check_thirdparty_exist = true)
     {
         $dir = PUBLIC_HTML_PATH . rtrim($dir, '/') . '/';
         //echo $dir . '<br>' . PHP_EOL;

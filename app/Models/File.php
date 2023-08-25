@@ -449,7 +449,7 @@ class File extends EbModel
         return true;
     }
 
-    private function create_cache_for_ftp($content_ = '')
+    protected function create_cache_for_ftp($content_ = '')
     {
         $f = WRITEPATH . 'cache_for_ftp.txt';
         if ($content_ != '') {

@@ -159,7 +159,7 @@ class Sitemap extends Csrf
         exit();
     }
 
-    private function sitemap_tags()
+    protected function sitemap_tags()
     {
         global $arr_custom_taxonomy;
         //print_r( $arr_custom_taxonomy );
@@ -216,7 +216,7 @@ class Sitemap extends Csrf
         return $this->WGR_echo_sitemap_urlset($get_list_sitemap);
     }
 
-    private function get_post_type($post_type, $page_num = 1, $get_count = false)
+    protected function get_post_type($post_type, $page_num = 1, $get_count = false)
     {
         // các kiểu điều kiện where
         $where = [
@@ -289,7 +289,7 @@ class Sitemap extends Csrf
         return $data;
     }
 
-    private function by_post_type($post_type, $page_num = 1)
+    protected function by_post_type($post_type, $page_num = 1)
     {
         $data = $this->get_post_type($post_type, $page_num);
         //print_r( $data );
@@ -311,7 +311,7 @@ class Sitemap extends Csrf
         return $this->WGR_echo_sitemap_urlset($get_list_sitemap);
     }
 
-    private function WGR_echo_sitemap_urlset($get_list_sitemap)
+    protected function WGR_echo_sitemap_urlset($get_list_sitemap)
     {
         echo $this->tmp(file_get_contents(__DIR__ . '/sitemap/urlset.xml', 1), [
             'get_list_sitemap' => $get_list_sitemap,
@@ -319,7 +319,7 @@ class Sitemap extends Csrf
         exit();
     }
 
-    private function WGR_echo_sitemap_url_node($loc, $priority, $lastmod, $op = array())
+    protected function WGR_echo_sitemap_url_node($loc, $priority, $lastmod, $op = array())
     {
         return $this->tmp(file_get_contents(__DIR__ . '/sitemap/url.xml', 1), [
             'loc' => $loc,
@@ -328,7 +328,7 @@ class Sitemap extends Csrf
         ]);
     }
 
-    private function WGR_sitemap_part_page($count_post, $file_name = 'sitemap/post')
+    protected function WGR_sitemap_part_page($count_post, $file_name = 'sitemap/post')
     {
         $str = '';
 
@@ -352,7 +352,7 @@ class Sitemap extends Csrf
     }
 
     //
-    private function WGR_echo_sitemap_css()
+    protected function WGR_echo_sitemap_css()
     {
         header("Content-type: text/xml");
         //die( __CLASS__ . ':' . __LINE__ );
@@ -392,7 +392,7 @@ class Sitemap extends Csrf
         ]);
     }
 
-    private function WGR_echo_sitemap_node($loc, $lastmod)
+    protected function WGR_echo_sitemap_node($loc, $lastmod)
     {
         return $this->tmp(file_get_contents(__DIR__ . '/sitemap/sitemap_node.xml', 1), [
             'loc' => $loc,
@@ -400,7 +400,7 @@ class Sitemap extends Csrf
         ]);
     }
 
-    private function tmp($html, $arr)
+    protected function tmp($html, $arr)
     {
         foreach ($arr as $k => $v) {
             $html = str_replace('%' . $k . '%', $v, $html);
@@ -408,7 +408,7 @@ class Sitemap extends Csrf
         return $html;
     }
 
-    private function media_total($post_type)
+    protected function media_total($post_type)
     {
         return $this->base_model->select('ID', 'posts', [
             'post_type' => $post_type,
@@ -430,7 +430,7 @@ class Sitemap extends Csrf
         ]);
     }
 
-    private function media_sitemap($post_type, $page_num)
+    protected function media_sitemap($post_type, $page_num)
     {
         $get_list_sitemap = '';
 

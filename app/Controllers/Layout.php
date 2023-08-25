@@ -449,7 +449,7 @@ class Layout extends Sync
     }
 
     // hàm lấy dữ liệu đầu vào và xử lý các vấn đề bảo mật nếu có
-    private function MY_data($a, $default_value = '', $xss_clean = true)
+    protected function MY_data($a, $default_value = '', $xss_clean = true)
     {
         // với kiểu chuỗi -> so sánh lấy chuỗi trống
         if (is_string($a) && $a == '') {

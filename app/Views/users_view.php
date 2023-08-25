@@ -30,7 +30,6 @@ if (!isset($breadcrumb)) {
         [
             'css/users.css',
             'themes/' . THEMENAME . '/css/users.css',
-
         ],
         [
             'cdn' => CDN_BASE_URL,

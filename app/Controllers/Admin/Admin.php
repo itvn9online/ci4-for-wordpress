@@ -154,7 +154,7 @@ class Admin extends Ajaxs
     }
     */
 
-    private function admin_menu()
+    protected function admin_menu()
     {
         $arr = AdminMenu::menu_list();
         //print_r($arr);

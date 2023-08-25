@@ -129,6 +129,7 @@ class PostType
         //
         if (
             $post_type == self::POST ||
+            $post_type == self::PROD ||
             //$post_type == self::BLOG ||
             $post_type == self::ADS
         ) {
@@ -216,7 +217,6 @@ class PostType
     {
         $arr = [
             //'second_content' => 'ckeditor',
-
         ];
         if (isset($arr[$key])) {
             return $arr[$key];
