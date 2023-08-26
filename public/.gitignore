@@ -7,8 +7,10 @@ robots.txt
 #-------------------------
 themes/*
 !themes/echbayfour
+!themes/echbayfour/*
 !themes/*.md
-!themes/*.theme
+#!themes/*.actived-theme
+!themes/actived-sample.php
 
 # backup
 thirdparty-bak/*

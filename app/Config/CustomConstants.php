@@ -75,13 +75,18 @@ function register_post_meta($post_type, $ops = [])
 /**
  * Thư mục chứa theme hiển thị cho website (tùy theo yêu cầu của khách hàng mà thiết lập giao diện khác nhau)
  **/
-// xác định theme tự động
-foreach (glob(PUBLIC_PUBLIC_PATH . 'themes/*.actived-theme') as $filename) {
-    $filename = basename($filename, '.actived-theme');
-    //echo $filename . '<br>' . PHP_EOL;
-    if (is_dir(PUBLIC_PUBLIC_PATH . 'themes/' . $filename)) {
-        define('THEMENAME', $filename);
-        break;
+// nạp file xác định THEMENAME (nếu có)
+if (file_exists(PUBLIC_PUBLIC_PATH . 'themes/actived.php')) {
+    include PUBLIC_PUBLIC_PATH . 'themes/actived.php';
+} else {
+    // xác định theme tự động
+    foreach (glob(PUBLIC_PUBLIC_PATH . 'themes/*.actived-theme') as $filename) {
+        $filename = basename($filename, '.actived-theme');
+        //echo $filename . '<br>' . PHP_EOL;
+        if (is_dir(PUBLIC_PUBLIC_PATH . 'themes/' . $filename)) {
+            define('THEMENAME', $filename);
+            break;
+        }
     }
 }
 
