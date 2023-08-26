@@ -72,6 +72,16 @@ if (!isset($breadcrumb)) {
      */
     require __DIR__ . '/includes/footer_global.php';
 
+    //
+    $base_model->adds_js([
+        'javascript/users.js',
+        'themes/' . THEMENAME . '/js/users.js',
+    ], [
+        'cdn' => CDN_BASE_URL,
+    ], [
+        'defer'
+    ]);
+
     ?>
     <iframe id="target_eb_iframe" name="target_eb_iframe" title="EB iframe" src="about:blank" width="99%" height="550" frameborder="0">AJAX form</iframe>
 </body>

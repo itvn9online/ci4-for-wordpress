@@ -634,7 +634,7 @@ class Term extends TermBase
 
         //
         if ($in_cache != '') {
-            $in_cache = __FUNCTION__ . '-' . $in_cache . '-' . $ops['lang_key'];
+            $in_cache = $in_cache . '-' . __FUNCTION__ . '-' . $ops['lang_key'];
             //echo $in_cache . '<br>' . PHP_EOL;
 
             // xóa cache nếu có yêu cầu

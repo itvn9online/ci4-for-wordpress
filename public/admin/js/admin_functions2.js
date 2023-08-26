@@ -73,14 +73,6 @@ function re_height_iframe_editer(for_id, if_id, max_i) {
 	});
 }
 
-function MY_select2(for_id) {
-	if ($(for_id + " option").length < 10 || $(for_id).hasClass("has-select2")) {
-		return false;
-	}
-	$(for_id).addClass("has-select2");
-	$(for_id).select2();
-}
-
 // tìm url trong text vào tạo link
 function WGR_urlify(text) {
 	var urlRegex = /(https?:\/\/[^\s]+)/g;

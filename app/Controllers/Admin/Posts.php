@@ -649,6 +649,7 @@ class Posts extends Admin
         //
         $post_cat = '';
         $post_tags = '';
+        $post_options = '';
         $parent_post = [];
         // lấy danh sách các trang để chọn bài cha
         if ($this->post_type == PostType::PAGE) {
@@ -695,6 +696,9 @@ class Posts extends Admin
                 //$post_tags = $this->term_model->get_all_taxonomy( $this->tags, 0, [ 'get_child' => 1 ], $this->tags . '_get_child' );
                 $post_tags = $this->tags;
             }
+            if ($this->options != '') {
+                $post_options = $this->options;
+            }
         }
 
         //
@@ -719,6 +723,7 @@ class Posts extends Admin
                 'next_post' => $next_post,
                 'post_cat' => $post_cat,
                 'post_tags' => $post_tags,
+                'post_options' => $post_options,
                 'parent_post' => $parent_post,
                 'quick_menu_list' => [],
                 'data' => $data,
@@ -727,6 +732,7 @@ class Posts extends Admin
                 'post_arr_status' => $this->post_arr_status,
                 'taxonomy' => $this->taxonomy,
                 'tags' => $this->tags,
+                'options' => $this->options,
                 'post_type' => $this->post_type,
                 'name_type' => $this->name_type,
                 'preview_url' => $this->MY_get('preview_url', ''),

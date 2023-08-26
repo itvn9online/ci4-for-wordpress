@@ -79,9 +79,9 @@ function register_admin_menu()
 }
 */
 
-/*
+/**
  * đăng ký taxonomy riêng nếu muốn taxonomy này được public ra ngoài
- */
+ **/
 /*
 register_taxonomy('custom_taxonomy', [
     'name' => 'Custom name',
@@ -91,13 +91,22 @@ register_taxonomy('custom_taxonomy', [
 ]);
 */
 
-/*
- * đăng ký taxonomy riêng nếu muốn post type này được public ra ngoài
- */
+/**
+ * đăng ký post type riêng nếu muốn post type này được public ra ngoài
+ **/
 /*
 register_post_type('custom_post_type', [
     'name' => 'Custom name',
     //'public' => 'off',
+]);
+*/
+
+/**
+ * đăng ký post meta riêng nếu muốn post meta này được public ra ngoài
+ **/
+/*
+register_post_meta('custom_post_type', [
+    '_name_of_meta' => 'Custom name',
 ]);
 */
 

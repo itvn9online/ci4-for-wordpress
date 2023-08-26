@@ -152,56 +152,37 @@ $(window).on("load", function () {
 /*
  * tạo các option con cho phần select Danh mục cha
  */
-if (
-	$("#post_meta_post_category").length > 0 &&
-	typeof post_cat != "undefined" &&
-	post_cat != ""
-) {
-	// chạy ajax nạp dữ liệu của taxonomy
-	load_term_select_option(
-		post_cat,
-		"post_meta_post_category",
-		function (data, jd) {
-			console.log(data);
+(function (cats) {
+	for (var x in cats) {
+		//console.log(x);
+		//console.log(cats[x]);
 
-			//
-			$("#post_meta_post_category")
-				.removeClass("set-selected")
-				.append(create_term_select_option(data));
+		//
+		if ($("#" + x).length > 0 && cats[x] != "") {
+			// chạy ajax nạp dữ liệu của taxonomy
+			load_term_select_option(cats[x], x, function (data, jd) {
+				//console.log(data);
 
-			// tạo lại selected
-			WGR_set_prop_for_select("#post_meta_post_category");
-			console.log(
-				"post meta post category option length:",
-				$("#post_meta_post_category option").length
-			);
+				//
+				$("#" + jd)
+					.removeClass("set-selected")
+					.append(create_term_select_option(data));
 
-			//
-			MY_select2("#post_meta_post_category");
+				// tạo lại selected
+				WGR_set_prop_for_select("#" + jd);
+				console.log(
+					"#" + jd + " option length:",
+					$("#" + jd + " option").length
+				);
+
+				//
+				MY_select2("#" + jd);
+			});
 		}
-	);
-}
-
-//
-if (
-	$("#post_meta_post_tags").length > 0 &&
-	typeof post_tags != "undefined" &&
-	post_tags != ""
-) {
-	// chạy ajax nạp dữ liệu của taxonomy
-	load_term_select_option(
-		post_tags,
-		"post_meta_post_tags",
-		function (data, jd) {
-			$("#post_meta_post_tags")
-				.removeClass("set-selected")
-				.append(create_term_select_option(data));
-
-			// tạo lại selected
-			WGR_set_prop_for_select("#post_meta_post_tags");
-
-			//
-			MY_select2("#post_meta_post_tags");
-		}
-	);
-}
+	}
+})({
+	post_meta_post_category: typeof post_cat != "undefined" ? post_cat : "",
+	post_meta_post_tags: typeof post_tags != "undefined" ? post_tags : "",
+	post_meta_post_options:
+		typeof post_options != "undefined" ? post_options : "",
+});

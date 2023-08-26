@@ -155,13 +155,17 @@ class PostQuery extends PostMeta
                 //die(__CLASS__ . ':' . __LINE__);
             }
 
+            //
+            $post_type = '';
+            if (isset($data['post_type'])) {
+                $post_type = $data['post_type'];
+            }
+
             // insert/ update meta post
             if (!empty($data_meta)) {
-                $this->insert_meta_post($data_meta, $result_id);
-            }
-            //
-            else if (isset($_POST['post_meta'])) {
-                $this->insert_meta_post($_POST['post_meta'], $result_id);
+                $this->insert_meta_post($data_meta, $result_id, false, $post_type);
+            } else if (isset($_POST['post_meta'])) {
+                $this->insert_meta_post($_POST['post_meta'], $result_id, false, $post_type);
             }
             /*
             } else {
@@ -171,7 +175,7 @@ class PostQuery extends PostMeta
         return $result_id;
     }
 
-    public function update_post($post_id, $data, $where = [], $data_meta = [])
+    public function update_post($post_id, $data, $where = [], $data_meta = [], $clear_meta = true, $post_type = '')
     {
         // tiêu đề gắn thêm khi post bị xóa
         $post_trash_title = '___' . PostType::DELETED;
@@ -303,13 +307,20 @@ class PostQuery extends PostMeta
         );
 
         //
+        if (isset($data['post_type'])) {
+            $post_type = $data['post_type'];
+        } else if (isset($where['post_type'])) {
+            $post_type = $where['post_type'];
+        }
+
+        //
         //print_r( $_POST );
         //print_r($data_meta);
         if (!empty($data_meta)) {
             //print_r($data_meta);
-            $this->insert_meta_post($data_meta, $post_id);
+            $this->insert_meta_post($data_meta, $post_id, $clear_meta, $post_type);
         } else if (isset($_POST['post_meta'])) {
-            $this->insert_meta_post($_POST['post_meta'], $post_id);
+            $this->insert_meta_post($_POST['post_meta'], $post_id, $clear_meta, $post_type);
         }
 
         //

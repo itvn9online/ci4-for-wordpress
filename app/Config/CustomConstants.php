@@ -38,35 +38,43 @@ $this_cache_num = NULL;
 $this_cache_checkbox = NULL;
 
 
-/*
+/**
  * Danh sách các custom taxonomy mà người dùng đăng ký sẽ được khai báo thêm ở đây
- */
+ **/
 $arr_custom_taxonomy = [];
-
 function register_taxonomy($name, $ops = [])
 {
     global $arr_custom_taxonomy;
-
     $arr_custom_taxonomy[$name] = $ops;
 }
 
 
-/*
+/**
  * Danh sách các custom post type mà người dùng đăng ký sẽ được khai báo thêm ở đây
- */
+ **/
 $arr_custom_post_type = [];
-
 function register_post_type($name, $ops = [])
 {
     global $arr_custom_post_type;
-
     $arr_custom_post_type[$name] = $ops;
 }
 
 
-/*
+/**
+ * Danh sách các custom post meta mà người dùng đăng ký sẽ được khai báo thêm ở đây
+ * Các meta đã được khai báo sẽ không bị dọn dẹp khi update meta
+ **/
+$arr_custom_post_meta = [];
+function register_post_meta($post_type, $ops = [])
+{
+    global $arr_custom_post_meta;
+    $arr_custom_post_meta[$post_type] = $ops;
+}
+
+
+/**
  * Thư mục chứa theme hiển thị cho website (tùy theo yêu cầu của khách hàng mà thiết lập giao diện khác nhau)
- */
+ **/
 // xác định theme tự động
 foreach (glob(PUBLIC_PUBLIC_PATH . 'themes/*.actived-theme') as $filename) {
     $filename = basename($filename, '.actived-theme');
@@ -301,7 +309,7 @@ if (WGR_PAGES_PREFIX != '') {
  * ---> tiếp đến là các website khác nhau muốn đổi URL thì có thể đổi Constants
  */
 defined('WGR_POST_PERMALINK') || define('WGR_POST_PERMALINK', '%ID%/%post_name%');
-defined('WGR_PROD_PERMALINK') || define('WGR_PROD_PERMALINK', '%post_type%-%ID%/%post_name%');
+defined('WGR_PROD_PERMALINK') || define('WGR_PROD_PERMALINK', 'product-%ID%/%post_name%');
 defined('WGR_PAGE_PERMALINK') || define('WGR_PAGE_PERMALINK', 'pages/%post_name%');
 //defined('WGR_BLOG_PERMALINK') || define('WGR_BLOG_PERMALINK', WGR_PROD_PERMALINK);
 defined('WGR_POSTS_PERMALINK') || define('WGR_POSTS_PERMALINK', 'p/%post_type%/%ID%/%post_name%.html');

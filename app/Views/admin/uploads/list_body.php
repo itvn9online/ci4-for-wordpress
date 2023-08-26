@@ -81,7 +81,7 @@ foreach ($data as $k => $v) {
     //print_r( $data_srcset );
 
 ?>
-    <li data-id="<?php echo $v['ID']; ?>">
+    <li data-id="<?php echo $v['ID']; ?>" data-author="<?php echo $v['post_author']; ?>">
         <?php
         include __DIR__ . '/' . $inc_style . '.php';
         //include __DIR__ . '/list_grid.php';

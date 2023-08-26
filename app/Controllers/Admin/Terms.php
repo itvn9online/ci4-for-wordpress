@@ -357,6 +357,9 @@ class Terms extends Admin
 
                         //
                         if ($result_id > 0) {
+                            // dọn dẹp cache liên quan đến taxonomy này
+                            $this->cleanup_cache($this->taxonomy . '_get_child');
+
                             $redirect_to = $this->term_model->get_admin_permalink($this->taxonomy, $result_id, $this->controller_slug) . $this->get_preview_url();
                             //die($redirect_to);
 
@@ -400,6 +403,9 @@ class Terms extends Admin
                     //'name' => $data['name'],
                     'slug' => $this->base_model->_eb_non_mark_seo($data['name'])
                 ]);
+
+                // dọn dẹp cache liên quan đến taxonomy này
+                $this->cleanup_cache($this->taxonomy . '_get_child');
 
                 // lấy data mới -> sau khi update
                 $new_data = $this->term_model->select_term($data['term_id'], [
@@ -537,6 +543,9 @@ class Terms extends Admin
 
         //
         if ($result_id > 0) {
+            // dọn dẹp cache liên quan đến taxonomy này
+            $this->cleanup_cache($this->taxonomy . '_get_child');
+
             //$this->base_model->alert( '', base_url( 'admin/terms/add' ) . '?id=' . $result_id );
             $this->base_model->alert('', $this->term_model->get_admin_permalink($this->taxonomy, $result_id, $this->controller_slug));
         }
@@ -575,6 +584,9 @@ class Terms extends Admin
                 'parent' => $data['term_id'],
             ], $this->taxonomy, true);
         }
+
+        // dọn dẹp cache liên quan đến taxonomy này
+        $this->cleanup_cache($this->taxonomy . '_get_child');
 
         //
         die('<script>top.done_multi_add_term();</script>');
@@ -649,6 +661,9 @@ class Terms extends Admin
         //
         echo '<script>top.after_update_term();</script>';
 
+        // dọn dẹp cache liên quan đến taxonomy này
+        $this->cleanup_cache($this->taxonomy . '_get_child');
+
         //
         $this->base_model->alert('Cập nhật ' . $this->name_type . ' thành công');
     }
@@ -682,6 +697,9 @@ class Terms extends Admin
         $update = $this->term_model->update_terms($id, [
             'is_deleted' => $is_deleted,
         ]);
+
+        // dọn dẹp cache liên quan đến taxonomy này
+        $this->cleanup_cache($this->taxonomy . '_get_child');
 
         // nếu update thành công -> gửi lệnh javascript để ẩn bài viết bằng javascript
         if ($update === true) {

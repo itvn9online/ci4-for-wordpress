@@ -96,6 +96,7 @@ foreach ($arr_prefix_routes as $v) {
         //echo WGR_PROD_PERMALINK . ' <br>' . PHP_EOL;
         if (WGR_PROD_PERMALINK != '%post_name%') {
             $a = str_replace('%post_name%', '(:segment)', WGR_PROD_PERMALINK);
+            //$a = str_replace('%post_type%', 'product', $a);
             $a = str_replace('%ID%', '(:num)', $a);
             $routes->get($a, 'Products::product_details/$1/$2');
         }

@@ -529,8 +529,8 @@ class Layout extends Sync
 
     protected function media_upload($xss_clean = true, $allow_upload = [])
     {
-        //print_r( $_POST );
-        //print_r( $_FILES );
+        //print_r($_POST);
+        //print_r($_FILES);
 
         //
         $upload_root = PUBLIC_HTML_PATH . PostType::MEDIA_PATH;
@@ -562,15 +562,21 @@ class Layout extends Sync
 
         //
         if ($upload_files = $this->request->getFiles()) {
-            //print_r( $upload_files );
+            //print_r($upload_files);
 
             // chạy vòng lặp để lấy các key upload -> xác định tên input tự động
             foreach ($_FILES as $key => $upload_image) {
                 //echo $key . '<br>' . PHP_EOL;
+                //print_r($upload_image);
+                if (!isset($upload_image['size']) || $upload_image['size'][0] < 1) {
+                    continue;
+                }
+                //print_r($upload_files[$key]);
 
                 //
                 foreach ($upload_files[$key] as $file) {
-                    //print_r( $file );
+                    //print_r($file);
+                    //die(__CLASS__ . ':' . __LINE__);
                     if ($file->isValid() && !$file->hasMoved()) {
                         $file_name = $file->getName();
                         //echo $file_name . '<br>' . PHP_EOL;

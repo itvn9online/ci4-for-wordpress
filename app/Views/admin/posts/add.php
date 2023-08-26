@@ -115,6 +115,8 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                     continue;
                 } else if ($k == 'post_tags' && $tags == '') {
                     continue;
+                } else if ($k == 'post_options' && $options == '') {
+                    continue;
                 }
 
                 //
@@ -181,15 +183,23 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                             }
                         ?>
                             <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple>
-                                <option value="">[ Chọn
-                                    <?php echo $v; ?> ]
-                                </option>
+                                <option value="">[ Chọn <?php echo $v; ?> ]</option>
                             </select>
-                            &nbsp; <a href="<?php echo $url_add_term; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm
-                                <?php echo $v; ?> mới
-                            </a>
+                            &nbsp; <a href="<?php echo $url_add_term; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm <?php echo $v; ?> mới</a>
                         <?php
                         } // END if post tags
+                        else if ($k == 'post_options') {
+                            $url_add_term = 'admin/terms/add/?taxonomy=' . $options;
+                            if (isset($arr_taxnomy_controller[$options])) {
+                                $url_add_term = 'admin/' . $arr_taxnomy_controller[$options] . '/add';
+                            }
+                        ?>
+                            <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple>
+                                <option value="">[ Chọn <?php echo $v; ?> ]</option>
+                            </select>
+                            &nbsp; <a href="<?php echo $url_add_term; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm <?php echo $v; ?> mới</a>
+                        <?php
+                        } // END if post options
                         // mặc định thì hiển thị bình thường
                         else if ($input_type == 'textarea') {
                         ?>
@@ -314,6 +324,7 @@ $base_model->JSON_echo([
     'url_next_post' => $url_next_post,
     'post_cat' => $post_cat,
     'post_tags' => $post_tags,
+    'post_options' => $post_options,
     'post_lang_key' => $data['lang_key'],
     'preview_url' => $preview_url,
     'preview_offset_top' => $preview_offset_top,

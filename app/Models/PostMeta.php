@@ -84,7 +84,7 @@ class PostMeta extends PostBase
     }
 
     // thêm post meta
-    public function insert_meta_post($meta_data, $post_id, $clear_meta = true)
+    public function insert_meta_post($meta_data, $post_id, $clear_meta = true, $post_type = '')
     {
         if (!is_array($meta_data) || empty($meta_data)) {
             return false;
@@ -96,7 +96,7 @@ class PostMeta extends PostBase
         // lấy toàn bộ meta của post này
         $meta_exist = $this->arr_meta_post($post_id, false);
         //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-        //print_r( $meta_exist );
+        //print_r($meta_exist);
 
         // xử lý riêng đối với post category và tags
         $term_relationships = [];
@@ -176,21 +176,45 @@ class PostMeta extends PostBase
                 $meta_data['image_webp'] = '';
             }
         }
+        //print_r($meta_data);
 
-        // xem các meta nào không có trong lần update này -> XÓA
+        //
+        //echo 'post_type: ' . $post_type . PHP_EOL;
+        $meta_detault = [];
+        $custom_post_meta = [];
+        if ($post_type != '') {
+            global $arr_custom_post_meta;
+            if (isset($arr_custom_post_meta[$post_type])) {
+                $custom_post_meta = $arr_custom_post_meta[$post_type];
+            }
+            $meta_detault = PostType::meta_default($post_type);
+        }
+        //print_r($meta_detault);
+        //print_r($custom_post_meta);
+
+        // mảng này sẽ lưu meta data dưới dạng JSON -> lấy cho nhẹ web
+        $json_meta_data = [];
+
+        // tất cả các meta đều phải được đăng ký thì mới cho ghi vào database
+        //var_dump($clear_meta);
         if ($clear_meta === true) {
             foreach ($meta_exist as $k => $v) {
-                if (!isset($meta_data[$k])) {
-                    //echo 'DELETE ' . $k . ' ' . $v . '<br>' . PHP_EOL;
-
-                    //
-                    $this->base_model->delete_multiple($this->metaTable, [
-                        'post_id' => $post_id,
-                        'meta_key' => $k,
-                    ]);
+                if (isset($meta_detault[$k]) || isset($custom_post_meta[$k])) {
+                    if (!isset($meta_data[$k])) {
+                        $json_meta_data[$k] = $v;
+                    }
+                    continue;
                 }
+                echo 'DELETE ' . $k . ' ' . $v . '<br>' . PHP_EOL;
+
+                //
+                $this->base_model->delete_multiple($this->metaTable, [
+                    'post_id' => $post_id,
+                    'meta_key' => $k,
+                ]);
             }
         }
+        //print_r($json_meta_data);
 
         //
         $insert_meta = [];
@@ -215,7 +239,11 @@ class PostMeta extends PostBase
             else if ($v != '') {
                 $insert_meta[$k] = $v;
             }
+
+            //
+            $json_meta_data[$k] = $v;
         }
+        //print_r($json_meta_data);
 
         // các meta chưa có thì insert
         //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
@@ -242,7 +270,7 @@ class PostMeta extends PostBase
 
         // cập nhật post meta vào cột của post để đỡ phải query nhiều
         $this->base_model->update_multiple($this->table, [
-            'post_meta_data' => json_encode($meta_data),
+            'post_meta_data' => json_encode($json_meta_data),
         ], [
             'ID' => $post_id,
         ]);
@@ -580,7 +608,7 @@ class PostMeta extends PostBase
             // có thì tạo URL tương đối để trả về
             if (file_exists($check_size)) {
                 $result = str_replace(PUBLIC_PUBLIC_PATH, '', $check_size);
-                echo $result . ':' . __LINE__ . '<br>' . PHP_EOL;
+                //echo $result . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
             }
         }
 

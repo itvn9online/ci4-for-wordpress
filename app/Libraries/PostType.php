@@ -144,6 +144,12 @@ class PostType
             $arr['url_redirect'] = 'Đường dẫn';
         }
         //
+        else if ($post_type == self::PROD) {
+            $arr['post_options'] = 'Thông số khác';
+            $arr['_regular_price'] = 'Giá';
+            $arr['_sale_price'] = 'Giá khuyến mại';
+        }
+        //
         else if ($post_type == self::PAGE) {
             //$arr[ 'second_content' ] = 'Nội dung phụ';
             $arr['post_auto_slider'] = 'Slider';
