@@ -47,6 +47,14 @@ function register_taxonomy($name, $ops = [])
     global $arr_custom_taxonomy;
     $arr_custom_taxonomy[$name] = $ops;
 }
+// hàm đăng ký nhiều taxonomy 1 lúc
+function register_taxonomys($arrs = [])
+{
+    global $arr_custom_taxonomy;
+    foreach ($arrs as $k => $v) {
+        $arr_custom_taxonomy[$k] = $v;
+    }
+}
 
 
 /**
@@ -57,6 +65,14 @@ function register_post_type($name, $ops = [])
 {
     global $arr_custom_post_type;
     $arr_custom_post_type[$name] = $ops;
+}
+// hàm đăng ký nhiều post type 1 lúc
+function register_posts_type($arrs = [])
+{
+    global $arr_custom_post_type;
+    foreach ($arrs as $k => $v) {
+        $arr_custom_post_type[$k] = $v;
+    }
 }
 
 
@@ -69,6 +85,28 @@ function register_post_meta($post_type, $ops = [])
 {
     global $arr_custom_post_meta;
     $arr_custom_post_meta[$post_type] = $ops;
+}
+// hàm đăng ký nhiều post meta 1 lúc
+function register_posts_meta($arrs = [])
+{
+    global $arr_custom_post_meta;
+    foreach ($arrs as $k => $v) {
+        $arr_custom_post_meta[$k] = $v;
+    }
+}
+
+
+/**
+ * Danh sách các user type mà người dùng đăng ký sẽ được khai báo thêm ở đây
+ * Đầu vào là dạng mảng -> đăng ký nhiều user type 1 lúc
+ **/
+$arr_custom_user_type = [];
+function register_users_type($arrs = [])
+{
+    global $arr_custom_user_type;
+    foreach ($arrs as $k => $v) {
+        $arr_custom_user_type[$k] = $v;
+    }
 }
 
 
@@ -88,10 +126,10 @@ if (file_exists(PUBLIC_PUBLIC_PATH . 'themes/actived.php')) {
             break;
         }
     }
-}
 
-// nếu không có file active theme tự động -> gán mặc định theme echbayfour
-defined('THEMENAME') || define('THEMENAME', 'echbayfour');
+    // nếu không có file active theme tự động -> gán mặc định theme echbayfour
+    defined('THEMENAME') || define('THEMENAME', 'echbayfour');
+}
 //echo THEMENAME . '<br>' . PHP_EOL;
 
 

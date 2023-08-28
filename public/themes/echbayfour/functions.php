@@ -1,8 +1,9 @@
 <?php
-/*
-* ngôn ngữ hiển thị của website
-*/
-// các ngôn ngữ được hỗ trợ
+
+/**
+ * ngôn ngữ hiển thị của website
+ * các ngôn ngữ được hỗ trợ
+ **/
 /*
 define(
     'SITE_LANGUAGE_SUPPORT',
@@ -51,10 +52,10 @@ define(
 );
 */
 
-/*
+/**
  * Thêm menu cho admin
  * Ngoài các menu mặc định, với mỗi website có thể thêm các menu tùy chỉnh khác nhau vào đây theo công thức mẫu
- */
+ **/
 /*
 function register_admin_menu()
 {
@@ -83,11 +84,15 @@ function register_admin_menu()
  * đăng ký taxonomy riêng nếu muốn taxonomy này được public ra ngoài
  **/
 /*
-register_taxonomy('custom_taxonomy', [
-    'name' => 'Custom name',
-    'set_parent' => true,
-    'slug' => '',
-    //'public' => 'off',
+register_taxonomys([
+    'custom_taxonomy' => [
+        'name' => 'Custom taxonomy name',
+        // cho phép lấy nhóm cha
+        'set_parent' => true,
+        'slug' => '',
+        // mặc định public = on -> sẽ hiển thị ra ngoài
+        //'public' => 'off',
+    ],
 ]);
 */
 
@@ -95,9 +100,12 @@ register_taxonomy('custom_taxonomy', [
  * đăng ký post type riêng nếu muốn post type này được public ra ngoài
  **/
 /*
-register_post_type('custom_post_type', [
-    'name' => 'Custom name',
-    //'public' => 'off',
+register_posts_type([
+    'custom_post_type' => [
+        'name' => 'Custom type name',
+        // mặc định public = on -> sẽ hiển thị ra ngoài
+        //'public' => 'off',
+    ],
 ]);
 */
 
@@ -105,8 +113,23 @@ register_post_type('custom_post_type', [
  * đăng ký post meta riêng nếu muốn post meta này được public ra ngoài
  **/
 /*
-register_post_meta('custom_post_type', [
-    '_name_of_meta' => 'Custom name',
+register_posts_meta([
+    'custom_post_meta' => [
+        'name' => 'Custom meta name',
+    ],
+]);
+*/
+
+/**
+ * đăng ký user type riêng nếu muốn, user type này sẽ có trong select select trong admin khi sửa quyền tài khoản
+ **/
+/*
+register_users_type([
+    'custom_user_type' => [
+        'name' => 'Custom type name',
+        // Khi có tham số này -> custom type sẽ được thêm vào admin menu
+        'controller' => 'admin_controller',
+    ],
 ]);
 */
 

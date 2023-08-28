@@ -55,6 +55,7 @@ foreach ($arr_prefix_routes as $v) {
 
         // We get a performance increase by specifying the default
         // route since we don't have to scan directories.
+        // Chỗ này do đặt routes_prefix mặc định là / rồi, nên không truyền dấu / vào đoạn gọi routes index nữa
         $routes->get('', 'Home::index');
 
         //$routes->get( 'users', 'Users::index' );

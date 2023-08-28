@@ -27,9 +27,11 @@ $routes->setAutoRoute(true);
  * --------------------------------------------------------------------
  */
 
+// https://codeigniter4.github.io/userguide/incoming/routing.html#routing-priority
+//$routes->setPrioritize();
+
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->setPrioritize();
 // include file kiểu này để mỗi lần update code thì check git nó tiện
 require_once __DIR__ . '/MyRoutes.php';
 

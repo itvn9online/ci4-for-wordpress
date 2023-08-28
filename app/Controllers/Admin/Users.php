@@ -53,6 +53,12 @@ class Users extends Admin
             $this->arr_members_type = UsersType::typeList();
         }
 
+        // Thêm custom user type vào danh sách type mặc định
+        global $arr_custom_user_type;
+        foreach ($arr_custom_user_type as $k => $v) {
+            $this->arr_members_type[$k] = $v['name'];
+        }
+
         //
         $this->validation = \Config\Services::validation();
     }

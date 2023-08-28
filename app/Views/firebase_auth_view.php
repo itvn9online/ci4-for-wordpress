@@ -56,7 +56,6 @@ if (!empty($firebase_config->g_firebase_config)) {
             </label>
         </div>
     </div>
-    <br>
 <?php
 
     //

@@ -11,7 +11,7 @@ class P extends Home
     }
 
     /*
-    * Kiểm tra xem post type có được đăng ký hiển thị thông qua function register_post_type không
+    * Kiểm tra xem post type có được đăng ký hiển thị thông qua function register_posts_type không
     */
     public function custom_post_type($post_type, $id, $slug = '')
     {

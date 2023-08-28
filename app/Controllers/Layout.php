@@ -32,6 +32,7 @@ class Layout extends Sync
     public $current_pid = 0;
     public $current_tid = 0;
     public $breadcrumb_position = 1;
+    public $session_data = NULL;
 
     public function __construct()
     {

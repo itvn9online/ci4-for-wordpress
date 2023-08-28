@@ -156,9 +156,22 @@ class Admin extends Ajaxs
 
     protected function admin_menu()
     {
+        global $arr_custom_user_type;
+        //print_r($arr_custom_user_type);
+
+        //
         $arr = AdminMenu::menu_list();
         //print_r($arr);
         //echo count($arr) . PHP_EOL;
+
+        // Hiển thị menu phân loại cho thành viên
+        foreach ($arr_custom_user_type as $k => $v) {
+            if (!isset($v['controller'])) {
+                continue;
+            }
+            $arr['admin/users']['arr']['admin/' . $v['controller']] = $v;
+        }
+        //print_r($arr);
 
         // tạo số thứ tự để sắp xếp menu
         $j = 100;
