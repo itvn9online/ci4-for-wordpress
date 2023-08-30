@@ -71,21 +71,24 @@ class Uploads extends Users
         //
         $file_thumb_path = $upload_path . 'thumb/';
         if (!is_dir($file_thumb_path)) {
-            mkdir($file_thumb_path, 0777);
+            mkdir($file_thumb_path, DEFAULT_DIR_PERMISSION);
+            chmod($file_thumb_path, DEFAULT_DIR_PERMISSION);
         }
         $file_thumb_path .= $file_name . '.' . $file_type;
 
         //
         $file_medium_path = $upload_path . 'medium/';
         if (!is_dir($file_medium_path)) {
-            mkdir($file_medium_path, 0777);
+            mkdir($file_medium_path, DEFAULT_DIR_PERMISSION);
+            chmod($file_medium_path, DEFAULT_DIR_PERMISSION);
         }
         $file_medium_path .= $file_name . '.' . $file_type;
 
         //
         $file_large_path = $upload_path . 'medium_large/';
         if (!is_dir($file_large_path)) {
-            mkdir($file_large_path, 0777);
+            mkdir($file_large_path, DEFAULT_DIR_PERMISSION);
+            chmod($file_large_path, DEFAULT_DIR_PERMISSION);
         }
         $file_large_path .= $file_name . '.' . $file_type;
 
@@ -119,15 +122,15 @@ class Uploads extends Users
         $arr_sizes = MediaType::media_size();
         if (!file_exists($file_thumb_path)) {
             $rs = \App\Libraries\MyImage::resize($file_path, $file_thumb_path, $arr_sizes[MediaType::MEDIA_THUMBNAIL]);
-            chmod($file_thumb_path, 0777);
+            chmod($file_thumb_path, DEFAULT_FILE_PERMISSION);
         }
         if (!file_exists($file_medium_path)) {
             $rs = \App\Libraries\MyImage::resize($file_path, $file_medium_path, $arr_sizes[MediaType::MEDIA_MEDIUM]);
-            chmod($file_medium_path, 0777);
+            chmod($file_medium_path, DEFAULT_FILE_PERMISSION);
         }
         if (!file_exists($file_large_path)) {
             $rs = \App\Libraries\MyImage::resize($file_path, $file_large_path, $arr_sizes[MediaType::MEDIA_MEDIUM_LARGE]);
-            chmod($file_large_path, 0777);
+            chmod($file_large_path, DEFAULT_FILE_PERMISSION);
         }
         $img_webp = $file_medium_path;
         if (file_exists($file_medium_path)) {
