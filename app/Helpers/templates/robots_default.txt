@@ -8,6 +8,4 @@ Disallow: *?replytocom
 Disallow: */attachment/*
 Disallow: /images/
 
-Allow: /*.js$
-Allow: /*.css$
 Sitemap: {{base_url}}sitemap

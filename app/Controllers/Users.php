@@ -29,19 +29,7 @@ class Users extends Csrf
         parent::__construct();
 
         //
-        if ($this->current_user_id <= 0) {
-            // tạo url sau khi đăng nhập xong sẽ trỏ tới
-            $login_redirect = DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/');
-            //die($login_redirect);
-
-            //
-            $login_url = base_url('guest/login') . '?login_redirect=' . urlencode($login_redirect) . '&msg=' . urlencode('Permission deny! ' . basename(__FILE__, '.php') . ':' . __LINE__);
-            //die( $login_url );
-
-            //
-            die(header('Location: ' . $login_url));
-            //die( 'Permission deny! ' . basename( __FILE__, '.php' ) . ':' . __LINE__ );
-        }
+        $this->required_logged();
 
         //
         $this->validation = \Config\Services::validation();

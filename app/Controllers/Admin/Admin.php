@@ -26,22 +26,11 @@ class Admin extends Ajaxs
         parent::__construct();
 
         //
-        if ($this->current_user_id <= 0) {
-            // tạo url sau khi đăng nhập xong sẽ trỏ tới
-            $login_redirect = DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/');
-            //die($login_redirect);
+        $this->required_logged('&remove_parameter=');
 
-            //
-            $login_url = base_url('guest/login') . '?login_redirect=' . urlencode($login_redirect) . '&msg=' . urlencode('Permission deny! ' . basename(__FILE__, '.php') . ':' . __LINE__) . '&remove_parameter=';
-            //die( $login_url );
-
-            //
-            die(header('Location: ' . $login_url));
-            //die( 'Permission deny! ' . basename( __FILE__, '.php' ) . ':' . __LINE__ );
-        }
+        //
         //print_r( $this->session_data );
         //var_dump( $this->session_data );
-
         // nếu không có quyền admin -> báo lỗi nếu đang vào admin
         if ($this->session_data['userLevel'] != UsersType::ADMIN_LEVEL) {
             die('404 error line ' . __CLASS__ . ':' . __LINE__);
