@@ -8,7 +8,7 @@ $base_model->add_css('admin/css/' . $post_type . '.css');
 
 //
 //print_r($data);
-//print_r($meta_detault);
+//print_r($meta_default);
 
 //
 include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';

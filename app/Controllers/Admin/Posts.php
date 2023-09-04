@@ -642,8 +642,8 @@ class Posts extends Admin
             $data = $this->base_model->default_data($this->table);
             $data['post_meta'] = [];
         }
-        //print_r( $this->session_data );
-        //print_r( $data );
+        //print_r($this->session_data);
+        //print_r($data);
 
 
         //
@@ -728,7 +728,7 @@ class Posts extends Admin
                 'quick_menu_list' => [],
                 'data' => $data,
                 'post_lang' => ($data['lang_key'] != '' ? LanguageCost::typeList($data['lang_key']) : ''),
-                'meta_detault' => PostType::meta_default($this->post_type),
+                'meta_default' => $this->post_model->post_meta_default($this->post_type),
                 'post_arr_status' => $this->post_arr_status,
                 'taxonomy' => $this->taxonomy,
                 'tags' => $this->tags,

@@ -85,7 +85,15 @@ function register_admin_menu()
  **/
 /*
 register_taxonomys([
-    'custom_taxonomy' => [
+    'custom_taxonomy1' => [
+        'name' => 'Custom taxonomy name',
+        // cho phép lấy nhóm cha
+        'set_parent' => true,
+        'slug' => '',
+        // mặc định public = on -> sẽ hiển thị ra ngoài
+        //'public' => 'off',
+    ],
+    'custom_taxonomy2' => [
         'name' => 'Custom taxonomy name',
         // cho phép lấy nhóm cha
         'set_parent' => true,
@@ -101,7 +109,12 @@ register_taxonomys([
  **/
 /*
 register_posts_type([
-    'custom_post_type' => [
+    'custom_post_type1' => [
+        'name' => 'Custom type name',
+        // mặc định public = on -> sẽ hiển thị ra ngoài
+        //'public' => 'off',
+    ],
+    'custom_post_type2' => [
         'name' => 'Custom type name',
         // mặc định public = on -> sẽ hiển thị ra ngoài
         //'public' => 'off',
@@ -114,8 +127,21 @@ register_posts_type([
  **/
 /*
 register_posts_meta([
-    'custom_post_meta' => [
-        'name' => 'Custom meta name',
+    'custom_post_type1' => [
+        'post_category' => [
+            'name' => 'Danh mục',
+        ],
+        'custom_post_meta2' => [
+            'name' => 'Custom meta name',
+        ],
+    ],
+    'custom_post_type2' => [
+        'post_category' => [
+            'name' => 'Danh mục',
+        ],
+        'custom_post_meta2' => [
+            'name' => 'Custom meta name',
+        ],
     ],
 ]);
 */
@@ -125,7 +151,12 @@ register_posts_meta([
  **/
 /*
 register_users_type([
-    'custom_user_type' => [
+    'custom_user_type1' => [
+        'name' => 'Custom type name',
+        // Khi có tham số này -> custom type sẽ được thêm vào admin menu
+        'controller' => 'admin_controller',
+    ],
+    'custom_user_type2' => [
         'name' => 'Custom type name',
         // Khi có tham số này -> custom type sẽ được thêm vào admin menu
         'controller' => 'admin_controller',

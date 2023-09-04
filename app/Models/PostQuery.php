@@ -680,9 +680,9 @@ class PostQuery extends PostMeta
         //print_r( $instance );
 
         // lấy các giá trị placeholder mặc định -> cho thành trống hết
-        $meta_detault = TaxonomyType::meta_default($post_cat['taxonomy']);
-        //print_r( $meta_detault );
-        foreach ($meta_detault as $k => $v) {
+        $meta_default = TaxonomyType::meta_default($post_cat['taxonomy']);
+        //print_r( $meta_default );
+        foreach ($meta_default as $k => $v) {
             if (!isset($instance[$k])) {
                 $instance[$k] = '';
             }

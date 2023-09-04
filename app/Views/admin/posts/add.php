@@ -109,7 +109,7 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
             }
 
             // nạp các meta theo từng loại post
-            foreach ($meta_detault as $k => $v) {
+            foreach ($meta_default as $k => $v) {
                 //
                 if ($k == 'post_category' && $taxonomy == '') {
                     continue;

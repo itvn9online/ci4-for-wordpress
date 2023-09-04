@@ -69,7 +69,7 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
             <?php
 
             // nạp các meta theo từng loại post
-            foreach ($meta_detault as $k => $v) {
+            foreach ($meta_default as $k => $v) {
                 // menu thì không dùng ảnh đại diện
                 if (
                     in_array(

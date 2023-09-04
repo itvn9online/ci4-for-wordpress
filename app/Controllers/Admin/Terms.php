@@ -520,7 +520,7 @@ class Terms extends Admin
                 'term_lang' => ($data['lang_key'] != '' ? LanguageCost::typeList($data['lang_key']) : ''),
                 'taxonomy' => $this->taxonomy,
                 'name_type' => $this->name_type,
-                'meta_detault' => TaxonomyType::meta_default($this->taxonomy),
+                'meta_default' => TaxonomyType::meta_default($this->taxonomy),
                 'controller_slug' => $this->controller_slug,
                 'preview_url' => $this->MY_get('preview_url', ''),
                 'preview_offset_top' => $this->MY_get('preview_offset_top', ''),

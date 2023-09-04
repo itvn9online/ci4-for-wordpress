@@ -180,17 +180,8 @@ class PostMeta extends PostBase
 
         //
         //echo 'post_type: ' . $post_type . PHP_EOL;
-        $meta_detault = [];
-        $custom_post_meta = [];
-        if ($post_type != '') {
-            global $arr_custom_post_meta;
-            if (isset($arr_custom_post_meta[$post_type])) {
-                $custom_post_meta = $arr_custom_post_meta[$post_type];
-            }
-            $meta_detault = PostType::meta_default($post_type);
-        }
-        //print_r($meta_detault);
-        //print_r($custom_post_meta);
+        $meta_default = $this->post_meta_default($post_type);
+        //print_r($meta_default);
 
         // mảng này sẽ lưu meta data dưới dạng JSON -> lấy cho nhẹ web
         $json_meta_data = [];
@@ -199,7 +190,7 @@ class PostMeta extends PostBase
         //var_dump($clear_meta);
         if ($clear_meta === true) {
             foreach ($meta_exist as $k => $v) {
-                if (isset($meta_detault[$k]) || isset($custom_post_meta[$k])) {
+                if (isset($meta_default[$k])) {
                     if (!isset($meta_data[$k])) {
                         $json_meta_data[$k] = $v;
                     }
@@ -247,7 +238,7 @@ class PostMeta extends PostBase
 
         // các meta chưa có thì insert
         //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-        //print_r( $insert_meta );
+        //print_r($insert_meta);
         foreach ($insert_meta as $k => $v) {
             $this->base_model->insert($this->metaTable, [
                 'post_id' => $post_id,
@@ -258,7 +249,7 @@ class PostMeta extends PostBase
 
         // các meta có rồi thì update
         //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-        //print_r( $update_meta );
+        //print_r($update_meta);
         foreach ($update_meta as $k => $v) {
             $this->base_model->update_multiple($this->metaTable, [
                 'meta_value' => $v,
@@ -278,6 +269,29 @@ class PostMeta extends PostBase
         //
         //die( __CLASS__ . ':' . __LINE__ );
         return true;
+    }
+
+    /**
+     * Trả về meta của 1 post type -> bao gồm cả custom meta đã được đăng ký
+     **/
+    public function post_meta_default($post_type)
+    {
+        global $arr_custom_post_meta;
+
+        //
+        $result = PostType::meta_default($post_type);
+        //print_r($result);
+        if (isset($arr_custom_post_meta[$post_type])) {
+            $a = $arr_custom_post_meta[$post_type];
+            //print_r($a);
+            foreach ($a as $k => $v) {
+                $result[$k] = $v['name'];
+            }
+        }
+        //print_r($result);
+
+        //
+        return $result;
     }
 
     // trả về ID của nhóm cha cuối cùng -> không là con của thằng nào cả
