@@ -50,13 +50,7 @@ class Users extends Admin
         //
         //print_r( $this->arr_members_type );
         if ($this->arr_members_type === NULL) {
-            $this->arr_members_type = UsersType::typeList();
-        }
-
-        // Thêm custom user type vào danh sách type mặc định
-        global $arr_custom_user_type;
-        foreach ($arr_custom_user_type as $k => $v) {
-            $this->arr_members_type[$k] = $v['name'];
+            $this->arr_members_type = $this->user_model->get_users_type();
         }
 
         //

@@ -281,7 +281,6 @@ class Sync extends BaseController
             'posts',
             array(
                 // các kiểu điều kiện where
-
             ),
             array(
                 'join' => array(
@@ -527,7 +526,7 @@ class Sync extends BaseController
         // kiểm tra và tạo view nếu bảng có sự thay đổi
         $this->view_terms($has_table_change);
         $this->view_posts($has_table_change);
-        // cập nhật lại tổng số nhóm con cho phân term
+        // cập nhật lại tổng số nhóm con cho phần term
         $last_run = $this->term_model->sync_term_child_count();
         if ($last_run !== true) {
             echo 'sync term child count RUN ' . (time() - $last_run) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
@@ -881,7 +880,7 @@ class Sync extends BaseController
             // trả về true
             return true;
         }
-        // còn lại sẽ trả về thông điếp báo lỗi
+        // còn lại sẽ trả về thông điệp báo lỗi
         else if (isset($status['error-codes']) && !empty($status['error-codes'])) {
             return __FUNCTION__ . ': ' . $status['error-codes'][0];
         }

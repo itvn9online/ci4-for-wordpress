@@ -129,6 +129,9 @@ if (file_exists(PUBLIC_PUBLIC_PATH . 'themes/actived.php')) {
 
     // nếu không có file active theme tự động -> gán mặc định theme echbayfour
     defined('THEMENAME') || define('THEMENAME', 'echbayfour');
+
+    // tạo file khai báo theme theo phiên bản mới
+    file_put_contents(PUBLIC_PUBLIC_PATH . 'themes/actived.php', '<?php define(\'THEMENAME\', \'' . THEMENAME . '\');');
 }
 //echo THEMENAME . '<br>' . PHP_EOL;
 

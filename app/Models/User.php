@@ -236,4 +236,19 @@ class User extends UserMeta
         //
         return $result;
     }
+
+    /**
+     * Trả về các loại tk của người dùng, bao gồm cả phần custom
+     **/
+    public function get_users_type()
+    {
+        global $arr_custom_user_type;
+
+        // Thêm custom user type vào danh sách type mặc định
+        $a = UsersType::typeList();
+        foreach ($arr_custom_user_type as $k => $v) {
+            $a[$k] = $v['name'];
+        }
+        return $a;
+    }
 }
