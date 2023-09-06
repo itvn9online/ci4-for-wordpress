@@ -18,6 +18,13 @@ class PostMeta extends PostBase
     // lấy về danh sách meta post cho toàn bộ data được truyền vào
     public function list_meta_post($data)
     {
+        // gán 1 số meta mặc định nếu chưa có
+        $arr_require_meta = [
+            'image',
+            'image_webp',
+        ];
+
+        //
         foreach ($data as $k => $v) {
             //print_r($v);
             if (empty($v)) {
@@ -44,11 +51,18 @@ class PostMeta extends PostBase
                 //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
                 $new_meta = true;
             }
+            //$new_meta = true;
 
             //
             if ($new_meta === true) {
                 $post_meta_data = $this->arr_meta_post($v['ID']);
                 //print_r($post_meta_data);
+                // gán 1 số meta mặc định nếu chưa có
+                foreach ($arr_require_meta as $remeta) {
+                    if (!isset($post_meta_data[$remeta])) {
+                        $post_meta_data[$remeta] = '';
+                    }
+                }
                 //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
                 //
