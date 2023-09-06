@@ -628,4 +628,31 @@ class Csdl extends Session
     {
         return $this->db->query($sql, $params);
     }
+
+    /**
+     * Trả về dữ liệu sau khi chạy query-bindings
+     **/
+    public function MY_result($sql, $params = [], $ops = [])
+    {
+        $query = $this->MY_query($sql, $params);
+
+        //
+        if (!$this->query_error($this->db->error())) {
+            print_r($this->db->error());
+        }
+
+        // in luôn ra query để test
+        if (isset($ops['show_query'])) {
+            print_r($this->db->getLastQuery()->getQuery());
+            echo '<br>' . PHP_EOL;
+        }
+
+        // trả về query để sử dụng cho mục đích khác
+        if (isset($ops['get_query'])) {
+            return $this->db->getLastQuery()->getQuery();
+        }
+
+        //
+        return $query->getResultArray();
+    }
 }
