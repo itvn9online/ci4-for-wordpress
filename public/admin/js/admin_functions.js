@@ -120,6 +120,18 @@ function click_set_img_for_input(img_id) {
 
 	//
 	if (insert_to == "") {
+		var a = img.attr("data-thumbnail") || "";
+		if (a != "") {
+			a = a.replace("-thumbnail.", ".");
+			if (a.split("//").length <= 1) {
+				if (a.substr(0, 1) == "/") {
+					a = a.substr(1);
+				}
+				a = web_link + a;
+			}
+			//prompt("Image URL", a);
+			window.open(a, "_blank");
+		}
 		return false;
 	}
 	//console.log(insert_to);
@@ -359,6 +371,14 @@ function WGR_load_textediter(for_id, ops) {
 		image_title: true,
 		image_caption: true,
 		image_advtab: true,
+		// cho phép paste image trực tiếp từ clipboard
+		paste_data_images: true,
+		// paste xong sẽ tiến hành upload lên server luôn và ngay -> không dùng data:image -> nặng database
+		// https://www.tiny.cloud/docs/configure/file-image-upload/#automatic_uploads
+		images_upload_url: web_link + "uploads/tinyediter_uploads",
+		//automatic_uploads: false,
+		//images_file_types: "jpg,svg,webp",
+		//
 		//imagetools_toolbar: "rotateleft rotateright | flipv fliph | editimage imageoptions",
 		//quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
 		//toolbar_mode: 'sliding',

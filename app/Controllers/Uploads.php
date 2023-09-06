@@ -197,4 +197,33 @@ class Uploads extends Users
     {
         return $this->image_push('gallery');
     }
+
+    /**
+     * Upload ảnh khi người dùng paste thẳng ảnh vào tinyediter
+     **/
+    public function tinyediter_uploads()
+    {
+        //print_r($_FILES);
+        $arr_result = $this->media_upload();
+        //print_r($arr_result);
+        //die(__CLASS__ . ':' . __LINE__);
+
+        // trả về URL ảnh sau khi upload
+        if (isset($arr_result['file']) && !empty($arr_result['file'])) {
+            if (strpos($arr_result['file'][0], '//') === false) {
+                $arr_result['file'][0] = base_url() . ltrim($arr_result['file'][0], '/');
+            }
+
+            //
+            $this->result_json_type(
+                [
+                    't' => time(),
+                    'location' => $arr_result['file'][0]
+                ]
+            );
+        }
+
+        // hoặc in ra json để check lỗi
+        $this->result_json_type($arr_result);
+    }
 }

@@ -532,6 +532,7 @@ class Layout extends Sync
     {
         //print_r($_POST);
         //print_r($_FILES);
+        //die(__CLASS__ . ':' . __LINE__);
 
         //
         $upload_root = PUBLIC_HTML_PATH . PostType::MEDIA_PATH;
@@ -564,15 +565,39 @@ class Layout extends Sync
         //
         if ($upload_files = $this->request->getFiles()) {
             //print_r($upload_files);
+            //die(__CLASS__ . ':' . __LINE__);
 
             // chạy vòng lặp để lấy các key upload -> xác định tên input tự động
             foreach ($_FILES as $key => $upload_image) {
                 //echo $key . '<br>' . PHP_EOL;
                 //print_r($upload_image);
-                if (!isset($upload_image['size']) || $upload_image['size'][0] < 1) {
+
+                //
+                //$multi_up = true;
+                // không có size -> bỏ
+                if (!isset($upload_image['size'])) {
                     continue;
+                } else {
+                    // size là dạng mảng -> multi upload
+                    if (is_array($upload_image['size'])) {
+                        // size quá nhỏ -> bỏ
+                        if (empty($upload_image['size']) || $upload_image['size'][0] < 1) {
+                            continue;
+                        }
+                    } else {
+                        //$multi_up = false;
+                        // giả lập muti up -> để lệnh sau có thể hoạt động được
+                        $upload_files[$key] = [$upload_files[$key]];
+
+                        //
+                        if ($upload_image['size'] < 1) {
+                            // size quá nhỏ -> bỏ
+                            continue;
+                        }
+                    }
                 }
                 //print_r($upload_files[$key]);
+                //die(__CLASS__ . ':' . __LINE__);
 
                 //
                 foreach ($upload_files[$key] as $file) {
