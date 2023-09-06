@@ -210,6 +210,11 @@ class Dashboard extends Optimize
     }
     protected function action_disable_env($f, $f_backup, $for_alert = 1)
     {
+        // xóa file env-bak nếu tồn tại cùng lúc cả 2 file -> thi thoảng có pha up file .env từ localhost lên
+        if (file_exists($f) && file_exists($f_backup)) {
+            $this->MY_unlink($f_backup);
+        }
+
         // bakup file .env nếu chưa có
         if (!file_exists($f_backup)) {
             if (!$this->MY_copy($f, $f_backup)) {
@@ -250,9 +255,10 @@ class Dashboard extends Optimize
         $f = $this->f_env;
         if (file_exists($f)) {
             //$this->base_model->alert( 'File đã tồn tại ' . basename( $f ), 'error' );
+            return true;
         }
 
-        // phải tồn tại file .env bak thì mới tiếp tục
+        // phải tồn tại file .envbak thì mới tiếp tục
         $f_backup = $this->f_backup_env;
         if (file_exists($f_backup)) {
             // restore lại file env
