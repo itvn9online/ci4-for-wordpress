@@ -368,6 +368,12 @@ function WGR_load_textediter(for_id, ops) {
 		plugins: ops["plugins"],
 		//a11y_advanced_options: true,
 		//
+		//paste_auto_cleanup_on_paste: true,
+		//paste_remove_styles: true,
+		//paste_remove_styles_if_webkit: true,
+		//paste_strip_class_attributes: "all",
+		//paste_remove_spans: true,
+		//
 		image_title: true,
 		image_caption: true,
 		image_advtab: true,
@@ -378,6 +384,7 @@ function WGR_load_textediter(for_id, ops) {
 		images_upload_url: web_link + "uploads/tinyediter_uploads",
 		//automatic_uploads: false,
 		//images_file_types: "jpg,svg,webp",
+		images_reuse_filename: true,
 		//
 		//imagetools_toolbar: "rotateleft rotateright | flipv fliph | editimage imageoptions",
 		//quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
