@@ -111,6 +111,9 @@ include VIEWS_PATH . 'includes/uploads_drag_drop.php';
     <?php echo $pagination; ?> Trên tổng số
     <?php echo $totalThread; ?> bản ghi.
 </div>
+<div style="opacity: 0;">
+    <input id="support_copy_url_media" onclick="return click2Copy(this, true);" value="" />
+</div>
 <?php
 
 //

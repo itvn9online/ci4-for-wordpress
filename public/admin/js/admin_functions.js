@@ -130,7 +130,12 @@ function click_set_img_for_input(img_id) {
 				a = web_link + a;
 			}
 			//prompt("Image URL", a);
-			window.open(a, "_blank");
+			if ($("#support_copy_url_media").length > 0) {
+				$("#support_copy_url_media").val(a);
+				$("#support_copy_url_media").trigger("click");
+			} else {
+				window.open(a, "_blank");
+			}
 		}
 		return false;
 	}

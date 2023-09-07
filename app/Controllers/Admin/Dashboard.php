@@ -295,12 +295,16 @@ class Dashboard extends Optimize
     {
         $system_zip = PUBLIC_HTML_PATH . 'system.zip';
         if (!file_exists($system_zip)) {
-            $this->base_model->alert('Không tồn tại file ' . basename($system_zip), 'error');
+            $system_zip = WRITEPATH . 'updates/system.zip';
+            if (!file_exists($system_zip)) {
+                echo $system_zip . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                $this->base_model->alert('Không tồn tại file ' . basename($system_zip), 'error');
+            }
         }
 
         //
         $current_ci_version = \CodeIgniter\CodeIgniter::CI_VERSION;
-        //echo $current_ci_version . '<br>' . PHP_EOL;
+        echo $current_ci_version . '<br>' . PHP_EOL;
 
         // tên thư mục sẽ backup system cũ
         $to = PUBLIC_HTML_PATH . 'system-' . $current_ci_version;
@@ -311,6 +315,7 @@ class Dashboard extends Optimize
 
         // đổi tên thư mục system -> backup
         rename(PUBLIC_HTML_PATH . 'system', $to);
+        //die(__CLASS__ . ':' . __LINE__);
 
         // giải nén system zip
         if ($this->MY_unzip($system_zip, PUBLIC_HTML_PATH) === TRUE) {
@@ -358,7 +363,7 @@ class Dashboard extends Optimize
                 $this->mk_dir($upload_path, __CLASS__ . ':' . __LINE__);
             }
         }
-        //die( $upload_path );
+        //die($upload_path);
         echo $upload_path . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
         //
@@ -387,6 +392,7 @@ class Dashboard extends Optimize
                 //
                 $file_path = $upload_path . $file_name;
                 //echo $file_path . '<br>' . PHP_EOL;
+                //die(__CLASS__ . ':' . __LINE__);
 
                 // kiểm tra định dạng file
                 $mime_type = $file->getMimeType();
