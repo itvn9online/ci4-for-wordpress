@@ -123,21 +123,24 @@ class UserBase extends EbModel
         $builder->groupEnd();
 
         //
-        $builder->groupStart();
+        //$builder->groupStart();
         // so khớp email
         if (strpos($name, '@') !== false) {
-            $builder->orWhere('user_email', $name);
+            //$builder->orWhere('user_email', $name);
+            $builder->where('user_email', $name);
         }
         // so khớp username
         else {
+            $builder->groupStart();
             $builder->orWhere('user_login', $name);
-            $builder->orWhere('user_phone', $name);
+            // so khớp với ID -> hỗ trợ dùng ID để đăng nhập
+            if (is_numeric($name) === true) {
+                $builder->orWhere('ID', $name * 1);
+                $builder->orWhere('user_phone', $name);
+            }
+            $builder->groupEnd();
         }
-        // so khớp với ID -> hỗ trợ dùng ID để đăng nhập
-        if (is_numeric($name) === true) {
-            $builder->orWhere('ID', $name * 1);
-        }
-        $builder->groupEnd();
+        //$builder->groupEnd();
 
         //
         $builder->where('is_deleted', DeletedStatus::FOR_DEFAULT);
@@ -148,7 +151,8 @@ class UserBase extends EbModel
         $builder->limit(1, 0);
 
         $query = $builder->get();
-        //print_r( $this->base_model->db->getLastQuery()->getQuery() );
+        //print_r($this->base_model->db->getLastQuery()->getQuery());
+        //die(__CLASS__ . ':' . __LINE__);
         $a = $query->getResultArray();
         //print_r( $a );
         //die( __CLASS__ . ':' . __LINE__ );
