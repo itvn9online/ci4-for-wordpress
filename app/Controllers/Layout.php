@@ -848,6 +848,15 @@ class Layout extends Sync
             }
             // các file khác không cần resize
             else {
+                if (empty($get_file_info)) {
+                    $get_file_info = [
+                        0,
+                        0
+                    ];
+                }
+                //var_dump($is_image);
+                //print_r($get_file_info);
+                //die(__CLASS__ . ':' . __LINE__);
                 $resize_img = [
                     'width' => $get_file_info[0],
                     'height' => $get_file_info[1],

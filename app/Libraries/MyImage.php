@@ -167,20 +167,26 @@ class MyImage
             /*
              * https://phpimagick.com/Imagick/setCompressionQuality?quality=85&image_path=Lorikeet
              */
-            //echo 'Imagick - ' . $mime_type . ' - ' . IMAGETYPE_JPEG . ' - ' . $this->image_type . ' - ' . \Imagick::COMPRESSION_JPEG . ' <br>' . PHP_EOL;
+            //echo 'Imagick - ' . $mime_type . ' - ' . IMAGETYPE_JPEG . ' - ' . \Imagick::COMPRESSION_JPEG . ' <br>' . PHP_EOL;
+            //die(__CLASS__ . ':' . __LINE__);
 
             //
             $image = new \Imagick($source);
+            $write_images = false;
             if ($mime_type == 'image/jpg' || $mime_type == 'image/jpeg') {
+                $write_images = true;
                 $image->setImageFormat('jpg');
                 $image->setImageCompression(\Imagick::COMPRESSION_JPEG);
                 $image->setImageCompressionQuality($compression);
-            } else {
+            } else if ($mime_type == 'image/png') {
+                $write_images = true;
                 $image->setImageCompression(\Imagick::COMPRESSION_UNDEFINED);
                 $image->optimizeImageLayers();
             }
-            $image->stripImage();
-            $image->writeImages($desc, true);
+            if ($write_images === true) {
+                $image->stripImage();
+                $image->writeImages($desc, true);
+            }
             $image->destroy();
         } else {
             // https://codeigniter4.github.io/userguide/libraries/images.html#image-quality

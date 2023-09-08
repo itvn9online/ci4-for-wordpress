@@ -55,12 +55,23 @@ class Asjaxs extends Admin
         //
         //$client = \Config\Services::curlrequest();
 
+        //
+        $max_len = strlen(DYNAMIC_BASE_URL) * 2;
+        $http_response = $this->check_via_curl($test_url);
+        if (strlen($http_response) > $max_len) {
+            $http_response = $test_url;
+        }
+        $www_response = $this->check_via_curl($www_url);
+        if (strlen($www_response) > $max_len) {
+            $www_response = $www_url;
+        }
+
         // rồi lấy url xem nó có tự redirect về url chuẩn mình mong muốn không
         $this->result_json_type([
             'http_url' => $test_url,
-            'http_response' => $this->check_via_curl($test_url),
+            'http_response' => $http_response,
             'www_url' => $www_url,
-            'www_response' => $this->check_via_curl($www_url),
+            'www_response' => $www_response,
             //'base_url' => file_get_contents( $test_url . 'admin/asjaxs/the_base_url', 1 ),
             /*
              'base_url' => $client->request( 'GET', $test_url, [
