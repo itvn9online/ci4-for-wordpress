@@ -1,18 +1,19 @@
 <?php
-/*
+
+/**
  * Constants mặc định của code gốc, file này mà xóa đi thì chỉ có ăn cám -> code này hết sử dụng luôn
- */
+ **/
 
 /////////////////////////////////////////////////// DAIDQ CONFIG ////////////////////////////////////////////////////////
-/*
+/**
  * daidq: 2021-09-14
  * Phần cấu hình thiết lập động để có thể tái sử dụng code cho nhiều website khác nhau mà không cần code lại nhiều
  * Các controller, model... cố gắng viết theo quy tắc exten để có thể tái sử dụng
- */
+ **/
 
-/*
+/**
  * Các tham số khác, rất ít khi thay đổi
- */
+ **/
 define('PUBLIC_HTML_PATH', ROOTPATH);
 //echo PUBLIC_HTML_PATH . '<br>' . PHP_EOL;
 define('PUBLIC_PUBLIC_PATH', PUBLIC_HTML_PATH . 'public/');
@@ -29,9 +30,9 @@ define('ADMIN_CUSTOM_VIEWS', VIEWS_CUSTOM_PATH . 'admin/');
 //die( VIEWS_CUSTOM_PATH );
 
 
-/*
+/**
  * lưu giá trị của config vào biến này, nếu hàm sau có gọi lại thì tái sử dụng luôn
- */
+ **/
 $this_cache_config = NULL;
 $this_cache_lang = NULL;
 $this_cache_num = NULL;
@@ -119,6 +120,10 @@ if (file_exists(PUBLIC_PUBLIC_PATH . 'themes/actived.php')) {
 } else {
     // xác định theme tự động
     foreach (glob(PUBLIC_PUBLIC_PATH . 'themes/*.actived-theme') as $filename) {
+        // xóa các file theme kiểu cũ này đi -> lát update tự động sang kiểu mới dùng cho gọn
+        unlink($filename);
+
+        //
         $filename = basename($filename, '.actived-theme');
         //echo $filename . '<br>' . PHP_EOL;
         if (is_dir(PUBLIC_PUBLIC_PATH . 'themes/' . $filename)) {
@@ -142,20 +147,20 @@ define('THEMEPATH', PUBLIC_PUBLIC_PATH . 'themes/' . THEMENAME . '/');
 
 
 ####################################################################
-// file Constants động
+// file Constants động -> file này nhận dữ liệu trong config từ admin theo URL sau: admin/constants
 define('DYNAMIC_CONSTANTS_PATH', APPPATH . 'Config/DynamicConstants.php');
 
-/*
-* Nạp Constants của từng web -> code động -> độ ưu tiên cao nhất
-*/
+/**
+ * Nạp Constants của từng web -> code động -> độ ưu tiên cao nhất
+ **/
 if (file_exists(DYNAMIC_CONSTANTS_PATH)) {
     include DYNAMIC_CONSTANTS_PATH;
 }
 
-/*
+/**
  * nạp file function của từng theme -> code cứng -> sẽ bị phủ định bởi code động
  * -> trong functions phải khai báo theo mẫu: defined() || define()
- */
+ **/
 if (file_exists(THEMEPATH . 'functions.php')) {
     include THEMEPATH . 'functions.php';
 }
@@ -175,6 +180,7 @@ defined('SITE_LANGUAGE_SUPPORT') || define(
 );
 // ngôn ngữ mặc định -> đặt là mảng số 0
 defined('SITE_LANGUAGE_DEFAULT') || define('SITE_LANGUAGE_DEFAULT', SITE_LANGUAGE_SUPPORT[0]['value']);
+
 // kiểu hiển thị đa ngôn ngữ (true:có hỗ trợ|false: không hỗ trợ), nếu là sub-folder thì sẽ hỗ trợ prefix cho routes, url cũng sẽ thêm prefix vào trước (nếu tắt đi thì kiểu đa ngôn ngữ sẽ là sub-domain)
 defined('SITE_LANGUAGE_SUB_FOLDER') || define('SITE_LANGUAGE_SUB_FOLDER', true);
 
@@ -210,9 +216,9 @@ defined('TRANS_CHECKBOXS_LABEL') || define(
 defined('EBE_DATE_FORMAT') || define('EBE_DATE_FORMAT', 'Y-m-d');
 defined('EBE_DATETIME_FORMAT') || define('EBE_DATETIME_FORMAT', 'Y-m-d H:i:s');
 
-/*
+/**
  * tạo đường dẫn admin tránh đường dẫn mặc định. Ví dụ : admin -> nhằm tăng cường bảo mật cho website
- */
+ **/
 defined('CUSTOM_ADMIN_URI') || define('CUSTOM_ADMIN_URI', 'wgr-wp-admin');
 
 // website của nhà phát triển
@@ -225,9 +231,9 @@ defined('PARTNER2_BRAND_NAME') || define('PARTNER2_BRAND_NAME', 'WebGiaRe.org');
 // kiểu kết nối dữ liệu
 defined('MY_DB_DRIVER') || define('MY_DB_DRIVER', 'MySQLi');
 
-/*
+/**
  * URL động cho website để có thể chạy trên nhiều tên miền khác nhau mà không cần config lại
- */
+ **/
 // tinh chỉnh protocol theo ý thích -> mặc định là https
 defined('BASE_PROTOCOL') || define('BASE_PROTOCOL', 'https');
 // -> url động cho website
@@ -305,9 +311,9 @@ defined('BIG_CACHE_TIMEOUT') || define('BIG_CACHE_TIMEOUT', 21600); // 6 giờ
 // cho phép sử dụng lệnh DELETE trong mysql
 defined('ALLOW_USING_MYSQL_DELETE') || define('ALLOW_USING_MYSQL_DELETE', false);
 
-/*
+/**
  * Tiền tố cho danh mục sản phẩm
- */
+ **/
 /*
 defined('WGR_CATEGORY_PREFIX') || define('WGR_CATEGORY_PREFIX', 'category');
 if (WGR_CATEGORY_PREFIX != '') {
@@ -316,11 +322,11 @@ if (WGR_CATEGORY_PREFIX != '') {
     define('CATEGORY_BASE_URL', '');
 }
 */
-/*
+/**
  * cấu trúc URL cho category
  * ---> làm kiểu này để còn truyền ra cả javascript sử dụng chung
  * ---> tiếp đến là các website khác nhau muốn đổi URL thì có thể đổi Constants
- */
+ **/
 // category
 defined('WGR_CATEGORY_PERMALINK') || define('WGR_CATEGORY_PERMALINK', 'category/%slug%');
 // blogs
@@ -338,9 +344,9 @@ defined('WGR_TAXONOMY_PERMALINK') || define('WGR_TAXONOMY_PERMALINK', 'c/%taxono
 defined('WGR_CUS_TAX_PERMALINK') || define('WGR_CUS_TAX_PERMALINK', []);
 //print_r(WGR_CUS_TAX_PERMALINK);
 
-/*
+/**
  * Tiền tố cho trang tĩnh
- */
+ **/
 /*
 defined('WGR_PAGES_PREFIX') || define('WGR_PAGES_PREFIX', 'pages');
 if (WGR_PAGES_PREFIX != '') {
@@ -349,11 +355,11 @@ if (WGR_PAGES_PREFIX != '') {
     define('PAGE_BASE_URL', '');
 }
 */
-/*
+/**
  * cấu trúc URL cho post
  * ---> làm kiểu này để còn truyền ra cả javascript sử dụng chung
  * ---> tiếp đến là các website khác nhau muốn đổi URL thì có thể đổi Constants
- */
+ **/
 defined('WGR_POST_PERMALINK') || define('WGR_POST_PERMALINK', '%ID%/%post_name%');
 defined('WGR_PROD_PERMALINK') || define('WGR_PROD_PERMALINK', 'product-%ID%/%post_name%');
 defined('WGR_PAGE_PERMALINK') || define('WGR_PAGE_PERMALINK', 'pages/%post_name%');
@@ -366,14 +372,14 @@ defined('WGR_CUS_POST_PERMALINK') || define('WGR_CUS_POST_PERMALINK', []);
 /**
  * Tiền tố cho bảng database.
  * Chỉ sử dụng số, ký tự và dấu gạch dưới!
- */
+ **/
 defined('WGR_TABLE_PREFIX') || define('WGR_TABLE_PREFIX', 'wp_');
 
 define('WGR_TERM_VIEW', WGR_TABLE_PREFIX . 'zzz_v_terms');
 define('WGR_POST_VIEW', WGR_TABLE_PREFIX . 'zzz_v_posts');
 
 // Một số thư mục chỉ cho phép 1 số định dạng file được phép truy cập
-defined('HTACCESSS_ALLOW') || define('HTACCESSS_ALLOW', 'zip|xlsx|xls|mp3|css|js|map|htm?l|xml|json|webmanifest|tff|eot|woff?|gif|jpe?g|tiff?|png|webp|bmp|ico|svg');
+defined('HTACCESSS_ALLOW') || define('HTACCESSS_ALLOW', 'zip|xlsx|xls|mp3|css|js|map|html?|xml|json|webmanifest|tff|eot|woff?|gif|jpe?g|tiff?|png|webp|bmp|ico|svg');
 
 // https://scotthelme.co.uk/content-security-policy-an-introduction/
 // Content-Security-Policy
