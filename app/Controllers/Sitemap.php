@@ -153,7 +153,7 @@ class Sitemap extends Csrf
 
 
         //
-        echo $this->tmp(file_get_contents(__DIR__ . '/sitemap/sitemapindex.xml', 1), [
+        echo $this->tmp(file_get_contents(__DIR__ . '/sitemap-xml/sitemapindex.xml', 1), [
             'get_list_sitemap' => $get_list_sitemap,
         ]);
         exit();
@@ -313,7 +313,7 @@ class Sitemap extends Csrf
 
     protected function WGR_echo_sitemap_urlset($get_list_sitemap)
     {
-        echo $this->tmp(file_get_contents(__DIR__ . '/sitemap/urlset.xml', 1), [
+        echo $this->tmp(file_get_contents(__DIR__ . '/sitemap-xml/urlset.xml', 1), [
             'get_list_sitemap' => $get_list_sitemap,
         ]);
         exit();
@@ -321,7 +321,7 @@ class Sitemap extends Csrf
 
     protected function WGR_echo_sitemap_url_node($loc, $priority, $lastmod, $op = array())
     {
-        return $this->tmp(file_get_contents(__DIR__ . '/sitemap/url.xml', 1), [
+        return $this->tmp(file_get_contents(__DIR__ . '/sitemap-xml/url.xml', 1), [
             'loc' => $loc,
             'priority' => $priority,
             'lastmod' => $lastmod,
@@ -386,7 +386,7 @@ class Sitemap extends Csrf
         }
 
         //
-        echo $this->tmp(file_get_contents(__DIR__ . '/sitemap/css.xml', 1), [
+        echo $this->tmp(file_get_contents(__DIR__ . '/sitemap-xml/css.xml', 1), [
             'base_url' => DYNAMIC_BASE_URL,
             'filemtime_main_sitemap' => filemtime($main_sitemap_xsl),
         ]);
@@ -394,7 +394,7 @@ class Sitemap extends Csrf
 
     protected function WGR_echo_sitemap_node($loc, $lastmod)
     {
-        return $this->tmp(file_get_contents(__DIR__ . '/sitemap/sitemap_node.xml', 1), [
+        return $this->tmp(file_get_contents(__DIR__ . '/sitemap-xml/sitemap_node.xml', 1), [
             'loc' => $loc,
             'lastmod' => $lastmod,
         ]);
