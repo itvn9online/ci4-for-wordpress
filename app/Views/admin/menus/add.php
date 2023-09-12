@@ -210,14 +210,20 @@ $base_model->JSON_parse(
     ]
 );
 
+//
+$base_model->JSON_echo([
+    // mảng này sẽ in ra dưới dạng JSON hoặc number
+    'auto_update_module' => $auto_update_module,
+], [
+    // mảng này sẽ in ra dưới dạng string
+    'current_post_type' => $post_type,
+    'url_next_post' => $url_next_post,
+    //'post_cat' => $post_cat,
+    //'post_tags' => $post_tags,
+]);
+
 ?>
 <script>
-    var current_post_type = '<?php echo $post_type; ?>';
-    var auto_update_module = '<?php echo $auto_update_module; ?>';
-    var url_next_post = '<?php echo $url_next_post; ?>';
-    //var post_cat = '<?php echo $post_cat; ?>';
-    //var post_tags = '<?php echo $post_tags; ?>';
-
     // do phần menu chưa xử lý được bằng vue-js nên vẫn phải dùng angular
     angular.module('myApp', []).controller('myCtrl', function($scope) {
         $scope.post_status = post_arr_status;

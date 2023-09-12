@@ -315,12 +315,12 @@ $base_model->JSON_parse([
 //
 $base_model->JSON_echo([
     // mảng này sẽ in ra dưới dạng JSON hoặc number
+    'auto_update_module' => $auto_update_module,
 ], [
     // mảng này sẽ in ra dưới dạng string
     'controller_slug' => $controller_slug,
     'current_post_type' => $post_type,
     'page_post_type' => PostType::PAGE,
-    'auto_update_module' => $auto_update_module,
     'url_next_post' => $url_next_post,
     'post_cat' => $post_cat,
     'post_tags' => $post_tags,

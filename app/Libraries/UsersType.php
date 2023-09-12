@@ -38,11 +38,11 @@ class UsersType
 
     private static $arr = array(
         self::GUEST => AdminTranslate::GUEST,
+        self::SUB => AdminTranslate::SUB,
         self::MEMBER => AdminTranslate::MEMBER,
         self::AUTHOR => AdminTranslate::AUTHOR,
         self::MOD => AdminTranslate::MOD,
         self::ADMIN => AdminTranslate::ADMIN,
-        self::SUB => AdminTranslate::SUB,
     );
 
     public static function typeList($key = '')

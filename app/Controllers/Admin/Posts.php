@@ -636,6 +636,10 @@ class Posts extends Admin
                 ], 'ID, post_title, post_name');
                 //print_r($next_post);
             }
+
+            // tinh chỉnh lại URL cho phần upload -> 1 số vụ nó bị ăn URL kép
+            $data['post_content'] = str_replace('..//', '../', $data['post_content']);
+            $data['post_content'] = str_replace('//upload/', '/upload/', $data['post_content']);
         }
         // add
         else {

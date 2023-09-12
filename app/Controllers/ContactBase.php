@@ -8,6 +8,8 @@ use App\Language\Translate;
 
 class ContactBase extends Home
 {
+    protected $comment_type = '';
+
     // các dữ liệu đầu thuộc dạng bắt buộc -> form nào cần tùy chỉnh thì extends ra xong khai báo lại trong class đã được extends
     protected $aria_required = [
         'fullname' => null,
@@ -148,7 +150,7 @@ class ContactBase extends Home
 
             $submit = $this->MY_comment([
                 'redirect_to' => $redirect_to,
-                'comment_type' => $this->getClassName(__CLASS__)
+                'comment_type' => $this->comment_type == '' ? $this->getClassName(__CLASS__) : $this->comment_type,
             ]);
 
             // thiết lập thông tin người nhận
@@ -218,7 +220,11 @@ class ContactBase extends Home
 
         // nếu không có thuộc tính phân loại comment -> tạu tạo phân loại dựa theo tên function gửi đến
         if (!isset($ops['comment_type'])) {
-            $ops['comment_type'] = debug_backtrace()[1]['function'];
+            if ($this->comment_type == '') {
+                $ops['comment_type'] = debug_backtrace()[1]['function'];
+            } else {
+                $ops['comment_type'] = $this->comment_type;
+            }
         }
 
         //
