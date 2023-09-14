@@ -286,6 +286,13 @@ class MyImage
             }
             // còn lại sẽ thực hiện resize
             else {
+                // lấy file size trước khi resize
+                // https://www.php.net/manual/en/function.filesize.php
+                // chạy lệnh clearstatcache để xóa size lưu trong cache đi đã
+                clearstatcache();
+                $source_size = filesize($source);
+
+                //
                 $image = self::loadLib($source);
 
                 //
@@ -307,6 +314,17 @@ class MyImage
 
                 // processing methods
                 $image->save($desc, $compression);
+
+                // size ảnh resize
+                $desc_size = filesize($desc);
+
+                // nếu size mới > hơn size cũ -> resize thất bại -> dùng ảnh gốc cho nó vuông
+                if ($desc_size > $source_size + 1) {
+                    copy($source, $desc) or die('ERROR copy for resize file width ' . $width . ' to ' . $get_file_info[0]);
+
+                    // optimize file sau mỗi lần copy
+                    $new_quality = self::quality($desc, $desc, $compression);
+                }
             }
         }
         chmod($desc, DEFAULT_FILE_PERMISSION);

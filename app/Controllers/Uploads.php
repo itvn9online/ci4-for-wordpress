@@ -122,15 +122,15 @@ class Uploads extends Users
         $arr_sizes = MediaType::media_size();
         if (!file_exists($file_thumb_path)) {
             $rs = \App\Libraries\MyImage::resize($file_path, $file_thumb_path, $arr_sizes[MediaType::MEDIA_THUMBNAIL]);
-            chmod($file_thumb_path, DEFAULT_FILE_PERMISSION);
+            //chmod($file_thumb_path, DEFAULT_FILE_PERMISSION);
         }
         if (!file_exists($file_medium_path)) {
             $rs = \App\Libraries\MyImage::resize($file_path, $file_medium_path, $arr_sizes[MediaType::MEDIA_MEDIUM]);
-            chmod($file_medium_path, DEFAULT_FILE_PERMISSION);
+            //chmod($file_medium_path, DEFAULT_FILE_PERMISSION);
         }
         if (!file_exists($file_large_path)) {
             $rs = \App\Libraries\MyImage::resize($file_path, $file_large_path, $arr_sizes[MediaType::MEDIA_MEDIUM_LARGE]);
-            chmod($file_large_path, DEFAULT_FILE_PERMISSION);
+            //chmod($file_large_path, DEFAULT_FILE_PERMISSION);
         }
         $img_webp = $file_medium_path;
         if (file_exists($file_medium_path)) {

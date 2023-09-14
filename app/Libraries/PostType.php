@@ -121,10 +121,18 @@ class PostType
         $arr = self::imageSizes();
         $arr['image'] = 'Ảnh đại diện'; // fullsize
         $arr['image_size'] = 'Kích cỡ'; // lựa chọn size ảnh
-        // SEO
-        $arr['meta_title'] = 'Meta title';
-        $arr['meta_description'] = 'Meta description';
-        $arr['meta_keyword'] = 'Meta keyword';
+
+        if ($post_type != self::ADS) {
+            // SEO
+            $arr['meta_title'] = 'Meta title';
+            $arr['meta_description'] = 'Meta description';
+            $arr['meta_keyword'] = 'Meta keyword';
+
+            // fake rating
+            $arr['post_rating_value'] = 'Fake rating value';
+            $arr['post_rating_count'] = 'Fake rating count';
+            $arr['post_review_count'] = 'Fake review count';
+        }
 
         //
         if (
@@ -188,6 +196,10 @@ class PostType
             'image_thumbnail' => 'hidden',
             'image_webp' => 'hidden',
             'image_size' => 'select',
+            //
+            //'post_rating_value' => 'number',
+            'post_rating_count' => 'number',
+            'post_review_count' => 'number',
         ];
         if (isset($arr[$key])) {
             return $arr[$key];
@@ -209,6 +221,10 @@ class PostType
             'url_redirect' => 'Nhập vào đường dẫn bạn muốn banner này trỏ tới (nếu có).',
             //'second_content' => 'Nội dung phụ để dễ xử lý giao diện cho một số trường hợp đặc biệt',
             'post_auto_slider' => 'Khi chế độ này được kích hoạt, một slider sẽ tự động được khởi tạo, sau đó bạn chỉ việc thêm ảnh cho slider để nó có thể hoạt động',
+            //
+            'post_rating_value' => 'Vui lòng nhập dạng số thập phân. Ví dụ: 4.8 hoặc 4.5 hoặc 3.3',
+            'post_rating_count' => 'Vui lòng nhập dạng số nguyên, tổng số lượng bình chọn website này, nếu là số ảo thì nhập trong khoảng 160 - 300.',
+            'post_review_count' => 'Vui lòng nhập dạng số nguyên, tổng số lượng bài đánh giá website này, nếu là số ảo thì nhập dưới 70.',
         ];
         if (isset($arr[$key])) {
             echo '<p class="controls-text-note">' . $arr[$key] . '</p>';
