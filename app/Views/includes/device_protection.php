@@ -24,14 +24,12 @@
 <?php
 
 //
-if ($current_user_id > 0) {
-    // lưu session id của người dùng vào file
-    $user_model->set_logged($current_user_id);
+// lưu session id của người dùng vào file
+$user_model->set_logged($current_user_id);
 
-    // nạp js cảnh báo đăng nhập
-    $base_model->add_js('javascript/device_protection.js', [
-        'cdn' => CDN_BASE_URL,
-    ], [
-        'defer'
-    ]);
-}
+// nạp js cảnh báo đăng nhập
+$base_model->add_js('javascript/device_protection.js', [
+    'cdn' => CDN_BASE_URL,
+], [
+    'defer'
+]);

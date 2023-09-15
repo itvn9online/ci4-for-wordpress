@@ -172,7 +172,11 @@ class TermBase extends EbModel
     //
     function echo_meta_term($data, $key, $default_value = '')
     {
-        echo $this->return_meta_term($data['term_meta'], $key, $default_value);
+        if (!isset($data['term_meta'])) {
+            echo $default_value;
+        } else {
+            echo $this->return_meta_term($data['term_meta'], $key, $default_value);
+        }
     }
 
     // đồng bộ tham số đầu vào

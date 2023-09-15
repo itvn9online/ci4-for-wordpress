@@ -676,6 +676,9 @@ class PostQuery extends PostMeta
         }
         $post_cat = $get_data['term'];
         //print_r( $post_cat );
+        if (!isset($post_cat['term_meta'])) {
+            return 'term_meta not found! #' . $slug;
+        }
         $instance = $post_cat['term_meta'];
         //print_r( $instance );
 

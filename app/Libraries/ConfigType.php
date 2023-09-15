@@ -144,6 +144,8 @@ class ConfigType
                 'disable_fontawesome4' => 'Không nạp font Awesome 4',
                 'enable_hotlink_protection' => 'HotLink protection',
                 'enable_device_protection' => 'Device logged protection',
+                'logout_device_protection' => 'Device logout protection',
+                'block_device_protection' => 'Device block protection',
                 'disable_register_member' => 'Dừng đăng ký tài khoản mới',
             ];
         } else if ($config_type == self::DISPLAY) {
@@ -486,6 +488,8 @@ class ConfigType
             'disable_fontawesome4' => 'checkbox',
             'enable_hotlink_protection' => 'checkbox',
             'enable_device_protection' => 'checkbox',
+            'logout_device_protection' => 'checkbox',
+            'block_device_protection' => 'checkbox',
             'disable_register_member' => 'checkbox',
             'blog_private' => 'checkbox',
             'smtp_no_reply' => 'checkbox',
@@ -644,6 +648,8 @@ class ConfigType
             'smtp2_host_user' => 'Cấu hình mail dự phòng, khi mail chính có vấn đề thì mail này sẽ được kích hoạt để dùng tạm',
             'enable_hotlink_protection' => 'Chặn các website khác truy cập trực tiếp vào file ảnh trên host này.',
             'enable_device_protection' => 'Chặn đăng nhập trên nhiều thiết bị trong cùng một thời điểm. Nếu phát hiện, sẽ đưa ra popup cảnh báo cho người dùng.',
+            'logout_device_protection' => 'Kích hoạt chức năng này nếu muốn khi phát hiện người dùng đăng nhập trên nhiều thiết bị, hệ thống sẽ tiến hành logout tài khoản của người dùng.',
+            'block_device_protection' => 'Kích hoạt chức năng này nếu muốn khi phát hiện người dùng đăng nhập trên nhiều thiết bị, hệ thống sẽ tiến hành KHÓA tài khoản của người dùng.',
             'disable_register_member' => 'Khi muốn dừng việc đăng ký tài khoản trên website thì bật chức năng này lên. Admin vẫn có thể tạo tài khoản từ trang admin hoặc người dùng có thể đăng nhập thông qua firebase nếu website có thiết lập Đăng nhập qua firebase tại đây ' . base_url('admin/firebases') . '?support_tab=data_g_firebase_config',
             'blog_private' => 'Việc tuân thủ yêu cầu này hoàn toàn phụ thuộc vào các công cụ tìm kiếm.',
             'replace_post_content' => 'Khi cần thay thế nội dung của bài viết hàng loạt thì có thể sử dụng chức năng này. <br> Mẫu sử dụng: Nội dung cũ | Nội dung mới',

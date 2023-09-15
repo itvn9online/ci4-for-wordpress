@@ -27,9 +27,9 @@ var timeout_device_protection = 30;
 
 		//
 		jQuery.ajax({
-			type: "GET",
+			type: "POST",
 			// link TEST
-			url: "ajaxs/multi_loged",
+			url: "ajaxs/multi_logged",
 			dataType: "json",
 			//crossDomain: true,
 			//data: data,
@@ -43,8 +43,12 @@ var timeout_device_protection = 30;
 				// bình thường thì để 30s kiểm tra 1 lần
 				timeout_device_protection = max_time;
 
+				//
+				if (typeof data.error != "undefined") {
+					WGR_alert(data.error, "error");
+				}
 				// không có hash
-				if (typeof data.hash == "undefined") {
+				else if (typeof data.hash == "undefined") {
 					WGR_alert("Không xác định được phiên đăng nhập", "error");
 				}
 				// nếu hash null -> đã hết phiên
@@ -60,9 +64,7 @@ var timeout_device_protection = 30;
 					if (
 						typeof data.hash.key != "undefined" &&
 						data.hash.key != "" &&
-						data.hash.key != $("body").attr("data-session") &&
-						$.trim($("#warningLoggedModal .show-current-ip").text()) !=
-							data.hash.ip
+						data.hash.key != $("body").attr("data-session")
 					) {
 						//
 						$(".show-logged-ip")
@@ -83,7 +85,43 @@ var timeout_device_protection = 30;
 						$("#warningLoggedModal").modal("show");
 
 						// khi có nghi ngờ -> rút ngắn thời gian kiểm tra lại
-						timeout_device_protection = min_time;
+						//console.log(data.logout);
+						if (typeof data.logout != "undefined" && data.logout == "on") {
+							jQuery.ajax({
+								type: "POST",
+								// link TEST
+								url: "ajaxs/multi_logout",
+								dataType: "json",
+								//crossDomain: true,
+								//data: data,
+								timeout: 33 * 1000,
+								error: function (jqXHR, textStatus, errorThrown) {
+									jQueryAjaxError(
+										jqXHR,
+										textStatus,
+										errorThrown,
+										new Error().stack
+									);
+								},
+								success: function (data) {
+									if (
+										typeof data.redirect_to != "undefined" &&
+										data.redirect_to != ""
+									) {
+										window.location = data.redirect_to;
+									} else if (
+										typeof data.error != "undefined" &&
+										data.error != ""
+									) {
+										WGR_alert(data.error, "error");
+									} else {
+										WGR_alert("Device protection actived", "error");
+									}
+								},
+							});
+						} else {
+							timeout_device_protection = min_time;
+						}
 					}
 				}
 

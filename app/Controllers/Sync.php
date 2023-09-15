@@ -199,6 +199,9 @@ class Sync extends BaseController
                 'join' => array(
                     'term_taxonomy t' => 'terms.term_id = t.term_id'
                 ),
+                'group_by' => array(
+                    'terms.term_id',
+                ),
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
                 // trả về câu query để sử dụng cho mục đích khác
@@ -286,6 +289,9 @@ class Sync extends BaseController
                 'join' => array(
                     'term_relationships r' => 'r.object_id = posts.ID',
                     'term_taxonomy t' => 'r.term_taxonomy_id = t.term_taxonomy_id',
+                ),
+                'group_by' => array(
+                    'posts.ID',
                 ),
                 // hiển thị mã SQL để check
                 //'show_query' => 1,

@@ -2,6 +2,10 @@
 
 namespace App\Controllers;
 
+//
+use App\Libraries\UsersType;
+
+//
 class Ajaxs extends Layout
 {
     // chức năng này không cần nạp header
@@ -14,8 +18,18 @@ class Ajaxs extends Layout
         parent::__construct();
     }
 
-    public function multi_loged()
+    public function multi_logged()
     {
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            $this->result_json_type(
+                [
+                    'code' => __LINE__,
+                    'error' => 'Bad request!',
+                ]
+            );
+        }
+
+        //
         //die( json_encode( $_GET ) );
 
         // lấy nội dung đăng nhập cũ trước khi lưu phiên mới
@@ -24,12 +38,51 @@ class Ajaxs extends Layout
         // lưu session id của người dùng vào file
         $this->user_model->set_logged($this->current_user_id);
 
-
         // trả về key đã lưu của người dùng trong file
         $this->result_json_type(
             [
                 't' => time(),
-                'hash' => $result
+                // nếu có thông số tự logout phiên của người dùng thì tiến hành logout luôn
+                'logout' => $this->getconfig->logout_device_protection,
+                'hash' => $result,
+            ]
+        );
+    }
+
+    /**
+     * Khi phát hiện người dùng đăng nhập trên nhiều thiết bị, mà chức năng auto logout được kích hoạt -> tiến hành logout tk của người dùng vào nạp lại trang
+     **/
+    public function multi_logout()
+    {
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            $this->result_json_type(
+                [
+                    'code' => __LINE__,
+                    'error' => 'Bad request!',
+                ]
+            );
+        }
+
+        //
+        if ($this->getconfig->block_device_protection == '' && $this->current_user_id > 0) {
+            $this->user_model->update_member($this->current_user_id, [
+                // khóa tk user
+                'user_status' => UsersType::NO_LOGIN,
+                // bỏ qua admin
+                'member_type !=' => UsersType::ADMIN,
+            ]);
+        }
+
+        //
+        session_destroy();
+        //$this->base_model->MY_session('admin', []);
+
+        // trả về key đã lưu của người dùng trong file
+        $this->result_json_type(
+            [
+                'code' => __LINE__,
+                'error' => 'Device protection destroy',
+                //'redirect_to' => base_url('guest/login'),
             ]
         );
     }
