@@ -60,7 +60,9 @@ var timeout_device_protection = 30;
 					if (
 						typeof data.hash.key != "undefined" &&
 						data.hash.key != "" &&
-						data.hash.key != $("body").attr("data-session")
+						data.hash.key != $("body").attr("data-session") &&
+						$.trim($("#warningLoggedModal .show-current-ip").text()) !=
+							data.hash.ip
 					) {
 						//
 						$(".show-logged-ip")

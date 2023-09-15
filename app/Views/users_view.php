@@ -39,7 +39,7 @@ if (!isset($breadcrumb)) {
     ?>
 </head>
 
-<body class="<?php echo $seo['body_class']; ?> is-<?php echo $current_user_type; ?>">
+<body data-session="<?php echo session_id(); ?>" class="<?php echo $seo['body_class']; ?> is-<?php echo $current_user_type; ?>">
     <?php
 
     //

@@ -9,7 +9,7 @@
             <div class="modal-body medium">
                 <p class="redcolor">Vui lòng không đăng nhập trên nhiều thiết bị hoặc nhiều trình duyệt khác nhau!</p>
                 <p>Lịch sử đăng nhập của bạn đã được lưu lại để kiểm tra. Trong một số trường hợp! Nếu phát hiện hành vi gian lận, chúng tôi sẽ tiến hành khóa tài khoản của bạn.</p>
-                <p>IP của bạn: <a href="https://www.iplocation.net" target="_blank" rel="nofollow" class="bold greencolor"><?php echo $_SERVER[ 'REMOTE_ADDR' ]; ?></a></p>
+                <p>IP của bạn: <a href="https://www.iplocation.net" target="_blank" rel="nofollow" class="bold greencolor show-current-ip"><?php echo $_SERVER['REMOTE_ADDR']; ?></a></p>
                 <p>IP nghi vấn: <a target="_blank" rel="nofollow" class="show-logged-ip bold redcolor"></a></p>
                 <p>Thiết bị: <strong class="show-logged-device"></strong></p>
                 <p>Trình duyệt: <strong class="show-logged-agent"></strong></p>
@@ -24,14 +24,14 @@
 <?php
 
 //
-if ( $current_user_id > 0 ) {
+if ($current_user_id > 0) {
     // lưu session id của người dùng vào file
-    $user_model->set_logged( $current_user_id );
+    $user_model->set_logged($current_user_id);
 
     // nạp js cảnh báo đăng nhập
-    $base_model->add_js( 'javascript/device_protection.js', [
+    $base_model->add_js('javascript/device_protection.js', [
         'cdn' => CDN_BASE_URL,
     ], [
         'defer'
-    ] );
+    ]);
 }

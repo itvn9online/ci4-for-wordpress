@@ -3,10 +3,21 @@
  */
 
 // update lượt xem cho post -> do web có dùng cache nên update qua đây mới đúng số
-function update_post_viewed(fview) {
-	if (typeof post_id == "undefined" || typeof post_author == "undefined") {
-		console.log("%c post_id OR post_author is undefined", "color: red");
-		return false;
+function update_post_viewed(fview, custom_id) {
+	if (typeof post_id == "undefined") {
+		if (
+			typeof custom_id == "undefined" ||
+			typeof custom_id != "number" ||
+			custom_id <= 0
+		) {
+			console.log("%c post_id is undefined", "color: red");
+			return false;
+		} else {
+			post_id = custom_id;
+		}
+	}
+	if (typeof post_author == "undefined") {
+		post_author = 0;
 	}
 
 	//
