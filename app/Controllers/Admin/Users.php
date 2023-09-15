@@ -496,6 +496,11 @@ class Users extends Admin
                 */
             }
         }
+        //print_r($data);
+        if (isset($data['firebase_uid']) && isset($_POST['firebase_old_uid']) && !empty($data['firebase_uid']) && $data['firebase_uid'] != $_POST['firebase_old_uid']) {
+            $data['firebase_uid'] = $this->base_model->mdnam($data['firebase_uid']);
+            //print_r($data);
+        }
 
         //
         //print_r( $data );

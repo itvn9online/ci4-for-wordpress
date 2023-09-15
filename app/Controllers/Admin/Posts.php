@@ -804,7 +804,7 @@ class Posts extends Admin
                 $data[$k] = strtotime($data[$k]);
             }
         }
-        //print_r( $data );
+        //print_r($data);
 
         //
         $result_id = $this->post_model->update_post($id, $data, [

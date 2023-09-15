@@ -97,12 +97,12 @@ class Ajaxs extends Layout
 
     public function update_post_viewed()
     {
-        $resuire_data = [
+        $require_data = [
             //'current_user_id',
             'pid',
-            'post_author',
+            //'post_author',
         ];
-        foreach ($resuire_data as $v) {
+        foreach ($require_data as $v) {
             if (!isset($_POST[$v]) || empty($_POST[$v])) {
                 $this->result_json_type([
                     'msg' => $v,
@@ -113,7 +113,8 @@ class Ajaxs extends Layout
 
         // nếu là tác giả đang xem thì chỉ tăng 1 lượt xem thôi
         $current_user_id = $this->MY_post('current_user_id', 0);
-        if ($current_user_id > 0 && $current_user_id == $this->MY_post('post_author', 0)) {
+        $post_author = $this->MY_post('post_author', 0);
+        if ($current_user_id > 0 && $current_user_id == $post_author) {
             $val = 1;
         } else {
             // người khác vào xem thì tăng mạnh hơn -> fview = fake view -> ngoài FE viết tắt tí cho kỳ bí
