@@ -95,6 +95,38 @@ class Sync extends BaseController
     }
 
     /**
+     * Bảng dùng để lưu phiên đăng nhập của người dùng
+     * 1 số website không cho đăng nhập nhiều nơi cùng lúc -> dùng bảng này để xác định phiên cuối
+     **/
+    protected function tbl_logged($tbl = 'ci_logged')
+    {
+        $table = WGR_TABLE_PREFIX . $tbl;
+
+        // xem bảng này có chưa -> có rồi thì thôi
+        if ($this->base_model->table_exists($table)) {
+            echo 'TABLE exist ' . $table . '<br>' . PHP_EOL;
+            return false;
+        }
+
+        //
+        $sql = "CREATE TABLE IF NOT EXISTS `$table` (
+            `id` BIGINT(20) NOT NULL AUTO_INCREMENT ,
+            `ip` VARCHAR(255) NOT NULL DEFAULT '' ,
+            `key` VARCHAR(255) NOT NULL DEFAULT '' ,
+            `session_id` VARCHAR(255) NOT NULL DEFAULT '' ,
+            `agent` VARCHAR(255) NOT NULL DEFAULT '' ,
+            `created_at` BIGINT(20) NOT NULL DEFAULT '0' ,
+            PRIMARY KEY (`id`) ,
+            INDEX (`key`) ,
+            INDEX (`session_id`)
+            ) ENGINE = MEMORY CHARSET=utf8mb4 COLLATE utf8mb4_general_ci";
+        echo 'CREATE TABLE IF NOT EXISTS `' . $table . '` <br>' . PHP_EOL;
+
+        //
+        return $this->base_model->MY_query($sql);
+    }
+
+    /**
      * Bảng để lưu event webhook của Zalo OA
      **/
     protected function tbl_webhook_zalooa($tbl = 'webhook_zalo_oa')
@@ -193,7 +225,6 @@ class Sync extends BaseController
             'terms',
             array(
                 // các kiểu điều kiện where
-
             ),
             array(
                 'join' => array(
@@ -331,6 +362,7 @@ class Sync extends BaseController
         $this->cloneDbTable('posts', 'orders');
         $this->cloneDbTable('options', 'options_deleted');
         $this->tbl_sessions();
+        $this->tbl_logged();
 
         //
         $prefix = WGR_TABLE_PREFIX;

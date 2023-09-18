@@ -23,9 +23,21 @@
                             <div class="form-control">
                                 <input type="email" placeholder="Email" name="data[user_email]" id="data_user_email" value="<?php echo $data['user_email']; ?>" disabled readonly aria-required="true" required>
                             </div>
-                            <div class="top-menu-space10">Nếu bạn thay đổi email, chúng tôi sẽ gửi một email xác nhận
-                                đến địa chỉ email cũ. <strong>Email mới sẽ không được kích hoạt cho đến khi bạn xác nhận
-                                    thay đổi</strong> - <em class="cur bluecolor cancel-change-email">Hủy bỏ <i class="fa fa-remove"></i></em></div>
+                            <div class="top-menu-space10">
+                                <?php
+                                if (strpos($data['user_email'], '@' . $_SERVER['HTTP_HOST']) === false) {
+                                ?>
+                                    Khi bạn thay đổi email, chúng tôi sẽ gửi một mail xác nhận
+                                    đến địa chỉ email cũ. <strong>Email mới sẽ không được kích hoạt cho đến khi bạn xác nhận
+                                        thay đổi</strong>
+                                <?php
+                                } else {
+                                ?>
+                                    Email hiện tại là email tự động được tạo ra bởi hệ thống và không thể sử dụng nó. Vui lòng đổi sang email riêng của bạn (nếu có)
+                                <?php
+                                }
+                                ?>
+                                - <em class="cur bluecolor cancel-change-email">Hủy bỏ <i class="fa fa-remove"></i></em></div>
                         </div>
                     </div>
                 </div>

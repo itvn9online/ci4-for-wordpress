@@ -13,6 +13,8 @@ class UserBase extends EbModel
 
     public $metaTable = 'usermeta';
     public $metaKey = 'umeta_id';
+    // hẹn giờ trong khoảng thời gian này mà người dùng đăng nhập 2 thiết bị -> KHÓA
+    protected $time_checker = 120;
 
     public function __construct()
     {
@@ -216,19 +218,171 @@ class UserBase extends EbModel
     }
 
     // lưu session id của người dùng vào file, nếu máy khác truy cập thì báo luôn là đăng đăng nhập nơi khác
-    public function set_logged($id)
+    public function setLogged($id)
     {
-        return $this->base_model->scache($this->key_cache($id) . 'logged', [
-            'key' => session_id(),
+        //return $this->cacheLogged($id);
+        return $this->insertLogged($id, session_id());
+    }
+    // trả về thông tin phiên đăng nhập của người dùng
+    public function getLogged($id)
+    {
+        //return $this->base_model->scache($this->key_cache($id) . 'logged');
+        return $this->insertLogged($id);
+    }
+
+    /**
+     * Lưu phiên đăng nhập vào cache -> ko nên dùng do cache phân định mobile và desktop
+     **/
+    protected function cacheLogged($id)
+    {
+        // lấy session ID trước đó
+        $sid = session_id();
+        //$sid = $this->wrtieLogged($id);
+        // xong lưu session ID mới
+        //$this->wrtieLogged($id, session_id());
+
+        //
+        $data = [
+            'key' => $sid,
             't' => time(),
             'agent' => $_SERVER['HTTP_USER_AGENT'],
             'ip' => $_SERVER['REMOTE_ADDR'],
+        ];
+
+        // sử dụng cache -> dễ lỗi khi chạy 2 thiết bị khác nhau
+        return $this->base_model->scache($this->key_cache($id) . 'logged', $data);
+    }
+
+    /**
+     * Trả về key đê lưu phiên đăng nhập của người dùng trong database
+     **/
+    protected function keyLogged($id)
+    {
+        return $id . __FUNCTION__;
+    }
+
+    /**
+     * Lưu phiên đăng nhập vào database
+     **/
+    protected function insertLogged($id, $sid = '')
+    {
+        if ($sid == '') {
+            // hẹn giờ xóa bớt database cho nhẹ
+            $time_remove = 600;
+
+            //
+            $in_cache = 'cleanup_' . __FUNCTION__;
+            if ($this->base_model->scache($in_cache) === NULL) {
+                // không cho xóa liên tục
+                $this->base_model->scache($in_cache, time(), $time_remove);
+
+                //
+                $this->base_model->delete_multiple('ci_logged', [
+                    // WHERE
+                    'created_at <' => time() - $time_remove,
+                ], [
+                    // hiển thị mã SQL để check
+                    //'show_query' => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    //'get_query' => 1,
+                ]);
+            }
+
+            //
+            return $this->base_model->select(
+                'ip, session_id AS key, agent, created_at AS t',
+                'ci_logged',
+                array(
+                    'key' => $this->keyLogged($id),
+                    'session_id !=' => session_id(),
+                    // thời gian kiểm tra, tính toán để không quá lâu cũng ko quá nhanh -> dễ khóa nhầm
+                    'created_at >' => time() - $this->time_checker,
+                ),
+                array(
+                    'order_by' => array(
+                        'id' => 'DESC'
+                    ),
+                    // hiển thị mã SQL để check
+                    //'show_query' => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    //'get_query' => 1,
+                    // trả về COUNT(column_name) AS column_name
+                    //'selectCount' => 'ID',
+                    // trả về tổng số bản ghi -> tương tự mysql num row
+                    //'getNumRows' => 1,
+                    //'offset' => 0,
+                    'limit' => 1
+                )
+            );
+        }
+        return $this->base_model->insert('ci_logged', [
+            'ip' => $_SERVER['REMOTE_ADDR'],
+            'key' => $this->keyLogged($id),
+            'session_id' => $sid,
+            'agent' => $_SERVER['HTTP_USER_AGENT'],
+            'created_at' => time(),
         ]);
     }
-    // trả về thông tin phiên đăng nhập của người dùng
-    public function get_logged($id)
+
+    /**
+     * Lưu ID phiên đăng nhập vào thư mục riêng -> lưu trong cache bị phân biệt desktop và mobile -do prefix
+     **/
+    protected function wrtieLogged($id, $sid = '')
     {
-        return $this->base_model->scache($this->key_cache($id) . 'logged');
+        // thư mục lưu trữ phiên đăng nhập theo ID
+        $dir = WRITEPATH . 'logged';
+        // thêm ngày tháng để xóa log cho tiện
+        $f = $dir . '/' . date('Y-m-d');
+        if (!is_dir($f)) {
+            // tạo thư mục logged nếu chưa có
+            if (!is_dir($dir)) {
+                mkdir($dir, DEFAULT_DIR_PERMISSION) or die('ERROR create dir (' . __CLASS__ . ':' . __LINE__ . ')! ' . $dir);
+                chmod($dir, DEFAULT_DIR_PERMISSION);
+            }
+
+            // tạo theo ngày tháng
+            mkdir($f, DEFAULT_DIR_PERMISSION) or die('ERROR create dir (' . __CLASS__ . ':' . __LINE__ . ')! ' . $f);
+            chmod($f, DEFAULT_DIR_PERMISSION);
+        }
+        $f .= '/' . $id . __FUNCTION__ . '.txt';
+
+        //
+        if ($sid != '') {
+            file_put_contents($f, time() . '|' . $sid);
+            chmod($f, DEFAULT_FILE_PERMISSION);
+            return true;
+        }
+
+        //
+        $result = '';
+        if (file_exists($f)) {
+            $result = file_get_contents($f);
+            $result = explode('|', $result);
+            if (is_numeric($result[0]) && time() - $result[0] < 120) {
+                $result = $result[1];
+            } else {
+                $result = '';
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Xóa phiên đăng nhập trong database để dọn dẹp dữ liệu mỗi khi người dùng confirm
+     **/
+    public function confirmLogged($id)
+    {
+        return $this->base_model->delete_multiple('ci_logged', [
+            // WHERE
+            'key' => $this->keyLogged($id),
+            //'created_at <' => time() - $this->time_checker,
+            'session_id !=' => session_id(),
+        ], [
+            // hiển thị mã SQL để check
+            //'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+        ]);
     }
 
     // trả về key cho user cache

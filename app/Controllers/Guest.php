@@ -433,7 +433,9 @@ class Guest extends Csrf
                 if (!$this->validation->run($data)) {
                     $this->set_validation_error($this->validation->getErrors(), $this->form_target);
                 } else {
-                    if ($this->check_resetpass() === true) {
+                    if (strpos($data['user_email'], '@' . $_SERVER['HTTP_HOST']) === false) {
+                        $this->base_model->alert('Chức năng Quên mật khẩu không thể sử dụng cho các email tự động!', 'error');
+                    } else if ($this->check_resetpass() === true) {
                         // sử dụng cache để không cho người dùng gửi email liên tục
                         $in_cache = __FUNCTION__ . $this->base_model->_eb_non_mark_seo($data['email']);
                         //die( $in_cache );

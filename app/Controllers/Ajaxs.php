@@ -30,13 +30,13 @@ class Ajaxs extends Layout
         }
 
         //
-        //die( json_encode( $_GET ) );
+        //die(json_encode($_GET));
 
         // lấy nội dung đăng nhập cũ trước khi lưu phiên mới
-        $result = $this->user_model->get_logged($this->current_user_id);
+        $result = $this->user_model->getLogged($this->current_user_id);
 
         // lưu session id của người dùng vào file
-        $this->user_model->set_logged($this->current_user_id);
+        $this->user_model->setLogged($this->current_user_id);
 
         // trả về key đã lưu của người dùng trong file
         $this->result_json_type(
@@ -64,13 +64,16 @@ class Ajaxs extends Layout
         }
 
         //
-        if ($this->getconfig->block_device_protection == '' && $this->current_user_id > 0) {
-            $this->user_model->update_member($this->current_user_id, [
+        $msg = 'Device protection destroy';
+        $blocked = NULL;
+        if ($this->getconfig->block_device_protection == 'on' && $this->current_user_id > 0) {
+            $blocked = $this->user_model->update_member($this->current_user_id, [
                 // khóa tk user
                 'user_status' => UsersType::NO_LOGIN,
                 // bỏ qua admin
                 'member_type !=' => UsersType::ADMIN,
             ]);
+            $msg = 'Device protection blocked';
         }
 
         //
@@ -81,8 +84,33 @@ class Ajaxs extends Layout
         $this->result_json_type(
             [
                 'code' => __LINE__,
-                'error' => 'Device protection destroy',
+                'error' => $msg,
+                'blocked' => $blocked,
                 //'redirect_to' => base_url('guest/login'),
+            ]
+        );
+    }
+
+    /**
+     * Khi người dùng bấm xác nhận không đăng nhập nhiều thiết bị -> don dẹp luôn dữ liệu
+     **/
+    public function confirm_logged()
+    {
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            $this->result_json_type(
+                [
+                    'code' => __LINE__,
+                    'error' => 'Bad request!',
+                ]
+            );
+        }
+
+        //
+        $this->result_json_type(
+            [
+                't' => time(),
+                'code' => __LINE__,
+                'result' => $this->user_model->confirmLogged($this->current_user_id),
             ]
         );
     }
@@ -109,7 +137,6 @@ class Ajaxs extends Layout
             array(
                 // WHERE AND OR
                 //'is_member' => User_type::GUEST,
-
             ),
             array(
                 'where_in' => array(

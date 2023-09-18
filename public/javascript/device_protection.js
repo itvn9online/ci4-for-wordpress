@@ -68,7 +68,8 @@ var timeout_device_protection = 30;
 					) {
 						//
 						$(".show-logged-ip")
-							.text(data.hash.ip)
+							//.text(data.hash.ip)
+							.text(data.hash.key)
 							.attr({
 								href:
 									"https://www.iplocation.net/ip-lookup?query=" + data.hash.ip,
@@ -140,3 +141,22 @@ var timeout_device_protection = 30;
 		}, 5 * 1000);
 	}
 })();
+
+//
+function confirm_kip_logged() {
+	jQuery.ajax({
+		type: "POST",
+		// link TEST
+		url: "ajaxs/confirm_logged",
+		dataType: "json",
+		//crossDomain: true,
+		//data: data,
+		timeout: 33 * 1000,
+		error: function (jqXHR, textStatus, errorThrown) {
+			jQueryAjaxError(jqXHR, textStatus, errorThrown, new Error().stack);
+		},
+		success: function (data) {
+			console.log(data);
+		},
+	});
+}

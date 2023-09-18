@@ -105,7 +105,6 @@ $base_model->JSON_echo(
     ],
     [
         // mảng này sẽ in ra dưới dạng string
-
     ]
 );
 
