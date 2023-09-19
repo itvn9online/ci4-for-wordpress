@@ -157,7 +157,10 @@ class PostPosts extends PostSlider
         echo $this->get_the_product_node($data, $ops, $default_arr);
     }
 
-    // post
+    /**
+     * undocumented function summary
+     * https://github.com/itvn9online/ci4-for-wordpress#function-l%E1%BA%A5y-danh-s%C3%A1ch-s%E1%BA%A3n-ph%E1%BA%A9m-theo-danh-m%E1%BB%A5c
+     **/
     public function get_posts_by($prams, $ops = [], $in_cache = '', $cache_time = 300)
     {
         $prams = $this->sync_post_parms($prams);
