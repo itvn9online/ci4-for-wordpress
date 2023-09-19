@@ -13,29 +13,30 @@ if (!empty($child_data)) {
 
     //
 ?>
-    <div id="category_main" class="main-products-list <?php $option_model->products_in_line($getconfig); ?>">
-        <?php
+    <div class="col-main-padding col-<?php echo $data['taxonomy']; ?>-padding">
+        <div class="global-cats-description global-<?php echo $data['taxonomy']; ?>-description ul-default-style img-max-width">
+            <?php echo $data['description']; ?>
+        </div>
+        <div>
+            <div id="category_main" class="main-products-list <?php $option_model->products_in_line($getconfig); ?>">
+                <?php
 
-        foreach ($child_data as $child_key => $child_val) {
-            //echo '<!-- ';
-            //print_r( $child_val );
-            //echo ' -->';
+                foreach ($child_data as $child_key => $child_val) {
+                    //echo '<!-- ';
+                    //print_r( $child_val );
+                    //echo ' -->';
 
-            //
-            $post_model->the_product_node($child_val, [
-                'taxonomy_post_size' => $taxonomy_post_size,
-            ]);
-        }
+                    //
+                    $post_model->the_product_node($child_val, [
+                        'taxonomy_post_size' => $taxonomy_post_size,
+                    ]);
+                }
 
-        ?>
-    </div>
-    <br>
-    <div class="public-part-page">
-        <?php
-
-        echo $public_part_page;
-
-        ?>
+                ?>
+            </div>
+            <br>
+            <div class="public-part-page"><?php echo $public_part_page; ?></div>
+        </div>
     </div>
 <?php
 }

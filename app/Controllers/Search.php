@@ -10,6 +10,7 @@ class Search extends Csrf
 {
     protected $post_type = PostType::POST;
     protected $post_per_page = 0;
+    protected $base_slug = '';
 
     public function __construct()
     {
@@ -52,7 +53,11 @@ class Search extends Csrf
             $where_or_like = [];
             // URL cho phân trang tìm kiếm
             if ($base_slug == '') {
-                $urlPartPage = $this->base_class_url(__CLASS__);
+                if ($this->base_slug == '') {
+                    $urlPartPage = $this->base_class_url(__CLASS__);
+                } else {
+                    $urlPartPage = $this->base_slug;
+                }
             } else {
                 $urlPartPage = $base_slug;
             }

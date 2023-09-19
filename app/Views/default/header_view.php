@@ -57,5 +57,7 @@ else {
 <?php
 } // END desktop
 
-//
+// tìm kiếm tin tức (mặc định)
 include VIEWS_PATH . 'includes/header_modal_search.php';
+// tìm kiếm sản phẩm (nếu đã gọi tìm tin tức rồi thì thôi đoạn này)
+//include VIEWS_PATH . 'includes/header_modal_products_search.php';

@@ -16,6 +16,9 @@ $theme_private_view = VIEWS_CUSTOM_PATH . 'default/' . $post_type . '-' . basena
 
 //
 if (file_exists($theme_private_view)) {
+    if ($debug_enable === true) {
+        echo '<div class="wgr-view-path">' . str_replace(PUBLIC_HTML_PATH, '', $theme_private_view) . '</div>';
+    }
     include $theme_private_view;
 
     // nạp file js cho từng search post type (nếu có)
@@ -28,11 +31,14 @@ if (file_exists($theme_private_view)) {
 //
 else {
     // thử tìm file search riêng (dạng dùng chung)
-    $search_type_view = __DIR__ . '/' . $post_type . '-' . basename(__FILE__);
+    $search_type_view = VIEWS_PATH . 'default/' . $post_type . '-' . basename(__FILE__);
+    //echo $search_type_view . '<br>' . PHP_EOL;
 
     // có thì ưu tiên dùng
     if (file_exists($search_type_view)) {
-        //echo $search_type_view . '<br>' . PHP_EOL;
+        if ($debug_enable === true) {
+            echo '<div class="wgr-view-path">' . str_replace(PUBLIC_HTML_PATH, '', $search_type_view) . '</div>';
+        }
         include $search_type_view;
 
         // nạp file js cho từng search post type (nếu có)

@@ -1,7 +1,7 @@
 <?php
 
 //
-//print_r( $data );
+//print_r($data);
 //print_r( $getconfig );
 
 // tự động tạo slider nếu có
