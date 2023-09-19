@@ -314,12 +314,13 @@ class PostQuery extends PostMeta
         }
 
         //
-        //print_r( $_POST );
+        //print_r($_POST);
         //print_r($data_meta);
         if (!empty($data_meta)) {
             //print_r($data_meta);
             $this->insert_meta_post($data_meta, $post_id, $clear_meta, $post_type);
         } else if (isset($_POST['post_meta'])) {
+            //print_r($_POST);
             $this->insert_meta_post($_POST['post_meta'], $post_id, $clear_meta, $post_type);
         }
 

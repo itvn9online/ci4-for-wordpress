@@ -221,6 +221,24 @@ class PostMeta extends PostBase
         }
         //print_r($json_meta_data);
 
+        // xóa các post meta bị unchecked
+        if (isset($_POST['post_uncheck_meta'])) {
+            $post_uncheck_meta = $_POST['post_uncheck_meta'];
+            //print_r($post_uncheck_meta);
+            //print_r($meta_default);
+            foreach ($post_uncheck_meta as $k => $v) {
+                if (isset($meta_default[$k])) {
+                    echo 'DELETE post_uncheck_meta ' . $k . ' ' . $v . '<br>' . PHP_EOL;
+
+                    //
+                    $this->base_model->delete_multiple($this->metaTable, [
+                        'post_id' => $post_id,
+                        'meta_key' => $k,
+                    ]);
+                }
+            }
+        }
+
         //
         $insert_meta = [];
         $update_meta = [];

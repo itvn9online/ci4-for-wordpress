@@ -45,6 +45,22 @@ $("#post_meta_image_size").change(function () {
 	}
 });
 
+// khi các post meta được bỏ check -> sẽ có 1 post meta khác được checked -> để lệnh update còn biết cái nào bỏ check mà remove
+$(".post_uncheck_meta").change(function () {
+	var a = $(this).attr("id") || "";
+	if (a != "") {
+		a = a.replace("post_meta_", "post_uncheck_meta_");
+		if ($("." + a).length > 0) {
+			console.log("post_uncheck_meta_:", a);
+			if ($(this).is(":checked")) {
+				$("." + a).prop("checked", false);
+			} else {
+				$("." + a).prop("checked", true);
+			}
+		}
+	}
+});
+
 // select sẵn size ảnh nếu có
 (function () {
 	if ($("#post_meta_image_size").length === 0) {

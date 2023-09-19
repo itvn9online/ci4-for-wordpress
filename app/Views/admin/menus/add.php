@@ -108,7 +108,7 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                     <div class="control-group hide-if-edit-menu post_meta_<?php echo $k; ?>">
                         <div class="controls controls-checkbox">
                             <label for="post_meta_<?php echo $k; ?>">
-                                <input type="checkbox" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" value="on" data-value="<?php $post_model->echo_meta_post($data, $k); ?>" />
+                                <input type="checkbox" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" value="on" data-value="<?php $post_model->echo_meta_post($data, $k); ?>" class="post_uncheck_meta" />
                                 <?php echo $v; ?>
                             </label>
                             <?php
@@ -118,6 +118,8 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
 
                             ?>
                         </div>
+                        <!-- uncheck phải cho ra khỏi label để không dính hiệu ứng click vào label -->
+                        <input type="checkbox" name="post_uncheck_meta[<?php echo $k; ?>]" class="d-none post_uncheck_meta_<?php echo $k; ?>" value="on" />
                     </div>
                 <?php
 
