@@ -268,20 +268,28 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
             ?>
                 <div class="control-group">
                     <label for="quick_add_menu" class="control-label">Thêm kết nội bộ</label>
-                    <div class="controls">
-                        <select id="quick_add_menu">
-                            <option value="">[ Thêm nhanh Tiên kết ]</option>
-                            <?php
+                    <div id="quick_add_menu" class="controls">
+                        <?php
 
-                            $quick_menu_list = $post_model->get_site_inlink($data['lang_key']);
-                            //print_r( $quick_menu_list );
-                            //echo implode( '', $quick_menu_list );
+                        $quick_menu_list = $post_model->get_site_inlink($data['lang_key']);
+                        //print_r( $quick_menu_list );
+                        //echo implode( '', $quick_menu_list );
 
-                            ?>
-                            <option :value="v.value" v-for="v in quick_menu_list" :class="v.class" :disabled="v.selectable">
-                                {{v.text}}
-                            </option>
-                        </select>
+                        // chạy 1 vòng lặp -> lấy các loại menu ra để tạo select -> dễ lọc
+                        foreach ($quick_menu_list as $k => $v) {
+                        ?>
+                            <div>
+                                <select class="form-select">
+                                    <!-- <option value="">[ Thêm nhanh Tiên kết ]</option> -->
+                                    <option :value="v.value" v-for="v in quick_menu_list.<?php echo $k; ?>" :class="v.class" :data-xoa-disabled="v.selectable">{{v.text}}</option>
+                                </select>
+                            </div>
+                            <br>
+                        <?php
+                        }
+
+                        ?>
+                        <p class="controls-text-note">Khi cần liên kết đến 1 URL trong website, có thể chọn 1 trong các liên kết nội bộ đã được liệt kê sẵn ở đây.</p>
                     </div>
                 </div>
             <?php
@@ -334,7 +342,6 @@ $base_model->JSON_echo([
 
 ?>
 <script>
-    // do phần menu chưa xử lý được bằng vue-js nên vẫn phải dùng angular
     WGR_vuejs('#myApp', {
         parent_post: parent_post,
         post_status: post_arr_status,

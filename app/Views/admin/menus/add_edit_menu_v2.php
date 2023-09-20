@@ -73,19 +73,28 @@
                 <form class="form-inline" onSubmit="return get_json_add_menu(this);" id="menu-add">
                     <h3>Thêm menu</h3>
                     <div>
-                        <div class="form-group">
-                            <label for="addInputName">Thêm nhanh</label>
-                            <select id="quick_add_menu">
-                                <option value="">[ Thêm nhanh menu ]</option>
-                                <?php
+                        <div id="quick_add_menu" class="form-group">
+                            <p>* Thêm nhanh menu. Chọn 1 trong các link có sẵn dưới đây sau đó bấm [Thêm mới]</p>
+                            <?php
 
-                                $quick_menu_list = $post_model->get_site_inlink($data['lang_key']);
-                                //print_r( $quick_menu_list );
-                                //echo implode( '', $quick_menu_list );
+                            $quick_menu_list = $post_model->get_site_inlink($data['lang_key']);
+                            //print_r($quick_menu_list);
+                            //echo implode('', $quick_menu_list);
 
-                                ?>
-                                <option ng-repeat="v in quick_menu_list" ng-value="v.value" ng-disabled="v.selectable" ng-class="v.class">{{v.text}}</option>
-                            </select>
+                            // chạy 1 vòng lặp -> lấy các loại menu ra để tạo select -> dễ lọc
+                            foreach ($quick_menu_list as $k => $v) {
+                            ?>
+                                <div>
+                                    <select class="form-select">
+                                        <!-- <option value="">[ Thêm nhanh menu ]</option> -->
+                                        <option ng-repeat="v in quick_menu_list.<?php echo $k; ?>" ng-value="v.value" data-xoa-ng-disabled="v.selectable" ng-class="v.class">{{v.text}}</option>
+                                    </select>
+                                </div>
+                                <br>
+                            <?php
+                            }
+
+                            ?>
                         </div>
                     </div>
                     <div>

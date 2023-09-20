@@ -366,8 +366,8 @@ if (localStorage.getItem("admin-show-hidden-menu") !== null) {
 //create_html_menu_editer();
 //});
 
-$("#quick_add_menu").change(function () {
-	var v = $("#quick_add_menu").val() || "";
+$("#quick_add_menu select").change(function () {
+	var v = $(this).val() || "";
 
 	if (v != "") {
 		var base_url = $("base ").attr("href") || "";
@@ -376,7 +376,7 @@ $("#quick_add_menu").change(function () {
 		}
 
 		//
-		$("#addInputName").val($("#quick_add_menu option:selected").text());
+		$("#addInputName").val($("option:selected", this).text());
 	} else {
 		$("#addInputName").val(v);
 	}
@@ -386,7 +386,7 @@ $("#quick_add_menu").change(function () {
 
 /*
 $(document).ready(function () {
-    MY_select2('#quick_add_menu');
+    MY_select2('#quick_add_menu select');
 });
 */
 

@@ -16,10 +16,10 @@ class PostAdmin extends Post
         parent::__construct();
     }
 
-    /*
+    /**
      * Tạo danh sách link để thêm menu trong admin cho tiện
      * Trả về danh sách các liên kết nội bộ trong website
-     */
+     **/
     public function get_site_inlink($lang_key = '', $limit = 500, $clear_cache = false, $time = MINI_CACHE_TIMEOUT)
     {
         // cache
@@ -27,6 +27,7 @@ class PostAdmin extends Post
             $lang_key = LanguageCost::lang_key();
         }
         $in_cache = __FUNCTION__ . '-' . $lang_key;
+        //echo $in_cache;
 
         // xóa cache nếu có yêu cầu
         if ($clear_cache === true) {
@@ -92,14 +93,14 @@ class PostAdmin extends Post
             //
             if (isset($arr_custom_name[$allow])) {
                 //$arr_result[] = '<option class="bold" disabled>' . $arr_custom_name[ $allow ] . '</option>';
-                $arr_result[] = [
+                $arr_result[$allow][] = [
                     'class' => 'medium',
                     'selectable' => true,
                     'text' => $arr_custom_name[$allow],
                 ];
             } else {
                 //$arr_result[] = '<option class="bold" disabled>' . TaxonomyType::typeList( $allow ) . '</option>';
-                $arr_result[] = [
+                $arr_result[$allow][] = [
                     'class' => 'medium',
                     'selectable' => true,
                     'text' => TaxonomyType::typeList($allow),
@@ -108,7 +109,7 @@ class PostAdmin extends Post
 
             //
             foreach ($category_list as $cat_key => $cat_val) {
-                $arr_result[] = [
+                $arr_result[$allow][] = [
                     'value' => $this->term_model->get_term_permalink($cat_val),
                     'text' => $cat_val['name'],
                 ];
@@ -126,15 +127,16 @@ class PostAdmin extends Post
 
                 //
                 foreach ($child_list as $child_key => $child_val) {
-                    $arr_result[] = [
+                    $arr_result[$allow][] = [
                         'value' => $this->term_model->get_term_permalink($child_val),
                         'text' => $child_val['name'],
                     ];
                 }
             }
-            //print_r( $arr_result );
-            //die( __CLASS__ . ':' . __LINE__ );
         }
+        //return $arr_result;
+        //print_r($arr_result);
+        //die(__CLASS__ . ':' . __LINE__);
 
 
         //
@@ -202,14 +204,14 @@ class PostAdmin extends Post
             //
             if (isset($arr_custom_name[$allow])) {
                 //$arr_result[] = '<option class="bold" disabled>' . $arr_custom_name[ $allow ] . '</option>';
-                $arr_result[] = [
+                $arr_result[$allow][] = [
                     'class' => 'medium',
                     'selectable' => true,
                     'text' => $arr_custom_name[$allow],
                 ];
             } else {
                 //$arr_result[] = '<option class="bold" disabled>' . PostType::typeList( $allow ) . '</option>';
-                $arr_result[] = [
+                $arr_result[$allow][] = [
                     'class' => 'medium',
                     'selectable' => true,
                     'text' => PostType::typeList($allow),
@@ -218,7 +220,7 @@ class PostAdmin extends Post
 
             //
             foreach ($page_list as $post_key => $post_val) {
-                $arr_result[] = [
+                $arr_result[$allow][] = [
                     'value' => $this->get_post_permalink($post_val),
                     'text' => $post_val['post_title'],
                 ];
@@ -244,13 +246,13 @@ class PostAdmin extends Post
         $arr_system_menu['./' . CUSTOM_ADMIN_URI] = 'Quản trị hệ thống';
 
         //
-        $arr_result[] = [
+        $arr_result['system_menu'][] = [
             'class' => 'medium',
             'selectable' => true,
             'text' => 'Menu hệ thống',
         ];
         foreach ($arr_system_menu as $k => $v) {
-            $arr_result[] = [
+            $arr_result['system_menu'][] = [
                 'value' => $k,
                 'text' => $v,
             ];
