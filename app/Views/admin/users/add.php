@@ -87,7 +87,7 @@ $base_model->adds_css([
                     <div class="control-group">
                         <label class="control-label">Nhóm tài khoản</label>
                         <div class="controls">
-                            <select data-select="<?php echo $data['member_type']; ?>" name="data[member_type]" class="span5">
+                            <select data-select="<?php echo $data['member_type']; ?>" name="data[member_type]" class="span5 has-select2">
                                 <option value="">[ Chọn nhóm <?php echo $member_name; ?> ]</option>
                                 <?php
 

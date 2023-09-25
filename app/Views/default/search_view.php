@@ -11,7 +11,7 @@
         include VIEWS_PATH . 'private_view.php';
     } else {
     ?>
-        <div id="search_main" class="posts-list main-posts-list search-list main-search-list <?php echo $option_model->posts_in_line($getconfig); ?>">
+        <div id="search_main" class="posts-list main-posts-list search-list search-products-list main-search-list <?php echo $option_model->posts_in_line($getconfig); ?>">
             <?php
 
             foreach ($data as $v) {

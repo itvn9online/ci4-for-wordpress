@@ -445,7 +445,56 @@ class Users extends Admin
         //
         $result_id = $this->user_model->insert_member($data);
         if ($result_id < 0) {
-            $this->base_model->alert('Email đã được sử dụng ' . $data['user_email'], 'error');
+            $user_data = $this->base_model->select(
+                '*',
+                'users',
+                array(
+                    // các kiểu điều kiện where
+                    // kiểm tra email đã được sử dụng rồi hay chưa thì không cần kiểm tra trạng thái XÓA -> vì có thể user này đã bị xóa vĩnh viễn
+                    //'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                    // mặc định
+                    'user_email' => $data['user_email'],
+                ),
+                array(
+                    // hiển thị mã SQL để check
+                    //'show_query' => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    //'get_query' => 1,
+                    //'offset' => 2,
+                    'limit' => 1
+                )
+            );
+            //print_r($user_data);
+
+            // Nếu tài khoản đang ở trạng thái xóa -> cập nhật lại trạng thái mở
+            if ($user_data['is_deleted'] < 0) {
+                $result_id = $this->base_model->update_multiple('users', [
+                    // SET
+                    'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                ], [
+                    // WHERE
+                    'ID' => $user_data['ID'],
+                ], [
+                    // hiển thị mã SQL để check
+                    //'show_query' => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    //'get_query' => 1,
+                    // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
+                    //'no_remove_field' => 1
+                ]);
+
+                //
+                if ($result_id !== false) {
+                    $this->base_model->msg_session('Phục hồi tài khoản ' . $this->member_name . ' #' . $user_data['ID'] . ' thành công');
+                } else {
+                    $this->base_model->msg_error_session('LỖI Phục hồi tài khoản ' . $this->member_name . ' #' . $user_data['ID'] . '! Vui lòng báo với coder.');
+                }
+
+                //
+                $this->base_model->alert('', base_url('admin/' . $this->controller_slug . '/add') . '?id=' . $user_data['ID']);
+            } else {
+                $this->base_model->alert('Email đã được sử dụng #' . $user_data['ID'] . ' ' . $data['user_email'], 'error');
+            }
         } else if ($result_id !== false) {
             $this->base_model->msg_session('Thêm mới ' . $this->member_name . ' thành công');
             $this->base_model->alert('', base_url('admin/' . $this->controller_slug . '/add') . '?id=' . $result_id);
