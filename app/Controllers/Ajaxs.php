@@ -70,6 +70,7 @@ class Ajaxs extends Layout
             $blocked = $this->user_model->update_member($this->current_user_id, [
                 // khóa tk user
                 'user_status' => UsersType::NO_LOGIN,
+            ], [
                 // bỏ qua admin
                 'member_type !=' => UsersType::ADMIN,
             ]);
