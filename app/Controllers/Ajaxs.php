@@ -107,11 +107,22 @@ class Ajaxs extends Layout
         }
 
         //
+        $user_id = $this->MY_post('user_id');
+        if (empty($user_id) || $user_id < 0) {
+            $this->result_json_type(
+                [
+                    'code' => __LINE__,
+                    'error' => 'user_id not found!',
+                ]
+            );
+        }
+
+        //
         $this->result_json_type(
             [
                 't' => time(),
                 'code' => __LINE__,
-                'result' => $this->user_model->confirmLogged($this->current_user_id),
+                'result' => $this->user_model->confirmLogged($user_id),
             ]
         );
     }

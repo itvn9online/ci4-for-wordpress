@@ -2,6 +2,7 @@
  * kiểm tra xem người dùng có đăng nhập trên nhiều thiết bị không
  */
 var timeout_device_protection = 30;
+var logout_device_protection = "";
 
 //
 (function () {
@@ -32,7 +33,7 @@ var timeout_device_protection = 30;
 			url: "ajaxs/multi_logged",
 			dataType: "json",
 			//crossDomain: true,
-			//data: data,
+			data: { nse: Math.random() },
 			timeout: 33 * 1000,
 			error: function (jqXHR, textStatus, errorThrown) {
 				jQueryAjaxError(jqXHR, textStatus, errorThrown, new Error().stack);
@@ -88,13 +89,16 @@ var timeout_device_protection = 30;
 						// khi có nghi ngờ -> rút ngắn thời gian kiểm tra lại
 						//console.log(data.logout);
 						if (typeof data.logout != "undefined" && data.logout == "on") {
+							logout_device_protection = data.logout;
+
+							//
 							jQuery.ajax({
 								type: "POST",
 								// link TEST
 								url: "ajaxs/multi_logout",
 								dataType: "json",
 								//crossDomain: true,
-								//data: data,
+								data: { nse: Math.random() },
 								timeout: 33 * 1000,
 								error: function (jqXHR, textStatus, errorThrown) {
 									jQueryAjaxError(
@@ -150,13 +154,24 @@ function confirm_kip_logged() {
 		url: "ajaxs/confirm_logged",
 		dataType: "json",
 		//crossDomain: true,
-		//data: data,
+		data: {
+			nse: Math.random(),
+			user_id: WGR_config.current_user_id,
+		},
 		timeout: 33 * 1000,
 		error: function (jqXHR, textStatus, errorThrown) {
 			jQueryAjaxError(jqXHR, textStatus, errorThrown, new Error().stack);
 		},
 		success: function (data) {
 			console.log(data);
+
+			// nạp lại trang
+			if (logout_device_protection == "on") {
+				window.location = window.location.href;
+			}
 		},
 	});
+
+	//
+	return true;
 }
