@@ -441,7 +441,7 @@ class Zaloa extends Option
         //print_r($response);
 
         //
-        $this->oaLogs($response);
+        $this->oaLogs($response, $phone);
 
         //
         return $response;
@@ -589,7 +589,7 @@ class Zaloa extends Option
         $result = $response->getDecodedBody();
 
         //
-        $this->oaLogs($result);
+        $this->oaLogs($result, $oa_id);
 
         //
         return $result;
@@ -769,15 +769,27 @@ class Zaloa extends Option
     /**
      * lưu trữ log mỗi lần gửi tin qua OA để tiện theo dõi
      **/
-    protected function oaLogs($response)
+    protected function oaLogs($response, $phone = '')
     {
-        $f = WRITEPATH . 'logs/zalo-oa-' . date('Y-m-d') . '.txt';
+        $f = WRITEPATH . 'logs/zalo-oa/';
+        /*
+        if (!is_dir($f)) {
+            mkdir($f, DEFAULT_DIR_PERMISSION) or die('ERROR create cache dir');
+            chmod($f, DEFAULT_DIR_PERMISSION);
+        }
+        */
+        $f .= date('Y-m-d') . '.txt';
+
+        //
         if (!file_exists($f)) {
             if (!file_put_contents($f, __CLASS__ . ':' . __LINE__ . PHP_EOL, LOCK_EX)) {
                 return false;
             }
             chmod($f, DEFAULT_FILE_PERMISSION);
         }
-        return file_put_contents($f, json_encode($response) . PHP_EOL, FILE_APPEND);
+        if ($phone != '') {
+            file_put_contents($f, date('r') . ' | ' . $phone . PHP_EOL, FILE_APPEND);
+        }
+        return file_put_contents($f, date('r') . ' | ' . json_encode($response) . PHP_EOL, FILE_APPEND);
     }
 }

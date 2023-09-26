@@ -346,6 +346,27 @@ class Sync extends BaseController
         return $this->base_model->MY_query($sql);
     }
 
+    /**
+     * Tạo các thư mục logs nếu chưa có
+     **/
+    protected function create_sub_writable($root_dir = WRITEPATH)
+    {
+        $dirs = [
+            'logs',
+            'logs/zalo-oa',
+            'logged',
+        ];
+
+        // chạy vòng lặp và tạo các thư mục này nếu chưa có
+        foreach ($dirs as $d) {
+            $d = $root_dir . $d;
+        }
+        if (!is_dir($d)) {
+            mkdir($d, DEFAULT_DIR_PERMISSION) or die('ERROR create cache dir');
+            chmod($d, DEFAULT_DIR_PERMISSION);
+        }
+    }
+
     protected function auto_sync_table_column($check_thirdparty_exist = true)
     {
         /*
@@ -363,6 +384,9 @@ class Sync extends BaseController
         $this->cloneDbTable('options', 'options_deleted');
         $this->tbl_sessions();
         $this->tbl_logged();
+
+        // tạo thư mục nếu chưa có
+        $this->create_sub_writable();
 
         //
         $prefix = WGR_TABLE_PREFIX;
