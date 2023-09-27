@@ -311,6 +311,10 @@ class AdminMenu
                         'name' => ConfigType::typeList(ConfigType::CONSTANTS),
                         'icon' => 'fa fa-paragraph',
                     ],
+                    'admin/logs' => [
+                        'name' => 'Logs',
+                        'icon' => 'fa fa-history',
+                    ],
                     'admin/dev/php_info' => [
                         'name' => 'PHP info',
                         'icon' => 'fa fa-info-circle',
