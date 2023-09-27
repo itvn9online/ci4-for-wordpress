@@ -88,7 +88,15 @@ var logout_device_protection = "";
 
 						// khi có nghi ngờ -> rút ngắn thời gian kiểm tra lại
 						//console.log(data.logout);
-						if (typeof data.logout != "undefined" && data.logout == "on") {
+						if (
+							typeof data.chash != "undefined" &&
+							data.chash == data.hash.key
+						) {
+							// hash trong cache mà giống với hash trong db thì cũng bỏ qua luôn
+						} else if (
+							typeof data.logout != "undefined" &&
+							data.logout == "on"
+						) {
 							logout_device_protection = data.logout;
 
 							//

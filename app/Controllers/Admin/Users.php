@@ -22,6 +22,7 @@ class Users extends Admin
     protected $add_view_path = 'users';
     // tham số dùng để thay đổi view của trang danh sách thành viên
     protected $list_view_path = 'users';
+    protected $list_table_path = '';
     // số bản ghi trên mỗi trang
     protected $post_per_page = 50;
 
@@ -305,7 +306,8 @@ class Users extends Admin
                 'col_filter' => $col_filter,
                 'controller_slug' => $this->controller_slug,
                 'controller_path' => $this->controller_path,
-                'list_view_path' => $this->list_view_path,
+                //'list_view_path' => $this->list_view_path,
+                'list_table_path' => $this->list_table_path,
                 'member_type' => $this->member_type,
                 'member_name' => $this->member_name,
                 'arr_members_type' => $this->arr_members_type,

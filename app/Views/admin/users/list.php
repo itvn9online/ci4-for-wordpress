@@ -69,12 +69,13 @@ $base_model->add_js('admin/js/users_functions.js');
     include __DIR__ . '/list_select_all.php';
 
     //
-    $theme_private_view = ADMIN_ROOT_VIEWS . $list_view_path . '/list_table.php';
-    //echo $theme_private_view . '<br>' . PHP_EOL;
-    //echo __DIR__ . '/list_table.php' . '<br>' . PHP_EOL;
-    if (file_exists($theme_private_view)) {
-        include $theme_private_view;
+    if ($list_table_path != '') {
+        echo '<div class="wgr-view-path">' . ADMIN_ROOT_VIEWS . $list_table_path . '/list_table.php</div>';
+
+        // sử dụng list table riêng của member type nếu có khai báo
+        include ADMIN_ROOT_VIEWS . $list_table_path . '/list_table.php';
     } else {
+        // list table mặc định
         include __DIR__ . '/list_table.php';
     }
 

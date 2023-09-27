@@ -20,20 +20,17 @@ $base_model->add_css('admin/css/' . $post_type . '.css');
             <form name="frm_admin_search_controller" action="./admin/<?php echo $controller_slug; ?>" method="get">
                 <div class="cf">
                     <div class="lf f25">
-                        <input name="s" value="<?php echo $by_keyword; ?>"
-                            placeholder="Tìm kiếm <?php echo $name_type; ?>" autofocus aria-required="true" required>
+                        <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $name_type; ?>" autofocus aria-required="true" required>
                     </div>
                     <div class="lf f25 hide-if-no-taxonomy">
-                        <select name="term_id" data-select="<?php echo $by_term_id; ?>" :data-taxonomy="taxonomy"
-                            onChange="document.frm_admin_search_controller.submit();" class="each-to-group-taxonomy">
+                        <select name="term_id" data-select="<?php echo $by_term_id; ?>" :data-taxonomy="taxonomy" onChange="document.frm_admin_search_controller.submit();" class="each-to-group-taxonomy">
                             <option value="0">- Danh mục
                                 <?php echo $name_type; ?> -
                             </option>
                         </select>
                     </div>
                     <div class="lf f25">
-                        <select name="post_status" :data-select="post_status"
-                            onChange="document.frm_admin_search_controller.submit();">
+                        <select name="post_status" :data-select="post_status" onChange="document.frm_admin_search_controller.submit();">
                             <option value="">- Trạng thái
                                 <?php echo $name_type; ?> -
                             </option>
@@ -61,12 +58,14 @@ $base_model->add_css('admin/css/' . $post_type . '.css');
     //
     include ADMIN_ROOT_VIEWS . 'posts/list_select_all.php';
 
-    // sử dụng list_table riêng của post type nếu có khai báo
+    //
     if ($list_table_path != '') {
+        echo '<div class="wgr-view-path">' . ADMIN_ROOT_VIEWS . $list_table_path . '/list_table.php</div>';
+
+        // sử dụng list table riêng của post type nếu có khai báo
         include ADMIN_ROOT_VIEWS . $list_table_path . '/list_table.php';
-    }
-    // list_table mặc định
-    else {
+    } else {
+        // list table mặc định
         include __DIR__ . '/list_table.php';
     }
 

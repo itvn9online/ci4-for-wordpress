@@ -1,8 +1,9 @@
 <?php
-/*
-* Chức năng hiển thị bảng dữ liệu dạng table.
-* Tách riêng kiểu này để khi các loại users khác nhau muốn hiển thị các dữ liệu khác nhau thì chỉ cần copy file list_table.php ra thư mục view tương ứng rồi chỉnh sửa nó là được.
-*/
+
+/**
+ * Chức năng hiển thị bảng dữ liệu dạng table.
+ * Tách riêng kiểu này để khi các loại users khác nhau muốn hiển thị các dữ liệu khác nhau thì chỉ cần copy file list_table.php ra thư mục view tương ứng rồi chỉnh sửa nó là được.
+ **/
 ?>
 <table class="table table-bordered table-striped with-check table-list eb-table">
     <thead>

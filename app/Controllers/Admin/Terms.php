@@ -18,6 +18,9 @@ class Terms extends Admin
     protected $controller_slug = 'terms';
     // tham số dùng để đổi file view khi add hoặc edit bài viết nếu muốn
     protected $add_view_path = 'terms';
+    // tham số dùng để đổi file view khi xem danh sách bài viết nếu muốn
+    protected $list_view_path = 'terms';
+    protected $list_table_path = '';
 
     /*
      * for_extends: khi một controller extends lại class này và sử dụng các taxonomy khác (custom taxonomy) thì khai báo nó bằng true để bỏ qua các điều kiện kiểm tra
@@ -189,7 +192,7 @@ class Terms extends Admin
 
         //
         $this->teamplate_admin['content'] = view(
-            'admin/terms/list',
+            'admin/' . $this->list_view_path . '/list',
             array(
                 'for_action' => $for_action,
                 'by_keyword' => $by_keyword,
@@ -201,6 +204,8 @@ class Terms extends Admin
                 'name_type' => $this->name_type,
                 'controller_slug' => $this->controller_slug,
                 'DeletedStatus_DELETED' => DeletedStatus::DELETED,
+                //'list_view_path' => $this->list_view_path,
+                'list_table_path' => $this->list_table_path,
             )
         );
         return view('admin/admin_teamplate', $this->teamplate_admin);

@@ -30,13 +30,25 @@ class Ajaxs extends Layout
         }
 
         //
+        if ($this->current_user_id <= 0) {
+            $this->result_json_type(
+                [
+                    'code' => __LINE__,
+                    'msg' => 'User has been logout...',
+                ]
+            );
+        }
+
+        //
         //die(json_encode($_GET));
 
         // lấy nội dung đăng nhập cũ trước khi lưu phiên mới
         $result = $this->user_model->getLogged($this->current_user_id);
+        //$cresult = $this->user_model->getCLogged($this->current_user_id);
 
         // lưu session id của người dùng vào file
         $this->user_model->setLogged($this->current_user_id);
+        //$this->user_model->setCLogged($this->current_user_id);
 
         // trả về key đã lưu của người dùng trong file
         $this->result_json_type(
@@ -45,6 +57,8 @@ class Ajaxs extends Layout
                 // nếu có thông số tự logout phiên của người dùng thì tiến hành logout luôn
                 'logout' => $this->getconfig->logout_device_protection,
                 'hash' => $result,
+                // hash lấy từ cache ra
+                //'chash' => $cresult,
             ]
         );
     }
@@ -67,14 +81,25 @@ class Ajaxs extends Layout
         $msg = 'Device protection destroy';
         $blocked = NULL;
         if ($this->getconfig->block_device_protection == 'on' && $this->current_user_id > 0) {
-            $blocked = $this->user_model->update_member($this->current_user_id, [
-                // khóa tk user
-                'user_status' => UsersType::NO_LOGIN,
-            ], [
-                // bỏ qua admin
-                'member_type !=' => UsersType::ADMIN,
-            ]);
-            $msg = 'Device protection blocked';
+            // nếu chưa có cache này -> lần đầu bị cảnh báo -> tạm tha
+            if ($this->user_model->getCLogged($this->current_user_id) === NULL) {
+                // lưu cache -> lần tới có cache này -> khóa
+                //$this->user_model->setCLogged($this->current_user_id);
+                $this->user_model->setCBlocked($this->current_user_id);
+
+                //
+                $blocked = 'skip';
+            } else {
+                // lần này có cache rồi vẫn dính -> khóa
+                $blocked = $this->user_model->update_member($this->current_user_id, [
+                    // khóa tk user
+                    'user_status' => UsersType::NO_LOGIN,
+                ], [
+                    // bỏ qua admin
+                    'member_type !=' => UsersType::ADMIN,
+                ]);
+                $msg = 'Device protection blocked';
+            }
         }
 
         //

@@ -14,7 +14,7 @@ class UserBase extends EbModel
     public $metaTable = 'usermeta';
     public $metaKey = 'umeta_id';
     // hẹn giờ trong khoảng thời gian này mà người dùng đăng nhập 2 thiết bị -> KHÓA
-    protected $time_checker = 120;
+    protected $time_checker = 90;
 
     public function __construct()
     {
@@ -228,6 +228,31 @@ class UserBase extends EbModel
     {
         //return $this->base_model->scache($this->key_cache($id) . 'logged');
         return $this->insertLogged($id);
+    }
+
+    /**
+     * Trả về session id lưu trong cache
+     **/
+    public function getCLogged($id)
+    {
+        return $this->base_model->scache($this->key_cache($id) . 'logged');
+    }
+    /**
+     * Lưu session id vào cache
+     **/
+    public function setCLogged($id)
+    {
+        return $this->base_model->scache($this->key_cache($id) . 'logged', session_id(), $this->time_checker);
+    }
+
+    /**
+     * Khi khóa tk user, nếu chưa có cache này thì chưa khóa -> bỏ qua cho 1 lần cache
+     * Cái này lưu cache lâu hơn chút -> để người dùng có ngồi đợi hết cache thì vẫn bị block
+     **/
+    public function setCBlocked($id)
+    {
+        //return $this->base_model->scache($this->key_cache($id) . 'logged', session_id(), ceil($this->time_checker * 2));
+        return $this->base_model->scache($this->key_cache($id) . 'logged', session_id());
     }
 
     /**
