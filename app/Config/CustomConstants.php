@@ -233,6 +233,11 @@ define('RAND_MULTI_LOGOUT', '_' . substr($rand_by_date, 0, 12));
 define('RAND_MULTI_LOGGED', '_' . substr($rand_by_date, 6, 12));
 //echo RAND_MULTI_LOGGED . '<br>' . PHP_EOL;
 
+/**
+ * Tạo phiên bản giả lập wordpress
+ **/
+define('FAKE_WORDPRESS_VERSION', '6.3.1');
+
 // website của nhà phát triển
 defined('PARTNER_WEBSITE') || define('PARTNER_WEBSITE', 'https://echbay.com/');
 defined('PARTNER_BRAND_NAME') || define('PARTNER_BRAND_NAME', 'EchBay.com');

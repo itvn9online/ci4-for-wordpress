@@ -31,6 +31,7 @@ class Comments extends Layout
         $xml_content = file_get_contents(VIEWS_PATH . '/feed_comments_layout.xml');
         foreach ([
             'base_url' => DYNAMIC_BASE_URL,
+            'wp_version' => FAKE_WORDPRESS_VERSION,
             'name' => $this->getconfig->name,
             'description' => $this->getconfig->description,
             'web_favicon' => $this->getconfig->web_favicon,

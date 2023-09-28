@@ -48,7 +48,7 @@ class Base extends Csdl
         } else {
             $rel = 'rel="stylesheet" type="text/css" media="all"';
         }
-        return '<link ' . $rel . ' href="' . $ops['cdn'] . $f . '?v=' . filemtime(PUBLIC_PUBLIC_PATH . $f) . '"' . implode(' ', $attr) . ' />';
+        return '<link ' . $rel . ' href="' . $ops['cdn'] . $f . '?ver=' . filemtime(PUBLIC_PUBLIC_PATH . $f) . '"' . implode(' ', $attr) . ' />';
     }
     // chế độ nạp css thông thường
     public function add_css($f, $ops = [], $attr = [])
@@ -103,10 +103,10 @@ class Base extends Csdl
 
         //
         if (isset($ops['preload'])) {
-            return '<link rel="preload" as="script" href="' . $ops['cdn'] . $f . '?v=' . filemtime(PUBLIC_PUBLIC_PATH . $f) . '">';
+            return '<link rel="preload" as="script" href="' . $ops['cdn'] . $f . '?ver=' . filemtime(PUBLIC_PUBLIC_PATH . $f) . '">';
         }
         //print_r( $attr );
-        return '<script src="' . $ops['cdn'] . $f . '?v=' . filemtime(PUBLIC_PUBLIC_PATH . $f) . '" ' . implode(' ', $attr) . '></script>';
+        return '<script src="' . $ops['cdn'] . $f . '?ver=' . filemtime(PUBLIC_PUBLIC_PATH . $f) . '" ' . implode(' ', $attr) . '></script>';
     }
     // thêm 1 file
     public function add_js($f, $ops = [], $attr = [])

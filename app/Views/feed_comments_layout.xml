@@ -15,6 +15,6 @@
         <language>vi</language>
         <sy:updatePeriod>hourly</sy:updatePeriod>
         <sy:updateFrequency>1</sy:updateFrequency>
-        <generator>https://wordpress.org/?v=6.3.1</generator>
+        <generator>https://wordpress.org/?v={wp_version}</generator>
 	</channel>
 </rss>

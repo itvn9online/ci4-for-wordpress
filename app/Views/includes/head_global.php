@@ -91,7 +91,7 @@ if ($getconfig->fb_app_id != '') {
 <link rel="alternate" type="application/rss+xml" title="Dòng phản hồi &raquo;" href="<?php echo DYNAMIC_BASE_URL; ?>comments/feed" />
 <link rel="https://api.w.org/" href="<?php echo DYNAMIC_BASE_URL; ?>wp-json/" />
 <link rel="EditURI" type="application/rsd+xml" title="RSD" href="<?php echo DYNAMIC_BASE_URL; ?>xmlrpc.php?rsd" />
-<meta name="generator" content="WordPress 6.3.1" />
+<meta name="generator" content="WordPress <?php echo FAKE_WORDPRESS_VERSION; ?>" />
 <!-- -->
 <?php
 
