@@ -203,12 +203,12 @@ form#listContactByType {
 }
 
 .admin-media-attachment .media-attachment-img[data-mime="video"] {
-    background-image: url("../../images/media/video.png") !important;
+    background-image: url("../../wp-includes/images/media/video.png") !important;
     background-size: auto;
 }
 
 .admin-media-attachment .media-attachment-img[data-mime="audio"] {
-    background-image: url("../../images/media/audio.png") !important;
+    background-image: url("../../wp-includes/images/media/audio.png") !important;
     background-size: auto;
 }
 
