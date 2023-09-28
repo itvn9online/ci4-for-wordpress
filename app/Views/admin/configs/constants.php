@@ -6,7 +6,7 @@ use App\Libraries\ConfigType;
 //print_r( $data );
 
 // css riêng cho từng config (nếu có)
-$base_model->add_css('admin/css/config_' . $config_type . '.css');
+$base_model->add_css('wp-admin/css/config_' . $config_type . '.css');
 
 ?>
 <div id="app" :class="vue_data.config_type" class="widget-box">
@@ -163,16 +163,16 @@ $base_model->add_css('admin/css/config_' . $config_type . '.css');
 //
 $base_model->adds_js(
     [
-        'admin/js/config_function.js',
-        'admin/js/config_options_translate.js',
+        'wp-admin/js/config_function.js',
+        'wp-admin/js/config_options_translate.js',
     ]
 );
 
 //
 $base_model->adds_js(
     [
-        'admin/js/config.js',
-        'admin/js/config_' . $config_type . '.js',
+        'wp-admin/js/config.js',
+        'wp-admin/js/config_' . $config_type . '.js',
     ],
     [
         //'cdn' => CDN_BASE_URL,

@@ -8,21 +8,21 @@ echo 'test format on type';
 /**
  * các file CSS chuyển từ PHP sang sẽ cho vào đây
  **/
-$base_model->add_css('public/css/ten_file.css', [
+$base_model->add_css('public/wp-includes/css/ten_file.css', [
     'get_content' => 1,
     'preload' => 1,
     'cdn' => CDN_BASE_URL,
 ]);
 $base_model->adds_css([
-    'public/css/ten_file.css',
-    'themes/' . THEMENAME . '/css/aaaaaaaaaaa.css',
+    'public/wp-includes/css/ten_file.css',
+    THEMEPATH . '/css/aaaaaaaaaaa.css',
 ], [
     'get_content' => 1,
     'preload' => 1,
     'cdn' => CDN_BASE_URL,
 ]);
 // lấy mã CSS trả về thay vì echo luôn
-$base_model->get_add_css('public/css/ten_file.css', [
+$base_model->get_add_css('public/wp-includes/css/ten_file.css', [
     'get_content' => 1,
     'preload' => 1,
     'cdn' => CDN_BASE_URL,
@@ -34,7 +34,7 @@ $base_model->get_add_css('public/css/ten_file.css', [
 /**
  * các file JS chuyển từ PHP sang sẽ cho vào đây
  **/
-$base_model->add_js('javascript/ten_file.js', [
+$base_model->add_js('wp-includes/javascript/ten_file.js', [
     'get_content' => 1,
     'preload' => 1,
     'cdn' => CDN_BASE_URL,
@@ -43,8 +43,8 @@ $base_model->add_js('javascript/ten_file.js', [
 ]);
 
 $base_model->adds_js([
-    'javascript/ten_file.js',
-    'themes/' . THEMENAME . '/js/aaaaaaaaaaa.js',
+    'wp-includes/javascript/ten_file.js',
+    THEMEPATH . 'js/aaaaaaaaaaa.js',
 ], [
     'get_content' => 1,
     'preload' => 1,
@@ -54,7 +54,7 @@ $base_model->adds_js([
 ]);
 
 // lấy mã JS trả về thay vì echo luôn
-$base_model->get_add_js('javascript/ten_file.js', [
+$base_model->get_add_js('wp-includes/javascript/ten_file.js', [
     'get_content' => 1,
     'preload' => 1,
     'cdn' => CDN_BASE_URL,

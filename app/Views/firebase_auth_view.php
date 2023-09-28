@@ -28,7 +28,7 @@ if (!empty($firebase_config->g_firebase_config)) {
     <?php
 
     //
-    $base_model->add_css('javascript/firebasejs/style.css', [
+    $base_model->add_css('wp-includes/javascript/firebasejs/style.css', [
         'cdn' => CDN_BASE_URL,
     ]);
 
@@ -88,10 +88,10 @@ if (!empty($firebase_config->g_firebase_config)) {
 
     // các function sẽ sử dụng cho quá trình đăng nhập qua firebase
     $base_model->adds_js([
-        'javascript/firebasejs/base64.js',
-        'javascript/firebasejs/functions.js',
-        'javascript/firebasejs/' . $file_auth . '.js',
-        'javascript/firebasejs/app.js',
+        'wp-includes/javascript/firebasejs/base64.js',
+        'wp-includes/javascript/firebasejs/functions.js',
+        'wp-includes/javascript/firebasejs/' . $file_auth . '.js',
+        'wp-includes/javascript/firebasejs/app.js',
     ], [
         'cdn' => CDN_BASE_URL,
     ], [

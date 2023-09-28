@@ -41,13 +41,13 @@ class Dashboard extends Optimize
          */
         $arrs_dir_list = [
             'app',
-            'public/admin',
-            'public/css',
-            'public/images',
-            'public/javascript',
-            'public/libraries',
+            'public/wp-admin',
+            'public/wp-includes/css',
+            'public/wp-includes/images',
+            'public/wp-includes/javascript',
+            'public/wp-includes/libraries',
+            'public/wp-includes/thirdparty',
             'public/themes/echbayfour',
-            'public/thirdparty',
         ];
 
         // -> tạo thư mục gốc và thư mục sau khi XÓA

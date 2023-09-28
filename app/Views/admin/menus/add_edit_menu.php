@@ -1,8 +1,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 
 <link rel="stylesheet" href="./admin/Drag-Drop-Menu-Builder-For-Bootstrap/bootstrap-iconpicker/css/bootstrap-iconpicker.min.css" />
-<script src="./admin/Drag-Drop-Menu-Builder-For-Bootstrap/bootstrap-iconpicker/js/iconset/fontawesome5-3-1.min.js"></script> 
-<script src="./admin/Drag-Drop-Menu-Builder-For-Bootstrap/bootstrap-iconpicker/js/bootstrap-iconpicker.min.js"></script> 
+<script src="./admin/Drag-Drop-Menu-Builder-For-Bootstrap/bootstrap-iconpicker/js/iconset/fontawesome5-3-1.min.js"></script>
+<script src="./admin/Drag-Drop-Menu-Builder-For-Bootstrap/bootstrap-iconpicker/js/bootstrap-iconpicker.min.js"></script>
 <script src="./admin/Drag-Drop-Menu-Builder-For-Bootstrap/jquery-menu-editor.js"></script>
 <div class="w99 cf">
     <div class="lf f50">
@@ -91,9 +91,9 @@
                                 <input type="text" class="form-control item-menu" name="text" id="text" placeholder="Text">
                                 <div class="input-group-append">
                                     <button type="button" id="myEditor_icon" class="btn btn-outline-secondary iconpicker dropdown-toggle">
-                                    <i class="empty"></i>
-                                    <input type="hidden" value="empty">
-                                    <span class="caret"></span>
+                                        <i class="empty"></i>
+                                        <input type="hidden" value="empty">
+                                        <span class="caret"></span>
                                     </button>
                                 </div>
                             </div>
@@ -127,4 +127,4 @@
 </div>
 <?php
 
-$this->base_model->add_js( 'admin/js/add_edit_menu.js' );
+$this->base_model->add_js('wp-admin/js/add_edit_menu.js');

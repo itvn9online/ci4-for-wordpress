@@ -1,7 +1,7 @@
 <?php
 
 //
-$base_model->add_css('themes/' . THEMENAME . '/css/post.css', [
+$base_model->add_css(THEMEPATH . 'css/post.css', [
     //'get_content' => 1,
     //'preload' => 1,
     'cdn' => CDN_BASE_URL,
@@ -23,8 +23,8 @@ $base_model->JSON_echo([
 
 //
 $base_model->adds_js([
-    'javascript/posts_functions.js',
-    'themes/' . THEMENAME . '/js/post.js'
+    'wp-includes/javascript/posts_functions.js',
+    THEMEPATH . 'js/post.js'
 ], [
     'cdn' => CDN_BASE_URL,
 ], [

@@ -7,9 +7,11 @@ use App\Helpers\HtmlTemplate;
 //print_r( $seo );
 
 ?>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<?php echo '<title>' . $seo['title'] . '</title>' . PHP_EOL; ?>
+<link rel="profile" href="http://gmpg.org/xfn/11" />
+<link rel="pingback" href="<?php echo DYNAMIC_BASE_URL; ?>xmlrpc.php" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><?php echo $seo['title']; ?></title>
 <base href="<?php echo DYNAMIC_BASE_URL; ?>" />
 <meta http-equiv="Cache-control" content="max-age=60, private, must-revalidate">
 <!-- <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" /> -->
@@ -23,7 +25,7 @@ use App\Helpers\HtmlTemplate;
 <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
 <link rel="dns-prefetch" href="https://s.w.org" />
 <meta name="format-detection" content="telephone=no">
-<!-- SEO -->
+<!-- This site is optimized with the Yoast SEO plugin -->
 <link href="<?php echo $option_model->get_the_favicon($getconfig); ?>" rel="shortcut icon" type="image/png" />
 <meta name="title" content="<?php echo $seo['title']; ?>" />
 <meta name="keywords" content="<?php echo $seo['keyword']; ?>" />
@@ -82,10 +84,14 @@ if ($getconfig->fb_app_id != '') {
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:description" content="<?php echo $seo['description']; ?>" />
 <meta name="twitter:title" content="<?php echo $seo['title']; ?>" />
-<!-- END SEO -->
-<!-- -->
+<!-- Yoast SEO plugin -->
 <link href="https://fonts.googleapis.com" rel="preconnect" />
 <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+<link rel="alternate" type="application/rss+xml" title="Dòng thông tin &raquo;" href="<?php echo DYNAMIC_BASE_URL; ?>feed" />
+<link rel="alternate" type="application/rss+xml" title="Dòng phản hồi &raquo;" href="<?php echo DYNAMIC_BASE_URL; ?>comments/feed" />
+<link rel="https://api.w.org/" href="<?php echo DYNAMIC_BASE_URL; ?>wp-json/" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="<?php echo DYNAMIC_BASE_URL; ?>xmlrpc.php?rsd" />
+<meta name="generator" content="WordPress 6.3.1" />
 <!-- -->
 <?php
 
@@ -93,7 +99,7 @@ if ($getconfig->fb_app_id != '') {
 ?>
 <style>
     <?php
-    echo file_get_contents(PUBLIC_PUBLIC_PATH . 'css/mobile-usability.css', 1);
+    echo file_get_contents(PUBLIC_PUBLIC_PATH . 'wp-includes/css/mobile-usability.css', 1);
     ?>
 </style>
 <?php
@@ -102,29 +108,29 @@ if ($getconfig->fb_app_id != '') {
 // nạp một số css ở dạng preload
 $arr_preload_bootstrap = [
     // bản full
-    CDN_BASE_URL . 'thirdparty/bootstrap/css/bootstrap.min.css',
-    //'thirdparty/bootstrap/css/bootstrap.rtl.min.css',
+    CDN_BASE_URL . 'wp-includes/thirdparty/bootstrap/css/bootstrap.min.css',
+    //'wp-includes/thirdparty/bootstrap/css/bootstrap.rtl.min.css',
 
     // các module đơn lẻ
-    //'thirdparty/bootstrap/css/bootstrap-grid.min.css',
-    //'thirdparty/bootstrap/css/bootstrap-grid.rtl.min.css',
-    //'thirdparty/bootstrap/css/bootstrap-reboot.min.css',
-    //'thirdparty/bootstrap/css/bootstrap-reboot.rtl.min.css',
-    //'thirdparty/bootstrap/css/bootstrap-utilities.min.css',
-    //'thirdparty/bootstrap/css/bootstrap-utilities.rtl.min.css',
+    //'wp-includes/thirdparty/bootstrap/css/bootstrap-grid.min.css',
+    //'wp-includes/thirdparty/bootstrap/css/bootstrap-grid.rtl.min.css',
+    //'wp-includes/thirdparty/bootstrap/css/bootstrap-reboot.min.css',
+    //'wp-includes/thirdparty/bootstrap/css/bootstrap-reboot.rtl.min.css',
+    //'wp-includes/thirdparty/bootstrap/css/bootstrap-utilities.min.css',
+    //'wp-includes/thirdparty/bootstrap/css/bootstrap-utilities.rtl.min.css',
 ];
 
 // nạp file font theo kiểu inline
 //echo $getconfig->disable_fontawesome4;
 if ($getconfig->disable_fontawesome4 != 'on') {
-    $font_awesome_before = $base_model->get_add_css('thirdparty/awesome47/css/font-awesome.before.css', [
+    $font_awesome_before = $base_model->get_add_css('wp-includes/thirdparty/awesome47/css/font-awesome.before.css', [
         'get_content' => 1
     ]);
-    $font_awesome_before = str_replace('../fonts/', 'thirdparty/awesome47/fonts/', $font_awesome_before);
+    $font_awesome_before = str_replace('../fonts/', 'wp-includes/thirdparty/awesome47/fonts/', $font_awesome_before);
     echo $font_awesome_before;
 
     //
-    $arr_preload_bootstrap[] = CDN_BASE_URL . 'thirdparty/awesome47/css/font-awesome.min.css?v=4.7';
+    $arr_preload_bootstrap[] = CDN_BASE_URL . 'wp-includes/thirdparty/awesome47/css/font-awesome.min.css?v=4.7';
 }
 
 foreach ($arr_preload_bootstrap as $v) {
@@ -134,10 +140,10 @@ foreach ($arr_preload_bootstrap as $v) {
 }
 
 ?>
-<!-- <link rel="stylesheet" type="text/css" media="all" href="thirdparty/flatsome/flatsome.css" /> -->
+<!-- <link rel="stylesheet" type="text/css" media="all" href="wp-includes/thirdparty/flatsome/flatsome.css" /> -->
 <!-- <link rel="stylesheet" type="text/css" media="all" href="frontend/css/swiper.min.css" /> -->
-<script src="<?php echo CDN_BASE_URL; ?>thirdparty/jquery/jquery-3.6.1.min.js"></script>
-<!-- <script src="thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> -->
+<script src="<?php echo CDN_BASE_URL; ?>wp-includes/thirdparty/jquery/jquery-3.6.1.min.js"></script>
+<!-- <script src="wp-includes/thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> -->
 <!-- <script src="frontend/js/swiper.min.js"></script> -->
 <?php
 
@@ -153,20 +159,20 @@ echo HtmlTemplate::html('root_color.txt', [
 
 //
 $base_model->preloads_css([
-    'css/d.css',
-    'css/d1.css',
-    'css/d2.css',
+    'wp-includes/css/d.css',
+    'wp-includes/css/d1.css',
+    'wp-includes/css/d2.css',
 ], [
     'cdn' => CDN_BASE_URL,
 ]);
 $base_model->adds_css([
-    'css/flatsome.css',
+    'wp-includes/css/flatsome.css',
     // thread_list
-    'css/products_list.css',
-    'css/posts_list.css',
-    'themes/' . THEMENAME . '/style.css',
-    'themes/' . THEMENAME . '/css/posts_node.css',
-    'themes/' . THEMENAME . '/css/products_node.css',
+    'wp-includes/css/products_list.css',
+    'wp-includes/css/posts_list.css',
+    THEMEPATH . 'style.css',
+    THEMEPATH . 'css/posts_node.css',
+    THEMEPATH . 'css/products_node.css',
 ], [
     'cdn' => CDN_BASE_URL,
 ]);
@@ -175,8 +181,8 @@ $base_model->adds_css([
 // mobile
 if ($isMobile == true) {
     $base_model->adds_css([
-        'css/m.css',
-        'themes/' . THEMENAME . '/css/m.css',
+        'wp-includes/css/m.css',
+        THEMEPATH . 'css/m.css',
     ], [
         'cdn' => CDN_BASE_URL,
     ]);
@@ -203,17 +209,17 @@ echo HtmlTemplate::html('custom_css.txt', [
 
 //
 $base_model->adds_js([
-    'javascript/functions.js',
-    'javascript/eb.js',
-    //'javascript/slider.js',
-    'themes/' . THEMENAME . '/js/functions.js',
+    'wp-includes/javascript/functions.js',
+    'wp-includes/javascript/eb.js',
+    //'wp-includes/javascript/slider.js',
+    THEMEPATH . 'js/functions.js',
 ], [
     'cdn' => CDN_BASE_URL,
 ]);
 
 // nạp thư viện vuejs nếu có yêu cầu
 if ($getconfig->enable_vue_js == 'on') {
-    $base_model->add_js('thirdparty/vuejs/vue.min.js', [
+    $base_model->add_js('wp-includes/thirdparty/vuejs/vue.min.js', [
         'cdn' => CDN_BASE_URL,
     ], [
         'defer'

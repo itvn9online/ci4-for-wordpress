@@ -21,7 +21,7 @@ class Dashboards extends Dashboard
 
         //
         $arr_list_thirdparty = $this->get_list_thirdparty([
-            'public/thirdparty',
+            'public/wp-includes/thirdparty',
             'vendor',
             'app/ThirdParty',
         ]);

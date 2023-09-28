@@ -67,6 +67,7 @@ class Optimize extends Admin
                 die(__CLASS__ . ':' . __LINE__);
             }
         }
+        //echo 'create file: ' . $dir . $f . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
         $this->push_content_file($dir . $f, $c, DEFAULT_FILE_PERMISSION);
     }
 
@@ -79,8 +80,9 @@ class Optimize extends Admin
 
         // css, js chung
         $this->optimize_action_css(PUBLIC_PUBLIC_PATH);
-        $this->optimize_action_js(PUBLIC_PUBLIC_PATH, 'javascript');
-        $this->optimize_action_js(PUBLIC_PUBLIC_PATH, 'javascript/firebasejs');
+        $this->optimize_action_css(PUBLIC_PUBLIC_PATH . 'wp-includes/');
+        $this->optimize_action_js(PUBLIC_PUBLIC_PATH, 'wp-includes/javascript');
+        $this->optimize_action_js(PUBLIC_PUBLIC_PATH, 'wp-includes/javascript/firebasejs');
 
         // css, js của từng theme
         if ($this->optimize_action_css(THEMEPATH) === true) {

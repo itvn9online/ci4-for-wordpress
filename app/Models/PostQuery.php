@@ -664,7 +664,7 @@ class PostQuery extends PostMeta
                 }
                 //die( 'fjg dghsd sgsd' );
             }
-            //return '<a href="./admin/posts/add?post_type=' . $ops[ 'post_type' ] . '">Please add post to category slug #' . $slug . '</a>';
+            //return '<a href="admin/posts/add?post_type=' . $ops[ 'post_type' ] . '">Please add post to category slug #' . $slug . '</a>';
             return '<p class="show-if-admin">Please add post to category slug #' . $slug . '</p>';
         }
 

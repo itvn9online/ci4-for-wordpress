@@ -5,8 +5,8 @@ use App\Libraries\UsersType;
 
 //
 $base_model->adds_css([
-    'admin/css/user_add.css',
-    'admin/css/' . $member_type . '_add.css',
+    'wp-admin/css/user_add.css',
+    'wp-admin/css/' . $member_type . '_add.css',
 ]);
 
 ?>
@@ -272,8 +272,8 @@ $base_model->JSON_echo([
 
 //
 $base_model->adds_js([
-    'admin/js/user_add.js',
-    'admin/js/' . $member_type . '_add.js',
+    'wp-admin/js/user_add.js',
+    'wp-admin/js/' . $member_type . '_add.js',
 ]);
 
 

@@ -2,11 +2,11 @@
 
 //
 $base_model->adds_css([
-    'public/css/login.css',
-    'themes/' . THEMENAME . '/css/login.css',
+    'public/wp-includes/css/login.css',
+    THEMEPATH . 'css/login.css',
 ], [
-        'cdn' => CDN_BASE_URL,
-    ]);
+    'cdn' => CDN_BASE_URL,
+]);
 
 // nạp view riêng của từng theme nếu có
 $theme_default_view = VIEWS_PATH . 'default/' . basename(__FILE__);
@@ -17,16 +17,16 @@ include VIEWS_PATH . 'private_view.php';
 $base_model->JSON_echo([
     // mảng này sẽ in ra dưới dạng JSON hoặc number
 ], [
-        // mảng này sẽ in ra dưới dạng string
-        'set_login' => $set_login,
-    ]);
+    // mảng này sẽ in ra dưới dạng string
+    'set_login' => $set_login,
+]);
 
 //
 $base_model->adds_js([
-    'javascript/login.js',
-    'themes/' . THEMENAME . '/js/login.js',
+    'wp-includes/javascript/login.js',
+    THEMEPATH . 'js/login.js',
 ], [
-        'cdn' => CDN_BASE_URL,
-    ], [
-        'defer'
-    ]);
+    'cdn' => CDN_BASE_URL,
+], [
+    'defer'
+]);

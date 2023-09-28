@@ -12,6 +12,14 @@ $routes->get('/install', 'Installs::index');
 
 // tạo đường dẫn admin tránh đường dẫn mặc định
 $routes->get('/' . CUSTOM_ADMIN_URI, 'Admin\Dashboard::index');
+// tạo đường dẫn bảo mật cho chức năng multi logged
+$routes->post('/' . RAND_MULTI_LOGOUT, 'Ajaxs::multi_logout');
+$routes->post('/' . RAND_MULTI_LOGGED, 'Ajaxs::multi_logged');
+
+
+//
+$routes->get('/feed', 'Feed::index');
+$routes->get('/wp-json', 'Feed::wp_json');
 
 
 /*

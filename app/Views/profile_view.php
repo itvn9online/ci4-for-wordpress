@@ -2,7 +2,7 @@
 
 //
 $base_model->add_css(
-    'css/user-profile.css',
+    'wp-includes/css/user-profile.css',
     [
         'cdn' => CDN_BASE_URL,
     ]
@@ -18,9 +18,9 @@ include VIEWS_PATH . 'private_view.php';
 
 //
 $base_model->adds_js([
-    'javascript/uploads.js',
-    'javascript/user-profile.js',
-    'javascript/datetimepicker.js',
+    'wp-includes/javascript/uploads.js',
+    'wp-includes/javascript/user-profile.js',
+    'wp-includes/javascript/datetimepicker.js',
 ], [
     'cdn' => CDN_BASE_URL,
 ], [

@@ -4,8 +4,8 @@
 use App\Libraries\PostType;
 
 // css riêng cho từng post type (nếu có)
-$base_model->add_css('admin/css/posts_list.css');
-$base_model->add_css('admin/css/' . $post_type . '.css');
+$base_model->add_css('wp-admin/css/posts_list.css');
+$base_model->add_css('wp-admin/css/' . $post_type . '.css');
 
 ?>
 <ul class="admin-breadcrumb">
@@ -105,5 +105,5 @@ $base_model->JSON_parse(
 include ADMIN_ROOT_VIEWS . 'posts/sync_modal.php';
 
 // css riêng cho từng post type (nếu có)
-$base_model->add_js('admin/js/post_list.js');
-$base_model->add_js('admin/js/' . $post_type . '.js');
+$base_model->add_js('wp-admin/js/post_list.js');
+$base_model->add_js('wp-admin/js/' . $post_type . '.js');

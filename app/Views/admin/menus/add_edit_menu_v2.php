@@ -4,7 +4,7 @@
 <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"> -->
 <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" rel="stylesheet"> -->
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"> -->
-<link rel="stylesheet" href="./thirdparty/Nestable/style.css" />
+<link rel="stylesheet" href="./wp-includes/thirdparty/Nestable/style.css" />
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -148,11 +148,11 @@
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
 <?php
 
-$base_model->add_js('admin/js/add_edit_menu_v2.js');
+$base_model->add_js('wp-admin/js/add_edit_menu_v2.js');
 
 ?>
-<script src="./thirdparty/Nestable/jquery.nestable.js"></script>
-<script src="./thirdparty/Nestable/jquery.nestable++.js"></script>
+<script src="./wp-includes/thirdparty/Nestable/jquery.nestable.js"></script>
+<script src="./wp-includes/thirdparty/Nestable/jquery.nestable++.js"></script>
 <?php
 
-$base_model->add_js('admin/js/add_edit_menu_v2_footer.js');
+$base_model->add_js('wp-admin/js/add_edit_menu_v2_footer.js');

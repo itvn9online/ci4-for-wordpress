@@ -22,7 +22,7 @@ if (file_exists($theme_private_view)) {
     include $theme_private_view;
 
     // nạp file js cho từng search post type (nếu có)
-    $base_model->add_js('themes/' . THEMENAME . '/js/search-' . $post_type . '.js', [
+    $base_model->add_js(THEMEPATH . 'js/search-' . $post_type . '.js', [
         'cdn' => CDN_BASE_URL,
     ], [
         'defer'
@@ -42,7 +42,7 @@ else {
         include $search_type_view;
 
         // nạp file js cho từng search post type (nếu có)
-        $base_model->add_js('themes/' . THEMENAME . '/js/search-' . $post_type . '.js', [
+        $base_model->add_js(THEMEPATH . 'js/search-' . $post_type . '.js', [
             'cdn' => CDN_BASE_URL,
         ], [
             'defer'
@@ -58,7 +58,7 @@ else {
 }
 
 // nạp file js dùng chung cho search (nếu có)
-$base_model->add_js('themes/' . THEMENAME . '/js/search.js', [
+$base_model->add_js(THEMEPATH . 'js/search.js', [
     'cdn' => CDN_BASE_URL,
 ], [
     'defer'

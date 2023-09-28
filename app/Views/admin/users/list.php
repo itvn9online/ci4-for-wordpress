@@ -4,8 +4,8 @@
 use App\Libraries\UsersType;
 
 //
-$base_model->add_css('admin/css/users_list.css');
-$base_model->add_js('admin/js/users_functions.js');
+$base_model->add_css('wp-admin/css/users_list.css');
+$base_model->add_js('wp-admin/js/users_functions.js');
 
 ?>
 <ul class="admin-breadcrumb">
@@ -134,6 +134,6 @@ $base_model->JSON_echo(
 <?php
 
 //
-$base_model->add_js('admin/js/users.js');
-$base_model->add_js('admin/js/users_list.js');
-$base_model->add_js('admin/js/' . $member_type . '.js');
+$base_model->add_js('wp-admin/js/users.js');
+$base_model->add_js('wp-admin/js/users_list.js');
+$base_model->add_js('wp-admin/js/' . $member_type . '.js');

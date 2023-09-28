@@ -19,8 +19,8 @@ $base_model->JSON_echo([
 
 //
 $base_model->adds_js([
-    'javascript/posts_functions.js',
-    'themes/' . THEMENAME . '/js/product.js'
+    'wp-includes/javascript/posts_functions.js',
+    THEMEPATH . 'js/product.js'
 ], [
     'cdn' => CDN_BASE_URL,
 ], [

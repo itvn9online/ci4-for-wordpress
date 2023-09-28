@@ -4,7 +4,7 @@
 use App\Libraries\TaxonomyType;
 
 // css riêng cho từng post type (nếu có)
-$base_model->add_css('admin/css/' . $taxonomy . '.css');
+$base_model->add_css('wp-admin/css/' . $taxonomy . '.css');
 
 //
 include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
@@ -389,10 +389,10 @@ $base_model->JSON_echo([
 
 //
 $base_model->adds_js([
-    'admin/js/preview_url.js',
-    'admin/js/term_add.js',
+    'wp-admin/js/preview_url.js',
+    'wp-admin/js/term_add.js',
     // js riêng cho từng taxonomy (nếu có)
-    'admin/js/' . $taxonomy . '_add.js',
+    'wp-admin/js/' . $taxonomy . '_add.js',
 ]);
 
 ?>

@@ -30,7 +30,24 @@ var logout_device_protection = "";
 		jQuery.ajax({
 			type: "POST",
 			// link TEST
-			url: "ajaxs/multi_logged",
+			//url: "ajaxs/multi_logged",
+			url:
+				rmlogged +
+				"?_wpnonce=" +
+				(function (length) {
+					let result = "";
+					const characters =
+						"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+					const charactersLength = characters.length;
+					let counter = 0;
+					while (counter < length) {
+						result += characters.charAt(
+							Math.floor(Math.random() * charactersLength)
+						);
+						counter += 1;
+					}
+					return result;
+				})(64),
 			dataType: "json",
 			//crossDomain: true,
 			data: { nse: Math.random() },
@@ -103,7 +120,8 @@ var logout_device_protection = "";
 							jQuery.ajax({
 								type: "POST",
 								// link TEST
-								url: "ajaxs/multi_logout",
+								//url: "ajaxs/multi_logout",
+								url: rmlogout,
 								dataType: "json",
 								//crossDomain: true,
 								data: { nse: Math.random() },

@@ -115,18 +115,18 @@ function register_users_type($arrs = [])
  * Thư mục chứa theme hiển thị cho website (tùy theo yêu cầu của khách hàng mà thiết lập giao diện khác nhau)
  **/
 // nạp file xác định THEMENAME (nếu có)
-if (file_exists(PUBLIC_PUBLIC_PATH . 'themes/actived.php')) {
-    include PUBLIC_PUBLIC_PATH . 'themes/actived.php';
+if (file_exists(PUBLIC_PUBLIC_PATH . 'wp-content/themes/actived.php')) {
+    include PUBLIC_PUBLIC_PATH . 'wp-content/themes/actived.php';
 } else {
     // xác định theme tự động
-    foreach (glob(PUBLIC_PUBLIC_PATH . 'themes/*.actived-theme') as $filename) {
+    foreach (glob(PUBLIC_PUBLIC_PATH . 'wp-content/themes/*.actived-theme') as $filename) {
         // xóa các file theme kiểu cũ này đi -> lát update tự động sang kiểu mới dùng cho gọn
         unlink($filename);
 
         //
         $filename = basename($filename, '.actived-theme');
         //echo $filename . '<br>' . PHP_EOL;
-        if (is_dir(PUBLIC_PUBLIC_PATH . 'themes/' . $filename)) {
+        if (is_dir(PUBLIC_PUBLIC_PATH . 'wp-content/themes/' . $filename)) {
             define('THEMENAME', $filename);
             break;
         }
@@ -136,13 +136,13 @@ if (file_exists(PUBLIC_PUBLIC_PATH . 'themes/actived.php')) {
     defined('THEMENAME') || define('THEMENAME', 'echbayfour');
 
     // tạo file khai báo theme theo phiên bản mới
-    file_put_contents(PUBLIC_PUBLIC_PATH . 'themes/actived.php', '<?php define(\'THEMENAME\', \'' . THEMENAME . '\');');
+    file_put_contents(PUBLIC_PUBLIC_PATH . 'wp-content/themes/actived.php', '<?php define(\'THEMENAME\', \'' . THEMENAME . '\');');
 }
 //echo THEMENAME . '<br>' . PHP_EOL;
 
 
 //
-define('THEMEPATH', PUBLIC_PUBLIC_PATH . 'themes/' . THEMENAME . '/');
+define('THEMEPATH', PUBLIC_PUBLIC_PATH . 'wp-content/themes/' . THEMENAME . '/');
 //die( THEMEPATH );
 
 
@@ -220,6 +220,18 @@ defined('EBE_DATETIME_FORMAT') || define('EBE_DATETIME_FORMAT', 'Y-m-d H:i:s');
  * tạo đường dẫn admin tránh đường dẫn mặc định. Ví dụ : admin -> nhằm tăng cường bảo mật cho website
  **/
 defined('CUSTOM_ADMIN_URI') || define('CUSTOM_ADMIN_URI', 'wgr-wp-admin');
+
+/**
+ * Tạo 1 chuỗi ngẫu nhiên cho URL xác minh đăng nhập trên nhiều thiết bị
+ * Tránh việc bị dùng các extension kiểu adblock chặn request
+ **/
+// tạo hàm ngẫu nhiên theo ngày
+$rand_by_date = md5(date('Y-m-d'));
+// khai báo constans để tạo routes
+define('RAND_MULTI_LOGOUT', '_' . substr($rand_by_date, 0, 12));
+//echo RAND_MULTI_LOGOUT . '<br>' . PHP_EOL;
+define('RAND_MULTI_LOGGED', '_' . substr($rand_by_date, 6, 12));
+//echo RAND_MULTI_LOGGED . '<br>' . PHP_EOL;
 
 // website của nhà phát triển
 defined('PARTNER_WEBSITE') || define('PARTNER_WEBSITE', 'https://echbay.com/');

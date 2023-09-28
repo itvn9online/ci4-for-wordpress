@@ -4,7 +4,7 @@
 //use App\Libraries\OrderType;
 
 // css riêng cho từng post type (nếu có)
-$base_model->add_css('admin/css/' . $post_type . '.css');
+$base_model->add_css('wp-admin/css/' . $post_type . '.css');
 
 //
 //print_r($data);
@@ -139,7 +139,7 @@ $base_model->JSON_echo([
 </script>
 <?php
 
-$base_model->add_js('admin/js/posts.js');
-$base_model->add_js('admin/js/posts_add.js');
+$base_model->add_js('wp-admin/js/posts.js');
+$base_model->add_js('wp-admin/js/posts_add.js');
 // css riêng cho từng post type (nếu có)
-$base_model->add_js('admin/js/' . $post_type . '.js');
+$base_model->add_js('wp-admin/js/' . $post_type . '.js');

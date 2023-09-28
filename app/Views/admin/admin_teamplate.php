@@ -88,70 +88,70 @@ if ($debug_enable === true) {
     <base href="<?php echo DYNAMIC_BASE_URL; ?>" />
     <link href="<?php echo DYNAMIC_BASE_URL; ?>favicon.png" rel="shortcut icon" type="image/png" />
     <!-- bootstrap -->
-    <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="wp-includes/thirdparty/bootstrap/css/bootstrap.min.css" />
     <!-- chưa có thời gian cập nhật bootstrap bản mới -> vẫn ưu tiên dùng bản cũ vậy -->
-    <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/bootstrap-old/bootstrap.min-old.css" />
-    <!-- <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/bootstrap-old/bootstrap.min-old-bak.css" /> -->
-    <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/bootstrap-old/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="wp-includes/thirdparty/bootstrap-old/bootstrap.min-old.css" />
+    <!-- <link rel="stylesheet" type="text/css" media="all" href="thirdparty/bootstrap-old/bootstrap.min-old-bak.css" /> -->
+    <link rel="stylesheet" type="text/css" media="all" href="wp-includes/thirdparty/bootstrap-old/bootstrap-responsive.min.css" />
     <!-- END bootstrap -->
-    <!-- <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/select2/select2.min.css" /> -->
-    <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/select2-4.0.13/css/select2.min.css" />
-    <link rel="stylesheet" type="text/css" media="all" href="css/my-bootstrap.css" />
-    <link rel="stylesheet" type="text/css" media="all" href="admin/css/fullcalendar.css" />
-    <link rel="stylesheet" type="text/css" media="all" href="admin/css/maruti-style.css" />
-    <link rel="stylesheet" type="text/css" media="all" href="admin/css/tagify.css" />
-    <link rel="stylesheet" type="text/css" media="all" href="admin/css/base.css" />
-    <!-- <link rel="stylesheet" type="text/css" media="all" href="admin/css/uniform.css"/> -->
-    <link rel="stylesheet" type="text/css" media="all" href="admin/css/maruti-media.css" class="skin-color" />
-    <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/awesome47/css/font-awesome.before.css?v=4.7" />
-    <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/awesome47/css/font-awesome.min.css?v=4.7" />
+    <!-- <link rel="stylesheet" type="text/css" media="all" href="wp-includes/thirdparty/select2/select2.min.css" /> -->
+    <link rel="stylesheet" type="text/css" media="all" href="wp-includes/thirdparty/select2-4.0.13/css/select2.min.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="wp-includes/css/my-bootstrap.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="wp-admin/css/fullcalendar.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="wp-admin/css/maruti-style.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="wp-admin/css/tagify.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="wp-admin/css/base.css" />
+    <!-- <link rel="stylesheet" type="text/css" media="all" href="wp-admin/css/uniform.css"/> -->
+    <link rel="stylesheet" type="text/css" media="all" href="wp-admin/css/maruti-media.css" class="skin-color" />
+    <link rel="stylesheet" type="text/css" media="all" href="wp-includes/thirdparty/awesome47/css/font-awesome.before.css?v=4.7" />
+    <link rel="stylesheet" type="text/css" media="all" href="wp-includes/thirdparty/awesome47/css/font-awesome.min.css?v=4.7" />
     <!--
 <link rel="stylesheet" type="text/css" media="all" href="fonts/fontawesome-free-5.15.1-web/css/fontawesome.min.css" />
 <link rel="stylesheet" type="text/css" media="all" href="fonts/fontawesome-free-5.15.1-web/css/brands.min.css" />
 <link rel="stylesheet" type="text/css" media="all" href="fonts/fontawesome-free-5.15.1-web/css/solid.min.css" />
 <link rel="stylesheet" type="text/css" media="all" href="fonts/fontawesome-free-5.15.1-web/css/v4-shims.min.css" />
 -->
-    <!-- <script src="./thirdparty/validate/jquery.min.js"></script> -->
-    <script src="./thirdparty/jquery/jquery-3.6.1.min.js"></script>
-    <!-- <script src="./thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> -->
-    <!-- <script src="./thirdparty/jquery/jquery-migrate-1.4.1.min.js"></script> -->
-    <script src="./thirdparty/validate/library.js"></script>
-    <script src="./thirdparty/validate/jquery.validate.min.js"></script>
-    <script src="./thirdparty/validate/localization/messages_vi.js"></script>
+    <!-- <script src="wp-includes/thirdparty/validate/jquery.min.js"></script> -->
+    <script src="wp-includes/thirdparty/jquery/jquery-3.6.1.min.js"></script>
+    <!-- <script src="wp-includes/thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> -->
+    <!-- <script src="wp-includes/thirdparty/jquery/jquery-migrate-1.4.1.min.js"></script> -->
+    <script src="wp-includes/thirdparty/validate/library.js"></script>
+    <script src="wp-includes/thirdparty/validate/jquery.validate.min.js"></script>
+    <script src="wp-includes/thirdparty/validate/localization/messages_vi.js"></script>
     <!-- <script src="ckeditor/ckeditor.js"></script> -->
-    <script src="./thirdparty/tinymce/tinymce.min.js?v=4.9.11"></script>
+    <script src="wp-includes/thirdparty/tinymce/tinymce.min.js?v=4.9.11"></script>
     <!-- <script src="https://cdn.ckeditor.com/ckeditor5/28.0.0/classic/ckeditor.js"></script> -->
     <!-- <script src="ckfinder/ckfinder.js"></script> -->
-    <script src="./thirdparty/jquery-ui/jquery-ui.min.js"></script>
-    <link rel="stylesheet" type="text/css" media="all" href="./thirdparty/jquery-ui/jquery-ui.min.css" />
-    <!-- <script src="admin/js/bootstrap.min.js"></script> -->
-    <script src="./thirdparty/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="./thirdparty/angular/angular.min.js"></script>
-    <script src="./thirdparty/vuejs/vue<?php echo ($debug_enable !== true ? '.min' : ''); ?>.js"></script>
-    <!-- <script src="./thirdparty/bootstrap/js/bootstrap.min.js"></script> -->
-    <!-- <script src="./thirdparty/select2/select2.min.js"></script> -->
-    <script src="./thirdparty/select2-4.0.13/js/select2.min.js"></script>
+    <script src="wp-includes/thirdparty/jquery-ui/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" media="all" href="wp-includes/thirdparty/jquery-ui/jquery-ui.min.css" />
+    <!-- <script src="wp-admin/js/bootstrap.min.js"></script> -->
+    <script src="wp-includes/thirdparty/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="wp-includes/thirdparty/angular/angular.min.js"></script>
+    <script src="wp-includes/thirdparty/vuejs/vue<?php echo ($debug_enable !== true ? '.min' : ''); ?>.js"></script>
+    <!-- <script src="wp-includes/thirdparty/bootstrap/js/bootstrap.min.js"></script> -->
+    <!-- <script src="wp-includes/thirdparty/select2/select2.min.js"></script> -->
+    <script src="wp-includes/thirdparty/select2-4.0.13/js/select2.min.js"></script>
     <?php
 
     $base_model->adds_css([
-        //'css/flatsome.css',
-        'css/flatsome-for-bootstrap.css',
-        'css/d.css',
-        //'css/d2.css',
-        'admin/css/admin_teamplate.css',
+        //'wp-includes/css/flatsome.css',
+        'wp-includes/css/flatsome-for-bootstrap.css',
+        'wp-includes/css/d.css',
+        //'wp-includes/css/d2.css',
+        'wp-admin/css/admin_teamplate.css',
         // admin thì luôn show debug bar rồi
-        'admin/css/show-debug-bar.css',
+        'wp-admin/css/show-debug-bar.css',
     ]);
 
     $base_model->adds_js([
-        'javascript/functions_users.js',
-        'admin/js/admin_functions.js',
-        'admin/js/admin_functions2.js',
-        'admin/js/admin_teamplate.js',
-        'javascript/functions.js',
-        'javascript/functions_footer.js',
-        'themes/' . THEMENAME . '/js/functions.js',
-        'javascript/eb.js'
+        'wp-includes/javascript/functions_users.js',
+        'wp-admin/js/admin_functions.js',
+        'wp-admin/js/admin_functions2.js',
+        'wp-admin/js/admin_teamplate.js',
+        'wp-includes/javascript/functions.js',
+        'wp-includes/javascript/functions_footer.js',
+        THEMEPATH . 'js/functions.js',
+        'wp-includes/javascript/eb.js'
     ]);
 
     //
@@ -191,7 +191,7 @@ if ($debug_enable === true) {
     <!--Header-part-->
     <div id="admin-header" class="cf whitecolor awhitecolor">
         <div class="lf f33">
-            <div class="d-inline"><a href="./<?php echo CUSTOM_ADMIN_URI; ?>"><i class="fa fa-cog"></i> <?php $lang_model->the_text('admin_quan_tri_he_thong', 'Quản trị hệ thống'); ?></a></div>
+            <div class="d-inline"><a href="<?php echo CUSTOM_ADMIN_URI; ?>"><i class="fa fa-cog"></i> <?php $lang_model->the_text('admin_quan_tri_he_thong', 'Quản trị hệ thống'); ?></a></div>
             &nbsp; | &nbsp;
             <div class="d-inline"><a href="./"><i class="fa fa-home"></i> <?php $lang_model->the_text('admin_ve_trang_chu', 'Về trang chủ'); ?></a></div>
             &nbsp; | &nbsp;
@@ -212,7 +212,7 @@ if ($debug_enable === true) {
                 </div>
             </div>
         </div>
-        <div class="lf f33 text-right"><?php $lang_model->the_text('admin_xin_chao', 'Xin chào'); ?>: <a title="<?php $lang_model->the_text('admin_thong_tin_ca_nhan', 'Thông tin cá nhân'); ?>" href="./users/profile">
+        <div class="lf f33 text-right"><?php $lang_model->the_text('admin_xin_chao', 'Xin chào'); ?>: <a title="<?php $lang_model->the_text('admin_thong_tin_ca_nhan', 'Thông tin cá nhân'); ?>" href="users/profile">
                 <?php
                 echo ($session_data['display_name'] != '' ? $session_data['display_name'] : $session_data['user_login']);
                 ?>
@@ -238,7 +238,7 @@ if ($debug_enable === true) {
                 <ul class="cf">
                     <li><a href="./" title="Go to Home" class="tip-bottom"> <i class="fa fa-home"></i> Trang chủ</a>
                     </li>
-                    <li><a href="./<?php echo CUSTOM_ADMIN_URI; ?>" title="Go to Home" class="tip-bottom"> <i class="fa fa-cog"></i> Quản trị</a></li>
+                    <li><a href="<?php echo CUSTOM_ADMIN_URI; ?>" title="Go to Home" class="tip-bottom"> <i class="fa fa-cog"></i> Quản trị</a></li>
                 </ul>
             </div>
         </div>
@@ -271,10 +271,10 @@ if ($debug_enable === true) {
     <?php
 
     $base_model->adds_js([
-        'admin/js/admin_footer.js',
-        'admin/js/active-support-label.js',
-        'javascript/datetimepicker.js',
-        'javascript/pagination.js',
+        'wp-admin/js/admin_footer.js',
+        'wp-admin/js/active-support-label.js',
+        'wp-includes/javascript/datetimepicker.js',
+        'wp-includes/javascript/pagination.js',
     ]);
 
     ?>
@@ -289,7 +289,7 @@ if ($debug_enable === true) {
                 <div class="modal-body">Xác nhận đăng xuất khỏi hệ thống...</div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <a href="./users/logout" class="d-inline btn btn-primary"><i class="fa fa-sign-out"></i> Logout</a>
+                    <a href="users/logout" class="d-inline btn btn-primary"><i class="fa fa-sign-out"></i> Logout</a>
                 </div>
             </div>
         </div>

@@ -27,9 +27,9 @@ if (
 
     //
     $base_model->adds_js([
-        'javascript/taxonomy.js',
-        'themes/' . THEMENAME . '/js/taxonomy.js',
-        'themes/' . THEMENAME . '/js/' . $taxonomy . '_taxonomy.js',
+        'wp-includes/javascript/taxonomy.js',
+        THEMEPATH . 'js/taxonomy.js',
+        THEMEPATH . 'js/' . $taxonomy . '_taxonomy.js',
     ], [
         'cdn' => CDN_BASE_URL,
     ], [

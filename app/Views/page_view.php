@@ -4,7 +4,7 @@
 //$post_model->the_slider($data, [], $lang_model->get_the_text('main_slider_slug', ''));
 
 // nạp css dùng chung
-$base_model->add_css('themes/' . THEMENAME . '/css/page.css', [
+$base_model->add_css(THEMEPATH . 'css/page.css', [
     'cdn' => CDN_BASE_URL,
 ]);
 
@@ -33,7 +33,7 @@ if ($page_template != '') {
 }
 
 // nạp js dùng chung
-$base_model->add_js('themes/' . THEMENAME . '/js/page.js', [
+$base_model->add_js(THEMEPATH . 'js/page.js', [
     'cdn' => CDN_BASE_URL,
 ], [
     'defer'

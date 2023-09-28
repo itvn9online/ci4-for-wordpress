@@ -3,14 +3,14 @@
 
 //
 $base_model->adds_js([
-    'javascript/functions_footer.js',
+    'wp-includes/javascript/functions_footer.js',
     // https://getbootstrap.com/docs/4.0/getting-started/contents/
-    //'thirdparty/bootstrap/js/bootstrap.bundle.min.js', // bao gồm cả Popper -> ít dùng -> khi nào dùng thì include vào sau
-    'thirdparty/bootstrap/js/bootstrap.min.js',
-    'javascript/footer.js',
-    'javascript/footer_audio.js',
-    'javascript/pagination.js',
-    'themes/' . THEMENAME . '/js/d.js'
+    //'wp-includes/thirdparty/bootstrap/js/bootstrap.bundle.min.js', // bao gồm cả Popper -> ít dùng -> khi nào dùng thì include vào sau
+    'wp-includes/thirdparty/bootstrap/js/bootstrap.min.js',
+    'wp-includes/javascript/footer.js',
+    'wp-includes/javascript/footer_audio.js',
+    'wp-includes/javascript/pagination.js',
+    THEMEPATH . 'js/d.js'
 ], [
     'cdn' => CDN_BASE_URL,
 ], [
@@ -20,7 +20,7 @@ $base_model->adds_js([
 // chức năng riêng dành cho admin
 if ($current_user_id > 0 && isset($session_data['userLevel']) && $session_data['userLevel'] > 0) {
     // hiển thị debug bar nếu có
-    $base_model->add_css('admin/css/show-debug-bar.css', [
+    $base_model->add_css('wp-admin/css/show-debug-bar.css', [
         'cdn' => CDN_BASE_URL,
     ]);
 
@@ -31,7 +31,7 @@ if ($current_user_id > 0 && isset($session_data['userLevel']) && $session_data['
     ]);
 
     // nút edit
-    $base_model->add_js('admin/js/show-edit-btn.js', [
+    $base_model->add_js('wp-admin/js/show-edit-btn.js', [
         'cdn' => CDN_BASE_URL,
     ], [
         'defer'
@@ -46,7 +46,7 @@ include VIEWS_PATH . 'private_require_view.php';
 
 //
 /*
-$base_model->add_js( 'javascript/analytics.js', [], [
+$base_model->add_js( 'wp-includes/javascript/analytics.js', [], [
     'defer'
 ] );
 */

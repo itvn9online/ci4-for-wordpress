@@ -30,9 +30,9 @@ class Optimizes extends Optimize
             $f = $this->f_active_optimize;
 
             // base code
-            $this->before_active_optimize(PUBLIC_PUBLIC_PATH . 'css/', $f, $c);
-            $this->before_active_optimize(PUBLIC_PUBLIC_PATH . 'javascript/', $f, $c);
-            $this->before_active_optimize(PUBLIC_PUBLIC_PATH . 'javascript/firebasejs/', $f, $c);
+            $this->before_active_optimize(PUBLIC_PUBLIC_PATH . 'wp-includes/css/', $f, $c);
+            $this->before_active_optimize(PUBLIC_PUBLIC_PATH . 'wp-includes/javascript/', $f, $c);
+            $this->before_active_optimize(PUBLIC_PUBLIC_PATH . 'wp-includes/javascript/firebasejs/', $f, $c);
             // theme
             $this->before_active_optimize(THEMEPATH . 'css/', $f, $c);
             $this->before_active_optimize(THEMEPATH . 'js/', $f, $c);

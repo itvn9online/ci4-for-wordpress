@@ -358,7 +358,7 @@ class Sitemap extends Csrf
         //die( __CLASS__ . ':' . __LINE__ );
 
         //
-        $main_sitemap_xsl = PUBLIC_HTML_PATH . 'public/css/main-sitemap.xsl';
+        $main_sitemap_xsl = PUBLIC_HTML_PATH . 'public/wp-includes/css/main-sitemap.xsl';
         $cache_sitemap_xsl = PUBLIC_HTML_PATH . 'public/upload/main-sitemap.xsl';
 
         // thay thế nội dung trong sitemap thành của partner

@@ -60,9 +60,9 @@
                 <div class="row">
                     <div class="col small-12 medium-4 large-4 l40">Ảnh đại diện</div>
                     <div class="col small-12 medium-8 large-8">
-                        <label data-updating="1" for="file-input-media" id="click-chose-media"> <img src="images/_blank.png" height="150" <?php if ($data['avatar'] != '') { ?>style="background-image: url(
+                        <label data-updating="1" for="file-input-media" id="click-chose-media"> <img src="wp-includes/images/_blank.png" height="150" <?php if ($data['avatar'] != '') { ?>style="background-image: url(
                             <?php echo $data['avatar']; ?>);" <?php
-                                                                                                                                            }
+                                                                                                                                                        }
                                                                 ?> />
                             <input id="file-input-media" accept="image/*" type="file" class="cur" />
                             <input type="hidden" name="data[avatar]" id="file-input-avatar" value="<?php echo $data['avatar']; ?>" />

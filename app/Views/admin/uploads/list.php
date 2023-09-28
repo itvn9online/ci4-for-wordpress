@@ -2,8 +2,8 @@
 
 //
 $base_model->adds_css([
-    'admin/css/uploads_drag_drop.css',
-    'admin/css/uploads.css',
+    'wp-admin/css/uploads_drag_drop.css',
+    'wp-admin/css/uploads.css',
 ]);
 
 //
@@ -118,7 +118,7 @@ include VIEWS_PATH . 'includes/uploads_drag_drop.php';
 
 //
 $base_model->adds_js([
-    'admin/js/uploads.js',
-    'admin/js/uploads_drag_drop.js',
-    'javascript/uploads.js',
+    'wp-admin/js/uploads.js',
+    'wp-admin/js/uploads_drag_drop.js',
+    'wp-includes/javascript/uploads.js',
 ]);

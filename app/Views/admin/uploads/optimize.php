@@ -146,4 +146,4 @@ $base_model->JSON_echo(
 );
 
 // js riêng cho từng post type (nếu có)
-$base_model->add_js('admin/js/optimize.js');
+$base_model->add_js('wp-admin/js/optimize.js');

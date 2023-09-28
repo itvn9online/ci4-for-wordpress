@@ -409,7 +409,7 @@ class Posts extends Admin
 
         //
         if (!empty($this->MY_post('data'))) {
-            //die( __CLASS__ . ':' . __LINE__ );
+            //die(__CLASS__ . ':' . __LINE__);
             // nếu là nhân bản
             if ($this->MY_post('is_duplicate', 0) * 1 > 0) {
                 //print_r( $_POST );
@@ -855,7 +855,8 @@ class Posts extends Admin
         //
         $data = $this->MY_post('data');
         //print_r($data);
-        //print_r( $_POST );
+        //print_r($_POST);
+        //die(__CLASS__ . ':' . __LINE__);
 
         // nạp lại trang nếu có đổi slug duplicate
         if (
@@ -885,6 +886,7 @@ class Posts extends Admin
                 echo '<script>top.set_new_post_url("' . $this->post_model->update_post_permalink($new_data) . '", "' . $new_data['post_name'] . '");</script>';
             }
         }
+        //die(__CLASS__ . ':' . __LINE__);
 
         //
         echo '<script>top.after_update_post();</script>';

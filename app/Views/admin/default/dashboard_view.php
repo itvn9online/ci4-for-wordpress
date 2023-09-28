@@ -360,4 +360,4 @@ $base_model->JSON_parse(
 );
 
 //
-$base_model->add_js('admin/js/dashboard.js');
+$base_model->add_js('wp-admin/js/dashboard.js');

@@ -505,10 +505,12 @@ function WGR_load_textediter(for_id, ops) {
 		extended_valid_elements: "i[class]",
 		// thêm 1 số link css để tạo định dạng trong quá trình soạn thảo
 		content_css: [
-			web_link + "thirdparty/bootstrap/css/bootstrap.min.css",
-			web_link + "admin/css/bootstrap-for-tiny-editer.css",
-			web_link + "thirdparty/awesome47/css/font-awesome.before.css?v=4.7",
-			web_link + "thirdparty/awesome47/css/font-awesome.min.css?v=4.7",
+			web_link + "wp-includes/thirdparty/bootstrap/css/bootstrap.min.css",
+			web_link + "wp-admin/css/bootstrap-for-tiny-editer.css",
+			web_link +
+				"wp-includes/thirdparty/awesome47/css/font-awesome.before.css?v=4.7",
+			web_link +
+				"wp-includes/thirdparty/awesome47/css/font-awesome.min.css?v=4.7",
 		].join(","),
 		setup: function (ed) {
 			// sự kiện khi khi nhấp đúp chuột

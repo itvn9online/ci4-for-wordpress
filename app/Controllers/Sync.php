@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 // Libraries
-use App\Libraries\UsersType;
+//use App\Libraries\UsersType;
 use App\Helpers\HtmlTemplate;
 use App\Libraries\LanguageCost;
 
@@ -35,7 +35,7 @@ class Sync extends BaseController
         $this->auto_sync_table_column($check_thirdparty_exist);
 
         // đồng bộ vendor CSS, JS -> đặt tên là thirdparty để tránh trùng lặp khi load file tĩnh ngoài frontend
-        $this->action_vendor_sync('public/thirdparty', $check_thirdparty_exist);
+        $this->action_vendor_sync('public/wp-includes/thirdparty', $check_thirdparty_exist);
         // đồng bộ vendor php
         $this->action_vendor_sync('vendor', $check_thirdparty_exist);
         // đồng bộ ThirdParty php (code php của bên thứ 3)
@@ -48,11 +48,11 @@ class Sync extends BaseController
                 $this->action_index_sync('public/' . basename($filename), $check_thirdparty_exist);
             }
         }
-        foreach (glob(PUBLIC_HTML_PATH . 'public/admin/*') as $filename) {
+        foreach (glob(PUBLIC_HTML_PATH . 'public/wp-admin/*') as $filename) {
             if (is_dir($filename)) {
                 //echo $filename . '<br>' . PHP_EOL;
                 //echo basename($filename) . '<br>' . PHP_EOL;
-                $this->action_index_sync('public/admin/' . basename($filename), $check_thirdparty_exist);
+                $this->action_index_sync('public/wp-admin/' . basename($filename), $check_thirdparty_exist);
             }
         }
 

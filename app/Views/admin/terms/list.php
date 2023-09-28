@@ -14,8 +14,8 @@ if ($taxonomy == TaxonomyType::ADS) {
 
 // css riêng cho từng post type (nếu có)
 $base_model->adds_css([
-    'admin/css/terms.css',
-    'admin/css/' . $taxonomy . '.css'
+    'wp-admin/css/terms.css',
+    'wp-admin/css/' . $taxonomy . '.css'
 ]);
 
 ?>
@@ -140,8 +140,8 @@ if ($taxonomy == TaxonomyType::ADS) {
 
 // js riêng cho từng post type (nếu có)
 $base_model->adds_js([
-    'admin/js/terms.js',
-    'admin/js/' . $taxonomy . '.js'
+    'wp-admin/js/terms.js',
+    'wp-admin/js/' . $taxonomy . '.js'
 ]);
 
 ?>

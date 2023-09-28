@@ -4,7 +4,7 @@
 use App\Libraries\PostType;
 
 // css riêng cho từng post type (nếu có)
-$base_model->add_css('admin/css/' . $post_type . '.css');
+$base_model->add_css('wp-admin/css/' . $post_type . '.css');
 
 //
 include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
@@ -248,10 +248,10 @@ $base_model->JSON_echo([
 
 //
 $base_model->adds_js([
-    'admin/js/preview_url.js',
-    'admin/js/posts.js',
-    'admin/js/posts_add.js',
+    'wp-admin/js/preview_url.js',
+    'wp-admin/js/posts.js',
+    'wp-admin/js/posts_add.js',
     // js riêng cho từng post type (nếu có)
-    'admin/js/' . $post_type . '.js',
-    'admin/js/' . $post_type . '_add.js',
+    'wp-admin/js/' . $post_type . '.js',
+    'wp-admin/js/' . $post_type . '_add.js',
 ]);

@@ -167,10 +167,15 @@ if ($app_deleted_exist === true) {
         <li>Chạy lệnh composer code được cung cấp bởi tác giả.</li>
     </ol>
 </div>
-<!-- -->
-<script>
-    var themeName = '<?php echo THEMENAME; ?>'
-</script>
 <?php
+
 //
-$base_model->add_js('admin/js/update_code.js');
+$base_model->JSON_echo([
+    // mảng này sẽ in ra dưới dạng JSON hoặc number
+], [
+    // mảng này sẽ in ra dưới dạng string
+    'themeName' => THEMENAME,
+]);
+
+//
+$base_model->add_js('wp-admin/js/update_code.js');

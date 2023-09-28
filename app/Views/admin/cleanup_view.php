@@ -109,5 +109,5 @@
 
 //
 $base_model->adds_js([
-    'admin/js/cleanup.js',
+    'wp-admin/js/cleanup.js',
 ]);

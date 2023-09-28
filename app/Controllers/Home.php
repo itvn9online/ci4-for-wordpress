@@ -700,7 +700,7 @@ class Home extends Posts
             //
             $data['where_in'] = $where_in;
         }
-        //print_r( $data );
+        //print_r($data);
 
         // xác định post type dựa theo taxonomy type
         $get_post_type = $this->base_model->select('post_type', 'posts', $where, $filter);
@@ -713,6 +713,11 @@ class Home extends Posts
                 'page_num' => $page_num,
                 'cache_key' => $cache_key,
             ]);
+            /*
+        } else {
+            print_r($where);
+            print_r($filter);
+            */
         }
 
         //
@@ -726,5 +731,8 @@ class Home extends Posts
         ], [
             'debug_backtrace' => debug_backtrace()[1]['function']
         ]);
+
+        //
+        return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Không xác định được định dạng bài viết...');
     }
 }

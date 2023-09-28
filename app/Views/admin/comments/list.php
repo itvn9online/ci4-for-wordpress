@@ -1,7 +1,7 @@
 <?php
 
 // css riêng cho từng post type (nếu có)
-$base_model->add_css('admin/css/' . $comment_type . '.css');
+$base_model->add_css('wp-admin/css/' . $comment_type . '.css');
 
 ?>
 <ul class="admin-breadcrumb">
@@ -87,5 +87,5 @@ $base_model->JSON_parse(
 <?php
 
 // js riêng cho từng comments type (nếu có)
-$base_model->add_js('admin/js/comments.js');
-$base_model->add_js('admin/js/' . $comment_type . '.js');
+$base_model->add_js('wp-admin/js/comments.js');
+$base_model->add_js('wp-admin/js/' . $comment_type . '.js');

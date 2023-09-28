@@ -1,8 +1,8 @@
 <?php
 
 // phần css, js thì thường sẽ giữ lại
-$base_model->add_css('css/maruti-login.css');
-$base_model->add_js('javascript/maruti-login.js');
+$base_model->add_css('wp-includes/css/maruti-login.css');
+$base_model->add_js('wp-includes/javascript/maruti-login.js');
 
 //
 $theme_private_view = str_replace(VIEWS_PATH, VIEWS_CUSTOM_PATH, __FILE__);

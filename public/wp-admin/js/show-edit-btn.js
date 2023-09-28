@@ -9,7 +9,7 @@ function show_edit_btn() {
 		t.href = v;
 		s = b.getElementsByTagName(e)[0];
 		s.parentNode.insertBefore(t, s);
-	})(document, "link", "admin/css/show-debug-bar.css");
+	})(document, "link", "wp-admin/css/show-debug-bar.css");
 	*/
 
 	// post

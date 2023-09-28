@@ -190,7 +190,7 @@ $(document).ready(function () {
 	 */
 	jQuery.ajax({
 		type: "GET",
-		url: "libraries/banks-vietqr.json",
+		url: "wp-includes/libraries/banks-vietqr.json",
 		dataType: "json",
 		//crossDomain: true,
 		timeout: 33 * 1000,

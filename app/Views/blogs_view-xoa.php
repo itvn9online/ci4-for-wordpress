@@ -53,7 +53,7 @@ include VIEWS_PATH . 'private_view.php';
 
 
 //
-$base_model->add_js('themes/' . THEMENAME . '/js/blogs_list.js', [
+$base_model->add_js(THEMEPATH . 'js/blogs_list.js', [
     'cdn' => CDN_BASE_URL,
 ], [
     'defer'

@@ -28,8 +28,8 @@ if (!isset($breadcrumb)) {
     //
     $base_model->adds_css(
         [
-            'css/users.css',
-            'themes/' . THEMENAME . '/css/users.css',
+            'wp-includes/css/users.css',
+            THEMEPATH . 'css/users.css',
         ],
         [
             'cdn' => CDN_BASE_URL,
@@ -74,8 +74,8 @@ if (!isset($breadcrumb)) {
 
     //
     $base_model->adds_js([
-        'javascript/users.js',
-        'themes/' . THEMENAME . '/js/users.js',
+        'wp-includes/javascript/users.js',
+        THEMEPATH . 'js/users.js',
     ], [
         'cdn' => CDN_BASE_URL,
     ], [
