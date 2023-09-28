@@ -317,7 +317,7 @@ class File extends EbModel
     public function create_file($file_, $content_, $ops = [])
     {
         if ($content_ == '') {
-            echo 'ERROR FTP: content is NULL <br>' . PHP_EOL;
+            echo 'ERROR put file: content is NULL: ' . basename($file_) . '<br>' . PHP_EOL;
             return false;
         }
         //echo __CLASS__ . ':' . __LINE__ . ':' . $this->debugMyBacktrace(debug_backtrace());

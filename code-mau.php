@@ -8,13 +8,13 @@ echo 'test format on type';
 /**
  * các file CSS chuyển từ PHP sang sẽ cho vào đây
  **/
-$base_model->add_css('public/wp-includes/css/ten_file.css', [
+$base_model->add_css('wp-includes/css/ten_file.css', [
     'get_content' => 1,
     'preload' => 1,
     'cdn' => CDN_BASE_URL,
 ]);
 $base_model->adds_css([
-    'public/wp-includes/css/ten_file.css',
+    'wp-includes/css/ten_file.css',
     THEMEPATH . '/css/aaaaaaaaaaa.css',
 ], [
     'get_content' => 1,
@@ -22,7 +22,7 @@ $base_model->adds_css([
     'cdn' => CDN_BASE_URL,
 ]);
 // lấy mã CSS trả về thay vì echo luôn
-$base_model->get_add_css('public/wp-includes/css/ten_file.css', [
+$base_model->get_add_css('wp-includes/css/ten_file.css', [
     'get_content' => 1,
     'preload' => 1,
     'cdn' => CDN_BASE_URL,

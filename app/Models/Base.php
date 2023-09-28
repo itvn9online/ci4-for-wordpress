@@ -651,7 +651,7 @@ class Base extends Csdl
     public function eb_create_file($file_, $content_, $ops = [])
     {
         if ($content_ == '') {
-            echo 'ERROR put file: content is NULL<br>' . PHP_EOL;
+            echo 'ERROR put file: content is NULL: ' . basename($file_) . '<br>' . PHP_EOL;
             return false;
         }
 

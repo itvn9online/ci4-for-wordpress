@@ -7,12 +7,19 @@
  **/
 
 //
+session_start();
+//print_r($_SESSION);
+
+//
 $user_login = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     //print_r($_POST);
     if (isset($_POST['log'])) {
         $user_login = trim($_POST['log']);
     }
+} else if (isset($_SESSION['_wgr_logged']) && !empty($_SESSION['_wgr_logged'])) {
+    // nếu người dùng đã đăng nhập rồi thì chuyển luôn về trang chủ
+    die(header('Location: https://' . $_SERVER['HTTP_HOST'] . '/'));
 }
 
 //
@@ -100,7 +107,7 @@ $action = isset($_GET['action']) ? $_GET['action'] : '';
             ?>
         </p>
         <p id="backtoblog">
-            <a href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/" data-wpel-link="internal">&larr; Go to homepage</a>
+            <a href="https://<?php echo $_SERVER['HTTP_HOST']; ?>/" data-wpel-link="internal">&larr; Go to Homepage</a>
         </p>
     </div>
 </body>

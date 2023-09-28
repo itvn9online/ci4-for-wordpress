@@ -2,7 +2,7 @@
 
 //
 $base_model->adds_css([
-    'public/wp-includes/css/login.css',
+    //'wp-includes/css/login.css',
     THEMEPATH . 'css/login.css',
 ], [
     'cdn' => CDN_BASE_URL,
