@@ -38,7 +38,7 @@ class Admin extends Ajaxs
 
         //
         //$response = \Config\Services::response();
-        //$this->response->setHeader('Cache-Control', 'no-cache');
+        //$response->setHeader('Cache-Control', 'no-cache');
         //$response->removeHeader('Content-Security-Policy');
 
         //

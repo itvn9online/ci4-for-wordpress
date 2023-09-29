@@ -49,6 +49,8 @@ ExpiresByType application/x-icon "access plus 1 year"
 </IfModule>
 
 <IfModule mod_headers.c>
+Header set Cache-Control "max-age=120"
+
 <FilesMatch "\.(3gp|gif|jpg|jpeg|png|ico|wmv|avi|asf|asx|mpg|mpeg|mp4|pls|mp3|mid|wav|swf|flv|exe|zip|tar|rar|gz|tgz|bz2|uha|7z|doc|docx|xls|xlsx|pdf|iso)$">
 Header set Cache-Control "public, must-revalidate, proxy-revalidate"
 </FilesMatch>
@@ -72,14 +74,10 @@ Header set Cache-Control "public, must-revalidate, proxy-revalidate"
 Header set Cache-Control "public, must-revalidate, proxy-revalidate"
 </FilesMatch>
 
-<FilesMatch "\.(php|asp|aspx)$">
+#<FilesMatch "\.(x?html|htm|php|asp|aspx)$">
 #Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
-Header set Cache-Control "max-age=60, no-cache, must-revalidate"
-</FilesMatch>
-
-<FilesMatch "\.(x?html|htm)$">
-Header set Cache-Control "max-age=60, private, must-revalidate"
-</FilesMatch>
+#Header set Cache-Control "max-age=120"
+#</FilesMatch>
 
 #	https://techtalk.vn/tat-ca-nhung-thu-ban-can-biet-ve-http-security-headers.html
 #	https://hstspreload.org/

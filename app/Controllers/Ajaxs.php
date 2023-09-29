@@ -59,6 +59,8 @@ class Ajaxs extends Layout
                 'hash' => $result,
                 // hash lấy từ cache ra
                 //'chash' => $cresult,
+                //'rmlogout' => RAND_MULTI_LOGOUT,
+                //'rmlogged' => RAND_MULTI_LOGGED,
             ]
         );
     }

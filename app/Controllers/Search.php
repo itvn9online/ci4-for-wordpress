@@ -267,10 +267,11 @@ class Search extends Csrf
         // định dạng json
         $this->result_json_type($data, [
             'Access-Control-Allow-Origin: *',
-            'Cache-Control: no-store, no-cache, must-revalidate, max-age=0',
-            'Pragma: no-cache',
+            //'Cache-Control: no-store, no-cache, must-revalidate, max-age=0',
+            'Cache-Control: max-age=120',
+            //'Pragma: no-cache',
         ], [
-            'Cache-Control: post-check=0, pre-check=0',
+            //'Cache-Control: post-check=0, pre-check=0',
         ]);
     }
 }

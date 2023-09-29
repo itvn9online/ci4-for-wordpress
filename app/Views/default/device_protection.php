@@ -31,9 +31,9 @@ $base_model->JSON_echo([
     // mảng này sẽ in ra dưới dạng JSON hoặc number
 ], [
     // mảng này sẽ in ra dưới dạng string
-    // request_multi_logout
+    // request_multi_logout -> Ajaxs\multi_logout
     'rmlogout' => RAND_MULTI_LOGOUT,
-    // request_multi_logged
+    // request_multi_logged -> Ajaxs\multi_logged
     'rmlogged' => RAND_MULTI_LOGGED,
 ]);
 

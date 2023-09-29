@@ -13,7 +13,7 @@ use App\Helpers\HtmlTemplate;
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?php echo $seo['title']; ?></title>
 <base href="<?php echo DYNAMIC_BASE_URL; ?>" />
-<meta http-equiv="Cache-control" content="max-age=60, private, must-revalidate">
+<meta http-equiv="Cache-control" content="max-age=120">
 <!-- <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" /> -->
 <meta name="theme-color" content="<?php echo $getconfig->default_bg; ?>">
 <meta name="msapplication-navbutton-color" content="<?php echo $getconfig->default_bg; ?>">

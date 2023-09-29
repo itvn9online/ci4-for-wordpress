@@ -180,6 +180,12 @@ class Layout extends Sync
     // chỉ gọi đến chức năng nạp header, footer khi cần hiển thị
     protected function global_header_footer()
     {
+        //
+        //$response = \Config\Services::response();
+        //$response->removeHeader('Cache-Control');
+        //$response->setHeader('Cache-Control', 'max-age=120')->appendHeader('Cache-Control', 'must-revalidate');
+        //$response->setHeader('Cache-Control', 'max-age=120');
+
         //print_r($this->getconfig);
         $this->teamplate['header'] = view(
             'header_view',
@@ -274,7 +280,8 @@ class Layout extends Sync
          */
         //echo __CLASS__ . ':' . __LINE__;
         $pcol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
-        $this->response->setStatusCode(404, $pcol . ' 404 Not Found');
+        $response = \Config\Services::response();
+        $response->setStatusCode(404, $pcol . ' 404 Not Found');
 
         //
         $this->teamplate['main'] = view(

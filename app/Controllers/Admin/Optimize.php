@@ -94,7 +94,16 @@ class Optimize extends Admin
                     echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
                     $c = trim($c);
                     if (!empty($c)) {
-                        $this->push_content_file($filename, $c);
+                        // giả lập file style.css của child-theme trong wordpress
+                        $this->push_content_file($filename, implode(PHP_EOL, [
+                            '/*',
+                            'Theme Name: ' . THEMENAME,
+                            'Description: This is a child theme for Flatsome Theme',
+                            'Author: ' . PARTNER_BRAND_NAME,
+                            'Template: flatsome',
+                            'Version: 3.0',
+                            '*/',
+                        ]) . $c);
                     }
                 }
             }
