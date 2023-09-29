@@ -41,14 +41,14 @@ class Sync extends BaseController
         // đồng bộ ThirdParty php (code php của bên thứ 3)
         $this->action_vendor_sync('app/ThirdParty', $check_thirdparty_exist);
         // tạo file index cho các thư mục cần bảo mật
-        foreach (glob(PUBLIC_HTML_PATH . 'public/*') as $filename) {
+        foreach (glob(PUBLIC_PUBLIC_PATH . '*') as $filename) {
             if (is_dir($filename)) {
                 //echo $filename . '<br>' . PHP_EOL;
                 //echo basename($filename) . '<br>' . PHP_EOL;
                 $this->action_index_sync('public/' . basename($filename), $check_thirdparty_exist);
             }
         }
-        foreach (glob(PUBLIC_HTML_PATH . 'public/wp-admin/*') as $filename) {
+        foreach (glob(PUBLIC_PUBLIC_PATH . 'wp-admin/*') as $filename) {
             if (is_dir($filename)) {
                 //echo $filename . '<br>' . PHP_EOL;
                 //echo basename($filename) . '<br>' . PHP_EOL;

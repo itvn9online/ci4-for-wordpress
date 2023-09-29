@@ -33,7 +33,7 @@ $action = isset($_GET['action']) ? $_GET['action'] : '';
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Đăng nhập &#8212; WordPress</title>
     <meta name='robots' content='max-image-preview:large, noindex, noarchive' />
-    <link rel='stylesheet' id='login-css' href='https://<?php echo $_SERVER['HTTP_HOST']; ?>/wp-admin/css/login.min.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='login-css' href='https://<?php echo $_SERVER['HTTP_HOST']; ?>/wp-includes/css/login.min.css' type='text/css' media='all' />
     <meta name='referrer' content='strict-origin-when-cross-origin' />
     <meta name="viewport" content="width=device-width" />
 </head>
