@@ -48,7 +48,7 @@ class Dashboards extends Dashboard
 
         //
         $this->teamplate_admin['content'] = view(
-            'admin/update_view',
+            'admin/update_code_view',
             array(
                 // xác định các thư mục deleted code có tồn tại không
                 'app_deleted_exist' => $this->check_deleted_exist(),

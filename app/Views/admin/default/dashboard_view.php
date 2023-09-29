@@ -323,6 +323,67 @@ if ($debug_enable === true) {
             <br>
             <br>
         </div>
+        <!-- UPDATE BASE CODE -->
+        <div v-if="ci4_for_wordpress_zip > 0" class="hide-after-unzip-base_code">
+            <p class="bluecolor"><i class="fa fa-cloud-upload"></i> Update system. Dùng khi cần cập nhật bản mới cho
+                Codeigniter 4. File <strong>ci4-for-wordpress.zip</strong> sẽ được update lên <strong>public_html</strong>, và hàm này
+                sẽ hỗ trợ việc giải nén file ra.
+            </p>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#unzipBaseCodeModal"> <i class="fa fa-file-archive-o"></i> Unzip <strong>ci4-for-wordpress.zip</strong> </button>
+            <!-- Modal -->
+            <div class="modal fade" id="unzipBaseCodeModal" tabindex="-1" aria-labelledby="unzipBaseCodeModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="unzipBaseCodeModalLabel">Xác nhận cập nhật system</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">Xin lưu ý! chức năng chỉ dành cho kỹ thuật viên! Vui lòng không sử dụng nếu
+                            bạn không có khả năng bảo hành lỗi code.</div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <a href="admin/dashboard/unzip_base_code" target="target_eb_iframe">
+                                <button type="button" class="btn btn-danger"><i class="fa fa-file-archive-o"></i> Unzip
+                                    <strong>ci4-for-wordpress.zip</strong></button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+        </div>
+        <!-- UPDATE THEME CODE -->
+        <div v-if="themename_zip > 0" class="hide-after-unzip-themename">
+            <p class="bluecolor"><i class="fa fa-cloud-upload"></i> Update system. Dùng khi cần cập nhật bản mới cho
+                Codeigniter 4. File <strong><?php echo THEMENAME; ?>.zip</strong> sẽ được update lên <strong>public_html</strong>, và hàm này sẽ hỗ trợ việc giải nén file ra.
+            </p>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#unzipThemNameModal"> <i class="fa fa-file-archive-o"></i> Unzip <strong><?php echo THEMENAME; ?>.zip</strong> </button>
+            <!-- Modal -->
+            <div class="modal fade" id="unzipThemNameModal" tabindex="-1" aria-labelledby="unzipThemNameModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="unzipThemNameModalLabel">Xác nhận cập nhật system</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">Xin lưu ý! chức năng chỉ dành cho kỹ thuật viên! Vui lòng không sử dụng nếu
+                            bạn không có khả năng bảo hành lỗi code.</div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <a href="admin/dashboard/unzip_themename" target="target_eb_iframe">
+                                <button type="button" class="btn btn-danger"><i class="fa fa-file-archive-o"></i> Unzip
+                                    <strong><?php echo THEMENAME; ?>.zip</strong></button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+        </div>
     <?php
     } // END member type ADMIN
     ?>
@@ -348,6 +409,8 @@ $base_model->JSON_parse(
             'exists_f_env' => (file_exists($f_env) ? 1 : 0),
             'exists_f_backup_env' => (file_exists($f_backup_env) ? 1 : 0),
             'system_zip' => (file_exists(PUBLIC_HTML_PATH . 'system.zip') ? 1 : 0),
+            'ci4_for_wordpress_zip' => (file_exists(PUBLIC_HTML_PATH . 'ci4-for-wordpress.zip') ? 1 : 0),
+            'themename_zip' => (file_exists(PUBLIC_HTML_PATH . THEMENAME . '.zip') ? 1 : 0),
             'imagick_exist' => (class_exists('Imagick') ? 1 : 0),
             'cache_actived' => ($check_cache_active !== NULL ? 1 : 0),
             'memcached_exist' => (class_exists('Memcached') ? 1 : 0),

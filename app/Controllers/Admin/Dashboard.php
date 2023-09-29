@@ -287,10 +287,57 @@ class Dashboard extends Optimize
             //
             if ($this->MY_unzip($file_zip, PUBLIC_HTML_PATH) === TRUE) {
                 $this->MY_unlink($file_zip);
+                return true;
             }
         }
+        return false;
     }
 
+    /**
+     * Chức năng giải nén base code
+     **/
+    public function unzip_base_code()
+    {
+        if ($this->unzip_ci4_for_wordpress() === true) {
+            die('<script>top.done_unzip_base_code();</script>');
+        }
+
+        //
+        $this->base_model->alert('LỖI trong quá trình giải nén ci4-for-wordpress.zip', 'error');
+
+        //
+        return true;
+    }
+
+    /**
+     * Chức năng giải nén file theme của từng website
+     **/
+    public function unzip_themename()
+    {
+        $file_zip = PUBLIC_HTML_PATH . THEMENAME . '.zip';
+
+        //
+        if (file_exists($file_zip)) {
+            echo $file_zip . '<br>' . PHP_EOL;
+
+            //
+            if ($this->MY_unzip($file_zip, PUBLIC_HTML_PATH) === TRUE) {
+                $this->MY_unlink($file_zip);
+                die('<script>top.done_unzip_themename();</script>');
+                return true;
+            }
+        }
+
+        //
+        $this->base_model->alert('LỖI trong quá trình giải nén ' . THEMENAME . '.zip', 'error');
+
+        //
+        return false;
+    }
+
+    /**
+     * Chức năng giải nén file system của ci4
+     **/
     public function unzip_system($non_stop = false)
     {
         $system_zip = PUBLIC_HTML_PATH . 'system.zip';

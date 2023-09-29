@@ -6,6 +6,22 @@ function done_unzip_system() {
 	$(".hide-after-unzip-system").fadeOut();
 }
 
+function done_unzip_base_code() {
+	WGR_alert("DONE! giải nén ci4-for-wordpress zip thành công");
+
+	$("#unzipBaseCodeModal").modal("hide");
+
+	$(".hide-after-unzip-base_code").fadeOut();
+}
+
+function done_unzip_themename() {
+	WGR_alert("DONE! giải nén theme zip thành công");
+
+	$("#unzipThemNameModal").modal("hide");
+
+	$(".hide-after-unzip-themename").fadeOut();
+}
+
 //
 var current_full_domain = localStorage.getItem("WGR-current-full-domain");
 var current_protocol = web_link;
