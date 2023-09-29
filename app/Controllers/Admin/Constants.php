@@ -73,7 +73,12 @@ class Constants extends Configs
                 }
 
                 //$a[] = "defined('$k') || define('$k', $str_quote$v$str_quote);";
-                $a[] = "define('$k', $str_quote$v$str_quote);";
+                // 1 số trường hợp sẽ thêm lệnh kiểm tra vào trước tham số -> để tránh lỗi nếu trong quá trình hoạt động có sự thay đổi
+                if ($k == 'MY_CACHE_HANDLER' && $v == 'redis') {
+                    $a[] = "if(phpversion('redis') != '') define('$k', $str_quote$v$str_quote);";
+                } else {
+                    $a[] = "define('$k', $str_quote$v$str_quote);";
+                }
             }
         }
         //print_r($a);

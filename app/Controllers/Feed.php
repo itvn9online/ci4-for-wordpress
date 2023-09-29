@@ -35,7 +35,7 @@ class Feed extends Layout
             'name' => $this->getconfig->name,
             'description' => $this->getconfig->description,
             'web_favicon' => $this->getconfig->web_favicon,
-            'last_build' => date('r', strtotime(date('Y-m-d H') . ':01:01')),
+            'last_build' => date('r', strtotime(date('Y-m-d H') . ':33:33')),
         ] as $k => $v) {
             $xml_content = str_replace('{' . $k . '}', $v, $xml_content);
         }
@@ -55,7 +55,7 @@ class Feed extends Layout
                 'name' => $this->getconfig->name,
                 'description' => $this->getconfig->description,
                 'web_favicon' => DYNAMIC_BASE_URL . $this->getconfig->web_favicon,
-                'last_build' => date('r', strtotime(date('Y-m-d H') . ':01:01')),
+                'last_build' => date('r', strtotime(date('Y-m-d H') . ':33:33')),
             ]
         );
     }

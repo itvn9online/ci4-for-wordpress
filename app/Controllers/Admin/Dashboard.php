@@ -323,6 +323,18 @@ class Dashboard extends Optimize
             //
             if ($this->MY_unzip($file_zip, PUBLIC_HTML_PATH) === TRUE) {
                 $this->MY_unlink($file_zip);
+
+                // với việc update theme thì thêm 1 phát xóa các file zip trong public_html luôn
+                foreach (glob(PUBLIC_HTML_PATH . '*.zip') as $filename) {
+                    echo $filename . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+
+                    //
+                    if (is_file($filename)) {
+                        $this->MY_unlink($filename);
+                    }
+                }
+
+                //
                 die('<script>top.done_unzip_themename();</script>');
                 return true;
             }

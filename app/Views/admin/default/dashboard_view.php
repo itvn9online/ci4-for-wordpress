@@ -148,11 +148,11 @@ if ($debug_enable === true) {
     <div v-if="cache_actived > 0">
         <!-- khuyên dùng redis -->
         <div class="p d-inlines"><strong>Redis:</strong>
-            <div v-if="cache_handler == 'redis'" class="greencolor">Website của bạn đang sử dụng <strong>redis</strong>
+            <div v-if="cache_handler == 'redis'" class="greencolor">Website của bạn đang sử dụng <strong>redis {{redis_exist}}</strong>
                 làm bộ nhớ đệm, đây là phương thức cache khá tốt mà chúng tôi khuyên dùng.</div>
             <div v-if="cache_handler != 'redis'" :class="cache_handler == 'file' ? 'orgcolor' : ''">Website của bạn đang
                 sử dụng <strong>{{cache_handler}}</strong> làm bộ nhớ đệm.
-                <div v-if="redis_exist != ''" class="greencolor"><strong>Redis</strong> hiện khả dụng trên hosting của
+                <div v-if="redis_exist != ''" class="greencolor"><strong>Redis {{redis_exist}}</strong> hiện khả dụng trên hosting của
                     bạn, hãy cân nhắc việc kích hoạt nó cho website này.</div>
                 <div v-if="redis_exist == ''">Nếu có thể, hãy sử dụng <strong class="bluecolor">Redis</strong> sẽ giúp
                     cải thiện hiệu suất website. <a href="admin/dev/php_info" class="btn btn-primary btn-mini"><i class="fa fa-search"></i> Vào đây</a> để xem hosting này có hỗ trợ redis không.</div>
