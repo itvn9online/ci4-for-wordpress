@@ -154,22 +154,28 @@ class Optimize extends Admin
             echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
 
             //
-            $c = $this->WGR_update_core_remove_php_multi_comment($this->WGR_update_core_remove_php_comment(file_get_contents($filename, 1)));
+            $c = file_get_contents($filename, 1);
+            //echo $c . '<br>' . PHP_EOL;
+            $c = $this->WGR_update_core_remove_php_comment($c);
+            $c = $this->WGR_update_core_remove_php_multi_comment($c);
+            //echo $c . '<br>' . PHP_EOL;
             if ($c != '') {
                 $c .= PHP_EOL;
                 //$c .= ' ';
-            }
 
-            //
-            $this->push_content_file($filename, $c);
+                //
+                //echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+                $this->push_content_file($filename, $c);
+            }
         }
 
         // optimize file html
-        foreach (glob($path . '/*.html') as $filename) {
+        foreach (glob($path . '/*.{html,htm}') as $filename) {
             echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
 
             //
-            $c = $this->WGR_update_core_remove_html_comment(file_get_contents($filename, 1));
+            $c = file_get_contents($filename, 1);
+            $c = $this->WGR_update_core_remove_html_comment($c);
 
             //
             $this->push_content_file($filename, $c);
@@ -653,6 +659,7 @@ class Optimize extends Admin
     protected function WGR_update_core_remove_php_comment($a)
     {
         $a = explode(PHP_EOL, $a);
+        //echo count($a) . '<br>' . PHP_EOL;
 
         $str = '';
         foreach ($a as $v) {
@@ -670,14 +677,16 @@ class Optimize extends Admin
             if (substr($v, 0, 4) == '<!--' && substr($v, -3) == '-->') {
                 continue;
             }
+            //echo $v . '<br>' . PHP_EOL;
 
-            //
-            $str .= $v . ' ' . PHP_EOL;
+            // Sử dụng dấu xuống dòng
+            $str .= $v . PHP_EOL;
             /*
-            if ( strpos( $v, '//' ) !== false ) {
-            $str .= PHP_EOL;
+            $str .= $v;
+            if (strpos($v, '//') !== false) {
+                $str .= PHP_EOL;
             } else {
-            $str .= ' ';
+                $str .= ' ';
             }
             */
         }

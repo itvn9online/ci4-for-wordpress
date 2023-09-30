@@ -68,23 +68,37 @@ $base_model->add_js('wp-admin/js/users_functions.js');
     //
     include __DIR__ . '/list_select_all.php';
 
-    //
+    // TEST
+    //echo ADMIN_ROOT_VIEWS . $member_type . '/list_table.php';
+
+    // list table của từng member type nếu được thiết lập trong controller
     if ($list_table_path != '') {
         echo '<div class="wgr-view-path">' . ADMIN_ROOT_VIEWS . $list_table_path . '/list_table.php</div>';
 
         // sử dụng list table riêng của member type nếu có khai báo
         include ADMIN_ROOT_VIEWS . $list_table_path . '/list_table.php';
     } else {
+        $has_private_view = false;
+
+        // list table của từng member type nếu tìm thấy file
+        if ($member_type != '') {
+            $theme_default_view = ADMIN_ROOT_VIEWS . $member_type . '/list_table.php';
+            // nạp file kiểm tra private view
+            include VIEWS_PATH . 'private_view.php';
+        }
+
         // list table mặc định
-        include __DIR__ . '/list_table.php';
+        if ($has_private_view === false) {
+            // nạp view riêng của từng theme nếu có
+            $theme_default_view = ADMIN_ROOT_VIEWS . 'users/list_table.php';
+            // nạp file kiểm tra private view
+            include VIEWS_PATH . 'private_view.php';
+        }
     }
 
     ?>
 </div>
-<div class="public-part-page">
-    <?php echo $pagination; ?> Trên tổng số
-    <?php echo $totalThread; ?> bản ghi.
-</div>
+<div class="public-part-page"><?php echo $pagination; ?> Trên tổng số<?php echo $totalThread; ?> bản ghi.</div>
 <?php
 
 //
@@ -94,6 +108,14 @@ $base_model->JSON_parse(
         'scope_data' => $data,
         'arr_members_type' => $arr_members_type,
         'UsersType_listStatus' => UsersType::statusList(),
+        //
+        'data_vuejs' => [
+            'member_name' => $member_name,
+            'member_type' => $member_type,
+            'for_action' => $for_action,
+            'DeletedStatus_DELETED' => $DeletedStatus_DELETED,
+            'by_is_deleted' => $by_is_deleted,
+        ],
     ]
 );
 
@@ -106,28 +128,28 @@ $base_model->JSON_echo(
     ],
     [
         // mảng này sẽ in ra dưới dạng string
+        'controller_slug' => $controller_slug,
     ]
 );
 
 ?>
 <script>
-    var controller_slug = '<?php echo $controller_slug; ?>';
-
-    //
-    WGR_vuejs('#app', {
+    var params_vuejs = {
         allow_mysql_delete: allow_mysql_delete,
-        member_name: '<?php echo $member_name; ?>',
-        member_type: '<?php echo $member_type; ?>',
         controller_slug: controller_slug,
         data: scope_data,
-        for_action: '<?php echo $for_action; ?>',
-        DeletedStatus_DELETED: '<?php echo $DeletedStatus_DELETED; ?>',
-        by_is_deleted: '<?php echo $by_is_deleted; ?>',
         UsersType_NO_LOGIN: UsersType_NO_LOGIN,
         UsersType_FOR_DEFAULT: UsersType_FOR_DEFAULT,
         list: arr_members_type,
         UsersType_listStatus: UsersType_listStatus,
-    }, function() {
+    };
+    for (var x in data_vuejs) {
+        params_vuejs[x] = data_vuejs[x];
+    }
+    //console.log(params_vuejs);
+
+    //
+    WGR_vuejs('#app', params_vuejs, function() {
         action_change_user_status();
     });
 </script>

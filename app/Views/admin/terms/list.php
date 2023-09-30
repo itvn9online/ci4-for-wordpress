@@ -74,9 +74,7 @@ $base_model->adds_css([
 
     ?>
 </div>
-<div class="public-part-page">
-    <?php echo $pagination; ?>
-</div>
+<div class="public-part-page"><?php echo $pagination; ?></div>
 <p class="d-none">* Copy đoạn code bên dưới rồi cho vào nơi cần hiển thị block này ở trong view. Nhớ thay %slug% thành slug thật trong danh sách ở trên.</p>
 <!-- Modal add multi term -->
 <div class="modal fade" id="termMultiAddModal" tabindex="-1" aria-labelledby="termMultiAddModalLabel" aria-hidden="true">

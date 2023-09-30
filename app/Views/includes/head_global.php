@@ -245,6 +245,7 @@ echo $getconfig->html_header;
 
 // nạp header riêng của từng theme (tương tự function get_header bên wordpress)
 $theme_private_view = VIEWS_CUSTOM_PATH . 'get_header.php';
+//echo $theme_private_view;
 include VIEWS_PATH . 'private_require_view.php';
 
 

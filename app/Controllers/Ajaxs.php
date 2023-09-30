@@ -29,7 +29,7 @@ class Ajaxs extends Layout
             );
         }
 
-        // trả về khối HTML để nạp modal chống truy cập trên nhiều thiết bị
+        // trả về khối HTML để nạp Modal cảnh báo đăng nhập trên nhiều thiết bị
         if (!empty($this->MY_post('the_modal'))) {
             ob_start();
             // ưu tiên nạp view trong custom trước

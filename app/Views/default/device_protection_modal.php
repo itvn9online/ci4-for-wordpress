@@ -1,4 +1,9 @@
-<!-- Modal cảnh báo đăng nhập trên nhiều thiết bị -->
+<?php
+
+/**
+ * Modal cảnh báo đăng nhập trên nhiều thiết bị
+ **/
+?>
 <div class="modal fade" id="warningLoggedModal" tabindex="-1" aria-labelledby="warningLoggedLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

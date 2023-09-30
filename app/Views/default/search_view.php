@@ -26,9 +26,7 @@
             ?>
         </div>
         <br>
-        <div class="public-part-page">
-            <?php echo $public_part_page; ?>
-        </div>
+        <div class="public-part-page"><?php echo $public_part_page; ?></div>
     <?php
     }
     ?>

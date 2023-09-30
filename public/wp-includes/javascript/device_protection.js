@@ -6,21 +6,23 @@ var logout_device_protection = "";
 
 //
 (function () {
-	var _rand = function (length) {
-		let result = "";
-		const characters =
-			"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-		const charactersLength = characters.length;
-		let counter = 0;
-		while (counter < length) {
-			result += characters.charAt(Math.floor(Math.random() * charactersLength));
-			counter += 1;
-		}
-		return result;
-	};
 	var _run = function () {
 		var min_time = 5;
 		var max_time = 30;
+		var _rand = function (length) {
+			let result = "";
+			const characters =
+				"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+			const charactersLength = characters.length;
+			let counter = 0;
+			while (counter < length) {
+				result += characters.charAt(
+					Math.floor(Math.random() * charactersLength)
+				);
+				counter += 1;
+			}
+			return result;
+		};
 
 		// nếu không có modal ẩn cảnh báo -> ẩn luôn chức năng làm bài đi
 		if ($("#warningLoggedModal").length < 1) {

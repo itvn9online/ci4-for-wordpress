@@ -225,6 +225,12 @@ $base_model->adds_css([
                             <?php echo $data['last_updated']; ?>
                         </div>
                     </div>
+                    <div class="control-group">
+                        <label class="control-label">Member type</label>
+                        <div class="controls">
+                            <?php echo $data['member_type']; ?>
+                        </div>
+                    </div>
                     <br>
                     <div class="form-actions frm-fixed-btn cf">
                         <?php
@@ -277,8 +283,7 @@ $base_model->adds_js([
 ]);
 
 
-/*
- * nạp thêm custom view nếu có
- */
+// nạp thêm custom view nếu có
 $theme_private_view = str_replace(VIEWS_PATH, VIEWS_CUSTOM_PATH, __FILE__);
+//echo $theme_private_view;
 include VIEWS_PATH . 'private_require_view.php';

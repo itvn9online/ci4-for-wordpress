@@ -359,10 +359,9 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
 <?php
 
 
-/*
- * nạp thêm custom view nếu có
- */
+// nạp thêm custom view nếu có
 $theme_private_view = str_replace(VIEWS_PATH, VIEWS_CUSTOM_PATH, __FILE__);
+//echo $theme_private_view;
 include VIEWS_PATH . 'private_require_view.php';
 
 

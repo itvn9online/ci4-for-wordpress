@@ -15,15 +15,8 @@ $max_size_img = 0;
         <?php echo $totalThread; ?>)
     </li>
 </ul>
-<p class="medium">Chức năng tối ưu hóa hình ảnh vượt quá <strong>
-        <?php echo ($max_quality_img / 1000); ?>
-    </strong>kb</p>
-<div class="public-part-page">
-    <?php echo $pagination; ?> Trên tổng số
-    <?php echo $totalThread; ?> bản ghi
-    (
-    <?php echo $totalPage; ?> trang).
-</div>
+<p class="medium">Chức năng tối ưu hóa hình ảnh vượt quá <strong> <?php echo ($max_quality_img / 1000); ?></strong>kb</p>
+<div class="public-part-page"><?php echo $pagination; ?> Trên tổng số <?php echo $totalThread; ?> bản ghi (<?php echo $totalPage; ?> trang).</div>
 <?php
 
 //
