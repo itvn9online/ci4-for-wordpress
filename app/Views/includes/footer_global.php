@@ -55,7 +55,7 @@ $base_model->add_js( 'wp-includes/javascript/analytics.js', [], [
 //
 //print_r( $getconfig );
 if ($current_user_id > 0 && $getconfig->enable_device_protection == 'on') {
-    include_once __DIR__ . '/device_protection.php';
+    include __DIR__ . '/device_protection.php';
 }
 
 

@@ -29,6 +29,24 @@ class Ajaxs extends Layout
             );
         }
 
+        // trả về khối HTML để nạp modal chống truy cập trên nhiều thiết bị
+        if (!empty($this->MY_post('the_modal'))) {
+            ob_start();
+            // ưu tiên nạp view trong custom trước
+            if (file_exists(VIEWS_CUSTOM_PATH . 'default/device_protection_modal.php')) {
+                include VIEWS_CUSTOM_PATH . 'default/device_protection_modal.php';
+            } else {
+                // không có thì nạp view mặc định
+                include VIEWS_PATH . 'default/device_protection_modal.php';
+            }
+            $html = ob_get_contents();
+            ob_end_clean();
+
+            //
+            echo $html;
+            exit();
+        }
+
         //
         if ($this->current_user_id <= 0) {
             $this->result_json_type(

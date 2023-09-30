@@ -6,4 +6,4 @@
 $action_search = 'searchs';
 
 //
-include_once __DIR__ . '/header_modal_search.php';
+include __DIR__ . '/header_modal_search.php';

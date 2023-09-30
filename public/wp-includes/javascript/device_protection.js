@@ -6,23 +6,71 @@ var logout_device_protection = "";
 
 //
 (function () {
+	var _rand = function (length) {
+		let result = "";
+		const characters =
+			"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		const charactersLength = characters.length;
+		let counter = 0;
+		while (counter < length) {
+			result += characters.charAt(Math.floor(Math.random() * charactersLength));
+			counter += 1;
+		}
+		return result;
+	};
 	var _run = function () {
 		var min_time = 5;
 		var max_time = 30;
 
 		// nếu không có modal ẩn cảnh báo -> ẩn luôn chức năng làm bài đi
-		if ($("#warningLoggedModal").length == 0) {
-			WGR_alert("Không xác định được modal: Logged", "error");
+		if ($("#warningLoggedModal").length < 1) {
+			jQuery.ajax({
+				type: "POST",
+				// link TEST
+				url: rmlogged + "?_wpnonce=" + _rand(64),
+				dataType: "html",
+				//crossDomain: true,
+				data: { nse: Math.random(), the_modal: 1 },
+				timeout: 33 * 1000,
+				error: function (jqXHR, textStatus, errorThrown) {
+					jQueryAjaxError(jqXHR, textStatus, errorThrown, new Error().stack);
+				},
+				success: function (data) {
+					//console.log(data);
+					$("body").append(data);
+				},
+				/*
+				complete: function (xhr, status) {
+					console.log(xhr);
+					console.log(status);
+				},
+				*/
+			});
+
+			//
+			setTimeout(function () {
+				if ($("#warningLoggedModal").length < 1) {
+					console.log("Không xác định được modal: Logged");
+				}
+				_run();
+			}, max_time * 1000);
+
+			//
 			return false;
 		}
 
 		// nếu người dùng chưa close modal thì thôi không cần kiểm tra -> vì có close mới tiếp tục được
 		if ($("#warningLoggedModal").hasClass("show")) {
-			if (WGR_check_option_on(WGR_config.cf_tester_mode))
+			if (WGR_check_option_on(WGR_config.cf_tester_mode)) {
 				console.log(Math.random());
+			}
+
+			//
 			setTimeout(function () {
 				_run();
 			}, min_time * 1000);
+
+			//
 			return false;
 		}
 
@@ -30,24 +78,7 @@ var logout_device_protection = "";
 		jQuery.ajax({
 			type: "POST",
 			// link TEST
-			//url: "ajaxs/multi_logged",
-			url:
-				rmlogged +
-				"?_wpnonce=" +
-				(function (length) {
-					let result = "";
-					const characters =
-						"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-					const charactersLength = characters.length;
-					let counter = 0;
-					while (counter < length) {
-						result += characters.charAt(
-							Math.floor(Math.random() * charactersLength)
-						);
-						counter += 1;
-					}
-					return result;
-				})(64),
+			url: rmlogged + "?_wpnonce=" + _rand(64),
 			dataType: "json",
 			//crossDomain: true,
 			data: { nse: Math.random() },
@@ -103,8 +134,8 @@ var logout_device_protection = "";
 						//WGR_alert('Vui lòng không đăng nhập trên nhiều thiết bị!', 'error');
 						$("#warningLoggedModal").modal("show");
 
-						// khi có nghi ngờ -> rút ngắn thời gian kiểm tra lại
 						//console.log(data.logout);
+						// khi có nghi ngờ -> rút ngắn thời gian kiểm tra lại
 						if (
 							typeof data.chash != "undefined" &&
 							data.chash == data.hash.key
@@ -120,8 +151,7 @@ var logout_device_protection = "";
 							jQuery.ajax({
 								type: "POST",
 								// link TEST
-								//url: "ajaxs/multi_logout",
-								url: rmlogout,
+								url: rmlogout + "?_wpnonce=" + _rand(64),
 								dataType: "json",
 								//crossDomain: true,
 								data: { nse: Math.random() },
@@ -177,7 +207,7 @@ function confirm_kip_logged() {
 	jQuery.ajax({
 		type: "POST",
 		// link TEST
-		url: "ajaxs/confirm_logged",
+		url: "ajaxs/confirm_logged?nse=" + Math.random(),
 		dataType: "json",
 		//crossDomain: true,
 		data: {
