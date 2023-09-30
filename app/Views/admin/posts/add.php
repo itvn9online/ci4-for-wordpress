@@ -8,7 +8,7 @@ use App\Libraries\PostType;
 $base_model->add_css('wp-admin/css/' . $post_type . '.css');
 
 //
-include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
+include __DIR__ . '/add_breadcrumb.php';
 
 ?>
 <div class="widget-box ng-main-content" id="myApp">
@@ -31,7 +31,7 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                     <?php
 
                     //
-                    include ADMIN_ROOT_VIEWS . 'posts/change_lang.php';
+                    include __DIR__ . '/change_lang.php';
 
                     ?>
                 </div>
@@ -296,7 +296,7 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
             }
 
             //
-            include ADMIN_ROOT_VIEWS . 'posts/add_submit.php';
+            include __DIR__ . '/add_submit.php';
 
             ?>
         </form>

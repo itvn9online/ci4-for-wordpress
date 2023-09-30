@@ -7,7 +7,7 @@ use App\Libraries\LanguageCost;
 $current_language = LanguageCost::typeList($lang_key);
 
 //
-include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
+include __DIR__ . '/add_breadcrumb.php';
 
 ?>
 <div class="s15">

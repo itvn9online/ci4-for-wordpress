@@ -47,7 +47,7 @@ $base_model->add_css('wp-admin/css/' . $post_type . '.css');
             <?php
 
             //
-            include ADMIN_ROOT_VIEWS . 'posts/list_right_button.php';
+            include __DIR__ . '/list_right_button.php';
 
             ?>
         </div>
@@ -56,17 +56,31 @@ $base_model->add_css('wp-admin/css/' . $post_type . '.css');
     <?php
 
     //
-    include ADMIN_ROOT_VIEWS . 'posts/list_select_all.php';
+    include __DIR__ . '/list_select_all.php';
 
-    //
+    // list table của từng post type nếu được thiết lập trong controller
     if ($list_table_path != '') {
         echo '<div class="wgr-view-path">' . ADMIN_ROOT_VIEWS . $list_table_path . '/list_table.php</div>';
 
         // sử dụng list table riêng của post type nếu có khai báo
         include ADMIN_ROOT_VIEWS . $list_table_path . '/list_table.php';
     } else {
+        $has_private_view = false;
+
+        // list table của từng post type nếu tìm thấy file
+        if ($post_type != '') {
+            $theme_default_view = ADMIN_ROOT_VIEWS . $post_type . '/list_table.php';
+            // nạp file kiểm tra private view
+            include VIEWS_PATH . 'private_view.php';
+        }
+
         // list table mặc định
-        include __DIR__ . '/list_table.php';
+        if ($has_private_view === false) {
+            // nạp view riêng của từng theme nếu có
+            $theme_default_view = __DIR__ . '/list_table.php';
+            // nạp file kiểm tra private view
+            include VIEWS_PATH . 'private_view.php';
+        }
     }
 
     ?>
@@ -99,7 +113,7 @@ $base_model->JSON_parse(
 <?php
 
 //
-include ADMIN_ROOT_VIEWS . 'posts/sync_modal.php';
+include __DIR__ . '/sync_modal.php';
 
 // css riêng cho từng post type (nếu có)
 $base_model->add_js('wp-admin/js/post_list.js');

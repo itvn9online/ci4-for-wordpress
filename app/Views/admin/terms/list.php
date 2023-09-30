@@ -12,7 +12,7 @@ if ($taxonomy == TaxonomyType::ADS) {
     $ads_size = '%term_meta.custom_size%';
 }
 
-// css riêng cho từng post type (nếu có)
+// css riêng cho từng taxonomy (nếu có)
 $base_model->adds_css([
     'wp-admin/css/terms.css',
     'wp-admin/css/' . $taxonomy . '.css'
@@ -61,15 +61,29 @@ $base_model->adds_css([
     //
     include __DIR__ . '/list_select_all.php';
 
-    //
+    // list table của từng taxonomy nếu được thiết lập trong controller
     if ($list_table_path != '') {
         echo '<div class="wgr-view-path">' . ADMIN_ROOT_VIEWS . $list_table_path . '/list_table.php</div>';
 
         // sử dụng list table riêng của taxonomy nếu có khai báo
         include ADMIN_ROOT_VIEWS . $list_table_path . '/list_table.php';
     } else {
+        $has_private_view = false;
+
+        // list table của từng taxonomy nếu tìm thấy file
+        if ($taxonomy != '') {
+            $theme_default_view = ADMIN_ROOT_VIEWS . $taxonomy . '/list_table.php';
+            // nạp file kiểm tra private view
+            include VIEWS_PATH . 'private_view.php';
+        }
+
         // list table mặc định
-        include __DIR__ . '/list_table.php';
+        if ($has_private_view === false) {
+            // nạp view riêng của từng theme nếu có
+            $theme_default_view = __DIR__ . '/list_table.php';
+            // nạp file kiểm tra private view
+            include VIEWS_PATH . 'private_view.php';
+        }
     }
 
     ?>
@@ -136,7 +150,7 @@ if ($taxonomy == TaxonomyType::ADS) {
 <?php
 }
 
-// js riêng cho từng post type (nếu có)
+// js riêng cho từng taxonomy (nếu có)
 $base_model->adds_js([
     'wp-admin/js/terms.js',
     'wp-admin/js/' . $taxonomy . '.js'

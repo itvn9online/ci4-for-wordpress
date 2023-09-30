@@ -42,7 +42,7 @@
             <td width="60"><input type="number" :data-id="v.ID" :value="v.menu_order" size="5" class="form-control s change-update-menu_order" /></td>
             <td width="90" class="text-center">
                 <?php
-                include ADMIN_ROOT_VIEWS . 'posts/list_action.php';
+                include __DIR__ . '/list_action.php';
                 ?>
             </td>
         </tr>
