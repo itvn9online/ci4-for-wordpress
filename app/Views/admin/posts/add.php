@@ -43,7 +43,7 @@ include __DIR__ . '/add_breadcrumb.php';
                 </div>
             </div>
             <div class="control-group">
-                <label for="data_post_title" class="control-label">Tiêu đề (ngắn)</label>
+                <label for="data_post_shorttitle" class="control-label">Tiêu đề (ngắn)</label>
                 <div class="controls">
                     <input type="text" class="span6 required" placeholder="Tiêu đề (ngắn)" name="data[post_shorttitle]" id="data_post_shorttitle" value="<?php $base_model->the_esc_html($data['post_shorttitle']); ?>" />
                 </div>

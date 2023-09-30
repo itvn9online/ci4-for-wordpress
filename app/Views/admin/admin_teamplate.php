@@ -271,6 +271,7 @@ if ($debug_enable === true) {
     <?php
 
     $base_model->adds_js([
+        'wp-admin/js/admin_seach_menu.js',
         'wp-admin/js/admin_footer.js',
         'wp-admin/js/active-support-label.js',
         'wp-includes/javascript/datetimepicker.js',

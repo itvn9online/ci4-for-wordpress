@@ -688,6 +688,12 @@ body.body-debug_enable #sidebar {
     border-top-color: #ccc;
 }
 
+#admin_menu_result label.up-down,
+#admin_menu_result a.up-down {
+    color: green !important;
+    background-color: #f8f9fa;
+}
+
 #admin_menu_result i {
     min-width: 36px;
     display: inline-block;
