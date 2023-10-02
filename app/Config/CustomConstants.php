@@ -260,6 +260,9 @@ define('DYNAMIC_BASE_URL', BASE_PROTOCOL . '://' . $_SERVER['HTTP_HOST'] . '/');
 // khi cần chuyển các file tĩnh sang url khác để giảm tải cho server chính thì dùng chức năng này
 defined('CDN_BASE_URL') || define('CDN_BASE_URL', '');
 
+// khi cần chuyển các file ảnh trong thư mục upload/ sang url khác để giảm tải cho server chính thì dùng chức năng này
+defined('CDN_UPLOADS_URL') || define('CDN_UPLOADS_URL', '');
+
 // permission mặc định khi up file, tạo thư mục
 defined('DEFAULT_FILE_PERMISSION') || define('DEFAULT_FILE_PERMISSION', 0777);
 defined('DEFAULT_DIR_PERMISSION') || define('DEFAULT_DIR_PERMISSION', 0777);

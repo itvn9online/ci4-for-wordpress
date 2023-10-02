@@ -576,7 +576,7 @@ class Option extends EbModel
             $seo['og_image'] = $this->get_config($getconfig, 'image');
         }
         if (strpos($seo['og_image'], '//') === false) {
-            $seo['og_image'] = base_url() . '/' . ltrim($seo['og_image'], '/');
+            $seo['og_image'] = DYNAMIC_BASE_URL . ltrim($seo['og_image'], '/');
         }
 
         //

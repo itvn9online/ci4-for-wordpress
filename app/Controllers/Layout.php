@@ -151,7 +151,7 @@ class Layout extends Sync
     protected function MY_cache($key, $value = '', $time = MINI_CACHE_TIMEOUT)
     {
         // không thực thi cache đối với tài khoản đang đăng nhập
-        if ($this->current_user_id > 0 || isset($_GET['set_lang'])) {
+        if (MY_CACHE_HANDLER == 'disable' || $this->current_user_id > 0 || isset($_GET['set_lang'])) {
             return NULL;
         }
 
@@ -165,13 +165,17 @@ class Layout extends Sync
         echo $content;
 
         //
-        echo '<!-- Cached by ebcache' . PHP_EOL;
-        if (MY_CACHE_HANDLER == 'file') {
-            echo 'Caching using hard disk drive. Recommendations using SSD drive for your website.' . PHP_EOL;
+        if (MY_CACHE_HANDLER == 'disable') {
+            echo '<!-- Cached is disabled -->' . PHP_EOL;
         } else {
-            echo 'How wonderful! Caching using ' . MY_CACHE_HANDLER . ' handler.' . PHP_EOL;
+            echo '<!-- Cached by ebcache' . PHP_EOL;
+            if (MY_CACHE_HANDLER == 'file') {
+                echo 'Caching using hard disk drive. Recommendations using SSD drive for your website.' . PHP_EOL;
+            } else {
+                echo 'How wonderful! Caching using ' . MY_CACHE_HANDLER . ' handler.' . PHP_EOL;
+            }
+            echo 'Compression = gzip -->';
         }
-        echo 'Compression = gzip -->';
 
         //
         return true;
@@ -279,6 +283,9 @@ class Layout extends Sync
          * trả về lỗi 404
          */
         //echo __CLASS__ . ':' . __LINE__;
+        if (function_exists('http_response_code')) {
+            http_response_code(404);
+        }
         $pcol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
         $response = \Config\Services::response();
         $response->setStatusCode(404, $pcol . ' 404 Not Found');

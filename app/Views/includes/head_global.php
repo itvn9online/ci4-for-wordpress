@@ -93,12 +93,9 @@ if ($getconfig->fb_app_id != '') {
 <link rel="EditURI" type="application/rsd+xml" title="RSD" href="<?php echo DYNAMIC_BASE_URL; ?>xmlrpc.php?rsd" />
 <meta name="generator" content="WordPress <?php echo FAKE_WORDPRESS_VERSION; ?>" />
 <!-- -->
-<?php
-
-// nạp phần css inline để phục vụ cho bản mobile
-?>
 <style>
     <?php
+    // nạp phần css inline để phục vụ cho bản mobile
     echo file_get_contents(PUBLIC_PUBLIC_PATH . 'wp-includes/css/mobile-usability.css', 1);
     ?>
 </style>

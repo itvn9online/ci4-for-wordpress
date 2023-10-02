@@ -807,9 +807,10 @@ class ConfigType
             ],
             'MY_CACHE_HANDLER' => [
                 '' => 'Mặc định theo code',
-                'file' => 'file',
-                'redis' => 'redis',
-                'memcached' => 'memcached',
+                'file' => 'File',
+                'redis' => 'Redis',
+                'memcached' => 'Memcached',
+                'disable' => 'Disable',
             ],
             'ALLOW_USING_MYSQL_DELETE' => [
                 '' => 'Mặc định theo code',

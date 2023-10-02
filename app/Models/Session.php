@@ -135,6 +135,10 @@ class Session
     // cache bên model là cache select database -> chỉ kiểm tra theo key truyền vào -> không kiểm tra theo session login
     public function scache($key, $value = '', $time = MINI_CACHE_TIMEOUT)
     {
+        if (MY_CACHE_HANDLER == 'disable') {
+            return NULL;
+        }
+
         // lưu cache nếu có nội dung
         if ($value != '') {
             return $this->cache->save($key, $value, $time);
@@ -151,6 +155,11 @@ class Session
      */
     public function dcache($for = '', $clean_all = false)
     {
+        // disable -> không có cache để mà xóa
+        if (MY_CACHE_HANDLER == 'disable') {
+            return false;
+        }
+
         // lưu có key -> xóa theo key truyền vào
         if ($for != '') {
             // 1 số phương thức không áp dụng được kiểu xóa này do không có key 
