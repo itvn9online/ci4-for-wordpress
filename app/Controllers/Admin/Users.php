@@ -68,8 +68,8 @@ class Users extends Admin
      */
     public function lists($ops = [])
     {
-        //print_r( $where );
-        //print_r( $where_or_like );
+        //print_r($ops);
+        //print_r($where_or_like);
 
         // URL cho các action dùng chung
         $for_action = '';
@@ -91,9 +91,14 @@ class Users extends Admin
         // các kiểu điều kiện where
         if (!isset($ops['where'])) {
             $where = [];
+        } else {
+            $where = $ops['where'];
         }
+        //print_r($where);
         if (!isset($ops['where_or_like'])) {
             $where_or_like = [];
+        } else {
+            $where_or_like = $ops['where_or_like'];
         }
         $where['users.is_deleted'] = $by_is_deleted;
         if ($this->member_type != '') {
@@ -186,7 +191,7 @@ class Users extends Admin
 
         // ghi đè filter nếu có
         if (isset($ops['add_filter'])) {
-            foreach ($add_filter as $k => $v) {
+            foreach ($ops['add_filter'] as $k => $v) {
                 $filter[$k] = $v;
             }
         }
@@ -228,7 +233,7 @@ class Users extends Admin
 
 
             // select dữ liệu từ 1 bảng bất kỳ
-            //$filter[ 'show_query' ] = 1;
+            //$filter['show_query'] = 1;
             $filter['order_by'] = $order_by;
             $filter['offset'] = $offset;
             $filter['limit'] = $this->post_per_page;
@@ -270,7 +275,7 @@ class Users extends Admin
 
             // ghi đè filter nếu có
             if (isset($ops['add_filter'])) {
-                foreach ($add_filter as $k => $v) {
+                foreach ($ops['add_filter'] as $k => $v) {
                     $filter[$k] = $v;
                 }
             }
