@@ -670,7 +670,7 @@ class PostQuery extends PostMeta
 
         //
         $data = $get_data['posts'];
-        //print_r( $data );
+        //print_r($data);
         if (isset($ops['return_object'])) {
             // trả về dữ liệu ngay sau khi select xong -> bỏ qua đoạn builder HTML
             return $data;
@@ -681,7 +681,7 @@ class PostQuery extends PostMeta
             return 'term_meta not found! #' . $slug;
         }
         $instance = $post_cat['term_meta'];
-        //print_r( $instance );
+        //print_r($instance);
 
         // lấy các giá trị placeholder mặc định -> cho thành trống hết
         $meta_default = TaxonomyType::meta_default($post_cat['taxonomy']);
@@ -698,7 +698,9 @@ class PostQuery extends PostMeta
             $instance['custom_cat_link'] = 'javascript:;';
         }
         if ($instance['widget_description'] != '') {
-            $instance['widget_description'] = '<div class="eb-widget-blogs-desc">' . nl2br($instance['widget_description']) . '</div>';
+            $instance['widget_description'] = '<div class="eb-widget-blogs-desc by-widget_description">' . nl2br($instance['widget_description']) . '</div>';
+        } else if ($post_cat['description'] != '') {
+            $instance['widget_description'] = '<div class="eb-widget-blogs-desc by-description">' . $post_cat['description'] . '</div>';
         }
         if ($instance['dynamic_tag'] == '') {
             $instance['dynamic_tag'] = 'div';
@@ -707,7 +709,13 @@ class PostQuery extends PostMeta
             $instance['dynamic_post_tag'] = 'div';
         }
         if ($instance['custom_size'] == '') {
-            $instance['custom_size'] = $this->getconfig->cf_posts_size;
+            // nếu là q.cáo -> tự động gán size theo cỡ ảnh của bản ghi đầu tiên
+            if ($data[0]['post_type'] == PostType::ADS || $this->getconfig->cf_posts_size == '') {
+                $instance['custom_size'] = $this->getBlogsSize($data);
+            } else {
+                // còn lại sẽ lấy mặc định theo cf_posts_size
+                $instance['custom_size'] = $this->getconfig->cf_posts_size;
+            }
         }
         if ($instance['custom_id'] != '') {
             $instance['custom_id'] = ' id="' . $instance['custom_id'] . '"';
@@ -724,7 +732,7 @@ class PostQuery extends PostMeta
             $html_widget_title = '<div data-type="' . $post_cat['taxonomy'] . '" data-id="' . $post_cat['term_id'] . '"
                 class="eb-widget-hide-title"></div>';
         } else {
-            $html_widget_title = '<{{dynamic_tag}} data-type="' . $post_cat['taxonomy'] . '" data-id="' . $post_cat['term_id'] . '" class="eb-widget-title"><a href="{{custom_cat_link}}">' . $post_cat['name'] . '</a></{{dynamic_tag}}>{{widget_description}}';
+            $html_widget_title = '<div class="w90 eb-widget-row ' . $instance['max_width'] . '"><{{dynamic_tag}} data-type="' . $post_cat['taxonomy'] . '" data-id="' . $post_cat['term_id'] . '" class="eb-widget-title"><a href="{{custom_cat_link}}">' . $post_cat['name'] . '</a></{{dynamic_tag}}>{{widget_description}}</div>';
         }
         if ($instance['hide_title'] == 'on') {
             $custom_style[] = 'hide-blogs-title';
@@ -789,7 +797,7 @@ class PostQuery extends PostMeta
         //echo $tmp_html . '<br>' . PHP_EOL;
 
         // tạo css chỉnh cột
-        //print_r( $instance );
+        //print_r($instance);
         if ($instance['post_cloumn'] != '') {
             $instance['post_cloumn'] = 'blogs_node_' . $instance['post_cloumn'];
         }
@@ -913,5 +921,58 @@ class PostQuery extends PostMeta
 
         //
         return $html;
+    }
+
+    /**
+     * Lấy size ảnh tự động cho echbay blog khi người dùng không thiết lập size
+     **/
+    public function getBlogsSize($data, $term_id = 0, $meta_key = 'custom_size')
+    {
+        $custom_size = '';
+        foreach ($data as $v) {
+            //print_r($v);
+            if (!isset($v['post_meta']) || !isset($v['post_meta']['image'])) {
+                continue;
+            }
+
+            //
+            $file_path = $v['post_meta']['image'];
+            // TEST
+            //$file_path = 'https://google.com/upload/nofile-nolove.jpg';
+            // nếu không phải full URL
+            if (strpos($file_path, '//') === false) {
+                // gán full path luôn
+                $file_path = PUBLIC_PUBLIC_PATH . ltrim($file_path, '/');
+            } else {
+                // cắt lấy phần upload
+                $file_path = PUBLIC_PUBLIC_PATH . ltrim(strstr($file_path, '/upload/'), '/');
+            }
+            //echo $file_path . '<br>' . PHP_EOL;
+
+            //
+            if (!file_exists($file_path)) {
+                continue;
+            }
+
+            //
+            $get_file_info = getimagesize($file_path);
+            //print_r($get_file_info);
+
+            //
+            $custom_size = $get_file_info[1] . '/' . $get_file_info[0];
+
+            // Cập nhật cho database nếu có yêu cầu
+            /*
+            // có liên quan đến xử lý cache nên tạm thời bỏ
+            if ($term_id > 0) {
+            }
+            */
+
+            //
+            break;
+        }
+
+        //
+        return $custom_size;
     }
 }

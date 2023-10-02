@@ -446,6 +446,7 @@ class Sync extends BaseController
                 'category_second_slug' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Slug của danh mục phụ, dùng để làm URL nếu muốn\'',
                 'post_meta_data' => 'LONGTEXT NULL COMMENT \'Lưu các post meta vào đây để đỡ phải query nhiều\'',
                 'time_meta_data' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Thời gian lưu cache cho post meta\'',
+                'media_optimize' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'Optimize hình ảnh. 0 = chưa, 1 = rồi\'',
             ],
             $prefix . 'terms' => [
                 'term_shortname' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Tên rút gọn của term\'',

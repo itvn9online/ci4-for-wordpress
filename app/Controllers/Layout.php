@@ -305,7 +305,7 @@ class Layout extends Sync
     protected function category($input, $post_type, $taxonomy, $file_view = 'category_view', $ops = [])
     {
         // xem có file view tương ứng không
-        if (!file_exists(VIEWS_PATH . $file_view . '.php')) {
+        if ($file_view == '' || !file_exists(VIEWS_PATH . $file_view . '.php')) {
             // không có thì hiển thị lỗi luôn
             //return $this->page404('ERROR (' . $file_view . ') ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Bạn không có quyền xem thông tin này...');
             //$file_view = 'category_auto_view';

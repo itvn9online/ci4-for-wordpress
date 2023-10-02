@@ -5,7 +5,7 @@ use App\Libraries\PostType;
 use App\Libraries\MyImage;
 
 //
-$max_quality_img = 250000;
+$max_quality_img = 250 * 1000;
 //$max_size_img = 2300;
 $max_size_img = 0;
 
@@ -23,14 +23,15 @@ $max_size_img = 0;
 if (class_exists('Imagick')) {
 ?>
     <p class="medium grrencolor"><strong>Imagick</strong> enable</p>
-<?php
+    <?php
 }
 
 //
 //print_r( $data );
 //die( __FILE__ . ':' . __LINE__ );
 foreach ($data as $k => $v) {
-    //print_r( $v );
+    //print_r($v);
+    //continue;
 
     //
     $attachment_metadata = unserialize($v['post_meta']['_wp_attachment_metadata']);
@@ -45,15 +46,17 @@ foreach ($data as $k => $v) {
     //
     $file_path = PUBLIC_PUBLIC_PATH . $uri . $attachment_metadata['file'];
     $file_size = filesize($file_path);
-    if ($file_size < $max_quality_img) {
-        echo $file_path . ' (' . ceil($file_size / 1000) . ')<br>' . PHP_EOL;
+    if ($v['media_optimize'] > 0 || $file_size < $max_quality_img) {
         $img_src = str_replace(PUBLIC_PUBLIC_PATH, '', $file_path);
-        echo '<a href="' . $img_src . '" target="_blank" class="bluecolor">' . $img_src . ' (' . ceil($file_size / 1000) . ')</a> <br>' . PHP_EOL;
+    ?>
+        <p><?php echo $file_path; ?> (<?php echo ceil($file_size / 1000); ?>)</p>
+        <p><a href="<?php echo $img_src; ?>" target="_blank" class="bluecolor"><?php echo $img_src; ?></a></p>
+    <?php
 
         //
         continue;
     }
-    //print_r( $v );
+    //print_r($v);
     //continue;
     $attachment_metadata['file_size'] = $file_size;
 
@@ -86,15 +89,24 @@ foreach ($data as $k => $v) {
     //
     $dst_file = $file_path;
     //$dst_file = $dir_path . '___' . basename( $file_path );
-    echo $dst_file . ' (' . ceil($file_size / 1000) . ')<br>' . PHP_EOL;
+    ?>
+    <p><?php echo $dst_file; ?> (<?php echo ceil($file_size / 1000); ?>)</p>
+    <?php
+
+    // TEST
+    continue;
 
     // -> optimize
     MyImage::quality($file_path, $dst_file, $attachment_metadata['width'], $attachment_metadata['height']);
 
     //
     $img_src = str_replace(PUBLIC_PUBLIC_PATH, '', $dst_file);
+
+    //
     clearstatcache();
-    echo '<a href="' . $img_src . '" target="_blank" class="greencolor">' . $img_src . ' (' . ceil(filesize($dst_file) / 1000) . ')</a> <br>' . PHP_EOL;
+    ?>
+    <p><a href="<?php echo $img_src; ?>" target="_blank" class="greencolor"><?php echo $img_src; ?> (<?php echo ceil(filesize($dst_file) / 1000); ?>)</a></p>
+    <?php
 
     // bắt đầu resize
     foreach ($attachment_metadata['sizes'] as $k2 => $v2) {
@@ -115,15 +127,21 @@ foreach ($data as $k => $v) {
         //
         $dst_file = $file2_path;
         //$dst_file = $dir_path . '______' . basename( $file2_path ); // TEST
-        echo $dst_file . ' (' . ceil($file2_size / 1000) . ')<br>' . PHP_EOL;
+    ?>
+        <p><?php echo $dst_file; ?> (<?php echo ceil($file2_size / 1000); ?>)</p>
+        <?php
 
         // -> optimize
         MyImage::quality($file2_path, $dst_file, $v2['width'], $v2['height']);
 
         //
-        $img_src = str_replace(PUBLIC_PUBLIC_PATH, '', $dst_file);
         clearstatcache();
-        echo '<a href="' . $img_src . '" target="_blank" class="greencolor">' . $img_src . ' (' . ceil(filesize($dst_file) / 1000) . ')</a> <br>' . PHP_EOL;
+
+        //
+        $img_src = str_replace(PUBLIC_PUBLIC_PATH, '', $dst_file);
+        ?>
+        <p><a href="<?php echo $img_src; ?>" target="_blank" class="greencolor"><?php echo $img_src; ?> (<?php echo ceil(filesize($dst_file) / 1000); ?>)</a></p>
+<?php
     }
 }
 

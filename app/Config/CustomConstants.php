@@ -226,7 +226,7 @@ defined('CUSTOM_ADMIN_URI') || define('CUSTOM_ADMIN_URI', 'wgr-wp-admin');
  * Tránh việc bị dùng các extension kiểu adblock chặn request
  **/
 // tạo hàm ngẫu nhiên theo ngày
-$rand_by_date = md5(date('Y-m-d'));
+$rand_by_date = md5(date('Y-m-d') . $_SERVER['HTTP_HOST']);
 // khai báo constans để tạo routes
 define('RAND_MULTI_LOGOUT', '_' . substr($rand_by_date, 0, 12));
 //echo RAND_MULTI_LOGOUT . '<br>' . PHP_EOL;

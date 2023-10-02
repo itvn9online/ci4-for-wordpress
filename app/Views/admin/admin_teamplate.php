@@ -155,13 +155,6 @@ if ($debug_enable === true) {
     ]);
 
     //
-    $base_model->JSON_parse([
-        'is_admin' => 1,
-        'arr_admin_menu' => $arr_admin_menu,
-        'arr_lang_list' => $arr_lang_list,
-    ]);
-
-    //
     $base_model->JSON_echo([
         // mảng này sẽ in ra dưới dạng JSON hoặc number
         'allow_mysql_delete' => ALLOW_USING_MYSQL_DELETE ? 'true' : 'false',
@@ -170,14 +163,14 @@ if ($debug_enable === true) {
     ]);
 
     //
-    $WGR_config = [
-        'cf_tester_mode' => ($debug_enable === true) ? 1 : 0,
-        'current_user_id' => $current_user_id * 1,
-    ];
-
-    //
     $base_model->JSON_parse([
-        'WGR_config' => $WGR_config,
+        'is_admin' => 1,
+        'arr_admin_menu' => $arr_admin_menu,
+        'arr_lang_list' => $arr_lang_list,
+        'WGR_config' => [
+            'cf_tester_mode' => ($debug_enable === true) ? 1 : 0,
+            'current_user_id' => $current_user_id * 1,
+        ],
     ]);
 
     ?>

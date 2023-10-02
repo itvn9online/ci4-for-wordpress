@@ -99,7 +99,7 @@ $base_model->add_css('wp-admin/css/config_' . $config_type . '.css');
 
                             if ($input_type == 'textarea') {
                             ?>
-                                <textarea class="span10 required fix-textarea-height" style="height:100px" placeholder="<?php echo $v; ?>" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>"><?php echo $data[$k]; ?></textarea>
+                                <textarea class="span10 required fix-textarea-height" placeholder="<?php echo $v; ?>" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>"><?php echo $data[$k]; ?></textarea>
                             <?php
                             }
                             // END if textarea

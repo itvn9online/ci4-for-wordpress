@@ -500,8 +500,13 @@ var _global_js_eb = {
 	},
 
 	// nạp slider của flatsome
-	loadFlatsomeSlider: function (flickity_options, add_class) {
-		$(".ebwidget-run-slider .eb-blog").each(function () {
+	loadFlatsomeSlider: function (flickity_options, add_class, for_class) {
+		if (typeof for_class == "undefined" || for_class == "") {
+			for_class = ".ebwidget-run-slider .eb-blog";
+		}
+
+		//
+		$(for_class).each(function () {
 			var has_attr = $(this).attr("data-flickity-options") || "";
 
 			//

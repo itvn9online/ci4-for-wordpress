@@ -46,11 +46,11 @@ class Products extends Posts
                 'taxonomy' => $this->taxonomy,
             )
         );
-        //print_r( $data );
+        //print_r($data);
 
         // có -> ưu tiên category
         if (!empty($data)) {
-            return $this->category($data, PostType::PROD, $this->taxonomy, 'blogs_view', [
+            return $this->category($data, PostType::PROD, $this->taxonomy, 'product_cat_view', [
                 'page_num' => $page_num,
             ]);
         }

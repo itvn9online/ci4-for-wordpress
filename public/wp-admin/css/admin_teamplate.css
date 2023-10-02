@@ -667,7 +667,9 @@ body.body-debug_enable #sidebar {
     list-style: none;
 }
 
-#admin_menu_result li {}
+#admin_menu_result li {
+    line-height: 20px;
+}
 
 #admin_menu_result label,
 #admin_menu_result a {

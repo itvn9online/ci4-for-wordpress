@@ -151,7 +151,7 @@ class ConfigType
         } else if ($config_type == self::DISPLAY) {
             $arr = [
                 'body_font_size' => 'Cỡ chữ mặc định',
-                'bodym_font_size' => 'Cỡ chữ mặc định',
+                'bodym_font_size' => 'Cỡ chữ mobile mặc định',
                 'default_bg' => 'Màu nền mặc định',
                 'sub_bg' => 'Màu nền thứ cấp',
                 'default_color' => 'Màu chữ mặc định',
@@ -569,8 +569,8 @@ class ConfigType
 
         //
         $arr = [
-            'body_font_size' => 'Cỡ chữ được thiết lập cho body.',
-            'bodym_font_size' => 'Cỡ chữ được thiết lập cho body bản mobile.',
+            'body_font_size' => 'Cỡ chữ được thiết lập cho body (mặc định 14px).',
+            'bodym_font_size' => 'Cỡ chữ được thiết lập cho body bản mobile (mặc định 13px).',
             'default_bg' => 'Là màu nền đặc trưng cho các menu, nút bấm trên toàn bộ website. Sử dụng: <strong>.default-bg</strong>',
             'sub_bg' => 'Màu nền cho các module khác, tạo sự khác biệt với màu nền chính ở trên. Sử dụng: <strong>.default2-bg, .sub-bg</strong>',
             'default_color' => 'Màu mặc định cho mọi font chữ trên website nếu module đó không được thiết lập màu riêng.',
