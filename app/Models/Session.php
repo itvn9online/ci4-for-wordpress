@@ -68,41 +68,44 @@ class Session
         // với các phương thức POST
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // chạy 1 vòng -> kiểm tra các input của anti spam có tồn tại không
-            $i = 0;
             $has_value = 0;
+            $no_value = 0;
+            $i = 0;
             $this_spam = false;
             foreach ($this->input_anti_spam as $k => $v) {
                 $k = RAND_ANTI_SPAM . '_' . $k;
-                $k2 = RAND_ANTI2_SPAM . '_' . $k;
-                // chỉ cần 1 cái có dữ liệu -> lỗi luôn
-                if (isset($_REQUEST[$k]) && !empty($_REQUEST[$k])) {
-                    $has_value++;
-                    // so khớp dữ liệu nếu khác nhau -> báo lỗi
-                    if (md5($k) != explode('@', $_REQUEST[$k])[0]) {
-                        //echo $k . '<br>' . PHP_EOL;
-                        $this_spam = md5($k);
-                        break;
+                // nếu tồn tại request này
+                if (isset($_REQUEST[$k])) {
+                    // nếu có dữ liệu
+                    if (!empty($_REQUEST[$k])) {
+                        // đánh dấu có dữ liệu
+                        $has_value++;
+                        // so khớp dữ liệu nếu khác nhau -> báo lỗi
+                        if (md5($k) != explode('@', $_REQUEST[$k])[0]) {
+                            //echo $k . '<br>' . PHP_EOL;
+                            $this_spam = $k;
+                            break;
+                        }
+                    } else {
+                        // không có thì đánh dấu ko có
+                        $no_value++;
                     }
-                } else if (RAND_ANTI_SPAM != RAND_ANTI2_SPAM && isset($_REQUEST[$k2]) && !empty($_REQUEST[$k2])) {
-                    $has_value++;
-                    // so khớp dữ liệu nếu khác nhau -> báo lỗi
-                    if (md5($k2) != explode('@', $_REQUEST[$k2])[0]) {
-                        //echo $k2 . '<br>' . PHP_EOL;
-                        $this_spam = md5($k2);
-                        break;
-                    }
+                    $i++;
                 }
-                $i++;
             }
-            //echo $i . '<br>' . PHP_EOL;
+            $count_anti = count($this->input_anti_spam);
             //echo $has_value . '<br>' . PHP_EOL;
-            //echo count($this->input_anti_spam) . '<br>' . PHP_EOL;
+            //echo $no_value . '<br>' . PHP_EOL;
+            //echo $i . '<br>' . PHP_EOL;
+            //echo $count_anti . '<br>' . PHP_EOL;
+            //echo $this_spam . '<br>' . PHP_EOL;
 
             // Nếu chỉ duy nhất 1 input được phép chứa dữ liệu
-            if ($has_value > 1 || $has_value < 1) {
+            if ($has_value > 1 || $no_value > $count_anti - 1) {
                 die(json_encode([
                     'code' => __LINE__,
-                    'has_value' => $has_value,
+                    'has' => $has_value,
+                    'no' => $no_value,
                     'error' => 'Anti spam actived for your request!'
                 ]));
             }
@@ -115,7 +118,7 @@ class Session
                 ]));
             }
             // không có thì thôi, đã có thì tổng số input nhận được phải bằng tổng số input được khai báo
-            else if ($i > 0 && $i != count($this->input_anti_spam)) {
+            else if ($i > 0 && $i != $count_anti) {
                 die(json_encode([
                     'code' => __LINE__,
                     'count' => $i,

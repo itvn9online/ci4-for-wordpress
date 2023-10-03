@@ -226,7 +226,7 @@ defined('CUSTOM_ADMIN_URI') || define('CUSTOM_ADMIN_URI', 'wgr-wp-admin');
  * Tránh việc bị dùng các extension kiểu adblock chặn request
  **/
 // tạo hàm ngẫu nhiên theo ngày
-$rand_by_date = md5(date('Y-m-d') . $_SERVER['HTTP_HOST']);
+$rand_by_date = md5(session_id());
 // khai báo constans để tạo routes
 define('RAND_MULTI_LOGOUT', '_' . substr($rand_by_date, 0, 12));
 //echo RAND_MULTI_LOGOUT . '<br>' . PHP_EOL;
@@ -234,11 +234,9 @@ define('RAND_MULTI_LOGGED', '_' . substr($rand_by_date, 6, 12));
 //echo RAND_MULTI_LOGGED . '<br>' . PHP_EOL;
 
 /**
- * Chuỗi dùng để tạo input anti spam
- * Chuỗi tạo theo ngày -> 1 cái hôm nay, 1 cái hôm qua -> ai sử dụng đúng lúc giao ngày thì vẫn có thể khớp lệnh được
+ * Chuỗi dùng để tạo input anti spam -> mỗi trình duyệt có 1 key khác nhau -> không chung đụng
  **/
-define('RAND_ANTI_SPAM', RAND_MULTI_LOGOUT);
-define('RAND_ANTI2_SPAM', '_' . substr(md5(date('Y-m-d', time() - (4 * 3600)) . $_SERVER['HTTP_HOST']), 0, 12));
+define('RAND_ANTI_SPAM', '_' . substr(md5(session_id()), 0, 12));
 
 /**
  * Tạo phiên bản giả lập wordpress

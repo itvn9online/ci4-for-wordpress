@@ -7,9 +7,6 @@
 
 //
 //echo RAND_ANTI_SPAM . '<br>' . PHP_EOL;
-//echo RAND_ANTI2_SPAM . '<br>' . PHP_EOL;
-//echo date('Y-m-d') . '<br>' . PHP_EOL;
-//echo date('Y-m-d', time() - (12 * 3600)) . '<br>' . PHP_EOL;
 
 // tạo ID cho thẻ DIV -> để gây khó khăn cho việc xác định thuộc tính của DIV
 $anti_div_id_spam = '_' . substr(md5(time()), rand(0, 6), 12);
