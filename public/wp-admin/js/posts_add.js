@@ -18,6 +18,16 @@ function after_update_post() {
 
 // chỉnh lại size ảnh nếu có lựa chọn
 $("#post_meta_image_size").change(function () {
+	//console.log(1);
+	if ($("#post_meta_image").val() == "") {
+		$(
+			"#post_meta_image_medium, #post_meta_image_thumbnail, #post_meta_image_webp, #post_meta_image_medium_large, #post_meta_image_large"
+		).val("");
+		$(".for-post_meta_image img").hide();
+		return false;
+	}
+
+	//
 	var avt_size = $(this).val() || "";
 	if (avt_size != "") {
 		console.log("avt size:", avt_size);

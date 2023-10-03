@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Một số chức năng sẽ xác định xem có phải bot spam hay không -> gọi hàm: check_csrf
+ * Trong form submit đi thì dùng hàm csrf_field để tạo input ẩn
+ **/
+
 namespace App\Controllers;
 
 //

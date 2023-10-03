@@ -369,11 +369,13 @@ class Users extends Csrf
             //delete_cookie( $this->wrg_cookie_login_key );
 
             //
+            $redirect_to = base_url('guest/login');
             if (isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])) {
-                $this->MY_redirect($_SERVER['HTTP_REFERER'], 301);
-            } else {
-                $this->MY_redirect(base_url('guest/login'), 301);
+                //die($_SERVER['HTTP_REFERER']);
+                //$this->MY_redirect($_SERVER['HTTP_REFERER'], 301);
+                $redirect_to .= '?login_redirect=' . urlencode($_SERVER['HTTP_REFERER']) . '&reauth=1';
             }
+            $this->MY_redirect($redirect_to, 301);
         }
     }
 

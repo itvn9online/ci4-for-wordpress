@@ -190,68 +190,6 @@ class PostPosts extends PostSlider
         return $this->get_posts($prams, $ops);
     }
 
-    /**
-     * Trả về danh sách sản phẩm
-     **/
-    public function get_products_by($prams, $ops = [], $in_cache = '', $cache_time = 300)
-    {
-        $prams = $this->sync_post_parms($prams);
-        $ops = $this->sync_post_ops($ops);
-        //print_r($ops);
-
-        // fix cứng tham số
-        $prams['post_type'] = PostType::PROD;
-        $prams['taxonomy'] = TaxonomyType::PROD_CATS;
-
-        //
-        return $this->get_posts($prams, $ops, $in_cache, $cache_time);
-    }
-    public function count_products_by($prams, $ops = [])
-    {
-        $prams = $this->sync_post_parms($prams);
-        //print_r($prams);
-
-        // fix cứng tham số
-        $prams['post_type'] = PostType::PROD;
-        $prams['taxonomy'] = TaxonomyType::PROD_CATS;
-
-        //
-        $ops['count_record'] = 1;
-
-        //
-        return $this->get_posts($prams, $ops);
-    }
-
-    // blog
-    /*
-    public function get_blogs_by($prams, $ops = [])
-    {
-        $prams = $this->sync_post_parms($prams);
-        $ops = $this->sync_post_ops($ops);
-
-        // fix cứng tham số
-        $prams['post_type'] = PostType::BLOG;
-        $prams['taxonomy'] = TaxonomyType::BLOGS;
-
-        //
-        return $this->get_posts($prams, $ops);
-    }
-    public function count_blogs_by($prams, $ops = [])
-    {
-        $prams = $this->sync_post_parms($prams);
-
-        // fix cứng tham số
-        $prams['post_type'] = PostType::BLOG;
-        $prams['taxonomy'] = TaxonomyType::BLOGS;
-
-        //
-        $ops['count_record'] = 1;
-
-        //
-        return $this->get_posts($prams, $ops);
-    }
-    */
-
     function get_the_ads($slug, $limit = 0, $ops = [], $using_cache = true, $time = MEDIUM_CACHE_TIMEOUT)
     {
         $in_cache = '';

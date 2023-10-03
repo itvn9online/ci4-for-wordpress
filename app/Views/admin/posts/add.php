@@ -218,7 +218,7 @@ include __DIR__ . '/add_breadcrumb.php';
 
                             // lấy danh sách page template cho page
                             if ($post_type == PostType::PAGE && $k == 'page_template') {
-                                $arr_page_template = $base_model->EBE_get_file_in_folder(THEMEPATH . 'page-templates/', '.{php}', 'file');
+                                $arr_page_template = $base_model->EBE_get_file_in_folder(THEMEPATH . 'page-templates/', '.php', 'file');
                                 //print_r( $arr_page_template );
 
                                 //

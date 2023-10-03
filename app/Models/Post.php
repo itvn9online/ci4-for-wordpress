@@ -8,7 +8,7 @@ use App\Libraries\TaxonomyType;
 use App\Libraries\DeletedStatus;
 
 //
-class Post extends PostPages
+class Post extends PostProducs
 {
     public function __construct()
     {

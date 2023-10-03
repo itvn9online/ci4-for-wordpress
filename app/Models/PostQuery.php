@@ -931,7 +931,7 @@ class PostQuery extends PostMeta
         $custom_size = '';
         foreach ($data as $v) {
             //print_r($v);
-            if (!isset($v['post_meta']) || !isset($v['post_meta']['image'])) {
+            if (!isset($v['post_meta']) || !isset($v['post_meta']['image']) || empty($v['post_meta']['image'])) {
                 continue;
             }
 
@@ -952,6 +952,12 @@ class PostQuery extends PostMeta
             //
             if (!file_exists($file_path)) {
                 continue;
+                /*
+            } else if (!is_file($file_path)) {
+                echo $v['ID'] . '<br>' . PHP_EOL;
+                echo $file_path . '<br>' . PHP_EOL;
+                continue;
+                */
             }
 
             //

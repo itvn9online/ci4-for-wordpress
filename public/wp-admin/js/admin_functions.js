@@ -288,9 +288,11 @@ function WGR_show_real_post_avt(insert_to, data_src, arr_all_srcs) {
 	//console.log('.show-img-if-change.for-' + insert_to);
 	//console.log($('.show-img-if-change.for-' + insert_to + ' img').length);
 	if ($(".show-img-if-change.for-" + insert_to + " img").length > 0) {
-		$(".show-img-if-change.for-" + insert_to + " img").attr({
-			src: data_src,
-		});
+		$(".show-img-if-change.for-" + insert_to + " img")
+			.attr({
+				src: data_src,
+			})
+			.show();
 
 		// nếu đang thiết lập ảnh đại diện chính
 		if (insert_to == "post_meta_image") {

@@ -7,7 +7,7 @@ use App\Libraries\PostType;
 use App\Libraries\TaxonomyType;
 
 //
-class Sitemap extends Csrf
+class Sitemap extends Layout
 {
     // chức năng này không cần nạp header
     public $preload_header = false;

@@ -1106,7 +1106,10 @@ class Layout extends Sync
             //die($login_redirect);
 
             //
-            $login_url = base_url('guest/login') . '?login_redirect=' . urlencode($login_redirect) . '&msg=' . urlencode('Permission deny! ' . basename(__FILE__, '.php') . ':' . __LINE__) . $add_params;
+            $login_url = base_url('guest/login') . '?login_redirect=' . urlencode($login_redirect);
+            //$login_url .= '&msg=' . urlencode('Permission deny! ' . basename(__FILE__, '.php') . ':' . __LINE__);
+            $login_url .= '&reauth=1';
+            $login_url .= $add_params;
             //die( $login_url );
 
             //
