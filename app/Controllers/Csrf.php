@@ -8,6 +8,9 @@
 namespace App\Controllers;
 
 //
+use App\Libraries\ConfigType;
+
+//
 class Csrf extends Layout
 {
     // 1 số chức năng của khách sẽ cần đến captcha
@@ -67,9 +70,12 @@ class Csrf extends Layout
     {
         // với các trường hợp cần dùng đến captcha nhưng không có trong đầu vào
         if ($_SERVER['REQUEST_METHOD'] != 'GET') {
+            // nạp config cho phần đăng nhập
+            $firebase_config = $this->option_model->obj_config(ConfigType::FIREBASE);
+
             // ưu tiên sử dụng recaptcha
             if (
-                !empty($this->getconfig->g_recaptcha_secret_key) &&
+                !empty($firebase_config->g_recaptcha_secret_key) &&
                 $this->checking_recaptcha() !== true
             ) {
                 // không cần làm gì ở đây cả -> trong function checking_recaptcha đã làm rồi

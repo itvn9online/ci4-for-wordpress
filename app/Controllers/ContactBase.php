@@ -80,6 +80,24 @@ class ContactBase extends Home
 
     public function put()
     {
+        //ini_set('display_errors', 1);
+        //error_reporting(E_ALL);
+
+        // chỉ chấp nhận phương thức post
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            return $this->done_action_login(base_url());
+        }
+
+        //
+        /*
+        $redirect_default = base_url();
+        if (isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) !== false) {
+            //die($_SERVER['HTTP_REFERER']);
+            $redirect_default = $_SERVER['HTTP_REFERER'];
+        }
+        */
+
+        //
         $this->wgr_target();
 
         // khởi tạo default rules để check form
@@ -109,13 +127,22 @@ class ContactBase extends Home
         //print_r($check_rules);
         //die(__CLASS__ . ':' . __LINE__);
 
+        // kiểm tra spam bot nếu có
+        $this->base_model->antiRequiredSpam();
+
+        /* daidq (2023-10-04): bỏ gcaptcha -> test tính năng chống spamer -> antiRequiredSpam
         // kiểm tra recaptcha (nếu có)
         $check_recaptcha = $this->googleCaptachStore();
         // != true -> có lỗi -> in ra lỗi
+        //var_dump($check_recaptcha);
         if ($check_recaptcha !== true) {
+            //$redirect_to = base_url($_SERVER['REQUEST_URI']);
+            //die($redirect_to);
             $this->base_model->msg_error_session($check_recaptcha, $this->form_target);
-            return $this->done_action_login();
+            return $this->done_action_login($redirect_default);
         }
+        */
+        //die(__CLASS__ . ':' . __LINE__);
 
         //
         $data = $this->MY_post('data');
@@ -147,6 +174,8 @@ class ContactBase extends Home
             $this->set_validation_error($this->validation->getErrors(), $this->form_target);
         } else {
             $smtp_config = $this->option_model->get_smtp();
+            //print_r($smtp_config);
+            //die(__CLASS__ . ':' . __LINE__);
 
             $submit = $this->MY_comment([
                 'redirect_to' => $redirect_to,
@@ -156,7 +185,7 @@ class ContactBase extends Home
             // thiết lập thông tin người nhận
             $data_send = [
                 //'to' => $data[ 'email' ],
-                'to' => $smtp_config->emailcontact,
+                'to' => $this->getconfig->emailcontact,
                 //'to_name' => $data[ 'fullname' ],
                 'subject' => $data['title'],
                 'message' => $submit['message'],
@@ -181,6 +210,7 @@ class ContactBase extends Home
             //
             PHPMaillerSend::the_send($data_send, $smtp_config);
         }
+        //die($redirect_to);
 
         //
         return $this->done_action_login($redirect_to);
@@ -237,6 +267,9 @@ class ContactBase extends Home
             'comment_type' => $ops['comment_type'],
             //'user_id' => 0,
         ];
+        if (!isset($data_insert['comment_date'])) {
+            $data_insert['comment_date'] = date(EBE_DATETIME_FORMAT);
+        }
         $data_insert['comment_date_gmt'] = $data_insert['comment_date'];
         //print_r( $data_insert );
         //die( 'dgh dhd hdf' );

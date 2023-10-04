@@ -26,6 +26,7 @@ class Session
         'first_name' => 'text',
         'last_name' => 'text',
         'address' => 'text',
+        'captcha' => 'text',
     ];
 
     public function __construct()
@@ -42,11 +43,34 @@ class Session
         return isset($_SESSION[$key]) ? $_SESSION[$key] : '';
     }
 
-    /*
+    // trả về input chứa csrf và lưu vào session để nếu submit thì còn kiểm tra được
+    public function csrf_field($anti_spam = true)
+    {
+        // mỗi phiên -> lưu lại csrf token dưới dạng session
+        $this->MY_session($this->key_csrf_hash, csrf_hash());
+
+        // in html
+        echo csrf_field();
+
+        // nạp thêm input ẩn -> chống spam
+        if ($anti_spam === true) {
+            include VIEWS_PATH . 'includes/anti_spam.php';
+        }
+
+        //
+        return true;
+    }
+
+    /**
      * Kiểm tra đầu vào của dữ liệu xem chuẩn không
-     */
+     **/
     public function check_csrf()
     {
+        // bỏ qua phương thức get
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+            return true;
+        }
+
         $csrf_name = csrf_token();
         //echo $csrf_name . '<br>' . PHP_EOL;
         // nếu tồn tại hash
@@ -65,88 +89,161 @@ class Session
         }
         //die( __CLASS__ . ':' . __LINE__ );
 
-        // với các phương thức POST
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // chạy 1 vòng -> kiểm tra các input của anti spam có tồn tại không
-            $has_value = 0;
-            $no_value = 0;
-            $i = 0;
-            $this_spam = false;
-            foreach ($this->input_anti_spam as $k => $v) {
-                $k = RAND_ANTI_SPAM . '_' . $k;
-                // nếu tồn tại request này
-                if (isset($_REQUEST[$k])) {
-                    // nếu có dữ liệu
-                    if (!empty($_REQUEST[$k])) {
-                        // đánh dấu có dữ liệu
-                        $has_value++;
-                        // so khớp dữ liệu nếu khác nhau -> báo lỗi
-                        if (md5($k) != explode('@', $_REQUEST[$k])[0]) {
-                            //echo $k . '<br>' . PHP_EOL;
-                            $this_spam = $k;
-                            break;
-                        }
-                    } else {
-                        // không có thì đánh dấu ko có
-                        $no_value++;
+        // chạy 1 vòng -> kiểm tra các input của anti spam có tồn tại không
+        $has_value = 0;
+        $no_value = 0;
+        $i = 0;
+        $this_spam = false;
+        foreach ($this->input_anti_spam as $k => $v) {
+            $k = RAND_ANTI_SPAM . '_' . $k;
+            // nếu tồn tại request này
+            if (isset($_REQUEST[$k])) {
+                // nếu có dữ liệu
+                if (!empty($_REQUEST[$k])) {
+                    // đánh dấu có dữ liệu
+                    $has_value++;
+                    // so khớp dữ liệu nếu khác nhau -> báo lỗi
+                    if (md5($k) != explode('@', $_REQUEST[$k])[0]) {
+                        //echo $k . '<br>' . PHP_EOL;
+                        $this_spam = $k;
+                        break;
                     }
-                    $i++;
+                } else {
+                    // không có thì đánh dấu ko có
+                    $no_value++;
                 }
+                $i++;
             }
-            $count_anti = count($this->input_anti_spam);
-            //echo $has_value . '<br>' . PHP_EOL;
-            //echo $no_value . '<br>' . PHP_EOL;
-            //echo $i . '<br>' . PHP_EOL;
-            //echo $count_anti . '<br>' . PHP_EOL;
-            //echo $this_spam . '<br>' . PHP_EOL;
-
-            // Nếu chỉ duy nhất 1 input được phép chứa dữ liệu
-            if ($has_value > 1 || $no_value > $count_anti - 1) {
-                die(json_encode([
-                    'code' => __LINE__,
-                    'has' => $has_value,
-                    'no' => $no_value,
-                    'error' => 'Anti spam actived for your request!'
-                ]));
-            }
-            // Bị gắn cờ spam
-            else if ($this_spam !== false) {
-                die(json_encode([
-                    'code' => __LINE__,
-                    'spamer' => $this_spam,
-                    'error' => 'Anti spam actived for your request!'
-                ]));
-            }
-            // không có thì thôi, đã có thì tổng số input nhận được phải bằng tổng số input được khai báo
-            else if ($i > 0 && $i != $count_anti) {
-                die(json_encode([
-                    'code' => __LINE__,
-                    'count' => $i,
-                    'error' => 'Anti spam actived for your request!'
-                ]));
-            }
-            //die(__CLASS__ . ':' . __LINE__);
         }
+
+        //
+        return $this->afterCheckSpam([
+            'has_value' => $has_value,
+            'no_value' => $no_value,
+            'i' => $i,
+            'this_spam' => $this_spam,
+            'f' => __FUNCTION__,
+        ]);
+    }
+
+    /**
+     * Một số phương thức cần dộ bảo mật cao thì sẽ bắt buộc check spam -> nghĩa là các input được định nghĩa bắt buộc phải có
+     **/
+    public function antiRequiredSpam()
+    {
+        // không phải POST -> bỏ
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            return false;
+        }
+
+        // chạy 1 vòng -> kiểm tra các input của anti spam có tồn tại không
+        $has_value = 0;
+        $no_value = 0;
+        $i = 0;
+        $this_spam = false;
+        foreach ($this->input_anti_spam as $k => $v) {
+            $k = RAND_ANTI_SPAM . '_' . $k;
+            // không tồn tại 1 input -> bỏ luôn
+            if (!isset($_REQUEST[$k])) {
+                break;
+            }
+
+            // nếu có dữ liệu
+            if (!empty($_REQUEST[$k])) {
+                // đánh dấu có dữ liệu
+                $has_value++;
+                // so khớp dữ liệu nếu khác nhau -> báo lỗi
+                if (md5($k) != explode('@', $_REQUEST[$k])[0]) {
+                    //echo $k . '<br>' . PHP_EOL;
+                    $this_spam = $k;
+                    break;
+                }
+            } else {
+                // không có thì đánh dấu ko có
+                $no_value++;
+            }
+            $i++;
+        }
+
+        //
+        return $this->afterCheckSpam([
+            // gán giá trị mặc định nếu ko tìm thấy -> vì những cái này bắt buộc phải có
+            'has_value' => $has_value > 0 ? $has_value : __LINE__,
+            'no_value' => $no_value > 0 ? $no_value : __LINE__,
+            'i' => $i > 0 ? $i : __LINE__,
+            'this_spam' => $this_spam,
+            'f' => __FUNCTION__,
+        ]);
+    }
+
+    /**
+     * Sau khi check spam thì in ra kết quả nếu phát hiện có vấn đề
+     **/
+    protected function afterCheckSpam($ops)
+    {
+        // tổng số input
+        $count_anti = count($this->input_anti_spam);
+        //echo $count_anti . '<br>' . PHP_EOL;
+        //print_r($ops);
+        //echo $ops['has_value'] . '<br>' . PHP_EOL;
+        //echo $ops['no_value'] . '<br>' . PHP_EOL;
+        //echo $ops['i'] . '<br>' . PHP_EOL;
+        //echo $ops['this_spam'] . '<br>' . PHP_EOL;
+
+        //
+        $ops['has_value'] *= 1;
+        $ops['no_value'] *= 1;
+        $by_value = false;
+        // chỉ kiểm tra theo giá trị khi có ghi nhận
+        if ($ops['has_value'] > 0 || $ops['no_value'] > 0) {
+            // Nếu chỉ duy nhất 1 input được phép chứa dữ liệu, còn lại không được chứa dữ liệu
+            if ($ops['has_value'] !== 1 || $ops['no_value'] !== ($count_anti - 1)) {
+                $by_value = true;
+            }
+        }
+
+        // ải giá trị không qua -> cho đứt
+        if ($by_value !== false) {
+            $this->dieIfSpam([
+                'code' => __LINE__,
+                'has' => $ops['has_value'],
+                'no' => $ops['no_value'],
+                'error' => 'Anti spam actived for your request!',
+                'f' => strtolower($ops['f']),
+            ]);
+        }
+        // không có thì thôi, đã có thì tổng số input nhận được phải bằng tổng số input được khai báo
+        else if ($ops['i'] > 0 && $ops['i'] != $count_anti) {
+            $this->dieIfSpam([
+                'code' => __LINE__,
+                'count' => $ops['i'],
+                'error' => 'Anti spam actived for your request!',
+                'f' => strtolower($ops['f']),
+            ]);
+        }
+        // Bị gắn cờ spam
+        else if ($ops['this_spam'] !== false) {
+            $this->dieIfSpam([
+                'code' => __LINE__,
+                'spamer' => $ops['this_spam'],
+                'error' => 'Anti spam actived for your request!',
+                'f' => strtolower($ops['f']),
+            ]);
+        }
+        //die(__CLASS__ . ':' . __LINE__);
 
         //
         return true;
     }
 
-    // trả về input chứa csrf và lưu vào session để nếu submit thì còn kiểm tra được
-    public function csrf_field()
+    /**
+     * dừng lại mọi hoạt động nếu phát hiện spam
+     **/
+    protected function dieIfSpam($d)
     {
-        // mỗi phiên -> lưu lại csrf token dưới dạng session
-        $this->MY_session($this->key_csrf_hash, csrf_hash());
-
-        // in html
-        echo csrf_field();
-
-        // nạp thêm input ẩn -> chống spam
-        $input_anti_spam = $this->input_anti_spam;
-        include VIEWS_PATH . 'includes/anti_spam.php';
-
-        //
-        return true;
+        header('Content-Type:text/plain; charset=UTF-8');
+        //header('Content-type: application/json; charset=utf-8');
+        die(json_encode($d));
     }
 
     // set session login -> lưu phiên đăng nhập của người dùng

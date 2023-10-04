@@ -63,6 +63,9 @@ class Guest extends Csrf
     }
     public function login()
     {
+        // kiểm tra spam bot nếu có
+        $this->base_model->antiRequiredSpam();
+
         $login_redirect = DYNAMIC_BASE_URL;
         //die( $login_redirect );
 
@@ -788,7 +791,7 @@ class Guest extends Csrf
             $login_redirect = urldecode($_REQUEST['login_redirect']);
         } else if (
             isset($_SERVER['HTTP_REFERER']) &&
-            $_SERVER['HTTP_REFERER'] &&
+            !empty($_SERVER['HTTP_REFERER']) &&
             strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) !== false
         ) {
             $login_redirect = urldecode($_SERVER['HTTP_REFERER']);

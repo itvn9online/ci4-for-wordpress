@@ -370,7 +370,7 @@ class Users extends Csrf
 
             //
             $redirect_to = base_url('guest/login');
-            if (isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])) {
+            if (isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) !== false) {
                 //die($_SERVER['HTTP_REFERER']);
                 //$this->MY_redirect($_SERVER['HTTP_REFERER'], 301);
                 $redirect_to .= '?login_redirect=' . urlencode($_SERVER['HTTP_REFERER']) . '&reauth=1';

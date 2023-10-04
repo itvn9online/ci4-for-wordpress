@@ -312,8 +312,8 @@ class Firebase2s extends Firebases
     protected function checkUid($firebase_uid)
     {
         // xem đã có tài khoản nào sử dụng firebase_uid này chưa
-        $check_uid = $this->base_model->select(
-            'ID',
+        $a = $this->base_model->select(
+            'ID, member_type',
             $this->user_model->table,
             [
                 'firebase_uid' => $this->base_model->mdnam($firebase_uid),
@@ -327,10 +327,10 @@ class Firebase2s extends Firebases
                 'limit' => 1
             )
         );
-        if (!empty($check_uid)) {
+        if (!empty($a)) {
             $this->result_json_type([
                 'code' => __LINE__,
-                'error' => $this->firebaseLang('check_uid', 'user_id đã được sử dụng bởi một tài khoản khác'),
+                'error' => $this->firebaseLang('check_uid', 'user_id đã được sử dụng bởi một ' . $a['member_type'] . ' khác #' . $a['ID']),
             ]);
         }
     }

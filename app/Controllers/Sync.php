@@ -6,6 +6,7 @@ namespace App\Controllers;
 //use App\Libraries\UsersType;
 use App\Helpers\HtmlTemplate;
 use App\Libraries\LanguageCost;
+use App\Libraries\ConfigType;
 
 //
 class Sync extends BaseController
@@ -938,8 +939,16 @@ class Sync extends BaseController
     // chức năng kiểm tra sumit form bằng google captcha
     protected function googleCaptachStore()
     {
+        // với các trường hợp cần dùng đến captcha nhưng không có trong đầu vào
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+            return true;
+        }
+
+        // nạp config cho phần đăng nhập
+        $firebase_config = $this->option_model->obj_config(ConfigType::FIREBASE);
+
         // xem có secret không
-        $secret = $this->getconfig->g_recaptcha_secret_key;
+        $secret = $firebase_config->g_recaptcha_secret_key;
         // không có -> không dùng recaptcha -> trả về true
         if (empty($secret)) {
             return true;

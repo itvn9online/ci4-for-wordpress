@@ -25,11 +25,12 @@ $anti_div_id_spam = '_' . substr(md5(time()), rand(0, 6), 12);
 
     //
     $i = 1;
-    $j = rand($i, count($input_anti_spam));
+    $j = rand($i, count($this->input_anti_spam));
     //$j = 1;
-    foreach ($input_anti_spam as $k => $v) {
+    foreach ($this->input_anti_spam as $k => $v) {
         // tạo 1 input kiểu ngẫu nhiên để gán dữ liệu định sẵn
         $val = '';
+        $attr_required = '';
         if ($j == $i) {
             $val = RAND_ANTI_SPAM . '_' . $k;
             //echo $val . '<br>' . PHP_EOL;
@@ -37,10 +38,13 @@ $anti_div_id_spam = '_' . substr(md5(time()), rand(0, 6), 12);
             if ($v == 'email') {
                 $val .= '@' . $_SERVER['HTTP_HOST'];
             }
+
+            // input nào có giá trị thì gắn cờ required -> cố tình xóa thì khỏi submit luôn
+            $attr_required = 'aria-required="true" required';
         }
         $i++;
     ?>
-        <input type="<?php echo $v; ?>" name="<?php echo RAND_ANTI_SPAM; ?>_<?php echo $k; ?>" value="<?php echo $val; ?>" />
+        <input type="<?php echo $v; ?>" name="<?php echo RAND_ANTI_SPAM; ?>_<?php echo $k; ?>" placeholder="<?php echo $k; ?>" value="<?php echo $val; ?>" <?php echo $attr_required; ?> />
     <?php
     }
 

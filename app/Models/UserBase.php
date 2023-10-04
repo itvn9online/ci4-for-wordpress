@@ -80,8 +80,8 @@ class UserBase extends EbModel
     public function check_another_user_by($id, $key, $val)
     {
         // lấy dữ liệu trong db
-        $check_exist = $this->base_model->select(
-            'ID',
+        $a = $this->base_model->select(
+            'ID, member_type',
             $this->table,
             array(
                 // các kiểu điều kiện where
@@ -99,8 +99,8 @@ class UserBase extends EbModel
         );
 
         //
-        if (!empty($check_exist)) {
-            return $key . ' has been using by another user #' . $check_exist['ID'];
+        if (!empty($a)) {
+            return $key . ' has been using by another ' . $a['member_type'] . ' #' . $a['ID'];
         }
         //
         return true;
