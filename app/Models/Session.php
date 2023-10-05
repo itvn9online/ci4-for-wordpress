@@ -7,6 +7,7 @@ namespace App\Models;
 
 // Libraries
 //use CodeIgniter\Model;
+use App\Helpers\HtmlTemplate;
 
 class Session
 {
@@ -22,9 +23,9 @@ class Session
     // danh sách name và type của các input dùng để tạo anti spam
     protected $input_anti_spam = [
         'email' => 'email',
-        'phone' => 'tel',
-        'first_name' => 'text',
-        'last_name' => 'text',
+        'phone' => 'text',
+        'fname' => 'text',
+        'lname' => 'text',
         'address' => 'text',
         'captcha' => 'text',
     ];
@@ -44,7 +45,7 @@ class Session
     }
 
     // trả về input chứa csrf và lưu vào session để nếu submit thì còn kiểm tra được
-    public function csrf_field($anti_spam = true)
+    public function csrf_field($anti_spam = true, $time_expired = 300)
     {
         // mỗi phiên -> lưu lại csrf token dưới dạng session
         $this->MY_session($this->key_csrf_hash, csrf_hash());
@@ -54,11 +55,30 @@ class Session
 
         // nạp thêm input ẩn -> chống spam
         if ($anti_spam === true) {
-            include VIEWS_PATH . 'includes/anti_spam.php';
+            $this->anti_spam_field($time_expired);
         }
 
         //
         return true;
+    }
+
+    /**
+     * trả về input chứa các hidden input để sau đó sẽ check các input này và đánh giá có phải bot hay ko
+     * time_expired -> thêm thời gian hết hạn cho hide-captcha -> mặc định 5m -> trường hợp nào cần lâu hơn thì truyền vào theo tham số
+     * hide_captcha: khi bật chế độ này, input chỉ định trả về alert sẽ không được in ra -> lệnh sẽ trả về mã json
+     **/
+    public function anti_spam_field($time_expired = 300, $hide_captcha = false)
+    {
+        include VIEWS_PATH . 'includes/anti_spam.php';
+        return true;
+    }
+
+    /**
+     * Trả về hidden input không bao gồm input alert -> dùng cho các lệnh js có sử dụng hide-captcha
+     **/
+    public function hide_captcha_field($time_expired = 300)
+    {
+        return $this->anti_spam_field($time_expired, true);
     }
 
     /**
@@ -116,8 +136,20 @@ class Session
             }
         }
 
+        // kiểm tra thời gian hết hạn của token -> nếu có
+        $by_token = 0;
+        $time_out = isset($_POST[RAND_ANTI_SPAM . '_to']) ? $_POST[RAND_ANTI_SPAM . '_to'] : 0;
+        $time_token = isset($_POST[RAND_ANTI_SPAM . '_token']) ? $_POST[RAND_ANTI_SPAM . '_token'] : '';
+        // nếu có thời gian hết hạn hoặc có token thì mới kiểm tra
+        if (!empty($time_out) && !empty($time_token)) {
+            if (!is_numeric($time_out) || $time_out < time() || md5(RAND_ANTI_SPAM . $time_out) != $time_token) {
+                $by_token = 1;
+            }
+        }
+
         //
         return $this->afterCheckSpam([
+            'by_token' => $by_token,
             'has_value' => $has_value,
             'no_value' => $no_value,
             'i' => $i,
@@ -135,6 +167,7 @@ class Session
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
             return false;
         }
+        //print_r($_POST);
 
         // chạy 1 vòng -> kiểm tra các input của anti spam có tồn tại không
         $has_value = 0;
@@ -165,8 +198,18 @@ class Session
             $i++;
         }
 
+        // kiểm tra thời gian hết hạn của token -> bắt buộc
+        $by_token = 0;
+        $time_out = isset($_POST[RAND_ANTI_SPAM . '_to']) ? $_POST[RAND_ANTI_SPAM . '_to'] : 0;
+        $time_token = isset($_POST[RAND_ANTI_SPAM . '_token']) ? $_POST[RAND_ANTI_SPAM . '_token'] : '';
+        // nếu không có thời gian hết hạn hoặc hết hạn hoặc token không khớp -> lỗi
+        if (empty($time_out) || !is_numeric($time_out) || $time_out < time() || empty($time_token) || md5(RAND_ANTI_SPAM . $time_out) != $time_token) {
+            $by_token = 1;
+        }
+
         //
         return $this->afterCheckSpam([
+            'by_token' => $by_token,
             // gán giá trị mặc định nếu ko tìm thấy -> vì những cái này bắt buộc phải có
             'has_value' => $has_value > 0 ? $has_value : __LINE__,
             'no_value' => $no_value > 0 ? $no_value : __LINE__,
@@ -190,6 +233,15 @@ class Session
         //echo $ops['i'] . '<br>' . PHP_EOL;
         //echo $ops['this_spam'] . '<br>' . PHP_EOL;
 
+        // lỗi khớp token -> báo lỗi luôn
+        if ($ops['by_token'] > 0) {
+            $this->dieIfSpam([
+                'code' => __LINE__,
+                'token' => $ops['by_token'],
+                'f' => strtolower($ops['f']),
+            ]);
+        }
+
         //
         $ops['has_value'] *= 1;
         $ops['no_value'] *= 1;
@@ -208,7 +260,6 @@ class Session
                 'code' => __LINE__,
                 'has' => $ops['has_value'],
                 'no' => $ops['no_value'],
-                'error' => 'Anti spam actived for your request!',
                 'f' => strtolower($ops['f']),
             ]);
         }
@@ -217,7 +268,6 @@ class Session
             $this->dieIfSpam([
                 'code' => __LINE__,
                 'count' => $ops['i'],
-                'error' => 'Anti spam actived for your request!',
                 'f' => strtolower($ops['f']),
             ]);
         }
@@ -226,7 +276,6 @@ class Session
             $this->dieIfSpam([
                 'code' => __LINE__,
                 'spamer' => $ops['this_spam'],
-                'error' => 'Anti spam actived for your request!',
                 'f' => strtolower($ops['f']),
             ]);
         }
@@ -241,9 +290,38 @@ class Session
      **/
     protected function dieIfSpam($d)
     {
+        // cố định thông điệp báo lỗi
+        $d['error'] = 'Anti spam actived for your request!';
+
+        // nếu là từ view -> alert cho người dùng biết
+        if (isset($_POST[RAND_ANTI_SPAM . '_alert'])) {
+            $this->alert($d['error'] . ' (' . $d['code'] . ')', 'error');
+        }
+
+        // còn lại sẽ trả về mã json
         header('Content-Type:text/plain; charset=UTF-8');
         //header('Content-type: application/json; charset=utf-8');
         die(json_encode($d));
+    }
+
+    // -> trả về alert của javascript
+    public function alert($m, $lnk = '')
+    {
+        $arr_debug = debug_backtrace();
+        //print_r($arr_debug);
+
+        //
+        die(HtmlTemplate::html(
+            'wgr_alert.html',
+            [
+                'file' => basename($arr_debug[1]['file']),
+                'line' => $arr_debug[1]['line'],
+                'function' => $arr_debug[1]['function'],
+                'class' => basename(str_replace('\\', '/', $arr_debug[1]['class'])),
+                'm' => $m,
+                'lnk' => $lnk,
+            ]
+        ));
     }
 
     // set session login -> lưu phiên đăng nhập của người dùng

@@ -16,7 +16,7 @@ include VIEWS_PATH . 'default/login_header.php';
         ?>
             <div>
                 <form id="loginform" name="loginform" class="form-vertical" accept-charset="utf-8" action="<?php echo ACTION_LOGIN_FORM; ?>" method="post" target="target_eb_iframe">
-                    <?php $base_model->csrf_field(); ?>
+                    <?php $base_model->anti_spam_field(); ?>
                     <input type="hidden" name="login_redirect" value="<?php echo $login_redirect; ?>" />
                     <div class="control-group">
                         <div class="controls">

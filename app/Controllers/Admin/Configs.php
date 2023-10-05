@@ -424,6 +424,16 @@ class Configs extends Admin
             echo 'Gửi email thành công! from <strong>' . $smtp_config->smtp_host_user . '</strong> to <strong>' . $data_send['to'] . '</strong> <br>' . PHP_EOL;
 
             //
+            if (isset($data_send['bcc_email'])) {
+                echo 'bcc to <strong>' . implode('<br>', $data_send['bcc_email']) . '</strong> <br>' . PHP_EOL;
+            }
+
+            //
+            if (isset($data_send['cc_email'])) {
+                echo 'cc to <strong>' . implode('<br>', $data_send['cc_email']) . '</strong> <br>' . PHP_EOL;
+            }
+
+            //
             return true;
         } else {
             echo 'Gửi email THẤT BẠI! from <strong>' . $smtp_config->smtp_host_user . '</strong> <br>' . PHP_EOL;

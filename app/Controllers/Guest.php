@@ -63,9 +63,6 @@ class Guest extends Csrf
     }
     public function login()
     {
-        // kiểm tra spam bot nếu có
-        $this->base_model->antiRequiredSpam();
-
         $login_redirect = DYNAMIC_BASE_URL;
         //die( $login_redirect );
 
@@ -88,6 +85,9 @@ class Guest extends Csrf
             if ($this->firebase_config->disable_local_login == 'on') {
                 $this->base_model->alert('Chức năng đăng nhập đang tạm ngưng!', $this->form_target);
             }
+
+            // kiểm tra spam bot nếu có
+            $this->base_model->antiRequiredSpam();
 
             // xem có phải nhập mã captcha không -> khi đăng nhập sai quá nhiều lần -> bắt buộc phải nhập captcha
             if ($this->base_model->check_faild_login() > 0) {
@@ -313,6 +313,9 @@ class Guest extends Csrf
         if (!empty($data) && isset($data['email'])) {
             $this->wgr_target();
 
+            // kiểm tra spam bot nếu có
+            $this->base_model->antiRequiredSpam();
+
             // đăng ký tài khoản bắt buộc phải có captcha
             $this->check_required_captcha();
 
@@ -413,6 +416,9 @@ class Guest extends Csrf
         if (!empty($data) && isset($data['email'])) {
             $this->wgr_target();
             $this->checking_captcha();
+
+            // kiểm tra spam bot nếu có
+            $this->base_model->antiRequiredSpam();
 
             //
             if ($this->has_captcha === false) {

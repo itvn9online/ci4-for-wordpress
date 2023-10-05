@@ -52,7 +52,7 @@ class Csrf extends Layout
                 isset($_REQUEST['g-recaptcha-response']) &&
                 $this->checking_recaptcha() !== true
             ) {
-                // không cần làm gì ở đây cả -> trong function checking_recaptcha đã làm rồi
+                // không cần làm gì ở đây cả -> trong function checking recaptcha đã làm rồi
             }
             // không có thì sử dụng MY_captcha
             else if (
@@ -73,12 +73,11 @@ class Csrf extends Layout
             // nạp config cho phần đăng nhập
             $firebase_config = $this->option_model->obj_config(ConfigType::FIREBASE);
 
-            // ưu tiên sử dụng recaptcha
-            if (
-                !empty($firebase_config->g_recaptcha_secret_key) &&
-                $this->checking_recaptcha() !== true
-            ) {
-                // không cần làm gì ở đây cả -> trong function checking_recaptcha đã làm rồi
+            if (!empty($firebase_config->g_recaptcha_secret_key)) {
+                // ưu tiên sử dụng recaptcha
+                if ($this->checking_recaptcha() !== true) {
+                    // không cần làm gì ở đây cả -> trong function checking recaptcha đã làm rồi
+                }
             }
             // không có thì sử dụng MY_captcha
             else if (

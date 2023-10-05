@@ -1,15 +1,25 @@
 <?php
-/*
+
+/**
  * thêm captcha vào form bất kỳ -> có có POST captcha là sẽ có lệnh so khớp POST captcha với session captcha
- */
+ **/
+
+//
+use App\Libraries\ConfigType;
+
+//
+// nạp config cho phần đăng nhập
+$firebase_config = $option_model->obj_config(ConfigType::FIREBASE);
+//echo $firebase_config->g_recaptcha_site_key;
+
 ?>
 <br>
 <?php
 // ưu tiên sử dụng google recaptcha: https://www.google.com/recaptcha/
-if (!empty($getconfig->g_recaptcha_site_key)) {
+if (!empty($firebase_config->g_recaptcha_site_key)) {
 ?>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <div class="g-recaptcha" data-sitekey="<?php echo $getconfig->g_recaptcha_site_key; ?>"></div>
+    <div class="g-recaptcha" data-sitekey="<?php echo $firebase_config->g_recaptcha_site_key; ?>"></div>
 <?php
 }
 // không có thì mới sử dung cái captcha mình tự code

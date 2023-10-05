@@ -5,7 +5,7 @@ include VIEWS_PATH . 'default/login_header.php';
 ?>
 <div id="loginbox">
     <form id="loginform" name="loginform" class="form-vertical" accept-charset="utf-8" action="./guest/resetpass" method="post" target="target_eb_iframe">
-        <?php $base_model->csrf_field(); ?>
+        <?php $base_model->anti_spam_field(); ?>
         <div class="control-group normal_text">
             <h3><?php echo $seo['title']; ?></h3>
         </div>
@@ -25,15 +25,16 @@ include VIEWS_PATH . 'default/login_header.php';
         <div class="form-actions cf l35"> <a href="./guest/login">Đăng nhập</a>
             <?php
             // chỉ hiển thị link đăng ký khi được phép
-            if ( $getconfig->disable_register_member != 'on' ) {
-                ?>
-            | <a href="./guest/register">Đăng ký</a>
+            if ($getconfig->disable_register_member != 'on') {
+            ?>
+                | <a href="./guest/register">Đăng ký</a>
             <?php
             }
             ?>
             <span class="pull-right">
-            <input type="submit" class="btn btn-success" value="<?php echo $seo['title']; ?>" />
-            </span> </div>
+                <input type="submit" class="btn btn-success" value="<?php echo $seo['title']; ?>" />
+            </span>
+        </div>
     </form>
     <p id="backtoblog" class="text-center"> <a href="<?php echo base_url(); ?>">&larr; Quay lại Trang chủ</a> </p>
 </div>

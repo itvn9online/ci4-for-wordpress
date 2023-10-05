@@ -40,6 +40,7 @@ class PHPMaillerSend
         }
         //echo $host_name . '<br>' . PHP_EOL;
         $host_port = $cog['smtp_host_port'];
+        $host_port *= 1;
         //echo $host_port . '<br>' . PHP_EOL;
         $host_user = $cog['smtp_host_user'];
         if ($host_user == '') {
@@ -71,7 +72,9 @@ class PHPMaillerSend
             $mail->SMTPAuth = true;
 
             //
-            if ($host_name == 'smtp.gmail.com') {
+            if (isset($cog['smtp_secure']) && !empty($cog['smtp_secure'])) {
+                $mail->SMTPSecure = $cog['smtp_secure'];
+            } else if ($host_name == 'smtp.gmail.com') {
                 if ($host_port == 465) {
                     $mail->SMTPSecure = 'ssl';
                 } else if ($host_port == 587) {
@@ -80,11 +83,9 @@ class PHPMaillerSend
                     return 'ERROR! gmail port';
                 }
                 /*
-                 } else if ( $host_name == 'smtp.pepipost.com' ) {
-                 $mail->SMTPSecure = 'tls';
-                 */
-            } else if (isset($cog['smtp_secure']) && !empty($cog['smtp_secure'])) {
-                $mail->SMTPSecure = $cog['smtp_secure'];
+            } else if ($host_name == 'smtp.pepipost.com') {
+                $mail->SMTPSecure = 'tls';
+                */
             } else if (!empty($host_port)) {
                 if ($host_port == 465) {
                     $mail->SMTPSecure = 'ssl';

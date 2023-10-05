@@ -236,7 +236,7 @@ define('RAND_MULTI_LOGGED', '_' . substr($rand_by_date, 6, 12));
 /**
  * Chuỗi dùng để tạo input anti spam -> mỗi trình duyệt có 1 key khác nhau -> không chung đụng
  **/
-define('RAND_ANTI_SPAM', '_' . substr(md5(session_id()), 0, 12));
+define('RAND_ANTI_SPAM', RAND_MULTI_LOGGED);
 
 /**
  * Tạo phiên bản giả lập wordpress
