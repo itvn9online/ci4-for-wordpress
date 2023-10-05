@@ -86,7 +86,7 @@ class Guest extends Csrf
                 $this->base_model->alert('Chức năng đăng nhập đang tạm ngưng!', $this->form_target);
             }
 
-            // kiểm tra spam bot nếu có
+            // kiểm tra spam bot
             $this->base_model->antiRequiredSpam();
 
             // xem có phải nhập mã captcha không -> khi đăng nhập sai quá nhiều lần -> bắt buộc phải nhập captcha
@@ -313,7 +313,7 @@ class Guest extends Csrf
         if (!empty($data) && isset($data['email'])) {
             $this->wgr_target();
 
-            // kiểm tra spam bot nếu có
+            // kiểm tra spam bot
             $this->base_model->antiRequiredSpam();
 
             // đăng ký tài khoản bắt buộc phải có captcha
@@ -417,7 +417,7 @@ class Guest extends Csrf
             $this->wgr_target();
             $this->checking_captcha();
 
-            // kiểm tra spam bot nếu có
+            // kiểm tra spam bot
             $this->base_model->antiRequiredSpam();
 
             //

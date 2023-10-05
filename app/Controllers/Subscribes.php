@@ -17,6 +17,18 @@ class Subscribes extends Csrf
     // chức năng tạo tài khoản đăng ký theo dõi -> dùng để gửi email marketing
     public function put()
     {
+        // chỉ chấp nhận phương thức post
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            $this->result_json_type([
+                'code' => __LINE__,
+                'error' => 'Bad request!'
+            ]);
+        }
+
+        // kiểm tra spam bot
+        $this->base_model->antiRequiredSpam();
+
+        //
         $e = $this->MY_post('email', '');
         $result = NULL;
 

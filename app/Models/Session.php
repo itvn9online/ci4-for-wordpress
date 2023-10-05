@@ -291,7 +291,7 @@ class Session
     protected function dieIfSpam($d)
     {
         // cố định thông điệp báo lỗi
-        $d['error'] = 'Anti spam actived for your request!';
+        $d['error'] = 'Anti-spam activated in your request!';
 
         // nếu là từ view -> alert cho người dùng biết
         if (isset($_POST[RAND_ANTI_SPAM . '_alert'])) {

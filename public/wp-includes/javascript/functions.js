@@ -1198,3 +1198,16 @@ function jQueryAjaxError(jqXHR, textStatus, errorThrown, errorStack) {
 	if (textStatus === "timeout") {
 	}
 }
+
+// trả về input để vượt qua được captcha -> không có mã này là khỏi submit
+function get_hide_captcha(a) {
+	if (typeof a != "object") {
+		return {};
+	}
+
+	//
+	$("#hide-captcha input").each(function () {
+		a[$(this).attr("name")] = $(this).attr("value");
+	});
+	return a;
+}

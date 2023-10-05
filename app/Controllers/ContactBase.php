@@ -127,7 +127,7 @@ class ContactBase extends Home
         //print_r($check_rules);
         //die(__CLASS__ . ':' . __LINE__);
 
-        // kiểm tra spam bot nếu có
+        // kiểm tra spam bot
         $this->base_model->antiRequiredSpam();
 
         /* daidq (2023-10-04): bỏ gcaptcha -> test tính năng chống spamer -> antiRequiredSpam
