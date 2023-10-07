@@ -19,7 +19,7 @@ class User extends UserMeta
         // nếu có pass -> tiến hành đồng bộ pass
         if (isset($data['ci_pass'])) {
             // đồng bộ về 1 định dạng pass
-            if ($data['ci_pass'] != '') {
+            if (!empty($data['ci_pass'])) {
                 // tạo mật khẩu cho wordpress
                 $data['user_pass'] = md5($data['ci_pass']);
                 // với 1 số website sẽ cho lưu pass dưới dạng có thể giải mã
@@ -28,6 +28,9 @@ class User extends UserMeta
                 // sử dụng hàm md5 tự viết
                 //$data[ 'ci_pass' ] = md5( $data[ 'ci_pass' ] );
                 $data['ci_pass'] = $this->base_model->mdnam($data['ci_pass']);
+
+                // mỗi lần đổi pass là sẽ cập nhật login key mới 1 lần -> các phiên lưu pass trước đấy sẽ không dùng được nữa
+                $data['rememberme_key'] = md5(time());
             }
             // hoặc bỏ qua việc cập nhật nếu không có dữ liệu
             else {
@@ -215,6 +218,8 @@ class User extends UserMeta
     {
         $result['user_pass'] = '';
         $result['ci_pass'] = '';
+        $result['rememberme_key'] = '';
+        //$result['user_activation_key'] = '';
         // hỗ trợ phiên bản code cũ -> tạo thêm dữ liệu tương ứng
         $result['userID'] = $result['ID'];
         $result['userName'] = $result['display_name'];

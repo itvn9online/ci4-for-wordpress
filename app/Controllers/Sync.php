@@ -463,6 +463,8 @@ class Sync extends BaseController
                 'zalo_oa_id' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'ID của người dùng trên Zalo OA\'',
                 'zalo_oa_data' => 'TEXT NULL COMMENT \'Dữ liệu của người dùng được trả về khi kết nối với Zalo OA\'',
                 'zalo_oa_last_interact' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Thời gian tương tác cuối của user, một số tin nhắn qua Zalo OA có giới hạn theo thời gian tương tác cuối\'',
+                // rememberme key -> là tham số sẽ thay đổi mỗi lần người dùng đổi pass, dùng tăng bảo mật cho chức năng nhớ mật khẩu đăng nhập
+                'rememberme_key' => 'VARCHAR(255) NULL COMMENT \'Mỗi tài khoản sẽ có 1 key dùng để lưu phiên đăng nhập\'',
             ],
             $prefix . 'posts' => [
                 'post_shorttitle' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Tên rút gọn của post\'',

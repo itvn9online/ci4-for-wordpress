@@ -167,11 +167,21 @@ class Guest extends Csrf
                                 'iat' => $token_expired,
                             ]));
 
+                            // cập nhật rememberme key nếu chưa có
+                            if (empty($session_data['rememberme_key'])) {
+                                $session_data['rememberme_key'] = session_id();
+
+                                //
+                                $this->user_model->update_member($session_data['ID'], [
+                                    'rememberme_key' => $session_data['rememberme_key'],
+                                ]);
+                            }
+
                             $token_rememberme = [
                                 'header' => $token_header,
                                 'payload' => $token_payload,
                                 // mã truy cập -> tạo bởi các thông số để làm sao mỗi người chỉ có 1 mã duy nhất
-                                'signature' => $this->base_model->mdnam($token_header) . '.' . $this->base_model->mdnam($token_payload) . '.' . $this->base_model->mdnam(base64_encode($session_data['ID'] . $token_expired . DYNAMIC_BASE_URL)),
+                                'signature' => $this->base_model->mdnam($token_header) . '.' . $this->base_model->mdnam($token_payload) . '.' . $this->base_model->mdnam(base64_encode($session_data['ID'] . $session_data['rememberme_key'] . $token_expired . DYNAMIC_BASE_URL)),
                             ];
                         }
 
@@ -926,17 +936,7 @@ class Guest extends Csrf
                 );
             }
 
-            // so khớp nốt cái token
-            if ($signature[2] != $this->base_model->mdnam(base64_encode($payload->sub . $payload->iat . DYNAMIC_BASE_URL))) {
-                $this->result_json_type(
-                    [
-                        'code' => __LINE__,
-                        'error' => 'Access token ERROR!',
-                    ]
-                );
-            }
-
-            // ok thì kiểm tra hạn của token
+            // kiểm tra hạn của token
             if ($payload->iat * 1 < time()) {
                 $this->result_json_type(
                     [
@@ -946,7 +946,7 @@ class Guest extends Csrf
                 );
             }
 
-            // đến được đây nghĩa là quá trình so khớp thành công -> có thể select dữ liệu và tiến hành đăng nhập cho khách
+            // select dữ liệu user, lấy nốt cái rememberme_key để so khớp token nữa là xong
             $result = $this->base_model->select(
                 '*',
                 'users',
@@ -984,6 +984,16 @@ class Guest extends Csrf
                     [
                         'code' => __LINE__,
                         'warning' => 'Account has been block #' . $payload->sub,
+                    ]
+                );
+            }
+
+            // so khớp nốt cái token
+            if ($signature[2] != $this->base_model->mdnam(base64_encode($payload->sub . $result['rememberme_key'] . $payload->iat . DYNAMIC_BASE_URL))) {
+                $this->result_json_type(
+                    [
+                        'code' => __LINE__,
+                        'error' => 'Access token ERROR!',
                     ]
                 );
             }

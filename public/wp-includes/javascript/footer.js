@@ -22,23 +22,25 @@ $('a[href="#"], a[href="javascript:;"]')
 	});
 
 // khi bấm nút đăng xuất
-$('a[href="users/logout"], a[href="./users/logout"]').click(function () {
-	//sessionStorage.setItem('logout_redirect', window.location.href);
-	var a =
-		$(this).attr("data-title") ||
-		$(this).attr("title") ||
-		"Xác nhận Đăng xuất khỏi tài khoản!";
-	var result = confirm(a);
-	//console.log(result);
+$('a[href="users/logout"], a[href="./users/logout"]')
+	.addClass("users-logout")
+	.click(function () {
+		//sessionStorage.setItem('logout_redirect', window.location.href);
+		var a =
+			$(this).attr("data-title") ||
+			$(this).attr("title") ||
+			"Xác nhận Đăng xuất khỏi tài khoản!";
+		var result = confirm(a);
+		//console.log(result);
 
-	if (result === true) {
-		// đặt tham số này để hủy bỏ chức năng đăng nhập tự động
-		localStorage.setItem("remove_rememberme_auto_login", Math.random());
-		// Xóa auto login qua firebase
-		localStorage.removeItem("firebase_auto_login");
-	}
-	return result;
-});
+		if (result === true) {
+			// đặt tham số này để hủy bỏ chức năng đăng nhập tự động
+			localStorage.setItem("remove_rememberme_auto_login", Math.random());
+			// Xóa auto login qua firebase
+			localStorage.removeItem("firebase_auto_login");
+		}
+		return result;
+	});
 
 /*
  * tạo hiệu ứng selected cho các thẻ a

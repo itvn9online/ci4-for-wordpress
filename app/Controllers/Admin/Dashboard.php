@@ -287,6 +287,10 @@ class Dashboard extends Optimize
             //
             if ($this->MY_unzip($file_zip, PUBLIC_HTML_PATH) === TRUE) {
                 $this->MY_unlink($file_zip);
+                // tắt chế độ debug nếu có file
+                if (file_exists($this->f_env)) {
+                    $this->disable_env();
+                }
                 return true;
             }
         }

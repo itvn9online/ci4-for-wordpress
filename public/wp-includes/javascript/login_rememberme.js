@@ -54,7 +54,7 @@ function action_login_rememberme(key, id_captcha) {
 				console.log("%c " + data.error, "color: red;");
 
 				// đặt tham số này để hủy bỏ chức năng đăng nhập tự động
-				//localStorage.setItem("remove_rememberme_auto_login", Math.random());
+				localStorage.setItem("remove_rememberme_auto_login", Math.random());
 			} else if (typeof data.warning != "undefined") {
 				// cảnh báo thì cảnh báo
 				console.log("%c " + data.warning, "color: orange;");
