@@ -341,7 +341,7 @@ $base_model->JSON_echo([
 ]);
 
 ?>
-<script>
+<script type="text/javascript">
     WGR_vuejs('#myApp', {
         parent_post: parent_post,
         post_status: post_arr_status,

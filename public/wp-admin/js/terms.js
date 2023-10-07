@@ -82,12 +82,7 @@ function tmp_to_term_html(data, tmp, gach_ngang) {
 
 // thay thế dữ liệu dựa theo số lượng tmp có trong html
 function replace_html_by_max_j(v_x, str, data) {
-	var max_j = str.split(v_x).length;
-	//console.log('max j (' + x + '):', max_j);
-	for (var j = 0; j < max_j; j++) {
-		str = str.replace(v_x, data);
-	}
-	return str;
+	return str.replaceAll(v_x, data);
 }
 
 function term_v2_tree_view(tmp, term_id, gach_ngang) {

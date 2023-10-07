@@ -1200,14 +1200,26 @@ function jQueryAjaxError(jqXHR, textStatus, errorThrown, errorStack) {
 }
 
 // trả về input để vượt qua được captcha -> không có mã này là khỏi submit
-function get_hide_captcha(a) {
+function get_hide_captcha(a, div_id, the_debug) {
 	if (typeof a != "object") {
 		return {};
 	}
 
 	//
-	$("#hide-captcha input").each(function () {
+	if (typeof div_id == "undefined" || div_id == "") {
+		div_id = "#hide-captcha";
+	}
+
+	//
+	$(div_id + " input").each(function () {
 		a[$(this).attr("name")] = $(this).attr("value");
 	});
+
+	//
+	if (typeof the_debug != "undefined" && the_debug === true) {
+		console.log(a);
+	}
+
+	//
 	return a;
 }

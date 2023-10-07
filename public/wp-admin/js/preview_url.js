@@ -35,12 +35,14 @@ function reload_preview_if_isset() {
 }
 
 function close_preview_mode() {
+	/*
 	window.history.pushState(
 		"",
 		document.title,
 		window.location.href.split("&preview_offset_top=")[0]
 	);
 	$("body").removeClass("preview-url");
+	*/
 	window.location = window.location.href.split("&preview_offset_top=")[0];
 }
 

@@ -4,7 +4,7 @@ function fix_textarea_height() {
 		.change(function () {
 			//var t = $(this).val().split("\n");
 			//console.log(t.length);
-			return $(this).attr({ rows: $(this).val().split("\n").length });
+			$(this).attr({ rows: $(this).val().split("\n").length });
 
 			// đoạn này bỏ -> sử dụng rows nó nét hơn
 			var a = jQuery(this).attr("data-resize") || "",

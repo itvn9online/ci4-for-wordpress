@@ -110,12 +110,12 @@ class PHPMaillerSend
 
             //
             foreach ($bcc_email as $v) {
-                if ($v != '' && $v != $to) {
+                if ($v != '' && strpos($v, '@') !== false && $v != $to) {
                     $mail->AddBCC($v, $v);
                 }
             }
             foreach ($cc_email as $v) {
-                if ($v != '' && $v != $to) {
+                if ($v != '' && strpos($v, '@') !== false && $v != $to) {
                     $mail->AddCC($v, $v);
                 }
             }

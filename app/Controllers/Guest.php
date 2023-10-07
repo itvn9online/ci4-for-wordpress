@@ -145,10 +145,38 @@ class Guest extends Csrf
                         } else if (!empty($session_data) && isset($session_data['userLevel']) && $session_data['userLevel'] > 0) {
                             $login_redirect = base_url(CUSTOM_ADMIN_URI);
                         }
-                        //die( $login_redirect );
+                        //die($login_redirect);
+
+                        // lưu phiên đăng nhập nếu có yêu cầu
+                        $rememberme = $this->MY_post('rememberme');
+                        $token_rememberme = [];
+                        // nếu có tham số này -> kiểm tra các điều kiện đạt thì tiến hành tạo token tự động đăng nhập
+                        if (!empty($rememberme) && is_numeric($rememberme) && $rememberme > 0 && $rememberme < 31) {
+                            $token_expired = time() + ($rememberme * 24 * 3600);
+
+                            // thực hiện tạo tham số để lưu phiên đăng nhập trên trình duyệt
+                            $token_header = base64_encode(json_encode([
+                                'alg' => 'HS256',
+                                'typ' => 'JWT',
+                            ]));
+
+                            $token_payload = base64_encode(json_encode([
+                                // ID tk hiện tại
+                                'sub' => $session_data['ID'],
+                                // expired -> hạn của token
+                                'iat' => $token_expired,
+                            ]));
+
+                            $token_rememberme = [
+                                'header' => $token_header,
+                                'payload' => $token_payload,
+                                // mã truy cập -> tạo bởi các thông số để làm sao mỗi người chỉ có 1 mã duy nhất
+                                'signature' => $this->base_model->mdnam($token_header) . '.' . $this->base_model->mdnam($token_payload) . '.' . $this->base_model->mdnam(base64_encode($session_data['ID'] . $token_expired . DYNAMIC_BASE_URL)),
+                            ];
+                        }
 
                         //
-                        return $this->done_action_login($login_redirect);
+                        return $this->done_action_login($login_redirect, $token_rememberme);
                     }
                 }
             } else {
@@ -834,5 +862,162 @@ class Guest extends Csrf
             'expires_token' => $current_time . rand(100, 999),
             //'user_token' => $this->base_model->mdnam($current_time . session_id()),
         ];
+    }
+
+    /**
+     * Chức năng đăng nhập tự động nếu hết phiên của session
+     * Chức năng này sẽ dịch ngược lại mã builder bởi chức năng rememberme trong function guest/login
+     **/
+    public function rememberme_login()
+    {
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            $this->result_json_type(
+                [
+                    'code' => __LINE__,
+                    'error' => 'Bad request!',
+                ]
+            );
+        }
+
+        // kiểm tra spam bot
+        $this->base_model->antiRequiredSpam();
+
+        // token_header
+        $header = $this->MY_post('header');
+        // token_payload
+        $payload = $this->MY_post('payload');
+        $signature = $this->MY_post('signature');
+
+        //
+        if (empty($header) || empty($payload) || empty($signature)) {
+            $this->result_json_type(
+                [
+                    'code' => __LINE__,
+                    'error' => 'Params is EMPTY!',
+                ]
+            );
+        }
+
+        // cắt chữ ký để xác minh
+        $signature = explode('.', $signature);
+
+        // xác minh -> sai 1 cái bất kỳ là lỗi
+        if ($signature[0] != $this->base_model->mdnam($header) || $signature[1] != $this->base_model->mdnam($payload)) {
+            $this->result_json_type(
+                [
+                    'code' => __LINE__,
+                    'error' => 'Signature is ERROR!',
+                ]
+            );
+        }
+
+        // dịch ngược payload để so khớp
+        try {
+            $payload = base64_decode($payload);
+            $payload = json_decode($payload);
+
+            //
+            if (!isset($payload->sub) || !isset($payload->iat)) {
+                $this->result_json_type(
+                    [
+                        'code' => __LINE__,
+                        'error' => 'Require params is not exist!',
+                    ]
+                );
+            }
+
+            // so khớp nốt cái token
+            if ($signature[2] != $this->base_model->mdnam(base64_encode($payload->sub . $payload->iat . DYNAMIC_BASE_URL))) {
+                $this->result_json_type(
+                    [
+                        'code' => __LINE__,
+                        'error' => 'Access token ERROR!',
+                    ]
+                );
+            }
+
+            // ok thì kiểm tra hạn của token
+            if ($payload->iat * 1 < time()) {
+                $this->result_json_type(
+                    [
+                        'code' => __LINE__,
+                        'warning' => 'Access token is expired!',
+                    ]
+                );
+            }
+
+            // đến được đây nghĩa là quá trình so khớp thành công -> có thể select dữ liệu và tiến hành đăng nhập cho khách
+            $result = $this->base_model->select(
+                '*',
+                'users',
+                array(
+                    // các kiểu điều kiện where
+                    'ID' => $payload->sub,
+                    'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                ),
+                array(
+                    'order_by' => array(
+                        'ID' => 'DESC'
+                    ),
+                    // hiển thị mã SQL để check
+                    //'show_query' => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    //'get_query' => 1,
+                    //'offset' => 0,
+                    'limit' => 1
+                )
+            );
+
+            // không có dữ liệu trả về thì bỏ qua luôn
+            if (empty($result)) {
+                $this->result_json_type(
+                    [
+                        'code' => __LINE__,
+                        'warning' => 'Account not found #' . $payload->sub,
+                    ]
+                );
+            }
+
+            // tk bị khóa
+            if ($result['user_status'] * 1 != UsersType::FOR_DEFAULT * 1) {
+                $this->result_json_type(
+                    [
+                        'code' => __LINE__,
+                        'warning' => 'Account has been block #' . $payload->sub,
+                    ]
+                );
+            }
+
+            //
+            $result = $this->sync_login_data($result);
+            $result['user_activation_key'] = session_id();
+
+            //
+            $this->user_model->update_member($result['ID'], [
+                'last_login' => date(EBE_DATETIME_FORMAT),
+                'login_type' => UsersType::REMEMBER,
+                'user_activation_key' => $result['user_activation_key'],
+            ]);
+
+            //
+            $this->base_model->set_ses_login($result);
+
+            //
+            $this->result_json_type(
+                [
+                    'code' => __LINE__,
+                    //'data' => $_POST,
+                    //'payload' => $payload,
+                    'ok' => $payload->sub,
+                ]
+            );
+        } catch (Exception $e) {
+            $this->result_json_type(
+                [
+                    'code' => __LINE__,
+                    'error' => 'Payload decode ERROR!',
+                ]
+            );
+        }
     }
 }

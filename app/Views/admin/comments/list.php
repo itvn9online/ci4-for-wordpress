@@ -61,7 +61,7 @@ $base_model->JSON_parse(
 );
 
 ?>
-<script>
+<script type="text/javascript">
     WGR_vuejs('#for_vue', {
         for_action: '<?php echo $for_action; ?>',
         controller_slug: '<?php echo $controller_slug; ?>',

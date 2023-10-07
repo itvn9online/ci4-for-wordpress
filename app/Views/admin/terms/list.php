@@ -157,7 +157,7 @@ $base_model->adds_js([
 ]);
 
 ?>
-<script>
+<script type="text/javascript">
     WGR_vuejs('#app', {
         allow_mysql_delete: allow_mysql_delete,
         data: term_data,

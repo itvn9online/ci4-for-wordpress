@@ -232,8 +232,10 @@ em.fa {
     min-width: 999px;
 }
 
+.w90 .w90,
 .w90.row-full-width {
     width: auto;
+    min-width: auto;
 }
 
 .dblock,

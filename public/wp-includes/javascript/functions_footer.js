@@ -27,7 +27,12 @@ function click2Copy(element, textShow) {
 /*
  * reload lại trang sau khi submit xong
  */
-function done_action_submit(go_to) {
+function done_action_submit(go_to, token, ck_key) {
+	if (typeof token != "undefined" && token.length > 99) {
+		localStorage.setItem(ck_key, token);
+	}
+
+	//
 	if (typeof go_to != "undefined" && go_to != "") {
 		window.location = go_to;
 	} else {

@@ -93,14 +93,20 @@ class Csrf extends Layout
         }
     }
 
-    protected function done_action_login($login_redirect = '')
+    protected function done_action_login($login_redirect = '', $token_rememberme = [])
     {
         if ($login_redirect == '') {
             $login_redirect = base_url($_SERVER['REQUEST_URI']);
             //die( $login_redirect );
         }
         if ($this->form_target !== false) {
-            die('<script>top.done_action_submit("' . $login_redirect . '");</script>');
+            //
+            if (!empty($token_rememberme)) {
+                $token_rememberme = urlencode(json_encode($token_rememberme));
+            }
+
+            //
+            die('<script>top.done_action_submit("' . $login_redirect . '", "' . $token_rememberme . '", "' . $this->wrg_cookie_login_key . '");</script>');
         }
         $this->MY_redirect($login_redirect);
     }

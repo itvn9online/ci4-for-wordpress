@@ -83,7 +83,7 @@ $base_model->JSON_parse(
 );
 
 ?>
-<script>
+<script type="text/javascript">
     WGR_vuejs('#app', {
         controller_slug: '<?php echo $controller_slug; ?>',
         post_type: '<?php echo $post_type; ?>',

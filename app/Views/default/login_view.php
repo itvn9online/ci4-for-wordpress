@@ -40,19 +40,28 @@ include VIEWS_PATH . 'default/login_header.php';
                         ?>
                     </div>
                     <div class="form-actions cf l35">
-                        <?php
-                        // chỉ hiển thị link đăng ký khi được phép
-                        if ($getconfig->disable_register_member != 'on') {
-                        ?>
-                            <a href="./guest/register">Đăng ký</a> |
-                        <?php
-                        }
-                        ?>
-                        <a href="./guest/resetpass"> Quên mật khẩu?</a> <span class="pull-right">
-                            <input type="submit" class="btn btn-success" value="<?php echo $seo['title']; ?>" />
-                        </span>
+                        <div class="cf">
+                            <div class="lf f62">
+                                <label><input type="checkbox" name="rememberme" value="30" />
+                                    Tự động đăng nhập</label>
+                            </div>
+                            <div class="lf f38 text-right">
+                                <input type="submit" class="btn btn-success" value="<?php echo $seo['title']; ?>" />
+                            </div>
+                        </div>
                     </div>
                 </form>
+                <div class="text-center top-menu-space">
+                    <?php
+                    // chỉ hiển thị link đăng ký khi được phép
+                    if ($getconfig->disable_register_member != 'on') {
+                    ?>
+                        <a href="./guest/register">Đăng ký tài khoản mới</a> |
+                    <?php
+                    }
+                    ?>
+                    <a href="./guest/resetpass"> Bạn quên mật khẩu? </a>
+                </div>
             </div>
         <?php
         }

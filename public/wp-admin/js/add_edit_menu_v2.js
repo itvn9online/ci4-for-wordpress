@@ -239,16 +239,12 @@ function create_html_menu_nestable(a) {
 			//newText.newText = newText.name;
 
 			// thay " thành &quot; để đỡ lỗi HTML
-			for (var j = 0; j < 10; j++) {
-				htm = htm.replace("%newText%", newText.name);
-				a[i].name = a[i].name.replace('"', "&quot;");
-			}
+			htm = htm.replaceAll("%newText%", newText.name);
+			a[i].name = a[i].name.replaceAll('"', "&quot;");
 			//console.log(a[i]);
 
 			//
-			for (var j = 0; j < 10; j++) {
-				htm = htm.replace("%" + x + "%", a[i][x]);
-			}
+			htm = htm.replaceAll("%" + x + "%", a[i][x]);
 		}
 
 		// nếu có menu con -> gọi luôn

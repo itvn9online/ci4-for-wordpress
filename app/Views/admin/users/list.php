@@ -133,7 +133,7 @@ $base_model->JSON_echo(
 );
 
 ?>
-<script>
+<script type="text/javascript">
     var params_vuejs = {
         allow_mysql_delete: allow_mysql_delete,
         controller_slug: controller_slug,

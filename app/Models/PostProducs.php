@@ -4,6 +4,7 @@ namespace App\Models;
 
 // Libraries
 use App\Libraries\PostType;
+use App\Libraries\TaxonomyType;
 
 //
 class PostProducs extends PostPages

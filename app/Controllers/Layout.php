@@ -109,7 +109,6 @@ class Layout extends Sync
         //print_r( $this->session_data );
 
         // key lưu ID hiện tại của user
-        //$this->wrg_cookie_login_key = 'wrg_logged_in_key';
         if (!empty($this->session_data) && isset($this->session_data['userID']) && $this->session_data['userID'] > 0) {
             $this->current_user_id = $this->session_data['userID'];
             $this->current_user_type = $this->session_data['member_type'];
@@ -220,6 +219,7 @@ class Layout extends Sync
                 //'allurl' => $allurl,
                 'isMobile' => $this->isMobile,
                 'html_lang' => $this->lang_key,
+                'wrg_cookie_login_key' => $this->wrg_cookie_login_key,
             )
         );
 

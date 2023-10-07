@@ -17,27 +17,6 @@ $base_model->adds_js([
     'defer'
 ]);
 
-// chức năng riêng dành cho admin
-if ($current_user_id > 0 && isset($session_data['userLevel']) && $session_data['userLevel'] > 0) {
-    // hiển thị debug bar nếu có
-    $base_model->add_css('wp-admin/css/show-debug-bar.css', [
-        'cdn' => CDN_BASE_URL,
-    ]);
-
-    //
-    $base_model->JSON_parse([
-        'arr_post_controller' => $post_model->controllerByType(),
-        'arr_taxnomy_controller' => $term_model->controllerByType(),
-    ]);
-
-    // nút edit
-    $base_model->add_js('wp-admin/js/show-edit-btn.js', [
-        'cdn' => CDN_BASE_URL,
-    ], [
-        'defer'
-    ]);
-}
-
 
 // nạp footer riêng của từng theme (tương tự function get_footer bên wordpress)
 $theme_private_view = VIEWS_CUSTOM_PATH . 'get_footer.php';
@@ -55,8 +34,35 @@ $base_model->add_js( 'wp-includes/javascript/analytics.js', [], [
 
 //
 //print_r( $getconfig );
-if ($current_user_id > 0 && $getconfig->enable_device_protection == 'on') {
-    include __DIR__ . '/device_protection.php';
+if ($current_user_id > 0) {
+    // chức năng riêng dành cho admin
+    if (isset($session_data['userLevel']) && $session_data['userLevel'] > 0) {
+        // hiển thị debug bar nếu có
+        $base_model->add_css('wp-admin/css/show-debug-bar.css', [
+            'cdn' => CDN_BASE_URL,
+        ]);
+
+        //
+        $base_model->JSON_parse([
+            'arr_post_controller' => $post_model->controllerByType(),
+            'arr_taxnomy_controller' => $term_model->controllerByType(),
+        ]);
+
+        // nút edit
+        $base_model->add_js('wp-admin/js/show-edit-btn.js', [
+            'cdn' => CDN_BASE_URL,
+        ], [
+            'defer'
+        ]);
+    }
+
+    // chống đăng nhập trên nhiều thiết bị
+    if ($getconfig->enable_device_protection == 'on') {
+        include __DIR__ . '/device_protection.php';
+    }
+} else {
+    // chức năng đăng nhập tự động
+    include __DIR__ . '/login_rememberme.php';
 }
 
 

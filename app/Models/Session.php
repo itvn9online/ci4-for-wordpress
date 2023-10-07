@@ -45,7 +45,7 @@ class Session
     }
 
     // trả về input chứa csrf và lưu vào session để nếu submit thì còn kiểm tra được
-    public function csrf_field($anti_spam = true, $time_expired = 300)
+    public function csrf_field($anti_spam = true, $time_expired = ANTI_SPAM_EXPIRED)
     {
         // mỗi phiên -> lưu lại csrf token dưới dạng session
         $this->MY_session($this->key_csrf_hash, csrf_hash());
@@ -67,7 +67,7 @@ class Session
      * time_expired -> thêm thời gian hết hạn cho hide-captcha -> mặc định 5m -> trường hợp nào cần lâu hơn thì truyền vào theo tham số
      * hide_captcha: khi bật chế độ này, input chỉ định trả về alert sẽ không được in ra -> lệnh sẽ trả về mã json
      **/
-    public function anti_spam_field($time_expired = 300, $hide_captcha = false)
+    public function anti_spam_field($time_expired = ANTI_SPAM_EXPIRED, $hide_captcha = false)
     {
         include VIEWS_PATH . 'includes/anti_spam.php';
         return true;
@@ -76,7 +76,7 @@ class Session
     /**
      * Trả về hidden input không bao gồm input alert -> dùng cho các lệnh js có sử dụng hide-captcha
      **/
-    public function hide_captcha_field($time_expired = 300)
+    public function hide_captcha_field($time_expired = ANTI_SPAM_EXPIRED)
     {
         return $this->anti_spam_field($time_expired, true);
     }

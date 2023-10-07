@@ -243,7 +243,7 @@ $base_model->JSON_parse(
 );
 
 ?>
-<script>
+<script type="text/javascript">
     WGR_vuejs('#app', {
         vue_data: vue_data,
     });

@@ -30,9 +30,9 @@ $base_model->JSON_parse(
 );
 
 ?>
-<script>
-WGR_vuejs('#for_vue', {
-    data: json_data,
-    vue_data: vue_data,
-});
+<script type="text/javascript">
+    WGR_vuejs('#for_vue', {
+        data: json_data,
+        vue_data: vue_data,
+    });
 </script>

@@ -16,18 +16,18 @@ if ($hide_captcha === false) {
 }
 
 // tạo ID cho thẻ DIV -> để gây khó khăn cho việc xác định thuộc tính của DIV
-$anti_div_id_spam = '_' . substr(md5(time()), rand(0, 12), 12);
+$anti_div_id_spam = '_' . RAND_ANTI_SPAM . rand(0, 99);
 
 ?>
 <style>
-    <?php echo 'div#' . $anti_div_id_spam; ?> {
+    <?php echo 'div.' . $anti_div_id_spam; ?> {
         position: absolute;
         left: -9999px;
         z-index: -1;
         opacity: 0;
     }
 </style>
-<div id="<?php echo $anti_div_id_spam; ?>">
+<div class="<?php echo $anti_div_id_spam; ?>">
     <?php
 
     //
@@ -60,6 +60,9 @@ $anti_div_id_spam = '_' . substr(md5(time()), rand(0, 12), 12);
     if ($time_expired <= 0) {
         // mặc định là hết trong 1 ngày nếu ko có
         $time_expired = 24 * 3600;
+        $time_expired -= rand(0, 99);
+    } else {
+        $time_expired += rand(0, 33);
     }
     $time_expired = $time_expired + time();
 

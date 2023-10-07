@@ -33,6 +33,7 @@ else {
     // thử tìm file search riêng (dạng dùng chung)
     $search_type_view = VIEWS_PATH . 'default/' . $post_type . '-' . basename(__FILE__);
     //echo $search_type_view . '<br>' . PHP_EOL;
+    //die(basename(__FILE__) . ':' . __LINE__);
 
     // có thì ưu tiên dùng
     if (file_exists($search_type_view)) {

@@ -174,7 +174,7 @@ if ($debug_enable === true) {
     ]);
 
     ?>
-    <script>
+    <script type="text/javascript">
         var web_link = window.location.protocol + '//' + document.domain + '/';
         var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
     </script>

@@ -201,6 +201,9 @@ defined('TRANS_NUMS_LABEL') || define(
     ]
 );
 
+// thời gian hết hạn cho mỗi token trong chức năng anti spam
+defined('ANTI_SPAM_EXPIRED') || define('ANTI_SPAM_EXPIRED', 3600);
+
 // Số lượng bản ghi dạng số nguyên -> website nào cần dùng nhiều tăng số lượng trong file functions lên
 defined('NUMBER_CHECKBOXS_INPUT') || define('NUMBER_CHECKBOXS_INPUT', 3);
 // khi cần thay label cho trang /admin/checkboxs để dễ hiểu hơn thì thêm các thông số vào đây

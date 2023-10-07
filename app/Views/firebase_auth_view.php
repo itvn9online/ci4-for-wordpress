@@ -18,10 +18,8 @@ if (!empty($firebase_config->g_firebase_config)) {
 ?>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script>
-        <?php
-        echo $firebase_config->g_firebase_config;
-        ?>
+    <script type="text/javascript">
+        <?php echo $firebase_config->g_firebase_config; ?>
     </script>
     <script src="https://www.gstatic.com/firebasejs/ui/6.0.2/firebase-ui-auth__<?php echo $firebase_language_code; ?>.js"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.2/firebase-ui-auth.css" />
@@ -33,7 +31,6 @@ if (!empty($firebase_config->g_firebase_config)) {
     ]);
 
     ?>
-    <br>
     <div id="firebase-loading">Loading...</div>
     <div id="firebase-loaded" class="hidden">
         <div id="user-signed-in" class="hidden">

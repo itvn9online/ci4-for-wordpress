@@ -375,6 +375,8 @@ class Users extends Csrf
                 //$this->MY_redirect($_SERVER['HTTP_REFERER'], 301);
                 $redirect_to .= '?login_redirect=' . urlencode($_SERVER['HTTP_REFERER']) . '&reauth=1';
             }
+
+            //
             $this->MY_redirect($redirect_to, 301);
         }
     }

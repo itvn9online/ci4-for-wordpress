@@ -93,7 +93,7 @@ class Base extends Csdl
 
         //
         if (isset($ops['get_content'])) {
-            return '<script>' . file_get_contents($f, 1) . '</script>';
+            return '<script type="text/javascript">' . file_get_contents($f, 1) . '</script>';
         }
 
         // xem có chạy qua CDN không -> có thì nó sẽ giảm tải cho server
@@ -106,7 +106,7 @@ class Base extends Csdl
             return '<link rel="preload" as="script" href="' . $ops['cdn'] . $f . '?ver=' . filemtime(PUBLIC_PUBLIC_PATH . $f) . '">';
         }
         //print_r( $attr );
-        return '<script src="' . $ops['cdn'] . $f . '?ver=' . filemtime(PUBLIC_PUBLIC_PATH . $f) . '" ' . implode(' ', $attr) . '></script>';
+        return '<script type="text/javascript" src="' . $ops['cdn'] . $f . '?ver=' . filemtime(PUBLIC_PUBLIC_PATH . $f) . '" ' . implode(' ', $attr) . '></script>';
     }
     // thêm 1 file
     public function add_js($f, $ops = [], $attr = [])
@@ -804,7 +804,7 @@ class Base extends Csdl
         foreach ($var as $k => $v) {
             $str[] = 'var ' . $k . '=' . json_encode($v) . ';';
         }
-        echo '<script>' . implode(PHP_EOL, $str) . '</script>';
+        echo '<script type="text/javascript">' . implode(PHP_EOL, $str) . '</script>';
     }
 
     // đầu vào là 1 mảng có key -> đầu ra là mã javascript -> dùng cho trường hợp in thẳng JSON vào HTML
@@ -823,7 +823,7 @@ class Base extends Csdl
             //
             $str[] = 'var ' . $k . '="' . $v . '";';
         }
-        echo '<script>' . implode(PHP_EOL, $str) . '</script>';
+        echo '<script type="text/javascript">' . implode(PHP_EOL, $str) . '</script>';
     }
 
     // kiểm tra xem 1 mảng có bị trống các dữ liệu bắt buộc hay không. Trống thì trả về true -> tương tự hàm empty của php

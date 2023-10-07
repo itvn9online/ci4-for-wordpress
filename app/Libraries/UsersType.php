@@ -35,6 +35,7 @@ class UsersType
     // login_type
     const LOCAL = 'local';
     const FIREBASE = 'firebase';
+    const REMEMBER = 'rememberme';
 
     private static $arr = array(
         self::GUEST => AdminTranslate::GUEST,
