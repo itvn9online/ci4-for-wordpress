@@ -82,6 +82,39 @@ class Session
     }
 
     /**
+     * Trả về đoạn mã HTML chứa DIV và class css, sau đó mã captcha sẽ được nạp qua ajax và push vào đấy
+     * Đoạn này thường dùng cho các page có cache -> ko thể include trực tiếp captcha vào cache được do khác session
+     **/
+    public function anti_spam_ajax($user_id, $time_expired = ANTI_SPAM_EXPIRED)
+    {
+        // nếu user đang đăng nhập thì trả thẳng mã captcha luôn -> do ko bị cache
+        if ($user_id > 0) {
+            return $this->anti_spam_field($time_expired);
+        }
+
+        // chưa đăng nhập thì có cache nên sẽ trả về đoạn html, cache sau đó sẽ nạp qua ajax
+        echo '<div class="ebe-recaptcha"></div>';
+        return true;
+    }
+
+    /**
+     * Trả về đoạn mã HTML chứa DIV và class css, sau đó mã captcha sẽ được nạp qua ajax và push vào đấy
+     * Đoạn này thường dùng cho các page có cache -> ko thể include trực tiếp captcha vào cache được do khác session
+     * Trả về hidden input không bao gồm input alert -> dùng cho các lệnh js có sử dụng hide-captcha
+     **/
+    public function hide_captcha_ajax($user_id, $time_expired = ANTI_SPAM_EXPIRED)
+    {
+        // nếu user đang đăng nhập thì trả thẳng mã captcha luôn -> do ko bị cache
+        if ($user_id > 0) {
+            return $this->anti_spam_field($time_expired, true);
+        }
+
+        // chưa đăng nhập thì có cache nên sẽ trả về đoạn html, cache sau đó sẽ nạp qua ajax
+        echo '<div class="ebe-rehidecaptcha"></div>';
+        return true;
+    }
+
+    /**
      * Kiểm tra đầu vào của dữ liệu xem chuẩn không
      **/
     public function check_csrf()

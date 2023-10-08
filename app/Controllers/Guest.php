@@ -553,7 +553,6 @@ class Guest extends Csrf
                 'breadcrumb' => '',
                 //'cateByLang' => $cateByLang,
                 //'serviceByLang' => $serviceByLang,
-
             )
         );
         return view('layout_view', $this->teamplate);
@@ -889,8 +888,8 @@ class Guest extends Csrf
             );
         }
 
-        // kiểm tra spam bot
-        $this->base_model->antiRequiredSpam();
+        // kiểm tra spam bot -> tính năng này chạy lúc chưa đăng nhập -> có cache nên không kiểm tra được
+        //$this->base_model->antiRequiredSpam();
 
         // token_header
         $header = $this->MY_post('header');

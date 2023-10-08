@@ -15,6 +15,11 @@ $routes->get('/' . CUSTOM_ADMIN_URI, 'Admin\Dashboard::index');
 // tạo đường dẫn bảo mật cho chức năng multi logged
 $routes->post('/' . RAND_MULTI_LOGOUT, 'Ajaxs::multi_logout');
 $routes->post('/' . RAND_MULTI_LOGGED, 'Ajaxs::multi_logged');
+$routes->post('/' . RAND_CONFIRM_LOGGED, 'Ajaxs::confirm_logged');
+// tạo đường dẫn bảo mật cho chức năng rememberme_login
+$routes->post('/' . RAND_REMEMBER_LOGIN, 'Guest::rememberme_login');
+// tạo đường dẫn bảo mật cho việc lấy input chống spam
+$routes->post('/' . RAND_GET_ANTI_SPAM, 'Ajaxs::get_anti_spam');
 
 
 //

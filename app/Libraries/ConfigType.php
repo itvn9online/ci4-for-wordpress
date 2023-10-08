@@ -142,6 +142,7 @@ class ConfigType
                 'blog_private' => 'Ngăn chặn các công cụ tìm kiếm đánh chỉ mục website này',
                 'enable_vue_js' => 'Sử dụng VueJS',
                 'disable_fontawesome4' => 'Không nạp font Awesome 4',
+                'include_flatsome' => 'Sử dụng thư viện JS của Flatsome',
                 'enable_hotlink_protection' => 'HotLink protection',
                 'enable_device_protection' => 'Device logged protection',
                 'logout_device_protection' => 'Device logout protection',
@@ -487,6 +488,7 @@ class ConfigType
             //
             'enable_vue_js' => 'checkbox',
             'disable_fontawesome4' => 'checkbox',
+            'include_flatsome' => 'checkbox',
             'enable_hotlink_protection' => 'checkbox',
             'enable_device_protection' => 'checkbox',
             'logout_device_protection' => 'checkbox',
@@ -579,6 +581,7 @@ class ConfigType
 
             'enable_vue_js' => 'Khi chế độ này được kích hoạt, thư viện VueJS sẽ được nhúng vào frontend để sử dụng',
             'disable_fontawesome4' => 'Mặc định code sẽ nạp font Awesome 4, khi muốn sử dụng phiên bản khác, hãy kích hoạt chức năng này để bỏ nạp font Awesome 4 rồi sau đó nạp thủ công font mới trong file /custom/Views/get_header.php (tạo mới nếu chưa có file này)',
+            'include_flatsome' => 'Nạp file thư viện Javascript viết bởi Flatsome. Một theme trên nền tảng Wordpress khá nổi tiếng.',
             'show_child_category' => 'Khi chế độ này được kích hoạt, và khi truy cập vào danh mục ' . AdminTranslate::POST . ', nếu trong danh mục đó có các nhóm con thì các nhóm con sẽ được hiển thị thay vì hiển thị trực tiếp danh sách ' . AdminTranslate::POST,
             'max_child_category' => 'Một vòng lặp sẽ lấy số lượng ' . AdminTranslate::POST . ' để hiển thị trong mỗi nhóm con',
             'show_child_products' => 'Khi chế độ này được kích hoạt, và khi truy cập vào danh mục ' . AdminTranslate::PROD . ', nếu trong danh mục đó có các nhóm con thì các nhóm con sẽ được hiển thị thay vì hiển thị trực tiếp danh sách ' . AdminTranslate::PROD,

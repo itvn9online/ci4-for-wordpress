@@ -4,14 +4,19 @@
 $user_model->setLogged($current_user_id);
 
 // Nạp url cho request ajax
-$base_model->JSON_echo([
-    // mảng này sẽ in ra dưới dạng JSON hoặc number
-], [
-    // mảng này sẽ in ra dưới dạng string
-    // request_multi_logout -> Ajaxs\multi_logout
-    'rmlogout' => RAND_MULTI_LOGOUT,
-    // request_multi_logged -> Ajaxs\multi_logged
-    'rmlogged' => RAND_MULTI_LOGGED,
+$base_model->JSON_parse([
+    '_rqrm' => [
+        // request_multi_logout -> Ajaxs\multi_logout
+        'logout' => RAND_MULTI_LOGOUT,
+        // request_multi_logged -> Ajaxs\multi_logged
+        'logged' => RAND_MULTI_LOGGED,
+        // request_confirm_logged -> Ajaxs\confirm_logged
+        'cflogged' => RAND_CONFIRM_LOGGED,
+        // timeout_device_protection
+        'timeout_dp' => 30,
+        // logout_device_protection
+        'logout_dp' => '',
+    ]
 ]);
 
 // nạp js cảnh báo đăng nhập

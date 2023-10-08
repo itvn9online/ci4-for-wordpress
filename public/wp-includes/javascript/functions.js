@@ -887,7 +887,9 @@ function create_menu_by_taxonomy(arr, li_class, show_favicon, ops) {
 		console.log("create menu by taxonomy:", arr.length);
 		return "";
 	}
-	console.log("create menu by taxonomy:", arr.length);
+	if (WGR_config.cf_tester_mode > 0) {
+		console.log("create menu by taxonomy:", arr.length);
+	}
 	//console.log(arr);
 
 	//

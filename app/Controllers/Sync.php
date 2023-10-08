@@ -40,7 +40,7 @@ class Sync extends BaseController
         }
 
         //
-        $this->wrg_cookie_login_key = 'wrg_' . substr(md5(DYNAMIC_BASE_URL), 0, 12) . '_logged_in_key';
+        $this->wrg_cookie_login_key = '_' . substr(md5(DYNAMIC_BASE_URL), 0, 16);
     }
 
     /**

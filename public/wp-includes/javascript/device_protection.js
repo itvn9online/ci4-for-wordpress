@@ -1,11 +1,9 @@
-/*
+/**
  * kiểm tra xem người dùng có đăng nhập trên nhiều thiết bị không
- */
-var timeout_device_protection = 30;
-var logout_device_protection = "";
-
-//
-(function () {
+ **/
+// cho hàm _run vào function để không bị thay đổi code
+// tạo biến rm chứa thông tin reqquest thông qua hàm JSON để tham số này không bị thay đổi từ bên ngoài
+(function (rm) {
 	var _run = function () {
 		var min_time = 5;
 		var max_time = 30;
@@ -29,7 +27,7 @@ var logout_device_protection = "";
 			jQuery.ajax({
 				type: "POST",
 				// link TEST
-				url: rmlogged + "?_wpnonce=" + _rand(64),
+				url: rm.logged + "?_wpnonce=" + _rand(64),
 				dataType: "html",
 				//crossDomain: true,
 				data: { nse: Math.random(), the_modal: 1 },
@@ -80,7 +78,7 @@ var logout_device_protection = "";
 		jQuery.ajax({
 			type: "POST",
 			// link TEST
-			url: rmlogged + "?_wpnonce=" + _rand(64),
+			url: rm.logged + "?_wpnonce=" + _rand(64),
 			dataType: "json",
 			//crossDomain: true,
 			data: { nse: Math.random() },
@@ -92,7 +90,7 @@ var logout_device_protection = "";
 				if (WGR_check_option_on(WGR_config.cf_tester_mode)) console.log(data);
 
 				// bình thường thì để 30s kiểm tra 1 lần
-				timeout_device_protection = max_time;
+				rm.timeout_dp = max_time;
 
 				//
 				if (typeof data.error != "undefined") {
@@ -147,13 +145,13 @@ var logout_device_protection = "";
 							typeof data.logout != "undefined" &&
 							data.logout == "on"
 						) {
-							logout_device_protection = data.logout;
+							rm.logout_dp = data.logout;
 
 							//
 							jQuery.ajax({
 								type: "POST",
 								// link TEST
-								url: rmlogout + "?_wpnonce=" + _rand(64),
+								url: rm.logout + "?_wpnonce=" + _rand(64),
 								dataType: "json",
 								//crossDomain: true,
 								data: { nse: Math.random() },
@@ -183,7 +181,7 @@ var logout_device_protection = "";
 								},
 							});
 						} else {
-							timeout_device_protection = min_time;
+							rm.timeout_dp = min_time;
 						}
 					}
 				}
@@ -191,7 +189,7 @@ var logout_device_protection = "";
 				//
 				setTimeout(function () {
 					_run();
-				}, timeout_device_protection * 1000);
+				}, rm.timeout_dp * 1000);
 			},
 		});
 	};
@@ -202,14 +200,17 @@ var logout_device_protection = "";
 			_run();
 		}, 5 * 1000);
 	}
-})();
+})(JSON.parse(JSON.stringify(_rqrm)));
 
 //
 function confirm_kip_logged() {
 	jQuery.ajax({
 		type: "POST",
 		// link TEST
-		url: "ajaxs/confirm_logged?nse=" + Math.random(),
+		url:
+			_rqrm.cflogged +
+			"?nse=" +
+			($("body").attr("data-session") || Math.random()),
 		dataType: "json",
 		//crossDomain: true,
 		data: {
@@ -224,7 +225,7 @@ function confirm_kip_logged() {
 			console.log(data);
 
 			// nạp lại trang
-			if (logout_device_protection == "on") {
+			if (rm.logout_dp == "on") {
 				window.location = window.location.href;
 			}
 		},

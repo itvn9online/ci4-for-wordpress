@@ -4,7 +4,7 @@
  * daidq (2022-06-03)
  * tạo file include thư viện javascript flatsome riêng ra, theme nào dùng thì include vào
  * Lưu ý: flatsome không chạy chung với vuejs được, chỗ nào chạy flatsome thì phải tách ra khỏi vuejs
- */
+ **/
 
 ?>
 <script type='text/javascript' id='flatsome-js-js-extra'>

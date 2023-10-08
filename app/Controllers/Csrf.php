@@ -103,6 +103,8 @@ class Csrf extends Layout
             //
             if (!empty($token_rememberme)) {
                 $token_rememberme = urlencode(json_encode($token_rememberme));
+            } else {
+                $token_rememberme = '';
             }
 
             //

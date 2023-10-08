@@ -18,19 +18,41 @@ class Ajaxs extends Layout
         parent::__construct();
     }
 
-    public function multi_logged()
+    /**
+     * Một số phương thức ajax trong này sẽ kiểm tra thêm đoạn nguồn truy cập -> không cho truy cập từ bên ngoài domain
+     **/
+    protected function checkReferer($line)
     {
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
             $this->result_json_type(
                 [
-                    'code' => __LINE__,
+                    'code' => $line,
                     'error' => 'Bad request!',
                 ]
             );
         }
 
+        //
+        if (!isset($_SERVER['HTTP_REFERER']) || strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) === false) {
+            $this->result_json_type(
+                [
+                    'code' => __LINE__,
+                    'error' => 'Blocked request!',
+                ]
+            );
+        }
+
+        //
+        return true;
+    }
+
+    public function multi_logged()
+    {
+        $this->checkReferer(__LINE__);
+
         // trả về khối HTML để nạp Modal cảnh báo đăng nhập trên nhiều thiết bị
         if (!empty($this->MY_post('the_modal'))) {
+            ob_end_clean();
             ob_start();
             // ưu tiên nạp view trong custom trước
             if (file_exists(VIEWS_CUSTOM_PATH . 'default/device_protection_modal.php')) {
@@ -88,14 +110,7 @@ class Ajaxs extends Layout
      **/
     public function multi_logout()
     {
-        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-            $this->result_json_type(
-                [
-                    'code' => __LINE__,
-                    'error' => 'Bad request!',
-                ]
-            );
-        }
+        $this->checkReferer(__LINE__);
 
         //
         $msg = 'Device protection destroy';
@@ -142,14 +157,7 @@ class Ajaxs extends Layout
      **/
     public function confirm_logged()
     {
-        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-            $this->result_json_type(
-                [
-                    'code' => __LINE__,
-                    'error' => 'Bad request!',
-                ]
-            );
-        }
+        $this->checkReferer(__LINE__);
 
         //
         $user_id = $this->MY_post('user_id');
@@ -273,5 +281,47 @@ class Ajaxs extends Layout
             ]
         );
         return true;
+    }
+
+    /**
+     * Trả về khối HTML chứa mã captcha để thực hiện cho các phi vụ cần dùng đến hide-captcha
+     **/
+    public function get_anti_spam()
+    {
+        $this->checkReferer(__LINE__);
+
+        //
+        /*
+        die(json_encode([
+            'code' => __LINE__,
+            //'test' => $_SERVER,
+            'data' => $_POST,
+        ]));
+        */
+
+        //
+        ob_end_clean();
+        ob_start();
+
+        //
+        $hide_captcha = $this->MY_post('hide_captcha', 0);
+        $hide_captcha *= 1;
+        // truyền giả lập user_id = 1 -> sẽ lấy mã html để trả về
+        $user_id = 1;
+        // trả về hide-captcha
+        if ($hide_captcha > 0) {
+            $this->base_model->hide_captcha_ajax($user_id);
+        } else {
+            // trả về captcha
+            $this->base_model->anti_spam_ajax($user_id);
+        }
+        $html = ob_get_contents();
+
+        //
+        ob_end_clean();
+
+        //
+        echo $html;
+        exit();
     }
 }
