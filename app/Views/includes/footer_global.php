@@ -1,6 +1,13 @@
 <div id="oi_scroll_top" class="default-bg"><i class="fa fa-chevron-up"></i></div>
 <?php
 
+// nạp hide captcha để xác minh bot tự động
+if ($getconfig->hide_captcha == 'on') {
+?>
+    <div id="hide-captcha"><?php $base_model->hide_captcha_ajax($current_user_id); ?></div>
+<?php
+}
+
 //
 $base_model->adds_js([
     'wp-includes/javascript/functions_footer.js',
@@ -16,6 +23,15 @@ $base_model->adds_js([
 ], [
     'defer'
 ]);
+
+
+// nạp flatsome nếu có yêu cầu
+if ($getconfig->include_flatsome == 'on') {
+    // hỗ trợ flatsome bản thấp hơn
+    //include VIEWS_PATH . 'includes/flatsome-3.15.7.php';
+    // flatsome 3.16.x xung đột preventDefault nên không phải code nào cũng dùng được
+    include VIEWS_PATH . 'includes/flatsome.php';
+}
 
 
 // nạp footer riêng của từng theme (tương tự function get_footer bên wordpress)
