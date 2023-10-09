@@ -43,7 +43,7 @@ include VIEWS_PATH . 'default/login_header.php';
                         <div class="cf">
                             <div class="lf f62">
                                 <label>
-                                    <input type="checkbox" name="rememberme" value="30" /> Tự động đăng nhập lần sau
+                                    <input type="checkbox" name="rememberme" id="firebase_auto_login" value="30" /> Tự động đăng nhập lần sau
                                 </label>
                             </div>
                             <div class="lf f38 text-right">

@@ -24,6 +24,8 @@ class ConfigType
     const NUM_MON = 'num_mon'; // number and money -> loại cấu hình dùng để định giá hoặc tạo số theo ý muốn
     const FIREBASE = 'firebase';
     const ZALO = 'zalo';
+    //
+    const DISABLE_CACHE = 'disable';
 
     private static $arr_posts_per_line = [
         '' => 'Theo thiết kế mặc định của tác giả',
@@ -819,7 +821,7 @@ class ConfigType
                 'file' => 'File',
                 'redis' => 'Redis',
                 'memcached' => 'Memcached',
-                'disable' => 'Disable',
+                self::DISABLE_CACHE => 'Disable',
             ],
             'ALLOW_USING_MYSQL_DELETE' => [
                 '' => 'Mặc định theo code',

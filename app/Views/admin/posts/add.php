@@ -168,8 +168,8 @@ include __DIR__ . '/add_breadcrumb.php';
                         // với 1 số post type có đặc thù riêng -> ví dụ danh mục
                         if ($k == 'post_category') {
                             $url_add_term = 'admin/terms/add/?taxonomy=' . $taxonomy;
-                            if (isset($arr_taxnomy_controller[$taxonomy])) {
-                                $url_add_term = 'admin/' . $arr_taxnomy_controller[$taxonomy] . '/add';
+                            if (isset($arr_taxonomy_controller[$taxonomy])) {
+                                $url_add_term = 'admin/' . $arr_taxonomy_controller[$taxonomy] . '/add';
                             }
                         ?>
                             <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple>
@@ -180,8 +180,8 @@ include __DIR__ . '/add_breadcrumb.php';
                         } // END if post category
                         else if ($k == 'post_tags') {
                             $url_add_term = 'admin/terms/add/?taxonomy=' . $tags;
-                            if (isset($arr_taxnomy_controller[$tags])) {
-                                $url_add_term = 'admin/' . $arr_taxnomy_controller[$tags] . '/add';
+                            if (isset($arr_taxonomy_controller[$tags])) {
+                                $url_add_term = 'admin/' . $arr_taxonomy_controller[$tags] . '/add';
                             }
                         ?>
                             <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple>
@@ -192,8 +192,8 @@ include __DIR__ . '/add_breadcrumb.php';
                         } // END if post tags
                         else if ($k == 'post_options') {
                             $url_add_term = 'admin/terms/add/?taxonomy=' . $options;
-                            if (isset($arr_taxnomy_controller[$options])) {
-                                $url_add_term = 'admin/' . $arr_taxnomy_controller[$options] . '/add';
+                            if (isset($arr_taxonomy_controller[$options])) {
+                                $url_add_term = 'admin/' . $arr_taxonomy_controller[$options] . '/add';
                             }
                         ?>
                             <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple>

@@ -110,7 +110,7 @@ function show_edit_btn() {
 			if (controller == "") {
 				// mặc định
 				controller = "terms";
-				var arr_type = arr_taxnomy_controller;
+				var arr_type = arr_taxonomy_controller;
 				// các post type mặc định
 				if (typeof arr_type[type] != "undefined") {
 					controller = arr_type[type];

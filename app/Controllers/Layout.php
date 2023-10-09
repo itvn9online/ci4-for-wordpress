@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 // Libraries
 use App\Libraries\PostType;
+//use App\Libraries\ConfigType;
 
 //
 class Layout extends Sync

@@ -134,17 +134,3 @@ if (typeof token_expires_time == "number") {
 		window.location = window.location.href;
 	}, token_expires_time * 1000);
 }
-
-// tự động đăng nhập khi lưu session
-$("#firebase_auto_login").change(function () {
-	if ($(this).is(":checked")) {
-		localStorage.setItem("firebase_auto_login", 1);
-	} else {
-		localStorage.removeItem("firebase_auto_login");
-	}
-});
-
-//
-if (localStorage.getItem("firebase_auto_login") !== null) {
-	$("#firebase_auto_login").prop("checked", true);
-}

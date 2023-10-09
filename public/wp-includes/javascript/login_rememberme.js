@@ -86,6 +86,12 @@ function action_login_rememberme(key, uri, uri_captcha, id_captcha, max_i) {
 		return false;
 	}
 
+	// nếu người dùng bấm vào checkbox tự động đăng nhập thì sẽ có thông số này, ko có nghĩa là chưa từng bấm thì bỏ qua thôi
+	if (localStorage.getItem("firebase_auto_login") === null) {
+		//console.log(Math.random());
+		return false;
+	}
+
 	// xác định phiên lưu trữ đăng nhập
 	var token = localStorage.getItem(key);
 	if (token === null) {

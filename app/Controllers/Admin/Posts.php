@@ -745,7 +745,7 @@ class Posts extends Admin
                 'meta_custom_type' => [],
                 'meta_custom_desc' => [],
                 // thêm phần controller slug theo từng taxonomy
-                'arr_taxnomy_controller' => TaxonomyType::controllerList(),
+                'arr_taxonomy_controller' => TaxonomyType::controllerList(),
             )
         );
         return view('admin/admin_teamplate', $this->teamplate_admin);
