@@ -74,8 +74,8 @@ include __DIR__ . '/add_breadcrumb.php';
                 <label class="control-label">Mô tả</label>
                 <div class="controls f80">
                     <textarea placeholder="Tóm tắt" name="data[post_excerpt]" id="data_post_excerpt" class="span30 fix-textarea-height"><?php echo $data['post_excerpt']; ?></textarea>
-                    <div data-for="data_post_excerpt" class="cur bold click-enable-editer">
-                        <input type="checkbox" /> Sử dụng chế độ soạn thảo HTML cho phần tóm tắt.
+                    <div>
+                        <input type="checkbox" data-for="data_post_excerpt" class="click-enable-editer" /> Sử dụng chế độ soạn thảo HTML cho phần tóm tắt.
                     </div>
                 </div>
             </div>

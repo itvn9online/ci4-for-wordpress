@@ -108,7 +108,7 @@ class Csrf extends Layout
             }
 
             //
-            die('<script>top.done_action_submit("' . $login_redirect . '", "' . $token_rememberme . '", "' . $this->wrg_cookie_login_key . '");</script>');
+            die('<script {csp-script-nonce}>top.done_action_submit("' . $login_redirect . '", "' . $token_rememberme . '", "' . $this->wrg_cookie_login_key . '");</script>');
         }
         $this->MY_redirect($login_redirect);
     }

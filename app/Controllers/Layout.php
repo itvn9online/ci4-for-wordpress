@@ -338,7 +338,7 @@ class Layout extends Sync
         }
         $cache_value = $this->MY_cache($this->cache_key);
         // Will get the cache entry named 'my_foo'
-        //var_dump( $cache_value );
+        //var_dump($cache_value);
         // có thì in ra cache là được
         //if ( $_SERVER[ 'REQUEST_METHOD' ] == 'GET' && $cache_value !== NULL ) {
         if ($this->hasFlashSession() === false && $cache_value !== NULL) {
@@ -458,7 +458,7 @@ class Layout extends Sync
         $cache_value = view('layout_view', $this->teamplate);
 
         $cache_save = $this->MY_cache($this->cache_key, $cache_value . '<!-- Served from: ' . __FUNCTION__ . ' -->');
-        //var_dump( $cache_save );
+        //var_dump($cache_save);
 
         //
         return $cache_value;

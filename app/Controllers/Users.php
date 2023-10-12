@@ -132,7 +132,7 @@ class Users extends Csrf
             ]);
 
             //
-            echo '<script>top.$(\'#data_ci_pass\').val(\'\');</script>';
+            echo '<script {csp-script-nonce}>top.$(\'#data_ci_pass\').val(\'\');</script>';
             $this->base_model->alert('Cập nhật mật khẩu mới thành công');
         }
 

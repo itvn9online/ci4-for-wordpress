@@ -93,7 +93,7 @@ class Base extends Csdl
 
         //
         if (isset($ops['get_content'])) {
-            return '<script type="text/javascript">' . file_get_contents($f, 1) . '</script>';
+            return '<script {csp-script-nonce} type="text/javascript">' . file_get_contents($f, 1) . '</script>';
         }
 
         // xem có chạy qua CDN không -> có thì nó sẽ giảm tải cho server
@@ -106,7 +106,7 @@ class Base extends Csdl
             return '<link rel="preload" as="script" href="' . $ops['cdn'] . $f . '?ver=' . filemtime(PUBLIC_PUBLIC_PATH . $f) . '">';
         }
         //print_r( $attr );
-        return '<script type="text/javascript" src="' . $ops['cdn'] . $f . '?ver=' . filemtime(PUBLIC_PUBLIC_PATH . $f) . '" ' . implode(' ', $attr) . '></script>';
+        return '<script {csp-script-nonce} type="text/javascript" src="' . $ops['cdn'] . $f . '?ver=' . filemtime(PUBLIC_PUBLIC_PATH . $f) . '" ' . implode(' ', $attr) . '></script>';
     }
     // thêm 1 file
     public function add_js($f, $ops = [], $attr = [])

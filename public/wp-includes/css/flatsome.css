@@ -1689,6 +1689,59 @@ img.mfp-img {
     cursor: pointer
 }
 
+/* */
+.row-dashed,
+.row-solid {
+    overflow: hidden;
+}
+
+.row-dashed .col,
+.row-solid .col {
+    padding: 0;
+    position: relative;
+}
+
+.row-dashed .col:before,
+.row-solid .col:before {
+    border-left: 1px dashed #ddd;
+    content: " ";
+    height: 100%;
+    left: -1px;
+    position: absolute;
+    top: 0;
+}
+
+.row-solid .col:before {
+    border-left-style: solid;
+}
+
+.row-dashed .col:after,
+.row-solid .col:after {
+    border-bottom: 1px dashed #ddd;
+    bottom: -1px;
+    content: " ";
+    height: 0;
+    left: 0;
+    position: absolute;
+    top: auto;
+    width: 100%;
+}
+
+.row-solid .col:after {
+    border-bottom-style: solid;
+}
+
+.row-dashed .col-inner,
+.row-solid .col-inner {
+    padding: 15px;
+}
+
+/* */
+.align-center {
+    justify-content: center !important;
+}
+
+/* */
 @media screen and (max-height:300px),
 screen and (max-width:800px)and (orientation:landscape) {
     .mfp-img-mobile .mfp-image-holder {

@@ -522,7 +522,8 @@ class TermBase extends EbModel
         if ($run_h_only === true) {
             $last_run = $this->base_model->scache(__FUNCTION__);
             if ($last_run !== NULL) {
-                //print_r( $last_run );
+                //print_r($last_run);
+                //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
                 return $last_run;
             }
         }
@@ -554,6 +555,7 @@ class TermBase extends EbModel
             )
         );
         //print_r($data);
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
         if (empty($data)) {
             $this->base_model->scache(__FUNCTION__, time(), $this->time_update_last_count - rand(333, 666));
             return true;
@@ -575,16 +577,19 @@ class TermBase extends EbModel
     {
         //print_r($data);
         if (!isset($data['child_last_count']) || !isset($data['term_id'])) {
+            //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
             return false;
         }
         // giãn cách giữa các lần cập nhật count
         if ($data['child_last_count'] > time()) {
+            //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
             return false;
         }
+        //print_r($data);
 
-        /*
-        * child_count: tính tổng số nhóm con của nhóm này
-        */
+        /**
+         * child_count: tính tổng số nhóm con của nhóm này
+         **/
         $child_count = $this->base_model->select(
             'term_id',
             'term_taxonomy',
@@ -625,11 +630,11 @@ class TermBase extends EbModel
         }
         //print_r($where_in);
 
-        /*
-        * count: tính tổng số bài viết của nhóm này và nhóm con
-        */
+        /**
+         * count: tính tổng số bài viết của nhóm này và nhóm con
+         **/
         $post_count = $this->base_model->select(
-            'COUNT(' . WGR_TABLE_PREFIX . 'term_relationships.object_id) AS c',
+            'COUNT(' . WGR_TABLE_PREFIX . 'term_relationships.object_id) AS object_id',
             'term_relationships',
             array(
                 // các kiểu điều kiện where
@@ -649,7 +654,7 @@ class TermBase extends EbModel
                 // trả về câu query để sử dụng cho mục đích khác
                 //'get_query' => 1,
                 // trả về COUNT(column_name) AS column_name
-                //'selectCount' => 'ID',
+                'selectCount' => 'term_relationships.object_id',
                 // trả về tổng số bản ghi -> tương tự mysql num row
                 //'getNumRows' => 1,
                 //'offset' => 0,
@@ -657,10 +662,11 @@ class TermBase extends EbModel
             )
         );
         //print_r($post_count);
+        //return false;
 
         //
         $this->base_model->update_multiple('term_taxonomy', [
-            'count' => $post_count[0]['c'],
+            'count' => $post_count[0]['object_id'],
         ], [
             'term_id' => $data['term_id'],
         ], [

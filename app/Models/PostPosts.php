@@ -301,7 +301,36 @@ class PostPosts extends PostSlider
     public function fix_term_count($prams, $post_type, $ops = [])
     {
         //print_r($prams);
-        $count = $this->count_others_by($prams, $post_type, $ops);
+        // ko có tham số này -> LỖI -> báo lỗi
+        if (!isset($prams['child_last_count'])) {
+            echo 'child_last_count not found in ' . basename(__FILE__) . ':' . __LINE__ . '<br>' . PHP_EOL;
+            return 0;
+        }
+        // nếu mới tổng thì bỏ qua
+        else if ($prams['child_last_count'] > time()) {
+            return $prams['count'];
+        }
+        //echo time() - $prams['child_last_count'] . '<br>' . PHP_EOL;
+
+        //
+        $count = $this->post_category($post_type, $prams, [
+            'selectCount' => 'ID',
+            //'show_query' => 1,
+            //'offset' => 0,
+            'limit' => -1,
+            'group_by' => [
+                'posts.post_type'
+            ]
+        ]);
+        //print_r($count);
+        $count = $count[0]['ID'];
+
+        //print_r($prams);
+        //echo $post_type . '<br>' . PHP_EOL;
+        //print_r($ops);
+        //$count = $this->count_others_by($prams, $post_type, $ops);
+        //echo $count . '<br>' . PHP_EOL;
+        //return $count;
         //die('count: ' . $count);
 
         //
@@ -318,6 +347,9 @@ class PostPosts extends PostSlider
 
         // dọn dẹp cache
         $this->base_model->dcache($this->key_cache($prams['term_id']));
+
+        //
+        return $count;
     }
 
     // trả về dữ liệu cho phần post category

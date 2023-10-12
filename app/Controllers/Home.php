@@ -723,6 +723,7 @@ class Home extends Posts
         //
         //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
         // cập nhật lại tổng số bài viết cho term - để sau nếu có tính năng lấy theo nhóm thì nó sẽ không xuất hiện nữa
+        /*
         $this->base_model->update_multiple($this->term_model->taxTable, [
             'count' => 0
         ], [
@@ -731,6 +732,7 @@ class Home extends Posts
         ], [
             'debug_backtrace' => debug_backtrace()[1]['function']
         ]);
+        */
 
         //
         return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Không xác định được định dạng bài viết...');
