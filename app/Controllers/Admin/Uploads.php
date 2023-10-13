@@ -83,6 +83,9 @@ class Uploads extends Admin
                     'post_name' => $by_like,
                     'post_title' => $by_keyword,
                 ];
+                if (is_numeric($by_like)) {
+                    $where_or_like['ID'] = $by_like;
+                }
             }
         }
 

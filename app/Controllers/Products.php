@@ -21,6 +21,7 @@ class Products extends Posts
 
     public function product_details($id, $slug)
     {
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
         return $this->post_details($id, $slug);
     }
 

@@ -131,6 +131,8 @@ class Terms extends Admin
             'lang_key' => $this->lang_key,
             'limit' => -1,
         ];
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        //print_r($filter);
 
 
         /*
@@ -174,6 +176,8 @@ class Terms extends Admin
                 ];
             }
             //$filter[ 'get_child' ] = 1;
+            //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            //print_r($filter);
 
             //
             $data = $this->term_model->get_all_taxonomy($this->taxonomy, 0, $filter);

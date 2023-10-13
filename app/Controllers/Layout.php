@@ -278,11 +278,97 @@ class Layout extends Sync
         return $this->create_breadcrumb($cats['name'], $this->term_model->get_full_permalink($cats));
     }
 
+    /**
+     * Kiểm tra các bản ghi trong RewriteRule để redirect cho trang 404 nếu có
+     **/
+    protected function rewriteRule()
+    {
+        // xem có file RewriteRule ko
+        $rules_path = WRITEPATH . 'RewriteRule.txt';
+        // ko có thì trả về false luôn
+        if (!file_exists($rules_path)) {
+            return false;
+        }
+        $rules_content = file_get_contents($rules_path);
+
+        // xác định url hiện tại
+        $current_uri = $_SERVER['REQUEST_URI'];
+
+        // xem url này có trong RewriteRule ko
+        foreach ([
+            $current_uri,
+            ltrim($current_uri, '/'),
+        ] as $v) {
+            $v = '^' . $v . '$';
+            //echo $v . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+
+            //
+            if (strpos($rules_content, $v) === false) {
+                continue;
+            }
+            // tách thành mảng để kiểm tra điều kiện URL -> loại bỏ phần có dấu #
+            $rules_content = explode("\n", $rules_content);
+
+            //
+            foreach ($rules_content as $url) {
+                $url = trim($url);
+
+                // Không phải rewriterule -> bỏ
+                if (strpos(strtolower($url), 'rewriterule') === false) {
+                    //echo $url . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                    continue;
+                }
+
+                // trống và # -> bỏ
+                if (empty($url) || substr($url, 0, 1) == '#') {
+                    continue;
+                }
+                //echo $url . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+
+                // có trong chuỗi -> cắt chuỗi
+                if (strpos($url, $v) !== false) {
+                    //echo $url . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+
+                    // xác định kiểu redirect
+                    $redirect_type = 301;
+                    if (strpos($url, 'R=302') !== false) {
+                        $redirect_type = 302;
+                    }
+                    //echo $redirect_type . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+
+                    //
+                    $url = trim(explode($v, $url)[1]);
+                    //echo $url . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                    $url = trim(explode("[", $url)[0]);
+                    //echo $url . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                    if (strpos($url, '//') === false) {
+                        $url = DYNAMIC_BASE_URL . ltrim($url, '/');
+                        //echo $url . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                    }
+                    //echo $url . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+
+                    // -> thực hiện redirect
+                    $this->MY_redirect($url, $redirect_type);
+
+                    //
+                    break;
+                }
+            }
+        }
+        //die($current_uri . ':' . __CLASS__ . ':' . __LINE__);
+
+        //
+        return true;
+    }
+
     public function page404($msg_404 = '', $in_cache = '')
     {
-        /*
+        // kiểm tra có trong RewriteRule không đã
+        $this->rewriteRule();
+
+        /**
          * trả về lỗi 404
-         */
+         **/
         //echo __CLASS__ . ':' . __LINE__;
         if (function_exists('http_response_code')) {
             http_response_code(404);

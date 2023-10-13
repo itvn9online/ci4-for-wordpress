@@ -278,6 +278,11 @@ class AdminMenu
                         'tag' => 'Language',
                         'icon' => 'fa fa-globe',
                     ],
+                    'admin/rewriterule' => [
+                        'name' => 'Rewrite Rule',
+                        'tag' => 'rewrites redirects 404',
+                        'icon' => 'fa fa-share-square-o',
+                    ],
                     'admin/firebases' => [
                         'name' => 'Recaptcha/ Firebase',
                         'icon' => 'fa fa-code-fork',
