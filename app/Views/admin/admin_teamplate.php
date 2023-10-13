@@ -131,6 +131,7 @@ if ($debug_enable === true) {
     <!-- <script src="wp-includes/thirdparty/bootstrap/js/bootstrap.min.js"></script> -->
     <!-- <script src="wp-includes/thirdparty/select2/select2.min.js"></script> -->
     <script src="wp-includes/thirdparty/select2-4.0.13/js/select2.min.js"></script>
+    <script src="wp-includes/thirdparty/jQuery-menu-aim-master/jquery.menu-aim.js"></script>
     <?php
 
     $base_model->adds_css([
@@ -151,7 +152,7 @@ if ($debug_enable === true) {
         'wp-includes/javascript/functions.js',
         'wp-includes/javascript/functions_footer.js',
         THEMEPATH . 'js/functions.js',
-        'wp-includes/javascript/eb.js'
+        'wp-includes/javascript/eb.js',
     ]);
 
     //

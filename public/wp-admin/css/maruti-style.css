@@ -92,7 +92,7 @@ a:hover {
 #sidebar>ul>li {
     list-style-type: none;
     /* float: left; */
-    display: block;
+    display: inline-block;
     margin: 0px;
     position: relative;
     /*
@@ -104,34 +104,9 @@ a:hover {
     line-height: 25px;
 }
 
-#sidebar>ul>li:hover ul {
-    display: block;
-}
-
 #sidebar>ul>li a {
     padding: 10px !important;
     display: block;
-}
-
-#sidebar>ul>li:hover {
-    background-color: #2b2b2b;
-}
-
-#sidebar>ul>li.active {
-    background-color: green;
-}
-
-#sidebar>ul>li.active .sub-menu {
-    position: relative;
-    display: block;
-    left: 0;
-    min-width: auto;
-    border-radius: 0;
-    border-bottom: 2px #fff solid;
-}
-
-#sidebar>ul>li:hover a {
-    background: none;
 }
 
 #sidebar>ul li ul {
@@ -140,10 +115,17 @@ a:hover {
     display: none;
     z-index: 999;
     position: absolute;
-    left: 100%;
+    left: 168px;
     top: 0;
     background: #2b2b2b;
     min-width: 200px;
+    /*
+    -moz-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    */
+    opacity: 0;
 }
 
 #sidebar>ul li ul li {
@@ -186,6 +168,35 @@ a:hover {
 #sidebar>ul li a i.fa {
     background: none;
     color: white;
+}
+
+/* #sidebar>ul>li:hover ul, */
+.sidebar-hover #sidebar>ul>li.aiming ul {
+    display: block;
+    opacity: 1;
+}
+
+#sidebar>ul>li.aiming,
+#sidebar>ul>li:hover {
+    background-color: #2b2b2b;
+}
+
+#sidebar>ul>li.active {
+    background-color: green;
+}
+
+#sidebar>ul>li.active .sub-menu {
+    position: relative;
+    display: block;
+    left: 0;
+    min-width: auto;
+    border-radius: 0;
+    border-bottom: 2px #fff solid;
+    opacity: 1;
+}
+
+#sidebar>ul>li:hover a {
+    background: none;
 }
 
 #my_menu_input {

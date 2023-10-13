@@ -408,6 +408,27 @@ $(window).resize(function () {
 });
 */
 
+/**
+ * Chức năng aim menu cho admin
+ * https://github.com/kamens/jQuery-menu-aim
+ **/
+function activateSubmenu(row) {
+	var $row = $(row);
+	//console.log(1);
+
+	// Keep the currently activated row's highlighted look
+	$row.addClass("aiming");
+}
+
+//
+function deactivateSubmenu(row) {
+	var $row = $(row);
+	//console.log(0);
+
+	// Hide the submenu and remove the row's highlighted look
+	$row.removeClass("aiming");
+}
+
 // khi bấm nút đăng xuất
 $(document).ready(function () {
 	$('a[href="users/logout"], a[href="./users/logout"]')
@@ -420,4 +441,18 @@ $(document).ready(function () {
 			localStorage.removeItem("firebase_auto_login");
 			return true;
 		});
+
+	//
+	console.log("aim menu");
+	//
+	$("#sidebar ul").addClass("menu-aim");
+	$("#sidebar ul ul").removeClass("menu-aim");
+	//
+	//$("#sidebar li").addClass("menu-li-aim");
+	//$("#sidebar li li").removeClass("menu-li-aim");
+	//
+	$("#sidebar .menu-aim").menuAim({
+		activate: activateSubmenu,
+		deactivate: deactivateSubmenu,
+	});
 });
