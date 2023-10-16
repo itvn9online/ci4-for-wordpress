@@ -70,7 +70,7 @@ class Ajaxs extends Layout
         }
 
         //
-        if ($this->current_user_id <= 0) {
+        if ($this->current_user_id < 1) {
             $this->result_json_type(
                 [
                     'code' => __LINE__,

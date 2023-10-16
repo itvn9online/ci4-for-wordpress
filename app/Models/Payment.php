@@ -80,12 +80,12 @@ class Payment extends Option
         $a['period_bonus'] = $arr_bonus;
 
         // chưa có giá min -> tạo giá min -> code sẽ dùng giá này làm mặc định
-        if (!isset($a['min_product_price']) || $a['min_product_price'] <= 0) {
+        if (!isset($a['min_product_price']) || $a['min_product_price'] < 1) {
             if (!empty($arr_price)) {
                 $a['min_product_price'] = $arr_price[0];
 
                 //
-                if ($a['min_product_price'] <= 0) {
+                if ($a['min_product_price'] < 1) {
                     die('ERROR! ' . __CLASS__ . ':' . __LINE__);
                 }
             }

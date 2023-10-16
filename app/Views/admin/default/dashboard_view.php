@@ -127,13 +127,13 @@ if ($debug_enable === true) {
     <h4>Một số khuyến nghị cho website của bạn hoạt động tốt hơn:</h4>
     <div class="p d-inlines"><strong>Imagick:</strong>
         <div v-if="imagick_exist > 0" class="greencolor">Xin chúc mừng, <strong>Imagick</strong> đã được cài đặt! Các chức năng xử lý hình ảnh sẽ hoạt động ổn định hơn.</div>
-        <div v-if="imagick_exist <= 0" class="orgcolor">Vui lòng cài đăt thêm <strong>Imagick</strong> để các chức năng xử lý hình ảnh hoạt động ổn định hơn.</div>
+        <div v-if="imagick_exist < 1" class="orgcolor">Vui lòng cài đăt thêm <strong>Imagick</strong> để các chức năng xử lý hình ảnh hoạt động ổn định hơn.</div>
     </div>
     <!-- OPcache -->
     <div class="p d-inlines"><strong>OPcache:</strong>
         <div v-if="opcache_exist > 0" class="greencolor"> Xin chúc mừng, <strong>OPcache</strong> đã được cài đặt!
         </div>
-        <div v-if="opcache_exist <= 0" class="orgcolor"> Nên bổ sung thêm OPcache sẽ giúp tăng đáng kể hiệu suất website
+        <div v-if="opcache_exist < 1" class="orgcolor"> Nên bổ sung thêm OPcache sẽ giúp tăng đáng kể hiệu suất website
             của bạn. </div>
     </div>
     <!-- END OPcache -->
@@ -142,7 +142,7 @@ if ($debug_enable === true) {
             <strong>Cache</strong>, điều này giúp tăng hiệu suất của website lên rất nhiều.
             <div>Bạn có thể <a href="admin/dashboard/cleanup_cache" class="btn btn-primary btn-mini"><i class="fa fa-magic"></i> vào đây</a> và dọn dẹp cache để website nhận dữ liệu mới nhất.</div>
         </div>
-        <div v-if="cache_actived <= 0" class="orgcolor">Vui lòng kiểm tra và sử dụng <strong>Cache</strong> để tăng hiệu
+        <div v-if="cache_actived < 1" class="orgcolor">Vui lòng kiểm tra và sử dụng <strong>Cache</strong> để tăng hiệu
             suất cho website của bạn.</div>
     </div>
     <div v-if="cache_actived > 0">
@@ -171,7 +171,7 @@ if ($debug_enable === true) {
                     <strong>memcached</strong>.
                 </div>
             </div>
-            <div v-if="memcached_exist <= 0">
+            <div v-if="memcached_exist < 1">
                 <div v-if="cache_handler == 'file'" class="orgcolor">Nếu bạn đang sử dụng VPS với lượng RAM đủ lớn, hãy
                     cài đặt thêm <strong>Memcached</strong> và config cho cache sử dụng Memcached <em>hoặc</em>
                     <div>hosting có hỗ trợ extension <strong>Memcached</strong> thì hãy kích hoạt nó lên để tốc độ
@@ -248,13 +248,13 @@ if ($debug_enable === true) {
                     </p>
                     <div><a href="admin/dashboard/disable_env" class="btn btn-danger" target="target_eb_iframe"><i class="fa fa-bug"></i> TẮT chế độ debug</a> </div>
                 </div>
-                <div v-if="exists_f_env <= 0">
+                <div v-if="exists_f_env < 1">
                     <p class="orgcolor"><i class="fa fa-cog"></i> Chế độ debug đang được thiết lập thủ công, không qua file
                         <strong>.env</strong>! Bạn chỉ có thể BẬT/ TẮT thủ công.
                     </p>
                 </div>
             </div>
-            <div v-if="debug_enable <= 0">
+            <div v-if="debug_enable < 1">
                 <p class="greencolor"><i class="fa fa-check"></i> Chế độ debug đã được tắt. Giảm thiểu nguy cơ lộ diện các
                     vấn đề nhạy cảm liên quan đến code.</p>
                 <div v-if="exists_f_backup_env > 0">
@@ -282,7 +282,7 @@ if ($debug_enable === true) {
                         </div>
                     </div>
                 </div>
-                <div v-if="exists_f_backup_env <= 0">
+                <div v-if="exists_f_backup_env < 1">
                     <p class="orgcolor"><i class="fa fa-cog"></i> Chế độ debug đang được thiết lập thủ công, không qua file
                         <strong>.env</strong>! Bạn chỉ có thể BẬT/ TẮT thủ công.
                     </p>

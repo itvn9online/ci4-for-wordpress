@@ -24,7 +24,7 @@ class Payments extends Layout
     public function check_paid()
     {
         // nếu không có id user -> lỗi
-        if ($this->current_user_id <= 0) {
+        if ($this->current_user_id < 1) {
             $this->result_json_type([
                 'code' => __CLASS__ . ':' . __LINE__,
                 'error' => 'Không xác định được thông tin tài khoản'
@@ -34,7 +34,7 @@ class Payments extends Layout
         // xem có gồm thông số đơn hàng trên này không
         $order_id = $this->MY_post('order_id', 0);
         // nếu không có id đơn hàng -> lỗi
-        if ($order_id <= 0) {
+        if ($order_id < 1) {
             $this->result_json_type([
                 'code' => __CLASS__ . ':' . __LINE__,
                 'error' => 'Không xác định được thông tin đơn hàng'
@@ -88,7 +88,7 @@ class Payments extends Layout
         $order_id = $this->MY_post('order_id', 0);
         $order_id *= 1;
 
-        if ($order_id <= 0) {
+        if ($order_id < 1) {
             $this->result_json_type([
                 'code' => __LINE__,
                 'error' => 'Không xác định được hóa đơn cần xử lý'

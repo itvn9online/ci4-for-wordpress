@@ -119,13 +119,6 @@ a:hover {
     top: 0;
     background: #2b2b2b;
     min-width: 200px;
-    /*
-    -moz-transition: all 0.2s ease;
-    -o-transition: all 0.2s ease;
-    -webkit-transition: all 0.2s ease;
-    transition: all 0.2s ease;
-    */
-    opacity: 0;
 }
 
 #sidebar>ul li ul li {
@@ -173,7 +166,6 @@ a:hover {
 /* #sidebar>ul>li:hover ul, */
 .sidebar-hover #sidebar>ul>li.aiming ul {
     display: block;
-    opacity: 1;
 }
 
 #sidebar>ul>li.aiming,
@@ -192,7 +184,6 @@ a:hover {
     min-width: auto;
     border-radius: 0;
     border-bottom: 2px #fff solid;
-    opacity: 1;
 }
 
 #sidebar>ul>li:hover a {

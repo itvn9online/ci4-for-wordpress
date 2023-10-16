@@ -9,14 +9,14 @@
 //echo RAND_ANTI_SPAM . '<br>' . PHP_EOL;
 
 // in ra input chỉ định sẽ alert nếu lỗi
-if ($hide_captcha === false) {
+if ($hide_captcha < 1) {
 ?>
     <input type="hidden" name="<?php echo RAND_ANTI_SPAM; ?>_alert" placeholder="alert" value="<?php echo time(); ?>" aria-required="true" required />
 <?php
 }
 
 // tạo ID cho thẻ DIV -> để gây khó khăn cho việc xác định thuộc tính của DIV
-$anti_div_id_spam = '_' . RAND_ANTI_SPAM . rand(0, 99);
+$anti_div_id_spam = '_' . RAND_ANTI_SPAM . rand(0, 999);
 
 ?>
 <style>
@@ -57,7 +57,7 @@ $anti_div_id_spam = '_' . RAND_ANTI_SPAM . rand(0, 99);
 
     // thêm thời gian hết hạn nếu có
     $time_expired *= 1;
-    if ($time_expired <= 0) {
+    if ($time_expired < 1) {
         // mặc định là hết trong 1 ngày nếu ko có
         $time_expired = 24 * 3600;
         $time_expired -= rand(0, 99);
@@ -66,7 +66,20 @@ $anti_div_id_spam = '_' . RAND_ANTI_SPAM . rand(0, 99);
     }
     $time_expired = $time_expired + time();
 
+    // tạo chuỗi ngẫu nhiên từ session id -> cố định cho input nhưng giá trị thay đổi liên tục
+    $rand_code = session_id();
+    $rand_code = substr($rand_code, rand(0, strlen($rand_code) - $this->rand_len_code), $this->rand_len_code);
+
+    //
+    foreach ([
+        'to' => $time_expired,
+        'token' => md5(RAND_ANTI_SPAM . $time_expired),
+        'code' => $rand_code,
+    ] as $k => $v) {
     ?>
-    <input type="number" name="<?php echo RAND_ANTI_SPAM; ?>_to" placeholder="to" value="<?php echo $time_expired; ?>" aria-required="true" required />
-    <input type="text" name="<?php echo RAND_ANTI_SPAM; ?>_token" placeholder="token" value="<?php echo md5(RAND_ANTI_SPAM . $time_expired); ?>" aria-required="true" required />
+        <input type="text" name="<?php echo RAND_ANTI_SPAM; ?>_<?php echo $k; ?>" placeholder="<?php echo $k; ?>" value="<?php echo $v; ?>" aria-required="true" required />
+    <?php
+    }
+
+    ?>
 </div>

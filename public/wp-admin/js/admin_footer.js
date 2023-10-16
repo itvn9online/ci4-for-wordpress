@@ -7,6 +7,27 @@ $('#sidebar a').each(function () {
 console.log(aaaaaaaa);
 */
 
+/**
+ * Chức năng aim menu cho admin
+ * https://github.com/kamens/jQuery-menu-aim
+ **/
+function activateSubmenu(row) {
+	var $row = $(row);
+	//console.log(1);
+
+	// Keep the currently activated row's highlighted look
+	$row.addClass("aiming");
+}
+
+//
+function deactivateSubmenu(row) {
+	var $row = $(row);
+	//console.log(0);
+
+	// Hide the submenu and remove the row's highlighted look
+	$row.removeClass("aiming");
+}
+
 //
 (function (arr) {
 	var str = "";
@@ -385,6 +406,32 @@ $(document)
 		//
 		create_search_by_label();
 		action_admin_menu_search();
+
+		//
+		$('a[href="users/logout"], a[href="./users/logout"]')
+			.addClass("users-logout")
+			.click(function () {
+				//console.log(Math.random());
+				// đặt tham số này để hủy bỏ chức năng đăng nhập tự động
+				localStorage.setItem("remove_rememberme_auto_login", Math.random());
+				// Xóa auto login qua firebase
+				localStorage.removeItem("firebase_auto_login");
+				return true;
+			});
+
+		//
+		console.log("aim menu");
+		//
+		$("#sidebar ul").addClass("menu-aim");
+		$("#sidebar ul ul").removeClass("menu-aim");
+		//
+		//$("#sidebar li").addClass("menu-li-aim");
+		//$("#sidebar li li").removeClass("menu-li-aim");
+		//
+		$("#sidebar .menu-aim").menuAim({
+			activate: activateSubmenu,
+			deactivate: deactivateSubmenu,
+		});
 	})
 	.keydown(function (e) {
 		//console.log(e.keyCode);
@@ -407,52 +454,3 @@ $(window).resize(function () {
     }
 });
 */
-
-/**
- * Chức năng aim menu cho admin
- * https://github.com/kamens/jQuery-menu-aim
- **/
-function activateSubmenu(row) {
-	var $row = $(row);
-	//console.log(1);
-
-	// Keep the currently activated row's highlighted look
-	$row.addClass("aiming");
-}
-
-//
-function deactivateSubmenu(row) {
-	var $row = $(row);
-	//console.log(0);
-
-	// Hide the submenu and remove the row's highlighted look
-	$row.removeClass("aiming");
-}
-
-// khi bấm nút đăng xuất
-$(document).ready(function () {
-	$('a[href="users/logout"], a[href="./users/logout"]')
-		.addClass("users-logout")
-		.click(function () {
-			//console.log(Math.random());
-			// đặt tham số này để hủy bỏ chức năng đăng nhập tự động
-			localStorage.setItem("remove_rememberme_auto_login", Math.random());
-			// Xóa auto login qua firebase
-			localStorage.removeItem("firebase_auto_login");
-			return true;
-		});
-
-	//
-	console.log("aim menu");
-	//
-	$("#sidebar ul").addClass("menu-aim");
-	$("#sidebar ul ul").removeClass("menu-aim");
-	//
-	//$("#sidebar li").addClass("menu-li-aim");
-	//$("#sidebar li li").removeClass("menu-li-aim");
-	//
-	$("#sidebar .menu-aim").menuAim({
-		activate: activateSubmenu,
-		deactivate: deactivateSubmenu,
-	});
-});

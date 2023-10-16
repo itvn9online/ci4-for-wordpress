@@ -8,7 +8,7 @@ function update_post_viewed(fview, custom_id) {
 		if (
 			typeof custom_id == "undefined" ||
 			typeof custom_id != "number" ||
-			custom_id <= 0
+			custom_id < 1
 		) {
 			console.log("%c post_id is undefined", "color: red");
 			return false;

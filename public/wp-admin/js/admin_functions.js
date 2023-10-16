@@ -628,7 +628,7 @@ function cleanup_class_in_editer(for_id) {
 function cleanup_attr_in_editer(for_id, rm_attr) {
 	for_id = "#" + for_id + "_ifr";
 	console.log(for_id);
-	if ($(for_id).length <= 0) {
+	if ($(for_id).length < 1) {
 		WGR_alert("Không xác định được iframe ID " + for_id);
 		return false;
 	}

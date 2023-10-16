@@ -82,7 +82,7 @@ include __DIR__ . '/add_breadcrumb.php';
             <div class="control-group">
                 <label class="control-label">Trạng thái</label>
                 <div class="controls">
-                    <select data-select="<?php echo $data['post_status']; ?>" name="data[post_status]" class="span5">
+                    <select data-select="<?php echo $data['post_status']; ?>" name="data[post_status]" class="form-select">
                         <option :value="k" v-for="(v, k) in post_status">{{v}}</option>
                     </select>
                 </div>
@@ -99,7 +99,7 @@ include __DIR__ . '/add_breadcrumb.php';
                 <div class="control-group">
                     <label class="control-label">Cha</label>
                     <div class="controls">
-                        <select data-select="<?php echo $data['post_parent']; ?>" name="data[post_parent]" class="span5">
+                        <select data-select="<?php echo $data['post_parent']; ?>" name="data[post_parent]" class="form-select">
                             <option value="">[ Không chọn cha ]</option>
                             <option :value="v.ID" v-for="v in parent_post">{{v.post_title}}</option>
                         </select>
@@ -172,7 +172,7 @@ include __DIR__ . '/add_breadcrumb.php';
                                 $url_add_term = 'admin/' . $arr_taxonomy_controller[$taxonomy] . '/add';
                             }
                         ?>
-                            <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple>
+                            <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" class="form-select" multiple>
                                 <option value="">[ Chọn <?php echo $v; ?> ]</option>
                             </select>
                             &nbsp; <a href="<?php echo $url_add_term; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm <?php echo $v; ?> mới</a>
@@ -184,7 +184,7 @@ include __DIR__ . '/add_breadcrumb.php';
                                 $url_add_term = 'admin/' . $arr_taxonomy_controller[$tags] . '/add';
                             }
                         ?>
-                            <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple>
+                            <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" class="form-select" multiple>
                                 <option value="">[ Chọn <?php echo $v; ?> ]</option>
                             </select>
                             &nbsp; <a href="<?php echo $url_add_term; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm <?php echo $v; ?> mới</a>
@@ -196,7 +196,7 @@ include __DIR__ . '/add_breadcrumb.php';
                                 $url_add_term = 'admin/' . $arr_taxonomy_controller[$options] . '/add';
                             }
                         ?>
-                            <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" multiple>
+                            <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>][]" id="post_meta_<?php echo $k; ?>" class="form-select" multiple>
                                 <option value="">[ Chọn <?php echo $v; ?> ]</option>
                             </select>
                             &nbsp; <a href="<?php echo $url_add_term; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm <?php echo $v; ?> mới</a>
@@ -236,7 +236,7 @@ include __DIR__ . '/add_breadcrumb.php';
                             }
 
                         ?>
-                            <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>]<?php echo $meta_multiple; ?>" id="post_meta_<?php echo $k; ?>" <?php echo $select_multiple; ?>>
+                            <select data-select="<?php $post_model->echo_meta_post($data, $k); ?>" name="post_meta[<?php echo $k; ?>]<?php echo $meta_multiple; ?>" id="post_meta_<?php echo $k; ?>" class="form-select" <?php echo $select_multiple; ?>>
                                 <?php
 
                                 foreach ($select_options as $option_k => $option_v) {

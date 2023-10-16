@@ -1051,7 +1051,7 @@ class Posts extends Admin
 
         //
         $ids = explode(',', $ids);
-        if (count($ids) <= 0) {
+        if (count($ids) < 1) {
             $this->result_json_type([
                 'code' => __LINE__,
                 'error' => 'ids EMPTY!',

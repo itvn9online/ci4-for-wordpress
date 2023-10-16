@@ -120,7 +120,7 @@ class Sitemap extends Layout
         // ->
         foreach ($arr_post_type as $post_type) {
             $totalThread = $this->get_post_type($post_type, 0, true);
-            if ($totalThread <= 0) {
+            if ($totalThread < 1) {
                 continue;
             }
 
@@ -147,7 +147,7 @@ class Sitemap extends Layout
             //echo $totalThread . '<br>' . PHP_EOL;
 
             //
-            if ($totalThread <= 0) {
+            if ($totalThread < 1) {
                 continue;
             }
 

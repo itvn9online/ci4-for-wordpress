@@ -135,10 +135,10 @@ class WGRSimpleImage
         /*
         $this->load($source_file);
         if ($this->image_type == IMAGETYPE_JPEG) {
-            if ($width <= 0) {
+            if ($width < 1) {
                 $width = $this->getWidth();
             }
-            if ($height <= 0) {
+            if ($height < 1) {
                 $height = $this->getHeight();
             }
             $this->resize($width, $height);

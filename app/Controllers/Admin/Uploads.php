@@ -270,7 +270,7 @@ class Uploads extends Admin
     {
         $id = $this->MY_get('id', 0);
         $id *= 1;
-        if ($id <= 0) {
+        if ($id < 1) {
             return false;
         }
 

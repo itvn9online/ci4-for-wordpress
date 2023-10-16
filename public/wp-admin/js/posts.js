@@ -101,7 +101,7 @@ function action_before_submit_post() {
 
 // xử lý đối với hình ảnh trong editer
 function fixed_CLS_for_editer(for_iframe) {
-	if ($(for_iframe).length <= 0) {
+	if ($(for_iframe).length < 1) {
 		return false;
 	}
 
@@ -148,7 +148,7 @@ function fixed_CLS_for_editer(for_iframe) {
 		});
 
 	//
-	if (arr.length <= 0) {
+	if (arr.length < 1) {
 		return false;
 	}
 

@@ -1068,14 +1068,14 @@ class Layout extends Sync
         // nếu bài viết ở chế độ riêng tư
         if ($data['post_status'] == PostType::PRIVATELY) {
             // -> chỉ đăng nhập mới có thể xem
-            if ($this->current_user_id <= 0) {
+            if ($this->current_user_id < 1) {
                 return 'WARNING ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Bạn không có quyền xem nội dung này...';
             }
         }
         // nếu bài này không phải dạng public
         else if ($data['post_status'] != PostType::PUBLICITY) {
             // kiểm tra xem nếu không phải admin thì không cho xem
-            if (empty($this->session_data) || !isset($this->session_data['userLevel']) || $this->session_data['userLevel'] <= 0) {
+            if (empty($this->session_data) || !isset($this->session_data['userLevel']) || $this->session_data['userLevel'] < 1) {
                 return 'ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Không xác định được dữ liệu bài viết...';
             }
         }
@@ -1187,7 +1187,7 @@ class Layout extends Sync
      **/
     protected function required_logged($add_params = '')
     {
-        if ($this->current_user_id <= 0) {
+        if ($this->current_user_id < 1) {
             // tạo url sau khi đăng nhập xong sẽ trỏ tới
             $login_redirect = DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/');
             //die($login_redirect);

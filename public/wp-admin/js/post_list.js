@@ -63,7 +63,7 @@ $(document).ready(function () {
 				var v = $(this).val();
 				v *= 1;
 				if (!isNaN(v)) {
-					if (v <= 0) {
+					if (v < 1) {
 						v = 0;
 					}
 					//console.log(a + ":", v);

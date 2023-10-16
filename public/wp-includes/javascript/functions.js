@@ -61,7 +61,7 @@ function WGR_alert(m, lnk) {
 			//console.log(htm);
 
 			//
-			if ($("#my_custom_alert").length <= 0) {
+			if ($("#my_custom_alert").length < 1) {
 				$("body").append('<div id="my_custom_alert"></div>');
 			}
 			$("#my_custom_alert").append(htm).show();
@@ -71,7 +71,7 @@ function WGR_alert(m, lnk) {
 				$("#" + jd).remove();
 
 				// nếu không còn div nào -> ẩn luôn
-				if ($("#my_custom_alert div").length <= 0) {
+				if ($("#my_custom_alert div").length < 1) {
 					$("#my_custom_alert").fadeOut();
 				}
 			}, 6000);
@@ -532,7 +532,7 @@ var g_func = {
 function WGR_duy_tri_dang_nhap(max_i) {
 	if (
 		typeof WGR_config.current_user_id != "undefined" &&
-		WGR_config.current_user_id <= 0
+		WGR_config.current_user_id < 1
 	) {
 		return false;
 	}
@@ -592,7 +592,7 @@ function get_taxonomy_data_by_ids(arr, jd) {
 		for (var i = 0; i < arr.length; i++) {
 			if (
 				typeof arr[i].child_term == "undefined" ||
-				arr[i].child_term.length <= 0
+				arr[i].child_term.length < 1
 			) {
 				continue;
 			}
@@ -883,7 +883,7 @@ function get_term_permalink(data) {
 
 // tạo menu tự động dựa theo danh mục đang có
 function create_menu_by_taxonomy(arr, li_class, show_favicon, ops) {
-	if (arr.length <= 0) {
+	if (arr.length < 1) {
 		console.log("create menu by taxonomy:", arr.length);
 		return "";
 	}
@@ -913,7 +913,7 @@ function create_menu_by_taxonomy(arr, li_class, show_favicon, ops) {
 	var str = "";
 	for (var i = 0; i < arr.length; i++) {
 		// không hiển thị các danh mục không có bài viết hoặc bị đánh dấu ẩn
-		if (arr[i].count * 1 <= 0 || arr[i].term_status * 1 > 0) {
+		if (arr[i].count * 1 < 1 || arr[i].term_status * 1 > 0) {
 			continue;
 		}
 

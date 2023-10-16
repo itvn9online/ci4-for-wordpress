@@ -151,7 +151,7 @@ class Asjaxs extends Admin
     public function update_term_order()
     {
         $term_id = $this->MY_post('id', 0);
-        if ($term_id <= 0) {
+        if ($term_id < 1) {
             $this->result_json_type([
                 'code' => __LINE__,
                 'error' => 'term id is zero!'
@@ -195,7 +195,7 @@ class Asjaxs extends Admin
     public function update_menu_order()
     {
         $id = $this->MY_post('id', 0);
-        if ($id <= 0) {
+        if ($id < 1) {
             $this->result_json_type([
                 'code' => __LINE__,
                 'error' => 'post id is zero!'

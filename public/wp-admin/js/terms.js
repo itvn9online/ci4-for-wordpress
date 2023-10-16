@@ -1,6 +1,6 @@
 // do sử dụng aguilarjs đang không tạo được danh mục theo dạng đệ quy -> tự viết function riêng vậy
 function term_tree_view(data, tmp, gach_ngang) {
-	if (data.length <= 0) {
+	if (data.length < 1) {
 		return false;
 	}
 	if (typeof gach_ngang == "undefined") {
@@ -123,7 +123,7 @@ function term_v2_tree_view(tmp, term_id, gach_ngang) {
 		//
 		term_data[i] = null;
 	}
-	//if (term_id <= 0) console.log('has term:', has_term);
+	//if (term_id < 1) console.log('has term:', has_term);
 }
 
 // tìm term cha của 1 term để xem cha của nó có tồn tại trong danh sách này không
@@ -244,7 +244,7 @@ function record_status_color(id, term_status) {
 }
 
 (function () {
-	if (term_data.length <= 0) {
+	if (term_data.length < 1) {
 		// không có dữ liệu thì xóa template đi
 		$("#admin_term_list").text("");
 		return false;
@@ -309,7 +309,7 @@ $(document).ready(function () {
 				var v = $(this).val();
 				v *= 1;
 				if (!isNaN(v)) {
-					if (v <= 0) {
+					if (v < 1) {
 						v = 0;
 					}
 					//console.log(a + ":", v);

@@ -611,7 +611,7 @@ class Users extends Admin
     }
     protected function before_delete_restore($msg, $is_deleted)
     {
-        if ($this->current_user_id <= 0) {
+        if ($this->current_user_id < 1) {
             $this->base_model->alert('Không xác định được ID của bạn!', 'error');
         }
 
@@ -683,7 +683,7 @@ class Users extends Admin
 
         //
         $ids = explode(',', $ids);
-        if (count($ids) <= 0) {
+        if (count($ids) < 1) {
             $this->result_json_type(
                 [
                     'code' => __LINE__,
@@ -837,7 +837,7 @@ class Users extends Admin
     // chức năng đăng nhập vào 1 tài khoản khác
     public function login_as()
     {
-        if ($this->current_user_id <= 0) {
+        if ($this->current_user_id < 1) {
             $this->base_model->alert('Không xác định được ID của bạn!', 'error');
         }
 

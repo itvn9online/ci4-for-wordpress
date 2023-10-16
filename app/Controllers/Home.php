@@ -316,7 +316,7 @@ class Home extends Posts
         //echo $post_type . '<br>' . PHP_EOL;
 
         //
-        if (!is_numeric($id) || $id <= 0) {
+        if (!is_numeric($id) || $id < 1) {
             die('ERROR! id? ' . __CLASS__ . ':' . __LINE__);
         }
 
@@ -626,7 +626,7 @@ class Home extends Posts
         // không có dữ liệu -> báo 404 luôn
         if (empty($data)) {
             return $this->page404('ERROR ' . __FUNCTION__ . ':' . __LINE__ . '! Không xác định được danh mục bài viết...', $cache_key);
-        } else if ($data['count'] <= 0) {
+        } else if ($data['count'] < 1) {
             return $this->page404('ERROR ' . __FUNCTION__ . ':' . __LINE__ . '! Không tìm thấy bài viết trong danh mục...', $cache_key);
         }
 

@@ -37,7 +37,7 @@ class MyImage
     {
         if ($compression > 100) {
             $compression = 100;
-        } else if ($compression <= 0) {
+        } else if ($compression < 1) {
             $compression = self::NEN;
         }
         return $compression;
@@ -250,7 +250,7 @@ class MyImage
         }
 
         //
-        if ($width <= 0 && $height <= 0) {
+        if ($width < 1 && $height < 1) {
             return [
                 'code' => __LINE__,
                 'error' => __CLASS__ . ': width AND height not set number value'
@@ -299,12 +299,12 @@ class MyImage
                 $maintainRatio = false;
                 $masterDim = 'auto';
                 // resize theo chiều rộng -> chiều cao sẽ tính toán theo tỉ lệ mới của chiều rộng
-                if ($height <= 0) {
+                if ($height < 1) {
                     $maintainRatio = true;
                     $masterDim = 'width';
                 }
                 // resize theo chiều cao -> chiều rộng sẽ tính toán theo tỉ lệ mới của chiều cao
-                else if ($width <= 0) {
+                else if ($width < 1) {
                     $maintainRatio = true;
                     $masterDim = 'height';
                 }

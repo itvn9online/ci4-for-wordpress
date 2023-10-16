@@ -30,6 +30,8 @@ class Session
         'address' => 'text',
         'captcha' => 'text',
     ];
+    // độ dài của chuỗi ngẫu nhiên tạo ra bởi session id
+    public $rand_len_code = 6;
 
     public function __construct()
     {
@@ -68,7 +70,7 @@ class Session
      * time_expired -> thêm thời gian hết hạn cho hide-captcha -> mặc định 5m -> trường hợp nào cần lâu hơn thì truyền vào theo tham số
      * hide_captcha: khi bật chế độ này, input chỉ định trả về alert sẽ không được in ra -> lệnh sẽ trả về mã json
      **/
-    public function anti_spam_field($time_expired = ANTI_SPAM_EXPIRED, $hide_captcha = false)
+    public function anti_spam_field($time_expired = ANTI_SPAM_EXPIRED, $hide_captcha = 0)
     {
         include VIEWS_PATH . 'includes/anti_spam.php';
         return true;
@@ -79,7 +81,7 @@ class Session
      **/
     public function hide_captcha_field($time_expired = ANTI_SPAM_EXPIRED)
     {
-        return $this->anti_spam_field($time_expired, true);
+        return $this->anti_spam_field($time_expired, 1);
     }
 
     /**
@@ -107,7 +109,7 @@ class Session
     {
         // nếu user đang đăng nhập thì trả thẳng mã captcha luôn -> do ko bị cache
         if ($user_id > 0) {
-            return $this->anti_spam_field($time_expired, true);
+            return $this->anti_spam_field($time_expired, 1);
         }
 
         // chưa đăng nhập thì có cache nên sẽ trả về đoạn html, cache sau đó sẽ nạp qua ajax
@@ -181,9 +183,19 @@ class Session
             }
         }
 
+        // kiểm tra mã session có khớp không
+        $by_code = 0;
+        $rand_code = isset($_POST[RAND_ANTI_SPAM . '_code']) ? $_POST[RAND_ANTI_SPAM . '_code'] : '';
+        if (!empty($rand_code)) {
+            if (strlen($rand_code) != $this->rand_len_code || strpos(session_id(), $rand_code) === false) {
+                $by_code = 1;
+            }
+        }
+
         //
         return $this->afterCheckSpam([
             'by_token' => $by_token,
+            'by_code' => $by_code,
             'has_value' => $has_value,
             'no_value' => $no_value,
             'i' => $i,
@@ -241,9 +253,17 @@ class Session
             $by_token = 1;
         }
 
+        // kiểm tra mã session có khớp không
+        $by_code = 0;
+        $rand_code = isset($_POST[RAND_ANTI_SPAM . '_code']) ? $_POST[RAND_ANTI_SPAM . '_code'] : '';
+        if (empty($rand_code) || strlen($rand_code) != $this->rand_len_code || strpos(session_id(), $rand_code) === false) {
+            $by_code = 1;
+        }
+
         //
         return $this->afterCheckSpam([
             'by_token' => $by_token,
+            'by_code' => $by_code,
             // gán giá trị mặc định nếu ko tìm thấy -> vì những cái này bắt buộc phải có
             'has_value' => $has_value > 0 ? $has_value : __LINE__,
             'no_value' => $no_value > 0 ? $no_value : __LINE__,
@@ -272,6 +292,15 @@ class Session
             $this->dieIfSpam([
                 'code' => __LINE__,
                 'token' => $ops['by_token'],
+                'f' => strtolower($ops['f']),
+            ]);
+        }
+
+        // lỗi khớp session id -> báo lỗi luôn
+        if ($ops['by_code'] > 0) {
+            $this->dieIfSpam([
+                'code' => __LINE__,
+                'sid' => $ops['by_code'],
                 'f' => strtolower($ops['f']),
             ]);
         }

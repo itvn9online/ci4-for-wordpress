@@ -580,7 +580,7 @@ class Guest extends Csrf
         $token = $this->MY_get('token', '');
 
         // các tham số không thể thiếu -> thiếu là bỏ qua luôn
-        if ($email == '' || $expire <= 0 || $token == '') {
+        if ($email == '' || $expire < 1 || $token == '') {
             $this->base_model->msg_error_session('Dữ liệu đầu vào không chính xác!');
         } else {
             $user_id = $this->user_model->check_user_exist($email);
@@ -727,7 +727,7 @@ class Guest extends Csrf
         $token = $this->MY_get('token', '');
 
         // các tham số không thể thiếu -> thiếu là bỏ qua luôn
-        if ($email == '' || $old_email == '' || $expire <= 0 || $token == '') {
+        if ($email == '' || $old_email == '' || $expire < 1 || $token == '') {
             $this->base_model->msg_error_session('Dữ liệu đầu vào không chính xác!');
         } else {
             $user_id = $this->user_model->check_user_exist($old_email);
