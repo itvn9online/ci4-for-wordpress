@@ -110,7 +110,7 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
                 <div class="control-group">
                     <label class="control-label">Danh mục cha</label>
                     <div class="controls">
-                        <select data-select="<?php echo $data['parent']; ?>" name="data[parent]" id="data_parent" class="span5">
+                        <select data-select="<?php echo $data['parent']; ?>" name="data[parent]" id="data_parent" class="form-select">
                             <option value="0">[ Chọn Danh mục cha ]</option>
                         </select>
                     </div>
@@ -147,7 +147,7 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
             <div class="control-group">
                 <label class="control-label">Trạng thái hiển thị:</label>
                 <div class="controls">
-                    <select data-select="<?php echo $data['term_status']; ?>" name="data[term_status]" id="data_term_status" class="span5">
+                    <select data-select="<?php echo $data['term_status']; ?>" name="data[term_status]" id="data_term_status" class="form-select">
                         <option value="<?php echo TaxonomyType::VISIBLE; ?>">Hiển thị</option>
                         <option value="<?php echo TaxonomyType::HIDDEN; ?>">Ẩn</option>
                     </select>
@@ -243,7 +243,7 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
                                 }
 
                             ?>
-                                <select data-select="<?php $term_model->echo_meta_term($data, $k); ?>" name="term_meta[<?php echo $k; ?>]<?php echo $meta_multiple; ?>" id="term_meta_<?php echo $k; ?>" class="span5" <?php echo $select_multiple; ?>>
+                                <select data-select="<?php $term_model->echo_meta_term($data, $k); ?>" name="term_meta[<?php echo $k; ?>]<?php echo $meta_multiple; ?>" id="term_meta_<?php echo $k; ?>" class="form-select" <?php echo $select_multiple; ?>>
                                     <?php
 
                                     foreach ($select_options as $option_k => $option_v) {

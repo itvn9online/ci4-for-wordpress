@@ -176,6 +176,7 @@ include __DIR__ . '/add_breadcrumb.php';
                                 <option value="">[ Chọn <?php echo $v; ?> ]</option>
                             </select>
                             &nbsp; <a href="<?php echo $url_add_term; ?>" target="_blank" class="bluecolor"><i class="fa fa-plus"></i> Thêm <?php echo $v; ?> mới</a>
+                            <div><a href="admin/<?php echo $controller_slug; ?>?term_id=<?php echo explode(',', $post_model->text_meta_post($data, $k))[0]; ?>" class="bluecolor"><i class="fa fa-search"></i> <?php echo $name_type; ?> cùng danh mục</a></div>
                         <?php
                         } // END if post category
                         else if ($k == 'post_tags') {

@@ -72,9 +72,14 @@ $anti_div_id_spam = '_' . RAND_ANTI_SPAM . rand(0, 999);
 
     //
     foreach ([
+        // timeout
         'to' => $time_expired,
+        // token -> dùng để xác thực với timeout
         'token' => md5(RAND_ANTI_SPAM . $time_expired),
+        // dùng để xác thực session id hiện tại
         'code' => $rand_code,
+        // js fill -> dùng để xác thực người dùng có bật javascript ko -> ko bật thì trường này sẽ trống
+        'jsf' => '',
     ] as $k => $v) {
     ?>
         <input type="text" name="<?php echo RAND_ANTI_SPAM; ?>_<?php echo $k; ?>" placeholder="<?php echo $k; ?>" value="<?php echo $v; ?>" aria-required="true" required />

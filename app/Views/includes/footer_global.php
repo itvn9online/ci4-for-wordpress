@@ -84,3 +84,12 @@ if ($current_user_id > 0) {
 
 //
 echo $getconfig->html_body;
+
+?>
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        setTimeout(function() {
+            jQuery('input[name="<?php echo RAND_ANTI_SPAM; ?>_jsf"]').val(Math.random().toString(32));
+        }, 3000);
+    });
+</script>

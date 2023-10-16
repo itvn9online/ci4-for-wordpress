@@ -1,7 +1,20 @@
 // nếu captcha đã được nạp thì chuyển thành true
 var loading_ebe_recaptcha = false;
 
-function action_login_rememberme(key, uri, uri_captcha, id_captcha, max_i) {
+function action_login_rememberme(
+	key,
+	uri,
+	uri_captcha,
+	jsf,
+	id_captcha,
+	max_i
+) {
+	//console.log(key);
+	//console.log(uri);
+	//console.log(uri_captcha);
+	//console.log(jsf);
+	//console.log(id_captcha);
+	//console.log(max_i);
 	if (
 		typeof key == "undefined" ||
 		key == "" ||
@@ -11,7 +24,6 @@ function action_login_rememberme(key, uri, uri_captcha, id_captcha, max_i) {
 		//console.log(Math.random());
 		return false;
 	}
-	//console.log(key);
 
 	//
 	var _rand = function (length) {
@@ -41,6 +53,7 @@ function action_login_rememberme(key, uri, uri_captcha, id_captcha, max_i) {
 			} else {
 				result_to = "ebe-rehidecaptcha";
 			}
+			//console.log(result_to);
 
 			//
 			jQuery.ajax({
@@ -56,6 +69,7 @@ function action_login_rememberme(key, uri, uri_captcha, id_captcha, max_i) {
 				data: {
 					hide_captcha: hide_captcha,
 					result_to: result_to,
+					jsf: jsf,
 				},
 				timeout: 33 * 1000,
 				error: function (jqXHR, textStatus, errorThrown) {
@@ -65,15 +79,20 @@ function action_login_rememberme(key, uri, uri_captcha, id_captcha, max_i) {
 					//console.log(data);
 					// nạp xong thì trả về khối html -> dùng after để khối captcha này hạn chế bị get bởi lệnh khác khác thông qua class cố định ebe-re***
 					$("." + result_to).after(data);
+					jQuery('input[name="' + jsf + '_jsf"]').val(
+						Math.random().toString(32)
+					);
 				},
 			});
 		};
 
 		// nếu có class yêu cầu nạp captcha thì sẽ tiến hành nạp
 		if ($(".ebe-recaptcha").length > 0) {
+			//console.log("ebe-recaptcha");
 			load_ebe_recaptcha();
 		}
 		if ($(".ebe-rehidecaptcha").length > 0) {
+			//console.log("ebe-rehidecaptcha");
 			load_ebe_recaptcha(1);
 		}
 	}
@@ -116,7 +135,7 @@ function action_login_rememberme(key, uri, uri_captcha, id_captcha, max_i) {
 		return false;
 	}
 
-	// lấy thêm hide captchap để cho vào
+	// lấy thêm hide captchap để cho vào trình đăng nhập tự động nếu có yêu cầu
 	if (typeof id_captcha != "undefined" && id_captcha != "") {
 		// nếu chưa có input nào -> captcha chưa được tải xong -> chờ tải
 		if ($("#" + id_captcha + " input").length < 1) {
@@ -127,13 +146,20 @@ function action_login_rememberme(key, uri, uri_captcha, id_captcha, max_i) {
 				return false;
 			}
 			setTimeout(function () {
-				action_login_rememberme(key, uri, uri_captcha, id_captcha, max_i - 1);
+				action_login_rememberme(
+					key,
+					uri,
+					uri_captcha,
+					jsf,
+					id_captcha,
+					max_i - 1
+				);
 			}, 200);
 			return false;
 		}
 		token = get_hide_captcha(token, "#" + id_captcha);
 	}
-	//console.log(token);
+	//return console.log(token);
 
 	//
 	jQuery.ajax({

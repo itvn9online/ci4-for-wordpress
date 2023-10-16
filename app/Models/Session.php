@@ -192,10 +192,18 @@ class Session
             }
         }
 
+        // kiểm tra dữ liệu của js-fill có đúng không
+        $by_jsf = 0;
+        $jsf_code = isset($_POST[RAND_ANTI_SPAM . '_jsf']) ? $_POST[RAND_ANTI_SPAM . '_jsf'] : '';
+        if (!empty($jsf_code) && substr($jsf_code, 0, 2) != '0.') {
+            $by_jsf = 1;
+        }
+
         //
         return $this->afterCheckSpam([
             'by_token' => $by_token,
             'by_code' => $by_code,
+            'by_jsf' => $by_jsf,
             'has_value' => $has_value,
             'no_value' => $no_value,
             'i' => $i,
@@ -260,10 +268,18 @@ class Session
             $by_code = 1;
         }
 
+        // kiểm tra dữ liệu của js-fill có đúng không
+        $by_jsf = 0;
+        $jsf_code = isset($_POST[RAND_ANTI_SPAM . '_jsf']) ? $_POST[RAND_ANTI_SPAM . '_jsf'] : '';
+        if (empty($jsf_code) || substr($jsf_code, 0, 2) != '0.') {
+            $by_jsf = 1;
+        }
+
         //
         return $this->afterCheckSpam([
             'by_token' => $by_token,
             'by_code' => $by_code,
+            'by_jsf' => $by_jsf,
             // gán giá trị mặc định nếu ko tìm thấy -> vì những cái này bắt buộc phải có
             'has_value' => $has_value > 0 ? $has_value : __LINE__,
             'no_value' => $no_value > 0 ? $no_value : __LINE__,
@@ -278,6 +294,16 @@ class Session
      **/
     protected function afterCheckSpam($ops)
     {
+        //
+        if (!isset($_SERVER['HTTP_REFERER']) || strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) === false) {
+            return $this->dieIfSpam([
+                'code' => __LINE__,
+                'rq' => 'Bad request!',
+                'f' => strtolower($ops['f']),
+                'context' => $ops['context'],
+            ]);
+        }
+
         // tổng số input
         $count_anti = count($this->input_anti_spam);
         //echo $count_anti . '<br>' . PHP_EOL;
@@ -301,6 +327,15 @@ class Session
             $this->dieIfSpam([
                 'code' => __LINE__,
                 'sid' => $ops['by_code'],
+                'f' => strtolower($ops['f']),
+            ]);
+        }
+
+        // lỗi khớp js-fill -> javascript không hoạt động hoặc push dữ liệu không khớp -> báo lỗi luôn
+        if ($ops['by_jsf'] > 0) {
+            $this->dieIfSpam([
+                'code' => __LINE__,
+                'jsf' => $ops['by_jsf'],
                 'f' => strtolower($ops['f']),
             ]);
         }

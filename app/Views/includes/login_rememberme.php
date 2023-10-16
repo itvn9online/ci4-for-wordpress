@@ -26,7 +26,7 @@ $base_model->add_js('wp-includes/javascript/login_rememberme.js', [
                 }, 100);
                 return false;
             }
-            action_login_rememberme('<?php echo $wrg_cookie_login_key; ?>', '<?php echo RAND_REMEMBER_LOGIN; ?>', '<?php echo RAND_GET_ANTI_SPAM; ?>');
+            action_login_rememberme('<?php echo $wrg_cookie_login_key; ?>', '<?php echo RAND_REMEMBER_LOGIN; ?>', '<?php echo RAND_GET_ANTI_SPAM; ?>', '<?php echo RAND_ANTI_SPAM; ?>');
         }
         before_login_rememberme(99);
     })();
