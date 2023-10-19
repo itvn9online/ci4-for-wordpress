@@ -3,6 +3,13 @@
 // Libraries
 use App\Libraries\OrderType;
 
+//
+if (isset($_GET['print_data'])) {
+    echo '<!-- ';
+    print_r($data);
+    echo ' -->';
+}
+
 // css riêng cho từng post type (nếu có)
 $base_model->add_css('wp-admin/css/posts_list.css');
 $base_model->add_css('wp-admin/css/' . $post_type . '.css');

@@ -113,6 +113,11 @@ form#listContactByType {
     border-top: 5px #ccc solid;
 }
 
+.admin-copyright .cur,
+.admin-copyright a {
+    color: green;
+}
+
 .table-list tr th.text-center,
 .table-list tr td.text-center {
     text-align: center;

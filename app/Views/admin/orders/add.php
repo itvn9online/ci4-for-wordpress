@@ -7,8 +7,12 @@
 $base_model->add_css('wp-admin/css/' . $post_type . '.css');
 
 //
-//print_r($data);
-//print_r($meta_default);
+if (isset($_GET['print_data'])) {
+    echo '<!-- ';
+    print_r($data);
+    print_r($meta_default);
+    echo ' -->';
+}
 
 //
 include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';

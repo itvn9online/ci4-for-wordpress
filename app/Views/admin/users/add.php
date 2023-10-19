@@ -4,6 +4,13 @@
 use App\Libraries\UsersType;
 
 //
+if (isset($_GET['print_data'])) {
+    echo '<!-- ';
+    print_r($data);
+    echo ' -->';
+}
+
+//
 $base_model->adds_css([
     'wp-admin/css/user_add.css',
     'wp-admin/css/' . $member_type . '_add.css',

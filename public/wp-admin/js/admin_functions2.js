@@ -135,3 +135,37 @@ function create_search_by_label() {
 		$("#admin_menu_result ul").prepend(str);
 	}
 }
+
+/**
+ * Remove a parameter to the URL with JavaScript [duplicate]
+ * https://stackoverflow.com/questions/16941104/remove-a-parameter-to-the-url-with-javascript
+ */
+function removeParam(key, sourceURL) {
+	var rtn = sourceURL.split("?")[0],
+		param,
+		params_arr = [],
+		queryString = sourceURL.indexOf("?") !== -1 ? sourceURL.split("?")[1] : "";
+	if (queryString !== "") {
+		params_arr = queryString.split("&");
+		for (var i = params_arr.length - 1; i >= 0; i -= 1) {
+			param = params_arr[i].split("=")[0];
+			if (param === key) {
+				params_arr.splice(i, 1);
+			}
+		}
+		if (params_arr.length) rtn = rtn + "?" + params_arr.join("&");
+	}
+	return rtn;
+}
+
+// thêm tham số in ra 1 số thông tin khi cần debug code
+function admin_print_debug_data() {
+	var a = removeParam("print_data", window.location.href);
+	if (a.split("?").length > 1) {
+		a += "&";
+	} else {
+		a += "?";
+	}
+	window.location = a + "print_data=1";
+	return false;
+}
