@@ -17,21 +17,33 @@ class Casso
 
     protected static function pathTestLog()
     {
-        return WRITEPATH . '___casso_test.txt';
+        $f = WRITEPATH . '___casso_test.txt';
+        if (!file_exists($f)) {
+            file_put_contents($f, date('r') . '|' . __CLASS__ . ':' . __LINE__ . PHP_EOL, LOCK_EX);
+            chmod($f, DEFAULT_FILE_PERMISSION);
+        }
+        return $f;
     }
 
-    protected static function testInput($v)
+    protected static function testInput($arr)
     {
         $f = self::pathTestLog();
 
         //
-        file_put_contents($f, 'description: ' . $v->description . PHP_EOL, FILE_APPEND);
-        file_put_contents($f, 'amount: ' . $v->amount . PHP_EOL, FILE_APPEND);
-        file_put_contents($f, 'subAccId: ' . $v->subAccId . PHP_EOL, FILE_APPEND);
-        file_put_contents($f, 'bank_sub_acc_id: ' . $v->bank_sub_acc_id . PHP_EOL, FILE_APPEND);
-        file_put_contents($f, 'id: ' . $v->id . PHP_EOL, FILE_APPEND);
-        file_put_contents($f, 'tid: ' . $v->tid . PHP_EOL, FILE_APPEND);
-        chmod($f, DEFAULT_FILE_PERMISSION);
+        /*
+        file_put_contents($f, 'description: ' . $arr->description . PHP_EOL, FILE_APPEND);
+        file_put_contents($f, 'amount: ' . $arr->amount . PHP_EOL, FILE_APPEND);
+        file_put_contents($f, 'subAccId: ' . $arr->subAccId . PHP_EOL, FILE_APPEND);
+        file_put_contents($f, 'bank_sub_acc_id: ' . $arr->bank_sub_acc_id . PHP_EOL, FILE_APPEND);
+        file_put_contents($f, 'id: ' . $arr->id . PHP_EOL, FILE_APPEND);
+        file_put_contents($f, 'tid: ' . $arr->tid . PHP_EOL, FILE_APPEND);
+        */
+        /*
+        foreach ($arr as $k => $v) {
+            file_put_contents($f, $k . ': ' . $v . PHP_EOL, FILE_APPEND);
+        }
+        */
+        file_put_contents($f, json_encode($arr) . PHP_EOL, FILE_APPEND);
     }
 
     // hàm này sẽ trả về object chứa thông tin thanh toán
@@ -44,22 +56,26 @@ class Casso
         ini_set('error_log', WRITEPATH . '/logs/log-' . date('Y-m-d') . '.log');
 
         //
+        $file_log = self::pathTestLog();
+
+        //
         $result = [];
         try {
-            file_put_contents(self::pathTestLog(), $_SERVER['REQUEST_URI'] . PHP_EOL, LOCK_EX);
-            file_put_contents(self::pathTestLog(), __CLASS__ . ':' . __LINE__ . PHP_EOL, FILE_APPEND);
+            // reset nội dung file test
+            file_put_contents($file_log, $_SERVER['REQUEST_URI'] . '|' . __CLASS__ . ':' . __LINE__ . PHP_EOL, LOCK_EX);
+            //file_put_contents($file_log, __CLASS__ . ':' . __LINE__ . PHP_EOL, FILE_APPEND);
 
             // LIVE data
             $data_string = file_get_contents('php://input');
             if (empty($data_string)) {
                 if ($debug_enable !== true) {
-                    file_put_contents(self::pathTestLog(), 'empty data string' . PHP_EOL, FILE_APPEND);
+                    file_put_contents($file_log, 'empty data string|' . __CLASS__ . ':' . __LINE__ . PHP_EOL, FILE_APPEND);
                     return NULL;
                 }
                 // TEST data
-                $data_string = '{"error":0,"data":[{"id":1844887,"tid":"246745","description":"ND:CT DEN:231915042064 MBVCB.2707051024.042064.Bill 4.CT tu 0451001536775 DAO QUOC DAI toi 105877347307 DO XUAN VIET Ngan hang Cong Thuong Viet Nam (VIETINBANK); tai Napas","amount":5000,"cusum_balance":55000,"when":"2022-11-15 22:25:00","bank_sub_acc_id":"105877347307","subAccId":"105877347307","virtualAccount":"","virtualAccountName":"","corresponsiveName":"","corresponsiveAccount":"","corresponsiveBankId":"","corresponsiveBankName":""}]}';
+                //$data_string = '{"error":0,"data":[{"id":1844887,"tid":"246745","description":"ND:CT DEN:231915042064 MBVCB.2707051024.042064.Bill 4.CT tu 0451001536775 DAO QUOC DAI toi 105877347307 DO XUAN VIET Ngan hang Cong Thuong Viet Nam (VIETINBANK); tai Napas","amount":5000,"cusum_balance":55000,"when":"2022-11-15 22:25:00","bank_sub_acc_id":"105877347307","subAccId":"105877347307","virtualAccount":"","virtualAccountName":"","corresponsiveName":"","corresponsiveAccount":"","corresponsiveBankId":"","corresponsiveBankName":""}]}';
             }
-            file_put_contents(self::pathTestLog(), $data_string . PHP_EOL, FILE_APPEND);
+            file_put_contents($file_log, $data_string . PHP_EOL, FILE_APPEND);
 
             //
             //echo $data_string;
@@ -92,10 +108,12 @@ class Casso
                         //
                         $data->data[$k]->order_id = trim($order_id[0]);
                     } else {
+                        file_put_contents($file_log, 'count order_id|' . __CLASS__ . ':' . __LINE__ . PHP_EOL, FILE_APPEND);
                         $data->data[$k] = NULL;
                     }
                 }
             } else {
+                file_put_contents($file_log, 'data.data not isset|' . __CLASS__ . ':' . __LINE__ . PHP_EOL, FILE_APPEND);
                 $data = [];
             }
             $result['data'] = $data;
@@ -111,8 +129,8 @@ class Casso
             //error_log( $e->getTraceAsString() );
         }
         //print( $result );
-        //file_put_contents( self::pathTestLog(), json_encode( $result ), LOCK_EX );
-        //file_put_contents( self::pathTestLog(), $_SERVER[ 'REQUEST_URI' ], FILE_APPEND );
+        //file_put_contents($file_log, json_encode($result), LOCK_EX);
+        //file_put_contents($file_log, $_SERVER['REQUEST_URI'], FILE_APPEND);
         //die( __CLASS__ . ':' . __LINE__ );
 
         //
