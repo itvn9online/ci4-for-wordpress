@@ -28,9 +28,15 @@ var current_protocol = web_link;
 var current_www = web_link;
 if (current_full_domain !== null) {
 	current_full_domain = JSON.parse(current_full_domain);
+	current_full_domain.http_response =
+		current_full_domain.http_response.toString();
+	current_full_domain.www_response =
+		current_full_domain.www_response.toString();
 	console.log("current full domain:", current_full_domain);
-	current_protocol = current_full_domain.http_response;
-	current_www = current_full_domain.http_response;
+	if (current_full_domain.http_response.split("//").length > 1) {
+		current_protocol = current_full_domain.http_response;
+		current_www = current_full_domain.http_response;
+	}
 }
 
 //

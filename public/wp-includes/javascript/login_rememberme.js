@@ -79,9 +79,7 @@ function action_login_rememberme(
 					//console.log(data);
 					// nạp xong thì trả về khối html -> dùng after để khối captcha này hạn chế bị get bởi lệnh khác khác thông qua class cố định ebe-re***
 					$("." + result_to).after(data);
-					jQuery('input[name="' + jsf + '_jsf"]').val(
-						Math.random().toString(32)
-					);
+					jQuery('input[name="' + jsf + '_jsf"]').val(jsf.substr(0, 6));
 				},
 			});
 		};

@@ -156,8 +156,8 @@ class Optimize extends Admin
             //
             $c = file_get_contents($filename, 1);
             //echo $c . '<br>' . PHP_EOL;
-            $c = $this->WGR_update_core_remove_php_comment($c);
             $c = $this->WGR_update_core_remove_php_multi_comment($c);
+            $c = $this->WGR_update_core_remove_php_comment($c);
             //echo $c . '<br>' . PHP_EOL;
             if ($c != '') {
                 $c .= PHP_EOL;

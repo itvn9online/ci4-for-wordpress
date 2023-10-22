@@ -16,7 +16,7 @@ if ($hide_captcha < 1) {
 }
 
 // tạo ID cho thẻ DIV -> để gây khó khăn cho việc xác định thuộc tính của DIV
-$anti_div_id_spam = '_' . RAND_ANTI_SPAM . rand(0, 999);
+$anti_div_id_spam = '_' . RAND_ANTI_SPAM . rand(99, 999);
 
 ?>
 <style>

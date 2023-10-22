@@ -25,7 +25,7 @@ class Casso
         return $f;
     }
 
-    protected static function testInput($arr)
+    public static function testInput($arr)
     {
         $f = self::pathTestLog();
 

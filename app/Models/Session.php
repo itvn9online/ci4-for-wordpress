@@ -195,7 +195,7 @@ class Session
         // kiểm tra dữ liệu của js-fill có đúng không
         $by_jsf = 0;
         $jsf_code = isset($_POST[RAND_ANTI_SPAM . '_jsf']) ? $_POST[RAND_ANTI_SPAM . '_jsf'] : '';
-        if (!empty($jsf_code) && substr($jsf_code, 0, 2) != '0.') {
+        if (!empty($jsf_code) && $jsf_code != substr(RAND_ANTI_SPAM, 0, 6)) {
             $by_jsf = 1;
         }
 
@@ -252,27 +252,29 @@ class Session
             $i++;
         }
 
-        // kiểm tra thời gian hết hạn của token -> bắt buộc
+        // các tham số chỉ cần sai 1 cái là bỏ qua kiểm tra cái sau luôn
         $by_token = 0;
+        $by_code = 0;
+        $by_jsf = 0;
+
+        // kiểm tra thời gian hết hạn của token -> bắt buộc
         $time_out = isset($_POST[RAND_ANTI_SPAM . '_to']) ? $_POST[RAND_ANTI_SPAM . '_to'] : 0;
         $time_token = isset($_POST[RAND_ANTI_SPAM . '_token']) ? $_POST[RAND_ANTI_SPAM . '_token'] : '';
         // nếu không có thời gian hết hạn hoặc hết hạn hoặc token không khớp -> lỗi
         if (empty($time_out) || !is_numeric($time_out) || $time_out < time() || empty($time_token) || md5(RAND_ANTI_SPAM . $time_out) != $time_token) {
             $by_token = 1;
-        }
-
-        // kiểm tra mã session có khớp không
-        $by_code = 0;
-        $rand_code = isset($_POST[RAND_ANTI_SPAM . '_code']) ? $_POST[RAND_ANTI_SPAM . '_code'] : '';
-        if (empty($rand_code) || strlen($rand_code) != $this->rand_len_code || strpos(session_id(), $rand_code) === false) {
-            $by_code = 1;
-        }
-
-        // kiểm tra dữ liệu của js-fill có đúng không
-        $by_jsf = 0;
-        $jsf_code = isset($_POST[RAND_ANTI_SPAM . '_jsf']) ? $_POST[RAND_ANTI_SPAM . '_jsf'] : '';
-        if (empty($jsf_code) || substr($jsf_code, 0, 2) != '0.') {
-            $by_jsf = 1;
+        } else {
+            // kiểm tra mã session có khớp không
+            $rand_code = isset($_POST[RAND_ANTI_SPAM . '_code']) ? $_POST[RAND_ANTI_SPAM . '_code'] : '';
+            if (empty($rand_code) || strlen($rand_code) != $this->rand_len_code || strpos(session_id(), $rand_code) === false) {
+                $by_code = 1;
+            } else {
+                // kiểm tra dữ liệu của js-fill có đúng không
+                $jsf_code = isset($_POST[RAND_ANTI_SPAM . '_jsf']) ? $_POST[RAND_ANTI_SPAM . '_jsf'] : '';
+                if (empty($jsf_code) || $jsf_code != substr(RAND_ANTI_SPAM, 0, 6)) {
+                    $by_jsf = 1;
+                }
+            }
         }
 
         //
@@ -321,18 +323,16 @@ class Session
                 'f' => strtolower($ops['f']),
             ]);
         }
-
         // lỗi khớp session id -> báo lỗi luôn
-        if ($ops['by_code'] > 0) {
+        else if ($ops['by_code'] > 0) {
             $this->dieIfSpam([
                 'code' => __LINE__,
                 'sid' => $ops['by_code'],
                 'f' => strtolower($ops['f']),
             ]);
         }
-
         // lỗi khớp js-fill -> javascript không hoạt động hoặc push dữ liệu không khớp -> báo lỗi luôn
-        if ($ops['by_jsf'] > 0) {
+        else if ($ops['by_jsf'] > 0) {
             $this->dieIfSpam([
                 'code' => __LINE__,
                 'jsf' => $ops['by_jsf'],

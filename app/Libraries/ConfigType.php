@@ -145,7 +145,7 @@ class ConfigType
                 'enable_vue_js' => 'Sử dụng VueJS',
                 'disable_fontawesome4' => 'Không nạp font Awesome 4',
                 'include_flatsome' => 'Sử dụng thư viện JS của Flatsome',
-                'hide_captcha' => 'Hạp hide-captcha',
+                'hide_captcha' => 'Sử dụng hide-captcha',
                 'enable_hotlink_protection' => 'HotLink protection',
                 'enable_device_protection' => 'Device logged protection',
                 'logout_device_protection' => 'Device logout protection',
