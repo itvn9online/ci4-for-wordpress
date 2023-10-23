@@ -79,7 +79,7 @@ $anti_div_id_spam = '_' . RAND_ANTI_SPAM . rand(99, 999);
         // dùng để xác thực session id hiện tại
         'code' => $rand_code,
         // js fill -> dùng để xác thực người dùng có bật javascript ko -> ko bật thì trường này sẽ trống
-        'jsf' => '',
+        'jsf' => $ops['fill_fjs'] === false ? '' : substr(RAND_ANTI_SPAM, 0, 6),
     ] as $k => $v) {
     ?>
         <input type="text" name="<?php echo RAND_ANTI_SPAM; ?>_<?php echo $k; ?>" placeholder="<?php echo $k; ?>" value="<?php echo $v; ?>" aria-required="true" required />

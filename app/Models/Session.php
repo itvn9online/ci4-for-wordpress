@@ -70,10 +70,26 @@ class Session
      * time_expired -> thêm thời gian hết hạn cho hide-captcha -> mặc định 5m -> trường hợp nào cần lâu hơn thì truyền vào theo tham số
      * hide_captcha: khi bật chế độ này, input chỉ định trả về alert sẽ không được in ra -> lệnh sẽ trả về mã json
      **/
-    public function anti_spam_field($time_expired = ANTI_SPAM_EXPIRED, $hide_captcha = 0)
+    public function anti_spam_field($time_expired = ANTI_SPAM_EXPIRED, $hide_captcha = 0, $ops = [])
     {
+        // fill sẵn dữ liệu cho input fjs nếu chạy qua popup
+        if (!isset($ops['fill_fjs'])) {
+            $ops['fill_fjs'] = false;
+        }
+
+        //
         include VIEWS_PATH . 'includes/anti_spam.php';
         return true;
+    }
+
+    /**
+     * Trả về input nhưng fill sẵn dữ liệu cho input fjs -> dùng cho popup
+     **/
+    public function anti_spam_popup($time_expired = ANTI_SPAM_EXPIRED, $hide_captcha = 0)
+    {
+        return $this->anti_spam_field($time_expired, $hide_captcha, [
+            'fill_fjs' => true
+        ]);
     }
 
     /**

@@ -365,7 +365,7 @@ class Users extends Admin
             /*
              * bảo mật quyền cho tài khoản admin cấp cao
              */
-            //print_r( $data );
+            // print_r($data);
             // nếu tài khoản đang là admin
             if (
                 $data['member_type'] == UsersType::ADMIN &&
@@ -379,6 +379,7 @@ class Users extends Admin
                     ]
                 ));
             }
+            //print_r($data);
 
             // sửa tài khoản thì không nhập pass
             $data['ci_show_pass'] = $data['ci_pass'];
@@ -412,16 +413,7 @@ class Users extends Admin
             ];
             $data['ci_pass'] = $rand_password[rand(0, count($rand_password) - 1)] . '@' . substr(md5(time()), 0, 10);
         }
-        //print_r( $data );
-        //die( 'dgh dfsfs' );
-
-
-        //
-        if ($this->debug_enable === true) {
-            echo '<!-- ';
-            print_r($data);
-            echo ' -->';
-        }
+        //print_r($data);
 
         //
         $this->teamplate_admin['content'] = view(
@@ -442,11 +434,11 @@ class Users extends Admin
         $data = $this->MY_post('data');
         //echo $this->controller_slug . '<br>' . PHP_EOL;
         //echo $this->member_type . '<br>' . PHP_EOL;
-        //print_r( $data );
+        //print_r($data);
         if ($data['member_type'] == '') {
             $data['member_type'] = $this->member_type;
         }
-        //print_r( $data );
+        //print_r($data);
         //die( __CLASS__ . ':' . __LINE__ );
 
         //
@@ -512,7 +504,7 @@ class Users extends Admin
     protected function update($id)
     {
         $data = $this->MY_post('data');
-        //print_r( $data );
+        // print_r($data);
         //die( __CLASS__ . ':' . __LINE__ );
 
         // nếu có mật khẩu -> đổi riêng mật khẩu
@@ -522,7 +514,7 @@ class Users extends Admin
             $data = [
                 'ci_pass' => $data['ci_pass']
             ];
-            //print_r( $data );
+            // print_r($data);
             //die( __CLASS__ . ':' . __LINE__ );
         }
         // các thông tin khác thì cập nhật bình thường
@@ -559,7 +551,7 @@ class Users extends Admin
         }
 
         //
-        //print_r( $data );
+        // print_r($data);
         $result_id = $this->user_model->update_member($id, $data);
 
         //
@@ -623,12 +615,97 @@ class Users extends Admin
             $this->base_model->alert($msg, 'warning');
         }
 
+        // lấy thông tin có tính unique hiện tại của user -> thay đổi nó đi để tránh trùng lặp nếu sau đó muốn tạo tk
+        $select_col = implode(',', [
+            'user_login',
+            'user_email',
+            'user_phone',
+        ]);
+        //$select_col = '*';
+
+        //
+        $current_data = $this->base_model->select(
+            $select_col,
+            'users',
+            array(
+                // các kiểu điều kiện where
+                'ID' => $id,
+            ),
+            array(
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => 1
+            )
+        );
+        //print_r($current_data);
+
+        //
+        $str_trash = '___trash___';
+        $str_time = date('dHis');
+
+        // nếu là restore
+        if ($is_deleted == DeletedStatus::FOR_DEFAULT) {
+            // bỏ phần trash trong thông tin unique đi
+            foreach ($current_data as $k => $v) {
+                $current_data[$k] = explode($str_trash, $v)[0];
+            }
+            //print_r($current_data);
+            //die(__CLASS__ . ':' . __LINE__);
+
+            // kiểm tra xem thông tin này có bị trùng không
+            $check_data = $this->base_model->select(
+                'ID',
+                'users',
+                array(
+                    // các kiểu điều kiện where
+                    'ID !=' => $id,
+                ),
+                array(
+                    'where_or' => array(
+                        $current_data,
+                    ),
+                    // hiển thị mã SQL để check
+                    'show_query' => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    //'get_query' => 1,
+                    // trả về COUNT(column_name) AS column_name
+                    //'selectCount' => 'ID',
+                    // trả về tổng số bản ghi -> tương tự mysql num row
+                    //'getNumRows' => 1,
+                    //'offset' => 0,
+                    'limit' => 1
+                )
+            );
+            //print_r($check_data);
+            //die(__CLASS__ . ':' . __LINE__);
+            // nếu trùng rồi thì thôi, không cho restore nữa
+            if (!empty($check_data)) {
+                $this->base_model->alert('Thông tin tài khoản đã được sử dụng #' . $check_data['ID'], 'error');
+            }
+            //die(__CLASS__ . ':' . __LINE__);
+        } else {
+            // còn lại sẽ thêm trash vào thông tin
+            foreach ($current_data as $k => $v) {
+                $current_data[$k] = $v . $str_trash . $str_time;
+            }
+        }
+
+        //
+        $current_data['is_deleted'] = $is_deleted;
+        //print_r($current_data);
+        //die(__CLASS__ . ':' . __LINE__);
+
         //
         $update = $this->user_model->update_member(
             $id,
-            [
-                'is_deleted' => $is_deleted,
-            ]
+            $current_data
         );
 
         // nếu update thành công -> gửi lệnh javascript để ẩn bài viết bằng javascript
@@ -868,7 +945,7 @@ class Users extends Admin
                 'limit' => 1
             )
         );
-        //print_r( $data );
+        // print_r($data);
 
         //
         if (empty($data)) {
@@ -877,7 +954,7 @@ class Users extends Admin
 
         //
         $data = $this->sync_login_data($data);
-        //print_r( $data );
+        // print_r($data);
 
         // lưu thông tin đăng nhập cũ
         $this->MY_session('admin_login_as', $this->session_data);
