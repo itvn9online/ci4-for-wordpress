@@ -123,8 +123,10 @@ var _global_js_eb = {
 				.split("&set_device=")[1]
 				.split("&")[0]
 				.split("#")[0];
+			/*
 		} else {
 			current_device = g_func.getc("click_set_device_style");
+			*/
 		}
 
 		// for mobile

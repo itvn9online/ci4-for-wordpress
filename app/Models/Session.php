@@ -567,4 +567,31 @@ class Session
         }
         return $uri;
     }
+
+    /**
+     * kiểm tra tính hợp lệ của 1 post request
+     * 1 số trường hợp chỉ chấp nhận method post và HTTP_REFERER cũng phải trong whitelist mới có thể submit
+     **/
+    public function checkPostReferer($line, $check_referer = true, $whitelist = [])
+    {
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            return [
+                'code' => __LINE__ . ':' . $line,
+                'error' => 'Bad request!',
+            ];
+        }
+
+        //
+        if ($check_referer === true) {
+            if (!isset($_SERVER['HTTP_REFERER']) || strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) === false) {
+                return [
+                    'code' => __LINE__ . ':' . $line,
+                    'error' => 'Blocked request!',
+                ];
+            }
+        }
+
+        //
+        return true;
+    }
 }

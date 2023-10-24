@@ -247,120 +247,23 @@ var g_func = {
 	},
 
 	setc: function (name, value, seconds, days, set_domain) {
-		var expires = "";
-
-		// tính theo ngày -> số giây trong ngày luôn
-		if (typeof days == "number" && days > 0) {
-			seconds = days * 24 * 3600;
-		} else {
+		if (typeof seconds != "number") {
+			seconds = 0;
+		}
+		if (typeof days != "number") {
 			days = 0;
-		}
-
-		//
-		//		if ( typeof seconds == 'number' && seconds > 0 ) {
-		//		if ( typeof seconds == 'number' && seconds != 0 ) {
-		if (typeof seconds == "number") {
-			// chuyển sang dạng timestamp
-			seconds = seconds * 1000;
-
-			var date = new Date();
-			date.setTime(date.getTime() + seconds);
-			expires = "; expires=" + date.toGMTString();
-		}
-
-		// set cookie theo domain
-		var cdomain = "";
-		if (typeof set_domain != "undefined") {
-			if (set_domain.toString().split(".").length == 1) {
-				cdomain = window.location.host || document.domain || "";
-			} else {
-				cdomain = set_domain;
-			}
-
-			//
-			cdomain = cdomain.split(".");
-			//			console.log(cdomain);
-
-			// bỏ www đi -> áp dụng cho tất cả các domain
-			if (cdomain[0] == "www") {
-				cdomain[0] = "";
-				cdomain = cdomain.join(".");
-			}
-			// thêm dấu . vào đầu domain
-			else if (cdomain[0] != "") {
-				cdomain = "." + cdomain.join(".");
-			}
-			// có dấu . ở đầu rồi thì thôi
-			else {
-				cdomain = cdomain.join(".");
-			}
-			//			console.log(cdomain);
-
-			//
-			document.cookie =
-				encodeURIComponent(name) +
-				"=" +
-				encodeURIComponent(value) +
-				expires +
-				";domain=" +
-				cdomain +
-				";path=/";
 		} else {
-			document.cookie =
-				encodeURIComponent(name) +
-				"=" +
-				encodeURIComponent(value) +
-				expires +
-				";path=/";
+			days = days * 24 * 3600;
 		}
 
 		//
-		if (WGR_check_option_on(WGR_config.cf_tester_mode))
-			console.log(
-				"Set cookie: " +
-					name +
-					" with value: " +
-					value +
-					" for domain: " +
-					cdomain +
-					" time: " +
-					seconds +
-					" (" +
-					days +
-					" day)"
-			);
-	},
-	getc: function (name) {
-		var nameEQ = encodeURIComponent(name) + "=",
-			ca = document.cookie.split(";"),
-			re = "";
-		for (var i = 0; i < ca.length; i++) {
-			var c = ca[i];
-			while (c.charAt(0) === " ") {
-				c = c.substring(1, c.length);
-			}
-			if (c.indexOf(nameEQ) === 0) {
-				re = decodeURIComponent(c.substring(nameEQ.length, c.length));
-			}
-		}
+		var ex = Math.floor(Date.now() / 1000) + seconds + days;
 
 		//
-		if (re == "") {
-			return null;
-		}
-
-		return re;
+		localStorage.setItem(name, seconds.toString() + "|" + value);
 	},
-
-	delck: function (name) {
-		g_func.setc(name, "", 0 - 24 * 3600 * 7);
-
-		//		document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-
-		// v1 -> lỗi
-		//		g_func.setc(name, "", -1);
-		//		g_func.setc(name, "", -1, 0, true);
-	},
+	getc: function (name) {},
+	delck: function (name) {},
 
 	text_only: function (str) {
 		if (typeof str == "undefined" || str == "") {

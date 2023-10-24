@@ -1,10 +1,3 @@
-<?php
-
-//
-//print_r( $data );
-$data['comment_content'] = nl2br($data['comment_content']);
-
-?>
 <ul class="admin-breadcrumb">
     <li><a :href="'admin/' + vue_data.controller_slug">Danh sách {{vue_data.comment_name}}</a></li>
     <li>Chi tiết {{vue_data.comment_name}}</li>
@@ -14,7 +7,7 @@ $data['comment_content'] = nl2br($data['comment_content']);
         <div class="form-horizontal">
             <div v-for="(v, k) in data" class="control-group">
                 <label class="control-label">{{k.replace(/\_/gi, ' ')}}</label>
-                <div class="controls">{{v}}</div>
+                <div :class="'controls-' + k" class="controls">{{v}}</div>
             </div>
         </div>
     </div>
@@ -34,5 +27,9 @@ $base_model->JSON_parse(
     WGR_vuejs('#for_vue', {
         data: json_data,
         vue_data: vue_data,
+    }, function() {
+        //console.log(Math.random());
+        // dùng vuejs nên đoạn xử lý html phải viết thêm vào mới hiển thị được
+        $('.controls-comment_content').html($('.controls-comment_content').html().split("\n").join('<br>'));
     });
 </script>

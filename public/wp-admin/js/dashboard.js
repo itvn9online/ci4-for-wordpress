@@ -102,9 +102,7 @@ WGR_vuejs("#app", vue_data);
 
 //
 function dashboard_current_timestamp() {
-	var currentDate = new Date();
-	var timestamp = currentDate.getTime();
-	return Math.ceil(timestamp / 1000);
+	return Math.floor(Date.now() / 1000);
 }
 
 // cập nhật full URL nếu chưa có

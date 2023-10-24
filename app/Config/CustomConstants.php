@@ -413,6 +413,12 @@ defined('WGR_CUS_POST_PERMALINK') || define('WGR_CUS_POST_PERMALINK', []);
 //print_r(WGR_CUS_POST_PERMALINK);
 
 /**
+ * Với 1 số post type, nếu sử dụng ID làm url chính thì có thể bỏ qua chế độ kiểm tra slug do ID là tham số không thể trùng nhau
+ * Khai báo trong file functions.php của theme để phủ định tham số mặc định ở đây
+ */
+defined('POST_ID_PERMALINK') || define('POST_ID_PERMALINK', []);
+
+/**
  * Tiền tố cho bảng database.
  * Chỉ sử dụng số, ký tự và dấu gạch dưới!
  **/

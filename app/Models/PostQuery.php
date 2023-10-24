@@ -82,7 +82,7 @@ class PostQuery extends PostMeta
 
             //
             if ($check_slug === true) {
-                $check_slug = $this->base_model->select(
+                $checking_slug = $this->base_model->select(
                     'ID, post_type',
                     $this->table,
                     [
@@ -106,11 +106,11 @@ class PostQuery extends PostMeta
                         'limit' => 1
                     ]
                 );
-                //print_r( $check_slug );
-                if (!empty($check_slug)) {
+                //print_r( $checking_slug );
+                if (!empty($checking_slug)) {
                     return [
                         'code' => __LINE__,
-                        'error' => __FUNCTION__ . ' Slug đã được sử dụng ở ' . $check_slug['post_type'] . ' #' . $check_slug['ID'] . ' (' . $data['post_name'] . ')',
+                        'error' => __FUNCTION__ . ' Slug đã được sử dụng ở ' . $checking_slug['post_type'] . ' #' . $checking_slug['ID'] . ' (' . $data['post_name'] . ')',
                     ];
                 }
                 //die( __CLASS__ . ':' . __LINE__ );
@@ -175,10 +175,12 @@ class PostQuery extends PostMeta
         return $result_id;
     }
 
-    public function update_post($post_id, $data, $where = [], $data_meta = [], $clear_meta = true, $post_type = '')
+    public function update_post($post_id, $data, $where = [], $data_meta = [], $clear_meta = true, $post_type = '', $check_slug = true)
     {
         // tiêu đề gắn thêm khi post bị xóa
-        $post_trash_title = '___' . PostType::DELETED;
+        //$post_trash_title = '___' . PostType::DELETED . '___';
+        $str_trash = '___trash___';
+        $str_time = date('dHis');
 
         //
         if (isset($data['post_name'])) {
@@ -187,7 +189,8 @@ class PostQuery extends PostMeta
             }
             if ($data['post_name'] != '') {
                 if (isset($data['post_status']) && $data['post_status'] != PostType::DELETED) {
-                    $data['post_name'] = str_replace($post_trash_title, '', $data['post_name']);
+                    //$data['post_name'] = str_replace($post_trash_title, '', $data['post_name']);
+                    $data['post_name'] = explode($str_trash, $data['post_name'])[0];
                     $data['post_name'] = $this->base_model->_eb_non_mark_seo($data['post_name']);
                 }
                 $data['post_name'] = str_replace('.', '-', $data['post_name']);
@@ -205,17 +208,31 @@ class PostQuery extends PostMeta
         //print_r( $data );
         //print_r( $where );
 
+        //
+        if (isset($data['post_type'])) {
+            $post_type = $data['post_type'];
+        } else if (isset($where['post_type'])) {
+            $post_type = $where['post_type'];
+        }
+
+        // Nếu post type này sử ID làm URL chính thì bỏ qua chế độ check slug
+        //print_r(POST_ID_PERMALINK);
+        if (in_array($post_type, POST_ID_PERMALINK)) {
+            $check_slug = false;
+        }
+
         // nếu đang là xóa bài viết thì bỏ qua việc kiểm tra slug
         if (isset($data['post_status']) && $data['post_status'] == PostType::DELETED) {
             if (isset($data['post_name']) && $data['post_name'] != '') {
-                if (strpos($data['post_name'], $post_trash_title) === false) {
-                    $data['post_name'] = $this->base_model->_eb_non_mark_seo($data['post_name']);
-                    $data['post_name'] .= $post_trash_title;
-                }
+                //if (strpos($data['post_name'], $post_trash_title) === false) {
+                $data['post_name'] = $this->base_model->_eb_non_mark_seo($data['post_name']);
+                //$data['post_name'] .= $post_trash_title;
+                $data['post_name'] .= $str_trash . $str_time;
+                //}
             }
         }
         // kiểm tra xem có trùng slug không
-        else if (isset($data['post_name']) && $data['post_name'] != '') {
+        else if ($check_slug === true && isset($data['post_name']) && $data['post_name'] != '') {
             // post đang cần update
             $current_slug = $this->base_model->select(
                 '*',
@@ -241,7 +258,7 @@ class PostQuery extends PostMeta
                 }
 
                 //
-                $check_slug = $this->base_model->select(
+                $checking_slug = $this->base_model->select(
                     '*',
                     //'ID, post_type',
                     $this->table,
@@ -268,14 +285,14 @@ class PostQuery extends PostMeta
                         'limit' => 1
                     ]
                 );
-                //print_r( $check_slug );
-                if (!empty($check_slug)) {
-                    //print_r($check_slug);
+                //print_r( $checking_slug );
+                if (!empty($checking_slug)) {
+                    //print_r($checking_slug);
 
                     //
                     return [
                         'code' => __LINE__,
-                        'error' => __FUNCTION__ . ' Slug đã được sử dụng ở ' . $check_slug['post_type'] . ' #' . $check_slug['ID'] . ' (' . $data['post_name'] . ')',
+                        'error' => __FUNCTION__ . ' Slug đã được sử dụng ở ' . $checking_slug['post_type'] . ' #' . $checking_slug['ID'] . ' (' . $data['post_name'] . ')',
                     ];
                 }
                 //die( __CLASS__ . ':' . __LINE__ );
@@ -305,13 +322,6 @@ class PostQuery extends PostMeta
                 'debug_backtrace' => debug_backtrace()[1]['function']
             ]
         );
-
-        //
-        if (isset($data['post_type'])) {
-            $post_type = $data['post_type'];
-        } else if (isset($where['post_type'])) {
-            $post_type = $where['post_type'];
-        }
 
         //
         //print_r($_POST);

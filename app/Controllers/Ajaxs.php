@@ -23,23 +23,9 @@ class Ajaxs extends Layout
      **/
     protected function checkReferer($line)
     {
-        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-            $this->result_json_type(
-                [
-                    'code' => $line,
-                    'error' => 'Bad request!',
-                ]
-            );
-        }
-
-        //
-        if (!isset($_SERVER['HTTP_REFERER']) || strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) === false) {
-            $this->result_json_type(
-                [
-                    'code' => __LINE__,
-                    'error' => 'Blocked request!',
-                ]
-            );
+        $result = $this->base_model->checkPostReferer($line);
+        if ($result !== true) {
+            $this->result_json_type($result);
         }
 
         //

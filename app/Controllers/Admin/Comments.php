@@ -85,7 +85,8 @@ class Comments extends Admin
         $where = [
             'comments.is_deleted' => $by_is_deleted,
             'comments.comment_type' => $this->comment_type,
-            'comments.lang_key' => $this->lang_key
+            // phần comment, contact không lọc theo lang -> dễ lọt thông tin
+            //'comments.lang_key' => $this->lang_key
         ];
 
         // tìm kiếm theo từ khóa nhập vào

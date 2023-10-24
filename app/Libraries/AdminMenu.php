@@ -149,15 +149,6 @@ class AdminMenu
                     ],
                 ]
             ],
-            'admin/contacts' => [
-                'role' => [
-                    UsersType::AUTHOR,
-                    UsersType::MOD,
-                ],
-                'name' => CommentType::typeList(CommentType::CONTACT),
-                'icon' => 'fa fa-envelope-o',
-                'arr' => []
-            ],
             'admin/comments' => [
                 'role' => [
                     UsersType::AUTHOR,
@@ -165,7 +156,17 @@ class AdminMenu
                 ],
                 'name' => CommentType::typeList(CommentType::COMMENT),
                 'icon' => 'fa fa-comment-o',
-                'arr' => []
+                'arr' => [
+                    'admin/contacts' => [
+                        'role' => [
+                            UsersType::AUTHOR,
+                            UsersType::MOD,
+                        ],
+                        'name' => CommentType::typeList(CommentType::CONTACT),
+                        'icon' => 'fa fa-envelope-o',
+                        //'arr' => []
+                    ],
+                ]
             ],
             'admin/menus' => [
                 'role' => [
