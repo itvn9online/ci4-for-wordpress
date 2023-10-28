@@ -3,12 +3,19 @@
 namespace App\Models;
 
 //
-//use App\Libraries\DeletedStatus;
+use App\Libraries\DeletedStatus;
 use App\Libraries\UsersType;
 
 //
 class User extends UserMeta
 {
+    // các dữ liệu dạng unique -> sẽ thêm trash khi xóa, bỏ trash khi restore
+    public $unique_data = [
+        'user_login',
+        'user_email',
+        'user_phone',
+    ];
+
     public function __construct()
     {
         parent::__construct();
@@ -162,6 +169,75 @@ class User extends UserMeta
         //print_r($data);
         //print_r( $where );
         //die(__CLASS__ . ':' . __LINE__);
+
+        // xử lý dữ liệu dạng unique
+        if (isset($data['is_deleted'])) {
+            $str_trash = DeletedStatus::FOR_TRASH;
+            $str_time = date('dHis');
+
+            //
+            if ($data['is_deleted'] == DeletedStatus::FOR_DEFAULT) {
+                $current_data = [];
+
+                // nếu là restore -> bỏ trash trong các thuộc tinh unique
+                foreach ($this->unique_data as $v) {
+                    if (isset($data[$v])) {
+                        $data[$v] = explode($str_trash, $data[$v])[0];
+
+                        //
+                        if ($data[$v] != '') {
+                            $current_data[$v] = $data[$v];
+                        }
+                    }
+                }
+
+                // kiểm tra xem thông tin này có bị trùng không
+                if (!empty($current_data)) {
+                    $check_data = $this->base_model->select(
+                        'ID',
+                        'users',
+                        array(
+                            // các kiểu điều kiện where
+                            'ID !=' => $id,
+                        ),
+                        array(
+                            'where_or' => array(
+                                $current_data,
+                            ),
+                            // hiển thị mã SQL để check
+                            //'show_query' => 1,
+                            // trả về câu query để sử dụng cho mục đích khác
+                            //'get_query' => 1,
+                            // trả về COUNT(column_name) AS column_name
+                            //'selectCount' => 'ID',
+                            // trả về tổng số bản ghi -> tương tự mysql num row
+                            //'getNumRows' => 1,
+                            //'offset' => 0,
+                            'limit' => 1
+                        )
+                    );
+                    //print_r($check_data);
+                    //die(__CLASS__ . ':' . __LINE__);
+                    // nếu trùng rồi thì thôi, không cho restore nữa
+                    if (!empty($check_data)) {
+                        return [
+                            'code' => __LINE__,
+                            'error' => 'Thông tin tài khoản đã được sử dụng #' . $check_data['ID'],
+                        ];
+                    }
+                }
+            } else {
+                // nếu là xóa -> thêm trash và các thuộc tính unique
+                foreach ($this->unique_data as $v) {
+                    if (isset($data[$v])) {
+                        // xóa trash trước đấy đi đã
+                        $data[$v] = explode($str_trash, $data[$v])[0];
+                        // sau đó mới thêm
+                        $data[$v] = $data[$v] . $str_trash . $str_time;
+                    }
+                }
+            }
+        }
 
         //
         $result_update = $this->base_model->update_multiple($this->table, $data, $where, [

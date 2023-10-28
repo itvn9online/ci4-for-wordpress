@@ -355,7 +355,7 @@ class Guest extends Csrf
             $this->base_model->antiRequiredSpam();
 
             // đăng ký tài khoản bắt buộc phải có captcha
-            $this->check_required_captcha();
+            //$this->check_required_captcha();
 
             //
             if ($this->has_captcha === false) {

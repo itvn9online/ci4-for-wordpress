@@ -77,7 +77,6 @@ class PostType
             self::DRAFT => 'Bản nháp',
             self::DELETED => 'XÓA',
             //self::INHERIT => '',
-
         );
     }
 

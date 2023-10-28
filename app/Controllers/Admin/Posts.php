@@ -934,14 +934,11 @@ class Posts extends Admin
         //print_r( $data );
         //die( __CLASS__ . ':' . __LINE__ );
 
-        // tiêu đề gắn thêm khi post bị xóa
-        $post_trash_title = '___' . PostType::DELETED;
-
-        //
-        if ($post_status == PostType::DELETED) {
+        // lấy slug nếu chưa có -> lấy để lệnh update post còn thêm hoặc xóa trash (tùy request hiện tại)
+        if (!isset($data['post_name']) || $data['post_name'] == '') {
             $check_slug = $this->base_model->select('post_name', $this->table, [
                 'ID' => $id,
-                'post_status !=' => $post_status,
+                // 'post_status !=' => $post_status,
             ], [
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
@@ -951,18 +948,14 @@ class Posts extends Admin
                 'limit' => 1
             ]);
             //print_r( $check_slug );
-            //var_dump( strpos( $check_slug[ 'post_name' ], '___' . $post_status ) );
-            if (
-                !empty($check_slug) && $check_slug['post_name'] != '' &&
-                strpos($check_slug['post_name'], $post_trash_title) === false
-            ) {
-                $data['post_name'] = $this->base_model->_eb_non_mark_seo($check_slug['post_name']);
-                $data['post_name'] .= $post_trash_title;
+            if (!empty($check_slug)) {
+                $data['post_name'] = $check_slug['post_name'];
             }
         }
         //print_r( $data );
         //die( __CLASS__ . ':' . __LINE__ );
 
+        //
         $update = $this->post_model->update_post($id, $data, [
             'post_type' => $this->post_type,
         ]);
@@ -1136,6 +1129,51 @@ class Posts extends Admin
         $ids = $this->get_ids();
 
         //
+        $current_data = $this->base_model->select(
+            'ID, post_name, post_type',
+            $this->table,
+            [],
+            array(
+                'where_in' => array(
+                    'ID' => $ids
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => -1
+            )
+        );
+
+        // chạy vòng lặp -> thực hiện khóa từng post
+        foreach ($current_data as $v) {
+            //print_r($v);
+            $id = $v['ID'];
+            unset($v['ID']);
+
+            //
+            $v['post_status'] = $post_status;
+            //print_r($v);
+            //continue;
+
+            //
+            $update = $this->post_model->update_post(
+                $id,
+                $v
+            );
+        }
+
+        //
+        //print_r($current_data);
+        //die(__CLASS__ . ':' . __LINE__);
+
+        //
+        /*
         $update = $this->base_model->update_multiple($this->table, [
             // SET
             'post_status' => $post_status
@@ -1150,6 +1188,7 @@ class Posts extends Admin
             // trả về câu query để sử dụng cho mục đích khác
             //'get_query' => 1,
         ]);
+        */
 
         // nếu update thành công -> gửi lệnh javascript để ẩn bài viết bằng javascript
         if ($update === true && $post_status == PostType::REMOVED && ALLOW_USING_MYSQL_DELETE === true) {

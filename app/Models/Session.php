@@ -112,7 +112,7 @@ class Session
         }
 
         // chưa đăng nhập thì có cache nên sẽ trả về đoạn html, cache sau đó sẽ nạp qua ajax
-        echo '<div class="ebe-recaptcha"></div>';
+        echo '<div class="ebe-recaptcha d-none"></div>';
         return true;
     }
 
@@ -129,7 +129,7 @@ class Session
         }
 
         // chưa đăng nhập thì có cache nên sẽ trả về đoạn html, cache sau đó sẽ nạp qua ajax
-        echo '<div class="ebe-rehidecaptcha"></div>';
+        echo '<div class="ebe-rehidecaptcha d-none"></div>';
         return true;
     }
 

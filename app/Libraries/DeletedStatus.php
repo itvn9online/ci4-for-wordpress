@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Libraries;
 
 class DeletedStatus
@@ -9,4 +10,7 @@ class DeletedStatus
 
     const TERM_SHOW = '0';
     const TERM_HIDE = '1';
+
+    // tham số sẽ thêm vào các thông số có tính unique khi xóa -> và bỏ đi lúc restore
+    const FOR_TRASH = '___trash___';
 }

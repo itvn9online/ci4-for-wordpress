@@ -616,11 +616,7 @@ class Users extends Admin
         }
 
         // lấy thông tin có tính unique hiện tại của user -> thay đổi nó đi để tránh trùng lặp nếu sau đó muốn tạo tk
-        $select_col = implode(',', [
-            'user_login',
-            'user_email',
-            'user_phone',
-        ]);
+        $select_col = implode(',', $this->user_model->unique_data);
         //$select_col = '*';
 
         //
@@ -644,63 +640,12 @@ class Users extends Admin
                 'limit' => 1
             )
         );
-        //print_r($current_data);
-
-        //
-        $str_trash = '___trash___';
-        $str_time = date('dHis');
-
-        // nếu là restore
-        if ($is_deleted == DeletedStatus::FOR_DEFAULT) {
-            // bỏ phần trash trong thông tin unique đi
-            foreach ($current_data as $k => $v) {
-                $current_data[$k] = explode($str_trash, $v)[0];
-            }
-            //print_r($current_data);
-            //die(__CLASS__ . ':' . __LINE__);
-
-            // kiểm tra xem thông tin này có bị trùng không
-            $check_data = $this->base_model->select(
-                'ID',
-                'users',
-                array(
-                    // các kiểu điều kiện where
-                    'ID !=' => $id,
-                ),
-                array(
-                    'where_or' => array(
-                        $current_data,
-                    ),
-                    // hiển thị mã SQL để check
-                    'show_query' => 1,
-                    // trả về câu query để sử dụng cho mục đích khác
-                    //'get_query' => 1,
-                    // trả về COUNT(column_name) AS column_name
-                    //'selectCount' => 'ID',
-                    // trả về tổng số bản ghi -> tương tự mysql num row
-                    //'getNumRows' => 1,
-                    //'offset' => 0,
-                    'limit' => 1
-                )
-            );
-            //print_r($check_data);
-            //die(__CLASS__ . ':' . __LINE__);
-            // nếu trùng rồi thì thôi, không cho restore nữa
-            if (!empty($check_data)) {
-                $this->base_model->alert('Thông tin tài khoản đã được sử dụng #' . $check_data['ID'], 'error');
-            }
-            //die(__CLASS__ . ':' . __LINE__);
-        } else {
-            // còn lại sẽ thêm trash vào thông tin
-            foreach ($current_data as $k => $v) {
-                $current_data[$k] = $v . $str_trash . $str_time;
-            }
-        }
+        // print_r($current_data);
 
         //
         $current_data['is_deleted'] = $is_deleted;
-        //print_r($current_data);
-        //die(__CLASS__ . ':' . __LINE__);
+        // print_r($current_data);
+        // die(__CLASS__ . ':' . __LINE__);
 
         //
         $update = $this->user_model->update_member(
@@ -708,8 +653,12 @@ class Users extends Admin
             $current_data
         );
 
+        //
+        if (isset($update['error'])) {
+            $this->base_model->alert($update['error'], 'error');
+        }
         // nếu update thành công -> gửi lệnh javascript để ẩn bài viết bằng javascript
-        if ($update === true) {
+        else if ($update === true) {
             if ($is_deleted == DeletedStatus::REMOVED && ALLOW_USING_MYSQL_DELETE === true) {
                 return $update;
             }
@@ -835,8 +784,61 @@ class Users extends Admin
     public function before_all_delete_restore($is_deleted, $where = [])
     {
         $ids = $this->get_ids();
+        //print_r($ids);
+
+        // lấy thông tin có tính unique hiện tại của user -> thay đổi nó đi để tránh trùng lặp nếu sau đó muốn tạo tk
+        $select_col = implode(',', $this->user_model->unique_data);
+        //$select_col = '*';
 
         //
+        $current_data = $this->base_model->select(
+            'ID,' . $select_col,
+            'users',
+            $where,
+            array(
+                'where_in' => array(
+                    'ID' => $ids
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => -1
+            )
+        );
+
+        // chạy vòng lặp -> thực hiện khóa từng tài khoản
+        foreach ($current_data as $v) {
+            //print_r($v);
+            $id = $v['ID'];
+            if ($id == $this->current_user_id) {
+                continue;
+            }
+            unset($v['ID']);
+
+            //
+            $v['is_deleted'] = $is_deleted;
+            //print_r($v);
+            //continue;
+
+            //
+            $update = $this->user_model->update_member(
+                $id,
+                $v
+            );
+        }
+
+        //
+        //print_r($current_data);
+        //die(__CLASS__ . ':' . __LINE__);
+
+        //
+        /*
         $where['is_deleted !='] = $is_deleted;
         //die( json_encode( $where ) );
 
@@ -857,6 +859,7 @@ class Users extends Admin
                 //'get_query' => 1,
             ]
         );
+        */
 
         // riêng với lệnh remove -> kiểm tra nếu remove hoàn toàn thì xử lý riêng
         if ($update === true && $is_deleted == DeletedStatus::REMOVED && ALLOW_USING_MYSQL_DELETE === true) {

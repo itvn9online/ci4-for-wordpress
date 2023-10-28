@@ -45,13 +45,13 @@ class Payments extends Layout
         $data = $this->order_model->get_order(
             array(
                 // các kiểu điều kiện where
-                'ID' => $order_id,
-                'post_status' => OrderType::PRIVATELY,
-                'post_author' => $this->current_user_id,
+                't1.ID' => $order_id,
+                't1.post_status' => OrderType::PRIVATELY,
+                't1.post_author' => $this->current_user_id,
             ),
             array(
                 'order_by' => array(
-                    'ID' => 'DESC'
+                    't1.ID' => 'DESC'
                 ),
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
@@ -64,7 +64,7 @@ class Payments extends Layout
                 //'offset' => 0,
                 'limit' => 1
             ),
-            'ID'
+            't1.ID'
         );
 
         //

@@ -27,6 +27,7 @@
             </td>
             <td>
                 <div><a :href="v.admin_permalink" class="bold">{{v.post_title}} <i class="fa fa-edit"></i></a></div>
+                <div>{{v.post_name}}</div>
                 <div><a :href="v.the_permalink" target="_blank" class="small blackcolor">{{v.the_permalink}} <i class="fa fa-eye"></i></a></div>
             </td>
             <td>

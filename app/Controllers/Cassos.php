@@ -55,12 +55,12 @@ class Cassos extends Payments
             $order_data = $this->order_model->get_order(
                 array(
                     // các kiểu điều kiện where
-                    'ID' => $v->order_id,
-                    'post_status' => OrderType::PENDING,
+                    't1.ID' => $v->order_id,
+                    't1.post_status' => OrderType::PENDING,
                 ),
                 array(
                     'order_by' => array(
-                        'ID' => 'DESC'
+                        't1.ID' => 'DESC'
                     ),
                     // hiển thị mã SQL để check
                     //'show_query' => 1,

@@ -417,6 +417,7 @@ class Sync extends BaseController
         // tạo bảng nếu chưa có
         $this->tbl_webhook_zalooa();
         $this->cloneDbTable('posts', 'orders');
+        $this->cloneDbTable('postmeta', 'ordermeta');
         $this->cloneDbTable('options', 'options_deleted');
         $this->tbl_sessions();
         $this->tbl_logged();

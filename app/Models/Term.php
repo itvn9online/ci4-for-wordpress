@@ -581,7 +581,8 @@ class Term extends TermBase
         //$ops[ 'select_col' ] = '*';
 
         //
-        return str_replace('\'', '\\\'', json_encode($this->get_all_taxonomy($taxonomy, $term_id, $ops, $in_cache)));
+        return json_encode($this->get_all_taxonomy($taxonomy, $term_id, $ops, $in_cache));
+        // return str_replace('\'', '\\\'', json_encode($this->get_all_taxonomy($taxonomy, $term_id, $ops, $in_cache)));
     }
 
     public function json_taxonomy($taxonomy = 'category', $term_id = 0, $ops = [], $in_cache = '')

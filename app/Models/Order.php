@@ -61,18 +61,18 @@ class Order extends Post
         return $result;
     }
 
-    public function get_order($where = [], $filter = [], $select_col = '*')
+    public function get_order($where = [], $filter = [], $select_col = 't1.*')
     {
-        $where['post_type'] = $this->post_type;
+        $where['t1.post_type'] = $this->post_type;
 
         //
-        return $this->base_model->select($select_col, $this->table, $where, $filter);
+        return $this->base_model->select($select_col, $this->table . ' AS t1', $where, $filter);
     }
 
     // trả về đơn hàng đang chờ thanh toán
-    public function get_pending_order($where = [], $add_filter = [], $select_col = '*')
+    public function get_pending_order($where = [], $add_filter = [], $select_col = 't1.*')
     {
-        $where['post_status'] = OrderType::PENDING;
+        $where['t1.post_status'] = OrderType::PENDING;
 
         //
         //print_r($where);
@@ -80,7 +80,7 @@ class Order extends Post
         //
         $filter = [
             'order_by' => array(
-                'ID' => 'DESC'
+                't1.ID' => 'DESC'
             ),
             // hiển thị mã SQL để check
             //'show_query' => 1,
@@ -146,7 +146,7 @@ class Order extends Post
                 $user_data = $this->get_order(
                     array(
                         // các kiểu điều kiện where
-                        'ID' => $order_id,
+                        't1.ID' => $order_id,
                     ),
                     array(
                         // hiển thị mã SQL để check
@@ -160,7 +160,7 @@ class Order extends Post
                         //'offset' => 0,
                         'limit' => 1
                     ),
-                    'post_author'
+                    't1.post_author'
                 );
                 //print_r($user_data);
 
@@ -210,8 +210,8 @@ class Order extends Post
         $data = $this->get_order(
             array(
                 // các kiểu điều kiện where
-                'post_author' => $user_id,
-                'post_status' => OrderType::PRIVATELY,
+                't1.post_author' => $user_id,
+                't1.post_status' => OrderType::PRIVATELY,
             ),
             array(
                 // hiển thị mã SQL để check
@@ -225,7 +225,7 @@ class Order extends Post
                 //'offset' => 0,
                 'limit' => 1
             ),
-            'SUM(order_money) AS money, SUM(order_bonus) AS bonus'
+            'SUM(t1.order_money) AS money, SUM(t1.order_bonus) AS bonus'
         );
         //print_r($data);
 
@@ -258,11 +258,11 @@ class Order extends Post
         $order_data = $this->get_order(
             array(
                 // các kiểu điều kiện where
-                'ID' => $order_id,
+                't1.ID' => $order_id,
             ),
             array(
                 'order_by' => array(
-                    'ID' => 'DESC'
+                    't1.ID' => 'DESC'
                 ),
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
@@ -275,7 +275,7 @@ class Order extends Post
                 //'offset' => 0,
                 'limit' => 1
             ),
-            'post_author'
+            't1.post_author'
         );
         //print_r($order_data);
 

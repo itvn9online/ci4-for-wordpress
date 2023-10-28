@@ -248,7 +248,7 @@ var g_func = {
 
 	setc: function (name, value, seconds, days, set_domain) {
 		if (typeof seconds != "number") {
-			seconds = 0;
+			seconds = 3600;
 		}
 		if (typeof days != "number") {
 			days = 0;
@@ -260,10 +260,26 @@ var g_func = {
 		var ex = Math.floor(Date.now() / 1000) + seconds + days;
 
 		//
-		localStorage.setItem(name, seconds.toString() + "|" + value);
+		return localStorage.setItem(name, ex.toString() + "|" + value);
 	},
-	getc: function (name) {},
-	delck: function (name) {},
+	getc: function (name) {
+		var a = localStorage.getItem(name);
+		if (a !== null) {
+			a = a.split("|");
+			var ex = a[0] * 1;
+			//console.log(a, ex);
+			if (isNaN(ex) || ex < Math.floor(Date.now() / 1000)) {
+				return null;
+			}
+			// xong xóa phần tử đầu tiên
+			a.shift();
+			a = a.join("|");
+		}
+		return a;
+	},
+	delck: function (name) {
+		return localStorage.removeItem(name);
+	},
 
 	text_only: function (str) {
 		if (typeof str == "undefined" || str == "") {

@@ -22,19 +22,19 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
     <div class="widget-content nopadding">
         <form action="" method="post" name="admin_global_form" id="admin_global_form" onSubmit="return action_before_submit_post();" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
             <div class="control-group">
-                <label for="data_post_title" class="control-label">ID</label>
+                <label class="control-label">ID</label>
                 <div class="controls">
                     <?php echo $data['ID']; ?>
                 </div>
             </div>
             <div class="control-group">
-                <label for="data_post_title" class="control-label">Mã hóa đơn</label>
+                <label class="control-label">Mã hóa đơn</label>
                 <div class="controls upper">
                     <?php echo $data['post_name']; ?>
                 </div>
             </div>
             <div class="control-group">
-                <label for="data_post_title" class="control-label">Tiêu đề</label>
+                <label class="control-label">Tiêu đề</label>
                 <div class="controls">
                     <input type="text" class="span6 required" placeholder="Tiêu đề" name="data[post_title]" id="data_post_title" value="<?php $base_model->the_esc_html($data['post_title']); ?>" autofocus aria-required="true" required />
                 </div>
@@ -46,13 +46,13 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                 </div>
             </div>
             <div class="control-group">
-                <label for="data_post_title" class="control-label">Tổng tiền</label>
+                <label class="control-label">Tổng tiền</label>
                 <div class="controls bold">
                     <?php echo number_format($data['order_money']); ?> VNĐ
                 </div>
             </div>
             <div class="control-group">
-                <label for="data_post_title" class="control-label">Hạn sử dụng</label>
+                <label class="control-label">Hạn sử dụng</label>
                 <div class="controls">
                     <?php echo $data['order_period']; ?> (tháng)
                 </div>
@@ -75,21 +75,38 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                 </div>
             </div>
             <div class="control-group">
-                <label for="data_post_title" class="control-label">Ngày tạo</label>
+                <label class="control-label">Ngày tạo</label>
                 <div class="controls">
                     <?php echo $data['post_date']; ?>
                 </div>
             </div>
             <div class="control-group">
-                <label for="data_post_title" class="control-label">Ngày cập nhật</label>
+                <label class="control-label">Ngày cập nhật</label>
                 <div class="controls">
                     <?php echo $data['post_modified']; ?>
                 </div>
             </div>
             <div class="control-group">
-                <label for="data_post_title" class="control-label">ID Sản phẩm</label>
+                <label class="control-label">ID Sản phẩm</label>
                 <div class="controls">
-                    <?php echo $data['guid']; ?>
+                    <?php
+                    if ($data['post_parent'] > 0) {
+                        // lấy thông tin sản phẩm
+                        $post_parent_data = $base_model->select('*', 'posts', [
+                            'ID' => $data['post_parent']
+                        ], [
+                            'limit' => 1
+                        ]);
+                        //print_r($post_parent_data);
+
+                        //
+                    ?>
+                        <a href="<?php $post_model->the_post_permalink($post_parent_data); ?>" class="bluecolor set-new-url">#<?php echo $data['post_parent']; ?> | <?php echo $post_parent_data['post_title']; ?> | <?php echo $post_parent_data['post_permalink']; ?></a>
+                    <?php
+                    } else {
+                        echo $data['post_parent'];
+                    }
+                    ?>
                 </div>
             </div>
             <div class="control-group">
@@ -100,7 +117,7 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                 </div>
             </div>
             <div class="control-group">
-                <label for="data_post_title" class="control-label">Dữ liệu thanh toán</label>
+                <label class="control-label">Dữ liệu thanh toán</label>
                 <div class="controls">
                     <pre><code><?php echo $data['pinged']; ?></code></pre>
                     <p class="controls-text-note">Khi đơn hàng được thanh toán tự động qua bên thứ 3, dữ liệu thanh toán sẽ được lưu tại đây.</p>

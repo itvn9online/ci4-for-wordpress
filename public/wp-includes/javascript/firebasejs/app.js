@@ -73,7 +73,11 @@ firebase.auth().onAuthStateChanged(
 			if (localStorage.getItem("firebase_auto_login") !== null) {
 				WGR_alert("Tự động đăng nhập sau 5 giây...");
 				firebase_recommend_login = setTimeout(function () {
-					continueSignIn();
+					if (localStorage.getItem("firebase_auto_login") !== null) {
+						continueSignIn();
+					} else {
+						WGR_alert("Tự động đăng bị hủy bỏ!", "warning");
+					}
 				}, 5000);
 			}
 		} else {

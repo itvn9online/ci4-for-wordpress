@@ -157,6 +157,20 @@ class ContactBase extends Home
         if (!empty($check_rules)) {
             $this->validation->reset();
             $this->validation->setRules($check_rules);
+        } else {
+            // kiểm tra có dữ liệu gửi đi hay không
+            $has_data = false;
+            foreach ($data as $v) {
+                if (!empty(trim($v))) {
+                    $has_data = true;
+                }
+            }
+
+            //
+            if ($has_data === false) {
+                $this->base_model->msg_error_session('Không xác định được dữ liệu gửi đi', $this->form_target);
+                return $this->done_action_login();
+            }
         }
 
         //

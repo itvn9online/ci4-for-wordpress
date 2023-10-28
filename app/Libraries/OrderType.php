@@ -19,7 +19,6 @@ class OrderType extends PostType
             self::DRAFT => 'Hủy',
             self::DELETED => 'XÓA',
             //self::INHERIT => '',
-
         );
     }
 }
