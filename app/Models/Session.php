@@ -48,18 +48,13 @@ class Session
     }
 
     // trả về input chứa csrf và lưu vào session để nếu submit thì còn kiểm tra được
-    public function csrf_field($anti_spam = true, $time_expired = ANTI_SPAM_EXPIRED)
+    public function csrf_field()
     {
         // mỗi phiên -> lưu lại csrf token dưới dạng session
         $this->MY_session($this->key_csrf_hash, csrf_hash());
 
         // in html
         echo csrf_field();
-
-        // nạp thêm input ẩn -> chống spam
-        if ($anti_spam === true) {
-            $this->anti_spam_field($time_expired);
-        }
 
         //
         return true;
@@ -70,68 +65,39 @@ class Session
      * time_expired -> thêm thời gian hết hạn cho hide-captcha -> mặc định 5m -> trường hợp nào cần lâu hơn thì truyền vào theo tham số
      * hide_captcha: khi bật chế độ này, input chỉ định trả về alert sẽ không được in ra -> lệnh sẽ trả về mã json
      **/
-    public function anti_spam_field($time_expired = ANTI_SPAM_EXPIRED, $hide_captcha = 0, $ops = [])
+    public function anti_spam_field($ops = [])
     {
-        // fill sẵn dữ liệu cho input fjs nếu chạy qua popup
-        if (!isset($ops['fill_fjs'])) {
-            $ops['fill_fjs'] = false;
+        // thời gian hết hạn mặc định
+        if (!isset($ops['time_expired'])) {
+            $ops['time_expired'] = ANTI_SPAM_EXPIRED;
+        }
+        // khi có tham số này -> input sẽ được in ra thay vì chờ nạp ajax (thường chỉ dùng cho popup, còn lại nạp qua ajax hết)
+        if (!isset($ops['show_now'])) {
+            $ops['show_now'] = 0;
         }
 
         //
-        include VIEWS_PATH . 'includes/anti_spam.php';
+        if ($ops['show_now'] > 0) {
+            include VIEWS_PATH . 'includes/anti_spam.php';
+        } else {
+            // trả về đoạn html, cache sau đó sẽ nạp qua ajax
+            echo '<div class="ebe-recaptcha d-none"></div>';
+        }
         return true;
     }
 
     /**
      * Trả về input nhưng fill sẵn dữ liệu cho input fjs -> dùng cho popup
      **/
-    public function anti_spam_popup($time_expired = ANTI_SPAM_EXPIRED, $hide_captcha = 0)
+    public function anti_spam_popup($ops = [])
     {
-        return $this->anti_spam_field($time_expired, $hide_captcha, [
-            'fill_fjs' => true
-        ]);
+        $ops['show_now'] = 1;
+        return $this->anti_spam_field($ops);
     }
-
-    /**
-     * Trả về hidden input không bao gồm input alert -> dùng cho các lệnh js có sử dụng hide-captcha
-     **/
-    public function hide_captcha_field($time_expired = ANTI_SPAM_EXPIRED)
-    {
-        return $this->anti_spam_field($time_expired, 1);
-    }
-
-    /**
-     * Trả về đoạn mã HTML chứa DIV và class css, sau đó mã captcha sẽ được nạp qua ajax và push vào đấy
-     * Đoạn này thường dùng cho các page có cache -> ko thể include trực tiếp captcha vào cache được do khác session
-     **/
-    public function anti_spam_ajax($user_id, $time_expired = ANTI_SPAM_EXPIRED)
-    {
-        // nếu user đang đăng nhập thì trả thẳng mã captcha luôn -> do ko bị cache
-        if ($user_id > 0) {
-            return $this->anti_spam_field($time_expired);
-        }
-
-        // chưa đăng nhập thì có cache nên sẽ trả về đoạn html, cache sau đó sẽ nạp qua ajax
-        echo '<div class="ebe-recaptcha d-none"></div>';
-        return true;
-    }
-
-    /**
-     * Trả về đoạn mã HTML chứa DIV và class css, sau đó mã captcha sẽ được nạp qua ajax và push vào đấy
-     * Đoạn này thường dùng cho các page có cache -> ko thể include trực tiếp captcha vào cache được do khác session
-     * Trả về hidden input không bao gồm input alert -> dùng cho các lệnh js có sử dụng hide-captcha
-     **/
-    public function hide_captcha_ajax($user_id, $time_expired = ANTI_SPAM_EXPIRED)
-    {
-        // nếu user đang đăng nhập thì trả thẳng mã captcha luôn -> do ko bị cache
-        if ($user_id > 0) {
-            return $this->anti_spam_field($time_expired, 1);
-        }
-
-        // chưa đăng nhập thì có cache nên sẽ trả về đoạn html, cache sau đó sẽ nạp qua ajax
-        echo '<div class="ebe-rehidecaptcha d-none"></div>';
-        return true;
-    }
+    // các function bỏ
+    // hide_captcha_field
+    // anti_spam_ajax
+    // hide_captcha_ajax
 
     /**
      * Kiểm tra đầu vào của dữ liệu xem chuẩn không
@@ -160,72 +126,6 @@ class Session
             }
         }
         //die( __CLASS__ . ':' . __LINE__ );
-
-        // chạy 1 vòng -> kiểm tra các input của anti spam có tồn tại không
-        $has_value = 0;
-        $no_value = 0;
-        $i = 0;
-        $this_spam = false;
-        foreach ($this->input_anti_spam as $k => $v) {
-            $k = RAND_ANTI_SPAM . '_' . $k;
-            // nếu tồn tại request này
-            if (isset($_REQUEST[$k])) {
-                // nếu có dữ liệu
-                if (!empty($_REQUEST[$k])) {
-                    // đánh dấu có dữ liệu
-                    $has_value++;
-                    // so khớp dữ liệu nếu khác nhau -> báo lỗi
-                    if (md5($k) != explode('@', $_REQUEST[$k])[0]) {
-                        //echo $k . '<br>' . PHP_EOL;
-                        $this_spam = $k;
-                        break;
-                    }
-                } else {
-                    // không có thì đánh dấu ko có
-                    $no_value++;
-                }
-                $i++;
-            }
-        }
-
-        // kiểm tra thời gian hết hạn của token -> nếu có
-        $by_token = 0;
-        $time_out = isset($_POST[RAND_ANTI_SPAM . '_to']) ? $_POST[RAND_ANTI_SPAM . '_to'] : 0;
-        $time_token = isset($_POST[RAND_ANTI_SPAM . '_token']) ? $_POST[RAND_ANTI_SPAM . '_token'] : '';
-        // nếu có thời gian hết hạn hoặc có token thì mới kiểm tra
-        if (!empty($time_out) && !empty($time_token)) {
-            if (!is_numeric($time_out) || $time_out < time() || md5(RAND_ANTI_SPAM . $time_out) != $time_token) {
-                $by_token = 1;
-            }
-        }
-
-        // kiểm tra mã session có khớp không
-        $by_code = 0;
-        $rand_code = isset($_POST[RAND_ANTI_SPAM . '_code']) ? $_POST[RAND_ANTI_SPAM . '_code'] : '';
-        if (!empty($rand_code)) {
-            if (strlen($rand_code) != $this->rand_len_code || strpos(session_id(), $rand_code) === false) {
-                $by_code = 1;
-            }
-        }
-
-        // kiểm tra dữ liệu của js-fill có đúng không
-        $by_jsf = 0;
-        $jsf_code = isset($_POST[RAND_ANTI_SPAM . '_jsf']) ? $_POST[RAND_ANTI_SPAM . '_jsf'] : '';
-        if (!empty($jsf_code) && $jsf_code != substr(RAND_ANTI_SPAM, 0, 6)) {
-            $by_jsf = 1;
-        }
-
-        //
-        return $this->afterCheckSpam([
-            'by_token' => $by_token,
-            'by_code' => $by_code,
-            'by_jsf' => $by_jsf,
-            'has_value' => $has_value,
-            'no_value' => $no_value,
-            'i' => $i,
-            'this_spam' => $this_spam,
-            'f' => __FUNCTION__,
-        ]);
     }
 
     /**
@@ -271,7 +171,7 @@ class Session
         // các tham số chỉ cần sai 1 cái là bỏ qua kiểm tra cái sau luôn
         $by_token = 0;
         $by_code = 0;
-        $by_jsf = 0;
+        // $by_jsf = 0;
 
         // kiểm tra thời gian hết hạn của token -> bắt buộc
         $time_out = isset($_POST[RAND_ANTI_SPAM . '_to']) ? $_POST[RAND_ANTI_SPAM . '_to'] : 0;
@@ -284,12 +184,12 @@ class Session
             $rand_code = isset($_POST[RAND_ANTI_SPAM . '_code']) ? $_POST[RAND_ANTI_SPAM . '_code'] : '';
             if (empty($rand_code) || strlen($rand_code) != $this->rand_len_code || strpos(session_id(), $rand_code) === false) {
                 $by_code = 1;
-            } else {
-                // kiểm tra dữ liệu của js-fill có đúng không
-                $jsf_code = isset($_POST[RAND_ANTI_SPAM . '_jsf']) ? $_POST[RAND_ANTI_SPAM . '_jsf'] : '';
-                if (empty($jsf_code) || $jsf_code != substr(RAND_ANTI_SPAM, 0, 6)) {
-                    $by_jsf = 1;
-                }
+                // } else {
+                //     // kiểm tra dữ liệu của js-fill có đúng không
+                //     $jsf_code = isset($_POST[RAND_ANTI_SPAM . '_jsf']) ? $_POST[RAND_ANTI_SPAM . '_jsf'] : '';
+                //     if (empty($jsf_code) || $jsf_code != substr(RAND_ANTI_SPAM, 0, 6)) {
+                //         $by_jsf = 1;
+                //     }
             }
         }
 
@@ -297,7 +197,7 @@ class Session
         return $this->afterCheckSpam([
             'by_token' => $by_token,
             'by_code' => $by_code,
-            'by_jsf' => $by_jsf,
+            // 'by_jsf' => $by_jsf,
             // gán giá trị mặc định nếu ko tìm thấy -> vì những cái này bắt buộc phải có
             'has_value' => $has_value > 0 ? $has_value : __LINE__,
             'no_value' => $no_value > 0 ? $no_value : __LINE__,
@@ -348,13 +248,13 @@ class Session
             ]);
         }
         // lỗi khớp js-fill -> javascript không hoạt động hoặc push dữ liệu không khớp -> báo lỗi luôn
-        else if ($ops['by_jsf'] > 0) {
-            $this->dieIfSpam([
-                'code' => __LINE__,
-                'jsf' => $ops['by_jsf'],
-                'f' => strtolower($ops['f']),
-            ]);
-        }
+        // else if ($ops['by_jsf'] > 0) {
+        //     $this->dieIfSpam([
+        //         'code' => __LINE__,
+        //         'jsf' => $ops['by_jsf'],
+        //         'f' => strtolower($ops['f']),
+        //     ]);
+        // }
 
         //
         $ops['has_value'] *= 1;
@@ -382,6 +282,7 @@ class Session
             $this->dieIfSpam([
                 'code' => __LINE__,
                 'count' => $ops['i'],
+                // 'error' => '',
                 'f' => strtolower($ops['f']),
             ]);
         }
@@ -405,17 +306,19 @@ class Session
     protected function dieIfSpam($d)
     {
         // cố định thông điệp báo lỗi
-        $d['error'] = 'Anti-spam activated in your request!';
-
-        // nếu là từ view -> alert cho người dùng biết
-        if (isset($_POST[RAND_ANTI_SPAM . '_alert'])) {
-            $this->alert($d['error'] . ' (' . $d['code'] . ')', 'error');
+        if (!isset($d['error']) || empty($d['error'])) {
+            $d['error'] = 'Anti-spam activated in your request! Please reload this page and try again.';
         }
 
-        // còn lại sẽ trả về mã json
-        header('Content-Type:text/plain; charset=UTF-8');
-        //header('Content-type: application/json; charset=utf-8');
-        die(json_encode($d));
+        // nếu là truyền qua ajax -> trả về json
+        if (isset($_POST['doing_ajax'])) {
+            header('Content-Type:text/plain; charset=UTF-8');
+            //header('Content-type: application/json; charset=utf-8');
+            die(json_encode($d));
+        }
+
+        // còn lại sẽ alert cho người dùng biết
+        $this->alert($d['error'] . ' (' . $d['code'] . ')', 'error');
     }
 
     // -> trả về alert của javascript

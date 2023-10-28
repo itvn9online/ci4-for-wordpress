@@ -1121,6 +1121,7 @@ function jQueryAjaxError(jqXHR, textStatus, errorThrown, errorStack) {
 }
 
 // trả về input để vượt qua được captcha -> không có mã này là khỏi submit
+// var the_hide_captcha = false;
 function get_hide_captcha(a, div_id, the_debug, max_i) {
 	if (typeof a != "object") {
 		return {};
@@ -1130,8 +1131,13 @@ function get_hide_captcha(a, div_id, the_debug, max_i) {
 	if (typeof div_id == "undefined" || div_id == "") {
 		div_id = "#hide-captcha";
 	}
+	if ($(div_id).length < 1) {
+		return a;
+	}
 
 	//
+	// console.log(the_hide_captcha);
+	// if (the_hide_captcha === false || $(div_id + " input").length < 1) {
 	if ($(div_id + " input").length < 1) {
 		if (typeof max_i != "number") {
 			max_i = 99;
@@ -1150,10 +1156,14 @@ function get_hide_captcha(a, div_id, the_debug, max_i) {
 		a[$(this).attr("name")] = $(this).attr("value");
 	});
 
+	// thêm tham số này để trả về json thay vì alert
+	a["doing_ajax"] = 1;
+
 	//
 	if (typeof the_debug != "undefined" && the_debug === true) {
 		console.log(a);
 	}
+	// console.log(div_id, a);
 
 	//
 	return a;

@@ -8,13 +8,6 @@
 //
 //echo RAND_ANTI_SPAM . '<br>' . PHP_EOL;
 
-// in ra input chỉ định sẽ alert nếu lỗi
-if ($hide_captcha < 1) {
-?>
-    <input type="hidden" name="<?php echo RAND_ANTI_SPAM; ?>_alert" placeholder="alert" value="<?php echo time(); ?>" aria-required="true" required />
-<?php
-}
-
 // tạo ID cho thẻ DIV -> để gây khó khăn cho việc xác định thuộc tính của DIV
 $anti_div_id_spam = '_' . RAND_ANTI_SPAM . rand(99, 999);
 
@@ -56,15 +49,15 @@ $anti_div_id_spam = '_' . RAND_ANTI_SPAM . rand(99, 999);
     }
 
     // thêm thời gian hết hạn nếu có
-    $time_expired *= 1;
-    if ($time_expired < 1) {
+    $ops['time_expired'] *= 1;
+    if ($ops['time_expired'] < 1) {
         // mặc định là hết trong 1 ngày nếu ko có
-        $time_expired = 24 * 3600;
-        $time_expired -= rand(0, 99);
+        $ops['time_expired'] = 24 * 3600;
+        $ops['time_expired'] -= rand(0, 99);
     } else {
-        $time_expired += rand(0, 33);
+        $ops['time_expired'] += rand(0, 33);
     }
-    $time_expired = $time_expired + time();
+    $ops['time_expired'] = $ops['time_expired'] + time();
 
     // tạo chuỗi ngẫu nhiên từ session id -> cố định cho input nhưng giá trị thay đổi liên tục
     $rand_code = session_id();
@@ -73,13 +66,11 @@ $anti_div_id_spam = '_' . RAND_ANTI_SPAM . rand(99, 999);
     //
     foreach ([
         // timeout
-        'to' => $time_expired,
+        'to' => $ops['time_expired'],
         // token -> dùng để xác thực với timeout
-        'token' => md5(RAND_ANTI_SPAM . $time_expired),
+        'token' => md5(RAND_ANTI_SPAM . $ops['time_expired']),
         // dùng để xác thực session id hiện tại
         'code' => $rand_code,
-        // js fill -> dùng để xác thực người dùng có bật javascript ko -> ko bật thì trường này sẽ trống
-        'jsf' => $ops['fill_fjs'] === false ? '' : substr(RAND_ANTI_SPAM, 0, 6),
     ] as $k => $v) {
     ?>
         <input type="text" name="<?php echo RAND_ANTI_SPAM; ?>_<?php echo $k; ?>" placeholder="<?php echo $k; ?>" value="<?php echo $v; ?>" aria-required="true" required />

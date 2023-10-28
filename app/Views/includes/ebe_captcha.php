@@ -4,7 +4,7 @@
 //echo $wrg_cookie_login_key;
 
 // nạp js cảnh báo đăng nhập
-$base_model->add_js('wp-includes/javascript/login_rememberme.js', [
+$base_model->add_js('wp-includes/javascript/ebe_captcha.js', [
     'cdn' => CDN_BASE_URL,
 ], [
     'defer'
@@ -16,18 +16,18 @@ $base_model->add_js('wp-includes/javascript/login_rememberme.js', [
 ?>
 <script type="text/javascript" {csp-script-nonce}>
     (function() {
-        function before_login_rememberme(max_i) {
+        function before_ebe_captcha(max_i) {
             if (max_i < 0) {
                 console.log('max i:', max_i);
                 return false;
-            } else if (typeof action_login_rememberme != 'function') {
+            } else if (typeof action_ebe_captcha != 'function') {
                 setTimeout(function() {
-                    before_login_rememberme(max_i - 1)
+                    before_ebe_captcha(max_i - 1)
                 }, 100);
                 return false;
             }
-            action_login_rememberme('<?php echo $wrg_cookie_login_key; ?>', '<?php echo RAND_REMEMBER_LOGIN; ?>');
+            action_ebe_captcha('<?php echo RAND_GET_ANTI_SPAM; ?>');
         }
-        before_login_rememberme(99);
+        before_ebe_captcha(99);
     })();
 </script>

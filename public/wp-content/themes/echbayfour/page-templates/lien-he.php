@@ -41,7 +41,7 @@
                         </div>
                     </div>
                     <form name="contact_form" accept-charset="utf-8" action="./contact/put" method="post" target="target_eb_iframe">
-                        <?php $base_model->anti_spam_ajax($current_user_id); ?>
+                        <?php $base_model->anti_spam_field(); ?>
                         <input type="hidden" name="to" value="comments" />
                         <input type="hidden" name="redirect" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
                         <div class="cf eb-contact-form">

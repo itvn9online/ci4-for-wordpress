@@ -1,7 +1,6 @@
 <div id="loginbox" class="s14 global-profile_view">
     <div class="user-info_form">
         <form name="profile_form" class="form-vertical" accept-charset="utf-8" action="" method="post" target="target_eb_iframe" enctype="multipart/form-data">
-            <?php $base_model->anti_spam_field(0); ?>
             <div class="control-group normal_text">
                 <h3>
                     <?php echo $seo['title']; ?>
@@ -111,7 +110,6 @@
     <hr />
     <div class="user-pasword_form">
         <form name="pasword_form" class="form-vertical" accept-charset="utf-8" action="" method="post" target="target_eb_iframe">
-            <?php $base_model->anti_spam_field(0); ?>
             <div class="control-group normal_text">
                 <h3>Đổi mật khẩu đăng nhập</h3>
             </div>

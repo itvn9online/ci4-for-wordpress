@@ -377,7 +377,7 @@ class PostMeta extends PostBase
             // nếu có nhóm cha -> bỏ
             if ($v['parent'] > 0) {
                 $research[] = $v['parent'];
-                if ($second_first === 0) {
+                if ($second_first < 1) {
                     $second_first++;
                     $second_data = $v;
                 }

@@ -73,7 +73,7 @@ $(".post_uncheck_meta").change(function () {
 
 // select sẵn size ảnh nếu có
 (function () {
-	if ($("#post_meta_image_size").length === 0) {
+	if ($("#post_meta_image_size").length < 1) {
 		return false;
 	}
 

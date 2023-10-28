@@ -785,7 +785,7 @@ class Base extends Csdl
         $result = '';
         $j = 0;
         for ($i = 0; $i < $len; $i++) {
-            if ($j > 0 && $j % $streng === 0) {
+            if ($j > 0 && $j % $streng < 1) {
                 $result .= substr($str, $i, 1);
                 $j = 0;
             } else {

@@ -136,7 +136,7 @@ class Order extends Post
 
     public function update_user_fund($order_id, $post_author = 0, $where = [])
     {
-        if ($post_author === 0) {
+        if ($post_author < 1) {
             // nếu trong where có thì lấy luôn trong where
             if (isset($where['post_author']) && $where['post_author'] > 0) {
                 $post_author = $where['post_author'];

@@ -289,18 +289,12 @@ class Ajaxs extends Layout
         ob_end_clean();
         ob_start();
 
+        // trả về captcha
+        $this->base_model->anti_spam_field([
+            'show_now' => 1,
+        ]);
+
         //
-        $hide_captcha = $this->MY_post('hide_captcha', 0);
-        $hide_captcha *= 1;
-        // truyền giả lập user_id = 1 -> sẽ lấy mã html để trả về
-        $user_id = 1;
-        // trả về hide-captcha
-        if ($hide_captcha > 0) {
-            $this->base_model->hide_captcha_ajax($user_id);
-        } else {
-            // trả về captcha
-            $this->base_model->anti_spam_ajax($user_id);
-        }
         $html = ob_get_contents();
 
         //

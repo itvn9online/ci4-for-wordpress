@@ -4,7 +4,7 @@
 // nạp hide captcha để xác minh bot tự động
 if ($getconfig->hide_captcha == 'on') {
 ?>
-    <div id="hide-captcha"><?php $base_model->anti_spam_field(['alert' => 0]); ?></div>
+    <div id="hide-captcha"><?php $base_model->anti_spam_field(); ?></div>
 <?php
 }
 
@@ -81,9 +81,12 @@ if ($current_user_id > 0) {
     include __DIR__ . '/login_rememberme.php';
 }
 
-//
-include __DIR__ . '/ebe_captcha.php';
-
 
 //
 echo $getconfig->html_body;
+
+?>
+<script type="text/javascript">
+    jQuery('input[name="<?php echo RAND_ANTI_SPAM; ?>_jsf"]').val('<?php echo substr(RAND_ANTI_SPAM, 0, 6); ?>');
+    the_hide_captcha = true;
+</script>

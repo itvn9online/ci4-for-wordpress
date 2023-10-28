@@ -570,7 +570,7 @@ class Term extends TermBase
     {
         // nếu không có cache key -> kiểm tra điều kiện tạo key
         if ($in_cache == '') {
-            if ($term_id === 0 && empty($ops)) {
+            if ($term_id < 1 && empty($ops)) {
                 $in_cache = $taxonomy;
             }
         }
@@ -623,7 +623,7 @@ class Term extends TermBase
 
         // nếu không có cache key -> kiểm tra điều kiện tạo key
         if ($in_cache == '') {
-            if ($term_id === 0 && empty($ops)) {
+            if ($term_id < 1 && empty($ops)) {
                 $in_cache = $taxonomy;
             }
         }

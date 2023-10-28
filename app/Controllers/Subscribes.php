@@ -26,7 +26,9 @@ class Subscribes extends Csrf
         }
 
         // kiểm tra spam bot
-        $this->base_model->antiRequiredSpam();
+        if ($this->current_user_id < 1) {
+            $this->base_model->antiRequiredSpam();
+        }
 
         //
         $e = $this->MY_post('email', '');
