@@ -3,6 +3,34 @@
 //
 //echo $current_user_id;
 
+
+/**
+ * Chỉnh lại nội dung cho file htaccess
+ * Chức năng này sẽ tự động chỉnh nội dung trong file htaccess cho phù hợp
+ * Để tắt chức năng này, hãy khai báo constant WGR_DISABLE_AUTO_HTACCESS trong function của child-theme
+ */
+$path_htaccess = PUBLIC_PUBLIC_PATH . ".htaccess";
+$content_htaccess = file_get_contents($path_htaccess);
+
+if (strpos($content_htaccess, '{my_domain.com}') !== false) {
+    if (strpos($content_htaccess, '# Header always set Permissions-Policy ') !== false) {
+        if (!defined('WGR_DISABLE_AUTO_HTACCESS')) {
+            // thay thành domain hiện tại
+            $content_htaccess = str_replace('{my_domain.com}', str_replace('www.', '', $_SERVER['HTTP_HOST']), $content_htaccess);
+            // set header
+            $content_htaccess = str_replace('# Header always set Permissions-Policy ', 'Header always set Permissions-Policy ', $content_htaccess);
+            // cập nhật content
+            file_put_contents($path_htaccess, $content_htaccess);
+            echo 'update {my_domain.com} for ' . $path_htaccess . '<br>' . PHP_EOL;
+        } else {
+            echo 'WGR_DISABLE_AUTO_HTACCESS is defined' . '<br>' . PHP_EOL;
+        }
+    } else {
+        echo 'content_htaccess has {my_domain.com}' . '<br>' . PHP_EOL;
+    }
+}
+
+
 //
 $ci_last_version = 431;
 

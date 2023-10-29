@@ -90,4 +90,7 @@ Header always set X-Frame-Options "SAMEORIGIN"
 Header always set X-Content-Type-Options nosniff
 Header always set Referrer-Policy "strict-origin-when-cross-origin"
 #Header always set Content-Security-Policy "default-src 'self' facebook.com onesignal.com; script-src 'self' 'unsafe-inline' www.googletagmanager.com connect.facebook.net www.googleadservices.com www.google-analytics.com googleads.g.doubleclick.net onesignal.com tpc.googlesyndication.com https://cdn.onesignal.com https://*.onesignal.com https://cdn4.mxpnl.com; style-src 'self' data: 'unsafe-inline' onesignal.com; img-src 'self' data: www.googletagmanager.com stats.g.doubleclick.net www.google-analytics.com www.facebook.com www.google.com www.google.com.vn googleads.g.doubleclick.net i.ytimg.com images.dmca.com; frame-src www.googletagmanager.com bid.g.doubleclick.net www.facebook.com www.google.com www.youtube.com connect.facebook.net docs.google.com https://onesignal.com tpc.googlesyndication.com; font-src 'self' data:; connect-src 'self' *.google.com google.com google.com.vn www.google-analytics.com onesignal.com stats.g.doubleclick.net www.facebook.com https://api.mixpanel.com/; report-uri https://argsec.report-uri.com/r/d/csp/reportOnly"
+
+# Header always set Permissions-Policy 'geolocation=*, midi=(), sync-xhr=(self "https://{my_domain.com}" "https://www.{my_domain.com}"), microphone=(), camera=(), magnetometer=(), gyroscope=(), payment=(), fullscreen=(self "https://{my_domain.com}" "https://www.{my_domain.com}")'
+
 </IfModule>
