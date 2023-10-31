@@ -70,9 +70,10 @@ class Layout extends Sync
         //$allurl = 'https://' . $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'REQUEST_URI' ];
 
         $this->getconfig = $this->option_model->list_config();
-        //print_r( $this->getconfig );
+        // print_r($this->getconfig);
         $this->getconfig = (object) $this->getconfig;
-        //print_r($this->getconfig);
+        // print_r($this->getconfig);
+        // die(__CLASS__ . ':' . __LINE__);
 
         // tạo thông tin nhà xuất bản (publisher) cho phần dữ liệu có cấu trúc
         $itemprop_cache_logo = $this->base_model->scache('itemprop_logo');

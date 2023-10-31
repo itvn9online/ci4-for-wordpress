@@ -14,19 +14,85 @@ function create_ul_menu_editer(a, sub_menu) {
 	}
 
 	//
-	//console.log(a);
+	console.log("create_ul_menu_editer:", a);
 	var str = "";
 	for (var i = 0; i < a.length; i++) {
 		if (a[i].deleted * 1 !== 0) {
 			continue;
 		}
 
+		// đồng bộ với bản cũ -> chưa có các dữ liệu này
+		if (typeof a[i].content == "undefined") {
+			a[i].content = "";
+		}
+		if (typeof a[i].css == "undefined") {
+			a[i].css = "";
+		}
+		if (typeof a[i].icon == "undefined") {
+			a[i].icon = "";
+		}
+		if (typeof a[i].img == "undefined") {
+			a[i].img = "";
+		}
+		if (typeof a[i].rel == "undefined") {
+			a[i].rel = "";
+		}
+		if (typeof a[i].target == "undefined") {
+			a[i].target = "";
+		}
+
 		//
 		var a_tag = "";
 		if (a[i].slug == "") {
-			a_tag = a[i].name;
+			a_tag = '<span class="eb-menu-text">' + a[i].name + "</span>";
 		} else {
-			a_tag = '<a href="' + a[i].slug + '">' + a[i].name + "</a>";
+			//
+			if (a[i].content != "") {
+				a[i].content =
+					'<span class="eb-menu-content">' + a[i].content + "</span>";
+			}
+
+			//
+			if (a[i].css != "") {
+				a[i].css = " " + a[i].css;
+			}
+
+			//
+			if (a[i].icon != "") {
+				a[i].icon = '<i class="eb-menu-icon ' + a[i].icon + '">&nbsp;</i>';
+			}
+
+			//
+			if (a[i].img != "") {
+				a[i].img =
+					'<span data-img="' + a[i].img + '" class="eb-menu-img">&nbsp;</span>';
+			}
+
+			//
+			if (a[i].rel != "") {
+				a[i].rel = ' rel="' + a[i].rel + '"';
+			}
+
+			//
+			if (a[i].target != "") {
+				a[i].target = ' target="' + a[i].target + '"';
+			}
+
+			//
+			a_tag =
+				'<a href="' +
+				a[i].slug +
+				'" class="eb-menu-text' +
+				a[i].css +
+				'"' +
+				a[i].rel +
+				a[i].target +
+				">" +
+				a[i].icon +
+				a[i].img +
+				a[i].name +
+				a[i].content +
+				"</a>";
 		}
 
 		// nếu có menu con -> gọi luôn
@@ -108,12 +174,29 @@ function get_json_add_menu(obj) {
 	} catch (e) {
 		//
 	}
+	console.log("currentEditIdMenu:", currentEditIdMenu);
+
+	if (currentEditIdMenu != "") {
+		console.log("update menu");
+		editMenuItem();
+	} else {
+		console.log("add new");
+		addToMenu();
+	}
+
+	// xong thì reset them số edit
+	$("#currentEditName, .show-for-edit-menu").hide();
+	$(".hide-for-edit-menu").show();
+	currentEditIdMenu = "";
 
 	//
-	if ($.trim($("#addInputSlug").val() || "") == "") {
-		$("#addInputSlug").val("#").trigger("change");
-		return false;
-	}
+	// return false;
+
+	// //
+	// if ($.trim($("#addInputSlug").val() || "") == "") {
+	// 	$("#addInputSlug").val("#").trigger("change");
+	// 	return false;
+	// }
 
 	//
 	return get_json_code_menu(obj);
@@ -129,13 +212,14 @@ function get_json_edit_menu(obj) {
 	}
 
 	//
-	if ($.trim($("#editInputSlug").val() || "") == "") {
-		$("#editInputSlug").val("#").trigger("change");
-		return false;
-	}
+	// if ($.trim($("#editInputSlug").val() || "") == "") {
+	// 	$("#editInputSlug").val("#").trigger("change");
+	// 	return false;
+	// }
 
 	//
-	return get_json_code_menu(obj);
+	// return get_json_code_menu(obj);
+	return editMenuItem();
 }
 
 // mỗi lần cập nhật menu -> tạo ra câu confirm để còn chờ nội dung menu được cập nhật
@@ -156,12 +240,12 @@ function get_json_code_menu(obj) {
 		action_json_code_menu(obj);
 	}, 200);
 
-	return true;
+	return false;
 }
 
 function action_json_code_menu(obj) {
 	var arr = $("#json-output").val();
-	//console.log(arr);
+	console.log(arr);
 
 	//
 	$("#data_post_excerpt").val(arr);
@@ -183,19 +267,20 @@ function action_json_code_menu(obj) {
 		}, 200);
 	}
 
-	return true;
+	return false;
 }
 
 var global_menu_jd = 1;
+var global_menu_tmp = "";
 
 function create_html_menu_nestable(a) {
 	if (a.length == 0) {
 		console.log("a length");
 		return "";
 	}
+	console.log("a:", a);
 
 	//
-	//console.log(a);
 	var str = "";
 	var tmp = $(".dd-tmp-list").html() || "";
 	if (tmp == "") {
@@ -216,13 +301,20 @@ function create_html_menu_nestable(a) {
 	}
 	//console.log('data class length:', tmp.split(' data-class=').length);
 	tmp = tmp.replace(/\sdata\-class\=/gi, " class=");
-	console.log("tmp:", tmp);
+	// console.log("tmp:", tmp);
+	global_menu_tmp = tmp;
 
 	//
 	for (var i = 0; i < a.length; i++) {
 		//console.log(a[i]);
 		if (a[i].deleted * 1 !== 0) {
 			continue;
+		}
+
+		//
+		a[i].name = a[i].name.replaceAll('"', "&quot;");
+		if (typeof a[i].content != "undefined" && a[i].content != "") {
+			a[i].content = a[i].content.replaceAll('"', "&quot;");
 		}
 
 		//
@@ -234,13 +326,12 @@ function create_html_menu_nestable(a) {
 			if (typeof a[i].name == "undefined") {
 				continue;
 			}
-			var newText = JSON.parse(JSON.stringify(a[i]));
-			//console.log(newText);
+			// var newText = JSON.parse(JSON.stringify(a[i]));
+			// console.log(newText);
 			//newText.newText = newText.name;
 
 			// thay " thành &quot; để đỡ lỗi HTML
-			htm = htm.replaceAll("%newText%", newText.name);
-			a[i].name = a[i].name.replaceAll('"', "&quot;");
+			// htm = htm.replaceAll("%newText%", newText.name);
 			//console.log(a[i]);
 
 			//
@@ -258,6 +349,17 @@ function create_html_menu_nestable(a) {
 		//
 		str += htm;
 	}
+
+	// xóa các dữ liệu mẫu
+	$("#menu-add input").each(function () {
+		var x = $(this).attr("data-set") || "";
+		if (x != "") {
+			str = str.replaceAll("%" + x + "%", "");
+		}
+	});
+	// str = str.replaceAll("%content%", "");
+	// str = str.replaceAll("%img%", "");
+	// console.log("str:", str);
 
 	//
 	return '<ol class="dd-list">' + str + "</ol>";
@@ -387,5 +489,5 @@ $(document).ready(function () {
 */
 
 //
-add_and_show_post_avt("#addInputName", 1, "medium");
-add_and_show_post_avt("#editInputName", 1, "medium");
+add_and_show_post_avt("#addInputImg", 0, "medium");
+// add_and_show_post_avt("#editInputImg", 0, "medium");

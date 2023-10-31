@@ -573,7 +573,7 @@ class TermBase extends EbModel
     /**
      * Update tổng số bài viết trong 1 nhóm
      **/
-    public function update_count_post_in_term($data)
+    public function update_count_post_in_term($data, $show_debug = false)
     {
         //print_r($data);
         if (!isset($data['child_last_count']) || !isset($data['term_id'])) {
@@ -585,7 +585,7 @@ class TermBase extends EbModel
             //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
             return false;
         }
-        //print_r($data);
+        // print_r($data);
 
         /**
          * child_count: tính tổng số nhóm con của nhóm này
@@ -610,7 +610,7 @@ class TermBase extends EbModel
                 'limit' => -1
             )
         );
-        //print_r($child_count);
+        // print_r($child_count);
 
         //
         $this->base_model->update_multiple('terms', [
@@ -620,7 +620,7 @@ class TermBase extends EbModel
             'term_id' => $data['term_id'],
         ], [
             // hiển thị mã SQL để check
-            //'show_query' => 1,
+            // 'show_query' => 1,
         ]);
 
         //
@@ -628,7 +628,7 @@ class TermBase extends EbModel
         foreach ($child_count as $v) {
             $where_in[] = $v['term_id'];
         }
-        //print_r($where_in);
+        // print_r($where_in);
 
         /**
          * count: tính tổng số bài viết của nhóm này và nhóm con
@@ -650,7 +650,7 @@ class TermBase extends EbModel
                     'posts' => 'posts.ID = term_relationships.object_id'
                 ),
                 // hiển thị mã SQL để check
-                //'show_query' => 1,
+                // 'show_query' => 1,
                 // trả về câu query để sử dụng cho mục đích khác
                 //'get_query' => 1,
                 // trả về COUNT(column_name) AS column_name
@@ -661,17 +661,18 @@ class TermBase extends EbModel
                 'limit' => -1
             )
         );
-        //print_r($post_count);
+        // print_r($post_count);
         //return false;
 
         //
         $this->base_model->update_multiple('term_taxonomy', [
             'count' => $post_count[0]['object_id'],
+            'source_count' => __CLASS__ . ':' . __FUNCTION__ . ':' . __LINE__,
         ], [
             'term_id' => $data['term_id'],
         ], [
             // hiển thị mã SQL để check
-            //'show_query' => 1,
+            // 'show_query' => 1,
         ]);
 
         //

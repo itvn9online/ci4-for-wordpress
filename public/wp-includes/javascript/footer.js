@@ -12,13 +12,15 @@
 */
 
 // xóa href cho các thẻ a không sử dụng
-$('a[href="#"], a[href="javascript:;"]')
+$('a[href="#"], a[href="javascript:;"], a[href=""]')
 	.click(function () {
 		return false;
 	})
 	//.removeAttr("href")
 	.attr({
+		href: web_link,
 		rel: "noreferrer noopener",
+		// "aria-hidden": "true",
 	});
 
 // khi bấm nút đăng xuất

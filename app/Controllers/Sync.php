@@ -510,6 +510,7 @@ class Sync extends BaseController
             $prefix . 'term_taxonomy' => [
                 // term level -> dùng để lọc các nhóm theo cấp độ cho nó nhanh -> ví dụ khi cần lấy tất cả các nhóm cấp 1, 2, 3
                 'term_level' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'Level của nhóm, tính theo cấp độ của nhóm cha +1\'',
+                'source_count' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Lưu trữ nơi update lệnh count cho term\'',
             ],
             $prefix . 'term_relationships' => [
                 'is_deleted' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'0 = hiển thị, 1 = xóa. Trạng thái này được lấy định kỳ dựa theo trạng thái của post\'',

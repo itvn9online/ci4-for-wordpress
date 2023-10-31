@@ -14,8 +14,8 @@
 <div class="container container-edit-menu">
     <!-- menu template: không được gán class trực tiếp, tránh xung đột -->
     <ol class="dd-tmp-list hide-if-edit-menu">
-        <li data-class="%dd-item%" data-id="%id%" data-name="%name%" data-slug="%slug%" data-target="" data-rel="" data-custom-css="" data-new="0" data-deleted="0">
-            <div data-class="%dd-handle%">%newText%</div>
+        <li data-class="%dd-item%" data-id="%id%" data-name="%name%" data-content="%content%" data-img="%img%" data-slug="%slug%" data-target="%target%" data-rel="%rel%" data-icon="%icon%" data-css="%css%" data-custom-css="" data-new="0" data-deleted="0">
+            <div data-class="%dd-handle%">%name%</div>
             <span data-class="%button-delete%" data-owner-id="%id%"> <i data-class="%fa-times%" aria-hidden="true"></i> </span> <span data-class="%button-edit%" data-owner-id="%id%"> <i data-class="%fa-pencil%" aria-hidden="true"></i> </span> %child_htm%
         </li>
     </ol>
@@ -72,60 +72,107 @@
                 <!-- ADD menu -->
                 <form class="form-inline" onSubmit="return get_json_add_menu(this);" id="menu-add">
                     <h3>Thêm menu</h3>
-                    <div>
-                        <div id="quick_add_menu" class="form-group">
-                            <p>* Thêm nhanh menu. Chọn 1 trong các link có sẵn dưới đây sau đó bấm [Thêm mới]</p>
-                            <?php
+                    <div id="quick_add_menu" class="form-group">
+                        <p>* Thêm nhanh menu. Chọn 1 trong các link có sẵn dưới đây sau đó bấm [Thêm mới]</p>
+                        <?php
 
-                            $quick_menu_list = $post_model->get_site_inlink($data['lang_key']);
-                            //print_r($quick_menu_list);
-                            //echo implode('', $quick_menu_list);
+                        //
+                        $quick_menu_list = $post_model->get_site_inlink($data['lang_key']);
+                        //print_r($quick_menu_list);
+                        //echo implode('', $quick_menu_list);
 
-                            // chạy 1 vòng lặp -> lấy các loại menu ra để tạo select -> dễ lọc
-                            foreach ($quick_menu_list as $k => $v) {
-                            ?>
-                                <div>
-                                    <select class="form-select">
-                                        <!-- <option value="">[ Thêm nhanh menu ]</option> -->
-                                        <option ng-repeat="v in quick_menu_list.<?php echo $k; ?>" ng-value="v.value" data-xoa-ng-disabled="v.selectable" ng-class="v.class">{{v.text}}</option>
-                                    </select>
-                                </div>
-                                <br>
-                            <?php
-                            }
+                        // chạy 1 vòng lặp -> lấy các loại menu ra để tạo select -> dễ lọc
+                        foreach ($quick_menu_list as $k => $v) {
+                        ?>
+                            <div>
+                                <select class="form-select">
+                                    <!-- <option value="">[ Thêm nhanh menu ]</option> -->
+                                    <option ng-repeat="v in quick_menu_list.<?php echo $k; ?>" ng-value="v.value" data-xoa-ng-disabled="v.selectable" ng-class="v.class">{{v.text}}</option>
+                                </select>
+                            </div>
+                            <br>
+                        <?php
+                        }
 
-                            ?>
-                        </div>
+                        ?>
                     </div>
+                    <h3 id="currentEditName" style="display: none;">Chỉnh sửa: <span class="s14"></span></h3>
                     <div>
                         <div class="form-group">
                             <label for="addInputName">Tên menu</label>
-                            <input type="text" class="form-control" id="addInputName" placeholder="Item name" required>
+                            <input type="text" class="form-control" data-set="name" id="addInputName" placeholder="Item name" aria-required="true" required>
                         </div>
                     </div>
                     <div>
                         <div class="form-group">
                             <label for="addInputSlug">Đường dẫn</label>
-                            <input type="text" class="form-control" id="addInputSlug" placeholder="Item slug" aria-required="true" required>
+                            <input type="text" class="form-control" data-set="slug" id="addInputSlug" placeholder="Item URL" aria-required="true" required>
                         </div>
                     </div>
                     <div>
-                        <button type="submit" class="btn btn-info" id="addButton"><i class="fa fa-plus"></i> Thêm mới</button>
+                        <div class="form-group">
+                            <label for="addInputImg">Hình ảnh</label>
+                            <input type="text" class="form-control" data-set="img" id="addInputImg" placeholder="Item image">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group">
+                            <label for="addInputContent">Nội dung</label>
+                            <input type="text" class="form-control" data-set="content" id="addInputContent" placeholder="Item content">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group">
+                            <label for="addInputIcon">Font-awesome icon</label>
+                            <input type="text" class="form-control" data-set="icon" id="addInputIcon" placeholder="Item icon">
+                            <div class="text-center">
+                                <a href="https://fontawesome.com/v4/icons/" rel="nofollow" class="d-block bluecolor">https://fontawesome.com/v4/icons/</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group">
+                            <label for="addInputTarget">Target</label>
+                            <input type="text" class="form-control" data-set="target" id="addInputTarget" placeholder="Item target: _blank, _parent...">
+                            <div class="text-center greencolor">_blank, _parent, _self, _top</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group">
+                            <label for="addInputRel">Rel</label>
+                            <input type="text" class="form-control" data-set="rel" id="addInputRel" placeholder="Item rel: noreferrer, noopener...">
+                            <div class="text-center greencolor">noreferrer, noopener, nofollow</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group">
+                            <label for="addInputCcc">Custom CSS</label>
+                            <input type="text" class="form-control" data-set="css" id="addInputCcc" placeholder="Item css">
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-info" id="addButton2">
+                            <span class="hide-for-edit-menu"><i class="fa fa-plus"></i> Thêm mới</span>
+                            <span class="show-for-edit-menu" style="display: none;"><i class="fa fa-save"></i> Cập nhật</span>
+                        </button>
                     </div>
                 </form>
                 <!-- ADD menu END -->
                 <!-- EDIT menu -->
-                <form class="hide-if-edit-menu" onSubmit="return get_json_edit_menu(this);" id="menu-editor">
-                    <h3>Chỉnh sửa: <span id="currentEditName"></span></h3>
+                <form class="hide-if-edit-menu d-none" onSubmit="return get_json_edit_menu(this);" id="menu-editor">
                     <div class="form-group">
-                        <label for="addInputName">Tên menu</label>
-                        <input type="text" class="form-control" id="editInputName" placeholder="Item name" required>
+                        <label for="editInputName">Tên menu</label>
+                        <input type="text" class="form-control" data-set="name" id="editInputName" placeholder="Item name" aria-required="true" required>
                     </div>
                     <div>
                         <div class="form-group">
                             <label for="addInputSlug">Đường dẫn</label>
-                            <input type="text" class="form-control" id="editInputSlug" placeholder="Item slug" aria-required="true" required>
+                            <input type="text" class="form-control" data-set="slug" id="editInputSlug" placeholder="Item slug" aria-required="true" required>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editInputImg">Hình ảnh</label>
+                        <input type="text" class="form-control" data-set="img" id="editInputImg" placeholder="Item image">
                     </div>
                     <div>
                         <button type="submit" class="btn btn-info" id="editButton"><i class="fa fa-save"></i> Cập nhật</button>

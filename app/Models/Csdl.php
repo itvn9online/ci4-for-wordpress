@@ -559,12 +559,15 @@ class Csdl extends Session
         }
         */
         // daidq (2021-12-25): để tránh trường hợp select unlimit cho dữ liệu lớn -> đặt mặc định lệnh LIMIT nếu không được chỉ định
-        if (!isset($ops['limit']) || $ops['limit'] < 1) {
+        if (!isset($ops['limit'])) {
             //echo 'auto limit <br>' . PHP_EOL;
             $ops['limit'] = 500;
-        }
-        if ($ops['limit'] > 0) {
+        } else if ($ops['limit'] > 0) {
             $builder->limit($ops['limit'], $ops['offset']);
+        } else if ($ops['limit'] < 0) {
+            // ko set limit
+        } else {
+            $ops['limit'] = 500;
         }
 
         // trả về kết quả

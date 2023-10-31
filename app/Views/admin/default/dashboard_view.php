@@ -31,6 +31,42 @@ if (strpos($content_htaccess, '{my_domain.com}') !== false) {
 }
 
 
+// xem có URL nào trùng lặp không
+if ($check_dup_url !== false) {
+    // print_r($check_dup_url);
+
+?>
+    <h4>Dữ liệu có URL trùng khớp:</h4>
+    <table class="table table-bordered table-striped with-check table-list eb-table" style="width: auto;">
+        <tr>
+            <?php
+            // tạo thẻ TH
+            foreach ($check_dup_url[0] as $k => $v) {
+                echo '<th>' . $k . '</th>';
+            }
+            ?>
+        </tr>
+        <?php
+
+        // tạo thẻ TD
+        foreach ($check_dup_url as $v) {
+        ?>
+            <tr>
+                <?php
+                foreach ($v as $v2) {
+                    echo '<td>' . $v2 . '</td>';
+                }
+                ?>
+            </tr>
+        <?php
+        }
+        ?>
+    </table>
+    <p class="redcolor medium">* Ở đây sẽ liệt kê các loại dữ liệu khác nhau nhưng có URL trùng nhau. Bạn cần truy cập và thay đổi URL để tránh trùng lặp.</p>
+<?php
+}
+
+
 //
 $ci_last_version = 431;
 

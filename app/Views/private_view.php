@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * file này được include vào từng view sau đó nó sẽ kiểm tra có view riêng của từng theme không
  */
 //var_dump( $debug_enable );

@@ -12,7 +12,7 @@ if ($debug_enable === true) {
 
 //
 $totalThread = $post_model->fix_term_count($data, $post_type);
-//echo $totalThread . '<br>' . PHP_EOL;
+// echo $totalThread . '<br>' . PHP_EOL;
 //$totalThread = $data['count'];
 //echo $totalThread . '<br>' . PHP_EOL;
 

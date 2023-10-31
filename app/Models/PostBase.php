@@ -4,6 +4,8 @@ namespace App\Models;
 
 // Libraries
 use App\Libraries\PostType;
+use App\Libraries\TaxonomyType;
+use App\Libraries\DeletedStatus;
 
 //
 class PostBase extends EbModel
@@ -360,6 +362,236 @@ class PostBase extends EbModel
 
         //
         return 0;
+    }
+
+    /**
+     * kiểm tra slug trùng lặp -> chỉ lấy các post dạng public
+     **/
+    public function checkDuplicateSlug($create_view = false)
+    {
+        //
+        $last_run = $this->the_cache(__FUNCTION__, __FUNCTION__);
+        if ($create_view === false && $last_run !== NULL) {
+            // echo __FUNCTION__ . ' RUN ' . (time() - $last_run) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            return false;
+        }
+
+        /**
+         * xử lý phần post
+         */
+        $tbl_dpost = WGR_TABLE_PREFIX . 'zzz_dup_posts_slug';
+        if ($create_view !== false || $this->base_model->table_exists($tbl_dpost) === false) {
+            global $arr_custom_post_type;
+            $allow_post_type = [
+                PostType::PAGE,
+                PostType::POST,
+                //PostType::BLOG,
+                PostType::PROD,
+            ];
+            foreach ($arr_custom_post_type as $k => $v) {
+                if (!in_array($k, $allow_post_type)) {
+                    $allow_post_type[] = $k;
+                }
+            }
+            // print_r($allow_post_type);
+
+            //
+            $sql = $this->base_model->select(
+                'COUNT("ID") AS "c", ID, post_type, post_status, post_permalink',
+                // WGR_POST_VIEW,
+                'posts',
+                array(
+                    // các kiểu điều kiện where
+                    'post_permalink !=' => '',
+                    'post_status' => PostType::PUBLICITY,
+                ),
+                array(
+                    'where_in' => array(
+                        'post_type' => $allow_post_type
+                    ),
+                    'group_by' => array(
+                        'post_permalink',
+                        'post_type',
+                        'ID',
+                    ),
+                    // 'order_by' => array(),
+                    // hiển thị mã SQL để check
+                    // 'show_query' => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    'get_query' => 1,
+                    // trả về COUNT(column_name) AS column_name
+                    //'selectCount' => 'ID',
+                    // trả về tổng số bản ghi -> tương tự mysql num row
+                    //'getNumRows' => 1,
+                    //'offset' => 0,
+                    'limit' => -1
+                )
+            );
+            // print_r($sql);
+            $sql = "CREATE OR REPLACE VIEW $tbl_dpost AS " . $sql;
+            echo $sql . '<br>' . PHP_EOL;
+            $this->base_model->MY_query($sql);
+        }
+
+        /**
+         * rồi đến term
+         */
+        $tbl_dterm = WGR_TABLE_PREFIX . 'zzz_dup_terms_slug';
+        if ($create_view !== false || $this->base_model->table_exists($tbl_dterm) === false) {
+            global $arr_custom_taxonomy;
+            $allow_taxonomy = [
+                TaxonomyType::POSTS,
+                TaxonomyType::TAGS,
+                //TaxonomyType::BLOGS,
+                //TaxonomyType::BLOG_TAGS,
+                TaxonomyType::PROD_CATS,
+                TaxonomyType::PROD_TAGS,
+            ];
+            foreach ($arr_custom_taxonomy as $k => $v) {
+                if (!in_array($k, $allow_taxonomy)) {
+                    $allow_taxonomy[] = $k;
+                }
+            }
+            //print_r($allow_taxonomy);
+
+            //
+            $sql = $this->base_model->select(
+                'COUNT("term_id") AS "c", term_id, taxonomy, is_deleted, term_permalink',
+                WGR_TERM_VIEW,
+                array(
+                    // các kiểu điều kiện where
+                    'term_permalink !=' => '',
+                    'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                ),
+                array(
+                    'where_in' => array(
+                        'taxonomy' => $allow_taxonomy
+                    ),
+                    'group_by' => array(
+                        'term_permalink',
+                        'taxonomy',
+                        'term_id',
+                        'is_deleted',
+                    ),
+                    // 'order_by' => array(
+                    //     'term_id' => 'DESC'
+                    // ),
+                    // hiển thị mã SQL để check
+                    // 'show_query' => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    'get_query' => 1,
+                    // trả về COUNT(column_name) AS column_name
+                    //'selectCount' => 'ID',
+                    // trả về tổng số bản ghi -> tương tự mysql num row
+                    //'getNumRows' => 1,
+                    //'offset' => 0,
+                    'limit' => -1
+                )
+            );
+            // print_r($sql);
+            $sql = "CREATE OR REPLACE VIEW $tbl_dterm AS " . $sql;
+            echo $sql . '<br>' . PHP_EOL;
+            $this->base_model->MY_query($sql);
+        }
+
+        /**
+         * bắt đầu tìm kiếm các bản ghi > 1
+         */
+        $data = $this->base_model->select(
+            '*',
+            $tbl_dpost,
+            array(
+                // các kiểu điều kiện where
+                'c >' => 1
+            ),
+            array(
+                // 'group_by' => array(),
+                // 'order_by' => array(),
+                // hiển thị mã SQL để check
+                // 'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                // 'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => -1
+            )
+        );
+        // print_r($data);
+        if (!empty($data)) {
+            return $data;
+        }
+
+        //
+        $data = $this->base_model->select(
+            '*',
+            $tbl_dterm,
+            array(
+                // các kiểu điều kiện where
+                'c >' => 1
+            ),
+            array(
+                // 'group_by' => array(),
+                // 'order_by' => array(),
+                // hiển thị mã SQL để check
+                // 'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                // 'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => -1
+            )
+        );
+        // print_r($data);
+        if (!empty($data)) {
+            return $data;
+        }
+
+        /**
+         * Tìm các bản ghi ở 2 slug mà có url giống nhau
+         */
+        $data = $this->base_model->select(
+            implode(',', [
+                $tbl_dpost . '.ID',
+                $tbl_dpost . '.post_permalink',
+                $tbl_dpost . '.post_type',
+            ]) . ',' . implode(',', [
+                $tbl_dterm . '.term_id',
+                $tbl_dterm . '.term_permalink',
+                $tbl_dterm . '.taxonomy',
+            ]),
+            $tbl_dpost,
+            array(
+                // các kiểu điều kiện where
+                'post_permalink !=' => '',
+            ),
+            array(
+                'join' => array(
+                    $tbl_dterm => $tbl_dpost . '.post_permalink = ' . $tbl_dterm . '.term_permalink',
+                ),
+                // hiển thị mã SQL để check
+                // 'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                // 'get_query' => 1,
+                //'offset' => 2,
+                'limit' => -1
+            )
+        );
+        // print_r($data);
+        if (!empty($data)) {
+            return $data;
+        }
+
+        //
+        $this->the_cache(__FUNCTION__, __FUNCTION__, time());
+
+        //
+        return false;
     }
 
     // trả về key cho post cache

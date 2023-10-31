@@ -1,3 +1,9 @@
+<?php
+
+//
+use App\Libraries\LanguageCost;
+
+?>
 <ul class="admin-breadcrumb">
     <li>Dọn dẹp website</li>
 </ul>
@@ -84,9 +90,7 @@
                 <form action="admin/dashboard/reset_term_permalink" method="post" role="form" onsubmit="return waiting_cleanup_cache();" enctype="multipart/form-data" target="target_eb_iframe">
                     <br>
                     <div>
-                        <button type="submit" class="btn btn-warning"><i class="fa fa-refresh"></i> Cập nhật lại
-                            Permalink cho
-                            Terms</button>
+                        <button type="submit" class="btn btn-warning"><i class="fa fa-refresh"></i> Cập nhật lại Permalink cho Terms (<?php echo LanguageCost::lang_key(); ?>)</button>
                     </div>
                 </form>
             </div>
@@ -95,9 +99,7 @@
                 <form action="admin/dashboard/reset_post_permalink" method="post" role="form" onsubmit="return waiting_cleanup_cache();" enctype="multipart/form-data" target="target_eb_iframe">
                     <br>
                     <div>
-                        <button type="submit" class="btn btn-danger"><i class="fa fa-refresh"></i> Cập nhật lại
-                            Permalink cho
-                            Posts</button>
+                        <button type="submit" class="btn btn-danger"><i class="fa fa-refresh"></i> Cập nhật lại Permalink cho Posts (<?php echo LanguageCost::lang_key(); ?>)</button>
                     </div>
                 </form>
             </div>

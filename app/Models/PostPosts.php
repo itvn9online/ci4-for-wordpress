@@ -335,7 +335,8 @@ class PostPosts extends PostSlider
 
         //
         $this->base_model->update_multiple($this->term_model->taxTable, [
-            'count' => $count
+            'count' => $count,
+            'source_count' => __CLASS__ . ':' . __FUNCTION__ . ':' . __LINE__,
         ], [
             'term_taxonomy_id' => $prams['term_id'],
             'term_id' => $prams['term_id'],

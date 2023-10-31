@@ -129,10 +129,11 @@ class Terms extends Admin
             'or_like' => $where_or_like,
             'by_is_deleted' => $by_is_deleted,
             'lang_key' => $this->lang_key,
+            // 'show_query' => 1,
             'limit' => -1,
         ];
         //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-        //print_r($filter);
+        // print_r($filter);
 
 
         /*
