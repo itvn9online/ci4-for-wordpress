@@ -43,6 +43,13 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
                     <?php
                     }
 
+                    //
+                    if ($data['lang_parent'] > 0) {
+                    ?>
+                        (Parent: <?php echo $data['lang_parent']; ?>)
+                    <?php
+                    }
+
                     ?>
                 </div>
             </div>
@@ -67,7 +74,7 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
                     <div class="control-group">
                         <label class="control-label">PHP Code:</label>
                         <div class="controls">
-                            <input type="text" class="span6" value="&lt;?php $this->post_model->the_ads('<?php echo $data['slug']; ?>'); ?&gt;" readonly />
+                            <input type="text" class="span6" value="&lt;?php $post_model->the_ads('<?php echo $data['slug']; ?>'); ?&gt;" ondblclick="click2Copy(this);" readonly />
                             <input type="hidden" name="data[slug]" value="<?php echo $data['slug']; ?>" />
                         </div>
                     </div>
@@ -348,13 +355,26 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
     </div>
 </div>
 <br>
-<div class="left-menu-space">
-    <h3><?php echo $name_type; ?> khác:</h3>
-    <ul id="oi_other_posts" class="s14">
+<div id="oi_other_posts" class="s14 left-menu-space">
+    <h3 class="white-preview-url"><?php echo $name_type; ?> khác:</h3>
+    <ul>
         <li v-for="v in prev_term"><a :href="term_admin_permalink(current_taxonomy, v.term_id, controller_slug)">{{v.name}} ({{v.slug}})</a></li>
         <li class="bold"><?php echo $data['name']; ?></li>
         <li v-for="v in next_term"><a :href="term_admin_permalink(current_taxonomy, v.term_id, controller_slug)">{{v.name}} ({{v.slug}})</a></li>
     </ul>
+    <?php
+
+    //
+    if (!empty($child_term)) {
+    ?>
+        <h3 class="white-preview-url">Các <?php echo $name_type; ?> con khác (cùng parent hoặc lang_parent):</h3>
+        <ul>
+            <li v-for="v in child_term">{{v.taxonomy}} ({{v.lang_key}}) #{{v.term_id}} {{v.name}} ({{v.slug}}) | {{v.is_deleted}}</li>
+        </ul>
+    <?php
+    }
+
+    ?>
 </div>
 <?php
 
@@ -370,6 +390,7 @@ $base_model->JSON_parse([
     'arr_custom_cloumn' => $arr_custom_cloumn,
     'prev_term' => $prev_term,
     'next_term' => $next_term,
+    'child_term' => $child_term,
 ]);
 
 //
@@ -400,5 +421,6 @@ $base_model->adds_js([
     WGR_vuejs('#oi_other_posts', {
         prev_term: prev_term,
         next_term: next_term,
+        child_term: child_term,
     });
 </script>

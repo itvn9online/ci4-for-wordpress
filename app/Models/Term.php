@@ -135,9 +135,10 @@ class Term extends TermBase
     {
         // các dữ liệu mặc định
         $default_data = [
-            'last_updated' => date(EBE_DATETIME_FORMAT),
+            'term_date' => date(EBE_DATETIME_FORMAT),
             'lang_key' => LanguageCost::lang_key(),
         ];
+        $default_data['last_updated'] = $default_data['term_date'];
         //print_r( $default_data );
 
         //

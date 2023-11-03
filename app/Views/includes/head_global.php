@@ -132,7 +132,7 @@ if ($getconfig->disable_fontawesome4 != 'on') {
 
 foreach ($arr_preload_bootstrap as $v) {
 ?>
-    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="<?php echo $v; ?>" />
+    <link rel="preload" as="style" onload="this.rel='stylesheet';this.onload=null;" href="<?php echo $v; ?>" />
 <?php
 }
 

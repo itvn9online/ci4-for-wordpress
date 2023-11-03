@@ -44,7 +44,7 @@ class Base extends Csdl
 
         //
         if (isset($ops['preload'])) {
-            $rel = 'rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'"';
+            $rel = 'rel="preload" as="style" onload="this.rel=\'stylesheet\';this.onload=null;"';
         } else {
             $rel = 'rel="stylesheet" type="text/css" media="all"';
         }

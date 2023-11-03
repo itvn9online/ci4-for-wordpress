@@ -258,6 +258,8 @@ class Terms extends Admin
                     $duplicate_title = explode('- Duplicate', $dup_data['name']);
                     $dup_data['name'] = trim($duplicate_title[0]) . ' - Duplicate ' . date('Ymd-His');
                 }
+                $dup_data['term_date'] = date(EBE_DATETIME_FORMAT);
+                $dup_data['last_updated'] = $dup_data['term_date'];
                 $dup_data['slug'] = '';
                 $dup_data['term_shortname'] = '';
                 $dup_data['term_id'] = 0;
@@ -284,6 +286,7 @@ class Terms extends Admin
         $file_view = 'add';
         $next_term = [];
         $prev_term = [];
+        $child_term = [];
 
         // edit
         if ($id > 0) {
@@ -313,15 +316,66 @@ class Terms extends Admin
                     'term_id' => $id
                 ], [
                     // hiển thị mã SQL để check
-                    //'show_query' => 1,
+                    'show_query' => 1,
                     // trả về câu query để sử dụng cho mục đích khác
                     //'get_query' => 1,
                 ]);
             }
 
+            // nếu có thông số lang_clone_done -> lang vừa được nhân bản -> cập nhật lại lang parent nếu chưa đúng
+            $lang_clone_done = $this->MY_get('lang_clone_done', '');
+            if ($lang_clone_done != '' && is_numeric($lang_clone_done) && $lang_clone_done != $data['term_id'] && $data['lang_parent'] < 1) {
+                $lang_clone_key = $this->MY_get('lang_clone_key', '');
+                // print_r($data);
+
+                //
+                $parent_lang_data = $this->term_model->select_term($lang_clone_done, [
+                    'taxonomy' => $this->taxonomy,
+                    // 'lang_key' => $clone_lang,
+                ], [
+                    'show_query' => 1,
+                ]);
+                // print_r($parent_lang_data);
+
+                // nếu đây là lang chính và khác với lang hiện tại
+                if (!empty($parent_lang_data)) {
+                    // nếu đây không phải ngôn ngữ chính -> tìm ngôn ngữ chính
+                    if ($parent_lang_data['lang_key'] != SITE_LANGUAGE_DEFAULT) {
+                        $parent_lang_data = $this->term_model->select_term(0, [
+                            'taxonomy' => $this->taxonomy,
+                            'lang_key' => SITE_LANGUAGE_DEFAULT,
+                            'slug' => $parent_lang_data['slug'],
+                            'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                        ], [
+                            'show_query' => 1,
+                        ]);
+                        // print_r($parent_lang_data);
+                        // die(__CLASS__ . ':' . __LINE__);
+                    }
+
+                    //
+                    if (!empty($parent_lang_data) && $parent_lang_data['lang_key'] == SITE_LANGUAGE_DEFAULT && $parent_lang_data['lang_key'] != $lang_clone_key && $parent_lang_data['lang_key'] != $data['lang_key']) {
+                        // print_r($parent_lang_data);
+
+                        // cập nhật lang parent
+                        $this->base_model->update_multiple('terms', [
+                            // SET
+                            'lang_parent' => $parent_lang_data['term_id']
+                        ], [
+                            'term_id' => $id
+                        ], [
+                            // hiển thị mã SQL để check
+                            'show_query' => 1,
+                            // trả về câu query để sử dụng cho mục đích khác
+                            //'get_query' => 1,
+                        ]);
+                    }
+                }
+            }
+
             // nếu ngôn ngữ của post không đúng với ngôn ngữ đang hiển thị
             $clone_lang = $this->MY_get('clone_lang', '');
-            if ($clone_lang != '' && $clone_lang != $data['lang_key']) {
+            if ($clone_lang != '' && $clone_lang != $data['lang_key'] && $clone_lang != SITE_LANGUAGE_DEFAULT) {
                 // ngôn ngữ hiện tại có cha -> chuyển đến bản ghi cha
                 if ($data['lang_parent'] > 0) {
                     $this->redirectLanguage($data, $data['lang_parent']);
@@ -357,6 +411,9 @@ class Terms extends Admin
                         unset($dup_data['term_taxonomy_id']);
                         $term_meta = $dup_data['term_meta'];
                         unset($dup_data['term_meta']);
+                        //
+                        $dup_data['term_date'] = date(EBE_DATETIME_FORMAT);
+                        $dup_data['last_updated'] = $dup_data['term_date'];
 
                         //
                         //print_r($dup_data);
@@ -370,7 +427,12 @@ class Terms extends Admin
                             // dọn dẹp cache liên quan đến taxonomy này
                             $this->cleanup_cache($this->taxonomy . '_get_child');
 
-                            $redirect_to = $this->term_model->get_admin_permalink($this->taxonomy, $result_id, $this->controller_slug) . $this->get_preview_url();
+                            // chuẩn bị link để redirect tới
+                            $redirect_to = $this->term_model->get_admin_permalink($this->taxonomy, $result_id, $this->controller_slug);
+                            // thêm tham số cập nhật lang parent
+                            $redirect_to .= '&lang_clone_done=' . $data['term_id'] . '&lang_clone_key=' . $clone_lang;
+                            //
+                            $redirect_to .= $this->get_preview_url();
                             //die($redirect_to);
 
                             // sau đó redirect tới
@@ -463,6 +525,26 @@ class Terms extends Admin
             //print_r($next_term);
 
             //
+            $child_term = $this->term_model->select_term(0, [
+                // 'term_id >' => $data['term_id'],
+                // 'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                'taxonomy' => $this->taxonomy,
+                // 'lang_key' => $this->lang_key,
+            ], [
+                'where_or' => [
+                    'parent' => $data['term_id'],
+                    'lang_parent' => $data['term_id'],
+                ],
+                // 'order_by' => array(
+                //     'term_order' => 'DESC',
+                //     'term_id' => 'ASC'
+                // ),
+                // 'show_query' => 1,
+                'limit' => 99,
+            ], 'term_id, name, slug, is_deleted, taxonomy, lang_key');
+            // print_r($child_term);
+
+            //
             $this->term_model->update_count_post_in_term($data);
             $this->term_model->sync_term_child_count();
         }
@@ -526,6 +608,7 @@ class Terms extends Admin
                 'set_parent' => $set_parent,
                 'prev_term' => $prev_term,
                 'next_term' => $next_term,
+                'child_term' => $child_term,
                 'data' => $data,
                 'term_lang' => ($data['lang_key'] != '' ? LanguageCost::typeList($data['lang_key']) : ''),
                 'taxonomy' => $this->taxonomy,
@@ -637,7 +720,9 @@ class Terms extends Admin
 
             //
             //print_r($data);
-            $this->cleanup_cache($data['slug']);
+            if ($data['slug'] != '') {
+                $this->cleanup_cache($data['slug']);
+            }
         }
 
         // nạp lại trang nếu có đổi slug duplicate

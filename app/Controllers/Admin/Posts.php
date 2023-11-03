@@ -426,6 +426,10 @@ class Posts extends Admin
                     $duplicate_title = explode('- Duplicate', $dup_data['post_title']);
                     $dup_data['post_title'] = trim($duplicate_title[0]) . ' - Duplicate ' . date('Ymd-His');
                 }
+                $dup_data['post_date'] = date(EBE_DATETIME_FORMAT);
+                $dup_data['post_date_gmt'] = $dup_data['post_date'];
+                $dup_data['post_modified'] = $dup_data['post_date'];
+                $dup_data['post_modified_gmt'] = $dup_data['post_date'];
                 $dup_data['post_name'] = '';
                 $dup_data['post_shorttitle'] = '';
                 $dup_data['ID'] = 0;
@@ -455,6 +459,7 @@ class Posts extends Admin
         $url_next_post = '';
         $prev_post = [];
         $next_post = [];
+        $child_post = [];
         if ($id > 0) {
             // select dữ liệu từ 1 bảng bất kỳ
             $data = $this->post_model->select_post($id, [
@@ -505,6 +510,11 @@ class Posts extends Admin
                         unset($dup_data['ID']);
                         $post_meta = $dup_data['post_meta'];
                         unset($dup_data['post_meta']);
+                        //
+                        $dup_data['post_date'] = date(EBE_DATETIME_FORMAT);
+                        $dup_data['post_date_gmt'] = $dup_data['post_date'];
+                        $dup_data['post_modified'] = $dup_data['post_date'];
+                        $dup_data['post_modified_gmt'] = $dup_data['post_date'];
 
                         //
                         //print_r($dup_data);
@@ -517,11 +527,13 @@ class Posts extends Admin
                         }
                         //echo $result_id;
                         $redirect_to = $this->buildAdminPermalink($result_id);
+                        // thêm tham số cập nhật lang parent
+                        $redirect_to .= '&lang_clone_done=' . $data['ID'] . '&lang_clone_key=' . $clone_lang;
                         //die($redirect_to);
 
                         // sau đó redirect tới
                         $this->MY_redirect($redirect_to, 301);
-                        die(__CLASS__ . ':' . __LINE__);
+                        // die(__CLASS__ . ':' . __LINE__);
                         //}
 
                         // thay đổi file view sang file thông báo tạo ngôn ngữ mới
@@ -635,6 +647,23 @@ class Posts extends Admin
                     'limit' => 5,
                 ], 'ID, post_title, post_name');
                 //print_r($next_post);
+
+                // các dữ liệu con -> post_parent
+                $child_post = $this->post_model->select_post(0, [
+                    'post_type' => $this->post_type,
+                ], [
+                    'where_or' => [
+                        'post_parent' => $data['ID'],
+                        'lang_parent' => $data['ID'],
+                    ],
+                    'order_by' => array(
+                        'menu_order' => 'DESC',
+                        'ID' => 'ASC'
+                    ),
+                    // 'show_query' => 1,
+                    'limit' => 99,
+                ], 'ID, post_title, post_name, post_status, post_type, lang_key');
+                // print_r($child_post);
             }
 
             // tinh chỉnh lại URL cho phần upload -> 1 số vụ nó bị ăn URL kép
@@ -725,6 +754,7 @@ class Posts extends Admin
                 'url_next_post' => $url_next_post,
                 'prev_post' => $prev_post,
                 'next_post' => $next_post,
+                'child_post' => $child_post,
                 'post_cat' => $post_cat,
                 'post_tags' => $post_tags,
                 'post_options' => $post_options,

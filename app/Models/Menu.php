@@ -89,6 +89,11 @@ class Menu extends Post
                         $data_insert['post_content'] = $sql['post_content'];
                         $data_insert['post_excerpt'] = $sql['post_excerpt'];
                         $data_insert['lang_parent'] = $sql['ID'];
+                        //
+                        $data_insert['post_date'] = date(EBE_DATETIME_FORMAT);
+                        $data_insert['post_date_gmt'] = $data_insert['post_date'];
+                        $data_insert['post_modified'] = $data_insert['post_date'];
+                        $data_insert['post_modified_gmt'] = $data_insert['post_date'];
                         //print_r($data_insert);
                     }
                     //die(__CLASS__ . ':' . __LINE__);

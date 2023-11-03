@@ -494,6 +494,7 @@ class Sync extends BaseController
                 'updated_permalink' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Lưu thời gian cập nhật permalink\'',
                 'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
                 'lang_parent' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Dùng để xác định với các bản ghi được nhân bản từ ngôn ngữ chính\'',
+                'term_date' => 'DATETIME NOT NULL',
                 'last_updated' => 'DATETIME NOT NULL',
                 'is_deleted' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'0 = hiển thị, 1 = xóa\'',
                 'term_order' => 'INT(10) NOT NULL DEFAULT \'0\' COMMENT \'Sắp xếp vị trí hiển thị, số càng to thì độ ưu tiên càng cao\'',

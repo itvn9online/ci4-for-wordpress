@@ -668,6 +668,11 @@ class PostQuery extends PostMeta
                         $data_insert['lang_key'] = LanguageCost::lang_key();
                         $data_insert['lang_parent'] = $v['ID'];
                         $data_insert['post_meta']['post_category'] = $get_data['term']['term_id'];
+                        //
+                        $data_insert['post_date'] = date(EBE_DATETIME_FORMAT);
+                        $data_insert['post_date_gmt'] = $data_insert['post_date'];
+                        $data_insert['post_modified'] = $data_insert['post_date'];
+                        $data_insert['post_modified_gmt'] = $data_insert['post_date'];
                         //print_r( $data_insert );
 
                         //

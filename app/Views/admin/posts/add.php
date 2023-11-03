@@ -311,6 +311,19 @@ include __DIR__ . '/add_breadcrumb.php';
         <li class="bold"><?php echo $data['post_title']; ?></li>
         <li v-for="v in next_post"><a :href="post_admin_permalink(current_post_type, v.ID, controller_slug)">{{v.post_title}} ({{v.post_name}})</a></li>
     </ul>
+    <?php
+
+    //
+    if (!empty($child_post)) {
+    ?>
+        <h3 class="white-preview-url">Các <?php echo $name_type; ?> con khác (cùng post_parent hoặc lang_parent):</h3>
+        <ul>
+            <li v-for="v in child_post">{{v.post_type}} ({{v.lang_key}}) #{{v.ID}} {{v.post_title}} ({{v.post_name}}) | {{v.post_status}}</li>
+        </ul>
+    <?php
+    }
+
+    ?>
 </div>
 <?php
 
@@ -321,6 +334,7 @@ $base_model->JSON_parse([
     'quick_menu_list' => $quick_menu_list,
     'prev_post' => $prev_post,
     'next_post' => $next_post,
+    'child_post' => $child_post,
 ]);
 
 //
@@ -354,6 +368,7 @@ $base_model->JSON_echo([
     WGR_vuejs('#oi_other_posts', {
         prev_post: prev_post,
         next_post: next_post,
+        child_post: child_post,
     });
 </script>
 <?php

@@ -16,7 +16,7 @@ $base_model->add_js('wp-admin/js/users_functions.js');
         <?php echo $totalThread; ?>)
     </li>
     <?php
-    if ($member_type != '') {
+    if ($member_type != '' && $member_name != '') {
     ?>
         <li>
             <?php echo $member_name; ?>
