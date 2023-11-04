@@ -43,29 +43,35 @@ function create_ul_menu_editer(a, sub_menu) {
 
 		//
 		var a_tag = "";
-		if (a[i].slug == "") {
-			a_tag = '<span class="eb-menu-text">' + a[i].name + "</span>";
+		if (a[i].slug == "" || a[i].slug == "#") {
+			a_tag =
+				'<span class="eb-menu-text eb-menu-onlytext">' + a[i].name + "</span>";
 		} else {
+			var menu_css = ["eb-menu-text"];
+
 			//
 			if (a[i].content != "") {
 				a[i].content =
 					'<span class="eb-menu-content">' + a[i].content + "</span>";
+				menu_css.push("eb-menu-has-content");
 			}
 
 			//
 			if (a[i].css != "") {
-				a[i].css = " " + a[i].css;
+				menu_css.push(a[i].css);
 			}
 
 			//
 			if (a[i].icon != "") {
 				a[i].icon = '<i class="eb-menu-icon ' + a[i].icon + '">&nbsp;</i>';
+				menu_css.push("eb-menu-has-icon");
 			}
 
 			//
 			if (a[i].img != "") {
 				a[i].img =
 					'<span data-img="' + a[i].img + '" class="eb-menu-img">&nbsp;</span>';
+				menu_css.push("eb-menu-has-img");
 			}
 
 			//
@@ -82,8 +88,8 @@ function create_ul_menu_editer(a, sub_menu) {
 			a_tag =
 				'<a href="' +
 				a[i].slug +
-				'" class="eb-menu-text' +
-				a[i].css +
+				'" class="' +
+				menu_css.join(" ") +
 				'"' +
 				a[i].rel +
 				a[i].target +
@@ -174,6 +180,13 @@ function get_json_add_menu(obj) {
 	} catch (e) {
 		//
 	}
+
+	//
+	if ($("#addInputSlug").val() == "") {
+		$("#addInputSlug").val("#");
+	}
+
+	//
 	console.log("currentEditIdMenu:", currentEditIdMenu);
 
 	if (currentEditIdMenu != "") {
@@ -466,9 +479,11 @@ if (localStorage.getItem("admin-show-hidden-menu") !== null) {
 
 $("#quick_add_menu select").change(function () {
 	var v = $(this).val() || "";
+	// console.log(v);
 
 	if (v != "") {
-		var base_url = $("base ").attr("href") || "";
+		var base_url = $("base").attr("href") || "";
+		// console.log(base_url);
 		if (base_url != "") {
 			v = v.replace(base_url, "./");
 		}
@@ -480,6 +495,11 @@ $("#quick_add_menu select").change(function () {
 	}
 	$("#addInputSlug").val(v);
 	$("#addInputName").focus();
+
+	// chuyển về add new
+	$("#currentEditName, .show-for-edit-menu").hide();
+	$(".hide-for-edit-menu").show();
+	currentEditIdMenu = "";
 });
 
 /*

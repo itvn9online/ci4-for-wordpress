@@ -184,6 +184,7 @@ class ConfigType
                 'zalo' => 'Số Zalo',
                 'zalo_me' => 'Link Zalo',
                 'image' => 'Ảnh share Facebook',
+                'tawk_to' => 'Tawk to ID',
                 'registeronline' => 'Link đăng ký BCT',
                 'notificationbct' => 'Link thông báo BCT',
             ];
@@ -596,6 +597,7 @@ class ConfigType
             'eb_product_per_page' => 'Khi số này lớn hơn 0, trong trang chi tiết ' . AdminTranslate::PROD . ' sẽ lấy các bài cùng nhóm với bài hiện tại để giới thiệu',
             'main_slider_slug' => 'Nhập slug của slider chính vào đây, khi hàm the_slider không tìm được slider tương ứng thì nó sẽ lấy slider này để gán vào',
             'image' => 'Khi share ' . AdminTranslate::POST . ' lên mạng xã hội như Facebook, Zalo... ảnh này sẽ được hiển thị nếu link share không có ảnh đính kèm.',
+            'tawk_to' => 'Chỉ nhập ID của widget chat https://tawk.to vào đây, phần mã còn lại hệ thống sẽ tự build và update khi cần thiết.',
             'registeronline' => 'Link đăng ký với bộ công thương. Trong file view, sử dụng hàm <strong>$option_model->the_bct( $getconfig );</strong> để in ra logo BCT màu đỏ.',
             'notificationbct' => 'Link thông báo với bộ công thương. Trong file view, sử dụng hàm <strong>$option_model->the_bct( $getconfig );</strong> để in ra logo BCT màu xanh.',
             'g_recaptcha_site_key' => 'Truy cập vào đây https://www.google.com/recaptcha/about/ -> tới bảng điều khiển site -> tìm tab Settings -> reCAPTCHA keys -> copy Site key và Secret key dán vào đây và lưu lại.',

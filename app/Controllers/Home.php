@@ -232,15 +232,15 @@ class Home extends Posts
             }
             */
 
-            //
-            $tax_to_post_type = [
+            // tax_to_post_type
+            $ttpt = [
                 TaxonomyType::POSTS => PostType::POST,
                 TaxonomyType::PROD_CATS => PostType::PROD,
             ];
-            //print_r($tax_to_post_type);
+            //print_r($ttpt);
 
             //
-            return $this->category($data, isset($tax_to_post_type[$data['taxonomy']]) ? $tax_to_post_type[$data['taxonomy']] : PostType::POST, $data['taxonomy'], $data['taxonomy'] . '_view', [
+            return $this->category($data, isset($ttpt[$data['taxonomy']]) ? $ttpt[$data['taxonomy']] : '', $data['taxonomy'], $data['taxonomy'] . '_view', [
                 'page_num' => $page_num,
             ]);
         }
@@ -703,22 +703,23 @@ class Home extends Posts
         //print_r($data);
 
         // xác định post type dựa theo taxonomy type
-        $get_post_type = $this->base_model->select('post_type', 'posts', $where, $filter);
+        // $get_post_type = $this->base_model->select('post_type', 'posts', $where, $filter);
         //print_r($get_post_type);
 
         // tìm được post tương ứng thì mới show category ra
-        if (!empty($get_post_type)) {
-            //die(__CLASS__ . ':' . __LINE__);
-            return $this->category($data, $get_post_type['post_type'], $taxonomy_type, $taxonomy_type . '_view', [
-                'page_num' => $page_num,
-                'cache_key' => $cache_key,
-            ]);
-            /*
+        // if (!empty($get_post_type)) {
+        //die(__CLASS__ . ':' . __LINE__);
+        // return $this->category($data, $get_post_type['post_type'], $taxonomy_type, $taxonomy_type . '_view', [
+        return $this->category($data, '', $taxonomy_type, $taxonomy_type . '_view', [
+            'page_num' => $page_num,
+            'cache_key' => $cache_key,
+        ]);
+        /*
         } else {
             print_r($where);
             print_r($filter);
             */
-        }
+        // }
 
         //
         //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;

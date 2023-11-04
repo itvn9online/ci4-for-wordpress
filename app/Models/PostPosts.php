@@ -323,6 +323,9 @@ class PostPosts extends PostSlider
             ]
         ]);
         //print_r($count);
+        if (empty($count)) {
+            return 0;
+        }
         $count = $count[0]['ID'];
 
         //print_r($prams);
@@ -357,10 +360,13 @@ class PostPosts extends PostSlider
     public function post_category($post_type, $data, $ops = [])
     {
         $where = [
-            $this->table . '.post_type' => $post_type,
+            // $this->table . '.post_type' => $post_type,
             $this->table . '.post_status' => PostType::PUBLICITY,
             $this->table . '.lang_key' => LanguageCost::lang_key()
         ];
+        if ($post_type != '') {
+            $where[$this->table . '.post_type'] = $post_type;
+        }
 
         //
         $filter = [

@@ -856,7 +856,7 @@ class PostQuery extends PostMeta
             }
             $widget_blog_more = '';
             if ($instance['text_view_details'] != '') {
-                $widget_blog_more = '<div class="widget-blog-more details-blog-more"><a href="{{p_link}}">' . $instance['text_view_details'] . '</a></div>';
+                $widget_blog_more = '<div class="widget-blog-more-xoa details-blog-more"><a href="{{p_link}}">' . $instance['text_view_details'] . '</a></div>';
             }
 
             //

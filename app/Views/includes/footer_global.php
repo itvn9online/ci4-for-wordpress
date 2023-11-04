@@ -84,6 +84,10 @@ if ($current_user_id > 0) {
 //
 include __DIR__ . '/ebe_captcha.php';
 
+//
+if ($getconfig->tawk_to != '') {
+    include VIEWS_PATH . 'includes/tawk_to.php';
+}
 
 //
 echo $getconfig->html_body;

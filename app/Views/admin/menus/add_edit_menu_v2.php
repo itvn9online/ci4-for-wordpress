@@ -106,7 +106,7 @@
                     <div>
                         <div class="form-group">
                             <label for="addInputSlug">Đường dẫn</label>
-                            <input type="text" class="form-control" data-set="slug" id="addInputSlug" placeholder="Item URL" aria-required="true" required>
+                            <input type="text" class="form-control" data-set="slug" id="addInputSlug" placeholder="Item URL">
                         </div>
                     </div>
                     <div>
@@ -195,11 +195,10 @@
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
 <?php
 
-$base_model->add_js('wp-admin/js/add_edit_menu_v2.js');
-
-?>
-<script src="./wp-includes/thirdparty/Nestable/jquery.nestable.js"></script>
-<script src="./wp-includes/thirdparty/Nestable/jquery.nestable++.js"></script>
-<?php
-
-$base_model->add_js('wp-admin/js/add_edit_menu_v2_footer.js');
+//
+$base_model->adds_js([
+    'wp-admin/js/add_edit_menu_v2.js',
+    'wp-includes/thirdparty/Nestable/jquery.nestable.js',
+    'wp-includes/thirdparty/Nestable/jquery.nestable++.js',
+    'wp-admin/js/add_edit_menu_v2_footer.js',
+]);
