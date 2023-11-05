@@ -43,12 +43,21 @@ function create_ul_menu_editer(a, sub_menu) {
 
 		//
 		var a_tag = "";
-		if (a[i].slug == "" || a[i].slug.substr(0, 1) == "#") {
-			a_tag =
-				'<span class="eb-menu-text eb-menu-onlytext">' + a[i].name + "</span>";
-		} else {
-			var menu_css = ["eb-menu-text"];
+		var menu_css = ["eb-menu-text"];
+		var menu_li_css = [];
 
+		// nếu có menu con -> thêm css để định vị cho thẻ a
+		if (typeof a[i].children != "undefined") {
+			menu_css.push("a-sub-menu");
+		}
+
+		if (a[i].slug == "" || a[i].slug.substr(0, 1) == "#") {
+			menu_css.push("eb-menu-onlytext");
+			menu_li_css.push("eb-menu-li-onlytext");
+
+			a_tag =
+				'<span class="' + menu_css.join(" ") + '">' + a[i].name + "</span>";
+		} else {
 			//
 			if (a[i].content != "") {
 				a[i].content =
@@ -104,10 +113,11 @@ function create_ul_menu_editer(a, sub_menu) {
 		// nếu có menu con -> gọi luôn
 		if (typeof a[i].children != "undefined") {
 			a_tag += create_ul_menu_editer(a[i].children, "sub-menu");
+			menu_li_css.push("has-sub-menu");
 		}
 
 		//
-		str += "<li>" + a_tag + "</li>";
+		str += '<li class="' + menu_li_css.join(" ") + '">' + a_tag + "</li>";
 	}
 
 	//

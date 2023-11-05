@@ -102,6 +102,28 @@ if ($app_deleted_exist === true) {
 <br>
 <br>
 <br>
+<?php
+
+// unzip theme code (thường dùng sau khi update base code)
+if (file_exists(WRITEPATH . THEMENAME . '.zip')) {
+?>
+    <h3>Giải nén lại theme code</h3>
+    <p class="medium bluecolor">Chức năng này sẽ tiến hành unzip lại code của theme được lưu trữ sau mỗi lần update theme, thường dùng sau khi update base code sau đó sẽ giải nén theme code để ghi đè code trùng lặp (nếu có). Lưu trữ tại địa chỉ: <?php echo WRITEPATH . THEMENAME . '.zip'; ?></p>
+    <div>
+        <form action="./admin/dashboard/unzip_lai_themename" method="post" target="target_eb_iframe">
+            <input type="hidden" name="data" value="1" />
+            <div>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-file-archive-o"></i> Unzip theme code</button>
+            </div>
+        </form>
+    </div>
+    <br>
+    <br>
+    <br>
+<?php
+}
+
+?>
 <h3>Giải nén lại toàn bộ thirdparty code</h3>
 <p class="medium bluecolor">Chức năng này sẽ tiến hành unzip lại toàn bộ file .zip trong thư mục <strong>thirdparty</strong> và <strong>vendor</strong>, do điều kiện mặc định là nếu thư mục tương ứng tồn tại thì không giải nén nên khi cần update thirdparty code là không update được</p>
 <div>

@@ -292,7 +292,7 @@ class Dashboard extends Optimize
                 $this->MY_unlink($file_zip);
 
                 //
-                $this->cleanup_config_cache();
+                $this->cleanup_config_cache(false);
 
                 // tắt chế độ debug nếu có file
                 if (file_exists($this->f_env)) {
@@ -333,6 +333,8 @@ class Dashboard extends Optimize
 
             //
             if ($this->MY_unzip($file_zip, PUBLIC_HTML_PATH) === TRUE) {
+                //
+                $this->backupThemename($file_zip);
                 $this->MY_unlink($file_zip);
 
                 // với việc update theme thì thêm 1 phát xóa các file zip trong public_html luôn
@@ -356,6 +358,69 @@ class Dashboard extends Optimize
 
         //
         return false;
+    }
+
+    /**
+     * Unzip lại theme code từ bản lưu trữ
+     **/
+    public function unzip_lai_themename()
+    {
+        //
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            $this->base_model->alert('Bad request!', 'error');
+        }
+
+        //
+        if (!file_exists(WRITEPATH . THEMENAME . '.zip')) {
+            $this->base_model->alert('Không xác định dược backup theme!', 'error');
+        }
+
+        //
+        $upload_path = PUBLIC_HTML_PATH;
+        //echo $upload_path . '<br>' . PHP_EOL;
+
+        // với 1 số host, chỉ upload được vào thư mục có permission 777 -> cache
+        if ($this->using_via_ftp() === true) {
+            $upload_path = WRITEPATH . 'updates/';
+
+            // tạo thư mục nếu chưa có
+            if (!is_dir($upload_path)) {
+                $this->mk_dir($upload_path, __CLASS__ . ':' . __LINE__);
+            }
+        }
+        //die($upload_path);
+        echo $upload_path . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+
+        // xóa các file zip cũ đi
+        $this->cleanup_zip($upload_path, 'Không xóa được file ZIP cũ trước khi copy file mới');
+
+        //
+        $file_path = $upload_path . THEMENAME . '.zip';
+
+        //
+        echo 'Copy backup theme: ' . $file_path . '<br>' . PHP_EOL;
+        $this->MY_copy(WRITEPATH . THEMENAME . '.zip', $file_path);
+        if (!file_exists($file_path)) {
+            $this->base_model->alert('Copy backup theme thất bại! Không xác định được file sau khi upload', 'error');
+        }
+
+        // giải nén sau khi upload
+        $this->after_unzip_code($file_path, $upload_path);
+
+        //
+        die('<script>top.done_submit_update_code("' . basename($file_path) . '");</script>');
+    }
+
+    /**
+     * copy 1 bản backup để mỗi khi update base xong có thể ghi đè theme luôn
+     **/
+    public function backupThemename($file_source)
+    {
+        $file_save = WRITEPATH . THEMENAME . '.zip';
+        if (file_exists($file_save)) {
+            $this->MY_unlink($file_save);
+        }
+        return $this->MY_copy($file_source, $file_save);
     }
 
     /**
@@ -494,6 +559,12 @@ class Dashboard extends Optimize
                 }
                 //die( __CLASS__ . ':' . __LINE__ );
 
+                //
+                if (strpos(basename($file_path), THEMENAME) !== false) {
+                    // die(__CLASS__ . ':' . __LINE__);
+                    $this->backupThemename($file_path);
+                }
+
                 // giải nén sau khi upload
                 $this->after_unzip_code($file_path, $upload_path);
 
@@ -509,7 +580,7 @@ class Dashboard extends Optimize
         // đồng bộ lại thirdparty và database
         ///echo basename( $file_path ) . '<br>';
         if (strpos(basename($file_path), 'ci4-for-wordpress') !== false) {
-            $this->cleanup_config_cache();
+            $this->cleanup_config_cache(false);
             $this->vendor_sync(false);
         }
 
