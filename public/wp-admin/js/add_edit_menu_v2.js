@@ -43,7 +43,7 @@ function create_ul_menu_editer(a, sub_menu) {
 
 		//
 		var a_tag = "";
-		if (a[i].slug == "" || a[i].slug == "#") {
+		if (a[i].slug == "" || a[i].slug.substr(0, 1) == "#") {
 			a_tag =
 				'<span class="eb-menu-text eb-menu-onlytext">' + a[i].name + "</span>";
 		} else {
@@ -383,6 +383,16 @@ function restore_json_menu_in_html_menu() {
 		return false;
 	}
 
+	// chạy vòng lặp lấy các attr theo input add menu
+	var get_data_set = [];
+	$("#menu-add input").each(function () {
+		var x = $(this).attr("data-set") || "";
+		if (x != "") {
+			get_data_set.push(x);
+		}
+	});
+	console.log("get_data_set:", get_data_set);
+
 	//
 	var arr = [];
 	var _id = 1;
@@ -395,14 +405,21 @@ function restore_json_menu_in_html_menu() {
 			if (a_href == "") {
 				a_href = "#";
 			}
-			var a_text = $(this).html() || "";
-			arr.push({
+			var a_text = $(this).text() || "";
+			var a_push = {
 				deleted: 0,
 				new: 0,
 				slug: a_href,
-				name: a_text,
+				name: $.trim(a_text),
 				id: _id,
-			});
+			};
+			for (var i = 0; i < get_data_set.length; i++) {
+				if (typeof a_push[get_data_set[i]] == "undefined") {
+					a_push[get_data_set[i]] = "";
+				}
+			}
+			console.log("a_push:", a_push);
+			arr.push(a_push);
 
 			//
 			_id++;

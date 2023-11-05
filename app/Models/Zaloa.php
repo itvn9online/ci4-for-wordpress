@@ -336,7 +336,7 @@ class Zaloa extends Option
             }
 
             // xóa cache liên quan
-            $this->clear_cache(ConfigType::ZALO);
+            $this->clearOpsCache(ConfigType::ZALO);
 
             // sau đó nạp lại
             $this->zalooa_config = $this->obj_config(ConfigType::ZALO);

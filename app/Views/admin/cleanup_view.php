@@ -73,6 +73,17 @@ use App\Libraries\LanguageCost;
                 </form>
             </div>
             <br>
+            <div>
+                <form action="admin/dashboard/cleanup_config_cache" method="post" role="form" onsubmit="return waiting_cleanup_cache();" enctype="multipart/form-data" target="target_eb_iframe">
+                    <input type="hidden" name="data" value="get_the_menu" />
+                    <br>
+                    <div>
+                        <button type="submit" class="btn btn-dark"><i class="fa fa-cogs"></i> Xóa cache config
+                            (list_config*)</button>
+                    </div>
+                </form>
+            </div>
+            <br>
             <div class="tborder">
                 <form action="" method="post" role="form" onsubmit="return waiting_cleanup_cache();" enctype="multipart/form-data" target="target_eb_iframe">
                     <input type="hidden" name="data" value="1" />

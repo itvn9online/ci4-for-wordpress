@@ -343,8 +343,7 @@ class Configs extends Admin
 
 
         // dọn dẹp cache liên quan đến config này -> reset cache
-        $this->cleanup_cache($this->option_model->key_cache('list_config'));
-        $this->cleanup_cache($this->option_model->key_cache($option_type));
+        $this->option_model->clearOpsCache($option_type);
 
         // xác nhận việc update đã xong
         echo '<script>top.done_field_has_change();</script>';

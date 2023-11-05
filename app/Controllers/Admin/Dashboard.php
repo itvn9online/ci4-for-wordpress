@@ -6,6 +6,7 @@ use App\Libraries\UsersType;
 use App\Libraries\PostType;
 use App\Libraries\TaxonomyType;
 use App\Libraries\LanguageCost;
+use App\Libraries\ConfigType;
 
 class Dashboard extends Optimize
 {
@@ -289,6 +290,10 @@ class Dashboard extends Optimize
             //
             if ($this->MY_unzip($file_zip, PUBLIC_HTML_PATH) === TRUE) {
                 $this->MY_unlink($file_zip);
+
+                //
+                $this->cleanup_config_cache();
+
                 // tắt chế độ debug nếu có file
                 if (file_exists($this->f_env)) {
                     $this->disable_env();
@@ -504,6 +509,7 @@ class Dashboard extends Optimize
         // đồng bộ lại thirdparty và database
         ///echo basename( $file_path ) . '<br>';
         if (strpos(basename($file_path), 'ci4-for-wordpress') !== false) {
+            $this->cleanup_config_cache();
             $this->vendor_sync(false);
         }
 
@@ -1190,6 +1196,34 @@ class Dashboard extends Optimize
 
         //
         $this->base_model->alert('Xóa cache theo key thành công. Matching: ' . $data);
+    }
+
+    /**
+     * Xóa cache liên quan của phần config, thường dùng sau khi update base code
+     **/
+    public function cleanup_config_cache($show_alert = true)
+    {
+        $this->option_model->clearOpsCache(ConfigType::CONFIG, [
+            ConfigType::DISPLAY,
+            ConfigType::SOCIAL,
+            ConfigType::CATEGORY,
+            ConfigType::POST,
+            ConfigType::PROD_CATS,
+            ConfigType::PROD,
+            ConfigType::TRANS,
+            ConfigType::SMTP,
+            ConfigType::CONSTANTS,
+            ConfigType::CHECKOUT,
+            ConfigType::CHECKBOX,
+            ConfigType::NUM_MON,
+            ConfigType::FIREBASE,
+            ConfigType::ZALO,
+        ]);
+
+        //
+        if ($show_alert === true) {
+            $this->base_model->alert('Dọn dẹp toàn bộ cache config thành công!');
+        }
     }
 
     public function unzip_thirdparty()
