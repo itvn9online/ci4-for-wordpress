@@ -631,6 +631,7 @@ class PostQuery extends PostMeta
         if (!isset($ops['limit']) || $ops['limit'] < 1) {
             $ops['limit'] = 0;
         }
+        // print_r($ops);
 
         // trả về dữ liệu
         $get_data = $this->get_auto_post($slug, $ops['post_type'], $ops['taxonomy'], $ops['limit']);

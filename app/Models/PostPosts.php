@@ -198,6 +198,7 @@ class PostPosts extends PostSlider
             //$in_cache .= LanguageCost::lang_key();
             $in_cache .= $this->base_model->lang_key;
         }
+        // $in_cache = '';
 
         //
         if ($in_cache != '') {
