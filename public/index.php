@@ -2,8 +2,10 @@
 
 /**
  * do session của ci4 đứt liên tục -> sử dụng session mặc định của php vậy
+ * Ở ci v4.4.3 -> không dùng session start ở đây do ci4 có thay đổi path save session
  **/
-session_start();
+// session_start();
+
 // do vụ update permalink gây lỗi 404 nên phải xử lý thủ công mấy link này
 /*
 if (strpos($_SERVER['REQUEST_URI'], 'https://' . $_SERVER['HTTP_HOST'] . '/') !== false) {
@@ -30,7 +32,9 @@ if (version_compare(PHP_VERSION, $minPhpVersion, '<')) {
 define('FCPATH', __DIR__ . DIRECTORY_SEPARATOR);
 
 // Ensure the current directory is pointing to the front controller's directory
-chdir(FCPATH);
+if (getcwd() . DIRECTORY_SEPARATOR !== FCPATH) {
+    chdir(FCPATH);
+}
 
 /*
  *---------------------------------------------------------------
@@ -54,6 +58,16 @@ require rtrim($paths->systemDirectory, '\\/ ') . DIRECTORY_SEPARATOR . 'bootstra
 // Load environment settings from .env files into $_SERVER and $_ENV
 require_once SYSTEMPATH . 'Config/DotEnv.php';
 (new CodeIgniter\Config\DotEnv(ROOTPATH))->load();
+
+// Define ENVIRONMENT
+if (!defined('ENVIRONMENT')) {
+    define('ENVIRONMENT', env('CI_ENVIRONMENT', 'production'));
+}
+
+// Load Config Cache
+// $factoriesCache = new \CodeIgniter\Cache\FactoriesCache();
+// $factoriesCache->load('config');
+// ^^^ Uncomment these lines if you want to use Config Caching.
 
 /*
  * ---------------------------------------------------------------
@@ -79,3 +93,11 @@ $app->setContext($context);
  */
 
 $app->run();
+
+// Save Config Cache
+// $factoriesCache->save('config');
+// ^^^ Uncomment this line if you want to use Config Caching.
+
+// Exits the application, setting the exit code for CLI-based applications
+// that might be watching.
+exit(EXIT_SUCCESS);

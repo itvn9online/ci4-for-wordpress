@@ -970,7 +970,7 @@ class PostQuery extends PostMeta
             //echo $file_path . '<br>' . PHP_EOL;
 
             //
-            if (!file_exists($file_path)) {
+            if (!is_file($file_path)) {
                 continue;
                 /*
             } else if (!is_file($file_path)) {

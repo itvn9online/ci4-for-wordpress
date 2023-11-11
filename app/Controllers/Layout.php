@@ -79,7 +79,7 @@ class Layout extends Sync
         $itemprop_cache_logo = $this->base_model->scache('itemprop_logo');
         //$itemprop_cache_logo = WRITEPATH . 'itemprop-logo.txt';
         //$itemprop_cache_author = WRITEPATH . 'itemprop-author.txt';
-        //if (!file_exists($itemprop_cache_logo) || time() - filemtime($itemprop_cache_logo) > HOUR) {
+        //if (!is_file($itemprop_cache_logo) || time() - filemtime($itemprop_cache_logo) > HOUR) {
         if ($itemprop_cache_logo === NULL) {
             // logo
             $structured_data = file_get_contents(VIEWS_PATH . 'html/structured-data/itemprop-logo.html');
@@ -287,7 +287,7 @@ class Layout extends Sync
         // xem có file RewriteRule ko
         $rules_path = WRITEPATH . 'RewriteRule.txt';
         // ko có thì trả về false luôn
-        if (!file_exists($rules_path)) {
+        if (!is_file($rules_path)) {
             return false;
         }
         $rules_content = file_get_contents($rules_path);
@@ -400,7 +400,7 @@ class Layout extends Sync
     protected function category($input, $post_type, $taxonomy, $file_view = 'category_view', $ops = [])
     {
         // xem có file view tương ứng không
-        if ($file_view == '' || !file_exists(VIEWS_PATH . $file_view . '.php')) {
+        if ($file_view == '' || !is_file(VIEWS_PATH . $file_view . '.php')) {
             // không có thì hiển thị lỗi luôn
             //return $this->page404('ERROR (' . $file_view . ') ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Bạn không có quyền xem thông tin này...');
             //$file_view = 'category_auto_view';
@@ -591,12 +591,12 @@ class Layout extends Sync
         //echo $htaccess_file . '<br>' . PHP_EOL;
 
         // cập nhật lại nội dung file htaccess
-        if ($remove_file === true && file_exists($htaccess_file)) {
+        if ($remove_file === true && is_file($htaccess_file)) {
             $this->MY_unlink($htaccess_file);
         }
 
         //
-        if (!file_exists($htaccess_file)) {
+        if (!is_file($htaccess_file)) {
             // tạo hotlink protection nếu có yêu cầu
             $hotlink_protection = '';
             if ($hotlink_protection === true) {
@@ -747,12 +747,12 @@ class Layout extends Sync
                         }
 
                         // đổi tên file nếu file đã tồn tại
-                        if (file_exists($file_path)) {
+                        if (is_file($file_path)) {
                             for ($i = 1; $i < 100; $i++) {
                                 $file_new_name = basename($file_name, '.' . $file_ext) . '_' . $i . '.' . $file_ext;
                                 $file_path = $upload_path . $file_new_name;
                                 //echo $file_path . '<br>' . PHP_EOL;
-                                if (!file_exists($file_path)) {
+                                if (!is_file($file_path)) {
                                     $file_name = basename($file_path);
                                     break;
                                 }
@@ -779,11 +779,11 @@ class Layout extends Sync
                                 $file_other_ext = 'daidq-ext';
                                 $file_new_path = $file_path . '.' . $file_other_ext;
                                 //echo $file_new_path . '<br>' . PHP_EOL;
-                                if (file_exists($file_new_path)) {
+                                if (is_file($file_new_path)) {
                                     for ($i = 1; $i < 100; $i++) {
                                         $file_new_path = $file_path . '.' . $file_other_ext . '_' . $i;
                                         //echo $file_new_path . '<br>' . PHP_EOL;
-                                        if (!file_exists($file_new_path)) {
+                                        if (!is_file($file_new_path)) {
                                             $file_path = $file_new_path;
                                             break;
                                         }
@@ -814,7 +814,7 @@ class Layout extends Sync
                         $file->move($upload_path, $file_name, true);
 
                         //
-                        if (!file_exists($file_path)) {
+                        if (!is_file($file_path)) {
                             continue;
                         }
                         chmod($file_path, DEFAULT_FILE_PERMISSION);
@@ -853,7 +853,7 @@ class Layout extends Sync
     // tạo thumbnail cho hình ảnh dựa theo path
     protected function media_attachment_metadata($file_path, $file_ext = '', $upload_path = '', $mime_type = '', $upload_root = '', $post_parent = 0)
     {
-        if (!file_exists($file_path)) {
+        if (!is_file($file_path)) {
             return false;
         }
         //echo $file_path . '<br>' . PHP_EOL;
@@ -1119,7 +1119,7 @@ class Layout extends Sync
             $data['trv_img'] = explode('?', $data['trv_img'])[0];
             // nếu file tồn tại trong host -> xác định size của file
             //echo PUBLIC_PUBLIC_PATH . $data['trv_img'];
-            if (file_exists(PUBLIC_PUBLIC_PATH . $data['trv_img'])) {
+            if (is_file(PUBLIC_PUBLIC_PATH . $data['trv_img'])) {
                 $logo_data = getimagesize(PUBLIC_PUBLIC_PATH . $data['trv_img']);
 
                 //

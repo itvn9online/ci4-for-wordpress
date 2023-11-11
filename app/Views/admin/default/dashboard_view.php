@@ -68,7 +68,7 @@ if ($check_dup_url !== false) {
 
 
 //
-$ci_last_version = 431;
+$ci_last_version = 443;
 
 //
 $Vue_version = '{{Vue.version}}';
@@ -95,7 +95,7 @@ if ($debug_enable === true) {
         <?php
 
         // lấy theo version
-        if (file_exists(APPPATH . 'VERSION')) {
+        if (is_file(APPPATH . 'VERSION')) {
             echo ' - Phiên bản: <strong>' . file_get_contents(APPPATH . 'VERSION', 1) . '</strong>';
         }
 
@@ -105,7 +105,7 @@ if ($debug_enable === true) {
         <?php
 
         //
-        if (file_exists(PUBLIC_HTML_PATH . 'system.zip')) {
+        if (is_file(PUBLIC_HTML_PATH . 'system.zip')) {
             echo '(<em>Cập nhật lần cuối: ' . date(EBE_DATETIME_FORMAT, filemtime(PUBLIC_HTML_PATH . 'system.zip')) . '</em>)';
         }
 
@@ -307,7 +307,7 @@ if ($debug_enable === true) {
                 <div v-if="exists_f_env > 0">
                     <p class="orgcolor"><i class="fa fa-lightbulb-o"></i> Chế độ debug sẽ được tự động TẮT vào lúc
                         <strong>
-                            <?php echo (file_exists($f_env) ? date('r', filemtime($f_env) + $auto_disable_debug) : ''); ?>
+                            <?php echo (is_file($f_env) ? date('r', filemtime($f_env) + $auto_disable_debug) : ''); ?>
                         </strong>.
                     </p>
                     <div><a href="admin/dashboard/disable_env" class="btn btn-danger" target="target_eb_iframe"><i class="fa fa-bug"></i> TẮT chế độ debug</a> </div>
@@ -470,18 +470,18 @@ $base_model->JSON_parse(
             'phpversion' => phpversion(),
             'current_dbname' => $current_dbname,
             'debug_enable' => ($debug_enable === true ? 1 : 0),
-            'exists_f_env' => (file_exists($f_env) ? 1 : 0),
-            'exists_f_backup_env' => (file_exists($f_backup_env) ? 1 : 0),
-            'system_zip' => (file_exists(PUBLIC_HTML_PATH . 'system.zip') ? 1 : 0),
-            'ci4_for_wordpress_zip' => (file_exists(PUBLIC_HTML_PATH . 'ci4-for-wordpress.zip') ? 1 : 0),
-            'themename_zip' => (file_exists(PUBLIC_HTML_PATH . THEMENAME . '.zip') ? 1 : 0),
+            'exists_f_env' => (is_file($f_env) ? 1 : 0),
+            'exists_f_backup_env' => (is_file($f_backup_env) ? 1 : 0),
+            'system_zip' => (is_file(PUBLIC_HTML_PATH . 'system.zip') ? 1 : 0),
+            'ci4_for_wordpress_zip' => (is_file(PUBLIC_HTML_PATH . 'ci4-for-wordpress.zip') ? 1 : 0),
+            'themename_zip' => (is_file(PUBLIC_HTML_PATH . THEMENAME . '.zip') ? 1 : 0),
             'imagick_exist' => (class_exists('Imagick') ? 1 : 0),
             'cache_actived' => ($check_cache_active !== NULL ? 1 : 0),
             'memcached_exist' => (class_exists('Memcached') ? 1 : 0),
             'redis_exist' => phpversion('redis'),
             'cache_handler' => MY_CACHE_HANDLER,
             'opcache_exist' => (function_exists('opcache_get_status') && is_array(opcache_get_status()) ? 1 : 0),
-            'last_ci4_update' => (file_exists(APPPATH . 'VERSION') ? filemtime(APPPATH . 'VERSION') : filemtime(APPPATH . 'Controllers/Layout.php')),
+            'last_ci4_update' => (is_file(APPPATH . 'VERSION') ? filemtime(APPPATH . 'VERSION') : filemtime(APPPATH . 'Controllers/Layout.php')),
         ],
     ]
 );

@@ -75,7 +75,7 @@ class File extends EbModel
         $cache_for_ftp = WRITEPATH . 'ftp_' . __FUNCTION__ . '.txt';
 
         // Tạo một file bằng hàm của PHP thường -> không dùng FTP
-        if (!file_exists($cache_for_ftp)) {
+        if (!is_file($cache_for_ftp)) {
             echo $cache_for_ftp . '<br>' . PHP_EOL;
             $this->base_model->_eb_create_file($cache_for_ftp, date('r'));
         }
@@ -359,7 +359,7 @@ class File extends EbModel
 
         //
         $local_filename = $this->create_cache_for_ftp($content_);
-        if (!file_exists($local_filename)) {
+        if (!is_file($local_filename)) {
             echo 'ERROR FTP local_filename not create!<br>' . PHP_EOL;
             return false;
         }
@@ -473,14 +473,14 @@ class File extends EbModel
         }
 
         //
-        if (file_exists($file_path)) {
+        if (is_file($file_path)) {
             if (!isset($ops['set_permission'])) {
                 $ops['set_permission'] = DEFAULT_FILE_PERMISSION;
             }
             chmod($file_path, $ops['set_permission']);
             return true;
         } else if ($this->create_file($file_path, file_get_contents($url))) {
-            if (file_exists($file_path)) {
+            if (is_file($file_path)) {
                 return true;
             }
         }

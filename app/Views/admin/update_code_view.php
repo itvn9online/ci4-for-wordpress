@@ -105,7 +105,7 @@ if ($app_deleted_exist === true) {
 <?php
 
 // unzip theme code (thường dùng sau khi update base code)
-if (file_exists(WRITEPATH . THEMENAME . '.zip')) {
+if (is_file(WRITEPATH . THEMENAME . '.zip')) {
 ?>
     <h3>Giải nén lại theme code</h3>
     <p class="medium bluecolor">Chức năng này sẽ tiến hành unzip lại code của theme được lưu trữ sau mỗi lần update theme, thường dùng sau khi update base code sau đó sẽ giải nén theme code để ghi đè code trùng lặp (nếu có). Lưu trữ tại địa chỉ: <?php echo WRITEPATH . THEMENAME . '.zip'; ?></p>

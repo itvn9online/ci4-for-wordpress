@@ -63,7 +63,8 @@ function action_login_rememberme(key, uri) {
 			jQueryAjaxError(jqXHR, textStatus, errorThrown, new Error().stack);
 		},
 		success: function (data) {
-			//console.log(data);
+			// console.log(data);
+			// return false;
 			//console.log(data.length);
 
 			// có lỗi thì báo lỗi
@@ -79,6 +80,8 @@ function action_login_rememberme(key, uri) {
 				// đặt tham số này để hủy bỏ chức năng đăng nhập tự động
 				localStorage.setItem("remove_rememberme_auto_login", Math.random());
 			} else if (typeof data.ok != "undefined" && data.ok * 1 > 0) {
+				console.log("%c login_rememberme OK!", "color: green;");
+
 				// đến đây nghĩa là đăng nhập thành công -> redirect
 				window.location = (function () {
 					return (

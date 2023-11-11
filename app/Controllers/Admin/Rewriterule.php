@@ -34,7 +34,7 @@ class Rewriterule extends Admin
             }
 
             // nếu ko có nội dung và file tồn tại -> xóa file
-            if (empty(trim($data['rules'])) && file_exists($this->rules_path)) {
+            if (empty(trim($data['rules'])) && is_file($this->rules_path)) {
                 unlink($this->rules_path);
                 $this->base_model->alert('Xóa RewriteRule thành công!', 'warning');
             }
@@ -49,7 +49,7 @@ class Rewriterule extends Admin
 
         // hiển thị nội dung file
         $rules_content = '';
-        if (file_exists($this->rules_path)) {
+        if (is_file($this->rules_path)) {
             $rules_content = file_get_contents($this->rules_path);
         }
 

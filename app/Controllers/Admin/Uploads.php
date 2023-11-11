@@ -326,7 +326,7 @@ class Uploads extends Admin
                 $remove_file = $secondes_path . $v;
 
                 //
-                if (file_exists($remove_file)) {
+                if (is_file($remove_file)) {
                     //echo $remove_file . '<br>' . PHP_EOL;
                     $this->MY_unlink($remove_file) or die('ERROR remove upload file: ' . $v);
                 }
@@ -556,7 +556,7 @@ class Uploads extends Admin
         $success = 0;
         $mime_type = $file_type;
         $metadata = [];
-        if (!file_exists($file_path)) {
+        if (!is_file($file_path)) {
             $success = $this->base_model->eb_create_file($file_path, base64_decode($img));
 
             // kiểm tra định dạng file -> chỉ chấp nhận định dạng jpeg

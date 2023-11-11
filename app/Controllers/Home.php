@@ -20,6 +20,9 @@ class Home extends Posts
      */
     public function index($id = 0, $slug = '')
     {
+        // var_dump(session_id());
+        // var_dump($this->base_model->MY_session(session_id()));
+
         // thử xem có tham số p không -> có thì có thể là shortlink
         $post_id = $this->MY_get('p', 0);
         // dẫn tới trang post mặc định
@@ -411,7 +414,7 @@ class Home extends Posts
         }
 
         // xem có file view tương ứng không
-        if (!file_exists(VIEWS_PATH . $file_view . '.php')) {
+        if (!is_file(VIEWS_PATH . $file_view . '.php')) {
             // không có thì hiển thị lỗi luôn
             return $this->page404('ERROR (' . $file_view . ') ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Bạn không có quyền xem thông tin này...');
         }

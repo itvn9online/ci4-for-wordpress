@@ -28,7 +28,7 @@ class Base extends Csdl
         $f = ltrim($f, '/');
         //echo $f . '<br>' . PHP_EOL;
 
-        if (!file_exists(PUBLIC_PUBLIC_PATH . $f)) {
+        if (!is_file(PUBLIC_PUBLIC_PATH . $f)) {
             return '<!-- ' . $f . ' not exist! -->';
         }
 
@@ -87,7 +87,7 @@ class Base extends Csdl
         $f = str_replace(PUBLIC_PUBLIC_PATH, '', $f);
         $f = ltrim($f, '/');
         //echo $f . '<br>' . PHP_EOL;
-        if (!file_exists(PUBLIC_PUBLIC_PATH . $f)) {
+        if (!is_file(PUBLIC_PUBLIC_PATH . $f)) {
             return '<!-- ' . $f . ' not exist! -->';
         }
 
@@ -272,13 +272,13 @@ class Base extends Csdl
             // ưu tiên file trong child-theme
             $f = VIEWS_CUSTOM_PATH . $sub_path . $file_name . $file_type;
             // nếu không có -> dùng trong theme mặc định
-            if (!file_exists($f)) {
+            if (!is_file($f)) {
                 $f = VIEWS_PATH . $sub_path . $file_name . $file_type;
             }
             // file mặc định bắt buộc phải có -> return ở đây mục đích là để tiết kiệm 1 pha if else phía sau =))
             return file_get_contents($f, 1);
         }
-        if (!file_exists($f)) {
+        if (!is_file($f)) {
             return 'File HTML tmp not exist #' . $file_name . $file_type;
         }
         return file_get_contents($f, 1);
@@ -338,7 +338,7 @@ class Base extends Csdl
         // tạo file htaccess chặn truy cập nếu chưa có
         $f = $dir . '.htaccess';
         //echo $f . PHP_EOL;
-        if (!file_exists($f)) {
+        if (!is_file($f)) {
             $this->_eb_create_file(
                 $f,
                 /*
@@ -647,7 +647,7 @@ class Base extends Csdl
         }
 
         // có file rồi
-        if ($ops['add_line'] != '' && file_exists($file_)) {
+        if ($ops['add_line'] != '' && is_file($file_)) {
             // -> chỉ append content
             if (@file_put_contents($file_, $content_, FILE_APPEND)) {
                 return true;

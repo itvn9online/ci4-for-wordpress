@@ -18,7 +18,7 @@ class Casso
     protected static function pathTestLog()
     {
         $f = WRITEPATH . '___casso_test.txt';
-        if (!file_exists($f)) {
+        if (!is_file($f)) {
             file_put_contents($f, date('r') . '|' . __CLASS__ . ':' . __LINE__ . PHP_EOL, LOCK_EX);
             chmod($f, DEFAULT_FILE_PERMISSION);
         }

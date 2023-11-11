@@ -1116,6 +1116,13 @@ function WGR_get_params(param, queryString) {
 }
 
 function jQueryAjaxError(jqXHR, textStatus, errorThrown, errorStack) {
+	try {
+		if (arguments.callee.caller !== null) {
+			console.log("Call in: " + arguments.callee.caller.name.toString());
+		}
+	} catch (e) {
+		//
+	}
 	if (typeof errorStack != "undefined") {
 		console.log(errorStack);
 	}

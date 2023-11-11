@@ -15,7 +15,7 @@ $theme_private_view = VIEWS_CUSTOM_PATH . 'default/' . $post_type . '-' . basena
 //echo $theme_private_view . '<br>' . PHP_EOL;
 
 //
-if (file_exists($theme_private_view)) {
+if (is_file($theme_private_view)) {
     if ($debug_enable === true) {
         echo '<div class="wgr-view-path">' . str_replace(PUBLIC_HTML_PATH, '', $theme_private_view) . '</div>';
     }
@@ -36,7 +36,7 @@ else {
     //die(basename(__FILE__) . ':' . __LINE__);
 
     // có thì ưu tiên dùng
-    if (file_exists($search_type_view)) {
+    if (is_file($search_type_view)) {
         if ($debug_enable === true) {
             echo '<div class="wgr-view-path">' . str_replace(PUBLIC_HTML_PATH, '', $search_type_view) . '</div>';
         }

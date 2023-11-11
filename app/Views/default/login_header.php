@@ -9,7 +9,7 @@ $theme_private_view = str_replace(VIEWS_PATH, VIEWS_CUSTOM_PATH, __FILE__);
 //echo $theme_private_view . '<br>' . PHP_EOL;
 
 //
-if (file_exists($theme_private_view)) {
+if (is_file($theme_private_view)) {
     include $theme_private_view;
 }
 // không có thì nạp view mặc định

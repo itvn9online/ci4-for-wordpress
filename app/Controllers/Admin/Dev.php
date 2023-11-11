@@ -20,7 +20,7 @@ class Dev extends Admin
 
     public function server_info()
     {
-        /*
+        /**
          * db không cần update liên tục, nếu cần thì clear cache để tái sử dụng
          */
         $has_update = $this->base_model->scache(__FUNCTION__);

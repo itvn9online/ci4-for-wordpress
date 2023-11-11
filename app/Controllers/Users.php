@@ -180,7 +180,7 @@ class Users extends Csrf
                 $file->move($upload_path, $file_name, true);
 
                 //
-                if (!file_exists($file_path)) {
+                if (!is_file($file_path)) {
                     $this->base_model->alert('Upload thất bại! Không xác định được file sau khi upload', 'error');
                 }
                 chmod($file_path, DEFAULT_FILE_PERMISSION);

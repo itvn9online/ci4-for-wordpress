@@ -116,7 +116,7 @@ class Admin extends Ajaxs
         $check_file = __DIR__ . '/' . $role . '.php';
         //echo $check_file . '<br>' . PHP_EOL;
         // nếu không tồn tại -> báo lỗi luôn
-        if (!file_exists($check_file)) {
+        if (!is_file($check_file)) {
             die('Role not found!');
         }
 
@@ -257,12 +257,12 @@ class Admin extends Ajaxs
                 }
 
                 // cập nhật lại nội dung file htaccess
-                if ($remove_file === true && file_exists($f)) {
+                if ($remove_file === true && is_file($f)) {
                     $this->MY_unlink($f);
                 }
 
                 //
-                if (file_exists($f)) {
+                if (is_file($f)) {
                     continue;
                 }
                 //echo $f . '<br>' . PHP_EOL;

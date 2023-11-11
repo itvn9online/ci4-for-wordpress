@@ -19,7 +19,7 @@ class Installs extends Sync
         $f = APPPATH . 'sync.txt';
 
         // chỉ khi tồn tại file sync thì mới sync
-        if (file_exists($f)) {
+        if (is_file($f)) {
             $this->vendor_sync();
 
             // xóa toàn bộ cache

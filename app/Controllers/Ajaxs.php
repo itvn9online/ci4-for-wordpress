@@ -41,7 +41,7 @@ class Ajaxs extends Layout
             ob_end_clean();
             ob_start();
             // ưu tiên nạp view trong custom trước
-            if (file_exists(VIEWS_CUSTOM_PATH . 'default/device_protection_modal.php')) {
+            if (is_file(VIEWS_CUSTOM_PATH . 'default/device_protection_modal.php')) {
                 include VIEWS_CUSTOM_PATH . 'default/device_protection_modal.php';
             } else {
                 // không có thì nạp view mặc định

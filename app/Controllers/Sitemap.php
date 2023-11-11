@@ -384,7 +384,7 @@ class Sitemap extends Layout
                     $has_replace = true;
                 }
             }
-            if (!file_exists($cache_sitemap_xsl) || $has_replace === true) {
+            if (!is_file($cache_sitemap_xsl) || $has_replace === true) {
                 $this->base_model->ftp_create_file($cache_sitemap_xsl, $c);
             }
 

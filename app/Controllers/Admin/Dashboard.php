@@ -108,7 +108,7 @@ class Dashboard extends Optimize
         //$auto_disable_debug = WEEK;
         // tự động tắt chế độ debug sau 4 giờ
         $auto_disable_debug = 4 * 3600;
-        if (file_exists($this->f_env)) {
+        if (is_file($this->f_env)) {
             $last_enabled_debug = filemtime($this->f_env);
             //echo date( 'r', $last_enabled_debug );
 
@@ -152,7 +152,7 @@ class Dashboard extends Optimize
         $robots_txt = PUBLIC_PUBLIC_PATH . 'robots.txt';
         // mặc định là không có file robots
         $robots_exist = 0;
-        if (file_exists($robots_txt)) {
+        if (is_file($robots_txt)) {
             // có thì mới bắt đầu kiểm tra
             $robots_exist = 1;
 
@@ -204,7 +204,7 @@ class Dashboard extends Optimize
 
         //
         $f = $this->f_env;
-        if (!file_exists($f)) {
+        if (!is_file($f)) {
             $this->base_model->alert('Không tồn tại file ' . basename($f), 'error');
         }
 
@@ -214,12 +214,12 @@ class Dashboard extends Optimize
     protected function action_disable_env($f, $f_backup, $for_alert = 1)
     {
         // xóa file env-bak nếu tồn tại cùng lúc cả 2 file -> thi thoảng có pha up file .env từ localhost lên
-        if (file_exists($f) && file_exists($f_backup)) {
+        if (is_file($f) && is_file($f_backup)) {
             $this->MY_unlink($f_backup);
         }
 
         // bakup file .env nếu chưa có
-        if (!file_exists($f_backup)) {
+        if (!is_file($f_backup)) {
             if (!$this->MY_copy($f, $f_backup)) {
                 if ($for_alert === 1) {
                     $this->base_model->alert('LỖI! không backup được file ' . basename($f), 'error');
@@ -227,7 +227,7 @@ class Dashboard extends Optimize
             } else {
                 chmod($f_backup, DEFAULT_FILE_PERMISSION);
             }
-            if (!file_exists($f_backup)) {
+            if (!is_file($f_backup)) {
                 if ($for_alert === 1) {
                     $this->base_model->alert('LỖI! tồn tại file: ' . basename($f_backup), 'error');
                 }
@@ -256,14 +256,14 @@ class Dashboard extends Optimize
 
         // nếu tồn tại file .env -> bỏ qua
         $f = $this->f_env;
-        if (file_exists($f)) {
+        if (is_file($f)) {
             //$this->base_model->alert( 'File đã tồn tại ' . basename( $f ), 'error' );
             return true;
         }
 
         // phải tồn tại file .envbak thì mới tiếp tục
         $f_backup = $this->f_backup_env;
-        if (file_exists($f_backup)) {
+        if (is_file($f_backup)) {
             // restore lại file env
             if ($this->MY_copy($f_backup, $f)) {
                 $this->base_model->alert('', base_url(CUSTOM_ADMIN_URI));
@@ -284,7 +284,7 @@ class Dashboard extends Optimize
         $file_zip = PUBLIC_HTML_PATH . 'ci4-for-wordpress.zip';
 
         //
-        if (file_exists($file_zip)) {
+        if (is_file($file_zip)) {
             echo $file_zip . '<br>' . PHP_EOL;
 
             //
@@ -295,7 +295,7 @@ class Dashboard extends Optimize
                 $this->cleanup_config_cache(false);
 
                 // tắt chế độ debug nếu có file
-                if (file_exists($this->f_env)) {
+                if (is_file($this->f_env)) {
                     $this->disable_env();
                 }
                 return true;
@@ -328,7 +328,7 @@ class Dashboard extends Optimize
         $file_zip = PUBLIC_HTML_PATH . THEMENAME . '.zip';
 
         //
-        if (file_exists($file_zip)) {
+        if (is_file($file_zip)) {
             echo $file_zip . '<br>' . PHP_EOL;
 
             //
@@ -371,7 +371,7 @@ class Dashboard extends Optimize
         }
 
         //
-        if (!file_exists(WRITEPATH . THEMENAME . '.zip')) {
+        if (!is_file(WRITEPATH . THEMENAME . '.zip')) {
             $this->base_model->alert('Không xác định dược backup theme!', 'error');
         }
 
@@ -400,7 +400,7 @@ class Dashboard extends Optimize
         //
         echo 'Copy backup theme: ' . $file_path . '<br>' . PHP_EOL;
         $this->MY_copy(WRITEPATH . THEMENAME . '.zip', $file_path);
-        if (!file_exists($file_path)) {
+        if (!is_file($file_path)) {
             $this->base_model->alert('Copy backup theme thất bại! Không xác định được file sau khi upload', 'error');
         }
 
@@ -417,7 +417,7 @@ class Dashboard extends Optimize
     public function backupThemename($file_source)
     {
         $file_save = WRITEPATH . THEMENAME . '.zip';
-        if (file_exists($file_save)) {
+        if (is_file($file_save)) {
             $this->MY_unlink($file_save);
         }
         return $this->MY_copy($file_source, $file_save);
@@ -429,9 +429,9 @@ class Dashboard extends Optimize
     public function unzip_system($non_stop = false)
     {
         $system_zip = PUBLIC_HTML_PATH . 'system.zip';
-        if (!file_exists($system_zip)) {
+        if (!is_file($system_zip)) {
             $system_zip = WRITEPATH . 'updates/system.zip';
-            if (!file_exists($system_zip)) {
+            if (!is_file($system_zip)) {
                 echo $system_zip . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
                 $this->base_model->alert('Không tồn tại file ' . basename($system_zip), 'error');
             }
@@ -546,7 +546,7 @@ class Dashboard extends Optimize
                 $file->move($upload_path, $file_name, true);
 
                 //
-                if (!file_exists($file_path)) {
+                if (!is_file($file_path)) {
                     $this->base_model->alert('Upload thất bại! Không xác định được file sau khi upload', 'error');
                 }
                 chmod($file_path, DEFAULT_FILE_PERMISSION);
@@ -800,7 +800,7 @@ class Dashboard extends Optimize
 
             // nếu tồn tại file config -> copy nó sang thư mục chính
             /*
-            if (file_exists($this->config_deleted_file) && !file_exists($this->config_file)) {
+            if (is_file($this->config_deleted_file) && !is_file($this->config_file)) {
                 // không copy được file config thì restore code lại
                 if (!$this->MY_copy($this->config_deleted_file, $this->config_file)) {
                     $this->restore_code();
@@ -810,7 +810,7 @@ class Dashboard extends Optimize
 
             // copy lại file cần thiết sau khi update
             foreach ($this->copy_after_updated as $f_delete => $f_copy) {
-                if (file_exists($f_delete) && !file_exists($f_copy)) {
+                if (is_file($f_delete) && !is_file($f_copy)) {
                     // không copy được file config thì restore code lại
                     if (!$this->MY_copy($f_delete, $f_copy)) {
                         $this->restore_code();
@@ -1092,7 +1092,7 @@ class Dashboard extends Optimize
         // xóa bằng php thường
         if ($this->using_via_ftp() !== true) {
             foreach ($this->file_re_cache as $file) {
-                if (!file_exists($file)) {
+                if (!is_file($file)) {
                     continue;
                 }
                 echo $file . '<br>' . PHP_EOL;
@@ -1131,7 +1131,7 @@ class Dashboard extends Optimize
 
             // XÓA file
             foreach ($this->file_re_cache as $file) {
-                if (!file_exists($file)) {
+                if (!is_file($file)) {
                     continue;
                 }
                 echo $file . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;

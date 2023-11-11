@@ -380,7 +380,7 @@ class UserBase extends EbModel
 
         //
         $result = '';
-        if (file_exists($f)) {
+        if (is_file($f)) {
             $result = file_get_contents($f);
             $result = explode('|', $result);
             if (is_numeric($result[0]) && time() - $result[0] < 120) {

@@ -6,6 +6,6 @@
 
 //
 //echo $theme_private_view . '<br>' . PHP_EOL;
-if (file_exists($theme_private_view)) {
+if (is_file($theme_private_view)) {
     include __DIR__ . '/private_include_view.php';
 }

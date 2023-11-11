@@ -189,7 +189,7 @@ class Configs extends Admin
             $data['logo_width_img'] = 0;
             $data['logo_height_img'] = 0;
             //echo PUBLIC_PUBLIC_PATH . $data[ 'logo' ] . '<br>' . PHP_EOL;
-            if (isset($data['logo']) && $data['logo'] != '' && file_exists(PUBLIC_PUBLIC_PATH . $data['logo'])) {
+            if (isset($data['logo']) && $data['logo'] != '' && is_file(PUBLIC_PUBLIC_PATH . $data['logo'])) {
                 $logo_data = getimagesize(PUBLIC_PUBLIC_PATH . $data['logo']);
 
                 //

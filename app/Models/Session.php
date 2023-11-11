@@ -38,13 +38,21 @@ class Session
         $this->cache = \Config\Services::cache();
     }
 
+    /**
+     * https://codeigniter.com/user_guide/libraries/sessions.html
+     */
     public function MY_session($key, $value = NULL)
     {
+        $session = \Config\Services::session();
+
+        //
         if ($value !== NULL) {
-            $_SESSION[$key] = $value;
+            // $_SESSION[$key] = $value;
+            $session->set($key, $value);
             return true;
         }
-        return isset($_SESSION[$key]) ? $_SESSION[$key] : '';
+        // return isset($_SESSION[$key]) ? $_SESSION[$key] : '';
+        return $session->get($key);
     }
 
     // trả về input chứa csrf và lưu vào session để nếu submit thì còn kiểm tra được
@@ -347,6 +355,13 @@ class Session
         foreach ($data as $k => $v) {
             $save_data[$k] = $v;
         }
+
+        // một số dữ liệu không lưu vào session
+        foreach (DENY_IN_LOGGED_SES as $v) {
+            $save_data[$v] = '';
+        }
+
+        //
         return $this->MY_session($this->key_member_login, $save_data);
     }
     // get session login -> trả về dữ liệu đăng nhập của người dùng

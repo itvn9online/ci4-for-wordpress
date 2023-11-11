@@ -10,23 +10,27 @@
     </div>
     <?php
 
-    foreach ( $all_session as $k => $v ) {
-        ?>
-    <div class="row row-small">
-        <div class="col col-3"><?php echo $k; ?></div>
-        <div class="col col-8">
-            <?php
+    //
+    $all_session['session_id'] = session_id();
 
-            //
-            if ( is_array( $v ) ) {
-                echo json_encode( $v );
-            } else {
-                echo $v;
-            }
+    //
+    foreach ($all_session as $k => $v) {
+    ?>
+        <div class="row row-small">
+            <div class="col col-3"><?php echo $k; ?></div>
+            <div class="col col-8">
+                <?php
 
-            ?>
+                //
+                if (is_array($v)) {
+                    echo json_encode($v);
+                } else {
+                    echo $v;
+                }
+
+                ?>
+            </div>
         </div>
-    </div>
     <?php
     }
 
@@ -41,23 +45,23 @@
     </div>
     <?php
 
-    foreach ( $all_cookie as $k => $v ) {
-        ?>
-    <div class="row row-small">
-        <div class="col col-3"><?php echo $k; ?></div>
-        <div class="col col-8">
-            <?php
+    foreach ($all_cookie as $k => $v) {
+    ?>
+        <div class="row row-small">
+            <div class="col col-3"><?php echo $k; ?></div>
+            <div class="col col-8">
+                <?php
 
-            //
-            if ( is_array( $v ) ) {
-                echo json_encode( $v );
-            } else {
-                echo $v;
-            }
+                //
+                if (is_array($v)) {
+                    echo json_encode($v);
+                } else {
+                    echo $v;
+                }
 
-            ?>
+                ?>
+            </div>
         </div>
-    </div>
     <?php
     }
 
@@ -72,23 +76,23 @@
     </div>
     <?php
 
-    foreach ( $data as $k => $v ) {
-        ?>
-    <div class="row row-small">
-        <div class="col col-3"><?php echo $k; ?></div>
-        <div class="col col-8">
-            <?php
+    foreach ($data as $k => $v) {
+    ?>
+        <div class="row row-small">
+            <div class="col col-3"><?php echo $k; ?></div>
+            <div class="col col-8">
+                <?php
 
-            //
-            if ( is_array( $v ) ) {
-                echo json_encode( $v );
-            } else {
-                echo $v;
-            }
+                //
+                if (is_array($v)) {
+                    echo json_encode($v);
+                } else {
+                    echo $v;
+                }
 
-            ?>
+                ?>
+            </div>
         </div>
-    </div>
     <?php
     }
 

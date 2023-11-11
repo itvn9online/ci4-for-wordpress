@@ -115,7 +115,7 @@ function register_users_type($arrs = [])
  * Thư mục chứa theme hiển thị cho website (tùy theo yêu cầu của khách hàng mà thiết lập giao diện khác nhau)
  **/
 // nạp file xác định THEMENAME (nếu có)
-if (file_exists(PUBLIC_PUBLIC_PATH . 'wp-content/themes/actived.php')) {
+if (is_file(PUBLIC_PUBLIC_PATH . 'wp-content/themes/actived.php')) {
     include PUBLIC_PUBLIC_PATH . 'wp-content/themes/actived.php';
 } else {
     // xác định theme tự động
@@ -153,7 +153,7 @@ define('DYNAMIC_CONSTANTS_PATH', APPPATH . 'Config/DynamicConstants.php');
 /**
  * Nạp Constants của từng web -> code động -> độ ưu tiên cao nhất
  **/
-if (file_exists(DYNAMIC_CONSTANTS_PATH)) {
+if (is_file(DYNAMIC_CONSTANTS_PATH)) {
     include DYNAMIC_CONSTANTS_PATH;
 }
 
@@ -161,7 +161,7 @@ if (file_exists(DYNAMIC_CONSTANTS_PATH)) {
  * nạp file function của từng theme -> code cứng -> sẽ bị phủ định bởi code động
  * -> trong functions phải khai báo theo mẫu: defined() || define()
  **/
-if (file_exists(THEMEPATH . 'functions.php')) {
+if (is_file(THEMEPATH . 'functions.php')) {
     include THEMEPATH . 'functions.php';
 }
 ####################################################################
@@ -220,6 +220,12 @@ defined('EBE_DATE_FORMAT') || define('EBE_DATE_FORMAT', 'Y-m-d');
 defined('EBE_DATETIME_FORMAT') || define('EBE_DATETIME_FORMAT', 'Y-m-d H:i:s');
 
 /**
+ * Một số thông số sẽ ko lưu vào session đăng nhập
+ * Site nào có tùy chỉnh bảng users thì thêm các cột không lưu vào đây
+ */
+defined('DENY_IN_LOGGED_SES') || define('DENY_IN_LOGGED_SES', []);
+
+/**
  * tạo đường dẫn admin tránh đường dẫn mặc định. Ví dụ : admin -> nhằm tăng cường bảo mật cho website
  **/
 defined('CUSTOM_ADMIN_URI') || define('CUSTOM_ADMIN_URI', 'wgr-wp-admin');
@@ -231,6 +237,7 @@ defined('CUSTOM_ADMIN_URI') || define('CUSTOM_ADMIN_URI', 'wgr-wp-admin');
  **/
 // tạo hàm ngẫu nhiên theo ngày
 $rand_by_ses = md5(session_id());
+// echo $rand_by_ses . '<br>' . PHP_EOL;
 // khai báo constans để tạo routes
 define('RAND_MULTI_LOGOUT', '_' . substr($rand_by_ses, 0, 12));
 //echo RAND_MULTI_LOGOUT . '<br>' . PHP_EOL;
@@ -435,7 +442,7 @@ defined('HTACCESSS_ALLOW') || define('HTACCESSS_ALLOW', 'zip|xlsx|xls|mp3|css|js
 defined('WGR_CSP_ENABLE') || define('WGR_CSP_ENABLE', false);
 //echo ROOTPATH . '.env';
 // nếu chế độ debug được bật -> bắt buộc phải tắt CSP
-if (file_exists(ROOTPATH . '.env')) {
+if (is_file(ROOTPATH . '.env')) {
     define('WGR_CSP_FOR_DEBUG', false);
 } else {
     // còn lại sẽ lấy theo config động

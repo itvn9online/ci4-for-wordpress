@@ -88,7 +88,7 @@ class Optimize extends Admin
         if ($this->optimize_action_css(THEMEPATH) === true) {
             // riêng với CSS thì còn thừa file style.css của theme -> sinh ra đoạn này để xử lý nó
             $filename = THEMEPATH . 'style.css';
-            if (file_exists($filename)) {
+            if (is_file($filename)) {
                 $c = $this->WGR_remove_css_multi_comment(file_get_contents($filename, 1));
                 if ($c !== false) {
                     echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
@@ -265,7 +265,7 @@ class Optimize extends Admin
         //echo '<strong>' . $path . '</strong>:<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
         $full_path = $path . $this->f_active_optimize;
         //echo $full_path . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
-        if (file_exists($full_path)) {
+        if (is_file($full_path)) {
             // thử xóa file optimize -> XÓA được thì mới trả về true -> đảm bảo có quyền chỉnh sửa các file trong này
             if ($this->MY_unlink($full_path)) {
                 return true;

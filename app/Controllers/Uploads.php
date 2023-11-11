@@ -100,7 +100,7 @@ class Uploads extends Users
         //
         $success = 0;
         $mime_type = $file_type;
-        if (!file_exists($file_path)) {
+        if (!is_file($file_path)) {
             $success = $this->base_model->eb_create_file($file_path, base64_decode($img));
 
             // kiểm tra định dạng file -> chỉ chấp nhận định dạng jpeg
@@ -120,20 +120,20 @@ class Uploads extends Users
 
         // resize ảnh để chạy cho mượt
         $arr_sizes = MediaType::media_size();
-        if (!file_exists($file_thumb_path)) {
+        if (!is_file($file_thumb_path)) {
             $rs = \App\Libraries\MyImage::resize($file_path, $file_thumb_path, $arr_sizes[MediaType::MEDIA_THUMBNAIL]);
             //chmod($file_thumb_path, DEFAULT_FILE_PERMISSION);
         }
-        if (!file_exists($file_medium_path)) {
+        if (!is_file($file_medium_path)) {
             $rs = \App\Libraries\MyImage::resize($file_path, $file_medium_path, $arr_sizes[MediaType::MEDIA_MEDIUM]);
             //chmod($file_medium_path, DEFAULT_FILE_PERMISSION);
         }
-        if (!file_exists($file_large_path)) {
+        if (!is_file($file_large_path)) {
             $rs = \App\Libraries\MyImage::resize($file_path, $file_large_path, $arr_sizes[MediaType::MEDIA_MEDIUM_LARGE]);
             //chmod($file_large_path, DEFAULT_FILE_PERMISSION);
         }
         $img_webp = $file_medium_path;
-        if (file_exists($file_medium_path)) {
+        if (is_file($file_medium_path)) {
             $create_webp = \App\Libraries\MyImage::webpConvert($file_medium_path);
             if ($create_webp != '') {
                 $img_webp = $create_webp;

@@ -643,7 +643,7 @@ class PostMeta extends PostBase
         //echo $check_size . ':' . __LINE__ . '<br>' . PHP_EOL;
 
         // kiểm tra xem có tồn tại không path tuyệt đối này không
-        if (file_exists($check_size)) {
+        if (is_file($check_size)) {
             if ($file_ext == '') {
                 $file_ext = pathinfo($check_size, PATHINFO_EXTENSION);
                 //echo $file_ext . ':' . __LINE__ . '<br>' . PHP_EOL;
@@ -653,7 +653,7 @@ class PostMeta extends PostBase
             $check_size = str_replace('.' . $file_ext, '-' . $file_size . '.' . $file_ext, $result);
             //echo $check_size . ':' . __LINE__ . '<br>' . PHP_EOL;
             // có thì tạo URL tương đối để trả về
-            if (file_exists($check_size)) {
+            if (is_file($check_size)) {
                 $result = str_replace(PUBLIC_PUBLIC_PATH, '', $check_size);
                 //echo $result . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
             }

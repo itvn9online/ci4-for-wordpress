@@ -95,7 +95,7 @@ class Sync extends BaseController
         //
         if (strpos($_SERVER['HTTP_HOST'], 'localhost') === false) {
             $f = APPPATH . 'sync.txt';
-            if (file_exists($f)) {
+            if (is_file($f)) {
                 $this->MY_unlink($f);
             }
         }
@@ -547,7 +547,7 @@ class Sync extends BaseController
          */
         $private_theme_db = THEMEPATH . 'Database_Migrations.php';
         //echo $private_theme_db . '<br>' . PHP_EOL;
-        if (file_exists($private_theme_db)) {
+        if (is_file($private_theme_db)) {
             include $private_theme_db;
 
             //
@@ -738,7 +738,7 @@ class Sync extends BaseController
             'index.htm',
             'index.php',
         ] as $v) {
-            if (file_exists($dir . $v)) {
+            if (is_file($dir . $v)) {
                 return false;
             }
         }

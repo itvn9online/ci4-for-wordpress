@@ -781,7 +781,7 @@ class Zaloa extends Option
         $f .= date('Y-m-d') . '.txt';
 
         //
-        if (!file_exists($f)) {
+        if (!is_file($f)) {
             if (!file_put_contents($f, __CLASS__ . ':' . __LINE__ . PHP_EOL, LOCK_EX)) {
                 return false;
             }

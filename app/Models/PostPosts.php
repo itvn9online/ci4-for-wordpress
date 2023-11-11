@@ -43,7 +43,7 @@ class PostPosts extends PostSlider
         $itemprop_logo = '';
         $itemprop_author = '';
         $itemprop_image = '';
-        if ($data['trv_img'] != '' && file_exists(PUBLIC_PUBLIC_PATH . $data['trv_img'])) {
+        if ($data['trv_img'] != '' && is_file(PUBLIC_PUBLIC_PATH . $data['trv_img'])) {
             $itemprop_logo = $this->itempropLogoHtmlNode;
             $itemprop_author = $this->itempropAuthorHtmlNode;
             $itemprop_image = $this->itempropImageHtmlNode;

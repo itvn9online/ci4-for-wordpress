@@ -52,10 +52,10 @@ class PostBase extends EbModel
             $this->itempropAuthorHtmlNode = $itemprop_cache_author;
         }
         /*
-        if (file_exists(WRITEPATH . 'itemprop-logo.txt')) {
+        if (is_file(WRITEPATH . 'itemprop-logo.txt')) {
             $this->itempropLogoHtmlNode = file_get_contents(WRITEPATH . 'itemprop-logo.txt');
         }
-        if (file_exists(WRITEPATH . 'itemprop-author.txt')) {
+        if (is_file(WRITEPATH . 'itemprop-author.txt')) {
             $this->itempropAuthorHtmlNode = file_get_contents(WRITEPATH . 'itemprop-author.txt');
         }
         */

@@ -14,7 +14,7 @@ $theme_private_view = str_replace(VIEWS_PATH, VIEWS_CUSTOM_PATH, $theme_default_
 $has_private_view = false;
 
 //
-if (file_exists($theme_private_view)) {
+if (is_file($theme_private_view)) {
     include __DIR__ . '/private_include_view.php';
 
     //

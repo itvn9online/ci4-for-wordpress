@@ -99,7 +99,7 @@ class Constants extends Configs
 
             //
             $this->base_model->ftp_create_file($f, str_replace(' ', '', '< ? php') . PHP_EOL . implode(PHP_EOL, $a) . PHP_EOL);
-        } else if (file_exists($f)) {
+        } else if (is_file($f)) {
             unlink($f);
         }
 

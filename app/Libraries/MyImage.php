@@ -48,7 +48,7 @@ class MyImage
     {
         $source = explode('?', $source)[0];
         //echo $source . '<br>' . PHP_EOL;
-        if (!file_exists($source)) {
+        if (!is_file($source)) {
             return '';
         }
 
@@ -59,7 +59,7 @@ class MyImage
         //echo $desc . '<br>' . PHP_EOL;
 
         // nếu có rồi thì trả về luôn
-        if (file_exists($desc)) {
+        if (is_file($desc)) {
             return str_replace(PUBLIC_PUBLIC_PATH, '', $desc);
         }
 
@@ -117,7 +117,7 @@ class MyImage
         chmod($desc, DEFAULT_FILE_PERMISSION);
 
         // kiểm tra lại xem có chưa
-        if (file_exists($desc)) {
+        if (is_file($desc)) {
             //echo $desc . '<br>' . PHP_EOL;
             return str_replace(PUBLIC_PUBLIC_PATH, '', $desc);
         }
@@ -132,7 +132,7 @@ class MyImage
      */
     public static function quality($source, $desc = '', $compression = 0, $withResource = false)
     {
-        if (!file_exists($source)) {
+        if (!is_file($source)) {
             return [
                 'code' => __LINE__,
                 'error' => __CLASS__ . ': File not exist'
@@ -213,7 +213,7 @@ class MyImage
      */
     public static function crop($source, $desc = '', $width = 150, $height = 150, $x = 0, $y = 0, $compression = 0, $maintainRatio = false, $masterDim = 'auto')
     {
-        if (!file_exists($source)) {
+        if (!is_file($source)) {
             return [
                 'code' => __LINE__,
                 'error' => __CLASS__ . ': File not exist'
@@ -242,7 +242,7 @@ class MyImage
      */
     public static function resize($source, $desc = '', $width = 150, $height = 0, $compression = 0)
     {
-        if (!file_exists($source)) {
+        if (!is_file($source)) {
             return [
                 'code' => __LINE__,
                 'error' => __CLASS__ . ': File not exist'
@@ -346,7 +346,7 @@ class MyImage
      */
     public static function watermark($source, $desc = '', $text = '', $ops = [], $compression = 0)
     {
-        if (!file_exists($source)) {
+        if (!is_file($source)) {
             return [
                 'code' => __LINE__,
                 'error' => __CLASS__ . ': File not exist'
