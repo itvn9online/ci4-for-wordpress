@@ -357,6 +357,12 @@ class Session
         }
 
         // một số dữ liệu không lưu vào session
+        $save_data['user_pass'] = '';
+        $save_data['ci_pass'] = '';
+        $save_data['rememberme_key'] = '';
+        //$save_data['user_activation_key'] = '';
+
+        // dữ liệu tùy chỉnh (khai báo trong functions.php của theme)
         foreach (DENY_IN_LOGGED_SES as $v) {
             $save_data[$v] = '';
         }
