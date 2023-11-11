@@ -318,7 +318,7 @@ include __DIR__ . '/add_breadcrumb.php';
     ?>
         <h3 class="white-preview-url">Các <?php echo $name_type; ?> con khác (cùng post_parent hoặc lang_parent):</h3>
         <ul>
-            <li v-for="v in child_post">{{v.post_type}} ({{v.lang_key}}) #{{v.ID}} {{v.post_title}} ({{v.post_name}}) | {{v.post_status}}</li>
+            <li v-for="v in child_post"><a :href="post_admin_permalink(current_post_type, v.ID, controller_slug)">{{v.post_type}} ({{v.lang_key}}) #{{v.ID}} {{v.post_title}} ({{v.post_name}}) | {{v.post_status}}</a></li>
         </ul>
     <?php
     }

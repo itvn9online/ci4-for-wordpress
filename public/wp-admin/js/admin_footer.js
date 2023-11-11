@@ -214,7 +214,11 @@ fix_textarea_height();
 (function (w) {
 	console.log(w);
 	w = w.replace(web_link, "");
-	w = w.split("&support_tab=")[0].split("?support_tab=")[0];
+	w = w
+		.split("&support_tab=")[0]
+		.split("?support_tab=")[0]
+		.split("&preview_offset_top=")[0]
+		.split("?preview_offset_top=")[0];
 	console.log(w);
 
 	// tạo segment cho admin menu
@@ -373,7 +377,7 @@ $(document)
 		}, 30 * 1000);
 
 		//
-		WGR_nofollow();
+		WGR_set_nofollow();
 
 		// tạo menu phụ trợ để tìm kiếm cho tiện
 		$("#admin_menu_result").html($("#sidebar").html());

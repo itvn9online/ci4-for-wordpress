@@ -32,7 +32,7 @@
                 <div><i class="fa fa-phone"></i></div>
                 <div><i class="fa fa-home"></i></div>
             </td>
-            <td width="90" class="text-center">
+            <td width="150" class="text-center big">
                 <?php
                 include ADMIN_ROOT_VIEWS . 'posts/list_action.php';
                 ?>

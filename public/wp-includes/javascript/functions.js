@@ -1097,12 +1097,21 @@ function WGR_open_poup(str, tit, __callBack) {
 	$("#popupModal").modal("show");
 }
 
-function WGR_get_params(param) {
-	var queryString = window.location.search;
-	//console.log(queryString);
+function WGR_get_params(param, queryString) {
+	if (typeof queryString == "undefined" || queryString == "") {
+		queryString = window.location.search;
+	} else {
+		queryString = queryString.split("?");
+		if (queryString.length > 1) {
+			queryString = queryString[1];
+		} else {
+			return "";
+		}
+	}
+	// console.log("queryString:", queryString);
 	var urlParams = new URLSearchParams(queryString);
+	// console.log("urlParams:", urlParams);
 	var a = urlParams.get(param);
-	//console.log(a);
 	return a === null ? "" : a;
 }
 
@@ -1167,4 +1176,18 @@ function get_hide_captcha(a, div_id, the_debug, max_i) {
 
 	//
 	return a;
+}
+
+function WGR_nofollow() {
+	var links = document.links;
+	for (var i = 0; i < links.length; i++) {
+		// console.log(links[i].hostname);
+		// console.log(links[i].href);
+		if (links[i].hostname == window.location.hostname) {
+			continue;
+		}
+		// console.log(links[i].href);
+		links[i].rel = "nofollow";
+		links[i].target = "_blank";
+	}
 }

@@ -670,20 +670,107 @@ class Terms extends Admin
                 continue;
             }
 
-            // -> thêm multi thì không cho phép trùng lặp
-            $result_id = $this->term_model->insert_terms([
+            //
+            $slug = $this->base_model->_eb_non_mark_seo($v);
+            $slug = str_replace('.', '-', $slug);
+            $slug = str_replace('--', '-', $slug);
+
+            // -> thêm multi thì không cho phép trùng lặp -> kiểm tra trùng lặp theo parent
+            $check_slug_exist = [
+                $slug,
+                rtrim($slug . '-' . $data['slug'], '-'),
+                ltrim($data['slug'] . '-' . $slug, '-'),
+                $slug . '-' . $data['term_id'],
+                rtrim($slug . '-' . $data['slug'] . '-' . $data['term_id'], '-'),
+                ltrim($data['slug'] . '-' . $slug . '-' . $data['term_id'], '-'),
+            ];
+
+            //
+            $check_term_exist = $this->term_model->get_term_by_slug(
+                // $slug,
+                '',
+                $this->taxonomy,
+                // get_meta
+                false,
+                // limit
+                1,
+                // select_col
+                'term_id, slug, parent',
+                // lang_key
+                '',
+                // ops
+                [
+                    'where' => [
+                        // 'parent' => $data['term_id'],
+                    ],
+                    'filter' => [
+                        'where_in' => array(
+                            'slug' => $check_slug_exist
+                        ),
+                        // 'show_query' => 1
+                    ]
+                ]
+            );
+            if (!empty($check_term_exist)) {
+                print_r($check_term_exist);
+                // continue;
+
+                // nếu cùng 1 cha mà trùng -> bỏ qua luôn
+                if ($check_term_exist['parent'] == $data['term_id']) {
+                    echo 'Term EXIST #' . $check_term_exist['term_id'] . ' | parent #' . $check_term_exist['parent'] . '<br>' . PHP_EOL;
+                    continue;
+                }
+
+                // chạy vòng lặp lấy cái ko trùng lặp
+                $new_slug = false;
+                foreach ($check_slug_exist as $fixed_slug) {
+                    // echo $fixed_slug . '<br>' . PHP_EOL;
+                    if ($fixed_slug != $check_term_exist['slug']) {
+                        $slug = $fixed_slug;
+                        echo $slug . '<br>' . PHP_EOL;
+                        $new_slug = true;
+                        break;
+                    }
+                }
+
+                //
+                if ($new_slug === false) {
+                    echo 'Term EXIST #' . $check_term_exist['term_id'] . '<br>' . PHP_EOL;
+                    continue;
+                }
+            }
+            // continue;
+
+            //
+            $data_insert = [
                 'name' => $v,
-                'slug' => $v,
+                'slug' => $slug,
                 'parent' => $data['term_id'],
-            ], $this->taxonomy, true);
+            ];
+            print_r($data_insert);
+            echo '<br>' . PHP_EOL;
+
+            //
+            $result_id = $this->term_model->insert_terms($data_insert, $this->taxonomy, false, [], false);
+
+            //
+            if ($result_id > 0) {
+                echo 'Insert OK #' . $result_id . '<br>' . PHP_EOL;
+            } else {
+                print_r($result_id);
+                echo '<br>' . PHP_EOL;
+                echo 'Insert ERROR!' . '<br>' . PHP_EOL;
+            }
         }
+        // die(__CLASS__ . ':' . __LINE__);
 
         // dọn dẹp cache liên quan đến taxonomy này
         $this->cleanup_cache($this->taxonomy . '_get_child');
 
         //
         die('<script>top.done_multi_add_term();</script>');
-        //die(__CLASS__ . ':' . __LINE__);
+
+        // die(__CLASS__ . ':' . __LINE__);
     }
 
     protected function update($id)

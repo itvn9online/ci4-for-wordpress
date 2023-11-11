@@ -104,6 +104,7 @@ $base_model->adds_css([
                 <div class="modal-body">
                     <div class="d-none">
                         <input type="number" name="data[term_id]" id="data_term_id" value="" />
+                        <input type="text" name="data[slug]" id="data_term_slug" value="" />
                     </div>
                     <p>
                         <?php echo $name_type; ?> cha: <strong id="multi_add_parent_name"></strong>
@@ -114,6 +115,12 @@ $base_model->adds_css([
                             </strong>
                             <textarea name="data[term_name]" id="data_term_name" rows="10" class="d-block form-control" aria-required="true" required></textarea>
                         </label>
+                        <div>
+                            <label>
+                                <input type="checkbox" value="1" id="multi_add_show_debug" />
+                                Hiển thị thông tin để test code
+                            </label>
+                        </div>
                         <p class="description">Có thể nhập nhiều
                             <?php echo $name_type; ?>, mỗi
                             <?php echo $name_type; ?> cách nhau bởi dấu xuống dòng [Enter].

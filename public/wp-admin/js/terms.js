@@ -221,11 +221,21 @@ function before_tree_view(tmp, max_i) {
 }
 
 function done_multi_add_term() {
-	window.location = window.location.href;
+	if ($("#multi_add_show_debug").is(":checked")) {
+		$("#data_term_name").val("");
+		WGR_alert("OK");
+	} else {
+		window.location = window.location.href;
+	}
 }
 
 function open_modal_add_multi_term(term_id) {
 	$("#data_term_id").val(term_id);
+	// slug dùng để xác định các term trùng lặp
+	$("#data_term_slug").val(
+		$('.get-parent-term-name[data-id="' + term_id + '"]').attr("data-slug") ||
+			""
+	);
 	$("#multi_add_parent_name").html(
 		$('.get-parent-term-name[data-id="' + term_id + '"]').attr("data-name") ||
 			""

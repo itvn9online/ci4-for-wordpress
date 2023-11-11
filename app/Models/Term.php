@@ -128,10 +128,10 @@ class Term extends TermBase
         return $post_cat;
     }
 
-    /*
+    /**
      * return_exist -> trả về ID của term khi gặp trùng lặp slug
      */
-    public function insert_terms($data, $taxonomy, $return_exist = false, $data_meta = [])
+    public function insert_terms($data, $taxonomy, $return_exist = false, $data_meta = [], $check_exist = true)
     {
         // các dữ liệu mặc định
         $default_data = [
@@ -155,41 +155,53 @@ class Term extends TermBase
             //
             //$check_term_exist = $this->get_term_by_id( 1, $taxonomy, false );
             //print_r( $check_term_exist );
-            /*
+            /**
              * xem term này đã có chưa
              */
-            // mặc định là có rồi
-            $has_slug = true;
-            // chạy vòng lặp để kiểm tra, nếu có rồi thì thêm số vào sau để tránh trùng lặp
-            for ($i = 0; $i < 10; $i++) {
-                $by_slug = $data['slug'];
-                if ($i > 0) {
-                    $by_slug .= $i;
-                }
-                //echo 'by_slug: ' . $by_slug . '<br>' . PHP_EOL;
-                $check_term_exist = $this->get_term_by_slug($by_slug, $taxonomy, false, 1, 'term_id', isset($data['lang_key']) ? $data['lang_key'] : '');
-                //print_r( $check_term_exist );
-                //die( __CLASS__ . ':' . __LINE__ );
+            if ($check_exist === true) {
+                // mặc định là có rồi
+                $has_slug = true;
+                // chạy vòng lặp để kiểm tra, nếu có rồi thì thêm số vào sau để tránh trùng lặp
+                for ($i = 0; $i < 10; $i++) {
+                    $by_slug = $data['slug'];
+                    if ($i > 0) {
+                        $by_slug .= $i;
+                    }
+                    //echo 'by_slug: ' . $by_slug . '<br>' . PHP_EOL;
+                    $check_term_exist = $this->get_term_by_slug(
+                        $by_slug,
+                        $taxonomy,
+                        // get_meta
+                        false,
+                        // limit
+                        1,
+                        // select_col
+                        'term_id',
+                        isset($data['lang_key']) ? $data['lang_key'] : ''
+                    );
+                    //print_r( $check_term_exist );
+                    //die( __CLASS__ . ':' . __LINE__ );
 
-                // chưa có thì bỏ qua việc kiểm tra
-                if (empty($check_term_exist)) {
-                    $data['slug'] = $by_slug;
+                    // chưa có thì bỏ qua việc kiểm tra
+                    if (empty($check_term_exist)) {
+                        $data['slug'] = $by_slug;
 
-                    // xác nhận slug này chưa được sử dụng
-                    $has_slug = false;
+                        // xác nhận slug này chưa được sử dụng
+                        $has_slug = false;
 
-                    break;
+                        break;
+                    }
+                    // nếu có rồi mà có kèm lệnh hủy thì trả về data luôn
+                    else if ($return_exist === true) {
+                        return $check_term_exist['term_id'];
+                    }
+                    // không thì for tiếp để thêm số vào slug -> tránh trùng lặp
                 }
-                // nếu có rồi mà có kèm lệnh hủy thì trả về data luôn
-                else if ($return_exist === true) {
-                    return $check_term_exist['term_id'];
+                //var_dump( $has_slug );
+                //print_r( $data );
+                if ($has_slug === true) {
+                    return -1;
                 }
-                // không thì for tiếp để thêm số vào slug -> tránh trùng lặp
-            }
-            //var_dump( $has_slug );
-            //print_r( $data );
-            if ($has_slug === true) {
-                return -1;
             }
             //return false;
             //die( __CLASS__ . ':' . __LINE__ );
@@ -1340,20 +1352,35 @@ class Term extends TermBase
     }
 
     // lấy chi tiết 1 term theo slug
-    public function get_term_by_slug($slug, $taxonomy = 'category', $get_meta = true, $limit = 1, $select_col = '*', $lang_key = '')
+    public function get_term_by_slug($slug, $taxonomy = 'category', $get_meta = true, $limit = 1, $select_col = '*', $lang_key = '', $ops = [])
     {
-        $data = $this->get_taxonomy(
-            [
-                'slug' => $slug,
-                'taxonomy' => $taxonomy,
-                'is_deleted' => DeletedStatus::FOR_DEFAULT,
-                'lang_key' => $lang_key != '' ? $lang_key : LanguageCost::lang_key(),
-            ],
-            [
-                'limit' => $limit,
-                'select_col' => $select_col,
-            ]
-        );
+        //
+        $where = [
+            // 'slug' => $slug,
+            'taxonomy' => $taxonomy,
+            'is_deleted' => DeletedStatus::FOR_DEFAULT,
+            'lang_key' => $lang_key != '' ? $lang_key : LanguageCost::lang_key(),
+        ];
+        if ($slug != '') {
+            $where['slug'] = $slug;
+        }
+        $filter = [
+            'limit' => $limit,
+            'select_col' => $select_col,
+        ];
+        if (isset($ops['where'])) {
+            foreach ($ops['where'] as $k => $v) {
+                $where[$k] = $v;
+            }
+        }
+        if (isset($ops['filter'])) {
+            foreach ($ops['filter'] as $k => $v) {
+                $filter[$k] = $v;
+            }
+        }
+
+        //
+        $data = $this->get_taxonomy($where, $filter);
 
         //
         if ($get_meta === true && !empty($data)) {

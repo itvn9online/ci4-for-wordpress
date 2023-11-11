@@ -11,11 +11,15 @@
 })(sessionStorage.getItem('logout_redirect'));
 */
 
+//
+WGR_nofollow();
+
 // xóa href cho các thẻ a không sử dụng
 $('a[href="#"], a[href="javascript:;"], a[href=""]')
 	.click(function () {
 		return false;
 	})
+	.addClass("noreferrer-noopener")
 	//.removeAttr("href")
 	.attr({
 		href: web_link,
@@ -43,6 +47,28 @@ $('a[href="users/logout"], a[href="./users/logout"]')
 		}
 		return result;
 	});
+
+//
+$("a").each(function () {
+	var a = $(this).attr("href") || "";
+	if (a.substr(0, 1) == "#") {
+		$(this)
+			// .addClass("noreferrer-noopener")
+			.attr({
+				href: window.location.href.split("#")[0] + a,
+			});
+	}
+});
+
+//
+// $("a.noreferrer-noopener")
+// 	.click(function () {
+// 		return false;
+// 	})
+// 	.attr({
+// 		rel: "noreferrer noopener",
+// 		// "aria-hidden": "true",
+// 	});
 
 /*
  * tạo hiệu ứng selected cho các thẻ a
@@ -144,9 +170,10 @@ jQuery(document)
 		}
 
 		//
-		$(document).ready(function () {
-			$("body").addClass("document-ready");
-		});
+		// WGR_nofollow();
+
+		//
+		$("body").addClass("document-ready");
 	})
 	.keydown(function (e) {
 		//console.log(e.keyCode);

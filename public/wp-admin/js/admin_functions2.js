@@ -65,7 +65,12 @@ function re_height_iframe_editer(for_id, if_id, max_i) {
 		return false;
 	}
 	iframe_body_h += 90;
-	//console.log("iframe body h:", iframe_body_h);
+	var wh = $(window).height();
+	if (iframe_body_h > wh) {
+		iframe_body_h = Math.ceil((wh / 100) * 75);
+	}
+	// console.log("iframe body h:", iframe_body_h);
+	// console.log("body h:", wh);
 
 	//
 	$("#" + if_id).css({
@@ -87,7 +92,7 @@ function WGR_urlify(text) {
 	// return text.replace(urlRegex, '<a href="$1">$1</a>')
 }
 
-function WGR_nofollow() {
+function WGR_set_nofollow() {
 	var links = document.links;
 	for (var i = 0; i < links.length; i++) {
 		if (links[i].hostname == window.location.hostname) {

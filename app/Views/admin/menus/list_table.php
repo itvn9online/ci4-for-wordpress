@@ -27,7 +27,7 @@
             <td>{{v.post_date.substr(0, 16)}}</td>
             <td>{{v.post_modified.substr(0, 16)}}</td>
             <td width="90">{{v.lang_key}}</td>
-            <td width="90" class="text-center">
+            <td width="150" class="text-center big">
                 <?php
                 include ADMIN_ROOT_VIEWS . 'posts/list_action.php';
                 ?>

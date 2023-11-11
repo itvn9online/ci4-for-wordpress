@@ -629,7 +629,7 @@ function cleanup_attr_in_editer(for_id, rm_attr) {
 	for_id = "#" + for_id + "_ifr";
 	console.log(for_id);
 	if ($(for_id).length < 1) {
-		WGR_alert("Không xác định được iframe ID " + for_id);
+		WGR_alert("Không xác định được iframe ID " + for_id, "error");
 		return false;
 	}
 
