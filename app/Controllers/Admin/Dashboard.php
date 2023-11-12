@@ -819,6 +819,8 @@ class Dashboard extends Optimize
                 }
             }
 
+            // dọn dẹp cache
+            $this->cleanup_config_cache(false);
             // đồng bộ lại thirdparty và database
             $this->vendor_sync(false);
         } else {
