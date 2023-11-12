@@ -20,6 +20,7 @@ class Session
     private $max_login_faild = 3;
 
     public $cache = NULL;
+    public $session = NULL;
 
     // danh sách name và type của các input dùng để tạo anti spam
     protected $input_anti_spam = [
@@ -36,6 +37,7 @@ class Session
     public function __construct()
     {
         $this->cache = \Config\Services::cache();
+        $this->session = \Config\Services::session();
     }
 
     /**
@@ -43,16 +45,13 @@ class Session
      */
     public function MY_session($key, $value = NULL)
     {
-        $session = \Config\Services::session();
-
-        //
         if ($value !== NULL) {
             // $_SESSION[$key] = $value;
-            $session->set($key, $value);
+            $this->session->set($key, $value);
             return true;
         }
         // return isset($_SESSION[$key]) ? $_SESSION[$key] : '';
-        return $session->get($key);
+        return $this->session->get($key);
     }
 
     // trả về input chứa csrf và lưu vào session để nếu submit thì còn kiểm tra được
