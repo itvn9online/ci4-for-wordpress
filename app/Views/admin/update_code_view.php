@@ -113,7 +113,8 @@ if (is_file(WRITEPATH . THEMENAME . '.zip')) {
         <form action="./admin/dashboard/unzip_lai_themename" method="post" target="target_eb_iframe">
             <input type="hidden" name="data" value="1" />
             <div>
-                <button type="submit" class="btn btn-primary"><i class="fa fa-file-archive-o"></i> Unzip theme code</button>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-file-archive-o"></i> Unzip theme code (<?php echo THEMENAME; ?>)</button>
+                Cập nhật cuối: <?php echo date('Y-m-d H:i:s', filemtime(WRITEPATH . THEMENAME . '.zip')); ?>
             </div>
         </form>
     </div>
