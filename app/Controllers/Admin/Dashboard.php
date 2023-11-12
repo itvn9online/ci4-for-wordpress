@@ -858,6 +858,11 @@ class Dashboard extends Optimize
                 //die( $upload_path );
                 echo 'upload path: ' . $upload_path . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
+                // xóa file Database.php nếu có -> chỉ giữ lại file Database-sample.php
+                if (is_file($upload_path . 'app/Config/Database.php')) {
+                    $this->MY_unlink($upload_path . 'app/Config/Database.php');
+                }
+
                 // lấy danh sách các file để còn copy
                 $this->file_re_cache = [];
                 // chỉ update các file trong thư mục chỉ định
