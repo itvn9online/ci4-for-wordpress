@@ -833,7 +833,7 @@ class Dashboard extends Optimize
         die('<script>top.done_submit_update_code("' . basename($file_path) . '");</script>');
     }
 
-    /*
+    /**
      * giải nén sau khi upload
      * main_zip: dành cho unzip code từ main github
      */
@@ -862,8 +862,22 @@ class Dashboard extends Optimize
                 $this->file_re_cache = [];
                 // chỉ update các file trong thư mục chỉ định
                 if ($main_zip === true) {
+                    // các file đơn lẻ ở root
+                    foreach ([
+                        '.env',
+                        '.htaccess',
+                        'spark',
+                    ] as $the_file) {
+                        if (is_file($upload_path . $the_file)) {
+                            $this->file_re_cache[] = $upload_path . $the_file;
+                        }
+                    }
+
+                    //
                     $this->get_all_file_in_folder($upload_path . 'app/');
                     $this->get_all_file_in_folder($upload_path . 'public/');
+                    // $this->get_all_file_in_folder($upload_path . 'tests/');
+                    // $this->get_all_file_in_folder($upload_path . 'writable/');
                 } else {
                     $this->get_all_file_in_folder($upload_path);
                 }
