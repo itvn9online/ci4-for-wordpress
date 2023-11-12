@@ -83,6 +83,8 @@ class Ajaxs extends Layout
                 // nếu có thông số tự logout phiên của người dùng thì tiến hành logout luôn
                 'logout' => $this->getconfig->logout_device_protection,
                 'hash' => $result,
+                // canvas fingerprint
+                'signature' => $this->MY_post('_wpnonce'),
                 // hash lấy từ cache ra
                 //'chash' => $cresult,
                 //'rmlogout' => RAND_MULTI_LOGOUT,
