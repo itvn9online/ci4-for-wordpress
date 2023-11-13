@@ -244,18 +244,18 @@ class Ajaxs extends Layout
             }
         }
 
-        // nếu là tác giả đang xem thì chỉ tăng 1 lượt xem thôi
-        $current_user_id = $this->MY_post('current_user_id', 0);
-        $post_author = $this->MY_post('post_author', 0);
-        if ($current_user_id > 0 && $current_user_id == $post_author) {
+        //
+        $fake_view = $this->MY_post('fview', 1);
+        if ($fake_view < 5) {
             $val = 1;
         } else {
-            // người khác vào xem thì tăng mạnh hơn -> fview = fake view -> ngoài FE viết tắt tí cho kỳ bí
-            $fake_view = $this->MY_post('fview', 1);
-            if ($fake_view > 5) {
-                $val = rand(1, $fake_view);
-            } else {
+            // nếu là tác giả đang xem thì chỉ tăng 1 lượt xem thôi
+            $current_user_id = $this->MY_post('current_user_id', 0);
+            if ($current_user_id > 0 && $current_user_id == $this->MY_post('post_author', 0)) {
                 $val = 1;
+            } else {
+                // người khác vào xem thì tăng mạnh hơn -> fview = fake view -> ngoài FE viết tắt tí cho kỳ bí
+                $val = rand(1, $fake_view);
             }
         }
         $this->post_model->update_views($this->MY_post('pid', 0), $val);
