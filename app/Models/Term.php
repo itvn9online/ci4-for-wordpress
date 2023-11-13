@@ -846,7 +846,8 @@ class Term extends TermBase
         $filter = [
             'where_in' => $ops['where_in'],
             'order_by' => array(
-                'term_id' => 'DESC'
+                'term_order' => 'DESC',
+                'term_id' => 'DESC',
             ),
             // hiển thị mã SQL để check
             //'show_query' => 1,

@@ -126,7 +126,7 @@
                             <label for="addInputIcon">Font-awesome icon</label>
                             <input type="text" class="form-control" data-set="icon" id="addInputIcon" placeholder="Item icon">
                             <div class="text-center">
-                                <a href="https://fontawesome.com/v4/icons/" rel="nofollow" class="d-block bluecolor">https://fontawesome.com/v4/icons/</a>
+                                <a href="https://fontawesome.com/v4/icons/" rel="nofollow" class="bluecolor">https://fontawesome.com/v4/icons/</a>
                             </div>
                         </div>
                     </div>

@@ -252,8 +252,8 @@ class Ajaxs extends Layout
         } else {
             // người khác vào xem thì tăng mạnh hơn -> fview = fake view -> ngoài FE viết tắt tí cho kỳ bí
             $fake_view = $this->MY_post('fview', 1);
-            if ($fake_view > 10) {
-                $val = rand(5, $fake_view);
+            if ($fake_view > 5) {
+                $val = rand(1, $fake_view);
             } else {
                 $val = 1;
             }

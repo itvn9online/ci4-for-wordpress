@@ -15,6 +15,8 @@ include VIEWS_PATH . 'private_view.php';
 $base_model->JSON_echo([
     'post_id' => $data['ID'],
     'post_author' => $data['post_author'],
+    // custom fake view
+    'custom_fview' => 60,
 ]);
 
 //

@@ -231,6 +231,11 @@ defined('DENY_IN_LOGGED_SES') || define('DENY_IN_LOGGED_SES', []);
 defined('CUSTOM_ADMIN_URI') || define('CUSTOM_ADMIN_URI', 'wgr-wp-admin');
 
 /**
+ * Khi muốn fake lượt xem cho post, product thì chỉnh tham số này trong functions php, mặc định sẽ update 1 lượt view mỗi lần
+ */
+defined('CUSTOM_FAKE_POST_VIEW') || define('CUSTOM_FAKE_POST_VIEW', 1);
+
+/**
  * Tạo 1 chuỗi ngẫu nhiên cho URL xác minh đăng nhập trên nhiều thiết bị
  * Tránh việc bị dùng các extension kiểu adblock chặn request
  * Các chuỗi này chỉ dùng sau khi đã đăng nhập -> có thể dùng theo session id do không dình cache

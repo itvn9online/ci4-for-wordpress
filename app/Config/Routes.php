@@ -5,11 +5,12 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * --------------------------------------------------------------------
  * Router Setup
+ * Đoạn này sẽ phủ định phần config trong file Routing.php
  * --------------------------------------------------------------------
  */
-$routes->setDefaultNamespace('App\Controllers');
+// $routes->setDefaultNamespace('App\Controllers');
 // $routes->setDefaultController('Home');
-$routes->setDefaultMethod('index');
+// $routes->setDefaultMethod('index');
 // $routes->setTranslateURIDashes(false);
 // $routes->set404Override();
 // The Auto Routing (Legacy) is very dangerous. It is easy to create vulnerable apps

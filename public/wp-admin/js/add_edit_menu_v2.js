@@ -529,6 +529,16 @@ $("#quick_add_menu select").change(function () {
 	currentEditIdMenu = "";
 });
 
+//
+$("#addInputIcon").change(function () {
+	var a = $(this).val();
+	a = $.trim(a);
+	if (a != "" && a.split("fa").length < 2) {
+		a = "fa fa-" + a;
+		$(this).val(a);
+	}
+});
+
 /*
 $(document).ready(function () {
     MY_select2('#quick_add_menu select');

@@ -42,19 +42,13 @@ function done_action_submit(go_to, token, ck_key) {
 
 // chức năng đồng bộ dữ liệu liên quan đến post, term
 function sync_ajax_post_term() {
-	var k = "sync-ajax-post-term";
-	var last_run = localStorage.getItem(k);
+	var last_run = g_func.getc("sync-ajax-post-term");
+	// console.log("last_run:", last_run);
 	if (last_run !== null) {
 		last_run *= 1;
 		last_run = Date.now() - last_run;
-		last_run = Math.ceil(last_run / 1000);
-		if (last_run < 600) {
-			console.log("last run: " + k + ":", last_run);
-			return false;
-		}
-	}
-	if (WGR_config.cf_tester_mode > 0) {
-		console.log(k);
+		console.log("last sync-ajax-post-term:", Math.ceil(last_run / 1000));
+		return false;
 	}
 
 	//
@@ -72,12 +66,9 @@ function sync_ajax_post_term() {
 			if (WGR_config.cf_tester_mode > 0) {
 				console.log(data);
 			}
-			sessionStorage.setItem(k, JSON.stringify(data));
 
 			//
-			if (typeof data.post != "undefined" && data.post === false) {
-				localStorage.setItem(k, Date.now());
-			}
+			g_func.setc("sync-ajax-post-term", Date.now(), 600);
 		},
 	});
 }
