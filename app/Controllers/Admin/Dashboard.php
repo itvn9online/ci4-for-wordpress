@@ -149,18 +149,18 @@ class Dashboard extends Optimize
 
 
         // kiểm tra file robots.txt
-        $robots_txt = PUBLIC_PUBLIC_PATH . 'robots.txt';
+        // $robots_txt = PUBLIC_PUBLIC_PATH . 'robots.txt';
         // mặc định là không có file robots
-        $robots_exist = 0;
-        if (is_file($robots_txt)) {
-            // có thì mới bắt đầu kiểm tra
-            $robots_exist = 1;
+        // $robots_exist = 0;
+        // if (is_file($robots_txt)) {
+        // có thì mới bắt đầu kiểm tra
+        $robots_exist = 1;
 
-            // nếu không xác định được nội dung cần thiết trong robot txt -> cảnh báo
-            if (strpos(file_get_contents($robots_txt, 1), DYNAMIC_BASE_URL) === false) {
-                $robots_exist = 2;
-            }
+        // nếu không xác định được nội dung cần thiết trong robot txt -> cảnh báo
+        if (strpos($this->getconfig->robots, '%base_url%') === false) {
+            $robots_exist = 2;
         }
+        // }
         //echo 'begin t: ' . (time() - $begin_t) . PHP_EOL;
         //die(__CLASS__ . ':' . __LINE__);
 

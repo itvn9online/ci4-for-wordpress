@@ -84,6 +84,9 @@ foreach ($arr_prefix_routes as $v) {
         $routes->get('sitemap/(:segment)', 'Sitemap::index/$1');
         $routes->get('sitemap/(:segment)/page/(:num)', 'Sitemap::index/$1/page/$2');
 
+        // robots
+        $routes->get('robots.txt', 'Robots::index');
+
 
         // blog
         /*

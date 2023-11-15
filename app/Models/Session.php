@@ -319,7 +319,7 @@ class Session
 
         // nếu là truyền qua ajax -> trả về json
         if (isset($_POST['doing_ajax'])) {
-            header('Content-Type:text/plain; charset=UTF-8');
+            header('Content-Type: text/plain; charset=UTF-8');
             //header('Content-type: application/json; charset=utf-8');
             die(json_encode($d));
         }

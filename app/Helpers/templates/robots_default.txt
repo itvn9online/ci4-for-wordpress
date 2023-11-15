@@ -8,4 +8,4 @@ Disallow: *?replytocom
 Disallow: */attachment/*
 Disallow: /images/
 
-Sitemap: {{base_url}}sitemap
+Sitemap: %base_url%sitemap.xml

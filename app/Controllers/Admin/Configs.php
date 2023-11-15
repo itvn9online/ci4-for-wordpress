@@ -239,9 +239,21 @@ class Configs extends Admin
         //print_r( $data );
         //die( __CLASS__ . ':' . __LINE__ );
 
+        // không tạo file robots.txt tĩnh kiểu này -> site đa ngôn ngữ ko hoạt động được
+        if (is_file(PUBLIC_PUBLIC_PATH . 'robots.txt')) {
+            unlink(PUBLIC_PUBLIC_PATH . 'robots.txt');
+        }
+
         //
         if (isset($data['blog_private']) && $data['blog_private'] == 'on') {
-            $this->base_model->ftp_create_file(PUBLIC_PUBLIC_PATH . 'robots.txt', $this->helpersTmpFile('robots_disallow_all'));
+            $data['robots'] = $this->helpersTmpFile('robots_disallow_all');
+            //echo nl2br( $data[ 'robots' ] );
+
+            //
+            $arr_meta_key[] = 'robots';
+
+            //
+            // $this->base_model->ftp_create_file(PUBLIC_PUBLIC_PATH . 'robots.txt', $this->helpersTmpFile('robots_disallow_all'));
         }
         //
         else if (isset($data['robots'])) {
@@ -250,7 +262,7 @@ class Configs extends Admin
                 $data['robots'] = $this->helpersTmpFile(
                     'robots_default',
                     [
-                        'base_url' => DYNAMIC_BASE_URL,
+                        // 'base_url' => DYNAMIC_BASE_URL,
                     ]
                 );
                 //echo nl2br( $data[ 'robots' ] );
@@ -270,7 +282,7 @@ class Configs extends Admin
             */
 
             //
-            $this->base_model->ftp_create_file(PUBLIC_PUBLIC_PATH . 'robots.txt', $data['robots']);
+            // $this->base_model->ftp_create_file(PUBLIC_PUBLIC_PATH . 'robots.txt', $data['robots']);
         }
         //print_r( $data );
 
