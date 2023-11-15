@@ -109,8 +109,8 @@ class PostMeta extends PostBase
 
         // lấy toàn bộ meta của post này
         $meta_exist = $this->arr_meta_post($post_id, false);
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-        //print_r($meta_exist);
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // print_r($meta_exist);
 
         // xử lý riêng đối với post category và tags
         $term_relationships = [];
@@ -195,10 +195,12 @@ class PostMeta extends PostBase
         //
         //echo 'post_type: ' . $post_type . PHP_EOL;
         $meta_default = $this->post_meta_default($post_type);
-        //print_r($meta_default);
+        // print_r($meta_default);
 
         // mảng này sẽ lưu meta data dưới dạng JSON -> lấy cho nhẹ web
         $json_meta_data = [];
+        // danh sách các meta sẽ bị xóa
+        $rm_metas_key = [];
 
         // tất cả các meta đều phải được đăng ký thì mới cho ghi vào database
         //var_dump($clear_meta);
@@ -213,10 +215,11 @@ class PostMeta extends PostBase
                 echo 'DELETE ' . $k . ' ' . $v . '<br>' . PHP_EOL;
 
                 //
-                $this->base_model->delete_multiple($this->metaTable, [
-                    'post_id' => $post_id,
-                    'meta_key' => $k,
-                ]);
+                $rm_metas_key[] = $k;
+                // $this->base_model->delete_multiple($this->metaTable, [
+                //     'post_id' => $post_id,
+                //     'meta_key' => $k,
+                // ]);
             }
         }
         //print_r($json_meta_data);
@@ -231,12 +234,29 @@ class PostMeta extends PostBase
                     echo 'DELETE post_uncheck_meta ' . $k . ' ' . $v . '<br>' . PHP_EOL;
 
                     //
-                    $this->base_model->delete_multiple($this->metaTable, [
-                        'post_id' => $post_id,
-                        'meta_key' => $k,
-                    ]);
+                    $rm_metas_key[] = $k;
+                    // $this->base_model->delete_multiple($this->metaTable, [
+                    //     'post_id' => $post_id,
+                    //     'meta_key' => $k,
+                    // ]);
                 }
             }
+        }
+
+        //
+        if (!empty($rm_metas_key)) {
+            $this->base_model->delete_multiple($this->metaTable, [
+                // WHERE
+                'post_id' => $post_id,
+            ], [
+                'where_in' => array(
+                    'meta_key' => $rm_metas_key
+                ),
+                // hiển thị mã SQL để check
+                'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                // 'get_query' => 1,
+            ]);
         }
 
         //

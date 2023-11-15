@@ -85,6 +85,13 @@ if ($current_user_id > 0) {
 include __DIR__ . '/ebe_captcha.php';
 
 //
+// $base_model->add_js('wp-includes/javascript/ddt.js', [
+//     'cdn' => CDN_BASE_URL,
+// ], [
+//     'defer'
+// ]);
+
+//
 if ($getconfig->tawk_to != '') {
     include VIEWS_PATH . 'includes/tawk_to.php';
 }

@@ -58,9 +58,16 @@ class Term extends TermBase
             'is_deleted' => DeletedStatus::FOR_DEFAULT,
             'taxonomy' => $taxonomy
         ];
-        if ($slug != '') {
-            $where['slug'] = $slug;
+        if (!empty($slug)) {
+            if (is_numeric($slug)) {
+                $where['term_id'] = $slug;
+                // ko tự động khởi tạo khi select theo term_id
+                $auto_insert = false;
+            } else {
+                $where['slug'] = $slug;
+            }
         }
+        // print_r($where);
 
         //
         $post_cat = $this->get_taxonomy($where);
@@ -953,84 +960,145 @@ class Term extends TermBase
     function insert_term_relationships($post_id, $list, $term_order = 0)
     {
         $list = explode(',', $list);
+        // print_r($list);
 
-        // xóa các term_relationships cũ
-        $this->base_model->delete($this->relaTable, 'object_id', $post_id);
+        // lấy các id đã có
+        $exist_data = $this->base_model->select(
+            'term_taxonomy_id',
+            $this->relaTable,
+            array(
+                // các kiểu điều kiện where
+                'object_id' => $post_id,
+            ),
+            array(
+                // hiển thị mã SQL để check
+                // 'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => -1
+            )
+        );
+        // print_r($exist_data);
+
+        //
+        $exist_ids = [];
+        foreach ($exist_data as $v) {
+            $exist_ids[] = $v['term_taxonomy_id'];
+        }
+        // print_r($exist_ids);
+
+        // die(__CLASS__ . ':' . __LINE__);
+
+        // xóa các term_relationships ko còn sử dụng
+        $rm_ids = [];
+        foreach ($exist_ids as $term_id) {
+            // ko có trong loạt id mới thì xóa đi
+            if (!in_array($term_id, $list)) {
+                $rm_ids[] = $term_id;
+            }
+        }
+        if (!empty($rm_ids)) {
+            $this->base_model->delete_multiple($this->relaTable, [
+                // WHERE
+                'object_id' => $post_id,
+            ], [
+                'where_in' => array(
+                    'term_taxonomy_id' => $rm_ids
+                ),
+                // hiển thị mã SQL để check
+                // 'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                // 'get_query' => 1,
+            ]);
+        }
 
         // insert cái mới
         foreach ($list as $term_id) {
             $term_id = trim($term_id);
-
-            if ($term_id != '' && $term_id > 0) {
-                $this->base_model->insert(
-                    $this->relaTable,
-                    [
-                        'object_id' => $post_id,
-                        'term_taxonomy_id' => $term_id,
-                        'term_order' => $term_order,
-                    ]
-                );
-
-                // tính tổng bài viết theo từng term
-                $data = $this->get_taxonomy(
-                    array(
-                        // các kiểu điều kiện where
-                        'term_id' => $term_id,
-                        // 'is_deleted' => DeletedStatus::FOR_DEFAULT,
-                        // 'lang_key' => $this->lang_key,
-                        // 'taxonomy' => $taxonomy_type
-                    ),
-                    [
-                        // 'show_query' => 1,
-                        'limit' => 1,
-                    ]
-                );
-                // print_r($data);
-                // continue;
-
-                //
-                if (!empty($data)) {
-                    $data['child_last_count'] = 0;
-                    $this->update_count_post_in_term($data);
-                }
-
-                // daidq: sử dụng hàm update_count_post_in_term cho thống nhất dữ liệu
-                // $count_post_term = $this->base_model->select(
-                //     'COUNT(object_id) AS c',
-                //     $this->relaTable,
-                //     array(
-                //         // WHERE AND OR
-                //         'term_taxonomy_id' => $term_id,
-                //     ),
-                //     array(
-                //         'selectCount' => 'object_id',
-                //         // hiển thị mã SQL để check
-                //         //'show_query' => 1,
-                //         // trả về câu query để sử dụng cho mục đích khác
-                //         //'get_query' => 1,
-                //         //'offset' => 2,
-                //         //'limit' => 3
-                //     )
-                // );
-                // //print_r( $count_post_term );
-
-                // // cập nhật lại tổng số bài viết cho term
-                // $this->base_model->update_multiple(
-                //     $this->taxTable,
-                //     [
-                //         //'count' => $count_post_term[ 0 ][ 'c' ],
-                //         'count' => $count_post_term[0]['object_id'],
-                //         'source_count' => __CLASS__ . ':' . __FUNCTION__ . ':' . __LINE__,
-                //     ],
-                //     [
-                //         'term_taxonomy_id' => $term_id,
-                //         'term_id' => $term_id,
-                //     ],
-                //     [
-                //         'debug_backtrace' => debug_backtrace()[1]['function']
-                //     ]
-                // );
+            if (empty($term_id) || $term_id < 1) {
+                continue;
             }
+
+            // nếu có rồi thì bỏ qua
+            if (in_array($term_id, $exist_ids)) {
+                // echo $term_id . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                continue;
+            }
+
+            // chưa có thì insert
+            $this->base_model->insert(
+                $this->relaTable,
+                [
+                    'object_id' => $post_id,
+                    'term_taxonomy_id' => $term_id,
+                    'term_order' => $term_order,
+                ]
+            );
+
+            // tính tổng bài viết theo từng term
+            $data = $this->get_taxonomy(
+                array(
+                    // các kiểu điều kiện where
+                    'term_id' => $term_id,
+                    // 'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                    // 'lang_key' => $this->lang_key,
+                    // 'taxonomy' => $taxonomy_type
+                ),
+                [
+                    // 'show_query' => 1,
+                    'limit' => 1,
+                ]
+            );
+            // print_r($data);
+            // continue;
+
+            //
+            if (!empty($data)) {
+                $data['child_last_count'] = 0;
+                $this->update_count_post_in_term($data);
+            }
+
+            // daidq: sử dụng hàm update_count_post_in_term cho thống nhất dữ liệu
+            // $count_post_term = $this->base_model->select(
+            //     'COUNT(object_id) AS c',
+            //     $this->relaTable,
+            //     array(
+            //         // WHERE AND OR
+            //         'term_taxonomy_id' => $term_id,
+            //     ),
+            //     array(
+            //         'selectCount' => 'object_id',
+            //         // hiển thị mã SQL để check
+            //         //'show_query' => 1,
+            //         // trả về câu query để sử dụng cho mục đích khác
+            //         //'get_query' => 1,
+            //         //'offset' => 2,
+            //         //'limit' => 3
+            //     )
+            // );
+            // //print_r( $count_post_term );
+
+            // // cập nhật lại tổng số bài viết cho term
+            // $this->base_model->update_multiple(
+            //     $this->taxTable,
+            //     [
+            //         //'count' => $count_post_term[ 0 ][ 'c' ],
+            //         'count' => $count_post_term[0]['object_id'],
+            //         'source_count' => __CLASS__ . ':' . __FUNCTION__ . ':' . __LINE__,
+            //     ],
+            //     [
+            //         'term_taxonomy_id' => $term_id,
+            //         'term_id' => $term_id,
+            //     ],
+            //     [
+            //         'debug_backtrace' => debug_backtrace()[1]['function']
+            //     ]
+            // );
         }
     }
 
