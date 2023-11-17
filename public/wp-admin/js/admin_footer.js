@@ -1,7 +1,7 @@
 /*
 var aaaaaaaa = '';
 $('#sidebar a').each(function () {
-    var hr = $(this).attr('href') || '';
+    let hr = $(this).attr('href') || '';
     aaaaaaaa += '\'' + hr + '\' => [ ' + "\n" + ' \'name\' => \'' + $.trim($(this).html()) + '\', ' + "\n" + ' \'arr\' => [] ' + "\n" + ' ],' + "\n";
 });
 console.log(aaaaaaaa);
@@ -12,7 +12,7 @@ console.log(aaaaaaaa);
  * https://github.com/kamens/jQuery-menu-aim
  **/
 function activateSubmenu(row) {
-	var $row = $(row);
+	let $row = $(row);
 	//console.log(1);
 
 	// Keep the currently activated row's highlighted look
@@ -21,7 +21,7 @@ function activateSubmenu(row) {
 
 //
 function deactivateSubmenu(row) {
-	var $row = $(row);
+	let $row = $(row);
 	//console.log(0);
 
 	// Hide the submenu and remove the row's highlighted look
@@ -30,10 +30,10 @@ function deactivateSubmenu(row) {
 
 //
 (function (arr) {
-	var str = "";
-	var cl = "";
-	var count_menu = 1;
-	for (var x in arr) {
+	let str = "",
+		cl = "",
+		count_menu = 1;
+	for (let x in arr) {
 		if (arr[x] === null) {
 			continue;
 		}
@@ -84,9 +84,9 @@ function deactivateSubmenu(row) {
 		//
 		//console.log(arr[x]);
 		if (arr[x].arr !== null) {
-			var str_sub = "";
-			var v_sub = arr[x].arr;
-			for (var k_sub in v_sub) {
+			let str_sub = "",
+				v_sub = arr[x].arr;
+			for (let k_sub in v_sub) {
 				if (v_sub[k_sub] === null) {
 					continue;
 				}
@@ -158,8 +158,8 @@ $("#sidebar").hover(
 
 // chỉnh lại chiều cao cho textediter nếu có
 $(".auto-ckeditor").each(function () {
-	var h = $(this).attr("data-height") || "";
-	var jd = $(this).attr("id") || "";
+	let h = $(this).attr("data-height") || "",
+		jd = $(this).attr("id") || "";
 
 	if (h != "" && jd != "") {
 		WGR_load_textediter("#" + jd, {
@@ -193,12 +193,12 @@ if ($(".admin-breadcrumb").length > 0) {
 
 // tự động checkbox khi có dữ liệu
 $('#content input[type="checkbox"]').each(function () {
-	var a = $(this).attr("data-value") || "";
+	let a = $(this).attr("data-value") || "";
 	//console.log(a);
 
 	// nếu có tham số này
 	if (a != "") {
-		var v = $(this).val();
+		let v = $(this).val();
 
 		if (a == v) {
 			$(this).prop("checked", true);
@@ -223,7 +223,7 @@ fix_textarea_height();
 
 	// tạo segment cho admin menu
 	$("#sidebar a").each(function () {
-		var a = $(this).attr("href") || "";
+		let a = $(this).attr("href") || "";
 		if (a != "") {
 			//console.log(a);
 			a = a.replace(web_link, "");
@@ -245,7 +245,7 @@ fix_textarea_height();
 	}
 
 	// cắt bớt đi để so khớp tiếp
-	for (var i = 0; i < 10; i++) {
+	for (let i = 0; i < 10; i++) {
 		w = remove_last_url_segment(w);
 		console.log(w);
 		if (w == "" || w == "admin") {
@@ -272,21 +272,21 @@ setInterval(function () {
  * thay đổi ngôn ngữ trong admin
  */
 (function () {
-	var str = "";
-	for (var x in arr_lang_list) {
+	let str = "";
+	for (let x in arr_lang_list) {
 		str += '<option value="' + x + '">' + arr_lang_list[x] + "</option>";
 	}
 	$("#admin-change-language").html(str);
 })();
 $("#admin-change-language").change(function () {
-	var a = $(this).val() || "";
+	let a = $(this).val() || "";
 
 	//
 	if (a != "") {
 		//console.log(a);
 
 		// tạo url cho phép hiển thị view clone_lang
-		var redirect_to = window.location.href;
+		let redirect_to = window.location.href;
 		redirect_to = redirect_to.split("?clone_lang=")[0].split("&clone_lang=")[0];
 		if (redirect_to.split("?").length > 1) {
 			//redirect_to += "&";
@@ -396,7 +396,7 @@ $(document)
 		//$("#admin_menu_result i").remove();
 		// tạo key tìm kiếm cho li
 		$("#admin_menu_result a").each(function () {
-			var a = $(this).attr("href") || "";
+			let a = $(this).attr("href") || "";
 			a += $(this).attr("data-tag") || "";
 			a += $(this).html();
 			//console.log(a);

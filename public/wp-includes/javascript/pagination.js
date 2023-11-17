@@ -21,20 +21,20 @@ function EBE_part_page(Page, TotalPage, strLinkPager, sub_part) {
 	//
 	strLinkPager += sub_part;
 	//console.log(strLinkPager);
-	var show_page = 8;
-	var chia_doi = Math.ceil(show_page / 2);
-	//var str_page = '';
-	var current_page =
+	let show_page = 8;
+	let chia_doi = Math.ceil(show_page / 2);
+	//let str_page = '';
+	let current_page =
 		' <span data-page="' + Page + '" class="current">' + Page + "</span> ";
 
 	//
 	Page *= 1;
-	//var prev_1_page = Page - 1;
+	//let prev_1_page = Page - 1;
 
 	// lấy các trang trước
-	var prev_page = "";
-	var first_page = "";
-	var begin_i = Page - chia_doi;
+	let prev_page = "";
+	let first_page = "";
+	let begin_i = Page - chia_doi;
 	//console.log('begin i:', begin_i);
 	if (begin_i < 1) {
 		begin_i = 1;
@@ -52,7 +52,7 @@ function EBE_part_page(Page, TotalPage, strLinkPager, sub_part) {
 			first_page += " ... ";
 		}
 	}
-	for (var i = begin_i; i < Page; i++) {
+	for (let i = begin_i; i < Page; i++) {
 		prev_page +=
 			' <a data-page="' +
 			i +
@@ -67,9 +67,9 @@ function EBE_part_page(Page, TotalPage, strLinkPager, sub_part) {
 	//console.log('show page:', show_page);
 
 	// -> các trang sau
-	var next_page = "";
-	var last_page = "";
-	var end_i = Page + show_page;
+	let next_page = "";
+	let last_page = "";
+	let end_i = Page + show_page;
 	//console.log('end i:', end_i);
 	if (end_i > TotalPage) {
 		end_i = TotalPage;
@@ -92,7 +92,7 @@ function EBE_part_page(Page, TotalPage, strLinkPager, sub_part) {
 			(Page + 1) +
 			'" rel="nofollow">&gt;&gt;</a> ';
 	}
-	for (var i = Page + 1; i <= end_i; i++) {
+	for (let i = Page + 1; i <= end_i; i++) {
 		next_page +=
 			' <a data-page="' +
 			i +
@@ -110,10 +110,10 @@ function EBE_part_page(Page, TotalPage, strLinkPager, sub_part) {
 
 //
 $(".each-to-page-part").each(function () {
-	var page = $(this).attr("data-page") || "";
-	var total = $(this).attr("data-total") || "";
-	var url = $(this).attr("data-url") || "";
-	var params = $(this).attr("data-params") || "";
+	let page = $(this).attr("data-page") || "";
+	let total = $(this).attr("data-total") || "";
+	let url = $(this).attr("data-url") || "";
+	let params = $(this).attr("data-params") || "";
 
 	//
 	$(this).before(EBE_part_page(page, total, url, params));

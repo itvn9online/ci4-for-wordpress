@@ -101,7 +101,7 @@ function buildPhoneAuthProvider() {
  * Một số chức năng sau khi đăng nhập thành công thì viết chung vào function như này
  */
 function action_handleSignedInUser() {
-	var user = firebase.auth().currentUser;
+	let user = firebase.auth().currentUser;
 	if (user === null) {
 		return false;
 	}
@@ -119,14 +119,14 @@ function action_handleSignedInUser() {
 }
 
 function test_result_user_data(user) {
-	for (var x in user) {
+	for (let x in user) {
 		console.log(x + ":", user[x]);
 	}
 }
 
 function addSignInSuccessParams(data) {
 	// chạy vòng lặp bổ sung tham số bảo mật
-	for (var x in sign_in_success_params) {
+	for (let x in sign_in_success_params) {
 		// bỏ qua tham số URL
 		if (x == "success_url" || x == "token_url") {
 			continue;
@@ -182,7 +182,7 @@ function parseJwt(token) {
 // ngay sau khi đăng nhập thành công trên firebase -> thực hiện đăng nhập trên web thôi
 function action_signInSuccessWithAuthResult(successfully) {
 	//console.log(Math.random());
-	var user = firebase.auth().currentUser;
+	let user = firebase.auth().currentUser;
 	if (user === null) {
 		return false;
 	}
@@ -199,7 +199,7 @@ function action_signInSuccessWithAuthResult(successfully) {
 			//return false;
 			// Send token to your backend via HTTPS
 			if (successfully !== false) {
-				var data = {
+				let data = {
 					token_url: Math.random(),
 					uid: user.uid,
 					id_token: idToken,
@@ -244,13 +244,13 @@ function action_signInSuccessWithAuthResult(successfully) {
 
 function action_signInSuccessWithIdToken(idToken, successfully) {
 	//console.log(idToken);
-	var user = firebase.auth().currentUser;
+	let user = firebase.auth().currentUser;
 	if (user === null) {
 		return false;
 	}
 
 	// dịch ngược token và kiểm tra qua thông số trước
-	var jwt = parseJwt(idToken);
+	let jwt = parseJwt(idToken);
 	//console.log(jwt);
 	//return false;
 	if (
@@ -268,10 +268,10 @@ function action_signInSuccessWithIdToken(idToken, successfully) {
 	if (typeof successfully == "undefined") {
 		successfully = false;
 	}
-	//var credential = authResult.credential;
-	//var isNewUser = authResult.additionalUserInfo.isNewUser;
-	//var providerId = authResult.additionalUserInfo.providerId;
-	//var operationType = authResult.operationType;
+	//let credential = authResult.credential;
+	//let isNewUser = authResult.additionalUserInfo.isNewUser;
+	//let providerId = authResult.additionalUserInfo.providerId;
+	//let operationType = authResult.operationType;
 	// Do something with the returned AuthResult.
 	// Return type determines whether we continue the redirect
 	// automatically or whether we leave that to developer to handle.
@@ -285,7 +285,7 @@ function action_signInSuccessWithIdToken(idToken, successfully) {
 	//test_result_user_data(user);
 
 	//
-	var data = {
+	let data = {
 		uid: user.uid,
 		name: user.displayName,
 		email: user.email,
@@ -340,7 +340,7 @@ function action_signInSuccessWithIdToken(idToken, successfully) {
 
 			//
 			if (afterRequestTokenSignIn(data) === true) {
-				var a = WGR_get_params("login_redirect");
+				let a = WGR_get_params("login_redirect");
 				if (a != "") {
 					//console.log(a);
 					a = decodeURIComponent(a);
@@ -416,7 +416,7 @@ function firebaseDeleteAccountt(m) {
 }
 
 function action_signInSuccessUrl() {
-	var a = WGR_get_params("login_redirect");
+	let a = WGR_get_params("login_redirect");
 	if (a != "") {
 		//console.log(a);
 		a = decodeURIComponent(a);

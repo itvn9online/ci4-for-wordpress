@@ -1,5 +1,5 @@
 function post_admin_permalink(post_type, id, controller_slug) {
-	var url = web_link + "admin/" + controller_slug + "/add";
+	let url = web_link + "admin/" + controller_slug + "/add";
 	if (id > 0) {
 		url += "?id=" + id;
 	}
@@ -8,7 +8,7 @@ function post_admin_permalink(post_type, id, controller_slug) {
 
 // chỉ trả về link admin của 1 term
 function term_admin_permalink(taxonomy, id, controller_slug) {
-	var url = web_link + "admin/" + controller_slug + "/add";
+	let url = web_link + "admin/" + controller_slug + "/add";
 	if (id > 0) {
 		url += "?id=" + id;
 	}
@@ -50,22 +50,21 @@ function re_height_iframe_editer(for_id, if_id, max_i) {
 	*/
 
 	//
-	var iframe_h = jQuery("#" + if_id).height();
-
-	//
-	var iframe_body_h =
-		jQuery("#" + if_id)
-			.contents()
-			.find("body")
-			.height() ||
-		document.getElementById(if_id).contentWindow.document.body.offsetHeight;
+	let iframe_h = jQuery("#" + if_id).height(),
+		//
+		iframe_body_h =
+			jQuery("#" + if_id)
+				.contents()
+				.find("body")
+				.height() ||
+			document.getElementById(if_id).contentWindow.document.body.offsetHeight;
 	//console.log("iframe body h:", iframe_body_h);
 	iframe_body_h *= 1;
 	if (iframe_h > iframe_body_h) {
 		return false;
 	}
 	iframe_body_h += 90;
-	var wh = $(window).height();
+	let wh = $(window).height();
 	if (iframe_body_h > wh) {
 		iframe_body_h = Math.ceil((wh / 100) * 75);
 	}
@@ -80,7 +79,7 @@ function re_height_iframe_editer(for_id, if_id, max_i) {
 
 // tìm url trong text vào tạo link
 function WGR_urlify(text) {
-	var urlRegex = /(https?:\/\/[^\s]+)/g;
+	let urlRegex = /(https?:\/\/[^\s]+)/g;
 	return text.replace(urlRegex, function (url) {
 		url = url.replace(web_link, "");
 		if (url == "") {
@@ -93,8 +92,8 @@ function WGR_urlify(text) {
 }
 
 function WGR_set_nofollow() {
-	var links = document.links;
-	for (var i = 0; i < links.length; i++) {
+	let links = document.links;
+	for (let i = 0; i < links.length; i++) {
 		if (links[i].hostname == window.location.hostname) {
 			continue;
 		}
@@ -105,7 +104,7 @@ function WGR_set_nofollow() {
 
 function url_for_text_note() {
 	$(".controls-text-note").each(function () {
-		var a = $(this).html();
+		let a = $(this).html();
 		if (a.split("://").length > 1) {
 			a = WGR_urlify(a);
 			//console.log(a);
@@ -116,12 +115,12 @@ function url_for_text_note() {
 
 // Tạo khung tìm kiếm theo các label đang có trong trang hiện tại
 function create_search_by_label() {
-	var str = "";
+	let str = "";
 	$("label").each(function () {
-		var a = $(this).attr("for") || "";
+		let a = $(this).attr("for") || "";
 		if (a != "" && $("#admin_menu_result label[for='" + a + "']").length < 1) {
-			var b = $(this).text();
-			var k = a + b;
+			let b = $(this).text(),
+				k = a + b;
 			k = g_func.non_mark_seo(k).replace(/\-/g, "");
 			//console.log(a);
 			str +=
@@ -146,13 +145,13 @@ function create_search_by_label() {
  * https://stackoverflow.com/questions/16941104/remove-a-parameter-to-the-url-with-javascript
  */
 function removeParam(key, sourceURL) {
-	var rtn = sourceURL.split("?")[0],
+	let rtn = sourceURL.split("?")[0],
 		param,
 		params_arr = [],
 		queryString = sourceURL.indexOf("?") !== -1 ? sourceURL.split("?")[1] : "";
 	if (queryString !== "") {
 		params_arr = queryString.split("&");
-		for (var i = params_arr.length - 1; i >= 0; i -= 1) {
+		for (let i = params_arr.length - 1; i >= 0; i -= 1) {
 			param = params_arr[i].split("=")[0];
 			if (param === key) {
 				params_arr.splice(i, 1);
@@ -165,7 +164,7 @@ function removeParam(key, sourceURL) {
 
 // thêm tham số in ra 1 số thông tin khi cần debug code
 function admin_print_debug_data() {
-	var a = removeParam("print_data", window.location.href);
+	let a = removeParam("print_data", window.location.href);
 	if (a.split("?").length > 1) {
 		a += "&";
 	} else {

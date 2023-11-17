@@ -6,7 +6,7 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
 	}
 
 	// các tham số bắt buộc
-	var require_params = [
+	let require_params = [
 		// action xử lý việc upload
 		"action",
 		// dữ liệu ảnh để upload
@@ -16,7 +16,7 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
 		// input select file đầu vào -> dùng để reset form sau khi upload thành công
 		"input_file",
 	];
-	for (var i = 0; i < require_params.length; i++) {
+	for (let i = 0; i < require_params.length; i++) {
 		if (
 			typeof params[require_params[i]] == "undefined" ||
 			params[require_params[i]] == ""
@@ -32,7 +32,7 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
 	}
 
 	// các tham số không bắt buộc -> không có thì để trống -> không phải làm gì
-	var option_params = [
+	let option_params = [
 		// thiết lập ảnh làm bg sau khi upload thành công
 		"set_bg",
 		// thay đổi src cho img sau khi upload thành công
@@ -51,7 +51,7 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
 		// định dạng file -> dùng để xác định kiểu convert -> mặc định là kiểu JPG
 		"mime_type",
 	];
-	for (var i = 0; i < option_params.length; i++) {
+	for (let i = 0; i < option_params.length; i++) {
 		if (typeof params[option_params[i]] == "undefined") {
 			params[option_params[i]] = "";
 		}
@@ -71,7 +71,7 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
 	if (WGR_config.cf_tester_mode > 0) console.log("params:", params);
 
 	// định dạng file name về 1 mối chuẩn chỉ
-	var file_name = params["file_name"].split(".");
+	let file_name = params["file_name"].split(".");
 	if (file_name.length > 1) {
 		file_name[file_name.length - 1] = "";
 		file_name = file_name.join(".");
@@ -82,7 +82,7 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
 	if (WGR_config.cf_tester_mode > 0) console.log("file name:", file_name);
 
 	//
-	var img = document.createElement("img");
+	let img = document.createElement("img");
 	img.src = params["data"];
 
 	//
@@ -101,12 +101,12 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
 
 	//
 	setTimeout(function () {
-		var width = img.width;
-		var height = img.height;
+		let width = img.width;
+		let height = img.height;
 		if (width > 0 && height > 0) {
-			var MAX_WIDTH = params["img_max_width"];
-			var MAX_HEIGHT = params["img_max_height"];
-			var has_resize = false;
+			let MAX_WIDTH = params["img_max_width"];
+			let MAX_HEIGHT = params["img_max_height"];
+			let has_resize = false;
 			if (width > height) {
 				if (width > MAX_WIDTH) {
 					height *= MAX_WIDTH / width;
@@ -126,7 +126,7 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
 			width = Math.ceil(width);
 			height = Math.ceil(height);
 			if (has_resize === true) {
-				var canvas = document.createElement("canvas");
+				let canvas = document.createElement("canvas");
 				canvas.width = width;
 				canvas.height = height;
 				canvas
@@ -135,13 +135,12 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
 				console.log("mime type:", params["mime_type"]);
 				// nếu là png thì cho phép giữ nguyên png
 				if (params["mime_type"] == "image/png") {
-					var dataurl = canvas.toDataURL("image/png");
+					params["data"] = canvas.toDataURL("image/png");
 				}
 				// còn lại cho hết sang jpg
 				else {
-					var dataurl = canvas.toDataURL("image/jpeg", 1.0);
+					params["data"] = canvas.toDataURL("image/jpeg", 1.0);
 				}
-				params["data"] = dataurl;
 			}
 		}
 		if (WGR_config.cf_tester_mode > 0) console.log(params);
@@ -181,7 +180,7 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
 					data.img_webp += "?v=" + data.last_modified;
 
 					//
-					var show_img = "";
+					let show_img = "";
 
 					// nếu dùng thumbnail thì thiết lập tham số set thumbnail
 					if (params["set_webp"] != "") {

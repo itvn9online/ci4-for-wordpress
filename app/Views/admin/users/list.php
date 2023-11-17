@@ -143,7 +143,7 @@ $base_model->JSON_echo(
         list: arr_members_type,
         UsersType_listStatus: UsersType_listStatus,
     };
-    for (var x in data_vuejs) {
+    for (let x in data_vuejs) {
         params_vuejs[x] = data_vuejs[x];
     }
     //console.log(params_vuejs);

@@ -3,7 +3,7 @@
 js_favoriteProduct = JSON.parse(js_favoriteProduct);
 //console.log(js_favoriteProduct);
 (function () {
-	for (var i = 0; i < js_favoriteProduct.length; i++) {
+	for (let i = 0; i < js_favoriteProduct.length; i++) {
 		$(
 			'.product-detail[data-id="' +
 				js_favoriteProduct[i].product_id +

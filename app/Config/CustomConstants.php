@@ -8,7 +8,7 @@
 /**
  * daidq: 2021-09-14
  * Phần cấu hình thiết lập động để có thể tái sử dụng code cho nhiều website khác nhau mà không cần code lại nhiều
- * Các controller, model... cố gắng viết theo quy tắc exten để có thể tái sử dụng
+ * Các controller, model... cố gắng viết theo quy tắc extends để có thể tái sử dụng
  **/
 
 /**

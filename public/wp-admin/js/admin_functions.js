@@ -67,7 +67,7 @@ function add_and_show_post_avt(for_id, add_img_tag, img_size, input_type) {
 	}
 
 	//
-	var str = [];
+	let str = [];
 	//str.push(' <input type="button" class="btn btn-info" value="Chọn ảnh" onclick="BrowseServer( \'Images:/\', \'' + for_id.substr(1) + '\' );"/>');
 	if ($('button[data-for="' + for_id.substr(1) + '"]').length < 1) {
 		str.push(
@@ -92,7 +92,7 @@ function add_and_show_post_avt(for_id, add_img_tag, img_size, input_type) {
 
 	//
 	if (input_type != "textediter") {
-		var img = $(for_id).val() || "";
+		let img = $(for_id).val() || "";
 		if (img != "") {
 			str.push(
 				'<p class="show-img-if-change for-' +
@@ -117,12 +117,12 @@ function trigger_click_open_media(for_id) {
 }
 
 function click_set_img_for_input(img_id) {
-	var img = $('.media-attachment-img[data-id="' + img_id + '"]');
-	var insert_to = img.attr("data-insert") || "";
+	let img = $('.media-attachment-img[data-id="' + img_id + '"]'),
+		insert_to = img.attr("data-insert") || "";
 
 	//
 	if (insert_to == "") {
-		var a = img.attr("data-thumbnail") || "";
+		let a = img.attr("data-thumbnail") || "";
 		if (a != "") {
 			a = a.replace("-thumbnail.", ".");
 			if (a.split("//").length <= 1) {
@@ -142,9 +142,9 @@ function click_set_img_for_input(img_id) {
 		return false;
 	}
 	//console.log(insert_to);
-	var mime_type = img.attr("data-mime_type") || "";
-	var file_type = "";
-	var file_ext = "";
+	let mime_type = img.attr("data-mime_type") || "",
+		file_type = "",
+		file_ext = "";
 	//console.log(file_type);
 	if (mime_type != "") {
 		file_type = mime_type.split("/");
@@ -170,32 +170,32 @@ function click_set_img_for_input(img_id) {
 
 	//
 	if (insert_to != "") {
-		var add_img_tag = img.attr("data-add_img_tag") || "";
+		let add_img_tag = img.attr("data-add_img_tag") || "";
 		add_img_tag *= 1;
 
-		//var data_size = img.attr('data-size') || 'full';
-		var data_size = img.attr("data-size") || "large";
+		//let data_size = img.attr('data-size') || 'full';
+		let data_size = img.attr("data-size") || "large";
 		if (data_size == "") {
 			//data_size = 'full';
 			data_size = "large";
 		}
-		var data_src = img.data(data_size) || "";
+		let data_src = img.data(data_size) || "";
 
 		// lấy các thuộc tính của ảnh -> tối ưu SEO
-		var img_attr = [];
-		var data_srcset = img.attr("data-srcset") || "";
+		let img_attr = [],
+			data_srcset = img.attr("data-srcset") || "";
 		if (data_srcset != "") {
 			img_attr.push('data-to-srcset="' + data_srcset + '"');
 		}
-		var data_sizes = img.attr("data-sizes") || "";
+		let data_sizes = img.attr("data-sizes") || "";
 		if (data_sizes != "") {
 			img_attr.push('sizes="' + data_sizes + '"');
 		}
-		var data_width = img.attr("data-width") || "";
+		let data_width = img.attr("data-width") || "";
 		if (data_width != "") {
 			img_attr.push('width="' + data_width + '"');
 		}
-		var data_height = img.attr("data-height") || "";
+		let data_height = img.attr("data-height") || "";
 		if (data_height != "") {
 			img_attr.push('height="' + data_height + '"');
 		}
@@ -207,7 +207,7 @@ function click_set_img_for_input(img_id) {
 				return false;
 			}
 		}
-		var input_type = img.attr("data-input_type") || "";
+		let input_type = img.attr("data-input_type") || "";
 		//console.log(input_type);
 		// insert ảnh vào text area
 		if (input_type == "textediter") {
@@ -217,7 +217,7 @@ function click_set_img_for_input(img_id) {
 			data_src = data_src.replace(".daidq-ext", "");
 
 			//
-			var return_html = "";
+			let return_html = "";
 			// nếu là video thì nhúng video
 			if (file_type == "video") {
 				return_html =
@@ -248,10 +248,10 @@ function click_set_img_for_input(img_id) {
 			top.tinymce.get(insert_to).insertContent(return_html);
 		} else {
 			// riêng với ảnh đại diện
-			var arr_all_srcs = {};
+			let arr_all_srcs = {};
 			if (insert_to == "post_meta_image") {
 				// các kích cỡ khác
-				var arr_all_sizes = [
+				let arr_all_sizes = [
 					//"full",
 					"thumbnail",
 					"medium",
@@ -259,7 +259,7 @@ function click_set_img_for_input(img_id) {
 					"large",
 				];
 				//console.log(arr_all_sizes);
-				for (var i = 0; i < arr_all_sizes.length; i++) {
+				for (let i = 0; i < arr_all_sizes.length; i++) {
 					arr_all_srcs[arr_all_sizes[i]] = img.data(arr_all_sizes[i]) || "";
 				}
 				//console.log(arr_all_srcs);
@@ -302,19 +302,19 @@ function WGR_show_real_post_avt(insert_to, data_src, arr_all_srcs) {
 			//console.log(arr_all_srcs);
 
 			// xóa bỏ các ảnh phụ trợ
-			var arr = [
+			let arr = [
 				"image_medium",
 				"image_thumbnail",
 				"image_webp",
 				"image_medium_large",
 				"image_large",
 			];
-			for (var i = 0; i < arr.length; i++) {
+			for (let i = 0; i < arr.length; i++) {
 				$("#post_meta_" + arr[i]).val("");
 			}
 
 			// thiết lập ảnh mới
-			for (var x in arr_all_srcs) {
+			for (let x in arr_all_srcs) {
 				$("#post_meta_image_" + x).val(arr_all_srcs[x]);
 			}
 		}
@@ -342,7 +342,7 @@ function WGR_load_textediter(for_id, ops) {
 		];
 	}
 	if (typeof ops["toolbar"] == "undefined") {
-		var arr_toolbar = [
+		let arr_toolbar = [
 			"undo redo",
 			"bold italic underline strikethrough",
 			"fontselect fontsizeselect formatselect",
@@ -523,11 +523,11 @@ function WGR_load_textediter(for_id, ops) {
 				//console.log("Double click event:", e.target.className);
 
 				//
-				var target_nodeName = e.target.nodeName.toLocaleLowerCase();
+				let target_nodeName = e.target.nodeName.toLocaleLowerCase();
 				console.log("Double click event:", target_nodeName);
 				// nếu là hình ảnh -> mở hộp thoại sửa ảnh
 				if (target_nodeName == "img") {
-					var mce_object = e.target.getAttribute("data-mce-object");
+					let mce_object = e.target.getAttribute("data-mce-object");
 					console.log("data mce object:", mce_object);
 					if (mce_object == "video" || mce_object == "audio") {
 						tinymce.activeEditor.execCommand("mceMedia");
@@ -541,19 +541,19 @@ function WGR_load_textediter(for_id, ops) {
 				}
 				// nếu mở thẻ của font awesome
 				else if (target_nodeName == "i") {
-					var i_class_name = e.target.className;
+					let i_class_name = e.target.className;
 					if (i_class_name.split("fa ").length > 1) {
 						//console.log("i tag dblclick:", i_class_name);
 						let new_class_name = prompt("Font awesome class", i_class_name);
 						if (new_class_name != null && new_class_name != i_class_name) {
 							// xóa các class cũ
-							var i_class_name = i_class_name.split(" ");
-							for (var i = 0; i < i_class_name.length; i++) {
+							i_class_name = i_class_name.split(" ");
+							for (let i = 0; i < i_class_name.length; i++) {
 								e.target.classList.remove(i_class_name[i]);
 							}
 							// thay class mới
 							i_class_name = new_class_name.split(" ");
-							for (var i = 0; i < i_class_name.length; i++) {
+							for (let i = 0; i < i_class_name.length; i++) {
 								e.target.classList.add(i_class_name[i]);
 							}
 						}
@@ -640,7 +640,7 @@ function cleanup_attr_in_editer(for_id, rm_attr) {
 // gán src cho thẻ img từ data-img -> dùng cho angularjs
 function action_data_img_src() {
 	$(".each-to-img-src").each(function () {
-		var a = $(this).attr("data-src") || "";
+		let a = $(this).attr("data-src") || "";
 		if (a != "") {
 			$(this).attr({
 				src: a,
@@ -651,7 +651,7 @@ function action_data_img_src() {
 
 function action_data_bg_src() {
 	$(".each-to-bg-src").each(function () {
-		var a = $(this).attr("data-src") || "";
+		let a = $(this).attr("data-src") || "";
 		if (a != "") {
 			$(this).css({
 				"background-image": "url(" + a + ")",
@@ -717,7 +717,7 @@ function convert_size_to_one_format() {
 	)
 		.off("change")
 		.change(function () {
-			var a = jQuery(this).val() || "";
+			let a = jQuery(this).val() || "";
 			a = jQuery.trim(a);
 			if (a != "") {
 				// kích thước dùng chung
@@ -755,7 +755,7 @@ function convert_size_to_one_format() {
 	jQuery(".fixed-width-for-config")
 		.off("change")
 		.change(function () {
-			var a = jQuery(this).val() || "";
+			let a = jQuery(this).val() || "";
 			if (a != "") {
 				a = a.replace(/\s/g, "");
 
@@ -765,7 +765,7 @@ function convert_size_to_one_format() {
 					// nếu giá trị nhập vào nhỏ hơn 10 -> tính toán tự động số sản phẩm trên hàng theo kích thước tiêu chuẩn
 					if (a < 10) {
 						// lấy kích thước tiêu chuẩn
-						var b = jQuery(this).attr("data-width") || "";
+						let b = jQuery(this).attr("data-width") || "";
 						if (b != "") {
 							// tính toán
 							jQuery(this).val(Math.ceil(b / a) - 5);
@@ -917,8 +917,8 @@ function create_term_select_option(arr, space, limit_deep, current_deep) {
 	}
 
 	//
-	var str = "";
-	for (var i = 0; i < arr.length; i++) {
+	let str = "";
+	for (let i = 0; i < arr.length; i++) {
 		if (
 			typeof arr[i].term_shortname == "undefined" ||
 			arr[i].term_shortname == ""
@@ -958,7 +958,7 @@ function create_term_select_option(arr, space, limit_deep, current_deep) {
 	return str;
 }
 
-/*
+/**
  * chức năng select all user và chỉnh sửa nhanh
  */
 var arr_check_checked_all = [];
@@ -1019,13 +1019,13 @@ function for_admin_global_checkbox(max_i) {
 	//
 	setTimeout(function () {
 		$('form#admin_global_form input[type="checkbox"]').change(function () {
-			var a = $(this).attr("name") || "";
+			let a = $(this).attr("name") || "";
 			//console.log(a);
 
 			// chỉ xử lý với các checkbox của data chính
 			if (a.split("data[").length > 1) {
 				// xử lý phần tên -> bỏ giá trị kiểu mảng đi
-				var default_a = a.split("]")[0];
+				let default_a = a.split("]")[0];
 				default_a = default_a.replace("data[", "");
 				default_a = "data[default_post_data][" + default_a + "]";
 				//console.log(default_a);
@@ -1096,7 +1096,7 @@ function action_delete_restore_checked(
 					console.log(arr_check_checked_all);
 
 					//
-					for (var i = 0; i < arr_check_checked_all.length; i++) {
+					for (let i = 0; i < arr_check_checked_all.length; i++) {
 						// bỏ check cho các checkbox
 						$(
 							'.input-checkbox-control[value="' +
@@ -1139,11 +1139,11 @@ function click_remove_checked(controller_slug) {
 
 // từ ID -> địa chỉ email
 function action_each_to_email() {
-	var ids = [];
+	let ids = [];
 
 	// lấy các ID có
 	$(".each-to-email").each(function () {
-		var a = $(this).attr("data-id") || "";
+		let a = $(this).attr("data-id") || "";
 
 		if (a != "") {
 			ids.push(a);
@@ -1172,7 +1172,7 @@ function action_each_to_email() {
 			//console.log(data);
 
 			//
-			for (var i = 0; i < data.length; i++) {
+			for (let i = 0; i < data.length; i++) {
 				$('.each-to-email[data-id="' + data[i].ID + '"]').html(
 					data[i].user_email
 				);

@@ -1,5 +1,5 @@
 function WGR_widget_add_custom_style_to_field() {
-	var arr_my_class = {
+	let arr_my_class = {
 		bgtrans: "eb-blog-avt background-color: transparent.",
 		bgcover: "eb-blog-avt background-size: 100% (cố định 2 chiều).",
 		bgcontain: "eb-blog-avt background-size: contain (tự fixed 1 chiều).",
@@ -32,8 +32,8 @@ function WGR_widget_add_custom_style_to_field() {
 			"Class CSS cho tiêu đề widget (class này sẽ dùng cho trang chủ)",
 		"global-post-title": "Class CSS cho tiêu đề bài viết",
 	};
-	var str = "";
-	for (var x in arr_my_class) {
+	let str = "";
+	for (let x in arr_my_class) {
 		str +=
 			'<div><strong data-value="' +
 			x +
@@ -49,13 +49,12 @@ function WGR_widget_add_custom_style_to_field() {
 	jQuery(".click_add_widget_class")
 		.off("click")
 		.click(function () {
-			var a = jQuery(this).attr("data-value") || "",
+			let a = jQuery(this).attr("data-value") || "",
 				cl = 0;
 
 			if (a != "") {
-				var b = jQuery("#term_meta_custom_style").val() || "";
-
-				var c = "";
+				let b = jQuery("#term_meta_custom_style").val() || "",
+					c = "";
 				if (b == "") {
 					c = a;
 					cl = 1;
@@ -91,12 +90,12 @@ function WGR_widget_add_custom_style_to_field() {
 		});
 
 	//
-	var a = $("#term_meta_custom_style").val() || "";
+	let a = $("#term_meta_custom_style").val() || "";
 
 	if (a != "") {
 		a = a.split(" ");
 
-		for (var i = 0; i < a.length; i++) {
+		for (let i = 0; i < a.length; i++) {
 			jQuery('.click_add_widget_class[data-value="' + a[i] + '"] i.fa')
 				.removeClass("fa-minus-square")
 				.addClass("fa-check-square");
@@ -109,9 +108,9 @@ WGR_widget_add_custom_style_to_field();
 
 // khi người dùng thay đổi số lượng bản ghi cần hiển thị
 function set_col_for_ads_row(a, in_id) {
-	var b = $(in_id).val() || "";
+	let b = $(in_id).val() || "";
 	if (b == "") {
-		var c = "";
+		let c = "";
 		$(in_id + " option").each(function () {
 			if ($.trim($(this).html()) == a) {
 				c = $(this).attr("value") || "";
@@ -125,7 +124,7 @@ function set_col_for_ads_row(a, in_id) {
 }
 
 $("#term_meta_post_number").change(function () {
-	var a = $(this).val() || "";
+	let a = $(this).val() || "";
 	// tự select các giá trị khác tương ứng -> đỡ phải select nhiều
 	if (a != "" && a * 1 > 0) {
 		// tùy vào số lượng bản ghi cần hiển thị mà đưa ra số cột tương ứng
@@ -142,8 +141,8 @@ $("#term_meta_post_number").change(function () {
 (function () {
 	// nếu không có tệp html nào thì ẩn nó đi thôi
 	console.log(arr_custom_cloumn);
-	var str = "";
-	for (var i = 0; i < arr_custom_cloumn.length; i++) {
+	let str = "";
+	for (let i = 0; i < arr_custom_cloumn.length; i++) {
 		str +=
 			'<option value="' +
 			arr_custom_cloumn[i].split(".")[0] +

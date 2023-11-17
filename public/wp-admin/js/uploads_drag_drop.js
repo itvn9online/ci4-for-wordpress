@@ -16,7 +16,7 @@ $(function () {
 
 	// attr này dùng để tùy chỉnh thẻ drop cha -> đây là thẻ lúc drop vào thì sẽ hiển thị thông báo drop để upload
 	// mặc định là ốp thẳng vào thẻ htm
-	var parent_drop = $("#drop_upload_file").attr("data-parent_drop") || "";
+	let parent_drop = $("#drop_upload_file").attr("data-parent_drop") || "";
 	if (parent_drop == "") {
 		parent_drop = "html";
 	}
@@ -88,7 +88,7 @@ function change_drop_upload_media(files) {
 	console.log(files);
 
 	//
-	for (var i = 0; i < files.length; i++) {
+	for (let i = 0; i < files.length; i++) {
 		after_drop_upload_media(files[i]);
 	}
 }
@@ -102,7 +102,7 @@ function after_drop_upload_media(mediaData) {
 	arr_drop_uploading_file.push(false);
 
 	// URL upload
-	var action_upload = $("#drop_upload_file").attr("data-action") || "";
+	let action_upload = $("#drop_upload_file").attr("data-action") || "";
 	if (action_upload == "") {
 		// sử dụng URL cố định theo code
 		if (
@@ -124,7 +124,7 @@ function after_drop_upload_media(mediaData) {
 	//return false;
 
 	//
-	var reader = new FileReader();
+	let reader = new FileReader();
 	reader.onload = function (e) {
 		//console.log(e);
 		//return false;
@@ -165,7 +165,7 @@ function after_drop_upload_media(mediaData) {
 
 function check_and_reload_after_upload() {
 	// xem còn file nào đang upload không
-	for (var i = 0; i < arr_drop_uploading_file.length; i++) {
+	for (let i = 0; i < arr_drop_uploading_file.length; i++) {
 		if (arr_drop_uploading_file[i] === false) {
 			arr_drop_uploading_file[i] = true;
 			break;

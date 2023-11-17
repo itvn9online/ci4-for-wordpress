@@ -24,8 +24,8 @@ add_and_show_post_avt("#post_meta_image", "", "medium");
 	if (str != "" && str.split("</").length > 1 && str.split(">").length > 1) {
 		// cho hết dữ liệu về 1 dòng
 		str = str.split("\n");
-		var arr = [];
-		for (var i = 0; i < str.length; i++) {
+		let arr = [];
+		for (let i = 0; i < str.length; i++) {
 			arr.push($.trim(str[i]));
 		}
 		$("#data_post_excerpt").val(arr.join(" "));
@@ -42,7 +42,7 @@ add_and_show_post_avt("#post_meta_image", "", "medium");
 
 // 1 số editer chỉ kích hoạt khi có bấm
 $(".click-enable-editer").change(function (e) {
-	var jd = $(this).attr("data-for") || "";
+	let jd = $(this).attr("data-for") || "";
 	if (jd != "") {
 		//console.log(jd);
 		// nếu đang checked
@@ -51,7 +51,7 @@ $(".click-enable-editer").change(function (e) {
 			localStorage.removeItem("click-disable-editer");
 
 			// tạo textediter
-			var h = $(this).attr("data-height") || "";
+			let h = $(this).attr("data-height") || "";
 			if (h == "" || h < 200) {
 				h = 200;
 			}
@@ -68,7 +68,7 @@ $(".click-enable-editer").change(function (e) {
 			) {
 				// tạo session này xong nạp lại trang -> khi thấy có session này thì editer sẽ ko được nạp
 				localStorage.setItem("click-disable-editer", Math.random());
-				var a = window.location.href
+				let a = window.location.href
 					.split("&support_tab=")[0]
 					.split("?support_tab=")[0];
 				if (a.split("?").length > 1) {
@@ -106,16 +106,16 @@ function fixed_CLS_for_editer(for_iframe) {
 	}
 
 	//
-	var arr = [];
+	let arr = [];
 	jQuery(for_iframe)
 		.contents()
 		.find("img")
 		.each(function () {
-			var s = $(this).attr("src") || "";
+			let s = $(this).attr("src") || "";
 			//console.log(s);
 
 			//
-			var w = $(this).attr("width") || "";
+			let w = $(this).attr("width") || "";
 			//console.log(w);
 			if (w == "") {
 				w = $(this).width() || 0;
@@ -131,7 +131,7 @@ function fixed_CLS_for_editer(for_iframe) {
 			}
 
 			//
-			var h = $(this).attr("height") || "";
+			let h = $(this).attr("height") || "";
 			//console.log(h);
 			if (h == "") {
 				h = $(this).height() || 0;
@@ -154,7 +154,7 @@ function fixed_CLS_for_editer(for_iframe) {
 
 	//
 	console.log("%c " + for_iframe + " CLS", "color: green;");
-	for (var i = 0; i < arr.length; i++) {
+	for (let i = 0; i < arr.length; i++) {
 		console.log(arr[i]);
 	}
 
@@ -197,7 +197,7 @@ $(window).on("load", function () {
  * tạo các option con cho phần select Danh mục cha
  */
 (function (cats) {
-	for (var x in cats) {
+	for (let x in cats) {
 		//console.log(x);
 		//console.log(cats[x]);
 

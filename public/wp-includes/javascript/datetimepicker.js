@@ -1,9 +1,9 @@
-/*
+/**
  * nạp datetimepicker theo cách Ếch Bay
  */
 if (typeof datetimepicker_loaded == "undefined") {
 	(function () {
-		var s1 = document.createElement("script"),
+		let s1 = document.createElement("script"),
 			s0 = document.getElementsByTagName("script")[0];
 		s1.async = true;
 		s1.src =
@@ -18,10 +18,9 @@ if (typeof datetimepicker_loaded == "undefined") {
 	//
 	(function () {
 		// Get HTML head element
-		var head = document.getElementsByTagName("HEAD")[0];
-
-		// Create new link Element
-		var link = document.createElement("link");
+		let head = document.getElementsByTagName("HEAD")[0],
+			// Create new link Element
+			link = document.createElement("link");
 
 		// set the attributes for link element
 		link.rel = "stylesheet";
@@ -39,14 +38,14 @@ var datetimepicker_loaded = true;
 
 // hàm chuyển đổi date string sang timestamp sau khi close
 function datetimepicker_onClose(input_name, input_id, type) {
-	var pick_name = "picker_" + input_name;
+	let pick_name = "picker_" + input_name;
 	//console.log('pick name:', pick_name);
 
-	var pick_id = "picker_" + input_id;
+	let pick_id = "picker_" + input_id;
 	//console.log('pick id:', input_id);
 
 	//
-	var input_ = $("#" + input_id);
+	let input_ = $("#" + input_id);
 
 	// ẩn input đi
 	input_.attr({
@@ -55,14 +54,14 @@ function datetimepicker_onClose(input_name, input_id, type) {
 	});
 
 	//
-	var val = input_.val() || "";
-	var new_date = "";
+	let val = input_.val() || "",
+		new_date = "";
 	if (val != "") {
 		//console.log('val:', val);
 		val *= 1;
 		//console.log('val:', val);
 		if (val > 0) {
-			var tzoffset = new Date().getTimezoneOffset() * 60000; // offset in milliseconds
+			let tzoffset = new Date().getTimezoneOffset() * 60000; // offset in milliseconds
 			//tzoffset = 0;
 			new_date = new Date(val * 1000 - tzoffset).toISOString();
 			//console.log('new date:', new_date);
@@ -98,23 +97,23 @@ function datetimepicker_onClose(input_name, input_id, type) {
 
 	//
 	$("#" + pick_id).change(function () {
-		var a = $(this).val() || "";
+		let a = $(this).val() || "";
 		//console.log('value:', a);
 
 		//
 		if (a != "") {
 			// định dạng ngày giờ theo kiểu Việt Nam
-			//var s = a.split(' ');
-			//var s1 = s[0].split('-');
-			//var s2 = s[1].split(':');
-			//var d = new Date(s1[2], s1[1] - 1, s1[0], s2[0], s2[1], s2[2]);
+			//let s = a.split(' ');
+			//let s1 = s[0].split('-');
+			//let s2 = s[1].split(':');
+			//let d = new Date(s1[2], s1[1] - 1, s1[0], s2[0], s2[1], s2[2]);
 			//$('#' + input_id).val(Math.ceil(d.getTime() / 1000));
 
 			// -> xác định giờ theo múi giờ hiện tại của user
-			var tzoffset = 0;
+			let tzoffset = 0;
 			//tzoffset = (new Date()).getTimezoneOffset() * 60000; // offset in milliseconds
 			console.log("tzoffset:", tzoffset);
-			var time_stamp = 0;
+			let time_stamp = 0;
 
 			// định dạng ngày giờ theo chuẩn quốc tế
 			if (a.length == 10) {
@@ -152,20 +151,20 @@ function datetimepicker_onClose(input_name, input_id, type) {
 // khởi tạo đối tượng cho các kiểu date picker
 function create_dynamic_datepicker(type) {
 	$('input[type="' + type + '"], input.' + type + "picker").each(function () {
-		var a = $(this).attr("type") || "";
+		let a = $(this).attr("type") || "";
 		//console.log('type:', a);
 
 		// nếu đây là dạng số -> conver sang timestamp khi close
 		//if (type != 'time' && a == 'number') {
 		if (a == "number") {
-			var input_name = $(this).attr("name") || "";
+			let input_name = $(this).attr("name") || "";
 			if (input_name != "") {
 				//console.log('input name:', input_name);
 				input_name = input_name.replace(/\[|\]/gi, "_");
 				//console.log('input name:', input_name);
 
 				//
-				var input_id = $(this).attr("id") || "";
+				let input_id = $(this).attr("id") || "";
 				//console.log('input id:', input_id);
 				if (input_id == "") {
 					input_id = input_name;
@@ -210,7 +209,7 @@ function EBE_load_datetimepicker(max_i) {
 	}
 
 	// chỉ lấy ngày tháng
-	var MY_datepicker = function (id, op) {
+	let MY_datepicker = function (id, op) {
 		MY_datetimepicker(id, {
 			timepicker: false,
 			format: "Y-m-d",
@@ -218,7 +217,7 @@ function EBE_load_datetimepicker(max_i) {
 	};
 
 	// chỉ lấy giờ
-	var MY_timepicker = function (id, op) {
+	let MY_timepicker = function (id, op) {
 		MY_datetimepicker(id, {
 			datepicker: false,
 			format: "H:i",
@@ -226,13 +225,13 @@ function EBE_load_datetimepicker(max_i) {
 	};
 
 	// lấy ngày tháng và giờ
-	var MY_datetimepicker = function (id, op) {
+	let MY_datetimepicker = function (id, op) {
 		if (typeof op != "object") {
 			op = {};
 		}
 
 		//
-		var default_op = {
+		let default_op = {
 			lang: $("html").attr("lang") || "vi",
 			timepicker: true,
 			formatTime: "H:i",
@@ -240,7 +239,7 @@ function EBE_load_datetimepicker(max_i) {
 			format: "Y-m-d H:i:s",
 			//showTimezone: true,
 		};
-		for (var x in default_op) {
+		for (let x in default_op) {
 			if (typeof op[x] == "undefined") {
 				op[x] = default_op[x];
 			}

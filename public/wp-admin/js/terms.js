@@ -9,9 +9,9 @@ function term_tree_view(data, tmp, gach_ngang) {
 	//console.log('gach ngang:', gach_ngang);
 
 	//
-	var str = "";
-	var arr = null;
-	for (var i = 0; i < data.length; i++) {
+	let str = "",
+		arr = null;
+	for (let i = 0; i < data.length; i++) {
 		//console.log(data[i]);
 
 		//
@@ -23,7 +23,7 @@ function term_tree_view(data, tmp, gach_ngang) {
 
 			//
 			arr = data[i];
-			for (var x in arr) {
+			for (let x in arr) {
 				//console.log(typeof arr[x], arr[x]);
 				if (typeof arr[x] != "object") {
 					str = replace_html_by_max_j("{{v." + x + "}}", str, arr[x]);
@@ -51,20 +51,20 @@ function tmp_to_term_html(data, tmp, gach_ngang) {
 	}
 
 	//
-	var str = tmp;
+	let str = tmp;
 
 	//
 	str = replace_html_by_max_j("{{v.gach_ngang}}", str, gach_ngang);
 
 	//
-	var arr = data;
-	for (var x in arr) {
+	let arr = data;
+	for (let x in arr) {
 		//console.log(typeof arr[x], arr[x]);
 		if (typeof arr[x] != "object") {
 			str = replace_html_by_max_j("{{v." + x + "}}", str, arr[x]);
 		} else if (arr[x] != null) {
 			//console.log(x + ':', arr[x]);
-			for (var y in arr[x]) {
+			for (let y in arr[x]) {
 				//console.log(arr[x][y]);
 
 				//
@@ -99,8 +99,8 @@ function term_v2_tree_view(tmp, term_id, gach_ngang) {
 	//console.log('term_data:', term_data);
 
 	//
-	//var has_term = false;
-	for (var i = 0; i < term_data.length; i++) {
+	//let has_term = false;
+	for (let i = 0; i < term_data.length; i++) {
 		// không lấy các phần tử đã được set null
 		if (term_data[i] === null) {
 			continue;
@@ -128,12 +128,12 @@ function term_v2_tree_view(tmp, term_id, gach_ngang) {
 
 // tìm term cha của 1 term để xem cha của nó có tồn tại trong danh sách này không
 function check_term_parent_by_id(parent_id) {
-	var has_parent = false;
+	let has_parent = false;
 	// chạy vòng lặp để tìm xem 1 term có cha ở cùng trang không
-	for (var j = 0; j < term_data.length; j++) {
+	for (let j = 0; j < term_data.length; j++) {
 		if (term_data[j] !== null && term_data[j].term_id * 1 === parent_id * 1) {
 			// nếu có thì thử xem thằng cha này có cha không -> ông
-			var has_granfather = check_term_parent_by_id(term_data[j].parent);
+			let has_granfather = check_term_parent_by_id(term_data[j].parent);
 			//console.log('has granfather:', has_granfather);
 
 			// nếu có ông, cụ, kị.... thì lấy phần tử đó
@@ -163,7 +163,7 @@ function term_not_null_tree_view(tmp, gach_ngang) {
 	//console.log('term_data:', term_data);
 
 	//
-	for (var i = 0; i < term_data.length; i++) {
+	for (let i = 0; i < term_data.length; i++) {
 		// không lấy các phần tử đã được set null
 		if (term_data[i] === null) {
 			continue;
@@ -171,7 +171,7 @@ function term_not_null_tree_view(tmp, gach_ngang) {
 		//console.log(term_data[i]);
 
 		// thử xem nhóm này có đang là nhóm con của nhóm nào trong đây không
-		var j = check_term_parent_by_id(term_data[i].parent);
+		let j = check_term_parent_by_id(term_data[i].parent);
 		// tìm thấy cha thì in nhóm cha trước rồi mới in nhóm con
 		if (j !== false) {
 			$("#admin_term_list").append(
@@ -261,12 +261,12 @@ function record_status_color(id, term_status) {
 	}
 
 	//
-	var tmp = $("#admin_term_list tr:first").html() || "";
+	let tmp = $("#admin_term_list tr:first").html() || "";
 	$("#admin_term_list").text("");
 	if (tmp == "") {
 		return false;
 	}
-	for (var i = 0; i < 10; i++) {
+	for (let i = 0; i < 10; i++) {
 		tmp = tmp.replace("{{DeletedStatus_DELETED}}", DeletedStatus_DELETED);
 		tmp = tmp.replace("{{for_action}}", for_action);
 		tmp = tmp.replace("{{controller_slug}}", controller_slug);
@@ -314,9 +314,9 @@ $(document).ready(function () {
 			$(this).select();
 		})
 		.change(function () {
-			var a = $(this).attr("data-id") || "";
+			let a = $(this).attr("data-id") || "";
 			if (a != "") {
-				var v = $(this).val();
+				let v = $(this).val();
 				v *= 1;
 				if (!isNaN(v)) {
 					if (v < 1) {

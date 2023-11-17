@@ -369,7 +369,7 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
     ?>
         <h3 class="white-preview-url">Các <?php echo $name_type; ?> con khác (cùng parent hoặc lang_parent):</h3>
         <ul>
-            <li v-for="v in child_term">{{v.taxonomy}} ({{v.lang_key}}) #{{v.term_id}} {{v.name}} ({{v.slug}}) | {{v.is_deleted}}</li>
+            <li v-for="v in child_term"><a :href="term_admin_permalink(current_taxonomy, v.term_id, controller_slug)">{{v.taxonomy}} ({{v.lang_key}}) #{{v.term_id}} {{v.name}} ({{v.slug}}) | {{v.is_deleted}}</a></li>
         </ul>
     <?php
     }

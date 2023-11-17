@@ -49,7 +49,7 @@ class Dashboard extends Optimize
             'public/wp-includes/javascript',
             'public/wp-includes/libraries',
             'public/wp-includes/thirdparty',
-            'public/themes/echbayfour',
+            'public/wp-content/themes/echbayfour',
         ];
 
         // -> tạo thư mục gốc và thư mục sau khi XÓA

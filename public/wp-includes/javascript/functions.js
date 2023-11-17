@@ -150,7 +150,7 @@ function WGR_show_or_hide_to_top() {
 // set prop cho select
 function WGR_set_prop_for_select(for_id) {
 	$(for_id).each(function () {
-		var a = $(this).attr("data-select") || "";
+		let a = $(this).attr("data-select") || "";
 
 		// nếu có tham số này
 		if (a != "" && !$(this).hasClass("set-selected")) {
@@ -161,7 +161,7 @@ function WGR_set_prop_for_select(for_id) {
 			$(this).val(a[0]).addClass("set-selected");
 
 			// các option sau select kiểu prop
-			for (var i = 0; i < a.length; i++) {
+			for (let i = 0; i < a.length; i++) {
 				$('option[value="' + a[i] + '"]', this)
 					.prop("selected", true)
 					.addClass("bold")
@@ -204,14 +204,14 @@ var g_func = {
 		);
 		str = str.replace(/-+-/g, "-");
 		str = str.replace(/^\-+|\-+$/g, "");
-		for (var i = 0; i < 5; i++) {
+		for (let i = 0; i < 5; i++) {
 			str = str.replace(/--/g, "-");
 		}
 		str = (function (s) {
-			var str = "",
+			let str = "",
 				re = /^\w+$/,
 				t = "";
-			for (var i = 0; i < s.length; i++) {
+			for (let i = 0; i < s.length; i++) {
 				t = s.substr(i, 1);
 				if (t == "-" || t == "+" || re.test(t) == true) {
 					str += t;
@@ -235,7 +235,7 @@ var g_func = {
 		allowed = (
 			((allowed || "") + "").toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []
 		).join("");
-		var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi,
+		let tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi,
 			cm = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
 		return input.replace(cm, "").replace(tags, function ($0, $1) {
 			return allowed.indexOf("<" + $1.toLowerCase() + ">") > -1 ? $0 : "";
@@ -257,16 +257,16 @@ var g_func = {
 		}
 
 		//
-		var ex = Math.floor(Date.now() / 1000) + seconds + days;
+		let ex = Math.floor(Date.now() / 1000) + seconds + days;
 
 		//
 		return localStorage.setItem(name, ex.toString() + "|" + value);
 	},
 	getc: function (name) {
-		var a = localStorage.getItem(name);
+		let a = localStorage.getItem(name);
 		if (a !== null) {
 			a = a.split("|");
-			var ex = a[0] * 1;
+			let ex = a[0] * 1;
 			//console.log(a, ex);
 			if (isNaN(ex) || ex < Math.floor(Date.now() / 1000)) {
 				return null;
@@ -340,13 +340,13 @@ var g_func = {
 	formatV2Currency: function (number, decimals, dec_point, thousands_sep) {
 		// Strip all characters but numerical ones.
 		number = (number + "").replace(/[^0-9+\-Ee.]/g, "");
-		var n = !isFinite(+number) ? 0 : +number,
+		let n = !isFinite(+number) ? 0 : +number,
 			prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
 			sep = typeof thousands_sep === "undefined" ? "," : thousands_sep,
 			dec = typeof dec_point === "undefined" ? "." : dec_point,
 			s = "",
 			toFixedFix = function (n, prec) {
-				var k = Math.pow(10, prec);
+				let k = Math.pow(10, prec);
 				return "" + Math.round(n * k) / k;
 			};
 		// Fix for IE parseFloat(0.55).toFixed(0) = 0;
@@ -372,7 +372,7 @@ var g_func = {
 			dot = ",";
 		}
 		//console.log( 'dot: ' + dot );
-		var dec_point = ".";
+		let dec_point = ".";
 		if (dot != ",") {
 			dec_point = ",";
 		}
@@ -422,11 +422,11 @@ var g_func = {
 		str = jQuery.trim(str);
 
 		if (len > 0 && str.length > len) {
-			var a = str.split(" ");
+			let a = str.split(" ");
 			//			console.log(a);
 			str = "";
 
-			for (var i = 0; i < a.length; i++) {
+			for (let i = 0; i < a.length; i++) {
 				if (a[i] != "") {
 					str += a[i] + " ";
 
@@ -501,14 +501,14 @@ function get_taxonomy_data_by_ids(arr, jd) {
 	//console.log(arr);
 
 	if (jd > 0) {
-		for (var i = 0; i < arr.length; i++) {
+		for (let i = 0; i < arr.length; i++) {
 			if (arr[i].term_id * 1 == jd) {
 				return arr[i];
 			}
 		}
 
 		// thử tìm trong các nhóm con
-		for (var i = 0; i < arr.length; i++) {
+		for (let i = 0; i < arr.length; i++) {
 			if (
 				typeof arr[i].child_term == "undefined" ||
 				arr[i].child_term.length < 1
@@ -516,7 +516,7 @@ function get_taxonomy_data_by_ids(arr, jd) {
 				continue;
 			}
 
-			var taxonomy_data = get_taxonomy_data_by_ids(arr[i].child_term, jd);
+			let taxonomy_data = get_taxonomy_data_by_ids(arr[i].child_term, jd);
 			if (taxonomy_data !== null) {
 				return taxonomy_data;
 			}
@@ -570,11 +570,11 @@ function action_each_to_taxonomy() {
 
 	// lấy các ID có
 	$(".each-to-taxonomy").each(function () {
-		var a = $(this).attr("data-id") || "";
+		let a = $(this).attr("data-id") || "";
 		//console.log('a:', a);
-		var as = $(this).attr("data-ids") || "";
+		let as = $(this).attr("data-ids") || "";
 		//console.log('as:', as);
-		//var taxonomy = $(this).attr('data-taxonomy') || '';
+		//let taxonomy = $(this).attr('data-taxonomy') || '';
 		//console.log('taxonomy:', taxonomy);
 
 		if (a == "") {
@@ -585,14 +585,14 @@ function action_each_to_taxonomy() {
 		//if (a != '' && taxonomy != '') {
 		if (a != "") {
 			a = a.split(",");
-			//var str = [];
-			for (var i = 0; i < a.length; i++) {
+			//let str = [];
+			for (let i = 0; i < a.length; i++) {
 				if (a[i] != "") {
 					a[i] = $.trim(a[i]);
 					a[i] *= 1;
 					if (a[i] > 0) {
-						var has_add = false;
-						for (var j = 0; j < taxonomy_ids_unique.length; j++) {
+						let has_add = false;
+						for (let j = 0; j < taxonomy_ids_unique.length; j++) {
 							if (a[i] == taxonomy_ids_unique[j]) {
 								has_add = true;
 								break;
@@ -677,12 +677,12 @@ function after_each_to_taxonomy(data) {
 
 	//
 	$(".loading-to-taxonomy").each(function () {
-		var a = $(this).attr("data-id") || "";
+		let a = $(this).attr("data-id") || "";
 		//console.log(a);
-		var as = $(this).attr("data-ids") || "";
+		let as = $(this).attr("data-ids") || "";
 		//console.log(as);
-		//var taxonomy = $(this).attr('data-taxonomy') || '';
-		var uri = $(this).attr("data-uri") || "";
+		//let taxonomy = $(this).attr('data-taxonomy') || '';
+		let uri = $(this).attr("data-uri") || "";
 		if (uri != "") {
 			// thêm term_id nếu không có trong yêu cầu
 			if (uri.split("%term_id%").length == 1) {
@@ -695,9 +695,9 @@ function after_each_to_taxonomy(data) {
 			}
 		}
 		// class riêng cho thẻ A nếu có
-		var a_class = $(this).attr("data-class") || "";
+		let a_class = $(this).attr("data-class") || "";
 		// giãn cách giữa các thẻ A
-		var a_space = $(this).attr("data-space") || ", ";
+		let a_space = $(this).attr("data-space") || ", ";
 
 		if (a == "") {
 			a = as;
@@ -707,10 +707,10 @@ function after_each_to_taxonomy(data) {
 		//if (a != '' && taxonomy != '') {
 		if (a != "") {
 			a = a.split(",");
-			var str = [];
-			for (var i = 0; i < a.length; i++) {
+			let str = [];
+			for (let i = 0; i < a.length; i++) {
 				if (a[i] != "") {
-					var taxonomy_data = get_taxonomy_data_by_ids(data, a[i] * 1);
+					let taxonomy_data = get_taxonomy_data_by_ids(data, a[i] * 1);
 					//console.log(taxonomy_data);
 					if (taxonomy_data === null) {
 						str.push("#" + a[i]);
@@ -719,14 +719,14 @@ function after_each_to_taxonomy(data) {
 					arr_ajax_taxonomy.push(taxonomy_data);
 
 					//
-					var taxonomy_name =
+					let taxonomy_name =
 						taxonomy_data.term_shortname != ""
 							? taxonomy_data.term_shortname
 							: taxonomy_data.name;
 					if (uri != "") {
 						// thay thế dữ liệu cho uri
-						var url = uri;
-						for (var x in taxonomy_data) {
+						let url = uri;
+						for (let x in taxonomy_data) {
 							url = url.replace("%" + x + "%", taxonomy_data[x]);
 						}
 
@@ -759,7 +759,7 @@ function after_each_to_taxonomy(data) {
 
 // kiểm tra xem trình duyệt có hỗ trợ định dạng webp không
 function support_format_webp() {
-	var elem = document.createElement("canvas");
+	let elem = document.createElement("canvas");
 
 	if (!!(elem.getContext && elem.getContext("2d"))) {
 		// was able or not to get WebP representation
@@ -829,8 +829,8 @@ function create_menu_by_taxonomy(arr, li_class, show_favicon, ops) {
 	}
 
 	//
-	var str = "";
-	for (var i = 0; i < arr.length; i++) {
+	let str = "";
+	for (let i = 0; i < arr.length; i++) {
 		// không hiển thị các danh mục không có bài viết hoặc bị đánh dấu ẩn
 		if (arr[i].count * 1 < 1 || arr[i].term_status * 1 > 0) {
 			continue;
@@ -845,13 +845,13 @@ function create_menu_by_taxonomy(arr, li_class, show_favicon, ops) {
 		}
 
 		// hiển thị icon cho danh mục nếu có
-		var img_favicon = "";
+		let img_favicon = "";
 		if (
 			show_favicon === true &&
 			typeof arr[i].term_favicon != "undefined" &&
 			arr[i].term_favicon != ""
 		) {
-			var ops_width = "",
+			let ops_width = "",
 				ops_height = "";
 			if (typeof ops.width != "undefined") {
 				ops_width = ' width="' + ops.width + '"';
@@ -876,7 +876,7 @@ function create_menu_by_taxonomy(arr, li_class, show_favicon, ops) {
 		}
 
 		//
-		var sub_menu = "";
+		let sub_menu = "";
 		//console.log(typeof arr[i].child_term);
 		if (
 			typeof arr[i].child_term != "undefined" &&
@@ -929,7 +929,7 @@ function WGR_check_option_on(a) {
 // khi muốn nạp nhiều lệnh vue js 1 lúc (ngăn cách bởi dấu ,) -> sử dụng hàm này
 function WGR_multi_vuejs(app_id, obj, _callBack, max_i) {
 	app_id = app_id.split(",");
-	for (var i = 0; i < app_id.length; i++) {
+	for (let i = 0; i < app_id.length; i++) {
 		app_id[i] = $.trim(app_id[i]);
 
 		//
@@ -967,7 +967,7 @@ function WGR_vuejs(app_id, obj, _callBack, max_i) {
 
 	// chưa tìm ra hàm định dạng ngày tháng tương tự angular -> tự viết hàm riêng vậy
 	// -> xác định giờ theo múi giờ hiện tại của user
-	var tzoffset = new Date().getTimezoneOffset() * 60000; // offset in milliseconds
+	let tzoffset = new Date().getTimezoneOffset() * 60000; // offset in milliseconds
 	//console.log('tzoffset:', tzoffset);
 	obj.datetime = function (t, len) {
 		if (typeof len != "number") {
@@ -1023,13 +1023,13 @@ function WGR_vuejs(app_id, obj, _callBack, max_i) {
 function move_custom_code_to() {
 	$(".move-custom-code-to")
 		.each(function () {
-			var data_to = $(this).attr("data-to") || "";
+			let data_to = $(this).attr("data-to") || "";
 			if (data_to != "") {
-				var str = $(this).html() || "";
+				let str = $(this).html() || "";
 				$(this).text("");
 
 				//
-				var type_move = $(this).attr("data-type") || "";
+				let type_move = $(this).attr("data-type") || "";
 				if (type_move == "before") {
 					$(data_to).before(str);
 				} else if (type_move == "after") {
@@ -1061,7 +1061,7 @@ function redirect_to_canonical(body_class) {
 	}
 
 	//
-	var a = $('link[rel="canonical"]').attr("href") || "";
+	let a = $('link[rel="canonical"]').attr("href") || "";
 	//console.log(a);
 	if (a != "" && window.location.href.split(a).length === 1) {
 		if (a.split("?").length > 1) {
@@ -1109,9 +1109,9 @@ function WGR_get_params(param, queryString) {
 		}
 	}
 	// console.log("queryString:", queryString);
-	var urlParams = new URLSearchParams(queryString);
+	let urlParams = new URLSearchParams(queryString);
 	// console.log("urlParams:", urlParams);
-	var a = urlParams.get(param);
+	let a = urlParams.get(param);
 	return a === null ? "" : a;
 }
 
@@ -1186,8 +1186,8 @@ function get_hide_captcha(a, div_id, the_debug, max_i) {
 }
 
 function WGR_nofollow() {
-	var links = document.links;
-	for (var i = 0; i < links.length; i++) {
+	let links = document.links;
+	for (let i = 0; i < links.length; i++) {
 		// console.log(links[i].hostname);
 		// console.log(links[i].href);
 		if (links[i].hostname == window.location.hostname) {

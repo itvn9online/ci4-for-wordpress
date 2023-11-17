@@ -78,19 +78,20 @@ function create_period_price_html(period_price, period_discount, period_bonus) {
 	console.log(period_bonus);
 
 	//
-	var str = "";
-	str += "<tr>";
-	str += "<th>Giá trị</th>";
-	str += "<th>Giảm giá</th>";
-	str += "<th>Tặng thêm</th>";
-	str += "<th>&nbsp;</th>";
-	str += "</tr>";
+	let str = [
+		"<tr>",
+		"<th>Giá trị</th>",
+		"<th>Giảm giá</th>",
+		"<th>Tặng thêm</th>",
+		"<th>&nbsp;</th>",
+		"</tr>",
+	].join("");
 
 	//
 	str += (function (period_price, period_discount, period_bonus) {
 		//
-		var htm = "";
-		for (var i = 0; i < period_price.length; i++) {
+		let htm = "";
+		for (let i = 0; i < period_price.length; i++) {
 			if (period_price[i] === null) {
 				continue;
 			}
@@ -202,10 +203,10 @@ $(document).ready(function () {
 
 			//
 			if (typeof data.data != "undefined") {
-				var str = "";
-				var a = data.data;
+				let str = "",
+					a = data.data;
 
-				for (var i = 0; i < a.length; i++) {
+				for (let i = 0; i < a.length; i++) {
 					str +=
 						'<option value="' +
 						a[i].bin +
@@ -247,7 +248,7 @@ $(document).ready(function () {
 				});
 
 				//
-				var select_bank = $("#data_bank_bin_code").attr("data-select") || "";
+				let select_bank = $("#data_bank_bin_code").attr("data-select") || "";
 				if (select_bank != "") {
 					$("#data_bank_bin_code").val(select_bank).trigger("change");
 					//WGR_set_prop_for_select('#data_bank_bin_code');

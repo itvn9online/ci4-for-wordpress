@@ -3,7 +3,7 @@ var attr_data_webp = "data-webp";
 
 var _global_js_eb = {
 	check_email: function (email, alert_true) {
-		var re = /^\w+([\-\.]?\w+)*@\w+(\.\w+){1,3}$/;
+		let re = /^\w+([\-\.]?\w+)*@\w+(\.\w+){1,3}$/;
 		if (re.test(email) == true) {
 			return true;
 		}
@@ -36,7 +36,7 @@ var _global_js_eb = {
 	auto_margin: function () {
 		// tạo attr mặc định để lưu thuộc tính cũ
 		jQuery(".img-max-width").each(function () {
-			var max_width = jQuery(this).attr("data-max-width") || "";
+			let max_width = jQuery(this).attr("data-max-width") || "";
 			//console.log('aaaaaaaaaaa: ' + max_width);
 			if (max_width == "" || max_width < 90) {
 				max_width =
@@ -54,7 +54,7 @@ var _global_js_eb = {
 			});
 
 			jQuery("iframe", this).each(function () {
-				var a = jQuery(this).attr("src") || "",
+				let a = jQuery(this).attr("src") || "",
 					wit =
 						jQuery(this).attr("data-width") ||
 						jQuery(this).attr("width") ||
@@ -79,14 +79,14 @@ var _global_js_eb = {
 			});
 
 			// thẻ TABLE
-			var i = 0;
+			let i = 0;
 			jQuery("table", this)
 				// fixed chiều rộng tối đa cho table
 				.css({
 					"max-width": max_width + "px",
 				})
 				.each(function () {
-					var a = jQuery(this).attr("data-no-reponsive") || "";
+					let a = jQuery(this).attr("data-no-reponsive") || "";
 
 					//
 					if (a == "") {
@@ -112,10 +112,10 @@ var _global_js_eb = {
 			});
 		});
 
-		var avt_max_height = 250,
+		let current_device = "",
+			// avt_max_height = 250,
 			//css_m_id = 'css-for-mobile',
-			screen_width = jQuery(window).width(),
-			current_device = "";
+			screen_width = jQuery(window).width();
 
 		// nếu có thuộc tính cố định, định dạng cho phiên bản -> lấy theo thuộc tính này
 		if (window.location.href.split("&set_device=").length > 1) {
@@ -131,7 +131,7 @@ var _global_js_eb = {
 		if (screen_width < 950 && current_device != "desktop") {
 			// Điều chỉnh bằng cách dùng chung một chức năng
 			jQuery(".fix-li-wit").each(function () {
-				var a = jQuery(this).width() || 0,
+				let a = jQuery(this).width() || 0,
 					w = jQuery(this).attr("data-width") || "",
 					w_big = jQuery(this).attr("data-big-width") || "",
 					// điều chỉnh chiều rộng cho loại thẻ hoặc class nào -> mặc định là li
@@ -164,14 +164,14 @@ var _global_js_eb = {
 			// trên mobile -> giới hạn kích thước media
 			jQuery(".img-max-width").each(function () {
 				// lấy theo kích thước tối đa của khung này luôn
-				var max_width =
+				let max_width =
 					jQuery(this).attr("data-width") || jQuery(this).width() || 250;
 				max_width = Math.ceil(max_width) - 1;
 				//console.log("max_width: " + max_width);
 
 				// xử lý với video của youtube
 				jQuery("iframe", this).each(function () {
-					var a = jQuery(this).attr("src") || "";
+					let a = jQuery(this).attr("src") || "";
 
 					// chỉ xử lý với video youtube
 					if (a.split("youtube.com/").length > 1) {
@@ -189,7 +189,7 @@ var _global_js_eb = {
 
 			//
 			jQuery(".fix-li-wit").each(function () {
-				var fix_for = jQuery(this).attr("data-tags") || "li";
+				let fix_for = jQuery(this).attr("data-tags") || "li";
 
 				//
 				jQuery(fix_for, this).width("");
@@ -197,13 +197,13 @@ var _global_js_eb = {
 
 			// hình ảnh và clip trên bản pc -> giờ mới xử lý
 			jQuery(".img-max-width").each(function () {
-				var max_width = jQuery(this).attr("data-max-width") || 250;
+				let max_width = jQuery(this).attr("data-max-width") || 250;
 				max_width = Math.ceil(max_width) - 1;
 
 				//
 				jQuery("iframe", this).each(function () {
-					var a = jQuery(this).attr("src") || "";
-					var no_resize = jQuery(this).attr("data-no-resize") || 0;
+					let a = jQuery(this).attr("src") || "",
+						no_resize = jQuery(this).attr("data-no-resize") || 0;
 
 					if (no_resize * 1 != 1) {
 						if (WGR_check_option_on(WGR_config.cf_tester_mode)) console.log(a);
@@ -211,7 +211,7 @@ var _global_js_eb = {
 						// chỉ xử lý với video youtube
 						if (a.split("youtube.com/").length > 1) {
 							//console.log('a: ' + a);
-							var wit =
+							let wit =
 								jQuery(this).attr("data-width") ||
 								jQuery(this).attr("width") ||
 								560;
@@ -243,8 +243,8 @@ var _global_js_eb = {
 
 		//
 		if (typeof pid != "undefined" && pid > 0) {
-			var wit_mb = jQuery(".thread-details-mobileAvt").width(),
-				hai_mb = wit_mb,
+			let wit_mb = jQuery(".thread-details-mobileAvt").width(),
+				// hai_mb = wit_mb,
 				li_len = jQuery(".thread-details-mobileAvt li").length,
 				li_wit = 100 / li_len;
 
@@ -256,9 +256,9 @@ var _global_js_eb = {
 		jQuery(".no-set-width-this-li").width("100%");
 
 		// chỉnh kích cỡ ảnh theo tỉ lệ
-		var new_arr_ti_le_global = {};
+		let new_arr_ti_le_global = {};
 		jQuery(".ti-le-global").each(function () {
-			var a = jQuery(this).width(),
+			let a = jQuery(this).width(),
 				// hiển thị size ảnh gợi ý cho admin
 				show_height = 0,
 				// tỉ lệ kích thước giữa chiều cao và rộng (nếu có), mặc định là 1x1
@@ -267,7 +267,7 @@ var _global_js_eb = {
 
 			// với size auto -> set thẳng ảnh vào thay vì background
 			if (new_size == "auto") {
-				var img = jQuery(this).attr("data-img") || "";
+				let img = jQuery(this).attr("data-img") || "";
 				if (img != "") {
 					jQuery(this)
 						.after(
@@ -289,7 +289,7 @@ var _global_js_eb = {
 					height: a + "px",
 				});
 			} else {
-				var pading_size = "ty-le-h100";
+				let pading_size = "ty-le-h100";
 				show_height = a;
 				// Tính toán chiều cao mới dựa trên chiều rộng
 				if (new_size != "") {
@@ -337,8 +337,8 @@ var _global_js_eb = {
 		});
 		//console.log(arr_ti_le_global);
 		//console.log(new_arr_ti_le_global);
-		var str_css = "";
-		for (var x in new_arr_ti_le_global) {
+		let str_css = "";
+		for (let x in new_arr_ti_le_global) {
 			new_arr_ti_le_global[x] *= 100;
 
 			// quy đổi padding teo % chiều rộng của width
@@ -364,7 +364,7 @@ var _global_js_eb = {
 			.off("keyup")
 			.off("change")
 			.keyup(function (e) {
-				var k = e.keyCode,
+				let k = e.keyCode,
 					a = jQuery(this).val() || "";
 				if (
 					(k >= 48 && k <= 57) ||
@@ -408,7 +408,7 @@ var _global_js_eb = {
 	},
 
 	ebBgLazzyLoad: function (lazzy_show) {
-		var eb_lazzy_class = "eb-lazzy-effect",
+		let eb_lazzy_class = "eb-lazzy-effect",
 			eb_lazzy_iframe = "eb-add-iframe",
 			a = 0,
 			wh = jQuery(window).width(),
@@ -441,18 +441,19 @@ var _global_js_eb = {
 				a = jQuery(this).offset().top || 0;
 
 				if (a < lazzy_show) {
-					var wit = jQuery(this).width() || 300;
+					let wit = jQuery(this).width() || 300,
+						img = "";
 					//console.log('width:', wit);
 					if (wit > 1024) {
-						var img = jQuery(this).attr("data-img") || "";
+						let img = jQuery(this).attr("data-img") || "";
 					} else if (wit > 360) {
-						var img =
+						img =
 							jQuery(this).attr("data-large-img") ||
 							jQuery(this).attr(attr_data_webp) ||
 							jQuery(this).attr("data-img") ||
 							"";
 					} else {
-						var img =
+						img =
 							jQuery(this).attr(attr_data_webp) ||
 							jQuery(this).attr("data-img") ||
 							"";
@@ -507,7 +508,7 @@ var _global_js_eb = {
 
 		//
 		$(for_class).each(function () {
-			var has_attr = $(this).attr("data-flickity-options") || "";
+			let has_attr = $(this).attr("data-flickity-options") || "";
 
 			//
 			if (has_attr == "" && !$(this).hasClass("actived-slider")) {
@@ -577,7 +578,7 @@ var _global_js_eb = {
 	youtube_id: function (a, start_end) {
 		if (a.split("youtube.com").length > 1 || a.split("youtu.be").length > 1) {
 			// lấy thời gian bắt đầu, kết thúc nếu có
-			var s = "",
+			let s = "",
 				e = "";
 			if (typeof start_end != "undefined") {
 				start_end = a.replace(/\?/g, "&");
@@ -601,11 +602,11 @@ var _global_js_eb = {
 			}
 
 			//
-			var youtube_parser = function (url) {
-				var regExp =
+			let youtube_parser = function (url) {
+				let regExp =
 					/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
 
-				var match = url.match(regExp);
+				let match = url.match(regExp);
 
 				return match && match[7].length == 11 ? match[7] : false;
 			};
@@ -750,7 +751,7 @@ var _global_js_eb = {
 			console.log(ops);
 
 			//
-			var para = {
+			let para = {
 				event_category: ops["category"],
 				event_label: ops["label"],
 			};
@@ -975,7 +976,7 @@ var _global_js_eb = {
 
 	// thêm mã xác nhận mỗi khi submit form
 	wgr_nonce: function (form_name) {
-		var a = jQuery('form[name="' + form_name + '"]');
+		let a = jQuery('form[name="' + form_name + '"]');
 		if (a.length == 0) {
 			return false;
 		}
@@ -1024,9 +1025,9 @@ var _global_js_eb = {
 
 	ebe_currency_format: function () {
 		// hỗ trợ chuyển đổi đơn vị tiền tệ nếu to quá
-		var mot_ty = 1000000000;
-		var mot_trieu = 1000000;
-		var conver_to_trieu = false;
+		let mot_ty = 1000000000,
+			mot_trieu = 1000000,
+			conver_to_trieu = false;
 		if (
 			typeof cf_big_price_before != "undefined" &&
 			WGR_check_option_on(cf_big_price_before)
@@ -1035,7 +1036,7 @@ var _global_js_eb = {
 		}
 		jQuery(".ebe-currency-format")
 			.each(function () {
-				var a = jQuery.trim(
+				let a = jQuery.trim(
 					jQuery(this).attr("data-num") || jQuery(this).html() || ""
 				);
 
@@ -1043,7 +1044,7 @@ var _global_js_eb = {
 				if (a != "") {
 					a *= 1;
 					if (a > 0) {
-						var b = 0;
+						let b = 0;
 
 						//
 						if (conver_to_trieu == true) {

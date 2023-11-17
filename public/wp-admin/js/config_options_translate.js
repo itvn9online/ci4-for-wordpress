@@ -5,9 +5,9 @@ function action_trans_label(arr, option_prefix) {
 	}
 
 	//
-	var data_lang = "";
+	let data_lang = "";
 	//console.log(data_lang);
-	for (var x in arr) {
+	for (let x in arr) {
 		data_lang = "data_" + option_prefix + x.replace("lang_", "");
 		console.log(data_lang);
 

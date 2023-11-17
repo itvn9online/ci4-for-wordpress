@@ -15,8 +15,8 @@ function create_ul_menu_editer(a, sub_menu) {
 
 	//
 	console.log("create_ul_menu_editer:", a);
-	var str = "";
-	for (var i = 0; i < a.length; i++) {
+	let str = "";
+	for (let i = 0; i < a.length; i++) {
 		if (a[i].deleted * 1 !== 0) {
 			continue;
 		}
@@ -42,9 +42,9 @@ function create_ul_menu_editer(a, sub_menu) {
 		}
 
 		//
-		var a_tag = "";
-		var menu_css = ["eb-menu-text"];
-		var menu_li_css = [];
+		let a_tag = "",
+			menu_css = ["eb-menu-text"],
+			menu_li_css = [];
 
 		// nếu có menu con -> thêm css để định vị cho thẻ a
 		if (typeof a[i].children != "undefined") {
@@ -139,7 +139,7 @@ function create_html_menu_editer(max_i) {
 	}
 
 	//
-	var insert_to = "";
+	let insert_to = "";
 	if (jQuery("#Resolution_ifr").length === 1) {
 		insert_to = "#Resolution_ifr";
 	} else if (jQuery(".cke_wysiwyg_frame").length === 1) {
@@ -159,7 +159,7 @@ function create_html_menu_editer(max_i) {
 	}
 
 	//
-	var a = $("#json-output").val() || "";
+	let a = $("#json-output").val() || "";
 	if (a != "") {
 		try {
 			a = JSON.parse(a);
@@ -170,7 +170,7 @@ function create_html_menu_editer(max_i) {
 
 		//
 		if (a !== null) {
-			var str = create_ul_menu_editer(a);
+			let str = create_ul_menu_editer(a);
 			//console.log(str);
 
 			//
@@ -267,7 +267,7 @@ function get_json_code_menu(obj) {
 }
 
 function action_json_code_menu(obj) {
-	var arr = $("#json-output").val();
+	let arr = $("#json-output").val();
 	console.log(arr);
 
 	//
@@ -304,14 +304,14 @@ function create_html_menu_nestable(a) {
 	console.log("a:", a);
 
 	//
-	var str = "";
-	var tmp = $(".dd-tmp-list").html() || "";
+	let str = "",
+		tmp = $(".dd-tmp-list").html() || "";
 	if (tmp == "") {
 		console.log("%c dd-tmp-list not found!", "color: red;");
 		return false;
 	}
 	//console.log('tmp:', tmp);
-	var arr_replace_class = {
+	let arr_replace_class = {
 		"dd-item": "dd-item",
 		"dd-handle": "dd-handle",
 		"button-delete": "button-delete btn btn-default btn-xs pull-right",
@@ -319,7 +319,7 @@ function create_html_menu_nestable(a) {
 		"fa-times": "fa fa-times-circle-o",
 		"fa-pencil": "fa fa-pencil",
 	};
-	for (var x in arr_replace_class) {
+	for (let x in arr_replace_class) {
 		tmp = tmp.replace("%" + x + "%", arr_replace_class[x]);
 	}
 	//console.log('data class length:', tmp.split(' data-class=').length);
@@ -328,7 +328,7 @@ function create_html_menu_nestable(a) {
 	global_menu_tmp = tmp;
 
 	//
-	for (var i = 0; i < a.length; i++) {
+	for (let i = 0; i < a.length; i++) {
 		//console.log(a[i]);
 		if (a[i].deleted * 1 !== 0) {
 			continue;
@@ -341,15 +341,15 @@ function create_html_menu_nestable(a) {
 		}
 
 		//
-		var htm = tmp;
+		let htm = tmp;
 		a[i]["id"] = global_menu_jd;
 		global_menu_jd++;
-		for (var x in a[i]) {
+		for (let x in a[i]) {
 			//console.log(a[i]);
 			if (typeof a[i].name == "undefined") {
 				continue;
 			}
-			// var newText = JSON.parse(JSON.stringify(a[i]));
+			// let newText = JSON.parse(JSON.stringify(a[i]));
 			// console.log(newText);
 			//newText.newText = newText.name;
 
@@ -362,7 +362,7 @@ function create_html_menu_nestable(a) {
 		}
 
 		// nếu có menu con -> gọi luôn
-		var child_htm = "";
+		let child_htm = "";
 		if (typeof a[i].children != "undefined") {
 			child_htm = create_html_menu_nestable(a[i].children);
 		}
@@ -375,7 +375,7 @@ function create_html_menu_nestable(a) {
 
 	// xóa các dữ liệu mẫu
 	$("#menu-add input").each(function () {
-		var x = $(this).attr("data-set") || "";
+		let x = $(this).attr("data-set") || "";
 		if (x != "") {
 			str = str.replaceAll("%" + x + "%", "");
 		}
@@ -394,9 +394,9 @@ function restore_json_menu_in_html_menu() {
 	}
 
 	// chạy vòng lặp lấy các attr theo input add menu
-	var get_data_set = [];
+	let get_data_set = [];
 	$("#menu-add input").each(function () {
-		var x = $(this).attr("data-set") || "";
+		let x = $(this).attr("data-set") || "";
 		if (x != "") {
 			get_data_set.push(x);
 		}
@@ -404,26 +404,26 @@ function restore_json_menu_in_html_menu() {
 	console.log("get_data_set:", get_data_set);
 
 	//
-	var arr = [];
-	var _id = 1;
+	let arr = [],
+		_id = 1;
 	$("#Resolution_ifr")
 		.contents()
 		.find("#tinymce a")
 		.each(function () {
-			var a_href = $(this).attr("href") || "";
+			let a_href = $(this).attr("href") || "";
 			a_href = a_href.replace(/\.\.\//gi, "");
 			if (a_href == "") {
 				a_href = "#";
 			}
-			var a_text = $(this).text() || "";
-			var a_push = {
+			let a_text = $(this).text() || "";
+			let a_push = {
 				deleted: 0,
 				new: 0,
 				slug: a_href,
 				name: $.trim(a_text),
 				id: _id,
 			};
-			for (var i = 0; i < get_data_set.length; i++) {
+			for (let i = 0; i < get_data_set.length; i++) {
 				if (typeof a_push[get_data_set[i]] == "undefined") {
 					a_push[get_data_set[i]] = "";
 				}
@@ -479,7 +479,7 @@ if (localStorage.getItem("admin-show-hidden-menu") !== null) {
 
 (function () {
 	// tạo html cho việc chỉnh sửa menu
-	var a = $("#data_post_excerpt").val() || "";
+	let a = $("#data_post_excerpt").val() || "";
 	if (a != "") {
 		try {
 			a = JSON.parse(a);
@@ -491,7 +491,7 @@ if (localStorage.getItem("admin-show-hidden-menu") !== null) {
 
 		//
 		if (a !== null) {
-			var str = create_html_menu_nestable(a);
+			let str = create_html_menu_nestable(a);
 			//console.log(str);
 
 			//
@@ -505,11 +505,11 @@ if (localStorage.getItem("admin-show-hidden-menu") !== null) {
 //});
 
 $("#quick_add_menu select").change(function () {
-	var v = $(this).val() || "";
+	let v = $(this).val() || "";
 	// console.log(v);
 
 	if (v != "") {
-		var base_url = $("base").attr("href") || "";
+		let base_url = $("base").attr("href") || "";
 		// console.log(base_url);
 		if (base_url != "") {
 			v = v.replace(base_url, "./");
@@ -531,7 +531,7 @@ $("#quick_add_menu select").change(function () {
 
 //
 $("#addInputIcon").change(function () {
-	var a = $(this).val();
+	let a = $(this).val();
 	a = $.trim(a);
 	if (a != "" && a.split("fa").length < 2) {
 		a = "fa fa-" + a;
