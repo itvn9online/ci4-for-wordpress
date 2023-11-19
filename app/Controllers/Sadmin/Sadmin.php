@@ -83,8 +83,10 @@ class Sadmin extends Ajaxs
     public function index()
     {
         //echo debug_backtrace()[ 1 ][ 'class' ] . ':' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . PHP_EOL;
-        echo 'Controller index not found! <br>' . PHP_EOL;
-        die(__CLASS__ . ':' . __LINE__);
+        return $this->result_json_type([
+            'code' => __LINE__,
+            'error' => 'Bad request!',
+        ]);
     }
 
     // chức năng này sẽ kiểm tra quyền truy cập 1 module nào đó theo từng tài khoản -> truyền vào controller class -> role -> xác định theo role
