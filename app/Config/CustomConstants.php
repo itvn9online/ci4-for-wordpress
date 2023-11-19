@@ -23,7 +23,7 @@ define('PUBLIC_PUBLIC_PATH', PUBLIC_HTML_PATH . 'public/');
 define('VIEWS_PATH', APPPATH . 'Views/');
 // view riêng của từng theme nếu có thì view này sẽ được ưu tiên sử dụng
 define('VIEWS_CUSTOM_PATH', ROOTPATH . 'custom/Views/');
-// views của admin
+// vadmin -> views của admin
 define('ADMIN_ROOT_VIEWS', VIEWS_PATH . 'vadmin/');
 define('ADMIN_CUSTOM_VIEWS', VIEWS_CUSTOM_PATH . 'vadmin/');
 //define('ADMIN_DEFAULT_VIEWS', VIEWS_PATH . 'vadmin/default/');
