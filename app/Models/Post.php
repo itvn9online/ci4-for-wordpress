@@ -195,7 +195,7 @@ class Post extends PostProducs
                 $data['post_meta']['meta_description'] = $this->base_model->short_string($post_excerpt, 230);
             } else {
                 // nếu có post content -> chuyển sang dùng post content
-                $post_content = trim(strip_tags($data['post_content']));
+                $post_content = trim(str_replace('&nbsp;', ' ', strip_tags($data['post_content'])));
                 if (!empty($post_content)) {
                     $data['post_meta']['meta_description'] = $this->base_model->short_string($post_content, 230);
                 }

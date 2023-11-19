@@ -34,7 +34,7 @@ class PostPosts extends PostSlider
         $data['trv_img'] = $this->get_post_thumbnail($data);
         //$data['trv_webp'] = $this->get_post_image($data, 'image_webp', '');
         if ($data['post_excerpt'] == '') {
-            $data['post_excerpt'] = strip_tags($data['post_content']);
+            $data['post_excerpt'] = trim(str_replace('&nbsp;', ' ', strip_tags($data['post_content'])));
             $data['post_excerpt'] = $this->base_model->short_string($data['post_excerpt'], 168);
         }
         $data['post_quot_title'] = str_replace('"', '', $data['post_title']);
