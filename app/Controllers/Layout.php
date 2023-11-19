@@ -480,8 +480,9 @@ class Layout extends Sync
 
         // chỉnh lại thông số cho canonical
         if ($ops['page_num'] > 1) {
-            $seo['canonical'] = rtrim($seo['canonical'], '/') . '/page/' . $ops['page_num'];
+            // $seo['canonical'] = rtrim($seo['canonical'], '/') . '/page/' . $ops['page_num'];
             $seo['shortlink'] = rtrim($seo['shortlink'], '/') . '&page_num=' . $ops['page_num'];
+            $seo['title'] .= ' - Page ' . $ops['page_num'];
         }
         //print_r($seo);
 
