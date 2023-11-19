@@ -266,6 +266,7 @@
 }
 
 .global-a-posi a,
+.global-a-posi span.is-empty-url,
 .global-position-relative a {
     position: absolute;
     top: 0;

@@ -17,6 +17,9 @@ class Sync extends BaseController
 
     public function __construct()
     {
+        //
+        $this->base_model = new \App\Models\Base();
+
         // Nếu người dùng truy cập vào link cdn -> báo lỗi luôn
         if (CDN_BASE_URL != '' && strpos(CDN_BASE_URL, '/' . $_SERVER['HTTP_HOST'] . '/') !== false) {
             $this->cdn404();
@@ -24,7 +27,6 @@ class Sync extends BaseController
             $this->cdn404();
         } else {
             // không lỗi lầm gì thì mới nạp mấy cái này
-            $this->base_model = new \App\Models\Base();
             $this->term_model = new \App\Models\Term();
 
             //
@@ -53,16 +55,20 @@ class Sync extends BaseController
 
         //
         //echo http_response_code() . '<br>' . PHP_EOL;
-        if (function_exists('http_response_code')) {
-            http_response_code(404);
-        }
-        $pcol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
-        //echo $pcol . '<br>' . PHP_EOL;
-        $response = \Config\Services::response();
-        $response->setStatusCode(404, $pcol . ' 404 Not Found');
+        // if (function_exists('http_response_code')) {
+        //     http_response_code(404);
+        // }
+        // $pcol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
+        // //echo $pcol . '<br>' . PHP_EOL;
+        // $response = \Config\Services::response();
+        // $response->setStatusCode(404, $pcol . ' 404 Not Found');
 
         //
-        die($_SERVER['HTTP_HOST']);
+        $this->result_json_type([
+            'code' => __LINE__,
+            'error' => $_SERVER['HTTP_HOST'],
+            'f' => __FUNCTION__,
+        ]);
     }
 
     public function vendor_sync($check_thirdparty_exist = true)

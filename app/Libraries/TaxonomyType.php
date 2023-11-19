@@ -114,8 +114,8 @@ class TaxonomyType
         if ($taxonomy == self::ADS) {
             $arr['hide_widget_title'] = 'Ẩn tiêu đề danh mục';
             $arr['custom_cat_link'] = 'Tùy chỉnh URL';
-            $arr['dynamic_tag'] = 'HTML tag cho Tiêu đề';
-            $arr['dynamic_post_tag'] = 'HTML tag cho Tên bài viết';
+            $arr['dynamic_tag'] = 'HTML tag cho Tên Danh mục';
+            $arr['dynamic_post_tag'] = 'HTML tag cho Tên Bài viết';
             $arr['widget_description'] = 'Mô tả';
             $arr['post_number'] = 'Số lượng bản ghi hiển thị';
             $arr['num_line'] = 'Số cột trên mỗi dòng';

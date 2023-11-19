@@ -754,9 +754,19 @@ class PostQuery extends PostMeta
         } else {
             $html_widget_title = '<div class="w90 eb-widget-row ' . $instance['max_width'] . '"><{{dynamic_tag}} data-type="' . $post_cat['taxonomy'] . '" data-id="' . $post_cat['term_id'] . '" class="eb-widget-title"><a href="{{custom_cat_link}}">' . $post_cat['name'] . '</a></{{dynamic_tag}}>{{widget_description}}</div>';
         }
-        if ($instance['hide_title'] == 'on') {
+
+        // để tối ưu SEO -> chỉ lấy tiêu đề khi có yêu cầu -> khi hide-title thì bỏ khối html title luôn
+        if (
+            $instance['hide_title'] == 'on'
+        ) {
             $custom_style[] = 'hide-blogs-title';
+            $the_title = '';
+        } else {
+            $the_title = file_get_contents(VIEWS_PATH . 'html/the_title.html');
         }
+        // $instance['the_title'] = $the_title;
+
+        //
         if ($instance['hide_description'] == 'on') {
             $custom_style[] = 'hide-blogs-description';
         }
@@ -814,6 +824,7 @@ class PostQuery extends PostMeta
             echo '<!-- ' . $html_node . ' --> ' . PHP_EOL;
             $tmp_html = $this->base_model->parent_html_tmp($html_node);
         }
+        // $tmp_html = str_replace('{{the_title}}', $the_title, $tmp_html);
         //echo $tmp_html . '<br>' . PHP_EOL;
 
         // tạo css chỉnh cột
@@ -844,12 +855,25 @@ class PostQuery extends PostMeta
             //die( __CLASS__ . ':' . __LINE__ );
 
             //
+            $url_video = '';
+            $a_class = '';
             $p_link = 'javascript:;';
-            if (isset($v['post_meta']['url_redirect']) && $v['post_meta']['url_redirect'] != '') {
+            $dynamic_a_tag = 'span';
+
+            //
+            if (isset($v['post_meta']['url_video']) && $v['post_meta']['url_video'] != '') {
+                $a_class = 'open-video';
+                $p_link = $v['post_meta']['url_video'];
+                $url_video = $p_link;
+            } else if (isset($v['post_meta']['url_redirect']) && $v['post_meta']['url_redirect'] != '') {
                 //print_r( $v );
                 $p_link = $v['post_meta']['url_redirect'];
                 //echo $p_link . '<br>' . PHP_EOL;
+                $dynamic_a_tag = 'a';
+            } else {
+                $a_class = 'is-empty-url';
             }
+            $a_link = $p_link;
 
             // đặt chế độ xuống dòng cho phần tóm tắt khi không có mã HTML trong đấy
             if ($v['post_excerpt'] != '' && strpos($v['post_excerpt'], '</') === false && strpos($v['post_excerpt'], '>') === false) {
@@ -860,19 +884,12 @@ class PostQuery extends PostMeta
                 $widget_blog_more = '<div class="widget-blog-more-xoa details-blog-more"><a href="{{p_link}}">' . $instance['text_view_details'] . '</a></div>';
             }
 
-            //
-            $a_class = '';
-            $a_link = $p_link;
-            if (isset($v['post_meta']['url_video']) && $v['post_meta']['url_video'] != '') {
-                $a_class = 'open-video';
-                $a_link = $v['post_meta']['url_video'];
-            }
-
             // tạo html cho từng node
             //echo $tmp_html;
             $str_node = $this->base_model->tmp_to_html(
                 $tmp_html,
                 [
+                    'the_title' => $the_title,
                     'p_link' => $p_link,
                     'a_class' => $a_class,
                     'a_link' => $a_link,
@@ -887,6 +904,8 @@ class PostQuery extends PostMeta
                 [
                     'taxonomy_key' => $ops['taxonomy'],
                     'p_link' => $p_link,
+                    'dynamic_a_tag' => $dynamic_a_tag,
+                    'url_video' => $url_video,
                 ]
             );
             //echo $str_node;
@@ -895,6 +914,15 @@ class PostQuery extends PostMeta
 
             //
             $html .= $str_node;
+        }
+
+        // xóa các trường dữ liệu trống
+        foreach ([
+            '<div class="eb-blog-short_title"></div>' => '',
+            '<div class="eb-blog-gioithieu"></div>' => '',
+            '<div class="eb-blog-content"></div>' => '',
+        ] as $k => $v) {
+            $html = str_replace($k, $v, $html);
         }
 
         // các thuộc tính của URL target, rel...
