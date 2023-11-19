@@ -298,7 +298,7 @@ class Users extends Sadmin
 
         //
         $this->teamplate_admin['content'] = view(
-            'sadmin/' . $this->list_view_path . '/list',
+            'vadmin/' . $this->list_view_path . '/list',
             array(
                 'pagination' => $pagination,
                 'by_is_deleted' => $by_is_deleted,
@@ -319,7 +319,7 @@ class Users extends Sadmin
                 'DeletedStatus_DELETED' => DeletedStatus::DELETED,
             )
         );
-        return view('sadmin/admin_teamplate', $this->teamplate_admin);
+        return view('vadmin/admin_teamplate', $this->teamplate_admin);
     }
 
     public function add($ops = [])
@@ -417,7 +417,7 @@ class Users extends Sadmin
 
         //
         $this->teamplate_admin['content'] = view(
-            'sadmin/' . $this->add_view_path . '/add',
+            'vadmin/' . $this->add_view_path . '/add',
             array(
                 'data' => $data,
                 'controller_slug' => $this->controller_slug,
@@ -426,7 +426,7 @@ class Users extends Sadmin
                 'arr_members_type' => $this->arr_members_type,
             )
         );
-        return view('sadmin/admin_teamplate', $this->teamplate_admin);
+        return view('vadmin/admin_teamplate', $this->teamplate_admin);
     }
 
     protected function add_new()

@@ -140,7 +140,7 @@ class Configs extends Sadmin
 
         //
         $this->teamplate_admin['content'] = view(
-            'sadmin/configs/' . $this->view_edit,
+            'vadmin/configs/' . $this->view_edit,
             array(
                 'lang_key' => $this->lang_key,
                 'config_type' => $this->config_type,
@@ -160,7 +160,7 @@ class Configs extends Sadmin
                 'example_prefix' => $this->example_prefix,
             )
         );
-        return view('sadmin/admin_teamplate', $this->teamplate_admin);
+        return view('vadmin/admin_teamplate', $this->teamplate_admin);
     }
 
     protected function updated($option_type)

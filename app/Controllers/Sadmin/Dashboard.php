@@ -173,7 +173,7 @@ class Dashboard extends Optimize
 
         //
         $this->teamplate_admin['content'] = view(
-            'sadmin/dashboard_view',
+            'vadmin/dashboard_view',
             array(
                 //'topPostHighestView' => $topPostHighestView,
                 'check_dup_url' => $this->post_model->checkDuplicateSlug(),
@@ -192,7 +192,7 @@ class Dashboard extends Optimize
                 ],
             )
         );
-        return view('sadmin/admin_teamplate', $this->teamplate_admin);
+        return view('vadmin/admin_teamplate', $this->teamplate_admin);
     }
 
     // tắt chế độ debug qua .env

@@ -197,7 +197,7 @@ class Terms extends Sadmin
 
         //
         $this->teamplate_admin['content'] = view(
-            'sadmin/' . $this->list_view_path . '/list',
+            'vadmin/' . $this->list_view_path . '/list',
             array(
                 'for_action' => $for_action,
                 'by_keyword' => $by_keyword,
@@ -213,7 +213,7 @@ class Terms extends Sadmin
                 'list_table_path' => $this->list_table_path,
             )
         );
-        return view('sadmin/admin_teamplate', $this->teamplate_admin);
+        return view('vadmin/admin_teamplate', $this->teamplate_admin);
     }
 
     protected function term_treeview_data($data)
@@ -601,7 +601,7 @@ class Terms extends Sadmin
 
         //
         $this->teamplate_admin['content'] = view(
-            'sadmin/' . $this->add_view_path . '/' . $file_view,
+            'vadmin/' . $this->add_view_path . '/' . $file_view,
             array(
                 'arr_custom_cloumn' => $arr_custom_cloumn,
                 'lang_key' => $this->lang_key,
@@ -619,7 +619,7 @@ class Terms extends Sadmin
                 'preview_offset_top' => $this->MY_get('preview_offset_top', ''),
             )
         );
-        return view('sadmin/admin_teamplate', $this->teamplate_admin);
+        return view('vadmin/admin_teamplate', $this->teamplate_admin);
     }
 
     protected function add_new($data = NULL)

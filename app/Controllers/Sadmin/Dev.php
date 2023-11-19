@@ -69,19 +69,19 @@ class Dev extends Sadmin
         }
 
 
-        $this->teamplate_admin['content'] = view('sadmin/dev/server_info', array(
+        $this->teamplate_admin['content'] = view('vadmin/dev/server_info', array(
             'all_cookie' => $_COOKIE,
             'all_session' => $_SESSION,
             'data' => $_SERVER,
         ));
-        return view('sadmin/admin_teamplate', $this->teamplate_admin);
+        return view('vadmin/admin_teamplate', $this->teamplate_admin);
     }
 
     // hiển thị thông tin php để check
     public function php_info()
     {
-        $this->teamplate_admin['content'] = view('sadmin/dev/php_info', array());
-        return view('sadmin/admin_teamplate', $this->teamplate_admin);
+        $this->teamplate_admin['content'] = view('vadmin/dev/php_info', array());
+        return view('vadmin/admin_teamplate', $this->teamplate_admin);
     }
     public function php2_info()
     {

@@ -202,7 +202,7 @@ class Comments extends Sadmin
         }
 
         //
-        $this->teamplate_admin['content'] = view('sadmin/' . $this->list_view_path . '/list', array(
+        $this->teamplate_admin['content'] = view('vadmin/' . $this->list_view_path . '/list', array(
             'list_view_path' => $this->list_view_path,
             'pagination' => $pagination,
             //'page_num' => $page_num,
@@ -218,7 +218,7 @@ class Comments extends Sadmin
                 'by_is_deleted' => $by_is_deleted,
             ],
         ));
-        return view('sadmin/admin_teamplate', $this->teamplate_admin);
+        return view('vadmin/admin_teamplate', $this->teamplate_admin);
     }
 
     // hiển thị chi tiết 1 comment/ liên hệ
@@ -250,13 +250,13 @@ class Comments extends Sadmin
         }
 
         //
-        $this->teamplate_admin['content'] = view('sadmin/' . $this->add_view_path . '/details', array(
+        $this->teamplate_admin['content'] = view('vadmin/' . $this->add_view_path . '/details', array(
             'data' => $data,
             'vue_data' => [
                 'controller_slug' => $this->controller_slug,
                 'comment_name' => $this->comment_name,
             ],
         ));
-        return view('sadmin/admin_teamplate', $this->teamplate_admin);
+        return view('vadmin/admin_teamplate', $this->teamplate_admin);
     }
 }

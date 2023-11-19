@@ -237,7 +237,7 @@ class Uploads extends Sadmin
         $this->teamplate_admin['body_class'] = $this->body_class;
 
         //
-        $this->teamplate_admin['content'] = view('sadmin/uploads/list', array(
+        $this->teamplate_admin['content'] = view('vadmin/uploads/list', array(
             'attachment_filter' => $attachment_filter,
             'alow_mime_type' => $alow_mime_type,
             'm_filter' => $m_filter,
@@ -253,7 +253,7 @@ class Uploads extends Sadmin
             'controller_slug' => $this->controller_slug,
             'name_type' => MediaType::typeList($this->post_type),
         ));
-        return view('sadmin/admin_teamplate', $this->teamplate_admin);
+        return view('vadmin/admin_teamplate', $this->teamplate_admin);
     }
 
     protected function upload($key = 'upload_image')
@@ -455,7 +455,7 @@ class Uploads extends Sadmin
         $this->teamplate_admin['body_class'] = $this->body_class;
 
         //
-        $this->teamplate_admin['content'] = view('sadmin/uploads/optimize', array(
+        $this->teamplate_admin['content'] = view('vadmin/uploads/optimize', array(
             'data' => $data,
             'pagination' => $pagination,
             'totalThread' => $totalThread,
@@ -464,7 +464,7 @@ class Uploads extends Sadmin
             'controller_slug' => $this->controller_slug,
             'name_type' => MediaType::typeList($this->post_type),
         ));
-        return view('sadmin/admin_teamplate', $this->teamplate_admin);
+        return view('vadmin/admin_teamplate', $this->teamplate_admin);
     }
 
     // tìm cha cho các ảnh không có parent

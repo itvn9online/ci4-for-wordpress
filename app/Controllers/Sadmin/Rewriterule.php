@@ -55,12 +55,12 @@ class Rewriterule extends Sadmin
 
         //
         $this->teamplate_admin['content'] = view(
-            'sadmin/configs/rewriterule_view',
+            'vadmin/configs/rewriterule_view',
             array(
                 'rules_content' => $rules_content,
                 'rules_path' => $this->rules_path,
             )
         );
-        return view('sadmin/admin_teamplate', $this->teamplate_admin);
+        return view('vadmin/admin_teamplate', $this->teamplate_admin);
     }
 }

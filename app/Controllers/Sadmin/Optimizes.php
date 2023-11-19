@@ -58,10 +58,10 @@ class Optimizes extends Optimize
         }
 
         //
-        $this->teamplate_admin['content'] = view('sadmin/optimize_view', [
+        $this->teamplate_admin['content'] = view('vadmin/optimize_view', [
             'total_time' => time() - $time_start,
             'data' => $data,
         ]);
-        return view('sadmin/admin_teamplate', $this->teamplate_admin);
+        return view('vadmin/admin_teamplate', $this->teamplate_admin);
     }
 }

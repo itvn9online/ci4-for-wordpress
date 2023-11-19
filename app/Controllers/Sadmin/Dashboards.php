@@ -48,7 +48,7 @@ class Dashboards extends Dashboard
 
         //
         $this->teamplate_admin['content'] = view(
-            'sadmin/update_code_view',
+            'vadmin/update_code_view',
             array(
                 // xác định các thư mục deleted code có tồn tại không
                 'app_deleted_exist' => $this->check_deleted_exist(),
@@ -60,6 +60,6 @@ class Dashboards extends Dashboard
                 'arr_download_thirdparty' => $arr_download_thirdparty,
             )
         );
-        return view('sadmin/admin_teamplate', $this->teamplate_admin);
+        return view('vadmin/admin_teamplate', $this->teamplate_admin);
     }
 }

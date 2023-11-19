@@ -377,7 +377,7 @@ class Posts extends Sadmin
 
         //
         $this->teamplate_admin['content'] = view(
-            'sadmin/' . $this->list_view_path . '/list',
+            'vadmin/' . $this->list_view_path . '/list',
             array(
                 'for_action' => $for_action,
                 'by_post_status' => $by_post_status,
@@ -399,7 +399,7 @@ class Posts extends Sadmin
             )
         );
         //return $this->teamplate_admin[ 'content' ];
-        return view('sadmin/admin_teamplate', $this->teamplate_admin);
+        return view('vadmin/admin_teamplate', $this->teamplate_admin);
     }
 
     public function add($ops = [])
@@ -746,7 +746,7 @@ class Posts extends Sadmin
 
         //
         $this->teamplate_admin['content'] = view(
-            'sadmin/' . $this->add_view_path . '/' . $file_view,
+            'vadmin/' . $this->add_view_path . '/' . $file_view,
             array(
                 'controller_slug' => $this->controller_slug,
                 'lang_key' => $this->lang_key,
@@ -778,7 +778,7 @@ class Posts extends Sadmin
                 'arr_taxonomy_controller' => TaxonomyType::controllerList(),
             )
         );
-        return view('sadmin/admin_teamplate', $this->teamplate_admin);
+        return view('vadmin/admin_teamplate', $this->teamplate_admin);
     }
 
     protected function add_new($data = NULL)

@@ -56,10 +56,10 @@ class Sadmin extends Ajaxs
                 'body_class' => $this->body_class,
                 // các biến mà view con cần sử dụng thì cho vào view trung gian này
                 'header' => view(
-                    'sadmin/header_view',
+                    'vadmin/header_view',
                     array(
-                        //'admin_root_views' => VIEWS_PATH . 'sadmin/',
-                        //'admin_default_views' => VIEWS_PATH . 'sadmin/default/',
+                        //'admin_root_views' => VIEWS_PATH . 'vadmin/',
+                        //'admin_default_views' => VIEWS_PATH . 'vadmin/default/',
                         'base_model' => $this->base_model,
                         //'menu_model' => $this->menu_model,
                         //'option_model' => $this->option_model,
@@ -347,8 +347,8 @@ class Sadmin extends Ajaxs
         }
 
         //
-        $this->teamplate_admin['content'] = view('sadmin/cleanup_view', array());
-        return view('sadmin/admin_teamplate', $this->teamplate_admin);
+        $this->teamplate_admin['content'] = view('vadmin/cleanup_view', array());
+        return view('vadmin/admin_teamplate', $this->teamplate_admin);
     }
 
     // reset sesion login -> giữ trạng thái đăng nhập nếu không dùng máy tính mà vẫn bật trình duyệt
