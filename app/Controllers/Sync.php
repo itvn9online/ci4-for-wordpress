@@ -82,28 +82,35 @@ class Sync extends BaseController
         $this->action_vendor_sync('vendor', $check_thirdparty_exist);
         // đồng bộ ThirdParty php (code php của bên thứ 3)
         $this->action_vendor_sync('app/ThirdParty', $check_thirdparty_exist);
-        // tạo file index cho các thư mục cần bảo mật
-        foreach (glob(PUBLIC_PUBLIC_PATH . '*') as $filename) {
-            if (is_dir($filename)) {
-                //echo $filename . '<br>' . PHP_EOL;
-                //echo basename($filename) . '<br>' . PHP_EOL;
-                $this->action_index_sync('public/' . basename($filename), $check_thirdparty_exist);
-            }
-        }
-        foreach (glob(PUBLIC_PUBLIC_PATH . 'wp-admin/*') as $filename) {
-            if (is_dir($filename)) {
-                //echo $filename . '<br>' . PHP_EOL;
-                //echo basename($filename) . '<br>' . PHP_EOL;
-                $this->action_index_sync('public/wp-admin/' . basename($filename), $check_thirdparty_exist);
-            }
-        }
 
         //
-        if (strpos($_SERVER['HTTP_HOST'], 'localhost') === false) {
-            $f = APPPATH . 'sync.txt';
-            if (is_file($f)) {
-                $this->MY_unlink($f);
+        if ($this->base_model->scache(__FUNCTION__ . 'htaccess') === NULL) {
+            // tạo file index cho các thư mục cần bảo mật
+            foreach (glob(PUBLIC_PUBLIC_PATH . '*') as $filename) {
+                if (is_dir($filename)) {
+                    //echo $filename . '<br>' . PHP_EOL;
+                    echo basename($filename) . '<br>' . PHP_EOL;
+                    $this->action_index_sync('public/' . basename($filename), $check_thirdparty_exist);
+                }
             }
+            foreach (glob(PUBLIC_PUBLIC_PATH . 'wp-admin/*') as $filename) {
+                if (is_dir($filename)) {
+                    //echo $filename . '<br>' . PHP_EOL;
+                    echo basename($filename) . '<br>' . PHP_EOL;
+                    $this->action_index_sync('public/wp-admin/' . basename($filename), $check_thirdparty_exist);
+                }
+            }
+
+            //
+            if (strpos($_SERVER['HTTP_HOST'], 'localhost') === false) {
+                $f = APPPATH . 'sync.txt';
+                if (is_file($f)) {
+                    $this->MY_unlink($f);
+                }
+            }
+
+            //
+            $this->base_model->scache(__FUNCTION__ . 'htaccess', time());
         }
     }
 
@@ -644,7 +651,7 @@ class Sync extends BaseController
 
         //
         //die( __CLASS__ . ':' . __LINE__ );
-        $this->base_model->scache(__FUNCTION__, time(), MEDIUM_CACHE_TIMEOUT);
+        $this->base_model->scache(__FUNCTION__, time());
     }
 
     /*

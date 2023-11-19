@@ -7,8 +7,8 @@
  **/
 
 //
-session_start();
-//print_r($_SESSION);
+// session_start();
+// print_r($_SESSION);
 
 //
 $user_login = '';
@@ -17,9 +17,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['log'])) {
         $user_login = trim($_POST['log']);
     }
-} else if (isset($_SESSION['_wgr_logged']) && !empty($_SESSION['_wgr_logged'])) {
-    // nếu người dùng đã đăng nhập rồi thì chuyển luôn về trang chủ
-    die(header('Location: https://' . $_SERVER['HTTP_HOST'] . '/'));
+    // } else if (isset($_SESSION['_wgr_logged']) && !empty($_SESSION['_wgr_logged'])) {
+    //     // nếu người dùng đã đăng nhập rồi thì chuyển luôn về trang chủ
+    //     die(header('Location: https://' . $_SERVER['HTTP_HOST'] . '/'));
 }
 
 //
