@@ -144,8 +144,8 @@ class PostBase extends EbModel
         if ($post_type == PostType::MENU) {
             $controller_slug = 'menus';
         }
-        //$url = base_url( 'admin/' . $controller_slug . '/add' ) . '?post_type=' . $post_type;
-        $url = base_url('admin/' . $controller_slug . '/add');
+        //$url = base_url( 'sadmin/' . $controller_slug . '/add' ) . '?post_type=' . $post_type;
+        $url = base_url('sadmin/' . $controller_slug . '/add');
         if ($id > 0) {
             //$url .= '&id=' . $id;
             $url .= '?id=' . $id;

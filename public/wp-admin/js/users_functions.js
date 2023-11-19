@@ -13,7 +13,7 @@ function action_change_user_status() {
 		//
 		$.ajax({
 			type: "POST",
-			url: "admin/" + controller_slug + "/quick_status",
+			url: "sadmin/" + controller_slug + "/quick_status",
 			data: data,
 			success: function (data) {
 				console.log(data);

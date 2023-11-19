@@ -330,7 +330,7 @@ $(document).ready(function () {
 					//
 					jQuery.ajax({
 						type: "POST",
-						url: "admin/asjaxs/update_term_order",
+						url: "sadmin/asjaxs/update_term_order",
 						dataType: "json",
 						data: {
 							id: a * 1,

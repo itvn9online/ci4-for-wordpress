@@ -24,9 +24,9 @@ define('VIEWS_PATH', APPPATH . 'Views/');
 // view riêng của từng theme nếu có thì view này sẽ được ưu tiên sử dụng
 define('VIEWS_CUSTOM_PATH', ROOTPATH . 'custom/Views/');
 // views của admin
-define('ADMIN_ROOT_VIEWS', VIEWS_PATH . 'admin/');
-define('ADMIN_CUSTOM_VIEWS', VIEWS_CUSTOM_PATH . 'admin/');
-//define('ADMIN_DEFAULT_VIEWS', VIEWS_PATH . 'admin/default/');
+define('ADMIN_ROOT_VIEWS', VIEWS_PATH . 'sadmin/');
+define('ADMIN_CUSTOM_VIEWS', VIEWS_CUSTOM_PATH . 'sadmin/');
+//define('ADMIN_DEFAULT_VIEWS', VIEWS_PATH . 'sadmin/default/');
 //die( VIEWS_CUSTOM_PATH );
 
 
@@ -147,7 +147,7 @@ define('THEMEPATH', PUBLIC_PUBLIC_PATH . 'wp-content/themes/' . THEMENAME . '/')
 
 
 ####################################################################
-// file Constants động -> file này nhận dữ liệu trong config từ admin theo URL sau: admin/constants
+// file Constants động -> file này nhận dữ liệu trong config từ admin theo URL sau: sadmin/constants
 define('DYNAMIC_CONSTANTS_PATH', APPPATH . 'Config/DynamicConstants.php');
 
 /**
@@ -184,7 +184,7 @@ defined('SITE_LANGUAGE_DEFAULT') || define('SITE_LANGUAGE_DEFAULT', SITE_LANGUAG
 // kiểu hiển thị đa ngôn ngữ (true:có hỗ trợ|false: không hỗ trợ), nếu là sub-folder thì sẽ hỗ trợ prefix cho routes, url cũng sẽ thêm prefix vào trước (nếu tắt đi thì kiểu đa ngôn ngữ sẽ là sub-domain)
 defined('SITE_LANGUAGE_SUB_FOLDER') || define('SITE_LANGUAGE_SUB_FOLDER', true);
 
-// khi cần thay label cho trang /admin/translates để dễ hiểu hơn thì thêm các thông số vào đây
+// khi cần thay label cho trang /sadmin/translates để dễ hiểu hơn thì thêm các thông số vào đây
 defined('TRANS_TRANS_LABEL') || define(
     'TRANS_TRANS_LABEL',
     [
@@ -193,7 +193,7 @@ defined('TRANS_TRANS_LABEL') || define(
     ]
 );
 
-// khi cần thay label cho trang /admin/nummons để dễ hiểu hơn thì thêm các thông số vào đây
+// khi cần thay label cho trang /sadmin/nummons để dễ hiểu hơn thì thêm các thông số vào đây
 defined('TRANS_NUMS_LABEL') || define(
     'TRANS_NUMS_LABEL',
     [
@@ -206,7 +206,7 @@ defined('ANTI_SPAM_EXPIRED') || define('ANTI_SPAM_EXPIRED', 3600);
 
 // Số lượng bản ghi dạng số nguyên -> website nào cần dùng nhiều tăng số lượng trong file functions lên
 defined('NUMBER_CHECKBOXS_INPUT') || define('NUMBER_CHECKBOXS_INPUT', 3);
-// khi cần thay label cho trang /admin/checkboxs để dễ hiểu hơn thì thêm các thông số vào đây
+// khi cần thay label cho trang /sadmin/checkboxs để dễ hiểu hơn thì thêm các thông số vào đây
 defined('TRANS_CHECKBOXS_LABEL') || define(
     'TRANS_CHECKBOXS_LABEL',
     [

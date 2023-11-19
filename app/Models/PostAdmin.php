@@ -94,6 +94,7 @@ class PostAdmin extends Post
             if (isset($arr_custom_name[$allow])) {
                 //$arr_result[] = '<option class="bold" disabled>' . $arr_custom_name[ $allow ] . '</option>';
                 $arr_result[$allow][] = [
+                    'type' => 'terms',
                     'class' => 'medium',
                     'selectable' => true,
                     'text' => $arr_custom_name[$allow],
@@ -101,6 +102,7 @@ class PostAdmin extends Post
             } else {
                 //$arr_result[] = '<option class="bold" disabled>' . TaxonomyType::typeList( $allow ) . '</option>';
                 $arr_result[$allow][] = [
+                    'type' => 'terms',
                     'class' => 'medium',
                     'selectable' => true,
                     'text' => TaxonomyType::typeList($allow),
@@ -205,6 +207,7 @@ class PostAdmin extends Post
             if (isset($arr_custom_name[$allow])) {
                 //$arr_result[] = '<option class="bold" disabled>' . $arr_custom_name[ $allow ] . '</option>';
                 $arr_result[$allow][] = [
+                    'type' => 'posts',
                     'class' => 'medium',
                     'selectable' => true,
                     'text' => $arr_custom_name[$allow],
@@ -212,6 +215,7 @@ class PostAdmin extends Post
             } else {
                 //$arr_result[] = '<option class="bold" disabled>' . PostType::typeList( $allow ) . '</option>';
                 $arr_result[$allow][] = [
+                    'type' => 'posts',
                     'class' => 'medium',
                     'selectable' => true,
                     'text' => PostType::typeList($allow),
@@ -247,6 +251,7 @@ class PostAdmin extends Post
 
         //
         $arr_result['system_menu'][] = [
+            'type' => 'systems',
             'class' => 'medium',
             'selectable' => true,
             'text' => 'Menu hệ thống',

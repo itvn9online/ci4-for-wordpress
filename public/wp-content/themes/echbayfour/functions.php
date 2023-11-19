@@ -25,14 +25,14 @@ define(
 
 
 /*
-// khi cần thay label cho trang /admin/translates để dễ hiểu hơn thì thêm các thông số vào đây
+// khi cần thay label cho trang /sadmin/translates để dễ hiểu hơn thì thêm các thông số vào đây
 define( 'TRANS_TRANS_LABEL', [
     'custom_text0' => 'Bản dịch số 0',
     //'custom_textarea0' => 'Bản dịch số 0',
 ] );
 */
 
-// khi cần thay label cho trang /admin/nummons để dễ hiểu hơn thì thêm các thông số vào đây
+// khi cần thay label cho trang /sadmin/nummons để dễ hiểu hơn thì thêm các thông số vào đây
 /*
 define(
     'TRANS_NUMS_LABEL',
@@ -42,7 +42,7 @@ define(
 );
 */
 
-// khi cần thay label cho trang /admin/checkboxs để dễ hiểu hơn thì thêm các thông số vào đây
+// khi cần thay label cho trang /sadmin/checkboxs để dễ hiểu hơn thì thêm các thông số vào đây
 /*
 define(
     'TRANS_CHECKBOXS_LABEL',
@@ -60,7 +60,7 @@ define(
 function register_admin_menu()
 {
     return [
-        'admin/controller' => [
+        'sadmin/controller' => [
             // nếu có phân quyền thì nhập phân quyền vào đây, không thì xóa nó đi -> quyền admin
             'role' => [
                 UsersType::ADMIN
@@ -68,7 +68,7 @@ function register_admin_menu()
             'name' => 'Custom admin menu',
             'icon' => 'fa fa-bug',
             'arr' => [
-                'admin/sub_controller' => [
+                'sadmin/sub_controller' => [
                     'name' => 'Sub menu',
                     'icon' => 'fa fa-plus',
                     //'target' => '_blank',

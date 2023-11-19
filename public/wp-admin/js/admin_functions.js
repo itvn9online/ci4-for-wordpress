@@ -29,7 +29,7 @@ function WgrWp_popup_upload(insert_to, add_img_tag, img_size, input_type) {
 
 		//
 		$("body").append(
-			'<div class="hide-if-esc wgr-wp-upload"><iframe id="oi_wgr_wp_upload_iframe" name="oi_wgr_wp_upload_iframe" src="admin/uploads?quick_upload=1&insert_to=' +
+			'<div class="hide-if-esc wgr-wp-upload"><iframe id="oi_wgr_wp_upload_iframe" name="oi_wgr_wp_upload_iframe" src="sadmin/uploads?quick_upload=1&insert_to=' +
 				insert_to +
 				"&add_img_tag=" +
 				add_img_tag +
@@ -861,7 +861,7 @@ function load_term_select_option(a, jd, _callBack, max_i) {
 	//
 	jQuery.ajax({
 		type: "POST",
-		url: "admin/asjaxs/get_taxonomy_by_taxonomy",
+		url: "sadmin/asjaxs/get_taxonomy_by_taxonomy",
 		dataType: "json",
 		//crossDomain: true,
 		data: {
@@ -1078,7 +1078,7 @@ function action_delete_restore_checked(
 	//
 	jQuery.ajax({
 		type: "POST",
-		url: "admin/" + controller_slug + "/" + method_control,
+		url: "sadmin/" + controller_slug + "/" + method_control,
 		dataType: "json",
 		data: {
 			ids: arr_check_checked_all.join(","),
@@ -1158,7 +1158,7 @@ function action_each_to_email() {
 	// chạy ajax nạp dữ liệu của taxonomy
 	jQuery.ajax({
 		type: "POST",
-		url: "admin/asjaxs/get_users_by_ids",
+		url: "sadmin/asjaxs/get_users_by_ids",
 		dataType: "json",
 		//crossDomain: true,
 		data: {

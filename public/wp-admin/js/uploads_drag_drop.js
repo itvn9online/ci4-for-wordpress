@@ -115,7 +115,7 @@ function after_drop_upload_media(mediaData) {
 			action_upload = "uploads/image_push";
 			// nếu trong admin thì dùng URL này
 			if (typeof is_admin == "number" && is_admin > 0) {
-				action_upload = "admin/uploads/drop_upload";
+				action_upload = "sadmin/uploads/drop_upload";
 			}
 		}
 	}

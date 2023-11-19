@@ -358,7 +358,7 @@ class Users extends Csrf
 
             //
             //$this->MY_redirect(base_url('users/profile'), 301);
-            $this->MY_redirect(base_url('admin/users/add') . '?id=' . $this->current_user_id, 301);
+            $this->MY_redirect(base_url('sadmin/users/add') . '?id=' . $this->current_user_id, 301);
         }
         // còn không thì logout thôi
         else {

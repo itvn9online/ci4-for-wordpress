@@ -1105,8 +1105,8 @@ class Term extends TermBase
     // chỉ trả về link admin của 1 term
     function get_admin_permalink($taxonomy = '', $id = 0, $controller_slug = 'terms')
     {
-        //$url = base_url( 'admin/' . $controller_slug . '/add' ) . '?taxonomy=' . $taxonomy;
-        $url = base_url('admin/' . $controller_slug . '/add');
+        //$url = base_url( 'sadmin/' . $controller_slug . '/add' ) . '?taxonomy=' . $taxonomy;
+        $url = base_url('sadmin/' . $controller_slug . '/add');
         if ($id > 0) {
             //$url .= '&id=' . $id;
             $url .= '?id=' . $id;
@@ -1309,11 +1309,11 @@ class Term extends TermBase
 
             //
             if ($v['is_deleted'] == DeletedStatus::DELETED) {
-                $action_link = '<a href="admin/' . $controller_slug . '/restore?id=%term_id%' . $for_redirect . '" onClick="return click_a_restore_record();" target="target_eb_iframe" class="bluecolor"><i class="fa fa-undo"></i></a>';
+                $action_link = '<a href="sadmin/' . $controller_slug . '/restore?id=%term_id%' . $for_redirect . '" onClick="return click_a_restore_record();" target="target_eb_iframe" class="bluecolor"><i class="fa fa-undo"></i></a>';
             } else {
-                $action_link = '<a href="admin/' . $controller_slug . '/term_status?id=%term_id%' . $for_redirect . '" target="target_eb_iframe" data-id="%term_id%" data-status="%term_status%" class="record-status-color"><i class="fa fa-eye"></i></a> &nbsp; ';
+                $action_link = '<a href="sadmin/' . $controller_slug . '/term_status?id=%term_id%' . $for_redirect . '" target="target_eb_iframe" data-id="%term_id%" data-status="%term_status%" class="record-status-color"><i class="fa fa-eye"></i></a> &nbsp; ';
 
-                $action_link .= '<a href="admin/' . $controller_slug . '/delete?id=%term_id%' . $for_redirect . '" onClick="return click_a_delete_record();" target="target_eb_iframe" class="redcolor"><i class="fa fa-trash"></i></a>';
+                $action_link .= '<a href="sadmin/' . $controller_slug . '/delete?id=%term_id%' . $for_redirect . '" onClick="return click_a_delete_record();" target="target_eb_iframe" class="redcolor"><i class="fa fa-trash"></i></a>';
             }
             $node = str_replace('%action_link%', $action_link, $node);
 

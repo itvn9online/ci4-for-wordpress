@@ -264,7 +264,7 @@ fix_textarea_height();
 setInterval(function () {
 	if ($("body.preview-url").length == 0) {
 		document.getElementById("target_eb_iframe").src =
-			web_link + "admin/admin/admin_logged";
+			web_link + "sadmin/sadmin/admin_logged";
 	}
 }, 10 * 60 * 1000);
 

@@ -13,7 +13,7 @@ class AdminMenu
                 'icon' => 'fa fa-home',
                 'arr' => []
             ],
-            'admin/posts' => [
+            'sadmin/posts' => [
                 // quyền truy cập của loại tài khoản
                 'role' => [
                     UsersType::AUTHOR,
@@ -22,27 +22,27 @@ class AdminMenu
                 'name' => PostType::typeList(PostType::POST),
                 'icon' => 'fa fa-product-hunt',
                 'arr' => [
-                    'admin/posts/add' => [
+                    'sadmin/posts/add' => [
                         'name' => PostType::typeList(PostType::POST),
                         'icon' => 'fa fa-plus',
                     ],
-                    'admin/terms' => [
+                    'sadmin/terms' => [
                         'name' => TaxonomyType::typeList(TaxonomyType::POSTS, true),
                         'icon' => 'fa fa-cubes',
                     ],
                     /*
-                    'admin/postoptions' => [
+                    'sadmin/postoptions' => [
                         'name' => TaxonomyType::typeList(TaxonomyType::OPTIONS, true),
                         'icon' => 'fa fa-filter',
                     ],
                     */
-                    'admin/tags' => [
+                    'sadmin/tags' => [
                         'name' => TaxonomyType::typeList(TaxonomyType::TAGS, true),
                         'icon' => 'fa fa-tag',
                     ],
                 ]
             ],
-            'admin/orders' => [
+            'sadmin/orders' => [
                 'role' => [
                     UsersType::AUTHOR,
                     UsersType::MOD,
@@ -51,7 +51,7 @@ class AdminMenu
                 'icon' => 'fa fa-shopping-bag',
                 'arr' => []
             ],
-            'admin/adss' => [
+            'sadmin/adss' => [
                 'role' => [
                     UsersType::AUTHOR,
                     UsersType::MOD,
@@ -59,18 +59,18 @@ class AdminMenu
                 'name' => PostType::typeList(PostType::ADS),
                 'icon' => 'fa fa-picture-o',
                 'arr' => [
-                    'admin/adss/add' => [
+                    'sadmin/adss/add' => [
                         'name' => PostType::typeList(PostType::ADS),
                         'icon' => 'fa fa-plus',
                     ],
-                    'admin/adsoptions' => [
+                    'sadmin/adsoptions' => [
                         'name' => TaxonomyType::typeList(TaxonomyType::ADS, true),
                         'icon' => 'fa fa-cubes',
                     ],
                 ]
             ],
             /*
-            'admin/blogs' => [
+            'sadmin/blogs' => [
                 'role' => [
                     UsersType::AUTHOR,
                     UsersType::MOD,
@@ -78,22 +78,22 @@ class AdminMenu
                 'name' => PostType::typeList(PostType::BLOG),
                 'icon' => 'fa fa-newspaper-o',
                 'arr' => [
-                    'admin/blogs/add' => [
+                    'sadmin/blogs/add' => [
                         'name' => PostType::typeList(PostType::BLOG),
                         'icon' => 'fa fa-plus',
                     ],
-                    'admin/blogcategory' => [
+                    'sadmin/blogcategory' => [
                         'name' => TaxonomyType::typeList(TaxonomyType::BLOGS, true),
                         'icon' => 'fa fa-cubes',
                     ],
-                    'admin/blogtags' => [
+                    'sadmin/blogtags' => [
                         'name' => TaxonomyType::typeList(TaxonomyType::BLOG_TAGS, true),
                         'icon' => 'fa fa-tag',
                     ],
                 ]
             ],
             */
-            'admin/pages' => [
+            'sadmin/pages' => [
                 'role' => [
                     UsersType::AUTHOR,
                     UsersType::MOD,
@@ -101,14 +101,14 @@ class AdminMenu
                 'name' => PostType::typeList(PostType::PAGE),
                 'icon' => 'fa fa-file',
                 'arr' => [
-                    'admin/pages/add' => [
+                    'sadmin/pages/add' => [
                         'name' => PostType::typeList(PostType::PAGE),
                         'icon' => 'fa fa-plus',
                     ],
                 ]
             ],
             // product -> sử dụng chức năng của woocomerce
-            'admin/products' => [
+            'sadmin/products' => [
                 'role' => [
                     UsersType::AUTHOR,
                     UsersType::MOD,
@@ -116,25 +116,25 @@ class AdminMenu
                 'name' => PostType::typeList(PostType::PROD),
                 'icon' => 'fa fa-newspaper-o',
                 'arr' => [
-                    'admin/products/add' => [
+                    'sadmin/products/add' => [
                         'name' => PostType::typeList(PostType::PROD),
                         'icon' => 'fa fa-plus',
                     ],
-                    'admin/productcategory' => [
+                    'sadmin/productcategory' => [
                         'name' => TaxonomyType::typeList(TaxonomyType::PROD_CATS, true),
                         'icon' => 'fa fa-cubes',
                     ],
-                    'admin/productoptions' => [
+                    'sadmin/productoptions' => [
                         'name' => TaxonomyType::typeList(TaxonomyType::PROD_OTPS, true),
                         'icon' => 'fa fa-filter',
                     ],
-                    'admin/producttags' => [
+                    'sadmin/producttags' => [
                         'name' => TaxonomyType::typeList(TaxonomyType::PROD_TAGS, true),
                         'icon' => 'fa fa-tag',
                     ],
                 ]
             ],
-            'admin/uploads' => [
+            'sadmin/uploads' => [
                 'role' => [
                     UsersType::AUTHOR,
                     UsersType::MOD,
@@ -143,13 +143,13 @@ class AdminMenu
                 'tag' => 'Images',
                 'icon' => 'fa fa-camera',
                 'arr' => [
-                    'admin/uploads/optimize' => [
+                    'sadmin/uploads/optimize' => [
                         'name' => 'Optimize image',
                         'icon' => 'fa fa-file-archive-o',
                     ],
                 ]
             ],
-            'admin/comments' => [
+            'sadmin/comments' => [
                 'role' => [
                     UsersType::AUTHOR,
                     UsersType::MOD,
@@ -157,7 +157,7 @@ class AdminMenu
                 'name' => CommentType::typeList(CommentType::COMMENT),
                 'icon' => 'fa fa-comment-o',
                 'arr' => [
-                    'admin/contacts' => [
+                    'sadmin/contacts' => [
                         'role' => [
                             UsersType::AUTHOR,
                             UsersType::MOD,
@@ -168,20 +168,20 @@ class AdminMenu
                     ],
                 ]
             ],
-            'admin/menus' => [
+            'sadmin/menus' => [
                 'role' => [
                     UsersType::MOD,
                 ],
                 'name' => PostType::typeList(PostType::MENU),
                 'icon' => 'fa fa-bars',
                 'arr' => [
-                    'admin/htmlmenus' => [
+                    'sadmin/htmlmenus' => [
                         'name' => PostType::typeList(PostType::HTML_MENU),
                         'icon' => 'fa fa-code',
                     ],
                 ]
             ],
-            'admin/users' => [
+            'sadmin/users' => [
                 'role' => [
                     UsersType::MOD,
                 ],
@@ -189,27 +189,27 @@ class AdminMenu
                 'tag' => 'Members',
                 'icon' => 'fa fa-users',
                 'arr' => [
-                    'admin/guests' => [
+                    'sadmin/guests' => [
                         'name' => UsersType::typeList(UsersType::GUEST),
                         'icon' => 'fa fa-question-circle-o',
                     ],
-                    'admin/subs' => [
+                    'sadmin/subs' => [
                         'name' => UsersType::typeList(UsersType::SUB),
                         'icon' => 'fa fa-eye',
                     ],
-                    'admin/members' => [
+                    'sadmin/members' => [
                         'name' => UsersType::typeList(UsersType::MEMBER),
                         'icon' => 'fa fa-user',
                     ],
-                    'admin/authors' => [
+                    'sadmin/authors' => [
                         'name' => UsersType::typeList(UsersType::AUTHOR),
                         'icon' => 'fa fa-magic',
                     ],
-                    'admin/mods' => [
+                    'sadmin/mods' => [
                         'name' => UsersType::typeList(UsersType::MOD),
                         'icon' => 'fa fa-modx',
                     ],
-                    'admin/admins' => [
+                    'sadmin/admins' => [
                         'role' => [
                             UsersType::ADMIN,
                         ],
@@ -218,110 +218,110 @@ class AdminMenu
                     ],
                 ]
             ],
-            'admin/configs' => [
+            'sadmin/configs' => [
                 'name' => 'Cài đặt chung',
                 'tag' => 'Setting',
                 'icon' => 'fa fa-cogs',
                 'arr' => [
-                    'admin/displays' => [
+                    'sadmin/displays' => [
                         'name' => ConfigType::typeList(ConfigType::DISPLAY),
                         'icon' => 'fa fa-desktop',
                     ],
-                    'admin/socials' => [
+                    'sadmin/socials' => [
                         'name' => ConfigType::typeList(ConfigType::SOCIAL),
                         'icon' => 'fa fa-facebook',
                     ],
-                    'admin/configcats' => [
+                    'sadmin/configcats' => [
                         'name' => ConfigType::typeList(ConfigType::CATEGORY),
                         'icon' => 'fa fa-cog',
                     ],
-                    'admin/configposts' => [
+                    'sadmin/configposts' => [
                         'name' => ConfigType::typeList(ConfigType::POST),
                         'icon' => 'fa fa-product-hunt',
                     ],
                     /*
-                    'admin/configblogss' => [
+                    'sadmin/configblogss' => [
                         'name' => ConfigType::typeList(ConfigType::BLOGS),
                         'icon' => 'fa fa-cog',
                     ],
-                    'admin/configblogs' => [
+                    'sadmin/configblogs' => [
                         'name' => ConfigType::typeList(ConfigType::BLOG),
                         'icon' => 'fa fa-newspaper-o',
                     ],
                     */
-                    'admin/configprodcats' => [
+                    'sadmin/configprodcats' => [
                         'name' => ConfigType::typeList(ConfigType::PROD_CATS),
                         'icon' => 'fa fa-cog',
                     ],
-                    'admin/configprods' => [
+                    'sadmin/configprods' => [
                         'name' => ConfigType::typeList(ConfigType::PROD),
                         'icon' => 'fa fa-newspaper-o',
                     ],
-                    'admin/smtps' => [
+                    'sadmin/smtps' => [
                         'name' => ConfigType::typeList(ConfigType::SMTP),
                         'tag' => 'PHPMailer',
                         'icon' => 'fa fa-envelope',
                     ],
-                    'admin/checkouts' => [
+                    'sadmin/checkouts' => [
                         'name' => ConfigType::typeList(ConfigType::CHECKOUT),
                         'icon' => 'fa fa-dollar',
                     ],
-                    'admin/nummons' => [
+                    'sadmin/nummons' => [
                         'name' => ConfigType::typeList(ConfigType::NUM_MON),
                         'icon' => 'fa fa-sort-numeric-asc',
                     ],
-                    'admin/checkboxs' => [
+                    'sadmin/checkboxs' => [
                         'name' => ConfigType::typeList(ConfigType::CHECKBOX),
                         'icon' => 'fa fa-check-square-o',
                     ],
-                    'admin/translates' => [
+                    'sadmin/translates' => [
                         'name' => ConfigType::typeList(ConfigType::TRANS),
                         'tag' => 'Language',
                         'icon' => 'fa fa-globe',
                     ],
-                    'admin/rewriterule' => [
+                    'sadmin/rewriterule' => [
                         'name' => 'Rewrite Rule',
                         'tag' => 'rewrites redirects 404',
                         'icon' => 'fa fa-share-square-o',
                     ],
-                    'admin/firebases' => [
+                    'sadmin/firebases' => [
                         'name' => 'Recaptcha/ Firebase',
                         'icon' => 'fa fa-code-fork',
                     ],
-                    'admin/zalooas' => [
+                    'sadmin/zalooas' => [
                         'name' => ConfigType::typeList(ConfigType::ZALO),
                         'icon' => 'fa fa-comment-o',
                     ],
                 ]
             ],
-            'admin/dev' => [
+            'sadmin/dev' => [
                 'role' => [
                     UsersType::ADMIN,
                 ],
                 'name' => 'Kỹ thuật',
                 'icon' => 'fa fa-bug',
                 'arr' => [
-                    'admin/dashboard/cleanup_cache' => [
+                    'sadmin/dashboard/cleanup_cache' => [
                         'name' => 'Dọn dẹp website',
                         'icon' => 'fa fa-magic',
                     ],
-                    'admin/optimizes' => [
+                    'sadmin/optimizes' => [
                         'name' => 'Optimize code',
                         'icon' => 'fa fa-code',
                     ],
-                    'admin/dashboards/update_code' => [
+                    'sadmin/dashboards/update_code' => [
                         'name' => 'Update code',
                         'icon' => 'fa fa-upload',
                     ],
-                    'admin/constants' => [
+                    'sadmin/constants' => [
                         'name' => ConfigType::typeList(ConfigType::CONSTANTS),
                         'icon' => 'fa fa-paragraph',
                     ],
-                    'admin/logs' => [
+                    'sadmin/logs' => [
                         'name' => 'Logs',
                         'icon' => 'fa fa-history',
                     ],
-                    'admin/dev/php_info' => [
+                    'sadmin/dev/php_info' => [
                         'name' => 'PHP info',
                         'icon' => 'fa fa-info-circle',
                     ],

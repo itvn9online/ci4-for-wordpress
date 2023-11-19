@@ -60,7 +60,7 @@ function show_edit_btn() {
 					controller = arr_edit_custom_type[type];
 				}
 			}
-			var url = "admin/" + controller + "/add?id=" + jd;
+			var url = "sadmin/" + controller + "/add?id=" + jd;
 			if (type != "") {
 				url += "&post_type=" + type;
 			}
@@ -123,7 +123,7 @@ function show_edit_btn() {
 					controller = arr_edit_custom_taxonomy[type];
 				}
 			}
-			var url = "admin/" + controller + "/add?id=" + jd;
+			var url = "sadmin/" + controller + "/add?id=" + jd;
 			if (type != "") {
 				url += "&taxonomy=" + type;
 			}
@@ -153,7 +153,7 @@ function show_edit_btn() {
 
 	//
 	$(".web-logo").before(
-		'<a href="admin/configs?support_tab=data_logo" target="_blank" rel="nofollow" class="click-goto-edit goto-option-edit"><span><i class="fa fa-edit"></i></span></a>'
+		'<a href="sadmin/configs?support_tab=data_logo" target="_blank" rel="nofollow" class="click-goto-edit goto-option-edit"><span><i class="fa fa-edit"></i></span></a>'
 	);
 
 	// nếu đang mở trong iframe

@@ -74,7 +74,7 @@ $(document).ready(function () {
 					//
 					jQuery.ajax({
 						type: "POST",
-						url: "admin/asjaxs/update_menu_order",
+						url: "sadmin/asjaxs/update_menu_order",
 						dataType: "json",
 						data: {
 							id: a * 1,
