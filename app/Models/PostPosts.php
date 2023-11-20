@@ -84,11 +84,11 @@ class PostPosts extends PostSlider
         }
 
         //
-        $data['dynamic_post_tag'] = 'h3';
-        $data['show_post_content'] = '';
-        $data['blog_link_option'] = '';
-        $data['taxonomy_key'] = '';
-        $data['url_video'] = '';
+        // $data['dynamic_post_tag'] = 'h3';
+        // $data['show_post_content'] = '';
+        // $data['blog_link_option'] = '';
+        // $data['taxonomy_key'] = '';
+        // $data['url_video'] = '';
         if (isset($ops['taxonomy_post_size']) && $ops['taxonomy_post_size'] != '') {
             $data['cf_posts_size'] = $ops['taxonomy_post_size'];
         } else {

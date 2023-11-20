@@ -761,10 +761,16 @@ class PostQuery extends PostMeta
         ) {
             $custom_style[] = 'hide-blogs-title';
             $the_title = '';
+            $the_span_title = '';
+            $the_avt_link = '';
         } else {
+            // html cho link
             $the_title = file_get_contents(VIEWS_PATH . 'html/the_title.html');
+            // html khi ko có link
+            $the_span_title = file_get_contents(VIEWS_PATH . 'html/the_span_title.html');
+            // html cho link ảnh đại diện
+            $the_avt_link = file_get_contents(VIEWS_PATH . 'html/the_avt_link.html');
         }
-        // $instance['the_title'] = $the_title;
 
         //
         if ($instance['hide_description'] == 'on') {
@@ -824,7 +830,6 @@ class PostQuery extends PostMeta
             echo '<!-- ' . $html_node . ' --> ' . PHP_EOL;
             $tmp_html = $this->base_model->parent_html_tmp($html_node);
         }
-        // $tmp_html = str_replace('{{the_title}}', $the_title, $tmp_html);
         //echo $tmp_html . '<br>' . PHP_EOL;
 
         // tạo css chỉnh cột
@@ -850,7 +855,7 @@ class PostQuery extends PostMeta
         //print_r( $data );
         $html = '';
         foreach ($data as $v) {
-            //print_r( $v );
+            // print_r($v);
             //continue;
             //die( __CLASS__ . ':' . __LINE__ );
 
@@ -858,7 +863,8 @@ class PostQuery extends PostMeta
             $url_video = '';
             $a_class = '';
             $p_link = 'javascript:;';
-            $dynamic_a_tag = 'span';
+            $dynamic_a_tag = $the_title;
+            $dynamic_avt_link = $the_avt_link;
 
             //
             if (isset($v['post_meta']['url_video']) && $v['post_meta']['url_video'] != '') {
@@ -869,9 +875,10 @@ class PostQuery extends PostMeta
                 //print_r( $v );
                 $p_link = $v['post_meta']['url_redirect'];
                 //echo $p_link . '<br>' . PHP_EOL;
-                $dynamic_a_tag = 'a';
             } else {
                 $a_class = 'is-empty-url';
+                $dynamic_a_tag = $the_span_title;
+                $dynamic_avt_link = '';
             }
             $a_link = $p_link;
 
@@ -889,7 +896,8 @@ class PostQuery extends PostMeta
             $str_node = $this->base_model->tmp_to_html(
                 $tmp_html,
                 [
-                    'the_title' => $the_title,
+                    'dynamic_a_tag' => $dynamic_a_tag,
+                    'dynamic_avt_link' => $dynamic_avt_link,
                     'p_link' => $p_link,
                     'a_class' => $a_class,
                     'a_link' => $a_link,
@@ -904,7 +912,6 @@ class PostQuery extends PostMeta
                 [
                     'taxonomy_key' => $ops['taxonomy'],
                     'p_link' => $p_link,
-                    'dynamic_a_tag' => $dynamic_a_tag,
                     'url_video' => $url_video,
                 ]
             );

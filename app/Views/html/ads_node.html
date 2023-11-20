@@ -1,17 +1,14 @@
 <div data-type="{{post_type}}" data-id="{{ID}}" class="col">
     <div class="eb-blog-padding eb-news-padding">
         <div class="eb-blog-left eb-news-left global-a-posi">
-            <{{dynamic_a_tag}} title="{{post_title}}" aria-label="{{post_title}}" data-id="{{ID}}" href="{{a_link}}"
-                class="{{a_class}}" data-href="{{image}}" data-video="{{url_video}}" {{blog_link_option}}>
-                &nbsp;
-            </{{dynamic_a_tag}}>
+            {{dynamic_avt_link}}
             <div data-img="{{image}}" data-large-img="{{image_medium_large}}" data-webp="{{image_webp}}"
                 data-size="{{cf_posts_size}}" class="ti-le-global eb-blog-avt each-to-bgimg">
                 &nbsp;</div>
         </div>
         <div class="eb-blog-right eb-news-right">
             <div class="eb-blog-marginleft eb-news-marginleft l19">
-                {{the_title}}
+                {{dynamic_a_tag}}
                 <div class="eb-blog-short_title">{{show_short_title}}</div>
                 <div class="eb-blog-gioithieu">{{post_excerpt}}</div>
                 <div class="eb-blog-content">{{show_post_content}}</div>
