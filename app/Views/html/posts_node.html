@@ -7,9 +7,9 @@
     </div>
     <div class="lf eb-blog-right eb-news-right">
         <div class="eb-blog-marginleft eb-news-marginleft l19">
-            <h3 class="eb-blog-title" itemprop="headline">
+            <{{dynamic_title_tag}} itemprop="headline" class="eb-blog-title">
                 <a title="{{post_title}}" aria-label="{{post_title}}" href="{{post_permalink}}">{{post_title}}</a>
-            </h3>
+            </{{dynamic_title_tag}}>
             <div class="eb-blog-infos"><span data-date="{{post_modified}}" class="eb-blog-ngay"></span> <span
                     data-id="{{post_category}}" class="eb-blog-cat each-to-taxonomy"></span></div>
             <div class="eb-blog-gioithieu" itemprop="description">{{post_excerpt}}</div>
