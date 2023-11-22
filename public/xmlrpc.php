@@ -28,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
         //
         die($xml_content);
     } else {
+        http_response_code(400);
         header('Content-type: application/json; charset=utf-8');
 
         // kêu nó sử dụng post
@@ -37,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
         ]));
     }
 } else {
+    http_response_code(400);
     header('Content-type: application/json; charset=utf-8');
 
     // nó chuyển qua post rồi thì kệ nó thôi =))

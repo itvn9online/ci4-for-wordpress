@@ -5,6 +5,7 @@
  **/
 
 //
+http_response_code(400);
 header('Content-type: application/json; charset=utf-8');
 
 // Nếu không phải method post

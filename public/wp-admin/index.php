@@ -14,5 +14,7 @@
 //     // nếu người dùng đã đăng nhập rồi thì chuyển luôn về trang chủ
 //     die(header('Location: https://' . $_SERVER['HTTP_HOST'] . '/'));
 // }
+http_response_code(301);
 
+//
 die(header('Location: https://' . $_SERVER['HTTP_HOST'] . '/wp-login.php?redirect_to=' . urlencode('https://' . $_SERVER['HTTP_HOST'] . '/wp-admin/') . '&reauth=1'));

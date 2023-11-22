@@ -23,10 +23,11 @@ class Sitemap extends Layout
             if (function_exists('http_response_code')) {
                 http_response_code(404);
             }
-            $pcol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
+            // $pcol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
             //$response = \Config\Services::response();
             //$response->setStatusCode(404, $pcol . ' 404 Not Found');
-            header($pcol . ' 404 Not Found');
+            // header($pcol . ' 404 Not Found');
+            http_response_code(404);
 
             //
             die('ERROR ' . __LINE__ . '! Sitemap not available because site not public...');

@@ -144,6 +144,7 @@ class PostPosts extends PostSlider
     // trả về khối HTML của từng sản phẩm trong danh mục
     public function get_the_product_node($data, $ops = [], $default_arr = [])
     {
+        $default_arr['_regular_price'] = '';
         // nếu không có col HTML riêng -> dùng col HTML mặc định
         if (!isset($ops['custom_html']) || $ops['custom_html'] == '') {
             $ops['custom_html'] = $this->product_html_node;

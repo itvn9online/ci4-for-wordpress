@@ -62,6 +62,7 @@ class Sync extends BaseController
         // //echo $pcol . '<br>' . PHP_EOL;
         // $response = \Config\Services::response();
         // $response->setStatusCode(404, $pcol . ' 404 Not Found');
+        http_response_code(400);
 
         //
         $this->result_json_type([
@@ -896,13 +897,14 @@ class Sync extends BaseController
         if ($status == 200) {
             die(header('Location: ' . $to));
         }
-        $pcol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
-        if ($status == 404) {
-            header($pcol . ' 404 Not Found');
-        } else {
-            header($pcol . ' ' . $status . ' Not Found');
-        }
-        die(header('Location: ' . $to, TRUE, $status));
+        http_response_code($status);
+        // $pcol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
+        // if ($status == 404) {
+        //     header($pcol . ' 404 Not Found');
+        // } else {
+        //     header($pcol . ' ' . $status . ' Not Found');
+        // }
+        die(header('Location: ' . $to, true, $status));
     }
 
     protected function result_json_type($arr, $headers = [], $too_headers = [])

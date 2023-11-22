@@ -184,8 +184,9 @@ class PostBase extends EbModel
         $redirect_to .= 'canonical=server&uri=' . urlencode($_SERVER['REQUEST_URI']);
 
         //
-        header('HTTP/1.1 301 Moved Permanently');
-        die(header('Location: ' . $redirect_to, TRUE, 301));
+        // header('HTTP/1.1 301 Moved Permanently');
+        http_response_code(301);
+        die(header('Location: ' . $redirect_to, true, 301));
         //die( __CLASS__ . ':' . __LINE__ );
     }
 

@@ -713,14 +713,26 @@ class PostQuery extends PostMeta
         }
 
         //
-        //if ($instance['custom_cat_link'] == '#') {
-        if ($instance['custom_cat_link'] == '') {
-            $instance['custom_cat_link'] = 'javascript:;';
+        $link_view_more = '';
+        if ($instance['custom_cat_link'] == '#' || $instance['custom_cat_link'] == '') {
+            // $instance['custom_cat_link'] = 'javascript:;';
+            $custom_cat_link = '<span>' . $post_cat['name'] . '</span>';
+        } else {
+            $custom_cat_link = '<a href="' . $instance['custom_cat_link'] . '">' . $post_cat['name'] . '</a>';
+
+            //
+            if ($instance['text_view_more'] != '') {
+                $link_view_more = '<div class="widget-blog-more"><a href="' . $instance['custom_cat_link'] . '">' . $instance['text_view_more'] . '</a></div>';
+            }
         }
         if ($instance['widget_description'] != '') {
             $instance['widget_description'] = '<div class="eb-widget-blogs-desc by-widget_description">' . nl2br($instance['widget_description']) . '</div>';
-        } else if ($post_cat['description'] != '') {
-            $instance['widget_description'] = '<div class="eb-widget-blogs-desc by-description">' . $post_cat['description'] . '</div>';
+        } else {
+            // nếu nội dung không phải nội dung mẫu
+            $post_cat['description'] = str_replace('Auto create nav menu taxonomy', '', $post_cat['description']);
+            if (trim(strip_tags($post_cat['description'])) != '' && strpos($post_cat['description'], 'Auto create taxonomy') === false) {
+                $instance['widget_description'] = '<div class="eb-widget-blogs-desc by-description">' . $post_cat['description'] . '</div>';
+            }
         }
         if ($instance['dynamic_tag'] == '') {
             $instance['dynamic_tag'] = 'div';
@@ -749,11 +761,11 @@ class PostQuery extends PostMeta
             $custom_style[] = 'hide-widget-title';
 
             // với widget ẩn title -> vẫn cho thẻ hiển thị nút sửa để admin tiện điều khiển
-            $html_widget_title = '<div data-type="' . $post_cat['taxonomy'] . '" data-id="' . $post_cat['term_id'] . '"
-                class="eb-widget-hide-title"></div>';
+            $html_widget_title = '<div data-type="' . $post_cat['taxonomy'] . '" data-id="' . $post_cat['term_id'] . '" class="eb-widget-hide-title"></div>';
         } else {
-            $html_widget_title = '<div class="w90 eb-widget-row ' . $instance['max_width'] . '"><{{dynamic_tag}} data-type="' . $post_cat['taxonomy'] . '" data-id="' . $post_cat['term_id'] . '" class="eb-widget-title"><a href="{{custom_cat_link}}">' . $post_cat['name'] . '</a></{{dynamic_tag}}>{{widget_description}}</div>';
+            $html_widget_title = '<{{dynamic_tag}} data-type="' . $post_cat['taxonomy'] . '" data-id="' . $post_cat['term_id'] . '" class="eb-widget-title">' . $custom_cat_link . '</{{dynamic_tag}}>';
         }
+        $html_widget_title .= $instance['widget_description'];
 
         // để tối ưu SEO -> chỉ lấy tiêu đề khi có yêu cầu -> khi hide-title thì bỏ khối html title luôn
         if (
@@ -958,7 +970,7 @@ class PostQuery extends PostMeta
                 'cf_posts_size' => '{{custom_size}}',
                 'blog_link_option' => $blog_link_option,
                 'widget_title' => $html_widget_title,
-                'more_link' => $instance['text_view_more'] != '' ? '<div class="widget-blog-more"><a href="{{custom_cat_link}}">' . $instance['text_view_more'] . '</a></div>' : '',
+                'more_link' => $link_view_more,
                 'str_sub_cat' => '',
             ]
         );

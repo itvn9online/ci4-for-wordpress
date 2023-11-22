@@ -334,7 +334,7 @@ class Optimize extends Sadmin
         }
 
         // loại bỏ các dòng css chưa có code
-        $str = $this->remove_css_not_using($str);
+        // $str = $this->remove_css_not_using($str);
 
         //
         return $str;
