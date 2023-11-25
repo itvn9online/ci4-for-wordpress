@@ -19,17 +19,20 @@ $base_model->add_css('wp-admin/css/' . $post_type . '.css');
         <div class="lf f62">
             <form name="frm_admin_search_controller" action="./sadmin/<?php echo $controller_slug; ?>" method="get">
                 <div class="cf">
-                    <div class="lf f25">
-                        <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $name_type; ?>" autofocus aria-required="true" required>
+                    <div class="lf f20">
+                        <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $name_type; ?>" autofocus>
                     </div>
-                    <div class="lf f25 hide-if-no-taxonomy">
+                    <div class="lf f20">
+                        <input name="user_id" value="<?php echo $by_user_id; ?>" placeholder="ID người đăng">
+                    </div>
+                    <div class="lf f20 hide-if-no-taxonomy">
                         <select name="term_id" data-select="<?php echo $by_term_id; ?>" :data-taxonomy="taxonomy" onChange="document.frm_admin_search_controller.submit();" class="each-to-group-taxonomy">
                             <option value="0">- Danh mục
                                 <?php echo $name_type; ?> -
                             </option>
                         </select>
                     </div>
-                    <div class="lf f25">
+                    <div class="lf f20">
                         <select name="post_status" :data-select="post_status" onChange="document.frm_admin_search_controller.submit();">
                             <option value="">- Trạng thái
                                 <?php echo $name_type; ?> -
@@ -37,7 +40,7 @@ $base_model->add_css('wp-admin/css/' . $post_type . '.css');
                             <option :value="k" v-for="(v, k) in PostType_arrStatus">{{v}}</option>
                         </select>
                     </div>
-                    <div class="lf f25">
+                    <div class="lf f20">
                         <button type="submit" class="btn-success"><i class="fa fa-search"></i> Tìm kiếm</button>
                     </div>
                 </div>

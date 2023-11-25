@@ -445,7 +445,7 @@ var _global_js_eb = {
 						img = "";
 					//console.log('width:', wit);
 					if (wit > 1024) {
-						let img = jQuery(this).attr("data-img") || "";
+						img = jQuery(this).attr("data-img") || "";
 					} else if (wit > 360) {
 						img =
 							jQuery(this).attr("data-large-img") ||

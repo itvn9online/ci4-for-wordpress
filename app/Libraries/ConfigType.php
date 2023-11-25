@@ -663,6 +663,7 @@ class ConfigType
             'logout_device_protection' => 'Kích hoạt chức năng này nếu muốn khi phát hiện người dùng đăng nhập trên nhiều thiết bị, hệ thống sẽ tiến hành logout tài khoản của người dùng.',
             'block_device_protection' => 'Kích hoạt chức năng này nếu muốn khi phát hiện người dùng đăng nhập trên nhiều thiết bị, hệ thống sẽ tiến hành KHÓA tài khoản của người dùng.',
             'disable_register_member' => 'Khi muốn dừng việc đăng ký tài khoản trên website thì bật chức năng này lên. Admin vẫn có thể tạo tài khoản từ trang admin hoặc người dùng có thể đăng nhập thông qua firebase nếu website có thiết lập Đăng nhập qua firebase tại đây ' . base_url('sadmin/firebases') . '?support_tab=data_g_firebase_config',
+            'robots' => base_url('robots.txt'),
             'blog_private' => 'Việc tuân thủ yêu cầu này hoàn toàn phụ thuộc vào các công cụ tìm kiếm.',
             'replace_post_content' => 'Khi cần thay thế nội dung của bài viết hàng loạt thì có thể sử dụng chức năng này. <br> Mẫu sử dụng: Nội dung cũ | Nội dung mới',
             'min_product_price' => 'Số tiền tối thiểu mà khách phải thanh toán cho mỗi đơn hàng.',

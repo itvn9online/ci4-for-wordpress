@@ -5,6 +5,7 @@ namespace App\Models;
 //
 use App\Libraries\DeletedStatus;
 use App\Libraries\UsersType;
+use App\Libraries\PostType;
 
 //
 class User extends UserMeta
@@ -185,7 +186,7 @@ class User extends UserMeta
                         $data[$v] = explode($str_trash, $data[$v])[0];
 
                         //
-                        if ($data[$v] != '') {
+                        if (!empty($data[$v])) {
                             $current_data[$v] = $data[$v];
                         }
                     }
@@ -205,7 +206,7 @@ class User extends UserMeta
                                 $current_data,
                             ),
                             // hiển thị mã SQL để check
-                            //'show_query' => 1,
+                            // 'show_query' => 1,
                             // trả về câu query để sử dụng cho mục đích khác
                             //'get_query' => 1,
                             // trả về COUNT(column_name) AS column_name
@@ -220,6 +221,7 @@ class User extends UserMeta
                     //die(__CLASS__ . ':' . __LINE__);
                     // nếu trùng rồi thì thôi, không cho restore nữa
                     if (!empty($check_data)) {
+                        // print_r($check_data);
                         return [
                             'code' => __LINE__,
                             'error' => 'Thông tin tài khoản đã được sử dụng #' . $check_data['ID'],
@@ -236,6 +238,17 @@ class User extends UserMeta
                         $data[$v] = $data[$v] . $str_trash . $str_time;
                     }
                 }
+
+                // update các bài viết của ntd về trạng thái XÓA
+                $result_update = $this->base_model->update_multiple('posts', [
+                    'post_status' => PostType::DELETED
+                ], [
+                    'post_author' => $id,
+                ], [
+                    'debug_backtrace' => debug_backtrace()[1]['function'],
+                    // hiển thị mã SQL để check
+                    // 'show_query' => 1,
+                ]);
             }
         }
 
@@ -243,7 +256,7 @@ class User extends UserMeta
         $result_update = $this->base_model->update_multiple($this->table, $data, $where, [
             'debug_backtrace' => debug_backtrace()[1]['function'],
             // hiển thị mã SQL để check
-            //'show_query' => 1,
+            // 'show_query' => 1,
         ]);
 
         //

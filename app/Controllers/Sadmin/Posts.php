@@ -101,7 +101,7 @@ class Posts extends Sadmin
         $by_keyword = $this->MY_get('s');
         $post_status = $this->MY_get('post_status');
         $by_term_id = $this->MY_get('term_id', 0);
-        $by_user_id = $this->MY_get('user_id', 0);
+        $by_user_id = $this->MY_get('user_id');
 
         // các kiểu điều kiện where
         if (!isset($ops['where'])) {
@@ -110,7 +110,7 @@ class Posts extends Sadmin
         //$where[ $this->table . '.post_status !=' ] = PostType::DELETED;
         $where[$this->table . '.post_type'] = $this->post_type;
         $where[$this->table . '.lang_key'] = $this->lang_key;
-        if ($by_user_id > 0) {
+        if (!empty($by_user_id) && $by_user_id > 0) {
             $where[$this->table . '.post_author'] = $by_user_id;
             $urlPartPage .= '&user_id=' . $by_user_id;
             $for_action .= '&user_id=' . $by_user_id;
@@ -208,7 +208,7 @@ class Posts extends Sadmin
             'where_in' => $where_in,
             'or_like' => $where_or_like,
             // hiển thị mã SQL để check
-            //'show_query' => 1,
+            // 'show_query' => 1,
             // trả về câu query để sử dụng cho mục đích khác
             //'get_query' => 1,
             //'offset' => 0,

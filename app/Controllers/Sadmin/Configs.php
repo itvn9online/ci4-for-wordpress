@@ -258,19 +258,21 @@ class Configs extends Sadmin
         //
         else if (isset($data['robots'])) {
             // cập nhật lại robots.txt khi không có nội dung hoặc sai địa chỉ sitemap
-            if ($data['robots'] == '' || strpos($data['robots'], DYNAMIC_BASE_URL) === false) {
+            // if ($data['robots'] == '' || strpos($data['robots'], DYNAMIC_BASE_URL) === false) {
+            if ($data['robots'] == '' || strpos($data['robots'], '%base_url%') === false) {
                 $data['robots'] = $this->helpersTmpFile(
                     'robots_default',
                     [
                         // 'base_url' => DYNAMIC_BASE_URL,
                     ]
                 );
-                //echo nl2br( $data[ 'robots' ] );
+                // echo nl2br($data['robots']);
 
                 //
                 $arr_meta_key[] = 'robots';
             }
             //$data[ 'robots' ] = trim( $data[ 'robots' ] );
+            // echo nl2br($data['robots']);
 
             //
             //$id = '1';
@@ -284,7 +286,7 @@ class Configs extends Sadmin
             //
             // $this->base_model->ftp_create_file(PUBLIC_PUBLIC_PATH . 'robots.txt', $data['robots']);
         }
-        //print_r( $data );
+        // echo nl2br($data['robots']);
 
         // backup và xóa các config cũ đã được liệt kê
         $this->option_model->backup_options($option_type, $this->lang_key, $arr_meta_key);

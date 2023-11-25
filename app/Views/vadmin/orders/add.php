@@ -95,14 +95,18 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                         $post_parent_data = $base_model->select('*', 'posts', [
                             'ID' => $data['post_parent']
                         ], [
-                            'limit' => 1
+                            // 'show_query' => 1,
+                            'limit' => 1,
                         ]);
-                        //print_r($post_parent_data);
+                        // print_r($post_parent_data);
+                        // die(__FILE__ . ':' . __LINE__);
 
                         //
+                        if (!empty($post_parent_data)) {
                     ?>
-                        <a href="<?php $post_model->the_post_permalink($post_parent_data); ?>" class="bluecolor set-new-url">#<?php echo $data['post_parent']; ?> | <?php echo $post_parent_data['post_title']; ?> | <?php echo $post_parent_data['post_permalink']; ?></a>
+                            <a href="<?php $post_model->the_post_permalink($post_parent_data); ?>" class="bluecolor set-new-url">#<?php echo $data['post_parent']; ?> | <?php echo $post_parent_data['post_title']; ?> | <?php echo $post_parent_data['post_permalink']; ?></a>
                     <?php
+                        }
                     } else {
                         echo $data['post_parent'];
                     }

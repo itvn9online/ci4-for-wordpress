@@ -4,7 +4,10 @@ add_and_show_post_avt("#post_meta_image", "", "medium");
 // nạp text-editer cho phần tóm tắt nếu phát hiện thấy có sử dụng mã html
 (function (str) {
 	// không áp dụng cho menu
-	if (current_post_type == "nav_menu") {
+	if (
+		typeof current_post_type != "undefined" &&
+		current_post_type == "nav_menu"
+	) {
 		console.log(
 			"%c textediter not enable in: " + current_post_type,
 			"color: red"

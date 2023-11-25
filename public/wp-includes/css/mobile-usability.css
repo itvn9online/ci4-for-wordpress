@@ -17,4 +17,22 @@ img,
     body:not(.document-ready) {
         line-height: 2.5;
     }
+
+    .ul-default-style table {
+        width: 100% !important;
+        max-width: none !important;
+        height: auto !important;
+    }
+
+    .ul-default-style th,
+    .ul-default-style td {
+        width: auto !important;
+        height: auto !important;
+    }
+
+    pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        text-align: justify;
+    }
 }
