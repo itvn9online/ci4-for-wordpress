@@ -164,8 +164,9 @@ function after_drop_upload_media(mediaData) {
 }
 
 function check_and_reload_after_upload() {
+	let i = 0;
 	// xem còn file nào đang upload không
-	for (let i = 0; i < arr_drop_uploading_file.length; i++) {
+	for (i = 0; i < arr_drop_uploading_file.length; i++) {
 		if (arr_drop_uploading_file[i] === false) {
 			arr_drop_uploading_file[i] = true;
 			break;

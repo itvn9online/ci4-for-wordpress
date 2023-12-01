@@ -251,6 +251,8 @@ if ($debug_enable === true) {
             </div>
         </div>
         <!-- END Memcached -->
+    </div>
+    <div>
         <!-- pagespeed -->
         <p><strong>Page speed:</strong> <a :href="'https://pagespeed.web.dev/report?url=' + encode_url" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-flash"></i> vào đây</a> để phân tích tốc
             độ website của bạn và độ thân thiện với các công cụ tìm kiếm (tối ưu SEO). Tối thiểu nên ở mức điểm

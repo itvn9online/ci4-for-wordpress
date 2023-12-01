@@ -331,17 +331,17 @@ class Session
     // -> trả về alert của javascript
     public function alert($m, $lnk = '')
     {
-        $arr_debug = debug_backtrace();
+        // $arr_debug = debug_backtrace();
         //print_r($arr_debug);
 
         //
         die(HtmlTemplate::html(
             'wgr_alert.html',
             [
-                'file' => basename($arr_debug[1]['file']),
-                'line' => $arr_debug[1]['line'],
-                'function' => $arr_debug[1]['function'],
-                'class' => basename(str_replace('\\', '/', $arr_debug[1]['class'])),
+                // 'file' => basename($arr_debug[1]['file']),
+                // 'line' => $arr_debug[1]['line'],
+                // 'function' => $arr_debug[1]['function'],
+                // 'class' => basename(str_replace('\\', '/', $arr_debug[1]['class'])),
                 'm' => $m,
                 'lnk' => $lnk,
             ]

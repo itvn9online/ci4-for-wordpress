@@ -239,7 +239,7 @@ class User extends UserMeta
                     }
                 }
 
-                // update các bài viết của ntd về trạng thái XÓA
+                // update các bài viết của user về trạng thái XÓA
                 $result_update = $this->base_model->update_multiple('posts', [
                     'post_status' => PostType::DELETED
                 ], [
