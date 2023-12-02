@@ -28,14 +28,14 @@ $("#post_meta_image_size").change(function () {
 	}
 
 	//
-	var avt_size = $(this).val() || "";
+	let avt_size = $(this).val() || "";
 	if (avt_size != "") {
 		console.log("avt size:", avt_size);
 
 		// nếu là sử dụng kích cỡ thật
 		if (avt_size == "image_origin") {
 			// lấy cỡ large
-			var img = $("#post_meta_image_large").val() || "";
+			let img = $("#post_meta_image_large").val() || "";
 			console.log(img);
 			// xóa đi chữ large ở cuối rồi thêm vào thôi
 			if (img != "") {
@@ -43,7 +43,7 @@ $("#post_meta_image_size").change(function () {
 			}
 		} else {
 			// còn lại sẽ dò tìm kích cỡ ưng ý và thêm
-			var img = $("#post_meta_" + avt_size).val() || "";
+			let img = $("#post_meta_" + avt_size).val() || "";
 			console.log(img);
 			if (img != "") {
 				$("#post_meta_image").val(img);
@@ -57,7 +57,7 @@ $("#post_meta_image_size").change(function () {
 
 // khi các post meta được bỏ check -> sẽ có 1 post meta khác được checked -> để lệnh update còn biết cái nào bỏ check mà remove
 $(".post_uncheck_meta").change(function () {
-	var a = $(this).attr("id") || "";
+	let a = $(this).attr("id") || "";
 	if (a != "") {
 		a = a.replace("post_meta_", "post_uncheck_meta_");
 		if ($("." + a).length > 0) {
@@ -78,10 +78,10 @@ $(".post_uncheck_meta").change(function () {
 	}
 
 	//
-	var a = localStorage.getItem("post-meta-image-size");
+	let a = localStorage.getItem("post-meta-image-size");
 	//console.log(a);
 	if (a !== null && a != "") {
-		var b = $("#post_meta_image_size").val("data-select") || "";
+		let b = $("#post_meta_image_size").val("data-select") || "";
 		if (b != "") {
 			$("#post_meta_image_size").val(a).trigger("change");
 		}

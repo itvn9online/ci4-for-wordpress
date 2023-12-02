@@ -307,6 +307,12 @@ class Base extends Csdl
             $arr['term_meta'] = '';
         }
 
+        // TEST
+        // if (isset($_GET['aaaaaaa'])) {
+        //     print_r($arr);
+        //     print_r($arr_meta);
+        // }
+
         //print_r( $arr );
         $tmp_html = HtmlTemplate::render($tmp_html, $arr);
 

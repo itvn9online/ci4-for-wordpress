@@ -903,6 +903,13 @@ class PostQuery extends PostMeta
                 $widget_blog_more = '<div class="widget-blog-more-xoa details-blog-more"><a href="{{p_link}}">' . $instance['text_view_details'] . '</a></div>';
             }
 
+            // nếu người dùng chọn ảnh hiển thị thì đặt webp là ảnh đó
+            if (isset($v['post_meta']['image_size']) && $v['post_meta']['image_size'] != 'image_medium') {
+                if (isset($v['post_meta']['image'])) {
+                    $v['post_meta']['image_webp'] = $v['post_meta']['image'];
+                }
+            }
+
             // tạo html cho từng node
             //echo $tmp_html;
             $str_node = $this->base_model->tmp_to_html(
