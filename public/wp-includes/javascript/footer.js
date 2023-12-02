@@ -32,11 +32,11 @@ $('a[href="users/logout"], a[href="./users/logout"]')
 	.addClass("users-logout")
 	.click(function () {
 		//sessionStorage.setItem('logout_redirect', window.location.href);
-		var a =
+		let a =
 			$(this).attr("data-title") ||
 			$(this).attr("title") ||
 			"Xác nhận Đăng xuất khỏi tài khoản!";
-		var result = confirm(a);
+		let result = confirm(a);
 		//console.log(result);
 
 		if (result === true) {
@@ -50,7 +50,7 @@ $('a[href="users/logout"], a[href="./users/logout"]')
 
 //
 $("a").each(function () {
-	var a = $(this).attr("href") || "";
+	let a = $(this).attr("href") || "";
 	if (a.substr(0, 1) == "#") {
 		$(this)
 			// .addClass("noreferrer-noopener")
@@ -74,14 +74,14 @@ $("a").each(function () {
  * tạo hiệu ứng selected cho các thẻ a
  */
 function action_active_menu_item() {
-	var a = window.location.href;
+	let a = window.location.href;
 
 	//
 	$('a[href="' + a + '"]').addClass("active-menu-item");
 	if (WGR_config.cf_tester_mode > 0) console.log(a);
 
 	//
-	var base_url = $("base").attr("href") || "";
+	let base_url = $("base").attr("href") || "";
 	if (base_url != "") {
 		a = a.replace(base_url, "").split("/page/")[0];
 		if (WGR_config.cf_tester_mode > 0) console.log(a);
@@ -92,9 +92,9 @@ function action_active_menu_item() {
 
 	// với link trang chủ -> chỉnh url theo ngôn ngữ đang xem
 	if (WGR_config.site_lang_sub_dir > 0) {
-		var data_lang = $("html").attr("data-lang") || "";
+		let data_lang = $("html").attr("data-lang") || "";
 		//console.log(data_lang);
-		var data_default_lang = $("html").attr("data-default-lang") || "";
+		let data_default_lang = $("html").attr("data-default-lang") || "";
 		//console.log(data_default_lang);
 		if (
 			data_lang != "" &&
@@ -186,6 +186,7 @@ jQuery(document)
 
 //
 jQuery(window).resize(function () {
+	height_for_lazzy_load = jQuery(window).height();
 	_global_js_eb.auto_margin();
 });
 

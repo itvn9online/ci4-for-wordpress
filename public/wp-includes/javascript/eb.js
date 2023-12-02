@@ -411,7 +411,7 @@ var _global_js_eb = {
 		let eb_lazzy_class = "eb-lazzy-effect",
 			eb_lazzy_iframe = "eb-add-iframe",
 			a = 0,
-			wh = jQuery(window).width(),
+			// wh = jQuery(window).width(),
 			c = "";
 
 		//

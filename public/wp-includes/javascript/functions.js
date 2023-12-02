@@ -42,7 +42,7 @@ function WGR_alert(m, lnk) {
 	} else {
 		if (m != "") {
 			// class thể hiện màu sắc của alert
-			var cl = "";
+			let cl = "";
 			if (lnk == "error") {
 				cl = "redbg";
 			} else if (lnk == "warning") {
@@ -50,10 +50,10 @@ function WGR_alert(m, lnk) {
 			}
 
 			// id dùng để hẹn giờ tự ẩn
-			var jd = "_" + Math.random().toString(32).replace(/\./gi, "_");
+			let jd = "_" + Math.random().toString(32).replace(/\./gi, "_");
 
 			//
-			var htm = [
+			let htm = [
 				'<div id="' + jd + '" class="' + cl + '" onClick="$(this).fadeOut();">',
 				m,
 				"</div>",
@@ -111,7 +111,7 @@ function WGR_show_try_catch_err(e) {
 var current_croll_up_or_down = 0;
 
 function WGR_show_or_hide_to_top() {
-	var new_scroll_top = window.scrollY || jQuery(window).scrollTop();
+	let new_scroll_top = window.scrollY || jQuery(window).scrollTop();
 
 	//
 	if (new_scroll_top > 120) {
