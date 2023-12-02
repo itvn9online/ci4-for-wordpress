@@ -331,21 +331,30 @@ class Session
     // -> trả về alert của javascript
     public function alert($m, $lnk = '')
     {
-        // $arr_debug = debug_backtrace();
-        //print_r($arr_debug);
+        if (ENVIRONMENT !== 'production') {
+            $arr_debug = debug_backtrace();
+            //print_r($arr_debug);
+
+            //
+            $alert_data = [
+                'file' => basename($arr_debug[1]['file']),
+                'line' => $arr_debug[1]['line'],
+                'function' => $arr_debug[1]['function'],
+                'class' => $basename(str_replace('\\', '/', $arr_debug[1]['class'])),
+            ];
+        } else {
+            $alert_data = [
+                'file' => '',
+                'line' => '',
+                'function' => '',
+                'class' => '',
+            ];
+        }
+        $alert_data['m'] = $m;
+        $alert_data['lnk'] = $lnk;
 
         //
-        die(HtmlTemplate::html(
-            'wgr_alert.html',
-            [
-                // 'file' => basename($arr_debug[1]['file']),
-                // 'line' => $arr_debug[1]['line'],
-                // 'function' => $arr_debug[1]['function'],
-                // 'class' => basename(str_replace('\\', '/', $arr_debug[1]['class'])),
-                'm' => $m,
-                'lnk' => $lnk,
-            ]
-        ));
+        die(HtmlTemplate::html('wgr_alert.html', $alert_data));
     }
 
     // set session login -> lưu phiên đăng nhập của người dùng
