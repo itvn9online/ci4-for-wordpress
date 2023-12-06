@@ -489,6 +489,53 @@ class Amps extends Layout
         return '';
     }
 
+    // tìm kích thước ảnh trên host
+    function img_size($img, $default_width = 300, $default_height = 300)
+    {
+        //		echo $img . '<br>' . "\n";
+
+        //
+        $amp_avt_width = $default_width;
+        $amp_avt_height = $default_height;
+
+        // lấy domain hiện tại
+        $domain = str_replace('www.', '', $_SERVER['HTTP_HOST']) . '/';
+
+        //
+        $check_img = strstr($img, $domain);
+        $local_img = '';
+
+        // nếu không -> thử tìm theo thư mục upload
+        if ($check_img == '') {
+            $check_img = strstr($img, '/upload/');
+            if ($check_img != '') {
+                $local_img = PUBLIC_PUBLIC_PATH . substr($check_img, 1);
+            }
+        }
+        // nếu có -> dùng luôn
+        else {
+            $local_img = PUBLIC_PUBLIC_PATH . str_replace($domain, '', $check_img);
+        }
+        //		echo $local_img . '<br>' . "\n";
+
+        //
+        if ($local_img != '' && is_file($local_img)) {
+            $local_img = getimagesize($local_img);
+            //			print_r( $check_img );
+
+            //
+            $amp_avt_width = $local_img[0];
+            $amp_avt_height = $local_img[1];
+        }
+
+
+        //
+        return array(
+            $amp_avt_width,
+            $amp_avt_height,
+        );
+    }
+
     protected function get_src_img($v2)
     {
         $get_img_src = str_replace("'", '"', $v2);
