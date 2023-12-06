@@ -167,6 +167,10 @@ if (is_file(THEMEPATH . 'functions.php')) {
 ####################################################################
 
 
+// tạo trang amp -> site nào không muốn dùng amp thì tắt nó đi
+defined('ENABLE_AMP_VERSION') || define('ENABLE_AMP_VERSION', true);
+
+
 // khi tạo html nếu meta nào chưa được nhập nó sẽ thừa khối template -> khai báo các template để nó bị xóa đi khi dư thừa
 defined('PRODUCT_DEFAULT_META') || define('PRODUCT_DEFAULT_META', []);
 

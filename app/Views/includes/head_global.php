@@ -25,6 +25,16 @@ use App\Helpers\HtmlTemplate;
 <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
 <link rel="dns-prefetch" href="https://s.w.org" />
 <meta name="format-detection" content="telephone=no">
+<?php
+
+//
+if ($seo['amp_url'] != '') {
+?>
+    <link rel="amphtml" href="<?php echo $seo['amp_url']; ?>" />
+<?php
+}
+
+?>
 <!-- This site is optimized with the Yoast SEO plugin -->
 <link href="<?php echo $option_model->get_the_favicon($getconfig); ?>" rel="shortcut icon" type="image/png" />
 <meta name="title" content="<?php echo $seo['title']; ?>" />

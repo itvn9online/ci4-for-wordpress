@@ -34,6 +34,11 @@ class Layout extends Sync
     public $current_tid = 0;
     public $breadcrumb_position = 1;
     public $session_data = NULL;
+    public $isMobile = '';
+    public $cache_key = '';
+    public $cache_mobile_key = '';
+    public $teamplate = [];
+    public $debug_enable = false;
 
     public function __construct()
     {
@@ -122,12 +127,12 @@ class Layout extends Sync
         //var_dump( $this->debug_enable );
 
         //
-        $this->cache_key = '';
-        $this->cache_mobile_key = '';
+        // $this->cache_key = '';
+        // $this->cache_mobile_key = '';
 
         //
-        $this->isMobile = '';
-        $this->teamplate = [];
+        // $this->isMobile = '';
+        // $this->teamplate = [];
         if ($this->preload_header === true) {
             //echo 'preload header <br>' . PHP_EOL;
             //$this->isMobile = $this->checkDevice( $_SERVER[ 'HTTP_USER_AGENT' ] );

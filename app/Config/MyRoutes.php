@@ -88,6 +88,10 @@ foreach ($arr_prefix_routes as $v) {
         $routes->get('robots.txt', 'Robots::index');
 
 
+        // amp
+        $routes->get('amp/(:num)/(:segment)', 'Amps::post_details/$1/$2');
+
+
         // blog
         /*
         $routes->get('blogs/(:segment)', 'Blogs::blogs_list/$1');

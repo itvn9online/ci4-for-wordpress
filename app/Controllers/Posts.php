@@ -212,9 +212,15 @@ class Posts extends Csrf
         }
         //echo $full_link;
 
+        // hiện tại chỉ hỗ trợ bản amp cho tin tức
+        $amp_link = '';
+        if (ENABLE_AMP_VERSION === true && $data['post_type'] == PostType::POST) {
+            $amp_link = $this->base_model->amp_post_link($data);
+        }
+
         //
         $this->create_breadcrumb($data['post_title'], $full_link);
-        $seo = $this->base_model->post_seo($data, $full_link);
+        $seo = $this->base_model->post_seo($data, $full_link, $amp_link);
 
         //
         //$structured_data = $this->structuredData($data, 'Article.html', '', true);

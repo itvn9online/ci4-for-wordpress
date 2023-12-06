@@ -430,6 +430,7 @@ class Base extends Csdl
             'body_class' => str_replace('/', '-', $uri),
             'canonical' => '',
             //'canonical' => base_url( '/' . $uri ),
+            'amp_url' => '',
             'shortlink' => '',
             'updated_time' => strtotime(date('Y-m-d')),
         );
@@ -474,7 +475,7 @@ class Base extends Csdl
         return $data;
     }
 
-    public function term_seo($data, $url)
+    public function term_seo($data, $url, $amp_url = '')
     {
         //print_r($data);
         $seo = array(
@@ -488,6 +489,7 @@ class Base extends Csdl
             'shortlink' => DYNAMIC_BASE_URL . '?cat=' . $data['term_id'] . '&taxonomy=' . $data['taxonomy'],
             'url' => $url,
             'canonical' => $url,
+            'amp_url' => $amp_url,
         );
 
         //
@@ -513,7 +515,7 @@ class Base extends Csdl
         return $seo;
     }
 
-    public function post_seo($data, $url)
+    public function post_seo($data, $url, $amp_url = '')
     {
         //print_r($data);
 
@@ -532,6 +534,7 @@ class Base extends Csdl
             'shortlink' => DYNAMIC_BASE_URL . '?p=' . $data['ID'],
             'url' => $url,
             'canonical' => $url,
+            'amp_url' => $amp_url,
             //'og_image' => $data['post_meta']['image_medium_large'],
         );
 
@@ -941,5 +944,13 @@ class Base extends Csdl
             header($v, false);
         }
         die(json_encode($arr));
+    }
+
+    /**
+     * Trả về link amp cho post
+     **/
+    public function amp_post_link($data)
+    {
+        return DYNAMIC_BASE_URL . 'amp/' . $data['ID'] . '/' . $data['post_name'];
     }
 }

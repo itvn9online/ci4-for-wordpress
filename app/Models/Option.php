@@ -452,7 +452,7 @@ class Option extends EbModel
             return DYNAMIC_BASE_URL . 'favicon.png';
             //return $this->get_the_logo( $cog );
         }
-        return $cog->$key;
+        return DYNAMIC_BASE_URL . $cog->$key;
     }
 
     public function get_the_logo($cog, $key = 'logo')

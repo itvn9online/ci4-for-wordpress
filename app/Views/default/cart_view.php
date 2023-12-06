@@ -6,18 +6,27 @@
     </div>
     <div class="col small-12 medium-9 large-9">
         <div class="col-inner">
-            <?php
+            <form action="" method="post" name="frm_actions_cart" id="frm_actions_cart" accept-charset="utf-8" target="target_eb_iframe">
+                <?php $base_model->anti_spam_field(); ?>
+                <div id="append_ajax_cart">
+                    <?php
 
-            //
-            $sub_total = 0;
+                    // nạp view riêng của từng theme nếu có
+                    $theme_default_view = VIEWS_PATH . 'default/cart_table_view.php';
+                    // nạp file kiểm tra private view
+                    include VIEWS_PATH . 'private_view.php';
 
-            // nạp view riêng của từng theme nếu có
-            $theme_default_view = VIEWS_PATH . 'default/cart_table_view.php';
-            // nạp file kiểm tra private view
-            include VIEWS_PATH . 'private_view.php';
+                    ?>
+                </div>
+                <?php
 
-            ?>
-            <div class="text-right cart-sub-total">Sub-total (1 item): <span class="ebe-currency"><?php echo $sub_total; ?></span></div>
+                // nạp view riêng của từng theme nếu có
+                $theme_default_view = VIEWS_PATH . 'default/cart_form_view.php';
+                // nạp file kiểm tra private view
+                include VIEWS_PATH . 'private_view.php';
+
+                ?>
+            </form>
         </div>
     </div>
     <div class="col small-12 medium-3 large-3">

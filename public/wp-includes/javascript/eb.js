@@ -961,7 +961,7 @@ var _global_js_eb = {
 		}
 	},
 
-	/*
+	/**
 	 * Nạp iframe để submit
 	 */
 	add_primari_iframe: function () {

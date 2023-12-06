@@ -1,0 +1,514 @@
+<?php
+
+namespace App\Controllers;
+
+//
+use App\Libraries\PostType;
+
+//
+class Amps extends Layout
+{
+    public $amp_youtube = false;
+    public $amp_iframe = false;
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
+     * Trả về dữ liệu amp cho phần post
+     **/
+    public function post_details($id, $slug)
+    {
+        // var_dump($id);
+        // var_dump($slug);
+
+        //
+        if (ENABLE_AMP_VERSION !== true) {
+            return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! AMP version is not ENABLE...');
+        }
+
+        //
+        $this->cache_key = $this->post_model->key_cache($id) . 'amp';
+        // var_dump($this->cache_key);
+        $cache_value = $this->MY_cache($this->cache_key);
+        if ($cache_value !== NULL) {
+            return $this->show_cache($cache_value);
+        }
+
+
+        //
+        $data = $this->post_model->select_post(
+            $id,
+            [
+                'post_status' => PostType::PUBLICITY,
+                'post_type' => PostType::POST,
+            ],
+            [
+                // hiển thị mã SQL để check
+                // 'show_query' => 1,
+            ]
+        );
+        // print_r($data);
+        // die(__CLASS__ . ':' . __LINE__);
+        if (empty($data)) {
+            //print_r( $data );
+            return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Không xác định được dữ liệu bài viết...');
+        }
+
+        //
+        $data['post_content'] = $this->replace_content($data['post_content']);
+
+        // điều chỉnh lại nội dung theo chuẩn AMP
+        // Loại bỏ các attr không cần thiết và tag không được hỗ trợ
+        $data['post_content'] = $this->amp_remove_attr($data['post_content']);
+
+        // thay thế các tag cũ bằng tag mới
+        $data['post_content'] = $this->amp_change_tag($data['post_content']);
+        //print_r( $data );
+
+        $data = $this->post_model->metaTitleDescription($data);
+        // print_r($data);
+
+
+        //
+        $full_link = $this->post_model->get_full_permalink($data);
+        $seo = $this->base_model->post_seo($data, $full_link);
+        // print_r($seo);
+
+
+        // lấy các bài mới hơn
+        $next_post = $this->base_model->select(
+            'ID, post_title, post_name, post_permalink',
+            'posts',
+            array(
+                // các kiểu điều kiện where
+                'ID >' => $data['ID'],
+                'post_status' => PostType::PUBLICITY,
+                'post_type' => $data['post_type'],
+            ),
+            array(
+                'order_by' => array(
+                    'ID' => 'ASC'
+                ),
+                // hiển thị mã SQL để check
+                // 'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => 5
+            )
+        );
+        // print_r($next_post);
+
+        // lấy các bài cũ hơn
+        $prev_post = $this->base_model->select(
+            'ID, post_title, post_name, post_permalink',
+            'posts',
+            array(
+                // các kiểu điều kiện where
+                'ID <' => $data['ID'],
+                'post_status' => PostType::PUBLICITY,
+                'post_type' => $data['post_type'],
+            ),
+            array(
+                'order_by' => array(
+                    'ID' => 'DESC'
+                ),
+                // hiển thị mã SQL để check
+                // 'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => 5
+            )
+        );
+        // print_r($prev_post);
+
+
+        // còn không sẽ tiến hành lưu cache
+        $cache_value = view('layout_amp_view', [
+            'data' => $data,
+            'next_post' => $next_post,
+            'prev_post' => $prev_post,
+            'seo' => $seo,
+            'full_link' => $full_link,
+            'amp_link' => $this->base_model->amp_post_link($data),
+            'getconfig' => $this->getconfig,
+            'option_model' => $this->option_model,
+            'amp_youtube' => $this->amp_youtube,
+            'amp_iframe' => $this->amp_iframe,
+            // structured data
+            'breadcrumb_list' => [
+                '@context' => 'http://schema.org',
+                '@type' => 'BreadcrumbList',
+                'itemListElement' => [[
+                    '@type' => 'ListItem',
+                    'position' => '1',
+                    'item' => [
+                        '@id' => DYNAMIC_BASE_URL,
+                        'name' => 'Trang chủ',
+                    ],
+                ], [
+                    '@type' => 'ListItem',
+                    'position' => '2',
+                    'item' => [
+                        '@id' => $full_link,
+                        'name' => $data['post_title'],
+                    ],
+                ]],
+            ],
+            'blog_posting' => [
+                '@context' => 'http://schema.org',
+                '@type' => 'BlogPosting',
+                'publisher' => [
+                    '@type' => 'Organization',
+                    'name' => $this->getconfig->name,
+                    'logo' => [
+                        '@type' => 'ImageObject',
+                        'url' => DYNAMIC_BASE_URL . $this->getconfig->logo,
+                    ],
+                ],
+                'mainEntityOfPage' => $full_link,
+                'headline' => $data['post_title'],
+                'datePublished' => $data['post_date'],
+                'dateModified' => $data['post_modified'],
+                'author' => [
+                    '@type' => 'Person',
+                    'name' => $this->getconfig->name,
+                ],
+                'description' => $data['post_title'],
+                'image' => [
+                    '@type' => 'ImageObject',
+                    'width' => '400',
+                    'height' => '400',
+                    'url' => '',
+                ],
+            ],
+        ]);
+
+        $cache_save = $this->MY_cache($this->cache_key, $cache_value . '<!-- Served from: ' . __FUNCTION__ . ' -->');
+        //var_dump( $cache_save );
+
+        //
+        return $cache_value;
+    }
+
+    protected function amp_remove_attr($str)
+    {
+        //
+        $arr = array(
+            'id',
+            'class',
+            'style',
+            'dir',
+            'type',
+            'border',
+            'align',
+            'loading',
+
+            // iframe
+            'frameborder',
+            'scrolling',
+            'allowfullscreen',
+
+            //
+            'longdesc'
+        );
+
+        // xóa từng attr đã được chỉ định
+        foreach ($arr as $v) {
+            $str = $this->remove_attr($str, ' ' . $v . '="', '"');
+            $str = $this->remove_attr($str, " " . $v . "='", "'");
+        }
+
+        // xóa các thẻ không còn được hỗ trợ
+        $arr = array(
+            'style',
+            'font'
+        );
+
+        //
+        foreach ($arr as $v) {
+            $str = $this->remove_tag($str, $v);
+        }
+
+        //
+        return $str;
+    }
+
+    protected function remove_tag($str, $tag)
+    {
+
+        // tách mảng theo tag nhập vào
+        $c = explode('<' . $tag, $str);
+        //		print_r( $c );
+
+        $new_str = '';
+        foreach ($c as $k => $v) {
+
+            // bỏ qua mảng số 0
+            if ($k > 0) {
+                //				echo $v . "\n";
+                //				echo strstr( $v, '>' ) . "\n";
+                //				echo substr( strstr( $v, '>' ), 1 ) . "\n";
+
+                // lấy từ dấu > trở đi
+                $v = strstr($v, '>');
+
+                // bỏ qua dấu > ở đầu
+                $v = substr($v, 1);
+            }
+
+            //
+            $new_str .= $v;
+        }
+
+        // xóa thẻ đóng
+        $new_str = str_replace('</' . $tag . '>', '', $new_str);
+
+        //
+        return $new_str;
+    }
+
+    protected function remove_attr($str, $attr, $end_attr = '"')
+    {
+
+        // cắt mảng theo attr nhập vào
+        $c = explode($attr, $str);
+        //		print_r( $c );
+
+        $new_str = '';
+        foreach ($c as $k => $v) {
+            // chạy vòng lặp -> bỏ qua mảng đầu tiên
+            if ($k > 0) {
+                // dữ liệu mới bắt đầu từ đoạn kết thúc trước đó
+                $v = strstr($v, $end_attr);
+
+                // cắt bỏ đoạn thừa
+                $v = substr($v, strlen($end_attr));
+            }
+
+            //
+            $new_str .= $v;
+        }
+
+        // done
+        return $new_str;
+    }
+
+
+    protected function amp_change_tag($str)
+    {
+
+        $arr = array(
+            'img' => 'amp-img',
+            'iframe' => 'amp-iframe'
+        );
+
+        foreach ($arr as $k => $v) {
+            $str = $this->change_tag($str, $k, $v);
+        }
+
+        //
+        $str = str_replace('</iframe>', '', $str);
+        // bỏ một số thuộc tính không được hỗ trợ trong AMP
+        $str = str_replace(' decoding="async"', '', $str);
+        $str = str_replace(" decoding='async'", '', $str);
+
+        //
+        return $str;
+    }
+
+    protected function change_tag($str, $tag, $new_tag, $end_tag = '>')
+    {
+        $c = explode('<' . $tag . ' ', $str);
+        //		print_r( $c );
+
+        $new_str = '';
+        foreach ($c as $k => $v) {
+            // bỏ qua mảng số 0
+            if ($k > 0) {
+                $v2 = explode('>', $v);
+                $v2 = $v2[0];
+                //			echo $v2. "\n";
+                //			echo substr( $v2, -1 ) . "\n";
+                //			echo substr( $v2, 0, -1 ) . "\n";
+
+                // xóa đoạn
+                $v = str_replace($v2, '', $v);
+                $v = substr($v, 1);
+
+                //
+                if (substr($v2, -1) == '/') {
+                    $v2 = substr($v2, 0, -1);
+                }
+                $v2 = trim($v2);
+
+                // riêng với video youtube
+                if (strpos($v2, 'youtube.com/') !== false) {
+                    //				echo $v2 . "\n";
+                    $v2 = explode('src="', $v2);
+                    $v2 = $v2[1];
+                    $v2 = explode('"', $v2);
+                    $v2 = $v2[0];
+                    //				echo $v2 . "\n";
+                    $v2 = $this->get_youtube_id($v2);
+                    //				echo $v2 . "\n";
+
+                    // tạo nội dung mới từ ID youtube
+                    $v2 = 'data-videoid="' . $v2 . '" layout="responsive" width="480" height="270"';
+                    $new_tag = 'amp-youtube';
+
+                    // tải cdn cho youtube
+                    $this->amp_youtube = true;
+                } else if ($new_tag == 'amp-iframe') {
+                    //					echo $v2 . "\n";
+
+                    $iframe_src = explode('src="', $v2);
+                    $iframe_src = $iframe_src[1];
+                    $iframe_src = explode('"', $iframe_src);
+                    $iframe_src = $iframe_src[0];
+                    //					echo $iframe_src . "\n";
+
+                    $iframe_width = explode('width="', $v2);
+                    $iframe_width = $iframe_width[1];
+                    $iframe_width = explode('"', $iframe_width);
+                    $iframe_width = $iframe_width[0];
+                    //					echo $iframe_width . "\n";
+
+                    $iframe_height = explode('height="', $v2);
+                    $iframe_height = $iframe_height[1];
+                    $iframe_height = explode('"', $iframe_height);
+                    $iframe_height = $iframe_height[0];
+                    //					echo $iframe_height . "\n";
+
+                    $v2 = 'width="' . $iframe_width . '" height="' . $iframe_height . '" sandbox="allow-scripts allow-same-origin" layout="responsive" frameborder="0" src="' . $iframe_src . '"';
+
+                    //
+                    $this->amp_iframe = true;
+                }
+                // với hình ảnh, nếu thiếu layout thì bổ sung
+                else if ($new_tag == 'amp-img') {
+                    //echo $k . '" ----------- <br>' . "\n\n";
+                    //echo '"-----' . $v2 . '------" ----------- <br>' . "\n\n";
+                    if ($v2 != '' && strpos($v2, 'src=') !== false) {
+                        //echo '"-----' . $v2 . '------" ----------- <br>' . "\n\n";
+                        $amp_avt_size = array();
+
+                        // lấy chiều rộng thực của ảnh nếu chưa có
+                        if (strpos($v2, ' width=') === false) {
+                            $amp_avt_size = $this->get_src_img($v2);
+                            //print_r($amp_avt_size);
+
+                            //
+                            if (!empty($amp_avt_size)) {
+                                $v2 .= ' width="' . $amp_avt_size[0] . '"';
+                            } else {
+                                $v2 .= ' width="400"';
+                            }
+                        }
+
+                        // chiều cao thì lấy luôn từ mục chiều rộng trước đó rồi
+                        if (strpos($v2, ' height=') === false) {
+                            if (empty($amp_avt_size)) {
+                                $amp_avt_size = $this->get_src_img($v2);
+                            }
+
+                            //
+                            if (!empty($amp_avt_size)) {
+                                $v2 .= ' height="' . $amp_avt_size[1] . '"';
+                            } else {
+                                $v2 .= ' height="400"';
+                            }
+                        }
+
+                        //
+                        // thêm class để resize ảnh (dựa theo AMP wp)
+                        $v2 .= ' class="amp-wp-enforced-sizes"';
+                        //$v2 .= ' sizes="(min-width: 600px) 600px, 100vw"';
+                    } else {
+                        $v2 = '';
+                    }
+                }
+
+                // tổng hợp nội dung lại
+                if ($v2 != '') {
+                    //echo $v2 . ' :::::::::::<br>' . "\n";
+                    $v = '<' . $new_tag . ' ' . $v2 . '></' . $new_tag . '>' . $v;
+                } else {
+                    //echo $v . ' ================ <br>' . "\n";
+                }
+            }
+
+            //
+            $new_str .= $v;
+        }
+
+        return $new_str;
+    }
+
+    protected function get_youtube_id($url)
+    {
+        if ($url == '') {
+            return '';
+        }
+
+        //
+        parse_str(parse_url($url, PHP_URL_QUERY), $a);
+
+        if (isset($a['v'])) {
+            return $a['v'];
+        } else {
+            $a = explode('/embed/', $url);
+            if (isset($a[1])) {
+                $a = explode('?', $a[1]);
+                $a = explode('&', $a[0]);
+
+                return $a[0];
+            }
+
+            $a = explode('/youtu.be/', $url);
+            if (isset($a[1])) {
+                $a = explode('?', $a[1]);
+                $a = explode('&', $a[0]);
+
+                return $a[0];
+            }
+        }
+
+        return '';
+    }
+
+    protected function get_src_img($v2)
+    {
+        $get_img_src = str_replace("'", '"', $v2);
+        //		echo $get_img_src . '<br>' . "\n";
+
+        $get_img_src = explode('src="', $get_img_src);
+        //		print_r( $get_img_src );
+
+        if (isset($get_img_src[1])) {
+            //			echo $get_img_src . '<br>' . "\n";
+
+            $get_img_src = explode('"', $get_img_src[1]);
+            $get_img_src = $get_img_src[0];
+            //			echo $get_img_src . '<br>' . "\n";
+
+            //
+            return $this->img_size($get_img_src, 400, 400);
+        }
+
+        //
+        return array();
+    }
+}
