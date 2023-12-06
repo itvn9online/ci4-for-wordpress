@@ -58,7 +58,7 @@ if (!empty($same_cat_data)) {
             //
             $post_model->the_product_node($child_val, [
                 'taxonomy_post_size' => $taxonomy_post_size,
-            ]);
+            ], PRODUCT_DEFAULT_META);
         }
 
         ?>

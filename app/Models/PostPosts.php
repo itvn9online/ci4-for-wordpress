@@ -108,33 +108,6 @@ class PostPosts extends PostSlider
     function get_the_blog_node($data, $ops = [], $default_arr = [])
     {
         return $this->get_the_node($data, $ops, $default_arr);
-
-        //print_r( $data );
-        if (isset($ops['tmp_html']) && $ops['tmp_html'] != '') {
-            $tmp_html = $ops['tmp_html'];
-        } else {
-            $tmp_html = $this->blog_html_node;
-        }
-        //echo $tmp_html . '<br>' . PHP_EOL;
-
-        //
-        return $this->build_the_node($data, $tmp_html, $ops, $default_arr);
-
-        //
-        /*
-        $data['p_link'] = $this->get_full_permalink($data);
-        $data['post_category'] = 0;
-        $data['image'] = $this->get_post_thumbnail($data);
-
-        if ($data['post_excerpt'] == '') {
-            $data['post_excerpt'] = strip_tags($data['post_content']);
-            //echo $this->getconfig->cf_blog_description_length . ' aaaaaaaaaa <br>' . PHP_EOL;
-            $data['post_excerpt'] = $this->base_model->short_string($data['post_excerpt'], $this->getconfig->cf_blog_description_length);
-        }
-
-        //
-        return $this->base_model->tmp_to_html($tmp_html, $data);
-        */
     }
     function the_blog_node($data, $ops = [], $default_arr = [])
     {

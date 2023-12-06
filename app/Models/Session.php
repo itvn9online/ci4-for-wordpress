@@ -340,7 +340,7 @@ class Session
                 'file' => basename($arr_debug[1]['file']),
                 'line' => $arr_debug[1]['line'],
                 'function' => $arr_debug[1]['function'],
-                'class' => $basename(str_replace('\\', '/', $arr_debug[1]['class'])),
+                'class' => basename(str_replace('\\', '/', $arr_debug[1]['class'])),
             ];
         } else {
             $alert_data = [

@@ -20,7 +20,7 @@
                 //echo ' -->';
 
                 //
-                $post_model->the_product_node($v);
+                $post_model->the_product_node($v, [], PRODUCT_DEFAULT_META);
             }
 
             ?>

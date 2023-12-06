@@ -82,13 +82,15 @@ $base_model->adds_css([
                     <div class="control-group">
                         <label class="control-label">Email</label>
                         <div class="controls">
-                            <input type="email" class="span6" placeholder="Email" name="data[user_email]" id="data_user_email" value="<?php echo $data['user_email']; ?>" aria-required="true" required />
+                            <input type="email" class="span6" placeholder="Email" name="change[user_email]" id="data_user_email" value="<?php echo $data['user_email']; ?>" onDblClick="$('#data_user_email').removeAttr('readonly');" aria-required="true" required <?php echo ($data['user_email'] != '' ? ' readonly' : ''); ?> />
+                            <input type="hidden" name="change[user_old_email]" value="<?php echo $data['user_email']; ?>" />
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label">Tài khoản</label>
                         <div class="controls bold bluecolor">
-                            <input type="text" class="span6" placeholder="Tài khoản" name="data[user_login]" id="data_user_login" value="<?php echo $data['user_login']; ?>" onDblClick="$('#data_user_login').removeAttr('readonly');" aria-required="true" required <?php echo ($data['user_login'] != '' ? ' readonly' : ''); ?> />
+                            <input type="text" class="span6" placeholder="Tài khoản" name="change[user_login]" id="data_user_login" value="<?php echo $data['user_login']; ?>" onDblClick="$('#data_user_login').removeAttr('readonly');" aria-required="true" required <?php echo ($data['user_login'] != '' ? ' readonly' : ''); ?> />
+                            <input type="hidden" name="change[user_old_login]" value="<?php echo $data['user_login']; ?>" />
                         </div>
                     </div>
                     <div class="control-group">

@@ -167,6 +167,10 @@ if (is_file(THEMEPATH . 'functions.php')) {
 ####################################################################
 
 
+// khi tạo html nếu meta nào chưa được nhập nó sẽ thừa khối template -> khai báo các template để nó bị xóa đi khi dư thừa
+defined('PRODUCT_DEFAULT_META') || define('PRODUCT_DEFAULT_META', []);
+
+
 // ngôn ngữ của website -> mặc định chỉ chạy 1 ngôn ngữ, nếu muốn chạy nhiều ngôn ngữ thì tăng số mảng lên
 defined('SITE_LANGUAGE_SUPPORT') || define(
     'SITE_LANGUAGE_SUPPORT',

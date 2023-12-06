@@ -40,7 +40,7 @@ use App\Helpers\HtmlTemplate;
 //
 if ($seo['canonical'] != '') {
 ?>
-    <link href="<?php echo $seo['canonical']; ?>" rel="canonical" />
+    <link rel="canonical" href="<?php echo $seo['canonical']; ?>" />
     <meta property="og:url" content="<?php echo $seo['canonical']; ?>" />
 <?php
 }

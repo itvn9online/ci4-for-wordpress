@@ -250,6 +250,11 @@ class ConfigType
                 'cf_products_size' => 'Tỉ lệ ảnh ' . AdminTranslate::PROD,
                 'show_child_products' => 'Hiển thị nhóm ' . AdminTranslate::PROD . ' con',
                 'max_child_products' => 'Số lượng ' . AdminTranslate::PROD . ' con',
+                // định dạng tiền tệ
+                'currency_format' => 'Đơn vị tiền tệ',
+                'currency_sd_format' => 'Cấu trúc tiền tệ',
+                'currency_before_format' => 'Tiền tệ ở phía trước',
+                'currency_big_format' => 'Chuyển đổi đơn vị tiền tệ',
             ];
         } else if ($config_type == self::PROD) {
             $arr = [
@@ -505,6 +510,10 @@ class ConfigType
             'max_child_category' => 'number',
             'show_child_products' => 'checkbox',
             'max_child_products' => 'number',
+            'currency_format' => 'select',
+            // 'currency_sd_format' => '',
+            'currency_before_format' => 'checkbox',
+            'currency_big_format' => 'checkbox',
             'logo_main_height' => 'number',
             'logo_width_img' => 'number',
             'logo_height_img' => 'number',
@@ -593,6 +602,10 @@ class ConfigType
             'show_child_products' => 'Khi chế độ này được kích hoạt, và khi truy cập vào danh mục ' . AdminTranslate::PROD . ', nếu trong danh mục đó có các nhóm con thì các nhóm con sẽ được hiển thị thay vì hiển thị trực tiếp danh sách ' . AdminTranslate::PROD,
             'max_child_products' => 'Một vòng lặp sẽ lấy số lượng ' . AdminTranslate::PROD . ' để hiển thị trong mỗi nhóm con',
             'eb_post_per_page' => 'Khi số này lớn hơn 0, trong trang chi tiết ' . AdminTranslate::POST . ' sẽ lấy các bài cùng nhóm với bài hiện tại để giới thiệu',
+            'currency_format' => 'Sử dụng bảng mã riêng cho CSS, tham khảo tại đây: https://www.w3schools.com/cssref/css_entities.asp',
+            'currency_sd_format' => 'Đây là đơn vị tiền tệ cho phần structured data của google hoặc các công cụ tìm kiếm khác. Hiển thị CSS có thể là nhiều kiểu, còn cho phần SEO thì chỉ một kiểu. Ví dụ: VND, USD... Mặc định: VND',
+            'currency_before_format' => 'Mặc định, đơn vị tiền tệ sẽ xuất hiện ở phía sau giá tiền (ưu tiên cho web sử dụng Việt Nam đồng), nếu bạn muốn nó xuất hiện ở phía trước, hãy đánh dấu vào đây và lưu lại.',
+            'currency_big_format' => 'Khi bật chế độ này, các số tiền lớn hơn 1 triệu sẽ được chuyển đổi đơn vị sang triệu (hoặc tỷ). Ví dụ: 1,000,000đ sẽ đổi thành 1 triệu, 1,624,000,000đ sẽ đổi thành 1 tỷ 624 triệu.',
             //
             'eb_product_per_page' => 'Khi số này lớn hơn 0, trong trang chi tiết ' . AdminTranslate::PROD . ' sẽ lấy các bài cùng nhóm với bài hiện tại để giới thiệu',
             'main_slider_slug' => 'Nhập slug của slider chính vào đây, khi hàm the_slider không tìm được slider tương ứng thì nó sẽ lấy slider này để gán vào',
@@ -805,6 +818,20 @@ class ConfigType
             ],
             'bank_bin_code' => [
                 '' => '[ Chọn ngân hàng ]'
+            ],
+            'currency_format' => [
+                '' => '[ Chọn đơn vị tiền tệ ]',
+                'vn/0111' => 'vnđ (vn/0111)',
+                'VN/00d0' => 'VNĐ (VN/00d0)',
+                'VND' => 'VND (VND)',
+                '$' => '$ ($)',
+                'USD' => 'USD (USD)',
+                '/00A5' => '&yen; (/00A5)',
+                'NT$' => 'NT$ (NT$)',
+                // 'KRW' => 'Korean won',
+                '/20A9' => '&#8361; (/20A9)',
+                // 'PHP' => '&#8369;',
+                '/20B1' => '&#8369; (/20B1)'
             ],
             //
             'MY_DB_DRIVER' => [

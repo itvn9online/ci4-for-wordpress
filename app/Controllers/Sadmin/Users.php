@@ -519,6 +519,16 @@ class Users extends Sadmin
         }
         // các thông tin khác thì cập nhật bình thường
         else {
+            // 1 số thông tin chỉ gán khi có sự thay đổi
+            $change = $this->MY_post('change');
+            if ($change['user_email'] != $change['user_old_email']) {
+                $data['user_email'] = $change['user_email'];
+            }
+            if ($change['user_login'] != $change['user_old_login']) {
+                $data['user_login'] = $change['user_login'];
+            }
+
+            //
             if (isset($data['user_email'])) {
                 $this->validation->reset();
                 $this->validation->setRules(
@@ -544,7 +554,7 @@ class Users extends Sadmin
                 */
             }
         }
-        //print_r($data);
+        // print_r($data);
         if (isset($data['firebase_uid']) && isset($_POST['firebase_old_uid']) && !empty($data['firebase_uid']) && $data['firebase_uid'] != $_POST['firebase_old_uid']) {
             $data['firebase_uid'] = $this->base_model->mdnam($data['firebase_uid']);
             //print_r($data);

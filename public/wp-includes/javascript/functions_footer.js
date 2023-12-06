@@ -42,7 +42,7 @@ function done_action_submit(go_to, token, ck_key) {
 
 // chức năng đồng bộ dữ liệu liên quan đến post, term
 function sync_ajax_post_term() {
-	var last_run = g_func.getc("sync-ajax-post-term");
+	let last_run = g_func.getc("sync-ajax-post-term");
 	// console.log("last_run:", last_run);
 	if (last_run !== null) {
 		last_run *= 1;
@@ -86,15 +86,15 @@ function WGR_builder_signature() {
 	console.log("run_builder_signature:", run_builder_signature);
 
 	//
-	var canvas = document.body.appendChild(document.createElement("canvas"));
-	var ctx = canvas.getContext("2d");
+	let canvas = document.body.appendChild(document.createElement("canvas"));
+	let ctx = canvas.getContext("2d");
 	canvas.height = 200;
 	canvas.width = 375;
 	canvas.style.position = "absolute";
 	canvas.style.left = "-9999px";
 
 	// Text with lowercase/uppercase/punctuation symbols
-	var txt = document.domain || navigator.userAgent;
+	let txt = document.domain || navigator.userAgent;
 	// console.log("txt:", txt);
 	ctx.textBaseline = "top";
 	// The most common type
@@ -136,9 +136,9 @@ function WGR_builder_signature() {
 	ctx.fill("evenodd");
 
 	//
-	var sha256 = (function () {
+	let sha256 = (function () {
 		// Eratosthenes seive to find primes up to 311 for magic constants. This is why SHA256 is better than SHA1
-		var i = 1,
+		let i = 1,
 			j,
 			K = [],
 			H = [];
@@ -161,7 +161,7 @@ function WGR_builder_signature() {
 			return (X >>> n) | (X << (32 - n));
 		}
 		function SHA256(b) {
-			var HASH = H.slice((i = 0)),
+			let HASH = H.slice((i = 0)),
 				s = unescape(encodeURI(b)),
 				/*
             encode as utf8 */ W = [],
@@ -225,4 +225,57 @@ function WGR_builder_signature() {
 
 	//
 	return true;
+}
+
+/**
+ * Khi người dùng bấm nút thêm sp vào giỏ hàng
+ * Web nào có sử dụng chức năng mua hàng thì trong file d.js của child-theme theme gọi tới function để dùng hiệu ứng thêm sp vào giỏ hàng
+ */
+function action_add_to_cart() {
+	$(".click-add-to-cart").click(function () {
+		let a = $(this).attr("data-id") || "";
+		if (a != "") {
+			console.log("Add to cart:", a);
+
+			//
+			a *= 1;
+			if (isNaN(a)) {
+				WGR_alert("Product ID ERROR", "error");
+			} else {
+				// lấy danh sách giỏ hàng hiện tại
+				let current_cart = localStorage.getItem("wgr_local_cart_data");
+				if (current_cart === null) {
+					current_cart = {};
+				} else {
+					// console.log("current_cart:", current_cart);
+					current_cart = JSON.parse(current_cart);
+					// console.log("current_cart:", current_cart);
+				}
+
+				// xem sp này đã được thêm vào giỏ chưa
+				if (typeof current_cart["_" + a] == "undefined") {
+					current_cart["_" + a] = 1;
+				} else {
+					current_cart["_" + a] *= 1;
+					if (isNaN(current_cart["_" + a]) || current_cart["_" + a] < 1) {
+						current_cart["_" + a] = 1;
+					} else {
+						current_cart["_" + a] = current_cart["_" + a] + 1;
+					}
+				}
+				console.log("current_cart:", current_cart);
+				localStorage.setItem(
+					"wgr_local_cart_data",
+					JSON.stringify(current_cart)
+				);
+			}
+		}
+	});
+}
+
+/**
+ * Khi hoàn tất quá trình đặt hàng -> clear cart
+ */
+function WGR_clear_local_cart() {
+	return localStorage.removeItem("wgr_local_cart_data");
 }

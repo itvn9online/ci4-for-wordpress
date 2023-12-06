@@ -655,13 +655,14 @@ class Sync extends BaseController
         $this->base_model->scache(__FUNCTION__, time());
     }
 
-    /*
+    /**
      * unzip file
      */
     protected function MY_unzip($file, $dir)
     {
         echo $file . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
         echo $dir . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // die(__CLASS__ . ':' . __LINE__);
 
         //
         $zip = new \ZipArchive();
