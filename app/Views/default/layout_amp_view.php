@@ -35,8 +35,11 @@
     }
     ?>
     <style amp-boilerplate>
-        <?php echo file_get_contents(PUBLIC_PUBLIC_PATH . 'wp-includes/css/amp-boilerplate.css'); ?>
+        <?php
+        echo file_get_contents(PUBLIC_PUBLIC_PATH . 'wp-includes/css/amp-boilerplate.css');
+        ?>
     </style>
+    <!-- <link rel="stylesheet" href="<?php echo DYNAMIC_BASE_URL; ?>wp-includes/css/amp-boilerplate.css"> -->
     <noscript>
         <style amp-boilerplate>
             body {
@@ -48,8 +51,11 @@
         </style>
     </noscript>
     <style amp-custom>
-        <?php echo file_get_contents(PUBLIC_PUBLIC_PATH . 'wp-includes/css/amp-custom.css'); ?>
+        <?php
+        echo file_get_contents(PUBLIC_PUBLIC_PATH . 'wp-includes/css/amp-custom.css');
+        ?>
     </style>
+    <!-- <link rel="stylesheet" href="<?php echo DYNAMIC_BASE_URL; ?>wp-includes/css/amp-custom.css"> -->
     <script type="application/ld+json">
         <?php echo json_encode($breadcrumb_list); ?>
     </script>
