@@ -15,7 +15,7 @@
     <?php echo $data['post_content']; ?>
 </div>
 <br>
-<h2><?php $lang_model->the_text('amp_details_same_post', 'Bài cùng chuyên mục'); ?></h2>
+<h2><?php $lang_model->the_text('amp_details_same_post', 'Bài viết khác'); ?></h2>
 <ul class="amp-related-posts">
     <?php
 
