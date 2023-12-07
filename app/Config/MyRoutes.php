@@ -89,7 +89,9 @@ foreach ($arr_prefix_routes as $v) {
 
 
         // amp
-        $routes->get('amp/(:num)/(:segment)', 'Amps::post_details/$1/$2');
+        $routes->get('amp/(:num)/(:segment)', 'Accelerated::post_details/$1/$2');
+        $routes->get('amps/(:num)/(:segment)', 'Accelerated::post_lists/$1/$2');
+        $routes->get('amps/(:num)/(:num)/(:segment)', 'Accelerated::posts_lists/$1/$2/$3');
 
 
         // blog

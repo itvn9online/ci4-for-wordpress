@@ -1,6 +1,15 @@
 <header class="amp-wp-article-header">
     <h1 class="amp-wp-title"><a href="<?php echo $amp_link; ?>"><?php echo $data['post_title']; ?></a></h1>
-    <div><?php echo date('d/m/Y H:i', strtotime($data['post_modified'])); ?></div>
+    <div>
+        <?php
+        if ($terms_link != '') {
+        ?>
+            <a href="<?php echo $terms_link; ?>"><?php echo $terms_title; ?></a> |
+        <?php
+        }
+        ?>
+        <?php echo date('d/m/Y H:i', strtotime($data['post_modified'])); ?>
+    </div>
 </header>
 <div class="amp-wp-article-content">
     <?php echo $data['post_content']; ?>

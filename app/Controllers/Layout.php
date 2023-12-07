@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 // Libraries
 use App\Libraries\PostType;
-//use App\Libraries\ConfigType;
+use App\Libraries\TaxonomyType;
 
 //
 class Layout extends Sync
@@ -478,11 +478,17 @@ class Layout extends Sync
         //
         $this->term_model->update_count_post_in_term($data);
 
+        // hiện tại chỉ hỗ trợ bản amp cho tin tức
+        $amp_link = '';
+        if (ENABLE_AMP_VERSION === true && $data['taxonomy'] == TaxonomyType::POSTS) {
+            $amp_link = $this->base_model->amp_term_link($data, $ops['page_num']);
+        }
+
         //
         //$this->create_breadcrumb( $data[ 'name' ] );
         $this->create_term_breadcrumb($data);
         //print_r( $this->taxonomy_slider );
-        $seo = $this->base_model->term_seo($data, $full_link);
+        $seo = $this->base_model->term_seo($data, $full_link, $amp_link);
 
         // chỉnh lại thông số cho canonical
         if ($ops['page_num'] > 1) {

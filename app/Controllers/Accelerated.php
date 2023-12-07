@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * AMP: Accelerated Mobile Pages
+ */
+
 namespace App\Controllers;
 
 //
@@ -7,7 +11,7 @@ use App\Libraries\PostType;
 use App\Libraries\DeletedStatus;
 
 //
-class Amps extends Layout
+class Accelerated extends Layout
 {
     public $amp_youtube = false;
     public $amp_iframe = false;
@@ -24,11 +28,12 @@ class Amps extends Layout
     {
         // var_dump($id);
         // var_dump($slug);
-        // var_dump($sdsg);
 
         //
         if (ENABLE_AMP_VERSION !== true) {
             return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! AMP version is not ENABLE...');
+        } else if (!is_numeric($id)) {
+            return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! post ID mismatch...');
         }
 
         //
@@ -36,7 +41,7 @@ class Amps extends Layout
         // var_dump($this->cache_key);
         $cache_value = $this->MY_cache($this->cache_key);
         if ($cache_value !== NULL) {
-            // return $this->show_cache($cache_value);
+            return $this->show_cache($cache_value);
         }
 
 
@@ -55,7 +60,7 @@ class Amps extends Layout
         // print_r($data);
         // die(__CLASS__ . ':' . __LINE__);
         if (empty($data)) {
-            //print_r( $data );
+            // print_r($data);
             return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Không xác định được dữ liệu bài viết...');
         }
 
@@ -72,7 +77,7 @@ class Amps extends Layout
 
         // thay thế các tag cũ bằng tag mới
         $data['post_content'] = $this->amp_change_tag($data['post_content']);
-        //print_r( $data );
+        // print_r($data);
 
         $data = $this->post_model->metaTitleDescription($data);
         // print_r($data);
@@ -112,6 +117,8 @@ class Amps extends Layout
             }
 
             //
+            $terms_title = '';
+            $terms_link = '';
             if (isset($data['post_meta']['post_category'])) {
                 $post_category = explode(',', $data['post_meta']['post_category']);
                 // print_r($post_category);
@@ -160,6 +167,15 @@ class Amps extends Layout
                                 'name' => $v['name'],
                             ],
                         ];
+
+                        //
+                        if ($terms_link == '') {
+                            // link bản desktop
+                            // $terms_link = $v_link;
+                            // link bản amp
+                            $terms_link = $this->base_model->amp_term_link($v);
+                            $terms_title = $v['name'];
+                        }
                     }
                 }
             }
@@ -207,7 +223,7 @@ class Amps extends Layout
                 // trả về tổng số bản ghi -> tương tự mysql num row
                 //'getNumRows' => 1,
                 //'offset' => 0,
-                'limit' => 5
+                'limit' => 10
             )
         );
         // print_r($next_post);
@@ -235,7 +251,7 @@ class Amps extends Layout
                 // trả về tổng số bản ghi -> tương tự mysql num row
                 //'getNumRows' => 1,
                 //'offset' => 0,
-                'limit' => 5
+                'limit' => 10
             )
         );
         // print_r($prev_post);
@@ -248,6 +264,8 @@ class Amps extends Layout
             'prev_post' => $prev_post,
             'seo' => $seo,
             'full_link' => $full_link,
+            'terms_title' => $terms_title,
+            'terms_link' => $terms_link,
             'amp_link' => $this->base_model->amp_post_link($data),
             'amp_title' => $data['post_title'],
             'getconfig' => $this->getconfig,
@@ -295,6 +313,257 @@ class Amps extends Layout
 
         //
         return $cache_value;
+    }
+
+    /**
+     * Trả về dữ liệu amp cho phần term
+     **/
+    public function post_lists($id, $slug, $page_num = 1)
+    {
+        // var_dump($id);
+        // var_dump($slug);
+
+        //
+        if (ENABLE_AMP_VERSION !== true) {
+            return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! AMP version is not ENABLE...');
+        } else if (!is_numeric($id)) {
+            return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! term ID mismatch...');
+        }
+
+        //
+        $this->cache_key = $this->term_model->key_cache($id) . 'amp';
+        // var_dump($this->cache_key);
+        $cache_value = $this->MY_cache($this->cache_key);
+        if ($cache_value !== NULL) {
+            return $this->show_cache($cache_value);
+        }
+
+
+        //
+        $data = $this->base_model->select(
+            '*',
+            WGR_TERM_VIEW,
+            array(
+                // các kiểu điều kiện where
+                'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                'term_id' => $id,
+            ),
+            array(
+                // hiển thị mã SQL để check
+                // 'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => 1
+            )
+        );
+        // print_r($data);
+        // die(__CLASS__ . ':' . __LINE__);
+        if (empty($data)) {
+            // print_r($data);
+            return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Không xác định được dữ liệu danh mục...');
+        }
+
+
+        //
+        $post_per_page = $this->base_model->get_config($this->getconfig, 'eb_posts_per_page', 20);
+
+        //
+        $post_where_ids = [
+            // các kiểu điều kiện where
+            'is_deleted' => DeletedStatus::FOR_DEFAULT,
+            'term_taxonomy_id' => $id,
+        ];
+        $post_filter_ids = [
+            // hiển thị mã SQL để check
+            // 'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            //'get_query' => 1,
+            // trả về COUNT(column_name) AS column_name
+            //'selectCount' => 'ID',
+            // trả về tổng số bản ghi -> tương tự mysql num row
+            //'getNumRows' => 1,
+            //'offset' => 0,
+            // 'limit' => $post_per_page,
+            'limit' => -1,
+        ];
+
+        // Phân trang
+        if ($page_num > 1) {
+            $total_filter_ids = $post_filter_ids;
+            $total_filter_ids['selectCount'] = 'object_id';
+
+            $totalThread = $this->base_model->select(
+                'object_id',
+                'term_relationships',
+                $post_where_ids,
+                $total_filter_ids
+            );
+            // print_r($totalThread);
+            $totalThread = $totalThread[0]['object_id'];
+            // echo $totalThread . '<br>' . PHP_EOL;
+            $totalPage = ceil($totalThread / $post_per_page);
+            if ($totalPage < 1) {
+                $totalPage = 1;
+            }
+            // echo $totalPage . '<br>' . PHP_EOL;
+            //echo $totalPage . '<br>' . PHP_EOL;
+            if ($page_num > $totalPage) {
+                $page_num = $totalPage;
+            } else if ($page_num < 1) {
+                $page_num = 1;
+            }
+            //echo $totalThread . '<br>' . PHP_EOL;
+            //echo $totalPage . '<br>' . PHP_EOL;
+            $offset = ($page_num - 1) * $post_per_page;
+            // echo $offset . '<br>' . PHP_EOL;
+        } else {
+            $offset = 0;
+        }
+
+        //
+        $post_filter_ids['offset'] = $offset;
+        $post_filter_ids['limit'] = $post_per_page;
+        $post_filter_ids['group_by'] = [
+            'object_id'
+        ];
+        $post_filter_ids['order_by'] = [
+            'object_id' => 'DESC'
+        ];
+
+        $post_ids = $this->base_model->select(
+            'object_id',
+            'term_relationships',
+            $post_where_ids,
+            $post_filter_ids
+        );
+        // print_r($post_ids);
+        // die(__CLASS__ . ':' . __LINE__);
+        if (empty($post_ids)) {
+            // print_r($post_ids);
+            return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Không xác định được danh sách bài viết...');
+        }
+
+        //
+        $ids = [];
+        foreach ($post_ids as $v) {
+            $ids[] = $v['object_id'];
+        }
+        // print_r($ids);
+        // die(__CLASS__ . ':' . __LINE__);
+
+
+        //
+        $post_data = $this->post_model->select_post(
+            0,
+            [
+                'post_status' => PostType::PUBLICITY,
+                'post_type' => PostType::POST,
+            ],
+            [
+                'where_in' => array(
+                    'ID' => $ids
+                ),
+                'order_by' => [
+                    'menu_order' => 'DESC',
+                    'time_order' => 'DESC',
+                    'ID' => 'DESC',
+                ],
+                // hiển thị mã SQL để check
+                // 'show_query' => 1,
+                'limit' => -1
+            ],
+            '*'
+        );
+        // print_r($post_data);
+        // die(__CLASS__ . ':' . __LINE__);
+        if (empty($post_data)) {
+            // print_r($post_data);
+            return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Không xác định được chi tiết bài viết...');
+        }
+        $post_data = $this->post_model->list_meta_post($post_data);
+        // print_r($post_data);
+
+        //
+        $item_position = 1;
+        $itemListElement = [[
+            '@type' => 'ListItem',
+            'position' => $item_position,
+            'item' => [
+                '@id' => DYNAMIC_BASE_URL,
+                'name' => 'Trang chủ',
+            ],
+        ]];
+
+
+        //
+        $full_link = $this->term_model->get_full_permalink($data);
+        if ($page_num > 1) {
+            $full_link = rtrim($full_link, '/') . '/page/' . $page_num;
+        }
+        $seo = $this->base_model->term_seo($data, $full_link);
+        // print_r($seo);
+        // die(__CLASS__ . ':' . __LINE__);
+
+        //
+        $item_position++;
+        $itemListElement[] = [
+            '@type' => 'ListItem',
+            'position' => $item_position,
+            'item' => [
+                '@id' => $full_link,
+                'name' => $data['name'],
+            ],
+        ];
+        // print_r($itemListElement);
+        // die(__CLASS__ . ':' . __LINE__);
+
+
+        // còn không sẽ tiến hành lưu cache
+        $cache_value = view('layout_amp_view', [
+            'data' => $data,
+            'post_data' => $post_data,
+            'seo' => $seo,
+            'full_link' => $full_link,
+            'terms_link' => '',
+            'amp_link' => $this->base_model->amp_term_link($data, $page_num),
+            'amp_title' => $data['name'],
+            'getconfig' => $this->getconfig,
+            'option_model' => $this->option_model,
+            'amp_youtube' => $this->amp_youtube,
+            'amp_iframe' => $this->amp_iframe,
+            'file_view' => 'term_amp_view',
+            // structured data
+            'breadcrumb_list' => [
+                '@context' => 'http://schema.org',
+                '@type' => 'BreadcrumbList',
+                'itemListElement' => $itemListElement,
+            ],
+            'blog_posting' => NULL,
+        ]);
+
+        $cache_save = $this->MY_cache($this->cache_key, $cache_value . '<!-- Served from: ' . __FUNCTION__ . ' -->');
+        //var_dump( $cache_save );
+
+        //
+        return $cache_value;
+    }
+
+    /**
+     * Trả về dữ liệu amp cho phần term (có phân trang)
+     **/
+    public function posts_lists($id, $page_num, $slug)
+    {
+        // var_dump($id);
+        // var_dump($page_num);
+        // var_dump($slug);
+
+        //
+        return $this->post_lists($id, $slug, $page_num);
     }
 
     protected function amp_remove_attr($str)
@@ -345,7 +614,7 @@ class Amps extends Layout
 
         // tách mảng theo tag nhập vào
         $c = explode('<' . $tag, $str);
-        //		print_r( $c );
+        // print_r($c);
 
         $new_str = '';
         foreach ($c as $k => $v) {
@@ -379,7 +648,7 @@ class Amps extends Layout
 
         // cắt mảng theo attr nhập vào
         $c = explode($attr, $str);
-        //		print_r( $c );
+        // print_r( $c );
 
         $new_str = '';
         foreach ($c as $k => $v) {
@@ -426,7 +695,7 @@ class Amps extends Layout
     protected function change_tag($str, $tag, $new_tag, $end_tag = '>')
     {
         $c = explode('<' . $tag . ' ', $str);
-        //		print_r( $c );
+        // print_r( $c );
 
         $new_str = '';
         foreach ($c as $k => $v) {
@@ -502,7 +771,7 @@ class Amps extends Layout
                         // lấy chiều rộng thực của ảnh nếu chưa có
                         if (strpos($v2, ' width=') === false) {
                             $amp_avt_size = $this->get_src_img($v2);
-                            //print_r($amp_avt_size);
+                            // print_r($amp_avt_size);
 
                             //
                             if (!empty($amp_avt_size)) {
@@ -615,7 +884,7 @@ class Amps extends Layout
         //
         if ($local_img != '' && is_file($local_img)) {
             $local_img = getimagesize($local_img);
-            //			print_r( $check_img );
+            // print_r( $check_img );
 
             //
             $amp_avt_width = $local_img[0];
@@ -636,7 +905,7 @@ class Amps extends Layout
         //		echo $get_img_src . '<br>' . "\n";
 
         $get_img_src = explode('src="', $get_img_src);
-        //		print_r( $get_img_src );
+        // print_r( $get_img_src );
 
         if (isset($get_img_src[1])) {
             //			echo $get_img_src . '<br>' . "\n";

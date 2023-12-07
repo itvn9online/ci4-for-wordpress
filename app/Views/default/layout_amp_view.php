@@ -53,9 +53,15 @@
     <script type="application/ld+json">
         <?php echo json_encode($breadcrumb_list); ?>
     </script>
-    <script type="application/ld+json">
-        <?php echo json_encode($blog_posting); ?>
-    </script>
+    <?php
+    if (!empty($blog_posting)) {
+    ?>
+        <script type="application/ld+json">
+            <?php echo json_encode($blog_posting); ?>
+        </script>
+    <?php
+    }
+    ?>
 </head>
 
 <body>
@@ -75,7 +81,15 @@
     </article>
     <article class="amp-wp-article">
         <footer class="amp-wp-article-footer">
-            <div class="amp-wp-meta amp-wp-tax-category"><a href="<?php echo DYNAMIC_BASE_URL; ?>">Trang chủ</a> &raquo; <a href="<?php echo $amp_link; ?>"><?php echo $amp_title; ?></a> </div>
+            <div class="amp-wp-meta amp-wp-tax-category"><a href="<?php echo DYNAMIC_BASE_URL; ?>">Trang chủ</a>
+                <?php
+                if ($terms_link != '') {
+                ?>
+                    &raquo; <a href="<?php echo $terms_link; ?>"><?php echo $terms_title; ?></a>
+                <?php
+                }
+                ?>
+                &raquo; <a href="<?php echo $amp_link; ?>"><?php echo $amp_title; ?></a> </div>
         </footer>
     </article>
     <footer class="amp-wp-footer">
