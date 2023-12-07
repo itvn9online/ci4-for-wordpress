@@ -41,7 +41,7 @@ class Accelerated extends Layout
         // var_dump($this->cache_key);
         $cache_value = $this->MY_cache($this->cache_key);
         if ($cache_value !== NULL) {
-            // return $this->show_cache($cache_value);
+            return $this->show_cache($cache_value);
         }
 
 
@@ -335,7 +335,7 @@ class Accelerated extends Layout
         // var_dump($this->cache_key);
         $cache_value = $this->MY_cache($this->cache_key);
         if ($cache_value !== NULL) {
-            // return $this->show_cache($cache_value);
+            return $this->show_cache($cache_value);
         }
 
 

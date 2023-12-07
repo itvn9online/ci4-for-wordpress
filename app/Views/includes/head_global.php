@@ -36,7 +36,7 @@ if ($seo['amp_url'] != '') {
 
 ?>
 <!-- This site is optimized with the Yoast SEO plugin -->
-<link href="<?php echo $option_model->get_the_favicon($getconfig); ?>" rel="shortcut icon" type="image/png" />
+<link rel="shortcut icon" type="image/png" href="<?php echo $option_model->get_the_favicon($getconfig); ?>" />
 <meta name="title" content="<?php echo $seo['title']; ?>" />
 <meta name="keywords" content="<?php echo $seo['keyword']; ?>" />
 <meta name="news_keywords" content="<?php echo $seo['keyword']; ?>" />

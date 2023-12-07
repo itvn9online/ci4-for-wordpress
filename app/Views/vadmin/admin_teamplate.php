@@ -86,7 +86,7 @@ if ($debug_enable === true) {
     <meta name="robots" content="noindex, nofollow" />
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"/> -->
     <base href="<?php echo DYNAMIC_BASE_URL; ?>" />
-    <link href="<?php echo DYNAMIC_BASE_URL; ?>favicon.png" rel="shortcut icon" type="image/png" />
+    <link rel="shortcut icon" type="image/png" href="<?php echo DYNAMIC_BASE_URL; ?>favicon.png" />
     <!-- bootstrap -->
     <link rel="stylesheet" type="text/css" media="all" href="wp-includes/thirdparty/bootstrap/css/bootstrap.min.css" />
     <!-- chưa có thời gian cập nhật bootstrap bản mới -> vẫn ưu tiên dùng bản cũ vậy -->
