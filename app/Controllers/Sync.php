@@ -791,6 +791,7 @@ class Sync extends BaseController
     protected function replace_content($str)
     {
         $str = str_replace('../../../public/upload/', 'upload/', $str);
+        $str = str_replace('../../upload/', 'upload/', $str);
         $str = str_replace('/public/upload/', '/upload/', $str);
         $str = str_replace(base_url() . '/', '', $str);
 

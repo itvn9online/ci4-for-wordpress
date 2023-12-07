@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 //
 use App\Libraries\PostType;
+use App\Libraries\DeletedStatus;
 
 //
 class Amps extends Layout
@@ -23,6 +24,7 @@ class Amps extends Layout
     {
         // var_dump($id);
         // var_dump($slug);
+        // var_dump($sdsg);
 
         //
         if (ENABLE_AMP_VERSION !== true) {
@@ -34,7 +36,7 @@ class Amps extends Layout
         // var_dump($this->cache_key);
         $cache_value = $this->MY_cache($this->cache_key);
         if ($cache_value !== NULL) {
-            return $this->show_cache($cache_value);
+            // return $this->show_cache($cache_value);
         }
 
 
@@ -60,6 +62,10 @@ class Amps extends Layout
         //
         $data['post_content'] = $this->replace_content($data['post_content']);
 
+        //
+        $data['post_content'] = str_replace('="upload/', '="' . DYNAMIC_BASE_URL . 'upload/', $data['post_content']);
+        $data['post_content'] = str_replace(', upload/', ', ' . DYNAMIC_BASE_URL . 'upload/', $data['post_content']);
+
         // điều chỉnh lại nội dung theo chuẩn AMP
         // Loại bỏ các attr không cần thiết và tag không được hỗ trợ
         $data['post_content'] = $this->amp_remove_attr($data['post_content']);
@@ -71,11 +77,111 @@ class Amps extends Layout
         $data = $this->post_model->metaTitleDescription($data);
         // print_r($data);
 
+        //
+        $blog_posting_width = '400';
+        $blog_posting_height = '400';
+        $blog_posting_url = '';
+        $item_position = 1;
+        $itemListElement = [[
+            '@type' => 'ListItem',
+            'position' => $item_position,
+            'item' => [
+                '@id' => DYNAMIC_BASE_URL,
+                'name' => 'Trang chủ',
+            ],
+        ]];
+        if (isset($data['post_meta'])) {
+            $blog_posting_img = '';
+            if (isset($data['post_meta']['image_large'])) {
+                $blog_posting_img = $data['post_meta']['image_large'];
+            } else if (isset($data['post_meta']['image'])) {
+                $blog_posting_img = $data['post_meta']['image'];
+            }
+            if ($blog_posting_img != '' && strpos($blog_posting_img, '//') === false) {
+                $blog_posting_url = DYNAMIC_BASE_URL . $blog_posting_img;
+                $blog_posting_img = PUBLIC_PUBLIC_PATH . $blog_posting_img;
+                // echo $blog_posting_img . '<br>' . PHP_EOL;
+                if (is_file($blog_posting_img)) {
+                    $get_file_info = getimagesize($blog_posting_img);
+                    // print_r($get_file_info);
+
+                    //
+                    $blog_posting_width = $get_file_info[0];
+                    $blog_posting_height = $get_file_info[1];
+                }
+            }
+
+            //
+            if (isset($data['post_meta']['post_category'])) {
+                $post_category = explode(',', $data['post_meta']['post_category']);
+                // print_r($post_category);
+
+                //
+                if (!empty($post_category)) {
+                    $terms_data = $this->base_model->select(
+                        '*',
+                        'terms',
+                        array(
+                            // các kiểu điều kiện where
+                            'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                        ),
+                        array(
+                            'where_in' => array(
+                                'term_id' => $post_category
+                            ),
+                            'order_by' => array(
+                                'term_id' => 'ASC'
+                            ),
+                            // hiển thị mã SQL để check
+                            // 'show_query' => 1,
+                            // trả về câu query để sử dụng cho mục đích khác
+                            //'get_query' => 1,
+                            // trả về COUNT(column_name) AS column_name
+                            //'selectCount' => 'ID',
+                            // trả về tổng số bản ghi -> tương tự mysql num row
+                            //'getNumRows' => 1,
+                            //'offset' => 0,
+                            'limit' => 5
+                        )
+                    );
+                    // print_r($terms_data);
+
+                    foreach ($terms_data as $v) {
+                        // $v_link = $this->term_model->get_full_permalink($v);
+                        $v_link = DYNAMIC_BASE_URL . $v['term_permalink'];
+
+                        //
+                        $item_position++;
+                        $itemListElement[] = [
+                            '@type' => 'ListItem',
+                            'position' => $item_position,
+                            'item' => [
+                                '@id' => $v_link,
+                                'name' => $v['name'],
+                            ],
+                        ];
+                    }
+                }
+            }
+        }
+
 
         //
         $full_link = $this->post_model->get_full_permalink($data);
         $seo = $this->base_model->post_seo($data, $full_link);
         // print_r($seo);
+
+        //
+        $item_position++;
+        $itemListElement[] = [
+            '@type' => 'ListItem',
+            'position' => $item_position,
+            'item' => [
+                '@id' => $full_link,
+                'name' => $data['post_title'],
+            ],
+        ];
+        // print_r($itemListElement);
 
 
         // lấy các bài mới hơn
@@ -143,29 +249,17 @@ class Amps extends Layout
             'seo' => $seo,
             'full_link' => $full_link,
             'amp_link' => $this->base_model->amp_post_link($data),
+            'amp_title' => $data['post_title'],
             'getconfig' => $this->getconfig,
             'option_model' => $this->option_model,
             'amp_youtube' => $this->amp_youtube,
             'amp_iframe' => $this->amp_iframe,
+            'file_view' => 'post_amp_view',
             // structured data
             'breadcrumb_list' => [
                 '@context' => 'http://schema.org',
                 '@type' => 'BreadcrumbList',
-                'itemListElement' => [[
-                    '@type' => 'ListItem',
-                    'position' => '1',
-                    'item' => [
-                        '@id' => DYNAMIC_BASE_URL,
-                        'name' => 'Trang chủ',
-                    ],
-                ], [
-                    '@type' => 'ListItem',
-                    'position' => '2',
-                    'item' => [
-                        '@id' => $full_link,
-                        'name' => $data['post_title'],
-                    ],
-                ]],
+                'itemListElement' => $itemListElement,
             ],
             'blog_posting' => [
                 '@context' => 'http://schema.org',
@@ -186,12 +280,12 @@ class Amps extends Layout
                     '@type' => 'Person',
                     'name' => $this->getconfig->name,
                 ],
-                'description' => $data['post_title'],
+                'description' => $seo['description'],
                 'image' => [
                     '@type' => 'ImageObject',
-                    'width' => '400',
-                    'height' => '400',
-                    'url' => '',
+                    'width' => $blog_posting_width,
+                    'height' => $blog_posting_height,
+                    'url' => $blog_posting_url,
                 ],
             ],
         ]);

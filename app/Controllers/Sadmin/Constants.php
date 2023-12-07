@@ -42,6 +42,7 @@ class Constants extends Configs
             'ALLOW_USING_MYSQL_DELETE',
             'WGR_CSP_ENABLE',
             'SITE_LANGUAGE_SUB_FOLDER',
+            'ENABLE_AMP_VERSION',
         ];
 
         //
