@@ -2,6 +2,7 @@
 
 /**
  * AMP: Accelerated Mobile Pages
+ * https://amp.dev/documentation/components/amp-video
  */
 
 namespace App\Controllers;
@@ -16,10 +17,21 @@ class Accelerated extends Layout
 {
     public $amp_youtube = false;
     public $amp_iframe = false;
+    public $amp_video = false;
+    public $amp_base_url = '';
+    public $amp_home_label = '';
 
     public function __construct()
     {
         parent::__construct();
+
+        //
+        $this->amp_home_label = $this->lang_model->get_the_text('breadcrumb_home', 'Trang chủ');
+        $this->amp_base_url = DYNAMIC_BASE_URL;
+        // thêm prefix cho url -> hỗ trợ đa ngôn ngữ sub-folder
+        if (SITE_LANGUAGE_SUB_FOLDER == true && $this->lang_key != SITE_LANGUAGE_DEFAULT) {
+            $this->amp_base_url .= $this->lang_key . '/';
+        }
 
         //
         // ini_set('display_errors', 1);
@@ -97,8 +109,8 @@ class Accelerated extends Layout
             '@type' => 'ListItem',
             'position' => $item_position,
             'item' => [
-                '@id' => DYNAMIC_BASE_URL,
-                'name' => 'Trang chủ',
+                '@id' => $this->amp_base_url,
+                'name' => $this->amp_home_label,
             ],
         ]];
         if (isset($data['post_meta'])) {
@@ -164,7 +176,7 @@ class Accelerated extends Layout
                     $category_ids = [];
                     foreach ($terms_data as $v) {
                         // $v_link = $this->term_model->get_full_permalink($v);
-                        $v_link = DYNAMIC_BASE_URL . $v['term_permalink'];
+                        $v_link = $this->amp_base_url . $v['term_permalink'];
                         $category_ids[] = $v['term_id'];
 
                         //
@@ -219,7 +231,7 @@ class Accelerated extends Layout
 
         // lấy các bài mới hơn
         $next_post = $this->base_model->select(
-            'ID, post_title, post_name, post_permalink',
+            '*',
             WGR_POST_VIEW,
             array(
                 // các kiểu điều kiện where
@@ -255,7 +267,7 @@ class Accelerated extends Layout
 
         // lấy các bài cũ hơn
         $prev_post = $this->base_model->select(
-            'ID, post_title, post_name, post_permalink',
+            '*',
             WGR_POST_VIEW,
             array(
                 // các kiểu điều kiện where
@@ -292,6 +304,8 @@ class Accelerated extends Layout
 
         // còn không sẽ tiến hành lưu cache
         $cache_value = view('layout_amp_view', [
+            'amp_base_url' => $this->amp_base_url,
+            'amp_home_label' => $this->amp_home_label,
             'data' => $data,
             'next_post' => $next_post,
             'prev_post' => $prev_post,
@@ -305,6 +319,7 @@ class Accelerated extends Layout
             'option_model' => $this->option_model,
             'amp_youtube' => $this->amp_youtube,
             'amp_iframe' => $this->amp_iframe,
+            'amp_video' => $this->amp_video,
             'file_view' => 'post_amp_view',
             // structured data
             'breadcrumb_list' => [
@@ -449,8 +464,8 @@ class Accelerated extends Layout
             '@type' => 'ListItem',
             'position' => $item_position,
             'item' => [
-                '@id' => DYNAMIC_BASE_URL,
-                'name' => 'Trang chủ',
+                '@id' => $this->amp_base_url,
+                'name' => $this->amp_home_label,
             ],
         ]];
 
@@ -480,6 +495,8 @@ class Accelerated extends Layout
 
         // còn không sẽ tiến hành lưu cache
         $cache_value = view('layout_amp_view', [
+            'amp_base_url' => $this->amp_base_url,
+            'amp_home_label' => $this->amp_home_label,
             'data' => $data,
             'post_data' => $post_data,
             'seo' => $seo,
@@ -491,6 +508,7 @@ class Accelerated extends Layout
             'option_model' => $this->option_model,
             'amp_youtube' => $this->amp_youtube,
             'amp_iframe' => $this->amp_iframe,
+            'amp_video' => $this->amp_video,
             'file_view' => 'term_amp_view',
             // structured data
             'breadcrumb_list' => [
@@ -630,7 +648,8 @@ class Accelerated extends Layout
 
         $arr = array(
             'img' => 'amp-img',
-            'iframe' => 'amp-iframe'
+            'iframe' => 'amp-iframe',
+            'video' => 'amp-video',
         );
 
         foreach ($arr as $k => $v) {
@@ -650,7 +669,7 @@ class Accelerated extends Layout
     protected function change_tag($str, $tag, $new_tag, $end_tag = '>')
     {
         $c = explode('<' . $tag . ' ', $str);
-        // print_r( $c );
+        // print_r($c);
 
         $new_str = '';
         foreach ($c as $k => $v) {
@@ -757,6 +776,20 @@ class Accelerated extends Layout
                     } else {
                         $v2 = '';
                     }
+                } else if ($new_tag == 'amp-video') {
+                    // bổ sung poster là logo (nếu chưa có)
+                    if (strpos($v2, 'poster=') === false) {
+                        $v2 .= ' poster="' . DYNAMIC_BASE_URL . $this->option_model->get_the_logo($this->getconfig) . '"';
+                    }
+
+                    //
+                    $v = '<' . $new_tag . ' ' . $v2 . ' layout="responsive">' . $v;
+
+                    // xong thì bỏ v2 để không bị duplicate tag
+                    $v2 = '';
+
+                    //
+                    $this->amp_video = true;
                 }
 
                 // tổng hợp nội dung lại
@@ -771,6 +804,7 @@ class Accelerated extends Layout
             //
             $new_str .= $v;
         }
+        $new_str = str_replace('</video>', '</amp-video>', $new_str);
 
         return $new_str;
     }

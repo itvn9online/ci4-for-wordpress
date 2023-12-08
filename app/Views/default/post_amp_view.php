@@ -22,7 +22,7 @@
     // bài mới hơn
     foreach ($next_post as $v) {
         $v_link = $base_model->amp_post_link($v);
-        // $v_link = DYNAMIC_BASE_URL . $v['post_permalink'];
+        // $v_link = $amp_base_url . $v['post_permalink'];
     ?>
         <li><a href="<?php echo $v_link; ?>"><?php echo $v['post_title']; ?></a></li>
     <?php
@@ -31,7 +31,7 @@
     // bài cũ hơn
     foreach ($prev_post as $v) {
         $v_link = $base_model->amp_post_link($v);
-        // $v_link = DYNAMIC_BASE_URL . $v['post_permalink'];
+        // $v_link = $amp_base_url . $v['post_permalink'];
     ?>
         <li><a href="<?php echo $v_link; ?>"><?php echo $v['post_title']; ?></a></li>
     <?php

@@ -951,7 +951,12 @@ class Base extends Csdl
      **/
     public function amp_post_link($data)
     {
-        return DYNAMIC_BASE_URL . 'amp-' . $data['ID'] . '-' . $data['post_name'];
+        $url = DYNAMIC_BASE_URL;
+        // thêm prefix cho url -> hỗ trợ đa ngôn ngữ sub-folder
+        if (SITE_LANGUAGE_SUB_FOLDER == true && $data['lang_key'] != SITE_LANGUAGE_DEFAULT) {
+            $url .= $data['lang_key'] . '/';
+        }
+        return $url . 'amp-' . $data['ID'] . '-' . $data['post_name'];
     }
 
     /**
@@ -959,9 +964,14 @@ class Base extends Csdl
      **/
     public function amp_term_link($data, $page_num = 1)
     {
-        if ($page_num > 1) {
-            return DYNAMIC_BASE_URL . 'amps/' . $data['term_id'] . '/' . $page_num . '/' . $data['slug'];
+        $url = DYNAMIC_BASE_URL;
+        // thêm prefix cho url -> hỗ trợ đa ngôn ngữ sub-folder
+        if (SITE_LANGUAGE_SUB_FOLDER == true && $data['lang_key'] != SITE_LANGUAGE_DEFAULT) {
+            $url .= $data['lang_key'] . '/';
         }
-        return DYNAMIC_BASE_URL . 'amps/' . $data['term_id'] . '/' . $data['slug'];
+        if ($page_num > 1) {
+            return $url . 'amps/' . $data['term_id'] . '/' . $page_num . '/' . $data['slug'];
+        }
+        return $url . 'amps/' . $data['term_id'] . '/' . $data['slug'];
     }
 }

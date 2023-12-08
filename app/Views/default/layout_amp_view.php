@@ -12,25 +12,32 @@
     <link rel="shortcut icon" type="image/png" href="<?php echo $option_model->get_the_favicon($getconfig); ?>" />
     <link rel="canonical" href="<?php echo $full_link; ?>" />
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather:400,400italic,700,700italic"> -->
-    <script src="https://cdn.ampproject.org/v0.js" async></script>
+    <script src="https://cdn.ampproject.org/v0.js" async {csp-script-nonce}></script>
     <?php
     if ($getconfig->google_analytics != '') {
     ?>
-        <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
+        <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js" {csp-script-nonce}></script>
     <?php
     }
 
     //
     if ($amp_youtube === true) {
     ?>
-        <script async custom-element="amp-youtube" src="https://cdn.ampproject.org/v0/amp-youtube-0.1.js"></script>
+        <script async custom-element="amp-youtube" src="https://cdn.ampproject.org/v0/amp-youtube-0.1.js" {csp-script-nonce}></script>
     <?php
     }
 
     //
     if ($amp_iframe === true) {
     ?>
-        <script async custom-element="amp-iframe" src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"></script>
+        <script async custom-element="amp-iframe" src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js" {csp-script-nonce}></script>
+    <?php
+    }
+
+    //
+    if ($amp_video === true) {
+    ?>
+        <script async custom-element="amp-video" src="https://cdn.ampproject.org/v0/amp-video-0.1.js" {csp-script-nonce}></script>
     <?php
     }
     ?>
@@ -72,7 +79,7 @@
 
 <body>
     <header id="#top" class="amp-wp-header">
-        <div><a href="<?php echo DYNAMIC_BASE_URL; ?>"><?php echo $getconfig->name; ?></a></div>
+        <div><a href="<?php echo $amp_base_url; ?>"><?php echo $getconfig->name; ?></a></div>
     </header>
     <article class="amp-wp-article">
         <?php
@@ -87,7 +94,7 @@
     </article>
     <article class="amp-wp-article">
         <footer class="amp-wp-article-footer">
-            <div class="amp-wp-meta amp-wp-tax-category"><a href="<?php echo DYNAMIC_BASE_URL; ?>">Trang chủ</a>
+            <div class="amp-wp-meta amp-wp-tax-category"><a href="<?php echo $amp_base_url; ?>"><?php echo $amp_home_label; ?></a>
                 <?php
                 if ($terms_link != '') {
                 ?>
@@ -100,11 +107,11 @@
     </article>
     <footer class="amp-wp-footer">
         <div>
-            <p>&copy; Bản quyền <?php echo date('Y'); ?> <?php echo $getconfig->name; ?> - Toàn bộ phiên bản - <a href="<?php echo PARTNER_WEBSITE; ?>" target="_blank" rel="nofollow">AMP by <?php echo PARTNER_BRAND_NAME; ?></a></p>
-            <p class="back-to-top"> <a href="#development=1">Nhà phát triển</a> | <a href="#top">Về đầu trang</a></p>
+            <p>&copy; <?php $lang_model->the_text('amp_copy_right', 'Bản quyền'); ?> <?php echo date('Y'); ?> <?php echo $getconfig->name; ?> - <?php $lang_model->the_text('amp_all_rights_reserved', 'Toàn bộ phiên bản'); ?> - <a href="<?php echo PARTNER_WEBSITE; ?>" target="_blank" rel="nofollow">AMP by <?php echo PARTNER_BRAND_NAME; ?></a></p>
+            <p class="back-to-top"> <a href="#development=1"><?php $lang_model->the_text('amp_development', 'Nhà phát triển'); ?></a> | <a href="#top"><?php $lang_model->the_text('amp_to_top', 'Về đầu trang'); ?></a></p>
         </div>
     </footer>
-    <div class="amp-wp-comments-link"><a href="<?php echo $full_link; ?>">Xem phiên bản đầy đủ</a></div>
+    <div class="amp-wp-comments-link"><a href="<?php echo $full_link; ?>"><?php $lang_model->the_text('amp_full_version', 'Xem phiên bản đầy đủ'); ?></a></div>
     <br>
     <?php
     if ($getconfig->google_analytics != '') {
