@@ -27,17 +27,24 @@ foreach ($post_data as $v) {
     <div class="amp-wp-blogs-list">
         <h2 class="amp-wp-blogs-title"><a href="<?php echo $v_link; ?>"><?php echo $v['post_title']; ?></a></h2>
         <?php
-        if ($blog_posting_img != '' && strpos($blog_posting_img, '//') === false) {
-            $blog_posting_url = DYNAMIC_BASE_URL . $blog_posting_img;
-            $blog_posting_img = PUBLIC_PUBLIC_PATH . $blog_posting_img;
-            // echo $blog_posting_img . '<br>' . PHP_EOL;
-            if (is_file($blog_posting_img)) {
-                $get_file_info = getimagesize($blog_posting_img);
-                // print_r($get_file_info);
-        ?>
-                <div><a href="<?php echo $v_link; ?>"><amp-img src="<?php echo $blog_posting_url; ?>" width="<?php echo $get_file_info[0]; ?>" height="<?php echo $get_file_info[1]; ?>" class="amp-wp-enforced-sizes" sizes="(min-width: 350px) 350px, 100vw"></amp-img></a></div>
-        <?php
+        if ($blog_posting_img != '') {
+            $get_file_info = [400, 300];
+            if (strpos($blog_posting_img, '//') === false) {
+                $blog_posting_url = DYNAMIC_BASE_URL . $blog_posting_img;
+                $blog_posting_img = PUBLIC_PUBLIC_PATH . $blog_posting_img;
+                // echo $blog_posting_img . '<br>' . PHP_EOL;
+                if (is_file($blog_posting_img)) {
+                    $get_file_info = getimagesize($blog_posting_img);
+                    // print_r($get_file_info);
+                }
+            } else {
+                $blog_posting_url = $blog_posting_img;
             }
+            // echo $blog_posting_url . '<br>' . PHP_EOL;
+            // continue;
+        ?>
+            <div><a href="<?php echo $v_link; ?>"><amp-img src="<?php echo $blog_posting_url; ?>" width="<?php echo $get_file_info[0]; ?>" height="<?php echo $get_file_info[1]; ?>" class="amp-wp-enforced-sizes" sizes="(min-width: 350px) 350px, 100vw"></amp-img></a></div>
+        <?php
         }
         ?>
         <div class="amp-wp-blogs-padding">
