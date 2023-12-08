@@ -951,7 +951,7 @@ class Base extends Csdl
      **/
     public function amp_post_link($data)
     {
-        return DYNAMIC_BASE_URL . 'amp/' . $data['ID'] . '/' . $data['post_name'];
+        return DYNAMIC_BASE_URL . 'amp-' . $data['ID'] . '-' . $data['post_name'];
     }
 
     /**
@@ -960,8 +960,8 @@ class Base extends Csdl
     public function amp_term_link($data, $page_num = 1)
     {
         if ($page_num > 1) {
-            return DYNAMIC_BASE_URL . 'amps/' . $data['term_id'] . '/' . $page_num . '/' . $data['slug'];
+            return DYNAMIC_BASE_URL . 'amps-' . $data['term_id'] . '-' . $page_num . '-' . $data['slug'];
         }
-        return DYNAMIC_BASE_URL . 'amps/' . $data['term_id'] . '/' . $data['slug'];
+        return DYNAMIC_BASE_URL . 'amps-' . $data['term_id'] . '-' . $data['slug'];
     }
 }

@@ -9,7 +9,27 @@ foreach ($post_data as $v) {
     $v['post_excerpt'] = trim(strip_tags($v['post_excerpt']));
     if (empty($v['post_excerpt'])) {
         $v['post_excerpt'] = trim(strip_tags($v['post_content']));
-        $v['post_excerpt'] = $base_model->short_string($v['post_excerpt'], '300');
+
+        //
+        $str = '';
+        $a = explode("\n", $v['post_excerpt']);
+        // print_r($a);
+        // continue;
+        foreach ($a as $t) {
+            $t = trim($t);
+            if ($t == '') {
+                continue;
+            }
+
+            $str .= $t . PHP_EOL;
+            if (strlen($str) > 300) {
+                $str = $base_model->short_string($str, 300);
+                break;
+            }
+        }
+
+        //
+        $v['post_excerpt'] = $str;
     }
 
     //

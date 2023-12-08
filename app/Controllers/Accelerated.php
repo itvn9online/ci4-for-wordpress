@@ -376,7 +376,7 @@ class Accelerated extends Layout
         // echo $totalThread . '<br>' . PHP_EOL;
 
         // Phân trang
-        if ($page_num > 1) {
+        if ($page_num > 1 && $totalThread > $post_per_page) {
             $totalPage = ceil($totalThread / $post_per_page);
             if ($totalPage < 1) {
                 $totalPage = 1;

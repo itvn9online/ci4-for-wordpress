@@ -31,6 +31,7 @@ if ($ops['page_num'] > $totalPage) {
 //echo $totalPage . '<br>' . PHP_EOL;
 $offset = ($ops['page_num'] - 1) * $post_per_page;
 
+//
 $public_part_page = $base_model->EBE_pagination($ops['page_num'], $totalPage, $term_model->get_term_permalink($data));
 
 
