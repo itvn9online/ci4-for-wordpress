@@ -9,6 +9,7 @@ namespace App\Controllers;
 //
 use App\Libraries\PostType;
 use App\Libraries\DeletedStatus;
+use App\Libraries\TaxonomyType;
 
 //
 class Accelerated extends Layout
@@ -19,6 +20,10 @@ class Accelerated extends Layout
     public function __construct()
     {
         parent::__construct();
+
+        //
+        // ini_set('display_errors', 1);
+        // error_reporting(E_ALL);
     }
 
     /**
@@ -87,6 +92,7 @@ class Accelerated extends Layout
         $blog_posting_height = '400';
         $blog_posting_url = '';
         $item_position = 1;
+        $arr_where_in = [];
         $itemListElement = [[
             '@type' => 'ListItem',
             'position' => $item_position,
@@ -153,9 +159,13 @@ class Accelerated extends Layout
                     );
                     // print_r($terms_data);
 
+
+                    //
+                    $category_ids = [];
                     foreach ($terms_data as $v) {
                         // $v_link = $this->term_model->get_full_permalink($v);
                         $v_link = DYNAMIC_BASE_URL . $v['term_permalink'];
+                        $category_ids[] = $v['term_id'];
 
                         //
                         $item_position++;
@@ -177,9 +187,16 @@ class Accelerated extends Layout
                             $terms_title = $v['name'];
                         }
                     }
+
+                    //
+                    $arr_where_in = [
+                        'term_id' => $post_category
+                    ];
                 }
             }
         }
+        // print_r($arr_where_in);
+        // die(__CLASS__ . ':' . __LINE__);
 
 
         //
@@ -203,16 +220,24 @@ class Accelerated extends Layout
         // lấy các bài mới hơn
         $next_post = $this->base_model->select(
             'ID, post_title, post_name, post_permalink',
-            'posts',
+            WGR_POST_VIEW,
             array(
                 // các kiểu điều kiện where
                 'ID >' => $data['ID'],
                 'post_status' => PostType::PUBLICITY,
+                // 'taxonomy' => TaxonomyType::POSTS,
                 'post_type' => $data['post_type'],
+                'lang_key' => $this->lang_key,
             ),
             array(
+                'where_in' => $arr_where_in,
+                'group_by' => array(
+                    'ID',
+                ),
                 'order_by' => array(
-                    'ID' => 'ASC'
+                    'menu_order' => 'ASC',
+                    //'time_order' => 'ASC',
+                    'ID' => 'ASC',
                 ),
                 // hiển thị mã SQL để check
                 // 'show_query' => 1,
@@ -231,16 +256,24 @@ class Accelerated extends Layout
         // lấy các bài cũ hơn
         $prev_post = $this->base_model->select(
             'ID, post_title, post_name, post_permalink',
-            'posts',
+            WGR_POST_VIEW,
             array(
                 // các kiểu điều kiện where
                 'ID <' => $data['ID'],
                 'post_status' => PostType::PUBLICITY,
+                // 'taxonomy' => TaxonomyType::POSTS,
                 'post_type' => $data['post_type'],
+                'lang_key' => $this->lang_key,
             ),
             array(
+                'where_in' => $arr_where_in,
+                'group_by' => array(
+                    'ID',
+                ),
                 'order_by' => array(
-                    'ID' => 'DESC'
+                    'menu_order' => 'DESC',
+                    'time_order' => 'DESC',
+                    'ID' => 'DESC',
                 ),
                 // hiển thị mã SQL để check
                 // 'show_query' => 1,
@@ -348,6 +381,7 @@ class Accelerated extends Layout
                 // các kiểu điều kiện where
                 'is_deleted' => DeletedStatus::FOR_DEFAULT,
                 'term_id' => $id,
+                'taxonomy' => TaxonomyType::POSTS,
             ),
             array(
                 // hiển thị mã SQL để check
