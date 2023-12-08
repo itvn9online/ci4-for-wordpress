@@ -322,6 +322,7 @@ class Accelerated extends Layout
     {
         // var_dump($id);
         // var_dump($slug);
+        // var_dump($page_num);
 
         //
         if (ENABLE_AMP_VERSION !== true) {
@@ -368,44 +369,14 @@ class Accelerated extends Layout
             return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Không xác định được dữ liệu danh mục...');
         }
 
-
         //
         $post_per_page = $this->base_model->get_config($this->getconfig, 'eb_posts_per_page', 20);
-
-        //
-        $post_where_ids = [
-            // các kiểu điều kiện where
-            'is_deleted' => DeletedStatus::FOR_DEFAULT,
-            'term_taxonomy_id' => $id,
-        ];
-        $post_filter_ids = [
-            // hiển thị mã SQL để check
-            // 'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-            // trả về COUNT(column_name) AS column_name
-            //'selectCount' => 'ID',
-            // trả về tổng số bản ghi -> tương tự mysql num row
-            //'getNumRows' => 1,
-            //'offset' => 0,
-            // 'limit' => $post_per_page,
-            'limit' => -1,
-        ];
+        // var_dump($post_per_page);
+        $totalThread = $this->post_model->fix_term_count($data, PostType::POST);
+        // echo $totalThread . '<br>' . PHP_EOL;
 
         // Phân trang
         if ($page_num > 1) {
-            $total_filter_ids = $post_filter_ids;
-            $total_filter_ids['selectCount'] = 'object_id';
-
-            $totalThread = $this->base_model->select(
-                'object_id',
-                'term_relationships',
-                $post_where_ids,
-                $total_filter_ids
-            );
-            // print_r($totalThread);
-            $totalThread = $totalThread[0]['object_id'];
-            // echo $totalThread . '<br>' . PHP_EOL;
             $totalPage = ceil($totalThread / $post_per_page);
             if ($totalPage < 1) {
                 $totalPage = 1;
@@ -417,7 +388,6 @@ class Accelerated extends Layout
             } else if ($page_num < 1) {
                 $page_num = 1;
             }
-            //echo $totalThread . '<br>' . PHP_EOL;
             //echo $totalPage . '<br>' . PHP_EOL;
             $offset = ($page_num - 1) * $post_per_page;
             // echo $offset . '<br>' . PHP_EOL;
@@ -426,59 +396,10 @@ class Accelerated extends Layout
         }
 
         //
-        $post_filter_ids['offset'] = $offset;
-        $post_filter_ids['limit'] = $post_per_page;
-        $post_filter_ids['group_by'] = [
-            'object_id'
-        ];
-        $post_filter_ids['order_by'] = [
-            'object_id' => 'DESC'
-        ];
-
-        $post_ids = $this->base_model->select(
-            'object_id',
-            'term_relationships',
-            $post_where_ids,
-            $post_filter_ids
-        );
-        // print_r($post_ids);
-        // die(__CLASS__ . ':' . __LINE__);
-        if (empty($post_ids)) {
-            // print_r($post_ids);
-            return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Không xác định được danh sách bài viết...');
-        }
-
-        //
-        $ids = [];
-        foreach ($post_ids as $v) {
-            $ids[] = $v['object_id'];
-        }
-        // print_r($ids);
-        // die(__CLASS__ . ':' . __LINE__);
-
-
-        //
-        $post_data = $this->post_model->select_post(
-            0,
-            [
-                'post_status' => PostType::PUBLICITY,
-                'post_type' => PostType::POST,
-            ],
-            [
-                'where_in' => array(
-                    'ID' => $ids
-                ),
-                'order_by' => [
-                    'menu_order' => 'DESC',
-                    'time_order' => 'DESC',
-                    'ID' => 'DESC',
-                ],
-                // hiển thị mã SQL để check
-                // 'show_query' => 1,
-                'limit' => -1
-            ],
-            '*'
-        );
+        $post_data = $this->post_model->post_category(PostType::POST, $data, [
+            'offset' => $offset,
+            'limit' => $post_per_page
+        ]);
         // print_r($post_data);
         // die(__CLASS__ . ':' . __LINE__);
         if (empty($post_data)) {
