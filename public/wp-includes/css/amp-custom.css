@@ -92,9 +92,9 @@ blockquote p:last-child {
     font-weight: 400;
     margin: 0 auto;
     max-width: calc(840px - 32px);
-    padding: 0 16px;
+    padding: 16px;
     position: relative;
-    line-height: 50px
+    /* line-height: 50px */
 }
 
 .amp-wp-header a {
