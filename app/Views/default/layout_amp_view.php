@@ -40,6 +40,13 @@
         <script async custom-element="amp-video" src="https://cdn.ampproject.org/v0/amp-video-0.1.js" {csp-script-nonce}></script>
     <?php
     }
+
+    //
+    if ($amp_audio === true) {
+    ?>
+        <script async custom-element="amp-audio" src="https://cdn.ampproject.org/v0/amp-audio-0.1.js" {csp-script-nonce}></script>
+    <?php
+    }
     ?>
     <style amp-boilerplate>
         <?php

@@ -18,6 +18,7 @@ class Accelerated extends Layout
     public $amp_youtube = false;
     public $amp_iframe = false;
     public $amp_video = false;
+    public $amp_audio = false;
     public $amp_base_url = '';
     public $amp_home_label = '';
 
@@ -320,6 +321,7 @@ class Accelerated extends Layout
             'amp_youtube' => $this->amp_youtube,
             'amp_iframe' => $this->amp_iframe,
             'amp_video' => $this->amp_video,
+            'amp_audio' => $this->amp_audio,
             'file_view' => 'post_amp_view',
             // structured data
             'breadcrumb_list' => [
@@ -509,6 +511,7 @@ class Accelerated extends Layout
             'amp_youtube' => $this->amp_youtube,
             'amp_iframe' => $this->amp_iframe,
             'amp_video' => $this->amp_video,
+            'amp_audio' => $this->amp_audio,
             'file_view' => 'term_amp_view',
             // structured data
             'breadcrumb_list' => [
@@ -658,10 +661,10 @@ class Accelerated extends Layout
         preg_match_all('/<img[\s\r\n]+.*?>/is', $str, $matches);
         // print_r($matches);
         foreach ($matches[0] as $imgHTML) {
-            if (in_array($imgHTML, $search, true)) {
-                // already has a replacement
-                continue;
-            }
+            // if (in_array($imgHTML, $search, true)) {
+            //     // already has a replacement
+            //     continue;
+            // }
 
             // replace the src and add the data-src attribute
             $replaceHTML = $imgHTML;
@@ -676,7 +679,7 @@ class Accelerated extends Layout
             }
 
             // thêm thẻ đóng amp-img
-            $replaceHTML = str_replace(' />', '>', $replaceHTML);
+            // $replaceHTML = str_replace(' />', '>', $replaceHTML);
             $replaceHTML = str_replace('/>', '>', $replaceHTML);
             $replaceHTML .= '</amp-img>';
 
@@ -691,10 +694,10 @@ class Accelerated extends Layout
         preg_match_all('/<video[\s\r\n]+.*?>/is', $str, $matches);
         // print_r($matches);
         foreach ($matches[0] as $imgHTML) {
-            if (in_array($imgHTML, $search, true)) {
-                // already has a replacement
-                continue;
-            }
+            // if (in_array($imgHTML, $search, true)) {
+            //     // already has a replacement
+            //     continue;
+            // }
 
             //
             $replaceHTML = $imgHTML;
@@ -716,15 +719,21 @@ class Accelerated extends Layout
         }
 
 
+        // amp-audio
+        if (strpos($str, '<audio') !== false) {
+            $this->amp_audio = true;
+        }
+
+
         // amp-iframe
         $matches = array();
         preg_match_all('/<iframe[\s\r\n]+.*?>/is', $str, $matches);
         // print_r($matches);
         foreach ($matches[0] as $imgHTML) {
-            if (in_array($imgHTML, $search, true)) {
-                // already has a replacement
-                continue;
-            }
+            // if (in_array($imgHTML, $search, true)) {
+            //     // already has a replacement
+            //     continue;
+            // }
 
             //
             $replaceHTML = $imgHTML;
@@ -785,6 +794,9 @@ class Accelerated extends Layout
         //
         $str = str_replace('<video ', '<amp-video ', $str);
         $str = str_replace('</video>', '</amp-video>', $str);
+        //
+        $str = str_replace('<audio ', '<amp-audio ', $str);
+        $str = str_replace('</audio>', '</amp-audio>', $str);
         //
         $str = str_replace('</iframe>', '', $str);
         // bỏ một số thuộc tính không được hỗ trợ trong AMP
