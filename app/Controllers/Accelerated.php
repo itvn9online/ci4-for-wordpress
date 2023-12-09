@@ -552,6 +552,9 @@ class Accelerated extends Layout
             'align',
             'loading',
             'decoding',
+            // video
+            'autoplay',
+            'loop',
             // img
             'fetchpriority',
             // iframe
