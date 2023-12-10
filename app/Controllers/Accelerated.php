@@ -420,6 +420,30 @@ class Accelerated extends Layout
             return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Không xác định được dữ liệu danh mục...');
         }
 
+        // lấy cả bài của nhóm con
+        $data['child_term'] = $this->base_model->select(
+            '*',
+            WGR_TERM_VIEW,
+            array(
+                // các kiểu điều kiện where
+                'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                'parent' => $id,
+                'taxonomy' => TaxonomyType::POSTS,
+            ),
+            array(
+                // hiển thị mã SQL để check
+                // 'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => -1
+            )
+        );
+
         //
         $post_per_page = $this->base_model->get_config($this->getconfig, 'eb_posts_per_page', 20);
         // var_dump($post_per_page);
@@ -555,6 +579,7 @@ class Accelerated extends Layout
             'align',
             'loading',
             'decoding',
+            'color',
             // video
             'autoplay',
             'loop',
@@ -572,8 +597,8 @@ class Accelerated extends Layout
         // xóa từng attr đã được chỉ định
         foreach ($arr as $v) {
             // v2 -> thay thành 1 attr sau đó remove 1 thể
-            $str = str_replace(' ' . $v . '=\'', ' data-remove_attr=\'', $str);
-            $str = str_replace(' ' . $v . '="', ' data-remove_attr="', $str);
+            $str = str_replace(' ' . $v . '=\'', ' for-remove-attr=\'', $str);
+            $str = str_replace(' ' . $v . '="', ' for-remove-attr="', $str);
 
             // v1
             // $str = $this->remove_attr($str, ' ' . $v . '="', '"');
@@ -585,8 +610,8 @@ class Accelerated extends Layout
 
 
         // bắt đầu xóa attr đã được thay thế
-        $str = $this->remove_attr($str, ' data-remove_attr="', '"');
-        $str = $this->remove_attr($str, " data-remove_attr='", "'");
+        $str = $this->remove_attr($str, ' for-remove-attr="', '"');
+        $str = $this->remove_attr($str, " for-remove-attr='", "'");
 
 
         // xóa các thẻ không còn được hỗ trợ
@@ -684,10 +709,10 @@ class Accelerated extends Layout
                 continue;
             }
 
-            // replace the attr and add the data-remove_attr attribute
+            // replace the attr and add the for-remove-attr attribute
             $replaceHTML = $imgHTML;
-            $replaceHTML = str_replace(' ' . $attr . '=\'', ' data-remove_attr=\'', $replaceHTML);
-            $replaceHTML = str_replace(' ' . $attr . '="', ' data-remove_attr="', $replaceHTML);
+            $replaceHTML = str_replace(' ' . $attr . '=\'', ' for-remove-attr=\'', $replaceHTML);
+            $replaceHTML = str_replace(' ' . $attr . '="', ' for-remove-attr="', $replaceHTML);
 
             // cho vào mảng để thay thế nội dung
             $search[] = $imgHTML;
