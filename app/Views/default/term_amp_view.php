@@ -69,7 +69,7 @@ foreach ($post_data as $v) {
         ?>
         <div class="amp-wp-blogs-padding">
             <div class="amp-wp-blogs-desc"><?php echo nl2br($v['post_excerpt']); ?></div>
-            <div class="amp-wp-blogs-date"><?php echo date('d/m/Y H:i', strtotime($v['post_modified'])); ?></div>
+            <div class="amp-wp-blogs-date"><?php echo $v['post_modified']; ?></div>
         </div>
     </div>
 <?php

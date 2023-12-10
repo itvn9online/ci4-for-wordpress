@@ -35,8 +35,8 @@ class Accelerated extends Layout
         }
 
         //
-        ini_set('display_errors', 1);
-        error_reporting(E_ALL);
+        // ini_set('display_errors', 1);
+        // error_reporting(E_ALL);
     }
 
     /**
@@ -568,20 +568,32 @@ class Accelerated extends Layout
             'longdesc'
         );
 
+
         // xóa từng attr đã được chỉ định
         foreach ($arr as $v) {
-            $str = $this->remove_attr($str, ' ' . $v . '="', '"');
-            $str = $this->remove_attr($str, " " . $v . "='", "'");
+            // v2 -> thay thành 1 attr sau đó remove 1 thể
+            $str = str_replace(' ' . $v . '=\'', ' data-remove_attr=\'', $str);
+            $str = str_replace(' ' . $v . '="', ' data-remove_attr="', $str);
+
+            // v1
+            // $str = $this->remove_attr($str, ' ' . $v . '="', '"');
+            // $str = $this->remove_attr($str, " " . $v . "='", "'");
         }
 
+        // xóa riêng thẻ height cho table
+        $str = $this->remove1_attr($str, 'table', 'height');
+
+
+        // bắt đầu xóa attr đã được thay thế
+        $str = $this->remove_attr($str, ' data-remove_attr="', '"');
+        $str = $this->remove_attr($str, " data-remove_attr='", "'");
+
+
         // xóa các thẻ không còn được hỗ trợ
-        $arr = array(
+        foreach ([
             'style',
             'font'
-        );
-
-        //
-        foreach ($arr as $v) {
+        ] as $v) {
             $str = $this->remove_tag($str, $v);
         }
 
@@ -589,9 +601,18 @@ class Accelerated extends Layout
         return $str;
     }
 
+    // thay thế các tag không khả dụng trong AMP bằng span
     protected function remove_tag($str, $tag)
     {
+        $str = str_replace('<' . $tag, '<span', $str);
+        $str = str_replace('</' . $tag . '>', '</span>', $str);
 
+        //
+        return $str;
+    }
+
+    protected function remove_v1_tag($str, $tag)
+    {
         // tách mảng theo tag nhập vào
         $c = explode('<' . $tag, $str);
         // print_r($c);
@@ -625,7 +646,6 @@ class Accelerated extends Layout
 
     protected function remove_attr($str, $attr, $end_attr = '"')
     {
-
         // cắt mảng theo attr nhập vào
         $c = explode($attr, $str);
         // print_r( $c );
@@ -647,6 +667,33 @@ class Accelerated extends Layout
 
         // done
         return $new_str;
+    }
+
+    /**
+     * Xóa riêng 1 attr cho 1 tag cụ thể
+     **/
+    protected function remove1_attr($str, $tag, $attr)
+    {
+        $search = array();
+        $replace = array();
+        $matches = array();
+        preg_match_all('/<' . $tag . '[\s\r\n]+.*?>/is', $str, $matches);
+        // print_r($matches);
+        foreach ($matches[0] as $imgHTML) {
+            if (strpos($imgHTML, $attr) === false) {
+                continue;
+            }
+
+            // replace the attr and add the data-remove_attr attribute
+            $replaceHTML = $imgHTML;
+            $replaceHTML = str_replace(' ' . $attr . '=\'', ' data-remove_attr=\'', $replaceHTML);
+            $replaceHTML = str_replace(' ' . $attr . '="', ' data-remove_attr="', $replaceHTML);
+
+            // cho vào mảng để thay thế nội dung
+            $search[] = $imgHTML;
+            $replace[] = $replaceHTML;
+        }
+        return str_replace($search, $replace, $str);
     }
 
 

@@ -8,7 +8,7 @@
         <?php
         }
         ?>
-        <?php echo date('d/m/Y H:i', strtotime($data['post_modified'])); ?>
+        <?php echo $data['post_modified']; ?>
     </div>
 </header>
 <div class="amp-wp-article-content">
