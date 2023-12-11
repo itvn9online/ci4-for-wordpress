@@ -750,6 +750,11 @@ class Accelerated extends Layout
                 $replaceHTML = preg_replace('/<img/is', '<img class="' . $classes . '"', $replaceHTML);
             }
 
+            // chưa có sizes thì bổ sung
+            if (!preg_match('/sizes=["\']/i', $replaceHTML)) {
+                $replaceHTML = preg_replace('/<img/is', '<img sizes="(max-width: 768px) 100vw, 768px"', $replaceHTML);
+            }
+
             // thêm thẻ đóng amp-img
             // $replaceHTML = str_replace(' />', '>', $replaceHTML);
             $replaceHTML = str_replace('/>', '>', $replaceHTML);
