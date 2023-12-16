@@ -1049,20 +1049,41 @@ function for_admin_global_checkbox(max_i) {
 	}, 2000);
 }
 
-/*
+/**
+ * Sau khi XÓA sản phẩm thành công thì sẽ nạp lại trang
+ */
+function after_delete_restore() {
+	window.location = window.location.href;
+}
+
+/**
  * sau khi XÓA sản phẩm thành công thì xử lý ẩn bản ghi bằng javascript
  */
 function done_delete_restore(id, redirect_to) {
-	if ($('#admin_main_list tr[data-id="' + id + '"]').length > 0) {
-		$('#admin_main_list tr[data-id="' + id + '"]').fadeOut();
-	} else if ($('#admin_main_list li[data-id="' + id + '"]').length > 0) {
-		$('#admin_main_list li[data-id="' + id + '"]').fadeOut();
-	} else if (typeof redirect_to != "undefined" && redirect_to != "") {
-		window.location = redirect_to;
+	// nếu có ID
+	if (typeof id != "undefined" && id != "") {
+		id *= 1;
+		// kiểm tra id có phải 1 số ko
+		if (!isNaN(id) && id > 0) {
+			// có thì chỉ ẩn tương ứng
+			if ($('#admin_main_list tr[data-id="' + id + '"]').length > 0) {
+				return $('#admin_main_list tr[data-id="' + id + '"]').fadeOut();
+			} else if ($('#admin_main_list li[data-id="' + id + '"]').length > 0) {
+				return $('#admin_main_list li[data-id="' + id + '"]').fadeOut();
+			}
+		}
 	}
+
+	// nạp lại trang nếu không có yêu cầu redirect cụ thể nào
+	if (typeof redirect_to == "undefined" || redirect_to == "") {
+		return after_delete_restore();
+	}
+
+	// mặc định là nạp lại trang
+	window.location = redirect_to;
 }
 
-/*
+/**
  * chức năng XÓA, RESTORE... nhiều bản ghi 1 lúc
  */
 function action_delete_restore_checked(

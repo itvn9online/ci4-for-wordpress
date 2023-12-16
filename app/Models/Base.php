@@ -18,6 +18,8 @@ class Base extends Csdl
     public function __construct()
     {
         parent::__construct();
+        // var_dump(debug_backtrace()[1]['class']);
+        // var_dump(debug_backtrace()[1]['function']);
     }
 
     // nạp CSS, JS để tránh phải bấm Ctrl + F5

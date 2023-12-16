@@ -14,6 +14,8 @@ class Csdl extends Session
     public function __construct()
     {
         parent::__construct();
+        // var_dump(debug_backtrace()[1]['class']);
+        // var_dump(debug_backtrace()[1]['function']);
 
         $this->db = \Config\Database::connect();
     }

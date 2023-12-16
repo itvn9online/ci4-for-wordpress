@@ -259,4 +259,37 @@ class Comments extends Sadmin
         ));
         return view('vadmin/admin_teamplate', $this->teamplate_admin);
     }
+
+    /**
+     * Xóa comment
+     **/
+    public function delete()
+    {
+        $id = $this->MY_get('id', 0);
+        if ($id > 0) {
+            $update = $this->comment_model->update_comments($id, [
+                'is_deleted' => DeletedStatus::DELETED,
+            ]);
+
+            // nếu update thành công -> gửi lệnh javascript để ẩn bình luận bằng javascript
+            if ($update === true) {
+                return $this->done_delete_restore($id);
+            }
+            // không thì nạp lại cả trang để kiểm tra cho chắc chắn
+            return $this->after_delete_restore();
+        }
+
+        //
+        $this->base_model->alert('Bad request!', 'error');
+    }
+
+    // chuyển trang sau khi XÓA xong
+    protected function after_delete_restore()
+    {
+        die('<script>top.after_delete_restore();</script>');
+    }
+    protected function done_delete_restore($id)
+    {
+        die('<script>top.done_delete_restore(' . $id . ');</script>');
+    }
 }

@@ -590,26 +590,11 @@ class Users extends Sadmin
     // chuyển trang sau khi XÓA xong
     protected function after_delete_restore()
     {
-        $for_redirect = base_url('sadmin/' . $this->controller_slug) . '?member_type=' . $this->member_type;
-
-        //
-        $page_num = $this->MY_get('page_num');
-        if ($page_num != '') {
-            $for_redirect .= '&page_num=' . $page_num;
-        }
-
-        //
-        $is_deleted = $this->MY_get('is_deleted');
-        if ($is_deleted != '') {
-            $for_redirect .= '&is_deleted=' . $is_deleted;
-        }
-
-        //
-        $this->base_model->alert('', $for_redirect);
+        die('<script>top.after_delete_restore();</script>');
     }
     protected function done_delete_restore($id)
     {
-        die('<script>top.done_delete_restore(' . $id . ', "' . base_url('sadmin/' . $this->controller_slug) . '");</script>');
+        die('<script>top.done_delete_restore(' . $id . ');</script>');
     }
     protected function before_delete_restore($msg, $is_deleted)
     {

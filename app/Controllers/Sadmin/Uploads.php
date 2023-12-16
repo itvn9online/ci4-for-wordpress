@@ -349,7 +349,7 @@ class Uploads extends Sadmin
     }
     protected function done_delete_restore($id)
     {
-        die('<script>top.done_delete_restore(' . $id . ', "' . base_url('sadmin/' . $this->controller_slug) . '");</script>');
+        die('<script>top.done_delete_restore(' . $id . ');</script>');
     }
 
     protected function alert($m, $url = '')

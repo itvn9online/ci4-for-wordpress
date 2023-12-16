@@ -928,30 +928,11 @@ class Posts extends Sadmin
     // chuyển trang sau khi XÓA xong
     protected function after_delete_restore()
     {
-        $for_redirect = base_url('sadmin/' . $this->controller_slug);
-        $urlParams = [];
-
-        //
-        $page_num = $this->MY_get('page_num');
-        if ($page_num != '') {
-            $urlParams[] = 'page_num=' . $page_num;
-        }
-
-        //
-        $post_status = $this->MY_get('post_status');
-        if ($post_status != '') {
-            $urlParams[] = 'post_status=' . $post_status;
-        }
-
-        //
-        if (count($urlParams) > 0) {
-            $for_redirect .= '?' . implode('&', $urlParams);
-        }
-        return $this->base_model->alert('', $for_redirect);
+        die('<script>top.after_delete_restore();</script>');
     }
     protected function done_delete_restore($id)
     {
-        die('<script>top.done_delete_restore(' . $id . ', "' . base_url('sadmin/' . $this->controller_slug) . '");</script>');
+        die('<script>top.done_delete_restore(' . $id . ');</script>');
     }
     protected function before_delete_restore($post_status)
     {

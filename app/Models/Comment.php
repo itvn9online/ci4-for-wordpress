@@ -24,6 +24,7 @@ class Comment extends EbModel
                 $data['comment_title'] = strip_tags($data['comment_content']);
                 $data['comment_title'] = explode(PHP_EOL, $data['comment_title']);
                 $data['comment_title'] = trim($data['comment_title'][0]);
+                $data['comment_title'] = $this->base_model->short_string($data['comment_title'], 75);
             }
         }
 
@@ -49,6 +50,7 @@ class Comment extends EbModel
             'comment_content' => '',
             'comment_agent' => $_SERVER['HTTP_USER_AGENT'],
             //'comment_type' => $ops[ 'comment_type' ],
+            'comment_approved' => DEFAULT_COMMENT_APPROVED,
             'user_id' => 0,
             'time_order' => time(),
         ];

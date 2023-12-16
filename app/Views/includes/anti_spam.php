@@ -35,16 +35,16 @@ $anti_div_id_spam = '_' . RAND_ANTI_SPAM . rand(99, 999);
             $val = RAND_ANTI_SPAM . '_' . $k;
             //echo $val . '<br>' . PHP_EOL;
             $val = md5($val);
-            if ($v == 'email') {
-                $val .= '@' . $_SERVER['HTTP_HOST'];
-            }
+            // if ($v == 'email') {
+            //     $val .= '@' . $_SERVER['HTTP_HOST'];
+            // }
 
             // input nào có giá trị thì gắn cờ required -> cố tình xóa thì khỏi submit luôn
             $attr_required = 'aria-required="true" required';
         }
         $i++;
     ?>
-        <input type="<?php echo $v; ?>" name="<?php echo RAND_ANTI_SPAM; ?>_<?php echo $k; ?>" placeholder="<?php echo $k; ?>" value="<?php echo $val; ?>" <?php echo $attr_required; ?> />
+        <input type="<?php echo $v; ?>" name="<?php echo RAND_ANTI_SPAM; ?>_<?php echo $k; ?>" autocomplete="off" value="<?php echo $val; ?>" <?php echo $attr_required; ?> />
     <?php
     }
 

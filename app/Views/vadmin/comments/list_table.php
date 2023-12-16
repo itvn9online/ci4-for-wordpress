@@ -3,7 +3,7 @@
         <tr>
             <th><input type="checkbox" id="selectall" name="selectall" /></th>
             <th>Tiêu đề</th>
-            <th>Email</th>
+            <th>Thông tin khác</th>
             <th>Trạng thái</th>
             <th>IP</th>
             <th>Ngày tạo</th>
@@ -12,15 +12,22 @@
         </tr>
     </thead>
     <tbody id="admin_main_list" class="ng-main-content">
-        <tr v-for="v in data">
+        <tr :data-id="v.comment_ID" v-for="v in data">
             <td>&nbsp;</td>
-            <td><a :href="'sadmin/' + controller_slug + '?comment_id=' + v.comment_ID">{{v.comment_title}} <i class="fa fa-edit"></i></a> {{v.comment_slug}}</td>
-            <td>{{v.comment_author_email}}</td>
+            <td>
+                <div><a :href="'sadmin/' + controller_slug + '?comment_id=' + v.comment_ID">{{v.comment_title}} <i class="fa fa-edit"></i></a></div>
+                <div>{{v.comment_slug}}</div>
+            </td>
+            <td>
+                <div>{{v.comment_author}}</div>
+                <div>{{v.comment_author_email}}</div>
+                <div v-if="v.comment_author_url != ''"><a :href="v.comment_author_url" target="_blank">{{v.comment_author_url}}</a></div>
+            </td>
             <td>{{v.comment_approved}}</td>
             <td>{{v.comment_author_IP}}</td>
             <td>{{v.comment_date.substr(0, 16)}}</td>
             <td>{{v.lang_key}}</td>
-            <td class="text-center">
+            <td class="text-center big">
                 <div>
                     <div v-if="v.is_deleted != DeletedStatus_DELETED">
                         <div><a :href="'sadmin/' + controller_slug + '/delete?id=' + v.comment_ID + for_action" onClick="return click_a_delete_record();" class="redcolor" target="target_eb_iframe"><i class="fa fa-trash"></i></a> </div>

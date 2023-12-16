@@ -167,6 +167,10 @@ if (is_file(THEMEPATH . 'functions.php')) {
 ####################################################################
 
 
+// Trạng thái bình luận mặc định 0|1
+defined('DEFAULT_COMMENT_APPROVED') || define('DEFAULT_COMMENT_APPROVED', 1);
+
+
 // tạo trang amp -> site nào không muốn dùng amp thì tắt nó đi
 defined('ENABLE_AMP_VERSION') || define('ENABLE_AMP_VERSION', true);
 
@@ -248,15 +252,21 @@ defined('CUSTOM_FAKE_POST_VIEW') || define('CUSTOM_FAKE_POST_VIEW', 1);
  * Tránh việc bị dùng các extension kiểu adblock chặn request
  * Các chuỗi này chỉ dùng sau khi đã đăng nhập -> có thể dùng theo session id do không dình cache
  **/
-// tạo hàm ngẫu nhiên theo ngày
-$rand_by_ses = md5(session_id());
+// tạo hàm ngẫu nhiên theo ngày giờ
+$rand_by_ses = md5($_SERVER['HTTP_HOST'] . date('Y-m-d H'));
+// hỗ trợ giao thoa giữa 2 cung giờ trong vòng 30 phút
+$rand2_by_ses = md5($_SERVER['HTTP_HOST'] . date('Y-m-d H', time() - 1800));
+// $rand_by_ses = md5(session_id());
 // echo $rand_by_ses . '<br>' . PHP_EOL;
 // khai báo constans để tạo routes
 define('RAND_MULTI_LOGOUT', '_' . substr($rand_by_ses, 0, 12));
+define('RAND2_MULTI_LOGOUT', '_' . substr($rand2_by_ses, 0, 12));
 //echo RAND_MULTI_LOGOUT . '<br>' . PHP_EOL;
 define('RAND_MULTI_LOGGED', '_' . substr($rand_by_ses, 6, 12));
+define('RAND2_MULTI_LOGGED', '_' . substr($rand2_by_ses, 6, 12));
 //echo RAND_MULTI_LOGGED . '<br>' . PHP_EOL;
 define('RAND_CONFIRM_LOGGED', '_' . substr($rand_by_ses, 12, 12));
+define('RAND2_CONFIRM_LOGGED', '_' . substr($rand2_by_ses, 12, 12));
 //echo RAND_CONFIRM_LOGGED . '<br>' . PHP_EOL;
 
 /**
@@ -312,11 +322,15 @@ defined('CUSTOM_MD5_HASH_CODE') || define('CUSTOM_MD5_HASH_CODE', HTTP_SYNC_HOST
  * Chuỗi dùng cho đăng nhập tự động -> mỗi chuỗi sẽ có hạn tầm 1h
  * Do chuỗi này sử dụng lúc chưa đăng nhập nên có cache, cần cố định theo tên miền + ngày giờ để giới hạn thời hạn sử dụng
  **/
-$rand_by_date = md5(DYNAMIC_BASE_URL . date('Y-m-d H'));
+// $rand_by_date = md5(DYNAMIC_BASE_URL . date('Y-m-d H'));
+$rand_by_date = md5(RAND_MULTI_LOGOUT);
+$rand2_by_date = md5(RAND2_MULTI_LOGOUT);
 define('RAND_REMEMBER_LOGIN', '_' . substr($rand_by_date, 0, 12));
+define('RAND2_REMEMBER_LOGIN', '_' . substr($rand2_by_date, 0, 12));
 //echo RAND_REMEMBER_LOGIN . '<br>' . PHP_EOL;
 // chuỗi dùng để tạo url lấy dữ liệu anti spam qua ajax -> tránh cache
 define('RAND_GET_ANTI_SPAM', '_' . substr($rand_by_date, 6, 12));
+define('RAND2_GET_ANTI_SPAM', '_' . substr($rand2_by_date, 6, 12));
 //echo RAND_GET_ANTI_SPAM . '<br>' . PHP_EOL;
 
 // tách riêng cache cho mobile và desktop

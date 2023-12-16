@@ -24,11 +24,12 @@ class Session
 
     // danh sách name và type của các input dùng để tạo anti spam
     protected $input_anti_spam = [
-        'email' => 'email',
-        'phone' => 'text',
-        'fname' => 'text',
-        'lname' => 'text',
-        'address' => 'text',
+        // tránh các tên input phổ biến như email, phone -> ví dễ dính quả tự động điền của trình duyệt nên đứt
+        'dfjk4dffd' => 'text',
+        'nvbsi4fdgh' => 'text',
+        'hgj4dfhdf' => 'text',
+        'xcgdfdty' => 'text',
+        'ghszdvsdfg' => 'text',
         'captcha' => 'text',
     ];
     // độ dài của chuỗi ngẫu nhiên tạo ra bởi session id
@@ -36,8 +37,12 @@ class Session
 
     public function __construct()
     {
+        // var_dump(session_id());
         $this->cache = \Config\Services::cache();
         $this->session = \Config\Services::session();
+        // var_dump(session_id());
+        // var_dump(debug_backtrace()[1]['class']);
+        // var_dump(debug_backtrace()[1]['function']);
     }
 
     /**
@@ -151,6 +156,7 @@ class Session
         $no_value = 0;
         $i = 0;
         $this_spam = false;
+        $msg = '';
         foreach ($this->input_anti_spam as $k => $v) {
             $k = RAND_ANTI_SPAM . '_' . $k;
             // không tồn tại 1 input -> bỏ luôn
@@ -166,6 +172,8 @@ class Session
                 if (md5($k) != explode('@', $_REQUEST[$k])[0]) {
                     //echo $k . '<br>' . PHP_EOL;
                     $this_spam = $k;
+                    $msg = 'require field ' . $k;
+                    // $msg = md5($k) . ' !=  ' . explode('@', $_REQUEST[$k])[0];
                     break;
                 }
             } else {
@@ -184,24 +192,31 @@ class Session
         $time_out = isset($_POST[RAND_ANTI_SPAM . '_to']) ? $_POST[RAND_ANTI_SPAM . '_to'] : 0;
         $time_token = isset($_POST[RAND_ANTI_SPAM . '_token']) ? $_POST[RAND_ANTI_SPAM . '_token'] : '';
         // nếu không có thời gian hết hạn hoặc hết hạn hoặc token không khớp -> lỗi
-        if (empty($time_out) || !is_numeric($time_out) || $time_out < time() || empty($time_token) || md5(RAND_ANTI_SPAM . $time_out) != $time_token) {
+        if (empty($time_out) || empty($time_token)) {
             $by_token = 1;
+            $msg = 'token EMPTY';
+        } else if (!is_numeric($time_out) || $time_out < time()) {
+            $by_token = 1;
+            $msg = 'request timeout';
+        } else if (md5(RAND_ANTI_SPAM . $time_out) != $time_token) {
+            $by_token = 1;
+            $msg = 'token mismatch';
         } else {
             // kiểm tra mã session có khớp không
             $rand_code = isset($_POST[RAND_ANTI_SPAM . '_code']) ? $_POST[RAND_ANTI_SPAM . '_code'] : '';
-            if (empty($rand_code) || strlen($rand_code) != $this->rand_len_code || strpos(session_id(), $rand_code) === false) {
+            if (empty($rand_code)) {
                 $by_code = 1;
-                // } else {
-                //     // kiểm tra dữ liệu của js-fill có đúng không
-                //     $jsf_code = isset($_POST[RAND_ANTI_SPAM . '_jsf']) ? $_POST[RAND_ANTI_SPAM . '_jsf'] : '';
-                //     if (empty($jsf_code) || $jsf_code != substr(RAND_ANTI_SPAM, 0, 6)) {
-                //         $by_jsf = 1;
-                //     }
+                $msg = 'captcha EMPTY';
+            } else if (strlen($rand_code) != $this->rand_len_code || strpos(session_id(), $rand_code) === false) {
+                // var_dump(session_id());
+                // var_dump($rand_code);
+                $msg = 'captcha mismatch';
             }
         }
 
         //
         return $this->afterCheckSpam([
+            'msg' => $msg,
             'by_token' => $by_token,
             'by_code' => $by_code,
             // 'by_jsf' => $by_jsf,
@@ -223,6 +238,7 @@ class Session
         if (!isset($_SERVER['HTTP_REFERER']) || strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) === false) {
             return $this->dieIfSpam([
                 'code' => __LINE__,
+                'msg' => $ops['msg'],
                 'rq' => 'Bad request!',
                 'f' => strtolower($ops['f']),
                 'context' => $ops['context'],
@@ -242,6 +258,7 @@ class Session
         if ($ops['by_token'] > 0) {
             $this->dieIfSpam([
                 'code' => __LINE__,
+                'msg' => $ops['msg'],
                 'token' => $ops['by_token'],
                 'f' => strtolower($ops['f']),
             ]);
@@ -250,6 +267,7 @@ class Session
         else if ($ops['by_code'] > 0) {
             $this->dieIfSpam([
                 'code' => __LINE__,
+                'msg' => $ops['msg'],
                 'sid' => $ops['by_code'],
                 'f' => strtolower($ops['f']),
             ]);
@@ -258,6 +276,7 @@ class Session
         // else if ($ops['by_jsf'] > 0) {
         //     $this->dieIfSpam([
         //         'code' => __LINE__,
+        // 'msg' => $ops['msg'],
         //         'jsf' => $ops['by_jsf'],
         //         'f' => strtolower($ops['f']),
         //     ]);
@@ -279,6 +298,7 @@ class Session
         if ($by_value !== false) {
             $this->dieIfSpam([
                 'code' => __LINE__,
+                'msg' => $ops['msg'],
                 'has' => $ops['has_value'],
                 'no' => $ops['no_value'],
                 'f' => strtolower($ops['f']),
@@ -288,6 +308,7 @@ class Session
         else if ($ops['i'] > 0 && $ops['i'] != $count_anti) {
             $this->dieIfSpam([
                 'code' => __LINE__,
+                'msg' => $ops['msg'],
                 'count' => $ops['i'],
                 // 'error' => '',
                 'f' => strtolower($ops['f']),
@@ -297,6 +318,7 @@ class Session
         else if ($ops['this_spam'] !== false) {
             $this->dieIfSpam([
                 'code' => __LINE__,
+                'msg' => $ops['msg'],
                 'spamer' => $ops['this_spam'],
                 'f' => strtolower($ops['f']),
             ]);
@@ -312,9 +334,14 @@ class Session
      **/
     protected function dieIfSpam($d)
     {
+        print_r($d);
         // cố định thông điệp báo lỗi
         if (!isset($d['error']) || empty($d['error'])) {
-            $d['error'] = 'Anti-spam activated in your request! Please reload this page and try again.';
+            // $d['error'] = 'Anti-spam activated in your request! Please reload this page and try again.';
+            if (!isset($d['msg']) || empty($d['msg'])) {
+                $d['msg'] = 'spamer detected';
+            }
+            $d['error'] = '(Anti-spam) your request blocked by: ' . $d['msg'] . '! Please reload this page and try again.';
         }
 
         // nếu là truyền qua ajax -> trả về json

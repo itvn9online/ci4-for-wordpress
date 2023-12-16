@@ -9,6 +9,10 @@ class CommentType
     const CONTACT = 'contact';
     const COMMENT = 'comment';
 
+    //
+    const PENDDING = '0';
+    const APPROVED = '1';
+
     private static $arr = array(
         self::CONTACT => 'Liên hệ',
         self::COMMENT => 'Bình luận',
