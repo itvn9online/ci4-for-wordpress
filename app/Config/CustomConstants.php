@@ -42,6 +42,7 @@ $rand2_by_ses = md5($_SERVER['HTTP_HOST'] . date('Y-m-d H', time() - 1800));
 // echo $rand_by_ses . '<br>' . PHP_EOL;
 // khai báo constans để tạo routes
 define('RAND_MULTI_LOGOUT', '_' . substr($rand_by_ses, 0, 12));
+// die(RAND_MULTI_LOGOUT);
 define('RAND2_MULTI_LOGOUT', '_' . substr($rand2_by_ses, 0, 12));
 //echo RAND_MULTI_LOGOUT . '<br>' . PHP_EOL;
 define('RAND_MULTI_LOGGED', '_' . substr($rand_by_ses, 6, 12));

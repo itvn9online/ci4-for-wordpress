@@ -130,7 +130,7 @@ class Sync extends BaseController
             return false;
         }
 
-        //
+        // ENGINE sử dụng InnoDB. MEMORY không dùng được data blob
         $sql = "CREATE TABLE IF NOT EXISTS `$table` (
             `id` varchar(128) NOT null,
             `ip_address` varchar(45) NOT null,
@@ -139,6 +139,7 @@ class Sync extends BaseController
             KEY `ci_sessions_timestamp` (`timestamp`)
         ) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_general_ci";
         echo 'CREATE TABLE IF NOT EXISTS `' . $table . '` <br>' . PHP_EOL;
+        echo $sql . '<br>' . PHP_EOL;
 
         //
         return $this->base_model->MY_query($sql);
@@ -171,6 +172,7 @@ class Sync extends BaseController
             INDEX (`session_id`)
             ) ENGINE = MEMORY CHARSET=utf8mb4 COLLATE utf8mb4_general_ci";
         echo 'CREATE TABLE IF NOT EXISTS `' . $table . '` <br>' . PHP_EOL;
+        echo $sql . '<br>' . PHP_EOL;
 
         //
         return $this->base_model->MY_query($sql);

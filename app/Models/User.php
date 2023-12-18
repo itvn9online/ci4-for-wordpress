@@ -307,6 +307,7 @@ class User extends UserMeta
     {
         $result['user_pass'] = '';
         $result['ci_pass'] = '';
+        $result['ci_unpass'] = '';
         $result['rememberme_key'] = '';
         //$result['user_activation_key'] = '';
         // hỗ trợ phiên bản code cũ -> tạo thêm dữ liệu tương ứng
