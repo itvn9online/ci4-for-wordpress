@@ -406,6 +406,7 @@ class Configs extends Sadmin
                     'Browser: ' . $_SERVER['HTTP_USER_AGENT'],
                     'Server: ' . $_SERVER['SERVER_ADDR'],
                     'Session: ' . session_id(),
+                    'MY_sessid: ' . $this->base_model->MY_sessid(),
                 ]
             ),
         ];

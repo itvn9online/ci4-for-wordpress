@@ -29,6 +29,43 @@ define('ADMIN_CUSTOM_VIEWS', VIEWS_CUSTOM_PATH . 'vadmin/');
 //define('ADMIN_DEFAULT_VIEWS', VIEWS_PATH . 'vadmin/default/');
 //die( VIEWS_CUSTOM_PATH );
 
+/**
+ * Tạo 1 chuỗi ngẫu nhiên cho URL xác minh đăng nhập trên nhiều thiết bị
+ * Tránh việc bị dùng các extension kiểu adblock chặn request
+ * Các chuỗi này chỉ dùng sau khi đã đăng nhập -> có thể dùng theo session id do không dình cache
+ **/
+// tạo hàm ngẫu nhiên theo ngày giờ
+$rand_by_ses = md5($_SERVER['HTTP_HOST'] . date('Y-m-d H'));
+// hỗ trợ giao thoa giữa 2 cung giờ trong vòng 30 phút
+$rand2_by_ses = md5($_SERVER['HTTP_HOST'] . date('Y-m-d H', time() - 1800));
+// $rand_by_ses = md5(session_id());
+// echo $rand_by_ses . '<br>' . PHP_EOL;
+// khai báo constans để tạo routes
+define('RAND_MULTI_LOGOUT', '_' . substr($rand_by_ses, 0, 12));
+define('RAND2_MULTI_LOGOUT', '_' . substr($rand2_by_ses, 0, 12));
+//echo RAND_MULTI_LOGOUT . '<br>' . PHP_EOL;
+define('RAND_MULTI_LOGGED', '_' . substr($rand_by_ses, 6, 12));
+define('RAND2_MULTI_LOGGED', '_' . substr($rand2_by_ses, 6, 12));
+//echo RAND_MULTI_LOGGED . '<br>' . PHP_EOL;
+define('RAND_CONFIRM_LOGGED', '_' . substr($rand_by_ses, 12, 12));
+define('RAND2_CONFIRM_LOGGED', '_' . substr($rand2_by_ses, 12, 12));
+//echo RAND_CONFIRM_LOGGED . '<br>' . PHP_EOL;
+
+/**
+ * Chuỗi dùng cho đăng nhập tự động -> mỗi chuỗi sẽ có hạn tầm 1h
+ * Do chuỗi này sử dụng lúc chưa đăng nhập nên có cache, cần cố định theo tên miền + ngày giờ để giới hạn thời hạn sử dụng
+ **/
+// $rand_by_date = md5(DYNAMIC_BASE_URL . date('Y-m-d H'));
+$rand_by_date = md5(RAND_MULTI_LOGOUT);
+$rand2_by_date = md5(RAND2_MULTI_LOGOUT);
+define('RAND_REMEMBER_LOGIN', '_' . substr($rand_by_date, 0, 12));
+define('RAND2_REMEMBER_LOGIN', '_' . substr($rand2_by_date, 0, 12));
+//echo RAND_REMEMBER_LOGIN . '<br>' . PHP_EOL;
+// chuỗi dùng để tạo url lấy dữ liệu anti spam qua ajax -> tránh cache
+define('RAND_GET_ANTI_SPAM', '_' . substr($rand_by_date, 6, 12));
+define('RAND2_GET_ANTI_SPAM', '_' . substr($rand2_by_date, 6, 12));
+//echo RAND_GET_ANTI_SPAM . '<br>' . PHP_EOL;
+
 
 /**
  * lưu giá trị của config vào biến này, nếu hàm sau có gọi lại thì tái sử dụng luôn
@@ -248,32 +285,10 @@ defined('CUSTOM_ADMIN_URI') || define('CUSTOM_ADMIN_URI', 'wgr-wp-admin');
 defined('CUSTOM_FAKE_POST_VIEW') || define('CUSTOM_FAKE_POST_VIEW', 1);
 
 /**
- * Tạo 1 chuỗi ngẫu nhiên cho URL xác minh đăng nhập trên nhiều thiết bị
- * Tránh việc bị dùng các extension kiểu adblock chặn request
- * Các chuỗi này chỉ dùng sau khi đã đăng nhập -> có thể dùng theo session id do không dình cache
- **/
-// tạo hàm ngẫu nhiên theo ngày giờ
-$rand_by_ses = md5($_SERVER['HTTP_HOST'] . date('Y-m-d H'));
-// hỗ trợ giao thoa giữa 2 cung giờ trong vòng 30 phút
-$rand2_by_ses = md5($_SERVER['HTTP_HOST'] . date('Y-m-d H', time() - 1800));
-// $rand_by_ses = md5(session_id());
-// echo $rand_by_ses . '<br>' . PHP_EOL;
-// khai báo constans để tạo routes
-define('RAND_MULTI_LOGOUT', '_' . substr($rand_by_ses, 0, 12));
-define('RAND2_MULTI_LOGOUT', '_' . substr($rand2_by_ses, 0, 12));
-//echo RAND_MULTI_LOGOUT . '<br>' . PHP_EOL;
-define('RAND_MULTI_LOGGED', '_' . substr($rand_by_ses, 6, 12));
-define('RAND2_MULTI_LOGGED', '_' . substr($rand2_by_ses, 6, 12));
-//echo RAND_MULTI_LOGGED . '<br>' . PHP_EOL;
-define('RAND_CONFIRM_LOGGED', '_' . substr($rand_by_ses, 12, 12));
-define('RAND2_CONFIRM_LOGGED', '_' . substr($rand2_by_ses, 12, 12));
-//echo RAND_CONFIRM_LOGGED . '<br>' . PHP_EOL;
-
-/**
  * Chuỗi dùng để tạo input anti spam -> mỗi trình duyệt có 1 key khác nhau -> không chung đụng
  * Chuỗi này dùng cả khi đăng nhập nên cần truyền qua ajax
  **/
-define('RAND_ANTI_SPAM', RAND_MULTI_LOGGED);
+// define('RAND_ANTI_SPAM', RAND_MULTI_LOGGED);
 
 /**
  * Tạo phiên bản giả lập wordpress
@@ -317,21 +332,6 @@ define('HTTP_SYNC_HOST', str_replace('www.', '', str_replace('.', '', str_replac
 
 // chuỗi sẽ thêm vào khi sử dụng hàm mdnam -> md5
 defined('CUSTOM_MD5_HASH_CODE') || define('CUSTOM_MD5_HASH_CODE', HTTP_SYNC_HOST);
-
-/**
- * Chuỗi dùng cho đăng nhập tự động -> mỗi chuỗi sẽ có hạn tầm 1h
- * Do chuỗi này sử dụng lúc chưa đăng nhập nên có cache, cần cố định theo tên miền + ngày giờ để giới hạn thời hạn sử dụng
- **/
-// $rand_by_date = md5(DYNAMIC_BASE_URL . date('Y-m-d H'));
-$rand_by_date = md5(RAND_MULTI_LOGOUT);
-$rand2_by_date = md5(RAND2_MULTI_LOGOUT);
-define('RAND_REMEMBER_LOGIN', '_' . substr($rand_by_date, 0, 12));
-define('RAND2_REMEMBER_LOGIN', '_' . substr($rand2_by_date, 0, 12));
-//echo RAND_REMEMBER_LOGIN . '<br>' . PHP_EOL;
-// chuỗi dùng để tạo url lấy dữ liệu anti spam qua ajax -> tránh cache
-define('RAND_GET_ANTI_SPAM', '_' . substr($rand_by_date, 6, 12));
-define('RAND2_GET_ANTI_SPAM', '_' . substr($rand2_by_date, 6, 12));
-//echo RAND_GET_ANTI_SPAM . '<br>' . PHP_EOL;
 
 // tách riêng cache cho mobile và desktop
 // fake function wp_is_mobile of wordpress

@@ -76,10 +76,7 @@ function sync_ajax_post_term() {
 // canvas fingerprint -> xác định thiết bị của người dùng
 var run_builder_signature = false;
 function WGR_builder_signature() {
-	if (
-		run_builder_signature !== false ||
-		g_func.getc("WGR_logged_signature") !== null
-	) {
+	if (run_builder_signature !== false || get_logged_signature() !== null) {
 		return false;
 	}
 	run_builder_signature = true;
@@ -221,10 +218,14 @@ function WGR_builder_signature() {
 
 	// xong việc thì ẩn nó đi
 	canvas.style.opacity = "0";
-	// console.log(g_func.getc("WGR_logged_signature"));
+	// console.log(get_logged_signature());
 
 	//
 	return true;
+}
+
+function get_logged_signature() {
+	return g_func.getc("WGR_logged_signature");
 }
 
 /**

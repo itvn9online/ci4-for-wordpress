@@ -131,9 +131,9 @@ class Zalos extends Guest
     protected function oa_redirect($uri = '')
     {
         if (!empty($uri)) {
-            return $this->base_model->scache(__FUNCTION__ . session_id(), $uri, 3600);
+            return $this->base_model->scache(__FUNCTION__ . $this->base_model->MY_sessid(), $uri, 3600);
         }
-        return $this->base_model->scache(__FUNCTION__ . session_id());
+        return $this->base_model->scache(__FUNCTION__ . $this->base_model->MY_sessid());
     }
 
     /*

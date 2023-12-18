@@ -21,6 +21,7 @@ class Session
 
     public $cache = NULL;
     public $session = NULL;
+    public $rand_anti_spam = '';
 
     // danh sách name và type của các input dùng để tạo anti spam
     protected $input_anti_spam = [
@@ -43,6 +44,9 @@ class Session
         // var_dump(session_id());
         // var_dump(debug_backtrace()[1]['class']);
         // var_dump(debug_backtrace()[1]['function']);
+
+        //
+        $this->rand_anti_spam = '_' . substr(md5(session_id()), 0, 12);
     }
 
     /**
@@ -57,6 +61,23 @@ class Session
         }
         // return isset($_SESSION[$key]) ? $_SESSION[$key] : '';
         return $this->session->get($key);
+    }
+
+    /**
+     * Trả về session id do kiểu session của ci4 không dùng trực tiếp hàm session_id() được
+     **/
+    public function MY_sessid()
+    {
+        // return session_id();
+
+        //
+        $my_ssid = $this->session->get('mysessid');
+        if (empty($my_ssid)) {
+            $my_ssid = session_id();
+            // $my_ssid = file_get_contents(DYNAMIC_BASE_URL . 'session_id.php');
+            $this->session->set('mysessid', $my_ssid);
+        }
+        return $my_ssid;
     }
 
     // trả về input chứa csrf và lưu vào session để nếu submit thì còn kiểm tra được
@@ -158,7 +179,7 @@ class Session
         $this_spam = false;
         $msg = '';
         foreach ($this->input_anti_spam as $k => $v) {
-            $k = RAND_ANTI_SPAM . '_' . $k;
+            $k = $this->rand_anti_spam . '_' . $k;
             // không tồn tại 1 input -> bỏ luôn
             if (!isset($_REQUEST[$k])) {
                 break;
@@ -189,8 +210,8 @@ class Session
         // $by_jsf = 0;
 
         // kiểm tra thời gian hết hạn của token -> bắt buộc
-        $time_out = isset($_POST[RAND_ANTI_SPAM . '_to']) ? $_POST[RAND_ANTI_SPAM . '_to'] : 0;
-        $time_token = isset($_POST[RAND_ANTI_SPAM . '_token']) ? $_POST[RAND_ANTI_SPAM . '_token'] : '';
+        $time_out = isset($_POST[$this->rand_anti_spam . '_to']) ? $_POST[$this->rand_anti_spam . '_to'] : 0;
+        $time_token = isset($_POST[$this->rand_anti_spam . '_token']) ? $_POST[$this->rand_anti_spam . '_token'] : '';
         // nếu không có thời gian hết hạn hoặc hết hạn hoặc token không khớp -> lỗi
         if (empty($time_out) || empty($time_token)) {
             $by_token = 1;
@@ -198,17 +219,17 @@ class Session
         } else if (!is_numeric($time_out) || $time_out < time()) {
             $by_token = 1;
             $msg = 'request timeout';
-        } else if (md5(RAND_ANTI_SPAM . $time_out) != $time_token) {
+        } else if (md5($this->rand_anti_spam . $time_out) != $time_token) {
             $by_token = 1;
             $msg = 'token mismatch';
         } else {
             // kiểm tra mã session có khớp không
-            $rand_code = isset($_POST[RAND_ANTI_SPAM . '_code']) ? $_POST[RAND_ANTI_SPAM . '_code'] : '';
+            $rand_code = isset($_POST[$this->rand_anti_spam . '_code']) ? $_POST[$this->rand_anti_spam . '_code'] : '';
             if (empty($rand_code)) {
                 $by_code = 1;
                 $msg = 'captcha EMPTY';
-            } else if (strlen($rand_code) != $this->rand_len_code || strpos(session_id(), $rand_code) === false) {
-                // var_dump(session_id());
+            } else if (strlen($rand_code) != $this->rand_len_code || strpos($this->MY_sessid(), $rand_code) === false) {
+                // var_dump($this->MY_sessid());
                 // var_dump($rand_code);
                 $msg = 'captcha mismatch';
             }

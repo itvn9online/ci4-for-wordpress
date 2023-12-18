@@ -32,7 +32,7 @@
     ?>
 </head>
 
-<body data-session="<?php echo session_id(); ?>" class="<?php echo $seo['body_class']; ?> is-<?php echo $current_user_type . ' ' . $current_user_logged; ?>">
+<body data-session="<?php echo $base_model->MY_sessid(); ?>" class="<?php echo $seo['body_class']; ?> is-<?php echo $current_user_type . ' ' . $current_user_logged; ?>">
     <?php
 
     //

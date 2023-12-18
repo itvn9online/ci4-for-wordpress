@@ -406,7 +406,7 @@ class Zaloa extends Option
             'phone' => $phone,
             'template_id' => $template_id,
             'template_data' => $template_data,
-            'tracking_id' => session_id() . time(),
+            'tracking_id' => $this->base_model->MY_sessid() . time(),
         ];
         foreach ($custom_data as $k => $v) {
             $data[$k] = $v;
@@ -488,9 +488,9 @@ class Zaloa extends Option
     protected function zalo_session($key, $str = '')
     {
         if ($str != '') {
-            return $this->base_model->MY_session($key . session_id(), $str);
+            return $this->base_model->MY_session($key . $this->base_model->MY_sessid(), $str);
         }
-        return $this->base_model->MY_session($key . session_id());
+        return $this->base_model->MY_session($key . $this->base_model->MY_sessid());
     }
 
     protected function base64url_encode($plainText)

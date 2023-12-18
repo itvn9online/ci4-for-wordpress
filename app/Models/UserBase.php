@@ -32,7 +32,7 @@ class UserBase extends EbModel
         $user_login = explode('@', $user_login);
         $user_login = trim($user_login[0]);
         if ($user_login == '') {
-            die('user_login is NULL');
+            die(__FUNCTION__ . ': user_login is NULL');
         }
         return $user_login;
     }
@@ -221,7 +221,7 @@ class UserBase extends EbModel
     public function setLogged($id)
     {
         //return $this->cacheLogged($id);
-        return $this->insertLogged($id, session_id());
+        return $this->insertLogged($id, $this->base_model->MY_sessid());
     }
     // trả về thông tin phiên đăng nhập của người dùng
     public function getLogged($id)
@@ -242,7 +242,7 @@ class UserBase extends EbModel
      **/
     public function setCLogged($id)
     {
-        return $this->base_model->scache($this->key_cache($id) . 'logged', session_id(), $this->time_checker);
+        return $this->base_model->scache($this->key_cache($id) . 'logged', $this->base_model->MY_sessid(), $this->time_checker);
     }
 
     /**
@@ -251,8 +251,8 @@ class UserBase extends EbModel
      **/
     public function setCBlocked($id)
     {
-        //return $this->base_model->scache($this->key_cache($id) . 'logged', session_id(), ceil($this->time_checker * 2));
-        return $this->base_model->scache($this->key_cache($id) . 'logged', session_id());
+        //return $this->base_model->scache($this->key_cache($id) . 'logged', $this->base_model->MY_sessid(), ceil($this->time_checker * 2));
+        return $this->base_model->scache($this->key_cache($id) . 'logged', $this->base_model->MY_sessid());
     }
 
     /**
@@ -261,10 +261,10 @@ class UserBase extends EbModel
     protected function cacheLogged($id)
     {
         // lấy session ID trước đó
-        $sid = session_id();
+        $sid = $this->base_model->MY_sessid();
         //$sid = $this->wrtieLogged($id);
         // xong lưu session ID mới
-        //$this->wrtieLogged($id, session_id());
+        //$this->wrtieLogged($id, $this->base_model->MY_sessid());
 
         //
         $data = [
@@ -319,7 +319,7 @@ class UserBase extends EbModel
                 'ci_logged',
                 array(
                     'key' => $this->keyLogged($id),
-                    'session_id !=' => session_id(),
+                    'session_id !=' => $this->base_model->MY_sessid(),
                     // thời gian kiểm tra, tính toán để không quá lâu cũng ko quá nhanh -> dễ khóa nhầm
                     'created_at >' => time() - $this->time_checker,
                 ),
@@ -340,6 +340,8 @@ class UserBase extends EbModel
                 )
             );
         }
+
+        //
         return $this->base_model->insert('ci_logged', [
             'ip' => $_SERVER['REMOTE_ADDR'],
             'key' => $this->keyLogged($id),
@@ -401,7 +403,7 @@ class UserBase extends EbModel
             // WHERE
             'key' => $this->keyLogged($id),
             //'created_at <' => time() - $this->time_checker,
-            'session_id !=' => session_id(),
+            'session_id !=' => $this->base_model->MY_sessid(),
         ], [
             // hiển thị mã SQL để check
             //'show_query' => 1,

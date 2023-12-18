@@ -6,10 +6,10 @@
  **/
 
 //
-//echo RAND_ANTI_SPAM . '<br>' . PHP_EOL;
+//echo $this->rand_anti_spam . '<br>' . PHP_EOL;
 
 // tạo ID cho thẻ DIV -> để gây khó khăn cho việc xác định thuộc tính của DIV
-$anti_div_id_spam = '_' . RAND_ANTI_SPAM . rand(99, 999);
+$anti_div_id_spam = '_' . $this->rand_anti_spam . rand(99, 999);
 
 ?>
 <style>
@@ -32,7 +32,7 @@ $anti_div_id_spam = '_' . RAND_ANTI_SPAM . rand(99, 999);
         $val = '';
         $attr_required = '';
         if ($j == $i) {
-            $val = RAND_ANTI_SPAM . '_' . $k;
+            $val = $this->rand_anti_spam . '_' . $k;
             //echo $val . '<br>' . PHP_EOL;
             $val = md5($val);
             // if ($v == 'email') {
@@ -44,7 +44,7 @@ $anti_div_id_spam = '_' . RAND_ANTI_SPAM . rand(99, 999);
         }
         $i++;
     ?>
-        <input type="<?php echo $v; ?>" name="<?php echo RAND_ANTI_SPAM; ?>_<?php echo $k; ?>" autocomplete="off" value="<?php echo $val; ?>" <?php echo $attr_required; ?> />
+        <input type="<?php echo $v; ?>" name="<?php echo $this->rand_anti_spam; ?>_<?php echo $k; ?>" autocomplete="off" value="<?php echo $val; ?>" <?php echo $attr_required; ?> />
     <?php
     }
 
@@ -60,7 +60,7 @@ $anti_div_id_spam = '_' . RAND_ANTI_SPAM . rand(99, 999);
     $ops['time_expired'] = $ops['time_expired'] + time();
 
     // tạo chuỗi ngẫu nhiên từ session id -> cố định cho input nhưng giá trị thay đổi liên tục
-    $rand_code = session_id();
+    $rand_code = $this->MY_sessid();
     $rand_code = substr($rand_code, rand(0, strlen($rand_code) - $this->rand_len_code), $this->rand_len_code);
 
     //
@@ -68,12 +68,12 @@ $anti_div_id_spam = '_' . RAND_ANTI_SPAM . rand(99, 999);
         // timeout
         'to' => $ops['time_expired'],
         // token -> dùng để xác thực với timeout
-        'token' => md5(RAND_ANTI_SPAM . $ops['time_expired']),
+        'token' => md5($this->rand_anti_spam . $ops['time_expired']),
         // dùng để xác thực session id hiện tại
         'code' => $rand_code,
     ] as $k => $v) {
     ?>
-        <input type="text" name="<?php echo RAND_ANTI_SPAM; ?>_<?php echo $k; ?>" placeholder="<?php echo $k; ?>" value="<?php echo $v; ?>" aria-required="true" required />
+        <input type="text" name="<?php echo $this->rand_anti_spam; ?>_<?php echo $k; ?>" placeholder="<?php echo $k; ?>" value="<?php echo $v; ?>" aria-required="true" required />
     <?php
     }
 

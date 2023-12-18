@@ -229,7 +229,7 @@ class Firebase2s extends Firebases
 
             // tạo session login
             $data = $this->sync_login_data($data);
-            //$data['user_activation_key'] = session_id();
+            //$data['user_activation_key'] = $this->base_model->MY_sessid();
 
             // cập nhật 1 số thông tin kiểu cố định
             $this->user_model->update_member($data['ID'], [
@@ -350,7 +350,7 @@ class Firebase2s extends Firebases
             $verify_params['verify_key'] = $this->base_model->mdnam($data['ID'] . $ops['uid']);
         } else {
             $verify_params = $this->firebaseSignInSuccessParams();
-            $verify_params['verify_key'] = $this->base_model->mdnam($data['ID'] . session_id());
+            $verify_params['verify_key'] = $this->base_model->mdnam($data['ID'] . $this->base_model->MY_sessid());
         }
         //print_r($verify_params);
 
@@ -477,7 +477,7 @@ class Firebase2s extends Firebases
         }
         // tạo hash code mặc định nếu chưa có
         if (empty($hash_code)) {
-            $hash_code = session_id();
+            $hash_code = $this->base_model->MY_sessid();
         }
 
         //
@@ -498,7 +498,7 @@ class Firebase2s extends Firebases
     // kiểm tra xem token có đúng theo session không
     protected function firebaseSessionToken($expires_token, $ut)
     {
-        if (empty($ut) || $this->base_model->mdnam($expires_token . session_id()) != $ut) {
+        if (empty($ut) || $this->base_model->mdnam($expires_token . $this->base_model->MY_sessid()) != $ut) {
             $this->result_json_type([
                 'code' => __LINE__,
                 'error' => $this->firebaseLang('user_token', 'user_token không phù hợp'),
@@ -528,14 +528,14 @@ class Firebase2s extends Firebases
         if ($str != '') {
             // nếu có lệnh giữ lại session -> dùng cache -> session bị xóa khi bấm logout -> không giữ được
             if ($this->firebase_config->save_firebase_session == 'on') {
-                return $this->base_model->scache(__FUNCTION__ . session_id(), $str, DAY);
+                return $this->base_model->scache(__FUNCTION__ . $this->base_model->MY_sessid(), $str, DAY);
             }
-            return $this->base_model->MY_session(__FUNCTION__ . session_id(), $str);
+            return $this->base_model->MY_session(__FUNCTION__ . $this->base_model->MY_sessid(), $str);
         }
         if ($this->firebase_config->save_firebase_session == 'on') {
-            return $this->base_model->scache(__FUNCTION__ . session_id());
+            return $this->base_model->scache(__FUNCTION__ . $this->base_model->MY_sessid());
         }
-        return $this->base_model->MY_session(__FUNCTION__ . session_id());
+        return $this->base_model->MY_session(__FUNCTION__ . $this->base_model->MY_sessid());
     }
 
     public function firebase_config()

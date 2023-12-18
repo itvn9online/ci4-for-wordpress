@@ -17,10 +17,12 @@
             <td>
                 <div><a :href="'sadmin/' + controller_slug + '?comment_id=' + v.comment_ID">{{v.comment_title}} <i class="fa fa-edit"></i></a></div>
                 <div>{{v.comment_slug}}</div>
+                <div v-if="v.comment_parent > 0">- <a :href="'sadmin/' + controller_slug + '?comment_id=' + v.comment_parent">Reply for #{{v.comment_parent}} <i class="fa fa-reply"></i></a></div>
             </td>
             <td>
                 <div>{{v.comment_author}}</div>
-                <div>{{v.comment_author_email}}</div>
+                <div v-if="v.user_id > 0"><a :href="'sadmin/users/add?id=' + v.user_id">{{v.comment_author_email}}</a></div>
+                <div v-if="v.user_id < 1">{{v.comment_author_email}}</div>
                 <div v-if="v.comment_author_url != ''"><a :href="v.comment_author_url" target="_blank">{{v.comment_author_url}}</a></div>
             </td>
             <td>{{v.comment_approved}}</td>

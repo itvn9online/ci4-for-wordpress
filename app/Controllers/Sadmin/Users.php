@@ -442,6 +442,11 @@ class Users extends Sadmin
         //die( __CLASS__ . ':' . __LINE__ );
 
         //
+        $change = $this->MY_post('change');
+        $data['user_email'] = $change['user_email'];
+
+
+        //
         $result_id = $this->user_model->insert_member($data);
         if ($result_id < 0) {
             $user_data = $this->base_model->select(

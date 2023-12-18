@@ -5,7 +5,10 @@
 // tạo biến rm chứa thông tin reqquest thông qua hàm JSON để tham số này không bị thay đổi từ bên ngoài
 (function (rm) {
 	var _run = function () {
-		if (g_func.getc("WGR_logged_signature") === null) {
+		if (
+			typeof get_logged_signature != "function" ||
+			get_logged_signature() === null
+		) {
 			if (typeof WGR_builder_signature == "function") {
 				WGR_builder_signature();
 			}
@@ -24,11 +27,11 @@
 			jQuery.ajax({
 				type: "POST",
 				// link TEST
-				url: rm.logged + "?nse=" + Math.random(),
+				url: rm.logged + "?nse=modal" + Math.random(),
 				dataType: "html",
 				//crossDomain: true,
 				data: {
-					_wpnonce: g_func.getc("WGR_logged_signature"),
+					_wpnonce: get_logged_signature(),
 					the_modal: 1,
 				},
 				timeout: 33 * 1000,
@@ -78,11 +81,11 @@
 		jQuery.ajax({
 			type: "POST",
 			// link TEST
-			url: rm.logged + "?nse=" + Math.random(),
+			url: rm.logged + "?nse=checker" + Math.random(),
 			dataType: "json",
 			//crossDomain: true,
 			data: {
-				_wpnonce: g_func.getc("WGR_logged_signature"),
+				_wpnonce: get_logged_signature(),
 			},
 			timeout: 33 * 1000,
 			error: function (jqXHR, textStatus, errorThrown) {
@@ -153,11 +156,11 @@
 							jQuery.ajax({
 								type: "POST",
 								// link TEST
-								url: rm.logout + "?nse=" + Math.random(),
+								url: rm.logout + "?nse=logout" + Math.random(),
 								dataType: "json",
 								//crossDomain: true,
 								data: {
-									_wpnonce: g_func.getc("WGR_logged_signature"),
+									_wpnonce: get_logged_signature(),
 								},
 								timeout: 33 * 1000,
 								error: function (jqXHR, textStatus, errorThrown) {
@@ -211,11 +214,11 @@ function confirm_kip_logged() {
 	jQuery.ajax({
 		type: "POST",
 		// link TEST
-		url: _rqrm.cflogged + "?nse=" + Math.random(),
+		url: _rqrm.cflogged + "?nse=confirm" + Math.random(),
 		dataType: "json",
 		//crossDomain: true,
 		data: {
-			_wpnonce: g_func.getc("WGR_logged_signature"),
+			_wpnonce: get_logged_signature(),
 			user_id: WGR_config.current_user_id,
 		},
 		timeout: 33 * 1000,

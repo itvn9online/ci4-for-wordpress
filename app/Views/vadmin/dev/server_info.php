@@ -12,6 +12,7 @@
 
     //
     $all_session['session_id'] = session_id();
+    $all_session['MY_sessid'] = $base_model->MY_sessid();
 
     //
     foreach ($all_session as $k => $v) {

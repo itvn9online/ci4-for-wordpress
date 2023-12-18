@@ -20,8 +20,7 @@ class Home extends Posts
      */
     public function index($id = 0, $slug = '')
     {
-        // var_dump(session_id());
-        // var_dump($this->base_model->MY_session(session_id()));
+        // var_dump($this->base_model->MY_sessid());
 
         // thử xem có tham số p không -> có thì có thể là shortlink
         $post_id = $this->MY_get('p', 0);

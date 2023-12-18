@@ -169,7 +169,7 @@ class Guest extends Csrf
 
                             // cập nhật rememberme key nếu chưa có
                             if (empty($session_data['rememberme_key'])) {
-                                $session_data['rememberme_key'] = session_id();
+                                $session_data['rememberme_key'] = $this->base_model->MY_sessid();
 
                                 //
                                 $this->user_model->update_member($session_data['ID'], [
@@ -305,7 +305,7 @@ class Guest extends Csrf
         //print_r( $result );
         //die( __CLASS__ . ':' . __LINE__ );
         $result = $this->sync_login_data($result);
-        $result['user_activation_key'] = session_id();
+        $result['user_activation_key'] = $this->base_model->MY_sessid();
 
         //
         $this->user_model->update_member($result['ID'], [
@@ -846,9 +846,9 @@ class Guest extends Csrf
     {
         if ($str != '') {
             $str = $this->base_model->mdnam($str);
-            return $this->base_model->MY_session('access_token' . session_id(), $str);
+            return $this->base_model->MY_session('access_token' . $this->base_model->MY_sessid(), $str);
         }
-        return $this->base_model->MY_session('access_token' . session_id());
+        return $this->base_model->MY_session('access_token' . $this->base_model->MY_sessid());
     }
 
     protected function firebaseSignInSuccessParams($hash_code = '')
@@ -856,7 +856,7 @@ class Guest extends Csrf
         $current_time = time();
         // tạo hash code mặc định nếu chưa có
         if (empty($hash_code)) {
-            $hash_code = session_id();
+            $hash_code = $this->base_model->MY_sessid();
         }
 
         // lưu access_token vào cache -> lúc cần kiểm tra sẽ lấy từ cache để kiểm tra -> tăng bảo mật
@@ -869,7 +869,7 @@ class Guest extends Csrf
             //'firebase_config' => base_url('firebase2s/firebase_config'),
             // thêm 3 ký tự ngẫu nhiên vào expires_token -> để tăng bảo mật
             'expires_token' => $current_time . rand(100, 999),
-            //'user_token' => $this->base_model->mdnam($current_time . session_id()),
+            //'user_token' => $this->base_model->mdnam($current_time . $this->base_model->MY_sessid()),
         ];
     }
 
@@ -999,7 +999,7 @@ class Guest extends Csrf
 
             //
             $result = $this->sync_login_data($result);
-            $result['user_activation_key'] = session_id();
+            $result['user_activation_key'] = $this->base_model->MY_sessid();
 
             //
             $this->user_model->update_member($result['ID'], [

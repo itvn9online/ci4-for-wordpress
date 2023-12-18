@@ -14,7 +14,7 @@
             <div class="modal-body medium">
                 <p class="redcolor">Vui lòng không đăng nhập trên nhiều thiết bị hoặc nhiều trình duyệt khác nhau!</p>
                 <p>Lịch sử đăng nhập của bạn đã được lưu lại để kiểm tra. Trong một số trường hợp! Nếu phát hiện hành vi gian lận, chúng tôi sẽ tiến hành khóa tài khoản của bạn.</p>
-                <p>Phiên hiện tại: <a href="https://www.iplocation.net" target="_blank" rel="nofollow" class="bold greencolor show-current-ip"><?php echo session_id(); ?></a></p>
+                <p>Phiên hiện tại: <a href="https://www.iplocation.net" target="_blank" rel="nofollow" class="bold greencolor show-current-ip"><?php echo $this->base_model->MY_sessid(); ?></a></p>
                 <p>Phiên nghi vấn: <a target="_blank" rel="nofollow" class="show-logged-ip bold redcolor"></a></p>
                 <p>Thiết bị: <strong class="show-logged-device"></strong></p>
                 <p>Trình duyệt: <strong class="show-logged-agent"></strong></p>
