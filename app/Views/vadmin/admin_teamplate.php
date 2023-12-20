@@ -171,6 +171,7 @@ if ($debug_enable === true) {
         'WGR_config' => [
             'cf_tester_mode' => ($debug_enable === true) ? 1 : 0,
             'current_user_id' => $current_user_id * 1,
+            'pagination_display_1' => $lang_model->get_the_text('pagination_display_1', 'Đang hiển thị trang'),
         ],
     ]);
 

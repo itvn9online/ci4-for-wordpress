@@ -552,9 +552,9 @@ class Posts extends Sadmin
             // tự động cập nhật lại slug khi nhân bản
             if (
                 // url vẫn còn duplicate
-                strstr($data['post_name'], '-duplicate-') == true &&
+                strpos($data['post_name'], '-duplicate-') !== false &&
                 // tiêu đề không còn Duplicate
-                strstr($data['post_title'], ' - Duplicate ') == false
+                strpos($data['post_title'], ' - Duplicate ') === false
             ) {
                 //die(__CLASS__ . ':' . __LINE__);
                 //echo 'bbbbbbbbbbbbb';
@@ -891,9 +891,9 @@ class Posts extends Sadmin
         // nạp lại trang nếu có đổi slug duplicate
         if (
             // url vẫn còn duplicate
-            isset($data['post_name']) && strstr($data['post_name'], '-duplicate-') == true &&
+            isset($data['post_name']) && strpos($data['post_name'], '-duplicate-') !== false &&
             // tiêu đề không còn Duplicate
-            isset($data['post_title']) && strstr($data['post_title'], ' - Duplicate ') == false
+            isset($data['post_title']) && strpos($data['post_title'], ' - Duplicate ') === false
         ) {
             // nạp lại trang
             //$this->base_model->alert('', DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/'));

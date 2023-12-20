@@ -805,12 +805,12 @@ class PostQuery extends PostMeta
         // hiển thị tiêu đề ngắn bài viết
         $show_short_title = '';
         if ($instance['show_short_title'] == 'on') {
-            $show_short_title = '{{post_shorttitle}}';
+            $show_short_title = '<div class="eb-blog-short_title">{{post_shorttitle}}</div>';
         }
         // hiển thị nội dung của bài viết
         $show_post_content = '';
         if ($instance['show_post_content'] == 'on') {
-            $show_post_content = '{{post_content}}';
+            $show_post_content = '<div class="eb-blog-content">{{post_content}}</div>';
         }
         //print_r( $instance );
         if (isset($ops['add_class'])) {

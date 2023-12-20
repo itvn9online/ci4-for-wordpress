@@ -23,8 +23,7 @@ class Actions extends Layout
     {
         //
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // kiểm tra spam bot
-            $this->base_model->antiRequiredSpam();
+            return $this->submit_cart();
         }
 
         //
@@ -186,5 +185,74 @@ class Actions extends Layout
                 'error' => 'EMPTY parameter',
             ]);
         }
+    }
+
+    /**
+     * Tạo đơn hàng
+     **/
+    protected function submit_cart()
+    {
+        // kiểm tra spam bot
+        // $this->base_model->antiRequiredSpam();
+
+        //
+        $data = $this->MY_post('data');
+        print_r($data);
+
+        // lấy danh sách sản phẩm
+        $cart_id = $this->MY_post('cart_id', []);
+        print_r($cart_id);
+        $cart_quantity = $this->MY_post('cart_quantity', []);
+        print_r($cart_quantity);
+
+        // chạy vòng lặp lấy các sp có số lượng > 0
+        $ids = [];
+        foreach ($cart_quantity as $k => $v) {
+            if (empty($v) || !is_numeric($v) || $v < 1) {
+                continue;
+            }
+
+            //
+            $ids[] = $cart_id[$k];
+        }
+        print_r($ids);
+
+        //
+        if (empty($ids)) {
+            $this->base_model->alert('No valid products were found in your cart!', 'warning');
+        }
+
+        // lấy các sản phẩm theo ids tìm thấy được
+        $products = $this->base_model->select(
+            '*',
+            // WGR_POST_VIEW,
+            'posts',
+            array(
+                // các kiểu điều kiện where
+                'post_status' => PostType::PUBLICITY,
+            ),
+            array(
+                'where_in' => array(
+                    'ID' => $ids
+                ),
+                'order_by' => array(
+                    'ID' => 'DESC'
+                ),
+                // hiển thị mã SQL để check
+                'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => -1
+            )
+        );
+        print_r($products);
+
+        //
+        $this->base_model->alert('OK');
     }
 }

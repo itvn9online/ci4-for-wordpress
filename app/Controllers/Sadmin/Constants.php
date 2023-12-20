@@ -45,6 +45,18 @@ class Constants extends Configs
             'ENABLE_AMP_VERSION',
         ];
 
+        // mảng các giá trị sẽ bỏ dấu / ở đầu để tránh xung đột -> trim directory separator
+        $arr_trim_ds = [
+            'WGR_CATEGORY_PERMALINK',
+            'WGR_PRODS_PERMALINK',
+            'WGR_TAXONOMY_PERMALINK',
+            //
+            'WGR_POST_PERMALINK',
+            'WGR_PROD_PERMALINK',
+            'WGR_PAGE_PERMALINK',
+            'WGR_POSTS_PERMALINK',
+        ];
+
         //
         $a = [];
         foreach ($data as $k => $v) {
@@ -65,6 +77,13 @@ class Constants extends Configs
                 //$a[] = "defined('$k') || define('$k', $v);";
                 $a[] = "define('$k', $v);";
             } else {
+                // bỏ dấu / ở 2 đầu nếu có
+                if (in_array($k, $arr_trim_ds) && !empty($v)) {
+                    $v = ltrim($v, '/');
+                    $v = rtrim($v, '/');
+                }
+
+                //
                 $str_quote = "'";
                 if (strpos($v, "'") !== false) {
                     $str_quote = '"';

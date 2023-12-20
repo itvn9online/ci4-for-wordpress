@@ -75,6 +75,11 @@ class Users extends Csrf
         }
 
         //
+        $data_meta = $this->user_model->get_users_meta($id, [
+            'description' => '',
+        ]);
+
+        //
         $this->teamplate['breadcrumb'] = view(
             'breadcrumb_view',
             array(
@@ -89,6 +94,7 @@ class Users extends Csrf
                 'seo' => $this->base_model->default_seo('Thông tin tài khoản', $this->getClassName(__CLASS__) . '/' . __FUNCTION__),
                 'breadcrumb' => '',
                 'data' => $data,
+                'data_meta' => $data_meta,
                 'session_data' => $this->session_data,
             )
         );
@@ -324,6 +330,7 @@ class Users extends Csrf
 
         // cập nhật thông tin mới cho user
         $this->user_model->update_member($id, $data_update);
+        $this->user_model->update_umeta($id, $this->MY_post('meta', []));
 
         /*
          * lưu thông tin đăng nhập mới vào session

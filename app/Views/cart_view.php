@@ -25,6 +25,7 @@ $base_model->JSON_echo([
 
 //
 $base_model->adds_js([
+    'wp-includes/javascript/datetimepicker.js',
     'wp-includes/javascript/cart.js',
     THEMEPATH . 'js/cart.js',
 ], [

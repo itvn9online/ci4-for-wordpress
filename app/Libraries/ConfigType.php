@@ -137,6 +137,7 @@ class ConfigType
                 'address' => 'Địa chỉ',
                 'address2' => 'Địa chỉ 2',
                 'emailcontact' => 'Email liên hệ',
+                'emailnotice' => 'Email nhận thông báo',
                 'html_header' => 'HTML đầu trang',
                 'html_body' => 'HTML chân trang',
                 'replace_post_content' => 'Thay thế nội dung',
@@ -325,7 +326,7 @@ class ConfigType
             }
         } else if ($config_type == self::TRANS) {
             $arr_tmp = [];
-            $arr_tmp['main_slider_slug'] = 'Slug slider chính';
+            // $arr_tmp['main_slider_slug'] = 'Slug slider chính';
             $arr_tmp['copy_right_first'] = 'Bản quyền (trước)';
             $arr_tmp['copy_right_last'] = 'Bản quyền (sau)';
             $arr_tmp['powered_by_eb'] = 'Cung cấp bởi';
@@ -523,6 +524,7 @@ class ConfigType
             'address' => 'textarea',
             'address2' => 'textarea',
             'emailcontact' => 'email',
+            'emailnotice' => 'email',
             'html_header' => 'textarea',
             'html_body' => 'textarea',
             'replace_post_content' => 'textarea',
@@ -610,7 +612,7 @@ class ConfigType
             'currency_big_format' => 'Khi bật chế độ này, các số tiền lớn hơn 1 triệu sẽ được chuyển đổi đơn vị sang triệu (hoặc tỷ). Ví dụ: 1,000,000đ sẽ đổi thành 1 triệu, 1,624,000,000đ sẽ đổi thành 1 tỷ 624 triệu.',
             //
             'eb_product_per_page' => 'Khi số này lớn hơn 0, trong trang chi tiết ' . AdminTranslate::PROD . ' sẽ lấy các bài cùng nhóm với bài hiện tại để giới thiệu',
-            'main_slider_slug' => 'Nhập slug của slider chính vào đây, khi hàm the_slider không tìm được slider tương ứng thì nó sẽ lấy slider này để gán vào',
+            // 'main_slider_slug' => 'Nhập slug của slider chính vào đây, khi hàm the_slider không tìm được slider tương ứng thì nó sẽ lấy slider này để gán vào',
             'image' => 'Khi share ' . AdminTranslate::POST . ' lên mạng xã hội như Facebook, Zalo... ảnh này sẽ được hiển thị nếu link share không có ảnh đính kèm.',
             'tawk_to' => 'Chỉ nhập ID của widget chat https://tawk.to vào đây, phần mã còn lại hệ thống sẽ tự build và update khi cần thiết.',
             'registeronline' => 'Link đăng ký với bộ công thương. Trong file view, sử dụng hàm <strong>$option_model->the_bct( $getconfig );</strong> để in ra logo BCT màu đỏ.',
@@ -680,6 +682,7 @@ class ConfigType
             'disable_register_member' => 'Khi muốn dừng việc đăng ký tài khoản trên website thì bật chức năng này lên. Admin vẫn có thể tạo tài khoản từ trang admin hoặc người dùng có thể đăng nhập thông qua firebase nếu website có thiết lập Đăng nhập qua firebase tại đây ' . base_url('sadmin/firebases') . '?support_tab=data_g_firebase_config',
             'robots' => base_url('robots.txt'),
             'blog_private' => 'Việc tuân thủ yêu cầu này hoàn toàn phụ thuộc vào các công cụ tìm kiếm.',
+            'emailnotice' => 'Một số chức năng sẽ gửi thông báo về email được thiết lập tại đây',
             'replace_post_content' => 'Khi cần thay thế nội dung của bài viết hàng loạt thì có thể sử dụng chức năng này. <br> Mẫu sử dụng: Nội dung cũ | Nội dung mới',
             'min_product_price' => 'Số tiền tối thiểu mà khách phải thanh toán cho mỗi đơn hàng.',
             'period_price' => 'Bấm [Thêm mới] để thêm các mức giá cho các gói nạp, bấm [Xóa] để loại bỏ một mức giá. <br> Hỗ trợ các đơn vị chuyển đổi: tr = triệu, k = nghìn, % = quy đổi theo giá gốc.',
@@ -705,16 +708,22 @@ class ConfigType
             //'WGR_CATEGORY_PREFIX' => 'Xóa trắng để xem mặc định: ' . WGR_CATEGORY_PREFIX,
             //'WGR_PAGES_PREFIX' => 'Xóa trắng để xem mặc định: ' . WGR_PAGES_PREFIX,
             //
-            'WGR_CATEGORY_PERMALINK' => 'Xóa trắng để xem mặc định: ' . WGR_CATEGORY_PERMALINK,
+            'WGR_CATEGORY_PERMALINK' => 'Ví dụ: %taxonomy%-%term_id%-%slug% | Xóa trắng để xem mặc định',
             //'WGR_BLOGS_PERMALINK' => 'Xóa trắng để xem mặc định: ' . WGR_BLOGS_PERMALINK,
-            'WGR_PRODS_PERMALINK' => 'Xóa trắng để xem mặc định: ' . WGR_PRODS_PERMALINK,
-            'WGR_TAXONOMY_PERMALINK' => 'Xóa trắng để xem mặc định: ' . WGR_TAXONOMY_PERMALINK,
+            'WGR_PRODS_PERMALINK' =>
+            'Ví dụ: %taxonomy%-%term_id%-%slug% | Xóa trắng để xem mặc định',
+            'WGR_TAXONOMY_PERMALINK' =>
+            'Ví dụ: %taxonomy%-%term_id%-%slug% | Xóa trắng để xem mặc định',
             //
-            'WGR_POST_PERMALINK' => 'Các tham số đầu vào sẽ là %tên-cột-trong-bảng-posts%. Ví dụ: %ID% %post_type% %post_name%',
+            'WGR_POST_PERMALINK' =>
+            'Ví dụ: %ID%-%post_type%-%post_name% | Xóa trắng để xem mặc định',
             //'WGR_BLOG_PERMALINK' => 'Xóa trắng để xem mặc định: ' . WGR_BLOG_PERMALINK,
-            'WGR_PROD_PERMALINK' => 'Xóa trắng để xem mặc định: ' . WGR_PROD_PERMALINK,
-            'WGR_PAGE_PERMALINK' => 'Xóa trắng để xem mặc định: ' . WGR_PAGE_PERMALINK,
-            'WGR_POSTS_PERMALINK' => 'Xóa trắng để xem mặc định: ' . WGR_POSTS_PERMALINK,
+            'WGR_PROD_PERMALINK' =>
+            'Ví dụ: %ID%-%post_type%-%post_name% | Xóa trắng để xem mặc định',
+            'WGR_PAGE_PERMALINK' =>
+            'Ví dụ: %ID%-%post_type%-%post_name% | Xóa trắng để xem mặc định',
+            'WGR_POSTS_PERMALINK' =>
+            'Ví dụ: %ID%-%post_type%-%post_name% | Xóa trắng để xem mặc định',
             //
             'WGR_CSP_DEFAULT_SRC' => 'Xóa trắng để xem mặc định: ' . WGR_CSP_DEFAULT_SRC,
             'WGR_CSP_SCRIPT_SRC' => 'Xóa trắng để xem mặc định: ' . WGR_CSP_SCRIPT_SRC,

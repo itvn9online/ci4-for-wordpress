@@ -233,6 +233,7 @@ function EBE_load_datetimepicker(max_i) {
 		//
 		let default_op = {
 			lang: $("html").attr("lang") || "vi",
+			// lang: "en",
 			timepicker: true,
 			formatTime: "H:i",
 			//format: 'd-m-Y H:i:s'

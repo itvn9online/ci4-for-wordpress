@@ -989,7 +989,7 @@ var _global_js_eb = {
 			a.append(
 				'<input type="hidden" name="__wgr_request_from" value="' +
 					window.location.href +
-					'" />'
+					'" readonly autocomplete="off" />'
 			);
 		}
 		// thời gian truy cập form
@@ -1000,7 +1000,7 @@ var _global_js_eb = {
 			a.append(
 				'<input type="hidden" name="__wgr_nonce" value="' +
 					Math.ceil(Date.now() / 1000) +
-					'" />'
+					'" readonly autocomplete="off" />'
 			);
 		}
 		// thêm tham số xác định target của form để đưa ra phương thức xử lý code phù hợp
@@ -1011,7 +1011,7 @@ var _global_js_eb = {
 			a.append(
 				'<input type="hidden" name="__wgr_target" value="' +
 					(a.attr("target") || "") +
-					'" />'
+					'" readonly autocomplete="off" />'
 			);
 		}
 

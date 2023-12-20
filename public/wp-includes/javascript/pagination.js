@@ -13,10 +13,10 @@ function EBE_part_page(Page, TotalPage, strLinkPager, sub_part) {
 	if (typeof sub_part == "undefined") {
 		sub_part = "/page/";
 	}
-	//console.log(Page);
-	//console.log(TotalPage);
-	//console.log(strLinkPager);
-	//console.log(sub_part);
+	console.log(Page);
+	console.log(TotalPage);
+	console.log(strLinkPager);
+	console.log(sub_part);
 
 	//
 	strLinkPager += sub_part;
@@ -32,9 +32,9 @@ function EBE_part_page(Page, TotalPage, strLinkPager, sub_part) {
 	//let prev_1_page = Page - 1;
 
 	// lấy các trang trước
-	let prev_page = "";
-	let first_page = "";
-	let begin_i = Page - chia_doi;
+	let prev_page = "",
+		first_page = "",
+		begin_i = Page - chia_doi;
 	//console.log('begin i:', begin_i);
 	if (begin_i < 1) {
 		begin_i = 1;
@@ -110,10 +110,10 @@ function EBE_part_page(Page, TotalPage, strLinkPager, sub_part) {
 
 //
 $(".each-to-page-part").each(function () {
-	let page = $(this).attr("data-page") || "";
-	let total = $(this).attr("data-total") || "";
-	let url = $(this).attr("data-url") || "";
-	let params = $(this).attr("data-params") || "";
+	let page = $(this).attr("data-page") || "",
+		total = $(this).attr("data-total") || "",
+		url = $(this).attr("data-url") || "",
+		params = $(this).attr("data-params") || "";
 
 	//
 	$(this).before(EBE_part_page(page, total, url, params));

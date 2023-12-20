@@ -1417,7 +1417,7 @@ class Dashboard extends Optimize
         if ($has_reset === true) {
             $this->base_model->alert('Reset Term Permalink thành công!');
         }
-        $this->base_model->alert('Reset Term Permalink thành công!', 'warning');
+        $this->base_model->alert('Vui lòng thử lại sau ít phút!', 'warning');
     }
 
     public function reset_post_permalink()
@@ -1506,6 +1506,6 @@ class Dashboard extends Optimize
         if ($has_reset === true) {
             $this->base_model->alert('Reset Post Permalink thành công!');
         }
-        $this->base_model->alert('Reset Post Permalink thành công!', 'warning');
+        $this->base_model->alert('Vui lòng thử lại sau ít phút!', 'warning');
     }
 }

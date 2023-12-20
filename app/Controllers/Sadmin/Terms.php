@@ -465,9 +465,9 @@ class Terms extends Sadmin
             // tự động cập nhật lại slug khi nhân bản
             if (
                 // url vẫn còn duplicate
-                strstr($data['slug'], '-duplicate-') == true &&
+                strpos($data['slug'], '-duplicate-') !== false &&
                 // tiêu đề không còn Duplicate
-                strstr($data['name'], ' - Duplicate ') == false
+                strpos($data['name'], ' - Duplicate ') === false
             ) {
                 //die( DYNAMIC_BASE_URL . ltrim( $_SERVER[ 'REQUEST_URI' ], '/' ) );
                 //echo 'bbbbbbbbbbbbb';
@@ -815,20 +815,32 @@ class Terms extends Sadmin
         // nạp lại trang nếu có đổi slug duplicate
         if (
             // url vẫn còn duplicate
-            isset($data['slug']) && strstr($data['slug'], '-duplicate-') == true &&
+            isset($data['slug']) && strpos($data['slug'], '-duplicate-') !== false &&
             // tiêu đề không còn Duplicate
-            isset($data['name']) && strstr($data['name'], ' - Duplicate ') == false
+            isset($data['name']) && strpos($data['name'], ' - Duplicate ') === false
         ) {
+            // lấy data mới -> sau khi update
+            $new_data = $this->term_model->select_term($id, [
+                'taxonomy' => $this->taxonomy,
+            ]);
+            // print_r($data);
+            // print_r($new_data);
+
+            // -> lấy url mới -> thiết lập lại url ở fronend
+            echo $this->term_model->update_term_permalink($new_data) . '<br>' . PHP_EOL;
+            // die(__CLASS__ . ':' . __LINE__);
+
             // nạp lại trang
             //$this->base_model->alert('', DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/'));
             $this->base_model->alert('', $this->term_model->get_admin_permalink($this->taxonomy, $id, $this->controller_slug));
         } else {
             // so sánh url cũ và mới
             $old_slug = $this->MY_post('old_slug');
-            //print_r($old_slug);
+            // print_r($old_slug);
+            // print_r($data);
 
             // nếu có sự khác nhau
-            if ($old_slug != $data['slug']) {
+            if (!empty($old_slug) && $old_slug != $data['slug']) {
                 // lấy data mới -> sau khi update
                 $new_data = $this->term_model->select_term($id, [
                     'taxonomy' => $this->taxonomy,

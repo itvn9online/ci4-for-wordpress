@@ -636,39 +636,6 @@ class Accelerated extends Layout
         return $str;
     }
 
-    protected function remove_v1_tag($str, $tag)
-    {
-        // tách mảng theo tag nhập vào
-        $c = explode('<' . $tag, $str);
-        // print_r($c);
-
-        $new_str = '';
-        foreach ($c as $k => $v) {
-
-            // bỏ qua mảng số 0
-            if ($k > 0) {
-                //				echo $v . "\n";
-                //				echo strstr( $v, '>' ) . "\n";
-                //				echo substr( strstr( $v, '>' ), 1 ) . "\n";
-
-                // lấy từ dấu > trở đi
-                $v = strstr($v, '>');
-
-                // bỏ qua dấu > ở đầu
-                $v = substr($v, 1);
-            }
-
-            //
-            $new_str .= $v;
-        }
-
-        // xóa thẻ đóng
-        $new_str = str_replace('</' . $tag . '>', '', $new_str);
-
-        //
-        return $new_str;
-    }
-
     protected function remove_attr($str, $attr, $end_attr = '"')
     {
         // cắt mảng theo attr nhập vào

@@ -8,7 +8,8 @@ use App\Libraries\PostType;
 use App\Libraries\TaxonomyType;
 
 //
-class PostPosts extends PostSlider
+// class PostPosts extends PostSlider
+class PostPosts extends PostGet
 {
     public function __construct()
     {

@@ -36,19 +36,21 @@
     ?>
         <tr>
             <td class="cart-image">
-                <div>
+                <div class="global-a-posi">
+                    <a href="<?php echo $v['post_permalink']; ?>">&nbsp;</a>
                     <div data-img="<?php echo $post_meta['image_medium']; ?>" data-size="1" class="ti-le-global eb-blog-avt each-to-bgimg">&nbsp;</div>
                 </div>
             </td>
             <td>
                 <h3 class="cart-post_title"><a href="<?php echo $v['post_permalink']; ?>"><?php echo $v['post_title']; ?></a></h3>
                 <p class="remove-from-cart">Remove <i class="fa fa-trash"></i></p>
+                <input type="hidden" name="cart_id[]" value="<?php echo $v['ID']; ?>" autocomplete="off" readonly aria-required="true" required />
             </td>
             <td class="cart-regular_price">
                 <span class="ebe-currency"><?php echo $post_meta['_regular_price']; ?></span>
             </td>
             <td class="cart-quantity">
-                <input type="number" value="1" min="0" data-id="<?php echo $v['ID']; ?>" data-price="<?php echo $post_meta['_regular_price']; ?>" class="form-control change-cart-quantity" />
+                <input type="number" name="cart_quantity[]" value="1" min="0" data-id="<?php echo $v['ID']; ?>" data-price="<?php echo $post_meta['_regular_price']; ?>" class="form-control change-cart-quantity" />
             </td>
             <td class="cart-regular_price">
                 <span data-id="<?php echo $v['ID']; ?>" class="ebe-currency change-cart-regular_price"></span>

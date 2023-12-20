@@ -21,6 +21,8 @@ function action_change_user_status() {
 				//
 				if (typeof data.error != "undefined") {
 					WGR_alert(data.error, "error");
+				} else if (typeof data.result != "undefined" && data.result === false) {
+					WGR_alert("Lỗi thực thi lệnh thay đổi trạng thái tài khoản", "error");
 				} else if (typeof data.ok != "undefined") {
 					WGR_alert(
 						"Thay đổi Trạng thái " +

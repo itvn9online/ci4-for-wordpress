@@ -339,6 +339,11 @@ class Users extends Sadmin
         }
         $data['ci_show_pass'] = '';
 
+        //
+        $data_meta = [
+            'description' => '',
+        ];
+
         // edit
         if ($id > 0) {
             // select dữ liệu từ 1 bảng bất kỳ
@@ -357,12 +362,15 @@ class Users extends Sadmin
                     'limit' => 1
                 )
             );
-
             if (empty($data)) {
                 die('user not found!');
             }
 
-            /*
+            //
+            $data_meta = $this->user_model->get_users_meta($id, $data_meta);
+            // print_r($data_meta);
+
+            /**
              * bảo mật quyền cho tài khoản admin cấp cao
              */
             // print_r($data);
@@ -568,6 +576,7 @@ class Users extends Sadmin
         //
         // print_r($data);
         $result_id = $this->user_model->update_member($id, $data);
+        $this->user_model->update_umeta($id, $this->MY_post('meta', []));
 
         //
         if ($result_id === true) {
@@ -974,6 +983,17 @@ class Users extends Sadmin
 
     public function quick_status()
     {
+        if (empty($this->member_type)) {
+            $this->result_json_type(
+                [
+                    'in' => __CLASS__,
+                    'code' => __LINE__,
+                    'error' => 'EMPTY member_type!'
+                ]
+            );
+        }
+
+        //
         $user_id = $this->MY_post('user_id');
         if (empty($user_id)) {
             $this->result_json_type(
@@ -1014,7 +1034,7 @@ class Users extends Sadmin
         //$this->result_json_type([$user_status]); // TEST
 
         //
-        $this->base_model->update_multiple(
+        $result = $this->base_model->update_multiple(
             'users',
             [
                 'user_status' => $user_status
@@ -1031,7 +1051,9 @@ class Users extends Sadmin
         $this->result_json_type(
             [
                 'ok' => $user_id,
+                'result' => $result,
                 'member_name' => $this->member_name,
+                'member_type' => $this->member_type,
                 'user_status' => $user_status,
             ]
         );

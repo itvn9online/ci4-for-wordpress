@@ -159,7 +159,7 @@ class PostType
         //
         else if ($post_type == self::PAGE) {
             //$arr[ 'second_content' ] = 'Nội dung phụ';
-            $arr['post_auto_slider'] = 'Slider';
+            // $arr['post_auto_slider'] = 'Slider';
             $arr['page_template'] = 'Giao diện';
         }
 
@@ -187,7 +187,7 @@ class PostType
         $arr = [
             //'second_content' => 'textarea',
             'page_template' => 'select',
-            'post_auto_slider' => 'checkbox',
+            // 'post_auto_slider' => 'checkbox',
             //'post_relationships' => 'hidden',
             'image_large' => 'hidden',
             'image_medium_large' => 'hidden',
@@ -219,7 +219,7 @@ class PostType
             'url_video' => 'Bạn có thể nhập vào URL video trên Youtube (Ví dụ: https://youtu.be/<strong>{ID}</strong>) hoặc URL video MP4, các định dạng khác hiện chưa được hỗ trợ. <br> Ảnh đại diện theo video: http://i3.ytimg.com/vi/<strong>{ID}</strong>/hqdefault.jpg hoặc http://i3.ytimg.com/vi/<strong>{ID}</strong>/maxresdefault.jpg hoặc https://img.youtube.com/vi/<strong>{ID}</strong>/0.jpg',
             'url_redirect' => 'Nhập vào đường dẫn bạn muốn banner này trỏ tới (nếu có).',
             //'second_content' => 'Nội dung phụ để dễ xử lý giao diện cho một số trường hợp đặc biệt',
-            'post_auto_slider' => 'Khi chế độ này được kích hoạt, một slider sẽ tự động được khởi tạo, sau đó bạn chỉ việc thêm ảnh cho slider để nó có thể hoạt động',
+            // 'post_auto_slider' => 'Khi chế độ này được kích hoạt, một slider sẽ tự động được khởi tạo, sau đó bạn chỉ việc thêm ảnh cho slider để nó có thể hoạt động',
             //
             'post_rating_value' => 'Vui lòng nhập dạng số thập phân. Ví dụ: 4.8 hoặc 4.5 hoặc 3.3',
             'post_rating_count' => 'Vui lòng nhập dạng số nguyên, tổng số lượng bình chọn website này, nếu là số ảo thì nhập trong khoảng 160 - 300.',

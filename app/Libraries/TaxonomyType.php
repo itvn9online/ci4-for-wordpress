@@ -110,7 +110,7 @@ class TaxonomyType
         //
         //$arr['taxonomy_avatar'] = 'Ảnh đại diện';
         $arr['taxonomy_custom_post_size'] = 'Tùy chỉnh tỉ lệ ảnh';
-        $arr['taxonomy_auto_slider'] = 'Slider';
+        // $arr['taxonomy_auto_slider'] = 'Slider';
         if ($taxonomy == self::ADS) {
             $arr['hide_widget_title'] = 'Ẩn tiêu đề danh mục';
             $arr['custom_cat_link'] = 'Tùy chỉnh URL';
@@ -179,7 +179,7 @@ class TaxonomyType
             'show_post_content' => 'checkbox',
             'run_slider' => 'checkbox',
             'open_target' => 'checkbox',
-            'taxonomy_auto_slider' => 'checkbox',
+            // 'taxonomy_auto_slider' => 'checkbox',
             'max_width' => 'select',
             //'term_status' => 'select',
         ];
@@ -204,7 +204,7 @@ class TaxonomyType
             'text_view_more' => 'Nhập nội dung cho nút xem thêm (Danh mục), khi trường này có dữ liệu, nút xem thêm sẽ xuất hiện trong widget',
             'text_view_details' => 'Nhập nội dung cho nút xem chi tiết bài viết, khi trường này có dữ liệu, nút xem chi tiết sẽ xuất hiện, liên kết của nó chính là liên kết của bài viết hoặc link gắn ngoài của bài viết',
             'taxonomy_custom_post_size' => 'Mặc định, tỉ lệ ảnh sẽ được dùng theo cấu hình chung của hệ thống. Trường hợp cần cấu hình riêng cho từng danh mục thì bạn có thể thiết lập tại đây. Ví dụ: 4/3',
-            'taxonomy_auto_slider' => 'Khi chế độ này được kích hoạt, một slider sẽ tự động được khởi tạo, sau đó bạn chỉ việc thêm ảnh cho slider để nó có thể hoạt động',
+            // 'taxonomy_auto_slider' => 'Khi chế độ này được kích hoạt, một slider sẽ tự động được khởi tạo, sau đó bạn chỉ việc thêm ảnh cho slider để nó có thể hoạt động',
             'term_template' => 'Sử dụng khi muốn thiết lập giao diện riêng cho từng danh mục. File mẫu là file .php được đặt trong thư mục <b>term-templates</b> của mỗi theme.',
             'term_col_templates' => 'HTML mẫu của phần col cho từng danh mục (nếu có). Mặc định sử dụng col chung của website.',
             'post_custom_cloumn' => 'Khi cần tùy chỉnh `Bố cục bài viết` cho danh mục này thì có thể thêm file .html vào đây `/' . str_replace(ROOTPATH, '', VIEWS_CUSTOM_PATH) . 'ads_node/` sau đó chọn file tương ứng cho danh mục này. HTML trong file được chọn sẽ dùng để tạo hình cho bài viết. Mẫu HTML có thể copy từ file `/app/Views/html/ads_node.html` hoặc tùy chỉnh theo tiêu chuẩn .col của bootstrap.',
