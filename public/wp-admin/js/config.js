@@ -115,3 +115,6 @@ $(document).ready(function () {
 		}
 	}
 });
+
+//
+Submit_form_by_Ctrl_S();

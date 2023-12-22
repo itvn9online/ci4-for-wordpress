@@ -280,3 +280,23 @@ function action_add_to_cart() {
 function WGR_clear_local_cart() {
 	return localStorage.removeItem("wgr_local_cart_data");
 }
+
+/**
+ * Một số form cần tạo delay do thực thi mất thời gian, tránh bấm submit liên tục
+ */
+var delay_submit_form = false;
+function delay_for_submit_form() {
+	if (delay_submit_form !== false) {
+		console.log("delay submit form", delay_submit_form);
+		return false;
+	}
+	delay_submit_form = true;
+
+	//
+	setTimeout(function () {
+		delay_submit_form = false;
+	}, 4000);
+
+	//
+	return true;
+}

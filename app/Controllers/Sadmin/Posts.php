@@ -238,7 +238,7 @@ class Posts extends Sadmin
                     'limit' => -1
                 )
             );
-            //print_r( $ids );
+            // print_r($ids);
             $ids = $ids[0]['ids'];
 
             //

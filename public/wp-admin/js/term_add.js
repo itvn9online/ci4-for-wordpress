@@ -48,22 +48,5 @@ if ($("#data_parent").length > 0) {
 add_and_show_post_avt("#data_term_avatar", "", "medium");
 add_and_show_post_avt("#data_term_favicon", "", "medium");
 
-// không cho submit liên tục
-var submit_if_ctrl_s = false;
-$(document).bind("keyup keydown", function (e) {
-	// khi người dùng ctrl + s -> save
-	if (e.ctrlKey && e.which == 83) {
-		if (submit_if_ctrl_s === false) {
-			console.log("Submit form by Ctrl + S");
-			submit_if_ctrl_s = true;
-			setTimeout(function () {
-				submit_if_ctrl_s = false;
-			}, 600);
-
-			//
-			document.admin_global_form.submit();
-		}
-		return false;
-	}
-	return true;
-});
+//
+Submit_form_by_Ctrl_S();

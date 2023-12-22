@@ -183,7 +183,7 @@ class Configs extends Sadmin
             $this->auto_create_htaccess_deny(true);
 
             // chỉ cho phép một số định dạng file được truy cập trong thư mục themes
-            echo $this->deny_visit_upload(PUBLIC_PUBLIC_PATH . 'themes', true, false) . '<br>' . PHP_EOL;
+            echo $this->deny_visit_upload(PUBLIC_PUBLIC_PATH . 'wp-content/themes', true, false) . '<br>' . PHP_EOL;
 
             //
             $data['logo_width_img'] = 0;

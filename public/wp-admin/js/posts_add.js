@@ -88,28 +88,10 @@ $(".post_uncheck_meta").change(function () {
 	}
 })();
 
-// không cho submit liên tục
-var submit_if_ctrl_s = false;
-$(document)
-	.ready(function () {
-		for_admin_global_checkbox();
-	})
-	.bind("keyup keydown", function (e) {
-		// khi người dùng ctrl + s -> save
-		if (e.ctrlKey && e.which == 83) {
-			if (submit_if_ctrl_s === false) {
-				console.log("Submit form by Ctrl + S");
-				submit_if_ctrl_s = true;
-				setTimeout(function () {
-					submit_if_ctrl_s = false;
-				}, 600);
+//
+$(document).ready(function () {
+	for_admin_global_checkbox();
+});
 
-				// kiểm tra form trước khi submit
-				if (action_before_submit_post() === true) {
-					document.admin_global_form.submit();
-				}
-			}
-			return false;
-		}
-		return true;
-	});
+//
+Submit_form_by_Ctrl_S();

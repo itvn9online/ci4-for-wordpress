@@ -220,7 +220,7 @@ class Comments extends Sadmin
             'DeletedStatus_DELETED' => DeletedStatus::DELETED,
             'vue_data' => [
                 'comment_name' => $this->comment_name,
-                'totalThread' => $totalThread,
+                'totalThread' => number_format($totalThread),
                 'by_keyword' => $by_keyword,
                 'by_is_deleted' => $by_is_deleted,
             ],

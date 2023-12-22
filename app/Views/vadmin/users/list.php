@@ -98,7 +98,7 @@ $base_model->add_js('wp-admin/js/users_functions.js');
 
     ?>
 </div>
-<div class="public-part-page"><?php echo $pagination; ?> Trên tổng số<?php echo $totalThread; ?> bản ghi.</div>
+<div class="public-part-page"><?php echo $pagination; ?> Trên tổng số <?php echo number_format($totalThread); ?> bản ghi.</div>
 <?php
 
 //

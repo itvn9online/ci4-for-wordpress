@@ -7,6 +7,9 @@ function create_div_grid_layout(class_css) {
 }
 
 var current_textediter_insert_to = "";
+// không cho submit liên tục qua ctrl + s
+var submit_if_ctrl_s = false,
+	warning_if_ctrl_s = false;
 
 function WgrWp_popup_upload(insert_to, add_img_tag, img_size, input_type) {
 	if (
@@ -567,15 +570,26 @@ function WGR_load_textediter(for_id, ops) {
 				// tự động submit form nếu bấm ctrl + s ở trong editer
 				//console.log(typeof document.admin_global_form);
 				if (typeof document.admin_global_form != "undefined") {
-					//WGR_alert("234");
-					// nếu có function này
-					if (typeof action_before_submit_post == "function") {
-						// phải gọi đến nó trước rồi mới submit
-						if (action_before_submit_post() === true) {
+					if (submit_if_ctrl_s === false) {
+						console.log("Submit form by Ctrl + S");
+						submit_if_ctrl_s = true;
+						warning_if_ctrl_s = false;
+						setTimeout(function () {
+							submit_if_ctrl_s = false;
+						}, 4000);
+
+						// nếu có function này
+						if (typeof action_before_submit_post == "function") {
+							// kiểm tra form trước khi submit
+							if (action_before_submit_post() === true) {
+								document.admin_global_form.submit();
+							}
+						} else {
 							document.admin_global_form.submit();
 						}
-					} else {
-						document.admin_global_form.submit();
+					} else if (warning_if_ctrl_s === false) {
+						warning_if_ctrl_s = true;
+						// WGR_alert("Please do not operate too quickly!", "warning");
 					}
 					return false;
 				}

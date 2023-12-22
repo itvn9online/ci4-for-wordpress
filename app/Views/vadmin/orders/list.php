@@ -78,7 +78,7 @@ $base_model->add_css('wp-admin/css/' . $post_type . '.css');
 
     ?>
 </div>
-<div class="public-part-page"><?php echo $pagination; ?> Trên tổng số <?php echo $totalThread; ?> bản ghi.</div>
+<div class="public-part-page"><?php echo $pagination; ?> Trên tổng số <?php echo number_format($totalThread); ?> bản ghi.</div>
 <?php
 
 //

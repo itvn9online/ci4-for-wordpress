@@ -102,8 +102,11 @@ function WGR_set_nofollow() {
 	}
 }
 
-function url_for_text_note() {
-	$(".controls-text-note").each(function () {
+function url_for_text_note(for_class) {
+	if (typeof for_class == "undefined" || for_class == "") {
+		for_class = ".controls-text-note";
+	}
+	$(for_class).each(function () {
 		let a = $(this).html();
 		if (a.split("://").length > 1) {
 			a = WGR_urlify(a);
@@ -172,4 +175,37 @@ function admin_print_debug_data() {
 	}
 	window.location = a + "print_data=1";
 	return false;
+}
+
+/**
+ * khi người dùng ctrl + s -> save
+ */
+function Submit_form_by_Ctrl_S() {
+	$(document).bind("keyup keydown", function (e) {
+		if (e.ctrlKey && e.which == 83) {
+			if (submit_if_ctrl_s === false) {
+				console.log("Submit form by Ctrl + S");
+				submit_if_ctrl_s = true;
+				warning_if_ctrl_s = false;
+				setTimeout(function () {
+					submit_if_ctrl_s = false;
+				}, 4000);
+
+				// nếu có function này
+				if (typeof action_before_submit_post == "function") {
+					// kiểm tra form trước khi submit
+					if (action_before_submit_post() === true) {
+						document.admin_global_form.submit();
+					}
+				} else {
+					document.admin_global_form.submit();
+				}
+			} else if (warning_if_ctrl_s === false) {
+				warning_if_ctrl_s = true;
+				// WGR_alert("Please do not operate too quickly!", "warning");
+			}
+			return false;
+		}
+		return true;
+	});
 }
