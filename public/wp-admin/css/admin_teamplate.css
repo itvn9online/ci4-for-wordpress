@@ -482,6 +482,10 @@ body.ebfixed-down-menu.sidebar-hover.sidebar-height #sidebar, body.ebfixed-down-
     box-shadow: 0 0 10px 0 #666;
 }
 
+.control-group input[type="number"] {
+    max-width: 250px;
+}
+
 .post-admin-thumbnail {
     display: inline-block;
 }

@@ -20,11 +20,44 @@ class Dev extends Sadmin
 
     public function server_info()
     {
+        $file_log = WRITEPATH . 'logs/' . __FUNCTION__ . '_term_level.txt';
+        // echo $file_log . '<br>' . PHP_EOL;
+
         /**
          * db không cần update liên tục, nếu cần thì clear cache để tái sử dụng
          */
         $has_update = $this->base_model->scache(__FUNCTION__);
         if ($has_update === NULL) {
+            $this->base_model->scache(__FUNCTION__, time(), MEDIUM_CACHE_TIMEOUT);
+
+            //
+            file_put_contents($file_log, date('r') . PHP_EOL, LOCK_EX);
+
+            /**
+             * xóa log quá 1 tháng trước
+             */
+            $current_time = time() - (24 * 3600 * 30);
+            $max_i = 30;
+            for ($i = 0; $i < 500; $i++) {
+                if ($max_i < 0) {
+                    echo 'max_i: ' . $max_i . '<br>' . PHP_EOL;
+                    break;
+                }
+
+                //
+                $old_log = WRITEPATH . 'logs/log-' . date('Y-m-d', $current_time - ($i * DAY)) . '.log';
+                // echo $old_log . '<br>' . PHP_EOL;
+
+                //
+                if (!is_file($old_log)) {
+                    $max_i--;
+                    continue;
+                }
+                echo $old_log . '<br>' . PHP_EOL;
+                unlink($old_log);
+            }
+
+            //
             $prefix = WGR_TABLE_PREFIX;
 
             /*
@@ -55,6 +88,7 @@ class Dev extends Sadmin
             // daidq (2022-03-04): chức năng này đang hoạt động không đúng -> vòng lặp nó sẽ chạy mãi do i++ hoài
             foreach ($arr_update_db as $v) {
                 echo $v . '<br>' . PHP_EOL;
+                file_put_contents($file_log, $v . PHP_EOL, FILE_APPEND);
 
                 //
                 if ($this->base_model->MY_query($v)) {
@@ -63,16 +97,14 @@ class Dev extends Sadmin
                     echo 'Query failed! Please re-check query <br>' . PHP_EOL;
                 }
             }
-
-            //
-            $this->base_model->scache(__FUNCTION__, time(), MEDIUM_CACHE_TIMEOUT);
         }
 
-
+        //
         $this->teamplate_admin['content'] = view('vadmin/dev/server_info', array(
             'all_cookie' => $_COOKIE,
             'all_session' => $_SESSION,
             'data' => $_SERVER,
+            'content_log' => is_file($file_log) ? file_get_contents($file_log) : '',
         ));
         return view('vadmin/admin_teamplate', $this->teamplate_admin);
     }

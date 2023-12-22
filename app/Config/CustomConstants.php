@@ -37,7 +37,7 @@ define('ADMIN_CUSTOM_VIEWS', VIEWS_CUSTOM_PATH . 'vadmin/');
 // tạo hàm ngẫu nhiên theo ngày giờ
 $rand_by_ses = md5($_SERVER['HTTP_HOST'] . date('Y-m-d H'));
 // hỗ trợ giao thoa giữa 2 cung giờ trong vòng 30 phút
-$rand2_by_ses = md5($_SERVER['HTTP_HOST'] . date('Y-m-d H', time() - 1800));
+$rand2_by_ses = md5($_SERVER['HTTP_HOST'] . date('Y-m-d H', time() - 3600));
 // $rand_by_ses = md5(session_id());
 // echo $rand_by_ses . '<br>' . PHP_EOL;
 // khai báo constans để tạo routes

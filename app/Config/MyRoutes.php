@@ -20,14 +20,12 @@ $routes->post('/' . RAND_CONFIRM_LOGGED, 'Ajaxs::confirm_logged');
 $routes->post('/' . RAND_REMEMBER_LOGIN, 'Guest::rememberme_login');
 // tạo đường dẫn bảo mật cho việc lấy input chống spam
 $routes->post('/' . RAND_GET_ANTI_SPAM, 'Ajaxs::get_anti_spam');
-// routes dự phòng giao thoa giữ 2 cung giờ
-if (RAND_MULTI_LOGOUT != RAND2_MULTI_LOGOUT) {
-    $routes->post('/' . RAND2_MULTI_LOGOUT, 'Ajaxs::multi_logout');
-    $routes->post('/' . RAND2_MULTI_LOGGED, 'Ajaxs::multi_logged');
-    $routes->post('/' . RAND2_CONFIRM_LOGGED, 'Ajaxs::confirm_logged');
-    $routes->post('/' . RAND2_REMEMBER_LOGIN, 'Guest::rememberme_login');
-    $routes->post('/' . RAND2_GET_ANTI_SPAM, 'Ajaxs::get_anti_spam');
-}
+// routes dự phòng giao thoa giữa 2 cung giờ -> dùng khi dính cache và chưa nạp lại trang lúc sang giờ mới
+$routes->post('/' . RAND2_MULTI_LOGOUT, 'Ajaxs::multi_logout');
+$routes->post('/' . RAND2_MULTI_LOGGED, 'Ajaxs::multi_logged');
+$routes->post('/' . RAND2_CONFIRM_LOGGED, 'Ajaxs::confirm_logged');
+$routes->post('/' . RAND2_REMEMBER_LOGIN, 'Guest::rememberme_login');
+$routes->post('/' . RAND2_GET_ANTI_SPAM, 'Ajaxs::get_anti_spam');
 
 
 //

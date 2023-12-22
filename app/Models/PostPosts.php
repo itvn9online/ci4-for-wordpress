@@ -313,9 +313,21 @@ class PostPosts extends PostGet
         //die('count: ' . $count);
 
         //
+        $source_count = [];
+        $debug_backtrace = debug_backtrace()[1];
+        if (isset($debug_backtrace['class'])) {
+            $source_count[] = $debug_backtrace['class'];
+        }
+        if (isset($debug_backtrace['function'])) {
+            $source_count[] = $debug_backtrace['function'];
+        }
+        $source_count[] = __CLASS__ . ':' . __FUNCTION__ . ':' . __LINE__;
+        $source_count[] = date('r');
+
+        //
         $this->base_model->update_multiple($this->term_model->taxTable, [
             'count' => $count,
-            'source_count' => __CLASS__ . ':' . __FUNCTION__ . ':' . __LINE__,
+            'source_count' => json_encode($source_count),
         ], [
             'term_taxonomy_id' => $prams['term_id'],
             'term_id' => $prams['term_id'],

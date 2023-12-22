@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // Libraries
+use App\Libraries\TaxonomyType;
 use App\Libraries\PostType;
 use App\Libraries\DeletedStatus;
 
@@ -186,7 +187,7 @@ class TermBase extends EbModel
         if (!is_array($prams)) {
             if (empty($prams)) {
                 $prams = [];
-                //return debug_backtrace()[ 1 ][ 'function' ] . ' $prams is NULL!';
+                // return debug_backtrace()[1]['function'] . ' $prams is NULL!';
             }
             // tự tạo theo term id
             else if (is_numeric($prams)) {
@@ -519,6 +520,9 @@ class TermBase extends EbModel
      **/
     public function sync_term_child_count($run_h_only = true, $limit = 20)
     {
+        global $arr_custom_taxonomy;
+
+        //
         if ($run_h_only === true) {
             $last_run = $this->base_model->scache(__FUNCTION__);
             if ($last_run !== NULL) {
@@ -528,22 +532,49 @@ class TermBase extends EbModel
             }
         }
 
+        //
+        // $count_taxonomy = $this->countTermRelationships();
+
+        // chỉ update các taxonomy đã được đăng ký
+        $arr_taxonomy_type = [
+            TaxonomyType::POSTS,
+            //TaxonomyType::BLOGS,
+            TaxonomyType::PROD_CATS,
+        ];
+        // print_r($arr_taxonomy_type);
+
+        // lấy custom post type
+        foreach ($arr_custom_taxonomy as $k => $v) {
+            // không tính toán cho các taxonomy được chỉ định không public
+            if (isset($v['public']) && $v['public'] != 'on') {
+                continue;
+            }
+            $arr_taxonomy_type[] = $k;
+        }
+        //print_r($arr_taxonomy_type);
+        $arr_taxonomy_type = array_unique($arr_taxonomy_type);
+        //print_r($arr_taxonomy_type);
+
         // lấy ít nhóm đã quá hạn đồng bộ để chạy vòng lặp đồng bộ lại
         $data = $this->base_model->select(
             'term_id, child_last_count',
-            'terms',
+            // 'terms',
+            WGR_TERM_VIEW,
             array(
                 // các kiểu điều kiện where
                 'is_deleted' => DeletedStatus::FOR_DEFAULT,
                 'child_last_count <' => time(),
             ),
             array(
+                'where_in' => array(
+                    'taxonomy' => $arr_taxonomy_type
+                ),
                 'order_by' => array(
                     'child_last_count' => 'ASC',
                     //'term_id' => 'DESC',
                 ),
                 // hiển thị mã SQL để check
-                //'show_query' => 1,
+                // 'show_query' => 1,
                 // trả về câu query để sử dụng cho mục đích khác
                 //'get_query' => 1,
                 // trả về COUNT(column_name) AS column_name
@@ -665,9 +696,21 @@ class TermBase extends EbModel
         //return false;
 
         //
+        $source_count = [];
+        $debug_backtrace = debug_backtrace()[1];
+        if (isset($debug_backtrace['class'])) {
+            $source_count[] = $debug_backtrace['class'];
+        }
+        if (isset($debug_backtrace['function'])) {
+            $source_count[] = $debug_backtrace['function'];
+        }
+        $source_count[] = __CLASS__ . ':' . __FUNCTION__ . ':' . __LINE__;
+        $source_count[] = date('r');
+
+        //
         $this->base_model->update_multiple('term_taxonomy', [
             'count' => $post_count[0]['object_id'],
-            'source_count' => __CLASS__ . ':' . __FUNCTION__ . ':' . __LINE__,
+            'source_count' => json_encode($source_count),
         ], [
             'term_id' => $data['term_id'],
         ], [
@@ -677,6 +720,44 @@ class TermBase extends EbModel
 
         //
         return true;
+    }
+
+    /**
+     * Tính tổng số bài viết theo từng taxonomy ở trong term_relationships
+     **/
+    public function countTermRelationships()
+    {
+        $count_taxonomy = $this->base_model->select(
+            // 'COUNT(t1.term_taxonomy_id) AS c, t1.term_taxonomy_id, t2.taxonomy',
+            't1.term_taxonomy_id, t2.taxonomy',
+            'term_relationships AS t1',
+            array(
+                // các kiểu điều kiện where
+            ),
+            array(
+                'join' => array(
+                    'term_taxonomy AS t2' => 't2.term_taxonomy_id = t1.term_taxonomy_id',
+                ),
+                'group_by' => array(
+                    't2.taxonomy',
+                    // 't1.term_taxonomy_id',
+                ),
+                // hiển thị mã SQL để check
+                // 'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => -1
+            )
+        );
+        // print_r($count_taxonomy);
+
+        //
+        return $count_taxonomy;
     }
 
     // trả về key cho term cache

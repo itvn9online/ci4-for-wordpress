@@ -129,9 +129,9 @@ class Comments extends Sadmin
 
         $filter = [
             'or_like' => $where_or_like,
-            'order_by' => array(
-                'comments.comment_ID' => 'DESC',
-            ),
+            // 'order_by' => array(
+            //     'comments.comment_ID' => 'DESC',
+            // ),
             // hiển thị mã SQL để check
             //'show_query' => 1,
             // trả về câu query để sử dụng cho mục đích khác
@@ -141,10 +141,12 @@ class Comments extends Sadmin
         ];
 
 
-        /*
+        /**
          * phân trang
          */
-        $totalThread = $this->base_model->select('COUNT(comment_ID) AS c', 'comments', $where, $filter);
+        $countFilter = $filter;
+        $countFilter['selectCount'] = 'comment_ID';
+        $totalThread = $this->base_model->select('comment_ID', 'comments', $where, $countFilter);
         //print_r( $totalThread );
         $totalThread = $totalThread[0]['c'];
         //print_r( $totalThread );
@@ -172,8 +174,13 @@ class Comments extends Sadmin
 
 
             // select dữ liệu từ 1 bảng bất kỳ
+            $filter['order_by'] = [
+                'comments.comment_ID' => 'DESC',
+            ];
             $filter['offset'] = $offset;
             $filter['limit'] = $this->post_per_page;
+
+            //
             $data = $this->base_model->select('*', 'comments', $where, $filter);
             //print_r( $data );
             //die('fj gd sdgsd');
