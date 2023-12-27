@@ -26,6 +26,10 @@ class Sadmin extends Ajaxs
         parent::__construct();
 
         //
+        ini_set('display_errors', 1);
+        error_reporting(E_ALL);
+
+        //
         $this->required_logged('&remove_parameter=');
 
         //

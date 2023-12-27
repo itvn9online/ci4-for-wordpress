@@ -159,7 +159,7 @@ class Sync extends BaseController
             return false;
         }
 
-        //
+        // ENGINE sử dụng InnoDB. MEMORY hay bị lỗi 'is full'
         $sql = "CREATE TABLE IF NOT EXISTS `$table` (
             `id` BIGINT(20) NOT NULL AUTO_INCREMENT ,
             `ip` VARCHAR(255) NOT NULL DEFAULT '' ,
@@ -170,7 +170,7 @@ class Sync extends BaseController
             PRIMARY KEY (`id`) ,
             INDEX (`key`) ,
             INDEX (`session_id`)
-            ) ENGINE = MEMORY CHARSET=utf8mb4 COLLATE utf8mb4_general_ci";
+            ) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_general_ci";
         echo 'CREATE TABLE IF NOT EXISTS `' . $table . '` <br>' . PHP_EOL;
         echo $sql . '<br>' . PHP_EOL;
 

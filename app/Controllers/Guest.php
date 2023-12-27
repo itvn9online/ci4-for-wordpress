@@ -669,6 +669,7 @@ class Guest extends Csrf
                 'set_login' => $this->MY_get('set_login', ''),
                 'firebase_config' => $this->firebase_config,
                 'zalooa_config' => $this->zalooa_config,
+                'sign_in_success_params' => $this->firebaseSignInSuccessParams(),
             )
         );
         //print_r( $this->teamplate );
@@ -821,6 +822,7 @@ class Guest extends Csrf
                 'set_login' => $this->MY_get('set_login', ''),
                 'firebase_config' => $this->firebase_config,
                 'zalooa_config' => $this->zalooa_config,
+                'sign_in_success_params' => $this->firebaseSignInSuccessParams(),
             )
         );
         //print_r( $this->teamplate );

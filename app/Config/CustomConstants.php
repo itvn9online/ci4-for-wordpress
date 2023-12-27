@@ -212,12 +212,6 @@ if (is_file(THEMEPATH . 'functions.php')) {
 defined('ROOT_SESSION_DRIVER') || define('ROOT_SESSION_DRIVER', 'CodeIgniter\Session\Handlers\\');
 defined('MY_SESSION_DRIVE') || define('MY_SESSION_DRIVE', 'FileHandler');
 defined('CUSTOM_SESSION_DRIVER') || define('CUSTOM_SESSION_DRIVER', ROOT_SESSION_DRIVER . MY_SESSION_DRIVE);
-//
-// defined('CUSTOM_SESSION_DRIVER') || define('CUSTOM_SESSION_DRIVER', 'CodeIgniter\Session\Handlers\FileHandler');
-// defined('CUSTOM_SESSION_DRIVER') || define('CUSTOM_SESSION_DRIVER', 'CodeIgniter\Session\Handlers\FileHandler');
-// defined('CUSTOM_SESSION_DRIVER') || define('CUSTOM_SESSION_DRIVER', 'CodeIgniter\Session\Handlers\RedisHandler');
-// defined('CUSTOM_SESSION_DRIVER') || define('CUSTOM_SESSION_DRIVER', 'CodeIgniter\Session\Handlers\MemcachedHandler');
-// defined('CUSTOM_SESSION_DRIVER') || define('CUSTOM_SESSION_DRIVER', 'CodeIgniter\Session\Handlers\DatabaseHandler');
 
 /**
  * Session save path
