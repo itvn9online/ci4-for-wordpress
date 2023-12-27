@@ -252,6 +252,12 @@ if ($debug_enable === true) {
         </div>
         <!-- END Memcached -->
     </div>
+    <!-- Session drive -->
+    <div>
+        <p><strong>Session drive:</strong> <span :class="warning_session_drive(session_drive)">{{session_drive}}</span></p>
+        <p><em>* Chúng tôi khuyên dùng các Redis hoặc Memcached để lưu session, nếu VPS/ Hosting của bạn có hỗ trợ 2 driver này thì nên sử dụng nó nhằm tăng tốc độ truy vấn cho website.</em></p>
+    </div>
+    <br>
     <div>
         <!-- pagespeed -->
         <p><strong>Page speed:</strong> <a :href="'https://pagespeed.web.dev/report?url=' + encode_url" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-flash"></i> vào đây</a> để phân tích tốc
@@ -482,6 +488,7 @@ $base_model->JSON_parse(
             'memcached_exist' => (class_exists('Memcached') ? 1 : 0),
             'redis_exist' => phpversion('redis'),
             'cache_handler' => MY_CACHE_HANDLER,
+            'session_drive' => CUSTOM_SESSION_DRIVER,
             'opcache_exist' => (function_exists('opcache_get_status') && is_array(opcache_get_status()) ? 1 : 0),
             'last_ci4_update' => (is_file(APPPATH . 'VERSION') ? filemtime(APPPATH . 'VERSION') : filemtime(APPPATH . 'Controllers/Layout.php')),
         ],

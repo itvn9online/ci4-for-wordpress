@@ -213,7 +213,6 @@ class Layout extends Sync
                 'user_model' => $this->user_model,
                 //
                 //'session' => $this->session,
-
                 'getconfig' => $this->getconfig,
                 'session_data' => $this->session_data,
                 'current_user_id' => $this->current_user_id,

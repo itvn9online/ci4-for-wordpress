@@ -36,6 +36,17 @@ $base_model->add_css('wp-admin/css/config_' . $config_type . '.css');
             </div>
             <?php
 
+            // in ra nội dung constants hiện tại để tiện theo dõi
+            if (is_file(DYNAMIC_CONSTANTS_PATH)) {
+                $current_dynamic_constants = file_get_contents(DYNAMIC_CONSTANTS_PATH);
+            ?>
+                <div class="text-center w99">
+                    <textarea title="Current dynamic constants" rows="<?php echo count(explode("\n", $current_dynamic_constants)); ?>" class="f90" readonly disabled><?php echo $base_model->the_esc_html($current_dynamic_constants); ?></textarea>
+                </div>
+                <br>
+                <?php
+            }
+
             //
             foreach ($meta_default as $k => $v) {
                 // chỉ hiển thị các meta có giá trị (được đặt tên)
@@ -50,7 +61,7 @@ $base_model->add_css('wp-admin/css/config_' . $config_type . '.css');
 
                 //
                 if ($input_type == 'heading') {
-            ?>
+                ?>
                     <p class="bold medium text-center top-menu-space">
                         <?php echo $v; ?>
                     </p>

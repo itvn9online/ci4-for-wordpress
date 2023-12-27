@@ -378,6 +378,7 @@ class ConfigType
                 'BASE_PROTOCOL' => 'Giao thức cơ sở',
                 'CUSTOM_MD5_HASH_CODE' => 'MD5 hash code',
                 'MY_CACHE_HANDLER' => 'Kiểu cache',
+                'MY_SESSION_DRIVE' => 'Session drive',
                 'CDN_BASE_URL' => 'CDN base URL',
                 'ALLOW_USING_MYSQL_DELETE' => 'Using MySQL DELETE',
                 'WGR_CSP_ENABLE' => 'CSP header',
@@ -546,6 +547,7 @@ class ConfigType
             'MY_DB_DRIVER' => 'select',
             'BASE_PROTOCOL' => 'select',
             'MY_CACHE_HANDLER' => 'select',
+            'MY_SESSION_DRIVE' => 'select',
             'ALLOW_USING_MYSQL_DELETE' => 'select',
             'WGR_CSP_ENABLE' => 'select',
             'NUMBER_CHECKBOXS_INPUT' => 'number',
@@ -702,6 +704,7 @@ class ConfigType
             'ENABLE_AMP_VERSION' => 'AMP viết tắt của Accelerated Mobile Pages là trang tăng tốc dành cho thiết bị di động của mỗi website.',
             'SITE_LANGUAGE_SUB_FOLDER' => 'Nếu là sub-folder thì sẽ hỗ trợ prefix cho routes, url cũng sẽ thêm prefix vào ngay sau domain. Ví dụ: domain.com/vn hoặc domain.com/en',
             'CUSTOM_MD5_HASH_CODE' => 'Chuỗi sẽ thêm vào khi sử dụng hàm mdnam -> md5 -> tăng độ bảo mật cho chuỗi. Chỉ thay đổi khi thực sự cần thiết do thông số này sẽ có thể khiến toàn bộ chuỗi sử dụng hàm mdnam sẽ phải dựng lại.',
+            'MY_SESSION_DRIVE' => 'Không nên sử dụng Cache và Session cùng một drive. Ví dụ: cache dùng Redis thì session nên dùng Memcached để có thể dọn dẹp cache khi cần thiết.',
             'WGR_TABLE_PREFIX' => 'Xóa trắng để xem mặc định: ' . WGR_TABLE_PREFIX,
             'HTACCESSS_ALLOW' => 'Một số thư mục chỉ cho phép 1 số định dạng file được phép truy cập. Xóa trắng để xem mặc định: ' . HTACCESSS_ALLOW,
             //
@@ -864,6 +867,13 @@ class ConfigType
                 'redis' => 'Redis',
                 'memcached' => 'Memcached',
                 self::DISABLE_CACHE => 'Disable',
+            ],
+            'MY_SESSION_DRIVE' => [
+                '' => 'Mặc định theo code',
+                'FileHandler' => 'File',
+                'RedisHandler' => 'Redis',
+                'MemcachedHandler' => 'Memcached',
+                'DatabaseHandler' => 'Database',
             ],
             'ALLOW_USING_MYSQL_DELETE' => [
                 '' => 'Mặc định theo code',

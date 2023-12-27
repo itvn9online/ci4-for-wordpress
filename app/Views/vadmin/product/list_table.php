@@ -13,9 +13,9 @@
             <th>Tên <?php echo $name_type; ?></th>
             <th>Price</th>
             <th>Danh mục</th>
+            <th>Ngày tạo/ <a :href="'sadmin/' + controller_slug + '?order_by=post_modified'">Cập nhật cuối <i class="fa fa-sort"></i></a></th>
+            <!-- <th>Lang</th> -->
             <th>Trạng thái</th>
-            <th colspan="2">Ngày tạo/ <a :href="'sadmin/' + controller_slug + '?order_by=post_modified'">Cập nhật cuối <i class="fa fa-sort"></i></a></th>
-            <th>Lang</th>
             <th>STT</th>
             <th>&nbsp;</th>
         </tr>
@@ -38,10 +38,14 @@
                 <div><span class="ebe-currency old-price">{{v.post_meta._sale_price}}</span></div>
             </td>
             <td :data-id="v.main_category_key" :data-taxonomy="taxonomy" :data-uri="'sadmin/' + controller_slug" class="each-to-taxonomy">&nbsp;</td>
-            <td :class="'post_status post_status-' + v.post_status">{{PostType_arrStatus[v.post_status]}}</td>
-            <td>{{v.post_date.substr(0, 16)}}</td>
-            <td>{{v.post_modified.substr(0, 16)}}</td>
-            <td width="90">{{v.lang_key}}</td>
+            <td>
+                <div>{{v.post_date.substr(0, 16)}}</div>
+                <div>{{v.post_modified.substr(0, 16)}}</div>
+            </td>
+            <td>
+                <div :class="'post_status post_status-' + v.post_status">{{PostType_arrStatus[v.post_status]}}</div>
+                <div>{{v.lang_key}}</div>
+            </td>
             <td width="60"><input type="number" :data-id="v.ID" :value="v.menu_order" size="5" class="form-control s change-update-menu_order" /></td>
             <td width="150" class="text-center big">
                 <?php

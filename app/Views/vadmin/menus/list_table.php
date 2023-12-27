@@ -11,9 +11,9 @@
             <th><input type="checkbox" class="input-checkbox-all" /></th>
             <th>Tiêu đề <?php echo $name_type; ?></th>
             <th>Mã nhúng</th>
+            <th>Ngày tạo/ <a :href="'sadmin/' + controller_slug + '?order_by=post_modified'">Cập nhật cuối <i class="fa fa-sort"></i></a></th>
+            <!-- <th>Lang</th> -->
             <th>Trạng thái</th>
-            <th colspan="2">Ngày tạo/ <a :href="'sadmin/' + controller_slug + '?order_by=post_modified'">Cập nhật cuối <i class="fa fa-sort"></i></a></th>
-            <th>Lang</th>
             <th>&nbsp;</th>
         </tr>
     </thead>
@@ -23,10 +23,14 @@
             </td>
             <td><a :href="v.admin_permalink" class="bold">{{v.post_title}} <i class="fa fa-edit"></i></a></td>
             <td><input type="text" class="span12" onClick="this.select()" onDblClick="click2Copy(this);" :value="'&lt;?php $menu_model->the_menu(\'' + v.post_name + '\'); ?&gt;'" readonly /></td>
-            <td :class="'post_status post_status-' + v.post_status">{{PostType_arrStatus[v.post_status]}}</td>
-            <td>{{v.post_date.substr(0, 16)}}</td>
-            <td>{{v.post_modified.substr(0, 16)}}</td>
-            <td width="90">{{v.lang_key}}</td>
+            <td>
+                <div>{{v.post_date.substr(0, 16)}}</div>
+                <div>{{v.post_modified.substr(0, 16)}}</div>
+            </td>
+            <td>
+                <div :class="'post_status post_status-' + v.post_status">{{PostType_arrStatus[v.post_status]}}</div>
+                <div>{{v.lang_key}}</div>
+            </td>
             <td width="150" class="text-center big">
                 <?php
                 include ADMIN_ROOT_VIEWS . 'posts/list_action.php';

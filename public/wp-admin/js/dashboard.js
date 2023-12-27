@@ -96,6 +96,15 @@ vue_data.warning_ci_version = function (a, b) {
 	}
 	return "greencolor";
 };
+vue_data.warning_session_drive = function (a) {
+	if (
+		a.split("RedisHandler").length > 1 ||
+		a.split("MemcachedHandler").length > 1
+	) {
+		return "greencolor";
+	}
+	return "bluecolor";
+};
 
 //
 WGR_vuejs("#app", vue_data);

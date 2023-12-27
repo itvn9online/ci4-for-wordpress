@@ -77,8 +77,32 @@ class Constants extends Configs
                 //$a[] = "defined('$k') || define('$k', $v);";
                 $a[] = "define('$k', $v);";
             } else {
+                // với session drive sẽ config riêng
+                if ($k == 'MY_SESSION_DRIVE') {
+                    if ($v == 'FileHandler') {
+                        // mặc định là sử dụng file -> không cần khai báo thêm
+                        // $a[] = "define('CUSTOM_SESSION_PATH', WRITEPATH . 'session');";
+                    } else if ($v == 'RedisHandler') {
+                        if (empty(phpversion('redis'))) {
+                            echo 'redis not found! <br>' . PHP_EOL;
+                            continue;
+                        }
+                        $a[] = "define('CUSTOM_SESSION_PATH', 'tcp://localhost:6379');";
+                    } else if ($v == 'MemcachedHandler') {
+                        if (!class_exists('Memcached')) {
+                            echo 'Memcached not found! <br>' . PHP_EOL;
+                            continue;
+                        }
+                        $a[] = "define('CUSTOM_SESSION_PATH', 'localhost:11211');";
+                    } else if ($v == 'DatabaseHandler') {
+                        $a[] = "define('CUSTOM_SESSION_PATH', 'ci_sessions');";
+                    } else {
+                        // không nằm trong danh sách kia thì loại bỏ luôn
+                        continue;
+                    }
+                }
                 // bỏ dấu / ở 2 đầu nếu có
-                if (in_array($k, $arr_trim_ds) && !empty($v)) {
+                else if (in_array($k, $arr_trim_ds) && !empty($v)) {
                     $v = ltrim($v, '/');
                     $v = rtrim($v, '/');
                 }
@@ -94,11 +118,22 @@ class Constants extends Configs
 
                 //$a[] = "defined('$k') || define('$k', $str_quote$v$str_quote);";
                 // 1 số trường hợp sẽ thêm lệnh kiểm tra vào trước tham số -> để tránh lỗi nếu trong quá trình hoạt động có sự thay đổi
-                if ($k == 'MY_CACHE_HANDLER' && $v == 'redis') {
-                    $a[] = "if(phpversion('redis') != '') define('$k', $str_quote$v$str_quote);";
-                } else {
-                    $a[] = "define('$k', $str_quote$v$str_quote);";
+                if ($k == 'MY_CACHE_HANDLER') {
+                    if ($v == 'redis') {
+                        if (empty(phpversion('redis'))) {
+                            echo 'redis not found! <br>' . PHP_EOL;
+                            continue;
+                        }
+                    } else if ($v == 'memcached') {
+                        if (!class_exists('Memcached')) {
+                            echo 'Memcached not found! <br>' . PHP_EOL;
+                            continue;
+                        }
+                    }
                 }
+
+                //
+                $a[] = "define('$k', $str_quote$v$str_quote);";
             }
         }
         //print_r($a);

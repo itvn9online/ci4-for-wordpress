@@ -208,9 +208,11 @@ var _global_js_eb = {
 						if (a.split("youtube.com/").length > 1) {
 							//console.log('a: ' + a);
 							let wit =
-								jQuery(this).data("width") || jQuery(this).attr("width") || 560;
+								jQuery(this).attr("data-width") ||
+								jQuery(this).attr("width") ||
+								560;
 							//console.log('wit: ' + jQuery(this).attr('width'));
-							if (wit.toString().split("%").length > 1) {
+							if (wit.split("%").length > 1) {
 								wit = wit.replace(/\%/, "") * 1;
 								wit = jQuery(this).width() || 560;
 								//console.log('wit%: ' + wit);
@@ -257,7 +259,7 @@ var _global_js_eb = {
 				show_height = 0,
 				// tỉ lệ kích thước giữa chiều cao và rộng (nếu có), mặc định là 1x1
 				// -> nhập vào là: chiều cao/ chiều rộng
-				new_size = jQuery(this).data("size") || "";
+				new_size = jQuery(this).attr("data-size") || "";
 
 			// với size auto -> set thẳng ảnh vào thay vì background
 			if (new_size == "auto") {

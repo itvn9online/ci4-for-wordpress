@@ -4,10 +4,10 @@
             <th><input type="checkbox" id="selectall" name="selectall" /></th>
             <th>Tiêu đề</th>
             <th>Thông tin khác</th>
-            <th>Trạng thái</th>
             <th>IP</th>
             <th>Ngày tạo</th>
-            <th>Lang</th>
+            <!-- <th>Lang</th> -->
+            <th>Trạng thái</th>
             <th>&nbsp;</th>
         </tr>
     </thead>
@@ -25,10 +25,12 @@
                 <div v-if="v.user_id < 1">{{v.comment_author_email}}</div>
                 <div v-if="v.comment_author_url != ''"><a :href="v.comment_author_url" target="_blank">{{v.comment_author_url}}</a></div>
             </td>
-            <td>{{v.comment_approved}}</td>
             <td>{{v.comment_author_IP}}</td>
             <td>{{v.comment_date.substr(0, 16)}}</td>
-            <td>{{v.lang_key}}</td>
+            <td>
+                <div>{{v.comment_approved}}</div>
+                <div>{{v.lang_key}}</div>
+            </td>
             <td class="text-center big">
                 <div>
                     <div v-if="v.is_deleted != DeletedStatus_DELETED">

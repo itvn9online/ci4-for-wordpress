@@ -150,12 +150,12 @@ function WGR_show_or_hide_to_top() {
 // set prop cho select
 function WGR_set_prop_for_select(for_id) {
 	$(for_id).each(function () {
-		let a = $(this).data("select") || "";
+		let a = $(this).attr("data-select") || "";
 
 		// nếu có tham số này
 		if (a != "" && !$(this).hasClass("set-selected")) {
 			// select luôn dữ liệu tương ứng -> cắt theo dấu , -> vì có 1 số dữ liệu sẽ là multi select
-			a = a.toString().split(",");
+			a = a.split(",");
 
 			// select cho option đầu tiên
 			$(this).val(a[0]).addClass("set-selected");
@@ -570,7 +570,7 @@ function action_each_to_taxonomy() {
 
 	// lấy các ID có
 	$(".each-to-taxonomy").each(function () {
-		let a = $(this).data("id") || "";
+		let a = $(this).attr("data-id") || "";
 		//console.log('a:', a);
 		let as = $(this).data("ids") || "";
 		//console.log('as:', as);
@@ -584,7 +584,7 @@ function action_each_to_taxonomy() {
 
 		//if (a != '' && taxonomy != '') {
 		if (a != "") {
-			a = a.toString().split(",");
+			a = a.split(",");
 			//let str = [];
 			for (let i = 0; i < a.length; i++) {
 				if (a[i] != "") {
@@ -677,7 +677,7 @@ function after_each_to_taxonomy(data) {
 
 	//
 	$(".loading-to-taxonomy").each(function () {
-		let a = $(this).data("id") || "";
+		let a = $(this).attr("data-id") || "";
 		//console.log(a);
 		let as = $(this).data("ids") || "";
 		//console.log(as);
@@ -706,7 +706,7 @@ function after_each_to_taxonomy(data) {
 		//
 		//if (a != '' && taxonomy != '') {
 		if (a != "") {
-			a = a.toString().split(",");
+			a = a.split(",");
 			let str = [];
 			for (let i = 0; i < a.length; i++) {
 				if (a[i] != "") {

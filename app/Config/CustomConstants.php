@@ -40,7 +40,7 @@ $rand_by_ses = md5($_SERVER['HTTP_HOST'] . date('Y-m-d H'));
 $rand2_by_ses = md5($_SERVER['HTTP_HOST'] . date('Y-m-d H', time() - 3600));
 // $rand_by_ses = md5(session_id());
 // echo $rand_by_ses . '<br>' . PHP_EOL;
-// khai báo constans để tạo routes
+// khai báo constants để tạo routes
 define('RAND_MULTI_LOGOUT', '_' . substr($rand_by_ses, 0, 12));
 // die(RAND_MULTI_LOGOUT);
 define('RAND2_MULTI_LOGOUT', '_' . substr($rand2_by_ses, 0, 12));
@@ -203,6 +203,33 @@ if (is_file(THEMEPATH . 'functions.php')) {
     include THEMEPATH . 'functions.php';
 }
 ####################################################################
+
+
+/**
+ * tùy chỉnh Session driver -> nếu có Redis, Memcached thì nên dùng -> chi tiết xem tại đây:
+ * https://codeigniter4.github.io/userguide/libraries/sessions.html?highlight=cache#session-drivers
+ */
+defined('ROOT_SESSION_DRIVER') || define('ROOT_SESSION_DRIVER', 'CodeIgniter\Session\Handlers\\');
+defined('MY_SESSION_DRIVE') || define('MY_SESSION_DRIVE', 'FileHandler');
+defined('CUSTOM_SESSION_DRIVER') || define('CUSTOM_SESSION_DRIVER', ROOT_SESSION_DRIVER . MY_SESSION_DRIVE);
+//
+// defined('CUSTOM_SESSION_DRIVER') || define('CUSTOM_SESSION_DRIVER', 'CodeIgniter\Session\Handlers\FileHandler');
+// defined('CUSTOM_SESSION_DRIVER') || define('CUSTOM_SESSION_DRIVER', 'CodeIgniter\Session\Handlers\FileHandler');
+// defined('CUSTOM_SESSION_DRIVER') || define('CUSTOM_SESSION_DRIVER', 'CodeIgniter\Session\Handlers\RedisHandler');
+// defined('CUSTOM_SESSION_DRIVER') || define('CUSTOM_SESSION_DRIVER', 'CodeIgniter\Session\Handlers\MemcachedHandler');
+// defined('CUSTOM_SESSION_DRIVER') || define('CUSTOM_SESSION_DRIVER', 'CodeIgniter\Session\Handlers\DatabaseHandler');
+
+/**
+ * Session save path
+ */
+// File
+defined('CUSTOM_SESSION_PATH') || define('CUSTOM_SESSION_PATH', WRITEPATH . 'session');
+// Redis
+// defined('CUSTOM_SESSION_PATH') || define('CUSTOM_SESSION_PATH', 'tcp://localhost:6379');
+// Memcached
+// defined('CUSTOM_SESSION_PATH') || define('CUSTOM_SESSION_PATH', 'localhost:11211');
+// Database
+// defined('CUSTOM_SESSION_PATH') || define('CUSTOM_SESSION_PATH', 'ci_sessions');
 
 
 // Trạng thái bình luận mặc định 0|1

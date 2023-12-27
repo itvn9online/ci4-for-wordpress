@@ -303,14 +303,18 @@ class Sadmin extends Ajaxs
                     return false;
                 }
                 echo 'Using cache delete Matching `' . $for . '` --- Total clear: ' . $has_cache . '<br>' . PHP_EOL;
-                //var_dump( $has_cache );
+                // var_dump($has_cache);
                 //die( $for );
             }
             // xóa toàn bộ cache
             else {
-                //var_dump( $this->base_model->cache->getCacheInfo() );
-                //die( __CLASS__ . ':' . __LINE__ );
+                // var_dump($this->base_model->cache->getCacheInfo());
+                // die(__CLASS__ . ':' . __LINE__);
                 $has_cache = $this->base_model->dcache();
+                if ($has_cache === NULL) {
+                    var_dump($has_cache);
+                    $this->base_model->alert('Lỗi xóa Toàn bộ cache. Kiểm tra Cache drvie và Session drive!', 'warning');
+                }
             }
 
             // nếu lỗi -> thử phương thức xóa từng file

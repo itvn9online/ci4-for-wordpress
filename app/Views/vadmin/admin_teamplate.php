@@ -175,7 +175,13 @@ if ($debug_enable === true) {
         ],
     ]);
 
+
+    //
+    include VIEWS_PATH . 'includes/head_currency.php';
     ?>
+    <style>
+        <?php echo $ebe_currency; ?>
+    </style>
     <script type="text/javascript">
         var web_link = window.location.protocol + '//' + document.domain + '/';
         var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';

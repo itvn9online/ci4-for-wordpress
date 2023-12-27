@@ -3,37 +3,6 @@
 </ul>
 <!-- -->
 <div class="flatsome">
-    <div class="bold redcolor upper">term_level log</div>
-    <?php echo nl2br($content_log); ?>
-    <br>
-</div>
-<!-- -->
-<div class="flatsome">
-    <div class="bold redcolor upper">System log</div>
-    <?php
-
-    // hiển thị log 5 ngày gần nhất
-    $current_time = time();
-    for ($i = 0; $i < 5; $i++) {
-        $file_log = WRITEPATH . 'logs/log-' . date('Y-m-d', $current_time - ($i * DAY)) . '.log';
-        // echo $file_log . '<br>' . PHP_EOL;
-
-        //
-        if (!is_file($file_log)) {
-            continue;
-        }
-
-    ?>
-        <div class="bold"><?php echo nl2br($file_log); ?></div>
-    <?php
-        echo nl2br(file_get_contents($file_log));
-    }
-
-    ?>
-    <br>
-</div>
-<!-- -->
-<div class="flatsome">
     <div class="bold redcolor upper">PHP SESSION</div>
     <?php
 

@@ -523,6 +523,17 @@ class Session
             }
         }
 
+        // nếu cache và session sử dụng chung 1 drive thì không cho xóa toàn bộ
+        if (MY_CACHE_HANDLER == 'redis') {
+            if (MY_SESSION_DRIVE == 'RedisHandler') {
+                return NULL;
+            }
+        } else if (MY_CACHE_HANDLER == 'memcached') {
+            if (MY_SESSION_DRIVE == 'MemcachedHandler') {
+                return NULL;
+            }
+        }
+
         // mặc định là xóa hết
         return $this->cache->clean();
     }
