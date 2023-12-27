@@ -150,12 +150,12 @@ function WGR_show_or_hide_to_top() {
 // set prop cho select
 function WGR_set_prop_for_select(for_id) {
 	$(for_id).each(function () {
-		let a = $(this).attr("data-select") || "";
+		let a = $(this).data("select") || "";
 
 		// nếu có tham số này
 		if (a != "" && !$(this).hasClass("set-selected")) {
 			// select luôn dữ liệu tương ứng -> cắt theo dấu , -> vì có 1 số dữ liệu sẽ là multi select
-			a = a.split(",");
+			a = a.toString().split(",");
 
 			// select cho option đầu tiên
 			$(this).val(a[0]).addClass("set-selected");
@@ -570,9 +570,9 @@ function action_each_to_taxonomy() {
 
 	// lấy các ID có
 	$(".each-to-taxonomy").each(function () {
-		let a = $(this).attr("data-id") || "";
+		let a = $(this).data("id") || "";
 		//console.log('a:', a);
-		let as = $(this).attr("data-ids") || "";
+		let as = $(this).data("ids") || "";
 		//console.log('as:', as);
 		//let taxonomy = $(this).attr('data-taxonomy') || '';
 		//console.log('taxonomy:', taxonomy);
@@ -580,11 +580,11 @@ function action_each_to_taxonomy() {
 		if (a == "") {
 			a = as;
 		}
-		//console.log('a:', a);
+		// console.log("a:", a);
 
 		//if (a != '' && taxonomy != '') {
 		if (a != "") {
-			a = a.split(",");
+			a = a.toString().split(",");
 			//let str = [];
 			for (let i = 0; i < a.length; i++) {
 				if (a[i] != "") {
@@ -677,12 +677,12 @@ function after_each_to_taxonomy(data) {
 
 	//
 	$(".loading-to-taxonomy").each(function () {
-		let a = $(this).attr("data-id") || "";
+		let a = $(this).data("id") || "";
 		//console.log(a);
-		let as = $(this).attr("data-ids") || "";
+		let as = $(this).data("ids") || "";
 		//console.log(as);
 		//let taxonomy = $(this).attr('data-taxonomy') || '';
-		let uri = $(this).attr("data-uri") || "";
+		let uri = $(this).data("uri") || "";
 		if (uri != "") {
 			// thêm term_id nếu không có trong yêu cầu
 			if (uri.split("%term_id%").length == 1) {
@@ -695,9 +695,9 @@ function after_each_to_taxonomy(data) {
 			}
 		}
 		// class riêng cho thẻ A nếu có
-		let a_class = $(this).attr("data-class") || "";
+		let a_class = $(this).data("class") || "";
 		// giãn cách giữa các thẻ A
-		let a_space = $(this).attr("data-space") || ", ";
+		let a_space = $(this).data("space") || ", ";
 
 		if (a == "") {
 			a = as;
@@ -706,7 +706,7 @@ function after_each_to_taxonomy(data) {
 		//
 		//if (a != '' && taxonomy != '') {
 		if (a != "") {
-			a = a.split(",");
+			a = a.toString().split(",");
 			let str = [];
 			for (let i = 0; i < a.length; i++) {
 				if (a[i] != "") {
@@ -920,8 +920,13 @@ function create_menu_by_taxonomy(arr, li_class, show_favicon, ops) {
 }
 
 function WGR_check_option_on(a) {
-	if (a * 1 > 0) {
+	if (a == "on") {
 		return true;
+	} else {
+		a *= 1;
+		if (!isNaN(a) && a > 0) {
+			return true;
+		}
 	}
 	return false;
 }
@@ -1023,13 +1028,13 @@ function WGR_vuejs(app_id, obj, _callBack, max_i) {
 function move_custom_code_to() {
 	$(".move-custom-code-to")
 		.each(function () {
-			let data_to = $(this).attr("data-to") || "";
+			let data_to = $(this).data("to") || "";
 			if (data_to != "") {
 				let str = $(this).html() || "";
 				$(this).text("");
 
 				//
-				let type_move = $(this).attr("data-type") || "";
+				let type_move = $(this).data("type") || "";
 				if (type_move == "before") {
 					$(data_to).before(str);
 				} else if (type_move == "after") {

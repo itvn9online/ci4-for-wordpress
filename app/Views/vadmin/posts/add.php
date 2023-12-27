@@ -8,6 +8,14 @@ use App\Libraries\PostType;
 $base_model->add_css('wp-admin/css/' . $post_type . '.css');
 
 //
+if (isset($_GET['print_data'])) {
+    echo '<!-- ';
+    print_r($data);
+    print_r($meta_default);
+    echo ' -->';
+}
+
+//
 include __DIR__ . '/add_breadcrumb.php';
 
 ?>

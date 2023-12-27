@@ -20,7 +20,7 @@ $(".config-main input, .config-main select, .config-main textarea")
 
 // Hiệu ứng khi click vào thay đổi màu sắc
 $(".click-to-set-site-color").click(function () {
-	var a = $(this).attr("data-set") || "";
+	var a = $(this).data("set") || "";
 
 	if (a == "") {
 		WGR_alert("Color picker not found", "error");
@@ -73,7 +73,7 @@ $(".click-to-set-site-color").click(function () {
 
 // reset màu về mặc định
 $(".click-to-reset-site-color").click(function () {
-	var a = $(this).attr("data-set") || "";
+	var a = $(this).data("set") || "";
 
 	if (a == "") {
 		WGR_alert("Color picker not found", "error");

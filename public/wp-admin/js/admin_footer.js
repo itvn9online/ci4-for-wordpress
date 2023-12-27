@@ -158,7 +158,7 @@ $("#sidebar").hover(
 
 // chỉnh lại chiều cao cho textediter nếu có
 $(".auto-ckeditor").each(function () {
-	let h = $(this).attr("data-height") || "",
+	let h = $(this).data("height") || "",
 		jd = $(this).attr("id") || "";
 
 	if (h != "" && jd != "") {
@@ -193,7 +193,7 @@ if ($(".admin-breadcrumb").length > 0) {
 
 // tự động checkbox khi có dữ liệu
 $('#content input[type="checkbox"]').each(function () {
-	let a = $(this).attr("data-value") || "";
+	let a = $(this).data("value") || "";
 	//console.log(a);
 
 	// nếu có tham số này
@@ -397,7 +397,7 @@ $(document)
 		// tạo key tìm kiếm cho li
 		$("#admin_menu_result a").each(function () {
 			let a = $(this).attr("href") || "";
-			a += $(this).attr("data-tag") || "";
+			a += $(this).data("tag") || "";
 			a += $(this).html();
 			//console.log(a);
 			a = g_func.non_mark_seo(a).replace(/\-/g, "");

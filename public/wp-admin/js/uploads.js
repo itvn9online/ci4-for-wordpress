@@ -15,7 +15,7 @@ $(".admin-search-form select").change(function () {
 
 //
 $("a.click-set-mode").click(function () {
-	var a = $(this).attr("data-mode") || "";
+	var a = $(this).data("mode") || "";
 
 	//
 	if (a != "") {

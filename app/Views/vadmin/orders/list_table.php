@@ -4,9 +4,7 @@
             <th><input type="checkbox" class="input-checkbox-all" /></th>
             <th>ID/ Mã hóa đơn/ Ngày cập nhật</th>
             <th>Trạng thái</th>
-            <th>Tiêu đề
-                <?php echo $name_type; ?>
-            </th>
+            <th>Tiêu đề <?php echo $name_type; ?></th>
             <th>Giá trị</th>
             <th>Giảm giá</th>
             <th>Tặng thêm</th>

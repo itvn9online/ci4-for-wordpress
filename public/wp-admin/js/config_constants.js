@@ -17,7 +17,7 @@ function click_set_empty_constants(for_id, set_val) {
 //
 $(".each-to-is-empty")
 	.change(function (e) {
-		var for_id = $(this).attr("data-id") || "";
+		var for_id = $(this).data("id") || "";
 		var result = false;
 		if (for_id != "") {
 			var set_val = "";
@@ -29,7 +29,7 @@ $(".each-to-is-empty")
 		return result;
 	})
 	.each(function () {
-		var for_id = $(this).attr("data-id") || "";
+		var for_id = $(this).data("id") || "";
 		if (for_id != "") {
 			var a = $("#" + for_id).attr("type") || "";
 			// chức năng này chỉ áp dụng cho input text

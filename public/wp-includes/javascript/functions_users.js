@@ -7,9 +7,9 @@ function fix_textarea_height() {
 			$(this).attr({ rows: $(this).val().split("\n").length });
 
 			// đoạn này bỏ -> sử dụng rows nó nét hơn
-			var a = jQuery(this).attr("data-resize") || "",
-				min_height = jQuery(this).attr("data-min-height") || 60,
-				add_height = jQuery(this).attr("data-add-height") || 20;
+			var a = jQuery(this).data("resize") || "",
+				min_height = jQuery(this).data("min-height") || 60,
+				add_height = jQuery(this).data("add-height") || 20;
 			//		console.log(min_height);
 
 			if (a == "") {

@@ -20,7 +20,7 @@ class Term extends TermBase
         // tạo short shortslug nếu có -> dùng để order khi select
         if (isset($data['term_shortname'])) {
             if ($data['term_shortname'] != '') {
-                $data['term_shortslug'] = $this->base_model->_eb_non_mark_seo($data['term_shortname']);
+                $data['term_shortslug'] = $this->base_model->slug_non_mark_seo($data['term_shortname']);
             } else {
                 $data['term_shortslug'] = '';
             }
@@ -153,14 +153,12 @@ class Term extends TermBase
             $data['slug'] = $data['name'];
         }
         if ($data['slug'] != '') {
-            $data['slug'] = $this->base_model->_eb_non_mark_seo($data['slug']);
-            $data['slug'] = str_replace('.', '-', $data['slug']);
-            $data['slug'] = str_replace('--', '-', $data['slug']);
+            $data['slug'] = $this->base_model->slug_non_mark_seo($data['slug']);
             //print_r( $data );
             //die( __CLASS__ . ':' . __LINE__ );
 
             //
-            //$check_term_exist = $this->get_term_by_id( 1, $taxonomy, false );
+            // $check_term_exist = $this->get_term_by_id(1, $taxonomy, false);
             //print_r( $check_term_exist );
             /**
              * xem term này đã có chưa
@@ -267,14 +265,64 @@ class Term extends TermBase
 
     function update_terms($term_id, $data, $taxonomy = '', $ops = [])
     {
-        if (isset($data['slug'])) {
+        // var_dump($term_id);
+        // print_r($data);
+        // die(__CLASS__ . ':' . __LINE__);
+
+        // tiêu đề gắn thêm khi post bị xóa
+        $str_trash = DeletedStatus::FOR_TRASH;
+        $str_time = date('dHis');
+
+        //
+        if (isset($data['is_deleted']) && in_array($data['is_deleted'], [
+            DeletedStatus::DELETED,
+            DeletedStatus::REMOVED
+        ])) {
+            // print_r($data);
+
+            //
+            if (!isset($data['slug']) || $data['slug'] == '') {
+                $the_slug = $this->base_model->select(
+                    'slug',
+                    $this->table,
+                    array(
+                        // các kiểu điều kiện where
+                        'term_id' => $term_id,
+                    ),
+                    array(
+                        // hiển thị mã SQL để check
+                        // 'show_query' => 1,
+                        // trả về câu query để sử dụng cho mục đích khác
+                        //'get_query' => 1,
+                        // trả về COUNT(column_name) AS column_name
+                        //'selectCount' => 'ID',
+                        // trả về tổng số bản ghi -> tương tự mysql num row
+                        //'getNumRows' => 1,
+                        //'offset' => 0,
+                        'limit' => 1
+                    )
+                );
+                // print_r($slug);
+                if (empty($the_slug)) {
+                    return -1;
+                }
+                $data['slug'] = $the_slug['slug'];
+            }
+
+            // xóa trash đi trước khi non-mark
+            $data['slug'] = explode($str_trash, $data['slug'])[0];
+            // thêm tham số trash vào slug
+            $data['slug'] = $this->base_model->slug_non_mark_seo($data['slug'], $str_trash . $str_time);
+            // print_r($data);
+        } else if (isset($data['slug']) && strpos($data['slug'], $str_trash) === false) {
+            // print_r($data);
             if ($data['slug'] == '') {
                 $data['slug'] = $data['name'];
             }
             if ($data['slug'] != '') {
-                $data['slug'] = $this->base_model->_eb_non_mark_seo($data['slug']);
-                $data['slug'] = str_replace('.', '-', $data['slug']);
-                $data['slug'] = str_replace('--', '-', $data['slug']);
+                // bỏ tham số trash khỏi slug
+                // $data['slug'] = explode($str_trash, $data['slug'])[0];
+                $data['slug'] = $this->base_model->slug_non_mark_seo($data['slug']);
                 //print_r( $data );
 
                 // kiểm tra lại slug trước khi update
@@ -387,8 +435,8 @@ class Term extends TermBase
                 ]
             );
         }
-        //print_r( $data );
-        //die( __CLASS__ . ':' . __LINE__ );
+        // print_r($data);
+        // die(__CLASS__ . ':' . __LINE__);
 
 
         //
@@ -418,10 +466,12 @@ class Term extends TermBase
         $where = [
             'term_id' => $term_id,
         ];
-        //print_r( $where );
+        // print_r($where);
 
         // đồng bộ dữ liệu trước khi update
         $data = $this->sync_term_data($data);
+        // print_r($data);
+        // die(__CLASS__ . ':' . __LINE__);
 
         //
         $result_update = $this->base_model->update_multiple(
@@ -1216,7 +1266,7 @@ class Term extends TermBase
 
         // update vào db để sau còn tái sử dụng -> nhẹ server
         $this->base_model->update_multiple(
-            'terms',
+            $this->table,
             [
                 // xóa cắp dấu // để tránh trường hợp gặp segment trống
                 'term_permalink' => str_replace('//', '/', $url),

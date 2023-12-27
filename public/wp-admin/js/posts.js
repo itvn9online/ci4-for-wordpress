@@ -45,7 +45,7 @@ add_and_show_post_avt("#post_meta_image", "", "medium");
 
 // 1 số editer chỉ kích hoạt khi có bấm
 $(".click-enable-editer").change(function (e) {
-	let jd = $(this).attr("data-for") || "";
+	let jd = $(this).data("for") || "";
 	if (jd != "") {
 		//console.log(jd);
 		// nếu đang checked
@@ -54,7 +54,7 @@ $(".click-enable-editer").change(function (e) {
 			localStorage.removeItem("click-disable-editer");
 
 			// tạo textediter
-			let h = $(this).attr("data-height") || "";
+			let h = $(this).data("height") || "";
 			if (h == "" || h < 200) {
 				h = 200;
 			}

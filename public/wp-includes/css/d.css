@@ -752,6 +752,10 @@ span.taxonomy-count:after {
 }
 
 /* */
+.ebe-currency:empty {
+    display: none;
+}
+
 .ebe-currency:before,
 .ebe-currency:after {
     content: "\0111";
@@ -765,13 +769,13 @@ span.taxonomy-count:after {
 
 .ebe-currency.convert-to-trieu:before,
 .ebe-currency.convert-to-trieu:after {
+    /* content: "triệu"; */
     content: "tri\00EA.u";
-    content: "triệu";
 }
 
 .ebe-currency.convert-to-ty:before,
 .ebe-currency.convert-to-ty:after {
-    content: "tỷ";
+    /* content: "tỷ"; */
     content: "t\1EF7";
 }
 
@@ -784,6 +788,10 @@ span.taxonomy-count:after {
     display: none;
     margin-right: 2px;
     font-weight: normal;
+}
+
+.ebe-currency.old-price {
+    text-decoration: line-through;
 }
 
 /* */

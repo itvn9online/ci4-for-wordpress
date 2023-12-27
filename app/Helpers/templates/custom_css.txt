@@ -31,4 +31,5 @@ body {
 font-size: {{bodym_font_size}}px;
 }
 }
+{{ebe_currency}}
 </style>

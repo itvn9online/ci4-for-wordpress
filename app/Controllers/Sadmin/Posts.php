@@ -305,7 +305,7 @@ class Posts extends Sadmin
             $urlPartPage = $this->base_model->auto_add_params($urlPartPage);
 
             //
-            $pagination = $this->base_model->EBE_pagination($page_num, $totalPage, $urlPartPage, '&page_num=');
+            $pagination = $this->base_model->EBE_pagination($page_num, $totalPage, $urlPartPage, 'page_num=');
 
 
             // select dữ liệu từ 1 bảng bất kỳ

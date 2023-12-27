@@ -375,7 +375,7 @@ function create_html_menu_nestable(a) {
 
 	// xóa các dữ liệu mẫu
 	$("#menu-add input").each(function () {
-		let x = $(this).attr("data-set") || "";
+		let x = $(this).data("set") || "";
 		if (x != "") {
 			str = str.replaceAll("%" + x + "%", "");
 		}
@@ -396,7 +396,7 @@ function restore_json_menu_in_html_menu() {
 	// chạy vòng lặp lấy các attr theo input add menu
 	let get_data_set = [];
 	$("#menu-add input").each(function () {
-		let x = $(this).attr("data-set") || "";
+		let x = $(this).data("set") || "";
 		if (x != "") {
 			get_data_set.push(x);
 		}

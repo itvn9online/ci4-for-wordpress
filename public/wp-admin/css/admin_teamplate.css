@@ -491,8 +491,9 @@ body.ebfixed-down-menu.sidebar-hover.sidebar-height #sidebar, body.ebfixed-down-
 }
 
 .post-admin-thumbnail img {
-    max-height: 90px;
     width: auto !important;
+    max-height: 60px;
+    max-width: 90px;
 }
 
 /*

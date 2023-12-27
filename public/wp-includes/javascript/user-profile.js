@@ -36,7 +36,7 @@ jQuery(document).ready(function () {
 				set_preview: "origin",
 				input_file: "#file-input-media",
 				img_max_width: 410,
-				update_avt: $("#click-chose-media").attr("data-updating") || "",
+				update_avt: $("#click-chose-media").data("updating") || "",
 			});
 		};
 		// chỉ lấy ảnh số 0

@@ -231,24 +231,24 @@ $(document).ready(function () {
 				$("#data_bank_bin_code").append(str);
 				$("#data_bank_bin_code").change(function () {
 					$("#data_bank_logo")
-						.val($("option:selected", this).attr("data-logo") || "")
+						.val($("option:selected", this).data("logo") || "")
 						.trigger("blur");
 					$("#data_bank_swift_code")
-						.val($("option:selected", this).attr("data-swift_code") || "")
+						.val($("option:selected", this).data("swift_code") || "")
 						.trigger("blur");
 					$("#data_bank_name")
-						.val($("option:selected", this).attr("data-name") || "")
+						.val($("option:selected", this).data("name") || "")
 						.trigger("blur");
 					$("#data_bank_short_name")
-						.val($("option:selected", this).attr("data-short_name") || "")
+						.val($("option:selected", this).data("short_name") || "")
 						.trigger("blur");
 					$("#data_bank_code")
-						.val($("option:selected", this).attr("data-code") || "")
+						.val($("option:selected", this).data("code") || "")
 						.trigger("blur");
 				});
 
 				//
-				let select_bank = $("#data_bank_bin_code").attr("data-select") || "";
+				let select_bank = $("#data_bank_bin_code").data("select") || "";
 				if (select_bank != "") {
 					$("#data_bank_bin_code").val(select_bank).trigger("change");
 					//WGR_set_prop_for_select('#data_bank_bin_code');

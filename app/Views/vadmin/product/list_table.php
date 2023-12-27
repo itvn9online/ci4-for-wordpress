@@ -11,6 +11,7 @@
             <th><input type="checkbox" class="input-checkbox-all" /></th>
             <th>Ảnh đại diện</th>
             <th>Tên <?php echo $name_type; ?></th>
+            <th>Price</th>
             <th>Danh mục</th>
             <th>Trạng thái</th>
             <th colspan="2">Ngày tạo/ <a :href="'sadmin/' + controller_slug + '?order_by=post_modified'">Cập nhật cuối <i class="fa fa-sort"></i></a></th>
@@ -32,6 +33,10 @@
                 <div>{{v.post_name}}</div>
                 <div><a :href="v.the_permalink" target="_blank" class="small greencolor">{{v.the_permalink}} <i class="fa fa-eye"></i></a></div>
             </td>
+            <td>
+                <div><span class="ebe-currency">{{v.post_meta._regular_price}}</span></div>
+                <div><span class="ebe-currency old-price">{{v.post_meta._sale_price}}</span></div>
+            </td>
             <td :data-id="v.main_category_key" :data-taxonomy="taxonomy" :data-uri="'sadmin/' + controller_slug" class="each-to-taxonomy">&nbsp;</td>
             <td :class="'post_status post_status-' + v.post_status">{{PostType_arrStatus[v.post_status]}}</td>
             <td>{{v.post_date.substr(0, 16)}}</td>
@@ -40,7 +45,7 @@
             <td width="60"><input type="number" :data-id="v.ID" :value="v.menu_order" size="5" class="form-control s change-update-menu_order" /></td>
             <td width="150" class="text-center big">
                 <?php
-                include __DIR__ . '/list_action.php';
+                include VIEWS_PATH . 'vadmin/posts/list_action.php';
                 ?>
             </td>
         </tr>

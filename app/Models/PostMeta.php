@@ -728,6 +728,18 @@ class PostMeta extends PostBase
     // trả về cấu trúc img chuẩn SEO
     public function build_post_thumbnail($meta, $size = 'image_medium', $alt = '', $width = 1024)
     {
+        //
+        if (!isset($meta['image_large']) || $meta['image_large'] == '') {
+            $meta['image_large'] = $meta['image'];
+        }
+        if (!isset($meta['image_medium']) || $meta['image_medium'] == '') {
+            $meta['image_medium'] = $meta['image'];
+        }
+        if (!isset($meta['image_medium_large']) || $meta['image_medium_large'] == '') {
+            $meta['image_medium_large'] = $meta['image'];
+        }
+
+        //
         $srcset = implode(', ', [
             $meta['image_large'] . ' 1024w',
             $meta['image_medium'] . ' 400w',

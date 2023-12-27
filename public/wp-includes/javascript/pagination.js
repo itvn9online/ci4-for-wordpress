@@ -1,6 +1,6 @@
 // phân trang sử dụng javascript
-function EBE_part_page(Page, TotalPage, strLinkPager, sub_part) {
-	if (TotalPage <= 1) {
+function EBE_part_page(Page, TotalPage, strLinkPager, sub_part, add_query) {
+	if (TotalPage < 2) {
 		return (
 			WGR_config.pagination_display_1 +
 			' <span data-page="' +
@@ -13,12 +13,26 @@ function EBE_part_page(Page, TotalPage, strLinkPager, sub_part) {
 	if (typeof sub_part == "undefined") {
 		sub_part = "/page/";
 	}
-	console.log(Page);
-	console.log(TotalPage);
-	console.log(strLinkPager);
-	console.log(sub_part);
+	console.log(Page, TotalPage);
+	console.log(strLinkPager, sub_part);
 
-	//
+	// thêm dấu ? hoặc dấu & cho url
+	if (typeof add_query != "undefined" && add_query != "") {
+		add_query *= 1;
+		if (!isNaN(add_query) && add_query > 0) {
+			if (strLinkPager.split("?").length > 1) {
+				strLinkPager += "&";
+			} else {
+				strLinkPager += "?";
+			}
+		}
+	} else if (sub_part.split("=").length > 1) {
+		if (strLinkPager.split("?").length > 1) {
+			strLinkPager += "&";
+		} else {
+			strLinkPager += "?";
+		}
+	}
 	strLinkPager += sub_part;
 	//console.log(strLinkPager);
 	let show_page = 8;
@@ -110,12 +124,13 @@ function EBE_part_page(Page, TotalPage, strLinkPager, sub_part) {
 
 //
 $(".each-to-page-part").each(function () {
-	let page = $(this).attr("data-page") || "",
-		total = $(this).attr("data-total") || "",
-		url = $(this).attr("data-url") || "",
-		params = $(this).attr("data-params") || "";
+	let page = $(this).data("page") || "",
+		total = $(this).data("total") || "",
+		url = $(this).data("url") || "",
+		params = $(this).data("params") || "",
+		query = $(this).data("query") || "";
 
 	//
-	$(this).before(EBE_part_page(page, total, url, params));
+	$(this).before(EBE_part_page(page, total, url, params, query));
 });
 $(".each-to-page-part").before("<!-- div.each-to-page-part -->").remove();

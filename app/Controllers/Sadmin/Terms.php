@@ -162,7 +162,7 @@ class Terms extends Sadmin
             //die( __CLASS__ . ':' . __LINE__ );
 
             //
-            $pagination = $this->base_model->EBE_pagination($page_num, $totalPage, $urlPartPage, '&page_num=');
+            $pagination = $this->base_model->EBE_pagination($page_num, $totalPage, $urlPartPage, 'page_num=');
 
             //
             $filter['offset'] = $offset;

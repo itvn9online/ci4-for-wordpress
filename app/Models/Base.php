@@ -202,7 +202,18 @@ class Base extends Csdl
         return $str;
     }
 
-    public function _eb_non_mark_seo($str)
+    /**
+     * Tạo slug cho các URL về chuẩn 1 định dạng
+     **/
+    public function slug_non_mark_seo($str, $add_string = '')
+    {
+        $str = $this->_eb_non_mark_seo($str);
+        $str = str_replace('.', '-', $str);
+        $str = str_replace('--', '-', $str);
+        return $str . $add_string;
+    }
+
+    public function _eb_non_mark_seo($str, $add_string = '')
     {
         //$str = _eb_non_mark_seo_v1( $str );
         $str = $this->_eb_non_mark_seo_v2($str);
@@ -220,7 +231,7 @@ class Base extends Csdl
         $str = $this->_eb_text_only($str);
 
         //
-        return $str;
+        return $str . $add_string;
         //	return strtolower($str);
     }
 
@@ -623,9 +634,9 @@ class Base extends Csdl
         echo $this->get_config($config, $key, $default_value);
     }
 
-    public function EBE_pagination($Page, $TotalPage, $strLinkPager, $sub_part = '/page/')
+    public function EBE_pagination($Page, $TotalPage, $strLinkPager, $sub_part = '/page/', $add_query = '')
     {
-        return '<div data-page="' . $Page . '" data-total="' . $TotalPage . '" data-url="' . $strLinkPager . '" data-params="' . $sub_part . '" class="each-to-page-part"></div>';
+        return '<div data-page="' . $Page . '" data-total="' . $TotalPage . '" data-url="' . $strLinkPager . '" data-params="' . $sub_part . '" data-query="' . $add_query . '" class="each-to-page-part"></div>';
     }
 
     // tạo file -> hàm cũ

@@ -435,7 +435,7 @@ class Uploads extends Sadmin
             $offset = ($page_num - 1) * $post_per_page;
 
             //
-            $pagination = $this->base_model->EBE_pagination($page_num, $totalPage, $urlPartPage, '?page_num=');
+            $pagination = $this->base_model->EBE_pagination($page_num, $totalPage, $urlPartPage, 'page_num=');
 
 
             // select dữ liệu từ 1 bảng bất kỳ

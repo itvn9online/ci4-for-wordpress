@@ -121,11 +121,11 @@ function trigger_click_open_media(for_id) {
 
 function click_set_img_for_input(img_id) {
 	let img = $('.media-attachment-img[data-id="' + img_id + '"]'),
-		insert_to = img.attr("data-insert") || "";
+		insert_to = img.data("insert") || "";
 
 	//
 	if (insert_to == "") {
-		let a = img.attr("data-thumbnail") || "";
+		let a = img.data("thumbnail") || "";
 		if (a != "") {
 			a = a.replace("-thumbnail.", ".");
 			if (a.split("//").length <= 1) {
@@ -145,7 +145,7 @@ function click_set_img_for_input(img_id) {
 		return false;
 	}
 	//console.log(insert_to);
-	let mime_type = img.attr("data-mime_type") || "",
+	let mime_type = img.data("mime_type") || "",
 		file_type = "",
 		file_ext = "";
 	//console.log(file_type);
@@ -173,11 +173,11 @@ function click_set_img_for_input(img_id) {
 
 	//
 	if (insert_to != "") {
-		let add_img_tag = img.attr("data-add_img_tag") || "";
+		let add_img_tag = img.data("add_img_tag") || "";
 		add_img_tag *= 1;
 
 		//let data_size = img.attr('data-size') || 'full';
-		let data_size = img.attr("data-size") || "large";
+		let data_size = img.data("size") || "large";
 		if (data_size == "") {
 			//data_size = 'full';
 			data_size = "large";
@@ -186,31 +186,31 @@ function click_set_img_for_input(img_id) {
 
 		// lấy các thuộc tính của ảnh -> tối ưu SEO
 		let img_attr = [],
-			data_srcset = img.attr("data-srcset") || "";
+			data_srcset = img.data("srcset") || "";
 		if (data_srcset != "") {
 			img_attr.push('data-to-srcset="' + data_srcset + '"');
 		}
-		let data_sizes = img.attr("data-sizes") || "";
+		let data_sizes = img.data("sizes") || "";
 		if (data_sizes != "") {
 			img_attr.push('sizes="' + data_sizes + '"');
 		}
-		let data_width = img.attr("data-width") || "";
+		let data_width = img.data("width") || "";
 		if (data_width != "") {
 			img_attr.push('width="' + data_width + '"');
 		}
-		let data_height = img.attr("data-height") || "";
+		let data_height = img.data("height") || "";
 		if (data_height != "") {
 			img_attr.push('height="' + data_height + '"');
 		}
 
 		if (data_src == "") {
-			data_src = img.attr("data-thumbnail") || "";
+			data_src = img.data("thumbnail") || "";
 			if (data_src == "") {
 				alert("Không xác định được URL của ảnh!");
 				return false;
 			}
 		}
-		let input_type = img.attr("data-input_type") || "";
+		let input_type = img.data("input_type") || "";
 		//console.log(input_type);
 		// insert ảnh vào text area
 		if (input_type == "textediter") {
@@ -654,7 +654,7 @@ function cleanup_attr_in_editer(for_id, rm_attr) {
 // gán src cho thẻ img từ data-img -> dùng cho angularjs
 function action_data_img_src() {
 	$(".each-to-img-src").each(function () {
-		let a = $(this).attr("data-src") || "";
+		let a = $(this).data("src") || "";
 		if (a != "") {
 			$(this).attr({
 				src: a,
@@ -665,7 +665,7 @@ function action_data_img_src() {
 
 function action_data_bg_src() {
 	$(".each-to-bg-src").each(function () {
-		let a = $(this).attr("data-src") || "";
+		let a = $(this).data("src") || "";
 		if (a != "") {
 			$(this).css({
 				"background-image": "url(" + a + ")",
@@ -779,7 +779,7 @@ function convert_size_to_one_format() {
 					// nếu giá trị nhập vào nhỏ hơn 10 -> tính toán tự động số sản phẩm trên hàng theo kích thước tiêu chuẩn
 					if (a < 10) {
 						// lấy kích thước tiêu chuẩn
-						let b = jQuery(this).attr("data-width") || "";
+						let b = jQuery(this).data("width") || "";
 						if (b != "") {
 							// tính toán
 							jQuery(this).val(Math.ceil(b / a) - 5);
@@ -1178,7 +1178,7 @@ function action_each_to_email() {
 
 	// lấy các ID có
 	$(".each-to-email").each(function () {
-		let a = $(this).attr("data-id") || "";
+		let a = $(this).data("id") || "";
 
 		if (a != "") {
 			ids.push(a);

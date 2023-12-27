@@ -33,6 +33,13 @@
         // $sub_price_total += $post_meta['_regular_price'];
         // $sub_total += 1;
 
+        //
+        if (!isset($post_meta['image_medium']) || $post_meta['image_medium'] == '') {
+            if (isset($post_meta['image']) && $post_meta['image'] != '') {
+                $post_meta['image_medium'] = $post_meta['image'];
+            }
+        }
+
     ?>
         <tr>
             <td class="cart-image">

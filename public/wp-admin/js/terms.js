@@ -233,12 +233,10 @@ function open_modal_add_multi_term(term_id) {
 	$("#data_term_id").val(term_id);
 	// slug dùng để xác định các term trùng lặp
 	$("#data_term_slug").val(
-		$('.get-parent-term-name[data-id="' + term_id + '"]').attr("data-slug") ||
-			""
+		$('.get-parent-term-name[data-id="' + term_id + '"]').data("slug") || ""
 	);
 	$("#multi_add_parent_name").html(
-		$('.get-parent-term-name[data-id="' + term_id + '"]').attr("data-name") ||
-			""
+		$('.get-parent-term-name[data-id="' + term_id + '"]').data("name") || ""
 	);
 
 	//
@@ -314,7 +312,7 @@ $(document).ready(function () {
 			$(this).select();
 		})
 		.change(function () {
-			let a = $(this).attr("data-id") || "";
+			let a = $(this).data("id") || "";
 			if (a != "") {
 				let v = $(this).val();
 				v *= 1;

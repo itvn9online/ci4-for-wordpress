@@ -409,6 +409,9 @@ class Option extends EbModel
         $arr[] = $cog->eb_products_column_spacing;
 
         //
+        $arr[] = $cog->eb_products_row_align;
+
+        //
         return implode(' ', $arr);
     }
     public function products_in_line($cog)
@@ -432,6 +435,9 @@ class Option extends EbModel
 
         // column spacing
         $arr[] = $cog->eb_product_column_spacing;
+
+        //
+        $arr[] = $cog->eb_product_row_align;
 
         //
         return implode(' ', $arr);

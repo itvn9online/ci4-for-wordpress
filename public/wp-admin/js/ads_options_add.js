@@ -49,7 +49,7 @@ function WGR_widget_add_custom_style_to_field() {
 	jQuery(".click_add_widget_class")
 		.off("click")
 		.click(function () {
-			let a = jQuery(this).attr("data-value") || "",
+			let a = jQuery(this).data("value") || "",
 				cl = 0;
 
 			if (a != "") {

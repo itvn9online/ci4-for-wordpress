@@ -18,7 +18,7 @@ var updateOutput = function (e) {
 				first_auto_menu_update = true;
 			} else {
 				$("#menu-add input").each(function () {
-					if (($(this).attr("data-set") || "") != "") {
+					if (($(this).data("set") || "") != "") {
 						$(this).val("");
 					}
 				});
@@ -151,7 +151,7 @@ var editMenuItem = function () {
 
 	//
 	$("#menu-add input").each(function () {
-		var x = $(this).attr("data-set") || "";
+		var x = $(this).data("set") || "";
 		if (x != "") {
 			// console.log(x, $(this).val());
 			target.data(x, $(this).val());
@@ -216,7 +216,7 @@ var addToMenu = function () {
 	var str = (function (htm) {
 		// htm = htm.replaceAll("%newText%", "%name%");
 		$("#menu-add input").each(function () {
-			var x = $(this).attr("data-set") || "";
+			var x = $(this).data("set") || "";
 			if (x != "") {
 				htm = htm.replaceAll("%" + x + "%", $(this).val());
 			}

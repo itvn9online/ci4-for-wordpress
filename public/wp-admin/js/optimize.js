@@ -1,7 +1,6 @@
 //
 (function () {
-	var current_page =
-		$(".public-part-page span.current").attr("data-page") || "";
+	var current_page = $(".public-part-page span.current").data("page") || "";
 	if (current_page != "") {
 		current_page *= 1;
 

@@ -6,7 +6,7 @@ function each_to_group_taxonomy() {
 
 	//
 	$(".each-to-group-taxonomy").each(function () {
-		var a = $(this).attr("data-taxonomy") || "";
+		var a = $(this).data("taxonomy") || "";
 		var jd = $(this).attr("id") || "";
 		if (jd == "") {
 			jd = "_" + Math.random().toString(32).replace(".", "_");
@@ -58,7 +58,7 @@ $(document).ready(function () {
 			$(this).select();
 		})
 		.change(function () {
-			var a = $(this).attr("data-id") || "";
+			var a = $(this).data("id") || "";
 			if (a != "") {
 				var v = $(this).val();
 				v *= 1;

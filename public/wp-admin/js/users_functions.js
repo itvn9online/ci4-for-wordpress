@@ -5,8 +5,8 @@ function action_change_user_status() {
 
 		//
 		var data = {
-			user_id: $(this).attr("data-id") || "",
-			user_status: $(this).attr("data-status") || "",
+			user_id: $(this).data("id") || "",
+			user_status: $(this).data("status") || "",
 		};
 		//console.log(data);
 

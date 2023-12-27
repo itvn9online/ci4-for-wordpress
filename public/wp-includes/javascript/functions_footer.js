@@ -234,7 +234,7 @@ function get_logged_signature() {
  */
 function action_add_to_cart() {
 	$(".click-add-to-cart").click(function () {
-		let a = $(this).attr("data-id") || "";
+		let a = $(this).data("id") || "";
 		if (a != "") {
 			console.log("Add to cart:", a);
 

@@ -22,7 +22,7 @@ class PostQuery extends PostMeta
         // tạo short shortslug nếu có -> dùng để order khi select
         if (isset($data['post_shorttitle'])) {
             if ($data['post_shorttitle'] != '') {
-                $data['post_shortslug'] = $this->base_model->_eb_non_mark_seo($data['post_shorttitle']);
+                $data['post_shortslug'] = $this->base_model->slug_non_mark_seo($data['post_shorttitle']);
             } else {
                 $data['post_shortslug'] = '';
             }
@@ -76,9 +76,7 @@ class PostQuery extends PostMeta
             $data['post_name'] = $data['post_title'];
         }
         if ($data['post_name'] != '') {
-            $data['post_name'] = $this->base_model->_eb_non_mark_seo($data['post_name']);
-            $data['post_name'] = str_replace('.', '-', $data['post_name']);
-            $data['post_name'] = str_replace('--', '-', $data['post_name']);
+            $data['post_name'] = $this->base_model->slug_non_mark_seo($data['post_name']);
 
             //
             if ($check_slug === true) {
@@ -213,18 +211,45 @@ class PostQuery extends PostMeta
             PostType::DELETED,
             PostType::REMOVED
         ])) {
-            if (isset($data['post_name']) && $data['post_name'] != '') {
-                // xóa trash đi trước khi non-mark
-                $data['post_name'] = explode($str_trash, $data['post_name'])[0];
-                // thêm tham số trash vào slug
-                $data['post_name'] = $this->base_model->_eb_non_mark_seo($data['post_name']);
-                $data['post_name'] .= $str_trash . $str_time;
+
+            //
+            if (!isset($data['post_name']) || $data['post_name'] == '') {
+                $the_slug = $this->base_model->select(
+                    'post_name',
+                    $this->table,
+                    array(
+                        // các kiểu điều kiện where
+                        'ID' => $post_id,
+                    ),
+                    array(
+                        // hiển thị mã SQL để check
+                        // 'show_query' => 1,
+                        // trả về câu query để sử dụng cho mục đích khác
+                        //'get_query' => 1,
+                        // trả về COUNT(column_name) AS column_name
+                        //'selectCount' => 'ID',
+                        // trả về tổng số bản ghi -> tương tự mysql num row
+                        //'getNumRows' => 1,
+                        //'offset' => 0,
+                        'limit' => 1
+                    )
+                );
+                // print_r($the_slug);
+                if (empty($the_slug)) {
+                    return -1;
+                }
+                $data['post_name'] = $the_slug['post_name'];
             }
+
+            // xóa trash đi trước khi non-mark
+            $data['post_name'] = explode($str_trash, $data['post_name'])[0];
+            // thêm tham số trash vào slug
+            $data['post_name'] = $this->base_model->slug_non_mark_seo($data['post_name'], $str_trash . $str_time);
         } else {
             if (isset($data['post_name']) && $data['post_name'] != '') {
                 // bỏ tham số trash khỏi slug
-                $data['post_name'] = explode($str_trash, $data['post_name'])[0];
-                $data['post_name'] = $this->base_model->_eb_non_mark_seo($data['post_name']);
+                // $data['post_name'] = explode($str_trash, $data['post_name'])[0];
+                $data['post_name'] = $this->base_model->slug_non_mark_seo($data['post_name']);
             }
 
             // Nếu post type này sử ID làm URL chính thì bỏ qua chế độ check slug
@@ -234,7 +259,7 @@ class PostQuery extends PostMeta
             }
 
             // kiểm tra xem có trùng slug không
-            if ($check_slug === true && isset($data['post_name']) && $data['post_name'] != '') {
+            if ($check_slug === true && isset($data['post_name']) && $data['post_name'] != '' && strpos($data['post_name'], $str_trash) === false) {
                 // post đang cần update
                 $current_slug = $this->base_model->select(
                     '*',

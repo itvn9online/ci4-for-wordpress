@@ -196,6 +196,29 @@ if ($isMobile == true) {
 }
 
 
+// đơn vị tiền tệ cho phần giá sản phẩm
+$ebe_currency = '';
+if ($getconfig->currency_format != '') {
+    $ebe_currency .= '
+.ebe-currency:before,
+.ebe-currency:after {
+    content: "' . $getconfig->currency_format . '";
+}';
+}
+
+// hiển thị đơn vị tiền ở phía trước
+// var_dump($getconfig->currency_before_format);
+if ($getconfig->currency_before_format == 'on') {
+    $ebe_currency .= '
+.ebe-currency::before {
+    display: inline-block;
+}
+.ebe-currency:after {
+    display: none;
+}';
+}
+
+
 // xác định kích thước khung web dựa theo config
 echo HtmlTemplate::html('custom_css.txt', [
     'default_bg' => $getconfig->default_bg,
@@ -211,6 +234,8 @@ echo HtmlTemplate::html('custom_css.txt', [
     //
     'body_font_size' => $getconfig->body_font_size,
     'bodym_font_size' => $getconfig->bodym_font_size,
+    //
+    'ebe_currency' => $ebe_currency,
 ]);
 
 
@@ -241,6 +266,7 @@ $base_model->JSON_parse([
         'site_lang_sub_dir' => (SITE_LANGUAGE_SUB_FOLDER === true) ? 1 : 0,
         'pid' => $current_pid,
         'cid' => $current_tid,
+        'currency_big_format' => $getconfig->currency_big_format,
         'pagination_display_1' => $lang_model->get_the_text('pagination_display_1', 'Đang hiển thị trang'),
     ],
 ]);

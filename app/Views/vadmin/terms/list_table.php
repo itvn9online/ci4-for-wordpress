@@ -10,9 +10,9 @@
         <tr>
             <th><input type="checkbox" class="input-checkbox-all" /></th>
             <th>ID</th>
-            <th>Tiêu đề <?php echo $name_type; ?></th>
+            <th>Tên <?php echo $name_type; ?></th>
             <th>Slug</th>
-            <th>Tên rút gọn</th>
+            <!-- <th>Tên rút gọn</th> -->
             <th class="d-none show-if-ads-type">Size</th>
             <th>Nội dung</th>
             <th>Ngôn ngữ</th>
@@ -25,9 +25,14 @@
         <tr>
             <td width="50" class="text-center"><input type="checkbox" value="{{v.term_id}}" class="input-checkbox-control" /></td>
             <td>{{v.term_id}}</td>
-            <td><span data-id="{{v.parent}}" data-taxonomy="<?php echo $taxonomy; ?>" data-line="{{v.gach_ngang}}" class="parent-term-name"></span> <a href="{{v.get_admin_permalink}}">{{v.gach_ngang}}{{v.name}} <i class="fa fa-edit"></i></a></td>
-            <td><a href="{{v.view_url}}" target="_blank">{{v.view_url}} <i class="fa fa-eye"></i></a></td>
-            <td>{{v.term_shortname}}</td>
+            <td>
+                <div><span data-id="{{v.parent}}" data-taxonomy="<?php echo $taxonomy; ?>" data-line="{{v.gach_ngang}}" class="parent-term-name"></span> <a href="{{v.get_admin_permalink}}">{{v.gach_ngang}}{{v.name}} <i class="fa fa-edit"></i></a></div>
+                <div>{{v.term_shortname}}</div>
+            </td>
+            <td>
+                <div>{{v.slug}}</div>
+                <div><a href="{{v.view_url}}" target="_blank">{{v.view_url}} <i class="fa fa-eye"></i></a></div>
+            </td>
             <td class="d-none show-if-ads-type"><?php echo $ads_size; ?></td>
             <td>&nbsp;</td>
             <td width="90">{{v.lang_key}}</td>

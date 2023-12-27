@@ -118,7 +118,7 @@
 					if (
 						typeof data.hash.key != "undefined" &&
 						data.hash.key != "" &&
-						data.hash.key != $("body").attr("data-session")
+						data.hash.key != $("body").data("session")
 					) {
 						//
 						$(".show-logged-ip")

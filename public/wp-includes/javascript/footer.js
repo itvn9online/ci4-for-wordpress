@@ -33,7 +33,7 @@ $('a[href="users/logout"], a[href="./users/logout"]')
 	.click(function () {
 		//sessionStorage.setItem('logout_redirect', window.location.href);
 		let a =
-			$(this).attr("data-title") ||
+			$(this).data("title") ||
 			$(this).attr("title") ||
 			"Xác nhận Đăng xuất khỏi tài khoản!";
 		let result = confirm(a);
@@ -92,9 +92,9 @@ function action_active_menu_item() {
 
 	// với link trang chủ -> chỉnh url theo ngôn ngữ đang xem
 	if (WGR_config.site_lang_sub_dir > 0) {
-		let data_lang = $("html").attr("data-lang") || "";
+		let data_lang = $("html").data("lang") || "";
 		//console.log(data_lang);
-		let data_default_lang = $("html").attr("data-default-lang") || "";
+		let data_default_lang = $("html").data("default-lang") || "";
 		//console.log(data_default_lang);
 		if (
 			data_lang != "" &&

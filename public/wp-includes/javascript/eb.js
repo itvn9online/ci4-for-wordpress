@@ -36,11 +36,10 @@ var _global_js_eb = {
 	auto_margin: function () {
 		// tạo attr mặc định để lưu thuộc tính cũ
 		jQuery(".img-max-width").each(function () {
-			let max_width = jQuery(this).attr("data-max-width") || "";
+			let max_width = jQuery(this).data("max-width") || "";
 			//console.log('aaaaaaaaaaa: ' + max_width);
 			if (max_width == "" || max_width < 90) {
-				max_width =
-					jQuery(this).attr("data-width") || jQuery(this).width() || 0;
+				max_width = jQuery(this).data("width") || jQuery(this).width() || 0;
 				max_width = Math.ceil(max_width) - 1;
 				jQuery(this).attr({
 					"data-max-width": max_width,
@@ -55,11 +54,8 @@ var _global_js_eb = {
 
 			jQuery("iframe", this).each(function () {
 				let a = jQuery(this).attr("src") || "",
-					wit =
-						jQuery(this).attr("data-width") ||
-						jQuery(this).attr("width") ||
-						560,
-					no_resize = jQuery(this).attr("data-no-resize") || 0;
+					wit = jQuery(this).data("width") || jQuery(this).attr("width") || 560,
+					no_resize = jQuery(this).data("no-resize") || 0;
 				if (no_resize * 1 != 1) {
 					if (WGR_check_option_on(WGR_config.cf_tester_mode)) console.log(a);
 
@@ -86,7 +82,7 @@ var _global_js_eb = {
 					"max-width": max_width + "px",
 				})
 				.each(function () {
-					let a = jQuery(this).attr("data-no-reponsive") || "";
+					let a = jQuery(this).data("no-reponsive") || "";
 
 					//
 					if (a == "") {
@@ -132,10 +128,10 @@ var _global_js_eb = {
 			// Điều chỉnh bằng cách dùng chung một chức năng
 			jQuery(".fix-li-wit").each(function () {
 				let a = jQuery(this).width() || 0,
-					w = jQuery(this).attr("data-width") || "",
-					w_big = jQuery(this).attr("data-big-width") || "",
+					w = jQuery(this).data("width") || "",
+					w_big = jQuery(this).data("big-width") || "",
 					// điều chỉnh chiều rộng cho loại thẻ hoặc class nào -> mặc định là li
-					fix_for = jQuery(this).attr("data-tags") || "li";
+					fix_for = jQuery(this).data("tags") || "li";
 
 				//
 				if (a > 0 && w != "") {
@@ -165,7 +161,7 @@ var _global_js_eb = {
 			jQuery(".img-max-width").each(function () {
 				// lấy theo kích thước tối đa của khung này luôn
 				let max_width =
-					jQuery(this).attr("data-width") || jQuery(this).width() || 250;
+					jQuery(this).data("width") || jQuery(this).width() || 250;
 				max_width = Math.ceil(max_width) - 1;
 				//console.log("max_width: " + max_width);
 
@@ -189,7 +185,7 @@ var _global_js_eb = {
 
 			//
 			jQuery(".fix-li-wit").each(function () {
-				let fix_for = jQuery(this).attr("data-tags") || "li";
+				let fix_for = jQuery(this).data("tags") || "li";
 
 				//
 				jQuery(fix_for, this).width("");
@@ -197,13 +193,13 @@ var _global_js_eb = {
 
 			// hình ảnh và clip trên bản pc -> giờ mới xử lý
 			jQuery(".img-max-width").each(function () {
-				let max_width = jQuery(this).attr("data-max-width") || 250;
+				let max_width = jQuery(this).data("max-width") || 250;
 				max_width = Math.ceil(max_width) - 1;
 
 				//
 				jQuery("iframe", this).each(function () {
 					let a = jQuery(this).attr("src") || "",
-						no_resize = jQuery(this).attr("data-no-resize") || 0;
+						no_resize = jQuery(this).data("no-resize") || 0;
 
 					if (no_resize * 1 != 1) {
 						if (WGR_check_option_on(WGR_config.cf_tester_mode)) console.log(a);
@@ -212,9 +208,7 @@ var _global_js_eb = {
 						if (a.split("youtube.com/").length > 1) {
 							//console.log('a: ' + a);
 							let wit =
-								jQuery(this).attr("data-width") ||
-								jQuery(this).attr("width") ||
-								560;
+								jQuery(this).data("width") || jQuery(this).attr("width") || 560;
 							//console.log('wit: ' + jQuery(this).attr('width'));
 							if (wit.toString().split("%").length > 1) {
 								wit = wit.replace(/\%/, "") * 1;
@@ -263,11 +257,11 @@ var _global_js_eb = {
 				show_height = 0,
 				// tỉ lệ kích thước giữa chiều cao và rộng (nếu có), mặc định là 1x1
 				// -> nhập vào là: chiều cao/ chiều rộng
-				new_size = jQuery(this).attr("data-size") || "";
+				new_size = jQuery(this).data("size") || "";
 
 			// với size auto -> set thẳng ảnh vào thay vì background
 			if (new_size == "auto") {
-				let img = jQuery(this).attr("data-img") || "";
+				let img = jQuery(this).data("img") || "";
 				if (img != "") {
 					jQuery(this)
 						.after(
@@ -445,17 +439,17 @@ var _global_js_eb = {
 						img = "";
 					//console.log('width:', wit);
 					if (wit > 1024) {
-						img = jQuery(this).attr("data-img") || "";
+						img = jQuery(this).data("img") || "";
 					} else if (wit > 360) {
 						img =
-							jQuery(this).attr("data-large-img") ||
+							jQuery(this).data("large-img") ||
 							jQuery(this).attr(attr_data_webp) ||
-							jQuery(this).attr("data-img") ||
+							jQuery(this).data("img") ||
 							"";
 					} else {
 						img =
 							jQuery(this).attr(attr_data_webp) ||
-							jQuery(this).attr("data-img") ||
+							jQuery(this).data("img") ||
 							"";
 					}
 
@@ -477,7 +471,7 @@ var _global_js_eb = {
 			jQuery("." + eb_lazzy_iframe).each(function () {
 				a = jQuery(this).offset().top || 0;
 				if (a < lazzy_show) {
-					c = jQuery(this).attr("data-iframe") || "";
+					c = jQuery(this).data("iframe") || "";
 					//console.log(c);
 					if (c != "") {
 						//console.log(c);
@@ -508,7 +502,7 @@ var _global_js_eb = {
 
 		//
 		$(for_class).each(function () {
-			let has_attr = $(this).attr("data-flickity-options") || "";
+			let has_attr = $(this).data("flickity-options") || "";
 
 			//
 			if (has_attr == "" && !$(this).hasClass("actived-slider")) {
@@ -1029,15 +1023,15 @@ var _global_js_eb = {
 			mot_trieu = 1000000,
 			conver_to_trieu = false;
 		if (
-			typeof cf_big_price_before != "undefined" &&
-			WGR_check_option_on(cf_big_price_before)
+			typeof WGR_config.currency_big_format != "undefined" &&
+			WGR_check_option_on(WGR_config.currency_big_format)
 		) {
 			conver_to_trieu = true;
 		}
 		jQuery(".ebe-currency-format")
 			.each(function () {
 				let a = jQuery.trim(
-					jQuery(this).attr("data-num") || jQuery(this).html() || ""
+					jQuery(this).data("num") || jQuery(this).html() || ""
 				);
 
 				//if (a != '' && a != '0') {
