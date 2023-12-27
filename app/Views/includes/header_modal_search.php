@@ -9,7 +9,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="search" name="s" class="form-control" value="<?php echo (isset($_GET['s']) ? $_GET['s'] : ''); ?>" placeholder="<?php $lang_model->the_text('header_search_label', 'Tìm kiếm'); ?>" onClick="this.select();" aria-required="true" required>
+                        <input type="search" name="s" class="form-control" value="<?php echo $current_search_key; ?>" placeholder="<?php $lang_model->the_text('header_search_label', 'Tìm kiếm'); ?>" onClick="this.select();" aria-required="true" required>
                     </div>
                 </div>
                 <div class="modal-footer">
