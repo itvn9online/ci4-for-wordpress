@@ -1,6 +1,11 @@
 <ul class="admin-breadcrumb">
     <li>Logs</li>
 </ul>
+<div class="text-right">
+    <form action="" method="post" target="target_eb_iframe" onsubmit="return confirm('Confirm clear all log!');">
+        <button type="submit" class="btn btn-danger"><i class="fa fa-magic"></i> Clear logs</button>
+    </form>
+</div>
 <!-- -->
 <div class="flatsome">
     <div class="bold redcolor upper">term_level log</div>

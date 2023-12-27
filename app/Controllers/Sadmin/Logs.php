@@ -20,6 +20,23 @@ class Logs extends Dev
     {
         // echo $this->file_log . '<br>' . PHP_EOL;
 
+        // xóa log với phương thức POST
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            echo dirname($this->file_log) . '<br>' . PHP_EOL;
+            $arr = glob(dirname($this->file_log) . '/*.{log,txt}', GLOB_BRACE);
+            // print_r($arr);
+            foreach ($arr as $filename) {
+                echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+
+                //
+                if (is_file($filename)) {
+                    unlink($filename); // delete file
+                }
+            }
+            // die(__CLASS__ . ':' . __LINE__);
+            $this->base_model->alert('', base_url('sadmin/logs'));
+        }
+
         //
         // ini_set('memory_limit', '100M');
         ini_set('memory_limit', -1);
