@@ -201,7 +201,7 @@ if ($debug_enable === true) {
             của bạn. </div>
     </div>
     <!-- END OPcache -->
-    <div class="p d-inlines">Cache (<strong>{{cache_handler}}</strong> handler):
+    <div class="p d-inlines"><a href="sadmin/constants?support_tab=data_MY_CACHE_HANDLER" class="bold"><i class="fa fa-cog"></i> Cache drive</a> (<strong>{{cache_handler}}</strong> handler):
         <div v-if="cache_actived > 0" class="greencolor">Xin chúc mừng! Website của bạn vận hành thông qua
             <strong>Cache</strong>, điều này giúp tăng hiệu suất của website lên rất nhiều.
             <div>Bạn có thể <a href="sadmin/dashboard/cleanup_cache" class="btn btn-primary btn-mini"><i class="fa fa-magic"></i> vào đây</a> và dọn dẹp cache để website nhận dữ liệu mới nhất.</div>
@@ -254,7 +254,7 @@ if ($debug_enable === true) {
     </div>
     <!-- Session drive -->
     <div>
-        <p><strong>Session drive:</strong> <span :class="warning_session_drive(session_drive)">{{session_drive}}</span></p>
+        <p><a href="sadmin/constants?support_tab=data_MY_SESSION_DRIVE" class="bold"><i class="fa fa-cog"></i> Session drive:</a> <span :class="warning_session_drive(session_drive)">{{session_drive}}</span></p>
         <p><em>* Chúng tôi khuyên dùng các Redis hoặc Memcached để lưu session, nếu VPS/ Hosting của bạn có hỗ trợ 2 driver này thì nên sử dụng nó nhằm tăng tốc độ truy vấn cho website.</em></p>
     </div>
     <br>

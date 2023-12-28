@@ -420,6 +420,9 @@ class Home extends Posts
 
         //
         $cache_key = $this->post_model->key_cache($data['ID']);
+        // thêm phân trang nếu có
+        $cache_key .= $this->MY_get('page_num', 1) . '-';
+        //
         $cache_value = $this->MY_cache($cache_key);
         // Will get the cache entry named 'my_foo'
         //var_dump($cache_value);

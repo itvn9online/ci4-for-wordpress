@@ -262,7 +262,7 @@ class Session
                 'msg' => $ops['msg'],
                 'rq' => 'Bad request!',
                 'f' => strtolower($ops['f']),
-                'context' => $ops['context'],
+                // 'context' => $ops['context'],
             ]);
         }
 
