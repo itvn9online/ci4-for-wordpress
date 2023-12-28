@@ -39,7 +39,7 @@
                     <div class="show-if-actived greencolor"><i class="fa fa-toggle-on"></i></div>
                 </div>
             </td>
-            <td width="150" class="text-center big">
+            <td class="text-center big">
                 <?php
                 include ADMIN_ROOT_VIEWS . 'users/list_action.php';
                 ?>

@@ -667,9 +667,12 @@ class Guest extends Csrf
                 'breadcrumb' => '',
                 'login_redirect' => $this->loginRedirect(),
                 'set_login' => $this->MY_get('set_login', ''),
+                //
+                'sign_in_success_params' => $this->firebaseSignInSuccessParams(),
+                'expires_time' => $this->expires_time,
+                'file_auth' => $this->file_auth,
                 'firebase_config' => $this->firebase_config,
                 'zalooa_config' => $this->zalooa_config,
-                'sign_in_success_params' => $this->firebaseSignInSuccessParams(),
             )
         );
         //print_r( $this->teamplate );
@@ -820,9 +823,12 @@ class Guest extends Csrf
                 'breadcrumb' => '',
                 'login_redirect' => $this->loginRedirect(),
                 'set_login' => $this->MY_get('set_login', ''),
+                //
+                'sign_in_success_params' => $this->firebaseSignInSuccessParams(),
+                'expires_time' => $this->expires_time,
+                'file_auth' => $this->file_auth,
                 'firebase_config' => $this->firebase_config,
                 'zalooa_config' => $this->zalooa_config,
-                'sign_in_success_params' => $this->firebaseSignInSuccessParams(),
             )
         );
         //print_r( $this->teamplate );

@@ -18,12 +18,12 @@ class Logs extends Dev
      **/
     public function index()
     {
-        // echo $this->file_log . '<br>' . PHP_EOL;
+        // echo $this->dir_log . '<br>' . PHP_EOL;
 
         // xóa log với phương thức POST
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            echo dirname($this->file_log) . '<br>' . PHP_EOL;
-            $arr = glob(dirname($this->file_log) . '/*.{log,txt}', GLOB_BRACE);
+            echo $this->dir_log . '<br>' . PHP_EOL;
+            $arr = glob($this->dir_log . '/*.{log,txt}', GLOB_BRACE);
             // print_r($arr);
             foreach ($arr as $filename) {
                 echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
@@ -78,8 +78,8 @@ class Logs extends Dev
         $this->teamplate_admin['content'] = view(
             'vadmin/logs/list',
             array(
-                'file_log' => $this->file_log,
-                'content_log' => is_file($this->file_log) ? file_get_contents($this->file_log) : '',
+                'file_log' => $this->term_level_log,
+                'content_log' => is_file($this->term_level_log) ? file_get_contents($this->term_level_log) : '',
             )
         );
         //return $this->teamplate_admin[ 'content' ];

@@ -31,7 +31,7 @@
                 <div :class="'post_status post_status-' + v.post_status">{{PostType_arrStatus[v.post_status]}}</div>
                 <div>{{v.lang_key}}</div>
             </td>
-            <td width="150" class="text-center big">
+            <td class="text-center big">
                 <?php
                 include ADMIN_ROOT_VIEWS . 'posts/list_action.php';
                 ?>
