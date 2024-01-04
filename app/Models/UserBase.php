@@ -217,6 +217,22 @@ class UserBase extends EbModel
         return true;
     }
 
+    /**
+     * Tạo key cho vụ chống đăng nhập trên nhiều thiết bị
+     **/
+    protected function keyCacheId($id)
+    {
+        return $this->key_cache($id) . 'logged';
+    }
+    protected function setCacheId($id, $data, $time = MINI_CACHE_TIMEOUT)
+    {
+        return $this->base_model->scache($this->keyCacheId($id), $data, $time);
+    }
+    protected function getCacheId($id)
+    {
+        return $this->base_model->scache($this->keyCacheId($id));
+    }
+
     // lưu session id của người dùng vào file, nếu máy khác truy cập thì báo luôn là đăng đăng nhập nơi khác
     public function setLogged($id)
     {
@@ -226,7 +242,7 @@ class UserBase extends EbModel
     // trả về thông tin phiên đăng nhập của người dùng
     public function getLogged($id)
     {
-        //return $this->base_model->scache($this->key_cache($id) . 'logged');
+        //return $this->getCacheId($id);
         return $this->insertLogged($id);
     }
 
@@ -235,28 +251,28 @@ class UserBase extends EbModel
      **/
     public function getCLogged($id)
     {
-        return $this->base_model->scache($this->key_cache($id) . 'logged');
+        return $this->getCacheId($id);
     }
     /**
      * Lưu session id vào cache
      **/
-    public function setCLogged($id)
+    public function setCLogged($id, $signature = '')
     {
-        return $this->base_model->scache($this->key_cache($id) . 'logged', $this->base_model->MY_sessid(), $this->time_checker);
+        return $this->setCacheId($id, $this->base_model->MY_sessid() . '|' . $signature, $this->time_checker);
     }
 
     /**
      * Khi khóa tk user, nếu chưa có cache này thì chưa khóa -> bỏ qua cho 1 lần cache
      * Cái này lưu cache lâu hơn chút -> để người dùng có ngồi đợi hết cache thì vẫn bị block
      **/
-    public function setCBlocked($id)
+    public function setCBlocked($id, $signature = '')
     {
-        //return $this->base_model->scache($this->key_cache($id) . 'logged', $this->base_model->MY_sessid(), ceil($this->time_checker * 2));
-        return $this->base_model->scache($this->key_cache($id) . 'logged', $this->base_model->MY_sessid());
+        //return $this->setCacheId($id, $this->base_model->MY_sessid() . '|' . $signature, ceil($this->time_checker * 2));
+        return $this->setCacheId($id, $this->base_model->MY_sessid() . '|' . $signature);
     }
 
     /**
-     * Lưu phiên đăng nhập vào cache -> ko nên dùng do cache phân định mobile và desktop
+     * Lưu phiên đăng nhập vào cache -> ko nên dùng do cache phân định mobile và desktop -> người dùng xem trên mobile và desktop là được 2 lần
      **/
     protected function cacheLogged($id)
     {
@@ -275,7 +291,7 @@ class UserBase extends EbModel
         ];
 
         // sử dụng cache -> dễ lỗi khi chạy 2 thiết bị khác nhau
-        return $this->base_model->scache($this->key_cache($id) . 'logged', $data);
+        return $this->setCacheId($id, $data);
     }
 
     /**

@@ -74,7 +74,7 @@ class Ajaxs extends Layout
 
         // lưu session id của người dùng vào file
         $this->user_model->setLogged($this->current_user_id);
-        //$this->user_model->setCLogged($this->current_user_id);
+        //$this->user_model->setCLogged($this->current_user_id, $this->MY_post('_wpnonce'));
 
         // trả về key đã lưu của người dùng trong file
         $this->result_json_type(
@@ -104,19 +104,31 @@ class Ajaxs extends Layout
         $msg = 'Device protection destroy';
         $blocked = NULL;
         if ($this->getconfig->block_device_protection == 'on' && $this->current_user_id > 0) {
+            // xem có cache cảnh báo chưa
+            $cache_signature = $this->user_model->getCLogged($this->current_user_id);
+            $signature = $this->MY_post('_wpnonce');
+
             // nếu chưa có cache này -> lần đầu bị cảnh báo -> tạm tha
-            if ($this->user_model->getCLogged($this->current_user_id) === NULL) {
+            if ($cache_signature === NULL) {
                 // lưu cache -> lần tới có cache này -> khóa
-                //$this->user_model->setCLogged($this->current_user_id);
-                $this->user_model->setCBlocked($this->current_user_id);
+                //$this->user_model->setCLogged($this->current_user_id, $signature);
+                $this->user_model->setCBlocked($this->current_user_id, $signature);
 
                 //
                 $blocked = 'skip';
             } else {
+                // nếu độ dài chữ ký ko đạt hoặc chữ ký không khớp -> khóa vĩnh viễn
+                if (strlen($signature) != 64 || strpos($cache_signature, $signature) === false) {
+                    $user_status = UsersType::NO_LOGIN;
+                } else {
+                    // không thì khóa tạm thời
+                    $user_status = UsersType::NO_1H_LOGIN;
+                }
+
                 // lần này có cache rồi vẫn dính -> khóa
                 $blocked = $this->user_model->update_member($this->current_user_id, [
                     // khóa tk user
-                    'user_status' => UsersType::NO_LOGIN,
+                    'user_status' => $user_status,
                 ], [
                     // bỏ qua admin
                     'member_type !=' => UsersType::ADMIN,
