@@ -1,7 +1,7 @@
 <?php
 
 //
-//echo $wrg_cookie_login_key;
+//echo WGR_COOKIE_LOGIN_KEY;
 
 // nạp js cảnh báo đăng nhập
 $base_model->add_js('wp-includes/javascript/login_rememberme.js', [
@@ -26,7 +26,7 @@ $base_model->add_js('wp-includes/javascript/login_rememberme.js', [
                 }, 100);
                 return false;
             }
-            action_login_rememberme('<?php echo $wrg_cookie_login_key; ?>', '<?php echo RAND_REMEMBER_LOGIN; ?>');
+            action_login_rememberme('<?php echo WGR_COOKIE_LOGIN_KEY; ?>', '<?php echo RAND_REMEMBER_LOGIN; ?>');
         }
         before_login_rememberme(99);
     })();

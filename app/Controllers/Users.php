@@ -372,9 +372,6 @@ class Users extends Csrf
             session_destroy();
             //$this->session->destroy();
 
-            // xóa cookie lưu ID đăng nhập
-            //delete_cookie( $this->wrg_cookie_login_key );
-
             //
             $redirect_to = base_url('guest/login');
             if (isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) !== false) {

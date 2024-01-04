@@ -101,7 +101,7 @@ class Uploads extends Sadmin
         ];
 
         // lọc theo định dạng file
-        $attachment_filter = $this->MY_get('attachment-filter', '');
+        $attachment_filter = $this->MY_get('attachment-filter');
         //echo 'attachment filter: ' . $attachment_filter . '<br>' . PHP_EOL;
         if ($attachment_filter != '' && isset($alow_mime_type[$attachment_filter])) {
             $urlParams[] = 'attachment-filter=' . $attachment_filter;
@@ -109,7 +109,7 @@ class Uploads extends Sadmin
         }
 
         // lọc theo tháng upload
-        $month_filter = $this->MY_get('m', '');
+        $month_filter = $this->MY_get('m');
         //echo 'month filter: ' . $month_filter . '<br>' . PHP_EOL;
         if ($month_filter != '') {
             $urlParams[] = 'm=' . $month_filter;
@@ -494,7 +494,7 @@ class Uploads extends Sadmin
     public function drop_upload()
     {
         //
-        $img = $this->MY_post('img', '');
+        $img = $this->MY_post('img');
         if (empty($img)) {
             $this->result_json_type([
                 'in' => __CLASS__,
@@ -504,7 +504,7 @@ class Uploads extends Sadmin
         }
 
         // tên file
-        $file_name = $this->MY_post('file_name', '');
+        $file_name = $this->MY_post('file_name');
         if (empty($file_name)) {
             $this->result_json_type([
                 'in' => __CLASS__,
@@ -514,7 +514,7 @@ class Uploads extends Sadmin
         }
 
         // thời gian chỉnh sửa file
-        $last_modified = $this->MY_post('last_modified', '');
+        $last_modified = $this->MY_post('last_modified');
         // tên file lấy theo thời gian chỉnh sửa -> nếu không có gì khác bọt thì khỏi upload lại
         //$format_modified = 'ymdHis';
         $format_modified = 'His';
@@ -575,7 +575,7 @@ class Uploads extends Sadmin
                 $this->result_json_type([
                     'in' => __CLASS__,
                     'code' => __LINE__,
-                    'mime_type' => $this->MY_post('mime_type', ''),
+                    'mime_type' => $this->MY_post('mime_type'),
                     'error' => 'mime type not support! ' . $mime_type
                 ]);
             }
@@ -587,7 +587,7 @@ class Uploads extends Sadmin
             //'upload_path' => $upload_path,
             //'data' => $_POST,
             //'metadata' => $metadata,
-            'mime_input_type' => $this->MY_post('mime_type', ''),
+            'mime_input_type' => $this->MY_post('mime_type'),
             'mime_type' => $mime_type,
             'success' => $success,
         ]);

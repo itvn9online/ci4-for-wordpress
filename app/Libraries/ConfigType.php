@@ -202,6 +202,9 @@ class ConfigType
                 'cf_thumbnail_size' => 'Chất lượng hình ảnh',
                 'show_child_category' => 'Hiển thị nhóm ' . AdminTranslate::POST . ' con',
                 'max_child_category' => 'Số lượng ' . AdminTranslate::POST . ' con',
+                //
+                'html_posts_header' => 'HTML đầu trang',
+                'html_posts_body' => 'HTML chân trang',
             ];
         } else if ($config_type == self::POST) {
             $arr = [
@@ -212,6 +215,9 @@ class ConfigType
                 'eb_post_column_spacing' => 'Khoảng cách giữa các cột',
                 'eb_post_row_align' => 'Căn chỉnh (align)',
                 'eb_post_sidebar' => 'Sidebar',
+                //
+                'html_post_header' => 'HTML đầu trang',
+                'html_post_body' => 'HTML chân trang',
             ];
             /*
         } else if ($config_type == self::BLOGS) {
@@ -251,6 +257,9 @@ class ConfigType
                 'cf_products_size' => 'Tỉ lệ ảnh ' . AdminTranslate::PROD,
                 'show_child_products' => 'Hiển thị nhóm ' . AdminTranslate::PROD . ' con',
                 'max_child_products' => 'Số lượng ' . AdminTranslate::PROD . ' con',
+                //
+                'html_products_header' => 'HTML đầu trang',
+                'html_products_body' => 'HTML chân trang',
                 // định dạng tiền tệ
                 'currency_format' => 'Đơn vị tiền tệ',
                 'currency_sd_format' => 'Cấu trúc tiền tệ',
@@ -266,6 +275,9 @@ class ConfigType
                 'eb_product_column_spacing' => 'Khoảng cách giữa các cột',
                 'eb_product_row_align' => 'Căn chỉnh (align)',
                 'eb_product_sidebar' => 'Sidebar',
+                //
+                'html_product_header' => 'HTML đầu trang',
+                'html_product_body' => 'HTML chân trang',
             ];
         } else if ($config_type == self::NUM_MON) {
             $arr = [
@@ -526,10 +538,12 @@ class ConfigType
             'address2' => 'textarea',
             'emailcontact' => 'email',
             'emailnotice' => 'email',
+            //
             'html_header' => 'textarea',
             'html_body' => 'textarea',
             'replace_post_content' => 'textarea',
             'robots' => 'textarea',
+            //
             'site_max_width' => 'number',
             'site_full_width' => 'number',
             'telegram_begin_block' => 'heading',
@@ -543,6 +557,18 @@ class ConfigType
             'home_rating_count' => 'number',
             'home_review_count' => 'number',
             'home_url_fanpage' => 'heading',
+            //
+            'html_products_header' => 'textarea',
+            'html_products_body' => 'textarea',
+            //
+            'html_product_header' => 'textarea',
+            'html_product_body' => 'textarea',
+            //
+            'html_posts_header' => 'textarea',
+            'html_posts_body' => 'textarea',
+            //
+            'html_post_header' => 'textarea',
+            'html_post_body' => 'textarea',
             //
             'MY_DB_DRIVER' => 'select',
             'BASE_PROTOCOL' => 'select',
@@ -685,6 +711,8 @@ class ConfigType
             'robots' => base_url('robots.txt'),
             'blog_private' => 'Việc tuân thủ yêu cầu này hoàn toàn phụ thuộc vào các công cụ tìm kiếm.',
             'emailnotice' => 'Một số chức năng sẽ gửi thông báo về email được thiết lập tại đây',
+            'html_header' => 'Khi muốn nhúng mã HTML tùy chỉnh hoặc HTML của bên thứ 3 hoặc Dữ liệu có cấu trúc... vào trước thẻ đóng HEAH thì có thể nhúng tại đây.',
+            'html_body' => 'Khi muốn nhúng mã HTML tùy chỉnh hoặc HTML của bên thứ 3 hoặc Dữ liệu có cấu trúc... vào trước thẻ đóng BODY thì có thể nhúng tại đây',
             'replace_post_content' => 'Khi cần thay thế nội dung của bài viết hàng loạt thì có thể sử dụng chức năng này. <br> Mẫu sử dụng: Nội dung cũ | Nội dung mới',
             'min_product_price' => 'Số tiền tối thiểu mà khách phải thanh toán cho mỗi đơn hàng.',
             'period_price' => 'Bấm [Thêm mới] để thêm các mức giá cho các gói nạp, bấm [Xóa] để loại bỏ một mức giá. <br> Hỗ trợ các đơn vị chuyển đổi: tr = triệu, k = nghìn, % = quy đổi theo giá gốc.',
@@ -694,6 +722,8 @@ class ConfigType
             'powered_by_eb' => 'Sử dụng lệnh <strong>$lang_model->the_web_license( $getconfig );</strong> để hiển thị thông điệp bản quyền mặc định.',
             'telegram_bot_token' => 'Token của bot trên Telegram. <br> Trong Telegram, tìm @BotFather rồi gõ lệnh /mybots để lấy danh sách bot (nếu có). <br> Bấm vào menu lệnh mà Telegram đưa ra để chọn bot và lấy Token. Sau khi có Token, hãy bấm vào đây để tìm Chat ID: ' . base_url('sadmin/smtps') . '?get_tele_chat_id=1 <br> Mở Telegram lên > Nhập Botfather tại thanh tìm kiếm > Chọn Botfather có tích xanh > Nhấn vào Start > Hệ thống sẽ hiển thị ra đoạn chat > Nhấn vào mục /newbot - create a new bot > Nhập tên cho Bot > Nhấn Gửi > Nhập tên người dùng cho Bot > Nhấn Gửi > Hệ thống gửi xác nhận thành công. https://wiki.matbao.net/kb/huong-dan-tao-bot-va-gui-thong-bao-telegram/',
             'telegram_chat_id' => 'ID nhóm chat trên Telegram. Bao gồm cả dấu - nếu có. Thay token vào link mẫu rồi lấy: https://api.telegram.org/bot{token}/getUpdates',
+            //
+            'html_products_body' => 'textarea',
             //
             'FTP_HOST' => 'Thông tin FTP - dùng để điều khiển file trong trường hợp bị lỗi permission. Mặc định là: 127.0.0.1',
             'CDN_BASE_URL' => 'URL để chạy CDN cho các file tĩnh (nếu có). Ví dụ: https://cdn.' . $_SERVER['HTTP_HOST'] . '/',
@@ -739,6 +769,22 @@ class ConfigType
             'home_rating_count' => 'Vui lòng nhập dạng số nguyên, tổng số lượng bình chọn website này, nếu là số ảo thì nhập trong khoảng 160 - 300.',
             'home_review_count' => 'Vui lòng nhập dạng số nguyên, tổng số lượng bài đánh giá website này, nếu là số ảo thì nhập dưới 70.',
         ];
+
+        //
+        $arr['html_products_header'] = $arr['html_header'];
+        $arr['html_products_body'] = $arr['html_body'];
+        //
+        $arr['html_product_header'] = $arr['html_header'];
+        $arr['html_product_body'] = $arr['html_body'];
+
+        //
+        $arr['html_posts_header'] = $arr['html_header'];
+        $arr['html_posts_body'] = $arr['html_body'];
+        //
+        $arr['html_post_header'] = $arr['html_header'];
+        $arr['html_post_body'] = $arr['html_body'];
+
+        //
         if (isset($arr[$key]) && $arr[$key] != '') {
             echo '<p class="controls-text-note">' . $arr[$key] . '</p>';
         }

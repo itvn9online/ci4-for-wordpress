@@ -5,7 +5,6 @@ namespace App\Controllers\Sadmin;
 //
 class Dev extends Sadmin
 {
-    protected $dir_log = WRITEPATH . 'logs';
     // protected $file_log = WRITEPATH . 'logs/server_info_term_level.txt';
     protected $term_level_log = WRITEPATH . 'server_info_term_level.txt';
 
@@ -34,7 +33,7 @@ class Dev extends Sadmin
         if ($has_update === NULL) {
             $this->base_model->scache(__FUNCTION__, time(), MEDIUM_CACHE_TIMEOUT);
 
-            //
+            // ghi file 1 phát để tạo lại nội dung mới cho file
             file_put_contents($this->term_level_log, date('r') . PHP_EOL, LOCK_EX);
 
             //
@@ -52,6 +51,10 @@ class Dev extends Sadmin
 
             //
             ob_start();
+
+            //
+            echo __FILE__ . ':' . __LINE__ . PHP_EOL;
+            echo __CLASS__ . ':' . __LINE__ . PHP_EOL;
 
             // chuyển các nhóm ko có cha về level 0
             $result_id = $this->base_model->update_multiple('term_taxonomy', [
@@ -214,11 +217,23 @@ class Dev extends Sadmin
         }
 
         //
+        if (is_file($this->term_level_log)) {
+            $content_log = file_get_contents($this->term_level_log);
+            $content_log = nl2br($content_log);
+            $size_log = number_format(filesize($this->term_level_log) / 1024, 2);
+        } else {
+            $content_log = '';
+            $size_log = 0;
+        }
+
+        //
         $this->teamplate_admin['content'] = view('vadmin/dev/server_info', array(
             'all_cookie' => $_COOKIE,
             'all_session' => $_SESSION,
             'data' => $_SERVER,
-            // 'content_log' => is_file($this->term_level_log) ? file_get_contents($this->term_level_log) : '',
+            'file_log' => $this->term_level_log,
+            'content_log' => $content_log,
+            'size_log' => $size_log,
         ));
         return view('vadmin/admin_teamplate', $this->teamplate_admin);
     }

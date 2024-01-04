@@ -93,5 +93,10 @@ $(document).ready(function () {
 	for_admin_global_checkbox();
 });
 
-//
-Submit_form_by_Ctrl_S();
+// với menu ko hỗ trợ bấm Ctrl + S -> vì còn phải chạy qua lệnh builder menu nữa
+if (
+	typeof current_post_type == "undefined" ||
+	current_post_type != "nav_menu"
+) {
+	Submit_form_by_Ctrl_S();
+}

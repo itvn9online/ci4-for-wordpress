@@ -23,11 +23,12 @@ class Sadmin extends Ajaxs
 
     public function __construct()
     {
-        parent::__construct();
-
-        //
+        // trong admin thì luôn bật hiển thị lỗi cho dễ làm việc
         ini_set('display_errors', 1);
         error_reporting(E_ALL);
+
+        //
+        parent::__construct();
 
         //
         $this->required_logged('&remove_parameter=');
@@ -370,7 +371,7 @@ class Sadmin extends Ajaxs
         $result = [];
 
         //
-        $a = $this->MY_get('preview_url', '');
+        $a = $this->MY_get('preview_url');
         if (
             $a != ''
         ) {
@@ -378,7 +379,7 @@ class Sadmin extends Ajaxs
         }
 
         //
-        $a = $this->MY_get('preview_offset_top', '');
+        $a = $this->MY_get('preview_offset_top');
         if ($a != '') {
             $result[] = 'preview_offset_top=' . $a;
         }

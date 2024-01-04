@@ -12,8 +12,6 @@ use App\Libraries\ConfigType;
 class Sync extends BaseController
 {
     public $lang_key = '';
-    // key dùng để lưu cookie hoặc localStorage của phiên đăng nhập
-    public $wrg_cookie_login_key = '';
 
     public function __construct()
     {
@@ -40,9 +38,6 @@ class Sync extends BaseController
             $this->base_model->lang_key = $this->lang_key;
             //echo $this->base_model->lang_key . PHP_EOL;
         }
-
-        //
-        $this->wrg_cookie_login_key = '_' . substr(md5(DYNAMIC_BASE_URL), 0, 16);
     }
 
     /**

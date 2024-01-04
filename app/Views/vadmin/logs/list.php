@@ -3,13 +3,6 @@
 </ul>
 <!-- -->
 <div class="flatsome">
-    <div class="bold redcolor upper">term_level log</div>
-    <div class="bold"><?php echo $file_log; ?> (<?php echo (is_file($file_log) ? number_format(filesize($file_log) / 1024, 2) : 0); ?>)</div>
-    <?php echo nl2br($content_log); ?>
-    <br>
-</div>
-<!-- -->
-<div class="flatsome">
     <div class="bold redcolor upper">System log</div>
     <?php
 
@@ -20,7 +13,8 @@
     // hiển thị log vài ngày gần nhất
     $current_time = time();
     for ($i = 0; $i < 10; $i++) {
-        $f = WRITEPATH . 'logs/log-' . date('Y-m-d', $current_time - ($i * DAY)) . '.log';
+        $fname = 'log-' . date('Y-m-d', $current_time - ($i * DAY)) . '.log';
+        $f = $dir_log . '/' . $fname;
         // echo $f . '<br>' . PHP_EOL;
 
         //
@@ -35,15 +29,27 @@
         if ($log_size > $m20) {
     ?>
             <h2 class="bold <?php echo ($log_size > $m10 ? 'redcolor' : ''); ?>"><?php echo $f; ?> (<?php echo number_format($log_size, 2); ?>)</h2>
+            <br>
+        <?php
+            continue;
+        }
+
+        //
+        if ($i > 0 && $file_log != $fname) {
+        ?>
+            <p><a href="sadmin/logs?f=<?php echo $fname; ?>" class="bold s15 <?php echo ($log_size > $m10 ? 'redcolor' : ''); ?>"><?php echo $f; ?> (<?php echo number_format($log_size, 2); ?>)</a></p>
         <?php
             continue;
         }
 
         ?>
-        <div class="bold <?php echo ($log_size > $m10 ? 'redcolor' : ''); ?>"><?php echo $f; ?> (<?php echo number_format($log_size, 2); ?>)</div>
-    <?php
+        <p class="bold s15 <?php echo ($log_size > $m10 ? 'redcolor' : ''); ?>"><?php echo $f; ?> (<?php echo number_format($log_size, 2); ?>)</p>
+        <?php
         // in nội dung file
         echo nl2br(file_get_contents($f));
+        ?>
+        <br>
+    <?php
     }
 
     ?>

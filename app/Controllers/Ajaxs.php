@@ -173,7 +173,7 @@ class Ajaxs extends Layout
         header('Content-type: application/json; charset=utf-8');
 
         //
-        $ids = $this->MY_post('ids', '');
+        $ids = $this->MY_post('ids');
         if (empty($ids)) {
             die(json_encode(
                 [

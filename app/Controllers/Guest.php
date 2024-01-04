@@ -132,14 +132,6 @@ class Guest extends Csrf
                         $session_data = $this->base_model->get_ses_login();
 
                         //
-                        /*
-                        if ( function_exists( 'set_cookie' ) ) {
-                        //die( $this->wrg_cookie_login_key );
-                        //set_cookie( $this->wrg_cookie_login_key, $this->session_data[ 'ID' ] . '|' . time() . '|' . md5( $this->wrg_cookie_login_key . $this->session_data[ 'ID' ] ), 3600, '.' . $_SERVER[ 'HTTP_HOST' ], '/' );
-                        }
-                        */
-
-                        //
                         if (isset($_REQUEST['login_redirect']) && $_REQUEST['login_redirect'] != '') {
                             $login_redirect = $_REQUEST['login_redirect'];
                         } else if (!empty($session_data) && isset($session_data['userLevel']) && $session_data['userLevel'] > 0) {
@@ -205,7 +197,7 @@ class Guest extends Csrf
                 'login_redirect' => $this->loginRedirect(),
                 //'cateByLang' => $cateByLang,
                 //'serviceByLang' => $serviceByLang,
-                'set_login' => $this->MY_get('set_login', ''),
+                'set_login' => $this->MY_get('set_login'),
                 // tạo chuỗi dùng để xác thực url sau khi đăng nhập thành công
                 'sign_in_success_params' => $this->firebaseSignInSuccessParams(),
                 'expires_time' => $this->expires_time,
@@ -575,9 +567,9 @@ class Guest extends Csrf
         //print_r( $_GET );
 
         //
-        $email = $this->MY_get('e', '');
+        $email = $this->MY_get('e');
         $expire = $this->MY_get('t', 0);
-        $token = $this->MY_get('token', '');
+        $token = $this->MY_get('token');
 
         // các tham số không thể thiếu -> thiếu là bỏ qua luôn
         if ($email == '' || $expire < 1 || $token == '') {
@@ -666,7 +658,7 @@ class Guest extends Csrf
                 'seo' => $this->guest_seo('Khởi tạo lại mật khẩu', __FUNCTION__),
                 'breadcrumb' => '',
                 'login_redirect' => $this->loginRedirect(),
-                'set_login' => $this->MY_get('set_login', ''),
+                'set_login' => $this->MY_get('set_login'),
                 //
                 'sign_in_success_params' => $this->firebaseSignInSuccessParams(),
                 'expires_time' => $this->expires_time,
@@ -725,10 +717,10 @@ class Guest extends Csrf
         //die( __CLASS__ . ':' . __LINE__ );
 
         //
-        $email = $this->MY_get('e', '');
-        $old_email = $this->MY_get('oe', '');
+        $email = $this->MY_get('e');
+        $old_email = $this->MY_get('oe');
         $expire = $this->MY_get('t', 0);
-        $token = $this->MY_get('token', '');
+        $token = $this->MY_get('token');
 
         // các tham số không thể thiếu -> thiếu là bỏ qua luôn
         if ($email == '' || $old_email == '' || $expire < 1 || $token == '') {
@@ -822,7 +814,7 @@ class Guest extends Csrf
                 'seo' => $this->guest_seo('Thay đổi email đăng nhập', __FUNCTION__),
                 'breadcrumb' => '',
                 'login_redirect' => $this->loginRedirect(),
-                'set_login' => $this->MY_get('set_login', ''),
+                'set_login' => $this->MY_get('set_login'),
                 //
                 'sign_in_success_params' => $this->firebaseSignInSuccessParams(),
                 'expires_time' => $this->expires_time,

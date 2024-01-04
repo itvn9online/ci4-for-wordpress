@@ -9,7 +9,7 @@
 // tự động đăng nhập khi lưu session
 $("#firebase_auto_login").change(function () {
 	if ($(this).is(":checked")) {
-		localStorage.setItem("firebase_auto_login", Math.random());
+		localStorage.setItem("firebase_auto_login", window.location.href);
 	} else {
 		localStorage.removeItem("firebase_auto_login");
 	}

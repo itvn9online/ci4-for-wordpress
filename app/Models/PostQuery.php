@@ -751,12 +751,12 @@ class PostQuery extends PostMeta
             }
         }
         if ($instance['widget_description'] != '') {
-            $instance['widget_description'] = '<div class="eb-widget-blogs-desc by-widget_description">' . nl2br($instance['widget_description']) . '</div>';
+            $instance['widget_description'] = '<div class="w90 ' . $instance['max_width'] . ' eb-widget-blogs-desc by-widget_description">' . nl2br($instance['widget_description']) . '</div>';
         } else {
             // nếu nội dung không phải nội dung mẫu
             $post_cat['description'] = str_replace('Auto create nav menu taxonomy', '', $post_cat['description']);
             if (trim(strip_tags($post_cat['description'])) != '' && strpos($post_cat['description'], 'Auto create taxonomy') === false) {
-                $instance['widget_description'] = '<div class="eb-widget-blogs-desc by-description">' . $post_cat['description'] . '</div>';
+                $instance['widget_description'] = '<div class="w90 ' . $instance['max_width'] . ' eb-widget-blogs-desc by-description">' . $post_cat['description'] . '</div>';
             }
         }
         if ($instance['dynamic_tag'] == '') {

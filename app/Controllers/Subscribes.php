@@ -31,7 +31,7 @@ class Subscribes extends Csrf
         }
 
         //
-        $e = $this->MY_post('email', '');
+        $e = $this->MY_post('email');
         $result = NULL;
 
         //

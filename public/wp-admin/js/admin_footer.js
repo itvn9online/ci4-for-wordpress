@@ -417,7 +417,10 @@ $(document)
 			.click(function () {
 				//console.log(Math.random());
 				// đặt tham số này để hủy bỏ chức năng đăng nhập tự động
-				localStorage.setItem("remove_rememberme_auto_login", Math.random());
+				localStorage.setItem(
+					"remove_rememberme_auto_login",
+					window.location.href
+				);
 				// Xóa auto login qua firebase
 				localStorage.removeItem("firebase_auto_login");
 				return true;

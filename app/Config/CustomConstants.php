@@ -336,6 +336,9 @@ defined('BASE_PROTOCOL') || define('BASE_PROTOCOL', 'https');
 define('DYNAMIC_BASE_URL', BASE_PROTOCOL . '://' . $_SERVER['HTTP_HOST'] . '/');
 //die( DYNAMIC_BASE_URL );
 
+// key dùng để lưu cookie hoặc localStorage của phiên đăng nhập
+defined('WGR_COOKIE_LOGIN_KEY') || define('WGR_COOKIE_LOGIN_KEY', '_' . substr(md5(DYNAMIC_BASE_URL), 0, 16));
+
 // khi cần chuyển các file tĩnh sang url khác để giảm tải cho server chính thì dùng chức năng này
 defined('CDN_BASE_URL') || define('CDN_BASE_URL', '');
 

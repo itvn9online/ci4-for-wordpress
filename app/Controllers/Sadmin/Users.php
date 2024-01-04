@@ -35,7 +35,7 @@ class Users extends Sadmin
 
         //
         if ($this->member_type == '') {
-            $this->member_type = $this->MY_get('member_type', '');
+            $this->member_type = $this->MY_get('member_type');
         }
         //echo $this->member_type . '<br>' . PHP_EOL;
 
@@ -78,7 +78,7 @@ class Users extends Sadmin
 
         // GET
         $by_is_deleted = $this->MY_get('is_deleted', DeletedStatus::FOR_DEFAULT);
-        $by_keyword = trim($this->MY_get('s', ''));
+        $by_keyword = trim($this->MY_get('s'));
         $by_user_status = $this->MY_get('user_status');
         $order_by = $this->MY_get('order_by');
 
@@ -706,7 +706,7 @@ class Users extends Sadmin
     //
     protected function get_ids()
     {
-        $ids = $this->MY_post('ids', '');
+        $ids = $this->MY_post('ids');
         if (empty($ids)) {
             $this->result_json_type(
                 [
@@ -1006,7 +1006,7 @@ class Users extends Sadmin
         }
 
         //
-        $user_status = $this->MY_post('user_status', '');
+        $user_status = $this->MY_post('user_status');
         if ($user_status == '' || UsersType::typeList($user_status)) {
             $this->result_json_type(
                 [

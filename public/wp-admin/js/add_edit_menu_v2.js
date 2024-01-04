@@ -51,10 +51,17 @@ function create_ul_menu_editer(a, sub_menu) {
 			menu_css.push("a-sub-menu");
 		}
 
+		//
+		if (a[i].css != "") {
+			menu_css.push(a[i].css);
+		}
+
 		if (a[i].slug == "" || a[i].slug.substr(0, 1) == "#") {
 			menu_css.push("eb-menu-onlytext");
 			menu_li_css.push("eb-menu-li-onlytext");
 
+			//
+			console.log(menu_css);
 			a_tag =
 				'<span class="' + menu_css.join(" ") + '">' + a[i].name + "</span>";
 		} else {
@@ -63,11 +70,6 @@ function create_ul_menu_editer(a, sub_menu) {
 				a[i].content =
 					'<span class="eb-menu-content">' + a[i].content + "</span>";
 				menu_css.push("eb-menu-has-content");
-			}
-
-			//
-			if (a[i].css != "") {
-				menu_css.push(a[i].css);
 			}
 
 			//
@@ -94,6 +96,7 @@ function create_ul_menu_editer(a, sub_menu) {
 			}
 
 			//
+			console.log(menu_css);
 			a_tag =
 				'<a href="' +
 				a[i].slug +

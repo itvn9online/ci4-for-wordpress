@@ -1,8 +1,5 @@
 <?php
 
-//
-//echo $wrg_cookie_login_key;
-
 // nạp js cảnh báo đăng nhập
 $base_model->add_js('wp-includes/javascript/ebe_captcha.js', [
     'cdn' => CDN_BASE_URL,

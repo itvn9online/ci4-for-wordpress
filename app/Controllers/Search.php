@@ -33,7 +33,7 @@ class Search extends Csrf
         $totalThread = 0;
 
         //
-        $by_keyword = trim($this->MY_get('s', ''));
+        $by_keyword = trim($this->MY_get('s'));
         if (!empty($by_keyword) || !empty($add_where)) {
             if ($this->post_per_page > 0) {
                 $post_per_page = $this->post_per_page;

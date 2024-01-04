@@ -225,8 +225,7 @@ class Layout extends Sync
                 //'allurl' => $allurl,
                 'isMobile' => $this->isMobile,
                 'html_lang' => $this->lang_key,
-                'wrg_cookie_login_key' => $this->wrg_cookie_login_key,
-                'current_search_key' => $this->MY_get('s', ''),
+                'current_search_key' => $this->MY_get('s'),
             )
         );
 

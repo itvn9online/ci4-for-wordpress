@@ -7,7 +7,7 @@ function action_login_rememberme(key, uri) {
 		typeof uri == "undefined" ||
 		uri == ""
 	) {
-		//console.log(Math.random());
+		console.log(key, uri);
 		return false;
 	}
 
@@ -15,14 +15,14 @@ function action_login_rememberme(key, uri) {
 	if (localStorage.getItem("remove_rememberme_auto_login") !== null) {
 		localStorage.removeItem("remove_rememberme_auto_login");
 		localStorage.removeItem(key);
-		//console.log(Math.random());
+		console.log("removeItem", key);
 		return false;
 	}
 
 	// xác định phiên lưu trữ đăng nhập
 	var token = localStorage.getItem(key);
 	if (token === null) {
-		//console.log(Math.random());
+		console.log("token", token);
 		return false;
 	}
 
@@ -47,7 +47,7 @@ function action_login_rememberme(key, uri) {
 		typeof token.payload == "undefined" ||
 		typeof token.signature == "undefined"
 	) {
-		//console.log(Math.random());
+		console.log(token);
 		return false;
 	}
 
@@ -72,13 +72,19 @@ function action_login_rememberme(key, uri) {
 				console.log("%c " + data.error, "color: red;");
 
 				// đặt tham số này để hủy bỏ chức năng đăng nhập tự động
-				localStorage.setItem("remove_rememberme_auto_login", Math.random());
+				localStorage.setItem(
+					"remove_rememberme_auto_login",
+					window.location.href
+				);
 			} else if (typeof data.warning != "undefined") {
 				// cảnh báo thì cảnh báo
 				console.log("%c " + data.warning, "color: orange;");
 
 				// đặt tham số này để hủy bỏ chức năng đăng nhập tự động
-				localStorage.setItem("remove_rememberme_auto_login", Math.random());
+				localStorage.setItem(
+					"remove_rememberme_auto_login",
+					window.location.href
+				);
 			} else if (typeof data.ok != "undefined" && data.ok * 1 > 0) {
 				console.log("%c login_rememberme OK!", "color: green;");
 

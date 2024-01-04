@@ -28,7 +28,7 @@ class Home extends Posts
         //if ( isset( $_GET[ 'p' ], $_GET[ 'post_type' ] ) ) {
         if ($post_id > 0) {
             //die(__CLASS__ . ':' . __LINE__);
-            return $this->showPostDetails($post_id, $this->MY_get('post_type', ''));
+            return $this->showPostDetails($post_id, $this->MY_get('post_type'));
         }
         //
         else if (isset($_GET['cat'], $_GET['taxonomy'])) {
@@ -309,7 +309,7 @@ class Home extends Posts
 
     /*
     protected function autoDetails() {
-    return $this->showPostDetails( $this->MY_get( 'p', 0 ), $this->MY_get( 'post_type', '' ) );
+    return $this->showPostDetails( $this->MY_get( 'p', 0 ), $this->MY_get( 'post_type' ) );
     }
     */
     protected function showPostDetails($id, $post_type = '', $slug = '')
@@ -584,7 +584,7 @@ class Home extends Posts
         //echo $term_id . '<br>' . PHP_EOL;
 
         //
-        $taxonomy_type = $this->MY_get('taxonomy', '');
+        $taxonomy_type = $this->MY_get('taxonomy');
         //echo $taxonomy_type . '<br>' . PHP_EOL;
 
         //

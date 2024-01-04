@@ -214,11 +214,11 @@ function WGR_builder_signature() {
 	// document.body.appendChild(document.createElement('br'));
 	// document.body.appendChild(document.createTextNode(sha256(canvas.toDataURL())));
 	// console.log(canvas.toDataURL());
-	g_func.setc("WGR_logged_signature", sha256(canvas.toDataURL()), 3600);
+	g_func.setc("WGR_logged_signature", sha256(canvas.toDataURL()), 4 * 3600);
 
 	// xong việc thì ẩn nó đi
 	canvas.style.opacity = "0";
-	// console.log(get_logged_signature());
+	console.log(get_logged_signature());
 
 	//
 	return true;

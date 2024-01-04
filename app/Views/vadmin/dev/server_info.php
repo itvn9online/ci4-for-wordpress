@@ -3,6 +3,13 @@
 </ul>
 <!-- -->
 <div class="flatsome">
+    <div class="bold redcolor upper">term_level log</div>
+    <div class="bold"><?php echo $file_log; ?> (<?php echo $size_log; ?>)</div>
+    <?php echo $content_log; ?>
+    <br>
+</div>
+<!-- -->
+<div class="flatsome">
     <div class="bold redcolor upper">PHP SESSION</div>
     <?php
 

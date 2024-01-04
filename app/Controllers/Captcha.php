@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 //
@@ -20,7 +21,7 @@ class Captcha extends Ajaxs
 
         // màu nền -> mặc định đen
         $b_color = [0, 0, 0];
-        $bg_color = $this->MY_get('bg_color', '');
+        $bg_color = $this->MY_get('bg_color');
         if ($bg_color != '') {
             $bg_color = explode(',', $bg_color);
             foreach ($bg_color as $k => $v) {
@@ -33,7 +34,7 @@ class Captcha extends Ajaxs
 
         // màu chữ -> mặc định trắng
         $t_color = [255, 255, 255];
-        $text_color = $this->MY_get('text_color', '');
+        $text_color = $this->MY_get('text_color');
         if ($text_color != '') {
             $text_color = explode(',', $text_color);
             foreach ($text_color as $k => $v) {

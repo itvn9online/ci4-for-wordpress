@@ -877,6 +877,7 @@ function create_menu_by_taxonomy(arr, li_class, show_favicon, ops) {
 
 		//
 		let sub_menu = "";
+		let a_class = "eb-menu-text";
 		//console.log(typeof arr[i].child_term);
 		if (
 			typeof arr[i].child_term != "undefined" &&
@@ -890,6 +891,8 @@ function create_menu_by_taxonomy(arr, li_class, show_favicon, ops) {
 			);
 			if (sub_menu != "") {
 				sub_menu = '<ul class="sub-menu">' + sub_menu + "</ul>";
+				li_class += " has-sub-menu";
+				a_class += " a-sub-menu";
 			}
 		}
 		//console.log(get_term_permalink(arr[i]));
@@ -904,6 +907,8 @@ function create_menu_by_taxonomy(arr, li_class, show_favicon, ops) {
 			get_term_permalink(arr[i]) +
 			'" data-id="' +
 			arr[i].term_id +
+			'" class="' +
+			a_class +
 			'">' +
 			img_favicon +
 			arr[i].term_shortname +

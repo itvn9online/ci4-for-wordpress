@@ -323,9 +323,9 @@ class Terms extends Sadmin
             }
 
             // nếu có thông số lang_clone_done -> lang vừa được nhân bản -> cập nhật lại lang parent nếu chưa đúng
-            $lang_clone_done = $this->MY_get('lang_clone_done', '');
+            $lang_clone_done = $this->MY_get('lang_clone_done');
             if ($lang_clone_done != '' && is_numeric($lang_clone_done) && $lang_clone_done != $data['term_id'] && $data['lang_parent'] < 1) {
-                $lang_clone_key = $this->MY_get('lang_clone_key', '');
+                $lang_clone_key = $this->MY_get('lang_clone_key');
                 // print_r($data);
 
                 //
@@ -374,7 +374,7 @@ class Terms extends Sadmin
             }
 
             // nếu ngôn ngữ của post không đúng với ngôn ngữ đang hiển thị
-            $clone_lang = $this->MY_get('clone_lang', '');
+            $clone_lang = $this->MY_get('clone_lang');
             if ($clone_lang != '' && $clone_lang != $data['lang_key'] && $clone_lang != SITE_LANGUAGE_DEFAULT) {
                 // ngôn ngữ hiện tại có cha -> chuyển đến bản ghi cha
                 if ($data['lang_parent'] > 0) {
@@ -615,8 +615,8 @@ class Terms extends Sadmin
                 'name_type' => $this->name_type,
                 'meta_default' => TaxonomyType::meta_default($this->taxonomy),
                 'controller_slug' => $this->controller_slug,
-                'preview_url' => $this->MY_get('preview_url', ''),
-                'preview_offset_top' => $this->MY_get('preview_offset_top', ''),
+                'preview_url' => $this->MY_get('preview_url'),
+                'preview_offset_top' => $this->MY_get('preview_offset_top'),
             )
         );
         return view('vadmin/admin_teamplate', $this->teamplate_admin);
@@ -983,7 +983,7 @@ class Terms extends Sadmin
 
     public function term_status()
     {
-        $id = $this->MY_get('id', '');
+        $id = $this->MY_get('id');
         if (empty($id)) {
             die('id empty');
         }
@@ -1039,7 +1039,7 @@ class Terms extends Sadmin
     //
     protected function get_ids()
     {
-        $ids = $this->MY_post('ids', '');
+        $ids = $this->MY_post('ids');
         if (empty($ids)) {
             $this->result_json_type([
                 'code' => __LINE__,

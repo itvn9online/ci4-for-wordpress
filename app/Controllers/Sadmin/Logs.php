@@ -8,6 +8,8 @@ namespace App\Controllers\Sadmin;
 //
 class Logs extends Dev
 {
+    protected $dir_log = WRITEPATH . 'logs';
+
     public function __construct()
     {
         parent::__construct();
@@ -78,8 +80,8 @@ class Logs extends Dev
         $this->teamplate_admin['content'] = view(
             'vadmin/logs/list',
             array(
-                'file_log' => $this->term_level_log,
-                'content_log' => is_file($this->term_level_log) ? file_get_contents($this->term_level_log) : '',
+                'file_log' => $this->MY_get('f'),
+                'dir_log' => $this->dir_log,
             )
         );
         //return $this->teamplate_admin[ 'content' ];

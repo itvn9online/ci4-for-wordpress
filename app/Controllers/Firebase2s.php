@@ -94,7 +94,7 @@ class Firebase2s extends Firebases
         ]);
 
         // lấy uid
-        $firebase_uid = $this->checkEmptyParams($this->MY_post('uid', ''), [
+        $firebase_uid = $this->checkEmptyParams($this->MY_post('uid'), [
             'code' => __LINE__,
             'error' => $this->firebaseLang('uid', 'user_id trống'),
         ]);
@@ -141,7 +141,7 @@ class Firebase2s extends Firebases
         //$email = 'itvn9online@yahoo.com';
         $phone = trim($this->MY_post('phone'));
         //$phone = '+84984533228';
-        $photo = $this->MY_post('photo', '');
+        $photo = $this->MY_post('photo');
 
         //
         $where = [

@@ -21,7 +21,7 @@ class Uploads extends Users
     public function image_push($dir = '')
     {
         //
-        $img = $this->MY_post('img', '');
+        $img = $this->MY_post('img');
         if (empty($img)) {
             $this->result_json_type([
                 'in' => __CLASS__,
@@ -31,7 +31,7 @@ class Uploads extends Users
         }
 
         // tên file
-        $file_name = $this->MY_post('file_name', '');
+        $file_name = $this->MY_post('file_name');
         if (empty($file_name)) {
             $this->result_json_type([
                 'in' => __CLASS__,
@@ -41,7 +41,7 @@ class Uploads extends Users
         }
 
         // thời gian chỉnh sửa file
-        $last_modified = $this->MY_post('last_modified', '');
+        $last_modified = $this->MY_post('last_modified');
         // tên file lấy theo thời gian chỉnh sửa -> nếu không có gì khác bọt thì khỏi upload lại
         $format_modified = 'ymdHis';
         if (empty($last_modified)) {

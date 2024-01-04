@@ -313,7 +313,7 @@ class Posts extends Sadmin
             $filter['limit'] = $post_per_page;
 
             //
-            $order_by = $this->MY_get('order_by', '');
+            $order_by = $this->MY_get('order_by');
             if ($order_by != '') {
                 $order_by = [
                     $this->table . '.' . $order_by => 'DESC',
@@ -472,7 +472,7 @@ class Posts extends Sadmin
             //print_r($data);
 
             // nếu ngôn ngữ của post không đúng với ngôn ngữ đang hiển thị
-            $clone_lang = $this->MY_get('clone_lang', '');
+            $clone_lang = $this->MY_get('clone_lang');
             if ($clone_lang != '' && $clone_lang != $data['lang_key']) {
                 //die(__CLASS__ . ':' . __LINE__);
                 // ngôn ngữ hiện tại có cha -> chuyển đến bản ghi cha
@@ -769,8 +769,8 @@ class Posts extends Sadmin
                 'options' => $this->options,
                 'post_type' => $this->post_type,
                 'name_type' => $this->name_type,
-                'preview_url' => $this->MY_get('preview_url', ''),
-                'preview_offset_top' => $this->MY_get('preview_offset_top', ''),
+                'preview_url' => $this->MY_get('preview_url'),
+                'preview_offset_top' => $this->MY_get('preview_offset_top'),
                 // mảng tham số tùy chỉnh dành cho các custom post type
                 'meta_custom_type' => [],
                 'meta_custom_desc' => [],
@@ -1045,7 +1045,7 @@ class Posts extends Sadmin
     //
     protected function get_ids()
     {
-        $ids = $this->MY_post('ids', '');
+        $ids = $this->MY_post('ids');
         if (empty($ids)) {
             $this->result_json_type([
                 'code' => __LINE__,

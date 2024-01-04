@@ -90,7 +90,7 @@ class Asjaxs extends Sadmin
         header('Content-type: application/json; charset=utf-8');
 
         //
-        $taxonomy = $this->MY_post('taxonomy', '');
+        $taxonomy = $this->MY_post('taxonomy');
         if (empty($taxonomy)) {
             die(json_encode([
                 'code' => __LINE__,
@@ -102,7 +102,7 @@ class Asjaxs extends Sadmin
         //die( json_encode( $_POST ) );
         die($this->term_model->json_taxonomy($taxonomy, 0, [
             'get_child' => 1,
-            'lang_key' => $this->MY_post('lang_key', ''),
+            'lang_key' => $this->MY_post('lang_key'),
         ], $taxonomy . '_get_child'));
     }
 
@@ -111,7 +111,7 @@ class Asjaxs extends Sadmin
         header('Content-type: application/json; charset=utf-8');
 
         //
-        $ids = $this->MY_post('ids', '');
+        $ids = $this->MY_post('ids');
         if (empty($ids)) {
             die(json_encode([
                 'code' => __LINE__,
