@@ -1114,41 +1114,43 @@ class Term extends TermBase
             }
 
             // daidq: sử dụng hàm update_count_post_in_term cho thống nhất dữ liệu
-            // $count_post_term = $this->base_model->select(
-            //     'COUNT(object_id) AS c',
-            //     $this->relaTable,
-            //     array(
-            //         // WHERE AND OR
-            //         'term_taxonomy_id' => $term_id,
-            //     ),
-            //     array(
-            //         'selectCount' => 'object_id',
-            //         // hiển thị mã SQL để check
-            //         //'show_query' => 1,
-            //         // trả về câu query để sử dụng cho mục đích khác
-            //         //'get_query' => 1,
-            //         //'offset' => 2,
-            //         //'limit' => 3
-            //     )
-            // );
-            // //print_r( $count_post_term );
+            if (1 > 2) {
+                $count_post_term = $this->base_model->select(
+                    'COUNT(object_id) AS c',
+                    $this->relaTable,
+                    array(
+                        // WHERE AND OR
+                        'term_taxonomy_id' => $term_id,
+                    ),
+                    array(
+                        'selectCount' => 'object_id',
+                        // hiển thị mã SQL để check
+                        //'show_query' => 1,
+                        // trả về câu query để sử dụng cho mục đích khác
+                        //'get_query' => 1,
+                        //'offset' => 2,
+                        //'limit' => 3
+                    )
+                );
+                //print_r( $count_post_term );
 
-            // // cập nhật lại tổng số bài viết cho term
-            // $this->base_model->update_multiple(
-            //     $this->taxTable,
-            //     [
-            //         //'count' => $count_post_term[ 0 ][ 'c' ],
-            //         'count' => $count_post_term[0]['object_id'],
-            //         'source_count' => __CLASS__ . ':' . __FUNCTION__ . ':' . __LINE__,
-            //     ],
-            //     [
-            //         'term_taxonomy_id' => $term_id,
-            //         'term_id' => $term_id,
-            //     ],
-            //     [
-            //         'debug_backtrace' => debug_backtrace()[1]['function']
-            //     ]
-            // );
+                // cập nhật lại tổng số bài viết cho term
+                $this->base_model->update_multiple(
+                    $this->taxTable,
+                    [
+                        //'count' => $count_post_term[ 0 ][ 'c' ],
+                        'count' => $count_post_term[0]['object_id'],
+                        'source_count' => __CLASS__ . ':' . __FUNCTION__ . ':' . __LINE__,
+                    ],
+                    [
+                        'term_taxonomy_id' => $term_id,
+                        'term_id' => $term_id,
+                    ],
+                    [
+                        'debug_backtrace' => debug_backtrace()[1]['function']
+                    ]
+                );
+            }
         }
     }
 

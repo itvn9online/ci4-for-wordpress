@@ -61,7 +61,7 @@ class Post extends PostProducs
             }
         }
 
-        // lấy các post chưa có permalink đẻ update
+        // lấy các post chưa có permalink để update
         $data = $this->base_model->select(
             '*',
             'posts',
@@ -106,6 +106,7 @@ class Post extends PostProducs
                 //TaxonomyType::BLOGS,
                 //TaxonomyType::BLOG_TAGS,
                 TaxonomyType::PROD_CATS,
+                TaxonomyType::PROD_OTPS,
                 TaxonomyType::PROD_TAGS,
             ];
             foreach ($arr_custom_taxonomy as $k => $v) {
@@ -114,7 +115,7 @@ class Post extends PostProducs
                 }
             }
 
-            // lấy các term chưa có permalink đẻ update
+            // lấy các term chưa có permalink để update
             $data = $this->base_model->select(
                 '*',
                 WGR_TERM_VIEW,

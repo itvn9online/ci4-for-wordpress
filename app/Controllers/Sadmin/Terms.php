@@ -875,9 +875,35 @@ class Terms extends Sadmin
     {
         $id = $this->MY_get('id', 0);
 
-        $update = $this->term_model->update_terms($id, [
+        //
+        $data = [
             'is_deleted' => $is_deleted,
-        ]);
+        ];
+        //print_r( $data );
+        //die( __CLASS__ . ':' . __LINE__ );
+
+        // lấy slug nếu chưa có -> lấy để lệnh update post còn thêm hoặc xóa trash (tùy request hiện tại)
+        if (!isset($data['slug']) || $data['slug'] == '') {
+            $check_slug = $this->base_model->select('slug', 'terms', [
+                'term_id' => $id,
+                // 'post_status !=' => $post_status,
+            ], [
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                //'offset' => 2,
+                'limit' => 1
+            ]);
+            //print_r( $check_slug );
+            if (!empty($check_slug)) {
+                $data['slug'] = $check_slug['slug'];
+            }
+        }
+        // print_r($data);
+        // die(__CLASS__ . ':' . __LINE__);
+
+        $update = $this->term_model->update_terms($id, $data);
 
         // dọn dẹp cache liên quan đến taxonomy này
         $this->cleanup_cache($this->taxonomy . '_get_child');
@@ -924,20 +950,66 @@ class Terms extends Sadmin
         $ids = $this->get_ids();
 
         //
-        $update = $this->base_model->update_multiple('terms', [
-            // SET
-            'is_deleted' => $is_deleted
-        ], [
-            'is_deleted !=' => $is_deleted
-        ], [
-            'where_in' => array(
-                'term_id' => $ids
-            ),
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-        ]);
+        $current_data = $this->base_model->select(
+            'term_id, slug',
+            'terms',
+            [],
+            array(
+                'where_in' => array(
+                    'term_id' => $ids
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => -1
+            )
+        );
+
+        // chạy vòng lặp -> thực hiện khóa từng post
+        foreach ($current_data as $v) {
+            //print_r($v);
+            $id = $v['term_id'];
+            unset($v['term_id']);
+
+            //
+            $v['is_deleted'] = $is_deleted;
+            // print_r($v);
+            // continue;
+
+            //
+            $update = $this->term_model->update_terms(
+                $id,
+                $v
+            );
+        }
+
+        //
+        // print_r($current_data);
+        // die(__CLASS__ . ':' . __LINE__);
+
+        //
+        if (1 > 2) {
+            $update = $this->base_model->update_multiple('terms', [
+                // SET
+                'is_deleted' => $is_deleted
+            ], [
+                'is_deleted !=' => $is_deleted
+            ], [
+                'where_in' => array(
+                    'term_id' => $ids
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+            ]);
+        }
 
         // riêng với lệnh remove -> kiểm tra nếu remove hoàn toàn thì xử lý riêng
         if ($update === true && $is_deleted == DeletedStatus::REMOVED && ALLOW_USING_MYSQL_DELETE === true) {

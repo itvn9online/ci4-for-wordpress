@@ -8,7 +8,7 @@
 //echo $taxonomy_slider;
 
 
-/*
+/**
  * Chuẩn bị dữ liệu để phân trang
  */
 $post_per_page = $base_model->get_config($getconfig, 'eb_products_per_page', 20);

@@ -10,7 +10,7 @@
 //print_r( $getconfig );
 
 
-/*
+/**
  * Chuẩn bị dữ liệu để phân trang
  */
 $post_per_page = $base_model->get_config($getconfig, 'eb_posts_per_page', 20);

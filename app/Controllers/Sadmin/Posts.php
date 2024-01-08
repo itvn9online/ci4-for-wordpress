@@ -274,7 +274,7 @@ class Posts extends Sadmin
         }
 
 
-        /*
+        /**
          * phân trang
          */
         $totalThread = $this->base_model->select('COUNT(ID) AS c', $this->table, $where, $filter);
@@ -1184,22 +1184,22 @@ class Posts extends Sadmin
         //die(__CLASS__ . ':' . __LINE__);
 
         //
-        /*
-        $update = $this->base_model->update_multiple($this->table, [
-            // SET
-            'post_status' => $post_status
-        ], [
-            'post_status !=' => $post_status
-        ], [
-            'where_in' => array(
-                'ID' => $ids
-            ),
-            // hiển thị mã SQL để check
-            //'show_query' => 1,
-            // trả về câu query để sử dụng cho mục đích khác
-            //'get_query' => 1,
-        ]);
-        */
+        if (1 > 2) {
+            $update = $this->base_model->update_multiple($this->table, [
+                // SET
+                'post_status' => $post_status
+            ], [
+                'post_status !=' => $post_status
+            ], [
+                'where_in' => array(
+                    'ID' => $ids
+                ),
+                // hiển thị mã SQL để check
+                //'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+            ]);
+        }
 
         // nếu update thành công -> gửi lệnh javascript để ẩn bài viết bằng javascript
         if ($update === true && $post_status == PostType::REMOVED && ALLOW_USING_MYSQL_DELETE === true) {

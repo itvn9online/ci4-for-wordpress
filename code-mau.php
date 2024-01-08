@@ -288,13 +288,11 @@ $post_model->the_ads('ads-term-slug', $limit = 1, $ops = [
 
 
 // JSON.parse
-//
 $base_model->JSON_parse([
     'json_data' => $data,
 ]);
 
 // JSON echo
-//
 $base_model->JSON_echo([
     // mảng này sẽ in ra dưới dạng JSON hoặc number
     'json_data' => $data,

@@ -505,12 +505,11 @@ class Option extends EbModel
 
     public function get_config($config, $key, $default_value = '')
     {
-        //print_r( $config );
-        //if ( isset( $config->$key ) ) {
-        if ($config->$key != '') {
-            return $config->$key;
-        }
-        return $default_value;
+        return $this->base_model->get_config($config, $key, $default_value);
+    }
+    public function the_config($config, $key, $default_value = '')
+    {
+        return $this->base_model->get_config($config, $key, $default_value);
     }
 
     public function share_icons($cogs)
@@ -549,11 +548,6 @@ class Option extends EbModel
         return '<ul class="wgr-share-icons cf">' . $str . '</ul>';
     }
 
-    public function the_config($config, $key, $default_value = '')
-    {
-        echo $this->get_config($config, $key, $default_value);
-    }
-
     // trả về key cho option cache
     public function key_cache($config_type)
     {
@@ -578,6 +572,29 @@ class Option extends EbModel
         foreach ($other_type as $k) {
             $this->clearOpCache($k);
         }
+    }
+
+    /**
+     * Xóa cache cho config
+     **/
+    public function clearAllOpsCache()
+    {
+        return $this->clearOpsCache(ConfigType::CONFIG, [
+            ConfigType::DISPLAY,
+            ConfigType::SOCIAL,
+            ConfigType::CATEGORY,
+            ConfigType::POST,
+            ConfigType::PROD_CATS,
+            ConfigType::PROD,
+            ConfigType::TRANS,
+            ConfigType::SMTP,
+            ConfigType::CONSTANTS,
+            ConfigType::CHECKOUT,
+            ConfigType::CHECKBOX,
+            ConfigType::NUM_MON,
+            ConfigType::FIREBASE,
+            ConfigType::ZALO,
+        ]);
     }
 
     /**

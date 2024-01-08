@@ -184,7 +184,7 @@ function action_admin_menu_search() {
 					$(".admin-menu-result").addClass("actived");
 					var has_menu = false;
 					$("#admin_menu_result li")
-						.removedata("show")
+						.removeAttr("data-show")
 						.each(function () {
 							var a = $(this).data("key") || "";
 							if (a != "" && a.split(k).length > 1) {

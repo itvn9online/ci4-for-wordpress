@@ -94,12 +94,15 @@ class Posts extends Csrf
 
         // tìm các bài cùng nhóm
         $same_cat_data = [];
-        $config_key = 'eb_post_per_page';
+        // $config_key = 'eb_post_per_page';
         //if ($this->post_type == PostType::BLOG) {
         if ($this->post_type == PostType::PROD) {
-            $config_key = 'eb_product_per_page';
+            // $config_key = 'eb_product_per_page';
+            $post_per_page = $this->base_model->get_config($this->getconfig, 'eb_product_per_page', 5);
+        } else {
+            $post_per_page = $this->base_model->get_config($this->getconfig, 'eb_post_per_page', 5);
         }
-        $post_per_page = $this->base_model->get_config($this->getconfig, $config_key, 5);
+        // var_dump($post_per_page);
         if (
             $post_per_page > 0 &&
             isset($data['post_meta']['post_category']) &&

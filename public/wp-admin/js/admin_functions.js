@@ -1121,6 +1121,7 @@ function action_delete_restore_checked(
 		success: function (data) {
 			console.log(data);
 			console.log(arr_check_checked_all);
+			// return false;
 
 			//
 			if (typeof data.error != "undefined") {
@@ -1148,6 +1149,9 @@ function action_delete_restore_checked(
 					//arr_check_checked_all = [];
 					$(".input-checkbox-all").prop("checked", false);
 					get_check_checked_all_value();
+
+					//
+					window.location = window.location.href;
 				} else {
 					WGR_alert(
 						"Có lỗi trong quá trình " + method_name + " bản ghi",

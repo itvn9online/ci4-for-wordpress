@@ -114,6 +114,8 @@ class PostMeta extends PostBase
 
         // xử lý riêng đối với post category và tags
         $term_relationships = [];
+
+        //
         if (isset($meta_data['post_category'])) {
             if (gettype($meta_data['post_category']) == 'array') {
                 foreach ($meta_data['post_category'] as $v) {
@@ -127,6 +129,8 @@ class PostMeta extends PostBase
             // lấy ID danh mục chính -> chỉ lấy danh mục cấp 1
             $this->get_parents_term(explode(',', $meta_data['post_category']), $post_id);
         }
+
+        //
         if (isset($meta_data['post_tags'])) {
             if (gettype($meta_data['post_tags']) == 'array') {
                 foreach ($meta_data['post_tags'] as $v) {
@@ -137,6 +141,20 @@ class PostMeta extends PostBase
                 $term_relationships[] = $meta_data['post_tags'];
             }
         }
+
+        //
+        if (isset($meta_data['post_options'])) {
+            if (gettype($meta_data['post_options']) == 'array') {
+                foreach ($meta_data['post_options'] as $v) {
+                    $term_relationships[] = $v;
+                }
+                $meta_data['post_options'] = implode(',', $meta_data['post_options']);
+            } else {
+                $term_relationships[] = $meta_data['post_options'];
+            }
+        }
+
+        //
         if (!empty($term_relationships)) {
             $term_relationships = array_unique($term_relationships);
 

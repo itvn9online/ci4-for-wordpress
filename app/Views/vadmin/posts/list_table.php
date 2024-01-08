@@ -32,7 +32,9 @@
                 <div>{{v.post_name}}</div>
                 <div><a :href="v.the_permalink" target="_blank" class="small greencolor">{{v.the_permalink}} <i class="fa fa-eye"></i></a></div>
             </td>
-            <td :data-id="v.main_category_key" :data-taxonomy="taxonomy" :data-uri="'sadmin/' + controller_slug" class="each-to-taxonomy">&nbsp;</td>
+            <td>
+                <div :data-id="v.main_category_key" :data-taxonomy="taxonomy" :data-uri="'sadmin/' + controller_slug" class="each-to-taxonomy">&nbsp;</div>
+            </td>
             <td>
                 <div>{{v.post_date.substr(0, 16)}}</div>
                 <div>{{v.post_modified.substr(0, 16)}}</div>

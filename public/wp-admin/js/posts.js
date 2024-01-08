@@ -196,19 +196,19 @@ $(window).on("load", function () {
 	}
 });
 
-/*
+/**
  * tạo các option con cho phần select Danh mục cha
  */
 (function (cats) {
 	for (let x in cats) {
-		//console.log(x);
-		//console.log(cats[x]);
+		// console.log(x);
+		// console.log(cats[x]);
 
 		//
 		if ($("#" + x).length > 0 && cats[x] != "") {
 			// chạy ajax nạp dữ liệu của taxonomy
 			load_term_select_option(cats[x], x, function (data, jd) {
-				//console.log(data);
+				// console.log(data);
 
 				//
 				$("#" + jd)

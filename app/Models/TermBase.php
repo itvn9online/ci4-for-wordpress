@@ -297,7 +297,7 @@ class TermBase extends EbModel
         $the_view = $prefix . 'zzz_update_count';
 
         //
-        $current_time = time();
+        // $current_time = time();
 
         /*
          * tính tổng số nhóm con trong 1 nhóm
@@ -307,7 +307,8 @@ class TermBase extends EbModel
             'terms',
             [
                 'child_count' => 0,
-                'child_last_count' => $current_time,
+                // 'child_last_count' => $current_time,
+                'child_last_count' => 0,
             ],
             [
                 'is_deleted' => DeletedStatus::FOR_DEFAULT,
@@ -646,7 +647,7 @@ class TermBase extends EbModel
         //
         $this->base_model->update_multiple('terms', [
             'child_count' => count($child_count),
-            'child_last_count' => time() + $this->time_update_count,
+            'child_last_count' => time() + $this->time_update_count + rand(0, $this->time_update_count),
         ], [
             'term_id' => $data['term_id'],
         ], [

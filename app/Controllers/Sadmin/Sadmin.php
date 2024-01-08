@@ -318,7 +318,24 @@ class Sadmin extends Ajaxs
                 $has_cache = $this->base_model->dcache();
                 if ($has_cache === NULL) {
                     var_dump($has_cache);
-                    $this->base_model->alert('Lỗi xóa Toàn bộ cache. Kiểm tra Cache drvie và Session drive!', 'warning');
+
+                    // thử xóa theo từng key
+                    foreach ([
+                        'post',
+                        'get_page',
+                        'term',
+                        'get_all_taxonomy',
+                        'get_the_menu',
+                        'user',
+                    ] as $v) {
+                        $this->cleanup_cache($v . '-');
+                    }
+
+                    // cache config
+                    $this->option_model->clearAllOpsCache();
+
+                    //
+                    $this->base_model->alert('Cache drive == Session drive! Thực hiện XÓA từng phần của cache...');
                 }
             }
 

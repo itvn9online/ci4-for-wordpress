@@ -6,7 +6,7 @@ use App\Libraries\UsersType;
 use App\Libraries\PostType;
 use App\Libraries\TaxonomyType;
 use App\Libraries\LanguageCost;
-use App\Libraries\ConfigType;
+// use App\Libraries\ConfigType;
 
 class Dashboard extends Optimize
 {
@@ -1295,22 +1295,7 @@ class Dashboard extends Optimize
      **/
     public function cleanup_config_cache($show_alert = true)
     {
-        $this->option_model->clearOpsCache(ConfigType::CONFIG, [
-            ConfigType::DISPLAY,
-            ConfigType::SOCIAL,
-            ConfigType::CATEGORY,
-            ConfigType::POST,
-            ConfigType::PROD_CATS,
-            ConfigType::PROD,
-            ConfigType::TRANS,
-            ConfigType::SMTP,
-            ConfigType::CONSTANTS,
-            ConfigType::CHECKOUT,
-            ConfigType::CHECKBOX,
-            ConfigType::NUM_MON,
-            ConfigType::FIREBASE,
-            ConfigType::ZALO,
-        ]);
+        $this->option_model->clearAllOpsCache();
 
         //
         if ($show_alert === true) {
