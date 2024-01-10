@@ -286,7 +286,7 @@ class UserBase extends EbModel
         $data = [
             'key' => $sid,
             't' => time(),
-            'agent' => $_SERVER['HTTP_USER_AGENT'],
+            'agent' => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
             'ip' => $_SERVER['REMOTE_ADDR'],
         ];
 
@@ -362,7 +362,7 @@ class UserBase extends EbModel
             'ip' => $_SERVER['REMOTE_ADDR'],
             'key' => $this->keyLogged($id),
             'session_id' => $sid,
-            'agent' => $_SERVER['HTTP_USER_AGENT'],
+            'agent' => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
             'created_at' => time(),
         ]);
     }

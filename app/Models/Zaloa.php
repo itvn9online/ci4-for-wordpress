@@ -97,10 +97,10 @@ class Zaloa extends Option
         }
     }
 
-    /*
-    * chức năng tạo URL để Yêu cầu cấp mới OA Access Token
-    * https://developers.zalo.me/docs/api/official-account-api/phu-luc/official-account-access-token-post-4307
-    */
+    /**
+     * chức năng tạo URL để Yêu cầu cấp mới OA Access Token
+     * https://developers.zalo.me/docs/api/official-account-api/phu-luc/official-account-access-token-post-4307
+     */
     public function zaloAccessToken($callBackUrl, $login_url = false)
     {
         //
@@ -172,10 +172,10 @@ class Zaloa extends Option
         return $accessToken;
     }
 
-    /*
-    * lấy access token sau khi request xong
-    * https://developers.zalo.me/docs/api/official-account-api/xac-thuc-va-uy-quyen/cach-1-xac-thuc-voi-giao-thuc-oauth/yeu-cau-cap-moi-oa-access-token-post-4307
-    */
+    /**
+     * lấy access token sau khi request xong
+     * https://developers.zalo.me/docs/api/official-account-api/xac-thuc-va-uy-quyen/cach-1-xac-thuc-voi-giao-thuc-oauth/yeu-cau-cap-moi-oa-access-token-post-4307
+     */
     public function zaloAfterAccessToken()
     {
         //die($this->zalooa_config->zalooa_app_id);
@@ -386,10 +386,10 @@ class Zaloa extends Option
         );
     }
 
-    /*
-    * Gửi ZNS
-    * https://developers.zalo.me/docs/api/zalo-notification-service-api/gui-thong-bao-zns/gui-thong-bao-zns-post-5208
-    */
+    /**
+     * Gửi ZNS
+     * https://developers.zalo.me/docs/api/zalo-notification-service-api/gui-thong-bao-zns/gui-thong-bao-zns-post-5208
+     */
     public function sendZns($phone, $template_id, $template_data, $custom_data = [], $reset_token = true)
     {
         if (empty($this->zalooa_config->zalooa_access_token)) {

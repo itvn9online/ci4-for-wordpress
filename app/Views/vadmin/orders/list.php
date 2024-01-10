@@ -66,14 +66,18 @@ $base_model->add_css('wp-admin/css/' . $post_type . '.css');
         $theme_default_view = ADMIN_ROOT_VIEWS . $post_type . '/list_table.php';
         // nạp file kiểm tra private view
         include VIEWS_PATH . 'private_view.php';
+    } else {
+        $theme_default_view = '';
     }
 
     // list table mặc định
-    if ($has_private_view === false && !is_file($theme_default_view)) {
-        // nạp view riêng của từng theme nếu có
-        $theme_default_view = __DIR__ . '/list_table.php';
-        // nạp file kiểm tra private view
-        include VIEWS_PATH . 'private_view.php';
+    if ($has_private_view === false) {
+        if ($theme_default_view == '' || !is_file($theme_default_view)) {
+            // nạp view riêng của từng theme nếu có
+            $theme_default_view = __DIR__ . '/list_table.php';
+            // nạp file kiểm tra private view
+            include VIEWS_PATH . 'private_view.php';
+        }
     }
 
     ?>

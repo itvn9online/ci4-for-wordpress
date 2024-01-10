@@ -566,14 +566,18 @@ class PostQuery extends PostMeta
         //
         if (isset($ops['count_record'])) {
             $data = $this->base_model->select(
-                'COUNT(ID) AS c',
+                // 'COUNT(ID) AS c',
+                'ID',
                 WGR_POST_VIEW,
                 $where,
                 [
                     'selectCount' => 'ID',
                     'where_or' => $arr_where_or,
                     'where_not_in' => $where_not_in,
-                    'group_by' => $ops['group_by'],
+                    // 'group_by' => $ops['group_by'],
+                    'group_by' => [
+                        'ID'
+                    ],
                     //'order_by' => $order_by,
                     //'get_sql' => 1,
                     //'show_query' => 1,
