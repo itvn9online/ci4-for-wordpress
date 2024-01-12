@@ -15,7 +15,7 @@ class Home extends Posts
         parent::__construct();
     }
 
-    /*
+    /**
      * default page
      */
     public function index($id = 0, $slug = '')
@@ -38,7 +38,7 @@ class Home extends Posts
         return $this->portal();
     }
 
-    /*
+    /**
      * home page
      */
     protected function portal($custom_data = [])
@@ -58,56 +58,66 @@ class Home extends Posts
         //print_r( $this->getconfig );
         $getconfig = $this->getconfig;
 
-        // dữ liệu có cấu trúc cho trang chủ
-        $schema_person = [
-            '@context' => 'http://schema.org',
-            '@type' => 'Person',
-            "name" => $this->getconfig->name,
-            'alternateName' => $_SERVER['HTTP_HOST'],
-            "url" => base_url(),
-            "sameAs" => $this->base_model->sameAsSchema([
-                $this->getconfig->facebook,
-                $this->getconfig->google,
-                $this->getconfig->linkin,
-                $this->getconfig->youtube,
-                $this->getconfig->tiktok,
-                (!empty($this->getconfig->zalo) ? 'https://zalo.me/' . $this->getconfig->zalo : ''),
-                $this->getconfig->registeronline,
-                $this->getconfig->notificationbct
-            ]),
-            "contactPoint" => [
-                '@type' => 'ContactPoint',
-                'telephone' => $this->getconfig->phone,
-                'contactType' => 'Customer support',
-                'areaServed' => strtoupper($this->lang_key),
-                'availableLanguage' => [[
-                    "@type" => "Language",
-                    "name" => "Vietnamese"
-                ], [
-                    "@type" => "Language",
-                    "name" => "English"
-                ], [
-                    "@type" => "Language",
-                    "name" => "German"
-                ], [
-                    "@type" => "Language",
-                    "name" => "Chinese"
-                ], [
-                    "@type" => "Language",
-                    "name" => "Japanese"
-                ]],
-            ],
-        ];
-        if (!empty($this->getconfig->company_name)) {
-            $schema_person['@type'] = 'Organization';
-            $schema_person['name'] = $this->getconfig->company_name;
-            $schema_person['logo'] = strpos($this->getconfig->logo, '//') === false ? base_url() . ltrim($this->getconfig->logo, '/') : $this->getconfig->logo;
-        }
-
         //
-        $dynamic_schema = [
-            $schema_person
-        ];
+        $dynamic_schema = [];
+
+        // dữ liệu có cấu trúc cho trang chủ -> mặc định có dùng, khi cái này on -> sẽ off
+        // var_dump($this->getconfig->off_schema_person);
+        if ($this->getconfig->off_schema_person != 'on') {
+            // var_dump($this->getconfig->off_schema_person);
+
+            //
+            $schema_person = [
+                '@context' => 'http://schema.org',
+                '@type' => 'Person',
+                "name" => $this->getconfig->name,
+                'alternateName' => $_SERVER['HTTP_HOST'],
+                "url" => base_url(),
+                "sameAs" => $this->base_model->sameAsSchema([
+                    $this->getconfig->facebook,
+                    $this->getconfig->google,
+                    $this->getconfig->linkin,
+                    $this->getconfig->youtube,
+                    $this->getconfig->tiktok,
+                    (!empty($this->getconfig->zalo) ? 'https://zalo.me/' . $this->getconfig->zalo : ''),
+                    $this->getconfig->registeronline,
+                    $this->getconfig->notificationbct
+                ]),
+                "contactPoint" => [
+                    '@type' => 'ContactPoint',
+                    'telephone' => $this->getconfig->phone,
+                    'contactType' => 'Customer support',
+                    'areaServed' => strtoupper($this->lang_key),
+                    'availableLanguage' => [[
+                        "@type" => "Language",
+                        "name" => "Vietnamese"
+                    ], [
+                        "@type" => "Language",
+                        "name" => "English"
+                    ], [
+                        "@type" => "Language",
+                        "name" => "German"
+                    ], [
+                        "@type" => "Language",
+                        "name" => "Chinese"
+                    ], [
+                        "@type" => "Language",
+                        "name" => "Japanese"
+                    ]],
+                ],
+            ];
+            if (!empty($this->getconfig->company_name)) {
+                $schema_person['@type'] = 'Organization';
+                $schema_person['name'] = $this->getconfig->company_name;
+                $schema_person['logo'] = strpos($this->getconfig->logo, '//') === false ? base_url() . ltrim($this->getconfig->logo, '/') : $this->getconfig->logo;
+            }
+
+            //
+            $dynamic_schema[] = $schema_person;
+            // if ($this->current_user_id * 1 === 1) {
+            //     print_r($dynamic_schema);
+            // }
+        }
 
         // nếu có phần fake review
         //if ($this->getconfig->home_rating_value > 0 && $this->getconfig->home_rating_count > 0 && $this->getconfig->home_review_count) {

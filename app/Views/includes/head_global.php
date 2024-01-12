@@ -253,7 +253,7 @@ $base_model->JSON_parse([
 ]);
 
 //
-echo $getconfig->html_header;
+$base_model->get_the_custom_html($getconfig, 'html_header');
 
 // nạp header riêng của từng theme (tương tự function get_header bên wordpress)
 $theme_private_view = VIEWS_CUSTOM_PATH . 'get_header.php';

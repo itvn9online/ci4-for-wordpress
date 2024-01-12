@@ -231,7 +231,13 @@ class Search extends Csrf
             array(
                 'totalThread' => $totalThread,
                 'by_keyword' => $by_keyword,
-                'seo' => $this->base_model->default_seo(trim('Tìm kiếm ' . $by_keyword)),
+                'seo' => $this->base_model->default_seo(
+                    trim('Tìm kiếm ' . $by_keyword),
+                    'page404 search-main',
+                    [
+                        'canonical' => base_url('search'),
+                    ]
+                ),
                 'post_type' => $this->post_type,
                 'product_type' => PostType::PROD,
                 'public_part_page' => $pagination,

@@ -4,6 +4,11 @@
 //print_r($data);
 //print_r( $getconfig );
 
+
+//
+$base_model->get_the_custom_html($getconfig, 'html_products_header', $data['term_id']);
+
+
 // tự động tạo slider nếu có
 //echo $taxonomy_slider;
 
@@ -36,3 +41,7 @@ $base_model->adds_js([
 ], [
     'defer'
 ]);
+
+
+//
+$base_model->get_the_custom_html($getconfig, 'html_products_body', $data['term_id']);

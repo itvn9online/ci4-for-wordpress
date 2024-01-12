@@ -7,6 +7,11 @@ $base_model->add_css(THEMEPATH . 'css/home.css', [
     'cdn' => CDN_BASE_URL,
 ]);
 
+
+//
+$base_model->get_the_custom_html($getconfig, 'html_home_header');
+
+
 // nạp view riêng của từng theme nếu có
 $theme_default_view = VIEWS_PATH . 'default/' . basename(__FILE__);
 // nạp file kiểm tra private view
@@ -18,3 +23,7 @@ $base_model->add_js(THEMEPATH . 'js/home.js', [
 ], [
     'defer'
 ]);
+
+
+//
+$base_model->get_the_custom_html($getconfig, 'html_home_body');

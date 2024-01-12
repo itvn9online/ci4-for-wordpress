@@ -231,6 +231,10 @@ class AdminMenu
                         'name' => ConfigType::typeList(ConfigType::SOCIAL),
                         'icon' => 'fa fa-facebook',
                     ],
+                    'sadmin/confighomes' => [
+                        'name' => ConfigType::typeList(ConfigType::HOME),
+                        'icon' => 'fa fa-home',
+                    ],
                     'sadmin/configcats' => [
                         'name' => ConfigType::typeList(ConfigType::CATEGORY),
                         'icon' => 'fa fa-cog',

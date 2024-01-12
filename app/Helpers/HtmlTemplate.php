@@ -20,6 +20,9 @@ class HtmlTemplate
             if (gettype($v) == 'array') {
                 continue;
             }
+            if ($v == null) {
+                $v = '';
+            }
             //echo 'render key:' . PHP_EOL;
             //print_r($k);
             //echo PHP_EOL;

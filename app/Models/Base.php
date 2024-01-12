@@ -987,4 +987,35 @@ class Base extends Csdl
         }
         return $url . 'amps/' . $data['term_id'] . '/' . $data['slug'];
     }
+
+    /**
+     * In ra mã HTML tùy chỉnh sau khi thay thế các tham số động nếu có
+     **/
+    public function the_custom_html($cogs, $key, $id = '')
+    {
+        $html = $cogs->$key;
+        if (empty($html)) {
+            return '';
+        }
+
+        // Tạo key để lấy cache nếu có -> thêm ID cho trường hợp danh mục hoặc trang chi tiết
+        $in_cache = 'list_config-' . __FUNCTION__ . $key . $id;
+        $the_cache = $this->scache($in_cache);
+        if ($the_cache !== NULL) {
+            return $the_cache;
+        }
+
+        //
+        foreach ($cogs as $k => $v) {
+            $html = str_replace('%' . $k . '%', $v, $html);
+        }
+
+        //
+        $this->scache($in_cache, $html);
+        return $html;
+    }
+    public function get_the_custom_html($cogs, $key, $id = '')
+    {
+        echo $this->the_custom_html($cogs, $key, $id);
+    }
 }

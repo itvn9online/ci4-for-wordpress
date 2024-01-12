@@ -7,6 +7,9 @@ $base_model->add_css(THEMEPATH . 'css/post.css', [
     'cdn' => CDN_BASE_URL,
 ]);
 
+//
+$base_model->get_the_custom_html($getconfig, 'html_post_header', $data['ID']);
+
 // tự động tạo slider nếu có
 //$post_model->the_slider($data, $taxonomy_slider, $lang_model->get_the_text('main_slider_slug', ''));
 
@@ -32,3 +35,17 @@ $base_model->adds_js([
 ], [
     'defer'
 ]);
+
+//
+if ($getconfig->post_toc == 'on') {
+    $base_model->adds_js([
+        'wp-includes/javascript/post_toc.js',
+    ], [
+        'cdn' => CDN_BASE_URL,
+    ], [
+        'defer'
+    ]);
+}
+
+//
+$base_model->get_the_custom_html($getconfig, 'html_post_body', $data['ID']);

@@ -97,4 +97,4 @@ if ($getconfig->tawk_to != '') {
 }
 
 //
-echo $getconfig->html_body;
+$base_model->get_the_custom_html($getconfig, 'html_body');

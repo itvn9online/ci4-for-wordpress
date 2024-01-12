@@ -10,6 +10,10 @@
 //print_r( $getconfig );
 
 
+//
+$base_model->get_the_custom_html($getconfig, 'html_posts_header', $data['term_id']);
+
+
 /**
  * Chuẩn bị dữ liệu để phân trang
  */
@@ -70,3 +74,7 @@ $base_model->adds_js([
 ], [
     'defer'
 ]);
+
+
+//
+$base_model->get_the_custom_html($getconfig, 'html_posts_body', $data['term_id']);

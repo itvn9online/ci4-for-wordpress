@@ -10,6 +10,7 @@ class ConfigType
     const CONFIG = 'config';
     const DISPLAY = 'display';
     const SOCIAL = 'social';
+    const HOME = 'home';
     const CATEGORY = 'post_list';
     const POST = 'post';
     //const BLOGS = 'blog_list';
@@ -62,6 +63,7 @@ class ConfigType
         self::CONFIG => 'Cấu hình',
         self::DISPLAY => 'Cài đặt hiển thị',
         self::SOCIAL => 'Mạng xã hội',
+        self::HOME => 'Trang chủ',
         self::CATEGORY => 'Danh sách ' . AdminTranslate::POST,
         self::POST => 'Chi tiết ' . AdminTranslate::POST,
         //self::BLOGS => 'Danh sách Blog/ Tin tức',
@@ -85,6 +87,7 @@ class ConfigType
             self::CONFIG,
             self::DISPLAY,
             self::SOCIAL,
+            self::HOME,
             self::CATEGORY,
             self::POST,
             //self::BLOGS,
@@ -175,6 +178,7 @@ class ConfigType
                 'home_rating_value' => 'Home rating value',
                 'home_rating_count' => 'Home rating count',
                 'home_review_count' => 'Home review count',
+                'off_schema_person' => 'Off schema person',
                 'home_url_fanpage' => 'URL fanpage',
                 'facebook' => 'Facebook',
                 'google' => 'Google+',
@@ -188,6 +192,11 @@ class ConfigType
                 'tawk_to' => 'Tawk to ID',
                 'registeronline' => 'Link đăng ký BCT',
                 'notificationbct' => 'Link thông báo BCT',
+            ];
+        } else if ($config_type == self::HOME) {
+            $arr = [
+                'html_home_header' => 'HTML đầu trang',
+                'html_home_body' => 'HTML chân trang',
             ];
         } else if ($config_type == self::CATEGORY) {
             $arr = [
@@ -218,6 +227,7 @@ class ConfigType
                 //
                 'html_post_header' => 'HTML đầu trang',
                 'html_post_body' => 'HTML chân trang',
+                'post_toc' => 'Sử dụng Table of content (TOC)',
             ];
             /*
         } else if ($config_type == self::BLOGS) {
@@ -556,7 +566,11 @@ class ConfigType
             //'home_rating_value' => 'number',
             'home_rating_count' => 'number',
             'home_review_count' => 'number',
+            'off_schema_person' => 'checkbox',
             'home_url_fanpage' => 'heading',
+            //
+            'html_home_header' => 'textarea',
+            'html_home_body' => 'textarea',
             //
             'html_products_header' => 'textarea',
             'html_products_body' => 'textarea',
@@ -569,6 +583,7 @@ class ConfigType
             //
             'html_post_header' => 'textarea',
             'html_post_body' => 'textarea',
+            'post_toc' => 'checkbox',
             //
             'MY_DB_DRIVER' => 'select',
             'BASE_PROTOCOL' => 'select',
@@ -630,6 +645,7 @@ class ConfigType
             'include_flatsome' => 'Nạp file thư viện Javascript viết bởi Flatsome. Một theme trên nền tảng Wordpress khá nổi tiếng.',
             'hide_captcha' => 'Là dạng mã xác thực ngầm được nào vào footer, dùng cho các chức năng cần xác thực tự động chống bot spam.',
             'show_child_category' => 'Khi chế độ này được kích hoạt, và khi truy cập vào danh mục ' . AdminTranslate::POST . ', nếu trong danh mục đó có các nhóm con thì các nhóm con sẽ được hiển thị thay vì hiển thị trực tiếp danh sách ' . AdminTranslate::POST,
+            'post_toc' => 'Khi kích hoạt chế độ này, 1 menu trong chi tiết bài viết sẽ được kích hoạt dựa theo các thẻ heading.',
             'max_child_category' => 'Một vòng lặp sẽ lấy số lượng ' . AdminTranslate::POST . ' để hiển thị trong mỗi nhóm con',
             'show_child_products' => 'Khi chế độ này được kích hoạt, và khi truy cập vào danh mục ' . AdminTranslate::PROD . ', nếu trong danh mục đó có các nhóm con thì các nhóm con sẽ được hiển thị thay vì hiển thị trực tiếp danh sách ' . AdminTranslate::PROD,
             'max_child_products' => 'Một vòng lặp sẽ lấy số lượng ' . AdminTranslate::PROD . ' để hiển thị trong mỗi nhóm con',
@@ -711,8 +727,8 @@ class ConfigType
             'robots' => base_url('robots.txt'),
             'blog_private' => 'Việc tuân thủ yêu cầu này hoàn toàn phụ thuộc vào các công cụ tìm kiếm.',
             'emailnotice' => 'Một số chức năng sẽ gửi thông báo về email được thiết lập tại đây',
-            'html_header' => 'Khi muốn nhúng mã HTML tùy chỉnh hoặc HTML của bên thứ 3 hoặc Dữ liệu có cấu trúc... vào trước thẻ đóng HEAH thì có thể nhúng tại đây.',
-            'html_body' => 'Khi muốn nhúng mã HTML tùy chỉnh hoặc HTML của bên thứ 3 hoặc Dữ liệu có cấu trúc... vào trước thẻ đóng BODY thì có thể nhúng tại đây',
+            'html_header' => 'Khi muốn nhúng mã HTML tùy chỉnh hoặc HTML của bên thứ 3 hoặc Dữ liệu có cấu trúc... vào trước thẻ đóng HEAH thì có thể nhúng tại đây. Hỗ trợ nhúng text template dạng %key% (trong đó key là giá trị của các option_name).',
+            'html_body' => 'Khi muốn nhúng mã HTML tùy chỉnh hoặc HTML của bên thứ 3 hoặc Dữ liệu có cấu trúc... vào trước thẻ đóng BODY thì có thể nhúng tại đây. Hỗ trợ nhúng text template dạng %key% (trong đó key là giá trị của các option_name).',
             'replace_post_content' => 'Khi cần thay thế nội dung của bài viết hàng loạt thì có thể sử dụng chức năng này. <br> Mẫu sử dụng: Nội dung cũ | Nội dung mới',
             'min_product_price' => 'Số tiền tối thiểu mà khách phải thanh toán cho mỗi đơn hàng.',
             'period_price' => 'Bấm [Thêm mới] để thêm các mức giá cho các gói nạp, bấm [Xóa] để loại bỏ một mức giá. <br> Hỗ trợ các đơn vị chuyển đổi: tr = triệu, k = nghìn, % = quy đổi theo giá gốc.',
@@ -768,11 +784,15 @@ class ConfigType
             'home_rating_value' => 'Vui lòng nhập dạng số thập phân. Ví dụ: 4.8 hoặc 4.5 hoặc 3.3',
             'home_rating_count' => 'Vui lòng nhập dạng số nguyên, tổng số lượng bình chọn website này, nếu là số ảo thì nhập trong khoảng 160 - 300.',
             'home_review_count' => 'Vui lòng nhập dạng số nguyên, tổng số lượng bài đánh giá website này, nếu là số ảo thì nhập dưới 70.',
+            'off_schema_person' => 'Mặc định sẽ 1 đoạn Schema Person hoặc Schema Organization sẽ được tạo cho trang chủ, nếu không muốn sử dụng nó, hãy tắt đi ở đây.',
         ];
 
         //
         $arr['html_products_header'] = $arr['html_header'];
         $arr['html_products_body'] = $arr['html_body'];
+        //
+        $arr['html_home_header'] = $arr['html_header'];
+        $arr['html_home_body'] = $arr['html_body'];
         //
         $arr['html_product_header'] = $arr['html_header'];
         $arr['html_product_body'] = $arr['html_body'];

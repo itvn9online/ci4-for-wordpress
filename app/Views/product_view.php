@@ -1,5 +1,8 @@
 <?php
 
+//
+$base_model->get_the_custom_html($getconfig, 'html_product_header', $data['ID']);
+
 // tự động tạo slider nếu có
 //$post_model->the_slider($data, $taxonomy_slider, $lang_model->get_the_text('main_slider_slug', ''));
 
@@ -28,3 +31,6 @@ $base_model->adds_js([
 ], [
     'defer'
 ]);
+
+//
+$base_model->get_the_custom_html($getconfig, 'html_product_body', $data['ID']);
