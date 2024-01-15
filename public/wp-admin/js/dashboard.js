@@ -96,14 +96,19 @@ vue_data.warning_ci_version = function (a, b) {
 	}
 	return "greencolor";
 };
-vue_data.warning_session_drive = function (a) {
-	if (
-		a.split("RedisHandler").length > 1 ||
-		a.split("MemcachedHandler").length > 1
-	) {
+vue_data.warning_session_drive = function (a, b) {
+	if (a.split("RedisHandler").length > 1) {
+		if (b == "redis") {
+			return "orgcolor";
+		}
+		return "bluecolor";
+	} else if (a.split("MemcachedHandler").length > 1) {
+		if (b == "memcached") {
+			return "orgcolor";
+		}
 		return "greencolor";
 	}
-	return "bluecolor";
+	return "";
 };
 
 //

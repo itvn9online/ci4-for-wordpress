@@ -991,7 +991,7 @@ class Base extends Csdl
     /**
      * In ra mã HTML tùy chỉnh sau khi thay thế các tham số động nếu có
      **/
-    public function the_custom_html($cogs, $key, $id = '')
+    public function the_custom_html($cogs, $key, $id = '', $data = [])
     {
         $html = $cogs->$key;
         if (empty($html)) {
@@ -1009,13 +1009,20 @@ class Base extends Csdl
         foreach ($cogs as $k => $v) {
             $html = str_replace('%' . $k . '%', $v, $html);
         }
+        foreach ($data as $k => $v) {
+            if (gettype($v) == 'array') {
+                continue;
+            }
+            $html = str_replace('%' . $k . '%', $v, $html);
+        }
+        $html = str_replace('<script', '<script {csp-script-nonce}', $html);
 
         //
         $this->scache($in_cache, $html);
         return $html;
     }
-    public function get_the_custom_html($cogs, $key, $id = '')
+    public function get_the_custom_html($cogs, $key, $id = '', $data = [])
     {
-        echo $this->the_custom_html($cogs, $key, $id);
+        echo $this->the_custom_html($cogs, $key, $id, $data);
     }
 }

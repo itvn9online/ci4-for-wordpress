@@ -168,7 +168,8 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
             </div>
             <?php
 
-            // nạp các meta theo từng loại post
+            // nạp các meta theo từng loại taxonomy
+            // print_r($meta_default);
             foreach ($meta_default as $k => $v) {
                 $input_type = TaxonomyType::meta_type($k);
 

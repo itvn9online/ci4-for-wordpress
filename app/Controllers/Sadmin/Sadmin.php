@@ -318,6 +318,7 @@ class Sadmin extends Ajaxs
                 $has_cache = $this->base_model->dcache();
                 if ($has_cache === NULL) {
                     var_dump($has_cache);
+                    echo '<br>' . PHP_EOL;
 
                     // thử xóa theo từng key
                     foreach ([
@@ -335,7 +336,7 @@ class Sadmin extends Ajaxs
                     $this->option_model->clearAllOpsCache();
 
                     //
-                    $this->base_model->alert('Cache drive == Session drive! Thực hiện XÓA từng phần của cache...');
+                    $this->base_model->alert('Cache driver == Session driver! Thực hiện XÓA từng phần của cache...');
                 }
             }
 

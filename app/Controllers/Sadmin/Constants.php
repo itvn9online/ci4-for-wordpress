@@ -77,7 +77,7 @@ class Constants extends Configs
                 //$a[] = "defined('$k') || define('$k', $v);";
                 $a[] = "define('$k', $v);";
             } else {
-                // với session drive sẽ config riêng
+                // với session driver sẽ config riêng
                 if ($k == 'MY_SESSION_DRIVE') {
                     if ($v == 'FileHandler') {
                         // mặc định là sử dụng file -> không cần khai báo thêm

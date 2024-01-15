@@ -168,6 +168,10 @@ class ConfigType
                 'site_full_width' => 'Chiều rộng tối đa',
                 'main_banner_size' => 'Kích thước banner chính',
                 'second_banner_size' => 'Kích thước banner phụ',
+                'custom_css' => 'CSS tùy chỉnh (all)',
+                'custom_desktop_css' => 'CSS tùy chỉnh (desktop only)',
+                'custom_table_css' => 'CSS tùy chỉnh (table + mobile)',
+                'custom_mobile_css' => 'CSS tùy chỉnh (mobile)',
             ];
         } else if ($config_type == self::SOCIAL) {
             $arr = [
@@ -400,7 +404,7 @@ class ConfigType
                 'BASE_PROTOCOL' => 'Giao thức cơ sở',
                 'CUSTOM_MD5_HASH_CODE' => 'MD5 hash code',
                 'MY_CACHE_HANDLER' => 'Kiểu cache',
-                'MY_SESSION_DRIVE' => 'Session drive',
+                'MY_SESSION_DRIVE' => 'Session driver',
                 'CDN_BASE_URL' => 'CDN base URL',
                 'ALLOW_USING_MYSQL_DELETE' => 'Using MySQL DELETE',
                 'WGR_CSP_ENABLE' => 'CSP header',
@@ -554,6 +558,10 @@ class ConfigType
             'replace_post_content' => 'textarea',
             'robots' => 'textarea',
             //
+            'custom_css' => 'textarea',
+            'custom_desktop_css' => 'textarea',
+            'custom_table_css' => 'textarea',
+            'custom_mobile_css' => 'textarea',
             'site_max_width' => 'number',
             'site_full_width' => 'number',
             'telegram_begin_block' => 'heading',
@@ -708,6 +716,7 @@ class ConfigType
             'site_full_width' => 'Tương tự chiều rộng trang nhưng có độ rộng nhỉnh hơn chút. Chiều rộng tiêu chuẩn: 1024px - Chiều rộng phổ biến: 1666px . Sử dụng: <strong>.row-big, .w96</strong>',
             'main_banner_size' => 'Đây là kích thước dùng chung cho các banner chính, sử dụng bằng cách nhập <strong>%main_banner_size%</strong> vào mục <strong>Tùy chỉnh size ảnh</strong> trong cấu hình banner.',
             'second_banner_size' => 'Tương tự <strong>main_banner_size</strong>, đây là kích thước dùng chung cho các banner khác (nếu có), sử dụng bằng cách nhập <strong>%second_banner_size%</strong> vào mục <strong>Tùy chỉnh size ảnh</strong> trong cấu hình banner.',
+            // 'custom_css' => '',
             'smtp_host_name' => 'IP hoặc host name của server mail. Gmail SMTP: <strong>smtp.gmail.com</strong>, Pepipost SMTP: <strong>smtp.pepipost.com</strong>',
             'smtp_host_port' => 'Port nếu có. Gmail SSL port: <strong>465</strong>, Gmail TLS port: <strong>587</strong>, Pepipost port <strong>2525</strong>.',
             'smtp_host_user' => 'Email hoặc tài khoản đăng nhập. Khuyên dùng Gmail.',

@@ -142,6 +142,7 @@ if ($debug_enable === true) {
         'wp-admin/css/admin_teamplate.css',
         // admin thì luôn show debug bar rồi
         'wp-admin/css/show-debug-bar.css',
+        'wp-includes/thirdparty/highlighted-code/highlight.css',
     ]);
 
     $base_model->adds_js([
@@ -153,6 +154,7 @@ if ($debug_enable === true) {
         'wp-includes/javascript/functions_footer.js',
         THEMEPATH . 'js/functions.js',
         'wp-includes/javascript/eb.js',
+        'wp-includes/thirdparty/highlighted-code/highlight.js',
     ]);
 
     //
@@ -179,12 +181,14 @@ if ($debug_enable === true) {
     //
     include VIEWS_PATH . 'includes/head_currency.php';
     ?>
+    <script src="wp-includes/thirdparty/highlighted-code/prism.min.js"></script>
     <style>
         <?php echo $ebe_currency; ?>
     </style>
     <script type="text/javascript">
         var web_link = window.location.protocol + '//' + document.domain + '/';
         var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
+        var cdn_media_link = '<?php echo CDN_UPLOADS_URL; ?>';
     </script>
 </head>
 

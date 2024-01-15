@@ -199,6 +199,20 @@ if ($isMobile == true) {
 //
 include __DIR__ . '/head_currency.php';
 
+// thêm phầm css tùy chỉnh
+$custom_css = '';
+if ($getconfig->custom_css != '') {
+    $custom_css .= $getconfig->custom_css;
+}
+if ($getconfig->custom_desktop_css != '') {
+    $custom_css .= '@media only screen and (min-width:748px) {' . $getconfig->custom_desktop_css . '}';
+}
+if ($getconfig->custom_table_css != '') {
+    $custom_css .= '@media only screen and (max-width:788px) {' . $getconfig->custom_table_css . '}';
+}
+if ($getconfig->custom_mobile_css != '') {
+    $custom_css .= '@media only screen and (max-width:395px) {' . $getconfig->custom_mobile_css . '}';
+}
 
 // xác định kích thước khung web dựa theo config
 echo HtmlTemplate::html('custom_css.txt', [
@@ -216,7 +230,7 @@ echo HtmlTemplate::html('custom_css.txt', [
     'body_font_size' => $getconfig->body_font_size,
     'bodym_font_size' => $getconfig->bodym_font_size,
     //
-    'ebe_currency' => $ebe_currency,
+    'ebe_currency' => $ebe_currency . $custom_css,
 ]);
 
 

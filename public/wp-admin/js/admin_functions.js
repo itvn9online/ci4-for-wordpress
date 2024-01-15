@@ -132,7 +132,11 @@ function click_set_img_for_input(img_id) {
 				if (a.substr(0, 1) == "/") {
 					a = a.substr(1);
 				}
-				a = web_link + a;
+				if (cdn_media_link != "") {
+					a = cdn_media_link + a;
+				} else {
+					a = web_link + a;
+				}
 			}
 			//prompt("Image URL", a);
 			if ($("#support_copy_url_media").length > 0) {

@@ -1,4 +1,59 @@
 //
+function action_highlighted_code(for_id, for_language) {
+	let for_name = for_id.substr(1);
+	let highlighting = "highlighting" + for_name;
+	let hl_content = "highlighting-content" + for_name;
+	// gộp các thuộc tính lại để trong các hàm tiện cắt và xử lý
+	let fors_id = [for_id, highlighting, hl_content].join(",");
+
+	//
+	if (typeof for_language == "undefined" || for_language == "") {
+		for_language = "language-html";
+	}
+
+	//
+	$(for_id)
+		.attr({
+			oninput:
+				"highlight.update(this.value, '" +
+				fors_id +
+				"'); highlight.sync_scroll(this, '" +
+				fors_id +
+				"');",
+			onchange: "highlight.no_scroll('" + fors_id + "');",
+			onscroll: "highlight.sync_scroll(this, '" + fors_id + "');",
+			onkeydown: "highlight.check_tab(this, event, '" + fors_id + "');",
+			// onkeyup: "highlight.no_scroll('" + fors_id + "');",
+			// onblur: "highlight.show('" + fors_id + "')",
+			spellcheck: "false",
+		})
+		.addClass("highlight-editing")
+		// .off("change")
+		// .removeClass("fix-textarea-height")
+		.after(
+			'<pre id="' +
+				highlighting +
+				'" class="highlighting" aria-hidden="true">' +
+				'<code class="' +
+				for_language +
+				'" id="' +
+				hl_content +
+				'"></code>' +
+				"</pre>"
+		);
+
+	//
+	$(for_id).parent("div").addClass("highlight-border");
+
+	//
+	let v = $(for_id).val() || "";
+	// if (v != "") {
+	// $(for_id).trigger("change");
+	highlight.update(v, fors_id);
+	// }
+}
+
+//
 function set_configs_value(for_id, val) {
 	$(for_id).val(val);
 }

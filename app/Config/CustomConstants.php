@@ -77,16 +77,36 @@ $this_cache_num = NULL;
 $this_cache_checkbox = NULL;
 
 
+
+
+
+
+
 /**
  * Danh sách các custom taxonomy mà người dùng đăng ký sẽ được khai báo thêm ở đây
  **/
 $arr_custom_taxonomy = [];
-function register_taxonomy($name, $ops = [])
-{
-    global $arr_custom_taxonomy;
-    $arr_custom_taxonomy[$name] = $ops;
-}
 // hàm đăng ký nhiều taxonomy 1 lúc
+/* Code mẫu:
+register_taxonomys([
+    'custom_taxonomy1' => [
+        'name' => 'Custom taxonomy name',
+        // cho phép lấy nhóm cha
+        'set_parent' => true,
+        'slug' => '',
+        // mặc định public = on -> sẽ hiển thị ra ngoài
+        //'public' => 'off',
+    ],
+    'custom_taxonomy2' => [
+        'name' => 'Custom taxonomy name',
+        // cho phép lấy nhóm cha
+        'set_parent' => true,
+        'slug' => '',
+        // mặc định public = on -> sẽ hiển thị ra ngoài
+        //'public' => 'off',
+    ],
+]);
+*/
 function register_taxonomys($arrs = [])
 {
     global $arr_custom_taxonomy;
@@ -95,17 +115,68 @@ function register_taxonomys($arrs = [])
     }
 }
 
+/**
+ * Danh sách các custom taxonomy mà người dùng đăng ký sẽ được khai báo thêm ở đây
+ * Các meta đã được khai báo sẽ không bị dọn dẹp khi update meta
+ **/
+$arr_custom_taxonomy_meta = [];
+// hàm đăng ký nhiều taxonomy meta 1 lúc
+/* Code mẫu:
+register_taxonomys_meta([
+    'taxonomy' => [
+        'meta_key1' => [
+            // name: dùng để xác định tên của option
+            'name' => 'Meta name',
+            // type (không bắt buộc): xác định định dạng của meta, mặc định là text
+            'type' => 'text|number|select|textarea',
+            // ghi chú nếu có
+            'desc' => 'Description',
+        ],
+        'meta_key2' => [
+            'name' => 'Meta name'
+        ]
+    ],
+    'taxonomy2' => [
+        'meta_key1' => [
+            'name' => 'Meta name'
+        ],
+        'meta_key2' => [
+            'name' => 'Meta name'
+        ]
+    ],
+]);
+*/
+function register_taxonomys_meta($arrs = [])
+{
+    global $arr_custom_taxonomy_meta;
+    foreach ($arrs as $k => $v) {
+        $arr_custom_taxonomy_meta[$k] = $v;
+    }
+}
+
+
+
+
+
 
 /**
  * Danh sách các custom post type mà người dùng đăng ký sẽ được khai báo thêm ở đây
  **/
 $arr_custom_post_type = [];
-function register_post_type($name, $ops = [])
-{
-    global $arr_custom_post_type;
-    $arr_custom_post_type[$name] = $ops;
-}
-// hàm đăng ký nhiều post type 1 lúc
+/* Code mẫu:
+register_posts_type([
+    'custom_post_type1' => [
+        'name' => 'Custom type name',
+        // mặc định public = on -> sẽ hiển thị ra ngoài
+        //'public' => 'off',
+    ],
+    'custom_post_type2' => [
+        'name' => 'Custom type name',
+        // mặc định public = on -> sẽ hiển thị ra ngoài
+        //'public' => 'off',
+    ],
+]);
+*/
 function register_posts_type($arrs = [])
 {
     global $arr_custom_post_type;
@@ -117,15 +188,34 @@ function register_posts_type($arrs = [])
 
 /**
  * Danh sách các custom post meta mà người dùng đăng ký sẽ được khai báo thêm ở đây
- * Các meta đã được khai báo sẽ không bị dọn dẹp khi update meta
+ * Các meta đã được khai báo sẽ không bị dọn dẹp khi update metalà text
  **/
 $arr_custom_post_meta = [];
-function register_post_meta($post_type, $ops = [])
-{
-    global $arr_custom_post_meta;
-    $arr_custom_post_meta[$post_type] = $ops;
-}
-// hàm đăng ký nhiều post meta 1 lúc
+/* Code mẫu:
+register_posts_meta([
+    'custom_post_type1' => [
+        'meta_key1' => [
+            // name: dùng để xác định tên của option
+            'name' => 'Meta name',
+            // type (không bắt buộc): xác định định dạng của meta, mặc định là text
+            'type' => 'text|number|select|textarea',
+            // ghi chú nếu có
+            'desc' => 'Description',
+        ],
+        'meta_key2' => [
+            'name' => 'Custom meta name',
+        ],
+    ],
+    'custom_post_type2' => [
+        'meta_key1' => [
+            'name' => 'Danh mục',
+        ],
+        'meta_key2' => [
+            'name' => 'Custom meta name',
+        ],
+    ],
+]);
+*/
 function register_posts_meta($arrs = [])
 {
     global $arr_custom_post_meta;
@@ -135,11 +225,28 @@ function register_posts_meta($arrs = [])
 }
 
 
+
+
+
 /**
  * Danh sách các user type mà người dùng đăng ký sẽ được khai báo thêm ở đây
  * Đầu vào là dạng mảng -> đăng ký nhiều user type 1 lúc
  **/
 $arr_custom_user_type = [];
+/* Code mẫu:
+register_users_type([
+    'custom_user_type1' => [
+        'name' => 'Custom type name',
+        // Khi có tham số này -> custom type sẽ được thêm vào admin menu
+        'controller' => 'admin_controller',
+    ],
+    'custom_user_type2' => [
+        'name' => 'Custom type name',
+        // Khi có tham số này -> custom type sẽ được thêm vào admin menu
+        'controller' => 'admin_controller',
+    ],
+]);
+*/
 function register_users_type($arrs = [])
 {
     global $arr_custom_user_type;

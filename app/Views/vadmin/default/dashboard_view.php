@@ -201,7 +201,7 @@ if ($debug_enable === true) {
             của bạn. </div>
     </div>
     <!-- END OPcache -->
-    <div class="p d-inlines"><a href="sadmin/constants?support_tab=data_MY_CACHE_HANDLER" class="bold"><i class="fa fa-cog"></i> Cache drive</a> (<strong>{{cache_handler}}</strong> handler):
+    <div class="p d-inlines"><a href="sadmin/constants?support_tab=data_MY_CACHE_HANDLER" class="bold"><i class="fa fa-cog"></i> Cache driver</a> (<strong>{{cache_handler}}</strong> handler):
         <div v-if="cache_actived > 0" class="greencolor">Xin chúc mừng! Website của bạn vận hành thông qua
             <strong>Cache</strong>, điều này giúp tăng hiệu suất của website lên rất nhiều.
             <div>Bạn có thể <a href="sadmin/dashboard/cleanup_cache" class="btn btn-primary btn-mini"><i class="fa fa-magic"></i> vào đây</a> và dọn dẹp cache để website nhận dữ liệu mới nhất.</div>
@@ -227,23 +227,18 @@ if ($debug_enable === true) {
         <div class="p d-inlines"><strong>Memcached:</strong>
             <div v-if="memcached_exist > 0" class="greencolor">Xin chúc mừng, <strong>Memcached</strong> đã được cài
                 đặt!
-                <div v-if="cache_handler == 'memcached'" class="greencolor">Và Website của bạn đang sử dụng
-                    <strong>memcached</strong> làm bộ nhớ đệm.
+                <div v-if="cache_handler == 'memcached'" class="greencolor">Và Website của bạn đang sử dụng <strong>memcached</strong> làm bộ nhớ đệm.
                 </div>
-                <div v-if="cache_handler == 'file'" class="greencolor">Nếu bạn đang sử dụng hosting hoặc RAM của VPS từ
-                    2GB trở lên thì hãy chỉnh tham số <strong>MY_CACHE_HANDLER</strong> thành
-                    <strong>memcached</strong>.
+                <div v-if="cache_handler == 'file'" class="greencolor">Nếu bạn đang sử dụng hosting hoặc RAM của VPS từ 2GB trở lên thì hãy chỉnh tham số <strong>MY_CACHE_HANDLER</strong> thành <strong>memcached</strong>.
                 </div>
             </div>
             <div v-if="memcached_exist < 1">
-                <div v-if="cache_handler == 'file'" class="orgcolor">Nếu bạn đang sử dụng VPS với lượng RAM đủ lớn, hãy
-                    cài đặt thêm <strong>Memcached</strong> và config cho cache sử dụng Memcached <em>hoặc</em>
-                    <div>hosting có hỗ trợ extension <strong>Memcached</strong> thì hãy kích hoạt nó lên để tốc độ
-                        website đạt mức tốt hơn so với mặc định là sử dụng cache qua ổ cứng.</div>
+                <div>Memcached chưa được cài đặt.</div>
+                <div v-if="cache_handler == 'file'" class="orgcolor">Nếu bạn đang sử dụng VPS với lượng RAM đủ lớn, hãy cài đặt thêm <strong>Memcached</strong> và config cho cache sử dụng Memcached <em>hoặc</em>
+                    <div>hosting có hỗ trợ extension <strong>Memcached</strong> thì hãy kích hoạt nó lên để tốc độ website đạt mức tốt hơn so với mặc định là sử dụng cache qua ổ cứng.</div>
                 </div>
                 <div v-if="cache_handler != 'file'">
-                    <div v-if="cache_handler == 'memcached'" class="orgcolor">Bạn đang kích hoạt cache qua memcached,
-                        nhưng hiện tại <strong>memcached</strong> không khả dụng trên hosting của bạn.</div>
+                    <div v-if="cache_handler == 'memcached'" class="orgcolor">Bạn đang kích hoạt cache qua memcached, nhưng hiện tại <strong>memcached</strong> không khả dụng trên hosting của bạn.</div>
                     <div v-if="cache_handler != 'memcached'">
                         <!-- không cần thông báo gì ở đây nữa -->
                     </div>
@@ -252,10 +247,10 @@ if ($debug_enable === true) {
         </div>
         <!-- END Memcached -->
     </div>
-    <!-- Session drive -->
+    <!-- Session driver -->
     <div>
-        <p><a href="sadmin/constants?support_tab=data_MY_SESSION_DRIVE" class="bold"><i class="fa fa-cog"></i> Session drive:</a> <span :class="warning_session_drive(session_drive)">{{session_drive}}</span></p>
-        <p><em>* Chúng tôi khuyên dùng các Redis hoặc Memcached để lưu session, nếu VPS/ Hosting của bạn có hỗ trợ 2 driver này thì nên sử dụng nó nhằm tăng tốc độ truy vấn cho website.</em></p>
+        <p><a href="sadmin/constants?support_tab=data_MY_SESSION_DRIVE" class="bold"><i class="fa fa-cog"></i> Session driver:</a> <span :class="warning_session_drive(session_drive, cache_handler)">{{session_drive}}</span></p>
+        <p><em>* Chúng tôi khuyên dùng <strong>Redis</strong> làm Cache driver và <strong>Memcached</strong> làm Session driver. Nếu VPS/ Hosting của bạn có hỗ trợ 2 driver này thì nên sử dụng nó nhằm tăng tốc độ truy vấn cho website.</em></p>
     </div>
     <br>
     <div>

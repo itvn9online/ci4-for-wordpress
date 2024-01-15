@@ -108,7 +108,7 @@ include VIEWS_PATH . 'includes/uploads_drag_drop.php';
     ?>
 </ul>
 <div class="public-part-page"><?php echo $pagination; ?> Trên tổng số <?php echo number_format($totalThread); ?> bản ghi.</div>
-<div style="opacity: 0;">
+<div class="support_copy_url_media">
     <input id="support_copy_url_media" onclick="return click2Copy(this, true);" value="" />
 </div>
 <?php

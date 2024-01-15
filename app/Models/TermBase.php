@@ -544,7 +544,7 @@ class TermBase extends EbModel
         ];
         // print_r($arr_taxonomy_type);
 
-        // lấy custom post type
+        // lấy custom taxonomy
         foreach ($arr_custom_taxonomy as $k => $v) {
             // không tính toán cho các taxonomy được chỉ định không public
             if (isset($v['public']) && $v['public'] != 'on') {
@@ -721,6 +721,32 @@ class TermBase extends EbModel
 
         //
         return true;
+    }
+
+    /**
+     * Trả về meta của 1 taxonomy -> bao gồm cả custom meta đã được đăng ký
+     **/
+    public function taxonomy_meta_default($taxonomy)
+    {
+        global $arr_custom_taxonomy_meta;
+        // print_r($arr_custom_taxonomy_meta);
+        // die(__CLASS__ . ':' . __LINE__);
+
+        //
+        $result = TaxonomyType::meta_default($taxonomy);
+        //print_r($result);
+        if (isset($arr_custom_taxonomy_meta[$taxonomy])) {
+            $a = $arr_custom_taxonomy_meta[$taxonomy];
+            // print_r($a);
+            // die(__CLASS__ . ':' . __LINE__);
+            foreach ($a as $k => $v) {
+                $result[$k] = $v['name'];
+            }
+        }
+        //print_r($result);
+
+        //
+        return $result;
     }
 
     /**
