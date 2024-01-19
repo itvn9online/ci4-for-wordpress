@@ -71,7 +71,7 @@ class Users extends Csrf
             )
         );
         if (empty($data)) {
-            return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Không xác định được thông tin thành viên...');
+            return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Cannot be determined user info...');
         }
 
         //
@@ -110,7 +110,7 @@ class Users extends Csrf
         //
         if (isset($data['ci_pass'])) {
             if (empty($data['ci_pass'])) {
-                $this->base_model->alert('Không xác định được mật khẩu cần thay đổi', 'warning');
+                $this->base_model->alert('Cannot be determined new password', 'warning');
             }
             $this->wgr_target();
 
@@ -187,7 +187,7 @@ class Users extends Csrf
 
                 //
                 if (!is_file($file_path)) {
-                    $this->base_model->alert('Upload thất bại! Không xác định được file sau khi upload', 'error');
+                    $this->base_model->alert('Upload failed! Cannot be determined file after upload', 'error');
                 }
                 chmod($file_path, DEFAULT_FILE_PERMISSION);
 
@@ -325,7 +325,7 @@ class Users extends Csrf
 
         //
         if (empty($data_update)) {
-            $this->base_model->alert('Không xác định được thông tin cần thay đổi', 'warning');
+            $this->base_model->alert('Cannot be determined info need to change', 'warning');
         }
 
         // cập nhật thông tin mới cho user

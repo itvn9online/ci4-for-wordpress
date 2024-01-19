@@ -179,7 +179,7 @@ class Home extends Posts
         if ($result !== false) {
             return $result;
         }
-        return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Không xác định được danh mục bài viết...');
+        return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Cannot be determined post category...');
     }
 
     // hàm này sẽ tìm danh mục hoặc page theo url (tìm khi web không sử dụng prefix cho danh mục hoặc page)
@@ -325,7 +325,7 @@ class Home extends Posts
     protected function showPostDetails($id, $post_type = '', $slug = '')
     {
         //echo $id . '<br>' . PHP_EOL;
-        //echo $post_type . '<br>' . PHP_EOL;
+        // echo $post_type . '<br>' . PHP_EOL;
 
         //
         if (!is_numeric($id) || $id < 1) {
@@ -369,7 +369,7 @@ class Home extends Posts
                     'limit' => 1
                 )
             );
-            //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
             //die(__CLASS__ . ':' . __LINE__);
 
             //
@@ -389,7 +389,7 @@ class Home extends Posts
             //
             $this->post_model->the_cache($id, $in_cache, $data);
         }
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
         //print_r($data);
         //die(__CLASS__ . ':' . __LINE__);
 
@@ -412,7 +412,7 @@ class Home extends Posts
         //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
         //
-        return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Không xác định được dữ liệu bài viết...');
+        return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Cannot be determined post data...');
     }
 
     protected function pageDetail($data, $file_view = 'page_view')
@@ -511,7 +511,7 @@ class Home extends Posts
                     'limit' => 1
                 )
             );
-            //print_r( $parent_data );
+            // print_r($parent_data);
 
             //
             if (!empty($parent_data)) {
@@ -548,6 +548,17 @@ class Home extends Posts
             $seo['dynamic_schema'] = '';
         }
         $seo['dynamic_schema'] .= $structured_data;
+        // print_r($seo);
+        if (!empty($parent_data)) {
+            if (strlen($seo['title']) < 70) {
+                $seo['title'] = $seo['title'] . ' | ' . $parent_data['post_title'];
+                // print_r($seo);
+                if (strlen($seo['title']) > 70) {
+                    $seo['title'] = $this->base_model->short_string($seo['title'], 70);
+                    // print_r($seo);
+                }
+            }
+        }
 
         //
         $this->current_pid = $data['ID'];
@@ -640,7 +651,7 @@ class Home extends Posts
 
         // không có dữ liệu -> báo 404 luôn
         if (empty($data)) {
-            return $this->page404('ERROR ' . __FUNCTION__ . ':' . __LINE__ . '! Không xác định được danh mục bài viết...', $cache_key);
+            return $this->page404('ERROR ' . __FUNCTION__ . ':' . __LINE__ . '! Cannot be determined post category...', $cache_key);
         } else if ($data['count'] < 1) {
             return $this->page404('ERROR ' . __FUNCTION__ . ':' . __LINE__ . '! Không tìm thấy bài viết trong danh mục...', $cache_key);
         }
@@ -751,6 +762,6 @@ class Home extends Posts
         */
 
         //
-        return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Không xác định được định dạng bài viết...');
+        return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Cannot be determined post format...');
     }
 }

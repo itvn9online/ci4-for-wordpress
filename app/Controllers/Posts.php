@@ -53,7 +53,7 @@ class Posts extends Csrf
         //die( __CLASS__ . ':' . __LINE__ );
         if (empty($data)) {
             //print_r( $data );
-            return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Không xác định được dữ liệu bài viết...');
+            return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Cannot be determined post data...');
         }
 
         // kiểm tra quyền truy cập chi tiết 1 post

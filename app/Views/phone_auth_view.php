@@ -1,5 +1,5 @@
 <br>
-<h1 class="text-center"><?php $lang_model->the_text('firebase_title', 'Xác minh số điện thoại'); ?></h1>
+<h1 class="text-center"><?php $lang_model->the_text('firebase_title', 'Verify phone number'); ?></h1>
 <br>
 <?php
 if ($current_user_id > 0 || !empty($phone_number)) {
@@ -24,7 +24,7 @@ if ($current_user_id > 0 || !empty($phone_number)) {
                     }
                 } else {
                     ?>
-                    <div class="redcolor"><?php $lang_model->the_text('firebase_verify_phone_warning', 'Chức năng xác thực số điện thoại đang tạm ngừng!'); ?></div>
+                    <div class="redcolor"><?php $lang_model->the_text('firebase_verify_phone_warning', 'Phone number verification function is temporarily suspended!'); ?></div>
                 <?php
                 }
                 ?>

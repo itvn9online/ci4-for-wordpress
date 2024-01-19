@@ -16,7 +16,7 @@ class P extends Home
     public function custom_post_type($post_type, $id, $slug = '')
     {
         global $arr_custom_post_type;
-        //print_r($arr_custom_post_type);
+        // print_r($arr_custom_post_type);
 
         //echo $post_type . '<br>' . PHP_EOL;
         //echo $id . '<br>' . PHP_EOL;

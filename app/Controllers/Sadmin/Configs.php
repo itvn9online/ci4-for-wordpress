@@ -214,7 +214,7 @@ class Configs extends Sadmin
 
         $list_field_has_change = $this->MY_post('list_field_has_change');
         if (empty($list_field_has_change)) {
-            $this->base_model->alert('Không xác định được dữ liệu cần thay đổi #' . $option_type, 'warning');
+            $this->base_model->alert('Cannot be determined data need to change #' . $option_type, 'warning');
         }
         //echo $list_field_has_change . '<br>' . PHP_EOL;
         $list_field_has_change = json_decode($list_field_has_change);

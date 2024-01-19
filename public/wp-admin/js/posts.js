@@ -190,7 +190,7 @@ $(window).on("load", function () {
 				$(".show-if-end-function")
 					.removeClass("orgcolor")
 					.addClass("redcolor")
-					.text("Không xác định được url tiếp theo...");
+					.text("Cannot be determined next url...");
 			}
 		}, 3000);
 	}

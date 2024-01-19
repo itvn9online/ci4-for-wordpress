@@ -30,7 +30,7 @@ class Rewriterule extends Sadmin
 
             //
             if (empty($data['has_change'])) {
-                $this->base_model->alert('Không xác định được nội dung thay đổi!', 'error');
+                $this->base_model->alert('Cannot be determined content need change!', 'error');
             }
 
             // nếu ko có nội dung và file tồn tại -> xóa file

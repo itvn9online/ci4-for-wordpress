@@ -76,7 +76,7 @@ $("#data_user_email")
 		if (e.keyCode == 13) {
 			var a = $(this).val() || "";
 			if (a != "" && a.split("@").length == 1) {
-				WGR_alert("Email không đúng định dạng được hỗ trợ", "warning");
+				WGR_alert("Email format is not supported", "warning");
 				setTimeout(function () {
 					$("#data_user_email").val(a + "@" + document.domain);
 				}, 200);

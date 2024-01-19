@@ -71,12 +71,12 @@ firebase.auth().onAuthStateChanged(
 			// tự động đăng nhập
 			//console.log(localStorage.getItem("firebase_auto_login"));
 			if (localStorage.getItem("firebase_auto_login") !== null) {
-				WGR_alert("Tự động đăng nhập sau 5 giây...");
+				WGR_alert("Auto login after 5 seconds...");
 				firebase_recommend_login = setTimeout(function () {
 					if (localStorage.getItem("firebase_auto_login") !== null) {
 						continueSignIn();
 					} else {
-						WGR_alert("Tự động đăng bị hủy bỏ!", "warning");
+						WGR_alert("Auto login has been canceled!", "warning");
 					}
 				}, 5000);
 			}

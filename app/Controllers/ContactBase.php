@@ -170,7 +170,7 @@ class ContactBase extends Home
 
             //
             if ($has_data === false) {
-                $this->base_model->msg_error_session('Không xác định được dữ liệu gửi đi', $this->form_target);
+                $this->base_model->msg_error_session('Cannot be determined data', $this->form_target);
                 return $this->done_action_login();
             }
         }

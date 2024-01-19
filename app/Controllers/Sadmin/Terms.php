@@ -660,7 +660,7 @@ class Terms extends Sadmin
 
         //
         if (empty($data['term_id'])) {
-            $this->base_model->alert('Không xác định được ID nhóm cha!', 'error');
+            $this->base_model->alert('Cannot be determined parent ID!', 'error');
         }
 
         //
@@ -1083,7 +1083,7 @@ class Terms extends Sadmin
         );
         //print_r($data);
         if (empty($data)) {
-            $this->base_model->alert('Không xác định được danh mục cần cập nhật!', 'warning');
+            $this->base_model->alert('Cannot be determined category need update!', 'warning');
         }
         if ($data['term_status'] == TaxonomyType::VISIBLE) {
             $data['term_status'] = TaxonomyType::HIDDEN;

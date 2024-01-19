@@ -79,7 +79,7 @@ class Accelerated extends Layout
         // die(__CLASS__ . ':' . __LINE__);
         if (empty($data)) {
             // print_r($data);
-            return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Không xác định được dữ liệu bài viết...');
+            return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Cannot be determined post data...');
         }
 
         //
@@ -417,7 +417,7 @@ class Accelerated extends Layout
         // die(__CLASS__ . ':' . __LINE__);
         if (empty($data)) {
             // print_r($data);
-            return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Không xác định được dữ liệu danh mục...');
+            return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Cannot be determined category data...');
         }
 
         // lấy cả bài của nhóm con
@@ -479,7 +479,7 @@ class Accelerated extends Layout
         // die(__CLASS__ . ':' . __LINE__);
         if (empty($post_data)) {
             // print_r($post_data);
-            return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Không xác định được chi tiết bài viết...');
+            return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Cannot be determined post details...');
         }
         $post_data = $this->post_model->list_meta_post($post_data);
         // print_r($post_data);

@@ -182,7 +182,7 @@ class Guest extends Csrf
                     }
                 }
             } else {
-                $this->base_model->alert('Không xác định được nonce', 'error');
+                $this->base_model->alert('Cannot be determined nonce', 'error');
                 //die(__CLASS__ . ':' . __LINE__);
             }
         }
@@ -192,7 +192,10 @@ class Guest extends Csrf
             'login_view',
             array(
                 //'option_model' => $this->option_model,
-                'seo' => $this->guest_seo('Đăng nhập', __FUNCTION__),
+                'seo' => $this->guest_seo(
+                    $this->lang_model->get_the_text('login_label', 'Đăng nhập'),
+                    __FUNCTION__
+                ),
                 'breadcrumb' => '',
                 'login_redirect' => $this->loginRedirect(),
                 //'cateByLang' => $cateByLang,
@@ -321,7 +324,10 @@ class Guest extends Csrf
             $this->teamplate['main'] = view(
                 'register_disable_view',
                 array(
-                    'seo' => $this->guest_seo('Website tạm dừng việc đăng ký tài khoản mới', __FUNCTION__),
+                    'seo' => $this->guest_seo(
+                        $this->lang_model->get_the_text('register_disable_label', 'Website tạm dừng việc đăng ký tài khoản mới'),
+                        __FUNCTION__
+                    ),
                     'breadcrumb' => '',
                     //'cateByLang' => $cateByLang,
                     //'serviceByLang' => $serviceByLang,
@@ -423,7 +429,10 @@ class Guest extends Csrf
         $this->teamplate['main'] = view(
             'register_view',
             array(
-                'seo' => $this->guest_seo('Đăng ký tài khoản mới', __FUNCTION__),
+                'seo' => $this->guest_seo(
+                    $this->lang_model->get_the_text('register_label', 'Đăng ký tài khoản mới'),
+                    __FUNCTION__
+                ),
                 'breadcrumb' => '',
                 //'cateByLang' => $cateByLang,
                 //'serviceByLang' => $serviceByLang,
@@ -541,7 +550,10 @@ class Guest extends Csrf
         $this->teamplate['main'] = view(
             'resetpass_view',
             array(
-                'seo' => $this->guest_seo('Lấy lại mật khẩu', __FUNCTION__),
+                'seo' => $this->guest_seo(
+                    $this->lang_model->get_the_text('resetpass_label', 'Lấy lại mật khẩu'),
+                    __FUNCTION__
+                ),
                 'breadcrumb' => '',
                 //'cateByLang' => $cateByLang,
                 //'serviceByLang' => $serviceByLang,
@@ -624,7 +636,7 @@ class Guest extends Csrf
 
                         //
                         if (empty($data)) {
-                            $this->base_model->msg_error_session('Không xác định được thông tin tài khoản của bạn!');
+                            $this->base_model->msg_error_session('Cannot be determined your account info!');
                         } else {
                             $data = $this->sync_login_data($data);
                             //print_r( $data );
@@ -655,7 +667,10 @@ class Guest extends Csrf
         $this->teamplate['main'] = view(
             'login_view',
             array(
-                'seo' => $this->guest_seo('Khởi tạo lại mật khẩu', __FUNCTION__),
+                'seo' => $this->guest_seo(
+                    $this->lang_model->get_the_text('resetpass_new_label', 'Khởi tạo lại mật khẩu'),
+                    __FUNCTION__
+                ),
                 'breadcrumb' => '',
                 'login_redirect' => $this->loginRedirect(),
                 'set_login' => $this->MY_get('set_login'),
@@ -780,7 +795,7 @@ class Guest extends Csrf
 
                         //
                         if (empty($data)) {
-                            $this->base_model->msg_error_session('Không xác định được thông tin tài khoản của bạn!');
+                            $this->base_model->msg_error_session('Cannot be determined your account info!');
                         } else {
                             $data = $this->sync_login_data($data);
                             //print_r( $data );
@@ -811,7 +826,10 @@ class Guest extends Csrf
         $this->teamplate['main'] = view(
             'login_view',
             array(
-                'seo' => $this->guest_seo('Thay đổi email đăng nhập', __FUNCTION__),
+                'seo' => $this->guest_seo(
+                    $this->lang_model->get_the_text('change_login_email_label', 'Thay đổi email đăng nhập'),
+                    __FUNCTION__
+                ),
                 'breadcrumb' => '',
                 'login_redirect' => $this->loginRedirect(),
                 'set_login' => $this->MY_get('set_login'),

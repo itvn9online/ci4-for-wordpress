@@ -36,7 +36,7 @@
 // hiển thị bài cùng nhóm nếu có
 if (!empty($same_cat_data)) {
 ?>
-    <div class="text-center other-<?php echo $data['post_type']; ?>-title global-module-title"><?php $lang_model->the_text('same_post_title', 'Bài viết tương tự'); ?></div>
+    <div class="text-center other-<?php echo $data['post_type']; ?>-title global-module-title"><?php $lang_model->the_text('same_post_title', 'Other post'); ?></div>
     <div id="<?php echo $data['post_type']; ?>_same_cat" class="posts-list other-posts-list <?php $option_model->post_in_line($getconfig); ?>">
         <?php
 

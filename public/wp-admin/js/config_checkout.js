@@ -24,7 +24,7 @@ function add_period__price() {
 function remove_period__price(i) {
 	//
 	if (typeof checkout_config.period_price[i] == "undefined") {
-		WGR_alert("Không xác định được thuộc tính #" + i, "error");
+		WGR_alert("Cannot be determined properties #" + i, "error");
 		return false;
 	}
 	// nếu mảng có giá trị -> hiển thị cảnh báo trước khi xóa

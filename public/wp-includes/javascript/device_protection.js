@@ -53,7 +53,7 @@
 			//
 			setTimeout(function () {
 				if ($("#warningLoggedModal").length < 1) {
-					console.log("Không xác định được modal: Logged");
+					console.log("Cannot be determined modal: Logged");
 				}
 				_run();
 			}, max_time * 1000);
@@ -103,7 +103,7 @@
 				}
 				// không có hash
 				else if (typeof data.hash == "undefined") {
-					WGR_alert("Không xác định được phiên đăng nhập", "error");
+					WGR_alert("Cannot be determined login session", "error");
 				}
 				// nếu hash null -> đã hết phiên
 				else if (!data.hash) {

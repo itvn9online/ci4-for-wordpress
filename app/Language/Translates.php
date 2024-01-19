@@ -8,14 +8,14 @@ namespace App\Language;
 
 class Translates
 {
-    const PASSWORD = 'Mật khẩu';
-    const USERNAME = 'Tài khoản';
-    const FULLNAME = 'Họ và tên';
-    const TITLE = 'Tiêu đề';
-    const CONTENT = 'Nội dung';
+    const PASSWORD = 'Password';
+    const USERNAME = 'Account';
+    const FULLNAME = 'Full name';
+    const TITLE = 'Title';
+    const CONTENT = 'Content';
 
-    const REQUIRED = 'Không xác định được {field} bạn đã nhập!';
-    const MIN_LENGTH = '{field} quá ngắn!';
-    const MAX_LENGTH = '{field} quá dài!';
-    const VALID_EMAIL = '{field} không đúng định dạng được hỗ trợ!';
+    const REQUIRED = 'Cannot be determined {field} you entered!';
+    const MIN_LENGTH = '{field} too short!';
+    const MAX_LENGTH = '{field} too long!';
+    const VALID_EMAIL = '{field} format is not supported!';
 }

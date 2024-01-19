@@ -1089,7 +1089,7 @@ class Layout extends Sync
         else if ($data['post_status'] != PostType::PUBLICITY) {
             // kiểm tra xem nếu không phải admin thì không cho xem
             if (empty($this->session_data) || !isset($this->session_data['userLevel']) || $this->session_data['userLevel'] < 1) {
-                return 'ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Không xác định được dữ liệu bài viết...';
+                return 'ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Cannot be determined post data...';
             }
         }
 

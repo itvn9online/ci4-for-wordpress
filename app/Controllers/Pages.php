@@ -40,6 +40,6 @@ class Pages extends Home
         }
 
         //
-        return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Không xác định được trang tĩnh...');
+        return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Cannot be determined page...');
     }
 }

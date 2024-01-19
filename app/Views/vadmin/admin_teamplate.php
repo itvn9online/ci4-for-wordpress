@@ -196,11 +196,11 @@ if ($debug_enable === true) {
     <!--Header-part-->
     <div id="admin-header" class="cf whitecolor awhitecolor">
         <div class="lf f33">
-            <div class="d-inline"><a href="<?php echo CUSTOM_ADMIN_URI; ?>"><i class="fa fa-cog"></i> <?php $lang_model->the_text('admin_quan_tri_he_thong', 'Quản trị hệ thống'); ?></a></div>
+            <div class="d-inline"><i class="fa fa-cog"></i> <a href="<?php echo CUSTOM_ADMIN_URI; ?>" class="lang-admin_quan_tri_he_thong">System admin</a></div>
             &nbsp; | &nbsp;
-            <div class="d-inline"><a href="./"><i class="fa fa-home"></i> <?php $lang_model->the_text('admin_ve_trang_chu', 'Về trang chủ'); ?></a></div>
+            <div class="d-inline"><i class="fa fa-home"></i> <a href="./" class="lang-admin_ve_trang_chu">Back to home</a></div>
             &nbsp; | &nbsp;
-            <div class="d-inline"><?php $lang_model->the_text('admin_ngon_ngu', 'Ngôn ngữ'); ?>:
+            <div class="d-inline"><span class="lang-admin_ngon_ngu">Language</span>:
                 <select data-select="<?php echo $html_lang; ?>" id="admin-change-language">
                 </select>
             </div>
@@ -217,11 +217,11 @@ if ($debug_enable === true) {
                 </div>
             </div>
         </div>
-        <div class="lf f33 text-right"><?php $lang_model->the_text('admin_xin_chao', 'Xin chào'); ?>: <a title="<?php $lang_model->the_text('admin_thong_tin_ca_nhan', 'Thông tin cá nhân'); ?>" href="users/profile">
+        <div class="lf f33 text-right"><span class="lang-admin_xin_chao">Hello</span>: <a title="<?php $lang_model->the_text('admin_thong_tin_ca_nhan', 'Thông tin cá nhân'); ?>" href="users/profile">
                 <?php
                 echo ($session_data['display_name'] != '' ? $session_data['display_name'] : $session_data['user_login']);
                 ?>
-            </a> &nbsp; | &nbsp; <a title="<?php $lang_model->the_text('admin_dang_xuat', 'Đăng xuất'); ?>" data-bs-toggle="modal" data-bs-target="#logoutModal" href="javascript:;"><i class="fa fa-sign-out"></i> <?php $lang_model->the_text('admin_dang_xuat', 'Đăng xuất'); ?></a></div>
+            </a> &nbsp; | &nbsp; <i class="fa fa-sign-out"></i> <a title="<?php $lang_model->the_text('admin_dang_xuat', 'Đăng xuất'); ?>" data-bs-toggle="modal" data-bs-target="#logoutModal" href="javascript:;" class="lang-admin_dang_xuat">Logout</a></div>
     </div>
     <!--close-Header-part-->
     <!--top-Header-menu-->
@@ -303,6 +303,15 @@ if ($debug_enable === true) {
     </div>
     <!-- END Modal -->
     <iframe id="target_eb_iframe" name="target_eb_iframe" title="EB iframe" src="about:blank" width="99%" height="550" frameborder="0">AJAX form</iframe>
+    <?php
+
+    // cuối cùng là nạp module ngôn ngữ
+    $base_model->adds_js([
+        'wp-admin/langs/' . $html_lang . '.js',
+        'wp-admin/js/admin_lang.js',
+    ]);
+
+    ?>
 </body>
 
 </html>

@@ -49,7 +49,7 @@ class Firebase2s extends Firebases
         if (!isset($_SERVER['HTTP_REFERER']) || empty($_SERVER['HTTP_REFERER'])) {
             $this->result_json_type([
                 'code' => __LINE__,
-                'error' => $this->firebaseLang('referer', 'Không xác định được referer!'),
+                'error' => $this->firebaseLang('referer', 'Cannot be determined referer!'),
             ]);
         }
         $referer = explode('//', $_SERVER['HTTP_REFERER']);
@@ -65,7 +65,7 @@ class Firebase2s extends Firebases
         if ($referer != $_SERVER['HTTP_HOST']) {
             $this->result_json_type([
                 'code' => __LINE__,
-                'error' => $this->firebaseLang('referer_host', 'Referer không phù hợp'),
+                'error' => $this->firebaseLang('referer_host', 'Referer not suitable!'),
             ]);
         }
         //$this->result_json_type([$referer]);
@@ -112,25 +112,25 @@ class Firebase2s extends Firebases
             $this->result_json_type([
                 'code' => __LINE__,
                 'auto_logout' => __LINE__,
-                'error' => $this->firebaseLang('cache_token', 'Lỗi xác minh danh tính! Vui lòng thử lại...'),
+                'error' => $this->firebaseLang('cache_token', 'Identity verification error! Please try again...'),
             ]);
         }
 
         //
         $this->checkConfigParams($this->MY_post('project_id'), [
             'code' => __LINE__,
-            'error' => $this->firebaseLang('project_id', 'project_id không phù hợp!'),
+            'error' => $this->firebaseLang('project_id', 'project_id not suitable!'),
         ]);
 
         // apikey phải tồn tại trong config thì mới cho tiếp tục
         $this->checkConfigParams($this->MY_post('apikey'), [
             'code' => __LINE__,
-            'error' => $this->firebaseLang('apikey', 'apikey không phù hợp'),
+            'error' => $this->firebaseLang('apikey', 'apikey not suitable!'),
         ]);
         // apiurl phải tồn tại trong config thì mới cho tiếp tục
         $this->checkConfigParams($this->MY_post('apiurl'), [
             'code' => __LINE__,
-            'error' => $this->firebaseLang('apiurl', 'apiurl không phù hợp'),
+            'error' => $this->firebaseLang('apiurl', 'apiurl not suitable!'),
         ]);
 
         //$this->result_json_type($_POST);
@@ -156,7 +156,7 @@ class Firebase2s extends Firebases
             $this->result_json_type([
                 'code' => __LINE__,
                 'auto_logout' => __LINE__,
-                'error' => $this->firebaseLang('email_or_phone', 'Không xác định được Email hoặc Số điện thoại'),
+                'error' => $this->firebaseLang('email_or_phone', 'Cannot be determined Email or Phone number'),
             ]);
         }
 
@@ -412,7 +412,7 @@ class Firebase2s extends Firebases
         } else {
             $this->result_json_type([
                 'code' => __LINE__,
-                'error' => $this->firebaseLang('error_email', 'Hệ thống email đang lỗi, vui lòng báo với quản trị viên'),
+                'error' => $this->firebaseLang('error_email', 'The email system is having an error, please notify the administrator'),
             ]);
         }
     }
@@ -487,7 +487,7 @@ class Firebase2s extends Firebases
                 'code' => __LINE__,
                 'reload' => __LINE__,
                 'auto_logout' => __LINE__,
-                'error' => $this->firebaseLang('access_token', 'access_token không phù hợp'),
+                'error' => $this->firebaseLang('access_token', 'access_token not suitable!'),
             ]);
         }
 
@@ -501,7 +501,7 @@ class Firebase2s extends Firebases
         if (empty($ut) || $this->base_model->mdnam($expires_token . $this->base_model->MY_sessid()) != $ut) {
             $this->result_json_type([
                 'code' => __LINE__,
-                'error' => $this->firebaseLang('user_token', 'user_token không phù hợp'),
+                'error' => $this->firebaseLang('user_token', 'user_token not suitable!'),
             ]);
         }
     }
@@ -591,7 +591,7 @@ class Firebase2s extends Firebases
         } else if (!isset($decoded['user_id'])) {
             $this->result_json_type([
                 'code' => __LINE__,
-                'error' => $this->firebaseLang('user_id_isset', 'Không xác định được user_id'),
+                'error' => $this->firebaseLang('user_id_isset', 'Cannot be determined user_id'),
             ]);
         }
 

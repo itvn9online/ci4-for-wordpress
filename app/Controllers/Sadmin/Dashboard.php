@@ -401,7 +401,7 @@ class Dashboard extends Optimize
         echo 'Copy backup theme: ' . $file_path . '<br>' . PHP_EOL;
         $this->MY_copy(WRITEPATH . THEMENAME . '.zip', $file_path);
         if (!is_file($file_path)) {
-            $this->base_model->alert('Copy backup theme thất bại! Không xác định được file sau khi upload', 'error');
+            $this->base_model->alert('Copy backup theme failed! Cannot be determined file after upload', 'error');
         }
 
         // giải nén sau khi upload
@@ -547,7 +547,7 @@ class Dashboard extends Optimize
 
                 //
                 if (!is_file($file_path)) {
-                    $this->base_model->alert('Upload thất bại! Không xác định được file sau khi upload', 'error');
+                    $this->base_model->alert('Upload failed! Cannot be determined file after upload', 'error');
                 }
                 chmod($file_path, DEFAULT_FILE_PERMISSION);
 
@@ -824,7 +824,7 @@ class Dashboard extends Optimize
             // đồng bộ lại thirdparty và database
             $this->vendor_sync(false);
         } else {
-            $this->base_model->alert('Download thất bại! Không xác định được file sau khi download', 'error');
+            $this->base_model->alert('Download failed! Cannot be determined file after download', 'error');
         }
         //die( $file_path );
 
@@ -1275,7 +1275,7 @@ class Dashboard extends Optimize
         $data = $this->MY_post('data', $default_key);
 
         if (empty($data) || strlen($data) < 4) {
-            $this->base_model->alert('Từ khóa khớp dữ liệu quá ngắn', 'error');
+            $this->base_model->alert('Từ khóa khớp dữ liệu too short', 'error');
         }
 
         //

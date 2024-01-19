@@ -18,7 +18,7 @@ function auto_submit_update_code() {
 
 	//
 	if (fullPath == "") {
-		WGR_alert("Không xác định được file upload", "error");
+		WGR_alert("Cannot be determined file upload", "error");
 		return false;
 	}
 

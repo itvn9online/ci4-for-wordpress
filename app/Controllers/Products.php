@@ -57,6 +57,6 @@ class Products extends Posts
         }
 
         //
-        return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Không xác định được danh mục sản phẩm...');
+        return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Cannot be determined post category...');
     }
 }

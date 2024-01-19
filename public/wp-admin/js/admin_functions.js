@@ -210,7 +210,7 @@ function click_set_img_for_input(img_id) {
 		if (data_src == "") {
 			data_src = img.data("thumbnail") || "";
 			if (data_src == "") {
-				alert("Không xác định được URL của ảnh!");
+				alert("Cannot be determined image URL!");
 				return false;
 			}
 		}
@@ -647,7 +647,7 @@ function cleanup_attr_in_editer(for_id, rm_attr) {
 	for_id = "#" + for_id + "_ifr";
 	console.log(for_id);
 	if ($(for_id).length < 1) {
-		WGR_alert("Không xác định được iframe ID " + for_id, "error");
+		WGR_alert("Cannot be determined iframe ID " + for_id, "error");
 		return false;
 	}
 

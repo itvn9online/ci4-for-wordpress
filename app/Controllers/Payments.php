@@ -27,7 +27,7 @@ class Payments extends Layout
         if ($this->current_user_id < 1) {
             $this->result_json_type([
                 'code' => __CLASS__ . ':' . __LINE__,
-                'error' => 'Không xác định được thông tin tài khoản'
+                'error' => 'Cannot be determined account info'
             ]);
         }
 
@@ -37,7 +37,7 @@ class Payments extends Layout
         if ($order_id < 1) {
             $this->result_json_type([
                 'code' => __CLASS__ . ':' . __LINE__,
-                'error' => 'Không xác định được thông tin đơn hàng'
+                'error' => 'Cannot be determined order info'
             ]);
         }
 

@@ -1022,7 +1022,7 @@ class Posts extends Sadmin
 
         //
         if (empty($data)) {
-            $this->base_model->alert('Không xác định được bản ghi cần XÓA', 'error');
+            $this->base_model->alert('Cannot be determined record need DELETE', 'error');
         }
         return $data;
     }

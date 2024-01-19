@@ -43,7 +43,8 @@ include VIEWS_PATH . 'default/login_header.php';
                         <div class="cf">
                             <div class="lf f62">
                                 <label>
-                                    <input type="checkbox" name="rememberme" id="firebase_auto_login" value="30" /> Tự động đăng nhập lần sau
+                                    <input type="checkbox" name="rememberme" id="firebase_auto_login" value="30" />
+                                    <?php $lang_model->the_text('login_rememberme_label', 'Remember password'); ?>
                                 </label>
                             </div>
                             <div class="lf f38 text-right">
@@ -57,11 +58,11 @@ include VIEWS_PATH . 'default/login_header.php';
                     // chỉ hiển thị link đăng ký khi được phép
                     if ($getconfig->disable_register_member != 'on') {
                     ?>
-                        <a href="./guest/register">Đăng ký tài khoản mới</a> |
+                        <a href="./guest/register"><?php $lang_model->the_text('register_account_label', 'Register new account'); ?></a> |
                     <?php
                     }
                     ?>
-                    <a href="./guest/resetpass"> Bạn quên mật khẩu? </a>
+                    <a href="./guest/resetpass"><?php $lang_model->the_text('forgot_password_label', 'Forgot password?'); ?></a>
                 </div>
             </div>
         <?php
@@ -73,7 +74,7 @@ include VIEWS_PATH . 'default/login_header.php';
             ?>
         </div>
     </div>
-    <p id="backtoblog" class="text-center"> <a href="<?php echo base_url(); ?>">&larr; Quay lại Trang chủ</a> </p>
+    <p id="backtoblog" class="text-center"> <a href="<?php echo base_url(); ?>">&larr; <?php $lang_model->the_text('login_to_home', 'Back to homepage'); ?></a> </p>
 </div>
 <br>
 <br>

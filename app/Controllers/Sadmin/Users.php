@@ -613,7 +613,7 @@ class Users extends Sadmin
     protected function before_delete_restore($msg, $is_deleted)
     {
         if ($this->current_user_id < 1) {
-            $this->base_model->alert('Không xác định được ID của bạn!', 'error');
+            $this->base_model->alert('Cannot be determined your ID!', 'error');
         }
 
         //
@@ -927,7 +927,7 @@ class Users extends Sadmin
     public function login_as()
     {
         if ($this->current_user_id < 1) {
-            $this->base_model->alert('Không xác định được ID của bạn!', 'error');
+            $this->base_model->alert('Cannot be determined your ID!', 'error');
         }
 
         //
@@ -961,7 +961,7 @@ class Users extends Sadmin
 
         //
         if (empty($data)) {
-            $this->base_model->alert('Không xác định được tài khoản cần đăng nhập! ' . __FUNCTION__, 'error');
+            $this->base_model->alert('Cannot be determined account need login! ' . __FUNCTION__, 'error');
         }
 
         //
