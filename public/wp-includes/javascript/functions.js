@@ -17,10 +17,61 @@ var bg_load = "Loading...",
 	sb_submit_cart_disabled = 0,
 	ebe_arr_cart_product_list = [],
 	ebe_arr_cart_customer_info = [],
-	arr_ti_le_global = {};
-
-var global_window_width = jQuery(window).width(),
+	arr_ti_le_global = {},
+	// tiền tệ mặc định
+	currency_fraction_digits = 2,
+	currency_locales_format = "",
+	currency_sd_format = "USD",
+	//
+	global_window_width = jQuery(window).width(),
 	web_link = window.location.protocol + "//" + document.domain + "/";
+
+// config mặc định
+if (typeof WGR_config != "undefined") {
+	if (
+		typeof WGR_config.currency_fraction_digits != "undefined" &&
+		WGR_config.currency_fraction_digits != ""
+	) {
+		currency_fraction_digits = WGR_config.currency_fraction_digits * 1;
+		// console.log("currency fraction digits", currency_fraction_digits);
+	}
+
+	//
+	if (typeof WGR_config.currency_locales_format != "undefined") {
+		currency_locales_format = WGR_config.currency_locales_format;
+	}
+
+	//
+	if (
+		typeof WGR_config.currency_sd_format != "undefined" &&
+		WGR_config.currency_sd_format != ""
+	) {
+		currency_sd_format = WGR_config.currency_sd_format.toUpperCase();
+	}
+}
+// console.log("currency fraction digits", currency_fraction_digits);
+
+// định dạng số -> tương tự number_format trong php
+var numFormatter = new Intl.NumberFormat();
+
+// định dạng tiền tệ
+var moneyFormatter = numFormatter;
+// nếu có định dạng tiền tệ bằng javascript
+if (currency_locales_format != "") {
+	moneyFormatter = new Intl.NumberFormat(
+		currency_locales_format.replaceAll("_", "-").toLowerCase(),
+		{
+			style: "currency",
+			currency: currency_sd_format,
+			minimumFractionDigits: currency_fraction_digits,
+		}
+	);
+} else if (currency_fraction_digits > 0) {
+	// không có thì mặc định là en-US
+	moneyFormatter = new Intl.NumberFormat("en-US", {
+		minimumFractionDigits: currency_fraction_digits,
+	});
+}
 
 function WGR_html_alert(m, lnk) {
 	return WGR_alert(m, lnk);
@@ -299,14 +350,14 @@ var g_func = {
 		}
 		// mặc định chỉ lấy số
 		if (typeof format == "string" && format != "") {
-			//			console.log(format);
+			// console.log(format);
 			str = str.toString().replace(eval(format), "");
 
 			if (str == "") {
 				return 0;
 			}
 
-			//			return str;
+			// return str;
 			return str * 1;
 		} else {
 			str = str.toString().replace(/[^0-9\-\+]/g, "");
@@ -315,7 +366,7 @@ var g_func = {
 				return 0;
 			}
 
-			//			return parseInt( str, 10 );
+			// return parseInt( str, 10 );
 			return str * 1;
 		}
 	},
@@ -327,65 +378,20 @@ var g_func = {
 	},
 	money_format: function (str) {
 		// loại bỏ số 0 ở đầu chuỗi số
-		str = str.toString().replace(/\,/g, "").split(".");
-		//		str[0] = parseInt( str[0], 10 );
-		str[0] = str[0] * 1;
+		str = str.toString().replace(/\,/g, "") * 1;
+		// console.log(str);
 
 		// chuyển sang định dạng tiền tệ
-		return g_func.formatCurrency(str.join("."), ",", 2);
+		// console.log(str);
+		str = moneyFormatter.format(str);
+		// console.log(str);
+		return str;
 	},
 	number_format: function (str) {
-		return g_func.formatCurrency(str);
+		return numFormatter.format(str);
 	},
-	formatV2Currency: function (number, decimals, dec_point, thousands_sep) {
-		// Strip all characters but numerical ones.
-		number = (number + "").replace(/[^0-9+\-Ee.]/g, "");
-		let n = !isFinite(+number) ? 0 : +number,
-			prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-			sep = typeof thousands_sep === "undefined" ? "," : thousands_sep,
-			dec = typeof dec_point === "undefined" ? "." : dec_point,
-			s = "",
-			toFixedFix = function (n, prec) {
-				let k = Math.pow(10, prec);
-				return "" + Math.round(n * k) / k;
-			};
-		// Fix for IE parseFloat(0.55).toFixed(0) = 0;
-		s = (prec ? toFixedFix(n, prec) : "" + Math.round(n)).split(".");
-		if (s[0].length > 3) {
-			s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
-		}
-		if ((s[1] || "").length < prec) {
-			s[1] = s[1] || "";
-			s[1] += new Array(prec - s[1].length + 1).join("0");
-		}
-		//console.log(s);
-		// bỏ đoạn sau dấu dec nếu nó là 2 số 0 trở lên
-		return s.join(dec).split(dec + "00")[0];
-	},
-	formatCurrency: function (num, dot, num_thap_phan) {
-		if (typeof num == "undefined" || num == "") {
-			return 0;
-		}
-
-		//
-		if (typeof dot == "undefined" || dot == "") {
-			dot = ",";
-		}
-		//console.log( 'dot: ' + dot );
-		let dec_point = ".";
-		if (dot != ",") {
-			dec_point = ",";
-		}
-		//console.log( 'dec_point: ' + dec_point );
-		if (typeof num_thap_phan == "undefined" || num_thap_phan == "") {
-			num_thap_phan = 0;
-		}
-		//console.log( 'num_thap_phan: ' + num_thap_phan );
-
-		/*
-		 * v3
-		 */
-		return g_func.formatV2Currency(num, num_thap_phan, dec_point, dot);
+	formatCurrency: function (num) {
+		return g_func.money_format(num);
 	},
 
 	wh: function () {},
@@ -1003,7 +1009,10 @@ function WGR_vuejs(app_id, obj, _callBack, max_i) {
 			.substr(0, len);
 	};
 	obj.number_format = function (n) {
-		return new Intl.NumberFormat().format(n);
+		return g_func.number_format(n);
+	};
+	obj.money_format = function (n) {
+		return g_func.money_format(n);
 	};
 
 	//

@@ -173,7 +173,11 @@ if ($debug_enable === true) {
         'WGR_config' => [
             'cf_tester_mode' => ($debug_enable === true) ? 1 : 0,
             'current_user_id' => $current_user_id * 1,
-            'pagination_display_1' => $lang_model->get_the_text('pagination_display_1', 'Đang hiển thị trang'),
+            'currency_big_format' => $getconfig->currency_big_format,
+            'currency_fraction_digits' => $getconfig->currency_fraction_digits,
+            'currency_locales_format' => $getconfig->currency_locales_format,
+            'currency_sd_format' => $getconfig->currency_sd_format,
+            'pagination_display_1' => $lang_model->get_the_text('pagination_display_1', 'Showing page'),
         ],
     ]);
 
@@ -217,7 +221,7 @@ if ($debug_enable === true) {
                 </div>
             </div>
         </div>
-        <div class="lf f33 text-right"><span class="lang-admin_xin_chao">Hello</span>: <a title="<?php $lang_model->the_text('admin_thong_tin_ca_nhan', 'Thông tin cá nhân'); ?>" href="users/profile">
+        <div class="lf f33 text-right"><span class="lang-admin_xin_chao">Howdy</span>, <a title="<?php $lang_model->the_text('admin_thong_tin_ca_nhan', 'Thông tin cá nhân'); ?>" href="users/profile">
                 <?php
                 echo ($session_data['display_name'] != '' ? $session_data['display_name'] : $session_data['user_login']);
                 ?>

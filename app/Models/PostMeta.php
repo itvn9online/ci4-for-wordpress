@@ -154,6 +154,17 @@ class PostMeta extends PostBase
             }
         }
 
+        // giá tiền quy về dạng số
+        foreach ([
+            '_regular_price',
+            '_sale_price',
+            '_price',
+        ] as $v) {
+            if (isset($meta_data[$v]) && trim($meta_data[$v]) != '') {
+                $meta_data[$v] = trim(str_replace(',', '', $meta_data[$v])) * 1;
+            }
+        }
+
         //
         if (!empty($term_relationships)) {
             $term_relationships = array_unique($term_relationships);

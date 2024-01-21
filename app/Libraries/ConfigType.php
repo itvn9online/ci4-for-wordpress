@@ -154,7 +154,7 @@ class ConfigType
                 'enable_device_protection' => 'Device logged protection',
                 'logout_device_protection' => 'Device logout protection',
                 'block_device_protection' => 'Device block protection',
-                'disable_register_member' => 'Dừng đăng ký tài khoản mới',
+                'disable_register_member' => 'Disable register new account',
             ];
         } else if ($config_type == self::DISPLAY) {
             $arr = [
@@ -277,8 +277,11 @@ class ConfigType
                 // định dạng tiền tệ
                 'currency_format' => 'Đơn vị tiền tệ',
                 'currency_sd_format' => 'Cấu trúc tiền tệ',
-                'currency_before_format' => 'Tiền tệ ở phía trước',
+                'currency_after_format' => 'Tiền tệ ở phía sau',
+                'currency_locales_format' => 'Locales format',
                 'currency_big_format' => 'Chuyển đổi đơn vị tiền tệ',
+                'currency_fraction_digits' => 'Minimum fraction digits',
+                'shipping_fee' => 'Shipping fee',
             ];
         } else if ($config_type == self::PROD) {
             $arr = [
@@ -541,8 +544,11 @@ class ConfigType
             'max_child_products' => 'number',
             'currency_format' => 'select',
             // 'currency_sd_format' => '',
-            'currency_before_format' => 'checkbox',
+            'currency_after_format' => 'checkbox',
+            // 'currency_locales_format' => '',
             'currency_big_format' => 'checkbox',
+            'currency_fraction_digits' => 'number',
+            'shipping_fee' => 'number',
             'logo_main_height' => 'number',
             'logo_width_img' => 'number',
             'logo_height_img' => 'number',
@@ -659,9 +665,12 @@ class ConfigType
             'max_child_products' => 'Một vòng lặp sẽ lấy số lượng ' . AdminTranslate::PROD . ' để hiển thị trong mỗi nhóm con',
             'eb_post_per_page' => 'Khi số này lớn hơn 0, trong trang chi tiết ' . AdminTranslate::POST . ' sẽ lấy các bài cùng nhóm với bài hiện tại để giới thiệu',
             'currency_format' => 'Sử dụng bảng mã riêng cho CSS, tham khảo tại đây: https://www.w3schools.com/cssref/css_entities.asp',
-            'currency_sd_format' => 'Đây là đơn vị tiền tệ cho phần structured data của google hoặc các công cụ tìm kiếm khác. Hiển thị CSS có thể là nhiều kiểu, còn cho phần SEO thì chỉ một kiểu. Ví dụ: VND, USD... Mặc định: VND',
-            'currency_before_format' => 'Mặc định, đơn vị tiền tệ sẽ xuất hiện ở phía sau giá tiền (ưu tiên cho web sử dụng Việt Nam đồng), nếu bạn muốn nó xuất hiện ở phía trước, hãy đánh dấu vào đây và lưu lại.',
+            'currency_locales_format' => 'Nhập mã để thiết lập format cho đơn vị tiền tệ ngoài những thiết lập mặc định tại đây. <br> Danh sách mã được hỗ trợ: https://gist.github.com/itvn9online/23962377410d288b696938d8808cb0a2',
+            'currency_sd_format' => 'Đây là đơn vị tiền tệ cho phần structured data của google hoặc các công cụ tìm kiếm khác. Hiển thị CSS có thể là nhiều kiểu, còn cho phần SEO thì chỉ một kiểu. Ví dụ: VND, USD... Mặc định: USD',
+            'currency_after_format' => 'Mặc định, đơn vị tiền tệ sẽ xuất hiện ở phía trước giá tiền, nếu bạn muốn nó xuất hiện ở phía sau, hãy đánh dấu vào đây và lưu lại.',
             'currency_big_format' => 'Khi bật chế độ này, các số tiền lớn hơn 1 triệu sẽ được chuyển đổi đơn vị sang triệu (hoặc tỷ). Ví dụ: 1,000,000đ sẽ đổi thành 1 triệu, 1,624,000,000đ sẽ đổi thành 1 tỷ 624 triệu.',
+            'currency_fraction_digits' => 'Phần số thập phân sau mỗi đơn vị tiền tệ. Mặc định là 2 số. Ví dụ: 1,000.00 hoặc 1,000.50 (thiết lập là 0 để ẩn phần thập phân).',
+            'shipping_fee' => 'Mặc định sẽ không hiển thị phí vận chuyển trong giỏ hàng. Thiết lập là 0 sẽ hiển thị Miễn phí vận chuyển, lớn hơn 0 sẽ hiển thị phí vận chuyển cố định.',
             //
             'eb_product_per_page' => 'Khi số này lớn hơn 0, trong trang chi tiết ' . AdminTranslate::PROD . ' sẽ lấy các bài cùng nhóm với bài hiện tại để giới thiệu',
             // 'main_slider_slug' => 'Nhập slug của slider chính vào đây, khi hàm the_slider không tìm được slider tương ứng thì nó sẽ lấy slider này để gán vào',
@@ -911,10 +920,11 @@ class ConfigType
             ],
             'currency_format' => [
                 '' => '[ Chọn đơn vị tiền tệ ]',
+                '/0111' => 'đ (/0111)',
                 'vn/0111' => 'vnđ (vn/0111)',
                 'VN/00d0' => 'VNĐ (VN/00d0)',
                 'VND' => 'VND (VND)',
-                '$' => '$ ($)',
+                // '$' => '$ ($)',
                 'USD' => 'USD (USD)',
                 '/00A5' => '&yen; (/00A5)',
                 'NT$' => 'NT$ (NT$)',

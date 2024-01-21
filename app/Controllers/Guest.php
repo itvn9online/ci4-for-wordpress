@@ -325,7 +325,7 @@ class Guest extends Csrf
                 'register_disable_view',
                 array(
                     'seo' => $this->guest_seo(
-                        $this->lang_model->get_the_text('register_disable_label', 'Website tạm dừng việc đăng ký tài khoản mới'),
+                        $this->lang_model->get_the_text('register_disable_label', 'Website temporarily stopped register new account'),
                         __FUNCTION__
                     ),
                     'breadcrumb' => '',
@@ -430,7 +430,7 @@ class Guest extends Csrf
             'register_view',
             array(
                 'seo' => $this->guest_seo(
-                    $this->lang_model->get_the_text('register_label', 'Đăng ký tài khoản mới'),
+                    $this->lang_model->get_the_text('register_label', 'Create new account'),
                     __FUNCTION__
                 ),
                 'breadcrumb' => '',

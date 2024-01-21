@@ -81,6 +81,10 @@ class Actions extends Layout
             )
         );
 
+        // TEST
+        $coupon_code = '';
+        $coupon_amount = 0;
+
         //
         $this->teamplate['main'] = view(
             'cart_view',
@@ -94,6 +98,8 @@ class Actions extends Layout
                 'data' => $data,
                 'by_get_id' => $by_get_id,
                 'product_id' => $product_id,
+                'coupon_code' => $coupon_code,
+                'coupon_amount' => $coupon_amount,
                 // 'products_id' => $this->MY_post('ids'),
             )
         );
@@ -254,5 +260,58 @@ class Actions extends Layout
 
         //
         $this->base_model->alert('OK');
+    }
+
+    /**
+     * Gửi đơn hàng vào hệ thống
+     **/
+    // public function checkout($custom_data = [])
+    // {
+    // }
+
+    /**
+     * Thêm coupon
+     **/
+    public function add_coupon()
+    {
+        // nếu là phương thức POST -> truyền qua ajax
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            $this->result_json_type([
+                'code' => __LINE__,
+                'error' => 'Bad request!',
+            ]);
+        }
+
+        //
+        $coupon_code = $this->MY_post('coupon_custom_code');
+        if (empty($coupon_code)) {
+            $this->base_model->alert('Please enter a coupon code.', 'error');
+        }
+
+        // thông báo khi coupon hết hạn
+        // $this->base_model->alert('This coupon has expired!', 'warning');
+
+        //
+        if ($coupon_code != 'xuan2024') {
+            $this->base_model->alert('Coupon `' . $coupon_code . '` does not exist!', 'error');
+        }
+
+        // TEST
+        $coupon_amount = rand(25, 50);
+        // $coupon_amount .= '%';
+
+        //
+        $coupon_amount = trim(str_replace(' ', '', $coupon_amount));
+
+        // coupon amount không có giá trị -> báo lỗi
+        if ($this->base_model->_eb_number_only($coupon_amount) < 1) {
+            $this->base_model->alert('Coupon amount has not been setup yet!', 'warning');
+        }
+
+        // Thiết lập lại thông số cho coupon
+        echo '<script>top.add_coupon_code("' . $coupon_amount . '", "' . $coupon_code . '");</script>';
+
+        //
+        $this->base_model->alert('Coupon code applied successfully.');
     }
 }

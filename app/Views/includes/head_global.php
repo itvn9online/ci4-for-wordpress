@@ -235,6 +235,23 @@ echo HtmlTemplate::html('custom_css.txt', [
 
 
 //
+$base_model->JSON_parse([
+    'WGR_config' => [
+        'cf_tester_mode' => ($debug_enable === true) ? 1 : 0,
+        'current_user_id' => $current_user_id * 1,
+        'site_lang_sub_dir' => (SITE_LANGUAGE_SUB_FOLDER === true) ? 1 : 0,
+        'pid' => $current_pid,
+        'cid' => $current_tid,
+        'currency_big_format' => $getconfig->currency_big_format,
+        'currency_fraction_digits' => $getconfig->currency_fraction_digits,
+        'currency_locales_format' => $getconfig->currency_locales_format,
+        'currency_sd_format' => $getconfig->currency_sd_format,
+        'pagination_display_1' => $lang_model->get_the_text('pagination_display_1', 'Showing page'),
+    ],
+]);
+
+
+//
 $base_model->adds_js([
     'wp-includes/javascript/functions.js',
     'wp-includes/javascript/eb.js',
@@ -252,19 +269,6 @@ if ($getconfig->enable_vue_js == 'on') {
         'defer'
     ]);
 }
-
-//
-$base_model->JSON_parse([
-    'WGR_config' => [
-        'cf_tester_mode' => ($debug_enable === true) ? 1 : 0,
-        'current_user_id' => $current_user_id * 1,
-        'site_lang_sub_dir' => (SITE_LANGUAGE_SUB_FOLDER === true) ? 1 : 0,
-        'pid' => $current_pid,
-        'cid' => $current_tid,
-        'currency_big_format' => $getconfig->currency_big_format,
-        'pagination_display_1' => $lang_model->get_the_text('pagination_display_1', 'Đang hiển thị trang'),
-    ],
-]);
 
 //
 $base_model->get_the_custom_html($getconfig, 'html_header');

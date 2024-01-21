@@ -36,9 +36,12 @@ class PostQuery extends PostMeta
             //echo gettype($v) . PHP_EOL;
 
             //
+            if (gettype($v) == 'string') {
+                /*
             if (in_array(gettype($v), [
                 'string'
             ])) {
+                */
                 $data[$k] = trim($v);
             }
         }

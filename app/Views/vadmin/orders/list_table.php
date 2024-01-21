@@ -22,9 +22,9 @@
             </td>
             <td>{{PostType_arrStatus[v.post_status]}}</td>
             <td><a :href="v.admin_permalink">{{v.post_title}} <i class="fa fa-edit"></i></a></td>
-            <td><span class="ebe-currency">{{ number_format(v.order_money) }}</span></td>
-            <td><span class="ebe-currency">{{ number_format(v.order_discount) }}</span></td>
-            <td><span class="ebe-currency">{{ number_format(v.order_bonus) }}</span></td>
+            <td><span class="ebe-currency-format">{{v.order_money}}</span></td>
+            <td><span class="ebe-currency-format">{{v.order_discount}}</span></td>
+            <td><span class="ebe-currency-format">{{v.order_bonus}}</span></td>
             <td>
                 <div><i class="fa fa-envelope"></i> <a :href="'sadmin/users/add?id=' + v.post_author" :data-id="v.post_author" class="each-to-email" target="_blank">{{v.post_author}}</a></div>
                 <div><i class="fa fa-phone"></i></div>

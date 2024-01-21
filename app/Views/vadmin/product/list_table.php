@@ -11,7 +11,7 @@
             <th><input type="checkbox" class="input-checkbox-all" /></th>
             <th>Ảnh đại diện</th>
             <th>Tên <?php echo $name_type; ?></th>
-            <th>Price</th>
+            <th>Price/ Sale price</th>
             <th>Danh mục</th>
             <th>Ngày tạo/ <a :href="'sadmin/' + controller_slug + '?order_by=post_modified'">Cập nhật cuối <i class="fa fa-sort"></i></a></th>
             <!-- <th>Lang</th> -->
@@ -34,8 +34,8 @@
                 <div><a :href="v.the_permalink" target="_blank" class="small greencolor">{{v.the_permalink}} <i class="fa fa-eye"></i></a></div>
             </td>
             <td>
-                <div><span class="ebe-currency">{{v.post_meta._regular_price}}</span></div>
-                <div><span class="ebe-currency old-price">{{v.post_meta._sale_price}}</span></div>
+                <div><span class="ebe-currency-format">{{v.post_meta._regular_price}}</span></div>
+                <div><span class="ebe-currency-format">{{v.post_meta._sale_price}}</span></div>
             </td>
             <td :data-id="v.main_category_key" :data-taxonomy="taxonomy" :data-uri="'sadmin/' + controller_slug" class="each-to-taxonomy">&nbsp;</td>
             <td>

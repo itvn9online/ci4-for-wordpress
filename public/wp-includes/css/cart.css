@@ -1,6 +1,14 @@
+.remove-from-cart {
+    color: #666;
+    font-size: 12px;
+}
+
 .quick-cart-id .remove-from-cart {
     display: none;
-    color: #c00;
+}
+
+.remove-from-cart span:hover {
+    text-decoration: underline;
 }
 
 /* */
@@ -10,16 +18,27 @@
 
 .cart-table tr {}
 
+.cart_totals-th,
+/* .cart-sub-total, */
 .cart-table th,
 .cart-table td {
-    border-bottom: 1px #ccc solid;
     padding: 8pt 0;
 }
 
-.cart-table th {}
+.cart-table.cart-sidebar-table th {
+    padding: 6px 0;
+    /* color: #666; */
+    font-size: 13px;
+}
+
+.cart_totals-th,
+/* .cart-sub-total, */
+.cart-table th {
+    border-bottom: 3px solid #ececec;
+}
 
 .cart-table td {
-    border-bottom-style: dashed;
+    border-bottom: 1px solid #ececec;
 }
 
 .cart-table .cart-post_title {}
@@ -45,7 +64,7 @@
 }
 
 .cart-table .cart-image div {
-    max-width: 125px;
+    width: 90px;
 }
 
 .cart-table {}
@@ -54,7 +73,79 @@
 
 .cart-table {}
 
-.cart-sub-total {
-    font-size: 14pt;
+.cart_totals-th {
     font-weight: bold;
+}
+
+.cart-sub-total {
+    /* font-size: 14pt; */
+    /* font-weight: bold; */
+}
+
+.cart-subtotal .cart-sub-total {
+    border-bottom: 1px solid #ececec;
+    padding: 6px 0;
+}
+
+.cart-subtotal .ebe-currency {
+    font-weight: bold;
+}
+
+.checkout_coupon .coupon-code {
+    padding: 0.75em 0;
+}
+
+.checkout_coupon input[type="text"],
+.cart-ultable select,
+.cart-ultable input[type="date"],
+.cart-ultable input[type="tel"],
+.cart-ultable input[type="text"],
+.cart-ultable input[type="email"],
+.cart-ultable textarea {
+    width: 90%;
+    max-width: 450px;
+    padding: 8px;
+    border-radius: 2px;
+    border: 1px #999 solid;
+    background: #fff;
+    line-height: normal;
+}
+
+.checkout_coupon input[type="text"] {
+    width: 100%;
+}
+
+/* .cart-is-product, */
+.cart-is-empty,
+.cart-sidebar-coupon,
+.checkout-content {
+    display: none;
+}
+
+.proceed-to-checkout {
+    margin-bottom: 8px;
+}
+
+.checkout-content button[type="submit"] {
+    max-width: 333px;
+}
+
+.row-cart .btn-link {
+    text-decoration: none;
+}
+
+.cart-ultable {
+    line-height: 33px;
+}
+
+.cart-ultable li {
+    padding: 7px 0;
+}
+
+.cart-ultable li div.f25 {
+    font-size: 15px;
+}
+
+.cart-ultable .margin-radio label {
+    margin-right: 16px;
 }

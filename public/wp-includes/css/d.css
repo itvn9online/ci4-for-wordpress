@@ -758,14 +758,18 @@ span.taxonomy-count:after {
 
 .ebe-currency:before,
 .ebe-currency:after {
-    content: "\0111";
-    font-size: 90%;
+    /* content: "\0111"; */
+    content: "$";
+    font-size: 95%;
+    font-weight: normal;
 }
 
-.ebe-currency .ebe-currency:before,
+/*
+ .ebe-currency .ebe-currency:before,
 .ebe-currency .ebe-currency:after {
     margin-right: 2px;
-}
+} 
+*/
 
 .ebe-currency.convert-to-trieu:before,
 .ebe-currency.convert-to-trieu:after {
@@ -780,14 +784,13 @@ span.taxonomy-count:after {
 }
 
 .ebe-currency:after {
-    display: inline-block;
+    display: none;
     margin-left: 2px;
 }
 
 .ebe-currency:before {
-    display: none;
+    display: inline-block;
     margin-right: 2px;
-    font-weight: normal;
 }
 
 .ebe-currency.old-price {

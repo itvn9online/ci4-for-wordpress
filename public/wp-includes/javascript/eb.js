@@ -1035,6 +1035,7 @@ var _global_js_eb = {
 				let a = jQuery.trim(
 					jQuery(this).data("num") || jQuery(this).html() || ""
 				);
+				// console.log(a);
 
 				//if (a != '' && a != '0') {
 				if (a != "") {
@@ -1087,6 +1088,7 @@ var _global_js_eb = {
 						}
 						// còn lại sẽ in bình thường
 						else {
+							// console.log(a);
 							jQuery(this).html(g_func.money_format(a));
 						}
 					}
