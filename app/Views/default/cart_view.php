@@ -40,7 +40,7 @@ $base_model->JSON_parse([
                         <a href="./" class="btn btn-link bold upper">&#8592;&nbsp;Continue shopping</a>
                     </div>
                 </div>
-                <div class="checkout-content">
+                <div class="checkout-content checkout-form">
                     <h3>Billing details</h3>
                     <?php
 

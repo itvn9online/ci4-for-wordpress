@@ -1,3 +1,17 @@
+// trả về dữ liệu trong cache
+function cart_get_cache_data(key) {
+	return g_func.getc(key);
+}
+
+// lưu dữ liệu vào cache
+function cart_set_cache_data(key, c, t) {
+	// mặc định là lưu 1 tháng
+	if (typeof t != "number") {
+		t = 24 * 3600 * 30;
+	}
+	return g_func.setc(key, c, t);
+}
+
 //
 function action_calculate_cart_value() {
 	let item_total = 0,
@@ -79,9 +93,9 @@ function change_calculate_cart_value() {
 
 // nạp giỏ hàng theo cache
 function action_ajax_cart() {
-	let a = g_func.getc("cache-cart-ids");
+	let a = cart_get_cache_data("cache-cart-ids");
 	if (a === null) {
-		a = g_func.getc("cache-quickcart-id");
+		a = cart_get_cache_data("cache-quickcart-id");
 		if (a === null) {
 			// hiển thị thông báo giỏ hàng trống
 			$(".cart-is-empty").show();
@@ -109,6 +123,12 @@ function action_ajax_cart() {
 			if (typeof data.error != "undefined") {
 				console.log("%c " + data.error, "color: red");
 			} else if (typeof data.table != "undefined") {
+				// gọi đến hàm trước khi nạp xong giỏ hàng (nếu có)
+				if (typeof action_before_ajax_cart == "function") {
+					action_before_ajax_cart(data);
+				}
+
+				//
 				$("#append_ajax_cart").html(data.table);
 				change_calculate_cart_value();
 				action_calculate_cart_value();
@@ -120,17 +140,24 @@ function action_ajax_cart() {
 				_global_js_eb.auto_margin();
 
 				// hiển thị ảnh đại diện
-				$(".cart-image .each-to-bgimg").each(function () {
-					let a = $(this).data("img") || "";
-					if (a != "") {
-						jQuery(this).css({
-							"background-image": "url('" + a + "')",
-						});
-					}
-				});
+				$(".cart-image .each-to-bgimg")
+					.each(function () {
+						let a = $(this).data("img") || "";
+						if (a != "") {
+							jQuery(this).css({
+								"background-image": "url('" + a + "')",
+							});
+						}
+					})
+					.removeClass("each-to-bgimg");
 
 				// định dạng tiền tệ
 				_global_js_eb.ebe_currency_format();
+
+				// gọi đến hàm sau khi nạp xong giỏ hàng (nếu có)
+				if (typeof action_after_ajax_cart == "function") {
+					action_after_ajax_cart(data);
+				}
 			}
 		},
 	});
@@ -223,7 +250,7 @@ function add_coupon_code(val, code) {
 	}
 	if (code != "" && typeof val != "undefined") {
 		// lưu coupon này vào cache
-		g_func.setc("cache-coupon-code", code + ";" + val, 24 * 3600 * 30);
+		cart_set_cache_data("cache-coupon-code", code + ";" + val);
 
 		//
 		return set_coupon_code(val, code);
@@ -233,7 +260,7 @@ function add_coupon_code(val, code) {
 
 //
 function cache_coupon_code() {
-	let a = g_func.getc("cache-coupon-code");
+	let a = cart_get_cache_data("cache-coupon-code");
 	// console.log("cache-coupon-code", a);
 
 	//
@@ -279,7 +306,7 @@ function remove_from_cart(jd) {
 }
 
 function remove_from_cache_cart(jd, key) {
-	let a = g_func.getc(key);
+	let a = cart_get_cache_data(key);
 	if (a !== null) {
 		a = a.split(",");
 		// console.log(a);
@@ -299,12 +326,72 @@ function remove_from_cache_cart(jd, key) {
 
 		// nếu còn dữ liệu thì lưu giỏ hàng mới
 		if (arr.length > 0) {
-			g_func.setc(key, arr.join(","), 24 * 3600 * 30);
+			cart_set_cache_data(key, arr.join(","));
 		} else {
 			// không có thì xóa sạch
 			localStorage.removeItem(key);
 		}
 	}
+}
+
+// tự động nhập liệu thông tin khách hàng trong cache
+function cart_customer_cache_data() {
+	$(
+		[
+			".cart-is-product .checkout-form input[type='text']",
+			".cart-is-product .checkout-form input[type='email']",
+			".cart-is-product .checkout-form input[type='tel']",
+			".cart-is-product .checkout-form input[type='number']",
+		].join(",")
+	).each(function () {
+		// tạo id nếu chưa có
+		let a = $(this).attr("id") || "";
+		if (a == "") {
+			let b = $(this).attr("name") || "";
+			if (b != "") {
+				b = b.replace(/\[|\]/gi, "_");
+				$(this)
+					.attr({
+						id: b,
+					})
+					.addClass("customer-cache-data");
+			}
+		}
+	});
+
+	// lấy dữ liệu người dùng từ cache
+	let c = get_customer_cache_data();
+	for (let x in c) {
+		// gán vào form
+		$("#" + x).val(c[x]);
+	}
+
+	// mỗi lần người dùng thay đổi input trong form thì lưu thông tin này lại để sau nhập cho khách
+	$(".customer-cache-data").change(function () {
+		// lấy id của input
+		let a = $(this).attr("id") || "";
+		if (a != "") {
+			// lấy dữ liệu trong cache
+			let c = get_customer_cache_data();
+			// gán dữ liệu người dùng đã nhập
+			c[a] = $(this).val();
+			// lưu vào cache
+			cart_set_cache_data("customer-cache-data", JSON.stringify(c));
+		}
+	});
+}
+
+// trả về thông tin khách hàng trong cache
+function get_customer_cache_data() {
+	let c = cart_get_cache_data("customer-cache-data");
+	// console.log(c);
+	if (c !== null) {
+		c = JSON.parse(c);
+	} else {
+		c = {};
+	}
+	// console.log(c);
+	return c;
 }
 
 //
@@ -337,7 +424,7 @@ jQuery(document).ready(function () {
 		product_cart_id *= 1;
 		if (!isNaN(product_cart_id) && product_cart_id > 0) {
 			// lưu ID sản phẩm này vào bộ nhớ tạm -> quyền ưu tiên thấp hơn cache giỏ hàng chính
-			g_func.setc("cache-quickcart-id", product_cart_id, 24 * 3600 * 30);
+			cart_set_cache_data("cache-quickcart-id", product_cart_id);
 
 			//
 			has_quick_cart = true;
@@ -356,4 +443,5 @@ jQuery(document).ready(function () {
 	//
 	_global_js_eb.add_primari_iframe();
 	_global_js_eb.wgr_nonce("frm_actions_cart");
+	cart_customer_cache_data();
 });

@@ -132,6 +132,10 @@ class AdminMenu
                         'name' => TaxonomyType::typeList(TaxonomyType::PROD_TAGS, true),
                         'icon' => 'fa fa-tag',
                     ],
+                    'sadmin/coupons' => [
+                        'name' => TaxonomyType::typeList(TaxonomyType::SHOP_COUPON, true),
+                        'icon' => 'fa fa-gift',
+                    ],
                 ]
             ],
             'sadmin/uploads' => [

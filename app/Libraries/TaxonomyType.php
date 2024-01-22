@@ -17,6 +17,7 @@ class TaxonomyType
     const PROD_CATS = 'product_cat';
     const PROD_OTPS = 'product_opt';
     const PROD_TAGS = 'product_tag';
+    const SHOP_COUPON = 'shop_coupon';
     //const MENU = 'nav_menu';
     //const PAGE = 'page_taxonomy';
 
@@ -34,6 +35,7 @@ class TaxonomyType
         self::PROD_CATS => 'Danh mục ' . AdminTranslate::PROD,
         self::PROD_OTPS => 'Thông số khác',
         self::PROD_TAGS => 'Thẻ ' . AdminTranslate::PROD,
+        self::SHOP_COUPON => 'Coupons',
         //self::MENU => 'Menu',
         //self::PAGE => 'Trang tĩnh',
     );
@@ -56,6 +58,7 @@ class TaxonomyType
         self::PROD_CATS => 'productcategory',
         self::PROD_OTPS => 'productoptions',
         self::PROD_TAGS => 'producttags',
+        self::SHOP_COUPON => 'coupons',
         self::TAGS => 'tags',
         //self::BLOGS => 'blogcategory',
         //self::BLOG_TAGS => 'blogtags',

@@ -11,8 +11,11 @@ function update_post_viewed(fview, for_post_id, for_post_author) {
 	if (typeof for_post_author != "number" || for_post_author < 1) {
 		for_post_author = 0;
 	}
-	if (typeof fview != "number" || fview < 1) {
+	if (typeof fview != "number") {
 		fview = 1;
+	} else if (fview < 1) {
+		console.log("%c fview is ZERO", "color: red");
+		return false;
 	}
 
 	//

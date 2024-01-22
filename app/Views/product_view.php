@@ -19,7 +19,7 @@ $base_model->JSON_echo([
     'post_id' => $data['ID'],
     'post_author' => $data['post_author'],
     // custom fake view
-    'custom_fview' => 60,
+    'custom_fview' => CUSTOM_FAKE_POST_VIEW,
 ]);
 
 //
