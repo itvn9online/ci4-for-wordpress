@@ -38,7 +38,7 @@ class Posts extends Csrf
         // có thì in ra cache là được
         //if ( $_SERVER[ 'REQUEST_METHOD' ] == 'GET' && $cache_value !== NULL ) {
         if ($this->hasFlashSession() === false && $cache_value !== NULL) {
-            return $this->show_cache($cache_value);
+            return $this->show_cache($cache_value, $this->cache_key);
         }
 
         //

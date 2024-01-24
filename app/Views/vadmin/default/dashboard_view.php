@@ -20,7 +20,7 @@ if (strpos($content_htaccess, '{my_domain.com}') !== false) {
             // set header
             $content_htaccess = str_replace('# Header always set Permissions-Policy ', 'Header always set Permissions-Policy ', $content_htaccess);
             // cập nhật content
-            file_put_contents($path_htaccess, $content_htaccess);
+            file_put_contents($path_htaccess, $content_htaccess, LOCK_EX);
             echo 'update {my_domain.com} for ' . $path_htaccess . '<br>' . PHP_EOL;
         } else {
             echo 'WGR_DISABLE_AUTO_HTACCESS is defined' . '<br>' . PHP_EOL;

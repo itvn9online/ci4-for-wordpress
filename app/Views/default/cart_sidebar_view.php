@@ -4,40 +4,7 @@
 </div>
 <div class="checkout-content">
     <h3>Your order</h3>
-    <table class="cart-table cart-sidebar-table">
-        <tr class="upper">
-            <th class="product-name">Product</th>
-            <th class="product-subtotal text-right">Subtotal</th>
-        </tr>
-        <?php
-
-        //
-        foreach ($data as $v) {
-            $post_meta = $v['post_meta'];
-            foreach ([
-                '_regular_price',
-            ] as $k2) {
-                if (!isset($post_meta[$k2])) {
-                    $post_meta[$k2] = '';
-                }
-            }
-
-            //
-            $post_meta['_regular_price'] = str_replace(',', '', $post_meta['_regular_price']);
-        ?>
-            <tr>
-                <td>
-                    <?php echo $v['post_title']; ?> <i class="fa fa-remove"></i> <strong data-id="<?php echo $v['ID']; ?>" class="change-product-quantity">1</strong>
-                </td>
-                <td class="cart-regular_price text-right">
-                    <span data-id="<?php echo $v['ID']; ?>" class="ebe-currency change-cart-regular_price"></span>
-                </td>
-            </tr>
-        <?php
-        }
-
-        ?>
-    </table>
+    <div class="cart-sidebar-table"></div>
     <div class="text-right center-if-mobile">
         <button type="button" onclick="return proceed_to_cart();" class="btn btn-link s14"><em>Click here to edit your cart</em></button>
     </div>

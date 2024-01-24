@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 // Libraries
 use App\Libraries\PostType;
+use App\Libraries\LanguageCost;
 
 //
 class Pages extends Home
@@ -21,7 +22,7 @@ class Pages extends Home
         //echo $slug . '<br>' . PHP_EOL;
 
         //
-        $in_cache = __FUNCTION__ . '-' . $slug;
+        $in_cache = __FUNCTION__ . LanguageCost::lang_key() . '-' . $slug;
         $data = $this->base_model->scache($in_cache);
         if ($data === NULL) {
             $data = $this->post_model->select_public_post(0, [

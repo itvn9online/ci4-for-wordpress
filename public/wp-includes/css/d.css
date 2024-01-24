@@ -760,7 +760,7 @@ span.taxonomy-count:after {
 .ebe-currency:after {
     /* content: "\0111"; */
     content: "$";
-    font-size: 95%;
+    /* font-size: 95%; */
     font-weight: normal;
 }
 

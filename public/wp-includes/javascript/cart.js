@@ -1,3 +1,6 @@
+// không thay đổi giá trị giỏ hàng liên tục
+var delay_change_cart_data = null;
+
 // trả về dữ liệu trong cache
 function cart_get_cache_data(key) {
 	return g_func.getc(key);
@@ -12,8 +15,18 @@ function cart_set_cache_data(key, c, t) {
 	return g_func.setc(key, c, t);
 }
 
-//
+// tạo giãn cách khi update thông tin giỏ hàng
 function action_calculate_cart_value() {
+	$("body").addClass("body-onload");
+	clearTimeout(delay_change_cart_data);
+	delay_change_cart_data = setTimeout(function () {
+		run_calculate_cart_value();
+		$("body").removeClass("body-onload");
+	}, 500);
+}
+
+function run_calculate_cart_value() {
+	// console.log("b", Math.random());
 	let item_total = 0,
 		price_sub_total = 0,
 		price_total = 0;
@@ -27,13 +40,24 @@ function action_calculate_cart_value() {
 		// console.log("quan", quan);
 
 		//
-		if (jd != "" && price != "" && quan != "") {
+		if (quan == "") {
+			quan = 1;
+			$(this).val(quan);
+		} else {
+			quan *= 1;
+			if (isNaN(quan)) {
+				quan = 1;
+				$(this).val(quan);
+			}
+		}
+
+		//
+		if (jd != "" && price != "") {
 			// jd *= 1;
 			price *= 1;
-			quan *= 1;
 
 			//
-			if (!isNaN(jd * 1) && !isNaN(price) && !isNaN(quan)) {
+			if (!isNaN(jd * 1) && !isNaN(price)) {
 				this_total = price * quan;
 				// console.log("this total", this_total);
 
@@ -130,6 +154,7 @@ function action_ajax_cart() {
 
 				//
 				$("#append_ajax_cart").html(data.table);
+				cart_sidebar_table();
 				change_calculate_cart_value();
 				action_calculate_cart_value();
 
@@ -153,6 +178,9 @@ function action_ajax_cart() {
 
 				// định dạng tiền tệ
 				_global_js_eb.ebe_currency_format();
+
+				//
+				cart_table_buttons_added();
 
 				// gọi đến hàm sau khi nạp xong giỏ hàng (nếu có)
 				if (typeof action_after_ajax_cart == "function") {
@@ -394,6 +422,48 @@ function get_customer_cache_data() {
 	return c;
 }
 
+// khi click vào nút thêm bớt số lượng sp trong giỏ hàng
+function cart_table_buttons_added() {
+	$(".cart-table .buttons_added input[type='button']")
+		.off("click")
+		.click(function () {
+			let a = $(this).data("value") || "";
+			if (a != "") {
+				a *= 1;
+
+				//
+				if (!isNaN(a)) {
+					let b = $(this).attr("data-id");
+					let q = $(
+						".cart-table .buttons_added .change-cart-quantity[data-id='" +
+							b +
+							"']"
+					);
+					let v = q.val() || "";
+					if (v != "") {
+						if (!isNaN(v)) {
+							v = v * 1 + a;
+							if (v < 1) {
+								v = 1;
+							}
+							q.val(v);
+							action_calculate_cart_value();
+						}
+					}
+				}
+			}
+		});
+}
+
+// hiển thị danh sách sản phẩm ở phần sidebar
+function cart_sidebar_table() {
+	let a = $(".cart-hidden-table").html() || "";
+	if (a != "") {
+		$(".cart-hidden-table").html("");
+		$(".cart-sidebar-table").html(a);
+	}
+}
+
 //
 jQuery(document).ready(function () {
 	// hiển thị phí vận chuyển
@@ -438,6 +508,8 @@ jQuery(document).ready(function () {
 		action_ajax_cart();
 	} else {
 		$(".cart-is-product").removeClass("d-none");
+		cart_sidebar_table();
+		cart_table_buttons_added();
 	}
 
 	//

@@ -680,7 +680,7 @@ class Sync extends BaseController
 
         // thử kiểm tra quyền đọc ghi file trong thư mục app, nếu không ghi được -> sẽ sử dụng FTP để xử lý file
         $path = PUBLIC_HTML_PATH . 'app/test_permission.txt';
-        if (@file_put_contents($path, time())) {
+        if (@file_put_contents($path, time(), LOCK_EX)) {
             chmod($path, DEFAULT_FILE_PERMISSION);
             unlink($path);
         } else {
@@ -702,7 +702,7 @@ class Sync extends BaseController
 
             // test quyền đọc ghi trong thư mục này để xem có thể giải nén được không
             $path = PUBLIC_HTML_PATH . $dir . '/test_permission.txt';
-            if (@file_put_contents($path, time())) {
+            if (@file_put_contents($path, time(), LOCK_EX)) {
                 chmod($path, DEFAULT_FILE_PERMISSION);
                 unlink($path);
             } else {

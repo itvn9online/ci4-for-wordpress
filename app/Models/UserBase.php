@@ -391,7 +391,7 @@ class UserBase extends EbModel
 
         //
         if ($sid != '') {
-            file_put_contents($f, time() . '|' . $sid);
+            file_put_contents($f, time() . '|' . $sid, LOCK_EX);
             chmod($f, DEFAULT_FILE_PERMISSION);
             return true;
         }

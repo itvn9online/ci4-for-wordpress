@@ -781,7 +781,7 @@ class Optimize extends Sadmin
             $upload_check = PUBLIC_HTML_PATH . 'app/';
         }
         $path = $upload_check . 'test_permission.txt';
-        if (@file_put_contents($path, time())) {
+        if (@file_put_contents($path, time(), LOCK_EX)) {
             $this->upload_via_ftp = false;
             chmod($path, DEFAULT_FILE_PERMISSION);
             unlink($path);

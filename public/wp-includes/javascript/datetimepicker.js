@@ -245,7 +245,7 @@ function EBE_load_datetimepicker(max_i) {
 				op[x] = default_op[x];
 			}
 		}
-		//console.log('op:', op);
+		console.log("op:", op);
 
 		//
 		$(id).datetimepicker(op);

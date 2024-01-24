@@ -6,6 +6,7 @@ namespace App\Controllers;
 use App\Libraries\DeletedStatus;
 use App\Libraries\TaxonomyType;
 use App\Libraries\PostType;
+use App\Libraries\LanguageCost;
 
 //
 class Home extends Posts
@@ -43,14 +44,14 @@ class Home extends Posts
      */
     protected function portal($custom_data = [])
     {
-        $cache_key = 'home';
+        $cache_key = 'home' . LanguageCost::lang_key();
         $cache_value = $this->MY_cache($cache_key);
         // Will get the cache entry named 'my_foo'
         //var_dump( $cache_value );
         // có thì in ra cache là được
         //if ( $_SERVER[ 'REQUEST_METHOD' ] == 'GET' && $cache_value !== NULL ) {
         if ($this->hasFlashSession() === false && $cache_value !== NULL) {
-            return $this->show_cache($cache_value);
+            return $this->show_cache($cache_value, $cache_key);
         }
         //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
@@ -340,7 +341,7 @@ class Home extends Posts
         //var_dump( $cache_value );
         // có thì in ra cache là được
         if ($cache_value !== NULL) {
-            return $this->show_cache($cache_value);
+            return $this->show_cache($cache_value, $cache_key);
         }
         //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
@@ -439,7 +440,7 @@ class Home extends Posts
         // có thì in ra cache là được
         //if ( $_SERVER[ 'REQUEST_METHOD' ] == 'GET' && $cache_value !== NULL ) {
         if ($this->hasFlashSession() === false && $cache_value !== NULL) {
-            return $this->show_cache($cache_value);
+            return $this->show_cache($cache_value, $cache_key);
         }
 
         // update lượt xem -> daidq (2021-12-14): chuyển phần update này qua view, ai thích dùng thì kích hoạt cho nó nhẹ
@@ -623,7 +624,7 @@ class Home extends Posts
         $cache_value = $this->MY_cache($cache_key);
         // có thì in ra cache là được
         if ($cache_value !== NULL) {
-            return $this->show_cache($cache_value);
+            return $this->show_cache($cache_value, $cache_key);
         }
 
         //

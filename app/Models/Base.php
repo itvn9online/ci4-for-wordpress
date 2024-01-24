@@ -10,7 +10,9 @@ namespace App\Models;
 
 //use __PHP_Incomplete_Class;
 use App\Helpers\HtmlTemplate;
+use App\Libraries\LanguageCost;
 
+//
 class Base extends Csdl
 {
     public $lang_key = '';
@@ -999,7 +1001,7 @@ class Base extends Csdl
         }
 
         // Tạo key để lấy cache nếu có -> thêm ID cho trường hợp danh mục hoặc trang chi tiết
-        $in_cache = 'list_config-' . __FUNCTION__ . $key . $id;
+        $in_cache = 'list_config-' . __FUNCTION__ . $key . $id . '-' . LanguageCost::lang_key();
         $the_cache = $this->scache($in_cache);
         if ($the_cache !== NULL) {
             return $the_cache;

@@ -46,7 +46,7 @@
                 <td>
                     <h3 class="cart-post_title"><a href="<?php echo $v['post_permalink']; ?>"><?php echo $v['post_title']; ?></a></h3>
                     <div class="cart-mobile-regular_price">
-                        <div>
+                        <div class="d-none">
                             <span class="ebe-currency-format"><?php echo $post_meta['_regular_price']; ?></span>
                         </div>
                         <div>
@@ -62,9 +62,11 @@
                     <span class="ebe-currency-format"><?php echo $post_meta['_regular_price']; ?></span>
                 </td>
                 <td class="cart-quantity">
-                    <input type="button" value="-" class="minus">
-                    <input type="number" name="cart_quantity[]" value="1" size="4" min="0" step="1" data-id="<?php echo $v['ID']; ?>" data-price="<?php echo $post_meta['_regular_price']; ?>" inputmode="numeric" autocomplete="off" class="form-control-xoa change-cart-quantity" />
-                    <input type="button" value="+" class="plus">
+                    <div class="buttons_added">
+                        <input type="button" value="-" data-value="-1" data-id="<?php echo $v['ID']; ?>" class="minus">
+                        <input type="number" name="cart_quantity[]" value="1" size="4" min="0" step="1" data-id="<?php echo $v['ID']; ?>" data-price="<?php echo $post_meta['_regular_price']; ?>" inputmode="numeric" autocomplete="off" class="form-control-xoa change-cart-quantity" />
+                        <input type="button" value="+" data-value="1" data-id="<?php echo $v['ID']; ?>" class="plus">
+                    </div>
                 </td>
                 <td class="product-subtotal cart-regular_price">
                     <span data-id="<?php echo $v['ID']; ?>" class="ebe-currency change-cart-regular_price"></span>
@@ -76,3 +78,43 @@
         ?>
     </tbody>
 </table>
+<div class="cart-hidden-table d-none">
+    <table class="cart-table">
+        <thead>
+            <tr class="upper">
+                <th class="product-name">Product</th>
+                <th class="product-subtotal text-right">Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+
+            //
+            foreach ($data as $v) {
+                $post_meta = $v['post_meta'];
+                foreach ([
+                    '_regular_price',
+                ] as $k2) {
+                    if (!isset($post_meta[$k2])) {
+                        $post_meta[$k2] = '';
+                    }
+                }
+
+                //
+                $post_meta['_regular_price'] = str_replace(',', '', $post_meta['_regular_price']);
+            ?>
+                <tr>
+                    <td>
+                        <?php echo $v['post_title']; ?> <i class="fa fa-remove"></i> <strong data-id="<?php echo $v['ID']; ?>" class="change-product-quantity">1</strong>
+                    </td>
+                    <td class="cart-regular_price text-right">
+                        <span data-id="<?php echo $v['ID']; ?>" class="ebe-currency change-cart-regular_price"></span>
+                    </td>
+                </tr>
+            <?php
+            }
+
+            ?>
+        </tbody>
+    </table>
+</div>

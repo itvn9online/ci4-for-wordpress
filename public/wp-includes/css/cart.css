@@ -22,7 +22,7 @@
     padding: 8pt 0;
 }
 
-.cart-table.cart-sidebar-table th {
+.cart-sidebar-table .cart-table th {
     padding: 6px 0;
     /* color: #666; */
     font-size: 13px;
@@ -132,7 +132,14 @@
     border-top-left-radius: 0 !important;
 }
 
-.cart-table .cart-quantity {}
+.cart-table .buttons_added {
+    display: inline-block;
+    display: inline-flex;
+    margin-right: 1em;
+    opacity: 1;
+    vertical-align: top;
+    white-space: nowrap;
+}
 
 .cart-table .cart-quantity {}
 

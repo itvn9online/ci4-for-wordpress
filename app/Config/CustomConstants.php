@@ -281,7 +281,7 @@ if (is_file(PUBLIC_PUBLIC_PATH . 'wp-content/themes/actived.php')) {
     defined('THEMENAME') || define('THEMENAME', 'echbayfour');
 
     // tạo file khai báo theme theo phiên bản mới
-    file_put_contents(PUBLIC_PUBLIC_PATH . 'wp-content/themes/actived.php', '<?php define(\'THEMENAME\', \'' . THEMENAME . '\');');
+    file_put_contents(PUBLIC_PUBLIC_PATH . 'wp-content/themes/actived.php', '<?php define(\'THEMENAME\', \'' . THEMENAME . '\');', LOCK_EX);
 }
 //echo THEMENAME . '<br>' . PHP_EOL;
 
@@ -350,8 +350,50 @@ defined('SITE_LANGUAGE_SUPPORT') || define(
     'SITE_LANGUAGE_SUPPORT',
     [
         [
+            // Đánh mảng nước ngoài nên vẫn ưu tiên nhất là tiếng Anh
+            'value' => 'en',
+            'text' => 'English',
+            'css_class' => 'text-muted'
+        ], [
+            // xong đến tiếng Việt
             'value' => 'vn',
             'text' => 'Tiếng Việt',
+            'css_class' => 'text-muted'
+        ], [
+            // tiếng Trung đại lục (giản thể)
+            'value' => 'cn',
+            // 'text' => '中文(简体)',
+            'text' => '中文',
+            'css_class' => 'text-muted'
+        ], [
+            // Hàn
+            'value' => 'kr',
+            'text' => '한국어',
+            'css_class' => 'text-muted'
+        ], [
+            // Nhật
+            'value' => 'jp',
+            'text' => '日本語',
+            'css_class' => 'text-muted'
+        ], [
+            // Pháp
+            'value' => 'fr',
+            'text' => 'Français',
+            'css_class' => 'text-muted'
+        ], [
+            // Thái
+            'value' => 'tl',
+            'text' => 'ภาษาไทย',
+            'css_class' => 'text-muted'
+        ], [
+            // Tây Ban Nha
+            'value' => 'es',
+            'text' => 'Español',
+            'css_class' => 'text-muted'
+        ], [
+            // Đức
+            'value' => 'de',
+            'text' => 'Deutsch',
             'css_class' => 'text-muted'
         ]
     ]

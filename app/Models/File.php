@@ -461,7 +461,7 @@ class File extends EbModel
 
     public function download_file($file_path, $url, $ops = [])
     {
-        if (!file_put_contents($file_path, file_get_contents($url))) {
+        if (!file_put_contents($file_path, file_get_contents($url), LOCK_EX)) {
             //if (!copy($url, $file_path)) {
             $ch = curl_init($url);
             $fp = fopen($file_path, 'wb');

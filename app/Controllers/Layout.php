@@ -166,7 +166,7 @@ class Layout extends Sync
     }
 
     // hiển thị nội dung từ cache -> thêm 1 số đoạn comment HTML vào
-    protected function show_cache($content)
+    protected function show_cache($content, $key = '')
     {
         echo $content;
 
@@ -174,7 +174,7 @@ class Layout extends Sync
         if (MY_CACHE_HANDLER == 'disable') {
             echo '<!-- Cached is disabled -->' . PHP_EOL;
         } else {
-            echo '<!-- Cached by ebcache' . PHP_EOL;
+            echo '<!-- Cached by ebcache with key ' . $key . PHP_EOL;
             if (MY_CACHE_HANDLER == 'file') {
                 echo 'Caching using hard disk drive. Recommendations using SSD drive for your website.' . PHP_EOL;
             } else {
@@ -434,7 +434,7 @@ class Layout extends Sync
         // có thì in ra cache là được
         //if ( $_SERVER[ 'REQUEST_METHOD' ] == 'GET' && $cache_value !== NULL ) {
         if ($this->hasFlashSession() === false && $cache_value !== NULL) {
-            return $this->show_cache($cache_value);
+            return $this->show_cache($cache_value, $this->cache_key);
         }
 
         //
