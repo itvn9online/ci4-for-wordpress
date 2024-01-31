@@ -471,6 +471,7 @@ class Sync extends BaseController
                 'user_phone' => 'VARCHAR(55) NULL COMMENT \'Điện thoại liên hệ\'',
                 'avatar' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Ảnh đại diện\'',
                 'firebase_uid' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'User ID khi đăng nhập qua firebase\'',
+                'firebase_source_uid' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Nguồn cập nhật firebase uid\'',
                 'user_fund' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Số dư tài khoản\'',
                 'zalo_oa_id' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'ID của người dùng trên Zalo OA\'',
                 'zalo_oa_data' => 'TEXT NULL COMMENT \'Dữ liệu của người dùng được trả về khi kết nối với Zalo OA\'',

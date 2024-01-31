@@ -159,6 +159,7 @@ $base_model->adds_css([
                         <div class="controls">
                             <input type="hidden" name="firebase_old_uid" value="<?php echo $data['firebase_uid']; ?>" readonly />
                             <input type="text" class="span9 graycolor" placeholder="Firebase uid" name="data[firebase_uid]" id="data_firebase_uid" value="<?php echo $data['firebase_uid']; ?>" />
+                            <div><?php echo $data['firebase_source_uid']; ?></div>
                             <p class="controls-text-note">Khi người dùng đăng nhập qua Firebase sẽ có thông số này (đã được mã hóa). Nếu nó không khớp với phiên đăng nhập của người dùng thì phiên sẽ bị từ chối. Để reset phiên cho người dùng thì cần xóa trắng dữ liệu ở đây đi và cập nhật lại.</p>
                         </div>
                     </div>

@@ -138,7 +138,7 @@ class Users extends Sadmin
                         //$where_or_like[ 'display_name' ] = $by_like;
                         $where_or_like['user_url'] = $by_like;
                         $where_or_like['display_name'] = $by_keyword;
-                        $where_or_like['firebase_uid'] = $by_keyword;
+                        $where_or_like['firebase_uid'] = $this->base_model->mdnam($by_keyword);
                     }
                 }
             }
@@ -570,6 +570,7 @@ class Users extends Sadmin
         // print_r($data);
         if (isset($data['firebase_uid']) && isset($_POST['firebase_old_uid']) && !empty($data['firebase_uid']) && $data['firebase_uid'] != $_POST['firebase_old_uid']) {
             $data['firebase_uid'] = $this->base_model->mdnam($data['firebase_uid']);
+            $data['firebase_source_uid'] = date('r') . '|' . __CLASS__ . '|' . __FUNCTION__ . ':' . __LINE__;
             //print_r($data);
         }
 
