@@ -1019,6 +1019,18 @@ var _global_js_eb = {
 	// giả lập GET của PHP
 	_get: function (p) {},
 
+	ebe_number_format: function () {
+		jQuery(".ebe-number").each(function () {
+			let a = jQuery.trim(
+				jQuery(this).data("num") || jQuery(this).html() || ""
+			);
+			// console.log(a);
+			if (a != "") {
+				jQuery(this).html(g_func.number_format(a));
+			}
+		});
+	},
+
 	ebe_currency_format: function () {
 		// hỗ trợ chuyển đổi đơn vị tiền tệ nếu to quá
 		let mot_ty = 1000000000,

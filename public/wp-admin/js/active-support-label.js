@@ -1,4 +1,4 @@
-/*
+/**
  * Chức năng tự động focus và scroll tới label chứa thông tin cần hõ trợ
  */
 
@@ -91,7 +91,13 @@ var add_class_bg_for_tr_support = false;
                     'border': '1px #f00 solid'
                     */
 				});
+
+				//
+				get_for.parent().addClass("control-" + label_for);
 			}
+		} else {
+			console.log("check for:", check_for);
+			get_for.parent().addClass("control-" + check_for);
 		}
 	});
 

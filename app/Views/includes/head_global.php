@@ -242,6 +242,7 @@ $base_model->JSON_parse([
         'site_lang_sub_dir' => (SITE_LANGUAGE_SUB_FOLDER === true) ? 1 : 0,
         'pid' => $current_pid,
         'cid' => $current_tid,
+        'date_format' => EBE_DATE_FORMAT,
         'currency_big_format' => $getconfig->currency_big_format,
         'currency_fraction_digits' => $getconfig->currency_fraction_digits,
         'currency_locales_format' => $getconfig->currency_locales_format,

@@ -1,0 +1,15 @@
+.widget-content .control-group {
+    display: none;
+}
+
+.widget-content .control-Resolution,
+.widget-content .control-taxonomy-group,
+.widget-content .control-meta-group,
+.widget-content .control-data_name_ {
+    display: block;
+}
+
+.control-term_meta_term_col_templates,
+.control-term_meta_taxonomy_custom_post_size {
+    display: none !important;
+}

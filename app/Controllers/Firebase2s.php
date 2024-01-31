@@ -602,8 +602,8 @@ class Firebase2s extends Firebases
         }
 
         //
-        //echo date('Y-m-d H:i:s', $decoded['exp']) . PHP_EOL;
-        //echo date('Y-m-d H:i:s', $decoded['auth_time']) . PHP_EOL;
+        //echo date(EBE_DATETIME_FORMAT, $decoded['exp']) . PHP_EOL;
+        //echo date(EBE_DATETIME_FORMAT, $decoded['auth_time']) . PHP_EOL;
 
         // nếu có uid -> so khớp
         if ($uid != '') {

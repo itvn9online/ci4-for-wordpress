@@ -488,6 +488,8 @@ class Posts extends Sadmin
                         'post_type' => $this->post_type,
                         'lang_key' => $clone_lang,
                         'lang_parent' => $data['ID'],
+                        // ko lấy các bản ghi đã bị xóa hẳn
+                        'post_status !=' => PostType::REMOVED,
                     ]);
                     //print_r($child_data);
                     //die(__CLASS__ . ':' . __LINE__);

@@ -145,18 +145,6 @@ if ($debug_enable === true) {
         'wp-includes/thirdparty/highlighted-code/highlight.css',
     ]);
 
-    $base_model->adds_js([
-        'wp-includes/javascript/functions_users.js',
-        'wp-admin/js/admin_functions.js',
-        'wp-admin/js/admin_functions2.js',
-        'wp-admin/js/admin_teamplate.js',
-        'wp-includes/javascript/functions.js',
-        'wp-includes/javascript/functions_footer.js',
-        THEMEPATH . 'js/functions.js',
-        'wp-includes/javascript/eb.js',
-        'wp-includes/thirdparty/highlighted-code/highlight.js',
-    ]);
-
     //
     $base_model->JSON_echo([
         // mảng này sẽ in ra dưới dạng JSON hoặc number
@@ -173,12 +161,25 @@ if ($debug_enable === true) {
         'WGR_config' => [
             'cf_tester_mode' => ($debug_enable === true) ? 1 : 0,
             'current_user_id' => $current_user_id * 1,
+            'date_format' => EBE_DATE_FORMAT,
             'currency_big_format' => $getconfig->currency_big_format,
             'currency_fraction_digits' => $getconfig->currency_fraction_digits,
             'currency_locales_format' => $getconfig->currency_locales_format,
             'currency_sd_format' => $getconfig->currency_sd_format,
             'pagination_display_1' => $lang_model->get_the_text('pagination_display_1', 'Showing page'),
         ],
+    ]);
+
+    $base_model->adds_js([
+        'wp-includes/javascript/functions_users.js',
+        'wp-admin/js/admin_functions.js',
+        'wp-admin/js/admin_functions2.js',
+        'wp-admin/js/admin_teamplate.js',
+        'wp-includes/javascript/functions.js',
+        'wp-includes/javascript/functions_footer.js',
+        THEMEPATH . 'js/functions.js',
+        'wp-includes/javascript/eb.js',
+        'wp-includes/thirdparty/highlighted-code/highlight.js',
     ]);
 
 
@@ -280,12 +281,19 @@ if ($debug_enable === true) {
     </div>
     <?php
 
+    // 
     $base_model->adds_js([
         'wp-admin/js/admin_seach_menu.js',
         'wp-admin/js/admin_footer.js',
-        'wp-admin/js/active-support-label.js',
         'wp-includes/javascript/datetimepicker.js',
         'wp-includes/javascript/pagination.js',
+    ]);
+
+    // 
+    $base_model->adds_js([
+        'wp-admin/js/active-support-label.js',
+    ], [], [
+        'defer'
     ]);
 
     ?>
@@ -313,6 +321,8 @@ if ($debug_enable === true) {
     $base_model->adds_js([
         'wp-admin/langs/' . $html_lang . '.js',
         'wp-admin/js/admin_lang.js',
+    ], [], [
+        'defer'
     ]);
 
     ?>

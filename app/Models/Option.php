@@ -493,9 +493,9 @@ class Option extends EbModel
     public function the_btc_logo($cog)
     {
         if (!empty($cog->registeronline)) {
-            echo '<a href="' . $cog->registeronline . '" class="btc-logo btc-register-logo" aria-label="BCT" target="_blank" rel="nofollow">&nbsp;</a>';
+            echo '<a href="' . $cog->registeronline . '" data-img="wp-includes/images/dadangky.png" class="btc-logo btc-register-logo each-to-bgimg" aria-label="BCT" target="_blank" rel="nofollow">&nbsp;</a>';
         } else if (!empty($cog->notificationbct)) {
-            echo '<a href="' . $cog->notificationbct . '" class="btc-logo btc-noti-logo" aria-label="BCT" target="_blank" rel="nofollow">&nbsp;</a>';
+            echo '<a href="' . $cog->notificationbct . '" data-img="wp-includes/images/dathongbao.png" class="btc-logo btc-noti-logo each-to-bgimg" aria-label="BCT" target="_blank" rel="nofollow">&nbsp;</a>';
         }
     }
     public function the_bct($cog)

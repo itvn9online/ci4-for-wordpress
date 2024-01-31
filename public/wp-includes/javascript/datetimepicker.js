@@ -35,6 +35,7 @@ if (typeof datetimepicker_loaded == "undefined") {
 	})();
 }
 var datetimepicker_loaded = true;
+var datetime_default_format = "Y-m-d";
 
 // hàm chuyển đổi date string sang timestamp sau khi close
 function datetimepicker_onClose(input_name, input_id, type) {
@@ -208,27 +209,45 @@ function EBE_load_datetimepicker(max_i) {
 		return false;
 	}
 
+	// lấy định dạng ngày tháng trong config nếu có
+	let getDateFormat = function () {
+		let a = datetime_default_format;
+		if (
+			typeof WGR_config != "undefined" &&
+			typeof WGR_config.date_format != "undefined" &&
+			WGR_config.date_format != ""
+		) {
+			a = WGR_config.date_format;
+		}
+		return a;
+	};
+
 	// chỉ lấy ngày tháng
-	let MY_datepicker = function (id, op) {
+	let MY_datepicker = function (id) {
 		MY_datetimepicker(id, {
 			timepicker: false,
-			format: "Y-m-d",
+			format: getDateFormat(),
 		});
 	};
 
 	// chỉ lấy giờ
-	let MY_timepicker = function (id, op) {
-		MY_datetimepicker(id, {
-			datepicker: false,
-			format: "H:i",
-		});
+	let MY_timepicker = function (id) {
+		MY_datetimepicker(
+			id,
+			{
+				datepicker: false,
+				format: "H:i",
+			},
+			true
+		);
 	};
 
 	// lấy ngày tháng và giờ
-	let MY_datetimepicker = function (id, op) {
+	let MY_datetimepicker = function (id, op, time_only) {
 		if (typeof op != "object") {
 			op = {};
 		}
+		// console.log("id", id);
 
 		//
 		let default_op = {
@@ -237,18 +256,142 @@ function EBE_load_datetimepicker(max_i) {
 			timepicker: true,
 			formatTime: "H:i",
 			//format: 'd-m-Y H:i:s'
-			format: "Y-m-d H:i:s",
-			//showTimezone: true,
+			// format: "Y-m-d H:i:s",
+			// showTimezone: true,
+			// closeText: "Close",
+			// currentText: "Today",
 		};
 		for (let x in default_op) {
 			if (typeof op[x] == "undefined") {
 				op[x] = default_op[x];
 			}
 		}
+		let date_format = getDateFormat();
+		// console.log("date format", date_format);
+		if (typeof op.format == "undefined" || op.format == "") {
+			op.format = date_format + " H:i:s";
+		}
 		console.log("op:", op);
 
 		//
 		$(id).datetimepicker(op);
+		$(id).attr({
+			// hiển thị định dạng ngày tháng ra placeholder
+			placeholder: op.format
+				.replace("Y-m-d", "yyyy-mm-dd")
+				.replace("m-d-Y", "mm-dd-yyyy")
+				.replace("d-m-Y", "dd-mm-yyyy")
+				.toUpperCase(),
+			// "data-format": op.format,
+		});
+
+		// Nếu có định dạng lại ngày tháng về chuẩn Y-m-d của máy tính
+		// console.log("time_only", time_only);
+		if (typeof time_only == "undefined" || time_only !== true) {
+			// console.log("date_format", date_format);
+			if (date_format != datetime_default_format) {
+				$(id).each(function () {
+					let input_name = $(this).attr("name") || "";
+					if (input_name != "") {
+						let jd =
+							$(this).attr("id") ||
+							Math.random().toString(32).replace(/\./gi, "_");
+						jd = "_" + jd;
+
+						// thêm input ẩn để thay thế input date time mặc định
+						$(this).after(
+							'<input type="hidden" name="' +
+								input_name +
+								'" value="' +
+								($(this).val() || "") +
+								'" id="' +
+								jd +
+								'">'
+						);
+
+						//
+						$(this)
+							.attr({
+								"data-for": jd,
+							})
+							.removeAttr("name")
+							.change(function () {
+								// console.log(Math.random());
+								let jd = $(this).attr("data-for") || "";
+								if (jd != "") {
+									let date_format = getDateFormat();
+									if (date_format != datetime_default_format) {
+										let a = $(this).val() || "",
+											b = "",
+											gio = "";
+										if (a != "") {
+											// cắt theo dấu cách xem có phần giờ không
+											a = a.split(" ");
+											if (a.length > 1) {
+												// nếu có thì giữ lại phần giờ
+												gio = " " + a[1];
+											}
+											// xử lý ngày tháng
+											a = a[0].split("-");
+
+											// US date format
+											if (date_format == "m-d-Y") {
+												// m-d-Y ---> Y-m-d
+												b = [a[2], a[0], a[1]].join("-");
+											} else if (date_format == "d-m-Y") {
+												// other date format
+												// d-m-Y ---> Y-m-d
+												b = [a[2], a[1], a[0]].join("-");
+											}
+										}
+										// console.log(b + gio);
+										$("#" + jd).val(b + gio);
+									}
+								}
+							});
+					}
+				});
+			}
+		}
+
+		// nếu định dạng ngày tháng không phải dạng mặc định
+		if (date_format != datetime_default_format) {
+			// xem dữ liệu hiện tại trong input có không
+			$(id).each(function () {
+				let a = $(this).val() || "";
+				if (a != "" && a.length >= 10) {
+					// let ts = Date.parse(a);
+					// console.log(ts);
+					// let tzoffset = new Date().getTimezoneOffset() * 60000; // offset in milliseconds
+					// console.log(new Date(ts - tzoffset).toISOString());
+
+					//
+					a = a.split(" ");
+					// console.log(a);
+					let b = "",
+						gio = "";
+					if (a.length > 1) {
+						// nếu có thì giữ lại phần giờ
+						gio = " " + a[1];
+					}
+					// xử lý ngày tháng
+					a = a[0].split("-");
+					// console.log("a", a);
+
+					// US date format
+					if (date_format == "m-d-Y") {
+						// Y-m-d ---> m-d-Y
+						b = [a[1], a[2], a[0]].join("-");
+					} else if (date_format == "d-m-Y") {
+						// other date format
+						// Y-m-d ---> d-m-Y
+						b = [a[2], a[1], a[0]].join("-");
+					}
+					// console.log(b + gio);
+					$(this).val(b + gio);
+				}
+			});
+		}
 	};
 
 	// pick date

@@ -52,7 +52,7 @@ if (typeof WGR_config != "undefined") {
 // console.log("currency fraction digits", currency_fraction_digits);
 
 // định dạng số -> tương tự number_format trong php
-var numFormatter = new Intl.NumberFormat();
+var numFormatter = new Intl.NumberFormat("en-US");
 
 // định dạng tiền tệ
 var moneyFormatter = numFormatter;
@@ -63,14 +63,9 @@ if (currency_locales_format != "") {
 		{
 			style: "currency",
 			currency: currency_sd_format,
-			minimumFractionDigits: currency_fraction_digits,
+			// minimumFractionDigits: currency_fraction_digits,
 		}
 	);
-} else if (currency_fraction_digits > 0) {
-	// không có thì mặc định là en-US
-	moneyFormatter = new Intl.NumberFormat("en-US", {
-		minimumFractionDigits: currency_fraction_digits,
-	});
 }
 
 function WGR_html_alert(m, lnk) {
@@ -337,11 +332,6 @@ var g_func = {
 			return "";
 		}
 		str = str.toString().replace(/[^a-zA-Z\s]/g, "");
-
-		if (str == "") {
-			return "";
-		}
-
 		return str;
 	},
 	number_only: function (str, format) {
@@ -352,20 +342,16 @@ var g_func = {
 		if (typeof format == "string" && format != "") {
 			// console.log(format);
 			str = str.toString().replace(eval(format), "");
-
 			if (str == "") {
 				return 0;
 			}
-
 			// return str;
 			return str * 1;
 		} else {
 			str = str.toString().replace(/[^0-9\-\+]/g, "");
-
 			if (str == "") {
 				return 0;
 			}
-
 			// return parseInt( str, 10 );
 			return str * 1;
 		}
@@ -380,14 +366,27 @@ var g_func = {
 		// loại bỏ số 0 ở đầu chuỗi số
 		str = str.toString().replace(/\,/g, "") * 1;
 		// console.log(str);
+		if (isNaN(str)) {
+			return "NaN";
+		}
+		str = str.toFixed(currency_fraction_digits);
+		// console.log(str);
+		if (str < 1000) {
+			return str;
+		}
 
 		// chuyển sang định dạng tiền tệ
-		// console.log(str);
-		str = moneyFormatter.format(str);
-		// console.log(str);
-		return str;
+		return moneyFormatter.format(str);
 	},
 	number_format: function (str) {
+		// loại bỏ số 0 ở đầu chuỗi số
+		str = str.toString().replace(/\,/g, "") * 1;
+		// console.log(str);
+		if (isNaN(str)) {
+			return "NaN";
+		} else if (str < 1000) {
+			return str;
+		}
 		return numFormatter.format(str);
 	},
 	formatCurrency: function (num) {

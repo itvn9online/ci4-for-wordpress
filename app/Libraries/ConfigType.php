@@ -424,6 +424,7 @@ class ConfigType
                 'FAKE_WORDPRESS_VERSION' => 'Fake wordpress version',
                 'SITE_LANGUAGE_SUB_FOLDER' => 'Kiểu hiển thị đa ngôn ngữ',
                 'SITE_LANGUAGE_DEFAULT' => 'Ngôn ngữ mặc định',
+                'EBE_DATE_FORMAT' => 'Date Format',
                 'WGR_TABLE_PREFIX' => 'Database table prefix',
                 'HTACCESSS_ALLOW' => 'Htaccess allow',
                 //
@@ -614,6 +615,7 @@ class ConfigType
             // 'FAKE_WORDPRESS_VERSION' => '',
             'SITE_LANGUAGE_SUB_FOLDER' => 'select',
             'SITE_LANGUAGE_DEFAULT' => 'select',
+            'EBE_DATE_FORMAT' => 'select',
             'g_firebase_title' => 'heading',
             'g_firebase_config' => 'textarea',
             'firebase_json_config' => 'textarea',
@@ -987,6 +989,11 @@ class ConfigType
                 '1' => 'sub-folder',
             ],
             'SITE_LANGUAGE_DEFAULT' => $arr_default_display_lang,
+            'EBE_DATE_FORMAT' => [
+                'Y-m-d' => 'yyyy-mm-dd',
+                'm-d-Y' => 'mm-dd-yyyy',
+                'd-m-Y' => 'dd-mm-yyyy',
+            ],
         ];
         $arr['smtp2_secure'] = $arr['smtp_secure'];
         if (isset($arr[$key])) {

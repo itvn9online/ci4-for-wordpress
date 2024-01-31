@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 //
 use App\Libraries\PostType;
+use App\Libraries\DeletedStatus;
+use App\Libraries\TaxonomyType;
 
 //
 class Actions extends Layout
@@ -201,9 +203,21 @@ class Actions extends Layout
         // kiểm tra spam bot
         // $this->base_model->antiRequiredSpam();
 
+        // 
+        // print_r($_POST);
+
+        // nếu có mã giảm giá
+        $coupon_code = $this->MY_post('coupon_code');
+        $coupon_code = trim($coupon_code);
+        if (!empty($coupon_code)) {
+            // kiểm tra mã ko hợp lệ thì báo với người dùng
+            $data = $this->checkCouponCode($coupon_code);
+            // print_r($data);
+        }
+
         //
         $data = $this->MY_post('data');
-        print_r($data);
+        // print_r($data);
 
         // lấy danh sách sản phẩm
         $cart_id = $this->MY_post('cart_id', []);
@@ -287,31 +301,159 @@ class Actions extends Layout
         if (empty($coupon_code)) {
             $this->base_model->alert('Please enter a coupon code.', 'error');
         }
-
-        // thông báo khi coupon hết hạn
-        // $this->base_model->alert('This coupon has expired!', 'warning');
+        $coupon_code = trim($coupon_code);
 
         //
-        if ($coupon_code != 'xuan2024') {
-            $this->base_model->alert('Coupon `' . $coupon_code . '` does not exist!', 'error');
-        }
-
-        // TEST
-        $coupon_amount = rand(25, 50);
-        // $coupon_amount .= '%';
-
-        //
-        $coupon_amount = trim(str_replace(' ', '', $coupon_amount));
-
-        // coupon amount không có giá trị -> báo lỗi
-        if ($this->base_model->_eb_number_only($coupon_amount) < 1) {
-            $this->base_model->alert('Coupon amount has not been setup yet!', 'warning');
-        }
+        $data = $this->checkCouponCode($coupon_code);
 
         // Thiết lập lại thông số cho coupon
-        echo '<script>top.add_coupon_code("' . $coupon_amount . '", "' . $coupon_code . '");</script>';
+        echo '<script>top.add_coupon_code("' . $data['coupon_amount'] . '", "' . $coupon_code . '", "' . $data['discount_type'] . '");</script>';
 
         //
         $this->base_model->alert('Coupon code applied successfully.');
+    }
+
+    /**
+     * Kiểm tra 1 mã giảm giá còn khả dụng hay ko
+     **/
+    protected function checkCouponCode($code)
+    {
+        $data = $this->getCouponCode($code);
+        if (empty($data)) {
+            $this->base_model->alert('Coupon `' . $code . '` does not exist!', 'error');
+        }
+
+        //
+        if (empty($data['coupon_amount'])) {
+            $this->base_model->alert('Coupon amount not found!', 'warning');
+        }
+        $data['coupon_amount'] *= 1;
+
+        // coupon amount không có giá trị -> báo lỗi
+        if ($data['coupon_amount'] < 1) {
+            $this->base_model->alert('Coupon amount has not been setup yet!', 'warning');
+        }
+
+        // chuyển sang giảm giá theo %
+        if ($data['discount_type'] == 'percent') {
+            $data['coupon_amount'] .= '%';
+        }
+        // print_r($data);
+
+        // xem hạn sử dụng
+        if (strlen(substr($data['expiry_date'], 0, 10)) == 10 && strtotime($data['expiry_date']) < time()) {
+            // thông báo khi coupon hết hạn
+            $this->base_model->alert('This coupon has expired!', 'warning');
+        }
+
+        //
+        return $data;
+    }
+
+    /**
+     * Trả về thông tin chi tiết của 1 mã giảm giá nếu có
+     **/
+    protected function getCouponCode($code)
+    {
+        //
+        if (empty($code)) {
+            return false;
+        }
+
+        // lấy data theo key
+        $data = $this->base_model->select(
+            '*',
+            'termmeta',
+            array(
+                // các kiểu điều kiện where
+                'UPPER(meta_value)' => strtoupper($code),
+                'meta_key' => 'coupon_code',
+            ),
+            array(
+                'group_by' => array(
+                    'term_id',
+                ),
+                // hiển thị mã SQL để check
+                // 'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => 10
+            )
+        );
+        // print_r($data);
+
+        //
+        if (empty($data)) {
+            return false;
+        }
+
+        // list ra danh sách term_id
+        $ids = [];
+        foreach ($data as $v) {
+            $ids[] = $v['term_id'];
+        }
+        // print_r($ids);
+
+        // lấy thông tin term -> vì có phân biệt theo ngôn ngữ nữa
+        $data = $this->base_model->select(
+            '*',
+            'terms',
+            array(
+                // các kiểu điều kiện where
+                'lang_key' => $this->lang_key,
+                'is_deleted' => DeletedStatus::FOR_DEFAULT,
+            ),
+            array(
+                'where_in' => array(
+                    'term_id' => $ids
+                ),
+                // hiển thị mã SQL để check
+                // 'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => 1
+            )
+        );
+
+        //
+        if (empty($data)) {
+            return false;
+        }
+        // print_r($data);
+        $data = $this->term_model->terms_meta_post([$data]);
+        // print_r($data);
+
+        //
+        $data = $data[0];
+        // print_r($data);
+
+        // 
+        $term_meta = $data['term_meta'];
+        // print_r($term_meta);
+
+        // bổ sung các meta còn thiếu
+        $meta_default = $this->term_model->taxonomy_meta_default(TaxonomyType::SHOP_COUPON);
+        // print_r($meta_default);
+
+        //
+        foreach ($meta_default as $k => $v) {
+            if (!isset($term_meta[$k])) {
+                $term_meta[$k] = '';
+            }
+        }
+        // print_r($term_meta);
+
+        //
+        return $term_meta;
     }
 }

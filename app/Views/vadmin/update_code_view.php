@@ -114,7 +114,7 @@ if (is_file(WRITEPATH . THEMENAME . '.zip')) {
             <input type="hidden" name="data" value="1" />
             <div>
                 <button type="submit" class="btn btn-primary"><i class="fa fa-file-archive-o"></i> Unzip theme code (<?php echo THEMENAME; ?>)</button>
-                Cập nhật cuối: <?php echo date('Y-m-d H:i:s', filemtime(WRITEPATH . THEMENAME . '.zip')); ?>
+                Cập nhật cuối: <?php echo date(EBE_DATETIME_FORMAT, filemtime(WRITEPATH . THEMENAME . '.zip')); ?>
             </div>
         </form>
     </div>

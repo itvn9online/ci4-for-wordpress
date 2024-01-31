@@ -83,22 +83,42 @@ class Constants extends Configs
                         // mặc định là sử dụng file -> không cần khai báo thêm
                         // $a[] = "define('CUSTOM_SESSION_PATH', WRITEPATH . 'session');";
                     } else if ($v == 'RedisHandler') {
-                        if (empty(phpversion('redis'))) {
-                            echo 'redis not found! <br>' . PHP_EOL;
+                        if (empty(phpversion('redis')) || $this->checkRedis() !== true) {
+                            echo 'redis not found! Code #' . __LINE__ . ' <br>' . PHP_EOL;
                             continue;
+                        } else {
+                            // nếu không lỗi lầm gì thì thiết lập redis
+                            $a[] = "define('CUSTOM_SESSION_PATH', 'tcp://localhost:6379');";
+                            // $a[] = "define('CUSTOM_SESSION_PATH', 'tcp://127.0.0.1:6379');";
                         }
-                        $a[] = "define('CUSTOM_SESSION_PATH', 'tcp://localhost:6379');";
                     } else if ($v == 'MemcachedHandler') {
-                        if (!class_exists('Memcached')) {
-                            echo 'Memcached not found! <br>' . PHP_EOL;
+                        if (!class_exists('Memcached') || $this->checkMemcached() !== true) {
+                            echo 'Memcached not found! Code #' . __LINE__ . ' <br>' . PHP_EOL;
                             continue;
+                        } else {
+                            // nếu không lỗi lầm gì thì thiết lập Memcached
+                            $a[] = "define('CUSTOM_SESSION_PATH', 'localhost:11211');";
+                            // $a[] = "define('CUSTOM_SESSION_PATH', '127.0.0.1:11211');";
                         }
-                        $a[] = "define('CUSTOM_SESSION_PATH', 'localhost:11211');";
                     } else if ($v == 'DatabaseHandler') {
                         $a[] = "define('CUSTOM_SESSION_PATH', 'ci_sessions');";
                     } else {
                         // không nằm trong danh sách kia thì loại bỏ luôn
                         continue;
+                    }
+                }
+                // 1 số trường hợp sẽ thêm lệnh kiểm tra vào trước tham số -> để tránh lỗi nếu trong quá trình hoạt động có sự thay đổi
+                else if ($k == 'MY_CACHE_HANDLER') {
+                    if ($v == 'redis') {
+                        if (empty(phpversion('redis')) || $this->checkRedis() !== true) {
+                            echo 'redis not found! Code #' . __LINE__ . ' <br>' . PHP_EOL;
+                            continue;
+                        }
+                    } else if ($v == 'memcached') {
+                        if (!class_exists('Memcached') || $this->checkMemcached() !== true) {
+                            echo 'Memcached not found! Code #' . __LINE__ . ' <br>' . PHP_EOL;
+                            continue;
+                        }
                     }
                 }
                 // bỏ dấu / ở 2 đầu nếu có
@@ -116,23 +136,8 @@ class Constants extends Configs
                     }
                 }
 
+                // 
                 //$a[] = "defined('$k') || define('$k', $str_quote$v$str_quote);";
-                // 1 số trường hợp sẽ thêm lệnh kiểm tra vào trước tham số -> để tránh lỗi nếu trong quá trình hoạt động có sự thay đổi
-                if ($k == 'MY_CACHE_HANDLER') {
-                    if ($v == 'redis') {
-                        if (empty(phpversion('redis'))) {
-                            echo 'redis not found! <br>' . PHP_EOL;
-                            continue;
-                        }
-                    } else if ($v == 'memcached') {
-                        if (!class_exists('Memcached')) {
-                            echo 'Memcached not found! <br>' . PHP_EOL;
-                            continue;
-                        }
-                    }
-                }
-
-                //
                 $a[] = "define('$k', $str_quote$v$str_quote);";
             }
         }
@@ -160,5 +165,46 @@ class Constants extends Configs
 
         //
         parent::updated($this->config_type);
+    }
+
+    /**
+     * kiểm tra redis khi lưu config
+     **/
+    protected function checkRedis()
+    {
+        // connect thử vào redis
+        try {
+            $rd = new \Redis();
+            // $rd->connect('127.0.0.1', 6379);
+            $rd->connect('localhost', 6379);
+
+            // 
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * kiểm tra Memcached khi lưu config
+     **/
+    protected function checkMemcached()
+    {
+        // connect thử vào Memcached
+        try {
+            // procedural API
+            if (function_exists('memcache_connect')) {
+                $memcache_obj = memcache_connect('localhost', 11211);
+            } else {
+                // OO API
+                $memcache = new \Memcache;
+                $memcache->connect('localhost', 11211);
+            }
+
+            // 
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 }

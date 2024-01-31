@@ -9,6 +9,12 @@ $base_model->add_css('wp-admin/css/' . $taxonomy . '.css');
 //
 include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
 
+//
+$data_description_height = 550;
+if ($taxonomy == TaxonomyType::ADS || $taxonomy == TaxonomyType::SHOP_COUPON) {
+    $data_description_height = 250;
+}
+
 ?>
 <div class="widget-box">
     <div class="widget-content nopadding">
@@ -107,7 +113,7 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
             <div class="control-group">
                 <label class="control-label">Nội dung</label>
                 <div class="controls f80">
-                    <textarea id="Resolution" rows="30" data-height="<?php echo ($taxonomy == TaxonomyType::ADS ? '250' : '550'); ?>" class="ckeditor auto-ckeditor" placeholder="Nhập thông tin chi tiết..." name="data[description]"><?php echo $data['description']; ?></textarea>
+                    <textarea id="Resolution" rows="30" data-height="<?php echo $data_description_height; ?>" class="ckeditor auto-ckeditor" placeholder="Nhập thông tin chi tiết..." name="data[description]"><?php echo $data['description']; ?></textarea>
                 </div>
             </div>
             <?php
@@ -175,7 +181,7 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
 
                 //
             ?>
-                <div class="control-group">
+                <div class="control-group control-meta-group">
                     <?php
                     if ($input_type == 'checkbox') {
                     ?>
@@ -283,7 +289,7 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
 
             ?>
             <div class="end-term-add"></div>
-            <div class="control-group">
+            <div class="control-group control-taxonomy-group">
                 <div class="control-label">Taxonomy:</div>
                 <div class="controls"><?php echo $data['taxonomy']; ?></div>
             </div>
@@ -297,7 +303,7 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
             </div>
             <div class="control-group">
                 <div class="control-label">Next count child term:</div>
-                <div class="controls"><?php echo ($data['child_last_count'] > 0 ? date('Y-m-d H:i:s', $data['child_last_count']) : ''); ?></div>
+                <div class="controls"><?php echo ($data['child_last_count'] > 0 ? date(EBE_DATETIME_FORMAT, $data['child_last_count']) : ''); ?></div>
             </div>
             <div class="control-group">
                 <div class="control-label">Source count:</div>
@@ -386,7 +392,7 @@ include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
 
 // nạp thêm custom view nếu có
 $theme_private_view = str_replace(VIEWS_PATH, VIEWS_CUSTOM_PATH, __FILE__);
-//echo $theme_private_view;
+// echo $theme_private_view . '<br>' . PHP_EOL;
 include VIEWS_PATH . 'private_require_view.php';
 
 

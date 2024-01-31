@@ -30,3 +30,6 @@ $base_model->adds_js([
 ], [
     'defer'
 ]);
+
+// chức năng đăng nhập tự động
+include __DIR__ . '/includes/login_rememberme.php';

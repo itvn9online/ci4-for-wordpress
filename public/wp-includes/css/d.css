@@ -366,12 +366,17 @@ body.home .thread-details-tohome {
     display: block;
 }
 
+.btc-noti-logo,
 .btc-register-logo {
-    background-image: url(../images/dadangky.png);
+    height: 50px;
+}
+
+.btc-register-logo {
+    /* background-image: url(../images/dadangky.png); */
 }
 
 .btc-noti-logo {
-    background-image: url(../images/dathongbao.png);
+    /* background-image: url(../images/dathongbao.png); */
 }
 
 /* for elementor */

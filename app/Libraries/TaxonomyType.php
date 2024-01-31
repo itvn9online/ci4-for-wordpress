@@ -142,6 +142,15 @@ class TaxonomyType
             $arr['open_target'] = 'Mở liên kết trong tab mới';
             $arr['text_view_more'] = 'Hiển thị nút xem thêm';
             $arr['text_view_details'] = 'Hiển thị nút xem chi tiết';
+        } else if ($taxonomy == self::SHOP_COUPON) {
+            $arr['coupon_code'] = 'Coupon code';
+            $arr['discount_type'] = 'Discount type';
+            $arr['coupon_amount'] = 'Coupon amount';
+            $arr['expiry_date'] = 'Coupon expiry date';
+            $arr['minimum_spend'] = 'Minimum spend';
+            $arr['maximum_spend'] = 'Maximum spend';
+            $arr['limit_per_coupon'] = 'Usage limit per coupon';
+            $arr['limit_per_user'] = 'Usage limit per user';
         } else {
             // SEO
             $arr['meta_title'] = 'Meta title';
@@ -185,6 +194,14 @@ class TaxonomyType
             // 'taxonomy_auto_slider' => 'checkbox',
             'max_width' => 'select',
             //'term_status' => 'select',
+            // 
+            'discount_type' => 'select',
+            'coupon_amount' => 'number',
+            'expiry_date' => 'date',
+            'minimum_spend' => 'number',
+            'maximum_spend' => 'number',
+            'limit_per_coupon' => 'number',
+            'limit_per_user' => 'number',
         ];
         if (isset($arr[$key])) {
             return $arr[$key];
@@ -212,7 +229,16 @@ class TaxonomyType
             'term_col_templates' => 'HTML mẫu của phần col cho từng danh mục (nếu có). Mặc định sử dụng col chung của website.',
             'post_custom_cloumn' => 'Khi cần tùy chỉnh `Bố cục bài viết` cho danh mục này thì có thể thêm file .html vào đây `/' . str_replace(ROOTPATH, '', VIEWS_CUSTOM_PATH) . 'ads_node/` sau đó chọn file tương ứng cho danh mục này. HTML trong file được chọn sẽ dùng để tạo hình cho bài viết. Mẫu HTML có thể copy từ file `/app/Views/html/ads_node.html` hoặc tùy chỉnh theo tiêu chuẩn .col của bootstrap.',
             //'term_status' => 'Dùng khi cần ẩn các danh mục khỏi menu động.',
+            // 
+            'coupon_amount' => 'Value of the coupon.',
+            'expiry_date' => 'The coupon will expire at 00:00:00 of this date.',
+            'minimum_spend' => 'This field allows you to set the minimum spend (subtotal) allowed to use the coupon.',
+            'maximum_spend' => 'This field allows you to set the maximum spend (subtotal) allowed when using the coupon.',
+            'limit_per_coupon' => 'How many times this coupon can be used before it is void.',
+            'limit_per_user' => 'How many times this coupon can be used by an individual user. Uses billing email for guests, and user ID for logged in users.',
         ];
+
+        //
         if (isset($arr[$key])) {
             echo '<p class="controls-text-note">' . $arr[$key] . '</p>';
         }
@@ -304,6 +330,13 @@ class TaxonomyType
                 TaxonomyType::HIDDEN => 'Ẩn',
             ],
             */
+            // 
+            'discount_type' => [
+                // fixed_cart
+                '' => 'Fixed cart discount',
+                'percent' => 'Percentage discount',
+                'fixed_product' => 'Fixed product discount',
+            ],
         ];
         if (isset($arr[$key])) {
             return $arr[$key];

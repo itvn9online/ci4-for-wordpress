@@ -1,5 +1,6 @@
 // không thay đổi giá trị giỏ hàng liên tục
-var delay_change_cart_data = null;
+var delay_change_cart_data = null,
+	cart_discount_type = "";
 
 // trả về dữ liệu trong cache
 function cart_get_cache_data(key) {
@@ -81,6 +82,7 @@ function run_calculate_cart_value() {
 
 	// tổng chính -> sau khi tính thuế má, phí vận chuyển, mã giảm giá...
 	price_total = price_sub_total;
+	// tính theo % giỏ hàng
 	if (cart_config.coupon_amount.toString().split("%").length > 1) {
 		let coupon_amount = g_func.number_only(cart_config.coupon_amount);
 		console.log("coupon amount", coupon_amount);
@@ -96,7 +98,22 @@ function run_calculate_cart_value() {
 		}
 	} else {
 		cart_config.coupon_amount *= 1;
-		price_total -= cart_config.coupon_amount;
+
+		// tính theo số lượng sản phẩm trong giỏ hàng
+		if (item_total > 1 && cart_discount_type == "fixed_product") {
+			// console.log(cart_discount_type, item_total);
+			let fixed_product = cart_config.coupon_amount * item_total;
+			// hiển thị số tiền giảm giá
+			$(".cart-discount-value")
+				.html(g_func.money_format(fixed_product))
+				.addClass("ebe-currency");
+
+			//
+			price_total -= fixed_product;
+		} else {
+			// tính theo tổng tiền của giỏ hàng
+			price_total -= cart_config.coupon_amount;
+		}
 	}
 	$(".cart-total-regular_price").html(
 		g_func.money_format(price_total + cart_config.shipping_fee)
@@ -216,14 +233,15 @@ function proceed_to_checkout() {
 // hiển thị mã giảm giá nếu có
 function show_coupon_code() {
 	if (cart_config.coupon_code != "") {
+		// console.log(cart_discount_type, cart_config.coupon_code);
 		$(".cart-discount-code").html(cart_config.coupon_code);
-		// tính theo % -> hiển thị %
+		// tính theo % -> hiển thị % giảm giá
 		if (cart_config.coupon_amount.toString().split("%").length > 1) {
 			$(".cart-discount-value")
 				.html(cart_config.coupon_amount)
 				.removeClass("ebe-currency");
 		} else {
-			// hiển thị số tiền
+			// hiển thị số tiền giảm giá
 			$(".cart-discount-value")
 				.html(g_func.money_format(cart_config.coupon_amount))
 				.addClass("ebe-currency");
@@ -248,7 +266,7 @@ function remove_coupon_code() {
 }
 
 // thiết lập lại giá trị cho phần coupon
-function set_coupon_code(val, code) {
+function set_coupon_code(val, code, discount_type) {
 	// nếu tính theo % thì không cần xử lý gì cả
 	// giảm theo số nguyên thì mới gán số nguyên
 	if (val.toString().split("%").length < 2) {
@@ -258,6 +276,12 @@ function set_coupon_code(val, code) {
 			val = 0 - val;
 		}
 	}
+
+	//
+	if (typeof discount_type == "undefined") {
+		discount_type = "";
+	}
+	cart_discount_type = discount_type;
 
 	// gán lại giá trị cho phần coupon
 	cart_config.coupon_code = code;
@@ -272,16 +296,26 @@ function set_coupon_code(val, code) {
 }
 
 // thêm mã giảm giá
-function add_coupon_code(val, code) {
+function add_coupon_code(val, code, discount_type) {
 	if (typeof code == "undefined" || code == "") {
 		code = $.trim($("#coupon_custom_code").val() || "");
 	}
+
+	//
+	if (typeof discount_type == "undefined") {
+		discount_type = "";
+	}
+
+	//
 	if (code != "" && typeof val != "undefined") {
 		// lưu coupon này vào cache
-		cart_set_cache_data("cache-coupon-code", code + ";" + val);
+		cart_set_cache_data(
+			"cache-coupon-code",
+			code + ";" + val + ";" + discount_type
+		);
 
 		//
-		return set_coupon_code(val, code);
+		return set_coupon_code(val, code, discount_type);
 	}
 	return false;
 }
@@ -295,8 +329,9 @@ function cache_coupon_code() {
 	if (a !== null) {
 		// console.log("cache-coupon-code", a);
 		a = a.split(";");
-		if (a.length === 2 && $.trim(a[0]) != "" && $.trim(a[1]) != "") {
-			return set_coupon_code(a[1], a[0]);
+		if (a.length === 3 && $.trim(a[0]) != "" && $.trim(a[1]) != "") {
+			let discount_type = a[2];
+			return set_coupon_code(a[1], a[0], discount_type);
 		}
 	}
 

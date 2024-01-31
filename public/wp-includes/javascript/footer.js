@@ -166,6 +166,7 @@ jQuery(document)
 
 		//
 		_global_js_eb.ebe_currency_format();
+		_global_js_eb.ebe_number_format();
 
 		//
 		if (typeof sync_ajax_post_term == "function") {

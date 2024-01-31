@@ -13,7 +13,7 @@ $anti_div_id_spam = '_' . $this->rand_anti_spam . rand(99, 999);
 
 ?>
 <style>
-    <?php echo 'div.' . $anti_div_id_spam; ?> {
+    <?php echo 'p.' . $anti_div_id_spam; ?> {
         position: absolute;
         left: -9999px;
         z-index: -1;
@@ -44,7 +44,7 @@ $anti_div_id_spam = '_' . $this->rand_anti_spam . rand(99, 999);
         }
         $i++;
     ?>
-        <input type="<?php echo $v; ?>" name="<?php echo $this->rand_anti_spam; ?>_<?php echo $k; ?>" autocomplete="off" readonly value="<?php echo $val; ?>" <?php echo $attr_required; ?> />
+        <input type="hidden" data-type="<?php echo $v; ?>" name="<?php echo $this->rand_anti_spam; ?>_<?php echo $k; ?>" aria-labelledby="<?php echo $v; ?>" autocomplete="off" readonly value="<?php echo $val; ?>" <?php echo $attr_required; ?> />
     <?php
     }
 
@@ -73,7 +73,7 @@ $anti_div_id_spam = '_' . $this->rand_anti_spam . rand(99, 999);
         'code' => $rand_code,
     ] as $k => $v) {
     ?>
-        <input type="text" name="<?php echo $this->rand_anti_spam; ?>_<?php echo $k; ?>" placeholder="<?php echo $k; ?>" value="<?php echo $v; ?>" readonly aria-required="true" required />
+        <input type="hidden" name="<?php echo $this->rand_anti_spam; ?>_<?php echo $k; ?>" placeholder="<?php echo $k; ?>" value="<?php echo $v; ?>" aria-labelledby="<?php echo $k; ?>" readonly aria-required="true" required />
     <?php
     }
 
