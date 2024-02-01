@@ -1,21 +1,5 @@
 <?php
 
-/**
- * do session của ci4 đứt liên tục -> sử dụng session mặc định của php vậy
- * Ở ci v4.4.3 -> không dùng session start ở đây do ci4 có thay đổi path save session
- **/
-// session_start();
-
-// do vụ update permalink gây lỗi 404 nên phải xử lý thủ công mấy link này
-/*
-if (strpos($_SERVER['REQUEST_URI'], 'https://' . $_SERVER['HTTP_HOST'] . '/') !== false) {
-    //echo substr( $_SERVER['REQUEST_URI'], 1 ) . '<br>'.PHP_EOL;
-    header("HTTP/1.1 301 Moved Permanently");
-    header("Location: " . substr($_SERVER['REQUEST_URI'], 1));
-    exit();
-}
-*/
-
 // Check PHP version.
 $minPhpVersion = '7.4'; // If you update this, don't forget to update `spark`.
 if (version_compare(PHP_VERSION, $minPhpVersion, '<')) {
@@ -60,7 +44,7 @@ require_once SYSTEMPATH . 'Config/DotEnv.php';
 (new CodeIgniter\Config\DotEnv(ROOTPATH))->load();
 
 // Define ENVIRONMENT
-if (!defined('ENVIRONMENT')) {
+if (! defined('ENVIRONMENT')) {
     define('ENVIRONMENT', env('CI_ENVIRONMENT', 'production'));
 }
 

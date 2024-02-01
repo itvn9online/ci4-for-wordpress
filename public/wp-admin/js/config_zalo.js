@@ -33,11 +33,11 @@ $(document).ready(function () {
 		.val(web_link + "zalos/webhook");
 
 	//
-	var a = $("#data_zalooa_expires_token").val() || "";
+	let a = $("#data_zalooa_expires_token").val() || "";
 	if (a != "") {
 		a *= 1000;
 		if (!isNaN(a)) {
-			var tzoffset = new Date().getTimezoneOffset() * 60000; // offset in milliseconds
+			let tzoffset = new Date().getTimezoneOffset() * 60000; // offset in milliseconds
 			a = new Date(a - tzoffset).toISOString().split(".")[0].replace("T", " ");
 			$("#data_zalooa_expires_token").after(" " + a);
 		}

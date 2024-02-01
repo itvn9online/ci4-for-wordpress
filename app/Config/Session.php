@@ -3,8 +3,8 @@
 namespace Config;
 
 use CodeIgniter\Config\BaseConfig;
-// use CodeIgniter\Session\Handlers\BaseHandler;
-// use CodeIgniter\Session\Handlers\FileHandler;
+use CodeIgniter\Session\Handlers\BaseHandler;
+use CodeIgniter\Session\Handlers\FileHandler;
 
 class Session extends BaseConfig
 {
@@ -19,7 +19,7 @@ class Session extends BaseConfig
      * - `CodeIgniter\Session\Handlers\MemcachedHandler`
      * - `CodeIgniter\Session\Handlers\RedisHandler`
      *
-     * @phpstan-var class-string<BaseHandler>
+     * @var class-string<BaseHandler>
      */
     public string $driver = CUSTOM_SESSION_DRIVER;
 

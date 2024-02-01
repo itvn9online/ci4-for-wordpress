@@ -58,6 +58,7 @@ function tmp_to_term_html(data, tmp, gach_ngang) {
 
 	//
 	let arr = data;
+	console.log(arr);
 	for (let x in arr) {
 		//console.log(typeof arr[x], arr[x]);
 		if (typeof arr[x] != "object") {

@@ -74,7 +74,7 @@ class ConfigType
         self::SMTP => 'Cấu hình Mail/ Telegram',
         self::CONSTANTS => 'Constants',
         self::CHECKOUT => 'Thanh toán',
-        self::CHECKBOX => 'Bật/ Tắt',
+        self::CHECKBOX => 'On/ Off',
         self::NUM_MON => 'Số',
         self::FIREBASE => 'Firebase',
         self::ZALO => 'Zalo OA',
@@ -406,8 +406,9 @@ class ConfigType
                 'MY_DB_DRIVER' => 'DB Driver',
                 'BASE_PROTOCOL' => 'Giao thức cơ sở',
                 'CUSTOM_MD5_HASH_CODE' => 'MD5 hash code',
-                'MY_CACHE_HANDLER' => 'Kiểu cache',
+                'MY_CACHE_HANDLER' => 'Cache handler',
                 'MY_SESSION_DRIVE' => 'Session driver',
+                'MY_APP_TIMEZONE' => 'App timezone',
                 'CDN_BASE_URL' => 'CDN base URL',
                 'ALLOW_USING_MYSQL_DELETE' => 'Using MySQL DELETE',
                 'WGR_CSP_ENABLE' => 'CSP header',
@@ -606,6 +607,7 @@ class ConfigType
             'BASE_PROTOCOL' => 'select',
             'MY_CACHE_HANDLER' => 'select',
             'MY_SESSION_DRIVE' => 'select',
+            'MY_APP_TIMEZONE' => 'select',
             'ALLOW_USING_MYSQL_DELETE' => 'select',
             'WGR_CSP_ENABLE' => 'select',
             'NUMBER_CHECKBOXS_INPUT' => 'number',
@@ -768,7 +770,7 @@ class ConfigType
             'FTP_HOST' => 'Thông tin FTP - dùng để điều khiển file trong trường hợp bị lỗi permission. Mặc định là: 127.0.0.1',
             'CDN_BASE_URL' => 'URL để chạy CDN cho các file tĩnh (nếu có). Ví dụ: https://cdn.' . $_SERVER['HTTP_HOST'] . '/',
             'ALLOW_USING_MYSQL_DELETE' => 'Mặc định không cho xóa hoàn toàn dữ liệu trong mysql, nếu bạn muốn xóa hẳn thì có thể kích hoạt tính năng này.',
-            'WGR_CSP_ENABLE' => 'Bật/Tắt chế độ Content-Security-Policy. Nhớ điều chỉnh thông số src cho hợp lý.',
+            'WGR_CSP_ENABLE' => 'On/ Off chế độ Content-Security-Policy. Nhớ điều chỉnh thông số src cho hợp lý.',
             'NUMBER_CHECKBOXS_INPUT' => 'Website nào cần dùng nhiều tăng số lượng bản ghi lên.',
             'ANTI_SPAM_EXPIRED' => 'Thời gian hết hạn cho mỗi token trong chức năng anti spam.',
             'CUSTOM_FAKE_POST_VIEW' => 'Mặc định mỗi lần truy cập bài viết thì bài đó sẽ được tăng lên 1 viewd. Nếu muốn tăng nhiều hơn, hãy tăng tham số này lên. Đặt là 0 sẽ loại bỏ chức năng cập nhật lượt xem.',
@@ -777,6 +779,8 @@ class ConfigType
             'SITE_LANGUAGE_SUB_FOLDER' => 'Nếu là sub-folder thì sẽ hỗ trợ prefix cho routes, url cũng sẽ thêm prefix vào ngay sau domain. Ví dụ: domain.com/vn hoặc domain.com/en',
             'CUSTOM_MD5_HASH_CODE' => 'Chuỗi sẽ thêm vào khi sử dụng hàm mdnam -> md5 -> tăng độ bảo mật cho chuỗi. Chỉ thay đổi khi thực sự cần thiết do thông số này sẽ có thể khiến toàn bộ chuỗi sử dụng hàm mdnam sẽ phải dựng lại.',
             'MY_SESSION_DRIVE' => 'Không nên sử dụng Cache và Session cùng một drive. Ví dụ: cache dùng Redis thì session nên dùng Memcached để có thể dọn dẹp cache khi cần thiết.',
+            'MY_APP_TIMEZONE' => 'The default timezone that will be used in your application to display',
+            'MY_CACHE_HANDLER' => 'The name of the preferred handler that should be used. If for some reason it is not available, the $backupHandler will be used in its place.',
             'WGR_TABLE_PREFIX' => 'Xóa trắng để xem mặc định: ' . WGR_TABLE_PREFIX,
             'HTACCESSS_ALLOW' => 'Một số thư mục chỉ cho phép 1 số định dạng file được phép truy cập. Xóa trắng để xem mặc định: ' . HTACCESSS_ALLOW,
             //
@@ -874,7 +878,7 @@ class ConfigType
 
         //
         $arr_default_display_lang = [
-            '' => 'Mặc định theo code',
+            '' => 'Default by code',
         ];
         //print_r(SITE_LANGUAGE_SUPPORT);
         foreach (SITE_LANGUAGE_SUPPORT as $v) {
@@ -943,48 +947,51 @@ class ConfigType
             ],
             //
             'MY_DB_DRIVER' => [
-                '' => 'Mặc định theo code',
+                '' => 'Default by code',
                 'MySQLi' => 'MySQLi',
                 'Postgre' => 'Postgre',
                 'PDO' => 'PDO',
                 'Oracle' => 'Oracle',
             ],
             'BASE_PROTOCOL' => [
-                '' => 'Mặc định theo code',
+                '' => 'Default by code',
                 'https' => 'https',
                 'http' => 'http',
             ],
             'MY_CACHE_HANDLER' => [
-                '' => 'Mặc định theo code',
+                '' => 'Default by code',
                 'file' => 'File',
                 'redis' => 'Redis',
                 'memcached' => 'Memcached',
                 self::DISABLE_CACHE => 'Disable',
             ],
             'MY_SESSION_DRIVE' => [
-                '' => 'Mặc định theo code',
+                '' => 'Default by code',
                 'FileHandler' => 'File',
                 'RedisHandler' => 'Redis',
                 'MemcachedHandler' => 'Memcached',
                 'DatabaseHandler' => 'Database',
             ],
+            'MY_APP_TIMEZONE' => [
+                '' => 'Default by code',
+            ],
             'ALLOW_USING_MYSQL_DELETE' => [
-                '' => 'Mặc định theo code',
-                '0' => 'Tắt',
-                '1' => 'Bật',
+                '' => 'Default by code',
+                '0' => 'Off',
+                '1' => 'On',
             ],
             'WGR_CSP_ENABLE' => [
-                '' => 'Mặc định theo code',
-                '0' => 'Tắt',
-                '1' => 'Bật',
+                '' => 'Default by code',
+                '0' => 'Off',
+                '1' => 'On',
             ],
             'ENABLE_AMP_VERSION' => [
-                '' => 'Mặc định theo code',
-                '0' => 'Tắt',
-                '1' => 'Bật',
+                '' => 'Default by code',
+                '0' => 'Off',
+                '1' => 'On',
             ],
             'SITE_LANGUAGE_SUB_FOLDER' => [
-                '' => 'Mặc định theo code',
+                '' => 'Default by code',
                 '0' => 'sub-domain',
                 '1' => 'sub-folder',
             ],

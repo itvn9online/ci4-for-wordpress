@@ -5,6 +5,9 @@
  * Tách riêng kiểu này để khi các loại terms khác nhau muốn hiển thị các dữ liệu khác nhau thì chỉ cần copy file list_table.php ra thư mục view tương ứng rồi chỉnh sửa nó là được.
  **/
 
+//
+// print_r($data);
+
 ?>
 <table class="table table-bordered table-striped with-check table-list eb-table">
     <thead>
@@ -13,12 +16,13 @@
             <th>ID</th>
             <th>Tên <?php echo $name_type; ?></th>
             <th>Slug</th>
-            <!-- <th>Tên rút gọn</th> -->
-            <th class="d-none show-if-ads-type">Size</th>
-            <!-- <th>Nội dung</th> -->
+            <th>Coupon code</th>
+            <th>Discount type</th>
+            <th>Coupon amount</th>
+            <th>Coupon expiry date</th>
             <th>Ngôn ngữ</th>
-            <th>Tổng</th>
-            <th>STT</th>
+            <!-- <th>Tổng</th> -->
+            <!-- <th>STT</th> -->
             <th>&nbsp;</th>
         </tr>
     </thead>
@@ -36,11 +40,13 @@
                 <div>{{v.slug}}</div>
                 <div><a href="{{v.view_url}}" target="_blank">{{v.view_url}} <i class="fa fa-eye"></i></a></div>
             </td>
-            <td class="d-none show-if-ads-type"><?php echo $ads_size; ?></td>
-            <!-- <td>&nbsp;</td> -->
+            <td class="upper">%term_meta.coupon_code%</td>
+            <td>%term_meta.discount_type%</td>
+            <td>%term_meta.coupon_amount%</td>
+            <td>%term_meta.expiry_date%</td>
             <td width="90">{{v.lang_key}}</td>
-            <td width="90">{{v.count}}</td>
-            <td width="60"><input type="text" data-id="{{v.term_id}}" value="{{v.term_order}}" size="5" class="form-control s change-update-term_order" /></td>
+            <!-- <td width="90">{{v.count}}</td> -->
+            <!-- <td width="60"><input type="text" data-id="{{v.term_id}}" value="{{v.term_order}}" size="5" class="form-control s change-update-term_order" /></td> -->
             <td class="text-center big">
                 <?php
                 include ADMIN_ROOT_VIEWS . 'terms/list_action.php';

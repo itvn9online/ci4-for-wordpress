@@ -30,8 +30,8 @@ class Dashboards extends Dashboard
         //
         $arr_download_thirdparty = [
             //'https://github.com/vuejs/vue/releases',
-            'https://v2.vuejs.org/v2/guide/installation.html?current_version=2.7.13',
-            'https://github.com/PHPMailer/PHPMailer',
+            'https://v2.vuejs.org/v2/guide/installation.html?current_version=2.7.16',
+            'https://github.com/PHPMailer/PHPMailer/releases/tag/v6.8.0',
             'https://jquery.com/download/?current_version=3.6.1',
             'https://getbootstrap.com/docs/5.0/getting-started/download/?current_version=5.0.2',
             'https://icons.getbootstrap.com/?current_version=1.9.0',

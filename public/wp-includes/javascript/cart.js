@@ -165,6 +165,7 @@ function action_ajax_cart() {
 				console.log("%c " + data.error, "color: red");
 			} else if (typeof data.table != "undefined") {
 				// gọi đến hàm trước khi nạp xong giỏ hàng (nếu có)
+				console.log("action_before_ajax_cart");
 				if (typeof action_before_ajax_cart == "function") {
 					action_before_ajax_cart(data);
 				}
@@ -200,6 +201,7 @@ function action_ajax_cart() {
 				cart_table_buttons_added();
 
 				// gọi đến hàm sau khi nạp xong giỏ hàng (nếu có)
+				console.log("action_after_ajax_cart");
 				if (typeof action_after_ajax_cart == "function") {
 					action_after_ajax_cart(data);
 				}

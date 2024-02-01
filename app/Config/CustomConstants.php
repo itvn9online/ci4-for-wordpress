@@ -312,6 +312,10 @@ if (is_file(THEMEPATH . 'functions.php')) {
 ####################################################################
 
 
+// 
+defined('MY_APP_TIMEZONE') || define('MY_APP_TIMEZONE', 'UTC');
+
+
 /**
  * 1 số hosting sử dụng path redis, memcached khác thì cũng cần khai báo lại
  */

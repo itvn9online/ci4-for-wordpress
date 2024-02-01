@@ -860,7 +860,7 @@ class Term extends TermBase
                 }
                 $post_cat = $post_cat[0];
             } else if (isset($ops['get_meta'])) {
-                //die( __CLASS__ . ':' . __LINE__ );
+                // die(__CLASS__ . ':' . __LINE__);
                 $post_cat = $this->terms_meta_post($post_cat);
 
                 // lấy các nhóm con

@@ -46,16 +46,16 @@ vue_data.phpversion = vue_data.phpversion.replace(".", "").split(".")[0];
 vue_data.current_protocol = current_protocol.split("//")[0];
 vue_data.current_www = current_www.split(".")[0].split("//")[1];
 vue_data.calculate_ci4_update = function (last_time) {
-	var current_time = Math.ceil(Date.now() / 1000);
-	var one_day = 24 * 3600;
-	var cal_day = current_time - last_time;
+	let current_time = Math.ceil(Date.now() / 1000);
+	let one_day = 24 * 3600;
+	let cal_day = current_time - last_time;
 	cal_day = cal_day / one_day;
 	return cal_day.toFixed(1) * 1;
 };
 vue_data.client_os = (function () {
-	var os = window.navigator.platform;
+	let os = window.navigator.platform;
 	try {
-		var userAgent = window.navigator.userAgent,
+		let userAgent = window.navigator.userAgent,
 			//platform = window.navigator?.userAgentData?.platform || window.navigator.platform,
 			platform = window.navigator.userAgentData || null,
 			macosPlatforms = ["Macintosh", "MacIntel", "MacPPC", "Mac68K", "macOS"],
@@ -83,8 +83,11 @@ vue_data.client_os = (function () {
 		WGR_show_try_catch_err(e);
 	}
 
+	//
 	return os;
 })();
+
+//
 vue_data.warning_ci_version = function (a, b) {
 	//
 	a = a.toString().replace(/\./gi, "") * 1;
@@ -96,6 +99,8 @@ vue_data.warning_ci_version = function (a, b) {
 	}
 	return "greencolor";
 };
+
+//
 vue_data.warning_session_drive = function (a, b) {
 	if (a.split("RedisHandler").length > 1) {
 		if (b == "redis") {
@@ -108,7 +113,26 @@ vue_data.warning_session_drive = function (a, b) {
 		}
 		return "greencolor";
 	}
+
+	//
 	return "";
+};
+
+//
+vue_data.client_timezone = function () {
+	let tz = "";
+	try {
+		tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+	} catch (e) {
+		tz = new Date().getTimezoneOffset();
+
+		//
+		WGR_show_try_catch_err(e);
+	}
+	// console.log(tz);
+
+	//
+	return tz;
 };
 
 //

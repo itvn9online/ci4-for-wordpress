@@ -3,7 +3,8 @@
 //
 use App\Libraries\ConfigType;
 
-//print_r( $data );
+// 
+// print_r($data);
 
 // css riêng cho từng config (nếu có)
 $base_model->add_css('wp-admin/css/config_' . $config_type . '.css');
@@ -172,34 +173,31 @@ $base_model->add_css('wp-admin/css/config_' . $config_type . '.css');
 <?php
 
 //
-$base_model->adds_js(
-    [
-        'wp-admin/js/config_function.js',
-        'wp-admin/js/config_options_translate.js',
-    ]
-);
+$base_model->JSON_parse([
+    'timezone_identifiers_list' => timezone_identifiers_list(),
+]);
 
 //
-$base_model->adds_js(
-    [
-        'wp-admin/js/config.js',
-        'wp-admin/js/config_' . $config_type . '.js',
-    ],
-    [
-        //'cdn' => CDN_BASE_URL,
-    ],
-    [
-        'defer'
-    ]
-);
+$base_model->adds_js([
+    'wp-admin/js/config_function.js',
+    'wp-admin/js/config_options_translate.js',
+]);
 
 //
-$base_model->JSON_parse(
-    [
-        'checkout_config' => $checkout_config,
-        'vue_data' => $vue_data,
-    ]
-);
+$base_model->adds_js([
+    'wp-admin/js/config.js',
+    'wp-admin/js/config_' . $config_type . '.js',
+], [
+    //'cdn' => CDN_BASE_URL,
+], [
+    'defer'
+]);
+
+//
+$base_model->JSON_parse([
+    'checkout_config' => $checkout_config,
+    'vue_data' => $vue_data,
+]);
 
 ?>
 <script type="text/javascript">

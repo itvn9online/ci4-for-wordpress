@@ -27,8 +27,7 @@ class App extends BaseConfig
      *      'http://accounts.example.com/':
      *          ['media.example.com', 'accounts.example.com']
      *
-     * @var string[]
-     * @phpstan-var list<string>
+     * @var list<string>
      */
     public array $allowedHostnames = [];
 
@@ -109,7 +108,7 @@ class App extends BaseConfig
      *
      * @see https://www.php.net/manual/en/timezones.php for list of timezones supported by PHP.
      */
-    public string $appTimezone = 'Asia/Ho_Chi_Minh';
+    public string $appTimezone = MY_APP_TIMEZONE;
 
     /**
      * --------------------------------------------------------------------------

@@ -271,7 +271,7 @@ function EBE_load_datetimepicker(max_i) {
 		if (typeof op.format == "undefined" || op.format == "") {
 			op.format = date_format + " H:i:s";
 		}
-		console.log("op:", op);
+		// console.log("op:", op);
 
 		//
 		$(id).datetimepicker(op);

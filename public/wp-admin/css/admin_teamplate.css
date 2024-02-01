@@ -303,7 +303,7 @@ body.sidebar-hover #adminmenumain {
     width: 400px;
     overflow-y: auto;
     overflow-x: hidden;
-    scrollbar-color: grey transparent;
+    scrollbar-color: rgba(0, 0, 0, 0.01) transparent;
     scrollbar-width: thin;
 }
 

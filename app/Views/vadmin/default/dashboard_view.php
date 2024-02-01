@@ -131,58 +131,63 @@ if ($debug_enable === true) {
         </div>
         )
     </div>
-    <div class="left5-padding">
-        <div class="row">
-            <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12">
+    <div class="left-menu-space">
+        <div class="cf">
+            <div class="lf f50">
                 <div class="row">
                     <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                        <div class="p">Server time: <strong>
-                                <?php echo date(EBE_DATETIME_FORMAT); ?>
-                            </strong></div>
-                    </div>
-                    <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                        <div class="p">Server IP: <a href="https://www.iplocation.net/ip-lookup?query=<?php echo $_SERVER['SERVER_ADDR']; ?>" target="_blank" rel="nofollow" class="bold">
-                                <?php echo $_SERVER['SERVER_ADDR']; ?>
-                            </a>
+                        <div class="p">Server timezone:
+                            <strong><?php echo MY_APP_TIMEZONE; ?></strong>
                         </div>
                     </div>
                     <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                        <div class="p">Database: <span v-if="current_dbname != ''">
-                                <strong>******
-                                    <?php echo substr($current_dbname, 6); ?>
-                                </strong> </span></div>
-                    </div>
-                    <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                        <div class="p">Server OS: <strong>
-                                <?php echo PHP_OS; ?>
-                            </strong></div>
-                    </div>
-                    <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                        <div class="p">Server software: <strong>
-                                <?php echo $_SERVER['SERVER_SOFTWARE']; ?>
-                            </strong>
+                        <div class="p">Server time:
+                            <strong><?php echo date(EBE_DATETIME_FORMAT); ?></strong>
                         </div>
                     </div>
                     <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                        <div class="p">VueJS version: <a href="https://v2.vuejs.org/v2/guide/installation.html" target="_blank" rel="nofollow" class="bold bluecolor">
-                                <?php echo $Vue_version; ?>
-                            </a>
+                        <div class="p">Server IP:
+                            <a href="https://www.iplocation.net/ip-lookup?query=<?php echo $_SERVER['SERVER_ADDR']; ?>" target="_blank" rel="nofollow" class="bold"><?php echo $_SERVER['SERVER_ADDR']; ?></a>
+                        </div>
+                    </div>
+                    <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="p">Database:
+                            <span v-if="current_dbname != ''">
+                                <strong>******<?php echo substr($current_dbname, 6); ?></strong> </span>
+                        </div>
+                    </div>
+                    <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="p">Server OS:
+                            <strong><?php echo PHP_OS; ?></strong>
+                        </div>
+                    </div>
+                    <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="p">Server software:
+                            <strong><?php echo $_SERVER['SERVER_SOFTWARE']; ?></strong>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12">
+            <div class="lf f50">
                 <div class="row">
                     <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                        <div class="p">Client IP: <a href="https://www.iplocation.net" target="_blank" rel="nofollow" class="bold greencolor">
-                                <?php echo $request_ip; ?>
-                            </a></div>
+                        <div class="p">Client timezone: <strong>{{ client_timezone() }}</strong></div>
                     </div>
                     <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
                         <div class="p">Client time: <strong>{{ datetime(Date_now) }}</strong></div>
                     </div>
                     <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="p">Client IP:
+                            <a href="https://www.iplocation.net" target="_blank" rel="nofollow" class="bold greencolor"><?php echo $request_ip; ?></a>
+                        </div>
+                    </div>
+                    <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
                         <div class="p">Client OS: <strong>{{ client_os }}</strong></div>
+                    </div>
+                    <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="p">VueJS version:
+                            <a href="https://v2.vuejs.org/v2/guide/installation.html" target="_blank" rel="nofollow" class="bold bluecolor"><?php echo $Vue_version; ?></a>
+                        </div>
                     </div>
                 </div>
             </div>

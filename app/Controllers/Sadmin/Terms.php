@@ -182,9 +182,11 @@ class Terms extends Sadmin
 
             //
             $data = $this->term_model->get_all_taxonomy($this->taxonomy, 0, $filter);
-            //print_r( $data );
-            //$data = $this->term_model->terms_meta_post( $data );
-            //print_r( $data );
+            // print_r($data);
+            if (!isset($filter['get_meta'])) {
+                $data = $this->term_model->terms_meta_post($data);
+                // print_r($data);
+            }
 
             //
             $data = $this->term_treeview_data($data);
@@ -193,7 +195,7 @@ class Terms extends Sadmin
             $data = [];
             $pagination = '';
         }
-        //print_r( $data );
+        // print_r($data);
 
         //
         $this->teamplate_admin['content'] = view(

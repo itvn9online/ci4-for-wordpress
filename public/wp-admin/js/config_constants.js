@@ -40,3 +40,20 @@ $(".each-to-is-empty")
 			}
 		}
 	});
+
+// thêm lựa chọn múi giờ cho website
+(function () {
+	// console.log(timezone_identifiers_list);
+	let str = "";
+	for (let i = 0; i < timezone_identifiers_list.length; i++) {
+		str +=
+			'<option value="' +
+			timezone_identifiers_list[i] +
+			'">' +
+			timezone_identifiers_list[i] +
+			"</option>";
+	}
+	$("#data_MY_APP_TIMEZONE").append(str);
+	WGR_set_prop_for_select("#data_MY_APP_TIMEZONE");
+	MY_select2("#data_MY_APP_TIMEZONE");
+})();
