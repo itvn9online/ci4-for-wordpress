@@ -1159,7 +1159,7 @@ class Layout extends Sync
         if ($html == '') {
             $html = file_get_contents(VIEWS_PATH . 'html/structured-data/' . $f);
         }
-        // thay dât chính
+        // thay data chính
         foreach ($data as $k => $v) {
             if (is_array($v)) {
                 continue;

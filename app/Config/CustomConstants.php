@@ -313,6 +313,17 @@ if (is_file(THEMEPATH . 'functions.php')) {
 
 
 /**
+ * 1 số hosting sử dụng path redis, memcached khác thì cũng cần khai báo lại
+ */
+defined('WGR_REDIS_HOSTNAME') || define('WGR_REDIS_HOSTNAME', '127.0.0.1');
+defined('WGR_REDIS_PORT') || define('WGR_REDIS_PORT', 6379);
+
+// 
+defined('WGR_MEMCACHED_HOSTNAME') || define('WGR_MEMCACHED_HOSTNAME', '127.0.0.1');
+defined('WGR_MEMCACHED_PORT') || define('WGR_MEMCACHED_PORT', 11211);
+
+
+/**
  * tùy chỉnh Session driver -> nếu có Redis, Memcached thì nên dùng -> chi tiết xem tại đây:
  * https://codeigniter4.github.io/userguide/libraries/sessions.html?highlight=cache#session-drivers
  */
@@ -323,18 +334,11 @@ defined('CUSTOM_SESSION_DRIVER') || define('CUSTOM_SESSION_DRIVER', ROOT_SESSION
 /**
  * Session save path
  */
-// File
 defined('CUSTOM_SESSION_PATH') || define('CUSTOM_SESSION_PATH', WRITEPATH . 'session');
-// Redis
-// defined('CUSTOM_SESSION_PATH') || define('CUSTOM_SESSION_PATH', 'tcp://localhost:6379');
-// Memcached
-// defined('CUSTOM_SESSION_PATH') || define('CUSTOM_SESSION_PATH', 'localhost:11211');
-// Database
-// defined('CUSTOM_SESSION_PATH') || define('CUSTOM_SESSION_PATH', 'ci_sessions');
 
 
 // Trạng thái bình luận mặc định 0|1
-defined('DEFAULT_COMMENT_APPROVED') || define('DEFAULT_COMMENT_APPROVED', 1);
+defined('DEFAULT_COMMENT_APPROVED') || define('DEFAULT_COMMENT_APPROVED', '1');
 
 
 // tạo trang amp -> site nào không muốn dùng amp thì tắt nó đi

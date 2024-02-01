@@ -78,7 +78,7 @@ class Session extends BaseConfig
      *
      * How many seconds between CI regenerating the session ID.
      */
-    public int $timeToUpdate = 300;
+    public int $timeToUpdate = 3600;
 
     /**
      * --------------------------------------------------------------------------

@@ -30,7 +30,7 @@ class Constants extends Configs
         $data = $this->MY_post('data');
         //print_r($data);
         if (empty($data)) {
-            $this->base_model->alert('dât EMPTY');
+            $this->base_model->alert('data EMPTY');
         }
 
         // chạy vòng lặp và add constants vào file tĩnh
@@ -81,15 +81,13 @@ class Constants extends Configs
                 if ($k == 'MY_SESSION_DRIVE') {
                     if ($v == 'FileHandler') {
                         // mặc định là sử dụng file -> không cần khai báo thêm
-                        // $a[] = "define('CUSTOM_SESSION_PATH', WRITEPATH . 'session');";
                     } else if ($v == 'RedisHandler') {
                         if (empty(phpversion('redis')) || $this->checkRedis() !== true) {
                             echo 'redis not found! Code #' . __LINE__ . ' <br>' . PHP_EOL;
                             continue;
                         } else {
                             // nếu không lỗi lầm gì thì thiết lập redis
-                            $a[] = "define('CUSTOM_SESSION_PATH', 'tcp://localhost:6379');";
-                            // $a[] = "define('CUSTOM_SESSION_PATH', 'tcp://127.0.0.1:6379');";
+                            $a[] = "define('CUSTOM_SESSION_PATH', 'tcp://localhost:" . WGR_REDIS_PORT . "');";
                         }
                     } else if ($v == 'MemcachedHandler') {
                         if (!class_exists('Memcached') || $this->checkMemcached() !== true) {
@@ -97,8 +95,7 @@ class Constants extends Configs
                             continue;
                         } else {
                             // nếu không lỗi lầm gì thì thiết lập Memcached
-                            $a[] = "define('CUSTOM_SESSION_PATH', 'localhost:11211');";
-                            // $a[] = "define('CUSTOM_SESSION_PATH', '127.0.0.1:11211');";
+                            $a[] = "define('CUSTOM_SESSION_PATH', 'localhost:" . WGR_MEMCACHED_PORT . "');";
                         }
                     } else if ($v == 'DatabaseHandler') {
                         $a[] = "define('CUSTOM_SESSION_PATH', 'ci_sessions');";
@@ -175,8 +172,7 @@ class Constants extends Configs
         // connect thử vào redis
         try {
             $rd = new \Redis();
-            // $rd->connect('127.0.0.1', 6379);
-            $rd->connect('localhost', 6379);
+            $rd->connect(WGR_REDIS_HOSTNAME, WGR_REDIS_PORT);
 
             // 
             return true;
@@ -194,11 +190,11 @@ class Constants extends Configs
         try {
             // procedural API
             if (function_exists('memcache_connect')) {
-                $memcache_obj = memcache_connect('localhost', 11211);
+                $memcache_obj = memcache_connect('localhost', WGR_MEMCACHED_PORT);
             } else {
                 // OO API
                 $memcache = new \Memcache;
-                $memcache->connect('localhost', 11211);
+                $memcache->connect('localhost', WGR_MEMCACHED_PORT);
             }
 
             // 

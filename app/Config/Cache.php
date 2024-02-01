@@ -127,8 +127,8 @@ class Cache extends BaseConfig
      * @var array<string, bool|int|string>
      */
     public array $memcached = [
-        'host'   => '127.0.0.1',
-        'port'   => 11211,
+        'host'   => WGR_MEMCACHED_HOSTNAME,
+        'port'   => WGR_MEMCACHED_PORT,
         'weight' => 1,
         'raw'    => false,
     ];
@@ -143,9 +143,9 @@ class Cache extends BaseConfig
      * @var array<string, int|string|null>
      */
     public array $redis = [
-        'host'     => '127.0.0.1',
+        'host'     => WGR_REDIS_HOSTNAME,
         'password' => null,
-        'port'     => 6379,
+        'port'     => WGR_REDIS_PORT,
         'timeout'  => 0,
         'database' => 0,
     ];
