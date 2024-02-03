@@ -33,6 +33,7 @@ $base_model->add_css('wp-admin/css/config_' . $config_type . '.css');
                     <li>Các constants này có độ ưu tiên cao nhất, phủ định ngay cả constants được thiết lập cứng trong file <b>functions.php</b> của mỗi theme.</li>
                     <li>Chọn <b>is empty</b> hoặc nhập <b>IS_EMPTY</b> để thiết lập các constants trống.</li>
                     <li>Để sử dụng constants mặc định, hãy bỏ chọn <b>is empty</b> và xóa giá trị trong input tương ứng.</li>
+                    <li>Trong trường hợp thay đổi dữ liệu ở đây xong mà gây lỗi website! <a href="removeDynamicConstants.php?token=<?php echo $base_model->MY_sessid(); ?>&code=<?php echo md5($session_data['user_email']); ?>" onclick="return confirm('Confirm remove DynamicConstants.php file!');" target="_blank" class="bold" style="color: #090 !important;">Bấm vào đây</a> để thực hiện xóa file <strong><?php echo str_replace(ROOTPATH, '', DYNAMIC_CONSTANTS_PATH); ?></strong> sau đó xử lý lỗi phát sinh nếu có.</li>
                 </ul>
             </div>
             <?php
@@ -42,7 +43,7 @@ $base_model->add_css('wp-admin/css/config_' . $config_type . '.css');
                 $current_dynamic_constants = file_get_contents(DYNAMIC_CONSTANTS_PATH);
             ?>
                 <div class="text-center w99">
-                    <textarea title="Current dynamic constants" rows="<?php echo count(explode("\n", $current_dynamic_constants)); ?>" class="f90" readonly disabled><?php echo $base_model->the_esc_html($current_dynamic_constants); ?></textarea>
+                    <textarea title="Current dynamic constants" id="current_dynamic_constants" rows="<?php echo count(explode("\n", $current_dynamic_constants)); ?>" class="form-control small" readonly disabled><?php echo $base_model->the_esc_html($current_dynamic_constants); ?></textarea>
                 </div>
                 <br>
                 <?php

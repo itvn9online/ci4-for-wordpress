@@ -12,6 +12,12 @@ class Constants extends Configs
     protected $config_type = ConfigType::CONSTANTS;
     protected $view_edit = 'constants';
 
+    // các thông số dùng để test redis, memcached khi có thiết lập
+    protected $redis_hostname = WGR_REDIS_HOSTNAME;
+    protected $redis_port = WGR_REDIS_PORT;
+    protected $memcached_hostname = WGR_MEMCACHED_HOSTNAME;
+    protected $memcached_port = WGR_MEMCACHED_PORT;
+
     public function __construct()
     {
         parent::__construct();
@@ -28,7 +34,7 @@ class Constants extends Configs
 
         //
         $data = $this->MY_post('data');
-        //print_r($data);
+        // print_r($data);
         if (empty($data)) {
             $this->base_model->alert('data EMPTY');
         }
@@ -56,6 +62,32 @@ class Constants extends Configs
             'WGR_PAGE_PERMALINK',
             'WGR_POSTS_PERMALINK',
         ];
+
+        // 1 số thông số sẽ thay đổi ngay khi có dữ liệu
+        if (!empty($data['WGR_REDIS_HOSTNAME'])) {
+            $this->redis_hostname = $data['WGR_REDIS_HOSTNAME'];
+        }
+        if (!empty($data['WGR_REDIS_PORT'])) {
+            $this->redis_port = $data['WGR_REDIS_PORT'];
+        }
+        if (!empty($data['WGR_MEMCACHED_HOSTNAME'])) {
+            $this->memcached_hostname = $data['WGR_MEMCACHED_HOSTNAME'];
+        }
+        if (!empty($data['WGR_MEMCACHED_PORT'])) {
+            $this->memcached_port = $data['WGR_MEMCACHED_PORT'];
+        }
+
+        // xem người dùng có chọn ngôn ngữ hiển thị không
+        $arr_language_fixed = $this->MY_post('site_language_fixed');
+        // nếu ko có
+        if (empty($arr_language_fixed)) {
+            // gán mặc định là 2 ngôn ngữ đầu tiên
+            $arr_language_fixed = [
+                SITE_LANGUAGE_FIXED[0]['value'],
+                SITE_LANGUAGE_FIXED[1]['value'],
+            ];
+        }
+        // print_r($arr_language_fixed);
 
         //
         $a = [];
@@ -90,19 +122,25 @@ class Constants extends Configs
                             echo 'redis not found! Code #' . __LINE__ . ' <br>' . PHP_EOL;
                             continue;
                         } else {
-                            // nếu không lỗi lầm gì thì thiết lập redis
-                            $a[] = "define('CUSTOM_SESSION_PATH', 'tcp://localhost:" . WGR_REDIS_PORT . "');";
+                            // nếu không lỗi lầm gì thì thiết lập đường dẫn lưu session bằng redis
+                            if (empty($data['CUSTOM_SESSION_PATH'])) {
+                                $a[] = "define('CUSTOM_SESSION_PATH', 'tcp://localhost:" . $this->redis_port . "');";
+                            }
                         }
                     } else if ($v == 'MemcachedHandler') {
                         if (!class_exists('Memcached') || $this->checkMemcached() !== true) {
                             echo 'Memcached not found! Code #' . __LINE__ . ' <br>' . PHP_EOL;
                             continue;
                         } else {
-                            // nếu không lỗi lầm gì thì thiết lập Memcached
-                            $a[] = "define('CUSTOM_SESSION_PATH', 'localhost:" . WGR_MEMCACHED_PORT . "');";
+                            // nếu không lỗi lầm gì thì thiết lập đường dẫn lưu session bằng Memcached
+                            if (empty($data['CUSTOM_SESSION_PATH'])) {
+                                $a[] = "define('CUSTOM_SESSION_PATH', 'localhost:" . $this->memcached_port . "');";
+                            }
                         }
                     } else if ($v == 'DatabaseHandler') {
-                        $a[] = "define('CUSTOM_SESSION_PATH', 'ci_sessions');";
+                        if (empty($data['CUSTOM_SESSION_PATH'])) {
+                            $a[] = "define('CUSTOM_SESSION_PATH', 'ci_sessions');";
+                        }
                     } else {
                         // không nằm trong danh sách kia thì loại bỏ luôn
                         continue;
@@ -138,8 +176,9 @@ class Constants extends Configs
                     $a_fixed_lang[] = '[';
 
                     // chạy 1 vòng lấy các ngôn ngữ khả dụng trong config
-                    $i_lang_fixed = 0;
+                    // $i_lang_fixed = 0;
                     foreach (SITE_LANGUAGE_FIXED as $langs_fixed) {
+                        // nếu không có trong danh sách đã chọn thì bỏ qua luôn
                         if (!in_array($langs_fixed['value'], $arr)) {
                             continue;
                         }
@@ -153,13 +192,13 @@ class Constants extends Configs
                         $a_fixed_lang[] = '],';
 
                         //
-                        $i_lang_fixed++;
+                        // $i_lang_fixed++;
                     }
                     // END array
                     $a_fixed_lang[] = ']';
                     // print_r($a_fixed_lang);
 
-                    // loại bỏ các ký tự thừa
+                    // gộp mảng và loại bỏ các ký tự thừa
                     $a_fixed_lang = str_replace(',]', ']', implode('', $a_fixed_lang));
                     // print_r($a_fixed_lang);
                     // die(__CLASS__ . ':' . __LINE__);
@@ -176,23 +215,17 @@ class Constants extends Configs
                 }
                 // với phần ngôn ngữ mặc định
                 else if ($k == 'SITE_LANGUAGE_DEFAULT') {
-                    $site_language_fixed = $this->MY_post('site_language_fixed');
-                    // print_r($site_language_fixed);
                     // echo $v . '<br>' . PHP_EOL;
 
-                    // nếu có thiết lập ngôn ngữ hiển thị thì ngôn ngữ mặc định phải là 1 trong các ngôn ngữ đã chọn
-                    if (!empty($site_language_fixed)) {
-                        // nếu ko có -> bỏ qua thiết lập ngôn ngữ mặc định
-                        if (!in_array($v, $site_language_fixed)) {
-                            continue;
-                        }
+                    // ngôn ngữ mặc định phải là 1 trong các ngôn ngữ đã chọn
+                    // echo count($arr_language_fixed) . '<br>' . PHP_EOL;
+
+                    // nếu chỉ có 1 thì thiết lập giá trị là mảng đã chọn luôn
+                    if (count($arr_language_fixed) === 1) {
+                        $v = $arr_language_fixed[0];
                     }
-                    // nếu không thiết lập ngôn ngữ hiển thị thì kiểm tra theo 2 ngôn ngữ đầu tiên
-                    else if (!in_array($v, [
-                        SITE_LANGUAGE_FIXED[0]['value'],
-                        SITE_LANGUAGE_FIXED[1]['value'],
-                    ])) {
-                        // ko có -> bỏ qua
+                    // nếu ko có -> bỏ qua thiết lập ngôn ngữ mặc định
+                    else if (!in_array($v, $arr_language_fixed)) {
                         continue;
                     }
                 }
@@ -219,6 +252,12 @@ class Constants extends Configs
         // print_r($a);
         //echo implode(PHP_EOL, $a) . PHP_EOL;
 
+        // nếu ngôn ngữ mặc định không được thiết lập
+        if (empty($data['SITE_LANGUAGE_DEFAULT'])) {
+            // có ngôn ngữ đã chọn -> lấy phần tử đầu tiên
+            $a[] = "define('SITE_LANGUAGE_DEFAULT', '" . $arr_language_fixed[0] . "');";
+        }
+
         //
         $f = DYNAMIC_CONSTANTS_PATH;
         echo $f . '<br>' . PHP_EOL;
@@ -227,6 +266,13 @@ class Constants extends Configs
         if (!empty($a)) {
             //var_dump($a);
 
+            // thêm thông tin người thực hiện lưu trữ
+            $a[] = '// ' . $this->base_model->MY_sessid() . ' from ' . $this->request->getIPAddress() . ' in ' . date('r');
+            $a[] = '// by ' . $this->session_data['user_email'] . ' (' . md5($this->session_data['user_email']) . ') #' . $this->current_user_id;
+            if (isset($_SERVER['HTTP_USER_AGENT'])) {
+                $a[] = '// ' . $_SERVER['HTTP_USER_AGENT'];
+            }
+
             //
             foreach ($a as $v) {
                 echo $v . '<br>' . PHP_EOL;
@@ -234,6 +280,9 @@ class Constants extends Configs
 
             //
             $this->base_model->ftp_create_file($f, str_replace(' ', '', '< ? php') . PHP_EOL . implode(PHP_EOL, $a) . PHP_EOL);
+
+            // gửi 1 lệnh mở link trong tab mới để test code
+            echo '<script>top.open_home_for_test_config_constants();</script>';
         } else if (is_file($f)) {
             unlink($f);
         }
@@ -247,10 +296,14 @@ class Constants extends Configs
      **/
     protected function checkRedis()
     {
+        echo 'Redis hostname: ' . $this->redis_hostname . '<br>' . PHP_EOL;
+        echo 'Redis port: ' . $this->redis_port . '<br>' . PHP_EOL;
+        // die(__CLASS__ . ':' . __LINE__);
+
         // connect thử vào redis
         try {
             $rd = new \Redis();
-            $rd->connect(WGR_REDIS_HOSTNAME, WGR_REDIS_PORT);
+            $rd->connect($this->redis_hostname, $this->redis_port);
 
             // 
             return true;
@@ -264,15 +317,19 @@ class Constants extends Configs
      **/
     protected function checkMemcached()
     {
+        echo 'Memcached hostname: ' . $this->memcached_hostname . '<br>' . PHP_EOL;
+        echo 'Memcached port: ' . $this->memcached_port . '<br>' . PHP_EOL;
+        // die(__CLASS__ . ':' . __LINE__);
+
         // connect thử vào Memcached
         try {
             // procedural API
             if (function_exists('memcache_connect')) {
-                $memcache_obj = memcache_connect('localhost', WGR_MEMCACHED_PORT);
+                $memcache_obj = memcache_connect($this->memcached_hostname, $this->memcached_port);
             } else {
                 // OO API
                 $memcache = new \Memcache;
-                $memcache->connect('localhost', WGR_MEMCACHED_PORT);
+                $memcache->connect($this->memcached_hostname, $this->memcached_port);
             }
 
             // 
