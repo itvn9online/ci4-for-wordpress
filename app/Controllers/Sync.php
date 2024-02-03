@@ -911,6 +911,11 @@ class Sync extends BaseController
     {
         $this->teamplate = [];
 
+        // from function -> dùng để code dễ biết đoạn này gọi từ function nào tới
+        if (!isset($arr['f'])) {
+            $arr['f'] = debug_backtrace()[1]['function'];
+        }
+
         //
         return $this->base_model->result_json_type($arr, $headers, $too_headers);
     }

@@ -136,8 +136,7 @@ if ($debug_enable === true) {
             <div class="lf f50">
                 <div class="row">
                     <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                        <div class="p">Server timezone:
-                            <strong><?php echo MY_APP_TIMEZONE; ?></strong>
+                        <div class="p"><a href="sadmin/constants?support_tab=data_MY_APP_TIMEZONE">Server timezone</a>: <strong><?php echo MY_APP_TIMEZONE; ?></strong>
                         </div>
                     </div>
                     <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">

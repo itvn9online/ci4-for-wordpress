@@ -31,5 +31,7 @@ $base_model->adds_js([
     'defer'
 ]);
 
-// chức năng đăng nhập tự động
-include __DIR__ . '/includes/login_rememberme.php';
+// chức năng đăng nhập tự động riêng trang login
+if ($getconfig->login_rememberme != 'on') {
+    include __DIR__ . '/includes/login_rememberme.php';
+}

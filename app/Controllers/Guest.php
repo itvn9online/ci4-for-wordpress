@@ -320,7 +320,7 @@ class Guest extends Csrf
     {
         //print_r( $this->getconfig );
         // nếu website không cho đăng ký thành viên thì hiển thị view thông báo tương ứng
-        if (isset($this->getconfig->disable_register_member) && $this->getconfig->disable_register_member == 'on') {
+        if ($this->getconfig->disable_register_member == 'on') {
             $this->teamplate['main'] = view(
                 'register_disable_view',
                 array(

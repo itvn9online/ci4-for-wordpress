@@ -175,6 +175,7 @@ $base_model->add_css('wp-admin/css/config_' . $config_type . '.css');
 //
 $base_model->JSON_parse([
     'timezone_identifiers_list' => timezone_identifiers_list(),
+    'site_language_fixed' => SITE_LANGUAGE_FIXED,
 ]);
 
 //

@@ -353,9 +353,12 @@ defined('ENABLE_AMP_VERSION') || define('ENABLE_AMP_VERSION', true);
 defined('PRODUCT_DEFAULT_META') || define('PRODUCT_DEFAULT_META', []);
 
 
-// ngôn ngữ của website -> mặc định chỉ chạy 1 ngôn ngữ, nếu muốn chạy nhiều ngôn ngữ thì tăng số mảng lên
-defined('SITE_LANGUAGE_SUPPORT') || define(
-    'SITE_LANGUAGE_SUPPORT',
+/**
+ * Cố định danh sách các ngôn ngữ sẽ được hỗ trợ tại đây
+ * Sau người dùng muốn chọn cụ thể ngôn ngữ nào thì sẽ chọn lại trong config constants
+ */
+define(
+    'SITE_LANGUAGE_FIXED',
     [
         [
             // Đánh mảng nước ngoài nên vẫn ưu tiên nhất là tiếng Anh
@@ -406,6 +409,18 @@ defined('SITE_LANGUAGE_SUPPORT') || define(
         ]
     ]
 );
+
+
+/**
+ * các ngôn ngữ hiển thị của website
+ * mặc định chỉ hiển thị 2 ngôn ngữ
+ * muốn hiển thị thêm thì sẽ chọn lại trong config constants
+ */
+defined('SITE_LANGUAGE_SUPPORT') || define('SITE_LANGUAGE_SUPPORT', [
+    SITE_LANGUAGE_FIXED[0],
+    SITE_LANGUAGE_FIXED[1],
+]);
+
 // ngôn ngữ mặc định -> đặt là mảng số 0
 defined('SITE_LANGUAGE_DEFAULT') || define('SITE_LANGUAGE_DEFAULT', SITE_LANGUAGE_SUPPORT[0]['value']);
 

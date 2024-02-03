@@ -155,6 +155,7 @@ class ConfigType
                 'logout_device_protection' => 'Device logout protection',
                 'block_device_protection' => 'Device block protection',
                 'disable_register_member' => 'Disable register new account',
+                'login_rememberme' => 'Remember me login in all page',
             ];
         } else if ($config_type == self::DISPLAY) {
             $arr = [
@@ -396,6 +397,7 @@ class ConfigType
             ];
         } else if ($config_type == self::CONSTANTS) {
             $arr = [
+                'MY_APP_TIMEZONE' => 'App timezone',
                 'FTP_HOST' => 'FTP host',
                 'FTP_USER' => 'FTP user',
                 'FTP_PASS' => 'FTP pass',
@@ -408,7 +410,6 @@ class ConfigType
                 'CUSTOM_MD5_HASH_CODE' => 'MD5 hash code',
                 'MY_CACHE_HANDLER' => 'Cache handler',
                 'MY_SESSION_DRIVE' => 'Session driver',
-                'MY_APP_TIMEZONE' => 'App timezone',
                 'CDN_BASE_URL' => 'CDN base URL',
                 'ALLOW_USING_MYSQL_DELETE' => 'Using MySQL DELETE',
                 'WGR_CSP_ENABLE' => 'CSP header',
@@ -423,8 +424,9 @@ class ConfigType
                 'CUSTOM_FAKE_POST_VIEW' => 'Fake post view',
                 'ENABLE_AMP_VERSION' => 'Phiên bản AMP',
                 'FAKE_WORDPRESS_VERSION' => 'Fake wordpress version',
-                'SITE_LANGUAGE_SUB_FOLDER' => 'Kiểu hiển thị đa ngôn ngữ',
+                'SITE_LANGUAGE_SUPPORT' => 'Ngôn ngữ hỗ trợ',
                 'SITE_LANGUAGE_DEFAULT' => 'Ngôn ngữ mặc định',
+                'SITE_LANGUAGE_SUB_FOLDER' => 'Kiểu hiển thị đa ngôn ngữ',
                 'EBE_DATE_FORMAT' => 'Date Format',
                 'WGR_TABLE_PREFIX' => 'Database table prefix',
                 'HTACCESSS_ALLOW' => 'Htaccess allow',
@@ -540,6 +542,7 @@ class ConfigType
             'logout_device_protection' => 'checkbox',
             'block_device_protection' => 'checkbox',
             'disable_register_member' => 'checkbox',
+            'login_rememberme' => 'checkbox',
             'blog_private' => 'checkbox',
             'smtp_no_reply' => 'checkbox',
             'show_child_category' => 'checkbox',
@@ -616,6 +619,7 @@ class ConfigType
             'ENABLE_AMP_VERSION' => 'select',
             // 'FAKE_WORDPRESS_VERSION' => '',
             'SITE_LANGUAGE_SUB_FOLDER' => 'select',
+            // 'SITE_LANGUAGE_SUPPORT' => 'select',
             'SITE_LANGUAGE_DEFAULT' => 'select',
             'EBE_DATE_FORMAT' => 'select',
             'g_firebase_title' => 'heading',
@@ -750,6 +754,7 @@ class ConfigType
             'logout_device_protection' => 'Kích hoạt chức năng này nếu muốn khi phát hiện người dùng đăng nhập trên nhiều thiết bị, hệ thống sẽ tiến hành logout tài khoản của người dùng.',
             'block_device_protection' => 'Kích hoạt chức năng này nếu muốn khi phát hiện người dùng đăng nhập trên nhiều thiết bị, hệ thống sẽ tiến hành KHÓA tài khoản của người dùng.',
             'disable_register_member' => 'Khi muốn dừng việc đăng ký tài khoản trên website thì bật chức năng này lên. Admin vẫn có thể tạo tài khoản từ trang admin hoặc người dùng có thể đăng nhập thông qua firebase nếu website có thiết lập Đăng nhập qua firebase tại đây ' . base_url('sadmin/firebases') . '?support_tab=data_g_firebase_config',
+            'login_rememberme' => 'When this function is enabled, the auto-login function will be enabled on every page.',
             'robots' => base_url('robots.txt'),
             'blog_private' => 'Việc tuân thủ yêu cầu này hoàn toàn phụ thuộc vào các công cụ tìm kiếm.',
             'emailnotice' => 'Một số chức năng sẽ gửi thông báo về email được thiết lập tại đây',
@@ -777,6 +782,7 @@ class ConfigType
             'ENABLE_AMP_VERSION' => 'AMP viết tắt của Accelerated Mobile Pages là trang tăng tốc dành cho thiết bị di động của mỗi website.',
             'FAKE_WORDPRESS_VERSION' => 'Thiết lập thông số giả lập Wordpress để đánh lạc hướng các vụ tấn công vào mã nguồn. Giả lập hiện tại: ' . FAKE_WORDPRESS_VERSION,
             'SITE_LANGUAGE_SUB_FOLDER' => 'Nếu là sub-folder thì sẽ hỗ trợ prefix cho routes, url cũng sẽ thêm prefix vào ngay sau domain. Ví dụ: domain.com/vn hoặc domain.com/en',
+            'SITE_LANGUAGE_SUPPORT' => 'Chọn danh sách ngôn ngữ sẽ hiển thị trên website này. Các Danh mục, Bài viết sẽ được bổ sung module nhân bản dữ liệu theo ngôn ngữ đã được thiết lập.',
             'CUSTOM_MD5_HASH_CODE' => 'Chuỗi sẽ thêm vào khi sử dụng hàm mdnam -> md5 -> tăng độ bảo mật cho chuỗi. Chỉ thay đổi khi thực sự cần thiết do thông số này sẽ có thể khiến toàn bộ chuỗi sử dụng hàm mdnam sẽ phải dựng lại.',
             'MY_SESSION_DRIVE' => 'Không nên sử dụng Cache và Session cùng một drive. Ví dụ: cache dùng Redis thì session nên dùng Memcached để có thể dọn dẹp cache khi cần thiết.',
             'MY_APP_TIMEZONE' => 'The default timezone that will be used in your application to display',

@@ -60,7 +60,11 @@ class Constants extends Configs
         //
         $a = [];
         foreach ($data as $k => $v) {
-            if ($v == '' || !isset($meta_default[$k])) {
+            if ($v == '') {
+                continue;
+            } else if (!isset($meta_default[$k])) {
+                echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                echo $k . ' not found from meta_default!' . '<br>' . PHP_EOL;
                 continue;
             }
 
@@ -118,6 +122,80 @@ class Constants extends Configs
                         }
                     }
                 }
+                // với phần ngôn ngữ cũng sẽ thiết lập riêng
+                else if ($k == 'SITE_LANGUAGE_SUPPORT') {
+                    // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                    // echo $v . '<br>' . PHP_EOL;
+
+                    //
+                    $arr = explode(',', $v);
+                    // print_r($arr);
+
+                    // Tạo 1 mảng để khai báo dữ liệu thành từng dòng -> tránh lỗi nếu có
+                    $a_fixed_lang = [];
+
+                    // BEGIN array
+                    $a_fixed_lang[] = '[';
+
+                    // chạy 1 vòng lấy các ngôn ngữ khả dụng trong config
+                    $i_lang_fixed = 0;
+                    foreach (SITE_LANGUAGE_FIXED as $langs_fixed) {
+                        if (!in_array($langs_fixed['value'], $arr)) {
+                            continue;
+                        }
+                        // print_r($langs_fixed);
+
+                        // 
+                        $a_fixed_lang[] = '[';
+                        foreach ($langs_fixed as $k_lang_fixed => $v_lang_fixed) {
+                            $a_fixed_lang[] = '\'' . $k_lang_fixed . '\' => \'' . $v_lang_fixed . '\',';
+                        }
+                        $a_fixed_lang[] = '],';
+
+                        //
+                        $i_lang_fixed++;
+                    }
+                    // END array
+                    $a_fixed_lang[] = ']';
+                    // print_r($a_fixed_lang);
+
+                    // loại bỏ các ký tự thừa
+                    $a_fixed_lang = str_replace(',]', ']', implode('', $a_fixed_lang));
+                    // print_r($a_fixed_lang);
+                    // die(__CLASS__ . ':' . __LINE__);
+
+                    // gán tham số riêng cho Constants
+                    $a[] = "define('$k', $a_fixed_lang);";
+
+                    // 
+                    // print_r($a);
+                    // die(__CLASS__ . ':' . __LINE__);
+
+                    // 
+                    continue;
+                }
+                // với phần ngôn ngữ mặc định
+                else if ($k == 'SITE_LANGUAGE_DEFAULT') {
+                    $site_language_fixed = $this->MY_post('site_language_fixed');
+                    // print_r($site_language_fixed);
+                    // echo $v . '<br>' . PHP_EOL;
+
+                    // nếu có thiết lập ngôn ngữ hiển thị thì ngôn ngữ mặc định phải là 1 trong các ngôn ngữ đã chọn
+                    if (!empty($site_language_fixed)) {
+                        // nếu ko có -> bỏ qua thiết lập ngôn ngữ mặc định
+                        if (!in_array($v, $site_language_fixed)) {
+                            continue;
+                        }
+                    }
+                    // nếu không thiết lập ngôn ngữ hiển thị thì kiểm tra theo 2 ngôn ngữ đầu tiên
+                    else if (!in_array($v, [
+                        SITE_LANGUAGE_FIXED[0]['value'],
+                        SITE_LANGUAGE_FIXED[1]['value'],
+                    ])) {
+                        // ko có -> bỏ qua
+                        continue;
+                    }
+                }
                 // bỏ dấu / ở 2 đầu nếu có
                 else if (in_array($k, $arr_trim_ds) && !empty($v)) {
                     $v = ltrim($v, '/');
@@ -138,7 +216,7 @@ class Constants extends Configs
                 $a[] = "define('$k', $str_quote$v$str_quote);";
             }
         }
-        //print_r($a);
+        // print_r($a);
         //echo implode(PHP_EOL, $a) . PHP_EOL;
 
         //

@@ -171,6 +171,7 @@ class Actions extends Layout
                     // trả về dữ liệu theo json
                     $this->result_json_type([
                         'ok' => __LINE__,
+                        'ids' => implode(',', $ids),
                         'table' => view('default/cart_table_view', [
                             'data' => $data,
                         ]),

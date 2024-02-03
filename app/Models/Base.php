@@ -948,6 +948,11 @@ class Base extends Csdl
         // reset lại view -> tránh in ra phần html nếu lỡ nạp
         ob_end_clean();
 
+        // from function -> dùng để code dễ biết đoạn này gọi từ function nào tới
+        if (!isset($arr['f'])) {
+            $arr['f'] = debug_backtrace()[1]['function'];
+        }
+
         //
         header('Content-type: application/json; charset=utf-8');
         // header mặc định, ghi đè header trước đó

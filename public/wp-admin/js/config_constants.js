@@ -57,3 +57,51 @@ $(".each-to-is-empty")
 	WGR_set_prop_for_select("#data_MY_APP_TIMEZONE");
 	MY_select2("#data_MY_APP_TIMEZONE");
 })();
+
+// thêm lựa chọn ngôn ngữ hiển thị cho website
+(function () {
+	let str = "";
+	for (let i = 0; i < site_language_fixed.length; i++) {
+		str +=
+			'<label class="lf f33"><input type="checkbox" name="site_language_fixed[]" value="' +
+			site_language_fixed[i].value +
+			'" class="site-language-fixed" /> ' +
+			site_language_fixed[i].text +
+			"</label>";
+	}
+
+	//
+	$("#data_SITE_LANGUAGE_SUPPORT")
+		.attr({
+			type: "hidden",
+		})
+		.after('<div class="cf">' + str + "</div>");
+
+	//
+	(function () {
+		let a = $("#data_SITE_LANGUAGE_SUPPORT").val() || "";
+		if (a != "") {
+			a = a.split(",");
+			for (let i = 0; i < a.length; i++) {
+				$(".site-language-fixed[value='" + a[i] + "']").prop("checked", true);
+			}
+		}
+	})();
+
+	//
+	$(".site-language-fixed").change(function () {
+		let str = [];
+		$(".site-language-fixed").each(function () {
+			if ($(this).is(":checked")) {
+				str.push($(this).val());
+			}
+		});
+		// console.log(str);
+		$("#data_SITE_LANGUAGE_SUPPORT").val(str.join(",")).trigger("change");
+	});
+
+	//
+	$(".each-to-is-empty[data-id='data_SITE_LANGUAGE_SUPPORT']")
+		.off("change")
+		.prop("disabled", true);
+})();

@@ -76,11 +76,9 @@ if ($current_user_id > 0) {
     if ($getconfig->enable_device_protection == 'on') {
         include __DIR__ . '/device_protection.php';
     }
-    /*
-} else {
-    // chức năng đăng nhập tự động
+} else if ($getconfig->login_rememberme == 'on') {
+    // chức năng đăng nhập tự động trên toàn trang
     include __DIR__ . '/login_rememberme.php';
-    */
 }
 
 //
