@@ -619,6 +619,28 @@ body.body-debug_enable #sidebar {
     border-left-color: green;
 }
 
+.admin-order-table tr.private .orders-post_status {
+    background-color: green;
+}
+
+.admin-order-table tr.pending .orders-post_status {
+    font-weight: bold;
+}
+
+.admin-order-table tr.on_hold td:first-child {
+    border-left-color: orange;
+}
+
+.admin-order-table tr.on_hold .orders-post_status {
+    background-color: orange;
+}
+
+.admin-order-table tr.on_hold .orders-post_status,
+.admin-order-table tr.private .orders-post_status {
+    color: #fff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
 .admin-order-table tr.trash td {
     text-decoration: line-through;
 }

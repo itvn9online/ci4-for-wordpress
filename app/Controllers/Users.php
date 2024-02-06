@@ -261,7 +261,7 @@ class Users extends Csrf
                         ];
 
                         // token
-                        $data_reset['token'] = $this->base_model->mdnam($data_reset['e'] . $data_reset['oe'] . $data_reset['t'], CUSTOM_MD5_HASH_CODE);
+                        $data_reset['token'] = $this->base_model->mdhash($data_reset['e'] . $data_reset['oe'] . $data_reset['t']);
 
                         //
                         //print_r( $data_reset );

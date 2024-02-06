@@ -20,15 +20,17 @@
                 <div><a :href="v.admin_permalink" class="upper">{{v.post_name}} <i class="fa fa-edit"></i></a></div>
                 <div>({{v.post_modified.substr(0, 16)}})</div>
             </td>
-            <td>{{PostType_arrStatus[v.post_status]}}</td>
+            <td>
+                <button type="button" class="btn orders-post_status">{{PostType_arrStatus[v.post_status]}}</button>
+            </td>
             <td><a :href="v.admin_permalink">{{v.post_title}} <i class="fa fa-edit"></i></a></td>
             <td><span class="ebe-currency-format">{{v.order_money}}</span></td>
             <td><span class="ebe-currency-format">{{v.order_discount}}</span></td>
             <td><span class="ebe-currency-format">{{v.order_bonus}}</span></td>
             <td>
                 <div><i class="fa fa-envelope"></i> <a :href="'sadmin/users/add?id=' + v.post_author" :data-id="v.post_author" class="each-to-email" target="_blank">{{v.post_author}}</a></div>
-                <div><i class="fa fa-phone"></i></div>
-                <div><i class="fa fa-home"></i></div>
+                <div><i class="fa fa-phone"></i> {{v.phone}}</div>
+                <div><i class="fa fa-home"></i> {{v.address}}</div>
             </td>
             <td class="text-center big">
                 <?php

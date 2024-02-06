@@ -10,14 +10,15 @@ namespace App\Language\admin;
 //
 class AdminTranslates
 {
-    const POST = 'Bài viết';
-    const PROD = 'Sản phẩm';
+    const POST = 'Posts'; // Bài viết
+    const PROD = 'Product'; // Sản phẩm
 
     // bản dịch cho tên các nhóm tài khoản
-    const GUEST = 'Khách vãng lai';
-    const MEMBER = 'Thành viên';
-    const AUTHOR = 'Tác giả';
-    const MOD = 'Biên tập viên';
-    const ADMIN = 'Quản trị';
-    const SUB = 'Theo dõi';
+    const GUEST = 'Guest'; // Khách vãng lai
+    const MEMBER = 'Member'; // Thành viên
+    const CUSTOMER = 'Customer';
+    const AUTHOR = 'Author'; // Tác giả
+    const MOD = 'Editor'; // Biên tập viên
+    const ADMIN = 'Admin'; // Quản trị
+    const SUB = 'Subscriber'; // Theo dõi
 }

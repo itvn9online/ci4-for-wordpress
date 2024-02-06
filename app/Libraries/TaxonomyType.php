@@ -25,6 +25,11 @@ class TaxonomyType
     const VISIBLE = '0';
     const HIDDEN = '1';
 
+    // kiểu giảm giá
+    const DISCOUNT_PERCENT = 'percent';
+    const DISCOUNT_FIXED = 'fixed_product';
+
+    // 
     private static $arr = array(
         self::POSTS => 'Danh mục ' . AdminTranslate::POST,
         self::TAGS => 'Thẻ ' . AdminTranslate::POST,
@@ -334,8 +339,8 @@ class TaxonomyType
             'discount_type' => [
                 // fixed_cart
                 '' => 'Fixed cart discount',
-                'percent' => 'Percentage discount',
-                'fixed_product' => 'Fixed product discount',
+                self::DISCOUNT_PERCENT => 'Percentage discount',
+                self::DISCOUNT_FIXED => 'Fixed product discount',
             ],
         ];
         if (isset($arr[$key])) {

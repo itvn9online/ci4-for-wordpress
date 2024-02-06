@@ -188,10 +188,11 @@ class Posts extends Sadmin
         //
         if ($post_status == '') {
             $by_post_status = [
-                PostType::DRAFT,
                 PostType::PUBLICITY,
-                PostType::PENDING,
                 PostType::PRIVATELY,
+                PostType::PENDING,
+                PostType::ON_HOLD,
+                PostType::DRAFT,
             ];
         } else {
             $urlPartPage .= '&post_status=' . $post_status;
@@ -335,6 +336,7 @@ class Posts extends Sadmin
                 ];
             }
             $filter['order_by'] = $order_by;
+            // $filter['show_query'] = 1;
             $data = $this->base_model->select('*', $this->table, $where, $filter);
 
             //
@@ -635,9 +637,9 @@ class Posts extends Sadmin
                 ], [
                     'where_in' => array(
                         'post_status' => array(
-                            PostType::DRAFT,
                             PostType::PUBLICITY,
                             PostType::PENDING,
+                            PostType::DRAFT,
                         )
                     ),
                     'order_by' => array(
@@ -698,9 +700,9 @@ class Posts extends Sadmin
             $filter = [
                 'where_in' => array(
                     $this->table . '.post_status' => array(
-                        PostType::DRAFT,
                         PostType::PUBLICITY,
                         PostType::PENDING,
+                        PostType::DRAFT,
                     )
                 ),
                 'where_not_in' => array(

@@ -134,15 +134,16 @@ class PostQuery extends PostMeta
         }
         // đồng bộ dữ liệu trước khi insert
         $data = $this->sync_post_data($data);
-        //print_r($data);
-        //print_r($data_meta);
-        //die(__CLASS__ . ':' . __LINE__);
+        // print_r($data);
+        // print_r($data_meta);
+        // die(__CLASS__ . ':' . __LINE__);
 
         // insert post
         $result_id = $this->base_model->insert($this->table, $data, true);
-        //var_dump( $result_id );
-        //print_r( $result_id );
+        // var_dump($result_id);
+        // print_r($result_id);
 
+        // 
         if ($result_id !== false) {
             //print_r($data_meta);
             //print_r($_POST);
@@ -168,10 +169,8 @@ class PostQuery extends PostMeta
             } else if (isset($_POST['post_meta'])) {
                 $this->insert_meta_post($_POST['post_meta'], $result_id, false, $post_type);
             }
-            /*
-            } else {
-            $this->base_model->insert( $this->table, $data, true, 'getQuery' );
-            */
+        } else {
+            // $this->base_model->insert($this->table, $data, true, 'getQuery');
         }
         return $result_id;
     }

@@ -501,6 +501,20 @@ function cart_sidebar_table() {
 	}
 }
 
+// khi submit cart thành công thì sẽ thực hiện xóa bỏ session giỏ hàng ở máy trạm
+function remove_session_cart(order_received) {
+	// xóa khỏi giỏ hàng chính
+	localStorage.removeItem("cache-cart-ids");
+	// xóa khỏi giỏ hàng phụ
+	localStorage.removeItem("cache-quickcart-id");
+
+	// xong thì nạp lại trang
+	if (typeof order_received == "undefined" || order_received == "") {
+		order_received = window.location.href;
+	}
+	window.location = order_received;
+}
+
 //
 jQuery(document).ready(function () {
 	// hiển thị phí vận chuyển
@@ -508,7 +522,7 @@ jQuery(document).ready(function () {
 	// console.log(cart_config);
 	if (cart_config.shipping_fee == "") {
 		// quy đổi thành dạng số để giỏ hàng còn cộng tiền
-		cart_config.shipping_fee *= 1;
+		cart_config.shipping_fee = 0;
 		$(".cart-sidebar-shipping").html(cart_config.calculated_later);
 	} else {
 		// quy đổi thành dạng số để giỏ hàng còn cộng tiền
@@ -521,6 +535,7 @@ jQuery(document).ready(function () {
 				.addClass("ebe-currency");
 		}
 	}
+	// console.log(cart_config.shipping_fee);
 
 	// mã giảm giá trong cache nếu có
 	cache_coupon_code();

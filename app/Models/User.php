@@ -55,6 +55,9 @@ class User extends UserMeta
         if (isset($data['user_phone'])) {
             $data['user_phone'] = str_replace(' ', '', $data['user_phone']);
             $data['user_phone'] = trim($data['user_phone']);
+
+            // thêm cột số điện thoại dạng số nguyên để tiện check dữ liệu khi cần
+            $data['number_phone'] = $this->base_model->_eb_number_only($data['user_phone']);
         }
 
         //

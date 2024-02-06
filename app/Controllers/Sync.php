@@ -469,6 +469,7 @@ class Sync extends BaseController
                 'last_updated' => 'DATETIME NOT NULL',
                 'user_birthday' => 'DATE NULL COMMENT \'Sinh nhật của thành viên\'',
                 'user_phone' => 'VARCHAR(55) NULL COMMENT \'Điện thoại liên hệ\'',
+                'number_phone' => 'BIGINT(20) NULL COMMENT \'Điện thoại liên hệ dạng số nguyên\'',
                 'avatar' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Ảnh đại diện\'',
                 'firebase_uid' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'User ID khi đăng nhập qua firebase\'',
                 'firebase_source_uid' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Nguồn cập nhật firebase uid\'',
@@ -523,7 +524,7 @@ class Sync extends BaseController
             $prefix . 'term_taxonomy' => [
                 // term level -> dùng để lọc các nhóm theo cấp độ cho nó nhanh -> ví dụ khi cần lấy tất cả các nhóm cấp 1, 2, 3
                 'term_level' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'Level của nhóm, tính theo cấp độ của nhóm cha +1\'',
-                'source_count' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Lưu trữ nơi update lệnh count cho term\'',
+                'source_count' => 'VARCHAR(255) NULL COMMENT \'Lưu trữ nơi update lệnh count cho term\'',
             ],
             $prefix . 'term_relationships' => [
                 'is_deleted' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'0 = hiển thị, 1 = xóa. Trạng thái này được lấy định kỳ dựa theo trạng thái của post\'',
@@ -538,19 +539,35 @@ class Sync extends BaseController
             ],
             $prefix . 'comments' => [
                 // thêm tiêu đề cho phần comment -> do bảng mặc định của wp comment không có cột này
-                'comment_title' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Thêm tiêu đề để tiện cho việc hiển thị\'',
-                'comment_slug' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Thêm phần slug để tiện cho quá trình tìm kiếm\'',
+                'comment_title' => 'VARCHAR(255) NULL COMMENT \'Thêm tiêu đề để tiện cho việc hiển thị\'',
+                'comment_slug' => 'VARCHAR(255) NULL COMMENT \'Thêm phần slug để tiện cho quá trình tìm kiếm\'',
                 'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
                 'lang_parent' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Dùng để xác định với các bản ghi được nhân bản từ ngôn ngữ chính\'',
                 'is_deleted' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'0 = hiển thị, 1 = xóa\'',
                 'time_order' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Sắp xếp độ ưu tiên của post dựa theo thời gian hiện tại\'',
             ],
             $prefix . 'orders' => [
-                'order_type' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Phân loại đơn hàng\'',
+                'full_name' => 'VARCHAR(255) NULL',
+                'first_name' => 'VARCHAR(55) NULL',
+                'last_name' => 'VARCHAR(55) NULL',
+                'company' => 'VARCHAR(255) NULL',
+                'address' => 'VARCHAR(255) NULL',
+                'state' => 'BIGINT(20) NOT NULL DEFAULT \'0\'',
+                'city' => 'BIGINT(20) NOT NULL DEFAULT \'0\'',
+                'zip_code' => 'VARCHAR(55) NULL',
+                'phone' => 'VARCHAR(55) NULL',
+                'email' => 'VARCHAR(255) NULL',
+                'comments' => 'TEXT NULL',
+                'coupon' => 'VARCHAR(55) NULL',
+                'discount_type' => 'VARCHAR(55) NULL COMMENT \'Kiểu khuyến mại\'',
+                'payment_method' => 'VARCHAR(55) NULL COMMENT \'Phương thức thanh toán\'',
+                // 
+                'order_type' => 'VARCHAR(255) NULL COMMENT \'Phân loại đơn hàng\'',
                 'order_period' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'Giá trị đơn hàng theo gói định sẵn\'',
-                'order_money' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Giá trị của đơn hàng\'',
-                'order_discount' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Tiền giảm giá cho mỗi đơn hàng\'',
-                'order_bonus' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Tiền cộng thêm cho mỗi đơn hàng\'',
+                'order_money' => 'FLOAT NOT NULL DEFAULT \'0\' COMMENT \'Giá trị của đơn hàng\'',
+                'order_discount' => 'FLOAT NOT NULL DEFAULT \'0\' COMMENT \'Tiền giảm giá cho mỗi đơn hàng\'',
+                'order_bonus' => 'FLOAT NOT NULL DEFAULT \'0\' COMMENT \'Tiền cộng thêm cho mỗi đơn hàng\'',
+                'shipping_fee' => 'FLOAT NULL',
             ],
         ];
 

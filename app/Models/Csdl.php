@@ -24,12 +24,13 @@ class Csdl extends Session
     {
         if ($remove_col === true) {
             $data = $this->removeInvalidField($data, $table);
-
-            //
             if (empty($data)) {
                 die('data insert empty ' . $table . ':' . __CLASS__ . ':' . __LINE__);
             }
         }
+        // print_r($table);
+        // print_r($data);
+        // print_r($queryType);
 
         //
         $builder = $this->db->table($table);
@@ -43,16 +44,15 @@ class Csdl extends Session
         } else {
             $builder->insert($data);
         }
-        //die(' bb'); // lỗi sẽ hiển thị ở đây khi không insert đc
+
+        // lỗi sẽ hiển thị ở đây khi không insert đc
         if ($this->db->affectedRows()) {
-            //var_dump( $this->db->affectedRows() );
-            //echo $this->db->insertID() . '<br>' . PHP_EOL;
+            // var_dump($this->db->affectedRows());
+            // echo $this->db->insertID() . '<br>' . PHP_EOL;
             return $this->db->insertID();
-            /*
-            } else {
-            print_r( $this->db->error() );
-            print_r( $this->db->_error_message() );
-            */
+        } else {
+            // print_r($this->db->error());
+            // print_r($this->db->_error_message());
         }
         return false;
     }

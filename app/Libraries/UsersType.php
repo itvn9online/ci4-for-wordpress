@@ -15,6 +15,7 @@ class UsersType
     const ALL = 'Tài khoản';
     const GUEST = 'guest';
     const MEMBER = 'member';
+    const CUSTOMER = 'customer';
     const AUTHOR = 'author';
     const MOD = 'mod';
     const ADMIN = 'admin';
@@ -41,6 +42,7 @@ class UsersType
         self::GUEST => AdminTranslate::GUEST,
         self::SUB => AdminTranslate::SUB,
         self::MEMBER => AdminTranslate::MEMBER,
+        self::CUSTOMER => AdminTranslate::CUSTOMER,
         self::AUTHOR => AdminTranslate::AUTHOR,
         self::MOD => AdminTranslate::MOD,
         self::ADMIN => AdminTranslate::ADMIN,

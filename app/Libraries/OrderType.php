@@ -16,6 +16,7 @@ class OrderType extends PostType
             //self::PUBLICITY => 'Hiển thị',
             self::PRIVATELY => 'Đã thanh toán',
             self::PENDING => 'Mới',
+            self::ON_HOLD => 'On-hold',
             self::DRAFT => 'Hủy',
             self::DELETED => 'XÓA',
             //self::INHERIT => '',

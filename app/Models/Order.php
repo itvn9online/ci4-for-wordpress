@@ -4,6 +4,7 @@ namespace App\Models;
 
 // Libraries
 use App\Libraries\OrderType;
+use App\Libraries\UsersType;
 
 //
 class Order extends Post
@@ -21,40 +22,149 @@ class Order extends Post
         $this->user_model = new \App\Models\User();
     }
 
-    public function insert_order($data_insert)
+    public function insert_order($data)
     {
-        //$data_insert[ 'guid' ] = ''; // danh sách IDs sản phẩm
-        //$data_insert[ 'post_excerpt' ] = ''; // danh sách sản phẩm dạng json
-        //$data_insert[ 'order_money' ] = ''; // tổng giá trị giỏ hàng
-        //$data_insert[ 'comment_count' ] = ''; // hạn sử dụng/ thời gian bảo hành
-        //$data_insert[ 'pinged' ] = ''; // thông tin phản hồi từ các bên thanh toán trung gian
-        if (!isset($data_insert['post_status'])) {
-            $data_insert['post_status'] = OrderType::PENDING;
+        //$data[ 'guid' ] = ''; // danh sách IDs sản phẩm
+        //$data[ 'post_excerpt' ] = ''; // danh sách sản phẩm dạng json
+        //$data[ 'order_money' ] = ''; // tổng giá trị giỏ hàng
+        //$data[ 'comment_count' ] = ''; // hạn sử dụng/ thời gian bảo hành
+        //$data[ 'pinged' ] = ''; // thông tin phản hồi từ các bên thanh toán trung gian
+        if (!isset($data['post_status'])) {
+            $data['post_status'] = OrderType::PENDING;
         }
-        if (!isset($data_insert['post_type'])) {
-            $data_insert['post_type'] = $this->post_type;
+        if (!isset($data['post_type'])) {
+            $data['post_type'] = $this->post_type;
         }
 
-        // tự động tạo mã đơn hàng nếu chưa có
-        if (!isset($data_insert['post_name']) || $data_insert['post_name'] == '') {
-            if (isset($data_insert['post_author']) && $data_insert['post_author'] > 0) {
-                $data_insert['post_name'] = $data_insert['post_author'] . 'EB' . date('ymdHis');
+        // nếu chưa có thông tin người gửi
+        if (!isset($data['post_author']) || $data['post_author'] < 1) {
+            // nếu có email
+            if (isset($data['email']) && !empty($data['email']) && strpos($data['email'], '@') !== false) {
+                $user_id = $this->user_model->check_user_exist($data['email']);
+                // var_dump($user_id);
+
+                // nếu email chưa được sử dụng
+                if ($user_id === false) {
+                    $user_data = [
+                        'user_email' => $data['email'],
+                        'user_phone' => isset($data['phone']) ? $data['phone'] : '',
+                        'member_type' => UsersType::CUSTOMER,
+                    ];
+                    // print_r($user_data);
+                    $user_id = $this->user_model->insert_member($user_data);
+                    // var_dump($user_id);
+                }
+            }
+            // nếu có phone
+            else if (isset($data['phone']) && !empty($data['phone'])) {
+                $user_id = $this->user_model->check_user_exist($data['phone'], 'user_phone');
+                // var_dump($user_id);
+
+                // nếu phone chưa được sử dụng
+                if ($user_id === false) {
+                    $phone = $this->base_model->_eb_number_only($data['phone']);
+                    // echo $phone . '<br>' . PHP_EOL;
+                    $user_id = $this->user_model->check_user_exist($phone, 'number_phone');
+                    // var_dump($user_id);
+
+                    // 
+                    if ($user_id === false && $phone > 0 && strlen($phone) > 5) {
+                        $user_data = [
+                            'user_email' => $phone . '@' . $_SERVER['HTTP_HOST'],
+                            'user_phone' =>  $data['phone'],
+                            'member_type' => UsersType::CUSTOMER,
+                        ];
+                        // print_r($user_data);
+                        $user_id = $this->user_model->insert_member($user_data);
+                        // var_dump($user_id);
+                    }
+                }
+                // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            } else {
+                $this->base_model->alert('Billing Email address is a required field.', 'error');
+            }
+
+            //
+            if ($user_id === false || $user_id < 1) {
+                $this->base_model->alert('Customer ID not found!', 'error');
+
+                // 
+                $user_id = 0;
+            }
+
+            //
+            $data['post_author'] = $user_id;
+        }
+
+        // tự động tạo họ tên cho đơn hàng nếu chưa có
+        if (!isset($data['full_name']) || empty($data['full_name'])) {
+            if (isset($data['first_name']) && !empty($data['first_name'])) {
+                $data['full_name'] = $data['first_name'];
+
+                // thêm last name nếu có
+                if (isset($data['last_name']) && !empty($data['last_name'])) {
+                    $data['full_name'] .= ' ' . $data['last_name'];
+                }
+            } else if (isset($data['last_name']) && !empty($data['last_name'])) {
+                $data['full_name'] = $data['last_name'];
             }
         }
 
-        //
-        if (isset($data_insert['post_excerpt']) && is_array($data_insert['post_excerpt'])) {
-            $data_insert['post_excerpt'] = json_encode($data_insert['post_excerpt']);
+        // tự động tạo tiêu đề cho đơn hàng nếu chưa có
+        if (!isset($data['post_title']) || empty($data['post_title'])) {
+            $data['post_title'] = '';
         }
-        //print_r($data_insert);
-        //die(__CLASS__ . ':' . __LINE__);
+        if ($data['post_title'] == '') {
+            if (isset($data['post_author']) && $data['post_author'] > 0) {
+                $data['post_title'] = '#' . $data['post_author'];
+            }
+
+            // đặt theo họ tên
+            if (isset($data['full_name']) && !empty($data['full_name'])) {
+                $data['post_title'] .= ' ' . $data['full_name'];
+            }
+            // đặt theo email
+            else if (isset($data['email']) && !empty($data['email']) && strpos($data['email'], '@') !== false) {
+                $data['post_title'] .= ' ' . $data['email'];
+            }
+            // đặt theo phone
+            else if (isset($data['phone']) && !empty($data['phone'])) {
+                $data['post_title'] .= ' phone ' . $data['phone'];
+            }
+        }
+
+        // tự động tạo mã đơn hàng nếu chưa có
+        if (!isset($data['post_name']) || empty($data['post_name'])) {
+            if (isset($data['post_author']) && $data['post_author'] > 0) {
+                $data['post_name'] = $data['post_author'] . 'EB' . date('ymdHis');
+            }
+        }
+
+        // tạo mã đơn hàng nếu chưa có
+        if (!isset($data['post_password']) || empty($data['post_password'])) {
+            $data['post_password'] = md5(time() . $this->base_model->MY_sessid());
+        }
 
         //
-        $result = parent::insert_post($data_insert, [], false);
+        if (isset($data['post_content']) && !empty($data['post_content']) && is_array($data['post_content'])) {
+            // print_r($data['post_content']);
+            $data['post_content'] = json_encode($data['post_content']);
+        }
 
         //
-        if (isset($data_insert['post_author']) && $data_insert['post_author'] > 0) {
-            $this->cache_user_fund($data_insert['post_author']);
+        if (isset($data['post_excerpt']) && !empty($data['post_excerpt']) && is_array($data['post_excerpt'])) {
+            // print_r($data['post_excerpt']);
+            $data['post_excerpt'] = json_encode($data['post_excerpt']);
+        }
+        // print_r($data);
+        // die(__CLASS__ . ':' . __LINE__);
+
+        //
+        $result = parent::insert_post($data, [], false);
+
+        //
+        if (isset($data['post_author']) && $data['post_author'] > 0) {
+            $this->cache_user_fund($data['post_author']);
         }
 
         //
@@ -103,13 +213,13 @@ class Order extends Post
     }
 
     // tạo 1 đơn hàng mới
-    public function create_pending_order($data_insert)
+    public function create_pending_order($data)
     {
-        //print_r($data_insert);
+        //print_r($data);
         //die(__CLASS__ . ':' . __LINE__);
 
         //
-        $result_id = $this->insert_order($data_insert);
+        $result_id = $this->insert_order($data);
         //print_r( $result_id );
         if (is_array($result_id) && isset($result_id['error'])) {
             die($result_id['error'] . ' --- ERROR! ' . __CLASS__ . ':' . __LINE__);

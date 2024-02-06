@@ -205,6 +205,10 @@ class AdminMenu
                         'name' => UsersType::typeList(UsersType::MEMBER),
                         'icon' => 'fa fa-user',
                     ],
+                    'sadmin/customers' => [
+                        'name' => UsersType::typeList(UsersType::CUSTOMER),
+                        'icon' => 'fa fa-user',
+                    ],
                     'sadmin/authors' => [
                         'name' => UsersType::typeList(UsersType::AUTHOR),
                         'icon' => 'fa fa-magic',

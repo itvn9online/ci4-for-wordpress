@@ -23,15 +23,11 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
         <form action="" method="post" name="admin_global_form" id="admin_global_form" onSubmit="return action_before_submit_post();" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
             <div class="control-group">
                 <label class="control-label">ID</label>
-                <div class="controls">
-                    <?php echo $data['ID']; ?>
-                </div>
+                <div class="controls"><?php echo $data['ID']; ?></div>
             </div>
             <div class="control-group">
                 <label class="control-label">Mã hóa đơn</label>
-                <div class="controls upper">
-                    <?php echo $data['post_name']; ?>
-                </div>
+                <div class="controls upper"><?php echo $data['post_name']; ?></div>
             </div>
             <div class="control-group">
                 <label class="control-label">Tiêu đề</label>
@@ -46,16 +42,30 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                 </div>
             </div>
             <div class="control-group">
+                <label class="control-label">Coupon code</label>
+                <div class="controls bold"><?php echo $data['coupon']; ?></div>
+            </div>
+            <div class="control-group">
                 <label class="control-label">Tổng tiền</label>
                 <div class="controls bold">
-                    <?php echo number_format($data['order_money']); ?> VNĐ
+                    <span class="ebe-currency-format"><?php echo $data['order_money']; ?></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Discount</label>
+                <div class="controls bold">
+                    <span class="ebe-currency-format"><?php echo $data['order_discount']; ?></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Bonus</label>
+                <div class="controls bold">
+                    <span class="ebe-currency-format"><?php echo $data['order_bonus']; ?></span>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">Hạn sử dụng</label>
-                <div class="controls">
-                    <?php echo $data['order_period']; ?> (tháng)
-                </div>
+                <div class="controls"><?php echo $data['order_period']; ?> (tháng)</div>
             </div>
             <div class="control-group">
                 <label class="control-label">Trạng thái</label>
@@ -68,23 +78,41 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
             <div class="control-group">
                 <label class="control-label">Thành viên</label>
                 <div class="controls">
-                    <a href="sadmin/users/add?id=<?php echo $data['post_author']; ?>" data-id="<?php echo $data['post_author']; ?>" class="each-to-email bluecolor" target="_blank">
-                        <?php echo $data['post_author']; ?>
-                    </a> &nbsp;
+                    <a href="sadmin/users/add?id=<?php echo $data['post_author']; ?>" data-id="<?php echo $data['post_author']; ?>" class="each-to-email bluecolor" target="_blank"><?php echo $data['post_author']; ?></a> &nbsp;
                     <a href="sadmin/orders?user_id=<?php echo $data['post_author']; ?>" class="btn btn-inverse">Danh sách đơn hàng <i class="fa fa-search"></i></a>
                 </div>
             </div>
             <div class="control-group">
+                <label class="control-label">First name</label>
+                <div class="controls"><?php echo $data['first_name']; ?></div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Last name</label>
+                <div class="controls"><?php echo $data['last_name']; ?></div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Full name</label>
+                <div class="controls"><?php echo $data['full_name']; ?></div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Phone</label>
+                <div class="controls"><?php echo $data['phone']; ?></div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Company</label>
+                <div class="controls"><?php echo $data['company']; ?></div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Address</label>
+                <div class="controls"><?php echo $data['address']; ?></div>
+            </div>
+            <div class="control-group">
                 <label class="control-label">Ngày tạo</label>
-                <div class="controls">
-                    <?php echo $data['post_date']; ?>
-                </div>
+                <div class="controls"><?php echo $data['post_date']; ?></div>
             </div>
             <div class="control-group">
                 <label class="control-label">Ngày cập nhật</label>
-                <div class="controls">
-                    <?php echo $data['post_modified']; ?>
-                </div>
+                <div class="controls"><?php echo $data['post_modified']; ?></div>
             </div>
             <div class="control-group">
                 <label class="control-label">ID Sản phẩm</label>
@@ -104,7 +132,7 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                         //
                         if (!empty($post_parent_data)) {
                     ?>
-                            <a href="<?php $post_model->the_post_permalink($post_parent_data); ?>" class="bluecolor set-new-url">#<?php echo $data['post_parent']; ?> | <?php echo $post_parent_data['post_title']; ?> | <?php echo $post_parent_data['post_permalink']; ?></a>
+                            <a href="<?php $post_model->the_post_permalink($post_parent_data); ?>" class="bluecolor" target="_blank">#<?php echo $data['post_parent']; ?> | <?php echo $post_parent_data['post_title']; ?> | <?php echo $post_parent_data['post_permalink']; ?></a>
                     <?php
                         }
                     } else {

@@ -477,6 +477,11 @@ class Session
         return md5($str);
     }
 
+    public function mdhash($str)
+    {
+        return $this->mdnam($str, CUSTOM_MD5_HASH_CODE);
+    }
+
     // cache bên model là cache select database -> chỉ kiểm tra theo key truyền vào -> không kiểm tra theo session login
     public function scache($key, $value = '', $time = MINI_CACHE_TIMEOUT)
     {

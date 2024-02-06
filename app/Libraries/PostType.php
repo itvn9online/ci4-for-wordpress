@@ -11,7 +11,7 @@ class PostType
     // post_type
     const POST = 'post';
     const ADS = 'ads';
-    //const BLOG = 'blog';
+    // const BLOG = 'blog';
     const PAGE = 'page';
     const PROD = 'product';
     const MENU = 'nav_menu';
@@ -27,10 +27,11 @@ class PostType
     const WP_MEDIA_URI = 'wp/wp-content/uploads/';
 
     // post_status
-    //const PUBLIC = 'publish'; // daidq (2022-04-24): bỏ chữ sẽ bỏ tham số PUBLIC do trùng với mặc định của PHP
+    // const PUBLIC = 'publish'; // daidq (2022-04-24): bỏ chữ sẽ bỏ tham số PUBLIC do trùng với mặc định của PHP
     const PUBLICITY = 'publish';
     const PRIVATELY = 'private'; // riêng tư -> chỉ dành cho tài khoản đã đăng nhập
     const PENDING = 'pending';
+    const ON_HOLD = 'on_hold'; // for orders
     const DRAFT = 'draft';
     const DELETED = 'trash';
     const INHERIT = 'inherit';

@@ -498,7 +498,7 @@ class Guest extends Csrf
                             ];
 
                             // token
-                            $data_reset['token'] = $this->base_model->mdnam($data_reset['e'] . $data_reset['t'], CUSTOM_MD5_HASH_CODE);
+                            $data_reset['token'] = $this->base_model->mdhash($data_reset['e'] . $data_reset['t']);
 
                             //
                             //print_r( $data_reset );
@@ -602,7 +602,7 @@ class Guest extends Csrf
                         $this->base_model->msg_error_session('Liên kết đã hết hạn sử dụng! Hãy gửi yêu cầu cung cấp liên kết mới.');
                     }
                     // mã xác nhận -> token
-                    else if ($this->base_model->mdnam($email . $expire, CUSTOM_MD5_HASH_CODE) != $token) {
+                    else if ($this->base_model->mdhash($email . $expire) != $token) {
                         $this->base_model->msg_error_session('Mã xác nhận không chính xác!');
                     }
                     // đúng thì tiến hành reset password
@@ -756,7 +756,7 @@ class Guest extends Csrf
                         $this->base_model->msg_error_session('Liên kết đã hết hạn sử dụng! Hãy gửi yêu cầu cung cấp liên kết mới.');
                     }
                     // mã xác nhận -> token
-                    else if ($this->base_model->mdnam($email . $old_email . $expire, CUSTOM_MD5_HASH_CODE) != $token) {
+                    else if ($this->base_model->mdhash($email . $old_email . $expire) != $token) {
                         $this->base_model->msg_error_session('Mã xác nhận không chính xác!');
                     }
                     // đúng thì tiến hành thay đổi email
