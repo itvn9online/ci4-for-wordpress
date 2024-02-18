@@ -93,7 +93,7 @@ class Sitemap extends Layout
         $get_list_sitemap .= $this->WGR_echo_sitemap_node($this->web_link . 'sitemap/tags', $this->sitemap_current_time);
 
 
-        /*
+        /**
          * sitemap cho phần bài viết
          */
         $arr_post_type = [
@@ -133,7 +133,7 @@ class Sitemap extends Layout
         }
 
 
-        /*
+        /**
          * sitemap cho phần media
          */
         $arr_post_type = [
@@ -263,9 +263,8 @@ class Sitemap extends Layout
         ];
 
         //
-        $totalThread = $this->base_model->select('COUNT(ID) AS c', 'posts', $where, $filter);
-        //print_r( $totalThread );
-        $totalThread = $totalThread[0]['c'];
+        $totalThread = $this->base_model->select_count('ID', 'posts', $where, $filter);
+        // echo $totalThread . '<br>' . PHP_EOL;
 
         //
         if ($get_count === true) {

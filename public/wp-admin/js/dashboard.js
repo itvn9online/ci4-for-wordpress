@@ -124,7 +124,12 @@ vue_data.client_timezone = function () {
 	try {
 		tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
 	} catch (e) {
-		tz = new Date().getTimezoneOffset();
+		tz = new Date().toString().split(" GMT");
+		if (tz.length > 1) {
+			tz = tz[1];
+		} else {
+			tz = new Date().getTimezoneOffset();
+		}
 
 		//
 		WGR_show_try_catch_err(e);

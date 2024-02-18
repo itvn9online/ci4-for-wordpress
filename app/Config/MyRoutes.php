@@ -1,12 +1,13 @@
 <?php
-/*
+
+/**
  * Routes mặc định của code gốc, nó bao gốm những gì cần thiết nhất cho một website cơ bản
  */
 
 
-/*
-* Các routes không hỗ trợ đa ngôn ngữ
-*/
+/**
+ * Các routes không hỗ trợ đa ngôn ngữ
+ */
 // install
 $routes->get('/install', 'Installs::index');
 
@@ -33,10 +34,10 @@ $routes->get('/feed', 'Feed::index');
 $routes->get('/wp-json', 'Feed::wp_json');
 
 
-/*
-* Các routes này là của trang khách -> có hỗ trợ dùng prefix để xác định ngôn ngữ hiển thị
-* xác định prefix cho routes
-*/
+/**
+ * Các routes này là của trang khách -> có hỗ trợ dùng prefix để xác định ngôn ngữ hiển thị
+ * xác định prefix cho routes
+ */
 //print_r(SITE_LANGUAGE_SUPPORT);
 //echo $_SERVER['REQUEST_URI'];
 

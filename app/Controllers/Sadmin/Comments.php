@@ -144,13 +144,8 @@ class Comments extends Sadmin
         /**
          * phân trang
          */
-        $countFilter = $filter;
-        $countFilter['selectCount'] = 'comment_ID';
-        $totalThread = $this->base_model->select('comment_ID', 'comments', $where, $countFilter);
-        // print_r($totalThread);
-        // die(__CLASS__ . ':' . __LINE__);
-        $totalThread = $totalThread[0]['comment_ID'];
-        //print_r( $totalThread );
+        $totalThread = $this->base_model->select_count('comment_ID', 'comments', $where, $filter);
+        // echo $totalThread . '<br>' . PHP_EOL;
 
         //
         if ($totalThread > 0) {

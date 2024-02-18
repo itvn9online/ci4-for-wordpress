@@ -785,7 +785,7 @@ class ConfigType
             'WGR_CSP_ENABLE' => 'On/ Off chế độ Content-Security-Policy. Nhớ điều chỉnh thông số src cho hợp lý.',
             'NUMBER_CHECKBOXS_INPUT' => 'Website nào cần dùng nhiều tăng số lượng bản ghi lên.',
             'ANTI_SPAM_EXPIRED' => 'Thời gian hết hạn cho mỗi token trong chức năng anti spam.',
-            'CUSTOM_FAKE_POST_VIEW' => 'Mặc định mỗi lần truy cập bài viết thì bài đó sẽ được tăng lên 1 viewd. Nếu muốn tăng nhiều hơn, hãy tăng tham số này lên. Đặt là 0 sẽ loại bỏ chức năng cập nhật lượt xem.',
+            'CUSTOM_FAKE_POST_VIEW' => 'Mặc định mỗi lần truy cập bài viết thì bài đó sẽ được tăng lên 1 viewed. Nếu muốn tăng nhiều hơn, hãy tăng tham số này lên. Đặt là 0 sẽ loại bỏ chức năng cập nhật lượt xem.',
             'ENABLE_AMP_VERSION' => 'AMP viết tắt của Accelerated Mobile Pages là trang tăng tốc dành cho thiết bị di động của mỗi website.',
             'FAKE_WORDPRESS_VERSION' => 'Thiết lập thông số giả lập Wordpress để đánh lạc hướng các vụ tấn công vào mã nguồn. Giả lập hiện tại: ' . FAKE_WORDPRESS_VERSION,
             'SITE_LANGUAGE_SUB_FOLDER' => 'Nếu là sub-folder thì sẽ hỗ trợ prefix cho routes, url cũng sẽ thêm prefix vào ngay sau domain. Ví dụ: domain.com/vn hoặc domain.com/en',

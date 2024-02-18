@@ -33,8 +33,7 @@
             </td>
             <td>{{v.term_id}}</td>
             <td>
-                <div><span data-id="{{v.parent}}" data-taxonomy="<?php echo $taxonomy; ?>" data-line="{{v.gach_ngang}}" class="parent-term-name"></span> <a href="{{v.get_admin_permalink}}">{{v.gach_ngang}}{{v.name}} <i class="fa fa-edit"></i></a></div>
-                <div>{{v.term_shortname}}</div>
+                <a href="{{v.get_admin_permalink}}">{{v.name}} <i class="fa fa-edit"></i></a>
             </td>
             <td>
                 <div>{{v.slug}}</div>

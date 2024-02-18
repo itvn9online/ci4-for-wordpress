@@ -415,8 +415,12 @@ var g_func = {
 	 * Using Math.round() will give you a non-uniform distribution!
 	 */
 	getRandomInt: function (min, max) {
-		if (min != max && min < max) {
+		if (min < max) {
 			return Math.floor(Math.random() * (max - min + 1)) + min;
+		} else if (min > max) {
+			return g_func.getRandomInt(max, min);
+		} else if (min > 0) {
+			return min;
 		}
 		return 0;
 	},
@@ -595,18 +599,8 @@ function action_each_to_taxonomy() {
 				if (a[i] != "") {
 					a[i] = $.trim(a[i]);
 					a[i] *= 1;
-					if (a[i] > 0) {
-						let has_add = false;
-						for (let j = 0; j < taxonomy_ids_unique.length; j++) {
-							if (a[i] == taxonomy_ids_unique[j]) {
-								has_add = true;
-								break;
-							}
-						}
-						//console.log('has add:', has_add);
-						if (has_add === false) {
-							taxonomy_ids_unique.push(a[i]);
-						}
+					if (a[i] > 0 && taxonomy_ids_unique.includes(a[i]) === false) {
+						taxonomy_ids_unique.push(a[i]);
 					}
 				}
 			}
@@ -1115,7 +1109,12 @@ function WGR_open_poup(str, tit, __callBack) {
 	$("#popupModal").modal("show");
 }
 
-function WGR_get_params(param, queryString) {
+function WGR_get_params(param, queryString, default_value) {
+	if (typeof default_value == "undefined") {
+		default_value = "";
+	}
+
+	//
 	if (typeof queryString == "undefined" || queryString == "") {
 		queryString = window.location.search;
 	} else {
@@ -1123,14 +1122,14 @@ function WGR_get_params(param, queryString) {
 		if (queryString.length > 1) {
 			queryString = queryString[1];
 		} else {
-			return "";
+			return default_value;
 		}
 	}
 	// console.log("queryString:", queryString);
 	let urlParams = new URLSearchParams(queryString);
 	// console.log("urlParams:", urlParams);
 	let a = urlParams.get(param);
-	return a === null ? "" : a;
+	return a === null ? default_value : a;
 }
 
 function jQueryAjaxError(jqXHR, textStatus, errorThrown, errorStack) {

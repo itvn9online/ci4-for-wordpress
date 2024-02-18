@@ -127,13 +127,11 @@ class Search extends Csrf
             }
 
 
-            /*
+            /**
              * phân trang
              */
-            $totalThread = $this->base_model->select('COUNT(ID) AS c', 'posts', $where, $filter);
-            //print_r( $totalThread );
-            $totalThread = $totalThread[0]['c'];
-            //echo $totalThread . '<br>' . PHP_EOL;
+            $totalThread = $this->base_model->select_count('ID', 'posts', $where, $filter);
+            // echo $totalThread . '<br>' . PHP_EOL;
 
             if ($totalThread > 0) {
                 $totalPage = ceil($totalThread / $post_per_page);

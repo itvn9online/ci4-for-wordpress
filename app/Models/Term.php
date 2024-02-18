@@ -449,7 +449,7 @@ class Term extends TermBase
                 'term_taxonomy_id' => $term_id,
             ),
             array(
-                'selectCount' => 'object_id',
+                // 'selectCount' => 'object_id',
                 // hiển thị mã SQL để check
                 //'show_query' => 1,
                 // trả về câu query để sử dụng cho mục đích khác
@@ -898,14 +898,17 @@ class Term extends TermBase
         if (!isset($ops['select_col'])) {
             $ops['select_col'] = '*';
         }
+        if (!isset($ops['order_by'])) {
+            $ops['order_by'] = [
+                'term_order' => 'DESC',
+                'term_id' => 'DESC',
+            ];
+        }
 
         //
         $filter = [
             'where_in' => $ops['where_in'],
-            'order_by' => array(
-                'term_order' => 'DESC',
-                'term_id' => 'DESC',
-            ),
+            'order_by' => $ops['order_by'],
             // hiển thị mã SQL để check
             //'show_query' => 1,
             // trả về câu query để sử dụng cho mục đích khác
@@ -1115,31 +1118,20 @@ class Term extends TermBase
 
             // daidq: sử dụng hàm update_count_post_in_term cho thống nhất dữ liệu
             if (1 > 2) {
-                $count_post_term = $this->base_model->select(
-                    'COUNT(object_id) AS c',
+                $count_post_term = $this->base_model->select_count(
+                    'object_id',
                     $this->relaTable,
                     array(
                         // WHERE AND OR
                         'term_taxonomy_id' => $term_id,
-                    ),
-                    array(
-                        'selectCount' => 'object_id',
-                        // hiển thị mã SQL để check
-                        //'show_query' => 1,
-                        // trả về câu query để sử dụng cho mục đích khác
-                        //'get_query' => 1,
-                        //'offset' => 2,
-                        //'limit' => 3
                     )
                 );
-                //print_r( $count_post_term );
 
                 // cập nhật lại tổng số bài viết cho term
                 $this->base_model->update_multiple(
                     $this->taxTable,
                     [
-                        //'count' => $count_post_term[ 0 ][ 'c' ],
-                        'count' => $count_post_term[0]['object_id'],
+                        'count' => $count_post_term,
                         'source_count' => __CLASS__ . ':' . __FUNCTION__ . ':' . __LINE__,
                     ],
                     [

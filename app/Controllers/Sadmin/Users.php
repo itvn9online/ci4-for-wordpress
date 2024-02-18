@@ -62,7 +62,7 @@ class Users extends Sadmin
     {
         return $this->lists();
     }
-    /*
+    /**
      * tham số where: dùng khi muốn thêm điều kiện where từ các controller được extends
      * tham số where_or_like: dùng khi muốn thêm điều kiện tìm kiếm dữ liệu từ các controller được extends
      */
@@ -198,14 +198,11 @@ class Users extends Sadmin
         $filter['offset'] = 0;
         $filter['limit'] = -1;
 
-        /*
+        /**
          * phân trang
          */
-        $totalThread = $this->base_model->select('COUNT(ID) AS c', 'users', $where, $filter);
-        //print_r($totalThread);
-        $totalThread = $totalThread[0]['c'];
-        //print_r($totalThread);
-        //die(__CLASS__ . ':' . __LINE__);
+        $totalThread = $this->base_model->select_count('ID', 'users', $where, $filter);
+        // echo $totalThread . '<br>' . PHP_EOL;
 
         if ($totalThread > 0) {
             $page_num = $this->MY_get('page_num', 1);

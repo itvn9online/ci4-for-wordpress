@@ -949,9 +949,9 @@ class Base extends Csdl
         ob_end_clean();
 
         // from function -> dùng để code dễ biết đoạn này gọi từ function nào tới
-        if (!isset($arr['f'])) {
-            $arr['f'] = debug_backtrace()[1]['function'];
-        }
+        // if (!isset($arr['f'])) {
+        //     $arr['f'] = debug_backtrace()[1]['function'];
+        // }
 
         //
         header('Content-type: application/json; charset=utf-8');

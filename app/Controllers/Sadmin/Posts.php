@@ -35,7 +35,7 @@ class Posts extends Sadmin
     // dùng để chọn xem hiển thị nhóm sản phẩm nào ra ở phần danh mục
     protected $main_category_key = 'post_category';
 
-    /*
+    /**
      * khi update hoặc insert sẽ kiểm tra xem các dữ liệu trong này có không, nếu có không sẽ gán mặc định
      * vì các checkbox khi bỏ chọn tất cả sẽ không xuất hiện trong post -> không được update
      */
@@ -43,7 +43,7 @@ class Posts extends Sadmin
     // các cột được liệt kê trong này sẽ được chuyển đổi từ datetime sang timestamp -> do plugin tạo thời gian nó lấy theo múi giờ hiện tại của người dùng -> lên server phải convert về múi giờ của server
     protected $timestamp_post_data = [];
 
-    /*
+    /**
      * for_extends: khi một controller extends lại class này và sử dụng các post type khác (custom post type) thì khai báo nó bằng true để bỏ qua các điều kiện kiểm tra
      */
     public function __construct($for_extends = false)
@@ -278,10 +278,8 @@ class Posts extends Sadmin
         /**
          * phân trang
          */
-        $totalThread = $this->base_model->select('COUNT(ID) AS c', $this->table, $where, $filter);
-        //print_r( $totalThread );
-        $totalThread = $totalThread[0]['c'];
-        //print_r( $totalThread );
+        $totalThread = $this->base_model->select_count('ID', $this->table, $where, $filter);
+        // echo $totalThread . '<br>' . PHP_EOL;
 
         //
         if ($totalThread > 0) {

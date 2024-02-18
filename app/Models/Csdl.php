@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * file này chủ yếu xử lý các vấn đề liên quan đến database
  */
 
@@ -60,6 +61,8 @@ class Csdl extends Session
     // update giá trị cho 1 cột nào đó lên 1 đơn vị. Ví dụ: update lượt xem
     public function update_count($table, $col, $where_array, $ops = [])
     {
+        $has_where = false;
+
         //
         if (!isset($ops['value']) || !is_numeric($ops['value']) || $ops['value'] < 1) {
             $ops['value'] = 1;
@@ -70,16 +73,72 @@ class Csdl extends Session
         $builder->set($col, $col . '+' . $ops['value'], false);
         foreach ($where_array as $key => $value) {
             $builder->where($key, $value);
+            $has_where = true;
         }
+
+        // 
+        if (isset($ops['where_in'])) {
+            foreach ($ops['where_in'] as $k => $v) {
+                if (!empty($v)) {
+                    $builder->whereIn($k, $v);
+                    $has_where = true;
+                }
+            }
+        }
+
+        // where not in
+        if (isset($ops['where_not_in'])) {
+            foreach ($ops['where_not_in'] as $k => $v) {
+                if (!empty($v)) {
+                    $builder->whereNotIn($k, $v);
+                    $has_where = true;
+                }
+            }
+        }
+
+        //
+        if ($has_where !== true) {
+            if (isset($ops['debug_backtrace'])) {
+                echo $ops['debug_backtrace'] . '<br>' . PHP_EOL;
+            }
+            echo debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
+
+            //
+            die('data update empty ' . $table . ':' . __CLASS__ . ':line:' . __LINE__);
+        }
+
+        // 
         $builder->update();
+
+        // in luôn ra query để test
+        if (isset($ops['show_query'])) {
+            print_r($this->db->getLastQuery()->getQuery());
+            echo '<br>' . PHP_EOL;
+        }
+
+        // trả về query để sử dụng cho mục đích khác
+        if (isset($ops['get_query'])) {
+            return $this->db->getLastQuery()->getQuery();
+        }
+
+        //
+        if (!$this->query_error($this->db->error())) {
+            print_r($this->db->error());
+        }
+
+        //
+        if ($this->db->affectedRows() > 0) {
+            return true;
+        }
+        return false;
     }
 
     public function update_multiple($table, $data, $where_array, $ops = [])
     {
         $has_where = false;
-        //print_r( $where_array );
-        //print_r( $ops );
-        //die( __CLASS__ . ':' . __LINE__ );
+        // print_r($where_array);
+        // print_r($ops);
+        // die(__CLASS__ . ':' . __LINE__);
 
         //
         $builder = $this->db->table($table);
@@ -617,6 +676,17 @@ class Csdl extends Session
         return $a;
     }
 
+    /**
+     * Khi muốn tính tổng bản ghi thì có thể dùng hàm này cho nó tiện
+     */
+    public function select_count($select, $from, $where = array(), $ops = array())
+    {
+        $ops['selectCount'] = $select;
+        $totalThread = $this->select($select, $from, $where, $ops);
+        // print_r($totalThread);
+        return $totalThread[0][$select];
+    }
+
     public function query_error($arr)
     {
         if ($arr['code'] > 0) {
@@ -625,7 +695,7 @@ class Csdl extends Session
         return true;
     }
 
-    /*
+    /**
      * Sử dụng query bindings để hạn chế sql injection -> params
      * https://www.codeigniter.com/user_guide/database/queries.html#query-bindings
      */

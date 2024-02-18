@@ -324,6 +324,7 @@ class Constants extends Configs
         // connect thử vào Memcached
         try {
             // procedural API
+            // if (function_exists('memcache_connect') && strpos($this->memcached_hostname, '/') === false) {
             if (function_exists('memcache_connect')) {
                 $memcache_obj = memcache_connect($this->memcached_hostname, $this->memcached_port);
             } else {

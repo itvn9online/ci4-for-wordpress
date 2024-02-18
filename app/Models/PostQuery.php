@@ -567,13 +567,11 @@ class PostQuery extends PostMeta
 
         //
         if (isset($ops['count_record'])) {
-            $data = $this->base_model->select(
-                // 'COUNT(ID) AS c',
+            return $this->base_model->select_count(
                 'ID',
                 WGR_POST_VIEW,
                 $where,
                 [
-                    'selectCount' => 'ID',
                     'where_or' => $arr_where_or,
                     'where_not_in' => $where_not_in,
                     // 'group_by' => $ops['group_by'],
@@ -588,15 +586,6 @@ class PostQuery extends PostMeta
                     //'limit' => $limit
                 ]
             );
-            //print_r($data);
-            //die(__CLASS__ . ':' . __LINE__);
-
-            //
-            if (empty($data)) {
-                return 0;
-            }
-            //return $data[ 0 ][ 'c' ];
-            return $data[0]['ID'];
         } else {
             // nếu có chỉ định chỉ lấy các cột cần thiết
             if (!isset($ops['select'])) {

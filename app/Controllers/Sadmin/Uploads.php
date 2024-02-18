@@ -155,13 +155,11 @@ class Uploads extends Sadmin
         ];
 
 
-        /*
+        /**
          * phân trang
          */
-        $totalThread = $this->base_model->select('COUNT(ID) AS c', 'posts', $where, $filter);
-        //print_r( $totalThread );
-        $totalThread = $totalThread[0]['c'];
-        //print_r( $totalThread );
+        $totalThread = $this->base_model->select_count('ID', 'posts', $where, $filter);
+        // echo $totalThread . '<br>' . PHP_EOL;
 
         if ($totalThread > 0) {
             $totalPage = ceil($totalThread / $post_per_page);
@@ -410,13 +408,11 @@ class Uploads extends Sadmin
         ];
 
 
-        /*
+        /**
          * phân trang
          */
-        $totalThread = $this->base_model->select('COUNT(ID) AS c', 'posts', $where, $filter);
-        //print_r( $totalThread );
-        $totalThread = $totalThread[0]['c'];
-        //print_r( $totalThread );
+        $totalThread = $this->base_model->select_count('ID', 'posts', $where, $filter);
+        // echo $totalThread . '<br>' . PHP_EOL;
 
         if ($totalThread > 0) {
             $totalPage = ceil($totalThread / $post_per_page);
@@ -449,6 +445,7 @@ class Uploads extends Sadmin
         } else {
             $data = [];
             $pagination = '';
+            $totalPage = 0;
         }
 
         //

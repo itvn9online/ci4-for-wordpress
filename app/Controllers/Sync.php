@@ -110,7 +110,7 @@ class Sync extends BaseController
         }
     }
 
-    /*
+    /**
      * daidq: tự động đồng bộ cấu trúc bảng
      * do cấu trúc bảng của wordpress thiếu 1 số tính năng so với bản CI này nên cần thêm cột để sử dụng
      */
@@ -416,7 +416,7 @@ class Sync extends BaseController
 
     protected function auto_sync_table_column($check_thirdparty_exist = true)
     {
-        /*
+        /**
          * db không cần update liên tục, nếu cần thì clear cache để tái sử dụng
          */
         $last_run = $this->base_model->scache(__FUNCTION__);
@@ -487,7 +487,7 @@ class Sync extends BaseController
                 'updated_permalink' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Lưu thời gian cập nhật permalink\'',
                 'post_viewed' => 'BIGINT(20) NOT NULL DEFAULT \'1\' COMMENT \'Đếm số lượt xem bài viết\'',
                 'category_id' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'ID của category chính\'',
-                'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
+                'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'en\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
                 'lang_parent' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Dùng để xác định với các bản ghi được nhân bản từ ngôn ngữ chính\'',
                 'child_count' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Đếm tổng số bài viết con của bài này. Thường dùng cho web truyện, chap của truyện\'',
                 'child_last_count' => 'BIGINT(20) NULL COMMENT \'Thời gian cập nhật child_count lần trước\'',
@@ -505,7 +505,7 @@ class Sync extends BaseController
                 'term_shortslug' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Slug rút gọn của term\'',
                 'term_permalink' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Lưu permalink để cho nhẹ server\'',
                 'updated_permalink' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Lưu thời gian cập nhật permalink\'',
-                'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
+                'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'en\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
                 'lang_parent' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Dùng để xác định với các bản ghi được nhân bản từ ngôn ngữ chính\'',
                 'term_date' => 'DATETIME NOT NULL',
                 'last_updated' => 'DATETIME NOT NULL',
@@ -531,7 +531,7 @@ class Sync extends BaseController
             ],
             $prefix . 'options' => [
                 'option_type' => 'VARCHAR(55) NULL DEFAULT NULL COMMENT \'Phân loại option dành cho nhiều việc khác nhau\'',
-                'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
+                'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'en\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
                 'lang_parent' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Dùng để xác định với các bản ghi được nhân bản từ ngôn ngữ chính\'',
                 'last_updated' => 'DATETIME NOT NULL',
                 'is_deleted' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'0 = hiển thị, 1 = xóa\'',
@@ -541,7 +541,7 @@ class Sync extends BaseController
                 // thêm tiêu đề cho phần comment -> do bảng mặc định của wp comment không có cột này
                 'comment_title' => 'VARCHAR(255) NULL COMMENT \'Thêm tiêu đề để tiện cho việc hiển thị\'',
                 'comment_slug' => 'VARCHAR(255) NULL COMMENT \'Thêm phần slug để tiện cho quá trình tìm kiếm\'',
-                'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'vn\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
+                'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'en\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
                 'lang_parent' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Dùng để xác định với các bản ghi được nhân bản từ ngôn ngữ chính\'',
                 'is_deleted' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'0 = hiển thị, 1 = xóa\'',
                 'time_order' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Sắp xếp độ ưu tiên của post dựa theo thời gian hiện tại\'',
@@ -571,7 +571,7 @@ class Sync extends BaseController
             ],
         ];
 
-        /*
+        /**
          * bảng dữ liệu riêng của từng theme
          */
         $private_theme_db = THEMEPATH . 'Database_Migrations.php';
@@ -623,6 +623,9 @@ class Sync extends BaseController
                 if (!isset($check_table_column[$col])) {
                     $add_index = '';
                     if (in_array($col, $arr_index_cloumn)) {
+                        $add_index = ", ADD INDEX (`$col`)";
+                    } else if (strpos($alter, ', ADD INDEX ()') !== false) {
+                        $alter = explode(', ADD INDEX ()', $alter)[0];
                         $add_index = ", ADD INDEX (`$col`)";
                     }
                     $alter_query = "ALTER TABLE `$k` ADD `$col` $alter AFTER `$last_key`" . $add_index;
@@ -689,7 +692,7 @@ class Sync extends BaseController
         return false;
     }
 
-    /*
+    /**
      * daidq: chức năng này sẽ giải nén các code trong thư mục vendor dể sử dụng nếu chưa có
      */
     protected function action_vendor_sync($dir, $check_thirdparty_exist = true)
@@ -814,7 +817,7 @@ class Sync extends BaseController
         return $str;
     }
 
-    /*
+    /**
      * trả về tên của class và loại bỏ phần namespace thừa
      */
     protected function get_class_name($role)
@@ -826,7 +829,7 @@ class Sync extends BaseController
         return strtolower($this->get_class_name($role));
     }
 
-    /*
+    /**
      * trả về URL của controller theo định dạng của namespace
      * đầu vào là __CLASS__
      * đầu ra sẽ cắt bỏ phần namespace ở đầu, giữ lại phần controller sau -> REUQEST URL
@@ -856,7 +859,7 @@ class Sync extends BaseController
         return strtolower($str[0]);
     }
 
-    /*
+    /**
      * Hỗ trợ điều khiển file thông qua FTP account -> do không phải host nào cũng có thể điều khiển file bằng php thuần
      */
     protected function MY_unlink($f)
@@ -929,9 +932,9 @@ class Sync extends BaseController
         $this->teamplate = [];
 
         // from function -> dùng để code dễ biết đoạn này gọi từ function nào tới
-        if (!isset($arr['f'])) {
-            $arr['f'] = debug_backtrace()[1]['function'];
-        }
+        // if (!isset($arr['f'])) {
+        //     $arr['f'] = debug_backtrace()[1]['function'];
+        // }
 
         //
         return $this->base_model->result_json_type($arr, $headers, $too_headers);

@@ -74,13 +74,9 @@ class Comment extends EbModel
             // tính lại tổng số comment cho bài viết
             if (isset($data['comment_post_ID']) && $data['comment_post_ID'] > 0) {
                 //
-                $comment_count = $this->base_model->select('COUNT(comment_ID) AS c', $this->table, array(
+                $comment_count = $this->base_model->select_count('comment_ID', $this->table, [
                     'comment_post_ID' => $data['comment_post_ID'],
-                ), [
-                    'selectCount' => 'comment_ID',
                 ]);
-                //$comment_count = $comment_count[ 0 ][ 'c' ];
-                $comment_count = $comment_count[0]['comment_ID'];
 
                 // update
                 $post_model = new \App\Models\Post();
