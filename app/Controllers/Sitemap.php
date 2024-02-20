@@ -159,12 +159,10 @@ class Sitemap extends Layout
             $get_list_sitemap .= $this->WGR_sitemap_part_page($totalThread, 'sitemap/' . $post_type);
         }
 
-
         //
-        echo $this->tmp(file_get_contents(__DIR__ . '/sitemap-xml/sitemapindex.xml', 1), [
+        return $this->showSitemapIndex([
             'get_list_sitemap' => $get_list_sitemap,
         ]);
-        exit();
     }
 
     protected function sitemap_tags()
@@ -413,6 +411,15 @@ class Sitemap extends Layout
             $html = str_replace('%' . $k . '%', $v, $html);
         }
         return $html;
+    }
+
+    /**
+     * Trả về sitemap index
+     **/
+    public function showSitemapIndex($data)
+    {
+        echo $this->tmp(file_get_contents(__DIR__ . '/sitemap-xml/sitemapindex.xml', 1), $data);
+        exit();
     }
 
     protected function media_total($post_type)
