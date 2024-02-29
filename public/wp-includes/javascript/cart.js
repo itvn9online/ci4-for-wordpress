@@ -162,7 +162,7 @@ function action_ajax_cart() {
 
 			//
 			if (typeof data.error != "undefined") {
-				console.log("%c " + data.error, "color: red");
+				console.log("%c" + data.error, "color: red");
 			} else if (typeof data.table != "undefined") {
 				// gọi đến hàm trước khi nạp xong giỏ hàng (nếu có)
 				console.log("action_before_ajax_cart");

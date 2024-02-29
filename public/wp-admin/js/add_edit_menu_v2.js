@@ -137,7 +137,10 @@ function create_html_menu_editer(max_i) {
 	if (typeof max_i != "number") {
 		max_i = 100;
 	} else if (max_i < 0) {
-		console.log("%c Cannot be determined editer for menu", "color: red");
+		console.log(
+			"%c" + "" + "Cannot be determined editer for menu",
+			"color: red"
+		);
 		return false;
 	}
 
@@ -310,7 +313,7 @@ function create_html_menu_nestable(a) {
 	let str = "",
 		tmp = $(".dd-tmp-list").html() || "";
 	if (tmp == "") {
-		console.log("%c dd-tmp-list not found!", "color: red;");
+		console.log("%c" + "dd-tmp-list not found!", "color: red;");
 		return false;
 	}
 	//console.log('tmp:', tmp);

@@ -200,8 +200,16 @@ function WGR_set_prop_for_select(for_id) {
 
 		// nếu có tham số này
 		if (a != "" && !$(this).hasClass("set-selected")) {
-			// select luôn dữ liệu tương ứng -> cắt theo dấu , -> vì có 1 số dữ liệu sẽ là multi select
+			// select luôn dữ liệu tương ứng
+			/*
+			let has_multi = $(this).attr("multiple");
+			if (typeof has_multi !== "undefined" && has_multi !== false) {
+				console.log("has_multi:", has_multi);
+			} else {
+				*/
+			// nếu ko phải select multi -> cắt theo dấu , -> vì có 1 số dữ liệu sẽ là multi select
 			a = a.split(",");
+			// }
 
 			// select cho option đầu tiên
 			$(this).val(a[0]).addClass("set-selected");
@@ -828,10 +836,18 @@ function create_menu_by_taxonomy(arr, li_class, show_favicon, ops) {
 	}
 
 	//
+	// console.log(typeof ops.check_count);
+	if (typeof ops.check_count == "undefined") {
+		ops.check_count = true;
+	}
+
+	//
 	let str = "";
 	for (let i = 0; i < arr.length; i++) {
 		// không hiển thị các danh mục không có bài viết hoặc bị đánh dấu ẩn
-		if (arr[i].count * 1 < 1 || arr[i].term_status * 1 > 0) {
+		if (arr[i].count * 1 < 1 && ops.check_count === true) {
+			continue;
+		} else if (arr[i].term_status * 1 > 0) {
 			continue;
 		}
 
@@ -957,7 +973,7 @@ function WGR_vuejs(app_id, obj, _callBack, max_i) {
 	if (typeof max_i != "number") {
 		max_i = 100;
 	} else if (max_i < 0) {
-		console.log("%c Max loaded Vuejs", "color: red");
+		console.log("%c" + "Max loaded Vuejs", "color: red");
 		return false;
 	}
 
@@ -1055,7 +1071,7 @@ function move_custom_code_to() {
 				);
 			} else {
 				console.log(
-					"%c move-custom-code-to[data-to] not found!",
+					"%c" + "move-custom-code-to[data-to] not found!",
 					"color: darkviolet;"
 				);
 			}
@@ -1068,7 +1084,7 @@ function move_custom_code_to() {
 function redirect_to_canonical(body_class) {
 	// không thực hiện redirect ở trang 404
 	if (body_class.split("page404").length > 1) {
-		console.log("%c is 404 page!", "color: red;");
+		console.log("%c" + "is 404 page!", "color: red;");
 		return false;
 	}
 

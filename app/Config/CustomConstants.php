@@ -460,6 +460,7 @@ defined('TRANS_CHECKBOXS_LABEL') || define(
 
 //
 defined('EBE_DATE_FORMAT') || define('EBE_DATE_FORMAT', 'Y-m-d');
+defined('EBE_DATE_TEXT_FORMAT') || define('EBE_DATE_TEXT_FORMAT', EBE_DATE_FORMAT);
 defined('EBE_DATETIME_FORMAT') || define('EBE_DATETIME_FORMAT', 'Y-m-d H:i:s');
 
 /**

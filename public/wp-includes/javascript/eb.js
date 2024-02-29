@@ -926,7 +926,8 @@ var _global_js_eb = {
 
 		//
 		console.log(
-			"%c Facebook pixel tracking (" +
+			"%c" +
+				"Facebook pixel tracking (" +
 				track_name +
 				") by " +
 				private_info_setting_site_upper,

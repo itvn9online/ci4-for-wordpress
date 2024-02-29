@@ -34,12 +34,11 @@ function show_edit_btn() {
 		".eb-blog li , .eb-blog div.col, .products-list li, .eb-sub-menu, .global-details-title, .custom-bootstrap-post_type"
 	).each(function () {
 		var jd = $(this).data("id") || "";
-		//console.log(jd);
 		var type = $(this).data("type") || "";
 		var controller = $(this).data("control") || "";
-		//console.log(type);
 		var insert_before = $(this).attr("insert-before") || "";
-		//console.log(insert_before);
+		// console.log(insert_before);
+		// console.log(jd, type);
 
 		//
 		if (jd != "" && type != "") {
@@ -99,10 +98,9 @@ function show_edit_btn() {
 		".global-taxonomy-title, .eb-widget-title, .eb-widget-hide-title, .custom-bootstrap-taxonomy"
 	).each(function () {
 		var jd = $(this).data("id") || "";
-		//console.log(jd);
 		var type = $(this).data("type") || "";
-		//console.log(type);
 		var controller = $(this).data("control") || "";
+		// console.log(jd, type);
 
 		//
 		if (jd != "" && type != "") {
@@ -177,5 +175,7 @@ function show_edit_btn() {
 
 //
 $(document).ready(function () {
-	show_edit_btn();
+	setTimeout(function () {
+		show_edit_btn();
+	}, 600);
 });

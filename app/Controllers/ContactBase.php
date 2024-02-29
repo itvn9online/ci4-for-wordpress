@@ -176,9 +176,9 @@ class ContactBase extends Home
         }
 
         //
-        $redirect_to = DYNAMIC_BASE_URL . ltrim($this->MY_post('redirect'), '/');
+        $redirect_to = $this->MY_post('redirect');
         if (empty($redirect_to)) {
-            $redirect_to = DYNAMIC_BASE_URL;
+            $redirect_to = $this->MY_post('__wgr_request_from', DYNAMIC_BASE_URL);
         }
 
         //
@@ -204,20 +204,37 @@ class ContactBase extends Home
                 'to' => $this->getconfig->emailcontact,
                 //'to_name' => $data[ 'fullname' ],
                 'subject' => $data['title'],
-                'message' => $submit['message'],
+                'message' => $submit['message'] . PHP_EOL . $redirect_to,
             ];
 
             //
             $bcc_email = [];
 
             //
-            $send_my_email = $this->MY_post('send_my_email');
-            if ($send_my_email === 'on') {
-                //$data_send[ 'to' ] = $data[ 'email' ];
-                //$data_send[ 'to_name' ] = $data[ 'fullname' ];
+            if ($this->MY_post('send_my_email') === 'on') {
+                // $data_send['to'] = $data['email'];
+                // $data_send['to_name'] = $data['fullname'];
 
                 //
-                $bcc_email[] = $data['email'];
+                if (isset($data['email'])) {
+                    $data['email'] = trim($data['email']);
+                    if ($data['email'] != '' && strpos($data['email'], '@') !== false) {
+                        $bcc_email[] = $data['email'];
+                    }
+                }
+            }
+
+            // 
+            $emailnotice = str_replace(';', ',', $this->getconfig->emailnotice);
+            $emailnotice = explode(',', $emailnotice);
+            foreach ($emailnotice as $v) {
+                $v = trim($v);
+                if ($v == '' || strpos($v, '@') === false) {
+                    continue;
+                }
+
+                // 
+                $bcc_email[] = $v;
             }
 
             //
@@ -232,7 +249,7 @@ class ContactBase extends Home
         return $this->done_action_login($redirect_to);
     }
 
-    /*
+    /**
      * Tạo function dùng chung cho các form thuộc dạng liên hệ
      */
     protected function MY_comment($ops = [])
@@ -243,13 +260,11 @@ class ContactBase extends Home
         //print_r( $_FILES );
 
         //
+        $comment_author_url = $this->MY_post('__wgr_request_from', DYNAMIC_BASE_URL);
         if (isset($ops['redirect_to']) && $ops['redirect_to'] != '') {
             $redirect_to = $ops['redirect_to'];
         } else {
-            $redirect_to = DYNAMIC_BASE_URL . ltrim($this->MY_post('redirect'), '/');
-            if (empty($redirect_to)) {
-                $redirect_to = DYNAMIC_BASE_URL;
-            }
+            $redirect_to = $comment_author_url;
         }
         //die( $redirect_to );
 
@@ -275,7 +290,7 @@ class ContactBase extends Home
 
         //
         $data_insert = [
-            'comment_author_url' => $redirect_to,
+            'comment_author_url' => $comment_author_url,
             //'comment_author_IP' => $this->request->getIPAddress(),
             //'comment_date' => date( EBE_DATETIME_FORMAT ),
             'comment_content' => '',

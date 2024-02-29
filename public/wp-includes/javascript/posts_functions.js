@@ -5,7 +5,7 @@
 // update lượt xem cho post -> do web có dùng cache nên update qua đây mới đúng số
 function update_post_viewed(fview, for_post_id, for_post_author) {
 	if (typeof for_post_id != "number" || for_post_id < 1) {
-		console.log("%c for_post_id is undefined", "color: red");
+		console.log("%c" + "for_post_id is undefined", "color: red");
 		return false;
 	}
 	if (typeof for_post_author != "number" || for_post_author < 1) {
@@ -14,7 +14,7 @@ function update_post_viewed(fview, for_post_id, for_post_author) {
 	if (typeof fview != "number") {
 		fview = 1;
 	} else if (fview < 1) {
-		console.log("%c fview is ZERO", "color: red");
+		console.log("%c" + "fview is ZERO", "color: red");
 		return false;
 	}
 

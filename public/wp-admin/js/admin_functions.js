@@ -432,7 +432,7 @@ function WGR_load_textediter(for_id, ops) {
 				description: "creates a new table",
 				content: [
 					'<div class="mce-table-tmpl">',
-					'<table width="98%%" border="0" cellspacing="0" cellpadding="0">',
+					'<table width="98%" border="0" cellspacing="0" cellpadding="0">',
 					"<tr>",
 					'<th scope="col"> th </th>',
 					'<th scope="col"> th </th>',
@@ -693,7 +693,7 @@ function click_a_remove_record() {
 
 function click_delete_record() {
 	if ($("#is_deleted").length !== 1) {
-		console.log("%c ERROR is_deleted.length", "color: red;");
+		console.log("%c" + "ERROR is_deleted.length", "color: red;");
 	}
 
 	if (click_a_delete_record() === false) {
@@ -855,13 +855,13 @@ function load_term_select_option(a, jd, _callBack, max_i) {
 		if (typeof max_i != "number") {
 			max_i = 100;
 		} else if (max_i < 0) {
-			console.log("%c max_i in load_term_select_option", "color: red;");
+			console.log("%c" + "max_i in load_term_select_option", "color: red;");
 			return false;
 		}
 
 		//
 		if (typeof arr_all_taxonomy[a] != "undefined") {
-			console.log("%c using arr_all_taxonomy", "color: blue;");
+			console.log("%c" + "using arr_all_taxonomy", "color: blue;");
 			if (typeof _callBack == "function") {
 				_callBack(arr_all_taxonomy[a], jd);
 			}
@@ -896,7 +896,7 @@ function load_term_select_option(a, jd, _callBack, max_i) {
 
 			//
 			if (typeof data.error != "undefined") {
-				console.log("%c " + data.error, "color: red;");
+				console.log("%c" + data.error, "color: red;");
 			} else {
 				arr_all_taxonomy[a] = data;
 

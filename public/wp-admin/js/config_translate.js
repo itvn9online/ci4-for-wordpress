@@ -1,4 +1,4 @@
-console.log("%c Chạy vòng lặp thay thế text cho label", "color: green;");
+console.log("%c" + "Chạy vòng lặp thay thế text cho label", "color: green;");
 if (typeof action_trans_label == "function") {
 	action_trans_label(arr_meta_default, "lang_");
 	action_trans_label(arr_trans_label, "lang_");

@@ -89,7 +89,7 @@ function action_login_rememberme(key, uri, max_i) {
 
 			// có lỗi thì báo lỗi
 			if (typeof data.error != "undefined") {
-				console.log("%c " + data.error, "color: red;");
+				console.log("%c" + data.error, "color: red;");
 
 				// đặt tham số này để hủy bỏ chức năng đăng nhập tự động
 				localStorage.setItem(
@@ -98,7 +98,7 @@ function action_login_rememberme(key, uri, max_i) {
 				);
 			} else if (typeof data.warning != "undefined") {
 				// cảnh báo thì cảnh báo
-				console.log("%c " + data.warning, "color: orange;");
+				console.log("%c" + data.warning, "color: orange;");
 
 				// đặt tham số này để hủy bỏ chức năng đăng nhập tự động
 				localStorage.setItem(
@@ -106,7 +106,7 @@ function action_login_rememberme(key, uri, max_i) {
 					window.location.href
 				);
 			} else if (typeof data.ok != "undefined" && data.ok * 1 > 0) {
-				console.log("%c login_rememberme OK!", "color: green;");
+				console.log("%c" + "login_rememberme OK!", "color: green;");
 
 				// đến đây nghĩa là đăng nhập thành công -> redirect
 				window.location = (function () {

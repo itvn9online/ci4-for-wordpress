@@ -286,7 +286,7 @@ class ConfigType
             ];
         } else if ($config_type == self::PROD) {
             $arr = [
-                'eb_product_per_page' => 'Số bài cùng nhóm',
+                'eb_product_per_page' => 'Số Product cùng nhóm',
                 'eb_product_per_line' => 'Số cột trên mỗi dòng',
                 'eb_product_medium_per_line' => 'Số cột trên mỗi dòng (table)',
                 'eb_product_small_per_line' => 'Số cột trên mỗi dòng (mobile)',
@@ -433,6 +433,7 @@ class ConfigType
                 'SITE_LANGUAGE_DEFAULT' => 'Ngôn ngữ mặc định',
                 'SITE_LANGUAGE_SUB_FOLDER' => 'Kiểu hiển thị đa ngôn ngữ',
                 'EBE_DATE_FORMAT' => 'Date Format',
+                'EBE_DATE_TEXT_FORMAT' => 'Date text Format',
                 'WGR_TABLE_PREFIX' => 'Database table prefix',
                 'HTACCESSS_ALLOW' => 'Htaccess allow',
                 //
@@ -629,6 +630,7 @@ class ConfigType
             // 'SITE_LANGUAGE_SUPPORT' => 'select',
             'SITE_LANGUAGE_DEFAULT' => 'select',
             'EBE_DATE_FORMAT' => 'select',
+            'EBE_DATE_TEXT_FORMAT' => 'select',
             'g_firebase_title' => 'heading',
             'g_firebase_config' => 'textarea',
             'firebase_json_config' => 'textarea',
@@ -795,6 +797,7 @@ class ConfigType
             'CUSTOM_SESSION_PATH' => 'The location to save sessions to and is driver dependent. <br> * Only set when using hosting to change the default save path.',
             'MY_APP_TIMEZONE' => 'The default timezone that will be used in your application to display',
             'MY_CACHE_HANDLER' => 'The name of the preferred handler that should be used. If for some reason it is not available, the $backupHandler will be used in its place.',
+            // 'EBE_DATE_TEXT_FORMAT' => 'Định dạng ngày tháng cho hiển thị ngoài trang khách, thường dùng khi định cần hiển thị ngày tháng dạng chữ. Ví dụ: Jan through Dec thay vì 01 through 12. Mặc định sẽ dùng chung định dạng với tham số EBE_DATE_FORMAT.',
             'WGR_TABLE_PREFIX' => 'Xóa trắng để xem mặc định: ' . WGR_TABLE_PREFIX,
             'HTACCESSS_ALLOW' => 'Một số thư mục chỉ cho phép 1 số định dạng file được phép truy cập. Xóa trắng để xem mặc định: ' . HTACCESSS_ALLOW,
             //
@@ -1012,9 +1015,30 @@ class ConfigType
             'SITE_LANGUAGE_DEFAULT' => $arr_default_display_lang,
             'EBE_DATE_FORMAT' => [
                 '' => 'Default by code',
-                'Y-m-d' => 'yyyy-mm-dd',
-                'm-d-Y' => 'mm-dd-yyyy',
-                'd-m-Y' => 'dd-mm-yyyy',
+                // gán giá trị trống để ở view sẽ build ra ngày tháng hiện tại
+                'Y-m-d' => '',
+                'm-d-Y' => '',
+                'd-m-Y' => '',
+            ],
+            'EBE_DATE_TEXT_FORMAT' => [
+                '' => 'Default by code',
+                // gán giá trị trống để ở view sẽ build ra ngày tháng hiện tại
+                // Jan through Dec
+                'M d, Y' => '',
+                'd M Y' => '',
+                'd M' => '',
+                // January through December
+                'F d, Y' => '',
+                'd F Y' => '',
+                'd F' => '',
+                // Mon through Sun
+                'D, M d, Y' => '',
+                'D, d M Y' => '',
+                'D, d M' => '',
+                // 
+                'D, F d, Y' => '',
+                'D, d F Y' => '',
+                'D, d F' => '',
             ],
         ];
         $arr['smtp2_secure'] = $arr['smtp_secure'];

@@ -1,6 +1,6 @@
 (function () {
 	//console.log(arr_trans_label);
-	console.log("%c Chạy vòng lặp thay thế text cho label", "color: green;");
+	console.log("%c" + "Chạy vòng lặp thay thế text cho label", "color: green;");
 
 	//
 	for (let x in arr_trans_label) {

@@ -7,7 +7,7 @@
 
 	// có thì chạy lệnh thay thế dữ liệu
 	// console.log(system_admin_lang);
-	console.log("%c system_admin_lang", "color: green");
+	console.log("%c" + "system_admin_lang", "color: green");
 
 	//
 	for (let x in system_admin_lang) {

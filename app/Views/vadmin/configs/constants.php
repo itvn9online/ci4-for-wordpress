@@ -119,6 +119,16 @@ $base_model->add_css('wp-admin/css/config_' . $config_type . '.css');
                             else if ($input_type == 'select') {
                                 $select_options = ConfigType::meta_select($k);
 
+                                // 
+                                if ($k == 'EBE_DATE_FORMAT' || $k == 'EBE_DATE_TEXT_FORMAT') {
+                                    foreach ($select_options as $option_k => $option_v) {
+                                        if ($option_v == '') {
+                                            // $select_options[$option_k] = date($option_k) . ' (' . $option_k . ')';
+                                            $select_options[$option_k] = date($option_k);
+                                        }
+                                    }
+                                }
+
                             ?>
                                 <select data-select="<?php echo $data[$k]; ?>" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>" class="span5">
                                     <?php

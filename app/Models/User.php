@@ -83,8 +83,10 @@ class User extends UserMeta
         $default_data['last_updated'] = $default_data['user_registered'];
 
         // kiểm tra email đã được sử dụng chưa
-        if ($check_exist === true && isset($data['user_email']) && $this->check_user_exist($data['user_email']) !== false) {
-            return -1;
+        if ($check_exist === true) {
+            if (!isset($data['user_email']) || $this->check_user_exist($data['user_email']) !== false) {
+                return -1;
+            }
         }
 
         //

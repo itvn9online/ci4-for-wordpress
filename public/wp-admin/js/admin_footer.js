@@ -172,7 +172,7 @@ $(".auto-ckeditor").each(function () {
         */
 	} else {
 		console.log(
-			"%c auto-ckeditor not has attr data-height or id",
+			"%c" + "auto-ckeditor not has attr data-height or id",
 			"color: red;"
 		);
 	}

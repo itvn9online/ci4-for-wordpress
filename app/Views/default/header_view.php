@@ -33,14 +33,14 @@ else {
     </section>
     <section id="masthead" class="header-main">
         <div class="row row-collapse align-middle">
-            <div class="col medium-3 small-3 large-3">
+            <div class="col small-3 medium-3 large-3">
                 <div class="col-inner">
                     <?php
                     $option_model->the_logo($getconfig);
                     ?>
                 </div>
             </div>
-            <div class="col medium-6 small-6 large-6">
+            <div class="col small-6 medium-6 large-6">
                 <div class="col-inner">
                     <?php
                     include VIEWS_PATH . 'includes/header_search.php';

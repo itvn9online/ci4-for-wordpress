@@ -3,13 +3,13 @@ var admin_menu_show = false;
 
 // khi người dùng bấm nút lên trong ô tìm kiếm admin menu
 function admin_prev_search_menu() {
-	var len = $("#admin_menu_result li[data-show=1]").length;
+	let len = $("#admin_menu_result li[data-show=1]").length;
 	if (len < 1) {
 		return false;
 	}
 
 	//
-	var default_select =
+	let default_select =
 			"#admin_menu_result li[data-show=1]:last a, #admin_menu_result li[data-show=1]:last label",
 		for_class =
 			"#admin_menu_result li[data-show=1] a, #admin_menu_result li[data-show=1] label";
@@ -28,7 +28,7 @@ function admin_prev_search_menu() {
 
 	// nếu có nhiều hơn 1 link
 	if (len > 1) {
-		var get_href = "";
+		let get_href = "";
 		$(for_class).each(function () {
 			if ($(this).hasClass("up-down")) {
 				//console.log($(this).attr("href"));
@@ -48,13 +48,13 @@ function admin_prev_search_menu() {
 
 // khi người dùng bấm nút xuống trong ô tìm kiếm admin menu
 function admin_next_search_menu() {
-	var len = $("#admin_menu_result li[data-show=1]").length;
+	let len = $("#admin_menu_result li[data-show=1]").length;
 	if (len < 1) {
 		return false;
 	}
 
 	//
-	var default_select =
+	let default_select =
 			"#admin_menu_result li[data-show=1]:first a, #admin_menu_result li[data-show=1]:first label",
 		for_class =
 			"#admin_menu_result li[data-show=1] a, #admin_menu_result li[data-show=1] label";
@@ -73,8 +73,8 @@ function admin_next_search_menu() {
 
 	// nếu có nhiều hơn 1 link
 	if (len > 1) {
-		var get_href = "";
-		var has_class = false;
+		let get_href = "";
+		let has_class = false;
 		$(for_class).each(function () {
 			if (has_class === true) {
 				get_href = $(this).attr("href") || $(this).attr("for") || "";
@@ -117,7 +117,7 @@ function after_set_up_down_class(get_href, default_select) {
 
 // khi người dùng bấm nút enter trong ô tìm kiếm admin menu
 function admin_enter_search_menu() {
-	var get_href = $("#admin_menu_result a.up-down").attr("href") || "";
+	let get_href = $("#admin_menu_result a.up-down").attr("href") || "";
 	//console.log(get_href);
 	if (get_href != "") {
 		if (get_href.split("//").length === 1) {
@@ -167,7 +167,7 @@ function action_admin_menu_search() {
 			}
 			// các ký tự khác
 			else {
-				var k = $(this).val();
+				let k = $(this).val();
 				$(".admin-menu-key").text(k);
 				k = g_func.non_mark_seo(k).replace(/\-/g, "");
 				//console.log(k);
@@ -182,11 +182,11 @@ function action_admin_menu_search() {
 
 					//
 					$(".admin-menu-result").addClass("actived");
-					var has_menu = false;
+					let has_menu = false;
 					$("#admin_menu_result li")
 						.removeAttr("data-show")
 						.each(function () {
-							var a = $(this).data("key") || "";
+							let a = $(this).data("key") || "";
 							if (a != "" && a.split(k).length > 1) {
 								//$(this).show();
 								$(this).attr({ "data-show": "1" });

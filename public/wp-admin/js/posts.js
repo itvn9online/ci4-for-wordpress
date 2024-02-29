@@ -9,7 +9,7 @@ add_and_show_post_avt("#post_meta_image", "", "medium");
 		current_post_type == "nav_menu"
 	) {
 		console.log(
-			"%c textediter not enable in: " + current_post_type,
+			"%c" + "textediter not enable in: " + current_post_type,
 			"color: red"
 		);
 		return false;
@@ -17,7 +17,7 @@ add_and_show_post_avt("#post_meta_image", "", "medium");
 	// khi có session này -> cũng không áp dụng
 	if (localStorage.getItem("click-disable-editer") !== null) {
 		console.log(
-			"%c textediter not enable because click-disable-editer",
+			"%c" + "textediter not enable because click-disable-editer",
 			"color: orange"
 		);
 		return false;
@@ -156,7 +156,7 @@ function fixed_CLS_for_editer(for_iframe) {
 	}
 
 	//
-	console.log("%c " + for_iframe + " CLS", "color: green;");
+	console.log("%c" + for_iframe + " CLS", "color: green;");
 	for (let i = 0; i < arr.length; i++) {
 		console.log(arr[i]);
 	}

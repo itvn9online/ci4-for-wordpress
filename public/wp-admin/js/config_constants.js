@@ -116,6 +116,29 @@ $(".each-to-is-empty")
 		.prop("disabled", true);
 })();
 
+// code riêng cho phần chọn ngày tháng hiển thị
+(function () {
+	$("#data_EBE_DATE_TEXT_FORMAT")
+		.addClass("set-selected")
+		.addClass("has-select2");
+	// return false;
+
+	//
+	let a = $("#data_EBE_DATE_TEXT_FORMAT").data("select") || "";
+	if (a != "") {
+		let b = $("#data_EBE_DATE_TEXT_FORMAT option[value='" + a + "']").length;
+		console.log(b);
+
+		//
+		if (b > 0) {
+			$("#data_EBE_DATE_TEXT_FORMAT option[value='" + a + "']").prop(
+				"selected",
+				true
+			);
+		}
+	}
+})();
+
 //
 /*
 $(document).ready(function () {

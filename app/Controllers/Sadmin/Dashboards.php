@@ -43,6 +43,7 @@ class Dashboards extends Dashboard
             'https://github.com/jquery-validation/jquery-validation/releases/tag/1.9.0',
             'https://angularjs.org/?current_version=1.8.2',
             'https://github.com/zaloplatform/zalo-php-sdk',
+            'https://github.com/PHPOffice/PhpSpreadsheet/releases',
             'https://github.com/itvn9online/Nestable?current_version=2',
         ];
 
