@@ -36,7 +36,7 @@ function done_action_submit(go_to, token, ck_key) {
 	if (typeof go_to != "undefined" && go_to != "") {
 		window.location = go_to;
 	} else {
-		window.location = window.location.href;
+		window.location.reload();
 	}
 }
 

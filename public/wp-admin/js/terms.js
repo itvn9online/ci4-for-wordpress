@@ -226,7 +226,7 @@ function done_multi_add_term() {
 		$("#data_term_name").val("");
 		WGR_alert("OK");
 	} else {
-		window.location = window.location.href;
+		window.location.reload();
 	}
 }
 

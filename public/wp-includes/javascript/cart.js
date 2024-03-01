@@ -364,7 +364,7 @@ function remove_from_cart(jd) {
 	remove_from_cache_cart(jd, "cache-quickcart-id");
 
 	// xong thì nạp lại trang
-	window.location = window.location.href;
+	window.location.reload();
 
 	//
 	return true;

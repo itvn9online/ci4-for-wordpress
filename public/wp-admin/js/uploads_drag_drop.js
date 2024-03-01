@@ -180,7 +180,7 @@ function check_and_reload_after_upload() {
 		if (WGR_config.cf_tester_mode > 0) {
 			console.log("All drop file has uploaded...");
 		} else {
-			window.location = window.location.href;
+			window.location.reload();
 		}
 	}
 }

@@ -453,7 +453,7 @@ function restore_json_menu_in_html_menu() {
 
 		//
 		$("#target_eb_iframe").on("load", function () {
-			window.location = window.location.href;
+			window.location.reload();
 		});
 	}
 

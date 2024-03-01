@@ -230,7 +230,7 @@ function confirm_kip_logged() {
 
 			// nạp lại trang
 			if (rm.logout_dp == "on") {
-				window.location = window.location.href;
+				window.location.reload();
 			}
 		},
 	});

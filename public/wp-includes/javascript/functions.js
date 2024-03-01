@@ -475,7 +475,7 @@ function WGR_duy_tri_dang_nhap(max_i) {
 	if (typeof max_i != "number") {
 		max_i = 15;
 	} else if (max_i < 0) {
-		window.location = window.location.href;
+		window.location.reload();
 		return false;
 	}
 	if (typeof WGR_config.current_user_id != "undefined") {

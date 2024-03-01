@@ -378,7 +378,7 @@ function action_signInSuccessWithIdToken(idToken, successfully) {
 }
 
 function login_reload() {
-	window.location = window.location.href;
+	window.location.reload();
 }
 
 function continueSignIn() {

@@ -1071,7 +1071,7 @@ function for_admin_global_checkbox(max_i) {
  * Sau khi XÓA sản phẩm thành công thì sẽ nạp lại trang
  */
 function after_delete_restore() {
-	window.location = window.location.href;
+	window.location.reload();
 }
 
 /**
@@ -1155,7 +1155,7 @@ function action_delete_restore_checked(
 					get_check_checked_all_value();
 
 					//
-					window.location = window.location.href;
+					window.location.reload();
 				} else {
 					WGR_alert(
 						"Có lỗi trong quá trình " + method_name + " bản ghi",
