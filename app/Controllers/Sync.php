@@ -127,13 +127,16 @@ class Sync extends BaseController
 
         // ENGINE sử dụng InnoDB. MEMORY không dùng được data blob
         $sql = "CREATE TABLE IF NOT EXISTS `$table` (
-            `id` varchar(128) NOT null,
-            `ip_address` varchar(45) NOT null,
-            `timestamp` timestamp DEFAULT CURRENT_TIMESTAMP NOT null,
-            `data` blob NOT null,
-            KEY `ci_sessions_timestamp` (`timestamp`)
+            `my_id` BIGINT(20) NOT NULL AUTO_INCREMENT ,
+            `id` varchar(128) NOT NULL,
+            `ip_address` varchar(45) NOT NULL,
+            `timestamp` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+            `data` blob NOT NULL,
+            PRIMARY KEY (`my_id`) ,
+            INDEX (`id`),
+            INDEX (`ip_address`),
+            KEY (`timestamp`)
         ) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_general_ci";
-        echo 'CREATE TABLE IF NOT EXISTS `' . $table . '` <br>' . PHP_EOL;
         echo $sql . '<br>' . PHP_EOL;
 
         //
@@ -157,16 +160,15 @@ class Sync extends BaseController
         // ENGINE sử dụng InnoDB. MEMORY hay bị lỗi 'is full'
         $sql = "CREATE TABLE IF NOT EXISTS `$table` (
             `id` BIGINT(20) NOT NULL AUTO_INCREMENT ,
-            `ip` VARCHAR(255) NOT NULL DEFAULT '' ,
-            `key` VARCHAR(255) NOT NULL DEFAULT '' ,
-            `session_id` VARCHAR(255) NOT NULL DEFAULT '' ,
-            `agent` VARCHAR(255) NOT NULL DEFAULT '' ,
-            `created_at` BIGINT(20) NOT NULL DEFAULT '0' ,
+            `ip` VARCHAR(255) NULL,
+            `key` VARCHAR(255) NULL,
+            `session_id` VARCHAR(255) NOT NULL,
+            `agent` VARCHAR(255) NULL,
+            `created_at` BIGINT(20) NULL,
             PRIMARY KEY (`id`) ,
             INDEX (`key`) ,
             INDEX (`session_id`)
             ) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_general_ci";
-        echo 'CREATE TABLE IF NOT EXISTS `' . $table . '` <br>' . PHP_EOL;
         echo $sql . '<br>' . PHP_EOL;
 
         //
@@ -189,18 +191,18 @@ class Sync extends BaseController
         //
         $sql = "CREATE TABLE IF NOT EXISTS `$table` (
             `id` BIGINT(20) NOT NULL AUTO_INCREMENT ,
-            `ip` VARCHAR(255) NULL DEFAULT NULL ,
-            `event_name` VARCHAR(255) NOT NULL ,
-            `app_id` VARCHAR(255) NOT NULL ,
-            `content` TEXT NULL ,
-            `is_deleted` TINYINT(2) NOT NULL DEFAULT '0' ,
-            `created_at` BIGINT(20) NOT NULL DEFAULT '0' ,
+            `ip` VARCHAR(255) NULL,
+            `event_name` VARCHAR(255) NULL,
+            `app_id` VARCHAR(255) NULL,
+            `content` TEXT NULL,
+            `is_deleted` TINYINT(2) NULL,
+            `created_at` BIGINT(20) NULL,
             PRIMARY KEY (`id`) ,
             INDEX (`event_name`) ,
             INDEX (`app_id`) ,
             INDEX (`is_deleted`)
             ) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_general_ci";
-        echo 'CREATE TABLE IF NOT EXISTS `' . $table . '` <br>' . PHP_EOL;
+        echo $sql . '<br>' . PHP_EOL;
 
         //
         return $this->base_model->MY_query($sql);
@@ -222,7 +224,7 @@ class Sync extends BaseController
 
         //
         $sql = "CREATE TABLE IF NOT EXISTS `$to` LIKE `$from`";
-        echo 'CREATE TABLE IF NOT EXISTS `' . $to . '` <br>' . PHP_EOL;
+        echo $sql . '<br>' . PHP_EOL;
 
         //
         return $this->base_model->MY_query($sql);

@@ -379,7 +379,7 @@ var g_func = {
 		}
 		str = str.toFixed(currency_fraction_digits);
 		// console.log(str);
-		if (str < 1000) {
+		if (str < 1000 && str > -999) {
 			return str;
 		}
 
@@ -392,7 +392,7 @@ var g_func = {
 		// console.log(str);
 		if (isNaN(str)) {
 			return "NaN";
-		} else if (str < 1000) {
+		} else if (str < 1000 && str > -999) {
 			return str;
 		}
 		return numFormatter.format(str);
@@ -607,7 +607,7 @@ function action_each_to_taxonomy() {
 				if (a[i] != "") {
 					a[i] = $.trim(a[i]);
 					a[i] *= 1;
-					if (a[i] > 0 && taxonomy_ids_unique.includes(a[i]) === false) {
+					if (a[i] > 0 && taxonomy_ids_unique.indexOf(a[i]) < 0) {
 						taxonomy_ids_unique.push(a[i]);
 					}
 				}
