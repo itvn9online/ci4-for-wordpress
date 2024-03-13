@@ -229,7 +229,7 @@ class User extends UserMeta
                         // print_r($check_data);
                         return [
                             'code' => __LINE__,
-                            'error' => 'Thông tin tài khoản đã được sử dụng #' . $check_data['ID'],
+                            'error' => $this->lang_model->get_the_text('account_infor_used', 'Account information has been used') . ' #' . $check_data['ID'],
                         ];
                     }
                 }

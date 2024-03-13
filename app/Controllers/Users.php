@@ -91,7 +91,10 @@ class Users extends Csrf
         $this->teamplate['main'] = view(
             'profile_view',
             array(
-                'seo' => $this->base_model->default_seo('Thông tin tài khoản', $this->getClassName(__CLASS__) . '/' . __FUNCTION__),
+                'seo' => $this->base_model->default_seo(
+                    $this->lang_model->get_the_text('h1_profile_view', 'Account information'),
+                    $this->getClassName(__CLASS__) . '/' . __FUNCTION__
+                ),
                 'breadcrumb' => '',
                 'data' => $data,
                 'data_meta' => $data_meta,
@@ -139,7 +142,9 @@ class Users extends Csrf
 
             //
             echo '<script {csp-script-nonce}>top.$(\'#data_ci_pass\').val(\'\');</script>';
-            $this->base_model->alert('Cập nhật mật khẩu mới thành công');
+            $this->base_model->alert(
+                $this->lang_model->get_the_text('profile_pasword_updated', 'New password updated successfully')
+            );
         }
 
 
@@ -345,7 +350,9 @@ class Users extends Csrf
         $this->base_model->set_ses_login($data);
 
         //
-        $this->base_model->alert('Cập nhật thông tin tài khoản thành công');
+        $this->base_model->alert(
+            $this->lang_model->get_the_text('account_infor_updated', 'Updated account information successfully')
+        );
     }
 
     public function logout()

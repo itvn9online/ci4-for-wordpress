@@ -681,6 +681,7 @@ class Csdl extends Session
      */
     public function select_count($select, $from, $where = array(), $ops = array())
     {
+        $ops['order_by'] = [];
         $ops['selectCount'] = $select;
         $totalThread = $this->select($select, $from, $where, $ops);
         // print_r($totalThread);

@@ -87,6 +87,7 @@ function WGR_alert(m, lnk) {
 		top.WGR_alert(m, lnk);
 	} else {
 		if (m != "") {
+			console.log(m);
 			// class thể hiện màu sắc của alert
 			let cl = "";
 			if (lnk == "error") {

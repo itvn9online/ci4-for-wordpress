@@ -214,7 +214,7 @@ include __DIR__ . '/add_breadcrumb.php';
                         // mặc định thì hiển thị bình thường
                         else if ($input_type == 'textarea') {
                         ?>
-                            <textarea placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" class="f80 <?php echo PostType::meta_class($k); ?>"><?php $post_model->echo_meta_post($data, $k); ?></textarea>
+                            <textarea placeholder="<?php echo $v; ?>" name="post_meta[<?php echo $k; ?>]" id="post_meta_<?php echo $k; ?>" class="f80 fix-textarea-height <?php echo PostType::meta_class($k); ?>"><?php $post_model->echo_meta_post($data, $k); ?></textarea>
                         <?php
                         } // END if post textarea
                         else if ($input_type == 'select' || $input_type == 'select_multiple') {

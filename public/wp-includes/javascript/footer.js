@@ -146,7 +146,7 @@ _global_js_eb.auto_margin();
 // khi document đã load xong
 jQuery(document)
 	.ready(function () {
-		move_custom_code_to();
+		// move_custom_code_to();
 		action_each_to_taxonomy();
 		action_active_menu_item();
 
@@ -175,6 +175,19 @@ jQuery(document)
 
 		//
 		// WGR_nofollow();
+
+		//
+		(function (a) {
+			if (a == "") {
+				return false;
+			}
+
+			//
+			if ($(a).length > 0) {
+				console.log("Auto scrol to:", a);
+				window.scroll(0, $(a).offset().top - ($("#wgr__top").height() || 90));
+			}
+		})(window.location.hash);
 
 		//
 		$("body").addClass("document-ready");

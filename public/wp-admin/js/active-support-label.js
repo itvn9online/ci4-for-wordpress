@@ -145,7 +145,7 @@ $("#content .control-group label").click(function () {
 				// chạy và tìm thẻ TR có chứa cái thẻ label này
 				if (get_support_tab != "" && lb.length > 0) {
 					// cuộn chuột đến khu vực cần xem -> xem cho dễ
-					window.scroll(0, lb.offset().top - $(window).height() / 3);
+					window.scroll(0, lb.offset().top - 90);
 
 					//
 					lb.parents(".control-group").addClass("current-selected-support");
