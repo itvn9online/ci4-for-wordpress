@@ -10,8 +10,12 @@
     </div>
 </div>
 <div class="cart-subtotal">
-    <div class="cart-sub-total">Subtotal <span class="ebe-currency rf cart-subtotal-regular_price"></span></div>
-    <div class="cart-sub-total cart-sidebar-coupon">Coupon:
+    <div class="cart-sub-total">
+        <?php $lang_model->the_text('cart_sidebar_subtotal', 'Subtotal'); ?>
+        <span class="ebe-currency rf cart-subtotal-regular_price"></span>
+    </div>
+    <div class="cart-sub-total cart-sidebar-coupon">
+        <?php $lang_model->the_text('cart_sidebar_coupon', 'Coupon'); ?>:
         <span class="upper cart-discount-code"></span>
         <span onclick="return remove_coupon_code();" class="cur redcolor small">[Remove]</span>
         <span class="rf">
@@ -22,7 +26,10 @@
         <?php $lang_model->the_text('cart_sidebar_shipping', 'Shipping'); ?>
         <span class="rf cart-sidebar-shipping"></span>
     </div>
-    <div class="cart-sub-total bold">Total <span class="ebe-currency rf cart-total-regular_price"></span></div>
+    <div class="cart-sub-total bold">
+        <?php $lang_model->the_text('cart_sidebar_total', 'Total'); ?>
+        <span class="ebe-currency rf cart-total-regular_price"></span>
+    </div>
 </div>
 <br>
 <div class="cart-content">

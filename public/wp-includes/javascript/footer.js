@@ -59,6 +59,11 @@ $("a").each(function () {
 			// .addClass("noreferrer-noopener")
 			.attr({
 				href: window.location.href.split("#")[0] + a,
+			})
+			.click(function () {
+				setTimeout(function () {
+					WGR_auto_scroll_by_hash();
+				}, 600);
 			});
 	}
 });
@@ -132,6 +137,35 @@ function action_active_menu_item() {
 		.addClass("active");
 }
 
+// hỗ trợ scroll để vị trí chỉ định trên hash của url -> do trình duyệt cũng auto scroll nhưng thường bị khuất nếu có fixed menu
+function WGR_auto_scroll_by_hash(repeat) {
+	let a = window.location.hash;
+	if (a == "") {
+		return false;
+	}
+
+	//
+	if ($(a).length < 1) {
+		return false;
+	}
+	console.log("Auto scrol to:", a);
+
+	//
+	$("body,html").scrollTop($(a).offset().top - ($("#wgr__top").height() || 90));
+
+	//
+	/*
+	if (typeof repeat == "undefined" || repeat === true) {
+		setTimeout(function () {
+			WGR_auto_scroll_by_hash(false);
+		}, 600);
+	}
+	*/
+
+	//
+	return true;
+}
+
 // nếu trình duyệt không hỗ trợ định dạng webp -> xóa bỏ định dạng webp nếu có
 if (support_format_webp() !== true) {
 	attr_data_webp = "data-img";
@@ -177,17 +211,7 @@ jQuery(document)
 		// WGR_nofollow();
 
 		//
-		(function (a) {
-			if (a == "") {
-				return false;
-			}
-
-			//
-			if ($(a).length > 0) {
-				console.log("Auto scrol to:", a);
-				window.scroll(0, $(a).offset().top - ($("#wgr__top").height() || 90));
-			}
-		})(window.location.hash);
+		WGR_auto_scroll_by_hash();
 
 		//
 		$("body").addClass("document-ready");
@@ -202,19 +226,26 @@ jQuery(document)
 	});
 
 //
-jQuery(window).resize(function () {
-	height_for_lazzy_load = jQuery(window).height();
-	_global_js_eb.auto_margin();
-});
+jQuery(window)
+	.resize(function () {
+		height_for_lazzy_load = jQuery(window).height();
+		_global_js_eb.auto_margin();
+	})
+	.on("load", function () {
+		WGR_auto_scroll_by_hash();
+	});
 
 //
 jQuery("#oi_scroll_top, .oi_scroll_top").click(function () {
 	window.scroll(0, 0);
 	/*
-    jQuery('body,html').animate({
-        scrollTop: 0
-    }, 500);
-    */
+	jQuery("body,html").animate(
+		{
+			scrollTop: 0,
+		},
+		500
+	);
+	*/
 });
 
 // duy trì trạng thái đăng nhập

@@ -1011,6 +1011,7 @@ class Guest extends Csrf
                     [
                         'code' => __LINE__,
                         'error' => 'Access token ERROR!',
+                        'payload' => $payload,
                     ]
                 );
             }

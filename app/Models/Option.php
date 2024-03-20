@@ -472,12 +472,16 @@ class Option extends EbModel
 
     public function the_logo($cog, $key = 'logo', $logo_height = '')
     {
-        //echo $logo_height;
+        // print_r($cog);
+        // echo $logo_height . '<br>' . PHP_EOL;
+        // echo $cog->$logo_height . '<br>' . PHP_EOL;
         if ($logo_height != '' && isset($cog->$logo_height) && $cog->$logo_height != '') {
             $height = $cog->$logo_height;
+            // echo $height . '<br>' . PHP_EOL;
         } else {
             $height = $cog->logo_main_height;
         }
+        // echo $height . '<br>' . PHP_EOL;
 
         //
         echo '<a href="./" class="web-logo" aria-label="Home" style="background-image: url(\'' . $this->get_the_logo($cog, $key) . '\'); height: ' . $height . 'px;">&nbsp;</a>';

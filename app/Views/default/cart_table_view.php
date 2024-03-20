@@ -4,7 +4,7 @@
             <th class="product-name" colspan="2">Product</th>
             <th class="product-price">Price</th>
             <th class="product-quantity">Quantity</th>
-            <th class="product-subtotal">Subtotal</th>
+            <th class="product-subtotal"><?php $lang_model->the_text('cart_sidebar_subtotal', 'Subtotal'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -83,7 +83,7 @@
         <thead>
             <tr class="upper">
                 <th class="product-name">Product</th>
-                <th class="product-subtotal text-right">Subtotal</th>
+                <th class="product-subtotal"><?php $lang_model->the_text('cart_sidebar_subtotal', 'Subtotal'); ?></th>
             </tr>
         </thead>
         <tbody>
@@ -107,7 +107,7 @@
                     <td>
                         <?php echo $v['post_title']; ?> <i class="fa fa-remove"></i> <strong data-id="<?php echo $v['ID']; ?>" class="change-product-quantity">1</strong>
                     </td>
-                    <td class="cart-regular_price text-right">
+                    <td class="cart-regular_price">
                         <span data-id="<?php echo $v['ID']; ?>" class="ebe-currency change-cart-regular_price"></span>
                     </td>
                 </tr>

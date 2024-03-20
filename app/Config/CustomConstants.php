@@ -531,6 +531,10 @@ define('HTTP_SYNC_HOST', str_replace('www.', '', str_replace('.', '', str_replac
 // chuỗi sẽ thêm vào khi sử dụng hàm mdnam -> md5
 defined('CUSTOM_MD5_HASH_CODE') || define('CUSTOM_MD5_HASH_CODE', HTTP_SYNC_HOST);
 
+// token cho chức năng cronjob -> kết nối bên ngoài -> tối thiểu 1 năm đổi 1 lần
+defined('CRONJOB_TOKEN') || define('CRONJOB_TOKEN', '_' . substr(md5(date('Y') . CUSTOM_MD5_HASH_CODE), 0, 16));
+defined('LOCAL_BAK_PATH') || define('LOCAL_BAK_PATH', '/Volumes/bak');
+
 // tách riêng cache cho mobile và desktop
 // fake function wp_is_mobile of wordpress
 $is_mobile = false;

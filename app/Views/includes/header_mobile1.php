@@ -8,7 +8,7 @@
         <div class="col-inner">
             <?php
 
-            $option_model->the_logo( $getconfig, 'logo_mobile', 'logo_mobile_height' );
+            $option_model->the_logo($getconfig, 'logo_mobile', 'logo_mobile_height');
 
             ?>
         </div>
@@ -31,15 +31,15 @@
                 <?php
 
                 //
-                $menu_model->the_menu( 'top-nav-menu', 'main-nav-menu mobile-nav-menu' );
+                $menu_model->the_menu('top-nav-menu', 'main-nav-menu mobile-nav-menu');
 
                 // nếu đã đăng nhập -> hiển thị menu profile
-                if ( $current_user_id > 0 ) {
-                    $menu_model->the_menu( 'top-profile-menu', 'top-login-menu' );
+                if ($current_user_id > 0) {
+                    $menu_model->the_menu('top-profile-menu', 'top-login-menu');
                 }
                 // chưa thì hiển thị menu đăng nhập/ đăng ký
                 else {
-                    $menu_model->the_menu( 'top-login-menu' );
+                    $menu_model->the_menu('top-login-menu');
                 }
 
                 ?>

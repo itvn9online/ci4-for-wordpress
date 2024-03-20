@@ -555,7 +555,9 @@ class Sync extends BaseController
                 'company' => 'VARCHAR(255) NULL',
                 'address' => 'VARCHAR(255) NULL',
                 'state' => 'BIGINT(20) NOT NULL DEFAULT \'0\'',
+                'state_name' => 'VARCHAR(255) NULL',
                 'city' => 'BIGINT(20) NOT NULL DEFAULT \'0\'',
+                'city_name' => 'VARCHAR(255) NULL',
                 'zip_code' => 'VARCHAR(55) NULL',
                 'phone' => 'VARCHAR(55) NULL',
                 'email' => 'VARCHAR(255) NULL',
@@ -570,6 +572,9 @@ class Sync extends BaseController
                 'order_discount' => 'FLOAT NOT NULL DEFAULT \'0\' COMMENT \'Tiền giảm giá cho mỗi đơn hàng\'',
                 'order_bonus' => 'FLOAT NOT NULL DEFAULT \'0\' COMMENT \'Tiền cộng thêm cho mỗi đơn hàng\'',
                 'shipping_fee' => 'FLOAT NULL',
+                // 
+                'approve_data' => 'TEXT NULL COMMENT \'Lưu trữ thông tin tóm tắt transaction gửi về từ Paypal...\'',
+                'order_capture' => 'TEXT NULL COMMENT \'Lưu trữ thông tin transaction gửi về từ Paypal...\'',
             ],
         ];
 

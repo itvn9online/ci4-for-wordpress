@@ -89,6 +89,7 @@ function action_login_rememberme(key, uri, max_i) {
 
 			// có lỗi thì báo lỗi
 			if (typeof data.error != "undefined") {
+				console.log(data);
 				console.log("%c" + data.error, "color: red;");
 
 				// đặt tham số này để hủy bỏ chức năng đăng nhập tự động

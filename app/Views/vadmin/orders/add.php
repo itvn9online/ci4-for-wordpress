@@ -148,13 +148,41 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                     <p class="controls-text-note">Khi đơn hàng được xác định thanh toán cho 1 Sản phẩm/ Dịch vụ nào đó thì sẽ bổ sung thêm thông tin Sản phẩm/ Dịch vụ tại đây.</p>
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label">Dữ liệu thanh toán</label>
-                <div class="controls">
-                    <pre><code><?php echo $data['pinged']; ?></code></pre>
-                    <p class="controls-text-note">Khi đơn hàng được thanh toán tự động qua bên thứ 3, dữ liệu thanh toán sẽ được lưu tại đây.</p>
+            <?php
+            if (!empty($data['pinged'])) {
+            ?>
+                <div class="control-group">
+                    <label class="control-label">Dữ liệu thanh toán</label>
+                    <div class="controls">
+                        <pre><code><?php echo $data['pinged']; ?></code></pre>
+                        <p class="controls-text-note">Khi đơn hàng được thanh toán tự động qua bên thứ 3, dữ liệu thanh toán sẽ được lưu tại đây.</p>
+                    </div>
                 </div>
-            </div>
+            <?php
+            }
+            if (!empty($data['approve_data'])) {
+            ?>
+                <div class="control-group">
+                    <label class="control-label">Approve data</label>
+                    <div class="controls">
+                        <pre><code><?php echo $data['approve_data']; ?></code></pre>
+                        <p class="controls-text-note">Lưu trữ thông tin tóm tắt transaction gửi về từ Paypal...</p>
+                    </div>
+                </div>
+            <?php
+            }
+            if (!empty($data['order_capture'])) {
+            ?>
+                <div class="control-group">
+                    <label class="control-label">Order capture</label>
+                    <div class="controls">
+                        <pre><code><?php echo $data['order_capture']; ?></code></pre>
+                        <p class="controls-text-note">Lưu trữ thông tin transaction gửi về từ Paypal.</p>
+                    </div>
+                </div>
+            <?php
+            }
+            ?>
             <?php
 
             //

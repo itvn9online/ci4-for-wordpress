@@ -267,4 +267,7 @@ $(document).ready(function () {
 		});
 		before_period_price_html();
 	}
+
+	//
+	action_highlighted_code("#data_paypal_sdk_js");
 });

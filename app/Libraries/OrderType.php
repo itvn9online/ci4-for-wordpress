@@ -14,12 +14,12 @@ class OrderType extends PostType
     {
         return array(
             //self::PUBLICITY => 'Hiển thị',
-            self::PRIVATELY => 'Đã thanh toán',
-            self::PENDING => 'Mới',
-            self::ON_HOLD => 'On-hold',
-            self::DRAFT => 'Hủy',
-            self::DELETED => 'XÓA',
-            //self::INHERIT => '',
+            self::PENDING => 'Pending',
+            self::ON_HOLD => 'On hold',
+            self::PRIVATELY => 'Processing',
+            self::INHERIT => 'Completed',
+            self::DRAFT => 'Cancelled',
+            self::DELETED => 'Deleted',
         );
     }
 }

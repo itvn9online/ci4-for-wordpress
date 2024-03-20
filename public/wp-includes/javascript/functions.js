@@ -293,7 +293,7 @@ var g_func = {
 		let tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi,
 			cm = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
 		return input.replace(cm, "").replace(tags, function ($0, $1) {
-			return allowed.indexOf("<" + $1.toLowerCase() + ">") > -1 ? $0 : "";
+			return WGR_in_array("<" + $1.toLowerCase() + ">", allowed) ? $0 : "";
 		});
 	},
 	trim: function (str) {
@@ -608,7 +608,7 @@ function action_each_to_taxonomy() {
 				if (a[i] != "") {
 					a[i] = $.trim(a[i]);
 					a[i] *= 1;
-					if (a[i] > 0 && taxonomy_ids_unique.indexOf(a[i]) < 0) {
+					if (a[i] > 0 && !WGR_in_array(a[i], taxonomy_ids_unique)) {
 						taxonomy_ids_unique.push(a[i]);
 					}
 				}
@@ -776,6 +776,12 @@ function support_format_webp() {
 		// very old browser like IE 8, canvas not supported
 		return false;
 	}
+}
+
+// kiểm tra 1 phần từ có trong 1 mảng hay không
+function WGR_in_array(ele, arr) {
+	// return arr.includes(ele);
+	return arr.indexOf(ele) < 0 ? false : true;
 }
 
 function WGR_is_mobile(a) {

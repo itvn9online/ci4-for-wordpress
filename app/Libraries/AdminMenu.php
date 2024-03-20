@@ -276,6 +276,7 @@ class AdminMenu
                     ],
                     'sadmin/checkouts' => [
                         'name' => ConfigType::typeList(ConfigType::CHECKOUT),
+                        'tag' => 'banks, payments, paypal',
                         'icon' => 'fa fa-dollar',
                     ],
                     'sadmin/nummons' => [

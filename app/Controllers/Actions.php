@@ -213,6 +213,7 @@ class Actions extends Layout
 
         // 
         // print_r($_POST);
+        // die(__CLASS__ . ':' . __LINE__);
 
         //
         $data = $this->MY_post('data');
@@ -339,7 +340,8 @@ class Actions extends Layout
                 'post_name' => $v['post_name'],
                 // meta
                 'image' => $post_meta['image'],
-                '_price' => $total,
+                // '_price' => $total,
+                '_price' => $post_meta[$price_type],
                 '_quantity' => $quantity,
                 'price_type' => $price_type,
             ];
@@ -689,10 +691,58 @@ class Actions extends Layout
                 ]),
                 // 'breadcrumb' => '',
                 'cart_title' => $cart_title,
+                'key' => $key,
                 'data' => $data,
+                'OrderType_COMPLETED' => [
+                    OrderType::PRIVATELY,
+                    OrderType::INHERIT,
+                ],
+                'OrderType_PRIVATELY' => OrderType::PRIVATELY,
+                'OrderType_arrStatus' => OrderType::arrStatus(),
             )
         );
         //print_r( $this->teamplate );
         return view('layout_view', $this->teamplate);
+    }
+
+    /**
+     * xác nhận quá trình thanh toán qua PayPal thành công
+     **/
+    public function capture_paypal_order()
+    {
+        // chỉ chấp nhật POST
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            $this->result_json_type([
+                'code' => __LINE__,
+                'error' => 'Bad request!',
+            ]);
+        }
+
+        // 
+        $order_id = $this->MY_post('order_id');
+        $reference_id = $this->MY_post('reference_id');
+        if (empty($order_id) || empty($reference_id)) {
+            $this->result_json_type([
+                'code' => __LINE__,
+                'error' => 'Require data is EMPTY!',
+            ]);
+        }
+
+        // 
+        $result_update = $this->order_model->update_order($order_id, [
+            'post_status' => OrderType::PRIVATELY,
+            'approve_data' => $this->MY_post('approve_data'),
+            'order_capture' => $this->MY_post('order_capture'),
+        ], [
+            'post_password' => $reference_id,
+            'post_status !=' => OrderType::PRIVATELY,
+        ]);
+
+        // 
+        $this->result_json_type([
+            'code' => __LINE__,
+            // 'data' => $_POST,
+            'result_update' => $result_update === true ? 1 : 0,
+        ]);
     }
 }

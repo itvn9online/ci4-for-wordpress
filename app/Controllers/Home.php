@@ -167,8 +167,8 @@ class Home extends Posts
         // còn không sẽ tiến hành lưu cache
         $cache_value = view('layout_view', $this->teamplate);
 
-        $cache_save = $this->MY_cache($cache_key, $cache_value . '<!-- Served from: ' . __FUNCTION__ . ' -->');
-        //var_dump( $cache_save );
+        // 
+        $this->MY_cache($cache_key, $cache_value . '<!-- Served from: ' . __FUNCTION__ . ' -->');
 
         //
         return $cache_value;

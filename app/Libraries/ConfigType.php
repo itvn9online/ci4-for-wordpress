@@ -468,6 +468,8 @@ class ConfigType
                 'bank_short_name' => 'Tên rút gọn ngân hàng',
                 'bank_code' => 'Mã ngân hàng',
                 'autobank_token' => 'Autobank webhook token',
+                'paypal_client_id' => 'Paypal Client ID',
+                'paypal_sdk_js' => 'Paypal JavaScript SDK',
             ];
         } else {
             $arr = [];
@@ -652,6 +654,8 @@ class ConfigType
             'zalooa_access_token' => 'textarea',
             'zalooa_refresh_token' => 'textarea',
             'zalooa_expires_token' => 'number',
+            // 
+            'paypal_sdk_js' => 'textarea',
         ];
         //print_r( $arr );
         if (isset($arr[$key])) {
@@ -774,6 +778,8 @@ class ConfigType
             'period_price' => 'Bấm [Thêm mới] để thêm các mức giá cho các gói nạp, bấm [Xóa] để loại bỏ một mức giá. <br> Hỗ trợ các đơn vị chuyển đổi: tr = triệu, k = nghìn, % = quy đổi theo giá gốc.',
             'bank_card_name' => 'Lưu ý: viết HOA không dấu',
             'autobank_token' => 'Tham số dùng để tăng độ bảo mật cho WebHook tự động xác thực quá trình thanh toán. URL WebHook mặc định: ' . base_url('cassos/confirm'),
+            'paypal_client_id' => 'Get Client ID here: https://developer.paypal.com/dashboard/applications/sandbox <br> Sandbox test accounts: https://developer.paypal.com/dashboard/accounts',
+            'paypal_sdk_js' => 'Get the code here (rarely used): https://developer.paypal.com/sdk/js/configuration/',
             'bank_bin_code' => 'Chức năng tự động xác nhận tiền vào thông qua WebHook của https://casso.vn/ - Ưu tiên sử dụng tài khoản ngân hàng <strong>VietinBank</strong>.',
             'powered_by_eb' => 'Sử dụng lệnh <strong>$lang_model->the_web_license( $getconfig );</strong> để hiển thị thông điệp bản quyền mặc định.',
             'telegram_bot_token' => 'Token của bot trên Telegram. <br> Trong Telegram, tìm @BotFather rồi gõ lệnh /mybots để lấy danh sách bot (nếu có). <br> Bấm vào menu lệnh mà Telegram đưa ra để chọn bot và lấy Token. Sau khi có Token, hãy bấm vào đây để tìm Chat ID: ' . base_url('sadmin/smtps') . '?get_tele_chat_id=1 <br> Mở Telegram lên > Nhập Botfather tại thanh tìm kiếm > Chọn Botfather có tích xanh > Nhấn vào Start > Hệ thống sẽ hiển thị ra đoạn chat > Nhấn vào mục /newbot - create a new bot > Nhập tên cho Bot > Nhấn Gửi > Nhập tên người dùng cho Bot > Nhấn Gửi > Hệ thống gửi xác nhận thành công. https://wiki.matbao.net/kb/huong-dan-tao-bot-va-gui-thong-bao-telegram/',

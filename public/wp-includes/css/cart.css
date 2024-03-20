@@ -152,9 +152,10 @@
     width: 90px;
 }
 
-.cart-table {}
-
-.cart-table {}
+.cart-table tr th:last-child,
+.cart-table tr td:last-child {
+    text-align: right;
+}
 
 .cart-table {}
 

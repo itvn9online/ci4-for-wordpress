@@ -67,12 +67,12 @@ vue_data.client_os = (function () {
 			platform = platform.platform;
 		}
 
-		//
-		if (macosPlatforms.indexOf(platform) !== -1) {
+		// .includes
+		if (WGR_in_array(platform, macosPlatforms)) {
 			os = "MacOS";
-		} else if (iosPlatforms.indexOf(platform) !== -1) {
+		} else if (WGR_in_array(platform, iosPlatforms)) {
 			os = "iOS";
-		} else if (windowsPlatforms.indexOf(platform) !== -1) {
+		} else if (WGR_in_array(platform, windowsPlatforms)) {
 			os = "Windows";
 		} else if (/Android/.test(userAgent)) {
 			os = "Android";

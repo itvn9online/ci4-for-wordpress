@@ -80,7 +80,7 @@ if ($debug_enable === true) {
     <title>Quản trị</title>
     <meta charset="UTF-8" />
     <!-- <meta http-equiv="Cache-control" content="public"> -->
-    <meta http-equiv="Cache-Control" content="max-age=120" />
+    <meta http-equiv="Cache-Control" content="max-age=0, no-cache" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     <meta name="robots" content="noindex, nofollow" />
@@ -200,7 +200,7 @@ if ($debug_enable === true) {
 <body class="is-admin <?php echo $body_class; ?>">
     <!--Header-part-->
     <div id="admin-header" class="cf whitecolor awhitecolor">
-        <div class="lf f33">
+        <div class="lf f45">
             <div class="d-inline"><i class="fa fa-cog"></i> <a href="<?php echo CUSTOM_ADMIN_URI; ?>" class="lang-admin_quan_tri_he_thong">System admin</a></div>
             &nbsp; | &nbsp;
             <div class="d-inline"><i class="fa fa-home"></i> <a href="./" class="lang-admin_ve_trang_chu">Back to home</a></div>
@@ -210,7 +210,7 @@ if ($debug_enable === true) {
                 </select>
             </div>
         </div>
-        <div class="lf f33">
+        <div class="lf f30">
             <div class="admin-menu-search text-center">
                 <input type="search" id="admin_menu_search" placeholder="Search in admin menu. Ex: post, product, setting, config, user..." />
             </div>
@@ -222,7 +222,7 @@ if ($debug_enable === true) {
                 </div>
             </div>
         </div>
-        <div class="lf f33 text-right"><span class="lang-admin_xin_chao">Howdy</span>, <a title="<?php $lang_model->the_text('admin_thong_tin_ca_nhan', 'Thông tin cá nhân'); ?>" href="users/profile">
+        <div class="lf f25 text-right"><span class="lang-admin_xin_chao">Howdy</span>, <a title="<?php $lang_model->the_text('admin_thong_tin_ca_nhan', 'Thông tin cá nhân'); ?>" href="users/profile">
                 <?php
                 echo ($session_data['display_name'] != '' ? $session_data['display_name'] : $session_data['user_login']);
                 ?>
