@@ -15,11 +15,11 @@ namespace App\Controllers;
  * GeoLite2-Country.mmdb
  * 
  */
-include ROOTPATH . 'vendor/geolite2/Reader.php';
-include ROOTPATH . 'vendor/geolite2/Reader/Decoder.php';
-include ROOTPATH . 'vendor/geolite2/Reader/InvalidDatabaseException.php';
-include ROOTPATH . 'vendor/geolite2/Reader/Metadata.php';
-include ROOTPATH . 'vendor/geolite2/Reader/Util.php';
+include APPPATH . 'ThirdParty/geolite2/Reader.php';
+include APPPATH . 'ThirdParty/geolite2/Reader/Decoder.php';
+include APPPATH . 'ThirdParty/geolite2/Reader/InvalidDatabaseException.php';
+include APPPATH . 'ThirdParty/geolite2/Reader/Metadata.php';
+include APPPATH . 'ThirdParty/geolite2/Reader/Util.php';
 
 //
 use MaxMind\Db\Reader;
@@ -49,7 +49,7 @@ class Plains extends Layout
         }
 
         // file chứa thời hạn reset lại db định kỳ
-        $cache_download = ROOTPATH . 'vendor/geolite2/db/last-download.txt';
+        $cache_download = APPPATH . 'ThirdParty/geolite2/db/last-download.txt';
         $next_download = 0;
         // nếu có file này
         if (is_file($cache_download)) {
@@ -64,9 +64,9 @@ class Plains extends Layout
 
         // danh sách các file .mmdb sẽ cho tải về
         $arr_files = [
-            ROOTPATH . 'vendor/geolite2/db/GeoLite2-Country.mmdb',
-            ROOTPATH . 'vendor/geolite2/db/GeoLite2-ASN.mmdb',
-            ROOTPATH . 'vendor/geolite2/db/GeoLite2-City.mmdb'
+            APPPATH . 'ThirdParty/geolite2/db/GeoLite2-Country.mmdb',
+            APPPATH . 'ThirdParty/geolite2/db/GeoLite2-ASN.mmdb',
+            APPPATH . 'ThirdParty/geolite2/db/GeoLite2-City.mmdb'
         ];
         // print_r($arr_files);
 
@@ -171,7 +171,7 @@ class Plains extends Layout
         }
 
         //
-        $a = $this->getDB($ip, ROOTPATH . 'vendor/geolite2/db/GeoLite2-City.mmdb', 'city');
+        $a = $this->getDB($ip, APPPATH . 'ThirdParty/geolite2/db/GeoLite2-City.mmdb', 'city');
         // var_dump($a);
         // print_r($a);
         // die(__CLASS__ . ':' . __LINE__);
@@ -191,7 +191,7 @@ class Plains extends Layout
         }
 
         //
-        $a = $this->getDB($ip, ROOTPATH . 'vendor/geolite2/db/GeoLite2-Country.mmdb', 'country');
+        $a = $this->getDB($ip, APPPATH . 'ThirdParty/geolite2/db/GeoLite2-Country.mmdb', 'country');
         // var_dump($a);
         // print_r($a);
         // die(__CLASS__ . ':' . __LINE__);
@@ -211,7 +211,7 @@ class Plains extends Layout
         }
 
         //
-        $a = $this->getDB($ip, ROOTPATH . 'vendor/geolite2/db/GeoLite2-ASN.mmdb', 'asn');
+        $a = $this->getDB($ip, APPPATH . 'ThirdParty/geolite2/db/GeoLite2-ASN.mmdb', 'asn');
         // var_dump($a);
         // print_r($a);
         // die(__CLASS__ . ':' . __LINE__);
