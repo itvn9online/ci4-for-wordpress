@@ -345,7 +345,7 @@ function action_signInSuccessWithIdToken(idToken, successfully) {
 					//console.log(a);
 					a = decodeURIComponent(a);
 					//console.log(a);
-					if (a.split("//").length <= 1) {
+					if (a.includes("//") == false) {
 						a = set_value_firebase_config(
 							firebase_dynamic_config.sign_in_redirect_to,
 							web_link
