@@ -30,6 +30,7 @@ class Backups extends Layout
     protected $rm_full_path = '/bin/rm';
     protected $ssh_copy_id_full_path = '/usr/bin/ssh-copy-id';
     protected $backups_error = '';
+    protected $ssh_port_bak = '';
 
     // 
     public function __construct()
@@ -42,6 +43,9 @@ class Backups extends Layout
 
         // 
         $this->backups_error = LOCAL_BAK_PATH . '/backups_error-' . date('Y-m-d') . '.txt';
+        if (SSH_BAK_PORT != '') {
+            $this->ssh_port_bak = ' "ssh -p ' . trim(SSH_BAK_PORT) . '"';
+        }
     }
 
     /**
@@ -88,7 +92,7 @@ class Backups extends Layout
         $backups_txt_log = $backup_local_path . '/backups_log-' . date('Y-m-d') . '.txt';
 
         // lệnh rsync
-        $bin_rsync = $this->cmd_rsync . ' "ssh -p 31141"';
+        $bin_rsync = $this->cmd_rsync . $this->ssh_port_bak;
         if (date('d') * 1 < 2) {
             // với ngày 01 hàng tháng sẽ thực hiện dọn dẹp dữ liệu
             $bin_rsync .= ' --delete';
@@ -120,12 +124,12 @@ echo "Test rsync: "$(date) > ' . $backups_txt_log . '
 # create test file
 echo "' . $_SERVER['SERVER_ADDR'] . ' "$(date) > ' . $test_rsync_macos . '
 # rsync to server
-' . $this->cmd_rsync . ' "ssh -p 31141" ' . $test_rsync_macos . ' root@' . $_SERVER['SERVER_ADDR'] . ':/root/
+' . $this->cmd_rsync . $this->ssh_port_bak . ' ' . $test_rsync_macos . ' root@' . $_SERVER['SERVER_ADDR'] . ':/root/
 # remove file from localhost
 ' . $this->rm_full_path . ' -rf ' . $test_rsync_macos . '
 sleep 1
 # sync from srver to localhost
-' . $this->cmd_rsync . ' "ssh -p 31141" root@' . $_SERVER['SERVER_ADDR'] . ':/root/' . basename($test_rsync_macos) . ' ' . rtrim(dirname($test_rsync_macos), '/') . '/
+' . $this->cmd_rsync . $this->ssh_port_bak . ' root@' . $_SERVER['SERVER_ADDR'] . ':/root/' . basename($test_rsync_macos) . ' ' . rtrim(dirname($test_rsync_macos), '/') . '/
 sleep 1
 # check file in localhost
 if [ -f ' . $test_rsync_macos . ' ]; then
@@ -135,10 +139,10 @@ echo "ERROR! ' . $_SERVER['SERVER_ADDR'] . ' rsync: "$(date) >> ' . $backups_txt
 fi
 
 echo "Backup database"
-' . $this->cmd_rsync . ' "ssh -p 31141" root@' . $_SERVER['SERVER_ADDR'] . ':/home/admin/admin_backups ' . $backup_local_path . '/
+' . $this->cmd_rsync . $this->ssh_port_bak . ' root@' . $_SERVER['SERVER_ADDR'] . ':/home/admin/admin_backups ' . $backup_local_path . '/
 
 echo "Backup public_html ' . $_SERVER['HTTP_HOST'] . '"
-' . $this->cmd_rsync . ' "ssh -p 31141" --exclude="cache/*" --exclude="ebcache/*" root@' . $_SERVER['SERVER_ADDR'] . ':' . rtrim(ROOTPATH, '/') . ' ' . $backup_local_path . '/
+' . $this->cmd_rsync . $this->ssh_port_bak . ' --exclude="cache/*" --exclude="ebcache/*" root@' . $_SERVER['SERVER_ADDR'] . ':' . rtrim(ROOTPATH, '/') . ' ' . $backup_local_path . '/
 
 #
 ' . $this->curl_full_path . ' --data "source=localhost&token=' . CRONJOB_TOKEN . '" ' . base_url('backups/local_bak_done') . '

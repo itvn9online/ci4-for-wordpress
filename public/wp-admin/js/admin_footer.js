@@ -439,6 +439,10 @@ $(document)
 			activate: activateSubmenu,
 			deactivate: deactivateSubmenu,
 		});
+
+		//
+		_global_js_eb.ebe_currency_format();
+		_global_js_eb.ebe_number_format();
 	})
 	.keydown(function (e) {
 		//console.log(e.keyCode);

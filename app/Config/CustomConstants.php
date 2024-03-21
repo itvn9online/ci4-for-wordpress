@@ -534,6 +534,9 @@ defined('CUSTOM_MD5_HASH_CODE') || define('CUSTOM_MD5_HASH_CODE', HTTP_SYNC_HOST
 // token cho chức năng cronjob -> kết nối bên ngoài -> tối thiểu 1 năm đổi 1 lần
 defined('CRONJOB_TOKEN') || define('CRONJOB_TOKEN', '_' . substr(md5(date('Y') . CUSTOM_MD5_HASH_CODE), 0, 16));
 defined('LOCAL_BAK_PATH') || define('LOCAL_BAK_PATH', '/Volumes/bak');
+// Example:
+// define('SSH_BAK_PORT', '2233');
+defined('SSH_BAK_PORT') || define('SSH_BAK_PORT', '');
 
 // tách riêng cache cho mobile và desktop
 // fake function wp_is_mobile of wordpress

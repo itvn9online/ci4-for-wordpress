@@ -1021,7 +1021,7 @@ var _global_js_eb = {
 	_get: function (p) {},
 
 	ebe_number_format: function () {
-		jQuery(".ebe-number").each(function () {
+		jQuery(".ebe-number, .number-format").each(function () {
 			let a = jQuery.trim(
 				jQuery(this).data("num") || jQuery(this).html() || ""
 			);
@@ -1043,7 +1043,7 @@ var _global_js_eb = {
 		) {
 			conver_to_trieu = true;
 		}
-		jQuery(".ebe-currency-format")
+		jQuery(".ebe-currency-format, .money-format")
 			.each(function () {
 				let a = jQuery.trim(
 					jQuery(this).data("num") || jQuery(this).html() || ""
