@@ -195,6 +195,33 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {
     line-height: 90px;
 }
 
+@media (prefers-color-scheme: dark) {
+    #loginbox {
+        background-color: black;
+    }
+
+    #loginbox,
+    #loginbox a {
+        color: white;
+    }
+
+    #loginbox .control-group {
+        border-bottom-color: #999;
+    }
+
+    #loginbox form {
+        background: #333;
+    }
+
+    #loginbox .form-actions {
+        background-color: #666;
+    }
+
+    #loginbox .firebaseui-card-content form {
+        background-color: black;
+    }
+}
+
 @media (max-width: 480px) {
 
     /*

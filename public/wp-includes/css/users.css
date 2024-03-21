@@ -41,6 +41,11 @@ body.dark-theme .global-profile-menu li a {
     display: none;
 }
 
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+    body {}
+}
+
 /* ================================== reponsive ================================== */
 
 /* medium size */

@@ -771,6 +771,42 @@ body.body-debug_enable #sidebar {
     overflow: hidden;
 }
 
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+    body {}
+
+    body::-webkit-scrollbar {
+        width: 15px;
+        /* width of the entire scrollbar */
+    }
+
+    body::-webkit-scrollbar-track {
+        background: #666;
+        /* color of the tracking area */
+    }
+
+    body::-webkit-scrollbar-thumb {
+        background-color: #999;
+        /* color of the scroll thumb */
+        border-radius: 20px;
+        /* roundness of the scroll thumb */
+        border: 3px solid #000;
+        /* creates padding around scroll thumb */
+    }
+
+    .admin-copyright,
+    #breadcrumb {
+        background-color: #111;
+    }
+
+    .admin-copyright,
+    .admin-copyright a,
+    #breadcrumb,
+    #breadcrumb a {
+        color: white;
+    }
+}
+
 /* ================================== reponsive ================================== */
 /* desktop only */
 @media only screen and (min-width:748px) {

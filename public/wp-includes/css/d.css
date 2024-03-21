@@ -957,6 +957,11 @@ span.taxonomy-count:after {
     padding: 5px !important;
 }
 
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+    body {}
+}
+
 /* desktop only */
 @media only screen and (min-width:748px) {
     .wgr-sticky-column {
