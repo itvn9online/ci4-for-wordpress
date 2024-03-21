@@ -145,7 +145,8 @@ function WGR_auto_scroll_by_hash(repeat) {
 	}
 
 	//
-	if ($(a).length < 1) {
+	// if ($(a).length < 1) {
+	if (document.getElementById(a.substr(1)) === null) {
 		return false;
 	}
 	console.log("Auto scrol to:", a);
