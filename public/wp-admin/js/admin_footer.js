@@ -288,7 +288,7 @@ $("#admin-change-language").change(function () {
 		// tạo url cho phép hiển thị view clone_lang
 		let redirect_to = window.location.href;
 		redirect_to = redirect_to.split("?clone_lang=")[0].split("&clone_lang=")[0];
-		if (redirect_to.split("?").length > 1) {
+		if (redirect_to.includes("?") == true) {
 			//redirect_to += "&";
 		} else {
 			//redirect_to += "?";

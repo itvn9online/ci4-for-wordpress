@@ -27,11 +27,11 @@ function auto_submit_update_code() {
 
 	// kiểm tra file upload phải đúng với tên theme hiện tại
 	if (
-		fullPath.split(themeName).length === 1 &&
+		fullPath.includes(themeName) == false &&
 		// hoặc file code chính là: ci4-for-wordpress
-		fullPath.split("ci4-for-wordpress.").length === 1 &&
+		fullPath.includes("ci4-for-wordpress.") == false &&
 		// hoặc system của codeigniter
-		fullPath.split("system.").length === 1
+		fullPath.includes("system.") == false
 	) {
 		WGR_alert(
 			"Theme này chỉ hỗ trợ upload file trùng tên với theme là: " + themeName,

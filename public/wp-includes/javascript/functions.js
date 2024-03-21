@@ -693,8 +693,8 @@ function after_each_to_taxonomy(data) {
 		let uri = $(this).data("uri") || "";
 		if (uri != "") {
 			// thêm term_id nếu không có trong yêu cầu
-			if (uri.split("%term_id%").length == 1) {
-				if (uri.split("?").length > 1) {
+			if (uri.includes("%term_id%") == false) {
+				if (uri.includes("?") == true) {
 					uri += "&";
 				} else {
 					uri += "?";
@@ -780,8 +780,8 @@ function support_format_webp() {
 
 // kiểm tra 1 phần từ có trong 1 mảng hay không
 function WGR_in_array(ele, arr) {
-	// return arr.includes(ele);
-	return arr.indexOf(ele) < 0 ? false : true;
+	return arr.includes(ele);
+	// return arr.indexOf(ele) < 0 ? false : true;
 }
 
 function WGR_is_mobile(a) {
@@ -796,13 +796,13 @@ function WGR_is_mobile(a) {
 
 	//
 	if (
-		a.split("Mobile").length > 1 || // Many mobile devices (all iPhone, iPad, etc.)
-		a.split("Android").length > 1 ||
-		a.split("Silk/").length > 1 ||
-		a.split("Kindle").length > 1 ||
-		a.split("BlackBerry").length > 1 ||
-		a.split("Opera Mini").length > 1 ||
-		a.split("Opera Mobi").length > 1
+		a.includes("Mobile") == true || // Many mobile devices (all iPhone, iPad, etc.)
+		a.includes("Android") == true ||
+		a.includes("Silk/") == true ||
+		a.includes("Kindle") == true ||
+		a.includes("BlackBerry") == true ||
+		a.includes("Opera Mini") == true ||
+		a.includes("Opera Mobi") == true
 	) {
 		return true;
 	}
@@ -1090,7 +1090,7 @@ function move_custom_code_to() {
 // kiểm tra url hiện tại có trùng với canonical không, nếu không thì redirect tới canonical
 function redirect_to_canonical(body_class) {
 	// không thực hiện redirect ở trang 404
-	if (body_class.split("page404").length > 1) {
+	if (body_class.includes("page404") == true) {
 		console.log("%c" + "is 404 page!", "color: red;");
 		return false;
 	}
@@ -1098,8 +1098,8 @@ function redirect_to_canonical(body_class) {
 	//
 	let a = $('link[rel="canonical"]').attr("href") || "";
 	//console.log(a);
-	if (a != "" && window.location.href.split(a).length === 1) {
-		if (a.split("?").length > 1) {
+	if (a != "" && window.location.href.includes(a) == false) {
+		if (a.includes("?") == true) {
 			a += "&";
 		} else {
 			a += "?";

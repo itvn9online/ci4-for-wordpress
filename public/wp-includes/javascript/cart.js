@@ -83,7 +83,7 @@ function run_calculate_cart_value() {
 	// tổng chính -> sau khi tính thuế má, phí vận chuyển, mã giảm giá...
 	price_total = price_sub_total;
 	// tính theo % giỏ hàng
-	if (cart_config.coupon_amount.toString().split("%").length > 1) {
+	if (cart_config.coupon_amount.toString().includes("%") == true) {
 		let coupon_amount = g_func.number_only(cart_config.coupon_amount);
 		console.log("coupon amount", coupon_amount);
 		if (coupon_amount < 0) {
@@ -238,7 +238,7 @@ function show_coupon_code() {
 		// console.log(cart_discount_type, cart_config.coupon_code);
 		$(".cart-discount-code").html(cart_config.coupon_code);
 		// tính theo % -> hiển thị % giảm giá
-		if (cart_config.coupon_amount.toString().split("%").length > 1) {
+		if (cart_config.coupon_amount.toString().includes("%") == true) {
 			$(".cart-discount-value")
 				.html(cart_config.coupon_amount)
 				.removeClass("ebe-currency");

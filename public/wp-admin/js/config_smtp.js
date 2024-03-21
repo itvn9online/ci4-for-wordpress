@@ -63,7 +63,7 @@ $("#data_smtp2_secure").change(function () {
 //
 $("#data_smtp_host_user").change(function () {
 	var a = $(this).val() || "";
-	if (a.split("@gmail.").length > 1) {
+	if (a.includes("@gmail.") == true) {
 		$("#data_smtp_host_name").val("smtp.gmail.com").trigger("change");
 	}
 });
@@ -71,7 +71,7 @@ $("#data_smtp_host_user").change(function () {
 //
 $("#data_smtp2_host_user").change(function () {
 	var a = $(this).val() || "";
-	if (a.split("@gmail.").length > 1) {
+	if (a.includes("@gmail.") == true) {
 		$("#data_smtp2_host_name").val("smtp.gmail.com").trigger("change");
 	}
 });

@@ -33,7 +33,7 @@ if (current_full_domain !== null) {
 	current_full_domain.www_response =
 		current_full_domain.www_response.toString();
 	console.log("current full domain:", current_full_domain);
-	if (current_full_domain.http_response.split("//").length > 1) {
+	if (current_full_domain.http_response.includes("//") == true) {
 		current_protocol = current_full_domain.http_response;
 		current_www = current_full_domain.http_response;
 	}
@@ -102,12 +102,12 @@ vue_data.warning_ci_version = function (a, b) {
 
 //
 vue_data.warning_session_drive = function (a, b) {
-	if (a.split("RedisHandler").length > 1) {
+	if (a.includes("RedisHandler") == true) {
 		if (b == "redis") {
 			return "orgcolor";
 		}
 		return "bluecolor";
-	} else if (a.split("MemcachedHandler").length > 1) {
+	} else if (a.includes("MemcachedHandler") == true) {
 		if (b == "memcached") {
 			return "orgcolor";
 		}

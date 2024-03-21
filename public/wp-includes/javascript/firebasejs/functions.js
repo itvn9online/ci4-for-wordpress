@@ -421,7 +421,7 @@ function action_signInSuccessUrl() {
 		//console.log(a);
 		a = decodeURIComponent(a);
 		//console.log(a);
-		if (a.split("//").length > 1) {
+		if (a.includes("//") == true) {
 			return a;
 		}
 	}

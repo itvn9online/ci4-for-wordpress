@@ -7,7 +7,7 @@ function get_field_has_change(a) {
 	//console.log(a);
 
 	// chỉ thực thi với phần data
-	if (a != "" && a.split("data[").length > 1) {
+	if (a != "" && a.includes("data[") == true) {
 		a = a.replace("data[", "").split("]")[0];
 		//console.log(a);
 
@@ -30,7 +30,7 @@ function action_replace_config_app(a, key, val) {
 	a = a.replace(key, val);
 	//console.log(a);
 	// nếu vẫn còn key
-	if (a.split(key).length > 1) {
+	if (a.includes(key) == true) {
 		// lặp lại function -> đệ quy cho đến hết
 		return action_replace_config_app(a, key, val);
 	}
@@ -45,7 +45,7 @@ function replace_url_config_app(key, val) {
 	$(".controls-text-note").each(function () {
 		var a = $(this).html();
 		//console.log(a);
-		if (a.split(key).length > 1) {
+		if (a.includes(key) == true) {
 			$(this).html(action_replace_config_app(a, key, val));
 		}
 	});

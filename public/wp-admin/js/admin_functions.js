@@ -128,7 +128,7 @@ function click_set_img_for_input(img_id) {
 		let a = img.data("thumbnail") || "";
 		if (a != "") {
 			a = a.replace("-thumbnail.", ".");
-			if (a.split("//").length <= 1) {
+			if (a.includes("//") == false) {
 				if (a.substr(0, 1) == "/") {
 					a = a.substr(1);
 				}
@@ -218,7 +218,7 @@ function click_set_img_for_input(img_id) {
 		//console.log(input_type);
 		// insert ảnh vào text area
 		if (input_type == "textediter") {
-			if (data_src.split("//").length == 1) {
+			if (data_src.includes("//") == false) {
 				data_src = $("base").attr("href") + data_src;
 			}
 			data_src = data_src.replace(".daidq-ext", "");
@@ -549,7 +549,7 @@ function WGR_load_textediter(for_id, ops) {
 				// nếu mở thẻ của font awesome
 				else if (target_nodeName == "i") {
 					let i_class_name = e.target.className;
-					if (i_class_name.split("fa ").length > 1) {
+					if (i_class_name.includes("fa ") == true) {
 						//console.log("i tag dblclick:", i_class_name);
 						let new_class_name = prompt("Font awesome class", i_class_name);
 						if (new_class_name != null && new_class_name != i_class_name) {
@@ -749,7 +749,7 @@ function convert_size_to_one_format() {
 						//
 					} else {
 						// nếu có dấu x -> chuyển về định dạng của Cao/ Rộng
-						if (a.split("x").length > 1) {
+						if (a.includes("x") == true) {
 							a = a.split("x");
 
 							if (a[0] == a[1]) {
@@ -1041,7 +1041,7 @@ function for_admin_global_checkbox(max_i) {
 			//console.log(a);
 
 			// chỉ xử lý với các checkbox của data chính
-			if (a.split("data[").length > 1) {
+			if (a.includes("data[") == true) {
 				// xử lý phần tên -> bỏ giá trị kiểu mảng đi
 				let default_a = a.split("]")[0];
 				default_a = default_a.replace("data[", "");

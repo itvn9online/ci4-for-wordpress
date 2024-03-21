@@ -24,7 +24,7 @@ add_and_show_post_avt("#post_meta_image", "", "medium");
 	}
 
 	// một số cấu trúc đặc trưng của html
-	if (str != "" && str.split("</").length > 1 && str.split(">").length > 1) {
+	if (str != "" && str.includes("</") == true && str.includes(">") == true) {
 		// cho hết dữ liệu về 1 dòng
 		str = str.split("\n");
 		let arr = [];
@@ -74,7 +74,7 @@ $(".click-enable-editer").change(function (e) {
 				let a = window.location.href
 					.split("&support_tab=")[0]
 					.split("?support_tab=")[0];
-				if (a.split("?").length > 1) {
+				if (a.includes("?") == true) {
 					a += "&";
 				} else {
 					a += "?";

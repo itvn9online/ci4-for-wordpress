@@ -120,7 +120,7 @@ function admin_enter_search_menu() {
 	let get_href = $("#admin_menu_result a.up-down").attr("href") || "";
 	//console.log(get_href);
 	if (get_href != "") {
-		if (get_href.split("//").length === 1) {
+		if (get_href.includes("//") == false) {
 			//console.log(get_href.substr(0, 1));
 			if (get_href.substr(0, 1) == "/") {
 				get_href = get_href.substr(1);
@@ -187,7 +187,7 @@ function action_admin_menu_search() {
 						.removeAttr("data-show")
 						.each(function () {
 							let a = $(this).data("key") || "";
-							if (a != "" && a.split(k).length > 1) {
+							if (a != "" && a.includes(k) == true) {
 								//$(this).show();
 								$(this).attr({ "data-show": "1" });
 								has_menu = true;

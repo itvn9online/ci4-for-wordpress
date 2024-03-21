@@ -108,7 +108,7 @@ function url_for_text_note(for_class) {
 	}
 	$(for_class).each(function () {
 		let a = $(this).html();
-		if (a.split("://").length > 1) {
+		if (a.includes("://") == true) {
 			a = WGR_urlify(a);
 			//console.log(a);
 			$(this).html(a);
@@ -168,7 +168,7 @@ function removeParam(key, sourceURL) {
 // thêm tham số in ra 1 số thông tin khi cần debug code
 function admin_print_debug_data() {
 	let a = removeParam("print_data", window.location.href);
-	if (a.split("?").length > 1) {
+	if (a.includes("?") == true) {
 		a += "&";
 	} else {
 		a += "?";

@@ -65,7 +65,7 @@ var _global_js_eb = {
 					//				console.log(wit);
 
 					// chỉ xử lý với video youtube
-					if (a.split("youtube.com/").length > 1) {
+					if (a.includes("youtube.com/") == true) {
 						jQuery(this).attr({
 							//'data-height' : jQuery(this).attr('data-height') || jQuery(this).attr('height') || 315,
 							"data-width": Math.ceil(wit),
@@ -114,7 +114,7 @@ var _global_js_eb = {
 			screen_width = jQuery(window).width();
 
 		// nếu có thuộc tính cố định, định dạng cho phiên bản -> lấy theo thuộc tính này
-		if (window.location.href.split("&set_device=").length > 1) {
+		if (window.location.href.includes("&set_device=") == true) {
 			current_device = window.location.href
 				.split("&set_device=")[1]
 				.split("&")[0]
@@ -170,7 +170,7 @@ var _global_js_eb = {
 					let a = jQuery(this).attr("src") || "";
 
 					// chỉ xử lý với video youtube
-					if (a.split("youtube.com/").length > 1) {
+					if (a.includes("youtube.com/") == true) {
 						jQuery(this).attr({
 							width: max_width,
 							height: Math.ceil(max_width * youtube_video_default_size),
@@ -205,14 +205,14 @@ var _global_js_eb = {
 						if (WGR_check_option_on(WGR_config.cf_tester_mode)) console.log(a);
 
 						// chỉ xử lý với video youtube
-						if (a.split("youtube.com/").length > 1) {
+						if (a.includes("youtube.com/") == true) {
 							//console.log('a: ' + a);
 							let wit =
 								jQuery(this).attr("data-width") ||
 								jQuery(this).attr("width") ||
 								560;
 							//console.log('wit: ' + jQuery(this).attr('width'));
-							if (wit.split("%").length > 1) {
+							if (wit.includes("%") == true) {
 								wit = wit.replace(/\%/, "") * 1;
 								wit = jQuery(this).width() || 560;
 								//console.log('wit%: ' + wit);
@@ -290,8 +290,8 @@ var _global_js_eb = {
 				// Tính toán chiều cao mới dựa trên chiều rộng
 				if (new_size != "") {
 					if (
-						new_size.split("x").length > 1 ||
-						new_size.split("*").length > 1
+						new_size.includes("x") == true ||
+						new_size.includes("*") == true
 					) {
 						new_size.split("x").split("*");
 						new_size = new_size[1] + "/" + new_size[0];
@@ -572,7 +572,7 @@ var _global_js_eb = {
 	_c_link: function (id, seo, name) {},
 
 	youtube_id: function (a, start_end) {
-		if (a.split("youtube.com").length > 1 || a.split("youtu.be").length > 1) {
+		if (a.includes("youtube.com") == true || a.includes("youtu.be") == true) {
 			// lấy thời gian bắt đầu, kết thúc nếu có
 			let s = "",
 				e = "";

@@ -20,14 +20,14 @@ function EBE_part_page(Page, TotalPage, strLinkPager, sub_part, add_query) {
 	if (typeof add_query != "undefined" && add_query != "") {
 		add_query *= 1;
 		if (!isNaN(add_query) && add_query > 0) {
-			if (strLinkPager.split("?").length > 1) {
+			if (strLinkPager.includes("?") == true) {
 				strLinkPager += "&";
 			} else {
 				strLinkPager += "?";
 			}
 		}
-	} else if (sub_part.split("=").length > 1) {
-		if (strLinkPager.split("?").length > 1) {
+	} else if (sub_part.includes("=") == true) {
+		if (strLinkPager.includes("?") == true) {
 			strLinkPager += "&";
 		} else {
 			strLinkPager += "?";

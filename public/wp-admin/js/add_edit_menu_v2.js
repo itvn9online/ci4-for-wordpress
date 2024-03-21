@@ -539,7 +539,7 @@ $("#quick_add_menu select").change(function () {
 $("#addInputIcon").change(function () {
 	let a = $(this).val();
 	a = $.trim(a);
-	if (a != "" && a.split("fa").length < 2) {
+	if (a != "" && a.includes("fa") == false) {
 		a = "fa fa-" + a;
 		$(this).val(a);
 	}

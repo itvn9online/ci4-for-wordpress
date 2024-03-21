@@ -63,7 +63,7 @@ function WGR_widget_add_custom_style_to_field() {
 					b = " " + jQuery.trim(b) + " ";
 
 					// xóa
-					if (b.split(" " + a + " ").length > 1) {
+					if (b.includes(" " + a + " ") == true) {
 						c = b.replace(" " + a + " ", "");
 					}
 					// thêm

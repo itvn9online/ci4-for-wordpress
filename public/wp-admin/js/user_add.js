@@ -46,7 +46,7 @@ function check_user_email_before_add() {
 			}
 		}
 	}
-	if (a != "" && a.split("@").length == 1) {
+	if (a != "" && a.includes("@") == false) {
 		$("#data_user_email").val(a + "@" + document.domain);
 	}
 	return true;
@@ -75,7 +75,7 @@ $("#data_user_email")
 		//console.log(e.keyCode);
 		if (e.keyCode == 13) {
 			var a = $(this).val() || "";
-			if (a != "" && a.split("@").length == 1) {
+			if (a != "" && a.includes("@") == false) {
 				WGR_alert("Email format is not supported", "warning");
 				setTimeout(function () {
 					$("#data_user_email").val(a + "@" + document.domain);
