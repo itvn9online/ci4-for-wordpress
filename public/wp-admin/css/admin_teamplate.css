@@ -794,16 +794,34 @@ body.body-debug_enable #sidebar {
         /* creates padding around scroll thumb */
     }
 
+    .widget-title,
+    .eb-table th,
     .admin-copyright,
     #breadcrumb {
-        background-color: #111;
+        background-color: #282e33;
     }
 
+    .widget-title h5,
+    .eb-table th,
+    .eb-table th a,
+    /* .table-list th a, */
     .admin-copyright,
     .admin-copyright a,
     #breadcrumb,
     #breadcrumb a {
         color: white;
+    }
+
+    .table-list th a {
+        text-decoration: underline;
+    }
+
+    .eb-table th {
+        border-left-color: #666;
+    }
+
+    .widget-title h5 {
+        text-shadow: none;
     }
 }
 

@@ -321,17 +321,20 @@ class Guest extends Csrf
         //print_r( $this->getconfig );
         // nếu website không cho đăng ký thành viên thì hiển thị view thông báo tương ứng
         if ($this->getconfig->disable_register_member == 'on') {
+            $the_title = $this->lang_model->get_the_text('register_disable_label', 'Website temporarily stopped register new account');
+
+            // 
             $this->teamplate['main'] = view(
                 'register_disable_view',
                 array(
                     'seo' => $this->guest_seo(
-                        $this->lang_model->get_the_text('register_disable_label', 'Website temporarily stopped register new account'),
+                        $the_title,
                         __FUNCTION__
                     ),
                     'breadcrumb' => '',
                     //'cateByLang' => $cateByLang,
                     //'serviceByLang' => $serviceByLang,
-
+                    'the_title' => $the_title,
                 )
             );
             return view('layout_view', $this->teamplate);
