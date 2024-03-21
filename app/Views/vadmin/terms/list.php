@@ -41,7 +41,7 @@ $base_model->adds_css([
                         <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm <?php echo $name_type; ?>" autofocus aria-required="true" required>
                     </div>
                     <div class="lf f20">
-                        <button type="submit" class="btn-success"><i class="fa fa-search"></i> Tìm kiếm</button>
+                        <button type="submit" class="btn-success"><i class="fa fa-search"></i> Tìm</button>
                     </div>
                 </div>
             </form>

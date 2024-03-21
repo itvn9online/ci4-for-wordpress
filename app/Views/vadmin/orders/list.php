@@ -38,7 +38,7 @@ $base_model->add_css('wp-admin/css/' . $post_type . '.css');
                         </select>
                     </div>
                     <div class="lf f25">
-                        <button type="submit" class="btn-success"><i class="fa fa-search"></i> Tìm kiếm</button>
+                        <button type="submit" class="btn-success"><i class="fa fa-search"></i> Tìm</button>
                     </div>
                 </div>
             </form>
