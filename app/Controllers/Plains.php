@@ -35,7 +35,7 @@ class Plains extends Layout
         parent::__construct();
 
         // 
-        $this->downloadGeoLite2Db();
+        // $this->downloadGeoLite2Db();
     }
 
     /**
@@ -44,7 +44,7 @@ class Plains extends Layout
     protected function downloadGeoLite2Db()
     {
         // không download với server nguồn
-        if ($_SERVER['HTTP_HOST'] == 'cloud.echbay.com') {
+        if (strpos($_SERVER['HTTP_HOST'], 'cloud.echbay.com') === true) {
             return true;
         }
 
@@ -158,6 +158,17 @@ class Plains extends Layout
 
         //
         return $ip;
+    }
+
+    /**
+     * Chức năng này trả về thông tin city theo ip nhưng kèm thêm chức năng kiểm tra và cập nhật db định kỳ nữa
+     **/
+    public function city_db_ip($ip = '')
+    {
+        $this->downloadGeoLite2Db();
+
+        // 
+        return $this->city_ip($ip);
     }
 
     /**

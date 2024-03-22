@@ -230,7 +230,7 @@ function showUserInfoIp(data) {
 	// hiển thị thông tin IP hiện tại của server
 	jQuery.ajax({
 		type: "POST",
-		url: web_link + "plains/city_ip",
+		url: web_link + "plains/city_db_ip",
 		dataType: "json",
 		//crossDomain: true,
 		data: {
