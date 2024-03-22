@@ -42,12 +42,13 @@ function done_action_submit(go_to, token, ck_key) {
 
 // chức năng đồng bộ dữ liệu liên quan đến post, term
 function sync_ajax_post_term() {
-	let last_run = g_func.getc("sync-ajax-post-term");
+	let last_run = g_func.getc("sync-ajax_post_term");
 	// console.log("last_run:", last_run);
 	if (last_run !== null) {
-		last_run *= 1;
-		last_run = Date.now() - last_run;
-		console.log("last sync-ajax-post-term:", Math.ceil(last_run / 1000));
+		console.log(
+			"last sync-ajax_post_term:",
+			(Date.now() - last_run * 1) / 1000
+		);
 		return false;
 	}
 
@@ -68,7 +69,7 @@ function sync_ajax_post_term() {
 			}
 
 			//
-			g_func.setc("sync-ajax-post-term", Date.now(), 600);
+			g_func.setc("sync-ajax_post_term", Date.now(), g_func.rand(600, 900));
 		},
 	});
 }

@@ -146,7 +146,7 @@ if ($debug_enable === true) {
                     </div>
                     <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
                         <div class="p">Server IP:
-                            <a href="https://www.iplocation.net/ip-lookup?query=<?php echo $_SERVER['SERVER_ADDR']; ?>" target="_blank" rel="nofollow" class="bold"><?php echo $_SERVER['SERVER_ADDR']; ?></a>
+                            <a href="https://www.iplocation.net/ip-lookup?query=<?php echo $_SERVER['SERVER_ADDR']; ?>" target="_blank" rel="nofollow" class="bold server-info_ip"><?php echo $_SERVER['SERVER_ADDR']; ?></a>
                         </div>
                     </div>
                     <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
@@ -177,7 +177,7 @@ if ($debug_enable === true) {
                     </div>
                     <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
                         <div class="p">Client IP:
-                            <a href="https://www.iplocation.net" target="_blank" rel="nofollow" class="bold greencolor"><?php echo $request_ip; ?></a>
+                            <a href="https://www.iplocation.net" target="_blank" rel="nofollow" class="bold greencolor user-info_ip"><?php echo $request_ip; ?></a>
                         </div>
                     </div>
                     <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
@@ -491,6 +491,7 @@ $base_model->JSON_parse(
             'opcache_exist' => (function_exists('opcache_get_status') && is_array(opcache_get_status()) ? 1 : 0),
             'last_ci4_update' => (is_file(APPPATH . 'VERSION') ? filemtime(APPPATH . 'VERSION') : filemtime(APPPATH . 'Controllers/Layout.php')),
         ],
+        'server_ip' => $_SERVER['SERVER_ADDR'],
     ]
 );
 

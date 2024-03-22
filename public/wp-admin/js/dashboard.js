@@ -179,3 +179,134 @@ if (
 // $(document).ready(function () {
 // 	$("#admin_menu_search").focus();
 // });
+
+/**
+ * Hiển thị thông tin server và user theo IP
+ * Mục đích chính là cập nhật GeoLite2-Db định kỳ
+ */
+function showServerInfoIp(data, to) {
+	// console.log(data);
+
+	//
+	let a = [];
+	if (typeof data.city != "undefined") {
+		a.push(data.city.names.en);
+	}
+	if (typeof data.subdivisions != "undefined") {
+		// a.push(data.subdivisions[0].names.en);
+		a.push(data.subdivisions[0].iso_code);
+	}
+	if (typeof data.country != "undefined") {
+		// a.push(data.country.names.en);
+		a.push(data.country.iso_code);
+	} else if (typeof data.registered_country != "undefined") {
+		// a.push(data.registered_country.names.en);
+		a.push(data.registered_country.iso_code);
+	}
+
+	//
+	if (typeof to == "undefined" || to == "") {
+		to = ".server-info_ip";
+	}
+	$(to).append(" " + a.join(", "));
+}
+
+function showUserInfoIp(data) {
+	return showServerInfoIp(data, ".user-info_ip");
+}
+
+//
+(function (server_info_ip, user_info_ip) {
+	if (server_info_ip !== null) {
+		showServerInfoIp(JSON.parse(server_info_ip));
+
+		//
+		if (user_info_ip !== null) {
+			showUserInfoIp(JSON.parse(user_info_ip));
+		}
+		return false;
+	}
+
+	// hiển thị thông tin IP hiện tại của server
+	jQuery.ajax({
+		type: "POST",
+		url: web_link + "plains/city_ip",
+		dataType: "json",
+		//crossDomain: true,
+		data: {
+			ip: server_ip,
+		},
+		timeout: 33 * 1000,
+		error: function (jqXHR, textStatus, errorThrown) {
+			console.log(jqXHR);
+			console.log(textStatus);
+			console.log(errorThrown);
+		},
+		success: function (data) {
+			// console.log(data);
+			//console.log(data.length);
+
+			//
+			if (typeof data.last_updated != "undefined") {
+				console.log(
+					"last_updated:",
+					new Date(data.last_updated * 1000).toISOString()
+				);
+			}
+
+			//
+			if (typeof data.data != "undefined") {
+				showServerInfoIp(data.data);
+
+				//
+				g_func.setc(
+					"admin_server_location_by_ip",
+					JSON.stringify(data.data),
+					3600
+				);
+			}
+
+			// hiển thị thông tin IP hiện tại của người dùng
+			jQuery.ajax({
+				type: "POST",
+				url: web_link + "plains/city_ip",
+				dataType: "json",
+				//crossDomain: true,
+				data: {},
+				timeout: 33 * 1000,
+				error: function (jqXHR, textStatus, errorThrown) {
+					console.log(jqXHR);
+					console.log(textStatus);
+					console.log(errorThrown);
+				},
+				success: function (data) {
+					// console.log(data);
+					//console.log(data.length);
+
+					//
+					if (typeof data.last_updated != "undefined") {
+						console.log(
+							"last_updated:",
+							new Date(data.last_updated * 1000).toISOString()
+						);
+					}
+
+					//
+					if (typeof data.data != "undefined") {
+						showUserInfoIp(data.data);
+
+						//
+						g_func.setc(
+							"admin_user_location_by_ip",
+							JSON.stringify(data.data),
+							2 * 3600
+						);
+					}
+				},
+			});
+		},
+	});
+})(
+	g_func.getc("admin_server_location_by_ip"),
+	g_func.getc("admin_user_location_by_ip")
+);
