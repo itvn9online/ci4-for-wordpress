@@ -67,13 +67,20 @@ class Constants extends Configs
         if (!empty($data['WGR_REDIS_HOSTNAME'])) {
             $this->redis_hostname = $data['WGR_REDIS_HOSTNAME'];
         }
-        if (!empty($data['WGR_REDIS_PORT'])) {
+        if (trim($data['WGR_REDIS_PORT']) != '') {
+            $this->redis_port = $data['WGR_REDIS_PORT'];
+        } else if (strpos(basename($this->redis_hostname), '.sock') !== false) {
+            $data['WGR_REDIS_PORT'] = '0';
             $this->redis_port = $data['WGR_REDIS_PORT'];
         }
+        // 
         if (!empty($data['WGR_MEMCACHED_HOSTNAME'])) {
             $this->memcached_hostname = $data['WGR_MEMCACHED_HOSTNAME'];
         }
-        if (!empty($data['WGR_MEMCACHED_PORT'])) {
+        if (trim($data['WGR_MEMCACHED_PORT']) != '') {
+            $this->memcached_port = $data['WGR_MEMCACHED_PORT'];
+        } else if (strpos(basename($this->memcached_hostname), '.sock') !== false) {
+            $data['WGR_MEMCACHED_PORT'] = '0';
             $this->memcached_port = $data['WGR_MEMCACHED_PORT'];
         }
 
