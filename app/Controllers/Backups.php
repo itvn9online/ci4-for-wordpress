@@ -288,6 +288,10 @@ fi
 # thống kê hệ thống
 /usr/bin/echo $(date) > ' . ROOTPATH . '___disk_usage.txt
 /usr/bin/df -h >> ' . ROOTPATH . '___disk_usage.txt
+/usr/bin/du -sh /home/ >> ' . ROOTPATH . '___disk_usage.txt
+/usr/bin/du -sh ' . ROOTPATH . ' >> ' . ROOTPATH . '___disk_usage.txt
+/usr/bin/du -sh /var/lib/mysql >> ' . ROOTPATH . '___disk_usage.txt
+/usr/bin/du -sh /var/lib/mysql/' . $current_dbname . ' >> ' . ROOTPATH . '___disk_usage.txt
 /usr/bin/free -m >> ' . ROOTPATH . '___disk_usage.txt
 
 fi
