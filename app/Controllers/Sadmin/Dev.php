@@ -30,7 +30,7 @@ class Dev extends Sadmin
          */
         $has_update = $this->base_model->scache(__FUNCTION__);
         // $has_update = NULL;
-        if ($has_update === NULL) {
+        if ($has_update === null) {
             $this->base_model->scache(__FUNCTION__, time(), MEDIUM_CACHE_TIMEOUT);
 
             // ghi file 1 phát để tạo lại nội dung mới cho file

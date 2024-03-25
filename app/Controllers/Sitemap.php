@@ -367,7 +367,7 @@ class Sitemap extends Layout
         $cache_sitemap_xsl = PUBLIC_PUBLIC_PATH . 'upload/main-sitemap.xsl';
 
         // thay thế nội dung trong sitemap thành của partner
-        if ($this->base_model->scache(__FUNCTION__) === NULL) {
+        if ($this->base_model->scache(__FUNCTION__) === null) {
             $c = file_get_contents($main_sitemap_xsl, 1);
             $arr_replace_xsl = [
                 '%partner_website%' => PARTNER_WEBSITE,

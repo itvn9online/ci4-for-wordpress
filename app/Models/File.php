@@ -48,7 +48,7 @@ class File extends EbModel
     {
         //echo __CLASS__ . ':' . __LINE__ . ':' . $this->debugMyBacktrace(debug_backtrace());
         //echo 'base_dir: ' . $this->base_dir . '<br>' . PHP_EOL;
-        if ($this->base_dir !== NULL) {
+        if ($this->base_dir !== null) {
             return true;
         }
 
@@ -490,7 +490,7 @@ class File extends EbModel
     // tạo kết nối nếu chưa có
     protected function ftp_my_connect()
     {
-        if ($this->conn_cache_id !== NULL) {
+        if ($this->conn_cache_id !== null) {
             return $this->conn_cache_id;
         }
         //echo __CLASS__ . ':' . __LINE__ . ':' . $this->debugMyBacktrace(debug_backtrace());
@@ -500,7 +500,7 @@ class File extends EbModel
     // đóng kết nối ftp nếu có yêu cầu
     protected function ftp_my_close($conn_id)
     {
-        if ($this->conn_cache_id === NULL) {
+        if ($this->conn_cache_id === null) {
             //echo __CLASS__ . ':' . __LINE__ . ':' . $this->debugMyBacktrace(debug_backtrace());
             ftp_close($conn_id);
             // tiếp tục cho mở kết nối

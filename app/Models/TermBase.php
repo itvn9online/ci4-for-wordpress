@@ -68,7 +68,7 @@ class TermBase extends EbModel
             //print_r( $v );
 
             // nếu không có dữ liệu của term meta
-            if ($v['term_meta_data'] === NULL) {
+            if ($v['term_meta_data'] === null) {
                 $term_meta_data = $this->arr_meta_terms($v['term_id']);
                 //print_r( $term_meta_data );
                 //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
@@ -280,7 +280,7 @@ class TermBase extends EbModel
 
         //echo __FUNCTION__ . '<br>' . PHP_EOL;
         $last_run = $this->base_model->scache(__FUNCTION__);
-        if ($last_run !== NULL) {
+        if ($last_run !== null) {
             //print_r( $last_run );
             return $last_run;
         }
@@ -526,7 +526,7 @@ class TermBase extends EbModel
         //
         if ($run_h_only === true) {
             $last_run = $this->base_model->scache(__FUNCTION__);
-            if ($last_run !== NULL) {
+            if ($last_run !== null) {
                 //print_r($last_run);
                 //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
                 return $last_run;

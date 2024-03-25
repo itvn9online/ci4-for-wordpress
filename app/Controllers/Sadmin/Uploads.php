@@ -199,7 +199,7 @@ class Uploads extends Sadmin
         // lấy các ngày có ảnh để tạo bộ lọc
         $m_filter = $this->base_model->scache('upload_post_date_filter');
         //$m_filter = NULL;
-        if ($m_filter === NULL) {
+        if ($m_filter === null) {
             $m_data = $this->base_model->select("DATE_FORMAT(`post_date`, '%Y-%m') as d", 'posts', [
                 //
             ], [

@@ -332,7 +332,7 @@ class Base extends Csdl
         $tmp_html = HtmlTemplate::render($tmp_html, $arr);
 
         // meta
-        if ($arr_meta !== NULL) {
+        if ($arr_meta !== null) {
             $tmp_html = HtmlTemplate::render($tmp_html, $arr_meta);
         }
 
@@ -1008,7 +1008,7 @@ class Base extends Csdl
         // Tạo key để lấy cache nếu có -> thêm ID cho trường hợp danh mục hoặc trang chi tiết
         $in_cache = 'list_config-' . __FUNCTION__ . $key . $id . '-' . LanguageCost::lang_key();
         $the_cache = $this->scache($in_cache);
-        if ($the_cache !== NULL) {
+        if ($the_cache !== null) {
             return $the_cache;
         }
 

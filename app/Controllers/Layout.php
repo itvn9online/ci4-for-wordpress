@@ -85,7 +85,7 @@ class Layout extends Sync
         //$itemprop_cache_logo = WRITEPATH . 'itemprop-logo.txt';
         //$itemprop_cache_author = WRITEPATH . 'itemprop-author.txt';
         //if (!is_file($itemprop_cache_logo) || time() - filemtime($itemprop_cache_logo) > HOUR) {
-        if ($itemprop_cache_logo === NULL) {
+        if ($itemprop_cache_logo === null) {
             // logo
             $structured_data = file_get_contents(VIEWS_PATH . 'html/structured-data/itemprop-logo.html');
             foreach ([
@@ -268,7 +268,7 @@ class Layout extends Sync
         if ($cats['parent'] > 0) {
             $in_cache = __FUNCTION__;
             $parent_cats = $this->term_model->the_cache($cats['parent'], $in_cache);
-            if ($parent_cats === NULL) {
+            if ($parent_cats === null) {
                 $parent_cats = $this->term_model->get_all_taxonomy($cats['taxonomy'], $cats['parent']);
 
                 //
@@ -432,8 +432,8 @@ class Layout extends Sync
         // Will get the cache entry named 'my_foo'
         //var_dump($cache_value);
         // có thì in ra cache là được
-        //if ( $_SERVER[ 'REQUEST_METHOD' ] == 'GET' && $cache_value !== NULL ) {
-        if ($this->hasFlashSession() === false && $cache_value !== NULL) {
+        //if ( $_SERVER[ 'REQUEST_METHOD' ] == 'GET' && $cache_value !== null ) {
+        if ($this->hasFlashSession() === false && $cache_value !== null) {
             return $this->show_cache($cache_value, $this->cache_key);
         }
 

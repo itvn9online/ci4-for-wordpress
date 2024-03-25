@@ -490,7 +490,7 @@ class Guest extends Csrf
                         // sử dụng cache để không cho người dùng gửi email liên tục
                         $in_cache = __FUNCTION__ . $this->base_model->_eb_non_mark_seo($data['email']);
                         //die( $in_cache );
-                        if ($this->base_model->scache($in_cache) === NULL) {
+                        if ($this->base_model->scache($in_cache) === null) {
                             /*
                              * link reset pass
                              */
@@ -599,7 +599,7 @@ class Guest extends Csrf
                 // sử dụng cache để kiểm soát không cho dùng link liên tục
                 $in_cache = __FUNCTION__;
                 //die( $in_cache );
-                if ($this->user_model->the_cache($user_id, $in_cache) === NULL) {
+                if ($this->user_model->the_cache($user_id, $in_cache) === null) {
                     // kiểm tra độ khớp của dữ liệu
                     if ($expire < time()) {
                         $this->base_model->msg_error_session('Liên kết đã hết hạn sử dụng! Hãy gửi yêu cầu cung cấp liên kết mới.');
@@ -753,7 +753,7 @@ class Guest extends Csrf
                 // sử dụng cache để kiểm soát không cho dùng link liên tục
                 $in_cache = __FUNCTION__;
                 //die( $in_cache );
-                if ($this->user_model->the_cache($user_id, $in_cache) === NULL) {
+                if ($this->user_model->the_cache($user_id, $in_cache) === null) {
                     // kiểm tra độ khớp của dữ liệu
                     if ($expire < time()) {
                         $this->base_model->msg_error_session('Liên kết đã hết hạn sử dụng! Hãy gửi yêu cầu cung cấp liên kết mới.');

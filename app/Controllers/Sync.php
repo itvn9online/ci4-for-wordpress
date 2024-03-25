@@ -80,7 +80,7 @@ class Sync extends BaseController
         $this->action_vendor_sync('app/ThirdParty', $check_thirdparty_exist);
 
         //
-        if ($this->base_model->scache(__FUNCTION__ . 'htaccess') === NULL) {
+        if ($this->base_model->scache(__FUNCTION__ . 'htaccess') === null) {
             // tạo file index cho các thư mục cần bảo mật
             foreach (glob(PUBLIC_PUBLIC_PATH . '*') as $filename) {
                 if (is_dir($filename)) {
@@ -422,7 +422,7 @@ class Sync extends BaseController
          * db không cần update liên tục, nếu cần thì clear cache để tái sử dụng
          */
         $last_run = $this->base_model->scache(__FUNCTION__);
-        if ($check_thirdparty_exist === true && $last_run !== NULL) {
+        if ($check_thirdparty_exist === true && $last_run !== null) {
             echo __FUNCTION__ . ' RUN ' . (time() - $last_run) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
             return false;
         }

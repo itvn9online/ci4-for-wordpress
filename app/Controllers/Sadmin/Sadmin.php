@@ -304,7 +304,7 @@ class Sadmin extends Ajaxs
             if ($for != '') {
                 $has_cache = $this->base_model->dcache($for, $clean_all);
                 // 1 số phương thức không áp dụng được kiểu xóa này do không có key 
-                if ($has_cache === NULL) {
+                if ($has_cache === null) {
                     return false;
                 }
                 echo 'Using cache delete Matching `' . $for . '` --- Total clear: ' . $has_cache . '<br>' . PHP_EOL;
@@ -316,7 +316,7 @@ class Sadmin extends Ajaxs
                 // var_dump($this->base_model->cache->getCacheInfo());
                 // die(__CLASS__ . ':' . __LINE__);
                 $has_cache = $this->base_model->dcache();
-                if ($has_cache === NULL) {
+                if ($has_cache === null) {
                     var_dump($has_cache);
                     echo '<br>' . PHP_EOL;
 

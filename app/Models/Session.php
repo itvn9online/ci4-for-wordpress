@@ -54,7 +54,7 @@ class Session
      */
     public function MY_session($key, $value = NULL)
     {
-        if ($value !== NULL) {
+        if ($value !== null) {
             // $_SESSION[$key] = $value;
             $this->session->set($key, $value);
             return true;

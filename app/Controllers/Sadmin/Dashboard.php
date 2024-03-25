@@ -1058,7 +1058,7 @@ class Dashboard extends Optimize
     protected function check_deleted_exist($arr = NULL)
     {
         //
-        if ($arr === NULL) {
+        if ($arr === null) {
             $arr = $this->dir_deleted_list;
         }
         //print_r( $arr );

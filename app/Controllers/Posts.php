@@ -36,13 +36,13 @@ class Posts extends Csrf
         // Will get the cache entry named 'my_foo'
         //var_dump( $cache_value );
         // có thì in ra cache là được
-        //if ( $_SERVER[ 'REQUEST_METHOD' ] == 'GET' && $cache_value !== NULL ) {
-        if ($this->hasFlashSession() === false && $cache_value !== NULL) {
+        //if ( $_SERVER[ 'REQUEST_METHOD' ] == 'GET' && $cache_value !== null ) {
+        if ($this->hasFlashSession() === false && $cache_value !== null) {
             return $this->show_cache($cache_value, $this->cache_key);
         }
 
         //
-        if ($data === NULL) {
+        if ($data === null) {
             $data = $this->post_model->select_public_post($id, [
                 //'post_name' => $slug_1,
                 'post_type' => $this->post_type,

@@ -627,7 +627,7 @@ class Terms extends Sadmin
 
     protected function add_new($data = NULL)
     {
-        if ($data === NULL) {
+        if ($data === null) {
             $data = $this->MY_post('data');
         }
         $data['taxonomy'] = $this->taxonomy;

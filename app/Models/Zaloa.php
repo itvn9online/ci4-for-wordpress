@@ -55,7 +55,7 @@ class Zaloa extends Option
      **/
     protected function loadConfig()
     {
-        if ($this->zalo === NULL) {
+        if ($this->zalo === null) {
             $this->checkZaloOaConfig(__FUNCTION__);
 
             //
@@ -72,7 +72,7 @@ class Zaloa extends Option
      **/
     protected function loadHelper()
     {
-        if ($this->helper === NULL) {
+        if ($this->helper === null) {
             $this->helper = $this->zalo->getRedirectLoginHelper();
         }
     }

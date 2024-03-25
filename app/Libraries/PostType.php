@@ -172,7 +172,7 @@ class PostType
     // trả về bản dịch của từng post_meta dựa theo key truyền vào
     public static function meta($key, $post_type, $arr = NULL)
     {
-        if ($arr === NULL) {
+        if ($arr === null) {
             $arr = self::meta_default($post_type);
         }
 

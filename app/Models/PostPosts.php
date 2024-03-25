@@ -181,7 +181,7 @@ class PostPosts extends PostGet
             $cache_value = $this->base_model->scache($in_cache);
 
             // có cache thì trả về
-            if ($cache_value !== NULL) {
+            if ($cache_value !== null) {
                 //print_r( $cache_value );
                 return $cache_value;
             }

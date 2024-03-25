@@ -24,7 +24,7 @@ class Pages extends Home
         //
         $in_cache = __FUNCTION__ . LanguageCost::lang_key() . '-' . $slug;
         $data = $this->base_model->scache($in_cache);
-        if ($data === NULL) {
+        if ($data === null) {
             $data = $this->post_model->select_public_post(0, [
                 'post_name' => $slug,
                 'post_type' => PostType::PAGE,

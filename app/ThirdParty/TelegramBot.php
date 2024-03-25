@@ -35,7 +35,7 @@ class TelegramBot
     // GET chat ID
     public static function getUpdates($cog = NULL)
     {
-        if ($cog === NULL) {
+        if ($cog === null) {
             $cog = self::getCog();
             //print_r( $cog );
         }
@@ -75,7 +75,7 @@ class TelegramBot
 
     public static function sendMessage($text, $cog = NULL)
     {
-        if ($cog === NULL) {
+        if ($cog === null) {
             $cog = self::getCog();
             //print_r( $cog );
         }

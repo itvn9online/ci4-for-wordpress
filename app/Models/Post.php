@@ -41,7 +41,7 @@ class Post extends PostProducs
      **/
     public function sync_post_term_permalink()
     {
-        if ($this->base_model->scache(__FUNCTION__) !== NULL) {
+        if ($this->base_model->scache(__FUNCTION__) !== null) {
             return false;
         }
         // luôn tạo giãn cách để tránh update liên tục -> chỉ 1 người update là đủ

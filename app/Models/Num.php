@@ -21,7 +21,7 @@ class Num extends Lang
         global $this_cache_num;
 
         //
-        if ($this_cache_num === NULL) {
+        if ($this_cache_num === null) {
             $this_cache_num = $this->option_model->arr_config(ConfigType::NUM_MON);
         }
         //print_r($this_cache_num);

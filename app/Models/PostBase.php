@@ -44,11 +44,11 @@ class PostBase extends EbModel
 
         //
         $itemprop_cache_logo = $this->base_model->scache('itemprop_logo');
-        if ($itemprop_cache_logo !== NULL) {
+        if ($itemprop_cache_logo !== null) {
             $this->itempropLogoHtmlNode = $itemprop_cache_logo;
         }
         $itemprop_cache_author = $this->base_model->scache('itemprop_author');
-        if ($itemprop_cache_author !== NULL) {
+        if ($itemprop_cache_author !== null) {
             $this->itempropAuthorHtmlNode = $itemprop_cache_author;
         }
         /*
@@ -62,7 +62,7 @@ class PostBase extends EbModel
 
         //
         $postbase_construct = $this->base_model->scache('postbase_construct');
-        if ($postbase_construct === NULL) {
+        if ($postbase_construct === null) {
             $this->itempropImageHtmlNode = file_get_contents(VIEWS_PATH . 'html/structured-data/itemprop-image.html');
 
             // tạo block html cho phần sản phẩm
@@ -372,7 +372,7 @@ class PostBase extends EbModel
     {
         //
         $last_run = $this->the_cache(__FUNCTION__, __FUNCTION__);
-        if ($create_view === false && $last_run !== NULL) {
+        if ($create_view === false && $last_run !== null) {
             // echo __FUNCTION__ . ' RUN ' . (time() - $last_run) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
             return false;
         }

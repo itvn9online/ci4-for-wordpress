@@ -47,7 +47,7 @@ class PostMeta extends PostBase
             if (isset($v['time_meta_data']) && $v['time_meta_data'] < time()) {
                 //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
                 $new_meta = true;
-            } else if (!isset($v['post_meta_data']) || $v['post_meta_data'] === NULL) {
+            } else if (!isset($v['post_meta_data']) || $v['post_meta_data'] === null) {
                 //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
                 $new_meta = true;
             }

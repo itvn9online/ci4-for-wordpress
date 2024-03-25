@@ -21,7 +21,7 @@ class Cassos extends Payments
     public function confirm()
     {
         $data = Casso::phpInput($this->debug_enable);
-        if ($data === NULL) {
+        if ($data === null) {
             $this->result_json_type([
                 'status' => 0,
                 'code' => __CLASS__ . ':' . __LINE__,
@@ -44,7 +44,7 @@ class Cassos extends Payments
             //continue;
 
             //
-            if ($v === NULL) {
+            if ($v === null) {
                 if ($this->debug_enable === true) {
                     echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
                 }

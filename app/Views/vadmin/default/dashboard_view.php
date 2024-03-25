@@ -483,7 +483,7 @@ $base_model->JSON_parse(
             'ci4_for_wordpress_zip' => (is_file(PUBLIC_HTML_PATH . 'ci4-for-wordpress.zip') ? 1 : 0),
             'themename_zip' => (is_file(PUBLIC_HTML_PATH . THEMENAME . '.zip') ? 1 : 0),
             'imagick_exist' => (class_exists('Imagick') ? 1 : 0),
-            'cache_actived' => ($check_cache_active !== NULL ? 1 : 0),
+            'cache_actived' => ($check_cache_active !== null ? 1 : 0),
             'memcached_exist' => (class_exists('Memcached') ? 1 : 0),
             'redis_exist' => phpversion('redis'),
             'cache_handler' => MY_CACHE_HANDLER,

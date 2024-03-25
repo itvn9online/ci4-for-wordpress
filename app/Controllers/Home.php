@@ -49,8 +49,8 @@ class Home extends Posts
         // Will get the cache entry named 'my_foo'
         //var_dump( $cache_value );
         // có thì in ra cache là được
-        //if ( $_SERVER[ 'REQUEST_METHOD' ] == 'GET' && $cache_value !== NULL ) {
-        if ($this->hasFlashSession() === false && $cache_value !== NULL) {
+        //if ( $_SERVER[ 'REQUEST_METHOD' ] == 'GET' && $cache_value !== null ) {
+        if ($this->hasFlashSession() === false && $cache_value !== null) {
             return $this->show_cache($cache_value, $cache_key);
         }
         //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
@@ -340,7 +340,7 @@ class Home extends Posts
         // Will get the cache entry named 'my_foo'
         //var_dump( $cache_value );
         // có thì in ra cache là được
-        if ($cache_value !== NULL) {
+        if ($cache_value !== null) {
             return $this->show_cache($cache_value, $cache_key);
         }
         //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
@@ -349,7 +349,7 @@ class Home extends Posts
         $in_cache = __FUNCTION__;
         $data = $this->post_model->the_cache($id, $in_cache);
         //var_dump($data);
-        if ($data === NULL) {
+        if ($data === null) {
             // lấy post theo ID, không lọc theo post type -> vì nhiều nơi cần dùng đến
             $data = $this->base_model->select(
                 '*',
@@ -438,8 +438,8 @@ class Home extends Posts
         // Will get the cache entry named 'my_foo'
         //var_dump($cache_value);
         // có thì in ra cache là được
-        //if ( $_SERVER[ 'REQUEST_METHOD' ] == 'GET' && $cache_value !== NULL ) {
-        if ($this->hasFlashSession() === false && $cache_value !== NULL) {
+        //if ( $_SERVER[ 'REQUEST_METHOD' ] == 'GET' && $cache_value !== null ) {
+        if ($this->hasFlashSession() === false && $cache_value !== null) {
             return $this->show_cache($cache_value, $cache_key);
         }
 
@@ -461,7 +461,7 @@ class Home extends Posts
             if ($post_category > 0) {
                 $in_cache = __FUNCTION__;
                 $cats = $this->term_model->the_cache($post_category, $in_cache);
-                if ($cats === NULL) {
+                if ($cats === null) {
                     $cats = $this->base_model->select('*', WGR_TERM_VIEW, [
                         'term_id' => $post_category,
                     ], [
@@ -623,14 +623,14 @@ class Home extends Posts
         $cache_key = $this->term_model->key_cache($term_id) . 'page' . $page_num;
         $cache_value = $this->MY_cache($cache_key);
         // có thì in ra cache là được
-        if ($cache_value !== NULL) {
+        if ($cache_value !== null) {
             return $this->show_cache($cache_value, $cache_key);
         }
 
         //
         $in_cache = __FUNCTION__;
         $data = $this->term_model->the_cache($term_id, $in_cache);
-        if ($data === NULL) {
+        if ($data === null) {
             $data = $this->term_model->get_taxonomy(
                 array(
                     // các kiểu điều kiện where
@@ -664,7 +664,7 @@ class Home extends Posts
         // xem nhóm này có nhóm con không
         $in_cache = __FUNCTION__ . '-parent';
         $child_data = $this->term_model->the_cache($term_id, $in_cache);
-        if ($child_data === NULL) {
+        if ($child_data === null) {
             $child_data = $this->term_model->get_taxonomy(
                 [
                     // các kiểu điều kiện where

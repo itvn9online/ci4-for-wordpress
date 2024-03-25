@@ -51,7 +51,7 @@ class UserMeta extends UserBase
         //
         $data_meta = $this->the_cache($user_id, __FUNCTION__);
         // var_dump($data_meta);
-        if ($data_meta !== NULL) {
+        if ($data_meta !== null) {
             return $data_meta;
         }
 

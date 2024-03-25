@@ -393,7 +393,7 @@ class Firebase2s extends Firebases
         ];
 
         // Nếu mail mới được gửi trong thời gian còn cache thì nhắc lại thông báo
-        if ($this->user_model->the_cache($data['ID'], __FUNCTION__) !== NULL) {
+        if ($this->user_model->the_cache($data['ID'], __FUNCTION__) !== null) {
             $this->result_json_type([
                 'code' => __LINE__,
                 'error' => $this->firebaseLang('check_email', 'Vui lòng kiểm tra email và kích hoạt tài khoản của bạn: ') . $data['user_email'],

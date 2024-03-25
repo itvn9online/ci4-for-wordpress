@@ -109,7 +109,7 @@ class Ajaxs extends Layout
             $signature = $this->MY_post('_wpnonce');
 
             // nếu chưa có cache này -> lần đầu bị cảnh báo -> tạm tha
-            if ($cache_signature === NULL) {
+            if ($cache_signature === null) {
                 // lưu cache -> lần tới có cache này -> khóa
                 //$this->user_model->setCLogged($this->current_user_id, $signature);
                 $this->user_model->setCBlocked($this->current_user_id, $signature);

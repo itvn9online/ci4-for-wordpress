@@ -50,7 +50,7 @@ class Users extends Sadmin
 
         //
         //print_r( $this->arr_members_type );
-        if ($this->arr_members_type === NULL) {
+        if ($this->arr_members_type === null) {
             $this->arr_members_type = $this->user_model->get_users_type();
         }
 

@@ -311,7 +311,7 @@ class Order extends Post
         // có sử dụng cache thì lấy trong cache trước
         if ($using_cache === true) {
             $data = $this->user_model->the_cache($user_id, __FUNCTION__);
-            if ($data !== NULL) {
+            if ($data !== null) {
                 return $data * 1;
             }
         }

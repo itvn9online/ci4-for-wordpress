@@ -48,7 +48,7 @@ class Logs extends Dev
          */
         $has_update = $this->base_model->scache(__FUNCTION__);
         // $has_update = NULL;
-        if ($has_update === NULL) {
+        if ($has_update === null) {
             $this->base_model->scache(__FUNCTION__, time(), MEDIUM_CACHE_TIMEOUT);
 
             /**

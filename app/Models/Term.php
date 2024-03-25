@@ -725,7 +725,7 @@ class Term extends TermBase
             //var_dump( $cache_value );
 
             // có cache thì trả về
-            if ($cache_value !== NULL) {
+            if ($cache_value !== null) {
                 //print_r( $cache_value );
                 return $cache_value;
                 /*
@@ -944,7 +944,7 @@ class Term extends TermBase
             $child_term = [];
             $child_update_count = false;
             // nếu tham số child count chưa được cập nhật -> lấy từ database và cập nhật lại
-            if ($v['child_count'] === NULL) {
+            if ($v['child_count'] === null) {
                 $child_update_count = 'query';
             }
             // hoặc lần cuối cập nhật cách đây đủ lâu

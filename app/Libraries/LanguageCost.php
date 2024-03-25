@@ -24,7 +24,7 @@ class LanguageCost
     public static function typeList($key = '')
     {
         // tạo mảng chứa danh sách các ngôn ngữ được hỗ trợ
-        if (self::$langs == NULL) {
+        if (self::$langs == null) {
             $arr = [];
             foreach (self::$items as $values) {
                 $arr[$values["value"]] = $values["text"];
@@ -123,7 +123,7 @@ class LanguageCost
 
     public static function lang_key()
     {
-        if (self::$seg_lang !== NULL) {
+        if (self::$seg_lang !== null) {
             $lang = self::$seg_lang;
             //echo $lang;
         } else if (isset($_COOKIE[self::CK_LANG_NAME])) {

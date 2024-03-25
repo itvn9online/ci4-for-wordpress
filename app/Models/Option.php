@@ -194,7 +194,7 @@ class Option extends EbModel
         $data = $this->the_cache($option_type, $in_cache);
 
         // có cache thì trả về
-        if ($data !== NULL) {
+        if ($data !== null) {
             //echo __CLASS__ . ':' . __LINE__ . PHP_EOL;
             //print_r($data);
             return $data;
@@ -266,7 +266,7 @@ class Option extends EbModel
     public function list_config($lang_key = '', $time = BIG_CACHE_TIMEOUT)
     {
         global $this_cache_config;
-        if ($this_cache_config !== NULL) {
+        if ($this_cache_config !== null) {
             return $this_cache_config;
         }
 
@@ -278,7 +278,7 @@ class Option extends EbModel
         // ưu tiên trong cache trước
         $this_cache_config = $this->the_cache(__FUNCTION__, $lang_key);
         // có cache thì trả về
-        if ($this_cache_config !== NULL) {
+        if ($this_cache_config !== null) {
             return $this_cache_config;
         }
 

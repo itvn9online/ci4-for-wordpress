@@ -21,7 +21,7 @@ class Checkbox extends Lang
         global $this_cache_checkbox;
 
         //
-        if ($this_cache_checkbox === NULL) {
+        if ($this_cache_checkbox === null) {
             $this_cache_checkbox = $this->option_model->arr_config(ConfigType::CHECKBOX);
         }
         //print_r($this_cache_checkbox);

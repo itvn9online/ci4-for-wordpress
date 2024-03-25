@@ -58,7 +58,7 @@ class Accelerated extends Layout
         $this->cache_key = $this->post_model->key_cache($id) . 'amp';
         // var_dump($this->cache_key);
         $cache_value = $this->MY_cache($this->cache_key);
-        if ($cache_value !== NULL) {
+        if ($cache_value !== null) {
             return $this->show_cache($cache_value, $this->cache_key);
         }
 
@@ -385,7 +385,7 @@ class Accelerated extends Layout
         $this->cache_key = $this->term_model->key_cache($id) . 'amp';
         // var_dump($this->cache_key);
         $cache_value = $this->MY_cache($this->cache_key);
-        if ($cache_value !== NULL) {
+        if ($cache_value !== null) {
             return $this->show_cache($cache_value, $this->cache_key);
         }
 

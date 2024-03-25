@@ -25,7 +25,7 @@ class Optimize extends Sadmin
 
     protected function before_compress_css_js()
     {
-        if ($this->base_model->scache(__FUNCTION__) !== NULL) {
+        if ($this->base_model->scache(__FUNCTION__) !== null) {
             //die(__CLASS__ . ':' . __LINE__);
             return false;
         }
@@ -737,7 +737,7 @@ class Optimize extends Sadmin
 
         //
         $last_run = $this->base_model->scache(__FUNCTION__);
-        if ($last_run !== NULL) {
+        if ($last_run !== null) {
             echo __FUNCTION__ . ' RUN ' . ($current_time - $last_run) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
             return false;
         }
@@ -772,7 +772,7 @@ class Optimize extends Sadmin
     // kiểm tra xem có put file bằng php được hay phải dùng ftp
     protected function using_via_ftp($upload_check = '')
     {
-        if ($this->upload_via_ftp !== NULL) {
+        if ($this->upload_via_ftp !== null) {
             return $this->upload_via_ftp;
         }
 
@@ -800,7 +800,7 @@ class Optimize extends Sadmin
 
     protected function connCacheId()
     {
-        if ($this->conn_cache_id === NULL) {
+        if ($this->conn_cache_id === null) {
             // nếu không xác định được server -> bỏ qua
             if ($this->file_model->get_server() === false) {
                 $this->conn_cache_id = false;
@@ -830,7 +830,7 @@ class Optimize extends Sadmin
             }
 
             //
-            if ($this->base_cache_dir !== NULL) {
+            if ($this->base_cache_dir !== null) {
                 $this->file_model->base_dir = $this->base_cache_dir;
             }
 

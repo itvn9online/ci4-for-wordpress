@@ -785,7 +785,7 @@ class Posts extends Sadmin
 
     protected function add_new($data = NULL)
     {
-        if ($data === NULL) {
+        if ($data === null) {
             $data = $this->MY_post('data');
         }
         $data['post_type'] = $this->post_type;

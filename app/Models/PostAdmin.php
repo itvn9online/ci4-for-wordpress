@@ -36,7 +36,7 @@ class PostAdmin extends Post
 
         //
         $cache_value = $this->base_model->scache($in_cache);
-        if ($cache_value !== NULL) {
+        if ($cache_value !== null) {
             return $cache_value;
         }
 

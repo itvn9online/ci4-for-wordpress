@@ -313,7 +313,7 @@ class UserBase extends EbModel
 
             //
             $in_cache = 'cleanup_' . __FUNCTION__;
-            if ($this->base_model->scache($in_cache) === NULL) {
+            if ($this->base_model->scache($in_cache) === null) {
                 // không cho xóa liên tục
                 $this->base_model->scache($in_cache, time(), $time_remove);
 
