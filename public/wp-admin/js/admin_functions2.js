@@ -34,7 +34,7 @@ function re_height_iframe_editer(for_id, if_id, max_i) {
 
 	//
 	if (document.getElementById(if_id) === null) {
-		setTimeout(function () {
+		setTimeout(() => {
 			re_height_iframe_editer(for_id, if_id, max_i - 1);
 		}, 200);
 		return false;
@@ -187,7 +187,7 @@ function Submit_form_by_Ctrl_S() {
 				console.log("Submit form by Ctrl + S");
 				submit_if_ctrl_s = true;
 				warning_if_ctrl_s = false;
-				setTimeout(function () {
+				setTimeout(() => {
 					submit_if_ctrl_s = false;
 				}, 4000);
 

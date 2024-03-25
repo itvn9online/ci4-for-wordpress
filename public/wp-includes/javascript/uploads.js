@@ -100,7 +100,7 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
 	}
 
 	//
-	setTimeout(function () {
+	setTimeout(() => {
 		let width = img.width;
 		let height = img.height;
 		if (width > 0 && height > 0) {

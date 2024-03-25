@@ -72,7 +72,7 @@ firebase.auth().onAuthStateChanged(
 			//console.log(localStorage.getItem("firebase_auto_login"));
 			if (localStorage.getItem("firebase_auto_login") !== null) {
 				WGR_alert("Auto login after 5 seconds...");
-				firebase_recommend_login = setTimeout(function () {
+				firebase_recommend_login = setTimeout(() => {
 					if (localStorage.getItem("firebase_auto_login") !== null) {
 						continueSignIn();
 					} else {
@@ -106,7 +106,7 @@ var deleteAccount = function () {
 					.then(function () {
 						// The timeout allows the message to be displayed after the UI has
 						// changed to the signed out state.
-						setTimeout(function () {
+						setTimeout(() => {
 							WGR_alert(
 								"Please sign in again to delete your account.",
 								"error"
@@ -134,7 +134,7 @@ window.addEventListener("load", initApp);
 //
 if (typeof token_expires_time == "number") {
 	console.log("Token expires time:", token_expires_time);
-	setTimeout(function () {
+	setTimeout(() => {
 		window.location.reload();
 	}, token_expires_time * 1000);
 }

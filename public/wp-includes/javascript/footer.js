@@ -61,7 +61,7 @@ $("a").each(function () {
 				href: window.location.href.split("#")[0] + a,
 			})
 			.click(function () {
-				setTimeout(function () {
+				setTimeout(() => {
 					WGR_auto_scroll_by_hash();
 				}, 600);
 			});
@@ -157,7 +157,7 @@ function WGR_auto_scroll_by_hash(repeat) {
 	//
 	/*
 	if (typeof repeat == "undefined" || repeat === true) {
-		setTimeout(function () {
+		setTimeout(() => {
 			WGR_auto_scroll_by_hash(false);
 		}, 600);
 	}
@@ -190,7 +190,7 @@ jQuery(document)
     if (jQuery(document).height() > jQuery(window).height() * 1.5) {
     }
     */
-		setInterval(function () {
+		setInterval(() => {
 			WGR_show_or_hide_to_top();
 		}, 250);
 

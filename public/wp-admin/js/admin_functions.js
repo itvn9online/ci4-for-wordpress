@@ -578,7 +578,7 @@ function WGR_load_textediter(for_id, ops) {
 						console.log("Submit form by Ctrl + S");
 						submit_if_ctrl_s = true;
 						warning_if_ctrl_s = false;
-						setTimeout(function () {
+						setTimeout(() => {
 							submit_if_ctrl_s = false;
 						}, 4000);
 
@@ -607,7 +607,7 @@ function WGR_load_textediter(for_id, ops) {
 	// tạo nút nhúng media vào text-editer
 	add_and_show_post_avt(for_id, 1, "", "textediter");
 	// tính toán lại chiều cao của iframe
-	setTimeout(function () {
+	setTimeout(() => {
 		re_height_iframe_editer(for_id);
 	}, 1000);
 }
@@ -704,7 +704,7 @@ function click_delete_record() {
 	document.admin_global_form.submit();
 
 	// hủy lệnh nếu code có lỗi
-	setTimeout(function () {
+	setTimeout(() => {
 		$("#is_deleted").val(0);
 	}, 600);
 }
@@ -723,7 +723,7 @@ function click_duplicate_record() {
 	document.admin_global_form.submit();
 
 	// hủy lệnh nếu code có lỗi
-	setTimeout(function () {
+	setTimeout(() => {
 		$("#is_duplicate").val(0);
 	}, 600);
 }
@@ -869,7 +869,7 @@ function load_term_select_option(a, jd, _callBack, max_i) {
 		}
 
 		//
-		setTimeout(function () {
+		setTimeout(() => {
 			return load_term_select_option(a, jd, _callBack, max_i - 1);
 		}, 500);
 		return false;
@@ -1028,14 +1028,14 @@ function for_admin_global_checkbox(max_i) {
 
 	//
 	if ($('form#admin_global_form input[type="checkbox"]').length == 0) {
-		setTimeout(function () {
+		setTimeout(() => {
 			for_admin_global_checkbox(max_i - 1);
 		}, 100);
 		return false;
 	}
 
 	//
-	setTimeout(function () {
+	setTimeout(() => {
 		$('form#admin_global_form input[type="checkbox"]').change(function () {
 			let a = $(this).attr("name") || "";
 			//console.log(a);

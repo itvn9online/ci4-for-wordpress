@@ -145,7 +145,7 @@ function action_admin_menu_search() {
 			$(".admin-menu-result").show();
 		})
 		.focusout(function (e) {
-			setTimeout(function () {
+			setTimeout(() => {
 				admin_menu_show = false;
 				$(".admin-menu-result").hide();
 			}, 200);

@@ -24,7 +24,7 @@ var updateOutput = function (e) {
 				});
 
 				//
-				// setTimeout(function () {
+				// setTimeout(() => {
 				// 	document.admin_global_form.submit();
 				// }, 200);
 			}

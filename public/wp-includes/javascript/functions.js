@@ -114,7 +114,7 @@ function WGR_alert(m, lnk) {
 			$("#my_custom_alert").append(htm).show();
 
 			//
-			setTimeout(function () {
+			setTimeout(() => {
 				$("#" + jd).remove();
 
 				// nếu không còn div nào -> ẩn luôn
@@ -504,7 +504,7 @@ function WGR_duy_tri_dang_nhap(max_i) {
 			console.log(data);
 
 			//
-			setTimeout(function () {
+			setTimeout(() => {
 				WGR_duy_tri_dang_nhap(max_i - 1);
 			}, 5 * 60 * 1000);
 		},
@@ -650,7 +650,7 @@ function action_each_to_taxonomy() {
 
 			//
 			if (reload_ajax_taxonomy === true) {
-				setTimeout(function () {
+				setTimeout(() => {
 					if (WGR_config.cf_tester_mode > 0)
 						console.log("reload ajax taxonomy");
 					action_each_to_taxonomy();
@@ -986,7 +986,7 @@ function WGR_vuejs(app_id, obj, _callBack, max_i) {
 
 	//
 	if (typeof Vue != "function") {
-		setTimeout(function () {
+		setTimeout(() => {
 			WGR_vuejs(app_id, obj, _callBack, max_i - 1);
 		}, 100);
 		return false;
@@ -1201,7 +1201,7 @@ function get_hide_captcha(a, div_id, the_debug, max_i) {
 			console.log("max i:", max_i);
 			return false;
 		}
-		setTimeout(function () {
+		setTimeout(() => {
 			get_hide_captcha(a, div_id, the_debug, max_i - 1);
 		}, 200);
 		return false;

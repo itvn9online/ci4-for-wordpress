@@ -261,7 +261,7 @@ fix_textarea_height();
  * duy trì đăng nhập đối với tài khoản admin (tầm 4 tiếng -> tương ứng với 1 ca làm việc)
  */
 //WGR_duy_tri_dang_nhap(4 * 60);
-setInterval(function () {
+setInterval(() => {
 	if ($("body.preview-url").length == 0) {
 		document.getElementById("target_eb_iframe").src =
 			web_link + "sadmin/sadmin/admin_logged";
@@ -306,7 +306,7 @@ $("#admin-change-language").change(function () {
 });
 
 // xác định scroll để xem người dùng đang cuộn chuột lên hay xuống
-setInterval(function () {
+setInterval(() => {
 	(function (new_scroll_top) {
 		// xác định hướng cuộn chuột lên hay xuống
 		if (current_croll_up_or_down > new_scroll_top) {
@@ -372,7 +372,7 @@ $(document)
 		$(".text-submit-msg").click(function () {
 			$(".text-submit-msg").fadeOut();
 		});
-		setTimeout(function () {
+		setTimeout(() => {
 			$(".text-submit-msg").fadeOut();
 		}, 30 * 1000);
 

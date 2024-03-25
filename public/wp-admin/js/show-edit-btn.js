@@ -175,7 +175,7 @@ function show_edit_btn() {
 
 //
 $(document).ready(function () {
-	setTimeout(function () {
+	setTimeout(() => {
 		show_edit_btn();
 	}, 600);
 });

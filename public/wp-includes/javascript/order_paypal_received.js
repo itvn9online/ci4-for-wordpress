@@ -19,7 +19,7 @@ function WGR_load_paypal_buttons(input) {
 
 	//
 	if (typeof paypal == "undefined") {
-		setTimeout(function () {
+		setTimeout(() => {
 			WGR_load_paypal_buttons(input, max_i - 1);
 		}, 100);
 		return false;

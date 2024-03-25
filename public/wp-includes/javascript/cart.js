@@ -20,7 +20,7 @@ function cart_set_cache_data(key, c, t) {
 function action_calculate_cart_value() {
 	$("body").addClass("body-onload");
 	clearTimeout(delay_change_cart_data);
-	delay_change_cart_data = setTimeout(function () {
+	delay_change_cart_data = setTimeout(() => {
 		run_calculate_cart_value();
 		$("body").removeClass("body-onload");
 	}, 500);

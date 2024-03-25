@@ -10,7 +10,7 @@
 		if (current_page > totalPage) {
 			return false;
 		}
-		setTimeout(function () {
+		setTimeout(() => {
 			window.location =
 				web_link + "sadmin/uploads/optimize?page_num=" + current_page;
 		}, 5000);

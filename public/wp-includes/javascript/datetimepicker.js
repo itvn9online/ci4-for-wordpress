@@ -203,7 +203,7 @@ function EBE_load_datetimepicker(max_i) {
 
 	//
 	if (typeof $().datetimepicker != "function") {
-		setTimeout(function () {
+		setTimeout(() => {
 			EBE_load_datetimepicker(max_i - 1);
 		}, 100);
 		return false;

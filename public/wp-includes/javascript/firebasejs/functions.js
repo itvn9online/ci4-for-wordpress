@@ -159,7 +159,7 @@ function afterRequestTokenSignIn(data) {
 		jQuery("#firebase-loaded").css({
 			opacity: 0.1,
 		});
-		setTimeout(function () {
+		setTimeout(() => {
 			login_reload();
 		}, 2000);
 	}

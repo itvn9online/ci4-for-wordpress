@@ -77,7 +77,7 @@ $("#data_user_email")
 			var a = $(this).val() || "";
 			if (a != "" && a.includes("@") == false) {
 				WGR_alert("Email format is not supported", "warning");
-				setTimeout(function () {
+				setTimeout(() => {
 					$("#data_user_email").val(a + "@" + document.domain);
 				}, 200);
 			}

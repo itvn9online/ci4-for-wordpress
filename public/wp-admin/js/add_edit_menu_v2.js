@@ -151,7 +151,7 @@ function create_html_menu_editer(max_i) {
 	} else if (jQuery(".cke_wysiwyg_frame").length === 1) {
 		insert_to = ".cke_wysiwyg_frame";
 	} else {
-		setTimeout(function () {
+		setTimeout(() => {
 			create_html_menu_editer(max_i - 1);
 		}, 200);
 		return false;
@@ -265,7 +265,7 @@ function action_before_submit_menu() {
 }
 
 function get_json_code_menu(obj) {
-	setTimeout(function () {
+	setTimeout(() => {
 		action_json_code_menu(obj);
 	}, 200);
 
@@ -279,7 +279,7 @@ function action_json_code_menu(obj) {
 	//
 	$("#data_post_excerpt").val(arr);
 
-	//setTimeout(function () {
+	//setTimeout(() => {
 	create_html_menu_editer();
 	//}, 200);
 
@@ -287,7 +287,7 @@ function action_json_code_menu(obj) {
 	if (typeof obj != "undefined" && typeof obj.id != "undefined") {
 		//console.log(obj.id);
 		// xóa chữ trong các input của form tương ứng được truyền vào
-		setTimeout(function () {
+		setTimeout(() => {
 			$("#" + obj.id + ' input[type="text"]').val("");
 
 			// tự động cập nhật menu

@@ -12,7 +12,7 @@
 			if (typeof WGR_builder_signature == "function") {
 				WGR_builder_signature();
 			}
-			setTimeout(function () {
+			setTimeout(() => {
 				_run();
 			}, 1000);
 			return false;
@@ -51,7 +51,7 @@
 			});
 
 			//
-			setTimeout(function () {
+			setTimeout(() => {
 				if ($("#warningLoggedModal").length < 1) {
 					console.log("Cannot be determined modal: Logged");
 				}
@@ -69,7 +69,7 @@
 			}
 
 			//
-			setTimeout(function () {
+			setTimeout(() => {
 				_run();
 			}, min_time * 1000);
 
@@ -194,7 +194,7 @@
 				}
 
 				//
-				setTimeout(function () {
+				setTimeout(() => {
 					_run();
 				}, rm.timeout_dp * 1000);
 			},
@@ -203,7 +203,7 @@
 
 	//
 	if (WGR_config.current_user_id > 0) {
-		setTimeout(function () {
+		setTimeout(() => {
 			_run();
 		}, 5 * 1000);
 	}

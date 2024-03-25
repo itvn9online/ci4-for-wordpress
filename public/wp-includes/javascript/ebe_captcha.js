@@ -18,7 +18,7 @@ function action_ebe_captcha(uri) {
 			console.log("max_i:", max_i);
 			return false;
 		}
-		setTimeout(function () {
+		setTimeout(() => {
 			action_ebe_captcha(uri, max_i - 1);
 		}, 200);
 		return false;

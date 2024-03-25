@@ -460,7 +460,7 @@ class Csdl extends Session
         */
         // điều kiện lấy dữ liệu
         foreach ($where as $k => $v) {
-            if ($v === NULL) {
+            if ($v === null) {
                 //$builder->where( $k, NULL, FALSE );
                 $builder->where($k);
             } else {
@@ -485,7 +485,7 @@ class Csdl extends Session
                         //$builder->orGroupStart();
                         $builder->groupStart();
                         foreach ($v as $k2 => $v2) {
-                            if ($v2 === NULL) {
+                            if ($v2 === null) {
                                 $builder->orWhere($k2);
                             } else {
                                 $builder->orWhere($k2, $v2);

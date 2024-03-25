@@ -294,7 +294,7 @@ function delay_for_submit_form() {
 	delay_submit_form = true;
 
 	//
-	setTimeout(function () {
+	setTimeout(() => {
 		delay_submit_form = false;
 	}, 4000);
 

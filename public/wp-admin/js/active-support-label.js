@@ -102,7 +102,7 @@ var add_class_bg_for_tr_support = false;
 	});
 
 	//
-	setTimeout(function () {
+	setTimeout(() => {
 		create_search_by_label();
 	}, 1000);
 })();
@@ -127,7 +127,7 @@ $("#content .control-group label").click(function () {
 //
 (function () {
 	// tự động trỏ đến TR đang cần support
-	setTimeout(function () {
+	setTimeout(() => {
 		if (add_class_bg_for_tr_support == false) {
 			let get_support_tab = window.location.href.split("&support_tab=");
 			if (get_support_tab.length == 1) {

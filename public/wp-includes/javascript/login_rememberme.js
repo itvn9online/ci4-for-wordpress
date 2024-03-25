@@ -25,7 +25,7 @@ function action_login_rememberme(key, uri, max_i) {
 			console.log("max_i:", max_i);
 			return false;
 		}
-		setTimeout(function () {
+		setTimeout(() => {
 			action_login_rememberme(key, uri, max_i - 1);
 		}, 200);
 		return false;

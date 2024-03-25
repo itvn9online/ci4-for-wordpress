@@ -17,7 +17,7 @@ function click_set_empty_constants(for_id, set_val) {
 // mở 1 tab mới để test constants sau khi lưu
 function open_home_for_test_config_constants() {
 	WGR_alert("Open new tab for test your constants after change");
-	setTimeout(function () {
+	setTimeout(() => {
 		window.open(web_link, "_blank");
 	}, 1000);
 }

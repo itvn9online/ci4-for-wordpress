@@ -397,7 +397,7 @@ var _global_js_eb = {
 		});
 
 		if (i > 0) {
-			setTimeout(function () {
+			setTimeout(() => {
 				_global_js_eb.ebBgLazzyLoadOffset(i - 1);
 			}, 2000);
 		}
@@ -790,7 +790,7 @@ var _global_js_eb = {
 				}
 
 				//
-				setTimeout(function () {
+				setTimeout(() => {
 					_global_js_eb.ga_event_track(
 						eventCategory,
 						eventAction,
@@ -867,7 +867,7 @@ var _global_js_eb = {
 
 			// nạp lại track này lần nữa (do fbq thường load chậm hơn website)
 			if (max_for > 0) {
-				setTimeout(function () {
+				setTimeout(() => {
 					_global_js_eb.fb_track(track_name, track_arr, max_for - 1);
 				}, 500);
 				console.log("Re-load FB tracking (" + max_for + ")...");

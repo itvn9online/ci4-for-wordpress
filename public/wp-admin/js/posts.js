@@ -176,14 +176,14 @@ $(window).on("load", function () {
 
 	// tự động submit để cập nhật module mới cho bài viết
 	if (typeof auto_update_module != "undefined" && auto_update_module * 1 > 0) {
-		setTimeout(function () {
+		setTimeout(() => {
 			console.log("Auto submit...");
 			document.admin_global_form.submit();
 
 			// tự động chuyển sang bài tiếp theo
 			if (url_next_post != "") {
 				console.log("Auto next: " + url_next_post);
-				setTimeout(function () {
+				setTimeout(() => {
 					window.location = url_next_post;
 				}, 3000);
 			} else {

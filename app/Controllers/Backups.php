@@ -275,8 +275,12 @@ if [ -d ' . $admin_dir_backups . ' ]; then
 
 
 #
+if [ -f /usr/local/bin/mysqldump ]; then
+/usr/local/bin/mysqldump --single-transaction --routines --triggers --add-drop-table --extended-insert -u$user -p$passwd ' . $current_dbname . ' > ' . $admin_day_backups . '/' . $current_dbname . '.sql
+else
 /usr/bin/mysqldump --single-transaction --routines --triggers --add-drop-table --extended-insert -u$user -p$passwd ' . $current_dbname . ' > ' . $admin_day_backups . '/' . $current_dbname . '.sql
-/usr/bin/gzip ' . $admin_day_backups . '/' . $current_dbname . '.sql
+fi
+/usr/bin/gzip -f ' . $admin_day_backups . '/' . $current_dbname . '.sql
 
 # xóa file backup hoome trước -> tiết kiệm dung lượng do dung lượng con web này khá lớn
 # /usr/bin/rm -rf ' . $admin_dir_backups . '/' . date('l', time() - DAY) . '/' . $current_dbname . '.sql
@@ -296,10 +300,10 @@ fi
 /usr/bin/df -h >> ' . ROOTPATH . '___disk_usage.txt
 /usr/bin/du -sh /home/ >> ' . ROOTPATH . '___disk_usage.txt
 /usr/bin/du -sh ' . ROOTPATH . ' >> ' . ROOTPATH . '___disk_usage.txt
-if [ -d /home/admin/admin_backups ] then
+if [ -d /home/admin/admin_backups ]; then
 /usr/bin/du -sh /home/admin/admin_backups/ >> ' . ROOTPATH . '___disk_usage.txt
 fi
-if [ -d /home/admin/user_backups ] then
+if [ -d /home/admin/user_backups ]; then
 /usr/bin/du -sh /home/admin/user_backups/ >> ' . ROOTPATH . '___disk_usage.txt
 fi
 /usr/bin/du -sh /var/lib/mysql >> ' . ROOTPATH . '___disk_usage.txt
