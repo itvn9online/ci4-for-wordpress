@@ -3,16 +3,8 @@
 namespace App\Controllers;
 
 /**
- * https://github.com/maxmind/GeoIP2-php#database-reader
  * 
- * Download bản cập nhật tại đây:
- * https://www.maxmind.com/en/accounts/942798/geoip/downloads
- * Tài khoản: itvn9online@gmail.com/[pass]
- * 
- * Các file sẽ cập nhật:
- * GeoLite2-ASN.mmdb
- * GeoLite2-City.mmdb
- * GeoLite2-Country.mmdb
+ * Chi tiết các cập nhật thư viện `Reader` và các file `.mmdb` xem trong file `Geolite2db.php` của `echbayv3`
  * 
  */
 include APPPATH . 'ThirdParty/geolite2/Reader.php';
@@ -48,8 +40,21 @@ class Plains extends Layout
             return true;
         }
 
+        // 
+        $dir_download = APPPATH . 'ThirdParty';
+        foreach ([
+            'geolite2',
+            'db',
+        ] as $v) {
+            $dir_download .= '/' . $v;
+            if (!is_dir($dir_download)) {
+                mkdir($dir_download, DEFAULT_DIR_PERMISSION) or die('ERROR create cache dir');
+                chmod($dir_download, DEFAULT_DIR_PERMISSION);
+            }
+        }
+
         // file chứa thời hạn reset lại db định kỳ
-        $cache_download = APPPATH . 'ThirdParty/geolite2/db/last-download.txt';
+        $cache_download = $dir_download . '/last-download.txt';
         $next_download = 0;
         // nếu có file này
         if (is_file($cache_download)) {
@@ -64,9 +69,9 @@ class Plains extends Layout
 
         // danh sách các file .mmdb sẽ cho tải về
         $arr_files = [
-            APPPATH . 'ThirdParty/geolite2/db/GeoLite2-Country.mmdb',
-            APPPATH . 'ThirdParty/geolite2/db/GeoLite2-ASN.mmdb',
-            APPPATH . 'ThirdParty/geolite2/db/GeoLite2-City.mmdb'
+            $dir_download . '/GeoLite2-Country.mmdb',
+            $dir_download . '/GeoLite2-ASN.mmdb',
+            $dir_download . '/GeoLite2-City.mmdb'
         ];
         // print_r($arr_files);
 
@@ -94,6 +99,7 @@ class Plains extends Layout
 
             // tạo cache -> tránh download liên tục
             file_put_contents($cache_download, time() + (24 * 3600 * 30), LOCK_EX);
+            chmod($cache_download, 0777);
 
             // Use file_get_contents() function to get the file 
             // from url and use file_put_contents() function to 
@@ -101,6 +107,7 @@ class Plains extends Layout
             set_time_limit(0);
             if (file_put_contents($file_path, file_get_contents($url), LOCK_EX)) {
                 // echo "File downloaded successfully";
+                chmod($file_path, 0777);
 
                 // download xong thì giải nén thôi
                 $zip = new \ZipArchive();
@@ -108,6 +115,17 @@ class Plains extends Layout
                     $zip->extractTo($dir_path);
                     $zip->close();
                 }
+
+                // 
+                foreach ($arr_files as $v) {
+                    // thiếu là hủy luôn
+                    if (is_file($v)) {
+                        chmod($v, 0777);
+                    }
+                }
+
+                // 
+                unlink($file_path);
             }
         }
         // die(__CLASS__ . ':' . __LINE__);
@@ -247,6 +265,7 @@ class Plains extends Layout
         //
         $reader->close();
 
+        // 
         return [
             'ip' => $ip,
             'level' => $level,

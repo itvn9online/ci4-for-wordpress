@@ -217,6 +217,8 @@ function showUserInfoIp(data) {
 
 //
 (function (server_info_ip, user_info_ip) {
+	let uri = web_link + "plains/city_db_ip";
+	console.log("uri:", uri);
 	if (server_info_ip !== null) {
 		showServerInfoIp(JSON.parse(server_info_ip));
 
@@ -230,13 +232,13 @@ function showUserInfoIp(data) {
 	// hiển thị thông tin IP hiện tại của server
 	jQuery.ajax({
 		type: "POST",
-		url: web_link + "plains/city_db_ip",
+		url: uri,
 		dataType: "json",
 		//crossDomain: true,
 		data: {
 			ip: server_ip,
 		},
-		timeout: 33 * 1000,
+		timeout: 66 * 1000,
 		error: function (jqXHR, textStatus, errorThrown) {
 			console.log(jqXHR);
 			console.log(textStatus);
