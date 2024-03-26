@@ -31,15 +31,22 @@ class Backups extends Layout
     protected $ssh_copy_id_full_path = '/usr/bin/ssh-copy-id';
     protected $backups_error = '';
     protected $ssh_port_bak = '';
+    protected $admin_user_backups = '';
+    protected $admin_dir_backups = '';
 
     // 
     public function __construct()
     {
-        parent::__construct();
+        // file này xử lý code trên server -> hạn chế lỗi -> nếu có lỗi thì phải xử lý ngay
+        ini_set('display_errors', 1);
+        error_reporting(E_ALL);
 
         // 
-        // ini_set('display_errors', 1);
-        // error_reporting(E_ALL);
+        parent::__construct();
+
+        // thư mục backup cho admin
+        $this->admin_user_backups = 'admin';
+        $this->admin_dir_backups = '/home/' . $this->admin_user_backups . '/admin_backups';
 
         // 
         $this->backups_error = LOCAL_BAK_PATH . '/backups_error-' . date('Y-m-d') . '.txt';
@@ -246,10 +253,8 @@ echo "Backup all DONE!"
              */
             // tên db hiện tại
             $current_dbname = \Config\Database::connect()->database;
-            // thư mục backup cho admin
-            $admin_user_backups = 'admin';
-            $admin_dir_backups = '/home/' . $admin_user_backups . '/admin_backups';
-            $admin_day_backups = $admin_dir_backups . '/' . date('l');
+            // thư mục backup theo ngày trong tuần
+            $admin_day_backups = $this->admin_dir_backups . '/' . date('l');
 
             // 
             $bash_bak_db = '
@@ -264,11 +269,11 @@ if [ -f /usr/local/directadmin/conf/mysql.conf ]; then
 # echo $user
 # echo $passwd
 
-if [ -d ' . $admin_dir_backups . ' ]; then
+if [ -d ' . $this->admin_dir_backups . ' ]; then
 
 /usr/bin/mkdir -p ' . $admin_day_backups . '
 /usr/bin/chmod 755 ' . $admin_day_backups . '
-/usr/bin/chown -R ' . $admin_user_backups . ' ' . $admin_day_backups . '
+/usr/bin/chown -R ' . $this->admin_user_backups . ' ' . $admin_day_backups . '
 
 # xóa cronjob trước khi backup
 /usr/bin/crontab -r
@@ -283,9 +288,10 @@ fi
 /usr/bin/gzip -f ' . $admin_day_backups . '/' . $current_dbname . '.sql
 
 # xóa file backup hoome trước -> tiết kiệm dung lượng do dung lượng con web này khá lớn
-# /usr/bin/rm -rf ' . $admin_dir_backups . '/' . date('l', time() - DAY) . '/' . $current_dbname . '.sql
-# /usr/bin/rm -rf ' . $admin_dir_backups . '/' . date('l', time() - DAY) . '/' . $current_dbname . '.sql.gz
-/usr/bin/rm -rf ' . $admin_dir_backups . '/' . date('l', time() - DAY) . '/*
+# /usr/bin/rm -rf ' . $this->admin_dir_backups . '/' . date('l', time() - DAY) . '/' . $current_dbname . '.sql
+# /usr/bin/rm -rf ' . $this->admin_dir_backups . '/' . date('l', time() - DAY) . '/' . $current_dbname . '.sql.gz
+/usr/bin/rm -rf ' . $this->admin_dir_backups . '/' . date('l', time() - DAY) . '/*.sql
+# /usr/bin/rm -rf ' . $this->admin_dir_backups . '/' . date('l', time() - DAY) . '/*
 
 
 # xong việc thì add lại cronjob
@@ -300,8 +306,8 @@ fi
 /usr/bin/df -h >> ' . ROOTPATH . '___disk_usage.txt
 /usr/bin/du -sh /home/ >> ' . ROOTPATH . '___disk_usage.txt
 /usr/bin/du -sh ' . ROOTPATH . ' >> ' . ROOTPATH . '___disk_usage.txt
-if [ -d /home/admin/admin_backups ]; then
-/usr/bin/du -sh /home/admin/admin_backups/ >> ' . ROOTPATH . '___disk_usage.txt
+if [ -d ' . $this->admin_dir_backups . ' ]; then
+/usr/bin/du -sh ' . $this->admin_dir_backups . '/ >> ' . ROOTPATH . '___disk_usage.txt
 fi
 if [ -d /home/admin/user_backups ]; then
 /usr/bin/du -sh /home/admin/user_backups/ >> ' . ROOTPATH . '___disk_usage.txt
