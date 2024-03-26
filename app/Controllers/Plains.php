@@ -21,13 +21,14 @@ class Plains extends Layout
 {
     // với 1 số controller, sẽ không nạp cái HTML header vào, nên có thêm tham số này để không nạp header nữa
     public $preload_header = false;
+    protected $dir_geolite2 = '';
 
     public function __construct()
     {
         parent::__construct();
 
         // 
-        // $this->downloadGeoLite2Db();
+        $this->dir_geolite2 = APPPATH . 'ThirdParty/geolite2/db';
     }
 
     /**
@@ -98,7 +99,7 @@ class Plains extends Layout
             // die(__CLASS__ . ':' . __LINE__);
 
             // tạo cache -> tránh download liên tục
-            file_put_contents($cache_download, time() + (24 * 3600 * 30), LOCK_EX);
+            file_put_contents($cache_download, time() + (24 * 3600 * 7), LOCK_EX);
             chmod($cache_download, 0777);
 
             // Use file_get_contents() function to get the file 
@@ -200,7 +201,7 @@ class Plains extends Layout
         }
 
         //
-        $a = $this->getDB($ip, APPPATH . 'ThirdParty/geolite2/db/GeoLite2-City.mmdb', 'city');
+        $a = $this->getDB($ip, $this->dir_geolite2 . '/GeoLite2-City.mmdb', 'city');
         // var_dump($a);
         // print_r($a);
         // die(__CLASS__ . ':' . __LINE__);
@@ -220,7 +221,7 @@ class Plains extends Layout
         }
 
         //
-        $a = $this->getDB($ip, APPPATH . 'ThirdParty/geolite2/db/GeoLite2-Country.mmdb', 'country');
+        $a = $this->getDB($ip, $this->dir_geolite2 . '/GeoLite2-Country.mmdb', 'country');
         // var_dump($a);
         // print_r($a);
         // die(__CLASS__ . ':' . __LINE__);
@@ -240,7 +241,7 @@ class Plains extends Layout
         }
 
         //
-        $a = $this->getDB($ip, APPPATH . 'ThirdParty/geolite2/db/GeoLite2-ASN.mmdb', 'asn');
+        $a = $this->getDB($ip, $this->dir_geolite2 . '/GeoLite2-ASN.mmdb', 'asn');
         // var_dump($a);
         // print_r($a);
         // die(__CLASS__ . ':' . __LINE__);
