@@ -97,6 +97,7 @@ class Backups extends Layout
         $backup_local_path = LOCAL_BAK_PATH . '/' . $_SERVER['HTTP_HOST'];
         $test_rsync_macos = LOCAL_BAK_PATH . '/test_rsync_macos.txt';
         $backups_txt_log = $backup_local_path . '/backups_log-' . date('Y-m-d') . '.txt';
+        $rm_txt_log = $backup_local_path . '/backups_log-' . date('Y-m-d', time() - WEEK) . '.txt';
 
         // lệnh rsync
         $bin_rsync = $this->cmd_rsync . $this->ssh_port_bak;
@@ -162,6 +163,9 @@ msg_error="backup is running ' . LOCAL_BAK_PATH . '/' . __FUNCTION__ . '_running
 echo $msg_error
 echo $msg_error" "$(date) > ' . $backups_txt_log . '
 fi
+
+# Xóa log 1 tuần trước
+' . $this->rm_full_path . ' -rf ' . $rm_txt_log . '
 
 else
 msg_error="dir ' . $backup_local_path . ' not found!"
