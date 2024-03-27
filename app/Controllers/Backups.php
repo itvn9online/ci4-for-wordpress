@@ -150,7 +150,7 @@ echo "Backup database"
 ' . $this->cmd_rsync . $this->ssh_port_bak . ' root@' . $_SERVER['SERVER_ADDR'] . ':/home/admin/admin_backups ' . $backup_local_path . '/
 
 echo "Backup public_html ' . $_SERVER['HTTP_HOST'] . '"
-' . $this->cmd_rsync . $this->ssh_port_bak . ' --exclude="cache/*" --exclude="ebcache/*" root@' . $_SERVER['SERVER_ADDR'] . ':' . rtrim(ROOTPATH, '/') . ' ' . $backup_local_path . '/
+' . $this->cmd_rsync . $this->ssh_port_bak . ' --exclude="cache/*" --exclude="ebcache/*" --exclude="writable/*" root@' . $_SERVER['SERVER_ADDR'] . ':' . rtrim(ROOTPATH, '/') . ' ' . $backup_local_path . '/
 
 #
 ' . $this->curl_full_path . ' --data "source=localhost&token=' . CRONJOB_TOKEN . '" ' . base_url('backups/local_bak_done') . '

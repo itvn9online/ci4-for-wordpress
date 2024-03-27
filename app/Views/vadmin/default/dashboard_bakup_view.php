@@ -83,7 +83,7 @@ if (time() - $last_localhost_filemtime > DAY) {
 
 ?>
 <div>
-    <textarea rows="<?php echo count(explode("\n", $bash_localhost_bak)); ?>" onDblClick="click2Copy(this);" class="form-control" readonly><?php echo $bash_localhost_bak; ?></textarea>
+    <textarea rows="<?php echo count(explode("\n", $bash_localhost_bak)); ?>" onDblClick="click2Copy(this);" class="s12 form-control" readonly><?php echo $bash_localhost_bak; ?></textarea>
 </div>
 <p><a href="<?php echo $local_bak_bash; ?>" target="_blank"><?php echo $local_bak_bash; ?></a></p>
 <p class="greencolor">* Code này được copy và gắn vào file backups/bash của EB.</p>
@@ -105,7 +105,7 @@ if (time() - $last_db_filemtime > DAY) {
 
 ?>
 <div>
-    <textarea rows="<?php echo count(explode("\n", $bash_bak_db)); ?>" onDblClick="click2Copy(this);" class="form-control" readonly><?php echo $bash_bak_db; ?></textarea>
+    <textarea rows="<?php echo count(explode("\n", $bash_bak_db)); ?>" onDblClick="click2Copy(this);" class="s12 form-control" readonly><?php echo $bash_bak_db; ?></textarea>
 </div>
 <p class="greencolor">* Code này được copy chạy trong server <?php echo $_SERVER['SERVER_ADDR']; ?> để add cronjob chạy hàng ngày.</p>
 <div>
