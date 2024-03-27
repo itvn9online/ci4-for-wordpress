@@ -68,24 +68,53 @@ function WGR_load_paypal_buttons(input) {
 					" form " +
 					document.domain;
 
+				// nếu có đặt cọc trước -> chỉ tạo đơn 1 giá
+				let deposit_money = 0;
+				if (input.deposit_money != "") {
+					deposit_money = input.deposit_money * 1;
+					if (isNaN(deposit_money)) {
+						deposit_money = 0;
+					}
+				}
+
 				//
-				return actions.order.create({
-					purchase_units: [
-						{
-							reference_id: input.reference_id,
-							description: purchase_units_description,
-							// custom_id: "",
-							// soft_descriptor: "",
-							amount: {
-								currency_code: input.currency_code,
-								value: input.value,
-								breakdown: amount_breakdown,
+				if (deposit_money > 0) {
+					return actions.order.create({
+						purchase_units: [
+							{
+								reference_id: input.reference_id,
+								description: "Deposit for " + purchase_units_description,
+								// custom_id: "",
+								// soft_descriptor: "",
+								amount: {
+									currency_code: input.currency_code,
+									value: deposit_money,
+									// breakdown: amount_breakdown,
+								},
+								// items: purchase_units_items,
+								// shipping: current_order_data.shipping,
 							},
-							items: purchase_units_items,
-							// shipping: current_order_data.shipping,
-						},
-					],
-				});
+						],
+					});
+				} else {
+					return actions.order.create({
+						purchase_units: [
+							{
+								reference_id: input.reference_id,
+								description: purchase_units_description,
+								// custom_id: "",
+								// soft_descriptor: "",
+								amount: {
+									currency_code: input.currency_code,
+									value: input.order_amount,
+									breakdown: amount_breakdown,
+								},
+								items: purchase_units_items,
+								// shipping: current_order_data.shipping,
+							},
+						],
+					});
+				}
 			},
 			onApprove(data, actions) {
 				if (1 < 2) {
@@ -107,6 +136,7 @@ function WGR_load_paypal_buttons(input) {
 							console.log(x, details[x]);
 						}
 					}
+					// return false;
 
 					//
 					let order_complete = false;
@@ -150,6 +180,7 @@ function WGR_load_paypal_buttons(input) {
 						data: {
 							order_id: current_order_data.order_id,
 							reference_id: details.purchase_units[0].reference_id,
+							deposit_value: details.purchase_units[0].amount.value,
 							approve_data: JSON.stringify(data),
 							order_capture: JSON.stringify(details),
 						},
@@ -164,6 +195,7 @@ function WGR_load_paypal_buttons(input) {
 						},
 						success: function (data) {
 							console.log(data);
+							// return false;
 
 							//
 							if (
@@ -191,8 +223,5 @@ function WGR_load_paypal_buttons(input) {
 
 //
 $(document).ready(function () {
-	WGR_load_paypal_buttons({
-		reference_id: current_order_data.reference_id,
-		value: current_order_data.order_amount,
-	});
+	WGR_load_paypal_buttons(current_order_data);
 });

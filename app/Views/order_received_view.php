@@ -43,6 +43,22 @@ if (!empty($data)) {
     // 
     $data['post_excerpt'] = json_decode($data['post_excerpt']);
 
+    // xem có phần tạm ứng trước hay không
+    $deposit_money = 0;
+    $deposit_balance = 0;
+    if ($data['deposit_money'] != '') {
+        $deposit_money = $data['deposit_money'];
+
+        // nếu là tính theo % thì quy đổi từ tổng tiền ra deposit
+        if (strpos($deposit_money, '%') !== false) {
+            $deposit_money = $base_model->number_only($deposit_money);
+            $deposit_money = $data['order_amount'] / 100 * $deposit_money;
+        } else {
+            $deposit_money *= 1;
+        }
+        $deposit_balance = $data['order_amount'] - $deposit_money;
+    }
+
     // 
     $order_subtotal = 0;
     $order_item = [];
@@ -69,9 +85,9 @@ if (!empty($data)) {
     }
 
     // 
-    echo '<!-- ';
-    print_r($data);
-    echo ' -->';
+    // echo '<!-- ';
+    // print_r($data);
+    // echo ' -->';
 
 
     // nạp view riêng của từng theme nếu có
@@ -89,6 +105,8 @@ if (!empty($data)) {
             'order_amount' => $data['order_amount'],
             'shipping_fee' => $data['shipping_fee'],
             'order_discount' => $data['order_discount'] + $data['order_bonus'],
+            'deposit_money' => $deposit_money,
+            'deposit_balance' => $deposit_balance,
             'order_item' => $order_item,
             'shipping' => [
                 // 'method' => 'United States Postal Service',
@@ -112,6 +130,17 @@ if (!empty($data)) {
     if (!in_array($data['post_status'], $OrderType_COMPLETED)) {
         // dựng mã thanh toán qua paypal nếu chưa có mã nhưng có client_id
         if (empty($getconfig->paypal_sdk_js) && !empty($getconfig->paypal_client_id)) {
+            /**
+             * 
+             * Tìm hiểu tham số disable/ enable funding để tắt cái paylater
+             * 
+             * Disable funding:
+             * https://developer.paypal.com/limited-release/regional/th/checkout/reference/customize-sdk/#disable-funding
+             * 
+             * Enable funding:
+             * https://developer.paypal.com/limited-release/regional/th/checkout/reference/customize-sdk/#enablefunding
+             * 
+             */
             $getconfig->paypal_sdk_js = '<script src="https://www.paypal.com/sdk/js?client-id=' . $getconfig->paypal_client_id . '" async></script>';
         }
 

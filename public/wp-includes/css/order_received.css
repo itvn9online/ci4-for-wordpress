@@ -3,3 +3,7 @@
 .thankyou-order-details li {
     margin-bottom: 8px;
 }
+
+.cart-order_received tfoot tr:first-child td {
+    border-top: 3px #ececec solid;
+}

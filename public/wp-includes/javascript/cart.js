@@ -115,12 +115,36 @@ function run_calculate_cart_value() {
 			price_total -= cart_config.coupon_amount;
 		}
 	}
-	$(".cart-total-regular_price").html(
-		g_func.money_format(price_total + cart_config.shipping_fee)
-	);
+
+	//
+	cart_total_regular_price(price_total + cart_config.shipping_fee);
 
 	//
 	$(".total-cart-quantity").html(item_total);
+}
+
+function cart_total_regular_price(a) {
+	$(".cart-total-regular_price").html(g_func.money_format(a));
+
+	//
+	if (cart_config.deposit_money != "") {
+		let b = 0;
+		if (cart_config.deposit_money.includes("%") !== false) {
+			b = g_func.number_only(cart_config.deposit_money);
+			b = (a / 100) * b;
+			// làm tròn phần thập phân
+			// b = b.toFixed(2);
+			// làm tròn phía sàn
+			b = Math.round(b);
+			$(".cart-total-deposit_money").addClass("ebe-currency");
+		} else {
+			b = cart_config.deposit_money * 1;
+		}
+		// ->số tiền đặt cọc trước
+		$(".cart-total-deposit_money").html(b);
+		// số tiền còn lại
+		$(".cart-total-deposit_balance").html(a - b);
+	}
 }
 
 //
@@ -562,6 +586,12 @@ jQuery(document).ready(function () {
 		$(".cart-is-product").removeClass("d-none");
 		cart_sidebar_table();
 		cart_table_buttons_added();
+	}
+
+	// hiển thị html cho phần đặt cọc nếu có
+	if (cart_config.deposit_money != "") {
+		$(".cart-group-deposit_money").removeClass("d-none");
+		$(".cart-sub-regular_price").removeClass("bold");
 	}
 
 	//

@@ -359,9 +359,14 @@ class Actions extends Layout
         $data['post_password'] = md5(time() . $this->base_model->MY_sessid());
         // $data['post_password'] = substr($data['post_password'], 0, 16);
 
-        // phí vận chuyển nếu có
+        // phí vận chuyển (nếu có)
         if ($this->getconfig->shipping_fee != '') {
             $data['shipping_fee'] = $this->getconfig->shipping_fee;
+        }
+
+        // đặt cọc trước (nếu có)
+        if ($this->getconfig->deposit_money != '') {
+            $data['deposit_money'] = $this->getconfig->deposit_money;
         }
 
         // tính số tiền giảm giá
@@ -733,6 +738,7 @@ class Actions extends Layout
             'post_status' => OrderType::PRIVATELY,
             'approve_data' => $this->MY_post('approve_data'),
             'order_capture' => $this->MY_post('order_capture'),
+            'deposit_value' => $this->MY_post('deposit_value', null),
         ], [
             'post_password' => $reference_id,
             'post_status !=' => OrderType::PRIVATELY,

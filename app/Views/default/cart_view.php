@@ -1,17 +1,3 @@
-<?php
-
-//
-$base_model->JSON_parse([
-    'cart_config' => [
-        'coupon_code' => $coupon_code,
-        'coupon_amount' => $coupon_amount,
-        'shipping_fee' => $getconfig->shipping_fee,
-        'free_shipping' => $lang_model->get_the_text('shipping_free', 'Free shipping'),
-        'calculated_later' => $lang_model->get_the_text('calculated_later', 'Calculated later'),
-    ],
-]);
-
-?>
 <br>
 <div class="w90">
     <h1><?php echo $cart_title; ?></h1>

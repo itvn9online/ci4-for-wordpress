@@ -572,6 +572,8 @@ class Sync extends BaseController
                 'order_discount' => 'FLOAT NOT NULL DEFAULT \'0\' COMMENT \'Tiền giảm giá cho mỗi đơn hàng\'',
                 'order_bonus' => 'FLOAT NOT NULL DEFAULT \'0\' COMMENT \'Tiền cộng thêm cho mỗi đơn hàng\'',
                 'shipping_fee' => 'FLOAT NULL',
+                'deposit_money' => 'VARCHAR(55) NULL COMMENT \'Số tiền đặt cọc trước, có thể để là % nên định dạng field này là varchar\'',
+                'deposit_value' => 'FLOAT NULL COMMENT \'Số tiền đặt cọc sau khi thanh toán online thành công\'',
                 // 
                 'approve_data' => 'TEXT NULL COMMENT \'Lưu trữ thông tin tóm tắt transaction gửi về từ Paypal...\'',
                 'order_capture' => 'TEXT NULL COMMENT \'Lưu trữ thông tin transaction gửi về từ Paypal...\'',
