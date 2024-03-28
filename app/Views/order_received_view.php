@@ -41,7 +41,8 @@ if (!empty($data)) {
     $data['post_date'] = date(EBE_DATE_FORMAT . ' H:i:s', $data['post_date']);
 
     // 
-    $data['post_excerpt'] = json_decode($data['post_excerpt']);
+    $post_excerpt = json_decode($data['post_excerpt']);
+    // print_r($post_excerpt);
 
     // xem có phần tạm ứng trước hay không
     $deposit_money = 0;
@@ -62,7 +63,7 @@ if (!empty($data)) {
     // 
     $order_subtotal = 0;
     $order_item = [];
-    foreach ($data['post_excerpt'] as $v) {
+    foreach ($post_excerpt as $v) {
         // print_r($v);
 
         // 

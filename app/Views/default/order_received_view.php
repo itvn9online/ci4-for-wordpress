@@ -13,11 +13,13 @@
                     <?php
 
                     //
-                    foreach ($data['post_excerpt'] as $v) {
+                    foreach ($post_excerpt as $v) {
                     ?>
                         <tr>
-                            <td>
-                                <?php echo $v->post_title; ?> x <?php echo $v->_quantity; ?>
+                            <td class="global-a-posi">
+                                <a href="?p=<?php echo $v->ID; ?>" target="_blank">&nbsp;</a>
+                                <div><img src="<?php echo $v->image; ?>" height="90" /></div>
+                                <div class="bluecolor"><?php echo $v->post_title; ?> x <?php echo $v->_quantity; ?></div>
                             </td>
                             <td>
                                 <span class="ebe-currency-format"><?php echo $v->_price; ?></span>

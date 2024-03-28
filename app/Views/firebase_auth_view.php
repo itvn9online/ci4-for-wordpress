@@ -41,7 +41,7 @@ if (!empty($firebase_config->g_firebase_config)) {
             <div id="firebase_phone"></div>
             <br>
             <div>
-                <button type="button" id="sign-in" onclick="return continueSignIn();" class="btn btn-primary"><?php $lang_model->the_text('firebase_sign_in', 'Kết nối'); ?></button>
+                <button type="button" id="sign-in" onclick="return continueSignIn();" class="btn btn-primary"><?php $lang_model->the_text('firebase_sign_in', 'Đăng nhập'); ?></button>
                 <button type="button" id="sign-out" onclick="return firebaseSignOut('<?php $lang_model->the_text('firebase_confirm_logout', 'Bạn thật sự muốn thoát tài khoản này!'); ?>');" class="btn btn-secondary"><?php $lang_model->the_text('firebase_sign_out', 'Hủy bỏ'); ?></button>
                 <button type="button" id="delete-account" onclick="return firebaseDeleteAccountt('<?php $lang_model->the_text('firebase_confirm_delete', 'Xác nhận xóa tài khoản khỏi website này!'); ?>');" class="btn btn-danger d-none"><?php $lang_model->the_text('firebase_delete_account', 'Xóa'); ?></button>
             </div>

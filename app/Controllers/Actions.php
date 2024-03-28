@@ -291,6 +291,7 @@ class Actions extends Layout
         // 
         $products = $this->post_model->list_meta_post($products);
         // print_r($products);
+        // die(__CLASS__ . ':' . __LINE__);
 
         // tổng giá trị đơn hàng
         $order_money = 0;
@@ -350,6 +351,7 @@ class Actions extends Layout
             // $total_products++;
         }
         // print_r($post_excerpt);
+        // die(__CLASS__ . ':' . __LINE__);
 
         //
         // $data['post_title'] = 'New order ' . date('Y-m-d H:i:s');
