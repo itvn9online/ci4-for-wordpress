@@ -114,11 +114,11 @@
     </article>
     <footer class="amp-wp-footer">
         <div>
-            <p>&copy; <?php $lang_model->the_text('amp_copy_right', 'Bản quyền'); ?> <?php echo date('Y'); ?> <?php echo $getconfig->name; ?> - <?php $lang_model->the_text('amp_all_rights_reserved', 'Toàn bộ phiên bản'); ?> - <a href="<?php echo PARTNER_WEBSITE; ?>" target="_blank" rel="nofollow">AMP by <?php echo PARTNER_BRAND_NAME; ?></a></p>
-            <p class="back-to-top"> <a href="#development=1"><?php $lang_model->the_text('amp_development', 'Nhà phát triển'); ?></a> | <a href="#top"><?php $lang_model->the_text('amp_to_top', 'Về đầu trang'); ?></a></p>
+            <p>&copy; <?php $lang_model->the_text('amp_copy_right', 'Bản quyền'); ?> <?php echo date('Y'); ?> <?php echo $getconfig->name; ?> - <?php $lang_model->the_text('amp_all_rights_reserved', 'Test version'); ?> - <a href="<?php echo PARTNER_WEBSITE; ?>" target="_blank" rel="nofollow">AMP by <?php echo PARTNER_BRAND_NAME; ?></a></p>
+            <p class="back-to-top"> <a href="#development=1"><?php $lang_model->the_text('amp_development', 'Development'); ?></a> | <a href="#top"><?php $lang_model->the_text('amp_to_top', 'Back to top'); ?></a></p>
         </div>
     </footer>
-    <div class="amp-wp-comments-link"><a href="<?php echo $full_link; ?>"><?php $lang_model->the_text('amp_full_version', 'Xem phiên bản đầy đủ'); ?></a></div>
+    <div class="amp-wp-comments-link"><a href="<?php echo $full_link; ?>"><?php $lang_model->the_text('amp_full_version', 'View full version'); ?></a></div>
     <br>
     <?php
     if ($getconfig->google_analytics != '') {

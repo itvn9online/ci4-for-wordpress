@@ -592,8 +592,7 @@ class Home extends Posts
 
         // chỉ lưu cache nếu không có page template
         //if ( $page_template == '' ) {
-        $cache_save = $this->MY_cache($cache_key, $cache_value . '<!-- Served from: ' . __FUNCTION__ . ' -->');
-        //var_dump( $cache_save );
+        $this->MY_cache($cache_key, $cache_value . '<!-- Served from: ' . __FUNCTION__ . ' -->');
         //}
 
         //

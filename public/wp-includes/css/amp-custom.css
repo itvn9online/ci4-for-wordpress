@@ -12,6 +12,10 @@
     margin-right: auto
 }
 
+.text-center {
+    text-align: center;
+}
+
 .amp-wp-enforced-sizes {
     max-width: 100%;
     margin: 0 auto
@@ -216,7 +220,12 @@ blockquote p:last-child {
 }
 
 .amp-wp-article-content amp-img.alignleft {
-    margin: 0 16px 1em 0
+    margin: 0 16px 1em 0;
+    float: none;
+}
+
+.amp-wp-article-content amp-img.border-radius {
+    border-radius: 50%;
 }
 
 .wp-caption {

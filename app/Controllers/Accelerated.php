@@ -27,7 +27,7 @@ class Accelerated extends Layout
         parent::__construct();
 
         //
-        $this->amp_home_label = $this->lang_model->get_the_text('breadcrumb_home', 'Trang chủ');
+        $this->amp_home_label = $this->lang_model->get_the_text('breadcrumb_home', 'Home');
         $this->amp_base_url = DYNAMIC_BASE_URL;
         // thêm prefix cho url -> hỗ trợ đa ngôn ngữ sub-folder
         if (SITE_LANGUAGE_SUB_FOLDER == true && $this->lang_key != SITE_LANGUAGE_DEFAULT) {
@@ -358,8 +358,8 @@ class Accelerated extends Layout
             ],
         ]);
 
-        $cache_save = $this->MY_cache($this->cache_key, $cache_value . '<!-- Served from: ' . __FUNCTION__ . ' -->');
-        //var_dump( $cache_save );
+        // 
+        $this->MY_cache($this->cache_key, $cache_value . '<!-- Served from: ' . __FUNCTION__ . ' -->');
 
         //
         return $cache_value;
@@ -546,8 +546,8 @@ class Accelerated extends Layout
             'blog_posting' => NULL,
         ]);
 
-        $cache_save = $this->MY_cache($this->cache_key, $cache_value . '<!-- Served from: ' . __FUNCTION__ . ' -->');
-        //var_dump( $cache_save );
+        // 
+        $this->MY_cache($this->cache_key, $cache_value . '<!-- Served from: ' . __FUNCTION__ . ' -->');
 
         //
         return $cache_value;

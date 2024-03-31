@@ -453,7 +453,7 @@ class ConfigType
         } else if ($config_type == self::CHECKOUT) {
             $arr = [
                 // Số tiền mặc định -> dùng cho các website dịch vụ đồng giá
-                'min_product_price' => 'Giá trị tối thiểu của đơn hàng',
+                'min_product_price' => 'Giá trị đơn hàng tối thiểu',
                 'shipping_fee' => 'Shipping fee',
                 'deposit_money' => 'Deposit money',
                 'period_price' => 'Các bước giá',
@@ -468,7 +468,7 @@ class ConfigType
                 'bank_name' => 'Tên ngân hàng',
                 'bank_short_name' => 'Tên rút gọn ngân hàng',
                 'bank_code' => 'Mã ngân hàng',
-                'autobank_token' => 'Autobank webhook token',
+                'autobank_token' => 'Casso webhook token',
                 'paypal_client_id' => 'Paypal Client ID',
                 'paypal_sdk_js' => 'Paypal JavaScript SDK',
             ];
@@ -779,10 +779,10 @@ class ConfigType
             'min_product_price' => 'Số tiền tối thiểu mà khách phải thanh toán cho mỗi đơn hàng.',
             'period_price' => 'Bấm [Thêm mới] để thêm các mức giá cho các gói nạp, bấm [Xóa] để loại bỏ một mức giá. <br> Hỗ trợ các đơn vị chuyển đổi: tr = triệu, k = nghìn, % = quy đổi theo giá gốc.',
             'bank_card_name' => 'Lưu ý: viết HOA không dấu',
-            'autobank_token' => 'Tham số dùng để tăng độ bảo mật cho WebHook tự động xác thực quá trình thanh toán. URL WebHook mặc định: ' . base_url('cassos/confirm'),
+            'autobank_token' => 'Tham số dùng để tăng độ bảo mật cho WebHook tự động xác thực quá trình thanh toán. <br> Khi có đầy đủ thông số này và thông tin ngân hàng nhận tiền, thông tin thanh toán qua ngân hàng và QR-Code sẽ được hiển thị tại trang thanh toán. <br> URL WebHook mặc định: ' . base_url('cassos/confirm'),
             'paypal_client_id' => 'Get Client ID here: https://developer.paypal.com/dashboard/applications/sandbox <br> Sandbox test accounts: https://developer.paypal.com/dashboard/accounts',
             'paypal_sdk_js' => 'Get the code here (rarely used): https://developer.paypal.com/sdk/js/configuration/',
-            'bank_bin_code' => 'Chức năng tự động xác nhận tiền vào thông qua WebHook của https://casso.vn/ - Ưu tiên sử dụng tài khoản ngân hàng <strong>VietinBank</strong>.',
+            'bank_bin_code' => 'Chức năng tự động xác nhận tiền vào thông qua WebHook của https://casso.vn/ <br> Ưu tiên sử dụng tài khoản ngân hàng <strong>VietinBank</strong>.',
             'powered_by_eb' => 'Sử dụng lệnh <strong>$lang_model->the_web_license( $getconfig );</strong> để hiển thị thông điệp bản quyền mặc định.',
             'telegram_bot_token' => 'Token của bot trên Telegram. <br> Trong Telegram, tìm @BotFather rồi gõ lệnh /mybots để lấy danh sách bot (nếu có). <br> Bấm vào menu lệnh mà Telegram đưa ra để chọn bot và lấy Token. Sau khi có Token, hãy bấm vào đây để tìm Chat ID: ' . base_url('sadmin/smtps') . '?get_tele_chat_id=1 <br> Mở Telegram lên > Nhập Botfather tại thanh tìm kiếm > Chọn Botfather có tích xanh > Nhấn vào Start > Hệ thống sẽ hiển thị ra đoạn chat > Nhấn vào mục /newbot - create a new bot > Nhập tên cho Bot > Nhấn Gửi > Nhập tên người dùng cho Bot > Nhấn Gửi > Hệ thống gửi xác nhận thành công. https://wiki.matbao.net/kb/huong-dan-tao-bot-va-gui-thong-bao-telegram/',
             'telegram_chat_id' => 'ID nhóm chat trên Telegram. Bao gồm cả dấu - nếu có. Thay token vào link mẫu rồi lấy: https://api.telegram.org/bot{token}/getUpdates',
@@ -1065,9 +1065,9 @@ class ConfigType
     public static function placeholder($key = '', $default_value = '')
     {
         $arr = [
-            'copy_right_first' => 'Bản quyền &copy; ',
-            'copy_right_last' => ' - Toàn bộ phiên bản.',
-            'powered_by_eb' => ' Cung cấp bởi ' . PARTNER_BRAND_NAME,
+            'copy_right_first' => 'Copyright &copy; ',
+            'copy_right_last' => ' - Test version.',
+            'powered_by_eb' => ' Managed by ' . PARTNER_BRAND_NAME,
         ];
         //echo $k . '<br>' . PHP_EOL;
         //echo $default_value . '<br>' . PHP_EOL;
