@@ -112,6 +112,8 @@ vue_data.warning_session_drive = function (a, b) {
 			return "orgcolor";
 		}
 		return "greencolor";
+	} else if (a.includes("DatabaseHandler") == true) {
+		return "bluecolor";
 	}
 
 	//

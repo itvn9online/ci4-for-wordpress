@@ -119,7 +119,7 @@ if (time() - $last_db_filemtime > DAY) {
 <br>
 <p class="medium18 bold">Size, Used, Avail, Memory, Swap:</p>
 <div>
-    <textarea rows="<?php echo count(explode("\n", $disk_usage)); ?>" class="form-control" readonly><?php echo $disk_usage; ?></textarea>
+    <textarea rows="<?php echo count(explode("\n", $disk_usage)); ?>" class="form-control s12" readonly><?php echo $disk_usage; ?></textarea>
 </div>
 <br>
 <br>
