@@ -31,7 +31,8 @@ class Layout extends Sync
     public $current_user_logged = 'free-viewer';
     //
     public $current_pid = 0;
-    public $current_tid = 0;
+    public $current_cid = 0;
+    public $current_sid = 0;
     public $breadcrumb_position = 1;
     public $session_data = NULL;
     public $isMobile = '';
@@ -218,7 +219,8 @@ class Layout extends Sync
                 'current_user_id' => $this->current_user_id,
                 'current_user_type' => $this->current_user_type,
                 'current_user_logged' => $this->current_user_logged,
-                'current_tid' => $this->current_tid,
+                'current_cid' => $this->current_cid,
+                'current_sid' => $this->current_sid,
                 'current_pid' => $this->current_pid,
                 'debug_enable' => $this->debug_enable,
                 //'menu' => $menu,
@@ -528,7 +530,12 @@ class Layout extends Sync
                 'breadcrumb' => $this->breadcrumb
             )
         );
-        $this->current_tid = $data['term_id'];
+        if ($data['parent'] > 0) {
+            $this->current_cid = $data['parent'];
+            $this->current_sid = $data['term_id'];
+        } else {
+            $this->current_cid = $data['term_id'];
+        }
 
         //
         //echo $file_view . '<br>' . PHP_EOL;
@@ -545,7 +552,8 @@ class Layout extends Sync
                 'post_type' => $post_type,
                 'getconfig' => $this->getconfig,
                 'data' => $data,
-                'current_tid' => $this->current_tid,
+                'current_cid' => $this->current_cid,
+                'current_sid' => $this->current_sid,
             )
         );
 
@@ -642,7 +650,7 @@ class Layout extends Sync
         return $htaccess_file;
     }
 
-    protected function media_upload($xss_clean = true, $allow_upload = [])
+    protected function media_upload($allow_upload = [], $md5 = false)
     {
         //print_r($_POST);
         //print_r($_FILES);
@@ -722,6 +730,10 @@ class Layout extends Sync
                         //echo $file_name . '<br>' . PHP_EOL;
                         $file_name = $this->base_model->_eb_non_mark_seo($file_name);
                         $file_name = sanitize_filename($file_name);
+                        // khi cần bảo mật tên file thì thực hiện md5 cho nó
+                        if ($md5 !== false) {
+                            $file_name = md5($file_name) . '-' . md5(time()) . '-' . $file_name;
+                        }
                         //echo $file_name . '<br>' . PHP_EOL;
 
                         // kiểm tra định dạng file
@@ -815,12 +827,10 @@ class Layout extends Sync
                         if (!empty($allow_upload) && !in_array($file_ext, $allow_upload)) {
                             continue;
                         }
-                        /*
                         // nếu không, sẽ chặn các định dạng file có khả năng thực thi lệnh từ server
-                        else if ( in_array( $file_ext, $arr_block_upload ) ) {
-                        continue;
+                        else if (in_array($file_ext, $arr_block_upload)) {
+                            continue;
                         }
-                        */
 
                         //
                         $file->move($upload_path, $file_name, true);

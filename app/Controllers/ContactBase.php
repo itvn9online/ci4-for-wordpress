@@ -9,6 +9,7 @@ use App\Language\Translate;
 class ContactBase extends Home
 {
     protected $comment_type = '';
+    protected $allow_upload = [];
 
     // các dữ liệu đầu thuộc dạng bắt buộc -> form nào cần tùy chỉnh thì extends ra xong khai báo lại trong class đã được extends
     protected $aria_required = [
@@ -337,17 +338,19 @@ class ContactBase extends Home
         //print_r( $data_insert );
         //die( 'j dfs ch dfh ds' );
 
-        //
-        $list_upload = $this->media_upload();
+        // daidq (2023-03-31): tạm thời không cho upload file qua form liên hệ
+        // if (1 > 2) {
+        $list_upload = $this->media_upload($this->allow_upload, true);
         //print_r( $list_upload );
         if (!empty($list_upload)) {
             $data_insert['comment_content'] .= 'File đính kèm: ' . PHP_EOL;
             foreach ($list_upload as $arr) {
                 foreach ($arr as $v) {
-                    $data_insert['comment_content'] .= DYNAMIC_BASE_URL . $v . PHP_EOL;
+                    $data_insert['comment_content'] .= '<a href="' . DYNAMIC_BASE_URL . $v . '">' . DYNAMIC_BASE_URL . $v . '</a>' . PHP_EOL;
                 }
             }
         }
+        // }
         //print_r( $data_insert );
         //die( 'jh afsdgssf' );
 

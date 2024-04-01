@@ -257,7 +257,7 @@ class Uploads extends Sadmin
     protected function upload($key = 'upload_image')
     {
         // gọi tới function upload ảnh thôi
-        $this->media_upload(false);
+        $this->media_upload();
         //die(__CLASS__ . ':' . __LINE__);
 
         // -> gọi hàm này để nó nạp lại trang cha
