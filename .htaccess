@@ -1,49 +1,58 @@
+# Disable directory browsing
+Options -Indexes
+
+# ----------------------------------------------------------------------
+# Rewrite engine
+# ----------------------------------------------------------------------
+
+# Turning on the rewrite engine is necessary for the following rules and features.
+# FollowSymLinks must be enabled for this to work.
 <IfModule mod_rewrite.c>
-RewriteEngine On
-# RewriteCond %{REQUEST_URI} !^public
+    RewriteEngine On
+    # RewriteCond %{REQUEST_URI} !^public
 
-# Multiple languages + Htaccess
-# https://stackoverflow.com/questions/46573994/multiple-languages-htaccess
+    # Multiple languages + Htaccess
+    # https://stackoverflow.com/questions/46573994/multiple-languages-htaccess
 
-# Redirect HTTP to HTTPS automatically (only if not in localhost)
-#RewriteCond %{HTTP_HOST} !=localhost
-#RewriteCond %{HTTPS} off
-#RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+    # Redirect HTTP to HTTPS automatically (only if not in localhost)
+    RewriteCond %{HTTP_HOST} !=localhost
+    RewriteCond %{HTTPS} off
+    RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
-# To redirect from www to non www (Rewrite www.example.com → example.com)
-RewriteCond %{HTTP_HOST} ^www\.(.*) [NC]
-RewriteRule ^(.*)$ https://%1%{REQUEST_URI} [R=301,L]
+    # To redirect from www to non www (Rewrite www.example.com → example.com)
+    RewriteCond %{HTTP_HOST} ^www\.(.*) [NC]
+    RewriteRule ^(.*)$ https://%1%{REQUEST_URI} [R=301,L]
 
-# (Add a slash) aa → aa/
-#RewriteCond %{REQUEST_FILENAME} !-f
-#RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteRule ^([^./]+)$ $1/
+    # (Add a slash) aa → aa/
+    #RewriteCond %{REQUEST_FILENAME} !-f
+    #RewriteCond %{REQUEST_FILENAME} !-d
+    #RewriteRule ^([^./]+)$ $1/
 
-# (Default homepage) aa/ → ?lang=aa&page=home
-#RewriteCond %{REQUEST_FILENAME} !-f
-#RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteRule ^([^./]+)/$ public/index.php?lang=$1&page=home
+    # (Default homepage) aa/ → ?lang=aa&page=home
+    #RewriteCond %{REQUEST_FILENAME} !-f
+    #RewriteCond %{REQUEST_FILENAME} !-d
+    #RewriteRule ^([^./]+)/$ public/index.php?lang=$1&page=home
 
-# (Language and page) aa/bb → ?lang=aa&page=bb
-#RewriteCond %{REQUEST_FILENAME} !-f
-#RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteRule ^([^./]+)/([^./]+)$ public/index.php?lang=$1&page=$2
+    # (Language and page) aa/bb → ?lang=aa&page=bb
+    #RewriteCond %{REQUEST_FILENAME} !-f
+    #RewriteCond %{REQUEST_FILENAME} !-d
+    #RewriteRule ^([^./]+)/([^./]+)$ public/index.php?lang=$1&page=$2
 
-#
-#RewriteCond %{REQUEST_FILENAME} !-f
-#RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteRule ^([^./]+)/([^./]+)$ public/index.php?lang=$1&page=$2
+    #
+    #RewriteCond %{REQUEST_FILENAME} !-f
+    #RewriteCond %{REQUEST_FILENAME} !-d
+    #RewriteRule ^([^./]+)/([^./]+)$ public/index.php?lang=$1&page=$2
 
-# Rewrite Language string
-#RewriteRule ^/?([a-z]{2})/$ /public/index.php?lg=$1 [NC]
+    # Rewrite Language string
+    #RewriteRule ^/?([a-z]{2})/$ /public/index.php?lg=$1 [NC]
 
-# Prevent direct access to /index.php?lg=$1 [QSA,NC,L]
-#RewriteCond %{ENV:REDIRECT_STATUS} ^$
-#RewriteCond %{REQUEST_URI} ^/?index.php$
-#RewriteCond %{QUERY_STRING} ^lg=([^&]+)(&.*)?$
-#RewriteRule ^/?index.php$ - [F]
+    # Prevent direct access to /index.php?lg=$1 [QSA,NC,L]
+    #RewriteCond %{ENV:REDIRECT_STATUS} ^$
+    #RewriteCond %{REQUEST_URI} ^/?index.php$
+    #RewriteCond %{QUERY_STRING} ^lg=([^&]+)(&.*)?$
+    #RewriteRule ^/?index.php$ - [F]
 
-#
-RewriteRule ^(.*)$ public/$1 [L]
+    #
+    RewriteRule ^(.*)$ public/$1 [L]
 
 </IfModule>

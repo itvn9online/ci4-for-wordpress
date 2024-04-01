@@ -20,7 +20,7 @@ bak_curl_token="' . CRONJOB_TOKEN . '"
 bak_curl_url="' . $local_bak_bash . '"
 # bash <( curl -k --data "source=localhost&year=' . date('Y') . '&token="$bak_curl_token $bak_curl_url )
 ';
-$bash_localhost_bak = trim($bash_localhost_bak) . PHP_EOL;
+$bash_localhost_bak = trim($bash_localhost_bak);
 
 //
 $last_localhost_backup = ROOTPATH . '___local_bak_done.txt';
@@ -52,7 +52,7 @@ fi
 # crontab -l
 /usr/bin/nano /home/bash_db_bak
 ';
-$bash_bak_db = trim($bash_bak_db) . PHP_EOL;
+$bash_bak_db = trim($bash_bak_db);
 
 //
 $last_db_backup = ROOTPATH . '___db_bak_done.txt';
@@ -61,7 +61,7 @@ $last_db_filemtime = file_exists($last_db_backup) ? filemtime($last_db_backup) :
 
 //
 $path_usage = ROOTPATH . '___disk_usage.txt';
-$disk_usage = file_exists($path_usage) ? file_get_contents($path_usage) : '';
+$disk_usage = file_exists($path_usage) ? trim(file_get_contents($path_usage)) : '';
 
 
 
@@ -86,7 +86,7 @@ if (time() - $last_localhost_filemtime > DAY) {
     <textarea rows="<?php echo count(explode("\n", $bash_localhost_bak)); ?>" onDblClick="click2Copy(this);" class="s12 form-control" readonly><?php echo $bash_localhost_bak; ?></textarea>
 </div>
 <p><a href="<?php echo $local_bak_bash; ?>" target="_blank"><?php echo $local_bak_bash; ?></a></p>
-<p class="greencolor">* Code này được copy và gắn vào file backups/bash của EB.</p>
+<p class="greencolor">* Code này được copy và gắn vào file backups/bash của EBv3.</p>
 <br>
 <br>
 <p class="medium18 bold">Lệnh backup định kỳ database vào thư mục admin_backups:</p>
