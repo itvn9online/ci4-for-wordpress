@@ -71,14 +71,18 @@ firebase.auth().onAuthStateChanged(
 			// tự động đăng nhập
 			//console.log(localStorage.getItem("firebase_auto_login"));
 			if (localStorage.getItem("firebase_auto_login") !== null) {
-				WGR_alert("Auto login after 5 seconds...");
-				firebase_recommend_login = setTimeout(() => {
-					if (localStorage.getItem("firebase_auto_login") !== null) {
-						continueSignIn();
-					} else {
-						WGR_alert("Auto login has been canceled!", "warning");
-					}
-				}, 5000);
+				if (1 < 2) {
+					continueSignIn();
+				} else {
+					WGR_alert("Auto login after 5 seconds...");
+					firebase_recommend_login = setTimeout(() => {
+						if (localStorage.getItem("firebase_auto_login") !== null) {
+							continueSignIn();
+						} else {
+							WGR_alert("Auto login has been canceled!", "warning");
+						}
+					}, 5000);
+				}
 			}
 		} else {
 			// User is signed out.
