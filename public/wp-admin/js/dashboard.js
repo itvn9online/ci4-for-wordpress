@@ -102,17 +102,29 @@ vue_data.warning_ci_version = function (a, b) {
 
 //
 vue_data.warning_session_drive = function (a, b) {
+	// nếu session drive là redis
 	if (a.includes("RedisHandler") == true) {
+		// cache drive cũng là redis
 		if (b == "redis") {
+			// cảnh báo
 			return "orgcolor";
 		}
-		return "bluecolor";
-	} else if (a.includes("MemcachedHandler") == true) {
-		if (b == "memcached") {
-			return "orgcolor";
-		}
+		// còn lại thì lên xanh
 		return "greencolor";
-	} else if (a.includes("DatabaseHandler") == true) {
+	}
+	// nếu session drive là memcached
+	else if (a.includes("MemcachedHandler") == true) {
+		// cache drive cũng là memcached
+		if (b == "memcached") {
+			// cảnh báo
+			return "orgcolor";
+		}
+		// còn lại thì lên xanh
+		return "greencolor";
+	}
+	// nếu session drive là database
+	else if (a.includes("DatabaseHandler") == true) {
+		// báo blue -> tương đối ổn
 		return "bluecolor";
 	}
 
@@ -210,7 +222,7 @@ function showServerInfoIp(data, to) {
 	if (typeof to == "undefined" || to == "") {
 		to = ".server-info_ip";
 	}
-	$(to).append(" " + a.join(", "));
+	$(to).after(" " + a.join(", "));
 }
 
 function showUserInfoIp(data) {

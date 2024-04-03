@@ -488,7 +488,7 @@ defined('CUSTOM_FAKE_POST_VIEW') || define('CUSTOM_FAKE_POST_VIEW', 1);
 /**
  * Tạo phiên bản giả lập wordpress
  **/
-defined('FAKE_WORDPRESS_VERSION') || define('FAKE_WORDPRESS_VERSION', '6.4.2');
+defined('FAKE_WORDPRESS_VERSION') || define('FAKE_WORDPRESS_VERSION', '6.5');
 
 // website của nhà phát triển
 defined('PARTNER_WEBSITE') || define('PARTNER_WEBSITE', 'https://echbay.com/');

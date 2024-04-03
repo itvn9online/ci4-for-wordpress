@@ -120,9 +120,7 @@ class Optimize extends Sadmin
         }
 
         //
-        if (
-            $this->optimize_action_js(THEMEPATH, 'term-templates') === true
-        ) {
+        if ($this->optimize_action_js(THEMEPATH, 'term-templates') === true) {
             // tạo lại file xác nhận để css còn có cái mà dùng
             $this->before_active_optimize(THEMEPATH . 'term-templates/', $this->f_active_optimize, $this->c_active_optimize);
 
