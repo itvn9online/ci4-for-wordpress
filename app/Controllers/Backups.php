@@ -308,9 +308,9 @@ fi
 # thống kê hệ thống
 /usr/bin/echo $(date) > ' . ROOTPATH . '___disk_usage.txt
 /usr/bin/df -h >> ' . ROOTPATH . '___disk_usage.txt
-/usr/bin/du -sh /home/ >> ' . ROOTPATH . '___disk_usage.txt
+/usr/bin/du -sh /home >> ' . ROOTPATH . '___disk_usage.txt
 #
-/usr/bin/du -sh ' . ROOTPATH . ' >> ' . ROOTPATH . '___disk_usage.txt
+/usr/bin/du -sh ' . rtrim(ROOTPATH, '/') . ' >> ' . ROOTPATH . '___disk_usage.txt
 /usr/bin/du -sh ' . ROOTPATH . 'writable >> ' . ROOTPATH . '___disk_usage.txt
 /usr/bin/du -sh ' . ROOTPATH . 'writable/cache >> ' . ROOTPATH . '___disk_usage.txt
 /usr/bin/du -sh ' . ROOTPATH . 'writable/logs >> ' . ROOTPATH . '___disk_usage.txt
@@ -318,10 +318,10 @@ fi
 /usr/bin/du -sh ' . ROOTPATH . 'public/upload >> ' . ROOTPATH . '___disk_usage.txt
 
 if [ -d ' . $this->admin_dir_backups . ' ]; then
-/usr/bin/du -sh ' . $this->admin_dir_backups . '/ >> ' . ROOTPATH . '___disk_usage.txt
+/usr/bin/du -sh ' . $this->admin_dir_backups . ' >> ' . ROOTPATH . '___disk_usage.txt
 fi
 if [ -d /home/admin/user_backups ]; then
-/usr/bin/du -sh /home/admin/user_backups/ >> ' . ROOTPATH . '___disk_usage.txt
+/usr/bin/du -sh /home/admin/user_backups >> ' . ROOTPATH . '___disk_usage.txt
 fi
 /usr/bin/du -sh /var/lib/mysql >> ' . ROOTPATH . '___disk_usage.txt
 /usr/bin/du -sh /var/lib/mysql/' . $current_dbname . ' >> ' . ROOTPATH . '___disk_usage.txt
