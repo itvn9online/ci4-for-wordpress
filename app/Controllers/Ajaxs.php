@@ -102,7 +102,7 @@ class Ajaxs extends Layout
 
         //
         $msg = 'Device protection destroy';
-        $blocked = NULL;
+        $blocked = null;
         if ($this->getconfig->block_device_protection == 'on' && $this->current_user_id > 0) {
             // xem có cache cảnh báo chưa
             $cache_signature = $this->user_model->getCLogged($this->current_user_id);

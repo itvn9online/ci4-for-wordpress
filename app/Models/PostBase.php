@@ -29,7 +29,7 @@ class PostBase extends EbModel
     protected $product_list_css = '';
 
     public $blog_html_node = '';
-    public $getconfig = NULL;
+    public $getconfig = null;
 
     public $primary_controller = 'posts';
     //public $primary_edit_view = 'posts';

@@ -9,11 +9,11 @@ namespace App\Models;
 
 class File extends EbModel
 {
-    public $base_dir = NULL;
+    public $base_dir = null;
     public $ftp_server = '';
 
     // lưu connect qua ftp -> đỡ phải connect nhiều
-    public $conn_cache_id = NULL;
+    public $conn_cache_id = null;
     // tham số dùng để xác định ftp đã close chưa
     public $ftp_is_login = false;
 

@@ -625,7 +625,7 @@ class Terms extends Sadmin
         return view('vadmin/admin_teamplate', $this->teamplate_admin);
     }
 
-    protected function add_new($data = NULL)
+    protected function add_new($data = null)
     {
         if ($data === null) {
             $data = $this->MY_post('data');

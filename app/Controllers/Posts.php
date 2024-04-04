@@ -23,7 +23,7 @@ class Posts extends Csrf
         return $this->post_details($id, $slug);
     }
 
-    public function post_details($id = 0, $slug = '', $data = NULL)
+    public function post_details($id = 0, $slug = '', $data = null)
     {
         //echo $id . ' <br>' . PHP_EOL;
         //echo $slug . ' <br>' . PHP_EOL;

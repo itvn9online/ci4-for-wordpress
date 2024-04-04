@@ -1055,7 +1055,7 @@ class Dashboard extends Optimize
         return $arr;
     }
 
-    protected function check_deleted_exist($arr = NULL)
+    protected function check_deleted_exist($arr = null)
     {
         //
         if ($arr === null) {
@@ -1314,7 +1314,7 @@ class Dashboard extends Optimize
     {
         $lang_key = LanguageCost::lang_key();
         $space_reset = $this->base_model->scache(__FUNCTION__ . $lang_key);
-        if ($space_reset != NULL) {
+        if ($space_reset != null) {
             $this->base_model->alert('Hệ thống đang bận! Vui lòng thử lại sau ' . ($this->space_reset_permalink - (time() - $space_reset)) . ' giây...', 'warning');
         }
 
@@ -1409,7 +1409,7 @@ class Dashboard extends Optimize
     {
         $lang_key = LanguageCost::lang_key();
         $space_reset = $this->base_model->scache(__FUNCTION__ . $lang_key);
-        if ($space_reset != NULL) {
+        if ($space_reset != null) {
             $this->base_model->alert('Hệ thống đang bận! Vui lòng thử lại sau ' . ($this->space_reset_permalink - (time() - $space_reset)) . ' giây...', 'warning');
         }
 

@@ -33,7 +33,7 @@ class TelegramBot
     }
 
     // GET chat ID
-    public static function getUpdates($cog = NULL)
+    public static function getUpdates($cog = null)
     {
         if ($cog === null) {
             $cog = self::getCog();
@@ -73,7 +73,7 @@ class TelegramBot
         return self::resultOkMsg($response);
     }
 
-    public static function sendMessage($text, $cog = NULL)
+    public static function sendMessage($text, $cog = null)
     {
         if ($cog === null) {
             $cog = self::getCog();

@@ -795,7 +795,7 @@ class Sync extends BaseController
     }
 
     // tự set session, do session của ci4 nó đứt liên tục
-    protected function MY_session($key, $value = NULL)
+    protected function MY_session($key, $value = null)
     {
         return $this->base_model->MY_session($key, $value);
     }

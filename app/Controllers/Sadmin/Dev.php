@@ -29,7 +29,7 @@ class Dev extends Sadmin
          * db không cần update liên tục, nếu cần thì clear cache để tái sử dụng
          */
         $has_update = $this->base_model->scache(__FUNCTION__);
-        // $has_update = NULL;
+        // $has_update = null;
         if ($has_update === null) {
             $this->base_model->scache(__FUNCTION__, time(), MEDIUM_CACHE_TIMEOUT);
 

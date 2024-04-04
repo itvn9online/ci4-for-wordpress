@@ -6,13 +6,13 @@ class Optimize extends Sadmin
 {
     protected $f_active_optimize = 'active-optimize.txt';
     protected $c_active_optimize = 'Nếu tồn tại file này -> sẽ kích hoạt lệnh optimize file CSS hoặc JS trong thư mục tương ứng';
-    protected $upload_via_ftp = NULL;
-    protected $file_model = NULL;
+    protected $upload_via_ftp = null;
+    protected $file_model = null;
 
     // lưu connect qua ftp -> đỡ phải connect nhiều
-    public $conn_cache_id = NULL;
+    public $conn_cache_id = null;
     public $conn_clear_id = false;
-    public $base_cache_dir = NULL;
+    public $base_cache_dir = null;
 
     //
     public function __construct()
@@ -41,7 +41,7 @@ class Optimize extends Sadmin
         // close connect ftp sau khi xong việc
         if ($this->conn_clear_id === true) {
             ftp_close($this->conn_cache_id);
-            $this->file_model->conn_cache_id = NULL;
+            $this->file_model->conn_cache_id = null;
         }
 
         //

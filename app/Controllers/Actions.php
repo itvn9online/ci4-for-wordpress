@@ -622,7 +622,7 @@ class Actions extends Layout
         );
 
         //
-        $data = NULL;
+        $data = null;
 
         // 2 thông số này lấy trực tiếp từ URL hoặc có thể decode ra để lấy
         $id = $this->MY_get('id', 0);

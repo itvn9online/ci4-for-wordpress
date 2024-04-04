@@ -71,10 +71,10 @@ define('RAND2_GET_ANTI_SPAM', '_' . substr($rand2_by_date, 6, 12));
 /**
  * lưu giá trị của config vào biến này, nếu hàm sau có gọi lại thì tái sử dụng luôn
  **/
-$this_cache_config = NULL;
-$this_cache_lang = NULL;
-$this_cache_num = NULL;
-$this_cache_checkbox = NULL;
+$this_cache_config = null;
+$this_cache_lang = null;
+$this_cache_num = null;
+$this_cache_checkbox = null;
 
 
 

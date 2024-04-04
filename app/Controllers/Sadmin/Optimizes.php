@@ -48,7 +48,7 @@ class Optimizes extends Optimize
             // close connect ftp sau khi xong việc
             if ($this->conn_clear_id === true) {
                 ftp_close($this->conn_cache_id);
-                $this->file_model->conn_cache_id = NULL;
+                $this->file_model->conn_cache_id = null;
 
                 //
                 echo '<strong>FTP close</strong>:<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;

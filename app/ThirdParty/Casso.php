@@ -109,7 +109,7 @@ class Casso
                         $data->data[$k]->order_id = trim($order_id[0]);
                     } else {
                         file_put_contents($file_log, 'count order_id|' . __CLASS__ . ':' . __LINE__ . PHP_EOL, FILE_APPEND);
-                        $data->data[$k] = NULL;
+                        $data->data[$k] = null;
                     }
                 }
             } else {

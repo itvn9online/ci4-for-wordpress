@@ -10,7 +10,7 @@ class Zalooas extends Configs
 {
     protected $config_type = ConfigType::ZALO;
     protected $example_prefix = 'zalooa_config';
-    protected $zalooa_config = NULL;
+    protected $zalooa_config = null;
 
     public function __construct()
     {

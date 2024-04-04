@@ -19,8 +19,8 @@ class Session
     // khi số lần đăng nhập sai vượt qua con số này thì sẽ kích hoạt captcha
     private $max_login_faild = 3;
 
-    public $cache = NULL;
-    public $session = NULL;
+    public $cache = null;
+    public $session = null;
     public $rand_anti_spam = '';
 
     // danh sách name và type của các input dùng để tạo anti spam
@@ -52,7 +52,7 @@ class Session
     /**
      * https://codeigniter.com/user_guide/libraries/sessions.html
      */
-    public function MY_session($key, $value = NULL)
+    public function MY_session($key, $value = null)
     {
         if ($value !== null) {
             // $_SESSION[$key] = $value;

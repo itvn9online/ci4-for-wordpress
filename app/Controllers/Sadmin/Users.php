@@ -12,7 +12,7 @@ class Users extends Sadmin
 {
     protected $member_type = '';
     protected $member_name = '';
-    protected $arr_members_type = NULL;
+    protected $arr_members_type = null;
 
     // tham số dùng để thay đổi URL cho controller (nếu muốn)
     protected $controller_slug = 'users';

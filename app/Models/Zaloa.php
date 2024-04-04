@@ -33,9 +33,9 @@ use App\Libraries\LanguageCost;
 //
 class Zaloa extends Option
 {
-    protected $zalo = NULL;
-    protected $helper = NULL;
-    protected $zalooa_config = NULL;
+    protected $zalo = null;
+    protected $helper = null;
+    protected $zalooa_config = null;
 
     public function __construct()
     {

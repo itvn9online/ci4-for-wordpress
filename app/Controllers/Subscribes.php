@@ -32,7 +32,7 @@ class Subscribes extends Csrf
 
         //
         $e = $this->MY_post('email');
-        $result = NULL;
+        $result = null;
 
         //
         $key_lang = 'subscribe_lang';

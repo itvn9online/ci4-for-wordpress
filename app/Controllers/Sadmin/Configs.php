@@ -22,7 +22,7 @@ class Configs extends Sadmin
     ];
     // tham số ví dụ -> mặc định là getconfig truyền từ Layout, 1 số config thi thoảng mới dùng thì truyền tham số riêng
     protected $example_prefix = 'getconfig';
-    protected $zalooa_config = NULL;
+    protected $zalooa_config = null;
 
     public function __construct()
     {

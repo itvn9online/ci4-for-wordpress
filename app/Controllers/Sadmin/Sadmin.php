@@ -188,13 +188,13 @@ class Sadmin extends Ajaxs
                 // nếu menu đã tồn tại -> gộp vào menu đó
                 if (isset($arr[$k])) {
                     if (empty($v)) {
-                        $arr[$k] = NULL;
+                        $arr[$k] = null;
                     } else {
                         //print_r( $v );
                         // nếu có tham số arr_replace -> thay toàn bộ menu cũ bằng menu mới
                         if (isset($v['arr_replace'])) {
                             $v['arr'] = $v['arr_replace'];
-                            $v['arr_replace'] = NULL;
+                            $v['arr_replace'] = null;
                             $arr[$k] = $v;
                         }
                         // mặc định thì bổ sung menu (nếu có)
@@ -213,7 +213,7 @@ class Sadmin extends Ajaxs
                             if (empty($v2)) {
                                 //echo $k . PHP_EOL;
                                 //echo $k2 . PHP_EOL;
-                                $arr[$k]['arr'][$k2] = NULL;
+                                $arr[$k]['arr'][$k2] = null;
                             } else {
                                 if ($k2 == 'arr') {
                                     continue;

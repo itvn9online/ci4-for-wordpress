@@ -12,8 +12,8 @@ class LanguageCost
     const CK_LANG_NAME = 'show_language';
 
     // hiển thị ngôn ngữ theo segment
-    private static $seg_lang = NULL;
-    private static $langs = NULL;
+    private static $seg_lang = null;
+    private static $langs = null;
     private static $items = SITE_LANGUAGE_SUPPORT;
 
     public static function get_list($textlang = null)

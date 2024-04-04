@@ -313,7 +313,7 @@ class Base extends Csdl
     public function tmp_to_html($tmp_html, $arr, $default_arr = [])
     {
         // meta
-        $arr_meta = NULL;
+        $arr_meta = null;
         if (isset($arr['post_meta']) && $arr['post_meta'] !== '') {
             $arr_meta = $arr['post_meta'];
             $arr['post_meta'] = '';
@@ -753,7 +753,7 @@ class Base extends Csdl
     }
 
     // lưu hoặc lấy session báo lỗi
-    public function msg_error_session($value = NULL, $alert = false)
+    public function msg_error_session($value = null, $alert = false)
     {
         // alert = error || warning
         if ($alert !== false) {
@@ -762,7 +762,7 @@ class Base extends Csdl
         return $this->MY_session('msg_error', $value);
     }
     // lưu hoặc lấy session thông báo
-    public function msg_session($value = NULL, $alert = false)
+    public function msg_session($value = null, $alert = false)
     {
         // alert = error || warning
         if ($alert !== false) {

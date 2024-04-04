@@ -9,11 +9,11 @@ use App\Libraries\TaxonomyType;
 //
 class Layout extends Sync
 {
-    //public $CI = NULL;
+    //public $CI = null;
 
     //
     public $breadcrumb = [];
-    public $getconfig = NULL;
+    public $getconfig = null;
     public $taxonomy_post_size = '';
     // danh sách các nhóm cha của nhóm hiện tại đang được xem
     public $taxonomy_slider = [];
@@ -34,7 +34,7 @@ class Layout extends Sync
     public $current_cid = 0;
     public $current_sid = 0;
     public $breadcrumb_position = 1;
-    public $session_data = NULL;
+    public $session_data = null;
     public $isMobile = '';
     public $cache_key = '';
     public $cache_mobile_key = '';

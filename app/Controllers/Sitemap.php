@@ -495,7 +495,7 @@ class Sitemap extends Layout
             //print_r( $data );
 
             //
-            $parent_data = NULL;
+            $parent_data = null;
             $parent_id = 0;
             $get_list_img_sitemap = '';
             foreach ($data as $v) {

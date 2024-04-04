@@ -405,7 +405,7 @@ class PostQuery extends PostMeta
         if (!empty($data) && $post_id > 0) {
             //$data[ 'post_meta' ] = $this->arr_meta_post( $data[ 'ID' ] );
             // trong trang chi tiết -> lấy trực tiếp từ meta -> đỡ lỗi
-            //$data[ 'post_meta_data' ] = NULL;
+            //$data[ 'post_meta_data' ] = null;
             $data = $this->the_meta_post($data);
         } else if ($default_filter['limit'] === 1) {
             $data = $this->the_meta_post($data);
@@ -517,7 +517,7 @@ class PostQuery extends PostMeta
         $arr_where_or = [];
         // tìm theo ID truyền vào
         if (isset($post_cat['term_id']) && $post_cat['term_id'] > 0) {
-            //$where[ '(term_id = ' . $post_cat[ 'term_id' ] . ' OR parent = ' . $post_cat[ 'term_id' ] . ')' ] = NULL;
+            //$where[ '(term_id = ' . $post_cat[ 'term_id' ] . ' OR parent = ' . $post_cat[ 'term_id' ] . ')' ] = null;
             $arr_where_or = [
                 'term_id' => $post_cat['term_id'],
                 'parent' => $post_cat['term_id'],
@@ -544,7 +544,7 @@ class PostQuery extends PostMeta
                 return [];
             }
             // có thì gán lấy theo term_id
-            //$where[ '(term_id = ' . $get_term_id[ 'term_id' ] . ' OR parent = ' . $get_term_id[ 'term_id' ] . ')' ] = NULL;
+            //$where[ '(term_id = ' . $get_term_id[ 'term_id' ] . ' OR parent = ' . $get_term_id[ 'term_id' ] . ')' ] = null;
             $arr_where_or = [
                 'term_id' => $get_term_id['term_id'],
                 'parent' => $get_term_id['term_id'],

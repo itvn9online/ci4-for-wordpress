@@ -45,7 +45,7 @@ $public_part_page = $base_model->EBE_pagination($ops['page_num'], $totalPage, $t
 //
 $in_cache = 'view-' . $post_type . '-' . $offset . '-' . $post_per_page;
 $child_data = $term_model->the_cache($data['term_id'], $in_cache);
-$child_data = NULL;
+$child_data = null;
 if ($child_data === null) {
     $child_data = $post_model->post_category($post_type, $data, [
         'offset' => $offset,
