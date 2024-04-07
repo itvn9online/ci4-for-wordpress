@@ -93,8 +93,11 @@ class Backups extends Layout
      **/
     protected function the_build_bash()
     {
+        // thư mục backup -> có thể truyền vào từ URL
+        $dir_bak_to = $this->MY_get('to', $_SERVER['HTTP_HOST']);
+
         // thư mục backup
-        $backup_local_path = LOCAL_BAK_PATH . '/' . $_SERVER['HTTP_HOST'];
+        $backup_local_path = LOCAL_BAK_PATH . '/' . $dir_bak_to;
         $test_rsync_macos = LOCAL_BAK_PATH . '/test_rsync_macos.txt';
         $backups_txt_log = $backup_local_path . '/backups_log-' . date('Y-m-d') . '.txt';
         $rm_txt_log = $backup_local_path . '/backups_log-' . date('Y-m-d', time() - WEEK) . '.txt';
@@ -114,8 +117,12 @@ cd ~
 echo "' . date('r') . '"
 
 #
-if [ -d ' . $backup_local_path . ' ]; then
+if [ -d ' . LOCAL_BAK_PATH . ' ]; then
 
+#
+' . $this->mkdir_full_path . ' -p ' . $backup_local_path . '
+
+#
 if [ ! -f ' . LOCAL_BAK_PATH . '/' . __FUNCTION__ . '_running.txt ]; then
 
 #

@@ -850,22 +850,29 @@ class Posts extends Sadmin
 
         // dọn dẹp cache liên quan đến post này -> reset cache
         $this->cleanup_cache($this->post_model->key_cache($id));
-        //
-        if (isset($data['post_title'])) {
-            // bổ sung thêm xóa cache với menu
-            if ($this->post_type == PostType::MENU || $this->post_type == PostType::HTML_MENU) {
+        // bổ sung thêm xóa cache với menu
+        if ($this->post_type == PostType::MENU || $this->post_type == PostType::HTML_MENU) {
+            if (isset($data['post_name'])) {
+                $post_name = $data['post_name'];
+                /*
+            } else if (isset($data['post_title'])) {
                 $post_name = $this->base_model->_eb_non_mark_seo($data['post_title']);
-                //echo $post_name . '<br>' . PHP_EOL;
-                $this->cleanup_cache('get_the_menu-' . $post_name);
+                */
+            } else {
+                $post_name = '';
             }
-            // hoặc page
-            else if ($this->post_type == PostType::PAGE) {
+            // echo $post_name . '<br>' . PHP_EOL;
+            $this->cleanup_cache('get_the_menu-' . $post_name);
+        }
+        // hoặc page
+        else if ($this->post_type == PostType::PAGE) {
+            if (isset($data['post_name'])) {
                 $this->cleanup_cache('get_page-' . $data['post_name']);
             }
-            // hoặc ads
-            else if ($this->post_type == PostType::ADS) {
-                $this->cleanup_cache('get_the_ads-');
-            }
+        }
+        // hoặc ads
+        else if ($this->post_type == PostType::ADS) {
+            $this->cleanup_cache('get_the_ads-');
         }
 
         // xóa cache cho term liên quan

@@ -5,7 +5,7 @@
  */
 
 // 
-$local_bak_bash = base_url('backups/local_bak_bash');
+$local_bak_bash = base_url('backups/local_bak_bash') . '?to=' . $_SERVER['HTTP_HOST'];
 $db_url_bash = base_url('backups/db_bak_bash');
 
 
