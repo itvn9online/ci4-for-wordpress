@@ -34,7 +34,7 @@ class Num extends Lang
             $this_cache_num[$key] = $this->option_model->create_num($key, $default_value);
         }
         //print_r($this_cache_num);
-        return $this_cache_num[$key];
+        return $this_cache_num[$key] * 1;
     }
 
     public function the_number($key, $default_value = '')

@@ -1053,6 +1053,11 @@ var _global_js_eb = {
 				//if (a != '' && a != '0') {
 				if (a != "") {
 					a *= 1;
+					let so_am = "";
+					if (a < 0) {
+						a = 0 - a;
+						so_am = "-";
+					}
 					if (a > 0) {
 						let b = 0;
 
@@ -1094,6 +1099,7 @@ var _global_js_eb = {
 							// in ra
 							jQuery(this).html(
 								'<span class="ebe-currency convert-to-ty">' +
+									so_am +
 									g_func.money_format(a) +
 									"</span> " +
 									b
@@ -1102,7 +1108,7 @@ var _global_js_eb = {
 						// còn lại sẽ in bình thường
 						else {
 							// console.log(a);
-							jQuery(this).html(g_func.money_format(a));
+							jQuery(this).html(so_am + g_func.money_format(a));
 						}
 					}
 				}
