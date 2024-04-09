@@ -22,6 +22,10 @@ class Dashboard extends Optimize
     protected $copy_after_updated = [];
     // giãn cách reset permalink
     protected $space_reset_permalink = 120;
+    public $f_env = null;
+    public $f_backup_env = null;
+    public $dir_list = null;
+    public $dir_deleted_list = null;
 
     public function __construct()
     {

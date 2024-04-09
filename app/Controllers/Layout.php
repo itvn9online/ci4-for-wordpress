@@ -40,6 +40,15 @@ class Layout extends Sync
     public $cache_mobile_key = '';
     public $teamplate = [];
     public $debug_enable = false;
+    // 
+    public $option_model = null;
+    public $lang_model = null;
+    public $num_model = null;
+    public $checkbox_model = null;
+    public $post_model = null;
+    public $menu_model = null;
+    public $htmlmenu_model = null;
+    public $user_model = null;
 
     public function __construct()
     {

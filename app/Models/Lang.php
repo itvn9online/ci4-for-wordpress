@@ -10,6 +10,7 @@ use App\Helpers\HtmlTemplate;
 class Lang extends EbModel
 {
     public $option_prefix = 'lang_';
+    public $option_model = null;
 
     public function __construct()
     {

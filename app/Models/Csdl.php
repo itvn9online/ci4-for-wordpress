@@ -11,6 +11,7 @@ class Csdl extends Session
 {
     public $default_post_type = 'post';
     public $default_taxonomy = 'category';
+    public $myDb = null;
 
     public function __construct()
     {
@@ -18,7 +19,8 @@ class Csdl extends Session
         // var_dump(debug_backtrace()[1]['class']);
         // var_dump(debug_backtrace()[1]['function']);
 
-        $this->db = \Config\Database::connect();
+        // 
+        $this->myDb = \Config\Database::connect();
     }
 
     public function insert($table, $data, $remove_col = false, $queryType = '')
@@ -34,7 +36,7 @@ class Csdl extends Session
         // print_r($queryType);
 
         //
-        $builder = $this->db->table($table);
+        $builder = $this->myDb->table($table);
         if ($queryType == 'ignore') {
             $builder->ignore(true)->insert($data);
         } else if ($queryType == 'getQuery') {
@@ -47,13 +49,13 @@ class Csdl extends Session
         }
 
         // lỗi sẽ hiển thị ở đây khi không insert đc
-        if ($this->db->affectedRows()) {
-            // var_dump($this->db->affectedRows());
-            // echo $this->db->insertID() . '<br>' . PHP_EOL;
-            return $this->db->insertID();
+        if ($this->myDb->affectedRows()) {
+            // var_dump($this->myDb->affectedRows());
+            // echo $this->myDb->insertID() . '<br>' . PHP_EOL;
+            return $this->myDb->insertID();
         } else {
-            // print_r($this->db->error());
-            // print_r($this->db->_error_message());
+            // print_r($this->myDb->error());
+            // print_r($this->myDb->_error_message());
         }
         return false;
     }
@@ -69,7 +71,7 @@ class Csdl extends Session
         }
 
         //
-        $builder = $this->db->table($table);
+        $builder = $this->myDb->table($table);
         $builder->set($col, $col . '+' . $ops['value'], false);
         foreach ($where_array as $key => $value) {
             $builder->where($key, $value);
@@ -112,22 +114,22 @@ class Csdl extends Session
 
         // in luôn ra query để test
         if (isset($ops['show_query'])) {
-            print_r($this->db->getLastQuery()->getQuery());
+            print_r($this->myDb->getLastQuery()->getQuery());
             echo '<br>' . PHP_EOL;
         }
 
         // trả về query để sử dụng cho mục đích khác
         if (isset($ops['get_query'])) {
-            return $this->db->getLastQuery()->getQuery();
+            return $this->myDb->getLastQuery()->getQuery();
         }
 
         //
-        if (!$this->query_error($this->db->error())) {
-            print_r($this->db->error());
+        if (!$this->query_error($this->myDb->error())) {
+            print_r($this->myDb->error());
         }
 
         //
-        if ($this->db->affectedRows() > 0) {
+        if ($this->myDb->affectedRows() > 0) {
             return true;
         }
         return false;
@@ -141,7 +143,7 @@ class Csdl extends Session
         // die(__CLASS__ . ':' . __LINE__);
 
         //
-        $builder = $this->db->table($table);
+        $builder = $this->myDb->table($table);
 
         //
         foreach ($where_array as $key => $value) {
@@ -219,22 +221,22 @@ class Csdl extends Session
 
         // in luôn ra query để test
         if (isset($ops['show_query'])) {
-            print_r($this->db->getLastQuery()->getQuery());
+            print_r($this->myDb->getLastQuery()->getQuery());
             echo '<br>' . PHP_EOL;
         }
 
         // trả về query để sử dụng cho mục đích khác
         if (isset($ops['get_query'])) {
-            return $this->db->getLastQuery()->getQuery();
+            return $this->myDb->getLastQuery()->getQuery();
         }
 
         //
-        if (!$this->query_error($this->db->error())) {
-            print_r($this->db->error());
+        if (!$this->query_error($this->myDb->error())) {
+            print_r($this->myDb->error());
         }
 
         //
-        if ($this->db->affectedRows() > 0) {
+        if ($this->myDb->affectedRows() > 0) {
             return true;
         }
         return false;
@@ -256,7 +258,7 @@ class Csdl extends Session
             return [];
         }
         // list ra những cột có trong table
-        $column_name = $this->db->getFieldNames($tbl_name);
+        $column_name = $this->myDb->getFieldNames($tbl_name);
         //print_r( $column_name );
         //die( __CLASS__ . ':' . __LINE__ );
 
@@ -289,7 +291,7 @@ class Csdl extends Session
         $has_where = false;
 
         //
-        $builder = $this->db->table($table);
+        $builder = $this->myDb->table($table);
         foreach ($where as $k => $v) {
             $builder->where($k, $v);
             $has_where = true;
@@ -351,22 +353,22 @@ class Csdl extends Session
 
         // in luôn ra query để test
         if (isset($ops['show_query'])) {
-            print_r($this->db->getLastQuery()->getQuery());
+            print_r($this->myDb->getLastQuery()->getQuery());
             echo '<br>' . PHP_EOL;
         }
 
         // trả về query để sử dụng cho mục đích khác
         if (isset($ops['get_query'])) {
-            return $this->db->getLastQuery()->getQuery();
+            return $this->myDb->getLastQuery()->getQuery();
         }
 
         //
-        if (!$this->query_error($this->db->error())) {
-            print_r($this->db->error());
+        if (!$this->query_error($this->myDb->error())) {
+            print_r($this->myDb->error());
         }
 
         //
-        if ($this->db->affectedRows()) {
+        if ($this->myDb->affectedRows()) {
             return true;
         }
         return false;
@@ -384,7 +386,7 @@ class Csdl extends Session
     // trả về các cột dữ liệu mặc định trong 1 bảng
     public function default_data($table, $other_table = [])
     {
-        $column_name = $this->db->getFieldNames($table); // list ra những cột có trong table
+        $column_name = $this->myDb->getFieldNames($table); // list ra những cột có trong table
 
         $result = [];
         foreach ($column_name as $v) {
@@ -394,7 +396,7 @@ class Csdl extends Session
         //
         foreach ($other_table as $table2) {
             if ($table2 != '') {
-                $column_name = $this->db->getFieldNames($table2);
+                $column_name = $this->myDb->getFieldNames($table2);
                 foreach ($column_name as $v) {
                     $result[$v] = '';
                 }
@@ -406,7 +408,7 @@ class Csdl extends Session
 
     public function table_exists($tbl)
     {
-        if ($this->db->tableExists($tbl)) {
+        if ($this->myDb->tableExists($tbl)) {
             return true;
         }
         return false;
@@ -418,7 +420,7 @@ class Csdl extends Session
         //print_r($ops);
 
         //
-        $builder = $this->db->table($from);
+        $builder = $this->myDb->table($from);
         // lấy tổng số bản ghi
         if (isset($ops['selectCount'])) {
             $builder->selectCount($ops['selectCount']);
@@ -636,24 +638,24 @@ class Csdl extends Session
         $query = $builder->get();
 
         //
-        if (!$this->query_error($this->db->error())) {
-            print_r($this->db->error());
+        if (!$this->query_error($this->myDb->error())) {
+            print_r($this->myDb->error());
         }
 
         // in luôn ra query để test
         if (isset($ops['show_query'])) {
-            print_r($this->db->getLastQuery()->getQuery());
+            print_r($this->myDb->getLastQuery()->getQuery());
             echo '<br>' . PHP_EOL;
         }
 
         // trả về query để sử dụng cho mục đích khác
         if (isset($ops['get_query'])) {
-            return $this->db->getLastQuery()->getQuery();
+            return $this->myDb->getLastQuery()->getQuery();
         }
 
 
         //print_r( $query );
-        //print_r( $this->db->_error_message() );
+        //print_r( $this->myDb->_error_message() );
         if (isset($ops['getNumRows'])) {
             return $query->getNumRows();
         } else {
@@ -702,7 +704,7 @@ class Csdl extends Session
      */
     public function MY_query($sql, $params = [])
     {
-        return $this->db->query($sql, $params);
+        return $this->myDb->query($sql, $params);
     }
 
     /**
@@ -713,19 +715,19 @@ class Csdl extends Session
         $query = $this->MY_query($sql, $params);
 
         //
-        if (!$this->query_error($this->db->error())) {
-            print_r($this->db->error());
+        if (!$this->query_error($this->myDb->error())) {
+            print_r($this->myDb->error());
         }
 
         // in luôn ra query để test
         if (isset($ops['show_query'])) {
-            print_r($this->db->getLastQuery()->getQuery());
+            print_r($this->myDb->getLastQuery()->getQuery());
             echo '<br>' . PHP_EOL;
         }
 
         // trả về query để sử dụng cho mục đích khác
         if (isset($ops['get_query'])) {
-            return $this->db->getLastQuery()->getQuery();
+            return $this->myDb->getLastQuery()->getQuery();
         }
 
         //

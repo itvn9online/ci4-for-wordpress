@@ -23,6 +23,7 @@ class ContactBase extends Home
     protected $default_rules = null;
     // mảng chứa rules cusstom dùng để chạy validation -> cái này dùng cho class extends tùy biến
     protected $custom_rules = [];
+    public $comment_model = null;
 
     public function __construct()
     {

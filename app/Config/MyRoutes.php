@@ -148,7 +148,7 @@ foreach ($arr_prefix_routes as $v) {
         }
 
         // custom post type
-        $routes->match(['get', 'post'], 'p/(:segment)/(:num)/(:segment)', 'P::custom_post_type/$1/$2/$3');
+        $routes->match(['GET', 'POST'], 'p/(:segment)/(:num)/(:segment)', 'P::custom_post_type/$1/$2/$3');
 
         // custom taxonomy
         $routes->get('c/(:segment)/(:num)/(:segment)', 'C::custom_taxonomy/$1/$2/$3');

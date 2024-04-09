@@ -3,6 +3,7 @@
  * Hàm này sẽ thực hiện việc thay đổi prefix để xử lý dữ liệu ở 1 số bảng prefix khác với mặc định
  * Thường dùng khi móc vào những code khác mà muốn update sang phiên bản code CI4 + Wordpress này
  */
+
 namespace App\Models;
 
 // Trong một số trường hợp càn thay đổi prefix table khi truy vấn -> lúc đấy sẽ gọi thông qua model này
@@ -20,13 +21,13 @@ class NoPrefix extends Csdl
     protected function my_prefix()
     {
         //die( $this->custom_prefix );
-        $this->db->setPrefix($this->custom_prefix);
+        $this->myDb->setPrefix($this->custom_prefix);
     }
 
     // trả lại prefix gốc sau mỗi query
     protected function default_prefix()
     {
-        $this->db->setPrefix(WGR_TABLE_PREFIX);
+        $this->myDb->setPrefix(WGR_TABLE_PREFIX);
     }
 
     public function insert($table, $data, $remove_col = false, $queryType = '')

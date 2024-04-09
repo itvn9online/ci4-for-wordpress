@@ -9,6 +9,7 @@ class Comment extends EbModel
 
     public $metaTable = 'commentmeta';
     //public $metaKey = 'meta_id';
+    public $request = null;
 
     public function __construct()
     {

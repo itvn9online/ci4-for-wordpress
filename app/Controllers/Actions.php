@@ -16,6 +16,7 @@ class Actions extends Layout
 
     // thông điệp sau khi đặt hàng thành công
     protected $thank_you = 'Thank you. Your order has been received.';
+    public $order_model = null;
 
     public function __construct()
     {

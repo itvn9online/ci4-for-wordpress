@@ -20,6 +20,7 @@ class Comments extends Sadmin
     protected $list_view_path = 'comments';
     // số bản ghi trên mỗi trang
     protected $post_per_page = 50;
+    // protected $comment_model = null;
 
     public function __construct($for_extends = false)
     {

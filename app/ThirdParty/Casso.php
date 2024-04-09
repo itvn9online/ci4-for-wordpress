@@ -10,6 +10,8 @@ namespace App\ThirdParty;
 //
 class Casso
 {
+    // public $base_model = null;
+
     public function __construct()
     {
         //$this->base_model = new \App\Models\Base();

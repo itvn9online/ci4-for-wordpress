@@ -8,6 +8,8 @@ namespace App\Controllers;
 //
 class Zalos extends Guest
 {
+    public $zaloa_model = null;
+
     public function __construct()
     {
         parent::__construct();

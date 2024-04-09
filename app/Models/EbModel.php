@@ -31,10 +31,11 @@ class EbModel
     protected $validationRules = [];
     protected $validationMessages = [];
     protected $skipValidation = false;
+    public $base_model = null;
 
     public function __construct()
     {
         $this->base_model = new \App\Models\Base();
-        //$this->db = \Config\Database::connect();
+        //$this->myDb = \Config\Database::connect();
     }
 }

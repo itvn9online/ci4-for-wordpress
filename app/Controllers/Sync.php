@@ -12,6 +12,8 @@ use App\Libraries\ConfigType;
 class Sync extends BaseController
 {
     public $lang_key = '';
+    public $base_model = null;
+    public $term_model = null;
 
     public function __construct()
     {

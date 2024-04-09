@@ -25,6 +25,7 @@ class Users extends Sadmin
     protected $list_table_path = '';
     // số bản ghi trên mỗi trang
     protected $post_per_page = 50;
+    public $validation = null;
 
     public function __construct()
     {

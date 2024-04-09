@@ -7,7 +7,7 @@ class Optimize extends Sadmin
     protected $f_active_optimize = 'active-optimize.txt';
     protected $c_active_optimize = 'Nếu tồn tại file này -> sẽ kích hoạt lệnh optimize file CSS hoặc JS trong thư mục tương ứng';
     protected $upload_via_ftp = null;
-    protected $file_model = null;
+    public $file_model = null;
 
     // lưu connect qua ftp -> đỡ phải connect nhiều
     public $conn_cache_id = null;

@@ -33,6 +33,9 @@ class PostBase extends EbModel
 
     public $primary_controller = 'posts';
     //public $primary_edit_view = 'posts';
+    public $option_model = null;
+    public $term_model = null;
+    public $cf_thumbnail_size = null;
 
     public function __construct()
     {

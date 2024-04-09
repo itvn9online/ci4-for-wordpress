@@ -10,6 +10,8 @@ class Payments extends Layout
 {
     // với 1 số controller, sẽ không nạp cái HTML header vào, nên có thêm tham số này để không nạp header nữa
     public $preload_header = false;
+    public $order_model = null;
+    public $payment_model = null;
 
     public function __construct()
     {

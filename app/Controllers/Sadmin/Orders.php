@@ -19,6 +19,7 @@ class Orders extends Posts
     protected $add_view_path = 'orders';
     // tham số dùng để đổi file view khi xem danh sách bài viết nếu muốn
     protected $list_view_path = 'orders';
+    public $order_model = null;
 
     //
     public function __construct()

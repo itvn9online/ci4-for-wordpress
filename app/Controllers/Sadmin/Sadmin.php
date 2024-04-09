@@ -20,6 +20,9 @@ class Sadmin extends Ajaxs
     public $preload_admin_header = true;
 
     protected $body_class = '';
+    // public $post_model = null;
+    public $comment_model = null;
+    public $teamplate_admin = null;
 
     public function __construct()
     {

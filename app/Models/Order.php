@@ -12,6 +12,7 @@ class Order extends Post
     public $table = 'orders';
     public $metaTable = 'ordermeta';
     public $post_type = OrderType::ORDER;
+    public $user_model = null;
 
     //
     public function __construct()

@@ -11,6 +11,7 @@ class Zalooas extends Configs
     protected $config_type = ConfigType::ZALO;
     protected $example_prefix = 'zalooa_config';
     protected $zalooa_config = null;
+    public $zaloa_model = null;
 
     public function __construct()
     {
