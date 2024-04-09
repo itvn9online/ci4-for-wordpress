@@ -187,6 +187,8 @@ class Dashboard extends Optimize
                 'f_backup_env' => $this->f_backup_env,
                 'robots_exist' => $robots_exist,
                 'check_cache_active' => $check_cache_active,
+                // lấy tổng số session đang hoạt động -> tương đương với số lượng online trên web
+                'count_sessions' => $this->base_model->select_count('my_id', 'ci_sessions'),
                 'user_type' => [
                     'admin' => UsersType::ADMIN,
                 ],

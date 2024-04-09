@@ -188,6 +188,11 @@ if ($debug_enable === true) {
                             <a href="https://v2.vuejs.org/v2/guide/installation.html" target="_blank" rel="nofollow" class="bold bluecolor"><?php echo $Vue_version; ?></a>
                         </div>
                     </div>
+                    <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="p">Online:
+                            <span class="number-format"><?php echo $count_sessions; ?></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
