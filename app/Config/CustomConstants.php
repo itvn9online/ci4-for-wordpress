@@ -568,6 +568,10 @@ define('WGR_IS_MOBILE', $is_mobile);
 // với cache file -> thư mục lưu cache theo từng tên miền -> code thêm cho các web sử dụng domain pointer
 if (MY_CACHE_HANDLER == 'file') {
     define('WRITE_CACHE_PATH', WRITEPATH . 'cache/' . $cache_prefix . '/');
+    if (!is_dir(WRITE_CACHE_PATH)) {
+        mkdir(WRITE_CACHE_PATH, DEFAULT_DIR_PERMISSION) or die('ERROR create cache dir');
+        chmod(WRITE_CACHE_PATH, DEFAULT_DIR_PERMISSION);
+    }
 
     //
     define('CACHE_HOST_PREFIX', '');
@@ -581,10 +585,6 @@ else {
 }
 //die(CACHE_HOST_PREFIX);
 //die(WRITE_CACHE_PATH);
-if (!is_dir(WRITE_CACHE_PATH)) {
-    mkdir(WRITE_CACHE_PATH, DEFAULT_DIR_PERMISSION) or die('ERROR create cache dir');
-    chmod(WRITE_CACHE_PATH, DEFAULT_DIR_PERMISSION);
-}
 
 // thời gian cache mặc định
 defined('MINI_CACHE_TIMEOUT') || define('MINI_CACHE_TIMEOUT', 300);

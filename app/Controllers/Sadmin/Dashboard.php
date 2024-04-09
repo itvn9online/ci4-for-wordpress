@@ -171,6 +171,32 @@ class Dashboard extends Optimize
         //echo mysql_get_server_info();
         //print_r( opcache_get_status() );
 
+        // 
+        $count_key_sessions = 'admin-dashboard-count_sessions';
+        $count_sessions = $this->base_model->scache($count_key_sessions);
+        if ($count_sessions === null) {
+            // xóa các bản ghi cũ đi
+            $this->base_model->delete_multiple('ci_sessions', [
+                // WHERE
+                'timestamp <' => date('Y-m-d H:i:s', time() - DAY)
+            ], [
+                // hiển thị mã SQL để check
+                // 'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                // 'get_query' => 1,
+            ]);
+
+            // lấy tổng bản ghi còn lại
+            $count_sessions = $this->base_model->select_count('my_id', 'ci_sessions', [
+                // 'timestamp >' => date('Y-m-d H:i:s', time() - 1800)
+            ], [
+                // 'show_query' => 1,
+            ]);
+
+            // 
+            $this->base_model->scache($count_key_sessions, $count_sessions . '');
+        }
+
         //
         $this->teamplate_admin['content'] = view(
             'vadmin/dashboard_view',
@@ -188,11 +214,7 @@ class Dashboard extends Optimize
                 'robots_exist' => $robots_exist,
                 'check_cache_active' => $check_cache_active,
                 // lấy tổng số session đang hoạt động -> tương đương với số lượng online trên web
-                'count_sessions' => $this->base_model->select_count('my_id', 'ci_sessions', [
-                    'timestamp >' => date('Y-m-d H:i:s', time() - 1800)
-                ], [
-                    // 'show_query' => 1,
-                ]),
+                'count_sessions' => $count_sessions,
                 'user_type' => [
                     'admin' => UsersType::ADMIN,
                 ],
