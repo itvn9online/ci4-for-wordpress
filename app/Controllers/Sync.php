@@ -15,29 +15,35 @@ class Sync extends BaseController
 
     public function __construct()
     {
-        //
-        $this->base_model = new \App\Models\Base();
-
         // Nếu người dùng truy cập vào link cdn -> báo lỗi luôn
         if (CDN_BASE_URL != '' && strpos(CDN_BASE_URL, '/' . $_SERVER['HTTP_HOST'] . '/') !== false) {
             $this->cdn404();
         } else if (CDN_UPLOADS_URL != '' && strpos(CDN_UPLOADS_URL, '/' . $_SERVER['HTTP_HOST'] . '/') !== false) {
             $this->cdn404();
-        } else {
-            // không lỗi lầm gì thì mới nạp mấy cái này
-            $this->term_model = new \App\Models\Term();
-
-            //
-            //$this->cache = \Config\Services::cache();
-            $this->request = \Config\Services::request();
-
-            // kiểm tra segment vị trí thứ 1
-            $this->prefixLang($this->request->uri->getSegment(1));
-
-            //
-            $this->base_model->lang_key = $this->lang_key;
-            //echo $this->base_model->lang_key . PHP_EOL;
         }
+
+        // không lỗi lầm gì thì mới nạp mấy cái này
+        $this->base_model = new \App\Models\Base();
+        $this->term_model = new \App\Models\Term();
+
+        //
+        //$this->cache = \Config\Services::cache();
+        $this->request = \Config\Services::request();
+
+        // test request
+        // var_dump($this->request->getVar('g-recaptcha-response'));
+        // var_dump($this->request->getIPAddress());
+        // var_dump($this->request->getFiles());
+        // die(__CLASS__ . ':' . __LINE__);
+
+
+        // Xác định ngôn ngữ dựa theo URL
+        $this->prefixLang();
+
+
+        //
+        $this->base_model->lang_key = $this->lang_key;
+        //echo $this->base_model->lang_key . PHP_EOL;
     }
 
     /**
@@ -958,8 +964,20 @@ class Sync extends BaseController
     }
 
     // kiểm tra segment tại vị trí thứ 1
-    protected function prefixLang($seg)
+    protected function prefixLang()
     {
+        // lấy segment dựa theo _SERVER REQUEST_URI
+        $seg = explode('/', ltrim($_SERVER['REQUEST_URI'], '/'))[0];
+
+        // kiểm tra segment vị trí thứ 1
+        // $seg = $this->request->uri->getSegment(1);
+
+        // 
+        // print_r($seg);
+        // die(__CLASS__ . ':' . __LINE__);
+
+
+        // 
         $arr_lang_support = LanguageCost::typeList();
 
         //print_r($arr_lang_support);
@@ -987,7 +1005,7 @@ class Sync extends BaseController
         }
 
         // xác định ngôn ngữ hiện tại
-        //echo $this->lang_key . '<br>' . PHP_EOL;
+        // echo $this->lang_key . '<br>' . PHP_EOL;
     }
 
     public function change_lang()

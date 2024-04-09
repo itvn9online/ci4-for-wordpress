@@ -357,14 +357,10 @@ class PostMeta extends PostBase
      **/
     public function post_meta_default($post_type)
     {
-        global $arr_custom_post_meta;
-        //print_r($arr_custom_post_meta);
-
-        //
         $result = PostType::meta_default($post_type);
         //print_r($result);
-        if (isset($arr_custom_post_meta[$post_type])) {
-            $a = $arr_custom_post_meta[$post_type];
+        if (isset(ARR_CUSTOM_POST_META[$post_type])) {
+            $a = ARR_CUSTOM_POST_META[$post_type];
             //print_r($a);
             foreach ($a as $k => $v) {
                 $result[$k] = $v['name'];

@@ -119,7 +119,7 @@ function register_taxonomys($arrs = [])
  * Danh sách các custom taxonomy mà người dùng đăng ký sẽ được khai báo thêm ở đây
  * Các meta đã được khai báo sẽ không bị dọn dẹp khi update meta
  **/
-$arr_custom_taxonomy_meta = [];
+$arr_custom_meta_taxonomy = [];
 // hàm đăng ký nhiều taxonomy meta 1 lúc
 /* Code mẫu:
 register_taxonomys_meta([
@@ -148,9 +148,9 @@ register_taxonomys_meta([
 */
 function register_taxonomys_meta($arrs = [])
 {
-    global $arr_custom_taxonomy_meta;
+    global $arr_custom_meta_taxonomy;
     foreach ($arrs as $k => $v) {
-        $arr_custom_taxonomy_meta[$k] = $v;
+        $arr_custom_meta_taxonomy[$k] = $v;
     }
 }
 
@@ -310,6 +310,22 @@ if (is_file(THEMEPATH . 'functions.php')) {
     include THEMEPATH . 'functions.php';
 }
 ####################################################################
+
+/**
+ * Ở phiên bản ci-4.50, mấy mảng này trả về null khi gọi qua global
+ * Khởi tạo constants cho các mảng động sau khi nạp file functions.php
+ */
+// print_r($arr_custom_user_type);
+define('ARR_CUSTOM_TAXONOMY', $arr_custom_taxonomy);
+// print_r($arr_custom_meta_taxonomy);
+define('ARR_CUSTOM_META_TAXONOMY', $arr_custom_meta_taxonomy);
+// print_r($arr_custom_post_type);
+define('ARR_CUSTOM_POST_TYPE', $arr_custom_post_type);
+// print_r($arr_custom_post_meta);
+define('ARR_CUSTOM_POST_META', $arr_custom_post_meta);
+// print_r($arr_custom_user_type);
+define('ARR_CUSTOM_USER_TYPE', $arr_custom_user_type);
+// die(__FILE__ . ':' . __LINE__);
 
 
 // 

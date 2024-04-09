@@ -6,12 +6,12 @@
 //print_r( $session_data );
 //print_r( $_SESSION );
 
-/*
+/**
  * thêm custom taxonomy
  */
 
-//global $arr_custom_taxonomy;
-//print_r( $arr_custom_taxonomy );
+//global ARR_CUSTOM_TAXONOMY;
+//print_r(ARR_CUSTOM_TAXONOMY);
 
 
 // TEST

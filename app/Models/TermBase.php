@@ -521,9 +521,6 @@ class TermBase extends EbModel
      **/
     public function sync_term_child_count($run_h_only = true, $limit = 20)
     {
-        global $arr_custom_taxonomy;
-
-        //
         if ($run_h_only === true) {
             $last_run = $this->base_model->scache(__FUNCTION__);
             if ($last_run !== null) {
@@ -545,7 +542,7 @@ class TermBase extends EbModel
         // print_r($arr_taxonomy_type);
 
         // lấy custom taxonomy
-        foreach ($arr_custom_taxonomy as $k => $v) {
+        foreach (ARR_CUSTOM_TAXONOMY as $k => $v) {
             // không tính toán cho các taxonomy được chỉ định không public
             if (isset($v['public']) && $v['public'] != 'on') {
                 continue;
@@ -728,15 +725,10 @@ class TermBase extends EbModel
      **/
     public function taxonomy_meta_default($taxonomy)
     {
-        global $arr_custom_taxonomy_meta;
-        // print_r($arr_custom_taxonomy_meta);
-        // die(__CLASS__ . ':' . __LINE__);
-
-        //
         $result = TaxonomyType::meta_default($taxonomy);
         //print_r($result);
-        if (isset($arr_custom_taxonomy_meta[$taxonomy])) {
-            $a = $arr_custom_taxonomy_meta[$taxonomy];
+        if (isset(ARR_CUSTOM_META_TAXONOMY[$taxonomy])) {
+            $a = ARR_CUSTOM_META_TAXONOMY[$taxonomy];
             // print_r($a);
             // die(__CLASS__ . ':' . __LINE__);
             foreach ($a as $k => $v) {

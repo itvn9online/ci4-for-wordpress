@@ -45,22 +45,19 @@ class Terms extends Sadmin
 
             // nếu không xác định được taxonomy
             if ($this->name_type == '') {
-                global $arr_custom_taxonomy;
-                //print_r( $arr_custom_taxonomy );
-
                 // thử xem có phải custom taxonomy không
-                if (isset($arr_custom_taxonomy[$this->taxonomy])) {
+                if (isset(ARR_CUSTOM_TAXONOMY[$this->taxonomy])) {
                     // xem có slug không
                     if (
-                        isset($arr_custom_taxonomy[$this->taxonomy]['slug']) &&
+                        isset(ARR_CUSTOM_TAXONOMY[$this->taxonomy]['slug']) &&
                         // nếu có
-                        $arr_custom_taxonomy[$this->taxonomy]['slug'] != '' &&
+                        ARR_CUSTOM_TAXONOMY[$this->taxonomy]['slug'] != '' &&
                         // mà khác nhau
-                        $arr_custom_taxonomy[$this->taxonomy]['slug'] != $this->controller_slug
+                        ARR_CUSTOM_TAXONOMY[$this->taxonomy]['slug'] != $this->controller_slug
                     ) {
 
                         // tạo link redirect
-                        $redirect_to = str_replace('/sadmin/' . $this->controller_slug, '/sadmin/' . $arr_custom_taxonomy[$this->taxonomy]['slug'], $_SERVER['REQUEST_URI']);
+                        $redirect_to = str_replace('/sadmin/' . $this->controller_slug, '/sadmin/' . ARR_CUSTOM_TAXONOMY[$this->taxonomy]['slug'], $_SERVER['REQUEST_URI']);
                         $redirect_to = rtrim(DYNAMIC_BASE_URL, '/') . $redirect_to;
                         //die( $redirect_to );
 
@@ -577,14 +574,8 @@ class Terms extends Sadmin
             $set_parent = $this->taxonomy;
         }
         // với custom taxonomy -> kiểm tra xem có tham số set cha con không
-        else {
-            global $arr_custom_taxonomy;
-            //print_r( $arr_custom_taxonomy );
-
-            //
-            if (isset($arr_custom_taxonomy[$this->taxonomy]) && isset($arr_custom_taxonomy[$this->taxonomy]['set_parent'])) {
-                $set_parent = $this->taxonomy;
-            }
+        else if (isset(ARR_CUSTOM_TAXONOMY[$this->taxonomy]) && isset(ARR_CUSTOM_TAXONOMY[$this->taxonomy]['set_parent'])) {
+            $set_parent = $this->taxonomy;
         }
 
         //

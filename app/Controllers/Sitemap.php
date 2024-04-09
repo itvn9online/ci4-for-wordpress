@@ -60,11 +60,6 @@ class Sitemap extends Layout
 
     public function index($post_type = '', $page_page = '', $page_num = 1)
     {
-        global $arr_custom_post_type;
-        //print_r( $arr_custom_post_type );
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-
-        //
         $this->WGR_echo_sitemap_css();
 
         //
@@ -105,7 +100,7 @@ class Sitemap extends Layout
         //print_r( $arr_post_type );
 
         // lấy custom post type
-        foreach ($arr_custom_post_type as $k => $v) {
+        foreach (ARR_CUSTOM_POST_TYPE as $k => $v) {
             // không tạo sitemap cho các post type được chỉ định không public
             if (isset($v['public']) && $v['public'] != 'on') {
                 continue;
@@ -167,10 +162,6 @@ class Sitemap extends Layout
 
     protected function sitemap_tags()
     {
-        global $arr_custom_taxonomy;
-        //print_r( $arr_custom_taxonomy );
-
-        //
         $get_list_sitemap = '';
 
         // home
@@ -189,7 +180,7 @@ class Sitemap extends Layout
         //print_r( $arr_taxonomy_type );
 
         // lấy custom post type
-        foreach ($arr_custom_taxonomy as $k => $v) {
+        foreach (ARR_CUSTOM_TAXONOMY as $k => $v) {
             // không tạo sitemap cho các taxonomy được chỉ định không public
             if (isset($v['public']) && $v['public'] != 'on') {
                 continue;

@@ -48,14 +48,13 @@ class Post extends PostProducs
         $this->base_model->scache(__FUNCTION__, time(), 120);
 
         //
-        global $arr_custom_post_type;
         $allow_post_type = [
             PostType::PAGE,
             PostType::POST,
             //PostType::BLOG,
             PostType::PROD,
         ];
-        foreach ($arr_custom_post_type as $k => $v) {
+        foreach (ARR_CUSTOM_POST_TYPE as $k => $v) {
             if (!in_array($k, $allow_post_type)) {
                 $allow_post_type[] = $k;
             }
@@ -99,7 +98,6 @@ class Post extends PostProducs
 
         // nếu không có thì chuyển sang update term
         if (empty($data)) {
-            global $arr_custom_taxonomy;
             $allow_taxonomy = [
                 TaxonomyType::POSTS,
                 TaxonomyType::TAGS,
@@ -109,7 +107,7 @@ class Post extends PostProducs
                 TaxonomyType::PROD_OTPS,
                 TaxonomyType::PROD_TAGS,
             ];
-            foreach ($arr_custom_taxonomy as $k => $v) {
+            foreach (ARR_CUSTOM_TAXONOMY as $k => $v) {
                 if (!in_array($k, $allow_taxonomy)) {
                     $allow_taxonomy[] = $k;
                 }

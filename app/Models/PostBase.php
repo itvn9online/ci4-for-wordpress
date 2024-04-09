@@ -382,14 +382,13 @@ class PostBase extends EbModel
          */
         $tbl_dpost = WGR_TABLE_PREFIX . 'zzz_dup_posts_slug';
         if ($create_view !== false || $this->base_model->table_exists($tbl_dpost) === false) {
-            global $arr_custom_post_type;
             $allow_post_type = [
                 PostType::PAGE,
                 PostType::POST,
                 //PostType::BLOG,
                 PostType::PROD,
             ];
-            foreach ($arr_custom_post_type as $k => $v) {
+            foreach (ARR_CUSTOM_POST_TYPE as $k => $v) {
                 if (!in_array($k, $allow_post_type)) {
                     $allow_post_type[] = $k;
                 }
@@ -439,7 +438,6 @@ class PostBase extends EbModel
          */
         $tbl_dterm = WGR_TABLE_PREFIX . 'zzz_dup_terms_slug';
         if ($create_view !== false || $this->base_model->table_exists($tbl_dterm) === false) {
-            global $arr_custom_taxonomy;
             $allow_taxonomy = [
                 TaxonomyType::POSTS,
                 TaxonomyType::TAGS,
@@ -448,7 +446,7 @@ class PostBase extends EbModel
                 TaxonomyType::PROD_CATS,
                 TaxonomyType::PROD_TAGS,
             ];
-            foreach ($arr_custom_taxonomy as $k => $v) {
+            foreach (ARR_CUSTOM_TAXONOMY as $k => $v) {
                 if (!in_array($k, $allow_taxonomy)) {
                     $allow_taxonomy[] = $k;
                 }

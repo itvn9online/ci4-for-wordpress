@@ -1347,7 +1347,6 @@ class Dashboard extends Optimize
         }
 
         //
-        global $arr_custom_taxonomy;
         $allow_taxonomy = [
             TaxonomyType::POSTS,
             TaxonomyType::TAGS,
@@ -1356,7 +1355,7 @@ class Dashboard extends Optimize
             TaxonomyType::PROD_CATS,
             TaxonomyType::PROD_TAGS,
         ];
-        foreach ($arr_custom_taxonomy as $k => $v) {
+        foreach (ARR_CUSTOM_TAXONOMY as $k => $v) {
             if (!in_array($k, $allow_taxonomy)) {
                 $allow_taxonomy[] = $k;
             }
@@ -1442,14 +1441,13 @@ class Dashboard extends Optimize
         }
 
         //
-        global $arr_custom_post_type;
         $allow_post_type = [
             PostType::PAGE,
             PostType::POST,
             //PostType::BLOG,
             PostType::PROD,
         ];
-        foreach ($arr_custom_post_type as $k => $v) {
+        foreach (ARR_CUSTOM_POST_TYPE as $k => $v) {
             if (!in_array($k, $allow_post_type)) {
                 $allow_post_type[] = $k;
             }

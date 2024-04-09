@@ -152,16 +152,12 @@ class Sadmin extends Ajaxs
 
     protected function admin_menu()
     {
-        global $arr_custom_user_type;
-        //print_r($arr_custom_user_type);
-
-        //
         $arr = AdminMenu::menu_list();
         //print_r($arr);
         //echo count($arr) . PHP_EOL;
 
         // Hiển thị menu phân loại cho thành viên
-        foreach ($arr_custom_user_type as $k => $v) {
+        foreach (ARR_CUSTOM_USER_TYPE as $k => $v) {
             if (!isset($v['controller'])) {
                 continue;
             }
