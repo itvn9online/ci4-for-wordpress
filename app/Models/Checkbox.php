@@ -22,6 +22,7 @@ class Checkbox extends Lang
 
         //
         if ($this_cache_checkbox === null) {
+            // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
             $this_cache_checkbox = $this->option_model->arr_config(ConfigType::CHECKBOX);
         }
         //print_r($this_cache_checkbox);

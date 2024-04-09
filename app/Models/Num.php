@@ -22,6 +22,7 @@ class Num extends Lang
 
         //
         if ($this_cache_num === null) {
+            // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
             $this_cache_num = $this->option_model->arr_config(ConfigType::NUM_MON);
         }
         //print_r($this_cache_num);

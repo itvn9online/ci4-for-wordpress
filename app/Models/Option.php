@@ -267,8 +267,11 @@ class Option extends EbModel
     {
         global $this_cache_config;
         if ($this_cache_config !== null) {
+            // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
             return $this_cache_config;
         }
+        // var_dump($this_cache_config);
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
         //
         if ($lang_key == '') {
@@ -284,7 +287,7 @@ class Option extends EbModel
 
         //
         $arr_option_type = ConfigType::mainType();
-        //print_r( $arr_option_type );
+        // print_r($arr_option_type);
 
         //
         $this_cache_config = [];
@@ -307,7 +310,7 @@ class Option extends EbModel
         }
 
         // chuẩn hóa dữ liệu để tránh lỗi
-        //print_r( $this_cache_config );
+        // print_r($this_cache_config);
         $default_config_value = [
             'default_bg' => ConfigType::defaultColor('default_bg'),
             'sub_bg' => ConfigType::defaultColor('sub_bg'),
@@ -324,14 +327,14 @@ class Option extends EbModel
                 $this_cache_config[$k] = $v;
             }
         }
-        //print_r( $this_cache_config );
+        // print_r($this_cache_config);
         //die( __CLASS__ . ':' . __LINE__ );
 
         //
         $this->the_cache(__FUNCTION__, $lang_key, $this_cache_config, $time);
 
         //
-        //die( __CLASS__ . ':' . __LINE__ );
+        // die(__CLASS__ . ':' . __LINE__);
         return $this_cache_config;
     }
 

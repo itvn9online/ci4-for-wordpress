@@ -326,3 +326,13 @@ function showUserInfoIp(data) {
 	g_func.getc("admin_server_location_by_ip"),
 	g_func.getc("admin_user_location_by_ip")
 );
+
+//
+$(document).ready(function () {
+	$(".click-show-backup-more")
+		.addClass("cur")
+		.click(function (e) {
+			// e.preventDefault();
+			$(".action-show-backup-more").toggleClass("d-none");
+		});
+});

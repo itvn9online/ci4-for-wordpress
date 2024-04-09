@@ -5,9 +5,6 @@
  */
 
 //  
-$show_backup = isset($_GET['show_backup']) ? 1 : 0;
-
-// 
 $local_bak_bash = base_url('backups/local_bak_bash') . '?to=' . $_SERVER['HTTP_HOST'];
 $db_url_bash = base_url('backups/db_bak_bash');
 
@@ -78,52 +75,51 @@ if (time() - $last_localhost_filemtime > DAY) {
 ?>
     <p class="big">
         <span class="redcolor bold">Dữ liệu về localhost chưa được backup!</span>
-        <a href="<?php echo CUSTOM_ADMIN_URI; ?>?show_backup=1" class="bluecolor">More...</a>
+        <span class="bluecolor click-show-backup-more">More...</span>
     </p>
 <?php
 } else {
 ?>
     <p class="medium18">
         <span class="greencolor"><i class="fa fa-lightbulb-o"></i> Backup cuối: <?php echo date('r', $last_localhost_filemtime); ?> (<?php echo number_format((time() - $last_localhost_filemtime) / 3600, 1); ?> giờ trước)</span>
-        <a href="<?php echo CUSTOM_ADMIN_URI; ?>?show_backup=1" class="bluecolor">More...</a>
+        <span class="bluecolor click-show-backup-more">More...</span>
     </p>
 <?php
 }
 
-// 
-if ($show_backup > 0) {
 ?>
+<div class="action-show-backup-more d-none">
     <div>
         <textarea rows="<?php echo count(explode("\n", $bash_localhost_bak)); ?>" onDblClick="click2Copy(this);" class="s12 form-control" readonly><?php echo $bash_localhost_bak; ?></textarea>
     </div>
     <p><a href="<?php echo $local_bak_bash; ?>" target="_blank"><?php echo $local_bak_bash; ?></a></p>
     <p class="greencolor">* Code này được copy và gắn vào file backups/bash của EBv3.</p>
     <br>
-    <br>
-    <p class="medium18 bold">Lệnh backup định kỳ database vào thư mục admin_backups:</p>
+</div>
+<br>
+<p class="medium18 bold">Lệnh backup định kỳ database vào thư mục admin_backups:</p>
 <?php
-}
 
 //
 if (time() - $last_db_filemtime > DAY) {
 ?>
     <p class="big">
         <span class="redcolor bold">Database chưa được backup hàng ngày!</span>
-        <a href="<?php echo CUSTOM_ADMIN_URI; ?>?show_backup=1" class="bluecolor">More...</a>
+        <span class="bluecolor click-show-backup-more">More...</span>
     </p>
 <?php
 } else {
 ?>
     <p class="medium18">
         <span class="greencolor"><i class="fa fa-lightbulb-o"></i> Backup cuối: <?php echo date('r', $last_db_filemtime); ?> (<?php echo number_format((time() - $last_db_filemtime) / 3600, 1); ?> giờ trước)</span>
-        <a href="<?php echo CUSTOM_ADMIN_URI; ?>?show_backup=1" class="bluecolor">More...</a>
+        <span class="bluecolor click-show-backup-more">More...</span>
     </p>
 <?php
 }
 
 // 
-if ($show_backup > 0) {
 ?>
+<div class="action-show-backup-more d-none">
     <div>
         <textarea rows="<?php echo count(explode("\n", $bash_bak_db)); ?>" onDblClick="click2Copy(this);" class="s12 form-control" readonly><?php echo $bash_bak_db; ?></textarea>
     </div>
@@ -142,7 +138,5 @@ if ($show_backup > 0) {
         <textarea rows="<?php echo count(explode("\n", $disk_usage)); ?>" class="form-control s12" readonly><?php echo $disk_usage; ?></textarea>
     </div>
     <br>
-<?php
-}
-?>
+</div>
 <br>
