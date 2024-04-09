@@ -80,6 +80,8 @@ class User extends UserMeta
         $default_data = [
             'user_registered' => date(EBE_DATETIME_FORMAT),
         ];
+        // last_login không gán ở đây -> vì lúc admin tạo tk là người dùng chưa thực sự đăng nhập
+        // $default_data['last_login'] = $default_data['user_registered'];
         $default_data['last_updated'] = $default_data['user_registered'];
 
         // kiểm tra email đã được sử dụng chưa
