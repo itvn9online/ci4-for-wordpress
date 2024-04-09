@@ -188,7 +188,11 @@ class Dashboard extends Optimize
                 'robots_exist' => $robots_exist,
                 'check_cache_active' => $check_cache_active,
                 // lấy tổng số session đang hoạt động -> tương đương với số lượng online trên web
-                'count_sessions' => $this->base_model->select_count('my_id', 'ci_sessions'),
+                'count_sessions' => $this->base_model->select_count('my_id', 'ci_sessions', [
+                    'timestamp >' => date('Y-m-d H:i:s', time() - 1800)
+                ], [
+                    // 'show_query' => 1,
+                ]),
                 'user_type' => [
                     'admin' => UsersType::ADMIN,
                 ],
