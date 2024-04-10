@@ -340,15 +340,35 @@ class Sadmin extends Ajaxs
             }
 
             // nếu lỗi -> thử phương thức xóa từng file
-            if ($has_cache === false && MY_CACHE_HANDLER == 'file') {
-                foreach (glob(WRITE_CACHE_PATH . $for . '*') as $filename) {
-                    echo $filename . '<br>' . PHP_EOL;
-                    $has_cache = true;
+            if (MY_CACHE_HANDLER == 'file') {
+                if ($has_cache === false) {
+                    echo WRITE_CACHE_PATH . '<br>' . PHP_EOL;
+                    foreach (glob(WRITE_CACHE_PATH . $for . '*') as $filename) {
+                        echo $filename . '<br>' . PHP_EOL;
+                        $has_cache = true;
 
-                    //
-                    if (is_file($filename)) {
-                        if (!$this->MY_unlink($filename)) {
-                            $this->base_model->alert('Lỗi xóa file cache ' . basename($filename), 'error');
+                        //
+                        if (is_file($filename)) {
+                            if (!$this->MY_unlink($filename)) {
+                                $this->base_model->alert('Lỗi xóa file cache ' . basename($filename), 'error');
+                            }
+                        }
+                    }
+                }
+
+                // hỗ trợ xóa cả cache cho bản mobile
+                $mobile_cache_path = rtrim(WRITE_CACHE_PATH, '/') . '_m/';
+                echo $mobile_cache_path . '<br>' . PHP_EOL;
+                if (is_dir($mobile_cache_path)) {
+                    foreach (glob($mobile_cache_path . $for . '*') as $filename) {
+                        echo $filename . '<br>' . PHP_EOL;
+                        $has_cache = true;
+
+                        //
+                        if (is_file($filename)) {
+                            if (!$this->MY_unlink($filename)) {
+                                $this->base_model->alert('Lỗi xóa file mobile cache ' . basename($filename), 'error');
+                            }
                         }
                     }
                 }
