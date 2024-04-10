@@ -29,6 +29,7 @@ class Guest extends Csrf
     // thời gian hết hạn của mỗi token login -> để thấp cho nó bảo mật
     public $expires_time = 600;
     public $expires_reverify_time = 1800;
+    public $validation = null;
 
     public function __construct()
     {

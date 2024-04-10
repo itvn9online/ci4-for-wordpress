@@ -17,6 +17,9 @@ class Sync extends BaseController
 
     public function __construct()
     {
+        // nạp base_model để hàm cdn404 còn dùng
+        $this->base_model = new \App\Models\Base();
+
         // Nếu người dùng truy cập vào link cdn -> báo lỗi luôn
         if (CDN_BASE_URL != '' && strpos(CDN_BASE_URL, '/' . $_SERVER['HTTP_HOST'] . '/') !== false) {
             $this->cdn404();
@@ -25,7 +28,6 @@ class Sync extends BaseController
         }
 
         // không lỗi lầm gì thì mới nạp mấy cái này
-        $this->base_model = new \App\Models\Base();
         $this->term_model = new \App\Models\Term();
 
         //
