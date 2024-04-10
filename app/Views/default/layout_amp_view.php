@@ -23,13 +23,11 @@
     }
 
     // nạp mã của adsense (nếu có)
-    /*
     if ($getconfig->google_amp_adsense != '') {
     ?>
         <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js" {csp-script-nonce}></script>
     <?php
     }
-    */
 
     //
     if ($amp_youtube === true) {
@@ -99,13 +97,11 @@
     <?php
 
     // nạp mã của adsense (nếu có)
-    /*
     if ($getconfig->google_amp_adsense != '') {
     ?>
         <amp-auto-ads type="adsense" data-ad-client="<?php echo $getconfig->google_amp_adsense; ?>"></amp-auto-ads>
     <?php
     }
-    */
 
     ?>
     <header id="#top" class="amp-wp-header">

@@ -289,10 +289,8 @@ if ($getconfig->google_analytics != '') {
 }
 
 // nạp mã của adsense (nếu có)
-/*
 if ($getconfig->google_adsense != '') {
 ?>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<?php echo $getconfig->google_adsense; ?>" crossorigin="anonymous"></script>
 <?php
 }
-*/
