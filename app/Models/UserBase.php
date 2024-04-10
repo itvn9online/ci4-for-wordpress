@@ -111,7 +111,7 @@ class UserBase extends EbModel
         /*
          * Chức năng đăng nhập này hơi cầu kỳ nên không dùng cái builder query chung được
          */
-        $builder = $this->base_model->db->table($this->table);
+        $builder = $this->base_model->myDb->table($this->table);
         //$builder->select( '*' );
 
         // so khớp password
@@ -153,7 +153,7 @@ class UserBase extends EbModel
         $builder->limit(1, 0);
 
         $query = $builder->get();
-        //print_r($this->base_model->db->getLastQuery()->getQuery());
+        //print_r($this->base_model->myDb->getLastQuery()->getQuery());
         //die(__CLASS__ . ':' . __LINE__);
         $a = $query->getResultArray();
         //print_r( $a );
