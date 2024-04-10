@@ -27,25 +27,22 @@ class Lang extends EbModel
      */
     public function get_the_text($key, $default_value = '', $before_text = '', $after_text = '')
     {
-        global $this_cache_lang;
-
-        //
-        if ($this_cache_lang === null) {
+        if ($GLOBALS['this_cache_lang'] === null) {
             // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-            $this_cache_lang = $this->option_model->get_lang();
+            $GLOBALS['this_cache_lang'] = $this->option_model->get_lang();
         }
-        //print_r($this_cache_lang);
+        //print_r($GLOBALS['this_cache_lang']);
 
         //
         $key = $this->option_prefix . $key;
         //echo $key . '<br>' . PHP_EOL;
         // nếu chưa có
-        if (!isset($this_cache_lang[$key])) {
+        if (!isset($GLOBALS['this_cache_lang'][$key])) {
             // gọi đến lệnh tạo lang
-            $this_cache_lang[$key] = $this->option_model->create_lang($key, $default_value);
+            $GLOBALS['this_cache_lang'][$key] = $this->option_model->create_lang($key, $default_value);
         }
-        //print_r($this_cache_lang);
-        return $before_text . $this_cache_lang[$key] . $after_text;
+        //print_r($GLOBALS['this_cache_lang']);
+        return $before_text . $GLOBALS['this_cache_lang'][$key] . $after_text;
     }
 
     public function the_text($key, $default_value = '', $before_text = '', $after_text = '')

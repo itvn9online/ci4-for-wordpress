@@ -265,12 +265,11 @@ class Option extends EbModel
 
     public function list_config($lang_key = '', $time = BIG_CACHE_TIMEOUT)
     {
-        global $this_cache_config;
-        if ($this_cache_config !== null) {
+        if ($GLOBALS['this_cache_config'] !== null) {
             // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-            return $this_cache_config;
+            return $GLOBALS['this_cache_config'];
         }
-        // var_dump($this_cache_config);
+        // var_dump($GLOBALS['this_cache_config']);
         // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
         //
@@ -279,10 +278,10 @@ class Option extends EbModel
         }
 
         // ưu tiên trong cache trước
-        $this_cache_config = $this->the_cache(__FUNCTION__, $lang_key);
+        $GLOBALS['this_cache_config'] = $this->the_cache(__FUNCTION__, $lang_key);
         // có cache thì trả về
-        if ($this_cache_config !== null) {
-            return $this_cache_config;
+        if ($GLOBALS['this_cache_config'] !== null) {
+            return $GLOBALS['this_cache_config'];
         }
 
         //
@@ -290,27 +289,27 @@ class Option extends EbModel
         // print_r($arr_option_type);
 
         //
-        $this_cache_config = [];
+        $GLOBALS['this_cache_config'] = [];
         foreach ($arr_option_type as $option_type) {
             foreach ($this->get_config_by_type($option_type, $lang_key) as $v) {
-                $this_cache_config[$v['option_name']] = $v['option_value'];
+                $GLOBALS['this_cache_config'][$v['option_name']] = $v['option_value'];
             }
         }
-        //print_r($this_cache_config);
+        //print_r($GLOBALS['this_cache_config']);
 
         // gán giá trị mặc định cho các mảng dữ liệu chưa có
         foreach ($arr_option_type as $v) {
             $config_default = ConfigType::meta_default($v);
             //print_r($config_default);
             foreach ($config_default as $k => $v) {
-                if (!isset($this_cache_config[$k])) {
-                    $this_cache_config[$k] = '';
+                if (!isset($GLOBALS['this_cache_config'][$k])) {
+                    $GLOBALS['this_cache_config'][$k] = '';
                 }
             }
         }
 
         // chuẩn hóa dữ liệu để tránh lỗi
-        // print_r($this_cache_config);
+        // print_r($GLOBALS['this_cache_config']);
         $default_config_value = [
             'default_bg' => ConfigType::defaultColor('default_bg'),
             'sub_bg' => ConfigType::defaultColor('sub_bg'),
@@ -323,19 +322,19 @@ class Option extends EbModel
             'bodym_font_size' => 13,
         ];
         foreach ($default_config_value as $k => $v) {
-            if (empty($this_cache_config[$k])) {
-                $this_cache_config[$k] = $v;
+            if (empty($GLOBALS['this_cache_config'][$k])) {
+                $GLOBALS['this_cache_config'][$k] = $v;
             }
         }
-        // print_r($this_cache_config);
+        // print_r($GLOBALS['this_cache_config']);
         //die( __CLASS__ . ':' . __LINE__ );
 
         //
-        $this->the_cache(__FUNCTION__, $lang_key, $this_cache_config, $time);
+        $this->the_cache(__FUNCTION__, $lang_key, $GLOBALS['this_cache_config'], $time);
 
         //
         // die(__CLASS__ . ':' . __LINE__);
-        return $this_cache_config;
+        return $GLOBALS['this_cache_config'];
     }
 
     // trả về class css cho việc hiển thị Số cột trên mỗi dòng

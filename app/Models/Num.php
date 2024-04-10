@@ -18,24 +18,21 @@ class Num extends Lang
     // trả về 1 giá trị số dữ theo key truyền vào
     public function get_the_number($key, $default_value = '')
     {
-        global $this_cache_num;
-
-        //
-        if ($this_cache_num === null) {
+        if ($GLOBALS['this_cache_num'] === null) {
             // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-            $this_cache_num = $this->option_model->arr_config(ConfigType::NUM_MON);
+            $GLOBALS['this_cache_num'] = $this->option_model->arr_config(ConfigType::NUM_MON);
         }
-        //print_r($this_cache_num);
+        //print_r($GLOBALS['this_cache_num']);
 
         //
         //echo $key . '<br>' . PHP_EOL;
         // nếu chưa có
-        if (!isset($this_cache_num[$key])) {
+        if (!isset($GLOBALS['this_cache_num'][$key])) {
             // gọi đến lệnh tạo num
-            $this_cache_num[$key] = $this->option_model->create_num($key, $default_value);
+            $GLOBALS['this_cache_num'][$key] = $this->option_model->create_num($key, $default_value);
         }
-        //print_r($this_cache_num);
-        return $this_cache_num[$key] * 1;
+        //print_r($GLOBALS['this_cache_num']);
+        return $GLOBALS['this_cache_num'][$key] * 1;
     }
 
     public function the_number($key, $default_value = '')

@@ -71,13 +71,10 @@ define('RAND2_GET_ANTI_SPAM', '_' . substr($rand2_by_date, 6, 12));
 /**
  * lưu giá trị của config vào biến này, nếu hàm sau có gọi lại thì tái sử dụng luôn
  **/
-$this_cache_config = null;
-$this_cache_lang = null;
-$this_cache_num = null;
-$this_cache_checkbox = null;
-
-
-
+$GLOBALS['this_cache_config'] = null;
+$GLOBALS['this_cache_lang'] = null;
+$GLOBALS['this_cache_num'] = null;
+$GLOBALS['this_cache_checkbox'] = null;
 
 
 
@@ -85,7 +82,7 @@ $this_cache_checkbox = null;
 /**
  * Danh sách các custom taxonomy mà người dùng đăng ký sẽ được khai báo thêm ở đây
  **/
-$arr_custom_taxonomy = [];
+$GLOBALS['arr_custom_taxonomy'] = [];
 // hàm đăng ký nhiều taxonomy 1 lúc
 /* Code mẫu:
 register_taxonomys([
@@ -109,17 +106,18 @@ register_taxonomys([
 */
 function register_taxonomys($arrs = [])
 {
-    global $arr_custom_taxonomy;
+    $a = [];
     foreach ($arrs as $k => $v) {
-        $arr_custom_taxonomy[$k] = $v;
+        $a[$k] = $v;
     }
+    $GLOBALS['arr_custom_taxonomy'] = $a;
 }
 
 /**
  * Danh sách các custom taxonomy mà người dùng đăng ký sẽ được khai báo thêm ở đây
  * Các meta đã được khai báo sẽ không bị dọn dẹp khi update meta
  **/
-$arr_custom_meta_taxonomy = [];
+$GLOBALS['arr_custom_meta_taxonomy'] = [];
 // hàm đăng ký nhiều taxonomy meta 1 lúc
 /* Code mẫu:
 register_taxonomys_meta([
@@ -148,10 +146,11 @@ register_taxonomys_meta([
 */
 function register_taxonomys_meta($arrs = [])
 {
-    global $arr_custom_meta_taxonomy;
+    $a = [];
     foreach ($arrs as $k => $v) {
-        $arr_custom_meta_taxonomy[$k] = $v;
+        $a[$k] = $v;
     }
+    $GLOBALS['arr_custom_meta_taxonomy'] = $a;
 }
 
 
@@ -162,7 +161,7 @@ function register_taxonomys_meta($arrs = [])
 /**
  * Danh sách các custom post type mà người dùng đăng ký sẽ được khai báo thêm ở đây
  **/
-$arr_custom_post_type = [];
+$GLOBALS['arr_custom_post_type'] = [];
 /* Code mẫu:
 register_posts_type([
     'custom_post_type1' => [
@@ -179,10 +178,11 @@ register_posts_type([
 */
 function register_posts_type($arrs = [])
 {
-    global $arr_custom_post_type;
+    $a = [];
     foreach ($arrs as $k => $v) {
-        $arr_custom_post_type[$k] = $v;
+        $a[$k] = $v;
     }
+    $GLOBALS['arr_custom_post_type'] = $a;
 }
 
 
@@ -190,7 +190,7 @@ function register_posts_type($arrs = [])
  * Danh sách các custom post meta mà người dùng đăng ký sẽ được khai báo thêm ở đây
  * Các meta đã được khai báo sẽ không bị dọn dẹp khi update metalà text
  **/
-$arr_custom_post_meta = [];
+$GLOBALS['arr_custom_post_meta'] = [];
 /* Code mẫu:
 register_posts_meta([
     'custom_post_type1' => [
@@ -218,10 +218,11 @@ register_posts_meta([
 */
 function register_posts_meta($arrs = [])
 {
-    global $arr_custom_post_meta;
+    $a = [];
     foreach ($arrs as $k => $v) {
-        $arr_custom_post_meta[$k] = $v;
+        $a[$k] = $v;
     }
+    $GLOBALS['arr_custom_post_meta'] = $a;
 }
 
 
@@ -232,7 +233,7 @@ function register_posts_meta($arrs = [])
  * Danh sách các user type mà người dùng đăng ký sẽ được khai báo thêm ở đây
  * Đầu vào là dạng mảng -> đăng ký nhiều user type 1 lúc
  **/
-$arr_custom_user_type = [];
+$GLOBALS['arr_custom_user_type'] = [];
 /* Code mẫu:
 register_users_type([
     'custom_user_type1' => [
@@ -249,10 +250,11 @@ register_users_type([
 */
 function register_users_type($arrs = [])
 {
-    global $arr_custom_user_type;
+    $a = [];
     foreach ($arrs as $k => $v) {
-        $arr_custom_user_type[$k] = $v;
+        $a[$k] = $v;
     }
+    $GLOBALS['arr_custom_user_type'] = $a;
 }
 
 
@@ -315,16 +317,22 @@ if (is_file(THEMEPATH . 'functions.php')) {
  * Ở phiên bản ci-4.50, mấy mảng này trả về null khi gọi qua global
  * Khởi tạo constants cho các mảng động sau khi nạp file functions.php
  */
-// print_r($arr_custom_user_type);
-define('ARR_CUSTOM_TAXONOMY', $arr_custom_taxonomy);
-// print_r($arr_custom_meta_taxonomy);
-define('ARR_CUSTOM_META_TAXONOMY', $arr_custom_meta_taxonomy);
-// print_r($arr_custom_post_type);
-define('ARR_CUSTOM_POST_TYPE', $arr_custom_post_type);
-// print_r($arr_custom_post_meta);
-define('ARR_CUSTOM_POST_META', $arr_custom_post_meta);
-// print_r($arr_custom_user_type);
-define('ARR_CUSTOM_USER_TYPE', $arr_custom_user_type);
+// print_r($GLOBALS['arr_custom_taxonomy']);
+define('ARR_CUSTOM_TAXONOMY', $GLOBALS['arr_custom_taxonomy']);
+
+// print_r($GLOBALS['arr_custom_meta_taxonomy']);
+define('ARR_CUSTOM_META_TAXONOMY', $GLOBALS['arr_custom_meta_taxonomy']);
+
+// print_r($GLOBALS['arr_custom_post_type']);
+define('ARR_CUSTOM_POST_TYPE', $GLOBALS['arr_custom_post_type']);
+
+// print_r($GLOBALS['arr_custom_post_meta']);
+define('ARR_CUSTOM_POST_META', $GLOBALS['arr_custom_post_meta']);
+
+// print_r($GLOBALS['arr_custom_user_type']);
+define('ARR_CUSTOM_USER_TYPE', $GLOBALS['arr_custom_user_type']);
+
+// 
 // die(__FILE__ . ':' . __LINE__);
 
 

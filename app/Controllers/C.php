@@ -27,6 +27,7 @@ class C extends Home
             //echo $id . '<br>' . PHP_EOL;
             //echo $slug . '<br>' . PHP_EOL;
             //echo $page_num . '<br>' . PHP_EOL;
+            // print_r(ARR_CUSTOM_TAXONOMY);
 
             // với custom taxonomy -> kiểm tra xem taxonomy này phải được đăng ký thì mới hiển thị ra
             if (!isset(ARR_CUSTOM_TAXONOMY[$taxonomy_type])) {
