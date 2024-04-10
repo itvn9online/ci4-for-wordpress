@@ -334,5 +334,14 @@ $(document).ready(function () {
 		.click(function (e) {
 			// e.preventDefault();
 			$(".action-show-backup-more").toggleClass("d-none");
+
+			//
+			$(".click-show-backup-more").removeClass("this-show-backup-more");
+			$(this).addClass("this-show-backup-more");
+
+			//
+			setTimeout(() => {
+				window.scroll(0, $(".this-show-backup-more").offset().top - 90);
+			}, 200);
 		});
 });

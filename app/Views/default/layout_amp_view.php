@@ -14,11 +14,22 @@
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather:400,400italic,700,700italic"> -->
     <script src="https://cdn.ampproject.org/v0.js" async {csp-script-nonce}></script>
     <?php
+
+    // nạp mã của analytics (nếu có)
     if ($getconfig->google_analytics != '') {
     ?>
         <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js" {csp-script-nonce}></script>
     <?php
     }
+
+    // nạp mã của adsense (nếu có)
+    /*
+    if ($getconfig->google_amp_adsense != '') {
+    ?>
+        <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js" {csp-script-nonce}></script>
+    <?php
+    }
+    */
 
     //
     if ($amp_youtube === true) {
@@ -85,6 +96,18 @@
 </head>
 
 <body>
+    <?php
+
+    // nạp mã của adsense (nếu có)
+    /*
+    if ($getconfig->google_amp_adsense != '') {
+    ?>
+        <amp-auto-ads type="adsense" data-ad-client="<?php echo $getconfig->google_amp_adsense; ?>"></amp-auto-ads>
+    <?php
+    }
+    */
+
+    ?>
     <header id="#top" class="amp-wp-header">
         <div><a href="<?php echo $amp_base_url; ?>"><?php echo $getconfig->name; ?></a></div>
     </header>

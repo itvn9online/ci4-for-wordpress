@@ -281,9 +281,18 @@ $theme_private_view = VIEWS_CUSTOM_PATH . 'get_header.php';
 include VIEWS_PATH . 'private_require_view.php';
 
 
-// nếu có ID google analytics thì nạp nó
+// nạp mã của analytics (nếu có)
 if ($getconfig->google_analytics != '') {
     echo HtmlTemplate::html('google_analytics.txt', [
         'google_analytics' => $getconfig->google_analytics,
     ]);
 }
+
+// nạp mã của adsense (nếu có)
+/*
+if ($getconfig->google_adsense != '') {
+?>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<?php echo $getconfig->google_adsense; ?>" crossorigin="anonymous"></script>
+<?php
+}
+*/
