@@ -31,7 +31,7 @@ class Lang extends EbModel
             // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
             $GLOBALS['this_cache_lang'] = $this->option_model->get_lang();
         }
-        //print_r($GLOBALS['this_cache_lang']);
+        // print_r($GLOBALS['this_cache_lang']);
 
         //
         $key = $this->option_prefix . $key;
@@ -53,12 +53,15 @@ class Lang extends EbModel
     // trả về thông tin bản quyền phần mềm theo tiêu chuẩn
     public function get_web_license($getconfig)
     {
+        // $this->the_text('copy_right_first', ConfigType::placeholder('copy_right_first'));
+
+        // 
         return HtmlTemplate::html('footer_copyright.html', [
             'copy_right_first' => $this->get_the_text('copy_right_first', ConfigType::placeholder('copy_right_first')),
             'year' => date('Y'),
             'name' => $getconfig->name,
             'copy_right_last' => $this->get_the_text('copy_right_last', ConfigType::placeholder('copy_right_last')),
-            'powered_by_echbay' => $this->get_the_text('powered_by_echbay', ConfigType::placeholder('powered_by_echbay')),
+            'powered_by_eb' => $this->get_the_text('powered_by_eb', ConfigType::placeholder('powered_by_eb')),
         ]);
     }
 
