@@ -486,7 +486,7 @@ class Session
     public function scache($key, $value = '', $time = MINI_CACHE_TIMEOUT)
     {
         if (MY_CACHE_HANDLER == 'disable') {
-            return NULL;
+            return null;
         }
 
         // lưu cache nếu có nội dung
@@ -521,7 +521,7 @@ class Session
             ) {
                 // có thể cân đối giữa việc XÓA toàn bộ hoặc return false luôn
                 if ($clean_all !== true) {
-                    return NULL;
+                    return null;
                 }
             } else {
                 return $this->cache->deleteMatching('*' . $for . '*');
@@ -531,11 +531,11 @@ class Session
         // nếu cache và session sử dụng chung 1 drive thì không cho xóa toàn bộ
         if (MY_CACHE_HANDLER == 'redis') {
             if (MY_SESSION_DRIVE == 'RedisHandler') {
-                return NULL;
+                return null;
             }
         } else if (MY_CACHE_HANDLER == 'memcached') {
             if (MY_SESSION_DRIVE == 'MemcachedHandler') {
-                return NULL;
+                return null;
             }
         }
 

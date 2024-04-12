@@ -168,7 +168,7 @@ class Layout extends Sync
     {
         // không thực thi cache đối với tài khoản đang đăng nhập
         if (MY_CACHE_HANDLER == 'disable' || $this->current_user_id > 0 || isset($_GET['set_lang'])) {
-            return NULL;
+            return null;
         }
 
         //

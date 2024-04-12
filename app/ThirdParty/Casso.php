@@ -72,7 +72,7 @@ class Casso
             if (empty($data_string)) {
                 if ($debug_enable !== true) {
                     file_put_contents($file_log, 'empty data string|' . __CLASS__ . ':' . __LINE__ . PHP_EOL, FILE_APPEND);
-                    return NULL;
+                    return null;
                 }
                 // TEST data
                 //$data_string = '{"error":0,"data":[{"id":1844887,"tid":"246745","description":"ND:CT DEN:231915042064 MBVCB.2707051024.042064.Bill 4.CT tu 0451001536775 DAO QUOC DAI toi 105877347307 DO XUAN VIET Ngan hang Cong Thuong Viet Nam (VIETINBANK); tai Napas","amount":5000,"cusum_balance":55000,"when":"2022-11-15 22:25:00","bank_sub_acc_id":"105877347307","subAccId":"105877347307","virtualAccount":"","virtualAccountName":"","corresponsiveName":"","corresponsiveAccount":"","corresponsiveBankId":"","corresponsiveBankName":""}]}';

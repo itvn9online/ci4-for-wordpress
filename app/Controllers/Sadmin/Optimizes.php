@@ -16,7 +16,7 @@ class Optimizes extends Optimize
     public function index()
     {
         $data = '';
-        $time_start = time();
+        $time_start = microtime(true);
         // tính năng này không hoạt động trên localhost
         if (strpos($_SERVER['HTTP_HOST'], 'localhost') === false) {
             //die(__CLASS__ . ':' . __LINE__);
@@ -59,7 +59,7 @@ class Optimizes extends Optimize
 
         //
         $this->teamplate_admin['content'] = view('vadmin/optimize_view', [
-            'total_time' => time() - $time_start,
+            'total_time' => number_format(microtime(true) - $time_start, 3),
             'data' => $data,
         ]);
         return view('vadmin/admin_teamplate', $this->teamplate_admin);

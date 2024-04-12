@@ -13,8 +13,8 @@ function EBE_part_page(Page, TotalPage, strLinkPager, sub_part, add_query) {
 	if (typeof sub_part == "undefined") {
 		sub_part = "/page/";
 	}
-	console.log(Page, TotalPage);
-	console.log(strLinkPager, sub_part);
+	// console.log(Page, TotalPage);
+	// console.log(strLinkPager, sub_part);
 
 	// thêm dấu ? hoặc dấu & cho url
 	if (typeof add_query != "undefined" && add_query != "") {
@@ -81,8 +81,8 @@ function EBE_part_page(Page, TotalPage, strLinkPager, sub_part, add_query) {
 	//console.log('show page:', show_page);
 
 	// -> các trang sau
-	let next_page = "";
-	let last_page = "";
+	let next_page = "",
+		last_page = "";
 	let end_i = Page + show_page;
 	//console.log('end i:', end_i);
 	if (end_i > TotalPage) {
