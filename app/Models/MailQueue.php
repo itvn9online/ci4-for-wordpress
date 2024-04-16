@@ -148,7 +148,7 @@ class MailQueue extends EbModel
             'session_id' => $this->base_model->MY_sessid(),
             'status' => PostType::PENDING,
         ], [
-            'limit' => 10,
+            'limit' => 5,
         ]);
 
         // 
