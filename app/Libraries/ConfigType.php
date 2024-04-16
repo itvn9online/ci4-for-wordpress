@@ -392,6 +392,10 @@ class ConfigType
                 'smtp2_host_name' => 'IP hoặc Hostname',
                 'smtp2_secure' => 'Bảo mật',
                 'smtp2_host_port' => 'Port',
+                'mail_queue_begin_block' => 'Mail đặt hàng thành công',
+                'mail_queue_customer' => 'Mail to customer',
+                'mail_queue_admin' => 'Mail to admin',
+                'mail_queue_author' => 'Mail to author',
                 'telegram_begin_block' => 'Cài đặt Telegram',
                 'telegram_bot_token' => 'Bot token',
                 'telegram_chat_id' => 'Chat ID',
@@ -589,6 +593,7 @@ class ConfigType
             'custom_mobile_css' => 'textarea',
             'site_max_width' => 'number',
             'site_full_width' => 'number',
+            'mail_queue_begin_block' => 'heading',
             'telegram_begin_block' => 'heading',
             'smtp_heading_test_email' => 'heading',
             'smtp2_heading_host_user' => 'heading',
@@ -660,6 +665,10 @@ class ConfigType
             'zalooa_expires_token' => 'number',
             // 
             'paypal_sdk_js' => 'textarea',
+            // 
+            'mail_queue_customer' => 'select',
+            'mail_queue_admin' => 'select',
+            'mail_queue_author' => 'select',
         ];
         //print_r( $arr );
         if (isset($arr[$key])) {
@@ -788,6 +797,11 @@ class ConfigType
             'paypal_sdk_js' => 'Get the code here (rarely used): https://developer.paypal.com/sdk/js/configuration/',
             'bank_bin_code' => 'Chức năng tự động xác nhận tiền vào thông qua WebHook của https://casso.vn/ <br> Ưu tiên sử dụng tài khoản ngân hàng <strong>VietinBank</strong>.',
             'powered_by_eb' => 'Sử dụng lệnh <strong>$lang_model->the_web_license( $getconfig );</strong> để hiển thị thông điệp bản quyền mặc định.',
+            // 
+            'mail_queue_customer' => 'An email will be sent to the email the user entered during the ordering process.',
+            'mail_queue_admin' => 'An email will be sent to email setup in ' . base_url('sadmin/configs') . '?support_tab=data_emailnotice or ' . base_url('sadmin/configs') . '?support_tab=data_emailcontact',
+            'mail_queue_author' => 'An email will be sent to the author of the product the user has ordered.',
+            // 
             'telegram_bot_token' => 'Token của bot trên Telegram. <br> Trong Telegram, tìm @BotFather rồi gõ lệnh /mybots để lấy danh sách bot (nếu có). <br> Bấm vào menu lệnh mà Telegram đưa ra để chọn bot và lấy Token. Sau khi có Token, hãy bấm vào đây để tìm Chat ID: ' . base_url('sadmin/smtps') . '?get_tele_chat_id=1 <br> Mở Telegram lên > Nhập Botfather tại thanh tìm kiếm > Chọn Botfather có tích xanh > Nhấn vào Start > Hệ thống sẽ hiển thị ra đoạn chat > Nhấn vào mục /newbot - create a new bot > Nhập tên cho Bot > Nhấn Gửi > Nhập tên người dùng cho Bot > Nhấn Gửi > Hệ thống gửi xác nhận thành công. https://wiki.matbao.net/kb/huong-dan-tao-bot-va-gui-thong-bao-telegram/',
             'telegram_chat_id' => 'ID nhóm chat trên Telegram. Bao gồm cả dấu - nếu có. Thay token vào link mẫu rồi lấy: https://api.telegram.org/bot{token}/getUpdates',
             //
@@ -1058,6 +1072,20 @@ class ConfigType
                 'D, F d, Y' => '',
                 'D, d F Y' => '',
                 'D, d F' => '',
+            ],
+            'mail_queue_customer' => [
+                '' => 'Default by code',
+                'none' => 'Not send',
+            ],
+            'mail_queue_admin' => [
+                '' => 'Default by code',
+                'private' => 'Using private template',
+                'none' => 'Not send',
+            ],
+            'mail_queue_author' => [
+                '' => 'Default by code',
+                'private' => 'Using private template',
+                'none' => 'Not send',
             ],
         ];
         $arr['smtp2_secure'] = $arr['smtp_secure'];

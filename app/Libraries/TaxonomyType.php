@@ -120,7 +120,6 @@ class TaxonomyType
         $arr['taxonomy_custom_post_size'] = 'Tùy chỉnh tỉ lệ ảnh';
         // $arr['taxonomy_auto_slider'] = 'Slider';
         if ($taxonomy == self::ADS) {
-            $arr['hide_widget_title'] = 'Ẩn tiêu đề danh mục';
             $arr['custom_cat_link'] = 'Tùy chỉnh URL';
             $arr['dynamic_tag'] = 'HTML tag cho Tên Danh mục';
             $arr['dynamic_post_tag'] = 'HTML tag cho Tên Bài viết';
@@ -133,6 +132,7 @@ class TaxonomyType
             $arr['row_align'] = 'Căn chỉnh (align)';
             $arr['post_cloumn'] = 'Bố cục bài viết';
             $arr['post_custom_cloumn'] = 'Bố cục tùy chỉnh bài viết';
+            $arr['hide_widget_title'] = 'Ẩn tiêu đề danh mục';
             $arr['hide_title'] = 'Ẩn tiêu đề của bài viết';
             $arr['hide_description'] = 'Ẩn tóm tắt của bài viết';
             $arr['hide_info'] = 'Ẩn ngày tháng, danh mục của bài viết';

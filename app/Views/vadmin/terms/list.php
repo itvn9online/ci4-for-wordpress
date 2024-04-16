@@ -157,7 +157,10 @@ $base_model->JSON_echo([], [
 //
 if ($taxonomy == TaxonomyType::ADS) {
 ?>
-    <pre><code>&lt;?php $post_model->the_ads( '%slug%' ); ?&gt;</code></pre>
+    <div>
+        <input type="text" class="form-control" value="&lt;?php $post_model->the_ads('ads-slug'); ?&gt;" ondblclick="click2Copy(this);" readonly />
+        <p>* Code mẫu dùng để add vào file view của website. Nhớ thay thông số `ads-slug` thành tên tương ứng.</p>
+    </div>
 <?php
 }
 

@@ -71,7 +71,7 @@ class Term extends TermBase
 
         //
         $post_cat = $this->get_taxonomy($where);
-        //print_r( $post_cat );
+        // print_r($post_cat);
 
         // nếu không có -> insert luôn 1 nhóm mới
         if (empty($post_cat)) {

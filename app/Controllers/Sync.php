@@ -154,6 +154,40 @@ class Sync extends BaseController
     }
 
     /**
+     * Bảng dùng để gửi email định kỳ thay vì gửi luôn và ngay -> giúp tăng tốc cho website
+     **/
+    public function tbl_mail_queue($tbl = 'mail_queue')
+    {
+        $table = WGR_TABLE_PREFIX . $tbl;
+
+        // xem bảng này có chưa -> có rồi thì thôi
+        if ($this->base_model->table_exists($table)) {
+            echo 'TABLE exist ' . $table . '<br>' . PHP_EOL;
+            return false;
+        }
+
+        // ENGINE sử dụng InnoDB. MEMORY hay bị lỗi 'is full'
+        $sql = "CREATE TABLE IF NOT EXISTS `$table` (
+            `id` BIGINT(20) NOT NULL AUTO_INCREMENT ,
+            `ip` VARCHAR(255) NULL,
+            `key` VARCHAR(255) NULL,
+            `session_id` VARCHAR(255) NOT NULL,
+            `agent` VARCHAR(255) NULL,
+            `content` TEXT NULL,
+            `status` TINYINT(1) NOT NULL DEFAULT '0' ,
+            `created_at` BIGINT(20) NULL,
+            PRIMARY KEY (`id`) ,
+            INDEX (`key`) ,
+            INDEX (`session_id`) ,
+            INDEX (`status`)
+            ) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_general_ci";
+        echo $sql . '<br>' . PHP_EOL;
+
+        //
+        return $this->base_model->MY_query($sql);
+    }
+
+    /**
      * Bảng dùng để lưu phiên đăng nhập của người dùng
      * 1 số website không cho đăng nhập nhiều nơi cùng lúc -> dùng bảng này để xác định phiên cuối
      **/
@@ -443,6 +477,7 @@ class Sync extends BaseController
         $this->cloneDbTable('postmeta', 'ordermeta');
         $this->cloneDbTable('options', 'options_deleted');
         $this->tbl_sessions();
+        $this->tbl_mail_queue();
         $this->tbl_logged();
 
         // tạo thư mục nếu chưa có
