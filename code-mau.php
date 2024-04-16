@@ -228,7 +228,7 @@ $data = $this->base_model->select(
         ),
         'order_by' => array(
             'username' => 'ASC',
-            'ID' => 'DESC'
+            'ID' => 'DESC',
         ),
         // hiển thị mã SQL để check
         'show_query' => 1,

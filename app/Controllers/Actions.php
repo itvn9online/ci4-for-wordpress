@@ -17,6 +17,7 @@ class Actions extends Layout
     // thông điệp sau khi đặt hàng thành công
     protected $thank_you = 'Thank you. Your order has been received.';
     public $order_model = null;
+    public $mail_queue_model = null;
 
     public function __construct()
     {
@@ -24,6 +25,8 @@ class Actions extends Layout
 
         // 
         $this->order_model = new \App\Models\Order();
+        $this->mail_queue_model = new \App\Models\MailQueue();
+        // print_r($this->getconfig);
     }
 
     /**
@@ -404,6 +407,73 @@ class Actions extends Layout
 
         //
         if ($result_id !== false && is_numeric($result_id) && $result_id > 0) {
+            $smtp_config = $this->option_model->get_smtp();
+            // print_r($smtp_config);
+
+            /**
+             * thiết lập mail thông báo
+             */
+            $mail_queue_customer = $smtp_config->mail_queue_customer;
+            if ($mail_queue_customer != 'none') {
+                if (isset($data['email']) && !empty($data['email'])) {
+                    $mailto = $data['email'];
+
+                    // email phải có @
+                    if (strpos($mailto, '@') !== false) {
+                        // chỉ hỗ trợ các định dạng email sau -> tránh spam
+                        if (
+                            strpos($mailto, '@gmail.com') !== false ||
+                            strpos($mailto, '@yahoo.') !== false ||
+                            strpos($mailto, '@hotmail.com') !== false
+                        ) {
+                            $status = OrderType::PENDING;
+                        } else {
+                            // các định dạng khác cho vào bản nháp -> không gửi
+                            $status = OrderType::DRAFT;
+                        }
+
+                        // 
+                        $this->mail_queue_model->insert_mailq($this->mail_queue_model->content_mailq(), [
+                            'mailto' => $mailto,
+                            'order_id' => $result_id,
+                            'status' => $status,
+                        ]);
+                    }
+                }
+            }
+
+            // 
+            $mail_queue_admin = $smtp_config->mail_queue_admin;
+            $mailto = !empty($this->getconfig->emailnotice) ? $this->getconfig->emailnotice : $this->getconfig->emailcontact;
+
+            // default
+            if ($mail_queue_admin == '') {
+                $this->mail_queue_model->insert_mailq($this->mail_queue_model->content_mailq(), [
+                    'mailto' => $mailto,
+                    'order_id' => $result_id,
+                ]);
+            } else if ($mail_queue_admin == 'private') {
+                $this->mail_queue_model->insert_mailq($this->mail_queue_model->content_mailq('admin'), [
+                    'mailto' => $mailto,
+                    'order_id' => $result_id,
+                ]);
+            }
+
+            // 
+            $mail_queue_author = $smtp_config->mail_queue_author;
+            if ($mail_queue_author == 'default') {
+                $this->mail_queue_model->insert_mailq($this->mail_queue_model->content_mailq(), [
+                    'mailto' => null,
+                    'order_id' => $result_id,
+                ]);
+            } else if ($mail_queue_author == 'private') {
+                $this->mail_queue_model->insert_mailq($this->mail_queue_model->content_mailq('author'), [
+                    'mailto' => null,
+                    'order_id' => $result_id,
+                ]);
+            }
+
+
             // Chuyển tới trang đặt hàng thành công và xóa session giỏ hàng (nếu có)
             echo '<script>top.remove_session_cart("' . base_url('actions/order_received') . '?' . implode('&', [
                 // 'id=' . $result_id,
@@ -752,6 +822,26 @@ class Actions extends Layout
             'code' => __LINE__,
             // 'data' => $_POST,
             'result_update' => $result_update === true ? 1 : 0,
+        ]);
+    }
+
+    /**
+     * thực hiện gửi email thông qua ajax (mặc định sẽ gửi theo session hiện tại)
+     **/
+    public function mail_my_queue()
+    {
+        // chỉ chấp nhật POST
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            $this->result_json_type([
+                'code' => __LINE__,
+                'error' => 'Bad request!',
+            ]);
+        }
+
+        // 
+        $this->result_json_type([
+            'code' => __LINE__,
+            'result' => $this->mail_queue_model->session_sending_mailq(),
         ]);
     }
 }

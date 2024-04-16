@@ -552,6 +552,10 @@ body.body-debug_enable #sidebar {
     color: red !important;
 }
 
+.post_status-private {
+    color: blue !important;
+}
+
 /* */
 .quick-edit-form {
     padding: 10px 5px;

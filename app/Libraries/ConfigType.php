@@ -1082,10 +1082,11 @@ class ConfigType
                 'private' => 'Using private template',
                 'none' => 'Not send',
             ],
+            // với mail gửi cho tác giả thì ít khi dùng, web nào dùng thì bật lên
             'mail_queue_author' => [
-                '' => 'Default by code',
+                '' => 'Not send',
+                'default' => 'Default by code',
                 'private' => 'Using private template',
-                'none' => 'Not send',
             ],
         ];
         $arr['smtp2_secure'] = $arr['smtp_secure'];

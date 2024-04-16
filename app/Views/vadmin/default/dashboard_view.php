@@ -113,19 +113,19 @@ if ($debug_enable === true) {
         kết hợp với cấu trúc database nền tảng của <a href="https://wordpress.org/download/" target="_blank" rel="nofollow"><strong>Wordpress</strong></a> nhằm đem lại khả năng tùy biến linh hoạt với tốc độ tối ưu.
     </p>
     <div class="p d-inlines">PHP version: <strong>
-            <?php echo phpversion(); ?>
+            <?php echo PHP_VERSION; ?>
         </strong> (
-        <div v-if="phpversion >= 80">
-            <div v-if="phpversion >= 81">
+        <div v-if="phpversion >= 81">
+            <div v-if="phpversion >= 82">
                 <div class="greencolor">Xin chúc mừng! Phiên bản PHP{{phpversion}} bạn đang sử dụng đang ở mức khuyến
                     nghị của chúng tôi</div>
             </div>
-            <div v-if="phpversion < 81">
+            <div v-if="phpversion < 82">
                 <div class="bluecolor">Xin chúc mừng! Phiên bản PHP{{phpversion}} của bạn tương đối tốt. Tuy nhiên,
                     chúng tôi vẫn khuyến nghị bạn sử dụng phiên bản <strong>PHP 8.1</strong> trở lên.</div>
             </div>
         </div>
-        <div v-if="phpversion < 80">
+        <div v-if="phpversion < 81">
             <div class="redcolor">Để tối ưu hiệu suất hệ thống! Vui lòng sử dụng phiên bản PHP <strong>8.0</strong> trở
                 lên. Khuyên dùng: PHP <strong>8.1</strong></div>
         </div>
@@ -479,7 +479,7 @@ $base_model->JSON_parse(
             'ci_last_version' => $ci_last_version,
             // phiên bản CI mới nhất -> đổi màu để dễ nhận biết có bản mới hơn
             'robots_exist' => $robots_exist,
-            'phpversion' => phpversion(),
+            'phpversion' => PHP_VERSION,
             'current_dbname' => $current_dbname,
             'debug_enable' => ($debug_enable === true ? 1 : 0),
             'exists_f_env' => (is_file($f_env) ? 1 : 0),

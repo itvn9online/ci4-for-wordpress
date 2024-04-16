@@ -170,16 +170,22 @@ class Sync extends BaseController
         $sql = "CREATE TABLE IF NOT EXISTS `$table` (
             `id` BIGINT(20) NOT NULL AUTO_INCREMENT ,
             `ip` VARCHAR(255) NULL,
-            `key` VARCHAR(255) NULL,
             `session_id` VARCHAR(255) NOT NULL,
             `agent` VARCHAR(255) NULL,
+            `mailto` VARCHAR(255) NULL,
+            `title` VARCHAR(255) NULL,
             `content` TEXT NULL,
-            `status` TINYINT(1) NOT NULL DEFAULT '0' ,
+            `status` VARCHAR(55) NULL,
+            `post_id` BIGINT(20) NULL,
+            `order_id` BIGINT(20) NULL,
+            `comment` VARCHAR(255) NULL,
             `created_at` BIGINT(20) NULL,
             PRIMARY KEY (`id`) ,
-            INDEX (`key`) ,
             INDEX (`session_id`) ,
-            INDEX (`status`)
+            INDEX (`mailto`) ,
+            INDEX (`status`) ,
+            INDEX (`post_id`) ,
+            INDEX (`order_id`)
             ) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_general_ci";
         echo $sql . '<br>' . PHP_EOL;
 
