@@ -196,6 +196,9 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {
 }
 
 @media (prefers-color-scheme: dark) {
+    body {}
+
+    /*
     #loginbox {
         background-color: black;
     }
@@ -220,6 +223,7 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {
     #loginbox .firebaseui-card-content form {
         background-color: black;
     }
+    */
 }
 
 @media (max-width: 480px) {
