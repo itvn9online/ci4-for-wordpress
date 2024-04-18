@@ -616,19 +616,32 @@ function WGR_load_textediter(for_id, ops) {
 function btn_remove_editer_style(for_id) {
 	if ($('button[data-rmstyle="' + for_id.substr(1) + '"]').length < 1) {
 		console.log(for_id);
+
+		//
+		$(for_id).after(
+			"<button type='button' data-rmcss='" +
+				for_id.substr(1) +
+				"' onclick=\"return cleanup_codepilot_html_in_editer('" +
+				for_id.substr(1) +
+				'\');" class="btn btn-secondary">Remove Codepilot HTML</button> '
+		);
+
+		//
 		$(for_id).after(
 			"<button type='button' data-rmstyle='" +
 				for_id.substr(1) +
 				"' onclick=\"return cleanup_style_in_editer('" +
 				for_id.substr(1) +
-				'\');" class="btn btn-secondary">Xóa style</button> '
+				'\');" class="btn btn-secondary">removeAttr style</button> '
 		);
+
+		//
 		$(for_id).after(
 			"<button type='button' data-rmcss='" +
 				for_id.substr(1) +
 				"' onclick=\"return cleanup_class_in_editer('" +
 				for_id.substr(1) +
-				'\');" class="btn btn-secondary">Xóa class CSS</button> '
+				'\');" class="btn btn-secondary">removeAttr class</button> '
 		);
 	}
 }
@@ -640,6 +653,82 @@ function cleanup_style_in_editer(for_id) {
 
 function cleanup_class_in_editer(for_id) {
 	cleanup_attr_in_editer(for_id, "class");
+}
+
+// xóa phần html dư thừa sau khi bấm copy nội dung từ ứng dụng codepilot
+function cleanup_codepilot_html_in_editer(for_id) {
+	// console.log(for_id);
+
+	//
+	for_id = "#" + for_id + "_ifr";
+	// console.log(for_id);
+	if ($(for_id).length < 1) {
+		WGR_alert("Cannot be determined iframe ID " + for_id, "error");
+		return false;
+	}
+
+	// xóa tiêu đề nếu đang ở dạng nhân bản
+	let tit = $.trim($("#data_post_title").val());
+	if (tit.includes(" - Duplicate ")) {
+		$("#data_post_title").val("");
+	}
+
+	// tạo tiêu đề nếu chưa có
+	if (tit == "") {
+		$("#data_post_title")
+			.val(
+				$.trim(jQuery(for_id).contents().find("body").find("h1").text() || "")
+			)
+			.trigger("change");
+
+		//
+		setTimeout(() => {
+			$("#data_post_title").focus();
+		}, 500);
+	}
+	// return false;
+
+	// xóa thẻ H1 nếu có
+	jQuery(for_id).contents().find("body").find("h1").remove();
+
+	// xóa link
+	jQuery(for_id)
+		.contents()
+		.find("body")
+		.find("a")
+		.each(function () {
+			// lấy phần text thôi
+			$(this).after($(this).html());
+			// sau đó xóa thẻ này đi
+			$(this).remove();
+		});
+
+	// xóa ảnh
+	jQuery(for_id)
+		.contents()
+		.find("body")
+		.find("img")
+		.each(function () {
+			// lấy phần text thôi
+			$(this).after($(this).attr("src") || "");
+			// sau đó xóa thẻ này đi
+			$(this).remove();
+		});
+
+	//
+	let a =
+		jQuery(for_id)
+			.contents()
+			.find("body")
+			.find(".ac-container")
+			.find(".ac-textBlock")
+			.html() || "";
+	// console.log(a);
+
+	//
+	if (a != "") {
+		jQuery(for_id).contents().find("body").html(a);
+	}
 }
 
 // tìm và xóa toàn bộ thẻ style trong text-editer

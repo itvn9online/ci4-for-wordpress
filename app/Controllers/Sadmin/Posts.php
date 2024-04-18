@@ -389,6 +389,7 @@ class Posts extends Sadmin
                 'pagination' => $pagination,
                 'totalThread' => $totalThread,
                 'main_category_key' => $this->main_category_key,
+                'tags' => $this->tags,
                 'data' => $data,
                 'taxonomy' => $this->taxonomy,
                 'post_type' => $this->post_type,

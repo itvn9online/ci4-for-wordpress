@@ -34,6 +34,7 @@
             </td>
             <td>
                 <div :data-id="v.main_category_key" :data-taxonomy="taxonomy" :data-uri="'sadmin/' + controller_slug" class="each-to-taxonomy">&nbsp;</div>
+                <div v-if="tags != '' && v.post_meta.post_tags != ''" :data-id="v.post_meta.post_tags" data-taxonomy="<?php echo $tags; ?>" class="each-to-taxonomy small">&nbsp;</div>
             </td>
             <td>
                 <div>{{v.post_date.substr(0, 16)}}</div>

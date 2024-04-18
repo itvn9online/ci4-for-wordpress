@@ -110,6 +110,7 @@ $base_model->JSON_parse(
         post_type: '<?php echo $post_type; ?>',
         post_status: '<?php echo $post_status; ?>',
         taxonomy: '<?php echo $taxonomy; ?>',
+        tags: '<?php echo $tags; ?>',
         controller_slug: '<?php echo $controller_slug; ?>',
         for_action: '<?php echo $for_action; ?>',
         PostType_DELETED: '<?php echo PostType::DELETED; ?>',
