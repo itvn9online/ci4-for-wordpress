@@ -715,6 +715,22 @@ function cleanup_codepilot_html_in_editer(for_id) {
 			$(this).remove();
 		});
 
+	// xóa strong trong thẻ H
+	let arr_h = ["h2", "h3", "h4", "h5", "h6"];
+	for (let i = 0; i < arr_h.length; i++) {
+		jQuery(for_id)
+			.contents()
+			.find("body")
+			.find(arr_h[i])
+			.find("strong")
+			.each(function () {
+				// lấy phần text thôi
+				$(this).after($(this).html());
+				// sau đó xóa thẻ này đi
+				$(this).remove();
+			});
+	}
+
 	//
 	let a =
 		jQuery(for_id)
@@ -727,7 +743,7 @@ function cleanup_codepilot_html_in_editer(for_id) {
 
 	//
 	if (a != "") {
-		jQuery(for_id).contents().find("body").html(a);
+		jQuery(for_id).contents().find("body").html(a.split("<hr>")[0]);
 	}
 }
 

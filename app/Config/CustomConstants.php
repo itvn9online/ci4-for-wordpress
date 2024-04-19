@@ -265,20 +265,6 @@ function register_users_type($arrs = [])
 if (is_file(PUBLIC_PUBLIC_PATH . 'wp-content/themes/actived.php')) {
     include PUBLIC_PUBLIC_PATH . 'wp-content/themes/actived.php';
 } else {
-    // xác định theme tự động
-    foreach (glob(PUBLIC_PUBLIC_PATH . 'wp-content/themes/*.actived-theme') as $filename) {
-        // xóa các file theme kiểu cũ này đi -> lát update tự động sang kiểu mới dùng cho gọn
-        unlink($filename);
-
-        //
-        $filename = basename($filename, '.actived-theme');
-        //echo $filename . '<br>' . PHP_EOL;
-        if (is_dir(PUBLIC_PUBLIC_PATH . 'wp-content/themes/' . $filename)) {
-            define('THEMENAME', $filename);
-            break;
-        }
-    }
-
     // nếu không có file active theme tự động -> gán mặc định theme echbayfour
     defined('THEMENAME') || define('THEMENAME', 'echbayfour');
 
