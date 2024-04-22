@@ -4,8 +4,12 @@
 </div>
 <?php
 
+// 
+// echo $post_type . '<br>' . PHP_EOL;
+// echo $menu_post_type . '<br>' . PHP_EOL;
+
 // tạo module check độ chuẩn SEO cho bài viết
-if ($data['ID'] > 0 && isset($data['post_permalink'])) {
+if ($data['ID'] > 0 && isset($data['post_permalink']) && $post_type != $menu_post_type) {
     //print_r($data);
     //die(__FILE__ . ':' . __LINE__);
     $linkEncode = urlencode($post_model->get_full_permalink($data));

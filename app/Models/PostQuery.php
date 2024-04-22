@@ -151,7 +151,7 @@ class PostQuery extends PostMeta
 
             //
             if (is_numeric($result_id) && $result_id > 0) {
-                $this->before_post_permalink($this->select_post($result_id, [
+                $this->update_post_permalink($this->select_post($result_id, [
                     //'post_type' => $data['post_type'],
                 ]));
                 //die(__CLASS__ . ':' . __LINE__);

@@ -267,4 +267,12 @@ class Posts extends Csrf
         //
         return $cache_value;
     }
+
+    /**
+     * hỗ trợ mẫu URL mặc định của trang tin tức -> thấy tốt cho seo
+     **/
+    public function post2_details($cat = '', $slug = '', $id = 0)
+    {
+        return $this->post_details($id, $slug);
+    }
 }

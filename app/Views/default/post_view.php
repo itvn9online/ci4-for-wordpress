@@ -4,8 +4,8 @@
             <div class="col-main-padding col-<?php echo $data['post_type']; ?>-padding">
                 <h1 data-type="<?php echo $data['post_type']; ?>" data-id="<?php echo $data['ID']; ?>" class="post-details-title global-details-title global-module-title"><?php echo $data['post_title']; ?></h1>
                 <br>
-                <div><?php $post_model->show_post_thumbnail($data['post_meta']); ?></div>
-                <br>
+                <!-- <div><?php $post_model->show_post_thumbnail($data['post_meta']); ?></div> -->
+                <!-- <br> -->
                 <div class="img-max-width medium l20 global-details-content <?php echo $data['post_type']; ?>-details-content ul-default-style"><?php echo $data['post_content']; ?></div>
                 <br />
                 <br>

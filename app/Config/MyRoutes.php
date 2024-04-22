@@ -134,10 +134,14 @@ foreach ($arr_prefix_routes as $v) {
         // post
         //echo WGR_POST_PERMALINK . ' <br>' . PHP_EOL;
         if (WGR_POST_PERMALINK != '%post_name%') {
-            $a = str_replace('%post_name%', '(:segment)', WGR_POST_PERMALINK);
-            $a = str_replace('%ID%', '(:num)', $a);
+            $a = str_replace('%ID%', '(:num)', WGR_POST_PERMALINK);
+            $a = str_replace('%post_name%', '(:segment)', $a);
+            // $a = str_replace('%category_primary_slug%', '(:segment)', $a);
+            // $a = str_replace('%category_second_slug%', '(:segment)', $a);
+            // $a = str_replace('%post_type%', '(:segment)', $a);
             $routes->get($a, 'Posts::post_details/$1/$2');
         }
+        $routes->get('(:segment)/(:segment)-(:num).html', 'Posts::post2_details/$1/$2/$3');
 
         // page
         //echo WGR_PAGE_PERMALINK . ' <br>' . PHP_EOL;

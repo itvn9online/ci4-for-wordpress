@@ -196,7 +196,7 @@ class PostBase extends EbModel
     /**
      * Kiểm tra dữ liệu đầu vào trước khi update post permalink -> tránh lỗi
      **/
-    public function before_post_permalink($data)
+    public function before_post_permalink($data, $base_url = '')
     {
         // nếu có đủ các thông số còn thiếu thì tiến hành cập nhật permalink
         foreach ([
@@ -208,10 +208,10 @@ class PostBase extends EbModel
             'category_second_slug',
         ] as $k) {
             if (!isset($data[$k])) {
-                return false;
+                return null;
             }
         }
-        return $this->update_post_permalink($data);
+        return $this->update_post_permalink($data, $base_url);
     }
     /**
      * Update update permalink định kỳ

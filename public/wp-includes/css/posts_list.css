@@ -1,0 +1,15 @@
+.posts-list .eb-blog-left,
+.posts-list .eb-blog-right {
+    width: 100%;
+}
+
+.posts-list footer.entry-meta {
+    border-bottom: 2px solid #ececec;
+    border-top: 1px solid #ececec;
+    padding: .5em 0 .6em;
+}
+
+.posts-list .entry-content {
+    padding-bottom: 1.5em;
+    /* padding-top: 1.5em; */
+}

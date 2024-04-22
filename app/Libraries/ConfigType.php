@@ -843,7 +843,7 @@ class ConfigType
             'Ví dụ: %taxonomy%-%term_id%-%slug% | Xóa trắng để xem mặc định',
             //
             'WGR_POST_PERMALINK' =>
-            'Ví dụ: %ID%-%post_type%-%post_name% | Xóa trắng để xem mặc định',
+            'Ví dụ: %category_primary_slug%/%category_second_slug%/%post_name%-%ID%.%post_type% | Xóa trắng để xem mặc định',
             //'WGR_BLOG_PERMALINK' => 'Xóa trắng để xem mặc định: ' . WGR_BLOG_PERMALINK,
             'WGR_PROD_PERMALINK' =>
             'Ví dụ: %ID%-%post_type%-%post_name% | Xóa trắng để xem mặc định',

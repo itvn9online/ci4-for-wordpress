@@ -1,4 +1,4 @@
-<div class="eb-blog-padding eb-news-padding cf">
+<article class="eb-blog-padding eb-news-padding cf">
     <div class="lf eb-blog-left eb-news-left global-a-posi">
         <a title="{{post_title}}" aria-label="{{post_title}}" href="{{post_permalink}}">&nbsp;</a>
         <div data-img="{{image}}" data-large-img="{{image_medium_large}}" data-webp="{{image_webp}}"
@@ -7,13 +7,30 @@
     </div>
     <div class="lf eb-blog-right eb-news-right">
         <div class="eb-blog-marginleft eb-news-marginleft l19">
-            <{{dynamic_title_tag}} itemprop="headline" class="eb-blog-title">
-                <a title="{{post_title}}" aria-label="{{post_title}}" href="{{post_permalink}}">{{post_title}}</a>
-            </{{dynamic_title_tag}}>
-            <div class="eb-blog-infos"><span data-date="{{post_modified}}" class="eb-blog-ngay"></span> <span
-                    data-id="{{post_category}}" class="eb-blog-cat each-to-taxonomy"></span></div>
-            <div class="eb-blog-gioithieu" itemprop="description">{{post_excerpt}}</div>
-            <div class="posts-list-author d-none">Tác giả: {{itemprop_author}}</div>
+            <header class="entry-header text-center">
+                <{{dynamic_title_tag}} itemprop="headline" class="eb-blog-title">
+                    <a title="{{post_title}}" aria-label="{{post_title}}" href="{{post_permalink}}">{{post_title}}</a>
+                </{{dynamic_title_tag}}>
+                <div class="eb-blog-infos">
+                    <h6 data-id="{{post_category}}" class="eb-blog-cat each-to-taxonomy"></h6>
+                    <p class="entry-meta">Posted on
+                        <span data-date="{{post_modified}}" class="eb-blog-ngay">{{post_modified}}</span>
+                        by
+                        <span class="posts-list-author">{{itemprop_author}}</span>
+                    </p>
+                </div>
+            </header>
+            <div class="entry-content">
+                <div class="eb-blog-gioithieu entry-summary" itemprop="description">
+                    <p>{{post_excerpt}}</p>
+                </div>
+                <div class="text-center">
+                    <a title="{{post_title}}" aria-label="{{post_title}}" href="{{post_permalink}}"
+                        class="btn btn-light">Continue reading &rarr;</a>
+                </div>
+            </div>
+            <footer class="entry-meta">Posted in <span data-id="{{post_category}}"
+                    class="eb-blog-cat each-to-taxonomy"></span></footer>
         </div>
     </div>
-</div>
+</article>

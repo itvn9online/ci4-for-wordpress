@@ -75,7 +75,7 @@ include __DIR__ . '/add_breadcrumb.php';
             <div class="control-group control-group-post_content">
                 <label class="control-label">Nội dung</label>
                 <div class="controls f80">
-                    <textarea id="Resolution" rows="30" data-height="<?php echo $post_type == PostType::ADS ? '250' : '550'; ?>" class="ckeditor auto-ckeditor" placeholder="Nhập thông tin chi tiết..." name="data[post_content]"><?php echo $data['post_content']; ?></textarea>
+                    <textarea id="Resolution" rows="30" data-height="<?php echo $post_type == $ads_post_type ? '250' : '550'; ?>" class="ckeditor auto-ckeditor" placeholder="Nhập thông tin chi tiết..." name="data[post_content]"><?php echo $data['post_content']; ?></textarea>
                 </div>
             </div>
             <div class="control-group">
@@ -273,7 +273,7 @@ include __DIR__ . '/add_breadcrumb.php';
 
 
             // thêm chức năng add link nhanh cho ADS
-            if ($post_type == PostType::ADS) {
+            if ($post_type == $ads_post_type) {
             ?>
                 <div class="control-group">
                     <label for="quick_add_menu" class="control-label">Thêm kết nội bộ</label>

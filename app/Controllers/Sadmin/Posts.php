@@ -590,7 +590,7 @@ class Posts extends Sadmin
                 ]);
                 //print_r($new_data);
                 // cập nhật lại slug luôn vào ngay
-                $this->post_model->update_post_permalink($new_data);
+                $this->post_model->before_post_permalink($new_data);
 
                 //
                 //$this->MY_redirect(DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/'), 301);
@@ -672,6 +672,14 @@ class Posts extends Sadmin
             // tinh chỉnh lại URL cho phần upload -> 1 số vụ nó bị ăn URL kép
             $data['post_content'] = str_replace('..//', '../', $data['post_content']);
             $data['post_content'] = str_replace('//upload/', '/upload/', $data['post_content']);
+
+            // 
+            $post_permalink = $this->post_model->before_post_permalink($data);
+            // echo $post_permalink . '<br>' . PHP_EOL;
+            if ($post_permalink !== null && $data['post_permalink'] != $post_permalink) {
+                $this->MY_redirect($this->buildAdminPermalink($data['ID']), 301);
+                // die(__CLASS__ . ':' . __LINE__);
+            }
         }
         // add
         else {
@@ -772,6 +780,8 @@ class Posts extends Sadmin
                 'options' => $this->options,
                 'post_type' => $this->post_type,
                 'name_type' => $this->name_type,
+                'ads_post_type' => PostType::ADS,
+                'menu_post_type' => PostType::MENU,
                 'preview_url' => $this->MY_get('preview_url'),
                 'preview_offset_top' => $this->MY_get('preview_offset_top'),
                 // mảng tham số tùy chỉnh dành cho các custom post type
@@ -923,7 +933,7 @@ class Posts extends Sadmin
                 //print_r($new_data);
 
                 // -> lấy url mới -> thiết lập lại url ở fronend
-                echo '<script>top.set_new_post_url("' . $this->post_model->update_post_permalink($new_data) . '", "' . $new_data['post_name'] . '");</script>';
+                echo '<script>top.set_new_post_url("' . $this->post_model->before_post_permalink($new_data) . '", "' . $new_data['post_name'] . '");</script>';
             }
         }
         //die(__CLASS__ . ':' . __LINE__);
