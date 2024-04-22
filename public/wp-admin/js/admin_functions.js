@@ -743,7 +743,7 @@ function cleanup_codepilot_html_in_editer(for_id) {
 
 	//
 	if (a != "") {
-		if (a.split("<hr>").length > 1) {
+		if (a.split("<hr>").length > 2) {
 			a = a.split("<hr>")[1];
 		}
 		jQuery(for_id).contents().find("body").html(a.split("<hr>")[0]);

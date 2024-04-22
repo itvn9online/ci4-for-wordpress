@@ -546,6 +546,14 @@ class Terms extends Sadmin
             //
             $this->term_model->update_count_post_in_term($data);
             $this->term_model->sync_term_child_count();
+
+            // 
+            $term_permalink = $this->term_model->before_term_permalink($data);
+            // echo $term_permalink . '<br>' . PHP_EOL;
+            if ($term_permalink !== null && $data['term_permalink'] != $term_permalink) {
+                $this->MY_redirect($this->term_model->get_admin_permalink($this->taxonomy, $data['term_id'], $this->controller_slug), 301);
+                // die(__CLASS__ . ':' . __LINE__);
+            }
         }
         // add
         else {
