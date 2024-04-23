@@ -787,7 +787,7 @@ class ConfigType
             'emailnotice' => 'Một số chức năng sẽ gửi thông báo về email được thiết lập tại đây',
             'html_header' => 'Khi muốn nhúng mã HTML tùy chỉnh hoặc HTML của bên thứ 3 hoặc Dữ liệu có cấu trúc... vào trước thẻ đóng HEAH thì có thể nhúng tại đây. Hỗ trợ nhúng text template dạng %key% (trong đó key là giá trị của các option_name).',
             'html_body' => 'Khi muốn nhúng mã HTML tùy chỉnh hoặc HTML của bên thứ 3 hoặc Dữ liệu có cấu trúc... vào trước thẻ đóng BODY thì có thể nhúng tại đây. Hỗ trợ nhúng text template dạng %key% (trong đó key là giá trị của các option_name).',
-            'web_favicon' => 'Your favicon must be a multiple of 48px square, for example: 48x48px, 96x96px, 144x144px and so on. SVG files don\'t have a specific size. View more: https://developers.google.com/search/docs/appearance/favicon-in-search?hl=en',
+            'web_favicon' => 'Your favicon must be a multiple of 48px square, for example: 48x48px, 96x96px, 144x144px and so on. Please using PNG or ICO file... SVG files don\'t have a specific size. View more: https://developers.google.com/search/docs/appearance/favicon-in-search?hl=en',
             'replace_post_content' => 'Khi cần thay thế nội dung của bài viết hàng loạt thì có thể sử dụng chức năng này. <br> Mẫu sử dụng: Nội dung cũ | Nội dung mới',
             'min_product_price' => 'Số tiền tối thiểu mà khách phải thanh toán cho mỗi đơn hàng.',
             'period_price' => 'Bấm [Thêm mới] để thêm các mức giá cho các gói nạp, bấm [Xóa] để loại bỏ một mức giá. <br> Hỗ trợ các đơn vị chuyển đổi: tr = triệu, k = nghìn, % = quy đổi theo giá gốc.',

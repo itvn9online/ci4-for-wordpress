@@ -234,12 +234,23 @@ class Configs extends Sadmin
                         copy(PUBLIC_HTML_PATH . 'favicon.ico', PUBLIC_PUBLIC_PATH . 'favicon.ico');
                     }
                 } else if (strpos(strtolower($data['web_favicon']), '.ico') !== false) {
+                    echo PUBLIC_PUBLIC_PATH . $data['web_favicon'] . '<br>' . PHP_EOL;
+
+                    // 
                     if (copy(PUBLIC_PUBLIC_PATH . $data['web_favicon'], PUBLIC_HTML_PATH . 'favicon.ico')) {
                         if (copy(PUBLIC_HTML_PATH . 'favicon.ico', PUBLIC_PUBLIC_PATH . 'favicon.ico')) {
                             $data['web_favicon'] = 'favicon.ico';
                         }
                     }
                 }
+            }
+
+            // tạo favicon mặc định nếu chưa có
+            if (is_file(PUBLIC_HTML_PATH . 'favicon.png') && !is_file(PUBLIC_PUBLIC_PATH . 'favicon.png')) {
+                copy(PUBLIC_HTML_PATH . 'favicon.png', PUBLIC_PUBLIC_PATH . 'favicon.png');
+            }
+            if (is_file(PUBLIC_HTML_PATH . 'favicon.ico') && !is_file(PUBLIC_PUBLIC_PATH . 'favicon.ico')) {
+                copy(PUBLIC_HTML_PATH . 'favicon.ico', PUBLIC_PUBLIC_PATH . 'favicon.ico');
             }
 
             //
