@@ -919,19 +919,19 @@ span.taxonomy-count:after {
 ::placeholder {
     /* Chrome, Firefox, Opera, Safari 10.1+ */
     font-style: italic;
-    font-size: 90%;
+    /* font-size: 90%; */
 }
 
 :-ms-input-placeholder {
     /* Internet Explorer 10-11 */
     font-style: italic;
-    font-size: 90%;
+    /* font-size: 90%; */
 }
 
 ::-ms-input-placeholder {
     /* Microsoft Edge */
     font-style: italic;
-    font-size: 90%;
+    /* font-size: 90%; */
 }
 
 /* */

@@ -207,7 +207,40 @@ class Configs extends Sadmin
             }
             $arr_meta_key[] = 'logo_width_img';
             $arr_meta_key[] = 'logo_height_img';
-            //print_r( $data );
+            // print_r($data);
+
+            // xử lý với favicon nếu có
+            if (isset($data['web_favicon']) && $data['web_favicon'] != '' && is_file(PUBLIC_PUBLIC_PATH . $data['web_favicon'])) {
+                if (strpos(strtolower($data['web_favicon']), '.png') !== false) {
+                    echo PUBLIC_PUBLIC_PATH . $data['web_favicon'] . '<br>' . PHP_EOL;
+
+                    // 
+                    if (copy(PUBLIC_PUBLIC_PATH . $data['web_favicon'], PUBLIC_HTML_PATH . 'favicon.png')) {
+                        if (copy(PUBLIC_HTML_PATH . 'favicon.png', PUBLIC_PUBLIC_PATH . 'favicon.png')) {
+                            $data['web_favicon'] = 'favicon.png';
+                        }
+
+                        /**
+                         * Chuyển đổi file png sang ico
+                         * https://github.com/itvn9online/php-ico
+                         */
+                        include PUBLIC_HTML_PATH . 'vendor/php-ico/class-php-ico.php';
+
+                        // 
+                        $ico_lib = new \PHP_ICO(PUBLIC_HTML_PATH . 'favicon.png');
+                        $ico_lib->save_ico(PUBLIC_HTML_PATH . 'favicon.ico');
+
+                        // 
+                        copy(PUBLIC_HTML_PATH . 'favicon.ico', PUBLIC_PUBLIC_PATH . 'favicon.ico');
+                    }
+                } else if (strpos(strtolower($data['web_favicon']), '.ico') !== false) {
+                    if (copy(PUBLIC_PUBLIC_PATH . $data['web_favicon'], PUBLIC_HTML_PATH . 'favicon.ico')) {
+                        if (copy(PUBLIC_HTML_PATH . 'favicon.ico', PUBLIC_PUBLIC_PATH . 'favicon.ico')) {
+                            $data['web_favicon'] = 'favicon.ico';
+                        }
+                    }
+                }
+            }
 
             //
             //die( __CLASS__ . ':' . __LINE__ );
