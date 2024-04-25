@@ -628,6 +628,8 @@ class Sync extends BaseController
                 // 
                 'approve_data' => 'TEXT NULL COMMENT \'Lưu trữ thông tin tóm tắt transaction gửi về từ Paypal...\'',
                 'order_capture' => 'TEXT NULL COMMENT \'Lưu trữ thông tin transaction gửi về từ Paypal...\'',
+                'order_ip' => 'VARCHAR(255) NULL COMMENT \'IP người đặt hàng\'',
+                'order_agent' => 'VARCHAR(255) NULL COMMENT \'User agrent\'',
             ],
         ];
 

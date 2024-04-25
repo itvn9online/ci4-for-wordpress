@@ -20,6 +20,7 @@ class Orders extends Posts
     // tham số dùng để đổi file view khi xem danh sách bài viết nếu muốn
     protected $list_view_path = 'orders';
     public $order_model = null;
+    public $mail_queue_model = null;
 
     //
     public function __construct()
@@ -28,6 +29,7 @@ class Orders extends Posts
 
         //
         $this->order_model = new \App\Models\Order();
+        $this->mail_queue_model = new \App\Models\MailQueue();
 
         //
         $this->post_arr_status = OrderType::arrStatus();
@@ -40,5 +42,31 @@ class Orders extends Posts
 
         // -> cập nhật lại số dư của user trong cache
         return $this->order_model->cache_user_fund($id);
+    }
+
+    /**
+     * Xác định mail template để tiện edit
+     **/
+    public function find_mail_template($auto_redirect = true)
+    {
+        $type = $this->MY_get('type');
+        if ($type != '') {
+            if ($type != 'author' && $type != 'admin') {
+                $type = '';
+            }
+        }
+        $data = $this->mail_queue_model->contentMailq($type, false);
+        // print_r($data);
+        // die(__CLASS__ . ':' . __LINE__);
+
+        // 
+        if (isset($data['post_id']) && !empty($data['post_id'])) {
+            die(header('Location: ' . base_url('sadmin/adss/add') . '?id=' . $data['post_id']));
+        } else if ($auto_redirect === true) {
+            return $this->find_mail_template(false);
+        }
+
+        // 
+        return false;
     }
 }

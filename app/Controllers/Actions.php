@@ -226,7 +226,8 @@ class Actions extends Layout
         // nếu có mã giảm giá
         $coupon_code = $this->MY_post('coupon_code');
         $coupon_code = trim($coupon_code);
-        $coupon_amount = 0;
+        // $coupon_amount = 0;
+        $coupon_number = 0;
         $discount_type = '';
         if (!empty($coupon_code)) {
             $data['coupon'] = $coupon_code;
@@ -240,7 +241,8 @@ class Actions extends Layout
                 // print_r($data);
 
                 // 
-                $coupon_amount = $check_coupon['coupon_amount'];
+                // $coupon_amount = $check_coupon['coupon_amount'];
+                $coupon_number = $check_coupon['coupon_number'];
                 $discount_type = $check_coupon['discount_type'];
             }
         }
@@ -375,20 +377,28 @@ class Actions extends Layout
             $data['deposit_money'] = $this->getconfig->deposit_money;
         }
 
+        // 
+        // print_r($data);
+        // die(__CLASS__ . ':' . __LINE__);
+
         // tính số tiền giảm giá
         $order_discount = 0;
-        if ($coupon_amount > 0) {
+        if ($coupon_number > 0) {
             // nếu là giảm theo %
             if ($discount_type == TaxonomyType::DISCOUNT_PERCENT) {
-                $order_discount = $order_money / 100 * $coupon_amount;
+                // echo $order_money . '<br>' . PHP_EOL;
+                // echo $coupon_amount . '<br>' . PHP_EOL;
+                // echo $coupon_number . '<br>' . PHP_EOL;
+                // die(__CLASS__ . ':' . __LINE__);
+                $order_discount = $order_money / 100 * $coupon_number;
             }
             // giảm theo tổng số lượng sản phẩm trong giỏ hàng
             else if ($discount_type == TaxonomyType::DISCOUNT_FIXED) {
-                $order_discount = $total_quantity * $coupon_amount;
+                $order_discount = $total_quantity * $coupon_number;
             }
             // giảm giá trị cố định
             else {
-                $order_discount = $coupon_amount;
+                $order_discount = $coupon_number;
             }
 
             // 
@@ -433,7 +443,7 @@ class Actions extends Layout
                         }
 
                         // 
-                        $this->mail_queue_model->insert_mailq($this->mail_queue_model->content_mailq(), [
+                        $this->mail_queue_model->insertMailq($this->mail_queue_model->bookingDoneMail('', $result_id), [
                             'mailto' => $mailto,
                             'order_id' => $result_id,
                             'status' => $status,
@@ -448,12 +458,12 @@ class Actions extends Layout
 
             // default
             if ($mail_queue_admin == '') {
-                $this->mail_queue_model->insert_mailq($this->mail_queue_model->content_mailq(), [
+                $this->mail_queue_model->insertMailq($this->mail_queue_model->bookingDoneMail('', $result_id), [
                     'mailto' => $mailto,
                     'order_id' => $result_id,
                 ]);
             } else if ($mail_queue_admin == 'private') {
-                $this->mail_queue_model->insert_mailq($this->mail_queue_model->content_mailq('admin'), [
+                $this->mail_queue_model->insertMailq($this->mail_queue_model->bookingDoneMail('admin', $result_id), [
                     'mailto' => $mailto,
                     'order_id' => $result_id,
                 ]);
@@ -462,12 +472,12 @@ class Actions extends Layout
             // 
             $mail_queue_author = $smtp_config->mail_queue_author;
             if ($mail_queue_author == 'default') {
-                $this->mail_queue_model->insert_mailq($this->mail_queue_model->content_mailq(), [
+                $this->mail_queue_model->insertMailq($this->mail_queue_model->bookingDoneMail('', $result_id), [
                     'mailto' => null,
                     'order_id' => $result_id,
                 ]);
             } else if ($mail_queue_author == 'private') {
-                $this->mail_queue_model->insert_mailq($this->mail_queue_model->content_mailq('author'), [
+                $this->mail_queue_model->insertMailq($this->mail_queue_model->bookingDoneMail('author', $result_id), [
                     'mailto' => null,
                     'order_id' => $result_id,
                 ]);
@@ -475,12 +485,7 @@ class Actions extends Layout
 
 
             // Chuyển tới trang đặt hàng thành công và xóa session giỏ hàng (nếu có)
-            echo '<script>top.remove_session_cart("' . base_url('actions/order_received') . '?' . implode('&', [
-                // 'id=' . $result_id,
-                // 'token=' . $this->base_model->mdhash($result_id),
-                'token_id=' . base64_encode($result_id . '___' . $this->base_model->mdhash($result_id)),
-                'key=' . $data['post_password'],
-            ]) . '");</script>';
+            echo '<script>top.remove_session_cart("' . $this->order_model->orderReceiveToken($result_id, $data['post_password']) . '");</script>';
 
             // Chuyển tới trang đặt hàng thành công
             $this->base_model->alert($this->lang_model->get_the_text('order_received_view_h1', $this->thank_you));
@@ -547,6 +552,7 @@ class Actions extends Layout
         if ($data['coupon_amount'] < 1) {
             $this->base_model->alert('Coupon amount has not been setup yet!', 'warning');
         }
+        $data['coupon_number'] = $data['coupon_amount'];
 
         // chuyển sang giảm giá theo %
         if ($data['discount_type'] == 'percent') {
@@ -757,6 +763,11 @@ class Actions extends Layout
                     'limit' => 1
                 )
             );
+
+            // 
+            // print_r($data);
+            // $test_str = $this->mail_queue_model->bookingDoneMail('', $id, $data);
+            // print_r($test_str);
         }
 
         // 

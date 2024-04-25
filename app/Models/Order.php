@@ -13,6 +13,7 @@ class Order extends Post
     public $metaTable = 'ordermeta';
     public $post_type = OrderType::ORDER;
     public $user_model = null;
+    public $request = null;
 
     //
     public function __construct()
@@ -20,6 +21,7 @@ class Order extends Post
         parent::__construct();
 
         //
+        $this->request = \Config\Services::request();
         $this->user_model = new \App\Models\User();
     }
 
@@ -35,6 +37,12 @@ class Order extends Post
         }
         if (!isset($data['post_type'])) {
             $data['post_type'] = $this->post_type;
+        }
+        if (!isset($data['order_ip'])) {
+            $data['order_ip'] = $this->request->getIPAddress();
+        }
+        if (!isset($data['order_agent'])) {
+            $data['order_agent'] = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null;
         }
 
         // nếu chưa có thông tin người gửi
@@ -397,5 +405,18 @@ class Order extends Post
 
         //
         return false;
+    }
+
+    /**
+     * tạo thông số cho link actions/order_received
+     **/
+    public function orderReceiveToken($id, $pass)
+    {
+        return base_url('actions/order_received') . '?' . implode('&', [
+            // 'id=' . $id,
+            // 'token=' . $this->base_model->mdhash($id),
+            'token_id=' . base64_encode($id . '___' . $this->base_model->mdhash($id)),
+            'key=' . $pass,
+        ]);
     }
 }

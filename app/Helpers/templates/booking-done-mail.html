@@ -1,0 +1,92 @@
+<h1>%the_title%</h1>
+<p>Dear %first_name%,</p>
+<p>Your reservation number is #<strong>%ID%</strong></p>
+<p>Date order: %post_date% (%post_name%)</p>
+<p>Your phone: %phone%</p>
+<div style="padding: 10px 20px; background: #f2f2f2; margin-bottom: 15px;">
+    <h3>Order Confirmation Summary:</h3>
+    <table border="0" cellspacing="0" cellpadding="6">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>%lang_total% ($)</th>
+            </tr>
+        </thead>
+        <tbody>
+            %product_list%
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>%lang_subtotal%</td>
+                <td><strong>$ %order_money%</strong></td>
+            </tr>
+            <tr>
+                <td>%lang_coupon%</td>
+                <td>$ %order_discount%</td>
+            </tr>
+            <tr>
+                <td>%lang_bonus%</td>
+                <td>$ %order_bonus%</td>
+            </tr>
+            <tr>
+                <td>%lang_shipping%</td>
+                <td>$ %shipping_fee%</td>
+            </tr>
+            <tr>
+                <td>%lang_total%</td>
+                <td><strong style="color: #cc0000;">$ %order_amount%</strong></td>
+            </tr>
+            <tr>
+                <td>%lang_deposit%</td>
+                <td>%deposit_money%</td>
+            </tr>
+            <tr>
+                <td>%lang_remaining_amount%</td>
+                <td><strong>$ %deposit_balance%</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+    <br>
+    <h3>Your contact info:</h3>
+    <table border="0" cellspacing="0" cellpadding="6">
+        <tr>
+            <td>Full name</td>
+            <td>: %first_name% %last_name%</td>
+        </tr>
+        <tr>
+            <td>Cell Phone</td>
+            <td>: %phone%</td>
+        </tr>
+        <tr>
+            <td>E-mail</td>
+            <td>: %email%</td>
+        </tr>
+        <tr>
+            <td>Company</td>
+            <td>: <strong>%company%</strong></td>
+        </tr>
+        <tr>
+            <td>Shipping address</td>
+            <td>: <strong>%address%</strong></td>
+        </tr>
+        <tr>
+            <td>Zip code</td>
+            <td>: <strong>%zip_code%</strong></td>
+        </tr>
+        <tr>
+            <td>City</td>
+            <td>: <strong>%city%</strong></td>
+        </tr>
+        <tr>
+            <td>State</td>
+            <td>: <strong>%state%</strong></td>
+        </tr>
+        <tr>
+            <td>Country</td>
+            <td>: <strong>%country%</strong></td>
+        </tr>
+    </table>
+</div>
+<p>@ %year% %web_link%</p>
+<p>Source: %order_link%</p>
+<p>%current_time% | %order_ip% | %order_agent%</p>
