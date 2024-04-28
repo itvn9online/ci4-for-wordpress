@@ -130,6 +130,7 @@ foreach ($arr_prefix_routes as $v) {
             $a = str_replace('%ID%', '(:num)', $a);
             $routes->get($a, 'Products::product_details/$1/$2');
         }
+        $routes->get('(:segment)/product-(:num)-(:segment)', 'Products::product2_details/$1/$2/$3');
 
         // post
         //echo WGR_POST_PERMALINK . ' <br>' . PHP_EOL;

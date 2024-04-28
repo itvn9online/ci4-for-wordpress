@@ -25,6 +25,14 @@ class Products extends Posts
         return $this->post_details($id, $slug);
     }
 
+    /**
+     * hỗ trợ mẫu URL mặc định của trang tin tức -> thấy tốt cho seo
+     **/
+    public function product2_details($cat = '', $id = 0, $slug = '')
+    {
+        return $this->product_details($id, $slug);
+    }
+
     public function products_list($slug, $set_page = '', $page_num = 1)
     {
         //echo $slug . ' <br>' . PHP_EOL;

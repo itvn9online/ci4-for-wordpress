@@ -5,7 +5,7 @@ namespace App\Models;
 // Libraries
 use App\Libraries\LanguageCost;
 use App\Libraries\PostType;
-use App\Libraries\TaxonomyType;
+// use App\Libraries\TaxonomyType;
 use App\Libraries\DeletedStatus;
 use App\Helpers\HtmlTemplate;
 
@@ -51,6 +51,8 @@ class PostQuery extends PostMeta
     public function insert_post($data, $data_meta = [], $check_slug = true)
     {
         //print_r($data);
+        // return gettype($data);
+        // return LanguageCost::lang_key();
 
         // các dữ liệu mặc định
         $default_data = [
@@ -59,6 +61,9 @@ class PostQuery extends PostMeta
         if (!isset($data['lang_key']) || $data['lang_key'] == '') {
             $data['lang_key'] = LanguageCost::lang_key();
         }
+        // return $data;
+        // return gettype($data);
+
         // gán thông ID tác giả nếu chưa có
         if (!isset($data['post_author']) || empty($data['post_author'])) {
             //$session_data = $this->session->get( 'admin' );
@@ -190,7 +195,7 @@ class PostQuery extends PostMeta
             $data['post_modified'] = date(EBE_DATETIME_FORMAT);
             $data['post_modified_gmt'] = $data['post_modified'];
         }
-        //$data[ 'time_order' ] = time();
+        // $data['time_order'] = time();
 
         //
         $where['ID'] = $post_id;
@@ -449,7 +454,7 @@ class PostQuery extends PostMeta
             [
                 'where_in' => $ops['where_in'],
                 // hiển thị mã SQL để check
-                //'show_query' => 1,
+                // 'show_query' => 1,
                 //
                 'order_by' => $ops['order_by'],
             ],

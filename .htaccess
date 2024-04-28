@@ -8,6 +8,7 @@ Options -Indexes
 # Turning on the rewrite engine is necessary for the following rules and features.
 # FollowSymLinks must be enabled for this to work.
 <IfModule mod_rewrite.c>
+	Options +FollowSymlinks
     RewriteEngine On
     # RewriteCond %{REQUEST_URI} !^public
 
@@ -15,7 +16,7 @@ Options -Indexes
     # https://stackoverflow.com/questions/46573994/multiple-languages-htaccess
 
     # Redirect HTTP to HTTPS automatically (only if not in localhost)
-    RewriteCond %{HTTP_HOST} !=localhost
+    # RewriteCond %{HTTP_HOST} !=localhost
     RewriteCond %{HTTPS} off
     RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
