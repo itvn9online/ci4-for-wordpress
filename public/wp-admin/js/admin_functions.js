@@ -621,9 +621,9 @@ function btn_remove_editer_style(for_id) {
 		$(for_id).after(
 			"<button type='button' data-rmcss='" +
 				for_id.substr(1) +
-				"' onclick=\"return cleanup_codepilot_html_in_editer('" +
+				"' onclick=\"return cleanup_copilot_html_in_editer('" +
 				for_id.substr(1) +
-				'\');" class="btn btn-secondary">Remove Codepilot HTML</button> '
+				'\');" class="btn btn-secondary">Remove Copilot HTML</button> '
 		);
 
 		//
@@ -655,8 +655,8 @@ function cleanup_class_in_editer(for_id) {
 	cleanup_attr_in_editer(for_id, "class");
 }
 
-// xóa phần html dư thừa sau khi bấm copy nội dung từ ứng dụng codepilot
-function cleanup_codepilot_html_in_editer(for_id) {
+// xóa phần html dư thừa sau khi bấm copy nội dung từ ứng dụng copilot
+function cleanup_copilot_html_in_editer(for_id) {
 	// console.log(for_id);
 
 	//

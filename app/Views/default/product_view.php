@@ -47,7 +47,7 @@
 if (!empty($same_cat_data)) {
 ?>
     <div class="text-center other-<?php echo $data['post_type']; ?>-title global-module-title"><?php $lang_model->the_text('same_product_title', 'Sản phẩm tương tự'); ?></div>
-    <div id="<?php echo $data['post_type']; ?>_same_cat" class="products-list other-products-list <?php $option_model->products_in_line($getconfig); ?>">
+    <div id="<?php echo $data['post_type']; ?>_same_cat" class="products-list other-products-list <?php $option_model->product_in_line($getconfig); ?>">
         <?php
 
         foreach ($same_cat_data as $child_key => $child_val) {

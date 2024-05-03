@@ -305,9 +305,13 @@ em.fa {
     font-weight: normal;
 }
 
+.thread-details-tohome ul {
+    padding: 8px 0;
+}
+
 .thread-details-tohome li {
     float: left;
-    padding: 10px 0;
+    padding: 2px 0;
 }
 
 .thread-details-tohome li:after {

@@ -91,6 +91,7 @@ class Posts extends Csrf
         //print_r( $this->posts_parent_list );
         //print_r($data);
         $data = $this->post_model->metaTitleDescription($data);
+        // print_r($data);
 
         // tìm các bài cùng nhóm
         $same_cat_data = [];
@@ -118,25 +119,48 @@ class Posts extends Csrf
             ], $post_per_page);
             */
 
+            // 
+            $post_meta_post_category = explode(',', $data['post_meta']['post_category']);
+
             //
-            $arr_where_in = [
-                'term_id' => explode(',', $data['post_meta']['post_category'])
+            $arr_where_or = [
+                'category_primary_id' => $post_meta_post_category[0],
+                'category_second_id' => $post_meta_post_category[0],
             ];
 
+            // 
+            $select_tbl = 'posts';
+            if (!empty($data['category_second_id'])) {
+                $arr_where_in = [
+                    'category_second_id' => $post_meta_post_category,
+                ];
+            } else if (!empty($data['category_primary_id'])) {
+                $arr_where_in = [
+                    'category_primary_id' => $post_meta_post_category,
+                ];
+            } else {
+                $select_tbl = WGR_POST_VIEW;
+                $arr_where_in = [
+                    'term_id' => $post_meta_post_category,
+                ];
+            }
+
             // lấy 1 bài phía trước
-            $same_cat_data = $this->base_model->select('*', WGR_POST_VIEW, [
+            $same_cat_data = $this->base_model->select('*', $select_tbl, [
                 'ID >' => $data['ID'],
                 'post_status' => PostType::PUBLICITY,
-                'taxonomy' => $this->taxonomy,
+                'post_type' => $data['post_type'],
+                // 'taxonomy' => $this->taxonomy,
             ], [
                 'where_in' => $arr_where_in,
+                // 'where_or' => $arr_where_or,
                 'order_by' => [
                     'menu_order' => 'ASC',
                     //'time_order' => 'ASC',
                     'ID' => 'ASC',
                 ],
                 //'get_sql' => 1,
-                //'show_query' => 1,
+                // 'show_query' => 1,
                 //'debug_only' => 1,
                 //'offset' => 0,
                 'limit' => 1
@@ -150,19 +174,21 @@ class Posts extends Csrf
 
             // sau đó là các bài phía sau
             if ($post_per_page > 0) {
-                $after_cat_data = $this->base_model->select('*', WGR_POST_VIEW, [
+                $after_cat_data = $this->base_model->select('*', $select_tbl, [
                     'ID <' => $data['ID'],
                     'post_status' => PostType::PUBLICITY,
-                    'taxonomy' => $this->taxonomy,
+                    'post_type' => $data['post_type'],
+                    // 'taxonomy' => $this->taxonomy,
                 ], [
                     'where_in' => $arr_where_in,
+                    // 'where_or' => $arr_where_or,
                     'order_by' => [
                         'menu_order' => 'DESC',
                         'time_order' => 'DESC',
                         'ID' => 'DESC',
                     ],
                     //'get_sql' => 1,
-                    //'show_query' => 1,
+                    // 'show_query' => 1,
                     //'debug_only' => 1,
                     //'offset' => 0,
                     'limit' => $post_per_page
