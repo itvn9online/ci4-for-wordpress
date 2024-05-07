@@ -35,7 +35,7 @@ class Sync extends BaseController
         $this->request = \Config\Services::request();
 
         // test request
-        // var_dump($this->request->getVar('ebe-grecaptcha-response'));
+        // var_dump($this->request->getVar('ebe_grecaptcha_response'));
         // var_dump($this->request->getIPAddress());
         // var_dump($this->request->getFiles());
         // die(__CLASS__ . ':' . __LINE__);
@@ -1081,10 +1081,10 @@ class Sync extends BaseController
         // nạp dữ liệu để kiểm tra
         $credential = array(
             'secret' => $secret,
-            'response' => $this->request->getVar('ebe-grecaptcha-response')
+            'response' => $this->request->getVar('ebe_grecaptcha_response')
         );
         if (empty($credential['response'])) {
-            return 'ebe-grecaptcha-response EMPTY!';
+            return 'ebe_grecaptcha_response EMPTY!';
         }
 
         // lấy dữ liệu từ google

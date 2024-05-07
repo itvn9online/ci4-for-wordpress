@@ -52,7 +52,7 @@ class Csrf extends Layout
         if ($_SERVER['REQUEST_METHOD'] != 'GET') {
             // ưu tiên sử dụng recaptcha
             if (
-                isset($_REQUEST['ebe-grecaptcha-response']) &&
+                isset($_REQUEST['ebe_grecaptcha_response']) &&
                 $this->checking_recaptcha() !== true
             ) {
                 // không cần làm gì ở đây cả -> trong function checking recaptcha đã làm rồi

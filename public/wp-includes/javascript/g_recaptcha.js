@@ -1,6 +1,6 @@
 function my_grecaptcha_then(token) {
 	// console.log(token);
-	$("textarea[name='ebe-grecaptcha-response']").val(token);
+	$("textarea[name='ebe_grecaptcha_response']").val(token);
 }
 
 //

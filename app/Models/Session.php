@@ -93,7 +93,7 @@ class Session
         $option_model = new \App\Models\Option();
         $firebase_config = $option_model->obj_config(ConfigType::FIREBASE);
         if (!empty($firebase_config->g_recaptcha_site_key)) {
-            echo '<textarea name="ebe-grecaptcha-response" style="display: none;"></textarea>';
+            echo '<textarea name="ebe_grecaptcha_response" style="display: none;"></textarea>';
         }
 
         //
