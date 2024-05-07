@@ -611,9 +611,10 @@ class TermBase extends EbModel
         }
         // giãn cách giữa các lần cập nhật count
         if ($data['child_last_count'] > time()) {
-            //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
             return false;
         }
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
         // print_r($data);
 
         /**
@@ -639,6 +640,7 @@ class TermBase extends EbModel
                 'limit' => -1
             )
         );
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
         // print_r($child_count);
 
         //

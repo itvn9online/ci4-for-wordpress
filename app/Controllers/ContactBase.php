@@ -129,23 +129,24 @@ class ContactBase extends Home
         //print_r($check_rules);
         //die(__CLASS__ . ':' . __LINE__);
 
-        // kiểm tra spam bot
-        if ($this->current_user_id < 1) {
-            $this->base_model->antiRequiredSpam();
-        }
-
-        /* daidq (2023-10-04): bỏ gcaptcha -> test tính năng chống spamer -> antiRequiredSpam
+        // daidq (2023-10-04): bỏ gcaptcha -> test tính năng chống spamer -> antiRequiredSpam
         // kiểm tra recaptcha (nếu có)
         $check_recaptcha = $this->googleCaptachStore();
-        // != true -> có lỗi -> in ra lỗi
         //var_dump($check_recaptcha);
-        if ($check_recaptcha !== true) {
+        // === null -> ko sử dụng grecaptcha
+        if ($check_recaptcha === null) {
+            // kiểm tra spam bot
+            if ($this->current_user_id < 1) {
+                $this->base_model->antiRequiredSpam();
+            }
+        }
+        // != true -> có lỗi -> in ra lỗi
+        else if ($check_recaptcha !== true) {
             //$redirect_to = base_url($_SERVER['REQUEST_URI']);
             //die($redirect_to);
             $this->base_model->msg_error_session($check_recaptcha, $this->form_target);
             return $this->done_action_login($redirect_default);
         }
-        */
         //die(__CLASS__ . ':' . __LINE__);
 
         //

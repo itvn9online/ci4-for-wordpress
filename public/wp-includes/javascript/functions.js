@@ -815,7 +815,7 @@ function get_term_permalink(data) {
 }
 
 // tạo menu tự động dựa theo danh mục đang có
-function create_menu_by_taxonomy(arr, li_class, show_favicon, ops) {
+function create_menu_by_taxonomy(arr, parent_class, show_favicon, ops) {
 	if (arr.length < 1) {
 		console.log("create menu by taxonomy:", arr.length);
 		return "";
@@ -823,7 +823,7 @@ function create_menu_by_taxonomy(arr, li_class, show_favicon, ops) {
 	if (WGR_config.cf_tester_mode > 0) {
 		console.log("create menu by taxonomy:", arr.length);
 	}
-	//console.log(arr);
+	console.log(arr);
 
 	//
 	if (typeof show_favicon == "undefined") {
@@ -831,8 +831,8 @@ function create_menu_by_taxonomy(arr, li_class, show_favicon, ops) {
 	}
 
 	//
-	if (typeof li_class == "undefined" || li_class == "") {
-		li_class = "parent-menu";
+	if (typeof parent_class == "undefined" || parent_class == "") {
+		parent_class = "parent-menu";
 	}
 
 	//
@@ -898,8 +898,9 @@ function create_menu_by_taxonomy(arr, li_class, show_favicon, ops) {
 		}
 
 		//
-		let sub_menu = "";
-		let a_class = "eb-menu-text";
+		let sub_menu = "",
+			li_class = parent_class,
+			a_class = "eb-menu-text";
 		//console.log(typeof arr[i].child_term);
 		if (
 			typeof arr[i].child_term != "undefined" &&

@@ -137,7 +137,7 @@ class PHPMaillerSend
             //
             if (!$mail->Send()) {
                 // gửi bằng email dự phòng nếu có
-                if ($resend === true && $cog['smtp2_host_user'] != '' && $cog['smtp2_host_pass'] != '') {
+                if ($resend === true && isset($cog['smtp2_host_user'], $cog['smtp2_host_pass']) && $cog['smtp2_host_user'] != '' && $cog['smtp2_host_pass'] != '') {
                     $cog['smtp_host_user'] = $cog['smtp2_host_user'];
                     $cog['smtp_host_pass'] = $cog['smtp2_host_pass'];
                     $cog['smtp_host_name'] = $cog['smtp2_host_name'];

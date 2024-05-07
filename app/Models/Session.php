@@ -8,7 +8,7 @@ namespace App\Models;
 // Libraries
 //use CodeIgniter\Model;
 use App\Helpers\HtmlTemplate;
-//use App\Libraries\ConfigType;
+use App\Libraries\ConfigType;
 
 class Session
 {
@@ -89,6 +89,13 @@ class Session
         // in html
         echo csrf_field();
 
+        // 
+        $option_model = new \App\Models\Option();
+        $firebase_config = $option_model->obj_config(ConfigType::FIREBASE);
+        if (!empty($firebase_config->g_recaptcha_site_key)) {
+            echo '<textarea name="ebe-grecaptcha-response" style="display: none;"></textarea>';
+        }
+
         //
         return true;
     }
@@ -100,6 +107,8 @@ class Session
      **/
     public function anti_spam_field($ops = [])
     {
+        return $this->csrf_field();
+
         // thời gian hết hạn mặc định
         if (!isset($ops['time_expired'])) {
             $ops['time_expired'] = ANTI_SPAM_EXPIRED;
@@ -162,6 +171,40 @@ class Session
     }
 
     /**
+     * Kiểm tra đầu vào của dữ liệu xem chuẩn không
+     **/
+    public function check_require_csrf()
+    {
+        $csrf_name = csrf_token();
+        //echo $csrf_name . '<br>' . PHP_EOL;
+        // nếu tồn tại hash
+        if (!isset($_REQUEST[$csrf_name])) {
+            die(json_encode([
+                'code' => __LINE__,
+                // 'in' => $_REQUEST[$csrf_name],
+                // 'out' => $this->MY_session($this->key_csrf_hash),
+                'error' => 'CSRF token not found!'
+            ]));
+        } else {
+            $hash = $this->MY_session($this->key_csrf_hash);
+            // -> kiểm tra khớp dữ liệu
+            if ($hash != '' && $_REQUEST[$csrf_name] != $hash) {
+                //print_r($_SESSION);
+                die(json_encode([
+                    'code' => __LINE__,
+                    // 'in' => $_REQUEST[$csrf_name],
+                    // 'out' => $this->MY_session($this->key_csrf_hash),
+                    'error' => 'CSRF Invalid token from your request!'
+                ]));
+            }
+        }
+        //die( __CLASS__ . ':' . __LINE__ );
+
+        // 
+        return true;
+    }
+
+    /**
      * Một số phương thức cần dộ bảo mật cao thì sẽ bắt buộc check spam -> nghĩa là các input được định nghĩa bắt buộc phải có
      **/
     public function antiRequiredSpam()
@@ -170,6 +213,8 @@ class Session
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
             return false;
         }
+        // tạm thời chỉ cần check CSRF
+        return $this->check_require_csrf();
         //print_r($_POST);
 
         // chạy 1 vòng -> kiểm tra các input của anti spam có tồn tại không

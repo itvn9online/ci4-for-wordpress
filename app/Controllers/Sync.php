@@ -35,7 +35,7 @@ class Sync extends BaseController
         $this->request = \Config\Services::request();
 
         // test request
-        // var_dump($this->request->getVar('g-recaptcha-response'));
+        // var_dump($this->request->getVar('ebe-grecaptcha-response'));
         // var_dump($this->request->getIPAddress());
         // var_dump($this->request->getFiles());
         // die(__CLASS__ . ':' . __LINE__);
@@ -1075,16 +1075,16 @@ class Sync extends BaseController
         $secret = $firebase_config->g_recaptcha_secret_key;
         // không có -> không dùng recaptcha -> trả về true
         if (empty($secret)) {
-            return true;
+            return null;
         }
 
         // nạp dữ liệu để kiểm tra
         $credential = array(
             'secret' => $secret,
-            'response' => $this->request->getVar('g-recaptcha-response')
+            'response' => $this->request->getVar('ebe-grecaptcha-response')
         );
         if (empty($credential['response'])) {
-            return 'g-recaptcha-response EMPTY!';
+            return 'ebe-grecaptcha-response EMPTY!';
         }
 
         // lấy dữ liệu từ google

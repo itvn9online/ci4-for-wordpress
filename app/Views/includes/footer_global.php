@@ -82,7 +82,8 @@ if ($current_user_id > 0) {
 }
 
 //
-include __DIR__ . '/ebe_captcha.php';
+// include __DIR__ . '/ebe_captcha.php';
+include __DIR__ . '/g_recaptcha.php';
 
 //
 // $base_model->add_js('wp-includes/javascript/ddt.js', [

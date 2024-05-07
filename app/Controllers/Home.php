@@ -630,15 +630,17 @@ class Home extends Posts
         $in_cache = __FUNCTION__;
         $data = $this->term_model->the_cache($term_id, $in_cache);
         if ($data === null) {
-            $data = $this->term_model->get_taxonomy(
-                array(
-                    // các kiểu điều kiện where
-                    'term_id' => $term_id,
-                    'is_deleted' => DeletedStatus::FOR_DEFAULT,
-                    'lang_key' => $this->lang_key,
-                    'taxonomy' => $taxonomy_type
-                )
-            );
+            $data = $this->term_model->get_taxonomy([
+                // các kiểu điều kiện where
+                'term_id' => $term_id,
+                'is_deleted' => DeletedStatus::FOR_DEFAULT,
+                'lang_key' => $this->lang_key,
+                'taxonomy' => $taxonomy_type
+            ], [
+                // 'show_query' => 1,
+            ]);
+            // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            // print_r($data);
 
             //
             $this->term_model->update_count_post_in_term($data);
@@ -646,7 +648,7 @@ class Home extends Posts
             //
             $this->term_model->the_cache($term_id, $in_cache, $data);
         }
-        //print_r($data);
+        // print_r($data);
         //die(__CLASS__ . ':' . __LINE__);
 
         // không có dữ liệu -> báo 404 luôn
@@ -675,14 +677,15 @@ class Home extends Posts
                 ],
                 [
                     'limit' => 10,
-                    'select_col' => 'term_id',
+                    'select_col' => 'term_id, count',
                 ]
             );
 
             //
             $this->term_model->the_cache($term_id, $in_cache, $child_data);
         }
-        //print_r($child_data);
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // print_r($child_data);
 
         //
         $where = [

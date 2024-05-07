@@ -12,19 +12,10 @@ use App\Libraries\ConfigType;
 $firebase_config = $option_model->obj_config(ConfigType::FIREBASE);
 //echo $firebase_config->g_recaptcha_site_key;
 
+// chỉ sử dụng khi không có google recaptcha: https://www.google.com/recaptcha/
+if (empty($firebase_config->g_recaptcha_site_key)) {
 ?>
-<br>
-<?php
-// ưu tiên sử dụng google recaptcha: https://www.google.com/recaptcha/
-if (!empty($firebase_config->g_recaptcha_site_key)) {
-?>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <div class="g-recaptcha" data-sitekey="<?php echo $firebase_config->g_recaptcha_site_key; ?>"></div>
-<?php
-}
-// không có thì mới sử dung cái captcha mình tự code
-else {
-?>
+    <br>
     <div class="row row-collapse">
         <div class="col medium-3 small-3 large-3">
             <div class="col-inner l35" style="background: url(./captcha/three?v=<?php echo time(); ?>) right center no-repeat;">&nbsp;</div>

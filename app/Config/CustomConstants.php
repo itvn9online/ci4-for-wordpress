@@ -532,6 +532,9 @@ defined('CDN_UPLOADS_URL') || define('CDN_UPLOADS_URL', '');
 defined('DEFAULT_FILE_PERMISSION') || define('DEFAULT_FILE_PERMISSION', 0777);
 defined('DEFAULT_DIR_PERMISSION') || define('DEFAULT_DIR_PERMISSION', 0777);
 
+// 
+define('MY_TOKEN_CSRF_NAME', md5($_SERVER['HTTP_HOST'] . date('Y-m-d')));
+
 // kiểu sử dụng cache -> mặc định là file
 defined('MY_CACHE_HANDLER') || define('MY_CACHE_HANDLER', 'file');
 

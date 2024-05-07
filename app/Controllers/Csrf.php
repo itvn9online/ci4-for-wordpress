@@ -24,15 +24,18 @@ class Csrf extends Layout
         parent::__construct();
 
         // bảo mật đầu vào khi submit form
-        $this->base_model->check_csrf();
+        // $this->base_model->check_csrf();
     }
 
     protected function checking_recaptcha()
     {
         // kiểm tra recaptcha (nếu có)
         $check_recaptcha = $this->googleCaptachStore();
+        if ($check_recaptcha === null) {
+            return true;
+        }
         // != true -> có lỗi -> in ra lỗi
-        if ($check_recaptcha !== true) {
+        else if ($check_recaptcha !== true) {
             $this->base_model->msg_error_session($check_recaptcha, $this->form_target);
 
             // -> chuyển tham số này thành true -> các lệnh sau đó sẽ dừng thực thi
@@ -49,7 +52,7 @@ class Csrf extends Layout
         if ($_SERVER['REQUEST_METHOD'] != 'GET') {
             // ưu tiên sử dụng recaptcha
             if (
-                isset($_REQUEST['g-recaptcha-response']) &&
+                isset($_REQUEST['ebe-grecaptcha-response']) &&
                 $this->checking_recaptcha() !== true
             ) {
                 // không cần làm gì ở đây cả -> trong function checking recaptcha đã làm rồi
