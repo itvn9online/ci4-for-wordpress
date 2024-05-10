@@ -742,6 +742,13 @@ class Term extends TermBase
             //'term_status' => DeletedStatus::TERM_SHOW,
             'lang_key' => $ops['lang_key']
         ];
+
+        // 
+        if (isset($ops['parent'])) {
+            $where['parent'] = $ops['parent'];
+        }
+
+        // 
         $where_or_like = [];
         if ($term_id > 0) {
             $where['term_id'] = $term_id;

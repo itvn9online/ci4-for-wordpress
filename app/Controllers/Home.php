@@ -479,9 +479,7 @@ class Home extends Posts
                 //print_r( $cats );
 
                 //
-                if (!empty($cats)) {
-                    $this->create_term_breadcrumb($cats);
-                }
+                $this->create_term_breadcrumb($cats);
             }
         }
 

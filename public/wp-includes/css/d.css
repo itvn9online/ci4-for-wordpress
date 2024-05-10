@@ -310,8 +310,9 @@ em.fa {
 }
 
 .thread-details-tohome li {
-    float: left;
+    /* float: left; */
     padding: 2px 0;
+    display: inline;
 }
 
 .thread-details-tohome li:after {

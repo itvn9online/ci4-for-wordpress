@@ -501,10 +501,18 @@ class PostQuery extends PostMeta
         $where = [
             'post_type' => $post_type,
             'post_status' => PostType::PUBLICITY,
-            'taxonomy' => $post_cat['taxonomy'],
+            // 'taxonomy' => $post_cat['taxonomy'],
             'lang_key' => $post_cat['lang_key'],
             //'(term_taxonomy.term_id = ' . $post_cat[ 'term_id' ] . ' OR term_taxonomy.parent = ' . $post_cat[ 'term_id' ] . ')' => NULL,
         ];
+
+        // 
+        if (!isset($ops['taxonomy'])) {
+            $ops['taxonomy'] = $post_cat['taxonomy'];
+        } else if ($ops['taxonomy'] != '') {
+            $ops['taxonomy'] = $ops['taxonomy'];
+        }
+
         /*
         if ( isset( $post_cat[ 'taxonomy' ] ) && $post_cat[ 'taxonomy' ] != '' ) {
         $where[ 'term_taxonomy.taxonomy' ] = $post_cat[ 'taxonomy' ];
@@ -571,10 +579,15 @@ class PostQuery extends PostMeta
         }
 
         //
+        if (!isset($ops['table'])) {
+            $ops['table'] = WGR_POST_VIEW;
+        }
+
+        //
         if (isset($ops['count_record'])) {
             return $this->base_model->select_count(
                 'ID',
-                WGR_POST_VIEW,
+                $ops['table'],
                 $where,
                 [
                     'where_or' => $arr_where_or,

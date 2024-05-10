@@ -215,6 +215,30 @@ jQuery(document)
 		WGR_auto_scroll_by_hash();
 
 		//
+		(function () {
+			let mh = 0;
+			$(".align-custom-equal").each(function () {
+				mh = 0;
+				let h = 0;
+				$(".col-inner", this).each(function () {
+					h = $(this).height();
+					// console.log("h:", h);
+					if (h > mh) {
+						mh = h;
+					}
+				});
+				if (mh > 0) {
+					// console.log("mh:", mh, mh.toFixed(2) * 1);
+					$(".col-inner", this).css({
+						"min-height": mh.toFixed(2) * 1 + "px",
+						// "min-height": "400px",
+						// border: "1px #f00 solid",
+					});
+				}
+			});
+		})();
+
+		//
 		$("body").addClass("document-ready");
 	})
 	.keydown(function (e) {

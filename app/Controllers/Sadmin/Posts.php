@@ -357,7 +357,11 @@ class Posts extends Sadmin
                     $v['the_permalink'] = $this->post_model->get_post_permalink($v);
                 }
                 if (isset($v['post_meta'])) {
-                    $v['thumbnail'] = $this->post_model->get_list_thumbnail($v['post_meta']);
+                    if (isset($v['image'])) {
+                        $v['thumbnail'] = $v['image'];
+                    } else {
+                        $v['thumbnail'] = $this->post_model->get_list_thumbnail($v['post_meta']);
+                    }
                     $v['main_category_key'] = $this->post_model->return_meta_post($v['post_meta'], $this->main_category_key);
                 } else {
                     $v['thumbnail'] = '';
@@ -679,6 +683,15 @@ class Posts extends Sadmin
             if ($post_permalink !== null && $data['post_permalink'] != $post_permalink) {
                 $this->MY_redirect($this->buildAdminPermalink($data['ID']), 301);
                 // die(__CLASS__ . ':' . __LINE__);
+            }
+
+            // hỗ trợ các web dùng danh mục trực tiếp trong bảng post -> select nhanh hơn
+            if (isset($data['post_meta']) && isset($data['post_meta']['post_category']) && empty($data['post_meta']['post_category'])) {
+                if (!empty($data['category_second_id'])) {
+                    $data['post_meta']['post_category'] = $data['category_second_id'];
+                } else if (!empty($data['category_primary_id'])) {
+                    $data['post_meta']['post_category'] = $data['category_primary_id'];
+                }
             }
         }
         // add

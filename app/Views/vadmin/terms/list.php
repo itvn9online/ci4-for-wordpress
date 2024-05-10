@@ -21,8 +21,7 @@ $base_model->adds_css([
 ?>
 <ul class="admin-breadcrumb">
     <li>
-        <?php echo $name_type; ?> (
-        <?php echo $totalThread; ?>)
+        <?php echo $name_type; ?> (<?php echo number_format($totalThread); ?>)
     </li>
 </ul>
 <div id="app" class="ng-main-content2">

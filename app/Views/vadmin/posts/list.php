@@ -10,8 +10,7 @@ $base_model->add_css('wp-admin/css/' . $post_type . '.css');
 ?>
 <ul class="admin-breadcrumb">
     <li>Danh sách
-        <?php echo $name_type; ?> (
-        <?php echo $totalThread; ?>)
+        <?php echo $name_type; ?> (<?php echo number_format($totalThread); ?>)
     </li>
 </ul>
 <div id="app" class="ng-main-content">
@@ -116,6 +115,22 @@ $base_model->JSON_parse(
         PostType_DELETED: '<?php echo PostType::DELETED; ?>',
         PostType_arrStatus: PostType_arrStatus,
         data: json_data,
+        dataOrMeta: function(v1, v2) {
+            // console.log(v1, v2);
+            if (typeof v1 != 'undefined') {
+                return v1;
+            }
+            return v2;
+        },
+        dataOrCategoryMeta: function(v1, v2, v3) {
+            // console.log(v1, v2, v3);
+            if (typeof v1 != 'undefined' && v1 * 1 > 0) {
+                return v1;
+            } else if (typeof v2 != 'undefined' && v2 * 1 > 0) {
+                return v2;
+            }
+            return v3;
+        },
     });
 </script>
 <?php

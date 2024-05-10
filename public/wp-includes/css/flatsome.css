@@ -78,8 +78,8 @@
 
 .w90 .row.row-small,
 .row .row.row-small {
-    margin-left: -9.8px;
-    margin-right: -9.8px;
+    margin-left: -9.5px;
+    margin-right: -9.5px;
 }
 
 .w90 .row.row-12,
@@ -90,7 +90,7 @@
 
 .row-small>.flickity-viewport>.flickity-slider>.col,
 .row-small>.col {
-    padding: 0 9.8px 19.6px;
+    padding: 0 9.5px 19.6px;
     margin-bottom: 0;
 }
 

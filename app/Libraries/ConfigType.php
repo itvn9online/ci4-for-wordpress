@@ -55,6 +55,7 @@ class ConfigType
     private static $eb_row_align = [
         '' => 'Mặc định',
         'align-equal' => 'equal',
+        'align-custom-equal' => 'custom equal',
         'align-middle' => 'middle',
         'align-bottom' => 'bottom',
     ];
@@ -456,6 +457,7 @@ class ConfigType
                 'WGR_PROD_PERMALINK' => 'Product permalink',
                 'WGR_PAGE_PERMALINK' => 'Page permalink',
                 'WGR_POSTS_PERMALINK' => 'Other post permalink',
+                'DEFAULT_SELECT_POST_COL' => 'Default select post column',
             ];
         } else if ($config_type == self::CHECKOUT) {
             $arr = [
@@ -847,10 +849,9 @@ class ConfigType
             //'WGR_BLOG_PERMALINK' => 'Xóa trắng để xem mặc định: ' . WGR_BLOG_PERMALINK,
             'WGR_PROD_PERMALINK' =>
             'Ví dụ: %ID%-%post_type%-%post_name% | Xóa trắng để xem mặc định',
-            'WGR_PAGE_PERMALINK' =>
-            'Ví dụ: %ID%-%post_type%-%post_name% | Xóa trắng để xem mặc định',
-            'WGR_POSTS_PERMALINK' =>
-            'Ví dụ: %ID%-%post_type%-%post_name% | Xóa trắng để xem mặc định',
+            'WGR_PAGE_PERMALINK' => 'Ví dụ: %ID%-%post_type%-%post_name% | Xóa trắng để xem mặc định',
+            'WGR_POSTS_PERMALINK' => 'Ví dụ: %ID%-%post_type%-%post_name% | Xóa trắng để xem mặc định',
+            'DEFAULT_SELECT_POST_COL' => 'Khi cần tối ưu việc select dữ liệu cho bảng post thì khai báo lại tham số này. Ví dụ: ID, post_permalink, post_excerpt, post_title, post_type, post_date, post_modified, comment_count',
             //
             'WGR_CSP_DEFAULT_SRC' => 'Xóa trắng để xem mặc định: ' . WGR_CSP_DEFAULT_SRC,
             'WGR_CSP_SCRIPT_SRC' => 'Xóa trắng để xem mặc định: ' . WGR_CSP_SCRIPT_SRC,

@@ -535,6 +535,9 @@ defined('DEFAULT_DIR_PERMISSION') || define('DEFAULT_DIR_PERMISSION', 0777);
 // 
 define('MY_TOKEN_CSRF_NAME', md5($_SERVER['HTTP_HOST'] . date('Y-m-d')));
 
+// khi cần tối ưu việc select dữ liệu cho bảng post thì khai báo lại tham số này
+defined('DEFAULT_SELECT_POST_COL') || define('DEFAULT_SELECT_POST_COL', '*');
+
 // kiểu sử dụng cache -> mặc định là file
 defined('MY_CACHE_HANDLER') || define('MY_CACHE_HANDLER', 'file');
 

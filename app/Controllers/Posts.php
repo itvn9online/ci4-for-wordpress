@@ -69,22 +69,30 @@ class Posts extends Csrf
 
         //
         $data['post_content'] = $this->replace_content($data['post_content']);
-        //print_r( $data );
+        // print_r($data);
 
         // lấy thông tin danh mục để tạo breadcrumb
         $cats = [];
-        if (isset($data['post_meta']['post_category'])) {
+        if ($data['category_second_id'] > 0) {
+            $cats = $this->term_model->get_all_taxonomy($this->taxonomy, $data['category_second_id']);
+            // print_r($cats);
+
+            $this->create_term_breadcrumb($cats);
+        } else if ($data['category_primary_id'] > 0) {
+            $cats = $this->term_model->get_all_taxonomy($this->taxonomy, $data['category_primary_id']);
+            // print_r($cats);
+
+            $this->create_term_breadcrumb($cats);
+        } else if (isset($data['post_meta']['post_category'])) {
             $post_category = explode(',', $data['post_meta']['post_category']);
             $post_category = $post_category[0];
 
             //
             if ($post_category > 0) {
                 $cats = $this->term_model->get_all_taxonomy($this->taxonomy, $post_category);
-                //print_r( $cats );
+                // print_r($cats);
 
-                if (!empty($cats)) {
-                    $this->create_term_breadcrumb($cats);
-                }
+                $this->create_term_breadcrumb($cats);
             }
         }
         //print_r( $this->taxonomy_slider );
@@ -146,7 +154,7 @@ class Posts extends Csrf
             }
 
             // lấy 1 bài phía trước
-            $same_cat_data = $this->base_model->select('*', $select_tbl, [
+            $same_cat_data = $this->base_model->select(DEFAULT_SELECT_POST_COL, $select_tbl, [
                 'ID >' => $data['ID'],
                 'post_status' => PostType::PUBLICITY,
                 'post_type' => $data['post_type'],
@@ -174,7 +182,7 @@ class Posts extends Csrf
 
             // sau đó là các bài phía sau
             if ($post_per_page > 0) {
-                $after_cat_data = $this->base_model->select('*', $select_tbl, [
+                $after_cat_data = $this->base_model->select(DEFAULT_SELECT_POST_COL, $select_tbl, [
                     'ID <' => $data['ID'],
                     'post_status' => PostType::PUBLICITY,
                     'post_type' => $data['post_type'],

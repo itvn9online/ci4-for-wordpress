@@ -266,7 +266,12 @@ class Layout extends Sync
 
     protected function create_term_breadcrumb($cats)
     {
-        //print_r( $cats );
+        if (empty($cats)) {
+            return false;
+        }
+        // print_r($cats);
+
+        // 
         $this->taxonomy_slider[] = $cats;
         $this->posts_parent_list[] = $cats['term_id'];
 

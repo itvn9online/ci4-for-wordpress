@@ -31,7 +31,7 @@ class Pages extends Home
             ]);
 
             //
-            $this->base_model->scache($in_cache, $data, 300);
+            $this->base_model->scache($in_cache, $data);
         }
 
         //

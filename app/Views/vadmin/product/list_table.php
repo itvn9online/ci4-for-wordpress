@@ -34,10 +34,10 @@
                 <div><a :href="v.the_permalink" target="_blank" class="small greencolor">{{v.the_permalink}} <i class="fa fa-eye"></i></a></div>
             </td>
             <td>
-                <div><span class="ebe-currency-format">{{v.post_meta._regular_price}}</span></div>
-                <div><span class="ebe-currency-format">{{v.post_meta._sale_price}}</span></div>
+                <div><span class="ebe-currency-format">{{dataOrMeta(v._regular_price, v.post_meta._regular_price)}}</span></div>
+                <div><span class="ebe-currency-format">{{dataOrMeta(v._sale_price, v.post_meta._sale_price)}}</span></div>
             </td>
-            <td :data-id="v.main_category_key" :data-taxonomy="taxonomy" :data-uri="'sadmin/' + controller_slug" class="each-to-taxonomy">&nbsp;</td>
+            <td :data-id="dataOrCategoryMeta(v.category_second_id, v.category_primary_id, v.main_category_key)" :data-taxonomy="taxonomy" :data-uri="'sadmin/' + controller_slug" class="each-to-taxonomy">&nbsp;</td>
             <td>
                 <div>{{v.post_date.substr(0, 16)}}</div>
                 <div>{{v.post_modified.substr(0, 16)}}</div>
