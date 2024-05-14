@@ -7,7 +7,7 @@
 
 .products-list-avt {
     background: center no-repeat;
-    height: 220px;
+    /* height: 220px; */
     background-size: cover;
     position: relative;
 }

@@ -38,7 +38,7 @@ class Sitemap extends Layout
         $this->sitemap_current_time = date($this->sitemap_date_format, time());
 
         // giới hạn số bài viết cho mỗi sitemap map
-        $this->limit_post_get = 100;
+        $this->limit_post_get = 500;
         //$this->limit_post_get = 2;
 
         // giới hạn tạo sitemap cho hình ảnh -> google nó limit 1000 ảnh nên chỉ lấy thế thôi

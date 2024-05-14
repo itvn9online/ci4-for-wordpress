@@ -302,6 +302,7 @@ class TaxonomyType
             'row_align' => [
                 '' => 'Mặc định',
                 'align-equal' => 'equal',
+                'align-custom-equal' => 'custom equal',
                 'align-middle' => 'middle',
                 'align-bottom' => 'bottom',
             ],

@@ -54,7 +54,7 @@
     </div>
 </section>
 <section class="default2-bg footer2-section">
-    <div class="text-center center-if-mobile">
+    <div class="text-center">
         <?php $lang_model->the_web_license($getconfig); ?>
     </div>
 </section>

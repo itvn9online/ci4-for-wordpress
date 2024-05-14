@@ -252,7 +252,7 @@ var _global_js_eb = {
 		jQuery(".no-set-width-this-li").width("100%");
 
 		// chỉnh kích cỡ ảnh theo tỉ lệ
-		let new_arr_ti_le_global = {};
+		let arr_new_ti_le_global = {};
 		jQuery(".ti-le-global").each(function () {
 			let a = jQuery(this).width(),
 				// hiển thị size ảnh gợi ý cho admin
@@ -307,9 +307,9 @@ var _global_js_eb = {
 					a = 1;
 				}
 
-				if (typeof arr_ti_le_global[pading_size] == "undefined") {
-					arr_ti_le_global[pading_size] = a;
-					new_arr_ti_le_global[pading_size] = a;
+				if (arr_ti_le_global.includes(pading_size) == false) {
+					arr_ti_le_global.push(pading_size);
+					arr_new_ti_le_global[pading_size] = a;
 				}
 
 				// 1 số trường hợp vẫn dùng class cũ
@@ -331,18 +331,18 @@ var _global_js_eb = {
 				}
 			}
 		});
-		//console.log(arr_ti_le_global);
-		//console.log(new_arr_ti_le_global);
+		// console.log(arr_ti_le_global);
+		// console.log(arr_new_ti_le_global);
 		let str_css = "";
-		for (let x in new_arr_ti_le_global) {
-			new_arr_ti_le_global[x] *= 100;
+		for (let x in arr_new_ti_le_global) {
+			arr_new_ti_le_global[x] *= 100;
 
-			// quy đổi padding teo % chiều rộng của width
+			// quy đổi padding theo % chiều rộng của width
 			str_css +=
 				"." +
 				x +
 				"{padding-top:" +
-				new_arr_ti_le_global[x].toFixed(3) * 1 +
+				arr_new_ti_le_global[x].toFixed(3) * 1 +
 				"%}";
 		}
 		if (str_css != "") {

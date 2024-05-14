@@ -19,6 +19,14 @@ $post_model->the_ads('top-main-slider');
                         // 'term_id' => 1,
                     ], [
                         'select' => DEFAULT_SELECT_POST_COL,
+                        // chỉ định bảng sẽ select
+                        // 'table' => 'posts',
+                        // nếu select bảng post -> ko where theo taxonomy -> vì ko có cột này
+                        // 'taxonomy' => '',
+                        // 
+                        // 'where_not_in' => [],
+                        // 'group_by' => [],
+                        // 
                         'limit' => 10,
                         //'offset' => 0,
                         'order_by' => [
@@ -59,6 +67,14 @@ $post_model->the_ads('top-main-slider');
                         // 'term_id' => 1,
                     ], [
                         'select' => DEFAULT_SELECT_POST_COL,
+                        // chỉ định bảng sẽ select
+                        // 'table' => 'posts',
+                        // nếu select bảng post -> ko where theo taxonomy -> vì ko có cột này
+                        // 'taxonomy' => '',
+                        // 
+                        // 'where_not_in' => [],
+                        // 'group_by' => [],
+                        // 
                         'limit' => 10,
                         'offset' => rand(0, 100),
                         'order_by' => [

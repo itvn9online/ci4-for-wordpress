@@ -1149,7 +1149,7 @@
 
 .ty-le-global {
     position: relative;
-    height: 1px !important;
+    /* height: 1px !important; */
     height: 0px !important;
     line-height: normal !important;
     padding-top: 100%;

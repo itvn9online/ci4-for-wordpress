@@ -17,7 +17,7 @@ var bg_load = "Loading...",
 	sb_submit_cart_disabled = 0,
 	ebe_arr_cart_product_list = [],
 	ebe_arr_cart_customer_info = [],
-	arr_ti_le_global = {},
+	arr_ti_le_global = [],
 	// tiền tệ mặc định
 	currency_fraction_digits = 2,
 	currency_locales_format = "",
@@ -823,7 +823,7 @@ function create_menu_by_taxonomy(arr, parent_class, show_favicon, ops) {
 	if (WGR_config.cf_tester_mode > 0) {
 		console.log("create menu by taxonomy:", arr.length);
 	}
-	console.log(arr);
+	// console.log(arr);
 
 	//
 	if (typeof show_favicon == "undefined") {
