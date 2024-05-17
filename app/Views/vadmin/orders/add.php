@@ -74,6 +74,12 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                 </div>
             </div>
             <div class="control-group">
+                <label class="control-label">Shipping fee</label>
+                <div class="controls bold">
+                    <span class="ebe-currency-format"><?php echo $data['shipping_fee']; ?></span>
+                </div>
+            </div>
+            <div class="control-group">
                 <label class="control-label">Trạng thái</label>
                 <div class="controls">
                     <select data-select="<?php echo $data['post_status']; ?>" name="data[post_status]" class="span3">

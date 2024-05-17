@@ -439,6 +439,11 @@ body.ebfixed-down-menu.sidebar-hover.sidebar-height #sidebar, body.ebfixed-down-
 }
 
 /* */
+/* .eb-table td, */
+.eb-table th {
+    white-space: nowrap
+}
+
 .eb-table th {
     height: auto;
     padding-top: 10px;

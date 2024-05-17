@@ -566,7 +566,7 @@ class Sync extends BaseController
                 'term_order' => 'INT(10) NOT NULL DEFAULT \'0\' COMMENT \'Sắp xếp vị trí hiển thị, số càng to thì độ ưu tiên càng cao\'',
                 'term_status' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'Trạng thái hiển thị của 1 term. 0 = hiển thị, 1 = ẩn\'',
                 'term_viewed' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Đếm số lượt xem danh mục\'',
-                'term_meta_data' => 'LONGTEXT NULL COMMENT \'Lưu các post meta vào đây để đỡ phải query nhiều\'',
+                'term_meta_data' => 'LONGTEXT NOT NULL DEFAULT \'\' COMMENT \'Lưu các post meta vào đây để đỡ phải query nhiều\'',
                 'term_ids' => 'VARCHAR(255) NULL COMMENT \'Danh sách ID của các nhóm con, dùng để tạo query cho nhanh\'',
                 'child_count' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Tính tổng số nhóm con để gọi lệnh lấy nhóm con nếu không NULL\'',
                 'child_last_count' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Thời gian cập nhật child_count lần trước\'',

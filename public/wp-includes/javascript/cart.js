@@ -13,6 +13,7 @@ function cart_set_cache_data(key, c, t) {
 	if (typeof t != "number") {
 		t = 24 * 3600 * 30;
 	}
+	console.log("set cache:", key);
 	return g_func.setc(key, c, t);
 }
 
@@ -116,6 +117,26 @@ function run_calculate_cart_value() {
 		}
 	}
 
+	// hiển thị phí vận chuyển
+	// console.log(cart_config.shipping_fee);
+	// console.log(cart_config);
+	if (cart_config.shipping_fee == "") {
+		// quy đổi thành dạng số để giỏ hàng còn cộng tiền
+		cart_config.shipping_fee = 0;
+		$(".cart-sidebar-shipping").html(cart_config.calculated_later);
+	} else {
+		// quy đổi thành dạng số để giỏ hàng còn cộng tiền
+		cart_config.shipping_fee *= 1;
+		if (cart_config.shipping_fee < 1) {
+			$(".cart-sidebar-shipping").html(cart_config.free_shipping);
+		} else {
+			$(".cart-sidebar-shipping")
+				.html(g_func.money_format(cart_config.shipping_fee))
+				.addClass("ebe-currency");
+		}
+	}
+	// console.log(cart_config.shipping_fee);
+
 	//
 	cart_total_regular_price(price_total + cart_config.shipping_fee);
 
@@ -167,6 +188,7 @@ function action_ajax_cart() {
 			return false;
 		}
 	}
+	// console.log(a);
 
 	//
 	jQuery.ajax({
@@ -388,7 +410,8 @@ function remove_from_cart(jd) {
 	remove_from_cache_cart(jd, "cache-quickcart-id");
 
 	// xong thì nạp lại trang
-	window.location.reload();
+	// window.location.reload();
+	window.location = window.location.href.split("?")[0];
 
 	//
 	return true;
@@ -431,20 +454,20 @@ function cart_customer_cache_data() {
 			".cart-is-product .checkout-form input[type='email']",
 			".cart-is-product .checkout-form input[type='tel']",
 			".cart-is-product .checkout-form input[type='number']",
+			".cart-is-product .checkout-form select",
 		].join(",")
 	).each(function () {
 		// tạo id nếu chưa có
 		let a = $(this).attr("id") || "";
-		if (a == "") {
-			let b = $(this).attr("name") || "";
-			if (b != "") {
+		let b = $(this).attr("name") || "";
+		if (b != "") {
+			if (a == "") {
 				b = b.replace(/\[|\]/gi, "_");
-				$(this)
-					.attr({
-						id: b,
-					})
-					.addClass("customer-cache-data");
+				$(this).attr({
+					id: b,
+				});
 			}
+			$(this).addClass("customer-cache-data");
 		}
 	});
 
@@ -464,6 +487,7 @@ function cart_customer_cache_data() {
 			let c = get_customer_cache_data();
 			// gán dữ liệu người dùng đã nhập
 			c[a] = $(this).val();
+			// console.log(c);
 			// lưu vào cache
 			cart_set_cache_data("customer-cache-data", JSON.stringify(c));
 		}
@@ -476,6 +500,7 @@ function get_customer_cache_data() {
 	// console.log(c);
 	if (c !== null) {
 		c = JSON.parse(c);
+		// console.log(c);
 	} else {
 		c = {};
 	}
@@ -541,52 +566,50 @@ function remove_session_cart(order_received) {
 
 //
 jQuery(document).ready(function () {
-	// hiển thị phí vận chuyển
-	// console.log(cart_config.shipping_fee);
-	// console.log(cart_config);
-	if (cart_config.shipping_fee == "") {
-		// quy đổi thành dạng số để giỏ hàng còn cộng tiền
-		cart_config.shipping_fee = 0;
-		$(".cart-sidebar-shipping").html(cart_config.calculated_later);
-	} else {
-		// quy đổi thành dạng số để giỏ hàng còn cộng tiền
-		cart_config.shipping_fee *= 1;
-		if (cart_config.shipping_fee < 1) {
-			$(".cart-sidebar-shipping").html(cart_config.free_shipping);
-		} else {
-			$(".cart-sidebar-shipping")
-				.html(g_func.money_format(cart_config.shipping_fee))
-				.addClass("ebe-currency");
-		}
-	}
-	// console.log(cart_config.shipping_fee);
-
 	// mã giảm giá trong cache nếu có
 	cache_coupon_code();
 
 	// thêm iframe để submit form cho tiện
-	let has_quick_cart = false;
+	// let has_quick_cart = false;
 	if (product_cart_id != "") {
 		product_cart_id *= 1;
 		if (!isNaN(product_cart_id) && product_cart_id > 0) {
 			// lưu ID sản phẩm này vào bộ nhớ tạm -> quyền ưu tiên thấp hơn cache giỏ hàng chính
-			cart_set_cache_data("cache-quickcart-id", product_cart_id);
+			let cart_cache = cart_get_cache_data("cache-cart-ids");
+			if (cart_cache === null) {
+				cart_cache = [];
+			} else {
+				cart_cache = cart_cache.split(",");
+			}
+			// console.log("cart cache:", cart_cache, typeof cart_cache);
 
 			//
-			has_quick_cart = true;
-			change_calculate_cart_value();
-			action_calculate_cart_value();
+			if (
+				cart_cache.includes(product_cart_id) == false &&
+				cart_cache.includes(product_cart_id + "") == false
+			) {
+				cart_cache.push(product_cart_id + "");
+				// cart_set_cache_data("cache-quickcart-id", product_cart_id);
+				cart_set_cache_data("cache-cart-ids", cart_cache.join(","));
+			}
+
+			//
+			// has_quick_cart = true;
+			// change_calculate_cart_value();
+			// action_calculate_cart_value();
 		}
 	}
 
 	// nạp cart qua ajax
-	if (has_quick_cart === false) {
-		action_ajax_cart();
+	// if (has_quick_cart === false) {
+	action_ajax_cart();
+	/*
 	} else {
 		$(".cart-is-product").removeClass("d-none");
 		cart_sidebar_table();
 		cart_table_buttons_added();
 	}
+	*/
 
 	// hiển thị html cho phần đặt cọc nếu có
 	if (cart_config.deposit_money != "") {

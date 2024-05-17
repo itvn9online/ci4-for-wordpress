@@ -54,7 +54,7 @@
                         </div>
                     </div>
                     <p class="remove-from-cart">
-                        <span onclick="return remove_from_cart(<?php echo $v['ID']; ?>);" class="cur">[Remove <i class="fa fa-remove"></i>]</span>
+                        <span onclick="return remove_from_cart(<?php echo $v['ID']; ?>);" class="cur redcolor">[Remove <i class="fa fa-trash"></i>]</span>
                     </p>
                     <input type="hidden" name="cart_id[]" value="<?php echo $v['ID']; ?>" autocomplete="off" readonly aria-required="true" required />
                 </td>
@@ -105,7 +105,7 @@
             ?>
                 <tr>
                     <td>
-                        <?php echo $v['post_title']; ?> <i class="fa fa-remove"></i> <strong data-id="<?php echo $v['ID']; ?>" class="change-product-quantity">1</strong>
+                        <?php echo $v['post_title']; ?> x <strong data-id="<?php echo $v['ID']; ?>" class="change-product-quantity">1</strong>
                     </td>
                     <td class="cart-regular_price">
                         <span data-id="<?php echo $v['ID']; ?>" class="ebe-currency change-cart-regular_price"></span>

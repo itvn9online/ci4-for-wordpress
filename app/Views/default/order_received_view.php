@@ -1,4 +1,4 @@
-<div class="row row-divided">
+<div class="row row-small row-divided-xoa cart-is-product">
     <div class="col small-12 medium-8 large-8">
         <div class="col-inner">
             <h2>Order details</h2>

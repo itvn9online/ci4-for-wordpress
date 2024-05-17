@@ -230,13 +230,14 @@ class Term extends TermBase
             $data_insert['term_taxonomy_id'] = $result_id;
             $data_insert['term_id'] = $result_id;
             $data_insert['taxonomy'] = $taxonomy;
-            $data_insert['description'] = 'Auto create taxonomy ' . $taxonomy . ' in ' . $_SERVER['REQUEST_URI'];
+            $data_insert['source_count'] = 'Auto create taxonomy ' . $taxonomy . ' in ' . $_SERVER['REQUEST_URI'];
             // if (isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])) {
-            //     $data_insert['description'] .= ' form ' . $_SERVER['HTTP_REFERER'];
+            //     $data_insert['source_count'] .= ' form ' . $_SERVER['HTTP_REFERER'];
             // }
-            if (isset($_SERVER['HTTP_USER_AGENT'])) {
-                $data_insert['description'] .= ' with ' . $_SERVER['HTTP_USER_AGENT'];
-            }
+            // if (isset($_SERVER['HTTP_USER_AGENT'])) {
+            //     $data_insert['source_count'] .= ' with ' . $_SERVER['HTTP_USER_AGENT'];
+            // }
+            // $data_insert['description'] = $data_insert['source_count'];
 
             //
             $this->base_model->insert($this->taxTable, $data_insert, true);

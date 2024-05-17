@@ -1,9 +1,9 @@
 <br>
 <div class="w90">
-    <h1><?php echo $cart_title; ?></h1>
+    <h1 class="cart-h1-title"><?php echo $cart_title; ?></h1>
 </div>
 <br>
-<div class="row row-large row-divided row-cart cart-is-product d-none <?php echo $by_get_id; ?>">
+<div class="row row-small row-divided-xoa align-equal row-cart cart-is-product d-none <?php echo $by_get_id; ?>">
     <div class="col small-12 medium-8 large-8">
         <div class="col-inner">
             <form action="" method="post" name="frm_actions_cart" id="frm_actions_cart" accept-charset="utf-8" target="target_eb_iframe">
@@ -53,8 +53,8 @@
         </div>
     </div>
 </div>
-<div class="top-menu-space text-center cart-is-empty">
-    <p>Your cart is currently empty.</p>
+<div class="w90 top-menu-space text-center cart-is-empty">
+    <p class="redcolor medium18 bold">Your cart is currently empty.</p>
     <p>
         <a href="./" class="btn btn-primary upper bold">Return to shop</a>
     </p>

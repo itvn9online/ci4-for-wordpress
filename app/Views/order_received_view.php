@@ -15,7 +15,7 @@ $base_model->adds_css([
 ?>
 <br>
 <div class="w90">
-    <h1 class="greencolor"><?php echo $cart_title; ?></h1>
+    <h1 class="cart-h1-title"><?php echo $cart_title; ?></h1>
 </div>
 <br>
 <?php

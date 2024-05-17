@@ -56,22 +56,41 @@ class TermBase extends EbModel
         }
     }
 
-    public function terms_meta_post($data)
+    public function terms_meta_post($data, $select_meta = 0)
     {
+        // print_r($data);
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        /*
         if (!isset($data[0]['term_meta_data'])) {
-            return $data;
+            echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            // return $data;
         }
+        */
 
         //
-        //print_r( $data );
+        // print_r($data);
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
         foreach ($data as $k => $v) {
-            //print_r( $v );
+            // print_r($v);
+
+            // không có meta data -> thoát luôn
+            if (!isset($v['term_meta_data'])) {
+                // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                if ($select_meta > 0) {
+                    $v['term_meta_data'] = '';
+                } else {
+                    break;
+                }
+                // continue;
+            }
+            // var_dump($v['term_meta_data']);
 
             // nếu không có dữ liệu của term meta
-            if ($v['term_meta_data'] === null) {
+            // if ($v['term_meta_data'] === null) {
+            if (empty($v['term_meta_data'])) {
                 $term_meta_data = $this->arr_meta_terms($v['term_id']);
-                //print_r( $term_meta_data );
-                //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                // print_r($term_meta_data);
+                // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
                 //
                 $this->base_model->update_multiple($this->table, [
@@ -84,14 +103,16 @@ class TermBase extends EbModel
                 $data[$k]['term_meta_data'] = 'query';
             } else {
                 $term_meta_data = (array) json_decode($v['term_meta_data']);
-                //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                // print_r($term_meta_data);
+                // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
                 // thông báo kiểu dữ liệu trả về
                 $data[$k]['term_meta_data'] = 'cache';
             }
             $data[$k]['term_meta'] = $term_meta_data;
         }
-        //print_r( $data );
+        // print_r($data);
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
         //
         return $data;
@@ -224,8 +245,10 @@ class TermBase extends EbModel
 
     public function select_term($term_id, $where = [], $filter = [], $select_col = '*')
     {
+        $select_meta = 0;
         if ($term_id > 0) {
             $where['term_id'] = $term_id;
+            $select_meta = 1;
         }
         if (empty($where)) {
             return [];
@@ -246,15 +269,16 @@ class TermBase extends EbModel
 
         // select dữ liệu từ 1 bảng bất kỳ
         $data = $this->base_model->select($select_col, WGR_TERM_VIEW, $where, $default_filter);
-        //print_r($data);
+        // print_r($data);
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
         //die(__CLASS__ . ':' . __LINE__);
 
         // lấy meta của post này
         if (!empty($data)) {
             if ($default_filter['limit'] > 1) {
-                $data = $this->terms_meta_post($data);
+                $data = $this->terms_meta_post($data, $select_meta);
             } else {
-                $data = $this->terms_meta_post([$data]);
+                $data = $this->terms_meta_post([$data], $select_meta);
                 $data = $data[0];
             }
             //print_r($data);

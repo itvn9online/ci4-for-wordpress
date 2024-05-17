@@ -632,7 +632,7 @@ class PostQuery extends PostMeta
                     'group_by' => $ops['group_by'],
                     'order_by' => $order_by,
                     //'get_sql' => 1,
-                    //'show_query' => 1,
+                    // 'show_query' => 1,
                     //'debug_only' => 1,
                     'offset' => $ops['offset'],
                     'limit' => $limit
@@ -768,9 +768,11 @@ class PostQuery extends PostMeta
             $instance['widget_description'] = '<div class="w90 ' . $instance['max_width'] . ' eb-widget-blogs-desc by-widget_description">' . nl2br($instance['widget_description']) . '</div>';
         } else {
             // nếu nội dung không phải nội dung mẫu
-            $post_cat['description'] = str_replace('Auto create nav menu taxonomy', '', $post_cat['description']);
-            if (trim(strip_tags($post_cat['description'])) != '' && strpos($post_cat['description'], 'Auto create taxonomy') === false) {
-                $instance['widget_description'] = '<div class="w90 ' . $instance['max_width'] . ' eb-widget-blogs-desc by-description">' . $post_cat['description'] . '</div>';
+            // $post_cat['description'] = str_replace('Auto create nav menu taxonomy', '', $post_cat['description']);
+            if (trim(strip_tags($post_cat['description'])) != '') {
+                if (strpos($post_cat['description'], 'Auto create taxonomy') === false) {
+                    $instance['widget_description'] = '<div class="w90 ' . $instance['max_width'] . ' eb-widget-blogs-desc by-description">' . $post_cat['description'] . '</div>';
+                }
             }
         }
         if ($instance['dynamic_tag'] == '') {

@@ -44,7 +44,8 @@ class Actions extends Layout
 
         // nếu có ID truyền vào -> lấy theo ID đó
         $product_id = $this->MY_get('id', 0);
-        if ($product_id > 0) {
+        // giỏ hàng sẽ được load qua ajax
+        if (1 > 2 && $product_id > 0) {
             $by_get_id = 'quick-cart-id';
 
             //
@@ -367,9 +368,23 @@ class Actions extends Layout
         $data['post_password'] = md5(time() . $this->base_model->MY_sessid());
         // $data['post_password'] = substr($data['post_password'], 0, 16);
 
+        // nếu có thành phố -> thử tìm phí vận chuyển theo thành phố
+        if (isset($data['city'])) {
+            $data['shipping_fee'] = $this->shippingFee($data['city']);
+        }
+
+        // nếu có tiểu bang -> thử tìm theo tiểu bang
+        if (!isset($data['shipping_fee']) || empty($data['shipping_fee'])) {
+            if (isset($data['state'])) {
+                $data['shipping_fee'] = $this->shippingFee($data['state']);
+            }
+        }
+
         // phí vận chuyển (nếu có)
-        if ($this->getconfig->shipping_fee != '') {
-            $data['shipping_fee'] = $this->getconfig->shipping_fee;
+        if (!isset($data['shipping_fee']) || empty($data['shipping_fee'])) {
+            if ($this->getconfig->shipping_fee != '') {
+                $data['shipping_fee'] = $this->getconfig->shipping_fee;
+            }
         }
 
         // đặt cọc trước (nếu có)
@@ -854,5 +869,48 @@ class Actions extends Layout
             'code' => __LINE__,
             'result' => $this->mail_queue_model->session_sending_mailq(),
         ]);
+    }
+
+    /**
+     * Trả về phí vận chuyển theo từng thành phố nếu có
+     **/
+    protected function shippingFee($term_id)
+    {
+        if (empty($term_id) || !is_numeric($term_id)) {
+            return null;
+        }
+
+        // 
+        $data = $this->base_model->select(
+            'meta_value',
+            'termmeta',
+            array(
+                'term_id' => $term_id,
+                'meta_key' => 'shipping_fee',
+            ),
+            array(
+                'order_by' => array(
+                    'meta_id' => 'DESC',
+                ),
+                // hiển thị mã SQL để check
+                // 'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                //'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                'limit' => 1
+            )
+        );
+
+        // 
+        if (!empty($data)) {
+            return $data['meta_value'];
+        }
+
+        // 
+        return null;
     }
 }

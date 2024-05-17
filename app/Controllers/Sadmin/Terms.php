@@ -301,7 +301,7 @@ class Terms extends Sadmin
             if (empty($data)) {
                 die('term not found!' . __CLASS__ . ':' . __LINE__);
             }
-            //print_r($data);
+            // print_r($data);
 
             // cập nhật lang default nếu chưa có
             if ($data['lang_key'] == '') {
@@ -565,7 +565,7 @@ class Terms extends Sadmin
             */
             $data['term_meta'] = [];
         }
-        //print_r( $data );
+        // print_r($data);
 
 
         // lấy danh sách các nhóm để tạo cha con

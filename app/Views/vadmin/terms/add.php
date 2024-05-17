@@ -7,6 +7,14 @@ use App\Libraries\TaxonomyType;
 $base_model->add_css('wp-admin/css/' . $taxonomy . '.css');
 
 //
+if (isset($_GET['print_data'])) {
+    echo '<!-- ';
+    print_r($data);
+    print_r($meta_default);
+    echo ' -->';
+}
+
+//
 include ADMIN_ROOT_VIEWS . 'terms/add_breadcrumb.php';
 
 //

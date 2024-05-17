@@ -14,9 +14,15 @@ if (!empty($child_data)) {
     //
 ?>
     <div class="col-main-padding col-<?php echo $data['taxonomy']; ?>-padding">
-        <div class="global-cats-description global-<?php echo $data['taxonomy']; ?>-description ul-default-style img-max-width">
-            <?php echo $data['description']; ?>
-        </div>
+        <?php
+        if (strpos($data['description'], 'Auto create taxonomy') === false) {
+        ?>
+            <div class="global-cats-description global-<?php echo $data['taxonomy']; ?>-description ul-default-style img-max-width">
+                <?php echo $data['description']; ?>
+            </div>
+        <?php
+        }
+        ?>
         <div>
             <div id="category_main" class="main-products-list <?php $option_model->products_in_line($getconfig); ?>">
                 <?php

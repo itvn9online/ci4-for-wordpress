@@ -11,7 +11,7 @@
             <th><input type="checkbox" class="input-checkbox-all" /></th>
             <th>Tiêu đề <?php echo $name_type; ?></th>
             <th>Mã nhúng</th>
-            <th>Ngày tạo/ <a :href="'sadmin/' + controller_slug + '?order_by=post_modified'">Cập nhật cuối <i class="fa fa-sort"></i></a></th>
+            <th>Ngày tạo <br> <a :href="'sadmin/' + controller_slug + '?order_by=post_modified'">Cập nhật cuối <i class="fa fa-sort"></i></a></th>
             <!-- <th>Lang</th> -->
             <th>Trạng thái</th>
             <th>&nbsp;</th>
