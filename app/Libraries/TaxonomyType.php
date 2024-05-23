@@ -172,7 +172,7 @@ class TaxonomyType
     }
 
     // trả về định dạng của từng post type (nếu có) -> mặc định type = text
-    public static function meta_type($key)
+    public static function meta_type($key, $taxonomy = '')
     {
         $arr = [
             'term_template' => 'select',
@@ -212,12 +212,23 @@ class TaxonomyType
             return $arr[$key];
         }
 
+        // 
+        if ($taxonomy != '' && isset(ARR_CUSTOM_META_TAXONOMY[$taxonomy])) {
+            $a = ARR_CUSTOM_META_TAXONOMY[$taxonomy];
+            // print_r($a);
+
+            // 
+            if (isset($a[$key]) && isset($a[$key]['type'])) {
+                return $a[$key]['type'];
+            }
+        }
+
         //
         return 'text';
     }
 
     // description của từng meta nếu có
-    public static function meta_desc($key)
+    public static function meta_desc($key, $taxonomy = '')
     {
         $arr = [
             'custom_size' => 'Kích thước hình ảnh liên quan đến việc đảm bảo khung hình không bị vỡ, kích thước mặc định sẽ được sử dụng nếu bạn bỏ qua trường dữ liệu tương ứng. <br> Từ kích thước mong muốn mà bạn nhập vào, hệ thống sẽ tính toán tỉ lệ phù hợp nhất, cách tính tỉ lệ sẽ lấy chiều cao/ chiều rộng. <br> Ví dụ, bạn có hình ảnh có kích thước chiều rộng là 1366px, chiều cao là 400px, bạn sẽ nhập vào ô tương ứng là: <strong>400/1366</strong>. <br> * Vui lòng chỉ nhập số và dấu chéo.',
@@ -246,6 +257,14 @@ class TaxonomyType
         //
         if (isset($arr[$key])) {
             echo '<p class="controls-text-note">' . $arr[$key] . '</p>';
+        } else if ($taxonomy != '' && isset(ARR_CUSTOM_META_TAXONOMY[$taxonomy])) {
+            $a = ARR_CUSTOM_META_TAXONOMY[$taxonomy];
+            // print_r($a);
+
+            // 
+            if (isset($a[$key]) && isset($a[$key]['desc'])) {
+                echo '<p class="controls-text-note">' . $arr[$key]['desc'] . '</p>';
+            }
         }
     }
 

@@ -13,11 +13,11 @@ $base_model->adds_css([
 ]);
 
 ?>
-<br>
+<!-- <br> -->
 <div class="w90">
     <h1 class="cart-h1-title"><?php echo $cart_title; ?></h1>
 </div>
-<br>
+<!-- <br> -->
 <?php
 
 // 

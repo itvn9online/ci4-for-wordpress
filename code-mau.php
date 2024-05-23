@@ -284,6 +284,10 @@ $post_model->the_ads('ads-term-slug', $limit = 1, $ops = [
     'return_object' => 1,
     // thêm class css tùy chỉnh vào
     'add_class' => 'css-class-1 cas-class-2',
+    // meta sẽ insert mặc định (nếu có)
+    'post_meta' => [
+        'post_custom_cloumn' => 'review_product_node.html'
+    ],
 ], $using_cache = true, $time = MEDIUM_CACHE_TIMEOUT);
 
 

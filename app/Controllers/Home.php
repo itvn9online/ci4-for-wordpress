@@ -418,6 +418,7 @@ class Home extends Posts
 
     protected function pageDetail($data, $file_view = 'page_view')
     {
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
         // kiểm tra quyền truy cập chi tiết 1 post
         if ($this->post_permission($data) !== true) {
             return $this->page404($this->post_permission($data));

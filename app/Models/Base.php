@@ -492,7 +492,7 @@ class Base extends Csdl
 
     public function term_seo($data, $url, $amp_url = '')
     {
-        //print_r($data);
+        // print_r($data);
         $seo = array(
             'index' => 'on',
             'title' => $data['name'],
@@ -506,6 +506,12 @@ class Base extends Csdl
             'canonical' => $url,
             'amp_url' => $amp_url,
         );
+
+        // 
+        if (isset($data['term_avatar']) && !empty($data['term_avatar'])) {
+            $seo['og_image'] = $data['term_avatar'];
+        }
+        $seo['og_image_alt'] = $seo['title'];
 
         //
         if (isset($data['term_meta'])) {
@@ -579,6 +585,7 @@ class Base extends Csdl
                 $seo['og_image'] = base_url() . '/' . ltrim($seo['og_image'], '/');
             }
         }
+        $seo['og_image_alt'] = $seo['title'];
 
         //
         //print_r($seo);

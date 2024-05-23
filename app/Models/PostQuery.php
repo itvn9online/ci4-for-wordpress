@@ -183,7 +183,7 @@ class PostQuery extends PostMeta
     public function update_post($post_id, $data, $where = [], $data_meta = [], $clear_meta = true, $post_type = '', $check_slug = true)
     {
         if (isset($data['post_name'])) {
-            if ($data['post_name'] == '') {
+            if ($data['post_name'] == '' && isset($data['post_title'])) {
                 $data['post_name'] = $data['post_title'];
             }
             if ($data['post_name'] != '') {
@@ -670,11 +670,12 @@ class PostQuery extends PostMeta
             $ops['limit'] = 0;
         }
         // print_r($ops);
+        // die(__CLASS__ . ':' . __LINE__);
 
         // trả về dữ liệu
         $get_data = $this->get_auto_post($slug, $ops['post_type'], $ops['taxonomy'], $ops['limit']);
-        //print_r($get_data);
-        //die(__CLASS__ . ':' . __LINE__);
+        // print_r($get_data);
+        // die(__CLASS__ . ':' . __LINE__);
         if (!isset($get_data['posts']) || empty($get_data['posts'])) {
             // nếu có tham số auto clone -> cho phép nhân bản dữ liệu cho các ngôn ngữ khác
             if (
@@ -693,7 +694,7 @@ class PostQuery extends PostMeta
                         'lang_key' => LanguageCost::default_lang()
                     ]
                 );
-                //print_r( $clone_data );
+                // print_r($clone_data);
 
                 // bắt đầu nhân bản
                 if (isset($clone_data['posts']) && !empty($clone_data['posts'])) {
@@ -706,21 +707,38 @@ class PostQuery extends PostMeta
                         unset($data_insert['ID']);
                         $data_insert['lang_key'] = LanguageCost::lang_key();
                         $data_insert['lang_parent'] = $v['ID'];
-                        $data_insert['post_meta']['post_category'] = $get_data['term']['term_id'];
                         //
                         $data_insert['post_date'] = date(EBE_DATETIME_FORMAT);
                         $data_insert['post_date_gmt'] = $data_insert['post_date'];
                         $data_insert['post_modified'] = $data_insert['post_date'];
                         $data_insert['post_modified_gmt'] = $data_insert['post_date'];
-                        //print_r( $data_insert );
+                        // print_r($data_insert);
+
+                        // 
+                        $post_meta = [];
+                        if (isset($data_insert['post_meta'])) {
+                            $post_meta = $data_insert['post_meta'];
+                        }
+                        $post_meta['post_category'] = $get_data['term']['term_id'];
+
+                        // 
+                        if (isset($ops['post_meta'])) {
+                            foreach ($ops['post_meta'] as $key_meta => $value_meta) {
+                                if (!empty($value_meta)) {
+                                    $post_meta[$key_meta] = $value_meta;
+                                }
+                            }
+                        }
+                        // print_r($post_meta);
+                        // die(__CLASS__ . ':' . __LINE__);
 
                         //
-                        $_POST['post_meta'] = $data_insert['post_meta'];
+                        // $_POST['post_meta'] = $post_meta;
                         echo 'Auto create post: ' . $data_insert['post_title'] . ' (' . $ops['post_type'] . ') <br>' . PHP_EOL;
-                        $this->insert_post($data_insert, $_POST['post_meta']);
+                        $this->insert_post($data_insert, $post_meta);
                     }
                 }
-                //die( 'fjg dghsd sgsd' );
+                // die(__CLASS__ . ':' . __LINE__);
             }
             //return '<a href="sadmin/posts/add?post_type=' . $ops[ 'post_type' ] . '">Please add post to category slug #' . $slug . '</a>';
             return '<p class="show-if-admin">Please add post to category slug #' . $slug . '</p>';

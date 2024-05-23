@@ -425,10 +425,20 @@ class Actions extends Layout
         // print_r($data);
         // die(__CLASS__ . ':' . __LINE__);
 
+        // 
+        if (function_exists('before_insert_order')) {
+            $data = before_insert_order($data);
+        }
+
         //
         $result_id = $this->order_model->insert_order($data);
         // var_dump($result_id);
         // print_r($result_id);
+
+        // 
+        if (function_exists('after_insert_order')) {
+            $data = after_insert_order($data);
+        }
 
         //
         if ($result_id !== false && is_numeric($result_id) && $result_id > 0) {

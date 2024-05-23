@@ -185,7 +185,8 @@ if ($taxonomy == TaxonomyType::ADS || $taxonomy == TaxonomyType::SHOP_COUPON) {
             // nạp các meta theo từng loại taxonomy
             // print_r($meta_default);
             foreach ($meta_default as $k => $v) {
-                $input_type = TaxonomyType::meta_type($k);
+                $input_type = TaxonomyType::meta_type($k, $data['taxonomy']);
+                // echo $input_type . '<br>' . PHP_EOL;
 
                 //
             ?>

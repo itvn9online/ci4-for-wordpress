@@ -150,5 +150,5 @@ $("#term_meta_post_number").change(function () {
 			arr_custom_cloumn[i] +
 			"</option>";
 	}
-	$("#post_meta_post_custom_cloumn").append(str);
+	$("#post_meta_post_custom_cloumn, #term_meta_post_custom_cloumn").append(str);
 })();

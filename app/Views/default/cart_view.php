@@ -1,8 +1,8 @@
-<br>
+<!-- <br> -->
 <div class="w90">
     <h1 class="cart-h1-title"><?php echo $cart_title; ?></h1>
 </div>
-<br>
+<!-- <br> -->
 <div class="row row-small row-divided-xoa align-equal row-cart cart-is-product d-none <?php echo $by_get_id; ?>">
     <div class="col small-12 medium-8 large-8">
         <div class="col-inner">

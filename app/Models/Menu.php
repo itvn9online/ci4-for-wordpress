@@ -56,7 +56,7 @@ class Menu extends Post
                     'post_type' => $this->post_type,
                     'post_status' => PostType::PUBLICITY,
                     'lang_key' => $lang,
-                    'post_content' => '<ul><li>Menu mẫu #' . $slug . '</li></ul>'
+                    'post_content' => '<ul><li>Template menu #' . $slug . '</li></ul>'
                 ];
                 //print_r( $data_insert );
 

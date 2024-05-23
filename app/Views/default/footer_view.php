@@ -31,7 +31,7 @@
         <div class="col small-12 medium-3 large-3">
             <div class="col-inner">
                 <h4 class="footer-title upper bold">
-                    <?php $lang_model->the_text('custom_text1', 'custom_text1'); ?>
+                    <?php $lang_model->the_text('custom_text1', 'custom text1'); ?>
                 </h4>
                 <?php $menu_model->the_menu('footer3-menu'); ?>
             </div>

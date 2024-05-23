@@ -873,6 +873,7 @@ class Posts extends Sadmin
         }
 
         // dọn dẹp cache liên quan đến post này -> reset cache
+        echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
         $this->cleanup_cache($this->post_model->key_cache($id));
         // bổ sung thêm xóa cache với menu
         if ($this->post_type == PostType::MENU || $this->post_type == PostType::HTML_MENU) {

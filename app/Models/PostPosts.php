@@ -207,7 +207,11 @@ class PostPosts extends PostGet
 
     function the_ads($slug, $limit = 0, $ops = [], $using_cache = true, $time = MEDIUM_CACHE_TIMEOUT)
     {
-        echo $this->get_the_ads($slug, $limit, $ops, $using_cache, $time);
+        $data = $this->get_the_ads($slug, $limit, $ops, $using_cache, $time);
+        if (isset($ops['return_object'])) {
+            return $data;
+        }
+        echo $data;
     }
 
     // ads

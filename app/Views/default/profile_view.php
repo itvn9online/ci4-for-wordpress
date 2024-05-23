@@ -81,10 +81,10 @@
                     </div>
                 </div>
                 <div class="row data-user_birthday">
-                    <div class="col small-12 medium-4 large-4 l40">Ngày sinh</div>
+                    <div class="col small-12 medium-4 large-4 l40"><?php $lang_model->the_text('profile_birthday', 'Birthday'); ?></div>
                     <div class="col small-12 medium-8 large-8">
                         <div class="form-control">
-                            <input type="date" placeholder="Ngày sinh" name="data[user_birthday]" value="<?php echo $data['user_birthday']; ?>">
+                            <input type="date" placeholder="<?php $lang_model->the_text('profile_birthday', 'Birthday'); ?>" name="data[user_birthday]" value="<?php echo $data['user_birthday']; ?>">
                         </div>
                     </div>
                 </div>

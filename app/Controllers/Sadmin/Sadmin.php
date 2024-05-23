@@ -358,7 +358,7 @@ class Sadmin extends Ajaxs
 
                 // hỗ trợ xóa cả cache cho bản mobile
                 $mobile_cache_path = rtrim(WRITE_CACHE_PATH, '/') . '_m/';
-                echo $mobile_cache_path . '<br>' . PHP_EOL;
+                echo $mobile_cache_path . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
                 if (is_dir($mobile_cache_path)) {
                     foreach (glob($mobile_cache_path . $for . '*') as $filename) {
                         echo $filename . '<br>' . PHP_EOL;

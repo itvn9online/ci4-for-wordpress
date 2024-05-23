@@ -580,6 +580,7 @@ if (isset($_SERVER['HTTP_USER_AGENT'])) {
     }
 }
 define('WGR_IS_MOBILE', $is_mobile);
+// var_dump(WGR_IS_MOBILE);
 
 // với cache file -> thư mục lưu cache theo từng tên miền -> code thêm cho các web sử dụng domain pointer
 if (MY_CACHE_HANDLER == 'file') {
@@ -599,8 +600,9 @@ else {
     // tạo key theo host để làm prefix
     define('CACHE_HOST_PREFIX', $cache_prefix);
 }
-//die(CACHE_HOST_PREFIX);
-//die(WRITE_CACHE_PATH);
+// echo CACHE_HOST_PREFIX . '<br>' . PHP_EOL;
+// echo WRITE_CACHE_PATH . '<br>' . PHP_EOL;
+// die(__FILE__ . ':' . __LINE__);
 
 // thời gian cache mặc định
 defined('MINI_CACHE_TIMEOUT') || define('MINI_CACHE_TIMEOUT', 300);

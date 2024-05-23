@@ -21,9 +21,7 @@
                             <div class="left-menu-space40">
                                 <div class="medium l20 global-details-content <?php echo $data['post_type']; ?>-details-content ul-default-style">
                                     <h1 data-type="<?php echo $data['post_type']; ?>" data-id="<?php echo $data['ID']; ?>" class="page-details-title global-details-title global-module-title">
-                                        <?php
-                                        $lang_model->the_text('custom_text1', $data['post_title']);
-                                        ?>
+                                        <?php echo $data['post_title']; ?>
                                     </h1>
                                     <p><span class="mcb"><i class="fa fa-map-marker"></i></span>
                                         <?php
