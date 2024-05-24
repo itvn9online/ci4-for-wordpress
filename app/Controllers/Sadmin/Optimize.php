@@ -103,7 +103,7 @@ class Optimize extends Sadmin
                             'Template: flatsome',
                             'Version: 3.0',
                             '*/',
-                        ]) . $c);
+                        ]) . PHP_EOL . $c);
                     }
                 }
             }
@@ -306,7 +306,27 @@ class Optimize extends Sadmin
         $str = str_replace(': ', ':', $str);
         $str = str_replace('} .', '}.', $str);
         $str = str_replace('{ }', '{}', $str);
-        $str = str_replace('{ }', '{}', $str);
+        // $str = str_replace('{ }', '{}', $str);
+        $str = str_replace('}.', '}' . PHP_EOL . '.', $str);
+        $str = str_replace('}#', '}' . PHP_EOL . '#', $str);
+        $str = str_replace('}@', '}' . PHP_EOL . '@', $str);
+
+        // 
+        $a = explode(PHP_EOL, $str);
+        $str = '';
+        foreach ($a as $v) {
+            $v = trim($v);
+            if ($v != '') {
+                if (strpos($v, '{}') !== false) {
+                    $first_char = substr($v, 0, 1);
+                    if ($first_char == '.' || $first_char == '#' || $first_char == '@') {
+                        continue;
+                    }
+                }
+                // $str .= $v . PHP_EOL;
+                $str .= $v;
+            }
+        }
 
         // chuyển đổi tên màu sang mã màu
         $arr_colorname_to_code = [
