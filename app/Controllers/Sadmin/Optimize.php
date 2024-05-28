@@ -323,8 +323,8 @@ class Optimize extends Sadmin
                         continue;
                     }
                 }
-                // $str .= $v . PHP_EOL;
                 $str .= $v;
+                // $str .= PHP_EOL;
             }
         }
 

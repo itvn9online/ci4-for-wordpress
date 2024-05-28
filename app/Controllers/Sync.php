@@ -873,6 +873,7 @@ class Sync extends BaseController
         $str = str_replace('../../../public/upload/', 'upload/', $str);
         $str = str_replace('../../upload/', 'upload/', $str);
         $str = str_replace('/public/upload/', '/upload/', $str);
+        $str = str_replace(DYNAMIC_BASE_URL, '', $str);
         $str = str_replace(base_url() . '/', '', $str);
 
         //

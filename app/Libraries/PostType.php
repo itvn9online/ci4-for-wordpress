@@ -221,6 +221,9 @@ class PostType
             'url_redirect' => 'Nhập vào đường dẫn bạn muốn banner này trỏ tới (nếu có).',
             //'second_content' => 'Nội dung phụ để dễ xử lý giao diện cho một số trường hợp đặc biệt',
             // 'post_auto_slider' => 'Khi chế độ này được kích hoạt, một slider sẽ tự động được khởi tạo, sau đó bạn chỉ việc thêm ảnh cho slider để nó có thể hoạt động',
+            // 
+            'meta_title' => 'The most effective page titles are about 10-70 characters long, including spaces.',
+            'meta_description' => 'For optimum effectiveness, meta descriptions should be 160-300 characters long.',
             //
             'post_rating_value' => 'Vui lòng nhập dạng số thập phân. Ví dụ: 4.8 hoặc 4.5 hoặc 3.3',
             'post_rating_count' => 'Vui lòng nhập dạng số nguyên, tổng số lượng bình chọn website này, nếu là số ảo thì nhập trong khoảng 160 - 300.',

@@ -444,7 +444,7 @@ class Base extends Csdl
             'name' => $name,
             'body_class' => str_replace('/', '-', $uri),
             'canonical' => '',
-            //'canonical' => base_url( '/' . $uri ),
+            // 'canonical' => base_url('/' . $uri),
             'amp_url' => '',
             'shortlink' => '',
             'updated_time' => strtotime(date('Y-m-d')),
@@ -582,7 +582,8 @@ class Base extends Csdl
         if (isset($data['post_meta']['image_medium_large']) && $data['post_meta']['image_medium_large'] != '') {
             $seo['og_image'] =  $data['post_meta']['image_medium_large'];
             if (strpos($seo['og_image'], '//') === false) {
-                $seo['og_image'] = base_url() . '/' . ltrim($seo['og_image'], '/');
+                // $seo['og_image'] = base_url() . '/' . ltrim($seo['og_image'], '/');
+                $seo['og_image'] = DYNAMIC_BASE_URL . ltrim($seo['og_image'], '/');
             }
         }
         $seo['og_image_alt'] = $seo['title'];

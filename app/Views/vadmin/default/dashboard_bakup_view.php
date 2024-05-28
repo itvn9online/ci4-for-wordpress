@@ -24,7 +24,7 @@ $bash_localhost_bak = trim($bash_localhost_bak);
 
 //
 $last_localhost_backup = ROOTPATH . '___local_bak_done.txt';
-$last_localhost_filemtime = file_exists($last_localhost_backup) ? filemtime($last_localhost_backup) : 0;
+$last_localhost_filemtime = is_file($last_localhost_backup) ? filemtime($last_localhost_backup) : 0;
 
 
 
@@ -56,12 +56,12 @@ $bash_bak_db = trim($bash_bak_db);
 
 //
 $last_db_backup = ROOTPATH . '___db_bak_done.txt';
-$last_db_filemtime = file_exists($last_db_backup) ? filemtime($last_db_backup) : 0;
+$last_db_filemtime = is_file($last_db_backup) ? filemtime($last_db_backup) : 0;
 
 
 //
 $path_usage = ROOTPATH . '___disk_usage.txt';
-$disk_usage = file_exists($path_usage) ? trim(file_get_contents($path_usage)) : '';
+$disk_usage = is_file($path_usage) ? trim(file_get_contents($path_usage)) : '';
 
 
 
