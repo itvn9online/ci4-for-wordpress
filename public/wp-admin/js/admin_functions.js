@@ -1341,3 +1341,19 @@ function WGR_body_opacity(val) {
 	});
 	return true;
 }
+
+// thêm span hiển thị độ dài của chuỗi trong 1 input
+function show_input_length_char(input) {
+	$("#" + input).change(function (e) {
+		// e.preventDefault();
+
+		//
+		if ($("span.length-" + input).length < 1) {
+			$("#" + input).after(' <span class="length-' + input + '"></span>');
+		}
+
+		//
+		let a = $.trim($(this).val());
+		$(".length-" + input).html(a.length);
+	});
+}

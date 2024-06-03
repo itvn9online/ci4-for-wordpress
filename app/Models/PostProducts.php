@@ -7,7 +7,7 @@ use App\Libraries\PostType;
 use App\Libraries\TaxonomyType;
 
 //
-class PostProducs extends PostPages
+class PostProducts extends PostPages
 {
     public function __construct()
     {

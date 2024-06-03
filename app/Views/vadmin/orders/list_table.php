@@ -5,6 +5,7 @@
             <th>ID/ Mã hóa đơn/ Ngày cập nhật</th>
             <th>Trạng thái</th>
             <th>Tiêu đề <?php echo $name_type; ?></th>
+            <th>Products</th>
             <th>Giá trị</th>
             <th>Giảm giá</th>
             <th>Tặng thêm</th>
@@ -24,6 +25,7 @@
                 <button type="button" class="btn orders-post_status">{{PostType_arrStatus[v.post_status]}}</button>
             </td>
             <td><a :href="v.admin_permalink">{{v.post_title}} <i class="fa fa-edit"></i></a></td>
+            <td class="post_excerpt-to-products">{{v.post_excerpt}}</td>
             <td><span class="ebe-currency-format">{{v.order_money}}</span></td>
             <td><span class="ebe-currency-format">{{v.order_discount}}</span></td>
             <td><span class="ebe-currency-format">{{v.order_bonus}}</span></td>

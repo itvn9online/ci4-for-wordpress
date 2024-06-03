@@ -1,6 +1,6 @@
 <div class="w90">
-    <div class="text-center">
-        <h1 data-type="<?php echo $data['taxonomy']; ?>" data-id="<?php echo $data['term_id']; ?>" class="<?php echo $data['taxonomy']; ?>-taxonomy-title global-taxonomy-title global-module-title">
+    <div data-type="<?php echo $data['taxonomy']; ?>" data-id="<?php echo $data['term_id']; ?>" class="global-taxonomy-title">
+        <h1 class="<?php echo $data['taxonomy']; ?>-taxonomy-title global-module-title">
             <?php
             echo $data['name'];
             ?>

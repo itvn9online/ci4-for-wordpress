@@ -64,10 +64,6 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">Hạn sử dụng</label>
-                <div class="controls"><?php echo $data['order_period']; ?> (tháng)</div>
-            </div>
-            <div class="control-group">
                 <label class="control-label">Deposit</label>
                 <div class="controls bold">
                     <span class="ebe-currency-format"><?php echo $data['deposit_value']; ?></span>
@@ -78,6 +74,10 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                 <div class="controls bold">
                     <span class="ebe-currency-format"><?php echo $data['shipping_fee']; ?></span>
                 </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Hạn sử dụng</label>
+                <div class="controls"><?php echo $data['order_period']; ?> (tháng)</div>
             </div>
             <div class="control-group">
                 <label class="control-label">Trạng thái</label>

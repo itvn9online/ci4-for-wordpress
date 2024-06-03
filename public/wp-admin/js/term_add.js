@@ -50,3 +50,17 @@ add_and_show_post_avt("#data_term_favicon", "", "medium");
 
 //
 Submit_form_by_Ctrl_S();
+
+//
+$(document).ready(function () {
+	show_input_length_char("data_name_");
+	$("#data_name_").trigger("change");
+
+	//
+	show_input_length_char("term_meta_meta_title");
+	$("#term_meta_meta_title").trigger("change");
+
+	//
+	show_input_length_char("term_meta_meta_description");
+	$("#term_meta_meta_description").trigger("change");
+});

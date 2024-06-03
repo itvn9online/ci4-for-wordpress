@@ -1,5 +1,6 @@
-<div class="text-center">
-    <h1 data-type="<?php echo $data['taxonomy']; ?>" data-id="<?php echo $data['term_id']; ?>" class="<?php echo $data['taxonomy']; ?>-taxonomy-title global-taxonomy-title global-module-title home-h1-title">
+<!-- <div class="global-taxonomy-block"> -->
+<div data-type="<?php echo $data['taxonomy']; ?>" data-id="<?php echo $data['term_id']; ?>" class="global-taxonomy-title w90">
+    <h1 class="<?php echo $data['taxonomy']; ?>-taxonomy-title global-module-title home-h1-title">
         <?php
         echo $data['name'];
         ?>
@@ -17,8 +18,10 @@ if (!empty($child_data)) {
         <?php
         if (strpos($data['description'], 'Auto create taxonomy') === false) {
         ?>
-            <div class="global-cats-description global-<?php echo $data['taxonomy']; ?>-description ul-default-style img-max-width">
-                <?php echo $data['description']; ?>
+            <div class="w90 global-cats-description">
+                <div class="global-<?php echo $data['taxonomy']; ?>-description ul-default-style img-max-width">
+                    <?php echo $data['description']; ?>
+                </div>
             </div>
         <?php
         }
@@ -50,3 +53,6 @@ if (!empty($child_data)) {
 else {
     //
 }
+
+?>
+<!-- </div> -->

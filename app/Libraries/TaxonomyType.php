@@ -145,8 +145,9 @@ class TaxonomyType
             $arr['custom_size'] = 'Tùy chỉnh size ảnh';
             $arr['rel_xfn'] = 'Quan hệ liên kết (XFN)';
             $arr['open_target'] = 'Mở liên kết trong tab mới';
-            $arr['text_view_more'] = 'Hiển thị nút xem thêm';
-            $arr['text_view_details'] = 'Hiển thị nút xem chi tiết';
+            $arr['text_view_more'] = 'Hiển thị nút Xem thêm';
+            $arr['url_view_more'] = 'Tùy chỉnh link Xem thêm';
+            $arr['text_view_details'] = 'Hiển thị nút Xem chi tiết';
         } else if ($taxonomy == self::SHOP_COUPON) {
             $arr['coupon_code'] = 'Coupon code';
             $arr['discount_type'] = 'Discount type';
@@ -237,8 +238,9 @@ class TaxonomyType
             'custom_style' => 'Chọn class CSS hỗ trợ định dạng sẵn hoặc tự soạn class CSS mới sau đó thực hiện viết CSS tương ứng.',
             'custom_id' => '* Tương tự như CSS -> gán ID để xử lý cho tiện.',
             'rel_xfn' => '<strong>rel</strong>: noreferrer, nofollow...',
-            'text_view_more' => 'Nhập nội dung cho nút xem thêm (Danh mục), khi trường này có dữ liệu, nút xem thêm sẽ xuất hiện trong widget',
-            'text_view_details' => 'Nhập nội dung cho nút xem chi tiết bài viết, khi trường này có dữ liệu, nút xem chi tiết sẽ xuất hiện, liên kết của nó chính là liên kết của bài viết hoặc link gắn ngoài của bài viết',
+            'text_view_more' => 'Nhập nội dung cho nút xem thêm (Danh mục). Khi trường này có dữ liệu, nút [Xem thêm] sẽ xuất hiện trong widget.',
+            'url_view_more' => 'Mặc định nút [Xem thêm] sẽ dẫn tới link được thiết lập tại: Tùy chỉnh URL, trường hợp muốn nút [Xem thêm] hiển thị URL khác thì hãy thiết lập thêm tại đây.',
+            'text_view_details' => 'Nhập nội dung cho nút xem chi tiết bài viết. Khi trường này có dữ liệu, nút [Xem chi tiết] sẽ xuất hiện, liên kết của nó chính là liên kết của bài viết hoặc link gắn ngoài của bài viết.',
             // 
             'meta_title' => 'The most effective page titles are about 10-70 characters long, including spaces.',
             'meta_description' => 'For optimum effectiveness, meta descriptions should be 160-300 characters long.',

@@ -103,6 +103,15 @@ $base_model->JSON_parse(
         PostType_DELETED: '<?php echo OrderType::DELETED; ?>',
         PostType_arrStatus: PostType_arrStatus,
         data: json_data,
+        calc_total_order: function(order_money, order_discount, shipping_fee, order_bonus) {
+            order_money *= 1;
+            order_discount *= 1;
+            shipping_fee *= 1;
+            order_bonus *= 1;
+
+            // 
+            return order_money - order_discount + shipping_fee - order_bonus;
+        },
     });
 </script>
 <?php

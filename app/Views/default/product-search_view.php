@@ -1,6 +1,6 @@
 <div class="w90">
-    <div class="text-center">
-        <h1 class="global-taxonomy-title global-module-title">Tìm kiếm: <?php echo $by_keyword; ?></h1>
+    <div class="global-taxonomy-title">
+        <h1 class="global-module-title">Tìm kiếm: <?php echo $by_keyword; ?></h1>
     </div>
     <br>
     <?php

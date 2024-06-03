@@ -345,7 +345,6 @@ class Posts extends Sadmin
             foreach ($data as $k => $v) {
                 // không cần hiển thị nội dung
                 $v['post_content'] = '';
-                $v['post_excerpt'] = '';
                 //print_r($v);
                 //continue;
 
@@ -354,6 +353,7 @@ class Posts extends Sadmin
                 if ($v['post_type'] == PostType::ORDER) {
                     $v['the_permalink'] = '#';
                 } else {
+                    $v['post_excerpt'] = '';
                     $v['the_permalink'] = $this->post_model->get_post_permalink($v);
                 }
                 if (isset($v['post_meta'])) {

@@ -91,6 +91,18 @@ $(".post_uncheck_meta").change(function () {
 //
 $(document).ready(function () {
 	for_admin_global_checkbox();
+
+	//
+	show_input_length_char("data_post_title");
+	$("#data_post_title").trigger("change");
+
+	//
+	show_input_length_char("post_meta_meta_title");
+	$("#post_meta_meta_title").trigger("change");
+
+	//
+	show_input_length_char("post_meta_meta_description");
+	$("#post_meta_meta_description").trigger("change");
 });
 
 // với menu ko hỗ trợ bấm Ctrl + S -> vì còn phải chạy qua lệnh builder menu nữa

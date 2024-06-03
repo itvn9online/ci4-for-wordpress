@@ -769,19 +769,41 @@ class PostQuery extends PostMeta
             }
         }
 
+        // các thuộc tính của URL target, rel...
+        $blog_link_option = '';
+        if ($instance['rel_xfn'] != '') {
+            $blog_link_option .= ' rel="' . $instance['rel_xfn'] . '"';
+            //$widget_title_option .= ' rel="' . $rel_xfn . '"';
+        }
+        if ($instance['open_target'] == 'on') {
+            $blog_link_option .= ' target="_blank"';
+            //$widget_title_option .= ' target="_blank"';
+        }
+
         //
         $link_view_more = '';
         if ($instance['custom_cat_link'] == '#' || $instance['custom_cat_link'] == '') {
             // $instance['custom_cat_link'] = 'javascript:;';
             $custom_cat_link = '<span>' . $post_cat['name'] . '</span>';
+
+            // khi có tùy chỉnh URL cho nút xem thêm thì sẽ hiển thị url đấy
+            if ($instance['url_view_more'] != '' && $instance['text_view_more'] != '') {
+                $link_view_more = '<div class="widget-blog-more"><a href="' . $instance['url_view_more'] . '"' . $blog_link_option . '>' . $instance['text_view_more'] . '</a></div>';
+            }
         } else {
-            $custom_cat_link = '<a href="' . $instance['custom_cat_link'] . '">' . $post_cat['name'] . '</a>';
+            $custom_cat_link = '<a href="' . $instance['custom_cat_link'] . '"' . $blog_link_option . '>' . $post_cat['name'] . '</a>';
 
             //
             if ($instance['text_view_more'] != '') {
-                $link_view_more = '<div class="widget-blog-more"><a href="' . $instance['custom_cat_link'] . '">' . $instance['text_view_more'] . '</a></div>';
+                if ($instance['url_view_more'] != '') {
+                    $link_view_more = '<div class="widget-blog-more"><a href="' . $instance['url_view_more'] . '"' . $blog_link_option . '>' . $instance['text_view_more'] . '</a></div>';
+                } else {
+                    $link_view_more = '<div class="widget-blog-more"><a href="' . $instance['custom_cat_link'] . '"' . $blog_link_option . '>' . $instance['text_view_more'] . '</a></div>';
+                }
             }
         }
+
+        // 
         if ($instance['widget_description'] != '') {
             $instance['widget_description'] = '<div class="w90 ' . $instance['max_width'] . ' eb-widget-blogs-desc by-widget_description">' . nl2br($instance['widget_description']) . '</div>';
         } else {
@@ -959,7 +981,7 @@ class PostQuery extends PostMeta
             }
             $widget_blog_more = '';
             if ($instance['text_view_details'] != '') {
-                $widget_blog_more = '<div class="widget-blog-more-xoa details-blog-more"><a href="{{p_link}}">' . $instance['text_view_details'] . '</a></div>';
+                $widget_blog_more = '<div class="widget-blog-more-xoa details-blog-more"><a href="{{p_link}}"' . $blog_link_option . '>' . $instance['text_view_details'] . '</a></div>';
             }
 
             // nếu người dùng chọn ảnh hiển thị thì đặt webp là ảnh đó
@@ -1010,16 +1032,7 @@ class PostQuery extends PostMeta
             $html = str_replace($k, $v, $html);
         }
 
-        // các thuộc tính của URL target, rel...
-        $blog_link_option = '';
-        if ($instance['rel_xfn'] != '') {
-            $blog_link_option .= ' rel="' . $instance['rel_xfn'] . '"';
-            //$widget_title_option .= ' rel="' . $rel_xfn . '"';
-        }
-        if ($instance['open_target'] == 'on') {
-            $blog_link_option .= ' target="_blank"';
-            //$widget_title_option .= ' target="_blank"';
-        }
+        // 
         //print_r( $instance );
         //print_r( $post_cat );
 
