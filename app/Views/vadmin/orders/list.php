@@ -12,6 +12,7 @@ if (isset($_GET['print_data'])) {
 
 // css riêng cho từng post type (nếu có)
 $base_model->add_css('wp-admin/css/posts_list.css');
+$base_model->add_css('wp-admin/css/order_list.css');
 $base_model->add_css('wp-admin/css/' . $post_type . '.css');
 
 ?>
@@ -83,6 +84,7 @@ $base_model->add_css('wp-admin/css/' . $post_type . '.css');
     ?>
 </div>
 <div class="public-part-page"><?php echo $pagination; ?> Trên tổng số <?php echo number_format($totalThread); ?> bản ghi.</div>
+<iframe id="order_details_iframe" name="order_details_iframe" title="Orderdetails iframe" src="about:blank" width="66%" frameborder="0" class="hide-if-esc">AJAX form</iframe>
 <?php
 
 //
@@ -121,4 +123,5 @@ include ADMIN_ROOT_VIEWS . 'posts/sync_modal.php';
 
 // css riêng cho từng post type (nếu có)
 $base_model->add_js('wp-admin/js/post_list.js');
+$base_model->add_js('wp-admin/js/order_list.js');
 $base_model->add_js('wp-admin/js/' . $post_type . '.js');

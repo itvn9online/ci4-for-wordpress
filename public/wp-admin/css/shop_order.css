@@ -1,0 +1,22 @@
+.show-if-order-popup,
+body.hide-for-popup_order .admin-copyright,
+body.hide-for-popup_order #content-header,
+body.hide-for-popup_order #adminmenumain,
+body.hide-for-popup_order #admin-header {
+    display: none;
+}
+
+body.hide-for-popup_order {
+    padding-top: 0;
+    padding-left: 0;
+}
+
+body.hide-for-popup_order .form-actions.frm-fixed-btn.cf {
+    left: 0;
+}
+
+body.hide-for-popup_order .widget-box {
+    margin-top: 0;
+}
+
+body.hide-for-popup_order {}

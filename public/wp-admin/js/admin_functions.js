@@ -1186,6 +1186,11 @@ function after_delete_restore() {
  * sau khi XÓA sản phẩm thành công thì xử lý ẩn bản ghi bằng javascript
  */
 function done_delete_restore(id, redirect_to) {
+	if (top != self) {
+		console.log(Math.random());
+		return false;
+	}
+
 	// nếu có ID
 	if (typeof id != "undefined" && id != "") {
 		id *= 1;

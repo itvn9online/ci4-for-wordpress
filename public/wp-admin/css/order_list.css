@@ -1,0 +1,11 @@
+#order_details_iframe {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: auto;
+    display: none;
+    z-index: 999;
+    box-shadow: 0 0 90px #333;
+    opacity: 0.2;
+}

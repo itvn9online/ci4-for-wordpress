@@ -18,6 +18,7 @@ if (isset($_GET['print_data'])) {
 include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
 
 ?>
+<p class="orgcolor show-if-order-popup">* Press <strong>ESC</strong> or <span onclick="top.hide_if_esc();" class="cur bluecolor">Click here</span> for close this window!</p>
 <div class="widget-box ng-main-content" id="myApp">
     <div class="widget-content nopadding">
         <form action="" method="post" name="admin_global_form" id="admin_global_form" onSubmit="return action_before_submit_post();" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">
@@ -234,5 +235,6 @@ $base_model->JSON_echo([
 
 $base_model->add_js('wp-admin/js/posts.js');
 $base_model->add_js('wp-admin/js/posts_add.js');
+$base_model->add_js('wp-admin/js/order_details.js');
 // css riêng cho từng post type (nếu có)
 $base_model->add_js('wp-admin/js/' . $post_type . '.js');
