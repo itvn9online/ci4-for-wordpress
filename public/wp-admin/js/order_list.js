@@ -43,7 +43,9 @@ $(document).ready(function () {
 			//
 			if (!isNaN(a) && a > 0) {
 				if (current_open_order_id === a) {
-					return false;
+					if ($("body").hasClass("no-scroll")) {
+						return false;
+					}
 				}
 				current_open_order_id = a;
 
