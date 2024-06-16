@@ -130,8 +130,9 @@ class TaxonomyType
             $arr['num_small_line'] = 'Số cột trên mỗi dòng (mobile)';
             $arr['column_spacing'] = 'Khoảng cách giữa các cột';
             $arr['row_align'] = 'Căn chỉnh (align)';
-            $arr['post_cloumn'] = 'Bố cục bài viết';
-            $arr['post_custom_cloumn'] = 'Bố cục tùy chỉnh bài viết';
+            $arr['post_custom_row'] = 'Row HTML';
+            $arr['post_cloumn'] = 'Col HTML';
+            $arr['post_custom_cloumn'] = 'Col custom HTML';
             $arr['hide_widget_title'] = 'Ẩn tiêu đề danh mục';
             $arr['hide_title'] = 'Ẩn tiêu đề của bài viết';
             $arr['hide_description'] = 'Ẩn tóm tắt của bài viết';
@@ -148,24 +149,26 @@ class TaxonomyType
             $arr['text_view_more'] = 'Hiển thị nút Xem thêm';
             $arr['url_view_more'] = 'Tùy chỉnh link Xem thêm';
             $arr['text_view_details'] = 'Hiển thị nút Xem chi tiết';
-        } else if ($taxonomy == self::SHOP_COUPON) {
-            $arr['coupon_code'] = 'Coupon code';
-            $arr['discount_type'] = 'Discount type';
-            $arr['coupon_amount'] = 'Coupon amount';
-            $arr['expiry_date'] = 'Coupon expiry date';
-            $arr['minimum_spend'] = 'Minimum spend';
-            $arr['maximum_spend'] = 'Maximum spend';
-            $arr['limit_per_coupon'] = 'Usage limit per coupon';
-            $arr['limit_per_user'] = 'Usage limit per user';
         } else {
-            // SEO
-            $arr['meta_title'] = 'Meta title';
-            $arr['meta_description'] = 'Meta description';
-            $arr['meta_keyword'] = 'Meta keyword';
-            $arr['term_template'] = 'Giao diện';
-            //$arr['term_status'] = 'Trạng thái hiển thị';
+            if ($taxonomy == self::SHOP_COUPON) {
+                $arr['coupon_code'] = 'Coupon code';
+                $arr['discount_type'] = 'Discount type';
+                $arr['coupon_amount'] = 'Coupon amount';
+                $arr['expiry_date'] = 'Coupon expiry date';
+                $arr['minimum_spend'] = 'Minimum spend';
+                $arr['maximum_spend'] = 'Maximum spend';
+                $arr['limit_per_coupon'] = 'Usage limit per coupon';
+                $arr['limit_per_user'] = 'Usage limit per user';
+            } else {
+                // SEO
+                $arr['meta_title'] = 'Meta title';
+                $arr['meta_description'] = 'Meta description';
+                $arr['meta_keyword'] = 'Meta keyword';
+                $arr['term_template'] = 'Giao diện';
+                //$arr['term_status'] = 'Trạng thái hiển thị';
+            }
+            $arr['term_col_templates'] = 'Col custom HTML';
         }
-        $arr['term_col_templates'] = 'Col HTML';
 
         //
         //print_r( $arr );
@@ -188,6 +191,7 @@ class TaxonomyType
             'num_small_line' => 'select',
             'column_spacing' => 'select',
             'row_align' => 'select',
+            'post_custom_row' => 'select',
             'post_cloumn' => 'select',
             'post_custom_cloumn' => 'select',
             'hide_title' => 'checkbox',
@@ -247,9 +251,10 @@ class TaxonomyType
             // 
             'taxonomy_custom_post_size' => 'Mặc định, tỉ lệ ảnh sẽ được dùng theo cấu hình chung của hệ thống. Trường hợp cần cấu hình riêng cho từng danh mục thì bạn có thể thiết lập tại đây. Ví dụ: 4/3',
             // 'taxonomy_auto_slider' => 'Khi chế độ này được kích hoạt, một slider sẽ tự động được khởi tạo, sau đó bạn chỉ việc thêm ảnh cho slider để nó có thể hoạt động',
-            'term_template' => 'Sử dụng khi muốn thiết lập giao diện riêng cho từng danh mục. File mẫu là file .php được đặt trong thư mục <b>term-templates</b> của mỗi theme.',
-            'term_col_templates' => 'HTML mẫu của phần col cho từng danh mục (nếu có). Mặc định sử dụng col chung của website.',
-            'post_custom_cloumn' => 'Khi cần tùy chỉnh `Bố cục bài viết` cho danh mục này thì có thể thêm file .html vào đây `/' . str_replace(ROOTPATH, '', VIEWS_CUSTOM_PATH) . 'ads_node/` sau đó chọn file tương ứng cho danh mục này. HTML trong file được chọn sẽ dùng để tạo hình cho bài viết. Mẫu HTML có thể copy từ file `/app/Views/html/ads_node.html` hoặc tùy chỉnh theo tiêu chuẩn .col của bootstrap.',
+            'term_template' => 'Sử dụng khi muốn thiết lập giao diện riêng cho từng danh mục. File mẫu là file .php được đặt trong thư mục <b>' . str_replace(ROOTPATH, '', THEMEPATH) . 'term-templates/</b> của mỗi theme.',
+            'term_col_templates' => 'HTML mẫu của phần col cho từng danh mục (nếu có) tại thư mục <b>' . str_replace(ROOTPATH, '', THEMEPATH) . 'term-col-templates/</b> của mỗi theme. Mặc định sử dụng col chung của website.',
+            'post_custom_row' => 'Khi cần tùy chỉnh <b>Row HTML</b> cho danh mục này thì có thể thêm file .html vào đây <b>/' . str_replace(ROOTPATH, '', VIEWS_CUSTOM_PATH) . 'html/</b> sau đó chọn file tương ứng cho danh mục này. HTML trong file được chọn sẽ dùng để tạo hình cho bài viết. Mẫu HTML có thể copy từ file <b>/app/Views/html/widget_eb_blog.html</b> hoặc tùy chỉnh theo tiêu chuẩn .row của bootstrap.',
+            'post_custom_cloumn' => 'Khi cần tùy chỉnh <b>Col HTML</b> cho danh mục này thì có thể thêm file .html vào đây <b>/' . str_replace(ROOTPATH, '', VIEWS_CUSTOM_PATH) . 'ads_node/</b> sau đó chọn file tương ứng cho danh mục này. HTML trong file được chọn sẽ dùng để tạo hình cho bài viết. Mẫu HTML có thể copy từ file <b>/app/Views/html/ads_node.html</b> hoặc tùy chỉnh theo tiêu chuẩn .col của bootstrap.',
             //'term_status' => 'Dùng khi cần ẩn các danh mục khỏi menu động.',
             // 
             'coupon_amount' => 'Value of the coupon.',
@@ -331,6 +336,21 @@ class TaxonomyType
                 'align-middle' => 'middle',
                 'align-bottom' => 'bottom',
             ],
+            'post_custom_row' => [
+                '' => 'Default row (widget_eb_blog.html)',
+                // 
+                // 'widget_eb_modal' => 'Bootstap modal (widget_eb_modal)',
+                // 'widget_eb_no_title_modal' => 'Bootstap modal (widget_eb_no_title_modal)',
+                // 'widget_eb_no_head_modal' => 'Bootstap modal (widget_eb_no_head_modal)',
+                // 'widget_eb_no_footer_modal' => 'Bootstap modal (widget_eb_no_footer_modal)',
+                // 'widget_eb_body_only_modal' => 'Bootstap modal (widget_eb_body_only_modal)',
+                // 
+                // 'widget_eb_custom1' => 'Custom HTML 1 (widget_eb_custom1)',
+                // 'widget_eb_custom2' => 'Custom HTML 2 (widget_eb_custom2)',
+                // 'widget_eb_custom3' => 'Custom HTML 3 (widget_eb_custom3)',
+                // 'widget_eb_custom4' => 'Custom HTML 4 (widget_eb_custom4)',
+                // 'widget_eb_custom5' => 'Custom HTML 5 (widget_eb_custom5)',
+            ],
             'post_cloumn' => [
                 '' => 'Mặc định (Ảnh trên - chữ dưới)',
                 'anh_chu' => 'Ảnh trái - chữ phải',
@@ -343,7 +363,7 @@ class TaxonomyType
                 'chi_anh_chu' => 'Chỉ ảnh + tiêu đề (title + image)'
             ],
             'post_custom_cloumn' => [
-                '' => '- Tùy chỉnh HTML -',
+                '' => 'Default col (ads_node.html)',
             ],
             'max_width' => [
                 '' => 'Mặc định',

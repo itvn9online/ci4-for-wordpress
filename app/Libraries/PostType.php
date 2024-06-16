@@ -33,9 +33,11 @@ class PostType
     const PENDING = 'pending';
     const ON_HOLD = 'on_hold'; // for orders
     const DRAFT = 'draft';
-    const DELETED = 'trash';
     const INHERIT = 'inherit';
-    const REMOVED = 'remove'; // ẩn hoàn toàn khỏi hệ thống admin
+    // cho vào thùng rác
+    const DELETED = 'trash';
+    // ẩn hoàn toàn khỏi hệ thống admin
+    const REMOVED = 'remove';
 
     // các loại thumbnail của media
     const MEDIA_MEDIUM = 'medium';

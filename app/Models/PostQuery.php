@@ -757,7 +757,8 @@ class PostQuery extends PostMeta
             return 'term_meta not found! #' . $slug;
         }
         $instance = $post_cat['term_meta'];
-        //print_r($instance);
+        // print_r($instance);
+        // die(__CLASS__ . ':' . __LINE__);
 
         // lấy các giá trị placeholder mặc định -> cho thành trống hết
         // $meta_default = TaxonomyType::meta_default($post_cat['taxonomy']);
@@ -830,9 +831,10 @@ class PostQuery extends PostMeta
                 $instance['custom_size'] = $this->getconfig->cf_posts_size;
             }
         }
-        if ($instance['custom_id'] != '') {
-            $instance['custom_id'] = ' id="' . $instance['custom_id'] . '"';
+        if ($instance['custom_id'] == '') {
+            $instance['custom_id'] = $post_cat['taxonomy'] . $post_cat['term_id'];
         }
+        // $instance['custom_id'] = ' id="' . $instance['custom_id'] . '"';
         $custom_style = explode(' ', $instance['custom_style']);
         $custom_style[] = str_replace('-', '', $slug);
 
@@ -905,7 +907,7 @@ class PostQuery extends PostMeta
 
         // nếu có file custom HTML -> ưu tiên dùng
         if ($instance['post_custom_cloumn'] != '') {
-            echo '<!-- ' . $instance['post_custom_cloumn'] . ' --> ' . PHP_EOL;
+            // echo '<!-- ' . $instance['post_custom_cloumn'] . ' --> ' . PHP_EOL;
             $tmp_html = $this->base_model->get_html_tmp($instance['post_custom_cloumn'], VIEWS_CUSTOM_PATH . 'ads_node/', '');
         }
         // cố định file HTML để tối ưu với SEO
@@ -920,7 +922,7 @@ class PostQuery extends PostMeta
             } elseif ($instance['hide_description'] == 'on' && $instance['hide_info'] == 'on') {
                 $html_node = 'ads_node_avt_title';
             }
-            echo '<!-- ' . $html_node . ' --> ' . PHP_EOL;
+            // echo '<!-- ' . $html_node . ' --> ' . PHP_EOL;
             $tmp_html = $this->base_model->parent_html_tmp($html_node);
         }
         //echo $tmp_html . '<br>' . PHP_EOL;
@@ -931,7 +933,7 @@ class PostQuery extends PostMeta
             $instance['post_cloumn'] = 'blogs_node_' . $instance['post_cloumn'];
         }
         //print_r( $instance );
-        $instance['post_cloumn'] = implode(' ', [
+        $instance['post_cloumn'] = trim(implode(' ', [
             $instance['num_line'],
             $instance['num_medium_line'],
             $instance['num_small_line'],
@@ -939,7 +941,7 @@ class PostQuery extends PostMeta
             $instance['column_spacing'],
             $instance['row_align'],
             $instance['max_width'],
-        ]);
+        ]));
 
         // do hàm select có chỉnh sửa với limit -> ở đây phải thao tác ngược lại
         if ($ops['limit'] == 1) {
@@ -1037,7 +1039,12 @@ class PostQuery extends PostMeta
         //print_r( $post_cat );
 
         // thay thế HTML cho khối term
-        $tmp_html = $this->base_model->parent_html_tmp('widget_eb_blog');
+        if ($instance['post_custom_row'] != '') {
+            // echo '<!-- ' . $instance['post_custom_row'] . ' --> ' . PHP_EOL;
+            $tmp_html = $this->base_model->get_html_tmp($instance['post_custom_row'], VIEWS_CUSTOM_PATH . 'ads_row/', '');
+        } else {
+            $tmp_html = $this->base_model->parent_html_tmp('widget_eb_blog');
+        }
         // ưu tiên các giá trị trong instance
         $tmp_html = HtmlTemplate::render($tmp_html, $instance);
         // sau đó mới đến custom

@@ -193,6 +193,7 @@ class Posts extends Sadmin
                 PostType::PENDING,
                 PostType::ON_HOLD,
                 PostType::DRAFT,
+                PostType::INHERIT,
             ];
         } else {
             $urlPartPage .= '&post_status=' . $post_status;

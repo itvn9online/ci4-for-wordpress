@@ -290,9 +290,11 @@ class Base extends Csdl
             if (!is_file($f)) {
                 $f = VIEWS_PATH . $sub_path . $file_name . $file_type;
             }
+            // echo $f . ':' . __CLASS__ . ':' . __LINE__;
             // file mặc định bắt buộc phải có -> return ở đây mục đích là để tiết kiệm 1 pha if else phía sau =))
             return file_get_contents($f, 1);
         }
+        // echo $f . ':' . __CLASS__ . ':' . __LINE__;
         if (!is_file($f)) {
             return 'File HTML tmp not exist #' . $file_name . $file_type;
         }

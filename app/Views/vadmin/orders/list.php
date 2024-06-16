@@ -11,16 +11,16 @@ if (isset($_GET['print_data'])) {
 }
 
 // css riêng cho từng post type (nếu có)
-$base_model->add_css('wp-admin/css/posts_list.css');
-$base_model->add_css('wp-admin/css/order_list.css');
-$base_model->add_css('wp-admin/css/' . $post_type . '.css');
+$base_model->adds_css([
+    'wp-admin/css/posts_list.css',
+    'wp-admin/css/order_list.css',
+    'wp-admin/css/' . $post_type . '.css',
+    THEMEPATH . 'css/' . $post_type . '.css',
+]);
 
 ?>
 <ul class="admin-breadcrumb">
-    <li>Danh sách
-        <?php echo $name_type; ?> (
-        <?php echo $totalThread; ?>)
-    </li>
+    <li>Danh sách <?php echo $name_type; ?> (<?php echo $totalThread; ?>)</li>
 </ul>
 <div id="app" class="ng-main-content">
     <div class="cf admin-search-form">
@@ -122,6 +122,9 @@ $base_model->JSON_parse(
 include ADMIN_ROOT_VIEWS . 'posts/sync_modal.php';
 
 // css riêng cho từng post type (nếu có)
-$base_model->add_js('wp-admin/js/post_list.js');
-$base_model->add_js('wp-admin/js/order_list.js');
-$base_model->add_js('wp-admin/js/' . $post_type . '.js');
+$base_model->adds_js([
+    'wp-admin/js/post_list.js',
+    'wp-admin/js/order_list.js',
+    'wp-admin/js/' . $post_type . '.js',
+    THEMEPATH . 'js/' . $post_type . '.js',
+]);

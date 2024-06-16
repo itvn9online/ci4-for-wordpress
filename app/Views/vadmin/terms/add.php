@@ -407,6 +407,7 @@ include VIEWS_PATH . 'private_require_view.php';
 
 //
 $base_model->JSON_parse([
+    'arr_custom_row' => $arr_custom_row,
     'arr_custom_cloumn' => $arr_custom_cloumn,
     'prev_term' => $prev_term,
     'next_term' => $next_term,

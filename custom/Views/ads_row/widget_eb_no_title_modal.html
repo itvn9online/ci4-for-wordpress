@@ -1,0 +1,29 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{custom_id}}">
+    Launch demo modal
+</button>
+<!-- Modal -->
+<div class="modal fade" id="{{custom_id}}" tabindex="-1" aria-labelledby="{{custom_id}}Label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title d-none" id="{{custom_id}}Label" aria-hidden="true">{{name}}</div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{widget_title}}
+                {{str_sub_cat}}
+                <div class="eb-blog eb-widget-blogs row {{post_cloumn}}">
+                    {{content}}
+                </div>
+                {{more_link}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Đóng
+                </button>
+                <button type="button" class="btn btn-primary">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
+</div>

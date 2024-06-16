@@ -587,6 +587,13 @@ class Terms extends Sadmin
         }
 
         //
+        $arr_custom_row = [];
+        if ($this->taxonomy == TaxonomyType::ADS) {
+            $arr_custom_row = $this->base_model->EBE_get_file_in_folder(VIEWS_CUSTOM_PATH . 'ads_row/', '.{html}', 'file', true);
+            //print_r($arr_custom_row);
+        }
+
+        //
         $arr_custom_cloumn = [];
         if ($this->taxonomy == TaxonomyType::ADS) {
             $arr_custom_cloumn = $this->base_model->EBE_get_file_in_folder(VIEWS_CUSTOM_PATH . 'ads_node/', '.{html}', 'file', true);
@@ -604,6 +611,7 @@ class Terms extends Sadmin
         $this->teamplate_admin['content'] = view(
             'vadmin/' . $this->add_view_path . '/' . $file_view,
             array(
+                'arr_custom_row' => $arr_custom_row,
                 'arr_custom_cloumn' => $arr_custom_cloumn,
                 'lang_key' => $this->lang_key,
                 'set_parent' => $set_parent,

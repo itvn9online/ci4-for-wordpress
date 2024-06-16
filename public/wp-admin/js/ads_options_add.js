@@ -140,7 +140,23 @@ $("#term_meta_post_number").change(function () {
 //
 (function () {
 	// nếu không có tệp html nào thì ẩn nó đi thôi
-	console.log(arr_custom_cloumn);
+	// console.log(arr_custom_row);
+	let str = "";
+	for (let i = 0; i < arr_custom_row.length; i++) {
+		str +=
+			'<option value="' +
+			arr_custom_row[i].split(".")[0] +
+			'">' +
+			arr_custom_row[i] +
+			"</option>";
+	}
+	$("#term_meta_post_custom_row").append(str);
+})();
+
+//
+(function () {
+	// nếu không có tệp html nào thì ẩn nó đi thôi
+	// console.log(arr_custom_cloumn);
 	let str = "";
 	for (let i = 0; i < arr_custom_cloumn.length; i++) {
 		str +=
