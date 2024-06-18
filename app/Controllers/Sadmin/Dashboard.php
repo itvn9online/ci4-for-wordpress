@@ -471,7 +471,8 @@ class Dashboard extends Optimize
 
         //
         $current_ci_version = \CodeIgniter\CodeIgniter::CI_VERSION;
-        echo $current_ci_version . '<br>' . PHP_EOL;
+        echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        echo 'Current CI version: ' . $current_ci_version . '<br>' . PHP_EOL;
 
         // tên thư mục sẽ backup system cũ
         $to = PUBLIC_HTML_PATH . 'system-' . $current_ci_version;

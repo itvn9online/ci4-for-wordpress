@@ -122,7 +122,7 @@ if ($debug_enable === true) {
             </div>
             <div v-if="phpversion < 82">
                 <div class="bluecolor">Xin chúc mừng! Phiên bản PHP{{phpversion}} của bạn tương đối tốt. Tuy nhiên,
-                    chúng tôi vẫn khuyến nghị bạn sử dụng phiên bản <strong>PHP 8.1</strong> trở lên.</div>
+                    chúng tôi vẫn khuyến nghị bạn sử dụng phiên bản <strong>PHP 8.2</strong> trở lên.</div>
             </div>
         </div>
         <div v-if="phpversion < 81">

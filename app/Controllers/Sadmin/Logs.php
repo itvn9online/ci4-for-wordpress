@@ -32,9 +32,29 @@ class Logs extends Dev
 
                 //
                 if (is_file($filename)) {
-                    unlink($filename); // delete file
+                    // delete file
+                    $this->MY_unlink($filename);
+                    // unlink($filename);
                 }
             }
+
+            // xóa debug -> loại này khá nặng
+            $dir_debugbar = WRITEPATH . 'debugbar';
+            echo $dir_debugbar . '<br>' . PHP_EOL;
+            $arr = glob($dir_debugbar . '/*.json');
+            // print_r($arr);
+            foreach ($arr as $filename) {
+                echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+
+                //
+                if (is_file($filename)) {
+                    // delete file
+                    $this->MY_unlink($filename);
+                    // unlink($filename);
+                }
+            }
+
+            // 
             // die(__CLASS__ . ':' . __LINE__);
             $this->base_model->alert('', base_url('sadmin/logs'));
         }

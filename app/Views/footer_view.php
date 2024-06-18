@@ -11,4 +11,4 @@
 <?php
 
 //
-include __DIR__ . '/popup_modal.php';
+// include __DIR__ . '/popup_modal.php';

@@ -58,3 +58,7 @@
         <?php $lang_model->the_web_license($getconfig); ?>
     </div>
 </section>
+<?php
+
+// 
+// $post_model->the_ads('global-popup');

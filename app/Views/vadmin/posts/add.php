@@ -276,7 +276,7 @@ include __DIR__ . '/add_breadcrumb.php';
             if ($post_type == $ads_post_type) {
             ?>
                 <div class="control-group">
-                    <label for="quick_add_menu" class="control-label">Thêm kết nội bộ</label>
+                    <label for="quick_add_menu" class="control-label">Thêm liên kết nội bộ</label>
                     <div id="quick_add_menu" class="controls">
                         <?php
 

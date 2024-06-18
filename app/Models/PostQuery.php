@@ -1052,6 +1052,10 @@ class PostQuery extends PostMeta
             $tmp_html,
             $post_cat,
             [
+                // các tham số truyền vào form (nếu có) -> dùng để xác thực khi submit
+                'session_id' => $this->base_model->MY_sessid(),
+                'csrf_hash' => csrf_hash(),
+                // 
                 'content' => $html,
                 'cf_posts_size' => '{{custom_size}}',
                 'blog_link_option' => $blog_link_option,

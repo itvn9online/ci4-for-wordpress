@@ -13,7 +13,7 @@ use App\Libraries\ConfigType;
 class Session
 {
     // key dùng lưu session cho các phiên kiểm tra csrf
-    private $key_csrf_hash = '_wgr_csrf_hash';
+    public $key_csrf_hash = '_wgr_csrf_hash';
     // key lưu phiên đăng nhập của khách
     private $key_member_login = '_wgr_logged';
     // khi số lần đăng nhập sai vượt qua con số này thì sẽ kích hoạt captcha
