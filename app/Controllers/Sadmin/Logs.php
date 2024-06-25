@@ -54,6 +54,24 @@ class Logs extends Dev
                 }
             }
 
+            // xóa session nếu ko dùng đến
+            if (MY_SESSION_DRIVE != 'FileHandler') {
+                $dir_session = WRITEPATH . 'session';
+                echo $dir_session . '<br>' . PHP_EOL;
+                $arr = glob($dir_session . '/*.');
+                // print_r($arr);
+                foreach ($arr as $filename) {
+                    echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+
+                    //
+                    if (is_file($filename)) {
+                        // delete file
+                        $this->MY_unlink($filename);
+                        // unlink($filename);
+                    }
+                }
+            }
+
             // 
             // die(__CLASS__ . ':' . __LINE__);
             $this->base_model->alert('', base_url('sadmin/logs'));

@@ -408,16 +408,14 @@ class Configs extends Sadmin
     protected function testMail()
     {
         $smtp_config = $this->option_model->get_smtp();
-        //print_r( $smtp_config );
-        //die( __CLASS__ . ':' . __LINE__ );
+        // print_r($smtp_config);
+        // die(__CLASS__ . ':' . __LINE__);
         if (!isset($smtp_config->smtp_test_email) || empty($smtp_config->smtp_test_email)) {
-            //print_r( $smtp_config );
-            die(json_encode(
-                [
-                    'code' => __LINE__,
-                    'error' => 'Test email is NULL or not found!'
-                ]
-            ));
+            // print_r($smtp_config);
+            die(json_encode([
+                'code' => __LINE__,
+                'error' => 'Test email is NULL or not found!'
+            ]));
         }
 
         //
@@ -459,8 +457,8 @@ class Configs extends Sadmin
                 $smtp_config->smtp_test_cc_email
             ];
         }
-        //print_r( $data_send );
-        //die( __CLASS__ . ':' . __LINE__ );
+        // print_r($data_send);
+        // die(__CLASS__ . ':' . __LINE__);
 
         //
         echo 'PHPMailer version: ' . file_get_contents(APPPATH . 'ThirdParty/PHPMailer/phpmailer/phpmailer/VERSION', 1) . '<br>' . PHP_EOL;

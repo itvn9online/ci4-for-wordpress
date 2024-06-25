@@ -192,6 +192,7 @@ class Dashboard extends Optimize
 
             // lấy tổng bản ghi còn lại
             $count_sessions = $this->base_model->select_count('my_id', 'ci_sessions', [
+                // do sai lệch về múi giờ nên ko sử dụng WHERE timestamp
                 // 'timestamp >' => date('Y-m-d H:i:s', time() - 1800)
             ], [
                 // 'show_query' => 1,
