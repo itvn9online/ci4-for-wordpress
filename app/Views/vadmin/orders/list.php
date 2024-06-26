@@ -15,6 +15,7 @@ $base_model->adds_css([
     'wp-admin/css/posts_list.css',
     'wp-admin/css/order_list.css',
     'wp-admin/css/' . $post_type . '.css',
+    THEMEPATH . 'css/order_list.css',
     THEMEPATH . 'css/' . $post_type . '.css',
 ]);
 

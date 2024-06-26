@@ -165,6 +165,16 @@ class PostPosts extends PostGet
         return $this->get_posts($prams, $ops);
     }
 
+    /**
+     * Thêm tham số session cho việc xác thực quảng cáo nếu có
+     **/
+    public function the_session_ads($data)
+    {
+        $data = str_replace('{session_id}', $this->base_model->MY_sessid(), $data);
+        $data = str_replace('{csrf_hash}', csrf_hash(), $data);
+        return $data;
+    }
+
     function get_the_ads($slug, $limit = 0, $ops = [], $using_cache = true, $time = MEDIUM_CACHE_TIMEOUT)
     {
         $in_cache = '';
@@ -183,7 +193,8 @@ class PostPosts extends PostGet
             // có cache thì trả về
             if ($cache_value !== null) {
                 //print_r( $cache_value );
-                return $cache_value;
+                // return $cache_value;
+                return $this->the_session_ads($cache_value);
             }
         }
 
@@ -202,7 +213,8 @@ class PostPosts extends PostGet
         if ($in_cache != '') {
             $this->base_model->scache($in_cache, $data, $time);
         }
-        return $data;
+        // return $data;
+        return $this->the_session_ads($data);
     }
 
     function the_ads($slug, $limit = 0, $ops = [], $using_cache = true, $time = MEDIUM_CACHE_TIMEOUT)
