@@ -112,7 +112,8 @@ if ($debug_enable === true) {
 <link rel="stylesheet" type="text/css" media="all" href="fonts/fontawesome-free-5.15.1-web/css/v4-shims.min.css" />
 -->
     <!-- <script src="wp-includes/thirdparty/validate/jquery.min.js"></script> -->
-    <script src="wp-includes/thirdparty/jquery/jquery-3.6.1.min.js"></script>
+    <!-- <script src="wp-includes/thirdparty/jquery/jquery-3.6.1.min.js"></script> -->
+    <script src="wp-includes/thirdparty/jquery/jquery-3.7.1.min.js"></script>
     <!-- <script src="wp-includes/thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> -->
     <!-- <script src="wp-includes/thirdparty/jquery/jquery-migrate-1.4.1.min.js"></script> -->
     <script src="wp-includes/thirdparty/validate/library.js"></script>

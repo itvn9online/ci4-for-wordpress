@@ -150,6 +150,7 @@ foreach ($arr_preload_bootstrap as $v) {
 <!-- <link rel="stylesheet" type="text/css" media="all" href="wp-includes/thirdparty/flatsome/flatsome.css" /> -->
 <!-- <link rel="stylesheet" type="text/css" media="all" href="frontend/css/swiper.min.css" /> -->
 <script src="<?php echo CDN_BASE_URL; ?>wp-includes/thirdparty/jquery/jquery-3.6.1.min.js"></script>
+<!-- <script src="<?php echo CDN_BASE_URL; ?>wp-includes/thirdparty/jquery/jquery-3.7.1.min.js"></script> -->
 <!-- <script src="wp-includes/thirdparty/jquery/jquery-migrate-3.3.2.min.js"></script> -->
 <!-- <script src="frontend/js/swiper.min.js"></script> -->
 <?php

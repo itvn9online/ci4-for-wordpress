@@ -124,8 +124,8 @@ class ConfigType
                 'h1' => 'Thẻ H1',
                 'solugan' => 'Câu slogan',
                 'title' => 'Meta Title',
-                'keyword' => 'Meta Keyword',
                 'description' => 'Meta Description',
+                'keyword' => 'Meta Keyword',
                 'logo' => 'Logo chính',
                 'logo_main_height' => 'Chiều cao logo',
                 'logo_width_img' => 'Chiều rộng thật của logo',
@@ -177,7 +177,7 @@ class ConfigType
             ];
         } else if ($config_type == self::SOCIAL) {
             $arr = [
-                'google_analytics' => 'Google Analytics ID',
+                'google_analytics' => 'Google Analytics 4 ID',
                 'google_adsense' => 'Google Adsense ID',
                 'google_amp_adsense' => 'Google Adsense amp ID',
                 'fb_app_id' => 'Facebook App ID',
@@ -866,6 +866,10 @@ class ConfigType
             'home_rating_count' => 'Vui lòng nhập dạng số nguyên, tổng số lượng bình chọn website này, nếu là số ảo thì nhập trong khoảng 160 - 300.',
             'home_review_count' => 'Vui lòng nhập dạng số nguyên, tổng số lượng bài đánh giá website này, nếu là số ảo thì nhập dưới 70.',
             'off_schema_person' => 'Mặc định sẽ 1 đoạn Schema Person hoặc Schema Organization sẽ được tạo cho trang chủ, nếu không muốn sử dụng nó, hãy tắt đi ở đây.',
+            // 
+            'title' => 'The most effective page titles are about 10-70 characters long, including spaces.',
+            'description' => 'For optimum effectiveness, meta descriptions should be 160-300 characters long.',
+            'google_analytics' => 'Trong menu Quản trị của Google Analytics 4 - tìm đến Luồng dữ liệu - bấm vào chi tiết 1 luồng sau đó lấy: MÃ ĐO LƯỜNG (bắt đầu bằng chữ G-) rồi dán vào đây.',
         ];
 
         //
