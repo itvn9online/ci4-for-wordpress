@@ -151,8 +151,7 @@ if ($debug_enable === true) {
                     </div>
                     <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
                         <div class="p">Database:
-                            <span v-if="current_dbname != ''">
-                                <strong>******<?php echo substr($current_dbname, 6); ?></strong> </span>
+                            <span v-if="current_dbname != ''" class="bold">******{{ current_dbname.substr(-6) }}</span>
                         </div>
                     </div>
                     <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12">
