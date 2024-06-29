@@ -41,8 +41,8 @@
             </td>
             <td class="upper">%term_meta.coupon_code%</td>
             <td>%term_meta.discount_type%</td>
-            <td>%term_meta.coupon_amount%</td>
-            <td>%term_meta.expiry_date%</td>
+            <td><span data-type="%term_meta.discount_type%" class="discount_type-to-currency">%term_meta.coupon_amount%</span></td>
+            <td class="expiry_date-to-note">%term_meta.expiry_date%</td>
             <td width="90">{{v.lang_key}}</td>
             <!-- <td width="90">{{v.count}}</td> -->
             <!-- <td width="60"><input type="text" data-id="{{v.term_id}}" value="{{v.term_order}}" size="5" class="form-control s change-update-term_order" /></td> -->

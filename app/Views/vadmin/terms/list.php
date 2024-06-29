@@ -166,7 +166,8 @@ if ($taxonomy == TaxonomyType::ADS) {
 // js riêng cho từng taxonomy (nếu có)
 $base_model->adds_js([
     'wp-admin/js/terms.js',
-    'wp-admin/js/' . $taxonomy . '.js'
+    'wp-admin/js/' . $taxonomy . '.js',
+    'wp-admin/js/' . $taxonomy . '_list.js',
 ]);
 
 ?>

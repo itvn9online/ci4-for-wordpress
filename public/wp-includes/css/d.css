@@ -762,6 +762,10 @@ span.taxonomy-count:after {
 }
 
 /* */
+.ebe-currency {
+    white-space: nowrap;
+}
+
 .ebe-currency:empty {
     display: none;
 }

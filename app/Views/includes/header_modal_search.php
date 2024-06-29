@@ -13,8 +13,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close"><?php $lang_model->the_text('header_search_close', 'Đóng'); ?></button>
-                    <button type="submit" class="btn btn-primary" aria-label="Search"><i class="fa fa-search"></i> <?php $lang_model->the_text('header_search_label', 'Tìm kiếm'); ?></button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close"><?php $lang_model->the_text('header_search_close', 'Close'); ?></button>
+                    <button type="submit" class="btn btn-primary" aria-label="Search"><i class="fa fa-search"></i> <?php $lang_model->the_text('header_search_label', 'Search'); ?></button>
                 </div>
             </form>
         </div>

@@ -14,7 +14,7 @@
         </tr>
     </thead>
     <tbody id="admin_main_list">
-        <tr :data-id="v.ID" v-for="v in data" :class="v.post_status">
+        <tr :data-id="v.ID" v-for="v in data" :data-post_date="v.post_date.split(' ')[0]" :class="v.post_status">
             <td width="50" class="text-center"><input type="checkbox" :value="v.ID" class="input-checkbox-control" /></td>
             <td class="text-center">
                 <div>#{{v.ID}}</div>

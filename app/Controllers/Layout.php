@@ -399,6 +399,21 @@ class Layout extends Sync
         $response->setStatusCode(404, $pcol . ' 404 Not Found');
         // http_response_code(404);
 
+        // lưu các URL 404 này vào bảng links để tiện theo dõi
+        $result_id = $this->base_model->insert('wp_links', [
+            'link_url' => $_SERVER['HTTP_HOST'],
+            'link_name' => $_SERVER['REQUEST_URI'],
+            'link_image' => '',
+            'link_target' => __FUNCTION__,
+            'link_description' => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
+            'link_visible' => 'N',
+            'link_owner' => $this->current_user_id,
+            'link_updated' => date(EBE_DATETIME_FORMAT),
+            'link_rel' => $this->request->getIPAddress(),
+            'link_notes' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '',
+            'link_rss' => '',
+        ]);
+
         //
         $this->teamplate['main'] = view(
             '404',

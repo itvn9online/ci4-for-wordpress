@@ -1,7 +1,7 @@
 <div class="row row-collapse align-middle mobile-menu default-bg mobile-fixed-menu">
     <div class="col small-3 medium-3 large-3">
         <div class="col-inner text-center">
-            <button type="button" class="btn btn-light btn-mobile-menu" data-bs-toggle="modal" data-bs-target="#mobileMenuModal" aria-label="Menu"><i class="fa fa-bars"></i></button>
+            <button type="button" class="btn btn-light btn-mobile-menu" data-bs-toggle="modal" data-bs-target="#mobileMenuModal" aria-label="Menu"><i class="fa fa-bars"></i></button> <span class="text-mobile-menu">Menu</span>
         </div>
     </div>
     <div class="col small-6 medium-6 large-6">
@@ -45,7 +45,7 @@
                 ?>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Đóng</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Close</button>
             </div>
         </div>
     </div>

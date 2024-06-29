@@ -118,27 +118,33 @@ function run_calculate_cart_value() {
 	}
 
 	// hiển thị phí vận chuyển
-	// console.log(cart_config.shipping_fee);
-	// console.log(cart_config);
+	// console.log(cart_config.shipping_fee, cart_config);
+	let shipping_fee = 0;
 	if (cart_config.shipping_fee == "") {
-		// quy đổi thành dạng số để giỏ hàng còn cộng tiền
-		cart_config.shipping_fee = 0;
 		$(".cart-sidebar-shipping").html(cart_config.calculated_later);
 	} else {
 		// quy đổi thành dạng số để giỏ hàng còn cộng tiền
-		cart_config.shipping_fee *= 1;
-		if (cart_config.shipping_fee < 1) {
-			$(".cart-sidebar-shipping").html(cart_config.free_shipping);
+		shipping_fee = cart_config.shipping_fee * 1;
+		// nếu lỗi quy đổi
+		if (isNaN(shipping_fee)) {
+			// cho về dạng tính toán sau
+			$(".cart-sidebar-shipping").html(cart_config.calculated_later);
 		} else {
-			$(".cart-sidebar-shipping")
-				.html(g_func.money_format(cart_config.shipping_fee))
-				.addClass("ebe-currency");
+			// ít quá thì free-ship
+			if (shipping_fee < 0.1) {
+				$(".cart-sidebar-shipping").html(cart_config.free_shipping);
+			} else {
+				// nhiều thì hiển thị ra
+				$(".cart-sidebar-shipping")
+					.html(g_func.money_format(shipping_fee))
+					.addClass("ebe-currency");
+			}
 		}
 	}
-	// console.log(cart_config.shipping_fee);
+	// console.log(shipping_fee);
 
 	//
-	cart_total_regular_price(price_total + cart_config.shipping_fee);
+	cart_total_regular_price(price_total + shipping_fee);
 
 	//
 	$(".total-cart-quantity").html(item_total);
