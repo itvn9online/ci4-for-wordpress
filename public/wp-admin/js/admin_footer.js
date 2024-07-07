@@ -262,7 +262,7 @@ fix_textarea_height();
  */
 //WGR_duy_tri_dang_nhap(4 * 60);
 setInterval(() => {
-	if ($("body.preview-url").length == 0) {
+	if ($("body.preview-url").length < 1) {
 		document.getElementById("target_eb_iframe").src =
 			web_link + "sadmin/sadmin/admin_logged";
 	}

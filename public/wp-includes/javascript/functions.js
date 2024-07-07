@@ -620,7 +620,7 @@ function action_each_to_taxonomy() {
 	});
 	//console.log(taxonomy_ids_unique);
 	// nếu không có ID nào cẩn xử lý thì bỏ qua đoạn sau luôn
-	if (taxonomy_ids_unique.length == 0) {
+	if (taxonomy_ids_unique.length < 1) {
 		if (WGR_config.cf_tester_mode > 0)
 			console.log("taxonomy ids unique length");
 
@@ -1049,7 +1049,7 @@ function WGR_vuejs(app_id, obj, _callBack, max_i) {
 			}
 
 			//console.log(taxonomy_ids_unique);
-			//if (obj.action_taxonomy === 1 && taxonomy_ids_unique.length == 0) {
+			//if (obj.action_taxonomy === 1 && taxonomy_ids_unique.length < 1) {
 			action_each_to_taxonomy();
 			//}
 		},

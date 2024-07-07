@@ -15,7 +15,7 @@
             <th>Danh mục</th>
             <th>Ngày tạo <br> <a :href="'sadmin/' + controller_slug + '?order_by=post_modified'">Cập nhật cuối <i class="fa fa-sort"></i></a></th>
             <!-- <th>Lang</th> -->
-            <th>Trạng thái</th>
+            <th><a :href="'sadmin/' + controller_slug + '?order_by=post_viewed'">Trạng thái <i class="fa fa-sort"></i></a></th>
             <th>STT</th>
             <th>&nbsp;</th>
         </tr>
@@ -45,6 +45,7 @@
             <td>
                 <div :class="'post_status post_status-' + v.post_status">{{PostType_arrStatus[v.post_status]}}</div>
                 <div>{{v.lang_key}}</div>
+                <div><i class="fa fa-eye"></i> {{v.post_viewed}}</div>
             </td>
             <td width="60"><input type="number" :data-id="v.ID" :value="v.menu_order" size="5" class="form-control s change-update-menu_order" /></td>
             <td class="text-center big">

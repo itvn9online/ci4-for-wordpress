@@ -12,7 +12,7 @@ class UsersType
     const ADMIN_LEVEL = 1;
 
     //
-    const ALL = 'Tài khoản';
+    const ALL = 'Users';
     const GUEST = 'guest';
     const MEMBER = 'member';
     const CUSTOMER = 'customer';

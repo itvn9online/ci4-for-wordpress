@@ -31,26 +31,26 @@ class TaxonomyType
 
     // 
     private static $arr = array(
-        self::POSTS => 'Danh mục ' . AdminTranslate::POST,
-        self::TAGS => 'Thẻ ' . AdminTranslate::POST,
-        //self::OPTIONS => 'Thông số khác',
-        self::ADS => 'Danh mục quảng cáo',
-        //self::BLOGS => 'Danh mục tin',
-        //self::BLOG_TAGS => 'Thẻ Blog/ Tin tức',
-        self::PROD_CATS => 'Danh mục ' . AdminTranslate::PROD,
-        self::PROD_OTPS => 'Thông số khác',
-        self::PROD_TAGS => 'Thẻ ' . AdminTranslate::PROD,
+        self::POSTS => 'Category ' . AdminTranslate::POST,
+        self::TAGS => 'Tags ' . AdminTranslate::POST,
+        //self::OPTIONS => 'Other options',
+        self::ADS => 'Category Advertisement',
+        //self::BLOGS => 'Category tin',
+        //self::BLOG_TAGS => 'Tags Blog/ Tin tức',
+        self::PROD_CATS => 'Category ' . AdminTranslate::PROD,
+        self::PROD_OTPS => 'Other options',
+        self::PROD_TAGS => 'Tags ' . AdminTranslate::PROD,
         self::SHOP_COUPON => 'Coupons',
         //self::MENU => 'Menu',
         //self::PAGE => 'Trang tĩnh',
     );
 
     private static $arr_name = array(
-        self::POSTS => 'Danh mục',
+        self::POSTS => 'Category',
         self::TAGS => 'Danh sách',
-        //self::ADS => 'Danh mục',
-        //self::BLOGS => 'Danh mục',
-        //self::BLOG_TAGS => 'Danh mục',
+        //self::ADS => 'Category',
+        //self::BLOGS => 'Category',
+        //self::BLOG_TAGS => 'Category',
         //self::OPTIONS => 'Danh sách',
         self::PROD_OTPS => 'Danh sách',
         //self::MENU => 'Menu',
@@ -76,7 +76,7 @@ class TaxonomyType
             return self::$arr;
         }
         if (isset(self::$arr[$key])) {
-            // lấy thêm định danh cho Danh mục (nếu có)
+            // lấy thêm định danh cho Category (nếu có)
             $get_first_name = '';
             /*
             if ( $first_name == true ) {
@@ -96,7 +96,7 @@ class TaxonomyType
         if (isset(self::$arr_name[$key])) {
             return self::$arr_name[$key] . ' ';
         }
-        return 'Danh mục ';
+        return 'Category ';
     }
 
     public static function controllerList($key = '')
@@ -121,7 +121,7 @@ class TaxonomyType
         // $arr['taxonomy_auto_slider'] = 'Slider';
         if ($taxonomy == self::ADS) {
             $arr['custom_cat_link'] = 'Tùy chỉnh URL';
-            $arr['dynamic_tag'] = 'HTML tag cho Tên Danh mục';
+            $arr['dynamic_tag'] = 'HTML tag cho Tên Category';
             $arr['dynamic_post_tag'] = 'HTML tag cho Tên Bài viết';
             $arr['widget_description'] = 'Mô tả';
             $arr['post_number'] = 'Số lượng bản ghi hiển thị';
@@ -133,10 +133,10 @@ class TaxonomyType
             $arr['post_custom_row'] = 'Row HTML';
             $arr['post_cloumn'] = 'Col HTML';
             $arr['post_custom_cloumn'] = 'Col custom HTML';
-            $arr['hide_widget_title'] = 'Ẩn tiêu đề danh mục';
+            $arr['hide_widget_title'] = 'Ẩn tiêu đề category';
             $arr['hide_title'] = 'Ẩn tiêu đề của bài viết';
             $arr['hide_description'] = 'Ẩn tóm tắt của bài viết';
-            $arr['hide_info'] = 'Ẩn ngày tháng, danh mục của bài viết';
+            $arr['hide_info'] = 'Ẩn ngày tháng, category của bài viết';
             $arr['show_short_title'] = 'Hiển thị tiêu đề ngắn bài viết';
             $arr['show_post_content'] = 'Hiển thị nội dung của bài viết';
             $arr['run_slider'] = 'Chạy slider (banner sẽ được hiển thị dưới dạng slider của flatsome)';
@@ -242,20 +242,20 @@ class TaxonomyType
             'custom_style' => 'Chọn class CSS hỗ trợ định dạng sẵn hoặc tự soạn class CSS mới sau đó thực hiện viết CSS tương ứng.',
             'custom_id' => '* Tương tự như CSS -> gán ID để xử lý cho tiện.',
             'rel_xfn' => '<strong>rel</strong>: noreferrer, nofollow...',
-            'text_view_more' => 'Nhập nội dung cho nút xem thêm (Danh mục). Khi trường này có dữ liệu, nút [Xem thêm] sẽ xuất hiện trong widget.',
+            'text_view_more' => 'Nhập nội dung cho nút xem thêm (Category). Khi trường này có dữ liệu, nút [Xem thêm] sẽ xuất hiện trong widget.',
             'url_view_more' => 'Mặc định nút [Xem thêm] sẽ dẫn tới link được thiết lập tại: Tùy chỉnh URL, trường hợp muốn nút [Xem thêm] hiển thị URL khác thì hãy thiết lập thêm tại đây.',
             'text_view_details' => 'Nhập nội dung cho nút xem chi tiết bài viết. Khi trường này có dữ liệu, nút [Xem chi tiết] sẽ xuất hiện, liên kết của nó chính là liên kết của bài viết hoặc link gắn ngoài của bài viết.',
             // 
             'meta_title' => 'The most effective page titles are about 10-70 characters long, including spaces.',
             'meta_description' => 'For optimum effectiveness, meta descriptions should be 160-300 characters long.',
             // 
-            'taxonomy_custom_post_size' => 'Mặc định, tỉ lệ ảnh sẽ được dùng theo cấu hình chung của hệ thống. Trường hợp cần cấu hình riêng cho từng danh mục thì bạn có thể thiết lập tại đây. Ví dụ: 4/3',
+            'taxonomy_custom_post_size' => 'Mặc định, tỉ lệ ảnh sẽ được dùng theo cấu hình chung của hệ thống. Trường hợp cần cấu hình riêng cho từng category thì bạn có thể thiết lập tại đây. Ví dụ: 4/3',
             // 'taxonomy_auto_slider' => 'Khi chế độ này được kích hoạt, một slider sẽ tự động được khởi tạo, sau đó bạn chỉ việc thêm ảnh cho slider để nó có thể hoạt động',
-            'term_template' => 'Sử dụng khi muốn thiết lập giao diện riêng cho từng danh mục. File mẫu là file .php được đặt trong thư mục <b>' . str_replace(ROOTPATH, '', THEMEPATH) . 'term-templates/</b> của mỗi theme.',
-            'term_col_templates' => 'HTML mẫu của phần col cho từng danh mục (nếu có) tại thư mục <b>' . str_replace(ROOTPATH, '', THEMEPATH) . 'term-col-templates/</b> của mỗi theme. Mặc định sử dụng col chung của website.',
-            'post_custom_row' => 'Khi cần tùy chỉnh <b>Row HTML</b> cho danh mục này thì có thể thêm file .html vào đây <b>/' . str_replace(ROOTPATH, '', VIEWS_CUSTOM_PATH) . 'html/</b> sau đó chọn file tương ứng cho danh mục này. HTML trong file được chọn sẽ dùng để tạo hình cho bài viết. Mẫu HTML có thể copy từ file <b>/app/Views/html/widget_eb_blog.html</b> hoặc tùy chỉnh theo tiêu chuẩn .row của bootstrap.',
-            'post_custom_cloumn' => 'Khi cần tùy chỉnh <b>Col HTML</b> cho danh mục này thì có thể thêm file .html vào đây <b>/' . str_replace(ROOTPATH, '', VIEWS_CUSTOM_PATH) . 'ads_node/</b> sau đó chọn file tương ứng cho danh mục này. HTML trong file được chọn sẽ dùng để tạo hình cho bài viết. Mẫu HTML có thể copy từ file <b>/app/Views/html/ads_node.html</b> hoặc tùy chỉnh theo tiêu chuẩn .col của bootstrap.',
-            //'term_status' => 'Dùng khi cần ẩn các danh mục khỏi menu động.',
+            'term_template' => 'Sử dụng khi muốn thiết lập giao diện riêng cho từng category. File mẫu là file .php được đặt trong thư mục <b>' . str_replace(ROOTPATH, '', THEMEPATH) . 'term-templates/</b> của mỗi theme.',
+            'term_col_templates' => 'HTML mẫu của phần col cho từng category (nếu có) tại thư mục <b>' . str_replace(ROOTPATH, '', THEMEPATH) . 'term-col-templates/</b> của mỗi theme. Mặc định sử dụng col chung của website.',
+            'post_custom_row' => 'Khi cần tùy chỉnh <b>Row HTML</b> cho category này thì có thể thêm file .html vào đây <b>/' . str_replace(ROOTPATH, '', VIEWS_CUSTOM_PATH) . 'html/</b> sau đó chọn file tương ứng cho category này. HTML trong file được chọn sẽ dùng để tạo hình cho bài viết. Mẫu HTML có thể copy từ file <b>/app/Views/html/widget_eb_blog.html</b> hoặc tùy chỉnh theo tiêu chuẩn .row của bootstrap.',
+            'post_custom_cloumn' => 'Khi cần tùy chỉnh <b>Col HTML</b> cho category này thì có thể thêm file .html vào đây <b>/' . str_replace(ROOTPATH, '', VIEWS_CUSTOM_PATH) . 'ads_node/</b> sau đó chọn file tương ứng cho category này. HTML trong file được chọn sẽ dùng để tạo hình cho bài viết. Mẫu HTML có thể copy từ file <b>/app/Views/html/ads_node.html</b> hoặc tùy chỉnh theo tiêu chuẩn .col của bootstrap.',
+            //'term_status' => 'Dùng khi cần ẩn các category khỏi menu động.',
             // 
             'coupon_amount' => 'Value of the coupon.',
             'expiry_date' => 'The coupon will expire at 00:00:00 of this date.',

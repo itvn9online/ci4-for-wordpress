@@ -9,7 +9,7 @@ use App\Libraries\ConfigType;
 class Displays extends Configs
 {
     protected $config_type = ConfigType::DISPLAY;
-    //protected $view_edit = 'smtp';
+    // protected $view_edit = '';
 
     public function __construct()
     {

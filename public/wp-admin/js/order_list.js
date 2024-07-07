@@ -28,7 +28,7 @@ $(document).ready(function () {
 							a[i].post_title +
 							" (" +
 							a[i]._price +
-							" * " +
+							" x " +
 							a[i]._quantity +
 							")</a>"
 					);

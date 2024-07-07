@@ -207,7 +207,7 @@ function before_tree_view(tmp, max_i) {
 	}
 
 	// chờ khi aguilar nạp xong html thì mới nạp tree view
-	if ($("#admin_term_list tr.ng-scope").length == 0) {
+	if ($("#admin_term_list tr.ng-scope").length < 1) {
 		setTimeout(() => {
 			before_tree_view(tmp, max_i - 1);
 		}, 100);

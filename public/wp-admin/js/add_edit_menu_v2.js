@@ -9,7 +9,7 @@ function edit_menu_htmlentities(str) {
 }
 
 function create_ul_menu_editer(a, sub_menu) {
-	if (a.length == 0) {
+	if (a.length < 1) {
 		return "";
 	}
 
@@ -303,7 +303,7 @@ var global_menu_jd = 1;
 var global_menu_tmp = "";
 
 function create_html_menu_nestable(a) {
-	if (a.length == 0) {
+	if (a.length < 1) {
 		console.log("a length");
 		return "";
 	}

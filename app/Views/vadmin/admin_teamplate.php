@@ -247,9 +247,9 @@ if ($debug_enable === true) {
         <div id="content-header">
             <div id="breadcrumb">
                 <ul class="cf">
-                    <li><a href="./" title="Go to Home" class="tip-bottom"> <i class="fa fa-home"></i> Trang chủ</a>
+                    <li><a href="./" title="Go to Home" class="tip-bottom"> <i class="fa fa-home"></i> Home</a>
                     </li>
-                    <li><a href="<?php echo CUSTOM_ADMIN_URI; ?>" title="Go to Home" class="tip-bottom"> <i class="fa fa-cog"></i> Quản trị</a></li>
+                    <li><a href="<?php echo CUSTOM_ADMIN_URI; ?>" title="Go to Home" class="tip-bottom"> <i class="fa fa-cog"></i> Dashboard</a></li>
                 </ul>
             </div>
         </div>

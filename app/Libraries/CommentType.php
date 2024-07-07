@@ -14,8 +14,8 @@ class CommentType
     const APPROVED = '1';
 
     private static $arr = array(
-        self::CONTACT => 'Liên hệ',
-        self::COMMENT => 'Bình luận',
+        self::CONTACT => 'Contacts',
+        self::COMMENT => 'Comments',
     );
 
     public static function typeList($key = '')

@@ -79,7 +79,7 @@ include __DIR__ . '/add_breadcrumb.php';
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">Mô tả</label>
+                <label class="control-label">Excerpt</label>
                 <div class="controls f80">
                     <textarea placeholder="Tóm tắt" name="data[post_excerpt]" id="data_post_excerpt" class="span30 fix-textarea-height"><?php echo $data['post_excerpt']; ?></textarea>
                     <div>
@@ -88,7 +88,7 @@ include __DIR__ . '/add_breadcrumb.php';
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">Trạng thái</label>
+                <label class="control-label">Status</label>
                 <div class="controls">
                     <select data-select="<?php echo $data['post_status']; ?>" name="data[post_status]" class="form-select">
                         <option :value="k" v-for="(v, k) in post_status">{{v}}</option>
@@ -96,9 +96,15 @@ include __DIR__ . '/add_breadcrumb.php';
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">Số thứ tự</label>
+                <label class="control-label">Menu order</label>
                 <div class="controls">
-                    <input type="number" class="span3" placeholder="Số thứ tự" name="data[menu_order]" value="<?php echo $data['menu_order']; ?>" />
+                    <input type="number" class="span3" placeholder="Menu order" name="data[menu_order]" value="<?php echo $data['menu_order']; ?>" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Viewed</label>
+                <div class="controls">
+                    <input type="number" class="span3" placeholder="Viewed" name="data[post_viewed]" value="<?php echo $data['post_viewed']; ?>" />
                 </div>
             </div>
             <?php

@@ -53,14 +53,14 @@ class PostType
 
     protected static $arr = array(
         self::POST => AdminTranslate::POST,
-        self::ADS => 'Quảng cáo',
+        self::ADS => 'Advertisement',
         //self::BLOG => 'Blog/ Tin tức',
-        self::PAGE => 'Trang tĩnh',
+        self::PAGE => 'Pages',
         self::PROD => AdminTranslate::PROD,
         self::MENU => 'Menu',
         self::HTML_MENU => 'HTML Menu',
         self::MEDIA => 'Media',
-        self::ORDER => 'Đơn hàng',
+        self::ORDER => 'Orders',
     );
 
     // Danh sách controller cho phần editer posts -> post_type phân biệt theo controller để trả về url sau khi add/ edit

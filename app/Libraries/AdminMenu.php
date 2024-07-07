@@ -9,7 +9,7 @@ class AdminMenu
         return [
             CUSTOM_ADMIN_URI => [
                 'role' => [],
-                'name' => 'Tổng quan',
+                'name' => 'Dashboard',
                 'icon' => 'fa fa-home',
                 'arr' => []
             ],
@@ -47,7 +47,7 @@ class AdminMenu
                     UsersType::AUTHOR,
                     UsersType::MOD,
                 ],
-                'name' => 'Đơn hàng',
+                'name' => PostType::typeList(PostType::ORDER),
                 'icon' => 'fa fa-shopping-bag',
                 'arr' => []
             ],
@@ -227,7 +227,7 @@ class AdminMenu
                 ]
             ],
             'sadmin/configs' => [
-                'name' => 'Cài đặt chung',
+                'name' => 'Settings',
                 'tag' => 'Setting',
                 'icon' => 'fa fa-cogs',
                 'arr' => [
@@ -311,11 +311,11 @@ class AdminMenu
                 'role' => [
                     UsersType::ADMIN,
                 ],
-                'name' => 'Kỹ thuật',
+                'name' => 'Technique',
                 'icon' => 'fa fa-bug',
                 'arr' => [
                     'sadmin/dashboard/cleanup_cache' => [
-                        'name' => 'Dọn dẹp website',
+                        'name' => ' Website cleanup',
                         'icon' => 'fa fa-magic',
                     ],
                     'sadmin/optimizes' => [

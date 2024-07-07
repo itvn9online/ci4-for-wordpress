@@ -421,8 +421,8 @@ var _global_js_eb = {
 				//disable_eblazzy_load = true;
 				return false;
 			} else if (
-				jQuery("." + eb_lazzy_class).length == 0 &&
-				jQuery("." + eb_lazzy_iframe).length == 0
+				jQuery("." + eb_lazzy_class).length < 1 &&
+				jQuery("." + eb_lazzy_iframe).length < 1
 			) {
 				disable_eblazzy_load = true;
 				return false;
@@ -535,7 +535,7 @@ var _global_js_eb = {
 				}
 
 				//
-				if (typeof add_class != "object" || add_class.length == 0) {
+				if (typeof add_class != "object" || add_class.length < 1) {
 					add_class = [
 						//"row",
 						//"row-collapse",
@@ -886,11 +886,11 @@ var _global_js_eb = {
 				a = a.toLowerCase();
 
 				if (a == "purchase") {
-					//if (track_arr['content_type'] == 'undefined' || track_arr['content_ids'] == 'undefined' || track_arr['content_ids'].length == 0) {
+					//if (track_arr['content_type'] == 'undefined' || track_arr['content_ids'] == 'undefined' || track_arr['content_ids'].length < 1) {
 					if (
 						track_arr["content_type"] == "undefined" ||
 						track_arr["contents"] == "undefined" ||
-						track_arr["contents"].length == 0
+						track_arr["contents"].length < 1
 					) {
 						return false;
 					}
@@ -898,7 +898,7 @@ var _global_js_eb = {
 					if (
 						track_arr["content_type"] == "undefined" ||
 						track_arr["content_ids"] == "undefined" ||
-						track_arr["content_ids"].length == 0
+						track_arr["content_ids"].length < 1
 					) {
 						return false;
 					}
@@ -974,14 +974,14 @@ var _global_js_eb = {
 	// thêm mã xác nhận mỗi khi submit form
 	wgr_nonce: function (form_name) {
 		let a = jQuery('form[name="' + form_name + '"]');
-		if (a.length == 0) {
+		if (a.length < 1) {
 			return false;
 		}
 
 		// xác định nới request tới
 		if (
 			jQuery('form[name="' + form_name + '"] input[name="__wgr_request_from"]')
-				.length == 0
+				.length < 1
 		) {
 			a.append(
 				'<input type="hidden" name="__wgr_request_from" value="' +
@@ -992,7 +992,7 @@ var _global_js_eb = {
 		// thời gian truy cập form
 		if (
 			jQuery('form[name="' + form_name + '"] input[name="__wgr_nonce"]')
-				.length == 0
+				.length < 1
 		) {
 			a.append(
 				'<input type="hidden" name="__wgr_nonce" value="' +
@@ -1003,7 +1003,7 @@ var _global_js_eb = {
 		// thêm tham số xác định target của form để đưa ra phương thức xử lý code phù hợp
 		if (
 			jQuery('form[name="' + form_name + '"] input[name="__wgr_target"]')
-				.length == 0
+				.length < 1
 		) {
 			a.append(
 				'<input type="hidden" name="__wgr_target" value="' +

@@ -14,7 +14,7 @@ var submit_if_ctrl_s = false,
 function WgrWp_popup_upload(insert_to, add_img_tag, img_size, input_type) {
 	if (
 		current_textediter_insert_to != insert_to &&
-		$("oi_wgr_wp_upload_iframe").length == 0
+		$("oi_wgr_wp_upload_iframe").length < 1
 	) {
 		current_textediter_insert_to = insert_to;
 
@@ -1043,18 +1043,20 @@ function create_term_select_option(arr, space, limit_deep, current_deep) {
 	}
 
 	//
-	let str = "";
+	let str = "",
+		show_name = "";
 	for (let i = 0; i < arr.length; i++) {
+		show_name = arr[i].name;
 		if (
-			typeof arr[i].term_shortname == "undefined" ||
-			arr[i].term_shortname == ""
+			typeof arr[i].term_shortname != "undefined" &&
+			arr[i].term_shortname != ""
 		) {
-			arr[i].term_shortname = arr[i].name;
+			show_name += " (" + arr[i].term_shortname + ")";
 		}
 
 		//
 		if (typeof arr[i].count != "undefined" && arr[i].count * 1 > 0) {
-			arr[i].term_shortname += " (" + arr[i].count + ")";
+			show_name += " x " + arr[i].count;
 		}
 
 		//
@@ -1065,7 +1067,7 @@ function create_term_select_option(arr, space, limit_deep, current_deep) {
 			arr[i].term_id +
 			'">' +
 			space +
-			arr[i].term_shortname +
+			show_name +
 			"</option>";
 
 		//
@@ -1135,7 +1137,7 @@ function for_admin_global_checkbox(max_i) {
 	}
 
 	//
-	if ($('form#admin_global_form input[type="checkbox"]').length == 0) {
+	if ($('form#admin_global_form input[type="checkbox"]').length < 1) {
 		setTimeout(() => {
 			for_admin_global_checkbox(max_i - 1);
 		}, 100);
@@ -1160,7 +1162,7 @@ function for_admin_global_checkbox(max_i) {
 						'form#admin_global_form input.remove-if-checkbox-checked[name="' +
 							default_a +
 							'"]'
-					).length == 0
+					).length < 1
 				) {
 					console.log("add hidden input:", default_a);
 					// -> thêm 1 input hidden để xóa giá trị lúc submit
@@ -1307,7 +1309,7 @@ function action_each_to_email() {
 		//console.log(a);
 	});
 	// nếu không có ID nào cẩn xử lý thì bỏ qua đoạn sau luôn
-	if (ids.length == 0) {
+	if (ids.length < 1) {
 		return false;
 	}
 

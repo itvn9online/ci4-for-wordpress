@@ -84,7 +84,7 @@ if ($debug_enable === true) {
         <p class="text-center"><a :href="base_url + 'robots.txt'" class="bluecolor" target="_blank">{{base_url}}robots.txt</a></p>
         <br>
     </div>
-    <h4>Tổng quan:</h4>
+    <h4>Dashboard:</h4>
     <p>Website sử dụng giao diện: <strong>
             <?php echo THEMENAME; ?>
         </strong> - được phát triển bởi <a href="<?php echo PARTNER_WEBSITE; ?>" target="_blank" rel="nofollow"><strong>

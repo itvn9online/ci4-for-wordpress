@@ -30,8 +30,8 @@
             <td><a :href="'sadmin/' + controller_slug + '/add?id=' + v.ID">{{v.user_email}}</a></td>
             <td>{{v.display_name}}<span v-if="v.user_nicename != ''"> ({{v.user_nicename}})</span></td>
             <td><a :href="'sadmin/' + controller_slug + '?member_type=' + v.member_type">{{list[v.member_type]}}</a></td>
-            <td>{{v.last_login.substr(0, 16)}} ({{v.login_type}})</td>
-            <td>{{v.user_registered.substr(0, 16)}}</td>
+            <td><span v-if="v.last_login != null">{{v.last_login.substr(0, 16)}}</span> ({{v.login_type}})</td>
+            <td><span v-if="v.last_login != null">{{v.user_registered.substr(0, 16)}}</span></td>
             <!-- <td>{{UsersType_listStatus[v.user_status]}}</td> -->
             <td :title="UsersType_listStatus[v.user_status]" class="text-center medium">
                 <div :data-id="v.ID" :data-status="v.user_status" class="cur click-change-user-status">

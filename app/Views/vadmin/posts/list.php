@@ -26,16 +26,12 @@ $base_model->add_css('wp-admin/css/' . $post_type . '.css');
                     </div>
                     <div class="lf f20 hide-if-no-taxonomy">
                         <select name="term_id" data-select="<?php echo $by_term_id; ?>" :data-taxonomy="taxonomy" onChange="document.frm_admin_search_controller.submit();" class="each-to-group-taxonomy">
-                            <option value="0">- Danh mục
-                                <?php echo $name_type; ?> -
-                            </option>
+                            <option value="0">- <?php echo $name_type; ?> category -</option>
                         </select>
                     </div>
                     <div class="lf f20">
                         <select name="post_status" :data-select="post_status" onChange="document.frm_admin_search_controller.submit();">
-                            <option value="">- Trạng thái
-                                <?php echo $name_type; ?> -
-                            </option>
+                            <option value="">- <?php echo $name_type; ?> status -</option>
                             <option :value="k" v-for="(v, k) in PostType_arrStatus">{{v}}</option>
                         </select>
                     </div>

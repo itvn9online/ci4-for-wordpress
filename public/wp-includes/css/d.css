@@ -762,6 +762,7 @@ span.taxonomy-count:after {
 }
 
 /* */
+.nowrap,
 .ebe-currency {
     white-space: nowrap;
 }

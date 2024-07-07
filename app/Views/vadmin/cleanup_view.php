@@ -5,7 +5,7 @@ use App\Libraries\LanguageCost;
 
 ?>
 <ul class="admin-breadcrumb">
-    <li>Dọn dẹp website</li>
+    <li>Website cleanup</li>
 </ul>
 <h3>Chức năng này sẽ dọn dẹp cache trên website, nạp lại dữ liệu mới nhất cho web:</h3>
 <p>Nơi lưu <strong>file</strong> cache:

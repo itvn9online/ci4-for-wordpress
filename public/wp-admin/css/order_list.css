@@ -9,3 +9,9 @@
     box-shadow: 0 0 90px #333;
     opacity: 0.2;
 }
+
+.border-post_date {}
+
+.border-post_date td {
+    border-top: 10px #ccc solid;
+}

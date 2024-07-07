@@ -70,7 +70,7 @@ var add_class_bg_for_tr_support = false;
 					label_for = label_for.replace(/\[|\]/g, "_");
 
 					// gán luôn ID cho filed nếu ID này chưa được sử dụng
-					if ($("#" + label_for).length == 0) {
+					if ($("#" + label_for).length < 1) {
 						$(this).attr({
 							id: label_for,
 						});

@@ -96,6 +96,12 @@ $base_model->JSON_parse(
     ]
 );
 
+// css riêng cho từng post type (nếu có)
+$base_model->adds_js([
+    'wp-admin/js/shop_order_functions.js',
+]);
+
+
 ?>
 <script type="text/javascript">
     WGR_vuejs('#app', {
@@ -115,6 +121,8 @@ $base_model->JSON_parse(
             // 
             return order_money - order_discount + shipping_fee - order_bonus;
         },
+    }, function() {
+        done_build_order_list();
     });
 </script>
 <?php

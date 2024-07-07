@@ -11,10 +11,10 @@ $base_model->add_css('wp-admin/css/config_' . $config_type . '.css');
 ?>
 <div id="app" :class="vue_data.config_type" class="widget-box">
     <ul class="admin-breadcrumb">
-        <li>Cài đặt {{vue_data.config_name}}</li>
+        <li>{{vue_data.config_name}}</li>
     </ul>
     <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
-        <h5>Cài đặt {{vue_data.config_name}}</h5>
+        <h5>{{vue_data.config_name}}</h5>
     </div>
     <div class="widget-content nopadding config-main">
         <form action="" method="post" name="admin_global_form" id="admin_global_form" accept-charset="utf-8" class="form-horizontal" target="target_eb_iframe">

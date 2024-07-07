@@ -1,6 +1,6 @@
 // tạo select box các nhóm dữ liệu cho khung tìm kiếm
 function each_to_group_taxonomy() {
-	if ($(".each-to-group-taxonomy").length == 0) {
+	if ($(".each-to-group-taxonomy").length < 1) {
 		return false;
 	}
 
