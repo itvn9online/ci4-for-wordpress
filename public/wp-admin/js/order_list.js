@@ -8,37 +8,39 @@ function show_order_details_iframe() {
 
 //
 $(document).ready(function () {
-	$(".post_excerpt-to-products").each(function () {
-		let a = $.trim($(this).html());
-		// console.log(a);
-		if (1 != "") {
-			try {
-				a = JSON.parse(a);
-				// console.log(a);
+	$(".post_excerpt-to-products")
+		.each(function () {
+			let a = $.trim($(this).html());
+			// console.log(a);
+			if (1 != "") {
+				try {
+					a = JSON.parse(a);
+					// console.log(a);
 
-				//
-				let str = [];
-				for (let i = 0; i < a.length; i++) {
-					str.push(
-						'- <a href="' +
-							web_link +
-							"?p=" +
-							a[i].ID +
-							'" target="_blank">' +
-							a[i].post_title +
-							" (" +
-							a[i]._price +
-							" x " +
-							a[i]._quantity +
-							")</a>"
-					);
+					//
+					let str = [];
+					for (let i = 0; i < a.length; i++) {
+						str.push(
+							'- <a href="' +
+								web_link +
+								"?p=" +
+								a[i].ID +
+								'" target="_blank">' +
+								a[i].post_title +
+								" (" +
+								a[i]._price +
+								" x " +
+								a[i]._quantity +
+								")</a>"
+						);
+					}
+					$(this).html(str.join("<br />"));
+				} catch (e) {
+					WGR_show_try_catch_err(e);
 				}
-				$(this).html(str.join("<br />"));
-			} catch (e) {
-				WGR_show_try_catch_err(e);
 			}
-		}
-	});
+		})
+		.show();
 
 	//
 	$(".orders-open-popup").click(function () {

@@ -18,14 +18,16 @@
             <td width="50" class="text-center"><input type="checkbox" :value="v.ID" class="input-checkbox-control" /></td>
             <td class="text-center">
                 <div>#{{v.ID}}</div>
-                <div><a :href="v.admin_permalink" :data-id="v.ID" class="upper orders-open-popup">{{v.post_name}} <i class="fa fa-edit"></i></a></div>
+                <div class="small nowrap"><a :href="v.admin_permalink" :data-id="v.ID" class="upper orders-open-popup">{{v.post_name}} <i class="fa fa-edit"></i></a></div>
                 <div>({{v.post_modified.substr(0, 16)}})</div>
             </td>
             <td>
                 <button type="button" :data-id="v.ID" class="btn orders-post_status orders-open-popup">{{PostType_arrStatus[v.post_status]}}</button>
             </td>
             <td><a :href="v.admin_permalink">{{v.post_title}} <i class="fa fa-edit"></i></a></td>
-            <td class="post_excerpt-to-products">{{v.post_excerpt}}</td>
+            <td>
+                <div class="post_excerpt-to-products">{{v.post_excerpt}}</div>
+            </td>
             <td><span class="ebe-currency-format">{{v.order_money}}</span></td>
             <td>
                 <div><span class="ebe-currency-format">{{v.order_discount}}</span></div>

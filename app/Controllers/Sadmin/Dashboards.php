@@ -35,6 +35,7 @@ class Dashboards extends Dashboard
             'https://jquery.com/download/?current_version=3.6.1',
             'https://getbootstrap.com/docs/5.0/getting-started/download/?current_version=5.0.2',
             'https://icons.getbootstrap.com/?current_version=1.9.0',
+            'https://www.tiny.cloud/get-tiny/self-hosted/?current_version=4.9.11',
             'https://www.tiny.cloud/get-tiny/?current_version=4.9.11',
             'https://fontawesome.com/v4/icons/?current_version=4.7.0',
             'https://plugins.jquery.com/datetimepicker/?current_version=2.3.6',

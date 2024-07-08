@@ -33,9 +33,7 @@ $base_model->adds_css([
                     </div>
                     <div class="lf f25">
                         <select name="post_status" :data-select="post_status" onChange="document.frm_admin_search_controller.submit();">
-                            <option value="">- Trạng thái
-                                <?php echo $name_type; ?> -
-                            </option>
+                            <option value="">- Trạng thái <?php echo $name_type; ?> -</option>
                             <option :value="k" v-for="(v, k) in PostType_arrStatus">{{v}}</option>
                         </select>
                     </div>

@@ -121,6 +121,8 @@ if ($debug_enable === true) {
     <script src="wp-includes/thirdparty/validate/localization/messages_vi.js"></script>
     <!-- <script src="ckeditor/ckeditor.js"></script> -->
     <script src="wp-includes/thirdparty/tinymce/tinymce.min.js?v=4.9.11"></script>
+    <!-- <script src="wp-includes/thirdparty/tinymce/js/tinymce/tinymce.min.js?v=5.10.9"></script> -->
+    <!-- <script src="wp-includes/thirdparty/tinymce/js/tinymce/tinymce.min.js?v=7.2.1"></script> -->
     <!-- <script src="https://cdn.ckeditor.com/ckeditor5/28.0.0/classic/ckeditor.js"></script> -->
     <!-- <script src="ckfinder/ckfinder.js"></script> -->
     <script src="wp-includes/thirdparty/jquery-ui/jquery-ui.min.js"></script>

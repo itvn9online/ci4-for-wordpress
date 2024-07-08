@@ -43,14 +43,14 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">Coupon code</label>
-                <div class="controls bold"><?php echo $data['coupon']; ?></div>
-            </div>
-            <div class="control-group">
                 <label class="control-label">Tổng tiền</label>
                 <div class="controls bold">
                     <span class="ebe-currency-format"><?php echo $data['order_money']; ?></span>
                 </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Coupon code</label>
+                <div class="controls bold"><?php echo $data['coupon']; ?></div>
             </div>
             <div class="control-group">
                 <label class="control-label">Discount</label>

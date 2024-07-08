@@ -308,7 +308,7 @@ function show_coupon_code() {
 
 // xóa mã giảm giá
 function remove_coupon_code() {
-	if (confirm("You want remove this coupon code?") !== true) {
+	if (confirm("You want remove this Coupon code?") !== true) {
 		return false;
 	}
 

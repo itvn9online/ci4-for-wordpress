@@ -543,7 +543,7 @@ class Actions extends Layout
         //
         $coupon_code = $this->MY_post('coupon_custom_code');
         if (empty($coupon_code)) {
-            $this->base_model->alert('Please enter a coupon code.', 'error');
+            $this->base_model->alert('Please enter a Coupon code.', 'error');
         }
         $coupon_code = trim($coupon_code);
 
