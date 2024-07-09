@@ -7,11 +7,11 @@
                     data-webp="{{image_webp}}" class="ti-le-global products-list-avt each-to-bgimg">&nbsp;</div>
             </div>
             <div class="products-list-right fullsize-if-mobile">
-                <{{dynamic_title_tag}} itemprop="headline" class="products-list-title">
+                <{{dynamic_title_tag}} itemprop="name" class="products-list-title">
                     {{post_title}}
                 </{{dynamic_title_tag}}>
                 <div class="products-list-info">
-                    <div class="products-list-desc" itemprop="description">{{post_excerpt}}</div>
+                    <meta itemprop="description" content="{{post_excerpt}}" />
                     <div class="products-list-author d-none">Tác giả: {{itemprop_author}}</div>
                     <div class="products-list-more"><span>Chi tiết</span></div>
                 </div>

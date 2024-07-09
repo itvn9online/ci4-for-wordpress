@@ -99,8 +99,22 @@ class PostBase extends EbModel
             }
         }
 
-        //
+        // post
         $structured_data = file_get_contents(VIEWS_PATH . 'html/structured-data/ArticleNews.html');
+        foreach ([
+            'product_html_tag' => $this->product_html_tag,
+            'product_list_css' => $this->product_list_css,
+            //'primary_controller' => $this->primary_controller,
+        ] as $k => $v) {
+            $structured_data = str_replace('{{' . $k . '}}', $v, $structured_data);
+        }
+
+        //
+        $this->blog_html_node = str_replace('{{product_html_node}}', $this->blog_html_node, $structured_data);
+        //echo $this->blog_html_node . PHP_EOL;
+
+        // product
+        $structured_data = file_get_contents(VIEWS_PATH . 'html/structured-data/ArticleProduct.html');
         foreach ([
             'product_html_tag' => $this->product_html_tag,
             'product_list_css' => $this->product_list_css,
@@ -112,8 +126,6 @@ class PostBase extends EbModel
         //
         $this->product_html_node = str_replace('{{product_html_node}}', $this->product_html_node, $structured_data);
         //echo $this->product_html_node . PHP_EOL;
-        $this->blog_html_node = str_replace('{{product_html_node}}', $this->blog_html_node, $structured_data);
-        //echo $this->blog_html_node . PHP_EOL;
 
         //
         $getconfig = $this->option_model->list_config();
