@@ -100,7 +100,7 @@ class PostBase extends EbModel
         }
 
         //
-        $structured_data = file_get_contents(VIEWS_PATH . 'html/structured-data/NewsArticle.html');
+        $structured_data = file_get_contents(VIEWS_PATH . 'html/structured-data/ArticleNews.html');
         foreach ([
             'product_html_tag' => $this->product_html_tag,
             'product_list_css' => $this->product_list_css,

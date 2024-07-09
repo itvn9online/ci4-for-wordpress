@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Libraries\PostType;
 use App\Libraries\TaxonomyType;
 use App\Libraries\DeletedStatus;
+use App\Libraries\CommentType;
 
 //
 class Post extends PostProducts
@@ -208,6 +209,150 @@ class Post extends PostProducts
     }
 
     /**
+     * Tạo cấu trúc dữ liệu cho product
+     **/
+    public function structuredProductData($data, $structured_data, $ops = [])
+    {
+        // print_r($structured_data);
+
+        if (!isset($ops['type']) || $ops['type'] == '') {
+            $ops['type'] = 'Product';
+        }
+
+        // 
+        if (!isset($data['post_meta'])) {
+            $data['post_meta'] = [
+                '_sale_price' => '0',
+            ];
+        } else if (!isset($data['post_meta']['_sale_price'])) {
+            if (isset($data['post_meta']['_regular_price'])) {
+                $data['post_meta']['_sale_price'] = $data['post_meta']['_regular_price'];
+            } else {
+                $data['post_meta']['_sale_price'] = '0';
+            }
+        }
+
+        // 
+        $arr = [
+            "@context" => "http://schema.org",
+            "@type" => $ops['type'],
+            // "@id" => $structured_data['p_link'] . "#product",
+            "@id" => $structured_data['p_link'] . "#richSnippet",
+            "name" => $data['post_title'],
+            "url" => $structured_data['p_link'],
+            "description" => $data['post_meta']['meta_description'],
+            // "category" => "Music &gt; Albums",
+            // "mainEntityOfPage" => [
+            //     "@id" => $structured_data['p_link'] . "#webpage"
+            // ],
+            // "image" => $structured_data['post_img'],
+            "image" => [
+                "@type" => "ImageObject",
+                "url" => $structured_data['post_img'],
+                "url" => $structured_data['post_img'],
+                "width" => $structured_data['trv_width_img'],
+                "height" => $structured_data['trv_height_img'],
+            ],
+            "sku" => $data['ID'],
+            "offers" => [
+                "@type" => "Offer",
+                "price" => $data['post_meta']['_sale_price'],
+                "priceValidUntil" => date('Y') . "-12-31",
+                "priceSpecification" => [
+                    "price" => $data['post_meta']['_sale_price'],
+                    "priceCurrency" => $structured_data['currency_sd_format'],
+                    "valueAddedTaxIncluded" => "false"
+                ],
+                "priceCurrency" => $structured_data['currency_sd_format'],
+                "availability" => "http://schema.org/InStock",
+                "url" => $structured_data['p_link'],
+                "seller" => [
+                    "@type" => "Organization",
+                    "name" => $structured_data['name'],
+                    "url" => DYNAMIC_BASE_URL
+                ]
+            ],
+        ];
+
+        // thêm phần review sản phẩm
+        $review_where = [
+            'comment_post_ID' => $structured_data['ID'],
+            'comment_type' => CommentType::COMMENT,
+            'comment_approved' => CommentType::APPROVED,
+        ];
+
+        $review_count = $this->base_model->select_count(
+            'comment_ID',
+            'comments',
+            $review_where,
+            array(
+                // hiển thị mã SQL để check
+                // 'show_query'  => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                //'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                // 'selectCount' => 'comment_ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                //'getNumRows' => 1,
+                //'offset' => 0,
+                // 'limit' => 5
+            )
+        );
+        // print_r($review_count);
+
+        if ($review_count > 0) {
+            $review_data = $this->base_model->select(
+                '*',
+                'comments',
+                $review_where,
+                array(
+                    'order_by' => array(
+                        'comment_ID' => 'DESC',
+                    ),
+                    // hiển thị mã SQL để check
+                    // 'show_query'  => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    //'get_query' => 1,
+                    // trả về COUNT(column_name) AS column_name
+                    //'selectCount' => 'ID',
+                    // trả về tổng số bản ghi -> tương tự mysql num row
+                    //'getNumRows' => 1,
+                    //'offset' => 0,
+                    'limit' => 5
+                )
+            );
+            // print_r($review_data);
+
+            $arr['aggregateRating'] = [
+                "@type" => "AggregateRating",
+                "ratingValue" => "5",
+                "reviewCount" => $review_count
+            ];
+
+            // 
+            $arr_reviews = [];
+            foreach ($review_data as $v) {
+                $arr_reviews[] = [
+                    "@type" => "Review",
+                    "reviewRating" => [
+                        "@type" => "Rating",
+                        "bestRating" => "5",
+                        "ratingValue" => "5",
+                        "worstRating" => "1"
+                    ],
+                    "author" => ["@type" => "Person", "name" => $v['comment_author']],
+                    "reviewBody" => $v['comment_content'],
+                    "datePublished" => $v['comment_date']
+                ];
+            }
+            $arr['review'] = $arr_reviews;
+        }
+
+        //
+        return $this->base_model->dynamicSchema($arr);
+    }
+
+    /**
      * Tạo cấu trúc dữ liệu cho post
      **/
     public function structuredArticleData($data, $structured_data, $ops = [])
@@ -217,6 +362,8 @@ class Post extends PostProducts
         //
         if (!isset($ops['type']) || $ops['type'] == '') {
             $ops['type'] = 'Article';
+        } else if ($ops['type'] == 'Product') {
+            return $this->structuredProductData($data, $structured_data, $ops);
         }
 
         //

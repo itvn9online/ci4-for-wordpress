@@ -1159,6 +1159,7 @@ class Layout extends Sync
         $data['logo'] = DYNAMIC_BASE_URL . $this->getconfig->logo;
         $data['logo_height_img'] = $this->getconfig->logo_height_img;
         $data['logo_width_img'] = $this->getconfig->logo_width_img;
+        $data['currency_sd_format'] = empty($this->getconfig->currency_sd_format) ? 'USD' : $this->getconfig->currency_sd_format;
 
         //
         $data['post_img'] = '';

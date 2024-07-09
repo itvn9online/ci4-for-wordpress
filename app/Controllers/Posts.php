@@ -259,11 +259,18 @@ class Posts extends Csrf
         $this->create_breadcrumb($data['post_title'], $full_link);
         $seo = $this->base_model->post_seo($data, $full_link, $amp_link);
 
-        //
+
+        // không sử dụng theo file HTML nữa
         //$structured_data = $this->structuredData($data, 'Article.html', '', true);
+        // -> chuyển sang build bằng PHP để có sự linh động trong các tham số
         $structured_data = $this->structuredGetData($data);
         //print_r($structured_data);
-        $structured_data = $this->post_model->structuredArticleData($data, $structured_data);
+
+        if (isset($data['post_type']) && $data['post_type'] == PostType::PROD) {
+            $structured_data = $this->post_model->structuredProductData($data, $structured_data);
+        } else {
+            $structured_data = $this->post_model->structuredArticleData($data, $structured_data);
+        }
         if (!isset($seo['dynamic_schema'])) {
             $seo['dynamic_schema'] = '';
         }
