@@ -178,4 +178,19 @@ $(document).ready(function () {
 	setTimeout(() => {
 		show_edit_btn();
 	}, 600);
+
+	// hiển thị các link để SEO dễ dàng debug
+	(function (e) {
+		e = encodeURIComponent(e);
+		let arr = [
+			"https://pagespeed.web.dev/report?url=" + e,
+			"https://validator.schema.org/#url=" + e,
+			"https://developers.facebook.com/tools/debug/?q=" + e,
+			"https://developers.zalo.me/tools/debug-sharing?q=" + e,
+			"https://securityheaders.com/?q=" + e,
+		];
+		for (let i = 0; i < arr.length; i++) {
+			console.log(arr[i]);
+		}
+	})(window.location.href);
 });
