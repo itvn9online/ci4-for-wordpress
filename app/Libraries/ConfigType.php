@@ -448,8 +448,10 @@ class ConfigType
                 //'WGR_PAGES_PREFIX' => 'Tiền tố cho trang tĩnh',
                 //
                 'WGR_CATEGORY_PERMALINK' => 'Category permalink',
+                'WGR_TAGS_PERMALINK' => 'Tag permalink (Tag base)',
                 //'WGR_BLOGS_PERMALINK' => 'Blogs permalink',
                 'WGR_PRODS_PERMALINK' => 'Product category permalink',
+                'WGR_PROD_TAGS_PERMALINK' => 'Product tag permalink',
                 'WGR_TAXONOMY_PERMALINK' => 'Other taxonomy permalink',
                 //
                 'WGR_POST_PERMALINK' => 'Post permalink',
@@ -837,20 +839,20 @@ class ConfigType
             //'WGR_CATEGORY_PREFIX' => 'Xóa trắng để xem mặc định: ' . WGR_CATEGORY_PREFIX,
             //'WGR_PAGES_PREFIX' => 'Xóa trắng để xem mặc định: ' . WGR_PAGES_PREFIX,
             //
-            'WGR_CATEGORY_PERMALINK' => 'Ví dụ: %taxonomy%-%term_id%-%slug% | Xóa trắng để xem mặc định',
+            'WGR_CATEGORY_PERMALINK' => 'Ví dụ: %taxonomy%-%term_id%-%slug%',
+            'WGR_TAGS_PERMALINK' => 'Ví dụ: tag/%slug%',
             //'WGR_BLOGS_PERMALINK' => 'Xóa trắng để xem mặc định: ' . WGR_BLOGS_PERMALINK,
-            'WGR_PRODS_PERMALINK' =>
-            'Ví dụ: %taxonomy%-%term_id%-%slug% | Xóa trắng để xem mặc định',
-            'WGR_TAXONOMY_PERMALINK' =>
-            'Ví dụ: %taxonomy%-%term_id%-%slug% | Xóa trắng để xem mặc định',
+            'WGR_PRODS_PERMALINK' => 'Ví dụ: %taxonomy%-%term_id%-%slug%',
+            'WGR_PROD_TAGS_PERMALINK' => 'Ví dụ: product-tag/%slug%',
+            'WGR_TAXONOMY_PERMALINK' => 'Ví dụ: %taxonomy%-%term_id%-%slug%',
             //
             'WGR_POST_PERMALINK' =>
-            'Ví dụ: %category_primary_slug%/%category_second_slug%/%post_name%-%ID%.%post_type% | Xóa trắng để xem mặc định',
+            'Ví dụ: %category_primary_slug%/%category_second_slug%/%post_name%-%ID%.%post_type%',
             //'WGR_BLOG_PERMALINK' => 'Xóa trắng để xem mặc định: ' . WGR_BLOG_PERMALINK,
             'WGR_PROD_PERMALINK' =>
-            'Ví dụ: %ID%-%post_type%-%post_name% | Xóa trắng để xem mặc định',
-            'WGR_PAGE_PERMALINK' => 'Ví dụ: %ID%-%post_type%-%post_name% | Xóa trắng để xem mặc định',
-            'WGR_POSTS_PERMALINK' => 'Ví dụ: %ID%-%post_type%-%post_name% | Xóa trắng để xem mặc định',
+            'Ví dụ: %ID%-%post_type%-%post_name%',
+            'WGR_PAGE_PERMALINK' => 'Ví dụ: %ID%-%post_type%-%post_name%',
+            'WGR_POSTS_PERMALINK' => 'Ví dụ: %ID%-%post_type%-%post_name%',
             'DEFAULT_SELECT_POST_COL' => 'Khi cần tối ưu việc select dữ liệu cho bảng post thì khai báo lại tham số này. Ví dụ: ID, post_permalink, post_excerpt, post_title, post_type, post_date, post_modified, comment_count',
             //
             'WGR_CSP_DEFAULT_SRC' => 'Xóa trắng để xem mặc định: ' . WGR_CSP_DEFAULT_SRC,

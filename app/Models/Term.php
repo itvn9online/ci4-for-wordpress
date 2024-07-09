@@ -1235,16 +1235,16 @@ class Term extends TermBase
             */
         } else if ($data['taxonomy'] == TaxonomyType::PROD_CATS) {
             $url = WGR_PRODS_PERMALINK;
-            /*
         } else if ($data['taxonomy'] == TaxonomyType::TAGS) {
             $url = WGR_TAGS_PERMALINK;
+            /*
         } else if ($data['taxonomy'] == TaxonomyType::OPTIONS) {
             $url = WGR_OPTIONS_PERMALINK;
         } else if ($data['taxonomy'] == TaxonomyType::BLOG_TAGS) {
             $url = WGR_BLOG_TAGS_PERMALINK;
+            */
         } else if ($data['taxonomy'] == TaxonomyType::PROD_TAGS) {
             $url = WGR_PROD_TAGS_PERMALINK;
-            */
         } else if (isset(WGR_CUS_TAX_PERMALINK[$data['taxonomy']])) {
             $url = WGR_CUS_TAX_PERMALINK[$data['taxonomy']];
         } else {

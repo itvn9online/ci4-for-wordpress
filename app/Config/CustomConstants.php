@@ -632,15 +632,15 @@ if (WGR_CATEGORY_PREFIX != '') {
 defined('WGR_CATEGORY_PERMALINK') || define('WGR_CATEGORY_PERMALINK', 'category/%slug%');
 // blogs
 //defined('WGR_BLOGS_PERMALINK') || define('WGR_BLOGS_PERMALINK', '%taxonomy%/%slug%');
-// product_cat
+// product_cat -> product-category
 defined('WGR_PRODS_PERMALINK') || define('WGR_PRODS_PERMALINK', 'products/%slug%');
 // other taxonomy
 defined('WGR_TAXONOMY_PERMALINK') || define('WGR_TAXONOMY_PERMALINK', 'c/%taxonomy%/%term_id%/%slug%');
 // mấy các tags thì dùng chung mẫu mặc định luôn
-//defined('WGR_TAGS_PERMALINK') || define('WGR_TAGS_PERMALINK', WGR_TAXONOMY_PERMALINK);
+defined('WGR_TAGS_PERMALINK') || define('WGR_TAGS_PERMALINK', 'tag/%slug%');
 //defined('WGR_OPTIONS_PERMALINK') || define('WGR_OPTIONS_PERMALINK', WGR_TAXONOMY_PERMALINK);
 //defined('WGR_BLOG_TAGS_PERMALINK') || define('WGR_BLOG_TAGS_PERMALINK', WGR_TAXONOMY_PERMALINK);
-//defined('WGR_PROD_TAGS_PERMALINK') || define('WGR_PROD_TAGS_PERMALINK', WGR_TAXONOMY_PERMALINK);
+defined('WGR_PROD_TAGS_PERMALINK') || define('WGR_PROD_TAGS_PERMALINK', 'product-tag/%slug%');
 // URL tùy chỉnh của từng tags hoặc custom taxonomy
 defined('WGR_CUS_TAX_PERMALINK') || define('WGR_CUS_TAX_PERMALINK', []);
 //print_r(WGR_CUS_TAX_PERMALINK);

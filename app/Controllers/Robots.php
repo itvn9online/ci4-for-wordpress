@@ -31,7 +31,20 @@ class Robots extends Layout
         header('Content-Type: text/plain; charset=UTF-8');
 
         //
-        $c = $this->getconfig->robots;
+        // print_r($this->getconfig);
+        if ($this->getconfig->blog_private == 'on') {
+            $c = $this->helpersTmpFile('robots_disallow_all');
+        } else {
+            $c = trim($this->getconfig->robots);
+            if (empty($c)) {
+                $c = $this->helpersTmpFile(
+                    'robots_default',
+                    [
+                        // 'base_url' => DYNAMIC_BASE_URL,
+                    ]
+                );
+            }
+        }
         $c = str_replace('{{base_url}}', $this->web_link, $c);
         $c = str_replace('%base_url%', $this->web_link, $c);
 

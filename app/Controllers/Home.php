@@ -654,7 +654,7 @@ class Home extends Posts
         if (empty($data)) {
             return $this->page404('ERROR ' . __FUNCTION__ . ':' . __LINE__ . '! Cannot be determined post category...', $cache_key);
         } else if ($data['count'] < 1) {
-            return $this->page404('ERROR ' . __FUNCTION__ . ':' . __LINE__ . '! Không tìm thấy bài viết trong danh mục...', $cache_key);
+            return $this->page404('ERROR ' . __FUNCTION__ . ':' . __LINE__ . '! No articles found in the category: ' . $data['name'] . ' #' . $term_id . ' (' . $taxonomy_type . ')', $cache_key);
         }
 
         // kiểm tra lại slug -> nếu sai thì redirect 301 qua url mới

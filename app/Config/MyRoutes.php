@@ -119,6 +119,11 @@ foreach ($arr_prefix_routes as $v) {
             $routes->get($a, 'Products::products_list/$1');
             $routes->get($a . '/page/(:num)', 'Products::products_list/$1/page/$2');
         }
+        // product tag
+        //echo WGR_PROD_TAGS_PERMALINK . ' <br>' . PHP_EOL;
+        $a = str_replace('%slug%', '(:segment)', WGR_PROD_TAGS_PERMALINK);
+        $routes->get($a, 'C::product_tag/$1');
+        $routes->get($a . '/page/(:num)', 'C::product_tag/$1/page/$2');
         //
         //$routes->get('product_tag/(:segment)', 'Producttags::products_list/$1');
         //$routes->get('product_tag/(:segment)/page/(:num)', 'Producttags::products_list/$1/page/$2');
@@ -166,6 +171,11 @@ foreach ($arr_prefix_routes as $v) {
             $routes->get($a, 'Category::category_list/$1');
             $routes->get($a . '/page/(:num)', 'Category::category_list/$1/page/$2');
         }
+        // post tag
+        //echo WGR_TAGS_PERMALINK . ' <br>' . PHP_EOL;
+        $a = str_replace('%slug%', '(:segment)', WGR_TAGS_PERMALINK);
+        $routes->get($a, 'C::post_tag/$1');
+        $routes->get($a . '/page/(:num)', 'C::post_tag/$1/page/$2');
 
         // category -> có base slug cho category thì dùng loại base fix cứng này
         //if (WGR_CATEGORY_PREFIX != '') {

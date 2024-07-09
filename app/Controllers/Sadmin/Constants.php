@@ -54,7 +54,9 @@ class Constants extends Configs
         // mảng các giá trị sẽ bỏ dấu / ở đầu để tránh xung đột -> trim directory separator
         $arr_trim_ds = [
             'WGR_CATEGORY_PERMALINK',
+            'WGR_TAGS_PERMALINK',
             'WGR_PRODS_PERMALINK',
+            'WGR_PROD_TAGS_PERMALINK',
             'WGR_TAXONOMY_PERMALINK',
             //
             'WGR_POST_PERMALINK',
