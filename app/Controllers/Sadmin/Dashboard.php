@@ -162,7 +162,9 @@ class Dashboard extends Optimize
 
         // nếu không xác định được nội dung cần thiết trong robot txt -> cảnh báo
         if (strpos($this->getconfig->robots, '%base_url%') === false) {
-            $robots_exist = 2;
+            if ($this->getconfig->blog_private != 'on' && !empty(trim($this->getconfig->robots))) {
+                $robots_exist = 2;
+            }
         }
         // }
         //echo 'begin t: ' . (time() - $begin_t) . PHP_EOL;

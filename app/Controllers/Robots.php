@@ -49,7 +49,7 @@ class Robots extends Layout
         $c = str_replace('%base_url%', $this->web_link, $c);
 
         //
-        echo $c;
+        echo trim($c);
 
         //
         exit();
