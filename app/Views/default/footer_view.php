@@ -60,5 +60,8 @@
 </section>
 <?php
 
-// 
+// popup động sử dụng thông qua module quảng cáo
 // $post_model->the_ads('global-popup');
+
+// popup tĩnh sử dụng file tĩnh
+// include VIEWS_PATH . 'popup_modal.php';

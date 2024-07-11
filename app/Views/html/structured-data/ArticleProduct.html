@@ -3,5 +3,16 @@
     class="hide-if-gia-zero col {{product_list_css}}" itemscope itemtype="http://schema.org/Product">
     <meta itemscope itemprop="mainEntityOfPage" itemtype="https://schema.org/WebPage" itemid="{{p_link}}">
     {{product_html_node}}
+    <meta itemprop="description" content="{{post_excerpt}}" />
+    <div itemprop="offers" itemtype="https://schema.org/AggregateOffer" itemscope>
+        <meta itemprop="lowPrice" content="{{lowPrice}}" />
+        <meta itemprop="highPrice" content="{{highPrice}}" />
+        <meta itemprop="offerCount" content="{{offerCount}}" />
+        <meta itemprop="priceValidUntil" content="{{current_year}}-12-31" />
+        <meta itemprop="priceCurrency" content="{{currency_sd_format}}" />
+        <meta itemprop="availability" content="http://schema.org/InStock" />
+        <meta itemprop="url" content="{{p_link}}" />
+    </div>
+    <meta itemprop="sku" content="{{ID}}" />
     {{itemprop_image}}
 </{{product_html_tag}}>

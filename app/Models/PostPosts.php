@@ -11,15 +11,24 @@ use App\Libraries\TaxonomyType;
 // class PostPosts extends PostSlider
 class PostPosts extends PostGet
 {
+    protected $currency_sd_format = 'USD';
+
     public function __construct()
     {
         parent::__construct();
+
+        // 
+        if (!empty($this->getconfig->currency_sd_format)) {
+            $this->currency_sd_format = $this->getconfig->currency_sd_format;
+        }
     }
 
     // trả về khối HTML của từng post trong danh mục -> dùng để tùy chỉnh khối HTML
     public function build_the_node($data, $tmp_html, $ops = [], $default_arr = [])
     {
-        //print_r( $data );
+        // if (isset($_GET['aaaaaaaaaa'])) {
+        //     print_r($data);
+        // }
         //echo $tmp_html . '<br>' . PHP_EOL;
 
         //
@@ -63,11 +72,28 @@ class PostPosts extends PostGet
         $data['itemprop_image'] = $itemprop_image;
 
         // gán các giá trị mặc định phòng trường hợp không có dữ liệu tương ứng
-        $default_arr['price'] = 0;
-        $default_arr['price_sale'] = 0;
-        $default_arr['pt'] = 0;
+        $default_arr['price'] = '';
+        $default_arr['price_sale'] = '';
+        $default_arr['highPrice'] = '0';
+        $default_arr['lowPrice'] = '0';
+        $default_arr['offerCount'] = '999';
+        if (isset($data['post_meta'])) {
+            if (isset($data['post_meta']['_regular_price']) && !empty($data['post_meta']['_regular_price'])) {
+                $default_arr['highPrice'] = $data['post_meta']['_regular_price'];
+                $default_arr['lowPrice'] = $data['post_meta']['_regular_price'];
+            }
+            if (isset($data['post_meta']['_sale_price']) && !empty($data['post_meta']['_sale_price'])) {
+                $default_arr['lowPrice'] = $data['post_meta']['_sale_price'];
+            }
+        }
+        if (isset($data['post_viewed']) && !empty($data['post_viewed'])) {
+            $default_arr['offerCount'] = $data['post_viewed'];
+        }
+        $default_arr['pt'] = '';
         $default_arr['image_medium_large'] = '';
         $default_arr['image_webp'] = '';
+        $default_arr['currency_sd_format'] = $this->currency_sd_format;
+        $default_arr['current_year'] = date('Y');
 
         //
         //print_r($data);

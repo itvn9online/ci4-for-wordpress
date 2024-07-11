@@ -100,31 +100,14 @@ class PostBase extends EbModel
         }
 
         // post
-        $structured_data = file_get_contents(VIEWS_PATH . 'html/structured-data/ArticleNews.html');
-        foreach ([
-            'product_html_tag' => $this->product_html_tag,
-            'product_list_css' => $this->product_list_css,
-            //'primary_controller' => $this->primary_controller,
-        ] as $k => $v) {
-            $structured_data = str_replace('{{' . $k . '}}', $v, $structured_data);
-        }
-
-        //
-        $this->blog_html_node = str_replace('{{product_html_node}}', $this->blog_html_node, $structured_data);
+        $this->blog_html_node = str_replace('{{product_html_node}}', $this->blog_html_node, $this->structured_data(VIEWS_PATH . 'html/structured-data/ArticleNews.html'));
         //echo $this->blog_html_node . PHP_EOL;
 
-        // product
-        $structured_data = file_get_contents(VIEWS_PATH . 'html/structured-data/ArticleProduct.html');
-        foreach ([
-            'product_html_tag' => $this->product_html_tag,
-            'product_list_css' => $this->product_list_css,
-            //'primary_controller' => $this->primary_controller,
-        ] as $k => $v) {
-            $structured_data = str_replace('{{' . $k . '}}', $v, $structured_data);
-        }
-
-        //
-        $this->product_html_node = str_replace('{{product_html_node}}', $this->product_html_node, $structured_data);
+        /**
+         * Product
+         * https://developers.google.com/search/docs/appearance/structured-data/product-snippet?hl=vi#microdata_2
+         */
+        $this->product_html_node = str_replace('{{product_html_node}}', $this->product_html_node, $this->structured_data(VIEWS_PATH . 'html/structured-data/ArticleProduct.html'));
         //echo $this->product_html_node . PHP_EOL;
 
         //
@@ -151,6 +134,22 @@ class PostBase extends EbModel
 
         //
         //$this->session = \Config\Services::session();
+    }
+
+    /**
+     * Trả về phần mã structured data dùng chung cho post hoặc product
+     **/
+    public function structured_data($f)
+    {
+        $data = file_get_contents($f);
+        foreach ([
+            'product_html_tag' => $this->product_html_tag,
+            'product_list_css' => $this->product_list_css,
+            //'primary_controller' => $this->primary_controller,
+        ] as $k => $v) {
+            $data = str_replace('{{' . $k . '}}', $v, $data);
+        }
+        return $data;
     }
 
     // chỉ trả về link admin của 1 post

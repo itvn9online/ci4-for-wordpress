@@ -8,7 +8,3 @@
 
     ?>
 </footer>
-<?php
-
-//
-// include __DIR__ . '/popup_modal.php';

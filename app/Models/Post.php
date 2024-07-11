@@ -220,16 +220,22 @@ class Post extends PostProducts
         }
 
         // 
-        if (!isset($data['post_meta'])) {
-            $data['post_meta'] = [
-                '_sale_price' => '0',
-            ];
-        } else if (!isset($data['post_meta']['_sale_price'])) {
-            if (isset($data['post_meta']['_regular_price'])) {
-                $data['post_meta']['_sale_price'] = $data['post_meta']['_regular_price'];
-            } else {
-                $data['post_meta']['_sale_price'] = '0';
+        $highPrice = '0';
+        $lowPrice = '0';
+        $offerCount = '999';
+
+        // 
+        if (isset($data['post_meta'])) {
+            if (isset($data['post_meta']['_regular_price']) && !empty($data['post_meta']['_regular_price'])) {
+                $highPrice = $data['post_meta']['_regular_price'];
+                $lowPrice = $data['post_meta']['_regular_price'];
             }
+            if (isset($data['post_meta']['_sale_price']) && !empty($data['post_meta']['_sale_price'])) {
+                $lowPrice = $data['post_meta']['_sale_price'];
+            }
+        }
+        if (isset($data['post_viewed']) && !empty($data['post_viewed'])) {
+            $offerCount = $data['post_viewed'];
         }
 
         // 
@@ -255,11 +261,17 @@ class Post extends PostProducts
             ],
             "sku" => $data['ID'],
             "offers" => [
-                "@type" => "Offer",
-                "price" => $data['post_meta']['_sale_price'],
+                // type = Offer -> chỉ hỗ trợ price
+                // "@type" => "Offer",
+                // type = AggregateOffer -> hỗ trợ highPrice, lowPrice, offerCount
+                "@type" => "AggregateOffer",
+                // "price" => $lowPrice,
+                "highPrice" => $highPrice,
+                "lowPrice" => $lowPrice,
+                "offerCount" => $offerCount,
                 "priceValidUntil" => date('Y') . "-12-31",
                 "priceSpecification" => [
-                    "price" => $data['post_meta']['_sale_price'],
+                    "price" => $lowPrice,
                     "priceCurrency" => $structured_data['currency_sd_format'],
                     "valueAddedTaxIncluded" => "false"
                 ],
