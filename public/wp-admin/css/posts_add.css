@@ -1,0 +1,48 @@
+.postbox {
+    position: relative;
+    min-width: 255px;
+    border: 1px solid #c3c4c7;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+    background: #fff;
+}
+
+.postbox-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #c3c4c7;
+}
+
+.postbox-header .ui-sortable-handle {
+    font-size: 14px;
+    padding: 8px 12px;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.postbox .bypostauthor {
+    /* box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .1); */
+    padding: 8px 10px;
+    border-top: 1px #ccc solid;
+}
+
+.tools-add_comments {
+    display: none;
+}
+
+.postbox .bypostauthor:hover .tools-add_comments {
+    display: block;
+}
+
+#commentsdiv p {
+    padding: 8px 10px;
+    margin: 0;
+}
+
+.post-comments-list .bypostauthor:nth-child(odd) {
+    background-color: #f6f7f7;
+}
+
+#AddCommentsModal .row {
+    margin-left: -15px;
+}

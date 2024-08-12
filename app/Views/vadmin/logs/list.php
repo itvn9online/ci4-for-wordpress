@@ -44,10 +44,12 @@
 
         ?>
         <p class="bold s15 <?php echo ($log_size > $m10 ? 'redcolor' : ''); ?>"><?php echo $f; ?> (<?php echo number_format($log_size, 2); ?>)</p>
-        <?php
-        // in nội dung file
-        echo nl2br(file_get_contents($f));
-        ?>
+        <p class="white-space-preline">
+            <?php
+            // in nội dung file
+            echo file_get_contents($f);
+            ?>
+        </p>
         <br>
     <?php
     }

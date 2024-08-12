@@ -8,6 +8,7 @@ class CommentType
     // post_type
     const CONTACT = 'contact';
     const COMMENT = 'comment';
+    const REVIEW = 'review';
 
     //
     const PENDDING = '0';
@@ -16,6 +17,7 @@ class CommentType
     private static $arr = array(
         self::CONTACT => 'Contacts',
         self::COMMENT => 'Comments',
+        self::REVIEW => 'Reviews',
     );
 
     public static function typeList($key = '')

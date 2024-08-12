@@ -5,6 +5,7 @@ namespace App\Controllers\Sadmin;
 // Libraries
 use App\Libraries\PostType;
 use App\Libraries\TaxonomyType;
+use App\Libraries\CommentType;
 
 //
 class Products extends Posts
@@ -13,6 +14,7 @@ class Products extends Posts
     protected $taxonomy = TaxonomyType::PROD_CATS;
     protected $options = TaxonomyType::PROD_OTPS;
     protected $tags = TaxonomyType::PROD_TAGS;
+    protected $comment_type = CommentType::REVIEW;
 
     //
     public function __construct()

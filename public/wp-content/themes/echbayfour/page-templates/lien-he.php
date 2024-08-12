@@ -24,9 +24,11 @@
                                         <?php echo $data['post_title']; ?>
                                     </h1>
                                     <p><span class="mcb"><i class="fa fa-map-marker"></i></span>
-                                        <?php
-                                        echo nl2br($getconfig->address);
-                                        ?>
+                                        <span class="white-space-preline">
+                                            <?php
+                                            echo $getconfig->address;
+                                            ?>
+                                        </span>
                                     </p>
                                     <?php
                                     $data['post_content'] = str_replace('][/i]', '></i>', $data['post_content']);

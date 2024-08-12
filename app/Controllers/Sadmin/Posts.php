@@ -7,6 +7,7 @@ use App\Libraries\PostType;
 use App\Libraries\TaxonomyType;
 use App\Libraries\LanguageCost;
 use App\Libraries\DeletedStatus;
+use App\Libraries\CommentType;
 
 //
 class Posts extends Sadmin
@@ -34,6 +35,7 @@ class Posts extends Sadmin
     protected $list_table_path = '';
     // dùng để chọn xem hiển thị nhóm sản phẩm nào ra ở phần danh mục
     protected $main_category_key = 'post_category';
+    protected $comment_type = CommentType::COMMENT;
 
     /**
      * khi update hoặc insert sẽ kiểm tra xem các dữ liệu trong này có không, nếu có không sẽ gán mặc định
@@ -466,6 +468,7 @@ class Posts extends Sadmin
         $prev_post = [];
         $next_post = [];
         $child_post = [];
+        $data_comments = [];
         if ($id > 0) {
             // select dữ liệu từ 1 bảng bất kỳ
             $data = $this->post_model->select_post($id, [
@@ -694,6 +697,20 @@ class Posts extends Sadmin
                     $data['post_meta']['post_category'] = $data['category_primary_id'];
                 }
             }
+
+            // 
+            $data_comments = $this->base_model->select('*', 'comments', [
+                'comment_post_ID' => $id,
+                'comment_type' => $this->comment_type,
+                'is_deleted' => DeletedStatus::FOR_DEFAULT,
+            ], [
+                'show_query' => 1,
+                'order_by' => [
+                    'comment_ID' => 'DESC',
+                ],
+                'limit' => 50,
+            ]);
+            // print_r($data_comments);
         }
         // add
         else {
@@ -803,6 +820,7 @@ class Posts extends Sadmin
                 'meta_custom_desc' => [],
                 // thêm phần controller slug theo từng taxonomy
                 'arr_taxonomy_controller' => TaxonomyType::controllerList(),
+                'data_comments' => $data_comments,
             )
         );
         return view('vadmin/admin_teamplate', $this->teamplate_admin);
@@ -1384,5 +1402,36 @@ class Posts extends Sadmin
 
         //
         return $this->post_model->get_admin_permalink($post_type, $id, $this->controller_slug) . $this->get_preview_url();
+    }
+
+    /**
+     * Thêm bình luận cho bài viết/ sản phẩm
+     **/
+    public function add_comments()
+    {
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            $this->base_model->alert('Bad request!', 'error');
+        }
+
+        // 
+        $data = $this->MY_post('data');
+
+        // 
+        foreach ([
+            'comment_author' => $this->current_user_id,
+            'comment_author_email' => $this->session_data['user_email'],
+            // 'comment_author_url' => null,
+            'comment_type' => $this->comment_type,
+            'user_id' => $this->current_user_id,
+        ] as $k => $v) {
+            $data[$k] = $v;
+        }
+
+        // 
+        print_r($data);
+
+        // 
+        $comment_ID = $this->comment_model->insert_comments($data);
+        var_dump($comment_ID);
     }
 }

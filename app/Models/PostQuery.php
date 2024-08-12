@@ -806,7 +806,7 @@ class PostQuery extends PostMeta
 
         // 
         if ($instance['widget_description'] != '') {
-            $instance['widget_description'] = '<div class="w90 ' . $instance['max_width'] . ' eb-widget-blogs-desc by-widget_description">' . nl2br($instance['widget_description']) . '</div>';
+            $instance['widget_description'] = '<div class="w90 ' . $instance['max_width'] . ' eb-widget-blogs-desc by-widget_description white-space-preline">' . $instance['widget_description'] . '</div>';
         } else {
             // nếu nội dung không phải nội dung mẫu
             // $post_cat['description'] = str_replace('Auto create nav menu taxonomy', '', $post_cat['description']);
@@ -978,9 +978,9 @@ class PostQuery extends PostMeta
             $a_link = $p_link;
 
             // đặt chế độ xuống dòng cho phần tóm tắt khi không có mã HTML trong đấy
-            if ($v['post_excerpt'] != '' && strpos($v['post_excerpt'], '</') === false && strpos($v['post_excerpt'], '>') === false) {
-                $v['post_excerpt'] = nl2br($v['post_excerpt']);
-            }
+            // if ($v['post_excerpt'] != '' && strpos($v['post_excerpt'], '</') === false && strpos($v['post_excerpt'], '>') === false) {
+            //     $v['post_excerpt'] = nl2br($v['post_excerpt']);
+            // }
             $widget_blog_more = '';
             if ($instance['text_view_details'] != '') {
                 $widget_blog_more = '<div class="widget-blog-more-xoa details-blog-more"><a href="{{p_link}}"' . $blog_link_option . '>' . $instance['text_view_details'] . '</a></div>';

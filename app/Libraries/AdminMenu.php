@@ -161,6 +161,15 @@ class AdminMenu
                 'name' => CommentType::typeList(CommentType::COMMENT),
                 'icon' => 'fa fa-comment-o',
                 'arr' => [
+                    'sadmin/reviews' => [
+                        'role' => [
+                            UsersType::AUTHOR,
+                            UsersType::MOD,
+                        ],
+                        'name' => CommentType::typeList(CommentType::REVIEW),
+                        'icon' => 'fa fa-star-o',
+                        //'arr' => []
+                    ],
                     'sadmin/contacts' => [
                         'role' => [
                             UsersType::AUTHOR,

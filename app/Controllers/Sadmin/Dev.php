@@ -219,7 +219,7 @@ class Dev extends Sadmin
         //
         if (is_file($this->term_level_log)) {
             $content_log = file_get_contents($this->term_level_log);
-            $content_log = nl2br($content_log);
+            // $content_log = nl2br($content_log);
             $size_log = number_format(filesize($this->term_level_log) / 1024, 2);
         } else {
             $content_log = '';

@@ -780,6 +780,45 @@ body.body-debug_enable #sidebar {
     overflow: hidden;
 }
 
+/* hiển thị đơn vị tiền tệ phía trên 1 input */
+.input-currency {
+    position: relative;
+}
+
+.input-currency button,
+.input-currency .global-curreny {
+    position: absolute;
+    background-color: transparent;
+    border: 0 none;
+    left: 0;
+}
+
+.input-currency input:focus,
+.input-currency input {
+    color: transparent;
+    background-color: transparent;
+    position: relative;
+    z-index: 1;
+    caret-color: black;
+}
+
+.controls.input-currency input,
+.controls.input-currency button,
+.controls.input-currency .global-curreny {
+    font-size: 14px;
+    font-family: sans-serif;
+}
+
+.controls.input-currency input {
+    letter-spacing: 1px;
+}
+
+.controls.input-currency button,
+.controls.input-currency .global-curreny {
+    line-height: 28px;
+    padding-left: 3px;
+}
+
 /* Dark mode */
 @media (prefers-color-scheme: dark) {
     body {}

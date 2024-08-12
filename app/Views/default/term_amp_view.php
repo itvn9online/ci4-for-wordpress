@@ -68,7 +68,7 @@ foreach ($post_data as $v) {
         }
         ?>
         <div class="amp-wp-blogs-padding">
-            <div class="amp-wp-blogs-desc"><?php echo nl2br($v['post_excerpt']); ?></div>
+            <div class="amp-wp-blogs-desc white-space-preline"><?php echo $v['post_excerpt']; ?></div>
             <div class="amp-wp-blogs-date"><?php echo $v['post_modified']; ?></div>
         </div>
     </div>

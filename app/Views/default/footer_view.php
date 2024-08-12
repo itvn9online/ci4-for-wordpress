@@ -9,8 +9,8 @@
                     <div class="footer-company">
                         <?php echo $getconfig->company_name; ?>
                     </div>
-                    <div class="footer-address">
-                        <?php echo nl2br($getconfig->address); ?>
+                    <div class="footer-address white-space-preline">
+                        <?php echo $getconfig->address; ?>
                     </div>
                     <div class="footer-phone">SĐT: <?php echo $getconfig->phone; ?> &nbsp; | &nbsp; Fax: <?php echo $getconfig->fax; ?> </div>
                     <div class="footer-website">Website: <?php echo $getconfig->website; ?> </div>

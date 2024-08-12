@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+// 
+use App\Libraries\LanguageCost;
+
+// 
 class Comment extends EbModel
 {
     public $table = 'comments';
@@ -64,6 +68,9 @@ class Comment extends EbModel
 
         //
         $data = $this->sync_comment_data($data);
+        if (!isset($data['lang_key']) || $data['lang_key'] == '') {
+            $data['lang_key'] = LanguageCost::lang_key();
+        }
         //print_r($data);
         //die(__CLASS__ . ':' . __LINE__);
 

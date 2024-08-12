@@ -767,6 +767,14 @@ span.taxonomy-count:after {
     white-space: nowrap;
 }
 
+.white-space-pre {
+    white-space: pre;
+}
+
+.white-space-preline {
+    white-space: pre-line;
+}
+
 .ebe-currency:empty {
     display: none;
 }
