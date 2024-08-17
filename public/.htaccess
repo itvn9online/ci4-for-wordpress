@@ -69,25 +69,42 @@ Options -Indexes
     BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
 </IfModule>
 
+### marker BROWSER CACHE start ###
 <IfModule mod_expires.c>
-    ExpiresActive On
-    # bo qua cai lenh set thoi gian het han mac dinh nay di
-    #	ExpiresDefault "access plus 10 days"
-    ExpiresDefault "access plus 365 days"
-    #	ExpiresByType text/css "access plus 1 week"
-    ExpiresByType text/css "access plus 365 days"
-    ExpiresByType text/plain "access plus 1 month"
-    #	ExpiresByType image/gif "access plus 1 month"
-    ExpiresByType image/gif "access plus 365 days"
-    #	ExpiresByType image/png "access plus 1 month"
-    ExpiresByType image/png "access plus 365 days"
-    #	ExpiresByType image/jpeg "access plus 1 month"
-    ExpiresByType image/jpeg "access plus 365 days"
-    ExpiresByType application/x-javascript "access plus 1 month"
-    #	ExpiresByType application/javascript "access plus 1 week"
-    ExpiresByType application/javascript "access plus 365 days"
-    ExpiresByType application/x-icon "access plus 1 year"
+ExpiresActive on
+ExpiresByType application/pdf A31557600
+ExpiresByType image/x-icon A31557600
+ExpiresByType image/vnd.microsoft.icon A31557600
+ExpiresByType image/svg+xml A31557600
+
+ExpiresByType image/jpg A31557600
+ExpiresByType image/jpeg A31557600
+ExpiresByType image/png A31557600
+ExpiresByType image/gif A31557600
+ExpiresByType image/webp A31557600
+
+ExpiresByType video/ogg A31557600
+ExpiresByType audio/ogg A31557600
+ExpiresByType video/mp4 A31557600
+ExpiresByType video/webm A31557600
+
+ExpiresByType text/css A31557600
+ExpiresByType text/javascript A31557600
+ExpiresByType application/javascript A31557600
+ExpiresByType application/x-javascript A31557600
+
+ExpiresByType application/x-font-ttf A31557600
+ExpiresByType application/x-font-woff A31557600
+ExpiresByType application/font-woff A31557600
+ExpiresByType application/font-woff2 A31557600
+ExpiresByType application/vnd.ms-fontobject A31557600
+ExpiresByType font/ttf A31557600
+ExpiresByType font/otf A31557600
+ExpiresByType font/woff A31557600
+ExpiresByType font/woff2 A31557600
+
 </IfModule>
+### marker BROWSER CACHE end ###
 
 <IfModule mod_headers.c>
 Header set Cache-Control "max-age=120"
@@ -132,6 +149,6 @@ Header always set X-Content-Type-Options nosniff
 Header always set Referrer-Policy "strict-origin-when-cross-origin"
 #Header always set Content-Security-Policy "default-src 'self' facebook.com onesignal.com; script-src 'self' 'unsafe-inline' www.googletagmanager.com connect.facebook.net www.googleadservices.com www.google-analytics.com googleads.g.doubleclick.net onesignal.com tpc.googlesyndication.com https://cdn.onesignal.com https://*.onesignal.com https://cdn4.mxpnl.com; style-src 'self' data: 'unsafe-inline' onesignal.com; img-src 'self' data: www.googletagmanager.com stats.g.doubleclick.net www.google-analytics.com www.facebook.com www.google.com www.google.com.vn googleads.g.doubleclick.net i.ytimg.com images.dmca.com; frame-src www.googletagmanager.com bid.g.doubleclick.net www.facebook.com www.google.com www.youtube.com connect.facebook.net docs.google.com https://onesignal.com tpc.googlesyndication.com; font-src 'self' data:; connect-src 'self' *.google.com google.com google.com.vn www.google-analytics.com onesignal.com stats.g.doubleclick.net www.facebook.com https://api.mixpanel.com/; report-uri https://argsec.report-uri.com/r/d/csp/reportOnly"
 
-# Header always set Permissions-Policy 'geolocation=*, midi=(), sync-xhr=(self "https://{my_domain.com}" "https://www.{my_domain.com}"), microphone=(), camera=(), magnetometer=(), gyroscope=(), payment=(), fullscreen=(self "https://{my_domain.com}" "https://www.{my_domain.com}")'
+# Header always set Permissions-Policy 'browsing-topics=(), geolocation=*, midi=(), sync-xhr=(self "https://{my_domain.com}" "https://www.{my_domain.com}"), microphone=(), camera=(), magnetometer=(), gyroscope=(), payment=(), fullscreen=(self "https://{my_domain.com}" "https://www.{my_domain.com}")'
 
 </IfModule>
