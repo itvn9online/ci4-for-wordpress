@@ -704,7 +704,7 @@ class Posts extends Sadmin
                 'comment_type' => $this->comment_type,
                 'is_deleted' => DeletedStatus::FOR_DEFAULT,
             ], [
-                'show_query' => 1,
+                // 'show_query' => 1,
                 'order_by' => [
                     'comment_ID' => 'DESC',
                 ],
@@ -1417,13 +1417,15 @@ class Posts extends Sadmin
         $data = $this->MY_post('data');
 
         // 
-        foreach ([
-            'comment_author' => $this->current_user_id,
-            'comment_author_email' => $this->session_data['user_email'],
-            // 'comment_author_url' => null,
-            'comment_type' => $this->comment_type,
-            'user_id' => $this->current_user_id,
-        ] as $k => $v) {
+        foreach (
+            [
+                'comment_author' => $this->current_user_id,
+                'comment_author_email' => $this->session_data['user_email'],
+                // 'comment_author_url' => null,
+                'comment_type' => $this->comment_type,
+                'user_id' => $this->current_user_id,
+            ] as $k => $v
+        ) {
             $data[$k] = $v;
         }
 
