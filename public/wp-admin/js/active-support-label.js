@@ -135,12 +135,16 @@ $("#content .control-group label").click(function () {
 			}
 			if (get_support_tab.length > 1 && $(".control-group").length > 0) {
 				get_support_tab = get_support_tab[1].split("&")[0].split("#")[0];
-				console.log(get_support_tab);
+				// console.log(get_support_tab);
 
 				//
 				let lb = $(
 					'#content .control-group label[for="' + get_support_tab + '"]'
 				);
+				if (lb.length < 1) {
+					lb = $("#" + get_support_tab);
+				}
+				console.log("get_support_tab", get_support_tab, lb);
 
 				// chạy và tìm thẻ TR có chứa cái thẻ label này
 				if (get_support_tab != "" && lb.length > 0) {

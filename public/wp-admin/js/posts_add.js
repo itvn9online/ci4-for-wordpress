@@ -71,11 +71,6 @@ $(".post_uncheck_meta").change(function () {
 	}
 });
 
-// bấm mở popup add comment
-function add_comments_show() {
-	$("#AddCommentsModal").modal("show");
-}
-
 // select sẵn size ảnh nếu có
 (function () {
 	if ($("#post_meta_image_size").length < 1) {

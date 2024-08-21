@@ -349,6 +349,8 @@ if ($data['ID'] > 0) {
     $theme_private_view = ADMIN_ROOT_VIEWS . $post_type . '/add_comments.php';
     if (is_file($theme_private_view)) {
         include $theme_private_view;
+    } else {
+        echo $theme_private_view;
     }
 }
 
@@ -368,6 +370,7 @@ $base_model->JSON_echo([
     'auto_update_module' => $auto_update_module,
 ], [
     // mảng này sẽ in ra dưới dạng string
+    'post_id' => $data['ID'] > 0 ? $data['ID'] : 0,
     'controller_slug' => $controller_slug,
     'current_post_type' => $post_type,
     'page_post_type' => PostType::PAGE,
@@ -403,6 +406,7 @@ $base_model->adds_js([
     'wp-admin/js/preview_url.js',
     'wp-admin/js/posts.js',
     'wp-admin/js/posts_add.js',
+    'wp-admin/js/add_comments.js',
     // js riêng cho từng post type (nếu có)
     'wp-admin/js/' . $post_type . '.js',
     'wp-admin/js/' . $post_type . '_add.js',

@@ -597,6 +597,7 @@ class Sync extends BaseController
                 'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'en\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
                 'lang_parent' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Dùng để xác định với các bản ghi được nhân bản từ ngôn ngữ chính\'',
                 'is_deleted' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'0 = hiển thị, 1 = xóa\'',
+                'comment_rate' => 'TINYINT(2) NOT NULL DEFAULT \'5\' COMMENT \'Đánh giá theo thang điểm từ 1-5\'',
                 'time_order' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Sắp xếp độ ưu tiên của post dựa theo thời gian hiện tại\'',
             ],
             $prefix . 'orders' => [
@@ -828,11 +829,13 @@ class Sync extends BaseController
     {
         $dir = PUBLIC_HTML_PATH . rtrim($dir, '/') . '/';
         //echo $dir . '<br>' . PHP_EOL;
-        foreach ([
-            'index.html',
-            'index.htm',
-            'index.php',
-        ] as $v) {
+        foreach (
+            [
+                'index.html',
+                'index.htm',
+                'index.php',
+            ] as $v
+        ) {
             if (is_file($dir . $v)) {
                 return false;
             }
