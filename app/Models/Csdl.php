@@ -643,7 +643,7 @@ class Csdl extends Session
         }
 
         // in luôn ra query để test
-        if (isset($ops['show_query'])) {
+        if (isset($ops['show_query']) && $ops['show_query'] > 0) {
             print_r($this->myDb->getLastQuery()->getQuery());
             echo '<br>' . PHP_EOL;
         }

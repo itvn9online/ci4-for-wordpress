@@ -101,25 +101,29 @@ function WGR_alert(m, lnk) {
 
 			//
 			let htm = [
-				'<div id="' + jd + '" class="' + cl + '" onClick="$(this).fadeOut();">',
+				'<div id="' +
+					jd +
+					'" class="' +
+					cl +
+					'" onClick="jQuery(this).fadeOut();">',
 				m,
 				"</div>",
 			].join(" ");
 			//console.log(htm);
 
 			//
-			if ($("#my_custom_alert").length < 1) {
-				$("body").append('<div id="my_custom_alert"></div>');
+			if (jQuery("#my_custom_alert").length < 1) {
+				jQuery("body").append('<div id="my_custom_alert"></div>');
 			}
-			$("#my_custom_alert").append(htm).show();
+			jQuery("#my_custom_alert").append(htm).show();
 
 			//
 			setTimeout(() => {
-				$("#" + jd).remove();
+				jQuery("#" + jd).remove();
 
 				// nếu không còn div nào -> ẩn luôn
-				if ($("#my_custom_alert div").length < 1) {
-					$("#my_custom_alert").fadeOut();
+				if (jQuery("#my_custom_alert div").length < 1) {
+					jQuery("#my_custom_alert").fadeOut();
 				}
 			}, 6000);
 		} else if (lnk != "") {
@@ -196,14 +200,14 @@ function WGR_show_or_hide_to_top() {
 
 // set prop cho select
 function WGR_set_prop_for_select(for_id) {
-	$(for_id).each(function () {
-		let a = $(this).attr("data-select") || "";
+	jQuery(for_id).each(function () {
+		let a = jQuery(this).attr("data-select") || "";
 
 		// nếu có tham số này
-		if (a != "" && !$(this).hasClass("set-selected")) {
+		if (a != "" && !jQuery(this).hasClass("set-selected")) {
 			// select luôn dữ liệu tương ứng
 			/*
-			let has_multi = $(this).attr("multiple");
+			let has_multi = jQuery(this).attr("multiple");
 			if (typeof has_multi !== "undefined" && has_multi !== false) {
 				console.log("has_multi:", has_multi);
 			} else {
@@ -213,11 +217,11 @@ function WGR_set_prop_for_select(for_id) {
 			// }
 
 			// select cho option đầu tiên
-			$(this).val(a[0]).addClass("set-selected");
+			jQuery(this).val(a[0]).addClass("set-selected");
 
 			// các option sau select kiểu prop
 			for (let i = 0; i < a.length; i++) {
-				$('option[value="' + a[i] + '"]', this)
+				jQuery('option[value="' + a[i] + '"]', this)
 					.prop("selected", true)
 					.addClass("bold")
 					.addClass("gray2bg");
@@ -578,21 +582,21 @@ function action_each_to_taxonomy() {
 	// daidq (2022-03-06): thử cách nạp các nhóm được hiển thị trên trang hiện tại -> cách này nạp ít dữ liệu mà độ chuẩn xác lại cao
 	taxonomy_ids_unique = [];
 	if (WGR_config.cf_tester_mode > 0)
-		console.log("action each to taxonomy:", $(".each-to-taxonomy").length);
+		console.log("action each to taxonomy:", jQuery(".each-to-taxonomy").length);
 	//return false;
 
 	//
-	$('.each-to-taxonomy[data-id="0"], .each-to-taxonomy[data-id=""]')
+	jQuery('.each-to-taxonomy[data-id="0"], .each-to-taxonomy[data-id=""]')
 		.removeClass("each-to-taxonomy")
 		.addClass("zero-to-taxonomy");
 
 	// lấy các ID có
-	$(".each-to-taxonomy").each(function () {
-		let a = $(this).attr("data-id") || "";
+	jQuery(".each-to-taxonomy").each(function () {
+		let a = jQuery(this).attr("data-id") || "";
 		//console.log('a:', a);
-		let as = $(this).data("ids") || "";
+		let as = jQuery(this).data("ids") || "";
 		//console.log('as:', as);
-		//let taxonomy = $(this).attr('data-taxonomy') || '';
+		//let taxonomy = jQuery(this).attr('data-taxonomy') || '';
 		//console.log('taxonomy:', taxonomy);
 
 		if (a == "") {
@@ -606,7 +610,7 @@ function action_each_to_taxonomy() {
 			//let str = [];
 			for (let i = 0; i < a.length; i++) {
 				if (a[i] != "") {
-					a[i] = $.trim(a[i]);
+					a[i] = jQuery.trim(a[i]);
 					a[i] *= 1;
 					if (a[i] > 0 && !WGR_in_array(a[i], taxonomy_ids_unique)) {
 						taxonomy_ids_unique.push(a[i]);
@@ -615,7 +619,9 @@ function action_each_to_taxonomy() {
 			}
 
 			//
-			$(this).addClass("loading-to-taxonomy").removeClass("each-to-taxonomy");
+			jQuery(this)
+				.addClass("loading-to-taxonomy")
+				.removeClass("each-to-taxonomy");
 		}
 	});
 	//console.log(taxonomy_ids_unique);
@@ -684,13 +690,13 @@ function after_each_to_taxonomy(data) {
 	//return false;
 
 	//
-	$(".loading-to-taxonomy").each(function () {
-		let a = $(this).attr("data-id") || "";
+	jQuery(".loading-to-taxonomy").each(function () {
+		let a = jQuery(this).attr("data-id") || "";
 		//console.log(a);
-		let as = $(this).data("ids") || "";
+		let as = jQuery(this).data("ids") || "";
 		//console.log(as);
-		//let taxonomy = $(this).attr('data-taxonomy') || '';
-		let uri = $(this).data("uri") || "";
+		//let taxonomy = jQuery(this).attr('data-taxonomy') || '';
+		let uri = jQuery(this).data("uri") || "";
 		if (uri != "") {
 			// thêm term_id nếu không có trong yêu cầu
 			if (uri.includes("%term_id%") == false) {
@@ -703,9 +709,9 @@ function after_each_to_taxonomy(data) {
 			}
 		}
 		// class riêng cho thẻ A nếu có
-		let a_class = $(this).data("class") || "";
+		let a_class = jQuery(this).data("class") || "";
 		// giãn cách giữa các thẻ A
-		let a_space = $(this).data("space") || ", ";
+		let a_space = jQuery(this).data("space") || ", ";
 
 		if (a == "") {
 			a = as;
@@ -757,11 +763,13 @@ function after_each_to_taxonomy(data) {
 			}
 
 			// in ra
-			$(this).html(str.join(a_space));
+			jQuery(this).html(str.join(a_space));
 		}
 
 		//
-		$(this).addClass("loaded-to-taxonomy").removeClass("loading-to-taxonomy");
+		jQuery(this)
+			.addClass("loaded-to-taxonomy")
+			.removeClass("loading-to-taxonomy");
 	});
 }
 
@@ -963,7 +971,7 @@ function WGR_check_option_on(a) {
 function WGR_multi_vuejs(app_id, obj, _callBack, max_i) {
 	app_id = app_id.split(",");
 	for (let i = 0; i < app_id.length; i++) {
-		app_id[i] = $.trim(app_id[i]);
+		app_id[i] = jQuery.trim(app_id[i]);
 
 		//
 		WGR_vuejs(app_id[i], obj, _callBack, max_i);
@@ -1039,9 +1047,9 @@ function WGR_vuejs(app_id, obj, _callBack, max_i) {
 		el: app_id,
 		data: obj,
 		mounted: function () {
-			$(app_id + ".ng-main-content, " + app_id + " .ng-main-content").addClass(
-				"loaded"
-			);
+			jQuery(
+				app_id + ".ng-main-content, " + app_id + " .ng-main-content"
+			).addClass("loaded");
 
 			//
 			if (typeof _callBack == "function") {
@@ -1057,21 +1065,21 @@ function WGR_vuejs(app_id, obj, _callBack, max_i) {
 }
 
 function move_custom_code_to() {
-	$(".move-custom-code-to")
+	jQuery(".move-custom-code-to")
 		.each(function () {
-			let data_to = $(this).data("to") || "";
+			let data_to = jQuery(this).data("to") || "";
 			if (data_to != "") {
-				let str = $(this).html() || "";
-				$(this).text("");
+				let str = jQuery(this).html() || "";
+				jQuery(this).text("");
 
 				//
-				let type_move = $(this).data("type") || "";
+				let type_move = jQuery(this).data("type") || "";
 				if (type_move == "before") {
-					$(data_to).before(str);
+					jQuery(data_to).before(str);
 				} else if (type_move == "after") {
-					$(data_to).after(str);
+					jQuery(data_to).after(str);
 				} else {
-					$(data_to).append(str);
+					jQuery(data_to).append(str);
 				}
 				console.log(
 					"Move custom code to: " + data_to + " with type:",
@@ -1097,7 +1105,7 @@ function redirect_to_canonical(body_class) {
 	}
 
 	//
-	let a = $('link[rel="canonical"]').attr("href") || "";
+	let a = jQuery('link[rel="canonical"]').attr("href") || "";
 	//console.log(a);
 	if (a != "" && window.location.href.includes(a) == false) {
 		if (a.includes("?") == true) {
@@ -1117,20 +1125,20 @@ function hide_if_esc() {
 	}
 
 	//
-	$(".hide-if-esc").hide();
-	$("body").removeClass("no-scroll");
+	jQuery(".hide-if-esc").hide();
+	jQuery("body").removeClass("no-scroll");
 
 	//
 	return false;
 }
 
 function WGR_open_poup(str, tit, __callBack) {
-	$("#popupModalLabel").html(tit);
-	$("#popupModal .modal-body").html(str);
+	jQuery("#popupModalLabel").html(tit);
+	jQuery("#popupModal .modal-body").html(str);
 	if (typeof __callBack == "function") {
 		__callBack();
 	}
-	$("#popupModal").modal("show");
+	jQuery("#popupModal").modal("show");
 }
 
 function WGR_get_params(param, queryString, default_value) {
@@ -1188,14 +1196,14 @@ function get_hide_captcha(a, div_id, the_debug, max_i) {
 	if (typeof div_id == "undefined" || div_id == "") {
 		div_id = "#hide-captcha";
 	}
-	if ($(div_id).length < 1) {
+	if (jQuery(div_id).length < 1) {
 		return a;
 	}
 
 	//
 	// console.log(the_hide_captcha);
-	// if (the_hide_captcha === false || $(div_id + " input").length < 1) {
-	if ($(div_id + " input").length < 1) {
+	// if (the_hide_captcha === false || jQuery(div_id + " input").length < 1) {
+	if (jQuery(div_id + " input").length < 1) {
 		if (typeof max_i != "number") {
 			max_i = 99;
 		} else if (max_i < 0) {
@@ -1209,8 +1217,8 @@ function get_hide_captcha(a, div_id, the_debug, max_i) {
 	}
 
 	//
-	$(div_id + " input").each(function () {
-		a[$(this).attr("name")] = $(this).attr("value");
+	jQuery(div_id + " input").each(function () {
+		a[jQuery(this).attr("name")] = jQuery(this).attr("value");
 	});
 
 	// thêm tham số này để trả về json thay vì alert

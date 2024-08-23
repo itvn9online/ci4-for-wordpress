@@ -9,6 +9,8 @@ use App\Libraries\DeletedStatus;
 //
 class C extends Home
 {
+    public $term_tag_model = null;
+
     public function __construct()
     {
         parent::__construct();
@@ -38,31 +40,10 @@ class C extends Home
 
     protected function tag_taxonomy($slug, $taxonomy_type, $page_name = '', $page_num = 1)
     {
-        $data = $this->base_model->select(
-            'terms.term_id',
-            'terms',
-            array(
-                // các kiểu điều kiện where
-                'terms.slug' => $slug,
-                'terms.is_deleted' => DeletedStatus::FOR_DEFAULT,
-                'term_taxonomy.taxonomy' => $taxonomy_type,
-            ),
-            array(
-                'join' => array(
-                    'term_taxonomy' => 'term_taxonomy.term_id = terms.term_id',
-                ),
-                // hiển thị mã SQL để check
-                // 'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-                // trả về COUNT(column_name) AS column_name
-                //'selectCount' => 'ID',
-                // trả về tổng số bản ghi -> tương tự mysql num row
-                //'getNumRows' => 1,
-                //'offset' => 0,
-                'limit' => 1
-            )
-        );
+        $this->term_tag_model = new \App\Models\TermTag();
+
+        // 
+        $data = $this->term_tag_model->getTagBySlug($slug, $taxonomy_type);
         // print_r($data);
 
         // 

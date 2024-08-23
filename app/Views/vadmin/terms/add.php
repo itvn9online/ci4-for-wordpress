@@ -325,24 +325,30 @@ if ($taxonomy == TaxonomyType::ADS || $taxonomy == TaxonomyType::SHOP_COUPON) {
                 $linkEncode = urlencode($term_model->get_full_permalink($data));
 
                 //
-                foreach ([
+                foreach (
                     [
-                        'name' => 'Page speed',
-                        'link' => 'https://pagespeed.web.dev/report?url=' . $linkEncode,
-                    ], [
-                        'name' => 'Structured data',
-                        'link' => 'https://validator.schema.org/#url=' . $linkEncode,
-                    ], [
-                        'name' => 'Open Graph Facebook',
-                        'link' => 'https://developers.facebook.com/tools/debug/?q=' . $linkEncode,
-                    ], [
-                        'name' => 'Open Graph Zalo',
-                        'link' => 'https://developers.zalo.me/tools/debug-sharing?q=' . $linkEncode,
-                    ], [
-                        'name' => 'Security headers',
-                        'link' => 'https://securityheaders.com/?q=' . $linkEncode . '&followRedirects=on',
-                    ]
-                ] as $v) {
+                        [
+                            'name' => 'Page speed',
+                            'link' => 'https://pagespeed.web.dev/report?url=' . $linkEncode,
+                        ],
+                        [
+                            'name' => 'Structured data',
+                            'link' => 'https://validator.schema.org/#url=' . $linkEncode,
+                        ],
+                        [
+                            'name' => 'Open Graph Facebook',
+                            'link' => 'https://developers.facebook.com/tools/debug/?q=' . $linkEncode,
+                        ],
+                        [
+                            'name' => 'Open Graph Zalo',
+                            'link' => 'https://developers.zalo.me/tools/debug-sharing?q=' . $linkEncode,
+                        ],
+                        [
+                            'name' => 'Security headers',
+                            'link' => 'https://securityheaders.com/?q=' . $linkEncode . '&followRedirects=on',
+                        ]
+                    ] as $v
+                ) {
             ?>
                     <div class="control-group">
                         <div class="control-label"><?php echo $v['name']; ?></div>

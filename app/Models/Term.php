@@ -925,7 +925,7 @@ class Term extends TermBase
             'limit' => $ops['limit']
         ];
         if (isset($ops['show_query'])) {
-            $filter['show_query'] = 1;
+            $filter['show_query'] = $ops['show_query'];
         }
 
         //
@@ -1209,12 +1209,14 @@ class Term extends TermBase
     public function before_term_permalink($data)
     {
         // nếu có đủ các thông số còn thiếu thì tiến hành cập nhật permalink
-        foreach ([
-            'term_id',
-            'slug',
-            'taxonomy',
-            'lang_key',
-        ] as $k) {
+        foreach (
+            [
+                'term_id',
+                'slug',
+                'taxonomy',
+                'lang_key',
+            ] as $k
+        ) {
             if (!isset($data[$k])) {
                 return false;
             }
@@ -1257,12 +1259,14 @@ class Term extends TermBase
         }
 
         //
-        foreach ([
-            //'category_base' => CATEGORY_BASE_URL,
-            'term_id' => $data['term_id'],
-            'slug' => $data['slug'],
-            'taxonomy' => $data['taxonomy'],
-        ] as $k => $v) {
+        foreach (
+            [
+                //'category_base' => CATEGORY_BASE_URL,
+                'term_id' => $data['term_id'],
+                'slug' => $data['slug'],
+                'taxonomy' => $data['taxonomy'],
+            ] as $k => $v
+        ) {
             $url = str_replace('%' . $k . '%', $v, $url);
         }
 

@@ -313,7 +313,7 @@ var _global_js_eb = {
 				}
 
 				// 1 số trường hợp vẫn dùng class cũ
-				if ($(this).hasClass("thread-details-mobileAvt")) {
+				if (jQuery(this).hasClass("thread-details-mobileAvt")) {
 					jQuery(this).css({
 						"line-height": show_height + "px",
 						height: show_height + "px",
@@ -349,7 +349,7 @@ var _global_js_eb = {
 			if (WGR_config.cf_tester_mode > 0) {
 				console.log("ty-le-global padding CSS: " + str_css);
 			}
-			$("head").append("<style>" + str_css + "</style>");
+			jQuery("head").append("<style>" + str_css + "</style>");
 		}
 	},
 
@@ -383,7 +383,7 @@ var _global_js_eb = {
 
 	_log_click_ref: function () {},
 
-	ebBgLazzyLoadOffset: function (i) {
+	ebBgOffsetLazzyLoad: function (i) {
 		//console.log( 'each-to-bgimg offset' );
 
 		if (typeof i != "number") {
@@ -398,7 +398,7 @@ var _global_js_eb = {
 
 		if (i > 0) {
 			setTimeout(() => {
-				_global_js_eb.ebBgLazzyLoadOffset(i - 1);
+				_global_js_eb.ebBgOffsetLazzyLoad(i - 1);
 			}, 2000);
 		}
 	},
@@ -409,6 +409,7 @@ var _global_js_eb = {
 			a = 0,
 			// wh = jQuery(window).width(),
 			c = "";
+		// console.log("lazzy_show", lazzy_show, typeof lazzy_show);
 
 		//
 		if (typeof lazzy_show == "number" && lazzy_show > 0) {
@@ -430,7 +431,7 @@ var _global_js_eb = {
 
 			// load trước các ảnh ngoài màn hình, để lát khách kéo xuống có thể xem được luôn
 			lazzy_show += height_for_lazzy_load;
-			//console.log( height_for_lazzy_load );
+			// console.log("height_for_lazzy_load", height_for_lazzy_load);
 
 			//
 			jQuery("." + eb_lazzy_class).each(function () {
@@ -488,12 +489,20 @@ var _global_js_eb = {
 					}
 				}
 			});
-		} else {
-			jQuery(".each-to-bgimg").addClass(eb_lazzy_class);
-			jQuery(".url-to-google-map").addClass(eb_lazzy_iframe);
 
-			_global_js_eb.ebBgLazzyLoad(jQuery(window).height() * 1.5);
+			//
+			return true;
 		}
+
+		//
+		jQuery(".each-to-bgimg").addClass(eb_lazzy_class);
+		jQuery(".url-to-google-map").addClass(eb_lazzy_iframe);
+
+		//
+		_global_js_eb.ebBgLazzyLoad(jQuery(window).height());
+
+		//
+		return false;
 	},
 
 	// nạp slider của flatsome
@@ -503,11 +512,11 @@ var _global_js_eb = {
 		}
 
 		//
-		$(for_class).each(function () {
-			let has_attr = $(this).data("flickity-options") || "";
+		jQuery(for_class).each(function () {
+			let has_attr = jQuery(this).data("flickity-options") || "";
 
 			//
-			if (has_attr == "" && !$(this).hasClass("actived-slider")) {
+			if (has_attr == "" && !jQuery(this).hasClass("actived-slider")) {
 				//
 				if (typeof flickity_options != "object") {
 					flickity_options = {
@@ -556,7 +565,7 @@ var _global_js_eb = {
 				}
 
 				//
-				$(this)
+				jQuery(this)
 					.attr({
 						"data-flickity-options": JSON.stringify(flickity_options),
 					})

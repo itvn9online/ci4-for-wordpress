@@ -497,21 +497,27 @@ class PostQuery extends PostMeta
             $post_cat['lang_key'] = LanguageCost::lang_key();
         }
 
+        // nếu có gàn slug trong option -> thay cho post_cat luôn
+        if (isset($ops['slug'])) {
+            $post_cat['slug'] = $ops['slug'];
+        }
+        // nếu option ko có taxonomy -> dùng của post_cat
+        if (!isset($ops['taxonomy'])) {
+            $ops['taxonomy'] = $post_cat['taxonomy'];
+            /*
+        } else if ($ops['taxonomy'] != '') {
+            $ops['taxonomy'] = $ops['taxonomy'];
+            */
+        }
+
         //
         $where = [
             'post_type' => $post_type,
             'post_status' => PostType::PUBLICITY,
-            // 'taxonomy' => $post_cat['taxonomy'],
+            // 'taxonomy' => $ops['taxonomy'],
             'lang_key' => $post_cat['lang_key'],
             //'(term_taxonomy.term_id = ' . $post_cat[ 'term_id' ] . ' OR term_taxonomy.parent = ' . $post_cat[ 'term_id' ] . ')' => NULL,
         ];
-
-        // 
-        if (!isset($ops['taxonomy'])) {
-            $ops['taxonomy'] = $post_cat['taxonomy'];
-        } else if ($ops['taxonomy'] != '') {
-            $ops['taxonomy'] = $ops['taxonomy'];
-        }
 
         /*
         if ( isset( $post_cat[ 'taxonomy' ] ) && $post_cat[ 'taxonomy' ] != '' ) {
@@ -543,14 +549,17 @@ class PostQuery extends PostMeta
                 [
                     'slug' => $post_cat['slug'],
                     'is_deleted' => DeletedStatus::FOR_DEFAULT,
-                    'taxonomy' => $post_cat['taxonomy'],
+                    'taxonomy' => $ops['taxonomy'],
                 ],
                 [
+                    // 'show_query' => isset($_GET['daidq_test']) ? 1 : 0,
                     'limit' => 1,
                     'select_col' => 'term_id',
                 ]
             );
-            //print_r( $get_term_id );
+            if (1 > 2 && isset($_GET['daidq_test'])) {
+                print_r($get_term_id);
+            }
 
             // không có thì trả về lỗi
             if (empty($get_term_id)) {
@@ -620,6 +629,16 @@ class PostQuery extends PostMeta
                 //echo $ops[ 'select' ] . '<br>' . PHP_EOL;
             }
 
+            // 
+            if (1 > 2 && isset($_GET['daidq_test'])) {
+                print_r($post_cat);
+                print_r($ops);
+                print_r($where);
+                print_r($arr_where_or);
+                print_r($where_not_in);
+                print_r($where_in);
+            }
+
             // lấy danh sách bài viết thuộc nhóm này
             $data = $this->base_model->select(
                 $ops['select'],
@@ -632,7 +651,7 @@ class PostQuery extends PostMeta
                     'group_by' => $ops['group_by'],
                     'order_by' => $order_by,
                     //'get_sql' => 1,
-                    // 'show_query' => 1,
+                    // 'show_query' => isset($_GET['daidq_test']) ? 1 : 0,
                     //'debug_only' => 1,
                     'offset' => $ops['offset'],
                     'limit' => $limit
@@ -1026,11 +1045,13 @@ class PostQuery extends PostMeta
         }
 
         // xóa các trường dữ liệu trống
-        foreach ([
-            '<div class="eb-blog-short_title"></div>' => '',
-            '<div class="eb-blog-gioithieu"></div>' => '',
-            '<div class="eb-blog-content"></div>' => '',
-        ] as $k => $v) {
+        foreach (
+            [
+                '<div class="eb-blog-short_title"></div>' => '',
+                '<div class="eb-blog-gioithieu"></div>' => '',
+                '<div class="eb-blog-content"></div>' => '',
+            ] as $k => $v
+        ) {
             $html = str_replace($k, $v, $html);
         }
 
