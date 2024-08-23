@@ -443,7 +443,20 @@ class Optimize extends Sadmin
             '; i < ' => ';i<',
             'var i = 0;' => 'var i=0;',
             '; i' => ';i',
-            ' = \'' => '=\''
+            ' = \'' => '=\'',
+            ';if (' => ';if(',
+            ') {' => '){',
+            ';}if (' => ';}if(',
+            ';}else {' => ';}else{',
+            ': function (' => ':function(',
+            '} else {' => '}else{',
+            // bỏ dấu , index kết thúc của 1 opbject
+            ',});' => '});',
+            ' = jQuery' => '=jQuery',
+            ') ||' => ')||',
+            ' = ""' => '=""',
+            // 'aaaaaaaaaaaa' => 'bbbbbbbbbbbb',
+            // 'aaaaaaaaaaaa' => 'bbbbbbbbbbbb',
         );
 
         foreach ($arr as $k => $v) {
