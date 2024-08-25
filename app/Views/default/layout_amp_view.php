@@ -7,7 +7,8 @@
     <title><?php echo $seo['title']; ?></title>
     <meta name="theme-color" content="#ff4400">
     <meta name="msapplication-navbutton-color" content="#ff4400">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!-- <meta name="apple-mobile-web-app-capable" content="yes"> -->
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="#ff4400">
     <link rel="shortcut icon" type="image/png" href="<?php echo $option_model->get_the_favicon($getconfig); ?>" />
     <link rel="canonical" href="<?php echo $full_link; ?>" />

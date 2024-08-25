@@ -17,7 +17,8 @@ use App\Helpers\HtmlTemplate;
 <!-- <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" /> -->
 <meta name="theme-color" content="<?php echo $getconfig->default_bg; ?>">
 <meta name="msapplication-navbutton-color" content="<?php echo $getconfig->default_bg; ?>">
-<meta name="apple-mobile-web-app-capable" content="yes">
+<!-- <meta name="apple-mobile-web-app-capable" content="yes"> -->
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="<?php echo $getconfig->default_bg; ?>">
 <!-- <meta http-equiv="x-dns-prefetch-control" content="on"> -->
 <link rel="dns-prefetch" href="https://www.google-analytics.com/" />
