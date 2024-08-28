@@ -2,7 +2,7 @@
 
 namespace App\ThirdParty;
 
-/*
+/**
  * Xử lý dữ liệu thanh toán tự động thông qua casso.vn
  * ưu tiên ngân hàng vietinbank
  */
@@ -49,8 +49,11 @@ class Casso
     }
 
     // hàm này sẽ trả về object chứa thông tin thanh toán
-    public static function phpInput($debug_enable = false)
+    public static function phpInput($debug_enable = false, $autobank_token = null)
     {
+        // die($autobank_token . '|' . __CLASS__ . ':' . __LINE__);
+
+        // 
         ini_set('display_errors', 0);
         error_reporting(E_ALL);
         //error_reporting( E_ALL && E_WARNING && E_NOTICE );
@@ -59,12 +62,14 @@ class Casso
 
         //
         $file_log = self::pathTestLog();
+        // die($autobank_token . '|' . __CLASS__ . ':' . __LINE__);
 
         //
         $result = [];
         try {
             // reset nội dung file test
-            file_put_contents($file_log, $_SERVER['REQUEST_URI'] . '|' . __CLASS__ . ':' . __LINE__ . PHP_EOL, LOCK_EX);
+            file_put_contents($file_log, date('r') . '|' . __CLASS__ . ':' . __LINE__ . PHP_EOL, LOCK_EX);
+            file_put_contents($file_log, $_SERVER['REQUEST_URI'] . '|' . __CLASS__ . ':' . __LINE__ . PHP_EOL, FILE_APPEND);
             //file_put_contents($file_log, __CLASS__ . ':' . __LINE__ . PHP_EOL, FILE_APPEND);
 
             // LIVE data
@@ -78,6 +83,21 @@ class Casso
                 //$data_string = '{"error":0,"data":[{"id":1844887,"tid":"246745","description":"ND:CT DEN:231915042064 MBVCB.2707051024.042064.Bill 4.CT tu 0451001536775 DAO QUOC DAI toi 105877347307 DO XUAN VIET Ngan hang Cong Thuong Viet Nam (VIETINBANK); tai Napas","amount":5000,"cusum_balance":55000,"when":"2022-11-15 22:25:00","bank_sub_acc_id":"105877347307","subAccId":"105877347307","virtualAccount":"","virtualAccountName":"","corresponsiveName":"","corresponsiveAccount":"","corresponsiveBankId":"","corresponsiveBankName":""}]}';
             }
             file_put_contents($file_log, $data_string . PHP_EOL, FILE_APPEND);
+
+            // kiểm tra token trong header (nếu có)
+            if (function_exists('getallheaders')) {
+                $headers = getallheaders();
+                file_put_contents($file_log, json_encode($headers) . PHP_EOL, FILE_APPEND);
+                // die($autobank_token . '|' . __CLASS__ . ':' . __LINE__);
+                file_put_contents($file_log, 'autobank_token: ' . $autobank_token . PHP_EOL, FILE_APPEND);
+
+                // 
+                if (!empty($autobank_token)) {
+                    if (!isset($headers['Secure-Token']) || $headers['Secure-Token'] != $autobank_token) {
+                        file_put_contents($file_log, 'Secure-Token mismatch!' . PHP_EOL, FILE_APPEND);
+                    }
+                }
+            }
 
             //
             //echo $data_string;
@@ -129,6 +149,7 @@ class Casso
             //error_log( $e->getPrevious() );
             //error_log( $e->getCode() );
             //error_log( $e->getTraceAsString() );
+            // die($autobank_token . '|' . __CLASS__ . ':' . __LINE__);
         }
         //print( $result );
         //file_put_contents($file_log, json_encode($result), LOCK_EX);

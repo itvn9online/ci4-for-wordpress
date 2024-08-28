@@ -12,15 +12,31 @@ use App\ThirdParty\Casso;
 //
 class Cassos extends Payments
 {
+    public $option_model = null;
+
+    // 
     public function __construct()
     {
         parent::__construct();
+
+        // 
+        $this->option_model = new \App\Models\Option();
+
+        // 
+        $this->getconfig = $this->option_model->list_config();
+        // print_r($this->getconfig);
+        $this->getconfig = (object) $this->getconfig;
+        // print_r($this->getconfig);
+        // die(__CLASS__ . ':' . __LINE__);
     }
 
     // nhận thông tin chuyển khoản từ casso.vn và chuyển trạng thái đơn hàng nếu thấy
     public function confirm()
     {
-        $data = Casso::phpInput($this->debug_enable);
+        // die($this->getconfig->autobank_token . '|' . __CLASS__ . ':' . __LINE__);
+
+        // 
+        $data = Casso::phpInput($this->debug_enable, $this->getconfig->autobank_token);
         if ($data === null) {
             $this->result_json_type([
                 'status' => 0,

@@ -78,12 +78,13 @@ class Layout extends Sync
         ] );
         */
 
-        /*
+        /**
          * bắt đầu code
          */
 
-        //$allurl = 'https://' . $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'REQUEST_URI' ];
+        // $allurl = 'https://' . $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'REQUEST_URI' ];
 
+        // 
         $this->getconfig = $this->option_model->list_config();
         // print_r($this->getconfig);
         $this->getconfig = (object) $this->getconfig;
@@ -98,12 +99,14 @@ class Layout extends Sync
         if ($itemprop_cache_logo === null) {
             // logo
             $structured_data = file_get_contents(VIEWS_PATH . 'html/structured-data/itemprop-logo.html');
-            foreach ([
-                '{{web_quot_title}}' => str_replace('"', '', $this->getconfig->name),
-                '{{image}}' => DYNAMIC_BASE_URL . $this->getconfig->logo,
-                '{{trv_width_img}}' => $this->getconfig->logo_height_img,
-                '{{trv_height_img}}' => $this->getconfig->logo_width_img,
-            ] as $k => $v) {
+            foreach (
+                [
+                    '{{web_quot_title}}' => str_replace('"', '', $this->getconfig->name),
+                    '{{image}}' => DYNAMIC_BASE_URL . $this->getconfig->logo,
+                    '{{trv_width_img}}' => $this->getconfig->logo_height_img,
+                    '{{trv_height_img}}' => $this->getconfig->logo_width_img,
+                ] as $k => $v
+            ) {
                 $structured_data = str_replace($k, $v, $structured_data);
             }
 
@@ -316,10 +319,12 @@ class Layout extends Sync
         $current_uri = $_SERVER['REQUEST_URI'];
 
         // xem url này có trong RewriteRule ko
-        foreach ([
-            $current_uri,
-            ltrim($current_uri, '/'),
-        ] as $v) {
+        foreach (
+            [
+                $current_uri,
+                ltrim($current_uri, '/'),
+            ] as $v
+        ) {
             $v = '^' . $v . '$';
             //echo $v . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
@@ -624,7 +629,7 @@ class Layout extends Sync
         return $this->MY_data($this->request->getPost($key), $default_value, $xss_clean);
     }
 
-    /*
+    /**
      * Upload giả lập wordpress
      */
     protected function deny_visit_upload($upload_root = '', $remove_file = false, $hotlink_protection = false)
@@ -991,7 +996,7 @@ class Layout extends Sync
             //die( __CLASS__ . ':' . __LINE__ );
             //continue;
 
-            /*
+            /**
              * Sử dụng class tự viết hoặc tham kháo thư viện của CI3
              * https://codeigniter.com/userguide3/libraries/image_lib.html
              */
@@ -1217,9 +1222,11 @@ class Layout extends Sync
         }
 
         // thay 1 số template đề phòng không có dữ liệu tương ứng
-        foreach ([
-            'meta_description' => $data['post_title'],
-        ] as $k => $v) {
+        foreach (
+            [
+                'meta_description' => $data['post_title'],
+            ] as $k => $v
+        ) {
             $html = str_replace('{{' . $k . '}}', $v, $html);
         }
 

@@ -184,7 +184,7 @@ function change_period__bonus(obj, i) {
 
 //
 $(document).ready(function () {
-	/*
+	/**
 	 * nạp danh sách ngân hàng
 	 * Danh sách ngân hàng được tải định kỳ tại đây: https://api.vietqr.io/v2/banks
 	 * https://www.vietqr.io/danh-sach-api/api-danh-sach-ma-ngan-hang
@@ -267,6 +267,45 @@ $(document).ready(function () {
 		});
 		before_period_price_html();
 	}
+
+	// chức năng bấm và copy link callback cho casso
+	$("#data_autobank_token")
+		.attr({
+			readonly: true,
+			ondblclick: "click2Copy(this);",
+		})
+		.after(
+			'<div><input type="text" value="' +
+				web_link +
+				'cassos/confirm" class="span10" onDblClick="click2Copy(this);" readonly="readonly" /></div>'
+		)
+		.dblclick(function () {
+			$(this).removeAttr("readonly");
+		});
+
+	// tạo mã token cho webhook casso
+	$("#data_autobank_token").after(
+		'<div><button type="button" class="btn btn-info generate_autobank_token">Tạo token ngẫu nhiên</button></div>'
+	);
+	// https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+	$(".generate_autobank_token").click(function () {
+		let result = "",
+			len = 64;
+		const characters =
+			"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		const charactersLength = characters.length;
+		let counter = 0;
+		while (counter < len) {
+			result += characters.charAt(Math.floor(Math.random() * charactersLength));
+			counter += 1;
+		}
+
+		//
+		$("#data_autobank_token").val(result).trigger("change").trigger("dblclick");
+
+		//
+		return result;
+	});
 
 	//
 	action_highlighted_code("#data_paypal_sdk_js");
