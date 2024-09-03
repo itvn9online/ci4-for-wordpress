@@ -33,9 +33,6 @@ class Cassos extends Payments
     // nhận thông tin chuyển khoản từ casso.vn và chuyển trạng thái đơn hàng nếu thấy
     public function confirm()
     {
-        // die($this->getconfig->autobank_token . '|' . __CLASS__ . ':' . __LINE__);
-
-        // 
         $data = Casso::phpInput($this->debug_enable, $this->getconfig->autobank_token);
         if ($data === null) {
             $this->result_json_type([

@@ -51,9 +51,6 @@ class Casso
     // hàm này sẽ trả về object chứa thông tin thanh toán
     public static function phpInput($debug_enable = false, $autobank_token = null)
     {
-        // die($autobank_token . '|' . __CLASS__ . ':' . __LINE__);
-
-        // 
         ini_set('display_errors', 0);
         error_reporting(E_ALL);
         //error_reporting( E_ALL && E_WARNING && E_NOTICE );
@@ -62,7 +59,6 @@ class Casso
 
         //
         $file_log = self::pathTestLog();
-        // die($autobank_token . '|' . __CLASS__ . ':' . __LINE__);
 
         //
         $result = [];
@@ -88,7 +84,6 @@ class Casso
             if (function_exists('getallheaders')) {
                 $headers = getallheaders();
                 file_put_contents($file_log, json_encode($headers) . PHP_EOL, FILE_APPEND);
-                // die($autobank_token . '|' . __CLASS__ . ':' . __LINE__);
                 file_put_contents($file_log, 'autobank_token: ' . $autobank_token . PHP_EOL, FILE_APPEND);
 
                 // 
@@ -149,7 +144,6 @@ class Casso
             //error_log( $e->getPrevious() );
             //error_log( $e->getCode() );
             //error_log( $e->getTraceAsString() );
-            // die($autobank_token . '|' . __CLASS__ . ':' . __LINE__);
         }
         //print( $result );
         //file_put_contents($file_log, json_encode($result), LOCK_EX);
