@@ -15,6 +15,7 @@ Options -Indexes
     # Multiple languages + Htaccess
     # https://stackoverflow.com/questions/46573994/multiple-languages-htaccess
 
+    # using https (bo lenh nay trong cac site chay thong qua CloudFlare Zero Trust)
     # Redirect HTTP to HTTPS automatically (only if not in localhost)
     # RewriteCond %{HTTP_HOST} !=localhost
     RewriteCond %{HTTPS} off

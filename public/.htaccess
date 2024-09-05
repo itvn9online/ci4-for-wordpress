@@ -1,17 +1,11 @@
 # Disable directory browsing
-
 Options -Indexes
 
 # ----------------------------------------------------------------------
-
 # Rewrite engine
-
 # ----------------------------------------------------------------------
-
 # Turning on the rewrite engine is necessary for the following rules and features.
-
 # FollowSymLinks must be enabled for this to work.
-
 <IfModule mod_rewrite.c>
 	Options +FollowSymlinks
     RewriteEngine On
@@ -44,14 +38,13 @@ Options -Indexes
 
 </IfModule>
 
-<IfModule !mod_rewrite.c> # If we don't have mod_rewrite installed, all 404's # can be sent to index.php, and everything works as normal.
+<IfModule !mod_rewrite.c>
+# If we don't have mod_rewrite installed, all 404's # can be sent to index.php, and everything works as normal.
 ErrorDocument 404 index.php
 </IfModule>
 
 # Disable server signature start
-
-    ServerSignature Off
-
+ServerSignature Off
 # Disable server signature end
 
 <ifModule mod_gzip.c>
@@ -125,38 +118,38 @@ Header append Vary Accept-Encoding
 </FilesMatch>
 
 # cho phep cac file font duoc truy cap theo kieu multi domain
-
 <FilesMatch "\.(woff|woff2|eot|ttf|svg)$">
 Header set Access-Control-Allow-Origin "\*"
 </FilesMatch>
 
-<FilesMatch "\.(css)$"> # Header set Cache-Control "public"
+<FilesMatch "\.(css)$">
+# Header set Cache-Control "public"
 Header set Cache-Control "public, must-revalidate, proxy-revalidate"
 </FilesMatch>
 
-<FilesMatch "\.(js)$"> # Header set Cache-Control "private"
+<FilesMatch "\.(js)$">
+# Header set Cache-Control "private"
 Header set Cache-Control "public, must-revalidate, proxy-revalidate"
 </FilesMatch>
 
-#<FilesMatch "\.(x?html|htm|php|asp|aspx)$"> # Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate" # Header set Cache-Control "max-age=120" #</FilesMatch>
+# <FilesMatch "\.(x?html|htm|php|asp|aspx)$">
+# Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate" # Header set Cache-Control "max-age=120"
+# </FilesMatch>
 
 # https://techtalk.vn/tat-ca-nhung-thu-ban-can-biet-ve-http-security-headers.html
-
 # https://hstspreload.org/
-
 Header always set Strict-Transport-Security "max-age=63072000; includeSubdomains; preload"
 
 # https://ssl-config.mozilla.org/
-
 # Header always set Strict-Transport-Security "max-age=63072000; always"
-
-#Header always set X-XSS-Protection "1; mode=block; report=https://argsec.report-uri.com/r/d/xss/enforce"
+# Header always set X-XSS-Protection "1; mode=block; report=https://argsec.report-uri.com/r/d/xss/enforce"
 Header always set X-XSS-Protection "1; mode=block"
 Header always set X-Frame-Options "SAMEORIGIN"
 Header always set X-Content-Type-Options nosniff
 Header always set Referrer-Policy "strict-origin-when-cross-origin"
-#Header always set Content-Security-Policy "default-src 'self' facebook.com onesignal.com; script-src 'self' 'unsafe-inline' www.googletagmanager.com connect.facebook.net www.googleadservices.com www.google-analytics.com googleads.g.doubleclick.net onesignal.com tpc.googlesyndication.com https://cdn.onesignal.com https://_.onesignal.com https://cdn4.mxpnl.com; style-src 'self' data: 'unsafe-inline' onesignal.com; img-src 'self' data: www.googletagmanager.com stats.g.doubleclick.net www.google-analytics.com www.facebook.com www.google.com www.google.com.vn googleads.g.doubleclick.net i.ytimg.com images.dmca.com; frame-src www.googletagmanager.com bid.g.doubleclick.net www.facebook.com www.google.com www.youtube.com connect.facebook.net docs.google.com https://onesignal.com tpc.googlesyndication.com; font-src 'self' data:; connect-src 'self' _.google.com google.com google.com.vn www.google-analytics.com onesignal.com stats.g.doubleclick.net www.facebook.com https://api.mixpanel.com/; report-uri https://argsec.report-uri.com/r/d/csp/reportOnly"
 
-# Header always set Permissions-Policy 'browsing-topics=(), geolocation=\*, midi=(), sync-xhr=(self "https://{my_domain.com}" "https://www.{my_domain.com}"), microphone=(), camera=(), magnetometer=(), gyroscope=(), payment=(), fullscreen=(self "https://{my_domain.com}" "https://www.{my_domain.com}")'
+# Header always set Content-Security-Policy "default-src 'self' facebook.com onesignal.com; script-src 'self' 'unsafe-inline' www.googletagmanager.com connect.facebook.net www.googleadservices.com www.google-analytics.com googleads.g.doubleclick.net onesignal.com tpc.googlesyndication.com https://cdn.onesignal.com https://*.onesignal.com https://cdn4.mxpnl.com; style-src 'self' data: 'unsafe-inline' onesignal.com; img-src 'self' data: www.googletagmanager.com stats.g.doubleclick.net www.google-analytics.com www.facebook.com www.google.com www.google.com.vn googleads.g.doubleclick.net i.ytimg.com images.dmca.com; frame-src www.googletagmanager.com bid.g.doubleclick.net www.facebook.com www.google.com www.youtube.com connect.facebook.net docs.google.com https://onesignal.com tpc.googlesyndication.com; font-src 'self' data:; connect-src 'self' *.google.com google.com google.com.vn www.google-analytics.com onesignal.com stats.g.doubleclick.net www.facebook.com https://api.mixpanel.com/; report-uri https://argsec.report-uri.com/r/d/csp/reportOnly"
+
+# Header always set Permissions-Policy 'browsing-topics=(), geolocation=*, midi=(), sync-xhr=(self "https://{my_domain.com}" "https://www.{my_domain.com}"), microphone=(), camera=(), magnetometer=(), gyroscope=(), payment=(), fullscreen=(self "https://{my_domain.com}" "https://www.{my_domain.com}")'
 
 </IfModule>
