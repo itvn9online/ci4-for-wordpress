@@ -375,43 +375,51 @@ define(
             'value' => 'en',
             'text' => 'English',
             'css_class' => 'text-muted'
-        ], [
+        ],
+        [
             // xong đến tiếng Việt
             'value' => 'vn',
             'text' => 'Tiếng Việt',
             'css_class' => 'text-muted'
-        ], [
+        ],
+        [
             // tiếng Trung đại lục (giản thể)
             'value' => 'cn',
             // 'text' => '中文(简体)',
             'text' => '中文',
             'css_class' => 'text-muted'
-        ], [
+        ],
+        [
             // Hàn
             'value' => 'kr',
             'text' => '한국어',
             'css_class' => 'text-muted'
-        ], [
+        ],
+        [
             // Nhật
             'value' => 'jp',
             'text' => '日本語',
             'css_class' => 'text-muted'
-        ], [
+        ],
+        [
             // Pháp
             'value' => 'fr',
             'text' => 'Français',
             'css_class' => 'text-muted'
-        ], [
+        ],
+        [
             // Thái
             'value' => 'tl',
             'text' => 'ภาษาไทย',
             'css_class' => 'text-muted'
-        ], [
+        ],
+        [
             // Tây Ban Nha
             'value' => 'es',
             'text' => 'Español',
             'css_class' => 'text-muted'
-        ], [
+        ],
+        [
             // Đức
             'value' => 'de',
             'text' => 'Deutsch',
@@ -550,7 +558,10 @@ defined('CUSTOM_MD5_HASH_CODE') || define('CUSTOM_MD5_HASH_CODE', HTTP_SYNC_HOST
 
 // token cho chức năng cronjob -> kết nối bên ngoài -> tối thiểu 1 năm đổi 1 lần
 defined('CRONJOB_TOKEN') || define('CRONJOB_TOKEN', '_' . substr(md5(date('Y') . CUSTOM_MD5_HASH_CODE), 0, 16));
-defined('LOCAL_BAK_PATH') || define('LOCAL_BAK_PATH', '/Volumes/bak');
+// mac
+// defined('LOCAL_BAK_PATH') || define('LOCAL_BAK_PATH', '/Volumes/bak');
+// ubuntu
+defined('LOCAL_BAK_PATH') || define('LOCAL_BAK_PATH', '/mnt/disk2/BAK');
 // Example:
 // define('SSH_BAK_PORT', '2233');
 defined('SSH_BAK_PORT') || define('SSH_BAK_PORT', '');

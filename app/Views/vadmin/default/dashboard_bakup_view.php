@@ -17,7 +17,7 @@ $db_url_bash = base_url('backups/db_bak_bash');
  */
 $bash_localhost_bak = '
 bak_curl_token="' . CRONJOB_TOKEN . '"
-bak_curl_url="' . $local_bak_bash . '"
+bak_curl_url="' . $local_bak_bash . '&os="$backup_type
 # bash <( curl -k --data "source=localhost&year=' . date('Y') . '&token="$bak_curl_token $bak_curl_url )
 ';
 $bash_localhost_bak = trim($bash_localhost_bak);

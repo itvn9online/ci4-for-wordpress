@@ -33,6 +33,7 @@ class Backups extends Layout
     protected $ssh_port_bak = '';
     protected $admin_user_backups = '';
     protected $admin_dir_backups = '';
+    protected $os = '';
 
     // 
     public function __construct()
@@ -52,6 +53,14 @@ class Backups extends Layout
         $this->backups_error = LOCAL_BAK_PATH . '/backups_error-' . date('Y-m-d') . '.txt';
         if (SSH_BAK_PORT != '') {
             $this->ssh_port_bak = ' "ssh -p ' . trim(SSH_BAK_PORT) . '"';
+        }
+
+        // ubuntu
+        $this->os = $this->MY_get('os', 'ubuntu');
+        if ($this->os == 'ubuntu') {
+            $this->mkdir_full_path = '/usr/bin/mkdir';
+            $this->rm_full_path = '/usr/bin/rm';
+            $this->ssh_path_pass = '/usr/bin/sshpass';
         }
     }
 
@@ -98,7 +107,7 @@ class Backups extends Layout
 
         // thư mục backup
         $backup_local_path = LOCAL_BAK_PATH . '/' . $dir_bak_to;
-        $test_rsync_macos = LOCAL_BAK_PATH . '/test_rsync_macos.txt';
+        $test_rsync_os = LOCAL_BAK_PATH . '/test_rsync_' . $this->os . '.txt';
         $backups_txt_log = $backup_local_path . '/backups_log-' . date('Y-m-d') . '.txt';
         $rm_txt_log = $backup_local_path . '/backups_log-' . date('Y-m-d', time() - WEEK) . '.txt';
 
@@ -137,17 +146,17 @@ echo $(date) > ' . LOCAL_BAK_PATH . '/' . __FUNCTION__ . '_running.txt
 # log
 echo "Test rsync: "$(date) > ' . $backups_txt_log . '
 # create test file
-echo "' . $_SERVER['SERVER_ADDR'] . ' "$(date) > ' . $test_rsync_macos . '
+echo "' . $_SERVER['SERVER_ADDR'] . ' "$(date) > ' . $test_rsync_os . '
 # rsync to server
-' . $this->cmd_rsync . $this->ssh_port_bak . ' ' . $test_rsync_macos . ' root@' . $_SERVER['SERVER_ADDR'] . ':/root/
+' . $this->cmd_rsync . $this->ssh_port_bak . ' ' . $test_rsync_os . ' root@' . $_SERVER['SERVER_ADDR'] . ':/root/
 # remove file from localhost
-' . $this->rm_full_path . ' -rf ' . $test_rsync_macos . '
+' . $this->rm_full_path . ' -rf ' . $test_rsync_os . '
 sleep 1
 # sync from srver to localhost
-' . $this->cmd_rsync . $this->ssh_port_bak . ' root@' . $_SERVER['SERVER_ADDR'] . ':/root/' . basename($test_rsync_macos) . ' ' . rtrim(dirname($test_rsync_macos), '/') . '/
+' . $this->cmd_rsync . $this->ssh_port_bak . ' root@' . $_SERVER['SERVER_ADDR'] . ':/root/' . basename($test_rsync_os) . ' ' . rtrim(dirname($test_rsync_os), '/') . '/
 sleep 1
 # check file in localhost
-if [ -f ' . $test_rsync_macos . ' ]; then
+if [ -f ' . $test_rsync_os . ' ]; then
 echo "OK! ' . $_SERVER['SERVER_ADDR'] . ' rsync: "$(date) >> ' . $backups_txt_log . '
 else
 echo "ERROR! ' . $_SERVER['SERVER_ADDR'] . ' rsync: "$(date) >> ' . $backups_txt_log . '
