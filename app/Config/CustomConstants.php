@@ -561,7 +561,7 @@ defined('CRONJOB_TOKEN') || define('CRONJOB_TOKEN', '_' . substr(md5(date('Y') .
 // mac
 // defined('LOCAL_BAK_PATH') || define('LOCAL_BAK_PATH', '/Volumes/bak');
 // ubuntu
-defined('LOCAL_BAK_PATH') || define('LOCAL_BAK_PATH', '/mnt/disk2/BAK');
+defined('LOCAL_BAK_PATH') || define('LOCAL_BAK_PATH', '/mnt/disk500/BAK');
 // Example:
 // define('SSH_BAK_PORT', '2233');
 defined('SSH_BAK_PORT') || define('SSH_BAK_PORT', '');

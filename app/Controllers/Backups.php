@@ -147,6 +147,7 @@ echo $(date) > ' . LOCAL_BAK_PATH . '/' . __FUNCTION__ . '_running.txt
 echo "Test rsync: "$(date) > ' . $backups_txt_log . '
 # create test file
 echo "' . $_SERVER['SERVER_ADDR'] . ' "$(date) > ' . $test_rsync_os . '
+' . $this->chmod_full_path . ' 777 ' . $test_rsync_os . '
 # rsync to server
 ' . $this->cmd_rsync . $this->ssh_port_bak . ' ' . $test_rsync_os . ' root@' . $_SERVER['SERVER_ADDR'] . ':/root/
 # remove file from localhost
