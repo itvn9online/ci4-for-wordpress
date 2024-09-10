@@ -16,10 +16,14 @@ class User extends UserMeta
         'user_email',
         'user_phone',
     ];
+    public $lang_model = null;
 
     public function __construct()
     {
         parent::__construct();
+
+        // 
+        $this->lang_model = new \App\Models\Lang();
     }
 
     protected function sync_pass($data)
@@ -201,6 +205,9 @@ class User extends UserMeta
 
                 // kiểm tra xem thông tin này có bị trùng không
                 if (!empty($current_data)) {
+                    // print_r($current_data);
+
+                    // 
                     $check_data = $this->base_model->select(
                         'ID',
                         'users',
@@ -231,6 +238,7 @@ class User extends UserMeta
                         // print_r($check_data);
                         return [
                             'code' => __LINE__,
+                            'user_id' => $check_data['ID'],
                             'error' => $this->lang_model->get_the_text('account_infor_used', 'Account information has been used') . ' #' . $check_data['ID'],
                         ];
                     }

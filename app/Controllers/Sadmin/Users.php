@@ -662,6 +662,9 @@ class Users extends Sadmin
 
         //
         if (isset($update['error'])) {
+            if (isset($update['user_id'])) {
+                echo '<script>top.show_link_of_user_exist(' . $update['user_id'] . ');</script>';
+            }
             $this->base_model->alert($update['error'], 'error');
         }
         // nếu update thành công -> gửi lệnh javascript để ẩn bài viết bằng javascript

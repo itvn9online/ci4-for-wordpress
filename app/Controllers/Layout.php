@@ -52,6 +52,10 @@ class Layout extends Sync
 
     public function __construct()
     {
+        ini_set('display_errors', 1);
+        error_reporting(E_ALL);
+
+        // 
         parent::__construct();
 
         //echo base_url('/') . '<br>' . PHP_EOL;
