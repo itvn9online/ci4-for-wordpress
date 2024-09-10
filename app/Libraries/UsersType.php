@@ -30,8 +30,8 @@ class UsersType
     const NO_LOGIN = -1; // tài khoản bị khóa chức năng đăng nhập (vĩnh viễn)
 
     // member_verified
-    const VERIFING = 0;
-    const VERIFIED = 1;
+    const VERIFING = '0';
+    const VERIFIED = '1';
 
     // login_type
     const LOCAL = 'local';

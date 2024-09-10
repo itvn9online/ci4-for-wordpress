@@ -513,6 +513,7 @@ class Sync extends BaseController
                 'ci_pass' => 'VARCHAR(255) NULL COMMENT \'Mật khẩu đăng nhập cho phiên bản CI-wordpress\'',
                 'member_type' => 'VARCHAR(55) NOT NULL COMMENT \'Phân loại thành viên (role)\'',
                 'member_verified' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'Kích hoạt qua email hoặc phone. 0 = chưa, 1 = rồi\'',
+                'phone_verified' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'Kích hoạt qua phone. 0 = chưa, 1 = rồi\'',
                 'is_deleted' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'0 = hiển thị, 1 = xóa\'',
                 'parent_id' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'ID của tài khoản cha nếu có\'',
                 'district_id' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'ID của quận huyện\'',
