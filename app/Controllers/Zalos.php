@@ -116,7 +116,8 @@ class Zalos extends Guest
             } else {
                 $this->result_json_type([
                     'code' => __LINE__,
-                    'error' => 'ERROR code ' . $result['error'], ' (' . $result['message'] . ')',
+                    'error' => 'ERROR code ' . $result['error'],
+                    ' (' . $result['message'] . ')',
                 ]);
             }
         } else {
@@ -190,7 +191,7 @@ class Zalos extends Guest
 
         // INSERT
         $result_id = $this->base_model->insert('webhook_zalo_oa', [
-            'ip' => $this->request->getIPAddress(),
+            'ip' => $this->base_model->getIPAddress(),
             'event_name' => $data_obj->event_name,
             'app_id' => $data_obj->app_id,
             'content' => $data_input,

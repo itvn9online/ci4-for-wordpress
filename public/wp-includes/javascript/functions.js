@@ -376,6 +376,9 @@ var g_func = {
 		return g_func.number_only(str, "/[^0-9-+.]/g");
 	},
 	money_format: function (str) {
+		if (str == null) {
+			return 0;
+		}
 		// loại bỏ số 0 ở đầu chuỗi số
 		str = str.toString().replace(/\,/g, "") * 1;
 		// console.log(str);

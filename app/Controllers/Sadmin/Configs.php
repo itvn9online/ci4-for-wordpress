@@ -441,7 +441,7 @@ class Configs extends Sadmin
                     'Request: ' . $_SERVER['REQUEST_URI'],
                     'Method: ' . $_SERVER['REQUEST_METHOD'],
                     'Time: ' . date('r'),
-                    'IP: ' . $this->request->getIPAddress(),
+                    'IP: ' . $this->base_model->getIPAddress(),
                     'Browser: ' . $_SERVER['HTTP_USER_AGENT'],
                     'Server: ' . $_SERVER['SERVER_ADDR'],
                     'Session: ' . session_id(),
@@ -510,7 +510,7 @@ class Configs extends Sadmin
                 [
                     date('r'),
                     __CLASS__ . ': ' . __FUNCTION__,
-                    'IP: ' . $this->request->getIPAddress(),
+                    'IP: ' . $this->base_model->getIPAddress(),
                     'Agent: ' . $_SERVER['HTTP_USER_AGENT'],
                     __CLASS__ . ':' . __LINE__,
                 ]

@@ -276,7 +276,7 @@ class Constants extends Configs
             //var_dump($a);
 
             // thêm thông tin người thực hiện lưu trữ
-            $a[] = '// ' . $this->base_model->MY_sessid() . ' from ' . $this->request->getIPAddress() . ' in ' . date('r');
+            $a[] = '// ' . $this->base_model->MY_sessid() . ' from ' . $this->base_model->getIPAddress() . ' in ' . date('r');
             $a[] = '// by ' . $this->session_data['user_email'] . ' (' . md5($this->session_data['user_email']) . ') #' . $this->current_user_id;
             if (isset($_SERVER['HTTP_USER_AGENT'])) {
                 $a[] = '// ' . $_SERVER['HTTP_USER_AGENT'];

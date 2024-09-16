@@ -418,7 +418,7 @@ class Layout extends Sync
             'link_visible' => 'N',
             'link_owner' => $this->current_user_id,
             'link_updated' => date(EBE_DATETIME_FORMAT),
-            'link_rel' => $this->request->getIPAddress(),
+            'link_rel' => $this->base_model->getIPAddress(),
             'link_notes' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '',
             'link_rss' => '',
         ]);

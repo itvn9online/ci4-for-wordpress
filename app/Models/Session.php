@@ -635,4 +635,24 @@ class Session
         //
         return true;
     }
+
+    /**
+     * Trả về IP của người dùng
+     * dùng hàm của ci4 thấy nó trả ra ko chuẩn
+     **/
+    public function getIPAddress()
+    {
+        $client_ip = $_SERVER['REMOTE_ADDR'];
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $client_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else if (isset($_SERVER['HTTP_X_REAL_IP'])) {
+            $client_ip = $_SERVER['HTTP_X_REAL_IP'];
+        } else if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
+            $client_ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
+        } else if (1 > 2) {
+            $request = \Config\Services::request();
+            $client_ip = $request->getIPAddress();
+        }
+        return $client_ip;
+    }
 }

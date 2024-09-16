@@ -13,6 +13,7 @@
             <th>ID</th>
             <th>Tài khoản</th>
             <th>Email</th>
+            <th>Phone</th>
             <th>Tên hiển thị</th>
             <th>Nhóm</th>
             <th><a :href="'sadmin/' + controller_slug + '?member_type=' + member_type + '&order_by=last_login'">Đăng nhập cuối <i class="fa fa-sort"></i></a></th>
@@ -27,7 +28,8 @@
             <td class="users-bg-avatar each-to-bg-src" :data-src="v.avatar">&nbsp;</td>
             <td><a :href="'sadmin/' + controller_slug + '/add?id=' + v.ID">{{v.ID}}</a></td>
             <td><a :href="'sadmin/' + controller_slug + '/add?id=' + v.ID">{{v.user_login}}</a></td>
-            <td><a :href="'sadmin/' + controller_slug + '/add?id=' + v.ID">{{v.user_email}}</a></td>
+            <td :title="v.user_email" class="click-show-hidden-data">{{hide_email_data(v.user_email)}}</td>
+            <td :title="v.user_phone" class="click-show-hidden-data">{{hide_phone_data(v.user_phone)}}</td>
             <td>{{v.display_name}}<span v-if="v.user_nicename != ''"> ({{v.user_nicename}})</span></td>
             <td><a :href="'sadmin/' + controller_slug + '?member_type=' + v.member_type">{{list[v.member_type]}}</a></td>
             <td><span v-if="v.last_login != null">{{v.last_login.substr(0, 16)}}</span> ({{v.login_type}})</td>

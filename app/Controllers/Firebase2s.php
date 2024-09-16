@@ -385,7 +385,7 @@ class Firebase2s extends Firebases
                     'verify_url' => $verify_url,
                     'base_url' => base_url(),
                     'email' => $data['user_email'],
-                    'ip' => $this->request->getIPAddress(),
+                    'ip' => $this->base_model->getIPAddress(),
                     'agent' => $_SERVER['HTTP_USER_AGENT'],
                     'date_send' => date('r'),
                 ]

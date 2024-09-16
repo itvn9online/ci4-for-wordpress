@@ -91,7 +91,7 @@ class Zalooas extends Configs
                 'Đây là đài tiếng nói Việt Nam!',
                 'Phát đi từ Hà Nội, thủ đô nước cộng hòa xã hội chủ nghĩa Việt Nam.',
                 'Bây giờ là: ' . date('r') . '.',
-                'IP: ' . $this->request->getIPAddress(),
+                'IP: ' . $this->base_model->getIPAddress(),
                 'Agent: ' . $_SERVER['HTTP_USER_AGENT'],
                 base_url(),
             ])),

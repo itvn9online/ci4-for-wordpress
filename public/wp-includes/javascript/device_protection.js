@@ -229,7 +229,7 @@ function confirm_kip_logged() {
 			console.log(data);
 
 			// nạp lại trang
-			if (rm.logout_dp == "on") {
+			if (_rqrm.logout_dp == "on") {
 				window.location.reload();
 			}
 		},

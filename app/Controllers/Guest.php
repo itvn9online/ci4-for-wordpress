@@ -704,7 +704,7 @@ class Guest extends Csrf
                 [
                     'base_url' => base_url('guest/login'),
                     'email' => $email,
-                    'ip' => $this->request->getIPAddress(),
+                    'ip' => $this->base_model->getIPAddress(),
                     'random_password' => $random_password,
                     'agent' => $_SERVER['HTTP_USER_AGENT'],
                     'date_send' => date('r'),

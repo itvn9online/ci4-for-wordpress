@@ -117,16 +117,18 @@ class Casso
                     $low_description = str_replace(':bill ', ': bill ', $low_description);
 
                     // cắt theo dấu cách
-                    $order_id = explode(' bill ', $low_description);
-                    if (count($order_id) > 1) {
-                        $order_id = explode(' ', $order_id[1]);
-                        $order_id = explode('.', $order_id[0]);
+                    if (strpos($low_description, ' bill ') !== false) {
+                        $order_id = explode(' bill ', $low_description);
+                        if (count($order_id) > 1) {
+                            $order_id = explode(' ', $order_id[1]);
+                            $order_id = explode('.', $order_id[0]);
 
-                        //
-                        $data->data[$k]->order_id = trim($order_id[0]);
-                    } else {
-                        file_put_contents($file_log, 'count order_id|' . __CLASS__ . ':' . __LINE__ . PHP_EOL, FILE_APPEND);
-                        $data->data[$k] = null;
+                            //
+                            $data->data[$k]->order_id = trim($order_id[0]);
+                        } else {
+                            file_put_contents($file_log, 'count order_id|' . __CLASS__ . ':' . __LINE__ . PHP_EOL, FILE_APPEND);
+                            $data->data[$k] = null;
+                        }
                     }
                 }
             } else {

@@ -39,7 +39,7 @@ class Order extends Post
             $data['post_type'] = $this->post_type;
         }
         if (!isset($data['order_ip'])) {
-            $data['order_ip'] = $this->request->getIPAddress();
+            $data['order_ip'] = $this->base_model->getIPAddress();
         }
         if (!isset($data['order_agent'])) {
             $data['order_agent'] = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null;

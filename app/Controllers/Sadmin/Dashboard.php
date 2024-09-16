@@ -142,8 +142,8 @@ class Dashboard extends Optimize
         //echo 'begin t: ' . (time() - $begin_t) . PHP_EOL;
 
         //
-        $client_ip = $this->request->getIPAddress();
-        //$client_ip = ( isset( $_SERVER[ 'HTTP_X_REAL_IP' ] ) ) ? $_SERVER[ 'HTTP_X_REAL_IP' ] : $_SERVER[ 'REMOTE_ADDR' ];
+        // $client_ip = $this->base_model->getIPAddress();
+        $client_ip = $this->base_model->getIPAddress();
 
 
         // TEST xem cache có chạy hay không -> gọi đến cache được gọi trong dashboard để xem có NULL hay không
@@ -904,11 +904,13 @@ class Dashboard extends Optimize
                 // chỉ update các file trong thư mục chỉ định
                 if ($main_zip === true) {
                     // các file đơn lẻ ở root
-                    foreach ([
-                        '.env',
-                        '.htaccess',
-                        'spark',
-                    ] as $the_file) {
+                    foreach (
+                        [
+                            '.env',
+                            '.htaccess',
+                            'spark',
+                        ] as $the_file
+                    ) {
                         if (is_file($upload_path . $the_file)) {
                             $this->file_re_cache[] = $upload_path . $the_file;
                         }

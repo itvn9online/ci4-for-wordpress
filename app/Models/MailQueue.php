@@ -43,18 +43,20 @@ class MailQueue extends EbModel
         // die(__CLASS__ . ':' . __LINE__);
 
         // dữ liệu mặc định
-        foreach ([
-            'ip' => $this->request->getIPAddress(),
-            'session_id' => $this->base_model->MY_sessid(),
-            'agent' => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null,
-            'mailto' => null,
-            'title' => null,
-            'content' => null,
-            'status' => PostType::PENDING,
-            'post_id' => 0,
-            'order_id' => 0,
-            'created_at' => time(),
-        ] as $k => $v) {
+        foreach (
+            [
+                'ip' => $this->base_model->getIPAddress(),
+                'session_id' => $this->base_model->MY_sessid(),
+                'agent' => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null,
+                'mailto' => null,
+                'title' => null,
+                'content' => null,
+                'status' => PostType::PENDING,
+                'post_id' => 0,
+                'order_id' => 0,
+                'created_at' => time(),
+            ] as $k => $v
+        ) {
             if (!isset($data[$k])) {
                 $data[$k] = $v;
             }

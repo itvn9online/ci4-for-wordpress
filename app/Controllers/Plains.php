@@ -43,10 +43,12 @@ class Plains extends Layout
 
         // 
         $dir_download = APPPATH . 'ThirdParty';
-        foreach ([
-            'geolite2',
-            'db',
-        ] as $v) {
+        foreach (
+            [
+                'geolite2',
+                'db',
+            ] as $v
+        ) {
             $dir_download .= '/' . $v;
             if (!is_dir($dir_download)) {
                 mkdir($dir_download, DEFAULT_DIR_PERMISSION) or die('ERROR create cache dir');
@@ -152,7 +154,7 @@ class Plains extends Layout
         $this->setOrigin();
 
         //
-        die($this->request->getIPAddress());
+        die($this->base_model->getIPAddress());
     }
 
     /**
@@ -164,15 +166,15 @@ class Plains extends Layout
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $ip = $this->MY_post('ip');
             if ($ip == '') {
-                $ip = $this->request->getIPAddress();
+                $ip = $this->base_model->getIPAddress();
             }
         } else {
             // $ip = $this->MY_get('ip');
             // với GET -> lấy ip hiện tại của người dùng
-            $ip = $this->request->getIPAddress();
+            $ip = $this->base_model->getIPAddress();
         }
         // if ($ip == '') {
-        //     $ip = $this->request->getIPAddress();
+        //     $ip = $this->base_model->getIPAddress();
         // }
 
         //

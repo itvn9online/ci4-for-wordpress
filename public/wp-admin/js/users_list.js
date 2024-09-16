@@ -17,3 +17,10 @@ function show_link_of_user_exist(user_id) {
 		console.log("%c" + ".admin-search-form not found!", "color: orange");
 	}
 }
+
+//
+$(document).ready(function () {
+	$(".click-show-hidden-data").click(function () {
+		$(this).html($(this).attr("title"));
+	});
+});

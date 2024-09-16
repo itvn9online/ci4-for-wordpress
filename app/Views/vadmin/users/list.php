@@ -146,6 +146,14 @@ $base_model->JSON_echo(
         UsersType_FOR_DEFAULT: UsersType_FOR_DEFAULT,
         list: arr_members_type,
         UsersType_listStatus: UsersType_listStatus,
+        hide_email_data: function(str) {
+            return (function(str) {
+                return str.substr(0, 4) + '***' + str.substr(-3)
+            })(str.split('@')[0]) + '@' + str.split('@')[1];
+        },
+        hide_phone_data: function(str) {
+            return str.substr(0, 4) + '***' + str.substr(-3)
+        },
     };
     for (let x in data_vuejs) {
         params_vuejs[x] = data_vuejs[x];

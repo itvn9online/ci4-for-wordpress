@@ -294,7 +294,7 @@ class ContactBase extends Home
         //
         $data_insert = [
             'comment_author_url' => $comment_author_url,
-            //'comment_author_IP' => $this->request->getIPAddress(),
+            //'comment_author_IP' => $this->base_model->getIPAddress(),
             //'comment_date' => date( EBE_DATETIME_FORMAT ),
             'comment_content' => '',
             //'comment_agent' => $_SERVER[ 'HTTP_USER_AGENT' ],

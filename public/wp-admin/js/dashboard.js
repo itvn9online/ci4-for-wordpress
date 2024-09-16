@@ -199,7 +199,7 @@ if (
  * Mục đích chính là cập nhật GeoLite2-Db định kỳ
  */
 function showServerInfoIp(data, to) {
-	// console.log(data);
+	console.log(data);
 
 	//
 	let a = [];
@@ -232,7 +232,7 @@ function showUserInfoIp(data) {
 //
 (function (server_info_ip, user_info_ip) {
 	let uri = web_link + "plains/city_db_ip";
-	console.log("uri:", uri);
+	console.log("uri:", uri, server_info_ip, user_info_ip);
 	if (server_info_ip !== null) {
 		showServerInfoIp(JSON.parse(server_info_ip));
 
@@ -259,7 +259,7 @@ function showUserInfoIp(data) {
 			console.log(errorThrown);
 		},
 		success: function (data) {
-			// console.log(data);
+			console.log("data", data);
 			//console.log(data.length);
 
 			//
@@ -271,7 +271,7 @@ function showUserInfoIp(data) {
 			}
 
 			//
-			if (typeof data.data != "undefined") {
+			if (typeof data.data != "undefined" && data.data != null) {
 				showServerInfoIp(data.data);
 
 				//
@@ -296,7 +296,7 @@ function showUserInfoIp(data) {
 					console.log(errorThrown);
 				},
 				success: function (data) {
-					// console.log(data);
+					console.log(data);
 					//console.log(data.length);
 
 					//
@@ -308,7 +308,7 @@ function showUserInfoIp(data) {
 					}
 
 					//
-					if (typeof data.data != "undefined") {
+					if (typeof data.data != "undefined" && data.data != null) {
 						showUserInfoIp(data.data);
 
 						//
