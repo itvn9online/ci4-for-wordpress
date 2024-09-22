@@ -47,14 +47,12 @@ $base_model->add_css('wp-admin/css/config_' . $config_type . '.css');
             foreach ($meta_default as $k => $v) {
             ?>
                 <div class="control-group eb-control-group cf">
-                    <div class="lf f30">&nbsp;</div>
+                    <div class="lf f20">&nbsp;</div>
+                    <div class="lf f10">
+                        <input type="checkbox" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>" value="on" data-value="<?php echo $data[$k]; ?>" />
+                    </div>
                     <div class="lf f35 controls-checkbox">
-                        <label for="data_<?php echo $k; ?>">
-                            <input type="checkbox" name="data[<?php echo $k; ?>]" id="data_<?php echo $k; ?>" value="on" data-value="<?php echo $data[$k]; ?>" />
-                            <span class="replace-text-label">
-                                <?php echo $v; ?>
-                            </span>
-                        </label>
+                        <label for="data_<?php echo $k; ?>"><?php echo $v; ?></label>
                         <?php
 
                         // hiển thị ghi chú nếu có
