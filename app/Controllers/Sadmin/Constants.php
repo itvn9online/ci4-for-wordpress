@@ -338,13 +338,13 @@ class Constants extends Configs
         try {
             // procedural API
             // if (function_exists('memcache_connect') && strpos($this->memcached_hostname, '/') === false) {
-            if (function_exists('memcache_connect')) {
+            if (1 > 2 && function_exists('memcache_connect')) {
                 memcache_connect($this->memcached_hostname, $this->memcached_port);
-            } else if (function_exists('memcached_connect')) {
+            } else if (1 > 2 && function_exists('memcached_connect')) {
                 memcached_connect($this->memcached_hostname, $this->memcached_port);
             } else {
                 // OO API
-                $memcache = new \Memcached;
+                $memcache = new \Memcached();
                 $memcache->addServer($this->memcached_hostname, $this->memcached_port);
                 // print_r($memcache->getStats());
                 // die(__CLASS__ . ':' . __LINE__);
