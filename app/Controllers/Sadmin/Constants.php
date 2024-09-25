@@ -126,6 +126,7 @@ class Constants extends Configs
                 if ($k == 'MY_SESSION_DRIVE') {
                     if ($v == 'FileHandler') {
                         // mặc định là sử dụng file -> không cần khai báo thêm
+                        // https://codeigniter.com/user_guide/libraries/sessions.html#filehandler-driver-the-default
                     } else if ($v == 'RedisHandler') {
                         if (empty(phpversion('redis')) || $this->checkRedis() !== true) {
                             echo 'redis not found! Code #' . __LINE__ . ' <br>' . PHP_EOL;
@@ -133,6 +134,7 @@ class Constants extends Configs
                         } else {
                             // nếu không lỗi lầm gì thì thiết lập đường dẫn lưu session bằng redis
                             if (empty($data['CUSTOM_SESSION_PATH'])) {
+                                // https://codeigniter.com/user_guide/libraries/sessions.html#redishandler-driver
                                 $a[] = "define('CUSTOM_SESSION_PATH', 'tcp://localhost:" . $this->redis_port . "');";
                             }
                         }
@@ -143,11 +145,13 @@ class Constants extends Configs
                         } else {
                             // nếu không lỗi lầm gì thì thiết lập đường dẫn lưu session bằng Memcached
                             if (empty($data['CUSTOM_SESSION_PATH'])) {
+                                // https://codeigniter.com/user_guide/libraries/sessions.html#memcachedhandler-driver
                                 $a[] = "define('CUSTOM_SESSION_PATH', 'localhost:" . $this->memcached_port . "');";
                             }
                         }
                     } else if ($v == 'DatabaseHandler') {
                         if (empty($data['CUSTOM_SESSION_PATH'])) {
+                            // https://codeigniter.com/user_guide/libraries/sessions.html#databasehandler-driver
                             $a[] = "define('CUSTOM_SESSION_PATH', 'ci_sessions');";
                         }
                     } else {
@@ -335,11 +339,17 @@ class Constants extends Configs
             // procedural API
             // if (function_exists('memcache_connect') && strpos($this->memcached_hostname, '/') === false) {
             if (function_exists('memcache_connect')) {
-                $memcache_obj = memcache_connect($this->memcached_hostname, $this->memcached_port);
+                memcache_connect($this->memcached_hostname, $this->memcached_port);
+            } else if (function_exists('memcached_connect')) {
+                memcached_connect($this->memcached_hostname, $this->memcached_port);
             } else {
                 // OO API
-                $memcache = new \Memcache;
-                $memcache->connect($this->memcached_hostname, $this->memcached_port);
+                $memcache = new \Memcached;
+                $memcache->addServer($this->memcached_hostname, $this->memcached_port);
+                // print_r($memcache->getStats());
+                // die(__CLASS__ . ':' . __LINE__);
+                // connect() is a Memcache method and not Memcached
+                // $memcache->connect($this->memcached_hostname, $this->memcached_port);
             }
 
             // 
