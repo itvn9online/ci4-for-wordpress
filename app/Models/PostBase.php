@@ -142,11 +142,13 @@ class PostBase extends EbModel
     public function structured_data($f)
     {
         $data = file_get_contents($f);
-        foreach ([
-            'product_html_tag' => $this->product_html_tag,
-            'product_list_css' => $this->product_list_css,
-            //'primary_controller' => $this->primary_controller,
-        ] as $k => $v) {
+        foreach (
+            [
+                'product_html_tag' => $this->product_html_tag,
+                'product_list_css' => $this->product_list_css,
+                //'primary_controller' => $this->primary_controller,
+            ] as $k => $v
+        ) {
             $data = str_replace('{{' . $k . '}}', $v, $data);
         }
         return $data;
@@ -210,14 +212,16 @@ class PostBase extends EbModel
     public function before_post_permalink($data, $base_url = '')
     {
         // nếu có đủ các thông số còn thiếu thì tiến hành cập nhật permalink
-        foreach ([
-            'ID',
-            'post_name',
-            'post_type',
-            'lang_key',
-            'category_primary_slug',
-            'category_second_slug',
-        ] as $k) {
+        foreach (
+            [
+                'ID',
+                'post_name',
+                'post_type',
+                'lang_key',
+                'category_primary_slug',
+                'category_second_slug',
+            ] as $k
+        ) {
             if (!isset($data[$k])) {
                 return null;
             }
@@ -529,7 +533,7 @@ class PostBase extends EbModel
                 // trả về tổng số bản ghi -> tương tự mysql num row
                 //'getNumRows' => 1,
                 //'offset' => 0,
-                'limit' => -1
+                'limit' => 100
             )
         );
         // print_r($data);
@@ -557,7 +561,7 @@ class PostBase extends EbModel
                 // trả về tổng số bản ghi -> tương tự mysql num row
                 //'getNumRows' => 1,
                 //'offset' => 0,
-                'limit' => -1
+                'limit' => 100
             )
         );
         // print_r($data);
