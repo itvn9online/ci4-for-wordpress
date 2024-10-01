@@ -71,7 +71,11 @@ class Casso
             // LIVE data
             $data_string = file_get_contents('php://input');
             if (empty($data_string)) {
-                if ($debug_enable !== true) {
+                // TEST
+                if (1 > 2 && isset($_POST['gfj45fgjfjjg34dfhdfhdhsds34fjfg'])) {
+                    // die($_POST['gfj45fgjfjjg34dfhdfhdhsds34fjfg']);
+                    $data_string = $_POST['gfj45fgjfjjg34dfhdfhdhsds34fjfg'];
+                } else if ($debug_enable !== true) {
                     file_put_contents($file_log, 'empty data string|' . __CLASS__ . ':' . __LINE__ . PHP_EOL, FILE_APPEND);
                     return null;
                 }

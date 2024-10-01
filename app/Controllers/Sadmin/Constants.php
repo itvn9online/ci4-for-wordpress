@@ -102,7 +102,12 @@ class Constants extends Configs
         $a = [];
         foreach ($data as $k => $v) {
             if ($v == '') {
-                continue;
+                // 1 số thông số gán mặc định sẽ tối ưu hơn là không gán
+                if ($k == 'HTTP_SYNC_HOST') {
+                    $v = str_replace('www.', '', str_replace('.', '', str_replace('-', '_', explode(':', $_SERVER['HTTP_HOST'])[0])));
+                } else {
+                    continue;
+                }
             } else if (!isset($meta_default[$k])) {
                 echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
                 echo $k . ' not found from meta_default!' . '<br>' . PHP_EOL;

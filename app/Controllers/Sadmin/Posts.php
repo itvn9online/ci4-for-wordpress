@@ -216,7 +216,7 @@ class Posts extends Sadmin
             // trả về câu query để sử dụng cho mục đích khác
             //'get_query' => 1,
             //'offset' => 0,
-            'limit' => -1
+            'limit' => -1,
         ];
 
         // nếu có lọc theo term_id -> thêm câu lệnh để lọc

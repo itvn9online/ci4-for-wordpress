@@ -648,12 +648,15 @@ class Home extends Posts
             $this->term_model->the_cache($term_id, $in_cache, $data);
         }
         // print_r($data);
-        //die(__CLASS__ . ':' . __LINE__);
+        // die(__CLASS__ . ':' . __LINE__);
 
         // không có dữ liệu -> báo 404 luôn
         if (empty($data)) {
             return $this->page404('ERROR ' . __FUNCTION__ . ':' . __LINE__ . '! Cannot be determined post category...', $cache_key);
         } else if ($data['count'] < 1) {
+            // $this->term_model->update_count_post_in_term($data);
+
+            // 
             return $this->page404('ERROR ' . __FUNCTION__ . ':' . __LINE__ . '! No articles found in the category: ' . $data['name'] . ' #' . $term_id . ' (' . $taxonomy_type . ')', $cache_key);
         }
 

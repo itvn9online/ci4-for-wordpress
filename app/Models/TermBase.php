@@ -628,13 +628,14 @@ class TermBase extends EbModel
      **/
     public function update_count_post_in_term($data, $show_debug = false)
     {
-        //print_r($data);
+        // print_r($data);
         if (!isset($data['child_last_count']) || !isset($data['term_id'])) {
-            //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
             return false;
         }
         // giãn cách giữa các lần cập nhật count
         if ($data['child_last_count'] > time()) {
+            // echo date('Y-m-d H:i:s', $data['child_last_count']);
             // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
             return false;
         }

@@ -550,8 +550,8 @@ defined('DEFAULT_SELECT_POST_COL') || define('DEFAULT_SELECT_POST_COL', '*');
 defined('MY_CACHE_HANDLER') || define('MY_CACHE_HANDLER', 'file');
 
 // đồng bộ http host về 1 chuỗi chung
-// defined('HTTP_SYNC_HOST') || define('HTTP_SYNC_HOST', str_replace('www.', '', str_replace('.', '', str_replace('-', '_', explode(':', $_SERVER['HTTP_HOST'])[0]))));
-defined('HTTP_SYNC_HOST') || define('HTTP_SYNC_HOST', THEMENAME);
+defined('HTTP_SYNC_HOST') || define('HTTP_SYNC_HOST', str_replace('www.', '', str_replace('.', '', str_replace('-', '_', explode(':', $_SERVER['HTTP_HOST'])[0]))));
+// defined('HTTP_SYNC_HOST') || define('HTTP_SYNC_HOST', THEMENAME);
 
 // chuỗi sẽ thêm vào khi sử dụng hàm mdnam -> md5
 defined('CUSTOM_MD5_HASH_CODE') || define('CUSTOM_MD5_HASH_CODE', HTTP_SYNC_HOST);

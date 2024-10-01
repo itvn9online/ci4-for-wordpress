@@ -5,10 +5,11 @@ namespace App\Controllers;
 //
 use App\Libraries\PHPMaillerSend;
 use App\Language\Translate;
+use App\Libraries\CommentType;
 
 class ContactBase extends Home
 {
-    protected $comment_type = '';
+    protected $comment_type = CommentType::CONTACT;
     protected $allow_upload = [];
 
     // các dữ liệu đầu thuộc dạng bắt buộc -> form nào cần tùy chỉnh thì extends ra xong khai báo lại trong class đã được extends
@@ -152,7 +153,7 @@ class ContactBase extends Home
         //
         $data = $this->MY_post('data');
         if (empty($data)) {
-            $this->base_model->msg_error_session('Phương thức đầu vào không chính xác', $this->form_target);
+            $this->base_model->msg_error_session('Incorrect input method', $this->form_target);
             return $this->done_action_login();
         }
         //print_r($_POST);
@@ -203,9 +204,9 @@ class ContactBase extends Home
 
             // thiết lập thông tin người nhận
             $data_send = [
-                //'to' => $data[ 'email' ],
+                // 'to' => $data['email'],
                 'to' => $this->getconfig->emailcontact,
-                //'to_name' => $data[ 'fullname' ],
+                // 'to_name' => $data['fullname'],
                 'subject' => $data['title'],
                 'message' => $submit['message'] . PHP_EOL . $redirect_to,
             ];
@@ -258,9 +259,9 @@ class ContactBase extends Home
     protected function MY_comment($ops = [])
     {
         // function này chỉ nhận POST
-        //print_r( $_SERVER );
-        //print_r( $_POST );
-        //print_r( $_FILES );
+        // print_r($_SERVER);
+        // print_r($_POST);
+        // print_r($_FILES);
 
         //
         $comment_author_url = $this->MY_post('__wgr_request_from', DYNAMIC_BASE_URL);
@@ -269,7 +270,7 @@ class ContactBase extends Home
         } else {
             $redirect_to = $comment_author_url;
         }
-        //die( $redirect_to );
+        // die($redirect_to);
 
         //
         if (empty($this->MY_post('data'))) {
@@ -280,7 +281,8 @@ class ContactBase extends Home
         // insert dữ liệu vào bảng
         $data = $this->MY_post('data');
         //$send_my_email = $this->MY_post('send_my_email');
-        //print_r( $data );
+        // print_r($data);
+        // die(__CLASS__ . ':' . __LINE__);
 
         // nếu không có thuộc tính phân loại comment -> tạu tạo phân loại dựa theo tên function gửi đến
         if (!isset($ops['comment_type'])) {
@@ -305,8 +307,8 @@ class ContactBase extends Home
             $data_insert['comment_date'] = date(EBE_DATETIME_FORMAT);
         }
         $data_insert['comment_date_gmt'] = $data_insert['comment_date'];
-        //print_r( $data_insert );
-        //die( 'dgh dhd hdf' );
+        // print_r($data_insert);
+        // die(__CLASS__ . ':' . __LINE__);
 
         //
         if ($this->current_user_id > 0) {
@@ -325,7 +327,9 @@ class ContactBase extends Home
         foreach ($data as $k => $v) {
             $k = trim($k);
             $gettype_v = gettype($v);
-            if ($gettype_v == 'array' || $gettype_v == 'object') {
+            if ($gettype_v == 'array') {
+                $v = implode(', ', $v);
+            } else if ($gettype_v == 'object') {
                 $v = json_encode($v);
             } else {
                 $v = trim($v);
@@ -337,8 +341,8 @@ class ContactBase extends Home
                 $data_insert['comment_content'] .= $v . PHP_EOL;
             }
         }
-        //print_r( $data_insert );
-        //die( 'j dfs ch dfh ds' );
+        // print_r($data_insert);
+        // die(__CLASS__ . ':' . __LINE__);
 
         // daidq (2023-03-31): tạm thời không cho upload file qua form liên hệ
         // if (1 > 2) {
@@ -353,19 +357,30 @@ class ContactBase extends Home
             }
         }
         // }
-        //print_r( $data_insert );
-        //die( 'jh afsdgssf' );
+        // print_r($data_insert);
+        // die(__CLASS__ . ':' . __LINE__);
 
         // insert comment
         $comment_ID = $this->comment_model->insert_comments($data_insert);
+        // var_dump($comment_ID);
+        // die(__CLASS__ . ':' . __LINE__);
 
         // insert meta comment
+        // print_r($data);
+        // die(__CLASS__ . ':' . __LINE__);
         foreach ($data as $k => $v) {
             $k = trim($k);
-            $v = trim($v);
+            $gettype_v = gettype($v);
+            if ($gettype_v == 'array') {
+                $v = implode(', ', $v);
+            } else if ($gettype_v == 'object') {
+                $v = json_encode($v);
+            } else {
+                $v = trim($v);
+            }
 
             //
-            if ($k != '' && $v != '') {
+            if ($k != '' && !empty($v)) {
                 $this->comment_model->insert_meta_comments([
                     'comment_id' => $comment_ID,
                     'meta_key' => $k,
@@ -373,6 +388,7 @@ class ContactBase extends Home
                 ]);
             }
         }
+        // die(__CLASS__ . ':' . __LINE__);
 
         //
         if (!empty($list_upload)) {
@@ -387,7 +403,8 @@ class ContactBase extends Home
         //
         $done_message = $this->MY_post('done_message');
         if (empty($done_message)) {
-            $done_message = 'Gửi liên hệ thành công. Chúng tôi sẽ liên hệ lại với bạn sớm nhất có thể.';
+            // $done_message = 'Gửi liên hệ thành công. Chúng tôi sẽ liên hệ lại với bạn sớm nhất có thể.';
+            $done_message = $this->lang_model->get_the_text('ContactBase-done_message', 'Contact sent successfully. We will contact you as soon as possible..');
         }
         $this->base_model->msg_session($done_message);
 

@@ -152,6 +152,9 @@ $base_model->JSON_echo(
             })(str.split('@')[0]) + '@' + str.split('@')[1];
         },
         hide_phone_data: function(str) {
+            if (str == null || str.length < 6) {
+                return null;
+            }
             return str.substr(0, 4) + '***' + str.substr(-3)
         },
     };

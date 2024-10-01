@@ -80,7 +80,7 @@ class C extends Home
                 return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Bạn không được phép xem thông tin danh mục này...');
             }
         }
-        //echo $taxonomy_type . '<br>' . PHP_EOL;
+        // echo $taxonomy_type . '<br>' . PHP_EOL;
 
         //
         return $this->showCategory($id, $taxonomy_type, $page_num, $slug);
