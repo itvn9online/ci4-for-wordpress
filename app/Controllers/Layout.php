@@ -191,7 +191,7 @@ class Layout extends Sync
         if (MY_CACHE_HANDLER == 'disable') {
             echo '<!-- Cached is disabled -->' . PHP_EOL;
         } else {
-            echo '<!-- Cached by ebcache with key ' . $key . PHP_EOL;
+            echo '<!-- Cached by ebcache with key ' . CACHE_HOST_PREFIX . ':' . $key . PHP_EOL;
             if (MY_CACHE_HANDLER == 'file') {
                 echo 'Caching using hard disk drive. Recommendations using SSD drive for your website.' . PHP_EOL;
             } else {
