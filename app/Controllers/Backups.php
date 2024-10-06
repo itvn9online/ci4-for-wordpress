@@ -46,8 +46,12 @@ class Backups extends Layout
         parent::__construct();
 
         // thư mục backup cho admin
-        $this->admin_user_backups = 'admin';
-        $this->admin_dir_backups = '/home/' . $this->admin_user_backups . '/admin_backups';
+        if ($this->admin_user_backups == '') {
+            $this->admin_user_backups = 'admin';
+        }
+        if ($this->admin_dir_backups == '') {
+            $this->admin_dir_backups = '/home/' . $this->admin_user_backups . '/admin_backups';
+        }
 
         // 
         $this->backups_error = LOCAL_BAK_PATH . '/backups_error-' . date('Y-m-d') . '.txt';
@@ -164,7 +168,7 @@ echo "ERROR! ' . $_SERVER['SERVER_ADDR'] . ' rsync: "$(date) >> ' . $backups_txt
 fi
 
 echo "Backup database"
-' . $this->cmd_rsync . $this->ssh_port_bak . ' root@' . $_SERVER['SERVER_ADDR'] . ':/home/admin/admin_backups ' . $backup_local_path . '/
+' . $this->cmd_rsync . $this->ssh_port_bak . ' root@' . $_SERVER['SERVER_ADDR'] . ':' . $this->admin_dir_backups . ' ' . $backup_local_path . '/
 
 echo "Backup public_html ' . $_SERVER['HTTP_HOST'] . '"
 ' . $this->cmd_rsync . $this->ssh_port_bak . ' --exclude="cache/*" --exclude="ebcache/*" --exclude="writable/*" root@' . $_SERVER['SERVER_ADDR'] . ':' . rtrim(ROOTPATH, '/') . ' ' . $backup_local_path . '/

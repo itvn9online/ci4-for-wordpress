@@ -796,7 +796,9 @@ class ConfigType
             'min_product_price' => 'Số tiền tối thiểu mà khách phải thanh toán cho mỗi đơn hàng.',
             'period_price' => 'Bấm [Thêm mới] để thêm các mức giá cho các gói nạp, bấm [Xóa] để loại bỏ một mức giá. <br> Hỗ trợ các đơn vị chuyển đổi: tr = triệu, k = nghìn, % = quy đổi theo giá gốc.',
             'bank_card_name' => 'Lưu ý: viết HOA không dấu',
+
             'autobank_token' => 'Tham số dùng để tăng độ bảo mật cho WebHook tự động xác thực quá trình thanh toán. <br> Khi có đầy đủ thông số này và thông tin ngân hàng nhận tiền, thông tin thanh toán qua ngân hàng và QR-Code sẽ được hiển thị tại trang thanh toán. <br> URL WebHook mặc định: ' . base_url('cassos/confirm'),
+
             'paypal_client_id' => 'Get Client ID here: https://developer.paypal.com/dashboard/applications/sandbox <br> Sandbox test accounts: https://developer.paypal.com/dashboard/accounts',
             'paypal_sdk_js' => 'Get the code here (rarely used): https://developer.paypal.com/sdk/js/configuration/',
             'bank_bin_code' => 'Chức năng tự động xác nhận tiền vào thông qua WebHook của https://casso.vn/ <br> Ưu tiên sử dụng tài khoản ngân hàng <strong>VietinBank</strong>.',

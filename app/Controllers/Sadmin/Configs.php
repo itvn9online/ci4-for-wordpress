@@ -157,7 +157,7 @@ class Configs extends Sadmin
                     'config_name' => ConfigType::typeList($this->config_type),
                 ],
                 'value' => (object) $value,
-                'checkout_config' => $this->payment_model->getCheckoutConfig(false),
+                'checkout_config' => $this->payment_model->getCheckoutConfig(false, true),
                 'example_prefix' => $this->example_prefix,
             )
         );

@@ -285,7 +285,7 @@ $(document).ready(function () {
 
 	// tạo mã token cho webhook casso
 	$("#data_autobank_token").after(
-		'<div><button type="button" class="btn btn-info generate_autobank_token">Tạo token ngẫu nhiên</button></div>'
+		'<div><button type="button" class="btn btn-info btn-small generate_autobank_token">Tạo token ngẫu nhiên 64 ký tự</button></div>'
 	);
 	// https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
 	$(".generate_autobank_token").click(function () {

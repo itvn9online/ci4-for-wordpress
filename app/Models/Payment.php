@@ -19,10 +19,11 @@ class Payment extends Option
         return str_replace(',', '', str_replace(' ', '', trim($a)));
     }
 
-    public function getCheckoutConfig($convert_currency = true)
+    public function getCheckoutConfig($convert_currency = true, $in_admin = false)
     {
         $a = $this->arr_config(ConfigType::CHECKOUT);
-        //print_r($a);
+        // print_r($a);
+        // die(__CLASS__ . ':' . __LINE__);
 
         // mảng giá gốc
         $arr_price = [];
@@ -68,7 +69,7 @@ class Payment extends Option
             }
 
             //
-            //print_r($arr_price);
+            // print_r($arr_price);
             //print_r($arr_discount);
         } else {
             // tạo mảng mặc định -> do có 1 số code sử dụng mảng số 0
@@ -85,7 +86,7 @@ class Payment extends Option
                 $a['min_product_price'] = $arr_price[0];
 
                 //
-                if ($a['min_product_price'] < 1) {
+                if ($a['min_product_price'] < 1 && $in_admin === false) {
                     die('ERROR! ' . __CLASS__ . ':' . __LINE__);
                 }
             }
