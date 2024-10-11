@@ -403,7 +403,7 @@ class Layout extends Sync
         if (function_exists('http_response_code')) {
             http_response_code(404);
         }
-        $pcol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
+        $pcol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
         $response = \Config\Services::response();
         $response->setStatusCode(404, $pcol . ' 404 Not Found');
         // http_response_code(404);

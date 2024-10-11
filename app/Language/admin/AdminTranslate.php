@@ -11,5 +11,5 @@ namespace App\Language\admin;
 class AdminTranslate extends AdminTranslates
 {
     // ví dụ cần đổi tên Bài viết thành Tin tức -> bỏ comment và sửa lại chữ
-    //const POST = 'Tin tức';
+    // const POST = 'Tin tức';
 }
