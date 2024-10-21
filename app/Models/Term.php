@@ -144,6 +144,12 @@ class Term extends TermBase
         $default_data = [
             'term_date' => date(EBE_DATETIME_FORMAT),
             'lang_key' => LanguageCost::lang_key(),
+            'created_source' => implode(' - ', [
+                // isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null,
+                isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null,
+                isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null,
+                // isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null,
+            ]),
         ];
         $default_data['last_updated'] = $default_data['term_date'];
         //print_r( $default_data );

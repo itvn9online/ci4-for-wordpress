@@ -1,0 +1,31 @@
+
+-- Với các database có dung lượng lớn, nếu lỗi tạo view tự động thì vào phpmyadmin xong chạy các lệnh sau
+
+CREATE OR REPLACE VIEW wp_zzz_v_terms AS SELECT `wp_terms`.*, `t`.`term_taxonomy_id`, `t`.`taxonomy`, `t`.`description`, `t`.`parent`, `t`.`count`, `t`.`term_level`, `t`.`source_count`
+FROM `wp_terms`
+INNER JOIN `wp_term_taxonomy` `t` ON `wp_terms`.`term_id` = `t`.`term_id`
+GROUP BY `wp_terms`.`term_id`;
+
+
+CREATE OR REPLACE VIEW wp_zzz_v_posts AS SELECT `wp_posts`.*, `t`.`term_taxonomy_id`, `t`.`term_id`, `t`.`taxonomy`, `t`.`description`, `t`.`parent`, `t`.`count`, `t`.`term_level`, `t`.`source_count`, `r`.`object_id`, `r`.`term_order`, `r`.`is_deleted`
+FROM `wp_posts`
+INNER JOIN `wp_term_relationships` `r` ON `r`.`object_id` = `wp_posts`.`ID`
+INNER JOIN `wp_term_taxonomy` `t` ON `r`.`term_taxonomy_id` = `t`.`term_taxonomy_id`
+GROUP BY `wp_posts`.`ID`;
+
+
+CREATE OR REPLACE VIEW wp_zzz_dup_posts_slug AS SELECT COUNT("ID") AS "c", `ID`, `post_type`, `post_status`, `post_permalink`
+FROM `wp_posts`
+WHERE `post_permalink` != ''
+AND `post_status` = 'publish'
+AND `post_type` IN ('page','post','product')
+GROUP BY `post_permalink`, `post_type`, `ID`;
+
+
+CREATE OR REPLACE VIEW wp_zzz_dup_terms_slug AS SELECT COUNT("term_id") AS "c", `term_id`, `taxonomy`, `is_deleted`, `term_permalink`
+FROM `wp_zzz_v_terms`
+WHERE `term_permalink` != ''
+AND `is_deleted` = '0'
+AND `taxonomy` IN ('category','tags','product_cat','product_tag')
+GROUP BY `term_permalink`, `taxonomy`, `term_id`, `is_deleted`;
+

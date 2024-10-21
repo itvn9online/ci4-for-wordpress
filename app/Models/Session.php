@@ -643,12 +643,14 @@ class Session
     public function getIPAddress()
     {
         $client_ip = $_SERVER['REMOTE_ADDR'];
-        if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            $client_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
+            $client_ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
+        } else if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            // $client_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+            $client_ip = trim(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])[0]);
         } else if (isset($_SERVER['HTTP_X_REAL_IP'])) {
             $client_ip = $_SERVER['HTTP_X_REAL_IP'];
-        } else if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
-            $client_ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
+            // $client_ip = trim(explode(',', $_SERVER['HTTP_X_REAL_IP'])[0]);
         } else if (1 > 2) {
             $request = \Config\Services::request();
             $client_ip = $request->getIPAddress();

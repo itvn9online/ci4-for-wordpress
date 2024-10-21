@@ -58,6 +58,12 @@ class Comment extends EbModel
             'comment_approved' => DEFAULT_COMMENT_APPROVED,
             'user_id' => 0,
             'time_order' => time(),
+            'created_source' => implode(' - ', [
+                // isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null,
+                isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null,
+                isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null,
+                // isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null,
+            ]),
         ];
         $data_default['comment_date_gmt'] = $data_default['comment_date'];
         foreach ($data_default as $k => $v) {

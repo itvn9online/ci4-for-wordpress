@@ -57,6 +57,12 @@ class PostQuery extends PostMeta
         // các dữ liệu mặc định
         $default_data = [
             'post_date' => date(EBE_DATETIME_FORMAT),
+            'created_source' => implode(' - ', [
+                // isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null,
+                isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null,
+                isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null,
+                // isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null,
+            ]),
         ];
         if (!isset($data['lang_key']) || $data['lang_key'] == '') {
             $data['lang_key'] = LanguageCost::lang_key();

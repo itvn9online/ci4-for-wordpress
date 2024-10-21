@@ -44,6 +44,12 @@ class Order extends Post
         if (!isset($data['order_agent'])) {
             $data['order_agent'] = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null;
         }
+        $data['created_source'] = implode(' - ', [
+            // isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null,
+            isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null,
+            isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null,
+            // isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null,
+        ]);
 
         // nếu chưa có thông tin người gửi
         if (!isset($data['post_author']) || $data['post_author'] < 1) {

@@ -533,6 +533,7 @@ class Sync extends BaseController
                 'zalo_oa_last_interact' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Thời gian tương tác cuối của user, một số tin nhắn qua Zalo OA có giới hạn theo thời gian tương tác cuối\'',
                 // rememberme key -> là tham số sẽ thay đổi mỗi lần người dùng đổi pass, dùng tăng bảo mật cho chức năng nhớ mật khẩu đăng nhập
                 'rememberme_key' => 'VARCHAR(255) NULL COMMENT \'Mỗi tài khoản sẽ có 1 key dùng để lưu phiên đăng nhập\'',
+                'created_source' => 'VARCHAR(255) NULL COMMENT \'Nguồn tạo dữ liệu\'',
             ],
             $prefix . 'posts' => [
                 'post_shorttitle' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Tên rút gọn của post\'',
@@ -553,6 +554,7 @@ class Sync extends BaseController
                 'post_meta_data' => 'LONGTEXT NULL COMMENT \'Lưu các post meta vào đây để đỡ phải query nhiều\'',
                 'time_meta_data' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Thời gian lưu cache cho post meta\'',
                 'media_optimize' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'Optimize hình ảnh. 0 = chưa, 1 = rồi\'',
+                'created_source' => 'VARCHAR(255) NULL COMMENT \'Nguồn tạo dữ liệu\'',
             ],
             $prefix . 'terms' => [
                 'term_shortname' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Tên rút gọn của term\'',
@@ -574,6 +576,7 @@ class Sync extends BaseController
                 'term_type' => 'VARCHAR(55) NULL COMMENT \'Dùng để phân loại term, tương tự category nhưng ít dùng hơn nhiều\'',
                 'term_avatar' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Ảnh đại diện của term\'',
                 'term_favicon' => 'VARCHAR(255) NOT NULL DEFAULT \'\' COMMENT \'Hình thu nhỏ của term\'',
+                'created_source' => 'VARCHAR(255) NULL COMMENT \'Nguồn tạo dữ liệu\'',
             ],
             $prefix . 'term_taxonomy' => [
                 // term level -> dùng để lọc các nhóm theo cấp độ cho nó nhanh -> ví dụ khi cần lấy tất cả các nhóm cấp 1, 2, 3
@@ -600,6 +603,7 @@ class Sync extends BaseController
                 'is_deleted' => 'TINYINT(2) NOT NULL DEFAULT \'0\' COMMENT \'0 = hiển thị, 1 = xóa\'',
                 'comment_rate' => 'TINYINT(2) NOT NULL DEFAULT \'5\' COMMENT \'Đánh giá theo thang điểm từ 1-5\'',
                 'time_order' => 'BIGINT(20) NOT NULL DEFAULT \'0\' COMMENT \'Sắp xếp độ ưu tiên của post dựa theo thời gian hiện tại\'',
+                'created_source' => 'VARCHAR(255) NULL COMMENT \'Nguồn tạo dữ liệu\'',
             ],
             $prefix . 'orders' => [
                 'full_name' => 'VARCHAR(255) NULL',
@@ -632,6 +636,7 @@ class Sync extends BaseController
                 'order_capture' => 'TEXT NULL COMMENT \'Lưu trữ thông tin transaction gửi về từ Paypal...\'',
                 'order_ip' => 'VARCHAR(255) NULL COMMENT \'IP người đặt hàng\'',
                 'order_agent' => 'VARCHAR(255) NULL COMMENT \'User agrent\'',
+                'created_source' => 'VARCHAR(255) NULL COMMENT \'Nguồn tạo dữ liệu\'',
             ],
         ];
 

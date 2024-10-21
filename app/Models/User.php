@@ -83,6 +83,12 @@ class User extends UserMeta
         // các dữ liệu mặc định
         $default_data = [
             'user_registered' => date(EBE_DATETIME_FORMAT),
+            'created_source' => implode(' - ', [
+                // isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null,
+                isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null,
+                isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null,
+                // isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null,
+            ]),
         ];
         // last_login không gán ở đây -> vì lúc admin tạo tk là người dùng chưa thực sự đăng nhập
         // $default_data['last_login'] = $default_data['user_registered'];

@@ -201,6 +201,21 @@ class Plains extends Layout
         if ($ip == '') {
             $ip = $this->get_ip();
         }
+        if (strpos($ip, '192.168.') !== false) {
+            return $this->result_json_type([
+                'city_name' => 'Localhost city',
+                'country_name' => 'Localhost country',
+                'ip' => $ip,
+                'data' => [
+                    'city' => [
+                        'names' => [
+                            'en' => 'Localhost city',
+                        ]
+                    ]
+                ],
+            ]);
+        }
+        // return $this->result_json_type([$ip]);
 
         //
         $a = $this->getDB($ip, $this->dir_geolite2 . '/GeoLite2-City.mmdb', 'city');
