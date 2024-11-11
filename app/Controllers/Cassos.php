@@ -58,9 +58,11 @@ class Cassos extends Payments
 
             //
             if ($v === null) {
-                if ($this->debug_enable === true) {
-                    echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-                }
+                $msg[] = 'v is NULL!';
+                continue;
+            }
+            if (!isset($v->order_id)) {
+                $msg[] = 'order_id Not found!';
                 continue;
             }
 
@@ -89,24 +91,14 @@ class Cassos extends Payments
             );
             // không tìm thấy đơn hàng -> bỏ qua
             if (empty($order_data)) {
-                if ($this->debug_enable === true) {
-                    echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-                }
-
                 $msg[] = 'Order #' . $v->order_id . ' Not found!';
-
                 continue;
             }
             //print_r( $order_data );
 
             // nếu số tiền nạp vào không đủ -> bỏ qua luôn
             if ($v->amount < $order_data['order_money']) {
-                if ($this->debug_enable === true) {
-                    echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-                }
-
                 $msg[] = 'Order #' . $v->order_id . ' Amount not enough!';
-
                 continue;
             }
 

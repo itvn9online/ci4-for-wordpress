@@ -2,7 +2,7 @@
     <li>Rewrite Rule</li>
 </ul>
 <div class="medium">
-    <p>* Chức năng tạo các bản ghi dùng để redirect link 404 tương tự như trong file .htaccess dùng thay thế cho rewrite của htaccess hoặc các host không hỗ trợ htaccess như nginx.</p>
+    <p>* Chức năng tạo các bản ghi dùng để redirect link <strong>404</strong> tương tự như trong file .htaccess dùng thay thế cho rewrite của htaccess hoặc các host không hỗ trợ htaccess như nginx.</p>
     <p>* Nơi lưu trữ file: <strong><?php echo $rules_path; ?></strong></p>
     <p>Nội dung mẫu:</p>
     <div>

@@ -41,7 +41,7 @@ class Sadmin extends Ajaxs
         //var_dump( $this->session_data );
         // nếu không có quyền admin -> báo lỗi nếu đang vào admin
         if ($this->session_data['userLevel'] != UsersType::ADMIN_LEVEL) {
-            die('404 error line ' . __CLASS__ . ':' . __LINE__);
+            die('Permission ERROR line ' . __CLASS__ . ':' . __LINE__);
         }
 
         //
@@ -320,14 +320,16 @@ class Sadmin extends Ajaxs
                     echo '<br>' . PHP_EOL;
 
                     // thử xóa theo từng key
-                    foreach ([
-                        'post',
-                        'get_page',
-                        'term',
-                        'get_all_taxonomy',
-                        'get_the_menu',
-                        'user',
-                    ] as $v) {
+                    foreach (
+                        [
+                            'post',
+                            'get_page',
+                            'term',
+                            'get_all_taxonomy',
+                            'get_the_menu',
+                            'user',
+                        ] as $v
+                    ) {
                         $this->cleanup_cache($v . '-');
                     }
 
