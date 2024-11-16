@@ -251,6 +251,7 @@ $base_model->JSON_parse([
         'currency_locales_format' => $getconfig->currency_locales_format,
         'currency_sd_format' => $getconfig->currency_sd_format,
         'pagination_display_1' => $lang_model->get_the_text('pagination_display_1', 'Showing page'),
+        'media_url' => CDN_UPLOADS_URL,
     ],
 ]);
 

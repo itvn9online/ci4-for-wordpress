@@ -211,6 +211,15 @@ $base_model->adds_css([
                         </div>
                     <?php
                     }
+
+                    // view của từng member type nếu tìm thấy file
+                    if ($member_type != '') {
+                        // nạp thêm custom view nếu có
+                        $theme_private_view = ADMIN_ROOT_VIEWS . $member_type . '/add.php';
+                        // echo $theme_private_view;
+                        include VIEWS_PATH . 'private_require_view.php';
+                    }
+
                     ?>
                     <br>
                 </div>
@@ -299,5 +308,5 @@ $base_model->adds_js([
 
 // nạp thêm custom view nếu có
 $theme_private_view = str_replace(VIEWS_PATH, VIEWS_CUSTOM_PATH, __FILE__);
-//echo $theme_private_view;
+// echo $theme_private_view;
 include VIEWS_PATH . 'private_require_view.php';

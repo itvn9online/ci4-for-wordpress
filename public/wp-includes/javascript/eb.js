@@ -458,6 +458,12 @@ var _global_js_eb = {
 
 					//
 					if (img != "") {
+						// chuyển url ảnh qua cdn nếu có yêu cầu
+						if (WGR_config.media_url != "" && img.split("/")[0] == "upload") {
+							img = img.replace("upload/", WGR_config.media_url + "upload/");
+						}
+
+						//
 						jQuery(this).css({
 							"background-image": "url('" + img + "')",
 						});

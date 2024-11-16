@@ -536,6 +536,13 @@ class Session
 
         // lưu cache nếu có nội dung
         if ($value != '') {
+            // thay thế url cho phần upload nếu có yêu cầu
+            if (1 > 2 && CDN_UPLOADS_URL != '' && is_string($value)) {
+                $value = str_replace('-img="upload/', '-img="' . CDN_UPLOADS_URL . 'upload/', $value);
+                $value = str_replace('-webp="upload/', '-webp="' . CDN_UPLOADS_URL . 'upload/', $value);
+            }
+
+            // 
             return $this->cache->save($key, $value, $time);
         }
 
