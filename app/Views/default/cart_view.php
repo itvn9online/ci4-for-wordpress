@@ -23,7 +23,7 @@
                     </div>
                     <br>
                     <div>
-                        <a href="./" class="btn btn-link bold upper">&#8592;&nbsp;Continue shopping</a>
+                        <button type="button" onclick="return action_continue_shopping();" class="btn btn-link bold upper">&#8592;&nbsp;Continue shopping</button>
                     </div>
                 </div>
                 <div class="checkout-content checkout-form">

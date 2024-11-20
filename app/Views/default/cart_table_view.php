@@ -10,16 +10,21 @@
     <tbody>
         <?php
 
+        // 
+        // print_r($data);
+
         //
         foreach ($data as $v) {
             $post_meta = $v['post_meta'];
-            foreach ([
-                // 'image',
-                'image_medium',
-                // 'image_medium_large',
-                // 'image_webp',
-                '_regular_price',
-            ] as $k2) {
+            foreach (
+                [
+                    // 'image',
+                    'image_medium',
+                    // 'image_medium_large',
+                    // 'image_webp',
+                    '_regular_price',
+                ] as $k2
+            ) {
                 if (!isset($post_meta[$k2])) {
                     $post_meta[$k2] = '';
                 }
@@ -92,9 +97,11 @@
             //
             foreach ($data as $v) {
                 $post_meta = $v['post_meta'];
-                foreach ([
-                    '_regular_price',
-                ] as $k2) {
+                foreach (
+                    [
+                        '_regular_price',
+                    ] as $k2
+                ) {
                     if (!isset($post_meta[$k2])) {
                         $post_meta[$k2] = '';
                     }

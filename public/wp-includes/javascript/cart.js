@@ -570,6 +570,18 @@ function remove_session_cart(order_received) {
 	window.location = order_received;
 }
 
+function action_continue_shopping() {
+	let a = document.referrer;
+	if (a == "") {
+		a = web_link;
+		if (product_cart_id * 1 > 0) {
+			a += "?p=" + product_cart_id;
+		}
+	}
+	window.location = a;
+	return true;
+}
+
 //
 jQuery(document).ready(function () {
 	// mã giảm giá trong cache nếu có
