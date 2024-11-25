@@ -180,6 +180,8 @@ class Sync extends BaseController
             `order_id` BIGINT(20) NULL,
             `comment` VARCHAR(255) NULL,
             `created_at` BIGINT(20) NULL,
+            `updated_at` BIGINT(20) NULL,
+            `sended_at` BIGINT(20) NULL,
             PRIMARY KEY (`id`) ,
             INDEX (`session_id`) ,
             INDEX (`mailto`) ,
@@ -637,6 +639,10 @@ class Sync extends BaseController
                 'order_ip' => 'VARCHAR(255) NULL COMMENT \'IP người đặt hàng\'',
                 'order_agent' => 'VARCHAR(255) NULL COMMENT \'User agrent\'',
                 'created_source' => 'VARCHAR(255) NULL COMMENT \'Nguồn tạo dữ liệu\'',
+            ],
+            $prefix . 'mail_queue' => [
+                'updated_at' => 'BIGINT(20) NULL',
+                'sended_at' => 'BIGINT(20) NULL',
             ],
         ];
 

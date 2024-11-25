@@ -83,6 +83,10 @@ class MailQueue extends EbModel
      **/
     public function updateMailq($id, $data)
     {
+        // thời gian cập nhật cuối
+        $data['updated_at'] = time();
+
+        // 
         return $this->base_model->update_multiple($this->table, $data, [
             // WHERE
             $this->primaryKey => $id,
@@ -173,10 +177,52 @@ class MailQueue extends EbModel
         $smtp_config = $this->option_model->get_smtp();
         //print_r($smtp_config);
 
+        // xác định thời điểm gửi đơn hàng -> đã thanh toán hoặc gửi ngay sau khi đặt hàng thành công
+        $mail_queue_sending_type = $smtp_config->mail_queue_sending_type;
+        $order_status = '';
+
         // 
         $result = [];
         foreach ($data as $v) {
             $result[] = $v['mailto'];
+
+            // nếu có thiết lập thời điểm gửi mail
+            if (!empty($mail_queue_sending_type)) {
+                if ($order_status == '' && !empty($v['order_id'])) {
+                    // lấy thông tin đơn hàng để xem trạng thái
+                    $order_data = $this->order_model->get_order(
+                        array(
+                            // các kiểu điều kiện where
+                            'ID' => $v['order_id'],
+                            'post_status' => $mail_queue_sending_type,
+                        ),
+                        array(
+                            // hiển thị mã SQL để check
+                            // 'show_query' => 1,
+                            // trả về câu query để sử dụng cho mục đích khác
+                            //'get_query' => 1,
+                            // trả về COUNT(column_name) AS column_name
+                            //'selectCount' => 'ID',
+                            // trả về tổng số bản ghi -> tương tự mysql num row
+                            //'getNumRows' => 1,
+                            //'offset' => 0,
+                            'limit' => 1,
+                        )
+                    );
+
+                    // nếu ko tìm được đơn hàng
+                    if (empty($order_data)) {
+                        // trả về thông báo
+                        $result[] = 'order status is not ' . $mail_queue_sending_type;
+
+                        // sau đó thoát thôi
+                        break;
+                    }
+
+                    // gán order_status để vòng lặp sau ko select lại order nữa
+                    $order_status = $order_data['post_status'];
+                }
+            }
 
             // 
             $sended = PHPMaillerSend::the_send([
@@ -193,6 +239,7 @@ class MailQueue extends EbModel
                 $this->updateMailq($v['id'], [
                     'status' => PostType::PRIVATELY,
                     // 'comment' => null,
+                    'sended_at' => time(),
                 ]);
             } else {
                 $result[] = false;
@@ -384,7 +431,7 @@ class MailQueue extends EbModel
             $product_list .= '
 <tr>
     <td>
-        <div><img src="' . DYNAMIC_BASE_URL . $v->image . '" height="94" /></div>
+        <div><img src="' . DYNAMIC_BASE_URL . $v->image . '" height="94" style="max-height: 94px;" /></div>
         <div><strong>' . $v->post_title . ' x ' . $v->_quantity . '</strong></div>
     </td>
     <td>' . $v->_price . '</td>

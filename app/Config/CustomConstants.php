@@ -546,6 +546,9 @@ define('MY_TOKEN_CSRF_NAME', md5($_SERVER['HTTP_HOST'] . date('Y-m-d')));
 // khi cần tối ưu việc select dữ liệu cho bảng post thì khai báo lại tham số này
 defined('DEFAULT_SELECT_POST_COL') || define('DEFAULT_SELECT_POST_COL', '*');
 
+// đây là sàn thương mại điện tử -> cho phép người khác đăng bán sản phẩm lên website
+defined('THIS_IS_E_COMMERCE_SITE') || define('THIS_IS_E_COMMERCE_SITE', '');
+
 // kiểu sử dụng cache -> mặc định là file
 defined('MY_CACHE_HANDLER') || define('MY_CACHE_HANDLER', 'file');
 

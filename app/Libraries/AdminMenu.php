@@ -179,6 +179,15 @@ class AdminMenu
                         'icon' => 'fa fa-envelope-o',
                         //'arr' => []
                     ],
+                    'sadmin/mailqueues' => [
+                        'role' => [
+                            UsersType::AUTHOR,
+                            UsersType::MOD,
+                        ],
+                        'name' => 'Mail queue',
+                        'icon' => 'fa fa-spinner',
+                        //'arr' => []
+                    ],
                 ]
             ],
             'sadmin/menus' => [

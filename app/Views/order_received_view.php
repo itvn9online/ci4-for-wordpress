@@ -103,6 +103,8 @@ if (!empty($data)) {
             'order_id' => $data['ID'],
             'reference_id' => $key,
             'order_subtotal' => $order_subtotal,
+            'order_status' => $data['post_status'],
+            'mail_queue_sending_type' => $smtp_config->mail_queue_sending_type,
             'order_amount' => $data['order_amount'],
             'shipping_fee' => $data['shipping_fee'],
             'order_discount' => $data['order_discount'] + $data['order_bonus'],

@@ -393,10 +393,13 @@ class ConfigType
                 'smtp2_host_name' => 'IP hoặc Hostname',
                 'smtp2_secure' => 'Bảo mật',
                 'smtp2_host_port' => 'Port',
+                // 
                 'mail_queue_begin_block' => 'Mail đặt hàng thành công',
                 'mail_queue_customer' => 'Mail to customer',
                 'mail_queue_admin' => 'Mail to admin',
                 'mail_queue_author' => 'Mail to author',
+                'mail_queue_sending_type' => 'Email sending time',
+                // 
                 'telegram_begin_block' => 'Cài đặt Telegram',
                 'telegram_bot_token' => 'Bot token',
                 'telegram_chat_id' => 'Chat ID',
@@ -460,6 +463,7 @@ class ConfigType
                 'WGR_PAGE_PERMALINK' => 'Page permalink',
                 'WGR_POSTS_PERMALINK' => 'Other post permalink',
                 'DEFAULT_SELECT_POST_COL' => 'Default select post column',
+                'THIS_IS_E_COMMERCE_SITE' => 'This is e-commerce website',
             ];
         } else if ($config_type == self::CHECKOUT) {
             $arr = [
@@ -646,6 +650,7 @@ class ConfigType
             'SITE_LANGUAGE_DEFAULT' => 'select',
             'EBE_DATE_FORMAT' => 'select',
             'EBE_DATE_TEXT_FORMAT' => 'select',
+            'THIS_IS_E_COMMERCE_SITE' => 'select',
             'g_firebase_title' => 'heading',
             'g_firebase_config' => 'textarea',
             'firebase_json_config' => 'textarea',
@@ -673,6 +678,7 @@ class ConfigType
             'mail_queue_customer' => 'select',
             'mail_queue_admin' => 'select',
             'mail_queue_author' => 'select',
+            'mail_queue_sending_type' => 'select',
         ];
         //print_r( $arr );
         if (isset($arr[$key])) {
@@ -807,6 +813,7 @@ class ConfigType
             'mail_queue_customer' => 'An email will be sent to the email the user entered during the ordering process. Edit mail template in: ' . base_url('sadmin/orders/find_mail_template'),
             'mail_queue_admin' => 'An email will be sent to email setup in ' . base_url('sadmin/configs') . '?support_tab=data_emailnotice or ' . base_url('sadmin/configs') . '?support_tab=data_emailcontact. Edit admin mail template in: ' . base_url('sadmin/orders/find_mail_template') . '?type=admin',
             'mail_queue_author' => 'An email will be sent to the author of the product the user has ordered. Edit author mail template in: ' . base_url('sadmin/orders/find_mail_template') . '?type=author',
+            'mail_queue_sending_type' => 'Mặc định email xác nhận đặt hàng sẽ được gửi ngay sau khi đặt hàng thành công. Hoặc có thể chuyển thành gửi mail sau khi thanh toán thành công.',
             // 
             'telegram_bot_token' => 'Token của bot trên Telegram. <br> Trong Telegram, tìm @BotFather rồi gõ lệnh /mybots để lấy danh sách bot (nếu có). <br> Bấm vào menu lệnh mà Telegram đưa ra để chọn bot và lấy Token. Sau khi có Token, hãy bấm vào đây để tìm Chat ID: ' . base_url('sadmin/smtps') . '?get_tele_chat_id=1 <br> Mở Telegram lên > Nhập Botfather tại thanh tìm kiếm > Chọn Botfather có tích xanh > Nhấn vào Start > Hệ thống sẽ hiển thị ra đoạn chat > Nhấn vào mục /newbot - create a new bot > Nhập tên cho Bot > Nhấn Gửi > Nhập tên người dùng cho Bot > Nhấn Gửi > Hệ thống gửi xác nhận thành công. https://wiki.matbao.net/kb/huong-dan-tao-bot-va-gui-thong-bao-telegram/',
             'telegram_chat_id' => 'ID nhóm chat trên Telegram. Bao gồm cả dấu - nếu có. Thay token vào link mẫu rồi lấy: https://api.telegram.org/bot{token}/getUpdates',
@@ -856,6 +863,7 @@ class ConfigType
             'WGR_PAGE_PERMALINK' => 'Ví dụ: %ID%-%post_type%-%post_name%',
             'WGR_POSTS_PERMALINK' => 'Ví dụ: %ID%-%post_type%-%post_name%',
             'DEFAULT_SELECT_POST_COL' => 'Khi cần tối ưu việc select dữ liệu cho bảng post thì khai báo lại tham số này. Ví dụ: ID, post_permalink, post_excerpt, post_title, post_type, post_date, post_modified, comment_count',
+            'THIS_IS_E_COMMERCE_SITE' => 'Khi chế độ này được kích hoạt, một số tính năng liên quan đến đặt hàng sẽ thay đổi. Ví dụ: tách riêng đơn hàng của từng shop.',
             //
             'WGR_CSP_DEFAULT_SRC' => 'Xóa trắng để xem mặc định: ' . WGR_CSP_DEFAULT_SRC,
             'WGR_CSP_SCRIPT_SRC' => 'Xóa trắng để xem mặc định: ' . WGR_CSP_SCRIPT_SRC,
@@ -1082,6 +1090,10 @@ class ConfigType
                 'D, d F Y' => '',
                 'D, d F' => '',
             ],
+            'THIS_IS_E_COMMERCE_SITE' => [
+                '' => 'No',
+                'yes' => 'Yes',
+            ],
             'mail_queue_customer' => [
                 '' => 'Default by code',
                 'none' => 'Not send',
@@ -1096,6 +1108,11 @@ class ConfigType
                 '' => 'Not send',
                 'default' => 'Default by code',
                 'private' => 'Using private template',
+            ],
+            'mail_queue_sending_type' => [
+                '' => 'Default by code',
+                // Chỉ gửi mail sau khi đã thanh toán -> trạng thái tương ứng với trạng thái đơn hàng -> private
+                'private' => 'Paid',
             ],
         ];
         $arr['smtp2_secure'] = $arr['smtp_secure'];

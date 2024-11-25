@@ -1,0 +1,9 @@
+.mail-queues-list.draft td {}
+
+.mail-queues-list.pending td {
+    font-weight: bold;
+}
+
+.mail-queues-list.private td {
+    color: green;
+}

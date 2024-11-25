@@ -819,6 +819,11 @@ body.body-debug_enable #sidebar {
     padding-left: 3px;
 }
 
+.controls.controls-comment_content img,
+.controls.controls-content img {
+    max-width: 555px;
+}
+
 /* Dark mode */
 @media (prefers-color-scheme: dark) {
     body {}

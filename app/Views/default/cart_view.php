@@ -55,8 +55,8 @@
 </div>
 <div class="w90 top-menu-space text-center cart-is-empty">
     <p class="redcolor medium18 bold">Your cart is currently empty.</p>
-    <p>
-        <a href="./" class="btn btn-primary upper bold">Return to shop</a>
-    </p>
+    <div>
+        <button type="button" onclick="return action_continue_shopping();" class="btn btn-primary bold upper">&#8592;&nbsp;Return to shop</button>
+    </div>
 </div>
 <br>

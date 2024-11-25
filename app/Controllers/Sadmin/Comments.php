@@ -56,7 +56,7 @@ class Comments extends Sadmin
     }
     public function lists($ops = [])
     {
-        $comment_id = $this->MY_get('comment_id');
+        $comment_id = $this->MY_get('comment_id', 0);
         if ($comment_id > 0) {
             return $this->details($comment_id);
         }
@@ -104,7 +104,7 @@ class Comments extends Sadmin
                 // nếu là số -> chỉ tìm theo ID
                 if (is_numeric($by_like) === true) {
                     $where_or_like = [
-                        'comment_ID' => $by_like * 1,
+                        'comment_ID' => $by_like,
                         //'comment_post_ID' => $by_like,
                         //'comment_parent' => $by_like,
                         //'user_id' => $by_like,
@@ -179,8 +179,6 @@ class Comments extends Sadmin
 
             //
             $data = $this->base_model->select('*', 'comments', $where, $filter);
-            //print_r( $data );
-            //die('fj gd sdgsd');
 
             //
             //$data = $this->post_model->list_meta_post( $data );

@@ -204,6 +204,8 @@ function action_ajax_cart() {
 		//crossDomain: true,
 		data: {
 			ids: a,
+			product_cart_id: product_cart_id,
+			shop_cart_id: shop_cart_id,
 		},
 		timeout: 33 * 1000,
 		error: function (jqXHR, textStatus, errorThrown) {
@@ -394,8 +396,16 @@ function cache_coupon_code() {
 }
 
 // xóa sản phẩm khỏi cache giỏ hàng
-function remove_from_cart(jd) {
-	if (confirm("Confirm remove this product from your cart!") === false) {
+function remove_from_cart(jd, reload_now) {
+	// mặc định sẽ nạp lại trang
+	if (typeof reload_now == "undefined") {
+		reload_now = true;
+	}
+	// xác nhận xóa sản phẩm khỏi giỏ hàng
+	if (
+		reload_now == true &&
+		confirm("Confirm remove this product from your cart!") === false
+	) {
 		return false;
 	}
 
@@ -416,11 +426,13 @@ function remove_from_cart(jd) {
 	remove_from_cache_cart(jd, "cache-quickcart-id");
 
 	// xong thì nạp lại trang
-	// window.location.reload();
-	window.location = window.location.href.split("?")[0];
+	if (reload_now == true) {
+		// window.location.reload();
+		window.location = window.location.href.split("?id=")[0].split("&id=")[0];
+	}
 
 	//
-	return true;
+	return false;
 }
 
 function remove_from_cache_cart(jd, key) {
@@ -557,17 +569,29 @@ function cart_sidebar_table() {
 }
 
 // khi submit cart thành công thì sẽ thực hiện xóa bỏ session giỏ hàng ở máy trạm
-function remove_session_cart(order_received) {
-	// xóa khỏi giỏ hàng chính
-	localStorage.removeItem("cache-cart-ids");
-	// xóa khỏi giỏ hàng phụ
-	localStorage.removeItem("cache-quickcart-id");
+function remove_session_cart(order_received, ids) {
+	// nếu có ids truyền vào
+	if (typeof ids != "undefined" && ids != "") {
+		ids = ids.split(",");
+		// chạy vòng lặp xóa sản phẩm cần xóa
+		for (let i = 0; i < ids.length; i++) {
+			remove_from_cart(ids[i], false);
+		}
+	} else {
+		// xóa khỏi giỏ hàng chính
+		localStorage.removeItem("cache-cart-ids");
+		// xóa khỏi giỏ hàng phụ
+		localStorage.removeItem("cache-quickcart-id");
+	}
 
 	// xong thì nạp lại trang
 	if (typeof order_received == "undefined" || order_received == "") {
 		order_received = window.location.href;
 	}
 	window.location = order_received;
+
+	//
+	return false;
 }
 
 function action_continue_shopping() {

@@ -1,6 +1,6 @@
 <ul class="admin-breadcrumb">
-    <li><a :href="'sadmin/' + vue_data.controller_slug">Danh sách {{vue_data.comment_name}}</a></li>
-    <li>Chi tiết {{vue_data.comment_name}}</li>
+    <li><a href="sadmin/<?php echo $controller_slug; ?>">Danh sách Mail queue</a></li>
+    <li>Chi tiết Mail queue</li>
 </ul>
 <div class="widget-box">
     <div class="widget-content nopadding">
@@ -18,7 +18,6 @@
 $base_model->JSON_parse(
     [
         'json_data' => $data,
-        'vue_data' => $vue_data,
     ]
 );
 
@@ -26,9 +25,8 @@ $base_model->JSON_parse(
 <script type="text/javascript">
     WGR_vuejs('#for_vue', {
         data: json_data,
-        vue_data: vue_data,
     }, function() {
         //console.log(Math.random());
-        $('.controls-comment_content').html(WGR_show_html_for_vuejs($('.controls-comment_content').html()));
+        $('.controls-content').html(WGR_show_html_for_vuejs($('.controls-content').html()));
     });
 </script>

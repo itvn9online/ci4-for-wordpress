@@ -32,6 +32,7 @@ $base_model->JSON_echo([
 ], [
     // mảng này sẽ in ra dưới dạng string
     'product_cart_id' => $product_id,
+    'shop_cart_id' => $shop_id,
 ]);
 
 

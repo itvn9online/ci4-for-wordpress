@@ -361,7 +361,8 @@ a:hover {
 }
 
 #breadcrumb a:hover {
-    color: #333333;
+    /* color: #333333; */
+    text-decoration: underline;
 }
 
 #breadcrumb a:last-child {

@@ -1364,3 +1364,27 @@ function show_input_length_char(input) {
 		$(".length-" + input).html(a.length);
 	});
 }
+
+// dùng vuejs nên đoạn xử lý html phải viết thêm vào mới hiển thị được
+function WGR_show_html_for_vuejs(a) {
+	// console.log(a);
+
+	//
+	a = a.replace(/\&lt\;/gi, "<").replace(/\&gt\;/gi, ">");
+
+	// nếu ko phải mã html thì chuyển sang dạng hỗ trợ html
+	if (a.includes("<") == false && a.includes(">") == false) {
+		a = a.split("\n").join("<br>");
+	} else {
+		// nếu là mã html thì ko cho hiển thị mấy mã nguy hiểm
+		a = a.replace(/\<script/gi, "[script");
+		a = a.replace(/\<\/script/gi, "[/script");
+		//
+		a = a.replace(/\<iframe/gi, "[iframe");
+		a = a.replace(/\<\/iframe/gi, "[/iframe");
+	}
+	// console.log(a);
+
+	//
+	return a;
+}

@@ -110,8 +110,10 @@ class Actions extends Layout
                 // 'breadcrumb' => '',
                 'cart_title' => $cart_title,
                 'data' => $data,
+                'other_data' => [],
                 'by_get_id' => $by_get_id,
                 'product_id' => $product_id,
+                'shop_id' => $this->MY_get('shop_id', 0),
                 'coupon_code' => $coupon_code,
                 'coupon_amount' => $coupon_amount,
                 // 'products_id' => $this->MY_post('ids'),
@@ -159,6 +161,11 @@ class Actions extends Layout
                         'where_in' => array(
                             'ID' => $ids
                         ),
+                        'order_by' => array(
+                            'post_author' => 'ASC',
+                            'menu_order' => 'DESC',
+                            'ID' => 'DESC',
+                        ),
                         // hiển thị mã SQL để check
                         // 'show_query' => 1,
                         // trả về câu query để sử dụng cho mục đích khác
@@ -176,16 +183,54 @@ class Actions extends Layout
 
                 //
                 if (!empty($data)) {
-                    $data = $this->post_model->list_meta_post($data);
-                    // print_r($data);
+                    $result_data = [];
+                    $other_data = [];
+                    // nếu là sàn thương mại điện tử -> chỉ hiển thị thông tin đơn hàng của từng shop
+                    if (THIS_IS_E_COMMERCE_SITE == 'yes' && count($data) > 1) {
+                        $shop_cart_id = $this->MY_post('shop_cart_id');
+
+                        // xác định ID sản phẩm đang được thêm vào
+                        $product_cart_id = $this->MY_post('product_cart_id');
+                        // nếu có ID sản phẩm
+                        if (!empty($product_cart_id)) {
+                            foreach ($data as $v) {
+                                // xác định ID của shop
+                                if ($product_cart_id == $v['ID']) {
+                                    $shop_cart_id = $v['post_author'];
+                                    break;
+                                }
+                            }
+                        }
+
+                        // 
+                        foreach ($data as $v) {
+                            // nếu chưa có tác giả nào được thiết lập thì gán luôn cái đầu tiên
+                            if (empty($shop_cart_id) || $shop_cart_id == $v['post_author']) {
+                                // thiết lập các sản phẩm cùng tác giả
+                                $shop_cart_id = $v['post_author'];
+                                // gán dữ liệu chính
+                                $result_data[] = $v;
+                            } else {
+                                // gán dữ liệu còn lại
+                                $other_data[] = $v;
+                            }
+                        }
+                        $result_data = $this->post_model->list_meta_post($result_data);
+                        $other_data = $this->post_model->list_meta_post($other_data);
+                    } else {
+                        $result_data = $this->post_model->list_meta_post($data);
+                    }
+                    // print_r($result_data);
                     // die(__CLASS__ . ':' . __LINE__);
 
                     // trả về dữ liệu theo json
                     $this->result_json_type([
                         'ok' => __LINE__,
+                        // 'count' => count($data),
                         'ids' => implode(',', $ids),
                         'table' => view('default/cart_table_view', [
-                            'data' => $data,
+                            'data' => $result_data,
+                            'other_data' => $other_data,
                         ]),
                     ]);
                 } else {
@@ -281,11 +326,11 @@ class Actions extends Layout
             'post_status' => OrderType::PUBLICITY,
         ], [
             'where_in' => array(
-                'ID' => $ids
+                'ID' => $ids,
             ),
             'order_by' => array(
                 'menu_order' => 'DESC',
-                'ID' => 'ASC'
+                'ID' => 'ASC',
             ),
             // 'show_query' => 1,
             'limit' => 99,
@@ -510,7 +555,7 @@ class Actions extends Layout
 
 
             // Chuyển tới trang đặt hàng thành công và xóa session giỏ hàng (nếu có)
-            echo '<script>top.remove_session_cart("' . $this->order_model->orderReceiveToken($result_id, $data['post_password']) . '");</script>';
+            echo '<script>top.remove_session_cart("' . $this->order_model->orderReceiveToken($result_id, $data['post_password']) . '", "' . implode(',', $ids) . '");</script>';
 
             // Chuyển tới trang đặt hàng thành công
             $this->base_model->alert($this->lang_model->get_the_text('order_received_view_h1', $this->thank_you));
@@ -774,7 +819,7 @@ class Actions extends Layout
                         ],
                     ],
                     'order_by' => array(
-                        't1.ID' => 'DESC'
+                        't1.ID' => 'DESC',
                     ),
                     // hiển thị mã SQL để check
                     // 'show_query' => 1,
@@ -785,7 +830,7 @@ class Actions extends Layout
                     // trả về tổng số bản ghi -> tương tự mysql num row
                     //'getNumRows' => 1,
                     //'offset' => 0,
-                    'limit' => 1
+                    'limit' => 1,
                 )
             );
 
@@ -807,6 +852,7 @@ class Actions extends Layout
                 'cart_title' => $cart_title,
                 'key' => $key,
                 'data' => $data,
+                'smtp_config' => $this->option_model->get_smtp(),
                 'OrderType_COMPLETED' => [
                     OrderType::PRIVATELY,
                     OrderType::INHERIT,
@@ -911,7 +957,7 @@ class Actions extends Layout
                 // trả về tổng số bản ghi -> tương tự mysql num row
                 //'getNumRows' => 1,
                 //'offset' => 0,
-                'limit' => 1
+                'limit' => 1,
             )
         );
 
