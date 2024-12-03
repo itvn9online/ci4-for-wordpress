@@ -469,8 +469,8 @@ class ConfigType
             $arr = [
                 // Số tiền mặc định -> dùng cho các website dịch vụ đồng giá
                 'min_product_price' => 'Giá trị đơn hàng tối thiểu',
-                'shipping_fee' => 'Shipping fee',
-                'deposit_money' => 'Deposit money',
+                'shippings_fee' => 'Shippings fee',
+                'deposits_money' => 'Deposits money',
                 'period_price' => 'Các bước giá',
                 'period_discount' => 'Giảm giá',
                 'period_bonus' => 'Tặng thêm',
@@ -579,7 +579,7 @@ class ConfigType
             // 'currency_locales_format' => '',
             'currency_big_format' => 'checkbox',
             'currency_fraction_digits' => 'number',
-            'shipping_fee' => 'number',
+            // 'shippings_fee' => 'number',
             'logo_main_height' => 'number',
             'logo_width_img' => 'number',
             'logo_height_img' => 'number',
@@ -718,8 +718,8 @@ class ConfigType
             'currency_after_format' => 'Mặc định, đơn vị tiền tệ sẽ xuất hiện ở phía trước giá tiền, nếu bạn muốn nó xuất hiện ở phía sau, hãy đánh dấu vào đây và lưu lại.',
             'currency_big_format' => 'Khi bật chế độ này, các số tiền lớn hơn 1 triệu sẽ được chuyển đổi đơn vị sang triệu (hoặc tỷ). Ví dụ: 1,000,000đ sẽ đổi thành 1 triệu, 1,624,000,000đ sẽ đổi thành 1 tỷ 624 triệu.',
             'currency_fraction_digits' => 'Phần số thập phân sau mỗi đơn vị tiền tệ. Mặc định là 2 số. Ví dụ: 1,000.00 hoặc 1,000.50 (thiết lập là 0 để ẩn phần thập phân).',
-            'shipping_fee' => 'Mặc định sẽ không hiển thị phí vận chuyển trong giỏ hàng. Thiết lập là 0 sẽ hiển thị Miễn phí vận chuyển, lớn hơn 0 sẽ hiển thị phí vận chuyển cố định.',
-            'deposit_money' => 'Khi thiết lập giá trị này, khách hàng bắt buộc phải đặt cọc theo số tiền đã được chỉ định. Có thể nhập %, ví dụ nhập: 25% thì khách hàng sẽ phải đặt cọc trước 25% cho mỗi đơn hàng.',
+            'shippings_fee' => 'Mặc định sẽ không hiển thị phí vận chuyển trong giỏ hàng. Thiết lập là 0 sẽ hiển thị Miễn phí vận chuyển, lớn hơn 0 sẽ hiển thị phí vận chuyển cố định. Sử dụng [qty] cho số lượng sản phẩm, ví dụ: 10.00 * [qty]',
+            'deposits_money' => 'Khi thiết lập giá trị này, khách hàng bắt buộc phải đặt cọc theo số tiền đã được chỉ định. Có thể nhập %, ví dụ nhập: 25% thì khách hàng sẽ phải đặt cọc trước 25% cho mỗi đơn hàng.',
             //
             'eb_product_per_page' => 'Khi số này lớn hơn 0, trong trang chi tiết ' . AdminTranslate::PROD . ' sẽ lấy các bài cùng nhóm với bài hiện tại để giới thiệu',
             // 'main_slider_slug' => 'Nhập slug của slider chính vào đây, khi hàm the_slider không tìm được slider tương ứng thì nó sẽ lấy slider này để gán vào',

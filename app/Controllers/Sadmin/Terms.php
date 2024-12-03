@@ -22,7 +22,7 @@ class Terms extends Sadmin
     protected $list_view_path = 'terms';
     protected $list_table_path = '';
 
-    /*
+    /**
      * for_extends: khi một controller extends lại class này và sử dụng các taxonomy khác (custom taxonomy) thì khai báo nó bằng true để bỏ qua các điều kiện kiểm tra
      */
     public function __construct($for_extends = false)
@@ -133,7 +133,7 @@ class Terms extends Sadmin
         // print_r($filter);
 
 
-        /*
+        /**
          * phân trang
          */
         $totalThread = $this->term_model->count_all_taxonomy($this->taxonomy, 0, $filter);

@@ -558,12 +558,12 @@ class Term extends TermBase
             return false;
         }
 
-        /*
+        /**
          * v2 -> Xóa hết đi add lại
          */
         //return $this->insert_v2_meta_term( $meta_data, $term_id );
 
-        /*
+        /**
          * v1 -> chưa xử lý được các checkbox sau khi bị hủy
          * daidq (2021-12-14): đã xử lý được phần checkbox
          */
@@ -681,7 +681,7 @@ class Term extends TermBase
         return $this->get_all_taxonomy($taxonomy, 0, NULL, $in_cache, true);
     }
 
-    /*
+    /**
      * trả về tổng số bản ghi của term theo điều kiện truyền vào
      */
     public function count_all_taxonomy($taxonomy = 'category', $term_id = 0, $ops = [])

@@ -194,7 +194,7 @@ class MailQueue extends EbModel
                         array(
                             // các kiểu điều kiện where
                             'ID' => $v['order_id'],
-                            'post_status' => $mail_queue_sending_type,
+                            // 'post_status' => $mail_queue_sending_type,
                         ),
                         array(
                             // hiển thị mã SQL để check
@@ -213,7 +213,15 @@ class MailQueue extends EbModel
                     // nếu ko tìm được đơn hàng
                     if (empty($order_data)) {
                         // trả về thông báo
+                        $result[] = 'order_id ' . $v['order_id'];
                         $result[] = 'order status is not ' . $mail_queue_sending_type;
+
+                        // sau đó thoát thôi
+                        break;
+                    } else if ($order_data['post_status'] != $mail_queue_sending_type) {
+                        // trả về thông báo
+                        $result[] = 'order_id ' . $v['order_id'];
+                        $result[] = 'order status ' . $order_data['post_status'] . ' is not ' . $mail_queue_sending_type;
 
                         // sau đó thoát thôi
                         break;
@@ -400,19 +408,19 @@ class MailQueue extends EbModel
         $data['order_amount'] = $data['order_money'] - $data['order_bonus'] - $data['order_discount'] + $data['shipping_fee'];
 
         // xem có phần tạm ứng trước hay không
-        $deposit_money = 0;
+        $depositMoney = 0;
         $deposit_balance = 0;
         if ($data['deposit_money'] != '') {
-            $deposit_money = $data['deposit_money'];
+            $depositMoney = $data['deposit_money'];
 
             // nếu là tính theo % thì quy đổi từ tổng tiền ra deposit
-            if (strpos($deposit_money, '%') !== false) {
-                $deposit_money = $this->base_model->number_only($deposit_money);
-                $deposit_money = $data['order_amount'] / 100 * $deposit_money;
+            if (strpos($depositMoney, '%') !== false) {
+                $depositMoney = $this->base_model->number_only($depositMoney);
+                $depositMoney = $data['order_amount'] / 100 * $depositMoney;
             } else {
-                $deposit_money *= 1;
+                $depositMoney *= 1;
             }
-            $deposit_balance = $data['order_amount'] - $deposit_money;
+            $deposit_balance = $data['order_amount'] - $depositMoney;
         }
 
         // 

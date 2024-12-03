@@ -69,16 +69,16 @@ function WGR_load_paypal_buttons(input) {
 					document.domain;
 
 				// nếu có đặt cọc trước -> chỉ tạo đơn 1 giá
-				let deposit_money = 0;
+				let depositMoney = 0;
 				if (input.deposit_money != "") {
-					deposit_money = input.deposit_money * 1;
-					if (isNaN(deposit_money)) {
-						deposit_money = 0;
+					depositMoney = input.deposit_money * 1;
+					if (isNaN(depositMoney)) {
+						depositMoney = 0;
 					}
 				}
 
 				//
-				if (deposit_money > 0) {
+				if (depositMoney > 0) {
 					return actions.order.create({
 						purchase_units: [
 							{
@@ -88,7 +88,7 @@ function WGR_load_paypal_buttons(input) {
 								// soft_descriptor: "",
 								amount: {
 									currency_code: input.currency_code,
-									value: deposit_money,
+									value: depositMoney,
 									// breakdown: amount_breakdown,
 								},
 								// items: purchase_units_items,

@@ -246,7 +246,7 @@ class AdminMenu
             ],
             'sadmin/configs' => [
                 'name' => 'Settings',
-                'tag' => 'Setting',
+                'tag' => 'Setting, email, phone, dien thoai, logo, favicon, address, dia chi',
                 'icon' => 'fa fa-cogs',
                 'arr' => [
                     'sadmin/displays' => [
@@ -255,18 +255,22 @@ class AdminMenu
                     ],
                     'sadmin/socials' => [
                         'name' => ConfigType::typeList(ConfigType::SOCIAL),
+                        'tag' => 'Google, facebook, Zalo, Youtube',
                         'icon' => 'fa fa-facebook',
                     ],
                     'sadmin/confighomes' => [
                         'name' => ConfigType::typeList(ConfigType::HOME),
+                        'tag' => 'Trang chu',
                         'icon' => 'fa fa-home',
                     ],
                     'sadmin/configcats' => [
                         'name' => ConfigType::typeList(ConfigType::CATEGORY),
+                        'tag' => 'Category, danh muc bai viet',
                         'icon' => 'fa fa-cog',
                     ],
                     'sadmin/configposts' => [
                         'name' => ConfigType::typeList(ConfigType::POST),
+                        'tag' => 'News, blogs, tin tuc, chi tiet bai viet',
                         'icon' => 'fa fa-product-hunt',
                     ],
                     /*
@@ -281,10 +285,12 @@ class AdminMenu
                     */
                     'sadmin/configprodcats' => [
                         'name' => ConfigType::typeList(ConfigType::PROD_CATS),
+                        'tag' => 'Products category, danh muc san pham',
                         'icon' => 'fa fa-cog',
                     ],
                     'sadmin/configprods' => [
                         'name' => ConfigType::typeList(ConfigType::PROD),
+                        'tag' => 'Products details, chi tiet san pham',
                         'icon' => 'fa fa-newspaper-o',
                     ],
                     'sadmin/smtps' => [
@@ -294,7 +300,7 @@ class AdminMenu
                     ],
                     'sadmin/checkouts' => [
                         'name' => ConfigType::typeList(ConfigType::CHECKOUT),
-                        'tag' => 'banks, payments, paypal',
+                        'tag' => 'banks, payments, paypal, shipping, thanh toan, van chuyen',
                         'icon' => 'fa fa-dollar',
                     ],
                     'sadmin/nummons' => [
@@ -307,16 +313,17 @@ class AdminMenu
                     ],
                     'sadmin/translates' => [
                         'name' => ConfigType::typeList(ConfigType::TRANS),
-                        'tag' => 'Language',
+                        'tag' => 'Language, ngon ngu, ban dich',
                         'icon' => 'fa fa-globe',
                     ],
                     'sadmin/rewriterule' => [
                         'name' => 'Rewrite Rule',
-                        'tag' => 'rewrites redirects 404',
+                        'tag' => 'rewrites, redirects, 404',
                         'icon' => 'fa fa-share-square-o',
                     ],
                     'sadmin/firebases' => [
                         'name' => 'Recaptcha/ Firebase',
+                        'tag' => 'login, recaptcha',
                         'icon' => 'fa fa-code-fork',
                     ],
                     'sadmin/zalooas' => [

@@ -30,10 +30,10 @@
         <?php $lang_model->the_text('cart_sidebar_total', 'Total'); ?>
         <span class="ebe-currency rf cart-total-regular_price"></span>
     </div>
-    <div class="cart-group-deposit_money d-none bold">
-        <div class="cart-sub-total cart-sub-deposit_money">
+    <div class="cart-group-deposit-money d-none bold">
+        <div class="cart-sub-total cart-sub-deposit-money">
             <?php $lang_model->the_text('cart_sidebar_deposit_money', 'Deposit'); ?>
-            <span class="rf cart-total-deposit_money"></span>
+            <span class="rf cart-total-deposit-money"></span>
         </div>
         <div class="cart-sub-total cart-sub-deposit_balance">
             <?php $lang_model->the_text('cart_sidebar_deposit_balance', 'Remaining amount'); ?>

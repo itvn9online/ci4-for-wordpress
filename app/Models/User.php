@@ -314,8 +314,10 @@ class User extends UserMeta
             $filter
         );
         //print_r($data);
-        $data = $this->sync_login_data($data);
-        //print_r($data);
+        if (!empty($data)) {
+            $data = $this->sync_login_data($data);
+            //print_r($data);
+        }
 
         //
         return $data;

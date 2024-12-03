@@ -51,10 +51,19 @@ use App\Libraries\UsersType;
             if (THIS_IS_E_COMMERCE_SITE == 'yes' && $id_author == '') {
                 // gán id_author để pha sau ko hiển thị if này nữa
                 $id_author = $v['post_author'];
+                // echo $id_author;
+                // die(__FILE__ . ':' . __LINE__);
 
                 // lấy thông tin author
                 $author_data = $user_model->get_user_by_id($v['post_author'], [
-                    'member_type' => UsersType::MEMBER,
+                    // 'member_type' => UsersType::MEMBER,
+                ], [
+                    'where_in' => array(
+                        'member_type' => array(
+                            UsersType::MEMBER,
+                            UsersType::ADMIN,
+                        )
+                    ),
                 ]);
                 // print_r($author_data);
 
@@ -62,7 +71,7 @@ use App\Libraries\UsersType;
                 if (empty($author_data)) {
         ?>
                     <tr>
-                        <td colspan="5" class="cart-vendor-locked">Account info not found!</td>
+                        <td colspan="5" class="cart-vendor-locked">Account info not found #<?php echo $v['post_author']; ?></td>
                     </tr>
                 <?php
                     break;
@@ -70,10 +79,10 @@ use App\Libraries\UsersType;
 
                 // xác định tên hiển thị
                 if (!empty($author_data['display_name'])) {
-                    $display_name = $author_data['display_name'];
+                    $displayName = $author_data['display_name'];
                 } else {
                     // mặc định sẽ hiển thị username
-                    $display_name = $author_data['user_login'];
+                    $displayName = $author_data['user_login'];
                 }
 
                 ?>
@@ -82,7 +91,7 @@ use App\Libraries\UsersType;
                         <i class="fa fa-check-square-o cart-vendor-checked s18"></i>
                     </td>
                     <td colspan="4" class="cart-vendor-name s18">
-                        <?php echo $display_name; ?> <i class="fa fa-shopping-basket"></i>
+                        <?php echo $displayName; ?> <i class="fa fa-shopping-basket"></i>
                     </td>
                 </tr>
                 <?php
@@ -210,10 +219,10 @@ if (THIS_IS_E_COMMERCE_SITE == 'yes' && isset($other_data) && !empty($other_data
 
                     // xác định tên hiển thị
                     if (!empty($author_data['display_name'])) {
-                        $display_name = $author_data['display_name'];
+                        $displayName = $author_data['display_name'];
                     } else {
                         // mặc định sẽ hiển thị username
-                        $display_name = $author_data['user_login'];
+                        $displayName = $author_data['user_login'];
                     }
 
                     // 
@@ -225,7 +234,7 @@ if (THIS_IS_E_COMMERCE_SITE == 'yes' && isset($other_data) && !empty($other_data
                             <a href="<?php echo $cart_vendor_link; ?>" class="cart-vendor-check"><i class="fa fa-square-o s18"></i></a>
                         </td>
                         <td colspan="3" class="cart-vendor-name">
-                            <a href="<?php echo $cart_vendor_link; ?>"><?php echo $display_name; ?> <i class="fa fa-shopping-cart"></i></a>
+                            <a href="<?php echo $cart_vendor_link; ?>"><?php echo $displayName; ?> <i class="fa fa-shopping-cart"></i></a>
                         </td>
                     </tr>
                 <?php

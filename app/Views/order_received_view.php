@@ -45,19 +45,19 @@ if (!empty($data)) {
     // print_r($post_excerpt);
 
     // xem có phần tạm ứng trước hay không
-    $deposit_money = 0;
+    $depositMoney = 0;
     $deposit_balance = 0;
     if ($data['deposit_money'] != '') {
-        $deposit_money = $data['deposit_money'];
+        $depositMoney = $data['deposit_money'];
 
         // nếu là tính theo % thì quy đổi từ tổng tiền ra deposit
-        if (strpos($deposit_money, '%') !== false) {
-            $deposit_money = $base_model->number_only($deposit_money);
-            $deposit_money = $data['order_amount'] / 100 * $deposit_money;
+        if (strpos($depositMoney, '%') !== false) {
+            $depositMoney = $base_model->number_only($depositMoney);
+            $depositMoney = $data['order_amount'] / 100 * $depositMoney;
         } else {
-            $deposit_money *= 1;
+            $depositMoney *= 1;
         }
-        $deposit_balance = $data['order_amount'] - $deposit_money;
+        $deposit_balance = $data['order_amount'] - $depositMoney;
     }
 
     // 
@@ -108,7 +108,7 @@ if (!empty($data)) {
             'order_amount' => $data['order_amount'],
             'shipping_fee' => $data['shipping_fee'],
             'order_discount' => $data['order_discount'] + $data['order_bonus'],
-            'deposit_money' => $deposit_money,
+            'deposit_money' => $depositMoney,
             'deposit_balance' => $deposit_balance,
             'order_item' => $order_item,
             'shipping' => [

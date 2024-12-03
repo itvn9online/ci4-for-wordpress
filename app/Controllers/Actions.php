@@ -427,14 +427,19 @@ class Actions extends Layout
 
         // phí vận chuyển (nếu có)
         if (!isset($data['shipping_fee']) || empty($data['shipping_fee'])) {
-            if ($this->getconfig->shipping_fee != '') {
-                $data['shipping_fee'] = $this->getconfig->shipping_fee;
+            if ($this->getconfig->shippings_fee != '') {
+                $data['shipping_fee'] = $this->getconfig->shippings_fee;
             }
         }
 
+        // 
+        if (isset($data['shipping_fee']) && strpos($data['shipping_fee'], '[qty]') !== false) {
+            $data['shipping_fee'] = trim(explode('*', $data['shipping_fee'])[0]) * $total_quantity;
+        }
+
         // đặt cọc trước (nếu có)
-        if ($this->getconfig->deposit_money != '') {
-            $data['deposit_money'] = $this->getconfig->deposit_money;
+        if ($this->getconfig->deposits_money != '') {
+            $data['deposit_money'] = $this->getconfig->deposits_money;
         }
 
         // 

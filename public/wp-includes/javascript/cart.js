@@ -83,27 +83,31 @@ function run_calculate_cart_value() {
 
 	// tổng chính -> sau khi tính thuế má, phí vận chuyển, mã giảm giá...
 	price_total = price_sub_total;
+	let couponAmount = 0;
 	// tính theo % giỏ hàng
 	if (cart_config.coupon_amount.toString().includes("%") == true) {
-		let coupon_amount = g_func.number_only(cart_config.coupon_amount);
-		console.log("coupon amount", coupon_amount);
-		if (coupon_amount < 0) {
-			coupon_amount = 0 - coupon_amount;
+		// couponAmount = g_func.number_only(cart_config.coupon_amount);
+		couponAmount =
+			$.trim(cart_config.coupon_amount.toString().split("%")[0]) * 1;
+		if (couponAmount < 0) {
+			couponAmount = 0 - couponAmount;
 		}
+		console.log("coupon amount", couponAmount);
 
 		//
-		if (coupon_amount > 0) {
-			let discount_amount = (price_total / 100) * coupon_amount;
+		if (couponAmount > 0) {
+			let discount_amount = (price_total / 100) * couponAmount;
+			discount_amount = discount_amount.toFixed(2) * 1;
 			console.log("discount amount", discount_amount);
 			price_total = price_total - discount_amount;
 		}
 	} else {
-		cart_config.coupon_amount *= 1;
+		couponAmount = cart_config.coupon_amount * 1;
 
 		// tính theo số lượng sản phẩm trong giỏ hàng
 		if (item_total > 1 && cart_discount_type == "fixed_product") {
 			// console.log(cart_discount_type, item_total);
-			let fixed_product = cart_config.coupon_amount * item_total;
+			let fixed_product = couponAmount * item_total;
 			// hiển thị số tiền giảm giá
 			$(".cart-discount-value")
 				.html(g_func.money_format(fixed_product))
@@ -113,38 +117,50 @@ function run_calculate_cart_value() {
 			price_total -= fixed_product;
 		} else {
 			// tính theo tổng tiền của giỏ hàng
-			price_total -= cart_config.coupon_amount;
+			price_total -= couponAmount;
 		}
 	}
 
 	// hiển thị phí vận chuyển
-	// console.log(cart_config.shipping_fee, cart_config);
-	let shipping_fee = 0;
-	if (cart_config.shipping_fee == "") {
+	// console.log(cart_config.shippings_fee, cart_config);
+	let shippingFee = 0;
+	if (cart_config.shippings_fee == "") {
 		$(".cart-sidebar-shipping").html(cart_config.calculated_later);
 	} else {
 		// quy đổi thành dạng số để giỏ hàng còn cộng tiền
-		shipping_fee = cart_config.shipping_fee * 1;
+		shippingFee = cart_config.shippings_fee.toString();
+		// nếu có tham số [qty]
+		if (shippingFee.includes("[qty]")) {
+			// phí vận chuyển sẽ tính theo từng đầu sản phẩm
+			shippingFee = $.trim(shippingFee.split("*")[0]) * item_total;
+		} else if (shippingFee.includes("%")) {
+			shippingFee = $.trim(shippingFee.split("%")[0]) * 1;
+			shippingFee = (price_total / 100) * shippingFee;
+			shippingFee = shippingFee.toFixed(2) * 1;
+		} else {
+			// mặc định sẽ tính cho toàn bộ giỏ hàng
+			shippingFee = shippingFee * 1;
+		}
 		// nếu lỗi quy đổi
-		if (isNaN(shipping_fee)) {
+		if (isNaN(shippingFee)) {
 			// cho về dạng tính toán sau
 			$(".cart-sidebar-shipping").html(cart_config.calculated_later);
 		} else {
 			// ít quá thì free-ship
-			if (shipping_fee < 0.1) {
+			if (shippingFee < 0.1) {
 				$(".cart-sidebar-shipping").html(cart_config.free_shipping);
 			} else {
 				// nhiều thì hiển thị ra
 				$(".cart-sidebar-shipping")
-					.html(g_func.money_format(shipping_fee))
+					.html(g_func.money_format(shippingFee))
 					.addClass("ebe-currency");
 			}
 		}
 	}
-	// console.log(shipping_fee);
+	// console.log(shippingFee);
 
 	//
-	cart_total_regular_price(price_total + shipping_fee);
+	cart_total_regular_price(price_total + shippingFee);
 
 	//
 	$(".total-cart-quantity").html(item_total);
@@ -154,21 +170,21 @@ function cart_total_regular_price(a) {
 	$(".cart-total-regular_price").html(g_func.money_format(a));
 
 	//
-	if (cart_config.deposit_money != "") {
+	if (cart_config.deposits_money != "") {
 		let b = 0;
-		if (cart_config.deposit_money.includes("%") !== false) {
-			b = g_func.number_only(cart_config.deposit_money);
+		if (cart_config.deposits_money.includes("%") !== false) {
+			b = g_func.number_only(cart_config.deposits_money);
 			b = (a / 100) * b;
 			// làm tròn phần thập phân
 			// b = b.toFixed(2);
 			// làm tròn phía sàn
 			b = Math.round(b);
-			$(".cart-total-deposit_money").addClass("ebe-currency");
+			$(".cart-total-deposit-money").addClass("ebe-currency");
 		} else {
-			b = cart_config.deposit_money * 1;
+			b = cart_config.deposits_money * 1;
 		}
 		// ->số tiền đặt cọc trước
-		$(".cart-total-deposit_money").html(b);
+		$(".cart-total-deposit-money").html(b);
 		// số tiền còn lại
 		$(".cart-total-deposit_balance").html(a - b);
 	}
@@ -654,8 +670,8 @@ jQuery(document).ready(function () {
 	*/
 
 	// hiển thị html cho phần đặt cọc nếu có
-	if (cart_config.deposit_money != "") {
-		$(".cart-group-deposit_money").removeClass("d-none");
+	if (cart_config.deposits_money != "") {
+		$(".cart-group-deposit-money").removeClass("d-none");
 		$(".cart-sub-regular_price").removeClass("bold");
 	}
 

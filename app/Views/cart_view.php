@@ -5,8 +5,8 @@ $base_model->JSON_parse([
     'cart_config' => [
         'coupon_code' => $coupon_code,
         'coupon_amount' => $coupon_amount,
-        'shipping_fee' => $getconfig->shipping_fee,
-        'deposit_money' => $getconfig->deposit_money,
+        'shippings_fee' => $getconfig->shippings_fee,
+        'deposits_money' => $getconfig->deposits_money,
         'free_shipping' => $lang_model->get_the_text('shipping_free', 'Free shipping'),
         'calculated_later' => $lang_model->get_the_text('calculated_later', 'Calculated later'),
     ],

@@ -96,14 +96,14 @@
                         </td>
                     </tr>
                     <?php
-                    if ($deposit_money > 0) {
+                    if ($depositMoney > 0) {
                     ?>
                         <tr class="order-overview__deposit_money">
                             <td>
                                 <?php $lang_model->the_text('cart_sidebar_deposit_money', 'Deposit'); ?>:
                             </td>
                             <td>
-                                <strong class="ebe-currency"><?php echo $deposit_money; ?></strong>
+                                <strong class="ebe-currency"><?php echo $depositMoney; ?></strong>
                             </td>
                         </tr>
                         <tr class="order-overview__deposit_balance">
@@ -159,11 +159,11 @@
                     <strong><?php $lang_model->the_text('cart_cod_payment', 'Cash on delivery'); ?></strong>
                 </li>
                 <?php
-                if ($deposit_money > 0) {
+                if ($depositMoney > 0) {
                 ?>
                     <li class="order-overview__deposit_money">
                         <?php $lang_model->the_text('cart_sidebar_deposit_money', 'Deposit'); ?>:
-                        <strong class="ebe-currency"><?php echo $deposit_money; ?></strong>
+                        <strong class="ebe-currency"><?php echo $depositMoney; ?></strong>
                     </li>
                     <li class="order-overview__deposit_balance">
                         <?php $lang_model->the_text('cart_sidebar_deposit_balance', 'Remaining amount'); ?>:
