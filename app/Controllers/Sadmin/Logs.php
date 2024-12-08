@@ -92,7 +92,7 @@ class Logs extends Dev
             /**
              * xóa log quá 1 tháng trước
              */
-            $current_time = time() - (24 * 3600 * 30);
+            $current_time = time() - (86400 * 30);
             $max_i = 60;
             for ($i = 0; $i < 500; $i++) {
                 if ($max_i < 0) {

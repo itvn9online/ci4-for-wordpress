@@ -427,7 +427,8 @@ class Users extends Sadmin
             array(
                 'data' => $data,
                 'controller_slug' => $this->controller_slug,
-                'member_type' => $this->member_type,
+                // 'member_type' => $this->member_type,
+                'member_type' => $data['member_type'],
                 'member_name' => $this->member_name,
                 'arr_members_type' => $this->arr_members_type,
             )

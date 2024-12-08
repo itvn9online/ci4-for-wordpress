@@ -159,13 +159,25 @@ class MailQueue extends EbModel
     /**
      * lấy và gửi email theo session hiện tại của người dùng
      **/
-    public function session_sending_mailq()
+    public function session_sending_mailq($order_id = '')
     {
-        $data = $this->get_pending_mailq([
+        $result = [];
+
+        // 
+        $where = [
             'session_id' => $this->base_model->MY_sessid(),
             'status' => PostType::PENDING,
-        ], [
-            'limit' => 5,
+        ];
+        // so khớp cả ID đơn hàng nếu có yêu cầu
+        if (!empty($order_id)) {
+            // tránh trường hợp khách đặt 2 đơn nhưng thanh toán 1 đơn nên không xác định được gửi email cho đơn nào
+            $where['order_id'] = $order_id;
+            $result[] = 'order_id ' . $order_id;
+        }
+
+        // 
+        $data = $this->get_pending_mailq($where, [
+            'limit' => 99,
         ]);
 
         // 
@@ -182,7 +194,6 @@ class MailQueue extends EbModel
         $order_status = '';
 
         // 
-        $result = [];
         foreach ($data as $v) {
             $result[] = $v['mailto'];
 

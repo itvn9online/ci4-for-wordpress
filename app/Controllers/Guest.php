@@ -145,7 +145,7 @@ class Guest extends Csrf
                         $token_rememberme = [];
                         // nếu có tham số này -> kiểm tra các điều kiện đạt thì tiến hành tạo token tự động đăng nhập
                         if (!empty($rememberme) && is_numeric($rememberme) && $rememberme > 0 && $rememberme < 31) {
-                            $token_expired = time() + ($rememberme * 24 * 3600);
+                            $token_expired = time() + ($rememberme * 86400);
 
                             // thực hiện tạo tham số để lưu phiên đăng nhập trên trình duyệt
                             $token_header = base64_encode(json_encode([

@@ -7,3 +7,12 @@
 .cart-order_received tfoot tr:first-child td {
     border-top: 3px #ececec solid;
 }
+
+.cart-h1-status {
+    color: red;
+}
+
+.cart-h1-inherit,
+.cart-h1-private {
+    color: green;
+}

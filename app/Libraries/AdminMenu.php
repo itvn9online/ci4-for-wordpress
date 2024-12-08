@@ -255,7 +255,7 @@ class AdminMenu
                     ],
                     'sadmin/socials' => [
                         'name' => ConfigType::typeList(ConfigType::SOCIAL),
-                        'tag' => 'Google, facebook, Zalo, Youtube',
+                        'tag' => 'Google Adsense, facebook, Zalo, Youtube, Tawk, TikTok',
                         'icon' => 'fa fa-facebook',
                     ],
                     'sadmin/confighomes' => [

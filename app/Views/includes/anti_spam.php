@@ -52,7 +52,7 @@ $anti_div_id_spam = '_' . $this->rand_anti_spam . rand(99, 999);
     $ops['time_expired'] *= 1;
     if ($ops['time_expired'] < 1) {
         // mặc định là hết trong 1 ngày nếu ko có
-        $ops['time_expired'] = 24 * 3600;
+        $ops['time_expired'] = 86400;
         $ops['time_expired'] -= rand(0, 99);
     } else {
         $ops['time_expired'] += rand(0, 33);
@@ -64,14 +64,16 @@ $anti_div_id_spam = '_' . $this->rand_anti_spam . rand(99, 999);
     $rand_code = substr($rand_code, rand(0, strlen($rand_code) - $this->rand_len_code), $this->rand_len_code);
 
     //
-    foreach ([
-        // timeout
-        'to' => $ops['time_expired'],
-        // token -> dùng để xác thực với timeout
-        'token' => md5($this->rand_anti_spam . $ops['time_expired']),
-        // dùng để xác thực session id hiện tại
-        'code' => $rand_code,
-    ] as $k => $v) {
+    foreach (
+        [
+            // timeout
+            'to' => $ops['time_expired'],
+            // token -> dùng để xác thực với timeout
+            'token' => md5($this->rand_anti_spam . $ops['time_expired']),
+            // dùng để xác thực session id hiện tại
+            'code' => $rand_code,
+        ] as $k => $v
+    ) {
     ?>
         <input type="hidden" name="<?php echo $this->rand_anti_spam; ?>_<?php echo $k; ?>" placeholder="<?php echo $k; ?>" value="<?php echo $v; ?>" aria-labelledby="<?php echo $k; ?>" readonly aria-required="true" required />
     <?php

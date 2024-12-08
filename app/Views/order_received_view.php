@@ -15,7 +15,7 @@ $base_model->adds_css([
 ?>
 <!-- <br> -->
 <div class="w90">
-    <h1 class="cart-h1-title"><?php echo $cart_title; ?></h1>
+    <h1 class="cart-h1-title cart-h1-status cart-h1-<?php echo $data['post_status']; ?>"><?php echo $cart_title; ?></h1>
 </div>
 <!-- <br> -->
 <?php
@@ -97,6 +97,12 @@ if (!empty($data)) {
     include VIEWS_PATH . 'private_view.php';
 
 
+    // nạp view riêng của từng theme nếu có
+    $theme_default_view = VIEWS_PATH . 'default/order_continue_view.php';
+    // nạp file kiểm tra private view
+    include VIEWS_PATH . 'private_view.php';
+
+
     // JSON.parse
     $base_model->JSON_parse([
         'current_order_data' => [
@@ -159,6 +165,15 @@ if (!empty($data)) {
             ]);
         }
     }
+
+
+    // các file functions sẽ được nạp trước
+    $base_model->adds_js([
+        'wp-includes/javascript/cart_functions.js',
+        THEMEPATH . 'js/cart_functions.js',
+    ], [
+        'cdn' => CDN_BASE_URL,
+    ]);
 
     //
     $base_model->adds_js([

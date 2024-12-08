@@ -286,14 +286,14 @@ include VIEWS_PATH . 'private_require_view.php';
 
 // nạp mã của analytics (nếu có)
 if ($getconfig->google_analytics != '') {
-    echo HtmlTemplate::html('google_analytics.txt', [
+    echo HtmlTemplate::html('google_analytics.html', [
         'google_analytics' => $getconfig->google_analytics,
     ]);
 }
 
 // nạp mã của adsense (nếu có)
 if ($getconfig->google_adsense != '') {
-?>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<?php echo $getconfig->google_adsense; ?>" crossorigin="anonymous"></script>
-<?php
+    echo HtmlTemplate::html('google_adsense.html', [
+        'google_adsense' => $getconfig->google_adsense,
+    ]);
 }

@@ -47,7 +47,7 @@ vue_data.current_protocol = current_protocol.split("//")[0];
 vue_data.current_www = current_www.split(".")[0].split("//")[1];
 vue_data.calculate_ci4_update = function (last_time) {
 	let current_time = Math.ceil(Date.now() / 1000);
-	let one_day = 24 * 3600;
+	let one_day = 86400;
 	let cal_day = current_time - last_time;
 	cal_day = cal_day / one_day;
 	return cal_day.toFixed(1) * 1;
@@ -180,7 +180,7 @@ if (
 			jQueryAjaxError(jqXHR, textStatus, errorThrown, new Error().stack);
 		},
 		success: function (data) {
-			data.expires_in = dashboard_current_timestamp() + 24 * 3600;
+			data.expires_in = dashboard_current_timestamp() + 86400;
 			console.log(data);
 
 			//

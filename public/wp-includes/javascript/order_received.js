@@ -21,6 +21,7 @@ function action_mail_queue_sending() {
 		//crossDomain: true,
 		data: {
 			nse: Math.random(),
+			order_id: current_order_data.order_id,
 			mail_queue_sending_type: current_order_data.mail_queue_sending_type,
 		},
 		timeout: 33 * 1000,
@@ -34,6 +35,15 @@ function action_mail_queue_sending() {
 }
 
 //
-$(document).ready(function () {
+let has_product_in_cart = false;
+jQuery(document).ready(function () {
 	action_mail_queue_sending();
+	has_product_in_cart = action_ajax_cart(true);
+
+	//
+	if (has_product_in_cart == false) {
+		jQuery(".order_received-empty").removeClass("d-none").show();
+	} else {
+		jQuery(".order_received-empty").hide();
+	}
 });

@@ -312,7 +312,7 @@ var g_func = {
 		if (typeof days != "number") {
 			days = 0;
 		} else {
-			days = days * 24 * 3600;
+			days = days * 86400;
 		}
 
 		//

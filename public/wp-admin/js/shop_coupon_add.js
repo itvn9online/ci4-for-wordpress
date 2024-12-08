@@ -2,7 +2,7 @@ $(document).ready(function () {
 	// thông báo ngày hết hạn
 	setTimeout(() => {
 		let date_now = Date.now(),
-			mot_ngay = 24 * 3600;
+			mot_ngay = 86400;
 		$("#_term_meta_expiry_date").change(function () {
 			let a = $.trim($(this).val()),
 				str = "",

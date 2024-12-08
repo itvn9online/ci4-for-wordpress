@@ -110,7 +110,7 @@ class Actions extends Layout
                 // 'breadcrumb' => '',
                 'cart_title' => $cart_title,
                 'data' => $data,
-                'other_data' => [],
+                'other_data' => null,
                 'by_get_id' => $by_get_id,
                 'product_id' => $product_id,
                 'shop_id' => $this->MY_get('shop_id', 0),
@@ -185,8 +185,14 @@ class Actions extends Layout
                 if (!empty($data)) {
                     $result_data = [];
                     $other_data = [];
+                    $order_received = $this->MY_post('order_received');
+
+                    // nếu ở trang xác nhận đơn hàng thì chỉ hiển thị the mẫu của other_data
+                    if (!empty($order_received)) {
+                        $other_data = $this->post_model->list_meta_post($data);
+                    }
                     // nếu là sàn thương mại điện tử -> chỉ hiển thị thông tin đơn hàng của từng shop
-                    if (THIS_IS_E_COMMERCE_SITE == 'yes' && count($data) > 1) {
+                    else if (THIS_IS_E_COMMERCE_SITE == 'yes' && count($data) > 1) {
                         $shop_cart_id = $this->MY_post('shop_cart_id');
 
                         // xác định ID sản phẩm đang được thêm vào
@@ -763,17 +769,6 @@ class Actions extends Layout
         $cart_title = $this->lang_model->get_the_text('order_received_view_h1', $this->thank_you);
 
         //
-        $this->create_breadcrumb($cart_title, $cart_url);
-
-        //
-        $this->teamplate['breadcrumb'] = view(
-            'breadcrumb_view',
-            array(
-                'breadcrumb' => $this->breadcrumb
-            )
-        );
-
-        //
         $data = null;
 
         // 2 thông số này lấy trực tiếp từ URL hoặc có thể decode ra để lấy
@@ -799,6 +794,12 @@ class Actions extends Layout
             }
         }
         $id *= 1;
+
+        // 
+        $OrderType_COMPLETED = [
+            OrderType::PRIVATELY,
+            OrderType::INHERIT,
+        ];
 
         //
         if ($id > 0 && !empty($token) && !empty($key) && $this->base_model->mdhash($id) == $token) {
@@ -840,10 +841,28 @@ class Actions extends Layout
             );
 
             // 
+            if (!empty($data)) {
+                if (!in_array($data['post_status'], $OrderType_COMPLETED)) {
+                    $cart_title = $this->lang_model->get_the_text('order_pending_view_h1', $this->thank_you);
+                }
+            }
+
+            // 
             // print_r($data);
             // $test_str = $this->mail_queue_model->bookingDoneMail('', $id, $data);
             // print_r($test_str);
         }
+
+        //
+        $this->create_breadcrumb($cart_title, $cart_url);
+
+        //
+        $this->teamplate['breadcrumb'] = view(
+            'breadcrumb_view',
+            array(
+                'breadcrumb' => $this->breadcrumb
+            )
+        );
 
         // 
         $this->teamplate['main'] = view(
@@ -858,10 +877,7 @@ class Actions extends Layout
                 'key' => $key,
                 'data' => $data,
                 'smtp_config' => $this->option_model->get_smtp(),
-                'OrderType_COMPLETED' => [
-                    OrderType::PRIVATELY,
-                    OrderType::INHERIT,
-                ],
+                'OrderType_COMPLETED' => $OrderType_COMPLETED,
                 'OrderType_PRIVATELY' => OrderType::PRIVATELY,
                 'OrderType_arrStatus' => OrderType::arrStatus(),
             )
@@ -928,7 +944,7 @@ class Actions extends Layout
         // 
         $this->result_json_type([
             'code' => __LINE__,
-            'result' => $this->mail_queue_model->session_sending_mailq(),
+            'result' => $this->mail_queue_model->session_sending_mailq($this->MY_post('order_id')),
         ]);
     }
 

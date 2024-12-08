@@ -36,6 +36,14 @@ $base_model->JSON_echo([
 ]);
 
 
+// các file functions sẽ được nạp trước
+$base_model->adds_js([
+    'wp-includes/javascript/cart_functions.js',
+    THEMEPATH . 'js/cart_functions.js',
+], [
+    'cdn' => CDN_BASE_URL,
+]);
+
 //
 $base_model->adds_js([
     'wp-includes/javascript/datetimepicker.js',

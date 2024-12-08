@@ -101,7 +101,7 @@ class Plains extends Layout
             // die(__CLASS__ . ':' . __LINE__);
 
             // tạo cache -> tránh download liên tục
-            file_put_contents($cache_download, time() + (24 * 3600 * 7), LOCK_EX);
+            file_put_contents($cache_download, time() + (86400 * 7), LOCK_EX);
             chmod($cache_download, 0777);
 
             // Use file_get_contents() function to get the file 
