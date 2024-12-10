@@ -249,6 +249,11 @@ class Configs extends Sadmin
 
             //
             //die( __CLASS__ . ':' . __LINE__ );
+        } else if ($option_type == ConfigType::SOCIAL) {
+            if (isset($data['google_ads_txt_adsense']) && $data['google_ads_txt_adsense'] != '') {
+                echo PUBLIC_PUBLIC_PATH . 'ads.txt' . '<br>' . PHP_EOL;
+                file_put_contents(PUBLIC_PUBLIC_PATH . 'ads.txt', $data['google_ads_txt_adsense'], LOCK_EX);
+            }
         }
 
         $list_field_has_change = $this->MY_post('list_field_has_change');
