@@ -15,7 +15,9 @@
         <tr :data-id="v.comment_ID" v-for="v in data">
             <td>&nbsp;</td>
             <td>
-                <div><a :href="'sadmin/' + controller_slug + '?comment_id=' + v.comment_ID">{{v.comment_title}} <i class="fa fa-edit"></i></a></div>
+                <div>
+                    <a :href="'sadmin/' + controller_slug + '?comment_id=' + v.comment_ID" :data-id="v.comment_ID" class="orders-open-popup">{{v.comment_title}} <i class="fa fa-edit"></i></a>
+                </div>
                 <div>{{v.comment_slug}}</div>
                 <div v-if="v.comment_parent > 0">- <a :href="'sadmin/' + controller_slug + '?comment_id=' + v.comment_parent">Reply for #{{v.comment_parent}} <i class="fa fa-reply"></i></a></div>
             </td>

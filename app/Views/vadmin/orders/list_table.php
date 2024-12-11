@@ -24,7 +24,7 @@
             <td>
                 <button type="button" :data-id="v.ID" class="btn orders-post_status orders-open-popup">{{PostType_arrStatus[v.post_status]}}</button>
             </td>
-            <td><a :href="v.admin_permalink">{{v.post_title}} <i class="fa fa-edit"></i></a></td>
+            <td><a :href="v.admin_permalink" :data-id="v.ID" class="orders-open-popup">{{v.post_title}} <i class="fa fa-edit"></i></a></td>
             <td>
                 <div class="post_excerpt-to-products">{{v.post_excerpt}}</div>
             </td>

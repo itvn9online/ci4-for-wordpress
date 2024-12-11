@@ -48,10 +48,16 @@ class Payments extends Layout
             array(
                 // các kiểu điều kiện where
                 't1.ID' => $order_id,
-                't1.post_status' => OrderType::PRIVATELY,
+                // 't1.post_status' => OrderType::PRIVATELY,
                 't1.post_author' => $this->current_user_id,
             ),
             array(
+                'where_in' => array(
+                    't1.post_status' => array(
+                        OrderType::INHERIT,
+                        OrderType::PRIVATELY,
+                    )
+                ),
                 'order_by' => array(
                     't1.ID' => 'DESC'
                 ),
@@ -66,7 +72,7 @@ class Payments extends Layout
                 //'offset' => 0,
                 'limit' => 1
             ),
-            't1.ID'
+            't1.ID, t1.post_status'
         );
 
         //
@@ -79,7 +85,9 @@ class Payments extends Layout
 
         //
         $this->result_json_type([
-            'status' => $data['ID'],
+            'ok' => $data['ID'],
+            'status' => $data['post_status'],
+            // 'data' => $data,
             'code' => __CLASS__ . ':' . __LINE__
         ]);
     }

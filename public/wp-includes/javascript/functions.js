@@ -1132,6 +1132,11 @@ function hide_if_esc() {
 	jQuery("body").removeClass("no-scroll");
 
 	//
+	if (typeof after_hide_if_esc == "function") {
+		after_hide_if_esc();
+	}
+
+	//
 	return false;
 }
 

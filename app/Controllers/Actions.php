@@ -361,6 +361,8 @@ class Actions extends Layout
         // thông tin đơn hàng lưu dạng meta data
         $post_excerpt = [];
         $post_parent = 0;
+        // ID của người đăng sản phẩm -> dùng để gửi mail báo cho họ nếu có yêu cầu
+        $mail_author_id = 0;
 
         // 
         foreach ($products as $v) {
@@ -389,6 +391,11 @@ class Actions extends Layout
             //
             if ($post_parent < 1) {
                 $post_parent = $v['ID'];
+            }
+
+            // 
+            if ($mail_author_id < 1) {
+                $mail_author_id = $v['post_author'] * 1;
             }
 
             // 
@@ -504,6 +511,18 @@ class Actions extends Layout
             /**
              * thiết lập mail thông báo
              */
+            // thông tin của người đăng bài
+            $author_data = [];
+            $mail_author_email = null;
+            if ($mail_author_id > 0) {
+                $author_data = $this->user_model->get_user_by_id($mail_author_id);
+                $mail_author_email = $author_data['user_email'];
+            }
+
+            // dữ liệu gửi mail mặc định
+            $default_mail_data = $this->mail_queue_model->bookingDoneMail('', $result_id, null, $data, $author_data);
+
+            // gửi mail cho khách hàng
             $mail_queue_customer = $smtp_config->mail_queue_customer;
             if ($mail_queue_customer != 'none') {
                 if (isset($data['email']) && !empty($data['email'])) {
@@ -524,11 +543,14 @@ class Actions extends Layout
                         }
 
                         // 
-                        $this->mail_queue_model->insertMailq($this->mail_queue_model->bookingDoneMail('', $result_id), [
-                            'mailto' => $mailto,
-                            'order_id' => $result_id,
-                            'status' => $status,
-                        ]);
+                        $this->mail_queue_model->insertMailq(
+                            $default_mail_data,
+                            [
+                                'mailto' => $mailto,
+                                'order_id' => $result_id,
+                                'status' => $status,
+                            ]
+                        );
                     }
                 }
             }
@@ -537,32 +559,45 @@ class Actions extends Layout
             $mail_queue_admin = $smtp_config->mail_queue_admin;
             $mailto = !empty($this->getconfig->emailnotice) ? $this->getconfig->emailnotice : $this->getconfig->emailcontact;
 
-            // default
+            // bằng trống -> mặc định sẽ gửi chung nội dung với khách hàng
             if ($mail_queue_admin == '') {
-                $this->mail_queue_model->insertMailq($this->mail_queue_model->bookingDoneMail('', $result_id), [
-                    'mailto' => $mailto,
-                    'order_id' => $result_id,
-                ]);
+                $this->mail_queue_model->insertMailq(
+                    $default_mail_data,
+                    [
+                        'mailto' => $mailto,
+                        'order_id' => $result_id,
+                    ]
+                );
             } else if ($mail_queue_admin == 'private') {
-                $this->mail_queue_model->insertMailq($this->mail_queue_model->bookingDoneMail('admin', $result_id), [
-                    'mailto' => $mailto,
-                    'order_id' => $result_id,
-                ]);
+                $this->mail_queue_model->insertMailq(
+                    $this->mail_queue_model->bookingDoneMail('admin', $result_id, null, $data, $author_data),
+                    [
+                        'mailto' => $mailto,
+                        'order_id' => $result_id,
+                    ]
+                );
             }
 
-            // 
+            // default -> mặc định sẽ gửi chung nội dung với khách hàng
             $mail_queue_author = $smtp_config->mail_queue_author;
             if ($mail_queue_author == 'default') {
-                $this->mail_queue_model->insertMailq($this->mail_queue_model->bookingDoneMail('', $result_id), [
-                    'mailto' => null,
-                    'order_id' => $result_id,
-                ]);
+                $this->mail_queue_model->insertMailq(
+                    $default_mail_data,
+                    [
+                        'mailto' => $mail_author_email,
+                        'order_id' => $result_id,
+                    ]
+                );
             } else if ($mail_queue_author == 'private') {
-                $this->mail_queue_model->insertMailq($this->mail_queue_model->bookingDoneMail('author', $result_id), [
-                    'mailto' => null,
-                    'order_id' => $result_id,
-                ]);
+                $this->mail_queue_model->insertMailq(
+                    $this->mail_queue_model->bookingDoneMail('author', $result_id, null, $data, $author_data),
+                    [
+                        'mailto' => $mail_author_email,
+                        'order_id' => $result_id,
+                    ]
+                );
             }
+            // die(__CLASS__ . ':' . __LINE__);
 
 
             // Chuyển tới trang đặt hàng thành công và xóa session giỏ hàng (nếu có)

@@ -224,17 +224,13 @@ $base_model->JSON_echo([
     //'post_tags' => $post_tags,
 ]);
 
-?>
-<script type="text/javascript">
-    // do phần menu chưa xử lý được bằng vue-js nên vẫn phải dùng angular
-    WGR_vuejs('#myApp', {
-        post_status: post_arr_status,
-    });
-</script>
-<?php
-
-$base_model->add_js('wp-admin/js/posts.js');
-$base_model->add_js('wp-admin/js/posts_add.js');
-$base_model->add_js('wp-admin/js/order_details.js');
-// css riêng cho từng post type (nếu có)
-$base_model->add_js('wp-admin/js/' . $post_type . '.js');
+// 
+$base_model->adds_js([
+    'wp-admin/js/popup_functions.js',
+    'wp-admin/js/order_add.js',
+    'wp-admin/js/posts.js',
+    'wp-admin/js/posts_add.js',
+    'wp-admin/js/order_details.js',
+    // css riêng cho từng post type (nếu có)
+    'wp-admin/js/' . $post_type . '.js',
+]);

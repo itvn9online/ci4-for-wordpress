@@ -347,7 +347,7 @@ class MailQueue extends EbModel
     /**
      * Tạo nội dung cho email gửi đi
      **/
-    public function bookingDoneMail($key = '', $id = 0, $data = null)
+    public function bookingDoneMail($key = '', $id = 0, $data = null, $post_data = [], $author_data = [])
     {
         // 
         $mail_tmp = $this->contentMailq($key);
@@ -419,19 +419,20 @@ class MailQueue extends EbModel
         $data['order_amount'] = $data['order_money'] - $data['order_bonus'] - $data['order_discount'] + $data['shipping_fee'];
 
         // xem có phần tạm ứng trước hay không
-        $depositMoney = 0;
+        $deposit_value = 0;
         $deposit_balance = 0;
         if ($data['deposit_money'] != '') {
-            $depositMoney = $data['deposit_money'];
+            $deposit_value = $data['deposit_money'];
 
             // nếu là tính theo % thì quy đổi từ tổng tiền ra deposit
-            if (strpos($depositMoney, '%') !== false) {
-                $depositMoney = $this->base_model->number_only($depositMoney);
-                $depositMoney = $data['order_amount'] / 100 * $depositMoney;
+            if (strpos($deposit_value, '%') !== false) {
+                $deposit_value = $this->base_model->number_only($deposit_value);
+                $deposit_value = $data['order_amount'] / 100 * $deposit_value;
             } else {
-                $depositMoney *= 1;
+                $deposit_value *= 1;
             }
-            $deposit_balance = $data['order_amount'] - $depositMoney;
+            $data['deposit_value'] = $deposit_value;
+            $deposit_balance = $data['order_amount'] - $deposit_value;
         }
 
         // 
@@ -501,6 +502,26 @@ class MailQueue extends EbModel
             'agent' => $data['order_agent'],
         ], $data, '%', '%');
         // print_r($str);
+
+        // thay thế các dữ liệu lấy được từ POST
+        foreach ($post_data as $k => $v) {
+            if (is_array($v)) {
+                continue;
+            }
+            $str = str_replace('%data_' . $k . '%', $v, $str);
+        }
+
+        // thay thế các dữ liệu của người đăng sản phẩm -> tác giả
+        foreach ($author_data as $k => $v) {
+            if (is_array($v)) {
+                continue;
+            }
+            $str = str_replace('%author_' . $k . '%', $v, $str);
+        }
+
+        // 
+        // echo $str . '<br>' . PHP_EOL;
+        // die(__CLASS__ . ':' . __LINE__);
 
         // 
         // return $str;

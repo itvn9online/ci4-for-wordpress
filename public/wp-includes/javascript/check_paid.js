@@ -1,4 +1,4 @@
-/*
+/**
  * Chức năng kiểm tra trạng thái đơn hàng đã được thanh toán chưa
  */
 // Số lần kiểm tra tối đa -> hết lượt này nếu chưa thanh toán thì thôi
@@ -8,6 +8,24 @@ var time_check_paid = 6000;
 
 //
 function payments_check_paid(__callBack) {
+	// xác định trạng thái đơn đã thanh toán -> nếu thanh toán rồi thì thôi ko quét nữa
+	if (
+		typeof current_order_status == "undefined" ||
+		current_order_status == null
+	) {
+		console.log("%c" + "current_order_status not found!", "color: red");
+		return false;
+	} else if (
+		current_order_status == localStorage.getItem("order_when_completed_value")
+	) {
+		console.log(
+			"%c" + "current_order_status is " + current_order_status,
+			"color: green"
+		);
+		return false;
+	}
+
+	//
 	jQuery.ajax({
 		type: "POST",
 		url: "payments/check_paid",
@@ -22,8 +40,15 @@ function payments_check_paid(__callBack) {
 			}
 
 			//
-			if (typeof data.status != "undefined" && data.status * 1 > 0) {
-				console.log(data.status);
+			if (typeof data.ok != "undefined" && data.ok * 1 > 0) {
+				if (typeof data.status != "undefined") {
+					console.log(data.ok, data.status);
+					if (data.status != "") {
+						localStorage.setItem("order_when_completed_value", data.status);
+					}
+				} else {
+					console.log(data.ok);
+				}
 
 				//
 				if (typeof __callBack == "function") {

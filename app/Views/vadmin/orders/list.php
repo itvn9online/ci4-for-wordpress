@@ -83,53 +83,31 @@ $base_model->adds_css([
     ?>
 </div>
 <div class="public-part-page"><?php echo $pagination; ?> Trên tổng số <?php echo number_format($totalThread); ?> bản ghi.</div>
-<iframe id="order_details_iframe" name="order_details_iframe" title="Orderdetails iframe" src="about:blank" width="66%" frameborder="0" class="hide-if-esc">AJAX form</iframe>
+<iframe id="order_details_iframe" name="order-details-iframe" title="Orderdetails iframe" src="about:blank" width="66%" frameborder="0" class="hide-if-esc">AJAX form</iframe>
 <?php
+
+//
+include ADMIN_ROOT_VIEWS . 'posts/sync_modal.php';
 
 //
 $base_model->JSON_parse(
     [
         'json_data' => $data,
         'PostType_arrStatus' => $post_arr_status,
+        'json_params' => [
+            'for_action' => $for_action,
+            'controller_slug' => $controller_slug,
+            'post_type' => $post_type,
+            'post_status' => $post_status,
+            'PostType_DELETED' => OrderType::DELETED,
+        ],
     ]
 );
 
 // css riêng cho từng post type (nếu có)
 $base_model->adds_js([
+    'wp-admin/js/popup_functions.js',
     'wp-admin/js/shop_order_functions.js',
-]);
-
-
-?>
-<script type="text/javascript">
-    WGR_vuejs('#app', {
-        controller_slug: '<?php echo $controller_slug; ?>',
-        post_type: '<?php echo $post_type; ?>',
-        post_status: '<?php echo $post_status; ?>',
-        for_action: '<?php echo $for_action; ?>',
-        PostType_DELETED: '<?php echo OrderType::DELETED; ?>',
-        PostType_arrStatus: PostType_arrStatus,
-        data: json_data,
-        calc_total_order: function(order_money, order_discount, shipping_fee, order_bonus) {
-            order_money *= 1;
-            order_discount *= 1;
-            shipping_fee *= 1;
-            order_bonus *= 1;
-
-            // 
-            return order_money - order_discount + shipping_fee - order_bonus;
-        },
-    }, function() {
-        done_build_order_list();
-    });
-</script>
-<?php
-
-//
-include ADMIN_ROOT_VIEWS . 'posts/sync_modal.php';
-
-// css riêng cho từng post type (nếu có)
-$base_model->adds_js([
     'wp-admin/js/post_list.js',
     'wp-admin/js/order_list.js',
     'wp-admin/js/' . $post_type . '.js',

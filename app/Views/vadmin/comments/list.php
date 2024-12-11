@@ -1,7 +1,10 @@
 <?php
 
 // css riêng cho từng post type (nếu có)
-$base_model->add_css('wp-admin/css/' . $comment_type . '.css');
+$base_model->adds_css([
+    'wp-admin/css/' . $comment_type . '.css',
+    'wp-admin/css/order_list.css',
+]);
 
 ?>
 <ul class="admin-breadcrumb">
@@ -54,6 +57,7 @@ if ($has_private_view === false) {
 <div class="public-part-page">
     <?php echo $pagination; ?> Trên tổng số {{vue_data.totalThread}} bản ghi.
 </div>
+<iframe id="order_details_iframe" name="order-details-iframe" title="Orderdetails iframe" src="about:blank" width="66%" frameborder="0" class="hide-if-esc">AJAX form</iframe>
 <?php
 
 //
@@ -61,21 +65,18 @@ $base_model->JSON_parse(
     [
         'json_data' => $data,
         'vue_data' => $vue_data,
+        'json_params' => [
+            'for_action' => $for_action,
+            'controller_slug' => $controller_slug,
+            'DeletedStatus_DELETED' => $DeletedStatus_DELETED,
+        ],
     ]
 );
 
-?>
-<script type="text/javascript">
-    WGR_vuejs('#for_vue', {
-        for_action: '<?php echo $for_action; ?>',
-        controller_slug: '<?php echo $controller_slug; ?>',
-        DeletedStatus_DELETED: '<?php echo $DeletedStatus_DELETED; ?>',
-        data: json_data,
-        vue_data: vue_data,
-    });
-</script>
-<?php
-
 // js riêng cho từng comments type (nếu có)
-$base_model->add_js('wp-admin/js/comments.js');
-$base_model->add_js('wp-admin/js/' . $comment_type . '.js');
+$base_model->adds_js([
+    'wp-admin/js/popup_functions.js',
+    'wp-admin/js/comments.js',
+    'wp-admin/js/comment_list.js',
+    'wp-admin/js/' . $comment_type . '.js',
+]);

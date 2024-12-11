@@ -17,6 +17,11 @@ class Casso
         //$this->base_model = new \App\Models\Base();
     }
 
+    public static function pathLog()
+    {
+        return WRITEPATH . '/logs/log-' . date('Y-m-d') . '.log';
+    }
+
     protected static function pathTestLog()
     {
         $f = WRITEPATH . '___casso_test.txt';
@@ -55,7 +60,7 @@ class Casso
         error_reporting(E_ALL);
         //error_reporting( E_ALL && E_WARNING && E_NOTICE );
         ini_set('log_errors', 1);
-        ini_set('error_log', WRITEPATH . '/logs/log-' . date('Y-m-d') . '.log');
+        ini_set('error_log', self::pathLog());
 
         //
         $file_log = self::pathTestLog();
@@ -83,6 +88,7 @@ class Casso
                 //$data_string = '{"error":0,"data":[{"id":1844887,"tid":"246745","description":"ND:CT DEN:231915042064 MBVCB.2707051024.042064.Bill 4.CT tu 0451001536775 DAO QUOC DAI toi 105877347307 DO XUAN VIET Ngan hang Cong Thuong Viet Nam (VIETINBANK); tai Napas","amount":5000,"cusum_balance":55000,"when":"2022-11-15 22:25:00","bank_sub_acc_id":"105877347307","subAccId":"105877347307","virtualAccount":"","virtualAccountName":"","corresponsiveName":"","corresponsiveAccount":"","corresponsiveBankId":"","corresponsiveBankName":""}]}';
             }
             file_put_contents($file_log, $data_string . PHP_EOL, FILE_APPEND);
+            file_put_contents(self::pathLog(), $data_string . PHP_EOL, FILE_APPEND);
 
             // kiểm tra token trong header (nếu có)
             if (function_exists('getallheaders')) {
