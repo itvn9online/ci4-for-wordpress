@@ -796,15 +796,24 @@ function WGR_in_array(ele, arr) {
 }
 
 function WGR_is_mobile(a) {
+	// xem thiết bị có hỗ trợ cảm ứng ko, dựa trên số lượng điểm chạm tối đa
+	if ("maxTouchPoints" in navigator) {
+		if (navigator.maxTouchPoints > 0) {
+			return true;
+		}
+	}
+	// xem thiết bị có hỗ trợ đổi hướng màn hình ko
+	else if ("orientation" in window) {
+		return true;
+	}
+	//
 	if (screen.width < 775 || jQuery(window).width() < 775) {
 		return true;
 	}
-
 	//
 	if (typeof a == "undefined" || a == "") {
 		a = navigator.userAgent;
 	}
-
 	//
 	if (
 		a.includes("Mobile") == true || // Many mobile devices (all iPhone, iPad, etc.)

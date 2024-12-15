@@ -1,6 +1,7 @@
 // không thay đổi giá trị giỏ hàng liên tục
 var delay_change_cart_data = null,
-	cart_discount_type = "";
+	cart_discount_type = "",
+	global_item_total = 0;
 
 // trả về dữ liệu trong cache
 function cart_get_cache_data(key) {
@@ -83,6 +84,7 @@ function run_calculate_cart_value() {
 			g_func.money_format(this_total)
 		);
 	});
+	global_item_total = item_total;
 
 	// tổng phụ
 	jQuery(".cart-subtotal-regular_price").html(
@@ -317,9 +319,36 @@ function proceed_to_coupon() {
 
 // chuyển sang nội dung của tab checkout
 function proceed_to_checkout() {
+	// nếu có function này -> nó sẽ viết ở trong file cart_functions.js của theme
+	if (typeof before_proceed_to_checkout == "function") {
+		// kiểm tra nó nếu khác true thì trả về lỗi luôn
+		if (before_proceed_to_checkout() !== true) {
+			return false;
+		}
+	}
+
+	// nếu số lượng sp trong giỏ hàng là 0 -> bỏ luôn
+	if (global_item_total < 1) {
+		WGR_html_alert("Please select the product you want to buy", "warning");
+		return false;
+	}
+
+	//
 	jQuery(".cart-content").hide();
 	jQuery(".checkout-content").fadeIn();
+
+	//
 	return false;
+}
+
+//
+function action_submit_cart() {
+	// nếu có function này -> nó sẽ viết ở trong file cart_functions.js của theme
+	if (typeof action_before_submit_cart == "function") {
+		// gọi tới function con để kiểm tra thay vì dùng function cha
+		return action_before_submit_cart();
+	}
+	return true;
 }
 
 // hiển thị mã giảm giá nếu có
@@ -583,8 +612,9 @@ function cart_table_buttons_added() {
 					if (v != "") {
 						if (!isNaN(v)) {
 							v = v * 1 + a;
-							if (v < 1) {
-								v = 1;
+							// tối thiểu là 0 sp trong giỏ hàng
+							if (v < 0) {
+								v = 0;
 							}
 							q.val(v);
 							action_calculate_cart_value();
