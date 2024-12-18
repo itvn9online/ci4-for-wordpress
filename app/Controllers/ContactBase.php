@@ -11,6 +11,8 @@ class ContactBase extends Home
 {
     protected $comment_type = CommentType::CONTACT;
     protected $allow_upload = [];
+    // mặc định sẽ không cho 1 ip gửi quá số lượng bản ghi này trong 1 giờ -> cần tắt thì chuyển nó về 0
+    public $check_spam_ip = 5;
 
     // các dữ liệu đầu thuộc dạng bắt buộc -> form nào cần tùy chỉnh thì extends ra xong khai báo lại trong class đã được extends
     protected $aria_required = [
@@ -127,13 +129,13 @@ class ContactBase extends Home
                 $check_rules[$k] = $v;
             }
         }
-        //print_r($check_rules);
-        //die(__CLASS__ . ':' . __LINE__);
+        // print_r($check_rules);
+        // die(__CLASS__ . ':' . __LINE__);
 
         // daidq (2023-10-04): bỏ gcaptcha -> test tính năng chống spamer -> antiRequiredSpam
         // kiểm tra recaptcha (nếu có)
         $check_recaptcha = $this->googleCaptachStore();
-        //var_dump($check_recaptcha);
+        // var_dump($check_recaptcha);
         // === null -> ko sử dụng grecaptcha
         if ($check_recaptcha === null) {
             // kiểm tra spam bot
@@ -148,7 +150,7 @@ class ContactBase extends Home
             $this->base_model->msg_error_session($check_recaptcha, $this->form_target);
             return $this->done_action_login($redirect_default);
         }
-        //die(__CLASS__ . ':' . __LINE__);
+        // die(__CLASS__ . ':' . __LINE__);
 
         //
         $data = $this->MY_post('data');
@@ -156,8 +158,8 @@ class ContactBase extends Home
             $this->base_model->msg_error_session('Incorrect input method', $this->form_target);
             return $this->done_action_login();
         }
-        //print_r($_POST);
-        //die(__CLASS__ . ':' . __LINE__);
+        // print_r($_POST);
+        // die(__CLASS__ . ':' . __LINE__);
 
         // thực hiện validation
         if (!empty($check_rules)) {
@@ -361,7 +363,9 @@ class ContactBase extends Home
         // die(__CLASS__ . ':' . __LINE__);
 
         // insert comment
-        $comment_ID = $this->comment_model->insert_comments($data_insert);
+        $comment_ID = $this->comment_model->insert_comments($data_insert, [
+            'check_spam_ip' => $this->check_spam_ip,
+        ]);
         // var_dump($comment_ID);
         // die(__CLASS__ . ':' . __LINE__);
 

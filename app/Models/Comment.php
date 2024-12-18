@@ -45,7 +45,7 @@ class Comment extends EbModel
         return $data;
     }
 
-    public function insert_comments($data)
+    public function insert_comments($data, $ops = [])
     {
         $data_default = [
             //'comment_author_url' => $redirect_to,
@@ -54,7 +54,7 @@ class Comment extends EbModel
             'comment_title' => '',
             'comment_content' => '',
             'comment_agent' => $_SERVER['HTTP_USER_AGENT'],
-            //'comment_type' => $ops[ 'comment_type' ],
+            // 'comment_type' => $ops['comment_type'],
             'comment_approved' => DEFAULT_COMMENT_APPROVED,
             'user_id' => 0,
             'time_order' => time(),
@@ -65,10 +65,50 @@ class Comment extends EbModel
                 // isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null,
             ]),
         ];
+
+        // 
         $data_default['comment_date_gmt'] = $data_default['comment_date'];
         foreach ($data_default as $k => $v) {
             if (!isset($data[$k])) {
                 $data[$k] = $v;
+            }
+        }
+
+        // nếu có yêu cầu kiểm tra spam qua ip thì kiểm tra thôi
+        if (isset($ops['check_spam_ip']) && is_numeric($ops['check_spam_ip']) && $ops['check_spam_ip'] > 0) {
+            // tính số lượng bản ghi
+            $totalThread = $this->base_model->select_count(
+                'comment_ID',
+                $this->table,
+                array(
+                    // kiểm tra dữ liệu cùng ip này
+                    'comment_author_IP' => $data['comment_author_IP'],
+                    // 'comment_type' => $data['comment_type'],
+                    // trong vòng 1 giờ
+                    'time_order >' => time() - 3600,
+                ),
+                array(
+                    // hiển thị mã SQL để check
+                    // 'show_query' => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    //'get_query' => 1,
+                    // trả về COUNT(column_name) AS column_name
+                    //'selectCount' => 'ID',
+                    // trả về tổng số bản ghi -> tương tự mysql num row
+                    //'getNumRows' => 1,
+                    //'offset' => 0,
+                    'limit' => 1
+                )
+            );
+            // print_r($totalThread);
+            // nếu số bản ghi trả về mà vượt quá số này
+            if ($totalThread > $ops['check_spam_ip']) {
+                // thì block thôi
+                // die(__CLASS__ . ':' . __LINE__);
+                die(json_encode([
+                    'code' => __LINE__,
+                    'error' => 'Oh my banana!',
+                ]));
             }
         }
 

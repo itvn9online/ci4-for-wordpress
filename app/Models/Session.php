@@ -93,7 +93,23 @@ class Session
         $option_model = new \App\Models\Option();
         $firebase_config = $option_model->obj_config(ConfigType::FIREBASE);
         if (!empty($firebase_config->g_recaptcha_site_key)) {
-            echo '<textarea name="ebe_grecaptcha_response" style="display: none;"></textarea>';
+            echo '<textarea name="ebe_grecaptcha_response" autocomplete="off" style="display: none;"></textarea>';
+        } else {
+            // tạo thêm textarea -> nếu bot nhập liệu vào -> spam
+            echo '<textarea name="wgr_grecaptcha_response" autocomplete="off" style="display: none;"></textarea>';
+
+            // textarea này sẽ có dữ liệu không đổi -> nếu bị thay đổi -> spam
+            $sid = $this->MY_sessid();
+            // từ session id -> mã hóa của 1 giờ trước, giờ hiện tại và 1 giờ sau
+            echo '<textarea name="jwt_grecaptcha_response" autocomplete="off" style="display: none;">' . implode('', [
+                md5(time() - 3600),
+                md5($sid . date('YmdH', time() - 3600)),
+                md5(time()),
+                md5($sid . date('YmdH')),
+                md5(time() + 3600),
+                md5($sid . date('YmdH', time() + 3600)),
+                md5(time() + 1),
+            ]) . '</textarea>';
         }
 
         //
@@ -200,8 +216,64 @@ class Session
         }
         //die( __CLASS__ . ':' . __LINE__ );
 
+        // nếu ko có _REQUEST này -> lỗi
+        if (!isset($_REQUEST['wgr_grecaptcha_response'])) {
+            die(json_encode([
+                'code' => __LINE__,
+                'error' => 'WGR token not found!'
+            ]));
+        }
+        // _REQUEST này phải trống
+        else if (!empty($_REQUEST['wgr_grecaptcha_response'])) {
+            die(json_encode([
+                'code' => __LINE__,
+                'error' => 'WGR mismatch!'
+            ]));
+        }
+
+        // nếu ko có _REQUEST này -> lỗi
+        if (!isset($_REQUEST['jwt_grecaptcha_response'])) {
+            die(json_encode([
+                'code' => __LINE__,
+                'error' => 'JWT token not found!'
+            ]));
+        }
+
+        // JWT thì phải có dữ liệu
+        $jwt = $_REQUEST['jwt_grecaptcha_response'];
+        if (empty($jwt)) {
+            die(json_encode([
+                'code' => __LINE__,
+                'error' => 'JWT is EMPTY!'
+            ]));
+        }
+
+        // xác định token theo session
+        $sid = $this->MY_sessid();
+        $result = false;
+        foreach (
+            [
+                md5($sid . date('YmdH', time() - 3600)),
+                md5($sid . date('YmdH')),
+                md5($sid . date('YmdH', time() + 3600))
+            ] as $v
+        ) {
+            // nếu có token thì trả về true
+            if (strpos($jwt, $v) !== false) {
+                $result = true;
+            }
+        }
+
         // 
-        return true;
+        if ($result === false) {
+            die(json_encode([
+                'code' => __LINE__,
+                'error' => 'JWT mismatch!'
+            ]));
+        }
+
+        // 
+        return $result;
     }
 
     /**
