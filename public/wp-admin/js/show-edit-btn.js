@@ -13,15 +13,15 @@ function show_edit_btn() {
 	*/
 
 	// post
-	$(".global-details-title").attr({
+	jQuery(".global-details-title").attr({
 		"insert-before": 1,
 	});
 
 	// chỉnh controller trước khi tạo link
-	$('.eb-sub-menu[data-type="nav_menu"]').attr({
+	jQuery('.eb-sub-menu[data-type="nav_menu"]').attr({
 		"data-control": "menus",
 	});
-	$('.eb-sub-menu[data-type="html_menu"]').attr({
+	jQuery('.eb-sub-menu[data-type="html_menu"]').attr({
 		"data-control": "htmlmenus",
 	});
 
@@ -30,13 +30,13 @@ function show_edit_btn() {
 	var offset_prev_top = 0;
 
 	//
-	$(
+	jQuery(
 		".eb-blog li , .eb-blog div.col, .products-list li, .eb-sub-menu, .global-details-title, .custom-bootstrap-post_type"
 	).each(function () {
-		var jd = $(this).data("id") || "";
-		var type = $(this).data("type") || "";
-		var controller = $(this).data("control") || "";
-		var insert_before = $(this).attr("insert-before") || "";
+		var jd = jQuery(this).data("id") || "";
+		var type = jQuery(this).data("type") || "";
+		var controller = jQuery(this).data("control") || "";
+		var insert_before = jQuery(this).attr("insert-before") || "";
 		// console.log(insert_before);
 		// console.log(jd, type);
 
@@ -66,7 +66,7 @@ function show_edit_btn() {
 			//console.log(url);
 
 			//
-			var offset_top = $(this).offset().top || 0;
+			var offset_top = jQuery(this).offset().top || 0;
 			if (offset_top < 1) {
 				offset_top = offset_prev_top;
 			} else {
@@ -85,21 +85,21 @@ function show_edit_btn() {
 				'-edit"><span><i class="fa fa-edit"></i></span></a>';
 
 			if (insert_before != "") {
-				$(this).before(url);
+				jQuery(this).before(url);
 			} else {
-				$(this).prepend(url);
+				jQuery(this).prepend(url);
 			}
-			$(this).addClass("actived-goto-edit");
+			jQuery(this).addClass("actived-goto-edit");
 		}
 	});
 
 	// term
-	$(
+	jQuery(
 		".global-taxonomy-title, .eb-widget-title, .eb-widget-hide-title, .custom-bootstrap-taxonomy"
 	).each(function () {
-		var jd = $(this).data("id") || "";
-		var type = $(this).data("type") || "";
-		var controller = $(this).data("control") || "";
+		var jd = jQuery(this).data("id") || "";
+		var type = jQuery(this).data("type") || "";
+		var controller = jQuery(this).data("control") || "";
 		// console.log(jd, type);
 
 		//
@@ -128,7 +128,7 @@ function show_edit_btn() {
 			//console.log(url);
 
 			//
-			var offset_top = $(this).offset().top || 0;
+			var offset_top = jQuery(this).offset().top || 0;
 			if (offset_top < 1) {
 				offset_top = offset_prev_top;
 			} else {
@@ -136,7 +136,7 @@ function show_edit_btn() {
 			}
 
 			//
-			$(this).prepend(
+			jQuery(this).prepend(
 				'<a href="' +
 					url +
 					"&preview_offset_top=" +
@@ -150,19 +150,19 @@ function show_edit_btn() {
 	});
 
 	//
-	$(".web-logo").before(
+	jQuery(".web-logo").before(
 		'<a href="sadmin/configs?support_tab=data_logo" target="_blank" rel="nofollow" class="click-goto-edit goto-option-edit"><span><i class="fa fa-edit"></i></span></a>'
 	);
 
 	// nếu đang mở trong iframe
 	if (top != self) {
 		// không cho bấm vào các link
-		$("a").click(function () {
+		jQuery("a").click(function () {
 			return false;
 		});
 
 		// link edit mở trong top
-		$(".click-goto-edit")
+		jQuery(".click-goto-edit")
 			.attr({
 				target: "_top",
 			})
@@ -174,7 +174,7 @@ function show_edit_btn() {
 }
 
 //
-$(document).ready(function () {
+jQuery(document).ready(function () {
 	setTimeout(() => {
 		show_edit_btn();
 	}, 600);

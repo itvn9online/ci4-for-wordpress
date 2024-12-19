@@ -14,7 +14,7 @@ function set_preview_src() {
 		//
 		var myIframe = document.getElementById("target_eb_iframe");
 		myIframe.onload = function () {
-			//$("#target_eb_iframe").contents().find("body").css("zoom", 0.7);
+			//jQuery("#target_eb_iframe").contents().find("body").css("zoom", 0.7);
 
 			//
 			myIframe.contentWindow.scrollTo(
@@ -41,24 +41,24 @@ function close_preview_mode() {
 		document.title,
 		window.location.href.split("&preview_offset_top=")[0]
 	);
-	$("body").removeClass("preview-url");
+	jQuery("body").removeClass("preview-url");
 	*/
 	window.location = window.location.href.split("&preview_offset_top=")[0];
 }
 
 function expand_preview_mode() {
-	$("body").toggleClass("preview-expand-url");
+	jQuery("body").toggleClass("preview-expand-url");
 	auto_resize_ckeditor();
 }
 
 function unexpand_preview_mode() {
-	$("body").removeClass("preview-expand-url");
+	jQuery("body").removeClass("preview-expand-url");
 	auto_resize_ckeditor();
 }
 
 function auto_resize_ckeditor() {
-	$(".auto-ckeditor").each(function () {
-		var a = $(this).attr("id") || "";
+	jQuery(".auto-ckeditor").each(function () {
+		var a = jQuery(this).attr("id") || "";
 		if (a != "") {
 			re_height_iframe_editer(a);
 		}
@@ -68,19 +68,19 @@ function auto_resize_ckeditor() {
 // tạo url preview nếu có
 //console.log(preview_url);
 if (typeof preview_url != "undefined" && preview_url != "") {
-	$("body").addClass("preview-url");
-	$("a.back-preview-mode").attr({
+	jQuery("body").addClass("preview-url");
+	jQuery("a.back-preview-mode").attr({
 		href: preview_url,
 	});
 
 	// nạp link preview
-	$(document).ready(function () {
-		$("#target_eb_iframe").height(Math.ceil($(window).height()));
+	jQuery(document).ready(function () {
+		jQuery("#target_eb_iframe").height(Math.ceil(jQuery(window).height()));
 		set_preview_src();
 	});
 
 	//
-	$(window).resize(function () {
-		$("#target_eb_iframe").height(Math.ceil($(window).height()));
+	jQuery(window).resize(function () {
+		jQuery("#target_eb_iframe").height(Math.ceil(jQuery(window).height()));
 	});
 }

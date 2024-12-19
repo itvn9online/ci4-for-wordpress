@@ -234,8 +234,8 @@ function get_logged_signature() {
  * Web nào có sử dụng chức năng mua hàng thì trong file d.js của child-theme theme gọi tới function để dùng hiệu ứng thêm sp vào giỏ hàng
  */
 function action_add_to_cart() {
-	$(".click-add-to-cart").click(function () {
-		let a = $(this).data("id") || "";
+	jQuery(".click-add-to-cart").click(function () {
+		let a = jQuery(this).data("id") || "";
 		if (a != "") {
 			console.log("Add to cart:", a);
 

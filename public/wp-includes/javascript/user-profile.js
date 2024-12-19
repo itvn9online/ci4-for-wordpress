@@ -16,7 +16,7 @@ jQuery(document).ready(function () {
 		//
 		var reader = new FileReader();
 		reader.onload = function (e) {
-			$("#click-chose-media img").css(
+			jQuery("#click-chose-media img").css(
 				"background-image",
 				`url(${e.target.result})`
 			);
@@ -36,7 +36,7 @@ jQuery(document).ready(function () {
 				set_preview: "origin",
 				input_file: "#file-input-media",
 				img_max_width: 410,
-				update_avt: $("#click-chose-media").data("updating") || "",
+				update_avt: jQuery("#click-chose-media").data("updating") || "",
 			});
 		};
 		// chỉ lấy ảnh số 0
@@ -45,15 +45,18 @@ jQuery(document).ready(function () {
 });
 
 //
-$(".click-change-email").click(function () {
-	$(".change-user_email").addClass("d-none");
-	$(".changed-user_email").removeClass("d-none");
-	$("#data_user_email").prop("disabled", false).prop("readonly", false).focus();
+jQuery(".click-change-email").click(function () {
+	jQuery(".change-user_email").addClass("d-none");
+	jQuery(".changed-user_email").removeClass("d-none");
+	jQuery("#data_user_email")
+		.prop("disabled", false)
+		.prop("readonly", false)
+		.focus();
 });
 
 //
-$(".cancel-change-email").click(function () {
-	$(".change-user_email").removeClass("d-none");
-	$(".changed-user_email").addClass("d-none");
-	$("#data_user_email").prop("disabled", true).prop("readonly", true);
+jQuery(".cancel-change-email").click(function () {
+	jQuery(".change-user_email").removeClass("d-none");
+	jQuery(".changed-user_email").addClass("d-none");
+	jQuery("#data_user_email").prop("disabled", true).prop("readonly", true);
 });

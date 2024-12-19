@@ -35,14 +35,14 @@ var highlight = {
 
 	show: function (fors_id) {
 		let ele = highlight.my_element(fors_id);
-		$("#" + ele.highlighting).show();
+		jQuery("#" + ele.highlighting).show();
 	},
 
 	no_scroll: function (fors_id) {
 		let ele = highlight.my_element(fors_id);
-		// console.log("for_id height", $(ele.for_id).height());
-		$("#" + ele.highlighting).css({
-			height: $(ele.for_id).height(),
+		// console.log("for_id height", jQuery(ele.for_id).height());
+		jQuery("#" + ele.highlighting).css({
+			height: jQuery(ele.for_id).height(),
 		});
 	},
 

@@ -112,7 +112,7 @@ function action_login_rememberme(key, uri, max_i) {
 				// đến đây nghĩa là đăng nhập thành công -> redirect
 				window.location = (function () {
 					return (
-						$('input[name="login_redirect"]').val() || window.location.href
+						jQuery('input[name="login_redirect"]').val() || window.location.href
 					);
 				})();
 			}

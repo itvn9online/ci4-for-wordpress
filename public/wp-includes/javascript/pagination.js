@@ -123,14 +123,14 @@ function EBE_part_page(Page, TotalPage, strLinkPager, sub_part, add_query) {
 }
 
 //
-$(".each-to-page-part").each(function () {
-	let page = $(this).data("page") || "",
-		total = $(this).data("total") || "",
-		url = $(this).data("url") || "",
-		params = $(this).data("params") || "",
-		query = $(this).data("query") || "";
+jQuery(".each-to-page-part").each(function () {
+	let page = jQuery(this).data("page") || "",
+		total = jQuery(this).data("total") || "",
+		url = jQuery(this).data("url") || "",
+		params = jQuery(this).data("params") || "",
+		query = jQuery(this).data("query") || "";
 
 	//
-	$(this).before(EBE_part_page(page, total, url, params, query));
+	jQuery(this).before(EBE_part_page(page, total, url, params, query));
 });
-$(".each-to-page-part").before("<!-- div.each-to-page-part -->").remove();
+jQuery(".each-to-page-part").before("<!-- div.each-to-page-part -->").remove();

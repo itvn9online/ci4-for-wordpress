@@ -8,7 +8,7 @@ var max_width_height_for_upload = 1900;
 var arr_drop_uploading_file = [];
 
 //
-$(function () {
+jQuery(function () {
 	if (document.getElementById("drop_upload_file") === null) {
 		console.log("drop_upload_file not found!");
 		return false;
@@ -16,71 +16,71 @@ $(function () {
 
 	// attr này dùng để tùy chỉnh thẻ drop cha -> đây là thẻ lúc drop vào thì sẽ hiển thị thông báo drop để upload
 	// mặc định là ốp thẳng vào thẻ htm
-	let parent_drop = $("#drop_upload_file").data("parent_drop") || "";
+	let parent_drop = jQuery("#drop_upload_file").data("parent_drop") || "";
 	if (parent_drop == "") {
 		parent_drop = "html";
 	}
 
 	// preventing page from redirecting
-	$(parent_drop).on("dragover", function (e) {
+	jQuery(parent_drop).on("dragover", function (e) {
 		e.preventDefault();
 		e.stopPropagation();
 
 		//
-		//$("h1").text("Drag here");
-		$("body").addClass("droping");
+		//jQuery("h1").text("Drag here");
+		jQuery("body").addClass("droping");
 	});
 
-	$(parent_drop).on("drop", function (e) {
+	jQuery(parent_drop).on("drop", function (e) {
 		e.preventDefault();
 		e.stopPropagation();
 
 		//
-		$("body").removeClass("droping");
-		$("body").addClass("droped");
+		jQuery("body").removeClass("droping");
+		jQuery("body").addClass("droped");
 	});
 
 	// Drag enter
-	$("#drop_upload_file").on("dragenter", function (e) {
+	jQuery("#drop_upload_file").on("dragenter", function (e) {
 		e.stopPropagation();
 		e.preventDefault();
-		//$("h1").text("Drop");
+		//jQuery("h1").text("Drop");
 	});
 
 	// Drag over
-	$("#drop_upload_file").on("dragover", function (e) {
+	jQuery("#drop_upload_file").on("dragover", function (e) {
 		e.stopPropagation();
 		e.preventDefault();
-		//$("h1").text("Drop");
+		//jQuery("h1").text("Drop");
 	});
 
 	// Drop
-	$("#drop_upload_file").on("drop", function (e) {
+	jQuery("#drop_upload_file").on("drop", function (e) {
 		e.stopPropagation();
 		e.preventDefault();
 
 		//
-		//$("h1").text("Upload");
+		//jQuery("h1").text("Upload");
 
 		//
 		change_drop_upload_media(e.originalEvent.dataTransfer.files);
 
 		//
-		$("body").removeClass("droping");
-		$("body").addClass("droped");
+		jQuery("body").removeClass("droping");
+		jQuery("body").addClass("droped");
 	});
 
 	// Open file selector on div click
 	/*
-	$("#drop_upload_file").click(function () {
-		//$("#file").click();
-		$("#file").trigger("click");
+	jQuery("#drop_upload_file").click(function () {
+		//jQuery("#file").click();
+		jQuery("#file").trigger("click");
 	});
 	*/
 
 	// file selected
-	$("#file").change(function () {
-		change_drop_upload_media($("#file")[0].files);
+	jQuery("#file").change(function () {
+		change_drop_upload_media(jQuery("#file")[0].files);
 	});
 });
 
@@ -102,7 +102,7 @@ function after_drop_upload_media(mediaData) {
 	arr_drop_uploading_file.push(false);
 
 	// URL upload
-	let action_upload = $("#drop_upload_file").data("action") || "";
+	let action_upload = jQuery("#drop_upload_file").data("action") || "";
 	if (action_upload == "") {
 		// sử dụng URL cố định theo code
 		if (

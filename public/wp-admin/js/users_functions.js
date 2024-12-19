@@ -1,12 +1,12 @@
 function action_change_user_status() {
 	//
-	$(".click-change-user-status").click(function () {
+	jQuery(".click-change-user-status").click(function () {
 		console.log(controller_slug);
 
 		//
 		var data = {
-			user_id: $(this).data("id") || "",
-			user_status: $(this).data("status") || "",
+			user_id: jQuery(this).data("id") || "",
+			user_status: jQuery(this).data("status") || "",
 		};
 		//console.log(data);
 
@@ -34,7 +34,7 @@ function action_change_user_status() {
 					);
 
 					//
-					$('.click-change-user-status[data-id="' + data.ok + '"]').attr({
+					jQuery('.click-change-user-status[data-id="' + data.ok + '"]').attr({
 						"data-status": data.user_status,
 					});
 				}

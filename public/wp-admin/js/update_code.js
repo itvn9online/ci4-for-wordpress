@@ -8,12 +8,12 @@ function done_submit_update_code(file_name) {
 	WGR_alert("Update và giải nén code thành công" + file_name);
 
 	//
-	$("#confirm_is_coder").prop("checked", false);
-	$("#confirm_is_super_coder").prop("checked", false);
+	jQuery("#confirm_is_coder").prop("checked", false);
+	jQuery("#confirm_is_super_coder").prop("checked", false);
 }
 
 function auto_submit_update_code() {
-	var fullPath = $("#upload_code").val() || "";
+	var fullPath = jQuery("#upload_code").val() || "";
 	//console.log(fullPath);
 
 	//
@@ -48,8 +48,8 @@ function auto_submit_update_code() {
 
 // chức năng download code thì không cần thiết
 function before_start_download_in_github() {
-	if ($("#confirm_is_coder").is(":checked") == false) {
-		$("#confirm_is_coder")
+	if (jQuery("#confirm_is_coder").is(":checked") == false) {
+		jQuery("#confirm_is_coder")
 			.parent("p")
 			.addClass("redcolor")
 			.addClass("bold")
@@ -70,8 +70,8 @@ function before_start_reset_in_github() {
 	WGR_body_opacity(1);
 
 	//
-	if ($("#confirm_is_super_coder").is(":checked") == false) {
-		$("#confirm_is_super_coder")
+	if (jQuery("#confirm_is_super_coder").is(":checked") == false) {
+		jQuery("#confirm_is_super_coder")
 			.parent("p")
 			.addClass("redcolor")
 			.addClass("bold")
@@ -85,7 +85,7 @@ function before_start_reset_in_github() {
 }
 
 function done_submit_restore_code() {
-	$("#restoreModal, #cleanupModal").modal("hide");
+	jQuery("#restoreModal, #cleanupModal").modal("hide");
 	window.location.reload();
 }
 

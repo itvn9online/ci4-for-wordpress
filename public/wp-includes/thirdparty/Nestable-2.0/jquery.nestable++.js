@@ -6,7 +6,7 @@
 var first_auto_menu_update = false;
 
 var updateOutput = function (e) {
-	var list = e.length ? e : $(e.target),
+	var list = e.length ? e : jQuery(e.target),
 		output = list.data("output");
 	if (window.JSON) {
 		if (output) {
@@ -17,9 +17,9 @@ var updateOutput = function (e) {
 			if (first_auto_menu_update === false) {
 				first_auto_menu_update = true;
 			} else {
-				$("#menu-add input").each(function () {
-					if (($(this).data("set") || "") != "") {
-						$(this).val("");
+				jQuery("#menu-add input").each(function () {
+					if ((jQuery(this).data("set") || "") != "") {
+						jQuery(this).val("");
 					}
 				});
 
@@ -36,7 +36,7 @@ var updateOutput = function (e) {
 	}
 };
 
-var nestableList = $(".dd.nestable > .dd-list");
+var nestableList = jQuery(".dd.nestable > .dd-list");
 
 /***************************************/
 
@@ -47,7 +47,9 @@ var deleteFromMenuHelper = function (target) {
 		// if it's not yet saved in the database, just remove it from DOM
 		target.fadeOut(function () {
 			target.remove();
-			updateOutput($(".dd.nestable").data("output", $("#json-output")));
+			updateOutput(
+				jQuery(".dd.nestable").data("output", jQuery("#json-output"))
+			);
 		});
 	} else {
 		// otherwise hide and mark it for deletion
@@ -58,8 +60,8 @@ var deleteFromMenuHelper = function (target) {
 };
 
 var deleteFromMenu = function () {
-	var targetId = $(this).data("owner-id");
-	var target = $('li.dd-item[data-id="' + targetId + '"]');
+	var targetId = jQuery(this).data("owner-id");
+	var target = jQuery('li.dd-item[data-id="' + targetId + '"]');
 
 	var result = confirm(
 		"Delete " + target.data("name") + " and all its subitems ?"
@@ -71,33 +73,33 @@ var deleteFromMenu = function () {
 
 	// Remove children (if any)
 	target.find("li").each(function () {
-		deleteFromMenuHelper($(this));
+		deleteFromMenuHelper(jQuery(this));
 	});
 
 	// Remove parent
 	deleteFromMenuHelper(target);
 
 	// update JSON
-	updateOutput($(".dd.nestable").data("output", $("#json-output")));
+	updateOutput(jQuery(".dd.nestable").data("output", jQuery("#json-output")));
 };
 
 /***************************************/
 
 /*************** Edit ***************/
 
-// var menuEditor = $("#menu-editor");
-// var editButton = $("#editButton");
-// var editInputName = $("#editInputName");
-// var editInputSlug = $("#editInputSlug");
-// var currentEditName = $("#currentEditName");
+// var menuEditor = jQuery("#menu-editor");
+// var editButton = jQuery("#editButton");
+// var editInputName = jQuery("#editInputName");
+// var editInputSlug = jQuery("#editInputSlug");
+// var currentEditName = jQuery("#currentEditName");
 var currentEditIdMenu = "";
 
 // Prepares and shows the Edit Form
 var prepareEdit = function () {
-	var targetId = $(this).data("owner-id");
+	var targetId = jQuery(this).data("owner-id");
 	currentEditIdMenu = targetId;
 	// console.log(targetId);
-	var target = $('li.dd-item[data-id="' + targetId + '"]');
+	var target = jQuery('li.dd-item[data-id="' + targetId + '"]');
 	//console.log(target.offset().top);
 	/*
 	menuEditor.css({
@@ -114,7 +116,7 @@ var prepareEdit = function () {
 				// console.log(this.name, this.value);
 				// console.log(this.name.replace("data-", ""), this.value);
 				// gán giá trị cho các input có data-set tương ứng
-				$(
+				jQuery(
 					'#menu-add input[data-set="' + this.name.replace("data-", "") + '"]'
 				).val(this.value);
 			}
@@ -124,9 +126,9 @@ var prepareEdit = function () {
 	// editInputSlug.val(target.data("slug"));
 	//
 	// currentEditName.html(target.data("name"));
-	$("#currentEditName span").html(target.data("name"));
-	$("#currentEditName, .show-for-edit-menu").show();
-	$(".hide-for-edit-menu").hide();
+	jQuery("#currentEditName span").html(target.data("name"));
+	jQuery("#currentEditName, .show-for-edit-menu").show();
+	jQuery(".hide-for-edit-menu").hide();
 	// editButton.data("owner-id", target.data("id"));
 
 	// console.log("[INFO] Editing Menu Item:", editButton.data("owner-id"));
@@ -134,27 +136,27 @@ var prepareEdit = function () {
 
 	// menuEditor.fadeIn();
 	// editInputName.focus();
-	$("#addInputName").focus();
+	jQuery("#addInputName").focus();
 };
 
 // Edits the Menu item and hides the Edit Form
 var editMenuItem = function () {
-	// var targetId = $(this).data("owner-id");
+	// var targetId = jQuery(this).data("owner-id");
 	var targetId = currentEditIdMenu;
 	// console.log(targetId);
-	var target = $('li.dd-item[data-id="' + targetId + '"]');
+	var target = jQuery('li.dd-item[data-id="' + targetId + '"]');
 
 	// var newName = editInputName.val();
-	// var newName = $("#addInputName").val();
+	// var newName = jQuery("#addInputName").val();
 	// var newSlug = editInputSlug.val();
-	// var newSlug = $("#addInputSlug").val();
+	// var newSlug = jQuery("#addInputSlug").val();
 
 	//
-	$("#menu-add input").each(function () {
-		var x = $(this).data("set") || "";
+	jQuery("#menu-add input").each(function () {
+		var x = jQuery(this).data("set") || "";
 		if (x != "") {
-			// console.log(x, $(this).val());
-			target.data(x, $(this).val());
+			// console.log(x, jQuery(this).val());
+			target.data(x, jQuery(this).val());
 		}
 	});
 
@@ -162,12 +164,12 @@ var editMenuItem = function () {
 	// target.data("name", newName);
 	// target.data("slug", newSlug);
 
-	target.find("> .dd-handle").html($("#addInputName").val());
+	target.find("> .dd-handle").html(jQuery("#addInputName").val());
 
 	// menuEditor.fadeOut();
 
 	// update JSON
-	updateOutput($(".dd.nestable").data("output", $("#json-output")));
+	updateOutput(jQuery(".dd.nestable").data("output", jQuery("#json-output")));
 	return false;
 };
 
@@ -178,8 +180,8 @@ var editMenuItem = function () {
 var newIdCount = 1;
 
 var addToMenu = function () {
-	// var newName = $("#addInputName").val();
-	// var newSlug = $("#addInputSlug").val();
+	// var newName = jQuery("#addInputName").val();
+	// var newSlug = jQuery("#addInputSlug").val();
 	var newId = "new-" + newIdCount;
 	// var str =
 	// 	'<li class="dd-item" ' +
@@ -215,10 +217,10 @@ var addToMenu = function () {
 	// console.log(global_menu_tmp);
 	var str = (function (htm) {
 		// htm = htm.replaceAll("%newText%", "%name%");
-		$("#menu-add input").each(function () {
-			var x = $(this).data("set") || "";
+		jQuery("#menu-add input").each(function () {
+			var x = jQuery(this).data("set") || "";
 			if (x != "") {
-				htm = htm.replaceAll("%" + x + "%", $(this).val());
+				htm = htm.replaceAll("%" + x + "%", jQuery(this).val());
 			}
 		});
 		return htm;
@@ -233,31 +235,31 @@ var addToMenu = function () {
 	newIdCount++;
 
 	// update JSON
-	updateOutput($(".dd.nestable").data("output", $("#json-output")));
+	updateOutput(jQuery(".dd.nestable").data("output", jQuery("#json-output")));
 
 	// set events
-	$(".dd.nestable .button-delete").on("click", deleteFromMenu);
-	$(".dd.nestable .button-edit").on("click", prepareEdit);
+	jQuery(".dd.nestable .button-delete").on("click", deleteFromMenu);
+	jQuery(".dd.nestable .button-edit").on("click", prepareEdit);
 };
 
 /***************************************/
 
-$(function () {
+jQuery(function () {
 	// output initial serialised data
-	updateOutput($(".dd.nestable").data("output", $("#json-output")));
+	updateOutput(jQuery(".dd.nestable").data("output", jQuery("#json-output")));
 
 	// set onclick events
 	// editButton.on("click", editMenuItem);
 
-	$(".dd.nestable .button-delete").on("click", deleteFromMenu);
+	jQuery(".dd.nestable .button-delete").on("click", deleteFromMenu);
 
-	$(".dd.nestable .button-edit").on("click", prepareEdit);
+	jQuery(".dd.nestable .button-edit").on("click", prepareEdit);
 
-	// $("#menu-editor").submit(function (e) {
+	// jQuery("#menu-editor").submit(function (e) {
 	// 	e.preventDefault();
 	// });
 
-	// $("#menu-add").submit(function (e) {
+	// jQuery("#menu-add").submit(function (e) {
 	// 	e.preventDefault();
 	// 	addToMenu();
 	// });

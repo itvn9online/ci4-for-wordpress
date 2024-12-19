@@ -1,9 +1,9 @@
-Nestable++
-========
+# Nestable++
 
 Drag and drop menu editor jQuery plugin, forked from [dbushell/nestable](https://github.com/dbushell/Nestable).
 
 Additions:
+
 - Add/Delete/Edit menu items
 - Slug attribute
 
@@ -15,7 +15,7 @@ Suppose that all the initial items are already **stored** in your database (or s
 
 - On deletion, all stored elements will have **data-deleted** property set to 1
 - On deletion, all non-stored elements will be just removed from DOM and from JSON (like they never existed)
-- On addition, all new elements will have **data-new** property set to 1 and a value like *new-** as **data-id**
+- On addition, all new elements will have **data-new** property set to 1 and a value like \*new-** as **data-id\*\*
 
 ## Usage
 
@@ -96,13 +96,13 @@ Write your nested HTML lists like so:
 
 Then activate with jQuery like so:
 
-    $('.dd').nestable({ /* config options */ });
+    jQuery('.dd').nestable({ /* config options */ });
 
 ### Events
 
 The `change` event is fired when items are reordered.
 
-    $('.dd').on('change', function() {
+    jQuery('.dd').on('change', function() {
         /* on change event */
     });
 
@@ -110,7 +110,7 @@ The `change` event is fired when items are reordered.
 
 You can get a serialised object with all `data-*` attributes for each item.
 
-    $('.dd').nestable('serialize');
+    jQuery('.dd').nestable('serialize');
 
 The serialised JSON for the example above would be:
 
@@ -120,22 +120,22 @@ The serialised JSON for the example above would be:
 
 You can change the follow options:
 
-* `maxDepth` number of levels an item can be nested (default `5`)
-* `group` group ID to allow dragging between lists (default `0`)
+- `maxDepth` number of levels an item can be nested (default `5`)
+- `group` group ID to allow dragging between lists (default `0`)
 
 These advanced config options are also available:
 
-* `listNodeName` The HTML element to create for lists (default `'ol'`)
-* `itemNodeName` The HTML element to create for list items (default `'li'`)
-* `rootClass` The class of the root element `.nestable()` was used on (default `'dd'`)
-* `listClass` The class of all list elements (default `'dd-list'`)
-* `itemClass` The class of all list item elements (default `'dd-item'`)
-* `dragClass` The class applied to the list element that is being dragged (default `'dd-dragel'`)
-* `handleClass` The class of the content element inside each list item (default `'dd-handle'`)
-* `collapsedClass` The class applied to lists that have been collapsed (default `'dd-collapsed'`)
-* `placeClass` The class of the placeholder element (default `'dd-placeholder'`)
-* `emptyClass` The class used for empty list placeholder elements (default `'dd-empty'`)
-* `expandBtnHTML` The HTML text used to generate a list item expand button (default `'<button data-action="expand">Expand></button>'`)
-* `collapseBtnHTML` The HTML text used to generate a list item collapse button (default `'<button data-action="collapse">Collapse</button>'`)
+- `listNodeName` The HTML element to create for lists (default `'ol'`)
+- `itemNodeName` The HTML element to create for list items (default `'li'`)
+- `rootClass` The class of the root element `.nestable()` was used on (default `'dd'`)
+- `listClass` The class of all list elements (default `'dd-list'`)
+- `itemClass` The class of all list item elements (default `'dd-item'`)
+- `dragClass` The class applied to the list element that is being dragged (default `'dd-dragel'`)
+- `handleClass` The class of the content element inside each list item (default `'dd-handle'`)
+- `collapsedClass` The class applied to lists that have been collapsed (default `'dd-collapsed'`)
+- `placeClass` The class of the placeholder element (default `'dd-placeholder'`)
+- `emptyClass` The class used for empty list placeholder elements (default `'dd-empty'`)
+- `expandBtnHTML` The HTML text used to generate a list item expand button (default `'<button data-action="expand">Expand></button>'`)
+- `collapseBtnHTML` The HTML text used to generate a list item collapse button (default `'<button data-action="collapse">Collapse</button>'`)
 
 Inspect the [Nestable Demo](http://dbushell.github.com/Nestable/) for guidance of the original Nestable component (created by David Bushell).

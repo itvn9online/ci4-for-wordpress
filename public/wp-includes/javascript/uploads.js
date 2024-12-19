@@ -184,20 +184,20 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
 
 					// nếu dùng thumbnail thì thiết lập tham số set thumbnail
 					if (params["set_webp"] != "") {
-						$(params["set_webp"]).val(data.img_webp);
+						jQuery(params["set_webp"]).val(data.img_webp);
 						show_img = data.img_webp;
 					} else if (params["set_thumb"] != "") {
-						$(params["set_thumb"]).val(data.img_thumb);
+						jQuery(params["set_thumb"]).val(data.img_thumb);
 						show_img = data.img_thumb;
 					}
 					// muốn dùng ảnh cỡ lớn thì thiết lập set val
 					if (params["set_val"] != "") {
-						$(params["set_val"]).val(data.img_large);
+						jQuery(params["set_val"]).val(data.img_large);
 						show_img = data.img_large;
 					}
 					// muốn dùng ảnh gốc thì thiết lập set val
 					if (params["set_origin"] != "") {
-						$(params["set_origin"]).val(data.img);
+						jQuery(params["set_origin"]).val(data.img);
 						show_img = data.img;
 					}
 					// nếu có tham số ảnh xem trước -> dùng ảnh này thay cho val
@@ -211,14 +211,14 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
 
 					//
 					if (params["set_bg"] != "") {
-						$(params["set_bg"]).css({
+						jQuery(params["set_bg"]).css({
 							"background-image": "url(" + show_img + ")",
 						});
 					}
 
 					//
 					if (params["set_src"] != "") {
-						$(params["set_src"]).attr({
+						jQuery(params["set_src"]).attr({
 							src: show_img,
 						});
 					}
@@ -230,7 +230,7 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
 				}
 
 				//
-				$(params["input_file"]).val("");
+				jQuery(params["input_file"]).val("");
 
 				//
 				if (typeof __callBack == "function") {

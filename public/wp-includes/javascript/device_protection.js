@@ -23,7 +23,7 @@
 		var max_time = 30;
 
 		// nếu không có modal ẩn cảnh báo -> nạp html
-		if ($("#warningLoggedModal").length < 1) {
+		if (jQuery("#warningLoggedModal").length < 1) {
 			jQuery.ajax({
 				type: "POST",
 				// link TEST
@@ -40,7 +40,7 @@
 				},
 				success: function (data) {
 					//console.log(data);
-					$("body").append(data);
+					jQuery("body").append(data);
 				},
 				/*
 				complete: function (xhr, status) {
@@ -52,7 +52,7 @@
 
 			//
 			setTimeout(() => {
-				if ($("#warningLoggedModal").length < 1) {
+				if (jQuery("#warningLoggedModal").length < 1) {
 					console.log("Cannot be determined modal: Logged");
 				}
 				_run();
@@ -63,7 +63,7 @@
 		}
 
 		// nếu người dùng chưa close modal thì thôi không cần kiểm tra -> vì có close mới tiếp tục được
-		if ($("#warningLoggedModal").hasClass("show")) {
+		if (jQuery("#warningLoggedModal").hasClass("show")) {
 			if (WGR_check_option_on(WGR_config.cf_tester_mode)) {
 				console.log(Math.random());
 			}
@@ -118,18 +118,18 @@
 					if (
 						typeof data.hash.key != "undefined" &&
 						data.hash.key != "" &&
-						data.hash.key != $("body").data("session")
+						data.hash.key != jQuery("body").data("session")
 					) {
 						//
-						$(".show-logged-ip")
+						jQuery(".show-logged-ip")
 							//.text(data.hash.ip)
 							.text(data.hash.key)
 							.attr({
 								href:
 									"https://www.iplocation.net/ip-lookup?query=" + data.hash.ip,
 							});
-						$(".show-logged-agent").text(data.hash.agent);
-						$(".show-logged-device").html(
+						jQuery(".show-logged-agent").text(data.hash.agent);
+						jQuery(".show-logged-device").html(
 							WGR_is_mobile(data.hash.agent) === false
 								? '<i class="fa fa-desktop"></i>'
 								: '<i class="fa fa-mobile"></i>'
@@ -137,7 +137,7 @@
 
 						//
 						//WGR_alert('Vui lòng không đăng nhập trên nhiều thiết bị!', 'error');
-						$("#warningLoggedModal").modal("show");
+						jQuery("#warningLoggedModal").modal("show");
 
 						//console.log(data.logout);
 						// khi có nghi ngờ -> rút ngắn thời gian kiểm tra lại

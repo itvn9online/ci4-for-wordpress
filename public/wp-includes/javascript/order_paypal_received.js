@@ -222,6 +222,6 @@ function WGR_load_paypal_buttons(input) {
 }
 
 //
-$(document).ready(function () {
+jQuery(document).ready(function () {
 	WGR_load_paypal_buttons(current_order_data);
 });

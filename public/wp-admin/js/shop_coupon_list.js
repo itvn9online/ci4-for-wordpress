@@ -1,30 +1,30 @@
-$(document).ready(function () {
+jQuery(document).ready(function () {
 	// hiển thị tiền tệ
-	$(".discount_type-to-currency").each(function () {
-		let a = $(this).data("type") || "";
+	jQuery(".discount_type-to-currency").each(function () {
+		let a = jQuery(this).data("type") || "";
 		if (a == "percent") {
-			$(this).append("%");
+			jQuery(this).append("%");
 		} else {
-			$(this).addClass("ebe-currency");
+			jQuery(this).addClass("ebe-currency");
 		}
 	});
 
 	// cảnh báo ngày hết hạn
 	let date_now = Date.now(),
 		mot_ngay = 86400;
-	$(".expiry_date-to-note").each(function () {
-		let a = jQuery.trim($(this).html());
+	jQuery(".expiry_date-to-note").each(function () {
+		let a = jQuery.trim(jQuery(this).html());
 		if (a != "" && a.length == 10 && a.split("-").length == 3) {
 			let end_date = new Date(a).getTime();
 
 			if (end_date < date_now) {
-				$(this).addClass("redcolor");
+				jQuery(this).addClass("redcolor");
 			} else {
-				$(this).addClass("greencolor");
+				jQuery(this).addClass("greencolor");
 
 				//
 				let con_lai = Math.ceil((end_date - date_now) / 1000 / mot_ngay);
-				$(this).append(" (~" + con_lai + " day)");
+				jQuery(this).append(" (~" + con_lai + " day)");
 			}
 		}
 	});

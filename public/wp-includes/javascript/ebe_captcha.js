@@ -1,6 +1,6 @@
 function action_ebe_captcha(uri) {
 	// nếu có class yêu cầu nạp captcha thì sẽ tiến hành nạp
-	if ($(".ebe-recaptcha").length < 1) {
+	if (jQuery(".ebe-recaptcha").length < 1) {
 		return false;
 	}
 
@@ -38,7 +38,7 @@ function action_ebe_captcha(uri) {
 		success: function (data) {
 			// console.log(data);
 			// nạp xong thì trả về khối html -> dùng after để khối captcha này hạn chế bị get bởi lệnh khác khác thông qua class cố định ebe-re***
-			$(".ebe-recaptcha").after(data);
+			jQuery(".ebe-recaptcha").after(data);
 			console.log(window.location.href);
 		},
 	});

@@ -2,9 +2,9 @@ function fix_textarea_height() {
 	jQuery(".fix-textarea-height textarea, textarea.fix-textarea-height")
 		.off("change")
 		.change(function () {
-			//var t = $(this).val().split("\n");
+			//var t = jQuery(this).val().split("\n");
 			//console.log(t.length);
-			$(this).attr({ rows: $(this).val().split("\n").length });
+			jQuery(this).attr({ rows: jQuery(this).val().split("\n").length });
 
 			// đoạn này bỏ -> sử dụng rows nó nét hơn
 			var a = jQuery(this).data("resize") || "",
@@ -42,9 +42,12 @@ function fix_textarea_height() {
 }
 
 function MY_select2(for_id) {
-	if ($(for_id + " option").length < 10 || $(for_id).hasClass("has-select2")) {
+	if (
+		jQuery(for_id + " option").length < 10 ||
+		jQuery(for_id).hasClass("has-select2")
+	) {
 		return false;
 	}
-	$(for_id).addClass("has-select2");
-	$(for_id).select2();
+	jQuery(for_id).addClass("has-select2");
+	jQuery(for_id).select2();
 }

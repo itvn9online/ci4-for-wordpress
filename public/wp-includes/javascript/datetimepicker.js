@@ -46,7 +46,7 @@ function datetimepicker_onClose(input_name, input_id, type) {
 	//console.log('pick id:', input_id);
 
 	//
-	let input_ = $("#" + input_id);
+	let input_ = jQuery("#" + input_id);
 
 	// ẩn input đi
 	input_.attr({
@@ -97,8 +97,8 @@ function datetimepicker_onClose(input_name, input_id, type) {
 	);
 
 	//
-	$("#" + pick_id).change(function () {
-		let a = $(this).val() || "";
+	jQuery("#" + pick_id).change(function () {
+		let a = jQuery(this).val() || "";
 		//console.log('value:', a);
 
 		//
@@ -108,7 +108,7 @@ function datetimepicker_onClose(input_name, input_id, type) {
 			//let s1 = s[0].split('-');
 			//let s2 = s[1].split(':');
 			//let d = new Date(s1[2], s1[1] - 1, s1[0], s2[0], s2[1], s2[2]);
-			//$('#' + input_id).val(Math.ceil(d.getTime() / 1000));
+			//jQuery('#' + input_id).val(Math.ceil(d.getTime() / 1000));
 
 			// -> xác định giờ theo múi giờ hiện tại của user
 			let tzoffset = 0;
@@ -132,65 +132,67 @@ function datetimepicker_onClose(input_name, input_id, type) {
 			}
 			time_stamp = Math.ceil(time_stamp / 1000);
 			// nếu là pick date -> đưa về cuối ngày -> để nếu có hết hạn thì cũng cuối ngày mới bị khóa
-			if ($("#" + input_id).hasClass("datepicker")) {
+			if (jQuery("#" + input_id).hasClass("datepicker")) {
 				time_stamp += 86400 - 1;
 				console.log("time_stamp:", time_stamp);
 			}
-			$("#" + input_id).val(time_stamp);
+			jQuery("#" + input_id).val(time_stamp);
 
 			//
 			console.log(
 				"Test date:",
-				new Date($("#" + input_id).val() * 1000).toISOString()
+				new Date(jQuery("#" + input_id).val() * 1000).toISOString()
 			);
 		} else {
-			$("#" + input_id).val("0");
+			jQuery("#" + input_id).val("0");
 		}
 	});
 }
 
 // khởi tạo đối tượng cho các kiểu date picker
 function create_dynamic_datepicker(type) {
-	$('input[type="' + type + '"], input.' + type + "picker").each(function () {
-		let a = $(this).attr("type") || "";
-		//console.log('type:', a);
+	jQuery('input[type="' + type + '"], input.' + type + "picker").each(
+		function () {
+			let a = jQuery(this).attr("type") || "";
+			//console.log('type:', a);
 
-		// nếu đây là dạng số -> conver sang timestamp khi close
-		//if (type != 'time' && a == 'number') {
-		if (a == "number") {
-			let input_name = $(this).attr("name") || "";
-			if (input_name != "") {
-				//console.log('input name:', input_name);
-				input_name = input_name.replace(/\[|\]/gi, "_");
-				//console.log('input name:', input_name);
+			// nếu đây là dạng số -> conver sang timestamp khi close
+			//if (type != 'time' && a == 'number') {
+			if (a == "number") {
+				let input_name = jQuery(this).attr("name") || "";
+				if (input_name != "") {
+					//console.log('input name:', input_name);
+					input_name = input_name.replace(/\[|\]/gi, "_");
+					//console.log('input name:', input_name);
 
-				//
-				let input_id = $(this).attr("id") || "";
-				//console.log('input id:', input_id);
-				if (input_id == "") {
-					input_id = input_name;
+					//
+					let input_id = jQuery(this).attr("id") || "";
+					//console.log('input id:', input_id);
+					if (input_id == "") {
+						input_id = input_name;
+					}
+
+					// ẩn input đi
+					jQuery(this).attr({
+						id: input_id,
+					});
+
+					//
+					datetimepicker_onClose(input_name, input_id, type);
 				}
-
-				// ẩn input đi
-				$(this).attr({
-					id: input_id,
-				});
-
-				//
-				datetimepicker_onClose(input_name, input_id, type);
+			} else {
+				jQuery(this)
+					.addClass("ebe-jquery-ui-" + type)
+					.attr({
+						type: "text",
+						autocomplete: "off",
+					});
 			}
-		} else {
-			$(this)
-				.addClass("ebe-jquery-ui-" + type)
-				.attr({
-					type: "text",
-					autocomplete: "off",
-				});
 		}
-	});
+	);
 
 	//
-	return $(".ebe-jquery-ui-" + type).length;
+	return jQuery(".ebe-jquery-ui-" + type).length;
 }
 
 //
@@ -202,7 +204,7 @@ function EBE_load_datetimepicker(max_i) {
 	}
 
 	//
-	if (typeof $().datetimepicker != "function") {
+	if (typeof jQuery().datetimepicker != "function") {
 		setTimeout(() => {
 			EBE_load_datetimepicker(max_i - 1);
 		}, 100);
@@ -251,7 +253,7 @@ function EBE_load_datetimepicker(max_i) {
 
 		//
 		let default_op = {
-			lang: $("html").attr("lang") || "vi",
+			lang: jQuery("html").attr("lang") || "vi",
 			// lang: "en",
 			timepicker: true,
 			formatTime: "H:i",
@@ -274,8 +276,8 @@ function EBE_load_datetimepicker(max_i) {
 		// console.log("op:", op);
 
 		//
-		$(id).datetimepicker(op);
-		$(id).attr({
+		jQuery(id).datetimepicker(op);
+		jQuery(id).attr({
 			// hiển thị định dạng ngày tháng ra placeholder
 			placeholder: op.format
 				.replace("Y-m-d", "yyyy-mm-dd")
@@ -290,38 +292,38 @@ function EBE_load_datetimepicker(max_i) {
 		if (typeof time_only == "undefined" || time_only !== true) {
 			// console.log("date_format", date_format);
 			if (date_format != datetime_default_format) {
-				$(id).each(function () {
-					let input_name = $(this).attr("name") || "";
+				jQuery(id).each(function () {
+					let input_name = jQuery(this).attr("name") || "";
 					if (input_name != "") {
 						let jd =
-							$(this).attr("id") ||
+							jQuery(this).attr("id") ||
 							Math.random().toString(32).replace(/\./gi, "_");
 						jd = "_" + jd;
 
 						// thêm input ẩn để thay thế input date time mặc định
-						$(this).after(
+						jQuery(this).after(
 							'<input type="hidden" name="' +
 								input_name +
 								'" value="' +
-								($(this).val() || "") +
+								(jQuery(this).val() || "") +
 								'" id="' +
 								jd +
 								'">'
 						);
 
 						//
-						$(this)
+						jQuery(this)
 							.attr({
 								"data-for": jd,
 							})
 							.removeAttr("name")
 							.change(function () {
 								// console.log(Math.random());
-								let jd = $(this).attr("data-for") || "";
+								let jd = jQuery(this).attr("data-for") || "";
 								if (jd != "") {
 									let date_format = getDateFormat();
 									if (date_format != datetime_default_format) {
-										let a = $(this).val() || "",
+										let a = jQuery(this).val() || "",
 											b = "",
 											gio = "";
 										if (a != "") {
@@ -345,7 +347,7 @@ function EBE_load_datetimepicker(max_i) {
 											}
 										}
 										// console.log(b + gio);
-										$("#" + jd).val(b + gio);
+										jQuery("#" + jd).val(b + gio);
 									}
 								}
 							});
@@ -357,8 +359,8 @@ function EBE_load_datetimepicker(max_i) {
 		// nếu định dạng ngày tháng không phải dạng mặc định
 		if (date_format != datetime_default_format) {
 			// xem dữ liệu hiện tại trong input có không
-			$(id).each(function () {
-				let a = $(this).val() || "";
+			jQuery(id).each(function () {
+				let a = jQuery(this).val() || "";
 				if (a != "" && a.length >= 10) {
 					// let ts = Date.parse(a);
 					// console.log(ts);
@@ -388,7 +390,7 @@ function EBE_load_datetimepicker(max_i) {
 						b = [a[2], a[1], a[0]].join("-");
 					}
 					// console.log(b + gio);
-					$(this).val(b + gio);
+					jQuery(this).val(b + gio);
 				}
 			});
 		}

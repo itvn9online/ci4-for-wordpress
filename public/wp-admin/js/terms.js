@@ -34,7 +34,7 @@ function term_tree_view(data, tmp, gach_ngang) {
 
 			//
 			//console.log(str);
-			$('.each-to-child-term[data-id="' + arr.parent + '"]').after(str);
+			jQuery('.each-to-child-term[data-id="' + arr.parent + '"]').after(str);
 		}
 
 		//
@@ -89,7 +89,7 @@ function replace_html_by_max_j(v_x, str, data) {
 function term_v2_tree_view(tmp, term_id, gach_ngang) {
 	// lần đầu thì lấy nhóm cấp 1 trước
 	if (typeof term_id == "undefined") {
-		$("#admin_term_list").text("");
+		jQuery("#admin_term_list").text("");
 		term_id = 0;
 		gach_ngang = "";
 	} else {
@@ -114,7 +114,7 @@ function term_v2_tree_view(tmp, term_id, gach_ngang) {
 		//has_term = true;
 
 		// hiển thị nhóm hiện tại ra
-		$("#admin_term_list").append(
+		jQuery("#admin_term_list").append(
 			tmp_to_term_html(term_data[i], tmp, gach_ngang)
 		);
 
@@ -175,7 +175,7 @@ function term_not_null_tree_view(tmp, gach_ngang) {
 		let j = check_term_parent_by_id(term_data[i].parent);
 		// tìm thấy cha thì in nhóm cha trước rồi mới in nhóm con
 		if (j !== false) {
-			$("#admin_term_list").append(
+			jQuery("#admin_term_list").append(
 				tmp_to_term_html(term_data[j], tmp, gach_ngang)
 			);
 
@@ -186,7 +186,7 @@ function term_not_null_tree_view(tmp, gach_ngang) {
 		}
 		// không thấy cha thì in trực tiếp nó ra thôi
 		else {
-			$("#admin_term_list").append(
+			jQuery("#admin_term_list").append(
 				tmp_to_term_html(term_data[i], tmp, gach_ngang)
 			);
 
@@ -207,7 +207,7 @@ function before_tree_view(tmp, max_i) {
 	}
 
 	// chờ khi aguilar nạp xong html thì mới nạp tree view
-	if ($("#admin_term_list tr.ng-scope").length < 1) {
+	if (jQuery("#admin_term_list tr.ng-scope").length < 1) {
 		setTimeout(() => {
 			before_tree_view(tmp, max_i - 1);
 		}, 100);
@@ -218,12 +218,12 @@ function before_tree_view(tmp, max_i) {
 
 	//
 	term_tree_view(term_data, tmp);
-	//$('.this-child-term div[v-if]').remove();
+	//jQuery('.this-child-term div[v-if]').remove();
 }
 
 function done_multi_add_term() {
-	if ($("#multi_add_show_debug").is(":checked")) {
-		$("#data_term_name").val("");
+	if (jQuery("#multi_add_show_debug").is(":checked")) {
+		jQuery("#data_term_name").val("");
 		WGR_alert("OK");
 	} else {
 		window.location.reload();
@@ -231,23 +231,25 @@ function done_multi_add_term() {
 }
 
 function open_modal_add_multi_term(term_id) {
-	$("#data_term_id").val(term_id);
+	jQuery("#data_term_id").val(term_id);
 	// slug dùng để xác định các term trùng lặp
-	$("#data_term_slug").val(
-		$('.get-parent-term-name[data-id="' + term_id + '"]').data("slug") || ""
+	jQuery("#data_term_slug").val(
+		jQuery('.get-parent-term-name[data-id="' + term_id + '"]').data("slug") ||
+			""
 	);
-	$("#multi_add_parent_name").html(
-		$('.get-parent-term-name[data-id="' + term_id + '"]').data("name") || ""
+	jQuery("#multi_add_parent_name").html(
+		jQuery('.get-parent-term-name[data-id="' + term_id + '"]').data("name") ||
+			""
 	);
 
 	//
 	setTimeout(() => {
-		$("#data_term_name").focus();
+		jQuery("#data_term_name").focus();
 	}, 600);
 }
 
 function record_status_color(id, term_status) {
-	$('#admin_term_list .record-status-color[data-id="' + id + '"]').attr({
+	jQuery('#admin_term_list .record-status-color[data-id="' + id + '"]').attr({
 		"data-status": term_status,
 	});
 }
@@ -255,13 +257,13 @@ function record_status_color(id, term_status) {
 (function () {
 	if (term_data.length < 1) {
 		// không có dữ liệu thì xóa template đi
-		$("#admin_term_list").text("");
+		jQuery("#admin_term_list").text("");
 		return false;
 	}
 
 	//
-	let tmp = $("#admin_term_list tr:first").html() || "";
-	$("#admin_term_list").text("");
+	let tmp = jQuery("#admin_term_list tr:first").html() || "";
+	jQuery("#admin_term_list").text("");
 	if (tmp == "") {
 		return false;
 	}
@@ -292,11 +294,11 @@ function record_status_color(id, term_status) {
 	//console.log('term data:', term_data);
 
 	// bỏ các term không có cha
-	$('.parent-term-name[data-id="0"], .parent-term-name[data-id=""]')
+	jQuery('.parent-term-name[data-id="0"], .parent-term-name[data-id=""]')
 		.remove()
 		.hide();
 	// thêm class nạp tên term cho các thẻ đủ điều kiện
-	$('.parent-term-name[data-line=""]')
+	jQuery('.parent-term-name[data-line=""]')
 		.addClass("each-to-taxonomy")
 		.addClass("parent-term-after");
 })();
@@ -304,18 +306,18 @@ function record_status_color(id, term_status) {
 /*
  * thay đổi số thứ tự của term
  */
-$(document).ready(function () {
-	$(".change-update-term_order")
+jQuery(document).ready(function () {
+	jQuery(".change-update-term_order")
 		.attr({
 			type: "number",
 		})
 		.on("dblclick", function () {
-			$(this).select();
+			jQuery(this).select();
 		})
 		.change(function () {
-			let a = $(this).data("id") || "";
+			let a = jQuery(this).data("id") || "";
 			if (a != "") {
-				let v = $(this).val();
+				let v = jQuery(this).val();
 				v *= 1;
 				if (!isNaN(v)) {
 					if (v < 1) {
@@ -324,7 +326,7 @@ $(document).ready(function () {
 					//console.log(a + ":", v);
 
 					//
-					$(this).addClass("pending").val(v);
+					jQuery(this).addClass("pending").val(v);
 
 					//
 					jQuery.ajax({
@@ -351,7 +353,7 @@ $(document).ready(function () {
 							} else {
 								WGR_alert("OK");
 							}
-							$(".change-update-term_order").removeClass("pending");
+							jQuery(".change-update-term_order").removeClass("pending");
 						},
 					});
 				}

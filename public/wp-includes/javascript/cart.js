@@ -39,7 +39,7 @@ jQuery(document).ready(function () {
 	action_ajax_cart();
 	/*
 	} else {
-		$(".cart-is-product").removeClass("d-none");
+		jQuery(".cart-is-product").removeClass("d-none");
 		cart_sidebar_table();
 		cart_table_buttons_added();
 	}
@@ -47,8 +47,8 @@ jQuery(document).ready(function () {
 
 	// hiển thị html cho phần đặt cọc nếu có
 	if (cart_config.deposits_money != "") {
-		$(".cart-group-deposit-money").removeClass("d-none");
-		$(".cart-sub-regular_price").removeClass("bold");
+		jQuery(".cart-group-deposit-money").removeClass("d-none");
+		jQuery(".cart-sub-regular_price").removeClass("bold");
 	}
 
 	//

@@ -32,10 +32,10 @@ var handleSignedInUser = function () {
 	if (
 		typeof required_firebase_phone_number != "undefined" &&
 		required_firebase_phone_number === true &&
-		jQuery.trim($("#firebase_phone").html() || "") == ""
+		jQuery.trim(jQuery("#firebase_phone").html() || "") == ""
 	) {
 		WGR_alert("Phone number not found!", "error");
-		$("#sign-in").hide();
+		jQuery("#sign-in").hide();
 		return false;
 	}
 	//console.log(user);

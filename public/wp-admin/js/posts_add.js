@@ -1,13 +1,13 @@
 function set_new_post_url(url, post_name) {
 	// thiết lập lại url sau khi update
-	$(".set-new-url")
+	jQuery(".set-new-url")
 		.attr({
 			href: url,
 		})
 		.html(url);
 
 	// cập nhật lại luôn mục url cũ
-	$("#old_postname").val(post_name);
+	jQuery("#old_postname").val(post_name);
 }
 
 function after_update_post() {
@@ -17,36 +17,36 @@ function after_update_post() {
 }
 
 // chỉnh lại size ảnh nếu có lựa chọn
-$("#post_meta_image_size").change(function () {
+jQuery("#post_meta_image_size").change(function () {
 	//console.log(1);
-	if ($("#post_meta_image").val() == "") {
-		$(
+	if (jQuery("#post_meta_image").val() == "") {
+		jQuery(
 			"#post_meta_image_medium, #post_meta_image_thumbnail, #post_meta_image_webp, #post_meta_image_medium_large, #post_meta_image_large"
 		).val("");
-		$(".for-post_meta_image img").hide();
+		jQuery(".for-post_meta_image img").hide();
 		return false;
 	}
 
 	//
-	let avt_size = $(this).val() || "";
+	let avt_size = jQuery(this).val() || "";
 	if (avt_size != "") {
 		console.log("avt size:", avt_size);
 
 		// nếu là sử dụng kích cỡ thật
 		if (avt_size == "image_origin") {
 			// lấy cỡ large
-			let img = $("#post_meta_image_large").val() || "";
+			let img = jQuery("#post_meta_image_large").val() || "";
 			console.log(img);
 			// xóa đi chữ large ở cuối rồi thêm vào thôi
 			if (img != "") {
-				$("#post_meta_image").val(img.replace("-large.", "."));
+				jQuery("#post_meta_image").val(img.replace("-large.", "."));
 			}
 		} else {
 			// còn lại sẽ dò tìm kích cỡ ưng ý và thêm
-			let img = $("#post_meta_" + avt_size).val() || "";
+			let img = jQuery("#post_meta_" + avt_size).val() || "";
 			console.log(img);
 			if (img != "") {
-				$("#post_meta_image").val(img);
+				jQuery("#post_meta_image").val(img);
 			}
 		}
 
@@ -56,16 +56,16 @@ $("#post_meta_image_size").change(function () {
 });
 
 // khi các post meta được bỏ check -> sẽ có 1 post meta khác được checked -> để lệnh update còn biết cái nào bỏ check mà remove
-$(".post_uncheck_meta").change(function () {
-	let a = $(this).attr("id") || "";
+jQuery(".post_uncheck_meta").change(function () {
+	let a = jQuery(this).attr("id") || "";
 	if (a != "") {
 		a = a.replace("post_meta_", "post_uncheck_meta_");
-		if ($("." + a).length > 0) {
+		if (jQuery("." + a).length > 0) {
 			console.log("post_uncheck_meta_:", a);
-			if ($(this).is(":checked")) {
-				$("." + a).prop("checked", false);
+			if (jQuery(this).is(":checked")) {
+				jQuery("." + a).prop("checked", false);
 			} else {
-				$("." + a).prop("checked", true);
+				jQuery("." + a).prop("checked", true);
 			}
 		}
 	}
@@ -73,7 +73,7 @@ $(".post_uncheck_meta").change(function () {
 
 // select sẵn size ảnh nếu có
 (function () {
-	if ($("#post_meta_image_size").length < 1) {
+	if (jQuery("#post_meta_image_size").length < 1) {
 		return false;
 	}
 
@@ -81,28 +81,28 @@ $(".post_uncheck_meta").change(function () {
 	let a = localStorage.getItem("post-meta-image-size");
 	//console.log(a);
 	if (a !== null && a != "") {
-		let b = $("#post_meta_image_size").val("data-select") || "";
+		let b = jQuery("#post_meta_image_size").val("data-select") || "";
 		if (b != "") {
-			$("#post_meta_image_size").val(a).trigger("change");
+			jQuery("#post_meta_image_size").val(a).trigger("change");
 		}
 	}
 })();
 
 //
-$(document).ready(function () {
+jQuery(document).ready(function () {
 	for_admin_global_checkbox();
 
 	//
 	show_input_length_char("data_post_title");
-	$("#data_post_title").trigger("change");
+	jQuery("#data_post_title").trigger("change");
 
 	//
 	show_input_length_char("post_meta_meta_title");
-	$("#post_meta_meta_title").trigger("change");
+	jQuery("#post_meta_meta_title").trigger("change");
 
 	//
 	show_input_length_char("post_meta_meta_description");
-	$("#post_meta_meta_description").trigger("change");
+	jQuery("#post_meta_meta_description").trigger("change");
 });
 
 // với menu ko hỗ trợ bấm Ctrl + S -> vì còn phải chạy qua lệnh builder menu nữa
