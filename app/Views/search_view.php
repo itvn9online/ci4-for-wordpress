@@ -1,13 +1,13 @@
 <?php
 
-/*
+/**
  * file search mặc định -> ưu tiên post type = post
  */
 
 //
 //print_r( $data );
 
-/*
+/**
  * thử xem có file search riêng theo từng post type không
  */
 // -> ưu tiên trong theme riêng trước
