@@ -14,7 +14,7 @@ var submit_if_ctrl_s = false,
 function WgrWp_popup_upload(insert_to, add_img_tag, img_size, input_type) {
 	if (
 		current_textediter_insert_to != insert_to &&
-		$("oi_wgr_wp_upload_iframe").length < 1
+		jQuery("oi_wgr_wp_upload_iframe").length < 1
 	) {
 		current_textediter_insert_to = insert_to;
 
@@ -31,7 +31,7 @@ function WgrWp_popup_upload(insert_to, add_img_tag, img_size, input_type) {
 		}
 
 		//
-		$("body").append(
+		jQuery("body").append(
 			'<div class="hide-if-esc wgr-wp-upload"><iframe id="oi_wgr_wp_upload_iframe" name="oi_wgr_wp_upload_iframe" src="sadmin/uploads?quick_upload=1&insert_to=' +
 				insert_to +
 				"&add_img_tag=" +
@@ -41,19 +41,19 @@ function WgrWp_popup_upload(insert_to, add_img_tag, img_size, input_type) {
 				"&input_type=" +
 				input_type +
 				'" width="95%" height="' +
-				($(window).height() / 100) * 90 +
+				(jQuery(window).height() / 100) * 90 +
 				'" frameborder="0">AJAX form</iframe></div>'
 		);
 	}
 
 	//
-	$("body").addClass("no-scroll");
-	$(".wgr-wp-upload").show();
+	jQuery("body").addClass("no-scroll");
+	jQuery(".wgr-wp-upload").show();
 }
 
 // nạp ảnh đại diện cho các input
 function add_and_show_post_avt(for_id, add_img_tag, img_size, input_type) {
-	if ($(for_id).length != 1) {
+	if (jQuery(for_id).length != 1) {
 		console.log(for_id + " not found! (length != 1)");
 		return false;
 	}
@@ -72,7 +72,7 @@ function add_and_show_post_avt(for_id, add_img_tag, img_size, input_type) {
 	//
 	let str = [];
 	//str.push(' <input type="button" class="btn btn-info" value="Chọn ảnh" onclick="BrowseServer( \'Images:/\', \'' + for_id.substr(1) + '\' );"/>');
-	if ($('button[data-for="' + for_id.substr(1) + '"]').length < 1) {
+	if (jQuery('button[data-for="' + for_id.substr(1) + '"]').length < 1) {
 		str.push(
 			' <button type="button" data-for="' +
 				for_id.substr(1) +
@@ -91,11 +91,11 @@ function add_and_show_post_avt(for_id, add_img_tag, img_size, input_type) {
 	}
 
 	//
-	$(".for-" + for_id).remove();
+	jQuery(".for-" + for_id).remove();
 
 	//
 	if (input_type != "textediter") {
-		let img = $(for_id).val() || "";
+		let img = jQuery(for_id).val() || "";
 		if (img != "") {
 			str.push(
 				'<p class="show-img-if-change for-' +
@@ -111,16 +111,16 @@ function add_and_show_post_avt(for_id, add_img_tag, img_size, input_type) {
 
 	//
 	console.log("Add button image for:", for_id);
-	$(for_id).after(str.join(" "));
+	jQuery(for_id).after(str.join(" "));
 }
 
 // mở form upload ảnh để upload cho tiện
 function trigger_click_open_media(for_id) {
-	$("button[data-for='" + for_id + "']").trigger("click");
+	jQuery("button[data-for='" + for_id + "']").trigger("click");
 }
 
 function click_set_img_for_input(img_id) {
-	let img = $('.media-attachment-img[data-id="' + img_id + '"]'),
+	let img = jQuery('.media-attachment-img[data-id="' + img_id + '"]'),
 		insert_to = img.data("insert") || "";
 
 	//
@@ -139,9 +139,9 @@ function click_set_img_for_input(img_id) {
 				}
 			}
 			//prompt("Image URL", a);
-			if ($("#support_copy_url_media").length > 0) {
-				$("#support_copy_url_media").val(a);
-				$("#support_copy_url_media").trigger("click");
+			if (jQuery("#support_copy_url_media").length > 0) {
+				jQuery("#support_copy_url_media").val(a);
+				jQuery("#support_copy_url_media").trigger("click");
 			} else {
 				window.open(a, "_blank");
 			}
@@ -165,9 +165,9 @@ function click_set_img_for_input(img_id) {
 	//console.log(file_type);
 
 	/*
-    if (top.$('#' + insert_to).length === 1) {
+    if (top.jQuery('#' + insert_to).length === 1) {
         insert_to = '#' + insert_to;
-    } else if (top.$('.' + insert_to).length === 1) {
+    } else if (top.jQuery('.' + insert_to).length === 1) {
         insert_to = '.' + insert_to;
     } else {
         insert_to = '';
@@ -219,7 +219,7 @@ function click_set_img_for_input(img_id) {
 		// insert ảnh vào text area
 		if (input_type == "textediter") {
 			if (data_src.includes("//") == false) {
-				data_src = $("base").attr("href") + data_src;
+				data_src = jQuery("base").attr("href") + data_src;
 			}
 			data_src = data_src.replace(".daidq-ext", "");
 
@@ -282,7 +282,7 @@ function click_set_img_for_input(img_id) {
 
 			//
 			top
-				.$("#" + insert_to)
+				.jQuery("#" + insert_to)
 				.val(data_src)
 				.trigger("focus");
 		}
@@ -295,9 +295,9 @@ function WGR_show_real_post_avt(insert_to, data_src, arr_all_srcs) {
 	//console.log('data src:', data_src);
 	//console.log('.show-img-if-change.for-' + data_src);
 	//console.log('.show-img-if-change.for-' + insert_to);
-	//console.log($('.show-img-if-change.for-' + insert_to + ' img').length);
-	if ($(".show-img-if-change.for-" + insert_to + " img").length > 0) {
-		$(".show-img-if-change.for-" + insert_to + " img")
+	//console.log(jQuery('.show-img-if-change.for-' + insert_to + ' img').length);
+	if (jQuery(".show-img-if-change.for-" + insert_to + " img").length > 0) {
+		jQuery(".show-img-if-change.for-" + insert_to + " img")
 			.attr({
 				src: data_src,
 			})
@@ -317,12 +317,12 @@ function WGR_show_real_post_avt(insert_to, data_src, arr_all_srcs) {
 				"image_large",
 			];
 			for (let i = 0; i < arr.length; i++) {
-				$("#post_meta_" + arr[i]).val("");
+				jQuery("#post_meta_" + arr[i]).val("");
 			}
 
 			// thiết lập ảnh mới
 			for (let x in arr_all_srcs) {
-				$("#post_meta_image_" + x).val(arr_all_srcs[x]);
+				jQuery("#post_meta_image_" + x).val(arr_all_srcs[x]);
 			}
 		}
 
@@ -614,11 +614,11 @@ function WGR_load_textediter(for_id, ops) {
 
 // tạo nút xóa một số attr trong editer để tránh xung đột mã HTML với website -> hay gặp khi copy nội dung từ web khác về
 function btn_remove_editer_style(for_id) {
-	if ($('button[data-rmstyle="' + for_id.substr(1) + '"]').length < 1) {
+	if (jQuery('button[data-rmstyle="' + for_id.substr(1) + '"]').length < 1) {
 		console.log(for_id);
 
 		//
-		$(for_id).after(
+		jQuery(for_id).after(
 			"<button type='button' data-rmcss='" +
 				for_id.substr(1) +
 				"' onclick=\"return cleanup_copilot_html_in_editer('" +
@@ -627,7 +627,7 @@ function btn_remove_editer_style(for_id) {
 		);
 
 		//
-		$(for_id).after(
+		jQuery(for_id).after(
 			"<button type='button' data-rmstyle='" +
 				for_id.substr(1) +
 				"' onclick=\"return cleanup_style_in_editer('" +
@@ -636,7 +636,7 @@ function btn_remove_editer_style(for_id) {
 		);
 
 		//
-		$(for_id).after(
+		jQuery(for_id).after(
 			"<button type='button' data-rmcss='" +
 				for_id.substr(1) +
 				"' onclick=\"return cleanup_class_in_editer('" +
@@ -662,28 +662,30 @@ function cleanup_copilot_html_in_editer(for_id) {
 	//
 	for_id = "#" + for_id + "_ifr";
 	// console.log(for_id);
-	if ($(for_id).length < 1) {
+	if (jQuery(for_id).length < 1) {
 		WGR_alert("Cannot be determined iframe ID " + for_id, "error");
 		return false;
 	}
 
 	// xóa tiêu đề nếu đang ở dạng nhân bản
-	let tit = $.trim($("#data_post_title").val());
+	let tit = jQuery.trim(jQuery("#data_post_title").val());
 	if (tit.includes(" - Duplicate ")) {
-		$("#data_post_title").val("");
+		jQuery("#data_post_title").val("");
 	}
 
 	// tạo tiêu đề nếu chưa có
 	if (tit == "") {
-		$("#data_post_title")
+		jQuery("#data_post_title")
 			.val(
-				$.trim(jQuery(for_id).contents().find("body").find("h1").text() || "")
+				jQuery.trim(
+					jQuery(for_id).contents().find("body").find("h1").text() || ""
+				)
 			)
 			.trigger("change");
 
 		//
 		setTimeout(() => {
-			$("#data_post_title").focus();
+			jQuery("#data_post_title").focus();
 		}, 500);
 	}
 	// return false;
@@ -698,9 +700,9 @@ function cleanup_copilot_html_in_editer(for_id) {
 		.find("a")
 		.each(function () {
 			// lấy phần text thôi
-			$(this).after($(this).html());
+			jQuery(this).after(jQuery(this).html());
 			// sau đó xóa thẻ này đi
-			$(this).remove();
+			jQuery(this).remove();
 		});
 
 	// xóa ảnh
@@ -710,9 +712,9 @@ function cleanup_copilot_html_in_editer(for_id) {
 		.find("img")
 		.each(function () {
 			// lấy phần text thôi
-			$(this).after($(this).attr("src") || "");
+			jQuery(this).after(jQuery(this).attr("src") || "");
 			// sau đó xóa thẻ này đi
-			$(this).remove();
+			jQuery(this).remove();
 		});
 
 	// xóa strong trong thẻ H
@@ -725,9 +727,9 @@ function cleanup_copilot_html_in_editer(for_id) {
 			.find("strong")
 			.each(function () {
 				// lấy phần text thôi
-				$(this).after($(this).html());
+				jQuery(this).after(jQuery(this).html());
 				// sau đó xóa thẻ này đi
-				$(this).remove();
+				jQuery(this).remove();
 			});
 	}
 
@@ -754,7 +756,7 @@ function cleanup_copilot_html_in_editer(for_id) {
 function cleanup_attr_in_editer(for_id, rm_attr) {
 	for_id = "#" + for_id + "_ifr";
 	console.log(for_id);
-	if ($(for_id).length < 1) {
+	if (jQuery(for_id).length < 1) {
 		WGR_alert("Cannot be determined iframe ID " + for_id, "error");
 		return false;
 	}
@@ -765,10 +767,10 @@ function cleanup_attr_in_editer(for_id, rm_attr) {
 
 // gán src cho thẻ img từ data-img -> dùng cho angularjs
 function action_data_img_src() {
-	$(".each-to-img-src").each(function () {
-		let a = $(this).data("src") || "";
+	jQuery(".each-to-img-src").each(function () {
+		let a = jQuery(this).data("src") || "";
 		if (a != "") {
-			$(this).attr({
+			jQuery(this).attr({
 				src: a,
 			});
 		}
@@ -776,10 +778,10 @@ function action_data_img_src() {
 }
 
 function action_data_bg_src() {
-	$(".each-to-bg-src").each(function () {
-		let a = $(this).data("src") || "";
+	jQuery(".each-to-bg-src").each(function () {
+		let a = jQuery(this).data("src") || "";
 		if (a != "") {
-			$(this).css({
+			jQuery(this).css({
 				"background-image": "url(" + a + ")",
 			});
 		}
@@ -800,7 +802,7 @@ function click_a_remove_record() {
 }
 
 function click_delete_record() {
-	if ($("#is_deleted").length !== 1) {
+	if (jQuery("#is_deleted").length !== 1) {
 		console.log("%c" + "ERROR is_deleted.length", "color: red;");
 	}
 
@@ -808,17 +810,17 @@ function click_delete_record() {
 		return false;
 	}
 
-	$("#is_deleted").val(1);
+	jQuery("#is_deleted").val(1);
 	document.admin_global_form.submit();
 
 	// hủy lệnh nếu code có lỗi
 	setTimeout(() => {
-		$("#is_deleted").val(0);
+		jQuery("#is_deleted").val(0);
 	}, 600);
 }
 
 function click_duplicate_record() {
-	if ($("#is_duplicate").length !== 1) {
+	if (jQuery("#is_duplicate").length !== 1) {
 		WGR_alert("ERROR is_duplicate.length", "warning");
 		return false;
 	}
@@ -827,12 +829,12 @@ function click_duplicate_record() {
 		return false;
 	}
 
-	$("#is_duplicate").val(1);
+	jQuery("#is_duplicate").val(1);
 	document.admin_global_form.submit();
 
 	// hủy lệnh nếu code có lỗi
 	setTimeout(() => {
-		$("#is_duplicate").val(0);
+		jQuery("#is_duplicate").val(0);
 	}, 600);
 }
 
@@ -935,12 +937,12 @@ function set_last_url_segment(last_w) {
 	console.log(last_w);
 
 	//
-	$('#sidebar a[data-segment="' + last_w + '"]')
+	jQuery('#sidebar a[data-segment="' + last_w + '"]')
 		.parents("li")
 		.addClass("active");
 
 	// nếu có rồi thì không cần đoạn so khớp đằng sau nữa
-	if ($("#sidebar li.active").length > 0) {
+	if (jQuery("#sidebar li.active").length > 0) {
 		console.log("active for admin menu by segment:", last_w);
 		return true;
 	}
@@ -1092,37 +1094,40 @@ function create_term_select_option(arr, space, limit_deep, current_deep) {
 var arr_check_checked_all = [];
 
 function get_check_checked_all_value() {
-	$(".input-checkbox-control").parents("tr").removeClass("redcolor");
+	jQuery(".input-checkbox-control").parents("tr").removeClass("redcolor");
 
 	//
 	arr_check_checked_all = [];
-	$(".input-checkbox-control").each(function () {
-		if ($(this).is(":checked")) {
-			arr_check_checked_all.push($(this).val());
-			$(this).parents("tr").addClass("redcolor");
+	jQuery(".input-checkbox-control").each(function () {
+		if (jQuery(this).is(":checked")) {
+			arr_check_checked_all.push(jQuery(this).val());
+			jQuery(this).parents("tr").addClass("redcolor");
 		}
 	});
 	//console.log(arr_check_checked_all);
 
 	//
 	if (arr_check_checked_all.length > 0) {
-		$(".quick-edit-form").fadeIn();
+		jQuery(".quick-edit-form").fadeIn();
 	} else {
-		$(".quick-edit-form").fadeOut();
+		jQuery(".quick-edit-form").fadeOut();
 	}
 }
 
 //
 function action_for_check_checked_all() {
-	$(".input-checkbox-all").change(function () {
+	jQuery(".input-checkbox-all").change(function () {
 		// checked cho tất cả select liên quan
-		$(".input-checkbox-control").prop("checked", $(this).is(":checked"));
+		jQuery(".input-checkbox-control").prop(
+			"checked",
+			jQuery(this).is(":checked")
+		);
 		get_check_checked_all_value();
 	});
-	//$('.input-checkbox-all').prop('checked', true).trigger('change');
+	//jQuery('.input-checkbox-all').prop('checked', true).trigger('change');
 
 	// select từng input
-	$(".input-checkbox-control").change(function () {
+	jQuery(".input-checkbox-control").change(function () {
 		get_check_checked_all_value();
 	});
 }
@@ -1137,7 +1142,7 @@ function for_admin_global_checkbox(max_i) {
 	}
 
 	//
-	if ($('form#admin_global_form input[type="checkbox"]').length < 1) {
+	if (jQuery('form#admin_global_form input[type="checkbox"]').length < 1) {
 		setTimeout(() => {
 			for_admin_global_checkbox(max_i - 1);
 		}, 100);
@@ -1146,8 +1151,8 @@ function for_admin_global_checkbox(max_i) {
 
 	//
 	setTimeout(() => {
-		$('form#admin_global_form input[type="checkbox"]').change(function () {
-			let a = $(this).attr("name") || "";
+		jQuery('form#admin_global_form input[type="checkbox"]').change(function () {
+			let a = jQuery(this).attr("name") || "";
 			//console.log(a);
 
 			// chỉ xử lý với các checkbox của data chính
@@ -1158,7 +1163,7 @@ function for_admin_global_checkbox(max_i) {
 				default_a = "data[default_post_data][" + default_a + "]";
 				//console.log(default_a);
 				if (
-					$(
+					jQuery(
 						'form#admin_global_form input.remove-if-checkbox-checked[name="' +
 							default_a +
 							'"]'
@@ -1166,7 +1171,7 @@ function for_admin_global_checkbox(max_i) {
 				) {
 					console.log("add hidden input:", default_a);
 					// -> thêm 1 input hidden để xóa giá trị lúc submit
-					$("form#admin_global_form").prepend(
+					jQuery("form#admin_global_form").prepend(
 						'<input type="hidden" name="' +
 							default_a +
 							'" value="" class="remove-if-checkbox-checked" />'
@@ -1199,10 +1204,12 @@ function done_delete_restore(id, redirect_to) {
 		// kiểm tra id có phải 1 số ko
 		if (!isNaN(id) && id > 0) {
 			// có thì chỉ ẩn tương ứng
-			if ($('#admin_main_list tr[data-id="' + id + '"]').length > 0) {
-				return $('#admin_main_list tr[data-id="' + id + '"]').fadeOut();
-			} else if ($('#admin_main_list li[data-id="' + id + '"]').length > 0) {
-				return $('#admin_main_list li[data-id="' + id + '"]').fadeOut();
+			if (jQuery('#admin_main_list tr[data-id="' + id + '"]').length > 0) {
+				return jQuery('#admin_main_list tr[data-id="' + id + '"]').fadeOut();
+			} else if (
+				jQuery('#admin_main_list li[data-id="' + id + '"]').length > 0
+			) {
+				return jQuery('#admin_main_list li[data-id="' + id + '"]').fadeOut();
 			}
 		}
 	}
@@ -1253,7 +1260,7 @@ function action_delete_restore_checked(
 					//
 					for (let i = 0; i < arr_check_checked_all.length; i++) {
 						// bỏ check cho các checkbox
-						$(
+						jQuery(
 							'.input-checkbox-control[value="' +
 								arr_check_checked_all[i] +
 								'"]'
@@ -1261,12 +1268,14 @@ function action_delete_restore_checked(
 							.hide()
 							.remove();
 						// xóa luôn TR đi
-						$('#admin_main_list tr[data-id="' + arr_check_checked_all[i] + '"]')
+						jQuery(
+							'#admin_main_list tr[data-id="' + arr_check_checked_all[i] + '"]'
+						)
 							.hide()
 							.remove();
 					}
 					//arr_check_checked_all = [];
-					$(".input-checkbox-all").prop("checked", false);
+					jQuery(".input-checkbox-all").prop("checked", false);
 					get_check_checked_all_value();
 
 					//
@@ -1300,8 +1309,8 @@ function action_each_to_email() {
 	let ids = [];
 
 	// lấy các ID có
-	$(".each-to-email").each(function () {
-		let a = $(this).data("id") || "";
+	jQuery(".each-to-email").each(function () {
+		let a = jQuery(this).data("id") || "";
 
 		if (a != "") {
 			ids.push(a);
@@ -1331,11 +1340,11 @@ function action_each_to_email() {
 
 			//
 			for (let i = 0; i < data.length; i++) {
-				$('.each-to-email[data-id="' + data[i].ID + '"]').html(
+				jQuery('.each-to-email[data-id="' + data[i].ID + '"]').html(
 					data[i].user_email
 				);
 			}
-			$(".each-to-email")
+			jQuery(".each-to-email")
 				.addClass("each-to-email-done")
 				.removeClass("each-to-email");
 		},
@@ -1343,7 +1352,7 @@ function action_each_to_email() {
 }
 
 function WGR_body_opacity(val) {
-	$("body").css({
+	jQuery("body").css({
 		opacity: typeof val != "number" ? 1 : val,
 	});
 	return true;
@@ -1351,17 +1360,17 @@ function WGR_body_opacity(val) {
 
 // thêm span hiển thị độ dài của chuỗi trong 1 input
 function show_input_length_char(input) {
-	$("#" + input).change(function (e) {
+	jQuery("#" + input).change(function (e) {
 		// e.preventDefault();
 
 		//
-		if ($("span.length-" + input).length < 1) {
-			$("#" + input).after(' <span class="length-' + input + '"></span>');
+		if (jQuery("span.length-" + input).length < 1) {
+			jQuery("#" + input).after(' <span class="length-' + input + '"></span>');
 		}
 
 		//
-		let a = $.trim($(this).val());
-		$(".length-" + input).html(a.length);
+		let a = jQuery.trim(jQuery(this).val());
+		jQuery(".length-" + input).html(a.length);
 	});
 }
 

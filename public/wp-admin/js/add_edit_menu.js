@@ -62,33 +62,33 @@ jQuery(document).ready(function () {
 		listOptions: sortableListOptions,
 		iconPicker: iconPickerOptions,
 	});
-	editor.setForm($("#frmEdit"));
-	editor.setUpdateButton($("#btnUpdate"));
-	$("#btnReload").on("click", function () {
+	editor.setForm(jQuery("#frmEdit"));
+	editor.setUpdateButton(jQuery("#btnUpdate"));
+	jQuery("#btnReload").on("click", function () {
 		editor.setData(arrayjson);
 	});
 
-	$("#btnOutput").on("click", function () {
+	jQuery("#btnOutput").on("click", function () {
 		var str = editor.getString();
-		$("#out").text(str);
+		jQuery("#out").text(str);
 	});
 
-	$("#btnUpdate").click(function () {
+	jQuery("#btnUpdate").click(function () {
 		editor.update();
 	});
 
-	$("#btnAdd").click(function () {
+	jQuery("#btnAdd").click(function () {
 		editor.add();
 	});
 	/* ====================================== */
 
 	/** PAGE ELEMENTS **/
-	$('[data-toggle="tooltip"]').tooltip();
-	$.getJSON(
+	jQuery('[data-toggle="tooltip"]').tooltip();
+	jQuery.getJSON(
 		"https://api.github.com/repos/davicotico/jQuery-Menu-Editor",
 		function (data) {
-			$("#btnStars").html(data.stargazers_count);
-			$("#btnForks").html(data.forks_count);
+			jQuery("#btnStars").html(data.stargazers_count);
+			jQuery("#btnForks").html(data.forks_count);
 		}
 	);
 });

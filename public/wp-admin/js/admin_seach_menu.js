@@ -3,7 +3,7 @@ var admin_menu_show = false;
 
 // khi người dùng bấm nút lên trong ô tìm kiếm admin menu
 function admin_prev_search_menu() {
-	let len = $("#admin_menu_result li[data-show=1]").length;
+	let len = jQuery("#admin_menu_result li[data-show=1]").length;
 	if (len < 1) {
 		return false;
 	}
@@ -17,24 +17,24 @@ function admin_prev_search_menu() {
 	// xác định thẻ a.up-down đang được đánh dấu
 	// -> nếu có rồi
 	if (
-		$("#admin_menu_result li[data-show=1] a.up-down").length < 1 &&
-		$("#admin_menu_result li[data-show=1] label.up-down").length < 1
+		jQuery("#admin_menu_result li[data-show=1] a.up-down").length < 1 &&
+		jQuery("#admin_menu_result li[data-show=1] label.up-down").length < 1
 	) {
 		// nếu chưa có -> đánh dấu cái cuối
 		//console.log(0);
-		return $(default_select).addClass("up-down");
+		return jQuery(default_select).addClass("up-down");
 	}
 	//console.log(1);
 
 	// nếu có nhiều hơn 1 link
 	if (len > 1) {
 		let get_href = "";
-		$(for_class).each(function () {
-			if ($(this).hasClass("up-down")) {
-				//console.log($(this).attr("href"));
+		jQuery(for_class).each(function () {
+			if (jQuery(this).hasClass("up-down")) {
+				//console.log(jQuery(this).attr("href"));
 				return false;
 			}
-			get_href = $(this).attr("href") || $(this).attr("for") || "";
+			get_href = jQuery(this).attr("href") || jQuery(this).attr("for") || "";
 		});
 		//console.log("get_href:", get_href);
 
@@ -42,13 +42,13 @@ function admin_prev_search_menu() {
 		after_set_up_down_class(get_href, default_select);
 	} else {
 		// còn lại chỉ cần tích 1 cái là được
-		$(for_class).addClass("up-down");
+		jQuery(for_class).addClass("up-down");
 	}
 }
 
 // khi người dùng bấm nút xuống trong ô tìm kiếm admin menu
 function admin_next_search_menu() {
-	let len = $("#admin_menu_result li[data-show=1]").length;
+	let len = jQuery("#admin_menu_result li[data-show=1]").length;
 	if (len < 1) {
 		return false;
 	}
@@ -62,12 +62,12 @@ function admin_next_search_menu() {
 	// xác định thẻ a.up-down đang được đánh dấu
 	// -> nếu có rồi
 	if (
-		$("#admin_menu_result li[data-show=1] a.up-down").length < 1 &&
-		$("#admin_menu_result li[data-show=1] label.up-down").length < 1
+		jQuery("#admin_menu_result li[data-show=1] a.up-down").length < 1 &&
+		jQuery("#admin_menu_result li[data-show=1] label.up-down").length < 1
 	) {
 		// nếu chưa có -> đánh dấu cái cuối
 		//console.log(0);
-		return $(default_select).addClass("up-down");
+		return jQuery(default_select).addClass("up-down");
 	}
 	//console.log(1);
 
@@ -75,15 +75,15 @@ function admin_next_search_menu() {
 	if (len > 1) {
 		let get_href = "";
 		let has_class = false;
-		$(for_class).each(function () {
+		jQuery(for_class).each(function () {
 			if (has_class === true) {
-				get_href = $(this).attr("href") || $(this).attr("for") || "";
+				get_href = jQuery(this).attr("href") || jQuery(this).attr("for") || "";
 				return false;
 			}
 
 			//
-			if ($(this).hasClass("up-down")) {
-				//console.log($(this).attr("href"));
+			if (jQuery(this).hasClass("up-down")) {
+				//console.log(jQuery(this).attr("href"));
 				has_class = true;
 			}
 		});
@@ -93,19 +93,21 @@ function admin_next_search_menu() {
 		after_set_up_down_class(get_href, default_select);
 	} else {
 		// còn lại chỉ cần tích 1 cái là được
-		$(for_class).addClass("up-down");
+		jQuery(for_class).addClass("up-down");
 	}
 }
 
 // xác khi xác định được menu cần trỏ tới thì thực hiện tại đổi class
 function after_set_up_down_class(get_href, default_select) {
-	$("#admin_menu_result a, #admin_menu_result label").removeClass("up-down");
+	jQuery("#admin_menu_result a, #admin_menu_result label").removeClass(
+		"up-down"
+	);
 	if (get_href == "") {
 		//console.log(0);
-		$(default_select).addClass("up-down");
+		jQuery(default_select).addClass("up-down");
 	} else {
 		//console.log(1);
-		$(
+		jQuery(
 			"#admin_menu_result a[href='" +
 				get_href +
 				"'], #admin_menu_result label[for='" +
@@ -117,7 +119,7 @@ function after_set_up_down_class(get_href, default_select) {
 
 // khi người dùng bấm nút enter trong ô tìm kiếm admin menu
 function admin_enter_search_menu() {
-	let get_href = $("#admin_menu_result a.up-down").attr("href") || "";
+	let get_href = jQuery("#admin_menu_result a.up-down").attr("href") || "";
 	//console.log(get_href);
 	if (get_href != "") {
 		if (get_href.includes("//") == false) {
@@ -131,23 +133,23 @@ function admin_enter_search_menu() {
 		window.location = get_href;
 	}
 	// thử theo label
-	else if ($("#admin_menu_result label.up-down").length > 0) {
+	else if (jQuery("#admin_menu_result label.up-down").length > 0) {
 		console.log("Click to label.up-down");
-		$("#admin_menu_result label.up-down").trigger("click");
+		jQuery("#admin_menu_result label.up-down").trigger("click");
 	}
 }
 
 function action_admin_menu_search() {
 	// khi người dùng gõ tìm kiếm
-	$("#admin_menu_search")
+	jQuery("#admin_menu_search")
 		.focus(function (e) {
 			admin_menu_show = true;
-			$(".admin-menu-result").show();
+			jQuery(".admin-menu-result").show();
 		})
 		.focusout(function (e) {
 			setTimeout(() => {
 				admin_menu_show = false;
-				$(".admin-menu-result").hide();
+				jQuery(".admin-menu-result").hide();
 			}, 200);
 		})
 		.keyup(function (e) {
@@ -167,8 +169,8 @@ function action_admin_menu_search() {
 			}
 			// các ký tự khác
 			else {
-				let k = $(this).val();
-				$(".admin-menu-key").text(k);
+				let k = jQuery(this).val();
+				jQuery(".admin-menu-key").text(k);
 				k = g_func.non_mark_seo(k).replace(/\-/g, "");
 				//console.log(k);
 
@@ -177,36 +179,38 @@ function action_admin_menu_search() {
 					// nếu autofocus được thiết lập thì dễ bị mất hiệu ứng focus -> đoạn này để định vị lại focus cho khung search
 					if (admin_menu_show === false) {
 						admin_menu_show = true;
-						$(".admin-menu-result").show();
+						jQuery(".admin-menu-result").show();
 					}
 
 					//
-					$(".admin-menu-result").addClass("actived");
+					jQuery(".admin-menu-result").addClass("actived");
 					let has_menu = false;
-					$("#admin_menu_result li")
+					jQuery("#admin_menu_result li")
 						.removeAttr("data-show")
 						.each(function () {
-							let a = $(this).data("key") || "";
+							let a = jQuery(this).data("key") || "";
 							if (a != "" && a.includes(k) == true) {
-								//$(this).show();
-								$(this).attr({ "data-show": "1" });
+								//jQuery(this).show();
+								jQuery(this).attr({ "data-show": "1" });
 								has_menu = true;
 							}
 						});
 
 					//
 					if (has_menu === false) {
-						$(".admin-menu-result").addClass("noned");
-						//$(".admin-menu-none").show();
-						$(".admin-menu-header").hide();
+						jQuery(".admin-menu-result").addClass("noned");
+						//jQuery(".admin-menu-none").show();
+						jQuery(".admin-menu-header").hide();
 					} else {
-						$(".admin-menu-result").removeClass("noned");
-						//$(".admin-menu-none").hide();
-						$(".admin-menu-header").show();
+						jQuery(".admin-menu-result").removeClass("noned");
+						//jQuery(".admin-menu-none").hide();
+						jQuery(".admin-menu-header").show();
 					}
 				} else {
-					$(".admin-menu-result").removeClass("actived").removeClass("noned");
-					$(".admin-menu-header").hide();
+					jQuery(".admin-menu-result")
+						.removeClass("actived")
+						.removeClass("noned");
+					jQuery(".admin-menu-header").hide();
 				}
 			}
 		});

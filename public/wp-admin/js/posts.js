@@ -29,7 +29,7 @@ add_and_show_post_avt("#post_meta_image", "", "medium");
 		str = str.split("\n");
 		let arr = [];
 		for (let i = 0; i < str.length; i++) {
-			arr.push($.trim(str[i]));
+			arr.push(jQuery.trim(str[i]));
 		}
 		$("#data_post_excerpt").val(arr.join(" "));
 

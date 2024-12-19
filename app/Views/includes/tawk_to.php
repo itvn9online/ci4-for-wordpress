@@ -2,7 +2,7 @@
 <script type="text/javascript" {csp-script-nonce}>
     var Tawk_API = Tawk_API || {},
         Tawk_LoadStart = new Date();
-    $(document).ready(function() {
+    jQuery(document).ready(function() {
         setTimeout(function() {
             (function(tid) {
                 var s1 = document.createElement("script"),

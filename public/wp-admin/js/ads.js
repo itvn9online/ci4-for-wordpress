@@ -1,10 +1,10 @@
-$("#quick_add_menu select").change(function () {
-	var v = $(this).val() || "";
+jQuery("#quick_add_menu select").change(function () {
+	var v = jQuery(this).val() || "";
 	if (v != "") {
-		var base_url = $("base").attr("href") || "";
+		var base_url = jQuery("base").attr("href") || "";
 		if (base_url != "") {
 			v = v.replace(base_url, "./");
 		}
 	}
-	$("#post_meta_url_redirect").val(v).focus();
+	jQuery("#post_meta_url_redirect").val(v).focus();
 });

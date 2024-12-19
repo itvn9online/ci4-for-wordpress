@@ -46,6 +46,14 @@ function run_calculate_cart_value() {
 		let price = jQuery(this).data("price") || "";
 		// console.log("price", price);
 		let quan = jQuery(this).val() || "";
+		//
+		let dis =
+			jQuery(this).attr("disabled") || jQuery(this).attr("data-disabled");
+		console.log("input disabled", dis, typeof dis);
+		if (typeof dis != "undefined") {
+			quan = 0;
+			jQuery(this).val(quan);
+		}
 		// console.log("quan", quan);
 
 		//
@@ -56,6 +64,17 @@ function run_calculate_cart_value() {
 			quan *= 1;
 			if (isNaN(quan)) {
 				quan = 1;
+				jQuery(this).val(quan);
+			}
+		}
+
+		// số lượng tối đa được đặt mua
+		let max_quan = jQuery(this).attr("max") || "";
+		console.log("input max", max_quan, typeof max_quan);
+		if (max_quan != "") {
+			max_quan *= 1;
+			if (quan > max_quan) {
+				quan = max_quan;
 				jQuery(this).val(quan);
 			}
 		}
@@ -329,7 +348,7 @@ function proceed_to_checkout() {
 
 	// nếu số lượng sp trong giỏ hàng là 0 -> bỏ luôn
 	if (global_item_total < 1) {
-		WGR_html_alert("Please select the product you want to buy", "warning");
+		WGR_html_alert(cart_config.cart_amount_zero, "warning");
 		return false;
 	}
 
@@ -593,9 +612,21 @@ function get_customer_cache_data() {
 
 // khi click vào nút thêm bớt số lượng sp trong giỏ hàng
 function cart_table_buttons_added() {
-	jQuery(".cart-table .buttons_added input[type='button']")
+	jQuery(".cart-table .buttons_added button")
 		.off("click")
 		.click(function () {
+			let dis =
+				jQuery(this).attr("disabled") || jQuery(this).attr("data-disabled");
+			// console.log("button disabled", dis, typeof dis);
+			if (typeof dis != "undefined") {
+				console.log(
+					"%c" + "this button buttons_added has been disabled",
+					"color: orange"
+				);
+				return false;
+			}
+
+			//
 			let a = jQuery(this).data("value") || "";
 			if (a != "") {
 				a *= 1;
@@ -615,6 +646,15 @@ function cart_table_buttons_added() {
 							// tối thiểu là 0 sp trong giỏ hàng
 							if (v < 0) {
 								v = 0;
+							} else {
+								let max_quan = jQuery(this).attr("data-max") || "";
+								console.log("button max", max_quan, typeof max_quan);
+								if (max_quan != "") {
+									max_quan *= 1;
+									if (v > max_quan) {
+										v = max_quan;
+									}
+								}
 							}
 							q.val(v);
 							action_calculate_cart_value();

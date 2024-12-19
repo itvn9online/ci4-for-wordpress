@@ -62,12 +62,14 @@ $("#data_user_email")
 	.change(function () {
 		var a = $(this).val();
 		if (a != "") {
-			a = $.trim(a);
+			a = jQuery.trim(a);
 			a = a.toLowerCase();
 			$(this).val(a);
 
 			if ($("#data_user_login").val() == "") {
-				$("#data_user_login").val(g_func.non_mark_seo($.trim(a.split("@")[0])));
+				$("#data_user_login").val(
+					g_func.non_mark_seo(jQuery.trim(a.split("@")[0]))
+				);
 			}
 		}
 	})

@@ -26,7 +26,7 @@ if (empty($firebase_config->g_recaptcha_site_key)) {
         <div class="col medium-6 small-6 large-6">
             <div class="col-inner">
                 <div class="form-group">
-                    <input type="text" name="captcha" placeholder="Mã xác thực" maxlength="3" class="form-control" aria-required="true" required />
+                    <input type="text" name="captcha" placeholder="<?php $lang_model->the_text('captcha_label', 'Captcha'); ?>" maxlength="3" class="form-control" aria-required="true" required />
                 </div>
             </div>
         </div>

@@ -360,6 +360,7 @@ class Actions extends Layout
         // $total_products = 0;
         // thông tin đơn hàng lưu dạng meta data
         $post_excerpt = [];
+        $product_ids = [];
         $post_parent = 0;
         // ID của người đăng sản phẩm -> dùng để gửi mail báo cho họ nếu có yêu cầu
         $mail_author_id = 0;
@@ -413,6 +414,9 @@ class Actions extends Layout
             ];
 
             // 
+            $product_ids[] = $v['ID'];
+
+            // 
             // $total_products++;
         }
         // print_r($post_excerpt);
@@ -425,6 +429,7 @@ class Actions extends Layout
         $data['post_parent'] = $post_parent;
         $data['post_password'] = md5(time() . $this->base_model->MY_sessid());
         // $data['post_password'] = substr($data['post_password'], 0, 16);
+        $data['product_ids'] = implode(',', $product_ids);
 
         // nếu có thành phố -> thử tìm phí vận chuyển theo thành phố
         if (isset($data['city'])) {
@@ -489,8 +494,8 @@ class Actions extends Layout
         // die(__CLASS__ . ':' . __LINE__);
 
         // 
-        if (function_exists('before_insert_order')) {
-            $data = before_insert_order($data);
+        if (function_exists('before_inserts_order')) {
+            $data = before_inserts_order($data);
         }
 
         //
@@ -499,8 +504,8 @@ class Actions extends Layout
         // print_r($result_id);
 
         // 
-        if (function_exists('after_insert_order')) {
-            $data = after_insert_order($data);
+        if (function_exists('after_inserts_order')) {
+            $data = after_inserts_order($data, $result_id);
         }
 
         //

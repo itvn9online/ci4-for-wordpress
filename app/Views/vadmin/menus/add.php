@@ -233,7 +233,7 @@ $base_model->JSON_echo([
         $scope.post_status = post_arr_status;
         $scope.quick_menu_list = quick_menu_list;
         angular.element(document).ready(function() {
-            $('.ng-main-content').addClass('loaded');
+            jQuery('.ng-main-content').addClass('loaded');
         });
     });
 </script>

@@ -22,21 +22,22 @@ include VIEWS_PATH . 'default/login_header.php';
 
             ?>
         </div>
-        <div class="form-actions cf l35"> <a href="./guest/login">Đăng nhập</a>
+        <div class="form-actions cf l35">
+            <a href="./guest/login"><?php $lang_model->the_text('login_label', 'Log In'); ?></a>
             <?php
             // chỉ hiển thị link đăng ký khi được phép
             if ($getconfig->disable_register_member != 'on') {
             ?>
-                | <a href="./guest/register">Đăng ký</a>
+                | <a href="./guest/register"><?php $lang_model->the_text('register_account_label', 'Register new account'); ?></a>
             <?php
             }
             ?>
             <span class="pull-right">
-                <input type="submit" class="btn btn-success" value="<?php echo $seo['title']; ?>" />
+                <button type="submit" class="btn btn-success"><?php echo $seo['title']; ?></button>
             </span>
         </div>
     </form>
-    <p id="backtoblog" class="text-center"> <a href="<?php echo base_url(); ?>">&larr; Quay lại Trang chủ</a> </p>
+    <p id="backtoblog" class="text-center"> <a href="<?php echo base_url(); ?>">&larr; <?php $lang_model->the_text('login_to_home', 'Back to homepage'); ?></a> </p>
 </div>
 <br>
 <br>

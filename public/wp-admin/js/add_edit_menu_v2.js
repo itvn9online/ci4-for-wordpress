@@ -165,7 +165,7 @@ function create_html_menu_editer(max_i) {
 	}
 
 	//
-	let a = $("#json-output").val() || "";
+	let a = jQuery("#json-output").val() || "";
 	if (a != "") {
 		try {
 			a = JSON.parse(a);
@@ -198,8 +198,8 @@ function get_json_add_menu(obj) {
 	}
 
 	//
-	if ($("#addInputSlug").val() == "") {
-		$("#addInputSlug").val("#");
+	if (jQuery("#addInputSlug").val() == "") {
+		jQuery("#addInputSlug").val("#");
 	}
 
 	//
@@ -214,16 +214,16 @@ function get_json_add_menu(obj) {
 	}
 
 	// xong thì reset them số edit
-	$("#currentEditName, .show-for-edit-menu").hide();
-	$(".hide-for-edit-menu").show();
+	jQuery("#currentEditName, .show-for-edit-menu").hide();
+	jQuery(".hide-for-edit-menu").show();
 	currentEditIdMenu = "";
 
 	//
 	// return false;
 
 	// //
-	// if ($.trim($("#addInputSlug").val() || "") == "") {
-	// 	$("#addInputSlug").val("#").trigger("change");
+	// if (jQuery.trim(jQuery("#addInputSlug").val() || "") == "") {
+	// 	jQuery("#addInputSlug").val("#").trigger("change");
 	// 	return false;
 	// }
 
@@ -241,8 +241,8 @@ function get_json_edit_menu(obj) {
 	}
 
 	//
-	// if ($.trim($("#editInputSlug").val() || "") == "") {
-	// 	$("#editInputSlug").val("#").trigger("change");
+	// if (jQuery.trim(jQuery("#editInputSlug").val() || "") == "") {
+	// 	jQuery("#editInputSlug").val("#").trigger("change");
 	// 	return false;
 	// }
 
@@ -273,11 +273,11 @@ function get_json_code_menu(obj) {
 }
 
 function action_json_code_menu(obj) {
-	let arr = $("#json-output").val();
+	let arr = jQuery("#json-output").val();
 	console.log(arr);
 
 	//
-	$("#data_post_excerpt").val(arr);
+	jQuery("#data_post_excerpt").val(arr);
 
 	//setTimeout(() => {
 	create_html_menu_editer();
@@ -288,10 +288,10 @@ function action_json_code_menu(obj) {
 		//console.log(obj.id);
 		// xóa chữ trong các input của form tương ứng được truyền vào
 		setTimeout(() => {
-			$("#" + obj.id + ' input[type="text"]').val("");
+			jQuery("#" + obj.id + ' input[type="text"]').val("");
 
 			// tự động cập nhật menu
-			console.log("Auto submit in " + ($(this).attr("id") || ""));
+			console.log("Auto submit in " + (jQuery(this).attr("id") || ""));
 			document.admin_global_form.submit();
 		}, 200);
 	}
@@ -311,7 +311,7 @@ function create_html_menu_nestable(a) {
 
 	//
 	let str = "",
-		tmp = $(".dd-tmp-list").html() || "";
+		tmp = jQuery(".dd-tmp-list").html() || "";
 	if (tmp == "") {
 		console.log("%c" + "dd-tmp-list not found!", "color: red;");
 		return false;
@@ -380,8 +380,8 @@ function create_html_menu_nestable(a) {
 	}
 
 	// xóa các dữ liệu mẫu
-	$("#menu-add input").each(function () {
-		let x = $(this).data("set") || "";
+	jQuery("#menu-add input").each(function () {
+		let x = jQuery(this).data("set") || "";
 		if (x != "") {
 			str = str.replaceAll("%" + x + "%", "");
 		}
@@ -401,8 +401,8 @@ function restore_json_menu_in_html_menu() {
 
 	// chạy vòng lặp lấy các attr theo input add menu
 	let get_data_set = [];
-	$("#menu-add input").each(function () {
-		let x = $(this).data("set") || "";
+	jQuery("#menu-add input").each(function () {
+		let x = jQuery(this).data("set") || "";
 		if (x != "") {
 			get_data_set.push(x);
 		}
@@ -412,21 +412,21 @@ function restore_json_menu_in_html_menu() {
 	//
 	let arr = [],
 		_id = 1;
-	$("#Resolution_ifr")
+	jQuery("#Resolution_ifr")
 		.contents()
 		.find("#tinymce a")
 		.each(function () {
-			let a_href = $(this).attr("href") || "";
+			let a_href = jQuery(this).attr("href") || "";
 			a_href = a_href.replace(/\.\.\//gi, "");
 			if (a_href == "") {
 				a_href = "#";
 			}
-			let a_text = $(this).text() || "";
+			let a_text = jQuery(this).text() || "";
 			let a_push = {
 				deleted: 0,
 				new: 0,
 				slug: a_href,
-				name: $.trim(a_text),
+				name: jQuery.trim(a_text),
 				id: _id,
 			};
 			for (let i = 0; i < get_data_set.length; i++) {
@@ -445,14 +445,14 @@ function restore_json_menu_in_html_menu() {
 		WGR_alert("Tìm thấy " + arr.length + " menu");
 
 		//
-		$("body").addClass("show-hidden-menu");
+		jQuery("body").addClass("show-hidden-menu");
 
 		//
-		$("#json-output, #data_post_excerpt").val(JSON.stringify(arr)).focus();
+		jQuery("#json-output, #data_post_excerpt").val(JSON.stringify(arr)).focus();
 		WGR_alert("Bấm lưu lại sau đó chờ tải lại trang để nhận thay đổi mới");
 
 		//
-		$("#target_eb_iframe").on("load", function () {
+		jQuery("#target_eb_iframe").on("load", function () {
 			window.location.reload();
 		});
 	}
@@ -464,28 +464,28 @@ function restore_json_menu_in_html_menu() {
 function show_hide_if_edit_menu() {
 	if (localStorage.getItem("admin-show-hidden-menu") === null) {
 		if (confirm("Chức năng này chủ yếu để debug code!") === true) {
-			$("body").addClass("show-hidden-menu");
+			jQuery("body").addClass("show-hidden-menu");
 			localStorage.setItem("admin-show-hidden-menu", 1);
 		}
 	} else {
-		$("body").removeClass("show-hidden-menu");
+		jQuery("body").removeClass("show-hidden-menu");
 		localStorage.removeItem("admin-show-hidden-menu");
 	}
 }
 if (localStorage.getItem("admin-show-hidden-menu") !== null) {
-	$("body").addClass("show-hidden-menu");
+	jQuery("body").addClass("show-hidden-menu");
 }
 
 /*
  *
  */
 
-//$(document).ready(function () {
-//$('.hide-if-edit-menu').hide();
+//jQuery(document).ready(function () {
+//jQuery('.hide-if-edit-menu').hide();
 
 (function () {
 	// tạo html cho việc chỉnh sửa menu
-	let a = $("#data_post_excerpt").val() || "";
+	let a = jQuery("#data_post_excerpt").val() || "";
 	if (a != "") {
 		try {
 			a = JSON.parse(a);
@@ -510,43 +510,43 @@ if (localStorage.getItem("admin-show-hidden-menu") !== null) {
 //create_html_menu_editer();
 //});
 
-$("#quick_add_menu select").change(function () {
-	let v = $(this).val() || "";
+jQuery("#quick_add_menu select").change(function () {
+	let v = jQuery(this).val() || "";
 	// console.log(v);
 
 	if (v != "") {
-		let base_url = $("base").attr("href") || "";
+		let base_url = jQuery("base").attr("href") || "";
 		// console.log(base_url);
 		if (base_url != "") {
 			v = v.replace(base_url, "./");
 		}
 
 		//
-		$("#addInputName").val($("option:selected", this).text());
+		jQuery("#addInputName").val(jQuery("option:selected", this).text());
 	} else {
-		$("#addInputName").val(v);
+		jQuery("#addInputName").val(v);
 	}
-	$("#addInputSlug").val(v);
-	$("#addInputName").focus();
+	jQuery("#addInputSlug").val(v);
+	jQuery("#addInputName").focus();
 
 	// chuyển về add new
-	$("#currentEditName, .show-for-edit-menu").hide();
-	$(".hide-for-edit-menu").show();
+	jQuery("#currentEditName, .show-for-edit-menu").hide();
+	jQuery(".hide-for-edit-menu").show();
 	currentEditIdMenu = "";
 });
 
 //
-$("#addInputIcon").change(function () {
-	let a = $(this).val();
-	a = $.trim(a);
+jQuery("#addInputIcon").change(function () {
+	let a = jQuery(this).val();
+	a = jQuery.trim(a);
 	if (a != "" && a.includes("fa") == false) {
 		a = "fa fa-" + a;
-		$(this).val(a);
+		jQuery(this).val(a);
 	}
 });
 
 /*
-$(document).ready(function () {
+jQuery(jQuery(document).ready(function () {
     MY_select2('#quick_add_menu select');
 });
 */

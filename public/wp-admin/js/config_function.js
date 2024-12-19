@@ -15,13 +15,15 @@ function get_field_has_change(a) {
 		if (typeof list_field_has_change[a] == "undefined") {
 			//console.log(a);
 			list_field_has_change[a] = 1;
-			$("#list_field_has_change").val(JSON.stringify(list_field_has_change));
+			jQuery("#list_field_has_change").val(
+				JSON.stringify(list_field_has_change)
+			);
 		}
 	}
 }
 
 function done_field_has_change() {
-	$("#list_field_has_change").val("");
+	jQuery("#list_field_has_change").val("");
 	list_field_has_change = {};
 }
 
@@ -42,11 +44,11 @@ function replace_url_config_app(key, val) {
 		console.log(key + ": val is EMPTY");
 		return false;
 	}
-	$(".controls-text-note").each(function () {
-		var a = $(this).html();
+	jQuery(".controls-text-note").each(function () {
+		var a = jQuery(this).html();
 		//console.log(a);
 		if (a.includes(key) == true) {
-			$(this).html(action_replace_config_app(a, key, val));
+			jQuery(this).html(action_replace_config_app(a, key, val));
 		}
 	});
 	return false;

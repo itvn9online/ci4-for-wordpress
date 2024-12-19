@@ -62,7 +62,7 @@ include __DIR__ . '/add_breadcrumb.php';
             <div class="control-group">
                 <label class="control-label">Slug</label>
                 <div class="controls">
-                    <input type="text" title="Bấm đúp chuột để chỉnh sửa đường dẫn" class="span6" name="data[post_name]" id="data_post_name" onDblClick="$('#data_post_name').removeAttr('readonly');" value="<?php echo $data['post_name']; ?>" readonly />
+                    <input type="text" title="Bấm đúp chuột để chỉnh sửa đường dẫn" class="span6" name="data[post_name]" id="data_post_name" onDblClick="jQuery('#data_post_name').removeAttr('readonly');" value="<?php echo $data['post_name']; ?>" readonly />
                     <input type="hidden" name="old_postname" id="old_postname" value="<?php echo $data['post_name']; ?>" />
                     <?php
                     if ($data['ID'] > 0) {

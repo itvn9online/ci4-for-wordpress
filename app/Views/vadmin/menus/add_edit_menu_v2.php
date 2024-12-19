@@ -179,7 +179,7 @@
                     </div>
                     <div>
                         <button type="submit" class="btn btn-info" id="editButton"><i class="fa fa-save"></i> Cập nhật</button>
-                        <button type="button" onclick="$('#menu-editor').fadeOut();" class="btn btn-danger" id="editButton"><i class="fa fa-close"></i> Hủy bỏ</button>
+                        <button type="button" onclick="jQuery('#menu-editor').fadeOut();" class="btn btn-danger" id="editButton"><i class="fa fa-close"></i> Hủy bỏ</button>
                     </div>
                 </form>
                 <!-- EDIT menu END -->

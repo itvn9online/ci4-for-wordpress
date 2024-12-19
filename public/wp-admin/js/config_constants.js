@@ -1,12 +1,12 @@
 function click_set_empty_constants(for_id, set_val) {
-	var a = $("#" + for_id).attr("type") || "";
+	var a = jQuery("#" + for_id).attr("type") || "";
 	// chức năng này chỉ áp dụng cho input text
 	if (a != "text") {
 		return false;
 	}
 
 	//
-	$("#" + for_id)
+	jQuery("#" + for_id)
 		.val(set_val)
 		.trigger("change");
 
@@ -23,13 +23,13 @@ function open_home_for_test_config_constants() {
 }
 
 //
-$(".each-to-is-empty")
+jQuery(".each-to-is-empty")
 	.change(function (e) {
-		var for_id = $(this).data("id") || "";
+		var for_id = jQuery(this).data("id") || "";
 		var result = false;
 		if (for_id != "") {
 			var set_val = "";
-			if ($(this).is(":checked")) {
+			if (jQuery(this).is(":checked")) {
 				set_val = "IS_EMPTY";
 			}
 			result = click_set_empty_constants(for_id, set_val);
@@ -37,14 +37,14 @@ $(".each-to-is-empty")
 		return result;
 	})
 	.each(function () {
-		var for_id = $(this).data("id") || "";
+		var for_id = jQuery(this).data("id") || "";
 		if (for_id != "") {
-			var a = $("#" + for_id).attr("type") || "";
+			var a = jQuery("#" + for_id).attr("type") || "";
 			// chức năng này chỉ áp dụng cho input text
 			if (a != "text") {
-				$(this).off("change").prop("disabled", true);
-			} else if ($("#" + for_id).val() == "IS_EMPTY") {
-				$(this).prop("checked", true);
+				jQuery(this).off("change").prop("disabled", true);
+			} else if (jQuery("#" + for_id).val() == "IS_EMPTY") {
+				jQuery(this).prop("checked", true);
 			}
 		}
 	});
@@ -61,7 +61,7 @@ $(".each-to-is-empty")
 			timezone_identifiers_list[i] +
 			"</option>";
 	}
-	$("#data_MY_APP_TIMEZONE").append(str);
+	jQuery("#data_MY_APP_TIMEZONE").append(str);
 	WGR_set_prop_for_select("#data_MY_APP_TIMEZONE");
 	MY_select2("#data_MY_APP_TIMEZONE");
 })();
@@ -81,7 +81,7 @@ $(".each-to-is-empty")
 	}
 
 	//
-	$("#data_SITE_LANGUAGE_SUPPORT")
+	jQuery("#data_SITE_LANGUAGE_SUPPORT")
 		.attr({
 			type: "hidden",
 		})
@@ -89,49 +89,54 @@ $(".each-to-is-empty")
 
 	//
 	(function () {
-		let a = $("#data_SITE_LANGUAGE_SUPPORT").val() || "";
+		let a = jQuery("#data_SITE_LANGUAGE_SUPPORT").val() || "";
 		if (a != "") {
 			a = a.split(",");
 			for (let i = 0; i < a.length; i++) {
-				$(".site-language-fixed[value='" + a[i] + "']").prop("checked", true);
+				jQuery(".site-language-fixed[value='" + a[i] + "']").prop(
+					"checked",
+					true
+				);
 			}
 		}
 	})();
 
 	//
-	$(".site-language-fixed").change(function () {
+	jQuery(".site-language-fixed").change(function () {
 		let str = [];
-		$(".site-language-fixed").each(function () {
-			if ($(this).is(":checked")) {
-				str.push($(this).val());
+		jQuery(".site-language-fixed").each(function () {
+			if (jQuery(this).is(":checked")) {
+				str.push(jQuery(this).val());
 			}
 		});
 		// console.log(str);
-		$("#data_SITE_LANGUAGE_SUPPORT").val(str.join(",")).trigger("change");
+		jQuery("#data_SITE_LANGUAGE_SUPPORT").val(str.join(",")).trigger("change");
 	});
 
 	//
-	$(".each-to-is-empty[data-id='data_SITE_LANGUAGE_SUPPORT']")
+	jQuery(".each-to-is-empty[data-id='data_SITE_LANGUAGE_SUPPORT']")
 		.off("change")
 		.prop("disabled", true);
 })();
 
 // code riêng cho phần chọn ngày tháng hiển thị
 (function () {
-	$("#data_EBE_DATE_TEXT_FORMAT")
+	jQuery("#data_EBE_DATE_TEXT_FORMAT")
 		.addClass("set-selected")
 		.addClass("has-select2");
 	// return false;
 
 	//
-	let a = $("#data_EBE_DATE_TEXT_FORMAT").data("select") || "";
+	let a = jQuery("#data_EBE_DATE_TEXT_FORMAT").data("select") || "";
 	if (a != "") {
-		let b = $("#data_EBE_DATE_TEXT_FORMAT option[value='" + a + "']").length;
+		let b = jQuery(
+			"#data_EBE_DATE_TEXT_FORMAT option[value='" + a + "']"
+		).length;
 		console.log(b);
 
 		//
 		if (b > 0) {
-			$("#data_EBE_DATE_TEXT_FORMAT option[value='" + a + "']").prop(
+			jQuery("#data_EBE_DATE_TEXT_FORMAT option[value='" + a + "']").prop(
 				"selected",
 				true
 			);
@@ -141,7 +146,7 @@ $(".each-to-is-empty")
 
 //
 /*
-$(document).ready(function () {
+jQuery(document).ready(function () {
 	action_highlighted_code("#current_dynamic_constants", "language-php");
 });
 */

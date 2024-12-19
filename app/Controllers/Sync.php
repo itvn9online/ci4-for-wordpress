@@ -608,6 +608,7 @@ class Sync extends BaseController
                 'created_source' => 'VARCHAR(255) NULL COMMENT \'Nguồn tạo dữ liệu\'',
             ],
             $prefix . 'orders' => [
+                'product_ids' => 'VARCHAR(255) NULL COMMENT \'Products ids\'',
                 'full_name' => 'VARCHAR(255) NULL',
                 'first_name' => 'VARCHAR(55) NULL',
                 'last_name' => 'VARCHAR(55) NULL',

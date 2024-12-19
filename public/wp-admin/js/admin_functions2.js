@@ -64,7 +64,7 @@ function re_height_iframe_editer(for_id, if_id, max_i) {
 		return false;
 	}
 	iframe_body_h += 90;
-	let wh = $(window).height();
+	let wh = jQuery(window).height();
 	if (iframe_body_h > wh) {
 		iframe_body_h = Math.ceil((wh / 100) * 75);
 	}
@@ -72,7 +72,7 @@ function re_height_iframe_editer(for_id, if_id, max_i) {
 	// console.log("body h:", wh);
 
 	//
-	$("#" + if_id).css({
+	jQuery("#" + if_id).css({
 		height: iframe_body_h + "px",
 	});
 }
@@ -106,12 +106,12 @@ function url_for_text_note(for_class) {
 	if (typeof for_class == "undefined" || for_class == "") {
 		for_class = ".controls-text-note";
 	}
-	$(for_class).each(function () {
-		let a = $(this).html();
+	jQuery(for_class).each(function () {
+		let a = jQuery(this).html();
 		if (a.includes("://") == true) {
 			a = WGR_urlify(a);
 			//console.log(a);
-			$(this).html(a);
+			jQuery(this).html(a);
 		}
 	});
 }
@@ -119,10 +119,13 @@ function url_for_text_note(for_class) {
 // Tạo khung tìm kiếm theo các label đang có trong trang hiện tại
 function create_search_by_label() {
 	let str = "";
-	$("label").each(function () {
-		let a = $(this).attr("for") || "";
-		if (a != "" && $("#admin_menu_result label[for='" + a + "']").length < 1) {
-			let b = $(this).text(),
+	jQuery("label").each(function () {
+		let a = jQuery(this).attr("for") || "";
+		if (
+			a != "" &&
+			jQuery("#admin_menu_result label[for='" + a + "']").length < 1
+		) {
+			let b = jQuery(this).text(),
 				k = a + b;
 			k = g_func.non_mark_seo(k).replace(/\-/g, "");
 			//console.log(a);
@@ -139,7 +142,7 @@ function create_search_by_label() {
 
 	//
 	if (str != "") {
-		$("#admin_menu_result ul").prepend(str);
+		jQuery("#admin_menu_result ul").prepend(str);
 	}
 }
 
@@ -181,7 +184,7 @@ function admin_print_debug_data() {
  * khi người dùng ctrl + s -> save
  */
 function Submit_form_by_Ctrl_S() {
-	$(document).bind("keyup keydown", function (e) {
+	jQuery(document).bind("keyup keydown", function (e) {
 		if (e.ctrlKey && e.which == 83) {
 			if (submit_if_ctrl_s === false) {
 				console.log("Submit form by Ctrl + S");

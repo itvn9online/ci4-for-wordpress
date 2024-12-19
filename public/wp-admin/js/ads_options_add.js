@@ -43,7 +43,7 @@ function WGR_widget_add_custom_style_to_field() {
 			arr_my_class[x] +
 			"</div>";
 	}
-	$("#term_meta_custom_style").after(str);
+	jQuery("#term_meta_custom_style").after(str);
 
 	//
 	jQuery(".click_add_widget_class")
@@ -90,7 +90,7 @@ function WGR_widget_add_custom_style_to_field() {
 		});
 
 	//
-	let a = $("#term_meta_custom_style").val() || "";
+	let a = jQuery("#term_meta_custom_style").val() || "";
 
 	if (a != "") {
 		a = a.split(" ");
@@ -108,23 +108,23 @@ WGR_widget_add_custom_style_to_field();
 
 // khi người dùng thay đổi số lượng bản ghi cần hiển thị
 function set_col_for_ads_row(a, in_id) {
-	let b = $(in_id).val() || "";
+	let b = jQuery(in_id).val() || "";
 	if (b == "") {
 		let c = "";
-		$(in_id + " option").each(function () {
-			if ($.trim($(this).html()) == a) {
-				c = $(this).attr("value") || "";
+		jQuery(in_id + " option").each(function () {
+			if (jQuery.trim(jQuery(this).html()) == a) {
+				c = jQuery(this).attr("value") || "";
 			}
 		});
 		console.log(c);
 		if (c != "") {
-			$(in_id).val(c).trigger("change");
+			jQuery(in_id).val(c).trigger("change");
 		}
 	}
 }
 
-$("#term_meta_post_number").change(function () {
-	let a = $(this).val() || "";
+jQuery("#term_meta_post_number").change(function () {
+	let a = jQuery(this).val() || "";
 	// tự select các giá trị khác tương ứng -> đỡ phải select nhiều
 	if (a != "" && a * 1 > 0) {
 		// tùy vào số lượng bản ghi cần hiển thị mà đưa ra số cột tương ứng
@@ -150,7 +150,7 @@ $("#term_meta_post_number").change(function () {
 			arr_custom_row[i] +
 			"</option>";
 	}
-	$("#term_meta_post_custom_row").append(str);
+	jQuery("#term_meta_post_custom_row").append(str);
 })();
 
 //
@@ -166,5 +166,7 @@ $("#term_meta_post_number").change(function () {
 			arr_custom_cloumn[i] +
 			"</option>";
 	}
-	$("#post_meta_post_custom_cloumn, #term_meta_post_custom_cloumn").append(str);
+	jQuery("#post_meta_post_custom_cloumn, #term_meta_post_custom_cloumn").append(
+		str
+	);
 })();

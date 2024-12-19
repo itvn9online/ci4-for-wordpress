@@ -51,27 +51,27 @@ var add_class_bg_for_tr_support = false;
 		"#content .control-group textarea",
 	];
 
-	$(arr.join(",")).each(function () {
-		let get_for = $(this)
+	jQuery(arr.join(",")).each(function () {
+		let get_for = jQuery(this)
 			.parent(".controls")
 			.parent(".control-group")
 			.find("label");
 		let check_for = get_for.attr("for") || "";
 		//console.log('check for:', check_for);
-		//console.log('name:', $(this).attr('name'));
-		//console.log('label:', $(this).parent('label'));
+		//console.log('name:', jQuery(this).attr('name'));
+		//console.log('label:', jQuery(this).parent('label'));
 
 		// chưa có thì mới tạo
 		if (check_for == "") {
-			let label_for = $(this).attr("id") || "";
+			let label_for = jQuery(this).attr("id") || "";
 			if (label_for == "") {
-				label_for = $(this).attr("name") || "";
+				label_for = jQuery(this).attr("name") || "";
 				if (label_for != "") {
 					label_for = label_for.replace(/\[|\]/g, "_");
 
 					// gán luôn ID cho filed nếu ID này chưa được sử dụng
-					if ($("#" + label_for).length < 1) {
-						$(this).attr({
+					if (jQuery("#" + label_for).length < 1) {
+						jQuery(this).attr({
 							id: label_for,
 						});
 					}
@@ -108,14 +108,14 @@ var add_class_bg_for_tr_support = false;
 })();
 
 // hiệu ứng mỗi khi bấm vào label -> tạo link support
-$("#content .control-group label").click(function () {
+jQuery("#content .control-group label").click(function () {
 	add_class_bg_for_tr_support = true;
 
 	//
-	$(".control-group").removeClass("current-selected-support");
+	jQuery(".control-group").removeClass("current-selected-support");
 
 	//
-	let a = $(this).attr("for") || "";
+	let a = jQuery(this).attr("for") || "";
 	if (a != "") {
 		//console.log(a);
 
@@ -133,16 +133,16 @@ $("#content .control-group label").click(function () {
 			if (get_support_tab.length == 1) {
 				get_support_tab = window.location.href.split("?support_tab=");
 			}
-			if (get_support_tab.length > 1 && $(".control-group").length > 0) {
+			if (get_support_tab.length > 1 && jQuery(".control-group").length > 0) {
 				get_support_tab = get_support_tab[1].split("&")[0].split("#")[0];
 				// console.log(get_support_tab);
 
 				//
-				let lb = $(
+				let lb = jQuery(
 					'#content .control-group label[for="' + get_support_tab + '"]'
 				);
 				if (lb.length < 1) {
-					lb = $("#" + get_support_tab);
+					lb = jQuery("#" + get_support_tab);
 				}
 				console.log("get_support_tab", get_support_tab, lb);
 

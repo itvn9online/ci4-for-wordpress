@@ -1,39 +1,39 @@
 /*
  * luôn xóa phần pass email -> không cho hiển thị
  */
-$("#data_smtp_host_show_pass")
+jQuery("#data_smtp_host_show_pass")
 	.change(function () {
-		$("#data_smtp_host_pass").val($(this).val()).trigger("blur");
+		jQuery("#data_smtp_host_pass").val(jQuery(this).val()).trigger("blur");
 	})
 	.focus(function () {
-		$(this).val($("#data_smtp_host_pass").val() || "");
+		jQuery(this).val(jQuery("#data_smtp_host_pass").val() || "");
 	})
 	.blur(function () {
-		$("#data_smtp_host_pass").val($(this).val()).trigger("blur");
-		$(this).val("");
+		jQuery("#data_smtp_host_pass").val(jQuery(this).val()).trigger("blur");
+		jQuery(this).val("");
 	});
 
 //
-$("#data_smtp2_host_show_pass")
+jQuery("#data_smtp2_host_show_pass")
 	.change(function () {
-		$("#data_smtp2_host_pass").val($(this).val()).trigger("blur");
+		jQuery("#data_smtp2_host_pass").val(jQuery(this).val()).trigger("blur");
 	})
 	.focus(function () {
-		$(this).val($("#data_smtp2_host_pass").val() || "");
+		jQuery(this).val(jQuery("#data_smtp2_host_pass").val() || "");
 	})
 	.blur(function () {
-		$("#data_smtp2_host_pass").val($(this).val()).trigger("blur");
-		$(this).val("");
+		jQuery("#data_smtp2_host_pass").val(jQuery(this).val()).trigger("blur");
+		jQuery(this).val("");
 	});
 
 /*
  * khi bấm test email -> kiểm tra trường bắt buộc
  */
 /*
-$('.click-check-email-test').click(function () {
-    if ($.trim($('#data_smtp_test_email').val()) == '') {
+jQuery('.click-check-email-test').click(function () {
+    if (jQuery.trim(jQuery('#data_smtp_test_email').val()) == '') {
         WGR_alert('Vui lòng nhập email người nhận sau đó lưu lại rồi mới test', 'error');
-        $('#data_smtp_test_email').focus();
+        jQuery('#data_smtp_test_email').focus();
         return false;
     }
     return true;
@@ -41,37 +41,37 @@ $('.click-check-email-test').click(function () {
 */
 
 //
-$("#data_smtp_secure").change(function () {
-	var a = $(this).val() || "";
+jQuery("#data_smtp_secure").change(function () {
+	var a = jQuery(this).val() || "";
 	if (a == "ssl") {
-		$("#data_smtp_host_port").val(465).trigger("change");
+		jQuery("#data_smtp_host_port").val(465).trigger("change");
 	} else if (a == "tls") {
-		$("#data_smtp_host_port").val(587).trigger("change");
+		jQuery("#data_smtp_host_port").val(587).trigger("change");
 	}
 });
 
 //
-$("#data_smtp2_secure").change(function () {
-	var a = $(this).val() || "";
+jQuery("#data_smtp2_secure").change(function () {
+	var a = jQuery(this).val() || "";
 	if (a == "ssl") {
-		$("#data_smtp2_host_port").val(465).trigger("change");
+		jQuery("#data_smtp2_host_port").val(465).trigger("change");
 	} else if (a == "tls") {
-		$("#data_smtp2_host_port").val(587).trigger("change");
+		jQuery("#data_smtp2_host_port").val(587).trigger("change");
 	}
 });
 
 //
-$("#data_smtp_host_user").change(function () {
-	var a = $(this).val() || "";
+jQuery("#data_smtp_host_user").change(function () {
+	var a = jQuery(this).val() || "";
 	if (a.includes("@gmail.") == true) {
-		$("#data_smtp_host_name").val("smtp.gmail.com").trigger("change");
+		jQuery("#data_smtp_host_name").val("smtp.gmail.com").trigger("change");
 	}
 });
 
 //
-$("#data_smtp2_host_user").change(function () {
-	var a = $(this).val() || "";
+jQuery("#data_smtp2_host_user").change(function () {
+	var a = jQuery(this).val() || "";
 	if (a.includes("@gmail.") == true) {
-		$("#data_smtp2_host_name").val("smtp.gmail.com").trigger("change");
+		jQuery("#data_smtp2_host_name").val("smtp.gmail.com").trigger("change");
 	}
 });

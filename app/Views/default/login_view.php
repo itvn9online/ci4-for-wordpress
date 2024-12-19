@@ -21,13 +21,13 @@ include VIEWS_PATH . 'default/login_header.php';
                     <div class="control-group">
                         <div class="controls">
                             <div class="main_input_box"> <span class="add-on greencolor"><i class="fa fa-user"></i></span>
-                                <input type="text" placeholder="Tài khoản" name="username" value="" autofocus aria-required="true" required />
+                                <input type="text" placeholder="<?php $lang_model->the_text('login_username', 'Username or Email'); ?>" name="username" value="" autofocus aria-required="true" required />
                             </div>
                         </div>
                         <br>
                         <div class="controls">
                             <div class="main_input_box"> <span class="add-on redcolor"><i class="fa fa-lock"></i></span>
-                                <input type="password" placeholder="Mật khẩu" name="password" aria-required="true" required />
+                                <input type="password" placeholder="<?php $lang_model->the_text('login_password', 'Password'); ?>" name="password" aria-required="true" required />
                             </div>
                         </div>
                         <?php
@@ -48,7 +48,7 @@ include VIEWS_PATH . 'default/login_header.php';
                                 </label>
                             </div>
                             <div class="lf f38 text-right">
-                                <input type="submit" class="btn btn-success" value="<?php echo $seo['title']; ?>" />
+                                <button type="submit" class="btn btn-success"><?php echo $seo['title']; ?></button>
                             </div>
                         </div>
                     </div>

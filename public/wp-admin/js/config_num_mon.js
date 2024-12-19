@@ -1,5 +1,5 @@
 function convert_option_number(obj) {
-	var a = $.trim(obj.value);
+	var a = jQuery.trim(obj.value);
 	if (a != "") {
 		a = g_func.float_only(a);
 		if (isNaN(a)) {

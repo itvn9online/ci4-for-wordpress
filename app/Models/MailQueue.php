@@ -519,6 +519,14 @@ class MailQueue extends EbModel
             $str = str_replace('%author_' . $k . '%', $v, $str);
         }
 
+        // pha cuối thay thế nốt dữ liệu còn lại của data
+        foreach ($data as $k => $v) {
+            if (is_array($v)) {
+                continue;
+            }
+            $str = str_replace('%' . $k . '%', $v, $str);
+        }
+
         // 
         // echo $str . '<br>' . PHP_EOL;
         // die(__CLASS__ . ':' . __LINE__);

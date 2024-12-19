@@ -6,9 +6,9 @@ WGR_vuejs(
 		data: json_data,
 	},
 	function () {
-		$(".orders-open-popup").click(function () {
+		jQuery(".orders-open-popup").click(function () {
 			return order_details_set_iframe(
-				$(this).attr("data-id") || "",
+				jQuery(this).attr("data-id") || "",
 				"sadmin/mailqueues?mail_id="
 			);
 		});

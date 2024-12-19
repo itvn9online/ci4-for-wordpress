@@ -62,6 +62,7 @@
 
 /* */
 .cart-table .cart-quantity input[type="number"],
+.cart-table .cart-quantity button,
 .cart-table .cart-quantity input[type="button"] {
     display: inline-block;
     margin: 0;
@@ -102,6 +103,7 @@
     margin: 0;
 }
 
+.cart-table .cart-quantity button,
 .cart-table .cart-quantity input[type="button"] {
     padding-left: .5em;
     padding-right: .5em;
@@ -115,6 +117,7 @@
     text-transform: none;
 }
 
+.cart-table .cart-quantity button:hover,
 .cart-table .cart-quantity input[type="button"]:hover {
     background-color: #f1f1f1;
     color: #000;

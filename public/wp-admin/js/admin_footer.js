@@ -1,8 +1,8 @@
 /*
 var aaaaaaaa = '';
-$('#sidebar a').each(function () {
-    let hr = $(this).attr('href') || '';
-    aaaaaaaa += '\'' + hr + '\' => [ ' + "\n" + ' \'name\' => \'' + $.trim($(this).html()) + '\', ' + "\n" + ' \'arr\' => [] ' + "\n" + ' ],' + "\n";
+jQuery('#sidebar a').each(function () {
+    let hr = jQuery(this).attr('href') || '';
+    aaaaaaaa += '\'' + hr + '\' => [ ' + "\n" + ' \'name\' => \'' + jQuery.trim(jQuery(this).html()) + '\', ' + "\n" + ' \'arr\' => [] ' + "\n" + ' ],' + "\n";
 });
 console.log(aaaaaaaa);
 */
@@ -12,7 +12,7 @@ console.log(aaaaaaaa);
  * https://github.com/kamens/jQuery-menu-aim
  **/
 function activateSubmenu(row) {
-	let $row = $(row);
+	let $row = jQuery(row);
 	//console.log(1);
 
 	// Keep the currently activated row's highlighted look
@@ -21,7 +21,7 @@ function activateSubmenu(row) {
 
 //
 function deactivateSubmenu(row) {
-	let $row = $(row);
+	let $row = jQuery(row);
 	//console.log(0);
 
 	// Hide the submenu and remove the row's highlighted look
@@ -138,28 +138,28 @@ function deactivateSubmenu(row) {
 	}
 
 	//
-	$("#sidebar ul").html(str);
+	jQuery("#sidebar ul").html(str);
 	// nếu số lượng menu đủ nhiều
 	if (count_menu > 9) {
 		// kích hoạt chế độ menu tinh chỉnh menu dưới chân trang
-		$("#sidebar .order-admin-menu").addClass("smart-admin-menu");
+		jQuery("#sidebar .order-admin-menu").addClass("smart-admin-menu");
 	}
 })(arr_admin_menu);
 
 // khi di chuột vào menu admin -> thêm class để xác định người dùng đang di chuột
-$("#sidebar").hover(
+jQuery("#sidebar").hover(
 	function () {
-		$("body").addClass("sidebar-hover");
+		jQuery("body").addClass("sidebar-hover");
 	},
 	function () {
-		$("body").removeClass("sidebar-hover");
+		jQuery("body").removeClass("sidebar-hover");
 	}
 );
 
 // chỉnh lại chiều cao cho textediter nếu có
-$(".auto-ckeditor").each(function () {
-	let h = $(this).data("height") || "",
-		jd = $(this).attr("id") || "";
+jQuery(".auto-ckeditor").each(function () {
+	let h = jQuery(this).data("height") || "",
+		jd = jQuery(this).attr("id") || "";
 
 	if (h != "" && jd != "") {
 		WGR_load_textediter("#" + jd, {
@@ -179,29 +179,29 @@ $(".auto-ckeditor").each(function () {
 });
 
 // tạo breadcrumb theo từng module riêng biệt
-if ($(".admin-breadcrumb").length > 0) {
-	$("#breadcrumb ul").append($(".admin-breadcrumb").html());
+if (jQuery(".admin-breadcrumb").length > 0) {
+	jQuery("#breadcrumb ul").append(jQuery(".admin-breadcrumb").html());
 
 	// sửa lại title cho admin
 	(function (str) {
 		document.title = str + " | " + document.title;
 	})(
-		$("#breadcrumb li:last-child a").html() ||
-			$("#breadcrumb li:last-child ").html()
+		jQuery("#breadcrumb li:last-child a").html() ||
+			jQuery("#breadcrumb li:last-child ").html()
 	);
 }
 
 // tự động checkbox khi có dữ liệu
-$('#content input[type="checkbox"]').each(function () {
-	let a = $(this).data("value") || "";
+jQuery('#content input[type="checkbox"]').each(function () {
+	let a = jQuery(this).data("value") || "";
 	//console.log(a);
 
 	// nếu có tham số này
 	if (a != "") {
-		let v = $(this).val();
+		let v = jQuery(this).val();
 
 		if (a == v) {
-			$(this).prop("checked", true);
+			jQuery(this).prop("checked", true);
 		}
 	}
 });
@@ -222,13 +222,13 @@ fix_textarea_height();
 	console.log(w);
 
 	// tạo segment cho admin menu
-	$("#sidebar a").each(function () {
-		let a = $(this).attr("href") || "";
+	jQuery("#sidebar a").each(function () {
+		let a = jQuery(this).attr("href") || "";
 		if (a != "") {
 			//console.log(a);
 			a = a.replace(web_link, "");
 			//console.log(a);
-			$(this).attr({
+			jQuery(this).attr({
 				"data-segment": get_last_url_segment(a),
 			});
 		}
@@ -262,7 +262,7 @@ fix_textarea_height();
  */
 //WGR_duy_tri_dang_nhap(4 * 60);
 setInterval(() => {
-	if ($("body.preview-url").length < 1) {
+	if (jQuery("body.preview-url").length < 1) {
 		document.getElementById("target_eb_iframe").src =
 			web_link + "sadmin/sadmin/admin_logged";
 	}
@@ -276,10 +276,10 @@ setInterval(() => {
 	for (let x in arr_lang_list) {
 		str += '<option value="' + x + '">' + arr_lang_list[x] + "</option>";
 	}
-	$("#admin-change-language").html(str);
+	jQuery("#admin-change-language").html(str);
 })();
-$("#admin-change-language").change(function () {
-	let a = $(this).val() || "";
+jQuery("#admin-change-language").change(function () {
+	let a = jQuery(this).val() || "";
 
 	//
 	if (a != "") {
@@ -323,11 +323,11 @@ setInterval(() => {
 }, 200);
 
 // xác định chiều cao của admin menu và window
-var current_admin_window_height = $(window).height();
-var current_admin_menu_height = $("#sidebar .order-admin-menu").height();
+var current_admin_window_height = jQuery(window).height();
+var current_admin_menu_height = jQuery("#sidebar .order-admin-menu").height();
 
 //
-$(document)
+jQuery(document)
 	.ready(function () {
 		/*
 		 * chức năng clone HTML từ các khối thuộc dạng custom -> cho vào khối dùng chung
@@ -340,17 +340,20 @@ $(document)
 		WGR_set_prop_for_select("select#admin-change-language");
 
 		//
-		//$('input[type=checkbox],input[type=radio],input[type=file]').uniform();
+		//jQuery('input[type=checkbox],input[type=radio],input[type=file]').uniform();
 
 		// kích hoạt select2 khi lượng option đủ lớn
-		$("select").each(function () {
-			if ($("option", this).length > 10 && !$(this).hasClass("has-select2")) {
-				$(this).select2();
-				$(this).addClass("has-select2");
+		jQuery("select").each(function () {
+			if (
+				jQuery("option", this).length > 10 &&
+				!jQuery(this).hasClass("has-select2")
+			) {
+				jQuery(this).select2();
+				jQuery(this).addClass("has-select2");
 			}
 		});
-		//$('.colorpicker').colorpicker();
-		//$('.datepicker').datepicker();
+		//jQuery('.colorpicker').colorpicker();
+		//jQuery('.datepicker').datepicker();
 
 		//
 		action_each_to_taxonomy();
@@ -361,50 +364,50 @@ $(document)
 
 		// nếu chiều cao menu admin > window thì thêm class xác nhận
 		/*
-    current_admin_window_height = $(window).height();
-    current_admin_menu_height = $('#sidebar .order-admin-menu').height();
+    current_admin_window_height = jQuery(window).height();
+    current_admin_menu_height = jQuery('#sidebar .order-admin-menu').height();
     if (current_admin_menu_height > current_admin_window_height) {
-        $('body').addClass('sidebar-height');
+        jQuery('body').addClass('sidebar-height');
     }
     */
 
 		//
-		$(".text-submit-msg").click(function () {
-			$(".text-submit-msg").fadeOut();
+		jQuery(".text-submit-msg").click(function () {
+			jQuery(".text-submit-msg").fadeOut();
 		});
 		setTimeout(() => {
-			$(".text-submit-msg").fadeOut();
+			jQuery(".text-submit-msg").fadeOut();
 		}, 30 * 1000);
 
 		//
 		WGR_set_nofollow();
 
 		// tạo menu phụ trợ để tìm kiếm cho tiện
-		$("#admin_menu_result").html($("#sidebar").html());
+		jQuery("#admin_menu_result").html(jQuery("#sidebar").html());
 		// không dùng sub-menu -> do khi tìm sub-menu thì parent-menu có thể vẫn đang bị display none
-		$("#admin_menu_result .sub-menu").each(function () {
+		jQuery("#admin_menu_result .sub-menu").each(function () {
 			// chuyển các li ra ngang hàng với menu cha
-			$(this).parent().after($(this).html());
+			jQuery(this).parent().after(jQuery(this).html());
 			// xóa sub-menu
-			$(this).remove();
+			jQuery(this).remove();
 		});
 		// xóa bỏ các thuộc tính không cần thiết
-		$("#admin_menu_result ul, #admin_menu_result li")
+		jQuery("#admin_menu_result ul, #admin_menu_result li")
 			.removeAttr("class")
 			.removeAttr("style");
 		// xóa bỏ icon
-		//$("#admin_menu_result i").remove();
+		//jQuery("#admin_menu_result i").remove();
 		// tạo key tìm kiếm cho li
-		$("#admin_menu_result a").each(function () {
-			let a = $(this).attr("href") || "";
-			a += $(this).data("tag") || "";
-			a += $(this).html();
+		jQuery("#admin_menu_result a").each(function () {
+			let a = jQuery(this).attr("href") || "";
+			a += jQuery(this).data("tag") || "";
+			a += jQuery(this).html();
 			//console.log(a);
 			a = g_func.non_mark_seo(a).replace(/\-/g, "");
 			//console.log(a);
 
 			//
-			$(this).parent().attr({ "data-key": a });
+			jQuery(this).parent().attr({ "data-key": a });
 		});
 
 		//
@@ -412,7 +415,7 @@ $(document)
 		action_admin_menu_search();
 
 		//
-		$('a[href="users/logout"], a[href="./users/logout"]')
+		jQuery('a[href="users/logout"], a[href="./users/logout"]')
 			.addClass("users-logout")
 			.click(function () {
 				//console.log(Math.random());
@@ -429,13 +432,13 @@ $(document)
 		//
 		console.log("aim menu");
 		//
-		$("#sidebar ul").addClass("menu-aim");
-		$("#sidebar ul ul").removeClass("menu-aim");
+		jQuery("#sidebar ul").addClass("menu-aim");
+		jQuery("#sidebar ul ul").removeClass("menu-aim");
 		//
-		//$("#sidebar li").addClass("menu-li-aim");
-		//$("#sidebar li li").removeClass("menu-li-aim");
+		//jQuery("#sidebar li").addClass("menu-li-aim");
+		//jQuery("#sidebar li li").removeClass("menu-li-aim");
 		//
-		$("#sidebar .menu-aim").menuAim({
+		jQuery("#sidebar .menu-aim").menuAim({
 			activate: activateSubmenu,
 			deactivate: deactivateSubmenu,
 		});
@@ -455,13 +458,13 @@ $(document)
 
 // khi người dùng thay đổi kích thước window thì xác nhận lại chiều cao
 /*
-$(window).resize(function () {
-    current_admin_window_height = $(window).height();
-    current_admin_menu_height = $('#sidebar .order-admin-menu').height();
+jQuery(window).resize(function () {
+    current_admin_window_height = jQuery(window).height();
+    current_admin_menu_height = jQuery('#sidebar .order-admin-menu').height();
     if (current_admin_menu_height > current_admin_window_height) {
-        $('body').addClass('sidebar-height');
+        jQuery('body').addClass('sidebar-height');
     } else {
-        $('body').removeClass('sidebar-height');
+        jQuery('body').removeClass('sidebar-height');
     }
 });
 */

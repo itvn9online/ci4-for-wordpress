@@ -9,6 +9,7 @@ $base_model->JSON_parse([
         'deposits_money' => $getconfig->deposits_money,
         'free_shipping' => $lang_model->get_the_text('shipping_free', 'Free shipping'),
         'calculated_later' => $lang_model->get_the_text('calculated_later', 'Calculated later'),
+        'cart_amount_zero' => $lang_model->get_the_text('cart_amount_zero', 'Cart amount is zero'),
     ],
 ]);
 

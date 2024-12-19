@@ -114,7 +114,7 @@
                     <div class="col small-12 medium-4 large-4 l40"><?php $lang_model->the_text('profile_new_password', 'New password'); ?></div>
                     <div class="col small-12 medium-8 large-8">
                         <div class="form-control">
-                            <input type="text" placeholder="<?php $lang_model->the_text('profile_new_password', 'New password'); ?>" name="data[ci_pass]" id="data_ci_pass" value="" onfocus="$('.redcolor-if-pass-focus').addClass('redcolor');" onblur="$('.redcolor-if-pass-focus').removeClass('redcolor');" aria-required="true" required autocomplete="off">
+                            <input type="text" placeholder="<?php $lang_model->the_text('profile_new_password', 'New password'); ?>" name="data[ci_pass]" id="data_ci_pass" value="" onfocus="jQuery('.redcolor-if-pass-focus').addClass('redcolor');" onblur="jQuery('.redcolor-if-pass-focus').removeClass('redcolor');" aria-required="true" required autocomplete="off">
                         </div>
                     </div>
                 </div>

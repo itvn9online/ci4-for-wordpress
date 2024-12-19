@@ -15,7 +15,7 @@ function add_period__price() {
 	before_period_price_html();
 
 	//
-	$("table.html-period-price tr:last input:first").focus();
+	jQuery("table.html-period-price tr:last input:first").focus();
 
 	//
 	return false;
@@ -43,15 +43,15 @@ function remove_period__price(i) {
 	checkout_config.period_bonus[i] = null;
 	console.log(checkout_config);
 	// loại bỏ các phần tử null
-	checkout_config.period_price = $.grep(
+	checkout_config.period_price = jQuery.grep(
 		checkout_config.period_price,
 		(n) => n == 0 || n
 	);
-	checkout_config.period_discount = $.grep(
+	checkout_config.period_discount = jQuery.grep(
 		checkout_config.period_discount,
 		(n) => n == 0 || n
 	);
-	checkout_config.period_bonus = $.grep(
+	checkout_config.period_bonus = jQuery.grep(
 		checkout_config.period_bonus,
 		(n) => n == 0 || n
 	);
@@ -133,11 +133,11 @@ function create_period_price_html(period_price, period_discount, period_bonus) {
 		'<div class="html-period-price"><button type="button" onclick="return add_period__price();" class="btn btn-primary btn-small"><i class="fa fa-plus"></i> Thêm mới</button></div>';
 
 	//
-	$(".html-period-price").remove();
-	$("#data_period_price").before(str);
+	jQuery(".html-period-price").remove();
+	jQuery("#data_period_price").before(str);
 	// giả lập quá trình change để đồng bộ lại dữ liệu
-	$("table.html-period-price input").each(function () {
-		$(this).trigger("change");
+	jQuery("table.html-period-price input").each(function () {
+		jQuery(this).trigger("change");
 	});
 }
 
@@ -147,7 +147,7 @@ function change_period__value(k, i, v) {
 	console.log(checkout_config);
 
 	//
-	$("#data_" + k)
+	jQuery("#data_" + k)
 		.val(checkout_config[k].join(";"))
 		.trigger("change");
 }
@@ -156,7 +156,7 @@ function sync_period__price(v) {
 	// xóa bỏ mọi thể loại khoảng trắng
 	v = v.replace(/\s|\t|\n/, "");
 	// trim
-	v = $.trim(v.toString());
+	v = jQuery.trim(v.toString());
 	// xóa bỏ số 0 ở đầu
 	v = v.replace(/^0/, "");
 	if (v == "") {
@@ -183,7 +183,7 @@ function change_period__bonus(obj, i) {
 }
 
 //
-$(document).ready(function () {
+jQuery(document).ready(function () {
 	/**
 	 * nạp danh sách ngân hàng
 	 * Danh sách ngân hàng được tải định kỳ tại đây: https://api.vietqr.io/v2/banks
@@ -228,29 +228,29 @@ $(document).ready(function () {
 						a[i].name +
 						"</option>";
 				}
-				$("#data_bank_bin_code").append(str);
-				$("#data_bank_bin_code").change(function () {
-					$("#data_bank_logo")
-						.val($("option:selected", this).data("logo") || "")
+				jQuery("#data_bank_bin_code").append(str);
+				jQuery("#data_bank_bin_code").change(function () {
+					jQuery("#data_bank_logo")
+						.val(jQuery("option:selected", this).data("logo") || "")
 						.trigger("blur");
-					$("#data_bank_swift_code")
-						.val($("option:selected", this).data("swift_code") || "")
+					jQuery("#data_bank_swift_code")
+						.val(jQuery("option:selected", this).data("swift_code") || "")
 						.trigger("blur");
-					$("#data_bank_name")
-						.val($("option:selected", this).data("name") || "")
+					jQuery("#data_bank_name")
+						.val(jQuery("option:selected", this).data("name") || "")
 						.trigger("blur");
-					$("#data_bank_short_name")
-						.val($("option:selected", this).data("short_name") || "")
+					jQuery("#data_bank_short_name")
+						.val(jQuery("option:selected", this).data("short_name") || "")
 						.trigger("blur");
-					$("#data_bank_code")
-						.val($("option:selected", this).data("code") || "")
+					jQuery("#data_bank_code")
+						.val(jQuery("option:selected", this).data("code") || "")
 						.trigger("blur");
 				});
 
 				//
-				let select_bank = $("#data_bank_bin_code").data("select") || "";
+				let select_bank = jQuery("#data_bank_bin_code").data("select") || "";
 				if (select_bank != "") {
-					$("#data_bank_bin_code").val(select_bank).trigger("change");
+					jQuery("#data_bank_bin_code").val(select_bank).trigger("change");
 					//WGR_set_prop_for_select('#data_bank_bin_code');
 				}
 
@@ -261,15 +261,15 @@ $(document).ready(function () {
 	});
 
 	// tạo select các bước giá
-	if ($("#data_period_price").length > 0) {
-		$("#data_period_price").attr({
+	if (jQuery("#data_period_price").length > 0) {
+		jQuery("#data_period_price").attr({
 			type: "hidden",
 		});
 		before_period_price_html();
 	}
 
 	// chức năng bấm và copy link callback cho casso
-	$("#data_autobank_token")
+	jQuery("#data_autobank_token")
 		.attr({
 			readonly: true,
 			ondblclick: "click2Copy(this);",
@@ -280,15 +280,15 @@ $(document).ready(function () {
 				'cassos/confirm" class="span10" onDblClick="click2Copy(this);" readonly="readonly" /></div>'
 		)
 		.dblclick(function () {
-			$(this).removeAttr("readonly");
+			jQuery(this).removeAttr("readonly");
 		});
 
 	// tạo mã token cho webhook casso
-	$("#data_autobank_token").after(
+	jQuery("#data_autobank_token").after(
 		'<div><button type="button" class="btn btn-info btn-small generate_autobank_token">Tạo token ngẫu nhiên 64 ký tự</button></div>'
 	);
 	// https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
-	$(".generate_autobank_token").click(function () {
+	jQuery(".generate_autobank_token").click(function () {
 		let result = "",
 			len = 64;
 		const characters =
@@ -301,7 +301,10 @@ $(document).ready(function () {
 		}
 
 		//
-		$("#data_autobank_token").val(result).trigger("change").trigger("dblclick");
+		jQuery("#data_autobank_token")
+			.val(result)
+			.trigger("change")
+			.trigger("dblclick");
 
 		//
 		return result;

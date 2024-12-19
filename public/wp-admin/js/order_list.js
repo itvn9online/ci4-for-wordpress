@@ -1,7 +1,7 @@
 function after_render_order_list() {
-	$(".post_excerpt-to-products")
+	jQuery(".post_excerpt-to-products")
 		.each(function () {
-			let a = $.trim($(this).html());
+			let a = jQuery.trim(jQuery(this).html());
 			// console.log(a);
 			// return false;
 			if (1 != "") {
@@ -26,7 +26,7 @@ function after_render_order_list() {
 								")</a>"
 						);
 					}
-					$(this).html(str.join("<br />"));
+					jQuery(this).html(str.join("<br />"));
 				} catch (e) {
 					WGR_show_try_catch_err(e);
 				}
@@ -35,9 +35,9 @@ function after_render_order_list() {
 		.show();
 
 	//
-	$(".orders-open-popup").click(function () {
+	jQuery(".orders-open-popup").click(function () {
 		return order_details_set_iframe(
-			$(this).attr("data-id") || "",
+			jQuery(this).attr("data-id") || "",
 			"sadmin/orders/add?id="
 		);
 	});

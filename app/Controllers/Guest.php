@@ -194,7 +194,7 @@ class Guest extends Csrf
             array(
                 //'option_model' => $this->option_model,
                 'seo' => $this->guest_seo(
-                    $this->lang_model->get_the_text('login_label', 'Đăng nhập'),
+                    $this->lang_model->get_the_text('login_label', 'Log In'),
                     __FUNCTION__
                 ),
                 'breadcrumb' => '',
@@ -555,7 +555,7 @@ class Guest extends Csrf
             'resetpass_view',
             array(
                 'seo' => $this->guest_seo(
-                    $this->lang_model->get_the_text('resetpass_label', 'Lấy lại mật khẩu'),
+                    $this->lang_model->get_the_text('resetpass_label', 'Reset password'),
                     __FUNCTION__
                 ),
                 'breadcrumb' => '',

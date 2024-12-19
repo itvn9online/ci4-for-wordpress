@@ -30,7 +30,7 @@
     <form action="" method="post" role="form" enctype="multipart/form-data" target="target_eb_iframe">
         <input type="hidden" value="" name="data[has_change]" id="data_has_change" />
         <div>
-            <textarea rows="<?php echo count(explode("\n", $rules_content)) + 10; ?>" placeholder="Danh sách các RewriteRule, mỗi rule cách nhau bởi dấu xuống dòng" name="data[rules]" onchange="$('#data_has_change').val('yes');" class="form-control medium"><?php echo htmlentities($rules_content, ENT_QUOTES, 'UTF-8'); ?></textarea>
+            <textarea rows="<?php echo count(explode("\n", $rules_content)) + 10; ?>" placeholder="Danh sách các RewriteRule, mỗi rule cách nhau bởi dấu xuống dòng" name="data[rules]" onchange="jQuery('#data_has_change').val('yes');" class="form-control medium"><?php echo htmlentities($rules_content, ENT_QUOTES, 'UTF-8'); ?></textarea>
         </div>
         <div class="form-actions frm-fixed-btn cf">
             <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Cập nhật</button>

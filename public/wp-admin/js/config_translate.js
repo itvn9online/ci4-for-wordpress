@@ -6,12 +6,12 @@ if (typeof action_trans_label == "function") {
 
 // tự động lưu bản dịch nếu có thay đổi
 var before_change_translate = "";
-$(".change-auto-save-translate")
+jQuery(".change-auto-save-translate")
 	.on("focus", function () {
-		before_change_translate = $(this).val();
+		before_change_translate = jQuery(this).val();
 	})
 	.on("blur", function () {
-		if (before_change_translate != $(this).val()) {
+		if (before_change_translate != jQuery(this).val()) {
 			document.admin_global_form.submit();
 		}
 	});

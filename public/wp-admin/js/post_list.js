@@ -1,18 +1,18 @@
 // tạo select box các nhóm dữ liệu cho khung tìm kiếm
 function each_to_group_taxonomy() {
-	if ($(".each-to-group-taxonomy").length < 1) {
+	if (jQuery(".each-to-group-taxonomy").length < 1) {
 		return false;
 	}
 
 	//
-	$(".each-to-group-taxonomy").each(function () {
-		var a = $(this).data("taxonomy") || "";
-		var jd = $(this).attr("id") || "";
+	jQuery(".each-to-group-taxonomy").each(function () {
+		var a = jQuery(this).data("taxonomy") || "";
+		var jd = jQuery(this).attr("id") || "";
 		if (jd == "") {
 			jd = "_" + Math.random().toString(32).replace(".", "_");
 
 			//
-			$(this).attr({
+			jQuery(this).attr({
 				id: jd,
 			});
 		}
@@ -24,17 +24,17 @@ function each_to_group_taxonomy() {
 			console.log(data);
 			if (data.length > 0) {
 				// tạo select
-				$("#" + jd)
+				jQuery("#" + jd)
 					.removeClass("set-selected")
 					.append(create_term_select_option(data));
 
 				// xóa các option không có count -> đỡ phải lọc
-				$("#" + jd + " option[data-count='0']").remove();
+				jQuery("#" + jd + " option[data-count='0']").remove();
 				// tạo lại selected
 				WGR_set_prop_for_select("#" + jd);
 				MY_select2("#" + jd);
 			} else {
-				$("#" + jd)
+				jQuery("#" + jd)
 					.parent(".hide-if-no-taxonomy")
 					.hide();
 			}
@@ -43,24 +43,24 @@ function each_to_group_taxonomy() {
 }
 
 //
-$(document).ready(function () {
+jQuery(document).ready(function () {
 	//console.log(a);
 
 	//
 	each_to_group_taxonomy();
 
 	// thay đổi số thứ tự của post
-	$(".change-update-menu_order")
+	jQuery(".change-update-menu_order")
 		.attr({
 			type: "number",
 		})
 		.on("dblclick", function () {
-			$(this).select();
+			jQuery(this).select();
 		})
 		.change(function () {
-			var a = $(this).data("id") || "";
+			var a = jQuery(this).data("id") || "";
 			if (a != "") {
-				var v = $(this).val();
+				var v = jQuery(this).val();
 				v *= 1;
 				if (!isNaN(v)) {
 					if (v < 1) {
@@ -69,7 +69,7 @@ $(document).ready(function () {
 					//console.log(a + ":", v);
 
 					//
-					$(this).addClass("pending").val(v);
+					jQuery(this).addClass("pending").val(v);
 
 					//
 					jQuery.ajax({
@@ -96,7 +96,7 @@ $(document).ready(function () {
 							} else {
 								WGR_alert("OK");
 							}
-							$(".change-update-menu_order").removeClass("pending");
+							jQuery(".change-update-menu_order").removeClass("pending");
 						},
 					});
 				}

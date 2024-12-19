@@ -4,7 +4,7 @@ $(document).ready(function () {
 		let date_now = Date.now(),
 			mot_ngay = 86400;
 		$("#_term_meta_expiry_date").change(function () {
-			let a = $.trim($(this).val()),
+			let a = jQuery.trim($(this).val()),
 				str = "",
 				cl = "";
 			// console.log(a);
@@ -42,7 +42,7 @@ $(document).ready(function () {
 
 		//
 		$("#term_meta_coupon_amount").change(function () {
-			let a = $.trim($(this).val()),
+			let a = jQuery.trim($(this).val()),
 				currency = $("#term_meta_discount_type").val() || "";
 			// console.log(a);
 

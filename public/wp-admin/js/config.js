@@ -12,7 +12,7 @@ function action_highlighted_code(for_id, for_language) {
 	}
 
 	//
-	$(for_id)
+	jQuery(for_id)
 		.attr({
 			oninput:
 				"highlight.update(this.value, '" +
@@ -43,46 +43,49 @@ function action_highlighted_code(for_id, for_language) {
 		);
 
 	//
-	$(for_id).parent("div").addClass("highlight-border");
+	jQuery(for_id).parent("div").addClass("highlight-border");
 
 	//
-	let v = $(for_id).val() || "";
+	let v = jQuery(for_id).val() || "";
 	// if (v != "") {
-	// $(for_id).trigger("change");
+	// jQuery(for_id).trigger("change");
 	highlight.update(v, fors_id);
 	// }
 }
 
 //
 function set_configs_value(for_id, val) {
-	$(for_id).val(val);
+	jQuery(for_id).val(val);
 }
 
 // bắt ở nhiều sự kiện khác nhau -> vì có thể có sự kiện bị hủy bỏ ở giai đoạn khác
-$(".config-main input, .config-main select, .config-main textarea")
+jQuery(".config-main input, .config-main select, .config-main textarea")
 	.change(function () {
-		get_field_has_change($(this).attr("name") || "");
+		get_field_has_change(jQuery(this).attr("name") || "");
 	})
 	.blur(function () {
-		get_field_has_change($(this).attr("name") || "");
+		get_field_has_change(jQuery(this).attr("name") || "");
 	})
 	.focus(function () {
-		get_field_has_change($(this).attr("name") || "");
+		get_field_has_change(jQuery(this).attr("name") || "");
 	})
 	.click(function () {
-		get_field_has_change($(this).attr("name") || "");
+		get_field_has_change(jQuery(this).attr("name") || "");
 	});
 
 // Hiệu ứng khi click vào thay đổi màu sắc
-$(".click-to-set-site-color").click(function () {
-	var a = $(this).data("set") || "";
+jQuery(".click-to-set-site-color").click(function () {
+	var a = jQuery(this).data("set") || "";
 
 	if (a == "") {
 		WGR_alert("Color picker not found", "error");
 		return false;
 	}
 
-	var b = $("input#" + a).val() || $("input#" + a).attr("placeholder") || "";
+	var b =
+		jQuery("input#" + a).val() ||
+		jQuery("input#" + a).attr("placeholder") ||
+		"";
 	var n = prompt("Color code #:", b);
 	//	console.log(n);
 
@@ -118,7 +121,7 @@ $(".click-to-set-site-color").click(function () {
 	}
 
 	// done
-	$("input#" + a)
+	jQuery("input#" + a)
 		.val("#" + n)
 		.trigger("change");
 
@@ -127,17 +130,17 @@ $(".click-to-set-site-color").click(function () {
 });
 
 // reset màu về mặc định
-$(".click-to-reset-site-color").click(function () {
-	var a = $(this).data("set") || "";
+jQuery(".click-to-reset-site-color").click(function () {
+	var a = jQuery(this).data("set") || "";
 
 	if (a == "") {
 		WGR_alert("Color picker not found", "error");
 		return false;
 	}
 
-	var b = $("input#" + a).attr("placeholder") || "";
+	var b = jQuery("input#" + a).attr("placeholder") || "";
 	if (b != "") {
-		$("input#" + a)
+		jQuery("input#" + a)
 			.val(b)
 			.trigger("change");
 	}
@@ -147,12 +150,12 @@ $(".click-to-reset-site-color").click(function () {
 });
 
 //
-$(".auto-reset-site-color").each(function () {
-	//console.log($(this).val());
-	//console.log($(this).attr('value'));
-	if ($(this).val() == "" || $(this).attr("value") == "") {
-		//$(this).trigger('click');
-		$(this).val($(this).attr("placeholder")).trigger("change");
+jQuery(".auto-reset-site-color").each(function () {
+	//console.log(jQuery(this).val());
+	//console.log(jQuery(this).attr('value'));
+	if (jQuery(this).val() == "" || jQuery(this).attr("value") == "") {
+		//jQuery(this).trigger('click');
+		jQuery(this).val(jQuery(this).attr("placeholder")).trigger("change");
 	}
 });
 
@@ -160,7 +163,7 @@ $(".auto-reset-site-color").each(function () {
 url_for_text_note();
 
 //
-$(document).ready(function () {
+jQuery(document).ready(function () {
 	if (typeof action_trans_label == "function") {
 		if (typeof arr_meta_default != "undefined") {
 			action_trans_label(arr_meta_default);

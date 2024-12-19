@@ -101,7 +101,7 @@ if ($taxonomy == TaxonomyType::ADS || $taxonomy == TaxonomyType::SHOP_COUPON) {
                 <div class="control-group">
                     <label class="control-label">Slug</label>
                     <div class="controls">
-                        <input type="text" title="Bấm đúp chuột để chỉnh sửa đường dẫn" class="span6" name="data[slug]" id="data_post_name" onDblClick="$('#data_post_name').removeAttr('readonly');" value="<?php echo $data['slug']; ?>" readonly />
+                        <input type="text" title="Bấm đúp chuột để chỉnh sửa đường dẫn" class="span6" name="data[slug]" id="data_post_name" onDblClick="jQuery('#data_post_name').removeAttr('readonly');" value="<?php echo $data['slug']; ?>" readonly />
                         <input type="hidden" name="old_slug" id="old_slug" value="<?php echo $data['slug']; ?>" />
                         <?php
                         if ($data['term_id'] > 0) {

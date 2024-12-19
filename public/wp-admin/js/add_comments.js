@@ -1,8 +1,8 @@
 // bấm mở popup add comment
 function add_comments_show(comment_ID) {
-	$("#data_comment_ID").val(0);
-	$("#data_comment_parent").val(0);
-	$("#AddCommentsModal").modal("show");
+	jQuery("#data_comment_ID").val(0);
+	jQuery("#data_comment_parent").val(0);
+	jQuery("#AddCommentsModal").modal("show");
 }
 
 // bấm mở popup edit comment
@@ -18,9 +18,9 @@ function edit_comments_show(comment_ID) {
 	}
 
 	//
-	$("#data_comment_ID").val(comment_ID);
-	$("#data_comment_parent").val(0);
-	$("#AddCommentsModal").modal("show");
+	jQuery("#data_comment_ID").val(comment_ID);
+	jQuery("#data_comment_parent").val(0);
+	jQuery("#AddCommentsModal").modal("show");
 }
 
 // bấm mở popup reply comment
@@ -36,9 +36,9 @@ function reply_comments_show(comment_parent) {
 	}
 
 	//
-	$("#data_comment_ID").val(0);
-	$("#data_comment_parent").val(comment_parent);
-	$("#AddCommentsModal").modal("show");
+	jQuery("#data_comment_ID").val(0);
+	jQuery("#data_comment_parent").val(comment_parent);
+	jQuery("#AddCommentsModal").modal("show");
 }
 
 // xác nhận trước khi xóa 1 commment

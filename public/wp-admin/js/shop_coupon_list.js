@@ -13,7 +13,7 @@ $(document).ready(function () {
 	let date_now = Date.now(),
 		mot_ngay = 86400;
 	$(".expiry_date-to-note").each(function () {
-		let a = $.trim($(this).html());
+		let a = jQuery.trim($(this).html());
 		if (a != "" && a.length == 10 && a.split("-").length == 3) {
 			let end_date = new Date(a).getTime();
 

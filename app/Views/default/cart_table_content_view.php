@@ -91,7 +91,7 @@ if (!empty($data)) {
                             <i class="fa fa-check-square-o cart-vendor-checked s18"></i>
                         </td>
                         <td colspan="4" class="cart-vendor-name s18">
-                            <span data-id="<?php echo $id_author; ?>" class="cart-vendor-id"><?php echo $displayName; ?></span> <i class="fa fa-shopping-basket"></i>
+                            <span data-id="<?php echo $id_author; ?>" class="cart-vendor-id carted-vendor-id"><?php echo $displayName; ?></span> <i class="fa fa-shopping-basket"></i>
                         </td>
                     </tr>
                     <?php
@@ -108,7 +108,7 @@ if (!empty($data)) {
                 }
 
                 ?>
-                <tr>
+                <tr data-id="<?php echo $v['ID']; ?>">
                     <td width="110" class="cart-image">
                         <div class="global-a-posi">
                             <a href="<?php echo $v['post_permalink']; ?>">&nbsp;</a>
@@ -133,11 +133,11 @@ if (!empty($data)) {
                     <td class="product-price cart-regular_price">
                         <span class="ebe-currency-format"><?php echo $post_meta['_regular_price']; ?></span>
                     </td>
-                    <td class="cart-quantity">
-                        <div class="buttons_added">
-                            <input type="button" value="-" data-value="-1" data-id="<?php echo $v['ID']; ?>" class="minus">
+                    <td data-id="<?php echo $v['ID']; ?>" class="cart-quantity">
+                        <div data-id="<?php echo $v['ID']; ?>" class="buttons_added">
+                            <button type="button" data-value="-1" data-id="<?php echo $v['ID']; ?>" class="minus">-</button>
                             <input type="number" name="cart_quantity[]" value="1" size="4" min="0" step="1" data-id="<?php echo $v['ID']; ?>" data-price="<?php echo $post_meta['_regular_price']; ?>" inputmode="numeric" autocomplete="off" class="form-control-xoa change-cart-quantity" />
-                            <input type="button" value="+" data-value="1" data-id="<?php echo $v['ID']; ?>" class="plus">
+                            <button type="button" data-value="1" data-id="<?php echo $v['ID']; ?>" class="plus">+</button>
                         </div>
                     </td>
                     <td class="product-subtotal cart-regular_price">

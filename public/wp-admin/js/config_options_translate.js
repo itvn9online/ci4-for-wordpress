@@ -12,10 +12,10 @@ function action_trans_label(arr, option_prefix) {
 		console.log(data_lang);
 
 		//
-		$('#for_vue label[for="' + data_lang + '"]')
+		jQuery('#for_vue label[for="' + data_lang + '"]')
 			.html(arr[x])
 			.addClass("bold");
-		$("#" + data_lang).attr({
+		jQuery("#" + data_lang).attr({
 			placeholder: arr[x],
 		});
 	}

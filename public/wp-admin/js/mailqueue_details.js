@@ -5,8 +5,8 @@ WGR_vuejs(
 	},
 	function () {
 		//console.log(Math.random());
-		$(".controls-content").html(
-			WGR_show_html_for_vuejs($(".controls-content").html())
+		jQuery(".controls-content").html(
+			WGR_show_html_for_vuejs(jQuery(".controls-content").html())
 		);
 
 		//

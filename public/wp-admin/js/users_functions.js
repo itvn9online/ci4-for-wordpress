@@ -11,7 +11,7 @@ function action_change_user_status() {
 		//console.log(data);
 
 		//
-		$.ajax({
+		jQuery.ajax({
 			type: "POST",
 			url: "sadmin/" + controller_slug + "/quick_status",
 			data: data,

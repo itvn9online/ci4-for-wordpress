@@ -141,7 +141,7 @@ class Users extends Csrf
             ]);
 
             //
-            echo '<script {csp-script-nonce}>top.$(\'#data_ci_pass\').val(\'\');</script>';
+            echo '<script {csp-script-nonce}>top.jQuery(\'#data_ci_pass\').val(\'\');</script>';
             $this->base_model->alert(
                 $this->lang_model->get_the_text('profile_pasword_updated', 'New password updated successfully')
             );

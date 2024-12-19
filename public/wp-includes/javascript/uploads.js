@@ -149,7 +149,7 @@ function ajax_push_image_to_server(params, __callBack, __errorCallBack) {
 		WGR_alert("Updating...");
 
 		//
-		$.ajax({
+		jQuery.ajax({
 			type: "POST",
 			url: params["action"],
 			data: {

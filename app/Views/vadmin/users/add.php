@@ -82,7 +82,7 @@ $base_model->adds_css([
                     <div class="control-group">
                         <label class="control-label">Email</label>
                         <div class="controls">
-                            <input type="email" class="span6" placeholder="Email" name="change[user_email]" id="data_user_email" value="<?php echo $data['user_email']; ?>" onDblClick="$('#data_user_email').removeAttr('readonly');" :readonly="data.user_email != '' ? true : false" aria-required="true" required />
+                            <input type="email" class="span6" placeholder="Email" name="change[user_email]" id="data_user_email" value="<?php echo $data['user_email']; ?>" onDblClick="jQuery('#data_user_email').removeAttr('readonly');" :readonly="data.user_email != '' ? true : false" aria-required="true" required />
                             <button type="button" v-if="data.member_verified > 0" class="btn btn-success btn-small">Active</button>
                             <button type="button" v-if="data.member_verified < 1" class="btn btn-warning btn-small">Pending</button>
                             <input type="hidden" name="change[user_old_email]" value="<?php echo $data['user_email']; ?>" />
@@ -91,7 +91,7 @@ $base_model->adds_css([
                     <div class="control-group">
                         <label class="control-label">Tài khoản</label>
                         <div class="controls bold bluecolor">
-                            <input type="text" class="span6" placeholder="Tài khoản" name="change[user_login]" id="data_user_login" value="<?php echo $data['user_login']; ?>" onDblClick="$('#data_user_login').removeAttr('readonly');" :readonly="data.user_login != '' ? true : false" aria-required="true" required />
+                            <input type="text" class="span6" placeholder="Tài khoản" name="change[user_login]" id="data_user_login" value="<?php echo $data['user_login']; ?>" onDblClick="jQuery('#data_user_login').removeAttr('readonly');" :readonly="data.user_login != '' ? true : false" aria-required="true" required />
                             <input type="hidden" name="change[user_old_login]" value="<?php echo $data['user_login']; ?>" />
                         </div>
                     </div>
@@ -153,7 +153,7 @@ $base_model->adds_css([
                     <div class="control-group">
                         <label class="control-label">Điện thoại</label>
                         <div class="controls">
-                            <input type="text" class="span4" placeholder="Điện thoại" name="data[user_phone]" id="data_user_phone" value="<?php echo $data['user_phone']; ?>" onDblClick="$('#data_user_phone').removeAttr('readonly');" :readonly="data.user_phone != '' ? true : false" />
+                            <input type="text" class="span4" placeholder="Điện thoại" name="data[user_phone]" id="data_user_phone" value="<?php echo $data['user_phone']; ?>" onDblClick="jQuery('#data_user_phone').removeAttr('readonly');" :readonly="data.user_phone != '' ? true : false" />
                             <button type="button" v-if="data.phone_verified > 0" class="btn btn-success btn-small">Active</button>
                             <button type="button" v-if="data.phone_verified < 1" class="btn btn-warning btn-small">Pending</button>
                         </div>

@@ -3,19 +3,19 @@ var current_open_popup_id = 0,
 	order_details_height_iframe = false;
 
 function action_popup_details_iframe() {
-	$("body").addClass("hide-for-popup_order");
+	jQuery("body").addClass("hide-for-popup_order");
 
 	//
 	top.loaded_popup_details_iframe();
 
 	//
-	$(".show-if-order-popup").show();
+	jQuery(".show-if-order-popup").show();
 
 	//
-	$("a").each(function () {
-		let a = $(this).attr("target") || "";
+	jQuery("a").each(function () {
+		let a = jQuery(this).attr("target") || "";
 		if (a == "") {
-			$(this).attr({
+			jQuery(this).attr({
 				target: "_top",
 			});
 		}
@@ -23,7 +23,7 @@ function action_popup_details_iframe() {
 }
 
 function loaded_popup_details_iframe() {
-	$("#order_details_iframe").addClass("actived");
+	jQuery("#order_details_iframe").addClass("actived");
 }
 
 function show_popup_details_iframe() {
@@ -46,20 +46,20 @@ function order_details_set_iframe(a, uri) {
 		//
 		if (!isNaN(a) && a > 0) {
 			if (current_open_popup_id === a) {
-				if ($("body").hasClass("no-scroll")) {
+				if (jQuery("body").hasClass("no-scroll")) {
 					return false;
 				}
 			}
 			current_open_popup_id = a;
 
 			//
-			$("body").addClass("no-scroll");
+			jQuery("body").addClass("no-scroll");
 
 			//
-			$("#order_details_iframe")
+			jQuery("#order_details_iframe")
 				.show()
 				.css({
-					height: $(window).height() + "px",
+					height: jQuery(window).height() + "px",
 				})
 				.removeClass("actived");
 
@@ -76,9 +76,9 @@ function order_details_set_iframe(a, uri) {
 			if (order_details_height_iframe === false) {
 				order_details_height_iframe = true;
 
-				$(window).resize(function () {
-					$("#order_details_iframe").css({
-						height: $(window).height() + "px",
+				jQuery(window).resize(function () {
+					jQuery("#order_details_iframe").css({
+						height: jQuery(window).height() + "px",
 					});
 				});
 			}

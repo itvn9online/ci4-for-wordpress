@@ -279,7 +279,7 @@ if ($debug_enable === true) {
             <?php echo PARTNER_BRAND_NAME; ?>
         </a> - All rights reserved. Code using framework <a href="https://codeigniter.com/" target="_blank" rel="nofollow">Codeigniter
             <?php echo \CodeIgniter\CodeIgniter::CI_VERSION; ?>
-        </a> - <span class="cur" onClick="$('#target_eb_iframe').addClass('show-target-eb');">Show process</span>
+        </a> - <span class="cur" onClick="jQuery('#target_eb_iframe').addClass('show-target-eb');">Show process</span>
         - <span class="cur" onClick="return admin_print_debug_data();">Print debug data</span>
     </div>
     <?php

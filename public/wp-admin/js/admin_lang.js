@@ -11,6 +11,6 @@
 
 	//
 	for (let x in system_admin_lang) {
-		$(".lang-" + x).html(system_admin_lang[x]);
+		jQuery(".lang-" + x).html(system_admin_lang[x]);
 	}
 })();

@@ -1,25 +1,25 @@
 function done_unzip_system() {
 	WGR_alert("DONE! giải nén system zip thành công");
 
-	$("#unzipSystemModal").modal("hide");
+	jQuery("#unzipSystemModal").modal("hide");
 
-	$(".hide-after-unzip-system").fadeOut();
+	jQuery(".hide-after-unzip-system").fadeOut();
 }
 
 function done_unzip_base_code() {
 	WGR_alert("DONE! giải nén ci4-for-wordpress zip thành công");
 
-	$("#unzipBaseCodeModal").modal("hide");
+	jQuery("#unzipBaseCodeModal").modal("hide");
 
-	$(".hide-after-unzip-base_code").fadeOut();
+	jQuery(".hide-after-unzip-base_code").fadeOut();
 }
 
 function done_unzip_themename() {
 	WGR_alert("DONE! giải nén theme zip thành công");
 
-	$("#unzipThemNameModal").modal("hide");
+	jQuery("#unzipThemNameModal").modal("hide");
 
-	$(".hide-after-unzip-themename").fadeOut();
+	jQuery(".hide-after-unzip-themename").fadeOut();
 }
 
 //
@@ -190,8 +190,8 @@ if (
 }
 
 //
-// $(document).ready(function () {
-// 	$("#admin_menu_search").focus();
+// jQuery(document).ready(function () {
+// 	jQuery("#admin_menu_search").focus();
 // });
 
 /**
@@ -222,7 +222,7 @@ function showServerInfoIp(data, to) {
 	if (typeof to == "undefined" || to == "") {
 		to = ".server-info_ip";
 	}
-	$(to).after(" " + a.join(", "));
+	jQuery(to).after(" " + a.join(", "));
 }
 
 function showUserInfoIp(data) {
@@ -328,20 +328,20 @@ function showUserInfoIp(data) {
 );
 
 //
-$(document).ready(function () {
-	$(".click-show-backup-more")
+jQuery(document).ready(function () {
+	jQuery(".click-show-backup-more")
 		.addClass("cur")
 		.click(function (e) {
 			// e.preventDefault();
-			$(".action-show-backup-more").toggleClass("d-none");
+			jQuery(".action-show-backup-more").toggleClass("d-none");
 
 			//
-			$(".click-show-backup-more").removeClass("this-show-backup-more");
-			$(this).addClass("this-show-backup-more");
+			jQuery(".click-show-backup-more").removeClass("this-show-backup-more");
+			jQuery(this).addClass("this-show-backup-more");
 
 			//
 			setTimeout(() => {
-				window.scroll(0, $(".this-show-backup-more").offset().top - 90);
+				window.scroll(0, jQuery(".this-show-backup-more").offset().top - 90);
 			}, 200);
 		});
 });
