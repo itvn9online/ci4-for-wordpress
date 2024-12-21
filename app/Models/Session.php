@@ -216,6 +216,13 @@ class Session
         }
         //die( __CLASS__ . ':' . __LINE__ );
 
+        // 
+        $option_model = new \App\Models\Option();
+        $firebase_config = $option_model->obj_config(ConfigType::FIREBASE);
+        if (!empty($firebase_config->g_recaptcha_site_key)) {
+            return true;
+        }
+
         // nếu ko có _REQUEST này -> lỗi
         if (!isset($_REQUEST['wgr_grecaptcha_response'])) {
             die(json_encode([

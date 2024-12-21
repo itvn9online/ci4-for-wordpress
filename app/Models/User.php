@@ -56,6 +56,12 @@ class User extends UserMeta
             $data['user_email'] = strtolower($data['user_email']);
             $data['user_email'] = str_replace('www.', '', $data['user_email']);
         }
+        if (isset($data['user_login'])) {
+            // $data['user_login'] = str_replace(' ', '-', $data['user_login']);
+            // $data['user_login'] = $this->base_model->_eb_non_mark($data['user_login']);
+            // $data['user_login'] = strtolower($data['user_login']);
+            $data['user_login'] = $this->base_model->_eb_non_mark_seo($data['user_login']);
+        }
         if (isset($data['user_phone'])) {
             $data['user_phone'] = str_replace(' ', '', $data['user_phone']);
             $data['user_phone'] = trim($data['user_phone']);
