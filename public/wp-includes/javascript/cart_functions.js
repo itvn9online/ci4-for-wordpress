@@ -342,6 +342,7 @@ function proceed_to_checkout() {
 	if (typeof before_proceed_to_checkout == "function") {
 		// kiểm tra nó nếu khác true thì trả về lỗi luôn
 		if (before_proceed_to_checkout() !== true) {
+			console.log("before_proceed_to_checkout != true");
 			return false;
 		}
 	}

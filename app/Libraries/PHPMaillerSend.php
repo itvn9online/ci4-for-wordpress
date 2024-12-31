@@ -30,7 +30,9 @@ class PHPMaillerSend
         $to_name = isset($data['to_name']) ? $data['to_name'] : $data['to'];
         $bcc_email = isset($data['bcc_email']) ? $data['bcc_email'] : [];
         $cc_email = isset($data['cc_email']) ? $data['cc_email'] : [];
-        $subject = '[' . $_SERVER['HTTP_HOST'] . '] ' . $data['subject'];
+        // lấy host hiện tại
+        $the_host = str_replace('www', '', explode(':', $_SERVER['HTTP_HOST'])[0]);
+        $subject = '[' . $the_host . '] ' . $data['subject'];
         $message = $data['message'];
 
         // -> config
@@ -51,15 +53,22 @@ class PHPMaillerSend
         if ($host_pass == '') {
             return 'Pass?';
         }
-        $from = $host_user;
-        /* daidq (2022-04-18): bỏ qua tham số smtp_from -> do from phải cùng domain với host_user
-         if ( !isset( $cog[ 'smtp_from' ] ) || $cog[ 'smtp_from' ] == '' ) {
-         $cog[ 'smtp_from' ] = $host_user;
-         }
-         $from = $cog[ 'smtp_from' ];
-         */
+
+        // 
+        if (strpos($host_user, '@') !== false) {
+            $from = $host_user;
+        } else {
+            $from = 'admin@' . $the_host;
+        }
+        // daidq (2022-04-18): bỏ qua tham số smtp_from -> do from phải cùng domain với host_user
+        /*
+        if (!isset($cog['smtp_from']) || $cog['smtp_from'] == '') {
+            $cog['smtp_from'] = $host_user;
+        }
+        $from = $cog['smtp_from'];
+        */
         if (!isset($cog['smtp_from_name']) || $cog['smtp_from_name'] == '') {
-            $cog['smtp_from_name'] = $_SERVER['HTTP_HOST'];
+            $cog['smtp_from_name'] = $the_host;
         }
         $from_name = $cog['smtp_from_name'];
 
@@ -103,7 +112,7 @@ class PHPMaillerSend
             //
             $reply_to = $from;
             if (isset($cog['smtp_no_reply']) && $cog['smtp_no_reply'] == 'on') {
-                $reply_to = 'no-reply@' . $_SERVER['HTTP_HOST'];
+                $reply_to = 'no-reply@' . $the_host;
             }
             $mail->addReplyTo($reply_to, $from_name);
             $mail->SetFrom($from, $from_name);
@@ -137,7 +146,13 @@ class PHPMaillerSend
             //
             if (!$mail->Send()) {
                 // gửi bằng email dự phòng nếu có
-                if ($resend === true && isset($cog['smtp2_host_user'], $cog['smtp2_host_pass']) && $cog['smtp2_host_user'] != '' && $cog['smtp2_host_pass'] != '') {
+                if (
+                    $resend === true &&
+                    isset($cog['smtp2_host_user']) &&
+                    isset($cog['smtp2_host_pass']) &&
+                    $cog['smtp2_host_user'] != '' &&
+                    $cog['smtp2_host_pass'] != ''
+                ) {
                     $cog['smtp_host_user'] = $cog['smtp2_host_user'];
                     $cog['smtp_host_pass'] = $cog['smtp2_host_pass'];
                     $cog['smtp_host_name'] = $cog['smtp2_host_name'];

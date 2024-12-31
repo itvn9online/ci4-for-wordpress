@@ -186,8 +186,9 @@ class Actions extends Layout
                     $result_data = [];
                     $other_data = [];
                     $order_received = $this->MY_post('order_received');
+                    $shop_cart_id = 0;
 
-                    // nếu ở trang xác nhận đơn hàng thì chỉ hiển thị the mẫu của other_data
+                    // nếu ở trang xác nhận đơn hàng thì chỉ hiển thị theo mẫu của other_data
                     if (!empty($order_received)) {
                         $other_data = $this->post_model->list_meta_post($data);
                     }
@@ -225,6 +226,8 @@ class Actions extends Layout
                         $other_data = $this->post_model->list_meta_post($other_data);
                     } else {
                         $result_data = $this->post_model->list_meta_post($data);
+                        // nếu chỉ có 1 sản phẩm -> lấy ID của người đăng sản phẩm
+                        $shop_cart_id = $data[0]['post_author'];
                     }
                     // print_r($result_data);
                     // die(__CLASS__ . ':' . __LINE__);
@@ -234,6 +237,7 @@ class Actions extends Layout
                         'ok' => __LINE__,
                         // 'count' => count($data),
                         'ids' => implode(',', $ids),
+                        'shop_cart_id' => $shop_cart_id,
                         'table' => view('default/cart_table_view', [
                             'data' => $result_data,
                             'other_data' => $other_data,
@@ -495,7 +499,10 @@ class Actions extends Layout
 
         // 
         if (function_exists('before_inserts_order')) {
-            $data = before_inserts_order($data);
+            $data = before_inserts_order([
+                'data' => $data,
+                'mail_author_id' => $mail_author_id,
+            ]);
         }
 
         //
@@ -505,7 +512,10 @@ class Actions extends Layout
 
         // 
         if (function_exists('after_inserts_order')) {
-            $data = after_inserts_order($data, $result_id);
+            $data = after_inserts_order([
+                'data' => $data,
+                'result_id' => $result_id,
+            ]);
         }
 
         //

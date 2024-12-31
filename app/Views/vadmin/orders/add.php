@@ -3,6 +3,9 @@
 // Libraries
 //use App\Libraries\OrderType;
 
+// 
+$order_model = new \App\Models\Order();
+
 // css riêng cho từng post type (nếu có)
 $base_model->add_css('wp-admin/css/' . $post_type . '.css');
 
@@ -152,6 +155,15 @@ include ADMIN_ROOT_VIEWS . 'posts/add_breadcrumb.php';
                         echo $data['post_parent'];
                     }
                     ?>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">URL thanh toán</label>
+                <div class="controls">
+                    <?php
+                    $payment_URL = $order_model->orderReceiveToken($data['ID'], $data['post_password']);
+                    ?>
+                    <a href="<?php echo $payment_URL; ?>" class="bluecolor" target="_blank"><?php echo $payment_URL; ?></a>
                 </div>
             </div>
             <div class="control-group">

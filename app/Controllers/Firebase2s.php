@@ -317,9 +317,10 @@ class Firebase2s extends Firebases
     // kiểm tra uid đã được sử dụng chưa
     protected function checkUid($fb_uid)
     {
+        // die($fb_uid);
         // xem đã có tài khoản nào sử dụng firebase uid này chưa
-        $a = $this->base_model->select(
-            'ID, member_type',
+        $data = $this->base_model->select(
+            'ID, user_email, user_login, user_phone, member_type',
             $this->user_model->table,
             [
                 'firebase_uid' => $this->base_model->mdnam($fb_uid),
@@ -333,12 +334,34 @@ class Firebase2s extends Firebases
                 'limit' => 1
             )
         );
-        if (!empty($a)) {
+        if (!empty($data)) {
+            // print_r($a);
+            // die(__CLASS__ . ':' . __FUNCTION__ . ':' . __LINE__);
+
+            // nếu tk này ở trạng thái khóa thì bỏ qua
+            if (
+                strpos($data['user_email'], DeletedStatus::FOR_TRASH) !== false ||
+                strpos($data['user_login'], DeletedStatus::FOR_TRASH) !== false ||
+                strpos($data['user_phone'], DeletedStatus::FOR_TRASH) !== false
+            ) {
+                $this->user_model->update_member($data['ID'], [
+                    // xóa firebase uid
+                    'firebase_uid' => '',
+                    'firebase_source_uid' => '',
+                ]);
+                return true;
+            }
+
+            // 
             $this->result_json_type([
                 'code' => __LINE__,
-                'error' => $this->firebaseLang('check_uid', 'uid đã được sử dụng bởi một {member_type} khác #{ID}', $a),
+                // 'uid' => $fb_uid,
+                'error' => $this->firebaseLang('check_uid', 'uid has been used by a {member_type} #{ID}', $data),
             ]);
         }
+
+        // 
+        return true;
     }
 
     // gửi email xác thực lại thông tin đăng nhập qua firebase
