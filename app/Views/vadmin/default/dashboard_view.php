@@ -68,7 +68,7 @@ if ($check_dup_url !== false) {
 
 
 //
-$ci_last_version = 455;
+$ci_last_version = 457;
 
 //
 $Vue_version = '{{Vue.version}}';
