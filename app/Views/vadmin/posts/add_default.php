@@ -2,6 +2,7 @@
 
 // Libraries
 use App\Libraries\PostType;
+use App\Helpers\HtmlTemplate;
 //use App\Libraries\LanguageCost;
 
 // css riêng cho từng post type (nếu có)
@@ -236,6 +237,23 @@ include __DIR__ . '/add_breadcrumb.php';
 
                             // lấy danh sách page template cho page
                             if ($post_type == PostType::PAGE && $k == 'page_template') {
+                                // tạo file .htaccess chặn truy cập cho page_template
+                                $htaccess_file = THEMEPATH . 'page-templates/.htaccess';
+                                // nếu chưa có file .htaccess -> tạo file mới
+                                if (!is_file($htaccess_file)) {
+                                    $base_model->ftp_create_file(
+                                        $htaccess_file,
+                                        // tạo file htaccess chỉ cho phép truy cập tới 1 số file được chỉ định
+                                        HtmlTemplate::html('htaccess_allow_deny.txt', [
+                                            'htaccess_allow' => HTACCESSS_ALLOW,
+                                            'created_from' => basename(__FILE__) . ':' . __LINE__,
+                                            'base_url' => DYNAMIC_BASE_URL,
+                                            'hotlink_protection' => '',
+                                        ])
+                                    );
+                                }
+
+                                // 
                                 $arr_page_template = $base_model->EBE_get_file_in_folder(THEMEPATH . 'page-templates/', '.php', 'file');
                                 //print_r( $arr_page_template );
 

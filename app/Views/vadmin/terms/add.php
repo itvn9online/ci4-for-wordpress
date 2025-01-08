@@ -2,6 +2,7 @@
 
 // Libraries
 use App\Libraries\TaxonomyType;
+use App\Helpers\HtmlTemplate;
 
 // css riêng cho từng post type (nếu có)
 $base_model->add_css('wp-admin/css/' . $taxonomy . '.css');
@@ -234,6 +235,23 @@ if ($taxonomy == TaxonomyType::ADS || $taxonomy == TaxonomyType::SHOP_COUPON) {
 
                                 // lấy danh sách page template cho page
                                 if ($k == 'term_template') {
+                                    // tạo file .htaccess chặn truy cập cho page_template
+                                    $htaccess_file = THEMEPATH . 'term-templates/.htaccess';
+                                    // nếu chưa có file .htaccess -> tạo file mới
+                                    if (!is_file($htaccess_file)) {
+                                        $base_model->ftp_create_file(
+                                            $htaccess_file,
+                                            // tạo file htaccess chỉ cho phép truy cập tới 1 số file được chỉ định
+                                            HtmlTemplate::html('htaccess_allow_deny.txt', [
+                                                'htaccess_allow' => HTACCESSS_ALLOW,
+                                                'created_from' => basename(__FILE__) . ':' . __LINE__,
+                                                'base_url' => DYNAMIC_BASE_URL,
+                                                'hotlink_protection' => '',
+                                            ])
+                                        );
+                                    }
+
+                                    // 
                                     $arr_template = $base_model->htaccess_custom_template(THEMEPATH . 'term-templates/', '.{php}', 'file');
                                     //print_r($arr_template);
 

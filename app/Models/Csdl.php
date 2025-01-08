@@ -653,13 +653,19 @@ class Csdl extends Session
             return $this->myDb->getLastQuery()->getQuery();
         }
 
-
-        //print_r( $query );
+        // 
+        // print_r($query);
         //print_r( $this->myDb->_error_message() );
         if (isset($ops['getNumRows'])) {
             return $query->getNumRows();
         } else {
+            // try {
             $a = $query->getResultArray();
+            // } catch (Exception $e) {
+            // print_r($e);
+            // var_dump($query);
+            // die(__CLASS__ . ':' . __LINE__);
+            // }
         }
         //if ( $builder->countAllResults() > 0 ) {
         //print_r( $a );

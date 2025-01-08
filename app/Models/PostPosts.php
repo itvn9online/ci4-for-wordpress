@@ -218,8 +218,10 @@ class PostPosts extends PostGet
 
             // có cache thì trả về
             if ($cache_value !== null) {
-                //print_r( $cache_value );
-                // return $cache_value;
+                // print_r($cache_value);
+                if (isset($ops['return_object'])) {
+                    return $cache_value;
+                }
                 return $this->the_session_ads($cache_value);
             }
         }
@@ -239,7 +241,9 @@ class PostPosts extends PostGet
         if ($in_cache != '') {
             $this->base_model->scache($in_cache, $data, $time);
         }
-        // return $data;
+        if (isset($ops['return_object'])) {
+            return $data;
+        }
         return $this->the_session_ads($data);
     }
 
