@@ -116,6 +116,8 @@ class Firebase2s extends Firebases
             $this->result_json_type([
                 'code' => __LINE__,
                 'auto_logout' => __LINE__,
+                'fb_uid' => $fb_uid,
+                'token' => $this->id_cache_token(),
                 'error' => $this->firebaseLang('cache_token', 'Identity verification error! Please try again...'),
             ]);
         }

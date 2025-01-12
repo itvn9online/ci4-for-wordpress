@@ -7,6 +7,9 @@
  * bấm chuột vào 1 input thì thực hiện copy text trong đó luôn
  */
 function click2Copy(element, textShow) {
+	if (jQuery.trim(element.value) == "") {
+		return false;
+	}
 	element.focus();
 	element.select();
 	document.execCommand("copy");
