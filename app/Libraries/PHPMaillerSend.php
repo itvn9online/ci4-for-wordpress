@@ -3,7 +3,10 @@
 namespace App\Libraries;
 
 //
-require_once APPPATH . 'ThirdParty/PHPMailer/autoload.php';
+// require_once APPPATH . 'ThirdParty/PHPMailer/autoload.php';
+require_once APPPATH . 'ThirdParty/PHPMailer/src/Exception.php';
+require_once APPPATH . 'ThirdParty/PHPMailer/src/PHPMailer.php';
+require_once APPPATH . 'ThirdParty/PHPMailer/src/SMTP.php';
 
 //use PHPMailer\PHPMailer\PHPMailer;
 //use PHPMailer\PHPMailer\Exception;
