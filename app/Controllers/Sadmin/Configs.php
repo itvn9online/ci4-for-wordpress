@@ -278,8 +278,8 @@ class Configs extends Sadmin
         } else {
             $data['list_slide'] = '';
         }
-        //$data[ 'min_price' ] = str_replace( ',', '', $data[ 'min_price' ] );
-        //$data[ 'max_price' ] = str_replace( ',', '', $data[ 'max_price' ] );
+        // $data['min_price'] = str_replace(',', '', $data['min_price']);
+        // $data['max_price'] = str_replace(',', '', $data['max_price']);
         //print_r( $data );
         //die( __CLASS__ . ':' . __LINE__ );
 

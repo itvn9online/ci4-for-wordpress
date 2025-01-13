@@ -399,7 +399,7 @@ class Guest extends Csrf
                     $data['user_email'] = $data['email'];
                     $data['ci_pass'] = $data['password'];
                     $data['member_type'] = $this->member_type;
-                    //$data[ 'username' ] = str_replace( '.', '', str_replace( '@', '', $data[ 'email' ] ) );
+                    // $data['username'] = str_replace(['.', '@'], '', $data['email']);
                     //$data[ 'password' ] = md5( $data[ 'password' ] );
                     //$data[ 'level' ] = '0';
                     //$data[ 'status' ] = '1';

@@ -553,7 +553,8 @@ defined('THIS_IS_E_COMMERCE_SITE') || define('THIS_IS_E_COMMERCE_SITE', '');
 defined('MY_CACHE_HANDLER') || define('MY_CACHE_HANDLER', 'file');
 
 // đồng bộ http host về 1 chuỗi chung
-defined('HTTP_SYNC_HOST') || define('HTTP_SYNC_HOST', str_replace('www.', '', str_replace('.', '', str_replace('-', '_', explode(':', $_SERVER['HTTP_HOST'])[0]))));
+// defined('HTTP_SYNC_HOST') || define('HTTP_SYNC_HOST', str_replace('www.', '', str_replace('.', '', str_replace('-', '_', explode(':', $_SERVER['HTTP_HOST'])[0]))));
+defined('HTTP_SYNC_HOST') || define('HTTP_SYNC_HOST', str_replace(['www.', '.', '-'], '', explode(':', $_SERVER['HTTP_HOST'])[0]));
 // defined('HTTP_SYNC_HOST') || define('HTTP_SYNC_HOST', THEMENAME);
 
 // chuỗi sẽ thêm vào khi sử dụng hàm mdnam -> md5

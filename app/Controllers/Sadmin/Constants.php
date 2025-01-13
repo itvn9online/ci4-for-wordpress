@@ -104,7 +104,8 @@ class Constants extends Configs
             if ($v == '') {
                 // 1 số thông số gán mặc định sẽ tối ưu hơn là không gán
                 if ($k == 'HTTP_SYNC_HOST') {
-                    $v = str_replace('www.', '', str_replace('.', '', str_replace('-', '_', explode(':', $_SERVER['HTTP_HOST'])[0])));
+                    // $v = str_replace('www.', '', str_replace('.', '', str_replace('-', '_', explode(':', $_SERVER['HTTP_HOST'])[0])));
+                    $v = str_replace(['www.', '.', '-'], '', explode(':', $_SERVER['HTTP_HOST'])[0]);
                 } else {
                     continue;
                 }
