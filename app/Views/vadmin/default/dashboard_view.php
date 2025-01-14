@@ -276,7 +276,7 @@ if ($debug_enable === true) {
             SEO hơn.</p>
         <!-- END schema -->
         <!-- Open Graph Facebook -->
-        <p><strong>Open Graph Facebook:</strong> <a :href="'https://developers.facebook.com/tools/debug/?q=' + encode_url" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-bug"></i> vào đây</a> để phân tích dữ liệu có cấu trúc
+        <p><strong>Open Graph Facebook:</strong> <a :href="'https://developers.facebook.com/tools/debug/?q=' + encode_url" target="_blank" rel="nofollow" class="btn btn-success btn-mini"><i class="fa fa-facebook"></i> vào đây</a> để phân tích dữ liệu có cấu trúc
             đối với Facebook.</p>
         <!-- END Open Graph Facebook -->
         <!-- Open Graph Zalo -->
