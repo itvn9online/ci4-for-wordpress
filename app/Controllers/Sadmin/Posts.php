@@ -420,33 +420,41 @@ class Posts extends Sadmin
             //die(__CLASS__ . ':' . __LINE__);
             // nếu là nhân bản
             if ($this->MY_post('is_duplicate', 0) * 1 > 0) {
-                //print_r( $_POST );
+                // print_r($_POST);
 
                 // select dữ liệu từ 1 bảng bất kỳ
                 $dup_data = $this->post_model->select_post($id, [
                     'post_type' => $this->post_type,
                 ]);
-                //print_r( $dup_data );
-                //die(__CLASS__.':'.__LINE__);
+                // print_r($dup_data);
+                // die(__CLASS__ . ':' . __LINE__);
 
                 // đổi lại tiêu đề để tránh trùng lặp
+                $new_dup_title = ' - Duplicate ' . date('Ymd-His');
                 if (isset($dup_data['post_title'])) {
-                    $duplicate_title = explode('- Duplicate', $dup_data['post_title']);
-                    $dup_data['post_title'] = trim($duplicate_title[0]) . ' - Duplicate ' . date('Ymd-His');
+                    $dup_data['post_title'] = trim(explode('- Duplicate', $dup_data['post_title'])[0]) . $new_dup_title;
                 }
                 $dup_data['post_date'] = date(EBE_DATETIME_FORMAT);
                 $dup_data['post_date_gmt'] = $dup_data['post_date'];
                 $dup_data['post_modified'] = $dup_data['post_date'];
                 $dup_data['post_modified_gmt'] = $dup_data['post_date'];
-                $dup_data['post_name'] = '';
-                $dup_data['post_shorttitle'] = '';
+                if (isset($dup_data['post_name'])) {
+                    $dup_data['post_name'] = trim(explode('-duplicate', $dup_data['post_name'])[0]) . $new_dup_title;
+                }
+                if (isset($dup_data['post_shorttitle'])) {
+                    $dup_data['post_shorttitle'] = trim(explode('- Duplicate', $dup_data['post_shorttitle'])[0]) . $new_dup_title;
+                }
+                $dup_data['post_permalink'] = '';
+                $dup_data['created_source'] = __CLASS__ . ' ' . $_SERVER['REQUEST_URI'];
                 $dup_data['ID'] = 0;
                 unset($dup_data['ID']);
-                //print_r($dup_data);
 
                 // -> bỏ ID đi
                 $id = 0;
-                //die( __CLASS__ . ':' . __LINE__ );
+
+                // TEST
+                // print_r($dup_data);
+                // die(__CLASS__ . ':' . __LINE__);
 
                 //
                 return $this->add_new($dup_data);

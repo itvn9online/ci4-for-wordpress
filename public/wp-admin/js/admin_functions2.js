@@ -22,8 +22,8 @@ function re_height_iframe_editer(for_id, if_id, max_i) {
 
 		// đồng bộ thông số iframe id
 		if_id = for_id;
-		if (if_id.substr(0, 1) == "#") {
-			if_id = if_id.substr(1);
+		if (if_id.slice(0, 1) == "#") {
+			if_id = if_id.slice(1);
 		}
 		if_id = if_id + "_ifr";
 		console.log(if_id);

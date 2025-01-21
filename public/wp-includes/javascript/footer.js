@@ -54,7 +54,7 @@ jQuery('a[href="users/logout"], a[href="./users/logout"]')
 //
 jQuery("a").each(function () {
 	let a = jQuery(this).attr("href") || "";
-	if (a.substr(0, 1) == "#") {
+	if (a.slice(0, 1) == "#") {
 		jQuery(this)
 			// .addClass("noreferrer-noopener")
 			.attr({
@@ -78,7 +78,7 @@ jQuery("a").each(function () {
 // 		// "aria-hidden": "true",
 // 	});
 
-/*
+/**
  * tạo hiệu ứng selected cho các thẻ a
  */
 function action_active_menu_item() {
@@ -146,7 +146,7 @@ function WGR_auto_scroll_by_hash(repeat) {
 
 	//
 	// if (jQuery(a).length < 1) {
-	if (document.getElementById(a.substr(1)) === null) {
+	if (document.getElementById(a.slice(1)) === null) {
 		return false;
 	}
 	console.log("Auto scrol to:", a);

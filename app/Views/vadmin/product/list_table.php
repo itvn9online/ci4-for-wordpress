@@ -39,8 +39,8 @@
             </td>
             <td :data-id="dataOrCategoryMeta(v.category_second_id, v.category_primary_id, v.main_category_key)" :data-taxonomy="taxonomy" :data-uri="'sadmin/' + controller_slug" class="each-to-taxonomy">&nbsp;</td>
             <td>
-                <div>{{v.post_date.substr(0, 16)}}</div>
-                <div>{{v.post_modified.substr(0, 16)}}</div>
+                <div>{{v.post_date.slice(0, 16)}}</div>
+                <div>{{v.post_modified.slice(0, 16)}}</div>
             </td>
             <td>
                 <div :class="'post_status post_status-' + v.post_status">{{PostType_arrStatus[v.post_status]}}</div>

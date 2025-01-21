@@ -71,15 +71,15 @@ function add_and_show_post_avt(for_id, add_img_tag, img_size, input_type) {
 
 	//
 	let str = [];
-	//str.push(' <input type="button" class="btn btn-info" value="Chọn ảnh" onclick="BrowseServer( \'Images:/\', \'' + for_id.substr(1) + '\' );"/>');
-	if (jQuery('button[data-for="' + for_id.substr(1) + '"]').length < 1) {
+	//str.push(' <input type="button" class="btn btn-info" value="Chọn ảnh" onclick="BrowseServer( \'Images:/\', \'' + for_id.slice(1) + '\' );"/>');
+	if (jQuery('button[data-for="' + for_id.slice(1) + '"]').length < 1) {
 		str.push(
 			' <button type="button" data-for="' +
-				for_id.substr(1) +
+				for_id.slice(1) +
 				'" class="btn btn-info add-image-' +
 				for_id.replace(/\#|\./gi, "-") +
 				'" onclick="WgrWp_popup_upload( \'' +
-				for_id.substr(1) +
+				for_id.slice(1) +
 				"', " +
 				add_img_tag +
 				", '" +
@@ -99,11 +99,11 @@ function add_and_show_post_avt(for_id, add_img_tag, img_size, input_type) {
 		if (img != "") {
 			str.push(
 				'<p class="show-img-if-change for-' +
-					for_id.substr(1) +
+					for_id.slice(1) +
 					'"><img src="' +
 					img +
 					'" onclick="return trigger_click_open_media(\'' +
-					for_id.substr(1) +
+					for_id.slice(1) +
 					'\');" class="cur control-group-avt" /></p>'
 			);
 		}
@@ -129,8 +129,8 @@ function click_set_img_for_input(img_id) {
 		if (a != "") {
 			a = a.replace("-thumbnail.", ".");
 			if (a.includes("//") == false) {
-				if (a.substr(0, 1) == "/") {
-					a = a.substr(1);
+				if (a.slice(0, 1) == "/") {
+					a = a.slice(1);
 				}
 				if (cdn_media_link != "") {
 					a = cdn_media_link + a;
@@ -614,33 +614,33 @@ function WGR_load_textediter(for_id, ops) {
 
 // tạo nút xóa một số attr trong editer để tránh xung đột mã HTML với website -> hay gặp khi copy nội dung từ web khác về
 function btn_remove_editer_style(for_id) {
-	if (jQuery('button[data-rmstyle="' + for_id.substr(1) + '"]').length < 1) {
+	if (jQuery('button[data-rmstyle="' + for_id.slice(1) + '"]').length < 1) {
 		console.log(for_id);
 
 		//
 		jQuery(for_id).after(
 			"<button type='button' data-rmcss='" +
-				for_id.substr(1) +
+				for_id.slice(1) +
 				"' onclick=\"return cleanup_copilot_html_in_editer('" +
-				for_id.substr(1) +
+				for_id.slice(1) +
 				'\');" class="btn btn-secondary">Remove Copilot HTML</button> '
 		);
 
 		//
 		jQuery(for_id).after(
 			"<button type='button' data-rmstyle='" +
-				for_id.substr(1) +
+				for_id.slice(1) +
 				"' onclick=\"return cleanup_style_in_editer('" +
-				for_id.substr(1) +
+				for_id.slice(1) +
 				'\');" class="btn btn-secondary">removeAttr style</button> '
 		);
 
 		//
 		jQuery(for_id).after(
 			"<button type='button' data-rmcss='" +
-				for_id.substr(1) +
+				for_id.slice(1) +
 				"' onclick=\"return cleanup_class_in_editer('" +
-				for_id.substr(1) +
+				for_id.slice(1) +
 				'\');" class="btn btn-secondary">removeAttr class</button> '
 		);
 	}
@@ -908,13 +908,13 @@ function convert_size_to_one_format() {
 		});
 }
 
-/*
+/**
  * tạo menu actived cho admin
  */
 function remove_last_url_segment(w) {
 	//console.log(w);
-	if (w.substr(w.length - 1) == "/") {
-		w = w.substr(0, w.length - 1);
+	if (w.slice(-1) == "/") {
+		w = w.slice(0, -1);
 		//console.log(w);
 	}
 	w = w.split("/");
@@ -929,6 +929,7 @@ function remove_last_url_segment(w) {
 }
 
 function get_last_url_segment(a) {
+	console.log(a, g_func.non_mark_seo(a));
 	return g_func.non_mark_seo(a);
 }
 
@@ -1022,7 +1023,7 @@ function load_term_select_option(a, jd, _callBack, max_i) {
 	});
 }
 
-/*
+/**
  * tạo danh sách option cho các select term
  * limit_deep: giới hạn độ sâu của vòng lặp tìm các mảng con (child-data)
  * current_deep: độ sâu hiện tại của vòng lặp -> dùng để thoát vòng lặp nếu đạt đủ độ sâu cần thiết

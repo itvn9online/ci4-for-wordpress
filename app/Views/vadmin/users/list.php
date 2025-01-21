@@ -148,14 +148,14 @@ $base_model->JSON_echo(
         UsersType_listStatus: UsersType_listStatus,
         hide_email_data: function(str) {
             return (function(str) {
-                return str.substr(0, 4) + '***' + str.substr(-3)
+                return str.slice(0, 4) + '***' + str.slice(-3)
             })(str.split('@')[0]) + '@' + str.split('@')[1];
         },
         hide_phone_data: function(str) {
             if (str == null || str.length < 6) {
                 return null;
             }
-            return str.substr(0, 4) + '***' + str.substr(-3)
+            return str.slice(0, 4) + '***' + str.slice(-3)
         },
     };
     for (let x in data_vuejs) {

@@ -24,8 +24,8 @@
             <td><a :href="v.admin_permalink" class="bold">{{v.post_title}} <i class="fa fa-edit"></i></a></td>
             <td><input type="text" class="span12" onClick="this.select()" onDblClick="click2Copy(this);" :value="'&lt;?php $menu_model->the_menu(\'' + v.post_name + '\'); ?&gt;'" readonly /></td>
             <td>
-                <div>{{v.post_date.substr(0, 16)}}</div>
-                <div>{{v.post_modified.substr(0, 16)}}</div>
+                <div>{{v.post_date.slice(0, 16)}}</div>
+                <div>{{v.post_modified.slice(0, 16)}}</div>
             </td>
             <td>
                 <div :class="'post_status post_status-' + v.post_status">{{PostType_arrStatus[v.post_status]}}</div>

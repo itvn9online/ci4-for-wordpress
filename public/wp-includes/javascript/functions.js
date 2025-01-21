@@ -267,15 +267,18 @@ var g_func = {
 			str = str.replace(/--/g, "-");
 		}
 		str = (function (s) {
+			// console.log("s", s);
 			let str = "",
 				re = /^\w+$/,
 				t = "";
 			for (let i = 0; i < s.length; i++) {
-				t = s.substr(i, 1);
+				t = s.slice(i, i + 1);
+				// console.log("t", t, "i", i);
 				if (t == "-" || t == "+" || re.test(t) == true) {
 					str += t;
 				}
 			}
+			// console.log("str", str);
 			return str;
 		})(str);
 		return str;
@@ -1030,7 +1033,7 @@ function WGR_vuejs(app_id, obj, _callBack, max_i) {
 			.toISOString()
 			.split(".")[0]
 			.replace("T", " ")
-			.substr(0, len);
+			.slice(0, len);
 	};
 	obj.date = function (t) {
 		return new Date(t - tzoffset).toISOString().split("T")[0];
@@ -1043,7 +1046,7 @@ function WGR_vuejs(app_id, obj, _callBack, max_i) {
 			.toISOString()
 			.split(".")[0]
 			.split("T")[1]
-			.substr(0, len);
+			.slice(0, len);
 	};
 	obj.number_format = function (n) {
 		return g_func.number_format(n);

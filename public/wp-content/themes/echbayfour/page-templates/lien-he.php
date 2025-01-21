@@ -1,6 +1,6 @@
-<div class="global-page-module w90">
-    <div class="padding-global-content cf ">
-        <div class="col-main-content custom-width-global-main custom-width-page-main fullsize-if-mobile">
+<div class="global-page-module w90-xoa">
+    <div class="padding-global-content cf-xoa row">
+        <div class="col col-main-content custom-width-global-main custom-width-page-main fullsize-if-mobile">
             <div class="col-main-padding col-page-padding">
                 <div class="lien-he">
                     <div class="cf">
@@ -94,7 +94,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sidebar-content custom-width-global-sidebar custom-width-page-sidebar fullsize-if-mobile">
+        <div class="col col-sidebar-content custom-width-global-sidebar custom-width-page-sidebar fullsize-if-mobile">
             <div class="page-right-space global-right-space">
                 <?php
                 // str_sidebar

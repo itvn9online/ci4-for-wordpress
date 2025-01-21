@@ -7,7 +7,7 @@ var highlight = {
 		let ele = highlight.my_element(fors_id);
 		let result_element = document.querySelector("#" + ele.hl_content);
 		// Handle final newlines (see article)
-		if (text[text.length - 1] == "\n") {
+		if (text.slice(-1) == "\n") {
 			text += " ";
 		}
 		// Update code

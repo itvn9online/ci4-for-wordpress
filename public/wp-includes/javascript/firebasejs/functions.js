@@ -14,9 +14,9 @@ var firebase_recommend_login = null;
 // cắt bỏ số 0 ở đầu mỗi số điện thoại -> sử dụng số điện thoại theo tiêu chuẩn quốc tế
 function cut_zero_first_in_phone_number(str) {
 	//console.log(str);
-	//console.log(str.substr(0, 1));
-	if (str.length > 9 && str.substr(0, 1) == "0") {
-		str = str.substr(1);
+	//console.log(str.slice(0, 1));
+	if (str.length > 9 && str.slice(0, 1) == "0") {
+		str = str.slice(1);
 	}
 	return str;
 }

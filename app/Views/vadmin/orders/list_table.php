@@ -19,7 +19,7 @@
             <td class="text-center">
                 <div>#{{v.ID}}</div>
                 <div class="small nowrap"><a :href="v.admin_permalink" :data-id="v.ID" class="upper orders-open-popup">{{v.post_name}} <i class="fa fa-edit"></i></a></div>
-                <div>({{v.post_modified.substr(0, 16)}})</div>
+                <div>({{v.post_modified.slice(0, 16)}})</div>
             </td>
             <td>
                 <button type="button" :data-id="v.ID" class="btn orders-post_status orders-open-popup">{{PostType_arrStatus[v.post_status]}}</button>

@@ -1,4 +1,4 @@
-<div class="global-main-module global-<?php echo $data['post_type']; ?>-module w90">
+<div class="global-main-module global-<?php echo $data['post_type']; ?>-module w90-xoa">
     <div class="padding-global-content padding-<?php echo $data['post_type']; ?>-content <?php echo $getconfig->eb_products_sidebar; ?> cf">
         <div class="col-main-content custom-width-global-main custom-width-<?php echo $data['post_type']; ?>-main fullsize-if-mobile">
             <div class="col-main-padding col-<?php echo $data['post_type']; ?>-padding">

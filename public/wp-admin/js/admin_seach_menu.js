@@ -123,9 +123,9 @@ function admin_enter_search_menu() {
 	//console.log(get_href);
 	if (get_href != "") {
 		if (get_href.includes("//") == false) {
-			//console.log(get_href.substr(0, 1));
-			if (get_href.substr(0, 1) == "/") {
-				get_href = get_href.substr(1);
+			//console.log(get_href.slice(0, 1));
+			if (get_href.slice(0, 1) == "/") {
+				get_href = get_href.slice(1);
 			}
 			get_href = web_link + get_href;
 		}

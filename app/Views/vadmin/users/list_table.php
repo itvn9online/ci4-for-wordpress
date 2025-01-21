@@ -32,8 +32,8 @@
             <td :title="v.user_phone" class="click-show-hidden-data">{{hide_phone_data(v.user_phone)}}</td>
             <td>{{v.display_name}}<span v-if="v.user_nicename != ''"> ({{v.user_nicename}})</span></td>
             <td><a :href="'sadmin/' + controller_slug + '?member_type=' + v.member_type">{{list[v.member_type]}}</a></td>
-            <td><span v-if="v.last_login != null">{{v.last_login.substr(0, 16)}}</span> ({{v.login_type}})</td>
-            <td><span v-if="v.last_login != null">{{v.user_registered.substr(0, 16)}}</span></td>
+            <td><span v-if="v.last_login != null">{{v.last_login.slice(0, 16)}}</span> ({{v.login_type}})</td>
+            <td><span v-if="v.last_login != null">{{v.user_registered.slice(0, 16)}}</span></td>
             <!-- <td>{{UsersType_listStatus[v.user_status]}}</td> -->
             <td :title="UsersType_listStatus[v.user_status]" class="text-center medium">
                 <div :data-id="v.ID" :data-status="v.user_status" class="cur click-change-user-status">

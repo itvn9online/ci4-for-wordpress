@@ -7,7 +7,7 @@ jQuery("#data_zalo").change(function () {
 	if (a != "") {
 		a = a.replace(/\s/gi, "").split("/");
 		if (a.length > 1) {
-			a = a[a.length - 1];
+			a = a.slice(-1);
 		}
 		jQuery("#data_zalo_me")
 			.val("https://zalo.me/" + a)

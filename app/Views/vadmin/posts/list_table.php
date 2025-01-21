@@ -37,8 +37,8 @@
                 <div v-if="tags != '' && v.post_meta.post_tags != ''" :data-id="v.post_meta.post_tags" data-taxonomy="<?php echo $tags; ?>" class="each-to-taxonomy small">&nbsp;</div>
             </td>
             <td>
-                <div>{{v.post_date.substr(0, 16)}}</div>
-                <div>{{v.post_modified.substr(0, 16)}}</div>
+                <div>{{v.post_date.slice(0, 16)}}</div>
+                <div>{{v.post_modified.slice(0, 16)}}</div>
             </td>
             <td>
                 <div :class="'post_status post_status-' + v.post_status">{{PostType_arrStatus[v.post_status]}}</div>

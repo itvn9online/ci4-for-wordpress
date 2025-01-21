@@ -1,6 +1,6 @@
 //
 function action_highlighted_code(for_id, for_language) {
-	let for_name = for_id.substr(1);
+	let for_name = for_id.slice(1);
 	let highlighting = "highlighting" + for_name;
 	let hl_content = "highlighting-content" + for_name;
 	// gộp các thuộc tính lại để trong các hàm tiện cắt và xử lý
@@ -99,19 +99,19 @@ jQuery(".click-to-set-site-color").click(function () {
 	}
 
 	// bỏ dấu # ở đầu đi để định dạng lại
-	if (n.substr(0, 1) == "#") {
-		n = n.substr(1);
+	if (n.slice(0, 1) == "#") {
+		n = n.slice(1);
 	}
 
 	// tự chuyển thành mã 6 màu nếu mã màu nhập vào là 3
 	if (n.length == 3) {
 		n =
-			n.substr(0, 1) +
-			n.substr(0, 1) +
-			n.substr(1, 1) +
-			n.substr(1, 1) +
-			n.substr(2, 1) +
-			n.substr(2, 1);
+			n.slice(0, 1) +
+			n.slice(0, 1) +
+			n.slice(1, 2) +
+			n.slice(1, 2) +
+			n.slice(2) +
+			n.slice(2);
 	}
 
 	// đến đây, mã màu bắt buộc phải là 6 ký tự

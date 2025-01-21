@@ -28,7 +28,7 @@
                 <div v-if="v.comment_author_url != ''"><a :href="v.comment_author_url" target="_blank">{{v.comment_author_url}}</a></div>
             </td>
             <td><a :href="'https://www.iplocation.net/ip-lookup?query=' + v.comment_author_IP" target="_blank" rel="nofollow">{{v.comment_author_IP}}</a></td>
-            <td>{{v.comment_date.substr(0, 16)}}</td>
+            <td>{{v.comment_date.slice(0, 16)}}</td>
             <td>
                 <div>{{v.comment_approved}}</div>
                 <div>{{v.lang_key}}</div>

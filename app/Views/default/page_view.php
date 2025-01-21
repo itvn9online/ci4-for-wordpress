@@ -5,7 +5,7 @@
 
 ?>
 <div class="global-page-module w90">
-    <div class="padding-global-content cf ">
+    <div class="padding-global-content cf">
         <div class="col-main-content custom-width-global-main custom-width-page-main fullsize-if-mobile">
             <div class="col-main-padding col-page-padding">
                 <h1 data-type="<?php echo $data['post_type']; ?>" data-id="<?php echo $data['ID']; ?>" class="page-details-title global-details-title global-module-title">

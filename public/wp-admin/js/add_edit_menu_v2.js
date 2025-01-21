@@ -56,7 +56,7 @@ function create_ul_menu_editer(a, sub_menu) {
 			menu_css.push(a[i].css);
 		}
 
-		if (a[i].slug == "" || a[i].slug.substr(0, 1) == "#") {
+		if (a[i].slug == "" || a[i].slug.slice(0, 1) == "#") {
 			menu_css.push("eb-menu-onlytext");
 			menu_li_css.push("eb-menu-li-onlytext");
 

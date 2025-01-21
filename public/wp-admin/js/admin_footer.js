@@ -219,7 +219,7 @@ fix_textarea_height();
 		.split("?support_tab=")[0]
 		.split("&preview_offset_top=")[0]
 		.split("?preview_offset_top=")[0];
-	console.log(w);
+	// console.log(w, get_last_url_segment(w), Math.random());
 
 	// tạo segment cho admin menu
 	jQuery("#sidebar a").each(function () {
@@ -227,7 +227,7 @@ fix_textarea_height();
 		if (a != "") {
 			//console.log(a);
 			a = a.replace(web_link, "");
-			//console.log(a);
+			// console.log(a);
 			jQuery(this).attr({
 				"data-segment": get_last_url_segment(a),
 			});
