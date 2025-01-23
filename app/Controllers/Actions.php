@@ -646,15 +646,39 @@ class Actions extends Layout
             ]);
         }
 
+        // 
+        $data_type = $this->MY_post('data_type');
+
         //
         $coupon_code = $this->MY_post('coupon_custom_code');
         if (empty($coupon_code)) {
+            // Trả về dữ liệu dạng json
+            if ($data_type == 'json') {
+                $this->result_json_type([
+                    'code' => __LINE__,
+                    'error' => 'Please enter a Coupon code.',
+                ]);
+            }
+
+            // 
             $this->base_model->alert('Please enter a Coupon code.', 'error');
         }
         $coupon_code = trim($coupon_code);
 
         //
         $data = $this->checkCouponCode($coupon_code);
+
+        // Trả về dữ liệu dạng json
+        if ($data_type == 'json') {
+            $this->result_json_type([
+                'code' => __LINE__,
+                'data' => [
+                    'coupon_amount' => $data['coupon_amount'],
+                    'coupon_code' => $coupon_code,
+                    'discount_type' => $data['discount_type']
+                ],
+            ]);
+        }
 
         // Thiết lập lại thông số cho coupon
         echo '<script>top.add_coupon_code("' . $data['coupon_amount'] . '", "' . $coupon_code . '", "' . $data['discount_type'] . '");</script>';

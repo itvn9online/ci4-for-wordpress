@@ -441,7 +441,7 @@ class Posts extends Sadmin
                 if (isset($dup_data['post_name'])) {
                     $dup_data['post_name'] = trim(explode('-duplicate', $dup_data['post_name'])[0]) . $new_dup_title;
                 }
-                if (isset($dup_data['post_shorttitle'])) {
+                if (isset($dup_data['post_shorttitle']) && !empty($dup_data['post_shorttitle'])) {
                     $dup_data['post_shorttitle'] = trim(explode('- Duplicate', $dup_data['post_shorttitle'])[0]) . $new_dup_title;
                 }
                 $dup_data['post_permalink'] = '';

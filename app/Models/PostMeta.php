@@ -98,14 +98,14 @@ class PostMeta extends PostBase
     }
 
     // thêm post meta
-    public function insert_meta_post($meta_data, $post_id, $clear_meta = true, $post_type = '')
+    public function insert_meta_post($meta_data, $post_id, $clear_meta = true, $post_type = '', $old_meta = [])
     {
         if (!is_array($meta_data) || empty($meta_data)) {
             return false;
         }
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-        //print_r($meta_data);
-        //die( __CLASS__ . ':' . __LINE__ );
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // print_r($meta_data);
+        // die( __CLASS__ . ':' . __LINE__ );
 
         // lấy toàn bộ meta của post này
         $meta_exist = $this->arr_meta_post($post_id, false);
@@ -155,11 +155,13 @@ class PostMeta extends PostBase
         }
 
         // giá tiền quy về dạng số
-        foreach ([
-            '_regular_price',
-            '_sale_price',
-            '_price',
-        ] as $v) {
+        foreach (
+            [
+                '_regular_price',
+                '_sale_price',
+                '_price',
+            ] as $v
+        ) {
             if (isset($meta_data[$v]) && trim($meta_data[$v]) != '') {
                 $meta_data[$v] = trim(str_replace(',', '', $meta_data[$v])) * 1;
             }
@@ -171,12 +173,12 @@ class PostMeta extends PostBase
 
             // gán danh sách term ID vào đây để đỡ phải select nhiều
             $post_relationships = implode(',', $term_relationships);
-            //$meta_data[ 'post_relationships' ] = $post_relationships;
+            // $meta_data[ 'post_relationships' ] = $post_relationships;
 
             $this->term_model->insert_term_relationships($post_id, $post_relationships);
         }
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-        //print_r($meta_data);
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // print_r($meta_data);
 
         // xử lý cho ảnh đại diện -> thêm các size ảnh khác để sau còn tùy ý sử dụng
         if (isset($meta_data['image'])) {
@@ -198,19 +200,19 @@ class PostMeta extends PostBase
                 }
                 // không thì kiểm tra và tạo mới nếu chưa có
                 else {
-                    //echo $meta_data['image_medium'] . '<br>' . PHP_EOL;
-                    //die(__CLASS__ . ':' . __LINE__);
+                    // echo $meta_data['image_medium'] . '<br>' . PHP_EOL;
+                    // die(__CLASS__ . ':' . __LINE__);
 
                     // phiên bản webp -> có lệnh riêng để tối ưu
                     $create_webp = \App\Libraries\MyImage::webpConvert(PUBLIC_PUBLIC_PATH . $meta_data['image_medium']);
-                    //die(__CLASS__ . ':' . __LINE__);
+                    // die(__CLASS__ . ':' . __LINE__);
                     if ($create_webp != '') {
                         $meta_data['image_webp'] = $create_webp;
                     } else if (!isset($meta_data['image_webp']) || $meta_data['image_webp'] == '') {
                         $meta_data['image_webp'] = $meta_data['image_medium'];
                     }
                 }
-                //echo $meta_data[ 'image_webp' ] . '<br>' . PHP_EOL;
+                // echo $meta_data[ 'image_webp' ] . '<br>' . PHP_EOL;
             } else {
                 $meta_data['image_large'] = '';
                 $meta_data['image_medium_large'] = '';
@@ -219,10 +221,10 @@ class PostMeta extends PostBase
                 $meta_data['image_webp'] = '';
             }
         }
-        //print_r($meta_data);
+        // print_r($meta_data);
 
         //
-        //echo 'post_type: ' . $post_type . PHP_EOL;
+        // echo 'post_type: ' . $post_type . PHP_EOL;
         $meta_default = $this->post_meta_default($post_type);
         // print_r($meta_default);
 
@@ -232,7 +234,7 @@ class PostMeta extends PostBase
         $rm_metas_key = [];
 
         // tất cả các meta đều phải được đăng ký thì mới cho ghi vào database
-        //var_dump($clear_meta);
+        // var_dump($clear_meta);
         if ($clear_meta === true) {
             foreach ($meta_exist as $k => $v) {
                 if (isset($meta_default[$k])) {
@@ -251,13 +253,13 @@ class PostMeta extends PostBase
                 // ]);
             }
         }
-        //print_r($json_meta_data);
+        // print_r($json_meta_data);
 
         // xóa các post meta bị unchecked
         if (isset($_POST['post_uncheck_meta'])) {
             $post_uncheck_meta = $_POST['post_uncheck_meta'];
-            //print_r($post_uncheck_meta);
-            //print_r($meta_default);
+            // print_r($post_uncheck_meta);
+            // print_r($meta_default);
             foreach ($post_uncheck_meta as $k => $v) {
                 if (isset($meta_default[$k])) {
                     echo 'DELETE post_uncheck_meta ' . $k . ' ' . $v . '<br>' . PHP_EOL;
@@ -292,7 +294,7 @@ class PostMeta extends PostBase
         $insert_meta = [];
         $update_meta = [];
         foreach ($meta_data as $k => $v) {
-            //print_r( $v );
+            // print_r($v);
             if (is_array($v)) {
                 if (!empty($v)) {
                     $v = implode(',', $v);
@@ -301,7 +303,7 @@ class PostMeta extends PostBase
                 }
                 $meta_data[$k] = $v;
             }
-            //echo $v . '<br>' . PHP_EOL;
+            // echo $v . '<br>' . PHP_EOL;
 
             // thêm vào mảng update nếu có rồi
             if (isset($meta_exist[$k])) {
@@ -315,11 +317,11 @@ class PostMeta extends PostBase
             //
             $json_meta_data[$k] = $v;
         }
-        //print_r($json_meta_data);
+        // print_r($json_meta_data);
 
         // các meta chưa có thì insert
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-        //print_r($insert_meta);
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // print_r($insert_meta);
         foreach ($insert_meta as $k => $v) {
             $this->base_model->insert($this->metaTable, [
                 'post_id' => $post_id,
@@ -329,8 +331,8 @@ class PostMeta extends PostBase
         }
 
         // các meta có rồi thì update
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-        //print_r($update_meta);
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // print_r($update_meta);
         foreach ($update_meta as $k => $v) {
             $this->base_model->update_multiple($this->metaTable, [
                 'meta_value' => $v,
@@ -341,14 +343,29 @@ class PostMeta extends PostBase
         }
 
         // cập nhật post meta vào cột của post để đỡ phải query nhiều
-        $this->base_model->update_multiple($this->table, [
-            'post_meta_data' => json_encode($json_meta_data),
-        ], [
-            'ID' => $post_id,
-        ]);
+        if ($clear_meta === true) {
+            $this->base_model->update_multiple($this->table, [
+                'post_meta_data' => json_encode($json_meta_data),
+            ], [
+                'ID' => $post_id,
+            ]);
+        } else if (!empty($old_meta)) {
+            // print_r($old_meta);
+            foreach ($json_meta_data as $k => $v) {
+                $old_meta[$k] = $v;
+            }
+            // print_r($old_meta);
+
+            // 
+            $this->base_model->update_multiple($this->table, [
+                'post_meta_data' => json_encode($old_meta),
+            ], [
+                'ID' => $post_id,
+            ]);
+        }
 
         //
-        //die( __CLASS__ . ':' . __LINE__ );
+        // die( __CLASS__ . ':' . __LINE__ );
         return true;
     }
 
