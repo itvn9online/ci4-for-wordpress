@@ -78,20 +78,5 @@ defined('EXIT_DATABASE')       || define('EXIT_DATABASE', 8);       // database 
 defined('EXIT__AUTO_MIN')      || define('EXIT__AUTO_MIN', 9);      // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      || define('EXIT__AUTO_MAX', 125);    // highest automatically-assigned error code
 
-/**
- * @deprecated Use \CodeIgniter\Events\Events::PRIORITY_LOW instead.
- */
-define('EVENT_PRIORITY_LOW', 200);
-
-/**
- * @deprecated Use \CodeIgniter\Events\Events::PRIORITY_NORMAL instead.
- */
-define('EVENT_PRIORITY_NORMAL', 100);
-
-/**
- * @deprecated Use \CodeIgniter\Events\Events::PRIORITY_HIGH instead.
- */
-define('EVENT_PRIORITY_HIGH', 10);
-
 // include file kiểu này để mỗi lần update code thì check git nó tiện
 require_once __DIR__ . '/MyConstants.php';
