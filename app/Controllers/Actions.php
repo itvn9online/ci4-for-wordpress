@@ -623,6 +623,7 @@ class Actions extends Layout
         }
 
         // không thành công thì sẽ báo lỗi
+        // var_dump($result_id);
         $this->base_model->alert('ERROR! Your order not create.', 'error');
     }
 

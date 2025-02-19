@@ -38,7 +38,7 @@ cat > "/home/bash_db_bak" <<END
 #!/bin/bash
 bak_curl_token="' . CRONJOB_TOKEN . '"
 bak_curl_url="' . $db_url_bash . '"
-/usr/bin/bash <( /usr/bin/curl -k --data "source=localhost&year=2024&token="\$bak_curl_token \$bak_curl_url )
+/usr/bin/bash <( /usr/bin/curl -k --data "source=localhost&year=' . date('Y') . '&token="\$bak_curl_token \$bak_curl_url )
 END
 #
 /usr/bin/chmod +x /home/bash_db_bak

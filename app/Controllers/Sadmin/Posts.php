@@ -919,7 +919,8 @@ class Posts extends Sadmin
         // hoặc page
         else if ($this->post_type == PostType::PAGE) {
             if (isset($data['post_name'])) {
-                $this->cleanup_cache('get_page-' . $data['post_name']);
+                // bỏ ký tự đặc biết để tránh lỗi xóa cache
+                $this->cleanup_cache('get_page-' . $this->base_model->_eb_non_mark_seo($data['post_name']));
             }
         }
         // hoặc ads

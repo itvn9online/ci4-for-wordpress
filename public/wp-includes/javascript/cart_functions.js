@@ -132,22 +132,24 @@ function run_calculate_cart_value() {
 		}
 	} else {
 		couponAmount = cart_config.coupon_amount * 1;
+		let fixed_product = 0;
 
 		// tính theo số lượng sản phẩm trong giỏ hàng
 		if (item_total > 1 && cart_discount_type == "fixed_product") {
 			// console.log(cart_discount_type, item_total);
-			let fixed_product = couponAmount * item_total;
-			// hiển thị số tiền giảm giá
-			jQuery(".cart-discount-value")
-				.html(g_func.money_format(fixed_product))
-				.addClass("ebe-currency");
-
-			//
-			price_total -= fixed_product;
-		} else {
+			fixed_product = couponAmount * item_total;
+		} else if (item_total > 0) {
 			// tính theo tổng tiền của giỏ hàng
-			price_total -= couponAmount;
+			fixed_product = couponAmount;
 		}
+
+		// hiển thị số tiền giảm giá
+		jQuery(".cart-discount-value")
+			.html(g_func.money_format(fixed_product))
+			.addClass("ebe-currency");
+
+		//
+		price_total -= fixed_product;
 	}
 
 	// hiển thị phí vận chuyển
