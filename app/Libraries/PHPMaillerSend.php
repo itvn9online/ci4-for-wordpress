@@ -58,19 +58,16 @@ class PHPMaillerSend
         }
 
         // 
-        if (strpos($host_user, '@') !== false) {
+        if (isset($cog['smtp_from']) && strpos($cog['smtp_from'], '@') !== false) {
+            $from = $cog['smtp_from'];
+        } else if (strpos($host_user, '@') !== false) {
             $from = $host_user;
         } else {
             $from = 'admin@' . $the_host;
         }
-        // daidq (2022-04-18): bỏ qua tham số smtp_from -> do from phải cùng domain với host_user
-        /*
-        if (!isset($cog['smtp_from']) || $cog['smtp_from'] == '') {
-            $cog['smtp_from'] = $host_user;
-        }
-        $from = $cog['smtp_from'];
-        */
-        if (!isset($cog['smtp_from_name']) || $cog['smtp_from_name'] == '') {
+
+        // 
+        if (!isset($cog['smtp_from_name']) || empty($cog['smtp_from_name'])) {
             $cog['smtp_from_name'] = $the_host;
         }
         $from_name = $cog['smtp_from_name'];
