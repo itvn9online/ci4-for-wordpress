@@ -167,11 +167,9 @@ class Base extends Csdl
             //So sánh và thay thế bằng hàm preg_replace
             $str = preg_replace("/($value)/", $key, $str);
         }
-        $str = ltrim($str, '-');
-        $str = rtrim($str, '-');
-        $str = ltrim($str, '.');
-        $str = rtrim($str, '.');
-        $str = trim($str);
+        // $str = rtrim(ltrim($str, '-'), '-');
+        // $str = rtrim(ltrim($str, '.'), '.');
+        // $str = trim($str);
 
         //Trả về kết quả
         return $str;
@@ -224,10 +222,14 @@ class Base extends Csdl
         //	$str = urlencode($str);
         // thay thế 2- thành 1-  
         //$str = preg_replace('/-+-/', "-", $str);
-        $str = str_replace('--', '-', $str);
+        // $str = str_replace('--', '-', $str);
+        $str = preg_replace('!\-+!', '-', $str);
 
         // cắt bỏ ký tự - ở đầu và cuối chuỗi
-        $str = preg_replace('/^\-+|\-+$/', "", $str);
+        // $str = preg_replace('/^\-+|\-+$/', "", $str);
+        $str = rtrim(ltrim($str, '-'), '-');
+        $str = rtrim(ltrim($str, '.'), '.');
+        $str = trim($str);
 
         //
         $str = $this->_eb_text_only($str);
@@ -670,11 +672,13 @@ class Base extends Csdl
         }
 
         // các option mặc định nếu không có giá trị truyền vào
-        foreach ([
-            'add_line' => '',
-            'set_permission' => DEFAULT_FILE_PERMISSION,
-            'ftp' => 0,
-        ] as $k => $v) {
+        foreach (
+            [
+                'add_line' => '',
+                'set_permission' => DEFAULT_FILE_PERMISSION,
+                'ftp' => 0,
+            ] as $k => $v
+        ) {
             if (!isset($ops[$k])) {
                 $ops[$k] = $v;
             }
