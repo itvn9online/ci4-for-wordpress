@@ -31,7 +31,7 @@ function show_edit_btn() {
 
 	//
 	jQuery(
-		".eb-blog li , .eb-blog div.col, .products-list li, .eb-sub-menu, .global-details-title, .custom-bootstrap-post_type"
+		".eb-blog li, .eb-blog div.col, .products-list li, .eb-sub-menu, .global-details-title, .custom-bootstrap-post_type"
 	).each(function () {
 		var jd = jQuery(this).data("id") || "";
 		var type = jQuery(this).data("type") || "";

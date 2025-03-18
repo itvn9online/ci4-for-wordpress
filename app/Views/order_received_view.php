@@ -12,14 +12,6 @@ $base_model->adds_css([
     'cdn' => CDN_BASE_URL,
 ]);
 
-?>
-<!-- <br> -->
-<div class="w90">
-    <h1 class="cart-h1-title cart-h1-status cart-h1-<?php echo $data['post_status']; ?>"><?php echo $cart_title; ?></h1>
-</div>
-<!-- <br> -->
-<?php
-
 // 
 if (!empty($data)) {
     // 
@@ -185,4 +177,50 @@ if (!empty($data)) {
     ], [
         'defer'
     ]);
+} else {
+    // hiển thị nội dung của trang "thank you"
+    $thank_you_page = $post_model->the_ads('thank-you-page', 1, [
+        //'post_type' => 'post_type',
+        //'taxonomy' => 'taxonomy',
+        //'limit' => 'limit',
+        // nếu có tham số auto clone -> cho phép nhân bản dữ liệu cho các ngôn ngữ khác
+        // 'auto_clone' => 1,
+        // trả về dữ liệu ngay sau khi select xong -> bỏ qua đoạn builder HTML
+        'return_object' => 1,
+        // thêm class css tùy chỉnh vào
+        // 'add_class' => 'css-class-1 cas-class-2',
+        // meta sẽ insert mặc định (nếu có)
+        'post_meta' => [
+            // 'post_custom_cloumn' => 'review_product_node.html'
+        ],
+    ]);
+    // print_r($thank_you_page);
+    // die(__FILE__ . ':' . __LINE__);
+
+    // 
+    if (is_array($thank_you_page) && count($thank_you_page) > 0) {
+        $data = $thank_you_page[0];
+        // print_r($data);
+?>
+        <div class="w90">
+            <h1 data-id="<?php echo $data['ID']; ?>" data-type="<?php echo $data['post_type']; ?>" class="global-details-title cart-h1-title cart-h1-status cart-h1-thank-you"><?php echo $data['post_title']; ?></h1>
+        </div>
+        <div class="row row-whitebg">
+            <div class="col small-12 medium-12 large-12">
+                <div class="col-inner">
+                    <?php
+
+                    // Hiển thị nội dung của city vào đầu trang
+                    $data['post_content'] = str_replace('][/i]', '></i>', $data['post_content']);
+                    $data['post_content'] = str_replace('[i ', '<i ', $data['post_content']);
+                    echo $data['post_content'];
+
+                    ?>
+                </div>
+            </div>
+        </div>
+<?php
+    } else {
+        // print_r($thank_you_page);
+    }
 }

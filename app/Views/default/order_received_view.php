@@ -1,3 +1,8 @@
+<!-- <br> -->
+<div class="w90">
+    <h1 class="cart-h1-title cart-h1-status cart-h1-<?php echo $data['post_status']; ?>"><?php echo $cart_title; ?></h1>
+</div>
+<!-- <br> -->
 <div class="row row-small row-divided-xoa cart-is-product">
     <div class="col small-12 medium-8 large-8">
         <div class="col-inner">
