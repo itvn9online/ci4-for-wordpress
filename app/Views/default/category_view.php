@@ -1,4 +1,4 @@
-<div class="global-main-module global-<?php echo $data['taxonomy']; ?>-module w90-xoa">
+<div class="global-main-module global-<?php echo $data['taxonomy']; ?>-module w90">
     <div class="padding-global-content padding-<?php echo $data['taxonomy']; ?>-content <?php echo $getconfig->eb_posts_sidebar; ?> cf">
         <div class="col-main-content custom-width-global-main custom-width-<?php echo $data['taxonomy']; ?>-main fullsize-if-mobile">
             <div class="col-main-padding col-<?php echo $data['taxonomy']; ?>-padding">

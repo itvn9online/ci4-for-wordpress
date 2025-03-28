@@ -12,7 +12,7 @@ if (!empty($session_data)) {
 }
 
 ?>
-<div class="global-page-module w90-xoa">
+<div class="global-page-module w90">
     <div class="padding-global-content cf-xoa row">
         <div class="col col-main-content custom-width-global-main custom-width-page-main fullsize-if-mobile">
             <div class="col-main-padding col-page-padding">
