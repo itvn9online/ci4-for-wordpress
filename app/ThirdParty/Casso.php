@@ -117,24 +117,30 @@ class Casso
 
             //
             if (isset($data->data)) {
+                // Tạo regex để tìm chuỗi theo prefix
+                $prefix = 'bill ';
+                $pattern = '/' . preg_quote($prefix, '/') . '(\S+)/';
+
+                // 
                 foreach ($data->data as $k => $v) {
                     self::testInput($v);
 
+                    // 
+                    if (!isset($v->description)) {
+                        continue;
+                    }
+
                     // -> lấy order ID theo chữ bill -> tham số bắt buộc
-                    $low_description = strtolower($v->description);
-                    // đồng bộ về 1 định dạng -> dùng dấu cách để cắt dữ liệu
-                    $low_description = str_replace('.bill ', '. bill ', $low_description);
-                    $low_description = str_replace(':bill ', ': bill ', $low_description);
+                    if (preg_match($pattern, strtolower($v->description), $matches)) {
+                        $order_id = $matches[1]; // Chuỗi con sau prefix
 
-                    // cắt theo dấu cách
-                    if (strpos($low_description, ' bill ') !== false) {
-                        $order_id = explode(' bill ', $low_description);
-                        if (count($order_id) > 1) {
-                            $order_id = explode(' ', $order_id[1]);
-                            $order_id = explode('.', $order_id[0]);
+                        // lưu log để tiện check
+                        $result['data_v'] = (array)$v;
 
-                            //
-                            $data->data[$k]->order_id = trim($order_id[0]);
+                        // 
+                        $order_id = trim($order_id);
+                        if (is_numeric($order_id) && !empty($order_id)) {
+                            $data->data[$k]->order_id = $order_id;
                         } else {
                             file_put_contents($file_log, 'count order_id|' . __CLASS__ . ':' . __LINE__ . PHP_EOL, FILE_APPEND);
                             $data->data[$k] = null;
