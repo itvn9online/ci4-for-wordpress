@@ -135,7 +135,7 @@ class Casso
                         $order_id = $matches[1]; // Chuỗi con sau prefix
 
                         // lưu log để tiện check
-                        $result['data_v'] = (array)$v;
+                        // $result['data_v'] = (array)$v;
 
                         // 
                         $order_id = trim($order_id);
