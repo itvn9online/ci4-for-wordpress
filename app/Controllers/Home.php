@@ -371,32 +371,32 @@ class Home extends Posts
                 )
             );
             // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-            //die(__CLASS__ . ':' . __LINE__);
+            // die(__CLASS__ . ':' . __LINE__);
 
             //
             if (!empty($data)) {
                 if ($data['post_status'] != PostType::PUBLICITY) {
                     return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Bạn không có quyền xem bài viết này...');
-                    //die(__CLASS__ . ':' . __LINE__);
+                    // die(__CLASS__ . ':' . __LINE__);
                 }
 
                 // lấy meta của post này
-                //$data[ 'post_meta' ] = $this->post_model->arr_meta_post( $data[ 'ID' ] );
+                // $data['post_meta'] = $this->post_model->arr_meta_post($data['ID']);
                 $data = $this->post_model->the_meta_post($data);
-                //print_r( $data );
-                //die( __CLASS__ . ':' . __LINE__ );
+                // print_r($data);
+                // die(__CLASS__ . ':' . __LINE__);
             }
 
             //
             $this->post_model->the_cache($id, $in_cache, $data);
         }
         // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-        //print_r($data);
-        //die(__CLASS__ . ':' . __LINE__);
+        // print_r($data);
+        // die(__CLASS__ . ':' . __LINE__);
 
         //
         if (!empty($data)) {
-            //die(__CLASS__ . ':' . __LINE__);
+            // die(__CLASS__ . ':' . __LINE__);
             // kiểm tra lại slug -> nếu sai thì redirect 301 qua url mới
             $this->post_model->check_canonical($slug, $data);
 

@@ -37,9 +37,9 @@ class Upload extends Post
 
         // Don't attempt to unserialize data that wasn't serialized going in.
         if (isset($data['post_meta']['_wp_attachment_metadata']) && $data['post_meta']['_wp_attachment_metadata'] != '') {
-            //if ( is_serialized( $v[ 'post_meta' ][ '_wp_attachment_metadata' ] ) ) {
+            // if (is_serialized($v['post_meta']['_wp_attachment_metadata'])) {
             $attachment_metadata = unserialize($data['post_meta']['_wp_attachment_metadata']);
-            //}
+            // }
 
             //
             //print_r( $attachment_metadata );

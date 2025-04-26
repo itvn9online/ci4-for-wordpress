@@ -4,20 +4,27 @@
 use App\Libraries\PostType;
 
 //
-//print_r( $data );
-//die( __FILE__ . ':' . __LINE__ );
+// print_r($data);
+// die(__FILE__ . ':' . __LINE__);
 foreach ($data as $k => $v) {
-    //print_r($v);
-    //continue;
+    // print_r($v);
+    // continue;
 
     //
     $all_src = [];
     $data_srcset = [];
     $data_width = '';
     $data_height = '';
+
+    // 
+    if (!isset($v['post_meta']) || !isset($v['post_meta']['_wp_attachment_metadata'])) {
+        $v['post_meta'] = $post_model->arr_meta_post($v['ID']);
+        // print_r($v['post_meta']);
+    }
+    // print_r($v['post_meta']);
     $src = $upload_model->get_thumbnail($v);
-    //echo 'src: ' . $src . '<br>' . PHP_EOL;
-    //continue;
+    // echo 'src: ' . $src . '<br>' . PHP_EOL;
+    // continue;
 
     // với định dạng khác -> chưa xử lý
     if (strtolower(explode('/', $v['post_mime_type'])[0]) != 'image') {
@@ -34,9 +41,9 @@ foreach ($data as $k => $v) {
         if ($str_insert_to != '') {
             $all_src = $upload_model->get_all_media($v);
         }
-        //print_r( $all_src );
-        //$all_src = json_encode( $all_src );
-        //print_r( $all_src );
+        // print_r($all_src);
+        // $all_src = json_encode($all_src);
+        // print_r($all_src);
 
         // xác định url cho ảnh
         if ($v['post_type'] == PostType::WP_MEDIA) {
@@ -48,8 +55,8 @@ foreach ($data as $k => $v) {
         //
         if (isset($v['post_meta']) && isset($v['post_meta']['_wp_attachment_metadata'])) {
             $attachment_metadata = unserialize($v['post_meta']['_wp_attachment_metadata']);
-            //print_r( $attachment_metadata );
-            //continue;
+            // print_r($attachment_metadata);
+            // continue;
             if ($attachment_metadata['width'] > 0) {
                 $data_srcset = [
                     $short_uri . $attachment_metadata['file'] . ' ' . $attachment_metadata['width'] . 'w'
@@ -58,9 +65,9 @@ foreach ($data as $k => $v) {
 
             //
             foreach ($attachment_metadata['sizes'] as $k_sizes => $sizes) {
-                //echo $k_sizes . '<br>' . PHP_EOL;
-                //print_r( $sizes );
-                //continue;
+                // echo $k_sizes . '<br>' . PHP_EOL;
+                // print_r($sizes);
+                // continue;
 
                 //
                 if (isset($sizes['width'])) {
@@ -78,7 +85,7 @@ foreach ($data as $k => $v) {
         }
     }
     $all_src['thumbnail'] = $src;
-    //print_r( $data_srcset );
+    // print_r($data_srcset);
 
 ?>
     <li data-id="<?php echo $v['ID']; ?>" data-author="<?php echo $v['post_author']; ?>">

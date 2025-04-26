@@ -190,7 +190,7 @@ class Uploads extends Sadmin
 
             //
             $data = $this->post_model->list_meta_post($data);
-            //print_r($data);
+            // print_r($data);
         } else {
             $data = [];
             $pagination = '';
@@ -198,7 +198,7 @@ class Uploads extends Sadmin
 
         // lấy các ngày có ảnh để tạo bộ lọc
         $m_filter = $this->base_model->scache('upload_post_date_filter');
-        //$m_filter = null;
+        // $m_filter = null;
         if ($m_filter === null) {
             $m_data = $this->base_model->select("DATE_FORMAT(`post_date`, '%Y-%m') as d", 'posts', [
                 //
@@ -229,7 +229,7 @@ class Uploads extends Sadmin
             //
             $this->base_model->scache('upload_post_date_filter', $m_filter, DAY);
         }
-        //print_r( $m_filter );
+        // print_r($m_filter);
 
         //
         $this->teamplate_admin['body_class'] = $this->body_class;
@@ -299,9 +299,9 @@ class Uploads extends Sadmin
             $delete_file = [];
             // Don't attempt to unserialize data that wasn't serialized going in.
             if (isset($data['post_meta']['_wp_attachment_metadata']) && $data['post_meta']['_wp_attachment_metadata'] != '') {
-                //if ( is_serialized( $v[ 'post_meta' ][ '_wp_attachment_metadata' ] ) ) {
+                // if (is_serialized($v['post_meta']['_wp_attachment_metadata'])) {
                 $attachment_metadata = unserialize($data['post_meta']['_wp_attachment_metadata']);
-                //}
+                // }
 
                 //print_r( $attachment_metadata );
                 if (empty($attachment_metadata)) {

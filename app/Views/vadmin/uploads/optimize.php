@@ -27,8 +27,8 @@ if (class_exists('Imagick')) {
 }
 
 //
-//print_r( $data );
-//die( __FILE__ . ':' . __LINE__ );
+// print_r($data);
+// die(__FILE__ . ':' . __LINE__);
 foreach ($data as $k => $v) {
     //print_r($v);
     //continue;

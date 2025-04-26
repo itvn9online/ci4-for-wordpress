@@ -26,11 +26,11 @@ class PostMeta extends PostBase
 
         //
         foreach ($data as $k => $v) {
-            //print_r($v);
+            // print_r($v);
             if (empty($v)) {
                 continue;
             }
-            //var_dump( $v[ 'post_meta_data' ] );
+            // var_dump($v['post_meta_data']);
 
             // nếu không có dữ liệu của post meta
             /*
@@ -45,25 +45,26 @@ class PostMeta extends PostBase
             //
             $new_meta = false;
             if (isset($v['time_meta_data']) && $v['time_meta_data'] < time()) {
-                //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
                 $new_meta = true;
             } else if (!isset($v['post_meta_data']) || $v['post_meta_data'] === null) {
-                //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
                 $new_meta = true;
             }
-            //$new_meta = true;
+            // $new_meta = true;
+            // var_dump($new_meta);
 
             //
             if ($new_meta === true) {
                 $post_meta_data = $this->arr_meta_post($v['ID']);
-                //print_r($post_meta_data);
+                // print_r($post_meta_data);
                 // gán 1 số meta mặc định nếu chưa có
                 foreach ($arr_require_meta as $remeta) {
                     if (!isset($post_meta_data[$remeta])) {
                         $post_meta_data[$remeta] = '';
                     }
                 }
-                //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
                 //
                 $this->base_model->update_multiple($this->table, [
@@ -78,14 +79,15 @@ class PostMeta extends PostBase
                 $data[$k]['post_meta_data'] = 'query';
             } else {
                 $post_meta_data = (array) json_decode($v['post_meta_data']);
-                //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
                 // thông báo kiểu dữ liệu trả về
                 $data[$k]['post_meta_data'] = 'cache';
+                // $data[$k]['time_test_meta_data'] = date('Y-m-d H:i:s', $v['time_meta_data']);
             }
             $data[$k]['post_meta'] = $post_meta_data;
         }
-        //print_r( $data );
+        // print_r($data);
 
         //
         return $data;
@@ -365,7 +367,7 @@ class PostMeta extends PostBase
         }
 
         //
-        // die( __CLASS__ . ':' . __LINE__ );
+        // die(__CLASS__ . ':' . __LINE__);
         return true;
     }
 
@@ -375,15 +377,15 @@ class PostMeta extends PostBase
     public function post_meta_default($post_type)
     {
         $result = PostType::meta_default($post_type);
-        //print_r($result);
+        // print_r($result);
         if (isset(ARR_CUSTOM_POST_META[$post_type])) {
             $a = ARR_CUSTOM_POST_META[$post_type];
-            //print_r($a);
+            // print_r($a);
             foreach ($a as $k => $v) {
                 $result[$k] = $v['name'];
             }
         }
-        //print_r($result);
+        // print_r($result);
 
         //
         return $result;
@@ -587,22 +589,22 @@ class PostMeta extends PostBase
         );
     }
 
-    /*
+    /**
      * trả về danh sách meta post dưới dạng key => value
      * get_relationships: lấy danh sách relationships từ database nếu không có meta -> khi cần check meta exist thì không lấy, để tránh việc post_category luôn tồn tại -> lệnh update được gọi nhưng không update được
      */
     public function arr_meta_post($post_id, $get_relationships = true)
     {
         $data = $this->get_meta_post($post_id);
-        //print_r( $data );
+        // print_r($data);
 
         //
         $meta_data = [];
         foreach ($data as $k => $v) {
             $meta_data[$v['meta_key']] = $v['meta_value'];
         }
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-        //print_r( $meta_data );
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // print_r($meta_data);
 
         // hỗ trợ kiểu danh mục từ echbaydotcom
         /*
@@ -614,8 +616,8 @@ class PostMeta extends PostBase
         */
         if ($get_relationships === true) {
             if (!isset($meta_data['post_category']) || empty($meta_data['post_category'])) {
-                //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-                //print_r( $meta_data );
+                // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                // print_r($meta_data);
 
                 //
                 $sql = $this->base_model->select(
@@ -630,14 +632,14 @@ class PostMeta extends PostBase
                             'term_taxonomy' => 'term_taxonomy.term_id = term_relationships.term_taxonomy_id'
                         ),
                         // hiển thị mã SQL để check
-                        //'show_query' => 1,
+                        // 'show_query' => 1,
                         // trả về câu query để sử dụng cho mục đích khác
-                        //'get_query' => 1,
-                        //'offset' => 2,
-                        //'limit' => 3
+                        // 'get_query' => 1,
+                        // 'offset' => 2,
+                        // 'limit' => 3
                     )
                 );
-                //print_r( $sql );
+                // print_r($sql);
                 $term_relationships = [
                     TaxonomyType::POSTS => [],
                     TaxonomyType::TAGS => [],
@@ -645,14 +647,14 @@ class PostMeta extends PostBase
                 foreach ($sql as $k => $v) {
                     $term_relationships[$v['taxonomy']][] = $v['term_taxonomy_id'];
                 }
-                //print_r( $term_relationships );
-                //die( __CLASS__ . ':' . __LINE__ );
+                // print_r($term_relationships);
+                // die(__CLASS__ . ':' . __LINE__);
                 foreach ($term_relationships as $k => $v) {
                     $meta_data['post_' . $k] = implode(',', $v);
                 }
-                //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-                //print_r( $meta_data );
-                //die( __CLASS__ . ':' . __LINE__ );
+                // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                // print_r($meta_data);
+                // die(__CLASS__ . ':' . __LINE__);
             }
         }
 

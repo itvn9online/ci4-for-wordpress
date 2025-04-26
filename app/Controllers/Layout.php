@@ -1058,11 +1058,11 @@ class Layout extends Sync
                 'keywords' => [],
             ]
         ];
-        //print_r( $arr_metadata );
+        // print_r($arr_metadata);
         $str_metadata = serialize($arr_metadata);
-        //echo $str_metadata . '<br>' . PHP_EOL;
-        //$test = unserialize( $str_metadata );
-        //print_r( $test );
+        // echo $str_metadata . '<br>' . PHP_EOL;
+        // $test = unserialize($str_metadata);
+        // print_r($test);
 
         //
         $data_insert = [
@@ -1075,20 +1075,20 @@ class Layout extends Sync
             'post_mime_type' => $mime_type,
             'post_parent' => $post_parent,
         ];
-        //print_r( $data_insert );
+        // print_r($data_insert);
         $_POST['post_meta'] = [
             '_wp_attachment_metadata' => $str_metadata,
             '_wp_attached_file' => $file_uri,
         ];
-        //print_r( $_POST );
-        //die( __CLASS__ . ':' . __LINE__ );
+        // print_r($_POST);
+        // die(__CLASS__ . ':' . __LINE__);
         $result_id = $this->post_model->insert_post($data_insert, $_POST['post_meta']);
-        //print_r( $result_id );
+        // print_r($result_id);
         if (is_array($result_id) && isset($result_id['error'])) {
             $this->base_model->alert($result_id['error'], 'error');
         }
-        //die( __CLASS__ . ':' . __LINE__ );
-        //echo 'Result id: ' . $result_id . '<br>' . PHP_EOL;
+        // die(__CLASS__ . ':' . __LINE__);
+        // echo 'Result id: ' . $result_id . '<br>' . PHP_EOL;
 
         //
         return [

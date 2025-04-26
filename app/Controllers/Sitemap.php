@@ -523,18 +523,18 @@ class Sitemap extends Layout
                         // hiển thị mã SQL để check
                         //'show_query' => 1,
                         // trả về câu query để sử dụng cho mục đích khác
-                        //'get_query' => 1,
-                        //'getNumRows' => 1,
-                        //'offset' => $offset,
+                        // 'get_query' => 1,
+                        // 'getNumRows' => 1,
+                        // 'offset' => $offset,
                         'limit' => 1
                     ]);
-                    //print_r( $parent_data );
+                    // print_r($parent_data);
                 }
                 $parent_id = $v['post_parent'];
 
                 //
                 $post_meta_data = json_decode($v['post_meta_data']);
-                //print_r( $post_meta_data );
+                // print_r($post_meta_data);
 
                 // URL ảnh
                 if ($v['post_type'] == PostType::WP_MEDIA) {

@@ -50,7 +50,7 @@ class PostQuery extends PostMeta
 
     public function insert_post($data, $data_meta = [], $check_slug = true)
     {
-        //print_r($data);
+        // print_r($data);
         // return gettype($data);
         // return LanguageCost::lang_key();
 
@@ -414,14 +414,14 @@ class PostQuery extends PostMeta
 
         // lấy meta của post này -> chỉ lấy khi có post ID
         if (!empty($data) && $post_id > 0) {
-            //$data[ 'post_meta' ] = $this->arr_meta_post( $data[ 'ID' ] );
+            // $data['post_meta'] = $this->arr_meta_post($data['ID']);
             // trong trang chi tiết -> lấy trực tiếp từ meta -> đỡ lỗi
-            //$data[ 'post_meta_data' ] = null;
+            // $data['post_meta_data'] = null;
             $data = $this->the_meta_post($data);
         } else if ($default_filter['limit'] === 1) {
             $data = $this->the_meta_post($data);
         }
-        //print_r( $data );
+        // print_r($data);
 
         //
         return $data;
