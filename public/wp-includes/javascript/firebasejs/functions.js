@@ -33,12 +33,12 @@ function set_value_firebase_config(val, default_val) {
 function create_signInSuccessUrl() {
 	// thêm chuỗi ngẫu nhiên
 	if (
-		typeof sign_in_success_params != "undefined" &&
-		typeof sign_in_success_params["success_url"] != "undefined" &&
-		sign_in_success_params["success_url"] != ""
+		typeof sign_in_params_success != "undefined" &&
+		typeof sign_in_params_success["success_url"] != "undefined" &&
+		sign_in_params_success["success_url"] != ""
 	) {
-		//console.log(sign_in_success_params);
-		return sign_in_success_params["success_url"];
+		// console.log(sign_in_params_success);
+		return sign_in_params_success["success_url"];
 	}
 	// loại bỏ mọi thể loại parameter
 	return window.location.href.split("?")[0].split("&")[0];
@@ -126,12 +126,12 @@ function test_result_user_data(user) {
 
 function addSignInSuccessParams(data) {
 	// chạy vòng lặp bổ sung tham số bảo mật
-	for (let x in sign_in_success_params) {
+	for (let x in sign_in_params_success) {
 		// bỏ qua tham số URL
 		if (x == "success_url" || x == "token_url") {
 			continue;
 		}
-		data[x] = sign_in_success_params[x];
+		data[x] = sign_in_params_success[x];
 	}
 	return data;
 }
@@ -195,8 +195,8 @@ function action_signInSuccessWithAuthResult(successfully) {
 		.auth()
 		.currentUser.getIdToken(true)
 		.then(function (idToken) {
-			//console.log(idToken);
-			//return false;
+			// console.log(idToken);
+			// return false;
 			// Send token to your backend via HTTPS
 			if (successfully !== false) {
 				let data = {
@@ -205,16 +205,16 @@ function action_signInSuccessWithAuthResult(successfully) {
 					id_token: idToken,
 				};
 				data = addSignInSuccessParams(data);
-				//console.log(data);
-				//return false;
+				// console.log(data);
+				// return false;
 
 				//
 				jQuery.ajax({
 					type: "POST",
-					//url: sign_in_success_params["token_url"],
+					// url: sign_in_params_success["token_url"],
 					url: create_signInSuccessUrl(),
 					dataType: "json",
-					//crossDomain: true,
+					// crossDomain: true,
 					data: data,
 					timeout: 33 * 1000,
 					error: function (jqXHR, textStatus, errorThrown) {
@@ -276,7 +276,7 @@ function action_signInSuccessWithIdToken(idToken, successfully) {
 	// Return type determines whether we continue the redirect
 	// automatically or whether we leave that to developer to handle.
 	//console.log(create_signInSuccessUrl());
-	//console.log(sign_in_success_params);
+	//console.log(sign_in_params_success);
 	//console.log(user.displayName);
 	//console.log(user.email);
 	//console.log(user.emailVerified);

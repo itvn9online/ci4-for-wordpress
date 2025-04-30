@@ -63,7 +63,7 @@ class Firebase2s extends Firebases
                 'error' => $this->firebaseLang('referer_https', 'Referer không hợp lệ'),
             ]);
         }
-        //$this->result_json_type([$_SERVER['HTTP_REFERER']]);
+        // $this->result_json_type([$_SERVER['HTTP_REFERER']]);
         $referer = explode('/', $referer[1]);
         $referer = $referer[0];
         if ($referer != $_SERVER['HTTP_HOST']) {
@@ -72,7 +72,7 @@ class Firebase2s extends Firebases
                 'error' => $this->firebaseLang('referer_host', 'Referer not suitable!'),
             ]);
         }
-        //$this->result_json_type([$referer]);
+        // $this->result_json_type([$referer]);
 
         // xem có config cho chức năng đăng nhập qua firebase không
         $this->checkEmptyParams(trim($this->firebase_config->g_firebase_config), [
@@ -84,12 +84,13 @@ class Firebase2s extends Firebases
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
             $this->result_json_type($_GET);
         }
+        // $this->result_json_type($_POST);
 
         // kiểm tra tính hợp lệ của url
         $this->firebaseUrlExpires($this->MY_post('expires_token'), $this->expires_time);
 
         //
-        //$this->firebaseSessionToken($expires_token, $this->MY_post('user_token'));
+        // $this->firebaseSessionToken($expires_token, $this->MY_post('user_token'));
 
         //
         $id_token = $this->checkEmptyParams($this->MY_post('id_token'), [
@@ -139,14 +140,14 @@ class Firebase2s extends Firebases
             'error' => $this->firebaseLang('apiurl', 'apiurl not suitable!'),
         ]);
 
-        //$this->result_json_type($_POST);
+        // $this->result_json_type($_POST);
 
         //
         $name = $this->MY_post('name');
         $email = trim($this->MY_post('email'));
-        //$email = 'itvn9online@yahoo.com';
+        // $email = 'itvn9online@yahoo.com';
         $phone = trim($this->MY_post('phone'));
-        //$phone = '+84984533228';
+        // $phone = '+84984533228';
         $photo = $this->MY_post('photo');
 
         //
@@ -177,14 +178,14 @@ class Firebase2s extends Firebases
                     'ID' => 'ASC'
                 ],
                 // hiển thị mã SQL để check
-                //'show_query' => 1,
+                // 'show_query' => 1,
                 // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-                //'offset' => 2,
+                // 'get_query' => 1,
+                // 'offset' => 2,
                 'limit' => 1
             )
         );
-        //print_r($data);
+        // print_r($data);
         // nếu có dữ liệu trả về -> thiết lập session đăng nhập
         if (!empty($data)) {
             // cập nhật firebase uid nếu chưa có
@@ -200,7 +201,7 @@ class Firebase2s extends Firebases
                             'uid' => $fb_uid
                         ]);
                     } else if (strlen($phone) > 9) {
-                        //$this->result_json_type($data);
+                        // $this->result_json_type($data);
                         $this->user_model->update_member($data['ID'], [
                             // cập nhật firebase uid
                             'firebase_uid' => $this->base_model->mdnam($fb_uid),
@@ -237,13 +238,13 @@ class Firebase2s extends Firebases
 
             // tạo session login
             $data = $this->sync_login_data($data);
-            //$data['user_activation_key'] = $this->base_model->MY_sessid();
+            // $data['user_activation_key'] = $this->base_model->MY_sessid();
 
             // cập nhật 1 số thông tin kiểu cố định
             $this->user_model->update_member($data['ID'], [
                 'last_login' => date(EBE_DATETIME_FORMAT),
                 'login_type' => UsersType::FIREBASE,
-                //'user_activation_key' => $data['user_activation_key'],
+                // 'user_activation_key' => $data['user_activation_key'],
                 'member_verified' => UsersType::VERIFIED,
             ]);
 
@@ -286,7 +287,7 @@ class Firebase2s extends Firebases
                 'firebase_uid' => $this->base_model->mdnam($fb_uid),
                 'member_verified' => UsersType::VERIFIED,
             ];
-            //$this->result_json_type($data);
+            // $this->result_json_type($data);
             $insert = $this->user_model->insert_member($data);
             if ($insert < 0) {
                 $this->result_json_type([
@@ -309,8 +310,8 @@ class Firebase2s extends Firebases
                 ]);
             }
         }
-        //$this->result_json_type($data);
-        //$this->result_json_type($_POST);
+        // $this->result_json_type($data);
+        // $this->result_json_type($_POST);
         $this->result_json_type([
             'ok' => __LINE__,
         ]);
@@ -329,10 +330,10 @@ class Firebase2s extends Firebases
             ],
             array(
                 // hiển thị mã SQL để check
-                //'show_query' => 1,
+                // 'show_query' => 1,
                 // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-                //'offset' => 2,
+                // 'get_query' => 1,
+                // 'offset' => 2,
                 'limit' => 1
             )
         );
@@ -369,7 +370,7 @@ class Firebase2s extends Firebases
     // gửi email xác thực lại thông tin đăng nhập qua firebase
     protected function reVerifyFirebaseEmail($data, $ops = [])
     {
-        //$this->result_json_type($data);
+        // $this->result_json_type($data);
 
         // chuẩn bị gửi mail báo xác thực email
         $smtp_config = $this->option_model->get_smtp();
@@ -383,15 +384,15 @@ class Firebase2s extends Firebases
             $verify_params = $this->firebaseSignInSuccessParams();
             $verify_params['verify_key'] = $this->base_model->mdnam($data['ID'] . $this->base_model->MY_sessid());
         }
-        //print_r($verify_params);
+        // print_r($verify_params);
 
         //
         $verify_url = base_url('firebase2s/verify_email') . '?nse=' . $data['ID'];
         foreach ($verify_params as $k => $v) {
             if (in_array($k, [
                 'success_url',
-                //'token_url',
-                //'user_token',
+                // 'token_url',
+                // 'user_token',
             ])) {
                 continue;
             }
@@ -451,7 +452,7 @@ class Firebase2s extends Firebases
     public function verify_email()
     {
         $this->firebaseUrlExpires($this->MY_get('expires_token'), $this->expires_reverify_time, $this->MY_get('uid'));
-        //$this->result_json_type($_GET);
+        // $this->result_json_type($_GET);
 
         //
         $user_id = $this->checkEmptyParams($this->MY_get('nse'), [
@@ -471,7 +472,7 @@ class Firebase2s extends Firebases
         if ($this->base_model->mdnam($user_id . $uid) == $verify_key) {
             // khớp thông tin thì cập nhật lại firebase uid
             $this->user_model->update_member($user_id, [
-                //'user_status' => UsersType::FOR_DEFAULT,
+                // 'user_status' => UsersType::FOR_DEFAULT,
                 'firebase_uid' => $this->base_model->mdnam($uid),
                 'firebase_source_uid' => date('r') . '|' . __CLASS__ . '|' . __FUNCTION__ . ':' . __LINE__,
                 'user_activation_key' => '',
@@ -596,34 +597,35 @@ class Firebase2s extends Firebases
     protected function phpJwt($jwt, $uid = '')
     {
         list($headersB64, $payloadB64, $sig) = explode('.', $jwt);
-        //echo $headersB64 . PHP_EOL;
-        //echo $payloadB64 . PHP_EOL;
-        //echo $sig . PHP_EOL;
+        // echo $headersB64 . PHP_EOL;
+        // echo $payloadB64 . PHP_EOL;
+        // echo $sig . PHP_EOL;
+        // $this->result_json_type([$headersB64, $payloadB64, $sig]);
 
         //
-        //$decoded = json_decode(base64_decode($headersB64), true);
-        //print_r($decoded);
+        // $decoded = json_decode(base64_decode($headersB64), true);
+        // $this->result_json_type($decoded);
 
         //
-        //$decoded = json_decode(base64_decode($sig), true);
-        //print_r($decoded);
+        // $decoded = json_decode(base64_decode($sig), true);
+        // $this->result_json_type($decoded);
 
         //
         $payloadB64 = str_replace('-', '+', $payloadB64);
         $payloadB64 = str_replace('_', '/', $payloadB64);
         $decoded = json_decode(base64_decode($payloadB64), true);
-        //print_r($decoded);
+        // $this->result_json_type($decoded);
 
         //
         if (!is_array($decoded)) {
             $this->result_json_type([
                 'code' => __LINE__,
-                //'jwt' => $jwt,
-                //'headersB64' => $headersB64,
-                //'payloadB64' => $payloadB64,
-                //'payloadB64' => base64_decode($payloadB64),
-                //'sig' => $sig,
-                //'decoded' => $decoded,
+                // 'jwt' => $jwt,
+                // 'headersB64' => $headersB64,
+                // 'payloadB64' => $payloadB64,
+                // 'payloadB64' => base64_decode($payloadB64),
+                // 'sig' => $sig,
+                // 'decoded' => $decoded,
                 'error' => $this->firebaseLang('decoded_array', 'Định dạng decoded không đúng'),
             ]);
         } else if (!isset($decoded['user_id'])) {
@@ -634,8 +636,8 @@ class Firebase2s extends Firebases
         }
 
         //
-        //echo date(EBE_DATETIME_FORMAT, $decoded['exp']) . PHP_EOL;
-        //echo date(EBE_DATETIME_FORMAT, $decoded['auth_time']) . PHP_EOL;
+        // echo date(EBE_DATETIME_FORMAT, $decoded['exp']) . PHP_EOL;
+        // echo date(EBE_DATETIME_FORMAT, $decoded['auth_time']) . PHP_EOL;
 
         // nếu có uid -> so khớp
         if ($uid != '') {

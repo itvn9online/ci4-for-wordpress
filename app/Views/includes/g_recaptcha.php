@@ -15,6 +15,12 @@ if (!empty($firebase_config->g_recaptcha_site_key)) {
     <script {csp-script-nonce}>
         function my_grecaptcha_ready(e) {
             // e.preventDefault();
+            if (typeof grecaptcha == 'undefined') {
+                console.log('%c' + 'grecaptcha is not defined!', 'color: red;');
+                return false;
+            }
+
+            // 
             grecaptcha.ready(function() {
                 grecaptcha
                     .execute("<?php echo $firebase_config->g_recaptcha_site_key; ?>", {

@@ -203,7 +203,7 @@ class Guest extends Csrf
                 //'serviceByLang' => $serviceByLang,
                 'set_login' => $this->MY_get('set_login'),
                 // tạo chuỗi dùng để xác thực url sau khi đăng nhập thành công
-                'sign_in_success_params' => $this->firebaseSignInSuccessParams(),
+                'sign_in_params_success' => $this->firebaseSignInSuccessParams(),
                 'expires_time' => $this->expires_time,
                 'file_auth' => $this->file_auth,
                 'firebase_config' => $this->firebase_config,
@@ -679,7 +679,7 @@ class Guest extends Csrf
                 'login_redirect' => $this->loginRedirect(),
                 'set_login' => $this->MY_get('set_login'),
                 //
-                'sign_in_success_params' => $this->firebaseSignInSuccessParams(),
+                'sign_in_params_success' => $this->firebaseSignInSuccessParams(),
                 'expires_time' => $this->expires_time,
                 'file_auth' => $this->file_auth,
                 'firebase_config' => $this->firebase_config,
@@ -838,7 +838,7 @@ class Guest extends Csrf
                 'login_redirect' => $this->loginRedirect(),
                 'set_login' => $this->MY_get('set_login'),
                 //
-                'sign_in_success_params' => $this->firebaseSignInSuccessParams(),
+                'sign_in_params_success' => $this->firebaseSignInSuccessParams(),
                 'expires_time' => $this->expires_time,
                 'file_auth' => $this->file_auth,
                 'firebase_config' => $this->firebase_config,

@@ -69,7 +69,7 @@ firebase.auth().onAuthStateChanged(
 			handleSignedInUser();
 
 			// tự động đăng nhập
-			//console.log(localStorage.getItem("firebase_auto_login"));
+			// console.log(localStorage.getItem("firebase_auto_login"));
 			if (localStorage.getItem("firebase_auto_login") !== null) {
 				if (1 < 2) {
 					continueSignIn();

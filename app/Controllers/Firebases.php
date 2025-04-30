@@ -25,7 +25,7 @@ class Firebases extends Guest
                 'breadcrumb' => '',
                 'phone_number' => $this->MY_get('phone_number'),
                 // tạo chuỗi dùng để xác thực url sau khi đăng nhập thành công
-                'sign_in_success_params' => $this->firebaseSignInSuccessParams(),
+                'sign_in_params_success' => $this->firebaseSignInSuccessParams(),
                 'expires_time' => $this->expires_time,
                 'file_auth' => $this->file_auth,
                 'firebase_config' => $this->firebase_config,
