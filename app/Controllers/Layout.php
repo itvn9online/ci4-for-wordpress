@@ -402,20 +402,54 @@ class Layout extends Sync
 
         // 
         $link_name = $_SERVER['REQUEST_URI'];
-        // xóa bỏ các tham số không cần thiết trong URL
-        $remove_params = array(
-            'fbclid=',
-            'gclid=',
-            'fb_comment_id=',
-            'add_to_wishlist=',
-            '_wpnonce=',
-            'utm_',
-            'v',
-        );
-        foreach ($remove_params as $v) {
-            $link_name = explode('?' . $v, $link_name)[0];
-            $link_name = explode('&' . $v, $link_name)[0];
+        if (strpos($link_name, '/apple-touch-icon.') !== false || strpos($link_name, '/apple-touch-icon-') !== false) {
+            // với file ảnh thì bỏ mọi dấu ? ở sau luôn
+            $link_name = explode('?', $link_name)[0];
+
+            // copy file nếu chưa có
+            if (strpos($link_name, '.png') !== false) {
+                // echo PUBLIC_PUBLIC_PATH . 'favicon-full.png' . '<br>' . PHP_EOL;
+                // echo PUBLIC_PUBLIC_PATH . ltrim($link_name, '/') . '<br>' . PHP_EOL;
+                // die(__CLASS__ . ':' . __LINE__);
+
+                // 
+                $this->MY_copy(PUBLIC_PUBLIC_PATH . 'favicon-full.png', PUBLIC_PUBLIC_PATH . ltrim($link_name, '/'));
+            }
+
+            // chuyển hướng đến URL ảnh tương ứng
+            $this->MY_redirect(DYNAMIC_BASE_URL . '/favicon-full.png', 301);
         }
+        // với các file tĩnh thì bỏ mọi dấu ? ở sau luôn
+        else if (
+            strpos($link_name, '.php?') !== false ||
+            strpos($link_name, '.png?') !== false ||
+            strpos($link_name, '.jpg?') !== false ||
+            strpos($link_name, '.jpeg?') !== false ||
+            strpos($link_name, '.gif?') !== false ||
+            strpos($link_name, '.json?') !== false ||
+            strpos($link_name, '.txt?') !== false ||
+            strpos($link_name, '.html?') !== false ||
+            strpos($link_name, '.htm?') !== false ||
+            strpos($link_name, '.xml?') !== false
+        ) {
+            $link_name = explode('?', $link_name)[0];
+        } else {
+            // xóa bỏ các tham số không cần thiết trong URL
+            $remove_params = array(
+                'fbclid=',
+                'gclid=',
+                'fb_comment_id=',
+                // 'add_to_wishlist=',
+                '_wpnonce=',
+                'utm_',
+                'v',
+            );
+            foreach ($remove_params as $v) {
+                $link_name = explode('?' . $v, $link_name)[0];
+                $link_name = explode('&' . $v, $link_name)[0];
+            }
+        }
+
         // xóa đoạn /public/ ở đầu link nếu có
         if (strpos($link_name, '/public/') !== false) {
             $link_name = explode('/public/', $link_name)[1];
@@ -461,7 +495,9 @@ class Layout extends Sync
                     }
                 }
                 // return false;
+                // } else if (strpos($link_name, '.php') === false) {
             } else {
+                // các link kiểu php thì không cần lưu lại
                 // lưu các URL 404 này vào bảng links để tiện theo dõi
                 $result_id = $this->base_model->insert('links', [
                     'link_url' => $_SERVER['HTTP_HOST'],

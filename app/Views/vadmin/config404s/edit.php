@@ -63,6 +63,8 @@ $base_model->add_css('wp-admin/css/sonfig404s.css');
 
     </div>
 </div>
+<br />
+<div class="public-part-page"><?php echo $pagination; ?> Trên tổng số <?php echo number_format($totalThread); ?> bản ghi.</div>
 <?php
 
 //

@@ -93,51 +93,107 @@ class Config404s extends Sadmin
             $this->base_model->scache('cleanup_config404s', date('r'), DAY);
         }
 
+        //
+        $post_per_page = 100;
+        // URL cho phân trang
+        $urlPartPage = 'sadmin/config404s?part_type=links';
+
         // 
         $where_like = [];
         $by_keyword = trim($this->MY_get('s'));
         if ($by_keyword != '') {
+            $urlPartPage .= '&s=' . $by_keyword;
+
             $where_like = [
                 'link_name' => $by_keyword,
             ];
         }
 
         // 
-        $data = $this->base_model->select(
-            [
-                // các trường cần lấy ra
-                'link_id',
-                'link_url',
-                'link_name',
-                'link_image',
-                'link_target',
-                'link_rel',
-                'link_updated',
-                'link_notes',
-            ],
-            'links',
-            array(
-                // các kiểu điều kiện where
-                // 'member_type' => UsersType::MEMBER,
-            ),
-            array(
-                'like_before' => $where_like,
-                'order_by' => array(
-                    'link_id' => 'DESC',
-                ),
-                // hiển thị mã SQL để check
-                // 'show_query' => 1,
-                // trả về câu query để sử dụng cho mục đích khác
-                // 'get_query' => 1,
-                // trả về COUNT(column_name) AS column_name
-                // 'selectCount' => 'ID',
-                // trả về tổng số bản ghi -> tương tự mysql num row
-                // 'getNumRows' => 1,
-                // 'offset' => 0,
-                'limit' => 100,
-            )
-        );
-        // print_r($data);
+        $where = [
+            // các kiểu điều kiện where
+        ];
+
+        // 
+        $filter = [
+            'like_before' => $where_like,
+            // hiển thị mã SQL để check
+            // 'show_query' => 1,
+            // trả về câu query để sử dụng cho mục đích khác
+            // 'get_query' => 1,
+            // trả về COUNT(column_name) AS column_name
+            // 'selectCount' => 'ID',
+            // trả về tổng số bản ghi -> tương tự mysql num row
+            // 'getNumRows' => 1,
+            // 'offset' => 0,
+            // 'limit' => $post_per_page,
+        ];
+
+
+        /**
+         * phân trang
+         */
+        $totalThread = $this->base_model->select_count('link_id', 'links', $where, $filter);
+        // echo $totalThread . '<br>' . PHP_EOL;
+
+        // chạy vòng lặp gán nốt các thông số khác trên url vào phân trang
+        $urlPartPage = $this->base_model->auto_add_params($urlPartPage);
+
+        //
+        if ($totalThread > 0) {
+            $page_num = $this->MY_get('page_num', 1);
+
+            $totalPage = ceil($totalThread / $post_per_page);
+            if ($totalPage < 1) {
+                $totalPage = 1;
+            }
+            // echo $totalPage . '<br>' . PHP_EOL;
+            if ($page_num > $totalPage) {
+                $page_num = $totalPage;
+            } else if ($page_num < 1) {
+                $page_num = 1;
+            }
+            // echo $totalThread . '<br>' . PHP_EOL;
+            // echo $totalPage . '<br>' . PHP_EOL;
+            $offset = ($page_num - 1) * $post_per_page;
+
+            // chạy vòng lặp gán nốt các thông số khác trên url vào phân trang
+            $urlPartPage = $this->base_model->auto_add_params($urlPartPage);
+
+            //
+            $pagination = $this->base_model->EBE_pagination($page_num, $totalPage, $urlPartPage, 'page_num=');
+
+
+            // select dữ liệu từ 1 bảng bất kỳ
+            // $filter['show_query'] = 1;
+            $filter['offset'] = $offset;
+            $filter['limit'] = $post_per_page;
+            $filter['order_by'] = array(
+                'link_id' => 'DESC',
+            );
+
+            // 
+            $data = $this->base_model->select(
+                [
+                    // các trường cần lấy ra
+                    'link_id',
+                    'link_url',
+                    'link_name',
+                    'link_image',
+                    'link_target',
+                    'link_rel',
+                    'link_updated',
+                    'link_notes',
+                ],
+                'links',
+                $where,
+                $filter
+            );
+            // print_r($data);
+        } else {
+            $data = [];
+            $pagination = '';
+        }
 
         // 
         $this->teamplate_admin['content'] = view(
@@ -146,6 +202,8 @@ class Config404s extends Sadmin
                 // 'lang_key' => $this->lang_key,
                 'data' => $data,
                 'by_keyword' => $by_keyword,
+                'pagination' => $pagination,
+                'totalThread' => $totalThread,
             )
         );
         return view('vadmin/admin_teamplate', $this->teamplate_admin);

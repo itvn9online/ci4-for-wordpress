@@ -292,15 +292,15 @@ class Posts extends Sadmin
             if ($totalPage < 1) {
                 $totalPage = 1;
             }
-            //echo $totalPage . '<br>' . PHP_EOL;
+            // echo $totalPage . '<br>' . PHP_EOL;
             if ($page_num > $totalPage) {
                 $page_num = $totalPage;
             } else if ($page_num < 1) {
                 $page_num = 1;
             }
             $for_action .= ($page_num > 1 ? '&page_num=' . $page_num : '');
-            //echo $totalThread . '<br>' . PHP_EOL;
-            //echo $totalPage . '<br>' . PHP_EOL;
+            // echo $totalThread . '<br>' . PHP_EOL;
+            // echo $totalPage . '<br>' . PHP_EOL;
             $offset = ($page_num - 1) * $post_per_page;
 
             // chạy vòng lặp gán nốt các thông số khác trên url vào phân trang
@@ -342,14 +342,14 @@ class Posts extends Sadmin
 
             //
             $data = $this->post_model->list_meta_post($data);
-            //print_r( $data );
+            // print_r($data);
 
             // xử lý dữ liệu cho angularjs
             foreach ($data as $k => $v) {
                 // không cần hiển thị nội dung
                 $v['post_content'] = '';
-                //print_r($v);
-                //continue;
+                // print_r($v);
+                // continue;
 
                 // lấy 1 số dữ liệu khác gán vào, để angularjs chỉ việc hiển thị
                 $v['admin_permalink'] = $this->post_model->get_admin_permalink($this->post_type, $v['ID'], $this->controller_slug);
