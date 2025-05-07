@@ -3,7 +3,7 @@
 //
 use App\Libraries\ConfigType;
 
-//print_r( $data );
+// print_r($data);
 
 // css riêng cho từng config (nếu có)
 $base_model->add_css('wp-admin/css/config_' . $config_type . '.css');

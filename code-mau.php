@@ -102,8 +102,8 @@ $this->base_model->_eb_float_only('fgfsd097834msdgs');
 
 // INSERT
 $result_id = $this->base_model->insert($this->table, $data, true);
-//var_dump( $result_id );
-//print_r( $result_id );
+// var_dump($result_id);
+// print_r($result_id);
 
 if ($result_id !== false) {
     //
@@ -145,7 +145,7 @@ $result_id = $this->base_model->update_multiple('users', [
     // trả về câu query để sử dụng cho mục đích khác
     'get_query' => 1,
     // mặc định sẽ remove các field không có trong bảng, nếu muốn bỏ qua chức năng này thì kích hoạt no_remove_field
-    //'no_remove_field' => 1
+    // 'no_remove_field' => 1
 ]);
 
 if ($result_id !== false) {
@@ -233,12 +233,12 @@ $data = $this->base_model->select(
         // hiển thị mã SQL để check
         'show_query' => 1,
         // trả về câu query để sử dụng cho mục đích khác
-        //'get_query' => 1,
+        // 'get_query' => 1,
         // trả về COUNT(column_name) AS column_name
-        //'selectCount' => 'ID',
+        // 'selectCount' => 'ID',
         // trả về tổng số bản ghi -> tương tự mysql num row
-        //'getNumRows' => 1,
-        //'offset' => 0,
+        // 'getNumRows' => 1,
+        // 'offset' => 0,
         'limit' => 3
     )
 );

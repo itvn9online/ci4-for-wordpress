@@ -293,6 +293,11 @@ class AdminMenu
                         'tag' => 'Products details, chi tiet san pham',
                         'icon' => 'fa fa-newspaper-o',
                     ],
+                    'sadmin/config404s' => [
+                        'name' => '404 Monitor',
+                        'tag' => '404, 301, 302, redirect',
+                        'icon' => 'fa fa-exclamation-triangle',
+                    ],
                     'sadmin/smtps' => [
                         'name' => ConfigType::typeList(ConfigType::SMTP),
                         'tag' => 'PHPMailer',

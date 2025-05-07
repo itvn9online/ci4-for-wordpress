@@ -309,15 +309,19 @@ class Layout extends Sync
     /**
      * Kiểm tra các bản ghi trong RewriteRule để redirect cho trang 404 nếu có
      **/
-    protected function rewriteRule()
+    protected function rewriteRule($rules_content = '')
     {
-        // xem có file RewriteRule ko
-        $rules_path = WRITEPATH . 'RewriteRule.txt';
-        // ko có thì trả về false luôn
-        if (!is_file($rules_path)) {
-            return false;
+        if ($rules_content == '') {
+            // xem có file RewriteRule ko
+            $rules_path = WRITEPATH . 'RewriteRule.txt';
+            // ko có thì trả về false luôn
+            if (!is_file($rules_path)) {
+                return false;
+            }
+            $rules_content = file_get_contents($rules_path);
+            // } else {
+            //     die($rules_content);
         }
-        $rules_content = file_get_contents($rules_path);
 
         // xác định url hiện tại
         $current_uri = $_SERVER['REQUEST_URI'];
@@ -396,6 +400,86 @@ class Layout extends Sync
         // kiểm tra có trong RewriteRule không đã
         $this->rewriteRule();
 
+        // 
+        $link_name = $_SERVER['REQUEST_URI'];
+        // xóa bỏ các tham số không cần thiết trong URL
+        $remove_params = array(
+            'fbclid=',
+            'gclid=',
+            'fb_comment_id=',
+            'add_to_wishlist=',
+            '_wpnonce=',
+            'utm_',
+            'v',
+        );
+        foreach ($remove_params as $v) {
+            $link_name = explode('?' . $v, $link_name)[0];
+            $link_name = explode('&' . $v, $link_name)[0];
+        }
+        // xóa đoạn /public/ ở đầu link nếu có
+        if (strpos($link_name, '/public/') !== false) {
+            $link_name = explode('/public/', $link_name)[1];
+        }
+
+        // 
+        if (!empty($link_name)) {
+            $data = $this->base_model->select(
+                [
+                    // các trường cần lấy ra
+                    'link_image',
+                ],
+                'links',
+                array(
+                    // các kiểu điều kiện where
+                    // 'link_image !=' => '',
+                ),
+                array(
+                    'like_before' => array(
+                        'link_name' => $link_name,
+                    ),
+                    'order_by' => array(
+                        'link_id' => 'DESC',
+                    ),
+                    // hiển thị mã SQL để check
+                    // 'show_query' => 1,
+                    // trả về câu query để sử dụng cho mục đích khác
+                    // 'get_query' => 1,
+                    // trả về COUNT(column_name) AS column_name
+                    // 'selectCount' => 'ID',
+                    // trả về tổng số bản ghi -> tương tự mysql num row
+                    // 'getNumRows' => 1,
+                    // 'offset' => 0,
+                    'limit' => 10,
+                )
+            );
+            // print_r($data);
+            if (!empty($data)) {
+                foreach ($data as $v) {
+                    if (!empty($v['link_image'])) {
+                        $this->rewriteRule('RewriteRule ^' . $_SERVER['REQUEST_URI'] . '$ ' . $v['link_image'] . ' [R=301,L]');
+                        break;
+                    }
+                }
+                // return false;
+            } else {
+                // lưu các URL 404 này vào bảng links để tiện theo dõi
+                $result_id = $this->base_model->insert('links', [
+                    'link_url' => $_SERVER['HTTP_HOST'],
+                    'link_name' => $link_name,
+                    'link_image' => '',
+                    'link_target' => __FUNCTION__,
+                    'link_description' => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
+                    'link_visible' => 'N',
+                    'link_owner' => $this->current_user_id,
+                    'link_updated' => date(EBE_DATETIME_FORMAT),
+                    'link_rel' => $this->base_model->getIPAddress(),
+                    'link_notes' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '',
+                    'link_rss' => '',
+                ]);
+            }
+        }
+
+
         /**
          * trả về lỗi 404
          **/
@@ -407,21 +491,6 @@ class Layout extends Sync
         $response = \Config\Services::response();
         $response->setStatusCode(404, $pcol . ' 404 Not Found');
         // http_response_code(404);
-
-        // lưu các URL 404 này vào bảng links để tiện theo dõi
-        $result_id = $this->base_model->insert('wp_links', [
-            'link_url' => $_SERVER['HTTP_HOST'],
-            'link_name' => $_SERVER['REQUEST_URI'],
-            'link_image' => '',
-            'link_target' => __FUNCTION__,
-            'link_description' => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
-            'link_visible' => 'N',
-            'link_owner' => $this->current_user_id,
-            'link_updated' => date(EBE_DATETIME_FORMAT),
-            'link_rel' => $this->base_model->getIPAddress(),
-            'link_notes' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '',
-            'link_rss' => '',
-        ]);
 
         //
         $this->teamplate['main'] = view(
