@@ -181,6 +181,7 @@ class Config404s extends Sadmin
                     'link_name',
                     'link_image',
                     'link_target',
+                    'link_description',
                     'link_rel',
                     'link_updated',
                     'link_notes',

@@ -422,14 +422,26 @@ class Layout extends Sync
         // với các file tĩnh thì bỏ mọi dấu ? ở sau luôn
         else if (
             strpos($link_name, '.php?') !== false ||
+            strpos($link_name, '.aspx?') !== false ||
+            strpos($link_name, '.asp?') !== false ||
             strpos($link_name, '.png?') !== false ||
             strpos($link_name, '.jpg?') !== false ||
             strpos($link_name, '.jpeg?') !== false ||
             strpos($link_name, '.gif?') !== false ||
+            strpos($link_name, '.js?') !== false ||
+            strpos($link_name, '.css?') !== false ||
             strpos($link_name, '.json?') !== false ||
             strpos($link_name, '.txt?') !== false ||
             strpos($link_name, '.html?') !== false ||
             strpos($link_name, '.htm?') !== false ||
+            strpos($link_name, '.zip?') !== false ||
+            strpos($link_name, '.sql?') !== false ||
+            strpos($link_name, '.lock?') !== false ||
+            strpos($link_name, '.env?') !== false ||
+            strpos($link_name, '.ini?') !== false ||
+            strpos($link_name, '.bak?') !== false ||
+            strpos($link_name, '.yaml?') !== false ||
+            strpos($link_name, '.py?') !== false ||
             strpos($link_name, '.xml?') !== false
         ) {
             $link_name = explode('?', $link_name)[0];
@@ -443,6 +455,7 @@ class Layout extends Sync
                 '_wpnonce=',
                 'utm_',
                 'v',
+                'nse',
             );
             foreach ($remove_params as $v) {
                 $link_name = explode('?' . $v, $link_name)[0];
@@ -452,7 +465,8 @@ class Layout extends Sync
 
         // xóa đoạn /public/ ở đầu link nếu có
         if (strpos($link_name, '/public/') !== false) {
-            $link_name = explode('/public/', $link_name)[1];
+            // $link_name = explode('/public/', $link_name)[1];
+            $link_name = str_replace('/public/', '/', $link_name, 1);
         }
 
         // 
@@ -495,8 +509,8 @@ class Layout extends Sync
                     }
                 }
                 // return false;
-                // } else if (strpos($link_name, '.php') === false) {
-            } else {
+            } else if (strpos($link_name, '.php') === false) {
+                // } else {
                 // các link kiểu php thì không cần lưu lại
                 // lưu các URL 404 này vào bảng links để tiện theo dõi
                 $result_id = $this->base_model->insert('links', [

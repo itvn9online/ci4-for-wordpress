@@ -8,3 +8,7 @@
 .small {
     font-size: 12px;
 }
+
+#admin_main_list input[type="text"] {
+    margin-bottom: 0;
+}

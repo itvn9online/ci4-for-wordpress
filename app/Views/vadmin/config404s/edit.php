@@ -44,14 +44,14 @@ $base_model->add_css('wp-admin/css/sonfig404s.css');
                     <td>{{v.link_id}}</td>
                     <td>{{v.link_url}}</td>
                     <td>
-                        <a :href="'//' + v.link_url + v.link_name" target="_blank" class="small">{{v.link_name}}</a>
+                        <a :href="'//' + v.link_url + v.link_name" target="_blank" class="small">{{v.link_name.substring(0, 36)}}</a>
                     </td>
                     <td>
                         <input type="text" :value="v.link_image" :title="v.link_image" :data-id="v.link_id" class="change-update-link-redirect small" />
                     </td>
                     <td>{{v.link_target}}</td>
-                    <td>
-                        <input type="text" :value="v.link_rel" :value="v.link_rel" class="links-link_rel small" readonly />
+                    <td :title="v.link_description">
+                        <a :href="'https://www.iplocation.net/ip-lookup?query=' + v.link_rel" target="_blank" class="small">{{v.link_rel.substring(0, 15)}}</a>
                     </td>
                     <td class="small">{{v.link_updated}}</td>
                     <td>
