@@ -946,9 +946,9 @@ class Posts extends Sadmin
 
         //
         $data = $this->MY_post('data');
-        //print_r($data);
-        //print_r($_POST);
-        //die(__CLASS__ . ':' . __LINE__);
+        // print_r($data);
+        // print_r($_POST);
+        // die(__CLASS__ . ':' . __LINE__);
 
         // nạp lại trang nếu có đổi slug duplicate
         if (
@@ -958,13 +958,13 @@ class Posts extends Sadmin
             isset($data['post_title']) && strpos($data['post_title'], ' - Duplicate ') === false
         ) {
             // nạp lại trang
-            //$this->base_model->alert('', DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/'));
-            //$this->base_model->alert('', $this->post_model->get_admin_permalink($this->post_type, $id, $this->controller_slug));
+            // $this->base_model->alert('', DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/'));
+            // $this->base_model->alert('', $this->post_model->get_admin_permalink($this->post_type, $id, $this->controller_slug));
             $this->base_model->alert('', $this->buildAdminPermalink($id));
         } else {
             // so sánh url cũ và mới
             $old_postname = $this->MY_post('old_postname');
-            //print_r($old_postname);
+            // print_r($old_postname);
 
             // nếu có sự khác nhau
             if (isset($data['post_name']) && $old_postname != $data['post_name']) {
@@ -972,13 +972,13 @@ class Posts extends Sadmin
                 $new_data = $this->post_model->select_post($id, [
                     'post_type' => $this->post_type,
                 ]);
-                //print_r($new_data);
+                // print_r($new_data);
 
                 // -> lấy url mới -> thiết lập lại url ở fronend
                 echo '<script>top.set_new_post_url("' . $this->post_model->before_post_permalink($new_data) . '", "' . $new_data['post_name'] . '");</script>';
             }
         }
-        //die(__CLASS__ . ':' . __LINE__);
+        // die(__CLASS__ . ':' . __LINE__);
 
         //
         echo '<script>top.after_update_post();</script>';
@@ -1004,8 +1004,8 @@ class Posts extends Sadmin
         $data = [
             'post_status' => $post_status
         ];
-        //print_r( $data );
-        //die( __CLASS__ . ':' . __LINE__ );
+        // print_r($data);
+        // die(__CLASS__ . ':' . __LINE__);
 
         // lấy slug nếu chưa có -> lấy để lệnh update post còn thêm hoặc xóa trash (tùy request hiện tại)
         if (!isset($data['post_name']) || $data['post_name'] == '') {
@@ -1014,26 +1014,26 @@ class Posts extends Sadmin
                 // 'post_status !=' => $post_status,
             ], [
                 // hiển thị mã SQL để check
-                //'show_query' => 1,
+                // 'show_query' => 1,
                 // trả về câu query để sử dụng cho mục đích khác
-                //'get_query' => 1,
-                //'offset' => 2,
+                // 'get_query' => 1,
+                // 'offset' => 2,
                 'limit' => 1
             ]);
-            //print_r( $check_slug );
+            // print_r($check_slug);
             if (!empty($check_slug)) {
                 $data['post_name'] = $check_slug['post_name'];
             }
         }
-        //print_r( $data );
-        //die( __CLASS__ . ':' . __LINE__ );
+        // print_r($data);
+        // die(__CLASS__ . ':' . __LINE__);
 
         //
         $update = $this->post_model->update_post($id, $data, [
             'post_type' => $this->post_type,
         ]);
-        //print_r( $update );
-        //die( __CLASS__ . ':' . __LINE__ );
+        // print_r($update);
+        // die(__CLASS__ . ':' . __LINE__);
 
         // nếu update thành công -> gửi lệnh javascript để ẩn bài viết bằng javascript
         if ($update === true) {

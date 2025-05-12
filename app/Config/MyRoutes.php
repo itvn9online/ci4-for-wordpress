@@ -88,6 +88,7 @@ foreach ($arr_prefix_routes as $v) {
         // sitemap
         $routes->get('sitemap', 'Sitemap::index');
         $routes->get('sitemap.xml', 'Sitemap::index');
+        $routes->get('sitemap_index.xml', 'Sitemap::index');
         $routes->get('sitemap/(:segment)', 'Sitemap::index/$1');
         $routes->get('sitemap/(:segment)/page/(:num)', 'Sitemap::index/$1/page/$2');
 

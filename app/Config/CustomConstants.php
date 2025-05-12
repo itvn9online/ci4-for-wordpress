@@ -34,23 +34,26 @@ define('ADMIN_CUSTOM_VIEWS', VIEWS_CUSTOM_PATH . 'vadmin/');
  * Tránh việc bị dùng các extension kiểu adblock chặn request
  * Các chuỗi này chỉ dùng sau khi đã đăng nhập -> có thể dùng theo session id do không dình cache
  **/
+$date_and_hour = date('dH');
 // tạo hàm ngẫu nhiên theo ngày giờ
 $rand_by_ses = md5($_SERVER['HTTP_HOST'] . date('Y-m-d H'));
-// hỗ trợ giao thoa giữa 2 cung giờ trong vòng 30 phút
-$rand2_by_ses = md5($_SERVER['HTTP_HOST'] . date('Y-m-d H', time() - 2400));
+// hỗ trợ giao thoa giữa 2 cung giờ trong vòng 1h
+$mot_gio_truoc = time() - 3600;
+$date_and2_hour = date('dH', $mot_gio_truoc);
+$rand2_by_ses = md5($_SERVER['HTTP_HOST'] . date('Y-m-d H', $mot_gio_truoc));
 // $rand_by_ses = md5(session_id());
 // echo $rand_by_ses . '<br>' . PHP_EOL;
 // khai báo constants để tạo routes
-define('RAND_MULTI_LOGOUT', '_' . substr($rand_by_ses, 0, 12));
+define('RAND_MULTI_LOGOUT', '_' . $date_and_hour . substr($rand_by_ses, 0, 12));
 // die(RAND_MULTI_LOGOUT);
-define('RAND2_MULTI_LOGOUT', '_' . substr($rand2_by_ses, 0, 12));
-//echo RAND_MULTI_LOGOUT . '<br>' . PHP_EOL;
-define('RAND_MULTI_LOGGED', '_' . substr($rand_by_ses, 6, 12));
-define('RAND2_MULTI_LOGGED', '_' . substr($rand2_by_ses, 6, 12));
+define('RAND2_MULTI_LOGOUT', '_' . $date_and2_hour . substr($rand2_by_ses, 0, 12));
+// echo RAND2_MULTI_LOGOUT . '<br>' . PHP_EOL;
+define('RAND_MULTI_LOGGED', '_' . $date_and_hour . substr($rand_by_ses, 6, 12));
 //echo RAND_MULTI_LOGGED . '<br>' . PHP_EOL;
-define('RAND_CONFIRM_LOGGED', '_' . substr($rand_by_ses, 12, 12));
-define('RAND2_CONFIRM_LOGGED', '_' . substr($rand2_by_ses, 12, 12));
+define('RAND2_MULTI_LOGGED', '_' . $date_and2_hour . substr($rand2_by_ses, 6, 12));
+define('RAND_CONFIRM_LOGGED', '_' . $date_and_hour . substr($rand_by_ses, 12, 12));
 //echo RAND_CONFIRM_LOGGED . '<br>' . PHP_EOL;
+define('RAND2_CONFIRM_LOGGED', '_' . $date_and2_hour . substr($rand2_by_ses, 12, 12));
 
 /**
  * Chuỗi dùng cho đăng nhập tự động -> mỗi chuỗi sẽ có hạn tầm 1h

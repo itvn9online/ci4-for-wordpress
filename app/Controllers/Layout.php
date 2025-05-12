@@ -430,6 +430,7 @@ class Layout extends Sync
             strpos($link_name, '.gif?') !== false ||
             strpos($link_name, '.js?') !== false ||
             strpos($link_name, '.css?') !== false ||
+            strpos($link_name, '.pdf?') !== false ||
             strpos($link_name, '.json?') !== false ||
             strpos($link_name, '.txt?') !== false ||
             strpos($link_name, '.html?') !== false ||
@@ -441,6 +442,14 @@ class Layout extends Sync
             strpos($link_name, '.ini?') !== false ||
             strpos($link_name, '.bak?') !== false ||
             strpos($link_name, '.yaml?') !== false ||
+            strpos($link_name, '.yml?') !== false ||
+            strpos($link_name, '.log?') !== false ||
+            strpos($link_name, '.run?') !== false ||
+            strpos($link_name, '.conf?') !== false ||
+            strpos($link_name, '.gz?') !== false ||
+            strpos($link_name, '.rar?') !== false ||
+            strpos($link_name, '.tgz?') !== false ||
+            strpos($link_name, '.7z?') !== false ||
             strpos($link_name, '.py?') !== false ||
             strpos($link_name, '.xml?') !== false
         ) {
@@ -533,7 +542,7 @@ class Layout extends Sync
         /**
          * trả về lỗi 404
          **/
-        //echo __CLASS__ . ':' . __LINE__;
+        // echo __CLASS__ . ':' . __LINE__;
         if (function_exists('http_response_code')) {
             http_response_code(404);
         }

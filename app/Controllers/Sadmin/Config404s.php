@@ -116,7 +116,7 @@ class Config404s extends Sadmin
 
         // 
         $filter = [
-            'like_before' => $where_like,
+            'like_after' => $where_like,
             // hiển thị mã SQL để check
             // 'show_query' => 1,
             // trả về câu query để sử dụng cho mục đích khác

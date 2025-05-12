@@ -8,6 +8,7 @@ function set_new_post_url(url, post_name) {
 
 	// cập nhật lại luôn mục url cũ
 	jQuery("#old_postname").val(post_name);
+	jQuery("#old_permalink").val(url);
 }
 
 function after_update_post() {
