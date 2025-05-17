@@ -1252,7 +1252,7 @@ class Layout extends Sync
     // kiểm tra quyền truy cập chi tiết 1 post
     protected function post_permission($data)
     {
-        //print_r( $this->session_data );
+        // print_r($this->session_data);
 
         // nếu bài viết ở chế độ riêng tư
         if ($data['post_status'] == PostType::PRIVATELY) {

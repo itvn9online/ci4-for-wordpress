@@ -237,6 +237,7 @@ class ConfigType
                 'html_post_header' => 'HTML đầu trang',
                 'html_post_body' => 'HTML chân trang',
                 'post_toc' => 'Sử dụng Table of content (TOC)',
+                'redirect_post_404' => '404 redirect',
             ];
             /*
         } else if ($config_type == self::BLOGS) {
@@ -299,6 +300,7 @@ class ConfigType
                 //
                 'html_product_header' => 'HTML đầu trang',
                 'html_product_body' => 'HTML chân trang',
+                'redirect_product_404' => '404 redirect',
             ];
         } else if ($config_type == self::NUM_MON) {
             $arr = [
@@ -710,6 +712,8 @@ class ConfigType
             'hide_captcha' => 'Là dạng mã xác thực ngầm được nào vào footer, dùng cho các chức năng cần xác thực tự động chống bot spam.',
             'show_child_category' => 'Khi chế độ này được kích hoạt, và khi truy cập vào danh mục ' . AdminTranslate::POST . ', nếu trong danh mục đó có các nhóm con thì các nhóm con sẽ được hiển thị thay vì hiển thị trực tiếp danh sách ' . AdminTranslate::POST,
             'post_toc' => 'Khi kích hoạt chế độ này, 1 menu trong chi tiết bài viết sẽ được kích hoạt dựa theo các thẻ heading.',
+            'redirect_post_404' => 'Mặc định khi không tìm thấy bài viết, sẽ hiển thị trang 404. Nếu muốn chuyển hướng tới 1 URL nào đó, hãy thiết lập tại đây.',
+            'redirect_product_404' => 'Mặc định khi không tìm thấy bài viết, sẽ hiển thị trang 404. Nếu muốn chuyển hướng tới 1 URL nào đó, hãy thiết lập tại đây.',
             'max_child_category' => 'Một vòng lặp sẽ lấy số lượng ' . AdminTranslate::POST . ' để hiển thị trong mỗi nhóm con',
             'show_child_products' => 'Khi chế độ này được kích hoạt, và khi truy cập vào danh mục ' . AdminTranslate::PROD . ', nếu trong danh mục đó có các nhóm con thì các nhóm con sẽ được hiển thị thay vì hiển thị trực tiếp danh sách ' . AdminTranslate::PROD,
             'max_child_products' => 'Một vòng lặp sẽ lấy số lượng ' . AdminTranslate::PROD . ' để hiển thị trong mỗi nhóm con',

@@ -325,7 +325,7 @@ class Home extends Posts
     */
     protected function showPostDetails($id, $post_type = '', $slug = '')
     {
-        //echo $id . '<br>' . PHP_EOL;
+        // echo $id . '<br>' . PHP_EOL;
         // echo $post_type . '<br>' . PHP_EOL;
 
         //
@@ -335,20 +335,20 @@ class Home extends Posts
 
         //
         $cache_key = $this->post_model->key_cache($id);
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
         $cache_value = $this->MY_cache($cache_key);
         // Will get the cache entry named 'my_foo'
-        //var_dump( $cache_value );
+        // var_dump($cache_value);
         // có thì in ra cache là được
         if ($cache_value !== null) {
             return $this->show_cache($cache_value, $cache_key);
         }
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
         //
         $in_cache = __FUNCTION__;
         $data = $this->post_model->the_cache($id, $in_cache);
-        //var_dump($data);
+        // var_dump($data);
         if ($data === null) {
             // lấy post theo ID, không lọc theo post type -> vì nhiều nơi cần dùng đến
             $data = $this->base_model->select(
@@ -358,15 +358,15 @@ class Home extends Posts
                     // các kiểu điều kiện where
                     'ID' => $id,
                     // bỏ qua where post_type để còn tạo shortlink
-                    //'post_type' => $post_type,
-                    //'post_status' => PostType::PUBLICITY
+                    // 'post_type' => $post_type,
+                    // 'post_status' => PostType::PUBLICITY
                 ),
                 array(
                     // hiển thị mã SQL để check
-                    //'show_query' => 1,
+                    // 'show_query' => 1,
                     // trả về câu query để sử dụng cho mục đích khác
-                    //'get_query' => 1,
-                    //'offset' => 2,
+                    // 'get_query' => 1,
+                    // 'offset' => 2,
                     'limit' => 1
                 )
             );
@@ -410,7 +410,7 @@ class Home extends Posts
                 return $this->pageDetail($data, $data['post_type'] . '_view');
             }
         }
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
         //
         return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Cannot be determined post data...');

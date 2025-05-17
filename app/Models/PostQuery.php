@@ -430,7 +430,7 @@ class PostQuery extends PostMeta
     public function select_public_post($post_id, $where = [], $select_col = '*', $ops = [])
     {
         // các tham số bắt buộc
-        //$where[ 'post_status' ] = PostType::PUBLICITY;
+        // $where['post_status'] = PostType::PUBLICITY;
         $where['lang_key'] = LanguageCost::lang_key();
 
         //
@@ -450,8 +450,8 @@ class PostQuery extends PostMeta
             // cho admin xem trước
             PostType::DRAFT,
         ];
-        //print_r($ops);
-        //die(__CLASS__ . ':' . __LINE__);
+        // print_r($ops);
+        // die(__CLASS__ . ':' . __LINE__);
 
         //
         return $this->select_post(

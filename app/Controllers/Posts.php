@@ -25,18 +25,18 @@ class Posts extends Csrf
 
     public function post_details($id = 0, $slug = '', $data = null)
     {
-        //echo $id . ' <br>' . PHP_EOL;
-        //echo $slug . ' <br>' . PHP_EOL;
-        //echo 'post details <br>' . PHP_EOL;
-        //print_r($data);
+        // echo $id . ' <br>' . PHP_EOL;
+        // echo $slug . ' <br>' . PHP_EOL;
+        // echo 'post details <br>' . PHP_EOL;
+        // print_r($data);
 
         //
         $this->cache_key = $this->post_model->key_cache($id);
         $cache_value = $this->MY_cache($this->cache_key);
         // Will get the cache entry named 'my_foo'
-        //var_dump( $cache_value );
+        // var_dump( $cache_value );
         // có thì in ra cache là được
-        //if ( $_SERVER[ 'REQUEST_METHOD' ] == 'GET' && $cache_value !== null ) {
+        // if ($_SERVER['REQUEST_METHOD'] == 'GET' && $cache_value !== null) {
         if ($this->hasFlashSession() === false && $cache_value !== null) {
             return $this->show_cache($cache_value, $this->cache_key);
         }
@@ -44,15 +44,15 @@ class Posts extends Csrf
         //
         if ($data === null) {
             $data = $this->post_model->select_public_post($id, [
-                //'post_name' => $slug_1,
+                // 'post_name' => $slug_1,
                 'post_type' => $this->post_type,
             ]);
-            //print_r($data);
+            // print_r($data);
         }
         // print_r($data);
-        //die( __CLASS__ . ':' . __LINE__ );
+        // die(__CLASS__ . ':' . __LINE__);
         if (empty($data)) {
-            //print_r( $data );
+            // print_r($data);
             return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Cannot be determined post data...');
         }
 
@@ -65,7 +65,7 @@ class Posts extends Csrf
         $this->post_model->check_canonical($slug, $data);
 
         // update lượt xem -> daidq (2021-12-14): chuyển phần update này qua view, ai thích dùng thì kích hoạt cho nó nhẹ
-        //$this->post_model->update_views( $data[ 'ID' ] );
+        // $this->post_model->update_views($data['ID']);
 
         //
         $data['post_content'] = $this->replace_content($data['post_content']);
@@ -95,9 +95,9 @@ class Posts extends Csrf
                 $this->create_term_breadcrumb($cats);
             }
         }
-        //print_r( $this->taxonomy_slider );
-        //print_r( $this->posts_parent_list );
-        //print_r($data);
+        // print_r($this->taxonomy_slider);
+        // print_r($this->posts_parent_list);
+        // print_r($data);
         $data = $this->post_model->metaTitleDescription($data);
         // print_r($data);
 
