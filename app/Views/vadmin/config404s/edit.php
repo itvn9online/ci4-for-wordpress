@@ -9,6 +9,7 @@ $base_model->add_css('wp-admin/css/sonfig404s.css');
 <div id="app">
     <ul class="admin-breadcrumb">
         <li><a href="sadmin/config404s">404 Monitor</a></li>
+        <li>page404</li>
     </ul>
     <div class="cf admin-search-form">
         <div class="lf f62">

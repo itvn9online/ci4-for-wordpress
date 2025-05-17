@@ -652,12 +652,12 @@ class Home extends Posts
 
         // không có dữ liệu -> báo 404 luôn
         if (empty($data)) {
-            return $this->page404('ERROR ' . __FUNCTION__ . ':' . __LINE__ . '! Cannot be determined post category...', $cache_key);
+            return $this->page404('ERROR ' . __FUNCTION__ . ':' . __LINE__ . '! Cannot be determined post category...');
         } else if ($data['count'] < 1) {
             // $this->term_model->update_count_post_in_term($data);
 
             // 
-            return $this->page404('ERROR ' . __FUNCTION__ . ':' . __LINE__ . '! No articles found in the category: ' . $data['name'] . ' #' . $term_id . ' (' . $taxonomy_type . ')', $cache_key);
+            return $this->page404('ERROR ' . __FUNCTION__ . ':' . __LINE__ . '! No articles found in the category: ' . $data['name'] . ' #' . $term_id . ' (' . $taxonomy_type . ')');
         }
 
         // kiểm tra lại slug -> nếu sai thì redirect 301 qua url mới

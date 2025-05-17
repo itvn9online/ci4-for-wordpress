@@ -41,6 +41,15 @@
         right: 10%;
         transform: none;
     }
+
+    .padding-global-content.left-sidebar .col-main-content,
+    .padding-global-content.right-sidebar .col-main-content,
+    .padding-global-content.left-sidebar .col-sidebar-content,
+    .padding-global-content.right-sidebar .col-sidebar-content {
+        width: 92%;
+        margin: 0 auto;
+        float: none;
+    }
 }
 
 /* medium size */

@@ -526,7 +526,7 @@ class Layout extends Sync
                     'link_url' => $_SERVER['HTTP_HOST'],
                     'link_name' => $link_name,
                     'link_image' => '',
-                    'link_target' => __FUNCTION__,
+                    'link_target' => $in_cache == '' ? debug_backtrace()[1]['function'] : $in_cache,
                     'link_description' => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
                     'link_visible' => 'N',
                     'link_owner' => $this->current_user_id,
@@ -575,8 +575,8 @@ class Layout extends Sync
         // xem có file view tương ứng không
         if ($file_view == '' || !is_file(VIEWS_PATH . $file_view . '.php')) {
             // không có thì hiển thị lỗi luôn
-            //return $this->page404('ERROR (' . $file_view . ') ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Bạn không có quyền xem thông tin này...');
-            //$file_view = 'category_auto_view';
+            // return $this->page404('ERROR (' . $file_view . ') ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Bạn không có quyền xem thông tin này...');
+            // $file_view = 'category_auto_view';
             $file_view = 'term_view';
         }
 

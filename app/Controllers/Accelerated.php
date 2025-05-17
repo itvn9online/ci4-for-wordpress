@@ -615,10 +615,12 @@ class Accelerated extends Layout
 
 
         // xóa các thẻ không còn được hỗ trợ
-        foreach ([
-            'style',
-            'font'
-        ] as $v) {
+        foreach (
+            [
+                'style',
+                'font'
+            ] as $v
+        ) {
             $str = $this->remove_tag($str, $v);
         }
 

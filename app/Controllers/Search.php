@@ -170,15 +170,15 @@ class Search extends Csrf
                             if (empty($v2)) {
                                 continue;
                             }
-                            //echo $k2 . PHP_EOL;
-                            //print_r($v2);
+                            // echo $k2 . PHP_EOL;
+                            // print_r($v2);
                             if (is_array($v2)) {
                                 foreach ($v2 as $k3 => $v3) {
-                                    //echo $k3 . PHP_EOL;
+                                    // echo $k3 . PHP_EOL;
                                     if (is_array($v3)) {
                                         continue;
                                     }
-                                    //echo $v3 . PHP_EOL;
+                                    // echo $v3 . PHP_EOL;
                                     $urlParams[] = $k . '%5B' . $k2 . '%5D%5B%5D=' . $v3;
                                 }
                             } else {
@@ -194,26 +194,26 @@ class Search extends Csrf
                     $urlPartPage .= '?' . implode('&', $urlParams);
                 }
                 $pagination = $this->base_model->EBE_pagination($page_num, $totalPage, $urlPartPage, '');
-                //echo $pagination . '<br>' . PHP_EOL;
+                // echo $pagination . '<br>' . PHP_EOL;
 
 
                 // select dữ liệu từ 1 bảng bất kỳ
                 $filter['offset'] = $offset;
                 $filter['limit'] = $post_per_page;
-                //print_r( $filter );
+                // print_r($filter);
 
                 //
                 $data = $this->base_model->select('*', 'posts', $where, $filter);
 
                 //
                 $data = $this->post_model->list_meta_post($data);
-                //print_r( $data );
+                // print_r($data);
             } else {
                 $data = [];
                 $pagination = '';
             }
         }
-        //die( __CLASS__ . ':' . __LINE__ );
+        // die(__CLASS__ . ':' . __LINE__);
 
         // -> views
         $this->teamplate['breadcrumb'] = view(
