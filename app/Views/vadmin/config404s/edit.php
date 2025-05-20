@@ -3,7 +3,7 @@
 // print_r($data);
 
 // css riêng cho từng config (nếu có)
-$base_model->add_css('wp-admin/css/sonfig404s.css');
+$base_model->add_css('wp-admin/css/config404s.css');
 
 ?>
 <div id="app">
@@ -27,6 +27,16 @@ $base_model->add_css('wp-admin/css/sonfig404s.css');
     </div>
     <br>
     <div class="widget-content nopadding config-main">
+        <div class="row left-menu-space">
+            <div class="col col-xl-3 col-lg-4 col-md-6 col-sm-12" :data-id="v.link_rel" v-for="v in top_request">
+                <div class="col-inner">
+                    <a :href="'sadmin/config404s?ip=' + v.link_rel">{{v.link_rel}}</a>
+                    ({{g_func.number_format(v.c)}})
+                    <a :href="'https://www.iplocation.net/ip-lookup?query=' + v.link_rel" target="_blank" rel="nofollow"><i class="fa fa-search"></i></a>
+                </div>
+            </div>
+        </div>
+        <br>
         <table class="table table-bordered table-striped with-check table-list eb-table">
             <thead>
                 <tr>
@@ -52,7 +62,8 @@ $base_model->add_css('wp-admin/css/sonfig404s.css');
                     </td>
                     <td>{{v.link_target}}</td>
                     <td :title="v.link_description">
-                        <a :href="'https://www.iplocation.net/ip-lookup?query=' + v.link_rel" target="_blank" class="small">{{v.link_rel.substring(0, 15)}}</a>
+                        <a :href="'sadmin/config404s?ip=' + v.link_rel">{{v.link_rel.substring(0, 15)}}</a>
+                        <a :href="'https://www.iplocation.net/ip-lookup?query=' + v.link_rel" target="_blank" rel="nofollow"><i class="fa fa-search"></i></a>
                     </td>
                     <td class="small">{{v.link_updated}}</td>
                     <td>
@@ -72,6 +83,7 @@ $base_model->add_css('wp-admin/css/sonfig404s.css');
 $base_model->JSON_parse(
     [
         'vue_data' => $data,
+        'top_request' => $top_request,
     ]
 );
 

@@ -47,9 +47,10 @@ function action_update_link_redirect() {
 }
 
 WGR_vuejs(
-	"#admin_main_list",
+	"#app",
 	{
 		data: vue_data,
+		top_request: top_request,
 	},
 	function () {
 		action_update_link_redirect();

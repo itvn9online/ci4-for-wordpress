@@ -115,6 +115,42 @@ class Config404s extends Sadmin
         ];
 
         // 
+        $by_ip = trim($this->MY_get('ip'));
+        if ($by_ip != '') {
+            $urlPartPage .= '&ip=' . $by_ip;
+            $where['link_rel'] = $by_ip;
+        }
+
+        // tìm các IP có nhiều bản ghi nhất
+        $top_request = $this->base_model->scache('top_request_config404s');
+        if ($top_request === null) {
+            $top_request = $this->base_model->select(
+                [
+                    'link_rel',
+                    'COUNT(link_id) AS c',
+                ],
+                'links',
+                [
+                    // WHERE
+                    'link_rel !=' => '',
+                ],
+                [
+                    'group_by' => [
+                        'link_rel'
+                    ],
+                    'order_by' => [
+                        'c' => 'DESC',
+                    ],
+                    'limit' => 10,
+                ]
+            );
+
+            // lưu cache -> ko dọn liên tục
+            $this->base_model->scache('top_request_config404s', $top_request, 300);
+        }
+        // print_r($top_request);
+
+        // 
         $filter = [
             'like_after' => $where_like,
             // hiển thị mã SQL để check
@@ -205,6 +241,7 @@ class Config404s extends Sadmin
                 'by_keyword' => $by_keyword,
                 'pagination' => $pagination,
                 'totalThread' => $totalThread,
+                'top_request' => $top_request,
             )
         );
         return view('vadmin/admin_teamplate', $this->teamplate_admin);
