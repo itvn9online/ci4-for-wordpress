@@ -162,9 +162,18 @@ class PostQuery extends PostMeta
 
             //
             if (is_numeric($result_id) && $result_id > 0) {
-                $this->update_post_permalink($this->select_post($result_id, [
-                    //'post_type' => $data['post_type'],
-                ]));
+                if (1 > 2) {
+                    // không sử dụng hàm này vì có thể bị lỗi
+                    $this->update_post_permalink($this->select_post($result_id, [
+                        //'post_type' => $data['post_type'],
+                    ]));
+                } else {
+                    $this->update_post_permalink($this->base_model->select('*', $this->table, [
+                        'ID' => $result_id
+                    ], [
+                        'limit' => 1,
+                    ]));
+                }
                 //die(__CLASS__ . ':' . __LINE__);
             }
 

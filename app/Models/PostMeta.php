@@ -107,7 +107,7 @@ class PostMeta extends PostBase
         }
         // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
         // print_r($meta_data);
-        // die( __CLASS__ . ':' . __LINE__ );
+        // die(__CLASS__ . ':' . __LINE__);
 
         // lấy toàn bộ meta của post này
         $meta_exist = $this->arr_meta_post($post_id, false);
@@ -185,7 +185,7 @@ class PostMeta extends PostBase
         // xử lý cho ảnh đại diện -> thêm các size ảnh khác để sau còn tùy ý sử dụng
         if (isset($meta_data['image'])) {
             if ($meta_data['image'] != '') {
-                $origin_size = $meta_data['image'];
+                $origin_size = explode('?', $meta_data['image'])[0];
                 $file_ext = pathinfo($origin_size, PATHINFO_EXTENSION);
                 foreach (PostType::media_size() as $k => $v) {
                     $origin_size = str_replace('-' . $k . '.' . $file_ext, '.' . $file_ext, $origin_size);
@@ -224,6 +224,7 @@ class PostMeta extends PostBase
             }
         }
         // print_r($meta_data);
+        // die(__CLASS__ . ':' . __LINE__);
 
         //
         // echo 'post_type: ' . $post_type . PHP_EOL;

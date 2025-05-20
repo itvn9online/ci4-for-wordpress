@@ -259,8 +259,8 @@ class Csdl extends Session
         }
         // list ra những cột có trong table
         $column_name = $this->myDb->getFieldNames($tbl_name);
-        //print_r( $column_name );
-        //die( __CLASS__ . ':' . __LINE__ );
+        // print_r($column_name);
+        // die(__CLASS__ . ':' . __LINE__);
 
         // lặp lại cột lấy giá trị mà người dùng đẩy lên table: $item = array('newstitle'=>'tin tuc hom nay', 'slug'=>'tin-tuc-hom-nay'...)
         foreach ($items as $key => $value) {
@@ -286,8 +286,8 @@ class Csdl extends Session
 
     public function delete_multiple($table, $where, $ops = [])
     {
-        //print_r( $ops );
-        //die( __CLASS__ . ':' . __LINE__ );
+        // print_r($ops);
+        // die(__CLASS__ . ':' . __LINE__);
         $has_where = false;
 
         //
@@ -299,8 +299,8 @@ class Csdl extends Session
 
         // where in
         if (isset($ops['where_in'])) {
-            //print_r( $ops[ 'where_in' ] );
-            //die( __CLASS__ . ':' . __LINE__ );
+            // print_r($ops['where_in']);
+            // die(__CLASS__ . ':' . __LINE__);
             foreach ($ops['where_in'] as $k => $v) {
                 if (!empty($v)) {
                     $builder->whereIn($k, $v);
@@ -386,7 +386,8 @@ class Csdl extends Session
     // trả về các cột dữ liệu mặc định trong 1 bảng
     public function default_data($table, $other_table = [])
     {
-        $column_name = $this->myDb->getFieldNames($table); // list ra những cột có trong table
+        // list ra những cột có trong table
+        $column_name = $this->myDb->getFieldNames($table);
 
         $result = [];
         foreach ($column_name as $v) {
@@ -417,7 +418,7 @@ class Csdl extends Session
     // tự tạo 1 hàm select riêng, viết kiểu code cũ, mỗi lần select lại phải viết function khác -> mệt
     public function select($select, $from, $where = array(), $ops = array())
     {
-        //print_r($ops);
+        // print_r($ops);
 
         //
         $builder = $this->myDb->table($from);
@@ -463,7 +464,7 @@ class Csdl extends Session
         // điều kiện lấy dữ liệu
         foreach ($where as $k => $v) {
             if ($v === null) {
-                //$builder->where( $k, NULL, FALSE );
+                // $builder->where($k, NULL, FALSE);
                 $builder->where($k);
             } else {
                 $builder->where($k, $v);
@@ -478,13 +479,13 @@ class Csdl extends Session
         }
         // where or
         if (isset($ops['where_or']) && !empty($ops['where_or'])) {
-            //$and_or = array();
+            // $and_or = array();
             $builder->groupStart();
             foreach ($ops['where_or'] as $k => $v) {
                 // nếu v là 1 mảng -> đây là kiểu WHERE OR lồng nhau
                 if (is_array($v)) {
                     if (!empty($v)) {
-                        //$builder->orGroupStart();
+                        // $builder->orGroupStart();
                         $builder->groupStart();
                         foreach ($v as $k2 => $v2) {
                             if ($v2 === null) {
@@ -502,7 +503,7 @@ class Csdl extends Session
                 }
             }
             $builder->groupEnd();
-            //print_r($and_or);
+            // print_r($and_or);
         }
 
         // where in
