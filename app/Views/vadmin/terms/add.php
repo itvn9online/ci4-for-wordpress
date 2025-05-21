@@ -71,7 +71,7 @@ if ($taxonomy == TaxonomyType::ADS || $taxonomy == TaxonomyType::SHOP_COUPON) {
             <div class="control-group">
                 <label class="control-label">Tiêu đề</label>
                 <div class="controls">
-                    <input type="text" class="span6 required" placeholder="Tiêu đề" name="data[name]" value="<?php $base_model->the_esc_html($data['name']); ?>" autofocus aria-required="true" required />
+                    <input type="text" class="span6 required" placeholder="Tiêu đề" name="data[name]" value="<?php $base_model->the_esc_html($data['name']); ?>" id="data_name" autofocus aria-required="true" required />
                 </div>
             </div>
             <div class="control-group">

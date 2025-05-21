@@ -38,6 +38,8 @@ function WgrWp_popup_upload(insert_to, add_img_tag, img_size, input_type) {
 				add_img_tag +
 				"&img_size=" +
 				img_size +
+				"&set_filename=" +
+				get_filename_for_upload() +
 				"&input_type=" +
 				input_type +
 				'" width="95%" height="' +
@@ -49,6 +51,15 @@ function WgrWp_popup_upload(insert_to, add_img_tag, img_size, input_type) {
 	//
 	jQuery("body").addClass("no-scroll");
 	jQuery(".wgr-wp-upload").show();
+}
+
+function get_filename_for_upload() {
+	let a = jQuery("#data_post_title").val() || jQuery("#data_name").val() || "";
+	if (a != "") {
+		// tạo tên file từ tiêu đề + thời gian hiện tại
+		return g_func.non_mark_seo(a) + "-" + Math.floor(Date.now() / 1000);
+	}
+	return "";
 }
 
 // nạp ảnh đại diện cho các input
@@ -397,7 +408,10 @@ function WGR_load_textediter(for_id, ops) {
 		paste_data_images: true,
 		// paste xong sẽ tiến hành upload lên server luôn và ngay -> không dùng data:image -> nặng database
 		// https://www.tiny.cloud/docs/configure/file-image-upload/#automatic_uploads
-		images_upload_url: web_link + "uploads/tinyediter_uploads",
+		images_upload_url:
+			web_link +
+			"uploads/tinyediter_uploads?set_filename=" +
+			get_filename_for_upload(),
 		//automatic_uploads: false,
 		//images_file_types: "jpg,svg,webp",
 		images_reuse_filename: true,
