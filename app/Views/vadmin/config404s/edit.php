@@ -15,8 +15,33 @@ $base_model->add_css('wp-admin/css/config404s.css');
         <div class="lf f62">
             <form name="frm_admin_search_controller" action="./sadmin/config404s" method="get">
                 <div class="cf">
-                    <div class="lf f80">
+                    <div class="lf f50">
                         <input name="s" value="<?php echo $by_keyword; ?>" placeholder="Tìm kiếm URL" autofocus>
+                        <input type="hidden" name="ip" value="<?php echo $by_ip; ?>">
+                    </div>
+                    <div class="lf f30">
+                        <select name="between" id="by_between">
+                            <option value="">Tất cả</option>
+                            <?php
+                            foreach (
+                                [
+                                    'today' => 'Today',
+                                    'yesterday' => 'Yesterday',
+                                    'last_7_days' => 'Last 7 days',
+                                    'this_week' => 'This week',
+                                    'last_week' => 'Last week',
+                                    'this_month' => 'This month',
+                                    'last_month' => 'Last month',
+                                ] as $k => $v
+                            ) {
+                                $selected = '';
+                                if ($k == $by_between) {
+                                    $selected = 'selected';
+                                }
+                                echo '<option value="' . $k . '" ' . $selected . '>' . $v . '</option>';
+                            }
+                            ?>
+                        </select>
                     </div>
                     <div class="lf f20">
                         <button type="submit" class="btn-success"><i class="fa fa-search"></i> Tìm</button>
@@ -28,7 +53,7 @@ $base_model->add_css('wp-admin/css/config404s.css');
     <br>
     <div class="widget-content nopadding config-main">
         <div class="row left-menu-space">
-            <div class="col col-xl-3 col-lg-4 col-md-6 col-sm-12" :data-id="v.link_rel" v-for="v in top_request">
+            <div class="col col-xl-3 col-lg-4 col-md-6 col-sm-12" :data-id="v.link_rel" v-for="v in top_request" v-if="v.c > 10">
                 <div class="col-inner">
                     <a :href="'sadmin/config404s?ip=' + v.link_rel">{{v.link_rel}}</a>
                     ({{g_func.number_format(v.c)}})

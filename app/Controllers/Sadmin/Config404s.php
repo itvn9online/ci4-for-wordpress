@@ -115,6 +115,41 @@ class Config404s extends Sadmin
         ];
 
         // 
+        $by_between = trim($this->MY_get('between'));
+        if ($by_between != '') {
+            $urlPartPage .= '&between=' . $by_between;
+            switch ($by_between) {
+                case 'today':
+                    $where['link_updated >'] = date('Y-m-d', strtotime('today')) . ' 00:00:00';
+                    break;
+                case 'yesterday':
+                    $where['link_updated >'] = date('Y-m-d', strtotime('yesterday')) . ' 00:00:00';
+                    $where['link_updated <'] = date('Y-m-d', strtotime('today')) . ' 00:00:00';
+                    break;
+                case 'last_7_days':
+                    $where['link_updated >'] = date('Y-m-d', strtotime('-7 days')) . ' 00:00:00';
+                    break;
+                case 'this_week':
+                    $where['link_updated >'] = date('Y-m-d', strtotime('this week')) . ' 00:00:00';
+                    break;
+                case 'last_week':
+                    $where['link_updated >'] = date('Y-m-d', strtotime('last week')) . ' 00:00:00';
+                    $where['link_updated <'] = date('Y-m-d', strtotime('this week')) . ' 00:00:00';
+                    break;
+                case 'this_month':
+                    $where['link_updated >'] = date('Y-m') . '-01 00:00:00';
+                    break;
+                case 'last_month':
+                    $where['link_updated >'] = date('Y-m', strtotime('last month')) . '-01 00:00:00';
+                    $where['link_updated <'] = date('Y-m') . '-01 00:00:00';
+                    break;
+            }
+
+            // 
+            $top_where = $where;
+        }
+
+        // 
         $by_ip = trim($this->MY_get('ip'));
         if ($by_ip != '') {
             $urlPartPage .= '&ip=' . $by_ip;
@@ -122,18 +157,18 @@ class Config404s extends Sadmin
         }
 
         // tìm các IP có nhiều bản ghi nhất
-        $top_request = $this->base_model->scache('top_request_config404s');
+        $top_request = $this->base_model->scache('top_request_config404s' . $by_between);
         if ($top_request === null) {
+            $top_where['link_rel !='] = '';
+
+            // 
             $top_request = $this->base_model->select(
                 [
                     'link_rel',
                     'COUNT(link_id) AS c',
                 ],
                 'links',
-                [
-                    // WHERE
-                    'link_rel !=' => '',
-                ],
+                $top_where,
                 [
                     'group_by' => [
                         'link_rel'
@@ -141,12 +176,14 @@ class Config404s extends Sadmin
                     'order_by' => [
                         'c' => 'DESC',
                     ],
-                    'limit' => 10,
+                    // hiển thị mã SQL để check
+                    // 'show_query' => 1,
+                    'limit' => 12,
                 ]
             );
 
             // lưu cache -> ko dọn liên tục
-            $this->base_model->scache('top_request_config404s', $top_request, 300);
+            $this->base_model->scache('top_request_config404s' . $by_between, $top_request, 300);
         }
         // print_r($top_request);
 
@@ -242,6 +279,8 @@ class Config404s extends Sadmin
                 'pagination' => $pagination,
                 'totalThread' => $totalThread,
                 'top_request' => $top_request,
+                'by_between' => $by_between,
+                'by_ip' => $by_ip,
             )
         );
         return view('vadmin/admin_teamplate', $this->teamplate_admin);

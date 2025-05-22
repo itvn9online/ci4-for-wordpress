@@ -56,3 +56,8 @@ WGR_vuejs(
 		action_update_link_redirect();
 	}
 );
+
+//
+$("#by_between").change(function () {
+	document.frm_admin_search_controller.submit();
+});
