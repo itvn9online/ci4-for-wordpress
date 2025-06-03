@@ -56,6 +56,14 @@ function create_ul_menu_editer(a, sub_menu) {
 			menu_css.push(a[i].css);
 		}
 
+		//
+		if (a[i].icon != "") {
+			a[i].icon = '<i class="eb-menu-icon ' + a[i].icon + '">&nbsp;</i> ';
+			menu_css.push("eb-menu-has-icon");
+		}
+		// console.log("icon", a[i].icon);
+
+		//
 		if (a[i].slug == "" || a[i].slug.slice(0, 1) == "#") {
 			menu_css.push("eb-menu-onlytext");
 			menu_li_css.push("eb-menu-li-onlytext");
@@ -63,25 +71,26 @@ function create_ul_menu_editer(a, sub_menu) {
 			//
 			console.log(menu_css);
 			a_tag =
-				'<span class="' + menu_css.join(" ") + '">' + a[i].name + "</span>";
+				'<span class="' +
+				menu_css.join(" ") +
+				'">' +
+				a[i].icon +
+				a[i].name +
+				"</span>";
 		} else {
 			//
 			if (a[i].content != "") {
 				a[i].content =
-					'<span class="eb-menu-content">' + a[i].content + "</span>";
+					'<span class="eb-menu-content">' + a[i].content + "</span> ";
 				menu_css.push("eb-menu-has-content");
-			}
-
-			//
-			if (a[i].icon != "") {
-				a[i].icon = '<i class="eb-menu-icon ' + a[i].icon + '">&nbsp;</i>';
-				menu_css.push("eb-menu-has-icon");
 			}
 
 			//
 			if (a[i].img != "") {
 				a[i].img =
-					'<span data-img="' + a[i].img + '" class="eb-menu-img">&nbsp;</span>';
+					'<span data-img="' +
+					a[i].img +
+					'" class="eb-menu-img">&nbsp;</span> ';
 				menu_css.push("eb-menu-has-img");
 			}
 
@@ -120,7 +129,7 @@ function create_ul_menu_editer(a, sub_menu) {
 		}
 
 		//
-		str += '<li class="' + menu_li_css.join(" ") + '">' + a_tag + "</li>";
+		str += '<li class="' + menu_li_css.join(" ") + '">' + a_tag + "</li> ";
 	}
 
 	//

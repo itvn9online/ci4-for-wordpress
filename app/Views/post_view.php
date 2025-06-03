@@ -38,9 +38,14 @@ $base_model->adds_js([
 
 //
 if ($getconfig->post_toc == 'on') {
-    $base_model->adds_js([
-        'wp-includes/javascript/post_toc.js',
+    $base_model->add_css('wp-includes/css/post_toc.css', [
+        'cdn' => CDN_BASE_URL,
     ], [
+        'defer'
+    ]);
+
+    // 
+    $base_model->add_js('wp-includes/javascript/post_toc.js', [
         'cdn' => CDN_BASE_URL,
     ], [
         'defer'

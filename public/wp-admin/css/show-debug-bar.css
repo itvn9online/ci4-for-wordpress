@@ -82,3 +82,7 @@ body.is-admin #target_eb_iframe {
 .goto-taxonomy-edit span i {
     font-size: 25px !important;
 }
+
+.eb-widget-hide-title {
+    position: relative;
+}

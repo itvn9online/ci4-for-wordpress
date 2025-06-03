@@ -1,0 +1,15 @@
+.wgr-toc-list li {
+    cursor: pointer;
+    /* color: var(--primary-clor); */
+    color: var(--a-color);
+}
+
+.wgr-toc-list li:hover {
+    text-decoration: underline;
+}
+
+.wgr-toc-container {
+    border: 1px #ccc solid;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}

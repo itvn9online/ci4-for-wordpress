@@ -55,7 +55,7 @@ $base_model->add_css('wp-admin/css/config404s.css');
         <div class="row left-menu-space">
             <div class="col col-xl-3 col-lg-4 col-md-6 col-sm-12" :data-id="v.link_rel" v-for="v in top_request" v-if="v.c > 10">
                 <div class="col-inner">
-                    <a :href="'sadmin/config404s?ip=' + v.link_rel">{{v.link_rel}}</a>
+                    <a :href="'sadmin/config404s?ip=' + v.link_rel">{{v.link_rel.substring(0, 25)}}</a>
                     ({{g_func.number_format(v.c)}})
                     <a :href="'https://www.iplocation.net/ip-lookup?query=' + v.link_rel" target="_blank" rel="nofollow"><i class="fa fa-search"></i></a>
                 </div>
