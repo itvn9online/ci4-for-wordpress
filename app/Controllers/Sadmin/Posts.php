@@ -824,8 +824,8 @@ class Posts extends Sadmin
                 'preview_url' => $this->MY_get('preview_url'),
                 'preview_offset_top' => $this->MY_get('preview_offset_top'),
                 // mảng tham số tùy chỉnh dành cho các custom post type
-                'meta_custom_type' => [],
-                'meta_custom_desc' => [],
+                'meta_custom_type' => $this->post_model->meta_custom_label($this->post_type),
+                'meta_custom_desc' => $this->post_model->meta_custom_label($this->post_type, 'desc'),
                 // thêm phần controller slug theo từng taxonomy
                 'arr_taxonomy_controller' => TaxonomyType::controllerList(),
                 'data_comments' => $data_comments,

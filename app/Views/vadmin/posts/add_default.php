@@ -18,6 +18,7 @@ if (isset($_GET['print_data'])) {
     print_r($meta_default);
     echo ' -->';
 }
+// print_r($meta_custom_type);
 
 //
 include __DIR__ . '/add_breadcrumb.php';

@@ -391,6 +391,23 @@ class PostMeta extends PostBase
         //
         return $result;
     }
+    public function meta_custom_label($post_type, $get_type = 'type')
+    {
+        $result = [];
+        if (isset(ARR_CUSTOM_POST_META[$post_type])) {
+            $a = ARR_CUSTOM_POST_META[$post_type];
+            // print_r($a);
+            foreach ($a as $k => $v) {
+                if (isset($v[$get_type])) {
+                    $result[$k] = $v[$get_type];
+                }
+            }
+        }
+        // print_r($result);
+
+        //
+        return $result;
+    }
 
     // trả về ID của nhóm cha cuối cùng -> không là con của thằng nào cả
     public function get_parents_term($where_in, $post_id, $col = 'term_id', $second_data = [])

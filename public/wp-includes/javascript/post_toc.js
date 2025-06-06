@@ -19,19 +19,40 @@
 	// Get the current URL
 	// let currentURL = window.location.href;
 
+	//
+	let currentLevel = 2;
+	let parents = [{ level: 2, ol: tocList }];
+
 	headings.forEach((heading, index) => {
 		let headingId = heading.id || `toc-heading-${index}`;
 		heading.id = headingId;
+		let headingLevel = parseInt(heading.tagName.substring(1));
 
 		let listItem = document.createElement("li");
-		listItem.setAttribute("data-href", `${headingId}`);
-		// let link = document.createElement("a");
-		// link.href = currentURL + `#${headingId}`;
-		// link.textContent = heading.textContent;
-		listItem.textContent = heading.textContent;
+		let span = document.createElement("span");
+		span.textContent = heading.textContent;
+		span.setAttribute("data-href", `${headingId}`);
+		listItem.appendChild(span);
 
-		// listItem.appendChild(link);
-		tocList.appendChild(listItem);
+		// Xử lý phân nhánh cha-con
+		if (headingLevel > currentLevel) {
+			// Tạo ol mới lồng vào li trước đó
+			let newOl = document.createElement("ol");
+			parents[parents.length - 1].ol.lastElementChild &&
+				parents[parents.length - 1].ol.lastElementChild.appendChild(newOl);
+			parents.push({ level: headingLevel, ol: newOl });
+			currentLevel = headingLevel;
+		} else if (headingLevel < currentLevel) {
+			// Quay lại cấp cha tương ứng
+			while (
+				parents.length > 1 &&
+				parents[parents.length - 1].level > headingLevel
+			) {
+				parents.pop();
+			}
+			currentLevel = headingLevel;
+		}
+		parents[parents.length - 1].ol.appendChild(listItem);
 	});
 
 	//
@@ -41,12 +62,13 @@
 	$(".wgr-toc-list").wrap('<div class="wgr-toc-container"></div>');
 
 	//
-	jQuery(".wgr-toc-list").prepend(
-		'<div class="wgr-toc-title bold">Nội dung chính</div>'
+	jQuery(".wgr-toc-list").before(
+		'<div class="wgr-toc-title bold"><i class="fa fa-list"></i> Nội dung chính</div>' +
+			'<button class="wgr-toc-toggle-btn" type="button"><i class="fa fa-angle-down"></i></button>'
 	);
 
 	//
-	jQuery(".wgr-toc-list li").click(function (e) {
+	jQuery(".wgr-toc-list li span").click(function (e) {
 		// e.preventDefault();
 		var headingId = jQuery(this).attr("data-href");
 		// alert(headingId);
@@ -61,5 +83,10 @@
 				500
 			);
 		}
+	});
+
+	//
+	jQuery(".wgr-toc-toggle-btn").click(function () {
+		$(".wgr-toc-container").toggleClass("wgr-toc-collapsed");
 	});
 })(".global-details-content", ".global-details-content");
