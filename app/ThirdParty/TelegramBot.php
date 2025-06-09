@@ -2,7 +2,7 @@
 
 namespace App\ThirdParty;
 
-/*
+/**
  * Chức năng kết nối và gửi thông báo thông qua telegram
  * https://kb.hostvn.net/huong-dan-tao-bot-va-gui-thong-bao-telegram_633.html
  * https://kb.hostvn.net/hung-dn-tao-bot-canh-bao-dang-nhap-ssh-qua-telegram_671.html
@@ -35,9 +35,13 @@ class TelegramBot
     // GET chat ID
     public static function getUpdates($cog = null)
     {
+        // tele bị chặn ở VN nên phải bỏ chức năng này
+        return null;
+
+        // 
         if ($cog === null) {
             $cog = self::getCog();
-            //print_r( $cog );
+            // print_r($cog);
         }
         if (!isset($cog->telegram_bot_token) || empty($cog->telegram_bot_token)) {
             return self::resultErrorMsg('ERROR bot token?');
@@ -65,9 +69,9 @@ class TelegramBot
         $response = curl_exec($curl);
 
         curl_close($curl);
-        //echo $response;
+        // echo $response;
         $response = json_decode($response);
-        //print_r( $response );
+        // print_r($response);
 
         //
         return self::resultOkMsg($response);
@@ -75,9 +79,13 @@ class TelegramBot
 
     public static function sendMessage($text, $cog = null)
     {
+        // tele bị chặn ở VN nên phải bỏ chức năng này
+        return null;
+
+        // 
         if ($cog === null) {
             $cog = self::getCog();
-            //print_r( $cog );
+            // print_r($cog);
         }
         if (!isset($cog->telegram_bot_token) || empty($cog->telegram_bot_token)) {
             return self::resultErrorMsg('ERROR bot token?');
@@ -110,7 +118,7 @@ class TelegramBot
         curl_close($curl);
         //echo $response;
         $response = json_decode($response);
-        //print_r( $response );
+        // print_r($response);
 
         //
         return self::resultOkMsg($response);
