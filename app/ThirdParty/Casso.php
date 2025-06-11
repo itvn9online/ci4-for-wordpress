@@ -139,6 +139,7 @@ class Casso
 
                         // 
                         $order_id = explode('.', $order_id)[0];
+                        $order_id = explode('-', $order_id)[0];
                         $order_id = trim($order_id);
                         if (is_numeric($order_id) && !empty($order_id)) {
                             $data->data[$k]->order_id = $order_id;
