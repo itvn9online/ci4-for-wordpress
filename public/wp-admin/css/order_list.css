@@ -12,6 +12,7 @@
     -o-transition: all 0.8s ease;
     -webkit-transition: all 0.8s ease;
     transition: all 0.8s ease;
+    width: 66%;
 }
 
 #order_details_iframe.actived {

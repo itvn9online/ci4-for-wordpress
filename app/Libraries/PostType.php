@@ -133,7 +133,7 @@ class PostType
             // fake rating
             $arr['post_rating_value'] = 'Fake rating value';
             $arr['post_rating_count'] = 'Fake rating count';
-            $arr['post_review_count'] = 'Fake review count';
+            // $arr['post_review_count'] = 'Fake review count';
         }
 
         //
@@ -201,7 +201,7 @@ class PostType
             //
             //'post_rating_value' => 'number',
             'post_rating_count' => 'number',
-            'post_review_count' => 'number',
+            // 'post_review_count' => 'number',
         ];
         if (isset($arr[$key])) {
             return $arr[$key];
@@ -228,8 +228,8 @@ class PostType
             'meta_description' => 'For optimum effectiveness, meta descriptions should be 160-300 characters long.',
             //
             'post_rating_value' => 'Vui lòng nhập dạng số thập phân. Ví dụ: 4.8 hoặc 4.5 hoặc 3.3',
-            'post_rating_count' => 'Vui lòng nhập dạng số nguyên, tổng số lượng bình chọn website này, nếu là số ảo thì nhập trong khoảng 160 - 300.',
-            'post_review_count' => 'Vui lòng nhập dạng số nguyên, tổng số lượng bài đánh giá website này, nếu là số ảo thì nhập dưới 70.',
+            'post_rating_count' => 'Vui lòng nhập dạng số nguyên, tổng số lượng bình chọn Bài viết này, nếu là số ảo thì nhập trong khoảng 1 - 70.',
+            // 'post_review_count' => 'Vui lòng nhập dạng số nguyên, tổng số lượng bài đánh giá Sản phẩm này, nếu là số ảo thì nhập dưới 1 - 70.',
         ];
         if (isset($arr[$key])) {
             echo '<p class="controls-text-note">' . $arr[$key] . '</p>';

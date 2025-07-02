@@ -104,6 +104,39 @@ jQuery(document).ready(function () {
 	//
 	show_input_length_char("post_meta_meta_description");
 	jQuery("#post_meta_meta_description").trigger("change");
+
+	// thêm span vào .control-post_meta_post_rating_value
+	jQuery("#post_meta_post_rating_value")
+		.parent()
+		.find(".controls-text-note")
+		.append(
+			' <span class="cur bluecolor click-create-random-rating">Bấm vào đây để tạo dữ liệu ngẫu nhiên!</span>'
+		);
+	jQuery(".click-create-random-rating").click(function () {
+		let has_changed = false;
+
+		// nếu #post_meta_post_rating_value không có giá trị thì tạo mới
+		if ((jQuery("#post_meta_post_rating_value").val() || "") == "") {
+			jQuery("#post_meta_post_rating_value").val(
+				g_func.getRandomInt(45, 50) / 10
+			);
+			has_changed = true;
+		}
+
+		// nếu #post_meta_post_rating_count không có giá trị thì tạo mới
+		if ((jQuery("#post_meta_post_rating_count").val() || "") == "") {
+			jQuery("#post_meta_post_rating_count").val(g_func.getRandomInt(1, 70));
+			has_changed = true;
+		}
+
+		//
+		if (has_changed === false) {
+			WGR_html_alert(
+				"Không có dữ liệu nào được khởi tạo do đã có dữ liệu tồn tại trước đó!",
+				"warning"
+			);
+		}
+	});
 });
 
 // với menu ko hỗ trợ bấm Ctrl + S -> vì còn phải chạy qua lệnh builder menu nữa
