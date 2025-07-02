@@ -1,7 +1,8 @@
 <{{product_html_tag}} data-id="{{ID}}" data-type="{{post_type}}" data-price="{{price}}" data-price_sale="{{price_sale}}"
     data-per="{{pt}}" data-link="{{post_permalink}}" data-status="{{product_status}}"
     class="hide-if-gia-zero col {{product_list_css}}" itemscope itemtype="http://schema.org/Product">
-    <meta itemscope itemprop="mainEntityOfPage" itemtype="https://schema.org/WebPage" itemid="{{p_link}}">
+    <meta itemscope itemprop="mainEntityOfPage" itemtype="https://schema.org/WebPage" itemid="{{p_link}}"
+        content="{{p_link}}" />
     {{product_html_node}}
     <meta itemprop="description" content="{{post_excerpt}}" />
     <div itemprop="offers" itemtype="https://schema.org/AggregateOffer" itemscope>

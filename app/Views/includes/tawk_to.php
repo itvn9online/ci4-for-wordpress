@@ -1,5 +1,5 @@
 <!--Start of Tawk.to Script-->
-<script type="text/javascript" {csp-script-nonce}>
+<script {csp-script-nonce}>
     var Tawk_API = Tawk_API || {},
         Tawk_LoadStart = new Date();
     jQuery(document).ready(function() {

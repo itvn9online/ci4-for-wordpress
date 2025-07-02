@@ -155,7 +155,7 @@ $base_model->adds_js(
 );
 
 ?>
-<script type="text/javascript">
+<script>
     WGR_vuejs('#my_app', {
         vue_data: vue_data,
     });

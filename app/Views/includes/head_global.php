@@ -10,22 +10,22 @@ use App\Helpers\HtmlTemplate;
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="profile" href="http://gmpg.org/xfn/11" />
 <link rel="pingback" href="<?php echo DYNAMIC_BASE_URL; ?>xmlrpc.php" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title><?php echo $seo['title']; ?></title>
 <base href="<?php echo DYNAMIC_BASE_URL; ?>" />
-<meta http-equiv="Cache-control" content="max-age=120">
+<!-- <meta http-equiv="Cache-control" content="max-age=120" /> -->
 <!-- <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" /> -->
-<meta name="theme-color" content="<?php echo $getconfig->default_bg; ?>">
-<meta name="msapplication-navbutton-color" content="<?php echo $getconfig->default_bg; ?>">
-<!-- <meta name="apple-mobile-web-app-capable" content="yes"> -->
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="<?php echo $getconfig->default_bg; ?>">
-<!-- <meta http-equiv="x-dns-prefetch-control" content="on"> -->
+<meta name="theme-color" content="<?php echo $getconfig->default_bg; ?>" />
+<meta name="msapplication-navbutton-color" content="<?php echo $getconfig->default_bg; ?>" />
+<!-- <meta name="apple-mobile-web-app-capable" content="yes" /> -->
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="<?php echo $getconfig->default_bg; ?>" />
+<!-- <meta http-equiv="x-dns-prefetch-control" content="on" /> -->
 <link rel="dns-prefetch" href="https://www.google-analytics.com/" />
 <link rel="dns-prefetch" href="https://connect.facebook.net/" />
 <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
 <link rel="dns-prefetch" href="https://s.w.org" />
-<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="telephone=no" />
 <?php
 
 //

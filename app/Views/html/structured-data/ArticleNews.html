@@ -1,9 +1,10 @@
 <{{product_html_tag}} data-id="{{ID}}" data-type="{{post_type}}" data-price="{{price}}" data-price_sale="{{price_sale}}"
     data-per="{{pt}}" data-link="{{post_permalink}}" data-status="{{product_status}}"
     class="hide-if-gia-zero col {{product_list_css}}" itemscope itemtype="http://schema.org/NewsArticle">
-    <meta itemscope itemprop="mainEntityOfPage" itemtype="https://schema.org/WebPage" itemid="{{p_link}}">
-    <meta itemprop="datePublished" content="{{post_date}}">
-    <meta itemprop="dateModified" content="{{post_modified}}">
+    <meta itemscope itemprop="mainEntityOfPage" itemtype="https://schema.org/WebPage" itemid="{{p_link}}"
+        content="{{p_link}}" />
+    <meta itemprop="datePublished" content="{{post_date}}" />
+    <meta itemprop="dateModified" content="{{post_modified}}" />
     {{itemprop_logo}}
     {{product_html_node}}
     {{itemprop_image}}

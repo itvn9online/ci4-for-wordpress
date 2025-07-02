@@ -15,7 +15,7 @@
 
 
     ?>
-    <script type="text/javascript">
+    <script>
         redirect_to_canonical('<?php echo $seo['body_class']; ?>');
     </script>
     <?php

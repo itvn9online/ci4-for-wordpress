@@ -14,7 +14,7 @@ $base_model->add_js('wp-includes/javascript/login_rememberme.js', [
 //$hide_rememberme_captcha = 'hide-rememberme' . RAND_MULTI_LOGGED . '-captcha';
 
 ?>
-<script type="text/javascript" {csp-script-nonce}>
+<script {csp-script-nonce}>
     (function() {
         function before_login_rememberme(max_i) {
             if (max_i < 0) {

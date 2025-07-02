@@ -979,7 +979,7 @@ var _global_js_eb = {
 	add_primari_iframe: function () {
 		if (document.getElementById("target_eb_iframe") == null) {
 			jQuery("body").append(
-				'<iframe id="target_eb_iframe" name="target_eb_iframe" title="EB iframe" src="about:blank" width="99%" height="555">AJAX form</iframe>'
+				'<iframe id="target_eb_iframe" name="target_eb_iframe" title="EB iframe" src="about:blank" width="333" height="555"></iframe>'
 			);
 		}
 

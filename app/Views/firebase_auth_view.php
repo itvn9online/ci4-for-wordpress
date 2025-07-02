@@ -18,7 +18,7 @@ if (!empty($firebase_config->g_firebase_config)) {
 ?>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script type="text/javascript">
+    <script>
         <?php echo $firebase_config->g_firebase_config; ?>
     </script>
     <script src="https://www.gstatic.com/firebasejs/ui/6.0.2/firebase-ui-auth__<?php echo $firebase_language_code; ?>.js"></script>

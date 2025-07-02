@@ -83,7 +83,7 @@ if (!isset($breadcrumb)) {
     ]);
 
     ?>
-    <iframe id="target_eb_iframe" name="target_eb_iframe" title="EB iframe" src="about:blank" width="99%" height="550" frameborder="0">AJAX form</iframe>
+    <iframe id="target_eb_iframe" name="target_eb_iframe" title="EB iframe" src="about:blank" width="333" height="550"></iframe>
 </body>
 
 </html>

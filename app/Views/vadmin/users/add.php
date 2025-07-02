@@ -291,7 +291,7 @@ $base_model->JSON_echo([
 ]);
 
 ?>
-<script type="text/javascript">
+<script>
     WGR_vuejs('#app', {
         data: user_data,
         member_name: member_name,

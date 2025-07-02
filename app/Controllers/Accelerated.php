@@ -817,7 +817,7 @@ class Accelerated extends Layout
                 // echo $iframe_height . "\n";
 
                 // khởi tạo mã mới
-                $replaceHTML = '<amp-iframe width="' . $iframe_width . '" height="' . $iframe_height . '" sandbox="allow-scripts allow-same-origin" layout="responsive" frameborder="0" src="' . $iframe_src . '"></amp-iframe>';
+                $replaceHTML = '<amp-iframe width="' . $iframe_width . '" height="' . $iframe_height . '" sandbox="allow-scripts allow-same-origin" layout="responsive" src="' . $iframe_src . '"></amp-iframe>';
 
                 //
                 $this->amp_iframe = true;

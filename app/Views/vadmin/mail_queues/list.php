@@ -43,7 +43,7 @@ $base_model->adds_css([
 <div class="public-part-page">
     <?php echo $pagination; ?> Trên tổng số <?php echo $totalThread; ?> bản ghi.
 </div>
-<iframe id="order_details_iframe" name="order-details-iframe" title="Orderdetails iframe" src="about:blank" width="66%" frameborder="0" class="hide-if-esc">AJAX form</iframe>
+<iframe id="order_details_iframe" name="order-details-iframe" title="Orderdetails iframe" src="about:blank" width="333" class="hide-if-esc"></iframe>
 <?php
 
 //

@@ -39,7 +39,7 @@ $action = isset($_GET['action']) ? $_GET['action'] : '';
 </head>
 
 <body class="login no-js login-action-login wp-core-ui locale-vi">
-    <script type="text/javascript">
+    <script>
         document.body.className = document.body.className.replace('no-js', 'js');
     </script>
     <div id="login">

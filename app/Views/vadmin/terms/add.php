@@ -461,7 +461,7 @@ $base_model->adds_js([
 ]);
 
 ?>
-<script type="text/javascript">
+<script>
     //
     WGR_vuejs('#oi_other_posts', {
         prev_term: prev_term,

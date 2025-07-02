@@ -55,6 +55,11 @@
 		parents[parents.length - 1].ol.appendChild(listItem);
 	});
 
+	// nếu không có thẻ h2, h3, h4, h5, h6 nào thì không hiển thị toc
+	if (tocList.children.length < 1) {
+		return;
+	}
+
 	//
 	toc.prepend(tocList);
 

@@ -42,9 +42,11 @@ function WgrWp_popup_upload(insert_to, add_img_tag, img_size, input_type) {
 				get_filename_for_upload() +
 				"&input_type=" +
 				input_type +
-				'" width="95%" height="' +
-				(jQuery(window).height() / 100) * 90 +
-				'" frameborder="0">AJAX form</iframe></div>'
+				'" width="' +
+				Math.ceil(jQuery(window).width() / 100) * 95 +
+				'" height="' +
+				Math.ceil(jQuery(window).height() / 100) * 90 +
+				'"></iframe></div>'
 		);
 	}
 
@@ -1085,6 +1087,12 @@ function create_term_select_option(arr, space, limit_deep, current_deep) {
 			'">' +
 			space +
 			show_name +
+			" (" +
+			arr[i].lang_key +
+			")" +
+			" (" +
+			arr[i].slug +
+			")" +
 			"</option>";
 
 		//

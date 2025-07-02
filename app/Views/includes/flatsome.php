@@ -7,7 +7,7 @@
  **/
 
 ?>
-<script type='text/javascript' id='flatsome-js-js-extra'>
+<script id='flatsome-js-js-extra'>
     /* <![CDATA[ */
     var flatsomeVars = {
         "theme": {

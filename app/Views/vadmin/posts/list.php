@@ -99,7 +99,7 @@ $base_model->JSON_parse(
 );
 
 ?>
-<script type="text/javascript">
+<script>
     WGR_vuejs('#app', {
         allow_mysql_delete: allow_mysql_delete,
         post_type: '<?php echo $post_type; ?>',

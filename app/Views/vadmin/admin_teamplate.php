@@ -80,7 +80,7 @@ if ($debug_enable === true) {
     <title>Quản trị</title>
     <meta charset="UTF-8" />
     <!-- <meta http-equiv="Cache-control" content="public"> -->
-    <meta http-equiv="Cache-Control" content="max-age=0, no-cache" />
+    <!-- <meta http-equiv="Cache-Control" content="max-age=0, no-cache" /> -->
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     <meta name="robots" content="noindex, nofollow" />
@@ -193,7 +193,7 @@ if ($debug_enable === true) {
     <style>
         <?php echo $ebe_currency; ?>
     </style>
-    <script type="text/javascript">
+    <script>
         var web_link = window.location.protocol + '//' + document.domain + '/';
         var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
         var cdn_media_link = '<?php echo CDN_UPLOADS_URL; ?>';
@@ -317,7 +317,7 @@ if ($debug_enable === true) {
         </div>
     </div>
     <!-- END Modal -->
-    <iframe id="target_eb_iframe" name="target_eb_iframe" title="EB iframe" src="about:blank" width="99%" height="550" frameborder="0">AJAX form</iframe>
+    <iframe id="target_eb_iframe" name="target_eb_iframe" title="EB iframe" src="about:blank" width="333" height="550"></iframe>
     <?php
 
     // cuối cùng là nạp module ngôn ngữ
