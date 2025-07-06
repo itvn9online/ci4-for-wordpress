@@ -64,7 +64,10 @@ function order_details_set_iframe(a, uri) {
 				.removeClass("actived");
 
 			//
-			let url = web_link + uri + a;
+			if (uri.includes("//") == false) {
+				uri = web_link + uri;
+			}
+			let url = uri.split("=")[0] + "=" + a;
 
 			//
 			window.open(url, "order-details-iframe");

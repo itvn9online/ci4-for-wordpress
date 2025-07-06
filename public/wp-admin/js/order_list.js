@@ -38,7 +38,7 @@ function after_render_order_list() {
 	jQuery(".orders-open-popup").click(function () {
 		return order_details_set_iframe(
 			jQuery(this).attr("data-id") || "",
-			"sadmin/orders/add?id="
+			jQuery(this).attr("href")
 		);
 	});
 }

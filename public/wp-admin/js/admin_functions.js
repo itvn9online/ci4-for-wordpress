@@ -1401,6 +1401,11 @@ function show_input_length_char(input) {
 function WGR_show_html_for_vuejs(a) {
 	// console.log(a);
 
+	// nếu không có gì thì trả về luôn
+	if (typeof a != "string" || a == "") {
+		return "";
+	}
+
 	//
 	a = a.replace(/\&lt\;/gi, "<").replace(/\&gt\;/gi, ">");
 

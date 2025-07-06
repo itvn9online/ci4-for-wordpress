@@ -11,7 +11,7 @@ WGR_vuejs(
 		jQuery(".orders-open-popup").click(function () {
 			return order_details_set_iframe(
 				jQuery(this).attr("data-id") || "",
-				"sadmin/contacts?comment_id="
+				jQuery(this).attr("href")
 			);
 		});
 	}

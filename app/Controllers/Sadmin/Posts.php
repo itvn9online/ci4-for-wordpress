@@ -1435,7 +1435,16 @@ class Posts extends Sadmin
                 'user_id' => $this->current_user_id,
             ] as $k => $v
         ) {
+            if (isset($data[$k]) && $data[$k] != '') {
+                // nếu có thì giữ nguyên
+                continue;
+            }
             $data[$k] = $v;
+        }
+
+        // 
+        if (isset($data['comment_ID']) && $data['comment_ID'] < 1) {
+            unset($data['comment_ID']);
         }
 
         // 

@@ -598,6 +598,7 @@ class Sync extends BaseController
             ],
             $prefix . 'comments' => [
                 // thêm tiêu đề cho phần comment -> do bảng mặc định của wp comment không có cột này
+                'comment_author_name' => 'VARCHAR(255) NULL COMMENT \'Thêm tên tác giả để tiện cho việc hiển thị\'',
                 'comment_title' => 'VARCHAR(255) NULL COMMENT \'Thêm tiêu đề để tiện cho việc hiển thị\'',
                 'comment_slug' => 'VARCHAR(255) NULL COMMENT \'Thêm phần slug để tiện cho quá trình tìm kiếm\'',
                 'lang_key' => 'VARCHAR(10) NOT NULL DEFAULT \'en\' COMMENT \'Phân loại ngôn ngữ theo key quốc gia\'',
