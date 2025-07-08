@@ -5,6 +5,10 @@
     font-weight: bold;
 }
 
+.wgr-toc-active.wgr-toc-actived {
+    color: var(--a-color);
+}
+
 .wgr-toc-list li li span {
     font-weight: normal;
 }
@@ -14,14 +18,14 @@
 }
 
 /* .wgr-toc-list, */
-.wgr-toc-list li ul,
+/* .wgr-toc-list li ul, */
 .wgr-toc-list li ol {
-    list-style: none !important;
+    list-style: disc;
     /* padding-left: 0; */
 }
 
 .wgr-toc-list li ol {
-    padding-left: 10px;
+    /* padding-left: 10px; */
 }
 
 .wgr-toc-list-xoa ol li span::before {

@@ -87,6 +87,13 @@
 				},
 				500
 			);
+
+			// Thêm class active cho mục đã click
+			target.addClass("wgr-toc-active");
+			// Xóa class active khỏi các mục khác
+			jQuery(".wgr-toc-active").removeClass("wgr-toc-actived");
+			// Thêm class actived cho mục đã click
+			target.addClass("wgr-toc-actived");
 		}
 	});
 
