@@ -135,7 +135,7 @@ class Sitemap extends Layout
             PostType::MEDIA,
             PostType::WP_MEDIA,
         ];
-        //print_r( $arr_post_type );
+        // print_r($arr_post_type);
 
         // ->
         foreach ($arr_post_type as $post_type) {
@@ -288,7 +288,7 @@ class Sitemap extends Layout
     protected function by_post_type($post_type, $page_num = 1)
     {
         $data = $this->get_post_type($post_type, $page_num);
-        //print_r( $data );
+        // print_r($data);
 
         //
         $get_list_sitemap = '';
@@ -298,7 +298,9 @@ class Sitemap extends Layout
                 0.5,
                 date($this->sitemap_date_format, strtotime($v['post_modified'])),
                 array(
-                    'get_images' => $v['ID'],
+                    // 'get_images' => $v['ID'],
+                    'post_content' => $v['post_content'],
+                    'data' => $v,
                 )
             );
         }
@@ -317,10 +319,63 @@ class Sitemap extends Layout
 
     protected function WGR_echo_sitemap_url_node($loc, $priority, $lastmod, $op = array())
     {
+        // nếu có yêu cầu lấy ảnh thì lấy
+        $image_nodes = '';
+
+        // nếu có post_content thì bóc tách URL ảnh từ nội dung theo thẻ img
+        if (isset($op['post_content']) && $op['post_content'] != '') {
+            // bóc tách ảnh từ nội dung
+            preg_match_all('/<img[^>]+src="([^">]+)"/i', $op['post_content'], $matches);
+            // print_r($matches);
+            if (isset($matches[1]) && is_array($matches[1]) && count($matches[1]) > 0) {
+                $image_nodes = [];
+                foreach ($matches[1] as $img_url) {
+                    if (strpos($img_url, '//') === false) {
+                        $img_url = DYNAMIC_BASE_URL . $img_url;
+                    } else {
+                        // nếu ảnh không chứa domain hiện tại thì bỏ qua
+                        if (strpos($img_url, $_SERVER['HTTP_HOST']) === false) {
+                            continue;
+                        }
+                    }
+
+                    // 
+                    $image_nodes[] = '<image:image>
+    <image:loc><![CDATA[' . $img_url . ']]></image:loc>
+</image:image>';
+                }
+                // đảm bảo không có ../ trong đường dẫn
+                $image_nodes = str_replace('../', '', implode(PHP_EOL, $image_nodes));
+            }
+        }
+
+        // nếu có ảnh thì thêm vào thẻ ảnh
+        if ($image_nodes == '' && isset($op['data']) && isset($op['data']['post_meta_data'])) {
+            $op['data']['post_meta'] = json_decode($op['data']['post_meta_data'], true);
+
+            // 
+            $post_img = $this->post_model->return_meta_post($op['data'], 'image_medium_large');
+            if ($post_img != '') {
+                // nếu có ảnh thì tạo thẻ ảnh
+                if (strpos($post_img, '//') === false) {
+                    $post_img = DYNAMIC_BASE_URL . $post_img;
+                }
+
+                // 
+                if (strpos($post_img, $_SERVER['HTTP_HOST']) !== false) {
+                    $image_nodes = '<image:image>
+    <image:loc><![CDATA[' . $post_img . ']]></image:loc>
+</image:image>';
+                }
+            }
+        }
+
+        // 
         return $this->tmp(file_get_contents(__DIR__ . '/sitemap-xml/url.xml', 1), [
             'loc' => $loc,
             'priority' => $priority,
             'lastmod' => $lastmod,
+            'image_nodes' => $image_nodes,
         ]);
     }
 

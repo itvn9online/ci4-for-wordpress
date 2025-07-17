@@ -3,4 +3,5 @@
     <lastmod>%lastmod%</lastmod>
     <changefreq>daily</changefreq>
     <priority>%priority%</priority>
+    %image_nodes%
 </url>
