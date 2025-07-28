@@ -61,9 +61,7 @@ jQuery("a").each(function () {
 				href: window.location.href.split("#")[0] + a,
 			})
 			.click(function () {
-				setTimeout(() => {
-					WGR_auto_scroll_by_hash();
-				}, 600);
+				setTimeout(WGR_auto_scroll_by_hash, 600);
 			});
 	}
 });

@@ -288,6 +288,7 @@ if ($debug_enable === true) {
     $base_model->adds_js([
         'wp-admin/js/admin_seach_menu.js',
         'wp-admin/js/admin_footer.js',
+        'wp-admin/js/admin_notice.js',
         'wp-includes/javascript/datetimepicker.js',
         'wp-includes/javascript/pagination.js',
     ]);

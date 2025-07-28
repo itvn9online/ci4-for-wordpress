@@ -149,9 +149,7 @@ function after_drop_upload_media(mediaData) {
 					WGR_alert(data.error, "error");
 
 					// lỗi thì kiểm tra và nạp lại chậm 1 chút -> để còn kịp xem lỗi mà xử lý
-					setTimeout(() => {
-						check_and_reload_after_upload();
-					}, 33 * 1000);
+					setTimeout(check_and_reload_after_upload, 33 * 1000);
 				} else {
 					check_and_reload_after_upload();
 				}

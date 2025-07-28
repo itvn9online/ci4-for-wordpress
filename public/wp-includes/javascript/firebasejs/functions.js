@@ -1,15 +1,6 @@
-/*
+/**
  * Function dùng chung cho chức năng đăng nhập qua firebase
  */
-
-// kiểm tra xem firebaseConfig được nhập liệu chưa
-if (typeof firebaseConfig != "undefined") {
-	firebase.initializeApp(firebaseConfig);
-} else {
-	console.log("firebaseConfig not found!");
-}
-
-var firebase_recommend_login = null;
 
 // cắt bỏ số 0 ở đầu mỗi số điện thoại -> sử dụng số điện thoại theo tiêu chuẩn quốc tế
 function cut_zero_first_in_phone_number(str) {
@@ -159,9 +150,7 @@ function afterRequestTokenSignIn(data) {
 		jQuery("#firebase-loaded").css({
 			opacity: 0.1,
 		});
-		setTimeout(() => {
-			login_reload();
-		}, 2000);
+		setTimeout(login_reload, 2000);
 	}
 	// trả về true nếu quá trình đăng nhập ok
 	else if (typeof data.ok != "undefined" && data.ok * 1 > 0) {

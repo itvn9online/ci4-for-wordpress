@@ -1,10 +1,13 @@
 <?php
-/*
+
+/**
  * AJAX -> Asynchronous Javascript and XML
  * ajax trong admin thì thêm chữ s trong Asynchronous để phân biệt với ajax public
  */
 
 namespace App\Controllers\Sadmin;
+
+use App\Libraries\CommentType;
 
 class Asjaxs extends Sadmin
 {
@@ -233,6 +236,42 @@ class Asjaxs extends Sadmin
         $this->result_json_type([
             'code' => __LINE__,
             'error' => 'Lỗi cập nhật số thứ tự cho bài viết!'
+        ]);
+    }
+
+    /**
+     * Lấy thông báo của admin
+     **/
+    public function fetch_admin_notifications()
+    {
+        // lấy dữ liệu từ bảng comments có comment_type = 'admin_notice'
+        $notifications = $this->base_model->select(
+            'comment_ID AS id, comment_title AS title, comment_content AS content, comment_date AS date, comment_approved AS read',
+            'comments',
+            array(
+                'comment_type' => CommentType::ANOTICE
+            ),
+            array(
+                'order_by' => array(
+                    'comment_ID' => 'ASC',
+                ),
+                // hiển thị mã SQL để check
+                // 'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                // 'get_query' => 1,
+                // trả về COUNT(column_name) AS column_name
+                // 'selectCount' => 'ID',
+                // trả về tổng số bản ghi -> tương tự mysql num row
+                // 'getNumRows' => 1,
+                // 'offset' => 0,
+                'limit' => 2,
+            )
+        );
+
+        // 
+        $this->result_json_type([
+            'code' => __LINE__,
+            'notifications' => $notifications
         ]);
     }
 }

@@ -82,8 +82,12 @@ if (!empty($firebase_config->g_firebase_config)) {
 
     // các function sẽ sử dụng cho quá trình đăng nhập qua firebase
     $base_model->adds_js([
-        'wp-includes/javascript/firebasejs/base64.js',
         'wp-includes/javascript/firebasejs/functions.js',
+        'wp-includes/javascript/firebasejs/base64.js',
+        // v2 viết bởi AI Claude Sonnet 4
+        // 'wp-includes/javascript/firebasejs/functions_optimized.js',
+        // 'wp-includes/javascript/firebasejs/config_unified.js',
+        // v1 tự code
         'wp-includes/javascript/firebasejs/' . $file_auth . '.js',
         'wp-includes/javascript/firebasejs/app.js',
     ], [

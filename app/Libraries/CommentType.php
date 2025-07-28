@@ -9,6 +9,7 @@ class CommentType
     const CONTACT = 'contact';
     const COMMENT = 'comment';
     const REVIEW = 'review';
+    const ANOTICE = 'admin_notice';
 
     //
     const PENDDING = '0';
@@ -18,6 +19,7 @@ class CommentType
         self::CONTACT => 'Contacts',
         self::COMMENT => 'Comments',
         self::REVIEW => 'Reviews',
+        self::ANOTICE => 'Admin Notices',
     );
 
     public static function typeList($key = '')

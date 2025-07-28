@@ -102,9 +102,7 @@ var add_class_bg_for_tr_support = false;
 	});
 
 	//
-	setTimeout(() => {
-		create_search_by_label();
-	}, 1000);
+	setTimeout(create_search_by_label, 1000);
 })();
 
 // hiệu ứng mỗi khi bấm vào label -> tạo link support

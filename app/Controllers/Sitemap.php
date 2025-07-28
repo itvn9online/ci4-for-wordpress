@@ -199,12 +199,22 @@ class Sitemap extends Layout
                 //'get_meta' => true,
                 //'get_child' => true
             ]);
-            //print_r( $data );
+            // print_r($data);
+
+            // 
             foreach ($data as $v) {
+                if ($v['count'] < 1) {
+                    continue;
+                }
+
+                // 
                 $get_list_sitemap .= $this->WGR_echo_sitemap_url_node(
                     $this->term_model->get_full_permalink($v),
                     1.0,
                     date($this->sitemap_date_format, strtotime($v['last_updated'])),
+                    [
+                        'post_content' => $v['description'],
+                    ]
                 );
             }
         }

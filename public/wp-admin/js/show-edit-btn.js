@@ -175,9 +175,7 @@ function show_edit_btn() {
 
 //
 jQuery(document).ready(function () {
-	setTimeout(() => {
-		show_edit_btn();
-	}, 600);
+	setTimeout(show_edit_btn, 600);
 
 	// hiển thị các link để SEO dễ dàng debug
 	(function (e) {

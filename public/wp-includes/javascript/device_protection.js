@@ -12,9 +12,7 @@
 			if (typeof WGR_builder_signature == "function") {
 				WGR_builder_signature();
 			}
-			setTimeout(() => {
-				_run();
-			}, 1000);
+			setTimeout(_run, 1000);
 			return false;
 		}
 
@@ -69,9 +67,7 @@
 			}
 
 			//
-			setTimeout(() => {
-				_run();
-			}, min_time * 1000);
+			setTimeout(_run, min_time * 1000);
 
 			//
 			return false;
@@ -194,18 +190,14 @@
 				}
 
 				//
-				setTimeout(() => {
-					_run();
-				}, rm.timeout_dp * 1000);
+				setTimeout(_run, rm.timeout_dp * 1000);
 			},
 		});
 	};
 
 	//
 	if (WGR_config.current_user_id > 0) {
-		setTimeout(() => {
-			_run();
-		}, 5 * 1000);
+		setTimeout(_run, 5 * 1000);
 	}
 })(JSON.parse(JSON.stringify(_rqrm)));
 
