@@ -1257,7 +1257,7 @@ function action_delete_restore_checked(
 	if (confirm("Xác nhận " + method_name + " các bản ghi đã chọn!") !== true) {
 		return false;
 	}
-	//console.log(arr_check_checked_all);
+	// console.log(arr_check_checked_all);
 
 	//
 	jQuery.ajax({
@@ -1325,6 +1325,24 @@ function click_restore_checked(controller_slug) {
 
 function click_remove_checked(controller_slug) {
 	action_delete_restore_checked("remove_all", "XÓA", controller_slug);
+}
+
+function click_download_checked(controller_slug) {
+	if (arr_check_checked_all.length < 1) {
+		WGR_alert("Không có bản ghi nào được chọn để tải xuống", "warning");
+		return false;
+	}
+
+	//
+	let url =
+		"sadmin/" +
+		controller_slug +
+		"/download?ids=" +
+		arr_check_checked_all.join(",");
+	console.log(controller_slug, url, arr_check_checked_all);
+
+	// open link trong iframe #target_eb_iframe
+	jQuery("#target_eb_iframe").attr("src", url);
 }
 
 // từ ID -> địa chỉ email

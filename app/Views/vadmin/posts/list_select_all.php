@@ -3,6 +3,7 @@
         <div class="col">
             <div v-if="post_status == PostType_DELETED">
                 <button type="button" onClick="return click_restore_checked('<?php echo $controller_slug; ?>');" class="btn btn-info"><i class="fa fa-bars"></i> Chuyển thành Bản nháp</button>
+                &nbsp;
                 <button type="button" onClick="return click_remove_checked('<?php echo $controller_slug; ?>');" class="btn btn-danger"><i class="fa fa-remove"></i> XÓA <span v-if="allow_mysql_delete == true">Hoàn toàn</span></button>
             </div>
             <div v-if="post_status != PostType_DELETED">

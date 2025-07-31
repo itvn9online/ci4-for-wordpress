@@ -69,8 +69,8 @@ class Users extends Sadmin
      */
     public function lists($ops = [])
     {
-        //print_r($ops);
-        //print_r($where_or_like);
+        // print_r($ops);
+        // print_r($where_or_like);
 
         // URL cho các action dùng chung
         $for_action = '';
@@ -111,8 +111,14 @@ class Users extends Sadmin
             $where['users.member_type !='] = UsersType::ADMIN;
         }
 
+        // lọc theo danh sách ID
+        $where_in = [];
+        $ids = $this->MY_get('ids');
+        if (!empty($ids)) {
+            $where_in['users.ID'] = explode(',', $ids);
+        }
         // tìm kiếm theo từ khóa nhập vào
-        if ($by_keyword != '') {
+        else if ($by_keyword != '') {
             $urlPartPage .= '&s=' . urlencode($by_keyword);
             $for_action .= '&s=' . urlencode($by_keyword);
 
@@ -188,6 +194,7 @@ class Users extends Sadmin
             // trả về câu query để sử dụng cho mục đích khác
             //'get_query' => 1,
             'or_like' => $where_or_like,
+            'where_in' => $where_in,
         ];
 
         // ghi đè filter nếu có
@@ -318,6 +325,106 @@ class Users extends Sadmin
             )
         );
         return view('vadmin/admin_teamplate', $this->teamplate_admin);
+    }
+    public function download()
+    {
+        $data = $this->lists([
+            'get_data' => 1,
+        ]);
+        // print_r($data);
+
+        // nạp thư viện xử lý file excel
+        require_once APPPATH . 'ThirdParty/phpspreadsheet/vendor/autoload.php';
+
+        // tạo file excel theo cấu trúc mẫu
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle('Users List');
+        $sheet->setCellValue('A1', 'ID');
+        $sheet->setCellValue('B1', 'User Login');
+        $sheet->setCellValue('C1', 'User Email');
+        $sheet->setCellValue('D1', 'First Name');
+        $sheet->setCellValue('E1', 'Last Name');
+        $sheet->setCellValue('F1', 'User Phone');
+        $sheet->setCellValue('G1', 'User Registered');
+
+        $row = 2;
+        foreach ($data as $item) {
+            $sheet->setCellValue('A' . $row, $item['ID']);
+            $sheet->setCellValue('B' . $row, $item['user_login']);
+            $sheet->setCellValue('C' . $row, $item['user_email']);
+            $sheet->setCellValue('D' . $row, $item['display_name']);
+            $sheet->setCellValue('E' . $row, $item['user_nicename']);
+            $sheet->setCellValue('F' . $row, $item['number_phone']);
+            $sheet->setCellValue('G' . $row, $item['user_registered']);
+            $row++;
+        }
+
+        // bôi đậm hàng đầu tiên
+        $styleArrayFirstRow = [
+            'font' => [
+                'bold' => true,
+            ]
+        ];
+
+        // Retrieve Highest Column (e.g AE)
+        $highestColumn = $sheet->getHighestColumn();
+        // die($highestColumn);
+
+        //set first row bold
+        $sheet->getStyle('A1:' . $highestColumn . '1')->applyFromArray($styleArrayFirstRow);
+
+        // chỉnh chiều rộng cho các cột
+        // $sheet->getColumnDimension('B')->setWidth(12);
+        // $sheet->getColumnDimension('C')->setWidth(20);
+        // $sheet->getColumnDimension('D')->setWidth(12);
+        foreach (
+            [
+                'A',
+                'B',
+                'C',
+                'D',
+                'E',
+                'F',
+                'G',
+                'H',
+                'I',
+                'J',
+                'K',
+                'L',
+                'M',
+                'N',
+                'O',
+                'P',
+                'Q',
+                'R',
+                'S',
+                'T',
+                'U',
+                'V',
+                'W',
+                'X',
+                'Y',
+                'Z',
+            ] as $v
+        ) {
+            $sheet->getColumnDimension($v)->setAutoSize(true);
+        }
+
+        // định dạng file
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+
+        // lúc xuất file excel thì chạy hàm clean để nó xóa mọi nội dung khác nếu có
+        ob_end_clean();
+
+        // đặt tên file
+        $filename = $_SERVER['HTTP_HOST'] . '_users_list_' . date('Ymd_His') . '.xlsx';
+        // gửi file về trình duyệt
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+        // ghi file ra output
+        $writer->save('php://output');
     }
 
     public function add($ops = [])
