@@ -1,0 +1,31 @@
+<item>
+    <title><![CDATA[{{post_title}}]]></title>
+    <link>https://{{base_url}}/{{post_permalink}}</link>
+    <pubDate>{{pubDate}}</pubDate>
+    <dc:creator><![CDATA[itvn9online]]></dc:creator>
+    <guid isPermaLink="false">https://{{base_url}}/{{post_permalink}}</guid>
+    <description></description>
+    <content:encoded><![CDATA[{{post_content}}]]></content:encoded>
+    <excerpt:encoded><![CDATA[{{post_excerpt}}]]></excerpt:encoded>
+    <wp:post_id>{{ID}}</wp:post_id>
+    <wp:post_date><![CDATA[{{post_date}}]]></wp:post_date>
+    <wp:post_date_gmt><![CDATA[{{post_date_gmt}}]]></wp:post_date_gmt>
+    <wp:post_modified><![CDATA[{{post_modified}}]]></wp:post_modified>
+    <wp:post_modified_gmt><![CDATA[{{post_modified_gmt}}]]></wp:post_modified_gmt>
+    <wp:comment_status><![CDATA[{{comment_status}}]]></wp:comment_status>
+    <wp:ping_status><![CDATA[{{ping_status}}]]></wp:ping_status>
+    <wp:post_name><![CDATA[{{post_name}}]]></wp:post_name>
+    <wp:status><![CDATA[{{post_status}}]]></wp:status>
+    <wp:post_parent>{{post_parent}}</wp:post_parent>
+    <wp:menu_order>{{menu_order}}</wp:menu_order>
+    <wp:post_type><![CDATA[{{post_type}}]]></wp:post_type>
+    <wp:post_password><![CDATA[{{post_password}}]]></wp:post_password>
+    <wp:is_sticky>0</wp:is_sticky>
+    <category domain="product_cat" nicename="{{product_cat_nicename}}"><![CDATA[{{product_cat}}]]></category>
+    <category domain="product_type" nicename="simple"><![CDATA[simple]]></category>
+    <wp:attachment_url><![CDATA[{{thumbnail_url}}]]></wp:attachment_url>
+    <wp:postmeta>
+        <wp:meta_key>_wp_attached_file</wp:meta_key>
+        <wp:meta_value><![CDATA[{{thumbnail_url}}}]]></wp:meta_value>
+    </wp:postmeta>
+</item>

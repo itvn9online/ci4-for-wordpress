@@ -287,9 +287,9 @@ class Users extends Sadmin
 
             //
             $data = $this->base_model->select(implode(',', $selects_col), 'users', $where, $filter);
-            //echo implode(',', $selects_col);
-            //print_r($data);
-            //die(__CLASS__ . ':' . __LINE__);
+            // echo implode(',', $selects_col);
+            // print_r($data);
+            // die(__CLASS__ . ':' . __LINE__);
         } else {
             $data = [];
             $pagination = '';
