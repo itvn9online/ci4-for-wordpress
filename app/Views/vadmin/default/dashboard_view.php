@@ -115,17 +115,17 @@ if ($debug_enable === true) {
     <div class="p d-inlines">PHP version: <strong>
             <?php echo PHP_VERSION; ?>
         </strong> (
-        <div v-if="phpversion >= 81">
-            <div v-if="phpversion >= 82">
+        <div v-if="phpversion >= 82">
+            <div v-if="phpversion >= 83">
                 <div class="greencolor">Xin chúc mừng! Phiên bản PHP{{phpversion}} bạn đang sử dụng đang ở mức khuyến
                     nghị của chúng tôi</div>
             </div>
-            <div v-if="phpversion < 82">
+            <div v-if="phpversion < 83">
                 <div class="bluecolor">Xin chúc mừng! Phiên bản PHP{{phpversion}} của bạn tương đối tốt. Tuy nhiên,
                     chúng tôi vẫn khuyến nghị bạn sử dụng phiên bản <strong>PHP 8.2</strong> trở lên.</div>
             </div>
         </div>
-        <div v-if="phpversion < 81">
+        <div v-if="phpversion < 82">
             <div class="redcolor">Để tối ưu hiệu suất hệ thống! Vui lòng sử dụng phiên bản PHP <strong>8.0</strong> trở
                 lên. Khuyên dùng: PHP <strong>8.1</strong></div>
         </div>
