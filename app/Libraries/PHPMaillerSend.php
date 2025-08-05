@@ -2,14 +2,28 @@
 
 namespace App\Libraries;
 
-//
-// require_once APPPATH . 'ThirdParty/PHPMailer/autoload.php';
-require_once APPPATH . 'ThirdParty/PHPMailer/src/Exception.php';
-require_once APPPATH . 'ThirdParty/PHPMailer/src/PHPMailer.php';
-require_once APPPATH . 'ThirdParty/PHPMailer/src/SMTP.php';
+// nếu có thư viện PHPMailer mới thì dùng
+if (is_dir(APPPATH . 'ThirdParty/PHPMailer-6.10.0')) {
+    if (is_file(APPPATH . 'ThirdParty/PHPMailer-6.10.0/autoload.php')) {
+        include_once APPPATH . 'ThirdParty/PHPMailer-6.10.0/autoload.php';
+    } else {
+        include_once APPPATH . 'ThirdParty/PHPMailer-6.10.0/src/Exception.php';
+        include_once APPPATH . 'ThirdParty/PHPMailer-6.10.0/src/PHPMailer.php';
+        include_once APPPATH . 'ThirdParty/PHPMailer-6.10.0/src/SMTP.php';
+    }
+} else {
+    // nếu không có thì dùng thư viện cũ
+    if (is_file(APPPATH . 'ThirdParty/PHPMailer/autoload.php')) {
+        include_once APPPATH . 'ThirdParty/PHPMailer/autoload.php';
+    } else {
+        include_once APPPATH . 'ThirdParty/PHPMailer/src/Exception.php';
+        include_once APPPATH . 'ThirdParty/PHPMailer/src/PHPMailer.php';
+        include_once APPPATH . 'ThirdParty/PHPMailer/src/SMTP.php';
+    }
+}
 
-//use PHPMailer\PHPMailer\PHPMailer;
-//use PHPMailer\PHPMailer\Exception;
+// use PHPMailer\PHPMailer\PHPMailer;
+// use PHPMailer\PHPMailer\Exception;
 
 class PHPMaillerSend
 {
@@ -20,9 +34,6 @@ class PHPMaillerSend
     public static function get_the_send($data, $cog = [], $debug = 0, $resend = true)
     {
         //echo APPPATH . '<br>' . PHP_EOL;
-        //require_once APPPATH . 'ThirdParty/PHPMailer/src/Exception.php';
-        //require_once APPPATH . 'ThirdParty/PHPMailer/src/PHPMailer.php';
-        //require_once APPPATH . 'ThirdParty/PHPMailer/src/SMTP.php';
 
         //print_r( $data );
         //print_r( $cog );

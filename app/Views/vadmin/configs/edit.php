@@ -34,8 +34,7 @@ $base_model->add_css('wp-admin/css/config_' . $config_type . '.css');
                     <div class="lf f50">
                         <div class="bold s15">
                             <?php
-                            // echo file_get_contents(APPPATH . 'ThirdParty/PHPMailer/phpmailer/phpmailer/VERSION', 1);
-                            echo file_get_contents(APPPATH . 'ThirdParty/PHPMailer/VERSION', 1);
+                            echo (is_file(APPPATH . 'ThirdParty/PHPMailer-6.10.0/VERSION') ? file_get_contents(APPPATH . 'ThirdParty/PHPMailer-6.10.0/VERSION', 1) : file_get_contents(APPPATH . 'ThirdParty/PHPMailer/VERSION', 1));
                             ?>
                         </div>
                         <p class="controls-text-note">Kiểm tra và tải phiên bản mới nhất tại đây: https://github.com/PHPMailer/PHPMailer</p>
