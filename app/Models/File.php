@@ -365,10 +365,12 @@ class File extends EbModel
         }
 
         // các option mặc định nếu không có giá trị truyền vào
-        foreach ([
-            'add_line' => '',
-            'set_permission' => DEFAULT_FILE_PERMISSION,
-        ] as $k => $v) {
+        foreach (
+            [
+                'add_line' => '',
+                'set_permission' => DEFAULT_FILE_PERMISSION,
+            ] as $k => $v
+        ) {
             if (!isset($ops[$k])) {
                 $ops[$k] = $v;
             }
@@ -461,6 +463,10 @@ class File extends EbModel
 
     public function download_file($file_path, $url, $ops = [])
     {
+        // tăng timeout khoảng 120s để tải file lớn
+        set_time_limit(120);
+
+        // tải file
         if (!file_put_contents($file_path, file_get_contents($url), LOCK_EX)) {
             //if (!copy($url, $file_path)) {
             $ch = curl_init($url);

@@ -100,3 +100,28 @@ function after_unzip_thirdparty() {
 function done_unzip_system() {
 	return done_submit_restore_code();
 }
+
+// chuyển sang các step để update từng tiến trình và in ra thông báo
+function next_step_update_code(step, msg, uri) {
+	if (typeof step == "undefined" || step == "") {
+		return false;
+	}
+	if (typeof msg != "undefined" && msg != null && msg != "") {
+		WGR_alert(msg, null, 33);
+	}
+
+	// cắt bỏ ký tự / ở đầu uri nêu có
+	if (uri.startsWith("/")) {
+		uri = uri.substring(1);
+	}
+	uri = web_link + uri;
+	console.log(step, uri);
+
+	// nếu có step thì chuyển sang step đó
+	var url = new URL(uri);
+	url.searchParams.set("step", step);
+	// window.location.href = url.toString();
+	// mở url trong iframe #target_eb_iframe
+	jQuery("#target_eb_iframe").attr("src", url.toString());
+	console.log("Open iframe: " + url.toString());
+}

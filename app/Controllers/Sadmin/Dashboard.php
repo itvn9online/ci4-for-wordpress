@@ -17,7 +17,8 @@ class Dashboard extends Optimize
     // link download code từ github
     //protected $link_download_github = 'https://github.com/itvn9online/ci4-for-wordpress/blob/main/ci4-for-wordpress.zip?raw=true';
     protected $link_download_github = 'https://github.com/itvn9online/ci4-for-wordpress/archive/refs/heads/main.zip';
-    protected $link_download_system_github = 'https://github.com/itvn9online/ci4-for-wordpress/raw/main/system.zip';
+    // protected $link_download_system_github = 'https://github.com/itvn9online/ci4-for-wordpress/raw/main/system.zip';
+    protected $link_download_system_github = 'https://github.com/itvn9online/ci4-for-wordpress/raw/refs/heads/main/system.zip';
     // mảng các file sẽ được copy lại ngay sau khi update
     protected $copy_after_updated = [];
     // giãn cách reset permalink
@@ -514,7 +515,7 @@ class Dashboard extends Optimize
 
     protected function unzip_code()
     {
-        //die( PUBLIC_HTML_PATH );
+        // die(PUBLIC_HTML_PATH);
 
         // 1 số định dạng file không cho phép upload trực tiếp
         $allow_upload = [
@@ -523,7 +524,7 @@ class Dashboard extends Optimize
 
         //
         $upload_path = PUBLIC_HTML_PATH;
-        //echo $upload_path . '<br>' . PHP_EOL;
+        // echo $upload_path . '<br>' . PHP_EOL;
 
         // với 1 số host, chỉ upload được vào thư mục có permission 777 -> cache
         if ($this->using_via_ftp() === true) {
@@ -534,40 +535,40 @@ class Dashboard extends Optimize
                 $this->mk_dir($upload_path, __CLASS__ . ':' . __LINE__);
             }
         }
-        //die($upload_path);
+        // die($upload_path);
         echo $upload_path . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
         //
         $file_path = '';
         if ($zipfile = $this->request->getFiles()) {
-            //print_r( $zipfile );
+            // print_r($zipfile);
 
             //
             $file = $zipfile['upload_code'];
-            //print_r( $file );
+            // print_r($file);
 
             //
             if ($file->isValid() && !$file->hasMoved()) {
                 $file_name = $file->getName();
-                //echo $file_name . '<br>' . PHP_EOL;
+                // echo $file_name . '<br>' . PHP_EOL;
                 $file_name = $this->base_model->_eb_non_mark_seo($file_name);
                 $file_name = sanitize_filename($file_name);
-                //echo $file_name . '<br>' . PHP_EOL;
+                // echo $file_name . '<br>' . PHP_EOL;
 
                 //
                 $file_ext = $file->guessExtension();
-                //echo $file_ext . '<br>' . PHP_EOL;
+                // echo $file_ext . '<br>' . PHP_EOL;
                 $file_ext = strtolower($file_ext);
-                //echo $file_ext . '<br>' . PHP_EOL;
+                // echo $file_ext . '<br>' . PHP_EOL;
 
                 //
                 $file_path = $upload_path . $file_name;
-                //echo $file_path . '<br>' . PHP_EOL;
-                //die(__CLASS__ . ':' . __LINE__);
+                // echo $file_path . '<br>' . PHP_EOL;
+                // die(__CLASS__ . ':' . __LINE__);
 
                 // kiểm tra định dạng file
                 $mime_type = $file->getMimeType();
-                //echo $mime_type . '<br>' . PHP_EOL;
+                // echo $mime_type . '<br>' . PHP_EOL;
 
                 // nếu có kiểm duyệt định dạng file -> chỉ các file trong này mới được upload
                 if (!in_array($file_ext, $allow_upload)) {
@@ -725,24 +726,65 @@ class Dashboard extends Optimize
     }
 
     // chức năng download và update system
-    protected function update_system()
+    protected function update_system($step = null)
     {
         //
         $upload_path = PUBLIC_HTML_PATH;
-        //echo $upload_path . '<br>' . PHP_EOL;
+        // echo $upload_path . '<br>' . PHP_EOL;
 
         //
-        $this->cleanup_zip($upload_path, 'Không xóa được file ZIP cũ trước khi upload file mới');
+        if ($step == 'update_system') {
+            $this->cleanup_zip($upload_path, 'Không xóa được file ZIP cũ trước khi upload file mới');
+            return $this->next_step_update_code('download_system');
+        } else if ($step == 'download_system') {
+            $file_path = $upload_path . explode('?', basename($this->link_download_system_github))[0];
+            // echo $file_path . '<br>' . PHP_EOL;
 
-        //
-        $file_path = $upload_path . explode('?', basename($this->link_download_system_github))[0];
-        //echo $file_path . '<br>' . PHP_EOL;
+            //
+            $this->file_model->download_file($file_path, $this->link_download_system_github);
+            return $this->next_step_update_code('unzip_system');
+        } else if ($step == 'unzip_system') {
+            $this->unzip_system(true);
+            return $this->next_step_update_code('update_base_code');
+        }
+    }
 
-        //
-        $this->file_model->download_file($file_path, $this->link_download_system_github);
+    /**
+     * 
+     **/
+    protected function next_step_update_code($step, $msg = null)
+    {
+        echo '<script>top.next_step_update_code("' . $step . '", "' . ($msg == null ? $step : $msg) . '", "' . $_SERVER['REQUEST_URI'] . '");</script>';
+        exit;
 
-        //
-        return $this->unzip_system(true);
+        // lấy url hiện tại để redirect
+        $current_url = $_SERVER['REQUEST_URI'];
+        // xóa các tham số step nếu có
+        if (strpos($current_url, '&step=') !== false) {
+            $current_url = preg_replace('/&step=[^&]*/', '', $current_url);
+        } else if (strpos($current_url, '?step=') !== false) {
+            $current_url = preg_replace('/\?step=[^&]*/', '', $current_url);
+        }
+        echo $current_url . '<br>' . PHP_EOL;
+
+        // thêm tham số step vào URL hiện tại
+        if (strpos($current_url, '?') === false) {
+            // nếu không có tham số nào thì thêm ?step=tiếp_theo
+            $next_url = $current_url . '?step=' . $step;
+        } else {
+            // nếu có tham số thì thêm &step=tiếp_theo
+            $next_url = $current_url . '&step=' . $step;
+        }
+        echo $next_url . '<br>' . PHP_EOL;
+
+        // cắt bỏ dấu / ở đầu URL nếu có
+        $next_url = DYNAMIC_BASE_URL . ltrim($next_url, '/');
+        echo $next_url . '<br>' . PHP_EOL;
+        // exit;
+
+        // redirect đến URL mới
+        header('Location: ' . $next_url);
+        exit;
     }
 
     // chức năng download code từ github nhưng kèm tính năng xóa code cũ -> nạp code mới hoàn toàn
@@ -754,9 +796,17 @@ class Dashboard extends Optimize
     // chức năng upload file code zip lên host và giải nén -> update code
     public function download_code($reset_code = false)
     {
+        // nếu không tồn tại GET step thì redirect thêm step vào
+        if (!isset($_GET['step'])) {
+            return $this->next_step_update_code('update_system');
+        }
+        $step = $_GET['step'];
+        echo $step . '<br>' . PHP_EOL;
+        // die(__CLASS__ . ':' . __LINE__);
+
         // update system trước
-        $this->update_system();
-        //die(__CLASS__ . ':' . __LINE__);
+        $this->update_system($step);
+        // die(__CLASS__ . ':' . __LINE__);
 
         // kiểm tra phiên bản code xem có khác nhau không
         /*
@@ -767,7 +817,7 @@ class Dashboard extends Optimize
 
         //
         $upload_path = PUBLIC_HTML_PATH;
-        //echo $upload_path . '<br>' . PHP_EOL;
+        // echo $upload_path . '<br>' . PHP_EOL;
 
         // chức năng download file main zip từ github
         $from_main_github = true;
@@ -783,41 +833,55 @@ class Dashboard extends Optimize
         }
         echo 'upload path: ' . $upload_path . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
 
-        //
-        $this->cleanup_zip($upload_path, 'Không xóa được file ZIP cũ trước khi upload file mới');
-        //die( $upload_path );
+        if ($step == 'update_base_code') {
+            // xóa file ZIP cũ nếu có
+            $this->cleanup_zip($upload_path, 'Không xóa được file ZIP cũ trước khi upload file mới');
+            // die($upload_path);
+            return $this->next_step_update_code('download_base_code');
+        }
 
         //
         $file_path = $upload_path . explode('?', basename($this->link_download_github))[0];
-        //die( $file_path );
+        // die($file_path);
 
-        //
-        if ($this->file_model->download_file($file_path, $this->link_download_github) === true) {
-            // Khi có tham số reset code -> đổi tên thư mục app, public để upload code từ đầu
-            if ($reset_code === true) {
-                foreach ($this->dir_list as $v) {
-                    // nếu không có thư mục gốc -> bỏ qua
-                    if (!is_dir($v)) {
-                        echo 'DIR NOT EXIST! ' . $v . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-                        continue;
-                    }
+        // 
+        if ($step == 'download_base_code') {
+            if ($this->file_model->download_file($file_path, $this->link_download_github) !== true) {
+                $this->base_model->alert('Download failed! Cannot be determined file after download', 'error');
+            }
+            return $this->next_step_update_code('unzip_base_code');
+        }
 
-                    // nếu có thư mục delete -> dừng lại tiến trình
-                    $v_deleted = $v . '-deleted';
-                    if (is_dir($v_deleted)) {
-                        echo ('<script>top.WGR_body_opacity();</script>');
-                        $this->base_model->alert('DIR EXIST! ' . $v_deleted . ' --- ' . __CLASS__ . ':' . __LINE__, 'error');
-                    }
+        // đến bước này chỉ còn là giải nén code thôi
+        if ($step != 'unzip_base_code') {
+            $this->base_model->alert('STEP mismatch...', 'error');
+        }
 
-                    //
-                    if (!$this->MY_rename($v, $v_deleted)) {
-                        echo ('<script>top.WGR_body_opacity();</script>');
-                        $this->base_model->alert('ERROR rename! ' . $v . ' --- ' . __CLASS__ . ':' . __LINE__, 'error');
-                    }
+        // Khi có tham số reset code -> đổi tên thư mục app, public để upload code từ đầu
+        if ($reset_code === true) {
+            foreach ($this->dir_list as $v) {
+                // nếu không có thư mục gốc -> bỏ qua
+                if (!is_dir($v)) {
+                    echo 'DIR NOT EXIST! ' . $v . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                    continue;
                 }
 
-                // tạo thư mục thông qua FTP
-                /*
+                // nếu có thư mục delete -> dừng lại tiến trình
+                $v_deleted = $v . '-deleted';
+                if (is_dir($v_deleted)) {
+                    echo ('<script>top.WGR_body_opacity();</script>');
+                    $this->base_model->alert('DIR EXIST! ' . $v_deleted . ' --- ' . __CLASS__ . ':' . __LINE__, 'error');
+                }
+
+                //
+                if (!$this->MY_rename($v, $v_deleted)) {
+                    echo ('<script>top.WGR_body_opacity();</script>');
+                    $this->base_model->alert('ERROR rename! ' . $v . ' --- ' . __CLASS__ . ':' . __LINE__, 'error');
+                }
+            }
+
+            // tạo thư mục thông qua FTP
+            /*
                 if ( $this->using_via_ftp() === true ) {
                 $this->file_model->create_dir( $this->app_dir );
                 }
@@ -827,15 +891,15 @@ class Dashboard extends Optimize
                 }
                 */
 
-                //
-                //die( __CLASS__ . ':' . __LINE__ );
-            }
+            //
+            // die(__CLASS__ . ':' . __LINE__);
+        }
 
-            // giải nén sau khi upload
-            $this->after_unzip_code($file_path, $upload_path, $from_main_github);
+        // giải nén sau khi upload
+        $this->after_unzip_code($file_path, $upload_path, $from_main_github);
 
-            // nếu tồn tại file config -> copy nó sang thư mục chính
-            /*
+        // nếu tồn tại file config -> copy nó sang thư mục chính
+        /*
             if (is_file($this->config_deleted_file) && !is_file($this->config_file)) {
                 // không copy được file config thì restore code lại
                 if (!$this->MY_copy($this->config_deleted_file, $this->config_file)) {
@@ -844,28 +908,25 @@ class Dashboard extends Optimize
             }
             */
 
-            // copy lại file cần thiết sau khi update
-            foreach ($this->copy_after_updated as $f_delete => $f_copy) {
-                if (is_file($f_delete) && !is_file($f_copy)) {
-                    // không copy được file config thì restore code lại
-                    if (!$this->MY_copy($f_delete, $f_copy)) {
-                        $this->restore_code();
-                        break;
-                    }
+        // copy lại file cần thiết sau khi update
+        foreach ($this->copy_after_updated as $f_delete => $f_copy) {
+            if (is_file($f_delete) && !is_file($f_copy)) {
+                // không copy được file config thì restore code lại
+                if (!$this->MY_copy($f_delete, $f_copy)) {
+                    $this->restore_code();
+                    break;
                 }
             }
-
-            // dọn dẹp cache
-            $this->cleanup_config_cache(false);
-            // đồng bộ lại thirdparty và database
-            $this->vendor_sync(false);
-        } else {
-            $this->base_model->alert('Download failed! Cannot be determined file after download', 'error');
         }
-        //die( $file_path );
+
+        // dọn dẹp cache
+        $this->cleanup_config_cache(false);
+        // đồng bộ lại thirdparty và database
+        $this->vendor_sync(false);
+        // die($file_path);
 
         //
-        //die( __CLASS__ . ':' . __LINE__ );
+        // die(__CLASS__ . ':' . __LINE__);
         die('<script>top.done_submit_update_code("' . basename($file_path) . '");</script>');
     }
 

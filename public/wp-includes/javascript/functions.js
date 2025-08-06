@@ -68,11 +68,11 @@ if (currency_locales_format != "") {
 	);
 }
 
-function WGR_html_alert(m, lnk) {
-	return WGR_alert(m, lnk);
+function WGR_html_alert(m, lnk, auto_hide) {
+	return WGR_alert(m, lnk, auto_hide);
 }
 
-function WGR_alert(m, lnk) {
+function WGR_alert(m, lnk, auto_hide) {
 	if (typeof m == "undefined") {
 		m = "";
 	}
@@ -118,6 +118,13 @@ function WGR_alert(m, lnk) {
 			jQuery("#my_custom_alert").append(htm).show();
 
 			//
+			if (typeof auto_hide != "number") {
+				auto_hide = 6000;
+			} else if (auto_hide < 120) {
+				auto_hide *= 1000;
+			}
+
+			//
 			setTimeout(() => {
 				jQuery("#" + jd).remove();
 
@@ -125,7 +132,7 @@ function WGR_alert(m, lnk) {
 				if (jQuery("#my_custom_alert div").length < 1) {
 					jQuery("#my_custom_alert").fadeOut();
 				}
-			}, 6000);
+			}, auto_hide);
 		} else if (lnk != "") {
 			return WGR_redirect(lnk);
 		}
