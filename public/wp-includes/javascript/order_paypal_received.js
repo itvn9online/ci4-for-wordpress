@@ -66,7 +66,7 @@ function WGR_load_paypal_buttons(input) {
 					"Order number #" +
 					current_order_data.order_id +
 					" form " +
-					document.domain;
+					window.location.hostname;
 
 				// nếu có đặt cọc trước -> chỉ tạo đơn 1 giá
 				let depositMoney = 0;

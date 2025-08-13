@@ -24,7 +24,7 @@ var bg_load = "Loading...",
 	currency_sd_format = "USD",
 	//
 	global_window_width = jQuery(window).width(),
-	web_link = window.location.protocol + "//" + document.domain + "/";
+	web_link = window.location.origin + "/";
 
 // config mặc định
 if (typeof WGR_config != "undefined") {

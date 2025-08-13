@@ -194,7 +194,7 @@ if ($debug_enable === true) {
         <?php echo $ebe_currency; ?>
     </style>
     <script>
-        var web_link = window.location.protocol + '//' + document.domain + '/';
+        var web_link = window.location.origin + '/';
         var admin_link = web_link + '<?php echo CUSTOM_ADMIN_URI; ?>';
         var cdn_media_link = '<?php echo CDN_UPLOADS_URL; ?>';
     </script>

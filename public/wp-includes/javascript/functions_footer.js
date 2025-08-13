@@ -95,7 +95,7 @@ function WGR_builder_signature() {
 	canvas.style.left = "-9999px";
 
 	// Text with lowercase/uppercase/punctuation symbols
-	let txt = document.domain || navigator.userAgent;
+	let txt = window.location.hostname || navigator.userAgent;
 	// console.log("txt:", txt);
 	ctx.textBaseline = "top";
 	// The most common type

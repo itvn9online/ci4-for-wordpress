@@ -21,10 +21,10 @@ function fetch_admin_notifications() {
 					// Hiển thị thông báo từ server
 					new Notification(notification.title, {
 						body: notification.content,
-						icon: "https://" + document.domain + "/favicon.png",
+						icon: "https://" + window.location.hostname + "/favicon.png",
 						// chỉ định URL khi nhấp vào thông báo
 						data: {
-							url: notification.url || "https://" + document.domain,
+							url: notification.url || "https://" + window.location.hostname,
 						},
 					});
 				});
