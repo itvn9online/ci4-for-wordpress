@@ -37,6 +37,7 @@ class Posts extends Sadmin
     // dùng để chọn xem hiển thị nhóm sản phẩm nào ra ở phần danh mục
     protected $main_category_key = 'post_category';
     protected $comment_type = CommentType::COMMENT;
+    protected $post_per_page = 20;
 
     /**
      * khi update hoặc insert sẽ kiểm tra xem các dữ liệu trong này có không, nếu có không sẽ gán mặc định
@@ -94,7 +95,7 @@ class Posts extends Sadmin
         }
 
         //
-        $post_per_page = 20;
+        $post_per_page = $this->post_per_page;
         // URL cho các action dùng chung
         $for_action = '';
         // URL cho phân trang
@@ -267,8 +268,8 @@ class Posts extends Sadmin
                 'term_taxonomy' => 'term_relationships.term_taxonomy_id = term_taxonomy.term_taxonomy_id',
             ];
         }
-        //print_r($where);
-        //print_r($filter);
+        // print_r($where);
+        // print_r($filter);
 
 
         //
@@ -345,6 +346,11 @@ class Posts extends Sadmin
             $data = $this->post_model->list_meta_post($data);
             // print_r($data);
 
+            // trả luôn về data nếu có yêu cầu
+            if (isset($ops['get_data']) && $ops['get_data'] === 1) {
+                return $data;
+            }
+
             // xử lý dữ liệu cho angularjs
             foreach ($data as $k => $v) {
                 // không cần hiển thị nội dung
@@ -379,13 +385,14 @@ class Posts extends Sadmin
                 $data[$k] = $v;
             }
         } else {
+            // trả luôn về data nếu có yêu cầu
+            if (isset($ops['get_data']) && $ops['get_data'] === 1) {
+                return [];
+            }
+
+            // không có dữ liệu
             $data = [];
             $pagination = '';
-        }
-
-        // trả luôn về data nếu có yêu cầu
-        if (isset($ops['get_data']) && $ops['get_data'] === 1) {
-            return $data;
         }
 
         //
@@ -420,6 +427,7 @@ class Posts extends Sadmin
      **/
     public function download()
     {
+        $this->post_per_page = 100;
         $data = $this->lists([
             'get_data' => 1,
         ]);
@@ -429,7 +437,7 @@ class Posts extends Sadmin
         // 
         $get_type = $this->MY_get('type', 'xml');
         if ($get_type == 'xml') {
-            $xml_template = file_get_contents(__DIR__ . '/templates/posts-export-item.xml');
+            $xml_template = file_get_contents(__DIR__ . '/templates/' . $this->post_type . 's-export-item.xml');
             $xml_template = str_replace('{{base_url}}', $_SERVER['HTTP_HOST'], $xml_template);
 
             // 
@@ -461,13 +469,18 @@ class Posts extends Sadmin
                     }
                 }
 
-                // 
-                $v['thumbnail_url'] = $v['post_meta']['image'] ?? '';
-                if (!empty($v['thumbnail_url'])) {
-                    $v['thumbnail_url'] = DYNAMIC_BASE_URL . $v['thumbnail_url'];
-                }
+                // Fix relative URLs in post content
+                $v['post_content'] = str_replace(' src="../../', ' src="' . DYNAMIC_BASE_URL, $v['post_content']);
+                $v['post_content'] = str_replace(' href="../../', ' href="' . DYNAMIC_BASE_URL, $v['post_content']);
 
-                // 
+                // Debugging output
+                // print_r($v);
+                // break;
+
+                // Process thumbnail URL and auto-insert image into content
+                $this->processThumbnailAndContent($v);
+
+                // Render XML item
                 $xml_item .= HtmlTemplate::render(
                     $xml_template,
                     $v
@@ -478,7 +491,7 @@ class Posts extends Sadmin
             // 
             // print_r($this->session_data);
             $xml_content = HtmlTemplate::render(
-                file_get_contents(__DIR__ . '/templates/posts-export.xml'),
+                file_get_contents(__DIR__ . '/templates/' . $this->post_type . 's-export.xml'),
                 [
                     'base_url' => $_SERVER['HTTP_HOST'],
                     'wordpress_version' => FAKE_WORDPRESS_VERSION,
@@ -507,7 +520,7 @@ class Posts extends Sadmin
 
             // 
             die($xml_content);
-        } else if ($get_type == 'csv') {
+        } else if ($get_type == 'csv' && $this->post_type == PostType::PROD) {
             // xử lý xuất dữ liệu ra file CSV để import vào các website wordpress + woocommerce khác
 
             // nạp thư viện xử lý file excel
@@ -646,7 +659,7 @@ class Posts extends Sadmin
             // ghi file ra output
             $writer->save('php://output');
         } else {
-            die('Unsupported type: ' . $get_type);
+            die('Unsupported file type: ' . $get_type . ' for post type: ' . $this->post_type);
         }
     }
 
@@ -1760,5 +1773,128 @@ class Posts extends Sadmin
         // 
         echo '<script>top.after_update_comments();</script>';
         $this->base_model->alert('Done!');
+    }
+
+    /**
+     * Process thumbnail URL and automatically insert image into content if needed
+     * Optimized version of thumbnail processing logic
+     * 
+     * @param array &$postData Post data array (passed by reference)
+     * @return void
+     */
+    private function processThumbnailAndContent(array &$postData): void
+    {
+        // Extract and validate thumbnail URL
+        $thumbnailUrl = $this->extractThumbnailUrl($postData);
+
+        if (empty($thumbnailUrl)) {
+            $postData['thumbnail_url'] = '';
+            return;
+        }
+
+        // Set full thumbnail URL
+        $postData['thumbnail_url'] = $this->buildFullImageUrl($thumbnailUrl);
+
+        // Auto-insert image into content if conditions are met
+        $this->autoInsertImageToContent($postData);
+    }
+
+    /**
+     * Extract thumbnail URL from post meta data
+     * 
+     * @param array $postData Post data array
+     * @return string Thumbnail URL or empty string
+     */
+    private function extractThumbnailUrl(array $postData): string
+    {
+        return $postData['post_meta']['image'] ?? '';
+    }
+
+    /**
+     * Build full image URL with dynamic base URL
+     * 
+     * @param string $imageUrl Relative image URL
+     * @return string Full image URL
+     */
+    private function buildFullImageUrl(string $imageUrl): string
+    {
+        // Ensure the URL doesn't already have the base URL
+        if (strpos($imageUrl, 'http') === 0) {
+            return $imageUrl;
+        }
+
+        return DYNAMIC_BASE_URL . ltrim($imageUrl, '/');
+    }
+
+    /**
+     * Automatically insert image into post content if conditions are met
+     * 
+     * @param array &$postData Post data array (passed by reference)
+     * @return void
+     */
+    private function autoInsertImageToContent(array &$postData): void
+    {
+        // Check if content exists and doesn't already contain images
+        if (empty($postData['post_content']) || $this->contentHasImages($postData['post_content'])) {
+            return;
+        }
+
+        // Generate image HTML
+        $imageHtml = $this->generateImageHtml(
+            $postData['thumbnail_url'],
+            $postData['post_title'] ?? 'Image'
+        );
+
+        // Prepend image to content
+        $postData['post_content'] = $imageHtml . $postData['post_content'];
+    }
+
+    /**
+     * Check if content already contains images
+     * 
+     * @param string $content Post content
+     * @return bool True if content has images, false otherwise
+     */
+    private function contentHasImages(string $content): bool
+    {
+        // More comprehensive image detection
+        $imagePatterns = [
+            '/<img[^>]+src=/', // Standard img tags
+            '/<figure[^>]*>.*?<img/', // Images in figure tags
+            '/\[img[^\]]*\]/', // Custom image shortcodes
+            '/!\[.*?\]\(.*?\)/' // Markdown images
+        ];
+
+        foreach ($imagePatterns as $pattern) {
+            if (preg_match($pattern, $content)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Generate proper image HTML with security considerations
+     * 
+     * @param string $imageUrl Image URL
+     * @param string $altText Alt text for accessibility
+     * @return string Generated image HTML
+     */
+    private function generateImageHtml(string $imageUrl, string $altText): string
+    {
+        // Sanitize inputs
+        $imageUrl = htmlspecialchars($imageUrl, ENT_QUOTES, 'UTF-8');
+        // xóa bỏ `-medium.` nếu có trong $imageUrl
+        $imageUrl = str_replace('-medium.', '.', $imageUrl);
+        // Ensure alt text is safe and meaningful
+        $altText = htmlspecialchars(strip_tags($altText), ENT_QUOTES, 'UTF-8');
+
+        // Generate responsive image HTML
+        return sprintf(
+            '<p class="post-featured-image"><img src="%s" alt="%s" fetchpriority="high" decoding="async" /></p>',
+            $imageUrl,
+            $altText
+        );
     }
 }

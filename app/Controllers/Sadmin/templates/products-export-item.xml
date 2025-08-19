@@ -21,8 +21,11 @@
     <wp:post_type><![CDATA[{{post_type}}]]></wp:post_type>
     <wp:post_password><![CDATA[{{post_password}}]]></wp:post_password>
     <wp:is_sticky>0</wp:is_sticky>
+    <category domain="product_cat" nicename="{{product_cat_nicename}}"><![CDATA[{{product_cat}}]]></category>
+    <category domain="product_type" nicename="simple"><![CDATA[simple]]></category>
     <wp:attachment_url><![CDATA[{{thumbnail_url}}]]></wp:attachment_url>
-    <category domain="category" nicename="{{category_primary_slug}}">
-        <![CDATA[ {{category_primary_slug}} ]]>
-    </category>
+    <wp:postmeta>
+        <wp:meta_key>_wp_attached_file</wp:meta_key>
+        <wp:meta_value><![CDATA[{{thumbnail_url}}}]]></wp:meta_value>
+    </wp:postmeta>
 </item>
