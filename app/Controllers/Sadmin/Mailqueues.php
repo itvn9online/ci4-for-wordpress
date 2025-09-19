@@ -79,9 +79,16 @@ class Mailqueues extends Sadmin
                 } else {
                     // nếu có @ -> tìm theo email
                     if (strpos($by_keyword, '@') !== false) {
-                        $where_or_like = [
-                            'mailto' => explode('@', $by_keyword)[0],
-                        ];
+                        $like_before = explode('@', $by_keyword)[0];
+                        if (!empty($like_before)) {
+                            $where_or_like = [
+                                'mailto' => explode('@', $by_keyword)[0],
+                            ];
+                        } else {
+                            $where_or_like = [
+                                'mailto' => $by_keyword,
+                            ];
+                        }
                     }
                     // còn lại thì có gì tìm hết
                     else {

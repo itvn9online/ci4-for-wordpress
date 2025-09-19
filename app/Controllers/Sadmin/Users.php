@@ -524,7 +524,7 @@ class Users extends Sadmin
                 'P',
                 'Q',
             ];
-            $data['ci_pass'] = $rand_password[rand(0, count($rand_password) - 1)] . '@' . substr(md5(time()), 0, 10);
+            $data['ci_pass'] = $rand_password[mt_rand(0, count($rand_password) - 1)] . '@' . substr(md5(time()), 0, 10);
         }
         //print_r($data);
 

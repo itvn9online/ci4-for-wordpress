@@ -107,7 +107,7 @@ use App\Libraries\CommentType;
                     </div>
                     <p>* Mẹo! Sử dụng AI như Chat GPT, Copilot... để tạo review ảo, sau đó copy paste vào đây để đăng review. Ví dụ:</p>
                     <div>
-                        <textarea rows="2" ondblclick="return click2Copy(this);" id="copy_ai_prompt" readonly class="form-control small">Tạo giúp tôi <?php echo rand(5, 10); ?> review tốt về sản phẩm "<?php echo $data['post_title']; ?>". Kết quả trả về là dạng bảng excel theo định dạng: Họ và tên, email của người review, tiêu đề review, nội dung review. Ngôn ngữ sử dụng là {admin-language}.</textarea>
+                        <textarea rows="2" ondblclick="return click2Copy(this);" id="copy_ai_prompt" readonly class="form-control small">Tạo giúp tôi <?php echo mt_rand(5, 10); ?> review tốt về sản phẩm "<?php echo $data['post_title']; ?>". Kết quả trả về là dạng bảng excel theo định dạng: Họ và tên, email của người review, tiêu đề review, nội dung review. Ngôn ngữ sử dụng là {admin-language}.</textarea>
                     </div>
                     <p>Sau khi có danh sách review, có thể copy nội dung đó rồi paste vào file excel để tiện việc đăng review.</p>
                     <div>

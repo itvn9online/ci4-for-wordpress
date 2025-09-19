@@ -9,7 +9,7 @@
 //echo $this->rand_anti_spam . '<br>' . PHP_EOL;
 
 // tạo ID cho thẻ DIV -> để gây khó khăn cho việc xác định thuộc tính của DIV
-$anti_div_id_spam = '_' . $this->rand_anti_spam . rand(99, 999);
+$anti_div_id_spam = '_' . $this->rand_anti_spam . mt_rand(99, 999);
 
 ?>
 <style>
@@ -25,7 +25,7 @@ $anti_div_id_spam = '_' . $this->rand_anti_spam . rand(99, 999);
 
     //
     $i = 1;
-    $j = rand($i, count($this->input_anti_spam));
+    $j = mt_rand($i, count($this->input_anti_spam));
     //$j = 1;
     foreach ($this->input_anti_spam as $k => $v) {
         // tạo 1 input kiểu ngẫu nhiên để gán dữ liệu định sẵn
@@ -53,15 +53,15 @@ $anti_div_id_spam = '_' . $this->rand_anti_spam . rand(99, 999);
     if ($ops['time_expired'] < 1) {
         // mặc định là hết trong 1 ngày nếu ko có
         $ops['time_expired'] = 86400;
-        $ops['time_expired'] -= rand(0, 99);
+        $ops['time_expired'] -= mt_rand(0, 99);
     } else {
-        $ops['time_expired'] += rand(0, 33);
+        $ops['time_expired'] += mt_rand(0, 33);
     }
     $ops['time_expired'] = $ops['time_expired'] + time();
 
     // tạo chuỗi ngẫu nhiên từ session id -> cố định cho input nhưng giá trị thay đổi liên tục
     $rand_code = $this->MY_sessid();
-    $rand_code = substr($rand_code, rand(0, strlen($rand_code) - $this->rand_len_code), $this->rand_len_code);
+    $rand_code = substr($rand_code, mt_rand(0, strlen($rand_code) - $this->rand_len_code), $this->rand_len_code);
 
     //
     foreach (

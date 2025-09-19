@@ -44,7 +44,7 @@ class Zalooas extends Configs
             'code' => __LINE__,
             'phone' => $this->zalooa_config->zns_phone_for_test,
             'back' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '',
-            'result' => $this->zaloa_model->sendOtpZns($this->zalooa_config->zns_phone_for_test, rand(1000, 9999), [
+            'result' => $this->zaloa_model->sendOtpZns($this->zalooa_config->zns_phone_for_test, mt_rand(1000, 9999), [
                 //'mode' => 'development',
             ]),
         ]);

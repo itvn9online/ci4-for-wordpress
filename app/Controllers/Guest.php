@@ -890,7 +890,7 @@ class Guest extends Csrf
             //'token_url' => base_url('firebase2s/sign_in_token'),
             //'firebase_config' => base_url('firebase2s/firebase_config'),
             // thêm 3 ký tự ngẫu nhiên vào expires_token -> để tăng bảo mật
-            'expires_token' => $current_time . rand(100, 999),
+            'expires_token' => $current_time . mt_rand(100, 999),
             //'user_token' => $this->base_model->mdnam($current_time . $this->base_model->MY_sessid()),
         ];
     }

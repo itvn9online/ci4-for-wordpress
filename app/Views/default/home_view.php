@@ -76,7 +76,7 @@ $post_model->the_ads('top-main-slider');
                         // 'group_by' => [],
                         // 
                         'limit' => 10,
-                        'offset' => rand(0, 100),
+                        'offset' => mt_rand(0, 100),
                         'order_by' => [
                             'menu_order' => 'DESC',
                             'time_order' => 'DESC',

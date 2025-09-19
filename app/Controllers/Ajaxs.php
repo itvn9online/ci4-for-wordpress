@@ -267,7 +267,7 @@ class Ajaxs extends Layout
                 $val = 1;
             } else {
                 // người khác vào xem thì tăng mạnh hơn -> fview = fake view -> ngoài FE viết tắt tí cho kỳ bí
-                $val = rand(1, $fake_view);
+                $val = mt_rand(1, $fake_view);
             }
         }
         $this->post_model->update_views($this->MY_post('pid', 0), $val);

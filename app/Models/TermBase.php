@@ -315,7 +315,7 @@ class TermBase extends EbModel
          * chức năng này chạy lâu hơn bình thường -> tạo cache luôn và ngay để tránh việc người sau vào lại thực thi cùng
          * cái này cứ để giãn cách xa 1 chút, tầm nửa ngày đến vài ngày làm 1 lần cũng được
          */
-        $this->base_model->scache(__FUNCTION__, time(), $this->time_update_last_count - rand(333, 666));
+        $this->base_model->scache(__FUNCTION__, time(), $this->time_update_last_count - mt_rand(333, 666));
 
         //
         $the_view = $prefix . 'zzz_update_count';
@@ -610,7 +610,7 @@ class TermBase extends EbModel
         //print_r($data);
         //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
         if (empty($data)) {
-            $this->base_model->scache(__FUNCTION__, time(), $this->time_update_last_count - rand(333, 666));
+            $this->base_model->scache(__FUNCTION__, time(), $this->time_update_last_count - mt_rand(333, 666));
             return true;
         }
 
@@ -671,7 +671,7 @@ class TermBase extends EbModel
         //
         $this->base_model->update_multiple('terms', [
             'child_count' => count($child_count),
-            'child_last_count' => time() + $this->time_update_count + rand(0, $this->time_update_count),
+            'child_last_count' => time() + $this->time_update_count + mt_rand(0, $this->time_update_count),
         ], [
             'term_id' => $data['term_id'],
         ], [
