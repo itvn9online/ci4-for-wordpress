@@ -252,7 +252,10 @@ class Configs extends Sadmin
         } else if ($option_type == ConfigType::SOCIAL) {
             if (isset($data['google_ads_txt_adsense']) && $data['google_ads_txt_adsense'] != '') {
                 echo PUBLIC_PUBLIC_PATH . 'ads.txt' . '<br>' . PHP_EOL;
-                file_put_contents(PUBLIC_PUBLIC_PATH . 'ads.txt', $data['google_ads_txt_adsense'], LOCK_EX);
+                $this->base_model->ftp_create_file(
+                    PUBLIC_PUBLIC_PATH . 'ads.txt',
+                    $data['google_ads_txt_adsense']
+                );
             }
         }
 
@@ -284,12 +287,9 @@ class Configs extends Sadmin
         //die( __CLASS__ . ':' . __LINE__ );
 
         // không tạo file robots.txt tĩnh kiểu này -> site đa ngôn ngữ ko hoạt động được
-        if (is_file(PUBLIC_PUBLIC_PATH . 'robots.txt')) {
+        if (1 > 2 && is_file(PUBLIC_PUBLIC_PATH . 'robots.txt')) {
             unlink(PUBLIC_PUBLIC_PATH . 'robots.txt');
-        }
-
-        //
-        if (1 > 2) {
+        } else if (1 < 2) {
             if (isset($data['blog_private']) && $data['blog_private'] == 'on') {
                 $data['robots'] = $this->helpersTmpFile('robots_disallow_all');
                 //echo nl2br( $data[ 'robots' ] );
@@ -298,7 +298,19 @@ class Configs extends Sadmin
                 $arr_meta_key[] = 'robots';
 
                 //
-                // $this->base_model->ftp_create_file(PUBLIC_PUBLIC_PATH . 'robots.txt', $this->helpersTmpFile('robots_disallow_all'));
+                $save_path = PUBLIC_PUBLIC_PATH;
+                // nếu không phải ngôn ngữ mặc định thì thêm thư mục con
+                if (SITE_LANGUAGE_DEFAULT != $this->lang_key) {
+                    $save_path .= $this->lang_key;
+                    if (!is_dir($save_path)) {
+                        mkdir($save_path, DEFAULT_DIR_PERMISSION) or die('ERROR create dir (' . __CLASS__ . ':' . __LINE__ . ')! ' . $path);
+                        chmod($save_path, DEFAULT_DIR_PERMISSION);
+                    }
+                }
+                $this->base_model->ftp_create_file(
+                    $save_path . '/robots.txt',
+                    $this->helpersTmpFile('robots_disallow_all')
+                );
             }
             //
             else if (isset($data['robots'])) {
@@ -316,20 +328,32 @@ class Configs extends Sadmin
                     //
                     $arr_meta_key[] = 'robots';
                 }
-                //$data[ 'robots' ] = trim( $data[ 'robots' ] );
+                // $data['robots'] = trim($data['robots']);
                 // echo nl2br($data['robots']);
 
                 //
                 //$id = '1';
 
-                /*
-            $robot = fopen( PUBLIC_PUBLIC_PATH . 'robots.txt', 'w' )or die( 'Unable to open file!' );
-            fwrite( $robot, $data[ 'robots' ] );
-            fclose( $robot );
-            */
+                // $robot = fopen(PUBLIC_PUBLIC_PATH . 'robots.txt', 'w') or die('Unable to open file!');
+                // fwrite($robot, $data['robots']);
+                // fclose($robot);
 
-                //
-                // $this->base_model->ftp_create_file(PUBLIC_PUBLIC_PATH . 'robots.txt', $data['robots']);
+                // tạo file robots.txt theo ngôn ngữ
+                $web_link = DYNAMIC_BASE_URL;
+                $save_path = PUBLIC_PUBLIC_PATH;
+                // nếu không phải ngôn ngữ mặc định thì thêm thư mục con
+                if (SITE_LANGUAGE_DEFAULT != $this->lang_key) {
+                    $web_link .= $this->lang_key . '/';
+                    $save_path .= $this->lang_key;
+                    if (!is_dir($save_path)) {
+                        mkdir($save_path, DEFAULT_DIR_PERMISSION) or die('ERROR create dir (' . __CLASS__ . ':' . __LINE__ . ')! ' . $path);
+                        chmod($save_path, DEFAULT_DIR_PERMISSION);
+                    }
+                }
+                $this->base_model->ftp_create_file(
+                    $save_path . '/robots.txt',
+                    str_replace('%base_url%', $web_link, $data['robots'])
+                );
             }
             // echo nl2br($data['robots']);
         }

@@ -687,12 +687,12 @@ class Base extends Csdl
         // có file rồi
         if ($ops['add_line'] != '' && is_file($file_)) {
             // -> chỉ append content
-            if (@file_put_contents($file_, $content_, FILE_APPEND)) {
+            if (file_put_contents($file_, $content_, FILE_APPEND)) {
                 return true;
             }
-        } else if (@file_put_contents($file_, $content_, LOCK_EX)) {
+        } else if (file_put_contents($file_, $content_, LOCK_EX)) {
             // tạo mới thì thêm đoạn chmod
-            @chmod($file_, $ops['set_permission']);
+            chmod($file_, $ops['set_permission']);
             return true;
         }
 
