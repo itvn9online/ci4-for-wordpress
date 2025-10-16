@@ -13,9 +13,9 @@ function fixed_url_index_php()
 
     // print_r($_SERVER['REQUEST_URI']);
     $base_uri = explode('?', $_SERVER['REQUEST_URI'])[0];
-    // echo $base_uri . '<br>' . PHP_EOL;
+    // echo $base_uri . '<br>' . "\n";
     if (strpos($base_uri, '/index.php/') === false) {
-        // echo $base_uri . '<br>' . PHP_EOL;
+        // echo $base_uri . '<br>' . "\n";
         return false;
     }
     $base_uri = str_replace('/index.php/', '/', $base_uri);
@@ -23,7 +23,7 @@ function fixed_url_index_php()
 
     // 
     $redirect_to = 'https://' . $_SERVER['HTTP_HOST'] . $base_uri . '?redirect_to=0';
-    // echo $redirect_to . '<br>' . PHP_EOL;
+    // echo $redirect_to . '<br>' . "\n";
     // die(__FILE__ . ':' . __LINE__);
 
     // 

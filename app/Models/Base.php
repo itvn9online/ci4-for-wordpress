@@ -30,7 +30,7 @@ class Base extends Csdl
         //print_r( $ops );
         $f = str_replace(PUBLIC_PUBLIC_PATH, '', $f);
         $f = ltrim($f, '/');
-        //echo $f . '<br>' . PHP_EOL;
+        //echo $f . '<br>' . "\n";
 
         if (!is_file(PUBLIC_PUBLIC_PATH . $f)) {
             return '<!-- ' . $f . ' not exist! -->';
@@ -38,7 +38,7 @@ class Base extends Csdl
 
         //
         if (isset($ops['get_content'])) {
-            return '<style>' . file_get_contents($f, 1) . '</style>' . PHP_EOL;
+            return '<style>' . file_get_contents($f, 1) . '</style>' . "\n";
         }
 
         // xem có chạy qua CDN không -> có thì nó sẽ giảm tải cho server
@@ -57,13 +57,13 @@ class Base extends Csdl
     // chế độ nạp css thông thường
     public function add_css($f, $ops = [], $attr = [])
     {
-        echo $this->get_add_css($f, $ops, $attr) . PHP_EOL;
+        echo $this->get_add_css($f, $ops, $attr) . "\n";
     }
     // thêm nhiều file cùng 1 thuộc tính
     public function adds_css($fs, $ops = [], $attr = [])
     {
         foreach ($fs as $f) {
-            echo $this->get_add_css($f, $ops, $attr) . PHP_EOL;
+            echo $this->get_add_css($f, $ops, $attr) . "\n";
         }
     }
     // chế độ nạp trước css
@@ -72,7 +72,7 @@ class Base extends Csdl
         $ops['preload'] = 1;
 
         //
-        echo $this->get_add_css($f, $ops) . PHP_EOL;
+        echo $this->get_add_css($f, $ops) . "\n";
     }
 
     public function preloads_css($fs, $ops = [])
@@ -81,7 +81,7 @@ class Base extends Csdl
 
         //
         foreach ($fs as $f) {
-            echo $this->get_add_css($f, $ops) . PHP_EOL;
+            echo $this->get_add_css($f, $ops) . "\n";
         }
     }
 
@@ -90,7 +90,7 @@ class Base extends Csdl
         //print_r( $ops );
         $f = str_replace(PUBLIC_PUBLIC_PATH, '', $f);
         $f = ltrim($f, '/');
-        //echo $f . '<br>' . PHP_EOL;
+        //echo $f . '<br>' . "\n";
         if (!is_file(PUBLIC_PUBLIC_PATH . $f)) {
             return '<!-- ' . $f . ' not exist! -->';
         }
@@ -115,13 +115,13 @@ class Base extends Csdl
     // thêm 1 file
     public function add_js($f, $ops = [], $attr = [])
     {
-        echo $this->get_add_js($f, $ops, $attr) . PHP_EOL;
+        echo $this->get_add_js($f, $ops, $attr) . "\n";
     }
     // thêm nhiều file cùng 1 thuộc tính
     public function adds_js($fs, $ops = [], $attr = [])
     {
         foreach ($fs as $f) {
-            echo $this->get_add_js($f, $ops, $attr) . PHP_EOL;
+            echo $this->get_add_js($f, $ops, $attr) . "\n";
         }
     }
     // chế độ nạp trước css
@@ -130,7 +130,7 @@ class Base extends Csdl
         $ops['preload'] = 1;
 
         //
-        echo $this->get_add_js($f, $ops) . PHP_EOL;
+        echo $this->get_add_js($f, $ops) . "\n";
     }
 
     public function preloads_js($fs, $ops = [])
@@ -139,7 +139,7 @@ class Base extends Csdl
 
         //
         foreach ($fs as $f) {
-            echo $this->get_add_js($f, $ops) . PHP_EOL;
+            echo $this->get_add_js($f, $ops) . "\n";
         }
     }
 
@@ -276,9 +276,9 @@ class Base extends Csdl
     // trả về nội dung HTML mẫu
     public function get_html_tmp($file_name, $path = '', $sub_path = 'html/', $file_type = '.html')
     {
-        //echo PUBLIC_HTML_PATH . '<br>' . PHP_EOL;
-        //echo APPPATH . '<br>' . PHP_EOL;
-        //echo PUBLIC_HTML_PATH . APPPATH . '<br>' . PHP_EOL;
+        //echo PUBLIC_HTML_PATH . '<br>' . "\n";
+        //echo APPPATH . '<br>' . "\n";
+        //echo PUBLIC_HTML_PATH . APPPATH . '<br>' . "\n";
 
         // nếu path được chỉ định -> dùng path
         if ($path != '') {
@@ -362,7 +362,7 @@ class Base extends Csdl
 
         // tạo file htaccess chặn truy cập nếu chưa có
         $f = $dir . '.htaccess';
-        //echo $f . PHP_EOL;
+        //echo $f . "\n";
         if (!is_file($f)) {
             $this->_eb_create_file(
                 $f,
@@ -407,7 +407,7 @@ class Base extends Csdl
                 return [];
             }
         }
-        //echo $dir . '*' . $file_type . '<br>' . PHP_EOL;
+        //echo $dir . '*' . $file_type . '<br>' . "\n";
 
         // lấy danh sách file
         if ($file_type != '') {
@@ -615,7 +615,7 @@ class Base extends Csdl
         // bỏ mảng cuối cùng
         $str = explode(' ', $str);
         $count_str = count($str);
-        //echo $count_str . PHP_EOL;
+        //echo $count_str . "\n";
         //print_r($str);
         unset($str[$count_str - 1]);
         if ($add_more == true) {
@@ -667,7 +667,7 @@ class Base extends Csdl
     public function eb_create_file($file_, $content_, $ops = [])
     {
         if ($content_ == '') {
-            echo 'WARNING put file: content is NULL: ' . basename($file_) . '<br>' . PHP_EOL;
+            echo 'WARNING put file: content is NULL: ' . basename($file_) . '<br>' . "\n";
             return false;
         }
 
@@ -842,7 +842,7 @@ class Base extends Csdl
         foreach ($var as $k => $v) {
             $str[] = 'var ' . $k . '=' . json_encode($v) . ';';
         }
-        echo '<script>' . implode(PHP_EOL, $str) . '</script>';
+        echo '<script>' . implode("\n", $str) . '</script>';
     }
 
     // đầu vào là 1 mảng có key -> đầu ra là mã javascript -> dùng cho trường hợp in thẳng JSON vào HTML
@@ -861,7 +861,7 @@ class Base extends Csdl
             //
             $str[] = 'var ' . $k . '="' . $v . '";';
         }
-        echo '<script>' . implode(PHP_EOL, $str) . '</script>';
+        echo '<script>' . implode("\n", $str) . '</script>';
     }
 
     // kiểm tra xem 1 mảng có bị trống các dữ liệu bắt buộc hay không. Trống thì trả về true -> tương tự hàm empty của php

@@ -32,8 +32,8 @@ class Installs extends Sync
             ) {
                 $this->installsSync();
             } else {
-                echo 'WARNING! code #' . __LINE__ . '. app/sync file not found! ' . '<br>' . PHP_EOL;
-                echo '<a href="' . base_url() . '">Back to home</a> ' . '<br>' . PHP_EOL;
+                echo 'WARNING! code #' . __LINE__ . '. app/sync file not found! ' . '<br>' . "\n";
+                echo '<a href="' . base_url() . '">Back to home</a> ' . '<br>' . "\n";
             }
         }
 

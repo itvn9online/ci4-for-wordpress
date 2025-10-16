@@ -189,7 +189,8 @@ class Config404s extends Sadmin
 
         // 
         $filter = [
-            'like_after' => $where_like,
+            'like' => $where_like,
+            // 'like_after' => $where_like,
             // hiển thị mã SQL để check
             // 'show_query' => 1,
             // trả về câu query để sử dụng cho mục đích khác
@@ -207,7 +208,7 @@ class Config404s extends Sadmin
          * phân trang
          */
         $totalThread = $this->base_model->select_count('link_id', 'links', $where, $filter);
-        // echo $totalThread . '<br>' . PHP_EOL;
+        // echo $totalThread . '<br>' . "\n";
 
         // chạy vòng lặp gán nốt các thông số khác trên url vào phân trang
         $urlPartPage = $this->base_model->auto_add_params($urlPartPage);
@@ -220,14 +221,14 @@ class Config404s extends Sadmin
             if ($totalPage < 1) {
                 $totalPage = 1;
             }
-            // echo $totalPage . '<br>' . PHP_EOL;
+            // echo $totalPage . '<br>' . "\n";
             if ($page_num > $totalPage) {
                 $page_num = $totalPage;
             } else if ($page_num < 1) {
                 $page_num = 1;
             }
-            // echo $totalThread . '<br>' . PHP_EOL;
-            // echo $totalPage . '<br>' . PHP_EOL;
+            // echo $totalThread . '<br>' . "\n";
+            // echo $totalPage . '<br>' . "\n";
             $offset = ($page_num - 1) * $post_per_page;
 
             // chạy vòng lặp gán nốt các thông số khác trên url vào phân trang

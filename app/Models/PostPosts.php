@@ -29,7 +29,7 @@ class PostPosts extends PostGet
         // if (isset($_GET['aaaaaaaaaa'])) {
         //     print_r($data);
         // }
-        //echo $tmp_html . '<br>' . PHP_EOL;
+        //echo $tmp_html . '<br>' . "\n";
 
         //
         $data['p_link'] = $this->get_full_permalink($data);
@@ -213,7 +213,7 @@ class PostPosts extends PostGet
 
         //
         if ($in_cache != '') {
-            //echo $in_cache . '<br>' . PHP_EOL;
+            //echo $in_cache . '<br>' . "\n";
             $cache_value = $this->base_model->scache($in_cache);
 
             // có cache thì trả về
@@ -234,7 +234,7 @@ class PostPosts extends PostGet
         $ops['auto_clone'] = 1;
 
         //
-        //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
+        //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . "\n";
         $data = $this->echbay_blog($slug, $ops);
 
         //
@@ -325,14 +325,14 @@ class PostPosts extends PostGet
         //print_r($prams);
         // ko có tham số này -> LỖI -> báo lỗi
         if (!isset($prams['child_last_count'])) {
-            echo 'child_last_count not found in ' . basename(__FILE__) . ':' . __LINE__ . '<br>' . PHP_EOL;
+            echo 'child_last_count not found in ' . basename(__FILE__) . ':' . __LINE__ . '<br>' . "\n";
             return 0;
         }
         // nếu mới tổng thì bỏ qua
         else if ($prams['child_last_count'] > time()) {
             return $prams['count'];
         }
-        //echo time() - $prams['child_last_count'] . '<br>' . PHP_EOL;
+        //echo time() - $prams['child_last_count'] . '<br>' . "\n";
 
         //
         $count = $this->post_category($post_type, $prams, [
@@ -351,10 +351,10 @@ class PostPosts extends PostGet
         $count = $count[0]['ID'];
 
         //print_r($prams);
-        //echo $post_type . '<br>' . PHP_EOL;
+        //echo $post_type . '<br>' . "\n";
         //print_r($ops);
         //$count = $this->count_others_by($prams, $post_type, $ops);
-        //echo $count . '<br>' . PHP_EOL;
+        //echo $count . '<br>' . "\n";
         //return $count;
         //die('count: ' . $count);
 

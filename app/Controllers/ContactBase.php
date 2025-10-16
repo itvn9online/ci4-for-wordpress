@@ -210,7 +210,7 @@ class ContactBase extends Home
                 'to' => $this->getconfig->emailcontact,
                 // 'to_name' => $data['fullname'],
                 'subject' => $data['title'],
-                'message' => $submit['message'] . PHP_EOL . $redirect_to,
+                'message' => $submit['message'] . "\n" . $redirect_to,
             ];
 
             //
@@ -339,8 +339,8 @@ class ContactBase extends Home
 
             //
             if ($k != '' && !empty($v)) {
-                $data_insert['comment_content'] .= $k . ':' . PHP_EOL;
-                $data_insert['comment_content'] .= $v . PHP_EOL;
+                $data_insert['comment_content'] .= $k . ':' . "\n";
+                $data_insert['comment_content'] .= $v . "\n";
             }
         }
         // print_r($data_insert);
@@ -351,10 +351,10 @@ class ContactBase extends Home
         $list_upload = $this->media_upload($this->allow_upload, true);
         //print_r( $list_upload );
         if (!empty($list_upload)) {
-            $data_insert['comment_content'] .= 'File đính kèm: ' . PHP_EOL;
+            $data_insert['comment_content'] .= 'File đính kèm: ' . "\n";
             foreach ($list_upload as $arr) {
                 foreach ($arr as $v) {
-                    $data_insert['comment_content'] .= '<a href="' . DYNAMIC_BASE_URL . $v . '">' . DYNAMIC_BASE_URL . $v . '</a>' . PHP_EOL;
+                    $data_insert['comment_content'] .= '<a href="' . DYNAMIC_BASE_URL . $v . '">' . DYNAMIC_BASE_URL . $v . '</a>' . "\n";
                 }
             }
         }

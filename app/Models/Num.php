@@ -19,13 +19,13 @@ class Num extends Lang
     public function get_the_number($key, $default_value = '')
     {
         if ($GLOBALS['this_cache_num'] === null) {
-            // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             $GLOBALS['this_cache_num'] = $this->option_model->arr_config(ConfigType::NUM_MON);
         }
         //print_r($GLOBALS['this_cache_num']);
 
         //
-        //echo $key . '<br>' . PHP_EOL;
+        //echo $key . '<br>' . "\n";
         // nếu chưa có
         if (!isset($GLOBALS['this_cache_num'][$key])) {
             // gọi đến lệnh tạo num

@@ -5,7 +5,7 @@
  **/
 
 //
-//echo $theme_private_view . '<br>' . PHP_EOL;
+//echo $theme_private_view . '<br>' . "\n";
 if (is_file($theme_private_view)) {
     include __DIR__ . '/private_include_view.php';
 }

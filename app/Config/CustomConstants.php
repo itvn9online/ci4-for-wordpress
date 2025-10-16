@@ -15,7 +15,7 @@
  * Các tham số khác, rất ít khi thay đổi
  **/
 define('PUBLIC_HTML_PATH', ROOTPATH);
-//echo PUBLIC_HTML_PATH . '<br>' . PHP_EOL;
+//echo PUBLIC_HTML_PATH . '<br>' . "\n";
 define('PUBLIC_PUBLIC_PATH', PUBLIC_HTML_PATH . 'public/');
 //die( PUBLIC_PUBLIC_PATH );
 
@@ -42,17 +42,17 @@ $mot_gio_truoc = time() - 3600;
 $date_and2_hour = date('dH', $mot_gio_truoc);
 $rand2_by_ses = md5($_SERVER['HTTP_HOST'] . date('Y-m-d H', $mot_gio_truoc));
 // $rand_by_ses = md5(session_id());
-// echo $rand_by_ses . '<br>' . PHP_EOL;
+// echo $rand_by_ses . '<br>' . "\n";
 // khai báo constants để tạo routes
 define('RAND_MULTI_LOGOUT', '_' . $date_and_hour . substr($rand_by_ses, 0, 12));
 // die(RAND_MULTI_LOGOUT);
 define('RAND2_MULTI_LOGOUT', '_' . $date_and2_hour . substr($rand2_by_ses, 0, 12));
-// echo RAND2_MULTI_LOGOUT . '<br>' . PHP_EOL;
+// echo RAND2_MULTI_LOGOUT . '<br>' . "\n";
 define('RAND_MULTI_LOGGED', '_' . $date_and_hour . substr($rand_by_ses, 6, 12));
-//echo RAND_MULTI_LOGGED . '<br>' . PHP_EOL;
+//echo RAND_MULTI_LOGGED . '<br>' . "\n";
 define('RAND2_MULTI_LOGGED', '_' . $date_and2_hour . substr($rand2_by_ses, 6, 12));
 define('RAND_CONFIRM_LOGGED', '_' . $date_and_hour . substr($rand_by_ses, 12, 12));
-//echo RAND_CONFIRM_LOGGED . '<br>' . PHP_EOL;
+//echo RAND_CONFIRM_LOGGED . '<br>' . "\n";
 define('RAND2_CONFIRM_LOGGED', '_' . $date_and2_hour . substr($rand2_by_ses, 12, 12));
 
 /**
@@ -64,11 +64,11 @@ $rand_by_date = md5(RAND_MULTI_LOGOUT);
 $rand2_by_date = md5(RAND2_MULTI_LOGOUT);
 define('RAND_REMEMBER_LOGIN', '_' . substr($rand_by_date, 0, 12));
 define('RAND2_REMEMBER_LOGIN', '_' . substr($rand2_by_date, 0, 12));
-//echo RAND_REMEMBER_LOGIN . '<br>' . PHP_EOL;
+//echo RAND_REMEMBER_LOGIN . '<br>' . "\n";
 // chuỗi dùng để tạo url lấy dữ liệu anti spam qua ajax -> tránh cache
 define('RAND_GET_ANTI_SPAM', '_' . substr($rand_by_date, 6, 12));
 define('RAND2_GET_ANTI_SPAM', '_' . substr($rand2_by_date, 6, 12));
-//echo RAND_GET_ANTI_SPAM . '<br>' . PHP_EOL;
+//echo RAND_GET_ANTI_SPAM . '<br>' . "\n";
 
 
 /**
@@ -274,7 +274,7 @@ if (is_file(PUBLIC_PUBLIC_PATH . 'wp-content/themes/actived.php')) {
     // tạo file khai báo theme theo phiên bản mới
     file_put_contents(PUBLIC_PUBLIC_PATH . 'wp-content/themes/actived.php', '<?php define(\'THEMENAME\', \'' . THEMENAME . '\');', LOCK_EX);
 }
-//echo THEMENAME . '<br>' . PHP_EOL;
+//echo THEMENAME . '<br>' . "\n";
 
 
 //
@@ -618,8 +618,8 @@ else {
     // tạo key theo host để làm prefix
     define('CACHE_HOST_PREFIX', $cache_prefix);
 }
-// echo CACHE_HOST_PREFIX . '<br>' . PHP_EOL;
-// echo WRITE_CACHE_PATH . '<br>' . PHP_EOL;
+// echo CACHE_HOST_PREFIX . '<br>' . "\n";
+// echo WRITE_CACHE_PATH . '<br>' . "\n";
 // die(__FILE__ . ':' . __LINE__);
 
 // thời gian cache mặc định

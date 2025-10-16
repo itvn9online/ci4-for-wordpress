@@ -87,7 +87,7 @@ class Zalooas extends Configs
             //'oa_quota' => $this->zaloa_model->getOaQuota(),
             'oa_promotion_quota' => $this->zaloa_model->getOaPromotionQuota($zalo_oa_id),
             // test gửi tin nhắn
-            'result' => $this->zaloa_model->sendOaText($zalo_oa_id, implode(PHP_EOL, [
+            'result' => $this->zaloa_model->sendOaText($zalo_oa_id, implode("\n", [
                 'Đây là đài tiếng nói Việt Nam!',
                 'Phát đi từ Hà Nội, thủ đô nước cộng hòa xã hội chủ nghĩa Việt Nam.',
                 'Bây giờ là: ' . date('r') . '.',

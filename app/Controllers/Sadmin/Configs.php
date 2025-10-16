@@ -180,16 +180,16 @@ class Configs extends Sadmin
         //
         if ($option_type == ConfigType::CONFIG) {
             // chỉ cho phép một số định dạng file được truy cập trong thư mục upload
-            echo $this->deny_visit_upload('', true, isset($data['enable_hotlink_protection']) ? true : false) . '<br>' . PHP_EOL;
+            echo $this->deny_visit_upload('', true, isset($data['enable_hotlink_protection']) ? true : false) . '<br>' . "\n";
             $this->auto_create_htaccess_deny(true);
 
             // chỉ cho phép một số định dạng file được truy cập trong thư mục themes
-            echo $this->deny_visit_upload(PUBLIC_PUBLIC_PATH . 'wp-content/themes', true, false) . '<br>' . PHP_EOL;
+            echo $this->deny_visit_upload(PUBLIC_PUBLIC_PATH . 'wp-content/themes', true, false) . '<br>' . "\n";
 
             //
             $data['logo_width_img'] = 0;
             $data['logo_height_img'] = 0;
-            //echo PUBLIC_PUBLIC_PATH . $data[ 'logo' ] . '<br>' . PHP_EOL;
+            //echo PUBLIC_PUBLIC_PATH . $data[ 'logo' ] . '<br>' . "\n";
             if (isset($data['logo']) && $data['logo'] != '' && is_file(PUBLIC_PUBLIC_PATH . $data['logo'])) {
                 $logo_data = getimagesize(PUBLIC_PUBLIC_PATH . $data['logo']);
 
@@ -213,7 +213,7 @@ class Configs extends Sadmin
             if (isset($data['web_favicon']) && $data['web_favicon'] != '' && strpos($data['web_favicon'], '//') === false && is_file(PUBLIC_PUBLIC_PATH . $data['web_favicon'])) {
                 // nếu là file .PNG
                 if (strpos(strtolower($data['web_favicon']), '.png') !== false) {
-                    echo PUBLIC_PUBLIC_PATH . $data['web_favicon'] . '<br>' . PHP_EOL;
+                    echo PUBLIC_PUBLIC_PATH . $data['web_favicon'] . '<br>' . "\n";
 
                     // copy 1 bản sao của file sang thư mục public
                     if (copy(PUBLIC_PUBLIC_PATH . $data['web_favicon'], PUBLIC_PUBLIC_PATH . 'favicon.png')) {
@@ -230,7 +230,7 @@ class Configs extends Sadmin
                         $ico_lib->save_ico(PUBLIC_PUBLIC_PATH . 'favicon.ico');
                     }
                 } else if (strpos(strtolower($data['web_favicon']), '.ico') !== false) {
-                    echo PUBLIC_PUBLIC_PATH . $data['web_favicon'] . '<br>' . PHP_EOL;
+                    echo PUBLIC_PUBLIC_PATH . $data['web_favicon'] . '<br>' . "\n";
 
                     // 
                     if (copy(PUBLIC_PUBLIC_PATH . $data['web_favicon'], PUBLIC_PUBLIC_PATH . 'favicon.ico')) {
@@ -251,7 +251,7 @@ class Configs extends Sadmin
             //die( __CLASS__ . ':' . __LINE__ );
         } else if ($option_type == ConfigType::SOCIAL) {
             if (isset($data['google_ads_txt_adsense']) && $data['google_ads_txt_adsense'] != '') {
-                echo PUBLIC_PUBLIC_PATH . 'ads.txt' . '<br>' . PHP_EOL;
+                echo PUBLIC_PUBLIC_PATH . 'ads.txt' . '<br>' . "\n";
                 $this->base_model->ftp_create_file(
                     PUBLIC_PUBLIC_PATH . 'ads.txt',
                     $data['google_ads_txt_adsense']
@@ -263,7 +263,7 @@ class Configs extends Sadmin
         if (empty($list_field_has_change)) {
             $this->base_model->alert('Cannot be determined data need to change #' . $option_type, 'warning');
         }
-        //echo $list_field_has_change . '<br>' . PHP_EOL;
+        //echo $list_field_has_change . '<br>' . "\n";
         $list_field_has_change = json_decode($list_field_has_change);
         //print_r( $list_field_has_change );
         if (empty($list_field_has_change)) {
@@ -377,7 +377,7 @@ class Configs extends Sadmin
             }
 
             //
-            echo 'Insert: ' . $k . ' = ' . $v . '<br>' . PHP_EOL;
+            echo 'Insert: ' . $k . ' = ' . $v . '<br>' . "\n";
 
             //
             $this->option_model->insert_options(
@@ -492,33 +492,33 @@ class Configs extends Sadmin
         // die(__CLASS__ . ':' . __LINE__);
 
         //
-        echo 'PHPMailer version: ' . (is_file(APPPATH . 'ThirdParty/PHPMailer-6.10.0/VERSION') ? file_get_contents(APPPATH . 'ThirdParty/PHPMailer-6.10.0/VERSION', 1) : file_get_contents(APPPATH . 'ThirdParty/PHPMailer/VERSION', 1)) . '<br>' . PHP_EOL;
-        echo 'Username/ Email: ' . $smtp_config->smtp_host_user . '<br>' . PHP_EOL;
-        echo 'Password: ' . substr($smtp_config->smtp_host_pass, 0, 6) . '******<br>' . PHP_EOL;
-        echo 'Hostname: ' . $smtp_config->smtp_host_name . '<br>' . PHP_EOL;
-        echo 'Secure: ' . $smtp_config->smtp_secure . '<br>' . PHP_EOL;
-        echo 'Port: ' . $smtp_config->smtp_host_port . '<br>' . PHP_EOL;
-        echo '<hr>' . PHP_EOL;
+        echo 'PHPMailer version: ' . (is_file(APPPATH . 'ThirdParty/PHPMailer-6.10.0/VERSION') ? file_get_contents(APPPATH . 'ThirdParty/PHPMailer-6.10.0/VERSION', 1) : file_get_contents(APPPATH . 'ThirdParty/PHPMailer/VERSION', 1)) . '<br>' . "\n";
+        echo 'Username/ Email: ' . $smtp_config->smtp_host_user . '<br>' . "\n";
+        echo 'Password: ' . substr($smtp_config->smtp_host_pass, 0, 6) . '******<br>' . "\n";
+        echo 'Hostname: ' . $smtp_config->smtp_host_name . '<br>' . "\n";
+        echo 'Secure: ' . $smtp_config->smtp_secure . '<br>' . "\n";
+        echo 'Port: ' . $smtp_config->smtp_host_port . '<br>' . "\n";
+        echo '<hr>' . "\n";
 
         //
         $result = PHPMaillerSend::the_send($data_send, $smtp_config, PHPMaillerSend::DEBUG_2);
         if ($result === true) {
-            echo 'Gửi email thành công! from <strong>' . $smtp_config->smtp_host_user . '</strong> to <strong>' . $data_send['to'] . '</strong> <br>' . PHP_EOL;
+            echo 'Gửi email thành công! from <strong>' . $smtp_config->smtp_host_user . '</strong> to <strong>' . $data_send['to'] . '</strong> <br>' . "\n";
 
             //
             if (isset($data_send['bcc_email'])) {
-                echo 'bcc to <strong>' . implode('<br>', $data_send['bcc_email']) . '</strong> <br>' . PHP_EOL;
+                echo 'bcc to <strong>' . implode('<br>', $data_send['bcc_email']) . '</strong> <br>' . "\n";
             }
 
             //
             if (isset($data_send['cc_email'])) {
-                echo 'cc to <strong>' . implode('<br>', $data_send['cc_email']) . '</strong> <br>' . PHP_EOL;
+                echo 'cc to <strong>' . implode('<br>', $data_send['cc_email']) . '</strong> <br>' . "\n";
             }
 
             //
             return true;
         } else {
-            echo 'Gửi email THẤT BẠI! from <strong>' . $smtp_config->smtp_host_user . '</strong> <br>' . PHP_EOL;
+            echo 'Gửi email THẤT BẠI! from <strong>' . $smtp_config->smtp_host_user . '</strong> <br>' . "\n";
             print_r($result);
         }
 
@@ -535,7 +535,7 @@ class Configs extends Sadmin
         // gửi luôn 1 đoạn test chức năng gửi mess
         TelegramBot::sendMessage(
             implode(
-                PHP_EOL,
+                "\n",
                 [
                     date('r'),
                     __CLASS__ . ': ' . __FUNCTION__,
@@ -557,23 +557,23 @@ class Configs extends Sadmin
         $has_id = false;
         foreach ($a as $k => $v) {
             if ($k == 'chat') {
-                echo $k . ': <br>' . PHP_EOL;
+                echo $k . ': <br>' . "\n";
                 $this->printTeleChatId($v, 1);
                 $has_id = true;
             } else if (is_object($v) || is_array($v)) {
                 $this->printTeleChatId($v);
             } else if ($show > 0) {
-                echo $k . ': ' . $v . '<br>' . PHP_EOL;
+                echo $k . ': ' . $v . '<br>' . "\n";
                 /*
                 } else {
-                echo $k . ': ' . $v . '<br>' . PHP_EOL;
+                echo $k . ': ' . $v . '<br>' . "\n";
                 */
             }
         }
 
         //
         if ($has_id === false) {
-            echo 'Chat ID not found! <br>' . PHP_EOL;
+            echo 'Chat ID not found! <br>' . "\n";
         }
     }
 }

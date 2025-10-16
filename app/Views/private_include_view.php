@@ -10,5 +10,5 @@ if ($debug_enable === true) {
 }
 
 //
-//echo $theme_private_view . '<br>' . PHP_EOL;
+//echo $theme_private_view . '<br>' . "\n";
 include $theme_private_view;

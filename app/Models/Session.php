@@ -168,7 +168,7 @@ class Session
         }
 
         $csrf_name = csrf_token();
-        //echo $csrf_name . '<br>' . PHP_EOL;
+        //echo $csrf_name . '<br>' . "\n";
         // nếu tồn tại hash
         if (isset($_REQUEST[$csrf_name])) {
             $hash = $this->MY_session($this->key_csrf_hash);
@@ -192,7 +192,7 @@ class Session
     public function check_require_csrf()
     {
         $csrf_name = csrf_token();
-        //echo $csrf_name . '<br>' . PHP_EOL;
+        //echo $csrf_name . '<br>' . "\n";
         // nếu tồn tại hash
         if (!isset($_REQUEST[$csrf_name])) {
             die(json_encode([
@@ -315,7 +315,7 @@ class Session
                 $has_value++;
                 // so khớp dữ liệu nếu khác nhau -> báo lỗi
                 if (md5($k) != explode('@', $_REQUEST[$k])[0]) {
-                    //echo $k . '<br>' . PHP_EOL;
+                    //echo $k . '<br>' . "\n";
                     $this_spam = $k;
                     $msg = 'require field ' . $k;
                     // $msg = md5($k) . ' !=  ' . explode('@', $_REQUEST[$k])[0];
@@ -392,12 +392,12 @@ class Session
 
         // tổng số input
         $count_anti = count($this->input_anti_spam);
-        //echo $count_anti . '<br>' . PHP_EOL;
+        //echo $count_anti . '<br>' . "\n";
         //print_r($ops);
-        //echo $ops['has_value'] . '<br>' . PHP_EOL;
-        //echo $ops['no_value'] . '<br>' . PHP_EOL;
-        //echo $ops['i'] . '<br>' . PHP_EOL;
-        //echo $ops['this_spam'] . '<br>' . PHP_EOL;
+        //echo $ops['has_value'] . '<br>' . "\n";
+        //echo $ops['no_value'] . '<br>' . "\n";
+        //echo $ops['i'] . '<br>' . "\n";
+        //echo $ops['this_spam'] . '<br>' . "\n";
 
         // lỗi khớp token -> báo lỗi luôn
         if ($ops['by_token'] > 0) {

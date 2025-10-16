@@ -473,9 +473,9 @@ class Actions extends Layout
         if ($coupon_number > 0) {
             // nếu là giảm theo %
             if ($discount_type == TaxonomyType::DISCOUNT_PERCENT) {
-                // echo $order_money . '<br>' . PHP_EOL;
-                // echo $coupon_amount . '<br>' . PHP_EOL;
-                // echo $coupon_number . '<br>' . PHP_EOL;
+                // echo $order_money . '<br>' . "\n";
+                // echo $coupon_amount . '<br>' . "\n";
+                // echo $coupon_number . '<br>' . "\n";
                 // die(__CLASS__ . ':' . __LINE__);
                 $order_discount = $order_money / 100 * $coupon_number;
             }
@@ -492,8 +492,8 @@ class Actions extends Layout
             $data['order_discount'] = $order_discount;
             $data['discount_type'] = $discount_type;
         }
-        // echo $order_money . '<br>' . PHP_EOL;
-        // echo $order_discount . '<br>' . PHP_EOL;
+        // echo $order_money . '<br>' . "\n";
+        // echo $order_discount . '<br>' . "\n";
         // print_r($data);
         // die(__CLASS__ . ':' . __LINE__);
 

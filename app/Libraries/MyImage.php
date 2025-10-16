@@ -21,12 +21,12 @@ class MyImage
     {
         /*
          if ( class_exists( 'Imagick' ) ) {
-         echo 'with imagick library <br>' . PHP_EOL;
+         echo 'with imagick library <br>' . "\n";
          $image = \Config\Services::image( 'imagick' );
          }
          //
          else {
-         echo 'with gd library <br>' . PHP_EOL;
+         echo 'with gd library <br>' . "\n";
          */
         $image = \Config\Services::image();
         //}
@@ -47,7 +47,7 @@ class MyImage
     public static function webpConvert($source, $desc = '', $quality = -1)
     {
         $source = explode('?', $source)[0];
-        //echo $source . '<br>' . PHP_EOL;
+        //echo $source . '<br>' . "\n";
         if (!is_file($source)) {
             return '';
         }
@@ -56,7 +56,7 @@ class MyImage
         if ($desc == '') {
             $desc = $source . '.webp';
         }
-        //echo $desc . '<br>' . PHP_EOL;
+        //echo $desc . '<br>' . "\n";
 
         // nếu có rồi thì trả về luôn
         if (is_file($desc)) {
@@ -65,7 +65,7 @@ class MyImage
 
         // nếu chưa có -> tạo thôi
         //$file_ext = pathinfo($source, PATHINFO_EXTENSION);
-        //echo $file_ext . '<br>' . PHP_EOL;
+        //echo $file_ext . '<br>' . "\n";
 
         //
         $mime_type = mime_content_type($source);
@@ -106,7 +106,7 @@ class MyImage
         if ($create_webp !== true) {
             return '';
         }
-        //echo 'Create webp<br>' . PHP_EOL;
+        //echo 'Create webp<br>' . "\n";
 
         //
         imagepalettetotruecolor($img);
@@ -118,7 +118,7 @@ class MyImage
 
         // kiểm tra lại xem có chưa
         if (is_file($desc)) {
-            //echo $desc . '<br>' . PHP_EOL;
+            //echo $desc . '<br>' . "\n";
             return str_replace(PUBLIC_PUBLIC_PATH, '', $desc);
         }
 
@@ -167,7 +167,7 @@ class MyImage
             /*
              * https://phpimagick.com/Imagick/setCompressionQuality?quality=85&image_path=Lorikeet
              */
-            //echo 'Imagick - ' . $mime_type . ' - ' . IMAGETYPE_JPEG . ' - ' . \Imagick::COMPRESSION_JPEG . ' <br>' . PHP_EOL;
+            //echo 'Imagick - ' . $mime_type . ' - ' . IMAGETYPE_JPEG . ' - ' . \Imagick::COMPRESSION_JPEG . ' <br>' . "\n";
             //die(__CLASS__ . ':' . __LINE__);
 
             //

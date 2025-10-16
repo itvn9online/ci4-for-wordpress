@@ -19,13 +19,13 @@ class Checkbox extends Lang
     public function get_the_checkbox($key, $default_value = '')
     {
         if ($GLOBALS['this_cache_checkbox'] === null) {
-            // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             $GLOBALS['this_cache_checkbox'] = $this->option_model->arr_config(ConfigType::CHECKBOX);
         }
         //print_r($GLOBALS['this_cache_checkbox']);
 
         //
-        //echo $key . '<br>' . PHP_EOL;
+        //echo $key . '<br>' . "\n";
         // nếu chưa có
         if (!isset($GLOBALS['this_cache_checkbox'][$key])) {
             // gọi đến lệnh tạo num

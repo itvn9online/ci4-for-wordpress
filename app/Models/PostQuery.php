@@ -33,7 +33,7 @@ class PostQuery extends PostMeta
 
         //
         foreach ($data as $k => $v) {
-            //echo gettype($v) . PHP_EOL;
+            //echo gettype($v) . "\n";
 
             //
             if (gettype($v) == 'string') {
@@ -641,7 +641,7 @@ class PostQuery extends PostMeta
                 $ops[ 'select' ] = implode( ',', $ops[ 'select' ] );
                 */
                 //$ops[ 'select' ] = $ops[ 'select' ];
-                //echo $ops[ 'select' ] . '<br>' . PHP_EOL;
+                //echo $ops[ 'select' ] . '<br>' . "\n";
             }
 
             // 
@@ -768,7 +768,7 @@ class PostQuery extends PostMeta
 
                         //
                         // $_POST['post_meta'] = $post_meta;
-                        echo 'Auto create post: ' . $data_insert['post_title'] . ' (' . $ops['post_type'] . ') <br>' . PHP_EOL;
+                        echo 'Auto create post: ' . $data_insert['post_title'] . ' (' . $ops['post_type'] . ') <br>' . "\n";
                         $this->insert_post($data_insert, $post_meta);
                     }
                 }
@@ -941,7 +941,7 @@ class PostQuery extends PostMeta
 
         // nếu có file custom HTML -> ưu tiên dùng
         if ($instance['post_custom_cloumn'] != '') {
-            // echo '<!-- ' . $instance['post_custom_cloumn'] . ' --> ' . PHP_EOL;
+            // echo '<!-- ' . $instance['post_custom_cloumn'] . ' --> ' . "\n";
             $tmp_html = $this->base_model->get_html_tmp($instance['post_custom_cloumn'], VIEWS_CUSTOM_PATH . 'ads_node/', '');
         }
         // cố định file HTML để tối ưu với SEO
@@ -956,10 +956,10 @@ class PostQuery extends PostMeta
             } elseif ($instance['hide_description'] == 'on' && $instance['hide_info'] == 'on') {
                 $html_node = 'ads_node_avt_title';
             }
-            // echo '<!-- ' . $html_node . ' --> ' . PHP_EOL;
+            // echo '<!-- ' . $html_node . ' --> ' . "\n";
             $tmp_html = $this->base_model->parent_html_tmp($html_node);
         }
-        //echo $tmp_html . '<br>' . PHP_EOL;
+        //echo $tmp_html . '<br>' . "\n";
 
         // tạo css chỉnh cột
         //print_r($instance);
@@ -1003,7 +1003,7 @@ class PostQuery extends PostMeta
             } else if (isset($v['post_meta']['url_redirect']) && $v['post_meta']['url_redirect'] != '') {
                 //print_r( $v );
                 $p_link = $v['post_meta']['url_redirect'];
-                //echo $p_link . '<br>' . PHP_EOL;
+                //echo $p_link . '<br>' . "\n";
             } else {
                 $a_class = 'is-empty-url';
                 $dynamic_a_tag = $the_span_title;
@@ -1076,7 +1076,7 @@ class PostQuery extends PostMeta
 
         // thay thế HTML cho khối term
         if ($instance['post_custom_row'] != '') {
-            // echo '<!-- ' . $instance['post_custom_row'] . ' --> ' . PHP_EOL;
+            // echo '<!-- ' . $instance['post_custom_row'] . ' --> ' . "\n";
             $tmp_html = $this->base_model->get_html_tmp($instance['post_custom_row'], VIEWS_CUSTOM_PATH . 'ads_row/', '');
         } else {
             $tmp_html = $this->base_model->parent_html_tmp('widget_eb_blog');
@@ -1136,15 +1136,15 @@ class PostQuery extends PostMeta
                 // cắt lấy phần upload
                 $file_path = PUBLIC_PUBLIC_PATH . ltrim(strstr($file_path, '/upload/'), '/');
             }
-            //echo $file_path . '<br>' . PHP_EOL;
+            //echo $file_path . '<br>' . "\n";
 
             //
             if (!is_file($file_path)) {
                 continue;
                 /*
             } else if (!is_file($file_path)) {
-                echo $v['ID'] . '<br>' . PHP_EOL;
-                echo $file_path . '<br>' . PHP_EOL;
+                echo $v['ID'] . '<br>' . "\n";
+                echo $file_path . '<br>' . "\n";
                 continue;
                 */
             }

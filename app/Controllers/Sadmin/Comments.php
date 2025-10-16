@@ -146,7 +146,7 @@ class Comments extends Sadmin
          * phân trang
          */
         $totalThread = $this->base_model->select_count('comment_ID', 'comments', $where, $filter);
-        // echo $totalThread . '<br>' . PHP_EOL;
+        // echo $totalThread . '<br>' . "\n";
 
         //
         if ($totalThread > 0) {
@@ -155,15 +155,15 @@ class Comments extends Sadmin
                 $totalPage = 1;
             }
             $page_num = $this->MY_get('page_num', 1);
-            //echo $totalPage . '<br>' . PHP_EOL;
+            //echo $totalPage . '<br>' . "\n";
             if ($page_num > $totalPage) {
                 $page_num = $totalPage;
             } else if ($page_num < 1) {
                 $page_num = 1;
             }
             $for_action .= $page_num > 1 ? '&page_num=' . $page_num : '';
-            //echo $totalThread . '<br>' . PHP_EOL;
-            //echo $totalPage . '<br>' . PHP_EOL;
+            //echo $totalThread . '<br>' . "\n";
+            //echo $totalPage . '<br>' . "\n";
             $offset = ($page_num - 1) * $this->post_per_page;
 
             //
@@ -226,7 +226,7 @@ class Comments extends Sadmin
     // hiển thị chi tiết 1 comment/ liên hệ
     protected function details($comment_id)
     {
-        //echo $comment_id . '<br>' . PHP_EOL;
+        //echo $comment_id . '<br>' . "\n";
 
         //
         $data = $this->base_model->select('*', 'comments', [

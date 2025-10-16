@@ -5,8 +5,8 @@
 <?php
 
 // 
-// echo $post_type . '<br>' . PHP_EOL;
-// echo $menu_post_type . '<br>' . PHP_EOL;
+// echo $post_type . '<br>' . "\n";
+// echo $menu_post_type . '<br>' . "\n";
 
 // tạo module check độ chuẩn SEO cho bài viết
 if ($data['ID'] > 0 && isset($data['post_permalink']) && $post_type != $menu_post_type) {
@@ -15,24 +15,30 @@ if ($data['ID'] > 0 && isset($data['post_permalink']) && $post_type != $menu_pos
     $linkEncode = urlencode($post_model->get_full_permalink($data));
 
     //
-    foreach ([
+    foreach (
         [
-            'name' => 'Page speed',
-            'link' => 'https://pagespeed.web.dev/report?url=' . $linkEncode,
-        ], [
-            'name' => 'Structured data',
-            'link' => 'https://validator.schema.org/#url=' . $linkEncode,
-        ], [
-            'name' => 'Open Graph Facebook',
-            'link' => 'https://developers.facebook.com/tools/debug/?q=' . $linkEncode,
-        ], [
-            'name' => 'Open Graph Zalo',
-            'link' => 'https://developers.zalo.me/tools/debug-sharing?q=' . $linkEncode,
-        ], [
-            'name' => 'Security headers',
-            'link' => 'https://securityheaders.com/?q=' . $linkEncode . '&followRedirects=on',
-        ]
-    ] as $v) {
+            [
+                'name' => 'Page speed',
+                'link' => 'https://pagespeed.web.dev/report?url=' . $linkEncode,
+            ],
+            [
+                'name' => 'Structured data',
+                'link' => 'https://validator.schema.org/#url=' . $linkEncode,
+            ],
+            [
+                'name' => 'Open Graph Facebook',
+                'link' => 'https://developers.facebook.com/tools/debug/?q=' . $linkEncode,
+            ],
+            [
+                'name' => 'Open Graph Zalo',
+                'link' => 'https://developers.zalo.me/tools/debug-sharing?q=' . $linkEncode,
+            ],
+            [
+                'name' => 'Security headers',
+                'link' => 'https://securityheaders.com/?q=' . $linkEncode . '&followRedirects=on',
+            ]
+        ] as $v
+    ) {
 ?>
         <div class="control-group">
             <div class="control-label"><?php echo $v['name']; ?></div>

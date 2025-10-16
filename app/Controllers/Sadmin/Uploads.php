@@ -102,7 +102,7 @@ class Uploads extends Sadmin
 
         // lọc theo định dạng file
         $attachment_filter = $this->MY_get('attachment-filter');
-        //echo 'attachment filter: ' . $attachment_filter . '<br>' . PHP_EOL;
+        //echo 'attachment filter: ' . $attachment_filter . '<br>' . "\n";
         if ($attachment_filter != '' && isset($alow_mime_type[$attachment_filter])) {
             $urlParams[] = 'attachment-filter=' . $attachment_filter;
             $where_like_after['post_mime_type'] = $attachment_filter;
@@ -110,7 +110,7 @@ class Uploads extends Sadmin
 
         // lọc theo tháng upload
         $month_filter = $this->MY_get('m');
-        //echo 'month filter: ' . $month_filter . '<br>' . PHP_EOL;
+        //echo 'month filter: ' . $month_filter . '<br>' . "\n";
         if ($month_filter != '') {
             $urlParams[] = 'm=' . $month_filter;
 
@@ -159,7 +159,7 @@ class Uploads extends Sadmin
          * phân trang
          */
         $totalThread = $this->base_model->select_count('ID', 'posts', $where, $filter);
-        // echo $totalThread . '<br>' . PHP_EOL;
+        // echo $totalThread . '<br>' . "\n";
 
         if ($totalThread > 0) {
             $totalPage = ceil($totalThread / $post_per_page);
@@ -167,14 +167,14 @@ class Uploads extends Sadmin
                 $totalPage = 1;
             }
             $page_num = $this->MY_get('page_num', 1);
-            //echo $totalPage . '<br>' . PHP_EOL;
+            //echo $totalPage . '<br>' . "\n";
             if ($page_num > $totalPage) {
                 $page_num = $totalPage;
             } else if ($page_num < 1) {
                 $page_num = 1;
             }
-            //echo $totalThread . '<br>' . PHP_EOL;
-            //echo $totalPage . '<br>' . PHP_EOL;
+            //echo $totalThread . '<br>' . "\n";
+            //echo $totalPage . '<br>' . "\n";
             $offset = ($page_num - 1) * $post_per_page;
 
             //
@@ -292,7 +292,7 @@ class Uploads extends Sadmin
                 $secondes_path = MediaType::MEDIA_PATH;
             }
             $secondes_path = PUBLIC_HTML_PATH . $secondes_path;
-            //echo $secondes_path . '<br>' . PHP_EOL;
+            //echo $secondes_path . '<br>' . "\n";
             //die( __CLASS__ . ':' . __LINE__ );
 
             //
@@ -325,7 +325,7 @@ class Uploads extends Sadmin
 
                 //
                 if (is_file($remove_file)) {
-                    //echo $remove_file . '<br>' . PHP_EOL;
+                    //echo $remove_file . '<br>' . "\n";
                     $this->MY_unlink($remove_file) or die('ERROR remove upload file: ' . $v);
                 }
             }
@@ -412,7 +412,7 @@ class Uploads extends Sadmin
          * phân trang
          */
         $totalThread = $this->base_model->select_count('ID', 'posts', $where, $filter);
-        // echo $totalThread . '<br>' . PHP_EOL;
+        // echo $totalThread . '<br>' . "\n";
 
         if ($totalThread > 0) {
             $totalPage = ceil($totalThread / $post_per_page);
@@ -420,14 +420,14 @@ class Uploads extends Sadmin
                 $totalPage = 1;
             }
             $page_num = $this->MY_get('page_num', 1);
-            //echo $totalPage . '<br>' . PHP_EOL;
+            //echo $totalPage . '<br>' . "\n";
             if ($page_num > $totalPage) {
                 $page_num = $totalPage;
             } else if ($page_num < 1) {
                 $page_num = 1;
             }
-            //echo $totalThread . '<br>' . PHP_EOL;
-            //echo $totalPage . '<br>' . PHP_EOL;
+            //echo $totalThread . '<br>' . "\n";
+            //echo $totalPage . '<br>' . "\n";
             $offset = ($page_num - 1) * $post_per_page;
 
             //
@@ -525,7 +525,7 @@ class Uploads extends Sadmin
 
         //
         $upload_root = PUBLIC_HTML_PATH . MediaType::MEDIA_PATH;
-        //echo $upload_root . '<br>' . PHP_EOL;
+        //echo $upload_root . '<br>' . "\n";
 
         //
         $upload_path = $this->media_path(
@@ -535,7 +535,7 @@ class Uploads extends Sadmin
             ],
             $upload_root
         );
-        //echo $upload_path . '<br>' . PHP_EOL;
+        //echo $upload_path . '<br>' . "\n";
 
         //
         $file_type = 'jpg';

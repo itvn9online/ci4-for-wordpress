@@ -72,9 +72,9 @@ class Dashboard extends Optimize
 
         // tham số dùng để copy lại file config -> bắt buộc phải có thì mới chạy được web
         //$this->config_deleted_file = PUBLIC_HTML_PATH . 'app-deleted/Config/Database.php';
-        //echo $this->config_deleted_file . '<br>' . PHP_EOL;
+        //echo $this->config_deleted_file . '<br>' . "\n";
         //$this->config_file = PUBLIC_HTML_PATH . 'app/Config/Database.php';
-        //echo $this->config_file . '<br>' . PHP_EOL;
+        //echo $this->config_file . '<br>' . "\n";
 
         //
         $this->copy_after_updated = [
@@ -83,8 +83,8 @@ class Dashboard extends Optimize
         ];
 
         //
-        //echo THEMEPATH . '<br>' . PHP_EOL;
-        //echo basename( THEMEPATH ) . '<br>' . PHP_EOL;
+        //echo THEMEPATH . '<br>' . "\n";
+        //echo basename( THEMEPATH ) . '<br>' . "\n";
     }
 
     public function index()
@@ -92,17 +92,17 @@ class Dashboard extends Optimize
         // TEST thời gian chạy module -> host dùng ftp chạy có vẻ lâu
         //$begin_t = time();
 
-        echo '<!-- ' . PHP_EOL;
+        echo '<!-- ' . "\n";
         $this->vendor_sync();
-        //echo 'begin t: ' . (time() - $begin_t) . PHP_EOL;
+        //echo 'begin t: ' . (time() - $begin_t) . "\n";
         //$this->unzip_ci4_for_wordpress();
         //$this->cleanup_old_cache(DAY);
-        //echo 'begin t: ' . (time() - $begin_t) . PHP_EOL;
+        //echo 'begin t: ' . (time() - $begin_t) . "\n";
         echo ' -->';
 
         //
         $this->auto_create_htaccess_deny();
-        //echo 'begin t: ' . (time() - $begin_t) . PHP_EOL;
+        //echo 'begin t: ' . (time() - $begin_t) . "\n";
 
         //
         $current_dbname = \Config\Database::connect()->database;
@@ -123,7 +123,7 @@ class Dashboard extends Optimize
                 $this->action_disable_env($this->f_env, $this->f_backup_env);
             }
         }
-        //echo 'begin t: ' . (time() - $begin_t) . PHP_EOL;
+        //echo 'begin t: ' . (time() - $begin_t) . "\n";
 
         // Nếu chế độ không phải là đang chạy chính thức
         /*
@@ -133,14 +133,14 @@ class Dashboard extends Optimize
         //
         $debug_enable = true;
         // kiểm tra nếu chế độ debug đang được bật -> đưa ra cảnh báo
-        //echo PUBLIC_HTML_PATH . '<br>' . PHP_EOL;
+        //echo PUBLIC_HTML_PATH . '<br>' . "\n";
         //echo PUBLIC_HTML_PATH . '.env';
         }
         */
 
         // optimize code
         $this->before_compress_css_js();
-        //echo 'begin t: ' . (time() - $begin_t) . PHP_EOL;
+        //echo 'begin t: ' . (time() - $begin_t) . "\n";
 
         //
         // $client_ip = $this->base_model->getIPAddress();
@@ -149,8 +149,8 @@ class Dashboard extends Optimize
 
         // TEST xem cache có chạy hay không -> gọi đến cache được gọi trong dashboard để xem có NULL hay không
         $check_cache_active = $this->base_model->scache('auto_sync_table_column');
-        //echo $check_cache_active . '<br>' . PHP_EOL;
-        //echo $base_model->dcache( 'auto_sync_table_column' ) . '<br>' . PHP_EOL;
+        //echo $check_cache_active . '<br>' . "\n";
+        //echo $base_model->dcache( 'auto_sync_table_column' ) . '<br>' . "\n";
 
 
         // kiểm tra file robots.txt
@@ -168,7 +168,7 @@ class Dashboard extends Optimize
                 }
             }
         }
-        //echo 'begin t: ' . (time() - $begin_t) . PHP_EOL;
+        //echo 'begin t: ' . (time() - $begin_t) . "\n";
         //die(__CLASS__ . ':' . __LINE__);
 
         //
@@ -321,7 +321,7 @@ class Dashboard extends Optimize
 
         //
         if (is_file($file_zip)) {
-            echo $file_zip . '<br>' . PHP_EOL;
+            echo $file_zip . '<br>' . "\n";
 
             //
             if ($this->MY_unzip($file_zip, PUBLIC_HTML_PATH) === TRUE) {
@@ -365,7 +365,7 @@ class Dashboard extends Optimize
 
         //
         if (is_file($file_zip)) {
-            echo $file_zip . '<br>' . PHP_EOL;
+            echo $file_zip . '<br>' . "\n";
 
             //
             if ($this->MY_unzip($file_zip, PUBLIC_HTML_PATH) === TRUE) {
@@ -375,7 +375,7 @@ class Dashboard extends Optimize
 
                 // với việc update theme thì thêm 1 phát xóa các file zip trong public_html luôn
                 foreach (glob(PUBLIC_HTML_PATH . '*.zip') as $filename) {
-                    echo $filename . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                    echo $filename . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                     //
                     if (is_file($filename)) {
@@ -413,7 +413,7 @@ class Dashboard extends Optimize
 
         //
         $upload_path = PUBLIC_HTML_PATH;
-        //echo $upload_path . '<br>' . PHP_EOL;
+        //echo $upload_path . '<br>' . "\n";
 
         // với 1 số host, chỉ upload được vào thư mục có permission 777 -> cache
         if ($this->using_via_ftp() === true) {
@@ -425,7 +425,7 @@ class Dashboard extends Optimize
             }
         }
         //die($upload_path);
-        echo $upload_path . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        echo $upload_path . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
         // xóa các file zip cũ đi
         $this->cleanup_zip($upload_path, 'Không xóa được file ZIP cũ trước khi copy file mới');
@@ -434,7 +434,7 @@ class Dashboard extends Optimize
         $file_path = $upload_path . THEMENAME . '.zip';
 
         //
-        echo 'Copy backup theme: ' . $file_path . '<br>' . PHP_EOL;
+        echo 'Copy backup theme: ' . $file_path . '<br>' . "\n";
         $this->MY_copy(WRITEPATH . THEMENAME . '.zip', $file_path);
         if (!is_file($file_path)) {
             $this->base_model->alert('Copy backup theme failed! Cannot be determined file after upload', 'error');
@@ -468,15 +468,15 @@ class Dashboard extends Optimize
         if (!is_file($system_zip)) {
             $system_zip = WRITEPATH . 'updates/system.zip';
             if (!is_file($system_zip)) {
-                echo $system_zip . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                echo $system_zip . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                 $this->base_model->alert('Không tồn tại file ' . basename($system_zip), 'error');
             }
         }
 
         //
         $current_ci_version = \CodeIgniter\CodeIgniter::CI_VERSION;
-        echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-        echo 'Current CI version: ' . $current_ci_version . '<br>' . PHP_EOL;
+        echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        echo 'Current CI version: ' . $current_ci_version . '<br>' . "\n";
 
         // tên thư mục sẽ backup system cũ
         $to = PUBLIC_HTML_PATH . 'system-' . $current_ci_version;
@@ -524,7 +524,7 @@ class Dashboard extends Optimize
 
         //
         $upload_path = PUBLIC_HTML_PATH;
-        // echo $upload_path . '<br>' . PHP_EOL;
+        // echo $upload_path . '<br>' . "\n";
 
         // với 1 số host, chỉ upload được vào thư mục có permission 777 -> cache
         if ($this->using_via_ftp() === true) {
@@ -536,7 +536,7 @@ class Dashboard extends Optimize
             }
         }
         // die($upload_path);
-        echo $upload_path . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        echo $upload_path . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
         //
         $file_path = '';
@@ -550,25 +550,25 @@ class Dashboard extends Optimize
             //
             if ($file->isValid() && !$file->hasMoved()) {
                 $file_name = $file->getName();
-                // echo $file_name . '<br>' . PHP_EOL;
+                // echo $file_name . '<br>' . "\n";
                 $file_name = $this->base_model->_eb_non_mark_seo($file_name);
                 $file_name = sanitize_filename($file_name);
-                // echo $file_name . '<br>' . PHP_EOL;
+                // echo $file_name . '<br>' . "\n";
 
                 //
                 $file_ext = $file->guessExtension();
-                // echo $file_ext . '<br>' . PHP_EOL;
+                // echo $file_ext . '<br>' . "\n";
                 $file_ext = strtolower($file_ext);
-                // echo $file_ext . '<br>' . PHP_EOL;
+                // echo $file_ext . '<br>' . "\n";
 
                 //
                 $file_path = $upload_path . $file_name;
-                // echo $file_path . '<br>' . PHP_EOL;
+                // echo $file_path . '<br>' . "\n";
                 // die(__CLASS__ . ':' . __LINE__);
 
                 // kiểm tra định dạng file
                 $mime_type = $file->getMimeType();
-                // echo $mime_type . '<br>' . PHP_EOL;
+                // echo $mime_type . '<br>' . "\n";
 
                 // nếu có kiểm duyệt định dạng file -> chỉ các file trong này mới được upload
                 if (!in_array($file_ext, $allow_upload)) {
@@ -589,7 +589,7 @@ class Dashboard extends Optimize
                 chmod($file_path, DEFAULT_FILE_PERMISSION);
 
                 // nếu là update system của Codeigniter thì sử dụng chức năng unzip riêng
-                //echo $file_name . '<br>' . PHP_EOL;
+                //echo $file_name . '<br>' . "\n";
                 if (basename($file_name) == 'system.zip') {
                     return $this->unzip_system();
                     //die( __CLASS__ . ':' . __LINE__ );
@@ -629,9 +629,9 @@ class Dashboard extends Optimize
     // xóa file zip sau khi xử lý code
     protected function cleanup_zip($upload_path, $msg)
     {
-        echo $upload_path . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        echo $upload_path . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         foreach (glob(rtrim($upload_path, '/') . '/*.zip') as $filename) {
-            echo $filename . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            echo $filename . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
             //
             if (is_file($filename)) {
@@ -644,27 +644,27 @@ class Dashboard extends Optimize
 
     protected function rmdir_from_cache($upload_path)
     {
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         //die( $upload_path );
-        //echo $upload_path . '<br>' . PHP_EOL;
+        //echo $upload_path . '<br>' . "\n";
 
         // xử lý các file đặc biệt -> ví dụ: .git
         foreach (glob(rtrim($upload_path, '/') . '/.*') as $filename) {
             if (is_dir($filename)) {
-                //echo $filename . '<br>' . PHP_EOL;
+                //echo $filename . '<br>' . "\n";
                 $check_dot = basename($filename);
 
                 // không lấy các thư mục đặc biệt
                 if ($check_dot == '.' || $check_dot == '..') {
                     continue;
                 }
-                //echo $check_dot . '<br>' . PHP_EOL;
+                //echo $check_dot . '<br>' . "\n";
 
                 //
                 $this->dir_re_cache[] = $filename;
 
                 //
-                //echo $filename . '<br>' . PHP_EOL;
+                //echo $filename . '<br>' . "\n";
 
                 //
                 $this->rmdir_from_cache($filename);
@@ -675,7 +675,7 @@ class Dashboard extends Optimize
         foreach (glob(rtrim($upload_path, '/') . '/*') as $filename) {
             if (is_dir($filename)) {
                 $this->dir_re_cache[] = $filename;
-                //echo $filename . '<br>' . PHP_EOL;
+                //echo $filename . '<br>' . "\n";
 
                 //
                 $this->rmdir_from_cache($filename);
@@ -690,20 +690,20 @@ class Dashboard extends Optimize
         // xử lý các file đặc biệt -> ví dụ: .htaccess
         foreach (glob(rtrim($upload_path, '/') . '/.*') as $filename) {
             if (is_file($filename)) {
-                //echo $filename . '<br>' . PHP_EOL;
+                //echo $filename . '<br>' . "\n";
                 //unlink( $filename );
 
                 //
                 $this->file_re_cache[] = $filename;
             } else if (is_dir($filename)) {
-                //echo $filename . '<br>' . PHP_EOL;
+                //echo $filename . '<br>' . "\n";
                 $check_dot = basename($filename);
 
                 // không lấy các thư mục đặc biệt
                 if ($check_dot == '.' || $check_dot == '..') {
                     continue;
                 }
-                //echo $check_dot . '<br>' . PHP_EOL;
+                //echo $check_dot . '<br>' . "\n";
 
                 //
                 $this->get_all_file_in_folder($filename);
@@ -713,13 +713,13 @@ class Dashboard extends Optimize
         // xử lý các file thông thường
         foreach (glob(rtrim($upload_path, '/') . '/*') as $filename) {
             if (is_file($filename)) {
-                //echo $filename . '<br>' . PHP_EOL;
+                //echo $filename . '<br>' . "\n";
                 //unlink( $filename );
 
                 //
                 $this->file_re_cache[] = $filename;
             } else if (is_dir($filename)) {
-                //echo $filename . '<br>' . PHP_EOL;
+                //echo $filename . '<br>' . "\n";
                 $this->get_all_file_in_folder($filename);
             }
         }
@@ -730,7 +730,7 @@ class Dashboard extends Optimize
     {
         //
         $upload_path = PUBLIC_HTML_PATH;
-        // echo $upload_path . '<br>' . PHP_EOL;
+        // echo $upload_path . '<br>' . "\n";
 
         //
         if ($step == 'update_system') {
@@ -738,7 +738,7 @@ class Dashboard extends Optimize
             return $this->next_step_update_code('download_system');
         } else if ($step == 'download_system') {
             $file_path = $upload_path . explode('?', basename($this->link_download_system_github))[0];
-            // echo $file_path . '<br>' . PHP_EOL;
+            // echo $file_path . '<br>' . "\n";
 
             //
             $this->file_model->download_file($file_path, $this->link_download_system_github);
@@ -765,7 +765,7 @@ class Dashboard extends Optimize
         } else if (strpos($current_url, '?step=') !== false) {
             $current_url = preg_replace('/\?step=[^&]*/', '', $current_url);
         }
-        echo $current_url . '<br>' . PHP_EOL;
+        echo $current_url . '<br>' . "\n";
 
         // thêm tham số step vào URL hiện tại
         if (strpos($current_url, '?') === false) {
@@ -775,11 +775,11 @@ class Dashboard extends Optimize
             // nếu có tham số thì thêm &step=tiếp_theo
             $next_url = $current_url . '&step=' . $step;
         }
-        echo $next_url . '<br>' . PHP_EOL;
+        echo $next_url . '<br>' . "\n";
 
         // cắt bỏ dấu / ở đầu URL nếu có
         $next_url = DYNAMIC_BASE_URL . ltrim($next_url, '/');
-        echo $next_url . '<br>' . PHP_EOL;
+        echo $next_url . '<br>' . "\n";
         // exit;
 
         // redirect đến URL mới
@@ -801,7 +801,7 @@ class Dashboard extends Optimize
             return $this->next_step_update_code('update_system');
         }
         $step = $_GET['step'];
-        echo $step . '<br>' . PHP_EOL;
+        echo $step . '<br>' . "\n";
         // die(__CLASS__ . ':' . __LINE__);
 
         // update system trước
@@ -817,7 +817,7 @@ class Dashboard extends Optimize
 
         //
         $upload_path = PUBLIC_HTML_PATH;
-        // echo $upload_path . '<br>' . PHP_EOL;
+        // echo $upload_path . '<br>' . "\n";
 
         // chức năng download file main zip từ github
         $from_main_github = true;
@@ -831,7 +831,7 @@ class Dashboard extends Optimize
                 $this->mk_dir($upload_path, __CLASS__ . ':' . __LINE__);
             }
         }
-        echo 'upload path: ' . $upload_path . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        echo 'upload path: ' . $upload_path . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
         if ($step == 'update_base_code') {
             // xóa file ZIP cũ nếu có
@@ -862,7 +862,7 @@ class Dashboard extends Optimize
             foreach ($this->dir_list as $v) {
                 // nếu không có thư mục gốc -> bỏ qua
                 if (!is_dir($v)) {
-                    echo 'DIR NOT EXIST! ' . $v . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                    echo 'DIR NOT EXIST! ' . $v . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                     continue;
                 }
 
@@ -936,9 +936,9 @@ class Dashboard extends Optimize
      */
     protected function after_unzip_code($file_path, $upload_path, $main_zip = false)
     {
-        echo 'upload path: ' . $upload_path . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-        echo 'upload via ftp: ' . $this->using_via_ftp() . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-        echo 'main zip: ' . $main_zip . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        echo 'upload path: ' . $upload_path . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        echo 'upload via ftp: ' . $this->using_via_ftp() . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        echo 'main zip: ' . $main_zip . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
         //
         //$filename = '';
@@ -953,7 +953,7 @@ class Dashboard extends Optimize
                     $upload_path .= 'ci4-for-wordpress-main/';
                 }
                 //die( $upload_path );
-                echo 'upload path: ' . $upload_path . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                echo 'upload path: ' . $upload_path . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                 // xóa file Database.php nếu có -> chỉ giữ lại file Database-sample.php
                 if (is_file($upload_path . 'app/Config/Database.php')) {
@@ -1001,7 +1001,7 @@ class Dashboard extends Optimize
 
                     //
                     if (!is_dir($dir)) {
-                        echo 'Create dir: ' . $dir . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                        echo 'Create dir: ' . $dir . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                         //continue;
 
                         // tạo thư mục thông qua FTP
@@ -1028,14 +1028,14 @@ class Dashboard extends Optimize
                     // chuyển file
                     foreach ($this->file_re_cache as $file) {
                         if (in_array(basename($file), $deny_file_update)) {
-                            echo 'deny file update: ' . $file . '<br>' . PHP_EOL;
+                            echo 'deny file update: ' . $file . '<br>' . "\n";
                             continue;
                         }
-                        echo 'from: ' . $file . '<br>' . PHP_EOL;
+                        echo 'from: ' . $file . '<br>' . "\n";
 
                         //
                         $to = str_replace($upload_path, PUBLIC_HTML_PATH, $file);
-                        echo 'to: ' . $to . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                        echo 'to: ' . $to . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                         // đổi tên file -> tương đương với copy và unlink
                         if (!rename($file, $to)) {
@@ -1051,8 +1051,8 @@ class Dashboard extends Optimize
                     $check_dir = $this->file_model->root_dir();
                     $has_ftp = false;
                     if ($check_dir === true) {
-                        echo 'ftp server: ' . $this->file_model->ftp_server . '<br>' . PHP_EOL;
-                        echo 'base dir: ' . $this->file_model->base_dir . '<br>' . PHP_EOL;
+                        echo 'ftp server: ' . $this->file_model->ftp_server . '<br>' . "\n";
+                        echo 'base dir: ' . $this->file_model->base_dir . '<br>' . "\n";
 
                         // tạo kết nối
                         $conn_id = ftp_connect($this->file_model->ftp_server);
@@ -1064,20 +1064,20 @@ class Dashboard extends Optimize
                             }
                         }
                     } else {
-                        echo 'FTP ERROR! ' . $check_dir . '<br>' . PHP_EOL;
+                        echo 'FTP ERROR! ' . $check_dir . '<br>' . "\n";
                     }
 
                     // chuyển file
                     foreach ($this->file_re_cache as $file) {
                         if (in_array(basename($file), $deny_file_update)) {
-                            echo 'deny file update: ' . $file . '<br>' . PHP_EOL;
+                            echo 'deny file update: ' . $file . '<br>' . "\n";
                             continue;
                         }
-                        echo 'from: ' . $file . '<br>' . PHP_EOL;
+                        echo 'from: ' . $file . '<br>' . "\n";
 
                         //
                         $to = str_replace($upload_path, PUBLIC_HTML_PATH, $file);
-                        echo 'to: ' . $to . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                        echo 'to: ' . $to . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                         if ($has_ftp === true) {
                             // nếu trong chuỗi file không có root dir -> báo lỗi
                             if (strpos($to, '/' . $this->file_model->base_dir . '/') !== false) {
@@ -1086,12 +1086,12 @@ class Dashboard extends Optimize
 
                             //
                             if (ftp_put($conn_id, $to, $file, FTP_BINARY)) {
-                                echo '<em>' . $to . '</em><br>' . PHP_EOL;
+                                echo '<em>' . $to . '</em><br>' . "\n";
                             } else {
-                                echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . PHP_EOL;
+                                echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . "\n";
                             }
                         } else {
-                            echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . PHP_EOL;
+                            echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . "\n";
                         }
 
                         // xong thì xóa luôn file
@@ -1114,7 +1114,7 @@ class Dashboard extends Optimize
 
                     // xóa file -> thì mới xóa được thư mục
                     foreach ($this->file_re_cache as $file) {
-                        echo 'un-link: ' . $file . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                        echo 'un-link: ' . $file . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                         unlink($file);
                     }
 
@@ -1129,7 +1129,7 @@ class Dashboard extends Optimize
                 $this->dir_re_cache = array_reverse($this->dir_re_cache);
                 //print_r( $this->dir_re_cache );
                 foreach ($this->dir_re_cache as $dir) {
-                    echo 'rm dir: ' . $dir . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                    echo 'rm dir: ' . $dir . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                     rmdir($dir);
                 }
             }
@@ -1143,7 +1143,7 @@ class Dashboard extends Optimize
         //
         foreach ($dirs as $dir) {
             foreach (glob(PUBLIC_HTML_PATH . $dir . '/*.zip') as $filename) {
-                //echo $filename . '<br>' . PHP_EOL;
+                //echo $filename . '<br>' . "\n";
 
                 //
                 $arr[] = $dir . '/' . basename($filename);
@@ -1175,23 +1175,23 @@ class Dashboard extends Optimize
 
     protected function cleanup_deleted_dir($dirs)
     {
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $dirs );
         //die( __CLASS__ . ':' . __LINE__ );
 
         // lấy danh sách file và thư mục để XÓA
         $this->file_re_cache = [];
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $this->file_re_cache );
         $this->dir_re_cache = [];
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $this->dir_re_cache );
         foreach ($dirs as $v) {
             if (!is_dir($v)) {
                 continue;
             }
-            //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-            //echo $v . '<br>' . PHP_EOL;
+            //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+            //echo $v . '<br>' . "\n";
 
             // file
             $this->get_all_file_in_folder($v);
@@ -1200,12 +1200,12 @@ class Dashboard extends Optimize
             $this->dir_re_cache[] = $v;
             $this->rmdir_from_cache($v);
         }
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $this->file_re_cache );
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $this->dir_re_cache );
         $this->dir_re_cache = array_reverse($this->dir_re_cache);
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         //print_r( $this->dir_re_cache );
         //die( __CLASS__ . ':' . __LINE__ );
 
@@ -1215,7 +1215,7 @@ class Dashboard extends Optimize
                 if (!is_file($file)) {
                     continue;
                 }
-                echo $file . '<br>' . PHP_EOL;
+                echo $file . '<br>' . "\n";
                 unlink($file);
             }
 
@@ -1224,7 +1224,7 @@ class Dashboard extends Optimize
                 if (!is_dir($dir)) {
                     continue;
                 }
-                echo $dir . '<br>' . PHP_EOL;
+                echo $dir . '<br>' . "\n";
                 rmdir($dir);
             }
         }
@@ -1233,8 +1233,8 @@ class Dashboard extends Optimize
             $check_dir = $this->file_model->root_dir();
             $has_ftp = false;
             if ($check_dir === true) {
-                echo 'ftp server: ' . $this->file_model->ftp_server . '<br>' . PHP_EOL;
-                echo 'base dir: ' . $this->file_model->base_dir . '<br>' . PHP_EOL;
+                echo 'ftp server: ' . $this->file_model->ftp_server . '<br>' . "\n";
+                echo 'base dir: ' . $this->file_model->base_dir . '<br>' . "\n";
 
                 // tạo kết nối
                 $conn_id = ftp_connect($this->file_model->ftp_server);
@@ -1246,7 +1246,7 @@ class Dashboard extends Optimize
                     }
                 }
             } else {
-                echo 'FTP ERROR! ' . $check_dir . '<br>' . PHP_EOL;
+                echo 'FTP ERROR! ' . $check_dir . '<br>' . "\n";
             }
 
             // XÓA file
@@ -1254,7 +1254,7 @@ class Dashboard extends Optimize
                 if (!is_file($file)) {
                     continue;
                 }
-                echo $file . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                echo $file . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                 //continue;
 
                 //
@@ -1267,12 +1267,12 @@ class Dashboard extends Optimize
 
                     //
                     if (ftp_delete($conn_id, $to)) {
-                        echo '<em>' . $to . '</em><br>' . PHP_EOL;
+                        echo '<em>' . $to . '</em><br>' . "\n";
                     } else {
-                        echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . PHP_EOL;
+                        echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . "\n";
                     }
                 } else {
-                    echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . PHP_EOL;
+                    echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . "\n";
                 }
             }
 
@@ -1281,7 +1281,7 @@ class Dashboard extends Optimize
                 if (!is_dir($dir)) {
                     continue;
                 }
-                echo $dir . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                echo $dir . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                 //continue;
 
                 //
@@ -1294,12 +1294,12 @@ class Dashboard extends Optimize
 
                     //
                     if (ftp_rmdir($conn_id, $to)) {
-                        echo '<em>' . $to . '</em><br>' . PHP_EOL;
+                        echo '<em>' . $to . '</em><br>' . "\n";
                     } else {
-                        echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . PHP_EOL;
+                        echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . "\n";
                     }
                 } else {
-                    echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . PHP_EOL;
+                    echo 'ERROR:' . __LINE__ . ' <strong>' . $to . '</strong><br>' . "\n";
                 }
             }
 
@@ -1321,7 +1321,7 @@ class Dashboard extends Optimize
             $v_deleted = $v . '-deleted';
             // nếu không có thư mục deleted -> bỏ qua
             if (!is_dir($v_deleted)) {
-                echo 'DIR NOT EXIST! ' . $v_deleted . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                echo 'DIR NOT EXIST! ' . $v_deleted . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                 continue;
             }
 
@@ -1353,7 +1353,7 @@ class Dashboard extends Optimize
         foreach ($this->dir_deleted_list as $v) {
             // nếu không có thư mục deleted -> bỏ qua
             if (!is_dir($v)) {
-                echo 'DIR NOT EXIST! ' . $v . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                echo 'DIR NOT EXIST! ' . $v . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                 continue;
             }
 
@@ -1460,7 +1460,7 @@ class Dashboard extends Optimize
             //'no_remove_field' => 1
         ]);
         var_dump($result_update);
-        echo '<br>' . PHP_EOL;
+        echo '<br>' . "\n";
 
         // cập nhật lại cho 1 ít term
         $data = $this->base_model->select(
@@ -1492,7 +1492,7 @@ class Dashboard extends Optimize
         );
         foreach ($data as $v) {
             $has_reset = true;
-            echo $v['taxonomy'] . ' #' . $v['term_id'] . ' | ' . $this->term_model->update_term_permalink($v) . '<br>' . PHP_EOL;
+            echo $v['taxonomy'] . ' #' . $v['term_id'] . ' | ' . $this->term_model->update_term_permalink($v) . '<br>' . "\n";
         }
 
         //
@@ -1549,7 +1549,7 @@ class Dashboard extends Optimize
                 //'no_remove_field' => 1
             ]);
             var_dump($result_update);
-            echo '<br>' . PHP_EOL;
+            echo '<br>' . "\n";
 
             // cập nhật lại cho 1 ít post
             $data = $this->base_model->select(
@@ -1579,7 +1579,7 @@ class Dashboard extends Optimize
             );
             foreach ($data as $v) {
                 $has_reset = true;
-                echo $v['post_type'] . ' #' . $v['ID'] . ' | ' . $this->post_model->update_post_permalink($v) . '<br>' . PHP_EOL;
+                echo $v['post_type'] . ' #' . $v['ID'] . ' | ' . $this->post_model->update_post_permalink($v) . '<br>' . "\n";
             }
         }
 

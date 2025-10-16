@@ -35,7 +35,7 @@ class PostMeta extends PostBase
             // nếu không có dữ liệu của post meta
             /*
             if (!isset($v['post_meta_data'])) {
-                echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                 //print_r($v);
                 //$data[$k]['post_meta'] = [];
                 continue;
@@ -45,10 +45,10 @@ class PostMeta extends PostBase
             //
             $new_meta = false;
             if (isset($v['time_meta_data']) && $v['time_meta_data'] < time()) {
-                // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                 $new_meta = true;
             } else if (!isset($v['post_meta_data']) || $v['post_meta_data'] === null) {
-                // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                 $new_meta = true;
             }
             // $new_meta = true;
@@ -64,7 +64,7 @@ class PostMeta extends PostBase
                         $post_meta_data[$remeta] = '';
                     }
                 }
-                // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                 //
                 $this->base_model->update_multiple($this->table, [
@@ -79,7 +79,7 @@ class PostMeta extends PostBase
                 $data[$k]['post_meta_data'] = 'query';
             } else {
                 $post_meta_data = (array) json_decode($v['post_meta_data']);
-                // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                 // thông báo kiểu dữ liệu trả về
                 $data[$k]['post_meta_data'] = 'cache';
@@ -105,13 +105,13 @@ class PostMeta extends PostBase
         if (!is_array($meta_data) || empty($meta_data)) {
             return false;
         }
-        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         // print_r($meta_data);
         // die(__CLASS__ . ':' . __LINE__);
 
         // lấy toàn bộ meta của post này
         $meta_exist = $this->arr_meta_post($post_id, false);
-        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         // print_r($meta_exist);
 
         // xử lý riêng đối với post category và tags
@@ -179,7 +179,7 @@ class PostMeta extends PostBase
 
             $this->term_model->insert_term_relationships($post_id, $post_relationships);
         }
-        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         // print_r($meta_data);
 
         // xử lý cho ảnh đại diện -> thêm các size ảnh khác để sau còn tùy ý sử dụng
@@ -202,7 +202,7 @@ class PostMeta extends PostBase
                 }
                 // không thì kiểm tra và tạo mới nếu chưa có
                 else {
-                    // echo $meta_data['image_medium'] . '<br>' . PHP_EOL;
+                    // echo $meta_data['image_medium'] . '<br>' . "\n";
                     // die(__CLASS__ . ':' . __LINE__);
 
                     // phiên bản webp -> có lệnh riêng để tối ưu
@@ -214,7 +214,7 @@ class PostMeta extends PostBase
                         $meta_data['image_webp'] = $meta_data['image_medium'];
                     }
                 }
-                // echo $meta_data[ 'image_webp' ] . '<br>' . PHP_EOL;
+                // echo $meta_data[ 'image_webp' ] . '<br>' . "\n";
             } else {
                 $meta_data['image_large'] = '';
                 $meta_data['image_medium_large'] = '';
@@ -227,7 +227,7 @@ class PostMeta extends PostBase
         // die(__CLASS__ . ':' . __LINE__);
 
         //
-        // echo 'post_type: ' . $post_type . PHP_EOL;
+        // echo 'post_type: ' . $post_type . "\n";
         $meta_default = $this->post_meta_default($post_type);
         // print_r($meta_default);
 
@@ -246,7 +246,7 @@ class PostMeta extends PostBase
                     }
                     continue;
                 }
-                echo 'DELETE ' . $k . ' ' . $v . '<br>' . PHP_EOL;
+                echo 'DELETE ' . $k . ' ' . $v . '<br>' . "\n";
 
                 //
                 $rm_metas_key[] = $k;
@@ -265,7 +265,7 @@ class PostMeta extends PostBase
             // print_r($meta_default);
             foreach ($post_uncheck_meta as $k => $v) {
                 if (isset($meta_default[$k])) {
-                    echo 'DELETE post_uncheck_meta ' . $k . ' ' . $v . '<br>' . PHP_EOL;
+                    echo 'DELETE post_uncheck_meta ' . $k . ' ' . $v . '<br>' . "\n";
 
                     //
                     $rm_metas_key[] = $k;
@@ -306,7 +306,7 @@ class PostMeta extends PostBase
                 }
                 $meta_data[$k] = $v;
             }
-            // echo $v . '<br>' . PHP_EOL;
+            // echo $v . '<br>' . "\n";
 
             // thêm vào mảng update nếu có rồi
             if (isset($meta_exist[$k])) {
@@ -323,7 +323,7 @@ class PostMeta extends PostBase
         // print_r($json_meta_data);
 
         // các meta chưa có thì insert
-        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         // print_r($insert_meta);
         foreach ($insert_meta as $k => $v) {
             $this->base_model->insert($this->metaTable, [
@@ -334,7 +334,7 @@ class PostMeta extends PostBase
         }
 
         // các meta có rồi thì update
-        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         // print_r($update_meta);
         foreach ($update_meta as $k => $v) {
             $this->base_model->update_multiple($this->metaTable, [
@@ -621,20 +621,20 @@ class PostMeta extends PostBase
         foreach ($data as $k => $v) {
             $meta_data[$v['meta_key']] = $v['meta_value'];
         }
-        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         // print_r($meta_data);
 
         // hỗ trợ kiểu danh mục từ echbaydotcom
         /*
         if ( !isset( $meta_data[ 'post_category' ] ) ) {
-        echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         } else if ( empty( $meta_data[ 'post_category' ] ) ) {
-        echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         }
         */
         if ($get_relationships === true) {
             if (!isset($meta_data['post_category']) || empty($meta_data['post_category'])) {
-                // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                 // print_r($meta_data);
 
                 //
@@ -670,7 +670,7 @@ class PostMeta extends PostBase
                 foreach ($term_relationships as $k => $v) {
                     $meta_data['post_' . $k] = implode(',', $v);
                 }
-                // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                 // print_r($meta_data);
                 // die(__CLASS__ . ':' . __LINE__);
             }
@@ -720,24 +720,24 @@ class PostMeta extends PostBase
     public function get_img_by_size($result, $file_size, $file_ext = '')
     {
         // tạo path tuyệt đối để kiểm tra
-        //echo PUBLIC_PUBLIC_PATH . '<br>' . PHP_EOL;
+        //echo PUBLIC_PUBLIC_PATH . '<br>' . "\n";
         $check_size = PUBLIC_PUBLIC_PATH . str_replace(DYNAMIC_BASE_URL, '', $result);
-        //echo $check_size . ':' . __LINE__ . '<br>' . PHP_EOL;
+        //echo $check_size . ':' . __LINE__ . '<br>' . "\n";
 
         // kiểm tra xem có tồn tại không path tuyệt đối này không
         if (is_file($check_size)) {
             if ($file_ext == '') {
                 $file_ext = pathinfo($check_size, PATHINFO_EXTENSION);
-                //echo $file_ext . ':' . __LINE__ . '<br>' . PHP_EOL;
+                //echo $file_ext . ':' . __LINE__ . '<br>' . "\n";
             }
 
             // kiểm tra xem có size tương ứng không
             $check_size = str_replace('.' . $file_ext, '-' . $file_size . '.' . $file_ext, $result);
-            //echo $check_size . ':' . __LINE__ . '<br>' . PHP_EOL;
+            //echo $check_size . ':' . __LINE__ . '<br>' . "\n";
             // có thì tạo URL tương đối để trả về
             if (is_file($check_size)) {
                 $result = str_replace(PUBLIC_PUBLIC_PATH, '', $check_size);
-                //echo $result . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                //echo $result . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             }
         }
 
@@ -756,7 +756,7 @@ class PostMeta extends PostBase
     {
         // nếu có yêu cầu lấy size ảnh khác thì kiểm tra size đó có tồn tại không
         if ($file_size != '') {
-            //echo $file_size . '<br>' . PHP_EOL;
+            //echo $file_size . '<br>' . "\n";
             $result = $this->return_meta_post($data, $key . '_' . $file_size);
             if ($result == '') {
                 $result = $this->return_meta_post($data, $key);
@@ -764,12 +764,12 @@ class PostMeta extends PostBase
         } else {
             $result = $this->return_meta_post($data, $key);
         }
-        //echo $result . '<br>' . PHP_EOL;
+        //echo $result . '<br>' . "\n";
 
         // hỗ trợ dữ liệu từ echbaydotcom
         if ($result == '') {
             $result = $this->return_meta_post($data, '_eb_product_avatar');
-            //echo $result . '<br>' . PHP_EOL;
+            //echo $result . '<br>' . "\n";
         }
 
         // nếu không tìm được thì trả về dữ liệu trống

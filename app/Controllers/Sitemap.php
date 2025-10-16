@@ -63,9 +63,9 @@ class Sitemap extends Layout
         $this->WGR_echo_sitemap_css();
 
         //
-        //echo $post_type . '<br>' . PHP_EOL;
-        //echo $page_page . '<br>' . PHP_EOL;
-        //echo $page_num . '<br>' . PHP_EOL;
+        //echo $post_type . '<br>' . "\n";
+        //echo $page_page . '<br>' . "\n";
+        //echo $page_num . '<br>' . "\n";
         if (!empty($post_type)) {
             // sitemap cho danh mục
             if ($post_type == 'tags') {
@@ -140,7 +140,7 @@ class Sitemap extends Layout
         // ->
         foreach ($arr_post_type as $post_type) {
             $totalThread = $this->media_total($post_type);
-            //echo $totalThread . '<br>' . PHP_EOL;
+            //echo $totalThread . '<br>' . "\n";
 
             //
             if ($totalThread < 1) {
@@ -263,7 +263,7 @@ class Sitemap extends Layout
 
         //
         $totalThread = $this->base_model->select_count('ID', 'posts', $where, $filter);
-        // echo $totalThread . '<br>' . PHP_EOL;
+        // echo $totalThread . '<br>' . "\n";
 
         //
         if ($get_count === true) {
@@ -275,14 +275,14 @@ class Sitemap extends Layout
         if ($totalPage < 1) {
             $totalPage = 1;
         }
-        //echo $totalPage . '<br>' . PHP_EOL;
+        //echo $totalPage . '<br>' . "\n";
         if ($page_num > $totalPage) {
             $page_num = $totalPage;
         } else if ($page_num < 1) {
             $page_num = 1;
         }
-        //echo $totalThread . '<br>' . PHP_EOL;
-        //echo $totalPage . '<br>' . PHP_EOL;
+        //echo $totalThread . '<br>' . "\n";
+        //echo $totalPage . '<br>' . "\n";
         $offset = ($page_num - 1) * $this->limit_post_get;
 
         //
@@ -355,7 +355,7 @@ class Sitemap extends Layout
 </image:image>';
                 }
                 // đảm bảo không có ../ trong đường dẫn
-                $image_nodes = str_replace('../', '', implode(PHP_EOL, $image_nodes));
+                $image_nodes = str_replace('../', '', implode("\n", $image_nodes));
             }
         }
 
@@ -394,7 +394,7 @@ class Sitemap extends Layout
         $str = '';
 
         $count_post_post = $count_post;
-        //echo $type . ' --> ' . $count_post . '<br>' . PHP_EOL;
+        //echo $type . ' --> ' . $count_post . '<br>' . "\n";
 
         if ($count_post_post > $this->limit_post_get) {
             $j = 0;
@@ -514,16 +514,16 @@ class Sitemap extends Layout
             if ($totalPage < 1) {
                 $totalPage = 1;
             }
-            //echo $totalPage . '<br>' . PHP_EOL;
+            //echo $totalPage . '<br>' . "\n";
             if ($page_num > $totalPage) {
                 $page_num = $totalPage;
             } else if ($page_num < 1) {
                 $page_num = 1;
             }
-            //echo $totalThread . '<br>' . PHP_EOL;
-            //echo $totalPage . '<br>' . PHP_EOL;
+            //echo $totalThread . '<br>' . "\n";
+            //echo $totalPage . '<br>' . "\n";
             $offset = ($page_num - 1) * $this->limit_post_get;
-            //echo $offset . '<br>' . PHP_EOL;
+            //echo $offset . '<br>' . "\n";
 
             //
             $data = $this->base_model->select('post_title, post_type, post_parent, guid, post_meta_data', 'posts', [

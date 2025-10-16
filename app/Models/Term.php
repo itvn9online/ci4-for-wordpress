@@ -31,7 +31,7 @@ class Term extends TermBase
 
         //
         foreach ($data as $k => $v) {
-            //echo gettype($v) . PHP_EOL;
+            //echo gettype($v) . "\n";
 
             //
             if (in_array(gettype($v), [
@@ -102,8 +102,8 @@ class Term extends TermBase
                 }
 
                 //
-                //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
-                echo 'Auto create taxonomy: ' . $slug . ' (' . $taxonomy . ') <br>' . PHP_EOL;
+                //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . "\n";
+                echo 'Auto create taxonomy: ' . $slug . ' (' . $taxonomy . ') <br>' . "\n";
                 $result_id = $this->insert_terms(
                     [
                         'name' => str_replace('-', ' ', $slug),
@@ -115,17 +115,17 @@ class Term extends TermBase
 
                 //
                 if ($result_id > 0) {
-                    //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
+                    //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . "\n";
                     return $this->get_cat_post($slug, $post_type, $taxonomy, false);
                 }
                 // nếu tồn tại rồi thì báo đã tồn tại
                 else if ($result_id < 0) {
-                    //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
+                    //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . "\n";
                     die('EXIST auto create new terms #' . $taxonomy . ':' . __CLASS__ . ':' . __LINE__);
                 }
                 die('ERROR auto create new terms #' . $taxonomy . ':' . __CLASS__ . ':' . __LINE__);
             } else {
-                //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
+                //echo  __CLASS__ . ':' . __LINE__ . ':' . debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . "\n";
                 die('AUTO INSERT new terms has DISABLE #' . $taxonomy . ':' . __CLASS__ . ':' . __LINE__);
             }
         }
@@ -178,7 +178,7 @@ class Term extends TermBase
                     if ($i > 0) {
                         $by_slug .= $i;
                     }
-                    //echo 'by_slug: ' . $by_slug . '<br>' . PHP_EOL;
+                    //echo 'by_slug: ' . $by_slug . '<br>' . "\n";
                     $check_term_exist = $this->get_term_by_slug(
                         $by_slug,
                         $taxonomy,
@@ -229,7 +229,7 @@ class Term extends TermBase
 
         //
         $result_id = $this->base_model->insert($this->table, $data, true);
-        //echo $result_id . '<br>' . PHP_EOL;
+        //echo $result_id . '<br>' . "\n";
 
         if ($result_id !== false) {
             $data_insert = $data;
@@ -576,7 +576,7 @@ class Term extends TermBase
         if ($clear_meta === true) {
             foreach ($meta_exist as $k => $v) {
                 if (!isset($meta_data[$k])) {
-                    //echo 'DELETE ' . $k . ' ' . $v . '<br>' . PHP_EOL;
+                    //echo 'DELETE ' . $k . ' ' . $v . '<br>' . "\n";
 
                     //
                     $this->base_model->delete_multiple(
@@ -657,7 +657,7 @@ class Term extends TermBase
                 $in_cache = $taxonomy;
             }
         }
-        //echo 'in_cache: ' . $in_cache . '<br>' . PHP_EOL;
+        //echo 'in_cache: ' . $in_cache . '<br>' . "\n";
 
         // cố định loại cột cần lấy
         $ops['select_col'] = 'term_id, name, term_shortname, slug, term_group, count, parent, taxonomy, child_count, child_last_count, term_permalink, term_avatar, term_favicon, term_status, lang_key';
@@ -719,7 +719,7 @@ class Term extends TermBase
         //
         if ($in_cache != '') {
             $in_cache = $in_cache . '-' . __FUNCTION__ . '-' . $ops['lang_key'];
-            //echo $in_cache . '<br>' . PHP_EOL;
+            //echo $in_cache . '<br>' . "\n";
 
             // xóa cache nếu có yêu cầu
             if ($clear_cache === true) {
@@ -766,7 +766,7 @@ class Term extends TermBase
             $ops['slug_get_child'] = 1;
         } else {
             if (isset($ops['by_is_deleted'])) {
-                //echo $ops[ 'by_is_deleted' ] . '<br>' . PHP_EOL;
+                //echo $ops[ 'by_is_deleted' ] . '<br>' . "\n";
                 $where['is_deleted'] = $ops['by_is_deleted'];
             } else {
                 $where['is_deleted'] = DeletedStatus::FOR_DEFAULT;
@@ -862,7 +862,7 @@ class Term extends TermBase
 
             // lấy meta
             if ($term_id > 0 || isset($ops['slug_get_child'])) {
-                //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                 //print_r( $post_cat );
                 $post_cat = $this->terms_meta_post([$post_cat]);
                 //print_r( $post_cat );
@@ -998,7 +998,7 @@ class Term extends TermBase
 
                     // cập nhật lại tổng số nhóm nếu có sai số
                     if ($child_count != $v['child_count']) {
-                        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                         //
                         $this->base_model->update_multiple(
@@ -1093,7 +1093,7 @@ class Term extends TermBase
 
             // nếu có rồi thì bỏ qua
             if (in_array($term_id, $exist_ids)) {
-                // echo $term_id . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                // echo $term_id . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                 continue;
             }
 

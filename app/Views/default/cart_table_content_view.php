@@ -157,7 +157,7 @@ if (!empty($data)) {
 // sản phẩm của vendor khác (nếu có)
 if (isset($other_data) && !empty($other_data)) {
     // print_r($other_data);
-    // echo 'id_author: ' . $id_author . '<br>' . PHP_EOL;
+    // echo 'id_author: ' . $id_author . '<br>' . "\n";
 
 ?>
     <h3 class="text-center"><?php $lang_model->the_text('cart_prod_another_supplier', 'Product from another supplier'); ?></h3>

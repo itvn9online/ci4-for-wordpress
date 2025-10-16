@@ -23,12 +23,12 @@ class HtmlTemplate
             if ($v == null) {
                 $v = '';
             }
-            //echo 'render key:' . PHP_EOL;
-            //print_r($k);
-            //echo PHP_EOL;
-            //echo 'render value:' . PHP_EOL;
-            //print_r($v);
-            //echo PHP_EOL;
+            // echo 'render key:' . "\n";
+            // print_r($k);
+            // echo "\n";
+            // echo 'render value:' . "\n";
+            // print_r($v);
+            // echo "\n";
             // sử dụng chung mẫu template với angular js
             $html = str_replace($tmp_begin . $k . $tmp_end, $v, $html);
         }

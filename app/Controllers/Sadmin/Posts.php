@@ -284,7 +284,7 @@ class Posts extends Sadmin
          * phân trang
          */
         $totalThread = $this->base_model->select_count('ID', $this->table, $where, $filter);
-        // echo $totalThread . '<br>' . PHP_EOL;
+        // echo $totalThread . '<br>' . "\n";
 
         //
         if ($totalThread > 0) {
@@ -294,15 +294,15 @@ class Posts extends Sadmin
             if ($totalPage < 1) {
                 $totalPage = 1;
             }
-            // echo $totalPage . '<br>' . PHP_EOL;
+            // echo $totalPage . '<br>' . "\n";
             if ($page_num > $totalPage) {
                 $page_num = $totalPage;
             } else if ($page_num < 1) {
                 $page_num = 1;
             }
             $for_action .= ($page_num > 1 ? '&page_num=' . $page_num : '');
-            // echo $totalThread . '<br>' . PHP_EOL;
-            // echo $totalPage . '<br>' . PHP_EOL;
+            // echo $totalThread . '<br>' . "\n";
+            // echo $totalPage . '<br>' . "\n";
             $offset = ($page_num - 1) * $post_per_page;
 
             // chạy vòng lặp gán nốt các thông số khác trên url vào phân trang
@@ -869,7 +869,7 @@ class Posts extends Sadmin
 
             // lấy bài tiếp theo để auto next
             if ($auto_update_module > 0) {
-                //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                 //
                 $url_next_post = $this->action_update_module($id);
@@ -944,7 +944,7 @@ class Posts extends Sadmin
 
             // 
             $post_permalink = $this->post_model->before_post_permalink($data);
-            // echo $post_permalink . '<br>' . PHP_EOL;
+            // echo $post_permalink . '<br>' . "\n";
             if ($post_permalink !== null && $data['post_permalink'] != $post_permalink) {
                 $this->MY_redirect($this->buildAdminPermalink($data['ID']), 301);
                 // die(__CLASS__ . ':' . __LINE__);
@@ -1134,8 +1134,8 @@ class Posts extends Sadmin
         //print_r( $data );
         //print_r( $this->timestamp_post_data );
         foreach ($this->timestamp_post_data as $k => $v) {
-            //echo $k . '<br>' . PHP_EOL;
-            //echo $data[ $k ] . '<br>' . PHP_EOL;
+            //echo $k . '<br>' . "\n";
+            //echo $data[ $k ] . '<br>' . "\n";
             if (isset($data[$k]) && $data[$k] != '') {
                 $data[$k] = strtotime($data[$k]);
             }
@@ -1153,7 +1153,7 @@ class Posts extends Sadmin
         }
 
         // dọn dẹp cache liên quan đến post này -> reset cache
-        echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         $this->cleanup_cache($this->post_model->key_cache($id));
         // bổ sung thêm xóa cache với menu
         if ($this->post_type == PostType::MENU || $this->post_type == PostType::HTML_MENU) {
@@ -1166,7 +1166,7 @@ class Posts extends Sadmin
             } else {
                 $post_name = '';
             }
-            // echo $post_name . '<br>' . PHP_EOL;
+            // echo $post_name . '<br>' . "\n";
             $this->cleanup_cache('get_the_menu-' . $post_name);
         }
         // hoặc page
@@ -1184,7 +1184,7 @@ class Posts extends Sadmin
         // xóa cache cho term liên quan
         if (isset($_POST['post_meta']) && isset($_POST['post_meta']['post_category'])) {
             foreach ($_POST['post_meta']['post_category'] as $v) {
-                //echo $v . '<br>' . PHP_EOL;
+                //echo $v . '<br>' . "\n";
                 $this->cleanup_cache($this->term_model->key_cache($v));
             }
         }
@@ -1630,11 +1630,11 @@ class Posts extends Sadmin
 
         // lấy link sửa bài viết trong admin
         $admin_permalink = $this->post_model->get_admin_permalink($data['post_type'], $data['ID'], $this->controller_slug);
-        //echo $admin_permalink . '<br>' . PHP_EOL;
+        //echo $admin_permalink . '<br>' . "\n";
 
         // thêm tham số tự động submit
         $admin_permalink .= '&auto_update_module=1';
-        //echo $admin_permalink . '<br>' . PHP_EOL;
+        //echo $admin_permalink . '<br>' . "\n";
 
         //
         if ($id > 0) {

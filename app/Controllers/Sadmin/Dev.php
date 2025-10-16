@@ -23,7 +23,7 @@ class Dev extends Sadmin
 
     public function server_info()
     {
-        // echo $this->term_level_log . '<br>' . PHP_EOL;
+        // echo $this->term_level_log . '<br>' . "\n";
 
         /**
          * db không cần update liên tục, nếu cần thì clear cache để tái sử dụng
@@ -34,7 +34,7 @@ class Dev extends Sadmin
             $this->base_model->scache(__FUNCTION__, time(), MEDIUM_CACHE_TIMEOUT);
 
             // ghi file 1 phát để tạo lại nội dung mới cho file
-            file_put_contents($this->term_level_log, date('r') . PHP_EOL, LOCK_EX);
+            file_put_contents($this->term_level_log, date('r') . "\n", LOCK_EX);
 
             //
             // $prefix = WGR_TABLE_PREFIX;
@@ -53,8 +53,8 @@ class Dev extends Sadmin
             ob_start();
 
             //
-            echo __FILE__ . ':' . __LINE__ . PHP_EOL;
-            echo __CLASS__ . ':' . __LINE__ . PHP_EOL;
+            echo __FILE__ . ':' . __LINE__ . "\n";
+            echo __CLASS__ . ':' . __LINE__ . "\n";
 
             // chuyển các nhóm ko có cha về level 0
             $result_id = $this->base_model->update_multiple('term_taxonomy', [
@@ -202,15 +202,15 @@ class Dev extends Sadmin
             // daidq (2022-03-04): chức năng này đang hoạt động không đúng -> vòng lặp nó sẽ chạy mãi do i++ hoài
             if (1 > 2) {
                 foreach ($arr_update_db as $v) {
-                    echo $v . '<br>' . PHP_EOL;
-                    file_put_contents($this->term_level_log, $v . PHP_EOL, FILE_APPEND);
+                    echo $v . '<br>' . "\n";
+                    file_put_contents($this->term_level_log, $v . "\n", FILE_APPEND);
                     continue;
 
                     //
                     if ($this->base_model->MY_query($v)) {
-                        echo 'OK! RUN query... <br>' . PHP_EOL;
+                        echo 'OK! RUN query... <br>' . "\n";
                     } else {
-                        echo 'Query failed! Please re-check query <br>' . PHP_EOL;
+                        echo 'Query failed! Please re-check query <br>' . "\n";
                     }
                 }
             }

@@ -110,8 +110,8 @@ class Constants extends Configs
                     continue;
                 }
             } else if (!isset($meta_default[$k])) {
-                echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-                echo $k . ' not found from meta_default!' . '<br>' . PHP_EOL;
+                echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+                echo $k . ' not found from meta_default!' . '<br>' . "\n";
                 continue;
             }
 
@@ -135,7 +135,7 @@ class Constants extends Configs
                         // https://codeigniter.com/user_guide/libraries/sessions.html#filehandler-driver-the-default
                     } else if ($v == 'RedisHandler') {
                         if (empty(phpversion('redis')) || $this->checkRedis() !== true) {
-                            echo 'redis not found! Code #' . __LINE__ . ' <br>' . PHP_EOL;
+                            echo 'redis not found! Code #' . __LINE__ . ' <br>' . "\n";
                             continue;
                         } else {
                             // nếu không lỗi lầm gì thì thiết lập đường dẫn lưu session bằng redis
@@ -146,7 +146,7 @@ class Constants extends Configs
                         }
                     } else if ($v == 'MemcachedHandler') {
                         if (!class_exists('Memcached') || $this->checkMemcached() !== true) {
-                            echo 'Memcached not found! Code #' . __LINE__ . ' <br>' . PHP_EOL;
+                            echo 'Memcached not found! Code #' . __LINE__ . ' <br>' . "\n";
                             continue;
                         } else {
                             // nếu không lỗi lầm gì thì thiết lập đường dẫn lưu session bằng Memcached
@@ -169,20 +169,20 @@ class Constants extends Configs
                 else if ($k == 'MY_CACHE_HANDLER') {
                     if ($v == 'redis') {
                         if (empty(phpversion('redis')) || $this->checkRedis() !== true) {
-                            echo 'redis not found! Code #' . __LINE__ . ' <br>' . PHP_EOL;
+                            echo 'redis not found! Code #' . __LINE__ . ' <br>' . "\n";
                             continue;
                         }
                     } else if ($v == 'memcached') {
                         if (!class_exists('Memcached') || $this->checkMemcached() !== true) {
-                            echo 'Memcached not found! Code #' . __LINE__ . ' <br>' . PHP_EOL;
+                            echo 'Memcached not found! Code #' . __LINE__ . ' <br>' . "\n";
                             continue;
                         }
                     }
                 }
                 // với phần ngôn ngữ cũng sẽ thiết lập riêng
                 else if ($k == 'SITE_LANGUAGE_SUPPORT') {
-                    // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-                    // echo $v . '<br>' . PHP_EOL;
+                    // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+                    // echo $v . '<br>' . "\n";
 
                     //
                     $arr = explode(',', $v);
@@ -234,10 +234,10 @@ class Constants extends Configs
                 }
                 // với phần ngôn ngữ mặc định
                 else if ($k == 'SITE_LANGUAGE_DEFAULT') {
-                    // echo $v . '<br>' . PHP_EOL;
+                    // echo $v . '<br>' . "\n";
 
                     // ngôn ngữ mặc định phải là 1 trong các ngôn ngữ đã chọn
-                    // echo count($arr_language_fixed) . '<br>' . PHP_EOL;
+                    // echo count($arr_language_fixed) . '<br>' . "\n";
 
                     // nếu chỉ có 1 thì thiết lập giá trị là mảng đã chọn luôn
                     if (count($arr_language_fixed) === 1) {
@@ -269,7 +269,7 @@ class Constants extends Configs
             }
         }
         // print_r($a);
-        //echo implode(PHP_EOL, $a) . PHP_EOL;
+        //echo implode("\n", $a) . "\n";
 
         // nếu ngôn ngữ mặc định không được thiết lập
         if (empty($data['SITE_LANGUAGE_DEFAULT'])) {
@@ -279,7 +279,7 @@ class Constants extends Configs
 
         //
         $f = DYNAMIC_CONSTANTS_PATH;
-        echo $f . '<br>' . PHP_EOL;
+        echo $f . '<br>' . "\n";
 
         //
         if (!empty($a)) {
@@ -294,11 +294,11 @@ class Constants extends Configs
 
             //
             foreach ($a as $v) {
-                echo $v . '<br>' . PHP_EOL;
+                echo $v . '<br>' . "\n";
             }
 
             //
-            $this->base_model->ftp_create_file($f, str_replace(' ', '', '< ? php') . PHP_EOL . implode(PHP_EOL, $a) . PHP_EOL);
+            $this->base_model->ftp_create_file($f, str_replace(' ', '', '< ? php') . "\n" . implode("\n", $a) . "\n");
 
             // gửi 1 lệnh mở link trong tab mới để test code
             echo '<script>top.open_home_for_test_config_constants();</script>';
@@ -315,8 +315,8 @@ class Constants extends Configs
      **/
     protected function checkRedis()
     {
-        echo 'Redis hostname: ' . $this->redis_hostname . '<br>' . PHP_EOL;
-        echo 'Redis port: ' . $this->redis_port . '<br>' . PHP_EOL;
+        echo 'Redis hostname: ' . $this->redis_hostname . '<br>' . "\n";
+        echo 'Redis port: ' . $this->redis_port . '<br>' . "\n";
         // die(__CLASS__ . ':' . __LINE__);
 
         // connect thử vào redis
@@ -336,8 +336,8 @@ class Constants extends Configs
      **/
     protected function checkMemcached()
     {
-        echo 'Memcached hostname: ' . $this->memcached_hostname . '<br>' . PHP_EOL;
-        echo 'Memcached port: ' . $this->memcached_port . '<br>' . PHP_EOL;
+        echo 'Memcached hostname: ' . $this->memcached_hostname . '<br>' . "\n";
+        echo 'Memcached port: ' . $this->memcached_port . '<br>' . "\n";
         // die(__CLASS__ . ':' . __LINE__);
 
         // connect thử vào Memcached

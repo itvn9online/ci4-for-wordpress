@@ -124,7 +124,7 @@ class Accelerated extends Layout
             if ($blog_posting_img != '' && strpos($blog_posting_img, '//') === false) {
                 $blog_posting_url = DYNAMIC_BASE_URL . $blog_posting_img;
                 $blog_posting_img = PUBLIC_PUBLIC_PATH . $blog_posting_img;
-                // echo $blog_posting_img . '<br>' . PHP_EOL;
+                // echo $blog_posting_img . '<br>' . "\n";
                 if (is_file($blog_posting_img)) {
                     $get_file_info = getimagesize($blog_posting_img);
                     // print_r($get_file_info);
@@ -448,7 +448,7 @@ class Accelerated extends Layout
         $post_per_page = $this->base_model->get_config($this->getconfig, 'eb_posts_per_page', 20);
         // var_dump($post_per_page);
         $totalThread = $this->post_model->fix_term_count($data, PostType::POST);
-        // echo $totalThread . '<br>' . PHP_EOL;
+        // echo $totalThread . '<br>' . "\n";
 
         // Phân trang
         if ($page_num > 1 && $totalThread > $post_per_page) {
@@ -456,16 +456,16 @@ class Accelerated extends Layout
             if ($totalPage < 1) {
                 $totalPage = 1;
             }
-            // echo $totalPage . '<br>' . PHP_EOL;
-            //echo $totalPage . '<br>' . PHP_EOL;
+            // echo $totalPage . '<br>' . "\n";
+            //echo $totalPage . '<br>' . "\n";
             if ($page_num > $totalPage) {
                 $page_num = $totalPage;
             } else if ($page_num < 1) {
                 $page_num = 1;
             }
-            //echo $totalPage . '<br>' . PHP_EOL;
+            //echo $totalPage . '<br>' . "\n";
             $offset = ($page_num - 1) * $post_per_page;
-            // echo $offset . '<br>' . PHP_EOL;
+            // echo $offset . '<br>' . "\n";
         } else {
             $offset = 0;
         }

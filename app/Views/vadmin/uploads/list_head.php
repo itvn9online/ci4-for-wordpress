@@ -3,7 +3,7 @@
 //
 $uri_quick_upload = [];
 foreach ($_GET as $k => $v) {
-    //echo $k . '<br>' . PHP_EOL;
+    //echo $k . '<br>' . "\n";
     $uri_quick_upload[] = $k . '=' . $v;
 }
 

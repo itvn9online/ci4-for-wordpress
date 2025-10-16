@@ -51,7 +51,7 @@ class Csdl extends Session
         // lỗi sẽ hiển thị ở đây khi không insert đc
         if ($this->myDb->affectedRows()) {
             // var_dump($this->myDb->affectedRows());
-            // echo $this->myDb->insertID() . '<br>' . PHP_EOL;
+            // echo $this->myDb->insertID() . '<br>' . "\n";
             return $this->myDb->insertID();
         } else {
             // print_r($this->myDb->error());
@@ -101,9 +101,9 @@ class Csdl extends Session
         //
         if ($has_where !== true) {
             if (isset($ops['debug_backtrace'])) {
-                echo $ops['debug_backtrace'] . '<br>' . PHP_EOL;
+                echo $ops['debug_backtrace'] . '<br>' . "\n";
             }
-            echo debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
+            echo debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . "\n";
 
             //
             die('data update empty ' . $table . ':' . __CLASS__ . ':line:' . __LINE__);
@@ -115,7 +115,7 @@ class Csdl extends Session
         // in luôn ra query để test
         if (isset($ops['show_query'])) {
             print_r($this->myDb->getLastQuery()->getQuery());
-            echo '<br>' . PHP_EOL;
+            echo '<br>' . "\n";
         }
 
         // trả về query để sử dụng cho mục đích khác
@@ -174,9 +174,9 @@ class Csdl extends Session
         //
         if ($has_where !== true) {
             if (isset($ops['debug_backtrace'])) {
-                echo $ops['debug_backtrace'] . '<br>' . PHP_EOL;
+                echo $ops['debug_backtrace'] . '<br>' . "\n";
             }
-            echo debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
+            echo debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . "\n";
 
             //
             die('data update empty ' . $table . ':' . __CLASS__ . ':line:' . __LINE__);
@@ -189,9 +189,9 @@ class Csdl extends Session
         //print_r( $data );
         if (empty($data)) {
             if (isset($ops['debug_backtrace'])) {
-                echo $ops['debug_backtrace'] . '<br>' . PHP_EOL;
+                echo $ops['debug_backtrace'] . '<br>' . "\n";
             }
-            echo debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
+            echo debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . "\n";
 
             //
             die(__FUNCTION__ . ' data update empty ' . $table . ':line:' . __LINE__);
@@ -222,7 +222,7 @@ class Csdl extends Session
         // in luôn ra query để test
         if (isset($ops['show_query'])) {
             print_r($this->myDb->getLastQuery()->getQuery());
-            echo '<br>' . PHP_EOL;
+            echo '<br>' . "\n";
         }
 
         // trả về query để sử dụng cho mục đích khác
@@ -322,9 +322,9 @@ class Csdl extends Session
         //
         if ($has_where !== true) {
             if (isset($ops['debug_backtrace'])) {
-                echo $ops['debug_backtrace'] . '<br>' . PHP_EOL;
+                echo $ops['debug_backtrace'] . '<br>' . "\n";
             }
-            echo debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
+            echo debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . "\n";
 
             //
             die(__FUNCTION__ . ' where update empty ' . $table . ':line:' . __LINE__);
@@ -354,7 +354,7 @@ class Csdl extends Session
         // in luôn ra query để test
         if (isset($ops['show_query'])) {
             print_r($this->myDb->getLastQuery()->getQuery());
-            echo '<br>' . PHP_EOL;
+            echo '<br>' . "\n";
         }
 
         // trả về query để sử dụng cho mục đích khác
@@ -624,7 +624,7 @@ class Csdl extends Session
         */
         // daidq (2021-12-25): để tránh trường hợp select unlimit cho dữ liệu lớn -> đặt mặc định lệnh LIMIT nếu không được chỉ định
         if (!isset($ops['limit'])) {
-            //echo 'auto limit <br>' . PHP_EOL;
+            //echo 'auto limit <br>' . "\n";
             $ops['limit'] = 500;
         } else if ($ops['limit'] > 0) {
             $builder->limit($ops['limit'], $ops['offset']);
@@ -646,7 +646,7 @@ class Csdl extends Session
         // in luôn ra query để test
         if (isset($ops['show_query']) && $ops['show_query'] > 0) {
             print_r($this->myDb->getLastQuery()->getQuery());
-            echo '<br>' . PHP_EOL;
+            echo '<br>' . "\n";
         }
 
         // trả về query để sử dụng cho mục đích khác
@@ -673,8 +673,8 @@ class Csdl extends Session
 
         // nếu chỉ lấy 1 kết quả -> trả về luôn mảng số 0
         if (isset($ops['limit']) && $ops['limit'] === 1 && !empty($a)) {
-            //echo $ops[ 'limit' ] . '<br>' . PHP_EOL;
-            //echo $builder->countAllResults() . '<br>' . PHP_EOL;
+            //echo $ops[ 'limit' ] . '<br>' . "\n";
+            //echo $builder->countAllResults() . '<br>' . "\n";
             //print_r( $a );
             //print_r( $a[ 0 ] );
             //die( 'fgjhkgsd gsdfgsgs' );
@@ -732,7 +732,7 @@ class Csdl extends Session
         // in luôn ra query để test
         if (isset($ops['show_query'])) {
             print_r($this->myDb->getLastQuery()->getQuery());
-            echo '<br>' . PHP_EOL;
+            echo '<br>' . "\n";
         }
 
         // trả về query để sử dụng cho mục đích khác

@@ -69,7 +69,7 @@ class PostBase extends EbModel
             $this->itempropImageHtmlNode = file_get_contents(VIEWS_PATH . 'html/structured-data/itemprop-image.html');
 
             // tạo block html cho phần sản phẩm
-            //echo THEMEPATH . '<br>' . PHP_EOL;
+            //echo THEMEPATH . '<br>' . "\n";
             if ($this->product_html_node == '') {
                 // thread_node
                 $this->product_html_node = $this->base_model->get_html_tmp('products_node');
@@ -80,8 +80,8 @@ class PostBase extends EbModel
                 // blogs_node
                 $this->blog_html_node = $this->base_model->get_html_tmp('posts_node');
             }
-            //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-            //echo debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
+            //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+            //echo debug_backtrace()[1]['function'] . '<br>' . "\n";
 
             //
             $this->base_model->scache('postbase_construct', [
@@ -101,14 +101,14 @@ class PostBase extends EbModel
 
         // post
         $this->blog_html_node = str_replace('{{product_html_node}}', $this->blog_html_node, $this->structured_data(VIEWS_PATH . 'html/structured-data/ArticleNews.html'));
-        //echo $this->blog_html_node . PHP_EOL;
+        //echo $this->blog_html_node . "\n";
 
         /**
          * Product
          * https://developers.google.com/search/docs/appearance/structured-data/product-snippet?hl=vi#microdata_2
          */
         $this->product_html_node = str_replace('{{product_html_node}}', $this->product_html_node, $this->structured_data(VIEWS_PATH . 'html/structured-data/ArticleProduct.html'));
-        //echo $this->product_html_node . PHP_EOL;
+        //echo $this->product_html_node . "\n";
 
         //
         $getconfig = $this->option_model->list_config();
@@ -253,8 +253,8 @@ class PostBase extends EbModel
         } else {
             $url = WGR_POSTS_PERMALINK;
         }
-        //echo $data['post_type'] . '<br>' . PHP_EOL;
-        //echo WGR_POSTS_PERMALINK . '<br>' . PHP_EOL;
+        //echo $data['post_type'] . '<br>' . "\n";
+        //echo WGR_POSTS_PERMALINK . '<br>' . "\n";
 
         // thêm prefix cho url -> hỗ trợ đa ngôn ngữ sub-folder
         if (SITE_LANGUAGE_SUB_FOLDER == true && $data['lang_key'] != SITE_LANGUAGE_DEFAULT) {
@@ -299,7 +299,7 @@ class PostBase extends EbModel
     // trả về url với đầy đủ tên miền
     public function get_full_permalink($data)
     {
-        //echo DYNAMIC_BASE_URL . PHP_EOL;
+        //echo DYNAMIC_BASE_URL . "\n";
         return $this->get_post_permalink($data, DYNAMIC_BASE_URL);
     }
     // trả về url của 1 post
@@ -329,7 +329,7 @@ class PostBase extends EbModel
             return $base_url . $data['post_permalink'];
         }
         */
-        //echo $data['post_permalink'] . PHP_EOL;
+        //echo $data['post_permalink'] . "\n";
         return $base_url . $data['post_permalink'];
 
         //
@@ -391,7 +391,7 @@ class PostBase extends EbModel
         //
         $last_run = $this->the_cache(__FUNCTION__, __FUNCTION__);
         if ($create_view === false && $last_run !== null) {
-            // echo __FUNCTION__ . ' RUN ' . (time() - $last_run) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            // echo __FUNCTION__ . ' RUN ' . (time() - $last_run) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             return false;
         }
 
@@ -447,7 +447,7 @@ class PostBase extends EbModel
             );
             // print_r($sql);
             $sql = "CREATE OR REPLACE VIEW $tbl_dpost AS " . $sql;
-            echo $sql . '<br>' . PHP_EOL;
+            echo $sql . '<br>' . "\n";
             $this->base_model->MY_query($sql);
         }
 
@@ -507,7 +507,7 @@ class PostBase extends EbModel
             );
             // print_r($sql);
             $sql = "CREATE OR REPLACE VIEW $tbl_dterm AS " . $sql;
-            echo $sql . '<br>' . PHP_EOL;
+            echo $sql . '<br>' . "\n";
             $this->base_model->MY_query($sql);
         }
 

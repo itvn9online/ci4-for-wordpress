@@ -12,3 +12,23 @@
 #admin_main_list input[type="text"] {
     margin-bottom: 0;
 }
+
+.title-link_name {
+    position: relative;
+}
+
+.title-link_name span {
+    display: none;
+}
+
+.title-link_name:hover span {
+    display: inline-block;
+    position: absolute;
+    right: 99%;
+    box-shadow: 0 0 5px #ccc;
+    background-color: white;
+    padding: 2px 5px;
+    border-radius: 3px;
+    z-index: 99;
+    width: 100%;
+}

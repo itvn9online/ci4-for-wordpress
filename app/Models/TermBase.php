@@ -59,23 +59,23 @@ class TermBase extends EbModel
     public function terms_meta_post($data, $select_meta = 0)
     {
         // print_r($data);
-        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         /*
         if (!isset($data[0]['term_meta_data'])) {
-            echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             // return $data;
         }
         */
 
         //
         // print_r($data);
-        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         foreach ($data as $k => $v) {
             // print_r($v);
 
             // không có meta data -> thoát luôn
             if (!isset($v['term_meta_data'])) {
-                // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                 if ($select_meta > 0) {
                     $v['term_meta_data'] = '';
                 } else {
@@ -90,7 +90,7 @@ class TermBase extends EbModel
             if (empty($v['term_meta_data'])) {
                 $term_meta_data = $this->arr_meta_terms($v['term_id']);
                 // print_r($term_meta_data);
-                // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                 //
                 $this->base_model->update_multiple($this->table, [
@@ -104,7 +104,7 @@ class TermBase extends EbModel
             } else {
                 $term_meta_data = (array) json_decode($v['term_meta_data']);
                 // print_r($term_meta_data);
-                // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                 // thông báo kiểu dữ liệu trả về
                 $data[$k]['term_meta_data'] = 'cache';
@@ -112,7 +112,7 @@ class TermBase extends EbModel
             $data[$k]['term_meta'] = $term_meta_data;
         }
         // print_r($data);
-        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
         //
         return $data;
@@ -270,7 +270,7 @@ class TermBase extends EbModel
         // select dữ liệu từ 1 bảng bất kỳ
         $data = $this->base_model->select($select_col, WGR_TERM_VIEW, $where, $default_filter);
         // print_r($data);
-        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         //die(__CLASS__ . ':' . __LINE__);
 
         // lấy meta của post này
@@ -302,7 +302,7 @@ class TermBase extends EbModel
         //
         $prefix = WGR_TABLE_PREFIX;
 
-        //echo __FUNCTION__ . '<br>' . PHP_EOL;
+        //echo __FUNCTION__ . '<br>' . "\n";
         $last_run = $this->base_model->scache(__FUNCTION__);
         if ($last_run !== null) {
             //print_r( $last_run );
@@ -372,7 +372,7 @@ class TermBase extends EbModel
             )
         );
         $sql = "CREATE OR REPLACE VIEW $the_view AS $sql";
-        //echo $sql . '<br>' . PHP_EOL;
+        //echo $sql . '<br>' . "\n";
         //die( __CLASS__ . ':' . __LINE__ );
         $this->base_model->MY_query($sql);
 
@@ -384,7 +384,7 @@ class TermBase extends EbModel
             " . $prefix . "terms.child_count = $the_view.c
         WHERE
             is_deleted = ?";
-        //echo $sql . '<br>' . PHP_EOL;
+        //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query(
             $sql,
             [
@@ -411,7 +411,7 @@ class TermBase extends EbModel
         $sql = "UPDATE " . $prefix . "term_relationships
         SET
             is_deleted = ?";
-        //echo $sql . '<br>' . PHP_EOL;
+        //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query(
             $sql,
             [
@@ -433,7 +433,7 @@ class TermBase extends EbModel
         $params[] = PostType::PUBLICITY;
 
         //
-        //echo $sql . '<br>' . PHP_EOL;
+        //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query($sql, $params);
         //return false;
 
@@ -465,7 +465,7 @@ class TermBase extends EbModel
             )
         );
         $sql = "CREATE OR REPLACE VIEW $the_view AS $sql";
-        //echo $sql . '<br>' . PHP_EOL;
+        //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query($sql);
 
         // update count cho các parent trong view
@@ -474,7 +474,7 @@ class TermBase extends EbModel
             $the_view ON $the_view.term_taxonomy_id = " . $prefix . "term_taxonomy.term_id
         SET
             " . $prefix . "term_taxonomy.count = $the_view.c";
-        //echo $sql . '<br>' . PHP_EOL;
+        //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query($sql);
 
 
@@ -506,7 +506,7 @@ class TermBase extends EbModel
             )
         );
         $sql = "CREATE OR REPLACE VIEW $the_view AS $sql";
-        //echo $sql . '<br>' . PHP_EOL;
+        //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query($sql);
 
         // update count cho các parent trong view
@@ -515,7 +515,7 @@ class TermBase extends EbModel
             $the_view ON $the_view.parent = " . $prefix . "term_taxonomy.term_id
         SET
             " . $prefix . "term_taxonomy.count = " . $prefix . "term_taxonomy.count+$the_view.t";
-        //echo $sql . '<br>' . PHP_EOL;
+        //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query($sql);
 
         // TEST
@@ -526,7 +526,7 @@ class TermBase extends EbModel
          * xong thì xóa luôn view này đi
          */
         $sql = "DROP VIEW IF EXISTS $the_view";
-        //echo $sql . '<br>' . PHP_EOL;
+        //echo $sql . '<br>' . "\n";
         $this->base_model->MY_query($sql);
 
 
@@ -549,7 +549,7 @@ class TermBase extends EbModel
             $last_run = $this->base_model->scache(__FUNCTION__);
             if ($last_run !== null) {
                 //print_r($last_run);
-                //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                 return $last_run;
             }
         }
@@ -608,7 +608,7 @@ class TermBase extends EbModel
             )
         );
         //print_r($data);
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         if (empty($data)) {
             $this->base_model->scache(__FUNCTION__, time(), $this->time_update_last_count - mt_rand(333, 666));
             return true;
@@ -630,16 +630,16 @@ class TermBase extends EbModel
     {
         // print_r($data);
         if (!isset($data['child_last_count']) || !isset($data['term_id'])) {
-            // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             return false;
         }
         // giãn cách giữa các lần cập nhật count
         if ($data['child_last_count'] > time()) {
             // echo date('Y-m-d H:i:s', $data['child_last_count']);
-            // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             return false;
         }
-        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         // print_r($data);
 
         /**
@@ -665,7 +665,7 @@ class TermBase extends EbModel
                 'limit' => -1
             )
         );
-        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         // print_r($child_count);
 
         //

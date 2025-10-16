@@ -23,7 +23,7 @@ foreach ($data as $k => $v) {
     }
     // print_r($v['post_meta']);
     $src = $upload_model->get_thumbnail($v);
-    // echo 'src: ' . $src . '<br>' . PHP_EOL;
+    // echo 'src: ' . $src . '<br>' . "\n";
     // continue;
 
     // với định dạng khác -> chưa xử lý
@@ -65,7 +65,7 @@ foreach ($data as $k => $v) {
 
             //
             foreach ($attachment_metadata['sizes'] as $k_sizes => $sizes) {
-                // echo $k_sizes . '<br>' . PHP_EOL;
+                // echo $k_sizes . '<br>' . "\n";
                 // print_r($sizes);
                 // continue;
 

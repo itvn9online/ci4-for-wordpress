@@ -15,7 +15,7 @@
     for ($i = 0; $i < 10; $i++) {
         $fname = 'log-' . date('Y-m-d', $current_time - ($i * DAY)) . '.log';
         $f = $dir_log . '/' . $fname;
-        // echo $f . '<br>' . PHP_EOL;
+        // echo $f . '<br>' . "\n";
 
         //
         if (!is_file($f)) {

@@ -155,7 +155,7 @@ class Zaloa extends Option
         if (empty($codeVerifier)) {
             return false;
         }
-        //echo $codeVerifier . PHP_EOL;
+        //echo $codeVerifier . "\n";
 
         //
         $this->loadConfig();
@@ -782,14 +782,14 @@ class Zaloa extends Option
 
         //
         if (!is_file($f)) {
-            if (!file_put_contents($f, __CLASS__ . ':' . __LINE__ . PHP_EOL, LOCK_EX)) {
+            if (!file_put_contents($f, __CLASS__ . ':' . __LINE__ . "\n", LOCK_EX)) {
                 return false;
             }
             chmod($f, DEFAULT_FILE_PERMISSION);
         }
         if ($phone != '') {
-            file_put_contents($f, date('r') . ' | ' . $phone . PHP_EOL, FILE_APPEND);
+            file_put_contents($f, date('r') . ' | ' . $phone . "\n", FILE_APPEND);
         }
-        return file_put_contents($f, date('r') . ' | ' . json_encode($response) . PHP_EOL, FILE_APPEND);
+        return file_put_contents($f, date('r') . ' | ' . json_encode($response) . "\n", FILE_APPEND);
     }
 }

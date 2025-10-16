@@ -124,7 +124,7 @@ class Cassos extends Payments
             $status = 1;
         }
         //die( __CLASS__ . ':' . __LINE__ );
-        file_put_contents(Casso::pathLog(), json_encode($msg) . PHP_EOL, FILE_APPEND);
+        file_put_contents(Casso::pathLog(), json_encode($msg) . "\n", FILE_APPEND);
 
         //
         $this->result_json_type([

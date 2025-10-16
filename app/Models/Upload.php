@@ -43,7 +43,7 @@ class Upload extends Post
 
             //
             //print_r( $attachment_metadata );
-            //echo 'size: ' . $size . '<br>' . PHP_EOL;
+            //echo 'size: ' . $size . '<br>' . "\n";
             if (empty($attachment_metadata)) {
                 return '';
             }
@@ -72,7 +72,7 @@ class Upload extends Post
             $src = $data['post_meta']['_wp_attached_file'];
         }
         $src = $uri . $src;
-        //echo 'src: ' . $src . '<br>' . PHP_EOL;
+        //echo 'src: ' . $src . '<br>' . "\n";
         //die( __CLASS__ . ':' . __LINE__ );
 
         //

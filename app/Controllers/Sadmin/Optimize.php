@@ -51,7 +51,7 @@ class Optimize extends Sadmin
     protected function before_active_optimize($dir, $f, $c)
     {
         if (!is_dir($dir)) {
-            echo 'mkdir: ' . $dir . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            echo 'mkdir: ' . $dir . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
             //
             if ($this->using_via_ftp() === true) {
@@ -67,7 +67,7 @@ class Optimize extends Sadmin
                 die(__CLASS__ . ':' . __LINE__);
             }
         }
-        //echo 'create file: ' . $dir . $f . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        //echo 'create file: ' . $dir . $f . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         $this->push_content_file($dir . $f, $c, DEFAULT_FILE_PERMISSION);
     }
 
@@ -91,11 +91,11 @@ class Optimize extends Sadmin
             if (is_file($filename)) {
                 $c = $this->WGR_remove_css_multi_comment(file_get_contents($filename, 1));
                 if ($c !== false) {
-                    echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+                    echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . "\n";
                     $c = trim($c);
                     if (!empty($c)) {
                         // giả lập file style.css của child-theme trong wordpress
-                        $this->push_content_file($filename, implode(PHP_EOL, [
+                        $this->push_content_file($filename, implode("\n", [
                             '/*',
                             'Theme Name: ' . THEMENAME,
                             'Description: This is a child theme for Flatsome Theme',
@@ -103,7 +103,7 @@ class Optimize extends Sadmin
                             'Template: flatsome',
                             'Version: 3.0',
                             '*/',
-                        ]) . PHP_EOL . $c);
+                        ]) . "\n" . $c);
                     }
                 }
             }
@@ -139,37 +139,37 @@ class Optimize extends Sadmin
     protected function optimize_action_views($path, $check_active = true)
     {
         $path = rtrim($path, '/');
-        //echo $path . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+        //echo $path . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . "\n";
         if ($this->check_active_optimize($path . '/') !== true) {
             if ($check_active === true) {
                 return false;
             }
         }
-        echo '<strong>' . $path . '</strong>:<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+        echo '<strong>' . $path . '</strong>:<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . "\n";
 
         // optimize file php
         foreach (glob($path . '/*.php') as $filename) {
-            echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+            echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . "\n";
 
             //
             $c = file_get_contents($filename, 1);
-            //echo $c . '<br>' . PHP_EOL;
+            //echo $c . '<br>' . "\n";
             $c = $this->WGR_update_core_remove_php_multi_comment($c);
             $c = $this->WGR_update_core_remove_php_comment($c);
-            //echo $c . '<br>' . PHP_EOL;
+            //echo $c . '<br>' . "\n";
             if ($c != '') {
-                $c .= PHP_EOL;
+                $c .= "\n";
                 //$c .= ' ';
 
                 //
-                //echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+                //echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . "\n";
                 $this->push_content_file($filename, $c);
             }
         }
 
         // optimize file html
         foreach (glob($path . '/*.{html,htm}') as $filename) {
-            echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+            echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . "\n";
 
             //
             $c = file_get_contents($filename, 1);
@@ -190,11 +190,11 @@ class Optimize extends Sadmin
     protected function optimize_action_css($path, $dir = 'css', $type = 'css')
     {
         $path = $path . rtrim($dir, '/');
-        //echo $path . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+        //echo $path . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . "\n";
         if ($this->check_active_optimize($path . '/') !== true) {
             return false;
         }
-        echo '<strong>' . $path . '</strong>:<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+        echo '<strong>' . $path . '</strong>:<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . "\n";
 
         //
         foreach (glob($path . '/*.' . $type) as $filename) {
@@ -208,10 +208,10 @@ class Optimize extends Sadmin
             $c = $this->WGR_remove_css_multi_comment($c);
             //var_dump( $c );
             if ($c === false) {
-                echo 'continue (' . basename($filename) . ') <br>' . PHP_EOL;
+                echo 'continue (' . basename($filename) . ') <br>' . "\n";
                 continue;
             }
-            echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+            echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . "\n";
 
             //
             $c = trim($c);
@@ -227,11 +227,11 @@ class Optimize extends Sadmin
     protected function optimize_action_js($path, $dir = 'js', $type = 'js')
     {
         $path = $path . rtrim($dir, '/');
-        //echo $path . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+        //echo $path . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . "\n";
         if ($this->check_active_optimize($path . '/') !== true) {
             return false;
         }
-        echo '<strong>' . $path . '</strong>:<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+        echo '<strong>' . $path . '</strong>:<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . "\n";
 
         //
         foreach (glob($path . '/*.' . $type) as $filename) {
@@ -244,10 +244,10 @@ class Optimize extends Sadmin
             }
             $c = $this->WGR_update_core_remove_js_comment($c);
             if ($c === false) {
-                echo 'continue (' . basename($filename) . ') <br>' . PHP_EOL;
+                echo 'continue (' . basename($filename) . ') <br>' . "\n";
                 continue;
             }
-            echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+            echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . "\n";
 
             //
             if (!empty($c)) {
@@ -262,9 +262,9 @@ class Optimize extends Sadmin
     // kiểm tra xem có sự tồn tại của file kích hoạt chế độ optimize không
     protected function check_active_optimize($path)
     {
-        //echo '<strong>' . $path . '</strong>:<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+        //echo '<strong>' . $path . '</strong>:<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . "\n";
         $full_path = $path . $this->f_active_optimize;
-        //echo $full_path . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+        //echo $full_path . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . "\n";
         if (is_file($full_path)) {
             // thử xóa file optimize -> XÓA được thì mới trả về true -> đảm bảo có quyền chỉnh sửa các file trong này
             if ($this->MY_unlink($full_path)) {
@@ -285,11 +285,11 @@ class Optimize extends Sadmin
         }
 
         //
-        $a = explode(PHP_EOL, $str);
+        $a = explode("\n", $str);
         if (count($a) < 10) {
             return false;
         }
-        //echo 'count a: ' . count( $a ) . '<br>' . PHP_EOL;
+        //echo 'count a: ' . count( $a ) . '<br>' . "\n";
         $str = '';
         foreach ($a as $v) {
             $v = trim($v);
@@ -309,12 +309,12 @@ class Optimize extends Sadmin
         $str = str_replace('} .', '}.', $str);
         $str = str_replace('{ }', '{}', $str);
         // $str = str_replace('{ }', '{}', $str);
-        $str = str_replace('}.', '}' . PHP_EOL . '.', $str);
-        $str = str_replace('}#', '}' . PHP_EOL . '#', $str);
-        $str = str_replace('}@', '}' . PHP_EOL . '@', $str);
+        $str = str_replace('}.', '}' . "\n" . '.', $str);
+        $str = str_replace('}#', '}' . "\n" . '#', $str);
+        $str = str_replace('}@', '}' . "\n" . '@', $str);
 
         // 
-        $a = explode(PHP_EOL, $str);
+        $a = explode("\n", $str);
         $str = '';
         foreach ($a as $v) {
             $v = trim($v);
@@ -326,7 +326,7 @@ class Optimize extends Sadmin
                     }
                 }
                 $str .= $v;
-                // $str .= PHP_EOL;
+                // $str .= "\n";
             }
         }
 
@@ -401,7 +401,7 @@ class Optimize extends Sadmin
 
     protected function WGR_remove_js_comment($a, $chim = false)
     {
-        $a = explode(PHP_EOL, $a);
+        $a = explode("\n", $a);
         if (count($a) < 10) {
             return false;
         }
@@ -414,7 +414,7 @@ class Optimize extends Sadmin
             } else {
                 // thêm dấu xuống dòng với 1 số trường hợp
                 if ($chim == true || strpos($v, '//') !== false || substr($v, -1) == '\\') {
-                    $v .= PHP_EOL;
+                    $v .= "\n";
                 }
                 $str .= $v;
             }
@@ -658,7 +658,7 @@ class Optimize extends Sadmin
 
     protected function WGR_update_core_remove_html_comment($a)
     {
-        $a = explode(PHP_EOL, $a);
+        $a = explode("\n", $a);
 
         $str = '';
         foreach ($a as $v) {
@@ -668,16 +668,16 @@ class Optimize extends Sadmin
                 continue;
             }
             // loại bỏ các comment html đơn giản
-            //echo substr( $v, 0, 4 ) . '<br>' . PHP_EOL;
-            //echo substr( $v, -3 ) . '<br>' . PHP_EOL;
+            //echo substr( $v, 0, 4 ) . '<br>' . "\n";
+            //echo substr( $v, -3 ) . '<br>' . "\n";
             if (substr($v, 0, 4) == '<!--' && substr($v, -3) == '-->') {
                 continue;
             }
 
-            $str .= $v . PHP_EOL;
+            $str .= $v . "\n";
             /*
             if ( strpos( $v, '//' ) !== false ) {
-            $str .= PHP_EOL;
+            $str .= "\n";
             } else {
             $str .= ' ';
             }
@@ -691,8 +691,8 @@ class Optimize extends Sadmin
 
     protected function WGR_update_core_remove_php_comment($a)
     {
-        $a = explode(PHP_EOL, $a);
-        //echo count($a) . '<br>' . PHP_EOL;
+        $a = explode("\n", $a);
+        //echo count($a) . '<br>' . "\n";
 
         $str = '';
         foreach ($a as $v) {
@@ -710,14 +710,14 @@ class Optimize extends Sadmin
             if (substr($v, 0, 4) == '<!--' && substr($v, -3) == '-->') {
                 continue;
             }
-            //echo $v . '<br>' . PHP_EOL;
+            //echo $v . '<br>' . "\n";
 
             // Sử dụng dấu xuống dòng
-            $str .= $v . PHP_EOL;
+            $str .= $v . "\n";
             /*
             $str .= $v;
             if (strpos($v, '//') !== false) {
-                $str .= PHP_EOL;
+                $str .= "\n";
             } else {
                 $str .= ' ';
             }
@@ -771,7 +771,7 @@ class Optimize extends Sadmin
         //
         $last_run = $this->base_model->scache(__FUNCTION__);
         if ($last_run !== null) {
-            echo __FUNCTION__ . ' RUN ' . ($current_time - $last_run) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            echo __FUNCTION__ . ' RUN ' . ($current_time - $last_run) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             return false;
         }
 
@@ -780,15 +780,15 @@ class Optimize extends Sadmin
             if ($time < MEDIUM_CACHE_TIMEOUT) {
                 $time = MEDIUM_CACHE_TIMEOUT;
             }
-            //echo $time . '<br>' . PHP_EOL;
+            //echo $time . '<br>' . "\n";
 
             //
             foreach (glob(WRITE_CACHE_PATH . '*') as $filename) {
-                //echo $filename . '<br>' . PHP_EOL;
+                //echo $filename . '<br>' . "\n";
 
                 // xem file được tạo lâu rồi thì xóa nó đi
                 if (is_file($filename) && $current_time - filemtime($filename) > $time) {
-                    //echo $filename . ' (' . date( 'r', filemtime( $filename ) ) . ')' . '<br>' . PHP_EOL;
+                    //echo $filename . ' (' . date( 'r', filemtime( $filename ) ) . ')' . '<br>' . "\n";
 
                     // không xóa được file thì break luôn -> file 0777 mà không xóa được 1 file thì các file khác cũng vậy
                     if (!$this->MY_unlink($filename)) {
@@ -847,7 +847,7 @@ class Optimize extends Sadmin
                 // xác định FTP root
                 if ($this->file_model->root_dir() === true) {
                     $this->base_cache_dir = $this->file_model->base_dir;
-                    //echo 'base_cache_dir: ' . $this->base_cache_dir . '<br>' . PHP_EOL;
+                    //echo 'base_cache_dir: ' . $this->base_cache_dir . '<br>' . "\n";
                 }
             }
         }
@@ -858,7 +858,7 @@ class Optimize extends Sadmin
     {
         if ($this->using_via_ftp() === true) {
             if ($this->conn_cache_id === false) {
-                echo '<strong>conn_cache_id is false</strong>:<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+                echo '<strong>conn_cache_id is false</strong>:<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . "\n";
                 return false;
             }
 

@@ -53,7 +53,7 @@ class Home extends Posts
         if ($this->hasFlashSession() === false && $cache_value !== null) {
             return $this->show_cache($cache_value, $cache_key);
         }
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
         //
         //print_r( $this->getconfig );
@@ -189,20 +189,20 @@ class Home extends Posts
         if ($slug == '') {
             die('404 slug error!');
         }
-        //echo $set_page . ' <br>' . PHP_EOL;
-        //echo $page_num . ' <br>' . PHP_EOL;
+        //echo $set_page . ' <br>' . "\n";
+        //echo $page_num . ' <br>' . "\n";
 
         //
-        //echo WGR_CATEGORY_PREFIX . ' <br>' . PHP_EOL;
-        //echo CATEGORY_BASE_URL . ' <br>' . PHP_EOL;
-        //echo WGR_PAGES_PREFIX . ' <br>' . PHP_EOL;
-        //echo WGR_CATEGORY_PERMALINK . ' <br>' . PHP_EOL;
-        //echo WGR_TAXONOMY_PERMALINK . ' <br>' . PHP_EOL;
-        //echo WGR_POST_PERMALINK . ' <br>' . PHP_EOL;
-        //echo WGR_PRODS_PERMALINK . ' <br>' . PHP_EOL;
-        //echo WGR_PROD_PERMALINK . ' <br>' . PHP_EOL;
-        //echo WGR_PAGE_PERMALINK . ' <br>' . PHP_EOL;
-        //echo WGR_POSTS_PERMALINK . ' <br>' . PHP_EOL;
+        //echo WGR_CATEGORY_PREFIX . ' <br>' . "\n";
+        //echo CATEGORY_BASE_URL . ' <br>' . "\n";
+        //echo WGR_PAGES_PREFIX . ' <br>' . "\n";
+        //echo WGR_CATEGORY_PERMALINK . ' <br>' . "\n";
+        //echo WGR_TAXONOMY_PERMALINK . ' <br>' . "\n";
+        //echo WGR_POST_PERMALINK . ' <br>' . "\n";
+        //echo WGR_PRODS_PERMALINK . ' <br>' . "\n";
+        //echo WGR_PROD_PERMALINK . ' <br>' . "\n";
+        //echo WGR_PAGE_PERMALINK . ' <br>' . "\n";
+        //echo WGR_POSTS_PERMALINK . ' <br>' . "\n";
 
         // nếu taxonomy nào sử dụng slug thì cho vào danh sách tìm URL trong trang chủ
         $where_taxonomy_in = [];
@@ -269,7 +269,7 @@ class Home extends Posts
             if (WGR_PAGE_PERMALINK == '%post_name%') {
                 $where_post_type_in[] = PostType::PAGE;
             }
-            //echo 'check page <br>' . PHP_EOL;
+            //echo 'check page <br>' . "\n";
 
             //
             if (!empty($where_post_type_in)) {
@@ -325,8 +325,8 @@ class Home extends Posts
     */
     protected function showPostDetails($id, $post_type = '', $slug = '')
     {
-        // echo $id . '<br>' . PHP_EOL;
-        // echo $post_type . '<br>' . PHP_EOL;
+        // echo $id . '<br>' . "\n";
+        // echo $post_type . '<br>' . "\n";
 
         //
         if (!is_numeric($id) || $id < 1) {
@@ -335,7 +335,7 @@ class Home extends Posts
 
         //
         $cache_key = $this->post_model->key_cache($id);
-        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         $cache_value = $this->MY_cache($cache_key);
         // Will get the cache entry named 'my_foo'
         // var_dump($cache_value);
@@ -343,7 +343,7 @@ class Home extends Posts
         if ($cache_value !== null) {
             return $this->show_cache($cache_value, $cache_key);
         }
-        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
         //
         $in_cache = __FUNCTION__;
@@ -370,7 +370,7 @@ class Home extends Posts
                     'limit' => 1
                 )
             );
-            // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             // die(__CLASS__ . ':' . __LINE__);
 
             //
@@ -390,7 +390,7 @@ class Home extends Posts
             //
             $this->post_model->the_cache($id, $in_cache, $data);
         }
-        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         // print_r($data);
         // die(__CLASS__ . ':' . __LINE__);
 
@@ -410,7 +410,7 @@ class Home extends Posts
                 return $this->pageDetail($data, $data['post_type'] . '_view');
             }
         }
-        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
         //
         return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Cannot be determined post data...');
@@ -418,7 +418,7 @@ class Home extends Posts
 
     protected function pageDetail($data, $file_view = 'page_view')
     {
-        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         // kiểm tra quyền truy cập chi tiết 1 post
         if ($this->post_permission($data) !== true) {
             return $this->page404($this->post_permission($data));
@@ -601,15 +601,15 @@ class Home extends Posts
     protected function autoCategory()
     {
         $term_id = $this->MY_get('cat', 0);
-        //echo $term_id . '<br>' . PHP_EOL;
+        //echo $term_id . '<br>' . "\n";
 
         //
         $taxonomy_type = $this->MY_get('taxonomy');
-        //echo $taxonomy_type . '<br>' . PHP_EOL;
+        //echo $taxonomy_type . '<br>' . "\n";
 
         //
         $page_num = $this->MY_get('page_num', 1);
-        //echo $page_num . '<br>' . PHP_EOL;
+        //echo $page_num . '<br>' . "\n";
 
         //
         return $this->showCategory($term_id, $taxonomy_type, $page_num);
@@ -638,7 +638,7 @@ class Home extends Posts
             ], [
                 // 'show_query' => 1,
             ]);
-            // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             // print_r($data);
 
             //
@@ -686,7 +686,7 @@ class Home extends Posts
             //
             $this->term_model->the_cache($term_id, $in_cache, $child_data);
         }
-        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         // print_r($child_data);
 
         //
@@ -753,7 +753,7 @@ class Home extends Posts
         // }
 
         //
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         // cập nhật lại tổng số bài viết cho term - để sau nếu có tính năng lấy theo nhóm thì nó sẽ không xuất hiện nữa
         /*
         $this->base_model->update_multiple($this->term_model->taxTable, [

@@ -187,7 +187,7 @@ if ($taxonomy == TaxonomyType::ADS || $taxonomy == TaxonomyType::SHOP_COUPON) {
             // print_r($meta_default);
             foreach ($meta_default as $k => $v) {
                 $input_type = TaxonomyType::meta_type($k, $data['taxonomy']);
-                // echo $input_type . '<br>' . PHP_EOL;
+                // echo $input_type . '<br>' . "\n";
 
                 //
             ?>
@@ -425,7 +425,7 @@ if ($taxonomy == TaxonomyType::ADS || $taxonomy == TaxonomyType::SHOP_COUPON) {
 
 // nạp thêm custom view nếu có
 $theme_private_view = str_replace(VIEWS_PATH, VIEWS_CUSTOM_PATH, __FILE__);
-// echo $theme_private_view . '<br>' . PHP_EOL;
+// echo $theme_private_view . '<br>' . "\n";
 include VIEWS_PATH . 'private_require_view.php';
 
 

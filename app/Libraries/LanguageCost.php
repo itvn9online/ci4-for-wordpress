@@ -63,7 +63,7 @@ class LanguageCost
 
     public static function saveLang($lang)
     {
-        //echo $lang . '<br>' . PHP_EOL;
+        // echo $lang . '<br>' . "\n";
 
         //
         $arr = self::typeList();
@@ -73,25 +73,25 @@ class LanguageCost
             // nếu có chỉ định redirect tới khu nào đó
             if (isset($_GET['redirect_to'])) {
                 $redirect_to = $_GET['redirect_to'];
-                echo $redirect_to . '<br>' . PHP_EOL;
+                echo $redirect_to . '<br>' . "\n";
                 header('location:' . $redirect_to);
                 die(__CLASS__ . ':' . __LINE__);
             }
 
             // mặc địh thì redirect về trang chủ
-            //print_r( $_SERVER );
+            // print_r($_SERVER);
             $full_url = parse_url(DYNAMIC_BASE_URL . ltrim($_SERVER['REQUEST_URI'], '/'));
-            //print_r( $full_url );
+            // print_r($full_url);
             if (isset($full_url['query'])) {
                 $full_url['query'] = '';
                 unset($full_url['query']);
             }
-            //print_r( $full_url );
+            // print_r($full_url);
             $full_url = self::unparse_url($full_url);
-            //print_r( $full_url );
+            // print_r($full_url);
 
             //
-            //print_r( $_GET );
+            // print_r($_GET);
             $query = [];
             foreach ($_GET as $k => $v) {
                 if ($k == 'set_lang') {

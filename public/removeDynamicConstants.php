@@ -38,7 +38,7 @@ if (empty($token)) {
 } else if (strlen($token) < 16) {
     die('Token too short!');
 }
-// echo strlen($token) . '<br>' . PHP_EOL;
+// echo strlen($token) . '<br>' . "\n";
 
 //
 $code = trim($_GET['code']);
@@ -47,7 +47,7 @@ if (empty($code)) {
 } else if (strlen($code) < 16) {
     die('Code too short!');
 }
-// echo strlen($code) . '<br>' . PHP_EOL;
+// echo strlen($code) . '<br>' . "\n";
 
 // 
 $file_content = file_get_contents($file_path);
@@ -62,5 +62,5 @@ else if (strpos($file_content, $code) === false) {
 }
 
 //
-echo $file_path . '<br>' . PHP_EOL;
+echo $file_path . '<br>' . "\n";
 unlink($file_path);

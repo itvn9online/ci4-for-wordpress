@@ -47,7 +47,7 @@ class Sync extends BaseController
 
         //
         $this->base_model->lang_key = $this->lang_key;
-        //echo $this->base_model->lang_key . PHP_EOL;
+        //echo $this->base_model->lang_key . "\n";
     }
 
     /**
@@ -59,12 +59,12 @@ class Sync extends BaseController
         ob_end_flush();
 
         //
-        //echo http_response_code() . '<br>' . PHP_EOL;
+        //echo http_response_code() . '<br>' . "\n";
         // if (function_exists('http_response_code')) {
         //     http_response_code(404);
         // }
         // $pcol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
-        // //echo $pcol . '<br>' . PHP_EOL;
+        // //echo $pcol . '<br>' . "\n";
         // $response = \Config\Services::response();
         // $response->setStatusCode(404, $pcol . ' 404 Not Found');
         http_response_code(400);
@@ -94,15 +94,15 @@ class Sync extends BaseController
             // tạo file index cho các thư mục cần bảo mật
             foreach (glob(PUBLIC_PUBLIC_PATH . '*') as $filename) {
                 if (is_dir($filename)) {
-                    //echo $filename . '<br>' . PHP_EOL;
-                    echo basename($filename) . '<br>' . PHP_EOL;
+                    //echo $filename . '<br>' . "\n";
+                    echo basename($filename) . '<br>' . "\n";
                     $this->action_index_sync('public/' . basename($filename), $check_thirdparty_exist);
                 }
             }
             foreach (glob(PUBLIC_PUBLIC_PATH . 'wp-admin/*') as $filename) {
                 if (is_dir($filename)) {
-                    //echo $filename . '<br>' . PHP_EOL;
-                    echo basename($filename) . '<br>' . PHP_EOL;
+                    //echo $filename . '<br>' . "\n";
+                    echo basename($filename) . '<br>' . "\n";
                     $this->action_index_sync('public/wp-admin/' . basename($filename), $check_thirdparty_exist);
                 }
             }
@@ -131,7 +131,7 @@ class Sync extends BaseController
 
         // xem bảng này có chưa -> có rồi thì thôi
         if ($this->base_model->table_exists($table)) {
-            echo 'TABLE exist ' . $table . '<br>' . PHP_EOL;
+            echo 'TABLE exist ' . $table . '<br>' . "\n";
             return false;
         }
 
@@ -147,7 +147,7 @@ class Sync extends BaseController
             INDEX (`ip_address`),
             KEY (`timestamp`)
         ) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_general_ci";
-        echo $sql . '<br>' . PHP_EOL;
+        echo $sql . '<br>' . "\n";
 
         //
         return $this->base_model->MY_query($sql);
@@ -162,7 +162,7 @@ class Sync extends BaseController
 
         // xem bảng này có chưa -> có rồi thì thôi
         if ($this->base_model->table_exists($table)) {
-            echo 'TABLE exist ' . $table . '<br>' . PHP_EOL;
+            echo 'TABLE exist ' . $table . '<br>' . "\n";
             return false;
         }
 
@@ -189,7 +189,7 @@ class Sync extends BaseController
             INDEX (`post_id`) ,
             INDEX (`order_id`)
             ) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_general_ci";
-        echo $sql . '<br>' . PHP_EOL;
+        echo $sql . '<br>' . "\n";
 
         //
         return $this->base_model->MY_query($sql);
@@ -205,7 +205,7 @@ class Sync extends BaseController
 
         // xem bảng này có chưa -> có rồi thì thôi
         if ($this->base_model->table_exists($table)) {
-            echo 'TABLE exist ' . $table . '<br>' . PHP_EOL;
+            echo 'TABLE exist ' . $table . '<br>' . "\n";
             return false;
         }
 
@@ -221,7 +221,7 @@ class Sync extends BaseController
             INDEX (`key`) ,
             INDEX (`session_id`)
             ) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_general_ci";
-        echo $sql . '<br>' . PHP_EOL;
+        echo $sql . '<br>' . "\n";
 
         //
         return $this->base_model->MY_query($sql);
@@ -236,7 +236,7 @@ class Sync extends BaseController
 
         // xem bảng này có chưa -> có rồi thì thôi
         if ($this->base_model->table_exists($table)) {
-            echo 'TABLE exist ' . $table . '<br>' . PHP_EOL;
+            echo 'TABLE exist ' . $table . '<br>' . "\n";
             return false;
         }
 
@@ -254,7 +254,7 @@ class Sync extends BaseController
             INDEX (`app_id`) ,
             INDEX (`is_deleted`)
             ) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_general_ci";
-        echo $sql . '<br>' . PHP_EOL;
+        echo $sql . '<br>' . "\n";
 
         //
         return $this->base_model->MY_query($sql);
@@ -270,13 +270,13 @@ class Sync extends BaseController
 
         // xem bảng này có chưa -> có rồi thì thôi
         if ($this->base_model->table_exists($to)) {
-            echo 'TABLE exist ' . $to . '<br>' . PHP_EOL;
+            echo 'TABLE exist ' . $to . '<br>' . "\n";
             return false;
         }
 
         //
         $sql = "CREATE TABLE IF NOT EXISTS `$to` LIKE `$from`";
-        echo $sql . '<br>' . PHP_EOL;
+        echo $sql . '<br>' . "\n";
 
         //
         return $this->base_model->MY_query($sql);
@@ -289,7 +289,7 @@ class Sync extends BaseController
         if ($has_table_change === false) {
             // kiểm tra xem có view này chưa
             if ($this->base_model->table_exists(WGR_TERM_VIEW)) {
-                echo 'TABLE exist ' . WGR_TERM_VIEW . '<br>' . PHP_EOL;
+                echo 'TABLE exist ' . WGR_TERM_VIEW . '<br>' . "\n";
                 return false;
             }
         }
@@ -311,9 +311,9 @@ class Sync extends BaseController
         //
         $arr_term_taxonomy = [];
         foreach ($tbl_term_taxonomy as $k => $v) {
-            //echo $k . '<br>' . PHP_EOL;
+            //echo $k . '<br>' . "\n";
             if (isset($tbl_terms[$k])) {
-                echo '- - - - - - unset term_taxonomy.' . $k . '<br>' . PHP_EOL;
+                echo '- - - - - - unset term_taxonomy.' . $k . '<br>' . "\n";
             } else {
                 $arr_term_taxonomy[] = 't.' . $k;
             }
@@ -345,8 +345,8 @@ class Sync extends BaseController
 
         //
         $sql = "CREATE OR REPLACE VIEW " . WGR_TERM_VIEW . " AS " . $sql;
-        echo $sql . '<br>' . PHP_EOL;
-        echo 'CREATE OR REPLACE VIEW ' . WGR_TERM_VIEW . ' <br>' . PHP_EOL;
+        echo $sql . '<br>' . "\n";
+        echo 'CREATE OR REPLACE VIEW ' . WGR_TERM_VIEW . ' <br>' . "\n";
 
         //
         //die( __CLASS__ . ':' . __LINE__ );
@@ -360,7 +360,7 @@ class Sync extends BaseController
         if ($has_table_change === false) {
             // kiểm tra xem có view này chưa
             if ($this->base_model->table_exists(WGR_POST_VIEW)) {
-                echo 'TABLE exist ' . WGR_POST_VIEW . '<br>' . PHP_EOL;
+                echo 'TABLE exist ' . WGR_POST_VIEW . '<br>' . "\n";
                 return false;
             }
         }
@@ -382,9 +382,9 @@ class Sync extends BaseController
         //
         $arr_term_taxonomy = [];
         foreach ($tbl_term_taxonomy as $k => $v) {
-            //echo $k . '<br>' . PHP_EOL;
+            //echo $k . '<br>' . "\n";
             if (isset($tbl_posts[$k])) {
-                echo '- - - - - - unset term_taxonomy.' . $k . '<br>' . PHP_EOL;
+                echo '- - - - - - unset term_taxonomy.' . $k . '<br>' . "\n";
             } else {
                 $arr_term_taxonomy[] = 't.' . $k;
             }
@@ -401,9 +401,9 @@ class Sync extends BaseController
         //
         $arr_term_relationships = [];
         foreach ($tbl_term_relationships as $k => $v) {
-            //echo $k . '<br>' . PHP_EOL;
+            //echo $k . '<br>' . "\n";
             if (isset($tbl_term_taxonomy[$k])) {
-                echo '- - - - - - unset term_relationships.' . $k . '<br>' . PHP_EOL;
+                echo '- - - - - - unset term_relationships.' . $k . '<br>' . "\n";
             } else {
                 $arr_term_relationships[] = 'r.' . $k;
             }
@@ -433,15 +433,15 @@ class Sync extends BaseController
                 'limit' => -1
             )
         );
-        //echo $sql . '<br>' . PHP_EOL;
+        //echo $sql . '<br>' . "\n";
 
         //
         //return false;
 
         //
         $sql = "CREATE OR REPLACE VIEW " . WGR_POST_VIEW . " AS " . $sql;
-        echo $sql . '<br>' . PHP_EOL;
-        echo 'CREATE OR REPLACE VIEW ' . WGR_POST_VIEW . ' <br>' . PHP_EOL;
+        echo $sql . '<br>' . "\n";
+        echo 'CREATE OR REPLACE VIEW ' . WGR_POST_VIEW . ' <br>' . "\n";
 
         //
         return $this->base_model->MY_query($sql);
@@ -475,7 +475,7 @@ class Sync extends BaseController
          */
         $last_run = $this->base_model->scache(__FUNCTION__);
         if ($check_thirdparty_exist === true && $last_run !== null) {
-            echo __FUNCTION__ . ' RUN ' . (time() - $last_run) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            echo __FUNCTION__ . ' RUN ' . (time() - $last_run) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             return false;
         }
 
@@ -652,14 +652,14 @@ class Sync extends BaseController
          * bảng dữ liệu riêng của từng theme
          */
         $private_theme_db = THEMEPATH . 'Database_Migrations.php';
-        //echo $private_theme_db . '<br>' . PHP_EOL;
+        //echo $private_theme_db . '<br>' . "\n";
         if (is_file($private_theme_db)) {
             include $private_theme_db;
 
             //
             //print_r( $arr_custom_alter_database );
             foreach ($arr_custom_alter_database as $k => $v) {
-                //echo $k . '<br>' . PHP_EOL;
+                //echo $k . '<br>' . "\n";
                 //print_r( $v );
                 if (!isset($arr_add_cloumn[$k])) {
                     $arr_add_cloumn[$k] = [];
@@ -667,7 +667,7 @@ class Sync extends BaseController
 
                 //
                 foreach ($v as $k2 => $v2) {
-                    //echo $k2 . '<br>' . PHP_EOL;
+                    //echo $k2 . '<br>' . "\n";
                     $arr_add_cloumn[$k][$k2] = $v2;
                 }
             }
@@ -693,9 +693,9 @@ class Sync extends BaseController
             foreach ($check_table_column as $last_k => $last_v) {
                 $last_key = $last_k;
             }
-            //echo $last_key . '<br>' . PHP_EOL;
+            //echo $last_key . '<br>' . "\n";
             foreach ($v as $col => $alter) {
-                //echo $col . '<br>' . PHP_EOL;
+                //echo $col . '<br>' . "\n";
                 // nếu chưa có cột này -> thêm mới
                 if (!isset($check_table_column[$col])) {
                     $add_index = '';
@@ -706,16 +706,16 @@ class Sync extends BaseController
                         $add_index = ", ADD INDEX (`$col`)";
                     }
                     $alter_query = "ALTER TABLE `$k` ADD `$col` $alter AFTER `$last_key`" . $add_index;
-                    echo $alter_query . '<br>' . PHP_EOL;
+                    echo $alter_query . '<br>' . "\n";
                     //continue;
                     //die( __CLASS__ . ':' . __LINE__ );
                     if ($this->base_model->MY_query($alter_query)) {
-                        echo $col . ' column in database has been sync! <br>' . PHP_EOL;
+                        echo $col . ' column in database has been sync! <br>' . "\n";
 
                         //
                         $has_table_change = true;
                     } else {
-                        echo 'Query failed! Please re-check query <br>' . PHP_EOL;
+                        echo 'Query failed! Please re-check query <br>' . "\n";
                     }
 
                     //
@@ -728,11 +728,11 @@ class Sync extends BaseController
         // bảng post_title wordpress mặc định nó là TEXT -> chuyển về VARCHAR
         /*
         $alter_query = "ALTER TABLE `" . $prefix . "posts` CHANGE `post_title` `post_title` VARCHAR(255) NOT NULL;";
-        echo $alter_query . '<br>' . PHP_EOL;
+        echo $alter_query . '<br>' . "\n";
         if ( $this->base_model->MY_query( $alter_query ) ) {
-        echo $prefix . 'posts - post_title column in database has been sync! <br>' . PHP_EOL;
+        echo $prefix . 'posts - post_title column in database has been sync! <br>' . "\n";
         } else {
-        echo 'Query failed! Please re-check query <br>' . PHP_EOL;
+        echo 'Query failed! Please re-check query <br>' . "\n";
         }
         */
 
@@ -742,7 +742,7 @@ class Sync extends BaseController
         // cập nhật lại tổng số nhóm con cho phần term
         $last_run = $this->term_model->sync_term_child_count();
         if ($last_run !== true) {
-            echo 'sync term child count RUN ' . (time() - $last_run) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            echo 'sync term child count RUN ' . (time() - $last_run) . 's ago ---`/ CLEAR cache for continue... ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         }
 
         //
@@ -755,8 +755,8 @@ class Sync extends BaseController
      */
     protected function MY_unzip($file, $dir)
     {
-        echo $file . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
-        echo $dir . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        echo $file . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
+        echo $dir . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         // die(__CLASS__ . ':' . __LINE__);
 
         //
@@ -795,7 +795,7 @@ class Sync extends BaseController
         $dir = rtrim($dir, '/');
         // nếu phải xử lý file thông qua ftp
         if ($upload_via_ftp === true) {
-            //echo PUBLIC_HTML_PATH . $dir . '<br>' . PHP_EOL;
+            //echo PUBLIC_HTML_PATH . $dir . '<br>' . "\n";
             //die( __CLASS__ . ':' . __LINE__ );
 
             // test quyền đọc ghi trong thư mục này để xem có thể giải nén được không
@@ -815,23 +815,23 @@ class Sync extends BaseController
 
         //
         foreach (glob(PUBLIC_HTML_PATH . $dir . '/*.zip') as $filename) {
-            //echo $filename . '<br>' . PHP_EOL;
+            //echo $filename . '<br>' . "\n";
             //continue;
 
             //
             $file = basename($filename, '.zip');
             $check_dir = PUBLIC_HTML_PATH . $dir . '/' . $file;
-            //echo $check_dir . '<br>' . PHP_EOL;
+            //echo $check_dir . '<br>' . "\n";
 
             // nếu chưa có thư mục -> giải nén
             if ($check_thirdparty_exist === false || !is_dir($check_dir)) {
                 if ($this->MY_unzip($filename, PUBLIC_HTML_PATH . $dir) === TRUE) {
-                    echo 'DONE! sync code ' . $file . ' <br>' . PHP_EOL;
+                    echo 'DONE! sync code ' . $file . ' <br>' . "\n";
                 } else {
-                    echo 'ERROR! sync code ' . $file . ' <br>' . PHP_EOL;
+                    echo 'ERROR! sync code ' . $file . ' <br>' . "\n";
                 }
             } else {
-                echo $file . ' has been sync <br>' . PHP_EOL;
+                echo $file . ' has been sync <br>' . "\n";
             }
         }
     }
@@ -842,7 +842,7 @@ class Sync extends BaseController
     protected function action_index_sync($dir, $check_thirdparty_exist = true)
     {
         $dir = PUBLIC_HTML_PATH . rtrim($dir, '/') . '/';
-        //echo $dir . '<br>' . PHP_EOL;
+        //echo $dir . '<br>' . "\n";
         foreach (
             [
                 'index.html',
@@ -857,7 +857,7 @@ class Sync extends BaseController
         $dir .= 'index.html';
 
         //
-        echo 'Create file: ' . $dir . '<br>' . PHP_EOL;
+        echo 'Create file: ' . $dir . '<br>' . "\n";
         $this->base_model->ftp_create_file(
             $dir,
             'Nice to meet you',
@@ -917,14 +917,14 @@ class Sync extends BaseController
     protected function base_class_url($str)
     {
         // lấy thư mục chứa file hiện tại
-        //echo __DIR__ . '<br>' . PHP_EOL;
+        //echo __DIR__ . '<br>' . "\n";
         $current_dir = basename(__DIR__);
-        //echo $current_dir . '<br>' . PHP_EOL;
+        //echo $current_dir . '<br>' . "\n";
 
         //
-        //echo $str . '<br>' . PHP_EOL;
+        //echo $str . '<br>' . "\n";
         $str = str_replace('\\', '/', $str);
-        //echo $str . '<br>' . PHP_EOL;
+        //echo $str . '<br>' . "\n";
 
         // cắt chuỗi
         $str = explode($current_dir . '/', $str);
@@ -953,8 +953,8 @@ class Sync extends BaseController
 
     protected function MY_copy($from, $to, $file_permission = DEFAULT_FILE_PERMISSION)
     {
-        //echo $from . '<br>' . PHP_EOL;
-        //echo $to . '<br>' . PHP_EOL;
+        //echo $from . '<br>' . "\n";
+        //echo $to . '<br>' . "\n";
         if (@!copy($from, $to)) {
             $file_model = new \App\Models\File();
             return $file_model->FTP_copy($from, $to);
@@ -969,8 +969,8 @@ class Sync extends BaseController
 
     protected function MY_rename($from, $to)
     {
-        //echo $from . '<br>' . PHP_EOL;
-        //echo $to . '<br>' . PHP_EOL;
+        //echo $from . '<br>' . "\n";
+        //echo $to . '<br>' . "\n";
         if (@!rename($from, $to)) {
             //die( __CLASS__ . ':' . __LINE__ );
             $file_model = new \App\Models\File();
@@ -1058,7 +1058,7 @@ class Sync extends BaseController
             // gán ngôn ngữ theo segment
             $this->lang_key = $seg;
             //die(__CLASS__ . ':' . __LINE__);
-            //echo $this->lang_key . '<br>' . PHP_EOL;
+            //echo $this->lang_key . '<br>' . "\n";
 
             // thay đổi tham số tạm thời cho lang hiện tại -> để các query lấy đúng bản ghi theo segment đang xem
             LanguageCost::segLang($seg);
@@ -1070,7 +1070,7 @@ class Sync extends BaseController
         }
 
         // xác định ngôn ngữ hiện tại
-        // echo $this->lang_key . '<br>' . PHP_EOL;
+        // echo $this->lang_key . '<br>' . "\n";
     }
 
     public function change_lang()

@@ -183,7 +183,7 @@ class Zalos extends Guest
 
         //
         //$f = WRITEPATH . 'logs/zalo-oa-webhook-' . date('Y-m-d') . '.txt';
-        //file_put_contents($f, $data_input . PHP_EOL, FILE_APPEND);
+        //file_put_contents($f, $data_input . "\n", FILE_APPEND);
         //chmod($f, DEFAULT_FILE_PERMISSION);
 
         //

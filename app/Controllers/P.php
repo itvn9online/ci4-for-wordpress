@@ -15,9 +15,9 @@ class P extends Home
     */
     public function custom_post_type($post_type, $id, $slug = '')
     {
-        //echo $post_type . '<br>' . PHP_EOL;
-        //echo $id . '<br>' . PHP_EOL;
-        //echo $slug . '<br>' . PHP_EOL;
+        //echo $post_type . '<br>' . "\n";
+        //echo $id . '<br>' . "\n";
+        //echo $slug . '<br>' . "\n";
 
         // với custom post_type -> kiểm tra xem post_type này phải được đăng ký thì mới hiển thị ra
         if (!isset(ARR_CUSTOM_POST_TYPE[$post_type])) {

@@ -51,7 +51,7 @@ class Optimizes extends Optimize
                 $this->file_model->conn_cache_id = null;
 
                 //
-                echo '<strong>FTP close</strong>:<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+                echo '<strong>FTP close</strong>:<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . "\n";
             }
             $data = ob_get_contents();
             ob_end_clean();

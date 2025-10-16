@@ -21,8 +21,8 @@ class Post extends PostProducts
      */
     public function update_views($id, $val = 1)
     {
-        //echo __FUNCTION__ . '<br>' . PHP_EOL;
-        //echo $id . '<br>' . PHP_EOL;
+        //echo __FUNCTION__ . '<br>' . "\n";
+        //echo $id . '<br>' . "\n";
 
         //
         $this->base_model->update_count($this->table, 'post_viewed', array(

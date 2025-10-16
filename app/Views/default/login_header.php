@@ -6,7 +6,7 @@ $base_model->add_js('wp-includes/javascript/maruti-login.js');
 
 //
 $theme_private_view = str_replace(VIEWS_PATH, VIEWS_CUSTOM_PATH, __FILE__);
-//echo $theme_private_view . '<br>' . PHP_EOL;
+//echo $theme_private_view . '<br>' . "\n";
 
 //
 if (is_file($theme_private_view)) {

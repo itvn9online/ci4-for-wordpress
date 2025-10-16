@@ -21,7 +21,7 @@ foreach ($post_data as $v) {
                 continue;
             }
 
-            $str .= $t . PHP_EOL;
+            $str .= $t . "\n";
             if (strlen($str) > 300) {
                 $str = $base_model->short_string($str, 300);
                 break;
@@ -52,7 +52,7 @@ foreach ($post_data as $v) {
             if (strpos($blog_posting_img, '//') === false) {
                 $blog_posting_url = DYNAMIC_BASE_URL . $blog_posting_img;
                 $blog_posting_img = PUBLIC_PUBLIC_PATH . $blog_posting_img;
-                // echo $blog_posting_img . '<br>' . PHP_EOL;
+                // echo $blog_posting_img . '<br>' . "\n";
                 if (is_file($blog_posting_img)) {
                     $get_file_info = getimagesize($blog_posting_img);
                     // print_r($get_file_info);
@@ -60,7 +60,7 @@ foreach ($post_data as $v) {
             } else {
                 $blog_posting_url = $blog_posting_img;
             }
-            // echo $blog_posting_url . '<br>' . PHP_EOL;
+            // echo $blog_posting_url . '<br>' . "\n";
             // continue;
         ?>
             <div><a href="<?php echo $v_link; ?>"><amp-img src="<?php echo $blog_posting_url; ?>" width="<?php echo $get_file_info[0]; ?>" height="<?php echo $get_file_info[1]; ?>" class="amp-wp-enforced-sizes" sizes="(min-width: 350px) 350px, 100vw"></amp-img></a></div>

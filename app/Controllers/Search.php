@@ -131,7 +131,7 @@ class Search extends Csrf
              * phân trang
              */
             $totalThread = $this->base_model->select_count('ID', 'posts', $where, $filter);
-            // echo $totalThread . '<br>' . PHP_EOL;
+            // echo $totalThread . '<br>' . "\n";
 
             if ($totalThread > 0) {
                 $totalPage = ceil($totalThread / $post_per_page);
@@ -139,25 +139,25 @@ class Search extends Csrf
                     $totalPage = 1;
                 }
                 $page_num = $this->MY_get('page_num', 1);
-                //echo $totalPage . '<br>' . PHP_EOL;
+                //echo $totalPage . '<br>' . "\n";
                 if ($page_num > $totalPage) {
                     $page_num = $totalPage;
                 } else if ($page_num < 1) {
                     $page_num = 1;
                 }
-                //echo $totalThread . '<br>' . PHP_EOL;
-                //echo $totalPage . '<br>' . PHP_EOL;
+                //echo $totalThread . '<br>' . "\n";
+                //echo $totalPage . '<br>' . "\n";
                 $offset = ($page_num - 1) * $post_per_page;
 
                 //
                 $urlParams = [];
-                //print_r($_GET) . PHP_EOL;
-                //echo http_build_query($_GET) . PHP_EOL;
+                //print_r($_GET) . "\n";
+                //echo http_build_query($_GET) . "\n";
                 foreach ($_GET as $k => $v) {
                     if (empty($v)) {
                         continue;
                     }
-                    //echo $k . PHP_EOL;
+                    //echo $k . "\n";
                     //print_r($v);
                     if ($k == 's') {
                         $urlParams[] = 's=' . $by_keyword;
@@ -165,20 +165,20 @@ class Search extends Csrf
                         continue;
                     }
                     if (is_array($v)) {
-                        //echo http_build_query($v) . PHP_EOL;
+                        //echo http_build_query($v) . "\n";
                         foreach ($v as $k2 => $v2) {
                             if (empty($v2)) {
                                 continue;
                             }
-                            // echo $k2 . PHP_EOL;
+                            // echo $k2 . "\n";
                             // print_r($v2);
                             if (is_array($v2)) {
                                 foreach ($v2 as $k3 => $v3) {
-                                    // echo $k3 . PHP_EOL;
+                                    // echo $k3 . "\n";
                                     if (is_array($v3)) {
                                         continue;
                                     }
-                                    // echo $v3 . PHP_EOL;
+                                    // echo $v3 . "\n";
                                     $urlParams[] = $k . '%5B' . $k2 . '%5D%5B%5D=' . $v3;
                                 }
                             } else {
@@ -194,7 +194,7 @@ class Search extends Csrf
                     $urlPartPage .= '?' . implode('&', $urlParams);
                 }
                 $pagination = $this->base_model->EBE_pagination($page_num, $totalPage, $urlPartPage, '');
-                // echo $pagination . '<br>' . PHP_EOL;
+                // echo $pagination . '<br>' . "\n";
 
 
                 // select dữ liệu từ 1 bảng bất kỳ

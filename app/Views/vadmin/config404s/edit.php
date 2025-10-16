@@ -79,7 +79,8 @@ $base_model->add_css('wp-admin/css/config404s.css');
                 <tr :data-id="v.ID" v-for="v in data">
                     <td>{{v.link_id}}</td>
                     <td>{{v.link_url}}</td>
-                    <td>
+                    <td class="title-link_name">
+                        <span v-if="v.link_name.length > 36">{{v.link_name}}</span>
                         <a :href="'//' + v.link_url + v.link_name" target="_blank" class="small">{{v.link_name.substring(0, 36)}}</a>
                     </td>
                     <td>

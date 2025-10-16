@@ -65,10 +65,10 @@ class C extends Home
             //TaxonomyType::BLOG_TAGS,
             // TaxonomyType::PROD_TAGS,
         ])) {
-            //echo $taxonomy_type . '<br>' . PHP_EOL;
-            //echo $id . '<br>' . PHP_EOL;
-            //echo $slug . '<br>' . PHP_EOL;
-            //echo $page_num . '<br>' . PHP_EOL;
+            //echo $taxonomy_type . '<br>' . "\n";
+            //echo $id . '<br>' . "\n";
+            //echo $slug . '<br>' . "\n";
+            //echo $page_num . '<br>' . "\n";
             // print_r(ARR_CUSTOM_TAXONOMY);
 
             // với custom taxonomy -> kiểm tra xem taxonomy này phải được đăng ký thì mới hiển thị ra
@@ -80,7 +80,7 @@ class C extends Home
                 return $this->page404('ERROR ' . strtolower(__FUNCTION__) . ':' . __LINE__ . '! Bạn không được phép xem thông tin danh mục này...');
             }
         }
-        // echo $taxonomy_type . '<br>' . PHP_EOL;
+        // echo $taxonomy_type . '<br>' . "\n";
 
         //
         return $this->showCategory($id, $taxonomy_type, $page_num, $slug);

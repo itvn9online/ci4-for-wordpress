@@ -166,9 +166,9 @@ class Users extends Csrf
                 ];
 
                 $file_ext = $file->guessExtension();
-                //echo $file_ext . '<br>' . PHP_EOL;
+                //echo $file_ext . '<br>' . "\n";
                 $file_ext = strtolower($file_ext);
-                //echo $file_ext . '<br>' . PHP_EOL;
+                //echo $file_ext . '<br>' . "\n";
 
                 // nếu có kiểm duyệt định dạng file -> chỉ các file trong này mới được upload
                 if (!in_array($file_ext, $allow_upload)) {
@@ -177,15 +177,15 @@ class Users extends Csrf
 
                 //
                 $upload_path = $this->get_path_upload($this->current_user_id);
-                //echo $upload_path . '<br>' . PHP_EOL;
+                //echo $upload_path . '<br>' . "\n";
 
                 //
                 $file_name = 'avatar' . '.' . $file_ext;
-                //echo $file_name . '<br>' . PHP_EOL;
+                //echo $file_name . '<br>' . "\n";
 
                 //
                 $file_path = $upload_path . $file_name;
-                //echo $file_path . '<br>' . PHP_EOL;
+                //echo $file_path . '<br>' . "\n";
 
                 //
                 $file->move($upload_path, $file_name, true);
@@ -225,16 +225,16 @@ class Users extends Csrf
                     ],
                 ],
             ]);
-            //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             //print_r( $this->session_data );
 
             // kiểm tra định dạng email
             if ($this->validation->run($data)) {
-                //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                 // nếu email có sự thay đổi thì mới update
                 if ($this->session_data['user_email'] != $data['user_email']) {
-                    //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                    //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                     // xem email mới đã được sử dụng chưa
                     $user_id = $this->user_model->check_user_exist($data['user_email']);
@@ -252,7 +252,7 @@ class Users extends Csrf
                     else {
                         $change_email = true;
                     }
-                    //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                    //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                     // nếu email cũ là dạng email tự động tạo -> trùng với tên miền hiện tại thì cho đổi luôn
                     // còn không -> sẽ tiến hành gửi email xác thực
@@ -275,7 +275,7 @@ class Users extends Csrf
                             $link_change_email[] = $k . '=' . $v;
                         }
                         $link_change_email = base_url('guest/confirm_change_email') . '?' . implode('&', $link_change_email);
-                        //echo $link_change_email . '<br>' . PHP_EOL;
+                        //echo $link_change_email . '<br>' . "\n";
 
                         //
                         //print_r( $this->session_data );
@@ -359,7 +359,7 @@ class Users extends Csrf
     {
         // xóa cache theo user để các chức năng liên quan đến user có thể tái sử dụng
         $has_cache = $this->base_model->dcache($this->user_model->key_cache($this->current_user_id));
-        //echo 'Using cache delete Matching Total clear: ' . $has_cache . '<br>' . PHP_EOL;
+        //echo 'Using cache delete Matching Total clear: ' . $has_cache . '<br>' . "\n";
         //die( __CLASS__ . ':' . __LINE__ );
 
         // nếu có session login từ admin vào 1 user nào đó -> quay lại session của admin
@@ -395,7 +395,7 @@ class Users extends Csrf
     protected function get_path_upload($id, $dir = 'profile')
     {
         $upload_root = PUBLIC_HTML_PATH . PostType::MEDIA_PATH;
-        //echo $upload_root . '<br>' . PHP_EOL;
+        //echo $upload_root . '<br>' . "\n";
 
         //
         $this->deny_visit_upload($upload_root);
@@ -410,7 +410,7 @@ class Users extends Csrf
             $dir,
             $id,
         ], $upload_root);
-        //echo $upload_path . '<br>' . PHP_EOL;
+        //echo $upload_path . '<br>' . "\n";
         //die( __CLASS__ . ':' . __LINE__ );
 
         //

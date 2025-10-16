@@ -114,14 +114,14 @@ foreach ($arr_prefix_routes as $v) {
 */
 
         // product
-        //echo WGR_PRODS_PERMALINK . ' <br>' . PHP_EOL;
+        //echo WGR_PRODS_PERMALINK . ' <br>' . "\n";
         if (WGR_PRODS_PERMALINK != '%slug%') {
             $a = str_replace('%slug%', '(:segment)', WGR_PRODS_PERMALINK);
             $routes->get($a, 'Products::products_list/$1');
             $routes->get($a . '/page/(:num)', 'Products::products_list/$1/page/$2');
         }
         // product tag
-        //echo WGR_PROD_TAGS_PERMALINK . ' <br>' . PHP_EOL;
+        //echo WGR_PROD_TAGS_PERMALINK . ' <br>' . "\n";
         $a = str_replace('%slug%', '(:segment)', WGR_PROD_TAGS_PERMALINK);
         $routes->get($a, 'C::product_tag/$1');
         $routes->get($a . '/page/(:num)', 'C::product_tag/$1/page/$2');
@@ -129,7 +129,7 @@ foreach ($arr_prefix_routes as $v) {
         //$routes->get('product_tag/(:segment)', 'Producttags::products_list/$1');
         //$routes->get('product_tag/(:segment)/page/(:num)', 'Producttags::products_list/$1/page/$2');
         // product
-        //echo WGR_PROD_PERMALINK . ' <br>' . PHP_EOL;
+        //echo WGR_PROD_PERMALINK . ' <br>' . "\n";
         if (WGR_PROD_PERMALINK != '%post_name%') {
             $a = str_replace('%post_name%', '(:segment)', WGR_PROD_PERMALINK);
             //$a = str_replace('%post_type%', 'product', $a);
@@ -139,7 +139,7 @@ foreach ($arr_prefix_routes as $v) {
         $routes->get('(:segment)/product-(:num)-(:segment)', 'Products::product2_details/$1/$2/$3');
 
         // post
-        //echo WGR_POST_PERMALINK . ' <br>' . PHP_EOL;
+        //echo WGR_POST_PERMALINK . ' <br>' . "\n";
         if (WGR_POST_PERMALINK != '%post_name%') {
             $a = str_replace('%ID%', '(:num)', WGR_POST_PERMALINK);
             $a = str_replace('%post_name%', '(:segment)', $a);
@@ -151,7 +151,7 @@ foreach ($arr_prefix_routes as $v) {
         $routes->get('(:segment)/(:segment)-(:num).html', 'Posts::post2_details/$1/$2/$3');
 
         // page
-        //echo WGR_PAGE_PERMALINK . ' <br>' . PHP_EOL;
+        //echo WGR_PAGE_PERMALINK . ' <br>' . "\n";
         if (WGR_PAGE_PERMALINK != '%post_name%') {
             $a = str_replace('%post_name%', '(:segment)', WGR_PAGE_PERMALINK);
             //$a = str_replace('%ID%', '(:num)', $a);
@@ -166,14 +166,14 @@ foreach ($arr_prefix_routes as $v) {
         $routes->get('c/(:segment)/(:num)/(:segment)/page/(:num)', 'C::custom_taxonomy/$1/$2/$3/page/$4');
 
         // Category
-        //echo WGR_CATEGORY_PERMALINK . ' <br>' . PHP_EOL;
+        //echo WGR_CATEGORY_PERMALINK . ' <br>' . "\n";
         if (WGR_CATEGORY_PERMALINK != '%slug%') {
             $a = str_replace('%slug%', '(:segment)', WGR_CATEGORY_PERMALINK);
             $routes->get($a, 'Category::category_list/$1');
             $routes->get($a . '/page/(:num)', 'Category::category_list/$1/page/$2');
         }
         // post tag
-        //echo WGR_TAGS_PERMALINK . ' <br>' . PHP_EOL;
+        //echo WGR_TAGS_PERMALINK . ' <br>' . "\n";
         $a = str_replace('%slug%', '(:segment)', WGR_TAGS_PERMALINK);
         $routes->get($a, 'C::post_tag/$1');
         $routes->get($a . '/page/(:num)', 'C::post_tag/$1/page/$2');

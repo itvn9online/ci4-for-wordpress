@@ -28,14 +28,14 @@ class Lang extends EbModel
     public function get_the_text($key, $default_value = '', $before_text = '', $after_text = '')
     {
         if ($GLOBALS['this_cache_lang'] === null) {
-            // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             $GLOBALS['this_cache_lang'] = $this->option_model->get_lang();
         }
         // print_r($GLOBALS['this_cache_lang']);
 
         //
         $key = $this->option_prefix . $key;
-        //echo $key . '<br>' . PHP_EOL;
+        //echo $key . '<br>' . "\n";
         // nếu chưa có
         if (!isset($GLOBALS['this_cache_lang'][$key])) {
             // gọi đến lệnh tạo lang

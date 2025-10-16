@@ -97,7 +97,7 @@ class Backups extends Layout
         ob_end_clean();
 
         //
-        echo trim('#!/bin/bash' . PHP_EOL . $result) . PHP_EOL;
+        echo trim('#!/bin/bash' . "\n" . $result) . "\n";
         exit();
     }
 
@@ -208,7 +208,7 @@ echo "Backup all DONE!"
             if ($v == '' || substr($v, 0, 1) == '#') {
                 continue;
             }
-            $result .= $v . PHP_EOL;
+            $result .= $v . "\n";
         }
 
         //
@@ -368,7 +368,7 @@ fi
                 }
 
                 // 
-                $result .= $v . PHP_EOL;
+                $result .= $v . "\n";
             }
         }
 
@@ -376,7 +376,7 @@ fi
         ob_end_clean();
 
         //
-        echo '#!/bin/bash' . PHP_EOL . $result;
+        echo '#!/bin/bash' . "\n" . $result;
         exit();
     }
 

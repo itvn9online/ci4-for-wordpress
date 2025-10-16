@@ -78,13 +78,13 @@ foreach ($data as $k => $v) {
 
     //
     //print_r( $attachment_metadata );
-    //echo $file_size . '<br>' . PHP_EOL;
-    //echo $file_path . '<br>' . PHP_EOL;
-    //echo $uri . $attachment_metadata[ 'file' ] . '<br>' . PHP_EOL;
+    //echo $file_size . '<br>' . "\n";
+    //echo $file_path . '<br>' . "\n";
+    //echo $uri . $attachment_metadata[ 'file' ] . '<br>' . "\n";
 
     //
     $dir_path = dirname($file_path) . '/';
-    //echo $dir_path . '<br>' . PHP_EOL;
+    //echo $dir_path . '<br>' . "\n";
 
     //
     $dst_file = $file_path;
@@ -122,7 +122,7 @@ foreach ($data as $k => $v) {
         if ($file2_size < $max_quality_img) {
             continue;
         }
-        //echo $file2_path . '<br>' . PHP_EOL;
+        //echo $file2_path . '<br>' . "\n";
 
         //
         $dst_file = $file2_path;

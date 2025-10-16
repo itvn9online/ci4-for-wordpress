@@ -6,7 +6,7 @@
  **/
 
 //
-//echo $this->rand_anti_spam . '<br>' . PHP_EOL;
+//echo $this->rand_anti_spam . '<br>' . "\n";
 
 // tạo ID cho thẻ DIV -> để gây khó khăn cho việc xác định thuộc tính của DIV
 $anti_div_id_spam = '_' . $this->rand_anti_spam . mt_rand(99, 999);
@@ -33,7 +33,7 @@ $anti_div_id_spam = '_' . $this->rand_anti_spam . mt_rand(99, 999);
         $attr_required = '';
         if ($j == $i) {
             $val = $this->rand_anti_spam . '_' . $k;
-            //echo $val . '<br>' . PHP_EOL;
+            //echo $val . '<br>' . "\n";
             $val = md5($val);
             // if ($v == 'email') {
             //     $val .= '@' . $_SERVER['HTTP_HOST'];

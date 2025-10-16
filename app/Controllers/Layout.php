@@ -58,7 +58,7 @@ class Layout extends Sync
         // 
         parent::__construct();
 
-        //echo base_url('/') . '<br>' . PHP_EOL;
+        //echo base_url('/') . '<br>' . "\n";
 
         $this->option_model = new \App\Models\Option();
         $this->lang_model = new \App\Models\Lang();
@@ -151,7 +151,7 @@ class Layout extends Sync
         // $this->isMobile = '';
         // $this->teamplate = [];
         if ($this->preload_header === true) {
-            //echo 'preload header <br>' . PHP_EOL;
+            //echo 'preload header <br>' . "\n";
             //$this->isMobile = $this->checkDevice( $_SERVER[ 'HTTP_USER_AGENT' ] );
             $this->isMobile = WGR_IS_MOBILE;
             //var_dump( $this->isMobile );
@@ -189,13 +189,13 @@ class Layout extends Sync
 
         //
         if (MY_CACHE_HANDLER == 'disable') {
-            echo '<!-- Cached is disabled -->' . PHP_EOL;
+            echo '<!-- Cached is disabled -->' . "\n";
         } else {
-            echo '<!-- Cached by ebcache with key ' . CACHE_HOST_PREFIX . ':' . $key . PHP_EOL;
+            echo '<!-- Cached by ebcache with key ' . CACHE_HOST_PREFIX . ':' . $key . "\n";
             if (MY_CACHE_HANDLER == 'file') {
-                echo 'Caching using hard disk drive. Recommendations using SSD drive for your website.' . PHP_EOL;
+                echo 'Caching using hard disk drive. Recommendations using SSD drive for your website.' . "\n";
             } else {
-                echo 'How wonderful! Caching using ' . MY_CACHE_HANDLER . ' handler.' . PHP_EOL;
+                echo 'How wonderful! Caching using ' . MY_CACHE_HANDLER . ' handler.' . "\n";
             }
             echo 'Compression = gzip -->';
         }
@@ -334,7 +334,7 @@ class Layout extends Sync
             ] as $v
         ) {
             $v = '^' . $v . '$';
-            //echo $v . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            //echo $v . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
             //
             if (strpos($rules_content, $v) === false) {
@@ -349,7 +349,7 @@ class Layout extends Sync
 
                 // Không phải rewriterule -> bỏ
                 if (strpos(strtolower($url), 'rewriterule') === false) {
-                    //echo $url . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                    //echo $url . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                     continue;
                 }
 
@@ -357,29 +357,29 @@ class Layout extends Sync
                 if (empty($url) || substr($url, 0, 1) == '#') {
                     continue;
                 }
-                //echo $url . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                //echo $url . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                 // có trong chuỗi -> cắt chuỗi
                 if (strpos($url, $v) !== false) {
-                    //echo $url . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                    //echo $url . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                     // xác định kiểu redirect
                     $redirect_type = 301;
                     if (strpos($url, 'R=302') !== false) {
                         $redirect_type = 302;
                     }
-                    //echo $redirect_type . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                    //echo $redirect_type . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                     //
                     $url = trim(explode($v, $url)[1]);
-                    //echo $url . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                    //echo $url . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                     $url = trim(explode("[", $url)[0]);
-                    //echo $url . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                    //echo $url . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                     if (strpos($url, '//') === false) {
                         $url = DYNAMIC_BASE_URL . ltrim($url, '/');
-                        //echo $url . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                        //echo $url . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                     }
-                    //echo $url . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                    //echo $url . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                     // -> thực hiện redirect
                     $this->MY_redirect($url, $redirect_type);
@@ -408,8 +408,8 @@ class Layout extends Sync
 
             // copy file nếu chưa có
             if (strpos($link_name, '.png') !== false) {
-                // echo PUBLIC_PUBLIC_PATH . 'favicon-full.png' . '<br>' . PHP_EOL;
-                // echo PUBLIC_PUBLIC_PATH . ltrim($link_name, '/') . '<br>' . PHP_EOL;
+                // echo PUBLIC_PUBLIC_PATH . 'favicon-full.png' . '<br>' . "\n";
+                // echo PUBLIC_PUBLIC_PATH . ltrim($link_name, '/') . '<br>' . "\n";
                 // die(__CLASS__ . ':' . __LINE__);
 
                 // 
@@ -580,7 +580,7 @@ class Layout extends Sync
             $file_view = 'term_view';
         }
 
-        //echo debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . PHP_EOL;
+        //echo debug_backtrace()[1]['class'] . ':' . debug_backtrace()[1]['function'] . '<br>' . "\n";
         //$config['base_url'] = $this->term_model->get_term_permalink();
         //$config['per_page'] = 50;
         //$config['uri_segment'] = 3;
@@ -606,7 +606,7 @@ class Layout extends Sync
         }
 
         //
-        //echo 'this category <br>' . PHP_EOL;
+        //echo 'this category <br>' . "\n";
 
         //
         //print_r( $input );
@@ -673,11 +673,11 @@ class Layout extends Sync
         $taxonomy_slider = '';
         /*
         $taxonomy_slider = $this->term_model->get_the_slider($this->taxonomy_slider);
-        //echo $taxonomy_slider . '<br>' . PHP_EOL;
+        //echo $taxonomy_slider . '<br>' . "\n";
         if ($taxonomy_slider == '') {
             $taxonomy_slider = $this->lang_model->get_the_text('main_slider_slug', '');
         }
-        //echo $taxonomy_slider . '<br>' . PHP_EOL;
+        //echo $taxonomy_slider . '<br>' . "\n";
         if ($taxonomy_slider != '') {
             $taxonomy_slider = $this->post_model->get_the_ads(
                 $taxonomy_slider,
@@ -704,7 +704,7 @@ class Layout extends Sync
         }
 
         //
-        //echo $file_view . '<br>' . PHP_EOL;
+        //echo $file_view . '<br>' . "\n";
         $this->teamplate['main'] = view(
             $file_view,
             array(
@@ -774,7 +774,7 @@ class Layout extends Sync
         //
         $htaccess_file = $upload_root . '.htaccess';
         //die($htaccess_file);
-        //echo $htaccess_file . '<br>' . PHP_EOL;
+        //echo $htaccess_file . '<br>' . "\n";
 
         // cập nhật lại nội dung file htaccess
         if ($remove_file === true && is_file($htaccess_file)) {
@@ -824,7 +824,7 @@ class Layout extends Sync
 
         //
         $upload_root = PUBLIC_HTML_PATH . PostType::MEDIA_PATH;
-        // echo $upload_root . '<br>' . PHP_EOL;
+        // echo $upload_root . '<br>' . "\n";
 
         //
         $this->deny_visit_upload($upload_root);
@@ -837,7 +837,7 @@ class Layout extends Sync
             ],
             $upload_root
         );
-        // echo $upload_path . '<br>' . PHP_EOL;
+        // echo $upload_path . '<br>' . "\n";
 
         // mảng trả về danh sách file đã upload
         $arr_result = [];
@@ -857,7 +857,7 @@ class Layout extends Sync
 
             // chạy vòng lặp để lấy các key upload -> xác định tên input tự động
             foreach ($_FILES as $key => $upload_image) {
-                // echo $key . '<br>' . PHP_EOL;
+                // echo $key . '<br>' . "\n";
                 // print_r($upload_image);
 
                 //
@@ -902,23 +902,23 @@ class Layout extends Sync
                             $file_name = $file_name . '.' . $file_ext;
                         }
                         // return [$file_name];
-                        // echo $file_name . '<br>' . PHP_EOL;
+                        // echo $file_name . '<br>' . "\n";
                         $file_name = $this->base_model->_eb_non_mark_seo($file_name);
                         $file_name = sanitize_filename($file_name);
                         // khi cần bảo mật tên file thì thực hiện md5 cho nó
                         if ($md5 !== false) {
                             $file_name = md5($file_name) . '-' . md5(time()) . '-' . $file_name;
                         }
-                        // echo $file_name . '<br>' . PHP_EOL;
+                        // echo $file_name . '<br>' . "\n";
 
                         // kiểm tra định dạng file
                         $mime_type = $file->getMimeType();
-                        // echo $mime_type . '<br>' . PHP_EOL;
+                        // echo $mime_type . '<br>' . "\n";
                         // continue;
 
                         //
                         $file_ext = $file->guessExtension();
-                        // echo $file_ext . '<br>' . PHP_EOL;
+                        // echo $file_ext . '<br>' . "\n";
                         if (empty($file_ext)) {
                             $this->result_json_type(
                                 [
@@ -932,11 +932,11 @@ class Layout extends Sync
 
                         //
                         $file_path = $upload_path . $file_name;
-                        // echo $file_path . '<br>' . PHP_EOL;
+                        // echo $file_path . '<br>' . "\n";
 
                         // kiểm tra lại ext -> vì có 1 trường hợp mime type khác với ext truyền vào
                         $check_ext = pathinfo($file_path, PATHINFO_EXTENSION);
-                        // echo $check_ext . '<br>' . PHP_EOL;
+                        // echo $check_ext . '<br>' . "\n";
 
                         //
                         if ($check_ext != $file_ext) {
@@ -950,14 +950,14 @@ class Layout extends Sync
                             for ($i = 1; $i < 100; $i++) {
                                 $file_new_name = basename($file_name, '.' . $file_ext) . '_' . $i . '.' . $file_ext;
                                 $file_path = $upload_path . $file_new_name;
-                                // echo $file_path . '<br>' . PHP_EOL;
+                                // echo $file_path . '<br>' . "\n";
                                 if (!is_file($file_path)) {
                                     $file_name = basename($file_path);
                                     break;
                                 }
                             }
                         }
-                        // echo $file_path . '<br>' . PHP_EOL;
+                        // echo $file_path . '<br>' . "\n";
 
                         // nếu không phải file ảnh
                         $check_mime_type = strtolower(explode('/', $mime_type)[0]);
@@ -977,11 +977,11 @@ class Layout extends Sync
                                 // thêm vào tệp mở rộng để không cho truy cập file trực tiếp
                                 $file_other_ext = 'daidq-ext';
                                 $file_new_path = $file_path . '.' . $file_other_ext;
-                                // echo $file_new_path . '<br>' . PHP_EOL;
+                                // echo $file_new_path . '<br>' . "\n";
                                 if (is_file($file_new_path)) {
                                     for ($i = 1; $i < 100; $i++) {
                                         $file_new_path = $file_path . '.' . $file_other_ext . '_' . $i;
-                                        // echo $file_new_path . '<br>' . PHP_EOL;
+                                        // echo $file_new_path . '<br>' . "\n";
                                         if (!is_file($file_new_path)) {
                                             $file_path = $file_new_path;
                                             break;
@@ -990,13 +990,13 @@ class Layout extends Sync
                                 } else {
                                     $file_path = $file_new_path;
                                 }
-                                // echo $file_path . '<br>' . PHP_EOL;
+                                // echo $file_path . '<br>' . "\n";
                                 $file_name = basename($file_path);
-                                // echo $file_name . '<br>' . PHP_EOL;
+                                // echo $file_name . '<br>' . "\n";
                                 // die( __CLASS__ . ':' . __LINE__ );
                             }
                         }
-                        // echo $file_path . '<br>' . PHP_EOL;
+                        // echo $file_path . '<br>' . "\n";
 
                         // nếu có kiểm duyệt định dạng file -> chỉ các file trong này mới được upload
                         if (!empty($allow_upload) && !in_array($file_ext, $allow_upload)) {
@@ -1053,7 +1053,7 @@ class Layout extends Sync
         if (!is_file($file_path)) {
             return false;
         }
-        //echo $file_path . '<br>' . PHP_EOL;
+        //echo $file_path . '<br>' . "\n";
 
         // bảo mật file, lỗi thì xóa luôn file này đi
         /*
@@ -1066,36 +1066,36 @@ class Layout extends Sync
         //continue;
 
         //
-        //echo 'upload ok: ' . $v . '<br>' . PHP_EOL;
+        //echo 'upload ok: ' . $v . '<br>' . "\n";
 
         //
         if ($upload_root == '') {
             $upload_root = PUBLIC_HTML_PATH . PostType::MEDIA_PATH;
         }
-        //echo $upload_root . '<br>' . PHP_EOL;
+        //echo $upload_root . '<br>' . "\n";
         if ($upload_path == '') {
             $upload_path = dirname($file_path) . '/';
         }
-        //echo $upload_path . '<br>' . PHP_EOL;
+        //echo $upload_path . '<br>' . "\n";
 
         //
         $file_uri = str_replace($upload_root, '', $file_path);
-        //echo $file_uri . '<br>' . PHP_EOL;
+        //echo $file_uri . '<br>' . "\n";
 
         //
-        //echo $file_ext . '<br>' . PHP_EOL;
+        //echo $file_ext . '<br>' . "\n";
         if ($file_ext == '') {
             $file_ext = pathinfo($file_path, PATHINFO_EXTENSION);
         }
         $file_ext = strtolower($file_ext);
         //die($file_ext);
-        //echo $file_ext . '<br>' . PHP_EOL;
+        //echo $file_ext . '<br>' . "\n";
 
         //
         if ($mime_type == '') {
             $mime_type = mime_content_type($file_path);
         }
-        //echo $mime_type . '<br>' . PHP_EOL;
+        //echo $mime_type . '<br>' . "\n";
 
         // nếu không phải file ảnh
         $is_image = true;
@@ -1105,7 +1105,7 @@ class Layout extends Sync
 
         //
         $post_title = basename($file_path, '.' . $file_ext);
-        //echo $post_title . '<br>' . PHP_EOL;
+        //echo $post_title . '<br>' . "\n";
 
         //
         $arr_list_size = PostType::media_size();
@@ -1129,11 +1129,11 @@ class Layout extends Sync
         }
         //print_r( $get_file_info );
         $file_size = filesize($file_path);
-        //echo $file_size . '<br>' . PHP_EOL;
+        //echo $file_size . '<br>' . "\n";
         //die( __CLASS__ . ':' . __LINE__ );
         foreach ($arr_list_size as $size_name => $size) {
             $resize_path = $upload_path . $post_title . '-' . $size_name . '.' . $file_ext;
-            //echo $resize_path . '<br>' . PHP_EOL;
+            //echo $resize_path . '<br>' . "\n";
             //die( __CLASS__ . ':' . __LINE__ );
             //continue;
 
@@ -1197,7 +1197,7 @@ class Layout extends Sync
         ];
         // print_r($arr_metadata);
         $str_metadata = serialize($arr_metadata);
-        // echo $str_metadata . '<br>' . PHP_EOL;
+        // echo $str_metadata . '<br>' . "\n";
         // $test = unserialize($str_metadata);
         // print_r($test);
 
@@ -1225,7 +1225,7 @@ class Layout extends Sync
             $this->base_model->alert($result_id['error'], 'error');
         }
         // die(__CLASS__ . ':' . __LINE__);
-        // echo 'Result id: ' . $result_id . '<br>' . PHP_EOL;
+        // echo 'Result id: ' . $result_id . '<br>' . "\n";
 
         //
         return [
@@ -1246,7 +1246,7 @@ class Layout extends Sync
         }
         foreach ($data as $v) {
             $path .= $v . '/';
-            //echo $path . '<br>' . PHP_EOL;
+            //echo $path . '<br>' . "\n";
 
             if (!is_dir($path)) {
                 mkdir($path, DEFAULT_DIR_PERMISSION) or die('ERROR create dir (' . __CLASS__ . ':' . __LINE__ . ')! ' . $path);

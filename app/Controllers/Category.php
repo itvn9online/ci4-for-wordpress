@@ -20,9 +20,9 @@ class Category extends Home
         if ($slug == '') {
             die('404 slug error!');
         }
-        //echo $slug . '<br>' . PHP_EOL;
-        //echo $set_page . '<br>' . PHP_EOL;
-        //echo $page_num . '<br>' . PHP_EOL;
+        //echo $slug . '<br>' . "\n";
+        //echo $set_page . '<br>' . "\n";
+        //echo $page_num . '<br>' . "\n";
 
         //
         $data = $this->term_model->get_taxonomy(array(

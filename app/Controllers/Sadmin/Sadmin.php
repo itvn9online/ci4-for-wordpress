@@ -90,7 +90,7 @@ class Sadmin extends Ajaxs
 
     public function index()
     {
-        //echo debug_backtrace()[ 1 ][ 'class' ] . ':' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . PHP_EOL;
+        //echo debug_backtrace()[ 1 ][ 'class' ] . ':' . debug_backtrace()[ 1 ][ 'function' ] . '<br>' . "\n";
         return $this->result_json_type([
             'code' => __LINE__,
             'error' => 'Bad request!',
@@ -101,9 +101,9 @@ class Sadmin extends Ajaxs
     protected function check_permision($role)
     {
         // role này chính là tên controller của admin -> kiểm tra xem có file này không
-        //echo $role . '<br>' . PHP_EOL;
+        //echo $role . '<br>' . "\n";
         $role = $this->get_class_name($role);
-        //echo $role . '<br>' . PHP_EOL;
+        //echo $role . '<br>' . "\n";
 
         //
         $this->body_class = strtolower($role);
@@ -124,7 +124,7 @@ class Sadmin extends Ajaxs
 
         //
         $check_file = __DIR__ . '/' . $role . '.php';
-        //echo $check_file . '<br>' . PHP_EOL;
+        //echo $check_file . '<br>' . "\n";
         // nếu không tồn tại -> báo lỗi luôn
         if (!is_file($check_file)) {
             die('Role not found!');
@@ -132,7 +132,7 @@ class Sadmin extends Ajaxs
 
         // chuyển role về chữ thường
         $role = $this->body_class;
-        //echo $role . '<br>' . PHP_EOL;
+        //echo $role . '<br>' . "\n";
         if (!in_array($role, UsersType::role($session_data['member_type']))) {
             die('Permission ERROR! ' . $role . ' for ' . $session_data['member_type']);
         }
@@ -157,7 +157,7 @@ class Sadmin extends Ajaxs
     {
         $arr = AdminMenu::menu_list();
         //print_r($arr);
-        //echo count($arr) . PHP_EOL;
+        //echo count($arr) . "\n";
 
         // Hiển thị menu phân loại cho thành viên
         foreach (ARR_CUSTOM_USER_TYPE as $k => $v) {
@@ -171,7 +171,7 @@ class Sadmin extends Ajaxs
         // tạo số thứ tự để sắp xếp menu
         $j = 100;
         $j_ = ceil(100 / count($arr));
-        //echo $j_ . PHP_EOL;
+        //echo $j_ . "\n";
         foreach ($arr as $k => $v) {
             $arr[$k]['order'] = $j;
             $j -= $j_;
@@ -210,8 +210,8 @@ class Sadmin extends Ajaxs
 
                             // nếu mảng con được đặt NULL -> ẩn nó đi
                             if (empty($v2)) {
-                                //echo $k . PHP_EOL;
-                                //echo $k2 . PHP_EOL;
+                                //echo $k . "\n";
+                                //echo $k2 . "\n";
                                 $arr[$k]['arr'][$k2] = null;
                             } else {
                                 if ($k2 == 'arr') {
@@ -253,8 +253,8 @@ class Sadmin extends Ajaxs
         foreach (glob(PUBLIC_HTML_PATH . '*') as $filename) {
             // chỉ kiểm tra đối với thư mục
             if (is_dir($filename)) {
-                //echo $filename . '<br>' . PHP_EOL;
-                //echo basename( $filename ) . '<br>' . PHP_EOL;
+                //echo $filename . '<br>' . "\n";
+                //echo basename( $filename ) . '<br>' . "\n";
                 $f = $filename . '/.htaccess';
 
                 // không xử lý file htaccess trong các thư mục được nêu tên
@@ -271,7 +271,7 @@ class Sadmin extends Ajaxs
                 if (is_file($f)) {
                     continue;
                 }
-                //echo $f . '<br>' . PHP_EOL;
+                //echo $f . '<br>' . "\n";
 
                 //
                 $this->base_model->ftp_create_file(
@@ -306,7 +306,7 @@ class Sadmin extends Ajaxs
                 if ($has_cache === null) {
                     return false;
                 }
-                echo 'Using cache delete Matching `' . $for . '` --- Total clear: ' . $has_cache . '<br>' . PHP_EOL;
+                echo 'Using cache delete Matching `' . $for . '` --- Total clear: ' . $has_cache . '<br>' . "\n";
                 // var_dump($has_cache);
                 //die( $for );
             }
@@ -317,7 +317,7 @@ class Sadmin extends Ajaxs
                 $has_cache = $this->base_model->dcache();
                 if ($has_cache === null) {
                     var_dump($has_cache);
-                    echo '<br>' . PHP_EOL;
+                    echo '<br>' . "\n";
 
                     // thử xóa theo từng key
                     foreach (
@@ -344,9 +344,9 @@ class Sadmin extends Ajaxs
             // nếu lỗi -> thử phương thức xóa từng file
             if (MY_CACHE_HANDLER == 'file') {
                 if ($has_cache === false) {
-                    echo WRITE_CACHE_PATH . '<br>' . PHP_EOL;
+                    echo WRITE_CACHE_PATH . '<br>' . "\n";
                     foreach (glob(WRITE_CACHE_PATH . $for . '*') as $filename) {
-                        echo $filename . '<br>' . PHP_EOL;
+                        echo $filename . '<br>' . "\n";
                         $has_cache = true;
 
                         //
@@ -360,10 +360,10 @@ class Sadmin extends Ajaxs
 
                 // hỗ trợ xóa cả cache cho bản mobile
                 $mobile_cache_path = rtrim(WRITE_CACHE_PATH, '/') . '_m/';
-                echo $mobile_cache_path . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                echo $mobile_cache_path . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
                 if (is_dir($mobile_cache_path)) {
                     foreach (glob($mobile_cache_path . $for . '*') as $filename) {
-                        echo $filename . '<br>' . PHP_EOL;
+                        echo $filename . '<br>' . "\n";
                         $has_cache = true;
 
                         //

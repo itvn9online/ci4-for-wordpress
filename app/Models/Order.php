@@ -78,7 +78,7 @@ class Order extends Post
                 // nếu phone chưa được sử dụng
                 if ($user_id === false) {
                     $phone = $this->base_model->_eb_number_only($data['phone']);
-                    // echo $phone . '<br>' . PHP_EOL;
+                    // echo $phone . '<br>' . "\n";
                     $user_id = $this->user_model->check_user_exist($phone, 'number_phone');
                     // var_dump($user_id);
 
@@ -94,7 +94,7 @@ class Order extends Post
                         // var_dump($user_id);
                     }
                 }
-                // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+                // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             } else {
                 $this->base_model->alert('Billing Email address is a required field.', 'error');
             }

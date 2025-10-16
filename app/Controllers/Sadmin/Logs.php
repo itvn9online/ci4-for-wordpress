@@ -20,15 +20,15 @@ class Logs extends Dev
      **/
     public function index()
     {
-        // echo $this->dir_log . '<br>' . PHP_EOL;
+        // echo $this->dir_log . '<br>' . "\n";
 
         // xóa log với phương thức POST
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            echo $this->dir_log . '<br>' . PHP_EOL;
+            echo $this->dir_log . '<br>' . "\n";
             $arr = glob($this->dir_log . '/*.{log,txt}', GLOB_BRACE);
             // print_r($arr);
             foreach ($arr as $filename) {
-                echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+                echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . "\n";
 
                 //
                 if (is_file($filename)) {
@@ -40,11 +40,11 @@ class Logs extends Dev
 
             // xóa debug -> loại này khá nặng
             $dir_debugbar = WRITEPATH . 'debugbar';
-            echo $dir_debugbar . '<br>' . PHP_EOL;
+            echo $dir_debugbar . '<br>' . "\n";
             $arr = glob($dir_debugbar . '/*.json');
             // print_r($arr);
             foreach ($arr as $filename) {
-                echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+                echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . "\n";
 
                 //
                 if (is_file($filename)) {
@@ -57,11 +57,11 @@ class Logs extends Dev
             // xóa session nếu ko dùng đến
             if (MY_SESSION_DRIVE != 'FileHandler') {
                 $dir_session = WRITEPATH . 'session';
-                echo $dir_session . '<br>' . PHP_EOL;
+                echo $dir_session . '<br>' . "\n";
                 $arr = glob($dir_session . '/*.');
                 // print_r($arr);
                 foreach ($arr as $filename) {
-                    echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . PHP_EOL;
+                    echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . "\n";
 
                     //
                     if (is_file($filename)) {
@@ -96,20 +96,20 @@ class Logs extends Dev
             $max_i = 60;
             for ($i = 0; $i < 500; $i++) {
                 if ($max_i < 0) {
-                    echo 'max_i: ' . $max_i . '<br>' . PHP_EOL;
+                    echo 'max_i: ' . $max_i . '<br>' . "\n";
                     break;
                 }
 
                 //
                 $old_log = WRITEPATH . 'logs/log-' . date('Y-m-d', $current_time - ($i * DAY)) . '.log';
-                // echo $old_log . '<br>' . PHP_EOL;
+                // echo $old_log . '<br>' . "\n";
 
                 //
                 if (!is_file($old_log)) {
                     $max_i--;
                     continue;
                 }
-                echo $old_log . '<br>' . PHP_EOL;
+                echo $old_log . '<br>' . "\n";
                 unlink($old_log);
             }
         }

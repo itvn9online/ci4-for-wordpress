@@ -33,7 +33,7 @@ class PHPMaillerSend
 
     public static function get_the_send($data, $cog = [], $debug = 0, $resend = true)
     {
-        //echo APPPATH . '<br>' . PHP_EOL;
+        //echo APPPATH . '<br>' . "\n";
 
         //print_r( $data );
         //print_r( $cog );
@@ -54,16 +54,16 @@ class PHPMaillerSend
         if ($host_name == '') {
             return 'Host?';
         }
-        //echo $host_name . '<br>' . PHP_EOL;
+        //echo $host_name . '<br>' . "\n";
         $host_port = $cog['smtp_host_port'];
         $host_port *= 1;
-        //echo $host_port . '<br>' . PHP_EOL;
+        //echo $host_port . '<br>' . "\n";
         $host_user = $cog['smtp_host_user'];
         if ($host_user == '') {
             return 'User?';
         }
         $host_pass = $cog['smtp_host_pass'];
-        //if ( $debug > 0 )echo $host_pass . '<br>' . PHP_EOL;
+        //if ( $debug > 0 )echo $host_pass . '<br>' . "\n";
         if ($host_pass == '') {
             return 'Pass?';
         }
@@ -173,13 +173,13 @@ class PHPMaillerSend
                     //
                     if ($debug > 0) {
                         print_r($mail->ErrorInfo);
-                        echo '<hr>' . PHP_EOL;
-                        echo 'Username/ Email: ' . $cog['smtp_host_user'] . '<br>' . PHP_EOL;
-                        echo 'Password: ' . substr($cog['smtp_host_pass'], 0, 6) . '******<br>' . PHP_EOL;
-                        echo 'Hostname: ' . $cog['smtp_host_name'] . '<br>' . PHP_EOL;
-                        echo 'Secure: ' . $cog['smtp_secure'] . '<br>' . PHP_EOL;
-                        echo 'Port: ' . $cog['smtp_host_port'] . '<br>' . PHP_EOL;
-                        echo '<hr>' . PHP_EOL;
+                        echo '<hr>' . "\n";
+                        echo 'Username/ Email: ' . $cog['smtp_host_user'] . '<br>' . "\n";
+                        echo 'Password: ' . substr($cog['smtp_host_pass'], 0, 6) . '******<br>' . "\n";
+                        echo 'Hostname: ' . $cog['smtp_host_name'] . '<br>' . "\n";
+                        echo 'Secure: ' . $cog['smtp_secure'] . '<br>' . "\n";
+                        echo 'Port: ' . $cog['smtp_host_port'] . '<br>' . "\n";
+                        echo '<hr>' . "\n";
                     }
 
                     //

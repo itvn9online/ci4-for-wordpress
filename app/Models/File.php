@@ -26,7 +26,7 @@ class File extends EbModel
     public function get_server()
     {
         if (!defined('FTP_USER') || !defined('FTP_PASS')) {
-            //echo 'ERROR FTP: FTP USER or FTP PASS not found<br>' . PHP_EOL;
+            //echo 'ERROR FTP: FTP USER or FTP PASS not found<br>' . "\n";
             return false;
         }
 
@@ -38,7 +38,7 @@ class File extends EbModel
             //$this->ftp_server = $_SERVER[ 'SERVER_ADDR' ];
             $this->ftp_server = '127.0.0.1';
         }
-        //echo $this->ftp_server . '<br>' . PHP_EOL;
+        //echo $this->ftp_server . '<br>' . "\n";
 
         return true;
     }
@@ -47,7 +47,7 @@ class File extends EbModel
     public function root_dir()
     {
         //echo __CLASS__ . ':' . __LINE__ . ':' . $this->debugMyBacktrace(debug_backtrace());
-        //echo 'base_dir: ' . $this->base_dir . '<br>' . PHP_EOL;
+        //echo 'base_dir: ' . $this->base_dir . '<br>' . "\n";
         if ($this->base_dir !== null) {
             return true;
         }
@@ -76,7 +76,7 @@ class File extends EbModel
 
         // Tạo một file bằng hàm của PHP thường -> không dùng FTP
         if (!is_file($cache_for_ftp)) {
-            echo $cache_for_ftp . '<br>' . PHP_EOL;
+            echo $cache_for_ftp . '<br>' . "\n";
             $this->base_model->_eb_create_file($cache_for_ftp, date('r'));
         }
         //die( $cache_for_ftp );
@@ -86,7 +86,7 @@ class File extends EbModel
         $ftp_dir_root = '';
         //	print_r( $a );
         foreach ($a as $v) {
-            //echo $v . PHP_EOL;
+            //echo $v . "\n";
             if ($ftp_dir_root == '' && $v != '') {
                 $file_test = strstr($cache_for_ftp, '/' . $v . '/');
                 //echo $file_test . " - \n";
@@ -100,7 +100,7 @@ class File extends EbModel
                 }
             }
         }
-        //echo 'ftp_dir_root: ' . $ftp_dir_root . '<br>' . PHP_EOL;
+        //echo 'ftp_dir_root: ' . $ftp_dir_root . '<br>' . "\n";
 
         //
         $this->ftp_my_close($conn_id);
@@ -121,11 +121,11 @@ class File extends EbModel
     {
         $check_dir = $this->root_dir();
         if ($check_dir !== true) {
-            echo $check_dir . '<br>' . PHP_EOL;
+            echo $check_dir . '<br>' . "\n";
             return false;
         }
-        //echo $this->base_dir . '<br>' . PHP_EOL;
-        //echo $this->ftp_server . '<br>' . PHP_EOL;
+        //echo $this->base_dir . '<br>' . "\n";
+        //echo $this->ftp_server . '<br>' . "\n";
         //die( __CLASS__ . ':' . __LINE__ );
 
         /*
@@ -136,7 +136,7 @@ class File extends EbModel
 
         // đăng nhập
         if ($this->ftp_my_login($conn_id) !== true) {
-            echo 'ERROR FTP login false <br>' . PHP_EOL;
+            echo 'ERROR FTP login false <br>' . "\n";
             return false;
         }
 
@@ -146,7 +146,7 @@ class File extends EbModel
 
         // nếu trong chuỗi file không có root dir -> báo lỗi
         if (strpos($file_for_ftp, '/' . $this->base_dir . '/') === false) {
-            echo 'ERROR FTP root dir not found #' . $this->base_dir . '<br>' . PHP_EOL;
+            echo 'ERROR FTP root dir not found #' . $this->base_dir . '<br>' . "\n";
             return false;
         }
         $file_for_ftp = strstr($file_for_ftp, '/' . $this->base_dir . '/');
@@ -159,7 +159,7 @@ class File extends EbModel
             }
             return true;
         } else {
-            echo 'ERROR copy file via FTP #' . $path . ' <br>' . PHP_EOL;
+            echo 'ERROR copy file via FTP #' . $path . ' <br>' . "\n";
         }
 
         // close the connection
@@ -174,11 +174,11 @@ class File extends EbModel
     {
         $check_dir = $this->root_dir();
         if ($check_dir !== true) {
-            echo $check_dir . '<br>' . PHP_EOL;
+            echo $check_dir . '<br>' . "\n";
             return false;
         }
-        //echo $this->base_dir . '<br>' . PHP_EOL;
-        //echo $this->ftp_server . '<br>' . PHP_EOL;
+        //echo $this->base_dir . '<br>' . "\n";
+        //echo $this->ftp_server . '<br>' . "\n";
         //die( __CLASS__ . ':' . __LINE__ );
 
         /*
@@ -189,7 +189,7 @@ class File extends EbModel
 
         // đăng nhập
         if ($this->ftp_my_login($conn_id) !== true) {
-            echo 'ERROR FTP login false <br>' . PHP_EOL;
+            echo 'ERROR FTP login false <br>' . "\n";
             return false;
         }
 
@@ -199,7 +199,7 @@ class File extends EbModel
 
         // nếu trong chuỗi file không có root dir -> báo lỗi
         if (strpos($file_for_ftp, '/' . $this->base_dir . '/') === false) {
-            echo 'ERROR FTP root dir not found #' . $this->base_dir . '<br>' . PHP_EOL;
+            echo 'ERROR FTP root dir not found #' . $this->base_dir . '<br>' . "\n";
             return false;
         }
         $file_for_ftp = strstr($file_for_ftp, '/' . $this->base_dir . '/');
@@ -212,7 +212,7 @@ class File extends EbModel
         if (ftp_rename($conn_id, $source, $file_for_ftp)) {
             return true;
         } else {
-            echo 'ERROR rename file via FTP #' . $path . ' <br>' . PHP_EOL;
+            echo 'ERROR rename file via FTP #' . $path . ' <br>' . "\n";
         }
 
         // close the connection
@@ -227,11 +227,11 @@ class File extends EbModel
     {
         $check_dir = $this->root_dir();
         if ($check_dir !== true) {
-            echo $check_dir . '<br>' . PHP_EOL;
+            echo $check_dir . '<br>' . "\n";
             return false;
         }
-        //echo $this->base_dir . '<br>' . PHP_EOL;
-        //echo $this->ftp_server . '<br>' . PHP_EOL;
+        //echo $this->base_dir . '<br>' . "\n";
+        //echo $this->ftp_server . '<br>' . "\n";
         //die( __CLASS__ . ':' . __LINE__ );
         //echo __CLASS__ . ':' . __LINE__ . ':' . $this->debugMyBacktrace(debug_backtrace());
 
@@ -243,7 +243,7 @@ class File extends EbModel
 
         // đăng nhập
         if ($this->ftp_my_login($conn_id) !== true) {
-            echo 'ERROR FTP login false <br>' . PHP_EOL;
+            echo 'ERROR FTP login false <br>' . "\n";
             return false;
         }
 
@@ -270,11 +270,11 @@ class File extends EbModel
     {
         $check_dir = $this->root_dir();
         if ($check_dir !== true) {
-            echo $check_dir . '<br>' . PHP_EOL;
+            echo $check_dir . '<br>' . "\n";
             return false;
         }
-        //echo $this->base_dir . '<br>' . PHP_EOL;
-        //echo $this->ftp_server . '<br>' . PHP_EOL;
+        //echo $this->base_dir . '<br>' . "\n";
+        //echo $this->ftp_server . '<br>' . "\n";
         //die( __CLASS__ . ':' . __LINE__ );
 
         /*
@@ -284,7 +284,7 @@ class File extends EbModel
 
         // đăng nhập
         if ($this->ftp_my_login($conn_id) !== true) {
-            echo 'ERROR FTP login false <br>' . PHP_EOL;
+            echo 'ERROR FTP login false <br>' . "\n";
             return false;
         }
 
@@ -294,7 +294,7 @@ class File extends EbModel
 
         // nếu trong chuỗi file không có root dir -> báo lỗi
         if (strpos($file_for_ftp, '/' . $this->base_dir . '/') === false) {
-            echo 'ERROR FTP root dir not found #' . $this->base_dir . '<br>' . PHP_EOL;
+            echo 'ERROR FTP root dir not found #' . $this->base_dir . '<br>' . "\n";
             return false;
         }
         $file_for_ftp = strstr($file_for_ftp, '/' . $this->base_dir . '/');
@@ -304,7 +304,7 @@ class File extends EbModel
         if (ftp_chmod($conn_id, $file_permission, $file_for_ftp)) {
             return true;
         } else {
-            echo 'ERROR chmod file via FTP #' . $path . ' <br>' . PHP_EOL;
+            echo 'ERROR chmod file via FTP #' . $path . ' <br>' . "\n";
         }
 
         // close the connection
@@ -317,7 +317,7 @@ class File extends EbModel
     public function create_file($file_, $content_, $ops = [])
     {
         if ($content_ == '') {
-            echo 'WARNING put file: content is NULL: ' . basename($file_) . '<br>' . PHP_EOL;
+            echo 'WARNING put file: content is NULL: ' . basename($file_) . '<br>' . "\n";
             return false;
         }
         //echo __CLASS__ . ':' . __LINE__ . ':' . $this->debugMyBacktrace(debug_backtrace());
@@ -325,11 +325,11 @@ class File extends EbModel
         //
         $check_dir = $this->root_dir();
         if ($check_dir !== true) {
-            echo $check_dir . '<br>' . PHP_EOL;
+            echo $check_dir . '<br>' . "\n";
             return false;
         }
-        //echo $this->base_dir . '<br>' . PHP_EOL;
-        //echo $this->ftp_server . '<br>' . PHP_EOL;
+        //echo $this->base_dir . '<br>' . "\n";
+        //echo $this->ftp_server . '<br>' . "\n";
         //die( __CLASS__ . ':' . __LINE__ );
 
         /*
@@ -340,7 +340,7 @@ class File extends EbModel
 
         // đăng nhập
         if ($this->ftp_my_login($conn_id) !== true) {
-            echo 'ERROR FTP login false <br>' . PHP_EOL;
+            echo 'ERROR FTP login false <br>' . "\n";
             return false;
         }
 
@@ -349,7 +349,7 @@ class File extends EbModel
         if ($this->base_dir != '') {
             // nếu trong chuỗi file không có root dir -> báo lỗi
             if (strpos($file_, '/' . $this->base_dir . '/') === false) {
-                echo 'ERROR FTP root dir not found #' . $this->base_dir . '<br>' . PHP_EOL;
+                echo 'ERROR FTP root dir not found #' . $this->base_dir . '<br>' . "\n";
                 return false;
             }
 
@@ -360,7 +360,7 @@ class File extends EbModel
         //
         $local_filename = $this->create_cache_for_ftp($content_);
         if (!is_file($local_filename)) {
-            echo 'ERROR FTP local_filename not create!<br>' . PHP_EOL;
+            echo 'ERROR FTP local_filename not create!<br>' . "\n";
             return false;
         }
 
@@ -380,11 +380,11 @@ class File extends EbModel
         $result = true;
         if ($ops['add_line'] != '') {
             if (!ftp_append($conn_id, '.' . $file_for_ftp, $local_filename, FTP_BINARY)) {
-                echo 'ERROR FTP: ftp append error <br>' . PHP_EOL;
+                echo 'ERROR FTP: ftp append error <br>' . "\n";
                 $result = false;
             }
         } else if (!ftp_put($conn_id, '.' . $file_for_ftp, $local_filename, FTP_BINARY)) {
-            echo 'ERROR FTP: ftp put error <br>' . PHP_EOL;
+            echo 'ERROR FTP: ftp put error <br>' . "\n";
             $result = false;
         }
         if ($result === true && $ops['set_permission'] > 0) {
@@ -402,11 +402,11 @@ class File extends EbModel
     {
         $check_dir = $this->root_dir();
         if ($check_dir !== true) {
-            echo $check_dir . '<br>' . PHP_EOL;
+            echo $check_dir . '<br>' . "\n";
             return false;
         }
-        //echo $this->base_dir . '<br>' . PHP_EOL;
-        //echo $this->ftp_server . '<br>' . PHP_EOL;
+        //echo $this->base_dir . '<br>' . "\n";
+        //echo $this->ftp_server . '<br>' . "\n";
         //die( __CLASS__ . ':' . __LINE__ );
 
         /*
@@ -417,7 +417,7 @@ class File extends EbModel
 
         // đăng nhập
         if ($this->ftp_my_login($conn_id) !== true) {
-            echo 'ERROR FTP login false <br>' . PHP_EOL;
+            echo 'ERROR FTP login false <br>' . "\n";
             return false;
         }
 
@@ -426,7 +426,7 @@ class File extends EbModel
         if ($this->base_dir != '') {
             // nếu trong chuỗi file không có root dir -> báo lỗi
             if (strpos($dir_, '/' . $this->base_dir . '/') === false) {
-                echo 'ERROR FTP root dir not found #' . $this->base_dir . '<br>' . PHP_EOL;
+                echo 'ERROR FTP root dir not found #' . $this->base_dir . '<br>' . "\n";
                 return false;
             }
 
@@ -436,7 +436,7 @@ class File extends EbModel
 
         //
         if (!ftp_mkdir($conn_id, $dir_for_ftp)) {
-            echo 'ERROR FTP create dir! <br>' . PHP_EOL;
+            echo 'ERROR FTP create dir! <br>' . "\n";
             return false;
         }
         if (!isset($ops['set_permission'])) {
@@ -455,7 +455,7 @@ class File extends EbModel
     {
         $f = WRITEPATH . 'cache_for_ftp.txt';
         if ($content_ != '') {
-            echo __CLASS__ . ':' . __LINE__ . ':' . $f . '<br>' . PHP_EOL;
+            echo __CLASS__ . ':' . __LINE__ . ':' . $f . '<br>' . "\n";
             $this->base_model->_eb_create_file($f, $content_);
         }
         return $f;
@@ -530,6 +530,6 @@ class File extends EbModel
 
     protected function debugMyBacktrace($a)
     {
-        return $a[1]['class'] . ':' . $a[1]['function'] . '<br>' . PHP_EOL;
+        return $a[1]['class'] . ':' . $a[1]['function'] . '<br>' . "\n";
     }
 }

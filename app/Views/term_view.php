@@ -19,7 +19,7 @@ $base_model->get_the_custom_html($getconfig, 'html_posts_header', $data['term_id
  */
 $post_per_page = $base_model->get_config($getconfig, 'eb_posts_per_page', 20);
 //$post_per_page = 2;
-//echo $post_per_page . '<br>' . PHP_EOL;
+//echo $post_per_page . '<br>' . "\n";
 
 //
 include __DIR__ . '/term_data_view.php';

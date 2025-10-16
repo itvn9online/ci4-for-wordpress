@@ -528,7 +528,7 @@ class MailQueue extends EbModel
         }
 
         // 
-        // echo $str . '<br>' . PHP_EOL;
+        // echo $str . '<br>' . "\n";
         // die(__CLASS__ . ':' . __LINE__);
 
         // 

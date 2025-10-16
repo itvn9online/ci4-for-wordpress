@@ -12,7 +12,7 @@
  */
 // -> ưu tiên trong theme riêng trước
 $theme_private_view = VIEWS_CUSTOM_PATH . 'default/' . $post_type . '-' . basename(__FILE__);
-//echo $theme_private_view . '<br>' . PHP_EOL;
+//echo $theme_private_view . '<br>' . "\n";
 
 //
 if (is_file($theme_private_view)) {
@@ -32,7 +32,7 @@ if (is_file($theme_private_view)) {
 else {
     // thử tìm file search riêng (dạng dùng chung)
     $search_type_view = VIEWS_PATH . 'default/' . $post_type . '-' . basename(__FILE__);
-    //echo $search_type_view . '<br>' . PHP_EOL;
+    //echo $search_type_view . '<br>' . "\n";
     //die(basename(__FILE__) . ':' . __LINE__);
 
     // có thì ưu tiên dùng

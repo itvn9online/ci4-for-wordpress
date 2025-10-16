@@ -59,7 +59,7 @@ if ($session_data['member_type'] != $is_admin) {
         }
 
         //
-        //echo $v[ 'name' ] . '<br>' . PHP_EOL;
+        //echo $v[ 'name' ] . '<br>' . "\n";
     }
 }
 //print_r( $arr_admin_menu );

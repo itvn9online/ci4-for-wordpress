@@ -3,7 +3,7 @@
 //
 $sizes_name = '';
 foreach ($all_src as $size_name => $file) {
-    $sizes_name .= ' data-' . $size_name . '="' . $file . '"' . PHP_EOL;
+    $sizes_name .= ' data-' . $size_name . '="' . $file . '"' . "\n";
 }
 
 ?>

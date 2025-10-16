@@ -115,7 +115,7 @@ class Mailqueues extends Sadmin
          * phân trang
          */
         $totalThread = $this->base_model->select_count('id', 'mail_queue', $where, $filter);
-        // echo $totalThread . '<br>' . PHP_EOL;
+        // echo $totalThread . '<br>' . "\n";
 
         //
         if ($totalThread > 0) {
@@ -124,15 +124,15 @@ class Mailqueues extends Sadmin
                 $totalPage = 1;
             }
             $page_num = $this->MY_get('page_num', 1);
-            //echo $totalPage . '<br>' . PHP_EOL;
+            //echo $totalPage . '<br>' . "\n";
             if ($page_num > $totalPage) {
                 $page_num = $totalPage;
             } else if ($page_num < 1) {
                 $page_num = 1;
             }
             $for_action .= $page_num > 1 ? '&page_num=' . $page_num : '';
-            //echo $totalThread . '<br>' . PHP_EOL;
-            //echo $totalPage . '<br>' . PHP_EOL;
+            //echo $totalThread . '<br>' . "\n";
+            //echo $totalPage . '<br>' . "\n";
             $offset = ($page_num - 1) * $this->post_per_page;
 
             //
@@ -166,7 +166,7 @@ class Mailqueues extends Sadmin
 
     protected function details($mail_id)
     {
-        //echo $mail_id . '<br>' . PHP_EOL;
+        //echo $mail_id . '<br>' . "\n";
 
         //
         $data = $this->base_model->select('*', 'mail_queue', [

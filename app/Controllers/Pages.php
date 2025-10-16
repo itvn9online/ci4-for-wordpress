@@ -16,15 +16,15 @@ class Pages extends Home
 
     public function get_page($slug)
     {
-        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         if ($slug == '') {
             die('404 slug error!');
         }
-        //echo $slug . '<br>' . PHP_EOL;
+        //echo $slug . '<br>' . "\n";
 
         //
         $in_cache = __FUNCTION__ . '-' . $slug . '-' . LanguageCost::lang_key();
-        // echo $in_cache . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // echo $in_cache . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         $data = $this->base_model->scache($in_cache);
         if ($data === null) {
             $data = $this->post_model->select_public_post(0, [

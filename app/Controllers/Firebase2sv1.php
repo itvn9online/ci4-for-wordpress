@@ -359,9 +359,9 @@ class Firebase2sv1 extends Firebases
     protected function phpJwt($jwt, $uid = '')
     {
         list($headersB64, $payloadB64, $sig) = explode('.', $jwt);
-        // echo $headersB64 . PHP_EOL;
-        // echo $payloadB64 . PHP_EOL;
-        // echo $sig . PHP_EOL;
+        // echo $headersB64 . "\n";
+        // echo $payloadB64 . "\n";
+        // echo $sig . "\n";
         // $this->result_json_type([$headersB64, $payloadB64, $sig]);
 
         //
@@ -398,8 +398,8 @@ class Firebase2sv1 extends Firebases
         }
 
         //
-        // echo date(EBE_DATETIME_FORMAT, $decoded['exp']) . PHP_EOL;
-        // echo date(EBE_DATETIME_FORMAT, $decoded['auth_time']) . PHP_EOL;
+        // echo date(EBE_DATETIME_FORMAT, $decoded['exp']) . "\n";
+        // echo date(EBE_DATETIME_FORMAT, $decoded['auth_time']) . "\n";
 
         // nếu có uid -> so khớp
         if ($uid != '') {

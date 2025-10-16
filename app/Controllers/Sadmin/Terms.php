@@ -129,7 +129,7 @@ class Terms extends Sadmin
             // 'show_query' => 1,
             'limit' => -1,
         ];
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         // print_r($filter);
 
 
@@ -145,17 +145,17 @@ class Terms extends Sadmin
             if ($totalPage < 1) {
                 $totalPage = 1;
             }
-            //echo $totalPage . '<br>' . PHP_EOL;
+            //echo $totalPage . '<br>' . "\n";
             if ($page_num > $totalPage) {
                 $page_num = $totalPage;
             } else if ($page_num < 1) {
                 $page_num = 1;
             }
             $for_action .= $page_num > 1 ? '&page_num=' . $page_num : '';
-            //echo $totalThread . '<br>' . PHP_EOL;
-            //echo $totalPage . '<br>' . PHP_EOL;
+            //echo $totalThread . '<br>' . "\n";
+            //echo $totalPage . '<br>' . "\n";
             $offset = ($page_num - 1) * $post_per_page;
-            //echo $offset . '<br>' . PHP_EOL;
+            //echo $offset . '<br>' . "\n";
             //die( __CLASS__ . ':' . __LINE__ );
 
             //
@@ -174,7 +174,7 @@ class Terms extends Sadmin
                 ];
             }
             //$filter[ 'get_child' ] = 1;
-            //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             //print_r($filter);
 
             //
@@ -187,7 +187,7 @@ class Terms extends Sadmin
 
             //
             $data = $this->term_treeview_data($data);
-            //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         } else {
             $data = [];
             $pagination = '';
@@ -289,7 +289,7 @@ class Terms extends Sadmin
 
         // edit
         if ($id > 0) {
-            //echo $this->lang_key . PHP_EOL;
+            //echo $this->lang_key . "\n";
 
             //
             $data = $this->term_model->select_term($id, [
@@ -549,7 +549,7 @@ class Terms extends Sadmin
 
             // 
             $term_permalink = $this->term_model->before_term_permalink($data);
-            // echo $term_permalink . '<br>' . PHP_EOL;
+            // echo $term_permalink . '<br>' . "\n";
             if ($term_permalink !== null && $data['term_permalink'] != $term_permalink) {
                 $this->MY_redirect($this->term_model->get_admin_permalink($this->taxonomy, $data['term_id'], $this->controller_slug), 301);
                 // die(__CLASS__ . ':' . __LINE__);
@@ -673,7 +673,7 @@ class Terms extends Sadmin
         }
 
         //
-        $term_name = explode(PHP_EOL, $data['term_name']);
+        $term_name = explode("\n", $data['term_name']);
         foreach ($term_name as $v) {
             $v = trim($v);
             if (empty($v)) {
@@ -727,17 +727,17 @@ class Terms extends Sadmin
 
                 // nếu cùng 1 cha mà trùng -> bỏ qua luôn
                 if ($check_term_exist['parent'] == $data['term_id']) {
-                    echo 'Term EXIST #' . $check_term_exist['term_id'] . ' | parent #' . $check_term_exist['parent'] . '<br>' . PHP_EOL;
+                    echo 'Term EXIST #' . $check_term_exist['term_id'] . ' | parent #' . $check_term_exist['parent'] . '<br>' . "\n";
                     continue;
                 }
 
                 // chạy vòng lặp lấy cái ko trùng lặp
                 $new_slug = false;
                 foreach ($check_slug_exist as $fixed_slug) {
-                    // echo $fixed_slug . '<br>' . PHP_EOL;
+                    // echo $fixed_slug . '<br>' . "\n";
                     if ($fixed_slug != $check_term_exist['slug']) {
                         $slug = $fixed_slug;
-                        echo $slug . '<br>' . PHP_EOL;
+                        echo $slug . '<br>' . "\n";
                         $new_slug = true;
                         break;
                     }
@@ -745,7 +745,7 @@ class Terms extends Sadmin
 
                 //
                 if ($new_slug === false) {
-                    echo 'Term EXIST #' . $check_term_exist['term_id'] . '<br>' . PHP_EOL;
+                    echo 'Term EXIST #' . $check_term_exist['term_id'] . '<br>' . "\n";
                     continue;
                 }
             }
@@ -758,18 +758,18 @@ class Terms extends Sadmin
                 'parent' => $data['term_id'],
             ];
             print_r($data_insert);
-            echo '<br>' . PHP_EOL;
+            echo '<br>' . "\n";
 
             //
             $result_id = $this->term_model->insert_terms($data_insert, $this->taxonomy, false, [], false);
 
             //
             if ($result_id > 0) {
-                echo 'Insert OK #' . $result_id . '<br>' . PHP_EOL;
+                echo 'Insert OK #' . $result_id . '<br>' . "\n";
             } else {
                 print_r($result_id);
-                echo '<br>' . PHP_EOL;
-                echo 'Insert ERROR!' . '<br>' . PHP_EOL;
+                echo '<br>' . "\n";
+                echo 'Insert ERROR!' . '<br>' . "\n";
             }
         }
         // die(__CLASS__ . ':' . __LINE__);
@@ -802,7 +802,7 @@ class Terms extends Sadmin
 
         // dọn dẹp cache liên quan đến post này -> reset cache
         $this->cleanup_cache($this->term_model->key_cache($id));
-        //echo $this->taxonomy . '<br>' . PHP_EOL;
+        //echo $this->taxonomy . '<br>' . "\n";
         // xóa cache cho riêng phần ads
         if ($this->taxonomy == TaxonomyType::ADS) {
             // dọn dẹp theo slug truyền vào
@@ -837,7 +837,7 @@ class Terms extends Sadmin
             // print_r($new_data);
 
             // -> lấy url mới -> thiết lập lại url ở fronend
-            echo $this->term_model->update_term_permalink($new_data) . '<br>' . PHP_EOL;
+            echo $this->term_model->update_term_permalink($new_data) . '<br>' . "\n";
             // die(__CLASS__ . ':' . __LINE__);
 
             // nạp lại trang

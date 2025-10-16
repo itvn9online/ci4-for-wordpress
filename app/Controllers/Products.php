@@ -21,7 +21,7 @@ class Products extends Posts
 
     public function product_details($id, $slug)
     {
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         return $this->post_details($id, $slug);
     }
 
@@ -35,10 +35,10 @@ class Products extends Posts
 
     public function products_list($slug, $set_page = '', $page_num = 1)
     {
-        //echo $slug . ' <br>' . PHP_EOL;
-        //echo $set_page . ' <br>' . PHP_EOL;
-        //echo $page_num . ' <br>' . PHP_EOL;
-        //echo 'blog list <br>' . PHP_EOL;
+        //echo $slug . ' <br>' . "\n";
+        //echo $set_page . ' <br>' . "\n";
+        //echo $page_num . ' <br>' . "\n";
+        //echo 'blog list <br>' . "\n";
 
         //
         if ($slug == '') {

@@ -21,12 +21,12 @@ if (strpos($content_htaccess, '{my_domain.com}') !== false) {
             $content_htaccess = str_replace('# Header always set Permissions-Policy ', 'Header always set Permissions-Policy ', $content_htaccess);
             // cập nhật content
             file_put_contents($path_htaccess, $content_htaccess, LOCK_EX);
-            echo 'update {my_domain.com} for ' . $path_htaccess . '<br>' . PHP_EOL;
+            echo 'update {my_domain.com} for ' . $path_htaccess . '<br>' . "\n";
         } else {
-            echo 'WGR_DISABLE_AUTO_HTACCESS is defined' . '<br>' . PHP_EOL;
+            echo 'WGR_DISABLE_AUTO_HTACCESS is defined' . '<br>' . "\n";
         }
     } else {
-        echo 'content_htaccess has {my_domain.com}' . '<br>' . PHP_EOL;
+        echo 'content_htaccess has {my_domain.com}' . '<br>' . "\n";
     }
 }
 

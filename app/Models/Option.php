@@ -56,15 +56,15 @@ class Option extends EbModel
                     'limit' => -1
                 )
             );
-            //echo $sql . '<br>' . PHP_EOL;
+            //echo $sql . '<br>' . "\n";
             //die( __CLASS__ . ':' . __LINE__ );
 
             // -> câu SQL để thực thi trực tiếp
             $sql = "INSERT INTO `" . WGR_TABLE_PREFIX . "options_deleted` $sql";
-            echo $sql . '<br>' . PHP_EOL;
+            echo $sql . '<br>' . "\n";
             //die( __CLASS__ . ':' . __LINE__ );
             $this->base_model->MY_query($sql);
-            echo 'Backup config: ' . $option_name . ':' . $option_type . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            echo 'Backup config: ' . $option_name . ':' . $option_type . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
             // xong XÓA
             $this->base_model->delete_multiple(
@@ -78,7 +78,7 @@ class Option extends EbModel
                 ]
             );
             //die( __CLASS__ . ':' . __LINE__ );
-            echo 'Delete config: ' . $option_name . ':' . $option_type . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            echo 'Delete config: ' . $option_name . ':' . $option_type . ':' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         }
     }
 
@@ -107,7 +107,7 @@ class Option extends EbModel
 
     public function gets_config($option_type, $lang_key)
     {
-        //echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        //echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
         $data = $this->get_config_by_type($option_type, $lang_key);
 
         //
@@ -195,11 +195,11 @@ class Option extends EbModel
 
         // có cache thì trả về
         if ($data !== null) {
-            //echo __CLASS__ . ':' . __LINE__ . PHP_EOL;
+            //echo __CLASS__ . ':' . __LINE__ . "\n";
             //print_r($data);
             return $data;
         }
-        //echo __CLASS__ . ':' . __LINE__ . PHP_EOL;
+        //echo __CLASS__ . ':' . __LINE__ . "\n";
 
         //
         $data = $this->base_model->select(
@@ -266,11 +266,11 @@ class Option extends EbModel
     public function list_config($lang_key = '', $time = BIG_CACHE_TIMEOUT)
     {
         if ($GLOBALS['this_cache_config'] !== null) {
-            // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+            // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
             return $GLOBALS['this_cache_config'];
         }
         // var_dump($GLOBALS['this_cache_config']);
-        // echo __CLASS__ . ':' . __LINE__ . '<br>' . PHP_EOL;
+        // echo __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
         //
         if ($lang_key == '') {
@@ -475,15 +475,15 @@ class Option extends EbModel
     public function the_logo($cog, $key = 'logo', $logo_height = '')
     {
         // print_r($cog);
-        // echo $logo_height . '<br>' . PHP_EOL;
-        // echo $cog->$logo_height . '<br>' . PHP_EOL;
+        // echo $logo_height . '<br>' . "\n";
+        // echo $cog->$logo_height . '<br>' . "\n";
         if ($logo_height != '' && isset($cog->$logo_height) && $cog->$logo_height != '') {
             $height = $cog->$logo_height;
-            // echo $height . '<br>' . PHP_EOL;
+            // echo $height . '<br>' . "\n";
         } else {
             $height = $cog->logo_main_height;
         }
-        // echo $height . '<br>' . PHP_EOL;
+        // echo $height . '<br>' . "\n";
 
         //
         echo '<a href="./" class="web-logo" aria-label="Home" style="background-image: url(\'' . $this->get_the_logo($cog, $key) . '\'); height: ' . $height . 'px;">&nbsp;</a>';
@@ -570,7 +570,7 @@ class Option extends EbModel
      **/
     public function clearOpsCache($option_type, $other_type = [])
     {
-        //echo $this->key_cache($option_type) . PHP_EOL;
+        //echo $this->key_cache($option_type) . "\n";
         $this->clearOpCache('list_config');
         $this->clearOpCache($option_type);
 
@@ -608,7 +608,7 @@ class Option extends EbModel
      **/
     public function clearOpCache($key)
     {
-        echo 'Cleanup cache ' . $key . ': ' . $this->base_model->dcache($this->key_cache($key)) . '<br>' . PHP_EOL;
+        echo 'Cleanup cache ' . $key . ': ' . $this->base_model->dcache($this->key_cache($key)) . '<br>' . "\n";
     }
 
     // in ra ảnh để tạo og:image
