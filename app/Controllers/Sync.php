@@ -25,13 +25,15 @@ class Sync extends BaseController
             $this->cdn404();
         } else if (CDN_UPLOADS_URL != '' && strpos(CDN_UPLOADS_URL, '/' . $_SERVER['HTTP_HOST'] . '/') !== false) {
             $this->cdn404();
+            // } else if (WHITELISTS_DOMAIN_ONLY != '' && strpos(WHITELISTS_DOMAIN_ONLY, $_SERVER['HTTP_HOST']) === false) {
+            // $this->cdn404();
         }
 
         // không lỗi lầm gì thì mới nạp mấy cái này
         $this->term_model = new \App\Models\Term();
 
         //
-        //$this->cache = \Config\Services::cache();
+        // $this->cache = \Config\Services::cache();
         $this->request = \Config\Services::request();
 
         // test request

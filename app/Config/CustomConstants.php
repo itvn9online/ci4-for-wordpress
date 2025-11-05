@@ -539,6 +539,9 @@ defined('CDN_BASE_URL') || define('CDN_BASE_URL', '');
 // khi cần chuyển các file ảnh trong thư mục upload/ sang url khác để giảm tải cho server chính thì dùng chức năng này
 defined('CDN_UPLOADS_URL') || define('CDN_UPLOADS_URL', '');
 
+// chỉ các tên miền trong danh sách trắng mới hiển thị nội dung website
+// defined('WHITELISTS_DOMAIN_ONLY') || define('WHITELISTS_DOMAIN_ONLY', '');
+
 // permission mặc định khi up file, tạo thư mục
 defined('DEFAULT_FILE_PERMISSION') || define('DEFAULT_FILE_PERMISSION', 0777);
 defined('DEFAULT_DIR_PERMISSION') || define('DEFAULT_DIR_PERMISSION', 0777);
