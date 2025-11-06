@@ -70,6 +70,7 @@ include VIEWS_PATH . 'default/login_header.php';
         ?>
         <div class="text-center">
             <?php
+            include VIEWS_PATH . 'google_auth_view.php';
             include VIEWS_PATH . 'firebase_auth_view.php';
             ?>
         </div>
