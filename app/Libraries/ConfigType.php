@@ -311,6 +311,9 @@ class ConfigType
                 'g_recaptcha_site_key' => 'G recaptcha site key',
                 'g_recaptcha_secret_key' => 'G recaptcha secret key',
                 'google_client_id' => 'Google Client ID',
+                'google_redirect_url' => 'Google Redirect URL',
+                'google_show_one_tap' => 'Google Show One Tap',
+                'google_auto_select' => 'Google Auto Select',
                 'g_firebase_title' => 'Firebase',
                 'g_firebase_config' => 'SDK setup and configuration',
                 'firebase_json_config' => 'Firebase config',
@@ -684,6 +687,9 @@ class ConfigType
             'mail_queue_admin' => 'select',
             'mail_queue_author' => 'select',
             'mail_queue_sending_type' => 'select',
+            // 
+            'google_show_one_tap' => 'checkbox',
+            'google_auto_select' => 'checkbox',
         ];
         //print_r( $arr );
         if (isset($arr[$key])) {
@@ -737,6 +743,9 @@ class ConfigType
             'g_recaptcha_site_key' => 'Truy cập vào đây https://www.google.com/recaptcha/about/ -> tới bảng điều khiển site -> tìm tab Settings -> reCAPTCHA keys -> copy Site key và Secret key dán vào đây và lưu lại.',
             'g_recaptcha_secret_key' => 'Khi có đầy đủ 2 thông số để kích hoạt reCaptcha thì một số chỗ sử dụng captcha sẽ được dùng reCaptcha làm phương thức xác thực mặc định.',
             'google_client_id' => 'Dùng cho chức năng đăng nhập bằng tài khoản Google. Lấy Client ID tại đây: https://console.developers.google.com/apis/credentials -> Chọn OAuth 2.0 Client IDs -> Copy Client ID và dán vào đây.',
+            'google_redirect_url' => 'Khi muốn cố định URL chuyển hướng sau khi đăng nhập bằng Google, hãy thiết lập URL này tại đây. Mặc định sẽ chuyển về trang chủ hoặc trang đã gọi chức năng đăng nhập nếu có tham số login_redirect.',
+            'google_show_one_tap' => 'Khi bật chế độ này, One Tap sẽ được hiển thị cho người dùng nếu có thể.',
+            'google_auto_select' => 'Khi bật chế độ này, Google sẽ tự động chọn tài khoản đã đăng nhập trước đó nếu có.',
             'g_firebase_config' => 'Trong https://console.firebase.google.com/u/0/ -> chọn Project cần kết nối -> Project settings -> General -> Your apps -> SDK setup and configuration -> Config -> Copy code ở Config và dán vào đây. Nếu website đã thiết lập chức năng đăng nhập qua firebase, khuyến nghị bạn tắt chức năng Đăng ký mặc định tại đây: ' . base_url('sadmin/configs') . '?support_tab=data_disable_register_member',
             'firebase_json_config' => 'Config của Firebase sau khi đã được biên dịch lại để các đoạn code trong PHP sử dụng.',
             'g_firebase_privacy_policy_url' => 'URL chính sách bảo mật khi sử dụng chức năng đăng nhập qua firebase',

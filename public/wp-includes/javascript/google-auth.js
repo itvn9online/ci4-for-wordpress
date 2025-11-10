@@ -61,16 +61,37 @@ function initializeGoogleAuth() {
 			console.log("Google Sign-In button rendered");
 		}
 
-		// Show One Tap if enabled
-		if (window.google_auth_config.show_one_tap === true) {
+		// Show One Tap if enabled (default is true)
+		const showOneTap = window.google_auth_config.show_one_tap !== false;
+		if (showOneTap) {
+			// Configure One Tap with additional options
 			google.accounts.id.prompt((notification) => {
-				if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-					console.log(
-						"One Tap not displayed:",
-						notification.getNotDisplayedReason()
-					);
+				if (notification.isNotDisplayed()) {
+					const reason = notification.getNotDisplayedReason();
+					console.log("One Tap not displayed:", reason);
+
+					// Reasons: opt_out_or_no_session, browser_not_supported,
+					// invalid_client, suppressed_by_user, unregistered_origin
+					if (reason === "suppressed_by_user") {
+						console.log("User has suppressed One Tap");
+					} else if (reason === "opt_out_or_no_session") {
+						console.log("User opted out or no Google session");
+					}
+				} else if (notification.isSkippedMoment()) {
+					const reason = notification.getSkippedReason();
+					console.log("One Tap skipped:", reason);
+
+					// Reasons: user_cancel, tap_outside, issuing_failed
+				} else if (notification.isDismissedMoment()) {
+					const reason = notification.getDismissedReason();
+					console.log("One Tap dismissed:", reason);
+
+					// Reasons: credential_returned, cancel
 				}
 			});
+			console.log("✓ One Tap prompt displayed");
+		} else {
+			console.log("One Tap disabled in config");
 		}
 
 		window.google_auth_initialized = true;
@@ -156,17 +177,47 @@ function sendGoogleTokenToBackend(credential, userInfo) {
 		return;
 	}
 
+	// SECURITY: Validate callback URL is same origin
+	try {
+		const callbackUrl = new URL(
+			window.google_auth_config.callback_url,
+			window.location.origin
+		);
+		if (callbackUrl.origin !== window.location.origin) {
+			console.error("Callback URL must be same origin");
+			handleGoogleSignInError("Cấu hình không hợp lệ");
+			return;
+		}
+	} catch (e) {
+		console.error("Invalid callback URL:", e);
+		handleGoogleSignInError("Cấu hình không hợp lệ");
+		return;
+	}
+
+	// SECURITY: Validate credential format
+	if (
+		!credential ||
+		typeof credential !== "string" ||
+		credential.length > 2048
+	) {
+		console.error("Invalid credential format");
+		handleGoogleSignInError("Token không hợp lệ");
+		return;
+	}
+
 	const formData = new FormData();
 	formData.append("credential", credential);
 	formData.append("id_token", credential);
-	formData.append("user_info", JSON.stringify(userInfo));
+
+	// Don't send full user info, backend will decode from token
+	// formData.append("user_info", JSON.stringify(userInfo));
 
 	// Add CSRF token if available
-	if (typeof csrf_token !== "undefined") {
+	if (typeof csrf_token !== "undefined" && csrf_token) {
 		formData.append("csrf_token", csrf_token);
 	}
 
-	// Add timestamp for cache busting
+	// Add timestamp for cache busting and replay attack prevention
 	formData.append("timestamp", Date.now());
 
 	console.log(
@@ -181,6 +232,8 @@ function sendGoogleTokenToBackend(credential, userInfo) {
 			"X-Requested-With": "XMLHttpRequest",
 		},
 		credentials: "same-origin",
+		// SECURITY: Set timeout to prevent hanging requests
+		signal: AbortSignal.timeout(30000), // 30 seconds timeout
 	})
 		.then((response) => {
 			if (!response.ok) {
@@ -204,7 +257,14 @@ function sendGoogleTokenToBackend(credential, userInfo) {
 		.catch((error) => {
 			showGoogleAuthLoading(false);
 			console.error("Network error:", error);
-			handleGoogleSignInError("Lỗi kết nối: " + error.message);
+
+			// SECURITY: Don't expose detailed error messages to users
+			let userMessage = "Lỗi kết nối. Vui lòng thử lại.";
+			if (error.name === "AbortError") {
+				userMessage = "Yêu cầu hết thời gian. Vui lòng thử lại.";
+			}
+
+			handleGoogleSignInError(userMessage);
 		});
 }
 
@@ -287,23 +347,40 @@ function updateGoogleAuthUI(userInfo) {
 	// Show success message with user avatar
 	const successDiv = document.getElementById("google-auth-success");
 	if (successDiv) {
-		const avatarHtml = userInfo.picture
-			? `<img src="${userInfo.picture}" alt="${userInfo.name}" style="width:50px;height:50px;border-radius:50%;margin-right:10px;vertical-align:middle;">`
-			: "";
+		// SECURITY: Sanitize user inputs before displaying
+		const safeName = escapeHtml(userInfo.name || "User");
+		const safeEmail = escapeHtml(userInfo.email || "");
+
+		// SECURITY: Only show avatar if it's from Google's CDN
+		let avatarHtml = "";
+		if (
+			userInfo.picture &&
+			userInfo.picture.startsWith("https://lh3.googleusercontent.com")
+		) {
+			const safePicture = escapeHtml(userInfo.picture);
+			avatarHtml = `<img src="${safePicture}" alt="${safeName}" style="width:50px;height:50px;border-radius:50%;margin-right:10px;vertical-align:middle;">`;
+		}
 
 		successDiv.innerHTML = `
             <div class="alert alert-success" style="display:flex;align-items:center;">
                 ${avatarHtml}
                 <div>
                     <h5 style="margin:0;">Đăng nhập thành công!</h5>
-                    <p style="margin:5px 0 0 0;">Chào mừng ${
-											userInfo.name || userInfo.email
-										}</p>
+                    <p style="margin:5px 0 0 0;">Chào mừng ${safeName}</p>
                 </div>
             </div>
         `;
 		successDiv.style.display = "block";
 	}
+}
+
+/**
+ * Escape HTML to prevent XSS
+ */
+function escapeHtml(text) {
+	const div = document.createElement("div");
+	div.textContent = text;
+	return div.innerHTML;
 }
 
 /**

@@ -114,16 +114,21 @@ if (!empty($google_client_id)) {
         // Google Auth Configuration
         window.google_auth_config = {
             client_id: '<?php echo $google_client_id; ?>',
-            callback_url: '<?php echo base_url('googleauth/signin'); ?>',
-            redirect_url: '<?php echo $firebase_config->google_redirect_url ?? ''; ?>',
+            callback_url: '<?php echo DYNAMIC_BASE_URL . 'googleauth/signin'; ?>',
+            redirect_url: '<?php echo ($firebase_config->google_redirect_url ?? ''); ?>',
             show_one_tap: <?php echo ($firebase_config->google_show_one_tap ?? 'off') === 'on' ? 'true' : 'false'; ?>,
-            auto_select: <?php echo ($firebase_config->google_auto_select ?? 'off') === 'on' ? 'true' : 'false'; ?>
+            auto_select: <?php echo ($firebase_config->google_auto_select ?? 'off') === 'on' ? 'true' : 'false'; ?>,
+            cancel_on_tap_outside: true,
+            context: 'signin'
         };
 
         // CSRF Token if available
         <?php if (isset($csrf_token)) { ?>
-            window.csrf_token = '<?php echo $csrf_token; ?>';
+            window.csrf_token = <?php echo json_encode($csrf_token); ?>;
         <?php } ?>
+
+        // Dispatch config ready event
+        window.dispatchEvent(new CustomEvent('googleConfigReady'));
     </script>
 
 <?php

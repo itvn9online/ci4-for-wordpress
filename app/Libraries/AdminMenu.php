@@ -255,7 +255,7 @@ class AdminMenu
                     ],
                     'sadmin/socials' => [
                         'name' => ConfigType::typeList(ConfigType::SOCIAL),
-                        'tag' => 'Google Adsense, facebook, Zalo, Youtube, Tawk, TikTok',
+                        'tag' => 'Google Adsense, Analytics, AMP, Facebook, Zalo, Youtube, Tawk, TikTok',
                         'icon' => 'fa fa-facebook',
                     ],
                     'sadmin/confighomes' => [
@@ -328,7 +328,7 @@ class AdminMenu
                     ],
                     'sadmin/firebases' => [
                         'name' => 'Recaptcha/ Firebase',
-                        'tag' => 'login, recaptcha',
+                        'tag' => 'login, recaptcha, google signin',
                         'icon' => 'fa fa-code-fork',
                     ],
                     'sadmin/zalooas' => [

@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Libraries\UsersType;
 use App\Libraries\DeletedStatus;
 use Exception;
+use Config\Services;
 
 /**
  * Google Identity Services Authentication Controller
@@ -25,9 +26,9 @@ class Googleauth extends Guest
         parent::__construct();
         $this->googleClientId = $this->getGoogleClientId();
 
-        // trong admin thì luôn bật hiển thị lỗi cho dễ làm việc
-        ini_set('display_errors', 1);
-        error_reporting(E_ALL);
+        // SECURITY: Never enable display_errors in production!
+        // ini_set('display_errors', 1);
+        // error_reporting(E_ALL);
     }
 
     /**
@@ -57,16 +58,61 @@ class Googleauth extends Guest
      */
     private function validateRequest(): void
     {
+        // Check request method
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             throw new Exception('Invalid request method');
         }
 
-        if (
-            empty($_SERVER['HTTP_REFERER']) ||
-            parse_url($_SERVER['HTTP_REFERER'])['host'] !== $_SERVER['HTTP_HOST']
-        ) {
+        // Validate referer (can be spoofed, additional checks needed)
+        if (empty($_SERVER['HTTP_REFERER'])) {
+            throw new Exception('Missing referer');
+        }
+
+        $refererHost = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
+        if ($refererHost !== $_SERVER['HTTP_HOST']) {
             throw new Exception('Invalid referer');
         }
+
+        // SECURITY: Rate limiting check
+        $this->checkRateLimit();
+    }
+
+    /**
+     * Check rate limiting to prevent brute force attacks
+     */
+    private function checkRateLimit(): void
+    {
+        $ip = $this->getClientIP();
+        $cacheKey = 'google_auth_attempts_' . md5($ip);
+
+        // Use session-based rate limiting as fallback
+        if (!isset($_SESSION['google_auth_attempts'])) {
+            $_SESSION['google_auth_attempts'] = [];
+        }
+
+        $attempts = $_SESSION['google_auth_attempts'][$ip] ?? 0;
+
+        if ($attempts > 10) { // Max 10 attempts per session
+            throw new Exception('Too many login attempts. Please try again later.');
+        }
+
+        $_SESSION['google_auth_attempts'][$ip] = $attempts + 1;
+    }
+
+    /**
+     * Get client IP address safely
+     */
+    private function getClientIP(): string
+    {
+        $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+
+        // Check for proxy headers (be careful with these as they can be spoofed)
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+            $ip = trim($ips[0]);
+        }
+
+        return filter_var($ip, FILTER_VALIDATE_IP) ? $ip : '0.0.0.0';
     }
 
     /**
@@ -108,13 +154,23 @@ class Googleauth extends Guest
             throw new Exception('Invalid JWT format');
         }
 
+        // SECURITY: Validate token length to prevent DoS
+        if (strlen($idToken) > 2048) {
+            throw new Exception('Token too long');
+        }
+
         // Decode payload
         $payload = $parts[1];
         $payload = str_replace(['-', '_'], ['+', '/'], $payload);
-        $payload = base64_decode($payload);
-        $data = json_decode($payload, true);
+        $decoded = base64_decode($payload, true);
 
-        if (!$data) {
+        if ($decoded === false) {
+            throw new Exception('Invalid base64 encoding');
+        }
+
+        $data = json_decode($decoded, true);
+
+        if (!is_array($data)) {
             throw new Exception('Invalid JWT payload');
         }
 
@@ -129,22 +185,52 @@ class Googleauth extends Guest
      */
     private function validateGoogleUserData(array $data): void
     {
-        $required = ['sub', 'email', 'name', 'aud'];
+        $required = ['sub', 'email', 'name', 'aud', 'iss'];
 
         foreach ($required as $field) {
-            if (!isset($data[$field])) {
+            if (!isset($data[$field]) || empty($data[$field])) {
                 throw new Exception("Missing required field: {$field}");
             }
         }
 
-        // Validate client ID
+        // SECURITY: Validate issuer (must be Google)
+        $validIssuers = ['https://accounts.google.com', 'accounts.google.com'];
+        if (!in_array($data['iss'], $validIssuers)) {
+            throw new Exception('Invalid token issuer');
+        }
+
+        // SECURITY: Validate client ID (audience)
         if ($data['aud'] !== $this->googleClientId) {
             throw new Exception('Invalid audience');
         }
 
-        // Check expiration
-        if (isset($data['exp']) && time() > $data['exp']) {
+        // SECURITY: Validate email format
+        if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            throw new Exception('Invalid email format');
+        }
+
+        // SECURITY: Check email verified status
+        if (isset($data['email_verified']) && $data['email_verified'] !== true) {
+            throw new Exception('Email not verified by Google');
+        }
+
+        // SECURITY: Check token expiration with buffer
+        if (!isset($data['exp']) || !is_numeric($data['exp'])) {
+            throw new Exception('Missing or invalid expiration time');
+        }
+
+        if (time() > $data['exp']) {
             throw new Exception('Token expired');
+        }
+
+        // SECURITY: Check issued at time (prevent future tokens)
+        if (isset($data['iat']) && $data['iat'] > time() + 60) {
+            throw new Exception('Token issued in the future');
+        }
+
+        // SECURITY: Validate sub (Google user ID) format
+        if (!preg_match('/^[0-9]+$/', $data['sub'])) {
+            throw new Exception('Invalid Google user ID format');
         }
     }
 
@@ -167,16 +253,44 @@ class Googleauth extends Guest
      */
     private function makeHttpRequest(string $url): ?array
     {
+        // SECURITY: Validate URL is Google's domain
+        $parsedUrl = parse_url($url);
+        if ($parsedUrl['host'] !== 'www.googleapis.com') {
+            throw new Exception('Invalid API URL');
+        }
+
+        // SECURITY: Use HTTPS only
+        if ($parsedUrl['scheme'] !== 'https') {
+            throw new Exception('HTTPS required for API calls');
+        }
+
         $context = stream_context_create([
             'http' => [
                 'timeout' => 10,
-                'user_agent' => 'GoogleAuth/1.0'
+                'user_agent' => 'GoogleAuth/1.0',
+                'method' => 'GET',
+                'ignore_errors' => false
+            ],
+            'ssl' => [
+                'verify_peer' => true,
+                'verify_peer_name' => true,
+                'allow_self_signed' => false
             ]
         ]);
 
-        $result = file_get_contents($url, false, $context);
+        $result = @file_get_contents($url, false, $context);
 
-        return $result ? json_decode($result, true) : null;
+        if ($result === false) {
+            throw new Exception('Failed to verify token with Google API');
+        }
+
+        $data = json_decode($result, true);
+
+        if (!is_array($data)) {
+            throw new Exception('Invalid API response');
+        }
+
+        return $data;
     }
 
     /**
@@ -256,13 +370,23 @@ class Googleauth extends Guest
      */
     private function prepareGoogleUserData(array $googleData): array
     {
+        // SECURITY: Sanitize all user inputs
+        $email = filter_var($googleData['email'], FILTER_SANITIZE_EMAIL);
+        $name = htmlspecialchars(strip_tags($googleData['name']), ENT_QUOTES, 'UTF-8');
+        $picture = filter_var($googleData['picture'] ?? '', FILTER_SANITIZE_URL);
+
+        // SECURITY: Validate picture URL is from Google
+        if (!empty($picture) && strpos($picture, 'https://lh3.googleusercontent.com') !== 0) {
+            $picture = ''; // Only accept Google profile pictures
+        }
+
         return [
-            'user_email' => $googleData['email'],
-            'email' => $googleData['email'],
-            'display_name' => $googleData['name'],
-            'user_login' => $this->generateUsername($googleData['email']),
+            'user_email' => $email,
+            'email' => $email,
+            'display_name' => substr($name, 0, 100), // Limit length
+            'user_login' => $this->generateUsername($email),
             'member_type' => UsersType::GUEST,
-            'avatar' => $googleData['picture'] ?? '',
+            'avatar' => $picture,
             'google_id' => $this->hashGoogleId($googleData['sub']),
             'member_verified' => UsersType::VERIFIED,
             'user_status' => UsersType::FOR_DEFAULT,
@@ -335,21 +459,48 @@ class Googleauth extends Guest
             'member_verified' => UsersType::VERIFIED
         ];
 
-        // Update avatar if empty
+        // SECURITY: Sanitize and validate avatar URL
         if (!empty($googleData['picture'])) {
-            $user = $this->base_model->select(
-                'avatar',
-                $this->user_model->table,
-                ['ID' => $userId],
-                ['limit' => 1]
-            );
+            $picture = filter_var($googleData['picture'], FILTER_SANITIZE_URL);
 
-            if (empty($user['avatar'])) {
-                $updates['avatar'] = $googleData['picture'];
+            // Only accept Google profile pictures
+            if (strpos($picture, 'https://lh3.googleusercontent.com') === 0) {
+                $user = $this->base_model->select(
+                    'avatar',
+                    $this->user_model->table,
+                    ['ID' => $userId],
+                    ['limit' => 1]
+                );
+
+                if (empty($user['avatar'])) {
+                    $updates['avatar'] = $picture;
+                }
             }
         }
 
         $this->user_model->update_member($userId, $updates);
+
+        // SECURITY: Log login activity
+        $this->logLoginActivity($userId, 'google', true);
+    }
+
+    /**
+     * Log login activity for security audit
+     */
+    private function logLoginActivity(int $userId, string $provider, bool $success): void
+    {
+        $logData = [
+            'user_id' => $userId,
+            'provider' => $provider,
+            'success' => $success,
+            'ip_address' => $this->getClientIP(),
+            'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown',
+            'timestamp' => date('Y-m-d H:i:s')
+        ];
+
+        // Log to file or database
+        // log_message('info', 'Google Auth: ' . json_encode($logData));
+        error_log('Google Auth: ' . json_encode($logData));
     }
 
     /**
@@ -415,7 +566,7 @@ class Googleauth extends Guest
             'ok' => __LINE__,
             'data' => [
                 'client_id' => $this->googleClientId,
-                'callback_url' => base_url('googleauth/signin')
+                'callback_url' => DYNAMIC_BASE_URL . 'googleauth/signin'
             ]
         ]);
     }

@@ -33,7 +33,7 @@ function dynamicUiConfig() {
 	if (firebase_dynamic_config.phone == "on") {
 		a.push(buildPhoneAuthProvider());
 	}
-	//console.log(a);
+	// console.log(a);
 
 	//
 	return a;
