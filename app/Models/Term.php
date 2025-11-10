@@ -1187,7 +1187,9 @@ class Term extends TermBase
             // hoặc đúng là slug
             $slug == $data['slug'] ||
             // hoặc kiểu URL có .html, .html, .etc...
-            strpos($slug, $data['slug'] . '.') !== false
+            strpos($slug, $data['slug'] . '.') !== false ||
+            // hoặc đã qua kiểm tra canonical rồi, tránh lặp redirect
+            isset($_GET['canonical'])
         ) {
             // thì cho qua
             return true;

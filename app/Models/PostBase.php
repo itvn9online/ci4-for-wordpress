@@ -184,7 +184,9 @@ class PostBase extends EbModel
             // hoặc đúng là post_name
             $slug == $data['post_name'] ||
             // hoặc kiểu URL có .html, .html, .etc...
-            strpos($slug, $data['post_name'] . '.') !== false
+            strpos($slug, $data['post_name'] . '.') !== false ||
+            // hoặc đã qua kiểm tra canonical rồi, tránh lặp redirect
+            isset($_GET['canonical'])
         ) {
             // thì cho qua
             return true;
@@ -203,7 +205,7 @@ class PostBase extends EbModel
         // header('HTTP/1.1 301 Moved Permanently');
         http_response_code(301);
         die(header('Location: ' . $redirect_to, true, 301));
-        //die( __CLASS__ . ':' . __LINE__ );
+        // die( __CLASS__ . ':' . __LINE__ );
     }
 
     /**

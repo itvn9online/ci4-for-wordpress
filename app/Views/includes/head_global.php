@@ -72,7 +72,7 @@ if (CDN_BASE_URL != '') {
 
 //
 //print_r( $getconfig );
-if ($getconfig->blog_private == 'on' || $seo['index'] == 'off') {
+if ($getconfig->blog_private == 'on' || $seo['index'] == 'off' || isset($_GET['canonical'])) {
 ?>
     <meta name="robots" content="noindex, nofollow" />
 <?php
