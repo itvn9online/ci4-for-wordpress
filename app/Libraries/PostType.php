@@ -77,6 +77,7 @@ class PostType
             self::PUBLICITY => 'Hiển thị',
             self::PRIVATELY => 'Riêng tư',
             self::PENDING => 'Chờ duyệt',
+            // self::ON_HOLD => 'Tạm giữ',
             self::DRAFT => 'Bản nháp',
             self::DELETED => 'XÓA',
             //self::INHERIT => '',

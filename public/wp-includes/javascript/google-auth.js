@@ -291,13 +291,23 @@ function handleGoogleSignInSuccess(userInfo, backendData) {
 	if (redirectUrl && redirectUrl !== "") {
 		setTimeout(() => {
 			console.log("Redirecting to:", redirectUrl);
-			window.location.href = redirectUrl;
+			if (window.self === window.top) {
+				// Same-origin redirect
+				window.location.href = redirectUrl;
+			} else {
+				// Cross-origin redirect
+				window.top.location.href = redirectUrl;
+			}
 		}, 1500);
 	} else {
 		// Reload page to update login state
 		setTimeout(() => {
 			console.log("Reloading page...");
-			window.location.reload();
+			if (window.self === window.top) {
+				window.location.reload();
+			} else {
+				window.top.location.reload();
+			}
 		}, 1500);
 	}
 }
