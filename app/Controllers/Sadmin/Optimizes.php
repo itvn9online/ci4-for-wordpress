@@ -64,4 +64,98 @@ class Optimizes extends Optimize
         ]);
         return view('vadmin/admin_teamplate', $this->teamplate_admin);
     }
+
+    /**
+     * Minify CSS/JS from URL using external API
+     */
+    protected function minifyFromURL($url, $type = 'js')
+    {
+        $apiUrl = 'https://closure-compiler.echbay.com/api/minify';
+
+        $data = json_encode([
+            'url' => $url,
+            'type' => $type
+        ]);
+
+        $ch = curl_init($apiUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json'
+        ]);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        $result = json_decode($response, true);
+
+        if ($result['success']) {
+            return $result['data']['minified'];
+        }
+
+        return false;
+    }
+
+    /**
+     * Compiler for manual minification of CSS/JS files
+     **/
+    public function compiler()
+    {
+        // xóa toàn bộ html trước đó
+        ob_clean();
+
+        // định dạng header
+        // header('Content-Type: text/plain; charset=utf-8');
+
+        // kiểm tra đầu vào
+        $file = $this->MY_get('file');
+        if (empty($file)) {
+            $this->base_model->alert('No file specified.', 'error');
+        }
+
+        if (!is_file($file)) {
+            $this->base_model->alert('File does not exist.', 'error');
+        }
+
+        // lấy nội dung file
+        $file_content = file_get_contents($file);
+        if ($file_content === false) {
+            $this->base_model->alert('Failed to read file.', 'error');
+        }
+
+        // nếu đầu file có chứa chú thích của trình nén thì bỏ qua
+        if (strpos($file_content, '/* ' . $this->minify_comment . ' */') !== false) {
+            $this->base_model->alert('File is already minified.', 'warning');
+        }
+
+        // xác định file type
+        $file_type = pathinfo($file, PATHINFO_EXTENSION);
+        if ($file_type == 'js') {
+            // định dạng header
+            // header('Content-Type: application/javascript; charset=utf-8');
+        } else if ($file_type == 'css') {
+            // định dạng header
+            // header('Content-Type: text/css; charset=utf-8');
+        } else {
+            $this->base_model->alert('Unsupported file type.', 'error');
+        }
+        // die($file_type);
+
+        $url = DYNAMIC_BASE_URL . str_replace(PUBLIC_PUBLIC_PATH, '', $file);
+        // die($url);
+
+        $minified = $this->minifyFromURL($url, $file_type);
+        if ($minified !== false) {
+            // thêm 1 số chú thích vào file đã nén
+            $minified = "/* {$this->minify_comment} */\n" . $minified;
+            // lưu file đã nén lại
+            if (file_put_contents($file, $minified) !== false) {
+                // die($minified);
+                echo '<script type="text/javascript">top.after_closure_compiler_echbay();</script>';
+                $this->base_model->alert('Minification successful.');
+            }
+        }
+        $this->base_model->alert('Minification failed.', 'error');
+    }
 }

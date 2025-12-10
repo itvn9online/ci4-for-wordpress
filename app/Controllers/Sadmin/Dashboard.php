@@ -740,8 +740,11 @@ class Dashboard extends Optimize
             $file_path = $upload_path . explode('?', basename($this->link_download_system_github))[0];
             // echo $file_path . '<br>' . "\n";
 
-            //
-            $this->file_model->download_file($file_path, $this->link_download_system_github);
+            // download file system zip từ github, nếu thất bại thì chuyển sang bước update base code luôn
+            if ($this->file_model->download_file($file_path, $this->link_download_system_github) !== true) {
+                // $this->base_model->alert('Download failed! ' . $this->link_download_system_github, 'error');
+                return $this->next_step_update_code('update_base_code');
+            }
             return $this->next_step_update_code('unzip_system');
         } else if ($step == 'unzip_system') {
             $this->unzip_system(true);
@@ -847,7 +850,7 @@ class Dashboard extends Optimize
         // 
         if ($step == 'download_base_code') {
             if ($this->file_model->download_file($file_path, $this->link_download_github) !== true) {
-                $this->base_model->alert('Download failed! Cannot be determined file after download', 'error');
+                $this->base_model->alert('Download failed! ' . $this->link_download_github, 'error');
             }
             return $this->next_step_update_code('unzip_base_code');
         }
@@ -941,18 +944,18 @@ class Dashboard extends Optimize
         echo 'main zip: ' . $main_zip . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
         //
-        //$filename = '';
+        // $filename = '';
         if ($this->MY_unzip($file_path, $upload_path) === TRUE) {
             //
             $this->cleanup_zip($upload_path, 'Không xóa được file ZIP sau khi giải nén code');
-            //die(__CLASS__ . ':' . __LINE__);
+            // die(__CLASS__ . ':' . __LINE__);
 
             // nếu là giải nén trong cache -> copy file sang thư mục public
             if ($main_zip === true || $this->using_via_ftp() === true) {
                 if ($main_zip === true) {
                     $upload_path .= 'ci4-for-wordpress-main/';
                 }
-                //die( $upload_path );
+                // die($upload_path);
                 echo 'upload path: ' . $upload_path . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
 
                 // xóa file Database.php nếu có -> chỉ giữ lại file Database-sample.php
@@ -991,9 +994,9 @@ class Dashboard extends Optimize
                 $this->rmdir_from_cache($upload_path);
 
                 //
-                //print_r( $this->file_re_cache );
-                //print_r( $this->dir_re_cache );
-                //die( $upload_path );
+                // print_r($this->file_re_cache);
+                // print_r($this->dir_re_cache);
+                // die($upload_path);
 
                 // tạo thư mục nếu chưa có -> tạo trước khi lật ngược mảng
                 foreach ($this->dir_re_cache as $dir) {
@@ -1002,7 +1005,7 @@ class Dashboard extends Optimize
                     //
                     if (!is_dir($dir)) {
                         echo 'Create dir: ' . $dir . ' --- ' . __CLASS__ . ':' . __LINE__ . '<br>' . "\n";
-                        //continue;
+                        // continue;
 
                         // tạo thư mục thông qua FTP
                         if ($this->using_via_ftp() === true) {

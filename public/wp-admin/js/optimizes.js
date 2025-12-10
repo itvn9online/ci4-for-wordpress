@@ -1,0 +1,79 @@
+/**
+ * Closure Compiler EchBay - Auto Minify CSS/JS
+ * Tự động nén các file CSS/JS thông qua Closure Compiler API
+ */
+
+// Biến theo dõi trạng thái
+var isCompiling = false;
+
+/**
+ * Bắt đầu quá trình tự động nén file
+ */
+function start_closure_compiler_echbay() {
+	var $btn = $(".start-compiler-closure");
+
+	if (isCompiling) {
+		// Dừng nén
+		isCompiling = false;
+		$btn
+			.text("Bắt đầu nén file")
+			.removeClass("btn-warning")
+			.addClass("btn-primary");
+		console.log("✗ Đã dừng nén file");
+	} else {
+		// Bắt đầu nén
+		var $firstFile = $("#for_vue a.closure-compiler-echbay").first();
+
+		if ($firstFile.length === 0) {
+			WGR_alert("Không có file nào cần nén!", "warning");
+			return;
+		}
+
+		isCompiling = true;
+		$btn.text("Dừng nén").removeClass("btn-primary").addClass("btn-warning");
+		console.log("✓ Bắt đầu nén file...");
+
+		// Click vào file đầu tiên
+		$firstFile[0].click();
+	}
+}
+
+/**
+ * Xử lý khi nén file thành công
+ */
+function after_closure_compiler_echbay() {
+	// Tìm file đang được nén và xóa class
+	var $currentFile = $("#for_vue a.closure-compiler-echbay").first();
+	$currentFile
+		.removeClass("closure-compiler-echbay")
+		.addClass("compiled-success");
+
+	console.log("✓ Đã nén xong: " + $currentFile.text());
+
+	// Nếu vẫn đang chạy, tìm file tiếp theo
+	if (isCompiling) {
+		var $nextFile = $("#for_vue a.closure-compiler-echbay").first();
+
+		if ($nextFile.length > 0) {
+			// Delay 300ms rồi nén file tiếp theo
+			setTimeout(function () {
+				$nextFile[0].click();
+			}, 300);
+		} else {
+			// Đã hết file
+			isCompiling = false;
+			$(".start-compiler-closure")
+				.text("Bắt đầu nén file")
+				.removeClass("btn-warning")
+				.addClass("btn-success");
+			console.log("✓ Hoàn thành nén tất cả file!");
+
+			// Reset về primary sau 3s
+			setTimeout(function () {
+				$(".start-compiler-closure")
+					.removeClass("btn-success")
+					.addClass("btn-primary");
+			}, 3000);
+		}
+	}
+}

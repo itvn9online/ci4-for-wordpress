@@ -466,6 +466,12 @@ class File extends EbModel
         // tăng timeout khoảng 120s để tải file lớn
         set_time_limit(120);
 
+        // kiểm tra link download có tồn tại không
+        $headers = get_headers($url);
+        if (strpos($headers[0], '200') === false) {
+            return false;
+        }
+
         // tải file
         if (!file_put_contents($file_path, file_get_contents($url), LOCK_EX)) {
             //if (!copy($url, $file_path)) {

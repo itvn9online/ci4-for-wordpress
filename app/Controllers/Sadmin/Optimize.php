@@ -13,6 +13,7 @@ class Optimize extends Sadmin
     public $conn_cache_id = null;
     public $conn_clear_id = false;
     public $base_cache_dir = null;
+    protected $minify_comment = 'Minified by closure-compiler.EB Optimize Controller';
 
     //
     public function __construct()
@@ -205,10 +206,15 @@ class Optimize extends Sadmin
                 $this->MY_unlink($filename);
                 continue;
             }
+            // nếu đầu file có chứa chú thích của trình nén thì bỏ qua
+            if (strpos($c, '/* ' . $this->minify_comment . ' */') !== false) {
+                echo 'continue (' . basename($filename) . ') <br>' . "\n";
+                continue;
+            }
             $c = $this->WGR_remove_css_multi_comment($c);
             //var_dump( $c );
             if ($c === false) {
-                echo 'continue (' . basename($filename) . ') <br>' . "\n";
+                echo 'continue (<a href="sadmin/optimizes/compiler?file=' . urlencode($filename) . '" target="target_eb_iframe" class="closure-compiler-echbay">' . basename($filename) . '</a>) <br>' . "\n";
                 continue;
             }
             echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . "\n";
@@ -242,9 +248,14 @@ class Optimize extends Sadmin
                 $this->MY_unlink($filename);
                 continue;
             }
+            // nếu đầu file có chứa chú thích của trình nén thì bỏ qua
+            if (strpos($c, '/* ' . $this->minify_comment . ' */') !== false) {
+                echo 'continue (' . basename($filename) . ') <br>' . "\n";
+                continue;
+            }
             $c = $this->WGR_update_core_remove_js_comment($c);
             if ($c === false) {
-                echo 'continue (' . basename($filename) . ') <br>' . "\n";
+                echo 'continue (<a href="sadmin/optimizes/compiler?file=' . urlencode($filename) . '" target="target_eb_iframe" class="closure-compiler-echbay">' . basename($filename) . '</a>) <br>' . "\n";
                 continue;
             }
             echo $filename . ':<em>' . __CLASS__ . '</em>:' . __LINE__ . '<br>' . "\n";
