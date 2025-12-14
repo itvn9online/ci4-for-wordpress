@@ -267,10 +267,13 @@ class Plains extends Layout
         return $this->result_json_type($a);
     }
 
-    protected function getDB($ip, $path, $level = '')
+    protected function getDB($ips, $path, $level = '')
     {
         // var_dump($ip);
         // die(__CLASS__ . ':' . __LINE__);
+
+        // xử lý trường hợp multi ip
+        $ip = explode(',', $ips)[0];
 
         //
         $reader = new Reader($path);
@@ -285,7 +288,7 @@ class Plains extends Layout
 
         // 
         return [
-            'ip' => $ip,
+            'ip' => $ips,
             'level' => $level,
             // 'last_updated' => date('Y-m-d', filemtime($path)),
             'last_updated' => filemtime($path),
