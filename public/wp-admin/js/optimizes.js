@@ -41,7 +41,7 @@ function start_closure_compiler_echbay() {
 /**
  * Xử lý khi nén file thành công
  */
-function after_closure_compiler_echbay(type) {
+function after_closure_compiler_echbay(type, result_url = null) {
 	// Tìm file đang được nén và xóa class và attr href tương ứng
 	var $currentFile = $("#for_vue a.closure-compiler-echbay").first();
 	$currentFile
@@ -54,6 +54,12 @@ function after_closure_compiler_echbay(type) {
 	} else {
 		console.log("✓ Minification successful: " + $currentFile.text());
 		$currentFile.addClass("greencolor").removeAttr("href");
+	}
+	if (result_url !== null) {
+		$currentFile.attr({
+			href: result_url + "?v=" + new Date().getTime(),
+			target: "_blank",
+		});
 	}
 
 	// Nếu vẫn đang chạy, tìm file tiếp theo

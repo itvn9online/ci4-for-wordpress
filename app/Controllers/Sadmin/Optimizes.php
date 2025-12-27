@@ -73,7 +73,7 @@ class Optimizes extends Optimize
         $apiUrl = 'https://closure-compiler.echbay.com/api/minify';
 
         $payload = [
-            'url' => $url,
+            'url' => $url . '?v=' . time(),
             'type' => $type
         ];
 
@@ -251,7 +251,7 @@ class Optimizes extends Optimize
         }
         // die($file_type);
 
-        $url = DYNAMIC_BASE_URL . str_replace(PUBLIC_PUBLIC_PATH, '', $file);
+        $url = str_replace(PUBLIC_PUBLIC_PATH, DYNAMIC_BASE_URL, $file);
         // die($url);
 
         // $minified = $this->minifyFromURL($url, $file_type);
@@ -262,7 +262,7 @@ class Optimizes extends Optimize
             // lưu file đã nén lại
             if (file_put_contents($file, $minified) !== false) {
                 // die($minified);
-                echo '<script type="text/javascript">top.after_closure_compiler_echbay("ok");</script>';
+                echo '<script type="text/javascript">top.after_closure_compiler_echbay("ok", "' . $url . '");</script>';
                 $this->base_model->alert('Minification successful.');
             }
         } else {
@@ -281,7 +281,7 @@ class Optimizes extends Optimize
                     // lưu file đã nén lại
                     if (file_put_contents($file, $minified) !== false) {
                         // die($minified);
-                        echo '<script type="text/javascript">top.after_closure_compiler_echbay("ok");</script>';
+                        echo '<script type="text/javascript">top.after_closure_compiler_echbay("ok", "' . $url . '");</script>';
                         $this->base_model->alert('Minification successful.', 'warning');
                     }
                 }
