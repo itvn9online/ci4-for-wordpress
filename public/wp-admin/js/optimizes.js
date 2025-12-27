@@ -41,14 +41,20 @@ function start_closure_compiler_echbay() {
 /**
  * Xử lý khi nén file thành công
  */
-function after_closure_compiler_echbay() {
-	// Tìm file đang được nén và xóa class
+function after_closure_compiler_echbay(type) {
+	// Tìm file đang được nén và xóa class và attr href tương ứng
 	var $currentFile = $("#for_vue a.closure-compiler-echbay").first();
 	$currentFile
 		.removeClass("closure-compiler-echbay")
 		.addClass("compiled-success");
 
-	console.log("✓ Đã nén xong: " + $currentFile.text());
+	if (type === "error") {
+		console.warn("✗ Minification failed: " + $currentFile.text());
+		$currentFile.addClass("orgcolor");
+	} else {
+		console.log("✓ Minification successful: " + $currentFile.text());
+		$currentFile.addClass("greencolor").removeAttr("href");
+	}
 
 	// Nếu vẫn đang chạy, tìm file tiếp theo
 	if (isCompiling) {

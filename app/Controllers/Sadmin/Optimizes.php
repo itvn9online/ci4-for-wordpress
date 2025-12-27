@@ -93,6 +93,15 @@ class Optimizes extends Optimize
         if ($result['success']) {
             return $result['data']['minified'];
         }
+        // print_r($result);
+        if (isset($result['error'])) {
+            if (gettype($result['error']) == 'array') {
+                $result['error'] = implode('; ', $result['error']);
+            }
+            echo '<script type="text/javascript">top.after_closure_compiler_echbay("error");</script>';
+            $this->base_model->alert($result['error'], 'error');
+        }
+        // die(__CLASS__ . ':' . __LINE__);
 
         return false;
     }
@@ -111,21 +120,25 @@ class Optimizes extends Optimize
         // kiểm tra đầu vào
         $file = $this->MY_get('file');
         if (empty($file)) {
+            echo '<script type="text/javascript">top.after_closure_compiler_echbay("error");</script>';
             $this->base_model->alert('No file specified.', 'error');
         }
 
         if (!is_file($file)) {
+            echo '<script type="text/javascript">top.after_closure_compiler_echbay("error");</script>';
             $this->base_model->alert('File does not exist.', 'error');
         }
 
         // lấy nội dung file
         $file_content = file_get_contents($file);
         if ($file_content === false) {
+            echo '<script type="text/javascript">top.after_closure_compiler_echbay("error");</script>';
             $this->base_model->alert('Failed to read file.', 'error');
         }
 
         // nếu đầu file có chứa chú thích của trình nén thì bỏ qua
         if (strpos($file_content, '/* ' . $this->minify_comment . ' */') !== false) {
+            echo '<script type="text/javascript">top.after_closure_compiler_echbay("error");</script>';
             $this->base_model->alert('File is already minified.', 'warning');
         }
 
@@ -138,6 +151,7 @@ class Optimizes extends Optimize
             // định dạng header
             // header('Content-Type: text/css; charset=utf-8');
         } else {
+            echo '<script type="text/javascript">top.after_closure_compiler_echbay("error");</script>';
             $this->base_model->alert('Unsupported file type.', 'error');
         }
         // die($file_type);
@@ -152,10 +166,11 @@ class Optimizes extends Optimize
             // lưu file đã nén lại
             if (file_put_contents($file, $minified) !== false) {
                 // die($minified);
-                echo '<script type="text/javascript">top.after_closure_compiler_echbay();</script>';
+                echo '<script type="text/javascript">top.after_closure_compiler_echbay("ok");</script>';
                 $this->base_model->alert('Minification successful.');
             }
         }
+        echo '<script type="text/javascript">top.after_closure_compiler_echbay("error");</script>';
         $this->base_model->alert('Minification failed.', 'error');
     }
 }
