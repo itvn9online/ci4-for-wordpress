@@ -13,8 +13,9 @@ class Optimize extends Sadmin
     public $conn_cache_id = null;
     public $conn_clear_id = false;
     public $base_cache_dir = null;
-    protected $minify_comment = 'Minified by https://closure-compiler.echbay.com/ Optimize Controller';
-    protected $minify_local_comment = 'Minified by local Optimize Controller';
+    protected $minify_comment = '/* Minified by ' . COMPILER_BRAND_NAME . ' Optimize Controller */';
+    protected $minify_local_comment = '/* Minified by local Optimize Controller */';
+    protected $minify_short_comment = '/* Minified */';
 
     //
     public function __construct()
@@ -208,7 +209,11 @@ class Optimize extends Sadmin
                 continue;
             }
             // nếu đầu file có chứa chú thích của trình nén thì bỏ qua
-            if (strpos($c, $this->minify_comment) !== false || strpos($c, $this->minify_local_comment) !== false) {
+            if (
+                str_starts_with($c, $this->minify_short_comment) ||
+                strpos($c, $this->minify_comment) !== false ||
+                strpos($c, $this->minify_local_comment) !== false
+            ) {
                 echo 'continue (' . str_replace(PUBLIC_PUBLIC_PATH, DYNAMIC_BASE_URL, $filename) . ') <br>' . "\n";
                 continue;
             }
@@ -251,7 +256,11 @@ class Optimize extends Sadmin
                 continue;
             }
             // nếu đầu file có chứa chú thích của trình nén thì bỏ qua
-            if (strpos($c, $this->minify_comment) !== false || strpos($c, $this->minify_local_comment) !== false) {
+            if (
+                str_starts_with($c, $this->minify_short_comment) ||
+                strpos($c, $this->minify_comment) !== false ||
+                strpos($c, $this->minify_local_comment) !== false
+            ) {
                 echo 'continue (' . str_replace(PUBLIC_PUBLIC_PATH, DYNAMIC_BASE_URL, $filename) . ') <br>' . "\n";
                 continue;
             }

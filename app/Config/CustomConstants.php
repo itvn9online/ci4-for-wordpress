@@ -517,6 +517,8 @@ defined('PARTNER_BRAND_NAME') || define('PARTNER_BRAND_NAME', 'EchBay.com');
 //
 defined('PARTNER2_WEBSITE') || define('PARTNER2_WEBSITE', 'https://webgiare.org/');
 defined('PARTNER2_BRAND_NAME') || define('PARTNER2_BRAND_NAME', 'WebGiaRe.org');
+// dịch vụ compiler code js, css
+defined('COMPILER_BRAND_NAME') || define('COMPILER_BRAND_NAME', 'https://closure-compiler.echbay.com/');
 
 // kiểu kết nối dữ liệu
 defined('MY_DB_DRIVER') || define('MY_DB_DRIVER', 'MySQLi');

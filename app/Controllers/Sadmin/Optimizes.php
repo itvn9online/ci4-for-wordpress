@@ -232,7 +232,11 @@ class Optimizes extends Optimize
         }
 
         // nếu đầu file có chứa chú thích của trình nén thì bỏ qua
-        if (strpos($file_content, $this->minify_comment) !== false || strpos($file_content, $this->minify_local_comment) !== false) {
+        if (
+            str_starts_with($file_content, $this->minify_short_comment) ||
+            strpos($file_content, $this->minify_comment) !== false ||
+            strpos($file_content, $this->minify_local_comment) !== false
+        ) {
             echo '<script type="text/javascript">top.after_closure_compiler_echbay("error");</script>';
             $this->base_model->alert('File is already minified.', 'warning');
         }
@@ -254,11 +258,21 @@ class Optimizes extends Optimize
         $url = str_replace(PUBLIC_PUBLIC_PATH, DYNAMIC_BASE_URL, $file);
         // die($url);
 
+        // 
+        $min_len = strlen($this->minify_comment) * 10;
+        if ($min_len < 500) {
+            $min_len = 500;
+        }
+
         // $minified = $this->minifyFromURL($url, $file_type);
         $minified = $this->minifyFile($file_content, $file_type);
         if ($minified !== false) {
             // thêm 1 số chú thích vào file đã nén
-            $minified = "/* {$this->minify_comment} */\n" . $minified;
+            if (strlen($minified) > $min_len) {
+                $minified = $this->minify_comment . "\n" . $minified;
+            } else {
+                $minified = $this->minify_short_comment . $minified;
+            }
             // lưu file đã nén lại
             if (file_put_contents($file, $minified) !== false) {
                 // die($minified);
@@ -277,7 +291,11 @@ class Optimizes extends Optimize
                 $c = trim($c);
                 if (!empty($c)) {
                     // thêm 1 số chú thích vào file đã nén
-                    $minified = "/* {$this->minify_local_comment} */\n" . $minified;
+                    if (strlen($minified) > $min_len) {
+                        $minified = $this->minify_local_comment . "\n" . $minified;
+                    } else {
+                        $minified = $this->minify_short_comment . $minified;
+                    }
                     // lưu file đã nén lại
                     if (file_put_contents($file, $minified) !== false) {
                         // die($minified);

@@ -89,7 +89,7 @@ if ($debug_enable === true) {
             <?php echo THEMENAME; ?>
         </strong> - được phát triển bởi <a href="<?php echo PARTNER_WEBSITE; ?>" target="_blank" rel="nofollow"><strong>
                 <?php echo PARTNER_BRAND_NAME; ?>
-            </strong></a>. Cập nhật lần cuối:
+            </strong></a> Cập nhật lần cuối:
         <strong>{{ datetime(last_ci4_update*1000) }}</strong>
         (<em><strong>{{calculate_ci4_update(last_ci4_update)}}</strong> ngày trước</em>)
         <?php
