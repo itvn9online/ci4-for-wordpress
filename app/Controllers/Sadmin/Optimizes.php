@@ -68,16 +68,111 @@ class Optimizes extends Optimize
     /**
      * Minify CSS/JS from URL using external API
      */
-    protected function minifyFromURL($url, $type = 'js')
+    protected function minifyFromURL($url, $type = 'js', $useDefaultOptions = true)
     {
         $apiUrl = 'https://closure-compiler.echbay.com/api/minify';
 
-        $data = json_encode([
+        $payload = [
             'url' => $url,
             'type' => $type
-        ]);
+        ];
+
+        // Thêm options nếu cần
+        if ($useDefaultOptions) {
+            if ($type === 'js') {
+                $payload['options'] = [
+                    // Nén code, xóa dead code
+                    'compress' => true,
+                    // Rút ngắn tên biến (a, b, c...)
+                    'mangle' => true,
+                    'format' => [
+                        // Xóa comments
+                        'comments' => false
+                    ]
+                ];
+            } else if ($type === 'css') {
+                $payload['options'] = [
+                    // Mức độ tối ưu hóa cao nhất
+                    'level' => 2
+                ];
+            }
+        }
+
+        $data = json_encode($payload);
 
         $ch = curl_init($apiUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json'
+        ]);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        $result = json_decode($response, true);
+
+        if ($result['success']) {
+            return $result['data']['minified'];
+        }
+        // print_r($result);
+        if (isset($result['error'])) {
+            if (gettype($result['error']) == 'array') {
+                $result['error'] = implode('; ', $result['error']);
+            }
+            echo '<script type="text/javascript">top.after_closure_compiler_echbay("error");</script>';
+            $this->base_model->alert($result['error'], 'error');
+        }
+        // die(__CLASS__ . ':' . __LINE__);
+
+        return false;
+    }
+
+    /**
+     * Minify CSS/JS from file using external API
+     **/
+    protected function minifyFile($code, $type = 'js', $filePath = null)
+    {
+        // Đọc nội dung file
+        if ($filePath !== null) {
+            $code = file_get_contents($filePath);
+
+            if ($code === false) {
+                throw new Exception("Cannot read file: $filePath");
+            }
+        }
+
+        // Gọi API minify
+        $url = 'https://closure-compiler.echbay.com/api/minify';
+
+        // Cấu hình options theo loại file
+        $options = [];
+        if ($type === 'js') {
+            $options = [
+                // Nén code, xóa dead code
+                'compress' => true,
+                // Rút ngắn tên biến (a, b, c...)
+                'mangle' => true,
+                'format' => [
+                    // Xóa comments
+                    'comments' => false
+                ]
+            ];
+        } else if ($type === 'css') {
+            $options = [
+                // Mức độ tối ưu hóa cao nhất
+                'level' => 2
+            ];
+        }
+
+        $data = json_encode([
+            'code' => $code,
+            'type' => $type,
+            'options' => $options
+        ]);
+
+        $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -137,7 +232,7 @@ class Optimizes extends Optimize
         }
 
         // nếu đầu file có chứa chú thích của trình nén thì bỏ qua
-        if (strpos($file_content, '/* ' . $this->minify_comment . ' */') !== false) {
+        if (strpos($file_content, $this->minify_comment) !== false || strpos($file_content, $this->minify_local_comment) !== false) {
             echo '<script type="text/javascript">top.after_closure_compiler_echbay("error");</script>';
             $this->base_model->alert('File is already minified.', 'warning');
         }
@@ -159,7 +254,8 @@ class Optimizes extends Optimize
         $url = DYNAMIC_BASE_URL . str_replace(PUBLIC_PUBLIC_PATH, '', $file);
         // die($url);
 
-        $minified = $this->minifyFromURL($url, $file_type);
+        // $minified = $this->minifyFromURL($url, $file_type);
+        $minified = $this->minifyFile($file_content, $file_type);
         if ($minified !== false) {
             // thêm 1 số chú thích vào file đã nén
             $minified = "/* {$this->minify_comment} */\n" . $minified;
@@ -168,6 +264,27 @@ class Optimizes extends Optimize
                 // die($minified);
                 echo '<script type="text/javascript">top.after_closure_compiler_echbay("ok");</script>';
                 $this->base_model->alert('Minification successful.');
+            }
+        } else {
+            if ($file_type == 'css') {
+                $c = $this->WGR_remove_css_multi_comment($file_content);
+            } else if ($file_type == 'js') {
+                $c = $this->WGR_update_core_remove_js_comment($file_content);
+            } else {
+                $c = false;
+            }
+            if ($c !== false) {
+                $c = trim($c);
+                if (!empty($c)) {
+                    // thêm 1 số chú thích vào file đã nén
+                    $minified = "/* {$this->minify_local_comment} */\n" . $minified;
+                    // lưu file đã nén lại
+                    if (file_put_contents($file, $minified) !== false) {
+                        // die($minified);
+                        echo '<script type="text/javascript">top.after_closure_compiler_echbay("ok");</script>';
+                        $this->base_model->alert('Minification successful.', 'warning');
+                    }
+                }
             }
         }
         echo '<script type="text/javascript">top.after_closure_compiler_echbay("error");</script>';

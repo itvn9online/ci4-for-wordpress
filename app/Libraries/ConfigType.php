@@ -891,7 +891,7 @@ class ConfigType
             //
             'google_adsense' => 'Khi thông số này được thiết lập, mã google adsense sẽ tự động được thiết lập trong HEAD',
             'google_amp_adsense' => 'Khi thông số này được thiết lập, mã google adsense cho phiên bản amp sẽ tự động được thiết lập trong HEAD và ngay sau thẻ BODY.',
-            'google_ads_txt_adsense' => 'Khi cần xác minh website bằng tệp ads.txt thì nhập nội dung tệp vào đây sau đó bấm lưu lại để tạo tệp.',
+            'google_ads_txt_adsense' => 'Khi cần xác minh website bằng tệp ' . base_url('ads.txt') . ' thì nhập nội dung tệp vào đây sau đó bấm lưu lại để tạo tệp.',
             'home_rating_value' => 'Vui lòng nhập dạng số thập phân. Ví dụ: 4.8 hoặc 4.5 hoặc 3.3',
             'home_rating_count' => 'Vui lòng nhập dạng số nguyên, tổng số lượng bình chọn website này, nếu là số ảo thì nhập trong khoảng 160 - 300.',
             'home_review_count' => 'Vui lòng nhập dạng số nguyên, tổng số lượng bài đánh giá website này, nếu là số ảo thì nhập dưới 70.',
