@@ -615,7 +615,7 @@ class Dashboard extends Optimize
         }
 
         // đồng bộ lại thirdparty và database
-        ///echo basename( $file_path ) . '<br>';
+        // echo basename($file_path) . '<br>';
         if (strpos(basename($file_path), 'ci4-for-wordpress') !== false) {
             $this->cleanup_config_cache(false);
             $this->vendor_sync(false);
@@ -978,6 +978,11 @@ class Dashboard extends Optimize
                         if (is_file($upload_path . $the_file)) {
                             $this->file_re_cache[] = $upload_path . $the_file;
                         }
+                    }
+
+                    // xóa favicon.ico trong thư mục public nếu có -> tránh ghi đè favicon đang dùng
+                    if (is_file(PUBLIC_PUBLIC_PATH . 'favicon.ico') && is_file($upload_path . 'public/favicon.ico')) {
+                        $this->MY_unlink($upload_path . 'public/favicon.ico');
                     }
 
                     //

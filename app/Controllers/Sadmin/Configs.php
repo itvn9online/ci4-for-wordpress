@@ -216,26 +216,47 @@ class Configs extends Sadmin
                     echo PUBLIC_PUBLIC_PATH . $data['web_favicon'] . '<br>' . "\n";
 
                     // copy 1 bản sao của file sang thư mục public
-                    if (copy(PUBLIC_PUBLIC_PATH . $data['web_favicon'], PUBLIC_PUBLIC_PATH . 'favicon.png')) {
-                        $data['web_favicon'] = 'favicon.png';
+                    if ($data['web_favicon'] != 'favicon.png') {
+                        if (copy(PUBLIC_PUBLIC_PATH . $data['web_favicon'], PUBLIC_PUBLIC_PATH . 'favicon.png')) {
+                            echo 'Create favicon.png to public success!<br>' . "\n";
+                            $data['web_favicon'] = 'favicon.png';
+                        } else {
+                            echo 'Create favicon.png to public failed!<br>' . "\n";
+                        }
+                    }
 
-                        /**
-                         * Chuyển đổi file png sang ico
-                         * https://github.com/itvn9online/php-ico
-                         */
+                    /**
+                     * Chuyển đổi file png sang ico dùng thư viện php-ico, sử dụng try-catch để tránh lỗi dừng chương trình
+                     * https://github.com/itvn9online/php-ico
+                     */
+                    if (is_file(PUBLIC_HTML_PATH . 'vendor/php-ico/class-php-ico.php')) {
                         include PUBLIC_HTML_PATH . 'vendor/php-ico/class-php-ico.php';
 
                         // 
-                        $ico_lib = new \PHP_ICO(PUBLIC_PUBLIC_PATH . 'favicon.png');
-                        $ico_lib->save_ico(PUBLIC_PUBLIC_PATH . 'favicon.ico');
+                        try {
+                            $ico_lib = new \PHP_ICO(PUBLIC_PUBLIC_PATH . 'favicon.png');
+                            $ico_lib->save_ico(PUBLIC_PUBLIC_PATH . 'favicon.ico');
+                            echo 'Create favicon.ico from png to public success!<br>' . "\n";
+                        } catch (\Exception $e) {
+                            echo 'Cannot create favicon.ico from png: ' . $e->getMessage() . '<br>' . "\n";
+                        }
+                    } else {
+                        echo 'Cannot create favicon.ico from png because class-php-ico.php not found!<br>' . "\n";
                     }
                 } else if (strpos(strtolower($data['web_favicon']), '.ico') !== false) {
                     echo PUBLIC_PUBLIC_PATH . $data['web_favicon'] . '<br>' . "\n";
 
                     // 
-                    if (copy(PUBLIC_PUBLIC_PATH . $data['web_favicon'], PUBLIC_PUBLIC_PATH . 'favicon.ico')) {
-                        $data['web_favicon'] = 'favicon.ico';
+                    if ($data['web_favicon'] != 'favicon.ico') {
+                        if (copy(PUBLIC_PUBLIC_PATH . $data['web_favicon'], PUBLIC_PUBLIC_PATH . 'favicon.ico')) {
+                            echo 'Create favicon.ico to public success!<br>' . "\n";
+                            $data['web_favicon'] = 'favicon.ico';
+                        } else {
+                            echo 'Create favicon.ico to public failed!<br>' . "\n";
+                        }
                     }
+                } else {
+                    echo 'Favicon file must be .png or .ico format!<br>' . "\n";
                 }
             }
 

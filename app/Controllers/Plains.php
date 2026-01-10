@@ -92,7 +92,7 @@ class Plains extends Layout
         // nếu lệnh download được thiết lập
         if ($update_mmdb === true) {
             // -> tiến hành download db từ link:
-            $url = 'https://cloud.echbay.com/Geolite2db/mmdb';
+            $url = 'https://cloud.echbay.com/geolite2db/mmdb';
 
             // Use basename() function to return the base name of file 
             $dir_path = dirname($arr_files[0]);
