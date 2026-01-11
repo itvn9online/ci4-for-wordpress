@@ -348,17 +348,17 @@ class AdminMenu
                         'name' => ' Website cleanup',
                         'icon' => 'fa fa-magic',
                     ],
-                    'sadmin/optimizes' => [
-                        'name' => 'Optimize code',
-                        'icon' => 'fa fa-code',
+                    'sadmin/constants' => [
+                        'name' => ConfigType::typeList(ConfigType::CONSTANTS),
+                        'icon' => 'fa fa-paragraph',
                     ],
                     'sadmin/dashboards/update_code' => [
                         'name' => 'Update code',
                         'icon' => 'fa fa-upload',
                     ],
-                    'sadmin/constants' => [
-                        'name' => ConfigType::typeList(ConfigType::CONSTANTS),
-                        'icon' => 'fa fa-paragraph',
+                    'sadmin/optimizes' => [
+                        'name' => 'Optimize code',
+                        'icon' => 'fa fa-code',
                     ],
                     'sadmin/logs' => [
                         'name' => 'Logs',
