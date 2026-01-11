@@ -102,7 +102,6 @@ function initializeGoogleAuth() {
 
 		return true;
 	} catch (error) {
-		console.error("✗ Error initializing Google Sign-In:", error);
 		return false;
 	}
 }
@@ -126,12 +125,6 @@ function handleGoogleSignIn(response) {
 	const userInfo = parseGoogleJWT(response.credential);
 
 	if (userInfo) {
-		console.log("Google user info:", {
-			email: userInfo.email,
-			name: userInfo.name,
-			picture: userInfo.picture,
-		});
-
 		// Send to backend for verification
 		sendGoogleTokenToBackend(response.credential, userInfo);
 	} else {
@@ -162,7 +155,6 @@ function parseGoogleJWT(token) {
 
 		return JSON.parse(jsonPayload);
 	} catch (error) {
-		console.error("Error parsing JWT:", error);
 		return null;
 	}
 }
@@ -189,7 +181,6 @@ function sendGoogleTokenToBackend(credential, userInfo) {
 			return;
 		}
 	} catch (e) {
-		console.error("Invalid callback URL:", e);
 		handleGoogleSignInError("Cấu hình không hợp lệ");
 		return;
 	}
@@ -220,11 +211,6 @@ function sendGoogleTokenToBackend(credential, userInfo) {
 	// Add timestamp for cache busting and replay attack prevention
 	formData.append("timestamp", Date.now());
 
-	console.log(
-		"Sending token to backend:",
-		window.google_auth_config.callback_url
-	);
-
 	fetch(window.google_auth_config.callback_url, {
 		method: "POST",
 		body: formData,
@@ -244,8 +230,6 @@ function sendGoogleTokenToBackend(credential, userInfo) {
 		.then((data) => {
 			showGoogleAuthLoading(false);
 
-			console.log("Backend response:", data);
-
 			if (data.ok) {
 				handleGoogleSignInSuccess(userInfo, data);
 			} else {
@@ -256,7 +240,6 @@ function sendGoogleTokenToBackend(credential, userInfo) {
 		})
 		.catch((error) => {
 			showGoogleAuthLoading(false);
-			console.error("Network error:", error);
 
 			// SECURITY: Don't expose detailed error messages to users
 			let userMessage = "Lỗi kết nối. Vui lòng thử lại.";
@@ -316,8 +299,6 @@ function handleGoogleSignInSuccess(userInfo, backendData) {
  * Handle sign-in error
  */
 function handleGoogleSignInError(errorMessage) {
-	console.error("✗ Google Sign-In error:", errorMessage);
-
 	// Trigger custom event
 	window.dispatchEvent(
 		new CustomEvent("googleSignInError", {
