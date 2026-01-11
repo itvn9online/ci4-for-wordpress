@@ -90,7 +90,7 @@ function WGR_alert(m, lnk, auto_hide) {
 			console.log(m);
 			// class thể hiện màu sắc của alert
 			let cl = "";
-			if (lnk == "error") {
+			if (lnk == "error" || lnk == "danger") {
 				cl = "redbg";
 			} else if (lnk == "warning") {
 				cl = "orgbg";
@@ -120,19 +120,21 @@ function WGR_alert(m, lnk, auto_hide) {
 			//
 			if (typeof auto_hide != "number") {
 				auto_hide = 6000;
-			} else if (auto_hide < 120) {
+			} else if (auto_hide > 0 && auto_hide < 120) {
 				auto_hide *= 1000;
 			}
 
 			//
-			setTimeout(() => {
-				jQuery("#" + jd).remove();
+			if (auto_hide > 0) {
+				setTimeout(() => {
+					jQuery("#" + jd).remove();
 
-				// nếu không còn div nào -> ẩn luôn
-				if (jQuery("#my_custom_alert div").length < 1) {
-					jQuery("#my_custom_alert").fadeOut();
-				}
-			}, auto_hide);
+					// nếu không còn div nào -> ẩn luôn
+					if (jQuery("#my_custom_alert div").length < 1) {
+						jQuery("#my_custom_alert").fadeOut();
+					}
+				}, auto_hide);
+			}
 		} else if (lnk != "") {
 			return WGR_redirect(lnk);
 		}

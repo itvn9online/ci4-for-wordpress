@@ -19,19 +19,19 @@ function start_closure_compiler_echbay() {
 			.text("Bắt đầu nén file")
 			.removeClass("btn-warning")
 			.addClass("btn-primary");
-		console.log("✗ Đã dừng nén file");
+		console.log("Đã dừng nén file");
 	} else {
 		// Bắt đầu nén
 		var $firstFile = $("#for_vue a.closure-compiler-echbay").first();
 
 		if ($firstFile.length === 0) {
-			WGR_alert("Không có file nào cần nén!", "warning");
+			WGR_html_alert("Không có file nào cần nén!", "warning");
 			return;
 		}
 
 		isCompiling = true;
 		$btn.text("Dừng nén").removeClass("btn-primary").addClass("btn-warning");
-		console.log("✓ Bắt đầu nén file...");
+		console.log("Bắt đầu nén file...");
 
 		// Click vào file đầu tiên
 		$firstFile[0].click();
@@ -49,10 +49,10 @@ function after_closure_compiler_echbay(type, result_url = null) {
 		.addClass("compiled-success");
 
 	if (type === "error") {
-		console.warn("✗ Minification failed: " + $currentFile.text());
+		console.warn($currentFile.text());
 		$currentFile.addClass("orgcolor");
 	} else {
-		console.log("✓ Minification successful: " + $currentFile.text());
+		console.log($currentFile.text());
 		$currentFile.addClass("greencolor").removeAttr("href");
 	}
 	if (result_url !== null) {
@@ -78,7 +78,7 @@ function after_closure_compiler_echbay(type, result_url = null) {
 				.text("Bắt đầu nén file")
 				.removeClass("btn-warning")
 				.addClass("btn-success");
-			console.log("✓ Hoàn thành nén tất cả file!");
+			WGR_html_alert("Hoàn thành nén tất cả file!", "success", 0);
 
 			// Reset về primary sau 3s
 			setTimeout(function () {
