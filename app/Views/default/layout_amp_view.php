@@ -1,3 +1,32 @@
+<?php
+
+/**
+ * Hàm nén mã CSS của amp-boilerplate thành 1 dòng
+ */
+function compress_amp_boilerplate($path)
+{
+    $css_content = file_get_contents($path);
+
+    // Nếu cần xử lý (có xuống dòng hoặc có comment)
+    if (strpos($css_content, "\n") !== false || strpos($css_content, '/*') !== false) {
+        // echo __FUNCTION__ . '<br>' . "\n";
+
+        // Loại bỏ tất cả comment CSS /* ... */
+        $css_content = preg_replace('/\/\*.*?\*\//s', '', $css_content);
+
+        // Loại bỏ xuống dòng và khoảng trắng thừa, chuyển thành 1 dòng
+        $css_content = preg_replace('/\s+/', ' ', trim($css_content));
+
+        // Loại bỏ khoảng trắng trước/sau các ký tự đặc biệt CSS
+        $css_content = preg_replace('/\s*([{}:;,])\s*/', '$1', $css_content);
+
+        // Lưu lại file nếu có thay đổi
+        file_put_contents($path, $css_content, LOCK_EX);
+    }
+
+    return '<style amp-boilerplate>' . $css_content . '</style>' . "\n";
+}
+?>
 <!doctype html>
 <html amp lang="vi">
 
@@ -57,27 +86,18 @@
         <script async custom-element="amp-audio" src="https://cdn.ampproject.org/v0/amp-audio-0.1.js" {csp-script-nonce}></script>
     <?php
     }
+
+    // nạp mã của amp-boilerplate
+    echo compress_amp_boilerplate(PUBLIC_PUBLIC_PATH . 'wp-includes/css/amp-boilerplate.css');
     ?>
-    <style amp-boilerplate>
-        <?php
-        echo file_get_contents(PUBLIC_PUBLIC_PATH . 'wp-includes/css/amp-boilerplate.css');
-        ?>
-    </style>
     <!-- <link rel="stylesheet" href="<?php echo DYNAMIC_BASE_URL; ?>wp-includes/css/amp-boilerplate.css"> -->
     <noscript>
-        <style amp-boilerplate>
-            body {
-                -webkit-animation: none;
-                -moz-animation: none;
-                -ms-animation: none;
-                animation: none
-            }
-        </style>
+        <?php
+        echo compress_amp_boilerplate(PUBLIC_PUBLIC_PATH . 'wp-includes/css/amp-boilerplate-noscript.css');
+        ?>
     </noscript>
     <style amp-custom>
-        <?php
-        echo file_get_contents(PUBLIC_PUBLIC_PATH . 'wp-includes/css/amp-custom.css');
-        ?>
+        <?php echo file_get_contents(PUBLIC_PUBLIC_PATH . 'wp-includes/css/amp-custom.css'); ?>
     </style>
     <!-- <link rel="stylesheet" href="<?php echo DYNAMIC_BASE_URL; ?>wp-includes/css/amp-custom.css"> -->
     <script type="application/ld+json">
