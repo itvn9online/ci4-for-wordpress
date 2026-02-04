@@ -8,11 +8,8 @@ function compress_amp_boilerplate($path)
     $css_content = file_get_contents($path);
 
     // Nếu cần xử lý (có xuống dòng hoặc có comment)
-    if (strpos($css_content, "\n") !== false || strpos($css_content, '/*') !== false) {
-        // echo __FUNCTION__ . '<br>' . "\n";
-
-        // Loại bỏ tất cả comment CSS /* ... */
-        $css_content = preg_replace('/\/\*.*?\*\//s', '', $css_content);
+    if (strpos($css_content, "\n") !== false) {
+        // echo __FUNCTION__ . ':' . __LINE__ . '<br>' . "\n";
 
         // Loại bỏ xuống dòng và khoảng trắng thừa, chuyển thành 1 dòng
         $css_content = preg_replace('/\s+/', ' ', trim($css_content));
@@ -21,7 +18,25 @@ function compress_amp_boilerplate($path)
         $css_content = preg_replace('/\s*([{}:;,])\s*/', '$1', $css_content);
 
         // Lưu lại file nếu có thay đổi
-        file_put_contents($path, $css_content, LOCK_EX);
+        file_put_contents($path, trim($css_content), LOCK_EX);
+    } else if (strpos($css_content, '/*') !== false) {
+        // echo __FUNCTION__ . ':' . __LINE__ . '<br>' . "\n";
+
+        // Nếu bắt đầu bằng comment thì cắt bỏ comment đầu tiên
+        if (strpos($css_content, '/*') === 0) {
+            $end_comment_pos = strpos($css_content, '*/');
+            if ($end_comment_pos !== false) {
+                $css_content = trim(substr($css_content, $end_comment_pos + 2));
+            }
+        }
+
+        // Loại bỏ tất cả comment CSS /* ... */
+        if (strpos($css_content, '/*') !== false) {
+            $css_content = preg_replace('/\/\*.*?\*\//s', '', $css_content);
+        }
+
+        // Lưu lại file nếu có thay đổi
+        file_put_contents($path, trim($css_content), LOCK_EX);
     }
 
     return '<style amp-boilerplate>' . $css_content . '</style>' . "\n";
