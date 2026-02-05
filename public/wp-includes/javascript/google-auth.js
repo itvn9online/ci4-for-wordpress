@@ -25,7 +25,7 @@ function initializeGoogleAuth() {
 		!google.accounts.id
 	) {
 		console.warn(
-			"Google Identity Services library not loaded yet, retrying..."
+			"Google Identity Services library not loaded yet, retrying...",
 		);
 		return false;
 	}
@@ -150,7 +150,7 @@ function parseGoogleJWT(token) {
 			atob(base64)
 				.split("")
 				.map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
-				.join("")
+				.join(""),
 		);
 
 		return JSON.parse(jsonPayload);
@@ -173,7 +173,7 @@ function sendGoogleTokenToBackend(credential, userInfo) {
 	try {
 		const callbackUrl = new URL(
 			window.google_auth_config.callback_url,
-			window.location.origin
+			window.location.origin,
 		);
 		if (callbackUrl.origin !== window.location.origin) {
 			console.error("Callback URL must be same origin");
@@ -234,7 +234,7 @@ function sendGoogleTokenToBackend(credential, userInfo) {
 				handleGoogleSignInSuccess(userInfo, data);
 			} else {
 				handleGoogleSignInError(
-					data.error || data.message || "Đăng nhập thất bại"
+					data.error || data.message || "Đăng nhập thất bại",
 				);
 			}
 		})
@@ -264,12 +264,35 @@ function handleGoogleSignInSuccess(userInfo, backendData) {
 	window.dispatchEvent(
 		new CustomEvent("googleSignInSuccess", {
 			detail: { userInfo, backendData },
-		})
+		}),
 	);
 
 	// Redirect or perform actions
-	const redirectUrl =
-		window.google_auth_config.redirect_url || backendData?.redirect_url;
+	// Priority order:
+	// 1. config redirect_url (highest priority)
+	// 2. login_redirect URL parameter
+	// 3. backend redirect_url
+	let redirectUrl = null;
+
+	// Check config redirect_url first
+	if (window.google_auth_config?.redirect_url) {
+		redirectUrl = window.google_auth_config.redirect_url;
+		console.log("Using redirect_url from config:", redirectUrl);
+	}
+	// Fallback to URL parameter (login_redirect)
+	else {
+		const urlRedirect = getUrlParameter("login_redirect");
+		if (urlRedirect && isValidRedirectUrl(urlRedirect)) {
+			redirectUrl = urlRedirect;
+			console.log("Using login_redirect from URL parameter:", redirectUrl);
+		}
+	}
+
+	// Fallback to backend redirect_url
+	if (!redirectUrl && backendData?.redirect_url) {
+		redirectUrl = backendData.redirect_url;
+		console.log("Using redirect_url from backend:", redirectUrl);
+	}
 
 	if (redirectUrl && redirectUrl !== "") {
 		setTimeout(() => {
@@ -303,7 +326,7 @@ function handleGoogleSignInError(errorMessage) {
 	window.dispatchEvent(
 		new CustomEvent("googleSignInError", {
 			detail: { error: errorMessage },
-		})
+		}),
 	);
 
 	// Show error message in UI
@@ -362,6 +385,40 @@ function updateGoogleAuthUI(userInfo) {
             </div>
         `;
 		successDiv.style.display = "block";
+	}
+}
+
+/**
+ * Get URL parameter value
+ */
+function getUrlParameter(paramName) {
+	try {
+		const params = new URLSearchParams(window.location.search);
+		const value = params.get(paramName);
+		return value ? decodeURIComponent(value) : null;
+	} catch (error) {
+		console.error("Error getting URL parameter:", error);
+		return null;
+	}
+}
+
+/**
+ * Validate redirect URL to prevent open redirect attacks
+ */
+function isValidRedirectUrl(url) {
+	if (!url || typeof url !== "string") {
+		return false;
+	}
+
+	try {
+		const redirectUrl = new URL(url, window.location.origin);
+		const currentOrigin = new URL(window.location.href).origin;
+
+		// Only allow same-origin redirects
+		return redirectUrl.origin === currentOrigin;
+	} catch (error) {
+		console.error("Invalid redirect URL:", error);
+		return false;
 	}
 }
 
@@ -429,7 +486,7 @@ function retryInitialization(attempts = 0, maxAttempts = 10) {
 		console.error(
 			"✗ Failed to initialize Google Sign-In after",
 			maxAttempts,
-			"attempts"
+			"attempts",
 		);
 		return;
 	}

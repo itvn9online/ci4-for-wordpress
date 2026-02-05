@@ -202,7 +202,7 @@ class Optimize extends Sadmin
         //
         foreach (glob($path . '/*.' . $type) as $filename) {
             $c = file_get_contents($filename, 1);
-            // nếu file không có nội dung gì thì xóa luôn file đí -> tối ưu cho frontend đỡ phải nạp
+            // nếu file không có nội dung gì thì xóa luôn file đi -> tối ưu cho frontend đỡ phải nạp
             // if (trim($c) == false) {
             if (trim($c) == '') {
                 $this->MY_unlink($filename);
