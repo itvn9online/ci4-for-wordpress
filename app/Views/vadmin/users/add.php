@@ -7,6 +7,7 @@ use App\Libraries\UsersType;
 if (isset($_GET['print_data'])) {
     echo '<!-- ';
     print_r($data);
+    print_r($data_meta);
     echo ' -->';
 }
 

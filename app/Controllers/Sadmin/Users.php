@@ -472,7 +472,7 @@ class Users extends Sadmin
             }
 
             //
-            $data_meta = $this->user_model->get_users_meta($id, $data_meta);
+            $data_meta = $this->user_model->get_users_meta($id, $data_meta, '*', false);
             // print_r($data_meta);
 
             /**
@@ -533,6 +533,7 @@ class Users extends Sadmin
             'vadmin/' . $this->add_view_path . '/add',
             array(
                 'data' => $data,
+                'data_meta' => $data_meta,
                 'controller_slug' => $this->controller_slug,
                 // 'member_type' => $this->member_type,
                 'member_type' => $data['member_type'],
@@ -704,6 +705,23 @@ class Users extends Sadmin
             }
         } else {
             $this->base_model->alert($result_id, 'error');
+        }
+    }
+
+    public function remove_meta()
+    {
+        $id = $this->MY_post('id', 0);
+        $meta_key = $this->MY_post('meta_key');
+        if (!empty($id) && !empty($meta_key)) {
+            $this->base_model->delete_multiple($this->user_model->metaTable, [
+                'user_id' => $id,
+                'meta_key' => $meta_key,
+            ], [
+                // hiển thị mã SQL để check
+                // 'show_query' => 1,
+                // trả về câu query để sử dụng cho mục đích khác
+                // 'get_query' => 1,
+            ]);
         }
     }
 

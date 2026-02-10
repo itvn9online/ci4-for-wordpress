@@ -46,13 +46,15 @@ class UserMeta extends UserBase
     }
 
     // lấy tất cả user meta của 1 id
-    public function get_users_meta($user_id, $default_value = [], $select_col = 'meta_key, meta_value')
+    public function get_users_meta($user_id, $default_value = [], $select_col = 'meta_key, meta_value', $cache = true)
     {
         //
-        $data_meta = $this->the_cache($user_id, __FUNCTION__);
-        // var_dump($data_meta);
-        if ($data_meta !== null) {
-            return $data_meta;
+        if ($cache === true) {
+            $data_meta = $this->the_cache($user_id, __FUNCTION__);
+            // var_dump($data_meta);
+            if ($data_meta !== null) {
+                return $data_meta;
+            }
         }
 
         //
