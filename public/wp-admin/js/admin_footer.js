@@ -153,7 +153,7 @@ jQuery("#sidebar").hover(
 	},
 	function () {
 		jQuery("body").removeClass("sidebar-hover");
-	}
+	},
 );
 
 // chỉnh lại chiều cao cho textediter nếu có
@@ -173,7 +173,7 @@ jQuery(".auto-ckeditor").each(function () {
 	} else {
 		console.log(
 			"%c" + "auto-ckeditor not has attr data-height or id",
-			"color: red;"
+			"color: red;",
 		);
 	}
 });
@@ -187,7 +187,7 @@ if (jQuery(".admin-breadcrumb").length > 0) {
 		document.title = str + " | " + document.title;
 	})(
 		jQuery("#breadcrumb li:last-child a").html() ||
-			jQuery("#breadcrumb li:last-child ").html()
+			jQuery("#breadcrumb li:last-child ").html(),
 	);
 }
 
@@ -257,18 +257,21 @@ fix_textarea_height();
 	}
 })(window.location.href);
 
-/*
+/**
  * duy trì đăng nhập đối với tài khoản admin (tầm 4 tiếng -> tương ứng với 1 ca làm việc)
  */
-//WGR_duy_tri_dang_nhap(4 * 60);
-setInterval(() => {
-	if (jQuery("body.preview-url").length < 1) {
-		document.getElementById("target_eb_iframe").src =
-			web_link + "sadmin/sadmin/admin_logged";
-	}
-}, 10 * 60 * 1000);
+// WGR_duy_tri_dang_nhap(4 * 60);
+setInterval(
+	() => {
+		if (jQuery("body.preview-url").length < 1) {
+			document.getElementById("target_eb_iframe").src =
+				web_link + "sadmin/sadmin/admin_logged";
+		}
+	},
+	10 * 60 * 1000,
+);
 
-/*
+/**
  * thay đổi ngôn ngữ trong admin
  */
 (function () {
@@ -329,7 +332,7 @@ var current_admin_menu_height = jQuery("#sidebar .order-admin-menu").height();
 //
 jQuery(document)
 	.ready(function () {
-		/*
+		/**
 		 * chức năng clone HTML từ các khối thuộc dạng custom -> cho vào khối dùng chung
 		 * dùng khi cần hiển thị thêm dữ liệu đối với các loại dữ liệu khác nhau mà vẫn muốn tái sử dụng code mẫu
 		 */
@@ -422,7 +425,7 @@ jQuery(document)
 				// đặt tham số này để hủy bỏ chức năng đăng nhập tự động
 				localStorage.setItem(
 					"remove_rememberme_auto_login",
-					window.location.href
+					window.location.href,
 				);
 				// Xóa auto login qua firebase
 				localStorage.removeItem("firebase_auto_login");

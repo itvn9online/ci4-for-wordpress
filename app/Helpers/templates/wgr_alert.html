@@ -1,32 +1,63 @@
-<script>
-    if ('{{file}}' != '') {
-        console.log("{{file}}:{{line}}");
-        console.log("function: {{function}}");
-        console.log("class: {{class}}");
-    }
+<!DOCTYPE html>
+<html lang="vi">
 
-    //
-    var m = "{{m}}";
-    var lnk = "{{lnk}}";
-    try {
-        if (top != self) {
-            top.WGR_alert(m, lnk);
-        } else {
-            WGR_alert(m, lnk);
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WRG Alert</title>
+    <style>
+        body {
+            font-size: 14px;
+            text-align: center;
         }
-    } catch (e) {
-        console.log('name: ' + e.name + '; line: ' + (e.lineNumber || e.line) + '; script: ' + (e.fileName || e.sourceURL || e.script) + '; stack: ' + (e.stackTrace || e.stack) + '; message: ' + e.message);
-        if (m != "") {
-            alert(m);
+
+        main {
+            display: none;
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1><a href="#" id="home-url">Home</a></h1>
+    </header>
+    <main>
+        <p>WRG Alert.</p>
+    </main>
+    <script>
+        document.getElementById('home-url').setAttribute('href', 'https://' + window.location.hostname + '/');
+
+        if ('{{file}}' != '') {
+            console.log("{{file}}:{{line}}", "function: {{function}}", "class: {{class}}");
         }
 
         //
-        if (typeof lnk != 'undefined' && lnk != '') {
+        let m = "{{m}}",
+            lnk = "{{lnk}}";
+        try {
             if (top != self) {
-                top.window.location = lnk;
+                top.WGR_alert(m, lnk);
             } else {
-                window.location = lnk;
+                WGR_alert(m, lnk);
+            }
+        } catch (e) {
+            console.log('name: ' + e.name, 'line: ' + (e.lineNumber || e.line), 'script: ' + (e.fileName || e.sourceURL || e.script), 'stack: ' + (e.stackTrace || e.stack), 'message: ' + e.message);
+
+            if (m != "") {
+                alert(m);
+            }
+
+            //
+            if (typeof lnk != 'undefined' && lnk != '' && lnk.includes('/') === true) {
+                if (top != self) {
+                    top.window.location = lnk;
+                } else {
+                    window.location = lnk;
+                }
             }
         }
-    }
-</script>
+    </script>
+</body>
+
+</html>
