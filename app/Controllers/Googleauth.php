@@ -126,6 +126,11 @@ class Googleauth extends Guest
             throw new Exception('Missing Google credential token');
         }
 
+        // Validate token format (JWT: 3 base64url segments separated by dots)
+        if (!preg_match('/^[A-Za-z0-9\-_]+\.[A-Za-z0-9\-_]+\.[A-Za-z0-9\-_]+$/', $token)) {
+            throw new Exception('Invalid token format');
+        }
+
         return $token;
     }
 
@@ -189,7 +194,7 @@ class Googleauth extends Guest
 
         foreach ($required as $field) {
             if (!isset($data[$field]) || empty($data[$field])) {
-                throw new Exception("Missing required field: {$field}");
+                throw new Exception('Invalid token data');
             }
         }
 
@@ -401,14 +406,24 @@ class Googleauth extends Guest
     {
         $base = explode('@', $email)[0];
         $base = preg_replace('/[^a-zA-Z0-9]/', '', $base);
+        $base = substr($base, 0, 50); // Limit base length
 
-        // Check if username exists
+        if (empty($base)) {
+            $base = 'user';
+        }
+
+        // Check if username exists (limit retries to prevent infinite loop)
         $counter = 0;
         $username = $base;
+        $maxRetries = 100;
 
-        while ($this->usernameExists($username)) {
+        while ($this->usernameExists($username) && $counter < $maxRetries) {
             $counter++;
             $username = $base . $counter;
+        }
+
+        if ($counter >= $maxRetries) {
+            $username = $base . '_' . bin2hex(random_bytes(4));
         }
 
         return $username;
