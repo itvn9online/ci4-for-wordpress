@@ -54,7 +54,11 @@ function compress_amp_boilerplate($path)
     <!-- <meta name="apple-mobile-web-app-capable" content="yes"> -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="#ff4400">
-    <link rel="shortcut icon" type="image/png" href="<?php echo $option_model->get_the_favicon($getconfig); ?>" />
+    <?php if (is_file(PUBLIC_PUBLIC_PATH . 'favicon.ico')): ?>
+        <link rel="icon" href="<?php echo DYNAMIC_BASE_URL; ?>favicon.ico" sizes="any" type="image/x-icon" />
+    <?php else: ?>
+        <link rel="icon" href="<?php echo $option_model->get_the_favicon($getconfig); ?>" type="image/png" />
+    <?php endif; ?>
     <link rel="canonical" href="<?php echo $full_link; ?>" />
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather:400,400italic,700,700italic"> -->
     <script src="https://cdn.ampproject.org/v0.js" async {csp-script-nonce}></script>

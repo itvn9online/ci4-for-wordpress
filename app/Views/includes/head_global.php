@@ -37,7 +37,11 @@ if ($seo['amp_url'] != '') {
 
 ?>
 <!-- This site is optimized with the Yoast SEO plugin -->
-<link rel="shortcut icon" type="image/png" href="<?php echo $option_model->get_the_favicon($getconfig); ?>" />
+<?php if (is_file(PUBLIC_PUBLIC_PATH . 'favicon.ico')): ?>
+    <link rel="icon" href="<?php echo DYNAMIC_BASE_URL; ?>favicon.ico" sizes="any" type="image/x-icon" />
+<?php else: ?>
+    <link rel="icon" href="<?php echo $option_model->get_the_favicon($getconfig); ?>" type="image/png" />
+<?php endif; ?>
 <meta name="title" content="<?php echo $seo['title']; ?>" />
 <meta name="keywords" content="<?php echo $seo['keyword']; ?>" />
 <meta name="news_keywords" content="<?php echo $seo['keyword']; ?>" />

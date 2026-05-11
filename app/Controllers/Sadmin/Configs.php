@@ -234,7 +234,12 @@ class Configs extends Sadmin
 
                         // 
                         try {
-                            $ico_lib = new \PHP_ICO(PUBLIC_PUBLIC_PATH . 'favicon.png');
+                            // $ico_lib = new \PHP_ICO(PUBLIC_PUBLIC_PATH . 'favicon.png');
+                            $ico_lib = new \PHP_ICO(PUBLIC_PUBLIC_PATH . 'favicon.png', array(
+                                array(32, 32),
+                                array(48, 48),
+                                array(64, 64)
+                            ));
                             $ico_lib->save_ico(PUBLIC_PUBLIC_PATH . 'favicon.ico');
                             echo 'Create favicon.ico from png to public success!<br>' . "\n";
                         } catch (\Exception $e) {

@@ -86,7 +86,11 @@ if ($debug_enable === true) {
     <meta name="robots" content="noindex, nofollow" />
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"/> -->
     <base href="<?php echo DYNAMIC_BASE_URL; ?>" />
-    <link rel="shortcut icon" type="image/png" href="<?php echo DYNAMIC_BASE_URL; ?>favicon.png" />
+    <?php if (is_file(PUBLIC_PUBLIC_PATH . 'favicon.ico')): ?>
+        <link rel="icon" href="<?php echo DYNAMIC_BASE_URL; ?>favicon.ico" sizes="any" type="image/x-icon" />
+    <?php else: ?>
+        <link rel="icon" href="<?php echo DYNAMIC_BASE_URL; ?>favicon.png" type="image/png" />
+    <?php endif; ?>
     <!-- bootstrap -->
     <link rel="stylesheet" type="text/css" media="all" href="wp-includes/thirdparty/bootstrap/css/bootstrap.min.css" />
     <!-- chưa có thời gian cập nhật bootstrap bản mới -> vẫn ưu tiên dùng bản cũ vậy -->
