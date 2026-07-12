@@ -2,20 +2,15 @@
 
 namespace App\Models;
 
-// Libraries
-// use App\Libraries\LanguageCost;
-// use App\Libraries\DeletedStatus;
+use App\Models\Traits\TermTagTrait;
 use App\Libraries\TaxonomyType;
 use App\Libraries\PostType;
 
 //
-class TermProdTag extends TermTag
+class TermProdTag extends Term
 {
+    use TermTagTrait;
+
     public $taxonomy = TaxonomyType::PROD_TAGS;
     public $post_type = PostType::PROD;
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
 }

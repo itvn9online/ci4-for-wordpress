@@ -233,7 +233,7 @@ class Optimizes extends Optimize
 
         if (
             // file dạng template VUEJS hoặc AngularJS -> bỏ qua vì có chứa {{ }} -> sẽ bị hỏng nếu nén
-            (strpos($file_content, '"{{') !== false && strpos($file_content, '}}"') !== false) ||
+            (strpos($file_content, '{{') !== false && strpos($file_content, '}}') !== false) ||
             // nếu đầu file có chứa chú thích của trình nén thì bỏ qua
             str_starts_with($file_content, $this->minify_short_comment) ||
             strpos($file_content, $this->minify_comment) !== false ||

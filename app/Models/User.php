@@ -6,10 +6,13 @@ namespace App\Models;
 use App\Libraries\DeletedStatus;
 use App\Libraries\UsersType;
 use App\Libraries\PostType;
+use App\Models\Traits\UserMetaTrait;
 
 //
-class User extends UserMeta
+class User extends UserBase
 {
+    use UserMetaTrait;
+
     // các dữ liệu dạng unique -> sẽ thêm trash khi xóa, bỏ trash khi restore
     public $unique_data = [
         'user_login',

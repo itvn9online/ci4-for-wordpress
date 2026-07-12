@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Traits;
 
 // Libraries
 use App\Libraries\PostType;
@@ -8,14 +8,9 @@ use App\Libraries\TaxonomyType;
 use App\Libraries\DeletedStatus;
 
 //
-class PostMeta extends PostBase
+trait PostMetaTrait
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    // lấy về danh sách meta post cho toàn bộ data được truyền vào
+// lấy về danh sách meta post cho toàn bộ data được truyền vào
     public function list_meta_post($data)
     {
         // gán 1 số meta mặc định nếu chưa có

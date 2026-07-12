@@ -1,20 +1,15 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Traits;
 
 // Libraries
 use App\Libraries\PostType;
 use App\Libraries\TaxonomyType;
 
 //
-class PostProducts extends PostPages
+trait PostProductsTrait
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
+/**
      * Trả về danh sách sản phẩm
      **/
     public function get_products_by($prams, $ops = [], $in_cache = '', $cache_time = 300)

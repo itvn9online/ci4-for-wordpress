@@ -210,7 +210,7 @@ class Optimize extends Sadmin
             }
             if (
                 // file dạng template VUEJS hoặc AngularJS -> bỏ qua vì có chứa {{ }} -> sẽ bị hỏng nếu nén
-                (strpos($c, '"{{') !== false && strpos($c, '}}"') !== false) ||
+                (strpos($c, '{{') !== false && strpos($c, '}}') !== false) ||
                 // nếu đầu file có chứa chú thích của trình nén thì bỏ qua
                 str_starts_with($c, $this->minify_short_comment) ||
                 strpos($c, $this->minify_comment) !== false ||
@@ -259,7 +259,7 @@ class Optimize extends Sadmin
             }
             if (
                 // file dạng template VUEJS hoặc AngularJS -> bỏ qua vì có chứa {{ }} -> sẽ bị hỏng nếu nén
-                (strpos($c, '"{{') !== false && strpos($c, '}}"') !== false) ||
+                (strpos($c, '{{') !== false && strpos($c, '}}') !== false) ||
                 // nếu đầu file có chứa chú thích của trình nén thì bỏ qua
                 str_starts_with($c, $this->minify_short_comment) ||
                 strpos($c, $this->minify_comment) !== false ||

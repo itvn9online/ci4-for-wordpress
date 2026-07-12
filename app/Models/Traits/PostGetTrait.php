@@ -1,19 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Traits;
 
 // Libraries
 //use App\Libraries\PostType;
 
 //
-class PostGet extends PostQuery
+trait PostGetTrait
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    public function get_auto_post($slug, $post_type = 'post', $taxonomy = 'category', $limit = 0, $ops = [])
+public function get_auto_post($slug, $post_type = 'post', $taxonomy = 'category', $limit = 0, $ops = [])
     {
         //echo $slug . '<br>' . "\n";
         if ($slug == '') {

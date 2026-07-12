@@ -1,19 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Traits;
 
 // Libraries
 //use App\Libraries\PostType;
 
 //
-class PostSlider extends PostGet
+trait PostSliderTrait
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    // tự động tạo slider nếu có
+// tự động tạo slider nếu có
     public function get_the_slider($data, $taxonomy_slider = [], $second_slider = '')
     {
         //print_r( $data );

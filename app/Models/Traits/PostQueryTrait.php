@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Traits;
 
 // Libraries
 use App\Libraries\LanguageCost;
@@ -10,14 +10,9 @@ use App\Libraries\DeletedStatus;
 use App\Helpers\HtmlTemplate;
 
 //
-class PostQuery extends PostMeta
+trait PostQueryTrait
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    protected function sync_post_data($data)
+protected function sync_post_data($data)
     {
         // tạo short shortslug nếu có -> dùng để order khi select
         if (isset($data['post_shorttitle'])) {

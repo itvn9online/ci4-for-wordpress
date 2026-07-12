@@ -1,19 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Traits;
 
 // Libraries
 use App\Libraries\PostType;
 
 //
-class PostPages extends PostPosts
+trait PostPagesTrait
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    // page
+// page
     public function get_pages_by($where, $ops = [])
     {
         // fix cứng tham số

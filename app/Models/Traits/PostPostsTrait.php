@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Traits;
 
 // Libraries
 use App\Libraries\LanguageCost;
@@ -8,20 +8,9 @@ use App\Libraries\PostType;
 use App\Libraries\TaxonomyType;
 
 //
-// class PostPosts extends PostSlider
-class PostPosts extends PostGet
+trait PostPostsTrait
 {
     protected $currency_sd_format = 'USD';
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        // 
-        if (!empty($this->getconfig->currency_sd_format)) {
-            $this->currency_sd_format = $this->getconfig->currency_sd_format;
-        }
-    }
 
     // trả về khối HTML của từng post trong danh mục -> dùng để tùy chỉnh khối HTML
     public function build_the_node($data, $tmp_html, $ops = [], $default_arr = [])

@@ -1,18 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Traits;
 
 //
-//use App\Libraries\DeletedStatus;
-
-//
-class UserMeta extends UserBase
+trait UserMetaTrait
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     //
     public function set_user_meta($user_id, $key, $val)
     {

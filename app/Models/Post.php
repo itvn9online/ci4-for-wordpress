@@ -7,13 +7,32 @@ use App\Libraries\PostType;
 use App\Libraries\TaxonomyType;
 use App\Libraries\DeletedStatus;
 use App\Libraries\CommentType;
+use App\Models\Traits\PostGetTrait;
+use App\Models\Traits\PostMetaTrait;
+use App\Models\Traits\PostPagesTrait;
+use App\Models\Traits\PostPostsTrait;
+use App\Models\Traits\PostProductsTrait;
+use App\Models\Traits\PostQueryTrait;
+use App\Models\Traits\PostSliderTrait;
 
 //
-class Post extends PostProducts
+class Post extends PostBase
 {
+    use PostMetaTrait;
+    use PostQueryTrait;
+    use PostGetTrait;
+    use PostPostsTrait;
+    use PostPagesTrait;
+    use PostProductsTrait;
+    use PostSliderTrait;
+
     public function __construct()
     {
         parent::__construct();
+
+        if (!empty($this->getconfig->currency_sd_format)) {
+            $this->currency_sd_format = $this->getconfig->currency_sd_format;
+        }
     }
 
     /*
