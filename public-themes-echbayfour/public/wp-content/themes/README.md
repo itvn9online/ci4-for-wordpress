@@ -4,4 +4,4 @@
 
 Copy thư mục `public/wp-content/themes/echbayfour` qua `đây` và đổi tên thành theme mới.
 
-Trong file actived.php hãy khai báo thư mục theme để các file được nạp khi web chạy. Nếu chưa có file actived-sample.php, hãy đổi tên file actived.php thành actived.php để sử dụng.
+Trong file actived.php hãy khai báo thư mục theme để các file được nạp khi web chạy. Nếu chưa có file actived-sample.php, hãy đổi tên file actived-sample.php thành actived.php để sử dụng.
