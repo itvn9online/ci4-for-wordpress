@@ -2,7 +2,7 @@
 
 namespace App\Models\Traits;
 
-
+use App\Libraries\TaxonomyType;
 
 //
 trait TermPermalinkTrait
