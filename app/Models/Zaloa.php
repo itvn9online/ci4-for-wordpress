@@ -18,6 +18,12 @@
  *
  * Giới thiệu Zalo Official Account API
  * https://developers.zalo.me/docs/api/official-account-api-230
+ * 
+ * Bot token, lấy tại đây:
+ * https://bot.zaloplatforms.com/docs/create-bot/
+ * 
+ * Lấy `chat_id`: truy cập https://bot-api.zaloplatforms.com/bot{BOT_TOKEN}/getUpdates sau khi nhắn tin cho bot.
+ * 
  **/
 
 namespace App\Models;
@@ -791,5 +797,47 @@ class Zaloa extends Option
             file_put_contents($f, date('r') . ' | ' . $phone . "\n", FILE_APPEND);
         }
         return file_put_contents($f, date('r') . ' | ' . json_encode($response) . "\n", FILE_APPEND);
+    }
+
+    /**
+     * Gửi tin nhắn qua Bot Zalo
+     * Token/chat_id lấy từ cấu hình ZALO (zalo_bot_token, zalo_chat_id)
+     * https://bot.zaloplatforms.com/docs/create-bot/
+     */
+    public function sendMessage($text, $chat_id = '')
+    {
+        if (empty($this->zalooa_config->zalo_bot_token)) {
+            return false;
+        }
+        if ($chat_id == '') {
+            $chat_id = $this->zalooa_config->zalo_chat_id ?? '';
+        }
+        if (empty($chat_id)) {
+            return false;
+        }
+
+        //
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://bot-api.zaloplatforms.com/bot' . $this->zalooa_config->zalo_bot_token . '/sendMessage',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 15,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => json_encode([
+                'chat_id' => $chat_id,
+                'text' => $text,
+            ]),
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+        $body = curl_exec($curl);
+        curl_close($curl);
+
+        //
+        $data = is_string($body) ? json_decode($body, true) : null;
+
+        //
+        return is_array($data) && !empty($data['ok']);
     }
 }

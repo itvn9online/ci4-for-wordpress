@@ -340,6 +340,9 @@ class ConfigType
             ];
         } else if ($config_type == self::ZALO) {
             $arr = [
+                'zalo_bot_token' => 'Bot token',
+                'zalo_chat_id' => 'Chat ID',
+                // 
                 'zalooa_app_id' => 'App ID',
                 'zalooa_app_secret' => 'App secret',
                 'zalooa_access_token' => 'Access token',
@@ -769,6 +772,9 @@ class ConfigType
             'firebase_auth_phone' => 'Đăng nhập bằng số điện thoại ' . $firebase_note_phone,
             'firebase_verify_phone' => 'Chức năng xác thực số điện thoại qua Firebase tại đây: ' . base_url('firebases/phone_auth') . $firebase_note_phone,
             //
+            'zalo_bot_token' => 'Bot token, lấy tại đây: https://bot.zaloplatforms.com/docs/create-bot/',
+            'zalo_chat_id' => 'Lấy `chat_id`: truy cập https://bot-api.zaloplatforms.com/bot{BOT_TOKEN}/getUpdates sau khi nhắn tin cho bot.',
+            // 
             'zalooa_app_id' => 'ID của ứng dụng trên Zalo, tạo và lấy tại đây: https://developers.zalo.me/apps <br> * Xem tài liệu code tại đây: https://github.com/zaloplatform/zalo-php-sdk',
             'zalooa_app_secret' => 'Secret của ứng dụng trên Zalo (thường dùng cho chức năng đăng nhập qua Zalo). <br> * Trong phần cài đặt của chức năng Đăng nhập Zalo https://developers.zalo.me/app/YOUR_ZALO_APP_ID/login thiết lập như sau: <br> - Home URL là: ' . base_url() . ' <br> - Callback URL là: ' . base_url('zalos/oa_connect') . ' <br> * Sau khi cập nhật đầy đủ thì có thể test code tại đây: ' . base_url('zalos/login_url') . ' <br> * Quản lý các app Zalo đã kết nối tại đây: https://zalo.me/profile/app-management',
             'zalooa_access_token' => 'Access token dùng để gửi tin nhắn qua ZNS, lấy Access token bằng công cụ API explorer tại đây: https://developers.zalo.me/tools/explorer/YOUR_ZALO_APP_ID <br> * Loại Access token: OA Access Token <br> - Trong Official Account -> Thiết lập chung -> https://developers.zalo.me/app/YOUR_ZALO_APP_ID/oa/settings <br> - Thiết lập Official Account Callback Url là: ' . base_url('zalos/get_access_token') . ' <br> * URL update Access Token tự động: ' . base_url('sadmin/zalooas/before_zns'),
@@ -921,7 +927,7 @@ class ConfigType
 
         //
         if (isset($arr[$key]) && $arr[$key] != '') {
-            echo '<p class="controls-text-note">' . $arr[$key] . '</p>';
+            echo '<p class="controls-text-note text-' . $key . '">' . $arr[$key] . '</p>';
         }
     }
 
