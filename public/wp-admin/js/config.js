@@ -1,4 +1,48 @@
-//
+// giữ tham số for_language kiểu Prism cũ (language-xxx) để các file config_*.js không phải sửa
+function codemirror_highlighted_mode(for_language) {
+	switch (for_language) {
+		case "language-css":
+			return "css";
+		case "language-php":
+			return "application/x-httpd-php";
+		case "language-js":
+		case "language-javascript":
+			return "javascript";
+		default:
+			return "htmlmixed";
+	}
+}
+
+// CDN CodeMirror lỗi → vẫn dùng textarea thường
+function action_highlighted_code(for_id, for_language) {
+	let $ta = jQuery(for_id);
+	if ($ta.length < 1 || typeof CodeMirror == "undefined") {
+		return null;
+	}
+
+	let editor = CodeMirror.fromTextArea($ta[0], {
+		mode: codemirror_highlighted_mode(for_language),
+		lineNumbers: true,
+		matchBrackets: true,
+		indentUnit: 4,
+		indentWithTabs: true,
+		lineWrapping: true,
+		autoRefresh: true,
+	});
+
+	// Ctrl + S gọi document.admin_global_form.submit() → không phát sự kiện submit nên CodeMirror không tự ghi lại textarea
+	// chỉ các field nằm trong list_field_has_change mới được lưu
+	editor.on("change", function (cm) {
+		cm.save();
+		get_field_has_change($ta.attr("name") || "");
+	});
+
+	$ta.parent("div").addClass("highlight-cm-border");
+
+	return editor;
+}
+
+/*
 function action_highlighted_code(for_id, for_language) {
 	let for_name = for_id.slice(1);
 	let highlighting = "highlighting" + for_name;
@@ -52,6 +96,7 @@ function action_highlighted_code(for_id, for_language) {
 	highlight.update(v, fors_id);
 	// }
 }
+*/
 
 //
 function set_configs_value(for_id, val) {

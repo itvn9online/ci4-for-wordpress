@@ -1098,3 +1098,12 @@ body.body-debug_enable #sidebar {
         *width: 88%
     }
 }
+
+.highlight-cm-border .CodeMirror {
+    width: 100%;
+    height: 300px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    font-size: 13px;
+    line-height: 1.5;
+}

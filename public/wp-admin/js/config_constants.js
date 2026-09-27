@@ -145,8 +145,6 @@ jQuery(".each-to-is-empty")
 })();
 
 //
-/*
 jQuery(document).ready(function () {
 	action_highlighted_code("#current_dynamic_constants", "language-php");
 });
-*/

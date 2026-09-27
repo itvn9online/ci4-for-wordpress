@@ -42,7 +42,7 @@ $base_model->add_css('wp-admin/css/config_' . $config_type . '.css');
             if (is_file(DYNAMIC_CONSTANTS_PATH)) {
                 $current_dynamic_constants = file_get_contents(DYNAMIC_CONSTANTS_PATH);
             ?>
-                <div class="text-center w99">
+                <div class="text-center-xoa w99">
                     <textarea title="Current dynamic constants" id="current_dynamic_constants" rows="<?php echo count(explode("\n", $current_dynamic_constants)); ?>" class="form-control small" readonly disabled><?php echo $base_model->the_esc_html($current_dynamic_constants); ?></textarea>
                 </div>
                 <br>

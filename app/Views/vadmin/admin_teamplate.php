@@ -149,7 +149,7 @@ if ($debug_enable === true) {
         'wp-admin/css/admin_teamplate.css',
         // admin thì luôn show debug bar rồi
         'wp-admin/css/show-debug-bar.css',
-        'wp-includes/thirdparty/highlighted-code/highlight.css',
+        // 'wp-includes/thirdparty/highlighted-code/highlight.css',
     ]);
 
     //
@@ -186,14 +186,24 @@ if ($debug_enable === true) {
         'wp-includes/javascript/functions_footer.js',
         THEMEPATH . 'js/functions.js',
         'wp-includes/javascript/eb.js',
-        'wp-includes/thirdparty/highlighted-code/highlight.js',
+        // 'wp-includes/thirdparty/highlighted-code/highlight.js',
     ]);
 
 
     //
     include VIEWS_PATH . 'includes/head_currency.php';
     ?>
-    <script src="wp-includes/thirdparty/highlighted-code/prism.min.js"></script>
+    <!-- <script src="wp-includes/thirdparty/highlighted-code/prism.min.js"></script> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/clike/clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/php/php.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/matchbrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/display/autorefresh.min.js"></script>
     <style>
         <?php echo $ebe_currency; ?>
     </style>
